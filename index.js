@@ -1,4 +1,3 @@
-javascript
 export default {
   async fetch(request, env, ctx) {
 /*
@@ -36,7 +35,6 @@ export default {
  *    caching reduces repeat traffic but cannot guarantee availability.
  */
 
-  addEventListener('fetch', event => {
     const API_VERSION = "v89";
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
