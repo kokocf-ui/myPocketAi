@@ -1,0 +1,7 @@
+Validation checklist
+- Frontend APP.version = 1.0.33
+- Frontend CLIENT_CONFIG.version = 1.0.33
+- Frontend API URL matches the original known backend endpoint
+- Backend source preserved from v89 file supplied in the conversation
+- Syntax checks run after packaging (see assistant message)
+- Cloudflare deployment and live endpoint not verified from this environment
