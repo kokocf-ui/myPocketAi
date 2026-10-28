@@ -1,7 +1,10 @@
-Validation checklist
-- Frontend APP.version = 1.0.33
-- Frontend CLIENT_CONFIG.version = 1.0.33
-- Frontend API URL matches the original known backend endpoint
-- Backend source preserved from v89 file supplied in the conversation
-- Syntax checks run after packaging (see assistant message)
-- Cloudflare deployment and live endpoint not verified from this environment
+Validation checklist — frontend v1.0.34 + backend v90
+- Frontend APP.version and CLIENT_CONFIG.version: 1.0.34
+- Frontend API URL remains https://lifewise-ai-api.kokocf.workers.dev/api/chat
+- Backend API_VERSION: v90
+- Distinct `pub` category precedes `restaurant` category.
+- Geoapify category checks distinguish pub/bar/biergarten from restaurant/cafe/fast food.
+- Photon category filter distinguishes pub/bar/biergarten from restaurant/cafe/fast food.
+- GPS payload validation, 5 km radius, and routing code retained from supplied backend source.
+- Static syntax validation run before packaging.
+- Cloudflare deployment and live place-search results not verified by this package build.

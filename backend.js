@@ -1,6 +1,6 @@
 /*
- * Pocket AI backend — v89 structured place details for frontend results
- * v87: expands food/venue provider coverage for restaurants, pubs, bars, cafes, bakeries, confectioneries and ice cream venues; retains 5 km search and no arbitrary 8-result cap.
+ * Pocket AI backend — v90 separate restaurant and pub search categories
+ * v90: separates restaurant/cafe searches from pub/bar searches in Geoapify and Photon filters; preserves GPS, 5 km radius, routes and provider fallback. v87 venue coverage retained.
  * v86: searches Geoapify and Photon in parallel, removes Overpass from nearby POI search, combines and deduplicates results, and returns all fetched valid results within 5 km without an arbitrary display cap.
  * v81: fixes early intent detection so Romanian plural “farmacii” and “spălătorii auto”, English “pharmacies”, “chemists”, “drugstores”, and “car washes” reach POI search instead of returning reverse-geocoded street text. Preserves GPS, 5 km radius, routes, voice, cache and provider fallback.
  * v80: fixes Romanian/English parking and pharmacy recognition; includes OSM chemist shops; filters provider results by requested category to reduce unrelated POIs. Preserves GPS, 5 km radius, routes, voice, cache and provider fallback.
@@ -34,7 +34,7 @@
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v89";
+    const API_VERSION = "v90";
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -713,7 +713,8 @@ export default {
       { key: "toilets", pattern: /(?:^| )(?:toilet\w*|toaleta\w*|toalete)(?: |$)/, labelRo: "toaletă publică", labelEn: "public toilet", overpass: 'amenity="toilets"' },
       { key: "hotel", pattern: /(?:^| )(?:hotel\w*|hoteluri|hostel\w*)(?: |$)/, labelRo: "hotel sau hostel", labelEn: "hotel or hostel", overpass: 'tourism~"^(hotel|hostel|guest_house)$"' },
       { key: "transport", pattern: /(?:^| )(?:gara\w*|train station\w*|railway station\w*|bus station\w*|bus stop\w*|statie de autobuz|airport\w*|aeroport\w*)(?: |$)/, labelRo: "stație sau nod de transport", labelEn: "transport stop or hub", overpass: 'public_transport="station"' },
-      { key: "restaurant", pattern: /(?:^| )(?:restaurant\w*|takeaway|takeout|food delivery|pizza|burger|sushi|comand\w*|livrare\w*|dinner|fast food|cafe|cafeteria|pub|bar|bakery|patisserie|confectionery|cake shop|ice cream|deliver food|order food|ordering food|cafenele?\w*)(?: |$)/, labelRo: "restaurant", labelEn: "restaurant", overpass: 'amenity~"^(restaurant|fast_food|cafe|pub)$"' },
+      { key: "pub", pattern: /(?:^| )(?:pubs?|bars?|biergarten\w*|taverns?|taprooms?)(?: |$)/, labelRo: "pub sau bar", labelEn: "pub or bar", overpass: 'amenity~"^(pub|bar|biergarten)$"' },
+      { key: "restaurant", pattern: /(?:^| )(?:restaurants?\w*|takeaway|takeout|food delivery|pizza|burger|sushi|comand\w*|livrare\w*|dinner|fast food|cafe|cafeteria|bakery|patisserie|confectionery|cake shop|ice cream|deliver food|order food|ordering food|cafenele?\w*)(?: |$)/, labelRo: "restaurant", labelEn: "restaurant", overpass: 'amenity~"^(restaurant|fast_food|cafe|food_court)$"' },
       { key: "shop", pattern: /(?:^| )(?:magazin\w*|magazine\w*|shops|shop\w*|stores|store\w*|shopping|cumparaturi)(?: |$)/, labelRo: "magazin", labelEn: "shop", overpass: 'shop' }
     ];
     const matchedPlaceCategory = placeCategoryRules.find(rule => rule.pattern.test(intentText)) || null;
@@ -890,7 +891,8 @@ export default {
                 museum: /museum/.test(cats) || raw.tourism === "museum",
                 cinema: /cinema/.test(cats) || raw.amenity === "cinema",
                 hotel: /accommodation\.(hotel|hostel|guest_house)|hotel|hostel/.test(cats) || /^(hotel|hostel|guest_house)$/.test(String(raw.tourism || "")),
-                restaurant: /catering\.(restaurant|fast_food|pub|bar|biergarten|ice_cream|confectionery|bakery|cafe)/.test(cats) || /^(restaurant|fast_food|pub|bar|cafe|ice_cream|confectionery|bakery)$/.test(String(raw.amenity || "")),
+                restaurant: /catering\.(restaurant|fast_food|ice_cream|confectionery|bakery|cafe)/.test(cats) || /^(restaurant|fast_food|cafe|ice_cream|confectionery|bakery|food_court)$/.test(String(raw.amenity || "")),
+                pub: /catering\.(pub|bar|biergarten)/.test(cats) || /^(pub|bar|biergarten)$/.test(String(raw.amenity || "")),
                 transport: /public_transport|railway\.(station|halt|tram_stop)|bus\.stop/.test(cats) || /^(station|halt|tram_stop|platform)$/.test(String(raw.railway || "")) || /^(station|stop_position|platform)$/.test(String(raw.public_transport || "")) || raw.amenity === "bus_station",
                 town_hall: /administrative|townhall/.test(cats) || raw.amenity === "townhall", 
                 police: /service\.police|police/.test(cats) || raw.amenity === "police",
@@ -911,7 +913,7 @@ export default {
               const categoryText = categories.join(" ").toLowerCase();
               const raw = props.datasource && props.datasource.raw && typeof props.datasource.raw === "object" ? props.datasource.raw : {};
               const isShop = ["supermarket", "mall", "shop"].includes(requestedPlaceCategory.key);
-              const amenity = requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /pub|bar|biergarten/.test(categoryText) ? "pub" : /bakery/.test(categoryText) ? "bakery" : /confectionery|ice_cream/.test(categoryText) ? "confectionery" : "restaurant") : requestedPlaceCategory.key;
+              const amenity = requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /food_court/.test(categoryText) ? "food_court" : /bakery/.test(categoryText) ? "bakery" : /confectionery|ice_cream/.test(categoryText) ? "confectionery" : "restaurant") : requestedPlaceCategory.key === "pub" ? (/biergarten/.test(categoryText) ? "biergarten" : "pub") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
               const tags = { name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? geoapifyDistanceMeters(latitude, longitude, lat, lon) : Infinity };
@@ -974,12 +976,14 @@ export default {
                 : requestedPlaceCategory.key === "hotel"
                   ? /hotel|hostel|guest.?house|accommodation/.test(photonType)
                 : requestedPlaceCategory.key === "restaurant"
-                  ? /restaurant|fast.?food|cafe|pub|bar|food/.test(photonType)
+                  ? /restaurant|fast.?food|cafe|food.?court|food/.test(photonType) && !/pub|bar|biergarten|tavern|taproom/.test(photonType)
+                : requestedPlaceCategory.key === "pub"
+                  ? /pub|bar|biergarten|tavern|taproom/.test(photonType)
                 : /pharmacy|fuel|parking|car.?wash|museum|cinema|hospital|school|library|atm|bank|post.?office|toilet|hotel|station/.test(photonType);
               if (!photonCategoryMatches) return null;
               const tags = {
                 name: properties.name || "",
-                amenity: isShop ? "" : (requestedPlaceCategory.key === "pharmacy" ? "pharmacy" : requestedPlaceCategory.key === "fuel" ? "fuel" : requestedPlaceCategory.key === "parking" ? "parking" : requestedPlaceCategory.key === "car_wash" ? "car_wash" : requestedPlaceCategory.key === "charging" ? "charging_station" : requestedPlaceCategory.key === "restaurant" ? (/fast_food|fast food/.test(osmValue) ? "fast_food" : /cafe|coffee/.test(osmValue) ? "cafe" : /pub|bar/.test(osmValue) ? "pub" : "restaurant") : ""),
+                amenity: isShop ? "" : (requestedPlaceCategory.key === "pharmacy" ? "pharmacy" : requestedPlaceCategory.key === "fuel" ? "fuel" : requestedPlaceCategory.key === "parking" ? "parking" : requestedPlaceCategory.key === "car_wash" ? "car_wash" : requestedPlaceCategory.key === "charging" ? "charging_station" : requestedPlaceCategory.key === "pub" ? (/biergarten/.test(osmValue) ? "biergarten" : "pub") : requestedPlaceCategory.key === "restaurant" ? (/fast_food|fast food/.test(osmValue) ? "fast_food" : /cafe|coffee/.test(osmValue) ? "cafe" : "restaurant") : ""),
                 shop: isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : (properties.osm_value || "shop")) : "",
                 cuisine: properties.cuisine || "",
                 website: properties.website || properties.url || "",

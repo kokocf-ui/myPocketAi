@@ -1,5 +1,3 @@
 name = "lifewise-ai-api"
 main = "backend.js"
 compatibility_date = "2026-10-28"
-[ai]
-binding = "AI"

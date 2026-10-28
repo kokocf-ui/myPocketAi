@@ -20,3 +20,10 @@ Publicarea necesită autentificare Wrangler în contul Cloudflare corect. Nu pub
 ## Limitări verificate
 - Verificarea sintaxei nu confirmă că deploy-ul a reușit sau că endpointul API răspunde corect.
 - Nu am modificat și nu am putut publica direct în contul Cloudflare.
+
+
+## Actualizare pregătită: frontend v1.0.34 + backend v90
+- `index.js`: panoul cu rezultate ocupă spațiul disponibil, lista derulează independent și suprafețele listei au efecte vizuale 3D.
+- `backend.js`: căutarea pentru pub/bar este separată de cea pentru restaurante.
+- GPS-ul, rutele și endpointul API existent au fost păstrate în sursă.
+- După transfer, testează pe telefon: restaurante, pub-uri, deschiderea detaliilor, revenirea la listă, GPS și o rută. Acest pachet nu înseamnă că noua versiune este deja publicată în Cloudflare.

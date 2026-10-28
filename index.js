@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.33 — replace location results table with the approved card-list pattern
+ * myPocket AI — Frontend v1.0.34 — replace location results table with the approved card-list pattern
  * Scope: replace the existing location-results table with the approved scrollable card-list pattern; keep clickable results, details, and return-to-results action. No backend, GPS, or routing changes.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.33",
+  version: "1.0.34",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -716,24 +716,27 @@ return `<!doctype html>
 .module-result-card strong{font-size:17px}
 .module-result-card small{font-size:14px;line-height:1.45;color:var(--muted)}
 .module-search-status{padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--panel);line-height:1.5;overflow-wrap:anywhere}
-/* v1.0.33: one reusable, scrollable result-list pattern; replaces the old location table. */
-.module-places-results{border:1px solid #31556b;border-radius:20px;background:#0d2031;overflow:hidden;display:flex;flex-direction:column;max-height:calc(100dvh - 245px);min-height:0;margin:0;}
-.module-places-results-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#122d43,#0d2031);flex-shrink:0;}
+/* v1.0.34: result panel fills the available sheet; layered highlights give controls consistent depth. */
+.module-quick-sheet.results-mode{height:calc(100dvh - 28px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:0;max-height:calc(100dvh - 28px - env(safe-area-inset-top) - env(safe-area-inset-bottom));}
+.module-quick-sheet.results-mode>.module-quick-body{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:12px;}
+.module-places-results{width:100%;flex:1;min-height:0;max-height:none;margin:0;border:1px solid #3b6a83;border-radius:20px;background:linear-gradient(155deg,#102b40 0%,#091a29 72%);box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 10px 24px rgba(0,0,0,.35);overflow:hidden;display:flex;flex-direction:column;}
+.module-places-results-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #34566c;background:linear-gradient(145deg,#1a3d55,#0d2031 75%);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 3px 8px rgba(0,0,0,.2);flex-shrink:0;}
 .module-places-results-heading{flex:1;min-width:0;}
 .module-places-results-heading h3{font-size:20px;line-height:1.2;margin:0 0 5px;}
 .module-places-results-heading p{font-size:14px;line-height:1.3;color:var(--muted);margin:0;}
-.module-results-back{width:44px;height:44px;flex:0 0 44px;border:1px solid var(--cyan);border-radius:50%;background:#0b2638;color:var(--cyan);font-size:25px;display:grid;place-items:center;}
-.module-place-results-list{overflow-y:auto;min-height:0;overscroll-behavior:contain;}
-.module-place-result{width:100%;display:grid;grid-template-columns:76px minmax(0,1fr) 18px;align-items:center;gap:13px;padding:14px 13px 14px 16px;text-align:left;border:0;border-bottom:1px solid var(--line);background:#0a1e2d;color:var(--text);}
-.module-place-result:nth-child(even){background:#0c2233;}
+.module-results-back{width:44px;height:44px;flex:0 0 44px;border:1px solid #55dff0;border-radius:50%;background:linear-gradient(145deg,#17465b,#092334);color:var(--cyan);font-size:25px;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 0 #061622,0 7px 12px rgba(0,0,0,.28);transition:transform .12s,box-shadow .12s;}
+.module-results-back:active{transform:translateY(3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 1px 0 #061622,0 3px 6px rgba(0,0,0,.2);}
+.module-place-results-list{flex:1;overflow-y:auto;min-height:0;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#356b82 #091a29;}
+.module-place-result{width:100%;display:grid;grid-template-columns:76px minmax(0,1fr) 18px;align-items:center;gap:13px;padding:14px 13px 14px 16px;text-align:left;border:0;border-bottom:1px solid #203e51;background:linear-gradient(145deg,#102b3e,#0a1c2a);color:var(--text);box-shadow:inset 0 1px 0 rgba(255,255,255,.025);transition:background .15s,transform .12s;}
+.module-place-result:nth-child(even){background:linear-gradient(145deg,#123047,#0b2030);}
 .module-place-result:last-child{border-bottom:0;}
-.module-place-result:focus-visible,.module-place-result:active{background:#123047;outline-offset:-3px;}
-.module-place-result-icon{width:76px;height:76px;display:grid;place-items:center;border:1px solid var(--cyan);border-radius:17px;background:linear-gradient(145deg,#12394b,#0b1d2b);font-size:34px;}
+.module-place-result:focus-visible,.module-place-result:active{background:linear-gradient(145deg,#1b4961,#103047);outline:1px solid #55dff0;outline-offset:-3px;}
+.module-place-result-icon{width:76px;height:76px;display:grid;place-items:center;border:1px solid #4bbdd0;border-radius:17px;background:linear-gradient(145deg,#1b4d62,#0b1d2b 78%);font-size:34px;box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 4px 0 #061724,0 7px 12px rgba(0,0,0,.22);}
 .module-place-result-copy{min-width:0;display:flex;flex-direction:column;gap:5px;}
 .module-place-result-name{font-size:17px;font-weight:800;line-height:1.3;overflow-wrap:anywhere;}
 .module-place-result-meta{font-size:14px;line-height:1.4;color:var(--muted);overflow-wrap:anywhere;}
 .module-place-result-arrow{color:var(--cyan);font-size:28px;font-weight:800;line-height:1;}
-@media(max-width:420px){.module-places-results{max-height:calc(100dvh - 230px)}.module-place-result{grid-template-columns:66px minmax(0,1fr) 16px;gap:10px;padding:12px 10px 12px 12px}.module-place-result-icon{width:66px;height:66px;font-size:30px;border-radius:15px}.module-place-result-name{font-size:16px}.module-place-result-meta{font-size:13px}.module-places-results-heading h3{font-size:19px}}
+@media(max-width:420px){.module-quick-sheet.results-mode{height:calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));max-height:calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom))}.module-quick-sheet.results-mode>.module-quick-body{padding:9px}.module-places-results{max-height:none}.module-place-result{grid-template-columns:66px minmax(0,1fr) 16px;gap:10px;padding:12px 10px 12px 12px}.module-place-result-icon{width:66px;height:66px;font-size:30px;border-radius:15px}.module-place-result-name{font-size:16px}.module-place-result-meta{font-size:13px}.module-places-results-heading h3{font-size:19px}}
 .module-places-results .module-place-details{margin:12px;border:0;border-radius:0;background:transparent}
 .module-place-details{padding:15px;border:1px solid var(--line);border-radius:15px;background:var(--panel);line-height:1.6;overflow-wrap:anywhere}
 .module-place-details a{color:var(--cyan);font-weight:750}
@@ -779,6 +782,15 @@ return `<!doctype html>
 @media(max-width:699px){.view#view-module.active{height:calc(100dvh - 300px);max-height:calc(100dvh - 300px)}.view#view-assistant.active{height:calc(100dvh - 245px);max-height:calc(100dvh - 245px)}}
 @media(max-height:760px) and (max-width:699px){.view#view-module.active{height:calc(100dvh - 270px);max-height:calc(100dvh - 270px)}.view#view-assistant.active{height:calc(100dvh - 225px);max-height:calc(100dvh - 225px)}#toolsList .tools-action-card{min-height:112px;padding:10px}}
 
+
+
+/* v1.0.34: consistent tactile 3D treatment across the app controls and content surfaces. */
+button,.btn,[role="button"],input,select,textarea{transition:transform .14s ease,box-shadow .14s ease,filter .14s ease;}
+button,.btn,[role="button"]{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 4px 0 rgba(2,10,18,.72),0 7px 13px rgba(0,0,0,.22);}
+button:active,.btn:active,[role="button"]:active{transform:translateY(2px);filter:brightness(1.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 1px 0 rgba(2,10,18,.72),0 3px 6px rgba(0,0,0,.2);}
+input,select,textarea{border-color:#31566c;box-shadow:inset 0 2px 5px rgba(0,0,0,.28),0 1px 0 rgba(255,255,255,.035);}
+.card,.panel,.table-wrap,table,.module-card,.tool-card,.chat-bubble{box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 6px 16px rgba(0,0,0,.18);}
+
 </style>
 </head>
 <body>
@@ -810,7 +822,7 @@ return `<!doctype html>
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.33'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.34'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt))return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
