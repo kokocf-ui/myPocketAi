@@ -1,4 +1,3 @@
-toml
 name = "mypocketai1"
 main = "index.js"
 compatibility_date = "2026-10-28"
