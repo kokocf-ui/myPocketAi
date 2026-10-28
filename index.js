@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.34 — replace location results table with the approved card-list pattern
+ * myPocket AI — Frontend v1.0.35 — replace location results table with the approved card-list pattern
  * Scope: replace the existing location-results table with the approved scrollable card-list pattern; keep clickable results, details, and return-to-results action. No backend, GPS, or routing changes.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -716,7 +716,7 @@ return `<!doctype html>
 .module-result-card strong{font-size:17px}
 .module-result-card small{font-size:14px;line-height:1.45;color:var(--muted)}
 .module-search-status{padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--panel);line-height:1.5;overflow-wrap:anywhere}
-/* v1.0.34: result panel fills the available sheet; layered highlights give controls consistent depth. */
+/* v1.0.35: result panel fills the available sheet; layered highlights give controls consistent depth. */
 .module-quick-sheet.results-mode{height:calc(100dvh - 28px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:0;max-height:calc(100dvh - 28px - env(safe-area-inset-top) - env(safe-area-inset-bottom));}
 .module-quick-sheet.results-mode>.module-quick-body{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:12px;}
 .module-places-results{width:100%;flex:1;min-height:0;max-height:none;margin:0;border:1px solid #3b6a83;border-radius:20px;background:linear-gradient(155deg,#102b40 0%,#091a29 72%);box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 10px 24px rgba(0,0,0,.35);overflow:hidden;display:flex;flex-direction:column;}
@@ -784,12 +784,40 @@ return `<!doctype html>
 
 
 
-/* v1.0.34: consistent tactile 3D treatment across the app controls and content surfaces. */
-button,.btn,[role="button"],input,select,textarea{transition:transform .14s ease,box-shadow .14s ease,filter .14s ease;}
-button,.btn,[role="button"]{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 4px 0 rgba(2,10,18,.72),0 7px 13px rgba(0,0,0,.22);}
-button:active,.btn:active,[role="button"]:active{transform:translateY(2px);filter:brightness(1.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 1px 0 rgba(2,10,18,.72),0 3px 6px rgba(0,0,0,.2);}
-input,select,textarea{border-color:#31566c;box-shadow:inset 0 2px 5px rgba(0,0,0,.28),0 1px 0 rgba(255,255,255,.035);}
-.card,.panel,.table-wrap,table,.module-card,.tool-card,.chat-bubble{box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 6px 16px rgba(0,0,0,.18);}
+/* v1.0.35: pronounced, class-specific 3D surfaces. These selectors intentionally target the actual components. */
+.feature-card,.module-result-card,.quick-selection,.module-panel,.module-quick-sheet,.module-places-results,.module-place-details,.chat-shell,.bubble,.list-row,.tools-action-card,.bottom-nav,.nav-btn,.back-btn,.secondary-btn,.primary-btn,.round-control,.send-btn,.module-results-back,.module-place-result,.plan-pill,.text-field,.chat-form textarea{
+  position:relative;
+  border-style:solid;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.16),inset 0 -2px 0 rgba(0,0,0,.22),0 5px 0 rgba(1,8,15,.92),0 9px 15px rgba(0,0,0,.38);
+  transform:translateY(0);
+  transition:transform .13s ease,box-shadow .13s ease,filter .13s ease;
+}
+.feature-card,.module-result-card,.quick-selection,.module-panel,.module-quick-sheet,.module-places-results,.module-place-details,.chat-shell,.bubble,.list-row,.tools-action-card,.nav-btn.active,.back-btn,.secondary-btn,.primary-btn,.round-control,.send-btn,.module-results-back,.module-place-result,.plan-pill{
+  background-image:linear-gradient(155deg,rgba(255,255,255,.075),transparent 42%,rgba(0,0,0,.13));
+}
+.feature-card:active,.module-result-card:active,.quick-selection:active,.tools-action-card:active,.nav-btn:active,.back-btn:active,.secondary-btn:active,.primary-btn:active,.round-control:active,.send-btn:active,.module-results-back:active,.module-place-result:active{
+  transform:translateY(4px);
+  filter:brightness(1.12);
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.28),0 1px 0 rgba(1,8,15,.92),0 2px 4px rgba(0,0,0,.3);
+}
+.card-grid .feature-card{border-color:#527d94;box-shadow:inset 0 2px 0 rgba(255,255,255,.2),inset 0 -3px 0 rgba(0,0,0,.28),0 6px 0 #020a11,0 12px 20px rgba(0,0,0,.4);}
+.bottom-nav{border-color:#527287;box-shadow:inset 0 2px 0 rgba(255,255,255,.12),0 7px 0 #020b14,0 12px 22px rgba(0,0,0,.5);}
+.bottom-nav .nav-btn{border:1px solid transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 3px 0 rgba(0,0,0,.42);}
+.bottom-nav .nav-btn.active{border-color:#3f8295;box-shadow:inset 0 2px 0 rgba(255,255,255,.14),0 4px 0 #04101b,0 6px 12px rgba(0,0,0,.3);}
+.module-quick-sheet{border-color:#41647a;box-shadow:inset 0 2px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.28),0 9px 0 rgba(0,0,0,.65),0 16px 28px rgba(0,0,0,.48);}
+.module-panel,.chat-shell{border-color:#42677d;box-shadow:inset 0 2px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.25),0 6px 0 rgba(0,0,0,.6),0 12px 22px rgba(0,0,0,.3);}
+.module-place-result{border-top:1px solid rgba(255,255,255,.07);box-shadow:inset 0 2px 0 rgba(255,255,255,.07),inset 0 -2px 0 rgba(0,0,0,.25),0 3px 0 rgba(0,0,0,.32);}
+.module-place-result-icon{box-shadow:inset 0 3px 0 rgba(255,255,255,.24),inset 0 -3px 0 rgba(0,0,0,.3),0 5px 0 #061724,0 9px 14px rgba(0,0,0,.35);}
+.module-places-results-head{box-shadow:inset 0 2px 0 rgba(255,255,255,.15),0 4px 0 rgba(0,0,0,.36);}
+.module-result-card,.quick-selection,.list-row,.tools-action-card{border-color:#456f86;}
+.text-field,.chat-form textarea{box-shadow:inset 0 3px 7px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.07),0 2px 0 rgba(255,255,255,.035);}
+.table-wrap{border:1px solid #456d83;border-radius:16px;overflow:auto;box-shadow:inset 0 2px 0 rgba(255,255,255,.13),0 6px 0 rgba(0,0,0,.55),0 12px 20px rgba(0,0,0,.3);}
+table{border-collapse:separate;border-spacing:0;background:linear-gradient(155deg,#10283b,#091a29);box-shadow:inset 0 2px 0 rgba(255,255,255,.08),0 4px 0 rgba(0,0,0,.38);}
+thead th,table th{background:linear-gradient(180deg,#1b4058,#102638);border-bottom:1px solid #4a7187;box-shadow:inset 0 2px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.2);}
+tbody td,table td{border-bottom:1px solid #29495d;box-shadow:inset 0 1px 0 rgba(255,255,255,.025);}
+tbody tr:nth-child(even){background:rgba(37,83,108,.2);}
+
+@media(prefers-reduced-motion:reduce){.feature-card,.module-result-card,.quick-selection,.tools-action-card,.nav-btn,.back-btn,.secondary-btn,.primary-btn,.round-control,.send-btn,.module-results-back,.module-place-result{transition:none}}
 
 </style>
 </head>
@@ -822,7 +850,7 @@ input,select,textarea{border-color:#31566c;box-shadow:inset 0 2px 5px rgba(0,0,0
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.34'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.35'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt))return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -844,7 +872,7 @@ function notify(message){const el=$('notice');el.textContent=message;el.classLis
 function setStatus(message){chatStatus.textContent=message}
 function showView(name){const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='none';}state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
 function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=m.title;$('moduleLead').textContent=m.lead;$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');}
-const MODULE_QUICK_CHOICES={maps:[{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu exclusiv pietonal. Întreabă-mă punctul de plecare și destinația dacă lipsesc. Folosește locația GPS ca plecare numai dacă am acordat permisiunea. Nu include autobuz, tren, metrou, mașină, taxi sau bicicletă. Prezintă doar rute și pași furnizați de un serviciu real de rutare; nu inventa distanțe, durate sau variante.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'}],travel:[{icon:'🍽️',title:'Restaurante și pub-uri cu mâncare',prompt:'Caută restaurante și pub-uri care servesc mâncare în apropierea mea.',kind:'places'},{icon:'☕',title:'Cafenele și localuri pentru desert',prompt:'Caută cafenele, baruri, pub-uri, cofetării și patiserii în apropierea mea.',kind:'places'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places'}]};
+const MODULE_QUICK_CHOICES={maps:[{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu exclusiv pietonal. Întreabă-mă punctul de plecare și destinația dacă lipsesc. Folosește locația GPS ca plecare numai dacă am acordat permisiunea. Nu include autobuz, tren, metrou, mașină, taxi sau bicicletă. Prezintă doar rute și pași furnizați de un serviciu real de rutare; nu inventa distanțe, durate sau variante.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'}],travel:[{icon:'🍽️',title:'Restaurante și pub-uri cu mâncare',prompt:'Caută restaurante și pub-uri care servesc mâncare în apropierea mea.',kind:'places'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, brutării cu produse de patiserie și gelaterii în apropierea mea.',kind:'places'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places'}]};
 function openModuleQuickLayer(){if(state.currentModule!=='maps'&&state.currentModule!=='travel')return;state.moduleSearchCategory=null;state.moduleSearchResults=[];state.moduleSearchReply='';$('moduleLayerTitle').textContent='Selecții rapide';renderModuleQuickChoices();$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false')}
 function renderModuleQuickChoices(){document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');const body=$('moduleLayerBody');body.innerHTML='';const choices=MODULE_QUICK_CHOICES[state.currentModule]||[];choices.forEach(choice=>{const button=document.createElement('button');button.type='button';button.className='module-result-card';const strong=document.createElement('strong');strong.textContent=choice.icon+'  '+choice.title;const small=document.createElement('small');small.textContent=choice.kind==='places'?'Caută în apropiere și afișează numele și distanța.':choice.kind==='transit'?'Transport public: mers pe jos, autobuz, tren sau metrou, în funcție de datele disponibile.':choice.kind==='walking'?'Numai mers pe jos; fără mașină, taxi, bicicletă sau transport public.':'Caută în apropiere și afișează numele și distanța.';button.append(strong,small);button.addEventListener('click',()=>{if(choice.kind==='walking'||choice.kind==='transit'){ $('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');resetChat();inputEl.value=choice.prompt;submitMessage();}else runModuleSearch(choice)});body.append(button)})}
 function setModuleLayerMode(title){$('moduleLayerTitle').textContent=title;$('moduleLayerBody').innerHTML=''}

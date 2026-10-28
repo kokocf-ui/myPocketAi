@@ -34,7 +34,7 @@
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v90";
+    const API_VERSION = "v91";
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -597,7 +597,7 @@ export default {
       .toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     // v77: general POI intent. Normalize once, then match only normalized text so
     // Romanian diacritics cannot break category or request detection.
-    const earlyPlaceCategoryMention = /(?:^| )(?:restaurant\w*|takeaway|takeout|food delivery|pizza|burger|sushi|comand\w*|livrare\w*|dinner|fast food|cafe|cafenele?\w*|pub|deliver food|order food|ordering food|supermarket\w*|groceries|grocery store\w*|food shop\w*|alimentar\w*|shopping mall\w*|mall\w*|centre comerciale|centru comercial|shopping centre\w*|shopping center\w*|retail park\w*|magazin\w*|magazine\w*|shops|shop\w*|stores|store\w*|shopping|cumparaturi|farmaci\w*|pharmacy|pharmacies|chemist\w*|drugstore\w*|parc\w*|parks|garden\w*|gradini|muze\w*|museum\w*|cinema\w*|cinematografe|theatre\w*|teatru\w*|spital\w*|hospital\w*|clinic\w*|clinica\w*|doctor\w*|medic\w*|primarie\w*|town hall|city hall|police\w*|politie\w*|fire station\w*|pompieri|scoala\w*|school\w*|universit\w*|library|bibliotec\w*|benzinar\w*|benzinarii|fuel station\w*|petrol station\w*|gas station\w*|charging station\w*|incarcare electrica|electric vehicle charging|ev charger\w*|parcar\w*|parking\w*|car wash\w*|car washes|spalatorie auto|spalatorii auto|spalatorie de masini|service auto|car repair\w*|mechanic\w*|toilet\w*|toaleta\w*|atm|bancomat\w*|bank\w*|banca\w*|post office|posta\w*|hotel\w*|hoteluri|hotel\w*|bus station\w*|gara\w*|train station\w*|railway station\w*|bus stop\w*|statie de autobuz|airport\w*|aeroport\w*|attraction\w*|obiective turistice|puncte de interes|points of interest|poi)(?: |$)/.test(earlyIntentText);
+    const earlyPlaceCategoryMention = /(?:^| )(?:restaurant\w*|pubs?|bars?|biergarten\w*|taverns?|taprooms?|takeaway|takeout|food delivery|pizza|burger|sushi|comand\w*|livrare\w*|dinner|fast food|cafe|cafenele?\w*|cofetari\w*|patiseri\w*|gelateri\w*|confectioner\w*|dessert\w*|brutari\w*|deliver food|order food|ordering food|supermarket\w*|groceries|grocery store\w*|food shop\w*|alimentar\w*|shopping mall\w*|mall\w*|centre comerciale|centru comercial|shopping centre\w*|shopping center\w*|retail park\w*|magazin\w*|magazine\w*|shops|shop\w*|stores|store\w*|shopping|cumparaturi|farmaci\w*|pharmacy|pharmacies|chemist\w*|drugstore\w*|parc\w*|parks|garden\w*|gradini|muze\w*|museum\w*|cinema\w*|cinematografe|theatre\w*|teatru\w*|spital\w*|hospital\w*|clinic\w*|clinica\w*|doctor\w*|medic\w*|primarie\w*|town hall|city hall|police\w*|politie\w*|fire station\w*|pompieri|scoala\w*|school\w*|universit\w*|library|bibliotec\w*|benzinar\w*|benzinarii|fuel station\w*|petrol station\w*|gas station\w*|charging station\w*|incarcare electrica|electric vehicle charging|ev charger\w*|parcar\w*|parking\w*|car wash\w*|car washes|spalatorie auto|spalatorii auto|spalatorie de masini|service auto|car repair\w*|mechanic\w*|toilet\w*|toaleta\w*|atm|bancomat\w*|bank\w*|banca\w*|post office|posta\w*|hotel\w*|hoteluri|hotel\w*|bus station\w*|gara\w*|train station\w*|railway station\w*|bus stop\w*|statie de autobuz|airport\w*|aeroport\w*|attraction\w*|obiective turistice|puncte de interes|points of interest|poi)(?: |$)/.test(earlyIntentText);
     const explicitPlaceLookup = /\b(?:find|search|show|recommend|look for|near me|nearby|in my area|closest|nearest|around me|points of interest|poi|what is near|what's near|places around|cauta|gaseste|arata mi|recomanda mi|din apropiere|in apropiere|in jurul|in jurul locatiei mele|ce puncte de interes|ce exista in apropiere|locuri din apropiere|cele mai apropiate|unde gasesc|unde este|unde sunt|gaseste mi|arata mi)/i.test(earlyIntentText) || /\b(?:restaurants?|shops?|stores?|supermarkets?|pharmacies|chemists?|drugstores?|parks?|cinemas?|hospitals?|clinics?|fuel stations?|petrol stations?|gas stations?|charging stations?|parking|car washes?|spalatorii|farmacii|town halls?|libraries|schools?|universities|restaurants|restaurante|magazine|supermarketuri|farmacii|parcuri|muzee|cinematografe|spitale|benzinarii|parcari|puncte de interes)\s+(?:in|near|around|din|zona|la|langa)\s+[a-z0-9]/i.test(earlyIntentText);
     const earlyFoodSearchIntent = earlyPlaceCategoryMention && explicitPlaceLookup;
     const locationIntentText = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
@@ -713,8 +713,8 @@ export default {
       { key: "toilets", pattern: /(?:^| )(?:toilet\w*|toaleta\w*|toalete)(?: |$)/, labelRo: "toaletă publică", labelEn: "public toilet", overpass: 'amenity="toilets"' },
       { key: "hotel", pattern: /(?:^| )(?:hotel\w*|hoteluri|hostel\w*)(?: |$)/, labelRo: "hotel sau hostel", labelEn: "hotel or hostel", overpass: 'tourism~"^(hotel|hostel|guest_house)$"' },
       { key: "transport", pattern: /(?:^| )(?:gara\w*|train station\w*|railway station\w*|bus station\w*|bus stop\w*|statie de autobuz|airport\w*|aeroport\w*)(?: |$)/, labelRo: "stație sau nod de transport", labelEn: "transport stop or hub", overpass: 'public_transport="station"' },
-      { key: "pub", pattern: /(?:^| )(?:pubs?|bars?|biergarten\w*|taverns?|taprooms?)(?: |$)/, labelRo: "pub sau bar", labelEn: "pub or bar", overpass: 'amenity~"^(pub|bar|biergarten)$"' },
-      { key: "restaurant", pattern: /(?:^| )(?:restaurants?\w*|takeaway|takeout|food delivery|pizza|burger|sushi|comand\w*|livrare\w*|dinner|fast food|cafe|cafeteria|bakery|patisserie|confectionery|cake shop|ice cream|deliver food|order food|ordering food|cafenele?\w*)(?: |$)/, labelRo: "restaurant", labelEn: "restaurant", overpass: 'amenity~"^(restaurant|fast_food|cafe|food_court)$"' },
+      { key: "confectionery", pattern: /(?:^| )(?:cofetari\w*|patiseri\w*|confectioner\w*|patisserie\w*|cake shop\w*|ice cream|gelateri\w*|sweet shop\w*|dessert\w*|brutari\w*)(?: |$)/, labelRo: "cofetărie, patiserie sau gelaterie", labelEn: "confectionery, bakery or ice cream shop", overpass: 'shop~"^(pastry|confectionery|bakery|ice_cream)$"' },
+      { key: "restaurant", pattern: /(?:^| )(?:restaurants?\w*|pubs?|bars?|biergarten\w*|taverns?|taprooms?|takeaway|takeout|food delivery|pizza|burger|sushi|comand\w*|livrare\w*|dinner|fast food|cafes?|cafeteria|cafea|coffee shops?|cafenele?\w*)(?: |$)/, labelRo: "restaurant, pub, bar sau cafenea", labelEn: "restaurant, pub, bar or café", overpass: 'amenity~"^(restaurant|fast_food|cafe|food_court|pub|bar|biergarten)$"' },
       { key: "shop", pattern: /(?:^| )(?:magazin\w*|magazine\w*|shops|shop\w*|stores|store\w*|shopping|cumparaturi)(?: |$)/, labelRo: "magazin", labelEn: "shop", overpass: 'shop' }
     ];
     const matchedPlaceCategory = placeCategoryRules.find(rule => rule.pattern.test(intentText)) || null;
@@ -802,7 +802,7 @@ export default {
         const photonStartedAt = Date.now();
         const photonRequestPromise = (async () => {
           const photonUrl = new URL("https://photon.komoot.io/api/");
-          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "supermarket", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", restaurant: "restaurant pub cafe bar bakery confectionery fast food" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
+          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "supermarket", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", restaurant: "restaurant pub cafe bar biergarten fast food", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
           photonUrl.searchParams.set("lat", String(latitude));
           photonUrl.searchParams.set("lon", String(longitude));
           photonUrl.searchParams.set("limit", "100");
@@ -823,7 +823,8 @@ export default {
           try {
             const geoapifyUrl = new URL("https://api.geoapify.com/v2/places");
             geoapifyUrl.searchParams.set("categories", ({
-              restaurant: "catering.restaurant,catering.fast_food,catering.pub,catering.bar,catering.biergarten,catering.ice_cream,catering.cafe,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
+              restaurant: "catering.restaurant,catering.fast_food,catering.pub,catering.bar,catering.biergarten,catering.cafe",
+              confectionery: "catering.ice_cream,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
               poi: "catering,commercial,education,healthcare,leisure,entertainment,service,public_transport,parking,accommodation,tourism,building",
               supermarket: "commercial.supermarket",
               shop: "commercial",
@@ -891,7 +892,8 @@ export default {
                 museum: /museum/.test(cats) || raw.tourism === "museum",
                 cinema: /cinema/.test(cats) || raw.amenity === "cinema",
                 hotel: /accommodation\.(hotel|hostel|guest_house)|hotel|hostel/.test(cats) || /^(hotel|hostel|guest_house)$/.test(String(raw.tourism || "")),
-                restaurant: /catering\.(restaurant|fast_food|ice_cream|confectionery|bakery|cafe)/.test(cats) || /^(restaurant|fast_food|cafe|ice_cream|confectionery|bakery|food_court)$/.test(String(raw.amenity || "")),
+                restaurant: /catering\.(restaurant|fast_food|cafe|pub|bar|biergarten)/.test(cats) || /^(restaurant|fast_food|cafe|pub|bar|biergarten|food_court)$/.test(String(raw.amenity || "")),
+                confectionery: /catering\.(ice_cream|confectionery|bakery)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(ice_cream|confectionery|bakery|pastry)$/.test(String(raw.amenity || "")) || /^(bakery|pastry|confectionery|ice_cream)$/.test(String(raw.shop || "")),
                 pub: /catering\.(pub|bar|biergarten)/.test(cats) || /^(pub|bar|biergarten)$/.test(String(raw.amenity || "")),
                 transport: /public_transport|railway\.(station|halt|tram_stop)|bus\.stop/.test(cats) || /^(station|halt|tram_stop|platform)$/.test(String(raw.railway || "")) || /^(station|stop_position|platform)$/.test(String(raw.public_transport || "")) || raw.amenity === "bus_station",
                 town_hall: /administrative|townhall/.test(cats) || raw.amenity === "townhall", 
@@ -913,7 +915,7 @@ export default {
               const categoryText = categories.join(" ").toLowerCase();
               const raw = props.datasource && props.datasource.raw && typeof props.datasource.raw === "object" ? props.datasource.raw : {};
               const isShop = ["supermarket", "mall", "shop"].includes(requestedPlaceCategory.key);
-              const amenity = requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /food_court/.test(categoryText) ? "food_court" : /bakery/.test(categoryText) ? "bakery" : /confectionery|ice_cream/.test(categoryText) ? "confectionery" : "restaurant") : requestedPlaceCategory.key === "pub" ? (/biergarten/.test(categoryText) ? "biergarten" : "pub") : requestedPlaceCategory.key;
+              const amenity = requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
               const tags = { name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? geoapifyDistanceMeters(latitude, longitude, lat, lon) : Infinity };
@@ -952,7 +954,7 @@ export default {
               const lat = Number(coordinates[1]);
               const osmValue = String(properties.osm_value || properties.type || requestedPlaceCategory.key).toLowerCase();
               const isShop = ["supermarket", "mall", "shop"].includes(requestedPlaceCategory.key);
-              const photonType = String(properties.type || properties.osm_value || "").toLowerCase();
+              const photonType = (String(properties.type || "") + " " + String(properties.osm_value || "") + " " + String(properties.osm_key || "")).toLowerCase();
               const photonCategoryMatches = requestedPlaceCategory.key === "poi"
                 ? Boolean(properties.name) && coordinates.length >= 2 && !/^(road|street|residential|service|path|track|footway|cycleway)$/i.test(photonType)
                 : requestedPlaceCategory.key === "mall"
@@ -976,14 +978,14 @@ export default {
                 : requestedPlaceCategory.key === "hotel"
                   ? /hotel|hostel|guest.?house|accommodation/.test(photonType)
                 : requestedPlaceCategory.key === "restaurant"
-                  ? /restaurant|fast.?food|cafe|food.?court|food/.test(photonType) && !/pub|bar|biergarten|tavern|taproom/.test(photonType)
-                : requestedPlaceCategory.key === "pub"
-                  ? /pub|bar|biergarten|tavern|taproom/.test(photonType)
+                  ? /restaurant|fast.?food|cafe|food.?court|pub|bar|biergarten|tavern|taproom/.test(photonType) || /restaurant|pub|bar|cafe|coffee|food/i.test(String(properties.name || ""))
+                : requestedPlaceCategory.key === "confectionery"
+                  ? /confectionery|pastry|bakery|cake|ice.?cream|gelateria|dessert/.test(photonType) || /cake|bakery|patisserie|confectionery|ice cream|gelato|dessert/i.test(String(properties.name || ""))
                 : /pharmacy|fuel|parking|car.?wash|museum|cinema|hospital|school|library|atm|bank|post.?office|toilet|hotel|station/.test(photonType);
               if (!photonCategoryMatches) return null;
               const tags = {
                 name: properties.name || "",
-                amenity: isShop ? "" : (requestedPlaceCategory.key === "pharmacy" ? "pharmacy" : requestedPlaceCategory.key === "fuel" ? "fuel" : requestedPlaceCategory.key === "parking" ? "parking" : requestedPlaceCategory.key === "car_wash" ? "car_wash" : requestedPlaceCategory.key === "charging" ? "charging_station" : requestedPlaceCategory.key === "pub" ? (/biergarten/.test(osmValue) ? "biergarten" : "pub") : requestedPlaceCategory.key === "restaurant" ? (/fast_food|fast food/.test(osmValue) ? "fast_food" : /cafe|coffee/.test(osmValue) ? "cafe" : "restaurant") : ""),
+                amenity: isShop ? "" : (requestedPlaceCategory.key === "pharmacy" ? "pharmacy" : requestedPlaceCategory.key === "fuel" ? "fuel" : requestedPlaceCategory.key === "parking" ? "parking" : requestedPlaceCategory.key === "car_wash" ? "car_wash" : requestedPlaceCategory.key === "charging" ? "charging_station" : requestedPlaceCategory.key === "restaurant" ? (/fast_food|fast food/.test(osmValue) ? "fast_food" : /biergarten/.test(osmValue) ? "biergarten" : /pub/.test(osmValue) ? "pub" : /bar/.test(osmValue) ? "bar" : /cafe|coffee/.test(osmValue) ? "cafe" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice.?cream|gelato/.test(osmValue) ? "ice_cream" : /bakery|pastry/.test(osmValue) ? "bakery" : "confectionery") : ""),
                 shop: isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : (properties.osm_value || "shop")) : "",
                 cuisine: properties.cuisine || "",
                 website: properties.website || properties.url || "",
@@ -1063,6 +1065,7 @@ export default {
             requestedPlaceCategory.key === "hotel" ? (lang === "en" ? "hotel / hostel" : "hotel / hostel") :
             requestedPlaceCategory.key === "transport" ? (lang === "en" ? "transport stop or hub" : "stație sau nod de transport") :
             requestedPlaceCategory.key === "shop" ? (lang === "en" ? "shop" : "magazin") :
+            requestedPlaceCategory.key === "confectionery" ? (lang === "en" ? "confectionery / bakery / ice cream" : "cofetărie / patiserie / gelaterie") :
             tags.amenity === "fast_food" ? (lang === "en" ? "fast food" : "fast-food") :
             tags.amenity === "cafe" ? (lang === "en" ? "café" : "cafenea") :
             tags.amenity === "pub" ? "pub" : (lang === "en" ? "restaurant" : "restaurant");
@@ -1077,11 +1080,13 @@ export default {
         // Deduplicate first, then sort by straight-line distance from the validated GPS point.
         const unique = [];
         for (const place of places.sort((a, b) => a.distanceMeters - b.distanceMeters)) {
-          const normalizedName = place.name.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+          const normalizedName = place.name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
           const duplicate = unique.find(existing => {
-            const existingName = existing.name.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
-            const nameMatch = normalizedName === existingName || (normalizedName.length > 5 && existingName.length > 5 && (normalizedName.includes(existingName) || existingName.includes(normalizedName)));
-            return nameMatch && distanceMeters(existing.lat, existing.lon, place.lat, place.lon) <= 60;
+            const existingName = existing.name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+            const sameName = normalizedName === existingName;
+            const aliasMatch = normalizedName.length >= 8 && existingName.length >= 8 && (normalizedName.startsWith(existingName + " ") || existingName.startsWith(normalizedName + " "));
+            const nearDistance = distanceMeters(existing.lat, existing.lon, place.lat, place.lon);
+            return (sameName || aliasMatch) && nearDistance <= 100;
           });
           if (!duplicate) unique.push(place);
           else {
@@ -1096,8 +1101,10 @@ export default {
           }
         }
         unique.sort((a, b) => a.distanceMeters - b.distanceMeters);
-        if (unique.length) {
-          const lines = unique.map((p, i) => {
+        const totalUniqueResults = unique.length;
+        const displayedPlaces = unique.slice(0, 40);
+        if (displayedPlaces.length) {
+          const lines = displayedPlaces.map((p, i) => {
             const mapUrl = `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}`;
             const details = [p.cuisine ? (lang === "en" ? `Cuisine: ${p.cuisine}` : `Specific: ${p.cuisine}`) : "", p.website ? (lang === "en" ? `Website: ${p.website}` : `Site: ${p.website}`) : "", p.phone ? (lang === "en" ? `Phone: ${p.phone}` : `Telefon: ${p.phone}`) : ""].filter(Boolean).join(" · ");
             const distanceLabel = p.distanceMeters < 1000 ? `${Math.round(p.distanceMeters)} m` : `${(p.distanceMeters / 1000).toFixed(1)} km`;
@@ -1110,8 +1117,8 @@ export default {
             : "";
           const reply = lang === "en"
             ? `Nearby ${requestedPlaceCategory.labelEn} results within about 5 km (OpenStreetMap data):\n\n${lines.join("\n\n")}${ratingNote}\n\nDistances are approximate straight-line distances from your GPS position, not walking or driving distances; check each place link for current details.`
-            : `Am găsit următoarele rezultate pentru ${requestedPlaceCategory.labelRo}, la aproximativ 5 km (date OpenStreetMap):\n\n${lines.join("\n\n")}${ratingNote}\n\nDistanțele sunt aproximative, în linie dreaptă față de poziția GPS, nu distanțe de mers pe jos sau cu mașina; deschide linkul fiecărui loc pentru detalii actualizate.`;
-          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: unique.map(p => ({ name: p.name, type: p.type, latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") + " (OpenStreetMap-derived place data)" : "Geoapify + Photon (no named results returned)", location_source: locationSource, results_count: unique.length, search_ok: true, ai_connected: Boolean(env.AI) });
+            : `Am găsit ${totalUniqueResults} locații unice pentru ${requestedPlaceCategory.labelRo}, la aproximativ 5 km (date OpenStreetMap). Afișez cele mai apropiate ${displayedPlaces.length}.\n\n${lines.join("\n\n")}${ratingNote}\n\nDistanțele sunt aproximative, în linie dreaptă față de poziția GPS, nu distanțe de mers pe jos sau cu mașina; deschide linkul fiecărui loc pentru detalii actualizate.`;
+          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: p.type, latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") + " (OpenStreetMap-derived place data)" : "Geoapify + Photon (no named results returned)", location_source: locationSource, results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
         }
       } catch (searchError) {
         const errorName = searchError && searchError.name ? String(searchError.name).slice(0, 80) : "UnknownError";
