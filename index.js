@@ -36,8 +36,7 @@ export default {
  *    caching reduces repeat traffic but cannot guarantee availability.
  */
 
-export default {
-  async fetch(request, env) {
+  addEventListener('fetch', event => {
     const API_VERSION = "v89";
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
@@ -1590,13 +1589,5 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         ai_connected: true
       }, 502);
     }
-  }
-};
-javascript
-    // Presupunând că varianta ta de cod stochează interfața în varianta APP sau în template-ul HTML:
-    // Dacă scriptul tău are deja o funcție de return, asigură-te că antetul are "text/html"
-    return new Response(typeof APP !== 'undefined' ? APP : "Codul se încarcă...", {
-      headers: { "content-type": "text/html;charset=UTF-8" },
-    });
-  }
-};
+  event.respondWith(handleRequest(event.request));
+});
