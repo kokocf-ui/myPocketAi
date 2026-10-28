@@ -1,3 +1,6 @@
+javascript
+export default {
+  async fetch(request, env, ctx) {
 /*
  * Pocket AI backend — v89 Geoapify category and POI routing fixes
  * v89: fixes Geoapify restaurant category identifiers, allows POI searches from Maps & Transport, and logs a bounded Geoapify error body.
@@ -1587,5 +1590,13 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         ai_connected: true
       }, 502);
     }
+  }
+};
+javascript
+    // Presupunând că varianta ta de cod stochează interfața în varianta APP sau în template-ul HTML:
+    // Dacă scriptul tău are deja o funcție de return, asigură-te că antetul are "text/html"
+    return new Response(typeof APP !== 'undefined' ? APP : "Codul se încarcă...", {
+      headers: { "content-type": "text/html;charset=UTF-8" },
+    });
   }
 };
