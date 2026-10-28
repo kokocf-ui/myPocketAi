@@ -1,6 +1,0 @@
-name = "my-pocket-ai"
-main = "index.js"
-compatibility_date = "2026-10-28"
-
-[build]
-upload_format = "modules"
