@@ -1,10 +1,10 @@
 /**
- * myPocket AI — Frontend v1.0.41 — resolve mobile layout conflicts with the approved card-list pattern
+ * myPocket AI — Frontend v1.0.42 — resolve mobile layout conflicts with the approved card-list pattern
  * Scope: replace the existing location-results table with the approved scrollable card-list pattern; keep clickable results, details, and return-to-results action. No backend, GPS, or routing changes.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
  * v1.0.15: fix escaping of the needsLocation regular expression inside the Worker HTML template; other behavior retained.
- * v1.0.41 mobile layout conflict fix; preserve v1.0.40 3D styling: reverted to v1.0.3 startup and interaction logic; no auto-speech at launch; continuous voice restarts only after TTS ends; tools nav separated from home modules; mobile layout guardrails; clearer API errors.
+ * v1.0.42 mobile layout conflict fix; preserve v1.0.40 3D styling: reverted to v1.0.3 startup and interaction logic; no auto-speech at launch; continuous voice restarts only after TTS ends; tools nav separated from home modules; mobile layout guardrails; clearer API errors.
  */
 const APP = Object.freeze({
   name: "myPocket AI",
@@ -906,7 +906,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 @media(prefers-reduced-motion:reduce){.feature-card,.module-result-card,.quick-selection,.tools-action-card,.primary-btn,.secondary-btn,.back-btn,.round-control,.send-btn,.module-results-back,.module-place-result,.plan-pill{transition:none!important}}
 
 
-/* v1.0.41: single-source mobile layout overrides; preserve 3D styling from v1.0.40. */
+/* v1.0.42: single-source mobile layout overrides; preserve 3D styling from v1.0.40. */
 html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
 *,*::before,*::after{box-sizing:border-box}
 .page{width:100%;max-width:100%;min-width:0;margin:0 auto;padding:12px 12px calc(104px + env(safe-area-inset-bottom));overflow-x:clip}
@@ -947,6 +947,51 @@ html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
  .view#view-assistant .chat-shell,.view#view-module #sharedChatShell{height:clamp(360px,calc(100dvh - 315px),520px)!important}
 }
 
+
+/* v1.0.42: resolve layout conflicts without changing the established 3D bevels. */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.app-header{width:100%;max-width:100%}
+.page{width:100%;max-width:100%;min-width:0;margin:0;padding:12px 12px calc(100px + env(safe-area-inset-bottom));overflow-x:clip}
+.view.active{width:100%;max-width:100%;min-width:0;margin:0 auto}
+.bottom-nav{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:calc(100% - 28px)!important;max-width:680px!important;margin:0!important}
+/* Keep all six home cards balanced and visible within the app viewport. */
+#view-home.active{display:flex!important;flex-direction:column!important;height:calc(100dvh - 250px)!important;min-height:0!important;max-height:calc(100dvh - 250px)!important;overflow:visible!important}
+#view-home .card-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(3,minmax(0,1fr))!important;gap:clamp(7px,1.2vh,11px)!important;row-gap:clamp(7px,1.2vh,11px)!important;flex:1 1 0!important;min-height:0!important;height:auto!important;align-content:stretch!important}
+#view-home .feature-card{height:100%!important;min-height:0!important;max-height:none!important;min-width:0!important;overflow:hidden!important}
+#view-home .card-art{flex:0 0 clamp(34px,5vh,45px)!important;height:clamp(34px,5vh,45px)!important}
+#view-home .card-body{padding:6px 7px!important;min-height:0!important;overflow:hidden!important}
+#view-home .card-title{font-size:clamp(12px,3.5vw,15px)!important;line-height:1.13!important}
+#view-home .card-description{font-size:clamp(10px,3vw,12px)!important;line-height:1.15!important}
+/* Back and new-chat actions share one row, at opposite corners. */
+.assistant-actions{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;width:100%!important;min-width:0!important;margin:0 0 7px!important}
+.assistant-actions .back-btn,.assistant-actions .secondary-btn{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 1 auto!important;min-width:0!important;max-width:48%!important;margin:0!important;white-space:nowrap!important;padding:7px 10px!important;font-size:clamp(12px,3.5vw,15px)!important}
+.view#view-assistant.active{display:flex!important;flex-direction:column!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important}
+.view#view-assistant>.section-title{flex:0 0 auto!important;margin:0 0 7px!important}
+.view#view-assistant .chat-shell{width:100%!important;max-width:100%!important;min-width:0!important;height:clamp(400px,calc(100dvh - 330px),600px)!important;max-height:calc(100dvh - 260px)!important;min-height:0!important;flex:0 0 auto!important;overflow:hidden!important}
+.view#view-module.active{display:flex!important;flex-direction:column!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important}
+.view#view-module .module-home-btn{align-self:flex-start!important;flex:0 0 auto!important}
+.view#view-module .module-heading-row{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;width:100%!important;min-width:0!important}
+.view#view-module .module-heading-row .section-title{flex:1 1 auto!important;min-width:0!important;overflow-wrap:anywhere!important}
+.view#view-module .module-quick-trigger{flex:0 1 auto!important;min-width:0!important;max-width:48%!important;white-space:normal!important;overflow-wrap:anywhere!important;color:#eafaff!important;background:linear-gradient(145deg,#17445b,#0b2638)!important;padding:8px 9px!important;font-size:clamp(11px,3vw,13px)!important;line-height:1.15!important}
+.view#view-module #moduleChatHost{display:flex!important;flex:0 0 auto!important;width:100%!important;min-width:0!important;min-height:0!important;overflow:visible!important}
+.view#view-module #sharedChatShell{width:100%!important;max-width:100%!important;min-width:0!important;height:clamp(400px,calc(100dvh - 315px),610px)!important;max-height:calc(100dvh - 245px)!important;min-height:0!important;flex:0 0 auto!important;overflow:hidden!important}
+.view#view-module #sharedChatShell .chat-top{display:flex!important;flex-wrap:nowrap!important;align-items:center!important;gap:clamp(5px,1.6vw,10px)!important;padding:9px!important}
+.view#view-module #sharedChatShell .chat-top strong{flex:1 1 auto!important;min-width:0!important;font-size:clamp(12px,3.5vw,15px)!important;white-space:normal!important}
+.view#view-module #sharedChatShell .round-control{flex:0 0 clamp(38px,11vw,46px)!important;width:clamp(38px,11vw,46px)!important;height:clamp(38px,11vw,46px)!important}
+.view#view-assistant .chat-shell .messages,.view#view-module #sharedChatShell .messages{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important}
+.view#view-assistant .chat-status,.view#view-module #sharedChatShell .chat-status{flex:0 0 auto!important;min-height:20px!important;line-height:1.25!important;overflow-wrap:anywhere!important}
+.view#view-assistant .chat-form,.view#view-module #sharedChatShell .chat-form{display:flex!important;flex:0 0 auto!important;align-items:stretch!important;min-width:0!important;gap:7px!important;padding:8px!important}
+.view#view-assistant .chat-form textarea,.view#view-module #sharedChatShell .chat-form textarea{display:block!important;flex:1 1 0!important;width:0!important;min-width:0!important;min-height:44px!important;max-height:90px!important;color:var(--text)!important}
+.view#view-assistant .send-btn,.view#view-module #sharedChatShell .send-btn{display:flex!important;align-items:center!important;justify-content:center!important;flex:0 0 44px!important;width:44px!important;min-width:44px!important;height:44px!important;color:#061522!important;background:linear-gradient(135deg,#35d8dc,#278cc4)!important;font-size:23px!important;line-height:1!important;opacity:1!important}
+.view#view-assistant .send-btn:disabled,.view#view-module #sharedChatShell .send-btn:disabled{opacity:.72!important;color:#102637!important}
+/* Restore readable text/icons on action buttons whose raised skin was too dark. */
+.primary-btn,.secondary-btn,.back-btn,.module-quick-trigger{color:#eaf7ff!important}
+@media(max-height:760px) and (max-width:699px){
+ #view-home.active{height:calc(100dvh - 220px)!important;max-height:calc(100dvh - 220px)!important}
+ .view#view-assistant .chat-shell{height:clamp(360px,calc(100dvh - 290px),500px)!important}
+ .view#view-module #sharedChatShell{height:clamp(360px,calc(100dvh - 285px),500px)!important}
+}
+
 </style>
 </head>
 <body>
@@ -960,7 +1005,7 @@ html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
 <button class="feature-card" data-module="organize"><span class="card-art">🗓️ ☕</span><span class="card-body"><span class="card-title">Organizare personală</span><span class="card-description">Liste, bugete, proiecte și obiective.</span></span></button>
 <button class="feature-card" data-module="tools"><span class="card-art">🧰 ✨</span><span class="card-body"><span class="card-title">Mai multe instrumente</span><span class="card-description">Analiză, idei, documente și multe altele.</span></span></button>
 </div></section>
-<section class="view" id="view-assistant"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Asistent AI</h2><p class="section-lead">Scrie sau vorbește cu myPocket AI.</p><div class="chat-shell" id="sharedChatShell"><div class="chat-top"><strong>Conversație</strong><button class="round-control" id="dictationBtn" aria-label="Dictare vocală" title="Dictare vocală" aria-pressed="false">🎙️</button><button class="round-control" id="voiceBtn" aria-label="Conversație vocală" title="Conversație vocală" aria-pressed="false">🎧</button><button class="round-control" id="listenBtn" aria-label="Ascultă ultimul răspuns" title="Ascultă răspunsul">🔊</button></div><div class="messages" id="messages" aria-live="polite"><div class="empty-state">Cu ce te pot ajuta?<br><span class="small">Scrie o întrebare în română sau engleză.</span></div></div><div class="chat-status" id="chatStatus" role="status">Gata de conversație.</div><form class="chat-form" id="chatForm"><textarea id="messageInput" rows="1" maxlength="4000" placeholder="" aria-label="Mesaj pentru myPocket AI" required></textarea><button class="send-btn" id="sendBtn" aria-label="Trimite mesajul" type="submit">➤</button></form></div><div id="chatHomePlaceholder"></div><button class="secondary-btn" id="newChatBtn">＋ Conversație nouă</button></section>
+<section class="view" id="view-assistant"><div class="assistant-actions"><button class="back-btn" data-back>← Acasă</button><button class="secondary-btn" id="newChatBtn">＋ Conversație nouă</button></div><h2 class="section-title">Asistent AI</h2><p class="section-lead">Scrie sau vorbește cu myPocket AI.</p><div class="chat-shell" id="sharedChatShell"><div class="chat-top"><strong>Conversație</strong><button class="round-control" id="dictationBtn" aria-label="Dictare vocală" title="Dictare vocală" aria-pressed="false">🎙️</button><button class="round-control" id="voiceBtn" aria-label="Conversație vocală" title="Conversație vocală" aria-pressed="false">🎧</button><button class="round-control" id="listenBtn" aria-label="Ascultă ultimul răspuns" title="Ascultă răspunsul">🔊</button></div><div class="messages" id="messages" aria-live="polite"><div class="empty-state">Cu ce te pot ajuta?<br><span class="small">Scrie o întrebare în română sau engleză.</span></div></div><div class="chat-status" id="chatStatus" role="status">Gata de conversație.</div><form class="chat-form" id="chatForm"><textarea id="messageInput" rows="1" maxlength="4000" placeholder="" aria-label="Mesaj pentru myPocket AI" required></textarea><button class="send-btn" id="sendBtn" aria-label="Trimite mesajul" type="submit">➤</button></form></div><div id="chatHomePlaceholder"></div></section>
 <section class="view" id="view-module"><button class="back-btn module-home-btn" data-back>← Acasă</button><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
 <section class="view" id="view-tools"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Instrumente</h2><p class="section-lead">Alege un domeniu pentru a începe.</p><div class="simple-list" id="toolsList"></div></section>
