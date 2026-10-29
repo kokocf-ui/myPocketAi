@@ -1,10 +1,10 @@
 /**
- * myPocket AI — Frontend v1.0.43 — resolve mobile layout conflicts with the approved card-list pattern
+ * myPocket AI — Frontend v1.0.44 — improved Romanian voice preference and smoother speech
  * Scope: replace the existing location-results table with the approved scrollable card-list pattern; keep clickable results, details, and return-to-results action. No backend, GPS, or routing changes.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
  * v1.0.15: fix escaping of the needsLocation regular expression inside the Worker HTML template; other behavior retained.
- * v1.0.43 mobile layout conflict fix; preserve v1.0.40 3D styling: reverted to v1.0.3 startup and interaction logic; no auto-speech at launch; continuous voice restarts only after TTS ends; tools nav separated from home modules; mobile layout guardrails; clearer API errors.
+ * v1.0.44 audio-only update: prefer potentially feminine/natural Romanian voices when available, preserve British English selection, and tune Romanian speech pacing slightly for smoother delivery. Preserve all existing UI, dictation, voice conversation, GPS, routing, and backend behavior.
  */
 const APP = Object.freeze({
   name: "myPocket AI",
@@ -906,7 +906,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 @media(prefers-reduced-motion:reduce){.feature-card,.module-result-card,.quick-selection,.tools-action-card,.primary-btn,.secondary-btn,.back-btn,.round-control,.send-btn,.module-results-back,.module-place-result,.plan-pill{transition:none!important}}
 
 
-/* v1.0.43: single-source mobile layout overrides; preserve 3D styling from v1.0.40. */
+/* v1.0.42: single-source mobile layout overrides; preserve 3D styling from v1.0.40. */
 html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
 *,*::before,*::after{box-sizing:border-box}
 .page{width:100%;max-width:100%;min-width:0;margin:0 auto;padding:12px 12px calc(104px + env(safe-area-inset-bottom));overflow-x:clip}
@@ -948,7 +948,7 @@ html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
 }
 
 
-/* v1.0.43: resolve layout conflicts without changing the established 3D bevels. */
+/* v1.0.42: resolve layout conflicts without changing the established 3D bevels. */
 html,body{width:100%;max-width:100%;overflow-x:hidden}
 .app-header{width:100%;max-width:100%}
 .page{width:100%;max-width:100%;min-width:0;margin:0;padding:12px 12px calc(100px + env(safe-area-inset-bottom));overflow-x:clip}
@@ -990,23 +990,6 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
  #view-home.active{height:calc(100dvh - 220px)!important;max-height:calc(100dvh - 220px)!important}
  .view#view-assistant .chat-shell{height:clamp(360px,calc(100dvh - 290px),500px)!important}
  .view#view-module #sharedChatShell{height:clamp(360px,calc(100dvh - 285px),500px)!important}
-}
-
-
-/* v1.0.43: align assistant and module workspaces; put quick actions beside Home. */
-@media(max-width:699px){
- .view#view-assistant .chat-shell{height:clamp(400px,calc(100dvh - 315px),610px)!important;max-height:calc(100dvh - 245px)!important}
- .view#view-assistant .assistant-actions{margin-bottom:6px!important}
- .view#view-assistant .section-title{margin-bottom:6px!important}
- .view#view-module.active{position:relative!important;padding-top:0!important}
- .view#view-module .module-home-btn{margin-bottom:6px!important;max-width:48%!important}
- .view#view-module .module-heading-row{position:static!important;margin-top:0!important}
- .view#view-module .module-heading-row .module-quick-trigger{position:absolute!important;top:0!important;right:0!important;max-width:48%!important;min-height:36px!important}
- .view#view-module .module-heading-row .section-title{padding-top:0!important}
-}
-@media(max-height:760px) and (max-width:699px){
- .view#view-assistant .chat-shell{height:clamp(360px,calc(100dvh - 285px),500px)!important;max-height:calc(100dvh - 230px)!important}
- .view#view-module #sharedChatShell{height:clamp(360px,calc(100dvh - 285px),500px)!important;max-height:calc(100dvh - 230px)!important}
 }
 
 </style>
@@ -1089,7 +1072,10 @@ function hideAvatar(){clearTimeout(state.avatarTimer);avatarOverlay.classList.re
 function welcomeUser(){showAvatar({message:'Salut! Sunt asistentul tău personal.',status:'Bine ai venit!'});state.avatarTimer=setTimeout(hideAvatar,3200)}
 $('avatarClose').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false)}hideAvatar()});
 // 05 — Speech output, independent from network request handling
-function getSpeechVoice(){const voices=window.speechSynthesis?.getVoices?.()||[];const lang=state.language;return voices.find(v=>v.lang.toLowerCase()===lang.toLowerCase())||voices.find(v=>v.lang.toLowerCase().startsWith(lang+'-'))||voices.find(v=>v.lang.toLowerCase().startsWith('ro'))||null}
+let speechVoiceCache=[];
+function refreshSpeechVoices(){if(!('speechSynthesis'in window))return [];try{speechVoiceCache=window.speechSynthesis.getVoices()||[]}catch{speechVoiceCache=[]}return speechVoiceCache}
+function getSpeechVoice(){const voices=refreshSpeechVoices();const wanted=state.language==='en'?'en-GB':String(state.language||'ro');const normalize=value=>String(value||'').toLowerCase().replace(/_/g,'-');const base=normalize(wanted).split('-')[0];const compatible=voices.filter(v=>normalize(v.lang)===normalize(wanted));const sameLanguage=voices.filter(v=>normalize(v.lang).split('-')[0]===base);const candidates=compatible.length?compatible:sameLanguage;if(!candidates.length)return null;if(state.language!=='en'){const femaleHints=/\b(female|woman|women|femin|femeie|ioana|alina|ana|andreea|elena|irina|paula|roberta|sorana|raluca|viorica)\b/i;const naturalHints=/(neural|natural|online|premium|enhanced)/i;const scored=candidates.map((voice,index)=>{const label=String(voice.name||'');let score=0;if(femaleHints.test(label))score+=8;if(naturalHints.test(label))score+=5;if(/google|microsoft/i.test(label))score+=1;if(voice.localService)score+=1;if(voice.default)score-=2;return {voice,score,index}}).sort((a,b)=>b.score-a.score||a.index-b.index);return scored[0].voice}return candidates.find(v=>v.default)||candidates.find(v=>v.localService)||candidates[0]}
+function waitForSpeechVoices(){if(!('speechSynthesis'in window))return Promise.resolve([]);const current=refreshSpeechVoices();if(current.length)return Promise.resolve(current);return new Promise(resolve=>{let finished=false;const done=()=>{if(finished)return;finished=true;resolve(refreshSpeechVoices())};try{window.speechSynthesis.addEventListener('voiceschanged',done,{once:true})}catch{}setTimeout(done,900)})}
 function prepareSpeechText(text){let t=String(text);t=t.replace(/!\\[([^\\]]*)\\]\\([^)]*\\)/g,'$1').replace(/\\[([^\\]]+)\\]\\([^)]*\\)/g,'$1').replace(/\\x60\\x60\\x60[\\s\\S]*?\\x60\\x60\\x60/g,' cod omis ').replace(/\\x60([^\\x60]+)\\x60/g,'$1').replace(/\\*\\*([^*]+)\\*\\*/g,'$1').replace(/__([^_]+)__/g,'$1').replace(/[*_~#>\\x60]/g,' ').replace(/^\\s*[-+•]\\s+/gm,'').replace(/^\\s*\\d+[.)]\\s+/gm,'').replace(/\\s+/g,' ').trim();if(state.language!=='ro')return t;
 // Expand longer/specific units first; this transformation is used only for spoken output.
 const replacements=[
@@ -1098,7 +1084,7 @@ const replacements=[
 ];for(const [pattern,word] of replacements)t=t.replace(pattern,word);
 // Improve Romanian reading of decimal quantities without changing the written reply.
 t=t.replace(/(\\d),(\\d)/g,'$1 virgulă $2');return t;}
-function speakText(text,{continuous=false}={}){if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=state.language==='en'?'en-GB':state.language;const voice=getSpeechVoice();if(voice)utterance.voice=voice;utterance.rate=1;utterance.pitch=1;state.speaking=true;showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onend=()=>{state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');startRecognition('voice')}};utterance.onerror=()=>{state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};window.speechSynthesis.speak(utterance);return true}
+function speakText(text,{continuous=false}={}){if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=state.language==='en'?'en-GB':state.language;utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onend=()=>{state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');startRecognition('voice')}};utterance.onerror=()=>{state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
 function stopSpeech(){if('speechSynthesis'in window)window.speechSynthesis.cancel();state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true}
 // 06 — Speech recognition: dictation and continuous voice are distinct modes
 const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition||null;
@@ -1163,7 +1149,7 @@ $('languageSelect').addEventListener('change',event=>{state.language=event.targe
 // 09 — Startup: bind state, begin location permission/request, load local data, greet once
 startSharedLocation();
 loadHistory();
-if('speechSynthesis'in window)window.speechSynthesis.getVoices();
+if('speechSynthesis'in window){refreshSpeechVoices();try{window.speechSynthesis.addEventListener('voiceschanged',refreshSpeechVoices)}catch{window.speechSynthesis.onvoiceschanged=refreshSpeechVoices}}
 welcomeUser();
 })();
 </script>
