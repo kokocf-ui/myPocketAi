@@ -4,7 +4,7 @@
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
  * v1.0.15: fix escaping of the needsLocation regular expression inside the Worker HTML template; other behavior retained.
- * v1.0.38 layout and 3D update: reverted to v1.0.3 startup and interaction logic; no auto-speech at launch; continuous voice restarts only after TTS ends; tools nav separated from home modules; mobile layout guardrails; clearer API errors.
+ * v1.0.39 layout and 3D update: reverted to v1.0.3 startup and interaction logic; no auto-speech at launch; continuous voice restarts only after TTS ends; tools nav separated from home modules; mobile layout guardrails; clearer API errors.
  */
 const APP = Object.freeze({
   name: "myPocket AI",
@@ -820,7 +820,7 @@ tbody tr:nth-child(even){background:rgba(37,83,108,.2);}
 @media(prefers-reduced-motion:reduce){.feature-card,.module-result-card,.quick-selection,.tools-action-card,.nav-btn,.back-btn,.secondary-btn,.primary-btn,.round-control,.send-btn,.module-results-back,.module-place-result{transition:none}}
 
 
-/* v1.0.38: restore usable conversation height; balanced home rows; coherent tactile 3D. */
+/* v1.0.39: restore usable conversation height; balanced home rows; coherent tactile 3D. */
 @media(max-width:699px){
   .view#view-assistant.active{height:calc(100dvh - 170px);max-height:calc(100dvh - 170px);}
   .view#view-module.active{height:calc(100dvh - 170px);max-height:calc(100dvh - 170px);}
@@ -837,7 +837,8 @@ tbody tr:nth-child(even){background:rgba(37,83,108,.2);}
  .view#view-assistant.active,.view#view-module.active{height:calc(100dvh - 145px);max-height:calc(100dvh - 145px);}
 }
 /* The home cards share vertical space evenly; the third row sits nearer the tools dock. */
-#view-home{min-height:calc(100dvh - 160px);display:flex;flex-direction:column;}
+#view-home{display:none;min-height:calc(100dvh - 160px);flex-direction:column;}
+#view-home.active{display:flex;}
 #view-home .card-grid{flex:1;grid-template-rows:repeat(3,minmax(0,1fr));row-gap:clamp(12px,2.2vh,20px);align-content:stretch;}
 #view-home .feature-card{min-height:0;height:100%;}
 #view-home .card-art{flex:0 0 clamp(43px,6vh,56px);}
