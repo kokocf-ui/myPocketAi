@@ -1,10 +1,10 @@
 /**
- * myPocket AI — Frontend v1.0.42 — resolve mobile layout conflicts with the approved card-list pattern
+ * myPocket AI — Frontend v1.0.43 — resolve mobile layout conflicts with the approved card-list pattern
  * Scope: replace the existing location-results table with the approved scrollable card-list pattern; keep clickable results, details, and return-to-results action. No backend, GPS, or routing changes.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
  * v1.0.15: fix escaping of the needsLocation regular expression inside the Worker HTML template; other behavior retained.
- * v1.0.42 mobile layout conflict fix; preserve v1.0.40 3D styling: reverted to v1.0.3 startup and interaction logic; no auto-speech at launch; continuous voice restarts only after TTS ends; tools nav separated from home modules; mobile layout guardrails; clearer API errors.
+ * v1.0.43 mobile layout conflict fix; preserve v1.0.40 3D styling: reverted to v1.0.3 startup and interaction logic; no auto-speech at launch; continuous voice restarts only after TTS ends; tools nav separated from home modules; mobile layout guardrails; clearer API errors.
  */
 const APP = Object.freeze({
   name: "myPocket AI",
@@ -906,7 +906,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 @media(prefers-reduced-motion:reduce){.feature-card,.module-result-card,.quick-selection,.tools-action-card,.primary-btn,.secondary-btn,.back-btn,.round-control,.send-btn,.module-results-back,.module-place-result,.plan-pill{transition:none!important}}
 
 
-/* v1.0.42: single-source mobile layout overrides; preserve 3D styling from v1.0.40. */
+/* v1.0.43: single-source mobile layout overrides; preserve 3D styling from v1.0.40. */
 html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
 *,*::before,*::after{box-sizing:border-box}
 .page{width:100%;max-width:100%;min-width:0;margin:0 auto;padding:12px 12px calc(104px + env(safe-area-inset-bottom));overflow-x:clip}
@@ -948,7 +948,7 @@ html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
 }
 
 
-/* v1.0.42: resolve layout conflicts without changing the established 3D bevels. */
+/* v1.0.43: resolve layout conflicts without changing the established 3D bevels. */
 html,body{width:100%;max-width:100%;overflow-x:hidden}
 .app-header{width:100%;max-width:100%}
 .page{width:100%;max-width:100%;min-width:0;margin:0;padding:12px 12px calc(100px + env(safe-area-inset-bottom));overflow-x:clip}
@@ -990,6 +990,23 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
  #view-home.active{height:calc(100dvh - 220px)!important;max-height:calc(100dvh - 220px)!important}
  .view#view-assistant .chat-shell{height:clamp(360px,calc(100dvh - 290px),500px)!important}
  .view#view-module #sharedChatShell{height:clamp(360px,calc(100dvh - 285px),500px)!important}
+}
+
+
+/* v1.0.43: align assistant and module workspaces; put quick actions beside Home. */
+@media(max-width:699px){
+ .view#view-assistant .chat-shell{height:clamp(400px,calc(100dvh - 315px),610px)!important;max-height:calc(100dvh - 245px)!important}
+ .view#view-assistant .assistant-actions{margin-bottom:6px!important}
+ .view#view-assistant .section-title{margin-bottom:6px!important}
+ .view#view-module.active{position:relative!important;padding-top:0!important}
+ .view#view-module .module-home-btn{margin-bottom:6px!important;max-width:48%!important}
+ .view#view-module .module-heading-row{position:static!important;margin-top:0!important}
+ .view#view-module .module-heading-row .module-quick-trigger{position:absolute!important;top:0!important;right:0!important;max-width:48%!important;min-height:36px!important}
+ .view#view-module .module-heading-row .section-title{padding-top:0!important}
+}
+@media(max-height:760px) and (max-width:699px){
+ .view#view-assistant .chat-shell{height:clamp(360px,calc(100dvh - 285px),500px)!important;max-height:calc(100dvh - 230px)!important}
+ .view#view-module #sharedChatShell{height:clamp(360px,calc(100dvh - 285px),500px)!important;max-height:calc(100dvh - 230px)!important}
 }
 
 </style>
