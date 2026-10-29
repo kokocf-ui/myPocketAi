@@ -4,7 +4,7 @@
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
  * v1.0.15: fix escaping of the needsLocation regular expression inside the Worker HTML template; other behavior retained.
- * v1.0.39 layout and 3D update: reverted to v1.0.3 startup and interaction logic; no auto-speech at launch; continuous voice restarts only after TTS ends; tools nav separated from home modules; mobile layout guardrails; clearer API errors.
+ * v1.0.40 pronounced 3D controls and mobile viewport corrections: reverted to v1.0.3 startup and interaction logic; no auto-speech at launch; continuous voice restarts only after TTS ends; tools nav separated from home modules; mobile layout guardrails; clearer API errors.
  */
 const APP = Object.freeze({
   name: "myPocket AI",
@@ -858,6 +858,52 @@ tbody tr:nth-child(even){background:rgba(37,83,108,.2);}
 .feature-card{background-image:linear-gradient(145deg,rgba(94,238,241,.13),transparent 38%,rgba(0,0,0,.2))!important;}
 .card-art{box-shadow:inset 0 2px 0 rgba(255,255,255,.24),inset 0 -3px 0 rgba(0,0,0,.25);}
 .bottom-nav{box-shadow:inset 0 2px 0 rgba(255,255,255,.14),0 5px 0 #020b13,0 9px 18px rgba(0,0,0,.45)!important;}
+
+
+/* v1.0.40: stronger raised-button geometry inspired by the supplied reference; keep dock centered and views inside the usable viewport. */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.page{width:100%;min-width:0;overflow-x:clip;padding-bottom:calc(100px + env(safe-area-inset-bottom))}
+.bottom-nav{left:12px!important;right:12px!important;width:auto!important;max-width:none!important;transform:none!important;min-width:0!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:2px;padding:5px!important;box-sizing:border-box!important}
+.bottom-nav .nav-btn{min-width:0!important;width:100%;padding:4px 0!important;overflow:hidden;white-space:normal;overflow-wrap:anywhere}
+.bottom-nav .nav-icon{line-height:1.05}
+/* A clear front face, bright bevel and dark extruded lower wall. */
+.feature-card,.module-result-card,.quick-selection,.tools-action-card,.primary-btn,.secondary-btn,.back-btn,.round-control,.send-btn,.module-results-back,.module-place-result,.plan-pill{
+  border-top:1px solid rgba(200,255,255,.95)!important;
+  border-left:1px solid rgba(115,232,249,.82)!important;
+  border-right:2px solid #14506a!important;
+  border-bottom:0!important;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.48),inset 2px 0 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.24),0 3px 0 #1b536b,0 6px 0 #073047,0 9px 0 #020c16,0 14px 20px rgba(0,0,0,.52),0 0 11px rgba(61,222,241,.16)!important;
+  transform:translateY(0);isolation:isolate;
+  transition:transform .14s ease,box-shadow .14s ease,filter .14s ease!important;
+}
+.feature-card{overflow:visible!important;border-radius:20px!important}
+.feature-card .card-art{border-radius:19px 19px 0 0;overflow:hidden;position:relative}
+.feature-card .card-body{border-radius:0 0 18px 18px;overflow:hidden}
+.feature-card:active,.module-result-card:active,.quick-selection:active,.tools-action-card:active,.primary-btn:active,.secondary-btn:active,.back-btn:active,.round-control:active,.send-btn:active,.module-results-back:active,.module-place-result:active,.plan-pill:active{
+  transform:translateY(6px)!important;filter:brightness(1.12)!important;
+  box-shadow:inset 0 3px 7px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.16),0 1px 0 #073047,0 2px 0 #020c16,0 4px 6px rgba(0,0,0,.36)!important;
+}
+.round-control,.send-btn{flex-shrink:0}
+.bottom-nav{border:1px solid #8bc8d9!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.34),inset 0 -3px 0 rgba(0,0,0,.38),0 3px 0 #28566c,0 6px 0 #071927,0 10px 18px rgba(0,0,0,.58)!important}
+.bottom-nav .nav-btn{box-shadow:none!important;border:1px solid transparent!important}
+.bottom-nav .nav-btn.active{border:1px solid rgba(105,237,241,.65)!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.3),inset 0 -3px 0 rgba(0,0,0,.25),0 2px 0 #073047,0 4px 0 #020c16!important}
+/* Fit the whole conversation frame between the sticky header and bottom dock. Only the message list scrolls. */
+@media(max-width:699px){
+  .view#view-assistant.active,.view#view-module.active{height:calc(100dvh - 285px)!important;max-height:calc(100dvh - 285px)!important;min-height:360px;overflow:hidden!important}
+  .view#view-assistant .chat-shell,.view#view-module #sharedChatShell{min-height:0!important;max-height:100%!important;overflow:hidden!important}
+  .view#view-assistant .chat-top,.view#view-module #sharedChatShell .chat-top{padding:9px 10px;gap:7px}
+  .view#view-assistant .round-control,.view#view-module #sharedChatShell .round-control{width:40px;height:40px;font-size:17px}
+  .view#view-assistant .chat-form,.view#view-module #sharedChatShell .chat-form{padding:7px;gap:7px}
+  .view#view-assistant .chat-form textarea,.view#view-module #sharedChatShell .chat-form textarea{min-height:40px;max-height:72px;padding:8px 10px}
+  .view#view-assistant .send-btn,.view#view-module #sharedChatShell .send-btn{width:42px;min-width:42px;height:40px}
+  .view#view-assistant .chat-status,.view#view-module #sharedChatShell .chat-status{min-height:18px;padding:1px 10px 4px;font-size:11px}
+  #view-home .card-grid{row-gap:clamp(10px,1.8vh,16px)}
+  #view-home .feature-card{min-height:0}
+}
+@media(max-height:760px) and (max-width:699px){
+  .view#view-assistant.active,.view#view-module.active{height:calc(100dvh - 255px)!important;max-height:calc(100dvh - 255px)!important;min-height:320px}
+}
+@media(prefers-reduced-motion:reduce){.feature-card,.module-result-card,.quick-selection,.tools-action-card,.primary-btn,.secondary-btn,.back-btn,.round-control,.send-btn,.module-results-back,.module-place-result,.plan-pill{transition:none!important}}
 
 </style>
 </head>
