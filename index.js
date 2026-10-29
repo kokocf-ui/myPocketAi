@@ -1,14 +1,14 @@
 /**
- * myPocket AI — Frontend v1.0.35 — replace location results table with the approved card-list pattern
+ * myPocket AI — Frontend v1.0.41 — resolve mobile layout conflicts with the approved card-list pattern
  * Scope: replace the existing location-results table with the approved scrollable card-list pattern; keep clickable results, details, and return-to-results action. No backend, GPS, or routing changes.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
  * v1.0.15: fix escaping of the needsLocation regular expression inside the Worker HTML template; other behavior retained.
- * v1.0.40 pronounced 3D controls and mobile viewport corrections: reverted to v1.0.3 startup and interaction logic; no auto-speech at launch; continuous voice restarts only after TTS ends; tools nav separated from home modules; mobile layout guardrails; clearer API errors.
+ * v1.0.41 mobile layout conflict fix; preserve v1.0.40 3D styling: reverted to v1.0.3 startup and interaction logic; no auto-speech at launch; continuous voice restarts only after TTS ends; tools nav separated from home modules; mobile layout guardrails; clearer API errors.
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.38",
+  version: "1.0.41",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -904,6 +904,48 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
   .view#view-assistant.active,.view#view-module.active{height:calc(100dvh - 255px)!important;max-height:calc(100dvh - 255px)!important;min-height:320px}
 }
 @media(prefers-reduced-motion:reduce){.feature-card,.module-result-card,.quick-selection,.tools-action-card,.primary-btn,.secondary-btn,.back-btn,.round-control,.send-btn,.module-results-back,.module-place-result,.plan-pill{transition:none!important}}
+
+
+/* v1.0.41: single-source mobile layout overrides; preserve 3D styling from v1.0.40. */
+html,body{width:100%;max-width:100%;margin:0;overflow-x:hidden}
+*,*::before,*::after{box-sizing:border-box}
+.page{width:100%;max-width:100%;min-width:0;margin:0 auto;padding:12px 12px calc(104px + env(safe-area-inset-bottom));overflow-x:clip}
+.view:not(.active){display:none!important}
+.view.active{display:block;min-width:0;width:100%;max-width:100%;margin:0 auto}
+.bottom-nav{
+ position:fixed!important;z-index:1000!important;left:50%!important;right:auto!important;
+ bottom:calc(8px + env(safe-area-inset-bottom))!important;
+ transform:translateX(-50%)!important;width:calc(100vw - 28px)!important;max-width:680px!important;
+ min-width:0!important;margin:0!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ gap:2px!important;padding:5px!important;box-sizing:border-box!important;
+}
+.bottom-nav .nav-btn{width:100%!important;min-width:0!important;max-width:100%!important;padding:4px 1px!important;overflow:hidden!important;white-space:normal!important;overflow-wrap:anywhere!important}
+#view-home{display:none;min-height:0!important;height:auto!important;max-height:none!important;flex-direction:column}
+#view-home.active{display:flex!important}
+#view-home .home-heading{margin:0 0 3px!important;font-size:clamp(24px,6vw,31px)!important;line-height:1.12}
+#view-home .lead{margin:0 0 9px!important;font-size:clamp(13px,3.6vw,16px)!important;line-height:1.25}
+#view-home .card-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(3,minmax(0,1fr))!important;gap:9px!important;row-gap:9px!important;flex:0 0 auto!important;align-content:stretch!important}
+#view-home .feature-card{min-width:0!important;min-height:0!important;height:clamp(105px,17vh,132px)!important;overflow:visible!important}
+#view-home .card-art{flex:0 0 clamp(36px,5.4vh,46px)!important;height:clamp(36px,5.4vh,46px)!important;font-size:clamp(22px,5vw,30px)!important}
+#view-home .card-body{padding:7px 8px!important}
+#view-home .card-title{font-size:clamp(13px,3.8vw,16px)!important;line-height:1.15!important}
+#view-home .card-description{font-size:clamp(11px,3.2vw,13px)!important;line-height:1.18!important}
+@media(max-width:699px){
+ .view#view-assistant.active,.view#view-module.active{height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important}
+ .view#view-assistant .chat-shell,.view#view-module #sharedChatShell{
+   width:100%!important;max-width:100%!important;min-height:0!important;
+   height:clamp(390px,calc(100dvh - 335px),620px)!important;
+   max-height:calc(100dvh - 270px)!important;display:flex!important;flex-direction:column!important;overflow:hidden!important
+ }
+ .view#view-assistant .chat-shell .messages,.view#view-module #sharedChatShell .messages{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important}
+ .view#view-assistant .chat-top,.view#view-module #sharedChatShell .chat-top{flex:0 0 auto!important}
+ .view#view-assistant .chat-form,.view#view-module #sharedChatShell .chat-form{flex:0 0 auto!important}
+ .view#view-assistant .chat-status,.view#view-module #sharedChatShell .chat-status{flex:0 0 auto!important}
+}
+@media(max-height:760px) and (max-width:699px){
+ #view-home .feature-card{height:clamp(94px,15vh,116px)!important}
+ .view#view-assistant .chat-shell,.view#view-module #sharedChatShell{height:clamp(360px,calc(100dvh - 315px),520px)!important}
+}
 
 </style>
 </head>
