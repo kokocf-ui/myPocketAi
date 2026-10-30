@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v95 conversation continuity and Exa diagnostics
+ * Pocket AI backend — v96 parallel multi-engine web research
  * v94: adds 10-language API selection, locale-aware arithmetic formatting, and optional Exa-backed general web research with source URLs and explicit failure states. Preserves existing routing, GPS, local POI search, and calculator paths. Requires EXA_API_KEY for live research.
  * v92: strengthens Romanian-native phrasing, agreement, pronoun/verb use, and a silent final proofreading pass in the system instructions; preserves existing routing, GPS, local search, calculations, and response flow.
  * v90 separate restaurant and pub search categories
@@ -37,7 +37,7 @@
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v95";
+    const API_VERSION = "v96";
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -1390,44 +1390,64 @@ export default {
       });
     }
 
-    // v94: general web research for factual questions. Search is optional and requires
-    // the EXA_API_KEY Worker secret; existing transport, GPS and POI branches above stay intact.
+    // v96: parallel international web research. Each provider is optional;
+    // a failure in one provider must not discard successful results from the others.
     let webSearchContext = "";
     let webSources = [];
     let webSearchStatus = "not_needed";
+    let webProviderDiagnostics = {};
     const normalizedResearchRequest = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     const obviouslyNonResearch = /^(?:hi|hello|hey|salut|buna|bun[aă]|multumesc|merci|thanks|ok|okay|pa|bye)[!.?\s]*$/i.test(normalizedResearchRequest) || /\b(?:translate|translation|tradu|traduce|traducere|rewrite|rescrie|proofread|corecteaza gramatica|write a poem|scrie o poezie|make up a story|inventeaza o poveste)\b/i.test(normalizedResearchRequest);
     const factualQuestion = /[?？]/.test(message) || /\b(?:what|when|where|who|why|how|which|latest|current|today|recent|official|law|legal|tax|government|rights|rules|regulation|price|cost|statistics|study|research|news|update|ce|cand|unde|cine|de ce|cum|care|ultimele|actual|astazi|azi|recent|oficial|lege|legal|taxe|impozit|guvern|drepturi|reguli|pret|cost|statistici|studiu|noutati|actualizare)\b/i.test(normalizedResearchRequest);
     const shouldSearchWeb = data.search_web === true || (!obviouslyNonResearch && factualQuestion);
     if (shouldSearchWeb) {
-      if (!env.EXA_API_KEY) {
-        webSearchStatus = "not_configured";
+      const query = message + "\nPrefer current primary and official sources; identify the applicable country or jurisdiction where relevant.";
+      const tasks = [];
+      if (env.EXA_API_KEY) tasks.push((async()=>{
+        const response=await fetch("https://api.exa.ai/search",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},body:JSON.stringify({query,type:"auto",numResults:6,contents:{highlights:true}}),signal:AbortSignal.timeout(14000)});
+        if(!response.ok) throw new Error("HTTP "+response.status);
+        const body=await response.json();
+        return {provider:"exa",items:(Array.isArray(body.results)?body.results:[]).map(x=>({title:x.title,url:x.url,publishedDate:x.publishedDate||null,author:x.author||null,highlights:Array.isArray(x.highlights)?x.highlights:(x.text?[x.text]:[])}))};
+      })().then(x=>({status:"ok",...x})).catch(e=>({provider:"exa",status:"error",error:String(e&&e.message||e).slice(0,120)})));
+      if (env.BRAVE_API_KEY) tasks.push((async()=>{
+        const url=new URL("https://api.search.brave.com/res/v1/web/search");url.searchParams.set("q",query.slice(0,590));url.searchParams.set("count","8");url.searchParams.set("extra_snippets","true");
+        const response=await fetch(url.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(14000)});
+        if(!response.ok) throw new Error("HTTP "+response.status);
+        const body=await response.json();
+        return {provider:"brave",items:(Array.isArray(body.web&&body.web.results)?body.web.results:[]).map(x=>({title:x.title,url:x.url,publishedDate:x.page_age||null,highlights:[x.description,...(Array.isArray(x.extra_snippets)?x.extra_snippets:[])].filter(Boolean)}))};
+      })().then(x=>({status:"ok",...x})).catch(e=>({provider:"brave",status:"error",error:String(e&&e.message||e).slice(0,120)})));
+      if (env.TAVILY_API_KEY) tasks.push((async()=>{
+        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query,search_depth:"basic",max_results:8,include_answer:false,include_raw_content:true}),signal:AbortSignal.timeout(16000)});
+        if(!response.ok) throw new Error("HTTP "+response.status);
+        const body=await response.json();
+        return {provider:"tavily",items:(Array.isArray(body.results)?body.results:[]).map(x=>({title:x.title,url:x.url,publishedDate:x.published_date||null,highlights:[x.content,x.raw_content].filter(Boolean)}))};
+      })().then(x=>({status:"ok",...x})).catch(e=>({provider:"tavily",status:"error",error:String(e&&e.message||e).slice(0,120)})));
+      if (!tasks.length) {
+        webSearchStatus="not_configured";
       } else {
-        try {
-          const exaResponse = await fetch("https://api.exa.ai/search", {
-            method: "POST",
-            headers: {"Content-Type":"application/json", "x-api-key":env.EXA_API_KEY},
-            body: JSON.stringify({query: message + "\nPrefer current primary and official sources; identify the applicable country or jurisdiction where relevant.",type:"auto",numResults:5,contents:{highlights:true}}),
-            signal: AbortSignal.timeout(18000)
-          });
-          if (!exaResponse.ok) throw new Error("Exa Search HTTP " + exaResponse.status);
-          const exaData = await exaResponse.json();
-          const results = Array.isArray(exaData.results) ? exaData.results : [];
-          webSources = results.slice(0,5).map((item,index) => ({
-            number:index+1,
-            title:String(item.title || item.url || "Source").slice(0,220),
-            url:typeof item.url === "string" && /^https?:\/\//i.test(item.url) ? item.url : "",
-            publishedDate:item.publishedDate || null,
-            author:item.author || null,
-            highlights:Array.isArray(item.highlights) ? item.highlights.slice(0,3).map(x=>String(x).slice(0,1800)) : []
-          })).filter(item=>item.url);
-          webSearchStatus = webSources.some(item => item.highlights.length > 0) ? "success" : (webSources.length ? "weak_results" : "no_results");
-          if (webSearchStatus === "success") {
-            webSearchContext = "\n\nRETRIEVED WEB SEARCH RESULTS (snippets; not independently verified) (use only what these retrieved sources support; do not invent facts):\n" + webSources.map(item => `[${item.number}] ${item.title}\nURL: ${item.url}\nPublished: ${item.publishedDate || "date not supplied"}\nEvidence: ${item.highlights.join("\n") || "No extractable evidence returned."}`).join("\n\n");
+        const settled=await Promise.all(tasks);
+        for(const item of settled) webProviderDiagnostics[item.provider]={status:item.status,resultCount:Array.isArray(item.items)?item.items.length:0,error:item.error||null};
+        const merged=new Map();
+        for(const result of settled){
+          if(result.status!=="ok") continue;
+          for(const item of result.items||[]){
+            if(typeof item.url!=="string"||!/^https?:\/\//i.test(item.url)) continue;
+            let canonical;
+            try{const u=new URL(item.url);u.hash="";for(const key of [...u.searchParams.keys()])if(/^(utm_|gclid|fbclid|mc_cid|mc_eid)/i.test(key))u.searchParams.delete(key);u.hostname=u.hostname.toLowerCase();u.pathname=u.pathname.replace(/\/$/,"")||"/";canonical=u.toString()}catch{continue}
+            if(!merged.has(canonical))merged.set(canonical,{title:String(item.title||item.url).slice(0,220),url:item.url,publishedDate:item.publishedDate||null,author:item.author||null,highlights:[],providers:[]});
+            const target=merged.get(canonical);if(!target.providers.includes(result.provider))target.providers.push(result.provider);
+            for(const excerpt of item.highlights||[]){const clean=String(excerpt).replace(/\s+/g," ").trim();if(clean&&!target.highlights.includes(clean))target.highlights.push(clean.slice(0,2200))}
+            if(!target.publishedDate&&item.publishedDate)target.publishedDate=item.publishedDate;
           }
-        } catch (searchError) {
-          webSearchStatus = "error";
-          console.warn("Pocket AI v95 web research failed", JSON.stringify({errorName:searchError && searchError.name || "UnknownError",errorMessage:String(searchError && searchError.message || searchError).slice(0,160)}));
+        }
+        webSources=[...merged.values()].map(x=>({...x,highlights:x.highlights.slice(0,4)}));
+        // Prefer sources independently returned by multiple engines and with actual excerpts.
+        webSources.sort((a,b)=>(b.providers.length*3+Math.min(b.highlights.join(" ").length/500,3))-(a.providers.length*3+Math.min(a.highlights.join(" ").length/500,3)));
+        webSources=webSources.slice(0,8).map((item,index)=>({...item,number:index+1}));
+        const evidenceCount=webSources.filter(item=>item.highlights.length>0).length;
+        webSearchStatus=evidenceCount>0?"success":(webSources.length?"weak_results":(settled.some(x=>x.status==="error")?"error":"no_results"));
+        if(webSearchStatus==="success"){
+          webSearchContext="\n\nRETRIEVED WEB SEARCH RESULTS FROM PARALLEL PROVIDERS (snippets/extracts; not independent fact verification). Use only what the supplied evidence supports. Compare conflicting dates and claims; prefer primary official sources for law, government, health and safety. Do not treat an old page as current merely because it appeared in search.\n"+webSources.map(item=>`[${item.number}] ${item.title}\nURL: ${item.url}\nPublished/age: ${item.publishedDate||"not supplied"}\nReturned by: ${item.providers.join(", ")}\nEvidence: ${item.highlights.join("\n")||"No extractable evidence returned."}`).join("\n\n");
         }
       }
     }
@@ -1671,7 +1691,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         reply: finalReply,
         sources: webSources.filter(item => item.highlights.length > 0),
         web_search_status: shouldSearchWeb ? webSearchStatus : "not_needed",
-        web_search_diagnostics: shouldSearchWeb ? {resultCount:webSources.length,evidenceResultCount:webSources.filter(item=>item.highlights.length>0).length,emptyEvidenceCount:webSources.filter(item=>item.highlights.length===0).length,domains:[...new Set(webSources.map(item=>{try{return new URL(item.url).hostname}catch{return ""}}).filter(Boolean))].slice(0,5)} : null,
+        web_search_diagnostics: shouldSearchWeb ? {providers:webProviderDiagnostics,resultCount:webSources.length,evidenceResultCount:webSources.filter(item=>item.highlights.length>0).length,emptyEvidenceCount:webSources.filter(item=>item.highlights.length===0).length,domains:[...new Set(webSources.map(item=>{try{return new URL(item.url).hostname}catch{return ""}}).filter(Boolean))].slice(0,8)} : null,
         context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12},
         ai_generated: true,
         calculation_verified: false,
