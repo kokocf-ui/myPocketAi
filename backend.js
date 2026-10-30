@@ -1,6 +1,6 @@
 /*
- * Pocket AI backend — v93 strict language consistency and Romanian phrasing
- * v93: enforces the selected response language throughout the answer (Romanian stays Romanian except requested translations/foreign-language content), strengthens native Romanian phrasing and final language consistency review; preserves routing, GPS, local search, calculations, and response flow.
+ * Pocket AI backend — v94 multilingual AI responses and evidence-backed web research
+ * v94: adds 10-language API selection, locale-aware arithmetic formatting, and optional Exa-backed general web research with source URLs and explicit failure states. Preserves existing routing, GPS, local POI search, and calculator paths. Requires EXA_API_KEY for live research.
  * v92: strengthens Romanian-native phrasing, agreement, pronoun/verb use, and a silent final proofreading pass in the system instructions; preserves existing routing, GPS, local search, calculations, and response flow.
  * v90 separate restaurant and pub search categories
  * v90: separates restaurant/cafe searches from pub/bar searches in Geoapify and Photon filters; preserves GPS, 5 km radius, routes and provider fallback. v87 venue coverage retained.
@@ -37,15 +37,45 @@
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v93";
+    const API_VERSION = "v94";
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type"
     };
 
-    const json = (data, status = 200) =>
-      new Response(JSON.stringify(data), {
+    const json = async (data, status = 200) => {
+      const payload = data && typeof data === "object" ? { ...data } : data;
+      // Existing deterministic map, transport and place-search replies were written in
+      // Romanian/English. Translate only those replies for the other supported languages;
+      // AI-authored answers and calculator outputs already use the selected language.
+      if (payload && typeof payload === "object" && typeof payload.reply === "string" &&
+          typeof payload.language === "string" && !["ro", "en"].includes(payload.language) &&
+          payload.ai_generated !== true && env.AI && typeof env.AI.run === "function") {
+        const targetNames = {fr:"French",de:"German",it:"Italian",es:"Spanish",pt:"Portuguese",nl:"Dutch",ru:"Russian",pl:"Polish"};
+        const targetName = targetNames[payload.language];
+        if (targetName) {
+          try {
+            const translated = await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fp8", {
+              messages:[
+                {role:"system",content:`Translate the assistant reply into natural, fluent ${targetName}. Preserve every factual detail, number, unit, list order, URL, postcode, place name and technical identifier. Do not add or remove information. Keep URLs exactly unchanged. Return only the translated reply.`},
+                {role:"user",content:payload.reply}
+              ],
+              max_tokens:1200,
+              temperature:0.1
+            });
+            if (translated && typeof translated.response === "string" && translated.response.trim()) {
+              payload.reply = translated.response.trim();
+              payload.translation_status = "translated";
+            } else payload.translation_status = "translation_unavailable";
+          } catch (translationError) {
+            payload.translation_status = "translation_failed";
+            console.warn("Pocket AI v94 deterministic reply translation failed", JSON.stringify({language:payload.language,errorName:translationError && translationError.name || "UnknownError"}));
+          }
+        }
+      }
+      if (payload && typeof payload === "object") delete payload.ai_generated;
+      return new Response(JSON.stringify(payload), {
         status,
         headers: {
           ...corsHeaders,
@@ -53,6 +83,7 @@ export default {
           "Cache-Control": "no-store"
         }
       });
+    };
 
     if (request.method === "OPTIONS") {
       return new Response(null, {
@@ -69,7 +100,7 @@ export default {
         version: API_VERSION,
         status: "online",
         message: "API-ul funcționează!",
-        languages: ["ro", "en"],
+        languages: ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"],
         ai_connected: Boolean(env.AI)
       });
     }
@@ -114,7 +145,11 @@ export default {
     }
 
     const message = data.message.trim();
-    const lang = data.language === "en" ? "en" : "ro"; // v45: language is selected from the latest request by frontend; supported UI languages remain Romanian and English.
+    const supportedLanguages = ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"];
+    const requestedLanguage = typeof data.language === "string" ? data.language.trim().toLowerCase().split(/[-_]/)[0] : "ro";
+    const lang = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ro";
+    const languageNames = {ro:"Romanian",en:"English",fr:"French",de:"German",it:"Italian",es:"Spanish",pt:"Portuguese",nl:"Dutch",ru:"Russian",pl:"Polish"};
+    const responseLanguageName = languageNames[lang];
 
     // Căutare reală de restaurante din OpenStreetMap, numai când cererea este locală
     // și frontend-ul a trimis coordonate după activarea locației de către utilizator.
@@ -1336,8 +1371,9 @@ export default {
     const arithmeticResult = calculateExpression(message);
 
     if (arithmeticResult !== null) {
+      const localeByLanguage = {ro:"ro-RO",en:"en-GB",fr:"fr-FR",de:"de-DE",it:"it-IT",es:"es-ES",pt:"pt-PT",nl:"nl-NL",ru:"ru-RU",pl:"pl-PL"};
       const formatted = new Intl.NumberFormat(
-        lang === "ro" ? "ro-RO" : "en-GB",
+        localeByLanguage[lang] || "en-GB",
         { maximumFractionDigits: 10 }
       ).format(arithmeticResult);
 
@@ -1347,16 +1383,58 @@ export default {
         status: "success",
         language: lang,
         message_received: message,
-        reply: lang === "en"
-          ? "The result is " + formatted + "."
-          : "Rezultatul este " + formatted + ".",
+        reply: ({ro:"Rezultatul este ",en:"The result is ",fr:"Le résultat est ",de:"Das Ergebnis ist ",it:"Il risultato è ",es:"El resultado es ",pt:"O resultado é ",nl:"Het resultaat is ",ru:"Результат: ",pl:"Wynik to "})[lang] + formatted + ".",
         calculation_verified: true,
+        ai_generated: true,
         ai_connected: true
       });
     }
 
+    // v94: general web research for factual questions. Search is optional and requires
+    // the EXA_API_KEY Worker secret; existing transport, GPS and POI branches above stay intact.
+    let webSearchContext = "";
+    let webSources = [];
+    let webSearchStatus = "not_needed";
+    const normalizedResearchRequest = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const obviouslyNonResearch = /^(?:hi|hello|hey|salut|buna|bun[aă]|multumesc|merci|thanks|ok|okay|pa|bye)[!.?\s]*$/i.test(normalizedResearchRequest) || /\b(?:translate|translation|tradu|traduce|traducere|rewrite|rescrie|proofread|corecteaza gramatica|write a poem|scrie o poezie|make up a story|inventeaza o poveste)\b/i.test(normalizedResearchRequest);
+    const factualQuestion = /[?？]/.test(message) || /\b(?:what|when|where|who|why|how|which|latest|current|today|recent|official|law|legal|tax|government|rights|rules|regulation|price|cost|statistics|study|research|news|update|ce|cand|unde|cine|de ce|cum|care|ultimele|actual|astazi|azi|recent|oficial|lege|legal|taxe|impozit|guvern|drepturi|reguli|pret|cost|statistici|studiu|noutati|actualizare)\b/i.test(normalizedResearchRequest);
+    const shouldSearchWeb = data.search_web === true || (!obviouslyNonResearch && factualQuestion);
+    if (shouldSearchWeb) {
+      if (!env.EXA_API_KEY) {
+        webSearchStatus = "not_configured";
+      } else {
+        try {
+          const exaResponse = await fetch("https://api.exa.ai/search", {
+            method: "POST",
+            headers: {"Content-Type":"application/json", "x-api-key":env.EXA_API_KEY},
+            body: JSON.stringify({query: message + "\nPrefer current primary and official sources; identify the applicable country or jurisdiction where relevant.",type:"auto",numResults:5,contents:{highlights:true}}),
+            signal: AbortSignal.timeout(18000)
+          });
+          if (!exaResponse.ok) throw new Error("Exa Search HTTP " + exaResponse.status);
+          const exaData = await exaResponse.json();
+          const results = Array.isArray(exaData.results) ? exaData.results : [];
+          webSources = results.slice(0,5).map((item,index) => ({
+            number:index+1,
+            title:String(item.title || item.url || "Source").slice(0,220),
+            url:typeof item.url === "string" && /^https?:\/\//i.test(item.url) ? item.url : "",
+            publishedDate:item.publishedDate || null,
+            author:item.author || null,
+            highlights:Array.isArray(item.highlights) ? item.highlights.slice(0,3).map(x=>String(x).slice(0,1800)) : []
+          })).filter(item=>item.url);
+          webSearchStatus = webSources.length ? "success" : "no_results";
+          if (webSources.length) {
+            webSearchContext = "\n\nVERIFIED WEB RESEARCH MATERIAL (use only what these retrieved sources support; do not invent facts):\n" + webSources.map(item => `[${item.number}] ${item.title}\nURL: ${item.url}\nPublished: ${item.publishedDate || "date not supplied"}\nEvidence: ${item.highlights.join("\n") || "No extractable highlights returned."}`).join("\n\n");
+          }
+        } catch (searchError) {
+          webSearchStatus = "error";
+          console.warn("Pocket AI v94 web research failed", JSON.stringify({errorName:searchError && searchError.name || "UnknownError",errorMessage:String(searchError && searchError.message || searchError).slice(0,160)}));
+        }
+      }
+    }
+    const aiUserMessage = message + webSearchContext;
+
     // Instrucțiuni de sistem compacte: păstrează regulile esențiale fără a consuma excesiv contextul.
-    const systemMessage = lang === "en"
+    let systemMessage = lang === "en"
       ? `You are Pocket AI, a helpful and reliable AI assistant. Your name is Pocket AI; never call yourself “Pocket AI AI” or LifeWise AI. Introduce yourself naturally when asked and describe only capabilities actually available in this app.
 
 Answer the user's latest request directly, using relevant recent history only to resolve references or follow-ups. Do not repeat the question or add generic introductions. The selected app language is English for this request: keep the entire answer in English. Do not switch to Romanian or another language unless the user explicitly asks for a translation, asks about foreign-language wording, or the content necessarily includes a proper name or short quoted phrase. If translating, keep only the requested translated material in the target language and explain in English only if asked. Match the requested tone, format, sentence count, and level of detail. Use natural, idiomatic English with native-level phrasing. Sound like a warm, thoughtful person in a friendly conversation, without forced slang, exaggerated familiarity, or excessive enthusiasm. Adapt formality to the user. Avoid word-for-word translations and unnatural calques; choose the everyday expression a fluent speaker would normally use. Prefer precise, simple wording; avoid literal translations, nearby repetition, clichés, robotic templates, and vague claims. Vary sentence structure without sacrificing clarity. When a question is conversational, respond directly and naturally rather than sounding like a formal report. For calculations and quantitative analysis, verify the operation, signs, order of operations, units, rounding, boundary conditions, and plausibility before answering; never guess a numerical result. For multi-step logic, state relevant assumptions, separate facts from inference, check edge cases and contradictions, and validate the conclusion against the original question. Do not claim a calculation was independently verified unless a deterministic calculation path actually did so. If a problem is ambiguous, state the assumption briefly or ask one focused question. Follow grammar, spelling, and punctuation conventions. Respect exact requested sentence counts. For grammar questions, explain rules accurately and never invent a rule; for uncountable nouns such as “homework”, do not form a plural “homeworks”. Before answering, silently check grammar, completeness, contradictions, and every explicit constraint. Ask one concise clarifying question only if missing information materially changes the answer.
@@ -1375,6 +1453,15 @@ Fii exact și transparent. Nu inventa fapte, detalii personale, prețuri actuale
 Acest API nu poate transmite, plăti sau confirma o comandă de mâncare. Pentru astfel de cereri, spune pe scurt această limitare și ajută cu următorul pas practic; nu schimba subiectul. În bugete, tratează salariul încasat drept venit, diferențiază brutul de net când contează, calculează ambele capete ale intervalelor de cost și nu prezenta estimările drept garanții. La calcule și analize cantitative, verifică operația, semnele, ordinea operațiilor, unitățile, rotunjirea, cazurile-limită și plauzibilitatea rezultatului; nu ghici valori numerice. În raționamentele în mai mulți pași, precizează ipotezele relevante, separă faptele de deducții, verifică situațiile-limită și contradicțiile și compară concluzia cu cerința inițială. Nu afirma că ai verificat independent un calcul dacă nu ai folosit efectiv o metodă de calcul deterministă. Dacă enunțul este ambiguu, precizează pe scurt presupunerea sau pune o singură întrebare clară. Arată pașii când este util. La traduceri, oferă doar traducerea solicitată, dacă nu se cere o explicație.
 
 Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarcinii. Nu pretinde că aplicația are funcții indisponibile.`;
+    systemMessage += `\n\nLANGUAGE REQUIREMENT: The selected app language is ${responseLanguageName} (${lang}). Write the complete answer in ${responseLanguageName}, naturally and idiomatically, unless the user explicitly requests another language or a translation. Do not default to Romanian or English merely because earlier instructions were written in those languages.\nWEB RESEARCH: If retrieved web evidence is included in the user message, base current factual claims on that evidence, compare sources where possible, prefer official primary sources for law/government/health/safety, distinguish publication dates from the date checked, state the relevant jurisdiction, and cite supporting sources using their exact numbered URL references. Never claim a source says something absent from its evidence. If no web evidence is present, do not claim that live research was completed.`;
+    if (shouldSearchWeb && webSearchStatus === "not_configured") {
+      systemMessage += `\nLIVE WEB SEARCH IS NOT CONFIGURED: Do not pretend to have checked current sources. Say briefly in ${responseLanguageName} that live source verification is unavailable in this installation, then give only carefully qualified general information if useful.`;
+    } else if (shouldSearchWeb && webSearchStatus === "no_results") {
+      systemMessage += `\nWEB SEARCH RETURNED NO USABLE SOURCES: Do not invent citations or say the answer was verified. State that no usable sources were found.`;
+    } else if (shouldSearchWeb && webSearchStatus === "error") {
+      systemMessage += `\nWEB SEARCH FAILED: Do not pretend to have checked current sources. State that live verification could not be completed.`;
+    }
+
     // Detectăm cererile explicite de un număr exact de propoziții, inclusiv numeralele scrise în română.
     // Numărătoarea este aproximativă; la neconcordanță cerem modelului o corectare.
     function requestedSentenceCount(text) {
@@ -1449,7 +1536,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
             ...history,
             {
               role: "user",
-              content: message
+              content: aiUserMessage
             }
           ],
           max_tokens: 768,
@@ -1472,7 +1559,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
             messages: [
               { role: "system", content: systemMessage },
               ...history,
-              { role: "user", content: message },
+              { role: "user", content: aiUserMessage },
               { role: "assistant", content: firstDraft },
               {
                 role: "user",
@@ -1506,7 +1593,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
               messages: [
                 { role: "system", content: systemMessage },
                 ...history,
-                { role: "user", content: message },
+                { role: "user", content: aiUserMessage },
                 { role: "assistant", content: draftToReview },
                 {
                   role: "user",
@@ -1566,13 +1653,24 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         }, 502);
       }
 
+      let finalReply = result.response.trim();
+      if (webSources.length) {
+        const sourceHeading = ({ro:"Surse consultate",en:"Sources checked",fr:"Sources consultées",de:"Geprüfte Quellen",it:"Fonti consultate",es:"Fuentes consultadas",pt:"Fontes consultadas",nl:"Geraadpleegde bronnen",ru:"Проверенные источники",pl:"Sprawdzone źródła"})[lang] || "Sources";
+        finalReply += "\n\n" + sourceHeading + ":\n" + webSources.map(item=>`[${item.number}] ${item.title} — ${item.url}`).join("\n");
+      } else if (shouldSearchWeb && webSearchStatus !== "success") {
+        const caveat = ({ro:"Nu am putut verifica surse actuale pe internet în această solicitare.",en:"I could not verify current web sources for this request.",fr:"Je n’ai pas pu vérifier de sources web actuelles pour cette demande.",de:"Ich konnte für diese Anfrage keine aktuellen Webquellen überprüfen.",it:"Non ho potuto verificare fonti web aggiornate per questa richiesta.",es:"No pude verificar fuentes web actuales para esta consulta.",pt:"Não consegui verificar fontes atuais na internet para esta solicitação.",nl:"Ik kon voor deze vraag geen actuele webbronnen controleren.",ru:"Не удалось проверить актуальные интернет-источники по этому запросу.",pl:"Nie udało się zweryfikować aktualnych źródeł internetowych dla tego pytania."})[lang];
+        finalReply += "\n\n" + caveat;
+      }
       return json({
         app: "Pocket AI",
         version: API_VERSION,
         status: "success",
         language: lang,
         message_received: message,
-        reply: result.response.trim(),
+        reply: finalReply,
+        sources: webSources,
+        web_search_status: shouldSearchWeb ? webSearchStatus : "not_needed",
+        ai_generated: true,
         calculation_verified: false,
         ai_connected: true
       });
