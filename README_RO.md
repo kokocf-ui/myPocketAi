@@ -1,22 +1,19 @@
-# Pocket AI Frontend v1.0.48
+# myPocket AI Frontend v1.0.50
 
 ## Instalare
-1. Descarcă arhiva și extrage `index.js`.
-2. În Cloudflare Worker-ul frontend `lifewise-ai-v2`, înlocuiește integral codul existent cu conținutul fișierului `index.js`.
-3. Salvează și testează aplicația pe telefon înainte de a considera actualizarea finalizată.
+1. Descarcă arhiva ZIP și extrage fișierul `index.js`.
+2. În Cloudflare Worker-ul frontend, înlocuiește integral conținutul fișierului existent cu acest `index.js`.
+3. Salvează și publică Worker-ul.
 
-## Ce include
-- Interfață cu carduri și controale 3D reliefate, margini mai groase, umbre și reflexii.
-- Tratament vizual 3D pentru pictogramele/ilustrațiile deja existente.
-- Păstrează avatarul original și codul său de afișare, ascundere, animație și voce.
-- Păstrează bara de navigare fixă și limitele de ecran existente.
+## Corecții
+- Cardurile de pe Acasă au acum distanțe egale între rânduri; rândurile 2 și 3 nu mai sunt deplasate artificial și nu ar trebui să fie tăiate de bara de navigare.
+- Butonul Acasă închide și fereastra „Selecții rapide”, inclusiv când este afișat un tabel/listă de rezultate.
+- Textele generate de interfața „Selecții rapide” sunt localizate pentru cele opt limbi disponibile.
+- Listele de rezultate au derulare internă și spațiu inferior; conversația este derulată până la ultimul element.
 
-## Fișier de publicat
-`index.js` — înlocuire integrală.
+## Păstrat
+- Avatarul existent, inclusiv datele imaginii și comportamentul său.
+- Fluxurile existente pentru GPS, solicitări de rutare și conversații.
 
-## Limitări de verificare
-A fost verificată sintaxa JavaScript și integritatea arhivei. Nu a fost posibilă rularea interfeței într-un browser Android real în acest mediu. Verifică pe telefon aspectul cardurilor, toate ecranele și avatarul înainte de utilizarea publică.
-
-
-## v1.0.49
-Pe ecranul principal, numai butoanele din randurile doi si trei sunt coborate usor (7-10 px, adaptiv). Primul rand ramane nemiscat. Inlocuieste integral index.js din arhiva.
+## Limită de verificare
+Sintaxa JavaScript și integritatea ZIP au fost verificate automat. Nu a fost disponibil un browser Android real în acest mediu; verificarea vizuală finală trebuie făcută după publicare pe telefon.

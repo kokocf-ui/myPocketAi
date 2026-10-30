@@ -1,12 +1,7 @@
-Pocket AI Frontend v1.0.48
+myPocket AI Frontend v1.0.50
 
-- Aplicat stilul 3D neo-skeuomorphic aprobat: muchii mai groase, suprafete reliefate, umbre stratificate si reflexii.
-- Ilustratiile existente din carduri au primit volum vizual prin lumini, umbre si tratament 3D.
-- Avatarul existent (imaginea, afisarea/ascunderea, animatia si comportamentul vocal) a fost pastrat identic.
-- Bara de navigare de jos ramane fixa; GPS, rutele, cautarea locala, traducerile si dictarea nu au fost intentionat modificate.
-- Modificare exclusiv vizuala; nu s-au schimbat fluxurile functionale JavaScript.
-
-
-Version 1.0.49
-- On the home screen, the second and third rows of option buttons are lowered slightly; the first row stays in its original position.
-- No JavaScript behavior, navigation, avatar, GPS, language, or module logic changed.
+- Home cards: removed the incorrect vertical offsets on rows two and three. The six cards now use a consistent grid gap and flexible row sizing so card bottoms are not covered.
+- Quick selections: navigating with the Home button now closes the quick-selection overlay and clears its results-mode state.
+- Localization: quick-selection titles, descriptions, search status, place-results headings, detail labels, and back actions now follow the selected UI language (Romanian, English, French, German, Italian, Spanish, Portuguese, Dutch).
+- Result visibility: quick-result panels and place lists have explicit flexible sizing and internal scrolling; chat message lists scroll to the true bottom after a new response.
+- Preserved the existing avatar payload and GPS/routing request flow.
