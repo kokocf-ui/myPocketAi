@@ -1,14 +1,14 @@
 /**
- * myPocket AI — Frontend v1.0.48 — raised 3D neo-skeuomorphic visual refresh
- * v1.0.48: add thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
+ * myPocket AI — Frontend v1.0.49 — raised 3D neo-skeuomorphic visual refresh
+ * v1.0.49: add thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
  * v1.0.15: fix escaping of the needsLocation regular expression inside the Worker HTML template; other behavior retained.
- * v1.0.48: visual-only 3D refresh based on the approved Pocket AI concept; existing avatar retained unchanged; core interactions and layout constraints preserved.
+ * v1.0.49: visual-only 3D refresh based on the approved Pocket AI concept; existing avatar retained unchanged; core interactions and layout constraints preserved.
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.48",
+  version: "1.0.49",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1023,7 +1023,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 }
 
 
-/* v1.0.48 — raised 3D visual layer; intentionally excludes avatar selectors/behavior */
+/* v1.0.49 — raised 3D visual layer; intentionally excludes avatar selectors/behavior */
 :root{--p3d-edge:#39d9f4;--p3d-deep:#020b17;--p3d-glow:rgba(0,203,255,.28)}
 .feature-card{position:relative!important;border:2px solid rgba(72,205,239,.78)!important;border-radius:22px!important;background:linear-gradient(150deg,#174a69 0%,#0c2a43 42%,#061726 100%)!important;box-shadow:inset 0 3px 0 rgba(255,255,255,.27),inset 0 -5px 0 rgba(0,0,0,.45),0 3px 0 #03101d,0 7px 0 #020914,0 13px 22px rgba(0,0,0,.58),0 0 17px var(--p3d-glow)!important;transform:translateY(-1px);transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease!important}
 .feature-card:before{content:"";position:absolute;inset:3px;border-radius:17px;pointer-events:none;border:1px solid rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.16);z-index:1}
@@ -1073,7 +1073,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.48'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.49'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt))return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -1224,6 +1224,11 @@ if('speechSynthesis'in window){refreshSpeechVoices();try{window.speechSynthesis.
 welcomeUser();
 })();
 </script>
+
+<style id="mypocketai-home-row-position-v1049">
+/* v1.0.49: keep the first home-card row fixed; lower only rows two and three. */
+#view-home .card-grid > .feature-card:nth-child(n+3){position:relative!important;top:clamp(7px,1.1vh,10px)!important}
+</style>
 </body>
 </html>`;
 }

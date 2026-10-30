@@ -5,3 +5,8 @@ Pocket AI Frontend v1.0.48
 - Avatarul existent (imaginea, afisarea/ascunderea, animatia si comportamentul vocal) a fost pastrat identic.
 - Bara de navigare de jos ramane fixa; GPS, rutele, cautarea locala, traducerile si dictarea nu au fost intentionat modificate.
 - Modificare exclusiv vizuala; nu s-au schimbat fluxurile functionale JavaScript.
+
+
+Version 1.0.49
+- On the home screen, the second and third rows of option buttons are lowered slightly; the first row stays in its original position.
+- No JavaScript behavior, navigation, avatar, GPS, language, or module logic changed.

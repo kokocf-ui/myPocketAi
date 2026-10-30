@@ -16,3 +16,7 @@
 
 ## Limitări de verificare
 A fost verificată sintaxa JavaScript și integritatea arhivei. Nu a fost posibilă rularea interfeței într-un browser Android real în acest mediu. Verifică pe telefon aspectul cardurilor, toate ecranele și avatarul înainte de utilizarea publică.
+
+
+## v1.0.49
+Pe ecranul principal, numai butoanele din randurile doi si trei sunt coborate usor (7-10 px, adaptiv). Primul rand ramane nemiscat. Inlocuieste integral index.js din arhiva.
