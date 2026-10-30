@@ -1,19 +1,20 @@
-# myPocket AI Frontend v1.0.50
+# myPocket AI Frontend v1.0.51
 
-## Instalare
-1. Descarcă arhiva ZIP și extrage fișierul `index.js`.
-2. În Cloudflare Worker-ul frontend, înlocuiește integral conținutul fișierului existent cu acest `index.js`.
-3. Salvează și publică Worker-ul.
+Arhiva conține fișierul complet `index.js`, changelog, raportul verificărilor și checksum.
+
+## Instalare pe telefon
+1. Descarcă arhiva ZIP și extrage conținutul.
+2. Deschide `index.js` și copiază întregul conținut.
+3. În Cloudflare Worker pentru frontend, înlocuiește integral codul existent cu acest fișier.
+4. Salvează/deploy și verifică pe telefon.
 
 ## Corecții
-- Cardurile de pe Acasă au acum distanțe egale între rânduri; rândurile 2 și 3 nu mai sunt deplasate artificial și nu ar trebui să fie tăiate de bara de navigare.
-- Butonul Acasă închide și fereastra „Selecții rapide”, inclusiv când este afișat un tabel/listă de rezultate.
-- Textele generate de interfața „Selecții rapide” sunt localizate pentru cele opt limbi disponibile.
-- Listele de rezultate au derulare internă și spațiu inferior; conversația este derulată până la ultimul element.
+- Lista din „Selecții rapide” are acum un container de înălțime limitată și derulare internă proprie. Ultimul rezultat are spațiu de derulare suplimentar la bază, pentru a nu rămâne sub zona sigură a telefonului.
+- Textele interfeței pentru rezultate, categorii, detalii, coordonate și stări sunt localizate în română, engleză, franceză, germană, italiană, spaniolă, portugheză și neerlandeză.
+- Mesajul inițial al conversației și starea „gata de conversație” se actualizează în limba selectată, inclusiv după resetarea conversației.
+- Comportamentul butonului Acasă din v1.0.50 este păstrat.
 
-## Păstrat
-- Avatarul existent, inclusiv datele imaginii și comportamentul său.
-- Fluxurile existente pentru GPS, solicitări de rutare și conversații.
+Numele proprii ale locațiilor (de exemplu, numele restaurantelor) rămân în forma furnizată de sursa de hartă și nu sunt traduse.
 
 ## Limită de verificare
-Sintaxa JavaScript și integritatea ZIP au fost verificate automat. Nu a fost disponibil un browser Android real în acest mediu; verificarea vizuală finală trebuie făcută după publicare pe telefon.
+Verificările automate ale sintaxei și structurii arhivei nu înlocuiesc testarea vizuală pe dispozitivul Android. După publicare, verifică derularea până la ultimul rezultat și schimbarea limbii în ecranul de rezultate.

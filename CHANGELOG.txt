@@ -1,7 +1,8 @@
-myPocket AI Frontend v1.0.50
+myPocket AI Frontend v1.0.51
 
-- Home cards: removed the incorrect vertical offsets on rows two and three. The six cards now use a consistent grid gap and flexible row sizing so card bottoms are not covered.
-- Quick selections: navigating with the Home button now closes the quick-selection overlay and clears its results-mode state.
-- Localization: quick-selection titles, descriptions, search status, place-results headings, detail labels, and back actions now follow the selected UI language (Romanian, English, French, German, Italian, Spanish, Portuguese, Dutch).
-- Result visibility: quick-result panels and place lists have explicit flexible sizing and internal scrolling; chat message lists scroll to the true bottom after a new response.
-- Preserved the existing avatar payload and GPS/routing request flow.
+- Fixed quick-results viewport sizing: the overlay now uses a bounded full-height flex layout, while the results list owns the scroll area. Added bottom scroll padding so the final result can be reached and read above the phone safe area.
+- Removed conflicting legacy mobile height/overflow overrides for the quick-results panel with final, higher-priority layout rules.
+- Completed visible quick-results localization for Romanian, English, French, German, Italian, Spanish, Portuguese and Dutch: result headings, result counts, action hints, category labels, detail headings, coordinates, empty/error states and place details.
+- Translated the assistant empty-state and ready status after language changes and after resetting a conversation; translated the FREE badge where applicable.
+- Kept the Home navigation behavior from v1.0.50 unchanged.
+- Preserved the existing avatar image payload, GPS acquisition and routing/search request flow.
