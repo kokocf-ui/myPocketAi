@@ -1,20 +1,17 @@
-# myPocket AI Frontend v1.0.51
+# myPocket AI — Frontend v1.0.52
 
-Arhiva conține fișierul complet `index.js`, changelog, raportul verificărilor și checksum.
+Arhiva conține înlocuirea completă a fișierului frontend Cloudflare Worker (`index.js`).
 
-## Instalare pe telefon
-1. Descarcă arhiva ZIP și extrage conținutul.
-2. Deschide `index.js` și copiază întregul conținut.
-3. În Cloudflare Worker pentru frontend, înlocuiește integral codul existent cu acest fișier.
-4. Salvează/deploy și verifică pe telefon.
+## Instalare de pe Android
+1. Descarcă arhiva ZIP și extrage `index.js`.
+2. În Cloudflare Workers, deschide worker-ul frontend `lifewise-ai-v2`.
+3. Înlocuiește integral codul existent cu tot conținutul din `index.js`.
+4. Salvează și publică versiunea.
 
-## Corecții
-- Lista din „Selecții rapide” are acum un container de înălțime limitată și derulare internă proprie. Ultimul rezultat are spațiu de derulare suplimentar la bază, pentru a nu rămâne sub zona sigură a telefonului.
-- Textele interfeței pentru rezultate, categorii, detalii, coordonate și stări sunt localizate în română, engleză, franceză, germană, italiană, spaniolă, portugheză și neerlandeză.
-- Mesajul inițial al conversației și starea „gata de conversație” se actualizează în limba selectată, inclusiv după resetarea conversației.
-- Comportamentul butonului Acasă din v1.0.50 este păstrat.
+## Modificări v1.0.52
+- Titlul ecranului de căutare folosește aceeași traducere ca opțiunea rapidă selectată (de exemplu, „Petrol stations” în engleză, nu „Benzinării”).
+- Ecranul cu rezultate folosește înălțimea vizibilă dinamică a telefonului; lista are zona proprie de derulare și spațiu suplimentar după ultimul rezultat, pentru a evita mascarea acestuia de bara browserului.
+- Păstrate funcțiile GPS, căutarea backend, avatarul și navigarea de la versiunea v1.0.51.
 
-Numele proprii ale locațiilor (de exemplu, numele restaurantelor) rămân în forma furnizată de sursa de hartă și nu sunt traduse.
-
-## Limită de verificare
-Verificările automate ale sintaxei și structurii arhivei nu înlocuiesc testarea vizuală pe dispozitivul Android. După publicare, verifică derularea până la ultimul rezultat și schimbarea limbii în ecranul de rezultate.
+## Limitări de verificare
+Verificarea sintaxei JavaScript și a integrității ZIP se face înainte de livrare. Nu este disponibilă aici testarea vizuală pe telefonul utilizatorului sau publicarea în Cloudflare; acestea trebuie confirmate după instalare.
