@@ -1,5 +1,12 @@
 myPocket AI — CHANGELOG
 
+v1.0.53
+- Raised the mobile quick-search results window above the fixed bottom navigation area.
+- Kept the results list independently scrollable with additional end-of-list clearance.
+- Removed the downward offset previously applied to home-card rows two and three.
+- Rebalanced the home grid into three equally spaced rows and reserved more room above bottom navigation.
+- Preserved localization, GPS, backend search, avatar, and existing app behavior.
+
 v1.0.52
 - Fixed quick-search heading localization: the selected option title is translated in the active UI language.
 - Reworked full-screen results sizing to follow the dynamic mobile viewport.

@@ -1255,19 +1255,39 @@ welcomeUser();
 })();
 </script>
 
-<style id="mypocketai-home-row-position-v1049">
-/* v1.0.51: keep the first home-card row fixed; lower only rows two and three. */
-#view-home .card-grid > .feature-card:nth-child(n+3){position:relative!important;top:clamp(7px,1.1vh,10px)!important}
-
-/* v1.0.51: final mobile viewport and nested-scroll correction. */
-.module-quick-layer.open{display:flex!important;overflow:hidden!important;}
-.module-quick-layer.open>.module-quick-sheet{height:100%!important;min-height:0!important;max-height:100%!important;}
-.module-quick-sheet.results-mode{height:100%!important;min-height:0!important;max-height:100%!important;}
-.module-quick-sheet.results-mode>.module-quick-body{flex:1 1 0!important;height:0!important;min-height:0!important;max-height:100%!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;padding:8px 8px calc(12px + env(safe-area-inset-bottom))!important;}
-.module-places-results{flex:1 1 0!important;height:0!important;min-height:0!important;max-height:100%!important;overflow:hidden!important;}
-.module-place-results-list{flex:1 1 0!important;height:0!important;min-height:0!important;max-height:100%!important;overflow-y:auto!important;overflow-x:hidden!important;padding-bottom:18px!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;scroll-padding-bottom:18px;}
-.module-place-result:last-child{margin-bottom:4px;}
-@media(max-width:520px){.module-quick-layer.open:not(:has(.module-quick-sheet.results-mode)){padding:calc(6px + env(safe-area-inset-top)) 8px calc(6px + env(safe-area-inset-bottom))!important}.module-quick-sheet.results-mode>.module-quick-body{padding-top:calc(8px + env(safe-area-inset-top))!important;padding-bottom:calc(10px + env(safe-area-inset-bottom))!important;}}
+<style id="mypocketai-layout-v1053">
+/* v1.0.53: keep the fixed bottom navigation clear of the results window. */
+@media(max-width:699px){
+ .module-quick-layer.open:has(.module-quick-sheet.results-mode){
+  padding-bottom:calc(88px + env(safe-area-inset-bottom))!important;
+ }
+ .module-quick-sheet.results-mode{height:100%!important;min-height:0!important;max-height:100%!important;}
+ .module-quick-sheet.results-mode>.module-quick-body{
+  flex:1 1 0!important;height:0!important;min-height:0!important;max-height:100%!important;
+  overflow:hidden!important;display:flex!important;flex-direction:column!important;
+  padding:8px 8px calc(10px + env(safe-area-inset-bottom))!important;
+ }
+ .module-places-results{flex:1 1 0!important;height:0!important;min-height:0!important;max-height:100%!important;overflow:hidden!important;}
+ .module-place-results-list{
+  flex:1 1 0!important;height:0!important;min-height:0!important;max-height:100%!important;
+  overflow-y:auto!important;overflow-x:hidden!important;padding:0 0 22px!important;
+  -webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;scroll-padding-bottom:22px!important;
+ }
+ .module-place-result:last-child{margin-bottom:6px!important;}
+}
+/* v1.0.53: remove the old downward offset; all three home rows now share equal spacing.
+   Reserve more vertical room above the fixed navigation so row three is not covered. */
+#view-home .card-grid>.feature-card{position:static!important;top:auto!important;}
+#view-home.active{height:calc(100dvh - 282px)!important;min-height:0!important;max-height:calc(100dvh - 282px)!important;}
+#view-home .card-grid{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:repeat(3,minmax(0,1fr))!important;
+ row-gap:clamp(7px,1.2vh,11px)!important;column-gap:clamp(7px,1.2vh,11px)!important;
+ flex:1 1 0!important;min-height:0!important;height:auto!important;align-content:stretch!important;
+}
+@media(max-height:700px) and (max-width:699px){
+ #view-home.active{height:calc(100dvh - 260px)!important;max-height:calc(100dvh - 260px)!important;}
+}
 </style>
 </body>
 </html>`;
