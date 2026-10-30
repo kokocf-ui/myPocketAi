@@ -1,29 +1,15 @@
-# MyPocketAI — pachet corectat frontend v1.0.33 + backend v89
+# Pocket AI — Backend v95
 
-## Corecții aplicate
-- `index.js`: `APP.version` este acum `1.0.33`, în acord cu antetul și `CLIENT_CONFIG.version`.
-- Adresa API a fost păstrată la `https://lifewise-ai-api.kokocf.workers.dev/api/chat`, deoarece acesta este backendul existent indicat de sursa originală. Nu s-a schimbat către un Worker nou/neconfirmat.
-- Configurațiile Wrangler folosesc numele Worker-elor existente menționate în proiect: `lifewise-ai-v2` și `lifewise-ai-api`.
-- Backendul v89 este păstrat din sursa furnizată, fără modificări funcționale.
+- Istoric: maximum 12 mesaje recente (v94 păstra 4), maximum 1.200 caractere pentru fiecare mesaj.
+- Continuitate: corecturile utilizatorului au prioritate; răspunsurile anterioare sunt context, nu dovezi.
+- Exa: diferențiază rezultatele cu fragmente informative de URL-urile fără evidență extrasă.
+- Elimină eticheta înșelătoare de material verificat; fragmentele sunt rezultate de căutare, nu verificare independentă.
+- Adaugă diagnostice pentru rezultate, fragmente, domenii și contextul conversației.
+- Păstrează transportul, GPS-ul, căutarea POI, calculele, limbile și traducerile din v94.
+- Nu modifică frontendul sau index.js.
 
-## Publicare
-Fișierele sunt surse Cloudflare Workers, chiar dacă sursa frontend originală a fost numită `index.html`. În acest pachet, frontendul este `index.js` pentru a fi clar identificat ca intrare Worker.
+## Instalare
+Înlocuiește numai backend.js în GitHub și publică Worker-ul lifewise-ai-api în Cloudflare. Verifică versiunea v95 la endpointul rădăcină. Backupul v94 este inclus.
 
-Din directorul extras, frontend:
-`npx wrangler deploy --config wrangler-frontend.toml`
-
-Backend:
-`npx wrangler deploy --config wrangler-backend.toml`
-
-Publicarea necesită autentificare Wrangler în contul Cloudflare corect. Nu publica backendul dacă nu dorești să-l actualizezi acum. Verifică întâi existența binding-urilor/secrets folosite de backend (inclusiv `AI`, `GEOAPIFY_API_KEY` și cheile transportului folosite în cod). Nu include cheile secrete în GitHub.
-
-## Limitări verificate
-- Verificarea sintaxei nu confirmă că deploy-ul a reușit sau că endpointul API răspunde corect.
-- Nu am modificat și nu am putut publica direct în contul Cloudflare.
-
-
-## Actualizare pregătită: frontend v1.0.34 + backend v90
-- `index.js`: panoul cu rezultate ocupă spațiul disponibil, lista derulează independent și suprafețele listei au efecte vizuale 3D.
-- `backend.js`: căutarea pentru pub/bar este separată de cea pentru restaurante.
-- GPS-ul, rutele și endpointul API existent au fost păstrate în sursă.
-- După transfer, testează pe telefon: restaurante, pub-uri, deschiderea detaliilor, revenirea la listă, GPS și o rută. Acest pachet nu înseamnă că noua versiune este deja publicată în Cloudflare.
+## Limită
+Backendul folosește numai istoricul primit de la frontend. Nu poate recupera mesaje mai vechi pe care frontendul nu le trimite.

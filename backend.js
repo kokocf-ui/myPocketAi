@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v94 multilingual AI responses and evidence-backed web research
+ * Pocket AI backend — v95 conversation continuity and Exa diagnostics
  * v94: adds 10-language API selection, locale-aware arithmetic formatting, and optional Exa-backed general web research with source URLs and explicit failure states. Preserves existing routing, GPS, local POI search, and calculator paths. Requires EXA_API_KEY for live research.
  * v92: strengthens Romanian-native phrasing, agreement, pronoun/verb use, and a silent final proofreading pass in the system instructions; preserves existing routing, GPS, local search, calculations, and response flow.
  * v90 separate restaurant and pub search categories
@@ -37,7 +37,7 @@
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v94";
+    const API_VERSION = "v95";
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -1210,10 +1210,10 @@ export default {
           typeof item.content === "string" &&
           item.content.trim().length > 0
         )
-        .slice(-4)
+        .slice(-12)
         .map(item => ({
           role: item.role,
-          content: item.content.trim().slice(0, 500)
+          content: item.content.trim().slice(0, 1200)
         }));
     }
 
@@ -1421,13 +1421,13 @@ export default {
             author:item.author || null,
             highlights:Array.isArray(item.highlights) ? item.highlights.slice(0,3).map(x=>String(x).slice(0,1800)) : []
           })).filter(item=>item.url);
-          webSearchStatus = webSources.length ? "success" : "no_results";
-          if (webSources.length) {
-            webSearchContext = "\n\nVERIFIED WEB RESEARCH MATERIAL (use only what these retrieved sources support; do not invent facts):\n" + webSources.map(item => `[${item.number}] ${item.title}\nURL: ${item.url}\nPublished: ${item.publishedDate || "date not supplied"}\nEvidence: ${item.highlights.join("\n") || "No extractable highlights returned."}`).join("\n\n");
+          webSearchStatus = webSources.some(item => item.highlights.length > 0) ? "success" : (webSources.length ? "weak_results" : "no_results");
+          if (webSearchStatus === "success") {
+            webSearchContext = "\n\nRETRIEVED WEB SEARCH RESULTS (snippets; not independently verified) (use only what these retrieved sources support; do not invent facts):\n" + webSources.map(item => `[${item.number}] ${item.title}\nURL: ${item.url}\nPublished: ${item.publishedDate || "date not supplied"}\nEvidence: ${item.highlights.join("\n") || "No extractable evidence returned."}`).join("\n\n");
           }
         } catch (searchError) {
           webSearchStatus = "error";
-          console.warn("Pocket AI v94 web research failed", JSON.stringify({errorName:searchError && searchError.name || "UnknownError",errorMessage:String(searchError && searchError.message || searchError).slice(0,160)}));
+          console.warn("Pocket AI v95 web research failed", JSON.stringify({errorName:searchError && searchError.name || "UnknownError",errorMessage:String(searchError && searchError.message || searchError).slice(0,160)}));
         }
       }
     }
@@ -1454,9 +1454,10 @@ Acest API nu poate transmite, plăti sau confirma o comandă de mâncare. Pentru
 
 Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarcinii. Nu pretinde că aplicația are funcții indisponibile.`;
     systemMessage += `\n\nLANGUAGE REQUIREMENT: The selected app language is ${responseLanguageName} (${lang}). Write the complete answer in ${responseLanguageName}, naturally and idiomatically, unless the user explicitly requests another language or a translation. Do not default to Romanian or English merely because earlier instructions were written in those languages.\nWEB RESEARCH: If retrieved web evidence is included in the user message, base current factual claims on that evidence, compare sources where possible, prefer official primary sources for law/government/health/safety, distinguish publication dates from the date checked, state the relevant jurisdiction, and cite supporting sources using their exact numbered URL references. Never claim a source says something absent from its evidence. If no web evidence is present, do not claim that live research was completed.`;
+    systemMessage += "\n\nCONVERSATION CONTINUITY: Treat earlier assistant messages as context, not evidence. User corrections take precedence. Reassess challenged claims from current evidence; do not defend a prior answer merely because it appears in history. Do not ask for details already present in supplied history.\nWEB EVIDENCE QUALITY: URLs and titles alone are not evidence. Highlights are search snippets, not independent verification. Do not claim sources are verified or claim non-existence from no search results. State uncertainty when evidence is insufficient.";
     if (shouldSearchWeb && webSearchStatus === "not_configured") {
       systemMessage += `\nLIVE WEB SEARCH IS NOT CONFIGURED: Do not pretend to have checked current sources. Say briefly in ${responseLanguageName} that live source verification is unavailable in this installation, then give only carefully qualified general information if useful.`;
-    } else if (shouldSearchWeb && webSearchStatus === "no_results") {
+    } else if (shouldSearchWeb && (webSearchStatus === "no_results" || webSearchStatus === "weak_results")) {
       systemMessage += `\nWEB SEARCH RETURNED NO USABLE SOURCES: Do not invent citations or say the answer was verified. State that no usable sources were found.`;
     } else if (shouldSearchWeb && webSearchStatus === "error") {
       systemMessage += `\nWEB SEARCH FAILED: Do not pretend to have checked current sources. State that live verification could not be completed.`;
@@ -1668,8 +1669,10 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         language: lang,
         message_received: message,
         reply: finalReply,
-        sources: webSources,
+        sources: webSources.filter(item => item.highlights.length > 0),
         web_search_status: shouldSearchWeb ? webSearchStatus : "not_needed",
+        web_search_diagnostics: shouldSearchWeb ? {resultCount:webSources.length,evidenceResultCount:webSources.filter(item=>item.highlights.length>0).length,emptyEvidenceCount:webSources.filter(item=>item.highlights.length===0).length,domains:[...new Set(webSources.map(item=>{try{return new URL(item.url).hostname}catch{return ""}}).filter(Boolean))].slice(0,5)} : null,
+        context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12},
         ai_generated: true,
         calculation_verified: false,
         ai_connected: true
