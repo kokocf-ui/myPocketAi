@@ -1,10 +1,10 @@
 /**
- * myPocket AI — Frontend v1.0.48 — version alignment only; no UI behavior changes, UI localization and speech capture
- * v1.0.47: align module home/quick-selection actions on one row; localize primary interface for all listed languages; keep home screen within viewport; preserve final speech-recognition segments to reduce truncated dictation.
+ * myPocket AI — Frontend v1.0.48 — raised 3D neo-skeuomorphic visual refresh
+ * v1.0.48: add thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
  * v1.0.15: fix escaping of the needsLocation regular expression inside the Worker HTML template; other behavior retained.
- * v1.0.47: localized core UI, mobile single-screen home, module action row and more reliable dictation capture; preserve GPS, routing and local search.
+ * v1.0.48: visual-only 3D refresh based on the approved Pocket AI concept; existing avatar retained unchanged; core interactions and layout constraints preserved.
  */
 const APP = Object.freeze({
   name: "myPocket AI",
@@ -1021,6 +1021,26 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
  #view-home .card-art{flex-basis:clamp(28px,4vh,36px)!important;height:clamp(28px,4vh,36px)!important}
  #view-home .card-description{font-size:clamp(9px,2.8vw,11px)!important}
 }
+
+
+/* v1.0.48 — raised 3D visual layer; intentionally excludes avatar selectors/behavior */
+:root{--p3d-edge:#39d9f4;--p3d-deep:#020b17;--p3d-glow:rgba(0,203,255,.28)}
+.feature-card{position:relative!important;border:2px solid rgba(72,205,239,.78)!important;border-radius:22px!important;background:linear-gradient(150deg,#174a69 0%,#0c2a43 42%,#061726 100%)!important;box-shadow:inset 0 3px 0 rgba(255,255,255,.27),inset 0 -5px 0 rgba(0,0,0,.45),0 3px 0 #03101d,0 7px 0 #020914,0 13px 22px rgba(0,0,0,.58),0 0 17px var(--p3d-glow)!important;transform:translateY(-1px);transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease!important}
+.feature-card:before{content:"";position:absolute;inset:3px;border-radius:17px;pointer-events:none;border:1px solid rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.16);z-index:1}
+.feature-card:after{content:"";position:absolute;left:12%;right:12%;bottom:-8px;height:8px;border-radius:0 0 12px 12px;background:linear-gradient(90deg,rgba(0,0,0,.04),rgba(0,0,0,.58),rgba(0,0,0,.04));filter:blur(2px);pointer-events:none;z-index:-1}
+.feature-card:active{transform:translateY(2px) scale(.99)!important;box-shadow:inset 0 2px 5px rgba(0,0,0,.45),0 2px 0 #020914,0 5px 10px rgba(0,0,0,.42)!important}
+.card-art{position:relative!important;isolation:isolate;overflow:hidden;border-radius:19px 19px 8px 8px!important;background:radial-gradient(ellipse at 50% 115%,rgba(0,225,255,.34),transparent 58%),linear-gradient(145deg,#17618e 0%,#0a3457 52%,#071b31 100%)!important;box-shadow:inset 0 3px 0 rgba(255,255,255,.35),inset 0 -5px 0 rgba(0,0,0,.35),0 5px 0 rgba(1,10,20,.72),0 8px 15px rgba(0,0,0,.28)!important;text-shadow:0 2px 1px #00101d,0 5px 10px rgba(0,0,0,.7);filter:saturate(1.12)}
+.card-art:before{content:"";position:absolute;inset:5px 9px auto;height:40%;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.2),transparent);filter:blur(5px);pointer-events:none;z-index:-1}
+.card-art{font-size:clamp(29px,7vw,40px)!important}
+.card-art>*{filter:drop-shadow(0 5px 3px rgba(0,0,0,.55)) drop-shadow(0 0 7px rgba(54,220,255,.28));transform:translateY(-2px)}
+.card-body{position:relative;z-index:2;background:linear-gradient(180deg,rgba(7,25,43,.08),rgba(2,12,24,.38));text-shadow:0 1px 1px rgba(0,0,0,.65)}
+.card-title{letter-spacing:.1px;text-shadow:0 1px 0 rgba(0,0,0,.8),0 0 8px rgba(0,205,255,.12)}
+.module-panel,.simple-list>*{border:2px solid rgba(65,177,214,.55)!important;border-radius:19px!important;background:linear-gradient(145deg,#143d59,#0a2238 68%,#071827)!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.17),inset 0 -4px 0 rgba(0,0,0,.38),0 4px 0 #020b15,0 9px 16px rgba(0,0,0,.4)!important}
+.primary-btn,.secondary-btn,.back-btn,.round-control,.send-btn{border:1px solid rgba(87,214,246,.7)!important;background:linear-gradient(150deg,#17608a,#0b3558 58%,#08243e)!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.24),inset 0 -3px 0 rgba(0,0,0,.36),0 3px 0 #020b15,0 6px 10px rgba(0,0,0,.34)!important;border-radius:15px!important}
+.primary-btn:active,.secondary-btn:active,.back-btn:active,.round-control:active,.send-btn:active{transform:translateY(2px)!important;box-shadow:inset 0 2px 4px rgba(0,0,0,.4),0 1px 0 #020b15!important}
+.bottom-nav{border:2px solid rgba(63,172,208,.62)!important;background:linear-gradient(180deg,rgba(13,44,67,.98),rgba(3,15,28,.99))!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.16),0 5px 0 #020914,0 11px 24px rgba(0,0,0,.55)!important}
+.nav-btn.active{background:linear-gradient(160deg,#176b91,#0b3658)!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.24),inset 0 -3px 0 rgba(0,0,0,.36),0 2px 0 #020b15!important}
+@media(prefers-reduced-motion:reduce){.feature-card,.primary-btn,.secondary-btn,.back-btn,.round-control,.send-btn{transition:none!important}}
 
 </style>
 </head>

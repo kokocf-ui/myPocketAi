@@ -1,23 +1,7 @@
-Pocket AI Backend v97
-Date: 2026-10-30
+Pocket AI Frontend v1.0.48
 
-BASE
-- Full backend replacement based on the complete v96 BRAVE_API_KEY_FIX archive in the user's Library.
-- Backend-only update. Frontend is unchanged.
-
-CHANGES IN v97
-1. Improved web evidence ranking: sources independently returned by multiple configured providers receive a corroboration boost, without being treated as proof.
-2. Added freshness-aware ranking for requests about current prices, recent developments, latest information and other time-sensitive facts. Parsed publication dates are exposed to the model with an approximate age; recent sources receive a ranking preference and very old sources are down-ranked.
-3. Strengthened primary-source preference for legal/regulatory questions, including UK government and EU official legislation domains.
-4. Added diagnostics for the number of cross-provider corroborated sources and whether freshness ranking was activated.
-5. Preserved parallel Exa, Brave and Tavily calls, BRAVE_API_KEY naming, URL normalization/deduplication, original-page excerpts, evidence-aware status reporting, 10-language support, location isolation, transport and existing API behavior.
-
-NOT CHANGED
-- No frontend files or UI behavior.
-- No API secret values are included.
-- No changes to GPS, local-place search, route planning, voice or calculator logic.
-
-VALIDATION
-- Run `node --check backend.js`
-- Run `node tests_v97.mjs`
-- Provider calls in tests are mocked; live credentials and production services are not tested.
+- Aplicat stilul 3D neo-skeuomorphic aprobat: muchii mai groase, suprafete reliefate, umbre stratificate si reflexii.
+- Ilustratiile existente din carduri au primit volum vizual prin lumini, umbre si tratament 3D.
+- Avatarul existent (imaginea, afisarea/ascunderea, animatia si comportamentul vocal) a fost pastrat identic.
+- Bara de navigare de jos ramane fixa; GPS, rutele, cautarea locala, traducerile si dictarea nu au fost intentionat modificate.
+- Modificare exclusiv vizuala; nu s-au schimbat fluxurile functionale JavaScript.
