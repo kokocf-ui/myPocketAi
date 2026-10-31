@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v118 rail-first journey ranking and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v119 expanded TfL journey preferences and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -495,9 +495,17 @@ export default {
             tflUrl.searchParams.set("journeyPreference", "LeastTime");
             tflUrl.searchParams.set("app_key", env.TFL_APP_KEY);
             if (env.TFL_APP_ID) tflUrl.searchParams.set("app_id", env.TFL_APP_ID);
-            const tr = await fetch(tflUrl.toString(), {headers:{"Accept":"application/json"},signal:AbortSignal.timeout(15000)});
-            if (!tr.ok) throw new Error("HTTP " + tr.status);
-            const tj = await tr.json();
+            // v119: request different route preferences to discover actual alternatives.
+            const preferences=["LeastTime","LeastInterchange","LeastWalking"];
+            const responses=await Promise.allSettled(preferences.map(async preference=>{
+              const url=new URL(tflUrl.toString());url.searchParams.set("journeyPreference",preference);
+              const response=await fetch(url.toString(),{headers:{"Accept":"application/json"},signal:AbortSignal.timeout(12000)});
+              if(!response.ok)throw new Error(preference+": HTTP "+response.status);
+              return response.json();
+            }));
+            const successful=responses.filter(x=>x.status==="fulfilled").map(x=>x.value);
+            if(!successful.length)throw new Error("TfL route preferences unavailable");
+            const tj={journeys:successful.flatMap(x=>Array.isArray(x.journeys)?x.journeys:[])};
             // Decode TfL's encoded polyline geometry (precision 5) for map rendering.
             const decodeTfLPolyline = (encoded) => {
               if (typeof encoded !== "string" || !encoded) return [];
@@ -516,7 +524,7 @@ export default {
               } catch { return []; }
               return points;
             };
-            for (const j of (Array.isArray(tj.journeys) ? tj.journeys : []).slice(0,10)) {
+            for (const j of (Array.isArray(tj.journeys) ? tj.journeys : []).slice(0,30)) {
               const legs = (Array.isArray(j.legs) ? j.legs : []).map(l => {
                 const encodedLine = l.path && (l.path.lineString || l.path.lineStringEncoded) || "";
                 const coordinates = decodeTfLPolyline(encodedLine).filter(c => Array.isArray(c) && c.length === 2 && Number.isFinite(c[0]) && Number.isFinite(c[1]) && Math.abs(c[0]) <= 180 && Math.abs(c[1]) <= 90);
