@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v117 improved transit ranking and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v118 rail-first journey ranking and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -557,9 +557,13 @@ export default {
             // Keep verified TfL routes when timestamps cannot be parsed; exclude only provably missed departures.
             const candidates=ranked.filter(j=>j.departureFeasible!==false);
             candidates.sort((a,b)=>{
-              const score=j=>(Number(j.durationMinutes)||999)*1.0+j.transferCount*8+
-                (Number(j.walkToFirstStopMinutes)||0)*0.4+
-                (j.departureFeasible===null?12:0);
+              const score=j=>{
+                const modes=vehicleLegs(j).map(l=>String(l.mode||"").toLowerCase());
+                const buses=modes.filter(m=>m==="bus").length;
+                const rail=modes.some(m=>/national-rail|overground|tube|dlr|train|tram/.test(m));
+                const walk=(j.legs||[]).filter(walking).reduce((n,l)=>n+(Number(l.durationMinutes)||0),0);
+                return (Number(j.durationMinutes)||999)+j.transferCount*9+buses*7+walk*0.35+(rail?0:10)+(j.departureFeasible===null?12:0);
+              };
               return score(a)-score(b);
             });
             const seen=new Set(),selected=[];
