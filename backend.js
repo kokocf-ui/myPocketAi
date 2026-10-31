@@ -199,7 +199,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v123";
+    const API_VERSION = "v124";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -492,7 +492,13 @@ export default {
                 const candidate=normalizedPlace([p.name,p.formatted,p.address_line1].filter(Boolean).join(" "));
                 return requestedTokens.length>0 && requestedTokens.every(t=>candidate.split(" ").includes(t));
               };
-              const matchingFeatures=features.filter(matchesRequested);
+              const matchingFeatures=features.filter(matchesRequested).filter(f=>{
+                // Do not confuse a station with an unrelated street, waste site or bus stop.
+                if(!/\\b(station|underground|railway|train|tube)\\b/i.test(requestedStationName||targetName))return true;
+                const p=f.properties||{};
+                const desc=String([p.name,p.address_line1,p.category,p.result_type].filter(Boolean).join(" "));
+                return /\\b(station|underground|railway|train|metro|transport|public_transport)\\b/i.test(desc) && !/\\b(waste|transfer station|recycling|landfill)\\b/i.test(desc);
+              });
               let selected = matchingFeatures.find(f => { const p=f.properties; const lat=Number(p.lat),lon=Number(p.lon); return Number.isFinite(latitude)&&Number.isFinite(longitude)&&Math.abs(lat-latitude)<1.8&&Math.abs(lon-longitude)<2.8; }) || matchingFeatures[0] || null;
               if (features.length > 1 && /\b(?:london|londra|grays|thurrock|essex|basildon|uk|united kingdom|england)\b/i.test(normalizedForDestination)) {
                 const ukCandidate = features.find(f => /\b(?:united kingdom|england|scotland|wales|northern ireland|gb)\b/i.test(String(f.properties.country || f.properties.country_code || "")));
@@ -566,7 +572,7 @@ export default {
               const legs = (Array.isArray(j.legs) ? j.legs : []).map(l => {
                 const encodedLine = l.path && (l.path.lineString || l.path.lineStringEncoded) || "";
                 const coordinates = decodeTfLPolyline(encodedLine).filter(c => Array.isArray(c) && c.length === 2 && Number.isFinite(c[0]) && Number.isFinite(c[1]) && Math.abs(c[0]) <= 180 && Math.abs(c[1]) <= 90);
-                return {mode:l.mode&&l.mode.name||"transport",from:l.departurePoint&&l.departurePoint.commonName||"",to:l.arrivalPoint&&l.arrivalPoint.commonName||"",durationMinutes:Number(l.duration)||null,departureTime:l.departureTime||null,arrivalTime:l.arrivalTime||null,instruction:l.instruction&&l.instruction.summary||"",coordinates,geometryAvailable:coordinates.length >= 2};
+                return {mode:l.mode&&l.mode.name||"transport",from:l.departurePoint&&l.departurePoint.commonName||"",to:l.arrivalPoint&&l.arrivalPoint.commonName||"",durationMinutes:Number(l.duration)||null,departureTime:l.departureTime||null,arrivalTime:l.arrivalTime||null,instruction:l.instruction&&l.instruction.summary||"",arrivalLatLon:(Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lat))&&Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lon)))?{lat:Number(l.arrivalPoint.lat),lon:Number(l.arrivalPoint.lon)}:null,coordinates,geometryAvailable:coordinates.length >= 2};
               });
               const routeSegments = legs.filter(leg => leg.geometryAvailable).map(leg => ({mode:leg.mode,from:leg.from,to:leg.to,coordinates:leg.coordinates}));
               transitOptions.push({provider:"TfL",durationMinutes:Number(j.duration)||null,startDateTime:j.startDateTime||null,arrivalDateTime:j.arrivalDateTime||null,legs,routeSegments,geometryAvailable:routeSegments.length > 0});
@@ -582,18 +588,13 @@ export default {
             const endpointVerified=transitOptions.filter(j=>{
               const legs=j.legs||[],last=legs[legs.length-1];
               if(!last)return false;
-              const coords=last.coordinates;
-              if(Array.isArray(coords)&&coords.length){
-                const end=coords[coords.length-1];
-                if(Array.isArray(end)&&end.length>=2){
-                  const lon=Number(end[0]),lat=Number(end[1]);
-                  if(Number.isFinite(lat)&&Number.isFinite(lon))return destinationDistanceMeters(lat,lon,targetLat,targetLon)<=900;
-                }
-              }
-              // Missing geometry: trust an explicitly matching final station, not arbitrary nearby names.
+              const endpoint=last.arrivalLatLon;
+              if(endpoint&&Number.isFinite(endpoint.lat)&&Number.isFinite(endpoint.lon))
+                return destinationDistanceMeters(endpoint.lat,endpoint.lon,targetLat,targetLon)<=1100;
+              // If TfL does not supply arrival coordinates, use a reliable final stop name.
               const norm=v=>String(v||"").toLowerCase().replace(/\\b(london|londra|underground|railway|rail|station|tube|train)\\b/g," ").replace(/[^a-z0-9]/g," ").trim().replace(/\\s+/g," ");
-              const desired=norm(requestedStationName),actual=norm(last.to);
-              return Boolean(desired&&actual&&(desired===actual||actual.startsWith(desired+" ")||desired.startsWith(actual+" ")));
+              const actual=norm(last.to),desired=norm(requestedStationName),resolved=norm(targetName);
+              return Boolean(actual&&((desired&&actual===desired)||(resolved&&actual===resolved)));
             });
             transitOptions.splice(0,transitOptions.length,...endpointVerified);
             if(beforeEndpointFilter&&!endpointVerified.length)transportErrors.tfl="destination_endpoint_not_verified";
