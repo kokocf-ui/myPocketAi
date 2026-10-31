@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v114 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -1021,9 +1021,9 @@ export default {
     const intentText = normalizeIntentText(message);
     const placeCategoryRules = [
       { key: "poi", pattern: /(?:^| )(?:puncte de interes|points of interest|poi|ce exista in apropiere|locuri din apropiere|places nearby|places around me)(?: |$)/, labelRo: "puncte de interes", labelEn: "points of interest", overpass: "__poi__" },
-      { key: "supermarket", pattern: /(?:^| )(?:supermarket\w*|supermarkets|supermarketuri|supermarketul|supermarketurile|grocery store\w*|groceries|food shop\w*|alimentar\w*)(?: |$)/, labelRo: "supermarket", labelEn: "supermarket", overpass: 'shop~"^(supermarket|convenience)$"' },
+      { key: "supermarket", pattern: /(?:^| )(?:supermarket\w*|supermarkets|supermarketuri|supermarketul|supermarketurile|marketuri|market\w*|grocery store\w*|groceries|food shop\w*|alimentar\w*)(?: |$)/, labelRo: "supermarket", labelEn: "supermarket", overpass: 'shop~"^(supermarket|convenience)$"' },
       { key: "mall", pattern: /(?:^| )(?:shopping mall\w*|mall\w*|centre comerciale|centru comercial|centre comercial\w*|shopping centre\w*|shopping center\w*|retail park\w*)(?: |$)/, labelRo: "centru comercial", labelEn: "shopping centre", overpass: 'shop~"^(mall|department_store|supermarket)$"' },
-      { key: "pharmacy", pattern: /(?:^| )(?:farmaci\w*|pharmacy|pharmacies|chemist\w*|drugstore\w*)(?: |$)/, labelRo: "farmacie", labelEn: "pharmacy", overpass: 'amenity~"^(pharmacy)$"' },
+      { key: "pharmacy", pattern: /(?:^| )(?:farmaci\w*|pharmacy|pharmacies|chemist\w*|drugstore\w*|drogheri\w*|naturist\w*)(?: |$)/, labelRo: "farmacie", labelEn: "pharmacy", overpass: 'amenity~"^(pharmacy)$"' },
       { key: "fuel", pattern: /(?:^| )(?:benzinar\w*|benzinarii|fuel station\w*|petrol station\w*|gas station\w*|petrol pump\w*)(?: |$)/, labelRo: "benzinărie", labelEn: "fuel station", overpass: 'amenity="fuel"' },
       { key: "charging", pattern: /(?:^| )(?:charging station\w*|electric vehicle charging|ev charger\w*|incarcare electrica|statii de incarcare|statie de incarcare)(?: |$)/, labelRo: "stație de încărcare electrică", labelEn: "EV charging station", overpass: 'amenity="charging_station"' },
       { key: "parking", pattern: /(?:^| )(?:parcar\w*|parking\w*|car park\w*|parking lot\w*)(?: |$)/, labelRo: "parcare", labelEn: "parking", overpass: 'amenity="parking"' },
@@ -1069,7 +1069,7 @@ export default {
     const placeRequestFrom=(text,previous,overrideQuery="")=>{
       const normalized=normalizeIntentText(text);
       const destination=overrideQuery||extractPlaceQuery(text);
-      const nearby=/(?:near me|nearby|around me|in apropiere|in apropierea mea|in zona mea|langa mine|aproape de mine)/.test(normalized);
+      const nearby=/(?:near me|nearby|around me|in apropiere|in apropierea mea|in zona mea|in jurul meu|in jurul nostru|langa mine|aproape de mine)/.test(normalized);
       const follow=/^(?:dar|si|iar|atunci|totusi|what about|how about|and|but|instead)(?: |$)/.test(normalized);
       const stars=hotelStarCriterion(text);
       const clearStars=/(?:fara (?:filtru de )?stele|fara clasificare|without (?:a )?star filter|any star)/.test(normalized);
