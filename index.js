@@ -1811,6 +1811,11 @@ welcomeUser();
 @media(max-height:700px) and (max-width:699px){
  #view-home.active{height:calc(100dvh - 260px)!important;max-height:calc(100dvh - 260px)!important;}
 }
+
+/* v1.0.85 final layout override */
+.view#view-module #sharedChatShell .chat-top{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important}
+.view#view-module #sharedChatShell .chat-top strong{order:0!important;flex:1 1 auto!important;min-width:0!important;text-align:left!important;padding:0!important}
+.view#view-module #sharedChatShell .chat-top #newChatBtn{order:1!important;flex:0 0 auto!important;margin-left:auto!important;max-width:62%!important;white-space:nowrap!important}
 </style>
 </body>
 </html>`;
