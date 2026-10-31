@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v117 improved transit ranking and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -525,47 +525,52 @@ export default {
               const routeSegments = legs.filter(leg => leg.geometryAvailable).map(leg => ({mode:leg.mode,from:leg.from,to:leg.to,coordinates:leg.coordinates}));
               transitOptions.push({provider:"TfL",durationMinutes:Number(j.duration)||null,startDateTime:j.startDateTime||null,arrivalDateTime:j.arrivalDateTime||null,legs,routeSegments,geometryAvailable:routeSegments.length > 0});
             }
-            // v116: feasible departures, four distinct departure slots and transfer-aware ordering.
-            const nowMs = Date.now(), safetyMs = 5 * 60000;
-            const isWalking = leg => /walk|foot|pedestrian/i.test(String(leg.mode||""));
-            const firstVehicle = journey => (journey.legs||[]).find(leg=>!isWalking(leg));
-            const firstDeparture = journey => {
-              const leg=firstVehicle(journey);
-              const t=leg && (leg.departureTime || journey.startDateTime);
-              const ms=Date.parse(t||"");
+            // v117: preserve useful TfL alternatives, rank complete journeys and avoid over-filtering.
+            // TfL may return only one or two journeys; never fabricate missing services.
+            const nowMs=Date.now(), safetyMs=5*60000;
+            const walking=leg=>/walk|foot|pedestrian/i.test(String(leg.mode||""));
+            const accessMinutes=journey=>{
+              let total=0;
+              for(const leg of journey.legs||[]){
+                if(!walking(leg))break;
+                const n=Number(leg.durationMinutes);
+                if(!Number.isFinite(n)||n<0)return null;
+                total+=n;
+              }
+              return total;
+            };
+            const vehicleLegs=journey=>(journey.legs||[]).filter(l=>!walking(l));
+            const transfers=journey=>Math.max(0,vehicleLegs(journey).length-1);
+            const departureMs=journey=>{
+              const first=vehicleLegs(journey)[0];
+              const raw=first?.departureTime||journey.startDateTime;
+              const ms=Date.parse(raw||"");
               return Number.isFinite(ms)?ms:null;
             };
-            const accessMinutes = journey => {
-              let minutes=0;
-              for(const leg of journey.legs||[]) {
-                if(!isWalking(leg))break;
-                const duration=Number(leg.durationMinutes);
-                if(!Number.isFinite(duration)||duration<0)return null;
-                minutes+=duration;
-              }
-              return minutes;
-            };
-            const transfers = journey => Math.max(0,(journey.legs||[]).filter(l=>!isWalking(l)).length-1);
-            const feasible = transitOptions.filter(journey=>{
-              const departure=firstDeparture(journey),access=accessMinutes(journey);
-              if(departure===null||access===null)return false;
-              return departure >= nowMs + (access*60000) + safetyMs;
+            const ranked=transitOptions.map(j=>{
+              const access=accessMinutes(j),dep=departureMs(j);
+              const valid=dep===null||access===null?null:dep>=nowMs+(access*60000)+safetyMs;
+              return {...j,walkToFirstStopMinutes:access,safetyMarginMinutes:5,
+                firstVehicleDepartureTime:dep===null?null:new Date(dep).toISOString(),
+                transferCount:transfers(j),departureFeasible:valid};
             });
-            feasible.sort((a,b)=>transfers(a)-transfers(b) || (a.durationMinutes??Infinity)-(b.durationMinutes??Infinity) || firstDeparture(a)-firstDeparture(b));
-            const distinct=new Set(), chosen=[];
-            for(const journey of feasible){
-              const departure=firstDeparture(journey);
-              const slot=Math.floor(departure/60000);
-              if(distinct.has(slot))continue;
-              distinct.add(slot);
-              journey.walkToFirstStopMinutes=accessMinutes(journey);
-              journey.safetyMarginMinutes=5;
-              journey.firstVehicleDepartureTime=new Date(departure).toISOString();
-              journey.transferCount=transfers(journey);
-              chosen.push(journey);
-              if(chosen.length===4)break;
+            // Keep verified TfL routes when timestamps cannot be parsed; exclude only provably missed departures.
+            const candidates=ranked.filter(j=>j.departureFeasible!==false);
+            candidates.sort((a,b)=>{
+              const score=j=>(Number(j.durationMinutes)||999)*1.0+j.transferCount*8+
+                (Number(j.walkToFirstStopMinutes)||0)*0.4+
+                (j.departureFeasible===null?12:0);
+              return score(a)-score(b);
+            });
+            const seen=new Set(),selected=[];
+            for(const j of candidates){
+              const modes=vehicleLegs(j).map(l=>[l.mode,l.from,l.to].join(":")).join("|");
+              const key=(j.firstVehicleDepartureTime||j.startDateTime||"unknown")+"|"+modes;
+              if(seen.has(key))continue;
+              seen.add(key);selected.push(j);
+              if(selected.length>=4)break;
             }
-            transitOptions.splice(0,transitOptions.length,...chosen);
+            transitOptions.splice(0,transitOptions.length,...selected);
             if (!transitOptions.length) transportErrors.tfl = "no_journeys_returned";
           } catch (e) { transportErrors.tfl = String(e && e.message || "request_failed").slice(0,100); }
         } else transportErrors.tfl = "TFL_APP_KEY_missing";
