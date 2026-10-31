@@ -1,39 +1,49 @@
-# myPocket AI — backend v108 + frontend v1.0.77
+# myPocket AI — backend v109 + frontend v1.0.78
 
-31 octombrie 2026. Baza este ramura GitHub `main`, commit `1437f076edd8e5752cbc5b11bb9b28c917dcbbbf` (backend v107 / frontend 1.0.76). Actualizarea directă a fost refuzată de integrarea GitHub: HTTP 403 „Resource not accessible by integration”. Repository-ul nu a fost modificat. Încarcă manual fișierele din acest pachet în rădăcina repository-ului; workflow-ul existent publică ambele Workers la actualizarea ramurii `main`.
+Scrierea directă a fost reîncercată și refuzată cu HTTP 403 „Resource not accessible by integration”. Nu s-a modificat GitHub; acest pachet este pentru upload manual.
+31 octombrie 2026. Baza verificată: GitHub `main`, commit `3531b287807da5f0b5bdef136c2f740f98048e1f`, backend v108 / frontend 1.0.77. Pachet cumulativ: păstrează meteo, hotelurile, GPS-ul și cititorul cu autoderulare din versiunea anterioară.
 
-## Corecții
+## Traseu pietonal
 
-- Meteo folosește acum Open-Meteo, fără generare de temperaturi prin modelul lingvistic. Cererea numește localitatea, data și fusul orar; răspunsul zilnic arată minima și maxima, iar probabilitatea precipitațiilor și vântul maxim apar doar când sunt disponibile. Condițiile actuale sunt identificate drept estimări ale modelului meteo.
-- „Câte grade vor fi mâine în Oradea?” → „Dar în Grays?” păstrează ziua și înlocuiește localitatea. Nu formează „Oradea în Grays”. Contextul meteo este transmis separat de istoricul de mesaje, se păstrează la arhivare/restaurare și se șterge la conversație nouă sau schimbarea subiectului.
-- O localitate explicită are prioritate față de GPS. Un oraș negăsit nu este înlocuit cu poziția telefonului. Când orașul este ambiguu, utilizatorul alege numărul sau țara. Pentru „aici” se folosesc coordonate GPS valide; altfel este cerută localitatea.
-- Sunt recunoscute azi, mâine, poimâine, acum și date ISO `AAAA-LL-ZZ`. Pentru alte formulări de dată se poate solicita data exactă. Limita prognozei: azi și următoarele 15 zile, după fusul localității. Data din răspuns este întotdeauna explicită.
-- HTTP 429, timeout, răspunsuri fără data cerută, temperaturi nule, unități greșite sau valori inconsistente produc mesaj de indisponibilitate, fără temperaturi inventate. Sursa Open-Meteo și momentul preluării sunt vizibile. Momentul preluării nu este prezentat ca moment al actualizării modelului furnizorului.
-- Cele 10 limbi au etichete meteo deterministe. Recunoașterea formulărilor a fost verificată în principal în română și engleză; nu este garantată orice formulare în toate limbile.
-- Dublurile Paris cu aceleași componente administrative, în ordine diferită, sunt comasate când coordonatele sunt apropiate. Localitățile diferite din Texas/Illinois rămân opțiuni distincte.
+Butonul din selecții rapide pornește acum aceeași conversație folosită pentru cererile tastate. Intentul pietonal este transmis explicit, inclusiv pentru interfața în altă limbă. Formularea veche „traseu exclusiv pietonal” este recunoscută; menționarea mijloacelor de transport interzise nu mai activează transportul public.
 
-## Fișiere și publicare
+„Folosește locația mea” continuă cererea de traseu existentă. Păstrează destinația și profilul pietonal, solicitând GPS doar dacă nu sunt disponibile coordonate valide. Confirmarea nu este înlocuită cu un simplu răspuns despre localizarea telefonului. Există recuperare din istoricul mesajelor utilizatorului când lipsește contextul structurat; răspunsurile asistentului nu sunt folosite ca dovadă de localizare.
 
-Fișierele actualizării: `backend.js`, `index.js`, `README.md`, `README_ro.md`, `VERSION_LOG.md`, `package.json`, `tests.mjs`, `tests_reader.mjs`, `tests_weather.mjs`.
+Pentru un centru comercial fără localitate/țară explicită, căutarea încearcă Geoapify Places într-o rază de 25 km de GPS, cu filtrare după nume și categorie. Căutarea geografică alternativă este limitată la aceeași zonă. Dacă nu identifică destinația, cere localitatea/țara; nu înlocuiește Lakeside din apropiere cu un omonim din SUA. O țară/localitate explicită are prioritate și permite căutarea la distanță. Căutarea locală nu garantează că toate intrările furnizorului sunt exhaustive.
 
-Sunt păstrate numele Workers, endpoint-ul API, configurațiile Wrangler, binding-ul AI, secretele existente și workflow-ul de publicare. Nu se modifică bara fixă de navigare sau avatarul. Fotografii de hotel și tarife live nu sunt implementate.
+Indicațiile, străzile, distanțele, timpul și geometria provin din Geoapify. Se solicită limba interfeței și unități metrice. Sunt validate distanța și geometria; unitățile incompatibile sau coordonatele invalide nu produc o linie inventată. Dacă furnizorul nu livrează pași, acest lucru este spus explicit. Sunt afișați cel mult 500 de pași furnizați, fără generarea unor pași lipsă.
 
-`tests_reader.mjs` era absent din GitHub, deși `package.json` îl menționa; este inclus acum. `tests_weather.mjs` adaugă regresiile meteo.
+## Hartă și navigație
 
-## Serviciul meteo
+Răspunsul conține indicații text, „Vezi traseul pe hartă” și „Pornește navigația în Google Maps”. În fereastra hărții, traseul și lista de indicații sunt disponibile împreună; lista are derulare proprie și rămâne deasupra barei fixe de navigare. Cititorul răspunsului oferă și el acces la hartă/navigație pentru traseul respectiv.
 
-API public: https://api.open-meteo.com/v1/forecast. Pentru testarea personală necomercială nu este necesară o cheie. Pentru utilizare comercială/abonamente/reclame, Open-Meteo cere un plan comercial: https://open-meteo.com/en/terms. Secretul opțional `OPEN_METEO_API_KEY` selectează endpoint-ul `customer-api.open-meteo.com`; cheia nu este inclusă în cod sau în răspunsuri. Nu este cumpărat sau activat vreun abonament de această actualizare.
+Navigația se deschide în aplicația Google Maps sau în pagina sa, în modul pietonal pentru un traseu pietonal. Destinația folosește coordonatele selectate. Pentru plecarea GPS, Google Maps utilizează poziția curentă; plecarea explicită este păstrată în link. În funcție de dispozitiv, disponibilitatea locației și distanța față de origine, Google Maps poate afișa previzualizarea traseului și poate necesita apăsarea butonului de pornire. Traseul poate fi recalculat de Google Maps. Aplicația Pocket AI nu implementează încă navigație proprie cu urmărire continuă, anunțuri vocale sau recalculare la abatere.
 
-Documentație: https://open-meteo.com/en/docs. Datele sunt atribuite Open-Meteo (CC BY 4.0).
+## Transfer între module
 
-## Validare
+Backend-ul indică modulul corespunzător fluxului pe care l-a executat: Hărți pentru trasee/distanțe/localizare, Turism pentru hoteluri și alte căutări turistice, Asistent pentru răspunsuri generale și meteo. Unele categorii utilitare, precum benzinăriile și parcările, rămân la Hărți.
 
-`npm test` rulează regresiile backend, interfață simulată și meteo. `npm run check` verifică sintaxa Workers. Scriptul client este extras din HTML-ul generat și compilat în test.
+Frontend-ul mută aceeași conversație în modulul recomandat după răspuns, fără arhivare, resetarea GPS-ului sau schimbarea generației conversației. Nu se decide transferul doar după prezența cuvântului „hotel”/„hartă”: întrebările explicative sunt tratate ca întrebări generale.
 
-Testele includ schimbarea orașului fără contaminare din răspunsurile asistentului, păstrarea/schimbarea zilei, alegerea Parisului, GPS, eșecuri ale furnizorului și verificarea că fluxul meteo nu apelează modelul lingvistic. Regresiile existente pentru hoteluri, trasee, GPS și cititorul cu autoderulare sunt păstrate.
+Rezultatele POI sunt păstrate pentru selecții ulterioare și în conversațiile arhivate. „Du-mă la al doilea hotel” și „Walking route to hotel 2” folosesc coordonatele rezultatului ales, fără o nouă geocodare a numelui. Din detaliile locației există și buton „Traseu pietonal”. Recunoașterea mesajelor tastate este testată în principal în română/engleză; acțiunile și noile etichete au texte în toate cele 10 limbi.
 
-Un apel real Open-Meteo a răspuns HTTP 200 pentru coordonate din Grays, cu datele 2026-10-31 și 2026-11-01 și unitatea °C. Testele automate folosesc servicii simulate și nu confirmă singure aspectul pe telefon sau publicarea Cloudflare.
+## Instalare și validare
 
-## Test pe telefon după publicare
+Încarcă în rădăcina repository-ului toate fișierele pachetului: `backend.js`, `index.js`, `package.json`, `tests.mjs`, `tests_reader.mjs`, `tests_weather.mjs`, `tests_routes.mjs`, `README.md`, `README_ro.md`, `VERSION_LOG.md`, `SHA256SUMS.txt`. Nu încărca arhiva ZIP ca înlocuitor pentru aceste fișiere. Păstrează configurațiile Wrangler, secretele, binding-ul AI și workflow-ul existent. Actualizarea ramurii `main` declanșează publicarea Workers conform workflow-ului.
 
-Începe o conversație nouă: „Câte grade vor fi mâine în Oradea?” → „Dar în Grays?” → „Dar în Barcelona?” → „Dar poimâine?”. Localitatea trebuie înlocuită, ziua păstrată până la ultima întrebare, iar sursa și data trebuie afișate. Numerele provin din prognoză și pot coincide între orașe; nu trebuie forțate să fie diferite.
+În GitHub lipseau `tests_reader.mjs` și `tests_weather.mjs`, deși erau menționate în `npm test`; sunt incluse împreună cu noile teste de traseu.
+
+`npm test` și `npm run check` trec. Testele folosesc servicii și DOM simulate, execută funcțiile reale de trimitere a mesajelor, schimbare a modulului, deschidere a hărții, selecție din detalii și construire a linkurilor de navigație. Scriptul client generat este compilat. Cheile Geoapify Cloudflare nu sunt disponibile local: noua căutare Lakeside, pașii reali și lansarea Google Maps trebuie verificate pe telefon după publicare. Regresiile meteo v108 sunt păstrate; meteo a fost confirmat de utilizator pe telefon înaintea acestei modificări.
+
+## Test pe telefon
+
+1. Din Asistent: „Arată-mi un traseu pietonal până la Lakeside shopping centre”. Trebuie să treacă la Hărți, să păstreze GPS-ul și să calculeze traseul sau să ceară o clarificare precisă a destinației.
+2. Dacă este cerută plecarea: „Folosește locația mea”. Trebuie să continue traseul. Dacă destinația nu este sigură, completează „Grays, UK”.
+3. Deschide harta: verifică linia și indicațiile pe străzi. Apasă navigația și verifică destinația și modul pietonal în Google Maps.
+4. Din Hărți: „Caută hoteluri în apropierea mea”. Trebuie să treacă la Turism. „Du-mă la al doilea hotel” trebuie să revină la Hărți și să păstreze hotelul ales.
+5. „Ce înseamnă clasificarea de patru stele?” trebuie să revină la Asistent fără să șteargă mesajele.
+6. Repetă testele meteo Oradea → Grays → Barcelona și mâine → poimâine.
+
+Documentație: https://apidocs.geoapify.com/docs/routing/ · https://apidocs.geoapify.com/docs/places/ · https://developers.google.com/maps/documentation/urls/get-started
+
+Meteo păstrează Open-Meteo și secretul opțional `OPEN_METEO_API_KEY`. Serviciul public este pentru utilizare necomercială; pentru utilizare comercială se aplică termenii furnizorului: https://open-meteo.com/en/terms. Datele sunt atribuite Open-Meteo, CC BY 4.0. Fotografii de hotel și tarife live nu sunt implementate.
