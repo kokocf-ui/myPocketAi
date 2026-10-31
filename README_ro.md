@@ -1,48 +1,39 @@
-# myPocket AI — backend v104 + frontend v1.0.73
+# myPocket AI — backend v105 + frontend v1.0.74
 
-31 octombrie 2026. Pachet cumulativ: include modificările v103/v1.0.72 încă neinstalate. Instalează direct acest pachet; nu este necesară instalarea celui anterior.
+31 octombrie 2026. Bază: fișierele curente din GitHub, backend SHA 073c05cea0e0eb6d9e8e246d5e2fd5664853ae76 și frontend SHA a452bb9feddf1539986e3bd6cdd30f0291ca0c50 (v104/v1.0.73).
 
 ## Instalare
 
-În rădăcina repository-ului `kokocf-ui/myPocketAi`, înlocuiește `backend.js`, `index.js`, `README.md`, `README_ro.md`, `package.json`, `tests.mjs`; adaugă sau înlocuiește `tests_reader.mjs`. Nu modifica fișierele Wrangler, numele Workers, domeniile, secretele sau binding-ul AI. Publică backend-ul apoi frontend-ul și reîncarcă aplicația. Workflow-ul existent GitHub publică ambele Workers la actualizările main.
+Înlocuiește în rădăcina repository-ului `backend.js`, `index.js`, `README.md`, `README_ro.md`, `package.json`, `tests.mjs` și `tests_reader.mjs` cu fișierele din arhivă. Păstrează fișierele Wrangler, numele Workers, domeniile, secretele și binding-ul AI. Publică backend-ul apoi frontend-ul și reîncarcă aplicația. Asistentul nu a modificat GitHub și nu a publicat aplicația.
 
-Asistentul nu a modificat GitHub și nu a publicat aplicația. Codul pornește de la snapshotul GitHub backend v102 / frontend v1.0.71, peste care sunt incluse toate corecțiile deja pregătite în pachetul v103.
+## Destinații și opțiuni
 
-## Corecții noi
+Problema reprodusă: „Caută hoteluri de 4 stele, în Paris, în zona centrală” putea lăsa „Paris, in” în cererea de geocodare. Textul rămas putea influența alegerea unui Paris din Indiana. Formularea centrală este acum eliminată integral din numele localității.
 
-- Căutarea web Brave nu mai transformă limba interfeței în țară: română nu mai înseamnă România, engleză nu mai înseamnă UK etc. În lipsa unei țări explicite se trimite `country=ALL`. Limba de căutare/răspuns rămâne selectată separat. O țară cerută explicit este păstrată.
-- Întrebările de continuare precum „Dar hotel de 5 stele găsești?” sau „Dar de 4 stele?” păstrează destinația din cererea anterioară a utilizatorului. Un răspuns anterior greșit al asistentului, de exemplu România, nu stabilește destinația.
-- Contextul include categoria, destinația, stelele și cererea de zonă centrală. Este transmis separat între frontend și backend, păstrat în conversația salvată și șters la conversație nouă sau schimbare de subiect. Astfel nu depinde exclusiv de prezența cererii inițiale în fereastra limitată de istoric.
-- O destinație nouă explicită are prioritate. O cerere nouă completă resetează criteriile omise; o continuare păstrează criteriile relevante. Fără context suficient se cere destinația, fără alegerea unei țări din limbă.
-- Întrebările despre distanță, precum „Câți kilometri sunt până în Paris?”, folosesc GPS-ul disponibil ca plecare. Dacă plecarea este scrisă explicit, are prioritate față de GPS. Fără GPS sau plecare se cere orașul/codul poștal.
-- Distanța generală este calculată determinist și etichetată clar „în linie dreaptă”. Nu se prezintă ca distanță rutieră. Pentru o cerere explicită rutieră/cu mașina se folosește Geoapify Routing în modul drive; dacă traseul nu poate fi verificat, nu se inventează o distanță.
-- Instrucțiunile generale ale modelului separă limba de țară, jurisdicție și punct de plecare. Aceste instrucțiuni nu sunt o garanție pentru toate întrebările libere; cazurile de mai sus au rutare deterministă.
+- Geocodarea este restrânsă la localități/zone locuite, nu străzi sau hoteluri. Străzile precum Avenue de Paris sunt excluse și numele localității trebuie să corespundă unei denumiri/aliasuri returnate de serviciu.
+- Se cer până la 10 variante. Dublurile apropiate ale aceleiași localități sunt reunite. Dacă rămân localități distincte, se cere clarificare, fără alegerea automată a variantei cu scor mai mare. Aceasta se aplică și localităților omonime din aceeași țară.
+- Opțiunile provin din rezultatul real al geocodării. Nu există o listă fixă Paris/alte orașe introdusă în cod. Acoperirea variantelor depinde de serviciu; dacă serviciul întoarce o singură localitate validă, ea poate fi folosită.
+- Răspunde cu numărul sau cu țara. Dacă mai multe variante sunt în aceeași țară, alegerea țării restrânge opțiunile și cere o alegere mai precisă.
+- La alegerea unei opțiuni se păstrează filtrul de stele și zona centrală. Alegerea rămâne disponibilă pentru întrebările de continuare.
+- O țară scrisă explicit, inclusiv „Franța”, este recunoscută separat de limba interfeței și aplicată ca filtru de țară. Nu se asociază automat limba română cu România.
 
-## Modificări incluse din pachetul anterior
+## Numărul hotelurilor
 
-- Introducerea începe cu rezultatul, de exemplu „Am găsit 18 hoteluri de 5 stele în Amsterdam, conform datelor de hartă disponibile.” Valorile sunt generate din rezultatele reale. Raza, clasificarea și distanțele sunt explicate la final.
-- Destinația explicită are prioritate față de GPS. Destinațiile neidentificate sau ambigue cer clarificare. Zona centrală rămâne o aproximare explicită de 2 km în jurul punctului cartografic returnat de geocodare.
-- Filtrul de stele folosește clasificarea disponibilă în datele hărții, nu scorurile recenziilor. Hotelurile fără clasificare sau cu altă clasificare sunt excluse când se cere un număr de stele. Zero rezultate confirmabile nu înseamnă că nu există asemenea hoteluri în oraș.
-- Răspunsurile peste 4 rânduri randate au o previzualizare de 4 rânduri și o fereastră de lectură care se deschide automat pentru răspunsurile noi. În istoric deschiderea este manuală.
-- Fereastra are pauză/reluare, revenire la început și viteze 0,5× / 1× / 1,5×. Atingerea sau derularea manuală opresc autoderularea; reluarea continuă de la poziția curentă. La final sau în fundal se oprește. Setarea de mișcare redusă începe cu autoderularea oprită.
-- Linkurile HTTP/HTTPS sunt apăsabile, iar textul nu este executat ca HTML. Controalele ferestrei sunt traduse în cele 10 limbi existente. Bara de navigare de jos rămâne fixă.
-- Fotografiile rămân eliminate. Siglele rămân în dreapta numelui. Nu se adaugă camere, tarife sau rezervări.
+Nu există o limitare la un singur hotel. Sunt afișate până la 40 de rezultate confirmabile din datele primite; dacă există mai multe, răspunsul indică numărul afișat. Hotelurile fără clasificarea cerută nu sunt prezentate ca potriviri.
+
+Pentru clasificările lipsă, backend-ul poate cere detalii Geoapify pentru maximum 8 hoteluri cu identificator de furnizor, în grupuri de 4, cu timeout de 2,5 secunde. Acest lucru poate recupera stelele care lipsesc din lista inițială și adaugă până la 8 cereri la serviciul existent. Nu se adaugă o cheie nouă. Datele indisponibile rămân necunoscute; nu se inventează clasificări. Răspunsul indică locațiile suplimentare excluse pentru clasificare lipsă când există rezultate confirmate.
+
+## Notificări
+
+- Nu se mai afișează notificarea pentru schimbarea limbii sau pornirea unei conversații noi.
+- Alertele necesare apar în partea de sus, nu peste câmpul de scriere.
+- Dispar după aproximativ 1,8 secunde și imediat când câmpul de scriere primește focus.
+- Nu interceptează atingerile.
+
+Se păstrează fereastra de lectură cu autoderulare, previzualizarea de 4 rânduri, linkurile apăsabile, siglele în dreapta numelui, contextul căutării și bara de jos fixă. Fotografiile rămân eliminate. Nu se adaugă camere, tarife sau rezervări.
 
 ## Verificări
 
-`npm test` și `npm run check` au trecut. Testele cu servicii și DOM simulate acoperă:
+`npm test` și `npm run check` trec. Testele cu servicii/DOM simulate acoperă formularea exactă Paris/zonă centrală, opțiuni din țări diferite și aceeași țară, dubluri, străzi respinse, alegerea prin număr sau „Franța”, continuarea după alegere, clasificări suplimentare pentru mai multe hoteluri, notificările, plus regresiile New York/Paris/GPS/context și fereastra de lectură. Scriptul client este compilat după extragerea din HTML-ul generat.
 
-- New York 3 stele → continuare 5 stele; schimbarea stelelor și orașului; ignorarea unui răspuns anterior greșit despre România;
-- păstrarea contextului separat când cererea inițială lipsește din istoric; ștergerea contextului la schimbarea subiectului;
-- GPS UK → Paris, plecare explicită prioritară, GPS lipsă, distanță în linie dreaptă vs rutieră și furnizor rutier indisponibil;
-- țară globală pentru limba română și păstrarea unei țări cerute explicit;
-- regresiile pentru destinații, stele, căutări lângă utilizator, conversație generală și fereastra de lectură.
-
-Testul ferestrei compilează JavaScript-ul extras din HTML-ul generat. Nu s-au făcut teste vizuale în browser/pe telefon sau apeluri cu cheile reale Cloudflare. Parsarea regulilor noi este testată în română și engleză, nu pentru toate formulările posibile din cele 10 limbi.
-
-## Teste recomandate după publicare
-
-1. „Caută hotel de 3 stele în New York”.
-2. În aceeași conversație: „Dar hotel de 5 stele găsești?”. Destinația trebuie să rămână New York, chiar dacă nu există clasificări confirmabile în sursă.
-3. „Câți kilometri sunt până în Paris?”. Cu GPS trebuie indicată plecarea GPS și tipul distanței; fără GPS trebuie cerută plecarea.
-4. Verifică deschiderea, pauza și derularea manuală a unui răspuns lung.
+Nu s-a efectuat test vizual într-un browser/pe telefon sau test live cu cheile Cloudflare. Endpointul public de geocodare nu a fost accesibil prin mediul de verificare; testele de geocodare folosesc răspunsuri simulate. După publicare verifică aceeași întrebare din captură, selectează „Franța” dacă apar mai multe localități și verifică lista completă din fereastra de lectură. Nu se poate garanta numărul de hoteluri cu clasificări confirmabile din sursa reală.

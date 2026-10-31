@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.73 — long-answer reader and retained place-search context
+ * myPocket AI — Frontend v1.0.74 — unobtrusive notifications; retains reader and place context
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.73",
+  version: "1.0.74",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -741,7 +741,7 @@ return `<!doctype html>
 .module-place-details{padding:15px;border:1px solid var(--line);border-radius:15px;background:var(--panel);line-height:1.6;overflow-wrap:anywhere}
 .module-place-details a{color:var(--cyan);font-weight:750}
 .module-quick-body .primary-btn{width:100%;min-height:48px}
-.notice{position:fixed;z-index:40;left:18px;right:18px;bottom:calc(100px + env(safe-area-inset-bottom));padding:12px 14px;border-radius:14px;border:1px solid #437286;background:#102d40;box-shadow:0 10px 30px #0008;display:none}.notice.show{display:block}.muted{color:var(--muted)}.small{font-size:13px}
+.notice{position:fixed;z-index:40;left:18px;right:18px;bottom:calc(100px + env(safe-area-inset-bottom));padding:12px 14px;border-radius:14px;border:1px solid #437286;background:#102d40;box-shadow:0 10px 30px #0008;display:none}.notice.show{display:block}.notice{top:calc(8px + env(safe-area-inset-top));bottom:auto!important;pointer-events:none;font-size:14px;max-height:90px;overflow:hidden}.muted{color:var(--muted)}.small{font-size:13px}
 @media(max-width:390px){.page{padding:10px}.card-grid{gap:8px}.feature-card{min-height:clamp(128px,17.5vh,148px)}.card-art{height:clamp(45px,6vh,54px);font-size:30px}.card-body{padding:7px 8px}.app-header{padding:12px}.brand-mark{width:54px;height:54px}.nav-btn{font-size:11px}}
 @media(max-height:760px) and (max-width:699px){.home-heading{font-size:24px}.lead{font-size:14px;margin-bottom:10px}.feature-card{min-height:clamp(120px,17vh,140px)}.card-art{height:46px}.card-title{font-size:14px}.card-description{font-size:11px}.view#view-assistant.active{height:calc(100dvh - 225px)}.view#view-assistant .chat-shell{min-height:0}}
 @media(min-width:700px){.page{max-width:900px;margin:auto}.app-header{padding-left:max(18px,calc((100vw - 900px)/2));padding-right:max(18px,calc((100vw - 900px)/2))}.card-grid{gap:16px}.feature-card{min-height:245px}.card-art{height:110px;font-size:50px}}
@@ -1153,12 +1153,12 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 }
 
 .place-brand-logo{display:block;width:100%;height:100%;object-fit:contain;padding:6px;background:#fff;border-radius:inherit}
-/* v1.0.73: name and logo share the heading row; no empty photo spacer. */
+/* v1.0.74: name and logo share the heading row; no empty photo spacer. */
 .module-place-details .place-detail-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;min-width:0}
 .module-place-details .place-detail-header h3{flex:1 1 auto;min-width:0;margin:0;line-height:1.25;overflow-wrap:anywhere}
 .module-place-details .place-detail-header .place-detail-logo{flex:0 0 44px;width:44px;height:44px;min-width:44px;max-width:44px;margin:0;font-size:24px;border-radius:11px}
 
-/* v1.0.73: readable long answers above the unchanged bottom navigation. */
+/* v1.0.74: readable long answers above the unchanged bottom navigation. */
 .bubble-text{display:block;white-space:pre-wrap;overflow-wrap:anywhere}
 .bubble-text.answer-preview{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .bubble-text a,.answer-reader-body a{color:var(--cyan);text-decoration:underline;overflow-wrap:anywhere}
@@ -1203,7 +1203,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.73'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.74'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt))return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -1221,7 +1221,9 @@ const MODULES = {
  tools:{title:'Mai multe instrumente',lead:'Spațiu pentru analiză, idei, documente și instrumente suplimentare.',prompt:'Ajută-mă să aleg instrumentul potrivit pentru sarcina mea.'}
 };
 // 02 — Notifications and safe UI helpers
-function notify(message){const el=$('notice');el.textContent=message;el.classList.add('show');clearTimeout(state.noticeTimer);state.noticeTimer=setTimeout(()=>el.classList.remove('show'),3200)}
+function dismissNotice(){clearTimeout(state.noticeTimer);$('notice').classList.remove('show')}
+function notify(message){const el=$('notice');dismissNotice();el.textContent=message;el.classList.add('show');state.noticeTimer=setTimeout(dismissNotice,1800)}
+inputEl.addEventListener('focus',dismissNotice);
 function setStatus(message){chatStatus.textContent=message}
 function showView(name){closeAnswerReader(false);const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='none';}state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
 function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');}
@@ -1520,7 +1522,7 @@ function needsLocation(text){return /(unde sunt|localiz\\w*|geolocaliz\\w*|loca�
 // 07 — Chat transport. Voice errors never convert a successful API response into request failure.
 async function submitMessage({fromVoice=false}={}){if(state.busy)return;const message=inputEl.value.trim();if(!message)return;if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}state.busy=true;const generation=state.conversationGeneration;sendBtn.disabled=true;inputEl.disabled=true;setStatus('myPocket AI pregătește răspunsul…');addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const loading=addBubble('Se pregătește răspunsul…','assistant');try{const history=state.messages.slice(-CLIENT_CONFIG.historyLimit).map(m=>({role:m.role,content:m.text}));const locationIntent=needsLocation(message);let coordinates=null;let locationErrorText=null;if(state.location&&Number.isFinite(state.location.latitude)&&Number.isFinite(state.location.longitude)){coordinates={latitude:state.location.latitude,longitude:state.location.longitude,accuracy:state.location.accuracy,updatedAt:state.location.updatedAt}}if(navigator.geolocation){getCurrentCoordinates(true).catch(locationError=>{console.info('myPocket AI: actualizarea locației continuă în fundal:',String(locationError&&locationError.message||locationError));});}else{locationErrorText='Acest browser nu oferă acces la geolocalizare.'}if(locationIntent&&!coordinates){locationErrorText=locationErrorText||'Nu există încă o poziție disponibilă; cererea este trimisă fără coordonate.';setStatus('Caut răspunsul; locația se actualizează în fundal.')}const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,history,place_context:state.placeSearchContext||null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});let data;try{data=await response.json()}catch{throw new Error(state.language==='en'?'The server returned an unreadable response.':'Serverul a trimis un răspuns care nu poate fi citit.')}if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));const reply=String(data.reply).trim();loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;addBubble(reply,'assistant',false,{autoOpen:true});state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);setStatus('Răspuns primit.');if(state.voiceMode||fromVoice){speakText(reply,{continuous:state.voiceMode})}else if(state.messages.length===2){/* first reply only: text remains the default */}}catch(error){loading.remove();if(generation===state.conversationGeneration&&(state.currentView==='assistant'||state.currentView==='module')){const messageText=String(error?.message||'Eroare necunoscută.');addBubble('Nu am putut obține un răspuns. '+messageText,'assistant',true);setStatus('Cererea nu a reușit.');console.error('myPocket AI chat request failed:',error)}}finally{state.busy=false;sendBtn.disabled=false;inputEl.disabled=false;if(state.voiceMode){inputEl.blur()}else inputEl.focus()}}
 $('chatForm').addEventListener('submit',event=>{event.preventDefault();submitMessage()});inputEl.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();$('chatForm').requestSubmit()}});inputEl.addEventListener('input',()=>{inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,130)+'px'});
-$('newChatBtn').addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}archiveCurrentConversation();resetChat();notify('Ai început o conversație nouă.')});
+$('newChatBtn').addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}archiveCurrentConversation();resetChat();void 0});
 // 08 — Navigation and module entry points; v1.0.24 quick searches stay inside the selected module
 for(const button of document.querySelectorAll('[data-module]'))button.addEventListener('click',()=>openModule(button.dataset.module));
 for(const button of document.querySelectorAll('[data-nav]'))button.addEventListener('click',()=>{const name=button.dataset.nav;if(name==='home')showView('home');else showView(name)});
@@ -1577,7 +1579,7 @@ sortedLanguages.forEach(o=>{const btn=document.createElement('button');btn.type=
 languageButton.addEventListener('click',()=>{syncLanguageMenu();languageDialog.hidden=false});
 languageDialogClose.addEventListener('click',closeLanguageDialog);
 syncLanguageMenu();
-$('languageSelect').addEventListener('change',event=>{state.language=UI_TEXT[event.target.value]?event.target.value:'ro';event.target.value=state.language;applyUiLanguage();syncLanguageMenu();notify(state.language==='en'?'Conversation language: English':state.language==='fr'?'Langue de conversation : français':state.language==='de'?'Gesprächssprache: Deutsch':state.language==='it'?'Lingua della conversazione: italiano':state.language==='es'?'Idioma de conversación: español':state.language==='pt'?'Idioma da conversa: português':state.language==='nl'?'Gesprekstaal: Nederlands':state.language==='ru'?'Язык общения: русский':state.language==='pl'?'Język rozmowy: polski':'Limba conversației: Română')});
+$('languageSelect').addEventListener('change',event=>{state.language=UI_TEXT[event.target.value]?event.target.value:'ro';event.target.value=state.language;applyUiLanguage();syncLanguageMenu()});
 // 09 — Startup: bind state, begin location permission/request, load local data, greet once
 startSharedLocation();
 loadHistory();

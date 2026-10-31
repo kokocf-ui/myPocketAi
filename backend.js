@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v104 location-neutral web search, contextual place follow-ups and deterministic distance requests; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v105 settlement-only geocoding, destination choices and fuller hotel classification lookup; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -38,9 +38,26 @@
  *    caching reduces repeat traffic but cannot guarantee availability.
  */
 
+const normalizeGeoName=value=>String(value||"").normalize("NFKD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
+const countryNameCodes=(()=>{
+ const names=new Map();
+ const codes="AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW".split(" ");
+ if(typeof Intl.DisplayNames==="function")for(const lang of ["ro","en","fr","de","it","es","pt","nl","ru","pl"]){const dn=new Intl.DisplayNames([lang],{type:"region"});for(const code of codes){const name=dn.of(code);if(name&&name!==code)names.set(normalizeGeoName(name),code)}}
+ for(const code of codes)names.set(code.toLowerCase(),code);
+ for(const [name,code] of Object.entries({usa:"US",sua:"US",uk:"GB","united states":"US","united kingdom":"GB",england:"GB",scotland:"GB",wales:"GB","franta":"FR","france":"FR",romania:"RO"}))names.set(name,code);
+ return names;
+})();
+const countryNameEntries=[...countryNameCodes].sort((a,b)=>b[0].length-a[0].length);
+function geoQueryParts(query){
+ const normalized=normalizeGeoName(query);let country="",city=String(query).split(',')[0].trim();
+ for(const [name,code] of countryNameEntries)if(normalized.endsWith(' '+name)){country=code;city=String(query).includes(',')?String(query).split(',')[0].trim():normalized.slice(0,-name.length).trim();break}
+ if(country)city=city.split(',')[0].trim();
+ return {country,city:city.replace(/[,\s]+$/g,"")};
+}
+
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v104";
+    const API_VERSION = "v105";
     let responsePlaceContext=null;
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
@@ -706,7 +723,7 @@ export default {
       let query=m?m[1].trim():"";
       if(/^(?:me|here|my area|my location|mine|aici|mea|apropierea mea|apropiere|zona mea|jurul meu|jurul locatiei mele|in jurul meu)(?:[ ,]|$)/i.test(query))return "";
       if(/^(?:centru|centrul|zona centrala|the city centre|the city center|city centre|city center|downtown)$/i.test(query))return "";
-      query=query.replace(/[,;]?\s*(?:zona centrala|in centru|centrul orasului|city cent(?:er|re)|downtown|central area)\b.*$/i, "")
+      query=query.replace(/[,;]?\s*(?:(?:in\s+)?zona centrala|in centru|centrul orasului|city cent(?:er|re)|downtown|central area)\b.*$/i, "")
         .replace(/\s+(?:cu|with|avand|care au|under|below|sub|pentru|for|de [1-5] stele|[1-5][ -]star)\b.*$/i, "")
         .replace(/[,;]?\s*(?:please|te rog|multumesc)\b.*$/i, "").replace(/^[,\s]+|[,\s]+$/g, "")
         .replace(/^(?:the (?:city )?cent(?:er|re) of|central|centrul orasului|centrul|centru)\s+/i, "");
@@ -718,6 +735,7 @@ export default {
       const nearby=/(?:near me|nearby|around me|in apropiere|in apropierea mea|in zona mea|langa mine|aproape de mine)/.test(normalized);
       const follow=/^(?:dar|si|iar|atunci|totusi|what about|how about|and|but|instead)(?: |$)/.test(normalized);
       const stars=hotelStarCriterion(text);
+      const clearStars=/(?:fara (?:filtru de )?stele|fara clasificare|without (?:a )?star filter|any star)/.test(normalized);
       const explicitCategory=placeCategoryRules.find(rule=>rule.pattern.test(normalized));
       const category=explicitCategory||(follow&&previous?.category)||(follow&&stars?placeCategoryRules.find(r=>r.key==="hotel"):null);
       if(!category)return null;
@@ -727,7 +745,7 @@ export default {
       const inherited=Boolean(follow&&previous);
       const sameCategory=inherited&&previous.category.key===category.key;
       return {category,destination:destination||(nearby?"":inherited?previous.destination:""),
-        stars:category.key==="hotel"?(stars||(sameCategory?previous.stars:null)):null,
+        stars:category.key==="hotel"?(clearStars?null:stars||(sameCategory?previous.stars:null)):null,
         central:centralCriterion(text)||(sameCategory&&!nearby&&previous.central),inherited,
         needsDestination:Boolean(follow&&!previous&&!destination&&!nearby)};
     };
@@ -740,24 +758,56 @@ export default {
     const suppliedCategory=suppliedContext?placeCategoryRules.find(r=>r.key===suppliedContext.category):null;
     if(suppliedCategory&&typeof suppliedContext.destination==="string"&&suppliedContext.destination.length<=160&&(!priorPlaceRequest||!priorPlaceRequest.destination)){
       const last=userTurns.at(-1)||"";
-      if(!last||/^(?:dar|si|iar|atunci|what about|how about|and|but)(?: |$)/.test(normalizeIntentText(last))){
+      if(!last||countryNameCodes.has(normalizeGeoName(last))||/^[1-5]$/.test(last)||/^(?:dar|si|iar|atunci|what about|how about|and|but)(?: |$)/.test(normalizeIntentText(last))){
         priorPlaceRequest={category:suppliedCategory,destination:suppliedContext.destination,stars:[1,2,3,4,5].includes(suppliedContext.stars)?suppliedContext.stars:null,central:suppliedContext.central===true};
       }
     }
-    const activePlaceRequest=placeRequestFrom(message,priorPlaceRequest,typeof data.location_query==="string"?data.location_query.trim().slice(0,160):"");
+    const pendingCandidates=(Array.isArray(suppliedContext?.pending_candidates)?suppliedContext.pending_candidates:[]).slice(0,5).filter(v=>v&&typeof v.label==="string"&&typeof v.query==="string"&&v.query.length<=160&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180);
+    const optionText=(query,candidates)=>{
+      const lines=candidates.map((v,i)=>`${i+1}. ${v.label}`).join("\n");
+      return lang==="en"?`Which “${query}” do you mean?\n${lines}\nReply with the number, country, or full place name.`:`La care „${query}” te referi?\n${lines}\nRăspunde cu numărul, țara sau numele complet al localității.`;
+    };
+    let selectedCandidate=null;
+    if(suppliedCategory&&pendingCandidates.length){
+      const input=normalizeGeoName(message),index=/^[1-5]$/.test(input)?Number(input)-1:-1,parts=geoQueryParts(message);
+      const code=countryNameCodes.get(input)||parts.country;
+      const chosen=index>=0?(pendingCandidates[index]?[pendingCandidates[index]]:[]):pendingCandidates.filter(v=>normalizeGeoName(v.label)===input||normalizeGeoName(v.query)===input||(code&&v.country_code===code&&(!parts.city||countryNameCodes.has(input)||normalizeGeoName(v.name)===normalizeGeoName(parts.city))));
+      if(chosen.length===1)selectedCandidate=chosen[0];
+      else if(chosen.length>1||/^[0-9]+$/.test(input)){
+        const options=chosen.length?chosen:pendingCandidates;
+        responsePlaceContext={category:suppliedCategory.key,destination:suppliedContext.destination,stars:suppliedContext.stars||null,central:suppliedContext.central===true,pending_candidates:options};
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:optionText(suppliedContext.destination,options),places:[],needs_location_clarification:true,destination_candidates:options,search_ok:false,ai_connected:Boolean(env.AI)});
+      }
+    }
+    let activePlaceRequest=placeRequestFrom(message,priorPlaceRequest,typeof data.location_query==="string"?data.location_query.trim().slice(0,160):"");
+    if(selectedCandidate)activePlaceRequest={category:suppliedCategory,destination:selectedCandidate.query,stars:[1,2,3,4,5].includes(suppliedContext.stars)?suppliedContext.stars:null,central:suppliedContext.central===true,inherited:true,needsDestination:false,selected:selectedCandidate};
     if(activePlaceRequest&&!activePlaceRequest.needsDestination)responsePlaceContext={category:activePlaceRequest.category.key,destination:activePlaceRequest.destination,stars:activePlaceRequest.stars||null,central:Boolean(activePlaceRequest.central)};
     const geocodePlace=async query=>{
-      const u=new URL("https://nominatim.openstreetmap.org/search");
-      u.searchParams.set("format","jsonv2");u.searchParams.set("limit","3");u.searchParams.set("addressdetails","1");u.searchParams.set("q",query);
-      const r=await fetch(u.href,{headers:{Accept:"application/json","User-Agent":"PocketAI/104 (explicit place search)"},signal:AbortSignal.timeout(8000)});
+      const parts=geoQueryParts(query),u=new URL("https://nominatim.openstreetmap.org/search");
+      u.searchParams.set("format","jsonv2");u.searchParams.set("limit","10");u.searchParams.set("addressdetails","1");u.searchParams.set("namedetails","1");u.searchParams.set("featureType","settlement");
+      u.searchParams.set("q",parts.country?parts.city:query);if(parts.country)u.searchParams.set("countrycodes",parts.country.toLowerCase());
+      const r=await fetch(u.href,{headers:{Accept:"application/json","User-Agent":"PocketAI/105 (settlement search)"},signal:AbortSignal.timeout(8000)});
       if(!r.ok)throw Error("geocode_failed");
       const rows=await r.json();
-      const matches=(Array.isArray(rows)?rows:[]).filter(v=>v&&v.lat!==null&&v.lon!==null&&String(v.lat??"").trim()&&String(v.lon??"").trim()&&Number.isFinite(Number(v.lat))&&Number.isFinite(Number(v.lon))&&Math.abs(Number(v.lat))<=90&&Math.abs(Number(v.lon))<=180);
-      const match=matches[0];if(!match)throw Error("geocode_not_found");
-      const countries=[...new Set(matches.map(v=>v.address?.country_code).filter(Boolean))];
-      const alternative=matches.find(v=>v.address?.country_code&&v.address.country_code!==match.address?.country_code);
-      if(countries.length>1&&!(Number(match.importance)-Number(alternative?.importance)>=0.15))throw Error("geocode_ambiguous");
-      return {latitude:Number(match.lat),longitude:Number(match.lon),label:String(match.display_name||query).slice(0,220)};
+      const valid=(Array.isArray(rows)?rows:[]).filter(v=>{
+        if(!v||!String(v.lat??"").trim()||!String(v.lon??"").trim()||!Number.isFinite(Number(v.lat))||!Number.isFinite(Number(v.lon))||Math.abs(Number(v.lat))>90||Math.abs(Number(v.lon))>180)return false;
+        const type=String(v.addresstype||v.type||"").toLowerCase(),cls=String(v.class||v.category||"").toLowerCase();
+        if(["highway","building","amenity","tourism","shop"].includes(cls))return false;
+        if(type&&!/^(city|town|village|hamlet|municipality|borough|suburb|quarter|neighbourhood|city_district|administrative)$/.test(type))return false;
+        return !parts.country||String(v.address?.country_code||"").toUpperCase()===parts.country;
+      });
+      const requested=normalizeGeoName(parts.city);
+      const matches=valid.filter(v=>[v.name,...Object.values(v.namedetails||{}),!v.name?String(v.display_name||"").split(',')[0]:null,!v.name?v.address?.city:null,!v.name?v.address?.town:null,!v.name?v.address?.village:null].filter(Boolean).some(n=>normalizeGeoName(n)===requested));
+      const unique=[];
+      for(const v of matches){
+        const name=String(v.name||v.address?.city||v.address?.town||v.address?.village||String(v.display_name||query).split(',')[0]);
+        const country_code=String(v.address?.country_code||"").toUpperCase(),label=String(v.display_name||query).slice(0,220);
+        const candidate={name,label,query:[name,v.address?.state,v.address?.country||country_code].filter(Boolean).join(', ').slice(0,160),country_code,latitude:Number(v.lat),longitude:Number(v.lon)};
+        if(!unique.some(old=>normalizeGeoName(old.name)===normalizeGeoName(name)&&old.country_code===country_code&&Math.abs(old.latitude-candidate.latitude)<.025&&Math.abs(old.longitude-candidate.longitude)<.025))unique.push(candidate);
+      }
+      if(!unique.length)throw Error("geocode_not_found");
+      if(unique.length>1){const error=Error("geocode_ambiguous");error.candidates=unique.slice(0,5);throw error}
+      return unique[0];
     };
     const distanceText=message.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     const distanceIntent=/(?:cati\s+(?:kilometri|km)|how\s+far|how\s+many\s+(?:kilomet(?:er|re)s|km)|\b(?:distanta|distance)\b)/i.test(distanceText)&&/(?:pana|\bto\b|\bfrom\b|\bbetween\b|\bintre\b|\bla\b|\bin\b)/i.test(distanceText)&&!activePlaceRequest;
@@ -943,11 +993,15 @@ export default {
         hasValidLocation=false;
         locationSource="explicit_place_query";
         try {
-          const match=await geocodePlace(query);
+          const match=activePlaceRequest.selected||await geocodePlace(query);
           latitude=match.latitude;longitude=match.longitude;hasValidLocation=true;
           searchLocationLabel=match.label;
         } catch(error) {
           const ambiguous=error.message==="geocode_ambiguous";
+          if(ambiguous&&error.candidates?.length){
+            responsePlaceContext.pending_candidates=error.candidates;
+            return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:optionText(query,error.candidates),places:[],needs_location_clarification:true,destination_candidates:error.candidates,search_ok:false,location_source:locationSource,search_query:query,ai_connected:Boolean(env.AI)});
+          }
           const reply=lang==="en"
             ? (ambiguous?`Several destinations match “${query}”. Please add the country or postcode.`:`I could not identify “${query}” reliably. Please specify the city and country or postcode.`)
             : (ambiguous?`Există mai multe destinații pentru „${query}”. Precizează țara sau codul poștal.`:`Nu am putut identifica sigur „${query}”. Precizează orașul și țara sau codul poștal.`);
@@ -1096,7 +1150,7 @@ export default {
               const isShop = ["supermarket", "mall", "shop"].includes(requestedPlaceCategory.key);
               const amenity = requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
-              const tags = { stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
+              const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? geoapifyDistanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
             if (geoapifyElements.length) {
@@ -1208,6 +1262,16 @@ export default {
         }
         if (!placesData) placesData = { elements: [] };
         const elements = placesData.elements;
+        // Recover missing classifications from provider details without changing the requested star filter.
+        if(requestedStars&&env.GEOAPIFY_API_KEY){
+          const pending=elements.filter(v=>!normalizeHotelStars(v.tags?.stars)&&typeof v.tags?.geoapify_place_id==="string"&&v.tags.geoapify_place_id.length>0&&v.tags.geoapify_place_id.length<600).slice(0,8);
+          for(let i=0;i<pending.length;i+=4)await Promise.all(pending.slice(i,i+4).map(async item=>{
+            try{const u=new URL("https://api.geoapify.com/v2/place-details");u.searchParams.set("id",item.tags.geoapify_place_id);u.searchParams.set("features","details");u.searchParams.set("apiKey",env.GEOAPIFY_API_KEY);
+              const r=await fetch(u.href,{signal:AbortSignal.timeout(2500)});if(!r.ok)return;const data=await r.json();
+              for(const f of (Array.isArray(data.features)?data.features:[])){const props=f.properties||{},raw=props.datasource?.raw||{};const value=props.accommodation?.stars||raw.tags?.stars||raw.stars;if(normalizeHotelStars(value)){item.tags.stars=value;break}}
+            }catch{}
+          }));
+        }
         const distanceMeters = (lat1, lon1, lat2, lon2) => {
           const radians = degrees => degrees * Math.PI / 180;
           const dLat = radians(lat2 - lat1), dLon = radians(lon2 - lon1);
@@ -1290,6 +1354,7 @@ export default {
         unique.sort((a, b) => a.distanceMeters - b.distanceMeters);
         const matchingPlaces=requestedStars ? unique.filter(p=>p.stars===requestedStars) : unique;
         const totalUniqueResults = matchingPlaces.length;
+        const unclassifiedCount=requestedStars?unique.filter(p=>!p.stars).length:0;
         const displayedPlaces = matchingPlaces.slice(0, 40);
         const locationLabel=explicitPlaceQuery ? searchLocationLabel : (lang==="en"?"your GPS location":"poziția ta GPS");
         const scope=lang==="en"?`Search area: ${locationLabel}. Radius: ${radius/1000} km.`:`Zona căutată: ${locationLabel}. Rază: ${radius/1000} km.`;
@@ -1313,13 +1378,14 @@ export default {
             : "";
           const area=explicitPlaceQuery || (lang==="en"?"your area":"apropierea ta");
           const heading=lang==="en"
-            ? (requestedStars?`I found ${totalUniqueResults} ${requestedStars}-star hotels in ${area}, according to the available map data.`:`I found ${totalUniqueResults} results for ${requestedPlaceCategory.labelEn} in ${area}.`)
-            : (requestedStars?`Am găsit ${totalUniqueResults} hoteluri de ${requestedStars} stele în ${area}, conform datelor de hartă disponibile.`:`Am găsit ${totalUniqueResults} rezultate pentru ${requestedPlaceCategory.labelRo} în ${area}.`);
+            ? (requestedStars?`I found ${totalUniqueResults} ${requestedStars}-star ${totalUniqueResults===1?"hotel":"hotels"} in ${area}, according to the available map data.`:`I found ${totalUniqueResults} results for ${requestedPlaceCategory.labelEn} in ${area}.`)
+            : (requestedStars?`Am găsit ${totalUniqueResults===1?"un hotel":totalUniqueResults+" hoteluri"} de ${requestedStars} stele în ${area}, conform datelor de hartă disponibile.`:`Am găsit ${totalUniqueResults} rezultate pentru ${requestedPlaceCategory.labelRo} în ${area}.`);
           const countNote=totalUniqueResults>displayedPlaces.length?(lang==="en"?` Showing ${displayedPlaces.length} results.`:` Afișez ${displayedPlaces.length} rezultate.`):"";
           const radiusNote=lang==="en"?`Search radius: ${radius/1000} km.`:`Raza căutării: ${radius/1000} km.`;
-          const notes=[radiusNote,centerNote.trim(),starsNote.trim(),ratingNote.trim(),lang==="en"?"Distances are approximate, in a straight line from the search reference point.":"Distanțele sunt aproximative, în linie dreaptă față de punctul de referință al căutării."].filter(Boolean).join("\n");
+          const incompleteNote=unclassifiedCount?(lang==="en"?`${unclassifiedCount} additional mapped ${unclassifiedCount===1?"place has":"places have"} no confirmable star classification and ${unclassifiedCount===1?"was":"were"} excluded.`:`${unclassifiedCount===1?"O altă locație din hartă nu are o clasificare în stele confirmabilă și a fost exclusă.":"Alte "+unclassifiedCount+" locații din hartă nu au o clasificare în stele confirmabilă și au fost excluse."}`):"";
+          const notes=[radiusNote,centerNote.trim(),starsNote.trim(),incompleteNote,ratingNote.trim(),lang==="en"?"Distances are approximate, in a straight line from the search reference point.":"Distanțele sunt aproximative, în linie dreaptă față de punctul de referință al căutării."].filter(Boolean).join("\n");
           const reply=heading+countNote+"\n\n"+lines.join("\n\n")+"\n\n"+notes;
-          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, image_url: p.imageUrl || "", wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") + " (OpenStreetMap-derived place data)" : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:radius, requested_stars:requestedStars, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
+          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, image_url: p.imageUrl || "", wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") + " (OpenStreetMap-derived place data)" : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:radius, requested_stars:requestedStars, unclassified_count:unclassifiedCount, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
         }
       } catch (searchError) {
         const errorName = searchError && searchError.name ? String(searchError.name).slice(0, 80) : "UnknownError";
@@ -1576,7 +1642,7 @@ export default {
     for (const [countryName, code] of Object.entries(countryCodes)) {
       if (new RegExp("\\b" + countryName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i").test(normalizedResearchRequest)) { searchCountry = code; break; }
     }
-    // v104: UI language is not a country. Use worldwide search unless a country is explicit.
+    // v105: UI language is not a country. Use worldwide search unless a country is explicit.
     const searchLanguage = lang;
     const searchQuery = (message + (legalResearch ? " Prefer current official government or regulator sources for the stated jurisdiction." : " Prefer primary sources and exact dates; do not infer missing facts.")).slice(0, 550);
     const safeSourceUrl = value => {

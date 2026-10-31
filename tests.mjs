@@ -22,7 +22,7 @@ globalThis.fetch=async input=>{const u=new URL(input);calls.push(u);
 };
 const env={GEOAPIFY_API_KEY:'mock',AI:{run:async()=>({response:'translated'})}};
 async function ask(message,location={latitude:51.484,longitude:.28},extra={}){calls=[];return(await worker.fetch(new Request('https://unit.test/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:'ro',location,history:[],...extra})}),env)).json()}
-let d=await ask('Caută hoteluri de 5 stele în Berlin, zona centrală');assert.equal(d.version,'v104');assert.equal(d.location_source,'explicit_place_query');assert.equal(d.search_query,'Berlin');assert.equal(d.search_radius_meters,2000);assert.ok(d.reply.startsWith('Am găsit 2 hoteluri de 5 stele în Berlin, conform datelor de hartă disponibile.'));assert.ok(!d.reply.includes('hotel / hostel'));assert.equal(d.places[0].type,'hotel');assert.equal(d.requested_stars,5);assert.deepEqual(d.places.map(p=>p.name),['Berlin Five','Berlin Superior']);assert.ok(d.reply.includes('Berlin'));assert.ok(!d.reply.includes('față de poziția GPS'));assert.ok(calls.find(u=>u.hostname==='api.geoapify.com').searchParams.get('filter').startsWith('circle:13.395,52.517,2000'));
+let d=await ask('Caută hoteluri de 5 stele în Berlin, zona centrală');assert.equal(d.version,'v105');assert.equal(d.location_source,'explicit_place_query');assert.equal(d.search_query,'Berlin');assert.equal(d.search_radius_meters,2000);assert.ok(d.reply.startsWith('Am găsit 2 hoteluri de 5 stele în Berlin, conform datelor de hartă disponibile.'));assert.ok(!d.reply.includes('hotel / hostel'));assert.equal(d.places[0].type,'hotel');assert.equal(d.requested_stars,5);assert.deepEqual(d.places.map(p=>p.name),['Berlin Five','Berlin Superior']);assert.ok(d.reply.includes('Berlin'));assert.ok(!d.reply.includes('față de poziția GPS'));assert.ok(calls.find(u=>u.hostname==='api.geoapify.com').searchParams.get('filter').startsWith('circle:13.395,52.517,2000'));
 d=await ask('Find 5-star hotels in Berlin city centre',null,{language:'en'});assert.equal(d.requested_stars,5);assert.equal(d.search_query,'Berlin');assert.equal(d.places.length,2);
 d=await ask('Hoteluri în Berlin');assert.equal(d.location_source,'explicit_place_query');assert.equal(d.search_radius_meters,5000);
 for(const m of ['Caută hoteluri în apropierea mea','Caută hoteluri în apropiere','Find hotels near me']){d=await ask(m);assert.equal(d.location_source,'browser_gps',m);assert.ok(!calls.some(u=>u.hostname==='nominatim.openstreetmap.org'));assert.deepEqual(d.places.map(p=>p.name),['London Five'])}
@@ -43,7 +43,7 @@ globalThis.fetch=async input=>{
  if(u.hostname==='nominatim.openstreetmap.org'){
   const q=u.searchParams.get('q').toLowerCase();const p=q.includes('new york')?ny:q.includes('paris')?paris:q.includes('londra')||q.includes('london')?london:null;
   if(!p)return Response.json([]);
-  return Response.json([{lat:String(p.latitude),lon:String(p.longitude),display_name:p.label,importance:.9,address:{country_code:p===ny?'us':p===paris?'fr':'gb'}}]);
+  return Response.json([{lat:String(p.latitude),lon:String(p.longitude),display_name:p.label,namedetails:p===london?{'name:ro':'Londra'}:{},importance:.9,address:{country_code:p===ny?'us':p===paris?'fr':'gb'}}]);
  }
  if(u.hostname==='api.geoapify.com'&&u.pathname==='/v2/places'){
   const center=u.searchParams.get('filter').split(':')[1].split(',').map(Number);const [lon,lat]=center;
@@ -81,4 +81,39 @@ const routeFetch=globalThis.fetch;globalThis.fetch=async input=>{if(new URL(inpu
 d=await ask('Distanța rutieră până în Paris cu mașina',{latitude:london.latitude,longitude:london.longitude});assert.equal(d.distance_available,false);assert.ok(!d.distance_meters);globalThis.fetch=routeFetch;
 globalThis.fetch=previousFetch;
 console.log('PASS: New York follow-ups survive wrong assistant geography; star/city changes; new request and topic boundaries; Paris GPS/explicit/missing origins; road vs straight-line distance; language-neutral search with explicit country preserved.');
+// v105: reproduce the exact comma/central-area request; reject streets and ask for cities.
+const baseFetch=globalThis.fetch;
+const fr={name:'Paris',lat:'48.8566',lon:'2.3522',class:'boundary',type:'administrative',addresstype:'city',importance:.99,display_name:'Paris, Île-de-France, France',address:{city:'Paris',state:'Île-de-France',country:'France',country_code:'fr'}};
+const us={name:'Paris',lat:'33.66',lon:'-95.55',class:'place',type:'city',importance:.2,display_name:'Paris, Texas, United States',address:{city:'Paris',state:'Texas',country:'United States',country_code:'us'}};
+const indiana={name:'Paris',lat:'38.7',lon:'-85.6',class:'place',type:'hamlet',importance:.1,display_name:'Paris, Indiana, United States',address:{hamlet:'Paris',state:'Indiana',country:'United States',country_code:'us'}};
+const road={name:'Avenue de Paris',lat:'46.78',lon:'4.85',class:'highway',type:'residential',display_name:'Avenue de Paris, Chalon-sur-Saône, France',address:{city:'Chalon-sur-Saône',country_code:'fr'}};
+let variant='normal',detailsCalls=0;
+globalThis.fetch=async input=>{const u=new URL(input);calls.push(u);
+ if(u.hostname==='nominatim.openstreetmap.org'){
+  assert.equal(u.searchParams.get('featureType'),'settlement');assert.equal(u.searchParams.get('limit'),'10');
+  if(variant==='roadOnly')return Response.json([road]);
+  if(variant==='sameCountry')return Response.json([us,indiana]);
+  return Response.json([fr,{...fr,lon:'2.3523'},us,road]);
+ }
+ if(u.hostname==='api.geoapify.com'&&u.pathname==='/v2/places')return Response.json({features:[
+  {geometry:{coordinates:[2.353,48.857]},properties:{name:'Known Four',categories:['accommodation.hotel'],accommodation:{stars:'4'},datasource:{raw:{tourism:'hotel'}}}},
+  ...['a','b'].map((id,i)=>({geometry:{coordinates:[2.354+i*.001,48.858]},properties:{name:'Recovered '+id,place_id:id,categories:['accommodation.hotel'],datasource:{raw:{tourism:'hotel'}}}})),
+  {geometry:{coordinates:[2.355,48.858]},properties:{name:'Unknown',categories:['accommodation.hotel'],datasource:{raw:{tourism:'hotel'}}}}
+ ]});
+ if(u.hostname==='api.geoapify.com'&&u.pathname==='/v2/place-details'){detailsCalls++;return Response.json({features:[{properties:{accommodation:{stars:'4'}}}]})}
+ if(u.hostname==='photon.komoot.io')return Response.json({features:[]});throw Error('Unexpected '+u.hostname);
+};
+const exact='Caută hoteluri de 4 stele, în Paris, în zona centrală';
+d=await ask(exact);assert.equal(d.needs_location_clarification,true);assert.equal(d.search_query,'Paris');assert.equal(calls[0].searchParams.get('q'),'Paris');assert.equal(d.destination_candidates.length,2);assert.ok(d.reply.includes('1. Paris'));assert.ok(d.reply.includes('Texas'));assert.equal(detailsCalls,0);assert.ok(!calls.some(u=>u.pathname==='/v2/places'));
+let pending=d.place_context;assert.equal(pending.stars,4);assert.equal(pending.central,true);
+d=await ask('Franța',undefined,{history:[{role:'user',content:exact},{role:'user',content:'Franța'}],place_context:pending});assert.equal(d.results_count,3);assert.equal(detailsCalls,2);assert.equal(d.search_center.latitude,48.8566);assert.equal(d.unclassified_count,1);assert.equal(d.search_radius_meters,2000);assert.ok(d.reply.includes('O altă locație'));assert.ok(!d.places.some(p=>p.name==='Unknown'));assert.ok(!calls.some(u=>u.hostname==='nominatim.openstreetmap.org'));
+const resolved=d.place_context;
+d=await ask('Dar de 5 stele?',undefined,{history:[{role:'user',content:exact},{role:'user',content:'Franța'}],place_context:resolved});assert.equal(d.requested_stars,5);assert.equal(d.search_center.latitude,48.8566);
+d=await ask('2',undefined,{history:[{role:'user',content:exact}],place_context:pending});assert.equal(d.search_center.latitude,33.66);
+d=await ask('Caută hoteluri de 4 stele, în Paris, Franța, în zona centrală');assert.equal(d.results_count,3);assert.equal(calls[0].searchParams.get('countrycodes'),'fr');assert.equal(calls[0].searchParams.get('q'),'Paris');
+variant='sameCountry';d=await ask('Caută hoteluri în Paris');assert.equal(d.needs_location_clarification,true);assert.equal(d.destination_candidates.length,2);
+variant='roadOnly';d=await ask('Caută hoteluri în Paris, Franța');assert.equal(d.needs_location_clarification,true);assert.ok(!calls.some(u=>u.pathname==='/v2/places'));
+variant='normal';d=await ask('7',undefined,{history:[{role:'user',content:exact}],place_context:pending});assert.equal(d.needs_location_clarification,true);assert.equal(d.destination_candidates.length,2);
+globalThis.fetch=baseFetch;
+console.log('PASS: exact Paris central wording, cross/same-country choices, duplicate settlement merge, road rejection, French/number selection, retained selected context, strict explicit France, multiple recovered hotel classifications.');
 console.info=originalLog;console.warn=originalWarn;console.log('PASS: Berlin overrides UK GPS, no-GPS named city, central 2km scope, 5-star and 5S filtering, missing stars excluded, near-me GPS retained, failed/empty/ambiguous destination never falls back to GPS, city clarification.');
