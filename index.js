@@ -1397,6 +1397,12 @@ function renderTransitChoices(options,selectedIndex=null){
  body.style.cssText='overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 50px;-webkit-overflow-scrolling:touch';
  const clock=value=>{if(!value)return '—';const m=String(value).match(/(?:T|\\s)(\\d{2}:\\d{2})(?::\\d{2})?/);if(m)return m[1];const p=String(value).match(/^(\\d{2}:\\d{2})/);return p?p[1]:'—'};
  const heading=document.createElement('h3');heading.textContent=selectedIndex===null?'Variante de transport public':'Pașii traseului '+(selectedIndex+1);body.append(heading);
+ if(selectedIndex===null){
+  const labels={ro:'← Înapoi la transport',en:'← Back to transport',fr:'← Retour au transport',de:'← Zurück zum Verkehr',it:'← Torna ai trasporti',es:'← Volver al transporte',pt:'← Voltar aos transportes',nl:'← Terug naar vervoer',ru:'← Назад к транспорту',pl:'← Wróć do transportu'};
+  const exit=document.createElement('button');exit.type='button';exit.textContent=labels[state.language]||labels.en;
+  exit.style.cssText='display:block;width:100%;padding:12px;margin:12px 0;border-radius:20px;background:#17465b;color:white';
+  exit.onclick=()=>handleModuleLayerBack();body.append(exit);
+ }
  if(selectedIndex!==null){
   const back=document.createElement('button');back.type='button';back.textContent='← Înapoi la variante';back.style.cssText='padding:12px;margin:10px 0;border-radius:20px;background:#17465b;color:white';back.onclick=()=>renderTransitChoices(options);body.append(back);
   const journey=options[selectedIndex],legs=Array.isArray(journey.legs)?journey.legs:[];
