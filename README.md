@@ -1,6 +1,14 @@
-# myPocket AI — backend v113 + frontend v1.0.81
+# myPocket AI — backend v113 + frontend v1.0.82
 
 Based on GitHub main bfda880de066460180bb5f2f566a2c83f405565c (v111 / 1.0.80), 31 October 2026.
+
+## In-app map following
+
+The primary action is now “Follow route in Pocket AI”, a button that opens the existing route map and starts GPS watching only after an explicit tap. It does not open a new browser tab or the Google Maps application. “Google Maps (external)” remains a separate optional link.
+
+A single live-position marker moves on the map. The map follows fresh GPS fixes; dragging pauses following and Recenter restores it. Approximate remaining distance is projected along the selected route geometry. Poor accuracy, stale GPS and off-route positions are reported instead of displaying precise guidance. Stop, closing the map, switching routes/views or resetting chat clears the GPS watch, timer and marker; late callbacks are ignored. GPS updates are processed locally and may refresh the existing session location cache; they do not issue periodic backend routing requests.
+
+This is foreground visual route following with a direction list. It does not add spoken turn-by-turn instructions, automatic maneuver selection, arrival confirmation, background/screen-off guarantees or automatic rerouting. Browser location permission and a working GPS signal are required. Keep the app open. All new controls and status messages cover all ten UI languages.
 
 ## Automatic walking alternatives
 
@@ -14,7 +22,7 @@ Footbridge metadata requires a mapped footway/path/steps/pedestrian bridge and m
 
 The chat reader and map have a compact selector with route distance and duration. The map displays selected geometry in blue, other choices in grey; either the selector or a grey path switches geometry, instructions and navigation together. The old waypoint form is removed. A localized “Find other walking routes” button repeats automatic discovery with the same endpoints and clears old v111 waypoint constraints. Controls support ro/en/fr/de/it/es/pt/nl/ru/pl.
 
-Google Maps URLs retain automatically selected access points and mode=walking. Google Maps can recalculate the route and may show a preview or require a final Start action. Pocket AI does not implement its own continuous voice/off-route navigation. Explicit typed via requests remain supported for users who already know a place, but are not required in the walking flow.
+Google Maps URLs retain automatically selected access points and mode=walking. Google Maps can recalculate the route and may show a preview or require a final Start action. Pocket AI supports foreground visual GPS following as described above. Explicit typed via requests remain supported for users who already know a place, but are not required in the walking flow.
 
 ## Existing behavior
 

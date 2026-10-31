@@ -1,6 +1,14 @@
-# myPocket AI — backend v113 + frontend v1.0.81
+# myPocket AI — backend v113 + frontend v1.0.82
 
 Bază: GitHub main bfda880de066460180bb5f2f566a2c83f405565c (v111 / 1.0.80), 31 octombrie 2026.
+
+## Urmărirea traseului în Pocket AI
+
+Acțiunea principală este „Urmărește traseul în Pocket AI”. Butonul deschide harta existentă și pornește urmărirea GPS numai după apăsare; nu deschide alt tab sau aplicația Google Maps. „Google Maps (extern)” rămâne un link opțional, separat.
+
+Un singur marcaj urmărește poziția telefonului. Harta urmărește pozițiile GPS noi; deplasarea manuală a hărții suspendă centrarea, iar „Recentrează” o reactivează. Distanța rămasă este aproximată prin proiecție pe geometria traseului ales. Poziția imprecisă, semnalul neactualizat și ieșirea din traseu sunt semnalate. Oprirea, închiderea hărții, schimbarea traseului/ecranului și resetarea conversației eliberează urmărirea GPS, temporizatorul și marcajul; actualizările întârziate sunt ignorate. Actualizările sunt prelucrate local și pot actualiza cache-ul de locație al sesiunii; nu trimit periodic cereri de rutare către backend.
+
+Aceasta este urmărire vizuală GPS cu lista de indicații, cu aplicația deschisă. Nu adaugă ghidare vocală la fiecare viraj, selectarea automată a manevrei, confirmarea sosirii, garanții în fundal/cu ecranul stins sau recalculare automată. Necesită permisiune de localizare și semnal GPS. Toate controalele și mesajele noi sunt traduse în cele zece limbi.
 
 ## Alternative pietonale automate
 
@@ -14,7 +22,7 @@ Metadatele despre pasarelă necesită o cale pietonală marcată ca pod și geom
 
 Selectorul afișează distanța și durata fiecărei variante. Pe hartă, traseul ales este albastru, celelalte gri. Selectorul sau atingerea unei linii gri schimbă împreună geometria, indicațiile și navigația. Formularul de punct intermediar a fost eliminat. „Caută alte trasee pietonale” repetă căutarea automată cu aceeași plecare/destinație și șterge constrângerile intermediare rămase din v111. Controalele sunt traduse în toate cele zece limbi.
 
-Linkul Google Maps păstrează accesele alese automat și modul pietonal. Google Maps poate recalcula; poate afișa previzualizarea sau cere pornirea finală. Navigația vocală continuă și recalcularea internă nu sunt implementate. Cererile tastate explicit „prin...” rămân disponibile pentru utilizatorii care cunosc zona, dar nu sunt necesare în fluxul pietonal.
+Linkul Google Maps păstrează accesele alese automat și modul pietonal. Google Maps poate recalcula; poate afișa previzualizarea sau cere pornirea finală. Urmărirea GPS vizuală internă este descrisă mai sus; ghidarea vocală și recalcularea automată nu sunt implementate. Cererile tastate explicit „prin...” rămân disponibile pentru utilizatorii care cunosc zona, dar nu sunt necesare în fluxul pietonal.
 
 ## Păstrat și verificat
 

@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.81 — reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.82 — reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.81",
+  version: "1.0.82",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1153,12 +1153,12 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 }
 
 .place-brand-logo{display:block;width:100%;height:100%;object-fit:contain;padding:6px;background:#fff;border-radius:inherit}
-/* v1.0.81: name and logo share the heading row; no empty photo spacer. */
+/* v1.0.82: name and logo share the heading row; no empty photo spacer. */
 .module-place-details .place-detail-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;min-width:0}
 .module-place-details .place-detail-header h3{flex:1 1 auto;min-width:0;margin:0;line-height:1.25;overflow-wrap:anywhere}
 .module-place-details .place-detail-header .place-detail-logo{flex:0 0 44px;width:44px;height:44px;min-width:44px;max-width:44px;margin:0;font-size:24px;border-radius:11px}
 
-/* v1.0.81: readable long answers above the unchanged bottom navigation. */
+/* v1.0.82: readable long answers above the unchanged bottom navigation. */
 .bubble-text{display:block;white-space:pre-wrap;overflow-wrap:anywhere}
 .bubble-text.answer-preview{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .bubble-text a,.answer-reader-body a{color:var(--cyan);text-decoration:underline;overflow-wrap:anywhere}
@@ -1172,7 +1172,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 .answer-reader-controls label{display:flex;align-items:center;gap:6px;margin-left:auto;font-size:14px}
 .answer-reader-body{flex:1 1 0;min-height:0;overflow:auto;overscroll-behavior:contain;padding:16px;font-size:17px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;scroll-behavior:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch}
 .answer-reader :focus-visible{outline:2px solid #6de7e6;outline-offset:2px}
-.route-options{padding:6px 14px;flex-shrink:0;font-size:14px}.route-options label{display:block}.route-options select,.route-options input{display:block;width:100%;max-width:100%;min-height:40px;margin:5px 0;padding:6px;background:#12354b;color:#edf6fb;border:1px solid #5597ac;border-radius:9px;font:inherit}.route-options summary{cursor:pointer;padding:5px 0}.route-options details[open]{max-height:150px;overflow:auto}.route-options .route-map-open{width:100%;margin:5px 0}.route-map-window{position:fixed;z-index:26;top:calc(10px + env(safe-area-inset-top,0px));left:10px;right:10px;bottom:108px;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:#0b2233;color:#edf6fb;border:2px solid #3b7185;border-radius:22px;box-shadow:0 12px 45px #000b}
+.route-options{padding:6px 14px;flex-shrink:0;font-size:14px}.route-options label{display:block}.route-options select,.route-options input{display:block;width:100%;max-width:100%;min-height:40px;margin:5px 0;padding:6px;background:#12354b;color:#edf6fb;border:1px solid #5597ac;border-radius:9px;font:inherit}.route-options summary{cursor:pointer;padding:5px 0}.route-options details[open]{max-height:150px;overflow:auto}.route-options .route-map-open{width:100%;margin:5px 0}.route-map-window.navigating .route-options,.route-map-window.navigating>a{display:none}.route-map-window [hidden]{display:none!important}.route-live-status{font-weight:600}.route-recenter{font-size:13px!important}.route-map-window{position:fixed;z-index:26;top:calc(10px + env(safe-area-inset-top,0px));left:10px;right:10px;bottom:108px;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:#0b2233;color:#edf6fb;border:2px solid #3b7185;border-radius:22px;box-shadow:0 12px 45px #000b}
 .route-map-header{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid #33556b}.route-map-header h2{flex:1;margin:0;font-size:20px}.route-map-header button{width:42px;height:42px;border:1px solid #5597ac;border-radius:12px;background:#12354b;color:#e4ffff;font-size:26px}.route-map-status{margin:8px 14px;font-size:14px}.route-map-window>a{color:var(--cyan);margin:0 14px 10px;font-size:14px}.route-map-canvas{flex:1 1 0;min-height:140px;background:#e4e7ea}.route-directions{flex:0 1 auto;max-height:32%;overflow:auto;padding:10px 14px;border-top:1px solid #33556b;overscroll-behavior:contain}.route-directions ol{padding-left:22px;margin:8px 0}.route-directions li{padding:5px 0}.route-map-window>.route-map-open{flex-shrink:0;margin:0 14px 8px;font-size:14px;text-align:center}.route-map-open{display:block;min-height:40px;margin-top:10px;padding:8px 12px;border:1px solid #59c3d2;border-radius:12px;background:#0b354d;color:#d7ffff;font:inherit;font-size:14px}
 </style>
 </head>
@@ -1205,7 +1205,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.81'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.82'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -1415,7 +1415,7 @@ function routeOptionsControl(route,options){
  }
  if(route.profile==='walk'||route.profile==='foot'){
   const button=document.createElement('button');button.type='button';button.className='route-map-open';button.textContent=t[1];
-  button.onclick=()=>{if(state.busy)return;state.pendingRouteCompare=true;state.routeSearchContext={profile:'walk',destination_query:route.destination?.label||'',destination:route.destination,origin:route.origin,origin_query:route.origin?.location_source==='gps'?'':route.origin?.label||'',pending:null,candidates:[]};inputEl.value=t[1];closeRouteMap(false);closeAnswerReader(false);submitMessage()};box.append(button);
+  button.onclick=()=>{if(state.busy)return;state.pendingRouteCompare=true;state.routeSearchContext={profile:'walk',destination_query:route.destination?.label||'',destination:route.destination,origin:route.origin?.location_source==='gps'?null:route.origin,origin_query:route.origin?.location_source==='gps'?'':route.origin?.label||'',pending:null,candidates:[]};inputEl.value=t[1];closeRouteMap(false);closeAnswerReader(false);submitMessage()};box.append(button);
  }return box;
 }
 function routeNavigationUrl(route,navigate=false){
@@ -1428,7 +1428,40 @@ function routeNavigationUrl(route,navigate=false){
  u.searchParams.set('travelmode',route.profile==='drive'?'driving':'walking');if(navigate)u.searchParams.set('dir_action','navigate');
  return u.href;
 }
-function routeNavigationLink(route){const a=document.createElement('a');a.className='route-map-open';a.href=routeNavigationUrl(route,true);a.target='_blank';a.rel='noopener noreferrer';a.textContent=routeActionsText().navigate;return a}
+const ROUTE_LIVE_TEXT={"ro":["Urmărește traseul în Pocket AI","Oprește navigarea","Recentrează","Se așteaptă poziția GPS…","GPS indisponibil pe acest dispozitiv.","Permite accesul la locație pentru urmărirea traseului.","Distanță rămasă aproximativă","Poziție GPS imprecisă","GPS neactualizat. Se așteaptă o poziție nouă.","Ești în afara traseului. Oprește și recalculează.","Google Maps (extern)","Urmărire GPS cu aplicația deschisă. Consultă lista de indicații; ghidarea vocală și recalcularea automată nu sunt active."],"en":["Follow route in Pocket AI","Stop navigation","Recenter","Waiting for GPS…","GPS unavailable on this device.","Allow location access to follow the route.","Approximate distance remaining","Low GPS accuracy","GPS is not current. Waiting for a new fix.","You are off route. Stop and recalculate.","Google Maps (external)","GPS tracking while the app stays open. Use the direction list; voice guidance and automatic rerouting are not active."],"fr":["Suivre dans Pocket AI","Arrêter la navigation","Recentrer","En attente du GPS…","GPS indisponible.","Autorisez la localisation pour suivre le trajet.","Distance restante approximative","GPS peu précis","GPS non actualisé. En attente.","Hors trajet. Arrêtez et recalculez.","Google Maps (externe)","Suivi GPS avec l’application ouverte. Consultez les instructions ; guidage vocal et recalcul automatique inactifs."],"de":["Route in Pocket AI verfolgen","Navigation beenden","Zentrieren","GPS wird gesucht…","GPS nicht verfügbar.","Standortzugriff für die Route erlauben.","Ungefähre Reststrecke","GPS ungenau","GPS nicht aktuell. Warte auf neue Position.","Abseits der Route. Anhalten und neu berechnen.","Google Maps (extern)","GPS-Verfolgung bei geöffneter App. Wegbeschreibung beachten; Sprachführung und automatische Neuberechnung sind nicht aktiv."],"it":["Segui in Pocket AI","Ferma navigazione","Ricentra","In attesa del GPS…","GPS non disponibile.","Consenti la posizione per seguire il percorso.","Distanza rimanente approssimativa","GPS poco preciso","GPS non aggiornato. In attesa.","Fuori percorso. Ferma e ricalcola.","Google Maps (esterno)","GPS con app aperta. Consulta le indicazioni; guida vocale e ricalcolo automatico non attivi."],"es":["Seguir en Pocket AI","Detener navegación","Centrar","Esperando GPS…","GPS no disponible.","Permite la ubicación para seguir la ruta.","Distancia restante aproximada","GPS poco preciso","GPS sin actualizar. Esperando.","Fuera de ruta. Detén y recalcula.","Google Maps (externo)","GPS con la aplicación abierta. Consulta las indicaciones; voz y recálculo automático no activos."],"pt":["Seguir no Pocket AI","Parar navegação","Centrar","A aguardar GPS…","GPS indisponível.","Permita a localização para seguir o percurso.","Distância restante aproximada","GPS pouco preciso","GPS desatualizado. A aguardar.","Fora do percurso. Pare e recalcule.","Google Maps (externo)","GPS com a aplicação aberta. Consulte as indicações; voz e recálculo automático inativos."],"nl":["Volg in Pocket AI","Navigatie stoppen","Centreren","Wachten op GPS…","GPS niet beschikbaar.","Sta locatie toe om de route te volgen.","Geschatte resterende afstand","GPS onnauwkeurig","GPS niet actueel. Wachten.","Buiten de route. Stop en bereken opnieuw.","Google Maps (extern)","GPS met geopende app. Volg de aanwijzingen; spraak en automatisch herberekenen zijn niet actief."],"ru":["Следовать в Pocket AI","Остановить навигацию","Центрировать","Ожидание GPS…","GPS недоступен.","Разрешите доступ к геопозиции.","Примерное оставшееся расстояние","Низкая точность GPS","GPS не обновлён. Ожидание.","Вы вне маршрута. Остановите и пересчитайте.","Google Maps (внешний)","GPS при открытом приложении. Используйте список указаний; голос и автоматический пересчёт не активны."],"pl":["Śledź w Pocket AI","Zatrzymaj nawigację","Wyśrodkuj","Oczekiwanie na GPS…","GPS niedostępny.","Zezwól na lokalizację, aby śledzić trasę.","Przybliżona pozostała odległość","Niska dokładność GPS","GPS nieaktualny. Oczekiwanie.","Poza trasą. Zatrzymaj i przelicz.","Google Maps (zewnętrzne)","GPS przy otwartej aplikacji. Korzystaj ze wskazówek; głos i automatyczne przeliczanie nie są aktywne."]};
+function routeLiveText(){return ROUTE_LIVE_TEXT[state.language]||ROUTE_LIVE_TEXT.en}
+function projectWalkingPosition(route,latitude,longitude){
+ const sx=111320*Math.max(.01,Math.cos(latitude*Math.PI/180)),sy=111320,x=longitude*sx,y=latitude*sy;
+ let total=0,best=Infinity,along=0;
+ for(let i=1;i<route.coordinates.length;i++){const a=route.coordinates[i-1],b=route.coordinates[i],ax=a[0]*sx,ay=a[1]*sy,dx=(b[0]-a[0])*sx,dy=(b[1]-a[1])*sy,len=Math.hypot(dx,dy),t=len?Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/(len*len))):0,d=Math.hypot(x-ax-t*dx,y-ay-t*dy);if(d<best){best=d;along=total+t*len}total+=len;}
+ const length=Number.isFinite(route.distanceMeters)?route.distanceMeters:total;return {away:best,remaining:total?Math.max(0,(1-along/total)*length):0};
+}
+function stopRouteTracking(current,message){
+ if(!current)return;current.navigating=false;if(current.watchId!==null&&current.watchId!==undefined){navigator.geolocation?.clearWatch(current.watchId);current.watchId=null}clearTimeout(current.gpsTimer);current.gpsTimer=null;current.liveMarker?.remove();current.liveMarker=null;current.layer.classList?.remove('navigating');if(current.navigation)current.navigation.textContent=routeLiveText()[0];if(current.recenter)current.recenter.hidden=true;if(current.liveStatus){current.liveStatus.textContent=message||'';current.liveStatus.hidden=!message}
+}
+function startRouteTracking(current){
+ if(activeRouteMap!==current||!current.map||current.navigating)return;const t=routeLiveText();
+ if(typeof navigator==='undefined'||!navigator.geolocation?.watchPosition){current.liveStatus.hidden=false;current.liveStatus.textContent=t[4];return}
+ current.navigating=true;current.watchId=null;current.follow=true;current.firstFix=true;current.layer.classList?.add('navigating');current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];
+ const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
+ const success=position=>{
+  if(!current.navigating||activeRouteMap!==current)return;const c=position?.coords,age=Date.now()-position?.timestamp;
+  if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180||!Number.isFinite(c.accuracy)||c.accuracy<0||!Number.isFinite(age)||age>30000||age< -5000){current.liveStatus.textContent=t[8];return}
+  stale();current.lastFix=[c.latitude,c.longitude];
+  if(current.liveMarker)current.liveMarker.setLatLng(current.lastFix);else current.liveMarker=current.leaflet.circleMarker(current.lastFix,{radius:8,color:'#ffffff',fillColor:'#05d6dc',fillOpacity:1,weight:3}).addTo(current.map);
+  current.liveMarker?.setStyle?.({opacity:1,fillOpacity:1});
+  if(current.follow){if(current.firstFix){current.map.setView(current.lastFix,16,{animate:false});current.firstFix=false}else current.map.panTo(current.lastFix,{animate:false})}
+  const accuracy=' ±'+Math.round(c.accuracy)+' m';
+  if(c.accuracy>60){current.liveStatus.textContent=t[7]+accuracy;return}
+  if(typeof saveLocation==='function')saveLocation(c);
+  const projected=projectWalkingPosition(current.route,c.latitude,c.longitude);
+  current.liveStatus.textContent=projected.away>Math.max(60,c.accuracy*2)?t[9]+accuracy:t[6]+': '+Math.round(projected.remaining).toLocaleString(state.language)+' m'+accuracy;
+ };
+ const failure=error=>{if(!current.navigating||activeRouteMap!==current)return;if(error?.code===1){stopRouteTracking(current,t[5]);if(typeof forgetSharedLocation==='function')forgetSharedLocation()}else{current.liveStatus.textContent=t[8];current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}};
+ try{const id=navigator.geolocation.watchPosition(success,failure,{enableHighAccuracy:true,maximumAge:0,timeout:12000});if(current.navigating)current.watchId=id;else navigator.geolocation.clearWatch(id)}catch{stopRouteTracking(current,t[4])}
+}
+function routeNavigationLink(route){const button=document.createElement('button');button.type='button';button.className='route-map-open';button.textContent=routeLiveText()[0];button.onclick=async()=>{const chosen=state.lastRouteOptions?.includes(route)&&state.lastRouteOptions.includes(state.lastRoute)?state.lastRoute:route;if(activeRouteMap?.route===chosen){activeRouteMap.navigating?stopRouteTracking(activeRouteMap):startRouteTracking(activeRouteMap)}else await openRouteMap(chosen,button,state.lastRouteOptions,true)};return button}
+
 function appendRouteReaderActions(host,text){
  if(state.lastRouteReply!==text||!validMapRoute(state.lastRoute))return;
  const actions=document.createElement('div'),button=document.createElement('button');button.type='button';button.className='route-map-open';button.textContent=routeMapText().open;button.onclick=()=>openRouteMap(state.lastRoute,button);
@@ -1447,32 +1480,33 @@ function loadRouteMapLibrary(){
   script.onload=()=>{clearTimeout(timer);window.L?resolve(window.L):reject(new Error('Map unavailable'))};script.onerror=()=>{clearTimeout(timer);script.remove();reject(new Error('Map unavailable'))};document.head.append(script);
  }).catch(error=>{leafletLoading=null;throw error});return leafletLoading;
 }
-function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!current)return;activeRouteMap=null;current.cleanup();current.map?.remove();current.layer.remove();if(restoreFocus&&current.origin?.isConnected)current.origin.focus({preventScroll:true})}
-async function openRouteMap(route,origin,options=state.lastRouteOptions){
- if(!validMapRoute(route))return;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
+function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!current)return;activeRouteMap=null;stopRouteTracking(current);current.cleanup();current.map?.remove();current.layer.remove();if(restoreFocus&&current.origin?.isConnected)current.origin.focus({preventScroll:true})}
+async function openRouteMap(route,origin,options=state.lastRouteOptions,startNavigation=false){
+ if(!validMapRoute(route))return;state.lastRoute=route;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
  const layer=document.createElement('section');layer.className='route-map-window';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
  const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const close=document.createElement('button');close.type='button';close.textContent='×';close.setAttribute('aria-label',t.close);close.onclick=()=>closeRouteMap();header.append(title,close);
  const status=document.createElement('p');status.className='route-map-status';status.textContent=t.loading;
- const external=document.createElement('a');external.target='_blank';external.rel='noopener noreferrer';external.textContent=t.external;
+ const external=document.createElement('a');external.target='_blank';external.rel='noopener noreferrer';external.textContent=routeLiveText()[10];
  external.href=routeNavigationUrl(route);
- const navigation=routeNavigationLink(route);
+ const navigation=routeNavigationLink(route),recenter=document.createElement('button'),liveStatus=document.createElement('p');recenter.type='button';recenter.className='route-map-open route-recenter';recenter.textContent=routeLiveText()[2];recenter.hidden=true;liveStatus.className='route-map-status route-live-status';liveStatus.hidden=true;liveStatus.setAttribute('role','status');
  const stepsPanel=document.createElement('div');stepsPanel.className='route-directions';
  const stepsTitle=document.createElement('strong');stepsTitle.textContent=routeActionsText().steps;stepsPanel.append(stepsTitle);
  const list=document.createElement('ol');
  for(const step of route.steps||[]){if(typeof step.text!=='string')continue;const li=document.createElement('li');li.textContent=step.text+(Number.isFinite(step.distanceMeters)&&step.distanceMeters>0?' · '+step.distanceMeters.toLocaleString(state.language,{maximumFractionDigits:0})+' m':'');list.append(li)}
  if(list.children.length)stepsPanel.append(list);else{const missing=document.createElement('p');missing.textContent=routeActionsText().noSteps;stepsPanel.append(missing)}
- const note=document.createElement('p');note.className='small';note.textContent=((options||[]).filter(validMapRoute).length>1?routeOptionsText()[2]+' ':'')+routeActionsText().note;stepsPanel.append(note);
- const host=document.createElement('div');host.className='route-map-canvas';layer.append(header,routeOptionsControl(route,options),status,external,navigation,host,stepsPanel);document.body.append(layer);
- const current={layer,origin,map:null,cleanup:()=>{}};activeRouteMap=current;
+ const note=document.createElement('p');note.className='small';note.textContent=((options||[]).filter(validMapRoute).length>1?routeOptionsText()[2]+' ':'')+routeLiveText()[11];stepsPanel.append(note);
+ const host=document.createElement('div');host.className='route-map-canvas';layer.append(header,routeOptionsControl(route,options),status,external,navigation,recenter,liveStatus,host,stepsPanel);document.body.append(layer);
+ const current={layer,origin,route,navigation,recenter,liveStatus,map:null,watchId:null,navigating:false,cleanup:()=>{}};recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
  const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;layer.style.bottom=(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';current.map?.invalidateSize()};
  const key=e=>{if(e.key==='Escape'){e.preventDefault();closeRouteMap()}};
  window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);document.addEventListener('keydown',key);current.cleanup=()=>{window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize);document.removeEventListener('keydown',key)};
  resize();close.focus({preventScroll:true});
  try{const L=await loadRouteMapLibrary();if(activeRouteMap!==current||!layer.isConnected)return;
-  const map=L.map(host);current.map=map;L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+  const map=L.map(host);current.map=map;current.leaflet=L;map.on?.('dragstart',()=>{current.follow=false});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
   const points=route.coordinates.map(p=>[p[1],p[0]]),allPoints=[...points];
   for(const alternative of (options||[]).filter(validMapRoute)){if(alternative===route||(alternative.id&&alternative.id===route.id))continue;const grey=alternative.coordinates.map(p=>[p[1],p[0]]);allPoints.push(...grey);const other=L.polyline(grey,{color:'#647f91',weight:6,opacity:.65}).addTo(map);other.on?.('click',()=>{state.lastRoute=alternative;openRouteMap(alternative,null,options)})}
   L.polyline(points,{color:'#087fd9',weight:5,opacity:1}).addTo(map);L.circleMarker(points[0],{radius:6,color:'#128a42'}).addTo(map);L.circleMarker(points.at(-1),{radius:6,color:'#c43737'}).addTo(map);map.fitBounds(allPoints,{padding:[22,22]});status.textContent=(route.distanceMeters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km'+(Number.isFinite(route.durationSeconds)?' · '+Math.round(route.durationSeconds/60)+' min':'');
+  if(startNavigation)startRouteTracking(current);
  }catch{if(layer.isConnected)status.textContent=t.failed}
 }
 function retainRouteResult(data,bubble){

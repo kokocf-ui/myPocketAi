@@ -73,3 +73,11 @@
 ## 2026-10-31 — Backend v113 + frontend 1.0.81
 - Label automatic routes by their number and differing provider street names instead of common approach roads or generic footbridge labels.
 - Live v112 validation between public Grays Station and Lakeside found automatic Mill Lane/Mayflower Road walking geometry; discovery and both Worker deployments succeeded. Device-origin quality still requires phone QA.
+
+
+## 2026-10-31 — Frontend 1.0.82 (backend v113 unchanged)
+- Primary route-follow action stays in Pocket AI, with explicit GPS start/stop, one live marker, map following/recenter and approximate remaining distance.
+- Report low accuracy/stale GPS/off-route states; clean watches/timers/markers on stop, close, view/route change and reset; ignore late callbacks.
+- Keep Google Maps as a separately labeled optional external link. No new tabs or app handoff from the primary action.
+- Foreground visual following only: no voice, automatic maneuver selection, arrival confirmation or automatic rerouting.
+- Mocked actual-client GPS/Leaflet lifecycle tests and all existing backend/client suites pass; generated-script/syntax checks pass. Physical phone GPS QA remains necessary.
