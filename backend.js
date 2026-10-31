@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -199,7 +199,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v126";
+    const API_VERSION = "v127";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -419,6 +419,9 @@ export default {
         } else if (extractedDestination && !/^(?:locatia mea|pozitia mea|current location|my location)$/i.test(extractedDestination)) {
           targetName = extractedDestination.replace(/^(?:gara|statie|station|railway station|train station)\s+/i, "").slice(0, 100).trim();
         }
+        // Preserve the exact A→B field, independent of natural-language extraction.
+        const explicitTransitQuery=typeof data.transit_query==="string"?data.transit_query.trim().slice(0,140):"";
+        if(explicitTransitQuery)targetName=explicitTransitQuery;
         // Confirmed choice from the UI: never geocode it again.
         const selectedDestination=data.transit_destination;
         let confirmedStop=false;
@@ -457,6 +460,11 @@ export default {
               }
             }
           }catch(e){transportErrors.tfl_station_search=String(e&&e.name||"lookup_failed");}
+        }
+        // Never silently geocode an unqualified station name into a different place.
+        // If the official lookup did not return a usable station, request a city instead.
+        if(unqualifiedStation&&!confirmedStop&&!verifiedStopId){
+          return json({app:"Pocket AI",version:API_VERSION,status:"success",reply:"Stația poate exista în mai multe localități. Adaugă orașul pentru a alege destinația corectă.",needs_destination_clarification:true,destination_candidates:[],transit_available:false,reason:"station_city_required"});
         }
         if (!confirmedStop && !verifiedStopId && env.GEOAPIFY_API_KEY) {
           try {
