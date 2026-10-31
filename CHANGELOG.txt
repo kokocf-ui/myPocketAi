@@ -1,1 +1,0 @@
-v1.0.64: universal quick-sheet viewport geometry, category aliases, locale-sensitive distance labels.
