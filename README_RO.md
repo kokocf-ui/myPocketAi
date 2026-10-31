@@ -1,13 +1,6 @@
-# myPocket AI frontend v1.0.64
-Bază: v1.0.63. Înlocuiește integral `index.js` în Cloudflare Worker frontend.
+# myPocket AI frontend v1.0.65
+Bază: v1.0.64. Înlocuiește integral `index.js` din Worker frontend.
 
-Corecții:
-- Un singur contract de dimensionare pentru ferestrele Selecții rapide din Hărți și Călătorii. Poziția este calculată din marginea reală de jos a antetului și marginea reală de sus a barei fixe.
-- Lista rezultatelor utilizează înălțimea rămasă și are derulare internă.
-- Extindere universală a normalizării categoriilor primite în română de la backend; denumirile proprii ale firmelor rămân nemodificate.
-- Text localizat pentru distanță indisponibilă și format numeric conform celor 10 limbi.
-- Selectorul de limbi, cardurile Instrumente, GPS și cererile de căutare rămân pe mecanismul v1.0.63.
+Modificări: exclusiv funcția centrală de traducere a categoriilor de locații; fără modificări CSS, HTML, dimensiuni, navigare sau tabele. Suportă categorii compuse cu / și |, sinonime românești/englezești și categorii suplimentare pentru toate cele 10 limbi. Completează categoriile lipsă pentru rusă și poloneză.
 
-Limitări:
-- Audit static, fără verificare vizuală Android. Nu s-a demonstrat că TOATE textele dinamice ale aplicației sunt traduse. Backend v98 poate trimite texte libere în română.
-- Modificările nu includ backendul și nu garantează rezultate de la furnizorii externi.
+Verificări: node --check și integritate ZIP. Nu s-a efectuat testare vizuală Android sau test complet cu backendul. Textele libere generate de backend, categoriile necunoscute și alte mesaje hardcodate pot rămâne netraduse. Nu este certificat un audit complet al fiecărui text din aplicație.
