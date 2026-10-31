@@ -1,1 +1,1 @@
-v1.0.58: remove broken custom language overlay; alphabetize native select; viewport-height page and compact settings.
+v1.0.59: in-page language dialog, ten-language Tools labels, compact cards, GPS timeout.
