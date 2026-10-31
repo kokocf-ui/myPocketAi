@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.86 — reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.87 — reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.86",
+  version: "1.0.87",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1210,7 +1210,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.86'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.87'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -1812,6 +1812,10 @@ welcomeUser();
  #view-home.active{height:calc(100dvh - 260px)!important;max-height:calc(100dvh - 260px)!important;}
 }
 
+/* v1.0.87: prominent pill-shaped quick selection action on both Maps and Hotels modules. */
+#view-module .module-actions-row #moduleQuickTrigger{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;min-width:clamp(180px,43vw,260px);max-width:62%;min-height:58px;padding:12px 18px;border-radius:999px;border:2px solid #70dbe9;background:linear-gradient(160deg,#17627e,#063149);box-shadow:0 4px 0 #031825,0 0 0 2px #285c70,0 0 17px #37d9eb66;color:#efffff;font-size:clamp(14px,3.8vw,18px);font-weight:800;letter-spacing:.1px;line-height:1.2;white-space:nowrap;overflow-wrap:normal;transition:filter .15s ease,transform .15s ease}
+#view-module .module-actions-row #moduleQuickTrigger:active{transform:translateY(2px);filter:brightness(1.15)}
+@media(max-width:380px){#view-module .module-actions-row #moduleQuickTrigger{min-width:0;max-width:60%;min-height:54px;padding:10px 12px;font-size:13px}}
 /* v1.0.85 final layout override */
 .view#view-module #sharedChatShell .chat-top{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important}
 .view#view-module #sharedChatShell .chat-top strong{order:0!important;flex:1 1 auto!important;min-width:0!important;text-align:left!important;padding:0!important}
