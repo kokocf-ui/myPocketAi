@@ -1,4 +1,6 @@
-# myPocket AI — backend v113 + frontend v1.0.82
+# myPocket AI — backend v114 + frontend v1.0.83
+
+2026-10-31 — backend v114 / frontend 1.0.83: expanded Romanian local food, market and pharmacy intent; nearby 'în jurul meu'; removed automatic chat-module handoff; exposed New conversation in module conversation header. Static inspection only; automated/live regression tests pending.
 
 Based on GitHub main bfda880de066460180bb5f2f566a2c83f405565c (v111 / 1.0.80), 31 October 2026.
 
