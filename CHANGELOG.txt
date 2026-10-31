@@ -1,1 +1,1 @@
-v1.0.57: restore original search request semantics; constrain quick-result sheets to viewport and scroll inner body.
+v1.0.58: remove broken custom language overlay; alphabetize native select; viewport-height page and compact settings.
