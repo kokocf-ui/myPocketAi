@@ -1,5 +1,9 @@
 # Version log
 
+## 2026-10-31 — backend v114 + frontend 1.0.83
+2026-10-31 — backend v114 / frontend 1.0.83: expanded Romanian local food, market and pharmacy intent; nearby 'în jurul meu'; removed automatic chat-module handoff; exposed New conversation in module conversation header. Static inspection only; automated/live regression tests pending.
+
+
 ## 2026-10-28 — Frontend v1.0.33 + backend v89
 - Corrected frontend `APP.version` from 1.0.32 to 1.0.33.
 - Kept `CLIENT_CONFIG.version` at 1.0.33.
