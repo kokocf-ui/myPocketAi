@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -199,7 +199,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v121";
+    const API_VERSION = "v122";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -546,6 +546,25 @@ export default {
               const routeSegments = legs.filter(leg => leg.geometryAvailable).map(leg => ({mode:leg.mode,from:leg.from,to:leg.to,coordinates:leg.coordinates}));
               transitOptions.push({provider:"TfL",durationMinutes:Number(j.duration)||null,startDateTime:j.startDateTime||null,arrivalDateTime:j.arrivalDateTime||null,legs,routeSegments,geometryAvailable:routeSegments.length > 0});
             }
+            // Reject TfL journeys whose final leg ends far from the resolved destination.
+            // Compare actual final geometry coordinates with the destination, internationally.
+            const destinationDistanceMeters=(lat1,lon1,lat2,lon2)=>{
+              const rad=Math.PI/180,dLat=(lat2-lat1)*rad,dLon=(lon2-lon1)*rad;
+              const h=Math.sin(dLat/2)**2+Math.cos(lat1*rad)*Math.cos(lat2*rad)*Math.sin(dLon/2)**2;
+              return 6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));
+            };
+            const beforeEndpointFilter=transitOptions.length;
+            const endpointVerified=transitOptions.filter(j=>{
+              const legs=j.legs||[],last=legs[legs.length-1];
+              const coords=last&&last.coordinates;
+              if(!Array.isArray(coords)||coords.length<2)return false;
+              const end=coords[coords.length-1];
+              if(!Array.isArray(end)||end.length<2)return false;
+              const lon=Number(end[0]),lat=Number(end[1]);
+              return Number.isFinite(lat)&&Number.isFinite(lon)&&destinationDistanceMeters(lat,lon,targetLat,targetLon)<=900;
+            });
+            transitOptions.splice(0,transitOptions.length,...endpointVerified);
+            if(beforeEndpointFilter&&!endpointVerified.length)transportErrors.tfl="destination_endpoint_not_verified";
             // v117: preserve useful TfL alternatives, rank complete journeys and avoid over-filtering.
             // TfL may return only one or two journeys; never fabricate missing services.
             const nowMs=Date.now(), safetyMs=5*60000;
