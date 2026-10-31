@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v100 place imagery lookup; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v101 separate brand logos and website metadata; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -40,7 +40,7 @@
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v100";
+    const API_VERSION = "v101";
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -101,7 +101,8 @@ export default {
     if (url.pathname === "/api/place-media" && request.method === "GET") {
       const ids = [url.searchParams.get("wikidata"),url.searchParams.get("brand_wikidata")]
         .filter(v => /^Q[1-9]\d{0,11}$/.test(String(v||""))).slice(0,2);
-      const images = [], seen = new Set();
+      const images = [], logos = [], seen = new Set();
+      let website = "";
       for (const id of ids) {
         try {
           const r = await fetch("https://www.wikidata.org/wiki/Special:EntityData/"+id+".json", {
@@ -110,17 +111,21 @@ export default {
           if (!r.ok) continue;
           const entity = (await r.json()).entities?.[id];
           if (!entity) continue;
+          if (!website) {
+            const candidate = entity.claims?.P856?.[0]?.mainsnak?.datavalue?.value;
+            try { const u = new URL(candidate); if (["https:","http:"].includes(u.protocol) && !u.username && !u.password) website = u.href; } catch {}
+          }
           for (const property of ["P18","P154"]) {
             for (const statement of (entity.claims?.[property]||[]).slice(0,3)) {
               const filename = statement.mainsnak?.datavalue?.value;
               if (typeof filename !== "string" || !/\.(png|jpe?g|webp|svg)$/i.test(filename) || filename.length>220) continue;
               const image = "https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(filename);
-              if (!seen.has(image)) {images.push(image);seen.add(image)}
+              if (!seen.has(image)) {(property === "P154" ? logos : images).push(image);seen.add(image)}
             }
           }
         } catch {} // optional enrichment must not block place details
       }
-      return new Response(JSON.stringify({images:images.slice(0,6),source:"Wikidata/Wikimedia Commons"}),{
+      return new Response(JSON.stringify({images:images.slice(0,6),logos:logos.slice(0,6),website,source:"Wikidata/Wikimedia Commons"}),{
         headers:{...corsHeaders,"Content-Type":"application/json; charset=utf-8","Cache-Control":"public, max-age=86400"}
       });
     }
@@ -982,7 +987,7 @@ export default {
               const isShop = ["supermarket", "mall", "shop"].includes(requestedPlaceCategory.key);
               const amenity = requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
-              const tags = { image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
+              const tags = { image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? geoapifyDistanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
             if (geoapifyElements.length) {
