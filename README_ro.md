@@ -1,4 +1,4 @@
-# myPocket AI — backend v112 + frontend v1.0.81
+# myPocket AI — backend v113 + frontend v1.0.81
 
 Bază: GitHub main bfda880de066460180bb5f2f566a2c83f405565c (v111 / 1.0.80), 31 octombrie 2026.
 
@@ -8,7 +8,7 @@ Utilizatorul nu mai trebuie să cunoască un punct intermediar. Aplicația calcu
 
 Două cereri Places caută la 1.100 m în jurul destinației. Nu introducem automat centrul unui cartier. Excludem accesele explicit private/interzise și punctele prea apropiate de plecare/destinație ori care presupun ocoluri mari. Geometria calculată trebuie să treacă la maximum 45 m de accesul ales. Se elimină ocolurile mai mari decât traseul minim + max(400m, min(1200m, 45% din minim)). Variantele care împart cel puțin 88% din ambele coridoare, într-o toleranță de 40m, se unifică. Afișăm cel mult trei trasee distincte, începând cu cel mai scurt verificat. Uneori datele/furnizorul oferă o singură variantă; acest lucru este spus explicit.
 
-Eticheta „Prin pasarelă” necesită o cale pietonală marcată ca pod și geometria corespunzătoare din API-ul public OpenStreetMap. Geometria pasarelei trebuie să se regăsească la maximum 20 m de traseul calculat. Cache: cinci minute, cel mult 24 de poduri. Fără această verificare rămâne eticheta generică. Verificarea geometrică nu reprezintă confirmarea în timp real a accesibilității, închiderilor, traficului sau siguranței traversărilor.
+Metadatele despre pasarelă necesită o cale pietonală marcată ca pod și geometria corespunzătoare din API-ul public OpenStreetMap. Geometria pasarelei trebuie să se regăsească la maximum 20 m de traseul calculat. Cache: cinci minute, cel mult 24 de poduri. Denumirile variantelor folosesc numărul traseului și străzile diferite furnizate de serviciu. Verificarea geometrică nu reprezintă confirmarea în timp real a accesibilității, închiderilor, traficului sau siguranței traversărilor.
 
 ## Alegerea simplă
 

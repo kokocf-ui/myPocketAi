@@ -1,4 +1,4 @@
-# myPocket AI — backend v112 + frontend v1.0.81
+# myPocket AI — backend v113 + frontend v1.0.81
 
 Based on GitHub main bfda880de066460180bb5f2f566a2c83f405565c (v111 / 1.0.80), 31 October 2026.
 
@@ -8,7 +8,7 @@ Visitors no longer need to know a waypoint. The walking handler calculates balan
 
 A destination-centred 1,100-metre Places search uses two category queries; no neighbourhood centroid or named city is inserted automatically. Explicit no/private access is rejected. Candidates too close to the endpoints, outside the search radius or requiring a large straight-line detour are discarded. Each automatic route must pass within 45 metres of its mapped access point. Large routed detours beyond shortest + max(400m, min(1200m, 45% of shortest)) are removed. A 40-metre corridor comparison suppresses routes sharing at least 88% of both paths; at most three distinct choices are returned, shortest verified first. Map data and provider availability can still yield just one choice; that is reported without inventing another.
 
-A footbridge label requires a mapped footway/path/steps/pedestrian bridge and matching bridge geometry from the public OpenStreetMap way API. Its geometry must lie within 20 metres of the returned walking route. OSM bridge geometry is cached for five minutes with a 24-item bound. Missing bridge proof leaves the generic walking label. This is geometric evidence, not a live accessibility/closure or traffic guarantee. The app does not claim that an alternative is quieter or safer without such data.
+Footbridge metadata requires a mapped footway/path/steps/pedestrian bridge and matching bridge geometry from the public OpenStreetMap way API. Its geometry must lie within 20 metres of the returned walking route. OSM bridge geometry is cached for five minutes with a 24-item bound. Route labels use route numbers and differing provider street names. This is geometric evidence, not a live accessibility/closure or traffic guarantee. The app does not claim that an alternative is quieter or safer without such data.
 
 ## Choosing a route
 

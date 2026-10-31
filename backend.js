@@ -199,7 +199,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v112";
+    const API_VERSION = "v113";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -815,12 +815,13 @@ export default {
         }
         const walkingLabels={ro:['Traseu pietonal','Prin pasarelă','Prin','Indicații pentru'],en:['Walking route','Via footbridge','Via','Directions for'],fr:['Trajet à pied','Par la passerelle','Via','Instructions pour'],de:['Fußweg','Über Fußgängerbrücke','Über','Wegbeschreibung für'],it:['Percorso a piedi','Tramite passerella','Via','Indicazioni per'],es:['Ruta a pie','Por pasarela peatonal','Vía','Indicaciones para'],pt:['Percurso a pé','Pela passagem pedonal','Via','Indicações para'],nl:['Wandelroute','Via voetbrug','Via','Aanwijzingen voor'],ru:['Пеший маршрут','По пешеходному мосту','Через','Указания для'],pl:['Trasa piesza','Przez kładkę','Przez','Wskazówki dla']};
         const wl=walkingLabels[lang]||walkingLabels.en;
+        const routeRoads=routes.map(r=>{const roads=new Map();for(const step of r.steps)for(const street of step.streets||[])roads.set(street,(roads.get(street)||0)+(step.distanceMeters||0));return roads});
+        const frequency=new Map();for(const roads of routeRoads)for(const key of new Set([...roads.keys()].map(normalizeGeoName)))frequency.set(key,(frequency.get(key)||0)+1);
         if(rc.profile==='walk')routes.forEach((r,i)=>{
           if(r.id==='via')return;
-          const roads=new Map();for(const step of r.steps)for(const street of step.streets||[])roads.set(street,(roads.get(street)||0)+(step.distanceMeters||0));
-          const names=[...roads].sort((a,b)=>b[1]-a[1]).slice(0,2).map(v=>v[0]);
-          r.label=r.access_kind==='footbridge'?wl[1]:wl[0]+' '+(i+1);
-          r.description=names.join(' / ');if(r.description)r.label+=' — '+r.description;
+          const roads=[...routeRoads[i]],distinct=roads.filter(v=>(frequency.get(normalizeGeoName(v[0]))||0)<routes.length);
+          const names=(distinct.length?distinct:roads).sort((a,b)=>b[1]-a[1]).slice(0,2).map(v=>v[0]);
+          r.description=names.join(' / ');r.label=wl[0]+' '+(i+1)+(r.description?' — '+r.description:'');
         });
         rc.pending=null;rc.candidates=[];responseRouteContext=rc;
         const route=routes.find(v=>v.id==='via')||routes[0],steps=route.steps,meters=route.distanceMeters,seconds=route.durationSeconds;

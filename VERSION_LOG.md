@@ -68,3 +68,8 @@
 - Show selected blue / alternative grey geometries; choosing a path synchronizes directions and Google Maps navigation.
 - Keep all ten UI languages and existing weather/GPS/hotel/shared-chat regressions. New automatic-alternative regressions and generated client syntax pass.
 - Live public-place route validation follows deployment; physical phone QA remains necessary.
+
+
+## 2026-10-31 — Backend v113 + frontend 1.0.81
+- Label automatic routes by their number and differing provider street names instead of common approach roads or generic footbridge labels.
+- Live v112 validation between public Grays Station and Lakeside found automatic Mill Lane/Mayflower Road walking geometry; discovery and both Worker deployments succeeded. Device-origin quality still requires phone QA.
