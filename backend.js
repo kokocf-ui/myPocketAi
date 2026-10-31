@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -199,7 +199,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v122";
+    const API_VERSION = "v123";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -419,7 +419,32 @@ export default {
         } else if (extractedDestination && !/^(?:locatia mea|pozitia mea|current location|my location)$/i.test(extractedDestination)) {
           targetName = extractedDestination.replace(/^(?:gara|statie|station|railway station|train station)\s+/i, "").slice(0, 100).trim();
         }
-        if (env.GEOAPIFY_API_KEY) {
+        // Prefer verified operator station records over free-text geocoding for UK rail/tube stations.
+        let verifiedStopId=null;
+        const requestedStationName=targetName;
+        if(env.TFL_APP_KEY && /\\b(station|underground|tube|metro|railway)\\b/i.test(targetName)){
+          try{
+            const stopQuery=targetName.replace(/\\b(london|londra|underground|railway|rail|train|station|tube)\\b/gi," ").replace(/\\s+/g," ").trim();
+            if(stopQuery.length>=3){
+              const stopUrl=new URL("https://api.tfl.gov.uk/StopPoint/Search/"+encodeURIComponent(stopQuery));
+              stopUrl.searchParams.set("app_key",env.TFL_APP_KEY);
+              stopUrl.searchParams.set("includeHubs","true");
+              const sr=await fetch(stopUrl.toString(),{headers:{"Accept":"application/json"},signal:AbortSignal.timeout(8000)});
+              if(sr.ok){
+                const sj=await sr.json();
+                const stopResults=Array.isArray(sj.matches)?sj.matches:[];
+                const wanted=stopQuery.toLowerCase().replace(/[^a-z0-9]/g,"");
+                const good=stopResults.filter(p=>{
+                  const name=String(p.commonName||"").toLowerCase().replace(/\\b(underground|rail|railway|station|london)\\b/g,"").replace(/[^a-z0-9]/g,"");
+                  return name===wanted && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)) && p.id;
+                });
+                const closest=good.sort((a,b)=>Math.hypot(Number(a.lat)-latitude,Number(a.lon)-longitude)-Math.hypot(Number(b.lat)-latitude,Number(b.lon)-longitude))[0];
+                if(closest){targetLat=Number(closest.lat);targetLon=Number(closest.lon);targetName=closest.commonName;verifiedStopId=String(closest.id);}
+              }
+            }
+          }catch(e){transportErrors.tfl_station_search=String(e&&e.name||"lookup_failed");}
+        }
+        if (!verifiedStopId && env.GEOAPIFY_API_KEY) {
           try {
             const geocodeUrl = new URL("https://api.geoapify.com/v1/geocode/search");
             geocodeUrl.searchParams.set("text", targetName);
@@ -496,7 +521,7 @@ export default {
           try {
             // Keep coordinate commas as path delimiters; encode only free-text destinations once.
             const to = Number.isFinite(targetLat) && Number.isFinite(targetLon)
-              ? `${targetLat},${targetLon}`
+              ? (verifiedStopId || `${targetLat},${targetLon}`)
               : encodeURIComponent(targetName);
             const from = `${latitude},${longitude}`;
             const tflUrl = new URL(`https://api.tfl.gov.uk/Journey/JourneyResults/${from}/to/${to}`);
@@ -556,12 +581,19 @@ export default {
             const beforeEndpointFilter=transitOptions.length;
             const endpointVerified=transitOptions.filter(j=>{
               const legs=j.legs||[],last=legs[legs.length-1];
-              const coords=last&&last.coordinates;
-              if(!Array.isArray(coords)||coords.length<2)return false;
-              const end=coords[coords.length-1];
-              if(!Array.isArray(end)||end.length<2)return false;
-              const lon=Number(end[0]),lat=Number(end[1]);
-              return Number.isFinite(lat)&&Number.isFinite(lon)&&destinationDistanceMeters(lat,lon,targetLat,targetLon)<=900;
+              if(!last)return false;
+              const coords=last.coordinates;
+              if(Array.isArray(coords)&&coords.length){
+                const end=coords[coords.length-1];
+                if(Array.isArray(end)&&end.length>=2){
+                  const lon=Number(end[0]),lat=Number(end[1]);
+                  if(Number.isFinite(lat)&&Number.isFinite(lon))return destinationDistanceMeters(lat,lon,targetLat,targetLon)<=900;
+                }
+              }
+              // Missing geometry: trust an explicitly matching final station, not arbitrary nearby names.
+              const norm=v=>String(v||"").toLowerCase().replace(/\\b(london|londra|underground|railway|rail|station|tube|train)\\b/g," ").replace(/[^a-z0-9]/g," ").trim().replace(/\\s+/g," ");
+              const desired=norm(requestedStationName),actual=norm(last.to);
+              return Boolean(desired&&actual&&(desired===actual||actual.startsWith(desired+" ")||desired.startsWith(actual+" ")));
             });
             transitOptions.splice(0,transitOptions.length,...endpointVerified);
             if(beforeEndpointFilter&&!endpointVerified.length)transportErrors.tfl="destination_endpoint_not_verified";
