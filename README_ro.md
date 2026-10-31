@@ -1,6 +1,16 @@
-# myPocket AI — backend v110 + frontend v1.0.79
+# myPocket AI — backend v111 + frontend v1.0.80
 
-31 octombrie 2026. Baza verificată: GitHub `main`, commit `e718d609971995e7393661eaf8d8dd661eb31da5`, backend v109 / frontend 1.0.78. Pachet cumulativ: păstrează meteo, hotelurile, GPS-ul și cititorul cu autoderulare din versiunea anterioară.
+31 octombrie 2026. Baza verificată: GitHub main `b3880eb61a8c56b3bc2ad036497edde143cc8a63` (v110 / 1.0.79).
+
+## Mai multe trasee pietonale
+
+Pentru aceeași plecare și destinație se cer variante Geoapify `balanced` și `short`. Geometriile identice (rotunjite la cinci zecimale, fără coordonate consecutive repetate) sunt afișate o singură dată. Un punct de trecere adaugă a treia cerere, cu trei puncte și `intermediate_waypoint_mode=pass_through`. Fiecare variantă păstrează propriile distanțe, durate, coordonate și indicații. O variantă eșuată nu anulează celelalte trasee verificate; eșecul variantei prin punctul solicitat este comunicat expres.
+
+Selectorul compact apare în conversație, cititor și hartă. Alegerea schimbă împreună harta, străzile și linkul de navigație. „Compară printr-un punct…” acceptă nume, adresă sau cod poștal și păstrează destinația și plecarea. Se poate scrie și „Prin Chafford Hundred” sau cererea completă „Traseu pietonal până la Lakeside shopping centre prin Chafford Hundred”. Formularul funcționează în toate cele zece limbi. Un punct ambiguu solicită alegerea fără a pierde Lakeside. Centrul cartografic al unui cartier este un punct de referință, nu o intrare pietonală verificată.
+
+Linkul Google Maps include punctul de trecere, coordonatele destinației și modul pietonal. Google Maps poate recalcula și nu garantează geometria identică. Nu se pretinde măsurarea traficului pietonal, confortului traversărilor sau liniștii traseului. Nu se folosesc parametri nedocumentați ori opțiuni de trafic/evitare dedicate mașinilor pentru mersul pe jos. Dacă rezultă o singură geometrie distinctă, răspunsul precizează asta. Expresiile cunoscute despre scări/treceri rămase în engleză sunt normalizate în română fără a inventa urcare/coborâre sau modifica numele străzilor.
+
+Testele automate backend/client și verificarea sintaxei JavaScript generat trec. Sunt acoperite variante distincte/duplicate, eșecuri parțiale, puncte ambigue și continuări, păstrarea destinației, schimbarea sincronizată hartă/străzi/navigație și etichetele în zece limbi. Verificarea furnizorului real și cea pe telefon sunt consemnate separat după publicare.
 
 ## Corecție v110
 
@@ -10,7 +20,7 @@ După o eroare, cererea rămâne în starea de reîncercare. „Lakeside shoppin
 
 În caz de eșec, API-ul returnează un cod de diagnostic limitat și, dacă există, statusul HTTP al furnizorului; nu expune cheia sau URL-ul cererii. Testele verifică expres că o completare a destinației după un eșec nu apelează modelul lingvistic și nu generează indicații/estimări.
 
-Actualizarea este pregătită pentru publicare directă în GitHub după autorizarea instalării conectorului. Verificarea pe telefon a traseului rămâne necesară după publicare. Pentru retestare este recomandată o conversație nouă, ca indicațiile neverificate generate anterior să nu fie confundate cu traseul corectat.
+Publicarea directă în GitHub este autorizată. Verificarea pe telefon a traseului rămâne necesară după publicare. Pentru retestare este recomandată o conversație nouă, ca indicațiile neverificate generate anterior să nu fie confundate cu traseul corectat.
 
 ## Traseu pietonal
 

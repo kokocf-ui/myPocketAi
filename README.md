@@ -1,6 +1,16 @@
-# myPocket AI — backend v110 + frontend v1.0.79
+# myPocket AI — backend v111 + frontend v1.0.80
 
-31 October 2026. Verified base: GitHub main commit `e718d609971995e7393661eaf8d8dd661eb31da5` (v109 / 1.0.78). Existing weather, hotels, GPS and answer-reader behavior is retained.
+31 October 2026. Verified base: GitHub main `b3880eb61a8c56b3bc2ad036497edde143cc8a63` (v110 / 1.0.79).
+
+## Walking route choices
+
+The same origin and destination are calculated with documented Geoapify `balanced` and `short` optimizations. Exact geometry duplicates (five decimal places, consecutive duplicate coordinates removed) collapse into one choice. A requested waypoint adds a third, balanced calculation with three waypoints and `intermediate_waypoint_mode=pass_through`. Each variant retains its own metric distance/time, geometry and provider instructions. A failed calculation does not discard other verified routes. Requested-waypoint failures are reported explicitly.
+
+Chat, the full-answer reader and the map provide a compact route selector. Selecting a variant opens its map, street instructions and navigation link together. The collapsible “Compare via a waypoint…” form accepts a name, address or postcode. It preserves the selected destination and origin. “Prin Chafford Hundred”, “Via Chafford Hundred” and full Romanian/English route requests also work. Structured form submissions support all ten interface languages. Ambiguous or missing waypoint names ask for clarification and retain the destination. A neighbourhood geocode is a reference point, not a verified pedestrian entrance.
+
+Google Maps URLs include the selected waypoint, destination coordinates and transport mode. Google Maps can still recalculate; the external route need not exactly match Geoapify geometry. No pedestrian traffic, crossing quality or quietness score is claimed. No undocumented alternatives flag or motor-vehicle-only avoidance/traffic setting is used for walking. If only one distinct geometry is returned, the answer says so. Known English provider stairs/crosswalk phrases are normalized in Romanian without inventing an ascent/descent or changing street names.
+
+Automated backend/client regression suites and generated JavaScript syntax checks pass. Tests cover distinct/duplicate choices, partial and waypoint failures, waypoint ambiguity and continuation, exact destination retention, selector geometry/instruction/navigation synchronization and ten-language controls. Real routing and physical phone QA are recorded separately after deployment.
 
 ## v110 correction
 
@@ -10,7 +20,7 @@ Route failures retain a retry state. A full destination clarification such as �
 
 Failure diagnostics expose only controlled codes and optional HTTP status, never provider URLs/keys. Tests assert that destination follow-ups after provider failures never call the language model or fabricate directions and estimates.
 
-This update is prepared for direct GitHub publication after connector installation was authorized. Post-deployment phone QA remains necessary. Start a new conversation for retesting so previously generated unverified directions are not confused with the corrected route.
+Direct GitHub publication is authorized. Post-deployment phone QA remains necessary. Start a new conversation for retesting so previously generated unverified directions are not confused with the corrected route.
 
 ## Walking routes
 

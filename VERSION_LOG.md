@@ -49,3 +49,13 @@
 - Separate trailing town qualifiers from shopping-centre name validation. Handle legacy pending:null route contexts.
 - Add controlled route diagnostics and regression fixtures for lowercase/uppercase metric units, incompatible units, and failure -> destination clarification -> retry.
 - Existing weather, place, GPS, client, navigation-link and module-handoff regression suites pass; syntax checks pass. Live post-deployment route check pending publication.
+
+
+## 2026-10-31 — Backend v111 + frontend 1.0.80
+- Based on GitHub main b3880eb61a8c56b3bc2ad036497edde143cc8a63, deployed v110/1.0.79.
+- Compute supported balanced/short pedestrian choices plus an explicitly requested waypoint route; deduplicate identical geometry and isolate individual failures.
+- Preserve destination/profile during waypoint name, numbered-choice and precise-address clarifications. Form sends structured waypoint intent in all ten UI languages.
+- Compact selector synchronizes selected geometry, street directions and navigation; Google Maps URLs retain the chosen waypoint.
+- No walking traffic/safety/quietness claims or motor-vehicle-only avoidance settings; disclose a single distinct result or failed waypoint calculation.
+- Normalize known English stairs/crosswalk phrases in Romanian; retain floor numbers and street names.
+- Backend/client tests and generated-script/syntax checks pass; live deployment validation recorded after publication. Physical phone QA remains necessary.
