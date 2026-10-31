@@ -59,3 +59,12 @@
 - No walking traffic/safety/quietness claims or motor-vehicle-only avoidance settings; disclose a single distinct result or failed waypoint calculation.
 - Normalize known English stairs/crosswalk phrases in Romanian; retain floor numbers and street names.
 - Backend/client tests and generated-script/syntax checks pass; live deployment validation recorded after publication. Physical phone QA remains necessary.
+
+
+## 2026-10-31 — Backend v112 + frontend 1.0.81
+- Replace the waypoint form with automatic pedestrian access discovery and a simple repeat-search action; retain same endpoints and clear old waypoint constraints.
+- Discover mapped footpaths/railway entrances, calculate bounded walking alternatives, reject detours/private access/ignored waypoints and collapse substantially overlapping corridors.
+- Require OSM bridge geometry matching before labeling a route as using a footbridge; isolate optional provider failures.
+- Show selected blue / alternative grey geometries; choosing a path synchronizes directions and Google Maps navigation.
+- Keep all ten UI languages and existing weather/GPS/hotel/shared-chat regressions. New automatic-alternative regressions and generated client syntax pass.
+- Live public-place route validation follows deployment; physical phone QA remains necessary.

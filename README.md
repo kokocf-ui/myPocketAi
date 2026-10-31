@@ -1,51 +1,29 @@
-# myPocket AI — backend v111 + frontend v1.0.80
+# myPocket AI — backend v112 + frontend v1.0.81
 
-31 October 2026. Verified base: GitHub main `b3880eb61a8c56b3bc2ad036497edde143cc8a63` (v110 / 1.0.79).
+Based on GitHub main bfda880de066460180bb5f2f566a2c83f405565c (v111 / 1.0.80), 31 October 2026.
 
-## Walking route choices
+## Automatic walking alternatives
 
-The same origin and destination are calculated with documented Geoapify `balanced` and `short` optimizations. Exact geometry duplicates (five decimal places, consecutive duplicate coordinates removed) collapse into one choice. A requested waypoint adds a third, balanced calculation with three waypoints and `intermediate_waypoint_mode=pass_through`. Each variant retains its own metric distance/time, geometry and provider instructions. A failed calculation does not discard other verified routes. Requested-waypoint failures are reported explicitly.
+Visitors no longer need to know a waypoint. The walking handler calculates balanced/short routes while discovering mapped footways, paths, pedestrian ways and railway/subway access near the destination through Geoapify Places. It considers up to four geographically separated access points and calculates all candidate routes with mode=walk and type=short. This is a bounded search, not an exhaustive alternative-path engine.
 
-Chat, the full-answer reader and the map provide a compact route selector. Selecting a variant opens its map, street instructions and navigation link together. The collapsible “Compare via a waypoint…” form accepts a name, address or postcode. It preserves the selected destination and origin. “Prin Chafford Hundred”, “Via Chafford Hundred” and full Romanian/English route requests also work. Structured form submissions support all ten interface languages. Ambiguous or missing waypoint names ask for clarification and retain the destination. A neighbourhood geocode is a reference point, not a verified pedestrian entrance.
+A destination-centred 1,100-metre Places search uses two category queries; no neighbourhood centroid or named city is inserted automatically. Explicit no/private access is rejected. Candidates too close to the endpoints, outside the search radius or requiring a large straight-line detour are discarded. Each automatic route must pass within 45 metres of its mapped access point. Large routed detours beyond shortest + max(400m, min(1200m, 45% of shortest)) are removed. A 40-metre corridor comparison suppresses routes sharing at least 88% of both paths; at most three distinct choices are returned, shortest verified first. Map data and provider availability can still yield just one choice; that is reported without inventing another.
 
-Google Maps URLs include the selected waypoint, destination coordinates and transport mode. Google Maps can still recalculate; the external route need not exactly match Geoapify geometry. No pedestrian traffic, crossing quality or quietness score is claimed. No undocumented alternatives flag or motor-vehicle-only avoidance/traffic setting is used for walking. If only one distinct geometry is returned, the answer says so. Known English provider stairs/crosswalk phrases are normalized in Romanian without inventing an ascent/descent or changing street names.
+A footbridge label requires a mapped footway/path/steps/pedestrian bridge and matching bridge geometry from the public OpenStreetMap way API. Its geometry must lie within 20 metres of the returned walking route. OSM bridge geometry is cached for five minutes with a 24-item bound. Missing bridge proof leaves the generic walking label. This is geometric evidence, not a live accessibility/closure or traffic guarantee. The app does not claim that an alternative is quieter or safer without such data.
 
-Automated backend/client regression suites and generated JavaScript syntax checks pass. Tests cover distinct/duplicate choices, partial and waypoint failures, waypoint ambiguity and continuation, exact destination retention, selector geometry/instruction/navigation synchronization and ten-language controls. Real routing and physical phone QA are recorded separately after deployment.
+## Choosing a route
 
-## v110 correction
+The chat reader and map have a compact selector with route distance and duration. The map displays selected geometry in blue, other choices in grey; either the selector or a grey path switches geometry, instructions and navigation together. The old waypoint form is removed. A localized “Find other walking routes” button repeats automatic discovery with the same endpoints and clears old v111 waypoint constraints. Controls support ro/en/fr/de/it/es/pt/nl/ru/pl.
 
-Metric route units are validated case-insensitively (`meters`, `Meters`, `METERS`); miles remain rejected. v109 incorrectly compared strictly with `Meters`, while the provider's real-response example uses lowercase `meters`. Regression fixtures now use lowercase provider-style units.
+Google Maps URLs retain automatically selected access points and mode=walking. Google Maps can recalculate the route and may show a preview or require a final Start action. Pocket AI does not implement its own continuous voice/off-route navigation. Explicit typed via requests remain supported for users who already know a place, but are not required in the walking flow.
 
-Route failures retain a retry state. A full destination clarification such as “Lakeside shopping center Grays” replaces the repeated name instead of concatenating it or reaching the general LLM. A town after “shopping center” is treated as a geographic qualifier rather than a required mall-name token. Legacy v109 contexts with pending:null are handled too.
+## Existing behavior
 
-Failure diagnostics expose only controlled codes and optional HTTP status, never provider URLs/keys. Tests assert that destination follow-ups after provider failures never call the language model or fabricate directions and estimates.
+Preserves shared chat/module handoff, exact hotel-result selection, GPS handling, Open-Meteo weather, four-line answer previews, clickable safe links, reader controls and fixed bottom navigation. Geoapify supplies route geometry, metric distances/times and street instructions; none are generated by the language model. Invalid geometry/units fail safely. Provider failures retain the destination and a retry context.
 
-Direct GitHub publication is authorized. Post-deployment phone QA remains necessary. Start a new conversation for retesting so previously generated unverified directions are not confused with the corrected route.
+## Validation and deployment
 
-## Walking routes
+Run npm test and npm run check. Tests execute the backend, generated client submission and map controls with mocked providers/DOM. New tests cover automatic access discovery, geometric duplicate suppression, same endpoints, private/centroid/snap/detour rejection, bridge geometry verification and partial-provider failure. There is no local physical-phone visual test. Live public-place route validation is performed after deployment; exact device-origin route quality still needs phone QA.
 
-The pedestrian quick action now enters the shared chat with explicit walking intent. GPS confirmation resumes the pending route instead of merely reverse-geocoding the phone. Destination and profile survive clarifications; user history can recover a missing route context without using assistant guesses as location evidence.
+Publish repository-root backend.js, index.js, package.json, tests.mjs, tests_reader.mjs, tests_weather.mjs, tests_routes.mjs, tests_alternatives.mjs, README.md, README_ro.md, VERSION_LOG.md and SHA256SUMS.txt. Keep existing Wrangler configs, secrets, AI binding and deployment workflow. main push deploys both existing Workers.
 
-For an unqualified shopping-centre destination, Places searches the mapped name/category within 25 km of GPS, followed by geographically constrained forward geocoding. Failure asks for town/country rather than substituting overseas names. Explicit destinations remain worldwide; explicit country overrides GPS bias. Local results are not guaranteed exhaustive.
-
-Street instructions, metric distance/time and geometry come from Geoapify with the selected language. Invalid distances, coordinates or incompatible units are rejected. Missing instructions are reported, never generated. At most 500 supplied steps are returned.
-
-The route map shows the provider geometry and a separately scrollable instruction list above the fixed bottom navigation. Chat and the answer reader provide map/navigation actions. Google Maps navigation uses the chosen destination coordinates and walking/driving mode. GPS-origin navigation uses the current device position; an explicit origin is retained. Google Maps may recalculate the route, show a preview or require a final start action depending on platform and location availability. Pocket AI does not yet provide its own continuous turn-by-turn navigation, voice guidance or off-route recalculation.
-
-## Conversation handoff
-
-The backend recommends maps/travel/assistant according to the handler that actually answered. The frontend moves the existing chat without archiving it, clearing GPS or changing conversation generation. Hotel discovery moves to Travel, routing moves to Maps, and explanatory/general questions return to Assistant. Weather remains in Assistant. Some utility POIs, such as fuel/parking, belong to Maps.
-
-Place results are retained and archived for exact selections. Romanian/English ordinal references such as “Du-mă la al doilea hotel” and “Walking route to hotel 2” use the chosen result's coordinates. Place details also have a walking-route action. New controls and route summaries cover all 10 interface languages; free-text intent phrasing is primarily tested in Romanian and English.
-
-## Installation and tests
-
-Upload all package files to the repository root: backend.js, index.js, package.json, tests.mjs, tests_reader.mjs, tests_weather.mjs, tests_routes.mjs, README.md, README_ro.md, VERSION_LOG.md, SHA256SUMS.txt. Keep Wrangler configs, secrets, AI binding and the existing deployment workflow. Updating main triggers the configured Worker deployments.
-
-The GitHub snapshot lacked tests_reader.mjs and tests_weather.mjs despite referencing them in npm test; both are supplied. Run npm test and npm run check. Mocked backend/DOM regressions execute the actual chat submission, module switching, route map, place-detail selection, quick action and navigation-link functions; generated browser JavaScript is compiled. Local tests cannot access the Cloudflare Geoapify key. New real POI/route quality, phone layout and Google Maps launching require post-deployment phone QA. Weather was confirmed by the user on the previous release; its regression tests remain included.
-
-Phone checks: Lakeside walking route → GPS confirmation → street list/map → Google Maps walking navigation. Then nearby hotels → second hotel route → general star-classification question. Verify the same conversation persists across modules. Recheck Oradea/Grays/Barcelona weather follow-ups.
-
-Primary documentation: https://apidocs.geoapify.com/docs/routing/ , https://apidocs.geoapify.com/docs/places/ , https://developers.google.com/maps/documentation/urls/get-started .
-
-Weather retains Open-Meteo and optional OPEN_METEO_API_KEY. Public API use is noncommercial; commercial use requires the appropriate provider plan: https://open-meteo.com/en/terms . Data attribution: Open-Meteo, CC BY 4.0. Hotel photos and live room prices are not implemented.
+Primary references: https://apidocs.geoapify.com/docs/routing/ ; https://apidocs.geoapify.com/docs/places/ ; https://wiki.openstreetmap.org/wiki/API_v0.6 ; https://developers.google.com/maps/documentation/urls/get-started . Chafford Hundred's pedestrian connection is documented by its operator: https://www.c2c-online.co.uk/stations/chafford-hundred-station/ . No Lakeside/Mill Lane/Mayflower coordinates or route are hardcoded in the product.

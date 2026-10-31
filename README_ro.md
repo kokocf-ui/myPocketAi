@@ -1,68 +1,27 @@
-# myPocket AI — backend v111 + frontend v1.0.80
+# myPocket AI — backend v112 + frontend v1.0.81
 
-31 octombrie 2026. Baza verificată: GitHub main `b3880eb61a8c56b3bc2ad036497edde143cc8a63` (v110 / 1.0.79).
+Bază: GitHub main bfda880de066460180bb5f2f566a2c83f405565c (v111 / 1.0.80), 31 octombrie 2026.
 
-## Mai multe trasee pietonale
+## Alternative pietonale automate
 
-Pentru aceeași plecare și destinație se cer variante Geoapify `balanced` și `short`. Geometriile identice (rotunjite la cinci zecimale, fără coordonate consecutive repetate) sunt afișate o singură dată. Un punct de trecere adaugă a treia cerere, cu trei puncte și `intermediate_waypoint_mode=pass_through`. Fiecare variantă păstrează propriile distanțe, durate, coordonate și indicații. O variantă eșuată nu anulează celelalte trasee verificate; eșecul variantei prin punctul solicitat este comunicat expres.
+Utilizatorul nu mai trebuie să cunoască un punct intermediar. Aplicația calculează variante pietonale și caută automat alei, căi pietonale și acces la gări/metrou în apropierea destinației prin Geoapify Places. Verifică cel mult patru accese separate geografic, calculând rute mode=walk/type=short. Căutarea este limitată, nu garantează toate variantele posibile.
 
-Selectorul compact apare în conversație, cititor și hartă. Alegerea schimbă împreună harta, străzile și linkul de navigație. „Compară printr-un punct…” acceptă nume, adresă sau cod poștal și păstrează destinația și plecarea. Se poate scrie și „Prin Chafford Hundred” sau cererea completă „Traseu pietonal până la Lakeside shopping centre prin Chafford Hundred”. Formularul funcționează în toate cele zece limbi. Un punct ambiguu solicită alegerea fără a pierde Lakeside. Centrul cartografic al unui cartier este un punct de referință, nu o intrare pietonală verificată.
+Două cereri Places caută la 1.100 m în jurul destinației. Nu introducem automat centrul unui cartier. Excludem accesele explicit private/interzise și punctele prea apropiate de plecare/destinație ori care presupun ocoluri mari. Geometria calculată trebuie să treacă la maximum 45 m de accesul ales. Se elimină ocolurile mai mari decât traseul minim + max(400m, min(1200m, 45% din minim)). Variantele care împart cel puțin 88% din ambele coridoare, într-o toleranță de 40m, se unifică. Afișăm cel mult trei trasee distincte, începând cu cel mai scurt verificat. Uneori datele/furnizorul oferă o singură variantă; acest lucru este spus explicit.
 
-Linkul Google Maps include punctul de trecere, coordonatele destinației și modul pietonal. Google Maps poate recalcula și nu garantează geometria identică. Nu se pretinde măsurarea traficului pietonal, confortului traversărilor sau liniștii traseului. Nu se folosesc parametri nedocumentați ori opțiuni de trafic/evitare dedicate mașinilor pentru mersul pe jos. Dacă rezultă o singură geometrie distinctă, răspunsul precizează asta. Expresiile cunoscute despre scări/treceri rămase în engleză sunt normalizate în română fără a inventa urcare/coborâre sau modifica numele străzilor.
+Eticheta „Prin pasarelă” necesită o cale pietonală marcată ca pod și geometria corespunzătoare din API-ul public OpenStreetMap. Geometria pasarelei trebuie să se regăsească la maximum 20 m de traseul calculat. Cache: cinci minute, cel mult 24 de poduri. Fără această verificare rămâne eticheta generică. Verificarea geometrică nu reprezintă confirmarea în timp real a accesibilității, închiderilor, traficului sau siguranței traversărilor.
 
-Testele automate backend/client și verificarea sintaxei JavaScript generat trec. Sunt acoperite variante distincte/duplicate, eșecuri parțiale, puncte ambigue și continuări, păstrarea destinației, schimbarea sincronizată hartă/străzi/navigație și etichetele în zece limbi. Verificarea furnizorului real și cea pe telefon sunt consemnate separat după publicare.
+## Alegerea simplă
 
-## Corecție v110
+Selectorul afișează distanța și durata fiecărei variante. Pe hartă, traseul ales este albastru, celelalte gri. Selectorul sau atingerea unei linii gri schimbă împreună geometria, indicațiile și navigația. Formularul de punct intermediar a fost eliminat. „Caută alte trasee pietonale” repetă căutarea automată cu aceeași plecare/destinație și șterge constrângerile intermediare rămase din v111. Controalele sunt traduse în toate cele zece limbi.
 
-Validarea rutelor acceptă unități metrice fără diferență între majuscule/minuscule (`meters`, `Meters`, `METERS`); milele sunt în continuare respinse. v109 compara strict cu `Meters`, deși exemplul real al furnizorului folosește `meters`. Testele reproduc acum răspunsul cu litere mici.
+Linkul Google Maps păstrează accesele alese automat și modul pietonal. Google Maps poate recalcula; poate afișa previzualizarea sau cere pornirea finală. Navigația vocală continuă și recalcularea internă nu sunt implementate. Cererile tastate explicit „prin...” rămân disponibile pentru utilizatorii care cunosc zona, dar nu sunt necesare în fluxul pietonal.
 
-După o eroare, cererea rămâne în starea de reîncercare. „Lakeside shopping center Grays” înlocuiește numele anterior când utilizatorul repetă destinația completă; nu concatenează două copii ale numelui și nu trimite continuarea la modelul general. Localitatea de după „shopping center” este tratată ca precizare geografică, nu ca parte obligatorie a denumirii centrului comercial. Sunt acceptate și continuările provenite dintr-un context v109 cu `pending: null`.
+## Păstrat și verificat
 
-În caz de eșec, API-ul returnează un cod de diagnostic limitat și, dacă există, statusul HTTP al furnizorului; nu expune cheia sau URL-ul cererii. Testele verifică expres că o completare a destinației după un eșec nu apelează modelul lingvistic și nu generează indicații/estimări.
+Se păstrează conversația comună între module, alegerea exactă a hotelurilor, GPS-ul, prognozele Open-Meteo, previzualizarea pe patru rânduri, linkurile sigure, cititorul și navigația inferioară fixă. Geometria, străzile, distanțele și duratele provin din Geoapify, fără generare de trasee de către modelul lingvistic. Erorile păstrează destinația pentru reîncercare.
 
-Publicarea directă în GitHub este autorizată. Verificarea pe telefon a traseului rămâne necesară după publicare. Pentru retestare este recomandată o conversație nouă, ca indicațiile neverificate generate anterior să nu fie confundate cu traseul corectat.
+npm test și npm run check verifică backendul și codul clientului cu furnizori/DOM simulate, inclusiv descoperirea automată, suprapunerea traseelor, aceleași capete, respingerea acceselor private/centrelor de cartier/ocolurilor, verificarea pasarelei și eșecurile parțiale. Nu există test vizual pe telefon în mediul local. Verificarea reală între locuri publice urmează publicării; traseul de la poziția dispozitivului necesită testarea pe telefon.
 
-## Traseu pietonal
+Fișierele se publică în rădăcina repository-ului; se păstrează configurațiile Wrangler, secretele și workflow-ul existent. Nu există coordonate sau trasee Lakeside/Mill Lane/Mayflower codificate în produs.
 
-Butonul din selecții rapide pornește acum aceeași conversație folosită pentru cererile tastate. Intentul pietonal este transmis explicit, inclusiv pentru interfața în altă limbă. Formularea veche „traseu exclusiv pietonal” este recunoscută; menționarea mijloacelor de transport interzise nu mai activează transportul public.
-
-„Folosește locația mea” continuă cererea de traseu existentă. Păstrează destinația și profilul pietonal, solicitând GPS doar dacă nu sunt disponibile coordonate valide. Confirmarea nu este înlocuită cu un simplu răspuns despre localizarea telefonului. Există recuperare din istoricul mesajelor utilizatorului când lipsește contextul structurat; răspunsurile asistentului nu sunt folosite ca dovadă de localizare.
-
-Pentru un centru comercial fără localitate/țară explicită, căutarea încearcă Geoapify Places într-o rază de 25 km de GPS, cu filtrare după nume și categorie. Căutarea geografică alternativă este limitată la aceeași zonă. Dacă nu identifică destinația, cere localitatea/țara; nu înlocuiește Lakeside din apropiere cu un omonim din SUA. O țară/localitate explicită are prioritate și permite căutarea la distanță. Căutarea locală nu garantează că toate intrările furnizorului sunt exhaustive.
-
-Indicațiile, străzile, distanțele, timpul și geometria provin din Geoapify. Se solicită limba interfeței și unități metrice. Sunt validate distanța și geometria; unitățile incompatibile sau coordonatele invalide nu produc o linie inventată. Dacă furnizorul nu livrează pași, acest lucru este spus explicit. Sunt afișați cel mult 500 de pași furnizați, fără generarea unor pași lipsă.
-
-## Hartă și navigație
-
-Răspunsul conține indicații text, „Vezi traseul pe hartă” și „Pornește navigația în Google Maps”. În fereastra hărții, traseul și lista de indicații sunt disponibile împreună; lista are derulare proprie și rămâne deasupra barei fixe de navigare. Cititorul răspunsului oferă și el acces la hartă/navigație pentru traseul respectiv.
-
-Navigația se deschide în aplicația Google Maps sau în pagina sa, în modul pietonal pentru un traseu pietonal. Destinația folosește coordonatele selectate. Pentru plecarea GPS, Google Maps utilizează poziția curentă; plecarea explicită este păstrată în link. În funcție de dispozitiv, disponibilitatea locației și distanța față de origine, Google Maps poate afișa previzualizarea traseului și poate necesita apăsarea butonului de pornire. Traseul poate fi recalculat de Google Maps. Aplicația Pocket AI nu implementează încă navigație proprie cu urmărire continuă, anunțuri vocale sau recalculare la abatere.
-
-## Transfer între module
-
-Backend-ul indică modulul corespunzător fluxului pe care l-a executat: Hărți pentru trasee/distanțe/localizare, Turism pentru hoteluri și alte căutări turistice, Asistent pentru răspunsuri generale și meteo. Unele categorii utilitare, precum benzinăriile și parcările, rămân la Hărți.
-
-Frontend-ul mută aceeași conversație în modulul recomandat după răspuns, fără arhivare, resetarea GPS-ului sau schimbarea generației conversației. Nu se decide transferul doar după prezența cuvântului „hotel”/„hartă”: întrebările explicative sunt tratate ca întrebări generale.
-
-Rezultatele POI sunt păstrate pentru selecții ulterioare și în conversațiile arhivate. „Du-mă la al doilea hotel” și „Walking route to hotel 2” folosesc coordonatele rezultatului ales, fără o nouă geocodare a numelui. Din detaliile locației există și buton „Traseu pietonal”. Recunoașterea mesajelor tastate este testată în principal în română/engleză; acțiunile și noile etichete au texte în toate cele 10 limbi.
-
-## Instalare și validare
-
-Încarcă în rădăcina repository-ului toate fișierele pachetului: `backend.js`, `index.js`, `package.json`, `tests.mjs`, `tests_reader.mjs`, `tests_weather.mjs`, `tests_routes.mjs`, `README.md`, `README_ro.md`, `VERSION_LOG.md`, `SHA256SUMS.txt`. Nu încărca arhiva ZIP ca înlocuitor pentru aceste fișiere. Păstrează configurațiile Wrangler, secretele, binding-ul AI și workflow-ul existent. Actualizarea ramurii `main` declanșează publicarea Workers conform workflow-ului.
-
-În GitHub lipseau `tests_reader.mjs` și `tests_weather.mjs`, deși erau menționate în `npm test`; sunt incluse împreună cu noile teste de traseu.
-
-`npm test` și `npm run check` trec. Testele folosesc servicii și DOM simulate, execută funcțiile reale de trimitere a mesajelor, schimbare a modulului, deschidere a hărții, selecție din detalii și construire a linkurilor de navigație. Scriptul client generat este compilat. Cheile Geoapify Cloudflare nu sunt disponibile local: noua căutare Lakeside, pașii reali și lansarea Google Maps trebuie verificate pe telefon după publicare. Regresiile meteo v108 sunt păstrate; meteo a fost confirmat de utilizator pe telefon înaintea acestei modificări.
-
-## Test pe telefon
-
-1. Din Asistent: „Arată-mi un traseu pietonal până la Lakeside shopping centre”. Trebuie să treacă la Hărți, să păstreze GPS-ul și să calculeze traseul sau să ceară o clarificare precisă a destinației.
-2. Dacă este cerută plecarea: „Folosește locația mea”. Trebuie să continue traseul. Dacă destinația nu este sigură, completează „Grays, UK”.
-3. Deschide harta: verifică linia și indicațiile pe străzi. Apasă navigația și verifică destinația și modul pietonal în Google Maps.
-4. Din Hărți: „Caută hoteluri în apropierea mea”. Trebuie să treacă la Turism. „Du-mă la al doilea hotel” trebuie să revină la Hărți și să păstreze hotelul ales.
-5. „Ce înseamnă clasificarea de patru stele?” trebuie să revină la Asistent fără să șteargă mesajele.
-6. Repetă testele meteo Oradea → Grays → Barcelona și mâine → poimâine.
-
-Documentație: https://apidocs.geoapify.com/docs/routing/ · https://apidocs.geoapify.com/docs/places/ · https://developers.google.com/maps/documentation/urls/get-started
-
-Meteo păstrează Open-Meteo și secretul opțional `OPEN_METEO_API_KEY`. Serviciul public este pentru utilizare necomercială; pentru utilizare comercială se aplică termenii furnizorului: https://open-meteo.com/en/terms. Datele sunt atribuite Open-Meteo, CC BY 4.0. Fotografii de hotel și tarife live nu sunt implementate.
+Documentație: https://apidocs.geoapify.com/docs/routing/ ; https://apidocs.geoapify.com/docs/places/ ; https://wiki.openstreetmap.org/wiki/API_v0.6 ; https://developers.google.com/maps/documentation/urls/get-started . Legătura pietonală a gării Chafford Hundred este documentată de operator: https://www.c2c-online.co.uk/stations/chafford-hundred-station/ .

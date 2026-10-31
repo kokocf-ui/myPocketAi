@@ -130,6 +130,59 @@ function mergeRouteDestination(previous,detail){
  if(a.startsWith(b+' '))return old.slice(0,240);
  return (old+', '+next).slice(0,240);
 }
+const walkingBridgeCache=new Map();
+async function walkingBridgeGeometry(id){
+ if(!/^\d{1,14}$/.test(String(id)))return null;const cached=walkingBridgeCache.get(id);if(cached&&cached.until>Date.now())return cached.points;
+ try{const r=await fetch('https://api.openstreetmap.org/api/0.6/way/'+id+'/full.json',{headers:{Accept:'application/json'},signal:AbortSignal.timeout(3000)});if(!r.ok)return null;const raw=await r.json(),way=raw.elements?.find(e=>e.type==='way'&&String(e.id)===String(id)),tags=way?.tags||{};
+  if(!['footway','path','steps','pedestrian'].includes(tags.highway)||!tags.bridge||tags.bridge==='no'||['no','private'].includes(tags.foot)||['no','private'].includes(tags.access))return null;
+  const nodes=new Map((raw.elements||[]).filter(e=>e.type==='node'&&Number.isFinite(e.lat)&&Number.isFinite(e.lon)).map(e=>[e.id,[e.lon,e.lat]]));const points=(way.nodes||[]).map(n=>nodes.get(n));if(points.length<2||points.length>1000||points.some(p=>!p))return null;
+  if(walkingBridgeCache.size>=24)walkingBridgeCache.delete(walkingBridgeCache.keys().next().value);walkingBridgeCache.set(id,{points,until:Date.now()+300000});return points;
+ }catch{return null}
+}
+// Compare walking corridors at metre scale, rather than treating tiny geometry changes as new choices.
+function walkingSamples(coordinates,latitude,spacing=30){
+ const scaleX=111320*Math.max(.01,Math.cos(latitude*Math.PI/180)),scaleY=111320;
+ const points=coordinates.map(p=>[p[0]*scaleX,p[1]*scaleY]);let length=0;for(let i=1;i<points.length;i++)length+=Math.hypot(points[i][0]-points[i-1][0],points[i][1]-points[i-1][1]);
+ const interval=Math.max(spacing,length/1200),out=[];let remaining=0;
+ for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],d=Math.hypot(b[0]-a[0],b[1]-a[1]);if(!d)continue;for(let at=remaining;at<d;at+=interval)out.push([a[0]+(b[0]-a[0])*at/d,a[1]+(b[1]-a[1])*at/d]);remaining=(remaining-d)%interval;if(remaining<0)remaining+=interval;}
+ if(!out.length&&points.length)out.push(points[0]);return out;
+}
+function walkingOverlap(a,b){
+ const latitude=a.coordinates[0][1],aa=walkingSamples(a.coordinates,latitude),bb=walkingSamples(b.coordinates,latitude);
+ const share=(points,other)=>{const grid=new Map(),cell=40;for(const p of other){const k=Math.floor(p[0]/cell)+','+Math.floor(p[1]/cell);if(!grid.has(k))grid.set(k,[]);grid.get(k).push(p)}let matches=0;
+  for(const p of points){let found=false;const x=Math.floor(p[0]/cell),y=Math.floor(p[1]/cell);for(let dx=-1;dx<=1&&!found;dx++)for(let dy=-1;dy<=1&&!found;dy++)for(const q of grid.get((x+dx)+','+(y+dy))||[]){if((p[0]-q[0])**2+(p[1]-q[1])**2<=40**2){found=true;break}}if(found)matches++}return points.length?matches/points.length:1};
+ return Math.min(share(aa,bb),share(bb,aa));
+}
+function walkingPointOnRoute(route,point,tolerance=45){
+ const sx=111320*Math.max(.01,Math.cos(point.latitude*Math.PI/180)),sy=111320,x=point.longitude*sx,y=point.latitude*sy;
+ for(let i=1;i<route.coordinates.length;i++){const a=route.coordinates[i-1],b=route.coordinates[i],ax=a[0]*sx,ay=a[1]*sy,dx=(b[0]-a[0])*sx,dy=(b[1]-a[1])*sy,den=dx*dx+dy*dy,t=den?Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/den)):0;if((x-ax-t*dx)**2+(y-ay-t*dy)**2<=tolerance**2)return true}return false;
+}
+async function discoverWalkingAccess(destination,origin,key){
+ // Only the mapped destination is sent to Places; the departure remains in routing requests.
+ const radius=1100,groups=['public_transport.train,public_transport.subway.entrance','highway.footway,highway.path,highway.pedestrian'];
+ const results=await Promise.allSettled(groups.map(async(categories)=>{
+  const u=new URL('https://api.geoapify.com/v2/places');u.searchParams.set('categories',categories);u.searchParams.set('filter',`circle:${destination.longitude},${destination.latitude},${radius}`);u.searchParams.set('bias',`proximity:${destination.longitude},${destination.latitude}`);u.searchParams.set('limit',categories.startsWith('public_transport')?'16':'100');u.searchParams.set('apiKey',key);
+  const r=await fetch(u.href,{signal:AbortSignal.timeout(4500)});if(!r.ok)throw Error('walking_access_unavailable');const raw=await r.json();
+  return (raw.features||[]).slice(0,100).flatMap(f=>{
+   const p=f.properties||{},tags=p.datasource?.raw||{},cats=Array.isArray(p.categories)?p.categories:[];
+   if(['no','private'].includes(tags.access)||['no','private'].includes(tags.foot)||cats.some(v=>v==='no_access'||v==='access_limited.private'))return [];
+   const station=cats.some(v=>/^public_transport\.(train|subway\.entrance)/.test(v)),path=cats.some(v=>/^highway\.(footway|path|pedestrian)$/.test(v));
+   if(!station&&!path)return [];
+   const rawLat=p.lat??f.geometry?.coordinates?.[1],rawLon=p.lon??f.geometry?.coordinates?.[0];if(typeof rawLat!=='number'||typeof rawLon!=='number'||!Number.isFinite(rawLat)||!Number.isFinite(rawLon)||Math.abs(rawLat)>90||Math.abs(rawLon)>180)return [];
+   const bridge=path&&Boolean(tags.bridge&&tags.bridge!=='no'),name=String(p.name||tags.name||'').slice(0,100);
+   const point={latitude:rawLat,longitude:rawLon,label:name||String(p.formatted||'').slice(0,140),access_kind:bridge?'footbridge':station?'station':'footpath',osm_way_id:bridge&&String(tags.osm_type||'way')!=='node'?String(tags.osm_id||'').replace(/^(?:way\/|w)/,''):null};
+   const from=routeGeoDistance(origin,point),to=routeGeoDistance(point,destination),direct=routeGeoDistance(origin,destination);
+   if(from<100||to<80||to>radius+50||from+to>direct*1.65+300)return [];
+   return [{...point,score:(bridge?0:station?1:2)+(from+to)/(Math.max(direct,100)*10)}];
+  });
+ }));
+ const sorted=results.flatMap(v=>v.status==='fulfilled'?v.value:[]).sort((a,b)=>a.score-b.score),points=[];
+ // Keep geographically different approaches; never ask the visitor to pick an internal point.
+ for(const point of sorted){if(!points.some(p=>routeGeoDistance(p,point)<180))points.push(point);if(points.length===4)break}
+ await Promise.all(points.map(async p=>{if(p.access_kind!=='footbridge')return;p.bridge_geometry=await walkingBridgeGeometry(p.osm_way_id);if(!p.bridge_geometry)p.access_kind='footpath'}));
+ return {points,status:results.every(v=>v.status==='fulfilled')?'ok':results.some(v=>v.status==='fulfilled')?'partial':'unavailable'};
+}
+
 function routeGeoDistance(a,b){const rad=v=>v*Math.PI/180,dLat=rad(b.latitude-a.latitude),dLon=rad(b.longitude-a.longitude);const h=Math.sin(dLat/2)**2+Math.cos(rad(a.latitude))*Math.cos(rad(b.latitude))*Math.sin(dLon/2)**2;return 6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));}
 const ROUTE_REPLY_TEXT={
  ro:['Traseu pietonal','Traseu rutier','Distanță','Durată estimată','Indicații pe străzi','Serviciul nu a furnizat indicații pe străzi pentru acest traseu.','Traseu calculat de Geoapify.'],
@@ -146,7 +199,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v111";
+    const API_VERSION = "v112";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -633,7 +686,8 @@ export default {
     if(routeSpec||selectedDestinationRequested||mapRouteRequest||shortRouteAnswer||retryRouteAnswer||viaRouteAnswer||compareRouteAnswer||(gpsRouteAnswer&&routeContext)){
       let rc=routeContext||{profile:null,destination_query:"",origin_query:"",pending:null,candidates:[]};
       const modeOnly=/^(?:pe jos|pietonal|walking|walk|cu masina|masina|drive|driving)$/.test(routeWords);
-      if(routeSpec&&!mapRouteRequest&&!modeOnly){rc={...routeSpec,pending:null,candidates:[]};}
+      if(routeSpec&&!mapRouteRequest&&!modeOnly&&!compareRouteAnswer&&!viaRouteAnswer){rc={...routeSpec,pending:null,candidates:[]};}
+      if(compareRouteAnswer){rc.via_query='';rc.via=null;rc.pending=null;rc.candidates=[];}
       if(viaRouteAnswer){rc.via_query=viaQuery;rc.via=null;rc.pending=null;rc.candidates=[];}
       if(modeOnly)rc.profile=/(?:pe jos|pietonal|walking|walk)/.test(routeWords)?'walk':'drive';
       const selected=data.route_destination;
@@ -721,12 +775,14 @@ export default {
           pl:['Standardowa','Według odległości','Przez','Obliczone warianty','Zwrócono tylko jedną różną trasę.','Nie udało się zweryfikować trasy przez wskazany punkt.']
         };
         const labels=alternativeText[lang]||alternativeText.en;
-        const calculate=async kind=>{
-          const points=kind==='via'?[origin,via,destination]:[origin,destination];
+        const accessSearch=rc.profile==='walk'&&!via?discoverWalkingAccess(destination,origin,env.GEOAPIFY_API_KEY):Promise.resolve({points:[],status:'not_requested'});
+        const calculate=async (kind,access=null)=>{
+          const point=access||(kind==='via'?via:null);
+          const points=point?[origin,point,destination]:[origin,destination];
           const u=new URL('https://api.geoapify.com/v1/routing');
           u.searchParams.set('waypoints',points.map(p=>`${p.latitude},${p.longitude}`).join('|'));
-          u.searchParams.set('mode',rc.profile);u.searchParams.set('type',kind==='short'?'short':'balanced');
-          if(kind==='via')u.searchParams.set('intermediate_waypoint_mode','pass_through');
+          u.searchParams.set('mode',rc.profile);u.searchParams.set('type',kind==='short'||access?'short':'balanced');
+          if(point)u.searchParams.set('intermediate_waypoint_mode','pass_through');
           u.searchParams.set('details','instruction_details');u.searchParams.set('units','metric');u.searchParams.set('lang',lang);u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
           const r=await fetch(u.href,{signal:AbortSignal.timeout(12000)});if(!r.ok)throw Object.assign(Error('route_provider_failed'),{httpStatus:r.status});
           const f=(await r.json()).features?.[0],props=f?.properties||{},coordinates=routeGeometryCoordinates(f?.geometry),meters=Number(props.distance),seconds=Number(props.time);
@@ -739,18 +795,33 @@ export default {
           const streets=Array.isArray(step.instruction?.streets)?step.instruction.streets.filter(v=>typeof v==='string').slice(0,8):[];
           return {text:text.slice(0,1200),streets,distanceMeters:Number.isFinite(step.distance)&&step.distance>=0?step.distance:null};
         }).filter(v=>v.text).slice(0,500).map((v,i)=>({...v,number:i+1}));
-        return {id:kind,label:kind==='via'?labels[2]+' — '+via.label:labels[kind==='short'?1:0],via:kind==='via'?[via]:[],profile:rc.profile,coordinates,distanceMeters:meters,durationSeconds:typeof props.time==='number'&&Number.isFinite(seconds)&&seconds>=0?seconds:null,origin,destination,steps};
+        return {id:kind,automatic:Boolean(access),access_kind:access?.access_kind||null,bridge_geometry:access?.bridge_geometry||null,label:point?labels[2]+' — '+point.label:labels[kind==='short'?1:0],via:point?[point]:[],profile:rc.profile,coordinates,distanceMeters:meters,durationSeconds:typeof props.time==='number'&&Number.isFinite(seconds)&&seconds>=0?seconds:null,origin,destination,steps};
 
         };
         const kinds=['balanced',...(rc.profile==='walk'?['short']:[]),...(via?['via']:[])];
-        const calculated=await Promise.allSettled(kinds.map(calculate));
-        const routes=[],signatures=new Map();
-        for(const item of calculated){if(item.status!=='fulfilled')continue;const route=item.value;
-          const signature=route.coordinates.map(p=>p.map(v=>v.toFixed(5)).join(',')).filter((v,i,a)=>i===0||v!==a[i-1]).join('|');
-          if(signatures.has(signature)){if(route.id==='via'){routes[signatures.get(signature)]=route;}continue;}
-          signatures.set(signature,routes.length);routes.push(route);
+        const [calculated,access]=await Promise.all([Promise.allSettled(kinds.map(kind=>calculate(kind))),accessSearch]);
+        const base=calculated.flatMap(v=>v.status==='fulfilled'?[v.value]:[]);
+        if(!base.length)throw calculated.find(v=>v.status==='rejected')?.reason||Error('route_geometry_missing');
+        const automatic=rc.profile==='walk'&&!via?await Promise.allSettled(access.points.map((point,i)=>calculate('access_'+i,point))):[];
+        const shortest=Math.min(...base.map(v=>v.distanceMeters)),maxDetour=Math.max(400,Math.min(1200,shortest*.45));
+        const verifiedAutomatic=automatic.flatMap(v=>v.status==='fulfilled'&&v.value.distanceMeters<=shortest+maxDetour&&v.value.via.every(p=>walkingPointOnRoute(v.value,p))&&(!v.value.bridge_geometry||v.value.bridge_geometry.every(p=>walkingPointOnRoute(v.value,{latitude:p[1],longitude:p[0]},20)))?[v.value]:[]);
+        const all=[...base,...verifiedAutomatic],best=Math.min(...all.map(v=>v.distanceMeters)),limit=best+Math.max(400,Math.min(1200,best*.45));
+        const candidates=all.filter(v=>via||v.distanceMeters<=limit).sort((a,b)=>a.distanceMeters-b.distanceMeters);
+        const routes=[];
+        for(const candidate of candidates){
+          const same=routes.findIndex(v=>rc.profile==='walk'?walkingOverlap(v,candidate)>=.88:JSON.stringify(v.coordinates)===JSON.stringify(candidate.coordinates));
+          if(same>=0){if(candidate.id==='via')routes[same]=candidate;else if(candidate.access_kind==='footbridge'&&routes[same].access_kind!=='footbridge'&&candidate.bridge_geometry?.every(p=>walkingPointOnRoute(routes[same],{latitude:p[1],longitude:p[0]},20)))routes[same]={...routes[same],access_kind:'footbridge',bridge_geometry:candidate.bridge_geometry};continue;}
+          if(routes.length<3)routes.push(candidate);
         }
-        if(!routes.length)throw calculated.find(v=>v.status==='rejected')?.reason||Error('route_geometry_missing');
+        const walkingLabels={ro:['Traseu pietonal','Prin pasarelă','Prin','Indicații pentru'],en:['Walking route','Via footbridge','Via','Directions for'],fr:['Trajet à pied','Par la passerelle','Via','Instructions pour'],de:['Fußweg','Über Fußgängerbrücke','Über','Wegbeschreibung für'],it:['Percorso a piedi','Tramite passerella','Via','Indicazioni per'],es:['Ruta a pie','Por pasarela peatonal','Vía','Indicaciones para'],pt:['Percurso a pé','Pela passagem pedonal','Via','Indicações para'],nl:['Wandelroute','Via voetbrug','Via','Aanwijzingen voor'],ru:['Пеший маршрут','По пешеходному мосту','Через','Указания для'],pl:['Trasa piesza','Przez kładkę','Przez','Wskazówki dla']};
+        const wl=walkingLabels[lang]||walkingLabels.en;
+        if(rc.profile==='walk')routes.forEach((r,i)=>{
+          if(r.id==='via')return;
+          const roads=new Map();for(const step of r.steps)for(const street of step.streets||[])roads.set(street,(roads.get(street)||0)+(step.distanceMeters||0));
+          const names=[...roads].sort((a,b)=>b[1]-a[1]).slice(0,2).map(v=>v[0]);
+          r.label=r.access_kind==='footbridge'?wl[1]:wl[0]+' '+(i+1);
+          r.description=names.join(' / ');if(r.description)r.label+=' — '+r.description;
+        });
         rc.pending=null;rc.candidates=[];responseRouteContext=rc;
         const route=routes.find(v=>v.id==='via')||routes[0],steps=route.steps,meters=route.distanceMeters,seconds=route.durationSeconds;
         const t=ROUTE_REPLY_TEXT[lang]||ROUTE_REPLY_TEXT.en,nf=new Intl.NumberFormat(lang,{maximumFractionDigits:1});
@@ -759,9 +830,9 @@ export default {
         reply+='\n\n'+labels[3]+':\n'+routes.map((v,i)=>`${i+1}. ${summary(v)}`).join('\n');
         if(routes.length===1)reply+='\n'+labels[4];
         const viaFailed=Boolean(via&&!routes.some(v=>v.id==='via'));if(viaFailed)reply+='\n'+labels[5];
-        reply+='\n\n'+route.label+'\n'+(steps.length?t[4]+':\n'+steps.map(v=>`${v.number}. ${v.text}${v.distanceMeters!==null&&v.distanceMeters>0?' · '+nf.format(v.distanceMeters)+' m':''}`).join('\n'):t[5]);
-        reply+='\n\n'+t[6];
-        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,translation_status:'localized',route_available:true,route_geometry_available:true,route_instructions_available:steps.length>0,route,routes,route_alternatives_count:routes.length,route_via_available:via? !viaFailed:undefined,auto_open_map:mapRouteRequest,source:'Geoapify Geocoding, Places and Routing',location_received:hasValidLocation,ai_connected:Boolean(env.AI)});
+        reply+='\n\n'+(rc.profile==='walk'?wl[3]+' ':'')+route.label+'\n'+(steps.length?t[4]+':\n'+steps.map(v=>`${v.number}. ${v.text}${v.distanceMeters!==null&&v.distanceMeters>0?' · '+nf.format(v.distanceMeters)+' m':''}`).join('\n'):t[5]);
+        reply+='\n\n'+t[6]+(routes.some(r=>r.bridge_geometry)?' · OpenStreetMap':'' );
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,translation_status:'localized',route_available:true,route_geometry_available:true,route_instructions_available:steps.length>0,route,routes,route_alternatives_count:routes.length,walking_alternatives_status:rc.profile==='walk'?access.status:undefined,walking_access_candidates:rc.profile==='walk'?access.points.length:undefined,route_via_available:via? !viaFailed:undefined,auto_open_map:mapRouteRequest,source:'Geoapify Geocoding, Places and Routing',location_received:hasValidLocation,ai_connected:Boolean(env.AI)});
 
       }catch(error){
         rc.pending=rc.pending||'retry';
