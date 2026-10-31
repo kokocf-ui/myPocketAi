@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests.mjs",
+    "test": "node tests.mjs && node tests_reader.mjs",
     "check": "node --check backend.js && node --check index.js"
   }
 }
