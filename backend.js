@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -199,7 +199,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v125";
+    const API_VERSION = "v126";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -430,6 +430,7 @@ export default {
         // Prefer verified operator station records over free-text geocoding for UK rail/tube stations.
         let verifiedStopId=null;
         const requestedStationName=targetName;
+        const unqualifiedStation=/\\b(station|underground|tube|metro|railway)\\b/i.test(requestedStationName)&&! /\\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|paris|france|berlin|germany|rome|italy|madrid|spain|canada|australia)\\b/i.test(requestedStationName);
         if(env.TFL_APP_KEY && /\\b(station|underground|tube|metro|railway)\\b/i.test(targetName)){
           try{
             const stopQuery=targetName.replace(/\\b(london|londra|underground|railway|rail|train|station|tube)\\b/gi," ").replace(/\\s+/g," ").trim();
@@ -447,6 +448,11 @@ export default {
                   return name===wanted && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)) && p.id;
                 });
                 const closest=good.sort((a,b)=>Math.hypot(Number(a.lat)-latitude,Number(a.lon)-longitude)-Math.hypot(Number(b.lat)-latitude,Number(b.lon)-longitude))[0];
+                if(unqualifiedStation && !confirmedStop && good.length){
+                  const seen=new Set(),opts=[];
+                  for(const p of good){const key=String(p.commonName||"").toLowerCase()+":"+Math.round(Number(p.lat)*1000)+":"+Math.round(Number(p.lon)*1000);if(seen.has(key))continue;seen.add(key);opts.push({label:String(p.commonName||"Station"),latitude:Number(p.lat),longitude:Number(p.lon)});if(opts.length>=4)break;}
+                  return json({app:"Pocket AI",version:API_VERSION,status:"success",reply:"Alege stația dorită:",needs_destination_clarification:true,destination_candidates:opts,transit_available:false});
+                }
                 if(closest){targetLat=Number(closest.lat);targetLon=Number(closest.lon);targetName=closest.commonName;verifiedStopId=String(closest.id);}
               }
             }
