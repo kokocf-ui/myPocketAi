@@ -1,1 +1,1 @@
-v1.0.55: selector limbi încadrat în pagină; localizare opțiuni rapide ru/pl; corecție buton înapoi.
+v1.0.56: menu alphabetic, fixed overlay scroll, Italian/Dutch Home localization, canonical place-search intent and 25s timeout.
