@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.70 — compact place detail heading and scroll reset
+ * myPocket AI — Frontend v1.0.71 — logo-only details and mapped hotel classification
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.70",
+  version: "1.0.71",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1152,20 +1152,12 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
  overflow-x:hidden!important;padding-bottom:16px!important
 }
 
-/* v1.0.66: details only; result table dimensions are unchanged. */
-.place-detail-gallery{display:flex;gap:10px;overflow-x:auto;margin:12px 0;padding:4px 0}
-.place-detail-thumb{border:1px solid var(--line);background:var(--panel);border-radius:12px;flex:0 0 112px;height:86px;overflow:hidden;padding:0;cursor:pointer}
-.place-detail-thumb img{width:100%;height:100%;object-fit:cover}
-.place-photo-lightbox{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:99999;display:flex;align-items:center;justify-content:center;padding:60px 12px 22px}
-.place-photo-lightbox img{max-width:100%;max-height:100%;object-fit:contain}
-.place-photo-close{position:absolute;top:12px;right:12px;background:#123347;color:white;border:1px solid #64c9d4;border-radius:12px;padding:10px 14px;font-size:16px}
-
 .place-brand-logo{display:block;width:100%;height:100%;object-fit:contain;padding:6px;background:#fff;border-radius:inherit}
-/* v1.0.70: name and logo share the heading row; no empty photo spacer. */
+/* v1.0.71: name and logo share the heading row; no empty photo spacer. */
 .module-place-details .place-detail-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;min-width:0}
 .module-place-details .place-detail-header h3{flex:1 1 auto;min-width:0;margin:0;line-height:1.25;overflow-wrap:anywhere}
 .module-place-details .place-detail-header .place-detail-logo{flex:0 0 44px;width:44px;height:44px;min-width:44px;max-width:44px;margin:0;font-size:24px;border-radius:11px}
-.place-detail-gallery:empty{display:none;margin:0;padding:0}
+
 </style>
 </head>
 <body>
@@ -1197,7 +1189,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.70'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.71'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt))return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -1281,8 +1273,6 @@ function renderModulePlaces(places){const body=$('moduleLayerBody');body.innerHT
 const DETAIL_LABELS={"ro": {"address": "Adresă", "phone": "Telefon", "website": "Website", "photos": "Fotografii", "close": "Închide fotografia", "price": "Preț", "rooms": "Camere"}, "en": {"address": "Address", "phone": "Phone", "website": "Website", "photos": "Photos", "close": "Close photo", "price": "Price", "rooms": "Rooms"}, "fr": {"address": "Adresse", "phone": "Téléphone", "website": "Site web", "photos": "Photos", "close": "Fermer la photo", "price": "Prix", "rooms": "Chambres"}, "de": {"address": "Adresse", "phone": "Telefon", "website": "Webseite", "photos": "Fotos", "close": "Foto schließen", "price": "Preis", "rooms": "Zimmer"}, "it": {"address": "Indirizzo", "phone": "Telefono", "website": "Sito web", "photos": "Foto", "close": "Chiudi foto", "price": "Prezzo", "rooms": "Camere"}, "es": {"address": "Dirección", "phone": "Teléfono", "website": "Sitio web", "photos": "Fotos", "close": "Cerrar foto", "price": "Precio", "rooms": "Habitaciones"}, "pt": {"address": "Morada", "phone": "Telefone", "website": "Website", "photos": "Fotografias", "close": "Fechar fotografia", "price": "Preço", "rooms": "Quartos"}, "nl": {"address": "Adres", "phone": "Telefoon", "website": "Website", "photos": "Foto’s", "close": "Foto sluiten", "price": "Prijs", "rooms": "Kamers"}, "ru": {"address": "Адрес", "phone": "Телефон", "website": "Сайт", "photos": "Фотографии", "close": "Закрыть фото", "price": "Цена", "rooms": "Номера"}, "pl": {"address": "Adres", "phone": "Telefon", "website": "Strona internetowa", "photos": "Zdjęcia", "close": "Zamknij zdjęcie", "price": "Cena", "rooms": "Pokoje"}};
 function detailLabels(){return DETAIL_LABELS[state.language]||DETAIL_LABELS.en}
 function verifiedMediaUrl(value){try{const u=new URL(String(value||''));return u.protocol==='https:'?u.href:''}catch{return ''}}
-function showPlacePhoto(src,alt){const layer=document.createElement('div');layer.className='place-photo-lightbox';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');const close=document.createElement('button');close.type='button';close.textContent='× '+detailLabels().close;close.className='place-photo-close';const image=document.createElement('img');image.src=src;image.alt=alt||'';image.onerror=()=>layer.remove();const finish=()=>{document.removeEventListener('keydown',esc);layer.remove()};const esc=e=>{if(e.key==='Escape')finish()};close.onclick=finish;layer.onclick=e=>{if(e.target===layer)finish()};document.addEventListener('keydown',esc);layer.append(close,image);document.body.append(layer);close.focus()}
-// v1.0.70: external sites use ordinary browser navigation, not an embedded frame.
 function placeWebsiteUrl(value){
  let raw=String(value||'').trim();if(!raw)return '';
  if(raw.startsWith('//'))raw='https:'+raw;
@@ -1319,22 +1309,18 @@ function mountPlaceLogo(host,place){
  const enrich=()=>loadPlaceMedia(place).then(data=>{if(!host.isConnected)return;display([...(Array.isArray(data.logos)?data.logos:[]),place.logo_url,place.brand_logo,...favicon(place.website||data.website)])});
  if(typeof IntersectionObserver==='function'){const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){observer.disconnect();enrich()}},{rootMargin:'100px'});observer.observe(host);setTimeout(()=>observer.disconnect(),60000)}else enrich();
 }
-async function enrichPlaceMedia(place,gallery,title){
- try{const data=await loadPlaceMedia(place);if(!gallery.isConnected)return;
-  appendPlaceWebsite(gallery.parentElement,place.website||data.website);
-  for(const raw of (Array.isArray(data.images)?data.images:[]).slice(0,6)){const src=verifiedMediaUrl(raw);if(!src||[...gallery.querySelectorAll('img')].some(i=>i.src===src))continue;
-   const button=document.createElement('button');button.type='button';button.className='place-detail-thumb';const img=document.createElement('img');img.src=src;img.alt=title;img.loading='lazy';img.onerror=()=>button.remove();button.onclick=()=>showPlacePhoto(src,title);button.append(img);gallery.append(button)}
- }catch{}
+async function enrichPlaceWebsite(place,card){
+ const data=await loadPlaceMedia(place);if(card.isConnected)appendPlaceWebsite(card,place.website||data.website);
 }
 function renderModulePlaceDetails(place){
  document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');state.moduleSearchReturnMode='results';
  const body=$('moduleLayerBody');body.innerHTML='';const card=document.createElement('div');card.className='module-place-details';
  const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=String(place.name||t.location);const logo=document.createElement('span');logo.className='module-place-result-icon place-detail-logo';logo.setAttribute('aria-hidden','true');mountPlaceLogo(logo,place);const heading=document.createElement('div');heading.className='place-detail-header';heading.append(title,logo);card.append(heading);
- const images=[place.image_url,...(Array.isArray(place.images)?place.images:[]),...(Array.isArray(place.room_images)?place.room_images:[])].map(verifiedMediaUrl).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,12);
- {const gallery=document.createElement('div');gallery.className='place-detail-gallery';for(const src of images){const button=document.createElement('button');button.type='button';button.className='place-detail-thumb';const img=document.createElement('img');img.src=src;img.alt=title.textContent;img.loading='lazy';button.onclick=()=>showPlacePhoto(src,title.textContent);img.onerror=()=>button.remove();button.append(img);gallery.append(button)}card.append(gallery);enrichPlaceMedia(place,gallery,title.textContent)}
+ enrichPlaceWebsite(place,card);
  const line=(label,value)=>{if(value===undefined||value===null||String(value).trim()==='')return;const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));card.append(p)};
  line(l.address,place.address||[place.house_number,place.street,place.city,place.postcode].filter(Boolean).join(', '));
  line(t.category,localizedPlaceCategory(place.type||t.unspecified));
+ if(Number(place.stars)>=1&&Number(place.stars)<=5)line('★ (OpenStreetMap)',String(place.stars));
  if(place.distance_meters!==undefined)line(t.distance,formatDistance(place.distance_meters));
  if(place.phone){const p=document.createElement('p');const a=document.createElement('a');a.href='tel:'+String(place.phone).replace(/[^+0-9]/g,'');a.textContent=String(place.phone);p.append(l.phone+': ',a);card.append(p)}
  appendPlaceWebsite(card,place.website);

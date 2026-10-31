@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v101 separate brand logos and website metadata; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v102 explicit search destination, hotel stars and central-area scope; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -40,7 +40,7 @@
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v101";
+    const API_VERSION = "v102";
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -661,7 +661,7 @@ export default {
     // v77: general POI intent. Normalize once, then match only normalized text so
     // Romanian diacritics cannot break category or request detection.
     const earlyPlaceCategoryMention = /(?:^| )(?:restaurant\w*|pubs?|bars?|biergarten\w*|taverns?|taprooms?|takeaway|takeout|food delivery|pizza|burger|sushi|comand\w*|livrare\w*|dinner|fast food|cafe|cafenele?\w*|cofetari\w*|patiseri\w*|gelateri\w*|confectioner\w*|dessert\w*|brutari\w*|deliver food|order food|ordering food|supermarket\w*|groceries|grocery store\w*|food shop\w*|alimentar\w*|shopping mall\w*|mall\w*|centre comerciale|centru comercial|shopping centre\w*|shopping center\w*|retail park\w*|magazin\w*|magazine\w*|shops|shop\w*|stores|store\w*|shopping|cumparaturi|farmaci\w*|pharmacy|pharmacies|chemist\w*|drugstore\w*|parc\w*|parks|garden\w*|gradini|muze\w*|museum\w*|cinema\w*|cinematografe|theatre\w*|teatru\w*|spital\w*|hospital\w*|clinic\w*|clinica\w*|doctor\w*|medic\w*|primarie\w*|town hall|city hall|police\w*|politie\w*|fire station\w*|pompieri|scoala\w*|school\w*|universit\w*|library|bibliotec\w*|benzinar\w*|benzinarii|fuel station\w*|petrol station\w*|gas station\w*|charging station\w*|incarcare electrica|electric vehicle charging|ev charger\w*|parcar\w*|parking\w*|car wash\w*|car washes|spalatorie auto|spalatorii auto|spalatorie de masini|service auto|car repair\w*|mechanic\w*|toilet\w*|toaleta\w*|atm|bancomat\w*|bank\w*|banca\w*|post office|posta\w*|hotel\w*|hoteluri|hotel\w*|bus station\w*|gara\w*|train station\w*|railway station\w*|bus stop\w*|statie de autobuz|airport\w*|aeroport\w*|attraction\w*|obiective turistice|puncte de interes|points of interest|poi)(?: |$)/.test(earlyIntentText);
-    const explicitPlaceLookup = /\b(?:find|search|show|recommend|look for|near me|nearby|in my area|closest|nearest|around me|points of interest|poi|what is near|what's near|places around|cauta|gaseste|arata mi|recomanda mi|din apropiere|in apropiere|in jurul|in jurul locatiei mele|ce puncte de interes|ce exista in apropiere|locuri din apropiere|cele mai apropiate|unde gasesc|unde este|unde sunt|gaseste mi|arata mi)/i.test(earlyIntentText) || /\b(?:restaurants?|shops?|stores?|supermarkets?|pharmacies|chemists?|drugstores?|parks?|cinemas?|hospitals?|clinics?|fuel stations?|petrol stations?|gas stations?|charging stations?|parking|car washes?|spalatorii|farmacii|town halls?|libraries|schools?|universities|restaurants|restaurante|magazine|supermarketuri|farmacii|parcuri|muzee|cinematografe|spitale|benzinarii|parcari|puncte de interes)\s+(?:in|near|around|din|zona|la|langa)\s+[a-z0-9]/i.test(earlyIntentText);
+    const explicitPlaceLookup = /\b(?:find|search|show|recommend|look for|near me|nearby|in my area|closest|nearest|around me|points of interest|poi|what is near|what's near|places around|cauta|gaseste|arata mi|recomanda mi|din apropiere|in apropiere|in jurul|in jurul locatiei mele|ce puncte de interes|ce exista in apropiere|locuri din apropiere|cele mai apropiate|unde gasesc|unde este|unde sunt|gaseste mi|arata mi)/i.test(earlyIntentText) || /\b(?:hotels?|hoteluri|hostels?|restaurants?|shops?|stores?|supermarkets?|pharmacies|chemists?|drugstores?|parks?|cinemas?|hospitals?|clinics?|fuel stations?|petrol stations?|gas stations?|charging stations?|parking|car washes?|spalatorii|farmacii|town halls?|libraries|schools?|universities|restaurants|restaurante|magazine|supermarketuri|farmacii|parcuri|muzee|cinematografe|spitale|benzinarii|parcari|puncte de interes)\s+(?:in|near|around|din|zona|la|langa)\s+[a-z0-9]/i.test(earlyIntentText);
     const earlyFoodSearchIntent = earlyPlaceCategoryMention && explicitPlaceLookup;
     const locationIntentText = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
       .toLowerCase().replace(/[șş]/g, "s").replace(/[țţ]/g, "t");
@@ -816,38 +816,68 @@ export default {
       timestamp: new Date().toISOString()
     }));
     let locationSource = hasValidLocation ? "browser_gps" : null;
-    if (foodSearchIntent && !hasValidLocation) {
-      // Use only an explicitly supplied town/postcode; never guess the user's location.
-      let placeQuery = typeof data.location_query === "string" ? data.location_query.trim() : "";
-      if (!placeQuery) {
-        const placeMatch = message.match(/\b(?:in|near|around|within|în|din|lângă|langa)\s+([^.!?;]{2,70})/i);
-        if (placeMatch) placeQuery = placeMatch[1].trim();
+    let searchLocationLabel = "";
+    let explicitPlaceQuery = "";
+    const centralAreaRequested = /(?:^| )(?:zona centrala|centrul|centru|city cent(?:er|re)|central|downtown)(?: |$)/.test(intentText);
+    const starMatch = requestedPlaceCategory?.key === "hotel" ? intentText.match(/(?:^| )([1-5]|one|two|three|four|five|una|doua|trei|patru|cinci) (?:stele|stea|stars?|etoiles?|sterne|stelle|estrellas)(?: |$)/) : null;
+    const starWords = {one:1,two:2,three:3,four:4,five:5,una:1,doua:2,trei:3,patru:4,cinci:5};
+    const requestedStars = starMatch ? Number(starWords[starMatch[1]] || starMatch[1]) : null;
+    const unsupportedStarRange=requestedPlaceCategory?.key==="hotel" && /(?:[1-5][.,][0-9]|[1-5]\s*(?:-|sau|or|to)\s*[1-5])\s*[- ]?\s*(?:stele|stars?)/i.test(message);
+    if(foodSearchIntent && unsupportedStarRange){
+      const reply=lang==="en"?"Please specify a single hotel classification, from 1 to 5 stars, so I can apply the exact filter.":"Precizează o singură clasificare a hotelului, de la 1 la 5 stele, ca să pot aplica filtrul exact.";
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,places:[],search_ok:false,needs_star_clarification:true,ai_connected:Boolean(env.AI)});
+    }
+    const normalizeHotelStars = value => {
+      const m=String(value??"").trim().match(/^([1-5](?:\.0)?)(?:S)?$/i);
+      return m?Number(m[1]):null;
+    };
+    if (foodSearchIntent) {
+      // Destination is extracted before consulting GPS. A failed explicit destination never falls back to GPS.
+      let query = typeof data.location_query === "string" ? data.location_query.trim().slice(0,160) : "";
+      if (!query) {
+        const text=message.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const m=text.match(/(?:^|\s)(?:in apropiere de|aproape de|in|din|near|around|within|langa|la)\s+([^.!?;]{2,120})/i);
+        if(m)query=m[1].trim();
       }
-      placeQuery = placeQuery.replace(/\b(?:please|te rog|mulțumesc|multumesc|please find|find me|show me|caută|cauta|găsește|gaseste)\b.*$/i, "").trim();
-      if (/^(me|here|near me|aici|mine|in apropiere|around me)$/i.test(placeQuery)) placeQuery = "";
-      if (placeQuery && placeQuery.length <= 80) {
+      const localOnly=/^(?:me|here|my area|my location|mine|aici|mea|apropierea mea|apropiere|zona mea|jurul meu|jurul locatiei mele|in jurul meu)(?:[ ,]|$)/i;
+      if(localOnly.test(query))query="";
+      query=query.replace(/^apropiere de\s+/i, "");
+      if(/^(?:centru|centrul|zona centrala|the city centre|the city center|city centre|city center|downtown)$/i.test(query))query="";
+      query=query.replace(/[,;]?\s*(?:zona centrala|in centru|centrul orasului|city cent(?:er|re)|downtown|central area)\b.*$/i, "")
+        .replace(/\s+(?:cu|with|avand|care au|under|below|sub|pentru|for|de [1-5] stele|[1-5][ -]star)\b.*$/i, "")
+        .replace(/[,;]?\s*(?:please|te rog|multumesc)\b.*$/i, "")
+        .replace(/^[,\s]+|[,\s]+$/g, "");
+      // "in the centre of Berlin" / "in centrul Berlinului" are geocoded as the named destination.
+      query=query.replace(/^(?:the (?:city )?cent(?:er|re) of|central|centrul orasului|centrul|centru)\s+/i, "");
+      explicitPlaceQuery=query;
+      if (query) {
+        hasValidLocation=false;
+        locationSource="explicit_place_query";
         try {
-          const geocodeUrl = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(placeQuery)}`;
-          const geocodeResponse = await fetch(geocodeUrl, {
-            headers: { "Accept": "application/json", "User-Agent": "PocketAI/37 (explicit place search)" },
-            signal: AbortSignal.timeout(8000)
-          });
-          if (geocodeResponse.ok) {
-            const geocodeData = await geocodeResponse.json();
-            const match = Array.isArray(geocodeData) ? geocodeData[0] : null;
-            const foundLat = match ? Number(match.lat) : NaN;
-            const foundLon = match ? Number(match.lon) : NaN;
-            if (Number.isFinite(foundLat) && Number.isFinite(foundLon) && foundLat >= -90 && foundLat <= 90 && foundLon >= -180 && foundLon <= 180) {
-              latitude = foundLat;
-              longitude = foundLon;
-              hasValidLocation = true;
-              locationSource = "explicit_place_query";
-              console.info("Pocket AI v96 explicit place geocoded", JSON.stringify({ stage: "explicit_place_geocoded", queryLength: placeQuery.length }));
-            }
-          }
-        } catch (geocodeError) {
-          console.warn("Pocket AI v96 explicit place geocoding failed", JSON.stringify({ stage: "explicit_place_geocode_error", errorName: geocodeError && geocodeError.name ? String(geocodeError.name) : "UnknownError" }));
+          const u=new URL("https://nominatim.openstreetmap.org/search");
+          u.searchParams.set("format","jsonv2");u.searchParams.set("limit","3");u.searchParams.set("addressdetails","1");u.searchParams.set("q",query);
+          const r=await fetch(u.href,{headers:{Accept:"application/json","User-Agent":"PocketAI/102 (explicit place search)"},signal:AbortSignal.timeout(8000)});
+          if(!r.ok)throw Error("geocode_failed");
+          const rows=await r.json();
+          const matches=(Array.isArray(rows)?rows:[]).filter(v=>v && v.lat!==null && v.lon!==null && String(v.lat??"").trim() && String(v.lon??"").trim() && Number.isFinite(Number(v.lat)) && Number.isFinite(Number(v.lon)) && Math.abs(Number(v.lat))<=90 && Math.abs(Number(v.lon))<=180);
+          const match=matches[0];
+          if(!match)throw Error("geocode_not_found");
+          const countries=[...new Set(matches.map(v=>v.address?.country_code).filter(Boolean))];
+          const alternative=matches.find(v=>v.address?.country_code && v.address.country_code!==match.address?.country_code);
+          if(countries.length>1 && !(Number(match.importance)-Number(alternative?.importance)>=0.15))throw Error("geocode_ambiguous");
+          latitude=Number(match.lat);longitude=Number(match.lon);hasValidLocation=true;
+          searchLocationLabel=String(match.display_name||query).slice(0,220);
+        } catch(error) {
+          const ambiguous=error.message==="geocode_ambiguous";
+          const reply=lang==="en"
+            ? (ambiguous?`Several destinations match “${query}”. Please add the country or postcode.`:`I could not identify “${query}” reliably. Please specify the city and country or postcode.`)
+            : (ambiguous?`Există mai multe destinații pentru „${query}”. Precizează țara sau codul poștal.`:`Nu am putut identifica sigur „${query}”. Precizează orașul și țara sau codul poștal.`);
+          return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,places:[],search_ok:false,needs_location_clarification:true,location_source:locationSource,search_query:query,ai_connected:Boolean(env.AI)});
         }
+      }
+      if(centralAreaRequested && !query){
+        const reply=lang==="en"?"Which city centre should I search? Please specify the city and country.":"În centrul cărui oraș să caut? Precizează orașul și țara.";
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,places:[],search_ok:false,needs_location_clarification:true,ai_connected:Boolean(env.AI)});
       }
     }
     if (foodSearchIntent && !hasValidLocation) {
@@ -864,7 +894,7 @@ export default {
       let activeProviders = [];
       let lastSearchError = null;
       try {
-        const radius = 5000;
+        const radius = centralAreaRequested ? 2000 : 5000;
         let placesData = null;
         let geoapifyElements = [];
         const providerFailures = [];
@@ -987,7 +1017,7 @@ export default {
               const isShop = ["supermarket", "mall", "shop"].includes(requestedPlaceCategory.key);
               const amenity = requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
-              const tags = { image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
+              const tags = { stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? geoapifyDistanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
             if (geoapifyElements.length) {
@@ -1054,7 +1084,7 @@ export default {
                 : /pharmacy|fuel|parking|car.?wash|museum|cinema|hospital|school|library|atm|bank|post.?office|toilet|hotel|station/.test(photonType);
               if (!photonCategoryMatches) return null;
               const tags = {
-                image: properties.image || "", wikimedia_commons: properties.wikimedia_commons || "", wikidata:properties.wikidata||"", brand_wikidata:properties["brand:wikidata"]||"",
+                stars: properties.stars || "", image: properties.image || "", wikimedia_commons: properties.wikimedia_commons || "", wikidata:properties.wikidata||"", brand_wikidata:properties["brand:wikidata"]||"",
                 name: properties.name || "",
                 amenity: isShop ? "" : (requestedPlaceCategory.key === "pharmacy" ? "pharmacy" : requestedPlaceCategory.key === "fuel" ? "fuel" : requestedPlaceCategory.key === "parking" ? "parking" : requestedPlaceCategory.key === "car_wash" ? "car_wash" : requestedPlaceCategory.key === "charging" ? "charging_station" : requestedPlaceCategory.key === "restaurant" ? (/fast_food|fast food/.test(osmValue) ? "fast_food" : /biergarten/.test(osmValue) ? "biergarten" : /pub/.test(osmValue) ? "pub" : /bar/.test(osmValue) ? "bar" : /cafe|coffee/.test(osmValue) ? "cafe" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice.?cream|gelato/.test(osmValue) ? "ice_cream" : /bakery|pastry/.test(osmValue) ? "bakery" : "confectionery") : ""),
                 shop: isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : (properties.osm_value || "shop")) : "",
@@ -1148,7 +1178,7 @@ export default {
           const rawImage = String(tags.image || "").trim();
           const commons = String(tags.wikimedia_commons || tags["wikimedia_commons"] || "").trim();
           const imageUrl = /^https:\/\//i.test(rawImage) ? rawImage : /^File:/i.test(commons) ? "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(commons.slice(5)) : "";
-          return { imageUrl, wikidata:String(tags.wikidata||""), brandWikidata:String(tags.brand_wikidata||""), name, type, lat, lon, distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? distanceMeters(latitude, longitude, lat, lon) : Infinity, cuisine: tags.cuisine || "", website: tags.website || tags["contact:website"] || "", phone: tags.phone || tags["contact:phone"] || "", address, street, houseNumber, city, postcode };
+          return { stars:normalizeHotelStars(tags.stars), imageUrl, wikidata:String(tags.wikidata||""), brandWikidata:String(tags.brand_wikidata||""), name, type, lat, lon, distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? distanceMeters(latitude, longitude, lat, lon) : Infinity, cuisine: tags.cuisine || "", website: tags.website || tags["contact:website"] || "", phone: tags.phone || tags["contact:phone"] || "", address, street, houseNumber, city, postcode };
         }).filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lon) && p.name)
           .filter(p => !p.name.startsWith("Loc fără nume") && !p.name.startsWith("Unnamed"));
         // Deduplicate first, then sort by straight-line distance from the validated GPS point.
@@ -1164,6 +1194,7 @@ export default {
           });
           if (!duplicate) unique.push(place);
           else {
+            if (!duplicate.stars && place.stars) duplicate.stars=place.stars;
             if (!duplicate.cuisine && place.cuisine) duplicate.cuisine = place.cuisine;
             if (!duplicate.website && place.website) duplicate.website = place.website;
             if (!duplicate.imageUrl && place.imageUrl) duplicate.imageUrl = place.imageUrl;
@@ -1178,12 +1209,21 @@ export default {
           }
         }
         unique.sort((a, b) => a.distanceMeters - b.distanceMeters);
-        const totalUniqueResults = unique.length;
-        const displayedPlaces = unique.slice(0, 40);
+        const matchingPlaces=requestedStars ? unique.filter(p=>p.stars===requestedStars) : unique;
+        const totalUniqueResults = matchingPlaces.length;
+        const displayedPlaces = matchingPlaces.slice(0, 40);
+        const locationLabel=explicitPlaceQuery ? searchLocationLabel : (lang==="en"?"your GPS location":"poziția ta GPS");
+        const scope=lang==="en"?`Search area: ${locationLabel}. Radius: ${radius/1000} km.`:`Zona căutată: ${locationLabel}. Rază: ${radius/1000} km.`;
+        const centerNote=centralAreaRequested?(lang==="en"?" Central area is approximated by a 2 km radius around the mapped reference point for the destination.":" Zona centrală este aproximată printr-o rază de 2 km în jurul punctului de referință cartografic al destinației."):"";
+        const starsNote=requestedStars?(lang==="en"?` Only hotels mapped as ${requestedStars}-star are included; missing classifications are excluded. This is map metadata, not a current classification audit.`:`Sunt incluse numai hotelurile marcate cu ${requestedStars} stele în datele hărții; cele fără clasificare sunt excluse. Este o clasificare din datele hărții, nu o certificare verificată în timp real.`):"";
+        if(requestedStars && !displayedPlaces.length){
+          const reply=lang==="en"?`${scope}${centerNote} I could not confirm any ${requestedStars}-star hotels from the available map data. Hotels with unknown or different classifications have not been substituted.`:`${scope}${centerNote} Nu am putut confirma hoteluri de ${requestedStars} stele din datele de hartă disponibile. Nu am inclus hoteluri fără clasificare sau cu alt număr de stele.`;
+          return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,places:[],search_ok:true,results_count:0,location_source:locationSource,search_query:explicitPlaceQuery||null,search_center:{latitude,longitude,label:locationLabel},search_radius_meters:radius,requested_stars:requestedStars,star_filter_applied:true,ai_connected:Boolean(env.AI)});
+        }
         if (displayedPlaces.length) {
           const lines = displayedPlaces.map((p, i) => {
             const mapUrl = `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}`;
-            const details = [p.cuisine ? (lang === "en" ? `Cuisine: ${p.cuisine}` : `Specific: ${p.cuisine}`) : "", p.website ? (lang === "en" ? `Website: ${p.website}` : `Site: ${p.website}`) : "", p.phone ? (lang === "en" ? `Phone: ${p.phone}` : `Telefon: ${p.phone}`) : ""].filter(Boolean).join(" · ");
+            const details = [p.stars ? `${p.stars} ★ (OpenStreetMap)` : "", p.cuisine ? (lang === "en" ? `Cuisine: ${p.cuisine}` : `Specific: ${p.cuisine}`) : "", p.website ? (lang === "en" ? `Website: ${p.website}` : `Site: ${p.website}`) : "", p.phone ? (lang === "en" ? `Phone: ${p.phone}` : `Telefon: ${p.phone}`) : ""].filter(Boolean).join(" · ");
             const distanceLabel = p.distanceMeters < 1000 ? `${Math.round(p.distanceMeters)} m` : `${(p.distanceMeters / 1000).toFixed(1)} km`;
             return `${i + 1}. ${p.name} — ${p.type} · ${distanceLabel}${details ? "\n   " + details : ""}\n   ${mapUrl}`;
           });
@@ -1193,9 +1233,9 @@ export default {
               : "\n\nNotă: aceste date OpenStreetMap nu includ scoruri de recenzii fiabile, așa că nu pot clasifica localurile după rating. Deschide fiecare local într-un serviciu de recenzii pentru a compara evaluările actuale.")
             : "";
           const reply = lang === "en"
-            ? `Nearby ${requestedPlaceCategory.labelEn} results within about 5 km (OpenStreetMap data):\n\n${lines.join("\n\n")}${ratingNote}\n\nDistances are approximate straight-line distances from your GPS position, not walking or driving distances; check each place link for current details.`
-            : `Am găsit ${totalUniqueResults} locații unice pentru ${requestedPlaceCategory.labelRo}, la aproximativ 5 km (date OpenStreetMap). Afișez cele mai apropiate ${displayedPlaces.length}.\n\n${lines.join("\n\n")}${ratingNote}\n\nDistanțele sunt aproximative, în linie dreaptă față de poziția GPS, nu distanțe de mers pe jos sau cu mașina; deschide linkul fiecărui loc pentru detalii actualizate.`;
-          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: p.type, image_url: p.imageUrl || "", wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") + " (OpenStreetMap-derived place data)" : "Geoapify + Photon (no named results returned)", location_source: locationSource, results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
+            ? `${scope}${centerNote}${starsNote}\n\n${totalUniqueResults} ${requestedPlaceCategory.labelEn} results (OpenStreetMap data):\n\n${lines.join("\n\n")}${ratingNote}\n\nDistances are approximate straight-line distances from the search reference point, not walking or driving distances; check each place link for current details.`
+            : `${scope}${centerNote}${starsNote}\n\nAm găsit ${totalUniqueResults} locații pentru ${requestedPlaceCategory.labelRo} (date OpenStreetMap). Afișez ${displayedPlaces.length}.\n\n${lines.join("\n\n")}${ratingNote}\n\nDistanțele sunt aproximative, în linie dreaptă față de punctul de referință al căutării, nu distanțe de mers pe jos sau cu mașina; deschide linkul fiecărui loc pentru detalii actualizate.`;
+          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: p.type, stars:p.stars||null, image_url: p.imageUrl || "", wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") + " (OpenStreetMap-derived place data)" : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:radius, requested_stars:requestedStars, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
         }
       } catch (searchError) {
         const errorName = searchError && searchError.name ? String(searchError.name).slice(0, 80) : "UnknownError";
@@ -1228,8 +1268,8 @@ export default {
         return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, location_source: locationSource, search_ok: false, search_error_code: "LOCAL_SEARCH_FAILED", search_diagnostic_id: diagnosticId, search_error_name: errorName, search_error_detail: errorMessage, search_http_status: httpStatus, search_elapsed_ms: Date.now() - searchStartedAt, ai_connected: Boolean(env.AI) });
       }
       const reply = lang === "en"
-        ? "I received your location, but no named nearby places were returned by the map data. I won't invent recommendations. Try a larger radius or tell me your town/postcode."
-        : "Am primit locația, dar datele hărții nu au returnat locuri din apropiere cu nume verificabile. Nu voi inventa recomandări. Putem încerca o rază mai mare sau îmi poți spune orașul/codul poștal."
+        ? `The map data returned no named places for ${explicitPlaceQuery||"your GPS area"}. Try a more precise destination.`
+        : `Datele hărții nu au returnat locuri cu nume pentru ${explicitPlaceQuery||"zona poziției tale GPS"}. Încearcă o destinație mai precisă.`
       return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, location_source: locationSource, search_ok: false, results_count: 0, ai_connected: Boolean(env.AI) });
     }
 
