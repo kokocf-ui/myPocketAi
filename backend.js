@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -199,7 +199,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v124";
+    const API_VERSION = "v125";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -419,6 +419,14 @@ export default {
         } else if (extractedDestination && !/^(?:locatia mea|pozitia mea|current location|my location)$/i.test(extractedDestination)) {
           targetName = extractedDestination.replace(/^(?:gara|statie|station|railway station|train station)\s+/i, "").slice(0, 100).trim();
         }
+        // Confirmed choice from the UI: never geocode it again.
+        const selectedDestination=data.transit_destination;
+        let confirmedStop=false;
+        if(selectedDestination&&typeof selectedDestination==="object"){
+          const lat=Number(selectedDestination.latitude),lon=Number(selectedDestination.longitude);
+          const label=String(selectedDestination.label||"").slice(0,160);
+          if(Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180&&label){targetLat=lat;targetLon=lon;targetName=label;confirmedStop=true;}
+        }
         // Prefer verified operator station records over free-text geocoding for UK rail/tube stations.
         let verifiedStopId=null;
         const requestedStationName=targetName;
@@ -444,7 +452,7 @@ export default {
             }
           }catch(e){transportErrors.tfl_station_search=String(e&&e.name||"lookup_failed");}
         }
-        if (!verifiedStopId && env.GEOAPIFY_API_KEY) {
+        if (!confirmedStop && !verifiedStopId && env.GEOAPIFY_API_KEY) {
           try {
             const geocodeUrl = new URL("https://api.geoapify.com/v1/geocode/search");
             geocodeUrl.searchParams.set("text", targetName);
@@ -480,6 +488,19 @@ export default {
                     : `Am găsit locuri cu numele „${targetName}” în mai multe țări. La care te referi?\n${choiceText}\nRăspunde cu țara sau cu numărul opțiunii; nu trebuie să repeți cererea.`;
                   return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:false,transit_available:false,needs_destination_clarification:true,pending_destination:targetName,destination_candidates:choices.map(({label,country})=>({label,country})),reason:"ambiguous_destination_country",ai_connected:Boolean(env.AI)});
                 }
+              }
+              // An unqualified station name is ambiguous: ask the user instead of guessing.
+              const hasPlaceQualifier=/\\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|france|paris|germany|berlin|italy|rome|spain|madrid|usa|united states|canada|australia)\\b/i.test(requestedStationName);
+              if(!hasPlaceQualifier && /\\b(station|underground|railway|train|tube)\\b/i.test(requestedStationName)){
+                const opts=[];const seen=new Set();
+                const candidates=features.filter(f=>{
+                  const p=f.properties||{};
+                  const name=String(p.name||p.address_line1||"");
+                  const requested=requestedStationName.toLowerCase().replace(/\\b(station|underground|railway|train|tube)\\b/g,"").trim();
+                  return requested.length>2 && name.toLowerCase().includes(requested) && !/\\b(waste|recycling|landfill|transfer station)\\b/i.test(name);
+                });
+                for(const f of candidates){const p=f.properties;const label=String(p.formatted||p.name||"").slice(0,160);const key=label.toLowerCase();if(!seen.has(key)){seen.add(key);opts.push({label,latitude:Number(p.lat),longitude:Number(p.lon)});}if(opts.length>=4)break;}
+                if(opts.length){return json({app:"Pocket AI",version:API_VERSION,status:"success",reply:"Selectează destinația dorită:",needs_destination_clarification:true,destination_candidates:opts,transit_available:false});}
               }
               // If the query itself names a UK city/station context, prefer a UK candidate;
               // otherwise use the geocoder's first result only when the result is unambiguous.
