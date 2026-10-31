@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.66",
+  version: "1.0.68",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1197,7 +1197,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.67'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.68'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt))return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -1292,10 +1292,10 @@ function openPlaceWebsiteInApp(url){
  bar.append(close,external);layer.append(bar,frame);document.body.append(layer);
 }
 async function enrichPlaceMedia(place, gallery, title){
- const ids=[place.wikidata,place.brand_wikidata];if(!ids.some(id=>/^Q[1-9]\d{0,11}$/.test(String(id||''))))return;
- const u=new URL(CLIENT_CONFIG.apiUrl.replace(/\/api\/chat$/, '/api/place-media'));
- if(/^Q[1-9]\d{0,11}$/.test(String(ids[0]||'')))u.searchParams.set('wikidata',ids[0]);
- if(/^Q[1-9]\d{0,11}$/.test(String(ids[1]||'')))u.searchParams.set('brand_wikidata',ids[1]);
+ const ids=[place.wikidata,place.brand_wikidata];if(!ids.some(id=>/^Q[1-9][0-9]{0,11}$/.test(String(id||''))))return;
+ const u=new URL(CLIENT_CONFIG.apiUrl.split('/api/chat')[0]+'/api/place-media');
+ if(/^Q[1-9][0-9]{0,11}$/.test(String(ids[0]||'')))u.searchParams.set('wikidata',ids[0]);
+ if(/^Q[1-9][0-9]{0,11}$/.test(String(ids[1]||'')))u.searchParams.set('brand_wikidata',ids[1]);
  try{const r=await fetch(u.href,{signal:AbortSignal.timeout(6000)});if(!r.ok)return;const data=await r.json();
   if(!gallery.isConnected||!Array.isArray(data.images))return;
   for(const raw of data.images.slice(0,6)){const src=verifiedMediaUrl(raw);if(!src||[...gallery.querySelectorAll('img')].some(i=>i.src===src))continue;
