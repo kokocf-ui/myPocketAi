@@ -1159,6 +1159,13 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 .place-photo-lightbox{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:99999;display:flex;align-items:center;justify-content:center;padding:60px 12px 22px}
 .place-photo-lightbox img{max-width:100%;max-height:100%;object-fit:contain}
 .place-photo-close{position:absolute;top:12px;right:12px;background:#123347;color:white;border:1px solid #64c9d4;border-radius:12px;padding:10px 14px;font-size:16px}
+
+/* v1.0.67 embedded website viewer; independent from quick-results geometry */
+.place-web-overlay{position:fixed;inset:0;z-index:999999;background:#061522;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.place-web-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;background:#0b2638;border-bottom:1px solid #2e7489}
+.place-web-toolbar button,.place-web-toolbar a{color:#a9f6ff;background:#123b52;border:1px solid #4e9bac;border-radius:10px;padding:10px 16px;font-size:16px;text-decoration:none}
+.place-web-overlay iframe{flex:1;min-height:0;width:100%;border:0;background:#fff}
+.place-detail-gallery:empty{display:none!important}
 </style>
 </head>
 <body>
@@ -1190,7 +1197,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.66'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.67'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt))return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -1275,18 +1282,38 @@ const DETAIL_LABELS={"ro": {"address": "Adresă", "phone": "Telefon", "website":
 function detailLabels(){return DETAIL_LABELS[state.language]||DETAIL_LABELS.en}
 function verifiedMediaUrl(value){try{const u=new URL(String(value||''));return u.protocol==='https:'?u.href:''}catch{return ''}}
 function showPlacePhoto(src,alt){const layer=document.createElement('div');layer.className='place-photo-lightbox';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');const close=document.createElement('button');close.type='button';close.textContent='× '+detailLabels().close;close.className='place-photo-close';const image=document.createElement('img');image.src=src;image.alt=alt||'';image.onerror=()=>layer.remove();const finish=()=>{document.removeEventListener('keydown',esc);layer.remove()};const esc=e=>{if(e.key==='Escape')finish()};close.onclick=finish;layer.onclick=e=>{if(e.target===layer)finish()};document.addEventListener('keydown',esc);layer.append(close,image);document.body.append(layer);close.focus()}
+function openPlaceWebsiteInApp(url){
+ const safe=verifiedMediaUrl(url);if(!safe)return;
+ const layer=document.createElement('div');layer.className='place-web-overlay';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');
+ const bar=document.createElement('div');bar.className='place-web-toolbar';
+ const close=document.createElement('button');close.type='button';close.textContent='×';close.setAttribute('aria-label',detailLabels().close);close.onclick=()=>layer.remove();
+ const external=document.createElement('a');external.href=safe;external.target='_blank';external.rel='noopener noreferrer';external.textContent='↗ '+detailLabels().website;
+ const frame=document.createElement('iframe');frame.src=safe;frame.title=detailLabels().website;frame.referrerPolicy='no-referrer';frame.setAttribute('sandbox','allow-forms allow-scripts allow-same-origin allow-popups');
+ bar.append(close,external);layer.append(bar,frame);document.body.append(layer);
+}
+async function enrichPlaceMedia(place, gallery, title){
+ const ids=[place.wikidata,place.brand_wikidata];if(!ids.some(id=>/^Q[1-9]\d{0,11}$/.test(String(id||''))))return;
+ const u=new URL(CLIENT_CONFIG.apiUrl.replace(/\/api\/chat$/, '/api/place-media'));
+ if(/^Q[1-9]\d{0,11}$/.test(String(ids[0]||'')))u.searchParams.set('wikidata',ids[0]);
+ if(/^Q[1-9]\d{0,11}$/.test(String(ids[1]||'')))u.searchParams.set('brand_wikidata',ids[1]);
+ try{const r=await fetch(u.href,{signal:AbortSignal.timeout(6000)});if(!r.ok)return;const data=await r.json();
+  if(!gallery.isConnected||!Array.isArray(data.images))return;
+  for(const raw of data.images.slice(0,6)){const src=verifiedMediaUrl(raw);if(!src||[...gallery.querySelectorAll('img')].some(i=>i.src===src))continue;
+   const button=document.createElement('button');button.type='button';button.className='place-detail-thumb';const img=document.createElement('img');img.src=src;img.alt=title;img.loading='lazy';img.onerror=()=>button.remove();button.onclick=()=>showPlacePhoto(src,title);button.append(img);gallery.append(button)}
+ }catch{}
+}
 function renderModulePlaceDetails(place){
  document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');state.moduleSearchReturnMode='results';
  const body=$('moduleLayerBody');body.innerHTML='';const card=document.createElement('div');card.className='module-place-details';
  const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=String(place.name||t.location);card.append(title);
  const images=[place.image_url,...(Array.isArray(place.images)?place.images:[]),...(Array.isArray(place.room_images)?place.room_images:[])].map(verifiedMediaUrl).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,12);
- if(images.length){const gallery=document.createElement('div');gallery.className='place-detail-gallery';for(const src of images){const button=document.createElement('button');button.type='button';button.className='place-detail-thumb';const img=document.createElement('img');img.src=src;img.alt=title.textContent;img.loading='lazy';button.onclick=()=>showPlacePhoto(src,title.textContent);img.onerror=()=>button.remove();button.append(img);gallery.append(button)}card.append(gallery)}
+ {const gallery=document.createElement('div');gallery.className='place-detail-gallery';for(const src of images){const button=document.createElement('button');button.type='button';button.className='place-detail-thumb';const img=document.createElement('img');img.src=src;img.alt=title.textContent;img.loading='lazy';button.onclick=()=>showPlacePhoto(src,title.textContent);img.onerror=()=>button.remove();button.append(img);gallery.append(button)}card.append(gallery);enrichPlaceMedia(place,gallery,title.textContent)}
  const line=(label,value)=>{if(value===undefined||value===null||String(value).trim()==='')return;const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));card.append(p)};
  line(l.address,place.address||[place.house_number,place.street,place.city,place.postcode].filter(Boolean).join(', '));
  line(t.category,localizedPlaceCategory(place.type||t.unspecified));
  if(place.distance_meters!==undefined)line(t.distance,formatDistance(place.distance_meters));
  if(place.phone){const p=document.createElement('p');const a=document.createElement('a');a.href='tel:'+String(place.phone).replace(/[^+0-9]/g,'');a.textContent=String(place.phone);p.append(l.phone+': ',a);card.append(p)}
- const site=verifiedMediaUrl(place.website);if(site){const p=document.createElement('p');const a=document.createElement('a');a.href=site;a.target='_blank';a.rel='noopener noreferrer';a.textContent=l.website;p.append(a);card.append(p)}
+ const site=verifiedMediaUrl(place.website);if(site){const p=document.createElement('p');const a=document.createElement('a');a.href=site;a.target='_blank';a.rel='noopener noreferrer';a.textContent=l.website;a.addEventListener('click',e=>{e.preventDefault();openPlaceWebsiteInApp(site)});p.append(a);card.append(p)}
  // Prices are shown only when supplied as explicit provider data; no invented prices.
  if(place.price&&typeof place.price==='string')line(l.price,place.price);
  if(Array.isArray(place.rooms)){for(const room of place.rooms.slice(0,10)){if(!room||typeof room!=='object')continue;const p=document.createElement('p');p.textContent=[room.name||l.rooms,room.price&&room.currency?room.price+' '+room.currency:''].filter(Boolean).join(' · ');card.append(p)}}
