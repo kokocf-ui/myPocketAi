@@ -423,6 +423,8 @@ export default {
           try {
             const geocodeUrl = new URL("https://api.geoapify.com/v1/geocode/search");
             geocodeUrl.searchParams.set("text", targetName);
+            // Prefer results near the GPS origin without hardcoding a country.
+            if (Number.isFinite(latitude) && Number.isFinite(longitude)) geocodeUrl.searchParams.set("bias", "proximity:"+longitude+","+latitude);
             geocodeUrl.searchParams.set("limit", "5");
             geocodeUrl.searchParams.set("format", "geojson");
             geocodeUrl.searchParams.set("apiKey", env.GEOAPIFY_API_KEY);
@@ -435,7 +437,7 @@ export default {
               const countries = [...new Set(features.map(f => countryOf(f.properties)).filter(Boolean).map(c => c.toLowerCase()))];
               // Never silently route to the first geocoder hit when the same destination
               // name has plausible matches in different countries and the user gave no country.
-              if (!explicitCountry && (countries.length > 1 || features.length > 1 && /\b(?:victoria station|victoria|central station|main station|airport|lakeside|station|gare|gar[aă]|stație|statie)\b/i.test(normalizedForDestination))) {
+              if (!explicitCountry && !features.some(f => { const p=f.properties; const lat=Number(p.lat),lon=Number(p.lon); return Number.isFinite(latitude)&&Number.isFinite(longitude)&&Math.abs(lat-latitude)<1.8&&Math.abs(lon-longitude)<2.8; }) && (countries.length > 1 || features.length > 1 && /\b(?:victoria station|victoria|central station|main station|airport|lakeside|station|gare|gar[aă]|stație|statie)\b/i.test(normalizedForDestination))) {
                 const choices = [];
                 const seen = new Set();
                 for (const f of features) {
@@ -456,7 +458,7 @@ export default {
               }
               // If the query itself names a UK city/station context, prefer a UK candidate;
               // otherwise use the geocoder's first result only when the result is unambiguous.
-              let selected = features[0] || null;
+              let selected = features.find(f => { const p=f.properties; const lat=Number(p.lat),lon=Number(p.lon); return Number.isFinite(latitude)&&Number.isFinite(longitude)&&Math.abs(lat-latitude)<1.8&&Math.abs(lon-longitude)<2.8; }) || features[0] || null;
               if (features.length > 1 && /\b(?:london|londra|grays|thurrock|essex|basildon|uk|united kingdom|england)\b/i.test(normalizedForDestination)) {
                 const ukCandidate = features.find(f => /\b(?:united kingdom|england|scotland|wales|northern ireland|gb)\b/i.test(String(f.properties.country || f.properties.country_code || "")));
                 if (ukCandidate) selected = ukCandidate;
