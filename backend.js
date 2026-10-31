@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v119 expanded TfL journey preferences and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -199,7 +199,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v116";
+    const API_VERSION = "v120";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -492,11 +492,14 @@ export default {
             const tflUrl = new URL(`https://api.tfl.gov.uk/Journey/JourneyResults/${from}/to/${to}`);
             tflUrl.searchParams.set("nationalSearch", "true");
             tflUrl.searchParams.set("alternativeMetro", "true");
+            tflUrl.searchParams.set("alternativeRoute", "true");
+            tflUrl.searchParams.set("maxWalkingMinutes", "20");
+            tflUrl.searchParams.set("maxWalkingMinutesTransfer", "12");
             tflUrl.searchParams.set("journeyPreference", "LeastTime");
             tflUrl.searchParams.set("app_key", env.TFL_APP_KEY);
             if (env.TFL_APP_ID) tflUrl.searchParams.set("app_id", env.TFL_APP_ID);
             // v119: request different route preferences to discover actual alternatives.
-            const preferences=["LeastTime","LeastInterchange","LeastWalking"];
+            const preferences=["leasttime","leastinterchange","leastwalking"];
             const responses=await Promise.allSettled(preferences.map(async preference=>{
               const url=new URL(tflUrl.toString());url.searchParams.set("journeyPreference",preference);
               const response=await fetch(url.toString(),{headers:{"Accept":"application/json"},signal:AbortSignal.timeout(12000)});
@@ -570,7 +573,7 @@ export default {
                 const buses=modes.filter(m=>m==="bus").length;
                 const rail=modes.some(m=>/national-rail|overground|tube|dlr|train|tram/.test(m));
                 const walk=(j.legs||[]).filter(walking).reduce((n,l)=>n+(Number(l.durationMinutes)||0),0);
-                return (Number(j.durationMinutes)||999)+j.transferCount*9+buses*7+walk*0.35+(rail?0:10)+(j.departureFeasible===null?12:0);
+                return (Number(j.durationMinutes)||999)+j.transferCount*18+buses*3+walk*0.5+(rail?0:10)+(j.departureFeasible===null?12:0);
               };
               return score(a)-score(b);
             });
