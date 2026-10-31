@@ -1,1 +1,1 @@
-v1.0.54: 10-language menu, Russian/Polish UI dictionaries and speech locale mapping; version markers aligned.
+v1.0.55: selector limbi încadrat în pagină; localizare opțiuni rapide ru/pl; corecție buton înapoi.
