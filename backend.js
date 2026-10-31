@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -59,12 +59,60 @@ function routeGeometryCoordinates(geometry){
  const points=geometry?.type==='LineString'?geometry.coordinates:geometry?.type==='MultiLineString'?geometry.coordinates.flat():[];
  return (Array.isArray(points)?points:[]).filter(p=>Array.isArray(p)&&Number.isFinite(p[0])&&Number.isFinite(p[1])&&Math.abs(p[0])<=180&&Math.abs(p[1])<=90);
 }
+// v108: weather intent is structured from user turns only; city changes replace, never concatenate.
+const WEATHER_WORDS=/(?:\b(?:vreme\w*|meteo\w*|prognoz\w*|temperatur\w*|grade|ploua|ninge|weather|forecast|degrees|rain|wetter|grad|regen|mogen|tempo|gradi|lluvia|tiempo|clima|graus|weer|graden|pogoda|stopni|deszcz)\b|погод|температур|градус|дожд)/iu;
+const WEATHER_DAYS=[['poimaine','day after tomorrow','apres demain','uber morgen','ubermorgen','dopodomani','pasado manana','depois de amanha','overmorgen','послезавтра','pojutrze'],['maine','tomorrow','demain','morgen','domani','manana','amanha','завтра','jutro'],['azi','astazi','today','aujourd hui','heute','oggi','hoy','hoje','vandaag','сегодня','dzisiaj']];
+const weatherHas=(text,words)=>words.some(w=>(' '+normalizeGeoName(text)+' ').includes(' '+w+' '));
+function weatherRequest(text,previous){
+ const norm=normalizeGeoName(text),explicit=WEATHER_WORDS.test(norm);
+ if(/^(?:de ce|why|ce este|ce inseamna|what is|explain|explica|cum se formeaza|how does|how do|pourquoi|warum)\b/.test(norm)&&!weatherHas(text,WEATHER_DAYS.flat())&&!/\b(?:now|acum|today|azi)\b/.test(norm))return null;
+ const follow=/^(?:dar|si|iar|but|and|what about|how about|et|mais|und|aber|e|ma|y|pero|en|maar|a|а)(?: |$)/u.test(norm);
+ const dayOnly=WEATHER_DAYS.flat().some(w=>norm===w||norm==='dar '+w||norm==='and '+w);
+ const short=norm.split(' ').length<=7;
+ const topicChange=/(?:hotel|stele|restaurant|traseu|route|distance|distanta|pret|price|shopping|cumpar|benzina|flight|zbor|fotograf)/i.test(norm);
+ if(!explicit&&!(previous&&!topicChange&&((follow&&short)||dayOnly||(previous.pending&&short))))return null;
+ const inherited=(!explicit||follow)?previous:null;
+ let period=inherited?.period||'daily',offset=inherited?.offset??0,date=inherited?.date||'';
+ let dayFound=false;
+ for(let i=0;i<WEATHER_DAYS.length;i++)if(weatherHas(text,WEATHER_DAYS[i])){offset=i===0?2:i===1?1:0;period='daily';date='';dayFound=true;break}
+ if(weatherHas(text,['acum','now','currently','maintenant','jetzt','adesso','ahora','agora','nu','сейчас','teraz'])){period='current';offset=0;date='';dayFound=true}
+ const iso=text.match(/\b(\d{4}-\d{2}-\d{2})\b/);if(iso){date=iso[1];period='daily';dayFound=true}
+ // Recognize location after an explicit preposition, leaving the old place behind.
+ const locations=[...text.matchAll(/(?:^|\s)(?:în|in|la|pentru|for|at|en|a|à|em|w|в)\s+(.+?)(?=\s+(?:în|in|at|en|em|w|в)\s+|$)/giu)];
+ const loc=locations.at(-1);let query=loc?loc[1].trim():'';
+ const temporal=[...WEATHER_DAYS.flat(),'acum','now','currently','maintenant','jetzt','adesso','ahora','agora','nu','сейчас','teraz'];
+ for(const word of temporal.sort((a,b)=>b.length-a.length)){
+  const tokens=normalizeGeoName(query).split(' '),wt=word.split(' ');
+  if(tokens.slice(-wt.length).join(' ')===word)query=query.split(/\s+/).slice(0,-wt.length).join(' ');
+ }
+ query=query.replace(/\b\d{4}-\d{2}-\d{2}\b/g,'').replace(/[,\s?!.]+$/g,'').trim();
+ const here=weatherHas(text,['aici','la mine','in zona mea','locatia mea','pozitia mea','here','near me','my location','ici','hier','qui','aqui','здесь','tutaj']);
+ if(here)query='@gps';
+ if(!query&&!explicit&&previous?.pending&&!dayOnly&&!dayFound){query=text.replace(/[?!.]+$/,'').trim();if(countryNameCodes.has(norm)&&previous.query&&previous.query!=='@gps')query=previous.query+', '+query}
+ if(!query)query=previous?.query||'@gps';
+ const unsupportedDate=!dayFound&&/(?:\b(?:luni|marti|miercuri|joi|vineri|sambata|duminica|monday|tuesday|wednesday|thursday|friday|saturday|sunday|saptamana|week|luna viitoare|next month|ieri|yesterday)\b|\b\d{1,2}[/.]\d{1,2})/i.test(norm);
+ return {query:query.slice(0,160),period,offset,date,unsupportedDate,pending:false};
+}
+const WEATHER_UI={
+ ro:['Prognoză meteo','Condiții actuale estimate de model','Minimă','Maximă','Probabilitate de precipitații','Vânt maxim','Date preluate','Precizează localitatea și țara sau activează locația GPS.','Nu am putut identifica sigur localitatea. Precizează orașul și țara sau alege un număr.','Nu am putut obține date meteo verificate acum. Încearcă din nou.','Precizează data în format AAAA-LL-ZZ. Prognoza este disponibilă pentru următoarele 16 zile.','poziția GPS'],
+ en:['Weather forecast','Current modelled conditions','Minimum','Maximum','Precipitation probability','Maximum wind','Retrieved','Specify the town and country or enable GPS location.','I could not identify the town uniquely. Specify town and country or choose a number.','Verified weather data is unavailable right now. Please retry.','Specify a YYYY-MM-DD date within the next 16 days.','GPS position'],
+ fr:['Prévisions météo','Conditions actuelles estimées','Minimum','Maximum','Probabilité de précipitations','Vent maximal','Données récupérées','Précisez la ville et le pays ou activez le GPS.','Précisez la ville et le pays ou choisissez un numéro.','Données météo indisponibles. Réessayez.','Précisez une date AAAA-MM-JJ dans les 16 prochains jours.','position GPS'],
+ de:['Wettervorhersage','Aktuelle Modellbedingungen','Minimum','Maximum','Niederschlagswahrscheinlichkeit','Maximaler Wind','Abgerufen','Ort und Land angeben oder GPS aktivieren.','Ort und Land angeben oder eine Nummer wählen.','Wetterdaten derzeit nicht verfügbar. Bitte erneut versuchen.','Datum JJJJ-MM-TT innerhalb der nächsten 16 Tage angeben.','GPS-Position'],
+ it:['Previsioni meteo','Condizioni attuali stimate','Minima','Massima','Probabilità di precipitazioni','Vento massimo','Dati acquisiti','Indica città e paese o attiva il GPS.','Indica città e paese o scegli un numero.','Dati meteo non disponibili. Riprova.','Indica una data AAAA-MM-GG entro i prossimi 16 giorni.','posizione GPS'],
+ es:['Pronóstico del tiempo','Condiciones actuales estimadas','Mínima','Máxima','Probabilidad de precipitación','Viento máximo','Datos obtenidos','Indica ciudad y país o activa el GPS.','Indica ciudad y país o elige un número.','Datos meteorológicos no disponibles. Inténtalo de nuevo.','Indica una fecha AAAA-MM-DD dentro de los próximos 16 días.','posición GPS'],
+ pt:['Previsão do tempo','Condições atuais estimadas','Mínima','Máxima','Probabilidade de precipitação','Vento máximo','Dados obtidos','Indique cidade e país ou ative o GPS.','Indique cidade e país ou escolha um número.','Dados meteorológicos indisponíveis. Tente novamente.','Indique uma data AAAA-MM-DD nos próximos 16 dias.','posição GPS'],
+ nl:['Weersverwachting','Huidige modelomstandigheden','Minimum','Maximum','Neerslagkans','Maximale wind','Opgehaald','Geef plaats en land op of schakel GPS in.','Geef plaats en land op of kies een nummer.','Weergegevens nu niet beschikbaar. Probeer opnieuw.','Geef een datum JJJJ-MM-DD binnen de komende 16 dagen.','GPS-positie'],
+ ru:['Прогноз погоды','Текущие модельные условия','Минимум','Максимум','Вероятность осадков','Максимальный ветер','Данные получены','Укажите город и страну или включите GPS.','Укажите город и страну или выберите номер.','Данные погоды недоступны. Попробуйте снова.','Укажите дату ГГГГ-ММ-ДД в пределах следующих 16 дней.','позиция GPS'],
+ pl:['Prognoza pogody','Aktualne warunki modelowane','Minimum','Maksimum','Prawdopodobieństwo opadów','Maksymalny wiatr','Dane pobrano','Podaj miasto i kraj lub włącz GPS.','Podaj miasto i kraj lub wybierz numer.','Dane pogodowe niedostępne. Spróbuj ponownie.','Podaj datę RRRR-MM-DD w ciągu następnych 16 dni.','pozycja GPS']
+};
+
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v107";
+    const API_VERSION = "v108";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
+    let responseWeatherContext=null;
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -75,7 +123,7 @@ export default {
       const payload = data && typeof data === "object" ? { ...data } : data;
       if (payload && typeof payload === "object" && typeof payload.reply === "string" &&
           typeof payload.language === "string" && !["ro", "en"].includes(payload.language) &&
-          payload.ai_generated !== true && env.AI && typeof env.AI.run === "function") {
+          payload.ai_generated !== true && payload.translation_status !== "localized" && env.AI && typeof env.AI.run === "function") {
         const targetNames = {fr:"French",de:"German",it:"Italian",es:"Spanish",pt:"Portuguese",nl:"Dutch",ru:"Russian",pl:"Polish"};
         const targetName = targetNames[payload.language];
         if (targetName) {
@@ -95,7 +143,7 @@ export default {
           }
         }
       }
-      if(payload && payload.status==="success" && typeof payload.message_received==="string"){payload.place_context=responsePlaceContext;payload.distance_context=responseDistanceContext;payload.route_context=responseRouteContext;}
+      if(payload && payload.status==="success" && typeof payload.message_received==="string"){payload.place_context=responsePlaceContext;payload.distance_context=responseDistanceContext;payload.route_context=responseRouteContext;payload.weather_context=responseWeatherContext;}
       if (payload && typeof payload === "object") delete payload.ai_generated;
       return new Response(JSON.stringify(payload), {
         status,
@@ -880,12 +928,79 @@ export default {
         const name=String(v.name||v.address?.city||v.address?.town||v.address?.village||String(v.display_name||query).split(',')[0]);
         const country_code=String(v.address?.country_code||"").toUpperCase(),label=String(v.display_name||query).slice(0,220);
         const candidate={name,label,query:[name,v.address?.state,v.address?.country||country_code].filter(Boolean).join(', ').slice(0,160),country_code,latitude:Number(v.lat),longitude:Number(v.lon)};
-        if(!unique.some(old=>normalizeGeoName(old.name)===normalizeGeoName(name)&&old.country_code===country_code&&Math.abs(old.latitude-candidate.latitude)<.025&&Math.abs(old.longitude-candidate.longitude)<.025))unique.push(candidate);
+        if(!unique.some(old=>normalizeGeoName(old.name)===normalizeGeoName(name)&&old.country_code===country_code&&((Math.abs(old.latitude-candidate.latitude)<.025&&Math.abs(old.longitude-candidate.longitude)<.025)||(Math.abs(old.latitude-candidate.latitude)<.27&&Math.abs(old.longitude-candidate.longitude)<.27&&[...new Set(normalizeGeoName(old.label).split(" "))].sort().join(" ")===[...new Set(normalizeGeoName(label).split(" "))].sort().join(" ")))))unique.push(candidate);
       }
       if(!unique.length)throw Error("geocode_not_found");
       if(unique.length>1){const error=Error("geocode_ambiguous");error.candidates=unique.slice(0,5);throw error}
       return unique[0];
     };
+    // Weather bypasses the general LLM: every numeric value comes from validated provider JSON.
+    let priorWeather=null;
+    for(const turn of userTurns)priorWeather=weatherRequest(turn,priorWeather);
+    const suppliedWeather=data.weather_context;
+    if(suppliedWeather&&typeof suppliedWeather==='object'&&typeof suppliedWeather.query==='string'&&suppliedWeather.query.length<=160&&['daily','current'].includes(suppliedWeather.period)&&[0,1,2].includes(suppliedWeather.offset)&&(!suppliedWeather.date||/^\d{4}-\d{2}-\d{2}$/.test(suppliedWeather.date))){
+      priorWeather={query:suppliedWeather.query,period:suppliedWeather.period,offset:suppliedWeather.offset,date:suppliedWeather.date||'',pending:suppliedWeather.pending===true,candidates:Array.isArray(suppliedWeather.candidates)?suppliedWeather.candidates.slice(0,5):[]};
+    }
+    let weather=weatherRequest(message,priorWeather);
+    if(weather){
+      const t=WEATHER_UI[lang]||WEATHER_UI.en;
+      responseWeatherContext=weather;
+      const sendWeather=(reply,extra={})=>json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,translation_status:'localized',weather_ok:false,location_received:hasValidLocation,ai_connected:Boolean(env.AI),...extra});
+      if(weather.unsupportedDate){responseWeatherContext={...weather,pending:true};return sendWeather(t[10]);}
+      let point=null;
+      const candidates=(priorWeather?.candidates||[]).filter(v=>v&&typeof v.label==='string'&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180);
+      if(priorWeather?.pending&&candidates.length){
+        const input=normalizeGeoName(message),index=/^[1-5]$/.test(input)?Number(input)-1:-1,code=countryNameCodes.get(input);
+        const chosen=index>=0?(candidates[index]?[candidates[index]]:[]):candidates.filter(c=>code&&c.country_code===code);
+        if(chosen.length===1){point=chosen[0];weather.query=point.query;}
+        else if(chosen.length>1||/^\d+$/.test(input)){
+          responseWeatherContext={...weather,query:priorWeather.query,pending:true,candidates:chosen.length?chosen:candidates};
+          return sendWeather(t[8]+'\n'+responseWeatherContext.candidates.map((c,i)=>`${i+1}. ${c.label}`).join('\n'),{needs_location_clarification:true});
+        }
+      }
+      if(weather.query==='@gps'){
+        if(!hasValidLocation){responseWeatherContext={...weather,pending:true};return sendWeather(t[7],{needs_location_clarification:true});}
+        point={latitude,longitude,label:t[11]};
+      }
+      if(!point)try{point=await geocodePlace(weather.query)}catch(error){
+        responseWeatherContext={...weather,pending:true,candidates:error.candidates||[]};
+        return sendWeather(t[8]+(error.candidates?'\n'+error.candidates.map((c,i)=>`${i+1}. ${c.label}`).join('\n'):''),{needs_location_clarification:true});
+      }
+      try{
+        const u=new URL(env.OPEN_METEO_API_KEY?'https://customer-api.open-meteo.com/v1/forecast':'https://api.open-meteo.com/v1/forecast');
+        u.searchParams.set('latitude',String(point.latitude));u.searchParams.set('longitude',String(point.longitude));
+        u.searchParams.set('timezone','auto');u.searchParams.set('forecast_days','16');u.searchParams.set('temperature_unit','celsius');u.searchParams.set('wind_speed_unit','kmh');
+        u.searchParams.set('daily','temperature_2m_min,temperature_2m_max,precipitation_probability_max,wind_speed_10m_max');u.searchParams.set('current','temperature_2m');
+        if(env.OPEN_METEO_API_KEY)u.searchParams.set('apikey',env.OPEN_METEO_API_KEY);
+        const r=await fetch(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(10000)});
+        if(!r.ok)throw Error('weather_provider_unavailable');
+        const forecast=await r.json(),tz=forecast.timezone;
+        if(!tz)throw Error('weather_timezone_missing');
+        const now=new Date(),parts=new Intl.DateTimeFormat('en-CA',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
+        const part=k=>parts.find(p=>p.type===k).value,today=`${part('year')}-${part('month')}-${part('day')}`;
+        const day=new Date(today+'T12:00:00Z');day.setUTCDate(day.getUTCDate()+weather.offset);
+        const date=weather.date||day.toISOString().slice(0,10),days=(new Date(date+'T12:00:00Z')-new Date(today+'T12:00:00Z'))/86400000;
+        if(!Number.isInteger(days)||days<0||days>15||new Date(date+'T12:00:00Z').toISOString().slice(0,10)!==date)return sendWeather(t[10]);
+        const f=n=>new Intl.NumberFormat(lang,{maximumFractionDigits:1}).format(n);
+        const fetchedAt=now.toISOString(),retrieved=new Intl.DateTimeFormat(lang,{timeZone:tz,dateStyle:'short',timeStyle:'short'}).format(now);
+        let reply,values;
+        if(weather.period==='current'){
+          const temp=forecast.current?.temperature_2m,time=forecast.current?.time;
+          if(!Number.isFinite(temp)||forecast.current_units?.temperature_2m!=='°C'||!time||Math.abs(Date.parse(time+'Z')-(now.getTime()+Number(forecast.utc_offset_seconds||0)*1000))>7200000)throw Error('weather_invalid_current');
+          values={temperature:temp,valid_time:time};reply=`${t[1]} — ${point.label}\n${time} (${tz}): ${f(temp)}°C.`;
+        }else{
+          const i=forecast.daily?.time?.indexOf(date),lo=forecast.daily?.temperature_2m_min?.[i],hi=forecast.daily?.temperature_2m_max?.[i];
+          if(i==null||i<0||!Number.isFinite(lo)||!Number.isFinite(hi)||lo>hi||forecast.daily_units?.temperature_2m_min!=='°C'||forecast.daily_units?.temperature_2m_max!=='°C')throw Error('weather_invalid_daily');
+          values={minimum:lo,maximum:hi};reply=`${t[0]} — ${point.label}\n${date} (${tz})\n${t[2]}: ${f(lo)}°C · ${t[3]}: ${f(hi)}°C.`;
+          const rain=forecast.daily.precipitation_probability_max?.[i],wind=forecast.daily.wind_speed_10m_max?.[i];
+          if(Number.isFinite(rain)&&rain>=0&&rain<=100&&forecast.daily_units?.precipitation_probability_max==='%'){reply+=`\n${t[4]}: ${f(rain)}%.`;values.precipitation_probability=rain;}
+          if(Number.isFinite(wind)&&wind>=0&&forecast.daily_units?.wind_speed_10m_max==='km/h'){reply+=`\n${t[5]}: ${f(wind)} km/h.`;values.wind_max=wind;}
+        }
+        reply+=`\nOpen-Meteo · ${t[6]}: ${retrieved} (${tz}).\nhttps://open-meteo.com/`;
+        responseWeatherContext={query:weather.query,period:weather.period,offset:weather.offset,date:weather.date||'',pending:false};
+        return sendWeather(reply,{weather_ok:true,weather:{provider:'Open-Meteo',location:point.label,latitude:point.latitude,longitude:point.longitude,date,timezone:tz,period:weather.period,retrieved_at:fetchedAt,...values},sources:[{title:'Open-Meteo',url:'https://open-meteo.com/',retrieved_at:fetchedAt}]});
+      }catch{return sendWeather(t[9]);}
+    }
     const distanceText=message.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     const explicitDistanceIntent=/(?:cati\s+(?:kilometri|km)|how\s+far|how\s+many\s+(?:kilomet(?:er|re)s|km)|\b(?:distanta|distance)\b)/i.test(distanceText)&&/(?:pana|\bto\b|\bfrom\b|\bbetween\b|\bintre\b|\bla\b|\bin\b)/i.test(distanceText)&&!activePlaceRequest;
     const validPoint=value=>value&&typeof value.label==="string"&&typeof value.query==="string"&&value.query.length<=160&&Number.isFinite(value.latitude)&&Number.isFinite(value.longitude)&&Math.abs(value.latitude)<=90&&Math.abs(value.longitude)<=180;
