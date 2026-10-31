@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -199,7 +199,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v120";
+    const API_VERSION = "v121";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -458,10 +458,20 @@ export default {
               }
               // If the query itself names a UK city/station context, prefer a UK candidate;
               // otherwise use the geocoder's first result only when the result is unambiguous.
-              let selected = features.find(f => { const p=f.properties; const lat=Number(p.lat),lon=Number(p.lon); return Number.isFinite(latitude)&&Number.isFinite(longitude)&&Math.abs(lat-latitude)<1.8&&Math.abs(lon-longitude)<2.8; }) || features[0] || null;
+              // Require station/place-name agreement before using a geocoder coordinate.
+              // Proximity alone can choose a completely different London landmark.
+              const normalizedPlace = value => String(value||"").toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\\b(london|londra|station|underground|rail|railway|train|metro|tube|gara|statie|the)\\b/g," ").replace(/\\s+/g," ").trim();
+              const requestedTokens=normalizedPlace(targetName).split(" ").filter(t=>t.length>2);
+              const matchesRequested=f=>{
+                const p=f.properties||{};
+                const candidate=normalizedPlace([p.name,p.formatted,p.address_line1].filter(Boolean).join(" "));
+                return requestedTokens.length>0 && requestedTokens.every(t=>candidate.split(" ").includes(t));
+              };
+              const matchingFeatures=features.filter(matchesRequested);
+              let selected = matchingFeatures.find(f => { const p=f.properties; const lat=Number(p.lat),lon=Number(p.lon); return Number.isFinite(latitude)&&Number.isFinite(longitude)&&Math.abs(lat-latitude)<1.8&&Math.abs(lon-longitude)<2.8; }) || matchingFeatures[0] || null;
               if (features.length > 1 && /\b(?:london|londra|grays|thurrock|essex|basildon|uk|united kingdom|england)\b/i.test(normalizedForDestination)) {
                 const ukCandidate = features.find(f => /\b(?:united kingdom|england|scotland|wales|northern ireland|gb)\b/i.test(String(f.properties.country || f.properties.country_code || "")));
-                if (ukCandidate) selected = ukCandidate;
+                if (ukCandidate && matchesRequested(ukCandidate)) selected = ukCandidate;
                 else if (!explicitCountry) selected = null;
               }
               if (selected) {
