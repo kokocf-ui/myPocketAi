@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.78 — reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.79 — reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.78",
+  version: "1.0.79",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1153,12 +1153,12 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 }
 
 .place-brand-logo{display:block;width:100%;height:100%;object-fit:contain;padding:6px;background:#fff;border-radius:inherit}
-/* v1.0.78: name and logo share the heading row; no empty photo spacer. */
+/* v1.0.79: name and logo share the heading row; no empty photo spacer. */
 .module-place-details .place-detail-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;min-width:0}
 .module-place-details .place-detail-header h3{flex:1 1 auto;min-width:0;margin:0;line-height:1.25;overflow-wrap:anywhere}
 .module-place-details .place-detail-header .place-detail-logo{flex:0 0 44px;width:44px;height:44px;min-width:44px;max-width:44px;margin:0;font-size:24px;border-radius:11px}
 
-/* v1.0.78: readable long answers above the unchanged bottom navigation. */
+/* v1.0.79: readable long answers above the unchanged bottom navigation. */
 .bubble-text{display:block;white-space:pre-wrap;overflow-wrap:anywhere}
 .bubble-text.answer-preview{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .bubble-text a,.answer-reader-body a{color:var(--cyan);text-decoration:underline;overflow-wrap:anywhere}
@@ -1205,7 +1205,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.78'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.79'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };

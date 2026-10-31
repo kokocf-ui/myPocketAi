@@ -1,7 +1,16 @@
-# myPocket AI — backend v109 + frontend v1.0.78
+# myPocket AI — backend v110 + frontend v1.0.79
 
-Scrierea directă a fost reîncercată și refuzată cu HTTP 403 „Resource not accessible by integration”. Nu s-a modificat GitHub; acest pachet este pentru upload manual.
-31 octombrie 2026. Baza verificată: GitHub `main`, commit `3531b287807da5f0b5bdef136c2f740f98048e1f`, backend v108 / frontend 1.0.77. Pachet cumulativ: păstrează meteo, hotelurile, GPS-ul și cititorul cu autoderulare din versiunea anterioară.
+31 octombrie 2026. Baza verificată: GitHub `main`, commit `e718d609971995e7393661eaf8d8dd661eb31da5`, backend v109 / frontend 1.0.78. Pachet cumulativ: păstrează meteo, hotelurile, GPS-ul și cititorul cu autoderulare din versiunea anterioară.
+
+## Corecție v110
+
+Validarea rutelor acceptă unități metrice fără diferență între majuscule/minuscule (`meters`, `Meters`, `METERS`); milele sunt în continuare respinse. v109 compara strict cu `Meters`, deși exemplul real al furnizorului folosește `meters`. Testele reproduc acum răspunsul cu litere mici.
+
+După o eroare, cererea rămâne în starea de reîncercare. „Lakeside shopping center Grays” înlocuiește numele anterior când utilizatorul repetă destinația completă; nu concatenează două copii ale numelui și nu trimite continuarea la modelul general. Localitatea de după „shopping center” este tratată ca precizare geografică, nu ca parte obligatorie a denumirii centrului comercial. Sunt acceptate și continuările provenite dintr-un context v109 cu `pending: null`.
+
+În caz de eșec, API-ul returnează un cod de diagnostic limitat și, dacă există, statusul HTTP al furnizorului; nu expune cheia sau URL-ul cererii. Testele verifică expres că o completare a destinației după un eșec nu apelează modelul lingvistic și nu generează indicații/estimări.
+
+Actualizarea este pregătită pentru publicare directă în GitHub după autorizarea instalării conectorului. Verificarea pe telefon a traseului rămâne necesară după publicare. Pentru retestare este recomandată o conversație nouă, ca indicațiile neverificate generate anterior să nu fie confundate cu traseul corectat.
 
 ## Traseu pietonal
 

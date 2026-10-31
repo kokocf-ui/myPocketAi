@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -121,6 +121,14 @@ function routeMessageSpec(text){
  const own=v=>/^(?:foloseste |use )?(?:locatia mea|pozitia mea(?: gps)?|my (?:current )?(?:location|position)|gps|aici|here)$/.test(normalizeGeoName(v));
  return {profile:walk?'walk':drive?'drive':null,destination_query:(pair?pair[2]:dest?dest[1]:'').trim().slice(0,240),origin_query:pair&&!own(pair[1])?pair[1].trim().slice(0,160):''};
 }
+function mergeRouteDestination(previous,detail){
+ const old=String(previous||'').trim(),next=String(detail||'').trim();
+ const canonical=v=>normalizeGeoName(v).replace(/\bcentre\b/g,'center');
+ const a=canonical(old),b=canonical(next);
+ if(!old||b===a||b.startsWith(a+' ')||/shopping (?:center|mall)|centru comercial/.test(b))return next.slice(0,240);
+ if(a.startsWith(b+' '))return old.slice(0,240);
+ return (old+', '+next).slice(0,240);
+}
 function routeGeoDistance(a,b){const rad=v=>v*Math.PI/180,dLat=rad(b.latitude-a.latitude),dLon=rad(b.longitude-a.longitude);const h=Math.sin(dLat/2)**2+Math.cos(rad(a.latitude))*Math.cos(rad(b.latitude))*Math.sin(dLon/2)**2;return 6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));}
 const ROUTE_REPLY_TEXT={
  ro:['Traseu pietonal','Traseu rutier','Distanță','Durată estimată','Indicații pe străzi','Serviciul nu a furnizat indicații pe străzi pentru acest traseu.','Traseu calculat de Geoapify.'],
@@ -137,7 +145,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v109";
+    const API_VERSION = "v110";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -607,7 +615,7 @@ export default {
         const spec=routeMessageSpec(turn),n=normalizeGeoName(turn);
         if(spec&&!/(?:harta|map)/.test(n))routeContext={...spec,pending:spec.destination_query?'destination_detail':'destination',candidates:[]};
         else if(routeContext&&!/[?!]/.test(turn)&&n.split(' ').length<=8&&!/^(?:explica|scrie|cauta|what|why|de ce|cat|cate|vreme|weather|salut|multumesc|thanks)\b/.test(n)){
-          if(!/^(?:foloseste |use )?(?:locatia mea|my location|gps|here|aici)$/.test(n))routeContext.destination_query=routeContext.destination_query?routeContext.destination_query+', '+turn:turn;
+          if(!/^(?:foloseste |use )?(?:locatia mea|my location|gps|here|aici)$/.test(n))routeContext.destination_query=mergeRouteDestination(routeContext.destination_query,turn);
         }else if(!spec)routeContext=null;
       }
     }
@@ -615,7 +623,8 @@ export default {
     const routePoint=v=>v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&typeof v.label==="string";
     const retryRouteAnswer=routeContext&&/^(?:incearca din nou|reincearca|retry|try again)$/.test(routeWords);
     const selectedDestinationRequested=routePoint(data.route_destination)&&["walk","drive"].includes(data.route_profile);
-    const shortRouteAnswer=routeContext?.pending&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|multumesc|thanks|ok|pa|bye|scrie|write|explica|explain|cauta|find|calculeaza|calculate|recomanda|tradu|vreme|weather|cate|cati|cat|ce|what|why|de ce)(?: |$)/.test(routeWords);
+    const destinationRouteUpdate=routeContext&&/(?:shopping (?:center|centre|mall)|centru comercial)/.test(routeWords)&&! /^(?:ce|cat|cate|cand|unde|what|why|when|how|de ce|explica|scrie|cauta|find|vreme|weather|care)(?: |$)/.test(routeWords);
+    const shortRouteAnswer=(routeContext?.pending||destinationRouteUpdate)&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|multumesc|thanks|ok|pa|bye|scrie|write|explica|explain|cauta|find|calculeaza|calculate|recomanda|tradu|vreme|weather|cate|cati|cat|ce|what|why|de ce)(?: |$)/.test(routeWords);
     if(routeSpec||selectedDestinationRequested||mapRouteRequest||shortRouteAnswer||retryRouteAnswer||(gpsRouteAnswer&&routeContext)){
       let rc=routeContext||{profile:null,destination_query:"",origin_query:"",pending:null,candidates:[]};
       const modeOnly=/^(?:pe jos|pietonal|walking|walk|cu masina|masina|drive|driving)$/.test(routeWords);
@@ -633,8 +642,8 @@ export default {
           const choices=idx>=0?(pointChoice[idx]?[pointChoice[idx]]:[]):pointChoice.filter(v=>normalizeGeoName(v.label)===routeWords||(code&&v.country_code===code));
           if(choices.length===1){rc.destination=choices[0];rc.pending=null;rc.candidates=[]}
           else if(choices.length>1||/^[0-9]+$/.test(routeWords)){rc.candidates=choices.length?choices:pointChoice;responseRouteContext=rc;return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:(lang==="en"?"Which destination?":"Ce destinație alegi?")+"\n"+rc.candidates.map((v,i)=>`${i+1}. ${v.label}`).join("\n"),route_available:false,ai_connected:Boolean(env.AI)})}
-          else {rc.destination_query=rc.destination_query+", "+message.trim();rc.destination=null;rc.pending=null;rc.candidates=[]}
-        }else {rc.destination_query=rc.destination_query?rc.destination_query+", "+message.trim():message.trim();rc.destination=null;rc.pending=null}
+          else {rc.destination_query=mergeRouteDestination(rc.destination_query,message);rc.destination=null;rc.pending=null;rc.candidates=[]}
+        }else {rc.destination_query=mergeRouteDestination(rc.destination_query,message);rc.destination=null;rc.pending=null}
       }
       if(mapRouteRequest){const named=message.normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/(?:pana\s+(?:la|in)|catre|\bto)\s+(.+)$/i);if(named){rc.destination_query=named[1].replace(/[?!.]+$/g,'').trim();rc.destination=null;rc.candidates=[];rc.pending=null}}
       const routeReply=(reply,extra={})=>{responseRouteContext=rc;return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:false,location_received:hasValidLocation,...extra,ai_connected:Boolean(env.AI)})};
@@ -645,7 +654,8 @@ export default {
       const findRoutePoints=async (query,isOrigin=false)=>{
         const country=geoQueryParts(query).country,normalized=normalizeGeoName(query);
         const mall=/(?:shopping (?:center|centre)|shopping mall|\bmall\b|centru comercial)/.test(normalized);
-        const namedTokens=normalizeGeoName(query.split(',')[0]).split(' ').filter(w=>w.length>2&&!['shopping','center','centre','mall','centru','comercial','united','kingdom'].includes(w)&&!countryNameCodes.has(w));
+        const mallName=mall?query.match(/^(.*?\b(?:shopping (?:center|centre|mall)|centru comercial|mall)\b)(.*)$/i):null;
+        const namedTokens=normalizeGeoName(mallName?mallName[1]:query.split(',')[0]).split(' ').filter(w=>w.length>2&&!['shopping','center','centre','mall','centru','comercial','united','kingdom'].includes(w)&&!countryNameCodes.has(w));
         const parse=raw=>{
           const points=[];
           for(const f of raw.features||[]){const p=f.properties||{},rawLat=p.lat??f.geometry?.coordinates?.[1],rawLon=p.lon??f.geometry?.coordinates?.[0];
@@ -660,7 +670,7 @@ export default {
           }
           return points;
         };
-        const localLookup=hasValidLocation&&!isOrigin&&mall&&!country&&!query.includes(',');
+        const localLookup=hasValidLocation&&!isOrigin&&mall&&!country&&!query.includes(',')&&!String(mallName?.[2]||'').trim();
         if(localLookup){
           // Forward geocoding can miss POIs; Places supplies mapped shopping centres nearby.
           const p=new URL('https://api.geoapify.com/v2/places');p.searchParams.set('categories','commercial.shopping_mall');p.searchParams.set('filter',`circle:${longitude},${latitude},25000`);p.searchParams.set('bias',`proximity:${longitude},${latitude}`);p.searchParams.set('limit','100');if(namedTokens.length)p.searchParams.set('name',namedTokens.join(' '));p.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
@@ -684,11 +694,11 @@ export default {
           destination=choices[0];rc.destination=destination;
         }
         const u=new URL("https://api.geoapify.com/v1/routing");u.searchParams.set("waypoints",`${origin.latitude},${origin.longitude}|${destination.latitude},${destination.longitude}`);u.searchParams.set("mode",rc.profile);u.searchParams.set("details","instruction_details");u.searchParams.set("units","metric");u.searchParams.set("lang",lang);u.searchParams.set("apiKey",env.GEOAPIFY_API_KEY);
-        const r=await fetch(u.href,{signal:AbortSignal.timeout(12000)});if(!r.ok)throw Error("route_provider_failed");const f=(await r.json()).features?.[0],props=f?.properties||{},coordinates=routeGeometryCoordinates(f?.geometry),meters=Number(props.distance),seconds=Number(props.time);
+        const r=await fetch(u.href,{signal:AbortSignal.timeout(12000)});if(!r.ok)throw Object.assign(Error("route_provider_failed"),{httpStatus:r.status});const f=(await r.json()).features?.[0],props=f?.properties||{},coordinates=routeGeometryCoordinates(f?.geometry),meters=Number(props.distance),seconds=Number(props.time);
         const rawPoints=f?.geometry?.type==='MultiLineString'?f.geometry.coordinates?.flat():f?.geometry?.coordinates;
         if(typeof props.distance!=='number'||!Number.isFinite(meters)||meters<0||coordinates.length<2||!Array.isArray(rawPoints)||coordinates.length!==rawPoints.length)throw Error("route_geometry_missing");
         rc.pending=null;rc.candidates=[];responseRouteContext=rc;
-        if(props.distance_units&&props.distance_units!=='Meters')throw Error('route_units_invalid');
+        if(props.distance_units&&!['meters','metres','m'].includes(String(props.distance_units).trim().toLowerCase()))throw Error('route_units_invalid');
         const steps=(Array.isArray(props.legs)?props.legs:[]).flatMap(leg=>Array.isArray(leg.steps)?leg.steps:[]).map(step=>{
           const text=typeof step.instruction?.text==='string'?step.instruction.text.trim():'';
           const streets=Array.isArray(step.instruction?.streets)?step.instruction.streets.filter(v=>typeof v==='string').slice(0,8):[];
@@ -701,7 +711,13 @@ export default {
         reply+='\n\n'+t[6];
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,translation_status:'localized',route_available:true,route_geometry_available:true,route_instructions_available:steps.length>0,route,auto_open_map:mapRouteRequest,source:"Geoapify Geocoding, Places and Routing",location_received:hasValidLocation,ai_connected:Boolean(env.AI)});
 
-      }catch(error){return routeReply(lang==="en"?"The route could not be verified right now. I kept the destination; try again without repeating the departure.":"Traseul nu a putut fi verificat momentan. Am păstrat destinația; poți încerca din nou fără să repeți plecarea.")}
+      }catch(error){
+        rc.pending=rc.pending||'retry';
+        const allowed=['route_provider_failed','route_geocode_failed','route_geometry_missing','route_units_invalid'];
+        const code=allowed.includes(error?.message)?error.message:(['TimeoutError','AbortError'].includes(error?.name)?'route_timeout':'route_provider_error');
+        console.warn('Pocket AI route validation failed',JSON.stringify({code,httpStatus:Number.isInteger(error?.httpStatus)?error.httpStatus:null}));
+        return routeReply(lang==="en"?"The route could not be verified right now. I kept the destination. Retry or add the destination town/country; I will not supply unverified directions.":"Traseul nu a putut fi verificat momentan. Am păstrat destinația. Poți reîncerca sau completa localitatea/țara destinației; nu voi furniza indicații neverificate.",{route_error_code:code,route_provider_http_status:Number.isInteger(error?.httpStatus)?error.httpStatus:null});
+      }
     }
 
     // v46: preserve map-module conversation context for destination clarifications.

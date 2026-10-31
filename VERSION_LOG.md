@@ -24,3 +24,28 @@
 - Frontend: version identifiers only updated to 1.0.48; no UI or behavior changes.
 - README_RO.md, README_ROMANA.txt and VALIDATION.txt rewritten to match the actual delivered code and exact upload list.
 - Automated mock tests and syntax checks pass; live Cloudflare API validation remains pending deployment.
+
+## 2026-10-31 — Backend v108 + frontend 1.0.77
+- Dedicated Open-Meteo forecasts; replace city on follow-ups and preserve day, never infer temperatures with the language model.
+- Weather context survives client history truncation, clears with new conversations/topics and is restored with archived chats.
+- Validate dates, timezones, units, missing/null values and provider failures. Source attribution and retrieval time included.
+- Merge repeated Paris settlement labels with equivalent administrative tokens while retaining geographically distinct towns.
+- Add missing tests_reader.mjs and new tests_weather.mjs to match npm test; include README.md and synchronized Romanian documentation.
+- Validation: automated mocked backend/client regression tests and syntax checks pass. Live Open-Meteo HTTP 200 verified. Physical phone QA remains pending.
+
+## 2026-10-31 — Backend v109 + frontend 1.0.78
+- Based on GitHub main 3531b287807da5f0b5bdef136c2f740f98048e1f, matching v108/1.0.77 source hashes.
+- Unified pedestrian quick/chat intent; GPS confirmation resumes a pending route. Recover route intent from user history without assistant geography.
+- Local name/category search for unqualified shopping centres before constrained geocoding; explicit country retains worldwide lookup.
+- Provider street instructions with map, exact selected hotel coordinates, and user-activated Google Maps navigation links.
+- Backend module recommendation and frontend handoff preserve conversation, GPS and generation without reset/archive.
+- Preserve v108 weather behavior. Add missing client/weather tests plus route regressions; update documentation.
+- Validation: mocked backend/DOM regression suites and generated client syntax pass. Real Geoapify responses and phone navigation still require post-deployment verification.
+
+## 2026-10-31 — Backend v110 + frontend 1.0.79
+- Based on GitHub main e718d609971995e7393661eaf8d8dd661eb31da5, matching uploaded v109 source hashes.
+- Normalize metric unit casing instead of rejecting valid provider-style distance_units: meters.
+- Preserve retry context after route errors; full destination clarifications replace repeated names and do not fall through to the LLM.
+- Separate trailing town qualifiers from shopping-centre name validation. Handle legacy pending:null route contexts.
+- Add controlled route diagnostics and regression fixtures for lowercase/uppercase metric units, incompatible units, and failure -> destination clarification -> retry.
+- Existing weather, place, GPS, client, navigation-link and module-handoff regression suites pass; syntax checks pass. Live post-deployment route check pending publication.

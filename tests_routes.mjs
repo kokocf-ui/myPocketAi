@@ -24,13 +24,15 @@ globalThis.fetch=async input=>{
  if(u.pathname==='/v1/routing'){
   if(mode==='failed')return new Response('',{status:503});
   const d=u.searchParams.get('waypoints').split('|')[1].split(',').map(Number);
-  const props={distance:2200,distance_units:'Meters',time:1920,legs:[{steps:[
+  const props={distance:2200,distance_units:'meters',time:1920,legs:[{steps:[
    {distance:300,instruction:{text:u.searchParams.get('lang')==='en'?'Head along London Road.':'Mergi pe London Road.',streets:['London Road']}},
    {distance:1900,instruction:{text:'Virează la dreapta spre West Thurrock Way.',streets:['West Thurrock Way']}},
    {distance:0,instruction:{text:'Ai ajuns la destinație.'}}
   ]}]};
   if(mode==='nosteps')delete props.legs;
   if(mode==='units')props.distance_units='Miles';
+  if(mode==='titlecase')props.distance_units='Meters';
+  if(mode==='upper')props.distance_units='METERS';
   if(mode==='null')props.distance=null;
   const f={properties:props,geometry:{type:'MultiLineString',coordinates:[[[.28,51.48],[.281,51.485],[d[1],d[0]]]]}};
   if(mode==='geometry')f.geometry.coordinates[0][1]=[null,51.485];
@@ -64,4 +66,14 @@ d=await ask('Ce este un traseu pietonal?',{module:'maps',route_context:pending})
 for(const answer of ['walk','walking','drive','driving','cu mașina']){d=await ask('Cum ajung la Lakeside shopping centre?',{module:'maps'});d=await ask(answer,{route_context:d.route_context});assert.equal(d.route_available,true,answer);assert.equal(d.route.profile,/walk/.test(answer)?'walk':'drive');}
 mode='failed';d=await ask('Walking route to Lakeside shopping centre');pending=d.route_context;mode='local';d=await ask('Încearcă din nou',{route_context:pending});assert.equal(d.route_available,true);assert.equal(d.route_context.destination_query,pending.destination_query);
 d=await ask('Itinéraire à pied',{route_start:true,route_profile:'walk',language:'fr'});assert.equal(d.route_context.profile,'walk');assert.equal(d.route_context.pending,'destination');assert.equal(d.recommended_module,'maps');
+// Provider-style lowercase units must succeed; presentation case must not change metric semantics.
+for(const units of ['local','titlecase','upper']){mode=units;d=await ask('Traseu pietonal până la Lakeside shopping centre');assert.equal(d.route_available,true,units);assert.equal(d.route.distanceMeters,2200);assert.equal(d.route.steps.length,3);}
+// Reproduce the exact failure -> full destination clarification from the phone screenshots.
+mode='units';d=await ask('Traseu pietonal până la Lakeside shopping center');assert.equal(d.route_available,false);assert.equal(d.route_error_code,'route_units_invalid');assert.equal(d.route_context.pending,'retry');pending=d.route_context;
+const beforeRouteFollowupAI=aiCalls;mode='local';d=await ask('Lakeside shopping center Grays',{route_context:pending});assert.equal(d.route_available,true);assert.equal(d.route_context.destination_query,'Lakeside shopping center Grays');assert.equal(aiCalls,beforeRouteFollowupAI,'failed route clarification never reaches the LLM');
+mode='failed';d=await ask('Traseu pietonal până la Lakeside shopping center');assert.equal(d.route_available,false);assert.equal(d.route_context.pending,'retry');pending=d.route_context;
+d=await ask('Lakeside shopping center Grays',{route_context:pending});assert.equal(d.route_available,false);assert.equal(d.recommended_module,'maps');assert.equal(d.route_context.destination_query,'Lakeside shopping center Grays');assert.equal(aiCalls,beforeRouteFollowupAI);assert.ok(!d.reply.includes('Western Gateway'));assert.ok(!d.reply.includes('10–15'));
+mode='local';d=await ask('Încearcă din nou',{route_context:pending});assert.equal(d.route_available,true);
+// A v109 client may still carry pending:null after the old route validation failure.
+mode='local';d=await ask('Lakeside shopping center Grays',{route_context:{profile:'walk',origin_query:'',destination_query:'Lakeside shopping center',destination:{latitude:51.488,longitude:.283,label:'Lakeside Shopping Centre'},pending:null,candidates:[]}});assert.equal(d.route_available,true);assert.equal(d.route_context.destination_query,'Lakeside shopping center Grays');assert.equal(aiCalls,beforeRouteFollowupAI);
 console.info=info;console.warn=warn;console.log('PASS: pedestrian quick prompt, local Lakeside vs overseas names, GPS confirmation continues routing, history recovery, street instructions, explicit country, country/number choices, missing GPS, exact hotel selection, provider/geometry/units failures, maps/travel/assistant handoff.');
