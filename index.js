@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.65",
+  version: "1.0.66",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1121,7 +1121,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 .module-result-card{display:flex!important;flex-direction:column!important;gap:7px!important}
 .module-result-card strong,.module-result-card small{display:block!important;flex:none!important}
 
-/* v1.0.65: one shared viewport contract for BOTH quick-selection modules. */
+/* v1.0.66: one shared viewport contract for BOTH quick-selection modules. */
 #moduleQuickLayer.open{
  top:var(--quick-top,100px)!important;
  bottom:var(--quick-bottom,100px)!important;
@@ -1151,6 +1151,14 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
  height:100%!important;max-height:none!important;overflow-y:auto!important;
  overflow-x:hidden!important;padding-bottom:16px!important
 }
+
+/* v1.0.66: details only; result table dimensions are unchanged. */
+.place-detail-gallery{display:flex;gap:10px;overflow-x:auto;margin:12px 0;padding:4px 0}
+.place-detail-thumb{border:1px solid var(--line);background:var(--panel);border-radius:12px;flex:0 0 112px;height:86px;overflow:hidden;padding:0;cursor:pointer}
+.place-detail-thumb img{width:100%;height:100%;object-fit:cover}
+.place-photo-lightbox{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:99999;display:flex;align-items:center;justify-content:center;padding:60px 12px 22px}
+.place-photo-lightbox img{max-width:100%;max-height:100%;object-fit:contain}
+.place-photo-close{position:absolute;top:12px;right:12px;background:#123347;color:white;border:1px solid #64c9d4;border-radius:12px;padding:10px 14px;font-size:16px}
 </style>
 </head>
 <body>
@@ -1182,7 +1190,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.65'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.66'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt))return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -1262,7 +1270,30 @@ if(parts.length>1){const translated=parts.map(translatePart);if(translated.every
 return translatePart(raw)||raw;
 }
 function renderModulePlaces(places){const body=$('moduleLayerBody');body.innerHTML='';if(!Array.isArray(places)||!places.length){const status=document.createElement('div');status.className='module-search-status';status.textContent=state.moduleSearchReply||quickUiText().notFound;body.append(status);return}document.querySelector('.module-quick-sheet')?.classList.add('results-mode');const panel=document.createElement('section');panel.className='module-places-results';panel.setAttribute('aria-label',quickUiText().found);const header=document.createElement('header');header.className='module-places-results-head';const heading=document.createElement('div');heading.className='module-places-results-heading';const title=document.createElement('h3');title.textContent=quickUiText().found;const subtitle=document.createElement('p');subtitle.textContent=places.length+' '+quickUiText().results;heading.append(title,subtitle);const back=document.createElement('button');back.type='button';back.className='module-results-back';back.setAttribute('aria-label',quickUiText().back);back.textContent='‹';back.addEventListener('click',handleModuleLayerBack);header.append(heading,back);const list=document.createElement('div');list.className='module-place-results-list';list.setAttribute('role','list');places.forEach((place,index)=>{const item=document.createElement('button');item.type='button';item.className='module-place-result';item.setAttribute('role','listitem');const icon=document.createElement('span');icon.className='module-place-result-icon';icon.setAttribute('aria-hidden','true');icon.textContent=placeResultIcon(place);const copy=document.createElement('span');copy.className='module-place-result-copy';const name=document.createElement('strong');name.className='module-place-result-name';name.textContent=(index+1)+'. '+String(place.name||(quickUiText().location+' '+(index+1)));const meta=document.createElement('span');meta.className='module-place-result-meta';meta.textContent=localizedPlaceCategory(place.type)+' · '+formatDistance(place.distance_meters)+' · '+quickUiText().details;copy.append(name,meta);const arrow=document.createElement('span');arrow.className='module-place-result-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';item.append(icon,copy,arrow);item.addEventListener('click',()=>renderModulePlaceDetails(place));list.append(item)});panel.append(header,list);body.append(panel);$('moduleLayerTitle').textContent=quickUiText().found}
-function renderModulePlaceDetails(place){document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');state.moduleSearchReturnMode='results';const body=$('moduleLayerBody');body.innerHTML='';const card=document.createElement('div');card.className='module-place-details';const title=document.createElement('h3');title.textContent=String(place.name||quickUiText().location);const type=document.createElement('p');type.textContent=quickUiText().category+': '+localizedPlaceCategory(place.type||quickUiText().unspecified);const distance=document.createElement('p');distance.textContent=quickUiText().distance+': '+formatDistance(place.distance_meters);card.append(title,type,distance);if(Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude))){const coords=document.createElement('p');coords.textContent=quickUiText().coordinates+': '+Number(place.latitude).toFixed(5)+', '+Number(place.longitude).toFixed(5);card.append(coords)}const url=typeof place.map_url==='string'&&place.map_url.startsWith('https://www.openstreetmap.org/')?place.map_url:'';if(url){const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=quickUiText().openMap;card.append(link)}const back=document.createElement('button');back.type='button';back.className='primary-btn';back.textContent=quickUiText().backResults;back.addEventListener('click',()=>renderModulePlaces(state.moduleSearchResults));body.append(card,back);$('moduleLayerTitle').textContent=quickUiText().placeDetails}
+
+const DETAIL_LABELS={"ro": {"address": "Adresă", "phone": "Telefon", "website": "Website", "photos": "Fotografii", "close": "Închide fotografia", "price": "Preț", "rooms": "Camere"}, "en": {"address": "Address", "phone": "Phone", "website": "Website", "photos": "Photos", "close": "Close photo", "price": "Price", "rooms": "Rooms"}, "fr": {"address": "Adresse", "phone": "Téléphone", "website": "Site web", "photos": "Photos", "close": "Fermer la photo", "price": "Prix", "rooms": "Chambres"}, "de": {"address": "Adresse", "phone": "Telefon", "website": "Webseite", "photos": "Fotos", "close": "Foto schließen", "price": "Preis", "rooms": "Zimmer"}, "it": {"address": "Indirizzo", "phone": "Telefono", "website": "Sito web", "photos": "Foto", "close": "Chiudi foto", "price": "Prezzo", "rooms": "Camere"}, "es": {"address": "Dirección", "phone": "Teléfono", "website": "Sitio web", "photos": "Fotos", "close": "Cerrar foto", "price": "Precio", "rooms": "Habitaciones"}, "pt": {"address": "Morada", "phone": "Telefone", "website": "Website", "photos": "Fotografias", "close": "Fechar fotografia", "price": "Preço", "rooms": "Quartos"}, "nl": {"address": "Adres", "phone": "Telefoon", "website": "Website", "photos": "Foto’s", "close": "Foto sluiten", "price": "Prijs", "rooms": "Kamers"}, "ru": {"address": "Адрес", "phone": "Телефон", "website": "Сайт", "photos": "Фотографии", "close": "Закрыть фото", "price": "Цена", "rooms": "Номера"}, "pl": {"address": "Adres", "phone": "Telefon", "website": "Strona internetowa", "photos": "Zdjęcia", "close": "Zamknij zdjęcie", "price": "Cena", "rooms": "Pokoje"}};
+function detailLabels(){return DETAIL_LABELS[state.language]||DETAIL_LABELS.en}
+function verifiedMediaUrl(value){try{const u=new URL(String(value||''));return u.protocol==='https:'?u.href:''}catch{return ''}}
+function showPlacePhoto(src,alt){const layer=document.createElement('div');layer.className='place-photo-lightbox';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');const close=document.createElement('button');close.type='button';close.textContent='× '+detailLabels().close;close.className='place-photo-close';const image=document.createElement('img');image.src=src;image.alt=alt||'';image.onerror=()=>layer.remove();const finish=()=>{document.removeEventListener('keydown',esc);layer.remove()};const esc=e=>{if(e.key==='Escape')finish()};close.onclick=finish;layer.onclick=e=>{if(e.target===layer)finish()};document.addEventListener('keydown',esc);layer.append(close,image);document.body.append(layer);close.focus()}
+function renderModulePlaceDetails(place){
+ document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');state.moduleSearchReturnMode='results';
+ const body=$('moduleLayerBody');body.innerHTML='';const card=document.createElement('div');card.className='module-place-details';
+ const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=String(place.name||t.location);card.append(title);
+ const images=[place.image_url,...(Array.isArray(place.images)?place.images:[]),...(Array.isArray(place.room_images)?place.room_images:[])].map(verifiedMediaUrl).filter((v,i,a)=>v&&a.indexOf(v)===i).slice(0,12);
+ if(images.length){const gallery=document.createElement('div');gallery.className='place-detail-gallery';for(const src of images){const button=document.createElement('button');button.type='button';button.className='place-detail-thumb';const img=document.createElement('img');img.src=src;img.alt=title.textContent;img.loading='lazy';button.onclick=()=>showPlacePhoto(src,title.textContent);img.onerror=()=>button.remove();button.append(img);gallery.append(button)}card.append(gallery)}
+ const line=(label,value)=>{if(value===undefined||value===null||String(value).trim()==='')return;const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));card.append(p)};
+ line(l.address,place.address||[place.house_number,place.street,place.city,place.postcode].filter(Boolean).join(', '));
+ line(t.category,localizedPlaceCategory(place.type||t.unspecified));
+ if(place.distance_meters!==undefined)line(t.distance,formatDistance(place.distance_meters));
+ if(place.phone){const p=document.createElement('p');const a=document.createElement('a');a.href='tel:'+String(place.phone).replace(/[^+0-9]/g,'');a.textContent=String(place.phone);p.append(l.phone+': ',a);card.append(p)}
+ const site=verifiedMediaUrl(place.website);if(site){const p=document.createElement('p');const a=document.createElement('a');a.href=site;a.target='_blank';a.rel='noopener noreferrer';a.textContent=l.website;p.append(a);card.append(p)}
+ // Prices are shown only when supplied as explicit provider data; no invented prices.
+ if(place.price&&typeof place.price==='string')line(l.price,place.price);
+ if(Array.isArray(place.rooms)){for(const room of place.rooms.slice(0,10)){if(!room||typeof room!=='object')continue;const p=document.createElement('p');p.textContent=[room.name||l.rooms,room.price&&room.currency?room.price+' '+room.currency:''].filter(Boolean).join(' · ');card.append(p)}}
+ if(Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude)))line(t.coordinates,Number(place.latitude).toFixed(5)+', '+Number(place.longitude).toFixed(5));
+ const url=typeof place.map_url==='string'&&place.map_url.startsWith('https://www.openstreetmap.org/')?place.map_url:'';if(url){const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=t.openMap;card.append(link)}
+ const back=document.createElement('button');back.type='button';back.className='primary-btn';back.textContent=t.backResults;back.addEventListener('click',()=>renderModulePlaces(state.moduleSearchResults));body.append(card,back);$('moduleLayerTitle').textContent=t.placeDetails;
+}
 const QUICK_SEARCH_ENGLISH={
 'Benzinării':'Find petrol stations near me.',
 'Spălătorii auto':'Find car washes near me.',

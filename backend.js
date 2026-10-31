@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v98 conversational intent and quiet source handling
+ * Pocket AI backend — v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -40,7 +40,7 @@
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v98";
+    const API_VERSION = "v99";
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -955,7 +955,7 @@ export default {
               const isShop = ["supermarket", "mall", "shop"].includes(requestedPlaceCategory.key);
               const amenity = requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
-              const tags = { name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
+              const tags = { image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? geoapifyDistanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
             if (geoapifyElements.length) {
@@ -1022,6 +1022,7 @@ export default {
                 : /pharmacy|fuel|parking|car.?wash|museum|cinema|hospital|school|library|atm|bank|post.?office|toilet|hotel|station/.test(photonType);
               if (!photonCategoryMatches) return null;
               const tags = {
+                image: properties.image || "", wikimedia_commons: properties.wikimedia_commons || "",
                 name: properties.name || "",
                 amenity: isShop ? "" : (requestedPlaceCategory.key === "pharmacy" ? "pharmacy" : requestedPlaceCategory.key === "fuel" ? "fuel" : requestedPlaceCategory.key === "parking" ? "parking" : requestedPlaceCategory.key === "car_wash" ? "car_wash" : requestedPlaceCategory.key === "charging" ? "charging_station" : requestedPlaceCategory.key === "restaurant" ? (/fast_food|fast food/.test(osmValue) ? "fast_food" : /biergarten/.test(osmValue) ? "biergarten" : /pub/.test(osmValue) ? "pub" : /bar/.test(osmValue) ? "bar" : /cafe|coffee/.test(osmValue) ? "cafe" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice.?cream|gelato/.test(osmValue) ? "ice_cream" : /bakery|pastry/.test(osmValue) ? "bakery" : "confectionery") : ""),
                 shop: isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "supermarket" ? "supermarket" : (properties.osm_value || "shop")) : "",
@@ -1112,7 +1113,10 @@ export default {
           const city = String(tags.city || tags.town || tags.village || tags["addr:city"] || "").trim();
           const postcode = String(tags.postcode || tags["addr:postcode"] || "").trim();
           const address = [houseNumber, street, city, postcode].filter(Boolean).join(", ");
-          return { name, type, lat, lon, distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? distanceMeters(latitude, longitude, lat, lon) : Infinity, cuisine: tags.cuisine || "", website: tags.website || tags["contact:website"] || "", phone: tags.phone || tags["contact:phone"] || "", address, street, houseNumber, city, postcode };
+          const rawImage = String(tags.image || "").trim();
+          const commons = String(tags.wikimedia_commons || tags["wikimedia_commons"] || "").trim();
+          const imageUrl = /^https:\/\//i.test(rawImage) ? rawImage : /^File:/i.test(commons) ? "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(commons.slice(5)) : "";
+          return { imageUrl, name, type, lat, lon, distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? distanceMeters(latitude, longitude, lat, lon) : Infinity, cuisine: tags.cuisine || "", website: tags.website || tags["contact:website"] || "", phone: tags.phone || tags["contact:phone"] || "", address, street, houseNumber, city, postcode };
         }).filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lon) && p.name)
           .filter(p => !p.name.startsWith("Loc fără nume") && !p.name.startsWith("Unnamed"));
         // Deduplicate first, then sort by straight-line distance from the validated GPS point.
@@ -1130,6 +1134,7 @@ export default {
           else {
             if (!duplicate.cuisine && place.cuisine) duplicate.cuisine = place.cuisine;
             if (!duplicate.website && place.website) duplicate.website = place.website;
+            if (!duplicate.imageUrl && place.imageUrl) duplicate.imageUrl = place.imageUrl;
             if (!duplicate.phone && place.phone) duplicate.phone = place.phone;
             if (!duplicate.address && place.address) duplicate.address = place.address;
             if (!duplicate.street && place.street) duplicate.street = place.street;
@@ -1156,7 +1161,7 @@ export default {
           const reply = lang === "en"
             ? `Nearby ${requestedPlaceCategory.labelEn} results within about 5 km (OpenStreetMap data):\n\n${lines.join("\n\n")}${ratingNote}\n\nDistances are approximate straight-line distances from your GPS position, not walking or driving distances; check each place link for current details.`
             : `Am găsit ${totalUniqueResults} locații unice pentru ${requestedPlaceCategory.labelRo}, la aproximativ 5 km (date OpenStreetMap). Afișez cele mai apropiate ${displayedPlaces.length}.\n\n${lines.join("\n\n")}${ratingNote}\n\nDistanțele sunt aproximative, în linie dreaptă față de poziția GPS, nu distanțe de mers pe jos sau cu mașina; deschide linkul fiecărui loc pentru detalii actualizate.`;
-          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: p.type, latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") + " (OpenStreetMap-derived place data)" : "Geoapify + Photon (no named results returned)", location_source: locationSource, results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
+          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: p.type, image_url: p.imageUrl || "", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") + " (OpenStreetMap-derived place data)" : "Geoapify + Photon (no named results returned)", location_source: locationSource, results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
         }
       } catch (searchError) {
         const errorName = searchError && searchError.name ? String(searchError.name).slice(0, 80) : "UnknownError";
