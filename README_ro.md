@@ -1,39 +1,53 @@
-# myPocket AI — backend v105 + frontend v1.0.74
+# myPocket AI — backend v107 + frontend v1.0.76
 
-31 octombrie 2026. Bază: fișierele curente din GitHub, backend SHA 073c05cea0e0eb6d9e8e246d5e2fd5664853ae76 și frontend SHA a452bb9feddf1539986e3bd6cdd30f0291ca0c50 (v104/v1.0.73).
+31 octombrie 2026. Pachet cumulativ: include corecțiile din v106/v1.0.75 încă neîncărcate. Instalează direct acest pachet, fără instalarea intermediară a v106. Baza verificată este codul GitHub v105/v1.0.74, peste care sunt păstrate toate modificările pregătite pentru v106.
 
 ## Instalare
 
-Înlocuiește în rădăcina repository-ului `backend.js`, `index.js`, `README.md`, `README_ro.md`, `package.json`, `tests.mjs` și `tests_reader.mjs` cu fișierele din arhivă. Păstrează fișierele Wrangler, numele Workers, domeniile, secretele și binding-ul AI. Publică backend-ul apoi frontend-ul și reîncarcă aplicația. Asistentul nu a modificat GitHub și nu a publicat aplicația.
+Înlocuiește în rădăcina repository-ului `backend.js`, `index.js`, `README.md`, `README_ro.md`, `package.json`, `tests.mjs`, `tests_reader.mjs`. Păstrează configurațiile Wrangler, numele Workers, domeniile, secretele și binding-ul AI. Publică backend-ul apoi frontend-ul și reîncarcă aplicația. Asistentul nu a modificat GitHub și nu a publicat aplicația.
 
-## Destinații și opțiuni
+## Cauzele corectate
 
-Problema reprodusă: „Caută hoteluri de 4 stele, în Paris, în zona centrală” putea lăsa „Paris, in” în cererea de geocodare. Textul rămas putea influența alegerea unui Paris din Indiana. Formularea centrală este acum eliminată integral din numele localității.
+Mesajele tastate în modulul Hărți nu transmiteau identificatorul modulului. Unele cereri plecau înainte de obținerea primei poziții GPS. În plus, căutarea localităților putea prelua destinația unui traseu pietonal și respinge un punct de interes precum un shopping centre. Completarea „Grays UK” nu era legată în mod fiabil de destinația cerută anterior.
 
-- Geocodarea este restrânsă la localități/zone locuite, nu străzi sau hoteluri. Străzile precum Avenue de Paris sunt excluse și numele localității trebuie să corespundă unei denumiri/aliasuri returnate de serviciu.
-- Se cer până la 10 variante. Dublurile apropiate ale aceleiași localități sunt reunite. Dacă rămân localități distincte, se cere clarificare, fără alegerea automată a variantei cu scor mai mare. Aceasta se aplică și localităților omonime din aceeași țară.
-- Opțiunile provin din rezultatul real al geocodării. Nu există o listă fixă Paris/alte orașe introdusă în cod. Acoperirea variantelor depinde de serviciu; dacă serviciul întoarce o singură localitate validă, ea poate fi folosită.
-- Răspunde cu numărul sau cu țara. Dacă mai multe variante sunt în aceeași țară, alegerea țării restrânge opțiunile și cere o alegere mai precisă.
-- La alegerea unei opțiuni se păstrează filtrul de stele și zona centrală. Alegerea rămâne disponibilă pentru întrebările de continuare.
-- O țară scrisă explicit, inclusiv „Franța”, este recunoscută separat de limba interfeței și aplicată ca filtru de țară. Nu se asociază automat limba română cu România.
+## GPS
 
-## Numărul hotelurilor
+- Cererile care au nevoie de locație așteaptă până la 4 secunde pentru prima poziție disponibilă; actualizarea poate continua ulterior în fundal.
+- Actualizările GPS simultane reutilizează aceeași cerere. Timeout-ul sau indisponibilitatea temporară nu șterg o poziție recentă.
+- Pozițiile memorate până la 10 minute pot fi folosite ca rezervă, cu actualizare în fundal. Cele mai vechi de 2 minute sunt descrise de backend ca ultima poziție GPS disponibilă; după 10 minute se cere actualizare/plecare.
+- Refuzul permisiunii șterge locația memorată. Resetarea conversației nu șterge GPS-ul.
+- Backend-ul acceptă câmpul location sau coordinates și tolerează o diferență mică între ceasul telefonului și al serverului.
+- Un eșec de identificare a destinației este raportat separat de lipsa GPS-ului.
 
-Nu există o limitare la un singur hotel. Sunt afișate până la 40 de rezultate confirmabile din datele primite; dacă există mai multe, răspunsul indică numărul afișat. Hotelurile fără clasificarea cerută nu sunt prezentate ca potriviri.
+## Trasee și completări
 
-Pentru clasificările lipsă, backend-ul poate cere detalii Geoapify pentru maximum 8 hoteluri cu identificator de furnizor, în grupuri de 4, cu timeout de 2,5 secunde. Acest lucru poate recupera stelele care lipsesc din lista inițială și adaugă până la 8 cereri la serviciul existent. Nu se adaugă o cheie nouă. Datele indisponibile rămân necunoscute; nu se inventează clasificări. Răspunsul indică locațiile suplimentare excluse pentru clasificare lipsă când există rezultate confirmate.
+- Traseele pietonale/auto explicit cerute sunt procesate în asistent și în Hărți prin aceeași cale de rutare. Modulul este transmis și pentru mesajele tastate.
+- Destinațiile de traseu pot fi puncte de interes sau adrese, nu doar localități. Se folosește Geoapify Geocoding, cu apropiere de GPS și filtru de țară când țara este explicită.
+- La „Arată-mi un traseu pietonal până la grays shopping center”, dacă destinația nu este identificată, „Grays UK” completează aceeași cerere. Nu se cere un alt oraș din jurul Grays doar pentru că mesajul este scurt.
+- Contextul traseului păstrează destinația, modul și clarificările. Este transmis între frontend/backend și salvat cu conversația. Nu se păstrează geometria completă în istoricul local; ea rămâne în memoria conversației curente.
+- „Afișează pe hartă traseul sau traseele pe care trebuie să le urmez” reutilizează geometria traseului disponibil. Dacă există doar contextul, backend-ul încearcă să recalculeze ruta. Fără un mod cunoscut se cere pietonal/auto; fără destinație se cere destinația.
+- Nu se desenează o linie dreaptă prezentată ca traseu rutier. Harta folosește geometria efectiv returnată de serviciul de rutare. Un răspuns de distanță rutieră păstrează geometria dacă furnizorul o include.
 
-## Notificări
+## Harta
 
-- Nu se mai afișează notificarea pentru schimbarea limbii sau pornirea unei conversații noi.
-- Alertele necesare apar în partea de sus, nu peste câmpul de scriere.
-- Dispar după aproximativ 1,8 secunde și imediat când câmpul de scriere primește focus.
-- Nu interceptează atingerile.
+Răspunsurile cu geometrie validă au buton „Vezi traseul pe hartă”. Fereastra se deschide deasupra barei de navigare, care rămâne în poziția existentă. Harta folosește Leaflet 1.9.4 încărcat la cerere de pe unpkg.com și hărți de bază OpenStreetMap. Nu sunt necesare chei noi. Controalele sunt traduse în cele 10 limbi existente.
 
-Se păstrează fereastra de lectură cu autoderulare, previzualizarea de 4 rânduri, linkurile apăsabile, siglele în dreapta numelui, contextul căutării și bara de jos fixă. Fotografiile rămân eliminate. Nu se adaugă camere, tarife sau rezervări.
+Dacă biblioteca/harta nu se încarcă, rămâne un link către Google Maps. Acest serviciu extern poate recalcula ruta; nu se promite că ruta sa este identică cu geometria Geoapify afișată în aplicație.
+
+Se păstrează fereastra de lectură, previzualizarea de 4 rânduri, linkurile, siglele și notificările care nu acoperă tastarea. Fotografiile rămân eliminate. Corecțiile de țară, localități ambigue, stele și distanță din v105/v106 sunt incluse.
 
 ## Verificări
 
-`npm test` și `npm run check` trec. Testele cu servicii/DOM simulate acoperă formularea exactă Paris/zonă centrală, opțiuni din țări diferite și aceeași țară, dubluri, străzi respinse, alegerea prin număr sau „Franța”, continuarea după alegere, clasificări suplimentare pentru mai multe hoteluri, notificările, plus regresiile New York/Paris/GPS/context și fereastra de lectură. Scriptul client este compilat după extragerea din HTML-ul generat.
+`npm test` și `npm run check` trec. Sunt teste cu servicii/browser simulate, inclusiv:
 
-Nu s-a efectuat test vizual într-un browser/pe telefon sau test live cu cheile Cloudflare. Endpointul public de geocodare nu a fost accesibil prin mediul de verificare; testele de geocodare folosesc răspunsuri simulate. După publicare verifică aceeași întrebare din captură, selectează „Franța” dacă apar mai multe localități și verifică lista completă din fereastra de lectură. Nu se poate garanta numărul de hoteluri cu clasificări confirmabile din sursa reală.
+- cererea exactă pentru Grays Shopping Centre și completarea „Grays UK”;
+- păstrarea GPS-ului când destinația nu este găsită;
+- traseu pietonal vs auto, cererea ulterioară de afișare pe hartă și lipsa geometriei;
+- așteptarea primei poziții, păstrarea la timeout, ștergerea la refuzul permisiunii, actualizări comune, poziție sosită târziu și expirare;
+- desenarea coordonatelor reale ale furnizorului pe o suprafață Leaflet simulată, eliberarea hărții și redeschiderea fără un nou apel GPS/API;
+- transmiterea modulului/contextului de traseu prin handlerul real de chat;
+- toate regresiile anterioare de localități, hoteluri, distanțe, citire și notificări.
+
+Scriptul client extras din HTML-ul generat este compilat în teste. Nu s-a efectuat test vizual pe telefon/browser sau apel live cu cheile Cloudflare. Testul Leaflet este simulat, deci disponibilitatea CDN-ului, a hărților și aspectul final trebuie verificate pe telefon.
+
+Test după publicare: solicită traseul pietonal către Grays Shopping Centre; completează Grays UK dacă este cerut; apoi cere afișarea pe hartă. Testează și distanța rutieră din locația mea până în Amsterdam, cu alegerea țării dacă este necesar.
