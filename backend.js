@@ -199,7 +199,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v113";
+    const API_VERSION = "v116";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -663,8 +663,8 @@ export default {
             transitRoute = {profile:"public_transport",distanceMeters:null,durationSeconds:fastest.durationMinutes ? fastest.durationMinutes*60 : null,coordinates:routeCoordinates,destination:{name:targetName,latitude:targetLat,longitude:targetLon},selectedJourneyDurationMinutes:fastest.durationMinutes};
           }
           reply = lang === "en"
-            ? `FASTEST CONFIRMED OPTION to ${targetName}: ${fastest.durationMinutes ? `about ${fastest.durationMinutes} minutes total` : "total duration unavailable"}. This is the shortest total duration among the journeys returned by TfL.\\n`
-            : `VARIANTA CONFIRMATĂ CEA MAI RAPIDĂ până la ${targetName}: ${fastest.durationMinutes ? `aproximativ ${fastest.durationMinutes} minute în total` : "durata totală nu este disponibilă"}. Este cea mai scurtă durată dintre călătoriile returnate de TfL.\\n`;
+            ? `RECOMMENDED FEASIBLE OPTION to ${targetName}: ${fastest.durationMinutes ? `about ${fastest.durationMinutes} minutes total` : "total duration unavailable"}. This option prioritizes fewer transfers and enough time to reach the first stop.\\n`
+            : `VARIANTA RECOMANDATĂ, CU PLECARE ACCESIBILĂ, până la ${targetName}: ${fastest.durationMinutes ? `aproximativ ${fastest.durationMinutes} minute în total` : "durata totală nu este disponibilă"}. Această variantă prioritizează mai puține schimbări și timpul necesar pentru a ajunge la prima stație.\\n`;
           reply += (lang === "en" ? "Recommended journey: " : "Traseu recomandat: ") + fastest.legs.map(l=>`${l.mode}${l.from?" · "+l.from:""}${l.to?" → "+l.to:""}${l.departureTime?(lang === "en" ? " (depart "+l.departureTime+")" : " (plecare "+l.departureTime+")"):""}${l.arrivalTime?(lang === "en" ? " (arrive "+l.arrivalTime+")" : " (sosire "+l.arrivalTime+")"):""}${l.instruction?" — "+l.instruction:""}`).join("; ");
           if (transitOptions.length > 1) {
             reply += lang === "en" ? "\\n\\nOther options, ordered by total duration:\\n" : "\\n\\nAlte opțiuni, ordonate după durata totală:\\n";
