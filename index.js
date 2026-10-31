@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.84 — reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.85 — reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.84",
+  version: "1.0.85",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -747,6 +747,11 @@ return `<!doctype html>
 @media(min-width:700px){.page{max-width:900px;margin:auto}.app-header{padding-left:max(18px,calc((100vw - 900px)/2));padding-right:max(18px,calc((100vw - 900px)/2))}.card-grid{gap:16px}.feature-card{min-height:245px}.card-art{height:110px;font-size:50px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 
+/* v1.0.85: keep the conversation title left and the new-chat action right in every module. */
+#view-module #sharedChatShell .chat-top{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;flex-wrap:nowrap!important;padding:9px 12px!important}
+#view-module #sharedChatShell .chat-top strong{order:0!important;flex:1 1 auto!important;text-align:left!important;padding:0!important;min-width:0!important}
+#view-module #sharedChatShell .chat-top #newChatBtn{order:1!important;flex:0 0 auto!important;margin:0 0 0 auto!important;align-self:center!important;font-size:clamp(11px,3vw,14px)!important;padding:7px 9px!important;max-width:62%!important;white-space:nowrap!important}
+
 /* v1.0.32: fit every module above the fixed navigation; restore useful Tools cards. */
 .view#view-module #sharedChatShell .chat-top{display:contents}
 .view#view-module #sharedChatShell .chat-top strong{order:1;padding:7px 10px 3px}
@@ -1205,7 +1210,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.84'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.85'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
