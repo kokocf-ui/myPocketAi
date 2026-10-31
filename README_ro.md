@@ -1,28 +1,24 @@
-# myPocket AI — frontend v1.0.69 + backend v101
+# myPocket AI — frontend v1.0.70
 
-Actualizare: 31 octombrie 2026.
-Bază: frontend v1.0.68 (corecția butoanelor) și backend v100.
+Actualizare: 31 octombrie 2026. Backend compatibil: v101, fără modificări în acest pachet.
 
-## Instalare
+## Instalare în repository-ul existent
 
-1. Actualizează Worker-ul backend existent cu `backend/worker.js`, apoi publică.
-2. Actualizează Worker-ul frontend existent cu `frontend/index.js`, apoi publică.
-3. Reîncarcă aplicația. Dacă vezi încă interfața veche, închide fila și redeschide aplicația.
-
-Fișierele sunt codul complet al celor două Workers. Copiază conținutul în fișierul de intrare deja configurat pentru fiecare Worker; nu trebuie schimbat numele Worker-ului, domeniul sau configurarea de deploy. Păstrează secretele și binding-ul AI existente. Nu sunt necesare chei noi.
+Înlocuiește DOAR `index.js` din rădăcina repository-ului cu `index.js` din această arhivă. Fișierul `wrangler-frontend.toml` existent indică deja acest nume. Actualizează documentația `README_ro.md` și `README.md` cu fișierele incluse. Păstrează backend.js și configurația existentă. După publicare, reîncarcă aplicația.
 
 ## Corecții
 
-- Linkul Website deschide site-ul direct într-o filă a browserului. Fereastra internă cu iframe a fost eliminată, deoarece site-urile pot refuza încorporarea.
-- Linkurile acceptă HTTPS, HTTP și domenii fără prefix. Schemele executabile și URL-urile cu utilizator/parolă sunt respinse.
-- Rezultatele și detaliile au acum suport pentru sigle. Sunt folosite imaginile logo furnizate explicit, siglele Wikidata/Wikimedia Commons și, ca rezervă, pictograma domeniului site-ului.
-- Backend-ul separă `logos` de `images` și poate recupera site-ul oficial din Wikidata. Păstrează și adresele website/contact:website din datele brute Geoapify.
-- Siglele din listă sunt încărcate la apropierea de zona vizibilă; datele media sunt reutilizate la deschiderea detaliilor.
-- Dacă nu există o siglă accesibilă, rămâne pictograma categoriei. Nu fiecare locație are website sau identificator Wikidata. Pictogramele de domeniu sunt solicitate prin Google S2, apoi direct de la site; afișarea depinde de disponibilitatea surselor externe.
-- Bara de navigare și geometria listei nu au fost modificate.
+- Numele locației și sigla sunt în același antet, numele în stânga și sigla de 44 px în dreapta. Numele lungi se pot întinde pe mai multe rânduri în spațiul rămas; sigla rămâne în dreapta.
+- Deschiderea detaliilor resetează derularea la început. Poziția listei nu mai taie sigla sau numele sub antet.
+- Galeria fără fotografii nu mai ocupă spațiu gol.
+- Lista de rezultate și bara de navigare de jos rămân nemodificate.
 
-## Verificări efectuate
+## Fotografii și prețuri
 
-- Sintaxa ambelor Workers și a JavaScript-ului extras din HTML-ul generat: validă.
-- Teste cu răspunsuri simulate: separarea sigle/fotografii/site, identificatori invalizi, surse indisponibile, validarea URL-urilor, încărcarea siglei și revenirea la pictogramă, link extern și prevenirea duplicatelor: trecute.
-- Nu s-a efectuat test vizual într-un browser sau pe telefon și nici publicare în contul utilizatorului. Disponibilitatea siglelor reale trebuie verificată după instalare.
+Acest pachet corectează aranjarea detaliilor, nu adaugă un furnizor de fotografii sau tarife. Fotografiile sunt afișate numai când există adrese de imagini în datele locației sau în răspunsul Wikidata/Wikimedia Commons. O siglă disponibilă nu înseamnă că există și fotografii ale hotelului respectiv. Nu se înlocuiesc imaginile lipsă cu poze ale altui hotel.
+
+Backend-ul v101 nu furnizează tarife în răspunsul căutării de hoteluri. Frontendul nu calculează și nu inventează aceste prețuri. O funcție de prețuri de rezervare necesită datele sejurului, numărul de persoane și o sursă de oferte curente. Camerele nu fac obiectul acestei actualizări.
+
+## Validare
+
+Worker-ul și JavaScript-ul extras din HTML-ul generat trec verificarea de sintaxă. Testele cu DOM simulat verifică structura comună nume/siglă, resetarea derulării și numele scurte/lungi/lipsă. Regula CSS ascunde galeria goală. Nu s-a făcut test vizual în browser sau pe telefon și nu s-a publicat în contul utilizatorului.
