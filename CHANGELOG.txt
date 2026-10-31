@@ -1,1 +1,1 @@
-v1.0.62: authoritative results-sheet CSS layout override; preserve multilingual search routing.
+v1.0.63: fit quick sheet above navigation; translate Romanian category labels; add Russian and Polish place category mappings; restore title/description spacing.
