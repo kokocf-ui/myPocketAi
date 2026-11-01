@@ -21,7 +21,7 @@ globalThis.fetch=async input=>{
    assert.ok(u.searchParams.get('filter')?.startsWith('circle:'),'GPS circle must be sent');
    if(scenario==='provider-error')return new Response('{}',{status:503});
    return Response.json({features:scenario==='matched'?[feature('Decathlon')]:scenario==='multiple'?
-     [feature('Decathlon'),feature('Decathlon',51.51,0.40)]:[]});
+     [feature('Decathlon'),feature('Decathlon',51.51,0.36)]:[]});
   }
   return Response.json({features:[]});
  }
