@@ -2,8 +2,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests.mjs && node tests_reader.mjs && node tests_weather.mjs && node tests_routes.mjs && node tests_alternatives.mjs && node tests_transit_access.mjs && node tests_transit_destination.mjs && node tests_named_destination.mjs && node tests_place_resolution.mjs && node tests_travel_mode_ui.mjs && node tests_destination_types.mjs",
+    "test": "node tests.mjs && node tests_reader.mjs && node tests_weather.mjs && node tests_routes.mjs && node tests_alternatives.mjs && node tests_transit_access.mjs && node tests_transit_destination.mjs && node tests_named_destination.mjs && node tests_place_resolution.mjs && node tests_travel_mode_ui.mjs && node tests_destination_types.mjs && node tests_name_only.mjs",
     "check": "node --check backend.js && node --check index.js",
-    "test:transit-access": "node tests_transit_access.mjs"
+    "test:transit-access": "node tests_transit_access.mjs",
+    "test:named": "node tests_name_only.mjs"
   }
 }
