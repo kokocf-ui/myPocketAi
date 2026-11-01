@@ -1438,7 +1438,15 @@ function appendConversationChoices(data,host){
    const lat=Number(option.latitude),lon=Number(option.longitude);
    if(Number.isFinite(lat)&&Number.isFinite(lon)&&data.named_venue){
     state.routeSearchContext={destination_query:String(data.message_received||option.label),destination:{latitude:lat,longitude:lon,label:option.label},pending:'profile'};
-    state.pendingTravelMode='walk';inputEl.value=state.language==='ro'?'Pietonal':'Walking';
+    state.pendingTravelMode=null;
+    closeAnswerReader(false);
+    const selected={...data,route_context:state.routeSearchContext,needs_travel_mode:true,needs_travel_confirmation:false};
+    const prompt=state.language==='ro'?'Cum dorești să ajungi la '+option.label+'?':'How would you like to get to '+option.label+'?';
+    const bubble=addBubble(prompt,'assistant',false,{autoOpen:false});
+    appendTravelModeChoices(selected,bubble);
+    state.messages.push({role:'assistant',text:prompt});
+    buttons.forEach(b=>b.disabled=true);
+    return;
    }else inputEl.value=String(option.value||option.query||option.label);
    closeAnswerReader(false);await submitMessage();
    if(state.conversationGeneration===generation)buttons.forEach(b=>b.disabled=false);
