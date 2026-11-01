@@ -29,6 +29,8 @@ jobs:
         run: npm run check
       - name: Focused destination and local-category regressions
         run: npm run test:destinations && npm run test:local-categories
+      - name: Modal first-tap and travel mode checks
+        run: node tests_modal_ui.mjs && node tests_travel_mode_ui.mjs
       - name: Existing regression tests
         run: npm test
 
