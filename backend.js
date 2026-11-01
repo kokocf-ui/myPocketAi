@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v143 chain choices and food-category distinction; v142 TfL SearchMatch.name field and verified station lookup; v141 city-first TfL station and Photon named POI fallback; v140 name-filtered brand lookup; v139 GPS-first name-only POI search; v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v144 station and geographic intent priority; v143 chain choices and food-category distinction; v142 TfL SearchMatch.name field and verified station lookup; v141 city-first TfL station and Photon named POI fallback; v140 name-filtered brand lookup; v139 GPS-first name-only POI search; v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -378,7 +378,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v143";
+    const API_VERSION = "v144";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -1797,6 +1797,98 @@ export default {
     // Only handle short name queries, not general questions or dedicated map routing.
     const localNameRaw=namedVenueInput.replace(/^(?:vreau sa ajung la|unde (?:este|e|gasesc)|cauta(?:-mi)?|gaseste(?:-mi)?)\s+/i,'').replace(/\s+(?:in zona mea|in apropierea mea|langa mine|aproape de mine|near me|nearby)$/i,'').trim();
     const localNameQuery=!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
+
+    // v144: Named stations and geographic districts are not generic businesses.
+    // Prefer authoritative station records and exact administrative-area names
+    // over an unrelated hotel/shop whose name shares just one word.
+    if(localNameQuery&&env.GEOAPIFY_API_KEY){
+      const travelRequest=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput);
+      const normName=normalizeGeoName(localNameQuery);
+      const exactWords=normName.split(' ').filter(Boolean);
+      const finishNamed=(place,source)=>{
+        const distance=routeGeoDistance({latitude,longitude},place);
+        const destination={latitude:place.latitude,longitude:place.longitude,label:place.label,resolution_source:source};
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+          reply:travelRequest?'Am identificat '+destination.label+'. Cum dorești să ajungi?':'Am identificat '+destination.label+'. Dorești să îți arăt traseul?',
+          named_venue:true,needs_travel_confirmation:!travelRequest,needs_travel_mode:travelRequest,
+          route_context:{destination_query:localNameQuery,destination,pending:'profile'},
+          straight_line_distance_km:distance/1000,place_lookup:{strategy:source,matched:1},
+          ai_connected:Boolean(env.AI)});
+      };
+      const stationWords=/\b(?:station|underground|railway|rail station|tube|metro|gara|statie)\b/i;
+      if(stationWords.test(normName)){
+        const stopQuery=localNameQuery.replace(/\b(?:london|londra|station|underground|railway|train|rail|tube|metro|gara|statie)\b/gi,' ').replace(/\s+/g,' ').trim();
+        const requested=normalizeGeoName(stopQuery);
+        const verified=[];
+        let tflStatus=null;
+        if(env.TFL_APP_KEY&&requested.length>=3){
+          try{
+            const u=new URL('https://api.tfl.gov.uk/StopPoint/Search/'+encodeURIComponent(stopQuery));
+            u.searchParams.set('app_key',env.TFL_APP_KEY);
+            u.searchParams.set('includeHubs','true');
+            const sr=await fetch(u.href,{signal:AbortSignal.timeout(6500)});
+            tflStatus=sr.status;
+            if(sr.ok){
+              const result=await sr.json();
+              for(const p of (Array.isArray(result.matches)?result.matches:[])){
+                const name=String(p.name||p.commonName||'').trim();
+                const core=normalizeGeoName(name).replace(/\b(?:london|rail|railway|underground|station|metro|tube|national|overground)\b/g,' ').replace(/\s+/g,' ').trim();
+                const match=core===requested||core.split(' ').join('')===requested.split(' ').join('');
+                const metadata=[p.motType,p.stopType,p.network,p.id,...(Array.isArray(p.modes)?p.modes:[])].join(' ');
+                const station=/rail|underground|overground|dlr|metro|tube|naptanrail|910g|940g/i.test(metadata);
+                const lat=transitCoordinate(p.lat,90),lon=transitCoordinate(p.lon,180);
+                if(!match||!station||lat===null||lon===null)continue;
+                const item={latitude:lat,longitude:lon,label:name,resolution_source:'tfl_verified_station',
+                  distance_km:Math.round(routeGeoDistance({latitude,longitude},{latitude:lat,longitude:lon})/100)/10};
+                if(!verified.some(v=>normalizeGeoName(v.label)===normalizeGeoName(item.label)&&routeGeoDistance(v,item)<120))verified.push(item);
+              }
+            }
+          }catch(e){console.warn('Pocket AI named station lookup',String(e?.name||'lookup_error'))}
+        }
+        if(verified.length){
+          verified.sort((a,b)=>a.distance_km-b.distance_km);
+          if(verified.length===1)return finishNamed(verified[0],'tfl_verified_station');
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+            reply:'Am găsit mai multe stații care corespund numelui. Alege destinația:',
+            named_venue:true,needs_destination_clarification:true,destination_candidates:verified.slice(0,8),
+            place_lookup:{strategy:'tfl_verified_station',matched:verified.length,tflHttp:tflStatus},ai_connected:Boolean(env.AI)});
+        }
+        // Do not send station queries into general commercial POI lookup.
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+          reply:'Nu am putut confirma o stație cu numele „'+localNameQuery+'” în datele oficiale de transport. Precizează orașul sau numele complet al stației.',
+          named_venue:true,search_ok:false,place_lookup:{strategy:'tfl_station_unconfirmed',tflHttp:tflStatus},ai_connected:Boolean(env.AI)});
+      }
+      // An exact mapped suburb/town/city/borough beats a nearby business
+      // with a partial token match (e.g. "West" for "West Dulwich").
+      if(exactWords.length>=2&&exactWords.length<=4){
+        try{
+          const u=new URL('https://api.geoapify.com/v1/geocode/search');
+          u.searchParams.set('text',localNameQuery);
+          u.searchParams.set('limit','8');
+          u.searchParams.set('bias','proximity:'+longitude+','+latitude);
+          u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+          const sr=await fetch(u.href,{signal:AbortSignal.timeout(6500)});
+          if(sr.ok){
+            const data=await sr.json(),areas=[];
+            for(const feature of (Array.isArray(data.features)?data.features:[])){
+              const p=feature.properties||{},type=String(p.result_type||'');
+              if(!/^(city|town|village|suburb|district|borough|municipality|county|neighbourhood|neighborhood|locality)$/.test(type))continue;
+              const labelName=normalizeGeoName(p.name||p.suburb||p.district||p.city||'');
+              if(labelName!==normName)continue;
+              const lat=transitCoordinate(p.lat??feature.geometry?.coordinates?.[1],90);
+              const lon=transitCoordinate(p.lon??feature.geometry?.coordinates?.[0],180);
+              if(lat===null||lon===null)continue;
+              areas.push({latitude:lat,longitude:lon,label:String(p.formatted||[p.name,p.city,p.country].filter(Boolean).join(', ')),resolution_source:'verified_geographic_area'});
+            }
+            if(areas.length===1)return finishNamed(areas[0],'verified_geographic_area');
+            if(areas.length>1)return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+              reply:'Am găsit mai multe zone cu acest nume. Alege destinația:',named_venue:true,
+              needs_destination_clarification:true,destination_candidates:areas.slice(0,8),
+              place_lookup:{strategy:'verified_geographic_area',matched:areas.length},ai_connected:Boolean(env.AI)});
+          }
+        }catch(e){console.warn('Pocket AI geographic area lookup',String(e?.name||'lookup_error'))}
+      }
+    }
     // Provider-level counts/statuses are safe to return in diagnostics (no API keys or GPS).
     const nameLookupDiagnostics=localNameQuery?{nameFilterHttp:null,nameFilterFeatures:null,nameFilterMatched:0,
       nameFilterError:null,photonHttp:null,photonFeatures:null,photonMatched:0,photonError:null,geocodeHttp:null,geocodeFeatures:null,overpassHttp:null,overpassFeatures:null,
