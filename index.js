@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.105",
+  version: "1.0.106",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1211,7 +1211,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.105'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.106'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -1425,14 +1425,15 @@ function appendTravelModeChoices(data,host){
 // v1.0.101: Each assistant clarification owns its own in-conversation choice table.
 function appendConversationChoices(data,host){
  const raw=Array.isArray(data.choice_options)?data.choice_options:Array.isArray(data.destination_candidates)?data.destination_candidates:[];
- const options=raw.slice(0,4).filter(x=>x&&typeof x.label==='string');
+ const options=raw.slice(0,data.named_venue?8:4).filter(x=>x&&typeof x.label==='string');
  if(!options.length)return false;
  const table=document.createElement('table'),caption=document.createElement('caption'),body=document.createElement('tbody');
  table.className='travel-mode-table';caption.textContent=state.language==='ro'?'Alege o opțiune':'Choose an option';table.append(caption);
  const generation=state.conversationGeneration,buttons=[];
- for(const option of options){
+ for(const [choiceIndex,option] of options.entries()){
   const row=document.createElement('tr'),cell=document.createElement('td'),button=document.createElement('button');
-  button.type='button';button.className='transit-choice-action';button.textContent=option.label;buttons.push(button);
+  if(data.named_venue&&choiceIndex>=4)row.hidden=true;
+  button.type='button';button.className='transit-choice-action';button.textContent=option.label+(Number.isFinite(Number(option.distance_km))?' · '+Number(option.distance_km).toLocaleString(state.language,{maximumFractionDigits:1})+' km':'');buttons.push(button);
   button.onclick=async()=>{
    if(state.busy||generation!==state.conversationGeneration)return;
    buttons.forEach(b=>b.disabled=true);
@@ -1455,7 +1456,15 @@ function appendConversationChoices(data,host){
   };
   cell.append(button);row.append(cell);body.append(row);
  }
- table.append(body);host.append(table);return true;
+ table.append(body);host.append(table);
+ if(data.named_venue&&options.length>4){
+  const more=document.createElement('button');more.type='button';more.className='transit-choice-action';
+  const captions={ro:'Vezi mai multe locații',en:'Show more locations',fr:'Voir plus de lieux',de:'Weitere Standorte anzeigen',it:'Mostra altre sedi',es:'Ver más ubicaciones',pt:'Ver mais locais',nl:'Meer locaties tonen',ru:'Показать больше мест',pl:'Pokaż więcej lokalizacji'};
+  more.textContent=captions[state.language]||captions.en;
+  more.onclick=()=>{for(const tr of [...body.children])tr.hidden=false;more.remove()};
+  host.append(more);
+ }
+ return true;
 }
 function appendTravelModeOverview(host,text){const data=state.lastTravelModeResponse;return data?.reply===text?appendTravelModeChoices(data,host):false}
 const TRANSIT_LAYOUT_TEXT={
