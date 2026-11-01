@@ -851,6 +851,12 @@ export default {
               return score(a)-score(b);
             });
             const selected=selectTransitAlternatives(candidates);
+            // Display verified departures in time order, not score order.
+            selected.sort((a,b)=>{
+              const x=Date.parse(a.firstVehicleDepartureTime||''),y=Date.parse(b.firstVehicleDepartureTime||'');
+              if(!Number.isFinite(x))return Number.isFinite(y)?1:0;
+              return Number.isFinite(y)?x-y:-1;
+            });
             transitOptions.splice(0,transitOptions.length,...selected);
             if (!transitOptions.length) transportErrors.tfl = "no_journeys_returned";
           } catch (e) { transportErrors.tfl = String(e && e.message || "request_failed").slice(0,100); }
@@ -971,7 +977,7 @@ export default {
         const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl|| (env.TFL_APP_KEY?"ok":"not_configured"),bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
         if (transportErrors.tfl || transportErrors.bods || transportErrors.rtt || transportErrors.rtt_services || transportErrors.geoapify) console.warn("Pocket AI v96 transit provider diagnostics", JSON.stringify(transitDiagnostics));
         else console.info("Pocket AI v96 transit provider summary", JSON.stringify(transitDiagnostics));
-        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,fastest_transit:transitOptions[0]||null,transit:transitOptions,transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",provider_status:{tfl:transportErrors.tfl?"unavailable":(env.TFL_APP_KEY?"queried":"not_configured"),bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,fastest_transit:transitOptions.reduce((best,j)=>!best||(Number(j.durationMinutes)||Infinity)<(Number(best.durationMinutes)||Infinity)?j:best,null),transit:transitOptions,transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",provider_status:{tfl:transportErrors.tfl?"unavailable":(env.TFL_APP_KEY?"queried":"not_configured"),bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
       } catch (e) {
         console.warn("Pocket AI v96 transit-first branch failed", String(e && e.message || e).slice(0,180));
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:lang === "en" ? "The public-transport request could not be completed right now. No unverified route was supplied; try again or specify a station/postcode." : "Cererea de transport public nu a putut fi completată acum. Nu am afișat un traseu neverificat; încearcă din nou sau precizează o stație/un cod poștal.",route_available:false,transit_available:false,ai_connected:Boolean(env.AI)});
@@ -1792,7 +1798,7 @@ export default {
         if(options.length===1){
           const selected=options[0],context={destination_query:localNameQuery,destination:selected,pending:'profile'};
           const journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput);
-          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:journey?'Am identificat '+selected.label+'. Cum dorești să ajungi?':'Am identificat '+selected.label+'. Dorești să îți arăt traseul?',named_venue:true,needs_travel_confirmation:!journey,needs_travel_mode:journey,route_context:context,ai_connected:Boolean(env.AI)});
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:journey?'Am identificat '+selected.label+'. Cum dorești să ajungi?':'Am identificat '+selected.label+'. Dorești să îți arăt traseul?',named_venue:true,needs_travel_confirmation:!journey,needs_travel_mode:journey,route_context:context,straight_line_distance_km:routeGeoDistance({latitude,longitude},selected)/1000,ai_connected:Boolean(env.AI)});
         }
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Am găsit mai multe locații. Pe care o cauți?',named_venue:true,needs_destination_clarification:true,destination_candidates:options,ai_connected:Boolean(env.AI)});
       }
@@ -1817,7 +1823,7 @@ export default {
           candidates.sort((a,b)=>routeGeoDistance({latitude,longitude},a)-routeGeoDistance({latitude,longitude},b));
           if(candidates.length){
             const selected=candidates[0],context={destination_query:localNameQuery,destination:selected,pending:'profile'},journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput);
-            if(candidates.length===1)return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:journey?'Am identificat '+selected.label+'. Cum dorești să ajungi?':'Am identificat '+selected.label+'. Dorești să îți arăt traseul?',named_venue:true,needs_travel_confirmation:!journey,needs_travel_mode:journey,route_context:context,ai_connected:Boolean(env.AI)});
+            if(candidates.length===1)return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:journey?'Am identificat '+selected.label+'. Cum dorești să ajungi?':'Am identificat '+selected.label+'. Dorești să îți arăt traseul?',named_venue:true,needs_travel_confirmation:!journey,needs_travel_mode:journey,route_context:context,straight_line_distance_km:routeGeoDistance({latitude,longitude},selected)/1000,ai_connected:Boolean(env.AI)});
             return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Am găsit mai multe locații apropiate. Pe care o cauți?',named_venue:true,needs_destination_clarification:true,destination_candidates:candidates.slice(0,4),ai_connected:Boolean(env.AI)});
           }
         }
@@ -1905,13 +1911,13 @@ export default {
         distinct.sort((a,b)=>routeGeoDistance({latitude,longitude},a)-routeGeoDistance({latitude,longitude},b));
         if(distinct.length){
           const options=distinct.slice(0,4),journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput);
-          if(options.length===1){const selected=options[0];return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:journey?'Am identificat '+selected.label+'. Cum dorești să ajungi?':'Am identificat '+selected.label+'. Dorești să îți arăt traseul?',named_venue:true,needs_travel_confirmation:!journey,needs_travel_mode:journey,route_context:{destination_query:localNameQuery,destination:selected,pending:'profile'},ai_connected:Boolean(env.AI)});}
+          if(options.length===1){const selected=options[0];return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:journey?'Am identificat '+selected.label+'. Cum dorești să ajungi?':'Am identificat '+selected.label+'. Dorești să îți arăt traseul?',named_venue:true,needs_travel_confirmation:!journey,needs_travel_mode:journey,route_context:{destination_query:localNameQuery,destination:selected,pending:'profile'},straight_line_distance_km:routeGeoDistance({latitude,longitude},selected)/1000,ai_connected:Boolean(env.AI)});}
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Am găsit mai multe locații apropiate. Pe care o cauți?',named_venue:true,needs_destination_clarification:true,destination_candidates:options,ai_connected:Boolean(env.AI)});
         }
       }catch{}
     }
     if(localNameQuery&&env.GEOAPIFY_API_KEY){
-      return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Nu am putut confirma încă o locație apropiată pentru '+localNameQuery+'. Verifică permisiunea GPS sau precizează o zonă; nu voi inventa o adresă.',named_venue:true,search_ok:false,place_lookup:{strategy:'gps_nearby',matched:0},ai_connected:Boolean(env.AI)});
+      return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Am primit poziția ta GPS, dar nu am putut verifica încă un obiectiv din apropiere cu numele „'+localNameQuery+'”. Poți preciza și o localitate din zonă. Nu voi inventa o adresă.',named_venue:true,search_ok:false,place_lookup:{strategy:'gps_nearby',matched:0},ai_connected:Boolean(env.AI)});
     }
     if(namedVenueMatch&&!data.quick_place_search&&/^(?:assistant|travel|maps|map|tourism|travel_tourism|maps_transport|harti_transport)$/i.test(String(data.module||'assistant'))){
       const kind=namedVenueMatch[1],venueName=namedVenueMatch[2].trim(),town=namedVenueMatch[3].trim();
