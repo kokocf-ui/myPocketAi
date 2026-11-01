@@ -62,6 +62,8 @@ jobs:
             {id:'GEO_WEST_DULWICH',message:'West Dulwich'},
             {id:'STATION_VICTORIA',message:'Victoria station'},
             {id:'STATION_LONDON_VICTORIA',message:'London Victoria station'},
+            {id:'LANDMARK_ARSENAL',message:'Stadionul Arsenal'},
+            {id:'LANDMARK_ARSENAL_ROUTE',message:'Vreau sa ajung la stadionul Arsenal'},
             {id:'CONTROL',message:'Europa, Grays'}
           ];
           async function ask(message,extra={}){
@@ -127,6 +129,16 @@ jobs:
                   :labels.some(v=>/victoria.+station/i.test(v));
                 if(!right||wrongHotel){newPlaceFailures++;console.error('LIVE PLACE INTENT FAILURE '+item.id)}
               }
+              if(item.id.startsWith('LANDMARK_ARSENAL')){
+                const labels=[context?.destination?.label,...mappedChoices.map(p=>p.label)].filter(Boolean);
+                const hasWrong=labels.some(v=>/Resita|Reșița|Romania|România/i.test(v));
+                const correct=labels.some(v=>/Emirates Stadium/i.test(v)&&/London/i.test(v));
+                const asksModeWithoutVerified=Boolean(data.needs_travel_mode&&!resolved);
+                if(hasWrong||asksModeWithoutVerified||!correct){
+                  newPlaceFailures++;
+                  console.error('LIVE LANDMARK RESOLUTION FAILURE '+item.id);
+                }
+              }
               if(item.id==='NAME_AREA'&&context?.destination)identified=context;
               if(item.id==='STATION_INITIAL')stationPending=context;
               if(['NAME_ONLY','NAME_AREA','CATEGORY_NAME'].includes(item.id)&&!resolved)unresolved++;
@@ -135,7 +147,7 @@ jobs:
                 errorType:error?.name||'Error',error:String(error?.message||error).slice(0,120)}));
               if(item.id==='STATION_INITIAL')stationFailure=true;
               else if(['NAME_ONLY','NAME_AREA','CATEGORY_NAME'].includes(item.id))unresolved++;
-              else if(item.id.startsWith('GEO_')||item.id.includes('VICTORIA'))newPlaceFailures++;
+              else if(item.id.startsWith('GEO_')||item.id.includes('VICTORIA')||item.id.startsWith('LANDMARK_'))newPlaceFailures++;
             }
           }
           if(identified){
