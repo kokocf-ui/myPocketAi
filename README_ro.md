@@ -1,3 +1,7 @@
+## Backend v147 — destinația confirmată înainte de alegerea transportului (2026-11-01)
+
+În întrebările „Vreau să ajung la…”, backendul verifică mai întâi obiectivul și coordonatele, abia apoi oferă mijloacele de transport. Gările și stațiile sunt verificate în TfL, iar obiectivele turistice în date de hartă. Pentru „Stadionul Arsenal”, caută numele oficial „Emirates Stadium, London”, fără coordonate inventate. O locație îndepărtată cu un nume asemănător (de exemplu Reșița) nu poate fi înlocuitor automat. Distanța este trimisă frontendului pentru eliminarea opțiunii integral pietonale peste 3 km. Frontendul rămâne 1.0.114. Sunt incluse teste automate și verificare live în GitHub Actions; rămâne de verificat în Chrome pe telefon.
+
 ## Frontend 1.0.114 — actualizare plecări fără întrebări repetate (2026-11-01)
 
 „Actualizează plecările” utilizează direct coordonatele destinației identificate și GPS-ul actual, fără reluarea întrebării despre locul de plecare. Rezultatele care nu mai pot fi prinse conform estimării de mers până la stație + marja de 5 minute sunt eliminate din lista de opțiuni. Într-un itinerar selectat, un traseu pietonal este oferit numai dacă a fost verificat și poate fi vizualizat pe hartă; butonul generic „Reîncearcă traseul pietonal” nu mai apare la plecările ratate. Funcționează atât în Asistent cât și în selecțiile rapide, păstrând destinația originală. Codul backend nu a fost modificat. Test de regresie separat inclus în GitHub Actions; verificarea pe telefon rămâne necesară.
