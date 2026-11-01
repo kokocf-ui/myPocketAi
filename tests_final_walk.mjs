@@ -30,7 +30,7 @@ try{
   message:'Pe jos',language:'ro',module:'assistant',history:[],
   route_profile:'walk',route_destination:poi,
   route_context:{profile:'walk',destination_query:poi.label,origin:stop,destination:poi,pending:null}
- })}),{GEOAPIFY_API_KEY:'fixture'})).json();
+ })}),{GEOAPIFY_API_KEY:'fixture',AI:{run:async()=>({response:'fixture'})}})).json();
  assert.equal(result.status,'success');
  assert.equal(result.route_available,true);
  assert.equal(result.route.origin.latitude,stop.latitude);
