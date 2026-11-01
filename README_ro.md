@@ -1,4 +1,14 @@
-# myPocket AI — backend v142 + frontend v1.0.105
+# myPocket AI — backend v143 + frontend v1.0.108
+
+## Actualizare — 01.11.2026 (v143 / 1.0.108)
+
+- Pentru un nume de lanț precum „Decathlon”, aplicația oferă până la opt filiale distincte găsite în zona căutată. Primele patru apar direct, restul prin „Vezi mai multe locații”, cu distanță GPS în linie dreaptă unde este disponibilă. Un calificativ precis, ca „Lakeside”, are în continuare prioritate.
+- Transportul public păstrează POI-ul final și oferă un buton pentru calculul traseului pietonal de la **ultima stație reală de coborâre** până la destinație. Traseul se deschide la cerere, fără să pretindă detectarea automată a coborârii sau ghidare vocală.
+- Filtre distincte pentru restaurante și cafenele/ceainării; marketurile includ și magazine alimentare de proximitate, nu doar supermarketuri mari.
+- Teste live GitHub Actions pentru v143: șapte variante Decathlon după numele simplu, zero rezultate duplicate între restaurante și cafenele în zona publică de test West Thurrock, magazine precum Londis și Longdan în categoria marketuri și un traseu final pietonal confirmat de 596 metri până la Decathlon.
+- Testele specifice pentru destinații, final de traseu și categorii locale au trecut. Suita veche generală `npm test` încă eșuează la o verificare distinctă Brave/știri; acest rezultat nu a fost ascuns.
+- Workflow: `.github/workflows/test-destinations.yml`; teste specifice: `npm run test:destinations` și `npm run test:local-categories`.
+
 
 **Versiunile actuale din cod (01.11.2026):** backend v142, frontend APP.version 1.0.105. Publicarea în Cloudflare se verifică separat, prin testele live.
 
