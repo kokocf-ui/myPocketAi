@@ -1790,7 +1790,8 @@ export default {
     // v137: A named venue is not a request for every venue in its town.
     // Preserve the commercial name and the town before category discovery.
     const namedVenueInput=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
-    const namedVenueMatch=namedVenueInput.match(/(?:^|\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\s+(.+?)\s+(?:din|in|,)\s+([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu)
+    const namedVenueMatch=(()=>{const m=namedVenueInput.match(/(?:^|\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\s+(.+?)\s+(?:din|in|,)\s+([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
+      return m&&!/^(?:de\s+)?(?:[1-5]|one|two|three|four|five|una|doua|trei|patru|cinci)\s*(?:[- ]?star|stele|stea)/i.test(m[2])?m:null})()
       ||(!earlyFoodSearchIntent?(()=>{const m=namedVenueInput.match(/^(?:vreau sa ajung la\s+)?([\p{L}][\p{L}0-9&' .-]{2,55}?)\s*(?:,\s*|\s+(?:din|in)\s+)([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);return m?[m[0],'obiectiv',m[1],m[2]]:null})():null);
     // GPS-first named business lookup when the user does not know its town.
     // Only handle short name queries, not general questions or dedicated map routing.
