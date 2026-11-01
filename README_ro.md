@@ -1,4 +1,12 @@
-# myPocket AI — backend v137 + frontend v1.0.101
+# myPocket AI — backend v142 + frontend v1.0.105
+
+**Versiunile actuale din cod (01.11.2026):** backend v142, frontend APP.version 1.0.105. Publicarea în Cloudflare se verifică separat, prin testele live.
+
+**Căutarea destinațiilor:** Aplicația trebuie să caute numele introdus de utilizator, fără a impune categoria afacerii sau localitatea. Căutarea Geoapify după nume are variante de rezervă prin Photon și alți furnizori de hartă, cu verificarea coordonatelor. Cuvântul „Street” din „London Liverpool Street” nu trebuie confundat automat cu o cerere de adresă stradală. Pentru transportul public se preferă stația verificată în TfL. Alegerea mijlocului de transport reutilizează destinația păstrată în conversație.
+
+**Teste reale:** Workflow-ul `.github/workflows/test-destinations.yml` verifică în Cloudflare numele Decathlon în trei formulări și continuarea către „London Liverpool Street” prin transportul public. Execuția 41320428179 din 01.11.2026 a confirmat Decathlon prin Photon în v141, dar a eșuat la Liverpool Street. În v142 a fost corectată citirea câmpului TfL `SearchMatch.name`; rezultatul live al acestei modificări nu este încă confirmat de execuția anterioară. Pentru verificări locale: `npm run check`, `npm test`, `npm run test:destinations`.
+
+**Curățarea repository-ului:** Fișierul `SHA256SUMS.txt` a fost eliminat deoarece conținea amprente învechite. Testele, configurațiile Wrangler, workflow-urile și `VERSION_LOG.md` au rămas. Mențiunile vechi de mai jos sunt păstrate ca istoric.
 
 v137 / 1.0.101: căutările explicite după nume și localitate (de exemplu Magazin Europa din Grays, Restaurant Zani din Tilbury) sunt tratate înaintea căutărilor generale pe categorii. Dacă adresa nu este confirmată, nu se returnează afaceri fără legătură. Clarificările cu candidați sunt afișate în tabele interactive în conversație. Verificarea completă a răspunsurilor live rămâne necesară.
 
