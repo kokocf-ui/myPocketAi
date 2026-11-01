@@ -27,6 +27,8 @@ jobs:
           node-version: '22'
       - name: Syntax validation
         run: npm run check
+      - name: Focused destination and local-category regressions
+        run: npm run test:destinations && npm run test:local-categories
       - name: Existing regression tests
         run: npm test
 
