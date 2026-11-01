@@ -1760,6 +1760,42 @@ export default {
     const namedVenueInput=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
     const namedVenueMatch=namedVenueInput.match(/(?:^|\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\s+(.+?)\s+(?:din|in|,)\s+([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu)
       ||(()=>{const m=namedVenueInput.match(/^(?:vreau sa ajung la\s+)?([\p{L}][\p{L}0-9&' .-]{2,55}?)\s*(?:,\s*|\s+(?:din|in)\s+)([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);return m?[m[0],'obiectiv',m[1],m[2]]:null})();
+    // GPS-first named business lookup when the user does not know its town.
+    // Only handle short name queries, not general questions or dedicated map routing.
+    const localNameRaw=namedVenueInput.replace(/^(?:vreau sa ajung la|unde (?:este|e|gasesc)|cauta(?:-mi)?|gaseste(?:-mi)?)\s+/i,'').replace(/\s+(?:in zona mea|in apropierea mea|langa mine|aproape de mine|near me|nearby)$/i,'').trim();
+    const localNameQuery=!namedVenueMatch&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
+    if(localNameQuery&&env.GEOAPIFY_API_KEY){
+      const wanted=normalizeGeoName(localNameQuery).split(' ').filter(Boolean),found=[];
+      for(const radius of [5000,15000,40000]){
+        try{
+          const u=new URL('https://api.geoapify.com/v2/places');
+          u.searchParams.set('categories','commercial,catering,accommodation,entertainment,healthcare,tourism,leisure,education,service');
+          u.searchParams.set('name',localNameQuery);
+          u.searchParams.set('filter','circle:'+longitude+','+latitude+','+radius);
+          u.searchParams.set('limit','40');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+          const response=await fetch(u.href,{signal:AbortSignal.timeout(6000)});
+          if(!response.ok)continue;
+          for(const feature of (await response.json()).features||[]){
+            const p=feature.properties||{},name=String(p.name||''),tokens=normalizeGeoName(name).split(' ');
+            const lat=Number(p.lat),lon=Number(p.lon);
+            if(!wanted.every(w=>tokens.includes(w))||!Number.isFinite(lat)||!Number.isFinite(lon))continue;
+            const candidate={latitude:lat,longitude:lon,label:String(p.formatted||[name,p.address_line1,p.city].filter(Boolean).join(', ')),resolution_source:'gps_named_place'};
+            if(!found.some(x=>routeGeoDistance(x,candidate)<120))found.push(candidate);
+          }
+        }catch{}
+        if(found.length)break;
+      }
+      if(found.length){
+        found.sort((a,b)=>routeGeoDistance({latitude,longitude},a)-routeGeoDistance({latitude,longitude},b));
+        const options=found.slice(0,4);
+        if(options.length===1){
+          const selected=options[0],context={destination_query:localNameQuery,destination:selected,pending:'profile'};
+          const journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput);
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:journey?'Am identificat '+selected.label+'. Cum dorești să ajungi?':'Am identificat '+selected.label+'. Dorești să îți arăt traseul?',named_venue:true,needs_travel_confirmation:!journey,needs_travel_mode:journey,route_context:context,ai_connected:Boolean(env.AI)});
+        }
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Am găsit mai multe locații. Pe care o cauți?',named_venue:true,needs_destination_clarification:true,destination_candidates:options,ai_connected:Boolean(env.AI)});
+      }
+    }
     if(namedVenueMatch&&/^(?:assistant|travel|maps|map|tourism|travel_tourism|maps_transport|harti_transport)$/i.test(String(data.module||'assistant'))){
       const kind=namedVenueMatch[1],venueName=namedVenueMatch[2].trim(),town=namedVenueMatch[3].trim();
       if(venueName.length>=2&&!/^(?:un|o|niste|some|a|the|toate|all)$/i.test(venueName)){
