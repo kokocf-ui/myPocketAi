@@ -1002,7 +1002,7 @@ export default {
         const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl|| (env.TFL_APP_KEY?"ok":"not_configured"),bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
         if (transportErrors.tfl || transportErrors.bods || transportErrors.rtt || transportErrors.rtt_services || transportErrors.geoapify) console.warn("Pocket AI v96 transit provider diagnostics", JSON.stringify(transitDiagnostics));
         else console.info("Pocket AI v96 transit provider summary", JSON.stringify(transitDiagnostics));
-        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,fastest_transit:transitOptions.reduce((best,j)=>!best||(Number(j.durationMinutes)||Infinity)<(Number(best.durationMinutes)||Infinity)?j:best,null),transit:transitOptions,transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",provider_status:{tfl:transportErrors.tfl?"unavailable":(env.TFL_APP_KEY?"queried":"not_configured"),bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:transitOptions.reduce((best,j)=>!best||(Number(j.durationMinutes)||Infinity)<(Number(best.durationMinutes)||Infinity)?j:best,null),transit:transitOptions,transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",provider_status:{tfl:transportErrors.tfl?"unavailable":(env.TFL_APP_KEY?"queried":"not_configured"),bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
       } catch (e) {
         console.warn("Pocket AI v96 transit-first branch failed", String(e && e.message || e).slice(0,180));
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:lang === "en" ? "The public-transport request could not be completed right now. No unverified route was supplied; try again or specify a station/postcode." : "Cererea de transport public nu a putut fi completată acum. Nu am afișat un traseu neverificat; încearcă din nou sau precizează o stație/un cod poștal.",route_available:false,transit_available:false,ai_connected:Boolean(env.AI)});
@@ -1849,7 +1849,7 @@ export default {
           const unique=best.length===1||(nameWords.length>1&&bestDistance<=10000&&
             routeGeoDistance({latitude,longitude},best[1])-bestDistance>8000);
           const options=(unique?best.slice(0,1):best.slice(0,8)).map(v=>({
-            latitude:v.latitude,longitude:v.longitude,label:v.label,resolution_source:v.resolution_source}));
+            latitude:v.latitude,longitude:v.longitude,label:v.label,resolution_source:v.resolution_source,distance_km:Math.round(routeGeoDistance({latitude,longitude},v)/100)/10}));
           responsePlaceLookup={strategy:'geoapify_name_filter',matched:found.length,returned:options.length,...nameLookupDiagnostics};
           if(options.length===1){
             const selected=options[0],journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput),
@@ -1915,7 +1915,7 @@ export default {
           const single=best.length===1||(wanted.length>1&&best[0].distanceMeters<=10000&&
             best[1].distanceMeters-best[0].distanceMeters>=8000);
           const options=(single?best.slice(0,1):best.slice(0,8)).map(x=>({
-            latitude:x.latitude,longitude:x.longitude,label:x.label,resolution_source:x.resolution_source
+            latitude:x.latitude,longitude:x.longitude,label:x.label,resolution_source:x.resolution_source,distance_km:Math.round(x.distanceMeters/100)/10
           }));
           responsePlaceLookup={strategy:'photon_name_search',matched:matches.length,
             returned:options.length,...nameLookupDiagnostics};
@@ -2008,7 +2008,7 @@ export default {
               // not silently choose between multiple plausible shops in the area.
               const uniqueNearby=sameScore.length===1||
                 (requestedWords.length>1&&best.distanceMeters<=7000&&sameScore[1].distanceMeters-best.distanceMeters>=6000);
-              const options=(uniqueNearby?[best]:sameScore.slice(0,8)).map(({latitude,longitude,label,resolution_source})=>({latitude,longitude,label,resolution_source}));
+              const options=(uniqueNearby?[best]:sameScore.slice(0,8)).map(({latitude,longitude,label,resolution_source,distanceMeters})=>({latitude,longitude,label,resolution_source,distance_km:Math.round(distanceMeters/100)/10}));
               responsePlaceLookup={strategy:'nearby_named_osm',matched:candidates.length,returned:options.length,query:localNameQuery};
               if(options.length===1){
                 const selected=options[0],journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput),
