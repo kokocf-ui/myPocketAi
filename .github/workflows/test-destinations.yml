@@ -144,7 +144,8 @@ jobs:
                 case:'STATION_LIVERPOOL_STREET_TRANSIT',
                 httpStatus,apiVersion:data.version||null,
                 needsDestinationAgain:!!data.needs_destination_clarification,
-                reason:data.reason||null,transitAvailable:!!data.transit_available,
+                reason:data.reason||null,stationLookup:data.station_lookup||null,
+                transitAvailable:!!data.transit_available,
                 alternativeCount:Array.isArray(data.transit)?data.transit.length:0,
                 replyPreview:String(data.reply||'').slice(0,160)
               }));
