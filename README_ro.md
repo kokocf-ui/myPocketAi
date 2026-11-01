@@ -1,4 +1,6 @@
-# myPocket AI — backend v129 + frontend v1.0.97
+# myPocket AI — backend v130 + frontend v1.0.97
+
+v130 recunoaște cererile către primul mijloc de transport și păstrează destinația finală la continuarea pietonală către stație. Nu caută global o stație generică.
 
 1 noiembrie 2026. v129 corectează extragerea destinației pentru transportul în comun: modul de transport și cererea de variante nu mai înlocuiesc stația. Londra/Londrei devine London, păstrând Victoria Station. Sunt corectate expresiile pentru identificarea stațiilor oficiale.
 

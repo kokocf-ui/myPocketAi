@@ -103,3 +103,11 @@
 - Correct overescaped regex boundaries in operator station lookup and name validation.
 - Add end-to-end mocked provider tests for Romanian/English chat requests, verified station id routing and missing destination.
 - Publish directly to GitHub under the user's confirmed update workflow.
+
+
+## 2026-11-01 — Backend v130, frontend 1.0.97 unchanged
+
+- Recognize “primul mijloc de transport” and “prima stație de autobuz” as boarding access within a transit trip, ahead of walking/driving dispatch.
+- Preserve Lakeside from the immediately relevant user history; reject stale trip recovery after another topic.
+- Keep the final destination distinct from the first boarding stop. Missing destination asks for clarification without global stop geocoding.
+- Extend mocked integration tests with both exact screenshot turns, actual itinerary boarding-stop selection, missing GPS and topic boundaries. All suites and syntax checks pass.

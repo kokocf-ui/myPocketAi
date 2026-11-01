@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -43,11 +43,12 @@ function extractTransitDestination(message){
  let text=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
   .replace(/\b(?:londra|londrei)\b/g,'london');
  text=text.split(/[.!?;\n]/)[0].trim()
+  .replace(/,\s*(?:cum (?:ajung|merg)|how (?:do i|can i|to))\b.*$/i,'')
   .replace(/\s*,?\s+(?:(?:folosind|utilizand|using|with|cu|by)\s+(?:transport(?:ul)?(?:\s+(?:in comun|public))?|public transport|autobuz(?:ul)?|bus|tren(?:ul)?|train|metrou|tube)\b|(?:arata(?:-mi)?|afiseaza|compara|show|compare)\b).*$/i,'')
   .replace(/\b(?:transport(?:ul)?\s+in comun|transport(?:ul)?\s+public|public transport)\b/g,' ')
   .replace(/\s+/g,' ').trim();
  // Strong destination connectors take precedence over 'in' inside a city qualifier.
- const strong=[...text.matchAll(/\b(?:pana la|pana in|catre|spre|towards|into|to|la)\s+/g)];
+ const strong=[...text.matchAll(/\b(?:pana la|pana in|catre|spre|towards|into|to|la)\s+/g)].filter(m=>! /\bde\s*$/.test(text.slice(0,m.index)));
  let target='';
  if(strong.length){const match=strong.at(-1);target=text.slice(match.index+match[0].length);}
  else {const match=text.match(/\b(?:in)\s+(.+)$/);target=match?match[1]:'';}
@@ -56,6 +57,26 @@ function extractTransitDestination(message){
   .replace(/^[, :]+|[, :]+$/g,'').trim();
  if(/^(?:(?:de )?la )?(?:locatia mea(?: actuala)?|pozitia mea|current location|my (?:current )?location|comun)$/.test(target))return '';
  return target.slice(0,140);
+}
+
+// A boarding stop is a leg of a journey, never a destination named "first bus stop".
+function transitBoardingAccessRequest(message){
+ const text=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ return /\b(?:(?:prim(?:ul|a)|intai(?:ul|a)?|first)\s+(?:(?:mijloc(?:ul)?\s+de\s+transport)|(?:stati(?:e|a)|oprire)(?:\s+de\s+(?:autobuz|tren|metrou))?|(?:(?:bus|train|tram)\s+)?stop|boarding\s+stop)|(?:stati(?:e|a)|stop)\s+(?:de\s+imbarcare|where i (?:board|catch)))\b/.test(text);
+}
+function transitConversationDestination(message,history){
+ const current=extractTransitDestination(message);
+ if(current&&!transitBoardingAccessRequest(current))return current;
+ const turns=Array.isArray(history)?history.filter(v=>v?.role==='user'&&typeof v.content==='string').map(v=>v.content.trim()):[];
+ if(turns.at(-1)===message.trim())turns.pop();
+ // Only the current trip survives short GPS/mode/boarding replies. A new topic is a boundary.
+ for(const turn of turns.slice(-4).reverse()){
+  const target=extractTransitDestination(turn);
+  if(target&&!transitBoardingAccessRequest(target)&&/\b(?:ajung|merg|transport|autobuz|metrou|tren|journey|travel|take me|get to|go to)\b/i.test(turn.normalize('NFD').replace(/[\u0300-\u036f]/g,'')))return target;
+  const n=turn.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  if(!transitBoardingAccessRequest(turn)&&! /^(?:(?:foloseste|use) )?(?:locatia mea|my location|gps|pietonal|pe jos|walking|walk|cu autobuzul|by bus)[.!?]*$/.test(n))break;
+ }
+ return '';
 }
 
 // Coordinate-backed boarding places come from the selected transport leg, never from a street-name guess.
@@ -235,7 +256,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v129";
+    const API_VERSION = "v130";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -416,9 +437,10 @@ export default {
     // v60: transit-first journey planning with corrected destination extraction and diagnostics. This branch is independent of Geoapify walking routing.
     // TfL Journey Planner supports nationalSearch for journeys that include stops outside London.
     const normalizedTransitMessage = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const boardingAccessRequested=transitBoardingAccessRequest(message);
     const publicTransportIntent = !/^(?:ce este|ce inseamna|what is|explain|explica|why|de ce)\b/.test(normalizedTransitMessage)&&/\b(?:transport(?:ul)? in comun|transport public|autobuz(?:e|ul)?|bus(?:es)?|tren(?:ul|e)?|train(?:s)?|metrou|tube|railway|by public transport|public transport)\b/i.test(normalizedTransitMessage);
     const directWalkingTarget=data.route_profile==='walk'&&data.route_destination&&Number.isFinite(data.route_destination.latitude)&&Number.isFinite(data.route_destination.longitude)&&Math.abs(data.route_destination.latitude)<=90&&Math.abs(data.route_destination.longitude)<=180&&typeof data.route_destination.label==='string';
-    if (publicTransportIntent && !directWalkingTarget && !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)) {
+    if ((publicTransportIntent || boardingAccessRequested) && !directWalkingTarget && (boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage))) {
       const transitStartedAt = Date.now();
       const transportErrors = {};
       const transitOptions = [];
@@ -429,7 +451,7 @@ export default {
         // v60: parse the destination after an explicit destination connector, then
         // remove comparison/instruction clauses so they cannot become a place name.
         const normalizedForDestination = normalizedTransitMessage.replace(/\b(?:londra|londrei)\b/g,"london");
-        const extractedDestination = extractTransitDestination(message);
+        const extractedDestination = boardingAccessRequested ? transitConversationDestination(message,data.history) : extractTransitDestination(message);
         const explicitTransitInput=typeof data.transit_query==="string"&&data.transit_query.trim();
         if (!extractedDestination && !explicitTransitInput && !data.transit_destination) {
           const reply = lang === "en"

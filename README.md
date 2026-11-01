@@ -1,4 +1,6 @@
-# myPocket AI — backend v129 + frontend v1.0.97
+# myPocket AI — backend v130 + frontend v1.0.97
+
+v130 recognizes first-boarding-stop requests as public transport and retains the final destination across a walking-to-stop follow-up. No generic stop name is geocoded globally.
 
 1 November 2026. v129 fixes conversational transit destination parsing: transport mode and comparison instructions cannot replace the requested station; Londra/Londrei is normalized to London while retaining Victoria Station. Official station guards use corrected regex boundaries.
 
