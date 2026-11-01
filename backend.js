@@ -1,4 +1,5 @@
 /*
+ * v147 verifies named destinations and TfL stations before presenting modes; named landmark aliases require map confirmation.
  * Pocket AI backend — v145 TfL station labels; v144 station and geographic intent priority; v143 chain choices and food-category distinction; v142 TfL SearchMatch.name field and verified station lookup; v141 city-first TfL station and Photon named POI fallback; v140 name-filtered brand lookup; v139 GPS-first name-only POI search; v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
@@ -392,7 +393,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v146";
+    const API_VERSION = "v147";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
