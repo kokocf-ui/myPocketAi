@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v142 TfL SearchMatch.name field and verified station lookup; v141 city-first TfL station and Photon named POI fallback; v140 name-filtered brand lookup; v139 GPS-first name-only POI search; v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v143 chain choices and food-category distinction; v142 TfL SearchMatch.name field and verified station lookup; v141 city-first TfL station and Photon named POI fallback; v140 name-filtered brand lookup; v139 GPS-first name-only POI search; v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -378,7 +378,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v142";
+    const API_VERSION = "v143";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -1846,9 +1846,9 @@ export default {
             routeGeoDistance({latitude,longitude},a)-routeGeoDistance({latitude,longitude},b));
           const topScore=found[0].matchScore,best=found.filter(v=>v.matchScore===topScore);
           const bestDistance=routeGeoDistance({latitude,longitude},best[0]);
-          const unique=best.length===1||(bestDistance<=10000&&
+          const unique=best.length===1||(nameWords.length>1&&bestDistance<=10000&&
             routeGeoDistance({latitude,longitude},best[1])-bestDistance>8000);
-          const options=(unique?best.slice(0,1):best.slice(0,4)).map(v=>({
+          const options=(unique?best.slice(0,1):best.slice(0,8)).map(v=>({
             latitude:v.latitude,longitude:v.longitude,label:v.label,resolution_source:v.resolution_source}));
           responsePlaceLookup={strategy:'geoapify_name_filter',matched:found.length,returned:options.length,...nameLookupDiagnostics};
           if(options.length===1){
@@ -1912,9 +1912,9 @@ export default {
         if(matches.length){
           matches.sort((a,b)=>b.matchScore-a.matchScore||a.distanceMeters-b.distanceMeters);
           const best=matches.filter(x=>x.matchScore===matches[0].matchScore);
-          const single=best.length===1||(best[0].distanceMeters<=10000&&
+          const single=best.length===1||(wanted.length>1&&best[0].distanceMeters<=10000&&
             best[1].distanceMeters-best[0].distanceMeters>=8000);
-          const options=(single?best.slice(0,1):best.slice(0,4)).map(x=>({
+          const options=(single?best.slice(0,1):best.slice(0,8)).map(x=>({
             latitude:x.latitude,longitude:x.longitude,label:x.label,resolution_source:x.resolution_source
           }));
           responsePlaceLookup={strategy:'photon_name_search',matched:matches.length,
@@ -2007,8 +2007,8 @@ export default {
               // A uniquely nearby match is enough for a suggested destination; do
               // not silently choose between multiple plausible shops in the area.
               const uniqueNearby=sameScore.length===1||
-                (best.distanceMeters<=7000&&sameScore[1].distanceMeters-best.distanceMeters>=6000);
-              const options=(uniqueNearby?[best]:sameScore.slice(0,4)).map(({latitude,longitude,label,resolution_source})=>({latitude,longitude,label,resolution_source}));
+                (requestedWords.length>1&&best.distanceMeters<=7000&&sameScore[1].distanceMeters-best.distanceMeters>=6000);
+              const options=(uniqueNearby?[best]:sameScore.slice(0,8)).map(({latitude,longitude,label,resolution_source})=>({latitude,longitude,label,resolution_source}));
               responsePlaceLookup={strategy:'nearby_named_osm',matched:candidates.length,returned:options.length,query:localNameQuery};
               if(options.length===1){
                 const selected=options[0],journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput),
@@ -2147,7 +2147,7 @@ export default {
         const photonStartedAt = Date.now();
         const photonRequestPromise = (async () => {
           const photonUrl = new URL("https://photon.komoot.io/api/");
-          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "supermarket", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", cafe: "cafe coffee shop tea room", restaurant: "restaurant pub bar fast food", market_bakery: "supermarket grocery store bakery pastry shop", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
+          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "grocery", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", cafe: "cafe", restaurant: "restaurant", market_bakery: "grocery", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
           photonUrl.searchParams.set("lat", String(latitude));
           photonUrl.searchParams.set("lon", String(longitude));
           photonUrl.searchParams.set("limit", "100");
@@ -2168,10 +2168,10 @@ export default {
           try {
             const geoapifyUrl = new URL("https://api.geoapify.com/v2/places");
             geoapifyUrl.searchParams.set("categories", ({
-              cafe: "catering.cafe", restaurant: "catering.restaurant,catering.fast_food,catering.pub,catering.bar,catering.biergarten",
-              market_bakery: "commercial,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery", confectionery: "catering.ice_cream,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
+              cafe: "catering.cafe", restaurant: "catering.restaurant",
+              market_bakery: "commercial.supermarket,commercial.convenience,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery", confectionery: "catering.ice_cream,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
               poi: "catering,commercial,education,healthcare,leisure,entertainment,service,public_transport,parking,accommodation,tourism,building",
-              supermarket: "commercial.supermarket",
+              supermarket: "commercial.supermarket,commercial.convenience",
               shop: "commercial",
               mall: "commercial.shopping_mall",
               pharmacy: "healthcare.pharmacy",
@@ -2238,7 +2238,7 @@ export default {
                 cinema: /cinema/.test(cats) || raw.amenity === "cinema",
                 hotel: /accommodation\.(hotel|hostel|guest_house)|hotel|hostel/.test(cats) || /^(hotel|hostel|guest_house)$/.test(String(raw.tourism || "")),
                 cafe: /catering\.cafe/.test(cats) || raw.amenity === "cafe",
-                restaurant: /catering\.(restaurant|fast_food|pub|bar|biergarten)/.test(cats) || /^(restaurant|fast_food|cafe|pub|bar|biergarten|food_court)$/.test(String(raw.amenity || "")),
+                restaurant: (/(^|\s)catering\.restaurant(\s|$)/.test(cats) || raw.amenity === "restaurant") && !/catering\.(cafe|pub|bar|fast_food|biergarten)/.test(cats),
                 market_bakery: /commercial\.(supermarket|convenience)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(supermarket|convenience|bakery|pastry|confectionery)$/.test(String(raw.shop || "")), confectionery: /catering\.(ice_cream|confectionery|bakery)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(ice_cream|confectionery|bakery|pastry)$/.test(String(raw.amenity || "")) || /^(bakery|pastry|confectionery|ice_cream)$/.test(String(raw.shop || "")),
                 pub: /catering\.(pub|bar|biergarten)/.test(cats) || /^(pub|bar|biergarten)$/.test(String(raw.amenity || "")),
                 transport: /public_transport|railway\.(station|halt|tram_stop)|bus\.stop/.test(cats) || /^(station|halt|tram_stop|platform)$/.test(String(raw.railway || "")) || /^(station|stop_position|platform)$/.test(String(raw.public_transport || "")) || raw.amenity === "bus_station",
@@ -2306,7 +2306,7 @@ export default {
                 : requestedPlaceCategory.key === "mall"
                   ? /mall|shopping.?centre|shopping.?center|retail.?park|department.?store/.test(photonType) || /shopping centre|shopping center|mall|retail park/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "supermarket"
-                  ? /supermarket|convenience|grocery/.test(photonType) || /supermarket|tesco|morrisons|sainsbury|aldi|lidl|asda|co.?op|waitrose/i.test(String(properties.name || ""))
+                  ? /supermarket|convenience|grocery|general|greengrocer/.test(photonType) || /supermarket|tesco|morrisons|sainsbury|aldi|lidl|asda|co.?op|waitrose/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "pharmacy"
                   ? /pharmacy|chemist|drugstore/.test(photonType) || /pharmacy|chemist|boots/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "shop"
@@ -2323,8 +2323,10 @@ export default {
                   ? /park|garden|playground/.test(photonType) || /park|garden/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "hotel"
                   ? /hotel|hostel|guest.?house|accommodation/.test(photonType)
+                : requestedPlaceCategory.key === "cafe"
+                  ? /cafe|coffee_shop|tea_room|tearoom/.test(photonType) || /\b(cafe|coffee|tearoom|tea room)\b/i.test(String(properties.name||""))
                 : requestedPlaceCategory.key === "restaurant"
-                  ? /restaurant|fast.?food|cafe|food.?court|pub|bar|biergarten|tavern|taproom/.test(photonType) || /restaurant|pub|bar|cafe|coffee|food/i.test(String(properties.name || ""))
+                  ? /restaurant/.test(photonType) && !/cafe|coffee|tearoom|tea_room|pub|bar|fast.?food|food.?court/.test(photonType)
                 : requestedPlaceCategory.key === "confectionery"
                   ? /confectionery|pastry|bakery|cake|ice.?cream|gelateria|dessert/.test(photonType) || /cake|bakery|patisserie|confectionery|ice cream|gelato|dessert/i.test(String(properties.name || ""))
                 : /pharmacy|fuel|parking|car.?wash|museum|cinema|hospital|school|library|atm|bank|post.?office|toilet|hotel|station/.test(photonType);
