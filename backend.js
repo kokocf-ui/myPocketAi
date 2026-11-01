@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v140 name-filtered brand lookup; v139 GPS-first name-only POI search; v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v141 city-first TfL station and Photon named POI fallback; v140 name-filtered brand lookup; v139 GPS-first name-only POI search; v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -378,7 +378,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v140";
+    const API_VERSION = "v141";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -1790,7 +1790,7 @@ export default {
     const localNameQuery=!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
     // Provider-level counts/statuses are safe to return in diagnostics (no API keys or GPS).
     const nameLookupDiagnostics=localNameQuery?{nameFilterHttp:null,nameFilterFeatures:null,nameFilterMatched:0,
-      nameFilterError:null,geocodeHttp:null,geocodeFeatures:null,overpassHttp:null,overpassFeatures:null,
+      nameFilterError:null,photonHttp:null,photonFeatures:null,photonMatched:0,photonError:null,geocodeHttp:null,geocodeFeatures:null,overpassHttp:null,overpassFeatures:null,
       overpassError:null,reverseHttp:null,administrativeAreas:null}:null;
     // v140: Use the provider's native name filter, not a small random-looking
     // category sample. Preserve the business name when the user omits its type
@@ -1858,6 +1858,76 @@ export default {
         }
       }
     }
+    // Photon full-text POI search as an independent GPS-biased fallback.
+    // Search by the business name, not an arbitrary category sample.
+    if(localNameQuery&&hasValidLocation){
+      const wanted=normalizeGeoName(localNameQuery).split(' ').filter(w=>w.length>=3&&
+        !/^(?:magazin|magazinul|store|shop|market|supermarket|restaurant|hotel|cafenea|cafe)$/.test(w));
+      const name=wanted[0];
+      if(name){
+        const matches=[];
+        try{
+          const u=new URL('https://photon.komoot.io/api/');
+          u.searchParams.set('q',name);
+          u.searchParams.set('lat',String(latitude));
+          u.searchParams.set('lon',String(longitude));
+          u.searchParams.set('limit','30');
+          u.searchParams.set('lang','en');
+          const response=await fetch(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(6000)});
+          if(nameLookupDiagnostics)nameLookupDiagnostics.photonHttp=response.status;
+          if(response.ok){
+            const data=await response.json(),features=Array.isArray(data.features)?data.features:[];
+            if(nameLookupDiagnostics)nameLookupDiagnostics.photonFeatures=features.length;
+            for(const feature of features){
+              const p=feature.properties||{},poiName=String(p.name||'').trim();
+              const tokens=normalizeGeoName(poiName).split(' ');
+              const coords=Array.isArray(feature.geometry?.coordinates)?feature.geometry.coordinates:[];
+              const lat=transitCoordinate(coords[1],90),lon=transitCoordinate(coords[0],180);
+              if(lat===null||lon===null||!tokens.includes(name)||
+                /^(?:highway|street|road)$/i.test(String(p.osm_key||'')))continue;
+              const candidate={latitude:lat,longitude:lon,
+                label:[poiName,[p.housenumber,p.street].filter(Boolean).join(' '),
+                  p.city||p.district||p.county,p.postcode,p.country].filter(Boolean).join(', '),
+                resolution_source:'photon_named_poi'};
+              const distance=routeGeoDistance({latitude,longitude},candidate);
+              if(distance>40000||matches.some(m=>routeGeoDistance(m,candidate)<120))continue;
+              candidate.distanceMeters=distance;
+              const fields=normalizeGeoName([poiName,p.street,p.city,p.district,p.county,p.postcode].filter(Boolean).join(' ')).split(' ');
+              candidate.matchScore=wanted.filter(w=>fields.includes(w)).length;
+              matches.push(candidate);
+            }
+          }
+        }catch(e){
+          if(nameLookupDiagnostics)nameLookupDiagnostics.photonError=String(e?.name||'Error').slice(0,40);
+        }
+        if(nameLookupDiagnostics)nameLookupDiagnostics.photonMatched=matches.length;
+        if(matches.length){
+          matches.sort((a,b)=>b.matchScore-a.matchScore||a.distanceMeters-b.distanceMeters);
+          const best=matches.filter(x=>x.matchScore===matches[0].matchScore);
+          const single=best.length===1||(best[0].distanceMeters<=10000&&
+            best[1].distanceMeters-best[0].distanceMeters>=8000);
+          const options=(single?best.slice(0,1):best.slice(0,4)).map(x=>({
+            latitude:x.latitude,longitude:x.longitude,label:x.label,resolution_source:x.resolution_source
+          }));
+          responsePlaceLookup={strategy:'photon_name_search',matched:matches.length,
+            returned:options.length,...nameLookupDiagnostics};
+          if(options.length===1){
+            const selected=options[0],journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput),
+              routeContext={destination_query:localNameQuery,destination:selected,pending:'profile'};
+            return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+              reply:journey?'Am identificat '+selected.label+'. Cum dorești să ajungi?':'Am identificat '+selected.label+'. Dorești să îți arăt traseul?',
+              named_venue:true,needs_travel_confirmation:!journey,needs_travel_mode:journey,
+              route_context:routeContext,straight_line_distance_km:best[0].distanceMeters/1000,
+              place_lookup:responsePlaceLookup,ai_connected:Boolean(env.AI)});
+          }
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+            reply:'Am identificat mai multe locații. Alege destinația dorită:',
+            named_venue:true,needs_destination_clarification:true,destination_candidates:options,
+            place_lookup:responsePlaceLookup,ai_connected:Boolean(env.AI)});
+        }
+      }
+    }
+
     // Geocoding provides an independent name lookup when a sparse POI sample misses a shop.
     if(localNameQuery&&env.GEOAPIFY_API_KEY){
       try{
