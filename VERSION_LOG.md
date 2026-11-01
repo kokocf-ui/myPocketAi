@@ -1,5 +1,15 @@
 # Version log
 
+## 2026-11-01 — Backend v143 / Frontend 1.0.108
+
+- Generic chain name ("Decathlon") presents up to eight verified nearby branches when multiple locations are available, with the first four shown immediately. Qualifiers (e.g. "Lakeside") still narrow the result; no location is invented.
+- TfL itineraries retain the final destination POI and support a separate on-demand pedestrian map route from the last non-walking vehicle alighting stop to that POI. The live backend verified a 596 m final walk to Decathlon.
+- Restaurants no longer automatically absorb cafés/tea rooms, fast food, pubs or bars. Café query is kept separate; grocery search includes convenience shops as well as supermarkets.
+- In live public-area fixture around West Thurrock: 40 restaurant and 40 café results with no identical place in both; grocery sample included Lidl, Longdan, Londis, Tesco Express and other markets.
+- Dedicated destination, last-mile and category fixture tests pass; full legacy suite still reports a separate Brave/news test failure. Do not claim comprehensive green CI until that separate discrepancy is investigated.
+- Frontend 1.0.108 preserves fixed bottom navigation; new final-mile button uses verified stop and POI geometry. Live in-app visual validation remains to be performed.
+
+
 ## 2026-11-01 — Source audit, backend v142 + frontend 1.0.105
 
 - Verified the exact file tree on `main`. Every `tests*.mjs` is used by `npm test`; the two Wrangler configs and GitHub Actions workflows are active configuration and must not be deleted.
