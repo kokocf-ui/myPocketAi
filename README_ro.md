@@ -1,4 +1,4 @@
-# myPocket AI — backend v135 + frontend v1.0.100
+# myPocket AI — backend v136 + frontend v1.0.100
 
 v135: ordonează candidații de localitate și adresă, fără a cere o singură localitate sau două domenii cu aceeași adresă. Caută și textul paginilor pentru adrese lipsă din hartă; confirmă coordonatele furnizorului pentru adresă. Păstrează contoare tehnice pentru diagnosticarea căutărilor eșuate.
 

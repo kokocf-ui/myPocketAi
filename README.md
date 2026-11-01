@@ -1,4 +1,4 @@
-# myPocket AI — backend v135 + frontend v1.0.100
+# myPocket AI — backend v136 + frontend v1.0.100
 
 v135: rank town and address candidates instead of requiring one town or matching addresses from two domains. Request address-bearing page text when map POIs are absent; confirm provider coordinates against the selected address. Keep lightweight stage counts for failed lookup diagnosis.
 

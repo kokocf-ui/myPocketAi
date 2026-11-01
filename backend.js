@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -112,6 +112,17 @@ async function resolveNamedTravelPlace(query,env,origin,report=()=>{}){
  const towns=(await geocode(locality)).map(f=>f.properties||{}).filter(p=>has(p.formatted||p.name||p.city,cityWords)&&(/^(?:city|town|village|suburb|district|municipality)$/i.test(p.result_type||'')||normalizeGeoName(p.name)===normalizeGeoName(locality))).map(p=>({p,pt:point(p)})).filter(v=>v.pt);
  trace.town_candidates=towns.length;towns.sort((a,b)=>Number(normalizeGeoName(b.p.name||b.p.city)===normalizeGeoName(locality))-Number(normalizeGeoName(a.p.name||a.p.city)===normalizeGeoName(locality)));
  if(towns.length){
+  const town=towns[0];
+  // An authoritative business directory supplies named POIs that a street geocoder may omit.
+  if(String(town.p.country_code||'').toLowerCase()==='gb'&&/commercial|catering|accommodation/.test(spec.category)){
+   try{const directory=new URL('https://api.ratings.food.gov.uk/Establishments');directory.searchParams.set('name',name);directory.searchParams.set('address',locality);directory.searchParams.set('pageSize','20');
+    const r=await fetch(directory.href,{headers:{Accept:'application/json','x-api-version':'2'},signal:AbortSignal.timeout(5000)});trace.business_directory_status=r.status;
+    if(r.ok){const raw=await r.json(),points=[];trace.business_directory_results=Array.isArray(raw.establishments)?raw.establishments.length:0;
+     for(const row of (raw.establishments||[]).slice(0,20)){const address=[row.AddressLine1,row.AddressLine2,row.AddressLine3,row.AddressLine4,row.PostCode].filter(Boolean).join(', ');if(!has(row.BusinessName||'',nameWords)||!has(address,cityWords))continue;const v=point({lat:row.geocode?.latitude,lon:row.geocode?.longitude,country_code:'gb'},[row.BusinessName,address].filter(Boolean).join(', '));if(v&&routeGeoDistance(town.pt,v)<=15000)points.push({...v,resolution_source:'official_business_record',resolution_sources:['https://api.ratings.food.gov.uk/Establishments/'+encodeURIComponent(String(row.FHRSID||''))]});}
+     if(points.length){trace.stage='official_business_record';return save(points);}
+    }
+   }catch{trace.business_directory_status='unavailable'}
+  }
   const {p,pt}=towns[0],u=new URL('https://api.geoapify.com/v2/places');u.searchParams.set('categories',spec.category);u.searchParams.set('name',name);u.searchParams.set('filter',p.place_id?'place:'+p.place_id:'circle:'+pt.longitude+','+pt.latitude+',8000');u.searchParams.set('limit','30');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
   const places=(await get(u.href))?.features||[],points=[];
   for(const f of places){const raw=f.properties||{},v=point(raw);if(!v||!has(raw.name||'',nameWords)||routeGeoDistance(pt,v)>15000)continue;if(!p.place_id&&routeGeoDistance(pt,v)>8000)continue;points.push({...v,label:String(raw.formatted||[raw.name,locality].join(', ')),resolution_source:'named_place'});}
@@ -367,7 +378,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v135";
+    const API_VERSION = "v136";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;

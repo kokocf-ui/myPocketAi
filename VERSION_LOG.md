@@ -156,3 +156,11 @@
 - Replace the two-domain address consensus gate with ranked address evidence, map house/street/locality verification and normal ambiguity choices.
 - Request bounded page text as well as highlights to retrieve addresses that snippets omit. Add count/status diagnostics without query, origin, keys or page contents.
 - Automated suites pass; live post-deployment validation is pending.
+
+
+## 2026-11-01 — Backend v136, frontend 1.0.100 unchanged
+
+- Live v135 tracing confirmed: the web request succeeded and supplied address candidates, but no house-level map match was usable.
+- For towns explicitly resolved to Great Britain, query the public FSA establishment directory by business name and town to obtain the named business address and recorded coordinates when the general geocoder omits it. No business/location names are hardcoded.
+- Do not expose ratings or other unrelated fields. Directory failures remain isolated and existing named-POI/web resolution continues. This directory covers UK food establishments; it is not worldwide coverage.
+- Add fixture coverage for a directory result and its coordinate/source mapping. Live validation pending deployment.

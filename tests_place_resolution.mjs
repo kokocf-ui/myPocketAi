@@ -6,7 +6,7 @@ globalThis.fetch=async(input,init)=>{const u=new URL(input);calls.push({u,init})
  if(u.pathname==='/v1/geocode/search'){
   const text=u.searchParams.get('text');
   if(text==='Example, Tilbury'&&scenario==='simplified')return Response.json({features:[poi]});
-  if(text==='Tilbury')return Response.json({features:[{properties:{lat:51.461,lon:.351,name:'Tilbury',formatted:'Tilbury, United Kingdom',result_type:'city',place_id:'town-verified'}}]});
+  if(text==='Tilbury')return Response.json({features:[{properties:{lat:51.461,lon:.351,name:'Tilbury',formatted:'Tilbury, United Kingdom',result_type:'city',country_code:'gb',place_id:'town-verified'}}]});
   if(/^166 Dock Road,? Tilbury$/i.test(text))return Response.json({features:[{properties:scenario==='address-city-only'?{...target,city:'Tilbury',formatted:'Tilbury, United Kingdom'}:{...target,housenumber:'166',street:'Dock Road',city:'Tilbury',formatted:'166 Dock Road, Tilbury, United Kingdom',country_code:'gb'}}]});
   return Response.json({features:[]});
  }
@@ -14,6 +14,7 @@ globalThis.fetch=async(input,init)=>{const u=new URL(input);calls.push({u,init})
   if(scenario==='places'&&u.searchParams.get('name')==='Example'){assert.equal(u.searchParams.get('filter'),'place:town-verified');return Response.json({features:[{properties:{...poi.properties,city:undefined,formatted:undefined}}]});}
   return Response.json({features:[]});
  }
+ if(u.hostname==='api.ratings.food.gov.uk'){assert.equal(init.headers['x-api-version'],'2');return scenario==='official'?Response.json({establishments:[{FHRSID:123,BusinessName:'Example Restaurant',AddressLine1:'166 Dock Road',AddressLine2:'Tilbury',PostCode:'RM18 7BS',geocode:{latitude:String(target.lat),longitude:String(target.lon)}}]}):new Response('',{status:503});}
  if(u.hostname==='api.exa.ai'){
   assert.ok(!init.body.includes(String(gps.latitude)),'web query must not include GPS origin');
   const results=[{url:'https://merchant.example/restaurant',title:'Example Restaurant in Tilbury',highlights:['Example Restaurant, 166 Dock Road, Tilbury']}];
@@ -24,10 +25,10 @@ globalThis.fetch=async(input,init)=>{const u=new URL(input);calls.push({u,init})
  if(u.pathname.includes('/JourneyResults/'))return Response.json({journeys:[]});
  throw Error('Unexpected provider '+u.pathname);
 };
-for(const [i,testCase] of ['simplified','places','web','one-source','same-domain','disagree','address-city-only'].entries()){
+for(const [i,testCase] of ['simplified','places','web','official','one-source','same-domain','disagree','address-city-only'].entries()){
  scenario=testCase;calls=[];const {default:worker}=await import('./backend.js?resolution='+i);
  const response=await(await worker.fetch(new Request('https://fixture/api/chat',{method:'POST',body:JSON.stringify({message:'Traseu pietonal la restaurant Example din Tilbury',language:'ro',history:[],location:gps})}),{GEOAPIFY_API_KEY:'fixture',EXA_API_KEY:'fixture',TFL_APP_KEY:'fixture',AI:{run(){throw Error('No invented coordinates')}}})).json();
- if(['simplified','places','web','one-source','same-domain','disagree'].includes(scenario)){assert.equal(response.route_available,true,scenario);assert.equal(response.route.destination.latitude,target.lat);if(scenario==='web'){assert.equal(response.route.destination.resolution_source,'verified_web_address');assert.equal(response.route.destination.resolution_sources.length,2);}}
+ if(['simplified','places','web','official','one-source','same-domain','disagree'].includes(scenario)){assert.equal(response.route_available,true,scenario);assert.equal(response.route.destination.latitude,target.lat);if(scenario==='web'){assert.equal(response.route.destination.resolution_source,'verified_web_address');assert.equal(response.route.destination.resolution_sources.length,2);}}
  else{assert.equal(response.route_available,false,scenario);assert.equal(response.needs_destination_clarification,true);assert.ok(!calls.some(v=>v.u.pathname==='/v1/routing'));}
 }
 // The same name resolver also feeds the transit planner, using verified coordinates.
