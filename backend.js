@@ -1374,6 +1374,7 @@ export default {
       { key: "hotel", pattern: /(?:^| )(?:hotel\w*|hoteluri|hostel\w*)(?: |$)/, labelRo: "hotel sau hostel", labelEn: "hotel or hostel", overpass: 'tourism~"^(hotel|hostel|guest_house)$"' },
       { key: "transport", pattern: /(?:^| )(?:gara\w*|train station\w*|railway station\w*|bus station\w*|bus stop\w*|statie de autobuz|airport\w*|aeroport\w*)(?: |$)/, labelRo: "stație sau nod de transport", labelEn: "transport stop or hub", overpass: 'public_transport="station"' },
       { key: "confectionery", pattern: /(?:^| )(?:cofetari\w*|patiseri\w*|confectioner\w*|patisserie\w*|cake shop\w*|ice cream|gelateri\w*|sweet shop\w*|dessert\w*|brutari\w*)(?: |$)/, labelRo: "cofetărie, patiserie sau gelaterie", labelEn: "confectionery, bakery or ice cream shop", overpass: 'shop~"^(pastry|confectionery|bakery|ice_cream)$"' },
+      { key: "cafe", pattern: /(?:^| )(?:cafes?|cafeteria|cafea|coffee shops?|cafene\w*|ceainari\w*|tea rooms?|tea houses?)(?: |$)/, labelRo: "cafenea sau ceainărie", labelEn: "café or tea room", overpass: 'amenity="cafe"' },
       { key: "restaurant", pattern: /(?:^| )(?:restaurants?\w*|pubs?|bars?|biergarten\w*|taverns?|taprooms?|takeaway|takeout|food delivery|pizza\w*|pizzeri\w*|burger\w*|sushi|shaorm\w*|shawarm\w*|kebab\w*|doner\w*|comand\w*|livrare\w*|dinner|fast food\w*|fastfood\w*|cafes?|cafeteria|cafea|coffee shops?|cafene\w*|ceainari\w*|tea rooms?|tea houses?)(?: |$)/, labelRo: "restaurant, pub, bar sau cafenea", labelEn: "restaurant, pub, bar or café", overpass: 'amenity~"^(restaurant|fast_food|cafe|food_court|pub|bar|biergarten)$"' },
       { key: "shop", pattern: /(?:^| )(?:magazin\w*|magazine\w*|shops|shop\w*|stores|store\w*|shopping|cumparaturi)(?: |$)/, labelRo: "magazin", labelEn: "shop", overpass: 'shop' }
     ];
@@ -1934,7 +1935,7 @@ export default {
         const photonStartedAt = Date.now();
         const photonRequestPromise = (async () => {
           const photonUrl = new URL("https://photon.komoot.io/api/");
-          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "supermarket", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", restaurant: "restaurant pub cafe bar biergarten fast food", market_bakery: "supermarket grocery store bakery pastry shop", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
+          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "supermarket", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", cafe: "cafe coffee shop tea room", restaurant: "restaurant pub bar fast food", market_bakery: "supermarket grocery store bakery pastry shop", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
           photonUrl.searchParams.set("lat", String(latitude));
           photonUrl.searchParams.set("lon", String(longitude));
           photonUrl.searchParams.set("limit", "100");
@@ -1955,8 +1956,8 @@ export default {
           try {
             const geoapifyUrl = new URL("https://api.geoapify.com/v2/places");
             geoapifyUrl.searchParams.set("categories", ({
-              restaurant: "catering.restaurant,catering.fast_food,catering.pub,catering.bar,catering.biergarten,catering.cafe",
-              market_bakery: "commercial.supermarket,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery", confectionery: "catering.ice_cream,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
+              cafe: "catering.cafe", restaurant: "catering.restaurant,catering.fast_food,catering.pub,catering.bar,catering.biergarten",
+              market_bakery: "commercial,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery", confectionery: "catering.ice_cream,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
               poi: "catering,commercial,education,healthcare,leisure,entertainment,service,public_transport,parking,accommodation,tourism,building",
               supermarket: "commercial.supermarket",
               shop: "commercial",
@@ -2024,8 +2025,9 @@ export default {
                 museum: /museum/.test(cats) || raw.tourism === "museum",
                 cinema: /cinema/.test(cats) || raw.amenity === "cinema",
                 hotel: /accommodation\.(hotel|hostel|guest_house)|hotel|hostel/.test(cats) || /^(hotel|hostel|guest_house)$/.test(String(raw.tourism || "")),
-                restaurant: /catering\.(restaurant|fast_food|cafe|pub|bar|biergarten)/.test(cats) || /^(restaurant|fast_food|cafe|pub|bar|biergarten|food_court)$/.test(String(raw.amenity || "")),
-                market_bakery: /commercial\.supermarket|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(supermarket|convenience|bakery|pastry|confectionery)$/.test(String(raw.shop || "")), confectionery: /catering\.(ice_cream|confectionery|bakery)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(ice_cream|confectionery|bakery|pastry)$/.test(String(raw.amenity || "")) || /^(bakery|pastry|confectionery|ice_cream)$/.test(String(raw.shop || "")),
+                cafe: /catering\.cafe/.test(cats) || raw.amenity === "cafe",
+                restaurant: /catering\.(restaurant|fast_food|pub|bar|biergarten)/.test(cats) || /^(restaurant|fast_food|cafe|pub|bar|biergarten|food_court)$/.test(String(raw.amenity || "")),
+                market_bakery: /commercial\.(supermarket|convenience)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(supermarket|convenience|bakery|pastry|confectionery)$/.test(String(raw.shop || "")), confectionery: /catering\.(ice_cream|confectionery|bakery)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(ice_cream|confectionery|bakery|pastry)$/.test(String(raw.amenity || "")) || /^(bakery|pastry|confectionery|ice_cream)$/.test(String(raw.shop || "")),
                 pub: /catering\.(pub|bar|biergarten)/.test(cats) || /^(pub|bar|biergarten)$/.test(String(raw.amenity || "")),
                 transport: /public_transport|railway\.(station|halt|tram_stop)|bus\.stop/.test(cats) || /^(station|halt|tram_stop|platform)$/.test(String(raw.railway || "")) || /^(station|stop_position|platform)$/.test(String(raw.public_transport || "")) || raw.amenity === "bus_station",
                 town_hall: /administrative|townhall/.test(cats) || raw.amenity === "townhall", 
