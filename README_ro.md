@@ -1,4 +1,6 @@
-# myPocket AI — backend v132 + frontend v1.0.98
+# myPocket AI — backend v133 + frontend v1.0.99
+
+v133 / 1.0.99: alegerea pietonal/transport public/mașină se face dintr-un tabel cu butoane. Modul ales se trimite ca date structurate, păstrând destinația și cerând GPS. Pentru un local negăsit sunt încercate numele simplificat, locuri din localitatea explicită și, dacă EXA este configurat, adrese publice concordante verificate în hartă prin număr, stradă și localitate.
 
 v132: păstrează numele locului și localitatea în ambele ordini de formulare, elimină „ce opțiuni am” din căutare și reține destinația după „Pietonal” sau „Cu transportul public”. Respinge locurile care nu corespund numelui și localității. Întrebarea despre deplasare include și transportul public.
 

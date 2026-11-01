@@ -1,4 +1,6 @@
-# myPocket AI — backend v132 + frontend v1.0.98
+# myPocket AI — backend v133 + frontend v1.0.99
+
+v133 / 1.0.99: choose walking, public transport or driving through a three-button table. The selected mode is sent as structured data with the retained destination and a GPS request. Named venues missing from geocoding are checked by simplified name, POIs in the explicit town, then (when Exa is configured) agreeing web addresses verified by map house/street/locality data.
 
 v132: preserve named venues and explicit towns in either wording order, remove conversational option clauses from geocoder queries, retain the destination after walking/public-transport mode replies, and reject unrelated venue/locality matches. Mode clarification now includes public transport.
 

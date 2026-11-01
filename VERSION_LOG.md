@@ -129,3 +129,12 @@
 - Include public transport in the mode clarification and retain the final destination across short mode replies, using structured route context or the immediately relevant user history.
 - Extend natural travel-intent wording and recognize inflected transportul public/metroul forms.
 - Add mocked integration tests for both screenshot word orders, sequential walking and transit replies, fresh/history-based context, rejected wrong-country same-name restaurants, and an explicit foreign-city destination. All eight suites and syntax checks pass.
+
+
+## 2026-11-01 — Backend v133 + frontend 1.0.99
+
+- Add a three-button walking/public transport/driving mode table in chat and answer reader, localized in all ten UI languages. Send the selected mode as structured data, retain the final destination, request GPS and reject obsolete controls. Typed mode answers remain supported.
+- Resolve named places missing from geocoding by simplified name, then a named Places search inside the explicitly resolved town. Do not substitute the phone's town for an explicit foreign destination.
+- When EXA_API_KEY is configured and map POIs are missing, require address agreement from two distinct domains and map confirmation of house number, street and locality before using returned coordinates. No coordinates are inferred from prose and origin GPS is not sent to web search.
+- Use the same resolver for pedestrian/driving and public transport. If a named town is already known, ask for street/postcode rather than requesting the same town again.
+- Tests cover click-to-backend flow in multiple languages, actual chat payload and GPS intent, missing-map-POI fallbacks, address agreement/conflicts, inadequate geocodes and shared transit resolution. All ten suites and syntax checks pass. The live restaurant route still requires phone/provider validation after deployment.
