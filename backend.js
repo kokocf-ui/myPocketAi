@@ -1771,6 +1771,10 @@ export default {
     // Only handle short name queries, not general questions or dedicated map routing.
     const localNameRaw=namedVenueInput.replace(/^(?:vreau sa ajung la|unde (?:este|e|gasesc)|cauta(?:-mi)?|gaseste(?:-mi)?)\s+/i,'').replace(/\s+(?:in zona mea|in apropierea mea|langa mine|aproape de mine|near me|nearby)$/i,'').trim();
     const localNameQuery=!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
+    // Provider-level counts/statuses are safe to return in diagnostics (no API keys or GPS).
+    const nameLookupDiagnostics=localNameQuery?{nameFilterHttp:null,nameFilterFeatures:null,nameFilterMatched:0,
+      nameFilterError:null,geocodeHttp:null,geocodeFeatures:null,overpassHttp:null,overpassFeatures:null,
+      overpassError:null,reverseHttp:null,administrativeAreas:null}:null;
     // v140: Use the provider's native name filter, not a small random-looking
     // category sample. Preserve the business name when the user omits its type
     // or locality. Only the GPS location is used to rank confirmed matches.
@@ -1789,8 +1793,10 @@ export default {
           url.searchParams.set('limit','100');
           url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
           const response=await fetch(url.href,{signal:AbortSignal.timeout(6500)});
+          nameLookupDiagnostics.nameFilterHttp=response.status;
           if(response.ok){
             const payload=await response.json();
+            nameLookupDiagnostics.nameFilterFeatures=Array.isArray(payload.features)?payload.features.length:0;
             for(const feature of (Array.isArray(payload.features)?payload.features:[])){
               const p=feature.properties||{},name=String(p.name||p.brand||'').trim(),
                 tokenSet=normalizeGeoName(name).split(' '),
@@ -1806,10 +1812,10 @@ export default {
               if(!candidate.label||routeGeoDistance({latitude,longitude},candidate)>40000)continue;
               candidate.matchScore=nameWords.filter(w=>normalizeGeoName(
                 [name,p.formatted,p.city,p.county,p.suburb,p.address_line1].filter(Boolean).join(' ')).split(' ').includes(w)).length;
-              if(!found.some(v=>routeGeoDistance(v,candidate)<120))found.push(candidate);
+              if(!found.some(v=>routeGeoDistance(v,candidate)<120)){found.push(candidate);nameLookupDiagnostics.nameFilterMatched++;}
             }
           }else console.warn('Pocket AI named-place name-filter HTTP',response.status);
-        }catch(error){console.warn('Pocket AI named-place name-filter unavailable',String(error?.name||'error'));}
+        }catch(error){nameLookupDiagnostics.nameFilterError=String(error?.name||'error');console.warn('Pocket AI named-place name-filter unavailable',String(error?.name||'error'));}
         if(found.length){
           found.sort((a,b)=>b.matchScore-a.matchScore||
             routeGeoDistance({latitude,longitude},a)-routeGeoDistance({latitude,longitude},b));
@@ -1819,7 +1825,7 @@ export default {
             routeGeoDistance({latitude,longitude},best[1])-bestDistance>8000);
           const options=(unique?best.slice(0,1):best.slice(0,4)).map(v=>({
             latitude:v.latitude,longitude:v.longitude,label:v.label,resolution_source:v.resolution_source}));
-          responsePlaceLookup={strategy:'geoapify_name_filter',query:localNameQuery,matched:found.length,returned:options.length};
+          responsePlaceLookup={strategy:'geoapify_name_filter',matched:found.length,returned:options.length,...nameLookupDiagnostics};
           if(options.length===1){
             const selected=options[0],journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput),
               context={destination_query:localNameQuery,destination:selected,pending:'profile'};
@@ -1844,9 +1850,12 @@ export default {
         u.searchParams.set('limit','10');
         u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
         const response=await fetch(u.href,{signal:AbortSignal.timeout(7000)});
+        nameLookupDiagnostics.geocodeHttp=response.status;
         if(response.ok){
           const tokens=normalizeGeoName(localNameQuery).split(' ').filter(Boolean),candidates=[];
-          for(const feature of (await response.json()).features||[]){
+          const rawGeocode=await response.json();
+          nameLookupDiagnostics.geocodeFeatures=Array.isArray(rawGeocode.features)?rawGeocode.features.length:0;
+          for(const feature of rawGeocode.features||[]){
             const p=feature.properties||{},nameTokens=normalizeGeoName(p.name||'').split(' ');
             const candidate={latitude:Number(p.lat),longitude:Number(p.lon),label:String(p.formatted||p.name||''),resolution_source:'gps_named_geocode'};
             if(!nameTokens.some(w=>tokens.includes(w))||!tokens.every(w=>normalizeGeoName(p.formatted||p.name||'').split(' ').includes(w))||!Number.isFinite(candidate.latitude)||!Number.isFinite(candidate.longitude)||!candidate.label||routeGeoDistance({latitude,longitude},candidate)>40000)continue;
@@ -1875,8 +1884,10 @@ export default {
             Number(latitude).toFixed(6)+','+Number(longitude).toFixed(6)+
             ')["name"~"'+primary+'",i];out center 150;');
           const response=await fetch(endpoint.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(6500)});
+          nameLookupDiagnostics.overpassHttp=response.status;
           if(response.ok){
             const raw=await response.json(),candidates=[];
+            nameLookupDiagnostics.overpassFeatures=Array.isArray(raw.elements)?raw.elements.length:0;
             for(const element of (Array.isArray(raw.elements)?raw.elements:[])){
               const tags=element.tags||{},name=String(tags.name||'').trim(),
                 lat=transitCoordinate(element.lat??element.center?.lat,90),
@@ -1918,7 +1929,7 @@ export default {
                 place_lookup:responsePlaceLookup,ai_connected:Boolean(env.AI)});
             }
           }
-        }catch(error){console.warn('Pocket AI nearby name lookup unavailable',String(error?.name||'error'));}
+        }catch(error){nameLookupDiagnostics.overpassError=String(error?.name||'error');console.warn('Pocket AI nearby name lookup unavailable',String(error?.name||'error'));}
       }
     }
     // A bounded Places sample and a strict geocoder name match are not proof that a venue is absent.
@@ -1928,11 +1939,13 @@ export default {
         const reverseUrl=new URL('https://api.geoapify.com/v1/geocode/reverse');
         reverseUrl.searchParams.set('lat',String(latitude));reverseUrl.searchParams.set('lon',String(longitude));reverseUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
         const reverseResponse=await fetch(reverseUrl.href,{signal:AbortSignal.timeout(5000)});
+        nameLookupDiagnostics.reverseHttp=reverseResponse.status;
         const reverseProperties=reverseResponse.ok?(await reverseResponse.json()).features?.[0]?.properties||{}:{};
         const localities=[...new Set([reverseProperties.city,reverseProperties.county,reverseProperties.town,
           reverseProperties.suburb,reverseProperties.state].map(x=>String(x||'').trim()).filter(Boolean))].slice(0,3);
         // Try both the city and its wider administrative area. The requested shop
         // may be just across a city boundary (e.g. a retail park in a neighbouring town).
+        nameLookupDiagnostics.administrativeAreas=localities.length;
         const discovered=await Promise.all(localities.map(area=>resolveNamedTravelPlace(
           localNameQuery+', '+area,env,{latitude,longitude},trace=>{responsePlaceLookup=trace}
         ).catch(()=>[])));
@@ -1949,7 +1962,7 @@ export default {
       }catch{}
     }
     if(localNameQuery&&env.GEOAPIFY_API_KEY){
-      return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Am primit poziția ta GPS, dar nu am putut verifica încă un obiectiv din apropiere cu numele „'+localNameQuery+'”. Poți preciza și o localitate din zonă. Nu voi inventa o adresă.',named_venue:true,search_ok:false,place_lookup:{strategy:'gps_nearby',matched:0},ai_connected:Boolean(env.AI)});
+      return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Am primit poziția ta GPS, dar nu am putut verifica încă un obiectiv din apropiere cu numele „'+localNameQuery+'”. Poți preciza și o localitate din zonă. Nu voi inventa o adresă.',named_venue:true,search_ok:false,place_lookup:{strategy:'gps_nearby',matched:0,...nameLookupDiagnostics},ai_connected:Boolean(env.AI)});
     }
     if(namedVenueMatch&&!data.quick_place_search&&/^(?:assistant|travel|maps|map|tourism|travel_tourism|maps_transport|harti_transport)$/i.test(String(data.module||'assistant'))){
       const kind=namedVenueMatch[1],venueName=namedVenueMatch[2].trim(),town=namedVenueMatch[3].trim();
