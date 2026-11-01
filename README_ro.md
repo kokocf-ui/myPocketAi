@@ -1,4 +1,11 @@
-# myPocket AI — backend v143 + frontend v1.0.108
+# myPocket AI — backend v145 + frontend v1.0.108
+
+## Denumiri geografice și stații — v145 (01.11.2026)
+
+- „West Dulwich” este verificat ca zonă geografică, înaintea căutării după denumiri de hoteluri sau magazine. O potrivire doar pe cuvântul „West” nu mai poate fi prezentată ca destinație sigură.
+- „Victoria station” și „London Victoria station” sunt căutate în registrul oficial TfL. Un rezultat verificat cu numele scurt „Victoria” este etichetat conform tipului de stație, feroviară sau Underground.
+- Testul live v144 a identificat corect West Dulwich; v145 repară eticheta scurtă primită de la TfL. Confirmarea live a versiunii v145 trebuie tratată separat.
+- Test nou: `tests_geographic_station_intent.mjs`, care păstrează și verificarea de regresie pentru Decathlon.
 
 ## Actualizare — 01.11.2026 (v143 / 1.0.108)
 
