@@ -1,4 +1,6 @@
-# myPocket AI — backend v136 + frontend v1.0.100
+# myPocket AI — backend v137 + frontend v1.0.101
+
+v137 / 1.0.101: explicit named venues with a town are resolved before broad category searches; unrelated business lists are not substituted for an unverified address. Destination candidate choices render as independent in-conversation tables. End-to-end live verification remains pending.
 
 v135: rank town and address candidates instead of requiring one town or matching addresses from two domains. Request address-bearing page text when map POIs are absent; confirm provider coordinates against the selected address. Keep lightweight stage counts for failed lookup diagnosis.
 
