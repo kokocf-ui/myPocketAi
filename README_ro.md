@@ -1,4 +1,6 @@
-# myPocket AI — backend v136 + frontend v1.0.100
+# myPocket AI — backend v137 + frontend v1.0.101
+
+v137 / 1.0.101: căutările explicite după nume și localitate (de exemplu Magazin Europa din Grays, Restaurant Zani din Tilbury) sunt tratate înaintea căutărilor generale pe categorii. Dacă adresa nu este confirmată, nu se returnează afaceri fără legătură. Clarificările cu candidați sunt afișate în tabele interactive în conversație. Verificarea completă a răspunsurilor live rămâne necesară.
 
 v135: ordonează candidații de localitate și adresă, fără a cere o singură localitate sau două domenii cu aceeași adresă. Caută și textul paginilor pentru adrese lipsă din hartă; confirmă coordonatele furnizorului pentru adresă. Păstrează contoare tehnice pentru diagnosticarea căutărilor eșuate.
 
