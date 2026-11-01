@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.107",
+  version: "1.0.108",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1211,7 +1211,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.107'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.108'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -1527,11 +1527,12 @@ ru:['Пешком от последней остановки до цели','Р�
 pl:['Pieszo z ostatniego przystanku do celu','Obliczanie końcowego odcinka…','Końcowy odcinek niezweryfikowany.']
 };
 function finalTransitWalkPoints(journey){
- const arrival=journey?.legs?.at(-1)?.arrivalLatLon,target=state.lastTransitResponse?.transit_destination_point;
+ const lastVehicle=[...(journey?.legs||[])].reverse().find(l=>!/(?:walk|foot|pedestrian)/i.test(String(l.mode||''))&&l.arrivalLatLon);
+ const arrival=lastVehicle?.arrivalLatLon,target=state.lastTransitResponse?.transit_destination_point;
  const valid=(lat,lon)=>lat!==null&&lat!==undefined&&lon!==null&&lon!==undefined&&
   Number.isFinite(Number(lat))&&Number.isFinite(Number(lon))&&Math.abs(Number(lat))<=90&&Math.abs(Number(lon))<=180;
  if(!valid(arrival?.lat,arrival?.lon)||!valid(target?.latitude,target?.longitude)||!target?.label)return null;
- const origin={latitude:Number(arrival.lat),longitude:Number(arrival.lon),label:String(journey.legs.at(-1).to||'Final stop')};
+ const origin={latitude:Number(arrival.lat),longitude:Number(arrival.lon),label:String(lastVehicle.to||'Final stop')};
  const destination={latitude:Number(target.latitude),longitude:Number(target.longitude),label:String(target.label)};
  const rad=Math.PI/180,dLat=(destination.latitude-origin.latitude)*rad,dLon=(destination.longitude-origin.longitude)*rad;
  const h=Math.sin(dLat/2)**2+Math.cos(origin.latitude*rad)*Math.cos(destination.latitude*rad)*Math.sin(dLon/2)**2;
