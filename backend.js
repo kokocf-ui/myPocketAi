@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -378,7 +378,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v136";
+    const API_VERSION = "v137";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -1755,6 +1755,30 @@ export default {
       const m=String(value??"").trim().match(/^([1-5](?:\.0)?)(?:S)?$/i);
       return m?Number(m[1]):null;
     };
+    // v137: A named venue is not a request for every venue in its town.
+    // Preserve the commercial name and the town before category discovery.
+    const namedVenueInput=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+    const namedVenueMatch=namedVenueInput.match(/(?:^|\\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\\s+(.+?)\\s+(?:din|in)\\s+([\\p{L}][\\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
+    if(namedVenueMatch&&/^(?:assistant|travel|maps|map|tourism|travel_tourism|maps_transport|harti_transport)$/i.test(String(data.module||'assistant'))){
+      const kind=namedVenueMatch[1],venueName=namedVenueMatch[2].trim(),town=namedVenueMatch[3].trim();
+      if(venueName.length>=2&&!/^(?:un|o|niste|some|a|the|toate|all)$/i.test(venueName)){
+        const target=kind+' '+venueName+', '+town;
+        const resolved=await resolveNamedTravelPlace(target,env,hasValidLocation?{latitude,longitude}:null,trace=>{responsePlaceLookup=trace});
+        const options=resolved.slice(0,4);
+        if(options.length===1){
+          const found=options[0],label=found.label||target;
+          const routeContext={destination_query:target,destination:{latitude:found.latitude,longitude:found.longitude,label},pending:'profile'};
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+            reply:lang==='en'?'I found '+label+'. How would you like to get there?':'Am identificat '+label+'. Cum dorești să ajungi?',
+            named_venue:true,needs_travel_mode:true,route_context:routeContext,place_lookup:responsePlaceLookup,
+            ai_connected:Boolean(env.AI)});
+        }
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+          reply:options.length?(lang==='en'?'Which location did you mean?':'Care dintre aceste locații este cea dorită?'):(lang==='en'?'I could not verify the exact address of '+venueName+' in '+town+'. I will not substitute a list of unrelated businesses.':'Nu am putut verifica adresa exactă pentru '+venueName+' din '+town+'. Nu voi înlocui căutarea cu o listă de afaceri fără legătură.'),
+          named_venue:true,needs_destination_clarification:options.length>1,destination_candidates:options,
+          place_lookup:responsePlaceLookup,search_ok:false,ai_connected:Boolean(env.AI)});
+      }
+    }
     if (foodSearchIntent) {
       if(activePlaceRequest.needsDestination){
         const reply=lang==="en"?"Which city should I search? Please specify the destination.":"În ce oraș să caut? Precizează destinația.";
