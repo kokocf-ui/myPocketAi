@@ -132,7 +132,7 @@ jobs:
                 lastAlightingCoords:!!data.transit?.[0]?.legs?.at(-1)?.arrivalLatLon,
                 replyPreview:String(data.reply||'').slice(0,160)
               }));
-              const last=data.transit?.[0]?.legs?.at(-1),final=data.transit_destination_point;
+              const last=[...(data.transit?.[0]?.legs||[])].reverse().find(l=>!/walk|foot|pedestrian/i.test(String(l.mode||''))&&l.arrivalLatLon),final=data.transit_destination_point;
               if(last?.arrivalLatLon&&final?.label){
                 const origin={latitude:last.arrivalLatLon.lat,longitude:last.arrivalLatLon.lon,
                   label:last.to||'Transport alighting stop'};
@@ -183,6 +183,31 @@ jobs:
             stationFailure=true;
             console.error('LIVE STATION CONTINUITY FAILURE: no route context on first turn');
           }
+          // Independent local-category diagnostics at a fixed public-area fixture.
+          // Never use personal GPS or reveal provider keys.
+          const quickCases=[
+            {id:'RESTAURANTS',message:'Găsește restaurante în apropierea mea'},
+            {id:'CAFES',message:'Găsește cafenele în apropierea mea'},
+            {id:'MARKETS',message:'Găsește supermarketuri și magazine alimentare în apropierea mea'}
+          ];
+          const placeSets={};
+          for(const item of quickCases){
+            try{
+              const {data}=await ask(item.message,{module:'travel',quick_place_search:true});
+              const places=Array.isArray(data.places)?data.places:[];
+              placeSets[item.id]=new Set(places.map(p=>String(p.name||'').toLowerCase()+
+                '::'+Number(p.lat).toFixed(4)+','+Number(p.lon).toFixed(4)));
+              console.log('POCKET_LOCAL_DIAG '+JSON.stringify({case:item.id,count:places.length,
+                sample:places.slice(0,10).map(p=>({name:p.name,type:p.type})),
+                searchOk:!!data.search_ok,provider:data.search_provider||null}));
+            }catch(e){
+              console.log('POCKET_LOCAL_DIAG '+JSON.stringify({case:item.id,
+                errorType:e?.name||'Error'}));
+            }
+          }
+          const foodOverlap=[...(placeSets.RESTAURANTS||[])].filter(x=>placeSets.CAFES?.has(x));
+          console.log('POCKET_LOCAL_DIAG '+JSON.stringify({case:'RESTAURANT_CAFE_OVERLAP',
+            duplicateCount:foodOverlap.length,duplicateKeys:foodOverlap.slice(0,5)}));
           console.log('POCKET_DIAG_SUMMARY '+JSON.stringify({
             backend:'deployed Cloudflare Worker',unitTests:'separate job',
             nameVariantsNotResolved:unresolved,checkedNameVariants:3,
