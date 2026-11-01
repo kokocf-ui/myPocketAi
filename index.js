@@ -1876,7 +1876,7 @@ async function submitMessage({fromVoice=false}={}){if(state.busy)return;const me
 // A short yes/no confirms the last identified destination locally. It must not become a new AI query.
 const offered=state.pendingTravelConfirmationData,context=state.routeSearchContext;
 if(offered?.needs_travel_confirmation&&context?.pending==='profile'&&context?.destination?.label&&context.destination_query===offered.route_context?.destination_query){
- const answer=message.normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').trim().toLowerCase().replace(/[.!?]+$/,'');
+ const answer=message.normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase().replace(/[.!?]+$/,'');
  const accept=/^(?:da|yes|yep|ok|okay|sigur|desigur|bine|oui|ja|si|sim|tak|да|давай|arata traseul|arata-mi traseul|show directions|show route|show me the route)$/.test(answer);
  const refuse=/^(?:nu|no|nope|nein|non|nao|nee|нет|nie|nu multumesc|no thanks)$/.test(answer);
  if(accept||refuse){
