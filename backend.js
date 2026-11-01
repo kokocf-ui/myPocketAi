@@ -1877,6 +1877,43 @@ export default {
           straight_line_distance_km:distance/1000,place_lookup:{strategy:source,matched:1},
           ai_connected:Boolean(env.AI)});
       };
+      // Recognize a landmark's commonly used name before treating it as a
+      // local business. The alternate label must still be confirmed by a
+      // mapped POI and verified city; no stored or guessed coordinates.
+      const canonical=canonicalLandmarkQuery(localNameQuery);
+      if(canonical!==localNameQuery){
+        const options=[];
+        const add=(p)=>{
+          if(!travelPlaceCandidateMatches(canonical,p))return;
+          const lat=transitCoordinate(p.lat,90),lon=transitCoordinate(p.lon,180);
+          if(lat===null||lon===null)return;
+          const candidate={latitude:lat,longitude:lon,label:String(p.formatted||p.name||canonical),resolution_source:'verified_landmark_alias'};
+          if(!canonical.includes(',')&&routeGeoDistance({latitude,longitude},candidate)>90000)return;
+          if(!options.some(v=>routeGeoDistance(v,candidate)<120))options.push(candidate);
+        };
+        try{
+          const u=new URL('https://api.geoapify.com/v1/geocode/search');
+          u.searchParams.set('text',canonical);u.searchParams.set('limit','8');
+          u.searchParams.set('bias','proximity:'+longitude+','+latitude);
+          u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+          const response=await fetch(u.href,{signal:AbortSignal.timeout(7000)});
+          if(response.ok){const data=await response.json();for(const f of data.features||[])add(f.properties||{})}
+        }catch(e){console.warn('Pocket AI landmark alias geocode',String(e?.name||'lookup_error'))}
+        if(!options.length&&canonical.includes(',')){
+          try{
+            const points=await resolveNamedTravelPlace(canonical,env,{latitude,longitude});
+            for(const p of points)add({name:p.label.split(',')[0],formatted:p.label,city:canonical.split(',').slice(1).join(',').trim(),lat:p.latitude,lon:p.longitude});
+          }catch{}
+        }
+        if(options.length===1)return finishNamed(options[0],'verified_landmark_alias');
+        if(options.length>1)return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+          reply:'Am găsit mai multe obiective corespunzătoare. Alege destinația:',
+          named_venue:true,needs_destination_clarification:true,destination_candidates:options.slice(0,8),
+          place_lookup:{strategy:'landmark_alias_candidates',matched:options.length},ai_connected:Boolean(env.AI)});
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+          reply:'Nu am putut verifica obiectivul „'+localNameQuery+'” pe hartă. Nu voi înlocui numele cu un loc fără legătură.',
+          named_venue:true,search_ok:false,place_lookup:{strategy:'landmark_alias_unconfirmed'},ai_connected:Boolean(env.AI)});
+      }
       const stationWords=/\b(?:station|underground|railway|rail station|tube|metro|gara|statie)\b/i;
       if(stationWords.test(normName)){
         const stopQuery=localNameQuery.replace(/\b(?:london|londra|station|underground|railway|train|rail|tube|metro|gara|statie)\b/gi,' ').replace(/\s+/g,' ').trim();
