@@ -1,8 +1,24 @@
-# myPocket AI — backend v114 + frontend v1.0.83
+# myPocket AI — backend v128 + frontend v1.0.97
 
-2026-10-31 — backend v114 / frontend 1.0.83: expanded Romanian local food, market and pharmacy intent; nearby 'în jurul meu'; removed automatic chat-module handoff; exposed New conversation in module conversation header. Static inspection only; automated/live regression tests pending.
+1 November 2026. Based on GitHub main 9fca0a7f1e32284250c57322ba4d4cac1b78e778 (backend v127; frontend header v1.0.96). APP and CLIENT_CONFIG version identifiers are synchronized to 1.0.97. Existing station ambiguity handling and Londra→London clarification are retained.
 
-Based on GitHub main bfda880de066460180bb5f2f566a2c83f405565c (v111 / 1.0.80), 31 October 2026.
+## Destination → transport choice → walk to boarding stop
+
+Enter a public-transport destination. Choose one of the provider's journeys. The app extracts the first vehicle's exact departure stop, stop id, line, indicator and direction where the operator supplies them. If coordinates are missing, it looks up that operator StopPoint id; it never substitutes a geocoded street or a similarly named stop. Missing verified coordinates leave the itinerary visible with an explanation, without invented navigation.
+
+Selection automatically requests a real walking route from fresh device GPS to that boarding point. A validated result opens the existing in-app walking map; use its Follow route in Pocket AI button to start GPS tracking. Google Maps stays optional. The selected transport itinerary is retained in a collapsible section above the walking instructions, including the destination, vehicle legs, line and departure information. Closing the map returns to the selected journey. The same selection action is available for public-transport answers in the personal assistant and full-answer reader. The current module is preserved.
+
+A response to an old selection cannot overwrite a newer choice. Leaving the view, new chat or returning to the list cancels a pending walking request. The returned walking route must be walking-only, retain the exact requested stop coordinates and finish within 120m of them. Fresh walking duration plus the existing five-minute safety margin is checked against the first vehicle departure. An uncatchable departure prompts refreshing the choices; unknown times/durations are disclosed. These are estimates, not a guarantee of catching a service or a continuous live-departure monitor.
+
+The UI/boarding schema is not tied to a city or named station. This update uses the existing configured TfL journey provider and Geoapify pedestrian routing. It does not add worldwide transit timetable coverage, independent disruption/closure verification, spoken turn-by-turn navigation or automatic off-route recalculation. International transit requires an appropriate provider's verified journeys and stop coordinates. Existing GPS following works with the app open.
+
+## Installation and verification
+
+The archive contains complete backend.js and index.js files, documentation and tests. Upload its root files to the same GitHub repository. Keep the existing Wrangler configs, secrets, AI binding, Worker names and deployment workflow. Install backend and frontend together: the new frontend relies on the new boarding_stop metadata. No provider key values are included and no new key is required for this extension.
+
+Run npm test and npm run check. All suites pass, including new tests for exact/duplicate-name boarding stops, operator-id fallback, absent coordinates, selection→walking/map integration, feasible departures, stale response cancellation, GPS/provider failures, preserving the current section, multilingual walking intent and all ten interface languages. Previous repository tests contained an obsolete backend-version expectation and an obsolete automatic module-transfer expectation; these now reflect the current version and the agreed stay-in-section behavior. Validation uses provider and browser/GPS mocks plus generated client JavaScript compilation. There was no live validation of the new release or physical-phone test because these files are prepared for manual upload.
+
+After deployment: search a destination → choose a transport option → verify the boarding stop/line → inspect the walking map → start in-app GPS following → close the map and review the selected itinerary. Test a second option and confirm the stop changes accordingly. If you can no longer catch the departure, refresh the options.
 
 ## In-app map following
 

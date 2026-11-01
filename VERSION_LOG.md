@@ -85,3 +85,12 @@
 - Keep Google Maps as a separately labeled optional external link. No new tabs or app handoff from the primary action.
 - Foreground visual following only: no voice, automatic maneuver selection, arrival confirmation or automatic rerouting.
 - Mocked actual-client GPS/Leaflet lifecycle tests and all existing backend/client suites pass; generated-script/syntax checks pass. Physical phone GPS QA remains necessary.
+
+
+## 2026-11-01 — Backend v128 + frontend 1.0.97 (manual-update package)
+- Based on main 9fca0a7f1e32284250c57322ba4d4cac1b78e778; preserve v127 transit destination validation and the final Londra/London UI clarification.
+- Retain exact first boarding stop ids, coordinates, line, indicator and supplied direction; resolve missing coordinates only by an operator stop id.
+- Selecting a journey requests a verified pedestrian route to its boarding stop and opens the existing in-app map/navigation controls. Keep the selected itinerary on the map and remain in the current section.
+- Validate endpoint/mode, check walking time plus the five-minute departure margin, reject stale selection responses and disclose missing stops/times.
+- Support both quick-selection and chat/reader entry points, all ten UI languages, and structured walking intent even when international stop names contain bus/rail terms.
+- Synchronize APP and CLIENT_CONFIG to 1.0.97. All automated suites and syntax checks pass. Live deployment/phone QA pending manual upload; no new global timetable or closure provider added.

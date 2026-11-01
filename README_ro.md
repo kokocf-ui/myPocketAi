@@ -1,6 +1,26 @@
-# myPocket AI — backend v113 + frontend v1.0.82
+# myPocket AI — backend v128 + frontend v1.0.97
 
-Bază: GitHub main bfda880de066460180bb5f2f566a2c83f405565c (v111 / 1.0.80), 31 octombrie 2026.
+1 noiembrie 2026. Bază: GitHub main 9fca0a7f1e32284250c57322ba4d4cac1b78e778 (backend v127, antet frontend v1.0.96). APP și CLIENT_CONFIG sunt sincronizate la 1.0.97. Se păstrează clarificarea stațiilor ambigue și corecția Londra→London.
+
+## Destinație → alegerea variantei → traseu până la stație
+
+Cauți o destinație cu transportul public și alegi varianta dorită. Aplicația preia prima stație de îmbarcare a acelei variante, cu identificatorul, coordonatele, linia, indicatorul și direcția furnizate de operator. Dacă lipsesc coordonatele, consultă identificatorul stației la operator; nu o înlocuiește cu centrul străzii ori o stație cu nume asemănător. Fără coordonate verificate păstrează itinerarul și explică lipsa navigării.
+
+După selecție se calculează automat mersul pe jos, de la GPS-ul actual la stația exactă. Rezultatul verificat deschide harta pietonală existentă. „Urmărește traseul în Pocket AI” pornește urmărirea GPS în aplicație; Google Maps rămâne opțional. Itinerarul ales rămâne într-o secțiune extensibilă deasupra indicațiilor pietonale, cu destinația, liniile, plecările și schimbările. Închiderea hărții revine la varianta aleasă. Butonul de alegere apare și pentru răspunsurile de transport din asistent și din cititor. Utilizatorul rămâne în secțiunea curentă.
+
+Schimbarea variantei anulează calculul precedent. Răspunsurile întârziate nu pot înlocui stația nou aleasă. Navigarea într-un alt ecran, conversația nouă și revenirea la listă anulează o cerere pietonală încă în curs. Traseul verificat trebuie să fie pietonal, să păstreze coordonatele stației solicitate și să se termine la cel mult 120m de aceasta. Durata reală furnizată pentru mersul pe jos plus marja existentă de cinci minute este comparată cu plecarea primului vehicul. Dacă nu mai ajungi, trebuie actualizate variantele. Orele/duratele necunoscute sunt semnalate. Estimarea nu garantează prinderea mijlocului de transport și nu reprezintă monitorizarea continuă a plecării.
+
+## Ce include această etapă
+
+Logica nu conține orașe sau stații fixe. Folosește plannerul TfL și rutarea pietonală Geoapify deja configurate. Nu adaugă acoperire mondială pentru orare, verificare independentă a întreruperilor/închiderilor, ghidare vocală la fiecare viraj ori recalculare automată. Pentru transport în alte regiuni este necesară o sursă locală cu itinerare și stații verificate. Urmărirea GPS existentă necesită aplicația deschisă.
+
+## Instalare și verificare
+
+Arhiva conține backend.js și index.js COMPLETE, documentația și testele. Încarcă fișierele din rădăcina arhivei în același repository GitHub. Păstrează configurațiile Wrangler, secretele, AI binding, numele Worker-elor și workflow-ul existente. Backendul și frontendul trebuie actualizate împreună. Pachetul nu conține valori de chei și nu necesită o cheie nouă pentru această extindere.
+
+npm test și npm run check trec. Sunt verificate stațiile exacte/cu nume identice, recuperarea coordonatelor după identificator, lipsa coordonatelor, alegere→mers pe jos→hartă, timpul până la plecare, anularea răspunsurilor vechi, GPS indisponibil, erorile furnizorilor, păstrarea secțiunii, intenția pietonală în altă limbă și toate cele zece limbi. Testele vechi aveau o versiune backend depășită și așteptau transferul automat între module; așteptările reflectă acum versiunea și regula acceptată de păstrare a secțiunii. Validarea folosește furnizori/GPS/browser simulate și compilarea codului JavaScript generat. Versiunea nouă nu este încă verificată live sau pe telefon: fișierele sunt pregătite pentru încărcare manuală.
+
+După publicare: destinație → alegerea variantei → verificarea stației/liniei → harta pietonală → pornirea GPS → închiderea hărții și consultarea itinerarului. Alege și altă variantă pentru a verifica schimbarea stației. Dacă plecarea nu mai poate fi prinsă, actualizează variantele.
 
 ## Urmărirea traseului în Pocket AI
 

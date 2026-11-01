@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -37,6 +37,22 @@
  *    rollback version until v37 is deployed and tested. Public Overpass endpoints can still rate-limit requests;
  *    caching reduces repeat traffic but cannot guarantee availability.
  */
+
+// Coordinate-backed boarding places come from the selected transport leg, never from a street-name guess.
+function transitCoordinate(value,limit){
+ if(typeof value!=='number'&&!(typeof value==='string'&&/^-?\d+(?:\.\d+)?$/.test(value.trim())))return null;
+ const n=Number(value);return Number.isFinite(n)&&Math.abs(n)<=limit?n:null;
+}
+function transitOperatorPoint(value){
+ if(!value||typeof value!=='object')return null;const latitude=transitCoordinate(value.lat??value.latitude,90),longitude=transitCoordinate(value.lon??value.longitude,180);if(latitude===null||longitude===null)return null;
+ const label=String(value.commonName||value.name||value.label||'').trim().slice(0,200);if(!label)return null;
+ return {latitude,longitude,label,stop_id:String(value.naptanId||value.icsId||value.id||value.stop_id||'').slice(0,100),source:'TfL StopPoint'};
+}
+function transitBoardingStop(legs){
+ const leg=(Array.isArray(legs)?legs:[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||'')));if(!leg)return null;
+ const point=transitOperatorPoint(leg.departurePoint);if(!point)return null;
+ return {...point,mode:leg.mode,line_names:Array.isArray(leg.lineNames)?leg.lineNames:[],indicator:leg.stopIndicator||'',towards:leg.towards||'',departure_time:leg.departureTime||null,alight_at:leg.to||''};
+}
 
 const normalizeGeoName=value=>String(value||"").normalize("NFKD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
 const countryNameCodes=(()=>{
@@ -199,7 +215,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v127";
+    const API_VERSION = "v128";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -381,7 +397,8 @@ export default {
     // TfL Journey Planner supports nationalSearch for journeys that include stops outside London.
     const normalizedTransitMessage = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     const publicTransportIntent = !/^(?:ce este|ce inseamna|what is|explain|explica|why|de ce)\b/.test(normalizedTransitMessage)&&/\b(?:transport(?:ul)? in comun|transport public|autobuz(?:e|ul)?|bus(?:es)?|tren(?:ul|e)?|train(?:s)?|metrou|tube|railway|by public transport|public transport)\b/i.test(normalizedTransitMessage);
-    if (publicTransportIntent && !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)) {
+    const directWalkingTarget=data.route_profile==='walk'&&data.route_destination&&Number.isFinite(data.route_destination.latitude)&&Number.isFinite(data.route_destination.longitude)&&Math.abs(data.route_destination.latitude)<=90&&Math.abs(data.route_destination.longitude)<=180&&typeof data.route_destination.label==='string';
+    if (publicTransportIntent && !directWalkingTarget && !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)) {
       const transitStartedAt = Date.now();
       const transportErrors = {};
       const transitOptions = [];
@@ -607,10 +624,13 @@ export default {
               const legs = (Array.isArray(j.legs) ? j.legs : []).map(l => {
                 const encodedLine = l.path && (l.path.lineString || l.path.lineStringEncoded) || "";
                 const coordinates = decodeTfLPolyline(encodedLine).filter(c => Array.isArray(c) && c.length === 2 && Number.isFinite(c[0]) && Number.isFinite(c[1]) && Math.abs(c[0]) <= 180 && Math.abs(c[1]) <= 90);
-                return {mode:l.mode&&l.mode.name||"transport",from:l.departurePoint&&l.departurePoint.commonName||"",to:l.arrivalPoint&&l.arrivalPoint.commonName||"",durationMinutes:Number(l.duration)||null,departureTime:l.departureTime||null,arrivalTime:l.arrivalTime||null,instruction:l.instruction&&l.instruction.summary||"",arrivalLatLon:(Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lat))&&Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lon)))?{lat:Number(l.arrivalPoint.lat),lon:Number(l.arrivalPoint.lon)}:null,coordinates,geometryAvailable:coordinates.length >= 2};
+                const point=l.departurePoint||{},properties=Array.isArray(point.additionalProperties)?point.additionalProperties:[];
+                const property=key=>String(properties.find(p=>String(p.key||'').toLowerCase()===key.toLowerCase())?.value||'').slice(0,160);
+                const lineNames=[...new Set((Array.isArray(l.routeOptions)?l.routeOptions:[]).map(r=>String(r.lineIdentifier?.name||r.name||'').trim()).filter(Boolean))].slice(0,6);
+                return {departureStopId:String(point.naptanId||point.icsId||point.id||'').slice(0,100),departurePoint:transitOperatorPoint(point),lineNames,stopIndicator:property('Indicator')||property('StopLetter')||property('PlatformName'),towards:property('Towards'),mode:l.mode&&l.mode.name||"transport",from:l.departurePoint&&l.departurePoint.commonName||"",to:l.arrivalPoint&&l.arrivalPoint.commonName||"",durationMinutes:Number(l.duration)||null,departureTime:l.departureTime||null,arrivalTime:l.arrivalTime||null,instruction:l.instruction&&l.instruction.summary||"",arrivalLatLon:(Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lat))&&Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lon)))?{lat:Number(l.arrivalPoint.lat),lon:Number(l.arrivalPoint.lon)}:null,coordinates,geometryAvailable:coordinates.length >= 2};
               });
               const routeSegments = legs.filter(leg => leg.geometryAvailable).map(leg => ({mode:leg.mode,from:leg.from,to:leg.to,coordinates:leg.coordinates}));
-              transitOptions.push({provider:"TfL",durationMinutes:Number(j.duration)||null,startDateTime:j.startDateTime||null,arrivalDateTime:j.arrivalDateTime||null,legs,routeSegments,geometryAvailable:routeSegments.length > 0});
+              transitOptions.push({provider:"TfL",time_zone:"Europe/London",durationMinutes:Number(j.duration)||null,startDateTime:j.startDateTime||null,arrivalDateTime:j.arrivalDateTime||null,legs,routeSegments,geometryAvailable:routeSegments.length > 0});
             }
             // Reject TfL journeys whose final leg ends far from the resolved destination.
             // Compare actual final geometry coordinates with the destination, internationally.
@@ -686,6 +706,13 @@ export default {
             if (!transitOptions.length) transportErrors.tfl = "no_journeys_returned";
           } catch (e) { transportErrors.tfl = String(e && e.message || "request_failed").slice(0,100); }
         } else transportErrors.tfl = "TFL_APP_KEY_missing";
+        if(transitOptions.length){
+          const missing=new Map();
+          // Enrich first vehicle departure coordinates using operator ids when the journey omitted them.
+          for(const journey of transitOptions){const first=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||'')));if(first&&!first.departurePoint&&first.departureStopId)missing.set(first.departureStopId,null);}
+          if(env.TFL_APP_KEY)await Promise.allSettled([...missing.keys()].slice(0,4).map(async id=>{try{if(!/^[A-Za-z0-9_-]{1,100}$/.test(id))return;const u=new URL('https://api.tfl.gov.uk/StopPoint/'+encodeURIComponent(id));u.searchParams.set('app_key',env.TFL_APP_KEY);const r=await fetch(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(4000)});if(!r.ok)return;const raw=await r.json();const point=transitOperatorPoint(raw);if(point&&point.stop_id===id)missing.set(id,point)}catch{}}));
+          for(const journey of transitOptions){const first=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||'')));if(first&&!first.departurePoint&&missing.get(first.departureStopId))first.departurePoint=missing.get(first.departureStopId);journey.boarding_stop=transitBoardingStop(journey.legs);journey.walking_access_available=Boolean(journey.boarding_stop);journey.boarding_details_source=journey.boarding_stop?'operator_stop_point':null;}
+        }
         // BODS: request a small live-vehicle window around the origin. SIRI-VM is XML;
         // extract only limited public fields for nearby-bus context, never treat these as confirmed route legs.
         let bodsStatus = "not_configured";
