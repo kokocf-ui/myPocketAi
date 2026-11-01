@@ -1141,8 +1141,40 @@ export default {
         let candidates=[];
         if(routePoint(rc.destination))candidates=[rc.destination];
         else {
-          try{candidates=await findRoutePoints(rc.destination_query)}
-          catch(error){console.warn('Pocket AI destination preflight',String(error?.name||error).slice(0,70))}
+          const name=String(rc.destination_query||'');
+          const londonStation=name.match(/^(?:london|londra)\s+(.+?)(?:\s+(?:rail|underground|railway|station))?$/i);
+          const isStation=/\b(?:station|railway|underground|gare|gara|statie)\b/i.test(name)||
+            Boolean(londonStation&&londonStation[1].trim().split(/\s+/).length>=2);
+          let operatorChecked=false;
+          if(isStation&&env.TFL_APP_KEY){
+            operatorChecked=true;
+            const core=name.replace(/\b(?:london|londra|station|railway|rail|underground|train|tube|metro)\b/gi,' ').replace(/\s+/g,' ').trim();
+            try{
+              const url=new URL('https://api.tfl.gov.uk/StopPoint/Search/'+encodeURIComponent(core));
+              url.searchParams.set('app_key',env.TFL_APP_KEY);url.searchParams.set('includeHubs','true');
+              const result=await fetch(url.href,{signal:AbortSignal.timeout(6500)});
+              if(result.ok){
+                const data=await result.json();
+                const target=normalizeGeoName(core).replace(/\s+/g,'');
+                const unique=new Set();
+                for(const stop of Array.isArray(data.matches)?data.matches:[]){
+                  const stopName=String(stop.name||stop.commonName||'').trim();
+                  const stopCore=normalizeGeoName(stopName).replace(/\b(?:london|rail|railway|underground|station|metro|tube|national)\b/g,'').replace(/\s+/g,'');
+                  const lat=transitCoordinate(stop.lat,90),lon=transitCoordinate(stop.lon,180);
+                  const meta=[stop.id,stop.stopType,stop.motType,stop.network,...(stop.modes||[])].join(' ');
+                  const key=stopCore+':'+Math.round((lat||0)*1000)+':'+Math.round((lon||0)*1000);
+                  if(stopCore!==target||lat===null||lon===null||!stop.id||!/rail|underground|station|metro|tube|910g|940g/i.test(meta)||unique.has(key))continue;
+                  unique.add(key);
+                  candidates.push({latitude:lat,longitude:lon,label:stopName,country_code:'GB',resolution_source:'tfl_verified_station'});
+                  if(candidates.length>=8)break;
+                }
+              }
+            }catch(error){console.warn('Pocket AI station preflight',String(error?.name||error).slice(0,70))}
+          }
+          if(!operatorChecked){
+            try{candidates=await findRoutePoints(name)}
+            catch(error){console.warn('Pocket AI destination preflight',String(error?.name||error).slice(0,70))}
+          }
         }
         if(!candidates.length){
           rc.pending='destination_detail';
