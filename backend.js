@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -38,9 +38,27 @@
  *    caching reduces repeat traffic but cannot guarantee availability.
  */
 
+// Keep named venues and their explicit town together, independent of wording order.
+function cleanTravelPlace(value){
+ let text=String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim()
+  .replace(/[,;]?\s+(?:(?:ce|care)\s+(?:optiuni|variante|posibilitati)\s+(?:am|exista)|what\s+(?:are\s+my\s+options|options\s+(?:do i have|are there))|show me (?:the )?options)\b.*$/i,'')
+  .replace(/[?!.]+$/g,'').trim();
+ const cityFirst=text.match(/^in\s+(.+?)\s+la\s+(.+)$/i);
+ if(cityFirst)text=cityFirst[2]+', '+cityFirst[1];
+ const venueCity=text.match(/^(.+?)\s+(?:din|in)\s+([^,]+)$/i);
+ if(venueCity&&/\b(?:restaurant\w*|hotel\w*|cafe\w*|cafenea|farmaci\w*|pharmac\w*|museum|muze\w*)\b/i.test(venueCity[1]))text=venueCity[1]+', '+venueCity[2];
+ return text.replace(/\b(?:londra|londrei)\b/gi,'London').trim().slice(0,240);
+}
+function routeNamedPlaceTokens(query){
+ const n=String(query||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ if(!/\b(?:restaurant\w*|hotel\w*|cafe\w*|cafenea|farmaci\w*|pharmac\w*|museum|muze\w*)\b/.test(n))return null;
+ const tokens=n.replace(/\b(?:restaurant\w*|hotel\w*|cafe\w*|cafenea|farmaci\w*|pharmac\w*|museum|muze\w*|the|din|in|de|la|ul|united|kingdom)\b/g,' ').replace(/[^\p{L}\p{N}]+/gu,' ').trim().split(' ').filter(w=>w.length>1);
+ return tokens.length?tokens:null;
+}
+
 // Extract the requested place before interpreting transport mode or follow-up instructions.
 function extractTransitDestination(message){
- let text=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
+ let text=cleanTravelPlace(message).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
   .replace(/\b(?:londra|londrei)\b/g,'london');
  text=text.split(/[.!?;\n]/)[0].trim()
   .replace(/,\s*(?:cum (?:ajung|merg)|how (?:do i|can i|to))\b.*$/i,'')
@@ -48,6 +66,8 @@ function extractTransitDestination(message){
   .replace(/\b(?:transport(?:ul)?\s+in comun|transport(?:ul)?\s+public|public transport)\b/g,' ')
   .replace(/\s+/g,' ').trim();
  // Strong destination connectors take precedence over 'in' inside a city qualifier.
+ const cityVenue=text.match(/\bin\s+(.+?)\s+la\s+((?:restaurant\w*|hotel\w*|cafe\w*|farmaci\w*|museum|muze\w*)\b.+)$/i);
+ if(cityVenue)return cleanTravelPlace(cityVenue[2]+', '+cityVenue[1]).toLowerCase();
  const strong=[...text.matchAll(/\b(?:pana la|pana in|catre|spre|towards|into|to|la)\s+/g)].filter(m=>! /\bde\s*$/.test(text.slice(0,m.index)));
  let target='';
  if(strong.length){const match=strong.at(-1);target=text.slice(match.index+match[0].length);}
@@ -56,7 +76,7 @@ function extractTransitDestination(message){
   .replace(/\s*,?\s+(?:maine|astazi|acum|tomorrow|today|now|te rog|please|compara|compare|arata(?:-mi)?|afiseaza|show)\b.*$/,'')
   .replace(/^[, :]+|[, :]+$/g,'').trim();
  if(/^(?:(?:de )?la )?(?:locatia mea(?: actuala)?|pozitia mea|current location|my (?:current )?location|comun)$/.test(target))return '';
- return target.slice(0,140);
+ return cleanTravelPlace(target).toLowerCase().slice(0,140);
 }
 
 // A boarding stop is a leg of a journey, never a destination named "first bus stop".
@@ -182,14 +202,15 @@ function routeMessageSpec(text){
  if(/(?:distanta|distance|cati kilometri|how far|how many kilomet)/.test(n)&&!/(?:traseu|ruta|route|directions)/.test(n))return null;
  const walk=/(?:\b(?:pietonal\w*|pe jos|walking|walk to|walk me to|on foot)\b)/.test(n)||n==="walk";
  const drive=/(?:traseu rutier|ruta auto|driving route|driving directions|cu masina|by car)/.test(n)||/^(?:drive|driving|masina)$/.test(n);
- const route=walk||drive||/(?:traseu|ruta|route|directions|navigheaza|navigate|cum ajung|vreau sa ajung|du ma|how do i get to)/.test(n);
+ const route=walk||drive||/(?:traseu|ruta|route|directions|navigheaza|navigate|cum ajung|cum pot ajunge|vreau sa (?:ajung|merg)|du ma|how (?:do|can) i get to|i want to (?:get|go) to|take me to)/.test(n);
  if(!route)return null;
  const viaMatch=String(text).match(/\s+(?:via|prin|through)\s+(.+)$/i);
- const clean=String(viaMatch?String(text).slice(0,viaMatch.index):text).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[?!.]+$/g,'').trim();
+ const clean=cleanTravelPlace(viaMatch?String(text).slice(0,viaMatch.index):text).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[?!.]+$/g,'').trim();
  const pair=clean.match(/(?:\bdin|\bde la|\bfrom)\s+(.+?)\s+(?:pana\s+(?:la|in)|to)\s+(.+)$/i);
+ const cityVenue=clean.match(/(?:vreau sa ajung|cum ajung|merg|go|travel)\s+in\s+(.+?)\s+la\s+(.+)$/i);
  const dest=clean.match(/(?:pana\s+(?:in|la)|catre|spre|\bto|\bla)\s+(.+)$/i);
  const own=v=>/^(?:foloseste |use )?(?:locatia mea|pozitia mea(?: gps)?|my (?:current )?(?:location|position)|gps|aici|here)$/.test(normalizeGeoName(v));
- return {via_query:viaMatch?viaMatch[1].replace(/[?!.]+$/g,'').trim().slice(0,160):'',profile:walk?'walk':drive?'drive':null,destination_query:(pair?pair[2]:dest?dest[1]:'').trim().slice(0,240),origin_query:pair&&!own(pair[1])?pair[1].trim().slice(0,160):''};
+ return {via_query:viaMatch?viaMatch[1].replace(/[?!.]+$/g,'').trim().slice(0,160):'',profile:walk?'walk':drive?'drive':null,destination_query:cleanTravelPlace(cityVenue?cityVenue[2]+', '+cityVenue[1]:pair?pair[2]:dest?dest[1]:clean.match(/\bin\s+(.+)$/i)?.[1]||''),origin_query:pair&&!own(pair[1])?pair[1].trim().slice(0,160):''};
 }
 function mergeRouteDestination(previous,detail){
  const old=String(previous||'').trim(),next=String(detail||'').trim();
@@ -268,7 +289,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v131";
+    const API_VERSION = "v132";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -450,7 +471,7 @@ export default {
     // TfL Journey Planner supports nationalSearch for journeys that include stops outside London.
     const normalizedTransitMessage = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     const boardingAccessRequested=transitBoardingAccessRequest(message);
-    const publicTransportIntent = !/^(?:ce este|ce inseamna|what is|explain|explica|why|de ce)\b/.test(normalizedTransitMessage)&&/\b(?:transport(?:ul)? in comun|transport public|autobuz(?:e|ul)?|bus(?:es)?|tren(?:ul|e)?|train(?:s)?|metrou|tube|railway|by public transport|public transport)\b/i.test(normalizedTransitMessage);
+    const publicTransportIntent = !/^(?:ce este|ce inseamna|what is|explain|explica|why|de ce)\b/.test(normalizedTransitMessage)&&/\b(?:transport(?:ul)? in comun|transport(?:ul)? public|autobuz(?:e|ul)?|bus(?:es)?|tren(?:ul|e)?|train(?:s)?|metrou(?:l)?|tube|railway|by public transport|public transport)\b/i.test(normalizedTransitMessage);
     const directWalkingTarget=data.route_profile==='walk'&&data.route_destination&&Number.isFinite(data.route_destination.latitude)&&Number.isFinite(data.route_destination.longitude)&&Math.abs(data.route_destination.latitude)<=90&&Math.abs(data.route_destination.longitude)<=180&&typeof data.route_destination.label==='string';
     if ((publicTransportIntent || boardingAccessRequested) && !directWalkingTarget && (boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage))) {
       const transitStartedAt = Date.now();
@@ -463,7 +484,9 @@ export default {
         // v60: parse the destination after an explicit destination connector, then
         // remove comparison/instruction clauses so they cannot become a place name.
         const normalizedForDestination = normalizedTransitMessage.replace(/\b(?:londra|londrei)\b/g,"london");
-        const extractedDestination = boardingAccessRequested ? transitConversationDestination(message,data.history) : extractTransitDestination(message);
+        const transportModeOnly=/^(?:cu )?(?:transport(?:ul)? (?:public|in comun)|public transport|by (?:bus|train|tube)|cu (?:autobuzul|trenul|metroul))[.!?]*$/.test(normalizedTransitMessage.trim());
+        const pendingModeDestination=transportModeOnly&&data.route_context?.pending==='profile'&&typeof data.route_context.destination_query==='string'?cleanTravelPlace(data.route_context.destination_query):transportModeOnly?transitConversationDestination(message,data.history):'';
+        const extractedDestination = pendingModeDestination || (boardingAccessRequested ? transitConversationDestination(message,data.history) : extractTransitDestination(message));
         const explicitTransitInput=typeof data.transit_query==="string"&&data.transit_query.trim();
         if (!extractedDestination && !explicitTransitInput && !data.transit_destination) {
           const reply = lang === "en"
@@ -531,7 +554,8 @@ export default {
             const gr = await fetch(geocodeUrl.toString(), {headers:{"Accept":"application/json"},signal:AbortSignal.timeout(10000)});
             if (gr.ok) {
               const gj = await gr.json();
-              const features = (Array.isArray(gj.features) ? gj.features : []).filter(f => f && f.properties && Number.isFinite(Number(f.properties.lat)) && Number.isFinite(Number(f.properties.lon)));
+              const venueTokens=routeNamedPlaceTokens(targetName);
+              const features = (Array.isArray(gj.features) ? gj.features : []).filter(f => f && f.properties && Number.isFinite(Number(f.properties.lat)) && Number.isFinite(Number(f.properties.lon))).filter(f=>!venueTokens||venueTokens.every(w=>normalizeGeoName([f.properties.name,f.properties.formatted,f.properties.city,f.properties.town].filter(Boolean).join(' ')).split(' ').includes(w)));
               const countryOf = (p) => String(p.country || p.country_code || "").trim();
               const explicitCountry = /\b(?:united kingdom|uk|england|scotland|wales|northern ireland|united states|usa|us|ireland|france|germany|italy|spain|portugal|netherlands|belgium|canada|australia)\b/i.test(normalizedForDestination);
               const countries = [...new Set(features.map(f => countryOf(f.properties)).filter(Boolean).map(c => c.toLowerCase()))];
@@ -574,7 +598,7 @@ export default {
               // Require station/place-name agreement before using a geocoder coordinate.
               // Proximity alone can choose a completely different London landmark.
               const normalizedPlace = value => String(value||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\b(london|londra|station|underground|rail|railway|train|metro|tube|gara|statie|the)\b/g," ").replace(/\s+/g," ").trim();
-              const requestedTokens=normalizedPlace(targetName).split(" ").filter(t=>t.length>2);
+              const requestedTokens=venueTokens||normalizedPlace(targetName).split(" ").filter(t=>t.length>2);
               const matchesRequested=f=>{
                 const p=f.properties||{};
                 const candidate=normalizedPlace([p.name,p.formatted,p.address_line1].filter(Boolean).join(" "));
@@ -914,12 +938,12 @@ export default {
       }
       if(mapRouteRequest){const named=message.normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/(?:pana\s+(?:la|in)|catre|\bto)\s+(.+)$/i);if(named){rc.destination_query=named[1].replace(/[?!.]+$/g,'').trim();rc.destination=null;rc.candidates=[];rc.pending=null}}
       const routeReply=(reply,extra={})=>{responseRouteContext=rc;return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:false,location_received:hasValidLocation,...extra,ai_connected:Boolean(env.AI)})};
-      if(!rc.profile){rc.pending="profile";return routeReply(lang==="en"?"Would you like a walking or driving route?":"Vrei un traseu pietonal sau cu mașina?")}
+      if(!rc.profile){rc.pending="profile";return routeReply(lang==="en"?"Would you like to walk, use public transport, or drive?":"Vrei să mergi pe jos, cu transportul public sau cu mașina?")}
       if(!rc.destination_query&&!routePoint(rc.destination)){rc.pending="destination";return routeReply(lang==="en"?"What is your destination? Give its name, address or postcode.":"Care este destinația? Spune-mi numele, adresa sau codul poștal.")}
       if(!hasValidLocation&&!rc.origin_query&&!routePoint(rc.origin)){rc.pending="origin";return routeReply(lang==="en"?"I do not have usable GPS coordinates. Allow location access or give your departure address/postcode.":"Nu am coordonate GPS utilizabile. Permite accesul la locație sau precizează adresa/codul poștal de plecare.",{needs_origin_clarification:true})}
       if(!env.GEOAPIFY_API_KEY)return routeReply(lang==="en"?"The route provider is not configured.":"Serviciul de calcul al traseului nu este configurat.");
       const findRoutePoints=async (query,isOrigin=false)=>{
-        const country=geoQueryParts(query).country,normalized=normalizeGeoName(query);
+        const country=geoQueryParts(query).country,normalized=normalizeGeoName(query),venueTokens=routeNamedPlaceTokens(query);
         const mall=/(?:shopping (?:center|centre)|shopping mall|\bmall\b|centru comercial)/.test(normalized);
         const mallName=mall?query.match(/^(.*?\b(?:shopping (?:center|centre|mall)|centru comercial|mall)\b)(.*)$/i):null;
         const namedTokens=normalizeGeoName(mallName?mallName[1]:query.split(',')[0]).split(' ').filter(w=>w.length>2&&!['shopping','center','centre','mall','centru','comercial','united','kingdom'].includes(w)&&!countryNameCodes.has(w));
@@ -930,6 +954,7 @@ export default {
             const lat=Number(rawLat),lon=Number(rawLon);if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)continue;
             const label=String(p.formatted||[p.name,p.street,p.city,p.country].filter(Boolean).join(', ')||query).slice(0,240);
             const text=normalizeGeoName([p.name,label,p.city,...(p.categories||[])].join(' '));
+            if(venueTokens&&venueTokens.some(w=>!text.split(' ').includes(w)))continue;
             if(mall&&(!/shopping|mall|commercial|comercial/.test(text)||namedTokens.some(w=>!text.split(' ').includes(w))))continue;
             const country_code=String(p.country_code||'').toUpperCase();if(country&&country_code!==country)continue;
             const point={latitude:lat,longitude:lon,label,country_code};

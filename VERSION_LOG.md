@@ -120,3 +120,12 @@
 - Add a visible back-to-options button to boarding-access maps. Closing the map also returns to cached journey options without repeating GPS/provider calls.
 - Remove BODS/RTT checks and unrelated vehicle lists from the itinerary text, retaining structured diagnostic metadata. Fix literal newline escapes and show short clock times.
 - Synchronize frontend identifiers to 1.0.98. Tests cover semantic tables, automatic first-reader data readiness, cached return, corridor diversity, short-access retention and existing routing/navigation.
+
+
+## 2026-11-01 — Backend v132, frontend 1.0.98 unchanged
+
+- Preserve venue and city in “în Tilbury la restaurant Zani” and “la restaurantul Zani din Tilbury”, without treating “ce opțiuni am” as part of the destination.
+- Walking/driving and public-transport geocoders now reject named venue matches that do not also match the explicitly requested town. Missing matches ask for details; no unrelated restaurants are substituted.
+- Include public transport in the mode clarification and retain the final destination across short mode replies, using structured route context or the immediately relevant user history.
+- Extend natural travel-intent wording and recognize inflected transportul public/metroul forms.
+- Add mocked integration tests for both screenshot word orders, sequential walking and transit replies, fresh/history-based context, rejected wrong-country same-name restaurants, and an explicit foreign-city destination. All eight suites and syntax checks pass.

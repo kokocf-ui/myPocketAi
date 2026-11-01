@@ -1,4 +1,6 @@
-# myPocket AI — backend v131 + frontend v1.0.98
+# myPocket AI — backend v132 + frontend v1.0.98
+
+v132: preserve named venues and explicit towns in either wording order, remove conversational option clauses from geocoder queries, retain the destination after walking/public-transport mode replies, and reject unrelated venue/locality matches. Mode clarification now includes public transport.
 
 v131 / 1.0.98: compact step tables and local clock times in the first transport answer; direct map-to-options return; no provider diagnostics in itinerary prose. Keep distinct travel corridors and preserve the returned option with the shortest boarding walk. GPS and provider feasibility checks still apply.
 

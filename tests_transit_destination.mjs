@@ -5,7 +5,7 @@ import {webcrypto} from 'node:crypto';
 import worker from './backend.js';
 globalThis.crypto??=webcrypto;
 const source=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
-const ctx={};vm.createContext(ctx);vm.runInContext(source.slice(source.indexOf('function extractTransitDestination('),source.indexOf('// Coordinate-backed boarding places')),ctx);
+const ctx={};vm.createContext(ctx);vm.runInContext(source.slice(source.indexOf('function cleanTravelPlace('),source.indexOf('// Coordinate-backed boarding places')),ctx);
 const exact='Vreau să ajung de la locația mea actuală la Victoria Station din centrul Londrei, folosind transportul în comun. Arată-mi mai multe variante.';
 for(const [message,want] of [
  [exact,'victoria station london'],

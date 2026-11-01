@@ -1,4 +1,6 @@
-# myPocket AI — backend v131 + frontend v1.0.98
+# myPocket AI — backend v132 + frontend v1.0.98
+
+v132: păstrează numele locului și localitatea în ambele ordini de formulare, elimină „ce opțiuni am” din căutare și reține destinația după „Pietonal” sau „Cu transportul public”. Respinge locurile care nu corespund numelui și localității. Întrebarea despre deplasare include și transportul public.
 
 v131 / 1.0.98: primul răspuns de transport are pași în tabel și ore scurte; întoarcere directă de la hartă la variante; fără diagnostice ale furnizorilor în descriere. Sunt păstrate trasee distincte și varianta returnată cu cel mai scurt mers până la îmbarcare. Verificările GPS și ale orei de plecare rămân active.
 
