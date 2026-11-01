@@ -6,8 +6,8 @@ const saved={info:console.info,warn:console.warn,error:console.error};
 console.info=console.warn=console.error=()=>{};
 const gps={latitude:51.49,longitude:.28,updatedAt:Date.now()};
 let calls=[],stationFound=true;
-const station={id:'fixture-liverpool-street-rail',commonName:'London Liverpool Street Rail Station',
-  lat:51.5183,lon:-.0818,stopType:'NaptanRailStation',modes:['national-rail']};
+const station={id:'fixture-liverpool-street-rail',name:'London Liverpool Street Rail Station',
+  lat:51.5183,lon:-.0818,motType:'NaptanRailStation',network:'national-rail'};
 const time=minutes=>new Date(Date.now()+minutes*60000).toISOString();
 globalThis.fetch=async input=>{
  const u=new URL(input);calls.push(u);
@@ -24,7 +24,7 @@ globalThis.fetch=async input=>{
       mode:{name:'national-rail'},duration:30,
       departureTime:time(45),arrivalTime:time(75),
       departurePoint:{lat:51.49,lon:.28,commonName:'Public test origin'},
-      arrivalPoint:{lat:station.lat,lon:station.lon,commonName:station.commonName},
+      arrivalPoint:{lat:station.lat,lon:station.lon,commonName:station.name},
       routeOptions:[{lineIdentifier:{name:'Fixture train'}}]
     }]
   }]});
@@ -42,6 +42,8 @@ async function ask(message,extra={}){
  return(await worker.fetch(req,env)).json();
 }
 try{
+ // Reproduce the TfL SearchMatch schema: NAME rather than commonName.
+ assert.equal(station.commonName,undefined);
  const first=await ask('Vreau sa ajung in London Liverpool Street');
  assert.equal(first.needs_travel_mode,true);
  assert.equal(first.route_context?.destination_query,'London Liverpool Street');
