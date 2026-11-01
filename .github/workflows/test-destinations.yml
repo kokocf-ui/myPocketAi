@@ -79,6 +79,19 @@ jobs:
                 needsMode:!!data.needs_travel_mode,
                 lookupStrategy:data.place_lookup?.strategy||null,
                 lookupMatched:data.place_lookup?.matched??null,
+                providerStatus:{
+                  nameFilterHttp:data.place_lookup?.nameFilterHttp??null,
+                  nameFilterFeatures:data.place_lookup?.nameFilterFeatures??null,
+                  nameFilterMatched:data.place_lookup?.nameFilterMatched??null,
+                  nameFilterError:data.place_lookup?.nameFilterError??null,
+                  geocodeHttp:data.place_lookup?.geocodeHttp??null,
+                  geocodeFeatures:data.place_lookup?.geocodeFeatures??null,
+                  overpassHttp:data.place_lookup?.overpassHttp??null,
+                  overpassFeatures:data.place_lookup?.overpassFeatures??null,
+                  overpassError:data.place_lookup?.overpassError??null,
+                  reverseHttp:data.place_lookup?.reverseHttp??null,
+                  administrativeAreas:data.place_lookup?.administrativeAreas??null
+                },
                 destinationCandidates:data.destination_candidates?.length||0,
                 responsePreview:String(data.reply||data.error||'').slice(0,160)
               };
