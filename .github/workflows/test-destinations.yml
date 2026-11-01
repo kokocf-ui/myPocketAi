@@ -73,10 +73,15 @@ jobs:
             try{
               const {httpStatus,data}=await ask(item.message);
               const context=data.route_context;
+              const mappedChoices=(Array.isArray(data.destination_candidates)?data.destination_candidates:[])
+                .filter(p=>p&&typeof p.label==='string'&&Number.isFinite(p.latitude)&&Number.isFinite(p.longitude));
+              const resolved=Boolean(context?.destination)||mappedChoices.length>0;
               const result={
                 case:item.id,httpStatus,apiVersion:data.version||null,
                 status:data.status||null,
                 destinationIdentified:!!context?.destination,
+                validLocationChoices:mappedChoices.length,
+                needsLocationChoice:!!data.needs_destination_clarification,
                 destinationLabel:context?.destination?.label||null,
                 needsConfirmation:!!data.needs_travel_confirmation,
                 needsMode:!!data.needs_travel_mode,
@@ -105,7 +110,7 @@ jobs:
               console.log('POCKET_DIAG '+JSON.stringify(result));
               if(item.id==='NAME_AREA'&&context?.destination)identified=context;
               if(item.id==='STATION_INITIAL')stationPending=context;
-              if(item.id!=='CONTROL'&&item.id!=='STATION_INITIAL'&&!context?.destination)unresolved++;
+              if(item.id!=='CONTROL'&&item.id!=='STATION_INITIAL'&&!resolved)unresolved++;
             }catch(error){
               console.log('POCKET_DIAG '+JSON.stringify({case:item.id,
                 errorType:error?.name||'Error',error:String(error?.message||error).slice(0,120)}));
@@ -123,8 +128,26 @@ jobs:
                 needsDestinationAgain:!!data.needs_destination_clarification,
                 transitAvailable:!!data.transit_available,
                 transitAlternatives:Array.isArray(data.transit)?data.transit.length:0,
+                finalDestinationPoint:!!data.transit_destination_point,
+                lastAlightingCoords:!!data.transit?.[0]?.legs?.at(-1)?.arrivalLatLon,
                 replyPreview:String(data.reply||'').slice(0,160)
               }));
+              const last=data.transit?.[0]?.legs?.at(-1),final=data.transit_destination_point;
+              if(last?.arrivalLatLon&&final?.label){
+                const origin={latitude:last.arrivalLatLon.lat,longitude:last.arrivalLatLon.lon,
+                  label:last.to||'Transport alighting stop'};
+                if([origin.latitude,origin.longitude,final.latitude,final.longitude].every(Number.isFinite)){
+                  const {data:walk}=await ask('Pe jos',{
+                    route_profile:'walk',route_destination:final,
+                    route_context:{profile:'walk',destination_query:final.label,
+                      destination:final,origin,pending:null}
+                  });
+                  console.log('POCKET_DIAG '+JSON.stringify({case:'FINAL_WALK_FROM_ALIGHTING_STOP',
+                    routeAvailable:!!walk.route_available,routeDistanceMeters:walk.route?.distanceMeters??null,
+                    destinationPreserved:walk.route?.destination?.label===final.label,
+                    reason:walk.reason||null,replyPreview:String(walk.reply||'').slice(0,120)}));
+                }
+              }
             }catch(error){
               console.log('POCKET_DIAG '+JSON.stringify({
                 case:'TRANSIT_CONTINUITY',errorType:error?.name||'Error',
