@@ -1,4 +1,6 @@
-# myPocket AI — backend v134 + frontend v1.0.99
+# myPocket AI — backend v135 + frontend v1.0.100
+
+v135: ordonează candidații de localitate și adresă, fără a cere o singură localitate sau două domenii cu aceeași adresă. Caută și textul paginilor pentru adrese lipsă din hartă; confirmă coordonatele furnizorului pentru adresă. Păstrează contoare tehnice pentru diagnosticarea căutărilor eșuate.
 
 v134: diferențiază adresele stradale/codurile poștale, punctele de interes numite și localitățile. Separă tipul afacerii de nume și localitate; acceptă nume plus localitate fără categorie explicită. Respinge străzile cu același nume pentru o cerere de magazin și verifică strada/numărul pentru adrese.
 

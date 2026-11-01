@@ -147,3 +147,12 @@
 - Reject generic “Magazin” matches and same-name streets for a named-store request. Verify street, house number and locality for an explicit address, including common street abbreviations.
 - Route named fallback searches to the appropriate provider category, or a broad named-POI search when category is unknown, inside the explicit town. Preserve station-specific and shopping-mall handling.
 - Tests reproduce both Europa/Grays screenshot formulations, city-first phrasing, typed walking continuation, rejected foreign results, rejected same-name streets, town-bound fallback, exact addresses and transit. All eleven suites and syntax checks pass. Real provider/store validation remains separate.
+
+
+## 2026-11-01 — Backend v135 + frontend 1.0.100
+
+- Reproduce the missing Zani destination in the live UI using a public origin.
+- Replace the single-town gate with ranked town candidates; broaden restaurant POI search to catering and rely on the verified spatial search area when town labels vary.
+- Replace the two-domain address consensus gate with ranked address evidence, map house/street/locality verification and normal ambiguity choices.
+- Request bounded page text as well as highlights to retrieve addresses that snippets omit. Add count/status diagnostics without query, origin, keys or page contents.
+- Automated suites pass; live post-deployment validation is pending.

@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -51,7 +51,7 @@ function cleanTravelPlace(value){
 }
 const TRAVEL_POI_RULES=[
  [/^(?:magazin(?:ul|e)?|market(?:ul)?|supermarket(?:ul)?|shop|store|boutique|magasin|geschaft|laden|negozio|tienda|loja|winkel|магазин|sklep)\s+/i,'commercial'],
- [/^(?:restaurant\w*|restaurante|ristorante|ресторан\w*|restauracj\w*)\s+/i,'catering.restaurant'],
+ [/^(?:restaurant\w*|restaurante|ristorante|ресторан\w*|restauracj\w*)\s+/i,'catering'],
  [/^(?:cafe\w*|cafenea(?:ua)?|cofetari\w*|ceainari\w*|coffee shop|tea room|кафе|kawiarnia)\s+/i,'catering'],
  [/^(?:hotel\w*|hostel\w*|pensiun\w*|отель|гостиница)\s+/i,'accommodation'],
  [/^(?:farmaci\w*|pharmac\w*|chemist|drogheri\w*|apotheke|aptek\w*|аптека)\s+/i,'healthcare.pharmacy'],
@@ -95,7 +95,8 @@ function travelPlaceCandidateMatches(query,p){
 function routeNamedPlaceTokens(query){const spec=travelPlaceSpec(query);if(spec.kind!=='poi')return null;return normalizeGeoName([spec.name,spec.locality].join(' ')).split(' ').filter(w=>w.length>1);}
 
 const namedTravelCache=new Map();
-async function resolveNamedTravelPlace(query,env,origin){
+async function resolveNamedTravelPlace(query,env,origin,report=()=>{}){
+ const trace={stage:'start',geocode_matches:0,town_candidates:0,poi_matches:0,web_status:null,web_results:0,address_candidates:0,address_matches:0};report(trace);
  const spec=travelPlaceSpec(query),parts=spec.query.split(',').map(v=>v.trim()).filter(Boolean),tokens=routeNamedPlaceTokens(query);if(!tokens||parts.length<2||!env.GEOAPIFY_API_KEY)return [];
  const name=spec.name,locality=spec.locality;if(name.length<2||locality.length<2)return [];
  const key=normalizeGeoName(query),cached=namedTravelCache.get(key);if(cached?.until>Date.now())return cached.points;
@@ -106,26 +107,31 @@ async function resolveNamedTravelPlace(query,env,origin){
  const save=points=>{if(points.length){if(namedTravelCache.size>=64)namedTravelCache.delete(namedTravelCache.keys().next().value);namedTravelCache.set(key,{points,until:Date.now()+600000});}return points;};
  // Names, unlike addresses, are often absent from forward geocoding. First remove category inflections.
  const simplified=await geocode(name+', '+locality),matches=simplified.filter(f=>travelPlaceCandidateMatches(spec.query,f.properties||{})).map(f=>point(f.properties)).filter(Boolean);
- if(matches.length)return save(matches);
+ trace.geocode_matches=matches.length;if(matches.length){trace.stage='name_geocode';return save(matches);}
  // Resolve the explicit town before searching named POIs, never the phone's unrelated neighbourhood.
  const towns=(await geocode(locality)).map(f=>f.properties||{}).filter(p=>has(p.formatted||p.name||p.city,cityWords)&&(/^(?:city|town|village|suburb|district|municipality)$/i.test(p.result_type||'')||normalizeGeoName(p.name)===normalizeGeoName(locality))).map(p=>({p,pt:point(p)})).filter(v=>v.pt);
- if(towns.length===1){
+ trace.town_candidates=towns.length;towns.sort((a,b)=>Number(normalizeGeoName(b.p.name||b.p.city)===normalizeGeoName(locality))-Number(normalizeGeoName(a.p.name||a.p.city)===normalizeGeoName(locality)));
+ if(towns.length){
   const {p,pt}=towns[0],u=new URL('https://api.geoapify.com/v2/places');u.searchParams.set('categories',spec.category);u.searchParams.set('name',name);u.searchParams.set('filter',p.place_id?'place:'+p.place_id:'circle:'+pt.longitude+','+pt.latitude+',8000');u.searchParams.set('limit','30');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
   const places=(await get(u.href))?.features||[],points=[];
-  for(const f of places){const raw=f.properties||{},v=point(raw);if(!v||!has(raw.name||'',nameWords)||routeGeoDistance(pt,v)>15000)continue;const city=[raw.city,raw.town,raw.village].filter(Boolean).join(' ');if(city&&!has([city,raw.formatted].join(' '),cityWords))continue;if(!city&&!p.place_id&&!has(raw.formatted||'',cityWords))continue;points.push({...v,label:String(raw.formatted||[raw.name,locality].join(', ')),resolution_source:'named_place'});}
-  if(points.length)return save(points);
+  for(const f of places){const raw=f.properties||{},v=point(raw);if(!v||!has(raw.name||'',nameWords)||routeGeoDistance(pt,v)>15000)continue;if(!p.place_id&&routeGeoDistance(pt,v)>8000)continue;points.push({...v,label:String(raw.formatted||[raw.name,locality].join(', ')),resolution_source:'named_place'});}
+  trace.poi_matches=points.length;if(points.length){trace.stage='town_named_poi';return save(points);}
  }
- if(!env.EXA_API_KEY)return [];
- // Web search can supply an address missing from map POIs. Require independent address agreement.
- let results=[];try{const r=await fetch('https://api.exa.ai/search',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':env.EXA_API_KEY},body:JSON.stringify({query:name+' '+locality+' address',type:'auto',numResults:5,contents:{highlights:true}}),signal:AbortSignal.timeout(6500)});if(r.ok)results=(await r.json()).results||[]}catch{return []}
- const escape=value=>value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),city=parts[1],addressPattern=new RegExp('(\\b\\d{1,6}[a-z]?(?:[-/]\\d+)?\\s+[^\\n<>]{3,85}?(?:,\\s*|\\s+)'+escape(city)+'\\b)','gi');
+ if(!env.EXA_API_KEY){trace.stage='no_web_provider';return [];}
+ // Rank address evidence from named search results, then verify each candidate in the map provider.
+ let results=[];try{const r=await fetch('https://api.exa.ai/search',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':env.EXA_API_KEY},body:JSON.stringify({query:name+' '+locality+' address',type:'auto',numResults:5,contents:{highlights:true,text:{maxCharacters:6000}}}),signal:AbortSignal.timeout(10000)});trace.web_status=r.status;if(r.ok)results=(await r.json()).results||[]}catch{trace.stage='web_request_failed';return []}
+ trace.web_results=results.length;
+ const escape=value=>value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),city=parts[1],addressPattern=new RegExp('(?=(\\b\\d{1,6}[a-z]?(?:[-/]\\d+)?\\s+[^\\n<>]{3,85}?(?:,\\s*|\\s+)'+escape(city)+'\\b))','gi');
  const canonical=value=>normalizeGeoName(value).replace(/\brd\b/g,'road').replace(/\bst\b/g,'street').replace(/\bave\b/g,'avenue');const groups=new Map();
- for(const r of results.slice(0,5)){let domain;try{const u=new URL(r.url);if(u.protocol!=='https:')continue;domain=u.hostname.replace(/^www\./,'')}catch{continue}const text=[r.title,...(Array.isArray(r.highlights)?r.highlights:[]),typeof r.text==='string'?r.text.slice(0,4000):''].join('\n');if(!has(text,nameWords)||!has(text,cityWords))continue;for(const match of text.matchAll(addressPattern)){const address=match[1].trim(),id=canonical(address);if(!groups.has(id))groups.set(id,{address,domains:new Set(),sources:[]});const item=groups.get(id);item.domains.add(domain);item.sources.push(r.url);}}
- const agreed=[...groups.values()].filter(v=>v.domains.size>=2);if(agreed.length!==1)return [];
- const evidence=agreed[0],house=evidence.address.match(/^\d{1,6}[a-z]?(?:[-/]\d+)?/i)?.[0];if(!house)return [];
- const found=await geocode(evidence.address),verified=[];
- for(const f of found){const p=f.properties||{},v=point(p);if(!v||String(p.housenumber||'').toLowerCase()!==house.toLowerCase()||!p.street||!canonical(evidence.address).includes(canonical(p.street))||!has([p.formatted,p.city,p.town].join(' '),cityWords))continue;verified.push({...v,label:name+', '+String(p.formatted||evidence.address),resolution_source:'verified_web_address',resolution_sources:[...new Set(evidence.sources)].slice(0,3)});}
- return save(verified);
+ for(const r of results.slice(0,5)){let domain;try{const u=new URL(r.url);if(u.protocol!=='https:')continue;domain=u.hostname.replace(/^www\./,'')}catch{continue}const text=[r.title,...(Array.isArray(r.highlights)?r.highlights:[]),typeof r.text==='string'?r.text.slice(0,6000):''].join('\n').replace(/,\s*,/g,',');if(!has(text,nameWords)||!has(text,cityWords))continue;for(const match of text.matchAll(addressPattern)){const address=match[1].trim(),id=canonical(address);if(!groups.has(id))groups.set(id,{address,domains:new Set(),sources:[]});const item=groups.get(id);item.domains.add(domain);item.sources.push(r.url);}}
+ const ranked=[...groups.values()].sort((a,b)=>b.domains.size-a.domains.size||a.address.split(/\s+/).length-b.address.split(/\s+/).length).slice(0,4);trace.address_candidates=ranked.length;
+ const verified=[];
+ for(const evidence of ranked){
+  const house=evidence.address.match(/^\d{1,6}[a-z]?(?:[-/]\d+)?/i)?.[0];if(!house)continue;
+  const found=await geocode(evidence.address);
+  for(const f of found){const p=f.properties||{},v=point(p);if(!v||String(p.housenumber||'').toLowerCase()!==house.toLowerCase()||!p.street||!canonical(evidence.address).includes(canonical(p.street))||!has([p.formatted,p.city,p.town].join(' '),cityWords))continue;const candidate={...v,label:name+', '+String(p.formatted||evidence.address),resolution_source:'verified_web_address',resolution_sources:[...new Set(evidence.sources)].slice(0,3)};if(!verified.some(old=>routeGeoDistance(old,candidate)<100))verified.push(candidate);}
+ }
+ trace.address_matches=verified.length;trace.stage=verified.length?'web_address_geocoded':'no_place_match';return save(verified);
 }
 
 // Extract the requested place before interpreting transport mode or follow-up instructions.
@@ -361,8 +367,8 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v134";
-    let responsePlaceContext=null;
+    const API_VERSION = "v135";
+    let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
     let responseWeatherContext=null;
@@ -1016,7 +1022,7 @@ export default {
         else {rc.destination_query=mergeRouteDestination(rc.destination_query,message);rc.destination=null;rc.pending=null}
       }
       if(mapRouteRequest){const named=message.normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/(?:pana\s+(?:la|in)|catre|\bto)\s+(.+)$/i);if(named){rc.destination_query=named[1].replace(/[?!.]+$/g,'').trim();rc.destination=null;rc.candidates=[];rc.pending=null}}
-      const routeReply=(reply,extra={})=>{responseRouteContext=rc;return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:false,location_received:hasValidLocation,...extra,ai_connected:Boolean(env.AI)})};
+      const routeReply=(reply,extra={})=>{responseRouteContext=rc;return json({place_lookup:responsePlaceLookup,app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:false,location_received:hasValidLocation,...extra,ai_connected:Boolean(env.AI)})};
       if(!rc.profile){rc.pending="profile";return routeReply(lang==="en"?"Would you like to walk, use public transport, or drive?":"Vrei să mergi pe jos, cu transportul public sau cu mașina?",{needs_travel_mode:true})}
       if(!rc.destination_query&&!routePoint(rc.destination)){rc.pending="destination";return routeReply(lang==="en"?"What is your destination? Give its name, address or postcode.":"Care este destinația? Spune-mi numele, adresa sau codul poștal.")}
       if(!hasValidLocation&&!rc.origin_query&&!routePoint(rc.origin)){rc.pending="origin";return routeReply(lang==="en"?"I do not have usable GPS coordinates. Allow location access or give your departure address/postcode.":"Nu am coordonate GPS utilizabile. Permite accesul la locație sau precizează adresa/codul poștal de plecare.",{needs_origin_clarification:true})}
@@ -1056,7 +1062,7 @@ export default {
         if(localLookup){const local=(await lookup(`circle:${longitude},${latitude},25000`)).filter(v=>routeGeoDistance({latitude,longitude},v)<=25000);if(local.length)return local;return [];} // ask for city/country; do not substitute overseas names
         const results=await lookup(country?'countrycode:'+country.toLowerCase():'');
         if(results.length||!venueTokens||isOrigin)return results;
-        return resolveNamedTravelPlace(query,env,hasValidLocation?{latitude,longitude}:null);
+        return resolveNamedTravelPlace(query,env,hasValidLocation?{latitude,longitude}:null,trace=>{responsePlaceLookup=trace});
       };
       try{
         let origin=routePoint(rc.origin)?rc.origin:hasValidLocation&&!rc.origin_query?{latitude,longitude,label:gpsPositionLabel,location_source:'gps'}:null;
