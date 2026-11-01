@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.109",
+  version: "1.0.110",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1199,6 +1199,17 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 .route-map-open{background:linear-gradient(120deg,#2cced1,#287db5)!important;color:#061724!important;border:1px solid #49d9dc!important;font-weight:800!important;box-shadow:0 3px 12px #0005!important;}
 .route-map-window .route-directions{display:block!important;flex:0 1 auto;min-height:95px;max-height:38%;overflow-y:auto;overscroll-behavior:contain;}
 .route-map-window.navigating .route-directions{display:block!important;min-height:95px;max-height:32%;}
+/* v1.0.110 — consistent Home buttons and selected-transport details. */
+#view-assistant .assistant-actions,#view-module .module-actions-row{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px!important;align-items:stretch!important;width:100%!important}
+#view-assistant .assistant-actions>.back-btn,#view-assistant .assistant-actions>.secondary-btn,#view-module .module-actions-row>.module-home-btn,#view-module .module-actions-row>.module-quick-trigger{width:100%!important;max-width:none!important;min-width:0!important;min-height:46px!important;height:auto!important;margin:0!important;padding:10px 8px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;flex:initial!important;line-height:1.18!important;font-size:clamp(12px,3.3vw,15px)!important;white-space:normal!important;overflow-wrap:break-word!important}
+#view-assistant .assistant-actions>.back-btn,#view-module .module-actions-row>.module-home-btn,.view#view-conversations>.back-btn,.view#view-tools>.back-btn,.view#view-settings>.back-btn,.module-quick-header>.back-btn{background:linear-gradient(120deg,#2cced1,#287db5)!important;color:#061724!important;border:1px solid #49d9dc!important;border-radius:12px!important;font-weight:800!important;box-shadow:0 3px 12px #0005!important}
+.view#view-conversations>.back-btn,.view#view-tools>.back-btn,.view#view-settings>.back-btn{min-height:46px!important;width:min(100%,190px)!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:10px 12px!important}
+.route-map-window details.selected-transit{padding:0!important;overflow:hidden;border:1px solid #49d9dc!important;border-radius:13px!important}
+.route-map-window details.selected-transit>summary{display:block;list-style:none;cursor:pointer;padding:13px 14px!important;background:linear-gradient(120deg,#2cced1,#287db5)!important;color:#061724!important;font-weight:850!important;line-height:1.35!important;overflow-wrap:anywhere}
+.route-map-window details.selected-transit>summary::-webkit-details-marker{display:none}
+.route-map-window details.selected-transit>summary::before{content:'▶ ';font-size:.8em}
+.route-map-window details.selected-transit[open]>summary::before{content:'▼ '}
+.route-map-window details.selected-transit[open]>*:not(summary){margin-left:12px;margin-right:12px}
 </style>
 <section class="view" id="view-assistant"><div class="assistant-actions"><button class="back-btn" data-back>← Acasă</button><button class="secondary-btn" id="newChatBtn">＋ Conversație nouă</button></div><h2 class="section-title">Asistent AI</h2><p class="section-lead">Scrie sau vorbește cu myPocket AI.</p><div class="chat-shell" id="sharedChatShell"><div class="chat-top"><strong>Conversație</strong><button class="round-control" id="dictationBtn" aria-label="Dictare vocală" title="Dictare vocală" aria-pressed="false">🎙️</button><button class="round-control" id="voiceBtn" aria-label="Conversație vocală" title="Conversație vocală" aria-pressed="false">🎧</button><button class="round-control" id="listenBtn" aria-label="Ascultă ultimul răspuns" title="Ascultă răspunsul">🔊</button></div><div class="messages" id="messages" aria-live="polite"><div class="empty-state">Cu ce te pot ajuta?<br><span class="small">Scrie o întrebare în română sau engleză.</span></div></div><div class="chat-status" id="chatStatus" role="status">Gata de conversație.</div><form class="chat-form" id="chatForm"><textarea id="messageInput" rows="1" maxlength="4000" placeholder="" aria-label="Mesaj pentru myPocket AI" required></textarea><button class="send-btn" id="sendBtn" aria-label="Trimite mesajul" type="submit">➤</button></form></div><div id="chatHomePlaceholder"></div></section>
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
@@ -1218,7 +1229,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.109'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.110'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };

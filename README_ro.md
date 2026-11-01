@@ -1,3 +1,6 @@
+## Actualizare stil — frontend 1.0.110 (2026-11-01)
+Butoanele Acasă din toate ecranele au gradientul Selecții rapide, iar acțiunile pereche au lățimi egale dimensionate după textul mai lung. Panoul Transport ales de pe hartă primește același gradient. Fără modificări de logică pentru trasee sau backend.
+
 # myPocket AI — backend v146 + frontend v1.0.109
 
 ## Denumiri geografice și stații — v145 (01.11.2026)

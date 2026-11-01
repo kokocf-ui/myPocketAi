@@ -1,3 +1,6 @@
+## UI styling update — frontend 1.0.110 (2026-11-01)
+Home buttons in all views match Quick Selections gradient, equal-width paired actions sized to longest label; selected transport details in the route map use the same visible gradient. No route or backend logic changed.
+
 # myPocket AI — backend v146 + frontend v1.0.109
 
 ## Named geographic places and stations — v145 (2026-11-01)

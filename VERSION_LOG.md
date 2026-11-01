@@ -1,3 +1,6 @@
+## UI styling update — frontend 1.0.110 (2026-11-01)
+Home buttons in all views match Quick Selections gradient, equal-width paired actions sized to longest label; selected transport details in the route map use the same visible gradient. No route or backend logic changed.
+
 v146 / frontend 1.0.109 — new museum/park/zoo quick searches, combined bars/cafes/pubs, button styling and persistent walking directions. GPS-backed 5km searches; no invented results. Live QA pending.
 
 # Version log
