@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.100",
+  version: "1.0.104",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1415,7 +1415,7 @@ function appendTravelModeChoices(data,host){
  if(data.needs_travel_mode!==true||!data.route_context?.destination_query)return false;
  const t=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en,table=document.createElement('table'),caption=document.createElement('caption'),body=document.createElement('tbody'),generation=state.conversationGeneration,buttons=[];table.className='travel-mode-table';caption.textContent=t[0];table.append(caption);
  for(const [i,mode] of ['walk','transit','drive'].entries()){
-  if(mode==='walk'&&Number.isFinite(data.straight_line_distance_km)&&data.straight_line_distance_km>10)continue;
+  if(mode==='walk'&&Number.isFinite(data.straight_line_distance_km)&&data.straight_line_distance_km>3)continue;
   const row=document.createElement('tr'),cell=document.createElement('td'),button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.textContent=t[i+1];buttons.push(button);
   button.onclick=async()=>{if(state.busy||generation!==state.conversationGeneration||state.routeSearchContext?.pending!=='profile'||state.routeSearchContext.destination_query!==data.route_context.destination_query)return;buttons.forEach(b=>b.disabled=true);state.routeSearchContext={...data.route_context};state.pendingTravelMode=mode;state.pendingRouteDestination=null;closeAnswerReader(false);inputEl.value=t[i+1];await submitMessage();if(state.routeSearchContext?.pending==='profile')buttons.forEach(b=>b.disabled=false)};
   cell.append(button);row.append(cell);body.append(row);
