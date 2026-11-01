@@ -1,3 +1,7 @@
+## Frontend 1.0.113 — native selection dialog (2026-11-01)
+
+The frontend now uses a native HTML dialog for long transport-mode and destination-choice lists. Each response renders one direct first-tap trigger; option rows are created inside the dialog, not moved from the chat after a MutationObserver callback. Up to eight mapped named-place choices are visible within a scrollable modal. The legacy table observer remains only for other long panels. The modal closes via X, Escape or selecting a choice, with preserved chat context, ten languages and fixed bottom navigation. Backend unchanged. New isolated modal test and travel-mode handler regressions run before the pre-existing general test suite (whose Brave/news assertion is a separate known issue). Physical Android Chrome verification remains necessary.
+
 
 ## Frontend 1.0.112 — dialoguri generale pentru opțiuni și liste
 
