@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v141 city-first TfL station and Photon named POI fallback; v140 name-filtered brand lookup; v139 GPS-first name-only POI search; v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v142 TfL SearchMatch.name field and verified station lookup; v141 city-first TfL station and Photon named POI fallback; v140 name-filtered brand lookup; v139 GPS-first name-only POI search; v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -378,7 +378,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v141";
+    const API_VERSION = "v142";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -599,6 +599,7 @@ export default {
         // Prefer verified operator station records over free-text geocoding for UK rail/tube stations.
         let verifiedStopId=null;
         const requestedStationName=targetName;
+        const stationLookupDiagnostic={http:null,returned:null,matched:null,selected:false};
         // "London Liverpool Street" must be looked up in TfL before generic geocoding.
         // The city qualifier disambiguates the station without a "Station" suffix.
         const cityFirstStation=String(targetName).match(/^(?:london|londra)\s+([\p{L}0-9 '&.-]{4,90})$/iu);
@@ -614,32 +615,39 @@ export default {
               stopUrl.searchParams.set("app_key",env.TFL_APP_KEY);
               stopUrl.searchParams.set("includeHubs","true");
               const sr=await fetch(stopUrl.toString(),{headers:{"Accept":"application/json"},signal:AbortSignal.timeout(8000)});
+              stationLookupDiagnostic.http=sr.status;
               if(sr.ok){
                 const sj=await sr.json();
                 const stopResults=Array.isArray(sj.matches)?sj.matches:[];
                 const wanted=stopQuery.toLowerCase().replace(/[^a-z0-9]/g,"");
+                const resultStationName=p=>String(p.name||p.commonName||'');
+                // TfL StopPoint/Search returns SearchMatch.name, NOT commonName.
+                // The latter is used by the separate StopPoint details endpoint.
                 const good=stopResults.filter(p=>{
-                  const name=String(p.commonName||"").toLowerCase().replace(/\b(underground|rail|railway|station|london)\b/g,"").replace(/[^a-z0-9]/g,"");
-                  // When "Station" was omitted, a similar road or bus stop
-                  // is not sufficient evidence that we found the rail station.
-                  const metadata=String(p.stopType||'')+' '+String(p.commonName||'')+' '+(Array.isArray(p.modes)?p.modes.join(' '):'');
-                  const railStation=/rail|underground|station|metro|overground|dlr|tube/i.test(metadata);
+                  const name=resultStationName(p).toLowerCase()
+                    .replace(/\b(underground|rail|railway|station|london|national)\b/g,'')
+                    .replace(/[^a-z0-9]/g,'');
+                  const metadata=[p.stopType,p.motType,p.network,p.id,
+                    resultStationName(p),...(Array.isArray(p.modes)?p.modes:[])].join(' ');
+                  const railStation=/rail|underground|station|metro|overground|dlr|tube|\b910g|\b940g/i.test(metadata);
                   return name===wanted && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)) &&
-                    p.id && (explicitStationWord||railStation);
+                    !!p.id && (explicitStationWord||railStation);
                 });
+                stationLookupDiagnostic.returned=stopResults.length;
+                stationLookupDiagnostic.matched=good.length;
                 // Multiple entrances can share the name. Prefer rail over
                 // underground, then proximity to the origin.
-                const stationRank=p=>/rail/i.test(String(p.stopType||'')+' '+String(p.commonName||''))?0:
-                  /underground|metro|tube/i.test(String(p.stopType||'')+' '+String(p.commonName||''))?1:2;
+                const stationRank=p=>/rail|\b910g/i.test([p.motType,p.stopType,p.network,p.id,resultStationName(p)].join(' '))?0:
+                  /underground|metro|tube|\b940g/i.test([p.motType,p.stopType,p.network,p.id,resultStationName(p)].join(' '))?1:2;
                 const closest=good.sort((a,b)=>stationRank(a)-stationRank(b)||
                   Math.hypot(Number(a.lat)-latitude,Number(a.lon)-longitude)-
                   Math.hypot(Number(b.lat)-latitude,Number(b.lon)-longitude))[0];
                 if(unqualifiedStation && !confirmedStop && good.length){
                   const seen=new Set(),opts=[];
-                  for(const p of good){const key=String(p.commonName||"").toLowerCase()+":"+Math.round(Number(p.lat)*1000)+":"+Math.round(Number(p.lon)*1000);if(seen.has(key))continue;seen.add(key);opts.push({label:String(p.commonName||"Station"),latitude:Number(p.lat),longitude:Number(p.lon)});if(opts.length>=4)break;}
+                  for(const p of good){const key=resultStationName(p).toLowerCase()+":"+Math.round(Number(p.lat)*1000)+":"+Math.round(Number(p.lon)*1000);if(seen.has(key))continue;seen.add(key);opts.push({label:resultStationName(p)||"Station",latitude:Number(p.lat),longitude:Number(p.lon)});if(opts.length>=4)break;}
                   return json({app:"Pocket AI",version:API_VERSION,status:"success",reply:"Alege stația dorită:",needs_destination_clarification:true,destination_candidates:opts,transit_available:false});
                 }
-                if(closest){targetLat=Number(closest.lat);targetLon=Number(closest.lon);targetName=closest.commonName;verifiedStopId=String(closest.id);}
+                if(closest){targetLat=Number(closest.lat);targetLon=Number(closest.lon);targetName=resultStationName(closest);verifiedStopId=String(closest.id);stationLookupDiagnostic.selected=true;}
               }
             }
           }catch(e){transportErrors.tfl_station_search=String(e&&e.name||"lookup_failed");}
@@ -742,7 +750,7 @@ export default {
           const reply = lang === "en"
             ? `I couldn't safely identify “${targetName}” from the available place matches. Which town or country do you mean? Please add the town/country or a postcode; I won't route you to a guessed match.`
             : `Nu am putut identifica în siguranță „${targetName}” dintre locurile găsite. La ce oraș sau țară te referi? Adaugă orașul/țara ori codul poștal; nu voi calcula traseul către o potrivire presupusă.`;
-          return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:false,transit_available:false,needs_destination_clarification:true,pending_destination:targetName,reason:"destination_not_confidently_resolved",ai_connected:Boolean(env.AI)});
+          return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:false,transit_available:false,needs_destination_clarification:true,pending_destination:targetName,reason:"destination_not_confidently_resolved",station_lookup:stationLookupDiagnostic,ai_connected:Boolean(env.AI)});
         }
         if (!hasValidLocation) {
           const reply = lang === "en" ? "To plan public transport from your current position, allow location access in the map module or enter a starting postcode or station. No journey has been guessed." : "Pentru a planifica transportul public de la poziția ta, permite accesul la locație în modulul Hărți sau introdu un cod poștal ori o stație de plecare. Nu am inventat un traseu.";
