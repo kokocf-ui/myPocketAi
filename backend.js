@@ -1810,7 +1810,7 @@ export default {
           for(const feature of (await response.json()).features||[]){
             const p=feature.properties||{},nameTokens=normalizeGeoName(p.name||'').split(' ');
             const candidate={latitude:Number(p.lat),longitude:Number(p.lon),label:String(p.formatted||p.name||''),resolution_source:'gps_named_geocode'};
-            if(!tokens.every(w=>nameTokens.includes(w))||!Number.isFinite(candidate.latitude)||!Number.isFinite(candidate.longitude)||!candidate.label||routeGeoDistance({latitude,longitude},candidate)>40000)continue;
+            if(!nameTokens.some(w=>tokens.includes(w))||!tokens.every(w=>normalizeGeoName(p.formatted||p.name||'').split(' ').includes(w))||!Number.isFinite(candidate.latitude)||!Number.isFinite(candidate.longitude)||!candidate.label||routeGeoDistance({latitude,longitude},candidate)>40000)continue;
             if(!candidates.some(v=>routeGeoDistance(v,candidate)<120))candidates.push(candidate);
           }
           candidates.sort((a,b)=>routeGeoDistance({latitude,longitude},a)-routeGeoDistance({latitude,longitude},b));
