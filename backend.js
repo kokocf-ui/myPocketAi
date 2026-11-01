@@ -123,7 +123,7 @@ async function resolveNamedTravelPlace(query,env,origin,report=()=>{}){
     }
    }catch{trace.business_directory_status='unavailable'}
   }
-  const {p,pt}=towns[0],u=new URL('https://api.geoapify.com/v2/places');u.searchParams.set('categories',spec.category);u.searchParams.set('name',name);u.searchParams.set('filter',p.place_id?'place:'+p.place_id:'circle:'+pt.longitude+','+pt.latitude+',8000');u.searchParams.set('limit','30');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+  const {p,pt}=towns[0],u=new URL('https://api.geoapify.com/v2/places');u.searchParams.set('categories',spec.category);u.searchParams.set('filter','circle:'+pt.longitude+','+pt.latitude+',12000');u.searchParams.set('limit','500');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
   const places=(await get(u.href))?.features||[],points=[];
   for(const f of places){const raw=f.properties||{},v=point(raw);if(!v||!has(raw.name||'',nameWords)||routeGeoDistance(pt,v)>15000)continue;if(!p.place_id&&routeGeoDistance(pt,v)>8000)continue;points.push({...v,label:String(raw.formatted||[raw.name,locality].join(', ')),resolution_source:'named_place'});}
   trace.poi_matches=points.length;if(points.length){trace.stage='town_named_poi';return save(points);}
