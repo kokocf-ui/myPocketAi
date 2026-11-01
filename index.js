@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.113",
+  version: "1.0.114",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1244,10 +1244,10 @@ body.long-choice-active{overflow:hidden}
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.113'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.114'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
-const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
+const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list',transitRefreshBusy:false,transitRefreshGeneration:0,transitRefreshAbort:null };
 const $ = id => document.getElementById(id);
 const views = [...document.querySelectorAll('.view')];
 const messagesEl=$('messages'), inputEl=$('messageInput'), sendBtn=$('sendBtn'), chatStatus=$('chatStatus');
@@ -1664,17 +1664,104 @@ function appendFinalTransitWalkAction(host,journey){
  button.onclick=()=>showFinalTransitWalk(journey,button);
  host.append(button);
 }
+// Transit results can outlive their original departure times. Hide options
+// which are already unreachable using the provider's boarding-walk estimate.
+function feasibleTransitChoices(options){
+ const now=Date.now();
+ return (Array.isArray(options)?options:[]).filter(journey=>{
+  const departure=Date.parse(journey.firstVehicleDepartureTime||journey.boarding_stop?.departure_time||'');
+  if(!Number.isFinite(departure))return true;
+  const walking=Number(journey.walkToFirstStopMinutes);
+  const margin=Number.isFinite(journey.safetyMarginMinutes)?Math.max(0,journey.safetyMarginMinutes):5;
+  const needed=(Number.isFinite(walking)&&walking>=0?walking:0)+margin;
+  return departure>=now+needed*60000;
+ });
+}
+const TRANSIT_REFRESH_TEXT={
+ ro:['Se actualizează plecările…','Nu pot actualiza plecările acum. Încearcă din nou.','Destinația anterioară nu mai este disponibilă. Alege o destinație nouă.','Nu am găsit alte plecări disponibile acum. Încearcă din nou.','Permite accesul la GPS pentru plecări din poziția actuală.','Plecarea aceasta nu mai poate fi prinsă. Actualizează plecările.'],
+ en:['Refreshing departures…','Could not refresh departures. Try again.','The previous destination is no longer available. Choose a new one.','No new departures are available. Try again.','Allow GPS for departures from your current position.','This departure is no longer reachable. Refresh departures.'],
+ fr:['Actualisation des départs…','Impossible d’actualiser les départs. Réessayez.','La destination précédente n’est plus disponible.','Aucun nouveau départ disponible.','Autorisez le GPS pour les départs depuis votre position.','Départ inaccessible. Actualisez les départs.'],
+ de:['Abfahrten werden aktualisiert…','Abfahrten konnten nicht aktualisiert werden.','Das frühere Ziel ist nicht mehr verfügbar.','Keine neuen Abfahrten verfügbar.','GPS für Abfahrten vom aktuellen Standort erlauben.','Abfahrt nicht mehr erreichbar. Aktualisieren.'],
+ it:['Aggiornamento partenze…','Impossibile aggiornare le partenze. Riprova.','La destinazione precedente non è più disponibile.','Nessuna nuova partenza disponibile.','Consenti il GPS per le partenze dalla posizione attuale.','Partenza non più raggiungibile. Aggiorna.'],
+ es:['Actualizando salidas…','No se pudieron actualizar las salidas. Reinténtalo.','El destino anterior ya no está disponible.','No hay nuevas salidas disponibles.','Permite el GPS para salidas desde tu ubicación.','No llegas a tiempo. Actualiza las salidas.'],
+ pt:['A atualizar partidas…','Não foi possível atualizar as partidas.','O destino anterior já não está disponível.','Não há novas partidas disponíveis.','Permita GPS para partidas da posição atual.','Já não é possível apanhar esta partida. Atualize.'],
+ nl:['Vertrektijden vernieuwen…','Vertrektijden konden niet worden vernieuwd.','De vorige bestemming is niet meer beschikbaar.','Geen nieuwe vertrektijden beschikbaar.','Sta GPS toe voor vertrek vanaf uw locatie.','Deze rit is niet meer haalbaar. Vernieuw vertrektijden.'],
+ ru:['Обновление отправлений…','Не удалось обновить отправления. Повторите попытку.','Предыдущее место назначения недоступно.','Новых отправлений нет.','Разрешите GPS для поиска от текущего местоположения.','На этот рейс уже не успеть. Обновите отправления.'],
+ pl:['Aktualizowanie odjazdów…','Nie udało się zaktualizować odjazdów.','Poprzedni cel podróży jest niedostępny.','Brak nowych odjazdów.','Zezwól na GPS, aby szukać odjazdów z bieżącej lokalizacji.','Nie zdążysz na ten odjazd. Odśwież połączenia.']
+};
+function transitRefreshText(){return TRANSIT_REFRESH_TEXT[state.language]||TRANSIT_REFRESH_TEXT.en}
+function transitRefreshNotice(text){
+ const body=$('moduleLayerBody');
+ if(!body)return;
+ let status=body.querySelector('.transit-refresh-status');
+ if(!status){status=document.createElement('p');status.className='transit-access-status transit-refresh-status';status.setAttribute('role','status');body.prepend(status)}
+ status.textContent=text;
+}
+// Refresh exactly the already selected origin -> destination, not a new chat query.
+// The initial lookup retains the official destination coordinates even after
+// walking-to-boarding overwrites routeSearchContext.
+async function refreshTransitDepartures(button){
+ if(state.transitRefreshBusy||state.busy)return;
+ const source=state.lastTransitResponse;
+ const target=source?.transit_destination_point||state.lastTransitChoice?.transitDestination;
+ const lat=Number(target?.latitude),lon=Number(target?.longitude),label=String(target?.label||'').trim();
+ const t=transitRefreshText();
+ if(!label||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180){transitRefreshNotice(t[2]);return}
+ const destination={latitude:lat,longitude:lon,label};
+ const generation=state.conversationGeneration,refreshGeneration=++state.transitRefreshGeneration;
+ const layer=$('moduleQuickLayer'),visible=()=>generation===state.conversationGeneration&&refreshGeneration===state.transitRefreshGeneration&&layer?.classList.contains('open');
+ state.transitRefreshBusy=true;
+ const original=button?.textContent||transitAccessText()[15];
+ if(button){button.disabled=true;button.textContent=t[0]}
+ const controller=new AbortController();state.transitRefreshAbort=controller;
+ const timeout=setTimeout(()=>controller.abort(),25000);
+ try{
+  const gps=await getCurrentCoordinates(false);
+  if(!visible())return;
+  if(!gps||!Number.isFinite(gps.latitude)||!Number.isFinite(gps.longitude)){transitRefreshNotice(t[4]);return}
+  // The backend's transit-first branch accepts a confirmed destination and
+  // GPS as typed fields. No follow-up question or mode re-selection is required.
+  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,body:JSON.stringify({
+   message:'Transport public',language:state.language,history:[],
+   module:state.currentView==='module'?state.currentModule:'assistant',
+   location_requested:true,location:gps,coordinates:gps,travel_mode:'transit',
+   transit_query:label,transit_destination:destination,
+   route_context:{pending:'profile',destination_query:label,destination}
+  })});
+  const data=await response.json();
+  if(!visible())return;
+  const returned=data?.transit_destination_point;
+  if(!response.ok||data.status!=='success'||data.needs_destination_clarification||
+     !returned||!Number.isFinite(Number(returned.latitude))||!Number.isFinite(Number(returned.longitude))||
+     transitDistance(destination,{latitude:Number(returned.latitude),longitude:Number(returned.longitude)})>1000)throw Error('invalid_transit_refresh');
+  if(!Array.isArray(data.transit)||!data.transit.length){transitRefreshNotice(t[3]);return}
+  cancelTransitAccess(true);
+  state.lastTransitResponse=data;
+  state.lastTransitChoice={...state.lastTransitChoice,kind:'transit',transitDirect:true,transitDestination:destination};
+  renderTransitChoices(data.transit);
+ }catch(error){if(visible())transitRefreshNotice(t[1]);console.warn('Pocket AI transit refresh:',String(error?.message||error).slice(0,120))}
+ finally{
+  clearTimeout(timeout);
+  if(refreshGeneration===state.transitRefreshGeneration){state.transitRefreshBusy=false;state.transitRefreshAbort=null}
+  if(button?.isConnected){button.disabled=false;button.textContent=original}
+ }
+}
 function renderTransitChoices(options,selectedIndex=null){
  const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
  const heading=document.createElement('h3');heading.textContent=selectedIndex===null?t[0]:t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
  const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=t[2];back.onclick=()=>{cancelTransitAccess(true);selectedIndex===null?handleModuleLayerBack():renderTransitChoices(options)};body.append(back);
  if(selectedIndex!==null){const journey=options[selectedIndex];if(!journey)return;const summary=document.createElement('p');summary.textContent=transitBoardingSummary(journey);body.append(summary);
   const selected=state.selectedTransitJourney,status=document.createElement('p');status.className='transit-access-status';status.setAttribute('role','status');status.textContent=selected?.loading?t[10]:selected?.error||'';body.append(status);
-  const walk=document.createElement('button');walk.type='button';walk.className='transit-choice-action';walk.textContent=selected?.accessRoute?t[9]:selected?.loading?t[10]:t[20];walk.disabled=Boolean(selected?.loading)||!validTransitBoardingStop(journey.boarding_stop);walk.onclick=()=>{const active=state.selectedTransitJourney;if(active?.accessRoute&&!active.error)openRouteMap(active.accessRoute,walk,active.accessOptions);else selectTransitJourney(options,selectedIndex)};body.append(walk);
-  if(state.lastTransitChoice){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action';refresh.textContent=t[15];refresh.onclick=()=>{cancelTransitAccess(true);runModuleSearch(state.lastTransitChoice)};body.append(refresh)}
+  // Walking directions are viewed in the map, not repeatedly offered as a
+  // generic retry from the public-transport card after an expired departure.
+  if(selected?.accessRoute&&!selected.error){const walk=document.createElement('button');walk.type='button';walk.className='transit-choice-action';walk.textContent=t[9];walk.onclick=()=>openRouteMap(selected.accessRoute,walk,selected.accessOptions);body.append(walk)}
+  if(state.lastTransitChoice){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
   appendTransitLegs(body,journey);appendFinalTransitWalkAction(body,journey);return;
  }
- appendTransitCards(body,options);
+ const available=feasibleTransitChoices(options);
+ if(!available.length){const p=document.createElement('p');p.className='transit-access-status';p.textContent=transitRefreshText()[5];body.append(p)}
+ else appendTransitCards(body,available);
+ if(state.lastTransitResponse?.transit_destination_point){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
 }
 async function selectTransitJourney(options,index){
  if(state.busy)return;cancelTransitAccess();const journey=options[index];if(!journey)return;const generation=state.transitAccessGeneration,chatGeneration=state.conversationGeneration,t=transitAccessText();const selected={journey,options,index,loading:true,error:'',accessRoute:null,accessOptions:[]};state.selectedTransitJourney=selected;renderTransitChoices(options,index);
@@ -1706,7 +1793,7 @@ async function runModuleSearch(choice){if(state.moduleSearchBusy)return;if(choic
   option.onclick=()=>runModuleSearch({...choice,transitDestination:{label:String(candidate.label||''),latitude:lat,longitude:lon}});
   target.append(option);
  });
-}else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){renderTransitChoices(data.transit)}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent='Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.';$('moduleLayerBody').append(note)}}}catch(error){if(searchGeneration===state.moduleSearchGeneration){moduleStatus(error?.name==='AbortError'?(state.language==='ro'?'Căutarea a depășit 25 de secunde. Încearcă din nou.':'Search timed out after 25 seconds. Please retry.'):(state.language==='en'?'Could not complete the search. ':'Nu am putut finaliza căutarea. ')+String(error&&error.message||error));console.error('myPocket AI module search failed:',error)}}finally{if(searchGeneration===state.moduleSearchGeneration)state.moduleSearchBusy=false}}
+}else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){state.lastTransitResponse=data;renderTransitChoices(data.transit)}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent='Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.';$('moduleLayerBody').append(note)}}}catch(error){if(searchGeneration===state.moduleSearchGeneration){moduleStatus(error?.name==='AbortError'?(state.language==='ro'?'Căutarea a depășit 25 de secunde. Încearcă din nou.':'Search timed out after 25 seconds. Please retry.'):(state.language==='en'?'Could not complete the search. ':'Nu am putut finaliza căutarea. ')+String(error&&error.message||error));console.error('myPocket AI module search failed:',error)}}finally{if(searchGeneration===state.moduleSearchGeneration)state.moduleSearchBusy=false}}
 function handleModuleLayerBack(){cancelTransitAccess(true);if(state.moduleSearchBusy){state.moduleSearchGeneration++;state.moduleSearchBusy=false}if(state.moduleSearchCategory){state.moduleSearchCategory=null;state.moduleSearchResults=[];state.moduleSearchReply='';$('moduleLayerTitle').textContent=(UI_TEXT[state.language]?.quickTitle||'Selecții rapide');renderModuleQuickChoices();return} $('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true')}
 function addQuickButton(icon,title,prompt,module){const b=document.createElement('button');b.type='button';b.className='list-row quick-selection';b.style.width='100%';b.style.textAlign='left';const i=document.createElement('span');i.style.flex='0 0 34px';i.textContent=icon;const label=document.createElement('span');label.textContent=title;const arrow=document.createElement('strong');arrow.textContent='›';b.append(i,label,arrow);b.addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if(title==='Hoteluri și POI'&&state.currentModule==='maps'){openModule('travel');return}if(state.currentView!=='module'||state.currentModule!==module){openModule(module)}state.pendingModulePrompt=prompt;inputEl.value=prompt;inputEl.focus();setStatus('Solicitarea este pregătită în modul '+(MODULES[module]?.title||'selectat')+'. Apasă trimitere pentru a continua.');});$('moduleContent').append(b)}
 const ROUTE_MAP_TEXT={ro:{title:'Traseu pe hartă',open:'Vezi traseul pe hartă',close:'Închide',external:'Deschide în Google Maps',loading:'Se încarcă harta…',failed:'Harta nu s-a încărcat. Poți folosi linkul extern.',shown:'Am deschis traseul calculat pe hartă.'},en:{title:'Route map',open:'View route on map',close:'Close',external:'Open in Google Maps',loading:'Loading map…',failed:'The map did not load. You can use the external link.',shown:'I opened the calculated route on the map.'},fr:{title:'Carte du trajet',open:'Voir le trajet',close:'Fermer',external:'Ouvrir dans Google Maps',loading:'Chargement…',failed:'Carte indisponible. Utilisez le lien externe.',shown:'Le trajet calculé est affiché sur la carte.'},de:{title:'Routenkarte',open:'Route auf Karte',close:'Schließen',external:'In Google Maps öffnen',loading:'Karte wird geladen…',failed:'Karte nicht verfügbar. Nutzen Sie den externen Link.',shown:'Die berechnete Route wird auf der Karte angezeigt.'},it:{title:'Mappa del percorso',open:'Vedi percorso',close:'Chiudi',external:'Apri in Google Maps',loading:'Caricamento…',failed:'Mappa non disponibile. Usa il link esterno.',shown:'Ho aperto il percorso calcolato sulla mappa.'},es:{title:'Mapa de la ruta',open:'Ver ruta en el mapa',close:'Cerrar',external:'Abrir en Google Maps',loading:'Cargando…',failed:'Mapa no disponible. Usa el enlace externo.',shown:'He abierto la ruta calculada en el mapa.'},pt:{title:'Mapa do percurso',open:'Ver percurso no mapa',close:'Fechar',external:'Abrir no Google Maps',loading:'A carregar…',failed:'Mapa indisponível. Use a ligação externa.',shown:'Abri o percurso calculado no mapa.'},nl:{title:'Routekaart',open:'Route op kaart',close:'Sluiten',external:'Open in Google Maps',loading:'Kaart laden…',failed:'Kaart niet beschikbaar. Gebruik de externe link.',shown:'De berekende route staat op de kaart.'},ru:{title:'Карта маршрута',open:'Маршрут на карте',close:'Закрыть',external:'Открыть в Google Maps',loading:'Загрузка карты…',failed:'Карта недоступна. Используйте внешнюю ссылку.',shown:'Рассчитанный маршрут открыт на карте.'},pl:{title:'Mapa trasy',open:'Pokaż trasę na mapie',close:'Zamknij',external:'Otwórz w Google Maps',loading:'Ładowanie…',failed:'Mapa niedostępna. Użyj zewnętrznego linku.',shown:'Obliczona trasa jest otwarta na mapie.'}};
@@ -1922,7 +2009,7 @@ function prepareAnswerReader(content,bubble,text,autoOpen){
  if(autoOpen&&(state.currentView==='assistant'||state.currentView==='module'))openAnswerReader(text,button);
 }
 function addBubble(text,role='assistant',isError=false,options={}){const empty=messagesEl.querySelector('.empty-state');if(empty)empty.remove();const el=document.createElement('div');el.className='bubble '+role+(isError?' error':'');const content=document.createElement('span');content.className='bubble-text';appendAnswerText(content,String(text));el.append(content);messagesEl.append(el);requestAnimationFrame(()=>{if(role==='assistant')prepareAnswerReader(content,el,text,options.autoOpen===true);messagesEl.scrollTop=messagesEl.scrollHeight;requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})});return el}
-function resetChat(){cancelTransitAccess(true);state.lastTransitChoice=null;state.lastTransitResponse=null;state.lastTravelModeResponse=null;state.pendingTravelMode=null;closeRouteMap(false);closeAnswerReader(false);state.lastRoute=null;state.lastRouteOptions=[];state.routeSearchContext=null;state.weatherSearchContext=null;state.placeSearchContext=null;state.distanceSearchContext=null;state.lastPlaceResults=[];state.pendingRouteDestination=null;state.pendingTravelConfirmationData=null;state.travelConfirmationPanel=null;state.pendingRouteStart=false;state.pendingRouteViaQuery=null;state.pendingRouteCompare=false;state.conversationGeneration++;state.messages=[];const ui=UI_TEXT[state.language]||UI_TEXT.en;messagesEl.innerHTML='<div class="empty-state"></div>';const empty=messagesEl.querySelector('.empty-state');empty.append(document.createTextNode(ui.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=ui.emptyHint;empty.append(document.createElement('br'),hint);state.lastReply='';inputEl.value='';setStatus(ui.ready);stopSpeech();stopRecognition();state.voiceMode=false;state.dictationMode=false;setPressed($('voiceBtn'),false);setPressed($('dictationBtn'),false);hideAvatar();}
+function resetChat(){cancelTransitAccess(true);state.transitRefreshGeneration=(state.transitRefreshGeneration||0)+1;state.transitRefreshAbort?.abort();state.transitRefreshAbort=null;state.transitRefreshBusy=false;state.lastTransitChoice=null;state.lastTransitResponse=null;state.lastTravelModeResponse=null;state.pendingTravelMode=null;closeRouteMap(false);closeAnswerReader(false);state.lastRoute=null;state.lastRouteOptions=[];state.routeSearchContext=null;state.weatherSearchContext=null;state.placeSearchContext=null;state.distanceSearchContext=null;state.lastPlaceResults=[];state.pendingRouteDestination=null;state.pendingTravelConfirmationData=null;state.travelConfirmationPanel=null;state.pendingRouteStart=false;state.pendingRouteViaQuery=null;state.pendingRouteCompare=false;state.conversationGeneration++;state.messages=[];const ui=UI_TEXT[state.language]||UI_TEXT.en;messagesEl.innerHTML='<div class="empty-state"></div>';const empty=messagesEl.querySelector('.empty-state');empty.append(document.createTextNode(ui.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=ui.emptyHint;empty.append(document.createElement('br'),hint);state.lastReply='';inputEl.value='';setStatus(ui.ready);stopSpeech();stopRecognition();state.voiceMode=false;state.dictationMode=false;setPressed($('voiceBtn'),false);setPressed($('dictationBtn'),false);hideAvatar();}
 function setPressed(button,value){button.setAttribute('aria-pressed',String(Boolean(value)))}
 // 03 — Local conversation history (explicitly deletable)
 const HISTORY_KEY='mypocketai.history.v1';
