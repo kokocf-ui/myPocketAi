@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.112",
+  version: "1.0.113",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1181,16 +1181,18 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 .route-map-header{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid #33556b}.route-map-header h2{flex:1;margin:0;font-size:20px}.route-map-header button{width:42px;height:42px;border:1px solid #5597ac;border-radius:12px;background:#12354b;color:#e4ffff;font-size:26px}.route-map-status{margin:8px 14px;font-size:14px}.route-map-window>a{color:var(--cyan);margin:0 14px 10px;font-size:14px}.route-map-canvas{flex:1 1 0;min-height:140px;background:#e4e7ea}.route-directions{flex:0 1 auto;max-height:32%;overflow:auto;padding:10px 14px;border-top:1px solid #33556b;overscroll-behavior:contain}.route-directions ol{padding-left:22px;margin:8px 0}.route-directions li{padding:5px 0}.route-map-window>.route-map-open{flex-shrink:0;margin:0 14px 8px;font-size:14px;text-align:center}.route-map-open{display:block;min-height:40px;margin-top:10px;padding:8px 12px;border:1px solid #59c3d2;border-radius:12px;background:#0b354d;color:#d7ffff;font:inherit;font-size:14px}
 .travel-mode-table,.travel-confirm-panel{width:100%;max-width:100%;background:linear-gradient(150deg,#102f44,#081b2a)!important;color:#e8f8ff!important;border:1px solid #3b91a4;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px #0006}.travel-mode-table caption{background:#12394f!important;color:#e8f8ff!important;padding:12px;font-weight:700}.travel-mode-table td,.travel-mode-table tr{background:transparent!important;color:#e8f8ff!important;border-color:#315c70!important}.travel-mode-table button{background:#123a50!important;color:#e8f8ff!important;border:1px solid #438ba0!important}.route-map-window.navigating{border-radius:0!important;border:0!important}.route-map-window.navigating .route-directions{max-height:23%}.route-map-window.navigating .route-map-canvas{min-height:55%}
 
-/* v1.0.112 — reusable accessible long-choice overlay across chat modules */
-.long-choice-backdrop{position:fixed;inset:0;z-index:130;display:none;align-items:center;justify-content:center;background:rgba(0,9,18,.76);padding:12px 12px max(12px,env(safe-area-inset-bottom));box-sizing:border-box}
-.long-choice-backdrop.open{display:flex}
-.long-choice-window{width:min(100%,560px);max-height:calc(100dvh - 34px);min-height:0;display:flex;flex-direction:column;overflow:hidden;border:2px solid #4d94a7;border-radius:20px;background:#0d2537;color:#eaf8ff;box-shadow:0 18px 50px #000c}
+/* v1.0.113 — Native browser dialog: transport and result lists open on first tap. */
+.long-choice-dialog{position:fixed;box-sizing:border-box;inset:0;margin:auto;padding:0;width:calc(100vw - 24px);max-width:560px;max-height:calc(100dvh - 32px);border:2px solid #4d94a7;border-radius:20px;background:#0d2537;color:#eaf8ff;box-shadow:0 18px 50px #000c;overflow:hidden}
+.long-choice-dialog:not([open]){display:none}
+.long-choice-dialog::backdrop{background:rgba(0,9,18,.82)}
+.long-choice-window{display:flex;flex-direction:column;max-height:calc(100dvh - 36px);min-height:0;overflow:hidden}
 .long-choice-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid #35657a;flex-shrink:0}
 .long-choice-header strong{font-size:17px;overflow-wrap:anywhere}
-.long-choice-close{font:inherit;font-weight:700;background:#14384d;color:#fff;border:1px solid #62a5b8;border-radius:12px;padding:9px 14px;min-width:46px;min-height:44px}
-.long-choice-content{overflow-y:auto;overscroll-behavior:contain;padding:12px;min-height:0;flex:1}
+.long-choice-close{font:inherit;font-weight:700;background:#14384d;color:#fff;border:1px solid #62a5b8;border-radius:12px;padding:9px 14px;min-width:46px;min-height:44px;cursor:pointer}
+.long-choice-content{overflow-y:auto;overscroll-behavior:contain;padding:12px;min-height:0;flex:1;max-height:calc(100dvh - 110px)}
 .long-choice-content .travel-mode-table,.long-choice-content .travel-confirm-panel,.long-choice-content .transit-steps{margin:0;width:100%}
-.long-choice-open{width:100%;max-width:100%;margin:10px 0;padding:13px 14px;border-radius:13px;background:linear-gradient(120deg,#ef5748,#991f3a);border:1px solid #ffb29d;color:#fff;font:inherit;font-weight:700;text-align:left;white-space:normal;overflow-wrap:anywhere}
+.long-choice-open{width:100%;max-width:100%;margin:10px 0;padding:13px 14px;min-height:52px;border-radius:13px;background:linear-gradient(120deg,#ef5748,#991f3a);border:1px solid #ffb29d;color:#fff;font:inherit;font-weight:700;text-align:left;white-space:normal;overflow-wrap:anywhere;cursor:pointer;touch-action:manipulation}
+.long-choice-open:focus-visible,.long-choice-close:focus-visible{outline:3px solid #68e4e9;outline-offset:2px}
 body.long-choice-active{overflow:hidden}
 </style>
 </head>
@@ -1235,7 +1237,7 @@ body.long-choice-active{overflow:hidden}
   <div id="moduleLayerBody" class="module-quick-body"></div>
  </section>
 </div>
-<div id="longChoiceBackdrop" class="long-choice-backdrop" aria-hidden="true"><section class="long-choice-window" role="dialog" aria-modal="true" aria-labelledby="longChoiceTitle"><header class="long-choice-header"><strong id="longChoiceTitle">Opțiuni</strong><button type="button" class="long-choice-close" id="longChoiceClose" aria-label="Închide">✕</button></header><div id="longChoiceContent" class="long-choice-content"></div></section></div>
+<dialog id="longChoiceDialog" class="long-choice-dialog" aria-labelledby="longChoiceTitle"><section class="long-choice-window"><header class="long-choice-header"><strong id="longChoiceTitle">Opțiuni</strong><button type="button" class="long-choice-close" id="longChoiceClose" aria-label="Închide">✕</button></header><div id="longChoiceContent" class="long-choice-content"></div></section></dialog>
 <nav class="bottom-nav" aria-label="Navigare principală"><button class="nav-btn active" data-nav="home"><span class="nav-icon">⌂</span>Acasă</button><button class="nav-btn" data-nav="conversations"><span class="nav-icon">◷</span>Conversații</button><button class="nav-btn" data-nav="tools"><span class="nav-icon">▱</span>Instrumente</button><button class="nav-btn" data-nav="settings"><span class="nav-icon">⚙</span>Setări</button></nav>
 <div class="avatar-overlay" id="avatarOverlay" aria-hidden="true"><button class="avatar-close" id="avatarClose" aria-label="Închide avatarul">×</button><div class="avatar-stage"><img class="avatar-image" id="avatarImage" src="${AVATAR_DATA}" alt="Avatarul holografic myPocket AI"><div class="avatar-message" id="avatarMessage">Salut! Sunt asistentul tău personal.</div><div class="voice-wave" id="voiceWave" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="avatar-status" id="avatarStatus">Bine ai venit!</div></div></div><div class="notice" id="notice" role="status" aria-live="polite"></div>
 <script>
@@ -1250,45 +1252,68 @@ const $ = id => document.getElementById(id);
 const views = [...document.querySelectorAll('.view')];
 const messagesEl=$('messages'), inputEl=$('messageInput'), sendBtn=$('sendBtn'), chatStatus=$('chatStatus');
 
-// Long panels live in a modal rather than clipping inside the conversation bubble.
-// Move the original DOM nodes to retain click handlers, selected options and context.
-let longChoiceOriginal=null,longChoicePlaceholder=null,longChoiceOpener=null;
+// A single native <dialog> owns all long choice panels. Each button calls it
+// directly; no MutationObserver timing or DOM reparenting is needed for travel
+// mode and location choices. The observer is only for legacy transit tables.
+let longChoiceOpener=null;
 function closeLongChoice(){
- const backdrop=$('longChoiceBackdrop'),content=$('longChoiceContent');
- if(!backdrop?.classList.contains('open'))return;
- if(longChoiceOriginal)longChoiceOriginal.remove();
- content.replaceChildren();backdrop.classList.remove('open');backdrop.setAttribute('aria-hidden','true');document.body.classList.remove('long-choice-active');
- const opener=longChoiceOpener;longChoiceOriginal=null;longChoicePlaceholder=null;longChoiceOpener=null;
- if(opener?.isConnected)opener.focus({preventScroll:true});
+ const dialog=$('longChoiceDialog');
+ if(dialog?.open)dialog.close();
 }
 function openLongChoice(panel,trigger){
- closeLongChoice();const backdrop=$('longChoiceBackdrop');if(!panel||!backdrop)return;
- longChoiceOriginal=panel;longChoicePlaceholder=trigger;longChoiceOpener=trigger;
- const heading=panel.querySelector('caption, h3, strong');
- $('longChoiceTitle').textContent=(heading?.textContent||trigger.textContent||'Opțiuni').trim().slice(0,120);
- $('longChoiceContent').append(panel);backdrop.classList.add('open');backdrop.setAttribute('aria-hidden','false');document.body.classList.add('long-choice-active');
+ const dialog=$('longChoiceDialog'),content=$('longChoiceContent');
+ if(!dialog||!content||!panel)return;
+ if(dialog.open)dialog.close();
+ const heading=panel.querySelector?.('caption, h3, strong');
+ $('longChoiceTitle').textContent=(heading?.textContent||trigger?.textContent||'Opțiuni').trim().slice(0,120);
+ content.replaceChildren(panel);
+ longChoiceOpener=trigger||null;
+ try{dialog.showModal()}
+ catch(error){console.error('Pocket AI choice dialog:',error);content.replaceChildren();longChoiceOpener=null;return}
+ document.body.classList.add('long-choice-active');
  $('longChoiceClose').focus({preventScroll:true});
+}
+function addChoiceDialogOpener(panel,host){
+ // Lightweight test DOMs without a native document still receive the table.
+ if(!host?.ownerDocument){host?.append(panel);return}
+ const opener=document.createElement('button');
+ opener.type='button';opener.className='long-choice-open';
+ opener.setAttribute('aria-haspopup','dialog');
+ opener.setAttribute('aria-controls','longChoiceDialog');
+ const heading=panel.querySelector?.('caption, h3, strong')?.textContent?.trim();
+ opener.textContent=(heading||(state.language==='ro'?'Vezi variantele și detaliile':'View options and details'))+' ▾';
+ opener.addEventListener('click',event=>{event.preventDefault();openLongChoice(panel,opener)});
+ host.append(opener);
 }
 function promoteLongChoicePanels(){
  if(!messagesEl?.isConnected)return;
  for(const panel of messagesEl.querySelectorAll('.bubble .travel-mode-table, .bubble .travel-confirm-panel, .bubble .transit-steps')){
   if(panel.dataset.longChoiceReady)continue;
   const rows=panel.querySelectorAll('tr').length,buttons=panel.querySelectorAll('button').length;
-  // All option tables need ample touch space. Short yes/no questions stay inline.
   if(rows<2&&buttons<3)continue;
   panel.dataset.longChoiceReady='true';
-  const trigger=document.createElement('button');trigger.type='button';trigger.className='long-choice-open';
-  const heading=panel.querySelector('caption')?.textContent?.trim();
-  trigger.textContent=(heading|| (state.language==='ro'?'Vezi variantele și detaliile':'View options and details'))+'  ▣';
-  panel.before(trigger);panel.remove(); // retain the original panel without duplicating interactive controls
-  trigger.addEventListener('click',()=>openLongChoice(panel,trigger));
+  const host=panel.parentNode;
+  if(!host)continue;
+  const placeholder=document.createElement('span');
+  panel.replaceWith(placeholder);
+  addChoiceDialogOpener(panel,placeholder);
+  placeholder.replaceWith(...placeholder.childNodes);
  }
 }
 $('longChoiceClose').addEventListener('click',closeLongChoice);
-$('longChoiceBackdrop').addEventListener('click',e=>{if(e.target===$('longChoiceBackdrop'))closeLongChoice()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLongChoice()});
-$('longChoiceContent').addEventListener('click',e=>{if(e.target.closest('button, select')&&!e.target.closest('.route-options')){setTimeout(()=>{if($('longChoiceBackdrop').classList.contains('open'))closeLongChoice()},150)}});
-const longChoiceObserver=new MutationObserver(()=>promoteLongChoicePanels());
+$('longChoiceDialog').addEventListener('close',()=>{
+ $('longChoiceContent').replaceChildren();
+ document.body.classList.remove('long-choice-active');
+ const opener=longChoiceOpener;longChoiceOpener=null;
+ if(opener?.isConnected)opener.focus({preventScroll:true});
+});
+$('longChoiceDialog').addEventListener('click',event=>{if(event.target===$('longChoiceDialog'))closeLongChoice()});
+$('longChoiceContent').addEventListener('click',event=>{
+ const action=event.target.closest?.('button');
+ if(action&&!action.closest('.route-options')&&!action.classList.contains('long-choice-keep-open'))closeLongChoice();
+});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&$('longChoiceDialog').open)closeLongChoice()});
+const longChoiceObserver=new MutationObserver(promoteLongChoicePanels);
 longChoiceObserver.observe(messagesEl,{subtree:true,childList:true});
  const sharedChatShell=$('sharedChatShell'), chatHomePlaceholder=$('chatHomePlaceholder'), newChatBtn=$('newChatBtn');
 const chatControlsHome=$('sharedChatShell').querySelector('.chat-top');
@@ -1493,7 +1518,7 @@ function appendTravelModeChoices(data,host){
   const row=document.createElement('tr'),cell=document.createElement('td'),button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.textContent=t[i+1];buttons.push(button);
   button.onclick=async()=>{if(state.busy||generation!==state.conversationGeneration||state.routeSearchContext?.pending!=='profile'||state.routeSearchContext.destination_query!==data.route_context.destination_query)return;buttons.forEach(b=>b.disabled=true);state.pendingTravelConfirmationData=null;state.travelConfirmationPanel=null;state.routeSearchContext={...data.route_context};state.pendingTravelMode=mode;state.pendingRouteDestination=null;closeAnswerReader(false);inputEl.value=t[i+1];await submitMessage();buttons.forEach(b=>b.disabled=false)};
   cell.append(button);row.append(cell);body.append(row);
- }table.append(body);host.append(table);return true;
+ }table.append(body);addChoiceDialogOpener(table,host);return true;
 }
 // v1.0.101: Each assistant clarification owns its own in-conversation choice table.
 function appendConversationChoices(data,host){
@@ -1505,7 +1530,7 @@ function appendConversationChoices(data,host){
  const generation=state.conversationGeneration,buttons=[];
  for(const [choiceIndex,option] of options.entries()){
   const row=document.createElement('tr'),cell=document.createElement('td'),button=document.createElement('button');
-  if(data.named_venue&&choiceIndex>=4)row.hidden=true;
+  if(data.named_venue&&choiceIndex>=4&&!host?.ownerDocument)row.hidden=true;
   button.type='button';button.className='transit-choice-action';button.textContent=option.label+(Number.isFinite(Number(option.distance_km))?' · '+Number(option.distance_km).toLocaleString(state.language,{maximumFractionDigits:1})+' km':'');buttons.push(button);
   button.onclick=async()=>{
    if(state.busy||generation!==state.conversationGeneration)return;
@@ -1529,8 +1554,8 @@ function appendConversationChoices(data,host){
   };
   cell.append(button);row.append(cell);body.append(row);
  }
- table.append(body);host.append(table);
- if(data.named_venue&&options.length>4){
+ table.append(body);addChoiceDialogOpener(table,host);
+ if(data.named_venue&&options.length>4&&!host?.ownerDocument){
   const more=document.createElement('button');more.type='button';more.className='transit-choice-action';
   const captions={ro:'Vezi mai multe locații',en:'Show more locations',fr:'Voir plus de lieux',de:'Weitere Standorte anzeigen',it:'Mostra altre sedi',es:'Ver más ubicaciones',pt:'Ver mais locais',nl:'Meer locaties tonen',ru:'Показать больше мест',pl:'Pokaż więcej lokalizacji'};
   more.textContent=captions[state.language]||captions.en;
