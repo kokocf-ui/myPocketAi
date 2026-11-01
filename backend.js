@@ -1796,6 +1796,32 @@ export default {
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Am găsit mai multe locații. Pe care o cauți?',named_venue:true,needs_destination_clarification:true,destination_candidates:options,ai_connected:Boolean(env.AI)});
       }
     }
+    // Geocoding provides an independent name lookup when a sparse POI sample misses a shop.
+    if(localNameQuery&&env.GEOAPIFY_API_KEY){
+      try{
+        const u=new URL('https://api.geoapify.com/v1/geocode/search');
+        u.searchParams.set('text',localNameQuery);
+        u.searchParams.set('bias','proximity:'+longitude+','+latitude);
+        u.searchParams.set('limit','10');
+        u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+        const response=await fetch(u.href,{signal:AbortSignal.timeout(7000)});
+        if(response.ok){
+          const tokens=normalizeGeoName(localNameQuery).split(' ').filter(Boolean),candidates=[];
+          for(const feature of (await response.json()).features||[]){
+            const p=feature.properties||{},nameTokens=normalizeGeoName(p.name||'').split(' ');
+            const candidate={latitude:Number(p.lat),longitude:Number(p.lon),label:String(p.formatted||p.name||''),resolution_source:'gps_named_geocode'};
+            if(!tokens.every(w=>nameTokens.includes(w))||!Number.isFinite(candidate.latitude)||!Number.isFinite(candidate.longitude)||!candidate.label||routeGeoDistance({latitude,longitude},candidate)>40000)continue;
+            if(!candidates.some(v=>routeGeoDistance(v,candidate)<120))candidates.push(candidate);
+          }
+          candidates.sort((a,b)=>routeGeoDistance({latitude,longitude},a)-routeGeoDistance({latitude,longitude},b));
+          if(candidates.length){
+            const selected=candidates[0],context={destination_query:localNameQuery,destination:selected,pending:'profile'},journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput);
+            if(candidates.length===1)return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:journey?'Am identificat '+selected.label+'. Cum dorești să ajungi?':'Am identificat '+selected.label+'. Dorești să îți arăt traseul?',named_venue:true,needs_travel_confirmation:!journey,needs_travel_mode:journey,route_context:context,ai_connected:Boolean(env.AI)});
+            return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Am găsit mai multe locații apropiate. Pe care o cauți?',named_venue:true,needs_destination_clarification:true,destination_candidates:candidates.slice(0,4),ai_connected:Boolean(env.AI)});
+          }
+        }
+      }catch{}
+    }
     if(localNameQuery&&env.GEOAPIFY_API_KEY){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Nu am putut confirma încă o locație apropiată pentru '+localNameQuery+'. Verifică permisiunea GPS sau precizează o zonă; nu voi inventa o adresă.',named_venue:true,search_ok:false,place_lookup:{strategy:'gps_nearby',matched:0},ai_connected:Boolean(env.AI)});
     }
