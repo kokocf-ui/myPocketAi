@@ -589,7 +589,7 @@ export default {
         const explicitTransitQuery=typeof data.transit_query==="string"?data.transit_query.trim().slice(0,140):"";
         if(explicitTransitQuery)targetName=explicitTransitQuery;
         // Confirmed choice from the UI: never geocode it again.
-        const selectedDestination=data.transit_destination;
+        const selectedDestination=data.transit_destination || (chosenTravelMode==='transit'&&data.route_context?.destination&&typeof data.route_context.destination==='object'?data.route_context.destination:null);
         let confirmedStop=false;
         if(selectedDestination&&typeof selectedDestination==="object"){
           const lat=Number(selectedDestination.latitude),lon=Number(selectedDestination.longitude);
