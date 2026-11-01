@@ -1763,7 +1763,7 @@ export default {
     // GPS-first named business lookup when the user does not know its town.
     // Only handle short name queries, not general questions or dedicated map routing.
     const localNameRaw=namedVenueInput.replace(/^(?:vreau sa ajung la|unde (?:este|e|gasesc)|cauta(?:-mi)?|gaseste(?:-mi)?)\s+/i,'').replace(/\s+(?:in zona mea|in apropierea mea|langa mine|aproape de mine|near me|nearby)$/i,'').trim();
-    const localNameQuery=!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
+    const localNameQuery=!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
     if(localNameQuery&&env.GEOAPIFY_API_KEY){
       const wanted=normalizeGeoName(localNameQuery).split(' ').filter(Boolean),found=[];
       for(const radius of [5000,15000,40000]){
@@ -1846,7 +1846,7 @@ export default {
     if(localNameQuery&&env.GEOAPIFY_API_KEY){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Nu am putut confirma încă o locație apropiată pentru '+localNameQuery+'. Verifică permisiunea GPS sau precizează o zonă; nu voi inventa o adresă.',named_venue:true,search_ok:false,place_lookup:{strategy:'gps_nearby',matched:0},ai_connected:Boolean(env.AI)});
     }
-    if(namedVenueMatch&&/^(?:assistant|travel|maps|map|tourism|travel_tourism|maps_transport|harti_transport)$/i.test(String(data.module||'assistant'))){
+    if(namedVenueMatch&&!data.quick_place_search&&/^(?:assistant|travel|maps|map|tourism|travel_tourism|maps_transport|harti_transport)$/i.test(String(data.module||'assistant'))){
       const kind=namedVenueMatch[1],venueName=namedVenueMatch[2].trim(),town=namedVenueMatch[3].trim();
       if(venueName.length>=2&&!/^(?:un|o|niste|some|a|the|toate|all)$/i.test(venueName)){
         const target=venueName+', '+town; // Category describes the venue; it is not part of its proper name.
