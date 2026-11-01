@@ -1,5 +1,15 @@
 # Version log
 
+## 2026-11-01 — Source audit, backend v142 + frontend 1.0.105
+
+- Verified the exact file tree on `main`. Every `tests*.mjs` is used by `npm test`; the two Wrangler configs and GitHub Actions workflows are active configuration and must not be deleted.
+- Removed the obsolete `SHA256SUMS.txt` file: its digests described earlier code and documentation, not the current release. Updated both README files; the history remains intact.
+- Live GitHub Actions run 41320428179: Cloudflare v141 resolved all three Decathlon name forms by Photon and retained a working transit route; `London Liverpool Street` still failed during station resolution.
+- Backend v142 reads TfL `StopPoint/Search` results using `SearchMatch.name`, validates the operator station and uses the matched ID for public-transport routing. The historical v141 run is **not** proof of v142 live success.
+- `tests.mjs` no longer pins obsolete backend v136; the Liverpool Street fixture now uses the actual TfL `name` field. The named-venue and transit regression tests remain part of the test suite.
+- Rule for routing: the place name entered by the user is the primary lookup key. Terms like "Street" inside an official station name must not be used alone to force a street-address category. Provider-verified coordinates or a clarification are required before navigating.
+
+
 ## 2026-10-31 — backend v114 + frontend 1.0.83
 2026-10-31 — backend v114 / frontend 1.0.83: expanded Romanian local food, market and pharmacy intent; nearby 'în jurul meu'; removed automatic chat-module handoff; exposed New conversation in module conversation header. Static inspection only; automated/live regression tests pending.
 
