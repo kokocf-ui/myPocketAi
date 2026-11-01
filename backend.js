@@ -1763,7 +1763,7 @@ export default {
     if(namedVenueMatch&&/^(?:assistant|travel|maps|map|tourism|travel_tourism|maps_transport|harti_transport)$/i.test(String(data.module||'assistant'))){
       const kind=namedVenueMatch[1],venueName=namedVenueMatch[2].trim(),town=namedVenueMatch[3].trim();
       if(venueName.length>=2&&!/^(?:un|o|niste|some|a|the|toate|all)$/i.test(venueName)){
-        const target=(kind==='obiectiv'?'':kind+' ')+venueName+', '+town;
+        const target=venueName+', '+town; // Category describes the venue; it is not part of its proper name.
         const resolved=await resolveNamedTravelPlace(target,env,hasValidLocation?{latitude,longitude}:null,trace=>{responsePlaceLookup=trace});
         // Collapse geocoder records for the same venue/address before asking the user.
         // Geoapify may return several postal-code centroids for one storefront.
