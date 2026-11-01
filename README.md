@@ -1,4 +1,11 @@
-# myPocket AI — backend v143 + frontend v1.0.108
+# myPocket AI — backend v145 + frontend v1.0.108
+
+## Named geographic places and stations — v145 (2026-11-01)
+
+- A bare geographical district ("West Dulwich") is resolved as an exact mapped area before generic business lookup. Never return an unrelated nearby hotel merely because its name contains "West".
+- An explicit station query ("Victoria station" or "London Victoria station") consults TfL's verified station records rather than categorizing a station as a hotel or business. Verified TfL station short names receive their operator-backed rail/underground station label.
+- The v144 live diagnostics correctly resolved West Dulwich. TfL provided the short name "Victoria"; v145 fixes the display label. Full v145 live verification is separate from source and fixture testing.
+- Regression test `tests_geographic_station_intent.mjs` checks these three inputs, a Decathlon control and no invented results when a district cannot be verified.
 
 ## Update — 2026-11-01 (v143 / 1.0.108)
 
