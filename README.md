@@ -1,4 +1,14 @@
-# myPocket AI — backend v142 + frontend v1.0.105
+# myPocket AI — backend v143 + frontend v1.0.108
+
+## Update — 2026-11-01 (v143 / 1.0.108)
+
+- Chain-name searches such as "Decathlon" return up to eight distinct mapped nearby branches when multiple locations are available. The first four are visible; "Show more locations" reveals the rest, with straight-line GPS distances where available. A specific location qualifier such as "Lakeside" is still prioritized.
+- Public-transport journeys retain the original POI and expose a final-mile walking action from the **last vehicle's alighting stop** to that POI, using verified stop and destination coordinates. This is an on-demand map route, not automatic transit detection or voice navigation.
+- Restaurant, café/tea-room and local grocery searches use distinct provider categories; convenience shops are included alongside supermarkets.
+- Verified in live GitHub Actions (backend v143): 7 distinct Decathlon candidates for a generic name, no restaurant/café duplicates in the West Thurrock public-area fixture, grocery sample included Londis and Longdan, and a verified 596-metre final walking route to the Decathlon POI.
+- Dedicated destination, final-mile and food-category fixture tests pass. The broader legacy `npm test` still fails on an unrelated Brave/news test assertion; that issue has not been disguised or changed.
+- GitHub Actions: `.github/workflows/test-destinations.yml`; focused tests: `npm run test:destinations` and `npm run test:local-categories`.
+
 
 **Current source versions (2026-11-01):** backend v142; frontend APP.version 1.0.105. The Cloudflare deployment must be checked separately against the live service.
 
