@@ -1256,14 +1256,13 @@ let longChoiceOriginal=null,longChoicePlaceholder=null,longChoiceOpener=null;
 function closeLongChoice(){
  const backdrop=$('longChoiceBackdrop'),content=$('longChoiceContent');
  if(!backdrop?.classList.contains('open'))return;
- if(longChoiceOriginal&&longChoicePlaceholder?.isConnected){longChoicePlaceholder.after(longChoiceOriginal)}
- else if(longChoiceOriginal)longChoiceOriginal.remove();
+ if(longChoiceOriginal)longChoiceOriginal.remove();
  content.replaceChildren();backdrop.classList.remove('open');backdrop.setAttribute('aria-hidden','true');document.body.classList.remove('long-choice-active');
  const opener=longChoiceOpener;longChoiceOriginal=null;longChoicePlaceholder=null;longChoiceOpener=null;
  if(opener?.isConnected)opener.focus({preventScroll:true});
 }
 function openLongChoice(panel,trigger){
- closeLongChoice();const backdrop=$('longChoiceBackdrop');if(!panel?.isConnected||!backdrop)return;
+ closeLongChoice();const backdrop=$('longChoiceBackdrop');if(!panel||!backdrop)return;
  longChoiceOriginal=panel;longChoicePlaceholder=trigger;longChoiceOpener=trigger;
  const heading=panel.querySelector('caption, h3, strong');
  $('longChoiceTitle').textContent=(heading?.textContent||trigger.textContent||'Opțiuni').trim().slice(0,120);
@@ -1273,7 +1272,7 @@ function openLongChoice(panel,trigger){
 function promoteLongChoicePanels(){
  if(!messagesEl?.isConnected)return;
  for(const panel of messagesEl.querySelectorAll('.bubble .travel-mode-table, .bubble .travel-confirm-panel, .bubble .transit-steps')){
-  if(panel.dataset.longChoiceReady)return;
+  if(panel.dataset.longChoiceReady)continue;
   const rows=panel.querySelectorAll('tr').length,buttons=panel.querySelectorAll('button').length;
   // All option tables need ample touch space. Short yes/no questions stay inline.
   if(rows<2&&buttons<3)continue;
@@ -1282,7 +1281,7 @@ function promoteLongChoicePanels(){
   const heading=panel.querySelector('caption')?.textContent?.trim();
   trigger.textContent=(heading|| (state.language==='ro'?'Vezi variantele și detaliile':'View options and details'))+'  ▣';
   panel.before(trigger);panel.remove(); // retain the original panel without duplicating interactive controls
-  trigger.addEventListener('click',()=>{trigger.after(panel);openLongChoice(panel,trigger)});
+  trigger.addEventListener('click',()=>openLongChoice(panel,trigger));
  }
 }
 $('longChoiceClose').addEventListener('click',closeLongChoice);
