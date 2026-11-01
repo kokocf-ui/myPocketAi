@@ -25,7 +25,7 @@ globalThis.fetch=async input=>{
  if(url.pathname==='/v1/geocode/reverse')return Response.json({features:[]});
  throw Error('Unexpected provider '+url.hostname+url.pathname);
 };
-const env={GEOAPIFY_API_KEY:'fixture'};
+const env={GEOAPIFY_API_KEY:'fixture',AI:{run:async()=>({response:'fixture'})}};
 async function search(message){
  calls.length=0;
  const res=await worker.fetch(new Request('https://fixture/api/chat',{method:'POST',body:JSON.stringify({
