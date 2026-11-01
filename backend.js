@@ -578,7 +578,7 @@ export default {
         const pendingModeDestination=transportModeOnly&&data.route_context?.pending==='profile'&&typeof data.route_context.destination_query==='string'?cleanTravelPlace(data.route_context.destination_query):transportModeOnly?transitConversationDestination(message,data.history):'';
         const extractedDestination = pendingModeDestination || (boardingAccessRequested ? transitConversationDestination(message,data.history) : extractTransitDestination(message));
         const explicitTransitInput=typeof data.transit_query==="string"&&data.transit_query.trim();
-        if (!extractedDestination && !explicitTransitInput && !data.transit_destination) {
+        if (!extractedDestination && !explicitTransitInput && !data.transit_destination && !(chosenTravelMode==='transit'&&data.route_context?.destination&&Number.isFinite(Number(data.route_context.destination.latitude))&&Number.isFinite(Number(data.route_context.destination.longitude)))) {
           const reply = lang === "en"
             ? "Where would you like to go? Tell me the town, address or station."
             : "Unde vrei să ajungi? Spune-mi localitatea, adresa sau stația.";
@@ -1826,7 +1826,12 @@ export default {
     // Reuse the existing named-place resolver before returning a negative result.
     if(localNameQuery&&env.GEOAPIFY_API_KEY){
       try{
-        const matches=await resolveNamedTravelPlace(localNameQuery,env,{latitude,longitude});
+        const reverseUrl=new URL('https://api.geoapify.com/v1/geocode/reverse');
+        reverseUrl.searchParams.set('lat',String(latitude));reverseUrl.searchParams.set('lon',String(longitude));reverseUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+        const reverseResponse=await fetch(reverseUrl.href,{signal:AbortSignal.timeout(5000)});
+        const reverseProperties=reverseResponse.ok?(await reverseResponse.json()).features?.[0]?.properties||{}:{};
+        const locality=String(reverseProperties.city||reverseProperties.town||reverseProperties.suburb||reverseProperties.county||'').trim();
+        const matches=locality?await resolveNamedTravelPlace(localNameQuery+', '+locality,env,{latitude,longitude}):[];
         const nearby=matches.filter(p=>Number.isFinite(Number(p.latitude))&&Number.isFinite(Number(p.longitude))&&routeGeoDistance({latitude,longitude},p)<=40000);
         const distinct=[];
         for(const place of nearby){if(!distinct.some(previous=>routeGeoDistance(previous,place)<120))distinct.push(place);}
