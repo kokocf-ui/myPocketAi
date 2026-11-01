@@ -49,7 +49,21 @@ function cleanTravelPlace(value){
  if(venueCity&&/\b(?:restaurant\w*|hotel\w*|cafe\w*|cafenea|farmaci\w*|pharmac\w*|museum|muze\w*)\b/i.test(venueCity[1]))text=venueCity[1]+', '+venueCity[2];
  return text.replace(/\b(?:londra|londrei)\b/gi,'London').trim().slice(0,240);
 }
+// A landmark's popular name need not match its official map name.
+// Aliases only rewrite the search term: coordinates still require a provider
+// result verified against the canonical name and locality.
+function canonicalLandmarkQuery(query){
+ const raw=String(query||'').trim(),n=normalizeGeoName(raw);
+ if(/^(?:(?:stadionul|stadion|stadium|arena)\s+)(?:fc\s+)?arsenal(?:\s+(?:fc|londra|london))?$/.test(n))
+   return 'Emirates Stadium, London';
+ // Translate category words so an international map service can find the
+ // proper name, without inventing a venue or a coordinate.
+ const stadium=n.match(/^(?:stadionul|stadion)\s+(.+)$/);
+ if(stadium&&!/\bstadium\b/.test(stadium[1]))return stadium[1].replace(/\s+/g,' ')+' Stadium';
+ return raw;
+}
 const TRAVEL_POI_RULES=[
+ [/^(?:stadion(?:ul)?|stadium|arena)\s+/i,'entertainment.stadium'],
  [/^(?:magazin(?:ul|e)?|market(?:ul)?|supermarket(?:ul)?|shop|store|boutique|magasin|geschaft|laden|negozio|tienda|loja|winkel|магазин|sklep)\s+/i,'commercial'],
  [/^(?:restaurant\w*|restaurante|ristorante|ресторан\w*|restauracj\w*)\s+/i,'catering'],
  [/^(?:cafe\w*|cafenea(?:ua)?|cofetari\w*|ceainari\w*|coffee shop|tea room|кафе|kawiarnia)\s+/i,'catering'],
@@ -1012,7 +1026,8 @@ export default {
     // Shared route dispatch for assistant and map-module messages; POIs are not city searches.
     const routeWords=normalizeGeoName(message);
     const mapRouteRequest=!/^(?:ce este|ce inseamna|what is|explain|explica|why|de ce)\b/.test(routeWords)&&/(?:harta|map)/.test(routeWords)&&/(?:trase|ruta|rute|route|directii|directions)/.test(routeWords);
-    const routeSpec=data.route_start===true&&["walk","drive"].includes(data.route_profile)?{profile:data.route_profile,destination_query:"",origin_query:""}:routeMessageSpec(message);
+    const routeSpecOriginal=data.route_start===true&&["walk","drive"].includes(data.route_profile)?{profile:data.route_profile,destination_query:"",origin_query:""}:routeMessageSpec(message);
+    const routeSpec=routeSpecOriginal?.destination_query?{...routeSpecOriginal,destination_query:canonicalLandmarkQuery(routeSpecOriginal.destination_query)}:routeSpecOriginal;
     const walkRequest=routeSpec?.profile==='walk';
     const driveRequest=routeSpec?.profile==='drive';
     const gpsRouteAnswer=/^(?:foloseste |use )?(?:locatia mea|pozitia mea(?: gps)?|my (?:current )?(?:location|position)|gps|aici|here)$/.test(routeWords);
@@ -1065,7 +1080,6 @@ export default {
       }
       if(mapRouteRequest){const named=message.normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/(?:pana\s+(?:la|in)|catre|\bto)\s+(.+)$/i);if(named){rc.destination_query=named[1].replace(/[?!.]+$/g,'').trim();rc.destination=null;rc.candidates=[];rc.pending=null}}
       const routeReply=(reply,extra={})=>{responseRouteContext=rc;return json({place_lookup:responsePlaceLookup,app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:false,location_received:hasValidLocation,...extra,ai_connected:Boolean(env.AI)})};
-      if(!rc.profile){rc.pending="profile";return routeReply(lang==="en"?"Would you like to walk, use public transport, or drive?":"Vrei să mergi pe jos, cu transportul public sau cu mașina?",{needs_travel_mode:true})}
       if(!rc.destination_query&&!routePoint(rc.destination)){rc.pending="destination";return routeReply(lang==="en"?"What is your destination? Give its name, address or postcode.":"Care este destinația? Spune-mi numele, adresa sau codul poștal.")}
       if(!hasValidLocation&&!rc.origin_query&&!routePoint(rc.origin)){rc.pending="origin";return routeReply(lang==="en"?"I do not have usable GPS coordinates. Allow location access or give your departure address/postcode.":"Nu am coordonate GPS utilizabile. Permite accesul la locație sau precizează adresa/codul poștal de plecare.",{needs_origin_clarification:true})}
       if(!env.GEOAPIFY_API_KEY)return routeReply(lang==="en"?"The route provider is not configured.":"Serviciul de calcul al traseului nu este configurat.");
@@ -1103,9 +1117,54 @@ export default {
         };
         if(localLookup){const local=(await lookup(`circle:${longitude},${latitude},25000`)).filter(v=>routeGeoDistance({latitude,longitude},v)<=25000);if(local.length)return local;return [];} // ask for city/country; do not substitute overseas names
         const results=await lookup(country?'countrycode:'+country.toLowerCase():'');
-        if(results.length||!venueTokens||isOrigin)return results;
+        // Unqualified place names must not snap to an unrelated country. A
+        // visitor may not know the town, so search the wider local region,
+        // but refuse an unqualified result thousands of kilometres away.
+        const bounded=!country&&!isOrigin&&!query.includes(',')&&hasValidLocation;
+        const plausible=bounded?results.filter(p=>routeGeoDistance({latitude,longitude},p)<=90000):results;
+        if(plausible.length||!venueTokens||isOrigin)return plausible;
         return resolveNamedTravelPlace(query,env,hasValidLocation?{latitude,longitude}:null,trace=>{responsePlaceLookup=trace});
       };
+      // v147: identify the destination BEFORE asking for transport. The previous
+      // early return offered modes for an unverified venue and later routed to
+      // unrelated places with matching fragments (e.g. "Arsenal" abroad).
+      if(!rc.profile){
+        if(!rc.destination_query&&!routePoint(rc.destination)){
+          rc.pending='destination';
+          return routeReply(lang==='en'?'Which destination would you like to reach?':'La ce destinație dorești să ajungi?');
+        }
+        if(!hasValidLocation&&!rc.origin_query&&!routePoint(rc.origin)){
+          rc.pending='origin';
+          return routeReply(lang==='en'?'Enable GPS or give your departure address before choosing a journey.':'Permite GPS sau precizează punctul de plecare înainte de a alege traseul.',{needs_origin_clarification:true});
+        }
+        if(!env.GEOAPIFY_API_KEY)return routeReply(lang==='en'?'The location provider is unavailable.':'Serviciul de verificare a destinației nu este configurat.');
+        let candidates=[];
+        if(routePoint(rc.destination))candidates=[rc.destination];
+        else {
+          try{candidates=await findRoutePoints(rc.destination_query)}
+          catch(error){console.warn('Pocket AI destination preflight',String(error?.name||error).slice(0,70))}
+        }
+        if(!candidates.length){
+          rc.pending='destination_detail';
+          return routeReply(lang==='en'
+            ?'I could not verify “‘'+rc.destination_query+'” on the map. Add the town or postcode; I will not suggest a different place.'
+            :'Nu am putut verifica pe hartă obiectivul „'+rc.destination_query+'”. Adaugă localitatea sau codul poștal; nu voi alege alt loc.',
+            {needs_destination_clarification:true,place_lookup:{strategy:'preflight_unverified'}});
+        }
+        if(candidates.length>1){
+          rc.pending='destination_choice';rc.candidates=candidates.slice(0,8);
+          return routeReply(lang==='en'?'I found several possible destinations. Which one do you mean?':'Am găsit mai multe destinații posibile. Pe care o dorești?',
+            {named_venue:true,needs_destination_clarification:true,destination_candidates:rc.candidates});
+        }
+        rc.destination=candidates[0];
+        rc.destination_query=String(candidates[0].label||rc.destination_query);
+        rc.pending='profile';
+        const distanceKm=hasValidLocation?routeGeoDistance({latitude,longitude},rc.destination)/1000:null;
+        return routeReply(lang==='en'?'I found '+rc.destination.label+'. How would you like to travel?'
+          :'Am identificat '+rc.destination.label+'. Cum dorești să ajungi?',
+          {needs_travel_mode:true,named_venue:true,straight_line_distance_km:distanceKm,
+           place_lookup:{strategy:'verified_destination_preflight',matched:1}});
+      }
       try{
         let origin=routePoint(rc.origin)?rc.origin:hasValidLocation&&!rc.origin_query?{latitude,longitude,label:gpsPositionLabel,location_source:'gps'}:null;
         if(!origin){const origins=await findRoutePoints(rc.origin_query,true);if(origins.length!==1){rc.pending="origin";return routeReply(lang==="en"?"Please give a more precise departure address or postcode.":"Precizează mai exact adresa sau codul poștal de plecare.",{needs_origin_clarification:true})}origin=origins[0];rc.origin=origin}
