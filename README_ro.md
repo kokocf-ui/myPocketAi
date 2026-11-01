@@ -1,4 +1,6 @@
-# myPocket AI — backend v133 + frontend v1.0.99
+# myPocket AI — backend v134 + frontend v1.0.99
+
+v134: diferențiază adresele stradale/codurile poștale, punctele de interes numite și localitățile. Separă tipul afacerii de nume și localitate; acceptă nume plus localitate fără categorie explicită. Respinge străzile cu același nume pentru o cerere de magazin și verifică strada/numărul pentru adrese.
 
 v133 / 1.0.99: alegerea pietonal/transport public/mașină se face dintr-un tabel cu butoane. Modul ales se trimite ca date structurate, păstrând destinația și cerând GPS. Pentru un local negăsit sunt încercate numele simplificat, locuri din localitatea explicită și, dacă EXA este configurat, adrese publice concordante verificate în hartă prin număr, stradă și localitate.
 

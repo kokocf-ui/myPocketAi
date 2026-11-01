@@ -1,4 +1,6 @@
-# myPocket AI — backend v133 + frontend v1.0.99
+# myPocket AI — backend v134 + frontend v1.0.99
+
+v134: distinguish street/postcode addresses, named points of interest and geographic places. Separate business category from name and locality; support a name plus town without requiring an explicit category. Reject same-name streets for a business request, verify street/house number for an address, and keep the explicit town during named-POI fallback.
 
 v133 / 1.0.99: choose walking, public transport or driving through a three-button table. The selected mode is sent as structured data with the retained destination and a GPS request. Named venues missing from geocoding are checked by simplified name, POIs in the explicit town, then (when Exa is configured) agreeing web addresses verified by map house/street/locality data.
 

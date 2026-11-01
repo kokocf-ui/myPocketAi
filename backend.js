@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -49,18 +49,55 @@ function cleanTravelPlace(value){
  if(venueCity&&/\b(?:restaurant\w*|hotel\w*|cafe\w*|cafenea|farmaci\w*|pharmac\w*|museum|muze\w*)\b/i.test(venueCity[1]))text=venueCity[1]+', '+venueCity[2];
  return text.replace(/\b(?:londra|londrei)\b/gi,'London').trim().slice(0,240);
 }
-function routeNamedPlaceTokens(query){
- const n=String(query||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
- if(!/\b(?:restaurant\w*|hotel\w*|cafe\w*|cafenea|farmaci\w*|pharmac\w*|museum|muze\w*)\b/.test(n))return null;
- const tokens=n.replace(/\b(?:restaurant\w*|hotel\w*|cafe\w*|cafenea|farmaci\w*|pharmac\w*|museum|muze\w*|the|din|in|de|la|ul|united|kingdom)\b/g,' ').replace(/[^\p{L}\p{N}]+/gu,' ').trim().split(' ').filter(w=>w.length>1);
- return tokens.length?tokens:null;
+const TRAVEL_POI_RULES=[
+ [/^(?:magazin(?:ul|e)?|market(?:ul)?|supermarket(?:ul)?|shop|store|boutique|magasin|geschaft|laden|negozio|tienda|loja|winkel|магазин|sklep)\s+/i,'commercial'],
+ [/^(?:restaurant\w*|restaurante|ristorante|ресторан\w*|restauracj\w*)\s+/i,'catering.restaurant'],
+ [/^(?:cafe\w*|cafenea(?:ua)?|cofetari\w*|ceainari\w*|coffee shop|tea room|кафе|kawiarnia)\s+/i,'catering'],
+ [/^(?:hotel\w*|hostel\w*|pensiun\w*|отель|гостиница)\s+/i,'accommodation'],
+ [/^(?:farmaci\w*|pharmac\w*|chemist|drogheri\w*|apotheke|aptek\w*|аптека)\s+/i,'healthcare.pharmacy'],
+ [/^(?:museum|muze\w*|musee|museo|музей|muzeum)\s+/i,'entertainment.museum'],
+ [/^(?:parc(?:ul)?|park|parque|parco|парк)\s+/i,'leisure.park'],
+ [/^(?:spital(?:ul)?|hospital|clinica|clinic|krankenhaus|ospedale|больница)\s+/i,'healthcare'],
+ [/^(?:scoala|school|college|universit\w*|ecole|schule|scuola|escuela|escola|szkola|школа)\s+/i,'education'],
+ [/^(?:cinema|cinematograf(?:ul)?|kino|театр|theatre|theater)\s+/i,'entertainment']
+];
+const TRAVEL_STREET_WORDS=/\b(?:strada|str\.?|street|st\.?|road|rd\.?|lane|ln\.?|avenue|ave\.?|way|drive|close|crescent|boulevard|blvd|square|rue|chemin|route|strasse|straße|gasse|via|viale|calle|avenida|rua|straat|ulica)\b|улица|проспект/iu;
+function travelPlaceSpec(value){
+ let query=cleanTravelPlace(value);const split=query.match(/^(.+?)\s+(?:din|in)\s+([^,]+)$/i);if(split)query=split[1].trim()+', '+split[2].trim();
+ const parts=query.split(',').map(v=>v.trim()).filter(Boolean),head=parts[0]||'',rule=TRAVEL_POI_RULES.find(([rx])=>rx.test(head)),name=rule?head.replace(rule[0],'').trim():head,locality=parts.slice(1).join(', ');
+ const postcode=/^(?:[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}|\d{4,6})$/i.test(head);
+ const address=!rule&&(postcode||/^\d+[a-z]?(?:[-/]\d+)?\s+\p{L}/iu.test(head)||TRAVEL_STREET_WORDS.test(head));
+ const countryOnly=locality&&typeof countryNameCodes!=='undefined'&&countryNameCodes.has(normalizeGeoName(locality));
+ const specialist=/\b(?:station|underground|railway|airport|gare|gara|statie|shopping (?:center|centre|mall)|centru comercial)\b/i.test(head);
+ const kind=address?'address':rule?'poi':locality&&!countryOnly&&!specialist?'poi':'place';
+ return {kind,query,name,locality,category:rule?rule[1]:'commercial,catering,accommodation,entertainment,healthcare,tourism,leisure,education,service',postcode};
 }
+function travelPlaceCandidateMatches(query,p){
+ const spec=travelPlaceSpec(query),norm=v=>normalizeGeoName(v),has=(text,tokens)=>tokens.every(t=>norm(text).split(' ').includes(t)),words=v=>norm(v).split(' ').filter(t=>t.length>1),formatted=[p.formatted,p.name,p.address_line1,p.city,p.town,p.village,p.country].filter(Boolean).join(' ');
+ if(spec.kind==='poi'){
+  const name=p.name||p.brand||p.datasource?.raw?.name||p.address_line1||'';
+  if(!words(spec.name).length||!has(name,words(spec.name)))return false;
+  if(/^(?:street|city|town|village|suburb|district|county|state|country|continent|region|postcode)$/i.test(p.result_type||''))return false;
+  if(!TRAVEL_STREET_WORDS.test(spec.name)&&TRAVEL_STREET_WORDS.test(name)&&!(p.categories||[]).some(c=>/commercial|catering|accommodation|healthcare|entertainment|tourism|education|service|leisure/.test(c)))return false;
+  if(spec.locality&&!has(formatted,words(spec.locality)))return false;
+  return true;
+ }
+ if(spec.kind==='address'){
+  if(spec.postcode)return has(p.postcode||formatted,words(spec.name))&&(!spec.locality||has(formatted,words(spec.locality)));
+  const house=spec.name.match(/^(\d+[a-z]?(?:[-/]\d+)?)(?:\s|,)/i)?.[1];if(house&&String(p.housenumber||'').toLowerCase()!==house.toLowerCase())return false;
+  const street=spec.name.replace(/^\d+[a-z]?(?:[-/]\d+)?\s+/i,'');
+  const streetWords=v=>words(v).map(w=>({rd:'road',st:'street',ln:'lane',ave:'avenue',blvd:'boulevard'}[w]||w));if(!streetWords(street).every(w=>streetWords(p.street||(/street/i.test(p.result_type||'')?p.name:'')).includes(w)))return false;
+  return !spec.locality||has(formatted,words(spec.locality));
+ }
+ return true;
+}
+
+function routeNamedPlaceTokens(query){const spec=travelPlaceSpec(query);if(spec.kind!=='poi')return null;return normalizeGeoName([spec.name,spec.locality].join(' ')).split(' ').filter(w=>w.length>1);}
 
 const namedTravelCache=new Map();
 async function resolveNamedTravelPlace(query,env,origin){
- const parts=cleanTravelPlace(query).split(',').map(v=>v.trim()).filter(Boolean),tokens=routeNamedPlaceTokens(query);if(!tokens||parts.length<2||!env.GEOAPIFY_API_KEY)return [];
- const generic=/\b(?:restaurant\w*|hotel\w*|cafe\w*|cafenea|farmaci\w*|pharmac\w*|museum|muze\w*)\b/gi;
- const name=parts[0].replace(generic,' ').replace(/\s+/g,' ').trim(),locality=parts.slice(1).join(', ');if(name.length<2||locality.length<2)return [];
+ const spec=travelPlaceSpec(query),parts=spec.query.split(',').map(v=>v.trim()).filter(Boolean),tokens=routeNamedPlaceTokens(query);if(!tokens||parts.length<2||!env.GEOAPIFY_API_KEY)return [];
+ const name=spec.name,locality=spec.locality;if(name.length<2||locality.length<2)return [];
  const key=normalizeGeoName(query),cached=namedTravelCache.get(key);if(cached?.until>Date.now())return cached.points;
  const words=value=>normalizeGeoName(value).split(' ').filter(Boolean),has=(value,wanted)=>wanted.every(w=>words(value).includes(w));
  const nameWords=words(name),cityWords=words(locality),point=(p,label)=>{const lat=transitCoordinate(p.lat,90),lon=transitCoordinate(p.lon,180);return lat===null||lon===null?null:{latitude:lat,longitude:lon,label:label||String(p.formatted||p.name||query),country_code:String(p.country_code||'').toUpperCase()};};
@@ -68,12 +105,12 @@ async function resolveNamedTravelPlace(query,env,origin){
  const geocode=async text=>{const u=new URL('https://api.geoapify.com/v1/geocode/search');u.searchParams.set('text',text);u.searchParams.set('limit','5');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);if(origin&&Number.isFinite(origin.latitude)&&Number.isFinite(origin.longitude))u.searchParams.set('bias','proximity:'+origin.longitude+','+origin.latitude);return (await get(u.href))?.features||[];};
  const save=points=>{if(points.length){if(namedTravelCache.size>=64)namedTravelCache.delete(namedTravelCache.keys().next().value);namedTravelCache.set(key,{points,until:Date.now()+600000});}return points;};
  // Names, unlike addresses, are often absent from forward geocoding. First remove category inflections.
- const simplified=await geocode(name+', '+locality),matches=simplified.filter(f=>has([f.properties?.name,f.properties?.formatted,f.properties?.city].join(' '),[...nameWords,...cityWords])).map(f=>point(f.properties)).filter(Boolean);
+ const simplified=await geocode(name+', '+locality),matches=simplified.filter(f=>travelPlaceCandidateMatches(spec.query,f.properties||{})).map(f=>point(f.properties)).filter(Boolean);
  if(matches.length)return save(matches);
  // Resolve the explicit town before searching named POIs, never the phone's unrelated neighbourhood.
  const towns=(await geocode(locality)).map(f=>f.properties||{}).filter(p=>has(p.formatted||p.name||p.city,cityWords)&&(/^(?:city|town|village|suburb|district|municipality)$/i.test(p.result_type||'')||normalizeGeoName(p.name)===normalizeGeoName(locality))).map(p=>({p,pt:point(p)})).filter(v=>v.pt);
  if(towns.length===1){
-  const {p,pt}=towns[0],u=new URL('https://api.geoapify.com/v2/places');u.searchParams.set('categories',/hotel/i.test(query)?'accommodation.hotel':/farmaci|pharmac/i.test(query)?'healthcare.pharmacy':/museum|muze/i.test(query)?'entertainment.museum':'catering');u.searchParams.set('name',name);u.searchParams.set('filter',p.place_id?'place:'+p.place_id:'circle:'+pt.longitude+','+pt.latitude+',8000');u.searchParams.set('limit','30');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+  const {p,pt}=towns[0],u=new URL('https://api.geoapify.com/v2/places');u.searchParams.set('categories',spec.category);u.searchParams.set('name',name);u.searchParams.set('filter',p.place_id?'place:'+p.place_id:'circle:'+pt.longitude+','+pt.latitude+',8000');u.searchParams.set('limit','30');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
   const places=(await get(u.href))?.features||[],points=[];
   for(const f of places){const raw=f.properties||{},v=point(raw);if(!v||!has(raw.name||'',nameWords)||routeGeoDistance(pt,v)>15000)continue;const city=[raw.city,raw.town,raw.village].filter(Boolean).join(' ');if(city&&!has([city,raw.formatted].join(' '),cityWords))continue;if(!city&&!p.place_id&&!has(raw.formatted||'',cityWords))continue;points.push({...v,label:String(raw.formatted||[raw.name,locality].join(', ')),resolution_source:'named_place'});}
   if(points.length)return save(points);
@@ -101,7 +138,7 @@ function extractTransitDestination(message){
   .replace(/\b(?:transport(?:ul)?\s+in comun|transport(?:ul)?\s+public|public transport)\b/g,' ')
   .replace(/\s+/g,' ').trim();
  // Strong destination connectors take precedence over 'in' inside a city qualifier.
- const cityVenue=text.match(/\bin\s+(.+?)\s+la\s+((?:restaurant\w*|hotel\w*|cafe\w*|farmaci\w*|museum|muze\w*)\b.+)$/i);
+ const cityVenue=text.match(/\bin\s+(.+?)\s+la\s+(.+)$/i);
  if(cityVenue)return cleanTravelPlace(cityVenue[2]+', '+cityVenue[1]).toLowerCase();
  const strong=[...text.matchAll(/\b(?:pana la|pana in|catre|spre|towards|into|to|la)\s+/g)].filter(m=>! /\bde\s*$/.test(text.slice(0,m.index)));
  let target='';
@@ -111,7 +148,7 @@ function extractTransitDestination(message){
   .replace(/\s*,?\s+(?:maine|astazi|acum|tomorrow|today|now|te rog|please|compara|compare|arata(?:-mi)?|afiseaza|show)\b.*$/,'')
   .replace(/^[, :]+|[, :]+$/g,'').trim();
  if(/^(?:(?:de )?la )?(?:locatia mea(?: actuala)?|pozitia mea|current location|my (?:current )?location|comun)$/.test(target))return '';
- return cleanTravelPlace(target).toLowerCase().slice(0,140);
+ return travelPlaceSpec(cleanTravelPlace(target)).query.toLowerCase().slice(0,140);
 }
 
 // A boarding stop is a leg of a journey, never a destination named "first bus stop".
@@ -245,7 +282,7 @@ function routeMessageSpec(text){
  const cityVenue=clean.match(/(?:vreau sa ajung|cum ajung|merg|go|travel)\s+in\s+(.+?)\s+la\s+(.+)$/i);
  const dest=clean.match(/(?:pana\s+(?:in|la)|catre|spre|\bto|\bla)\s+(.+)$/i);
  const own=v=>/^(?:foloseste |use )?(?:locatia mea|pozitia mea(?: gps)?|my (?:current )?(?:location|position)|gps|aici|here)$/.test(normalizeGeoName(v));
- return {via_query:viaMatch?viaMatch[1].replace(/[?!.]+$/g,'').trim().slice(0,160):'',profile:walk?'walk':drive?'drive':null,destination_query:cleanTravelPlace(cityVenue?cityVenue[2]+', '+cityVenue[1]:pair?pair[2]:dest?dest[1]:clean.match(/\bin\s+(.+)$/i)?.[1]||''),origin_query:pair&&!own(pair[1])?pair[1].trim().slice(0,160):''};
+ return {via_query:viaMatch?viaMatch[1].replace(/[?!.]+$/g,'').trim().slice(0,160):'',profile:walk?'walk':drive?'drive':null,destination_query:travelPlaceSpec(cleanTravelPlace(cityVenue?cityVenue[2]+', '+cityVenue[1]:pair?pair[2]:dest?dest[1]:clean.match(/\bin\s+(.+)$/i)?.[1]||'')).query,origin_query:pair&&!own(pair[1])?pair[1].trim().slice(0,160):''};
 }
 function mergeRouteDestination(previous,detail){
  const old=String(previous||'').trim(),next=String(detail||'').trim();
@@ -324,7 +361,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v133";
+    const API_VERSION = "v134";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -590,8 +627,9 @@ export default {
             const gr = await fetch(geocodeUrl.toString(), {headers:{"Accept":"application/json"},signal:AbortSignal.timeout(10000)});
             if (gr.ok) {
               const gj = await gr.json();
+              targetName=travelPlaceSpec(targetName).query;
               const venueTokens=routeNamedPlaceTokens(targetName);
-              const features = (Array.isArray(gj.features) ? gj.features : []).filter(f => f && f.properties && Number.isFinite(Number(f.properties.lat)) && Number.isFinite(Number(f.properties.lon))).filter(f=>!venueTokens||venueTokens.every(w=>normalizeGeoName([f.properties.name,f.properties.formatted,f.properties.city,f.properties.town].filter(Boolean).join(' ')).split(' ').includes(w)));
+              const features = (Array.isArray(gj.features) ? gj.features : []).filter(f => f && f.properties && Number.isFinite(Number(f.properties.lat)) && Number.isFinite(Number(f.properties.lon))).filter(f=>travelPlaceCandidateMatches(targetName,f.properties));
               const countryOf = (p) => String(p.country || p.country_code || "").trim();
               const explicitCountry = /\b(?:united kingdom|uk|england|scotland|wales|northern ireland|united states|usa|us|ireland|france|germany|italy|spain|portugal|netherlands|belgium|canada|australia)\b/i.test(normalizedForDestination);
               const countries = [...new Set(features.map(f => countryOf(f.properties)).filter(Boolean).map(c => c.toLowerCase()))];
@@ -636,8 +674,8 @@ export default {
               const normalizedPlace = value => String(value||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\b(london|londra|station|underground|rail|railway|train|metro|tube|gara|statie|the)\b/g," ").replace(/\s+/g," ").trim();
               const requestedTokens=venueTokens||normalizedPlace(targetName).split(" ").filter(t=>t.length>2);
               const matchesRequested=f=>{
-                const p=f.properties||{};
-                const candidate=normalizedPlace([p.name,p.formatted,p.address_line1].filter(Boolean).join(" "));
+                const p=f.properties||{};if(travelPlaceSpec(targetName).kind==='address')return travelPlaceCandidateMatches(targetName,p);
+                const candidate=venueTokens?normalizeGeoName([p.name,p.formatted,p.address_line1].filter(Boolean).join(" ")):normalizedPlace([p.name,p.formatted,p.address_line1].filter(Boolean).join(" "));
                 return requestedTokens.length>0 && requestedTokens.every(t=>candidate.split(" ").includes(t));
               };
               const matchingFeatures=features.filter(matchesRequested).filter(f=>{
@@ -995,7 +1033,7 @@ export default {
             const lat=Number(rawLat),lon=Number(rawLon);if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)continue;
             const label=String(p.formatted||[p.name,p.street,p.city,p.country].filter(Boolean).join(', ')||query).slice(0,240);
             const text=normalizeGeoName([p.name,label,p.city,...(p.categories||[])].join(' '));
-            if(venueTokens&&venueTokens.some(w=>!text.split(' ').includes(w)))continue;
+            if(!travelPlaceCandidateMatches(query,p))continue;
             if(mall&&(!/shopping|mall|commercial|comercial/.test(text)||namedTokens.some(w=>!text.split(' ').includes(w))))continue;
             const country_code=String(p.country_code||'').toUpperCase();if(country&&country_code!==country)continue;
             const point={latitude:lat,longitude:lon,label,country_code};

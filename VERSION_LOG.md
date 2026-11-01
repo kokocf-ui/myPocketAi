@@ -138,3 +138,12 @@
 - When EXA_API_KEY is configured and map POIs are missing, require address agreement from two distinct domains and map confirmation of house number, street and locality before using returned coordinates. No coordinates are inferred from prose and origin GPS is not sent to web search.
 - Use the same resolver for pedestrian/driving and public transport. If a named town is already known, ask for street/postcode rather than requesting the same town again.
 - Tests cover click-to-backend flow in multiple languages, actual chat payload and GPS intent, missing-map-POI fallbacks, address agreement/conflicts, inadequate geocodes and shared transit resolution. All ten suites and syntax checks pass. The live restaurant route still requires phone/provider validation after deployment.
+
+
+## 2026-11-01 — Backend v134, frontend 1.0.99 unchanged
+
+- Classify travel destinations into street/postcode addresses, named POIs and geographic places. Keep category, business name and explicit locality separate.
+- Support store, restaurant, cafe, accommodation, pharmacy, museum, park, healthcare, education and entertainment prefixes; names with explicit towns also work without a category.
+- Reject generic “Magazin” matches and same-name streets for a named-store request. Verify street, house number and locality for an explicit address, including common street abbreviations.
+- Route named fallback searches to the appropriate provider category, or a broad named-POI search when category is unknown, inside the explicit town. Preserve station-specific and shopping-mall handling.
+- Tests reproduce both Europa/Grays screenshot formulations, city-first phrasing, typed walking continuation, rejected foreign results, rejected same-name streets, town-bound fallback, exact addresses and transit. All eleven suites and syntax checks pass. Real provider/store validation remains separate.
