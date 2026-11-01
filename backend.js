@@ -1888,6 +1888,14 @@ export default {
           }
         }catch(e){console.warn('Pocket AI geographic area lookup',String(e?.name||'lookup_error'))}
       }
+      // Cardinal prefixes are often geographic names (West Dulwich, East Ham).
+      // Without a verified matching administrative feature, do not substitute
+      // a hotel or shop with just "West"/"East" somewhere in its address.
+      if(/^(?:west|east|north|south|central)\s+[a-z][a-z'-]+(?:\s+[a-z][a-z'-]+)?$/i.test(localNameQuery)){
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+          reply:'Nu am putut confirma zona „'+localNameQuery+'” în datele hărții. Adaugă orașul sau codul poștal; nu voi înlocui zona cu un magazin sau hotel.',
+          named_venue:true,search_ok:false,place_lookup:{strategy:'geographic_area_unconfirmed'},ai_connected:Boolean(env.AI)});
+      }
     }
     // Provider-level counts/statuses are safe to return in diagnostics (no API keys or GPS).
     const nameLookupDiagnostics=localNameQuery?{nameFilterHttp:null,nameFilterFeatures:null,nameFilterMatched:0,
