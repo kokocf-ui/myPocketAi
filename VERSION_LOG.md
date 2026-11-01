@@ -94,3 +94,12 @@
 - Validate endpoint/mode, check walking time plus the five-minute departure margin, reject stale selection responses and disclose missing stops/times.
 - Support both quick-selection and chat/reader entry points, all ten UI languages, and structured walking intent even when international stop names contain bus/rail terms.
 - Synchronize APP and CLIENT_CONFIG to 1.0.97. All automated suites and syntax checks pass. Live deployment/phone QA pending manual upload; no new global timetable or closure provider added.
+
+
+## 2026-11-01 — Backend v129, frontend 1.0.97 unchanged
+
+- Fix the exact assistant test request: retain Victoria Station in central London, rather than geocoding “comun” or London alone.
+- Parse the destination independently of transport mode, city qualifiers and comparison instructions; ask for a destination when only an origin is supplied.
+- Correct overescaped regex boundaries in operator station lookup and name validation.
+- Add end-to-end mocked provider tests for Romanian/English chat requests, verified station id routing and missing destination.
+- Publish directly to GitHub under the user's confirmed update workflow.

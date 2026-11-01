@@ -1,6 +1,8 @@
-# myPocket AI — backend v128 + frontend v1.0.97
+# myPocket AI — backend v129 + frontend v1.0.97
 
-1 November 2026. Based on GitHub main 9fca0a7f1e32284250c57322ba4d4cac1b78e778 (backend v127; frontend header v1.0.96). APP and CLIENT_CONFIG version identifiers are synchronized to 1.0.97. Existing station ambiguity handling and Londra→London clarification are retained.
+1 November 2026. v129 fixes conversational transit destination parsing: transport mode and comparison instructions cannot replace the requested station; Londra/Londrei is normalized to London while retaining Victoria Station. Official station guards use corrected regex boundaries.
+
+Based on GitHub main 9fca0a7f1e32284250c57322ba4d4cac1b78e778 (backend v127; frontend header v1.0.96). APP and CLIENT_CONFIG version identifiers are synchronized to 1.0.97. Existing station ambiguity handling and Londra→London clarification are retained.
 
 ## Destination → transport choice → walk to boarding stop
 

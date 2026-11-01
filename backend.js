@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -37,6 +37,26 @@
  *    rollback version until v37 is deployed and tested. Public Overpass endpoints can still rate-limit requests;
  *    caching reduces repeat traffic but cannot guarantee availability.
  */
+
+// Extract the requested place before interpreting transport mode or follow-up instructions.
+function extractTransitDestination(message){
+ let text=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
+  .replace(/\b(?:londra|londrei)\b/g,'london');
+ text=text.split(/[.!?;\n]/)[0].trim()
+  .replace(/\s*,?\s+(?:(?:folosind|utilizand|using|with|cu|by)\s+(?:transport(?:ul)?(?:\s+(?:in comun|public))?|public transport|autobuz(?:ul)?|bus|tren(?:ul)?|train|metrou|tube)\b|(?:arata(?:-mi)?|afiseaza|compara|show|compare)\b).*$/i,'')
+  .replace(/\b(?:transport(?:ul)?\s+in comun|transport(?:ul)?\s+public|public transport)\b/g,' ')
+  .replace(/\s+/g,' ').trim();
+ // Strong destination connectors take precedence over 'in' inside a city qualifier.
+ const strong=[...text.matchAll(/\b(?:pana la|pana in|catre|spre|towards|into|to|la)\s+/g)];
+ let target='';
+ if(strong.length){const match=strong.at(-1);target=text.slice(match.index+match[0].length);}
+ else {const match=text.match(/\b(?:in)\s+(.+)$/);target=match?match[1]:'';}
+ target=target.replace(/\s+(?:din centrul|in central|in the centre of|in the center of|din|in)\s+(london)\b/g,' $1')
+  .replace(/\s*,?\s+(?:maine|astazi|acum|tomorrow|today|now|te rog|please|compara|compare|arata(?:-mi)?|afiseaza|show)\b.*$/,'')
+  .replace(/^[, :]+|[, :]+$/g,'').trim();
+ if(/^(?:(?:de )?la )?(?:locatia mea(?: actuala)?|pozitia mea|current location|my (?:current )?location|comun)$/.test(target))return '';
+ return target.slice(0,140);
+}
 
 // Coordinate-backed boarding places come from the selected transport leg, never from a street-name guess.
 function transitCoordinate(value,limit){
@@ -215,7 +235,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v128";
+    const API_VERSION = "v129";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -408,34 +428,16 @@ export default {
       try {
         // v60: parse the destination after an explicit destination connector, then
         // remove comparison/instruction clauses so they cannot become a place name.
-        const normalizedForDestination = normalizedTransitMessage
-          .replace(/[?!.,;:]+/g, " ").replace(/\s+/g, " ").trim();
-        const stopPhrases = /\s+(?:maine|astazi|acum|tomorrow|today|now|compara|compare|compar[aă]|si compara|and compare|si afiseaza|si arata|and show|show|afiseaza|arata|planifica|planificami|please|te rog|cu transport|cu autobuz|cu tren|cu metrou|by bus|by train|by tube|by public transport|pe jos|walking route)\b.*$/i;
-        const destinationMatches = [...normalizedForDestination.matchAll(/\b(?:to|towards|into|in|pana la|pana in|catre|spre|la)\s+([a-z0-9][a-z0-9'’ -]{1,79}?)(?=\s+\b(?:to|towards|pana la|pana in|catre|spre|la)\b|$)/g)];
-        let extractedDestination = destinationMatches.length ? destinationMatches[destinationMatches.length - 1][1] : "";
-        // v84: never silently substitute London when the user asks for public transport
-        // but has not specified a destination. Keep explicit London requests working.
-        const explicitLondonDestination = /\b(?:londra|london)\b/i.test(normalizedForDestination);
-        const genericCurrentLocationOnly = /\b(?:from my location|from where i am|current location|my location|locatia mea|poziția mea|pozitia mea|unde ma localizezi|de unde sunt)\b/i.test(normalizedForDestination);
-        if (!extractedDestination && !explicitLondonDestination && genericCurrentLocationOnly || (!extractedDestination && !explicitLondonDestination)) {
+        const normalizedForDestination = normalizedTransitMessage.replace(/\b(?:londra|londrei)\b/g,"london");
+        const extractedDestination = extractTransitDestination(message);
+        const explicitTransitInput=typeof data.transit_query==="string"&&data.transit_query.trim();
+        if (!extractedDestination && !explicitTransitInput && !data.transit_destination) {
           const reply = lang === "en"
-            ? "Of course. Where would you like to go? Tell me the destination (a town, address or station), and I’ll help you plan the public-transport journey from your current location if your phone location is available."
-            : "Sigur. Unde vrei să ajungi? Spune-mi destinația — localitatea, adresa sau stația — și te ajut să planifici călătoria cu transportul public, pornind de la locația ta dacă telefonul o transmite."
+            ? "Where would you like to go? Tell me the town, address or station."
+            : "Unde vrei să ajungi? Spune-mi localitatea, adresa sau stația.";
           return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:false,transit_available:false,needs_destination_clarification:true,ai_connected:Boolean(env.AI)});
         }
-        if (extractedDestination) {
-          extractedDestination = extractedDestination.replace(stopPhrases, "").replace(/\s+(?:te rog|please)$/i, "").trim();
-        }
-        // Prefer a named London station/area if present, even if the request includes
-        // extra comparison instructions after it.
-        const londonSpecific = normalizedForDestination.match(/\b(?:to|towards|pana la|pana in|catre|spre|la)\s+((?:london|londra)\s+[a-z0-9][a-z0-9'’ -]{1,60})/i);
-        if (londonSpecific) {
-          targetName = londonSpecific[1].replace(stopPhrases, "").trim();
-        } else if (/\b(?:londra|london)\b/i.test(normalizedForDestination)) {
-          targetName = "London";
-        } else if (extractedDestination && !/^(?:locatia mea|pozitia mea|current location|my location)$/i.test(extractedDestination)) {
-          targetName = extractedDestination.replace(/^(?:gara|statie|station|railway station|train station)\s+/i, "").slice(0, 100).trim();
-        }
+        targetName=extractedDestination;
         // Preserve the exact A→B field, independent of natural-language extraction.
         const explicitTransitQuery=typeof data.transit_query==="string"?data.transit_query.trim().slice(0,140):"";
         if(explicitTransitQuery)targetName=explicitTransitQuery;
@@ -450,10 +452,10 @@ export default {
         // Prefer verified operator station records over free-text geocoding for UK rail/tube stations.
         let verifiedStopId=null;
         const requestedStationName=targetName;
-        const unqualifiedStation=/\\b(station|underground|tube|metro|railway)\\b/i.test(requestedStationName)&&! /\\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|paris|france|berlin|germany|rome|italy|madrid|spain|canada|australia)\\b/i.test(requestedStationName);
-        if(env.TFL_APP_KEY && /\\b(station|underground|tube|metro|railway)\\b/i.test(targetName)){
+        const unqualifiedStation=/\b(station|underground|tube|metro|railway)\b/i.test(requestedStationName)&&! /\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|paris|france|berlin|germany|rome|italy|madrid|spain|canada|australia)\b/i.test(requestedStationName);
+        if(env.TFL_APP_KEY && /\b(station|underground|tube|metro|railway)\b/i.test(targetName)){
           try{
-            const stopQuery=targetName.replace(/\\b(london|londra|underground|railway|rail|train|station|tube)\\b/gi," ").replace(/\\s+/g," ").trim();
+            const stopQuery=targetName.replace(/\b(london|londra|underground|railway|rail|train|station|tube)\b/gi," ").replace(/\s+/g," ").trim();
             if(stopQuery.length>=3){
               const stopUrl=new URL("https://api.tfl.gov.uk/StopPoint/Search/"+encodeURIComponent(stopQuery));
               stopUrl.searchParams.set("app_key",env.TFL_APP_KEY);
@@ -464,7 +466,7 @@ export default {
                 const stopResults=Array.isArray(sj.matches)?sj.matches:[];
                 const wanted=stopQuery.toLowerCase().replace(/[^a-z0-9]/g,"");
                 const good=stopResults.filter(p=>{
-                  const name=String(p.commonName||"").toLowerCase().replace(/\\b(underground|rail|railway|station|london)\\b/g,"").replace(/[^a-z0-9]/g,"");
+                  const name=String(p.commonName||"").toLowerCase().replace(/\b(underground|rail|railway|station|london)\b/g,"").replace(/[^a-z0-9]/g,"");
                   return name===wanted && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)) && p.id;
                 });
                 const closest=good.sort((a,b)=>Math.hypot(Number(a.lat)-latitude,Number(a.lon)-longitude)-Math.hypot(Number(b.lat)-latitude,Number(b.lon)-longitude))[0];
@@ -521,14 +523,14 @@ export default {
                 }
               }
               // An unqualified station name is ambiguous: ask the user instead of guessing.
-              const hasPlaceQualifier=/\\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|france|paris|germany|berlin|italy|rome|spain|madrid|usa|united states|canada|australia)\\b/i.test(requestedStationName);
-              if(!hasPlaceQualifier && /\\b(station|underground|railway|train|tube)\\b/i.test(requestedStationName)){
+              const hasPlaceQualifier=/\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|france|paris|germany|berlin|italy|rome|spain|madrid|usa|united states|canada|australia)\b/i.test(requestedStationName);
+              if(!hasPlaceQualifier && /\b(station|underground|railway|train|tube)\b/i.test(requestedStationName)){
                 const opts=[];const seen=new Set();
                 const candidates=features.filter(f=>{
                   const p=f.properties||{};
                   const name=String(p.name||p.address_line1||"");
-                  const requested=requestedStationName.toLowerCase().replace(/\\b(station|underground|railway|train|tube)\\b/g,"").trim();
-                  return requested.length>2 && name.toLowerCase().includes(requested) && !/\\b(waste|recycling|landfill|transfer station)\\b/i.test(name);
+                  const requested=requestedStationName.toLowerCase().replace(/\b(station|underground|railway|train|tube)\b/g,"").trim();
+                  return requested.length>2 && name.toLowerCase().includes(requested) && !/\b(waste|recycling|landfill|transfer station)\b/i.test(name);
                 });
                 for(const f of candidates){const p=f.properties;const label=String(p.formatted||p.name||"").slice(0,160);const key=label.toLowerCase();if(!seen.has(key)){seen.add(key);opts.push({label,latitude:Number(p.lat),longitude:Number(p.lon)});}if(opts.length>=4)break;}
                 if(opts.length){return json({app:"Pocket AI",version:API_VERSION,status:"success",reply:"Selectează destinația dorită:",needs_destination_clarification:true,destination_candidates:opts,transit_available:false});}
@@ -537,7 +539,7 @@ export default {
               // otherwise use the geocoder's first result only when the result is unambiguous.
               // Require station/place-name agreement before using a geocoder coordinate.
               // Proximity alone can choose a completely different London landmark.
-              const normalizedPlace = value => String(value||"").toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\\b(london|londra|station|underground|rail|railway|train|metro|tube|gara|statie|the)\\b/g," ").replace(/\\s+/g," ").trim();
+              const normalizedPlace = value => String(value||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\b(london|londra|station|underground|rail|railway|train|metro|tube|gara|statie|the)\b/g," ").replace(/\s+/g," ").trim();
               const requestedTokens=normalizedPlace(targetName).split(" ").filter(t=>t.length>2);
               const matchesRequested=f=>{
                 const p=f.properties||{};
@@ -546,10 +548,10 @@ export default {
               };
               const matchingFeatures=features.filter(matchesRequested).filter(f=>{
                 // Do not confuse a station with an unrelated street, waste site or bus stop.
-                if(!/\\b(station|underground|railway|train|tube)\\b/i.test(requestedStationName||targetName))return true;
+                if(!/\b(station|underground|railway|train|tube)\b/i.test(requestedStationName||targetName))return true;
                 const p=f.properties||{};
                 const desc=String([p.name,p.address_line1,p.category,p.result_type].filter(Boolean).join(" "));
-                return /\\b(station|underground|railway|train|metro|transport|public_transport)\\b/i.test(desc) && !/\\b(waste|transfer station|recycling|landfill)\\b/i.test(desc);
+                return /\b(station|underground|railway|train|metro|transport|public_transport)\b/i.test(desc) && !/\b(waste|transfer station|recycling|landfill)\b/i.test(desc);
               });
               let selected = matchingFeatures.find(f => { const p=f.properties; const lat=Number(p.lat),lon=Number(p.lon); return Number.isFinite(latitude)&&Number.isFinite(longitude)&&Math.abs(lat-latitude)<1.8&&Math.abs(lon-longitude)<2.8; }) || matchingFeatures[0] || null;
               if (features.length > 1 && /\b(?:london|londra|grays|thurrock|essex|basildon|uk|united kingdom|england)\b/i.test(normalizedForDestination)) {

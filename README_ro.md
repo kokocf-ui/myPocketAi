@@ -1,6 +1,8 @@
-# myPocket AI — backend v128 + frontend v1.0.97
+# myPocket AI — backend v129 + frontend v1.0.97
 
-1 noiembrie 2026. Bază: GitHub main 9fca0a7f1e32284250c57322ba4d4cac1b78e778 (backend v127, antet frontend v1.0.96). APP și CLIENT_CONFIG sunt sincronizate la 1.0.97. Se păstrează clarificarea stațiilor ambigue și corecția Londra→London.
+1 noiembrie 2026. v129 corectează extragerea destinației pentru transportul în comun: modul de transport și cererea de variante nu mai înlocuiesc stația. Londra/Londrei devine London, păstrând Victoria Station. Sunt corectate expresiile pentru identificarea stațiilor oficiale.
+
+Bază: GitHub main 9fca0a7f1e32284250c57322ba4d4cac1b78e778 (backend v127, antet frontend v1.0.96). APP și CLIENT_CONFIG sunt sincronizate la 1.0.97. Se păstrează clarificarea stațiilor ambigue și corecția Londra→London.
 
 ## Destinație → alegerea variantei → traseu până la stație
 
