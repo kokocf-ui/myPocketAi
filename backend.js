@@ -378,7 +378,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v137";
+    const API_VERSION = "v138";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -413,7 +413,7 @@ export default {
           }
         }
       }
-      if(payload && payload.status==="success" && typeof payload.message_received==="string"){payload.place_context=responsePlaceContext;payload.distance_context=responseDistanceContext;payload.route_context=payload.route_context||responseRouteContext;payload.weather_context=responseWeatherContext;payload.recommended_module=(responseRouteContext||responseDistanceContext||payload.route_available!==undefined||payload.transit_available!==undefined||payload.reverse_geocode_ok!==undefined)?"maps":responsePlaceContext?(["fuel","parking","car_wash","car_repair","charging","transport"].includes(responsePlaceContext.category)?"maps":"travel"):"assistant";}
+      if(payload && payload.status==="success" && typeof payload.message_received==="string"){payload.place_context=responsePlaceContext;payload.distance_context=responseDistanceContext;payload.route_context=payload.route_context||responseRouteContext;payload.weather_context=responseWeatherContext;payload.recommended_module=(payload.route_context||responseDistanceContext||payload.route_available!==undefined||payload.transit_available!==undefined||payload.reverse_geocode_ok!==undefined)?"maps":responsePlaceContext?(["fuel","parking","car_wash","car_repair","charging","transport"].includes(responsePlaceContext.category)?"maps":"travel"):"assistant";}
       if (payload && typeof payload === "object") delete payload.ai_generated;
       return new Response(JSON.stringify(payload), {
         status,
