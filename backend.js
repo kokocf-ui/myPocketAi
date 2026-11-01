@@ -599,8 +599,14 @@ export default {
         // Prefer verified operator station records over free-text geocoding for UK rail/tube stations.
         let verifiedStopId=null;
         const requestedStationName=targetName;
+        // "London Liverpool Street" must be looked up in TfL before generic geocoding.
+        // The city qualifier disambiguates the station without a "Station" suffix.
+        const cityFirstStation=String(targetName).match(/^(?:london|londra)\s+([\p{L}0-9 '&.-]{4,90})$/iu);
+        const explicitStationWord=/\b(station|underground|tube|metro|railway)\b/i.test(targetName);
+        const tryVerifiedStation=explicitStationWord||
+          Boolean(cityFirstStation&&cityFirstStation[1].trim().split(/\s+/).length>=2);
         const unqualifiedStation=/\b(station|underground|tube|metro|railway)\b/i.test(requestedStationName)&&! /\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|paris|france|berlin|germany|rome|italy|madrid|spain|canada|australia)\b/i.test(requestedStationName);
-        if(env.TFL_APP_KEY && /\b(station|underground|tube|metro|railway)\b/i.test(targetName)){
+        if(env.TFL_APP_KEY && tryVerifiedStation){
           try{
             const stopQuery=targetName.replace(/\b(london|londra|underground|railway|rail|train|station|tube)\b/gi," ").replace(/\s+/g," ").trim();
             if(stopQuery.length>=3){
@@ -614,9 +620,20 @@ export default {
                 const wanted=stopQuery.toLowerCase().replace(/[^a-z0-9]/g,"");
                 const good=stopResults.filter(p=>{
                   const name=String(p.commonName||"").toLowerCase().replace(/\b(underground|rail|railway|station|london)\b/g,"").replace(/[^a-z0-9]/g,"");
-                  return name===wanted && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)) && p.id;
+                  // When "Station" was omitted, a similar road or bus stop
+                  // is not sufficient evidence that we found the rail station.
+                  const metadata=String(p.stopType||'')+' '+String(p.commonName||'')+' '+(Array.isArray(p.modes)?p.modes.join(' '):'');
+                  const railStation=/rail|underground|station|metro|overground|dlr|tube/i.test(metadata);
+                  return name===wanted && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)) &&
+                    p.id && (explicitStationWord||railStation);
                 });
-                const closest=good.sort((a,b)=>Math.hypot(Number(a.lat)-latitude,Number(a.lon)-longitude)-Math.hypot(Number(b.lat)-latitude,Number(b.lon)-longitude))[0];
+                // Multiple entrances can share the name. Prefer rail over
+                // underground, then proximity to the origin.
+                const stationRank=p=>/rail/i.test(String(p.stopType||'')+' '+String(p.commonName||''))?0:
+                  /underground|metro|tube/i.test(String(p.stopType||'')+' '+String(p.commonName||''))?1:2;
+                const closest=good.sort((a,b)=>stationRank(a)-stationRank(b)||
+                  Math.hypot(Number(a.lat)-latitude,Number(a.lon)-longitude)-
+                  Math.hypot(Number(b.lat)-latitude,Number(b.lon)-longitude))[0];
                 if(unqualifiedStation && !confirmedStop && good.length){
                   const seen=new Set(),opts=[];
                   for(const p of good){const key=String(p.commonName||"").toLowerCase()+":"+Math.round(Number(p.lat)*1000)+":"+Math.round(Number(p.lon)*1000);if(seen.has(key))continue;seen.add(key);opts.push({label:String(p.commonName||"Station"),latitude:Number(p.lat),longitude:Number(p.lon)});if(opts.length>=4)break;}
