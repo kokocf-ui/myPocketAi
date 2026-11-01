@@ -55,6 +55,9 @@ jobs:
             {id:'NAME_AREA',message:'Decathlon Lakeside'},
             {id:'CATEGORY_NAME',message:'Magazin Decathlon'},
             {id:'STATION_INITIAL',message:'Vreau sa ajung in London Liverpool Street'},
+            {id:'GEO_WEST_DULWICH',message:'West Dulwich'},
+            {id:'STATION_VICTORIA',message:'Victoria station'},
+            {id:'STATION_LONDON_VICTORIA',message:'London Victoria station'},
             {id:'CONTROL',message:'Europa, Grays'}
           ];
           async function ask(message,extra={}){
@@ -71,6 +74,7 @@ jobs:
           let identified=null;
           let stationPending=null;
           let stationFailure=false;
+          let newPlaceFailures=0;
           for(const item of cases){
             try{
               const {httpStatus,data}=await ask(item.message);
@@ -110,14 +114,24 @@ jobs:
                 responsePreview:String(data.reply||data.error||'').slice(0,160)
               };
               console.log('POCKET_DIAG '+JSON.stringify(result));
+              if(item.id.startsWith('GEO_')||item.id.startsWith('STATION_VICTORIA')||
+                 item.id==='STATION_LONDON_VICTORIA'){
+                const labels=[context?.destination?.label,...mappedChoices.map(p=>p.label)].filter(Boolean);
+                const wrongHotel=labels.some(v=>/premier inn|royal victoria|ibis styles/i.test(v));
+                const right=item.id==='GEO_WEST_DULWICH'
+                  ?labels.some(v=>/west dulwich/i.test(v))
+                  :labels.some(v=>/victoria.+station/i.test(v));
+                if(!right||wrongHotel){newPlaceFailures++;console.error('LIVE PLACE INTENT FAILURE '+item.id)}
+              }
               if(item.id==='NAME_AREA'&&context?.destination)identified=context;
               if(item.id==='STATION_INITIAL')stationPending=context;
-              if(item.id!=='CONTROL'&&item.id!=='STATION_INITIAL'&&!resolved)unresolved++;
+              if(['NAME_ONLY','NAME_AREA','CATEGORY_NAME'].includes(item.id)&&!resolved)unresolved++;
             }catch(error){
               console.log('POCKET_DIAG '+JSON.stringify({case:item.id,
                 errorType:error?.name||'Error',error:String(error?.message||error).slice(0,120)}));
               if(item.id==='STATION_INITIAL')stationFailure=true;
-              else if(item.id!=='CONTROL')unresolved++;
+              else if(['NAME_ONLY','NAME_AREA','CATEGORY_NAME'].includes(item.id))unresolved++;
+              else if(item.id.startsWith('GEO_')||item.id.includes('VICTORIA'))newPlaceFailures++;
             }
           }
           if(identified){
@@ -213,8 +227,9 @@ jobs:
           console.log('POCKET_DIAG_SUMMARY '+JSON.stringify({
             backend:'deployed Cloudflare Worker',unitTests:'separate job',
             nameVariantsNotResolved:unresolved,checkedNameVariants:3,
-            londonLiverpoolStreetFailed:stationFailure
+            londonLiverpoolStreetFailed:stationFailure,geographicStationFailures:newPlaceFailures
           }));
           if(unresolved>0){console.error('LIVE NAMED DESTINATION FAILURE: '+unresolved+'/3');process.exitCode=1}
           if(stationFailure){console.error('LIVE STATION FOLLOWUP FAILURE');process.exitCode=1}
+          if(newPlaceFailures>0){console.error('LIVE GEOGRAPHIC/STATION IDENTIFICATION FAILURE: '+newPlaceFailures);process.exitCode=1}
           JS
