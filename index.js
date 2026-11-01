@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.101 — preserve exact transit destination; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.102 — preserve exact transit destination; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -1549,9 +1549,9 @@ function routeOptionsControl(route,options){
  const t=routeOptionsText(),box=document.createElement('div');box.className='route-options';
  const usable=Array.isArray(options)?options.filter(validMapRoute):[];
  if(usable.length>1){
-  const label=document.createElement('label');label.textContent=t[0];const select=document.createElement('select');select.setAttribute('aria-label',t[0]);
-  usable.forEach((v,i)=>{const option=document.createElement('option');option.value=String(i);option.textContent=(v.label||String(i+1))+' · '+(v.distanceMeters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km'+(Number.isFinite(v.durationSeconds)?' · '+Math.round(v.durationSeconds/60)+' min':'');option.selected=v===route||Boolean(v.id&&v.id===route.id);select.append(option)});
-  select.onchange=()=>{const selected=usable[Number(select.value)];if(!selected)return;state.lastRoute=selected;openRouteMap(selected,null,usable)};label.append(select);box.append(label);
+  const label=document.createElement('div');label.className='travel-mode-table';const heading=document.createElement('strong');heading.textContent=t[0];label.append(heading);
+  usable.forEach((v,i)=>{const button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.style.cssText='display:block;width:100%;margin:8px 0;text-align:left;white-space:normal';button.textContent=(v===route?'✓  ':'')+(v.label||String(i+1))+' · '+(v.distanceMeters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km'+(Number.isFinite(v.durationSeconds)?' · '+Math.round(v.durationSeconds/60)+' min':'');button.onclick=()=>{state.lastRoute=v;openRouteMap(v,null,usable)};label.append(button)});
+  box.append(label);
  }
  if(route.profile==='walk'||route.profile==='foot'){
   const button=document.createElement('button');button.type='button';button.className='route-map-open';button.textContent=t[1];
