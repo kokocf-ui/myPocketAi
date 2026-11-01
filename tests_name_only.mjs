@@ -54,6 +54,7 @@ try{
   assert.equal(result.named_venue,true,message);
   assert.equal(result.needs_travel_confirmation,true,message);
   assert.equal(result.route_context?.pending,'profile',message);
+  assert.equal(result.place_lookup?.strategy,'geoapify_name_filter',message);
   assert.ok(Number.isFinite(result.route_context?.destination?.latitude),message);
   assert.match(result.route_context?.destination?.label||'',/Decathlon, Weston Avenue/,message);
   assert.ok(Number.isFinite(result.straight_line_distance_km),message);
@@ -71,13 +72,23 @@ try{
  assert.equal(empty.needs_travel_confirmation,undefined);
  assert.equal(empty.search_ok,false);
  assert.match(empty.reply,/Nu voi inventa o adresă/);
- console.log('PASS provider returns no matching venue -> no invented coordinates');
+ assert.equal(empty.place_lookup?.nameFilterHttp,200);
+ assert.equal(empty.place_lookup?.nameFilterFeatures,0);
+ assert.equal(empty.place_lookup?.nameFilterMatched,0);
+ assert.equal(empty.place_lookup?.overpassHttp,503);
+ assert.equal(empty.place_lookup?.reverseHttp,200);
+ console.log('PASS empty search '+JSON.stringify({geoapifyHttp:empty.place_lookup.nameFilterHttp,
+   geoapifyFeatures:empty.place_lookup.nameFilterFeatures,overpassHttp:empty.place_lookup.overpassHttp,
+   reverseHttp:empty.place_lookup.reverseHttp}));
 
  scenario='provider-error';
  const unavailable=await ask('Decathlon');
  assert.equal(unavailable.search_ok,false);
  assert.equal(unavailable.needs_travel_confirmation,undefined);
- console.log('PASS provider HTTP 503 -> fail closed; live provider status needs diagnostics');
+ assert.equal(unavailable.place_lookup?.nameFilterHttp,503);
+ assert.equal(unavailable.place_lookup?.overpassHttp,503);
+ console.log('PASS provider failure '+JSON.stringify({geoapifyHttp:unavailable.place_lookup.nameFilterHttp,
+   overpassHttp:unavailable.place_lookup.overpassHttp,reverseHttp:unavailable.place_lookup.reverseHttp}));
 
  scenario='matched';
  const quick=await ask('Magazin Decathlon',{quick_place_search:true});
