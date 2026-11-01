@@ -1763,7 +1763,7 @@ export default {
     // GPS-first named business lookup when the user does not know its town.
     // Only handle short name queries, not general questions or dedicated map routing.
     const localNameRaw=namedVenueInput.replace(/^(?:vreau sa ajung la|unde (?:este|e|gasesc)|cauta(?:-mi)?|gaseste(?:-mi)?)\s+/i,'').replace(/\s+(?:in zona mea|in apropierea mea|langa mine|aproape de mine|near me|nearby)$/i,'').trim();
-    const localNameQuery=(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
+    const localNameQuery=!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
     if(localNameQuery&&env.GEOAPIFY_API_KEY){
       const wanted=normalizeGeoName(localNameQuery).split(' ').filter(Boolean),found=[];
       for(const radius of [5000,15000,40000]){
