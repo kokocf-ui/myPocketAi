@@ -1,0 +1,118 @@
+name: Pocket AI - tests and live destination diagnostics
+
+on:
+  workflow_run:
+    workflows:
+      - Deploy MyPocketAI to Cloudflare
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout deployed commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax validation
+        run: npm run check
+      - name: Existing regression tests
+        run: npm test
+
+  live-destinations:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Probe named destinations and context against deployed backend
+        env:
+          POCKET_AI_API: https://lifewise-ai-api.kokocf.workers.dev/api/chat
+        run: |
+          node --input-type=module <<'JS'
+          // Diagnostic test position is a fixed public-area fixture in West Thurrock,
+          // NOT the user's GPS location. Never print API keys or precise user positions.
+          const location={latitude:51.48,longitude:0.28,updatedAt:Date.now()};
+          const api=process.env.POCKET_AI_API;
+          const cases=[
+            {id:'NAME_ONLY',message:'Decathlon'},
+            {id:'NAME_AREA',message:'Decathlon Lakeside'},
+            {id:'CATEGORY_NAME',message:'Magazin Decathlon'},
+            {id:'CONTROL',message:'Europa, Grays'}
+          ];
+          async function ask(message,extra={}){
+            const body={message,module:'assistant',language:'ro',history:[],location,...extra};
+            const response=await fetch(api,{
+              method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify(body),signal:AbortSignal.timeout(45000)
+            });
+            const raw=await response.text();
+            let data={};try{data=JSON.parse(raw)}catch{}
+            return {httpStatus:response.status,data};
+          }
+          let unresolved=0;
+          let identified=null;
+          for(const item of cases){
+            try{
+              const {httpStatus,data}=await ask(item.message);
+              const context=data.route_context;
+              const result={
+                case:item.id,httpStatus,apiVersion:data.version||null,
+                status:data.status||null,
+                destinationIdentified:!!context?.destination,
+                destinationLabel:context?.destination?.label||null,
+                needsConfirmation:!!data.needs_travel_confirmation,
+                needsMode:!!data.needs_travel_mode,
+                lookupStrategy:data.place_lookup?.strategy||null,
+                lookupMatched:data.place_lookup?.matched??null,
+                destinationCandidates:data.destination_candidates?.length||0,
+                responsePreview:String(data.reply||data.error||'').slice(0,160)
+              };
+              console.log('POCKET_DIAG '+JSON.stringify(result));
+              if(item.id==='NAME_AREA'&&context?.destination)identified=context;
+              if(item.id!=='CONTROL'&&!context?.destination)unresolved++;
+            }catch(error){
+              console.log('POCKET_DIAG '+JSON.stringify({case:item.id,
+                errorType:error?.name||'Error',error:String(error?.message||error).slice(0,120)}));
+              if(item.id!=='CONTROL')unresolved++;
+            }
+          }
+          if(identified){
+            try{
+              const {httpStatus,data}=await ask('Transport public',{
+                travel_mode:'transit',route_context:identified
+              });
+              console.log('POCKET_DIAG '+JSON.stringify({
+                case:'TRANSIT_CONTINUITY',httpStatus,apiVersion:data.version||null,
+                needsDestinationAgain:!!data.needs_destination_clarification,
+                transitAvailable:!!data.transit_available,
+                transitAlternatives:Array.isArray(data.transit)?data.transit.length:0,
+                replyPreview:String(data.reply||'').slice(0,160)
+              }));
+            }catch(error){
+              console.log('POCKET_DIAG '+JSON.stringify({
+                case:'TRANSIT_CONTINUITY',errorType:error?.name||'Error',
+                error:String(error?.message||error).slice(0,120)
+              }));
+            }
+          }
+          console.log('POCKET_DIAG_SUMMARY '+JSON.stringify({
+            backend:'deployed Cloudflare Worker',unitTests:'separate job',
+            nameVariantsNotResolved:unresolved,checkedNameVariants:3
+          }));
+          if(unresolved>0){console.error('LIVE NAMED DESTINATION FAILURE: '+unresolved+'/3');process.exitCode=1}
+          JS
