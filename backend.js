@@ -1822,6 +1822,22 @@ export default {
         }
       }catch{}
     }
+    // A bounded Places sample and a strict geocoder name match are not proof that a venue is absent.
+    // Reuse the existing named-place resolver before returning a negative result.
+    if(localNameQuery&&env.GEOAPIFY_API_KEY){
+      try{
+        const matches=await resolveNamedTravelPlace(localNameQuery,env,{latitude,longitude});
+        const nearby=matches.filter(p=>Number.isFinite(Number(p.latitude))&&Number.isFinite(Number(p.longitude))&&routeGeoDistance({latitude,longitude},p)<=40000);
+        const distinct=[];
+        for(const place of nearby){if(!distinct.some(previous=>routeGeoDistance(previous,place)<120))distinct.push(place);}
+        distinct.sort((a,b)=>routeGeoDistance({latitude,longitude},a)-routeGeoDistance({latitude,longitude},b));
+        if(distinct.length){
+          const options=distinct.slice(0,4),journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput);
+          if(options.length===1){const selected=options[0];return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:journey?'Am identificat '+selected.label+'. Cum dorești să ajungi?':'Am identificat '+selected.label+'. Dorești să îți arăt traseul?',named_venue:true,needs_travel_confirmation:!journey,needs_travel_mode:journey,route_context:{destination_query:localNameQuery,destination:selected,pending:'profile'},ai_connected:Boolean(env.AI)});}
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Am găsit mai multe locații apropiate. Pe care o cauți?',named_venue:true,needs_destination_clarification:true,destination_candidates:options,ai_connected:Boolean(env.AI)});
+        }
+      }catch{}
+    }
     if(localNameQuery&&env.GEOAPIFY_API_KEY){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Nu am putut confirma încă o locație apropiată pentru '+localNameQuery+'. Verifică permisiunea GPS sau precizează o zonă; nu voi inventa o adresă.',named_venue:true,search_ok:false,place_lookup:{strategy:'gps_nearby',matched:0},ai_connected:Boolean(env.AI)});
     }
