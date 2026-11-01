@@ -45,6 +45,8 @@ const chatContext={appendTransitChoiceAction(){},selectedPlaceForRoute:()=>null,
 vm.createContext(chatContext);const submitStart=source.indexOf('async function submitMessage('),submitEnd=source.indexOf("$('chatForm').addEventListener('submit'",submitStart);vm.runInContext(source.slice(submitStart,submitEnd),chatContext);
 await chatContext.submitMessage();assert.equal(sentChat.distance_context.destination_query,'Amsterdam');assert.equal(chatState.distanceSearchContext.pending_role,'destination');
 nextDistanceContext=null;chatInput.value='1';await chatContext.submitMessage();assert.equal(chatState.distanceSearchContext,null);assert.equal(chatState.busy,false);
+const beforeTransitFetch=chatContext.fetch,beforeTransitBubble=chatContext.addBubble;const transitReply={status:'success',reply:'Variante transport',transit:[{legs:[]}]};let readyWhenOpened=false;
+chatContext.fetch=async()=>({ok:true,json:async()=>transitReply});chatContext.addBubble=(text,role)=>{if(role==='assistant'&&text===transitReply.reply)readyWhenOpened=chatState.lastTransitResponse===transitReply;return {remove(){}}};chatInput.value='Transport public';await chatContext.submitMessage();assert.equal(readyWhenOpened,true,'structured itinerary must be available before automatic reader opening');chatContext.fetch=beforeTransitFetch;chatContext.addBubble=beforeTransitBubble;
 console.log('PASS: actual chat handler sends, retains and clears distance clarification context.');
 // v107: execute the actual GPS helper with controlled browser callbacks.
 let gpsSuccess=null,gpsError=null,gpsCalls=0,storageRemovals=0,timerCallbacks=new Map(),timerCounter=0;
@@ -62,7 +64,7 @@ console.log('PASS: GPS initial wait, transient timeout retention, permission rev
 let drawnPoints=null,mapRemoved=false,drawnRouteStyles=[];
 const mapInstance={invalidateSize(){},fitBounds(){},remove(){mapRemoved=true}};
 win.L={map:()=>mapInstance,tileLayer:()=>({addTo(){}}),polyline(points,options){drawnRouteStyles.push(options);drawnPoints=points;return {addTo(){return this},getBounds(){return points}}},circleMarker:()=>({addTo(){}})};
-const mapState={language:'ro'},mapContext={appendSelectedTransit(){},state:mapState,window:win,document:doc,URL,Number,Promise,Error,inputEl:new El('input'),closeAnswerReader(){},requestAnimationFrame:f=>{frames.set(++frameId,f);return frameId},setTimeout,clearTimeout,console};vm.createContext(mapContext);
+const mapState={language:'ro'},mapContext={appendTransitReturnAction(){},transitOptionsForRoute:()=>null,appendSelectedTransit(){},state:mapState,window:win,document:doc,URL,Number,Promise,Error,inputEl:new El('input'),closeAnswerReader(){},requestAnimationFrame:f=>{frames.set(++frameId,f);return frameId},setTimeout,clearTimeout,console};vm.createContext(mapContext);
 const mapStart=source.indexOf('const ROUTE_MAP_TEXT='),mapEnd=source.indexOf('const READER_LABELS=',mapStart);vm.runInContext(source.slice(mapStart,mapEnd),mapContext);
 const verifiedRoute={profile:'walk',coordinates:[[.28,51.48],[.3,51.479],[.323,51.478]],distanceMeters:1250};
 assert.equal(mapContext.isMapRouteFollowup('Afișează pe hartă traseul sau traseele pe care trebuie să le urmez'),true);assert.equal(mapContext.isMapRouteFollowup('Afișează pe hartă traseul până la Paris'),false);
@@ -154,3 +156,6 @@ stopInside.onclick();assert.equal(watchStarted,3);mapContext.closeRouteMap(false
 assert.ok(mapContext.projectWalkingPosition(navigateRoute,51.48,.28).remaining>1200);assert.ok(mapContext.projectWalkingPosition(navigateRoute,51.478,.323).remaining<1);
 for(const language of ['ro','en','fr','de','it','es','pt','nl','ru','pl']){mapState.language=language;assert.equal(mapContext.routeLiveText().length,12);assert.ok(mapContext.routeLiveText().every(v=>v.length>0));}
 console.log('PASS: explicit in-app navigation button, one moving GPS marker, map follow/recenter, projected distance, inaccurate/stale/off-route states, permission failure, stop/close/late-callback cleanup, no external navigation and 10 languages.');
+
+// Closing a transit access map returns to its cached choices, while unrelated maps keep normal close behavior.
+let returnedOptions=null;mapContext.transitOptionsForRoute=()=>['cached-trip'];mapContext.showTransitChoices=options=>{returnedOptions=options};await mapContext.openRouteMap(verifiedRoute);mapContext.closeRouteMap();assert.equal(returnedOptions[0],'cached-trip');

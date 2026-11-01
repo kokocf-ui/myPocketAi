@@ -111,3 +111,12 @@
 - Preserve Lakeside from the immediately relevant user history; reject stale trip recovery after another topic.
 - Keep the final destination distinct from the first boarding stop. Missing destination asks for clarification without global stop geocoding.
 - Extend mocked integration tests with both exact screenshot turns, actual itinerary boarding-stop selection, missing GPS and topic boundaries. All suites and syntax checks pass.
+
+
+## 2026-11-01 — Backend v131 + frontend 1.0.98
+
+- Replace the long first transport reader with an accessible three-column journey step table (step, action, local time), preserving station and line names. All ten UI languages have table and return controls.
+- Keep compact alternatives with departure/arrival, boarding station, access walk and transfer count. Repeated departures along one corridor no longer hide a distinct route; retain the shortest boarding walk among returned feasible options. No Grays service is fabricated or forced.
+- Add a visible back-to-options button to boarding-access maps. Closing the map also returns to cached journey options without repeating GPS/provider calls.
+- Remove BODS/RTT checks and unrelated vehicle lists from the itinerary text, retaining structured diagnostic metadata. Fix literal newline escapes and show short clock times.
+- Synchronize frontend identifiers to 1.0.98. Tests cover semantic tables, automatic first-reader data readiness, cached return, corridor diversity, short-access retention and existing routing/navigation.

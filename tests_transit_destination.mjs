@@ -54,5 +54,11 @@ for(const [message,history] of [[first,[]],[follow,[{role:'user',content:first},
 result=await screenshotAsk(follow);assert.equal(result.needs_destination_clarification,true);assert.equal(calls.length,0,'without a final destination, ask instead of geocoding first bus stop');
 result=await screenshotAsk(follow,[{role:'user',content:first},{role:'user',content:'Ce vreme este mâine?'}]);assert.equal(result.needs_destination_clarification,true);assert.equal(calls.length,0);
 result=await screenshotAsk(first,[],null);assert.equal(result.reason,'origin_location_missing');assert.ok(!calls.some(u=>u.pathname.includes('/JourneyResults/')));
+// Repeated rail departures must not consume every slot and hide a nearby bus corridor.
+const railLeg={mode:'national-rail',departureStopId:'rail-A',from:'Rail A',to:'City',lineNames:['Rail']};
+const alternatives=ctx.selectTransitAlternatives([...[1,2,3,4].map(i=>({durationMinutes:60+i,walkToFirstStopMinutes:25,legs:[railLeg]})),{durationMinutes:90,walkToFirstStopMinutes:1,legs:[{mode:'bus',departureStopId:'near-bus',from:'Near stop',to:'Grays',lineNames:['73']},railLeg]}]);
+assert.equal(alternatives.length,2);assert.ok(alternatives.some(j=>j.walkToFirstStopMinutes===1));
+const many=Array.from({length:6},(_,i)=>({durationMinutes:60+i,walkToFirstStopMinutes:20-i*3,legs:[{...railLeg,departureStopId:'distinct-'+i}]}));assert.ok(ctx.selectTransitAlternatives(many).some(j=>j.walkToFirstStopMinutes===5),'retain shortest verified boarding walk when more than four corridors exist');
+result=await screenshotAsk(first);assert.ok(result.reply.includes('\n'));assert.ok(!result.reply.includes('\\n'));assert.ok(!/BODS|RTT|Verificări servicii|Provider checks|2026-.*T/.test(result.reply),'no raw provider checks or ISO timestamps in the itinerary');
 console.info=logs.info;console.warn=logs.warn;console.error=logs.error;
 console.log('PASS: full Romanian/English transit request, Londrei city qualifier preserves Victoria Station, official station id used, mode/instructions never geocoded, missing destination clarified; screenshot first-transport intent, preserved Lakeside follow-up, actual boarding stop, GPS and topic boundaries.');

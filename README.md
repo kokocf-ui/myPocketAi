@@ -1,4 +1,6 @@
-# myPocket AI — backend v130 + frontend v1.0.97
+# myPocket AI — backend v131 + frontend v1.0.98
+
+v131 / 1.0.98: compact step tables and local clock times in the first transport answer; direct map-to-options return; no provider diagnostics in itinerary prose. Keep distinct travel corridors and preserve the returned option with the shortest boarding walk. GPS and provider feasibility checks still apply.
 
 v130 recognizes first-boarding-stop requests as public transport and retains the final destination across a walking-to-stop follow-up. No generic stop name is geocoded globally.
 

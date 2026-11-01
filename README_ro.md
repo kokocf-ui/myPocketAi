@@ -1,4 +1,6 @@
-# myPocket AI — backend v130 + frontend v1.0.97
+# myPocket AI — backend v131 + frontend v1.0.98
+
+v131 / 1.0.98: primul răspuns de transport are pași în tabel și ore scurte; întoarcere directă de la hartă la variante; fără diagnostice ale furnizorilor în descriere. Sunt păstrate trasee distincte și varianta returnată cu cel mai scurt mers până la îmbarcare. Verificările GPS și ale orei de plecare rămân active.
 
 v130 recunoaște cererile către primul mijloc de transport și păstrează destinația finală la continuarea pietonală către stație. Nu caută global o stație generică.
 

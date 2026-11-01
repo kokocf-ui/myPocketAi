@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -77,6 +77,18 @@ function transitConversationDestination(message,history){
   if(!transitBoardingAccessRequest(turn)&&! /^(?:(?:foloseste|use) )?(?:locatia mea|my location|gps|pietonal|pe jos|walking|walk|cu autobuzul|by bus)[.!?]*$/.test(n))break;
  }
  return '';
+}
+
+// Show distinct ways to travel before repeated departures along the same corridor.
+function selectTransitAlternatives(candidates,limit=4){
+ const corridor=j=>(j.legs||[]).filter(l=>!/walk|foot|pedestrian/i.test(String(l.mode||''))).map(l=>[l.mode,l.departureStopId||l.from,l.to,(l.lineNames||[]).join(',')].join(':')).join('|');
+ const distinct=[],seen=new Set();
+ for(const j of candidates){const key=corridor(j);if(!key||seen.has(key))continue;seen.add(key);distinct.push(j);}
+ if(distinct.length<=limit)return distinct;
+ const nearest=distinct.filter(j=>Number.isFinite(j.walkToFirstStopMinutes)).sort((a,b)=>a.walkToFirstStopMinutes-b.walkToFirstStopMinutes)[0];
+ const chosen=distinct.slice(0,limit);
+ if(nearest&&!chosen.includes(nearest))chosen[limit-1]=nearest;
+ return chosen;
 }
 
 // Coordinate-backed boarding places come from the selected transport leg, never from a street-name guess.
@@ -256,7 +268,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v130";
+    const API_VERSION = "v131";
     let responsePlaceContext=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -718,14 +730,7 @@ export default {
               };
               return score(a)-score(b);
             });
-            const seen=new Set(),selected=[];
-            for(const j of candidates){
-              const modes=vehicleLegs(j).map(l=>[l.mode,l.from,l.to].join(":")).join("|");
-              const key=(j.firstVehicleDepartureTime||j.startDateTime||"unknown")+"|"+modes;
-              if(seen.has(key))continue;
-              seen.add(key);selected.push(j);
-              if(selected.length>=4)break;
-            }
+            const selected=selectTransitAlternatives(candidates);
             transitOptions.splice(0,transitOptions.length,...selected);
             if (!transitOptions.length) transportErrors.tfl = "no_journeys_returned";
           } catch (e) { transportErrors.tfl = String(e && e.message || "request_failed").slice(0,100); }
@@ -830,27 +835,19 @@ export default {
           if (routeCoordinates.length >= 2) {
             transitRoute = {profile:"public_transport",distanceMeters:null,durationSeconds:fastest.durationMinutes ? fastest.durationMinutes*60 : null,coordinates:routeCoordinates,destination:{name:targetName,latitude:targetLat,longitude:targetLon},selectedJourneyDurationMinutes:fastest.durationMinutes};
           }
-          reply = lang === "en"
-            ? `RECOMMENDED FEASIBLE OPTION to ${targetName}: ${fastest.durationMinutes ? `about ${fastest.durationMinutes} minutes total` : "total duration unavailable"}. This option prioritizes fewer transfers and enough time to reach the first stop.\\n`
-            : `VARIANTA RECOMANDATĂ, CU PLECARE ACCESIBILĂ, până la ${targetName}: ${fastest.durationMinutes ? `aproximativ ${fastest.durationMinutes} minute în total` : "durata totală nu este disponibilă"}. Această variantă prioritizează mai puține schimbări și timpul necesar pentru a ajunge la prima stație.\\n`;
-          reply += (lang === "en" ? "Recommended journey: " : "Traseu recomandat: ") + fastest.legs.map(l=>`${l.mode}${l.from?" · "+l.from:""}${l.to?" → "+l.to:""}${l.departureTime?(lang === "en" ? " (depart "+l.departureTime+")" : " (plecare "+l.departureTime+")"):""}${l.arrivalTime?(lang === "en" ? " (arrive "+l.arrivalTime+")" : " (sosire "+l.arrivalTime+")"):""}${l.instruction?" — "+l.instruction:""}`).join("; ");
-          if (transitOptions.length > 1) {
-            reply += lang === "en" ? "\\n\\nOther options, ordered by total duration:\\n" : "\\n\\nAlte opțiuni, ordonate după durata totală:\\n";
-            reply += transitOptions.slice(1).map((j,i)=>`${i+2}. ${j.durationMinutes ? (lang === "en" ? `about ${j.durationMinutes} min` : `aproximativ ${j.durationMinutes} min`) : (lang === "en" ? "duration unavailable" : "durată indisponibilă")}: ` + j.legs.map(l=>`${l.mode}${l.from?" · "+l.from:""}${l.to?" → "+l.to:""}${l.instruction?" ("+l.instruction+")":""}`).join("; ")).join("\\n");
-          }
-          reply += lang === "en" ? "\\n\\nJourney options are based on TfL data. Check live service conditions before departure." : "\\n\\nOpțiunile sunt bazate pe datele TfL. Verifică starea serviciilor înainte de plecare.";
+          const clock=value=>{if(typeof value!=='string')return '—';const d=new Date(value);return Number.isNaN(d.getTime())?'—':d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/London'});};
+          const modeName=value=>{const v=String(value||'');return /walk|foot|pedestrian/i.test(v)?(lang==='en'?'Walk':'Pe jos'):/bus/i.test(v)?(lang==='en'?'Bus':'Autobuz'):/tube|metro/i.test(v)?(lang==='en'?'Metro':'Metrou'):/rail|train/i.test(v)?(lang==='en'?'Train':'Tren'):v;};
+          reply=(lang==='en'?'Public transport to ':'Transport public către ')+targetName+'\n\n';
+          reply+=transitOptions.map((j,i)=>{
+            const first=(j.legs||[]).find(l=>!/walk|foot|pedestrian/i.test(String(l.mode||'')));
+            return (i+1)+'. '+(j.durationMinutes||'?')+' min · '+clock(first?.departureTime)+'–'+clock(j.arrivalDateTime)+' · '+(lang==='en'?'Board: ':'Îmbarcare: ')+(first?.from||'—')+(Number.isFinite(j.walkToFirstStopMinutes)?' · '+(lang==='en'?'Walk: ':'Pe jos: ')+j.walkToFirstStopMinutes+' min':'');
+          }).join('\n');
+          reply+='\n\n'+(lang==='en'?'Steps — option 1:':'Pași — varianta 1:')+'\n';
+          reply+=fastest.legs.map((l,i)=>(i+1)+'. '+clock(l.departureTime)+'–'+clock(l.arrivalTime)+' · '+modeName(l.mode)+((l.lineNames||[]).length?' '+l.lineNames.join(', '):'')+' · '+(l.from||'—')+' → '+(l.to||'—')).join('\n');
         } else {
           reply = lang === "en" ? `I couldn't obtain a confirmed public-transport journey from TfL for ${targetName} right now. I have not substituted a guessed route. Please try a destination station or postcode.` : `Nu am putut obține acum de la TfL o călătorie confirmată cu transportul public până la ${targetName}. Nu am înlocuit-o cu un traseu inventat. Încearcă numele unei stații sau un cod poștal.`;
         }
-        if (nearbyBuses.length) {
-          reply += lang === "en" ? "\n\nNearby live buses (BODS; supplementary, not route legs): " : "\n\nAutobuze live din apropiere (BODS; informații suplimentare, nu segmente confirmate ale rutei): ";
-          reply += nearbyBuses.map((b,i)=>`${i+1}. ${b.line ? (lang === "en" ? "Line " : "Linia ")+b.line : (lang === "en" ? "Bus" : "Autobuz")}${b.vehicle ? " · "+b.vehicle : ""}`).join("; ");
-        }
-        if (rttServices.length) {
-          reply += lang === "en" ? "\n\nRecent train services at Grays (RTT; check destination/time before boarding): " : "\n\nServicii feroviare afișate pentru Grays (RTT; verifică destinația/ora înainte de urcare): ";
-          reply += rttServices.map((t,i)=>`${i+1}. ${t.destination || t.train || (lang === "en" ? "Train service" : "Serviciu feroviar")}${t.scheduled ? " · "+t.scheduled : ""}${t.estimated ? (lang === "en" ? " (live " : " (timp estimat ")+t.estimated+")" : ""}`).join("; ");
-        }
-        reply += lang === "en" ? "\n\nProvider checks: BODS " + bodsStatus + "; RTT " + rttStatus + "." : "\n\nVerificări servicii: BODS " + bodsStatus + "; RTT " + rttStatus + ".";
+        // Supplementary provider checks remain in structured metadata, outside the itinerary.
         const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl|| (env.TFL_APP_KEY?"ok":"not_configured"),bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
         if (transportErrors.tfl || transportErrors.bods || transportErrors.rtt || transportErrors.rtt_services || transportErrors.geoapify) console.warn("Pocket AI v96 transit provider diagnostics", JSON.stringify(transitDiagnostics));
         else console.info("Pocket AI v96 transit provider summary", JSON.stringify(transitDiagnostics));
@@ -999,7 +996,7 @@ export default {
         if(props.distance_units&&!['meters','metres','m'].includes(String(props.distance_units).trim().toLowerCase()))throw Error('route_units_invalid');
         const steps=(Array.isArray(props.legs)?props.legs:[]).flatMap(leg=>Array.isArray(leg.steps)?leg.steps:[]).map(step=>{
           let text=typeof step.instruction?.text==='string'?step.instruction.text.trim():'';
-          if(lang==='ro')text=text.replace(/^Take the stairs to Level ([-\d]+)\.?$/i,'Folosește scările către nivelul $1.').replace(/\bthe crosswalk\b/gi,'trecerea de pietoni');
+          if(lang==='ro')text=text.replace(/^Take the stairs\.?$/i,'Folosește scările.').replace(/^Take the stairs to Level ([-\d]+)\.?$/i,'Folosește scările către nivelul $1.').replace(/\bthe crosswalk\b/gi,'trecerea de pietoni');
           const streets=Array.isArray(step.instruction?.streets)?step.instruction.streets.filter(v=>typeof v==='string').slice(0,8):[];
           return {text:text.slice(0,1200),streets,distanceMeters:Number.isFinite(step.distance)&&step.distance>=0?step.distance:null};
         }).filter(v=>v.text).slice(0,500).map((v,i)=>({...v,number:i+1}));
