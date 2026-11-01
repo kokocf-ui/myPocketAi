@@ -52,6 +52,7 @@ jobs:
             {id:'NAME_ONLY',message:'Decathlon'},
             {id:'NAME_AREA',message:'Decathlon Lakeside'},
             {id:'CATEGORY_NAME',message:'Magazin Decathlon'},
+            {id:'STATION_INITIAL',message:'Vreau sa ajung in London Liverpool Street'},
             {id:'CONTROL',message:'Europa, Grays'}
           ];
           async function ask(message,extra={}){
@@ -66,6 +67,8 @@ jobs:
           }
           let unresolved=0;
           let identified=null;
+          let stationPending=null;
+          let stationFailure=false;
           for(const item of cases){
             try{
               const {httpStatus,data}=await ask(item.message);
@@ -84,6 +87,10 @@ jobs:
                   nameFilterFeatures:data.place_lookup?.nameFilterFeatures??null,
                   nameFilterMatched:data.place_lookup?.nameFilterMatched??null,
                   nameFilterError:data.place_lookup?.nameFilterError??null,
+                  photonHttp:data.place_lookup?.photonHttp??null,
+                  photonFeatures:data.place_lookup?.photonFeatures??null,
+                  photonMatched:data.place_lookup?.photonMatched??null,
+                  photonError:data.place_lookup?.photonError??null,
                   geocodeHttp:data.place_lookup?.geocodeHttp??null,
                   geocodeFeatures:data.place_lookup?.geocodeFeatures??null,
                   overpassHttp:data.place_lookup?.overpassHttp??null,
@@ -97,11 +104,13 @@ jobs:
               };
               console.log('POCKET_DIAG '+JSON.stringify(result));
               if(item.id==='NAME_AREA'&&context?.destination)identified=context;
-              if(item.id!=='CONTROL'&&!context?.destination)unresolved++;
+              if(item.id==='STATION_INITIAL')stationPending=context;
+              if(item.id!=='CONTROL'&&item.id!=='STATION_INITIAL'&&!context?.destination)unresolved++;
             }catch(error){
               console.log('POCKET_DIAG '+JSON.stringify({case:item.id,
                 errorType:error?.name||'Error',error:String(error?.message||error).slice(0,120)}));
-              if(item.id!=='CONTROL')unresolved++;
+              if(item.id==='STATION_INITIAL')stationFailure=true;
+              else if(item.id!=='CONTROL')unresolved++;
             }
           }
           if(identified){
@@ -123,9 +132,38 @@ jobs:
               }));
             }
           }
+          // The named station is intentionally unresolved on the first turn.
+          // Selecting public transport must use TfL's verified station record,
+          // not request London again or geocode an unrelated street.
+          if(stationPending?.destination_query){
+            try{
+              const {httpStatus,data}=await ask('Transport public',{
+                travel_mode:'transit',route_context:stationPending
+              });
+              console.log('POCKET_DIAG '+JSON.stringify({
+                case:'STATION_LIVERPOOL_STREET_TRANSIT',
+                httpStatus,apiVersion:data.version||null,
+                needsDestinationAgain:!!data.needs_destination_clarification,
+                reason:data.reason||null,transitAvailable:!!data.transit_available,
+                alternativeCount:Array.isArray(data.transit)?data.transit.length:0,
+                replyPreview:String(data.reply||'').slice(0,160)
+              }));
+              if(data.needs_destination_clarification||data.reason==='destination_not_confidently_resolved')
+                stationFailure=true;
+            }catch(e){
+              stationFailure=true;
+              console.log('POCKET_DIAG '+JSON.stringify({case:'STATION_LIVERPOOL_STREET_TRANSIT',
+                errorType:e?.name||'Error',message:String(e?.message||e).slice(0,120)}));
+            }
+          }else{
+            stationFailure=true;
+            console.error('LIVE STATION CONTINUITY FAILURE: no route context on first turn');
+          }
           console.log('POCKET_DIAG_SUMMARY '+JSON.stringify({
             backend:'deployed Cloudflare Worker',unitTests:'separate job',
-            nameVariantsNotResolved:unresolved,checkedNameVariants:3
+            nameVariantsNotResolved:unresolved,checkedNameVariants:3,
+            londonLiverpoolStreetFailed:stationFailure
           }));
           if(unresolved>0){console.error('LIVE NAMED DESTINATION FAILURE: '+unresolved+'/3');process.exitCode=1}
+          if(stationFailure){console.error('LIVE STATION FOLLOWUP FAILURE');process.exitCode=1}
           JS
