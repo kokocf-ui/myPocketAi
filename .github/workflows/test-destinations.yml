@@ -27,8 +27,10 @@ jobs:
           node-version: '22'
       - name: Syntax validation
         run: npm run check
+      - name: Confirmed landmark and cross-country safety regression
+        run: node tests_landmark_resolution.mjs
       - name: Focused destination and local-category regressions
-        run: npm run test:destinations && npm run test:local-categories && node tests_landmark_resolution.mjs
+        run: npm run test:destinations && npm run test:local-categories
       - name: Modal first-tap and travel mode checks
         run: node tests_modal_ui.mjs && node tests_travel_mode_ui.mjs && node tests_transit_refresh.mjs
       - name: Existing regression tests
