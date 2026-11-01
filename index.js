@@ -1440,10 +1440,11 @@ function appendConversationChoices(data,host){
     state.routeSearchContext={destination_query:String(data.message_received||option.label),destination:{latitude:lat,longitude:lon,label:option.label},pending:'profile'};
     state.pendingTravelMode=null;
     closeAnswerReader(false);
-    const selected={...data,route_context:state.routeSearchContext,needs_travel_mode:true,needs_travel_confirmation:false};
-    const prompt=state.language==='ro'?'Cum dorești să ajungi la '+option.label+'?':'How would you like to get to '+option.label+'?';
+    const explicitJourney=/\b(?:vreau sa ajung|cum ajung|traseu|ruta|navig|directions|route|how to get|go to)\b/i.test(String(data.message_received||''));
+    const selected={...data,route_context:state.routeSearchContext,needs_travel_mode:explicitJourney,needs_travel_confirmation:!explicitJourney};
+    const prompt=explicitJourney?(state.language==='ro'?'Cum dorești să ajungi la '+option.label+'?':'How would you like to get to '+option.label+'?'):(state.language==='ro'?'Am identificat '+option.label+'. Dorești să îți arăt traseul?':'I found '+option.label+'. Would you like directions?');
     const bubble=addBubble(prompt,'assistant',false,{autoOpen:false});
-    appendTravelModeChoices(selected,bubble);
+    if(explicitJourney)appendTravelModeChoices(selected,bubble);else appendTravelConfirmation(selected,bubble);
     state.messages.push({role:'assistant',text:prompt});
     buttons.forEach(b=>b.disabled=true);
     return;
