@@ -46,9 +46,9 @@ try{
  assert.equal(station.commonName,undefined);
  const first=await ask('Vreau sa ajung in London Liverpool Street');
  assert.equal(first.needs_travel_mode,true);
- assert.equal(first.route_context?.destination_query,'London Liverpool Street');
+ assert.match(first.route_context?.destination_query||'',/London Liverpool Street Rail Station/);assert.equal(first.route_context?.destination?.resolution_source,'tfl_verified_station');
  assert.equal(first.route_context?.pending,'profile');
- assert.ok(first.reply.includes('transportul public'));
+ assert.match(first.reply,/London Liverpool Street.*Cum dorești să ajungi/,'the station is confirmed before offering transport');
  calls=[];
  const journey=await ask('Transport public',{route_context:first.route_context,travel_mode:'transit'});
  assert.equal(journey.needs_destination_clarification,undefined,
