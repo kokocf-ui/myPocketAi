@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.102 — preserve exact transit destination; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.103 — preserve exact transit destination; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -1403,7 +1403,7 @@ function cancelTransitAccess(clearSelection=false){state.transitAccessGeneration
 function transitBoardingSummary(journey){const stop=journey.boarding_stop,t=transitAccessText();if(!validTransitBoardingStop(stop))return t[11];const vehicle=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))),line=(stop.line_names||vehicle?.lineNames||[]).join(', ');return [t[7]+': '+stop.label,stop.indicator?stop.indicator:'',line?t[6]+': '+line:'',stop.towards?'→ '+stop.towards:'',t[4]+': '+transitClock(stop.departure_time||journey.firstVehicleDepartureTime,journey.time_zone)].filter(Boolean).join(' · ')}
 const TRAVEL_MODE_TEXT={ro:['Cum vrei să ajungi?','Pietonal','Transport public','Mașină'],en:['How would you like to travel?','Walk','Public transport','Drive'],fr:['Comment souhaitez-vous voyager ?','À pied','Transports publics','Voiture'],de:['Wie möchten Sie reisen?','Zu Fuß','Öffentliche Verkehrsmittel','Auto'],it:['Come vuoi viaggiare?','A piedi','Trasporto pubblico','Auto'],es:['¿Cómo quieres viajar?','A pie','Transporte público','Coche'],pt:['Como pretende viajar?','A pé','Transportes públicos','Carro'],nl:['Hoe wil je reizen?','Lopen','Openbaar vervoer','Auto'],ru:['Как вы хотите добраться?','Пешком','Общественный транспорт','Автомобиль'],pl:['Jak chcesz dotrzeć?','Pieszo','Transport publiczny','Samochód']};
 function appendTravelModeChoices(data,host){
- if(data.needs_travel_mode!==true||data.route_context?.pending!=='profile'||!data.route_context.destination_query)return false;
+ if(data.needs_travel_mode!==true||!data.route_context?.destination_query)return false;
  const t=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en,table=document.createElement('table'),caption=document.createElement('caption'),body=document.createElement('tbody'),generation=state.conversationGeneration,buttons=[];table.className='travel-mode-table';caption.textContent=t[0];table.append(caption);
  for(const [i,mode] of ['walk','transit','drive'].entries()){
   const row=document.createElement('tr'),cell=document.createElement('td'),button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.textContent=t[i+1];buttons.push(button);
