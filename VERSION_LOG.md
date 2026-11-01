@@ -1,3 +1,12 @@
+
+## Frontend 1.0.112 — dialoguri generale pentru opțiuni și liste
+
+Listele de opțiuni care nu încap confortabil în conversație sunt mutate într-un dialog suprapus cu închidere și revenire. Se păstrează elementele interactive originale și bara inferioară. Stilurile roșii din 1.0.111 rămân incluse. Testare vizuală pe telefon necesară.
+
+## v1.0.111 — butoane roșii uniforme (2026-11-01)
+
+Butonul Acasă, în toate secțiunile, și panoul extensibil Transport ales folosesc acum același gradient roșu, chenar și umbră ca Selecții rapide. Butoanele Acasă și Selecții rapide au lățimi egale și înălțimi coordonate. Nu se modifică backend-ul sau logica traseelor.
+
 ## UI styling update — frontend 1.0.110 (2026-11-01)
 Home buttons in all views match Quick Selections gradient, equal-width paired actions sized to longest label; selected transport details in the route map use the same visible gradient. No route or backend logic changed.
 

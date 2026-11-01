@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.110",
+  version: "1.0.112",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1180,6 +1180,18 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 @media(max-width:400px){.transit-steps{font-size:14px!important}.transit-steps th,.transit-steps td{padding:8px 4px!important}}.travel-mode-table{width:100%;border-collapse:collapse;margin-top:12px}.travel-mode-table caption{text-align:left;font-weight:700}.travel-mode-table td{padding:3px 0}.travel-mode-table button{margin:3px 0}.transit-steps{width:100%;table-layout:fixed;border-collapse:collapse;margin:12px 0 20px;font-size:16px;line-height:1.4}.transit-steps caption{text-align:left;font-weight:700;margin-bottom:8px}.transit-steps th,.transit-steps td{padding:10px 7px;border-bottom:1px solid #35566a;text-align:left;vertical-align:top;overflow-wrap:anywhere}.transit-steps th:first-child{width:13%}.transit-steps th:last-child{width:26%}.transit-steps td:last-child{font-variant-numeric:tabular-nums;white-space:nowrap}.transit-steps td div{margin-top:4px}.transit-choice-action>strong{display:block;margin-bottom:6px}.transit-card-metrics{margin-top:6px;font-size:.9em;color:#b9d8e5}.transit-return-panel{flex-shrink:0;padding:0 14px}.transit-return-panel:empty{display:none}.transit-back-options{width:100%;margin:8px 0!important}.transit-choice-action{display:block;width:100%;padding:12px;margin:8px 0;border:1px solid #3e8194;border-radius:14px;background:#112c40;color:#edf6fb;font:inherit;text-align:left;line-height:1.4;white-space:pre-wrap}.transit-choice-action:disabled{opacity:.65}.transit-leg{padding:8px 0;border-bottom:1px solid #35566a;line-height:1.5;overflow-wrap:anywhere}.selected-transit{margin-bottom:10px;padding:8px;border:1px solid #3e8194;border-radius:12px}.selected-transit summary{cursor:pointer;font-weight:700;line-height:1.4}.transit-access-status{line-height:1.4}.route-options{padding:6px 14px;flex-shrink:0;font-size:14px}.route-options label{display:block}.route-options select,.route-options input{display:block;width:100%;max-width:100%;min-height:40px;margin:5px 0;padding:6px;background:#12354b;color:#edf6fb;border:1px solid #5597ac;border-radius:9px;font:inherit}.route-options summary{cursor:pointer;padding:5px 0}.route-options details[open]{max-height:150px;overflow:auto}.route-options .route-map-open{width:100%;margin:5px 0}.route-map-window.navigating .route-options,.route-map-window.navigating>a{display:none}.route-map-window [hidden]{display:none!important}.route-live-status{font-weight:600}.route-recenter{font-size:13px!important}.route-map-window{position:fixed;z-index:100;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:#0b2233;color:#edf6fb;border:2px solid #3b7185;border-radius:22px;box-shadow:0 12px 45px #000b}
 .route-map-header{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid #33556b}.route-map-header h2{flex:1;margin:0;font-size:20px}.route-map-header button{width:42px;height:42px;border:1px solid #5597ac;border-radius:12px;background:#12354b;color:#e4ffff;font-size:26px}.route-map-status{margin:8px 14px;font-size:14px}.route-map-window>a{color:var(--cyan);margin:0 14px 10px;font-size:14px}.route-map-canvas{flex:1 1 0;min-height:140px;background:#e4e7ea}.route-directions{flex:0 1 auto;max-height:32%;overflow:auto;padding:10px 14px;border-top:1px solid #33556b;overscroll-behavior:contain}.route-directions ol{padding-left:22px;margin:8px 0}.route-directions li{padding:5px 0}.route-map-window>.route-map-open{flex-shrink:0;margin:0 14px 8px;font-size:14px;text-align:center}.route-map-open{display:block;min-height:40px;margin-top:10px;padding:8px 12px;border:1px solid #59c3d2;border-radius:12px;background:#0b354d;color:#d7ffff;font:inherit;font-size:14px}
 .travel-mode-table,.travel-confirm-panel{width:100%;max-width:100%;background:linear-gradient(150deg,#102f44,#081b2a)!important;color:#e8f8ff!important;border:1px solid #3b91a4;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px #0006}.travel-mode-table caption{background:#12394f!important;color:#e8f8ff!important;padding:12px;font-weight:700}.travel-mode-table td,.travel-mode-table tr{background:transparent!important;color:#e8f8ff!important;border-color:#315c70!important}.travel-mode-table button{background:#123a50!important;color:#e8f8ff!important;border:1px solid #438ba0!important}.route-map-window.navigating{border-radius:0!important;border:0!important}.route-map-window.navigating .route-directions{max-height:23%}.route-map-window.navigating .route-map-canvas{min-height:55%}
+
+/* v1.0.112 — reusable accessible long-choice overlay across chat modules */
+.long-choice-backdrop{position:fixed;inset:0;z-index:130;display:none;align-items:center;justify-content:center;background:rgba(0,9,18,.76);padding:12px 12px max(12px,env(safe-area-inset-bottom));box-sizing:border-box}
+.long-choice-backdrop.open{display:flex}
+.long-choice-window{width:min(100%,560px);max-height:calc(100dvh - 34px);min-height:0;display:flex;flex-direction:column;overflow:hidden;border:2px solid #4d94a7;border-radius:20px;background:#0d2537;color:#eaf8ff;box-shadow:0 18px 50px #000c}
+.long-choice-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid #35657a;flex-shrink:0}
+.long-choice-header strong{font-size:17px;overflow-wrap:anywhere}
+.long-choice-close{font:inherit;font-weight:700;background:#14384d;color:#fff;border:1px solid #62a5b8;border-radius:12px;padding:9px 14px;min-width:46px;min-height:44px}
+.long-choice-content{overflow-y:auto;overscroll-behavior:contain;padding:12px;min-height:0;flex:1}
+.long-choice-content .travel-mode-table,.long-choice-content .travel-confirm-panel,.long-choice-content .transit-steps{margin:0;width:100%}
+.long-choice-open{width:100%;max-width:100%;margin:10px 0;padding:13px 14px;border-radius:13px;background:linear-gradient(120deg,#ef5748,#991f3a);border:1px solid #ffb29d;color:#fff;font:inherit;font-weight:700;text-align:left;white-space:normal;overflow-wrap:anywhere}
+body.long-choice-active{overflow:hidden}
 </style>
 </head>
 <body>
@@ -1223,19 +1235,63 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
   <div id="moduleLayerBody" class="module-quick-body"></div>
  </section>
 </div>
+<div id="longChoiceBackdrop" class="long-choice-backdrop" aria-hidden="true"><section class="long-choice-window" role="dialog" aria-modal="true" aria-labelledby="longChoiceTitle"><header class="long-choice-header"><strong id="longChoiceTitle">Opțiuni</strong><button type="button" class="long-choice-close" id="longChoiceClose" aria-label="Închide">✕</button></header><div id="longChoiceContent" class="long-choice-content"></div></section></div>
 <nav class="bottom-nav" aria-label="Navigare principală"><button class="nav-btn active" data-nav="home"><span class="nav-icon">⌂</span>Acasă</button><button class="nav-btn" data-nav="conversations"><span class="nav-icon">◷</span>Conversații</button><button class="nav-btn" data-nav="tools"><span class="nav-icon">▱</span>Instrumente</button><button class="nav-btn" data-nav="settings"><span class="nav-icon">⚙</span>Setări</button></nav>
 <div class="avatar-overlay" id="avatarOverlay" aria-hidden="true"><button class="avatar-close" id="avatarClose" aria-label="Închide avatarul">×</button><div class="avatar-stage"><img class="avatar-image" id="avatarImage" src="${AVATAR_DATA}" alt="Avatarul holografic myPocket AI"><div class="avatar-message" id="avatarMessage">Salut! Sunt asistentul tău personal.</div><div class="voice-wave" id="voiceWave" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="avatar-status" id="avatarStatus">Bine ai venit!</div></div></div><div class="notice" id="notice" role="status" aria-live="polite"></div>
 <script>
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.110'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.112'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
 const $ = id => document.getElementById(id);
 const views = [...document.querySelectorAll('.view')];
-const messagesEl=$('messages'), inputEl=$('messageInput'), sendBtn=$('sendBtn'), chatStatus=$('chatStatus'); const sharedChatShell=$('sharedChatShell'), chatHomePlaceholder=$('chatHomePlaceholder'), newChatBtn=$('newChatBtn');
+const messagesEl=$('messages'), inputEl=$('messageInput'), sendBtn=$('sendBtn'), chatStatus=$('chatStatus');
+
+// Long panels live in a modal rather than clipping inside the conversation bubble.
+// Move the original DOM nodes to retain click handlers, selected options and context.
+let longChoiceOriginal=null,longChoicePlaceholder=null,longChoiceOpener=null;
+function closeLongChoice(){
+ const backdrop=$('longChoiceBackdrop'),content=$('longChoiceContent');
+ if(!backdrop?.classList.contains('open'))return;
+ if(longChoiceOriginal&&longChoicePlaceholder?.isConnected){longChoicePlaceholder.after(longChoiceOriginal)}
+ else if(longChoiceOriginal)longChoiceOriginal.remove();
+ content.replaceChildren();backdrop.classList.remove('open');backdrop.setAttribute('aria-hidden','true');document.body.classList.remove('long-choice-active');
+ const opener=longChoiceOpener;longChoiceOriginal=null;longChoicePlaceholder=null;longChoiceOpener=null;
+ if(opener?.isConnected)opener.focus({preventScroll:true});
+}
+function openLongChoice(panel,trigger){
+ closeLongChoice();const backdrop=$('longChoiceBackdrop');if(!panel?.isConnected||!backdrop)return;
+ longChoiceOriginal=panel;longChoicePlaceholder=trigger;longChoiceOpener=trigger;
+ const heading=panel.querySelector('caption, h3, strong');
+ $('longChoiceTitle').textContent=(heading?.textContent||trigger.textContent||'Opțiuni').trim().slice(0,120);
+ $('longChoiceContent').append(panel);backdrop.classList.add('open');backdrop.setAttribute('aria-hidden','false');document.body.classList.add('long-choice-active');
+ $('longChoiceClose').focus({preventScroll:true});
+}
+function promoteLongChoicePanels(){
+ if(!messagesEl?.isConnected)return;
+ for(const panel of messagesEl.querySelectorAll('.bubble .travel-mode-table, .bubble .travel-confirm-panel, .bubble .transit-steps')){
+  if(panel.dataset.longChoiceReady)return;
+  const rows=panel.querySelectorAll('tr').length,buttons=panel.querySelectorAll('button').length;
+  // All option tables need ample touch space. Short yes/no questions stay inline.
+  if(rows<2&&buttons<3)continue;
+  panel.dataset.longChoiceReady='true';
+  const trigger=document.createElement('button');trigger.type='button';trigger.className='long-choice-open';
+  const heading=panel.querySelector('caption')?.textContent?.trim();
+  trigger.textContent=(heading|| (state.language==='ro'?'Vezi variantele și detaliile':'View options and details'))+'  ▣';
+  panel.before(trigger);panel.remove(); // retain the original panel without duplicating interactive controls
+  trigger.addEventListener('click',()=>{trigger.after(panel);openLongChoice(panel,trigger)});
+ }
+}
+$('longChoiceClose').addEventListener('click',closeLongChoice);
+$('longChoiceBackdrop').addEventListener('click',e=>{if(e.target===$('longChoiceBackdrop'))closeLongChoice()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLongChoice()});
+$('longChoiceContent').addEventListener('click',e=>{if(e.target.closest('button, select')&&!e.target.closest('.route-options')){setTimeout(()=>{if($('longChoiceBackdrop').classList.contains('open'))closeLongChoice()},150)}});
+const longChoiceObserver=new MutationObserver(()=>promoteLongChoicePanels());
+longChoiceObserver.observe(messagesEl,{subtree:true,childList:true});
+ const sharedChatShell=$('sharedChatShell'), chatHomePlaceholder=$('chatHomePlaceholder'), newChatBtn=$('newChatBtn');
 const chatControlsHome=$('sharedChatShell').querySelector('.chat-top');
 const moduleChatControls=document.createElement('div');moduleChatControls.className='module-chat-controls';moduleChatControls.setAttribute('aria-label','Controale vocale');
 const avatarOverlay=$('avatarOverlay'), avatarMessage=$('avatarMessage'), avatarStatus=$('avatarStatus'), voiceWave=$('voiceWave');
@@ -1251,7 +1307,7 @@ function dismissNotice(){clearTimeout(state.noticeTimer);$('notice').classList.r
 function notify(message){const el=$('notice');dismissNotice();el.textContent=message;el.classList.add('show');state.noticeTimer=setTimeout(dismissNotice,1800)}
 inputEl.addEventListener('focus',dismissNotice);
 function setStatus(message){chatStatus.textContent=message}
-function showView(name){cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
+function showView(name){closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
 // Change the shared chat host without archiving, clearing GPS or starting a new conversation.
 function switchConversationModule(key){
  if(!['assistant','maps','travel'].includes(key))return;
@@ -2089,6 +2145,45 @@ welcomeUser();
 .view#view-module #sharedChatShell .chat-top{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important}
 .view#view-module #sharedChatShell .chat-top strong{order:0!important;flex:1 1 auto!important;min-width:0!important;text-align:left!important;padding:0!important}
 .view#view-module #sharedChatShell .chat-top #newChatBtn{order:1!important;flex:0 0 auto!important;margin-left:auto!important;max-width:62%!important;white-space:nowrap!important}
+
+/* v1.0.111: match the existing red Quick selections button exactly. */
+#view-assistant .assistant-actions > .back-btn,
+#view-module .module-actions-row > .module-home-btn,
+#view-conversations > .back-btn,
+#view-tools > .back-btn,
+#view-settings > .back-btn,
+.module-quick-header > .back-btn {
+ background:linear-gradient(155deg,#ef5a47,#b82735 58%,#841d34)!important;
+ color:#ffffff!important;
+ border:2px solid #ffc1a9!important;
+ border-radius:20px!important;
+ box-shadow:0 4px 0 #38101b,0 0 22px #ff665c88!important;
+ font-weight:800!important;
+}
+#view-assistant .assistant-actions > .back-btn,
+#view-module .module-actions-row > .module-home-btn {
+ min-height:58px!important;
+ padding:12px 8px!important;
+}
+#view-module .module-actions-row > #moduleQuickTrigger {
+ width:100%!important;
+ max-width:none!important;
+ min-width:0!important;
+ min-height:58px!important;
+ border-radius:20px!important;
+ padding:12px 8px!important;
+}
+.route-map-window details.selected-transit {
+ border:2px solid #ffc1a9!important;
+ border-radius:20px!important;
+ box-shadow:0 4px 0 #38101b,0 0 18px #ff665c55!important;
+}
+.route-map-window details.selected-transit > summary {
+ background:linear-gradient(155deg,#ef5a47,#b82735 58%,#841d34)!important;
+ color:#fff!important;
+ border-radius:18px!important;
+ font-weight:850!important;
+}
 </style>
 </body>
 </html>`;
