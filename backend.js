@@ -1768,9 +1768,11 @@ export default {
         if(options.length===1){
           const found=options[0],label=found.label||target;
           const routeContext={destination_query:target,destination:{latitude:found.latitude,longitude:found.longitude,label},pending:'profile'};
+          const explicitJourney=/(?:vreau sa ajung|cum ajung|du-ma|du ma|traseu|navig|directions|route|take me|how to get|go to|walk to|drive to|transport public|transport in comun)/i.test(namedVenueInput);
+          const distanceKm=hasValidLocation?2*6371*Math.asin(Math.min(1,Math.sqrt(Math.sin((found.latitude-latitude)*Math.PI/360)**2+Math.cos(latitude*Math.PI/180)*Math.cos(found.latitude*Math.PI/180)*Math.sin((found.longitude-longitude)*Math.PI/360)**2))):null;
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
-            reply:lang==='en'?'I found '+label+'. How would you like to get there?':'Am identificat '+label+'. Cum dorești să ajungi?',
-            named_venue:true,needs_travel_mode:true,route_context:routeContext,place_lookup:responsePlaceLookup,
+            reply:explicitJourney?(lang==='en'?'I found '+label+'. How would you like to get there?':'Am identificat '+label+'. Cum dorești să ajungi?'):(lang==='en'?'I found '+label+'. Would you like directions to this place?':'Am identificat '+label+'. Dorești să îți arăt traseul până acolo?'),
+            named_venue:true,needs_travel_confirmation:!explicitJourney,needs_travel_mode:explicitJourney,route_context:routeContext,straight_line_distance_km:distanceKm,place_lookup:responsePlaceLookup,
             ai_connected:Boolean(env.AI)});
         }
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
