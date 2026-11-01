@@ -1,4 +1,4 @@
-# myPocket AI — backend v145 + frontend v1.0.108
+# myPocket AI — backend v146 + frontend v1.0.109
 
 ## Denumiri geografice și stații — v145 (01.11.2026)
 
@@ -94,3 +94,11 @@ npm test și npm run check verifică backendul și codul clientului cu furnizori
 Fișierele se publică în rădăcina repository-ului; se păstrează configurațiile Wrangler, secretele și workflow-ul existent. Nu există coordonate sau trasee Lakeside/Mill Lane/Mayflower codificate în produs.
 
 Documentație: https://apidocs.geoapify.com/docs/routing/ ; https://apidocs.geoapify.com/docs/places/ ; https://wiki.openstreetmap.org/wiki/API_v0.6 ; https://developers.google.com/maps/documentation/urls/get-started . Legătura pietonală a gării Chafford Hundred este documentată de operator: https://www.c2c-online.co.uk/stations/chafford-hundred-station/ .
+
+
+## v146 / 1.0.109 — categorii și afișarea traseelor (2026-11-01)
+- Selecții rapide Hărți: Muzee, Parcuri, Grădini zoologice; căutare pe GPS cu raza implicită 5 km.
+- Categorie combinată Baruri, ceainării și cafenele, incluzând puburi. Restaurantele rămân separate.
+- În lipsa rezultatelor confirmate, nu se inventează obiective. Nu se confundă un furnizor indisponibil cu absența obiectivelor.
+- Butoanele Acasă și Selecții rapide sunt uniformizate, iar acțiunile de hartă primesc contrast mai bun; indicațiile pe străzi rămân vizibile în fereastra hărții.
+- Validarea pe telefon și căutările live în Cloudflare rămân necesare după publicare.

@@ -1,4 +1,4 @@
-# myPocket AI — backend v145 + frontend v1.0.108
+# myPocket AI — backend v146 + frontend v1.0.109
 
 ## Named geographic places and stations — v145 (2026-11-01)
 
@@ -94,3 +94,11 @@ Run npm test and npm run check. Tests execute the backend, generated client subm
 Publish repository-root backend.js, index.js, package.json, tests.mjs, tests_reader.mjs, tests_weather.mjs, tests_routes.mjs, tests_alternatives.mjs, README.md, README_ro.md, VERSION_LOG.md. Keep existing Wrangler configs, secrets, AI binding and deployment workflow. main push deploys both existing Workers.
 
 Primary references: https://apidocs.geoapify.com/docs/routing/ ; https://apidocs.geoapify.com/docs/places/ ; https://wiki.openstreetmap.org/wiki/API_v0.6 ; https://developers.google.com/maps/documentation/urls/get-started . Chafford Hundred's pedestrian connection is documented by its operator: https://www.c2c-online.co.uk/stations/chafford-hundred-station/ . No Lakeside/Mill Lane/Mayflower coordinates or route are hardcoded in the product.
+
+
+## v146 / 1.0.109 — categorii și afișarea traseelor (2026-11-01)
+- Selecții rapide Hărți: Muzee, Parcuri, Grădini zoologice; căutare pe GPS cu raza implicită 5 km.
+- Categorie combinată Baruri, ceainării și cafenele, incluzând puburi. Restaurantele rămân separate.
+- În lipsa rezultatelor confirmate, nu se inventează obiective. Nu se confundă un furnizor indisponibil cu absența obiectivelor.
+- Butoanele Acasă și Selecții rapide sunt uniformizate, iar acțiunile de hartă primesc contrast mai bun; indicațiile pe străzi rămân vizibile în fereastra hărții.
+- Validarea pe telefon și căutările live în Cloudflare rămân necesare după publicare.

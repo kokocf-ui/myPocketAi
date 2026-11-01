@@ -44,6 +44,11 @@ try{
  assert.ok(cafes.places.some(p=>p.name==='Local Tea Room'));
  assert.ok(!cafes.places.some(p=>/Dinner Restaurant|Local Pub/.test(p.name)),
   'restaurants and pubs must not appear under cafe/tea room');
+ const lounge=await search('Caută baruri, puburi, ceainării și cafenele în apropierea mea');
+ assert.equal(lounge.status,'success');
+ assert.ok(lounge.places.some(p=>p.name==='Local Tea Room'));
+ assert.ok(lounge.places.some(p=>p.name==='Local Pub'));
+ assert.ok(!lounge.places.some(p=>p.name==='Dinner Restaurant'));
  const markets=await search('Găsește supermarketuri și magazine alimentare în apropierea mea');
  assert.equal(markets.status,'success');
  assert.ok(markets.places.some(p=>p.name==='Corner Shop'),
@@ -51,4 +56,4 @@ try{
  assert.ok(markets.places.some(p=>p.name==='Big Supermarket'));
  assert.ok(!markets.places.some(p=>p.name==='Dinner Restaurant'));
 }finally{console.info=old.info;console.warn=old.warn;console.error=old.error}
-console.log('PASS: restaurant excludes cafes/pubs; cafe excludes restaurants; market includes local convenience and supermarkets.');
+console.log('PASS: restaurant excludes cafes/pubs; lounge includes pub/cafe, cafe alone excludes pub; convenience included.');

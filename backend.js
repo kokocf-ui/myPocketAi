@@ -378,7 +378,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v145";
+    const API_VERSION = "v146";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -1389,6 +1389,7 @@ export default {
       { key: "parking", pattern: /(?:^| )(?:parcar\w*|parking\w*|car park\w*|parking lot\w*)(?: |$)/, labelRo: "parcare", labelEn: "parking", overpass: 'amenity="parking"' },
       { key: "car_wash", pattern: /(?:^| )(?:car wash\w*|spalatorie auto|spalatorii auto|spalatorie de masini)(?: |$)/, labelRo: "spălătorie auto", labelEn: "car wash", overpass: 'amenity="car_wash"' },
       { key: "car_repair", pattern: /(?:^| )(?:service auto|service-uri auto|car repair\w*|mechanic\w*|garage\w*|vulcaniz\w*)(?: |$)/, labelRo: "service auto", labelEn: "car repair shop", overpass: 'shop="car_repair"' },
+      { key: "zoo", pattern: /(?:^| )(?:zoo|zoolog\w*|wildlife parks?|animal parks?)(?: |$)/, labelRo: "grădină zoologică", labelEn: "zoo", overpass: 'tourism="zoo"' },
       { key: "park", pattern: /(?:^| )(?:parc\w*|parks|garden\w*|gradini|grădini)(?: |$)/, labelRo: "parc sau grădină", labelEn: "park or garden", overpass: 'leisure~"^(park|garden|playground|nature_reserve)$"' },
       { key: "museum", pattern: /(?:^| )(?:muze\w*|museum\w*)(?: |$)/, labelRo: "muzeu", labelEn: "museum", overpass: 'tourism="museum"' },
       { key: "cinema", pattern: /(?:^| )(?:cinema\w*|cinematografe|cinematograf)(?: |$)/, labelRo: "cinematograf", labelEn: "cinema", overpass: 'amenity="cinema"' },
@@ -1405,6 +1406,8 @@ export default {
       { key: "hotel", pattern: /(?:^| )(?:hotel\w*|hoteluri|hostel\w*)(?: |$)/, labelRo: "hotel sau hostel", labelEn: "hotel or hostel", overpass: 'tourism~"^(hotel|hostel|guest_house)$"' },
       { key: "transport", pattern: /(?:^| )(?:gara\w*|train station\w*|railway station\w*|bus station\w*|bus stop\w*|statie de autobuz|airport\w*|aeroport\w*)(?: |$)/, labelRo: "stație sau nod de transport", labelEn: "transport stop or hub", overpass: 'public_transport="station"' },
       { key: "confectionery", pattern: /(?:^| )(?:cofetari\w*|patiseri\w*|confectioner\w*|patisserie\w*|cake shop\w*|ice cream|gelateri\w*|sweet shop\w*|dessert\w*|brutari\w*)(?: |$)/, labelRo: "cofetărie, patiserie sau gelaterie", labelEn: "confectionery, bakery or ice cream shop", overpass: 'shop~"^(pastry|confectionery|bakery|ice_cream)$"' },
+      { key: "lounge", pattern: /(?:^| )(?:baruri|bar\w*|pub\w*|biergarten\w*|tavern\w*|taproom\w*)(?: |$)/, labelRo: "bar, pub, ceainărie sau cafenea", labelEn: "bar, pub, tea room or café", overpass: 'amenity~"^(pub|bar|biergarten|cafe)$"' },
+      { key: "stadium", pattern: /(?:^| )(?:stadion\w*|stadioane|stadium\w*|arena\w*)(?: |$)/, labelRo: "stadion", labelEn: "stadium", overpass: 'leisure="stadium"' },
       { key: "cafe", pattern: /(?:^| )(?:cafes?|cafeteria|cafea|coffee shops?|cafene\w*|ceainari\w*|tea rooms?|tea houses?)(?: |$)/, labelRo: "cafenea sau ceainărie", labelEn: "café or tea room", overpass: 'amenity="cafe"' },
       { key: "restaurant", pattern: /(?:^| )(?:restaurants?\w*|pubs?|bars?|biergarten\w*|taverns?|taprooms?|takeaway|takeout|food delivery|pizza\w*|pizzeri\w*|burger\w*|sushi|shaorm\w*|shawarm\w*|kebab\w*|doner\w*|comand\w*|livrare\w*|dinner|fast food\w*|fastfood\w*|cafes?|cafeteria|cafea|coffee shops?|cafene\w*|ceainari\w*|tea rooms?|tea houses?)(?: |$)/, labelRo: "restaurant, pub, bar sau cafenea", labelEn: "restaurant, pub, bar or café", overpass: 'amenity~"^(restaurant|fast_food|cafe|food_court|pub|bar|biergarten)$"' },
       { key: "shop", pattern: /(?:^| )(?:magazin\w*|magazine\w*|shops|shop\w*|stores|store\w*|shopping|cumparaturi)(?: |$)/, labelRo: "magazin", labelEn: "shop", overpass: 'shop' }
@@ -2251,7 +2254,7 @@ export default {
         const photonStartedAt = Date.now();
         const photonRequestPromise = (async () => {
           const photonUrl = new URL("https://photon.komoot.io/api/");
-          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "grocery", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", cafe: "cafe", restaurant: "restaurant", market_bakery: "grocery", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
+          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "grocery", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", cafe: "cafe", restaurant: "restaurant", lounge: "pub cafe tea room", zoo: "zoo", stadium: "stadium", market_bakery: "grocery", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
           photonUrl.searchParams.set("lat", String(latitude));
           photonUrl.searchParams.set("lon", String(longitude));
           photonUrl.searchParams.set("limit", "100");
@@ -2272,7 +2275,7 @@ export default {
           try {
             const geoapifyUrl = new URL("https://api.geoapify.com/v2/places");
             geoapifyUrl.searchParams.set("categories", ({
-              cafe: "catering.cafe", restaurant: "catering.restaurant",
+              cafe: "catering.cafe", lounge: "catering.pub,catering.bar,catering.biergarten,catering.cafe", zoo: "entertainment.zoo,tourism.attraction", stadium: "entertainment.stadium,leisure.stadium", restaurant: "catering.restaurant",
               market_bakery: "commercial.supermarket,commercial.convenience,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery", confectionery: "catering.ice_cream,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
               poi: "catering,commercial,education,healthcare,leisure,entertainment,service,public_transport,parking,accommodation,tourism,building",
               supermarket: "commercial.supermarket,commercial.convenience",
@@ -2342,6 +2345,9 @@ export default {
                 cinema: /cinema/.test(cats) || raw.amenity === "cinema",
                 hotel: /accommodation\.(hotel|hostel|guest_house)|hotel|hostel/.test(cats) || /^(hotel|hostel|guest_house)$/.test(String(raw.tourism || "")),
                 cafe: /catering\.cafe/.test(cats) || raw.amenity === "cafe",
+                lounge: /catering\.(cafe|pub|bar|biergarten)/.test(cats) || /^(cafe|pub|bar|biergarten)$/.test(String(raw.amenity || "")),
+                zoo: /zoo/.test(cats) || raw.tourism === "zoo",
+                stadium: /stadium/.test(cats) || raw.leisure === "stadium",
                 restaurant: (/(^|\s)catering\.restaurant(\s|$)/.test(cats) || raw.amenity === "restaurant") && !/catering\.(cafe|pub|bar|fast_food|biergarten)/.test(cats),
                 market_bakery: /commercial\.(supermarket|convenience)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(supermarket|convenience|bakery|pastry|confectionery)$/.test(String(raw.shop || "")), confectionery: /catering\.(ice_cream|confectionery|bakery)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(ice_cream|confectionery|bakery|pastry)$/.test(String(raw.amenity || "")) || /^(bakery|pastry|confectionery|ice_cream)$/.test(String(raw.shop || "")),
                 pub: /catering\.(pub|bar|biergarten)/.test(cats) || /^(pub|bar|biergarten)$/.test(String(raw.amenity || "")),
@@ -2427,6 +2433,14 @@ export default {
                   ? /park|garden|playground/.test(photonType) || /park|garden/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "hotel"
                   ? /hotel|hostel|guest.?house|accommodation/.test(photonType)
+                : requestedPlaceCategory.key === "lounge"
+                  ? /cafe|coffee_shop|tea_room|tearoom|pub|bar|biergarten/.test(photonType)
+                : requestedPlaceCategory.key === "zoo"
+                  ? /zoo|wildlife_park/.test(photonType)
+                : requestedPlaceCategory.key === "stadium"
+                  ? /stadium|arena/.test(photonType)
+                : requestedPlaceCategory.key === "museum"
+                  ? /museum/.test(photonType)
                 : requestedPlaceCategory.key === "cafe"
                   ? /cafe|coffee_shop|tea_room|tearoom/.test(photonType) || /\b(cafe|coffee|tearoom|tea room)\b/i.test(String(properties.name||""))
                 : requestedPlaceCategory.key === "restaurant"
@@ -2514,6 +2528,9 @@ export default {
             requestedPlaceCategory.key === "car_repair" ? (lang === "en" ? "car repair shop" : "service auto") :
             requestedPlaceCategory.key === "park" ? (lang === "en" ? "park or garden" : "parc sau grădină") :
             requestedPlaceCategory.key === "museum" ? (lang === "en" ? "museum" : "muzeu") :
+            requestedPlaceCategory.key === "lounge" ? (lang === "en" ? "pub, bar, tea room or café" : "pub, bar, ceainărie sau cafenea") :
+            requestedPlaceCategory.key === "zoo" ? (lang === "en" ? "zoo" : "grădină zoologică") :
+            requestedPlaceCategory.key === "stadium" ? (lang === "en" ? "stadium" : "stadion") :
             requestedPlaceCategory.key === "cinema" ? (lang === "en" ? "cinema" : "cinematograf") :
             requestedPlaceCategory.key === "hospital" ? (lang === "en" ? "hospital / clinic / doctor" : "spital / clinică / medic") :
             requestedPlaceCategory.key === "town_hall" ? (lang === "en" ? "town hall" : "primărie") :

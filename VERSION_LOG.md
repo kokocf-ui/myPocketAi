@@ -1,3 +1,5 @@
+v146 / frontend 1.0.109 — new museum/park/zoo quick searches, combined bars/cafes/pubs, button styling and persistent walking directions. GPS-backed 5km searches; no invented results. Live QA pending.
+
 # Version log
 
 ## 2026-11-01 — Backend v143 / Frontend 1.0.108
