@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.106",
+  version: "1.0.107",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1211,7 +1211,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.106'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.107'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list' };
@@ -1512,6 +1512,59 @@ function appendTransitOverview(host,text){
  const title=document.createElement('h3');title.textContent=transitAccessText()[0];host.append(title);
  appendTransitChoiceAction(data,host);const summary=document.createElement('p');summary.textContent='1. '+transitBoardingSummary(data.transit[0]);host.append(summary);appendTransitLegs(host,data.transit[0]);return true;
 }
+// Last-mile navigation uses the *verified* TfL alighting coordinates and the
+// *original* named POI, not an arbitrary point near the final station.
+const FINAL_WALK_TEXT={
+ro:['Pe jos de la ultima stație până la destinație','Calculez traseul final…','Traseul final nu a putut fi verificat.'],
+en:['Walk from final stop to destination','Calculating final walking route…','Final walking route could not be verified.'],
+fr:['À pied du dernier arrêt à destination','Calcul du trajet final…','Trajet final non vérifié.'],
+de:['Zu Fuß von der letzten Haltestelle zum Ziel','Letzten Fußweg berechnen…','Letzter Fußweg nicht bestätigt.'],
+it:['A piedi dall’ultima fermata alla destinazione','Calcolo percorso finale…','Percorso finale non verificato.'],
+es:['A pie de la última parada al destino','Calculando ruta final…','Ruta final no verificada.'],
+pt:['A pé da última paragem ao destino','A calcular rota final…','Rota final não verificada.'],
+nl:['Lopen vanaf de laatste halte naar bestemming','Laatste looproute berekenen…','Laatste route niet geverifieerd.'],
+ru:['Пешком от последней остановки до цели','Расчёт последнего участка…','Последний участок не подтверждён.'],
+pl:['Pieszo z ostatniego przystanku do celu','Obliczanie końcowego odcinka…','Końcowy odcinek niezweryfikowany.']
+};
+function finalTransitWalkPoints(journey){
+ const arrival=journey?.legs?.at(-1)?.arrivalLatLon,target=state.lastTransitResponse?.transit_destination_point;
+ const valid=(lat,lon)=>lat!==null&&lat!==undefined&&lon!==null&&lon!==undefined&&
+  Number.isFinite(Number(lat))&&Number.isFinite(Number(lon))&&Math.abs(Number(lat))<=90&&Math.abs(Number(lon))<=180;
+ if(!valid(arrival?.lat,arrival?.lon)||!valid(target?.latitude,target?.longitude)||!target?.label)return null;
+ const origin={latitude:Number(arrival.lat),longitude:Number(arrival.lon),label:String(journey.legs.at(-1).to||'Final stop')};
+ const destination={latitude:Number(target.latitude),longitude:Number(target.longitude),label:String(target.label)};
+ const rad=Math.PI/180,dLat=(destination.latitude-origin.latitude)*rad,dLon=(destination.longitude-origin.longitude)*rad;
+ const h=Math.sin(dLat/2)**2+Math.cos(origin.latitude*rad)*Math.cos(destination.latitude*rad)*Math.sin(dLon/2)**2;
+ const meters=6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));
+ return Number.isFinite(meters)&&meters>=30&&meters<=2500?{origin,destination,meters}:null;
+}
+async function showFinalTransitWalk(journey,button){
+ const pair=finalTransitWalkPoints(journey);if(!pair||button.disabled)return;
+ const words=FINAL_WALK_TEXT[state.language]||FINAL_WALK_TEXT.en,original=button.textContent;
+ button.disabled=true;button.textContent=words[1];
+ const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),22000);
+ try{
+  const res=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal:abort.signal,
+    body:JSON.stringify({message:'Pe jos',language:state.language,module:'assistant',history:[],
+      route_profile:'walk',route_destination:pair.destination,
+      route_context:{profile:'walk',destination_query:pair.destination.label,
+        destination:pair.destination,origin:pair.origin,pending:null}})});
+  const data=await res.json();
+  const end=data.route?.destination;
+  if(!res.ok||data.status!=='success'||!validMapRoute(data.route)||!end||
+    transitDistance(end,pair.destination)>120)throw Error('unverified_final_walk');
+  button.textContent=original;
+  await openRouteMap(data.route,button,Array.isArray(data.routes)?data.routes:[data.route]);
+ }catch{button.textContent=words[2]}finally{clearTimeout(timer);button.disabled=false}
+}
+function appendFinalTransitWalkAction(host,journey){
+ const pair=finalTransitWalkPoints(journey);if(!pair)return;
+ const words=FINAL_WALK_TEXT[state.language]||FINAL_WALK_TEXT.en;
+ const button=document.createElement('button');button.type='button';button.className='transit-choice-action';
+ button.textContent=words[0]+' · '+(pair.meters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km';
+ button.onclick=()=>showFinalTransitWalk(journey,button);
+ host.append(button);
+}
 function renderTransitChoices(options,selectedIndex=null){
  const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
  const heading=document.createElement('h3');heading.textContent=selectedIndex===null?t[0]:t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
@@ -1520,7 +1573,7 @@ function renderTransitChoices(options,selectedIndex=null){
   const selected=state.selectedTransitJourney,status=document.createElement('p');status.className='transit-access-status';status.setAttribute('role','status');status.textContent=selected?.loading?t[10]:selected?.error||'';body.append(status);
   const walk=document.createElement('button');walk.type='button';walk.className='transit-choice-action';walk.textContent=selected?.accessRoute?t[9]:selected?.loading?t[10]:t[20];walk.disabled=Boolean(selected?.loading)||!validTransitBoardingStop(journey.boarding_stop);walk.onclick=()=>{const active=state.selectedTransitJourney;if(active?.accessRoute&&!active.error)openRouteMap(active.accessRoute,walk,active.accessOptions);else selectTransitJourney(options,selectedIndex)};body.append(walk);
   if(state.lastTransitChoice){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action';refresh.textContent=t[15];refresh.onclick=()=>{cancelTransitAccess(true);runModuleSearch(state.lastTransitChoice)};body.append(refresh)}
-  appendTransitLegs(body,journey);return;
+  appendTransitLegs(body,journey);appendFinalTransitWalkAction(body,journey);return;
  }
  appendTransitCards(body,options);
 }
@@ -1540,7 +1593,7 @@ async function selectTransitJourney(options,index){
   selected.loading=false;selected.accessRoute=data.route;selected.accessOptions=(Array.isArray(data.routes)?data.routes:[data.route]).filter(r=>transitWalkingMatches(r,stop)&&(!Number.isFinite(departure)||!Number.isFinite(r.durationSeconds)||departure>=Date.now()+r.durationSeconds*1000+Math.max(0,margin)*60000));selected.walkingReply=String(data.reply||'');selected.timeUnverified=!Number.isFinite(departure)||!Number.isFinite(seconds);state.lastRoute=data.route;state.lastRouteOptions=selected.accessOptions;state.lastRouteReply=selected.walkingReply;state.routeSearchContext=data.route_context||null;renderTransitChoices(options,index);await openRouteMap(data.route,null,selected.accessOptions);
  }catch(error){if(valid())fail(locationReady?t[13]:t[12])}finally{clearTimeout(timer);if(valid())state.transitAccessAbort=null}
 }
-function appendSelectedTransit(host,route){const selected=state.selectedTransitJourney;if(!selected?.accessRoute||!transitWalkingMatches(route,selected.journey.boarding_stop))return;const t=transitAccessText(),details=document.createElement('details'),summary=document.createElement('summary');details.className='selected-transit';summary.textContent=t[1]+(selected.journey.legs?.at(-1)?.to?' → '+selected.journey.legs.at(-1).to:'')+' · '+transitBoardingSummary(selected.journey);details.append(summary);if(selected.timeUnverified){const note=document.createElement('p');note.textContent=t[21];details.append(note)}appendTransitLegs(details,selected.journey);host.append(details)}
+function appendSelectedTransit(host,route){const selected=state.selectedTransitJourney;if(!selected?.accessRoute||!transitWalkingMatches(route,selected.journey.boarding_stop))return;const t=transitAccessText(),details=document.createElement('details'),summary=document.createElement('summary');details.className='selected-transit';summary.textContent=t[1]+(selected.journey.legs?.at(-1)?.to?' → '+selected.journey.legs.at(-1).to:'')+' · '+transitBoardingSummary(selected.journey);details.append(summary);if(selected.timeUnverified){const note=document.createElement('p');note.textContent=t[21];details.append(note)}appendTransitLegs(details,selected.journey);appendFinalTransitWalkAction(details,selected.journey);host.append(details)}
 function appendTransitChoiceAction(data,bubble){if(!Array.isArray(data.transit)||!data.transit.length)return;state.lastTransitResponse=data;state.lastTransitChoice={kind:'transit',title:'Transport public',prompt:String(data.message_received||''),transitDirect:true};const button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.textContent=transitAccessText()[3];button.onclick=()=>{closeAnswerReader(false);closeRouteMap(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=transitAccessText()[0];renderTransitChoices(data.transit)};bubble.append(button)}
 
 async function runModuleSearch(choice){if(state.moduleSearchBusy)return;if(choice.kind==='transit'){cancelTransitAccess(true);state.lastTransitChoice=choice}if(choice.kind==='transit'&&!choice.transitDirect&&!choice.prompt.includes('până la ')){showTransitDestination(choice);return}if(choice.kind==='walking'){$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.pendingRouteStart=true;inputEl.value=routeActionsText().walking;await submitMessage();return;}state.moduleSearchCategory=choice;state.moduleSearchBusy=true;const searchGeneration=++state.moduleSearchGeneration;setModuleLayerMode(localizedQuickChoiceTitle(choice));moduleStatus(quickUiText().searching+' '+localizedQuickChoiceTitle(choice).toLowerCase()+' '+quickUiText().nearby);try{let coords=null;let locationError=null;try{coords=await Promise.race([getCurrentCoordinates(false),new Promise((_,reject)=>setTimeout(()=>reject(new Error('GPS timeout (8s)')),8000))])}catch(error){locationError=String(error&&error.message||(state.language==='en'?'Could not access the phone location.':'Nu am putut obține locația telefonului.'))}const locationIntent=needsLocation(choice.prompt)||choice.kind==='places'||choice.kind==='transit';const body={message:choice.prompt,language:choice.kind==='places'?'ro':state.language,history:[],module:state.currentModule,location_requested:locationIntent,location:coords,coordinates:coords,location_error:locationError||undefined,quick_place_search:choice.kind==='places',transit_destination:choice.transitDestination||undefined,transit_query:choice.transitQuery||undefined};const searchAbort=new AbortController();const searchTimeout=setTimeout(()=>searchAbort.abort(),25000);let data;try{const queries=choice.title==='Marketuri și brutării'?['Găsește supermarketuri și magazine alimentare în apropierea mea.','Găsește brutării și patiserii în apropierea mea.']:[body.message];const responses=await Promise.all(queries.map(async query=>{const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...body,message:query}),signal:searchAbort.signal});let result;try{result=await response.json()}catch{throw new Error(state.language==='en'?'The server returned an unreadable response.':'Serverul a trimis un răspuns care nu poate fi citit.')}if(!response.ok||(result.status&&result.status!=='success'))throw new Error(result.error||result.message||'HTTP '+response.status);return result}));data=responses[0];if(responses.length>1){const merged=responses.flatMap(item=>Array.isArray(item.places)?item.places:[]);const seen=new Set();data={...data,places:merged.filter(place=>{const key=String(place.id||place.osm_id||[place.name,place.address].join('|')).toLowerCase();if(seen.has(key))return false;seen.add(key);return true}),search_ok:responses.some(item=>item.search_ok)};}if(!Array.isArray(data.places)&&!(typeof data.reply==='string'&&data.reply.trim()))throw new Error('Serverul nu a returnat un răspuns utilizabil.')}finally{clearTimeout(searchTimeout)};if(searchGeneration!==state.moduleSearchGeneration)return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.weatherSearchContext=data.weather_context||null;state.moduleSearchReply=String(data.reply||'').trim();state.moduleSearchResults=Array.isArray(data.places)?data.places:[];if(Array.isArray(data.places))state.lastPlaceResults=data.places;if(choice.kind==='places'&&!state.moduleSearchResults.length&&!state.moduleSearchReply){state.moduleSearchReply=quickUiText().notFound;}if(choice.kind==='transit'&&data.needs_destination_clarification&&Array.isArray(data.destination_candidates)&&data.destination_candidates.length){
