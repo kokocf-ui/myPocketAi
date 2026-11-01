@@ -1,5 +1,5 @@
 /*
- * Pocket AI backend — v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
+ * Pocket AI backend — v139 GPS-first name-only POI search; v137 preserve exact named venue intent; v136 named business coordinates from authoritative directories; v135 ranked named-place resolution without consensus gates; v134 structured address vs named-POI matching; v133 named-place provider/address fallback and mode choices; v132 named-venue destination continuity and locality validation; v131 compact transit itineraries and diverse corridors; v130 first-boarding-stop intent and trip continuity; v129 conversational transit destination parsing; v128 exact boarding stop for walking/navigation; v127 exact transit query and fail-closed ambiguous stations; v126 station clarification before routing; v125 destination confirmation; v123 station stop-point lookup and endpoint validation; v122 reject wrong transit endpoints; v121 destination name validation; v120 simpler feasible journeys and retained alternatives; v116 feasible transit departures (4 slots, access walk, 5-minute buffer, transfers); v115 local-category recognition; v110 metric-unit normalization and fail-closed route follow-ups; v109 walking continuity, street instructions and module handoff; v108 verified weather and city follow-ups; v107 shared route context, POI destinations and reusable map geometry; v99 structured place media (optional); v98 conversational intent and quiet source handling
  * v98: prevents general capability questions from triggering web search; keeps evidence sources internal by default and removes automatic source-list append from user-facing replies. Preserves explicit web search, source metadata, GPS, routes, local search and calculator.
  * v97: strengthens multi-engine evidence ranking with provider consensus, freshness-aware scoring, official-source preference by topic, and transparent evidence metadata. Retains v96 parallel search, excerpts, deduplication and safety rules. Secrets: EXA_API_KEY, BRAVE_API_KEY, TAVILY_API_KEY.
  * v95: conversation continuity and Exa evidence diagnostics; v94: 10-language API selection, locale-aware arithmetic and Exa-backed general web research.
@@ -378,7 +378,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v138";
+    const API_VERSION = "v139";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -1823,6 +1823,66 @@ export default {
         }
       }catch{}
     }
+    // v139: A business name alone must be searched near GPS, without asking the tourist
+    // for the category or town. A bounded Places sample is not a name-search index.
+    // Query mapped named POIs directly; only trust tagged, coordinate-backed results.
+    if(localNameQuery&&hasValidLocation){
+      const requestedWords=normalizeGeoName(localNameQuery).split(' ').filter(w=>w.length>=3&&
+        !/^(?:magazin|magazinul|store|shop|market|supermarket|restaurant|hotel|cafenea|cafe)$/.test(w));
+      const primary=requestedWords[0];
+      if(primary){
+        try{
+          const endpoint=new URL('https://overpass-api.de/api/interpreter');
+          endpoint.searchParams.set('data','[out:json][timeout:7];nwr(around:25000,'+
+            Number(latitude).toFixed(6)+','+Number(longitude).toFixed(6)+
+            ')["name"~"'+primary+'",i];out center 150;');
+          const response=await fetch(endpoint.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(6500)});
+          if(response.ok){
+            const raw=await response.json(),candidates=[];
+            for(const element of (Array.isArray(raw.elements)?raw.elements:[])){
+              const tags=element.tags||{},name=String(tags.name||'').trim(),
+                lat=transitCoordinate(element.lat??element.center?.lat,90),
+                lon=transitCoordinate(element.lon??element.center?.lon,180);
+              if(!name||lat===null||lon===null)continue;
+              const nameWords=normalizeGeoName(name).split(' ');
+              if(!nameWords.some(w=>w===primary||w===primary+'s'||w+'s'===primary))continue;
+              const context=[tags['addr:housenumber'],tags['addr:street'],tags['addr:place'],
+                tags['addr:suburb'],tags['addr:city'],tags['addr:postcode']].filter(Boolean);
+              const searchable=normalizeGeoName([name,...context].join(' ')),matchedWords=requestedWords.filter(w=>searchable.split(' ').includes(w)).length;
+              const label=[name,[tags['addr:housenumber'],tags['addr:street']].filter(Boolean).join(' '),
+                tags['addr:city']||tags['addr:place']||tags['addr:suburb'],tags['addr:postcode']].filter(Boolean).join(', ');
+              const candidate={latitude:lat,longitude:lon,label,resolution_source:'openstreetmap_named_poi',matchedWords};
+              candidate.distanceMeters=routeGeoDistance({latitude,longitude},candidate);
+              if(candidate.distanceMeters>25000||candidates.some(p=>routeGeoDistance(p,candidate)<120))continue;
+              candidates.push(candidate);
+            }
+            if(candidates.length){
+              candidates.sort((a,b)=>b.matchedWords-a.matchedWords||a.distanceMeters-b.distanceMeters);
+              const best=candidates[0];
+              const sameScore=candidates.filter(c=>c.matchedWords===best.matchedWords);
+              // A uniquely nearby match is enough for a suggested destination; do
+              // not silently choose between multiple plausible shops in the area.
+              const uniqueNearby=sameScore.length===1||
+                (best.distanceMeters<=7000&&sameScore[1].distanceMeters-best.distanceMeters>=6000);
+              const options=(uniqueNearby?[best]:sameScore.slice(0,4)).map(({latitude,longitude,label,resolution_source})=>({latitude,longitude,label,resolution_source}));
+              responsePlaceLookup={strategy:'nearby_named_osm',matched:candidates.length,returned:options.length,query:localNameQuery};
+              if(options.length===1){
+                const selected=options[0],journey=/^(?:vreau sa ajung la|cum ajung la)/i.test(namedVenueInput),
+                  context={destination_query:localNameQuery,destination:selected,pending:'profile'};
+                return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+                  reply:journey?'Am identificat '+selected.label+'. Cum dorești să ajungi?':'Am identificat '+selected.label+'. Dorești să îți arăt traseul?',
+                  named_venue:true,needs_travel_confirmation:!journey,needs_travel_mode:journey,route_context:context,
+                  straight_line_distance_km:best.distanceMeters/1000,place_lookup:responsePlaceLookup,ai_connected:Boolean(env.AI)});
+              }
+              return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+                reply:'Am găsit mai multe locații în apropierea ta. Pe care o cauți?',
+                named_venue:true,needs_destination_clarification:true,destination_candidates:options,
+                place_lookup:responsePlaceLookup,ai_connected:Boolean(env.AI)});
+            }
+          }
+        }catch(error){console.warn('Pocket AI nearby name lookup unavailable',String(error?.name||'error'));}
+      }
+    }
     // A bounded Places sample and a strict geocoder name match are not proof that a venue is absent.
     // Reuse the existing named-place resolver before returning a negative result.
     if(localNameQuery&&env.GEOAPIFY_API_KEY){
@@ -1831,9 +1891,15 @@ export default {
         reverseUrl.searchParams.set('lat',String(latitude));reverseUrl.searchParams.set('lon',String(longitude));reverseUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
         const reverseResponse=await fetch(reverseUrl.href,{signal:AbortSignal.timeout(5000)});
         const reverseProperties=reverseResponse.ok?(await reverseResponse.json()).features?.[0]?.properties||{}:{};
-        const locality=String(reverseProperties.city||reverseProperties.town||reverseProperties.suburb||reverseProperties.county||'').trim();
-        const matches=locality?await resolveNamedTravelPlace(localNameQuery+', '+locality,env,{latitude,longitude}):[];
-        const nearby=matches.filter(p=>Number.isFinite(Number(p.latitude))&&Number.isFinite(Number(p.longitude))&&routeGeoDistance({latitude,longitude},p)<=40000);
+        const localities=[...new Set([reverseProperties.city,reverseProperties.county,reverseProperties.town,
+          reverseProperties.suburb,reverseProperties.state].map(x=>String(x||'').trim()).filter(Boolean))].slice(0,3);
+        // Try both the city and its wider administrative area. The requested shop
+        // may be just across a city boundary (e.g. a retail park in a neighbouring town).
+        const discovered=await Promise.all(localities.map(area=>resolveNamedTravelPlace(
+          localNameQuery+', '+area,env,{latitude,longitude},trace=>{responsePlaceLookup=trace}
+        ).catch(()=>[])));
+        const nearby=discovered.flat().filter(p=>Number.isFinite(Number(p.latitude))&&
+          Number.isFinite(Number(p.longitude))&&routeGeoDistance({latitude,longitude},p)<=40000);
         const distinct=[];
         for(const place of nearby){if(!distinct.some(previous=>routeGeoDistance(previous,place)<120))distinct.push(place);}
         distinct.sort((a,b)=>routeGeoDistance({latitude,longitude},a)-routeGeoDistance({latitude,longitude},b));
