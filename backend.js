@@ -1765,7 +1765,20 @@ export default {
       if(venueName.length>=2&&!/^(?:un|o|niste|some|a|the|toate|all)$/i.test(venueName)){
         const target=(kind==='obiectiv'?'':kind+' ')+venueName+', '+town;
         const resolved=await resolveNamedTravelPlace(target,env,hasValidLocation?{latitude,longitude}:null,trace=>{responsePlaceLookup=trace});
-        const options=resolved.slice(0,4);
+        // Collapse geocoder records for the same venue/address before asking the user.
+        // Geoapify may return several postal-code centroids for one storefront.
+        const uniqueVenues=[];
+        for(const candidate of resolved){
+          const same=uniqueVenues.some(previous=>{
+            const a=String(previous.label||'').toLowerCase(),b=String(candidate.label||'').toLowerCase();
+            const streetA=a.match(/\b\d{1,5}\s+[a-z ]{3,35}(?:street|road|avenue|lane|way|drive)\b/i)?.[0];
+            const streetB=b.match(/\b\d{1,5}\s+[a-z ]{3,35}(?:street|road|avenue|lane|way|drive)\b/i)?.[0];
+            return (streetA&&streetB&&streetA===streetB)||routeGeoDistance(previous,candidate)<120;
+          });
+          if(!same)uniqueVenues.push(candidate);
+        }
+        if(hasValidLocation)uniqueVenues.sort((a,b)=>routeGeoDistance({latitude,longitude},a)-routeGeoDistance({latitude,longitude},b));
+        const options=uniqueVenues.slice(0,4);
         if(options.length===1){
           const found=options[0],label=found.label||target;
           const routeContext={destination_query:target,destination:{latitude:found.latitude,longitude:found.longitude,label},pending:'profile'};
