@@ -346,6 +346,17 @@ function eventRowsFromReply(answer,request,language='ro'){
 }
 // In long model-generated recipes, prevent a repeated ingredient block from
 // being presented as new ingredients. Never deduplicate the preparation steps.
+// One targeted quality gate for model-invented cooking materials.
+// Checking recipe plausibility is not a topic routing rule.
+function recipeQualityConcern(request,answer){
+ const topic=String(request||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ if(!/\bsarmal/.test(topic))return false;
+ const content=String(answer||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ const wrongWrapper=/\b(?:frunze|frunzele|foi)\s+de\s+(?:lemn|telina)(?:\b|\s|\()/i.test(content)
+   ||/\b(?:wood|celery)\s+leaves\s+(?:for|to)\s+(?:roll|wrap|stuff)/i.test(content);
+ const recognizableWrapper=/\b(?:varza|vita(?:\s+de\s+vie)?|cabbage|grape\s+leaves)\b/i.test(content);
+ return wrongWrapper||(!recognizableWrapper&&/(?:frunze|foi|leaves)\b/i.test(content));
+}
 function removeRepeatedRecipeIngredients(answer){
  const lines=String(answer||'').split('\n'),seen=new Set(),normalize=v=>String(v||'').normalize('NFD')
    .replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[*_•]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
@@ -3650,6 +3661,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         ' Give a complete, coherent recipe matching the requested servings. Start with preparation and cooking times.'+
         ' Include a single nonrepeating ingredient list with measured quantities (grams, ml, pieces), then numbered sequential steps.'+
         ' Explain actual cooking technique, appliance temperature where appropriate, duration and food-safety checks.'+
+        ' Check that every ingredient is a real edible food ingredient and that the wrappers, fillings, cooking method and timing are appropriate for the named dish. For Romanian sarmale use pickled cabbage leaves or grape leaves, not wood or celery leaves; simmer thoroughly until the meat is safely cooked.'+
         ' Do not invent sources, do not repeat blocks, and do not omit crucial steps or shorten a cooking time unrealistically.'+
         ' Only explain variations or substitutions when useful. Answer directly without prefatory filler.';
     }
@@ -3807,6 +3819,22 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         }
       }
 
+      // A second generation is requested ONLY when the primary recipe contains
+      // an implausible ingredient/wrapper; normal recipes keep the fast single pass.
+      if(recipeInstruction&&result&&typeof result.response==='string'&&recipeQualityConcern(message,result.response)){
+        try{
+          const corrected=await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fp8",{
+            messages:[
+              {role:'system',content:'You are a careful culinary editor. Rewrite the entire recipe correctly in '+responseLanguageName+'. Verify every ingredient is edible and conventional for the named dish, and that instructions use only the listed ingredients. Romanian sarmale are rolled in pickled cabbage leaves or grape leaves, never wood or celery leaves. Cook the filling thoroughly using realistic times. Give measured quantities for the specified servings and clear sequential steps. Return the corrected complete recipe only.'},
+              {role:'user',content:message+'\n\nRecipe to correct:\n'+result.response.slice(0,6500)}
+            ],max_tokens:1050,temperature:0.05
+          });
+          if(typeof corrected?.response==='string'&&corrected.response.trim()&&!recipeQualityConcern(message,corrected.response))result=corrected;
+          else result={response:lang==='ro'?'Nu am reușit să verific ingredientele și metoda de preparare ale acestei rețete. Încearcă din nou; nu voi recomanda ingrediente nepotrivite.':'I could not validate the ingredients and preparation method for this recipe. Please try again; I will not recommend unsuitable ingredients.'};
+        }catch{
+          result={response:lang==='ro'?'Nu am reușit să verific ingredientele și metoda de preparare ale acestei rețete. Te rog să încerci din nou.':'I could not validate the recipe ingredients or preparation method. Please try again.'};
+        }
+      }
       const aiDurationMs = Date.now() - aiStartedAt;
       const hasResponse = Boolean(
         result &&
