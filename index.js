@@ -2264,7 +2264,7 @@ function openStandaloneChoicePanel(host,titleText){
  const old=document.getElementById('pocketStandaloneChoices');if(old)old.remove();
  const panel=document.createElement('section');panel.id='pocketStandaloneChoices';panel.className='answer-reader';panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');
  const header=document.createElement('div');header.className='answer-reader-header';const title=document.createElement('h2');title.textContent=titleText||'Alege o opțiune';
- const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent='×';close.setAttribute('aria-label','Închide');close.onclick=()=>panel.remove();
+ const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent=state.language==='ro'?'Închide':'Close';close.setAttribute('aria-label',close.textContent);close.onclick=()=>panel.remove();
  header.append(title,close);const body=document.createElement('div');body.className='answer-reader-body';body.style.whiteSpace='normal';
  while(host.firstChild)body.append(host.firstChild);
  panel.append(header,body);document.body.append(panel);
