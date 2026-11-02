@@ -364,12 +364,13 @@ function eventRowsFromReply(answer,request,language='ro'){
 function recipeQualityConcern(request,answer){
  const topic=String(request||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  const content=String(answer||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
- if(/\bciorb\w*\s+de\s+burt\w*/.test(topic))return /\b(?:burta|burt[aă])\s+de\s+porc\b|\bpork\s+tripe\b/.test(content);
+ const adaptedDish=/\b(?:variante|varianta|variations?|alternativ\w*|reinterpret\w*|adapt\w*|modern\w*|vegan\w*|vegetari\w*|de post|fara|without|meatless|no meat)\b/.test(topic);
+ if(/\bciorb\w*\s+de\s+burt\w*/.test(topic))return !adaptedDish&&/\b(?:burta|burt[aă])\s+de\s+porc\b|\bpork\s+tripe\b/.test(content);
  if(!/\bsarmal/.test(topic))return false;
  const wrongWrapper=/\b(?:frunze|frunzele|foi)\s+de\s+(?:lemn|telina)(?:\b|\s|\()/i.test(content)
    ||/\b(?:wood|celery)\s+leaves\s+(?:for|to)\s+(?:roll|wrap|stuff)/i.test(content);
  const recognizableWrapper=/\b(?:varza|vita(?:\s+de\s+vie)?|cabbage|grape\s+leaves)\b/i.test(content);
- const explicitVariant=/\b(?:variante|varianta|variations?|alternativ\w*|reinterpret\w*|adapt\w*|modern\w*|vegan\w*|vegetarian\w*|de post|fara|without|meatless|cu frunze de|in frunze de)\b/.test(topic);
+ const explicitVariant=/\b(?:variante|varianta|variations?|alternativ\w*|reinterpret\w*|adapt\w*|modern\w*|vegan\w*|vegetari\w*|de post|fara|without|meatless|cu frunze de|in frunze de)\b/.test(topic);
  return wrongWrapper||(!explicitVariant&&!recognizableWrapper&&/(?:frunze|foi|leaves)\b/i.test(content));
 }
 // Bounded safety fallback for the two recipes whose model corrections repeatedly
@@ -379,7 +380,7 @@ function reliableRecipeFallback(request,language='ro'){
  const sarmale=/\bsarmal/.test(topic);
  const ciorba=/\bciorb\w*\s+de\s+burt\w*/.test(topic);
  // Never replace a requested variation, dietary restriction, or modern interpretation with a meat-based traditional template.
- if(/\b(?:variante|varianta|variations?|alternativ\w*|reinterpret\w*|adapt\w*|modern\w*|vegan\w*|vegetarian\w*|de post|fara|without|meatless|no meat|gluten.free|low.carb|keto|cu ciuperci|with mushrooms)\b/.test(topic))return null;
+ if(/\b(?:variante|varianta|variations?|alternativ\w*|reinterpret\w*|adapt\w*|modern\w*|vegan\w*|vegetari\w*|de post|fara|without|meatless|no meat|gluten.free|low.carb|keto|cu ciuperci|with mushrooms)\b/.test(topic))return null;
  if(!sarmale&&!ciorba)return null;
  if(language==='ro'){
   if(sarmale)return 'Sarmale tradiționale românești (aproximativ 6 porții)\n\nTimp de pregătire: 45–60 de minute. Timp de gătire: 2–3 ore.\n\nIngrediente:\n- 1 varză murată mare (20–24 de foi întregi)\n- 700 g carne tocată de porc sau amestec porc-vită\n- 120 g orez\n- 2 cepe, 2 linguri de ulei\n- 150 ml suc de roșii\n- Cimbru, boia, piper și puțină sare, după gust\n- Apă pentru fiert; opțional, afumătură\n\nPreparare:\n1. Desprinde foile de varză murată, clătește-le dacă sunt prea sărate și îndepărtează nervurile groase.\n2. Călește ceapa tocată în ulei, apoi amestec-o cu orezul spălat, carnea și condimentele.\n3. Pune câte puțină umplutură în fiecare foaie și rulează sarmalele, închizând capetele.\n4. Așază varză tocată pe fundul oalei, pune sarmalele în straturi, adaugă sucul de roșii și apă cât să le acopere.\n5. Fierbe la foc mic, cu capac, aproximativ 2–3 ore, până când carnea și orezul sunt complet gătite. Completează cu apă fierbinte dacă este nevoie.\n6. Servește cu mămăligă și smântână, după preferință.';
