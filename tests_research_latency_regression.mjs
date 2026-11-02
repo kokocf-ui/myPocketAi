@@ -14,7 +14,7 @@ assert.match(backend, /eventResearchIntent\?2000:3000/, 'source-page timeout cha
 assert.match(backend, /webSources\.slice\(0,eventResearchIntent\?1:2\)/, 'page fetch count changed');
 assert.match(backend, /research_elapsed_ms:/, 'research latency missing from diagnostics');
 assert.match(backend, /ai_execution_ms:/, 'AI latency missing from response');
-assert.match(backend, /max_tokens: eventResearchIntent \? 2200 : 768/, 'full event lists may be truncated');
+assert.match(backend, /max_tokens: eventResearchIntent \? 2200 : \(recipeFastPath \? 620 : 768\)/, 'event output budget changed');
 assert.match(backend, /structured_list:structuredEvents\?\.structured_list/, 'structured event table missing');
 assert.match(frontend, /fetch\(CLIENT_CONFIG\.apiUrl/, 'client request path missing');
 
