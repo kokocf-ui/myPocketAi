@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.123 — identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.124 — individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.123",
+  version: "1.0.124",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2180,7 +2180,7 @@ function appendStructuredCollectionTable(host,record){
   description.style.cssText='vertical-align:top;border:1px solid #34566e;padding:9px 7px;overflow-wrap:anywhere';
   const date=document.createElement('strong');date.textContent=String(item.date||'—');when.append(date);
   if(item.time){const time=document.createElement('div');time.textContent=item.time;time.style.marginTop='6px';when.append(time)}
-  description.textContent=String(item.description||'');tr.append(when,description);tbody.append(tr);
+  description.textContent=String(item.description||'');if(typeof item.source_url==='string'&&item.source_url.startsWith('https://')){const ref=document.createElement('a');ref.href=item.source_url;ref.target='_blank';ref.rel='noopener noreferrer';ref.textContent=lang==='ro'?'Sursa evenimentului':'Event source';ref.style.cssText='display:block;margin-top:6px;font-size:12px;color:#8ce9f3';description.append(ref)}tr.append(when,description);tbody.append(tr);
  }table.append(tbody);wrap.append(table);host.append(wrap);
  const note=document.createElement('p');note.textContent=labels[2];note.style.cssText='font-size:13px;opacity:.75;margin:12px 0';host.append(note);
  const sources=(Array.isArray(record.sources)?record.sources:[]).filter(x=>typeof x?.url==='string'&&x.url.startsWith('https://')).slice(0,4);
