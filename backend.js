@@ -289,6 +289,60 @@ function sortNumberedDatedEvents(answer,language='ro'){
  }
  return lines.join('\n');
 }
+// Dated public events: structured rows, chronological ordering and user-period filtering.
+function eventRowsFromReply(answer,request,language='ro'){
+ const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+ if(!/(eveniment|spectacol|festival|concert|show|event|performanc|targ|cultural)/i.test(norm(request)))return null;
+ const months=new Map();
+ for(let m=1;m<=12;m++)for(const lang of ['ro','en','fr','de','it','es','pt','nl','ru','pl'])for(const style of ['long','short']){
+  const name=new Intl.DateTimeFormat(lang,{month:style,timeZone:'UTC'}).format(new Date(Date.UTC(2026,m-1,5)));
+  months.set(norm(name).replace(/\s/g,''),m);
+ }
+ const words=norm(request).split(' '),month=words.map(w=>months.get(w)).find(Boolean)||0;
+ const year=Number(String(request).match(/\b20\d{2}\b/)?.[0]||new Date().getUTCFullYear());
+ const token='[\\p{L}\\p{M}.]{3,22}',regexRange=new RegExp('(\\d{1,2})\\s+('+token+')\\s*[–—-]\\s*(\\d{1,2})\\s+('+token+')(?:\\s+(20\\d{2}))?','iu'),regexSame=new RegExp('(\\d{1,2})\\s*[–—-]\\s*(\\d{1,2})\\s+('+token+')(?:\\s+(20\\d{2}))?','iu'),regexSingle=new RegExp('(\\d{1,2})\\s*(?:(?:de|del|di|of)\\s+)?('+token+')(?:\\s+(20\\d{2}))?','iu');
+ const read=text=>{
+  let x=text.match(regexRange),from=null,to=null,date='';
+  if(x){
+   const a=months.get(norm(x[2]).replace(/\s/g,'')),b=months.get(norm(x[4]).replace(/\s/g,'')),y=Number(x[5]||year);
+   if(a&&b){from=Date.UTC(y,a-1,Number(x[1]));to=Date.UTC(y+(b<a?1:0),b-1,Number(x[3]));date=x[0];}
+  }
+  if(from===null&&(x=text.match(regexSame))){
+   const m=months.get(norm(x[3]).replace(/\s/g,'')),y=Number(x[4]||year);
+   if(m&&Number(x[1])<=Number(x[2])){from=Date.UTC(y,m-1,Number(x[1]));to=Date.UTC(y,m-1,Number(x[2]));date=x[0];}
+  }
+  if(from===null&&(x=text.match(regexSingle))){
+   const m=months.get(norm(x[2]).replace(/\s/g,'')),y=Number(x[3]||year);
+   if(m){from=to=Date.UTC(y,m-1,Number(x[1]));date=x[0];}
+  }
+  if(from===null||!Number.isFinite(from)||!Number.isFinite(to)||to<from)return null;
+  const tm=text.match(/(?:ora|orele|at)\s+(\d{1,2}[:.]\d{2})/i)?.[1]||'';
+  return {from,to,date,time:tm.replace('.',':')};
+ };
+ const chunks=[];let current='';
+ const flush=()=>{if(current){chunks.push(current);current='';}};
+ for(const line of String(answer||'').split('\n')){
+  const match=line.match(/^\s*(?:[-*•]|\d+[.)])\s+(.+)$/);
+  if(match){flush();current=match[1].trim();}
+  else if(current&&line.trim()&&!/^(?:surse|sources|#{1,3}\s)/i.test(line.trim()))current+=' '+line.trim();
+  else flush();
+ }
+ flush();
+ const items=chunks.map(text=>({text,detail:read(text)})).filter(x=>x.detail);
+ if(!items.length)return null;
+ const first=month?Date.UTC(year,month-1,1):-Infinity,last=month?Date.UTC(year,month,0,23,59,59):Infinity;
+ const filtered=items.filter(x=>x.detail.from<=last&&x.detail.to>=first).sort((a,b)=>a.detail.from-b.detail.from||a.text.localeCompare(b.text,language));
+ const dedup=new Set(),rows=[];
+ for(const item of filtered){
+  const key=norm(item.text)+'|'+item.detail.from;
+  if(dedup.has(key))continue;dedup.add(key);
+  rows.push({date:item.detail.date,time:item.detail.time,description:item.text});
+  if(rows.length>=30)break;
+ }
+ const period=month?new Intl.DateTimeFormat(language,{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(year,month-1,3))):'';
+ const intro=language==='ro'?(rows.length?'Evenimente identificate pentru '+(period||'perioada cerută')+':':'Nu am identificat în rezultat evenimente cu date corespunzătoare perioadei '+period+'.'):(rows.length?'Dated events for '+period+':':'No clearly dated events found for '+period+'.');
+ return {reply:intro+(rows.length?'\n\n'+rows.map((r,i)=>(i+1)+'. '+r.date+(r.time?' · '+r.time:'')+' — '+r.description).join('\n'):''),structured_list:{type:'events',period,rows,sort:'date_ascending',dates_not_independently_verified:true}};
+}
 // In long model-generated recipes, prevent a repeated ingredient block from
 // being presented as new ingredients. Never deduplicate the preparation steps.
 function removeRepeatedRecipeIngredients(answer){
@@ -3719,7 +3773,8 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       }
 
       const recipeCleanup=removeRepeatedRecipeIngredients(result.response.trim());
-      let finalReply = sortNumberedDatedEvents(recipeCleanup.text,lang);
+      const structuredEvents=eventRowsFromReply(recipeCleanup.text,message,lang);
+      let finalReply=structuredEvents?structuredEvents.reply:sortNumberedDatedEvents(recipeCleanup.text,lang);
       const evidenceSources = webSources.filter(item=>item.snippets.length||item.pageEvidence);
       // v98: sources remain available as structured API metadata; never append them automatically to chat text.
       if (!evidenceSources.length && shouldSearchWeb && webSearchStatus !== "success" && webSearchStatus !== "partial_success") {
@@ -3733,6 +3788,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         language: lang,
         message_received: message,
         reply: finalReply,
+        structured_list:structuredEvents?.structured_list||null,
         sources: evidenceSources.map((item,index)=>({number:index+1,title:item.title,url:item.url,publishedDate:item.publishedDate,providers:item.providers,page_fetch_status:item.pageFetchStatus||"not_fetched",evidence_excerpt:(item.pageEvidence||item.snippets.join(" ")).slice(0,1200)})),
         web_search_status: shouldSearchWeb ? webSearchStatus : "not_needed",
         web_search_diagnostics: shouldSearchWeb ? webSearchDiagnostics : null,
