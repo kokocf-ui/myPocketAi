@@ -376,6 +376,15 @@ function formatJourneyDurationMinutes(value,language='ro'){
  return [days?unit(days,'day'):'',hours?unit(hours,'hour'):'',minutes||(!days&&!hours)?unit(minutes,'minute'):''].filter(Boolean).join(' ');
 }
 // Show distinct ways to travel before repeated departures along the same corridor.
+// Preserve an explicit variant count across transport providers, UI and refreshes.
+function requestedTransitCount(message,provided=null){
+ const configured=Number(provided);
+ if(provided!==null&&provided!==undefined&&Number.isInteger(configured)&&configured>=1&&configured<=4)return configured;
+ const clean=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ const words={unu:1,una:1,un:1,o:1,one:1,doi:2,doua:2,two:2,trei:3,three:3,patru:4,four:4};
+ const match=clean.match(/\b(1|2|3|4|unu|una|un|o|one|doi|doua|two|trei|three|patru|four)\s+(?:variante?|variantele|alternativ[ae]|options?|routes?|itinerari[ie]|journeys?)\b/i);
+ return match?(Number(match[1])||words[match[1]]):4;
+}
 function selectTransitAlternatives(candidates,limit=4){
  const walk=l=>/walk|foot|pedestrian/i.test(String(l.mode||''));
  const vehicles=j=>(j.legs||[]).filter(l=>!walk(l));
@@ -925,6 +934,7 @@ export default {
       const transitStartedAt = Date.now();
       const transportErrors = {};
       const transitOptions = [];
+      const requestedOptionsCount=requestedTransitCount(message,data.transit_count);
       let targetName = "London";
       let targetLat = null;
       let targetLon = null;
@@ -996,7 +1006,7 @@ export default {
           const validTarget=Number.isFinite(targetLat)&&Number.isFinite(targetLon);
           const planned=validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang):{status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
           if(planned.journeys.length){
-            const transit=planned.journeys,fastest=transit[0];
+            const transit=planned.journeys.slice(0,requestedOptionsCount),fastest=planned.journeys[0];
             const coordinates=fastest.legs.flatMap(l=>l.coordinates||[]);
             const route=coordinates.length>1?{profile:'public_transport',coordinates,distanceMeters:null,durationSeconds:fastest.durationMinutes*60,destination:{name:targetName,latitude:targetLat,longitude:targetLon}}:null;
             const lines=transit.map((j,i)=>{
@@ -1006,7 +1016,7 @@ export default {
             const reply=(lang==='en'?'Verified mixed-mode public transport options to ':'Variante de transport mixt verificate către ')+targetName+'\n'+lines.join('\n');
             return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
               international_journey:true,mixed_journey:true,transit_available:true,route_available:Boolean(route),route,
-              transit,transit_provider:'MOTIS',transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
+              transit,transit_provider:'MOTIS',requested_transit_count:requestedOptionsCount,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
               route_geometry_available:Boolean(route),source:'Authorized MOTIS v6 routing provider',provider_status:{motis:planned.status}});
           }
           const detail=planned.status==='not_configured'?'international_provider_not_connected':planned.status;
@@ -1331,7 +1341,7 @@ export default {
               };
               return score(a)-score(b);
             });
-            const selected=selectTransitAlternatives(candidates);
+            const selected=selectTransitAlternatives(candidates,requestedOptionsCount);
             // Display verified departures in time order, not score order.
             selected.sort((a,b)=>{
               const x=Date.parse(a.firstVehicleDepartureTime||''),y=Date.parse(b.firstVehicleDepartureTime||'');
@@ -1458,7 +1468,7 @@ export default {
         const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl|| (env.TFL_APP_KEY?"ok":"not_configured"),bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
         if (transportErrors.tfl || transportErrors.bods || transportErrors.rtt || transportErrors.rtt_services || transportErrors.geoapify) console.warn("Pocket AI v96 transit provider diagnostics", JSON.stringify(transitDiagnostics));
         else console.info("Pocket AI v96 transit provider summary", JSON.stringify(transitDiagnostics));
-        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:transitOptions.reduce((best,j)=>!best||(Number(j.durationMinutes)||Infinity)<(Number(best.durationMinutes)||Infinity)?j:best,null),transit:transitOptions,transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",provider_status:{tfl:transportErrors.tfl?"unavailable":(env.TFL_APP_KEY?"queried":"not_configured"),bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:transitOptions.reduce((best,j)=>!best||(Number(j.durationMinutes)||Infinity)<(Number(best.durationMinutes)||Infinity)?j:best,null),requested_transit_count:requestedOptionsCount,transit:transitOptions,transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",provider_status:{tfl:transportErrors.tfl?"unavailable":(env.TFL_APP_KEY?"queried":"not_configured"),bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
       } catch (e) {
         console.warn("Pocket AI v96 transit-first branch failed", String(e && e.message || e).slice(0,180));
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:lang === "en" ? "The public-transport request could not be completed right now. No unverified route was supplied; try again or specify a station/postcode." : "Cererea de transport public nu a putut fi completată acum. Nu am afișat un traseu neverificat; încearcă din nou sau precizează o stație/un cod poștal.",route_available:false,transit_available:false,ai_connected:Boolean(env.AI)});
