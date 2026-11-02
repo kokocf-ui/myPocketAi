@@ -1,4 +1,5 @@
 /*
+ * v168: preserve explicitly requested culinary adaptations during deterministic recipe safety fallback.
  * v167: eliminate serial recipe AI retries; use validated culinary fallback and smaller recipe generation budget.
  * v166: geographically verified notable attractions in encyclopedia responses.
  * v165: event extraction stage counts, Romanian 'tripe' ingredient localization.
@@ -368,7 +369,8 @@ function recipeQualityConcern(request,answer){
  const wrongWrapper=/\b(?:frunze|frunzele|foi)\s+de\s+(?:lemn|telina)(?:\b|\s|\()/i.test(content)
    ||/\b(?:wood|celery)\s+leaves\s+(?:for|to)\s+(?:roll|wrap|stuff)/i.test(content);
  const recognizableWrapper=/\b(?:varza|vita(?:\s+de\s+vie)?|cabbage|grape\s+leaves)\b/i.test(content);
- return wrongWrapper||(!recognizableWrapper&&/(?:frunze|foi|leaves)\b/i.test(content));
+ const explicitVariant=/\b(?:variante|varianta|variations?|alternativ\w*|reinterpret\w*|adapt\w*|modern\w*|vegan\w*|vegetarian\w*|de post|fara|without|meatless|cu frunze de|in frunze de)\b/.test(topic);
+ return wrongWrapper||(!explicitVariant&&!recognizableWrapper&&/(?:frunze|foi|leaves)\b/i.test(content));
 }
 // Bounded safety fallback for the two recipes whose model corrections repeatedly
 // generated inedible substitutes. The broader international recipe path remains dynamic.
@@ -376,6 +378,8 @@ function reliableRecipeFallback(request,language='ro'){
  const topic=String(request||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  const sarmale=/\bsarmal/.test(topic);
  const ciorba=/\bciorb\w*\s+de\s+burt\w*/.test(topic);
+ // Never replace a requested variation, dietary restriction, or modern interpretation with a meat-based traditional template.
+ if(/\b(?:variante|varianta|variations?|alternativ\w*|reinterpret\w*|adapt\w*|modern\w*|vegan\w*|vegetarian\w*|de post|fara|without|meatless|no meat|gluten.free|low.carb|keto|cu ciuperci|with mushrooms)\b/.test(topic))return null;
  if(!sarmale&&!ciorba)return null;
  if(language==='ro'){
   if(sarmale)return 'Sarmale tradiționale românești (aproximativ 6 porții)\n\nTimp de pregătire: 45–60 de minute. Timp de gătire: 2–3 ore.\n\nIngrediente:\n- 1 varză murată mare (20–24 de foi întregi)\n- 700 g carne tocată de porc sau amestec porc-vită\n- 120 g orez\n- 2 cepe, 2 linguri de ulei\n- 150 ml suc de roșii\n- Cimbru, boia, piper și puțină sare, după gust\n- Apă pentru fiert; opțional, afumătură\n\nPreparare:\n1. Desprinde foile de varză murată, clătește-le dacă sunt prea sărate și îndepărtează nervurile groase.\n2. Călește ceapa tocată în ulei, apoi amestec-o cu orezul spălat, carnea și condimentele.\n3. Pune câte puțină umplutură în fiecare foaie și rulează sarmalele, închizând capetele.\n4. Așază varză tocată pe fundul oalei, pune sarmalele în straturi, adaugă sucul de roșii și apă cât să le acopere.\n5. Fierbe la foc mic, cu capac, aproximativ 2–3 ore, până când carnea și orezul sunt complet gătite. Completează cu apă fierbinte dacă este nevoie.\n6. Servește cu mămăligă și smântână, după preferință.';
@@ -720,7 +724,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v167";
+    const API_VERSION = "v168";
     const requestStartMs=Date.now();
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
@@ -3739,7 +3743,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         ' Give a complete, coherent recipe matching the requested servings. Start with preparation and cooking times.'+
         ' Include a single nonrepeating ingredient list with measured quantities (grams, ml, pieces), then numbered sequential steps.'+
         ' Explain actual cooking technique, appliance temperature where appropriate, duration and food-safety checks.'+
-        ' Check that every ingredient is a real edible food ingredient and that the wrappers, fillings, cooking method and timing are appropriate for the named dish. For Romanian sarmale use pickled cabbage leaves or grape leaves, not wood or celery leaves; for traditional Romanian ciorbă de burtă use beef tripe, never pork belly. Simmer thoroughly until the meat is safely cooked.'+
+        ' Check that every ingredient is a real edible food ingredient and that the wrappers, fillings, cooking method and timing are appropriate for the named dish. For traditional Romanian sarmale use pickled cabbage leaves or grape leaves, not wood or celery leaves; for traditional Romanian ciorbă de burtă use beef tripe, not pork belly. Explicit vegetarian, vegan, modern, or regional alternatives must follow the user\'s instructions and be labelled as adaptations, not as the traditional version. Simmer thoroughly until safely cooked.'+
         ' Do not invent sources, do not repeat blocks, and do not omit crucial steps or shorten a cooking time unrealistically.'+
         ' Only explain variations or substitutions when useful. Answer directly without prefatory filler.';
     }
