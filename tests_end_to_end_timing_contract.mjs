@@ -30,4 +30,34 @@ const culinary=new Function(backend.slice(a,b)+';return recipeQualityConcern')()
 assert.equal(culinary('Rețetă ciorbă de burtă românească','Se folosește 1 kg burtă de porc.'),true);
 assert.equal(culinary('Rețetă ciorbă de burtă românească','Se folosește 1 kg burtă de vită.'),false);
 assert.equal(culinary('Sarmale românești','Se folosesc frunze de lemn.'),true);
+
+// A model change is effective only when a real Worker request uses it.
+// Test both the faster default and an operator-controlled rollback without any external API calls.
+const {default: worker}=await import('./backend.js');
+const {webcrypto}=await import('node:crypto');
+globalThis.crypto??=webcrypto;
+const seenModels=[];
+for(const [override,expected] of [
+  [undefined,'@cf/meta/llama-3.1-8b-instruct-fast'],
+  ['@cf/meta/llama-3.1-8b-instruct-fp8','@cf/meta/llama-3.1-8b-instruct-fp8']
+]){
+ const env={AI:{run:async model=>{
+   seenModels.push(model);
+   return {response:'Ingrediente: 700 g carne, 120 g orez, 20 de foi de varză murată. Preparare: se învelesc în varză și se fierb la foc mic până sunt complet gătite.'};
+ }}};
+ if(override)env.POCKET_AI_TEXT_MODEL=override;
+ const req=new Request('https://fixture/api/chat',{method:'POST',body:JSON.stringify({
+   message:'Rețetă de sarmale tradițională românească',language:'ro',module:'assistant',history:[]
+ })});
+ const response=await worker.fetch(req,env);
+ const data=await response.json();
+ assert.equal(data.status,'success');
+ assert.equal(data.version,'v169');
+ assert.equal(data.latency_breakdown?.ai_model,expected);
+ assert.equal(data.latency_breakdown?.model_calls_estimate,1);
+ assert.equal(data.latency_breakdown?.recipe_correction_ms,0);
+ assert.ok(Number.isFinite(data.server_total_ms));
+}
+assert.deepEqual(seenModels,['@cf/meta/llama-3.1-8b-instruct-fast','@cf/meta/llama-3.1-8b-instruct-fp8']);
+
 console.log('PASS: generated UI, full server/client timing fields, error timing, beef tripe and cabbage recipe checks.');
