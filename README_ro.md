@@ -1,3 +1,13 @@
+## Pocket AI — backend v173 / frontend 1.0.127 — 2026-11-02
+
+- **Obiective turistice pentru întreaga țară:** noua cercetare Geoapify caută în limita națională verificată prin `place_id`, nu doar într-un cerc în jurul capitalei. Rezultatele nominale, cu coordonate și țara verificată, sunt combinate cu obiectivele Wikidata și diversificate pe orașe/regiuni, fără a promite o listă exhaustivă. Când lipsesc surse naționale, obiectivele din zona capitalei sunt etichetate explicit drept atare. Interogările Wikidata, Geoapify și datele generale ale țării sunt executate în paralel acolo unde sunt independente.
+- **Localități:** Geoapify returnează coordonatele exacte ale obiectivelor găsite în zona localității (nu doar numele și adresa). Lista poate oferi „Traseu” pentru fiecare obiectiv; dacă nu există date validate, secțiunea afișează explicit indisponibilitatea.
+- **Flux de călătorie:** de la fișa unei țări, după identificarea orașului/destinației se solicită mai întâi alegerea cazării, apoi mijlocul de transport; contextul țării nu mai este șters prematur când backendul returnează mai multe locații. Fluxul existent din fișa unui oraș rămâne compatibil.
+- **Revenire contextuală:** utilizatorul poate reveni la fișa țării/localității din dialogul de destinație, selecția cazării sau din navigare, fără a repeta interogarea. Acțiunea „Creează traseu” se găsește atât deasupra imaginii cât și la finalul fișei.
+- **Durate în hartă:** eticheta de durată folosește funcția existentă de formatare a zilelor, orelor și minutelor; exemplu `1773 min → 1 zi 5 ore 33 de minute`.
+- **Regresii:** validarea sintaxei fișierelor backend și frontend, precum și a scriptului generat, a trecut. Simulările în JavaScript au confirmat distribuția obiectivelor în patru orașe distincte, filtrarea altor țări, ambele butoane de traseu, întoarcerea la prezentare și durata localizată. `tests_country_profile_regression.mjs` a fost extins și inclus în scriptul `npm test`. Rularea completă Node în CI, publicarea Cloudflare și testele live pe telefon rămân neconfirmate.
+- **Fără modificări deliberate:** barei inferioare fixe, modurilor de traseu existente, filtrului de rețete și calendarului de evenimente.
+
 ## Pocket AI — backend v172 / frontend 1.0.126 — 2026-11-02
 
 - **Prezentări geografice pe telefon:** fereastra de informații folosește secțiuni/carduri separate, paragrafe scurte, imagini mai mici, date rapide, orașe, obiective și surse la final. Se înlătură marcajul editorial „(d)” din extrasele Wikipedia. Navigația de jos rămâne fixă.
