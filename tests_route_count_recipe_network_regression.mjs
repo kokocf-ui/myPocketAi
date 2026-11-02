@@ -82,5 +82,13 @@ try{
  }finally{console.info=originalConsoleInfo}
 }finally{globalThis.fetch=priorFetch}
 assert.equal(culinaryCalls,2,'two recipes should require exactly one AI call each');
+const fallbackStart=backend.indexOf('function reliableRecipeFallback(');
+const fallbackEnd=backend.indexOf('function removeRepeatedRecipeIngredients(',fallbackStart);
+assert.ok(fallbackStart>=0&&fallbackEnd>fallbackStart,'missing safe culinary fallback');
+const fallback=new Function(backend.slice(fallbackStart,fallbackEnd)+';return reliableRecipeFallback')();
+assert.equal(fallback('Sarmale vegetariene de post','ro'),null,'explicitly requested vegetarian variant must not become meat sarmale');
+assert.equal(fallback('Variante moderne de sarmale','ro'),null,'modern variants must not become a traditional template');
+assert.ok(fallback('Sarmale tradiționale românești','ro')?.includes('varză murată'));
+
 
 console.log('PASS: requested route count (normal + handoff + refresh), generated frontend escaping, recipe ingredient checks, one-pass cooking, event search budget, network retry UI.');
