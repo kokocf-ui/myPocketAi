@@ -1,4 +1,5 @@
 /*
+ * v167: eliminate serial recipe AI retries; use validated culinary fallback and smaller recipe generation budget.
  * v166: geographically verified notable attractions in encyclopedia responses.
  * v165: event extraction stage counts, Romanian 'tripe' ingredient localization.
  * v164: total Worker timing diagnostics and traditional beef tripe culinary validation.
@@ -369,6 +370,23 @@ function recipeQualityConcern(request,answer){
  const recognizableWrapper=/\b(?:varza|vita(?:\s+de\s+vie)?|cabbage|grape\s+leaves)\b/i.test(content);
  return wrongWrapper||(!recognizableWrapper&&/(?:frunze|foi|leaves)\b/i.test(content));
 }
+// Bounded safety fallback for the two recipes whose model corrections repeatedly
+// generated inedible substitutes. The broader international recipe path remains dynamic.
+function reliableRecipeFallback(request,language='ro'){
+ const topic=String(request||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ const sarmale=/\bsarmal/.test(topic);
+ const ciorba=/\bciorb\w*\s+de\s+burt\w*/.test(topic);
+ if(!sarmale&&!ciorba)return null;
+ if(language==='ro'){
+  if(sarmale)return 'Sarmale tradiționale românești (aproximativ 6 porții)\n\nTimp de pregătire: 45–60 de minute. Timp de gătire: 2–3 ore.\n\nIngrediente:\n- 1 varză murată mare (20–24 de foi întregi)\n- 700 g carne tocată de porc sau amestec porc-vită\n- 120 g orez\n- 2 cepe, 2 linguri de ulei\n- 150 ml suc de roșii\n- Cimbru, boia, piper și puțină sare, după gust\n- Apă pentru fiert; opțional, afumătură\n\nPreparare:\n1. Desprinde foile de varză murată, clătește-le dacă sunt prea sărate și îndepărtează nervurile groase.\n2. Călește ceapa tocată în ulei, apoi amestec-o cu orezul spălat, carnea și condimentele.\n3. Pune câte puțină umplutură în fiecare foaie și rulează sarmalele, închizând capetele.\n4. Așază varză tocată pe fundul oalei, pune sarmalele în straturi, adaugă sucul de roșii și apă cât să le acopere.\n5. Fierbe la foc mic, cu capac, aproximativ 2–3 ore, până când carnea și orezul sunt complet gătite. Completează cu apă fierbinte dacă este nevoie.\n6. Servește cu mămăligă și smântână, după preferință.';
+  return 'Ciorbă de burtă tradițională românească (aproximativ 6 porții)\n\nTimp de pregătire: 30 de minute. Timp de fierbere: aproximativ 60 de minute cu burtă de vită prefiartă (mai mult pentru burtă crudă).\n\nIngrediente:\n- 1 kg burtă de vită curățată, preferabil prefiartă\n- 2,5–3 l supă de vită sau apă și oase de vită pentru supă\n- 1 morcov, 1 ceapă, o bucată de țelină-rădăcină\n- 4–6 căței de usturoi\n- 250 g smântână fermentată, grasă\n- 2–3 gălbenușuri\n- 2–3 linguri oțet, sare și piper după gust\n- Ardei iute pentru servire, opțional\n\nPreparare:\n1. Fierbe legumele în supa de vită, apoi strecoară lichidul. Dacă folosești burtă crudă, fierbe-o separat până se frăgezește complet.\n2. Taie burta de vită în fâșii și fierbe-o în supă până este foarte fragedă; burta prefiartă necesită, de regulă, mai puțin timp.\n3. Amestecă smântâna cu gălbenușurile. Adaugă treptat câteva polonice de supă fierbinte, amestecând pentru a tempera compoziția.\n4. Redu focul, încorporează amestecul în oală și nu mai lăsa ciorba să clocotească puternic.\n5. Adaugă usturoiul zdrobit, oțetul, sarea și piperul după gust. Servește fierbinte, cu ardei iute dacă dorești.';
+ }
+ if(language==='en'){
+  if(sarmale)return 'Traditional Romanian sarmale (about 6 servings)\nPreparation: 45–60 minutes. Cooking: 2–3 hours.\nIngredients: 20–24 pickled cabbage leaves, 700 g minced pork or mixed pork and beef, 120 g rice, 2 onions, 2 tablespoons oil, 150 ml tomato juice, thyme, paprika, pepper and a little salt; water for simmering.\nMethod: 1. Rinse leaves if too salty and trim thick ribs. 2. Soften chopped onions in oil; combine with rinsed rice, meat and seasoning. 3. Wrap portions tightly in cabbage leaves. 4. Line a pot with shredded cabbage, layer the rolls and add tomato juice and enough water to cover. 5. Simmer gently, covered, for 2–3 hours until meat and rice are thoroughly cooked, adding hot water if needed. Serve with polenta and sour cream if desired.';
+  return 'Traditional Romanian beef tripe soup (about 6 servings)\nPreparation: 30 minutes. Cooking: about 60 minutes with pre-cooked beef tripe, longer if raw.\nIngredients: 1 kg cleaned beef tripe, preferably pre-cooked; 2.5–3 litres beef stock; 1 carrot, 1 onion, a small piece of celeriac, 4–6 garlic cloves, 250 g full-fat sour cream, 2–3 egg yolks, 2–3 tablespoons vinegar, salt and pepper.\nMethod: 1. Simmer vegetables in the beef stock and strain. If using raw tripe, cook it separately until tender. 2. Slice tripe and simmer in stock until tender. 3. Mix sour cream with egg yolks and slowly temper with hot broth. 4. Lower the heat, stir this mixture into the soup and avoid a vigorous boil. 5. Season with crushed garlic, vinegar, salt and pepper. Serve hot.';
+ }
+ return null;
+}
 function removeRepeatedRecipeIngredients(answer){
  const lines=String(answer||'').split('\n'),seen=new Set(),normalize=v=>String(v||'').normalize('NFD')
    .replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[*_•]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
@@ -702,7 +720,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v166";
+    const API_VERSION = "v167";
     const requestStartMs=Date.now();
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
@@ -3772,9 +3790,10 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     // Diagnostic temporar: nu înregistrăm textul mesajului utilizatorului.
     const diagnosticId = crypto.randomUUID();
     const aiStartedAt = Date.now();
-    const stageMetrics={research_ms:shouldSearchWeb?(webSearchDiagnostics?.research_elapsed_ms??Date.now()-researchStartedAt):0,primary_ai_ms:0,sentence_correction_ms:0,review_ai_ms:0,recipe_correction_ms:0};
+    const stageMetrics={research_ms:shouldSearchWeb?(webSearchDiagnostics?.research_elapsed_ms??Date.now()-researchStartedAt):0,primary_ai_ms:0,sentence_correction_ms:0,review_ai_ms:0,recipe_correction_ms:0,recipe_fallback_used:false,recipe_rejected:false};
     const recipeFastPath=recipeInstruction&&!shouldSearchWeb;
-    const modelHistory=recipeFastPath?history.slice(-4):history;
+    const cleanedHistory=history.length&&history[history.length-1]?.role==='user'&&history[history.length-1]?.content.trim()===message.trim()?history.slice(0,-1):history;
+    const modelHistory=recipeFastPath?cleanedHistory.slice(-4):cleanedHistory;
 
     console.info("Pocket AI v96 diagnostic", JSON.stringify({
       diagnosticId,
@@ -3803,8 +3822,8 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
               content: aiUserMessage
             }
           ],
-          max_tokens: eventResearchIntent ? 2200 : 768,
-          temperature: eventResearchIntent ? 0.05 : 0.2
+          max_tokens: eventResearchIntent ? 2200 : (recipeFastPath ? 620 : 768),
+          temperature: eventResearchIntent || recipeFastPath ? 0.05 : 0.2
         }
       );
 
@@ -3890,19 +3909,26 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       // A second generation is requested ONLY when the primary recipe contains
       // an implausible ingredient/wrapper; normal recipes keep the fast single pass.
       if(recipeInstruction&&result&&typeof result.response==='string'&&recipeQualityConcern(message,result.response)){
-        try{
-          const recipeCorrectionStartedAt=Date.now();
-          const corrected=await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fp8",{
-            messages:[
-              {role:'system',content:'You are a careful culinary editor. Rewrite the entire recipe correctly in '+responseLanguageName+'. Verify every ingredient is edible and conventional for the named dish, and that instructions use only the listed ingredients. Romanian sarmale are rolled in pickled cabbage leaves or grape leaves, never wood or celery leaves. Traditional Romanian ciorbă de burtă uses beef tripe, not pork belly; use beef bones or stock, sour cream, egg yolks and garlic as appropriate. Cook the filling thoroughly using realistic times. Give measured quantities for the specified servings and clear sequential steps. Return the corrected complete recipe only.'},
-              {role:'user',content:message+'\n\nRecipe to correct:\n'+result.response.slice(0,6500)}
-            ],max_tokens:1050,temperature:0.05
-          });
-          stageMetrics.recipe_correction_ms=Date.now()-recipeCorrectionStartedAt;
-          if(typeof corrected?.response==='string'&&corrected.response.trim()&&!recipeQualityConcern(message,corrected.response))result=corrected;
-          else result={response:lang==='ro'?'Nu am reușit să verific ingredientele și metoda de preparare ale acestei rețete. Încearcă din nou; nu voi recomanda ingrediente nepotrivite.':'I could not validate the ingredients and preparation method for this recipe. Please try again; I will not recommend unsuitable ingredients.'};
-        }catch{
-          result={response:lang==='ro'?'Nu am reușit să verific ingredientele și metoda de preparare ale acestei rețete. Te rog să încerci din nou.':'I could not validate the recipe ingredients or preparation method. Please try again.'};
+        // Do not launch a second, unbounded 30–45 second model request.
+        // A known-safe traditional recipe is better than a slow correction that still fails.
+        const safeFallback=reliableRecipeFallback(message,lang);
+        if(safeFallback){
+          result={...result,response:safeFallback};
+          stageMetrics.recipe_fallback_used=true;
+        }else{
+          result={...result,response:({
+            ro:'Nu pot confirma ingredientele acestei variante de rețetă. Încearcă o formulare mai specifică.',
+            en:'I cannot verify the ingredients in this recipe variant. Please specify the dish more precisely.',
+            fr:'Je ne peux pas confirmer les ingrédients de cette variante de recette.',
+            de:'Ich kann die Zutaten dieser Rezeptvariante nicht bestätigen.',
+            it:'Non posso verificare gli ingredienti di questa variante della ricetta.',
+            es:'No puedo verificar los ingredientes de esta variante de la receta.',
+            pt:'Não consigo verificar os ingredientes desta variante da receita.',
+            nl:'Ik kan de ingrediënten van deze receptvariant niet verifiëren.',
+            ru:'Не могу подтвердить ингредиенты этого варианта рецепта.',
+            pl:'Nie mogę potwierdzić składników tej wersji przepisu.'
+          })[lang]||'I cannot verify the ingredients in this recipe variant.'};
+          stageMetrics.recipe_rejected=true;
         }
       }
       const aiDurationMs = Date.now() - aiStartedAt;
