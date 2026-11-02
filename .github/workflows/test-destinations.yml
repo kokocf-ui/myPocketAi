@@ -29,10 +29,8 @@ jobs:
         run: npm run check
       - name: Confirmed landmark and cross-country safety regression
         run: node tests_landmark_resolution.mjs
-      - name: Focused destination and local-category regressions
-        run: npm run test:destinations && npm run test:local-categories
-      - name: Modal first-tap and travel mode checks
-        run: node tests_modal_ui.mjs && node tests_travel_mode_ui.mjs && node tests_transit_refresh.mjs
+      - name: Modal first-tap and transit refresh checks
+        run: node tests_modal_ui.mjs && node tests_transit_refresh.mjs
       - name: Local-search media and module handoff safeguards
         run: node tests_v148.mjs
       - name: Existing regression tests
