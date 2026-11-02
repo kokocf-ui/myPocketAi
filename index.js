@@ -2418,7 +2418,12 @@ function openEncyclopediaCard(article,requestStartMs){
    state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute({latitude:Number(coords.latitude),longitude:Number(coords.longitude),label:title});return;
   }
   const question=lang==='ro'?'Spre ce oraș sau obiectiv din '+title+' dorești să călătorești?':'Which city or place in '+title+' do you want to visit?';
-  addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;
+  const questionBubble=addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;
+  const back=document.createElement('button');back.type='button';back.className='transit-choice-action';
+  back.textContent=({ro:'Înapoi la prezentare',en:'Back to place details',fr:'Retour à la présentation',de:'Zurück zur Übersicht',it:'Torna alla presentazione',es:'Volver a la presentación',pt:'Voltar à apresentação',nl:'Terug naar overzicht',ru:'Назад к описанию',pl:'Wróć do opisu'}[lang]||'Back to place details');
+  back.style.cssText='margin-top:9px;min-height:43px;font-size:14px';
+  back.onclick=()=>{state.pendingEncyclopediaDestination=null;state.tripCountryOnChoice=null;state.encyclopediaTripActive=false;openEncyclopediaCard(article,NaN)};
+  questionBubble.append(back);
  };
  host.append(nav);
  const topRoute=nav.cloneNode(true);topRoute.onclick=nav.onclick;
