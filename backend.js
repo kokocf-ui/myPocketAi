@@ -331,6 +331,12 @@ function eventRowsFromReply(answer,request,language='ro'){
    const m=months.get(norm(x[2]).replace(/\s/g,'')),y=Number(x[3]||year);
    if(m){from=to=Date.UTC(y,m-1,Number(x[1]));date=x[0];}
   }
+  if(from===null){
+   const monthFirst=new RegExp('('+token+')\\s+(\\d{1,2})(?!\\d)(?:,?\\s+(20\\d{2}))?','iu');
+   const match=text.match(monthFirst);
+   const m=match?months.get(norm(match[1]).replace(/\s/g,'')):null;
+   if(m){const y=Number(match[3]||year);from=to=Date.UTC(y,m-1,Number(match[2]));date=match[0];}
+  }
   if(from===null||!Number.isFinite(from)||!Number.isFinite(to)||to<from)return null;
   const tm=text.match(/(?:ora|orele|at)\s+(\d{1,2}[:.]\d{2})/i)?.[1]||'';
   return {from,to,date,time:tm.replace('.',':')};
@@ -358,6 +364,60 @@ function eventRowsFromReply(answer,request,language='ro'){
  const period=month?new Intl.DateTimeFormat(language,{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(year,month-1,3))):'';
  const intro=language==='ro'?(rows.length?'Evenimente identificate pentru '+(period||'perioada cerută')+':':'Nu am identificat în rezultat evenimente cu date corespunzătoare perioadei '+period+'.'):(rows.length?'Dated events for '+period+':':'No clearly dated events found for '+period+'.');
  return {reply:intro+(rows.length?'\n\n'+rows.map((r,i)=>(i+1)+'. '+r.date+(r.time?' · '+r.time:'')+' — '+r.description).join('\n'):''),structured_list:{type:'events',period,rows,sort:'date_ascending',dates_not_independently_verified:true}};
+}
+
+// For dated event lookups, build the calendar from discoverable source records,
+// not from model-created dates. Each row retains the page that supports it.
+// These are search-index leads, so the UI must not label them independently verified.
+function sourceBackedEventRows(sources,request,language='ro'){
+ const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+ const req=norm(request),year=Number(request.match(/\b20\d{2}\b/)?.[0]||new Date().getUTCFullYear());
+ const placeMatch=req.match(/\b(?:in|din|la|at|of)\s+([\p{L}]{3,40})\s+(?:in|din|during|on)\s+(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie|january|february|march|april|may|june|july|august|september|october|november|december|anul|this|20\d{2})/u);
+ const place=placeMatch?.[1]||'';
+ const eventName=/\b(?:targ\w*|festival\w*|concer\w*|spectacol\w*|show\w*|expoz\w*|exhibi\w*|recital\w*|meci\w*|match\w*|theat\w*|teatr\w*|opera|musical\w*|muzic\w*|ballet|balet\w*|fair|market|performance\w*|gig|tur\w*|tour|christmas|craciun|handbal|sport)\b/u;
+ const genericName=/^(?:evenimente(?:le)?|events?|calendar(?:ul)?|program(?:ul)?(?:ul)?(?:\s+evenimente)?|what s on|ce facem)\b/u;
+ const rows=[],seen=new Set();let rejectedNoDate=0,rejectedNoYear=0,rejectedGeneric=0;
+ for(const source of (Array.isArray(sources)?sources:[])){
+  const title=String(source.title||'').replace(/\s+/g,' ').trim().replace(/\s*[\|]\s*[^|]{1,75}$/,'').slice(0,170);
+  if(!title||!source.url)continue;
+  const normalizedTitle=norm(title.replace(/^(?:program|programul)\s*[:\-–—]\s*/iu,''));
+  if(!eventName.test(normalizedTitle)||genericName.test(normalizedTitle)){rejectedGeneric++;continue;}
+  const snippets=(Array.isArray(source.snippets)?source.snippets:[]).slice(0,3).map(x=>String(x||'').replace(/\s+/g,' ').trim());
+  const evidence=[title,...snippets,source.pageEvidence||''].join(' ');
+  if(place&&!norm(evidence).split(' ').includes(place))continue;
+  const yearsInTitle=[...title.matchAll(/\b20\d{2}\b/g)].map(m=>Number(m[0]));
+  if(yearsInTitle.length&&!yearsInTitle.includes(year)){rejectedNoYear++;continue;}
+  const yearsInEvidence=[...evidence.matchAll(/\b20\d{2}\b/g)].map(m=>Number(m[0]));
+  if(!yearsInEvidence.includes(year)&&!String(source.publishedDate||'').startsWith(String(year))){rejectedNoYear++;continue;}
+  const candidates=[title,...snippets.map(snippet=>title+' — '+snippet)];
+  let record=null;
+  for(const text of candidates){
+   const parsed=eventRowsFromReply('1. '+text,request,language);
+   if(parsed?.structured_list?.rows?.length){record=parsed.structured_list.rows[0];break;}
+  }
+  if(!record){rejectedNoDate++;continue;}
+  const cleanTitle=title.replace(/^(?:program|programul)\s*[:\-–—]\s*/iu,'').replace(/\s*(?:[-–—:]\s*(?:bilete|tickets|evenimente|eventbrite|facebook events).*)$/iu,'').trim();
+  const key=norm(cleanTitle).replace(/\b20\d{2}\b/g,'')+'|'+norm(record.date);
+  if(seen.has(key))continue;seen.add(key);
+  rows.push({date:record.date,time:record.time,description:cleanTitle,source_url:source.url,source_title:String(source.title||'').slice(0,170)});
+ }
+ const monthNames=new Map();
+ for(let m=1;m<=12;m++)for(const lng of ['ro','en','fr','de','it','es','pt','nl','ru','pl']){
+  for(const style of ['long','short'])monthNames.set(norm(new Intl.DateTimeFormat(lng,{month:style,timeZone:'UTC'}).format(new Date(Date.UTC(year,m-1,5)))).replace(/\s/g,''),m);
+ }
+ const sortKey=date=>{
+  const z=norm(date).match(/\b(\d{1,2})\s+([\p{L}]+)\b/u);
+  if(z)return (monthNames.get(z[2])||13)*100+Number(z[1]);
+  const w=norm(date).match(/\b([\p{L}]+)\s+(\d{1,2})\b/u);
+  return w?(monthNames.get(w[1])||13)*100+Number(w[2]):9999;
+ };
+ rows.sort((a,b)=>sortKey(a.date)-sortKey(b.date)||a.description.localeCompare(b.description,language));
+ const period=eventRowsFromReply('1. 1 decembrie '+year+' — example',request,language)?.structured_list?.period||String(year);
+ const prefixes={ro:'Evenimente cu date identificate în sursele consultate',en:'Dated events found in retrieved sources',fr:'Événements datés trouvés dans les sources',de:'Datierte Veranstaltungen aus den Quellen',it:'Eventi datati trovati nelle fonti',es:'Eventos fechados encontrados en las fuentes',pt:'Eventos datados encontrados nas fontes',nl:'Evenementen met datums uit de bronnen',ru:'Датированные события из найденных источников',pl:'Wydarzenia z datami znalezione w źródłach'};
+ const none={ro:'Nu am identificat încă evenimente cu dată și an susținute de sursele găsite. Nu voi inventa un program.',en:'No dated events could be supported by the retrieved sources. I will not invent a schedule.',fr:'Aucun événement daté confirmé dans les sources trouvées.',de:'Keine datierten Veranstaltungen in den Quellen nachweisbar.',it:'Nessun evento datato riscontrato nelle fonti.',es:'No se encontraron eventos fechados respaldados por fuentes.',pt:'Nenhum evento datado encontrado nas fontes.',nl:'Geen gedateerde evenementen onderbouwd door bronnen.',ru:'В источниках не найдены подтверждённые даты событий.',pl:'W źródłach nie znaleziono potwierdzonych dat wydarzeń.'};
+ const disclaimer={ro:'Listă neexhaustivă. Datele provin din rezultate de căutare; verifică pagina evenimentului înainte de deplasare.',en:'Not exhaustive. Dates come from search results; check the event page before travelling.',fr:'Liste non exhaustive. Vérifiez les dates auprès de la source.',de:'Keine vollständige Liste. Termine bitte bei der Quelle prüfen.',it:'Elenco non esaustivo. Verifica le date alla fonte.',es:'Lista no exhaustiva. Verifica las fechas en la fuente.',pt:'Lista não exaustiva. Confirme as datas na fonte.',nl:'Geen volledige lijst. Controleer de datums bij de bron.',ru:'Список неполный. Уточняйте даты у источника.',pl:'Lista niepełna. Daty sprawdź u źródła.'};
+ const reply=rows.length?(prefixes[language]||prefixes.en)+' — '+period+':\n\n'+rows.map((row,i)=>(i+1)+'. '+row.date+(row.time?' · '+row.time:'')+' — '+row.description).join('\n')+'\n\n'+(disclaimer[language]||disclaimer.en):(none[language]||none.en);
+ return {reply,structured_list:rows.length?{type:'events',period,rows:rows.slice(0,60),sort:'date_ascending',dates_not_independently_verified:true,source_grounded:true}:null,diagnostics:{source_titles_considered:(sources||[]).length,source_events:rows.length,rejected_no_date:rejectedNoDate,rejected_no_year:rejectedNoYear,rejected_generic:rejectedGeneric}};
 }
 // In long model-generated recipes, prevent a repeated ingredient block from
 // being presented as new ingredients. Never deduplicate the preparation steps.
@@ -3580,7 +3640,7 @@ export default {
     // v107: UI language is not a country. Use worldwide search unless a country is explicit.
     const searchLanguage = lang;
     const eventSearchText=eventResearchIntent?message.replace(/\b(?:anul\s+curent|acest\s+an|this\s+year|current\s+year)\b/giu,String(new Date().getUTCFullYear())):message;
-    const searchQuery = ((eventResearchIntent ? eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim() || eventSearchText : message) + (legalResearch ? " Prefer current official government or regulator sources for the stated jurisdiction." : " Prefer primary sources and exact dates; do not infer missing facts.")).slice(0, 550);
+    const searchQuery = (eventResearchIntent?(eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim()||eventSearchText):(message+(legalResearch?" Prefer current official government or regulator sources for the stated jurisdiction.":" Prefer primary sources and exact dates; do not infer missing facts."))).slice(0, 550);
     const safeSourceUrl = value => {
       try {
         const u = new URL(value);
@@ -3599,7 +3659,7 @@ export default {
         const started = Date.now();
         const response = await fetch("https://api.exa.ai/search", {
           method:"POST", headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
-          body:JSON.stringify({query:searchQuery,type:"auto",numResults:eventResearchIntent?10:6,contents:{highlights:true}}),
+          body:JSON.stringify({query:searchQuery,type:"auto",numResults:eventResearchIntent?15:6,contents:{highlights:true}}),
           signal:AbortSignal.timeout(eventResearchIntent?7500:9000)
         });
         if (!response.ok) throw new Error("HTTP " + response.status);
@@ -3610,7 +3670,7 @@ export default {
       if (env.BRAVE_API_KEY) providerTasks.push((async () => {
         const started = Date.now();
         const u = new URL("https://api.search.brave.com/res/v1/web/search");
-        u.searchParams.set("q",searchQuery); u.searchParams.set("count",eventResearchIntent?10:"6"); u.searchParams.set("search_lang",searchLanguage);
+        u.searchParams.set("q",searchQuery); u.searchParams.set("count",eventResearchIntent?15:"6"); u.searchParams.set("search_lang",searchLanguage);
         u.searchParams.set("country",searchCountry||"ALL"); u.searchParams.set("safesearch","moderate");
         const response = await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(eventResearchIntent?7000:8500)});
         if(!response.ok) throw new Error("HTTP "+response.status);
@@ -3619,7 +3679,7 @@ export default {
       })().then(value=>({status:"fulfilled",value,provider:"Brave"})).catch(error=>({status:"rejected",provider:"Brave",error:String(error&&error.message||error).slice(0,140)})));
       if (env.TAVILY_API_KEY) providerTasks.push((async () => {
         const started=Date.now();
-        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?10:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?7500:9000)});
+        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?15:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?7500:9000)});
         if(!response.ok) throw new Error("HTTP "+response.status);
         const payload=await response.json(); const results=Array.isArray(payload.results)?payload.results:[];
         return {provider:"Tavily",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.published_date||null,snippets:[x.content||""].filter(Boolean).slice(0,3)}))};
@@ -3687,7 +3747,7 @@ export default {
           }
           return score;
         };
-        webSources=[...byUrl.values()].sort((a,b)=>sourceEvidenceScore(b)-sourceEvidenceScore(a)).slice(0,eventResearchIntent?20:10);
+        webSources=[...byUrl.values()].sort((a,b)=>sourceEvidenceScore(b)-sourceEvidenceScore(a)).slice(0,eventResearchIntent?40:10);
         // Fetch a small number of original pages for additional evidence. Redirects are not followed;
         // non-HTML pages and unavailable pages remain explicitly unverified.
         await Promise.all(webSources.slice(0,eventResearchIntent?1:2).map(async source=>{
@@ -3708,6 +3768,19 @@ export default {
         webSearchDiagnostics={research_elapsed_ms:Date.now()-researchStartedAt,max_search_wait_ms:maxSearchWaitMs,pendingProviderCount,providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
         console.info("Pocket AI v98 web research",JSON.stringify({stage:"web_research_completed",status:webSearchStatus,...webSearchDiagnostics}));
       }
+    }
+    // Dated event calendars are built deterministically from web-search evidence.
+    // No AI-generated event title or invented date can enter structured_list.
+    if(eventResearchIntent&&shouldSearchWeb){
+      const events=sourceBackedEventRows(webSources,message,lang);
+      const sources=webSources.filter(x=>x.snippets.length||x.pageEvidence).map((x,i)=>({number:i+1,title:x.title,url:x.url,publishedDate:x.publishedDate,providers:x.providers,page_fetch_status:x.pageFetchStatus||'not_fetched',evidence_excerpt:(x.pageEvidence||x.snippets.join(' ')).slice(0,1200)}));
+      return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+        reply:events.reply,structured_list:events.structured_list,sources,
+        web_search_status:webSearchStatus,web_search_diagnostics:webSearchDiagnostics,
+        event_pipeline_diagnostics:{...events.diagnostics,research_source_count:webSources.length,structured_event_count:events.structured_list?.rows?.length||0,model_list_markers:0,model_calls:0},
+        ai_execution_ms:0,research_elapsed_ms:webSearchDiagnostics?.research_elapsed_ms||0,
+        latency_breakdown:{research_ms:webSearchDiagnostics?.research_elapsed_ms||0,primary_ai_ms:0,sentence_correction_ms:0,review_ai_ms:0,recipe_correction_ms:0,model_calls_estimate:0,ai_model:null,events_source_grounded:true},
+        ai_generated:true,ai_connected:Boolean(env.AI)});
     }
     const aiUserMessage=message+webSearchContext;
 
