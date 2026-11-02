@@ -1129,7 +1129,7 @@ export default {
               if(missing.ok){
                 const pages=Object.values((await missing.json()).query?.pages||{});
                 const item=String(pages[0]?.pageprops?.wikibase_item||'');
-                if(/^Q[1-9]\\d*$/.test(item))article.wikibase_item=item;
+                if(/^Q[1-9]\d*$/.test(item))article.wikibase_item=item;
               }
             }catch{}
           }
