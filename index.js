@@ -2294,7 +2294,7 @@ function offerTripAccommodation(destination){
 function openEncyclopediaCard(article,requestStartMs){
  if(!article||!article.extract)return;
  const host=document.createElement('div');host.dataset.directChoices='true';
- const isCountry=article.is_country===true||Boolean(article.country_facts);
+ const isCountry=article.is_country===true;
  const lang=state.language||'ro';
  const words={
   ro:['Date esențiale','Capitală','Monedă / monede','Limbi oficiale','Suprafață','Fusuri orare (UTC)','Prezentare generală','Context și informații suplimentare','Orașe importante','Obiective turistice','Nu am putut verifica acum o listă de obiective pentru această țară.','Surse și verificare','Sursă date țară','Date despre locuri','Alege o destinație pentru traseu','Creează traseu','Traseu','Vezi sursa'],
@@ -2337,7 +2337,7 @@ function openEncyclopediaCard(article,requestStartMs){
   p.style.cssText='font-size:15px;font-weight:650;color:#c9e9f0;margin:12px 2px 16px;line-height:1.45';
   card.append(p);
  }
- if(article.country_facts){
+ if(isCountry&&article.country_facts){
   const f=article.country_facts,s=section(L[0]);
   const grid=document.createElement('dl');grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px;margin:0';
   const fact=(label,value)=>{
