@@ -2520,7 +2520,7 @@ export default {
                 park: /leisure\.park|leisure\.garden/.test(cats) || /^(park|garden)$/.test(String(raw.leisure || "")),
                 museum: /museum/.test(cats) || raw.tourism === "museum",
                 cinema: /cinema/.test(cats) || raw.amenity === "cinema",
-                hotel: /accommodation\.(hotel|hostel|guest_house)|hotel|hostel/.test(cats) || /^(hotel|hostel|guest_house)$/.test(String(raw.tourism || "")),
+                hotel: /accommodation(?:\.(hotel|hostel|guest_house|motel|apartment|chalet|hut))?/.test(cats) || /^(hotel|hostel|guest_house|motel|apartment|chalet)$/.test(String(raw.tourism || "")),
                 cafe: /catering\.cafe/.test(cats) || raw.amenity === "cafe",
                 lounge: /catering\.(cafe|pub|bar|biergarten)/.test(cats) || /^(cafe|pub|bar|biergarten)$/.test(String(raw.amenity || "")),
                 zoo: /zoo/.test(cats) || raw.tourism === "zoo",
@@ -2612,7 +2612,7 @@ export default {
                 : requestedPlaceCategory.key === "park"
                   ? /park|garden|playground/.test(photonType) || /park|garden/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "hotel"
-                  ? /hotel|hostel|guest.?house|accommodation/.test(photonType)
+                  ? /hotel|hostel|guest.?house|motel|apartment|chalet|accommodation/.test(photonType)
                 : requestedPlaceCategory.key === "lounge"
                   ? /cafe|coffee_shop|tea_room|tearoom|pub|bar|biergarten/.test(photonType)
                 : requestedPlaceCategory.key === "zoo"
