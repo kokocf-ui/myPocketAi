@@ -3667,6 +3667,8 @@ export default {
     const taskInsteadOfResearch = /^(?:te rog\s+)?(?:scrie|creeaza|compune|redacteaza|rezuma|rezumă|rescrie|corecteaza|tradu|ajuta.ma sa|write|create|draft|summarize|rewrite|translate|help me make|help me write)\b/i.test(normalizedResearchRequest);
     const substantiveRequest = /[\p{L}\p{N}]/u.test(message)&&(/[?？]/.test(message)||normalizedResearchRequest.trim().split(/\s+/).length>=2);
     const eventResearchIntent=eventDiscoveryRequest;
+    // Dated list requests use the source-grounded calendar; singular event questions keep the general assistant.
+    const eventCalendarRequest=eventResearchIntent&&/\b(?:evenimente|evenimentelor|events|concert(e|e\w+)?|festivale|festivaluri|spectacole|targuri|programul\s+evenimentelor|calendarul\s+evenimentelor|shows|performances)\b/i.test(normalizedResearchRequest);
     const shouldSearchWeb = data.search_web === true || (!obviouslyNonResearch && !capabilityQuestion && substantiveRequest && (explicitLookup || (!taskInsteadOfResearch && (!recipeInstruction || /\b(?:recent|latest|actual|original|official|sursa|source)\b/.test(normalizedResearchRequest)))));
     const priceResearch = /\b(?:price|prices|cost|costs|how much|£|€|\$|pret\w*|preturi|preț|prețuri|cat costa|cât costă|costa|costă|oferta|oferte)\b/i.test(normalizedResearchRequest);
     const legalResearch = /\b(?:law\w*|legal\w*|legislation|regulat\w*|statut\w*|tax\w*|fine|penalt\w*|codul\s+(?:muncii|rutier|civil|penal)|lege\w*|legi|legislati\w*|regulament\w*|impozit\w*|taxa|taxe|amend\w*|sanctiun\w*|drepturi|obligatii|licente|visa|viz\w*|immigration|imigra\w*)\b/i.test(normalizedResearchRequest);
@@ -3810,7 +3812,7 @@ export default {
     }
     // Dated event calendars are built deterministically from web-search evidence.
     // No AI-generated event title or invented date can enter structured_list.
-    if(eventResearchIntent&&shouldSearchWeb){
+    if(eventCalendarRequest&&shouldSearchWeb){
       const events=sourceBackedEventRows(webSources,message,lang);
       const sources=webSources.filter(x=>x.snippets.length||x.pageEvidence).map((x,i)=>({number:i+1,title:x.title,url:x.url,publishedDate:x.publishedDate,providers:x.providers,page_fetch_status:x.pageFetchStatus||'not_fetched',evidence_excerpt:(x.pageEvidence||x.snippets.join(' ')).slice(0,1200)}));
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
