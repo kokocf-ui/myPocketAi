@@ -1198,6 +1198,11 @@ body.long-choice-active{overflow:hidden}
 .module-quick-sheet>.module-quick-body{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
 .long-choice-open,.travel-confirm-panel .transit-choice-action,.travel-mode-table .transit-choice-action,.route-choice{background:linear-gradient(120deg,#26d3dc,#2585c9)!important;color:#062339!important;border:1px solid #90f4fc!important;font-weight:750!important}
 .long-choice-open:active,.travel-confirm-panel .transit-choice-action:active,.travel-mode-table .transit-choice-action:active,.route-choice:active{filter:brightness(1.12)}
+/* Choice controls, not ordinary information text, use the shared luminous blue style. */
+.module-quick-body>.module-result-card,.module-quick-body>.transit-choice-action{background:linear-gradient(120deg,#1c8fb8,#175b97)!important;border-color:#78e7f2!important;color:#fff!important;font-weight:700}
+.module-quick-body>.module-result-card small{color:#e0f5fc!important}
+.module-quick-body>.transit-choice-action{min-height:48px;white-space:normal;overflow-wrap:break-word}
+
 </style>
 </head>
 <body>
