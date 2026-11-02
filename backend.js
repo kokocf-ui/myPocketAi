@@ -637,6 +637,17 @@ export default {
           const label=String(selectedDestination.label||"").slice(0,160);
           if(Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180&&label){targetLat=lat;targetLon=lon;targetName=label;confirmedStop=true;}
         }
+        // International destinations cannot be planned by TfL. Do not present a
+        // London bus journey or assert that an international connection is verified.
+        // Give a clear mixed-mode planning outline until cross-border schedules are connected.
+        const internationalTarget=/\\b(?:france|franța|franta|belgium|belgia|germany|germania|italy|italia|spain|spania|netherlands|olanda|paris|marseille|beauvais|berlin|roma|rome|madrid|brussels|bruxelles)\\b/i.test(targetName);
+        if(internationalTarget){
+          const ro=lang==='ro';
+          const reply=ro
+            ? 'Destinația '+targetName+' este în afara rețelei TfL. Pot pregăti etapele unei călătorii mixte: transport local până la o gară sau aeroport, tren internațional ori avion, apoi transport regional și local la destinație. Orarul, legăturile și tarifele internaționale nu sunt încă verificate în Pocket AI. Pentru a verifica opțiuni reale trebuie selectată data călătoriei și consultat operatorul corespunzător.'
+            : 'The destination '+targetName+' is outside the TfL network. A mixed journey may combine local transport to a station or airport, an international train or flight, and onward regional or local transport. International departures, connections and fares are not yet verified in Pocket AI. Choose a travel date and check the relevant operators for confirmed services.';
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,route_available:false,transit_available:false,international_journey:true,international_destination:targetName,requires_travel_date:true,reason:'international_provider_not_connected'});
+        }
         // Prefer verified operator station records over free-text geocoding for UK rail/tube stations.
         let verifiedStopId=null;
         const requestedStationName=targetName;
