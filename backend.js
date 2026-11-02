@@ -1,4 +1,5 @@
 /*
+ * v169: use Cloudflare fast inference for main generation, allow deployment model override, add model diagnostics.
  * v168: preserve explicitly requested culinary adaptations during deterministic recipe safety fallback.
  * v167: eliminate serial recipe AI retries; use validated culinary fallback and smaller recipe generation budget.
  * v166: geographically verified notable attractions in encyclopedia responses.
@@ -725,7 +726,11 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v168";
+    const API_VERSION = "v169";
+    // The previous FP8 model took 32–55 seconds on live mobile requests.
+    // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
+    const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
+    const selectedAiModel=allowedTextModels.includes(String(env.POCKET_AI_TEXT_MODEL||""))?String(env.POCKET_AI_TEXT_MODEL):allowedTextModels[0];
     const requestStartMs=Date.now();
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
@@ -746,7 +751,7 @@ export default {
         const targetName = targetNames[payload.language];
         if (targetName) {
           try {
-            const translated = await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fp8", {
+            const translated = await env.AI.run(selectedAiModel, {
               messages:[
                 {role:"system",content:`Translate the assistant reply into natural, fluent ${targetName}. Preserve every factual detail, number, unit, list order, URL, postcode, place name and technical identifier. Do not add or remove information. Keep URLs exactly unchanged. Return only the translated reply.`},
                 {role:"user",content:payload.reply}
@@ -3803,18 +3808,18 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     console.info("Pocket AI v96 diagnostic", JSON.stringify({
       diagnosticId,
       stage: "ai_call_started",
-      model: "@cf/meta/llama-3.1-8b-instruct-fp8",
+      model: selectedAiModel,
       historyCount: history.length,
       historyChars: history.reduce((sum, item) => sum + item.content.length, 0),
       systemPromptChars: systemMessage.length,
-      requestedMaxOutputTokens: eventResearchIntent ? 2200 : 768,
+      requestedMaxOutputTokens: eventResearchIntent ? 2200 : (recipeFastPath ? 620 : 768),
       messageLength: message.length,
       timestamp: new Date(aiStartedAt).toISOString()
     }));
 
     try {
       let result = await env.AI.run(
-        "@cf/meta/llama-3.1-8b-instruct-fp8",
+        selectedAiModel,
         {
           messages: [
             {
@@ -3998,7 +4003,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         calculation_verified: false,
         ai_execution_ms: Date.now()-aiStartedAt,
         research_elapsed_ms: stageMetrics.research_ms,
-        latency_breakdown: {...stageMetrics, recipe_fast_path:recipeFastPath, model_calls_estimate:1+Number(stageMetrics.sentence_correction_ms>0)+Number(stageMetrics.review_ai_ms>0)+Number(stageMetrics.recipe_correction_ms>0)},
+        latency_breakdown: {...stageMetrics, ai_model:selectedAiModel, recipe_fast_path:recipeFastPath, model_calls_estimate:1+Number(stageMetrics.sentence_correction_ms>0)+Number(stageMetrics.review_ai_ms>0)+Number(stageMetrics.recipe_correction_ms>0)},
         ai_generated: true,
         ai_connected: true
       });
