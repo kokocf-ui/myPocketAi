@@ -1,4 +1,5 @@
 /*
+ * v158: bounded parallel web-search wait, reduced serial page fetching, fast evidence path.
  * v157: context-appropriate table columns and consistent ordering across subjects.
  * v156: avoid short AI event output truncation; expand eligible evidence and retain diagnostic timings.
  * v155: broaden event evidence, keep event searches independent of output-format wording, add per-stage latency diagnostics.
@@ -3539,7 +3540,7 @@ export default {
         const response = await fetch("https://api.exa.ai/search", {
           method:"POST", headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
           body:JSON.stringify({query:searchQuery,type:"auto",numResults:eventResearchIntent?10:6,contents:{highlights:true}}),
-          signal:AbortSignal.timeout(eventResearchIntent?9500:14000)
+          signal:AbortSignal.timeout(eventResearchIntent?7500:9000)
         });
         if (!response.ok) throw new Error("HTTP " + response.status);
         const payload = await response.json();
@@ -3551,14 +3552,14 @@ export default {
         const u = new URL("https://api.search.brave.com/res/v1/web/search");
         u.searchParams.set("q",searchQuery); u.searchParams.set("count",eventResearchIntent?10:"6"); u.searchParams.set("search_lang",searchLanguage);
         u.searchParams.set("country",searchCountry||"ALL"); u.searchParams.set("safesearch","moderate");
-        const response = await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(eventResearchIntent?9000:12000)});
+        const response = await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(eventResearchIntent?7000:8500)});
         if(!response.ok) throw new Error("HTTP "+response.status);
         const payload=await response.json(); const results=payload.web&&Array.isArray(payload.web.results)?payload.web.results:[];
         return {provider:"Brave",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.page_age||x.age||null,snippets:[x.description||"",...(Array.isArray(x.extra_snippets)?x.extra_snippets:[])].filter(Boolean).slice(0,3)}))};
       })().then(value=>({status:"fulfilled",value,provider:"Brave"})).catch(error=>({status:"rejected",provider:"Brave",error:String(error&&error.message||error).slice(0,140)})));
       if (env.TAVILY_API_KEY) providerTasks.push((async () => {
         const started=Date.now();
-        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?10:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?9500:14000)});
+        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?10:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?7500:9000)});
         if(!response.ok) throw new Error("HTTP "+response.status);
         const payload=await response.json(); const results=Array.isArray(payload.results)?payload.results:[];
         return {provider:"Tavily",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.published_date||null,snippets:[x.content||""].filter(Boolean).slice(0,3)}))};
@@ -3606,9 +3607,9 @@ export default {
         webSources=[...byUrl.values()].sort((a,b)=>sourceEvidenceScore(b)-sourceEvidenceScore(a)).slice(0,eventResearchIntent?20:10);
         // Fetch a small number of original pages for additional evidence. Redirects are not followed;
         // non-HTML pages and unavailable pages remain explicitly unverified.
-        await Promise.all(webSources.slice(0,eventResearchIntent?2:3).map(async source=>{
+        await Promise.all(webSources.slice(0,eventResearchIntent?1:2).map(async source=>{
           try{
-            const response=await fetch(source.url,{headers:{"Accept":"text/html,application/xhtml+xml,text/plain;q=0.9"},redirect:"manual",signal:AbortSignal.timeout(eventResearchIntent?4000:5500)});
+            const response=await fetch(source.url,{headers:{"Accept":"text/html,application/xhtml+xml,text/plain;q=0.9"},redirect:"manual",signal:AbortSignal.timeout(eventResearchIntent?2000:3000)});
             const type=response.headers.get("content-type")||"";
             if(!response.ok||response.status>=300||!/(?:text\/html|application\/xhtml\+xml|text\/plain)/i.test(type)){source.pageFetchStatus="not_fetched";return;}
             let body=(await response.text()).slice(0,350000);
