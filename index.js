@@ -2443,9 +2443,8 @@ function offerDestinationAccommodationBeforeRoute(destination){
   const lat=Number(destination.latitude),lon=Number(destination.longitude);
   const next=()=>{state.tripAccommodationSearching=false;openTransportModeFromAssistant({route_context:{destination_query:destination.label,destination,pending:'profile'}})};
   try{
-   const endpoint=new URL('https://api.geoapify.com/v2/places');
    // Accommodation search must be resolved by our backend, never a public browser API key.
-   const response=await fetch(API_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'__nearby_accommodation__',language:state.language,accommodation_search:{latitude:lat,longitude:lon,radius_m:5000,label:destination.label}})});
+   const response=await fetch(APP.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'__nearby_accommodation__',language:state.language,accommodation_search:{latitude:lat,longitude:lon,radius_m:5000,label:destination.label}})});
    const data=await response.json();
    if(!response.ok||!Array.isArray(data.places)||!data.places.length){
     addBubble(state.language==='ro'?'Nu am găsit cazări verificate în apropierea atracției. Poți continua cu traseul.':'No verified nearby accommodation was found. You can continue to directions.','assistant');
