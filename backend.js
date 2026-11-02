@@ -393,7 +393,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v147";
+    const API_VERSION = "v148";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -2408,7 +2408,7 @@ export default {
               cafe: "catering.cafe", lounge: "catering.pub,catering.bar,catering.biergarten,catering.cafe", zoo: "entertainment.zoo,tourism.attraction", stadium: "entertainment.stadium,leisure.stadium", restaurant: "catering.restaurant", fast_food: "catering.fast_food",
               market_bakery: "commercial.supermarket,commercial.convenience,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery", confectionery: "catering.ice_cream,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
               poi: "catering,commercial,education,healthcare,leisure,entertainment,service,public_transport,parking,accommodation,tourism,building",
-              supermarket: "commercial.supermarket,commercial.convenience",
+              supermarket: "commercial.supermarket,commercial.convenience,commercial.food_and_drink",
               shop: "commercial",
               mall: "commercial.shopping_mall",
               pharmacy: "healthcare.pharmacy",
@@ -2461,7 +2461,7 @@ export default {
               const key = requestedPlaceCategory.key;
               if (key === "poi") return true;
               const checks = {
-                supermarket: /supermarket|convenience/.test(cats) || /^(supermarket|convenience)$/.test(String(raw.shop || "")),
+                supermarket: /supermarket|convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(supermarket|convenience|grocery|general|greengrocer|newsagent)$/.test(String(raw.shop || "")),
                 mall: /shopping_mall|department_store/.test(cats) || /^(mall|department_store)$/.test(String(raw.shop || "")),
                 shop: /commercial|shop/.test(cats) || Boolean(raw.shop),
                 pharmacy: /pharmacy/.test(cats) || raw.amenity === "pharmacy" || raw.shop === "chemist",
@@ -2480,7 +2480,7 @@ export default {
                 stadium: /stadium/.test(cats) || raw.leisure === "stadium",
                 restaurant: (/(^|\s)catering\.restaurant(\s|$)/.test(cats) || raw.amenity === "restaurant") && !/catering\.(cafe|pub|bar|fast_food|biergarten)/.test(cats),
                 fast_food: /catering\.fast_food/.test(cats) || raw.amenity === "fast_food",
-                market_bakery: /commercial\.(supermarket|convenience)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(supermarket|convenience|bakery|pastry|confectionery)$/.test(String(raw.shop || "")), confectionery: /catering\.(ice_cream|confectionery|bakery)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(ice_cream|confectionery|bakery|pastry)$/.test(String(raw.amenity || "")) || /^(bakery|pastry|confectionery|ice_cream)$/.test(String(raw.shop || "")),
+                market_bakery: /commercial\.(supermarket|convenience)|commercial\.food_and_drink\.(bakery|confectionery|grocery|greengrocer)/.test(cats) || /^(supermarket|convenience|grocery|general|greengrocer|newsagent|bakery|pastry|confectionery)$/.test(String(raw.shop || "")), confectionery: /catering\.(ice_cream|confectionery|bakery)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(ice_cream|confectionery|bakery|pastry)$/.test(String(raw.amenity || "")) || /^(bakery|pastry|confectionery|ice_cream)$/.test(String(raw.shop || "")),
                 pub: /catering\.(pub|bar|biergarten)/.test(cats) || /^(pub|bar|biergarten)$/.test(String(raw.amenity || "")),
                 transport: /public_transport|railway\.(station|halt|tram_stop)|bus\.stop/.test(cats) || /^(station|halt|tram_stop|platform)$/.test(String(raw.railway || "")) || /^(station|stop_position|platform)$/.test(String(raw.public_transport || "")) || raw.amenity === "bus_station",
                 town_hall: /administrative|townhall/.test(cats) || raw.amenity === "townhall", 
