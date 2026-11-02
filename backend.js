@@ -2402,7 +2402,7 @@ export default {
         const photonStartedAt = Date.now();
         const photonRequestPromise = (async () => {
           const photonUrl = new URL("https://photon.komoot.io/api/");
-          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "grocery", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", cafe: "cafe", restaurant: "restaurant", fast_food: "fast food takeaway", lounge: "pub cafe tea room", zoo: "zoo", stadium: "stadium", market_bakery: "grocery", corner_shop: "convenience grocery shop", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
+          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "grocery", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", cafe: "cafe", restaurant: "restaurant", fast_food: "fast food takeaway", lounge: "pub cafe tea room", zoo: "zoo", stadium: "stadium", market_bakery: "grocery", corner_shop: "convenience", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
           photonUrl.searchParams.set("lat", String(latitude));
           photonUrl.searchParams.set("lon", String(longitude));
           photonUrl.searchParams.set("limit", "100");
@@ -2427,7 +2427,7 @@ export default {
               market_bakery: "commercial.supermarket,commercial.convenience,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery", confectionery: "catering.ice_cream,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
               poi: "catering,commercial,education,healthcare,leisure,entertainment,service,public_transport,parking,accommodation,tourism,building",
               supermarket: "commercial.supermarket,commercial.convenience,commercial.food_and_drink",
-              corner_shop: "commercial.convenience,commercial.food_and_drink",
+              corner_shop: "commercial",
               shop: "commercial",
               mall: "commercial.shopping_mall",
               pharmacy: "healthcare.pharmacy",
@@ -2481,7 +2481,7 @@ export default {
               if (key === "poi") return true;
               const checks = {
                 supermarket: /supermarket|convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(supermarket|convenience|grocery|general|greengrocer|newsagent)$/.test(String(raw.shop || "")),
-                corner_shop: /commercial\.convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(convenience|grocery|general|greengrocer|newsagent)$/.test(String(raw.shop || "")),
+                corner_shop: /commercial\.convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(convenience|grocery|general|greengrocer|newsagent|kiosk|deli|food|butcher|seafood|farm|dairy)$/.test(String(raw.shop || "")),
                 mall: /shopping_mall|department_store/.test(cats) || /^(mall|department_store)$/.test(String(raw.shop || "")),
                 shop: /commercial|shop/.test(cats) || Boolean(raw.shop),
                 pharmacy: /pharmacy/.test(cats) || raw.amenity === "pharmacy" || raw.shop === "chemist",
@@ -2567,7 +2567,7 @@ export default {
                 : requestedPlaceCategory.key === "mall"
                   ? /mall|shopping.?centre|shopping.?center|retail.?park|department.?store/.test(photonType) || /shopping centre|shopping center|mall|retail park/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "corner_shop"
-                  ? /convenience|grocery|general|greengrocer|newsagent/.test(photonType)
+                  ? /convenience|grocery|general|greengrocer|newsagent|kiosk|deli|butcher|food/.test(photonType)
                 : requestedPlaceCategory.key === "supermarket"
                   ? /supermarket|convenience|grocery|general|greengrocer/.test(photonType) || /supermarket|tesco|morrisons|sainsbury|aldi|lidl|asda|co.?op|waitrose/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "pharmacy"
