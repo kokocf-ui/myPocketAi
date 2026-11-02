@@ -393,7 +393,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v149";
+    const API_VERSION = "v150";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -534,6 +534,32 @@ export default {
     const languageNames = {ro:"Romanian",en:"English",fr:"French",de:"German",it:"Italian",es:"Spanish",pt:"Portuguese",nl:"Dutch",ru:"Russian",pl:"Polish"};
     const responseLanguageName = languageNames[lang];
 
+    // v150: Factual encyclopaedia summaries only for explicit information requests
+    // and recognized countries/landmarks. Never mistake a nearby shop name for a country.
+    const countryAliases={franta:'Franța',france:'France',romania:'România',germania:'Germania',germany:'Germany',italia:'Italia',italy:'Italy',spania:'Spania',spain:'Spain',anglia:'Anglia',england:'England',londra:'Londra',london:'London',paris:'Paris',bucuresti:'București',rome:'Roma',roma:'Roma',portugalia:'Portugalia',polonia:'Polonia',poland:'Poland',japonia:'Japonia',japan:'Japan',grecia:'Grecia',greece:'Greece',turcia:'Turcia',turkey:'Turkey',statele_unite:'Statele Unite ale Americii',usa:'United States'};
+    const normalizeTopic=v=>String(v||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+    const bareTopic=message.replace(/^(?:spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|descrie|tell me about|information about|what is|who is)\\s+/i,'').replace(/[?.!]+$/,'').trim();
+    const topicKey=normalizeTopic(bareTopic),knownTopic=countryAliases[topicKey];
+    const explicitKnowledge=/^(?:spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|tell me about|information about)\\s+/i.test(message);
+    const seekingRoute=/\\b(?:traseu|ajung|transport|route|directions|navigate|drive|walk|cauta|caută|find|nearby|aproape)\\b/i.test(message);
+    if(!seekingRoute&&(knownTopic||explicitKnowledge)&&bareTopic.length>=2&&bareTopic.length<=90&&!data.quick_place_search){
+      const encyclopediaTitle=knownTopic||bareTopic;
+      const wikiLang=['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(lang)?lang:'en';
+      let article=null;
+      for(const language of [...new Set([wikiLang,'en'])]){
+        try{
+          const link='https://'+language+'.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(encyclopediaTitle);
+          const response=await fetch(link,{headers:{Accept:'application/json','User-Agent':'PocketAI/1.0 (encyclopedia summaries)'},signal:AbortSignal.timeout(4500)});
+          if(!response.ok)continue;const d=await response.json();
+          if(d?.type==='https://mediawiki.org/wiki/HyperSwitch/errors/not_found'||!d?.extract||d?.type?.includes('disambiguation'))continue;
+          article={title:d.title||encyclopediaTitle,description:d.description||'',extract:d.extract.slice(0,1700),image:d.thumbnail?.source||'',url:d.content_urls?.desktop?.page||'',coordinates:d.coordinates?.lat!==undefined?{latitude:d.coordinates.lat,longitude:d.coordinates.lon}:null,language};break;
+        }catch{}
+      }
+      if(article){
+        const reply=[article.title,article.description,article.extract].filter(Boolean).join(' — ');
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,encyclopedia:article,ai_generated:true});
+      }
+    }
     // Căutare reală de restaurante din OpenStreetMap, numai când cererea este locală
     // și frontend-ul a trimis coordonate după activarea locației de către utilizator.
     const location=[data.location,data.coordinates].find(v=>v&&typeof v==='object'&&!Array.isArray(v)&&v.latitude!==null&&v.longitude!==null&&String(v.latitude??'').trim()&&String(v.longitude??'').trim()&&Number.isFinite(Number(v.latitude))&&Number.isFinite(Number(v.longitude))&&Math.abs(Number(v.latitude))<=90&&Math.abs(Number(v.longitude))<=180)||null;
