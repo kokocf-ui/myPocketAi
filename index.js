@@ -2063,7 +2063,7 @@ function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!curre
 async function openRouteMap(route,origin,options=state.lastRouteOptions,startNavigation=false){
  if(!validMapRoute(route))return;state.lastRoute=route;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
  const layer=document.createElement('section');layer.className='route-map-window';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
- const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const previous=document.createElement('button');previous.type='button';previous.className='route-header-action';previous.textContent=state.language==='ro'?'Anterior':'Previous';previous.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else closeRouteMap()};const returning=document.createElement('button');returning.type='button';returning.className='route-header-action';returning.textContent=state.language==='ro'?'Revenire':'Return';returning.onclick=()=>{closeRouteMap(false);state.navigationReturnContext=null;if(state.currentView==='module')showView('module');else showView('home')};header.append(previous,title,returning)
+ const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const previous=document.createElement('button');previous.type='button';previous.className='route-header-action';previous.textContent=state.language==='ro'?'Anterior':'Previous';previous.onclick=()=>{closeRouteMap(false);openWalkingRouteChoices(route,options)};const returning=document.createElement('button');returning.type='button';returning.className='route-header-action';returning.textContent=state.language==='ro'?'Revenire':'Return';returning.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else{closeRouteMap(false);if(state.currentView==='module')showView('module');else showView('home')}};header.append(previous,title,returning)
  const status=document.createElement('p');status.className='route-map-status';status.textContent=t.loading;
  const external=document.createElement('a');external.target='_blank';external.rel='noopener noreferrer';external.textContent=routeLiveText()[10];
  external.href=routeNavigationUrl(route);
@@ -2073,13 +2073,13 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
  const list=document.createElement('ol');
  for(const step of route.steps||[]){if(typeof step.text!=='string')continue;const li=document.createElement('li');li.textContent=step.text+(Number.isFinite(step.distanceMeters)&&step.distanceMeters>0?' · '+step.distanceMeters.toLocaleString(state.language,{maximumFractionDigits:0})+' m':'');list.append(li)}
  if(list.children.length)stepsPanel.append(list);else{const missing=document.createElement('p');missing.textContent=routeActionsText().noSteps;stepsPanel.append(missing)}
- const note=document.createElement('p');note.className='small';note.textContent=((options||[]).filter(validMapRoute).length>1?routeOptionsText()[2]+' ':'')+routeLiveText()[11];stepsPanel.append(note);
+ 
  const host=document.createElement('div');host.className='route-map-canvas';layer.append(header,status,navigation,recenter,liveStatus,host,stepsPanel);document.body.append(layer);
  const current={layer,origin,route,navigation,recenter,liveStatus,map:null,watchId:null,navigating:false,cleanup:()=>{}};recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
  const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;layer.style.bottom=(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';current.map?.invalidateSize()};
  const key=e=>{if(e.key==='Escape'){e.preventDefault();closeRouteMap()}};
  window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);document.addEventListener('keydown',key);current.cleanup=()=>{window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize);document.removeEventListener('keydown',key)};
- resize();close.focus({preventScroll:true});
+ resize();previous.focus({preventScroll:true});
  try{const L=await loadRouteMapLibrary();if(activeRouteMap!==current||!layer.isConnected)return;
   const map=L.map(host);current.map=map;current.leaflet=L;requestAnimationFrame(()=>{if(activeRouteMap===current)map.invalidateSize()});map.on?.('dragstart',()=>{current.follow=false});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
   const points=route.coordinates.map(p=>[p[1],p[0]]),allPoints=[...points];
@@ -2087,6 +2087,25 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
   L.polyline(points,{color:'#087fd9',weight:5,opacity:1}).addTo(map);L.circleMarker(points[0],{radius:6,color:'#128a42'}).addTo(map);L.circleMarker(points.at(-1),{radius:6,color:'#c43737'}).addTo(map);map.fitBounds(allPoints,{padding:[22,22]});requestAnimationFrame(()=>{if(activeRouteMap===current){map.invalidateSize();map.fitBounds(allPoints,{padding:[22,22]})}});status.textContent=(route.distanceMeters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km'+(Number.isFinite(route.durationSeconds)?' · '+Math.round(route.durationSeconds/60)+' min':'');
   if(startNavigation)startRouteTracking(current);
  }catch{if(layer.isConnected)status.textContent=t.failed}
+}
+function openWalkingRouteChoices(route,options=state.lastRouteOptions){
+ const usable=(Array.isArray(options)?options:[]).filter(validMapRoute);
+ closeRouteMap(false);closeAnswerReader(false);
+ const layer=document.createElement('section');layer.className='answer-reader route-choice-screen';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');
+ const header=document.createElement('div');header.className='answer-reader-header';
+ const title=document.createElement('h2');title.textContent=routeOptionsText()[0];header.append(title);
+ const back=document.createElement('button');back.type='button';back.className='route-header-action';back.textContent=state.language==='ro'?'Revenire':'Return';back.style.cssText='width:auto;min-width:95px;font-size:14px;padding:6px';back.onclick=()=>{layer.remove();if(state.navigationReturnContext)returnToNavigationSource();else if(state.currentView==='module')showView('module')};header.append(back);
+ const body=document.createElement('div');body.className='answer-reader-body';body.style.cssText='white-space:normal;scroll-behavior:auto';
+ const list=document.createElement('div');list.className='route-options';
+ for(const [i,v] of (usable.length?usable:[route]).entries()){
+  const button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.style.cssText='white-space:normal;text-align:left;background:linear-gradient(120deg,#24cbd7,#2583c5);color:#062339;font-weight:bold';
+  button.textContent=(v===route?'✓ ':'')+(v.label||('Traseu '+(i+1)))+' · '+(v.distanceMeters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km'+(Number.isFinite(v.durationSeconds)?' · '+Math.round(v.durationSeconds/60)+' min':'');
+  button.onclick=()=>{layer.remove();state.lastRoute=v;openRouteMap(v,null,usable)};list.append(button);
+ }
+ const more=routeOptionsControl(route,[]);for(const el of Array.from(more.children))if(el.tagName==='BUTTON')list.append(el);
+ body.append(list);layer.append(header,body);document.body.append(layer);
+ const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;layer.style.bottom=(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';
+ back.focus({preventScroll:true});
 }
 function retainRouteResult(data,bubble){
  if(validMapRoute(data.route)){state.lastRouteOptions=Array.isArray(data.routes)?data.routes.filter(validMapRoute):[data.route];if(!state.lastRouteOptions.some(v=>v===data.route))state.lastRouteOptions=state.lastRouteOptions.map(v=>v.id===data.route.id?data.route:v);state.lastRoute=data.route;state.lastRouteReply=String(data.reply||'').trim();const button=document.createElement('button');button.type='button';button.className='route-map-open';button.textContent=routeMapText().open;button.onclick=()=>openRouteMap(data.route,button,data.routes);bubble.append(routeOptionsControl(data.route,data.routes),button,routeNavigationLink(data.route));if(data.auto_open_map)requestAnimationFrame(()=>openRouteMap(data.route,button))}
