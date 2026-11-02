@@ -2431,6 +2431,12 @@ function openEncyclopediaCard(article,requestStartMs){
  host.prepend(topRoute);
  openStandaloneChoicePanel(host,article.title||'Informații');
 }
+function showAccommodationNotice(message){
+ document.getElementById('pocketAccommodationNotice')?.remove();
+ const el=document.createElement('div');el.id='pocketAccommodationNotice';el.setAttribute('role','status');el.textContent=message;
+ el.style.cssText='position:fixed;left:6%;right:6%;bottom:115px;z-index:2147483000;padding:14px 18px;border-radius:15px;background:#15394c;color:#f3fbff;border:1px solid #36c4d5;box-shadow:0 5px 24px #0009;text-align:center;pointer-events:none;font-size:15px;';
+ document.body.append(el);setTimeout(()=>el.remove(),2000);
+}
 function offerDestinationAccommodationBeforeRoute(destination){
  if(!destination||destination.latitude==null||destination.longitude==null||!Number.isFinite(Number(destination.latitude))||!Number.isFinite(Number(destination.longitude))||Math.abs(Number(destination.latitude))>90||Math.abs(Number(destination.longitude))>180)return false;
  state.tripAccommodationDestination={...destination};state.travelAccommodationIntent=false;state.tripAccommodationDecision='pending';
@@ -2447,11 +2453,11 @@ function offerDestinationAccommodationBeforeRoute(destination){
    const response=await fetch(APP.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'__nearby_accommodation__',language:state.language,accommodation_search:{latitude:lat,longitude:lon,radius_m:5000,label:destination.label}})});
    const data=await response.json();
    if(!response.ok||!Array.isArray(data.places)||!data.places.length){
-    addBubble(state.language==='ro'?'Nu am găsit cazări verificate în apropierea atracției. Poți continua cu traseul.':'No verified nearby accommodation was found. You can continue to directions.','assistant');
+    showAccommodationNotice(state.language==='ro'?(data.status==='success'?'Nu sunt cazări identificate în apropiere.':'Serviciul de cazare nu răspunde momentan.'):'Accommodation search returned no results or is unavailable.');
     next();return;
    }
    state.tripAccommodationSearching=false;openAccommodationResults(data.places);
-  }catch{addBubble(state.language==='ro'?'Căutarea cazării nu este disponibilă momentan. Continuăm cu alegerea transportului.':'Accommodation search is temporarily unavailable. Continuing to transport.','assistant');next()}
+  }catch{showAccommodationNotice(state.language==='ro'?'Serviciul de cazare nu răspunde momentan.':'Accommodation search is temporarily unavailable.');next()}
  };
  const no=document.createElement('button');no.type='button';no.className='transit-choice-action';no.textContent=state.language==='ro'?'Nu, creează traseul':'No, plan my route';
  no.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationSearching=false;state.tripAccommodationDecision='no';openTransportModeFromAssistant({route_context:{destination_query:destination.label,destination,pending:'profile'}})};
