@@ -543,7 +543,7 @@ export default {
     const countrySuffix=parts.length===2&&/^(?:spania|spain|romania|românia|franța|franta|france|italia|italy|germania|germany|portugalia|portugal|polonia|poland|uk|united kingdom)$/i.test(parts[1]);
     const topicKey=normalizeTopic(countrySuffix?parts[0]:bareTopic),knownTopic=countryAliases[topicKey];
     const explicitKnowledge=/^(?:spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|tell me about|information about)\s+/i.test(message);
-    const seekingRoute=/\b(?:traseu|ajung|transport|route|directions|navigate|drive|walk|cauta|caută|find|nearby|aproape)\b/i.test(message);
+    const seekingRoute=Boolean(data.travel_mode||data.route_profile||data.route_destination||data.transit_destination||data.route_context?.destination)&&/^(?:mașină|masina|drive|driving|transport public|public transport|pietonal|walking|walk)$/i.test(message.trim()) || /\b(?:traseu|ajung|transport|route|directions|navigate|drive|walk|cauta|caută|find|nearby|aproape)\b/i.test(message);
     const possibleCity=parts.length<=2&&parts[0]?.split(/\s+/).length<=3&&/^[\p{L}\s.'-]{3,65}$/u.test(parts[0]||'')&&!/^(?:magazin|market|aldi|tesco|lidl|hotel|restaurant|pub|coffee|decathlon|sport direct)$/i.test(parts[0]||'');
     const cityLookup=!seekingRoute&&!data.quick_place_search&&possibleCity&&!explicitKnowledge&&!knownTopic&&!countrySuffix&&parts.length===1;
     let verifiedCity=null;
@@ -560,7 +560,7 @@ export default {
         if(matches.length)verifiedCity=matches[0].properties;
       }catch{}
     }
-    if(!seekingRoute&&(knownTopic||explicitKnowledge||countrySuffix||verifiedCity)&&bareTopic.length>=2&&bareTopic.length<=90&&!data.quick_place_search){
+    if(!seekingRoute&&!data.travel_mode&&!data.route_profile&&(knownTopic||explicitKnowledge||countrySuffix||verifiedCity)&&bareTopic.length>=2&&bareTopic.length<=90&&!data.quick_place_search){
       const encyclopediaTitle=knownTopic||(countrySuffix?parts[0]:bareTopic);
       const wikiLang=['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(lang)?lang:'en';
       let article=null;
