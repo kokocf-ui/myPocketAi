@@ -1,3 +1,12 @@
+## Work in progress — backend v151 / frontend 1.0.116 (2026-11-02)
+
+- Fixed 34 under-escaped regular-expression tokens in the frontend Worker HTML template, affecting Wikipedia text and speech transcript normalization. This specifically addresses the missing letter “s” (e.g. “cunoscută”).
+- Generalist research no longer depends only on a question mark or a fixed subject category; explicit searches work across subjects. International legal queries use the multi-language country table. Source-aware rules added for political news and detailed culinary recipes.
+- Journey durations are displayed in minutes, hours/minutes, and days/hours/minutes across ten languages without changing internal route timings. International mixed itinerary legs retain departure and arrival time zones.
+- Optional adapter for a licensed/authorized MOTIS v6 route provider (`MOTIS_API_BASE_URL`) accepts verified walking + train/subway/bus/coach/ferry legs, validates times/cancelled services and maps to existing transit UI. No provider configured by default. Transitous public API is explicitly not used because its usage policy prohibits commercial use. This is not a complete international flight itinerary planner.
+- Added focused tests: `tests_generalist_mixed_regression.mjs` and `.github/workflows/test-generalist-mixed.yml`. CI outcome and Android validation still require confirmation; do not mark production deployment or international end-to-end routing verified.
+- Local TfL and existing driving route calculation is preserved. International itineraries remain unavailable until a suitable permitted routing service is connected and tested.
+
 ## Work in progress — backend v150 / frontend 1.0.115 (2026-11-02)
 
 - Wikipedia summaries for explicit factual questions and known destinations, displayed in a dedicated assistant overlay with source attribution and optional photo.
