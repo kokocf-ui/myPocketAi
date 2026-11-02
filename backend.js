@@ -1,4 +1,5 @@
 /*
+ * v153: date-filtered event tables, deduplicated transit choices, country reference data, faster recipe prompts.
  * v152: dated list sorting and duplicate control, London rail station resolution, repeated recipe ingredient cleanup.
  * v151: generalist international source research, duration formatting and opt-in authorized MOTIS v6 adapter.
  * v147 verifies named destinations and TfL stations before presenting modes; named landmark aliases require map confirmation.
@@ -669,7 +670,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v152";
+    const API_VERSION = "v153";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
