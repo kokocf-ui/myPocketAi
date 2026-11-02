@@ -1367,7 +1367,6 @@ function switchConversationModule(key){
 }
 // Navigation handoff preserves the source module and its original place list.
 function rememberNavigationSource(place=null){
- if(state.navigationReturnContext)return;
  state.navigationReturnContext={view:state.currentView,module:state.currentModule,
   results:Array.isArray(state.moduleSearchResults)?state.moduleSearchResults.slice():[],
   choice:state.moduleSearchCategory||null,details:place||null,reply:state.moduleSearchReply||'',routeContext:state.routeSearchContext||null};
@@ -1381,17 +1380,20 @@ function returnToNavigationSource(){
  if(source.view==='assistant'){switchConversationModule('assistant');return}
  if(!['maps','travel'].includes(source.module)){switchConversationModule('assistant');return}
  switchConversationModule(source.module);
- state.moduleSearchResults=source.results;state.moduleSearchCategory=source.choice;state.moduleSearchReply=source.reply;
+ state.moduleSearchResults=Array.isArray(source.results)?source.results.slice():[];state.moduleSearchCategory=source.choice||null;state.moduleSearchReply=source.reply||'';
+ document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');
+ $('moduleLayerBody').style.cssText='';
+ $('moduleLayerTitle').textContent=state.moduleSearchCategory?localizedQuickChoiceTitle(state.moduleSearchCategory):(UI_TEXT[state.language]?.quickTitle||'Selecții rapide');
  updateQuickLayerGeometry();
  $('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');
- if(source.results.length)renderModulePlaces(source.results);else renderModuleQuickChoices();
+ if(state.moduleSearchResults.length)renderModulePlaces(state.moduleSearchResults);else renderModuleQuickChoices();
 }
 function showNavigationReturn(){
  document.getElementById('returnToSearchSource')?.remove();
  if(!state.navigationReturnContext)return;
  const host=$('moduleContent');if(!host)return;
  const back=document.createElement('button');back.id='returnToSearchSource';back.type='button';back.className='transit-choice-action';
- back.textContent=state.language==='ro'?'← Înapoi la lista inițială':'← Back to original results';
+ back.textContent=state.language==='ro'?'Revenire':'Return';
  back.style.cssText='width:100%;min-height:48px;margin:6px 0 10px';
  back.onclick=()=>returnToNavigationSource();host.prepend(back);
 }
@@ -1883,7 +1885,7 @@ function renderTransitChoices(options,selectedIndex=null){
  const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
  const heading=document.createElement('h3');heading.textContent=selectedIndex===null?t[0]:t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
  const actions=document.createElement('div');actions.className='quick-navigation-toolbar';
- const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=t[2];back.onclick=()=>{
+ const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=state.language==='ro'?'Anterior':'Previous';back.onclick=()=>{
   cancelTransitAccess(true);
   if(selectedIndex!==null){renderTransitChoices(options);return}
   const source=state.navigationReturnContext;
@@ -1893,7 +1895,7 @@ function renderTransitChoices(options,selectedIndex=null){
  };
  actions.append(back);
  if(state.navigationReturnContext){const original=document.createElement('button');original.type='button';original.className='transit-choice-action';
-  original.textContent=state.language==='ro'?'Revenire la listă':'Return to list';
+  original.textContent=state.language==='ro'?'Revenire':'Return';
   original.onclick=()=>returnToNavigationSource();actions.append(original)}
  body.append(actions);
  if(selectedIndex!==null){const journey=options[selectedIndex];if(!journey)return;const summary=document.createElement('p');summary.textContent=transitBoardingSummary(journey);body.append(summary);
