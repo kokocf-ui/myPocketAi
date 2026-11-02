@@ -339,7 +339,7 @@ function eventRowsFromReply(answer,request,language='ro'){
  for(const item of filtered){
   const key=norm(item.text.replace(/\b(?:ora|orele)\s+\d{1,2}[:.]\d{2}\b/giu,'').replace(/\b\d{1,2}\s+(?:de\s+)?[\p{L}\p{M}]+(?:\s+20\d{2})?\b/giu,'').trim())+'|'+item.detail.from+'|'+item.detail.time;
   if(dedup.has(key))continue;dedup.add(key);
-  rows.push({date:item.detail.date,time:item.detail.time,description:item.text.replace(new RegExp('^\\s*'+item.detail.date.replace(/[.*+?^${}()|[\]\\]/g,'\\rows.push({date:item.detail.date,time:item.detail.time,description:item.text});')+'\\s*[:,–—-]?\\s*','i'),'').replace(/^\s*(?:ora|orele)\s+\d{1,2}[:.]\d{2}\s*[:,–—-]?\s*/i,'').trim()||item.text});
+   rows.push({date:item.detail.date,time:item.detail.time,description:(item.text.startsWith(item.detail.date)?item.text.slice(item.detail.date.length):item.text).replace(/^\s*[:,–—-]?\s*(?:ora|orele)?\s*\d{0,2}[:.]?\d{0,2}\s*[:,–—-]?\s*/i,'').trim()||item.text});
   if(rows.length>=30)break;
  }
  const period=month?new Intl.DateTimeFormat(language,{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(year,month-1,3))):'';
