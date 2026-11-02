@@ -1,4 +1,5 @@
 /*
+ * v173: country-wide tourist sights, city attraction coordinates, country-to-accommodation flow and duration display.
  * v172: readable country profiles, verified major cities and sights from Wikidata, more useful country facts.
  * v171: verify traditional beef tripe, order transit cards by trip start and arrival.
  * v170: classify event requests before venue lookup, ground event rows directly in dated source results, avoid AI-invented events.
@@ -680,7 +681,7 @@ async function countryMetadata(code,locale='ro'){
  const languageDisplay=new Intl.DisplayNames([locale],{type:'language'});
  const currencies=Object.entries(record.currencies||{}).map(([id,v])=>{let name;try{name=currencyDisplay.of(id)}catch{}return {code:id,name:name||v?.name||id,symbol:v?.symbol||''}}).slice(0,8);
  const languages=Object.entries(record.languages||{}).map(([id,name])=>{let label;try{label=languageDisplay.of(id)}catch{}return label&&label!==id?label:name}).slice(0,15);
- return {country_code:code,currencies,languages,capital:String(record.capital?.[0]||'').slice(0,90),area_km2:Number.isFinite(Number(record.area))?Number(record.area):null,timezones:(record.timezones||[]).filter(x=>typeof x==='string').slice(0,6),source:'https://github.com/mledoze/countries',language_scope:'official'};
+ return {country_code:code,currencies,languages,capital:String(record.capital?.[0]||'').slice(0,90),english_name:String(record.name?.common||'').slice(0,100),area_km2:Number.isFinite(Number(record.area))?Number(record.area):null,timezones:(record.timezones||[]).filter(x=>typeof x==='string').slice(0,6),source:'https://github.com/mledoze/countries',language_scope:'official'};
 }
 
 // Geographically grounded country highlights: Wikidata P17 matches the exact country
@@ -761,6 +762,55 @@ async function getCapitalSights(facts,apiKey){
    if(sights.length===6)break;
   }
   return sights;
+ }catch{return []}
+}
+
+
+// Country-sized search uses the verified national Geoapify boundary, not a radius
+// around the capital. Diversify named landmarks by city/region; never invent a POI.
+async function getCountryWideSights(facts,apiKey,locale='ro'){
+ const code=String(facts?.country_code||'').toUpperCase();
+ if(!/^[A-Z]{2}$/.test(code)||!apiKey)return [];
+ try{
+  const url=new URL('https://api.geoapify.com/v1/geocode/search');
+  url.searchParams.set('text',facts.english_name||code);
+  url.searchParams.set('type','country');url.searchParams.set('limit','5');
+  url.searchParams.set('apiKey',apiKey);
+  const geo=await fetch(url,{signal:AbortSignal.timeout(2200)});
+  if(!geo.ok)return [];
+  const country=(await geo.json()).features?.map(f=>f.properties||{}).find(p=>String(p.country_code||'').toUpperCase()===code&&String(p.result_type||p.type||'').toLowerCase()==='country'&&typeof p.place_id==='string'&&p.place_id.length>=16);
+  if(!country)return [];
+  const u=new URL('https://api.geoapify.com/v2/places');
+  u.searchParams.set('categories','tourism.attraction,tourism.sights,entertainment.museum,tourism.artwork');
+  u.searchParams.set('filter','place:'+country.place_id);
+  u.searchParams.set('limit','120');u.searchParams.set('apiKey',apiKey);
+  if(['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(locale))u.searchParams.set('lang',locale);
+  const response=await fetch(u,{signal:AbortSignal.timeout(3500)});
+  if(!response.ok)return [];
+  const places=[],seen=new Set();
+  for(const f of (await response.json()).features||[]){
+   const p=f.properties||{},name=String(p.name||'').trim(),lat=Number(p.lat),lon=Number(p.lon);
+   const normalized=normalizeGeoName(name),city=String(p.city||p.town||p.village||p.county||'').trim(),region=String(p.state||p.region||city).trim();
+   if(!normalized||name.length<4||seen.has(normalized)||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)continue;
+   if(p.country_code&&String(p.country_code).toUpperCase()!==code)continue;
+   seen.add(normalized);
+   places.push({name:name.slice(0,95),description:[city,region!==city?region:''].filter(Boolean).join(', ').slice(0,140),latitude:lat,longitude:lon,url:'https://www.openstreetmap.org/?mlat='+lat+'&mlon='+lon+'#map=15/'+lat+'/'+lon,source:'Geoapify / OpenStreetMap',_city:normalizeGeoName(city||region||name),_region:normalizeGeoName(region||city||name)});
+  }
+  const chosen=[],chosenNames=new Set(),cityCounts=new Map(),regionCounts=new Map();
+  // First distinct regions and cities, then up to two per city to avoid a capital-only page.
+  for(const pass of [0,1,2]){
+   for(const p of places){
+    if(chosen.length>=9)break;
+    const key=normalizeGeoName(p.name);if(chosenNames.has(key))continue;
+    const cityCount=cityCounts.get(p._city)||0,regionCount=regionCounts.get(p._region)||0;
+    if(pass===0&&(cityCount>0||regionCount>0))continue;
+    if(pass===1&&(cityCount>0||regionCount>=2))continue;
+    if(pass===2&&cityCount>=2)continue;
+    chosen.push({name:p.name,description:p.description,latitude:p.latitude,longitude:p.longitude,url:p.url,source:p.source});
+    chosenNames.add(key);cityCounts.set(p._city,cityCount+1);regionCounts.set(p._region,regionCount+1);
+   }
+  }
+  return chosen;
  }catch{return []}
 }
 
@@ -916,7 +966,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v172";
+    const API_VERSION = "v173";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
@@ -1135,12 +1185,16 @@ export default {
           }
           const [facts,highlights]=await Promise.all([countryCode?countryMetadata(countryCode,lang):null,getCountryHighlights(article.wikibase_item,lang)]);
           if(facts)article.country_facts=facts;
-          if(highlights){
-            article.major_cities=highlights.cities;
-            article.attractions=highlights.sights;
-            article.attractions_source=highlights.source;
-          }
-          if(!article.attractions?.length&&facts&&env.GEOAPIFY_API_KEY){
+          if(highlights?.cities?.length)article.major_cities=highlights.cities;
+          const nationwide=facts&&env.GEOAPIFY_API_KEY?await getCountryWideSights(facts,env.GEOAPIFY_API_KEY,lang):[];
+          const candidates=[...(highlights?.sights||[]),...nationwide],unique=new Set();
+          article.attractions=candidates.filter(p=>{
+            const key=normalizeGeoName(p.name);if(!key||unique.has(key))return false;unique.add(key);return true;
+          }).slice(0,12);
+          if(article.attractions.length){
+            article.attractions_scope='country_verified_sample';
+            article.attractions_source=highlights?.sights?.length?'https://www.wikidata.org/':'https://www.openstreetmap.org/';
+          }else if(facts&&env.GEOAPIFY_API_KEY){
             const capitalSights=await getCapitalSights(facts,env.GEOAPIFY_API_KEY);
             if(capitalSights.length){article.attractions=capitalSights;article.attractions_scope='capital';article.attractions_source='https://www.openstreetmap.org/';}
           }
@@ -1166,9 +1220,13 @@ export default {
             if(response.ok){
               const result=await response.json(),seen=new Set();
               article.attractions=(result.features||[]).map(f=>f.properties||{}).filter(x=>{
-                const name=String(x.name||'').trim(),key=name.toLocaleLowerCase();
-                if(!name||seen.has(key))return false;seen.add(key);return true;
-              }).slice(0,6).map(x=>({name:String(x.name).slice(0,100),address:String(x.formatted||'').slice(0,180)}));
+                const name=String(x.name||'').trim(),key=normalizeGeoName(name),lat=Number(x.lat),lon=Number(x.lon);
+                if(!name||seen.has(key)||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return false;
+                if(countryCode&&x.country_code&&String(x.country_code).toUpperCase()!==countryCode)return false;
+                seen.add(key);return true;
+              }).slice(0,8).map(x=>({name:String(x.name).slice(0,100),address:String(x.formatted||'').slice(0,180),
+                latitude:Number(x.lat),longitude:Number(x.lon),url:'https://www.openstreetmap.org/?mlat='+Number(x.lat)+'&mlon='+Number(x.lon)+'#map=16/'+Number(x.lat)+'/'+Number(x.lon)}));
+              if(article.attractions.length)article.attractions_source='https://www.openstreetmap.org/';
             }
           }catch{}
         }
