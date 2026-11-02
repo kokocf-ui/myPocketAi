@@ -2226,10 +2226,14 @@ function openEncyclopediaCard(article){
  if(!article||!article.extract)return;
  const host=document.createElement('div');host.dataset.directChoices='true';
  const card=document.createElement('div');card.className='selected-transit';card.style.cssText='padding:14px;line-height:1.5';
- const heading=document.createElement('h3');heading.textContent=article.title||'';card.append(heading);
+ // The panel header already contains the place name; do not repeat it in the card.
+ card.style.lineHeight='1.65';
  if(article.image&&article.image.startsWith('https://')){const img=document.createElement('img');img.src=article.image;img.alt=article.title||'';img.loading='lazy';img.style.cssText='max-width:100%;max-height:170px;object-fit:contain;border-radius:12px';card.append(img)}
- if(article.description){const p=document.createElement('p');p.textContent=article.description;card.append(p)}
- const detail=document.createElement('p');detail.textContent=article.extract;card.append(detail);
+ if(article.description){const description=String(article.description).trim();const p=document.createElement('p');p.style.cssText='margin:14px 0;font-weight:650;opacity:.85';p.textContent=description.charAt(0).toLocaleUpperCase(state.language||'ro')+description.slice(1);card.append(p)}
+ const content=String(article.extract||'').trim().replace(/\s+/g,' ');
+ const sentences=content.match(/[^.!?]+[.!?]+(?:[”"’']?)(?=\s|$)|[^.!?]+$/g)||[content];
+ const paragraphs=[];for(let i=0;i<sentences.length;i+=2)paragraphs.push(sentences.slice(i,i+2).join(' ').trim());
+ for(const paragraph of paragraphs){if(!paragraph)continue;const p=document.createElement('p');p.style.cssText='margin:0 0 16px;line-height:1.7';p.textContent=paragraph.charAt(0).toLocaleUpperCase(state.language||'ro')+paragraph.slice(1);card.append(p)}
  if(article.url&&article.url.startsWith('https://')){const source=document.createElement('a');source.href=article.url;source.target='_blank';source.rel='noopener noreferrer';source.textContent='Wikipedia · '+(article.language||'');card.append(source)}
  host.append(card);
  const nav=document.createElement('button');nav.type='button';nav.className='transit-choice-action';nav.textContent=state.language==='ro'?'Creează traseu':'Plan route';
