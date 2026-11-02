@@ -1,5 +1,5 @@
 /*
- * v161: bound search-provider aggregation and extend traditional Romanian recipe fast path.\n * v160: expose stage-level latency diagnostics and recipe search routing status.
+ * v162: prevent recipe titles from being routed to GPS named-place lookup.\n * v161: bound search-provider aggregation and extend traditional Romanian recipe fast path.\n * v160: expose stage-level latency diagnostics and recipe search routing status.
  * v159: detect Romanian cooking questions with 'cum se prepară' and sarmale as fast-path recipes.
  * v158: bounded parallel web-search wait, reduced serial page fetching, fast evidence path.
  * v157: context-appropriate table columns and consistent ordering across subjects.
@@ -2387,7 +2387,7 @@ export default {
     // GPS-first named business lookup when the user does not know its town.
     // Only handle short name queries, not general questions or dedicated map routing.
     const localNameRaw=namedVenueInput.replace(/^(?:vreau sa ajung la|unde (?:este|e|gasesc)|cauta(?:-mi)?|gaseste(?:-mi)?)\s+/i,'').replace(/\s+(?:in zona mea|in apropierea mea|langa mine|aproape de mine|near me|nearby)$/i,'').trim();
-    const localNameQuery=!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
+    const localNameQuery=!/^(?:reteta|retete|recipe|recipes|ingrediente|sarmale|ciorba|cum se prepara|cum prepar|cum gatesc|how to cook)\b/i.test(namedVenueInput)&&!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
 
     // v144: Named stations and geographic districts are not generic businesses.
     // Prefer authoritative station records and exact administrative-area names
