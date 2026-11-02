@@ -1758,7 +1758,7 @@ function appendTransitCards(host,options){
 function appendTransitOverview(host,text){
  const data=state.lastTransitResponse;if(!data||data.reply!==text||!data.transit?.length)return false;
  const title=document.createElement('h3');title.textContent=transitAccessText()[0];host.append(title);
- appendTransitChoiceAction(data,host);const summary=document.createElement('p');summary.textContent='1. '+transitBoardingSummary(data.transit[0]);host.append(summary);appendTransitLegs(host,data.transit[0]);return true;
+ appendTransitCards(host,feasibleTransitChoices(data.transit));return true;
 }
 // Last-mile navigation uses the *verified* TfL alighting coordinates and the
 // *original* named POI, not an arbitrary point near the final station.
@@ -2063,7 +2063,7 @@ function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!curre
 async function openRouteMap(route,origin,options=state.lastRouteOptions,startNavigation=false){
  if(!validMapRoute(route))return;state.lastRoute=route;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
  const layer=document.createElement('section');layer.className='route-map-window';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
- const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const previous=document.createElement('button');previous.type='button';previous.className='route-header-action';previous.textContent=state.language==='ro'?'Anterior':'Previous';previous.onclick=()=>{closeRouteMap(false);openWalkingRouteChoices(route,options)};const returning=document.createElement('button');returning.type='button';returning.className='route-header-action';returning.textContent=state.language==='ro'?'Revenire':'Return';returning.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else{closeRouteMap(false);if(state.currentView==='module')showView('module');else showView('home')}};header.append(previous,title,returning)
+ const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const previous=document.createElement('button');previous.type='button';previous.className='route-header-action';previous.textContent=state.language==='ro'?'Anterior':'Previous';previous.onclick=()=>{const transitOptions=transitOptionsForRoute(route);closeRouteMap(false);if(transitOptions?.length)showTransitChoices(transitOptions);else openWalkingRouteChoices(route,options)};const returning=document.createElement('button');returning.type='button';returning.className='route-header-action';returning.textContent=state.language==='ro'?'Revenire':'Return';returning.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else{closeRouteMap(false);if(state.currentView==='module')showView('module');else showView('home')}};header.append(previous,title,returning)
  const status=document.createElement('p');status.className='route-map-status';status.textContent=t.loading;
  const external=document.createElement('a');external.target='_blank';external.rel='noopener noreferrer';external.textContent=routeLiveText()[10];
  external.href=routeNavigationUrl(route);
@@ -2147,6 +2147,7 @@ function closeAnswerReader(restoreFocus=true){
  if(restoreFocus&&reader.origin?.isConnected)reader.origin.focus({preventScroll:true});
 }
 function openAnswerReader(text,origin){
+ if(state.lastTransitResponse?.reply===String(text).trim()&&Array.isArray(state.lastTransitResponse.transit)&&state.lastTransitResponse.transit.length){showTransitChoices(state.lastTransitResponse.transit);return}
  if(state.lastRouteReply===String(text).trim()&&validMapRoute(state.lastRoute)){openWalkingRouteChoices(state.lastRoute,state.lastRouteOptions);return}
  closeRouteMap(false);
  closeAnswerReader(false);inputEl.blur();const t=readerLabels();
