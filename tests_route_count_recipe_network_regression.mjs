@@ -25,6 +25,13 @@ assert.equal(plausible('Sarmale pentru 6 persoane','20 de frunze de varză murat
 assert.equal(plausible('Supă de legume','Frunze de țelină în supă'),false,'celery is a valid herb in other dishes');
 assert.ok(backend.includes('if(recipeInstruction&&result&&typeof result.response'));
 assert.ok(backend.includes("if(recipeInstruction&&!shouldSearchWeb)"),'normal recipe fast path must remain');
+const recipePattern=backend.match(/const recipeInstruction = (\/.*?\/i)\.test\(normalizedResearchRequest\)/)?.[1];
+assert.ok(recipePattern,'recipe intent detector must exist');
+const isRecipe=new Function('text','return '+recipePattern+'.test(text.normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLowerCase())');
+assert.equal(isRecipe('Cum se prepară sarmalele românești tradiționale?'),true,'Romanian recipe must bypass web research');
+assert.equal(isRecipe('Cum prepar sarmale?'),true);
+assert.equal(isRecipe('Care sunt ingredientele pentru sarmale?'),true);
+assert.equal(isRecipe('Ce evenimente sunt în Oradea?'),false);
 
 const html=await(await frontend.fetch(new Request('https://pocket.test/'))).text();
 const script=html.match(/<script[^>]*>([\s\S]*?)<\/script>/i)?.[1];
