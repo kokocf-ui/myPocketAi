@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.121 — visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.122 — expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.121",
+  version: "1.0.122",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2382,9 +2382,30 @@ function openStandaloneChoicePanel(host,titleText){
 }
 function showAnswerDuration(host,startMs){
  if(!host||!Number.isFinite(startMs))return;
- const seconds=(Math.max(0,performance.now()-startMs)/1000).toFixed(1);
- const el=document.createElement('div');el.className='pocket-response-duration';el.style.cssText='margin-top:8px;font-size:12px;opacity:.7;letter-spacing:.1px';
- el.textContent=(state.language==='ro'?'Timp răspuns: ':'Response time: ')+seconds+' s';host.append(el);
+ const elapsedMs=Math.max(0,Math.round(performance.now()-startMs));
+ const ms=v=>Number.isFinite(Number(v))?(Math.max(0,Number(v))/1000).toFixed(1)+' s':'—';
+ const details=document.createElement('details');details.className='pocket-response-duration';details.style.cssText='margin-top:8px;font-size:12px;opacity:.78;letter-spacing:.1px';
+ const summary=document.createElement('summary');summary.textContent=(state.language==='ro'?'Timp răspuns: ':'Response time: ')+ms(elapsedMs)+' · '+(state.language==='ro'?'detalii':'details');summary.style.cssText='cursor:pointer;list-style:none;user-select:none';details.append(summary);
+ const timing=state.lastRequestTimings;
+ if(timing&&Math.abs((Number(timing.total_ms)||0)-elapsedMs)<10000){
+  const local=state.language==='ro',stage=timing.backend_latency||{};
+  const rows=[
+   [local?'GPS / identificare':'GPS / intent',timing.gps_ms],
+   [local?'Cerere API completă':'API round trip',timing.backend_round_trip_ms],
+   [local?'Procesare Worker':'Worker processing',timing.server_total_ms],
+   [local?'Cercetare web':'Web research',stage.research_ms],
+   [local?'Primul apel AI':'Primary AI call',stage.primary_ai_ms],
+   [local?'Corecție propoziții':'Sentence correction',stage.sentence_correction_ms],
+   [local?'Revizie AI':'AI review',stage.review_ai_ms],
+   [local?'Corecție rețetă':'Recipe correction',stage.recipe_correction_ms]
+  ];
+  const panel=document.createElement('div');panel.style.cssText='margin-top:8px;padding:9px;border:1px solid #34566e;border-radius:9px;display:grid;gap:5px';
+  for(const [name,value] of rows){if(value===null||value===undefined)continue;const line=document.createElement('div');line.style.cssText='display:flex;justify-content:space-between;gap:10px';const nameEl=document.createElement('span');nameEl.textContent=name;const valueEl=document.createElement('strong');valueEl.textContent=ms(value);line.append(nameEl,valueEl);panel.append(line)}
+  if(Number.isFinite(Number(stage.model_calls_estimate))){const meta=document.createElement('div');meta.textContent=(local?'Apeluri AI estimate: ':'Estimated AI calls: ')+stage.model_calls_estimate;panel.append(meta)}
+  if(timing.backend_version){const v=document.createElement('div');v.textContent='Backend '+timing.backend_version;panel.append(v)}
+  details.append(panel);
+ }
+ host.append(details);
 }
 function addBubble(text,role='assistant',isError=false,options={}){const empty=messagesEl.querySelector('.empty-state');if(empty)empty.remove();const el=document.createElement('div');el.className='bubble '+role+(isError?' error':'');const content=document.createElement('span');content.className='bubble-text';appendAnswerText(content,String(text));el.append(content);messagesEl.append(el);requestAnimationFrame(()=>{if(role==='assistant')prepareAnswerReader(content,el,text,options.autoOpen===true);messagesEl.scrollTop=messagesEl.scrollHeight;requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})});return el}
 function resetChat(){cancelTransitAccess(true);state.transitRefreshGeneration=(state.transitRefreshGeneration||0)+1;state.transitRefreshAbort?.abort();state.transitRefreshAbort=null;state.transitRefreshBusy=false;state.lastTransitChoice=null;state.lastTransitResponse=null;state.lastTravelModeResponse=null;state.pendingTravelMode=null;closeRouteMap(false);closeAnswerReader(false);state.lastRoute=null;state.lastRouteOptions=[];state.routeSearchContext=null;state.weatherSearchContext=null;state.placeSearchContext=null;state.distanceSearchContext=null;state.lastPlaceResults=[];state.pendingRouteDestination=null;state.pendingTravelConfirmationData=null;state.travelConfirmationPanel=null;state.pendingRouteStart=false;state.pendingRouteViaQuery=null;state.pendingRouteCompare=false;state.conversationGeneration++;state.messages=[];state.requestedTransitCount=null;const ui=UI_TEXT[state.language]||UI_TEXT.en;messagesEl.innerHTML='<div class="empty-state"></div>';const empty=messagesEl.querySelector('.empty-state');empty.append(document.createTextNode(ui.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=ui.emptyHint;empty.append(document.createElement('br'),hint);state.lastReply='';inputEl.value='';setStatus(ui.ready);stopSpeech();stopRecognition();state.voiceMode=false;state.dictationMode=false;setPressed($('voiceBtn'),false);setPressed($('dictationBtn'),false);hideAvatar();}
