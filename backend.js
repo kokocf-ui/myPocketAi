@@ -796,6 +796,23 @@ export default {
               return response.json();
             }));
             const successful=responses.filter(x=>x.status==="fulfilled").map(x=>x.value);
+            // A valid geocoded destination may be reachable even if the three
+            // default preferences return no journeys. Retry the same verified
+            // coordinates with more flexible walking, never a guessed endpoint.
+            if(!successful.some(x=>Array.isArray(x.journeys)&&x.journeys.length)){
+              try{
+                const retryUrl=new URL(tflUrl.toString());
+                retryUrl.searchParams.set("journeyPreference","leasttime");
+                retryUrl.searchParams.set("maxWalkingMinutes","35");
+                retryUrl.searchParams.set("maxWalkingMinutesTransfer","20");
+                retryUrl.searchParams.delete("alternativeRoute");
+                const retryResponse=await fetch(retryUrl.toString(),{headers:{"Accept":"application/json"},signal:AbortSignal.timeout(10000)});
+                if(retryResponse.ok){
+                  const retryData=await retryResponse.json();
+                  if(Array.isArray(retryData.journeys)&&retryData.journeys.length)successful.push(retryData);
+                }
+              }catch(error){console.warn("Pocket AI TfL second pass",String(error?.name||error).slice(0,70))}
+            }
             if(!successful.length)throw new Error("TfL route preferences unavailable");
             const tj={journeys:successful.flatMap(x=>Array.isArray(x.journeys)?x.journeys:[])};
             // Decode TfL's encoded polyline geometry (precision 5) for map rendering.
