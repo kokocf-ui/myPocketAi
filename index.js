@@ -1385,10 +1385,7 @@ function showNavigationReturn(){
  back.onclick=()=>{if(!state.busy)return;returnToNavigationSource()};host.prepend(back);
 }
 function showNavigationReturnInPanel(body){
- if(!state.navigationReturnContext)return;
- const button=document.createElement('button');button.type='button';button.className='transit-choice-action';
- button.textContent=state.language==='ro'?'← Înapoi la lista inițială':'← Back to original results';
- button.onclick=()=>{if(!state.busy)return;returnToNavigationSource()};body.prepend(button);
+ // Back and Return to list are grouped in the transport header.
 }
 function distanceToDestinationKm(point){
  const gps=state.location;
@@ -1722,7 +1719,7 @@ function appendTransitLegs(host,journey){
 function appendTransitCards(host,options){
  const t=transitAccessText(),labels=transitLayoutText();
  for(const [i,journey] of options.entries()){
-  const button=document.createElement('button');button.type='button';button.className='transit-choice-action';
+  const button=document.createElement('button');button.type='button';button.className='transit-choice-action transit-journey-choice';
   const first=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))),heading=document.createElement('strong');
   heading.textContent=(i+1)+'. '+transitClock(first?.departureTime||journey.firstVehicleDepartureTime,journey.time_zone)+' → '+transitClock(journey.arrivalDateTime||journey.legs?.at(-1)?.arrivalTime,journey.time_zone)+' · '+(journey.durationMinutes||'?')+' min';
   const boarding=document.createElement('div');boarding.textContent=transitBoardingSummary(journey);
@@ -1872,10 +1869,22 @@ async function refreshTransitDepartures(button){
  }
 }
 function renderTransitChoices(options,selectedIndex=null){
- const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
- showNavigationReturnInPanel(body);
+ const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
  const heading=document.createElement('h3');heading.textContent=selectedIndex===null?t[0]:t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
- const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=t[2];back.onclick=()=>{cancelTransitAccess(true);selectedIndex===null?(state.navigationReturnContext?returnToNavigationSource():handleModuleLayerBack()):renderTransitChoices(options)};body.append(back);
+ const actions=document.createElement('div');actions.className='quick-navigation-toolbar';
+ const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=t[2];back.onclick=()=>{
+  cancelTransitAccess(true);
+  if(selectedIndex!==null){renderTransitChoices(options);return}
+  const source=state.navigationReturnContext;
+  if(source?.view==='assistant'&&state.routeSearchContext?.destination){openTransportModeFromAssistant({route_context:state.routeSearchContext});return}
+  if(source?.details){offerPlaceTravelModes(source.details);return}
+  handleModuleLayerBack();
+ };
+ actions.append(back);
+ if(state.navigationReturnContext){const original=document.createElement('button');original.type='button';original.className='transit-choice-action';
+  original.textContent=state.language==='ro'?'Revenire la listă':'Return to list';
+  original.onclick=()=>returnToNavigationSource();actions.append(original)}
+ body.append(actions);
  if(selectedIndex!==null){const journey=options[selectedIndex];if(!journey)return;const summary=document.createElement('p');summary.textContent=transitBoardingSummary(journey);body.append(summary);
   const selected=state.selectedTransitJourney,status=document.createElement('p');status.className='transit-access-status';status.setAttribute('role','status');status.textContent=selected?.loading?t[10]:selected?.error||'';body.append(status);
   // Walking directions are viewed in the map, not repeatedly offered as a
@@ -2019,7 +2028,7 @@ function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!curre
 async function openRouteMap(route,origin,options=state.lastRouteOptions,startNavigation=false){
  if(!validMapRoute(route))return;state.lastRoute=route;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
  const layer=document.createElement('section');layer.className='route-map-window';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
- const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const close=document.createElement('button');close.type='button';close.textContent='×';close.setAttribute('aria-label',t.close);close.onclick=()=>closeRouteMap();header.append(title,close);if(state.navigationReturnContext){const back=document.createElement('button');back.type='button';back.textContent=state.language==='ro'?'← Lista inițială':'← Previous list';back.className='transit-choice-action';back.style.cssText='width:auto;max-width:38%;font-size:13px;padding:8px';back.onclick=()=>returnToNavigationSource();header.append(back)}
+ const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const close=document.createElement('button');close.type='button';close.textContent='×';close.setAttribute('aria-label',t.close);close.onclick=()=>{if(state.navigationReturnContext?.view==='assistant')returnToNavigationSource();else closeRouteMap()};header.append(title,close);if(state.navigationReturnContext){const back=document.createElement('button');back.type='button';back.textContent=state.language==='ro'?'← Lista inițială':'← Previous list';back.className='transit-choice-action';back.style.cssText='width:auto;max-width:38%;font-size:13px;padding:8px';back.onclick=()=>returnToNavigationSource();header.append(back)}
  const status=document.createElement('p');status.className='route-map-status';status.textContent=t.loading;
  const external=document.createElement('a');external.target='_blank';external.rel='noopener noreferrer';external.textContent=routeLiveText()[10];
  external.href=routeNavigationUrl(route);
