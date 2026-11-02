@@ -1374,6 +1374,7 @@ function rememberNavigationSource(place=null){
 }
 function returnToNavigationSource(){
  const source=state.navigationReturnContext;if(!source)return;
+ if(state.busy){state.conversationGeneration++;state.busy=false}
  closeLongChoice();closeRouteMap(false);cancelTransitAccess(true);
  state.navigationReturnContext=null;state.routeSearchContext=source.routeContext;
  state.pendingTravelMode=null;state.pendingRouteDestination=null;
@@ -1392,7 +1393,7 @@ function showNavigationReturn(){
  const back=document.createElement('button');back.id='returnToSearchSource';back.type='button';back.className='transit-choice-action';
  back.textContent=state.language==='ro'?'← Înapoi la lista inițială':'← Back to original results';
  back.style.cssText='width:100%;min-height:48px;margin:6px 0 10px';
- back.onclick=()=>{if(!state.busy)return;returnToNavigationSource()};host.prepend(back);
+ back.onclick=()=>returnToNavigationSource();host.prepend(back);
 }
 function showNavigationReturnInPanel(body){
  // Back and Return to list are grouped in the transport header.
