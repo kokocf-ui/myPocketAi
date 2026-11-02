@@ -1,3 +1,12 @@
+## Pocket AI — backend v169 / frontend 1.0.123 — 2026-11-02
+
+- **Cauză confirmată cu cronometrul de pe telefon:** cererile de 32,5 s și 59,6 s au petrecut 32,2 s și 54,9 s în apelul principal Workers AI; web/GPS nu explică latența.
+- **Optimizare model:** generarea principală și traducerile din răspunsurile non-AI folosesc implicit modelul Cloudflare `@cf/meta/llama-3.1-8b-instruct-fast`, în loc de `@cf/meta/llama-3.1-8b-instruct-fp8`. Acest model este documentat ca variantă rapidă, dar viteza și calitatea trebuie confirmate în mediul live; nu presupunem automat o țintă de 3–5 s.
+- **Revenire controlată:** se poate seta variabila Worker `POCKET_AI_TEXT_MODEL=@cf/meta/llama-3.1-8b-instruct-fp8` pentru întoarcere la modelul anterior; sunt acceptate exclusiv valori din lista explicită de modele. Nu se folosește o valoare furnizată de utilizator în prompt.
+- **Diagnostic:** backendul include în `latency_breakdown.ai_model` modelul efectiv ales; frontend v1.0.123 îl arată la detaliile timpului de răspuns.
+- **Testări:** sintaxa surselor și a JavaScriptului generat este validă. Simulările apelurilor reale prin Worker cu AI substituit confirmă modelul nou implicit, configurarea de rollback și un singur apel pentru o rețetă obișnuită.
+- **Neschimbate:** logica traseelor, listele și componentele de interfață, limitele de evenimente și regulile de selecție a preparatelor. Workflowul `deploy-cloudflare.yml` lansează deploy la push pe main, dar nu am confirmat finalizarea și nici timpii live după deploy.
+
 ## Pocket AI — backend v168 / frontend 1.0.122 — 2026-11-02
 
 - **Diagnosticul telefonului:** 79,5 s pentru sarmale tradiționale: GPS 0,0 s, cercetare web 0,0 s, primul apel AI 36,8 s, al doilea apel AI pentru corectarea rețetei 42,5 s. Corectarea a eșuat și a produs un mesaj de imposibilitate a verificării.
