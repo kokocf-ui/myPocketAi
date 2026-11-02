@@ -381,7 +381,8 @@ function sourceBackedEventRows(sources,request,language='ro'){
   const title=String(source.title||'').replace(/\s+/g,' ').trim().replace(/\s*[\|]\s*[^|]{1,75}$/,'').slice(0,170);
   if(!title||!source.url)continue;
   const normalizedTitle=norm(title.replace(/^(?:program|programul)\s*[:\-–—]\s*/iu,''));
-  if(!eventName.test(normalizedTitle)||genericName.test(normalizedTitle)){rejectedGeneric++;continue;}
+  const generic=genericName.test(normalizedTitle);
+  if(!eventName.test(normalizedTitle)&&!generic){rejectedGeneric++;continue;}
   const snippets=(Array.isArray(source.snippets)?source.snippets:[]).slice(0,3).map(x=>String(x||'').replace(/\s+/g,' ').trim());
   const evidence=[title,...snippets,source.pageEvidence||''].join(' ');
   if(place&&!norm(evidence).split(' ').includes(place))continue;
@@ -389,17 +390,25 @@ function sourceBackedEventRows(sources,request,language='ro'){
   if(yearsInTitle.length&&!yearsInTitle.includes(year)){rejectedNoYear++;continue;}
   const yearsInEvidence=[...evidence.matchAll(/\b20\d{2}\b/g)].map(m=>Number(m[0]));
   if(!yearsInEvidence.includes(year)&&!String(source.publishedDate||'').startsWith(String(year))){rejectedNoYear++;continue;}
-  const candidates=[title,...snippets.map(snippet=>title+' — '+snippet)];
-  let record=null;
+  const candidates=generic?snippets.filter(x=>eventName.test(norm(x))):[title,...snippets.map(snippet=>title+' — '+snippet)];
+  const records=[];
   for(const text of candidates){
    const parsed=eventRowsFromReply('1. '+text,request,language);
-   if(parsed?.structured_list?.rows?.length){record=parsed.structured_list.rows[0];break;}
+   if(parsed?.structured_list?.rows?.length){
+    records.push({record:parsed.structured_list.rows[0],text});
+    if(!generic)break;
+   }
   }
-  if(!record){rejectedNoDate++;continue;}
-  const cleanTitle=title.replace(/^(?:program|programul)\s*[:\-–—]\s*/iu,'').replace(/\s*(?:[-–—:]\s*(?:bilete|tickets|evenimente|eventbrite|facebook events).*)$/iu,'').trim();
-  const key=norm(cleanTitle).replace(/\b20\d{2}\b/g,'')+'|'+norm(record.date);
-  if(seen.has(key))continue;seen.add(key);
-  rows.push({date:record.date,time:record.time,description:cleanTitle,source_url:source.url,source_title:String(source.title||'').slice(0,170)});
+  if(!records.length){rejectedNoDate++;continue;}
+  for(const {record,text} of records){
+   let cleanTitle=generic?String(record.description||'').slice(0,190):title.replace(/^(?:program|programul)\s*[:\-–—]\s*/iu,'').replace(/\s*(?:[-–—:]\s*(?:bilete|tickets|evenimente|eventbrite|facebook events).*)$/iu,'').trim();
+   if(generic&&!eventName.test(norm(cleanTitle)))continue;
+   cleanTitle=cleanTitle.replace(/^\s*[,;:–—-]\s*/,'').trim();
+   if(!cleanTitle||cleanTitle.length<8)continue;
+   const key=norm(cleanTitle).replace(/\b20\d{2}\b/g,'')+'|'+norm(record.date);
+   if(seen.has(key))continue;seen.add(key);
+   rows.push({date:record.date,time:record.time,description:cleanTitle,source_url:source.url,source_title:String(source.title||'').slice(0,170)});
+  }
  }
  const monthNames=new Map();
  for(let m=1;m<=12;m++)for(const lng of ['ro','en','fr','de','it','es','pt','nl','ru','pl']){
