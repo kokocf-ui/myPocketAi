@@ -421,7 +421,23 @@ function sourceBackedEventRows(sources,request,language='ro'){
    }
    const key=norm(cleanTitle).replace(/\b20\d{2}\b/g,'')+'|'+norm(record.date);
    if(seen.has(key))continue;seen.add(key);
-   rows.push({date:record.date,time:record.time,description:cleanTitle,source_url:source.url,source_title:String(source.title||'').slice(0,170)});
+   const row={date:record.date,time:record.time,description:cleanTitle,source_url:source.url,source_title:String(source.title||'').slice(0,170)};
+   const keywords=value=>norm(value).split(' ').filter(w=>w.length>3&&!/^\d+$/.test(w)&&!/^(?:concert\w*|festival\w*|eveniment\w*|targ\w*|spectacol\w*|event\w*|oradea|decembrie|december|ticket\w*|bilet\w*|program\w*|2026|2027|2028|martie|march|sambata|saturday|arena|london|orasul|ora|pentru|from|with|this|that|casa|cultural|culture)$/.test(w));
+   const aWords=new Set(keywords(cleanTitle));
+   const duplicate=rows.findIndex(existing=>{
+     if(norm(existing.date)!==norm(row.date)||existing.time&&row.time&&existing.time!==row.time)return false;
+     const bWords=new Set(keywords(existing.description));
+     if(!aWords.size||!bWords.size)return false;
+     const overlap=[...aWords].filter(w=>bWords.has(w)).length;
+     return overlap>=1&&overlap/Math.min(aWords.size,bWords.size)>=0.75;
+   });
+   if(duplicate>=0){
+     const previous=rows[duplicate],previousGeneric=genericName.test(norm(previous.source_title));
+     if(previousGeneric&&!generic){row.time=row.time||previous.time;rows[duplicate]=row;}
+     else if(!previous.time&&row.time)previous.time=row.time;
+     continue;
+   }
+   rows.push(row);
   }
  }
  const monthNames=new Map();
