@@ -1,3 +1,12 @@
+## Backend v152 — 2026-11-02: ordonare liste și verificare West Dulwich
+
+- Ordonarea cronologică nu mai depinde de cererea explicită „în ordine cronologică”: listele numerotate și cu marcatori sunt sortate după datele calendaristice detectate, inclusiv când data este în interiorul descrierii. Intrările identice cu aceeași dată sunt eliminate. Instrucțiunile secvențiale din rețete și navigație nu sunt reordonate.
+- Selecțiile generale respectă în continuare ordonarea proprie domeniului: plecări după oră, localuri în apropiere după distanță, răspunsuri generale după relevanță; fără un criteriu sigur nu impunem ordine artificială.
+- Pentru cereri de transport către locuri precum „West Dulwich, London”, backendul caută mai întâi stația prin TfL, inclusiv când utilizatorul omite cuvântul „station”. Căutarea secundară cere o potrivire exactă a numelui și nu poate înlocui destinația cu creșe/magazine.
+- Rețetele cu blocuri de ingrediente identice repetate sunt curățate înainte de afișare, fără să fie deduplicați pașii de gătire.
+- Teste adăugate în `tests_response_lists_station_regression.mjs` și workflowul `test-generalist-mixed.yml` extins.
+- Verificări izolate ale sintaxei și formatării: trecute. Încă necesare: rezultatul GitHub Actions, publicarea în Cloudflare, test live TfL West Dulwich, audit surse legislative și confirmarea pe Android. Nu considera traseul West Dulwich rezolvat înaintea testului cu orare reale.
+
 ## Work in progress — backend v151 / frontend 1.0.116 (2026-11-02)
 
 - Fixed 34 under-escaped regular-expression tokens in the frontend Worker HTML template, affecting Wikipedia text and speech transcript normalization. This specifically addresses the missing letter “s” (e.g. “cunoscută”).
