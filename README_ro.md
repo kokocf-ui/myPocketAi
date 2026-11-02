@@ -1,3 +1,12 @@
+## Actualizare în dezvoltare — backend v150 / frontend 1.0.115 (2026-11-02)
+
+- Prezentări de tip enciclopedie din rezumate Wikipedia, cu sursă și imagini când există, în fereastră separată în AI.
+- Butonul „Creează traseu” folosește coordonatele oferite de sursă când sunt disponibile; pentru țări fără destinație exactă întreabă orașul.
+- Cazarea include categorii geografice pentru hoteluri, hosteluri, pensiuni, moteluri și unele apartamente; zona centrală turistică este implicită pentru căutările cu destinație, dacă nu se solicită alt cartier.
+- După răspunsuri de traseu venite din fluxul enciclopedic apare opțiunea de căutare a cazării.
+- Rezultatele comerciale nu garantează disponibilitate, tarif sau inventar Airbnb; transportul mixt internațional în timp real nu este complet conectat și nu trebuie prezentat drept verificat.
+- Navigarea intermodulară confirmată pe mobil trebuie păstrată; suitele automate vechi au încă eșecuri neinvestigate.
+
 ## Backend v147 — destinația confirmată înainte de alegerea transportului (2026-11-01)
 
 În întrebările „Vreau să ajung la…”, backendul verifică mai întâi obiectivul și coordonatele, abia apoi oferă mijloacele de transport. Gările și stațiile sunt verificate în TfL, iar obiectivele turistice în date de hartă. Pentru „Stadionul Arsenal”, caută numele oficial „Emirates Stadium, London”, fără coordonate inventate. O locație îndepărtată cu un nume asemănător (de exemplu Reșița) nu poate fi înlocuitor automat. Distanța este trimisă frontendului pentru eliminarea opțiunii integral pietonale peste 3 km. Frontendul rămâne 1.0.114. Sunt incluse teste automate și verificare live în GitHub Actions; rămâne de verificat în Chrome pe telefon.
