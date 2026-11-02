@@ -1,3 +1,11 @@
+## Pocket AI — backend v163 / frontend 1.0.119 — 2026-11-02
+
+- **Cercetare web:** un singur buget de colectare a furnizorilor (6 s general / 7 s evenimente), cu răspuns anticipat când există suficientă evidență de la furnizori independenți. Apelurile de căutare rămân paralele; pagina originală și generarea AI au timpi separați. Sursele care nu sosesc la timp pot lipsi: lista nu este garantat exhaustivă.
+- **Rețete:** întrebările culinare independente nu mai așteaptă GPS în frontend și nu mai trec prin verificarea generalistă redundantă a răspunsului; rămâne verificarea țintită a ingredientelor. Istoricul transmis modelului pentru rețete uzuale este redus la ultimele patru mesaje.
+- **Diagnostic:** API raportează `version: v163`, `research_elapsed_ms`, `ai_execution_ms` și `latency_breakdown`, inclusiv corecția propozițiilor. Frontend 1.0.119 înregistrează în consolă `total_ms`, `gps_ms` și `backend_round_trip_ms`, fără să înregistreze textul întrebării.
+- **Teste:** `tests_request_pipeline_regression.mjs` verifică identificarea rețetelor, codul JavaScript generat, măsurătorile și cazul în care doi furnizori au rezultate, iar al treilea este blocat. Testele rulează automat în workflowul generalist.
+- **Neconfirmat:** publicarea în Cloudflare, timpii reali de răspuns și completitudinea evenimentelor. Acestea necesită teste live; modificarea codului nu reprezintă dovada unei îmbunătățiri măsurate.
+
 ## Actualizare în dezvoltare — backend v150 / frontend 1.0.115 (2026-11-02)
 
 - Prezentări de tip enciclopedie din rezumate Wikipedia, cu sursă și imagini când există, în fereastră separată în AI.
