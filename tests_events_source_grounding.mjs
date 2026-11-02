@@ -43,7 +43,7 @@ try{
   assert.equal(r.status,200);
   const data=await r.json();
   assert.equal(data.status,'success');
-  assert.equal(data.version,'v170');
+  assert.equal(data.version,'v171');
   assert.equal(data.latency_breakdown?.model_calls_estimate,0);
   assert.equal(data.structured_list?.type,'events');
   assert.equal(data.structured_list.rows.length,3);
