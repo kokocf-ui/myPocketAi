@@ -3631,6 +3631,17 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     }
     // Detectăm cererile explicite de un număr exact de propoziții, inclusiv numeralele scrise în română.
     // Numărătoarea este aproximativă; la neconcordanță cerem modelului o corectare.
+    // Fast path: familiar cooking recipes do not need a web search or the long
+    // legal/navigation/research system preamble. One model response, same chat context.
+    if(recipeInstruction&&!shouldSearchWeb){
+      systemMessage='You are Pocket AI, a careful cooking assistant. Respond exclusively in '+responseLanguageName+
+        '. Use the current user request and relevant conversation history; never assume missing dietary constraints.'+
+        ' Give a complete, coherent recipe matching the requested servings. Start with preparation and cooking times.'+
+        ' Include a single nonrepeating ingredient list with measured quantities (grams, ml, pieces), then numbered sequential steps.'+
+        ' Explain actual cooking technique, appliance temperature where appropriate, duration and food-safety checks.'+
+        ' Do not invent sources, do not repeat blocks, and do not omit crucial steps or shorten a cooking time unrealistically.'+
+        ' Only explain variations or substitutions when useful. Answer directly without prefatory filler.';
+    }
     function requestedSentenceCount(text) {
       const numberWords = {
         one: 1, two: 2, three: 3, four: 4, five: 5,
@@ -3842,6 +3853,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         web_search_diagnostics: shouldSearchWeb ? webSearchDiagnostics : null,
         context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12},
         calculation_verified: false,
+        ai_execution_ms: Date.now()-aiStartedAt,
         ai_generated: true,
         ai_connected: true
       });
