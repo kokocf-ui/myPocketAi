@@ -966,7 +966,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v173";
+    const API_VERSION = "v174";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
@@ -1107,6 +1107,27 @@ export default {
     }
 
     const message = data.message.trim();
+    if(message==='__nearby_accommodation__'){
+      const q=data.accommodation_search||{},lat=Number(q.latitude),lon=Number(q.longitude);
+      if(q.latitude==null||q.longitude==null||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return json({status:'error',places:[],error:'Invalid destination coordinates'},400);
+      if(!env.GEOAPIFY_API_KEY)return json({status:'unavailable',places:[],reason:'provider_not_configured'});
+      try{
+        const u=new URL('https://api.geoapify.com/v2/places');
+        u.searchParams.set('categories','accommodation.hotel,accommodation.hostel,accommodation.guest_house,accommodation.motel');
+        u.searchParams.set('filter','circle:'+lon+','+lat+',5000');
+        u.searchParams.set('bias','proximity:'+lon+','+lat);
+        u.searchParams.set('limit','40');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+        const resp=await fetch(u,{signal:AbortSignal.timeout(5000)});
+        if(!resp.ok)return json({status:'unavailable',places:[],reason:'provider_error'});
+        const result=await resp.json(),seen=new Set();
+        const places=(result.features||[]).map(f=>f.properties||{}).filter(p=>{
+          const name=String(p.name||'').trim(),x=Number(p.lat),y=Number(p.lon),key=normalizeGeoName(name);
+          if(!name||!key||seen.has(key)||p.lat==null||p.lon==null||!Number.isFinite(x)||!Number.isFinite(y)||Math.abs(x)>90||Math.abs(y)>180)return false;
+          seen.add(key);return true;
+        }).map(p=>({name:String(p.name).slice(0,110),address:String(p.formatted||'').slice(0,180),latitude:Number(p.lat),longitude:Number(p.lon)}));
+        return json({status:'success',places,search_center:{latitude:lat,longitude:lon},radius_m:5000,availability_verified:false});
+      }catch{return json({status:'unavailable',places:[],reason:'provider_timeout'})}
+    }
     const eventDiscoveryRequest=/\b(?:eveniment\w*|festival\w*|spectacol\w*|concert\w*|targ\w*|events?|shows?|performances?)\b/i.test(message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase());
     const supportedLanguages = ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"];
     const requestedLanguage = typeof data.language === "string" ? data.language.trim().toLowerCase().split(/[-_]/)[0] : "ro";
