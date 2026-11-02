@@ -40,4 +40,17 @@ assert.match(backend,/!recipeFastPath && needsComplianceReview\(message\)/);
 assert.match(backend,/sentence_correction_ms:/);
 assert.match(backend,/modelHistory=recipeFastPath\?history\.slice\(-4\):history/);
 assert.match(backend,/latency_breakdown:/);
+
+// A stuck third provider must not hold up two usable event providers.
+const coordStart=backend.indexOf('        const outcomes=[];',backend.indexOf('const providerTasks = [];'));
+const coordEnd=backend.indexOf('        const providerDiagnostics=',coordStart);
+assert.ok(coordStart>=0&&coordEnd>coordStart,'provider coordinator boundaries');
+const coordinator=new Function('providerTasks','eventResearchIntent',
+ 'return (async()=>{'+backend.slice(coordStart,coordEnd)+';return {settled,pendingProviderCount};})()');
+const source=n=>({status:'fulfilled',value:{results:Array.from({length:n},(_,i)=>({title:'Event '+i}))}});
+const started=Date.now();
+const done=await coordinator([Promise.resolve(source(6)),Promise.resolve(source(6)),new Promise(()=>{})],true);
+assert.equal(done.settled.length,2,'two ready search engines should be usable');
+assert.equal(done.pendingProviderCount,1,'unresponsive third engine should be reported');
+assert.ok(Date.now()-started<3500,'response should not await the stuck engine');
 console.log('PASS: frontend recipe/GPS prioritisation, generated script syntax, stage timing, single bounded provider wait, model-review fast path.');
