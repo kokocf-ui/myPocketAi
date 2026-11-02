@@ -51,7 +51,7 @@ assert.equal(dialog.open,true,'first tap must show dialog');
 assert.equal(dialog.shows,1);
 const table=content.children[0],rows=table.children.find(x=>x.tag==='tbody').children;
 assert.equal(table.tag,'table');
-assert.equal(rows.length,2,'long journeys offer transit and drive, not long walking');
+assert.equal(rows.length,3,'user can choose walking, transit or driving at any distance');
 ctx.closeLongChoice();
 assert.equal(dialog.open,false);
 trigger.click();
