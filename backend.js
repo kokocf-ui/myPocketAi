@@ -575,6 +575,12 @@ export default {
       }
       if(article){
         if(verifiedCity&&!article.coordinates)article.coordinates={latitude:Number(verifiedCity.lat),longitude:Number(verifiedCity.lon)};
+        if(!article.coordinates&&knownTopic&&env.GEOAPIFY_API_KEY&&!/^(?:franta|france|romania|germania|germany|italia|italy|spania|spain|anglia|england|portugalia|polonia|poland|japonia|japan|grecia|greece|turcia|turkey|usa|statele_unite)$/.test(topicKey)){
+          try{
+            const cityUrl=new URL('https://api.geoapify.com/v1/geocode/search');cityUrl.searchParams.set('text',article.title+(countrySuffix?', '+parts[1]:''));cityUrl.searchParams.set('type','city');cityUrl.searchParams.set('limit','3');cityUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+            const cityRes=await fetch(cityUrl,{signal:AbortSignal.timeout(4500)});if(cityRes.ok){const cityJson=await cityRes.json();const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();const p=(cityJson.features||[]).map(f=>f.properties||{}).find(p=>norm(p.city||p.name)===norm(encyclopediaTitle)&&Number.isFinite(Number(p.lat))&&Number.isFinite(Number(p.lon)));if(p)article.coordinates={latitude:Number(p.lat),longitude:Number(p.lon)}}
+          }catch{}
+        }
         const reply=[article.title,article.description,article.extract].filter(Boolean).join(' — ');
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,encyclopedia:article,ai_generated:true});
       }
