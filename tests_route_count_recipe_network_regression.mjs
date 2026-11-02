@@ -50,4 +50,37 @@ assert.ok(script.includes('Conexiunea cu serverul a fost întreruptă'),'raw Fai
 assert.ok(backend.includes('eventResearchIntent?7500:9000'),'event research budget missing');
 assert.ok(backend.includes('eventResearchIntent?1:2'),'event page fetch budget missing');
 assert.ok(backend.includes('structured_list:structuredEvents?.structured_list'),'structured event table missing');
+
+// Regression from real phone capture: 79.5 s due to two sequential AI calls.
+// Reject visibly unsafe leaves on the first model output without a second inference.
+const {default: recipeWorker}=await import('./backend.js');
+const {webcrypto}=await import('node:crypto');
+globalThis.crypto??=webcrypto;
+const priorFetch=globalThis.fetch;
+let culinaryCalls=0;
+globalThis.fetch=async()=>{throw Error('recipe fast path must not access the web')};
+try{
+ const originalConsoleInfo=console.info;
+ console.info=()=>{};
+ try{
+  for(const [question,unsafe,forbidden,expected] of [
+   ['Rețetă de sarmale tradițională românească','20 frunze de lemn, 700 g carne, 100 g orez','frunze de lemn','varză murată'],
+   ['Rețetă ciorbă de burtă tradițional românească','1 kg burtă de porc, 2 cepe, 1 litru apă','burtă de porc','burtă de vită']
+  ]){
+   const ai={run:async()=>{culinaryCalls++;return {response:'Ingrediente: '+unsafe+'\nPreparare: se fierb toate ingredientele.'}}};
+   const response=await recipeWorker.fetch(new Request('https://fixture/api/chat',{method:'POST',body:JSON.stringify({
+     message:question,module:'assistant',language:'ro',history:[],
+     location:{latitude:51.49,longitude:0.28}
+   })}),{AI:ai});
+   const payload=await response.json();
+   assert.equal(payload.status,'success');
+   assert.equal(payload.latency_breakdown?.recipe_fallback_used,true,'unsafe recipe should use verified local fallback');
+   assert.equal(payload.latency_breakdown?.recipe_correction_ms,0,'recipe must not use second AI call');
+   assert.match(payload.reply,new RegExp(expected,'i'));
+   assert.ok(!payload.reply.toLowerCase().includes(forbidden.toLowerCase()),'unsafe ingredient was not removed');
+  }
+ }finally{console.info=originalConsoleInfo}
+}finally{globalThis.fetch=priorFetch}
+assert.equal(culinaryCalls,2,'two recipes should require exactly one AI call each');
+
 console.log('PASS: requested route count (normal + handoff + refresh), generated frontend escaping, recipe ingredient checks, one-pass cooking, event search budget, network retry UI.');
