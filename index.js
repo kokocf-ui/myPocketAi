@@ -2246,7 +2246,7 @@ function openEncyclopediaCard(article){
 }
 function offerDestinationAccommodationBeforeRoute(destination){
  if(!destination||!Number.isFinite(Number(destination.latitude))||!Number.isFinite(Number(destination.longitude)))return false;
- state.tripAccommodationDestination={...destination};
+ state.tripAccommodationDestination={...destination};state.travelAccommodationIntent=false;
  const host=document.createElement('div');host.dataset.directChoices='true';
  const note=document.createElement('p');note.textContent=(state.language==='ro'?'Destinație confirmată: ':'Confirmed destination: ')+destination.label+'. '+(state.language==='ro'?'Dorești să alegi cazarea înainte să calculăm traseul final?':'Choose accommodation before calculating your final route?');host.append(note);
  const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';yes.textContent=state.language==='ro'?'Da, caută cazare':'Find accommodation';
