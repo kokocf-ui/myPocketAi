@@ -1371,8 +1371,7 @@ function showNavigationReturn(){
   state.moduleSearchReply=source.reply;
   updateQuickLayerGeometry();
   $('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');
-  if(source.details&&source.results.length)renderModulePlaceDetails(source.details);
-  else if(source.results.length)renderModulePlaces(source.results);
+  if(source.results.length)renderModulePlaces(source.results);
   else renderModuleQuickChoices();
  };
  host.prepend(back);
