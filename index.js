@@ -1353,30 +1353,41 @@ function rememberNavigationSource(place=null){
   results:Array.isArray(state.moduleSearchResults)?state.moduleSearchResults.slice():[],
   choice:state.moduleSearchCategory||null,details:place||null,reply:state.moduleSearchReply||'',routeContext:state.routeSearchContext||null};
 }
+function returnToNavigationSource(){
+ const source=state.navigationReturnContext;if(!source)return;
+ closeLongChoice();closeRouteMap(false);cancelTransitAccess(true);
+ state.navigationReturnContext=null;state.routeSearchContext=source.routeContext;
+ state.pendingTravelMode=null;state.pendingRouteDestination=null;
+ if(source.view==='assistant'){switchConversationModule('assistant');return}
+ if(!['maps','travel'].includes(source.module)){switchConversationModule('assistant');return}
+ switchConversationModule(source.module);
+ state.moduleSearchResults=source.results;state.moduleSearchCategory=source.choice;state.moduleSearchReply=source.reply;
+ updateQuickLayerGeometry();
+ $('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');
+ if(source.results.length)renderModulePlaces(source.results);else renderModuleQuickChoices();
+}
 function showNavigationReturn(){
  document.getElementById('returnToSearchSource')?.remove();
- const source=state.navigationReturnContext;if(!source)return;
+ if(!state.navigationReturnContext)return;
  const host=$('moduleContent');if(!host)return;
- const back=document.createElement('button');back.id='returnToSearchSource';back.type='button';back.className='primary-btn';
- back.textContent=state.language==='ro'?'← Înapoi la rezultatele anterioare':'← Back to previous results';
- back.style.cssText='max-width:100%;margin:6px 0 10px';
- back.onclick=()=>{
-  if(state.busy)return;
-  state.navigationReturnContext=null;
-  state.routeSearchContext=source.routeContext;
-  state.pendingTravelMode=null;state.pendingRouteDestination=null;
-  if(source.view==='assistant'){switchConversationModule('assistant');return}
-  if(!['maps','travel'].includes(source.module)){switchConversationModule('assistant');return}
-  switchConversationModule(source.module);
-  state.moduleSearchResults=source.results;
-  state.moduleSearchCategory=source.choice;
-  state.moduleSearchReply=source.reply;
-  updateQuickLayerGeometry();
-  $('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');
-  if(source.results.length)renderModulePlaces(source.results);
-  else renderModuleQuickChoices();
- };
- host.prepend(back);
+ const back=document.createElement('button');back.id='returnToSearchSource';back.type='button';back.className='transit-choice-action';
+ back.textContent=state.language==='ro'?'← Înapoi la lista inițială':'← Back to original results';
+ back.style.cssText='width:100%;min-height:48px;margin:6px 0 10px';
+ back.onclick=()=>{if(!state.busy)return;returnToNavigationSource()};host.prepend(back);
+}
+function showNavigationReturnInPanel(body){
+ if(!state.navigationReturnContext)return;
+ const button=document.createElement('button');button.type='button';button.className='transit-choice-action';
+ button.textContent=state.language==='ro'?'← Înapoi la lista inițială':'← Back to original results';
+ button.onclick=()=>{if(!state.busy)return;returnToNavigationSource()};body.prepend(button);
+}
+function distanceToDestinationKm(point){
+ const gps=state.location;
+ if(!gps||!Number.isFinite(Number(gps.latitude))||!Number.isFinite(Number(gps.longitude)))return null;
+ const rad=Math.PI/180,lat1=Number(gps.latitude),lon1=Number(gps.longitude),lat2=Number(point.latitude),lon2=Number(point.longitude);
+ const dlat=(lat2-lat1)*rad,dlon=(lon2-lon1)*rad;
+ const a=Math.sin(dlat/2)**2+Math.cos(lat1*rad)*Math.cos(lat2*rad)*Math.sin(dlon/2)**2;
+ return 6371*2*Math.atan2(Math.sqrt(a),Math.sqrt(Math.max(0,1-a)));
 }
 function offerPlaceTravelModes(place){
  const lat=Number(place.latitude),lon=Number(place.longitude);
@@ -1386,7 +1397,9 @@ function offerPlaceTravelModes(place){
  $('moduleLayerTitle').textContent=state.language==='ro'?'Cum dorești să ajungi?':'How would you like to travel?';
  const title=document.createElement('p');title.textContent=point.label;body.append(title);
  const t=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;
+ const distance=distanceToDestinationKm(point);
  for(const [mode,label] of [['walk',t[1]],['transit',t[2]],['drive',t[3]]]){
+  if(mode==='walk'&&distance!==null&&distance>5)continue;
   const button=document.createElement('button');button.type='button';button.className='module-result-card';button.textContent=label;
   button.onclick=async()=>{
    if(state.busy)return;
@@ -1399,7 +1412,7 @@ function offerPlaceTravelModes(place){
   };
   body.append(button);
  }
- const cancel=document.createElement('button');cancel.type='button';cancel.className='module-results-back';cancel.textContent=quickUiText().backResults;
+ const cancel=document.createElement('button');cancel.type='button';cancel.className='transit-choice-action';cancel.style.cssText='width:100%;height:auto;min-height:48px;white-space:normal';cancel.textContent=quickUiText().backResults;
  cancel.onclick=()=>renderModulePlaceDetails(place);body.append(cancel);
 }
 function selectedPlaceForRoute(message){
@@ -1589,7 +1602,8 @@ function appendTravelModeChoices(data,host){
  if(data.needs_travel_mode!==true||!data.route_context?.destination_query)return false;
  const t=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en,table=document.createElement('table'),caption=document.createElement('caption'),body=document.createElement('tbody'),generation=state.conversationGeneration,buttons=[];table.className='travel-mode-table';caption.textContent=t[0];table.append(caption);
  for(const [i,mode] of ['walk','transit','drive'].entries()){
-  // The user chooses the travel mode, regardless of distance.
+  // Suppress complete walking routes over 5 km; walking transit legs remain unchanged.
+  if(mode==='walk'&&Number.isFinite(data.straight_line_distance_km)&&data.straight_line_distance_km>5)continue;
   const row=document.createElement('tr'),cell=document.createElement('td'),button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.textContent=t[i+1];buttons.push(button);
   button.onclick=async()=>{if(state.busy||generation!==state.conversationGeneration||state.routeSearchContext?.pending!=='profile'||state.routeSearchContext.destination_query!==data.route_context.destination_query)return;buttons.forEach(b=>b.disabled=true);state.pendingTravelConfirmationData=null;state.travelConfirmationPanel=null;state.routeSearchContext={...data.route_context};state.pendingTravelMode=mode;state.pendingRouteDestination=null;closeAnswerReader(false);rememberNavigationSource();switchConversationModule('maps');showNavigationReturn();inputEl.value=t[i+1];await submitMessage();buttons.forEach(b=>b.disabled=false)};
   cell.append(button);row.append(cell);body.append(row);
@@ -1823,8 +1837,9 @@ async function refreshTransitDepartures(button){
 }
 function renderTransitChoices(options,selectedIndex=null){
  const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
+ showNavigationReturnInPanel(body);
  const heading=document.createElement('h3');heading.textContent=selectedIndex===null?t[0]:t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
- const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=t[2];back.onclick=()=>{cancelTransitAccess(true);selectedIndex===null?handleModuleLayerBack():renderTransitChoices(options)};body.append(back);
+ const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=t[2];back.onclick=()=>{cancelTransitAccess(true);selectedIndex===null?(state.navigationReturnContext?returnToNavigationSource():handleModuleLayerBack()):renderTransitChoices(options)};body.append(back);
  if(selectedIndex!==null){const journey=options[selectedIndex];if(!journey)return;const summary=document.createElement('p');summary.textContent=transitBoardingSummary(journey);body.append(summary);
   const selected=state.selectedTransitJourney,status=document.createElement('p');status.className='transit-access-status';status.setAttribute('role','status');status.textContent=selected?.loading?t[10]:selected?.error||'';body.append(status);
   // Walking directions are viewed in the map, not repeatedly offered as a
