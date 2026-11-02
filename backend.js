@@ -536,14 +536,16 @@ export default {
 
     // v150: Factual encyclopaedia summaries only for explicit information requests
     // and recognized countries/landmarks. Never mistake a nearby shop name for a country.
-    const countryAliases={franta:'Franța',france:'France',romania:'România',germania:'Germania',germany:'Germany',italia:'Italia',italy:'Italy',spania:'Spania',spain:'Spain',anglia:'Anglia',england:'England',londra:'Londra',london:'London',paris:'Paris',nantes:'Nantes',bucuresti:'București',rome:'Roma',roma:'Roma',portugalia:'Portugalia',polonia:'Polonia',poland:'Poland',japonia:'Japonia',japan:'Japan',grecia:'Grecia',greece:'Greece',turcia:'Turcia',turkey:'Turkey',statele_unite:'Statele Unite ale Americii',usa:'United States'};
+    const countryAliases={franta:'Franța',france:'France',romania:'România',germania:'Germania',germany:'Germany',italia:'Italia',italy:'Italy',spania:'Spania',spain:'Spain',anglia:'Anglia',england:'England',londra:'Londra',london:'London',paris:'Paris',nantes:'Nantes',barcelona:'Barcelona',oradea:'Oradea',bucuresti:'București',rome:'Roma',roma:'Roma',portugalia:'Portugalia',polonia:'Polonia',poland:'Poland',japonia:'Japonia',japan:'Japan',grecia:'Grecia',greece:'Greece',turcia:'Turcia',turkey:'Turkey',statele_unite:'Statele Unite ale Americii',usa:'United States'};
     const normalizeTopic=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
     const bareTopic=message.replace(/^(?:spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|descrie|tell me about|information about|what is|who is)\s+/i,'').replace(/[?.!]+$/,'').trim();
-    const topicKey=normalizeTopic(bareTopic),knownTopic=countryAliases[topicKey];
+    const parts=bareTopic.split(',').map(x=>x.trim()).filter(Boolean);
+    const countrySuffix=parts.length===2&&/^(?:spania|spain|romania|românia|franța|franta|france|italia|italy|germania|germany|portugalia|portugal|polonia|poland|uk|united kingdom)$/i.test(parts[1]);
+    const topicKey=normalizeTopic(countrySuffix?parts[0]:bareTopic),knownTopic=countryAliases[topicKey];
     const explicitKnowledge=/^(?:spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|tell me about|information about)\s+/i.test(message);
     const seekingRoute=/\b(?:traseu|ajung|transport|route|directions|navigate|drive|walk|cauta|caută|find|nearby|aproape)\b/i.test(message);
-    if(!seekingRoute&&(knownTopic||explicitKnowledge)&&bareTopic.length>=2&&bareTopic.length<=90&&!data.quick_place_search){
-      const encyclopediaTitle=knownTopic||bareTopic;
+    if(!seekingRoute&&(knownTopic||explicitKnowledge||countrySuffix)&&bareTopic.length>=2&&bareTopic.length<=90&&!data.quick_place_search){
+      const encyclopediaTitle=knownTopic||(countrySuffix?parts[0]:bareTopic);
       const wikiLang=['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(lang)?lang:'en';
       let article=null;
       for(const language of [...new Set([wikiLang,'en'])]){
