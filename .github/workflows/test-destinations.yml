@@ -33,6 +33,8 @@ jobs:
         run: npm run test:destinations && npm run test:local-categories
       - name: Modal first-tap and travel mode checks
         run: node tests_modal_ui.mjs && node tests_travel_mode_ui.mjs && node tests_transit_refresh.mjs
+      - name: Local-search media and module handoff safeguards
+        run: node tests_v148.mjs
       - name: Existing regression tests
         run: npm test
 
