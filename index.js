@@ -2316,7 +2316,7 @@ function openEncyclopediaCard(article,requestStartMs){
   s.append(h);card.append(s);return s;
  };
  const link=(url,label,parent)=>{
-  if(typeof url!=='string'||!/^https:\/\//.test(url))return;
+  if(typeof url!=='string'||!url.startsWith('https://'))return;
   const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=label;
   a.style.cssText='color:#91e8f5;text-decoration:underline;overflow-wrap:anywhere;font-size:13px';
   parent.append(a);
@@ -2356,8 +2356,8 @@ function openEncyclopediaCard(article,requestStartMs){
  }
  // Discard Wikipedia citation markers and split at sentence boundaries; never expose
  // a multi-screen continuous encyclopaedia paragraph.
- const content=String(article.extract||'').trim().replaceAll('(d)','').replaceAll('(D)','').replace(/\[\d+\]/g,'').replace(/\s+/g,' ');
- const sentences=content.split(/(?<=[.!?])\s+(?=\p{Lu})/u).filter(Boolean);
+ const content=String(article.extract||'').trim().replaceAll('(d)','').replaceAll('(D)','').replace(/\\[\\d+\\]/g,'').replace(/\\s+/g,' ');
+ const sentences=content.split(/(?<=[.!?])\\s+(?=\\p{Lu})/u).filter(Boolean);
  const intro=sentences.slice(0,3),further=sentences.slice(3,8);
  const blocks=(list,parent)=>{
   if(!list.length)return;
