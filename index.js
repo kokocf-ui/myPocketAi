@@ -2147,6 +2147,7 @@ function closeAnswerReader(restoreFocus=true){
  if(restoreFocus&&reader.origin?.isConnected)reader.origin.focus({preventScroll:true});
 }
 function openAnswerReader(text,origin){
+ if(state.lastRouteReply===String(text).trim()&&validMapRoute(state.lastRoute)){openWalkingRouteChoices(state.lastRoute,state.lastRouteOptions);return}
  closeRouteMap(false);
  closeAnswerReader(false);inputEl.blur();const t=readerLabels();
  const layer=document.createElement('section');layer.className='answer-reader';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-labelledby','answerReaderTitle');
