@@ -1626,6 +1626,7 @@ const TRAVEL_MODE_TEXT={ro:['Cum vrei să ajungi?','Pietonal','Transport public'
 const TRAVEL_CONFIRM_TEXT={ro:['Da, arată traseul','Nu, mulțumesc'],en:['Show directions','No, thanks'],fr:['Afficher le trajet','Non, merci'],de:['Route anzeigen','Nein, danke'],it:['Mostra percorso','No, grazie'],es:['Mostrar ruta','No, gracias'],pt:['Mostrar percurso','Não, obrigado'],nl:['Toon route','Nee, bedankt'],ru:['Показать маршрут','Нет, спасибо'],pl:['Pokaż trasę','Nie, dziękuję']};
 function openTransportModeFromAssistant(data){
  if(!data?.route_context?.destination)return false;
+ if(state.tripCountryOnChoice&&state.tripAccommodationDecision!=='yes'&&state.tripAccommodationDecision!=='no'){return offerDestinationAccommodationBeforeRoute(data.route_context.destination)}
  rememberNavigationSource();
  state.routeSearchContext={...data.route_context};
  switchConversationModule('maps');showNavigationReturn();
