@@ -1346,6 +1346,61 @@ function switchConversationModule(key){
  state.moduleSearchGeneration++;state.moduleSearchBusy=false;
  showView('module');
 }
+// Navigation handoff preserves the source module and its original place list.
+function rememberNavigationSource(place=null){
+ if(state.navigationReturnContext)return;
+ state.navigationReturnContext={view:state.currentView,module:state.currentModule,
+  results:Array.isArray(state.moduleSearchResults)?state.moduleSearchResults.slice():[],
+  choice:state.moduleSearchCategory||null,details:place||null,reply:state.moduleSearchReply||''};
+}
+function showNavigationReturn(){
+ document.getElementById('returnToSearchSource')?.remove();
+ const source=state.navigationReturnContext;if(!source)return;
+ const host=$('moduleContent');if(!host)return;
+ const back=document.createElement('button');back.id='returnToSearchSource';back.type='button';back.className='primary-btn';
+ back.textContent=state.language==='ro'?'← Înapoi la rezultatele anterioare':'← Back to previous results';
+ back.style.cssText='max-width:100%;margin:6px 0 10px';
+ back.onclick=()=>{
+  if(state.busy)return;
+  state.navigationReturnContext=null;
+  if(source.view==='assistant'){switchConversationModule('assistant');return}
+  if(!['maps','travel'].includes(source.module)){switchConversationModule('assistant');return}
+  switchConversationModule(source.module);
+  state.moduleSearchResults=source.results;
+  state.moduleSearchCategory=source.choice;
+  state.moduleSearchReply=source.reply;
+  updateQuickLayerGeometry();
+  $('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');
+  if(source.details&&source.results.length)renderModulePlaceDetails(source.details);
+  else if(source.results.length)renderModulePlaces(source.results);
+  else renderModuleQuickChoices();
+ };
+ host.prepend(back);
+}
+function offerPlaceTravelModes(place){
+ const lat=Number(place.latitude),lon=Number(place.longitude);
+ if(!Number.isFinite(lat)||!Number.isFinite(lon))return;
+ const point={latitude:lat,longitude:lon,label:[place.name,place.address].filter(Boolean).join(', ').slice(0,240)};
+ const body=$('moduleLayerBody');body.replaceChildren();
+ $('moduleLayerTitle').textContent=state.language==='ro'?'Cum dorești să ajungi?':'How would you like to travel?';
+ const title=document.createElement('p');title.textContent=point.label;body.append(title);
+ const t=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;
+ for(const [mode,label] of [['walk',t[1]],['transit',t[2]],['drive',t[3]]]){
+  const button=document.createElement('button');button.type='button';button.className='module-result-card';button.textContent=label;
+  button.onclick=async()=>{
+   if(state.busy)return;
+   rememberNavigationSource(place);
+   state.pendingTravelMode=mode;state.pendingRouteDestination=point;
+   state.routeSearchContext={destination_query:point.label,destination:point,pending:'profile',profile:null,origin_query:''};
+   $('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');
+   switchConversationModule('maps');showNavigationReturn();
+   inputEl.value=label;await submitMessage();
+  };
+  body.append(button);
+ }
+ const cancel=document.createElement('button');cancel.type='button';cancel.className='module-results-back';cancel.textContent=quickUiText().backResults;
+ cancel.onclick=()=>renderModulePlaceDetails(place);body.append(cancel);
+}
 function selectedPlaceForRoute(message){
  if(state.pendingRouteDestination){const point=state.pendingRouteDestination;state.pendingRouteDestination=null;return point}
  const text=String(message).normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
@@ -1497,7 +1552,7 @@ function renderModulePlaceDetails(place){
  if(Array.isArray(place.rooms)){for(const room of place.rooms.slice(0,10)){if(!room||typeof room!=='object')continue;const p=document.createElement('p');p.textContent=[room.name||l.rooms,room.price&&room.currency?room.price+' '+room.currency:''].filter(Boolean).join(' · ');card.append(p)}}
  if(Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude)))line(t.coordinates,Number(place.latitude).toFixed(5)+', '+Number(place.longitude).toFixed(5));
  const url=typeof place.map_url==='string'&&place.map_url.startsWith('https://www.openstreetmap.org/')?place.map_url:'';if(url){const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=t.openMap;card.append(link)}
- const back=document.createElement('button');back.type='button';back.className='primary-btn';back.textContent=t.backResults;back.addEventListener('click',()=>renderModulePlaces(state.moduleSearchResults));const walk=document.createElement('button');walk.type='button';walk.className='primary-btn';walk.textContent=routeActionsText().walking;walk.onclick=()=>{if(state.busy)return;state.pendingRouteDestination={latitude:place.latitude,longitude:place.longitude,label:[place.name,place.address].filter(Boolean).join(', ').slice(0,240)};$('moduleQuickLayer').classList.remove('open');switchConversationModule('maps');inputEl.value=routeActionsText().prompt+place.name;submitMessage()};body.append(card,walk,back);$('moduleLayerTitle').textContent=t.placeDetails;body.scrollTop=0;
+ const back=document.createElement('button');back.type='button';back.className='primary-btn';back.textContent=t.backResults;back.addEventListener('click',()=>renderModulePlaces(state.moduleSearchResults));const go=document.createElement('button');go.type='button';go.className='primary-btn';go.textContent=state.language==='ro'?'Cum dorești să ajungi aici?':'How would you like to get here?';go.onclick=()=>{if(state.busy)return;offerPlaceTravelModes(place)};body.append(card,go,back);$('moduleLayerTitle').textContent=t.placeDetails;body.scrollTop=0;
 }
 const QUICK_SEARCH_ENGLISH={
 'Benzinării':'Find petrol stations near me.',
@@ -1533,9 +1588,9 @@ function appendTravelModeChoices(data,host){
  if(data.needs_travel_mode!==true||!data.route_context?.destination_query)return false;
  const t=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en,table=document.createElement('table'),caption=document.createElement('caption'),body=document.createElement('tbody'),generation=state.conversationGeneration,buttons=[];table.className='travel-mode-table';caption.textContent=t[0];table.append(caption);
  for(const [i,mode] of ['walk','transit','drive'].entries()){
-  if(mode==='walk'&&Number.isFinite(data.straight_line_distance_km)&&data.straight_line_distance_km>3)continue;
+  // The user chooses the travel mode, regardless of distance.
   const row=document.createElement('tr'),cell=document.createElement('td'),button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.textContent=t[i+1];buttons.push(button);
-  button.onclick=async()=>{if(state.busy||generation!==state.conversationGeneration||state.routeSearchContext?.pending!=='profile'||state.routeSearchContext.destination_query!==data.route_context.destination_query)return;buttons.forEach(b=>b.disabled=true);state.pendingTravelConfirmationData=null;state.travelConfirmationPanel=null;state.routeSearchContext={...data.route_context};state.pendingTravelMode=mode;state.pendingRouteDestination=null;closeAnswerReader(false);switchConversationModule('maps');inputEl.value=t[i+1];await submitMessage();buttons.forEach(b=>b.disabled=false)};
+  button.onclick=async()=>{if(state.busy||generation!==state.conversationGeneration||state.routeSearchContext?.pending!=='profile'||state.routeSearchContext.destination_query!==data.route_context.destination_query)return;buttons.forEach(b=>b.disabled=true);state.pendingTravelConfirmationData=null;state.travelConfirmationPanel=null;state.routeSearchContext={...data.route_context};state.pendingTravelMode=mode;state.pendingRouteDestination=null;closeAnswerReader(false);rememberNavigationSource();switchConversationModule('maps');showNavigationReturn();inputEl.value=t[i+1];await submitMessage();buttons.forEach(b=>b.disabled=false)};
   cell.append(button);row.append(cell);body.append(row);
  }table.append(body);addChoiceDialogOpener(table,host);return true;
 }
