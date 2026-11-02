@@ -752,7 +752,25 @@ export default {
         const selectedCountry=String(selectedDestination?.country_code||selectedDestination?.countryCode||'').toUpperCase();
         const hasCoordinates=Number.isFinite(targetLat)&&Number.isFinite(targetLon);
         const outsideUkCoordinates=hasCoordinates&&!(targetLat>=49.8&&targetLat<=59.5&&targetLon>=-9.1&&targetLon<=2.8);
-        const internationalTarget=Boolean((knownCountry&&knownCountry!=='GB')||(selectedCountry&&selectedCountry!=='GB')||outsideUkCoordinates);
+        let internationalTarget=Boolean((knownCountry&&knownCountry!=='GB')||(selectedCountry&&selectedCountry!=='GB')||outsideUkCoordinates);
+        // Resolve city-only destinations in a mixed/international travel request before calling TfL.
+        // Exact name and country checks prevent a far-away guess for ambiguous names.
+        if(!internationalTarget&&!hasCoordinates&&env.GEOAPIFY_API_KEY&&/\b(?:transport mixt|transport multimodal|mixed transport|multimodal|avion|flight|plane|feribot|ferry)\b/i.test(normalizeGeoName(message))){
+          try{
+            const city=String(targetName||'').split(',')[0].trim();
+            const u=new URL('https://api.geoapify.com/v1/geocode/search');
+            u.searchParams.set('text',city);u.searchParams.set('type','city');u.searchParams.set('limit','8');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+            const r=await fetch(u.href,{signal:AbortSignal.timeout(6000)});
+            if(r.ok){
+              const matches=((await r.json()).features||[]).map(f=>f.properties||{}).filter(p=>normalizeGeoName(p.city||p.name)===normalizeGeoName(city)&&Number.isFinite(Number(p.lat))&&Number.isFinite(Number(p.lon)));
+              const countryCodes=[...new Set(matches.map(p=>String(p.country_code||'').toUpperCase()))];
+              if(countryCodes.length===1&&countryCodes[0]&&countryCodes[0]!=='GB'){
+                targetLat=Number(matches[0].lat);targetLon=Number(matches[0].lon);
+                internationalTarget=true;
+              }
+            }
+          }catch{}
+        }
         if(internationalTarget){
           if(!hasCoordinates&&env.GEOAPIFY_API_KEY){
             try{
@@ -1319,7 +1337,28 @@ export default {
         // but refuse an unqualified result thousands of kilometres away.
         const bounded=!country&&!isOrigin&&!query.includes(',')&&hasValidLocation;
         const plausible=bounded?results.filter(p=>routeGeoDistance({latitude,longitude},p)<=90000):results;
-        if(plausible.length||!venueTokens||isOrigin)return plausible;
+        if(plausible.length)return plausible;
+        // For a geographically distant city, retry a city-only search worldwide.
+        // Do not pretend an overseas shop/POI is nearby.
+        if(!country&&!isOrigin&&!query.includes(',')&&namedTokens.length<=2&&!/\b(?:station|airport|aeroport|hotel|restaurant|shop|magazin)\b/i.test(query)){
+          try{
+            const u=new URL('https://api.geoapify.com/v1/geocode/search');
+            u.searchParams.set('text',query);u.searchParams.set('type','city');u.searchParams.set('limit','8');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+            const r=await fetch(u.href,{signal:AbortSignal.timeout(5500)});
+            if(r.ok){
+              const wanted=normalizeGeoName(query),cities=[];
+              for(const f of (await r.json()).features||[]){
+                const p=f.properties||{},placeName=normalizeGeoName(p.city||p.name||'');
+                const lat=Number(p.lat??f.geometry?.coordinates?.[1]),lon=Number(p.lon??f.geometry?.coordinates?.[0]);
+                if(placeName!==wanted||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)continue;
+                const item={latitude:lat,longitude:lon,label:String(p.formatted||[p.city,p.country].filter(Boolean).join(', ')||query).slice(0,240),country_code:String(p.country_code||'').toUpperCase(),resolution_source:'exact_city_geocode'};
+                if(!cities.some(x=>routeGeoDistance(x,item)<10000))cities.push(item);
+              }
+              if(cities.length)return cities.slice(0,8);
+            }
+          }catch{}
+        }
+        if(!venueTokens||isOrigin)return plausible;
         return resolveNamedTravelPlace(query,env,hasValidLocation?{latitude,longitude}:null,trace=>{responsePlaceLookup=trace});
       };
       // v147: identify the destination BEFORE asking for transport. The previous
