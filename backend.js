@@ -1,4 +1,5 @@
 /*
+ * v166: geographically verified notable attractions in encyclopedia responses.
  * v165: event extraction stage counts, Romanian 'tripe' ingredient localization.
  * v164: total Worker timing diagnostics and traditional beef tripe culinary validation.
  * v163: coordinate web provider readiness, instrument all model calls, avoid duplicate culinary review.\n * v162: prevent recipe titles from being routed to GPS named-place lookup.
@@ -701,7 +702,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v165";
+    const API_VERSION = "v166";
     const requestStartMs=Date.now();
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
@@ -904,6 +905,26 @@ export default {
           try{
             const cityUrl=new URL('https://api.geoapify.com/v1/geocode/search');cityUrl.searchParams.set('text',article.title+(countrySuffix?', '+parts[1]:''));cityUrl.searchParams.set('type','city');cityUrl.searchParams.set('limit','3');cityUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
             const cityRes=await fetch(cityUrl,{signal:AbortSignal.timeout(4500)});if(cityRes.ok){const cityJson=await cityRes.json();const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();const p=(cityJson.features||[]).map(f=>f.properties||{}).find(p=>norm(p.city||p.name)===norm(encyclopediaTitle)&&Number.isFinite(Number(p.lat))&&Number.isFinite(Number(p.lon)));if(p)article.coordinates={latitude:Number(p.lat),longitude:Number(p.lon)}}
+          }catch{}
+        }
+        // Optional notable sights, grounded in a geographically scoped place provider.
+        // Never infer country-wide attractions from a country's geographic centroid.
+        const isCountryArticle=/\\b(?:țară|tara|country|republic|stat suveran|sovereign state)\\b/i.test(String(article.description||''));
+        if(!isCountryArticle&&article.coordinates&&env.GEOAPIFY_API_KEY){
+          try{
+            const u=new URL('https://api.geoapify.com/v2/places');
+            u.searchParams.set('categories','tourism.attraction,tourism.sights,entertainment.museum,tourism.artwork');
+            u.searchParams.set('filter','circle:'+article.coordinates.longitude+','+article.coordinates.latitude+',12000');
+            u.searchParams.set('bias','proximity:'+article.coordinates.longitude+','+article.coordinates.latitude);
+            u.searchParams.set('limit','20');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+            const response=await fetch(u,{signal:AbortSignal.timeout(2400)});
+            if(response.ok){
+              const result=await response.json(),seen=new Set();
+              article.attractions=(result.features||[]).map(f=>f.properties||{}).filter(x=>{
+                const name=String(x.name||'').trim(),key=name.toLocaleLowerCase();
+                if(!name||seen.has(key))return false;seen.add(key);return true;
+              }).slice(0,6).map(x=>({name:String(x.name).slice(0,100),address:String(x.formatted||'').slice(0,180)}));
+            }
           }catch{}
         }
         const reply=[article.title,article.description,article.extract].filter(Boolean).join(' — ');
