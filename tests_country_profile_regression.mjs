@@ -20,8 +20,8 @@ const fakeFetch=async input=>{
   assert.match(query,/wdt:P17 wd:Q29/,'country must be verified by Wikidata');
   assert.match(query,/wdt:P625/,'geo coordinates required');
   return {ok:true,json:async()=>({results:{bindings:[
-   {site:{value:'http://www.wikidata.org/entity/Q1'},siteLabel:{value:'Wrong protocol'},kind:{value:'sight'},coord:{value:'Point(0 0)'}},
-   {site:{value:'http://www.wikidata.org/entity/Q2'},siteLabel:{value:'Rejected example'},kind:{value:'sight'},coord:{value:'Point(0 0)'}},
+   {site:{value:'https://www.wikidata.org/entity/Q1'},siteLabel:{value:'Q1'},kind:{value:'sight'},coord:{value:'Point(0 0)'}},
+   {site:{value:'https://www.wikidata.org/entity/Q2'},siteLabel:{value:'Rejected coordinates'},kind:{value:'sight'},coord:{value:'Point(250 95)'}},
    {site:{value:'https://www.wikidata.org/entity/Q16014'},siteLabel:{value:'Museo del Prado'},siteDescription:{value:'art museum in Madrid'},kind:{value:'sight'},coord:{value:'Point(-3.692 40.4138)'}},
    {site:{value:'https://www.wikidata.org/entity/Q1492'},siteLabel:{value:'Barcelona'},kind:{value:'city'},coord:{value:'Point(2.17 41.38)'}},
    {site:{value:'https://www.wikidata.org/entity/Q16014'},siteLabel:{value:'Duplicate'},kind:{value:'sight'},coord:{value:'Point(-3.692 40.4138)'}}
