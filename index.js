@@ -1351,7 +1351,7 @@ function rememberNavigationSource(place=null){
  if(state.navigationReturnContext)return;
  state.navigationReturnContext={view:state.currentView,module:state.currentModule,
   results:Array.isArray(state.moduleSearchResults)?state.moduleSearchResults.slice():[],
-  choice:state.moduleSearchCategory||null,details:place||null,reply:state.moduleSearchReply||''};
+  choice:state.moduleSearchCategory||null,details:place||null,reply:state.moduleSearchReply||'',routeContext:state.routeSearchContext||null};
 }
 function showNavigationReturn(){
  document.getElementById('returnToSearchSource')?.remove();
@@ -1363,6 +1363,8 @@ function showNavigationReturn(){
  back.onclick=()=>{
   if(state.busy)return;
   state.navigationReturnContext=null;
+  state.routeSearchContext=source.routeContext;
+  state.pendingTravelMode=null;state.pendingRouteDestination=null;
   if(source.view==='assistant'){switchConversationModule('assistant');return}
   if(!['maps','travel'].includes(source.module)){switchConversationModule('assistant');return}
   switchConversationModule(source.module);
@@ -1389,7 +1391,7 @@ function offerPlaceTravelModes(place){
   button.onclick=async()=>{
    if(state.busy)return;
    rememberNavigationSource(place);
-   state.pendingTravelMode=mode;state.pendingRouteDestination=point;
+   state.pendingTravelMode=mode;state.pendingRouteDestination=null;
    state.routeSearchContext={destination_query:point.label,destination:point,pending:'profile',profile:null,origin_query:''};
    $('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');
    switchConversationModule('maps');showNavigationReturn();
