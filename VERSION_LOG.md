@@ -1,3 +1,7 @@
+## 2026-11-02 — Backend v150 / frontend 1.0.115 (partial feature update)
+
+Wikipedia summary endpoint integration (no paid provider), assistant encyclopedia overlay, destination selection on route creation, accommodation categories and tourist-centre intent, optional accommodation prompt after route response. Existing local business category expansion retained. Live international air/rail/ferry itinerary verification, lodging availability and comprehensive small business coverage remain outstanding. Previous navigation accepted by user; deployment and test verification pending.
+
 ## 2026-11-01 — Backend v147 / frontend 1.0.114
 
 Validare a obiectivului înainte de alegerea transportului; TfL pentru stații, Geoapify pentru alte obiective; numele uzuale de stadion sunt căutate cu denumirea oficială, fără coordonate introduse manual. Nu se acceptă un rezultat îndepărtat și fără legătură cu cererea. Distanta verificată controlează afișarea modului pietonal. Adăugate teste dedicate pentru Arsenal și păstrarea căilor TfL. Problema preexistentă Brave Search din testul general rămâne separată.
