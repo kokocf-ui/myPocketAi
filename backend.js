@@ -536,7 +536,7 @@ export default {
 
     // v150: Factual encyclopaedia summaries only for explicit information requests
     // and recognized countries/landmarks. Never mistake a nearby shop name for a country.
-    const countryAliases={franta:'Franța',france:'France',romania:'România',germania:'Germania',germany:'Germany',italia:'Italia',italy:'Italy',spania:'Spania',spain:'Spain',anglia:'Anglia',england:'England',londra:'Londra',london:'London',paris:'Paris',bucuresti:'București',rome:'Roma',roma:'Roma',portugalia:'Portugalia',polonia:'Polonia',poland:'Poland',japonia:'Japonia',japan:'Japan',grecia:'Grecia',greece:'Greece',turcia:'Turcia',turkey:'Turkey',statele_unite:'Statele Unite ale Americii',usa:'United States'};
+    const countryAliases={franta:'Franța',france:'France',romania:'România',germania:'Germania',germany:'Germany',italia:'Italia',italy:'Italy',spania:'Spania',spain:'Spain',anglia:'Anglia',england:'England',londra:'Londra',london:'London',paris:'Paris',nantes:'Nantes',bucuresti:'București',rome:'Roma',roma:'Roma',portugalia:'Portugalia',polonia:'Polonia',poland:'Poland',japonia:'Japonia',japan:'Japan',grecia:'Grecia',greece:'Greece',turcia:'Turcia',turkey:'Turkey',statele_unite:'Statele Unite ale Americii',usa:'United States'};
     const normalizeTopic=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
     const bareTopic=message.replace(/^(?:spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|descrie|tell me about|information about|what is|who is)\s+/i,'').replace(/[?.!]+$/,'').trim();
     const topicKey=normalizeTopic(bareTopic),knownTopic=countryAliases[topicKey];
