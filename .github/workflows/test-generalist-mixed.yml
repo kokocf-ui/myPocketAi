@@ -1,0 +1,30 @@
+name: Pocket AI generalist, voice and mixed-route regression
+on:
+  push:
+    branches: [main]
+    paths:
+      - backend.js
+      - index.js
+      - tests_generalist_mixed_regression.mjs
+      - .github/workflows/test-generalist-mixed.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  focused-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check backend.js
+          node --check index.js
+          node --check tests_generalist_mixed_regression.mjs
+      - name: Regression tests without external API calls
+        run: node tests_generalist_mixed_regression.mjs
