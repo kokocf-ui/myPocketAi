@@ -1308,7 +1308,7 @@ function openLongChoice(panel,trigger){
 }
 function addChoiceDialogOpener(panel,host){
  // Lightweight test DOMs without a native document still receive the table.
- if(!host?.ownerDocument){host?.append(panel);return}
+ if(!host?.ownerDocument||host?.dataset?.directChoices==='true'){host?.append(panel);return}
  const opener=document.createElement('button');
  opener.type='button';opener.className='long-choice-open';
  opener.setAttribute('aria-haspopup','dialog');
@@ -1693,8 +1693,9 @@ function appendConversationChoices(data,host){
     const explicitJourney=/\b(?:vreau sa ajung|cum ajung|traseu|ruta|navig|directions|route|how to get|go to)\b/i.test(String(data.message_received||''));
     const selected={...data,route_context:state.routeSearchContext,needs_travel_mode:explicitJourney,needs_travel_confirmation:!explicitJourney};state.pendingTravelConfirmationData=explicitJourney?null:selected;
     const prompt=explicitJourney?(state.language==='ro'?'Cum dorești să ajungi la '+option.label+'?':'How would you like to get to '+option.label+'?'):(state.language==='ro'?'Am identificat '+option.label+'. Dorești să îți arăt traseul?':'I found '+option.label+'. Would you like directions?');
-    const bubble=addBubble(prompt,'assistant',false,{autoOpen:false});
-    if(explicitJourney)appendTravelModeChoices(selected,bubble);else appendTravelConfirmation(selected,bubble);
+    const choiceHost=document.createElement('div');choiceHost.dataset.directChoices='true';
+    if(explicitJourney)appendTravelModeChoices(selected,choiceHost);else appendTravelConfirmation(selected,choiceHost);
+    openStandaloneChoicePanel(choiceHost,prompt);
     state.messages.push({role:'assistant',text:prompt});
     buttons.forEach(b=>b.disabled=true);
     return;
@@ -2358,7 +2359,7 @@ if(!state.pendingTravelMode&&state.routeSearchContext?.destination&&/^(?!pietona
 const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,history,module:state.currentView==='module'?state.currentModule:'assistant',route_context:state.routeSearchContext||null,travel_mode:travelMode,route_destination:routeDestination,transit_destination:travelMode==='transit'?routeDestination:undefined,transit_query:travelMode==='transit'?(state.routeSearchContext?.destination?.label||state.routeSearchContext?.destination_query||undefined):undefined,route_profile:routeStart?'walk':travelMode==='transit'?undefined:travelMode|| (routeDestination?(/driving|rutier|masina/i.test(message)?'drive':'walk'):undefined),route_start:routeStart,route_via_query:routeViaQuery,route_compare:routeCompare,weather_context:state.weatherSearchContext||null,place_context:state.placeSearchContext||null,distance_context:state.distanceSearchContext||null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});let data;try{data=await response.json()}catch{throw new Error(state.language==='en'?'The server returned an unreadable response.':'Serverul a trimis un răspuns care nu poate fi citit.')}if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));if(data.place_lookup)console.info('Pocket AI destination lookup',JSON.stringify(data.place_lookup));const reply=String(data.reply).trim();loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.pendingTravelConfirmationData=data.needs_travel_confirmation&&data.route_context?.destination?data:null;state.travelConfirmationPanel=null;state.weatherSearchContext=data.weather_context||null;if(Array.isArray(data.places))state.lastPlaceResults=data.places;/* Keep the answer in the user's current section; provider selection remains backend-driven. */if(data.needs_travel_mode)state.lastTravelModeResponse=data;if(Array.isArray(data.transit)&&data.transit.length)state.lastTransitResponse=data;const answerBubble=addBubble(reply,'assistant',false,{autoOpen:!(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification)});retainRouteResult(data,answerBubble);appendTransitChoiceAction(data,answerBubble);
  const standaloneChoice=Boolean(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification||(Array.isArray(data.choice_options)&&data.choice_options.length)||(Array.isArray(data.destination_candidates)&&data.destination_candidates.length));
  if(standaloneChoice){
-  const choiceHost=document.createElement('div');
+  const choiceHost=document.createElement('div');choiceHost.dataset.directChoices='true';
   const choicesAdded=Boolean(appendTravelModeChoices(data,choiceHost)|appendConversationChoices(data,choiceHost));
   if(choicesAdded){answerBubble.remove();openStandaloneChoicePanel(choiceHost,state.language==='ro'?'Alege o opțiune':'Choose an option')}
   else{appendTravelConfirmation(data,answerBubble)}
