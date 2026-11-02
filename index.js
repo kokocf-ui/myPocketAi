@@ -1728,7 +1728,8 @@ const TRANSIT_LAYOUT_TEXT={
  pl:['Etapy podróży','Krok','Co zrobić','Godzina','Powrót do wariantów','Przesiadki','Pieszo do przystanku']
 };
 function transitLayoutText(){return TRANSIT_LAYOUT_TEXT[state.language]||TRANSIT_LAYOUT_TEXT.en}
-function showTransitChoices(options){closeAnswerReader(false);closeRouteMap(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=transitAccessText()[0];renderTransitChoices(options)}
+function dismissSelectionKeyboard(){const focused=document.activeElement;if(focused&&(/^(INPUT|TEXTAREA|SELECT)$/.test(focused.tagName)||focused.isContentEditable))focused.blur();if(typeof inputEl!=='undefined'&&inputEl&&inputEl!==focused&&document.activeElement===inputEl)inputEl.blur()}
+function showTransitChoices(options){dismissSelectionKeyboard();closeAnswerReader(false);closeRouteMap(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=transitAccessText()[0];renderTransitChoices(options)}
 function transitOptionsForRoute(route){const selected=state.selectedTransitJourney;return selected?.accessRoute&&transitWalkingMatches(route,selected.journey.boarding_stop)?selected.options:null}
 function appendTransitReturnAction(host,route){const options=transitOptionsForRoute(route);if(!options?.length)return;const back=document.createElement('button');back.type='button';back.className='route-map-open transit-back-options';back.textContent='← '+transitLayoutText()[4];back.onclick=()=>showTransitChoices(options);host.append(back)}
 function appendTransitLegs(host,journey){
@@ -1897,6 +1898,7 @@ async function refreshTransitDepartures(button){
  }
 }
 function renderTransitChoices(options,selectedIndex=null){
+ dismissSelectionKeyboard();
  document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
  const heading=document.createElement('h3');heading.textContent=selectedIndex===null?t[0]:t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
  const actions=document.createElement('div');actions.className='quick-navigation-toolbar';
@@ -2061,6 +2063,7 @@ function loadRouteMapLibrary(){
 }
 function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!current)return;activeRouteMap=null;stopRouteTracking(current);current.cleanup();current.map?.remove();current.layer.remove();if(restoreFocus){const options=transitOptionsForRoute(current.route);if(options?.length)showTransitChoices(options);else if(current.origin?.isConnected)current.origin.focus({preventScroll:true})}}
 async function openRouteMap(route,origin,options=state.lastRouteOptions,startNavigation=false){
+ dismissSelectionKeyboard();
  if(!validMapRoute(route))return;state.lastRoute=route;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
  const layer=document.createElement('section');layer.className='route-map-window';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
  const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const previous=document.createElement('button');previous.type='button';previous.className='route-header-action';previous.textContent=state.language==='ro'?'Anterior':'Previous';previous.onclick=()=>{const transitOptions=transitOptionsForRoute(route);closeRouteMap(false);if(transitOptions?.length)showTransitChoices(transitOptions);else openWalkingRouteChoices(route,options)};const returning=document.createElement('button');returning.type='button';returning.className='route-header-action';returning.textContent=state.language==='ro'?'Revenire':'Return';returning.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else{closeRouteMap(false);if(state.currentView==='module')showView('module');else showView('home')}};header.append(previous,title,returning)
@@ -2089,6 +2092,7 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
  }catch{if(layer.isConnected)status.textContent=t.failed}
 }
 function openWalkingRouteChoices(route,options=state.lastRouteOptions){
+ dismissSelectionKeyboard();
  const usable=(Array.isArray(options)?options:[]).filter(validMapRoute);
  closeRouteMap(false);closeAnswerReader(false);
  const layer=document.createElement('section');layer.className='answer-reader route-choice-screen';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');
@@ -2147,6 +2151,7 @@ function closeAnswerReader(restoreFocus=true){
  if(restoreFocus&&reader.origin?.isConnected)reader.origin.focus({preventScroll:true});
 }
 function openAnswerReader(text,origin){
+ dismissSelectionKeyboard();
  if(state.lastTransitResponse?.reply===String(text).trim()&&Array.isArray(state.lastTransitResponse.transit)&&state.lastTransitResponse.transit.length){showTransitChoices(state.lastTransitResponse.transit);return}
  if(state.lastRouteReply===String(text).trim()&&validMapRoute(state.lastRoute)){openWalkingRouteChoices(state.lastRoute,state.lastRouteOptions);return}
  closeRouteMap(false);
@@ -2448,6 +2453,17 @@ welcomeUser();
 .view#view-module #sharedChatShell .chat-top strong{order:0!important;flex:1 1 auto!important;min-width:0!important;text-align:left!important;padding:0!important}
 .view#view-module #sharedChatShell .chat-top #newChatBtn{order:1!important;flex:0 0 auto!important;margin-left:auto!important;max-width:62%!important;white-space:nowrap!important}
 
+
+/* Selection and map navigation: same red gradient as the Acasă action. */
+.route-map-header .route-header-action,
+.route-choice-screen .answer-reader-header .route-header-action,
+.quick-navigation-toolbar .transit-choice-action {
+ background:linear-gradient(155deg,#ef5a47,#b82735 58%,#841d34)!important;
+ color:#fff!important;
+ border:2px solid #ffc1a9!important;
+ box-shadow:0 4px 0 #38101b,0 0 16px #ff665c55!important;
+ font-weight:800!important;
+}
 /* v1.0.111: match the existing red Quick selections button exactly. */
 #view-assistant .assistant-actions > .back-btn,
 #view-module .module-actions-row > .module-home-btn,
