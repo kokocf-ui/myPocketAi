@@ -1,4 +1,5 @@
 /*
+ * v154: honor requested transit choice count, faster bounded event research, culinary quality checks.
  * v153: date-filtered event tables, deduplicated transit choices, country reference data, faster recipe prompts.
  * v152: dated list sorting and duplicate control, London rail station resolution, repeated recipe ingredient cleanup.
  * v151: generalist international source research, duration formatting and opt-in authorized MOTIS v6 adapter.
@@ -690,7 +691,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v153";
+    const API_VERSION = "v154";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
