@@ -1,4 +1,5 @@
 /*
+ * v165: event extraction stage counts, Romanian 'tripe' ingredient localization.
  * v164: total Worker timing diagnostics and traditional beef tripe culinary validation.
  * v163: coordinate web provider readiness, instrument all model calls, avoid duplicate culinary review.\n * v162: prevent recipe titles from being routed to GPS named-place lookup.
  * v161: bound search-provider aggregation and extend traditional Romanian recipe fast path.\n * v160: expose stage-level latency diagnostics and recipe search routing status.
@@ -700,7 +701,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v164";
+    const API_VERSION = "v165";
     const requestStartMs=Date.now();
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
@@ -3918,8 +3919,10 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         }, 502);
       }
 
-      const recipeCleanup=removeRepeatedRecipeIngredients(result.response.trim());
+      const localizedRecipeText=recipeInstruction&&lang==='ro'?result.response.trim().replace(/\btripe\s+de\s+vita\b/giu,'burtă de vită').replace(/\btripe\b/giu,'burtă'):result.response.trim();
+      const recipeCleanup=removeRepeatedRecipeIngredients(localizedRecipeText);
       const structuredEvents=eventRowsFromReply(recipeCleanup.text,message,lang);
+      const eventPipelineDiagnostics=eventResearchIntent?{research_source_count:webSources.length,model_list_markers:(recipeCleanup.text.match(/^\s*(?:[-*•]|\d+[.)])\s+.+$/gm)||[]).length,structured_event_count:structuredEvents?.structured_list?.rows?.length??0,model_reply_characters:recipeCleanup.text.length,source_count_used_in_prompt:webSearchContext?Math.min(webSources.filter(x=>x.snippets.length||x.pageEvidence).length,15):0}:null;
       let finalReply=structuredEvents?structuredEvents.reply:sortNumberedDatedEvents(recipeCleanup.text,lang);
       const evidenceSources = webSources.filter(item=>item.snippets.length||item.pageEvidence);
       // v98: sources remain available as structured API metadata; never append them automatically to chat text.
@@ -3938,6 +3941,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         sources: evidenceSources.map((item,index)=>({number:index+1,title:item.title,url:item.url,publishedDate:item.publishedDate,providers:item.providers,page_fetch_status:item.pageFetchStatus||"not_fetched",evidence_excerpt:(item.pageEvidence||item.snippets.join(" ")).slice(0,1200)})),
         web_search_status: shouldSearchWeb ? webSearchStatus : "not_needed",
         web_search_diagnostics: shouldSearchWeb ? webSearchDiagnostics : null,
+        event_pipeline_diagnostics:eventPipelineDiagnostics,
         context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12},
         calculation_verified: false,
         ai_execution_ms: Date.now()-aiStartedAt,
