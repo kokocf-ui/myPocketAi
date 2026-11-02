@@ -272,11 +272,12 @@ function sortNumberedDatedEvents(answer,language='ro'){
    const words=[...new Set(titleTokens(item))],stamp=item.date.year+'-'+item.date.month+'-'+item.date.day;
    const duplicate=seen.some(prev=>{
     if(prev.stamp!==stamp)return false;
+    if(prev.title===normalize(item.text))return true;
     const other=prev.words,common=words.filter(x=>other.includes(x)).length;
     const overlap=common/Math.max(1,Math.max(words.length,other.length));
     return overlap>=0.82&&common>=3;
    });
-   if(!duplicate){seen.push({stamp,words});unique.push(item);}
+   if(!duplicate){seen.push({stamp,words,title:normalize(item.text)});unique.push(item);}
   }
   const originalLines=lines.slice(group.start,group.end),trailingBlanks=originalLines.reverse().findIndex(v=>v.trim());
   const ending=trailingBlanks<0?0:trailingBlanks;
@@ -895,12 +896,17 @@ export default {
         // The city qualifier disambiguates the station without a "Station" suffix.
         const cityFirstStation=String(targetName).match(/^(?:london|londra)\s+([\p{L}0-9 '&.-]{4,90})$/iu);
         const explicitStationWord=/\b(station|underground|tube|metro|railway)\b/i.test(targetName);
+        // Multiword London destinations in public transport queries may be the
+        // stations themselves, even when users omit the word "station".
+        // Official operator evidence takes precedence over nearby businesses.
+        const londonQualifiedName=String(targetName).match(/^([\p{L} '&.-]{4,80}),\s*(?:london|londra|greater london|england|uk)$/iu);
         const tryVerifiedStation=explicitStationWord||
-          Boolean(cityFirstStation&&cityFirstStation[1].trim().split(/\s+/).length>=2);
+          Boolean(cityFirstStation&&cityFirstStation[1].trim().split(/\s+/).length>=2)||
+          Boolean(londonQualifiedName&&londonQualifiedName[1].trim().split(/\s+/).length>=2);
         const unqualifiedStation=/\b(station|underground|tube|metro|railway)\b/i.test(requestedStationName)&&! /\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|paris|france|berlin|germany|rome|italy|madrid|spain|canada|australia)\b/i.test(requestedStationName);
         if(env.TFL_APP_KEY && tryVerifiedStation){
           try{
-            const stopQuery=targetName.replace(/\b(london|londra|underground|railway|rail|train|station|tube)\b/gi," ").replace(/\s+/g," ").trim();
+            const stopQuery=targetName.replace(/\b(london|londra|underground|railway|rail|train|station|tube)\b/gi," ").replace(/[,\s]+/g," ").trim();
             if(stopQuery.length>=3){
               const stopUrl=new URL("https://api.tfl.gov.uk/StopPoint/Search/"+encodeURIComponent(stopQuery));
               stopUrl.searchParams.set("app_key",env.TFL_APP_KEY);
