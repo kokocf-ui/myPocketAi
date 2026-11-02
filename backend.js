@@ -167,7 +167,10 @@ function extractTransitDestination(message){
   .replace(/\b(?:londra|londrei)\b/g,'london');
  text=text.split(/[.!?;\n]/)[0].trim()
   .replace(/,\s*(?:cum (?:ajung|merg)|how (?:do i|can i|to))\b.*$/i,'')
-  .replace(/\s*,?\s+(?:(?:folosind|utilizand|using|with|cu|by)\s+(?:transport(?:ul)?(?:\s+(?:in comun|public))?|public transport|autobuz(?:ul)?|bus|tren(?:ul)?|train|metrou|tube)\b|(?:arata(?:-mi)?|afiseaza|compara|show|compare)\b).*$/i,'')
+  .replace(/\s+(?:folosind|utilizand|using|with|cu|by)\s+transport(?:ul)?\s+(?:mixt|multimodal)\b.*$/i,'')
+  // Delete a travel-mode qualifier only at the end, never before "pana la <destination>".
+  .replace(/\s*,?\s+(?:folosind|utilizand|using|with|cu|by)\s+(?:transport(?:ul)?(?:\s+(?:in comun|public))?|public transport|autobuz(?:ul)?|bus|tren(?:ul)?|train|metrou|tube)\s*$/i,'')
+  .replace(/\s*,?\s+(?:arata(?:-mi)?|afiseaza|compara|show|compare)\b.*$/i,'')
   .replace(/\b(?:transport(?:ul)?\s+in comun|transport(?:ul)?\s+public|public transport)\b/g,' ')
   .replace(/\s+/g,' ').trim();
  // Strong destination connectors take precedence over 'in' inside a city qualifier.
@@ -618,11 +621,11 @@ export default {
     // and recognized countries/landmarks. Never mistake a nearby shop name for a country.
     const countryAliases={franta:'Franța',france:'France',romania:'România',germania:'Germania',germany:'Germany',italia:'Italia',italy:'Italy',spania:'Spania',spain:'Spain',anglia:'Anglia',england:'England',londra:'Londra',london:'London',paris:'Paris',nantes:'Nantes',barcelona:'Barcelona',oradea:'Oradea',bucuresti:'București',rome:'Roma',roma:'Roma',portugalia:'Portugalia',polonia:'Polonia',poland:'Poland',japonia:'Japonia',japan:'Japan',grecia:'Grecia',greece:'Greece',turcia:'Turcia',turkey:'Turkey',statele_unite:'Statele Unite ale Americii',usa:'United States'};
     const normalizeTopic=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
-    const bareTopic=message.replace(/^(?:spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|descrie|tell me about|information about|what is|who is)\s+/i,'').replace(/[?.!]+$/,'').trim();
+    const bareTopic=message.replace(/^(?:prezintă-mi|prezinta-mi|prezintă|prezinta|povestește-mi despre|povesteste-mi despre|descrie-mi|spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|descrie|tell me about|information about|what is|who is)\s+/i,'').replace(/^(?:orașul|orasul|municipiul|city of)\s+/i,'').replace(/[?.!]+$/,'').trim();
     const parts=bareTopic.split(',').map(x=>x.trim()).filter(Boolean);
     const countrySuffix=parts.length===2&&/^(?:spania|spain|romania|românia|franța|franta|france|italia|italy|germania|germany|portugalia|portugal|polonia|poland|uk|united kingdom)$/i.test(parts[1]);
     const topicKey=normalizeTopic(countrySuffix?parts[0]:bareTopic),knownTopic=countryAliases[topicKey];
-    const explicitKnowledge=/^(?:spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|tell me about|information about)\s+/i.test(message);
+    const explicitKnowledge=/^(?:prezintă-mi|prezinta-mi|prezintă|prezinta|povestește-mi despre|povesteste-mi despre|descrie-mi|descrie|spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|tell me about|information about)\s+/i.test(message);
     const seekingRoute=Boolean(data.travel_mode||data.route_profile||data.route_destination||data.transit_destination||data.route_context?.destination)&&/^(?:mașină|masina|drive|driving|transport public|public transport|pietonal|walking|walk)$/i.test(message.trim()) || /\b(?:traseu|ajung|transport|route|directions|navigate|drive|walk|cauta|caută|find|nearby|aproape)\b/i.test(message);
     const possibleCity=parts.length<=2&&parts[0]?.split(/\s+/).length<=3&&/^[\p{L}\s.'-]{3,65}$/u.test(parts[0]||'')&&!/^(?:magazin|market|aldi|tesco|lidl|hotel|restaurant|pub|coffee|decathlon|sport direct)$/i.test(parts[0]||'');
     const cityLookup=!seekingRoute&&!data.quick_place_search&&possibleCity&&!explicitKnowledge&&!knownTopic&&!countrySuffix&&parts.length===1;
@@ -2083,7 +2086,10 @@ export default {
     const namedVenueInput=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
     const namedVenueMatch=(()=>{const m=namedVenueInput.match(/(?:^|\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\s+(.+?)\s+(?:din|in|,)\s+([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
       return m&&!/^(?:de\s+)?(?:[1-5]|one|two|three|four|five|una|doua|trei|patru|cinci)\s*(?:[- ]?star|stele|stea)/i.test(m[2])?m:null})()
-      ||(!earlyFoodSearchIntent?(()=>{const m=namedVenueInput.match(/^(?:vreau sa ajung la\s+)?([\p{L}][\p{L}0-9&' .-]{2,55}?)\s*(?:,\s*|\s+(?:din|in)\s+)([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);return m?[m[0],'obiectiv',m[1],m[2]]:null})():null);
+      ||(!earlyFoodSearchIntent?(()=>{const m=namedVenueInput.match(/^(?:vreau sa ajung la\s+)?([\p{L}][\p{L}0-9&' .-]{2,55}?)\s*(?:,\s*|\s+(?:din|in)\s+)([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
+        // Only short place names are candidates. Full sentences belong to the general AI.
+        const name=m?.[1]?.trim()||'',shortProperName=name.split(/\s+/).length<=2&&!/^(?:cauta|gaseste|arata|prezinta|spune|descrie|povesteste|vreau|ce|care|cand|unde|cum|find|show|search|tell|what|how)\b/i.test(name);
+        return m&&shortProperName?[m[0],'obiectiv',m[1],m[2]]:null})():null);
     // GPS-first named business lookup when the user does not know its town.
     // Only handle short name queries, not general questions or dedicated map routing.
     const localNameRaw=namedVenueInput.replace(/^(?:vreau sa ajung la|unde (?:este|e|gasesc)|cauta(?:-mi)?|gaseste(?:-mi)?)\s+/i,'').replace(/\s+(?:in zona mea|in apropierea mea|langa mine|aproape de mine|near me|nearby)$/i,'').trim();
