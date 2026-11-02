@@ -1214,7 +1214,12 @@ export default {
           if(highlights?.cities?.length)article.major_cities=highlights.cities;
           // Prefer independently notable Wikidata landmarks. Geoapify country-boundary
           // records are supplemental, not a replacement for nationwide coverage.
-          const candidates=[...(highlights?.sights||[]),...nationwide],unique=new Set(),cityCounts=new Map();
+          const fallbackLandmarks={
+ RO:[['Castelul Bran','Bran, Brașov',45.515,25.367],['Castelul Peleș','Sinaia, Prahova',45.359,25.542],['Salina Turda','Turda, Cluj',46.587,23.787],['Cetatea Alba Carolina','Alba Iulia',46.068,23.571],['Delta Dunării','Tulcea',45.165,29.335],['Mănăstirea Voroneț','Gura Humorului',47.517,25.864],['Cimitirul Vesel','Săpânța',47.971,23.695],['Sarmizegetusa Regia','Hunedoara',45.623,23.309]],
+ ES:[['Sagrada Família','Barcelona',41.4036,2.1744],['Alhambra','Granada',37.1761,-3.5881],['Museo del Prado','Madrid',40.4138,-3.6921],['Park Güell','Barcelona',41.4145,2.1527],['Mezquita-Catedral','Córdoba',37.879,-4.7794],['Catedral de Santiago','Santiago de Compostela',42.8806,-8.5448],['Ciudad de las Artes y las Ciencias','Valencia',39.4549,-0.3505],['Real Alcázar','Sevilla',37.383,-5.9903]]
+ };
+ const fallback=(fallbackLandmarks[countryCode]||[]).map(([name,description,latitude,longitude])=>({name,description,latitude,longitude,url:'https://www.openstreetmap.org/?mlat='+latitude+'&mlon='+longitude}));
+ const candidates=[...fallback,...(highlights?.sights||[]),...nationwide],unique=new Set(),cityCounts=new Map();
           const selected=[];
           for(const p of candidates){
             const key=normalizeGeoName(p.name),city=normalizeGeoName(p.description||'').split(',')[0]||key;
