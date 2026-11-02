@@ -2488,8 +2488,8 @@ function needsLocation(text){return /(unde sunt|localiz\\w*|geolocaliz\\w*|locat
 // 07 — Chat transport. Voice errors never convert a successful API response into request failure.
 // A requested count survives an Assistant → transport chooser handoff.
 function requestedTransitCountInMessage(value){
- const text=String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
- const found=text.match(/\b(1|2|3|4|unu|una|un|o|one|doi|doua|two|trei|three|patru|four)\s+(?:variante?|variantele|alternativ[ae]|options?|routes?|itinerari[ie]|journeys?)\b/i);
+ const text=String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+ const found=text.match(/\\b(1|2|3|4|unu|una|un|o|one|doi|doua|two|trei|three|patru|four)\\s+(?:variant(?:e|a)?|variantele|alternativ[ae]|options?|routes?|itinerari[ie]|journeys?)\\b/i);
  if(!found)return null;
  const words={unu:1,una:1,un:1,o:1,one:1,doi:2,doua:2,two:2,trei:3,three:3,patru:4,four:4};
  return Number(found[1])||words[found[1]]||null;
