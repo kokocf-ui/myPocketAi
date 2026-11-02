@@ -1513,7 +1513,7 @@ export default {
       { key: "bank", pattern: /(?:^| )(?:bank\w*|banca\w*|banci)(?: |$)/, labelRo: "bancă", labelEn: "bank", overpass: 'amenity="bank"' },
       { key: "post_office", pattern: /(?:^| )(?:post office\w*|posta\w*|oficiu postal)(?: |$)/, labelRo: "oficiu poștal", labelEn: "post office", overpass: 'amenity="post_office"' },
       { key: "toilets", pattern: /(?:^| )(?:toilet\w*|toaleta\w*|toalete)(?: |$)/, labelRo: "toaletă publică", labelEn: "public toilet", overpass: 'amenity="toilets"' },
-      { key: "hotel", pattern: /(?:^| )(?:hotel\w*|hoteluri|hostel\w*)(?: |$)/, labelRo: "hotel sau hostel", labelEn: "hotel or hostel", overpass: 'tourism~"^(hotel|hostel|guest_house)$"' },
+      { key: "hotel", pattern: /(?:^| )(?:hotel\w*|hoteluri|hostel\w*|pensiun\w*|motel\w*|guest[ -]?houses?|bed and breakfasts?|b\s*&\s*b|aparthotel\w*|apartamente? (?:de )?(?:vacanta|inchiriat)|vacation rentals?|holiday (?:home|rental|apartment)s?|cazare|accommodation|lodging|airbnb)(?: |$)/, labelRo: "cazare", labelEn: "accommodation", overpass: 'tourism~"^(hotel|hostel|guest_house|motel|apartment|chalet)$"' },
       { key: "transport", pattern: /(?:^| )(?:gara\w*|train station\w*|railway station\w*|bus station\w*|bus stop\w*|statie de autobuz|airport\w*|aeroport\w*)(?: |$)/, labelRo: "stație sau nod de transport", labelEn: "transport stop or hub", overpass: 'public_transport="station"' },
       { key: "confectionery", pattern: /(?:^| )(?:cofetari\w*|patiseri\w*|confectioner\w*|patisserie\w*|cake shop\w*|ice cream|gelateri\w*|sweet shop\w*|dessert\w*|brutari\w*)(?: |$)/, labelRo: "cofetărie, patiserie sau gelaterie", labelEn: "confectionery, bakery or ice cream shop", overpass: 'shop~"^(pastry|confectionery|bakery|ice_cream)$"' },
       { key: "lounge", pattern: /(?:^| )(?:baruri|bar\w*|pub\w*|biergarten\w*|tavern\w*|taproom\w*)(?: |$)/, labelRo: "bar, pub, ceainărie sau cafenea", labelEn: "bar, pub, tea room or café", overpass: 'amenity~"^(pub|bar|biergarten|cafe)$"' },
@@ -2402,7 +2402,7 @@ export default {
         const photonStartedAt = Date.now();
         const photonRequestPromise = (async () => {
           const photonUrl = new URL("https://photon.komoot.io/api/");
-          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "grocery", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", cafe: "cafe", restaurant: "restaurant", fast_food: "fast food takeaway", lounge: "pub cafe tea room", zoo: "zoo", stadium: "stadium", market_bakery: "grocery", corner_shop: "convenience", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
+          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "grocery", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel guest house motel hostel holiday apartment", transport: "train station", cafe: "cafe", restaurant: "restaurant", fast_food: "fast food takeaway", lounge: "pub cafe tea room", zoo: "zoo", stadium: "stadium", market_bakery: "grocery", corner_shop: "convenience", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
           photonUrl.searchParams.set("lat", String(latitude));
           photonUrl.searchParams.set("lon", String(longitude));
           photonUrl.searchParams.set("limit", "100");
@@ -2449,7 +2449,7 @@ export default {
               bank: "service.financial.bank",
               post_office: "service.post.post_office",
               toilets: "amenity.toilet",
-              hotel: "accommodation.hotel",
+              hotel: "accommodation",
               transport: "public_transport,railway,public_transport.station"
             })[requestedPlaceCategory.key] || "catering.restaurant");
             geoapifyUrl.searchParams.set("filter", `circle:${longitude},${latitude},${radius}`);
