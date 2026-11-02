@@ -1120,7 +1120,19 @@ export default {
         }
         const isCountryProfile=Boolean(countryNameCodes.has(normalizeGeoName(encyclopediaTitle))&&countryCode) || /\b(?:țară|tara|country|republic|stat suveran|sovereign state)\b/i.test(String(article.description||''));
         article.is_country=isCountryProfile;
-        if(isCountryProfile&&article.wikibase_item){
+        if(isCountryProfile){
+          if(!article.wikibase_item){
+            try{
+              const api=new URL('https://'+article.language+'.wikipedia.org/w/api.php');
+              api.searchParams.set('action','query');api.searchParams.set('prop','pageprops');api.searchParams.set('ppprop','wikibase_item');api.searchParams.set('titles',article.title);api.searchParams.set('format','json');
+              const missing=await fetch(api,{signal:AbortSignal.timeout(1300)});
+              if(missing.ok){
+                const pages=Object.values((await missing.json()).query?.pages||{});
+                const item=String(pages[0]?.pageprops?.wikibase_item||'');
+                if(/^Q[1-9]\\d*$/.test(item))article.wikibase_item=item;
+              }
+            }catch{}
+          }
           const [facts,highlights]=await Promise.all([countryCode?countryMetadata(countryCode,lang):null,getCountryHighlights(article.wikibase_item,lang)]);
           if(facts)article.country_facts=facts;
           if(highlights){
