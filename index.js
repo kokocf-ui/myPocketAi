@@ -1763,10 +1763,14 @@ function appendTransitCards(host,options){
  for(const [i,journey] of options.entries()){
   const button=document.createElement('button');button.type='button';button.className='transit-choice-action transit-journey-choice';
   const first=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))),heading=document.createElement('strong');
-  heading.textContent=(i+1)+'. '+transitClock(first?.departureTime||journey.firstVehicleDepartureTime,first?.departureZone||journey.time_zone)+' → '+transitClock(journey.arrivalDateTime||journey.legs?.at(-1)?.arrivalTime,journey.legs?.at(-1)?.arrivalZone||journey.time_zone)+' · '+formatTravelDurationMinutes(journey.durationMinutes);
+  heading.textContent=(i+1)+'. '+transitClock(journey.startDateTime||first?.departureTime||journey.firstVehicleDepartureTime,journey.legs?.[0]?.departureZone||journey.time_zone)+' → '+transitClock(journey.arrivalDateTime||journey.legs?.at(-1)?.arrivalTime,journey.legs?.at(-1)?.arrivalZone||journey.time_zone)+' · '+formatTravelDurationMinutes(journey.durationMinutes);
   const boarding=document.createElement('div');boarding.textContent=transitBoardingSummary(journey);
   const metrics=document.createElement('div');metrics.className='transit-card-metrics';metrics.textContent=[Number.isFinite(journey.walkToFirstStopMinutes)?labels[6]+': '+formatTravelDurationMinutes(journey.walkToFirstStopMinutes):'',Number.isFinite(journey.transferCount)?labels[5]+': '+journey.transferCount:''].filter(Boolean).join(' · ');
-  button.append(heading,boarding,metrics);button.onclick=()=>{closeAnswerReader(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=t[0];selectTransitJourney(options,i)};host.append(button);
+  const vehicles=(journey.legs||[]).filter(x=>!/^(?:walking|walk|foot|pedestrian)$/i.test(String(x.mode||'')));
+  const routeLine=document.createElement('div');routeLine.className='transit-card-route-overview';
+  routeLine.style.cssText='font-size:clamp(12px,3.4vw,14px);line-height:1.45;margin:7px 0 5px;opacity:.95;overflow-wrap:anywhere';
+  routeLine.textContent=vehicles.map(x=>transitModeName(x.mode)+((x.lineNames||[]).length?' '+x.lineNames.join(', '):'')+(x.to?' → '+x.to:'')).join(' · ');
+  button.append(heading,boarding,routeLine,metrics);button.onclick=()=>{closeAnswerReader(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=t[0];selectTransitJourney(options,i)};host.append(button);
  }
 }
 function appendTransitOverview(host,text){
