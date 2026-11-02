@@ -43,7 +43,9 @@ Duratele se calculează în continuare în unități numerice (secunde/minute) p
 - Verifică expres prezentarea duratelor în backend.js (ex.: ~1088, ~1359–1360, ~1522, ~1532) și frontend index.js (~1755, ~1757, ~2001, ~2114), fără a modifica algoritmii de rutare.
 
 ## Probleme deschise — trasee mixte naționale și internaționale (prioritate majoră)
-**Stare: NEREZOLVAT / NEIMPLEMENTAT COMPLET la 2026-11-02.** Cele trei variante auto nu reprezintă trei itinerarii multimodale. Nu declara funcția rezolvată până când nu există teste end-to-end cu operatori reali, ore de plecare/legături verificabile și navigație până la adresa finală.
+
+**Actualizare backend v151:** bariera bazată pe o listă fixă de destinații a fost înlocuită cu identificare geografică. Există un adaptor MOTIS v6 opțional (MOTIS_API_BASE_URL) pentru rute pe jos + tren/metrou/autobuz/autocar/feribot, cu verificări pentru transferuri, anulări și ore locale. Nu este conectat un furnizor autorizat, nu se verifică încă zboruri și nu declarăm Grays → Oradea funcțional. La configurarea unui furnizor trebuie respectate explicit drepturile și condițiile de utilizare.
+**Stare: PARȚIAL IMPLEMENTAT / ÎNCĂ NEREZOLVAT COMPLET la 2026-11-02.** Cele trei variante auto nu reprezintă trei itinerarii multimodale. Nu declara funcția rezolvată până când nu există teste end-to-end cu operatori reali, ore de plecare/legături verificabile și navigație până la adresa finală.
 
 ### Ce trebuie să obțină utilizatorul
 - Planificare door-to-door de la locația GPS sau de la o adresă dată până la destinația exactă, inclusiv localități din afara Regatului Unit; păstrează secțiunea curentă în Asistent.
@@ -81,7 +83,7 @@ Duratele se calculează în continuare în unități numerice (secunde/minute) p
 - backend.js, în zona ~3090–3095: declanșarea cercetării web depinde de semnul întrebării ori de o listă de termeni; comenzi imperative pentru filme/festivaluri/alte teme pot fi ratate.
 - backend.js, în zona ~3096: lista de țări explicit recunoscute pentru filtrare nu este globală; trebuie extinsă strategia internațională, nu doar lista.
 - backend.js, în zona ~3231: sursele sunt ținute în metadata și ascunse implicit; pentru legislație și evenimente sursele verificabile trebuie să poată fi accesate clar de utilizator.
-- Frontend index.js: auditul a identificat un bug separat al expresiilor regulate insuficient escapate în HTML-ul generat, cu dispariția literei „s” în prezentări și transcriere. Corecția este programată pentru următorul update; nu se modifică acum codul.
+- Frontend index.js: auditul a identificat un bug separat al expresiilor regulate insuficient escapate în HTML-ul generat, cu dispariția literei „s” în prezentări și transcriere. Corecția este implementată în frontend 1.0.116 (34 de expresii corectate); verificările izolate au trecut, dar validarea CI și pe telefon rămâne de confirmat.
 
 ## Criterii de acceptare pentru următoarele teste
 - „Ce prevede Codul muncii în Japonia despre concediu?” -> determină jurisdicția, găsește surse oficiale și semnalează necunoscutele.
