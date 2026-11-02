@@ -2437,7 +2437,23 @@ function offerDestinationAccommodationBeforeRoute(destination){
  const host=document.createElement('div');host.dataset.directChoices='true';
  const note=document.createElement('p');note.textContent=(state.language==='ro'?'Destinație confirmată: ':'Confirmed destination: ')+destination.label+'. '+(state.language==='ro'?'Dorești să alegi cazarea înainte să calculăm traseul final?':'Choose accommodation before calculating your final route?');host.append(note);
  const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';yes.textContent=state.language==='ro'?'Da, caută cazare':'Find accommodation';
- yes.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationDecision='yes';state.tripAccommodationSearching=true;inputEl.value=(state.language==='ro'?'Caută cazare în zona centrală turistică din ':'Find accommodation in the tourist centre of ')+destination.label;submitMessage()};
+ yes.onclick=async()=>{
+  document.getElementById('pocketStandaloneChoices')?.remove();
+  state.tripAccommodationDecision='yes';state.tripAccommodationSearching=true;
+  const lat=Number(destination.latitude),lon=Number(destination.longitude);
+  const next=()=>{state.tripAccommodationSearching=false;openTransportModeFromAssistant({route_context:{destination_query:destination.label,destination,pending:'profile'}})};
+  try{
+   const endpoint=new URL('https://api.geoapify.com/v2/places');
+   // Accommodation search must be resolved by our backend, never a public browser API key.
+   const response=await fetch(API_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'__nearby_accommodation__',language:state.language,accommodation_search:{latitude:lat,longitude:lon,radius_m:5000,label:destination.label}})});
+   const data=await response.json();
+   if(!response.ok||!Array.isArray(data.places)||!data.places.length){
+    addBubble(state.language==='ro'?'Nu am găsit cazări verificate în apropierea atracției. Poți continua cu traseul.':'No verified nearby accommodation was found. You can continue to directions.','assistant');
+    next();return;
+   }
+   state.tripAccommodationSearching=false;openAccommodationResults(data.places);
+  }catch{addBubble(state.language==='ro'?'Căutarea cazării nu este disponibilă momentan. Continuăm cu alegerea transportului.':'Accommodation search is temporarily unavailable. Continuing to transport.','assistant');next()}
+ };
  const no=document.createElement('button');no.type='button';no.className='transit-choice-action';no.textContent=state.language==='ro'?'Nu, creează traseul':'No, plan my route';
  no.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationSearching=false;state.tripAccommodationDecision='no';openTransportModeFromAssistant({route_context:{destination_query:destination.label,destination,pending:'profile'}})};
  host.append(yes,no);openStandaloneChoicePanel(host,state.language==='ro'?'Cazare înainte de traseu':'Accommodation before route');return true;
