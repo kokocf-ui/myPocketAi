@@ -756,7 +756,7 @@ async function getCapitalSights(facts,apiKey){
   const seen=new Set(),sights=[];
   for(const f of (await places.json()).features||[]){
    const x=f.properties||{},name=String(x.name||'').trim(),lat=Number(x.lat),lon=Number(x.lon),key=normalizeGeoName(name);
-   if(!key||seen.has(key)||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)continue;
+   if(!key||seen.has(key)||x.lat===null||x.lon===null||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180||(x.country_code&&String(x.country_code).toUpperCase()!==facts.country_code))continue;
    seen.add(key);sights.push({name:name.slice(0,95),description:String(x.city||facts.capital).slice(0,90),latitude:lat,longitude:lon,url:'https://www.openstreetmap.org/?mlat='+lat+'&mlon='+lon+'#map=16/'+lat+'/'+lon});
    if(sights.length===6)break;
   }
