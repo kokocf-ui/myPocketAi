@@ -1,3 +1,11 @@
+## Pocket AI — backend v171 / frontend 1.0.125 — 2026-11-02
+
+- **Regresie rețete tradiționale:** în teste reale de pe telefon, modelul rapid a confundat „ficat de vită (burtă)” cu burtă de vită și a propus cantități neverosimile (de ex. o cană de sare). Filtrul culinar v171 respinge confuzia ficat/burtă, burta de porc și cantitățile evident improprii de sare/piper/muștar, pentru ciorba de burtă tradițională; în caz de eroare, folosește rețeta sigură existentă fără al doilea apel AI. Variantele vegetariene ori reinterpretate rămân distincte și nu sunt înlocuite automat.
+- **Transport – sortare cronologică:** variantele TfL se ordonează după **data și ora începutului întregii călătorii** (inclusiv mersul către prima stație), nu după plecarea primului vehicul. La ore de plecare egale, se preferă **sosirea mai devreme**; se folosesc timestampuri complete, inclusiv la trecerea peste miezul nopții. Același criteriu se aplică rezultatelor MOTIS și, defensiv, listei afișate în frontend. Sunt păstrate până la patru opțiuni, iar accesul către prima stație este verificat în continuare.
+- **Teste de regresie:** `tests_route_count_recipe_network_regression.mjs` acoperă cronologia efectivă observată 22:04 / 22:34 / 22:26 / 22:56, egalitatea plecărilor cu sosiri diferite, trecerea de miezul nopții și reacția la „ficat de vită (burtă)” într-o rețetă tradițională. Verificări simulate ale Workerului: un singur apel AI, corecție locală, fără ficat; JavaScriptul generat a trecut testul sintactic.
+- **Nu s-au schimbat:** modelul rapid, căutarea evenimentelor, logica de rezolvare a stațiilor, poziția navigației inferioare sau numărul de variante de transport.
+- **Neconfirmat:** publicarea efectivă în Cloudflare și testul live TfL pe dispozitiv după v171/1.0.125. Nu se pretinde verificare live a orarelor din capturi.
+
 ## Pocket AI — backend v170 / frontend 1.0.124 — 2026-11-02
 
 - **Observații din testele Android:** backend v169 / frontend 1.0.123 a răspuns la sarmale în **3,5 secunde** (Worker 3,2 s, AI 3,2 s, fără cercetare web); cererea de evenimente Oradea în decembrie 2026 a durat **7,0 secunde** (cercetare 4,2 s, AI 2,3 s), dar a inclus rânduri cu perioade necoroborate. Întrebarea cu „anul curent” era uneori interpretată ca obiectiv geografic.
