@@ -38,7 +38,7 @@ assert.match(backend,/if\(deadlineTimer!==null\)clearTimeout\(deadlineTimer\)/);
 assert.match(backend,/pendingProviderCount/);
 assert.match(backend,/!recipeFastPath && needsComplianceReview\(message\)/);
 assert.match(backend,/sentence_correction_ms:/);
-assert.match(backend,/modelHistory=recipeFastPath\?history\.slice\(-4\):history/);
+assert.match(backend,/modelHistory=recipeFastPath\?cleanedHistory\.slice\(-4\):cleanedHistory/);
 assert.match(backend,/latency_breakdown:/);
 
 // A stuck third provider must not hold up two usable event providers.
