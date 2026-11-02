@@ -7,6 +7,7 @@ on:
       - index.js
       - tests_generalist_mixed_regression.mjs
       - tests_response_lists_station_regression.mjs
+      - tests_events_transport_facts_regression.mjs
       - .github/workflows/test-generalist-mixed.yml
   workflow_dispatch:
 
@@ -28,7 +29,9 @@ jobs:
           node --check index.js
           node --check tests_generalist_mixed_regression.mjs
           node --check tests_response_lists_station_regression.mjs
+          node --check tests_events_transport_facts_regression.mjs
       - name: Regression tests without external API calls
         run: |
           node tests_generalist_mixed_regression.mjs
           node tests_response_lists_station_regression.mjs
+          node tests_events_transport_facts_regression.mjs
