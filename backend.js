@@ -1,5 +1,6 @@
 /*
- * v162: prevent recipe titles from being routed to GPS named-place lookup.\n * v161: bound search-provider aggregation and extend traditional Romanian recipe fast path.\n * v160: expose stage-level latency diagnostics and recipe search routing status.
+ * v163: coordinate web provider readiness, instrument all model calls, avoid duplicate culinary review.\n * v162: prevent recipe titles from being routed to GPS named-place lookup.
+ * v161: bound search-provider aggregation and extend traditional Romanian recipe fast path.\n * v160: expose stage-level latency diagnostics and recipe search routing status.
  * v159: detect Romanian cooking questions with 'cum se prepară' and sarmale as fast-path recipes.
  * v158: bounded parallel web-search wait, reduced serial page fetching, fast evidence path.
  * v157: context-appropriate table columns and consistent ordering across subjects.
@@ -3568,15 +3569,30 @@ export default {
       })().then(value=>({status:"fulfilled",value,provider:"Tavily"})).catch(error=>({status:"rejected",provider:"Tavily",error:String(error&&error.message||error).slice(0,140)})));
       if (!providerTasks.length) webSearchStatus="not_configured";
       else {
-        // Do not hold a useful result hostage to the slowest search engine.
-        // Individual providers retain their own deadlines. Collect results arriving
-        // within the overall soft budget, without cancelling slow providers.
+        // One shared deadline rather than consecutive waits that can add latency.
+        // Two independent useful providers give broad searches a stronger evidence base.
         const outcomes=[];
-        const tracked=providerTasks.map(task=>task.then(value=>{outcomes.push(value);return value}));
-        await Promise.race([Promise.all(tracked),new Promise(resolve=>setTimeout(resolve,eventResearchIntent?6200:7500))]);
-        // Give the remaining providers a little more time only when no evidence arrived.
-        if(!outcomes.some(x=>x.status==="fulfilled"&&x.value.results.length))await Promise.race([Promise.all(tracked),new Promise(resolve=>setTimeout(resolve,1400))]);
+        let readinessTimer=null,deadlineTimer=null,readinessResolve;
+        const ready=new Promise(resolve=>{readinessResolve=resolve});
+        const tracked=providerTasks.map(task=>task.then(value=>{
+          outcomes.push(value);
+          const useful=outcomes.filter(x=>x.status==="fulfilled"&&x.value.results.length>0);
+          const resultCount=useful.reduce((sum,x)=>sum+x.value.results.length,0);
+          if(!readinessTimer&&useful.length>=(eventResearchIntent?2:1)&&resultCount>=(eventResearchIntent?8:3)){
+            // Brief grace period to include an additional almost-finished provider.
+            readinessTimer=setTimeout(readinessResolve,eventResearchIntent?650:250);
+          }
+          return value;
+        }));
+        const maxSearchWaitMs=eventResearchIntent?7000:6000;
+        try{
+          await Promise.race([Promise.all(tracked),ready,new Promise(resolve=>{deadlineTimer=setTimeout(resolve,maxSearchWaitMs)})]);
+        }finally{
+          if(deadlineTimer!==null)clearTimeout(deadlineTimer);
+          if(readinessTimer!==null)clearTimeout(readinessTimer);
+        }
         const settled=outcomes.slice();
+        const pendingProviderCount=providerTasks.length-settled.length;
         const providerDiagnostics=settled.map(x=>x.status==="fulfilled"?{provider:x.provider,status:"ok",resultCount:x.value.results.length,elapsedMs:x.value.elapsedMs}:{provider:x.provider,status:"error",error:x.error});
         const candidates=[];
         for(const item of settled) if(item.status==="fulfilled") for(const source of item.value.results){
@@ -3629,10 +3645,10 @@ export default {
           }catch{source.pageFetchStatus="fetch_failed";}
         }));
         const usable=webSources.filter(x=>x.snippets.length||x.pageEvidence);
-        webSearchStatus=usable.length?(settled.some(x=>x.status==="rejected")?"partial_success":"success"):(candidates.length?"weak_results":(settled.some(x=>x.status==="fulfilled")?"no_results":"error"));
+        webSearchStatus=usable.length?((pendingProviderCount>0||settled.some(x=>x.status==="rejected"))?"partial_success":"success"):(candidates.length?"weak_results":(settled.some(x=>x.status==="fulfilled")?"no_results":"error"));
         const contextSources=usable.slice(0,eventResearchIntent?15:8).map((x,i)=>`[${i+1}] ${x.title}\nURL: ${x.url}\nPublished: ${x.publishedDate||"date not supplied"}${Number.isFinite(x.ageDays)?" (about "+x.ageDays+" days old)":""}\nProviders: ${x.providers.join(", ")}\nSearch snippets (not independently verified): ${(x.snippets.join(" | ")||"none").slice(0,eventResearchIntent?600:10000)}\nOriginal page: ${x.pageFetchStatus||"not fetched"}\nPage excerpt: ${(x.pageEvidence||"not available").slice(0,eventResearchIntent?1000:6500)}`).join("\n\n");
         if(contextSources) webSearchContext="\n\nSearch run time: "+new Date().toISOString()+"\nRETRIEVED WEB EVIDENCE (search snippets are leads, not proof; page excerpts are fetched source text, not automatically authoritative):\n"+contextSources;
-        webSearchDiagnostics={research_elapsed_ms:Date.now()-researchStartedAt,providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
+        webSearchDiagnostics={research_elapsed_ms:Date.now()-researchStartedAt,max_search_wait_ms:maxSearchWaitMs,pendingProviderCount,providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
         console.info("Pocket AI v98 web research",JSON.stringify({stage:"web_research_completed",status:webSearchStatus,...webSearchDiagnostics}));
       }
     }
@@ -3730,7 +3746,9 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     // Diagnostic temporar: nu înregistrăm textul mesajului utilizatorului.
     const diagnosticId = crypto.randomUUID();
     const aiStartedAt = Date.now();
-    const stageMetrics={research_ms:shouldSearchWeb?(webSearchDiagnostics?.research_elapsed_ms??Date.now()-researchStartedAt):0,primary_ai_ms:0,review_ai_ms:0,recipe_correction_ms:0};
+    const stageMetrics={research_ms:shouldSearchWeb?(webSearchDiagnostics?.research_elapsed_ms??Date.now()-researchStartedAt):0,primary_ai_ms:0,sentence_correction_ms:0,review_ai_ms:0,recipe_correction_ms:0};
+    const recipeFastPath=recipeInstruction&&!shouldSearchWeb;
+    const modelHistory=recipeFastPath?history.slice(-4):history;
 
     console.info("Pocket AI v96 diagnostic", JSON.stringify({
       diagnosticId,
@@ -3753,7 +3771,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
               role: "system",
               content: systemMessage
             },
-            ...history,
+            ...modelHistory,
             {
               role: "user",
               content: aiUserMessage
@@ -3774,6 +3792,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         countSentences(result.response.trim()) !== sentenceTarget
       ) {
         const firstDraft = result.response.trim();
+        const sentenceCorrectionStartedAt=Date.now();
         const correction = await env.AI.run(
           "@cf/meta/llama-3.1-8b-instruct-fp8",
           {
@@ -3793,6 +3812,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
             temperature: 0.1
           }
         );
+        stageMetrics.sentence_correction_ms=Date.now()-sentenceCorrectionStartedAt;
         if (correction && typeof correction.response === "string" && correction.response.trim()) {
           result = correction;
         }
@@ -3802,7 +3822,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       // cere modelului să compare răspunsul cu solicitarea inițială și să corecteze abaterile.
       // Nu este un validator determinist; dacă revizia eșuează, păstrăm răspunsul inițial.
       if (
-        needsComplianceReview(message) &&
+        !recipeFastPath && needsComplianceReview(message) &&
         result && typeof result.response === "string" &&
         result.response.trim()
       ) {
@@ -3918,7 +3938,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         calculation_verified: false,
         ai_execution_ms: Date.now()-aiStartedAt,
         research_elapsed_ms: stageMetrics.research_ms,
-        latency_breakdown: {...stageMetrics, recipe_fast_path:recipeInstruction&&!shouldSearchWeb, model_calls_estimate:1+Number(stageMetrics.review_ai_ms>0)+Number(stageMetrics.recipe_correction_ms>0)},
+        latency_breakdown: {...stageMetrics, recipe_fast_path:recipeFastPath, model_calls_estimate:1+Number(stageMetrics.sentence_correction_ms>0)+Number(stageMetrics.review_ai_ms>0)+Number(stageMetrics.recipe_correction_ms>0)},
         ai_generated: true,
         ai_connected: true
       });
