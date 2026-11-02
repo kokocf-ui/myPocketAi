@@ -544,7 +544,23 @@ export default {
     const topicKey=normalizeTopic(countrySuffix?parts[0]:bareTopic),knownTopic=countryAliases[topicKey];
     const explicitKnowledge=/^(?:spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|tell me about|information about)\s+/i.test(message);
     const seekingRoute=/\b(?:traseu|ajung|transport|route|directions|navigate|drive|walk|cauta|caută|find|nearby|aproape)\b/i.test(message);
-    if(!seekingRoute&&(knownTopic||explicitKnowledge||countrySuffix)&&bareTopic.length>=2&&bareTopic.length<=90&&!data.quick_place_search){
+    const possibleCity=parts.length<=2&&parts[0]?.split(/\s+/).length<=3&&/^[\p{L}\s.'-]{3,65}$/u.test(parts[0]||'')&&!/^(?:magazin|market|aldi|tesco|lidl|hotel|restaurant|pub|coffee|decathlon|sport direct)$/i.test(parts[0]||'');
+    const cityLookup=!seekingRoute&&!data.quick_place_search&&possibleCity&&!explicitKnowledge&&!knownTopic&&!countrySuffix&&parts.length===1;
+    let verifiedCity=null;
+    if(cityLookup&&env.GEOAPIFY_API_KEY){
+      try{
+        const url=new URL('https://api.geoapify.com/v1/geocode/search');
+        url.searchParams.set('text',parts[0]);url.searchParams.set('type','city');url.searchParams.set('limit','5');url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+        const res=await fetch(url,{signal:AbortSignal.timeout(5000)}),geo=await res.json();
+        const norm=n=>String(n||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+        const matches=(geo.features||[]).filter(f=>{
+          const p=f.properties||{};
+          return /^(city|town|village|municipality)$/.test(String(p.result_type||p.type||''))&&norm(p.city||p.name)===norm(parts[0])&&Number.isFinite(Number(p.lat))&&Number.isFinite(Number(p.lon));
+        });
+        if(matches.length)verifiedCity=matches[0].properties;
+      }catch{}
+    }
+    if(!seekingRoute&&(knownTopic||explicitKnowledge||countrySuffix||verifiedCity)&&bareTopic.length>=2&&bareTopic.length<=90&&!data.quick_place_search){
       const encyclopediaTitle=knownTopic||(countrySuffix?parts[0]:bareTopic);
       const wikiLang=['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(lang)?lang:'en';
       let article=null;
@@ -558,6 +574,7 @@ export default {
         }catch{}
       }
       if(article){
+        if(verifiedCity&&!article.coordinates)article.coordinates={latitude:Number(verifiedCity.lat),longitude:Number(verifiedCity.lon)};
         const reply=[article.title,article.description,article.extract].filter(Boolean).join(' — ');
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,encyclopedia:article,ai_generated:true});
       }
