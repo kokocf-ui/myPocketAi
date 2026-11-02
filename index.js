@@ -2242,7 +2242,7 @@ function openEncyclopediaCard(article){
   document.getElementById('pocketStandaloneChoices')?.remove();
   if(coords&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))){
    const destination={latitude:Number(coords.latitude),longitude:Number(coords.longitude),label:title};
-   const isCountry=/\\b(?:țară|tara|country|republic|stat suveran|sovereign state)\\b/i.test(String(article.description||''));
+   const isCountry=/\b(?:țară|tara|country|republic|stat suveran|sovereign state)\b/i.test(String(article.description||''));
    if(isCountry){
     const question=state.language==='ro'?'Spre ce oraș sau obiectiv din '+title+' dorești să călătorești?':'Which destination in '+title+' would you like to visit?';
     addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;return;
