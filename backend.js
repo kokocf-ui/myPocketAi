@@ -1,4 +1,5 @@
 /*
+ * v170: classify event requests before venue lookup, ground event rows directly in dated source results, avoid AI-invented events.
  * v169: use Cloudflare fast inference for main generation, allow deployment model override, add model diagnostics.
  * v168: preserve explicitly requested culinary adaptations during deterministic recipe safety fallback.
  * v167: eliminate serial recipe AI retries; use validated culinary fallback and smaller recipe generation budget.
@@ -726,7 +727,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v169";
+    const API_VERSION = "v170";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
@@ -867,6 +868,7 @@ export default {
     }
 
     const message = data.message.trim();
+    const eventDiscoveryRequest=/\b(?:eveniment\w*|festival\w*|spectacol\w*|concert\w*|targ\w*|events?|shows?|performances?)\b/i.test(message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase());
     const supportedLanguages = ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"];
     const requestedLanguage = typeof data.language === "string" ? data.language.trim().toLowerCase().split(/[-_]/)[0] : "ro";
     const lang = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ro";
@@ -2433,16 +2435,16 @@ export default {
     // v137: A named venue is not a request for every venue in its town.
     // Preserve the commercial name and the town before category discovery.
     const namedVenueInput=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
-    const namedVenueMatch=(()=>{const m=namedVenueInput.match(/(?:^|\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\s+(.+?)\s+(?:din|in|,)\s+([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
+    const namedVenueMatch=eventDiscoveryRequest?null:((()=>{const m=namedVenueInput.match(/(?:^|\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\s+(.+?)\s+(?:din|in|,)\s+([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
       return m&&!/^(?:de\s+)?(?:[1-5]|one|two|three|four|five|una|doua|trei|patru|cinci)\s*(?:[- ]?star|stele|stea)/i.test(m[2])?m:null})()
       ||(!earlyFoodSearchIntent?(()=>{const m=namedVenueInput.match(/^(?:vreau sa ajung la\s+)?([\p{L}][\p{L}0-9&' .-]{2,55}?)\s*(?:,\s*|\s+(?:din|in)\s+)([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
         // Only short place names are candidates. Full sentences belong to the general AI.
         const name=m?.[1]?.trim()||'',shortProperName=name.split(/\s+/).length<=2&&!/^(?:cauta|gaseste|arata|prezinta|spune|descrie|povesteste|vreau|ce|care|cand|unde|cum|find|show|search|tell|what|how)\b/i.test(name);
-        return m&&shortProperName?[m[0],'obiectiv',m[1],m[2]]:null})():null);
+        return m&&shortProperName?[m[0],'obiectiv',m[1],m[2]]:null})():null));
     // GPS-first named business lookup when the user does not know its town.
     // Only handle short name queries, not general questions or dedicated map routing.
     const localNameRaw=namedVenueInput.replace(/^(?:vreau sa ajung la|unde (?:este|e|gasesc)|cauta(?:-mi)?|gaseste(?:-mi)?)\s+/i,'').replace(/\s+(?:in zona mea|in apropierea mea|langa mine|aproape de mine|near me|nearby)$/i,'').trim();
-    const localNameQuery=!/^(?:reteta|retete|recipe|recipes|ingrediente|sarmale|ciorba|cum se prepara|cum prepar|cum gatesc|how to cook)\b/i.test(namedVenueInput)&&!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
+    const localNameQuery=!eventDiscoveryRequest&&!/^(?:reteta|retete|recipe|recipes|ingrediente|sarmale|ciorba|cum se prepara|cum prepar|cum gatesc|how to cook)\b/i.test(namedVenueInput)&&!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
 
     // v144: Named stations and geographic districts are not generic businesses.
     // Prefer authoritative station records and exact administrative-area names
@@ -3565,7 +3567,7 @@ export default {
     const recipeInstruction = /\b(?:retet\w*|recipe\w*|ingredient\w*|cum\s+(?:se\s+)?(?:prepar\w*|gatesc|gatesti|gati\w*|face|fac)\b|how to cook|sarmal\w*|ciorb\w*\s+de\s+burt\w*)\b/i.test(normalizedResearchRequest);
     const taskInsteadOfResearch = /^(?:te rog\s+)?(?:scrie|creeaza|compune|redacteaza|rezuma|rezumă|rescrie|corecteaza|tradu|ajuta.ma sa|write|create|draft|summarize|rewrite|translate|help me make|help me write)\b/i.test(normalizedResearchRequest);
     const substantiveRequest = /[\p{L}\p{N}]/u.test(message)&&(/[?？]/.test(message)||normalizedResearchRequest.trim().split(/\s+/).length>=2);
-    const eventResearchIntent=/\b(?:eveniment\w*|festival\w*|spectacol\w*|concert\w*|targ\w*|events?|shows?|performances?)\b/i.test(normalizedResearchRequest);
+    const eventResearchIntent=eventDiscoveryRequest;
     const shouldSearchWeb = data.search_web === true || (!obviouslyNonResearch && !capabilityQuestion && substantiveRequest && (explicitLookup || (!taskInsteadOfResearch && (!recipeInstruction || /\b(?:recent|latest|actual|original|official|sursa|source)\b/.test(normalizedResearchRequest)))));
     const priceResearch = /\b(?:price|prices|cost|costs|how much|£|€|\$|pret\w*|preturi|preț|prețuri|cat costa|cât costă|costa|costă|oferta|oferte)\b/i.test(normalizedResearchRequest);
     const legalResearch = /\b(?:law\w*|legal\w*|legislation|regulat\w*|statut\w*|tax\w*|fine|penalt\w*|codul\s+(?:muncii|rutier|civil|penal)|lege\w*|legi|legislati\w*|regulament\w*|impozit\w*|taxa|taxe|amend\w*|sanctiun\w*|drepturi|obligatii|licente|visa|viz\w*|immigration|imigra\w*)\b/i.test(normalizedResearchRequest);
@@ -3577,7 +3579,8 @@ export default {
     const searchCountry=declaredCountry?.[1]||(explicitCountryCode?countryNameCodes.get(explicitCountryCode[0].toLowerCase())||'':'');
     // v107: UI language is not a country. Use worldwide search unless a country is explicit.
     const searchLanguage = lang;
-    const searchQuery = ((eventResearchIntent ? message.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim() || message : message) + (legalResearch ? " Prefer current official government or regulator sources for the stated jurisdiction." : " Prefer primary sources and exact dates; do not infer missing facts.")).slice(0, 550);
+    const eventSearchText=eventResearchIntent?message.replace(/\b(?:anul\s+curent|acest\s+an|this\s+year|current\s+year)\b/giu,String(new Date().getUTCFullYear())):message;
+    const searchQuery = ((eventResearchIntent ? eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim() || eventSearchText : message) + (legalResearch ? " Prefer current official government or regulator sources for the stated jurisdiction." : " Prefer primary sources and exact dates; do not infer missing facts.")).slice(0, 550);
     const safeSourceUrl = value => {
       try {
         const u = new URL(value);
