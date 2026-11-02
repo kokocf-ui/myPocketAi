@@ -1697,7 +1697,7 @@ function appendConversationChoices(data,host){
   button.onclick=async()=>{
    if(state.busy||generation!==state.conversationGeneration)return;
    buttons.forEach(b=>b.disabled=true);
-   const lat=Number(option.latitude),lon=Number(option.longitude);
+   const lat=option.latitude==null?NaN:Number(option.latitude),lon=option.longitude==null?NaN:Number(option.longitude);
    if(Number.isFinite(lat)&&Number.isFinite(lon)&&state.tripCountryOnChoice){
     state.tripCountryOnChoice=null;state.pendingTravelConfirmationData=null;
     state.routeSearchContext=null;state.pendingTravelMode=null;
@@ -2380,7 +2380,7 @@ function openEncyclopediaCard(article,requestStartMs){
   if(place.description){const note=document.createElement('span');note.textContent=place.description;note.style.cssText='font-size:13px;line-height:1.4;color:#c3d9e2';line.append(note)}
   if(!isCountry&&place.address){const addr=document.createElement('span');addr.textContent=place.address;addr.style.cssText='font-size:13px;line-height:1.4';line.append(addr)}
   const actions=document.createElement('div');actions.style.cssText='display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:3px';
-  const coords=Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude));
+  const coords=place.latitude!=null&&place.longitude!=null&&Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude))&&Math.abs(Number(place.latitude))<=90&&Math.abs(Number(place.longitude))<=180;
   if(coords){
    const btn=document.createElement('button');btn.type='button';btn.textContent=L[16]+' · '+place.name;
    btn.style.cssText='border:1px solid #48b6c5;border-radius:9px;background:#125270;color:#e8ffff;font-size:12px;font-weight:650;padding:7px 9px;min-height:36px;max-width:100%;overflow-wrap:anywhere;text-align:left';
@@ -2414,7 +2414,7 @@ function openEncyclopediaCard(article,requestStartMs){
   state.encyclopediaTripActive=true;
   const title=article.title||'',coords=article.coordinates;
   document.getElementById('pocketStandaloneChoices')?.remove();
-  if(!isCountry&&coords&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))){
+  if(!isCountry&&coords&&coords.latitude!=null&&coords.longitude!=null&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))&&Math.abs(Number(coords.latitude))<=90&&Math.abs(Number(coords.longitude))<=180){
    state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute({latitude:Number(coords.latitude),longitude:Number(coords.longitude),label:title});return;
   }
   const question=lang==='ro'?'Spre ce oraș sau obiectiv din '+title+' dorești să călătorești?':'Which city or place in '+title+' do you want to visit?';
@@ -2432,7 +2432,7 @@ function openEncyclopediaCard(article,requestStartMs){
  openStandaloneChoicePanel(host,article.title||'Informații');
 }
 function offerDestinationAccommodationBeforeRoute(destination){
- if(!destination||!Number.isFinite(Number(destination.latitude))||!Number.isFinite(Number(destination.longitude)))return false;
+ if(!destination||destination.latitude==null||destination.longitude==null||!Number.isFinite(Number(destination.latitude))||!Number.isFinite(Number(destination.longitude))||Math.abs(Number(destination.latitude))>90||Math.abs(Number(destination.longitude))>180)return false;
  state.tripAccommodationDestination={...destination};state.travelAccommodationIntent=false;state.tripAccommodationDecision='pending';
  const host=document.createElement('div');host.dataset.directChoices='true';
  const note=document.createElement('p');note.textContent=(state.language==='ro'?'Destinație confirmată: ':'Confirmed destination: ')+destination.label+'. '+(state.language==='ro'?'Dorești să alegi cazarea înainte să calculăm traseul final?':'Choose accommodation before calculating your final route?');host.append(note);
