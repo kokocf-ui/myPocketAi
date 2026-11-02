@@ -1,3 +1,12 @@
+## Pocket AI — backend v170 / frontend 1.0.124 — 2026-11-02
+
+- **Observații din testele Android:** backend v169 / frontend 1.0.123 a răspuns la sarmale în **3,5 secunde** (Worker 3,2 s, AI 3,2 s, fără cercetare web); cererea de evenimente Oradea în decembrie 2026 a durat **7,0 secunde** (cercetare 4,2 s, AI 2,3 s), dar a inclus rânduri cu perioade necoroborate. Întrebarea cu „anul curent” era uneori interpretată ca obiectiv geografic.
+- **Clasificare:** cererile de calendar de evenimente sunt excluse din căutarea GPS a unui obiectiv cu nume și din identificarea unei adrese. Expresia „anul curent” este transformată în anul calendaristic curent în interogarea web. Întrebările despre un eveniment singular continuă să folosească asistentul generalist.
+- **Sursă pentru fiecare eveniment:** tabelul de evenimente este construit din titluri/pasaje ale surselor externe cu dată, an și localitate corespunzătoare; modelul AI nu mai poate adăuga rânduri inventate în calendar. Se extrag mai multe evenimente din pasaje de tip calendar, se elimină duplicatele și se sortează cronologic. Fiecare rând include un link către sursa sa, afișat de frontendul v1.0.124.
+- **Viteză:** pentru listele de evenimente cu căutare web, construcția rândurilor este deterministă și nu necesită un apel suplimentar de generare AI. Cele trei motoare de căutare rămân opționale și paralele; limita comună de așteptare nu a crescut. Rezultatele sunt etichetate ca *neexhaustive*, iar datele din căutări trebuie confirmate de organizator.
+- **Teste:** `tests_events_source_grounding.mjs` acoperă două formulări ale întrebării, sursele individuale, două evenimente găsite pe o pagină de calendar, deduplicarea și respingerea unei locații nerelevante. În simulări V8: 3 rânduri distincte din 4 rezultate, 0 apeluri AI și 0 interogări greșite de geocodare; codul HTML generat a trecut verificarea sintactică.
+- **Neconfirmat:** publicarea efectivă în Cloudflare, comportamentul furnizorilor reali pentru o căutare amplă și numărul total de evenimente documentate din Oradea. Nu se poate promite exhaustivitate sau confirmare independentă doar din rezultate indexate.
+
 ## Pocket AI — backend v169 / frontend 1.0.123 — 2026-11-02
 
 - **Cauză confirmată cu cronometrul de pe telefon:** cererile de 32,5 s și 59,6 s au petrecut 32,2 s și 54,9 s în apelul principal Workers AI; web/GPS nu explică latența.
