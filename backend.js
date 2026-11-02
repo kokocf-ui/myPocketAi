@@ -210,40 +210,80 @@ function transitConversationDestination(message,history){
 // Locale-aware display only: retain seconds/minutes numerically for routing calculations.
 // Sort simple numbered date lists deterministically, independent of the order
 // in which search engines or the language model mention the events.
+// Shared response-list ordering. Chronological lists are sorted by actual dates,
+// not by how the AI happens to enumerate them. Procedural/recipe lists retain order.
 function sortNumberedDatedEvents(answer,language='ro'){
- const lines=String(answer||'').split('\n'),entries=[];
- const normalize=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}]/gu,'');
- const months=new Map();
- for(let month=0;month<12;month++){
-  const date=new Date(Date.UTC(2026,month,5));
+ const lines=String(answer||'').split('\n'),monthMap=new Map();
+ const normalize=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+ const normalizedMonth=x=>normalize(x).replace(/\s/g,'');
+ for(let m=0;m<12;m++){
+  const date=new Date(Date.UTC(2026,m,6));
   for(const locale of ['ro','en','fr','de','it','es','pt','nl','ru','pl']){
-   for(const options of [{month:'long'},{month:'short'},{day:'numeric',month:'long'}]){
-    const parts=new Intl.DateTimeFormat(locale,{timeZone:'UTC',...options}).formatToParts(date);
-    const value=parts.find(p=>p.type==='month')?.value;
-    if(value)months.set(normalize(value),month+1);
+   for(const style of ['long','short']){
+    const part=new Intl.DateTimeFormat(locale,{month:style,timeZone:'UTC'}).formatToParts(date).find(p=>p.type==='month');
+    if(part)monthMap.set(normalizedMonth(part.value),m+1);
    }
   }
  }
- const numbered=/^\s*(\d+)[.)]\s+/;
- const dated=/^(\s*\d+[.)]\s+)(\d{1,2})\s+(?:(?:de|del|di|of)\s+)?([\p{L}\p{M}.]+)(?=\s|[:,.-]|$)/iu;
- for(let i=0;i<lines.length;i++){
-  const found=lines[i].match(dated);
-  if(!found)continue;
-  const month=months.get(normalize(found[3])),day=Number(found[2]);
-  if(!month||day<1||day>31)continue;
-  const year=Number(lines[i].match(/\b20\d{2}\b/)?.[0]||'2026');
-  entries.push({line:i,day,month,year,value:lines[i]});
+ const dateOf=value=>{
+  const txt=String(value||'');
+  const iso=txt.match(/(?:^|[^\d])((?:19|20)\d{2})[-/.](0?[1-9]|1[012])[-/.]([0-2]?\d|3[01])(?=$|[^\d])/);
+  if(iso){const year=Number(iso[1]),m=Number(iso[2]),d=Number(iso[3]);if(d>0&&d<=new Date(Date.UTC(year,m,0)).getUTCDate())return {year,month:m,day:d};}
+  const dayFirst=/(\d{1,2})\s*(?:(?:de|del|di|of|le|am)\s+)?([\p{L}\p{M}.]{3,22})(?:\s*(?:,|de|of)?\s*((?:19|20)\d{2}))?/giu;
+  for(const match of txt.matchAll(dayFirst)){
+   const month=monthMap.get(normalizedMonth(match[2]));
+   if(!month)continue;
+   const year=match[3]?Number(match[3]):2026,day=Number(match[1]);
+   if(day>0&&day<=new Date(Date.UTC(year,month,0)).getUTCDate())return {year,month,day};
+  }
+  const monthFirst=/([\p{L}\p{M}.]{3,22})\s+(\d{1,2})(?:\s*,?\s*((?:19|20)\d{2}))?/giu;
+  for(const match of txt.matchAll(monthFirst)){
+   const month=monthMap.get(normalizedMonth(match[1]));if(!month)continue;
+   const year=match[3]?Number(match[3]):2026,day=Number(match[2]);
+   if(day>0&&day<=new Date(Date.UTC(year,month,0)).getUTCDate())return {year,month,day};
+  }
+  return null;
+ };
+ const marker=/^(\s*)(?:(\d+)[.)]|([-*•]))\s+/;
+ const groups=[];let i=0;
+ while(i<lines.length){
+  if(!marker.test(lines[i])||lines[i].match(marker)[1].length>2){i++;continue;}
+  const start=i,items=[],prefix=lines[i].match(marker);
+  while(i<lines.length){
+   while(i<lines.length&&!lines[i].trim())i++;
+   if(i>=lines.length||!marker.test(lines[i])||lines[i].match(marker)[1].length>2)break;
+   const m=lines[i].match(marker),entryLines=[lines[i].slice(m[0].length)];i++;
+   while(i<lines.length&&lines[i].trim()&&!marker.test(lines[i])){
+    entryLines.push(lines[i]);i++;
+   }
+   items.push({text:entryLines.join('\n'),prefix:m[0],numbered:Boolean(m[2])});
+  }
+  if(items.length>=2)groups.push({start,end:i,items,numbered:Boolean(prefix[2])});
+  else if(i<=start)i=start+1;
  }
- if(entries.length<2)return answer;
- const a=entries[0].line,b=entries.at(-1).line;
- // Only a plain date list is safe to reorder: leave prose and multi-line items intact.
- for(let i=a;i<=b;i++)if(lines[i].trim()&&!numbered.test(lines[i]))return answer;
- const numberedCount=lines.slice(a,b+1).filter(v=>numbered.test(v)).length;
- if(numberedCount!==entries.length)return answer;
- const sorted=[...entries].sort((x,y)=>x.year-y.year||x.month-y.month||x.day-y.day||x.line-y.line);
- for(let i=0;i<entries.length;i++){
-  const original=sorted[i].value;
-  lines[entries[i].line]=original.replace(numbered,String(i+1)+'. ');
+ for(const group of groups.reverse()){
+  const dated=group.items.map(item=>({...item,date:dateOf(item.text)}));
+  if(dated.some(item=>!item.date))continue;
+  dated.sort((a,b)=>a.date.year-b.date.year||a.date.month-b.date.month||a.date.day-b.date.day);
+  const seen=[],unique=[];
+  const stopWords=new Set('la in din de si pe al a o the at from concert concertul concertului spectacol spectacolul eveniment evenimente la casa cultura sindicatelor oradea arena turneu national'.split(' '));
+  const titleTokens=x=>normalize(x.text.replace(/(?:^|\s)(?:19|20)\d{2}\b/g,'').replace(/\b\d{1,2}\s+(?:de\s+)?[\p{L}\p{M}]+/giu,'')).split(' ').filter(w=>w.length>2&&!stopWords.has(w)&&!/^\d+$/.test(w));
+  for(const item of dated){
+   const words=[...new Set(titleTokens(item))],stamp=item.date.year+'-'+item.date.month+'-'+item.date.day;
+   const duplicate=seen.some(prev=>{
+    if(prev.stamp!==stamp)return false;
+    const other=prev.words,common=words.filter(x=>other.includes(x)).length;
+    const overlap=common/Math.max(1,Math.max(words.length,other.length));
+    return overlap>=0.82&&common>=3;
+   });
+   if(!duplicate){seen.push({stamp,words});unique.push(item);}
+  }
+  const originalLines=lines.slice(group.start,group.end),trailingBlanks=originalLines.reverse().findIndex(v=>v.trim());
+  const ending=trailingBlanks<0?0:trailingBlanks;
+  const rebuilt=[];
+  unique.forEach((item,index)=>rebuilt.push((group.numbered?(index+1)+'. ':'- ')+item.text));
+  for(let j=0;j<ending;j++)rebuilt.push('');
+  lines.splice(group.start,group.end-group.start,...rebuilt);
  }
  return lines.join('\n');
 }
