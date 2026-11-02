@@ -52,7 +52,7 @@ for(const [override,expected] of [
  const response=await worker.fetch(req,env);
  const data=await response.json();
  assert.equal(data.status,'success');
- assert.equal(data.version,'v170');
+ assert.equal(data.version,'v171');
  assert.equal(data.latency_breakdown?.ai_model,expected);
  assert.equal(data.latency_breakdown?.model_calls_estimate,1);
  assert.equal(data.latency_breakdown?.recipe_correction_ms,0);
