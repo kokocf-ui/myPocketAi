@@ -2278,6 +2278,26 @@ function openEncyclopediaCard(article){
  card.style.lineHeight='1.65';
  if(article.image&&article.image.startsWith('https://')){const img=document.createElement('img');img.src=article.image;img.alt=article.title||'';img.loading='lazy';img.style.cssText='max-width:100%;max-height:170px;object-fit:contain;border-radius:12px';card.append(img)}
  if(article.description){const description=String(article.description).trim();const p=document.createElement('p');p.style.cssText='margin:14px 0;font-weight:650;opacity:.85';p.textContent=description.charAt(0).toLocaleUpperCase(state.language||'ro')+description.slice(1);card.append(p)}
+ if(article.country_facts){
+  const facts=article.country_facts,labels={
+   ro:['Monedă / monede','Limbi oficiale'],en:['Currency / currencies','Official languages'],
+   fr:['Monnaie(s)','Langues officielles'],de:['Währung(en)','Amtssprachen'],
+   it:['Valuta/e','Lingue ufficiali'],es:['Moneda(s)','Idiomas oficiales'],
+   pt:['Moeda(s)','Línguas oficiais'],nl:['Valuta','Officiële talen'],
+   ru:['Валюты','Официальные языки'],pl:['Waluty','Języki urzędowe']
+  }[state.language]||['Currencies','Official languages'];
+  const factsTable=document.createElement('table');factsTable.className='geographic-facts-table';factsTable.style.cssText='width:100%;margin:12px 0;border-collapse:collapse;table-layout:fixed;font-size:clamp(13px,3.5vw,16px)';
+  const addRow=(label,value)=>{
+   if(!value)return;
+   const row=document.createElement('tr'),th=document.createElement('th'),td=document.createElement('td');
+   th.scope='row';th.textContent=label;th.style.cssText='width:37%;text-align:left;padding:9px 8px;vertical-align:top;border:1px solid #34566e';
+   td.textContent=value;td.style.cssText='padding:9px 8px;vertical-align:top;border:1px solid #34566e;overflow-wrap:anywhere';row.append(th,td);factsTable.append(row);
+  };
+  addRow(labels[0],(facts.currencies||[]).map(x=>x.name+' ('+x.code+')'+(x.symbol?' · '+x.symbol:'')).join(', '));
+  addRow(labels[1],(facts.languages||[]).join(', '));
+  if(factsTable.rows.length){card.append(factsTable);if(facts.source){const link=document.createElement('a');link.href=facts.source;link.target='_blank';link.rel='noopener noreferrer';link.textContent=state.language==='ro'?'Sursă date țară':'Country data source';link.style.cssText='display:block;margin:4px 0 12px;color:#8ce9f3';card.append(link)}}
+ }
+
  const content=String(article.extract||'').trim().replace(/\\s+/g,' ');
  // Split only at sentence-ending punctuation followed by whitespace and a capital letter.
  // Never split digit-group separators (183.105), decimal measurements or abbreviations.
