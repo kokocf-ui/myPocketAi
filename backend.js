@@ -1,4 +1,5 @@
 /*
+ * v160: expose stage-level latency diagnostics and recipe search routing status.
  * v159: detect Romanian cooking questions with 'cum se prepară' and sarmale as fast-path recipes.
  * v158: bounded parallel web-search wait, reduced serial page fetching, fast evidence path.
  * v157: context-appropriate table columns and consistent ordering across subjects.
@@ -3721,6 +3722,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     // Diagnostic temporar: nu înregistrăm textul mesajului utilizatorului.
     const diagnosticId = crypto.randomUUID();
     const aiStartedAt = Date.now();
+    const stageMetrics={research_ms:shouldSearchWeb?(webSearchDiagnostics?.research_elapsed_ms??Date.now()-researchStartedAt):0,primary_ai_ms:0,review_ai_ms:0,recipe_correction_ms:0};
 
     console.info("Pocket AI v96 diagnostic", JSON.stringify({
       diagnosticId,
@@ -3754,6 +3756,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         }
       );
 
+      stageMetrics.primary_ai_ms=Date.now()-aiStartedAt;
       // O singură încercare de corectare dacă utilizatorul a cerut un număr exact de propoziții.
       const sentenceTarget = requestedSentenceCount(message);
       if (
@@ -3797,6 +3800,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       ) {
         const draftToReview = result.response.trim();
         try {
+          const reviewStartedAt=Date.now();
           const review = await env.AI.run(
             "@cf/meta/llama-3.1-8b-instruct-fp8",
             {
@@ -3816,6 +3820,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
               temperature: 0.1
             }
           );
+          stageMetrics.review_ai_ms=Date.now()-reviewStartedAt;
           if (review && typeof review.response === "string" && review.response.trim()) {
             result = review;
           }
@@ -3832,12 +3837,14 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       // an implausible ingredient/wrapper; normal recipes keep the fast single pass.
       if(recipeInstruction&&result&&typeof result.response==='string'&&recipeQualityConcern(message,result.response)){
         try{
+          const recipeCorrectionStartedAt=Date.now();
           const corrected=await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fp8",{
             messages:[
               {role:'system',content:'You are a careful culinary editor. Rewrite the entire recipe correctly in '+responseLanguageName+'. Verify every ingredient is edible and conventional for the named dish, and that instructions use only the listed ingredients. Romanian sarmale are rolled in pickled cabbage leaves or grape leaves, never wood or celery leaves. Cook the filling thoroughly using realistic times. Give measured quantities for the specified servings and clear sequential steps. Return the corrected complete recipe only.'},
               {role:'user',content:message+'\n\nRecipe to correct:\n'+result.response.slice(0,6500)}
             ],max_tokens:1050,temperature:0.05
           });
+          stageMetrics.recipe_correction_ms=Date.now()-recipeCorrectionStartedAt;
           if(typeof corrected?.response==='string'&&corrected.response.trim()&&!recipeQualityConcern(message,corrected.response))result=corrected;
           else result={response:lang==='ro'?'Nu am reușit să verific ingredientele și metoda de preparare ale acestei rețete. Încearcă din nou; nu voi recomanda ingrediente nepotrivite.':'I could not validate the ingredients and preparation method for this recipe. Please try again; I will not recommend unsuitable ingredients.'};
         }catch{
@@ -3902,7 +3909,8 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12},
         calculation_verified: false,
         ai_execution_ms: Date.now()-aiStartedAt,
-        research_elapsed_ms: shouldSearchWeb ? (webSearchDiagnostics?.research_elapsed_ms ?? Date.now()-researchStartedAt) : 0,
+        research_elapsed_ms: stageMetrics.research_ms,
+        latency_breakdown: {...stageMetrics, recipe_fast_path:recipeInstruction&&!shouldSearchWeb, model_calls_estimate:1+Number(stageMetrics.review_ai_ms>0)+Number(stageMetrics.recipe_correction_ms>0)},
         ai_generated: true,
         ai_connected: true
       });
