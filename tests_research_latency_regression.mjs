@@ -7,7 +7,7 @@ const backend = await fs.readFile(new URL('./backend.js', import.meta.url), 'utf
 const frontend = await fs.readFile(new URL('./index.js', import.meta.url), 'utf8');
 assert.match(backend, /const providerTasks = \[\];[\s\S]*?const researchStartedAt=Date\.now\(\)/);
 assert.match(backend, /const tracked=providerTasks/, 'search providers should start concurrently');
-assert.match(backend, /Promise\\.race/, 'slow provider should not block indefinitely');
+assert.match(backend, /Promise\.race/, 'slow provider should not block indefinitely');
 assert.match(backend, /eventResearchIntent\?7500:9000/, 'Exa search deadline changed');
 assert.match(backend, /eventResearchIntent\?7000:8500/, 'Brave search deadline changed');
 assert.match(backend, /eventResearchIntent\?2000:3000/, 'source-page timeout changed');
