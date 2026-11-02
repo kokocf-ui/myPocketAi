@@ -393,7 +393,7 @@ function requestedTransitCount(message,provided=null){
  if(provided!==null&&provided!==undefined&&Number.isInteger(configured)&&configured>=1&&configured<=4)return configured;
  const clean=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  const words={unu:1,una:1,un:1,o:1,one:1,doi:2,doua:2,two:2,trei:3,three:3,patru:4,four:4};
- const match=clean.match(/\b(1|2|3|4|unu|una|un|o|one|doi|doua|two|trei|three|patru|four)\s+(?:variante?|variantele|alternativ[ae]|options?|routes?|itinerari[ie]|journeys?)\b/i);
+ const match=clean.match(/\b(1|2|3|4|unu|una|un|o|one|doi|doua|two|trei|three|patru|four)\s+(?:variant(?:e|a)?|variantele|alternativ[ae]|options?|routes?|itinerari[ie]|journeys?)\b/i);
  return match?(Number(match[1])||words[match[1]]):4;
 }
 function selectTransitAlternatives(candidates,limit=4){
