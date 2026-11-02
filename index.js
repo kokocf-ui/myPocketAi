@@ -2231,9 +2231,17 @@ function openEncyclopediaCard(article){
  if(article.image&&article.image.startsWith('https://')){const img=document.createElement('img');img.src=article.image;img.alt=article.title||'';img.loading='lazy';img.style.cssText='max-width:100%;max-height:170px;object-fit:contain;border-radius:12px';card.append(img)}
  if(article.description){const description=String(article.description).trim();const p=document.createElement('p');p.style.cssText='margin:14px 0;font-weight:650;opacity:.85';p.textContent=description.charAt(0).toLocaleUpperCase(state.language||'ro')+description.slice(1);card.append(p)}
  const content=String(article.extract||'').trim().replace(/\s+/g,' ');
- const sentences=content.match(/[^.!?]+[.!?]+(?:[”"’']?)(?=\s|$)|[^.!?]+$/g)||[content];
- const paragraphs=[];for(let i=0;i<sentences.length;i+=2)paragraphs.push(sentences.slice(i,i+2).join(' ').trim());
- for(const paragraph of paragraphs){if(!paragraph)continue;const p=document.createElement('p');p.style.cssText='margin:0 0 16px;line-height:1.7';p.textContent=paragraph.charAt(0).toLocaleUpperCase(state.language||'ro')+paragraph.slice(1);card.append(p)}
+ // Split only at sentence-ending punctuation followed by whitespace and a capital letter.
+ // Never split digit-group separators (183.105), decimal measurements or abbreviations.
+ const sentences=content.split(/(?<=[.!?])\s+(?=[A-ZĂÂÎȘȚÀ-Ý])/u).filter(Boolean);
+ const sections=[];
+ const intro=sentences.slice(0,3).join(' ').trim(),further=sentences.slice(3);
+ if(intro)sections.push([state.language==='ro'?'Prezentare generală':'Overview',intro]);
+ if(further.length)sections.push([state.language==='ro'?'Informații suplimentare':'Additional information',further.join(' ')]);
+ for(const [heading,paragraph] of sections){
+  const h=document.createElement('h4');h.textContent=heading;h.style.cssText='font-size:17px;margin:18px 0 8px';card.append(h);
+  const p=document.createElement('p');p.style.cssText='margin:0 0 16px;line-height:1.65';p.textContent=paragraph.charAt(0).toLocaleUpperCase(state.language||'ro')+paragraph.slice(1);card.append(p);
+ }
  if(article.url&&article.url.startsWith('https://')){const source=document.createElement('a');source.href=article.url;source.target='_blank';source.rel='noopener noreferrer';source.textContent='Wikipedia · '+(article.language||'');card.append(source)}
  host.append(card);
  const nav=document.createElement('button');nav.type='button';nav.className='transit-choice-action';nav.textContent=state.language==='ro'?'Creează traseu':'Plan route';
