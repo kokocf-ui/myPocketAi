@@ -376,16 +376,27 @@ function formatJourneyDurationMinutes(value,language='ro'){
 }
 // Show distinct ways to travel before repeated departures along the same corridor.
 function selectTransitAlternatives(candidates,limit=4){
- const corridor=j=>(j.legs||[]).filter(l=>!/walk|foot|pedestrian/i.test(String(l.mode||''))).map(l=>[l.mode,l.departureStopId||l.from,l.to,(l.lineNames||[]).join(',')].join(':')).join('|');
- const distinct=[],seen=new Set();
- for(const j of candidates){const key=corridor(j);if(!key||seen.has(key))continue;seen.add(key);distinct.push(j);}
- if(distinct.length<=limit)return distinct;
- const nearest=distinct.filter(j=>Number.isFinite(j.walkToFirstStopMinutes)).sort((a,b)=>a.walkToFirstStopMinutes-b.walkToFirstStopMinutes)[0];
- const chosen=distinct.slice(0,limit);
- if(nearest&&!chosen.includes(nearest))chosen[limit-1]=nearest;
- return chosen;
+ const walk=l=>/walk|foot|pedestrian/i.test(String(l.mode||''));
+ const vehicles=j=>(j.legs||[]).filter(l=>!walk(l));
+ const minute=v=>{const n=Date.parse(v||'');return Number.isFinite(n)?Math.floor(n/60000):String(v||'');};
+ const norm=v=>normalizeGeoName(v);
+ const signature=j=>{
+  const v=vehicles(j),first=v[0],last=v.at(-1);
+  if(!first)return '';
+  const start=minute(first.departureTime||j.firstVehicleDepartureTime),end=minute(j.arrivalDateTime||last.arrivalTime);
+  const boarding=norm(first.from||first.departurePoint?.commonName||''),line=norm((first.lineNames||[]).join(',')||first.mode);
+  const final=norm(last.to||'');
+  return [start,end,boarding,line,final,Math.max(0,v.length-1)].join('|');
+ };
+ const exact=j=>vehicles(j).map(l=>[minute(l.departureTime),minute(l.arrivalTime),norm(l.mode),norm(l.from),norm(l.to),norm((l.lineNames||[]).join(','))].join(':')).join('|');
+ const selected=[],seenExact=new Set(),seenVisible=new Set();
+ for(const journey of candidates){
+  const id=signature(journey),full=exact(journey);if(!id||seenVisible.has(id)||seenExact.has(full))continue;
+  seenVisible.add(id);seenExact.add(full);selected.push(journey);
+  if(selected.length>=limit)break;
+ }
+ return selected;
 }
-
 // Optional MOTIS v6-compatible provider. Use only a separately licensed/authorized service;
 // Transitous' volunteer public endpoint is NOT enabled by default (non-commercial policy).
 async function planMOTISMixedJourney(env,from,to,language){
