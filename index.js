@@ -2384,14 +2384,15 @@ function openEncyclopediaCard(article,requestStartMs){
  };
  if(cities.length){const s=section(L[8]);cities.slice(0,5).forEach((p,i)=>addPlace(s,p,i))}
  if(isCountry||sights.length){
-  const s=section(L[9]);
+  const scopeName={ro:' (zona capitalei)',en:' (capital area)',fr:' (région de la capitale)',de:' (Hauptstadtregion)',it:' (area della capitale)',es:' (zona de la capital)',pt:' (zona da capital)',nl:' (hoofdstedelijk gebied)',ru:' (район столицы)',pl:' (okolice stolicy)'};
+  const s=section(L[9]+(article.attractions_scope==='capital'?(scopeName[lang]||scopeName.en):''));
   if(sights.length)sights.forEach((p,i)=>addPlace(s,p,i));
   else textP(s,L[10]);
  }
  if(Number.isFinite(requestStartMs))showAnswerDuration(card,requestStartMs);
  const sources=section(L[11]);sources.style.cssText+=';margin-bottom:2px';
  link(article.url,'Wikipedia · '+(article.language||''),sources);
- if(article.country_facts?.source){
+ if(isCountry&&article.country_facts?.source){
   const div=document.createElement('div');div.style.marginTop='8px';link(article.country_facts.source,L[12],div);sources.append(div);
  }
  if(article.attractions_source&&(sights.length||cities.length)){
