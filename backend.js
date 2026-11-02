@@ -1212,16 +1212,26 @@ export default {
           ]);
           if(facts)article.country_facts=facts;
           if(highlights?.cities?.length)article.major_cities=highlights.cities;
-          const candidates=[...(highlights?.sights||[]),...nationwide],unique=new Set();
-          article.attractions=candidates.filter(p=>{
-            const key=normalizeGeoName(p.name);if(!key||unique.has(key))return false;unique.add(key);return true;
-          }).slice(0,12);
-          if(article.attractions.length){
+          // Prefer independently notable Wikidata landmarks. Geoapify country-boundary
+          // records are supplemental, not a replacement for nationwide coverage.
+          const candidates=[...(highlights?.sights||[]),...nationwide],unique=new Set(),cityCounts=new Map();
+          const selected=[];
+          for(const p of candidates){
+            const key=normalizeGeoName(p.name),city=normalizeGeoName(p.description||'').split(',')[0]||key;
+            if(!key||unique.has(key)||!Number.isFinite(Number(p.latitude))||!Number.isFinite(Number(p.longitude)))continue;
+            if((cityCounts.get(city)||0)>=2)continue;
+            unique.add(key);cityCounts.set(city,(cityCounts.get(city)||0)+1);selected.push(p);
+            if(selected.length>=12)break;
+          }
+          article.attractions=selected;
+          if(selected.length){
             article.attractions_scope='country_verified_sample';
             article.attractions_source=highlights?.sights?.length?'https://www.wikidata.org/':'https://www.openstreetmap.org/';
-          }else if(facts&&env.GEOAPIFY_API_KEY){
-            const capitalSights=await getCapitalSights(facts,env.GEOAPIFY_API_KEY);
-            if(capitalSights.length){article.attractions=capitalSights;article.attractions_scope='capital';article.attractions_source='https://www.openstreetmap.org/';}
+          }else{
+            // Do not quietly replace a nationwide request with minor memorials
+            // in the capital. Clearly report unavailable national coverage.
+            article.attractions=[];
+            article.attractions_scope='country_unavailable';
           }
         }else if(countryCode)article.country_facts=await countryMetadata(countryCode,lang);
         if(verifiedCity&&!article.coordinates)article.coordinates={latitude:Number(verifiedCity.lat),longitude:Number(verifiedCity.lon)};
