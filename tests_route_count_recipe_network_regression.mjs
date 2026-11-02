@@ -91,4 +91,56 @@ assert.equal(fallback('Variante moderne de sarmale','ro'),null,'modern variants 
 assert.ok(fallback('Sarmale tradiționale românești','ro')?.includes('varză murată'));
 
 
+
+// Real device regression: four journey starts were 22:04, 22:34, 22:26, 22:56.
+// The 22:26 option must be before 22:34, despite later first-vehicle boarding.
+const comparatorStart=script.indexOf('function compareTransitDisplayTimes(');
+const comparatorEnd=script.indexOf('function feasibleTransitChoices(',comparatorStart);
+assert.ok(comparatorStart>=0&&comparatorEnd>comparatorStart,'frontend transit chronological comparator missing');
+const compareTransitDisplayTimes=new Function(script.slice(comparatorStart,comparatorEnd)+';return compareTransitDisplayTimes')();
+const trip=(start,board,arrive)=>({
+ startDateTime:'2026-11-02T'+start+':00Z',
+ firstVehicleDepartureTime:'2026-11-02T'+board+':00Z',
+ arrivalDateTime:'2026-11-03T'+arrive+':00Z',
+ legs:[{mode:'walking',departureTime:'2026-11-02T'+start+':00Z'}]
+});
+const unsorted=[
+ trip('22:04','22:06','00:24'),
+ trip('22:34','22:36','00:26'),
+ trip('22:26','22:51','00:52'),
+ trip('22:56','23:21','00:22')
+];
+const ordered=[...unsorted].sort(compareTransitDisplayTimes);
+assert.deepEqual(ordered.map(x=>x.startDateTime.slice(11,16)),['22:04','22:26','22:34','22:56']);
+const ties=[
+ {startDateTime:'2026-11-02T22:04:00Z',arrivalDateTime:'2026-11-03T00:25:00Z'},
+ {startDateTime:'2026-11-02T22:04:00Z',arrivalDateTime:'2026-11-02T23:50:00Z'}
+].sort(compareTransitDisplayTimes);
+assert.equal(ties[0].arrivalDateTime,'2026-11-02T23:50:00Z','same departure should prefer earlier arrival');
+assert.match(backend,/selected\.sort\(\(a,b\)=>\{[\s\S]*?j\.startDateTime\|\|legs\[0\]\?\.departureTime\|\|j\.firstVehicleDepartureTime/,'backend must sort by card departure');
+assert.match(backend,/j\.arrivalDateTime\|\|legs\.at\(-1\)\?\.arrivalTime/,'backend must use arrival as tiebreaker');
+assert.match(backend,/journeys\.sort\(\(a,b\)=>Date\.parse\(a\.startDateTime\)/,'MOTIS results must be chronological');
+
+// Real device regression: beef liver must never be presented as traditional beef tripe.
+const qualityStart=backend.indexOf('function recipeQualityConcern(');
+const qualityEnd=backend.indexOf('function reliableRecipeFallback(',qualityStart);
+assert.ok(qualityStart>=0&&qualityEnd>qualityStart);
+const recipeQualityConcern=new Function(backend.slice(qualityStart,qualityEnd)+';return recipeQualityConcern')();
+const dish='Rețetă ciorbă de burtă tradițională românească';
+assert.equal(recipeQualityConcern(dish,'Ingrediente: 1 kg ficat de vită (burtă), 2 căni de apă.'),true);
+assert.equal(recipeQualityConcern(dish,'Ingrediente: 1 kg burtă de vită, 250 g smântână.'),false);
+assert.equal(recipeQualityConcern(dish,'Ingrediente: 1 cană de sare și 1 kg burtă de vită.'),true);
+assert.equal(recipeQualityConcern('Ciorbă de burtă vegetariană cu ciuperci','Ingrediente: ficat de vită.'),false);
+let liverModelCalls=0;
+const liverReply=await recipeWorker.fetch(new Request('https://fixture/api/chat',{
+ method:'POST',body:JSON.stringify({message:dish,module:'assistant',language:'ro',history:[]})
+}),{AI:{run:async()=>{liverModelCalls++;return {response:'Preparare: 30 de minute. Ingrediente: 1 kg ficat de vită (burtă), 1 cană de sare. Preparare: Fierbe ficatul.'}}}});
+const liverData=await liverReply.json();
+assert.equal(liverData.status,'success');
+assert.equal(liverData.latency_breakdown.recipe_fallback_used,true);
+assert.equal(liverData.latency_breakdown.model_calls_estimate,1);
+assert.equal(liverModelCalls,1);
+assert.match(liverData.reply,/burtă de vită/);
+assert.doesNotMatch(liverData.reply,/ficat de vită|1 cană de sare/);
+
 console.log('PASS: requested route count (normal + handoff + refresh), generated frontend escaping, recipe ingredient checks, one-pass cooking, event search budget, network retry UI.');
