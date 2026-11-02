@@ -1473,7 +1473,7 @@ function updateQuickLayerGeometry(){
 }
 window.addEventListener('resize',updateQuickLayerGeometry,{passive:true});
 window.addEventListener('orientationchange',updateQuickLayerGeometry,{passive:true});
-function openModuleQuickLayer(){updateQuickLayerGeometry();if(state.currentModule!=='maps'&&state.currentModule!=='travel')return;state.moduleSearchCategory=null;state.moduleSearchResults=[];state.moduleSearchReply='';$('moduleLayerTitle').textContent=(UI_TEXT[state.language]?.quickTitle||'Selecții rapide');renderModuleQuickChoices();$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false')}
+function openModuleQuickLayer(){state.navigationReturnContext=null;state.lastQuickPlace=null;updateQuickLayerGeometry();if(state.currentModule!=='maps'&&state.currentModule!=='travel')return;state.moduleSearchCategory=null;state.moduleSearchResults=[];state.moduleSearchReply='';$('moduleLayerTitle').textContent=(UI_TEXT[state.language]?.quickTitle||'Selecții rapide');renderModuleQuickChoices();$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false')}
 function quickUiText(){const L=state.language;const T={
 ro:{descPlaces:'Caută în apropiere și afișează numele și distanța.',descTransit:'Transport public: mers pe jos, autobuz, tren sau metrou, în funcție de datele disponibile.',descWalking:'Numai mers pe jos; fără mașină, taxi, bicicletă sau transport public.',searching:'Se caută',nearby:'în apropiere…',notFound:'Nu au fost găsite locații pentru această căutare. Încearcă din nou mai târziu.',found:'Locuri găsite',results:'rezultate · date de hartă',back:'Înapoi la selecții rapide',details:'selectează pentru detalii',category:'Categorie',unspecified:'Nespecificată',distance:'Distanță',openMap:'Deschide pe hartă',backResults:'← Înapoi la rezultate',noLocations:'Locația nu a putut fi identificată.',location:'Locație',coordinates:'Coordonate',placeDetails:'Detalii locație'},
 en:{descPlaces:'Find nearby places and show their names and distances.',descTransit:'Public transport: walking, bus, train or underground, depending on available data.',descWalking:'Walking only; no car, taxi, bicycle or public transport.',searching:'Searching for',nearby:'nearby…',notFound:'No places were found for this search. Please try again.',found:'Places found',results:'results · map data',back:'Back to quick options',details:'select for details',category:'Category',unspecified:'Not specified',distance:'Distance',openMap:'Open map',backResults:'← Back to results',noLocations:'The location could not be identified.',location:'Place',coordinates:'Coordinates',placeDetails:'Place details'},
@@ -1626,7 +1626,7 @@ const TRAVEL_MODE_TEXT={ro:['Cum vrei să ajungi?','Pietonal','Transport public'
 const TRAVEL_CONFIRM_TEXT={ro:['Da, arată traseul','Nu, mulțumesc'],en:['Show directions','No, thanks'],fr:['Afficher le trajet','Non, merci'],de:['Route anzeigen','Nein, danke'],it:['Mostra percorso','No, grazie'],es:['Mostrar ruta','No, gracias'],pt:['Mostrar percurso','Não, obrigado'],nl:['Toon route','Nee, bedankt'],ru:['Показать маршрут','Нет, спасибо'],pl:['Pokaż trasę','Nie, dziękuję']};
 function openTransportModeFromAssistant(data){
  if(!data?.route_context?.destination)return false;
- if(!state.navigationReturnContext)rememberNavigationSource();
+ rememberNavigationSource();
  state.routeSearchContext={...data.route_context};
  switchConversationModule('maps');showNavigationReturn();
  const body=$('moduleLayerBody');body.style.cssText='';body.replaceChildren();
@@ -1908,7 +1908,7 @@ function renderTransitChoices(options,selectedIndex=null){
   if(selectedIndex!==null){renderTransitChoices(options);return}
   const source=state.navigationReturnContext;
   if(source?.view==='assistant'&&state.routeSearchContext?.destination){openTransportModeFromAssistant({route_context:state.routeSearchContext});return}
-  if(source?.details){offerPlaceTravelModes(source.details);return}
+  if(source?.details&&source.module===state.currentModule){offerPlaceTravelModes(source.details);return}
   handleModuleLayerBack();
  };
  actions.append(back);
