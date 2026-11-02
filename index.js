@@ -2671,10 +2671,21 @@ const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;c
   }
   // Preserve country journey origin until a destination is selected.
  }
+ const directCountryArrival=state.tripCountryOnChoice&&data.needs_travel_mode&&data.route_context?.destination
+  &&(!Array.isArray(data.destination_candidates)||data.destination_candidates.length===0)
+  &&(!Array.isArray(data.choice_options)||data.choice_options.length===0);
+ if(directCountryArrival){
+  const destination=data.route_context.destination;
+  state.tripCountryOnChoice=null;
+  if(offerDestinationAccommodationBeforeRoute(destination)){
+   answerBubble.remove();state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Destinație confirmată.');return;
+  }
+ }
  const standaloneChoice=Boolean(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification||(Array.isArray(data.choice_options)&&data.choice_options.length)||(Array.isArray(data.destination_candidates)&&data.destination_candidates.length));
  if(standaloneChoice){
   const choiceHost=document.createElement('div');choiceHost.dataset.directChoices='true';
-  const choicesAdded=Boolean(appendTravelModeChoices(data,choiceHost)|appendConversationChoices(data,choiceHost));
+  const countryNeedsSelection=Boolean(state.tripCountryOnChoice&&((Array.isArray(data.destination_candidates)&&data.destination_candidates.length)||(Array.isArray(data.choice_options)&&data.choice_options.length)));
+  const choicesAdded=Boolean((countryNeedsSelection?false:appendTravelModeChoices(data,choiceHost))|appendConversationChoices(data,choiceHost));
   if(choicesAdded&&choiceHost.querySelector('button')){answerBubble.remove();openStandaloneChoicePanel(choiceHost,state.language==='ro'?'Alege o opțiune':'Choose an option')}
   else{appendTravelConfirmation(data,answerBubble)}
  }else{appendTravelModeChoices(data,answerBubble);appendTravelConfirmation(data,answerBubble);appendConversationChoices(data,answerBubble)}state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);setStatus('Răspuns primit.');if(state.voiceMode||fromVoice){speakText(reply,{continuous:state.voiceMode})}else if(state.messages.length===2){/* first reply only: text remains the default */}}catch(error){loading.remove();console.warn('Pocket AI request failed timing',{total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:typeof gpsElapsedMs==='number'?gpsElapsedMs:null,api_elapsed_ms:typeof backendRequestStartedAt==='number'?Math.round(performance.now()-backendRequestStartedAt):null,stage:typeof backendRequestStartedAt==='number'?'api_or_read':'gps_or_preflight'});if(generation===state.conversationGeneration&&(state.currentView==='assistant'||state.currentView==='module')){const messageText=String(error?.message||'Eroare necunoscută.');
