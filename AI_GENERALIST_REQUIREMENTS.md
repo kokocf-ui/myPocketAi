@@ -42,6 +42,41 @@ Duratele se calculează în continuare în unități numerice (secunde/minute) p
 - Formatarea duratei NU schimbă orele de plecare/sosire, timpii de transfer, algoritmul rutelor, sortarea alternativelor, numărul de opțiuni, zonele orare sau API-ul brut. Pentru traversări de fus orar, durata rămâne timpul scurs real, independent de ora locală.
 - Verifică expres prezentarea duratelor în backend.js (ex.: ~1088, ~1359–1360, ~1522, ~1532) și frontend index.js (~1755, ~1757, ~2001, ~2114), fără a modifica algoritmii de rutare.
 
+## Probleme deschise — trasee mixte naționale și internaționale (prioritate majoră)
+**Stare: NEREZOLVAT / NEIMPLEMENTAT COMPLET la 2026-11-02.** Cele trei variante auto nu reprezintă trei itinerarii multimodale. Nu declara funcția rezolvată până când nu există teste end-to-end cu operatori reali, ore de plecare/legături verificabile și navigație până la adresa finală.
+
+### Ce trebuie să obțină utilizatorul
+- Planificare door-to-door de la locația GPS sau de la o adresă dată până la destinația exactă, inclusiv localități din afara Regatului Unit; păstrează secțiunea curentă în Asistent.
+- Combină automat segmente de mers pe jos, autobuz, tren/Overground, metrou, tramvai, autocar/microbuz, avion și feribot după caz. Nu limita căutarea la categorii de vehicule sau la țări memorate într-o listă.
+- Pentru rute britanice, preferă trenul și Overground, apoi metroul; autobuzul este alternativă sau legătură utilă. Caută ruta cea mai logică și evită devierile inutile.
+- Maximum 3–4 itinerarii **reale, distincte, fezabile**, nu duplicări cu denumiri diferite; dacă există doar 1–2 variante verificabile, afișează doar atât. Variantele trebuie să includă ora plecării/sosirii, durata în zile/ore/minute, timpul până la primul vehicul, transferurile, liniile, stațiile de schimb, direcția și mersul final.
+- Dacă distanța este peste 5 km, ascunde doar opțiunea de mers pe jos pentru întregul traseu. Segmentele pietonale de acces, transfer și sosire rămân obligatorii în itinerariile mixte.
+- Verifică timpii reali de mers și conexiunile, introdu o marjă fezabilă de schimbare a mijlocului de transport, nu alege servicii deja pierdute; respectă zilele și fusurile orare diferite. Nu inventa curse, prețuri, disponibilitate, terminale ori peroane.
+- După alegerea unei variante, păstrează exact itinerariul selectat și arată în fereastra suprapusă toți pașii numerotați, harta, navigarea până la îmbarcare, apoi mersul din ultima stație la destinația exactă; „Înapoi” păstrează continuitatea.
+- Dacă un serviciu este anulat/inaccesibil, recalculează din poziția actuală și oferă alte variante verificate, fără să reia de la zero întrebările deja rezolvate.
+- Dacă nu există acces la orare pentru un segment internațional, marchează explicit partea neverificată și nu o prezenta ca itinerar complet confirmat.
+
+### Blocaje confirmate în sursă, nu presupuneri
+- În `backend.js`, ~625–675, fluxul de transport public se bazează pe TfL și conține o întoarcere timpurie pentru o **listă fixă de destinații internaționale**, cu `reason:'international_provider_not_connected'`. Aceasta oferă un mesaj explicativ, nu o rută mixtă.
+- Lista de expresii pentru țările externe nu acoperă destinații precum Oradea. Este o limitare de arhitectură, nu un motiv să adăugăm Oradea ca excepție nouă.
+- În `backend.js`, ~836–980, alternativele publice sunt construite din răspunsuri TfL la mai multe preferințe; serviciile suplimentare BODS/RTT apar în diagnostice, dar nu sunt integrate într-un planificator de conexiuni interoperatori și internaționale.
+- În `index.js`, ~1625–1672, alegerea modului afișează doar mers pe jos / transport public / mașină; modul public trebuie să poată declanșa un planificator multimodal global, fără a crea un ecran separat inutil.
+- Codul de afișare a pașilor din frontend există pentru itinerariile TfL, dar trebuie să accepte și un format normalizat cu segmente provenite de la furnizori diferiți.
+
+### Direcția tehnică pentru implementare
+1. Un contract comun de date pentru fiecare segment: mod, operator, linie/număr, origine/destinație, lat/lon, fus orar, plecare/sosire, durată, sursă și stare de verificare.
+2. Rezolvarea geografică globală a destinației și alegerea providerilor după geografie/servicii (nu după cuvinte-cheie fixe). Verifică existența și dreptul de folosire a unui serviciu/API internațional de planificare; integrarea nu se consideră disponibilă doar pentru că este menționată.
+3. Îmbină segmentele verificate în itinerarii complete, validează transferurile și ordonează/deduplichează până la maximum 3–4 variante.
+4. Afișează pașii și harta fără transfer automat din Asistent în alt modul. Păstrează traseele rutiere și pietonale existente, precum și funcția de reîmprospătare a plecărilor.
+
+### Teste de acceptare obligatorii
+- Grays → West Dulwich: opțiuni reale incluzând c2c + metrou + Southeastern când există o conexiune fezabilă; nu deviere inutilă prin Brixton și nici destinație schimbată.
+- Grays → London Victoria Underground: rute reale, oră de îmbarcare posibilă, stație finală corectă, ultima porțiune pietonală până la destinația selectată.
+- West Thurrock/Grays → Oradea (România): datele internaționale, avion/tren/autocar după caz, transport local și mersul final, fără inventarea unui orar dacă nu avem provider.
+- Orice destinație internațională neenumerată anterior: nu trebuie să fie tratată de TfL ca destinație internă doar pentru că lipsește dintr-o expresie regulată.
+- Obiectiv la peste 5 km: opțiunea exclusiv pietonală este ascunsă, dar primul și ultimul segment pietonal rămân în traseul mixt.
+- Regresie: 3 variante auto, rutarea locală și dialogurile existente continuă să funcționeze.
+
 ## Probleme observate la auditul din 2026-11-02
 - backend.js, în zona ~3090–3095: declanșarea cercetării web depinde de semnul întrebării ori de o listă de termeni; comenzi imperative pentru filme/festivaluri/alte teme pot fi ratate.
 - backend.js, în zona ~3096: lista de țări explicit recunoscute pentru filtrare nu este globală; trebuie extinsă strategia internațională, nu doar lista.
