@@ -3503,6 +3503,7 @@ export default {
     const recipeInstruction = /\b(?:reteta|retete|recipe|recipes|ingrediente|ingredients|cum gatesc|cum prepar|how to cook)\b/i.test(normalizedResearchRequest);
     const taskInsteadOfResearch = /^(?:te rog\s+)?(?:scrie|creeaza|compune|redacteaza|rezuma|rezumă|rescrie|corecteaza|tradu|ajuta.ma sa|write|create|draft|summarize|rewrite|translate|help me make|help me write)\b/i.test(normalizedResearchRequest);
     const substantiveRequest = /[\p{L}\p{N}]/u.test(message)&&(/[?？]/.test(message)||normalizedResearchRequest.trim().split(/\s+/).length>=2);
+    const eventResearchIntent=/\b(?:eveniment\w*|festival\w*|spectacol\w*|concert\w*|targ\w*|events?|shows?|performances?)\b/i.test(normalizedResearchRequest);
     const shouldSearchWeb = data.search_web === true || (!obviouslyNonResearch && !capabilityQuestion && substantiveRequest && (explicitLookup || (!taskInsteadOfResearch && (!recipeInstruction || /\b(?:recent|latest|actual|original|official|sursa|source)\b/.test(normalizedResearchRequest)))));
     const priceResearch = /\b(?:price|prices|cost|costs|how much|£|€|\$|pret\w*|preturi|preț|prețuri|cat costa|cât costă|costa|costă|oferta|oferte)\b/i.test(normalizedResearchRequest);
     const legalResearch = /\b(?:law\w*|legal\w*|legislation|regulat\w*|statut\w*|tax\w*|fine|penalt\w*|codul\s+(?:muncii|rutier|civil|penal)|lege\w*|legi|legislati\w*|regulament\w*|impozit\w*|taxa|taxe|amend\w*|sanctiun\w*|drepturi|obligatii|licente|visa|viz\w*|immigration|imigra\w*)\b/i.test(normalizedResearchRequest);
@@ -3533,7 +3534,7 @@ export default {
         const response = await fetch("https://api.exa.ai/search", {
           method:"POST", headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
           body:JSON.stringify({query:searchQuery,type:"auto",numResults:6,contents:{highlights:true}}),
-          signal:AbortSignal.timeout(14000)
+          signal:AbortSignal.timeout(eventResearchIntent?9500:14000)
         });
         if (!response.ok) throw new Error("HTTP " + response.status);
         const payload = await response.json();
@@ -3545,14 +3546,14 @@ export default {
         const u = new URL("https://api.search.brave.com/res/v1/web/search");
         u.searchParams.set("q",searchQuery); u.searchParams.set("count","6"); u.searchParams.set("search_lang",searchLanguage);
         u.searchParams.set("country",searchCountry||"ALL"); u.searchParams.set("safesearch","moderate");
-        const response = await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(12000)});
+        const response = await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(eventResearchIntent?9000:12000)});
         if(!response.ok) throw new Error("HTTP "+response.status);
         const payload=await response.json(); const results=payload.web&&Array.isArray(payload.web.results)?payload.web.results:[];
         return {provider:"Brave",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.page_age||x.age||null,snippets:[x.description||"",...(Array.isArray(x.extra_snippets)?x.extra_snippets:[])].filter(Boolean).slice(0,3)}))};
       })().then(value=>({status:"fulfilled",value,provider:"Brave"})).catch(error=>({status:"rejected",provider:"Brave",error:String(error&&error.message||error).slice(0,140)})));
       if (env.TAVILY_API_KEY) providerTasks.push((async () => {
         const started=Date.now();
-        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:searchQuery,topic:"general",search_depth:"advanced",max_results:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(14000)});
+        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:searchQuery,topic:"general",search_depth:"advanced",max_results:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?9500:14000)});
         if(!response.ok) throw new Error("HTTP "+response.status);
         const payload=await response.json(); const results=Array.isArray(payload.results)?payload.results:[];
         return {provider:"Tavily",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.published_date||null,snippets:[x.content||""].filter(Boolean).slice(0,3)}))};
@@ -3600,9 +3601,9 @@ export default {
         webSources=[...byUrl.values()].sort((a,b)=>sourceEvidenceScore(b)-sourceEvidenceScore(a)).slice(0,10);
         // Fetch a small number of original pages for additional evidence. Redirects are not followed;
         // non-HTML pages and unavailable pages remain explicitly unverified.
-        await Promise.all(webSources.slice(0,3).map(async source=>{
+        await Promise.all(webSources.slice(0,eventResearchIntent?2:3).map(async source=>{
           try{
-            const response=await fetch(source.url,{headers:{"Accept":"text/html,application/xhtml+xml,text/plain;q=0.9"},redirect:"manual",signal:AbortSignal.timeout(5500)});
+            const response=await fetch(source.url,{headers:{"Accept":"text/html,application/xhtml+xml,text/plain;q=0.9"},redirect:"manual",signal:AbortSignal.timeout(eventResearchIntent?4000:5500)});
             const type=response.headers.get("content-type")||"";
             if(!response.ok||response.status>=300||!/(?:text\/html|application\/xhtml\+xml|text\/plain)/i.test(type)){source.pageFetchStatus="not_fetched";return;}
             let body=(await response.text()).slice(0,350000);
@@ -3613,7 +3614,7 @@ export default {
         }));
         const usable=webSources.filter(x=>x.snippets.length||x.pageEvidence);
         webSearchStatus=usable.length?(settled.some(x=>x.status==="rejected")?"partial_success":"success"):(candidates.length?"weak_results":(settled.some(x=>x.status==="fulfilled")?"no_results":"error"));
-        const contextSources=usable.slice(0,8).map((x,i)=>`[${i+1}] ${x.title}\nURL: ${x.url}\nPublished: ${x.publishedDate||"date not supplied"}${Number.isFinite(x.ageDays)?" (about "+x.ageDays+" days old)":""}\nProviders: ${x.providers.join(", ")}\nSearch snippets (not independently verified): ${x.snippets.join(" | ")||"none"}\nOriginal page: ${x.pageFetchStatus||"not fetched"}\nPage excerpt: ${x.pageEvidence||"not available"}`).join("\n\n");
+        const contextSources=usable.slice(0,eventResearchIntent?4:8).map((x,i)=>`[${i+1}] ${x.title}\nURL: ${x.url}\nPublished: ${x.publishedDate||"date not supplied"}${Number.isFinite(x.ageDays)?" (about "+x.ageDays+" days old)":""}\nProviders: ${x.providers.join(", ")}\nSearch snippets (not independently verified): ${(x.snippets.join(" | ")||"none").slice(0,eventResearchIntent?750:10000)}\nOriginal page: ${x.pageFetchStatus||"not fetched"}\nPage excerpt: ${(x.pageEvidence||"not available").slice(0,eventResearchIntent?1500:6500)}`).join("\n\n");
         if(contextSources) webSearchContext="\n\nSearch run time: "+new Date().toISOString()+"\nRETRIEVED WEB EVIDENCE (search snippets are leads, not proof; page excerpts are fetched source text, not automatically authoritative):\n"+contextSources;
         webSearchDiagnostics={providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
         console.info("Pocket AI v98 web research",JSON.stringify({stage:"web_research_completed",status:webSearchStatus,...webSearchDiagnostics}));
