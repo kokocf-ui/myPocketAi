@@ -1,4 +1,5 @@
 /*
+ * v171: verify traditional beef tripe, order transit cards by trip start and arrival.
  * v170: classify event requests before venue lookup, ground event rows directly in dated source results, avoid AI-invented events.
  * v169: use Cloudflare fast inference for main generation, allow deployment model override, add model diagnostics.
  * v168: preserve explicitly requested culinary adaptations during deterministic recipe safety fallback.
@@ -466,7 +467,13 @@ function recipeQualityConcern(request,answer){
  const topic=String(request||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  const content=String(answer||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  const adaptedDish=/\b(?:variante|varianta|variations?|alternativ\w*|reinterpret\w*|adapt\w*|modern\w*|vegan\w*|vegetari\w*|de post|fara|without|meatless|no meat)\b/.test(topic);
- if(/\bciorb\w*\s+de\s+burt\w*/.test(topic))return !adaptedDish&&/\b(?:burta|burt[aă])\s+de\s+porc\b|\bpork\s+tripe\b/.test(content);
+ if(/\bciorb\w*\s+de\s+burt\w*/.test(topic)){
+  if(adaptedDish)return false;
+  // Traditional beef tripe is stomach lining, never liver or pork belly.
+  const invalidMeat=/\b(?:burta|burt[aă])\s+de\s+porc\b|\bpork\s+tripe\b|\b(?:ficat\w*|liver)\s+(?:(?:de|of)\s+)?(?:vita|vitel|beef|calf)\b|\b(?:ficat|liver)\s*\(\s*(?:burta|burt[aă]|tripe)\s*\)/i.test(content);
+  const implausibleQuantity=/\b(?:\d+|una|doua|one|two)\s+(?:cani|cana|cups?)\s+(?:(?:de|of)\s+)?(?:sare|piper|mustar|salt|pepper|mustard)\b/i.test(content);
+  return invalidMeat||implausibleQuantity;
+ }
  if(!/\bsarmal/.test(topic))return false;
  const wrongWrapper=/\b(?:frunze|frunzele|foi)\s+de\s+(?:lemn|telina)(?:\b|\s|\()/i.test(content)
    ||/\b(?:wood|celery)\s+leaves\s+(?:for|to)\s+(?:roll|wrap|stuff)/i.test(content);
@@ -622,7 +629,7 @@ async function planMOTISMixedJourney(env,from,to,language){
    boarding_stop:transitBoardingStop(legs),walkToFirstStopMinutes:walk,safetyMarginMinutes:5,
    transferCount:Number(j.transfers)||0,firstVehicleDepartureTime:boarding.departureTime,departureFeasible:true});
  }
- journeys.sort((a,b)=>a.durationMinutes-b.durationMinutes||Date.parse(a.startDateTime)-Date.parse(b.startDateTime));
+ journeys.sort((a,b)=>Date.parse(a.startDateTime)-Date.parse(b.startDateTime)||Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime)||0);
  return {status:journeys.length?'success':'no_verified_journeys',journeys:journeys.slice(0,4)};
 }
 
@@ -826,7 +833,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v170";
+    const API_VERSION = "v171";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
@@ -1518,9 +1525,21 @@ export default {
             const selected=selectTransitAlternatives(candidates,requestedOptionsCount);
             // Display verified departures in time order, not score order.
             selected.sort((a,b)=>{
-              const x=Date.parse(a.firstVehicleDepartureTime||''),y=Date.parse(b.firstVehicleDepartureTime||'');
-              if(!Number.isFinite(x))return Number.isFinite(y)?1:0;
-              return Number.isFinite(y)?x-y:-1;
+              // Sort by the departure displayed on the card, INCLUDING the access walk.
+              const ts=(j,kind)=>{
+                const legs=Array.isArray(j.legs)?j.legs:[];
+                const raw=kind==='start'?(j.startDateTime||legs[0]?.departureTime||j.firstVehicleDepartureTime):
+                  (j.arrivalDateTime||legs.at(-1)?.arrivalTime);
+                const ms=Date.parse(raw||'');
+                return Number.isFinite(ms)?ms:null;
+              };
+              const aStart=ts(a,'start'),bStart=ts(b,'start');
+              if(aStart!==null&&bStart!==null&&aStart!==bStart)return aStart-bStart;
+              if(aStart===null&&bStart!==null)return 1;
+              if(aStart!==null&&bStart===null)return -1;
+              const aEnd=ts(a,'arrival'),bEnd=ts(b,'arrival');
+              if(aEnd!==null&&bEnd!==null)return aEnd-bEnd;
+              return aEnd===null&&bEnd!==null?1:aEnd!==null&&bEnd===null?-1:0;
             });
             transitOptions.splice(0,transitOptions.length,...selected);
             if (!transitOptions.length) transportErrors.tfl = "no_journeys_returned";
@@ -3866,7 +3885,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         ' Give a complete, coherent recipe matching the requested servings. Start with preparation and cooking times.'+
         ' Include a single nonrepeating ingredient list with measured quantities (grams, ml, pieces), then numbered sequential steps.'+
         ' Explain actual cooking technique, appliance temperature where appropriate, duration and food-safety checks.'+
-        ' Check that every ingredient is a real edible food ingredient and that the wrappers, fillings, cooking method and timing are appropriate for the named dish. For traditional Romanian sarmale use pickled cabbage leaves or grape leaves, not wood or celery leaves; for traditional Romanian ciorbă de burtă use beef tripe, not pork belly. Explicit vegetarian, vegan, modern, or regional alternatives must follow the user\'s instructions and be labelled as adaptations, not as the traditional version. Simmer thoroughly until safely cooked.'+
+        ' Check that every ingredient is a real edible food ingredient and that the wrappers, fillings, cooking method and timing are appropriate for the named dish. For traditional Romanian sarmale use pickled cabbage leaves or grape leaves, not wood or celery leaves; for traditional Romanian ciorbă de burtă use beef stomach lining (Romanian: burtă de vită), never beef liver (ficat de vită) or pork belly. Never use cups of salt, pepper or mustard. Explicit vegetarian, vegan, modern, or regional alternatives must follow the user\'s instructions and be labelled as adaptations, not as the traditional version. Simmer thoroughly until safely cooked.'+
         ' Do not invent sources, do not repeat blocks, and do not omit crucial steps or shorten a cooking time unrealistically.'+
         ' Only explain variations or substitutions when useful. Answer directly without prefatory filler.';
     }
