@@ -18,5 +18,5 @@ assert.match(js,/Array\.isArray\(article\.attractions\)/);
 assert.match(back,/article\.attractions=/);
 assert.match(back,/if\(!isCountryArticle&&article\.coordinates&&env\.GEOAPIFY_API_KEY\)/);
 assert.match(back,/AbortSignal\.timeout\(2400\)/);
-assert.match(back,/API_VERSION = "v170"/);
+assert.match(back,/API_VERSION = "v171"/);
 console.log('PASS: generated JS, visible response duration, sourced city sights and country safety guard.');
