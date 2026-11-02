@@ -208,6 +208,45 @@ function transitConversationDestination(message,history){
 }
 
 // Locale-aware display only: retain seconds/minutes numerically for routing calculations.
+// Sort simple numbered date lists deterministically, independent of the order
+// in which search engines or the language model mention the events.
+function sortNumberedDatedEvents(answer,language='ro'){
+ const lines=String(answer||'').split('\n'),entries=[];
+ const normalize=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}]/gu,'');
+ const months=new Map();
+ for(let month=0;month<12;month++){
+  const date=new Date(Date.UTC(2026,month,5));
+  for(const locale of ['ro','en','fr','de','it','es','pt','nl','ru','pl']){
+   for(const options of [{month:'long'},{month:'short'},{day:'numeric',month:'long'}]){
+    const parts=new Intl.DateTimeFormat(locale,{timeZone:'UTC',...options}).formatToParts(date);
+    const value=parts.find(p=>p.type==='month')?.value;
+    if(value)months.set(normalize(value),month+1);
+   }
+  }
+ }
+ const numbered=/^\s*(\d+)[.)]\s+/;
+ const dated=/^(\s*\d+[.)]\s+)(\d{1,2})\s+(?:(?:de|del|di|of)\s+)?([\p{L}\p{M}.]+)(?=\s|[:,.-]|$)/iu;
+ for(let i=0;i<lines.length;i++){
+  const found=lines[i].match(dated);
+  if(!found)continue;
+  const month=months.get(normalize(found[3])),day=Number(found[2]);
+  if(!month||day<1||day>31)continue;
+  const year=Number(lines[i].match(/\b20\d{2}\b/)?.[0]||'2026');
+  entries.push({line:i,day,month,year,value:lines[i]});
+ }
+ if(entries.length<2)return answer;
+ const a=entries[0].line,b=entries.at(-1).line;
+ // Only a plain date list is safe to reorder: leave prose and multi-line items intact.
+ for(let i=a;i<=b;i++)if(lines[i].trim()&&!numbered.test(lines[i]))return answer;
+ const numberedCount=lines.slice(a,b+1).filter(v=>numbered.test(v)).length;
+ if(numberedCount!==entries.length)return answer;
+ const sorted=[...entries].sort((x,y)=>x.year-y.year||x.month-y.month||x.day-y.day||x.line-y.line);
+ for(let i=0;i<entries.length;i++){
+  const original=sorted[i].value;
+  lines[entries[i].line]=original.replace(numbered,String(i+1)+'. ');
+ }
+ return lines.join('\n');
+}
 function formatJourneyDurationMinutes(value,language='ro'){
  if(value===null||value===undefined||!Number.isFinite(Number(value))||Number(value)<0)return '—';
  const amount=Math.round(Number(value)),days=Math.floor(amount/1440),hours=Math.floor(amount%1440/60),minutes=amount%60;
@@ -3593,7 +3632,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         }, 502);
       }
 
-      let finalReply = result.response.trim();
+      let finalReply = sortNumberedDatedEvents(result.response.trim(),lang);
       const evidenceSources = webSources.filter(item=>item.snippets.length||item.pageEvidence);
       // v98: sources remain available as structured API metadata; never append them automatically to chat text.
       if (!evidenceSources.length && shouldSearchWeb && webSearchStatus !== "success" && webSearchStatus !== "partial_success") {
