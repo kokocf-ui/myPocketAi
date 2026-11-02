@@ -1,3 +1,12 @@
+## Pocket AI — backend v167 / frontend 1.0.122 — 2026-11-02
+
+- **Confirmed phone latency root cause:** 79.5 s for traditional Romanian sarmale: 0.0 s GPS, 0.0 s web, 36.8 s primary Workers AI generation, 42.5 s second recipe correction. The second inference still returned a recipe validation failure. These values came from the user's live frontend timing panel.
+- **Backend v167:** removes the second AI correction call on culinary quality failure. For the repeatedly problematic traditional sarmale and beef tripe soup, a deterministic conventional recipe fallback is used when the model's output is rejected. This is a limited safety fallback, not a global rule for world cuisines. Other unverified recipe ingredients are not blindly delivered.
+- **Primary generation:** first AI call remains necessary for dynamic recipes. It has a smaller 620-token ceiling for ordinary recipe questions, a more focused sampling temperature, and excludes a duplicated last user message in history. This may help, but no real latency improvement is claimed without measurements.
+- **Diagnostics:** the expandable timing panel remains in frontend 1.0.122; `recipe_fallback_used`, `recipe_correction_ms=0` and estimated AI calls in backend response explain when a deterministic safety fallback was used.
+- **Regression tests:** existing `tests_route_count_recipe_network_regression.mjs` now simulates incorrect ingredients in both sarmale and beef-tripe soup and asserts one model call per request; other tests were adjusted to the v167 generation parameters.
+- **Still unresolved:** the first AI model call alone took 36.8 s in the supplied live measurement. Reducing duplicate inference is not enough to reach the 3–5 second goal. Next investigate/model-benchmark inference speed and output length on live Cloudflare; avoid claiming the Worker or UI can fix intrinsic model latency without evidence. Cloudflare deployment and GitHub Actions outcome have not yet been confirmed.
+
 ## Pocket AI — backend v163 / frontend 1.0.119 — 2026-11-02
 
 - **Cercetare web:** un singur buget de colectare a furnizorilor (6 s general / 7 s evenimente), cu răspuns anticipat când există suficientă evidență de la furnizori independenți. Apelurile de căutare rămân paralele; pagina originală și generarea AI au timpi separați. Sursele care nu sosesc la timp pot lipsi: lista nu este garantat exhaustivă.
