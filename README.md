@@ -1,3 +1,12 @@
+## Work in progress — backend v150 / frontend 1.0.115 (2026-11-02)
+
+- Wikipedia summaries for explicit factual questions and known destinations, displayed in a dedicated assistant overlay with source attribution and optional photo.
+- Plan route action uses verified article coordinates when available; country-only selections ask for a specific destination.
+- Accommodation category discovery expanded to hotels, guesthouses, motels, hostels and mapped holiday units, with tourist-centre preference for city searches unless another area is specified.
+- Optional accommodation search is offered after a route result originating from the encyclopedia flow.
+- Availability, rates and Airbnb inventories are **not** verified; international mixed-mode live itinerary coverage is **not** complete. Never invent departures or accommodation offers.
+- Keep previously phone-validated navigation intact. Existing unit test failures still need investigation.
+
 ## Backend v147 — verify destinations before transport choices (2026-11-01)
 
 For an explicit journey request, resolve and verify destination coordinates before showing travel modes. Official TfL records confirm rail/tube stations; named landmarks use map provider evidence and popular-name aliases such as Arsenal Stadium → Emirates Stadium, London (no hardcoded coordinates). Reject unrelated long-distance names and unverified landmarks rather than routing blindly. Return straight-line distance so the existing frontend hides the walking mode on journeys over 3 km. The existing frontend 1.0.114 remains unchanged. Added mocked location regression and live Arsenal probes. The unrelated legacy Brave Search assertion remains known; phone validation is still required.
