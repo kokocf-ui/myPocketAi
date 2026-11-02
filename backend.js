@@ -3668,7 +3668,7 @@ export default {
     const substantiveRequest = /[\p{L}\p{N}]/u.test(message)&&(/[?？]/.test(message)||normalizedResearchRequest.trim().split(/\s+/).length>=2);
     const eventResearchIntent=eventDiscoveryRequest;
     // Dated list requests use the source-grounded calendar; singular event questions keep the general assistant.
-    const eventCalendarRequest=eventResearchIntent&&/\b(?:evenimente|evenimentelor|events|concert(e|e\w+)?|festivale|festivaluri|spectacole|targuri|programul\s+evenimentelor|calendarul\s+evenimentelor|shows|performances)\b/i.test(normalizedResearchRequest);
+    const eventCalendarRequest=eventResearchIntent&&/\b(?:evenimente|evenimentelor|events|concerte|concerts|festivale|festivaluri|festivals|spectacole|shows|performances|targuri|fairs|programul\s+evenimentelor|calendarul\s+evenimentelor|calendar\s+of\s+events)\b/i.test(normalizedResearchRequest);
     const shouldSearchWeb = data.search_web === true || (!obviouslyNonResearch && !capabilityQuestion && substantiveRequest && (explicitLookup || (!taskInsteadOfResearch && (!recipeInstruction || /\b(?:recent|latest|actual|original|official|sursa|source)\b/.test(normalizedResearchRequest)))));
     const priceResearch = /\b(?:price|prices|cost|costs|how much|£|€|\$|pret\w*|preturi|preț|prețuri|cat costa|cât costă|costa|costă|oferta|oferte)\b/i.test(normalizedResearchRequest);
     const legalResearch = /\b(?:law\w*|legal\w*|legislation|regulat\w*|statut\w*|tax\w*|fine|penalt\w*|codul\s+(?:muncii|rutier|civil|penal)|lege\w*|legi|legislati\w*|regulament\w*|impozit\w*|taxa|taxe|amend\w*|sanctiun\w*|drepturi|obligatii|licente|visa|viz\w*|immigration|imigra\w*)\b/i.test(normalizedResearchRequest);
