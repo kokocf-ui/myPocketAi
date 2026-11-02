@@ -2160,7 +2160,7 @@ function closeAnswerReader(restoreFocus=true){
 function openAnswerReader(text,origin){
  dismissSelectionKeyboard();
  if(state.lastTransitResponse?.reply===String(text).trim()&&Array.isArray(state.lastTransitResponse.transit)&&state.lastTransitResponse.transit.length){showTransitChoices(state.lastTransitResponse.transit);return}
- if(state.lastRouteReply===String(text).trim()&&validMapRoute(state.lastRoute)){openWalkingRouteChoices(state.lastRoute,state.lastRouteOptions);return}
+ if(state.lastRouteReply===String(text).trim()&&validMapRoute(state.lastRoute)){const choices=(state.lastRouteOptions||[]).filter(validMapRoute);if(choices.length<=1&&state.lastRoute.profile==='drive')openRouteMap(state.lastRoute,null,choices);else openWalkingRouteChoices(state.lastRoute,choices);return}
  closeRouteMap(false);
  closeAnswerReader(false);inputEl.blur();const t=readerLabels();
  const layer=document.createElement('section');layer.className='answer-reader';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-labelledby','answerReaderTitle');
