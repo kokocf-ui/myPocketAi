@@ -495,6 +495,28 @@ const countryNameCodes=(()=>{
  return names;
 })();
 const countryNameEntries=[...countryNameCodes].sort((a,b)=>b[0].length-a[0].length);
+// Cached ISO country reference data (mledoze/countries, ODbL). Only display
+// values when the source successfully returns real country data.
+let countryMetadataIndex=null,countryMetadataExpires=0,countryMetadataPromise=null;
+async function countryMetadata(code,locale='ro'){
+ code=String(code||'').toUpperCase();if(!/^[A-Z]{2}$/.test(code))return null;
+ if(!countryMetadataIndex||Date.now()>countryMetadataExpires){
+  if(!countryMetadataPromise)countryMetadataPromise=(async()=>{
+   const response=await fetch('https://raw.githubusercontent.com/mledoze/countries/master/dist/countries.json',{headers:{Accept:'application/json'},signal:AbortSignal.timeout(6000)});
+   if(!response.ok)throw Error('source_unavailable');
+   const data=await response.json();
+   if(!Array.isArray(data)||data.length<150)throw Error('invalid_country_data');
+   countryMetadataIndex=new Map(data.filter(x=>x?.cca2).map(x=>[x.cca2,x]));countryMetadataExpires=Date.now()+86400000;
+  })().finally(()=>{countryMetadataPromise=null});
+  try{await countryMetadataPromise}catch{return null}
+ }
+ const record=countryMetadataIndex?.get(code);if(!record)return null;
+ const currencyDisplay=new Intl.DisplayNames([locale],{type:'currency'});
+ const languageDisplay=new Intl.DisplayNames([locale],{type:'language'});
+ const currencies=Object.entries(record.currencies||{}).map(([id,v])=>{let name;try{name=currencyDisplay.of(id)}catch{}return {code:id,name:name||v?.name||id,symbol:v?.symbol||''}}).slice(0,8);
+ const languages=Object.entries(record.languages||{}).map(([id,name])=>{let label;try{label=languageDisplay.of(id)}catch{}return label&&label!==id?label:name}).slice(0,15);
+ return currencies.length||languages.length?{country_code:code,currencies,languages,source:'https://github.com/mledoze/countries',language_scope:'official'}:null;
+}
 function geoQueryParts(query){
  const normalized=normalizeGeoName(query);let country="",city=String(query).split(',')[0].trim();
  for(const [name,code] of countryNameEntries)if(normalized.endsWith(' '+name)){country=code;city=String(query).includes(',')?String(query).split(',')[0].trim():normalized.slice(0,-name.length).trim();break}
@@ -828,6 +850,21 @@ export default {
         }catch{}
       }
       if(article){
+        // Country code comes from the named country or verified city, not the user's GPS.
+        let countryCode=countryNameCodes.get(normalizeGeoName(encyclopediaTitle))||geoQueryParts(bareTopic).country||String(verifiedCity?.country_code||'').toUpperCase();
+        if(!countryCode&&env.GEOAPIFY_API_KEY){
+          try{
+            const url=new URL('https://api.geoapify.com/v1/geocode/search');
+            url.searchParams.set('text',article.title+(countrySuffix?', '+parts[1]:''));url.searchParams.set('limit','4');url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+            const response=await fetch(url,{signal:AbortSignal.timeout(3500)});
+            if(response.ok){
+              const matches=(await response.json()).features||[],target=normalizeGeoName(encyclopediaTitle);
+              const city=matches.map(x=>x.properties||{}).find(x=>normalizeGeoName(x.city||x.name||'')===target);
+              if(city)countryCode=String(city.country_code||'').toUpperCase();
+            }
+          }catch{}
+        }
+        if(countryCode)article.country_facts=await countryMetadata(countryCode,lang);
         if(verifiedCity&&!article.coordinates)article.coordinates={latitude:Number(verifiedCity.lat),longitude:Number(verifiedCity.lon)};
         if(!article.coordinates&&knownTopic&&env.GEOAPIFY_API_KEY&&!/^(?:franta|france|romania|germania|germany|italia|italy|spania|spain|anglia|england|portugalia|polonia|poland|japonia|japan|grecia|greece|turcia|turkey|usa|statele_unite)$/.test(topicKey)){
           try{
