@@ -1043,6 +1043,13 @@ export default {
                 return requestedTokens.length>0 && requestedTokens.every(t=>candidate.split(" ").includes(t));
               };
               const matchingFeatures=features.filter(matchesRequested).filter(f=>{
+                // A London station/district candidate needs an exact mapped name;
+                // a business merely containing the place name is not a destination match.
+                if(londonQualifiedName){
+                  const p=f.properties||{},wanted=normalizedPlace(londonQualifiedName[1]);
+                  const actual=normalizedPlace(String(p.name||p.city||p.suburb||''));
+                  if(!wanted||actual!==wanted)return false;
+                }
                 // Do not confuse a station with an unrelated street, waste site or bus stop.
                 if(!/\b(station|underground|railway|train|tube)\b/i.test(requestedStationName||targetName))return true;
                 const p=f.properties||{};
@@ -1062,6 +1069,12 @@ export default {
               } else transportErrors.geoapify = "no_geocoding_candidates";
             } else transportErrors.geoapify = "HTTP " + gr.status;
           } catch (e) { transportErrors.geoapify = String(e && e.name || "network_error"); }
+        }
+        if((!Number.isFinite(targetLat)||!Number.isFinite(targetLon))&&londonQualifiedName){
+          const reply=lang==='en'
+            ?'I could not confirm an exact railway station or locality named '+londonQualifiedName[1]+' in London from the connected transport/map sources. I will not substitute an unrelated business. Try the full station name or postcode.'
+            :'Nu am putut confirma stația feroviară sau zona exactă „'+londonQualifiedName[1]+'” din Londra în sursele de transport/hartă conectate. Nu voi înlocui destinația cu o afacere fără legătură. Poți încerca numele complet al stației sau codul poștal.';
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,transit_available:false,route_available:false,reason:'exact_london_destination_unverified',provider_status:{tfl:stationLookupDiagnostic},ai_connected:Boolean(env.AI)});
         }
         if((!Number.isFinite(targetLat)||!Number.isFinite(targetLon))&&routeNamedPlaceTokens(targetName)){
           const resolved=await resolveNamedTravelPlace(targetName,env,hasValidLocation?{latitude,longitude}:null);
