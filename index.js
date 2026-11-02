@@ -1194,6 +1194,16 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 .long-choice-open{width:100%;max-width:100%;margin:10px 0;padding:13px 14px;min-height:52px;border-radius:13px;background:linear-gradient(120deg,#ef5748,#991f3a);border:1px solid #ffb29d;color:#fff;font:inherit;font-weight:700;text-align:left;white-space:normal;overflow-wrap:anywhere;cursor:pointer;touch-action:manipulation}
 .long-choice-open:focus-visible,.long-choice-close:focus-visible{outline:3px solid #68e4e9;outline-offset:2px}
 body.long-choice-active{overflow:hidden}
+/* Navigation controls remain aligned; itinerary cards never shrink into their text. */
+.quick-navigation-toolbar{display:flex;flex:0 0 auto;gap:10px;align-items:stretch;width:100%;box-sizing:border-box}
+.quick-navigation-toolbar>.transit-choice-action{flex:1 1 0;min-width:0;width:auto!important;margin:0!important;min-height:48px;height:auto!important;padding:10px!important;text-align:center!important;white-space:normal!important;overflow-wrap:break-word}
+.module-quick-body .transit-journey-choice{display:block!important;flex:0 0 auto!important;min-height:110px;height:auto!important;max-height:none!important;padding:13px 14px!important;margin:0!important;box-sizing:border-box;line-height:1.5!important;white-space:normal!important;overflow:visible!important}
+.module-quick-body .transit-journey-choice strong,.module-quick-body .transit-journey-choice div{display:block;position:static!important;height:auto!important;line-height:1.45!important;white-space:normal!important;overflow-wrap:anywhere}
+.module-quick-body h3,.module-quick-body .transit-choice-action:not(.transit-journey-choice){flex-shrink:0;max-width:100%;box-sizing:border-box}
+.module-quick-body .transit-journey-choice+.transit-journey-choice{margin-top:4px!important}
+.bubble .transit-choice-action,.answer-reader .transit-choice-action,.transit-return-panel .transit-choice-action{background:linear-gradient(120deg,#24cbd7,#2583c5)!important;color:#062339!important;border-color:#a4eff6!important;font-weight:750}
+.module-quick-layer,.module-quick-sheet{max-height:100dvh;box-sizing:border-box}
+.module-quick-sheet .module-quick-body{scrollbar-gutter:stable;overflow-x:hidden!important}
 /* Compact choice panels and consistent bright-blue action controls. */
 .module-quick-sheet>.module-quick-body{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
 .long-choice-open,.travel-confirm-panel .transit-choice-action,.travel-mode-table .transit-choice-action,.route-choice{background:linear-gradient(120deg,#26d3dc,#2585c9)!important;color:#062339!important;border:1px solid #90f4fc!important;font-weight:750!important}
