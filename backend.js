@@ -1183,10 +1183,14 @@ export default {
               }
             }catch{}
           }
-          const [facts,highlights]=await Promise.all([countryCode?countryMetadata(countryCode,lang):null,getCountryHighlights(article.wikibase_item,lang)]);
+          const englishName=countryCode?new Intl.DisplayNames(['en'],{type:'region'}).of(countryCode):encyclopediaTitle;
+          const [facts,highlights,nationwide]=await Promise.all([
+            countryCode?countryMetadata(countryCode,lang):null,
+            getCountryHighlights(article.wikibase_item,lang),
+            countryCode&&env.GEOAPIFY_API_KEY?getCountryWideSights({country_code:countryCode,english_name:englishName},env.GEOAPIFY_API_KEY,lang):[]
+          ]);
           if(facts)article.country_facts=facts;
           if(highlights?.cities?.length)article.major_cities=highlights.cities;
-          const nationwide=facts&&env.GEOAPIFY_API_KEY?await getCountryWideSights(facts,env.GEOAPIFY_API_KEY,lang):[];
           const candidates=[...(highlights?.sights||[]),...nationwide],unique=new Set();
           article.attractions=candidates.filter(p=>{
             const key=normalizeGeoName(p.name);if(!key||unique.has(key))return false;unique.add(key);return true;
