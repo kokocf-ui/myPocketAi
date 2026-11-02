@@ -1907,7 +1907,7 @@ function renderTransitChoices(options,selectedIndex=null){
   cancelTransitAccess(true);
   if(selectedIndex!==null){renderTransitChoices(options);return}
   const source=state.navigationReturnContext;
-  if(source?.view==='assistant'&&state.routeSearchContext?.destination){openTransportModeFromAssistant({route_context:state.routeSearchContext});return}
+  if(source?.view==='assistant'){returnToNavigationSource();return}
   if(source?.details&&source.module===state.currentModule){offerPlaceTravelModes(source.details);return}
   handleModuleLayerBack();
  };
@@ -1962,10 +1962,16 @@ async function runModuleSearch(choice){if(state.moduleSearchBusy)return;if(choic
 }else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){state.lastTransitResponse=data;renderTransitChoices(data.transit)}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent='Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.';$('moduleLayerBody').append(note)}}}catch(error){if(searchGeneration===state.moduleSearchGeneration){moduleStatus(error?.name==='AbortError'?(state.language==='ro'?'Căutarea a depășit 25 de secunde. Încearcă din nou.':'Search timed out after 25 seconds. Please retry.'):(state.language==='en'?'Could not complete the search. ':'Nu am putut finaliza căutarea. ')+String(error&&error.message||error));console.error('myPocket AI module search failed:',error)}}finally{if(searchGeneration===state.moduleSearchGeneration)state.moduleSearchBusy=false}}
 function handleModuleLayerBack(){
  cancelTransitAccess(true);
+ // Restore the originating quick-choice module before walking back through its screens.
+ const origin=state.navigationReturnContext;
+ if(origin?.view==='assistant'&&state.moduleSearchReturnMode==='root'){returnToNavigationSource();return}
+ if(origin?.module==='travel'&&state.currentModule==='maps'&&state.moduleSearchReturnMode==='root'){
+  switchConversationModule('travel');state.navigationReturnContext=null;openModuleQuickLayer();return;
+ }
  if(state.moduleSearchBusy){state.moduleSearchGeneration++;state.moduleSearchBusy=false}
  if(state.moduleSearchReturnMode==='mode'&&state.lastQuickPlace){renderModulePlaceDetails(state.lastQuickPlace);return}
  if(state.moduleSearchReturnMode==='details'&&state.moduleSearchResults?.length){renderModulePlaces(state.moduleSearchResults);return}
- if(state.moduleSearchCategory){state.moduleSearchCategory=null;state.moduleSearchResults=[];state.moduleSearchReply='';$('moduleLayerTitle').textContent=UI_TEXT[state.language]?.quickTitle||'Selecții rapide';renderModuleQuickChoices();return}
+ if(state.moduleSearchCategory){state.moduleSearchCategory=null;state.moduleSearchResults=[];state.moduleSearchReply='';if(state.navigationReturnContext?.module==='travel'&&state.currentModule==='maps')switchConversationModule('travel');$('moduleLayerTitle').textContent=UI_TEXT[state.language]?.quickTitle||'Selecții rapide';renderModuleQuickChoices();$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');return}
  $('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');
 }
 function addQuickButton(icon,title,prompt,module){const b=document.createElement('button');b.type='button';b.className='list-row quick-selection';b.style.width='100%';b.style.textAlign='left';const i=document.createElement('span');i.style.flex='0 0 34px';i.textContent=icon;const label=document.createElement('span');label.textContent=title;const arrow=document.createElement('strong');arrow.textContent='›';b.append(i,label,arrow);b.addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if(title==='Hoteluri și POI'&&state.currentModule==='maps'){openModule('travel');return}if(state.currentView!=='module'||state.currentModule!==module){openModule(module)}state.pendingModulePrompt=prompt;inputEl.value=prompt;inputEl.focus();setStatus('Solicitarea este pregătită în modul '+(MODULES[module]?.title||'selectat')+'. Apasă trimitere pentru a continua.');});$('moduleContent').append(b)}
