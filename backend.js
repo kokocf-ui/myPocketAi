@@ -1,4 +1,5 @@
 /*
+ * v157: context-appropriate table columns and consistent ordering across subjects.
  * v156: avoid short AI event output truncation; expand eligible evidence and retain diagnostic timings.
  * v155: broaden event evidence, keep event searches independent of output-format wording, add per-stage latency diagnostics.
  * v154: honor requested transit choice count, faster bounded event research, culinary quality checks.
