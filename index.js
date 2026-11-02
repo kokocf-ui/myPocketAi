@@ -2359,7 +2359,7 @@ async function coordinatesForRequest(text){
 }
 function needsLocation(text){return /(unde sunt|localiz\w*|geolocaliz\w*|locatia mea|in jurul meu|in apropiere|in apropierea mea|in zona mea|pe langa mine|aproape de mine|near me|nearby|around me|around here|near here|close to me|my location)/i.test(String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''));}
 // 07 — Chat transport. Voice errors never convert a successful API response into request failure.
-async function submitMessage({fromVoice=false}={}){if(state.busy)return;const message=inputEl.value.trim();if(!message)return;if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
+async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;message=(state.language==='ro'?'Vreau să ajung la ':'I want to get to ')+message+', '+country;state.travelAccommodationIntent=true;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
 // A short yes/no confirms the last identified destination locally. It must not become a new AI query.
 const offered=state.pendingTravelConfirmationData,context=state.routeSearchContext;
 if(offered?.needs_travel_confirmation&&context?.pending==='profile'&&context?.destination?.label&&context.destination_query===offered.route_context?.destination_query){
