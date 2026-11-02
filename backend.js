@@ -640,7 +640,7 @@ export default {
         // International destinations cannot be planned by TfL. Do not present a
         // London bus journey or assert that an international connection is verified.
         // Give a clear mixed-mode planning outline until cross-border schedules are connected.
-        const internationalTarget=/\\b(?:france|franța|franta|belgium|belgia|germany|germania|italy|italia|spain|spania|netherlands|olanda|paris|marseille|beauvais|berlin|roma|rome|madrid|brussels|bruxelles)\\b/i.test(targetName);
+        const internationalTarget=/\b(?:france|franța|franta|belgium|belgia|germany|germania|italy|italia|spain|spania|netherlands|olanda|paris|marseille|beauvais|berlin|roma|rome|madrid|brussels|bruxelles)\b/i.test(targetName);
         if(internationalTarget){
           const ro=lang==='ro';
           const reply=ro
