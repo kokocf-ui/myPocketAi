@@ -222,6 +222,78 @@ function selectTransitAlternatives(candidates,limit=4){
  return chosen;
 }
 
+// Optional MOTIS v6-compatible provider. Use only a separately licensed/authorized service;
+// Transitous' volunteer public endpoint is NOT enabled by default (non-commercial policy).
+async function planMOTISMixedJourney(env,from,to,language){
+ const raw=String(env.MOTIS_API_BASE_URL||'').trim();
+ if(!raw)return {status:'not_configured',journeys:[]};
+ let url;
+ try{url=new URL(raw);if(url.protocol!=='https:'||url.username||url.password||!url.hostname||url.search||url.hash||url.port&&url.port!=='443')throw Error('invalid');
+  if(url.hostname==='api.transitous.org')return {status:'provider_usage_not_authorized',journeys:[]};
+  url.pathname=url.pathname.replace(/\/+$/,'')+'/api/v6/plan';
+  url.searchParams.set('fromPlace',from.latitude+','+from.longitude);
+  url.searchParams.set('toPlace',to.latitude+','+to.longitude);
+  url.searchParams.set('minTransferTime','5');
+  url.searchParams.set('language',language);
+  url.searchParams.set('detailedTransfers','true');
+ }catch{return {status:'invalid_provider_configuration',journeys:[]};}
+ let data;
+ try{
+  const response=await fetch(url.toString(),{headers:{Accept:'application/json','User-Agent':'PocketAI/1.0 (+https://github.com/kokocf-ui/myPocketAi)'},signal:AbortSignal.timeout(16000)});
+  if(!response.ok)return {status:'provider_http_'+response.status,journeys:[]};
+  data=await response.json();
+ }catch{return {status:'provider_unavailable',journeys:[]};}
+ const isWalk=m=>/^(?:FOOT|WALK|WALKING|PEDESTRIAN)$/i.test(String(m||''));
+ const point=p=>{const lat=transitCoordinate(p?.lat,90),lon=transitCoordinate(p?.lon,180);
+  return lat===null||lon===null?null:{latitude:lat,longitude:lon,label:String(p?.name||'').slice(0,180),stop_id:String(p?.stopId||'').slice(0,110)};};
+ const decodeLine=encoded=>{if(typeof encoded!=='string'||encoded.length>250000)return [];
+  let i=0,a=0,b=0;const out=[];
+  while(i<encoded.length&&out.length<8000){const nums=[];
+   for(let k=0;k<2;k++){let value=0,shift=0,chunk;do{if(i>=encoded.length)return out;chunk=encoded.charCodeAt(i++)-63;
+      if(chunk<0||chunk>63)return out;value|=(chunk&31)<<shift;shift+=5;}while(chunk>=32&&shift<=35);
+    nums.push((value&1)?~(value>>1):(value>>1));}
+   a+=nums[0];b+=nums[1];const lat=a/1e6,lon=b/1e6;if(Math.abs(lat)>90||Math.abs(lon)>180)return [];out.push([lon,lat]);
+  }return out;};
+ const meters=(a,b)=>{if(!a||!b)return Infinity;const rad=Math.PI/180,x=(b.latitude-a.latitude)*rad,y=(b.longitude-a.longitude)*rad;
+  const h=Math.sin(x/2)**2+Math.cos(a.latitude*rad)*Math.cos(b.latitude*rad)*Math.sin(y/2)**2;
+  return 12742000*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));};
+ const journeys=[],seen=new Set();
+ for(const j of (Array.isArray(data?.itineraries)?data.itineraries:[]).slice(0,25)){
+  if(!Array.isArray(j.legs)||!j.legs.length||!Number.isFinite(Number(j.duration))||Number(j.duration)<60)continue;
+  if(Date.parse(j.startTime)<Date.now()-60000||!Number.isFinite(Date.parse(j.endTime)))continue;
+  let previous=0,invalid=false;
+  const legs=[];
+  for(const l of j.legs){
+   const start=Date.parse(l.startTime),end=Date.parse(l.endTime),mode=String(l.mode||'');
+   if(!mode||l.cancelled||!Number.isFinite(start)||!Number.isFinite(end)||end<start||previous&&start<previous-60000){invalid=true;break;}
+   const fromPoint=point(l.from),toPoint=point(l.to);if(!fromPoint||!toPoint){invalid=true;break;}
+   const geometry=decodeLine(l.legGeometry?.points||'');
+   const mapped={mode:isWalk(mode)?'walking':mode.toLowerCase(),from:fromPoint.label||'—',to:toPoint.label||'—',
+    departurePoint:{lat:fromPoint.latitude,lon:fromPoint.longitude,commonName:fromPoint.label,naptanId:fromPoint.stop_id},
+    departureStopId:fromPoint.stop_id,durationMinutes:Number(l.duration)/60,
+    departureTime:l.startTime,arrivalTime:l.endTime,lineNames:isWalk(mode)?[]:[String(l.displayName||l.routeShortName||l.routeLongName||'').slice(0,65)].filter(Boolean),
+    towards:String(l.headsign||'').slice(0,110),operator:String(l.agencyName||'').slice(0,110),
+    realtime:l.realTime===true,schedule_only:l.realTime!==true,
+    arrivalLatLon:{lat:toPoint.latitude,lon:toPoint.longitude},coordinates:geometry,geometryAvailable:geometry.length>1};
+   legs.push(mapped);previous=end;
+  }
+  if(invalid||!legs.some(l=>!isWalk(l.mode))||meters(point(j.legs.at(-1)?.to),to)>1700)continue;
+  const boarding=legs.find(l=>!isWalk(l.mode));
+  const walk=legs.slice(0,legs.indexOf(boarding)).reduce((v,l)=>v+l.durationMinutes,0);
+  if(Date.parse(boarding.departureTime)<Date.now()+walk*60000+5*60000)continue;
+  const corridor=legs.filter(l=>!isWalk(l.mode)).map(l=>l.mode+':'+l.from+':'+l.to+':'+l.lineNames.join(',')).join('|');
+  if(!corridor||seen.has(corridor))continue;seen.add(corridor);
+  const segments=legs.filter(l=>l.geometryAvailable).map(l=>({mode:l.mode,from:l.from,to:l.to,coordinates:l.coordinates}));
+  journeys.push({provider:'MOTIS',time_zone:String(j.legs[0]?.from?.tz||'UTC'),durationMinutes:Number(j.duration)/60,
+   startDateTime:j.startTime,arrivalDateTime:j.endTime,legs,
+   routeSegments:segments,geometryAvailable:segments.length>0,
+   boarding_stop:transitBoardingStop(legs),walkToFirstStopMinutes:walk,safetyMarginMinutes:5,
+   transferCount:Number(j.transfers)||0,firstVehicleDepartureTime:boarding.departureTime,departureFeasible:true});
+ }
+ journeys.sort((a,b)=>a.durationMinutes-b.durationMinutes||Date.parse(a.startDateTime)-Date.parse(b.startDateTime));
+ return {status:journeys.length?'success':'no_verified_journeys',journeys:journeys.slice(0,4)};
+}
+
 // Coordinate-backed boarding places come from the selected transport leg, never from a street-name guess.
 function transitCoordinate(value,limit){
  if(typeof value!=='number'&&!(typeof value==='string'&&/^-?\d+(?:\.\d+)?$/.test(value.trim())))return null;
@@ -669,16 +741,50 @@ export default {
           const label=String(selectedDestination.label||"").slice(0,160);
           if(Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180&&label){targetLat=lat;targetLon=lon;targetName=label;confirmedStop=true;}
         }
-        // International destinations cannot be planned by TfL. Do not present a
-        // London bus journey or assert that an international connection is verified.
-        // Give a clear mixed-mode planning outline until cross-border schedules are connected.
-        const internationalTarget=/\b(?:france|franța|franta|belgium|belgia|germany|germania|italy|italia|spain|spania|netherlands|olanda|paris|marseille|beauvais|berlin|roma|rome|madrid|brussels|bruxelles)\b/i.test(targetName);
+        // International planning must be geographic, not a closed list of city names.
+        // TfL cannot verify cross-border journeys. A licensed MOTIS v6 provider can be
+        // supplied through MOTIS_API_BASE_URL; never use the volunteer API commercially.
+        const knownCountry=geoQueryParts(targetName).country;
+        const selectedCountry=String(selectedDestination?.country_code||selectedDestination?.countryCode||'').toUpperCase();
+        const hasCoordinates=Number.isFinite(targetLat)&&Number.isFinite(targetLon);
+        const outsideUkCoordinates=hasCoordinates&&!(targetLat>=49.8&&targetLat<=59.5&&targetLon>=-9.1&&targetLon<=2.8);
+        const internationalTarget=Boolean((knownCountry&&knownCountry!=='GB')||(selectedCountry&&selectedCountry!=='GB')||outsideUkCoordinates);
         if(internationalTarget){
-          const ro=lang==='ro';
-          const reply=ro
-            ? 'Destinația '+targetName+' este în afara rețelei TfL. Pot pregăti etapele unei călătorii mixte: transport local până la o gară sau aeroport, tren internațional ori avion, apoi transport regional și local la destinație. Orarul, legăturile și tarifele internaționale nu sunt încă verificate în Pocket AI. Pentru a verifica opțiuni reale trebuie selectată data călătoriei și consultat operatorul corespunzător.'
-            : 'The destination '+targetName+' is outside the TfL network. A mixed journey may combine local transport to a station or airport, an international train or flight, and onward regional or local transport. International departures, connections and fares are not yet verified in Pocket AI. Choose a travel date and check the relevant operators for confirmed services.';
-          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,route_available:false,transit_available:false,international_journey:true,international_destination:targetName,requires_travel_date:true,reason:'international_provider_not_connected'});
+          if(!hasCoordinates&&env.GEOAPIFY_API_KEY){
+            try{
+              const u=new URL('https://api.geoapify.com/v1/geocode/search');
+              u.searchParams.set('text',targetName);u.searchParams.set('limit','5');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+              const r=await fetch(u.toString(),{signal:AbortSignal.timeout(6500)});
+              if(r.ok){const items=(await r.json()).features||[];
+                const wanted=knownCountry||selectedCountry;
+                const match=items.find(v=>{const p=v.properties||{};return (!wanted||String(p.country_code||'').toUpperCase()===wanted)&&Number.isFinite(Number(p.lat))&&Number.isFinite(Number(p.lon));});
+                if(match){targetLat=Number(match.properties.lat);targetLon=Number(match.properties.lon);}
+              }
+            }catch{}
+          }
+          const validTarget=Number.isFinite(targetLat)&&Number.isFinite(targetLon);
+          const planned=validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang):{status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
+          if(planned.journeys.length){
+            const transit=planned.journeys,fastest=transit[0];
+            const coordinates=fastest.legs.flatMap(l=>l.coordinates||[]);
+            const route=coordinates.length>1?{profile:'public_transport',coordinates,distanceMeters:null,durationSeconds:fastest.durationMinutes*60,destination:{name:targetName,latitude:targetLat,longitude:targetLon}}:null;
+            const lines=transit.map((j,i)=>{
+              const modes=j.legs.filter(l=>!/^(walking|walk|foot)$/i.test(l.mode)).map(l=>[l.mode,...l.lineNames].filter(Boolean).join(' '));
+              return (i+1)+'. '+formatJourneyDurationMinutes(j.durationMinutes,lang)+' · '+modes.join(' → ')+' · '+j.startDateTime+' → '+j.arrivalDateTime;
+            });
+            const reply=(lang==='en'?'Verified mixed-mode public transport options to ':'Variante de transport mixt verificate către ')+targetName+'\n'+lines.join('\n');
+            return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
+              international_journey:true,mixed_journey:true,transit_available:true,route_available:Boolean(route),route,
+              transit,transit_provider:'MOTIS',transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
+              route_geometry_available:Boolean(route),source:'Authorized MOTIS v6 routing provider',provider_status:{motis:planned.status}});
+          }
+          const detail=planned.status==='not_configured'?'international_provider_not_connected':planned.status;
+          const reply=lang==='en'
+            ? 'I identified '+targetName+' as a destination outside the UK, but I cannot yet verify a complete mixed-mode itinerary with real departure times. '+(detail==='international_provider_not_connected'?'An authorized international journey provider has not been configured.':'The connected provider did not confirm a usable complete journey.')+' I will not invent connections, flights or timetables.'
+            : 'Am identificat '+targetName+' ca destinație în afara Regatului Unit, dar nu pot verifica încă un itinerar mixt complet cu ore reale de plecare. '+(detail==='international_provider_not_connected'?'Nu este configurat un furnizor internațional autorizat.':'Furnizorul conectat nu a confirmat o călătorie completă utilizabilă.')+' Nu voi inventa legături, zboruri sau orare.';
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
+            route_available:false,transit_available:false,international_journey:true,international_destination:targetName,
+            provider_status:{motis:detail},reason:detail});
         }
         // Prefer verified operator station records over free-text geocoding for UK rail/tube stations.
         let verifiedStopId=null;
