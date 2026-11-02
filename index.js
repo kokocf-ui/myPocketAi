@@ -2166,7 +2166,7 @@ function openAnswerReader(text,origin){
  const layer=document.createElement('section');layer.className='answer-reader';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-labelledby','answerReaderTitle');
  const header=document.createElement('div');header.className='answer-reader-header';
  const title=document.createElement('h2');title.id='answerReaderTitle';title.textContent=t.title;
- const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent='×';close.setAttribute('aria-label',t.close);close.onclick=()=>closeAnswerReader();header.append(title,close);
+ const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent=state.language==='ro'?'Revenire':'Return';close.setAttribute('aria-label',close.textContent);close.onclick=()=>closeAnswerReader();header.append(title,close);
  const controls=document.createElement('div');controls.className='answer-reader-controls';
  const pause=document.createElement('button');pause.type='button';
  const restart=document.createElement('button');restart.type='button';restart.textContent=t.restart;
@@ -2176,7 +2176,7 @@ function openAnswerReader(text,origin){
  const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',t.title);if(!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));appendAnswerText(body,String(text));}
  layer.append(header,controls,body);document.body.append(layer);
  const reader={layer,origin,frame:0,cleanup:()=>{}};activeAnswerReader=reader;
- let running=!window.matchMedia('(prefers-reduced-motion: reduce)').matches,lastTime=null,startAt=performance.now()+1800,position=0;
+ let running=true,lastTime=null,startAt=performance.now()+800,position=0;
  const update=()=>{pause.textContent=running?t.pause:t.play;pause.setAttribute('aria-pressed',String(running))};
  const stop=()=>{running=false;update()};
  const play=()=>{if(body.scrollTop>=body.scrollHeight-body.clientHeight-1)body.scrollTop=0;position=body.scrollTop;running=true;lastTime=null;startAt=performance.now()+900;update()};
@@ -2525,6 +2525,8 @@ welcomeUser();
  box-shadow:0 4px 0 #38101b,0 0 16px #ff665c55!important;
  font-weight:800!important;
 }
+/* Answer reader return matches the Acasă red and fits localized text. */
+.answer-reader-header .answer-reader-close{width:auto!important;min-width:108px!important;padding:7px 12px!important;font-size:14px!important;line-height:1.2!important;background:linear-gradient(155deg,#ef5a47,#b82735 58%,#841d34)!important;color:#fff!important;border:2px solid #ffc1a9!important;border-radius:18px!important;box-shadow:0 4px 0 #38101b,0 0 16px #ff665c55!important;font-weight:800!important}
 /* v1.0.111: match the existing red Quick selections button exactly. */
 #view-assistant .assistant-actions > .back-btn,
 #view-module .module-actions-row > .module-home-btn,
