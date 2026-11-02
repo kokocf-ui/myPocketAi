@@ -791,7 +791,7 @@ async function getCountryWideSights(facts,apiKey,locale='ro'){
   for(const f of (await response.json()).features||[]){
    const p=f.properties||{},name=String(p.name||'').trim(),lat=Number(p.lat),lon=Number(p.lon);
    const normalized=normalizeGeoName(name),city=String(p.city||p.town||p.village||p.county||'').trim(),region=String(p.state||p.region||city).trim();
-   if(!normalized||name.length<4||seen.has(normalized)||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)continue;
+   if(!normalized||name.length<4||seen.has(normalized)||p.lat==null||p.lon==null||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)continue;
    if(p.country_code&&String(p.country_code).toUpperCase()!==code)continue;
    seen.add(normalized);
    places.push({name:name.slice(0,95),description:[city,region!==city?region:''].filter(Boolean).join(', ').slice(0,140),latitude:lat,longitude:lon,url:'https://www.openstreetmap.org/?mlat='+lat+'&mlon='+lon+'#map=15/'+lat+'/'+lon,source:'Geoapify / OpenStreetMap',_city:normalizeGeoName(city||region||name),_region:normalizeGeoName(region||city||name)});
@@ -1225,7 +1225,7 @@ export default {
               const result=await response.json(),seen=new Set();
               article.attractions=(result.features||[]).map(f=>f.properties||{}).filter(x=>{
                 const name=String(x.name||'').trim(),key=normalizeGeoName(name),lat=Number(x.lat),lon=Number(x.lon);
-                if(!name||seen.has(key)||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return false;
+                if(!name||seen.has(key)||x.lat==null||x.lon==null||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return false;
                 if(countryCode&&x.country_code&&String(x.country_code).toUpperCase()!==countryCode)return false;
                 seen.add(key);return true;
               }).slice(0,8).map(x=>({name:String(x.name).slice(0,100),address:String(x.formatted||'').slice(0,180),
