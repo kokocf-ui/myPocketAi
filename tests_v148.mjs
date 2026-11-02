@@ -12,9 +12,12 @@ const checks=[
  ['A real image can be shown as a thumbnail',frontend.includes('function mountPlaceThumbnail(host,place)')],
  ['Thumbnail expands without resizing the page',frontend.includes('function showPlacePhoto(url,name)')],
  ['Place thumbnail falls back to logo',frontend.includes('mountPlaceLogo(host,place)')],
- ['Walking handoff changes to the maps module',frontend.includes("switchConversationModule('maps');inputEl.value=routeActionsText().prompt+place.name")],
+ ['Place details offer a mode selector before handoff',frontend.includes('function offerPlaceTravelModes(place)') && frontend.includes('offerPlaceTravelModes(place)')],
+ ['Place selection preserves origin module',frontend.includes('rememberNavigationSource(place)')],
+ ['Back returns to previous search results',frontend.includes('state.navigationReturnContext=null;') && frontend.includes('renderModulePlaces(source.results)')],
+ ['Explicit short-distance routes offer all modes',!frontend.includes("if(mode==='walk'&&Number.isFinite(data.straight_line_distance_km)")],
  ['Explicit travel mode transfers to maps',frontend.includes("switchConversationModule('maps');inputEl.value=t[i+1]")],
  ['All supported languages preserve quick-category labels',['en','fr','de','it','es','pt','nl','ru','pl'].every(lang=>frontend.includes("'"+lang+"':{'Fast-food și mâncare la pachet'"))]
 ];
 for(const [label,ok] of checks){assert.ok(ok,label);console.log('PASS '+label)}
-console.log('v148 safeguards: '+checks.length+' checks passed');
+console.log('v148-v149 safeguards: '+checks.length+' checks passed');
