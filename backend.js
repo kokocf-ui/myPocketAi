@@ -1151,12 +1151,12 @@ export default {
     if(cityLookup&&env.GEOAPIFY_API_KEY){
       try{
         const url=new URL('https://api.geoapify.com/v1/geocode/search');
-        url.searchParams.set('text',parts[0]);url.searchParams.set('type','city');url.searchParams.set('limit','5');url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+        url.searchParams.set('text',parts[0]);url.searchParams.set('limit','10');url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
         const res=await fetch(url,{signal:AbortSignal.timeout(5000)}),geo=await res.json();
         const norm=n=>String(n||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
         const matches=(geo.features||[]).filter(f=>{
           const p=f.properties||{};
-          return /^(city|town|village|municipality)$/.test(String(p.result_type||p.type||''))&&norm(p.city||p.name)===norm(parts[0])&&Number.isFinite(Number(p.lat))&&Number.isFinite(Number(p.lon));
+          return /^(city|town|village|municipality|suburb|district|locality|county|other)$/.test(String(p.result_type||p.type||''))&&[p.city,p.town,p.village,p.municipality,p.name].some(v=>norm(v)===norm(parts[0]))&&Number.isFinite(Number(p.lat))&&Number.isFinite(Number(p.lon));
         });
         if(matches.length)verifiedCity=matches[0].properties;
       }catch{}
