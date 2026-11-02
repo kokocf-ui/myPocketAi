@@ -1,3 +1,13 @@
+## Pocket AI — backend v172 / frontend 1.0.126 — 2026-11-02
+
+- **Prezentări geografice pe telefon:** fereastra de informații folosește secțiuni/carduri separate, paragrafe scurte, imagini mai mici, date rapide, orașe, obiective și surse la final. Se înlătură marcajul editorial „(d)” din extrasele Wikipedia. Navigația de jos rămâne fixă.
+- **Țări:** datele rapide afișează capitala, moneda, limbile, suprafața și fusurile UTC din baza de date pentru țări, atunci când sursa este disponibilă. Nu se pretinde că populația are o valoare actualizată dacă nu există an de referință.
+- **Orașe și obiective:** se caută puncte cu coordonate în Wikidata, legate explicit de țara cerută (P17), și se afișează sursa fiecărui obiectiv. În caz de lipsă a datelor Wikidata, Geoapify poate furniza obiective verificate din jurul capitalei, etichetate separat drept „zona capitalei”, fără a pretinde o listă reprezentativă pentru întreaga țară. Dacă nici acestea nu pot fi verificate, utilizatorul este informat, fără inventarea unor obiective.
+- **Trasee:** obiectivele și orașele cu coordonate oferă acțiunea de traseu aferentă. Pentru țară ca întreg, butonul cere o destinație concretă, fără a naviga spre centrul geografic al țării. Orașele nu sunt confundate cu țările.
+- **Internaționalizare:** noile titluri și etichete sunt disponibile în cele 10 limbi existente. Designul celorlalte module, cronologia variantelor de transport și corecțiile culinare nu au fost modificate.
+- **Verificări efectuate:** sintaxa ambelor fișiere JavaScript și sintaxa scriptului generat al interfeței au fost validate. Este adăugat `tests_country_profile_regression.mjs` pentru verificări simulate; rularea efectivă a testului Node și comportamentul live al furnizorilor nu au fost confirmate.
+- **De verificat pe telefon:** deploy Cloudflare, prezentare „Spania” (inclusiv obiective și surse), prezentare oraș (nu țară), deschiderea traseului unui obiectiv și aspectul la derulare.
+
 ## Pocket AI — backend v171 / frontend 1.0.125 — 2026-11-02
 
 - **Regresie rețete tradiționale:** în teste reale de pe telefon, modelul rapid a confundat „ficat de vită (burtă)” cu burtă de vită și a propus cantități neverosimile (de ex. o cană de sare). Filtrul culinar v171 respinge confuzia ficat/burtă, burta de porc și cantitățile evident improprii de sare/piper/muștar, pentru ciorba de burtă tradițională; în caz de eroare, folosește rețeta sigură existentă fără al doilea apel AI. Variantele vegetariene ori reinterpretate rămân distincte și nu sunt înlocuite automat.
