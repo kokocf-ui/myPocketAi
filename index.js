@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.126 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.127 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.126",
+  version: "1.0.127",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1381,7 +1381,7 @@ function switchConversationModule(key){
 }
 // Navigation handoff preserves the source module and its original place list.
 function rememberNavigationSource(place=null){
- state.navigationReturnContext={view:state.currentView,module:state.currentModule,
+ state.navigationReturnContext={view:state.currentView,module:state.currentModule,encyclopediaArticle:state.encyclopediaTripActive?state.lastEncyclopediaArticle||null:null,
   results:Array.isArray(state.moduleSearchResults)?state.moduleSearchResults.slice():[],
   choice:state.moduleSearchCategory||null,details:place||null,reply:state.moduleSearchReply||'',routeContext:state.routeSearchContext||null};
 }
@@ -1391,7 +1391,7 @@ function returnToNavigationSource(){
  closeLongChoice();closeRouteMap(false);cancelTransitAccess(true);
  state.navigationReturnContext=null;state.routeSearchContext=source.routeContext;
  state.pendingTravelMode=null;state.pendingRouteDestination=null;
- if(source.view==='assistant'){switchConversationModule('assistant');return}
+ if(source.view==='assistant'){switchConversationModule('assistant');if(source.encyclopediaArticle){state.encyclopediaTripActive=false;openEncyclopediaCard(source.encyclopediaArticle,NaN)}return}
  if(!['maps','travel'].includes(source.module)){switchConversationModule('assistant');return}
  switchConversationModule(source.module);
  state.moduleSearchResults=Array.isArray(source.results)?source.results.slice():[];state.moduleSearchCategory=source.choice||null;state.moduleSearchReply=source.reply||'';
@@ -1698,6 +1698,12 @@ function appendConversationChoices(data,host){
    if(state.busy||generation!==state.conversationGeneration)return;
    buttons.forEach(b=>b.disabled=true);
    const lat=Number(option.latitude),lon=Number(option.longitude);
+   if(Number.isFinite(lat)&&Number.isFinite(lon)&&state.tripCountryOnChoice){
+    state.tripCountryOnChoice=null;state.pendingTravelConfirmationData=null;
+    state.routeSearchContext=null;state.pendingTravelMode=null;
+    offerDestinationAccommodationBeforeRoute({latitude:lat,longitude:lon,label:option.label});
+    return;
+   }
    if(Number.isFinite(lat)&&Number.isFinite(lon)&&data.named_venue){
     state.routeSearchContext={destination_query:String(data.message_received||option.label),destination:{latitude:lat,longitude:lon,label:option.label},pending:'profile'};
     state.pendingTravelMode=null;
@@ -2127,7 +2133,7 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
   const map=L.map(host);current.map=map;current.leaflet=L;requestAnimationFrame(()=>{if(activeRouteMap===current)map.invalidateSize()});map.on?.('dragstart',()=>{current.follow=false});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
   const points=route.coordinates.map(p=>[p[1],p[0]]),allPoints=[...points];
   for(const alternative of (options||[]).filter(validMapRoute)){if(alternative===route||(alternative.id&&alternative.id===route.id))continue;const grey=alternative.coordinates.map(p=>[p[1],p[0]]);allPoints.push(...grey);const other=L.polyline(grey,{color:'#647f91',weight:6,opacity:.65}).addTo(map);other.on?.('click',()=>{state.lastRoute=alternative;openRouteMap(alternative,null,options)})}
-  L.polyline(points,{color:'#087fd9',weight:5,opacity:1}).addTo(map);L.circleMarker(points[0],{radius:6,color:'#128a42'}).addTo(map);L.circleMarker(points.at(-1),{radius:6,color:'#c43737'}).addTo(map);map.fitBounds(allPoints,{padding:[22,22]});requestAnimationFrame(()=>{if(activeRouteMap===current){map.invalidateSize();map.fitBounds(allPoints,{padding:[22,22]})}});status.textContent=(route.distanceMeters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km'+(Number.isFinite(route.durationSeconds)?' · '+Math.round(route.durationSeconds/60)+' min':'');
+  L.polyline(points,{color:'#087fd9',weight:5,opacity:1}).addTo(map);L.circleMarker(points[0],{radius:6,color:'#128a42'}).addTo(map);L.circleMarker(points.at(-1),{radius:6,color:'#c43737'}).addTo(map);map.fitBounds(allPoints,{padding:[22,22]});requestAnimationFrame(()=>{if(activeRouteMap===current){map.invalidateSize();map.fitBounds(allPoints,{padding:[22,22]})}});status.textContent=(route.distanceMeters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km'+(Number.isFinite(route.durationSeconds)?' · '+formatTravelDurationMinutes(route.durationSeconds/60):'');
   if(startNavigation)startRouteTracking(current);
  }catch{if(layer.isConnected)status.textContent=t.failed}
 }
@@ -2293,6 +2299,7 @@ function offerTripAccommodation(destination){
 }
 function openEncyclopediaCard(article,requestStartMs){
  if(!article||!article.extract)return;
+ state.lastEncyclopediaArticle=article;
  const host=document.createElement('div');host.dataset.directChoices='true';
  const isCountry=article.is_country===true;
  const lang=state.language||'ro';
@@ -2377,17 +2384,19 @@ function openEncyclopediaCard(article,requestStartMs){
   if(coords){
    const btn=document.createElement('button');btn.type='button';btn.textContent=L[16]+' · '+place.name;
    btn.style.cssText='border:1px solid #48b6c5;border-radius:9px;background:#125270;color:#e8ffff;font-size:12px;font-weight:650;padding:7px 9px;min-height:36px;max-width:100%;overflow-wrap:anywhere;text-align:left';
-   btn.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute({latitude:Number(place.latitude),longitude:Number(place.longitude),label:place.name})};
+   btn.onclick=()=>{state.encyclopediaTripActive=true;document.getElementById('pocketStandaloneChoices')?.remove();state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute({latitude:Number(place.latitude),longitude:Number(place.longitude),label:place.name})};
    actions.append(btn);
   }
   link(place.url,L[17],actions);line.append(actions);parent.append(line);
  };
  if(cities.length){const s=section(L[8]);cities.slice(0,5).forEach((p,i)=>addPlace(s,p,i))}
- if(isCountry||sights.length){
+ {
   const scopeName={ro:' (zona capitalei)',en:' (capital area)',fr:' (région de la capitale)',de:' (Hauptstadtregion)',it:' (area della capitale)',es:' (zona de la capital)',pt:' (zona da capital)',nl:' (hoofdstedelijk gebied)',ru:' (район столицы)',pl:' (okolice stolicy)'};
-  const s=section(L[9]+(article.attractions_scope==='capital'?(scopeName[lang]||scopeName.en):''));
+  const sampleName={ro:' (selecție din țară)',en:' (national selection)',fr:' (sélection nationale)',de:' (landesweite Auswahl)',it:' (selezione nazionale)',es:' (selección nacional)',pt:' (seleção nacional)',nl:' (landelijke selectie)',ru:' (подборка по стране)',pl:' (wybór z całego kraju)'};
+  const scopeSuffix=article.attractions_scope==='capital'?(scopeName[lang]||scopeName.en):article.attractions_scope==='country_verified_sample'?(sampleName[lang]||sampleName.en):'';
+  const s=section(L[9]+scopeSuffix);
   if(sights.length)sights.forEach((p,i)=>addPlace(s,p,i));
-  else textP(s,L[10]);
+  else textP(s,isCountry?L[10]:({ro:'Nu am putut verifica momentan obiective turistice pentru această localitate.',en:'Verified tourist sights are temporarily unavailable for this town.',fr:'Impossible de vérifier les sites touristiques de cette ville.',de:'Für diesen Ort sind derzeit keine verifizierten Sehenswürdigkeiten verfügbar.',it:'Non è stato possibile verificare le attrazioni di questa località.',es:'No hay lugares turísticos verificados para esta localidad por ahora.',pt:'Não foi possível verificar pontos turísticos desta localidade.',nl:'Voor deze plaats zijn nu geen geverifieerde bezienswaardigheden beschikbaar.',ru:'Достопримечательности этого населённого пункта пока не подтверждены.',pl:'Nie udało się teraz potwierdzić atrakcji tej miejscowości.'}[lang]||'Verified sights unavailable.'));
  }
  if(Number.isFinite(requestStartMs))showAnswerDuration(card,requestStartMs);
  const sources=section(L[11]);sources.style.cssText+=';margin-bottom:2px';
@@ -2402,6 +2411,7 @@ function openEncyclopediaCard(article,requestStartMs){
  const nav=document.createElement('button');nav.type='button';nav.className='transit-choice-action';nav.style.cssText='margin:12px 0 4px;text-align:center;min-height:46px;background:linear-gradient(110deg,#24c6cd,#2b8ac7);color:#062338;font-weight:800';
  nav.textContent=isCountry?L[14]:L[15];
  nav.onclick=()=>{
+  state.encyclopediaTripActive=true;
   const title=article.title||'',coords=article.coordinates;
   document.getElementById('pocketStandaloneChoices')?.remove();
   if(!isCountry&&coords&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))){
@@ -2410,7 +2420,11 @@ function openEncyclopediaCard(article,requestStartMs){
   const question=lang==='ro'?'Spre ce oraș sau obiectiv din '+title+' dorești să călătorești?':'Which city or place in '+title+' do you want to visit?';
   addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;
  };
- host.append(nav);openStandaloneChoicePanel(host,article.title||'Informații');
+ host.append(nav);
+ const topRoute=nav.cloneNode(true);topRoute.onclick=nav.onclick;
+ topRoute.style.cssText='margin:0 0 12px;text-align:center;min-height:48px;background:linear-gradient(110deg,#24c6cd,#2b8ac7);color:#062338;font-weight:800';
+ host.prepend(topRoute);
+ openStandaloneChoicePanel(host,article.title||'Informații');
 }
 function offerDestinationAccommodationBeforeRoute(destination){
  if(!destination||!Number.isFinite(Number(destination.latitude))||!Number.isFinite(Number(destination.longitude)))return false;
@@ -2446,6 +2460,13 @@ function openStandaloneChoicePanel(host,titleText){
  const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent=state.language==='ro'?'Închide':'Close';close.setAttribute('aria-label',close.textContent);close.onclick=()=>panel.remove();
  header.append(title,close);const body=document.createElement('div');body.className='answer-reader-body';body.style.whiteSpace='normal';
  while(host.firstChild)body.append(host.firstChild);
+ if(state.encyclopediaTripActive&&state.lastEncyclopediaArticle&&titleText!==state.lastEncyclopediaArticle.title){
+  const back=document.createElement('button');back.type='button';back.className='transit-choice-action';
+  back.textContent=({ro:'Înapoi la prezentare',en:'Back to place details',fr:'Retour à la présentation',de:'Zurück zur Übersicht',it:'Torna alla presentazione',es:'Volver a la presentación',pt:'Voltar à apresentação',nl:'Terug naar overzicht',ru:'Назад к описанию',pl:'Wróć do opisu'}[state.language]||'Back to place details');
+  back.style.cssText='margin:0 0 12px;min-height:43px;text-align:center';
+  back.onclick=()=>{state.pendingEncyclopediaDestination=null;state.tripCountryOnChoice=null;state.encyclopediaTripActive=false;state.tripAccommodationDecision=null;state.tripAccommodationDestination=null;openEncyclopediaCard(state.lastEncyclopediaArticle,NaN)};
+  body.prepend(back);
+ }
  panel.append(header,body);document.body.append(panel);
  const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;panel.style.bottom=(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';
  panel.addEventListener('click',e=>{if(e.target.closest('button')&&e.target!==close){panel.remove()}});
@@ -2648,7 +2669,7 @@ const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;c
     state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Destinație verificată.');return;
    }
   }
-  state.tripCountryOnChoice=null;
+  // Preserve country journey origin until a destination is selected.
  }
  const standaloneChoice=Boolean(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification||(Array.isArray(data.choice_options)&&data.choice_options.length)||(Array.isArray(data.destination_candidates)&&data.destination_candidates.length));
  if(standaloneChoice){
