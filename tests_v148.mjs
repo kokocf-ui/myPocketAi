@@ -15,7 +15,7 @@ const checks=[
  ['Place details offer a mode selector before handoff',frontend.includes('function offerPlaceTravelModes(place)') && frontend.includes('offerPlaceTravelModes(place)')],
  ['Place selection preserves origin module',frontend.includes('rememberNavigationSource(place)')],
  ['Back returns to previous search results',frontend.includes('state.navigationReturnContext=null;') && frontend.includes('renderModulePlaces(source.results)')],
- ['Explicit short-distance routes offer all modes',!frontend.includes("if(mode==='walk'&&Number.isFinite(data.straight_line_distance_km)")],
+ ['Walking routes beyond 5 km are omitted',frontend.includes("data.straight_line_distance_km>5")],
  ['Explicit travel mode transfers to maps',frontend.includes("switchConversationModule('maps');showNavigationReturn();inputEl.value=t[i+1]")],
  ['All supported languages preserve quick-category labels',['en','fr','de','it','es','pt','nl','ru','pl'].every(lang=>frontend.includes("'"+lang+"':{'Fast-food și mâncare la pachet'"))]
 ];
