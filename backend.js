@@ -1,4 +1,5 @@
 /*
+ * v164: total Worker timing diagnostics and traditional beef tripe culinary validation.
  * v163: coordinate web provider readiness, instrument all model calls, avoid duplicate culinary review.\n * v162: prevent recipe titles from being routed to GPS named-place lookup.
  * v161: bound search-provider aggregation and extend traditional Romanian recipe fast path.\n * v160: expose stage-level latency diagnostics and recipe search routing status.
  * v159: detect Romanian cooking questions with 'cum se prepară' and sarmale as fast-path recipes.
@@ -358,8 +359,9 @@ function eventRowsFromReply(answer,request,language='ro'){
 // Checking recipe plausibility is not a topic routing rule.
 function recipeQualityConcern(request,answer){
  const topic=String(request||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
- if(!/\bsarmal/.test(topic))return false;
  const content=String(answer||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ if(/\bciorb\w*\s+de\s+burt\w*/.test(topic))return /\b(?:burta|burt[aă])\s+de\s+porc\b|\bpork\s+tripe\b/.test(content);
+ if(!/\bsarmal/.test(topic))return false;
  const wrongWrapper=/\b(?:frunze|frunzele|foi)\s+de\s+(?:lemn|telina)(?:\b|\s|\()/i.test(content)
    ||/\b(?:wood|celery)\s+leaves\s+(?:for|to)\s+(?:roll|wrap|stuff)/i.test(content);
  const recognizableWrapper=/\b(?:varza|vita(?:\s+de\s+vie)?|cabbage|grape\s+leaves)\b/i.test(content);
@@ -698,7 +700,8 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v163";
+    const API_VERSION = "v164";
+    const requestStartMs=Date.now();
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -735,9 +738,10 @@ export default {
       }
       if(payload && payload.status==="success" && typeof payload.message_received==="string"){payload.place_context=responsePlaceContext;payload.distance_context=responseDistanceContext;payload.route_context=payload.route_context||responseRouteContext;payload.weather_context=responseWeatherContext;payload.recommended_module=(payload.route_context||responseDistanceContext||payload.route_available!==undefined||payload.transit_available!==undefined||payload.reverse_geocode_ok!==undefined)?"maps":responsePlaceContext?(["fuel","parking","car_wash","car_repair","charging","transport"].includes(responsePlaceContext.category)?"maps":"travel"):"assistant";}
       if (payload && typeof payload === "object") delete payload.ai_generated;
+      if(payload&&typeof payload==="object")payload.server_total_ms=Date.now()-requestStartMs;
       return new Response(JSON.stringify(payload), {
         status,
-        headers: {...corsHeaders,"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store"}
+        headers: {...corsHeaders,"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store","Server-Timing":`worker;dur=${Date.now()-requestStartMs}`}
       });
     };
 
@@ -3695,7 +3699,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         ' Give a complete, coherent recipe matching the requested servings. Start with preparation and cooking times.'+
         ' Include a single nonrepeating ingredient list with measured quantities (grams, ml, pieces), then numbered sequential steps.'+
         ' Explain actual cooking technique, appliance temperature where appropriate, duration and food-safety checks.'+
-        ' Check that every ingredient is a real edible food ingredient and that the wrappers, fillings, cooking method and timing are appropriate for the named dish. For Romanian sarmale use pickled cabbage leaves or grape leaves, not wood or celery leaves; simmer thoroughly until the meat is safely cooked.'+
+        ' Check that every ingredient is a real edible food ingredient and that the wrappers, fillings, cooking method and timing are appropriate for the named dish. For Romanian sarmale use pickled cabbage leaves or grape leaves, not wood or celery leaves; for traditional Romanian ciorbă de burtă use beef tripe, never pork belly. Simmer thoroughly until the meat is safely cooked.'+
         ' Do not invent sources, do not repeat blocks, and do not omit crucial steps or shorten a cooking time unrealistically.'+
         ' Only explain variations or substitutions when useful. Answer directly without prefatory filler.';
     }
@@ -3868,7 +3872,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
           const recipeCorrectionStartedAt=Date.now();
           const corrected=await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fp8",{
             messages:[
-              {role:'system',content:'You are a careful culinary editor. Rewrite the entire recipe correctly in '+responseLanguageName+'. Verify every ingredient is edible and conventional for the named dish, and that instructions use only the listed ingredients. Romanian sarmale are rolled in pickled cabbage leaves or grape leaves, never wood or celery leaves. Cook the filling thoroughly using realistic times. Give measured quantities for the specified servings and clear sequential steps. Return the corrected complete recipe only.'},
+              {role:'system',content:'You are a careful culinary editor. Rewrite the entire recipe correctly in '+responseLanguageName+'. Verify every ingredient is edible and conventional for the named dish, and that instructions use only the listed ingredients. Romanian sarmale are rolled in pickled cabbage leaves or grape leaves, never wood or celery leaves. Traditional Romanian ciorbă de burtă uses beef tripe, not pork belly; use beef bones or stock, sour cream, egg yolks and garlic as appropriate. Cook the filling thoroughly using realistic times. Give measured quantities for the specified servings and clear sequential steps. Return the corrected complete recipe only.'},
               {role:'user',content:message+'\n\nRecipe to correct:\n'+result.response.slice(0,6500)}
             ],max_tokens:1050,temperature:0.05
           });
