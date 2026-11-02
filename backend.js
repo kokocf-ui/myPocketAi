@@ -1,4 +1,5 @@
 /*
+ * v172: readable country profiles, verified major cities and sights from Wikidata, more useful country facts.
  * v171: verify traditional beef tripe, order transit cards by trip start and arrival.
  * v170: classify event requests before venue lookup, ground event rows directly in dated source results, avoid AI-invented events.
  * v169: use Cloudflare fast inference for main generation, allow deployment model override, add model diagnostics.
@@ -679,8 +680,57 @@ async function countryMetadata(code,locale='ro'){
  const languageDisplay=new Intl.DisplayNames([locale],{type:'language'});
  const currencies=Object.entries(record.currencies||{}).map(([id,v])=>{let name;try{name=currencyDisplay.of(id)}catch{}return {code:id,name:name||v?.name||id,symbol:v?.symbol||''}}).slice(0,8);
  const languages=Object.entries(record.languages||{}).map(([id,name])=>{let label;try{label=languageDisplay.of(id)}catch{}return label&&label!==id?label:name}).slice(0,15);
- return currencies.length||languages.length?{country_code:code,currencies,languages,source:'https://github.com/mledoze/countries',language_scope:'official'}:null;
+ return {country_code:code,currencies,languages,capital:String(record.capital?.[0]||'').slice(0,90),area_km2:Number.isFinite(Number(record.area))?Number(record.area):null,timezones:(record.timezones||[]).filter(x=>typeof x==='string').slice(0,6),source:'https://github.com/mledoze/countries',language_scope:'official'};
 }
+
+// Geographically grounded country highlights: Wikidata P17 matches the exact country
+// item from Wikipedia. Results require coordinates, sitelinks and a tourism/city class.
+// A country's geographic centroid must not be used as a tourist attraction.
+const countryHighlightsCache=new Map();
+async function getCountryHighlights(wikibaseItem,locale='ro'){
+ const qid=String(wikibaseItem||'').trim();
+ if(!/^Q[1-9]\d{0,12}$/.test(qid))return null;
+ const key=qid+'|'+locale,stored=countryHighlightsCache.get(key);
+ if(stored&&stored.expires>Date.now())return stored.data;
+ const safeLocale=['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(locale)?locale:'en';
+ const sparql=[
+  'SELECT DISTINCT ?site ?siteLabel ?siteDescription ?coord ?sitelinks ?kind WHERE {',
+  ' { ?site wdt:P17 wd:'+qid+'; wdt:P31 ?type; wdt:P625 ?coord; wikibase:sitelinks ?sitelinks.',
+  '   VALUES ?type { wd:Q33506 wd:Q570116 wd:Q23413 wd:Q16560 wd:Q839954 wd:Q4989906 wd:Q207694 wd:Q16970 wd:Q9259 wd:Q22698 wd:Q1107656 }',
+  '   BIND("sight" AS ?kind)',
+  ' } UNION {',
+  '   ?site wdt:P17 wd:'+qid+'; wdt:P1435 wd:Q9259; wdt:P625 ?coord; wikibase:sitelinks ?sitelinks.',
+  '   BIND("sight" AS ?kind)',
+  ' } UNION {',
+  '   ?site wdt:P17 wd:'+qid+'; wdt:P31 wd:Q515; wdt:P625 ?coord; wikibase:sitelinks ?sitelinks.',
+  '   BIND("city" AS ?kind)',
+  ' }',
+  ' FILTER(?sitelinks >= 12)',
+  ' SERVICE wikibase:label { bd:serviceParam wikibase:language "'+safeLocale+',en". }',
+  '} ORDER BY DESC(?sitelinks) LIMIT 70'
+ ].join('\n');
+ try{
+  const u=new URL('https://query.wikidata.org/sparql');u.searchParams.set('query',sparql);u.searchParams.set('format','json');
+  const response=await fetch(u,{headers:{Accept:'application/sparql-results+json','User-Agent':'PocketAI/1.0 (country highlights)'},signal:AbortSignal.timeout(3200)});
+  if(!response.ok)return null;
+  const data=await response.json(),seen=new Set(),sights=[],cities=[];
+  for(const row of data.results?.bindings||[]){
+   const q=String(row.site?.value||'').match(/^https?:\/\/www\.wikidata\.org\/entity\/(Q[1-9]\d*)$/)?.[1];
+   const name=String(row.siteLabel?.value||'').trim(),point=String(row.coord?.value||'').match(/^Point\((-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)\)$/);
+   const lat=point?Number(point[2]):NaN,lon=point?Number(point[1]):NaN;
+   if(!q||!name||/^Q\d+$/.test(name)||seen.has(q)||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)continue;
+   seen.add(q);
+   const place={name:name.slice(0,95),description:String(row.siteDescription?.value||'').slice(0,140),latitude:lat,longitude:lon,url:'https://www.wikidata.org/wiki/'+q};
+   if(row.kind?.value==='city'&&cities.length<5)cities.push(place);
+   else if(row.kind?.value==='sight'&&sights.length<7)sights.push(place);
+   if(cities.length>=5&&sights.length>=7)break;
+  }
+  const result={cities,sights,source:'https://www.wikidata.org/'};
+  if(cities.length||sights.length)countryHighlightsCache.set(key,{data:result,expires:Date.now()+6*3600000});
+  return result;
+ }catch{return null}
+}
+
 function geoQueryParts(query){
  const normalized=normalizeGeoName(query);let country="",city=String(query).split(',')[0].trim();
  for(const [name,code] of countryNameEntries)if(normalized.endsWith(' '+name)){country=code;city=String(query).includes(',')?String(query).split(',')[0].trim():normalized.slice(0,-name.length).trim();break}
@@ -833,7 +883,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v171";
+    const API_VERSION = "v172";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
@@ -1017,7 +1067,7 @@ export default {
           const response=await fetch(link,{headers:{Accept:'application/json','User-Agent':'PocketAI/1.0 (encyclopedia summaries)'},signal:AbortSignal.timeout(4500)});
           if(!response.ok)continue;const d=await response.json();
           if(d?.type==='https://mediawiki.org/wiki/HyperSwitch/errors/not_found'||!d?.extract||d?.type?.includes('disambiguation'))continue;
-          article={title:d.title||encyclopediaTitle,description:d.description||'',extract:d.extract.slice(0,1700),image:d.thumbnail?.source||'',url:d.content_urls?.desktop?.page||'',coordinates:d.coordinates?.lat!==undefined?{latitude:d.coordinates.lat,longitude:d.coordinates.lon}:null,language};break;
+          article={title:d.title||encyclopediaTitle,description:d.description||'',extract:d.extract.slice(0,1700),image:d.thumbnail?.source||'',url:d.content_urls?.desktop?.page||'',coordinates:d.coordinates?.lat!==undefined?{latitude:d.coordinates.lat,longitude:d.coordinates.lon}:null,wikibase_item:/^Q[1-9]\d*$/.test(String(d.wikibase_item||''))?d.wikibase_item:null,language};break;
         }catch{}
       }
       if(article){
@@ -1035,7 +1085,17 @@ export default {
             }
           }catch{}
         }
-        if(countryCode)article.country_facts=await countryMetadata(countryCode,lang);
+        const isCountryProfile=Boolean(countryNameCodes.has(normalizeGeoName(encyclopediaTitle))&&countryCode) || /\b(?:țară|tara|country|republic|stat suveran|sovereign state)\b/i.test(String(article.description||''));
+        article.is_country=isCountryProfile;
+        if(isCountryProfile&&article.wikibase_item){
+          const [facts,highlights]=await Promise.all([countryCode?countryMetadata(countryCode,lang):null,getCountryHighlights(article.wikibase_item,lang)]);
+          if(facts)article.country_facts=facts;
+          if(highlights){
+            article.major_cities=highlights.cities;
+            article.attractions=highlights.sights;
+            article.attractions_source=highlights.source;
+          }
+        }else if(countryCode)article.country_facts=await countryMetadata(countryCode,lang);
         if(verifiedCity&&!article.coordinates)article.coordinates={latitude:Number(verifiedCity.lat),longitude:Number(verifiedCity.lon)};
         if(!article.coordinates&&knownTopic&&env.GEOAPIFY_API_KEY&&!/^(?:franta|france|romania|germania|germany|italia|italy|spania|spain|anglia|england|portugalia|polonia|poland|japonia|japan|grecia|greece|turcia|turkey|usa|statele_unite)$/.test(topicKey)){
           try{
@@ -1045,7 +1105,7 @@ export default {
         }
         // Optional notable sights, grounded in a geographically scoped place provider.
         // Never infer country-wide attractions from a country's geographic centroid.
-        const isCountryArticle=/\\b(?:țară|tara|country|republic|stat suveran|sovereign state)\\b/i.test(String(article.description||''));
+        const isCountryArticle=Boolean(article.is_country);
         if(!isCountryArticle&&article.coordinates&&env.GEOAPIFY_API_KEY){
           try{
             const u=new URL('https://api.geoapify.com/v2/places');
