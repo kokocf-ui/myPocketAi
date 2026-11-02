@@ -2241,8 +2241,13 @@ function openEncyclopediaCard(article){
   const title=article.title||'',coords=article.coordinates;
   document.getElementById('pocketStandaloneChoices')?.remove();
   if(coords&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))){
-   const context={destination_query:title,destination:{latitude:Number(coords.latitude),longitude:Number(coords.longitude),label:title},pending:'profile'};
-   openTransportModeFromAssistant({route_context:context});return;
+   const destination={latitude:Number(coords.latitude),longitude:Number(coords.longitude),label:title};
+   const isCountry=/\\b(?:țară|tara|country|republic|stat suveran|sovereign state)\\b/i.test(String(article.description||''));
+   if(isCountry){
+    const question=state.language==='ro'?'Spre ce oraș sau obiectiv din '+title+' dorești să călătorești?':'Which destination in '+title+' would you like to visit?';
+    addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;return;
+   }
+   state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute(destination);return;
   }
   const question=state.language==='ro'?'Spre ce oraș sau obiectiv din '+title+' dorești să călătorești?':'Which city or place in '+title+' do you want to visit?';
   addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;
