@@ -1,5 +1,5 @@
 /*
- * v160: expose stage-level latency diagnostics and recipe search routing status.
+ * v161: bound search-provider aggregation and extend traditional Romanian recipe fast path.\n * v160: expose stage-level latency diagnostics and recipe search routing status.
  * v159: detect Romanian cooking questions with 'cum se prepară' and sarmale as fast-path recipes.
  * v158: bounded parallel web-search wait, reduced serial page fetching, fast evidence path.
  * v157: context-appropriate table columns and consistent ordering across subjects.
@@ -3507,7 +3507,7 @@ export default {
     // Generalist research: ordinary factual requests need not include '?' or belong to a fixed category.
     // The AI remains responsible for writing and reasoning; unnecessary live lookups are skipped for recipes and creative tasks.
     const explicitLookup = /\b(?:cauta|cautare|search|searching|find|look up|verifica|verificare|documenteaza|research|investigheaza|show me|arata.mi|prezinta.mi)\b/i.test(normalizedResearchRequest);
-    const recipeInstruction = /\b(?:retet\w*|recipe\w*|ingredient\w*|cum\s+(?:se\s+)?(?:prepar\w*|gatesc|gatesti|gati\w*)|how to cook|sarmal\w*)\b/i.test(normalizedResearchRequest);
+    const recipeInstruction = /\b(?:retet\w*|recipe\w*|ingredient\w*|cum\s+(?:se\s+)?(?:prepar\w*|gatesc|gatesti|gati\w*|face|fac)\b|how to cook|sarmal\w*|ciorb\w*\s+de\s+burt\w*)\b/i.test(normalizedResearchRequest);
     const taskInsteadOfResearch = /^(?:te rog\s+)?(?:scrie|creeaza|compune|redacteaza|rezuma|rezumă|rescrie|corecteaza|tradu|ajuta.ma sa|write|create|draft|summarize|rewrite|translate|help me make|help me write)\b/i.test(normalizedResearchRequest);
     const substantiveRequest = /[\p{L}\p{N}]/u.test(message)&&(/[?？]/.test(message)||normalizedResearchRequest.trim().split(/\s+/).length>=2);
     const eventResearchIntent=/\b(?:eveniment\w*|festival\w*|spectacol\w*|concert\w*|targ\w*|events?|shows?|performances?)\b/i.test(normalizedResearchRequest);
@@ -3568,7 +3568,15 @@ export default {
       })().then(value=>({status:"fulfilled",value,provider:"Tavily"})).catch(error=>({status:"rejected",provider:"Tavily",error:String(error&&error.message||error).slice(0,140)})));
       if (!providerTasks.length) webSearchStatus="not_configured";
       else {
-        const settled=await Promise.all(providerTasks);
+        // Do not hold a useful result hostage to the slowest search engine.
+        // Individual providers retain their own deadlines. Collect results arriving
+        // within the overall soft budget, without cancelling slow providers.
+        const outcomes=[];
+        const tracked=providerTasks.map(task=>task.then(value=>{outcomes.push(value);return value}));
+        await Promise.race([Promise.all(tracked),new Promise(resolve=>setTimeout(resolve,eventResearchIntent?6200:7500))]);
+        // Give the remaining providers a little more time only when no evidence arrived.
+        if(!outcomes.some(x=>x.status==="fulfilled"&&x.value.results.length))await Promise.race([Promise.all(tracked),new Promise(resolve=>setTimeout(resolve,1400))]);
+        const settled=outcomes.slice();
         const providerDiagnostics=settled.map(x=>x.status==="fulfilled"?{provider:x.provider,status:"ok",resultCount:x.value.results.length,elapsedMs:x.value.elapsedMs}:{provider:x.provider,status:"error",error:x.error});
         const candidates=[];
         for(const item of settled) if(item.status==="fulfilled") for(const source of item.value.results){
