@@ -1755,7 +1755,7 @@ function appendTransitLegs(host,journey){
   const row=document.createElement('tr'),step=document.createElement('th'),action=document.createElement('td'),time=document.createElement('td');step.setAttribute('scope','row');step.textContent=String(i+1);
   const mode=document.createElement('strong');mode.textContent=transitModeName(leg.mode)+((leg.lineNames||[]).length?' '+leg.lineNames.join(', '):'');
   const places=document.createElement('div');places.textContent=(leg.from||'—')+' → '+(leg.to||'—');action.append(mode,places);
-  const departure=document.createElement('div'),arrival=document.createElement('div');departure.textContent=transitClock(leg.departureTime,journey.time_zone);arrival.textContent='→ '+transitClock(leg.arrivalTime,journey.time_zone);time.append(departure,arrival);row.append(step,action,time);body.append(row);
+  const departure=document.createElement('div'),arrival=document.createElement('div');departure.textContent=transitClock(leg.departureTime,leg.departureZone||journey.time_zone);arrival.textContent='→ '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone);time.append(departure,arrival);row.append(step,action,time);body.append(row);
  }table.append(body);host.append(table);
 }
 function appendTransitCards(host,options){
@@ -1763,7 +1763,7 @@ function appendTransitCards(host,options){
  for(const [i,journey] of options.entries()){
   const button=document.createElement('button');button.type='button';button.className='transit-choice-action transit-journey-choice';
   const first=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))),heading=document.createElement('strong');
-  heading.textContent=(i+1)+'. '+transitClock(first?.departureTime||journey.firstVehicleDepartureTime,journey.time_zone)+' → '+transitClock(journey.arrivalDateTime||journey.legs?.at(-1)?.arrivalTime,journey.time_zone)+' · '+formatTravelDurationMinutes(journey.durationMinutes);
+  heading.textContent=(i+1)+'. '+transitClock(first?.departureTime||journey.firstVehicleDepartureTime,first?.departureZone||journey.time_zone)+' → '+transitClock(journey.arrivalDateTime||journey.legs?.at(-1)?.arrivalTime,journey.legs?.at(-1)?.arrivalZone||journey.time_zone)+' · '+formatTravelDurationMinutes(journey.durationMinutes);
   const boarding=document.createElement('div');boarding.textContent=transitBoardingSummary(journey);
   const metrics=document.createElement('div');metrics.className='transit-card-metrics';metrics.textContent=[Number.isFinite(journey.walkToFirstStopMinutes)?labels[6]+': '+formatTravelDurationMinutes(journey.walkToFirstStopMinutes):'',Number.isFinite(journey.transferCount)?labels[5]+': '+journey.transferCount:''].filter(Boolean).join(' · ');
   button.append(heading,boarding,metrics);button.onclick=()=>{closeAnswerReader(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=t[0];selectTransitJourney(options,i)};host.append(button);
