@@ -16,7 +16,7 @@ const checks=[
  ['Place selection preserves origin module',frontend.includes('rememberNavigationSource(place)')],
   ['Transport variants have one paired navigation toolbar',frontend.includes("actions.className='quick-navigation-toolbar'")&&frontend.includes("original.textContent=state.language==='ro'?'Revenire'")],
  ['Transport cards cannot shrink and overlap their text',frontend.includes('.module-quick-body .transit-journey-choice{display:block!important;flex:0 0 auto!important;')],
- ['Map close returns Assistant to its source',frontend.includes("if(state.navigationReturnContext?.view==='assistant')returnToNavigationSource()")],
+ ['Map offers Anterior step and direct Revenire to its source',frontend.includes("close.textContent=state.navigationReturnContext?") && frontend.includes("back.textContent=state.language==='ro'?'Revenire'")],
  ['Return action remains responsive during pending requests',frontend.includes('if(state.busy){state.conversationGeneration++;state.busy=false}')],
  ['Choice buttons use luminous cyan',frontend.includes('.bubble .transit-choice-action,.answer-reader .transit-choice-action')],
 ['Back returns to previous search results',frontend.includes('state.navigationReturnContext=null;') && frontend.includes('renderModulePlaces(state.moduleSearchResults)')],
