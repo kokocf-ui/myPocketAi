@@ -6,7 +6,8 @@ const timeoutMs=Number(process.env.POCKET_AI_TEST_TIMEOUT_MS||45000);
 const prompts=[
  ['evenimente-scurt','Ce evenimente sunt organizate în Oradea în decembrie 2026?'],
  ['evenimente-format','Ce evenimente sunt organizate în Oradea în decembrie 2026? Prezintă-le cronologic, cu date și locații.'],
- ['reteta','Cum se prepară sarmalele românești tradiționale? Precizează ingredientele și timpul de preparare.']
+ ['reteta','Cum se prepară sarmalele românești tradiționale? Precizează ingredientele și timpul de preparare.'],
+ ['ciorba','Rețetă tradițională de ciorbă de burtă românească, cu ingrediente și pași de preparare.']
 ];
 const repeats=Math.max(1,Math.min(5,Number(process.env.POCKET_AI_TEST_REPEATS||2)));
 const metrics=[];
@@ -15,7 +16,8 @@ for(let i=0;i<repeats;i++)for(const [name,message] of prompts){
  try{
   const response=await fetch(url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({message,language:'ro',history:[],module:'assistant'}),signal:AbortSignal.timeout(timeoutMs)});
   const data=await response.json();
-  entry={...entry,http:response.status,wall_ms:Math.round(performance.now()-start),research_ms:data.research_elapsed_ms??null,ai_ms:data.ai_execution_ms??null,event_count:data.structured_list?.type==='events'?(data.structured_list.rows?.length??0):null,web_status:data.web_search_status??null,success:response.ok&&data.status==='success'&&!!data.reply};
+  entry={...entry,http:response.status,wall_ms:Math.round(performance.now()-start),research_ms:data.research_elapsed_ms??null,ai_ms:data.ai_execution_ms??null,backend_version:data.version??null,server_total_ms:data.server_total_ms??null,latency_breakdown:data.latency_breakdown??null,provider_timings:data.web_search_diagnostics?.providers??null,search_pending:data.web_search_diagnostics?.pendingProviderCount??null,event_count:data.structured_list?.type==='events'?(data.structured_list.rows?.length??0):null,web_status:data.web_search_status??null,success:response.ok&&data.status==='success'&&!!data.reply};
+  if(name==='ciorba')entry.invalid_pork_belly=/burt[aă]\s+de\s+porc/i.test(String(data.reply||''));
   if(entry.event_count!==null){
    const names=(data.structured_list.rows||[]).map(r=>String(r.description||'').toLowerCase().replace(/\\s+/g,' ').trim());
    entry.event_names=names;
