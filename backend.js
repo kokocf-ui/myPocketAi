@@ -1569,7 +1569,8 @@ export default {
     };
     const placeRequestFrom=(text,previous,overrideQuery="")=>{
       const normalized=normalizeIntentText(text);
-      const destination=overrideQuery||extractPlaceQuery(text);
+      const touristCity=String(text).normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/(?:zona centrala turistica|tourist (?:city )?cent(?:re|er))\s+(?:din|in|of)\s+([\p{L} '\-]{2,80})/iu);
+      const destination=overrideQuery||(touristCity?touristCity[1].trim():extractPlaceQuery(text));
       const nearby=/(?:near me|nearby|around me|in apropiere|in apropierea mea|in zona mea|in jurul meu|in jurul nostru|langa mine|aproape de mine)/.test(normalized);
       const follow=/^(?:dar|si|iar|atunci|totusi|what about|how about|and|but|instead)(?: |$)/.test(normalized);
       const stars=hotelStarCriterion(text);
@@ -1585,7 +1586,7 @@ export default {
       const sameCategory=inherited&&previous.category.key===category.key;
       return {category,destination:destination||(nearby?"":inherited?previous.destination:""),
         stars:category.key==="hotel"?(clearStars?null:stars||(sameCategory?previous.stars:null)):null,
-        central:centralCriterion(text)||(sameCategory&&!nearby&&previous.central),inherited,
+        central:centralCriterion(text)||(category.key==='hotel'&&Boolean(destination)&&!nearby&&!/(?:\bsuburb\b|\bdistrict\b|\bneighborhood\b|\bcartier\b|\bperiferie\b|\baeroport\b)/.test(normalized))||(sameCategory&&!nearby&&previous.central),inherited,
         needsDestination:Boolean(follow&&!previous&&!destination&&!nearby)};
     };
     const userTurns=Array.isArray(data.history)?data.history.filter(t=>t&&t.role==="user"&&typeof t.content==="string").map(t=>t.content.trim()).filter(Boolean).slice(-8):[];
