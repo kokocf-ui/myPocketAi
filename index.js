@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.124 — individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.125 — chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.124",
+  version: "1.0.125",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1834,6 +1834,22 @@ function appendFinalTransitWalkAction(host,journey){
 }
 // Transit results can outlive their original departure times. Hide options
 // which are already unreachable using the provider's boarding-walk estimate.
+function compareTransitDisplayTimes(a,b){
+ // Sort full-journey departure (including access walk), then actual arrival.
+ const time=(j,kind)=>{
+  const legs=Array.isArray(j?.legs)?j.legs:[];
+  const raw=kind==='start'?(j?.startDateTime||legs[0]?.departureTime||j?.firstVehicleDepartureTime):
+   (j?.arrivalDateTime||legs.at(-1)?.arrivalTime);
+  const n=Date.parse(raw||'');return Number.isFinite(n)?n:null;
+ };
+ const x=time(a,'start'),y=time(b,'start');
+ if(x!==null&&y!==null&&x!==y)return x-y;
+ if(x===null&&y!==null)return 1;
+ if(x!==null&&y===null)return -1;
+ const endA=time(a,'arrival'),endB=time(b,'arrival');
+ if(endA!==null&&endB!==null)return endA-endB;
+ return endA===null&&endB!==null?1:endA!==null&&endB===null?-1:0;
+}
 function feasibleTransitChoices(options){
  const now=Date.now();
  return (Array.isArray(options)?options:[]).filter(journey=>{
@@ -1843,7 +1859,7 @@ function feasibleTransitChoices(options){
   const margin=Number.isFinite(journey.safetyMarginMinutes)?Math.max(0,journey.safetyMarginMinutes):5;
   const needed=(Number.isFinite(walking)&&walking>=0?walking:0)+margin;
   return departure>=now+needed*60000;
- });
+ }).sort(compareTransitDisplayTimes);
 }
 const TRANSIT_REFRESH_TEXT={
  ro:['Se actualizează plecările…','Nu pot actualiza plecările acum. Încearcă din nou.','Destinația anterioară nu mai este disponibilă. Alege o destinație nouă.','Nu am găsit alte plecări disponibile acum. Încearcă din nou.','Permite accesul la GPS pentru plecări din poziția actuală.','Plecarea aceasta nu mai poate fi prinsă. Actualizează plecările.'],
