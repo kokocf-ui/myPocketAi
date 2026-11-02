@@ -1,3 +1,10 @@
+## Pocket AI — backend v168 / frontend 1.0.122 — 2026-11-02
+
+- **Diagnosticul telefonului:** 79,5 s pentru sarmale tradiționale: GPS 0,0 s, cercetare web 0,0 s, primul apel AI 36,8 s, al doilea apel AI pentru corectarea rețetei 42,5 s. Corectarea a eșuat și a produs un mesaj de imposibilitate a verificării.
+- **Rezolvare v167–v168:** la rețete nu se mai lansează al doilea apel AI pentru validarea ingredientelor. Dacă sunt detectate materiale neverosimile, pentru sarmale sau ciorbă de burtă uzuală în română este disponibilă o rețetă de rezervă convențională; pentru alte cazuri nesigure nu se inventează. O variantă vegană, vegetariană, de post sau reinterpretată nu este suprascrisă cu rețeta tradițională. Primul apel AI rămâne dinamic și acum are plafon de 620 tokenuri pentru rețetele obișnuite.
+- **Testare fără furnizori live:** simulările pentru ambele rețete au returnat răspuns corect într-un singur apel AI și fără cercetare web. Testele de regresie existente au fost actualizate și includ verificări pentru variante culinare explicite.
+- **Limitare:** primul apel AI poate dura încă zeci de secunde. Îmbunătățirea totală trebuie măsurată în Cloudflare după publicare. Nu s-a schimbat modelul AI fără test comparativ, iar frontendul rămâne v1.0.122.
+
 ## Pocket AI — backend v167 / frontend 1.0.122 — 2026-11-02
 
 - **Confirmed phone latency root cause:** 79.5 s for traditional Romanian sarmale: 0.0 s GPS, 0.0 s web, 36.8 s primary Workers AI generation, 42.5 s second recipe correction. The second inference still returned a recipe validation failure. These values came from the user's live frontend timing panel.
