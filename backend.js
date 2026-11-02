@@ -376,6 +376,11 @@ function sourceBackedEventRows(sources,request,language='ro'){
  const place=placeMatch?.[1]||'';
  const eventName=/\b(?:targ\w*|festival\w*|concer\w*|spectacol\w*|show\w*|expoz\w*|exhibi\w*|recital\w*|meci\w*|match\w*|theat\w*|teatr\w*|opera|musical\w*|muzic\w*|ballet|balet\w*|fair|market|performance\w*|gig|tur\w*|tour|christmas|craciun|handbal|sport)\b/u;
  const genericName=/^(?:evenimente(?:le)?|events?|calendar(?:ul)?|program(?:ul)?(?:ul)?(?:\s+evenimente)?|what s on|ce facem)\b/u;
+ const monthTokens=new Map();
+ for(let m=1;m<=12;m++)for(const locale of ['ro','en','fr','de','it','es','pt','nl','ru','pl'])for(const style of ['long','short']){
+  const label=new Intl.DateTimeFormat(locale,{month:style,timeZone:'UTC'}).format(new Date(Date.UTC(year,m-1,5)));
+  monthTokens.set(norm(label).replace(/\s/g,''),m);
+ }
  const rows=[],seen=new Set();let rejectedNoDate=0,rejectedNoYear=0,rejectedGeneric=0;
  for(const source of (Array.isArray(sources)?sources:[])){
   const title=String(source.title||'').replace(/\s+/g,' ').trim().replace(/\s*[\|]\s*[^|]{1,75}$/,'').slice(0,170);
@@ -405,6 +410,15 @@ function sourceBackedEventRows(sources,request,language='ro'){
    if(generic&&!eventName.test(norm(cleanTitle)))continue;
    cleanTitle=cleanTitle.replace(/^\s*[,;:–—-]\s*/,'').trim();
    if(!cleanTitle||cleanTitle.length<8)continue;
+   // Render month names in the selected interface language (e.g. December -> decembrie).
+   const firstMonth=String(record.date||'').match(/^([\p{L}.]{3,22})\s+(\d{1,2})(?:,?\s+(20\d{2}))?$/u);
+   if(firstMonth){
+     const englishMonth=monthTokens.get(norm(firstMonth[1]).replace(/\s/g,''));
+     if(englishMonth){
+       const localized=new Intl.DateTimeFormat(language,{month:'long',timeZone:'UTC'}).format(new Date(Date.UTC(year,englishMonth-1,5)));
+       record.date=Number(firstMonth[2])+' '+localized+' '+(firstMonth[3]||year);
+     }
+   }
    const key=norm(cleanTitle).replace(/\b20\d{2}\b/g,'')+'|'+norm(record.date);
    if(seen.has(key))continue;seen.add(key);
    rows.push({date:record.date,time:record.time,description:cleanTitle,source_url:source.url,source_title:String(source.title||'').slice(0,170)});
