@@ -20,6 +20,8 @@ Suportul pentru legislație se aplică tuturor țărilor și jurisdicțiilor, f�
 - Istorie, cultură, geografie, muzee, obiective, evenimente istorice și patrimoniu.
 - Filme: titlu, distribuție, gen, anul apariției, disponibilitatea verificabilă, proiecții locale și ore (dacă sunt disponibile).
 - Teatru, concerte, spectacole, festivaluri: oraș, perioadă, loc, program, organizator, preț/bilete și pagina oficială atunci când pot fi confirmate.
+- Știri și actualitate politică internațională, națională și locală: evenimente politice, alegeri, declarații, instituții, decizii și analize neutre. Verifică data publicării și data evenimentului, compară mai multe surse credibile, separă afirmațiile politice de faptele confirmate și expune perspective relevante fără partizanat, propagandă sau echivalență falsă.
+- Rețete culinare din bucătăriile tuturor țărilor: descriere, numărul de porții, ingrediente cu unități și cantități, timp de pregătire, timp de gătire, temperaturi în °C/°F când sunt relevante, ustensile esențiale, instrucțiuni clare, cronologice și verificabile, timpi pentru fiecare etapă, sugestii de servire, înlocuiri și alergeni când sunt relevanți. Pentru o rețetă generală cunoscută nu este obligatorie căutarea web; pentru rețeta unui bucătar, restaurant sau pentru noutăți specifice, verifică sursa.
 - Știință, educație, economie, tehnologie, sport, servicii, produse, sănătate și alte subiecte accesibile legitim. Ajustează rigoarea la riscul domeniului.
 
 ## Cerințe de cercetare și prezentare
@@ -29,6 +31,16 @@ Suportul pentru legislație se aplică tuturor țărilor și jurisdicțiilor, f�
 4. Pentru rezultate sensibile la timp, afișează data verificării, data desfășurării și fusul orar după caz. Nu prezenta programe trecute ca evenimente viitoare.
 5. Afișează concise datele esențiale, linkuri de sursă relevante, și, unde există și este permis, imagini/media verificate. Dacă nu există rezultate sau sursele nu sunt concludente, spune precis acest lucru.
 6. Refolosește contextul conversației, dar nu schimba ecranul activ și nu transforma automat o căutare de informații într-o cerere de traseu.
+
+## Standard de afișare a duratelor traseelor (toate tipurile de transport)
+Duratele se calculează în continuare în unități numerice (secunde/minute) pentru precizie, comparare, alegere de trasee, calculul plecărilor și verificarea fezabilității; se schimbă numai formatarea vizibilă utilizatorului. Aplică aceeași regulă în răspunsurile din backend și în toate ecranele, tabelele cu variante, ferestrele de hartă, traseele pietonale/rutiere și variantele de transport public, inclusiv plimbarea până la prima stație și durata segmentelor, unde se afișează o durată.
+
+- Sub 60 de minute: afișează numai minutele (ex. 45 minute).
+- De la 60 de minute la sub 24 de ore: afișează ore și minute (ex. 135 minute → 2 ore 15 minute; 120 minute → 2 ore).
+- De la 24 de ore în sus: afișează zile, ore și minute (ex. 1.575 minute → 1 zi 2 ore 15 minute; 2.880 minute → 2 zile).
+- Omite componentele cu valoare zero, dar afișează „0 minute” la durata zero. Rotunjește la minute numai la afișare, cu păstrarea unităților interne originale. Folosește singular/plural corect pentru fiecare limbă selectată în aplicație (toate cele zece limbi).
+- Formatarea duratei NU schimbă orele de plecare/sosire, timpii de transfer, algoritmul rutelor, sortarea alternativelor, numărul de opțiuni, zonele orare sau API-ul brut. Pentru traversări de fus orar, durata rămâne timpul scurs real, independent de ora locală.
+- Verifică expres prezentarea duratelor în backend.js (ex.: ~1088, ~1359–1360, ~1522, ~1532) și frontend index.js (~1755, ~1757, ~2001, ~2114), fără a modifica algoritmii de rutare.
 
 ## Probleme observate la auditul din 2026-11-02
 - backend.js, în zona ~3090–3095: declanșarea cercetării web depinde de semnul întrebării ori de o listă de termeni; comenzi imperative pentru filme/festivaluri/alte teme pot fi ratate.
@@ -42,6 +54,9 @@ Suportul pentru legislație se aplică tuturor țărilor și jurisdicțiilor, f�
 - „Caută festivaluri în Oradea luna viitoare” -> caută chiar fără semn de întrebare, verifică datele și oferă surse.
 - „Filme la cinema în Londra în weekend” -> diferențiază programul actual de informațiile generale despre filme.
 - „Povestește-mi istoria Oradei” -> prezentare corectă, lizibilă, fără detalii fabricate.
+- „Știri politice din Canada din ultima săptămână” -> rezumat neutru, evenimente și date clare, surse și fapte verificate.
+- „Dă-mi o rețetă de sarmale pentru 6 persoane” -> ingredientele și cantitățile, pașii, timpii, temperatura și porțiile, fără a forța un apel web inutil.
+- „Traseu de 45 de minute” -> 45 minute; „Traseu de 135 de minute” -> 2 ore 15 minute; „Traseu de 1.575 de minute” -> 1 zi 2 ore 15 minute. Verificare în RO, EN și celelalte opt limbi.
 - Cererile de traseu care afișează deja trei opțiuni trebuie să continue să funcționeze identic după introducerea regulilor de cercetare.
 
 ## Limite oneste
