@@ -1311,7 +1311,7 @@ export default {
           const points=point?[origin,point,destination]:[origin,destination];
           const u=new URL('https://api.geoapify.com/v1/routing');
           u.searchParams.set('waypoints',points.map(p=>`${p.latitude},${p.longitude}`).join('|'));
-          u.searchParams.set('mode',rc.profile);u.searchParams.set('type',kind==='short'||access?'short':'balanced');
+          u.searchParams.set('mode',rc.profile);u.searchParams.set('type',kind==='short'||access?'short':'balanced');if(rc.profile==='drive'&&kind==='economy')u.searchParams.set('avoid','tolls:1');
           if(point)u.searchParams.set('intermediate_waypoint_mode','pass_through');
           u.searchParams.set('details','instruction_details');u.searchParams.set('units','metric');u.searchParams.set('lang',lang);u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
           const r=await fetch(u.href,{signal:AbortSignal.timeout(12000)});if(!r.ok)throw Object.assign(Error('route_provider_failed'),{httpStatus:r.status});
@@ -1325,10 +1325,10 @@ export default {
           const streets=Array.isArray(step.instruction?.streets)?step.instruction.streets.filter(v=>typeof v==='string').slice(0,8):[];
           return {text:text.slice(0,1200),streets,distanceMeters:Number.isFinite(step.distance)&&step.distance>=0?step.distance:null};
         }).filter(v=>v.text).slice(0,500).map((v,i)=>({...v,number:i+1}));
-        return {id:kind,automatic:Boolean(access),access_kind:access?.access_kind||null,bridge_geometry:access?.bridge_geometry||null,label:point?labels[2]+' — '+point.label:labels[kind==='short'?1:0],via:point?[point]:[],profile:rc.profile,coordinates,distanceMeters:meters,durationSeconds:typeof props.time==='number'&&Number.isFinite(seconds)&&seconds>=0?seconds:null,origin,destination,steps};
+        return {id:kind,automatic:Boolean(access),access_kind:access?.access_kind||null,bridge_geometry:access?.bridge_geometry||null,label:point?labels[2]+' — '+point.label:rc.profile==='drive'?(kind==='short'?'Cea mai scurtă':kind==='economy'?'Cu mai puține taxe':'Cea mai rapidă estimată'):labels[kind==='short'?1:0],via:point?[point]:[],profile:rc.profile,coordinates,distanceMeters:meters,durationSeconds:typeof props.time==='number'&&Number.isFinite(seconds)&&seconds>=0?seconds:null,origin,destination,steps};
 
         };
-        const kinds=['balanced',...(rc.profile==='walk'?['short']:[]),...(via?['via']:[])];
+        const kinds=['balanced',...(['walk','drive'].includes(rc.profile)?['short']:[]),...(rc.profile==='drive'?['economy']:[]),...(via?['via']:[])];
         const [calculated,access]=await Promise.all([Promise.allSettled(kinds.map(kind=>calculate(kind))),accessSearch]);
         const base=calculated.flatMap(v=>v.status==='fulfilled'?[v.value]:[]);
         if(!base.length)throw calculated.find(v=>v.status==='rejected')?.reason||Error('route_geometry_missing');
@@ -1336,7 +1336,7 @@ export default {
         const shortest=Math.min(...base.map(v=>v.distanceMeters)),maxDetour=Math.max(400,Math.min(1200,shortest*.45));
         const verifiedAutomatic=automatic.flatMap(v=>v.status==='fulfilled'&&v.value.distanceMeters<=shortest+maxDetour&&v.value.via.every(p=>walkingPointOnRoute(v.value,p))&&(!v.value.bridge_geometry||v.value.bridge_geometry.every(p=>walkingPointOnRoute(v.value,{latitude:p[1],longitude:p[0]},20)))?[v.value]:[]);
         const all=[...base,...verifiedAutomatic],best=Math.min(...all.map(v=>v.distanceMeters)),limit=best+Math.max(400,Math.min(1200,best*.45));
-        const candidates=all.filter(v=>via||v.distanceMeters<=limit).sort((a,b)=>a.distanceMeters-b.distanceMeters);
+        const candidates=all.filter(v=>rc.profile==='drive'||via||v.distanceMeters<=limit).sort((a,b)=>rc.profile==='drive'?(['balanced','short','economy'].indexOf(a.id)-['balanced','short','economy'].indexOf(b.id)):a.distanceMeters-b.distanceMeters);
         const routes=[];
         for(const candidate of candidates){
           const same=routes.findIndex(v=>rc.profile==='walk'?walkingOverlap(v,candidate)>=.88:JSON.stringify(v.coordinates)===JSON.stringify(candidate.coordinates));
