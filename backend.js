@@ -393,7 +393,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v148";
+    const API_VERSION = "v149";
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
     let responseRouteContext=null;
@@ -1473,6 +1473,7 @@ export default {
     const placeCategoryRules = [
       { key: "poi", pattern: /(?:^| )(?:puncte de interes|points of interest|poi|ce exista in apropiere|locuri din apropiere|places nearby|places around me)(?: |$)/, labelRo: "puncte de interes", labelEn: "points of interest", overpass: "__poi__" },
       { key: "market_bakery", pattern: /(?:^| )(?:marketuri si brutarii|supermarketuri si brutarii|markets and bakeries|supermarkets and bakeries)(?: |$)/, labelRo: "marketuri și brutării", labelEn: "markets and bakeries", overpass: 'shop~"^(supermarket|convenience|bakery|pastry|confectionery)$"' },
+      { key: "corner_shop", pattern: /(?:^| )(?:bacani\w*|băcăni\w*|magazine? (?:de )?(?:proximitate|cartier)|magazine? mici|small (?:grocery |corner )?shops?|corner shops?|convenience stores?|local grocer\w*)(?: |$)/, labelRo: "băcănie sau magazin de proximitate", labelEn: "corner grocery or convenience store", overpass: 'shop~"^(convenience|grocery|general|greengrocer|newsagent)$"' },
       { key: "supermarket", pattern: /(?:^| )(?:supermarket\w*|supermarkets|supermarketuri|supermarketul|supermarketurile|marketuri|market\w*|grocery store\w*|groceries|food shop\w*|alimentar\w*|bacan\w*|băcăni\w*|convenience stores?|corner shops?)(?: |$)/, labelRo: "supermarket", labelEn: "supermarket", overpass: 'shop~"^(supermarket|convenience)$"' },
       { key: "mall", pattern: /(?:^| )(?:shopping mall\w*|mall\w*|centre comerciale|centru comercial|centre comercial\w*|shopping centre\w*|shopping center\w*|retail park\w*)(?: |$)/, labelRo: "centru comercial", labelEn: "shopping centre", overpass: 'shop~"^(mall|department_store|supermarket)$"' },
       { key: "pharmacy", pattern: /(?:^| )(?:farmaci\w*|pharmacy|pharmacies|chemist\w*|drugstore\w*|drogheri\w*|naturist\w*)(?: |$)/, labelRo: "farmacie", labelEn: "pharmacy", overpass: 'amenity~"^(pharmacy)$"' },
@@ -2384,7 +2385,7 @@ export default {
         const photonStartedAt = Date.now();
         const photonRequestPromise = (async () => {
           const photonUrl = new URL("https://photon.komoot.io/api/");
-          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "grocery", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", cafe: "cafe", restaurant: "restaurant", fast_food: "fast food takeaway", lounge: "pub cafe tea room", zoo: "zoo", stadium: "stadium", market_bakery: "grocery", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
+          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "grocery", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel", transport: "train station", cafe: "cafe", restaurant: "restaurant", fast_food: "fast food takeaway", lounge: "pub cafe tea room", zoo: "zoo", stadium: "stadium", market_bakery: "grocery", corner_shop: "convenience grocery shop", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
           photonUrl.searchParams.set("lat", String(latitude));
           photonUrl.searchParams.set("lon", String(longitude));
           photonUrl.searchParams.set("limit", "100");
@@ -2409,6 +2410,7 @@ export default {
               market_bakery: "commercial.supermarket,commercial.convenience,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery", confectionery: "catering.ice_cream,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
               poi: "catering,commercial,education,healthcare,leisure,entertainment,service,public_transport,parking,accommodation,tourism,building",
               supermarket: "commercial.supermarket,commercial.convenience,commercial.food_and_drink",
+              corner_shop: "commercial.convenience,commercial.food_and_drink",
               shop: "commercial",
               mall: "commercial.shopping_mall",
               pharmacy: "healthcare.pharmacy",
@@ -2462,6 +2464,7 @@ export default {
               if (key === "poi") return true;
               const checks = {
                 supermarket: /supermarket|convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(supermarket|convenience|grocery|general|greengrocer|newsagent)$/.test(String(raw.shop || "")),
+                corner_shop: /commercial\.convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(convenience|grocery|general|greengrocer|newsagent)$/.test(String(raw.shop || "")),
                 mall: /shopping_mall|department_store/.test(cats) || /^(mall|department_store)$/.test(String(raw.shop || "")),
                 shop: /commercial|shop/.test(cats) || Boolean(raw.shop),
                 pharmacy: /pharmacy/.test(cats) || raw.amenity === "pharmacy" || raw.shop === "chemist",
@@ -2504,7 +2507,7 @@ export default {
               const isShop = ["supermarket", "mall", "shop", "market_bakery"].includes(requestedPlaceCategory.key);
               const amenity = requestedPlaceCategory.key === "fast_food" ? "fast_food" : requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
-              const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
+              const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "corner_shop" ? (rawTags.shop || "convenience") : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? geoapifyDistanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
             if (geoapifyElements.length) {
@@ -2546,6 +2549,8 @@ export default {
                 ? Boolean(properties.name) && coordinates.length >= 2 && !/^(road|street|residential|service|path|track|footway|cycleway)$/i.test(photonType)
                 : requestedPlaceCategory.key === "mall"
                   ? /mall|shopping.?centre|shopping.?center|retail.?park|department.?store/.test(photonType) || /shopping centre|shopping center|mall|retail park/i.test(String(properties.name || ""))
+                : requestedPlaceCategory.key === "corner_shop"
+                  ? /convenience|grocery|general|greengrocer|newsagent/.test(photonType)
                 : requestedPlaceCategory.key === "supermarket"
                   ? /supermarket|convenience|grocery|general|greengrocer/.test(photonType) || /supermarket|tesco|morrisons|sainsbury|aldi|lidl|asda|co.?op|waitrose/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "pharmacy"
@@ -2586,7 +2591,7 @@ export default {
                 stars: properties.stars || "", image: properties.image || "", wikimedia_commons: properties.wikimedia_commons || "", wikidata:properties.wikidata||"", brand_wikidata:properties["brand:wikidata"]||"",
                 name: properties.name || "",
                 amenity: isShop ? "" : (requestedPlaceCategory.key === "pharmacy" ? "pharmacy" : requestedPlaceCategory.key === "fuel" ? "fuel" : requestedPlaceCategory.key === "parking" ? "parking" : requestedPlaceCategory.key === "car_wash" ? "car_wash" : requestedPlaceCategory.key === "charging" ? "charging_station" : requestedPlaceCategory.key === "fast_food" ? "fast_food" : requestedPlaceCategory.key === "restaurant" ? (/fast_food|fast food/.test(osmValue) ? "fast_food" : /biergarten/.test(osmValue) ? "biergarten" : /pub/.test(osmValue) ? "pub" : /bar/.test(osmValue) ? "bar" : /cafe|coffee/.test(osmValue) ? "cafe" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice.?cream|gelato/.test(osmValue) ? "ice_cream" : /bakery|pastry/.test(osmValue) ? "bakery" : "confectionery") : ""),
-                shop: isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "supermarket" ? "supermarket" : (properties.osm_value || "shop")) : "",
+                shop: isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "corner_shop" ? (properties.osm_value || "convenience") : requestedPlaceCategory.key === "supermarket" ? "supermarket" : (properties.osm_value || "shop")) : "",
                 cuisine: properties.cuisine || "",
                 website: properties.website || properties.url || "",
                 phone: properties.phone || "",
@@ -2652,7 +2657,8 @@ export default {
           const type = requestedPlaceCategory.key === "poi"
             ? (tags.amenity === "fuel" ? (lang === "en" ? "fuel station" : "benzinărie") : tags.amenity === "pharmacy" ? (lang === "en" ? "pharmacy" : "farmacie") : tags.amenity === "hospital" ? (lang === "en" ? "hospital" : "spital") : tags.amenity === "cinema" ? (lang === "en" ? "cinema" : "cinematograf") : tags.amenity === "parking" ? (lang === "en" ? "parking" : "parcare") : tags.amenity === "charging_station" ? (lang === "en" ? "EV charging station" : "stație de încărcare electrică") : tags.tourism === "museum" ? (lang === "en" ? "museum" : "muzeu") : tags.leisure === "park" ? (lang === "en" ? "park" : "parc") : tags.shop ? (lang === "en" ? "shop" : "magazin") : tags.amenity || tags.tourism || tags.leisure || (lang === "en" ? "point of interest" : "punct de interes"))
             : requestedPlaceCategory.key === "mall" ? (lang === "en" ? "shopping centre / retail park" : "centru comercial / parc comercial") :
-            requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "supermarket" ? "supermarket" :
+            requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "corner_shop" ? (lang === "en" ? "corner shop" : "băcănie") :
+            requestedPlaceCategory.key === "supermarket" ? "supermarket" :
             requestedPlaceCategory.key === "pharmacy" ? (lang === "en" ? "pharmacy" : "farmacie") :
             requestedPlaceCategory.key === "fuel" ? (lang === "en" ? "fuel station" : "benzinărie") :
             requestedPlaceCategory.key === "charging" ? (lang === "en" ? "EV charging station" : "stație de încărcare electrică") :
