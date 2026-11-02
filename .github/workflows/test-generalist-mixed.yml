@@ -11,6 +11,7 @@ on:
       - tests_route_count_recipe_network_regression.mjs
       - tests_research_latency_regression.mjs
       - tests_request_pipeline_regression.mjs
+      - tests_end_to_end_timing_contract.mjs
       - .github/workflows/test-generalist-mixed.yml
   workflow_dispatch:
 
@@ -36,6 +37,7 @@ jobs:
           node --check tests_route_count_recipe_network_regression.mjs
           node --check tests_research_latency_regression.mjs
           node --check tests_request_pipeline_regression.mjs
+          node --check tests_end_to_end_timing_contract.mjs
       - name: Regression tests without external API calls
         run: |
           node tests_generalist_mixed_regression.mjs
@@ -44,3 +46,4 @@ jobs:
           node tests_route_count_recipe_network_regression.mjs
           node tests_research_latency_regression.mjs
           node tests_request_pipeline_regression.mjs
+          node tests_end_to_end_timing_contract.mjs
