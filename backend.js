@@ -1113,12 +1113,12 @@ export default {
       if(!env.GEOAPIFY_API_KEY)return json({status:'unavailable',places:[],reason:'provider_not_configured'});
       try{
         const u=new URL('https://api.geoapify.com/v2/places');
-        u.searchParams.set('categories','accommodation.hotel,accommodation.hostel,accommodation.guest_house,accommodation.motel');
+        u.searchParams.set('categories','accommodation');
         u.searchParams.set('filter','circle:'+lon+','+lat+',5000');
         u.searchParams.set('bias','proximity:'+lon+','+lat);
         u.searchParams.set('limit','40');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
         const resp=await fetch(u,{signal:AbortSignal.timeout(5000)});
-        if(!resp.ok)return json({status:'unavailable',places:[],reason:'provider_error'});
+        if(!resp.ok)return json({status:'unavailable',places:[],reason:'provider_error',provider_status:resp.status});
         const result=await resp.json(),seen=new Set();
         const places=(result.features||[]).map(f=>f.properties||{}).filter(p=>{
           const name=String(p.name||'').trim(),x=Number(p.lat),y=Number(p.lon),key=normalizeGeoName(name);
