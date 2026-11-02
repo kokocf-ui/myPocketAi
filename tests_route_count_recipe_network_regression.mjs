@@ -40,7 +40,7 @@ assert.ok(script.includes('transit_count:state.requestedTransitCount||undefined'
 assert.ok(script.includes('Reîncearcă întrebarea'),'network interruption must offer a manual retry');
 assert.ok(script.includes('Conexiunea cu serverul a fost întreruptă'),'raw Failed to fetch must not appear in user response');
 
-assert.ok(backend.includes('eventResearchIntent?9500:14000'),'event research budget missing');
-assert.ok(backend.includes('eventResearchIntent?2:3'),'event page fetch budget missing');
+assert.ok(backend.includes('eventResearchIntent?7500:9000'),'event research budget missing');
+assert.ok(backend.includes('eventResearchIntent?1:2'),'event page fetch budget missing');
 assert.ok(backend.includes('structured_list:structuredEvents?.structured_list'),'structured event table missing');
 console.log('PASS: requested route count (normal + handoff + refresh), generated frontend escaping, recipe ingredient checks, one-pass cooking, event search budget, network retry UI.');
