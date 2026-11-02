@@ -1894,6 +1894,7 @@ async function refreshTransitDepartures(button){
    module:state.currentView==='module'?state.currentModule:'assistant',
    location_requested:true,location:gps,coordinates:gps,travel_mode:'transit',
    transit_query:label,transit_destination:destination,
+   transit_count:source?.requested_transit_count||undefined,
    route_context:{pending:'profile',destination_query:label,destination}
   })});
   const data=await response.json();
