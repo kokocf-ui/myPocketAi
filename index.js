@@ -2534,7 +2534,21 @@ const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content
   const choicesAdded=Boolean(appendTravelModeChoices(data,choiceHost)|appendConversationChoices(data,choiceHost));
   if(choicesAdded&&choiceHost.querySelector('button')){answerBubble.remove();openStandaloneChoicePanel(choiceHost,state.language==='ro'?'Alege o opțiune':'Choose an option')}
   else{appendTravelConfirmation(data,answerBubble)}
- }else{appendTravelModeChoices(data,answerBubble);appendTravelConfirmation(data,answerBubble);appendConversationChoices(data,answerBubble)}state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);setStatus('Răspuns primit.');if(state.voiceMode||fromVoice){speakText(reply,{continuous:state.voiceMode})}else if(state.messages.length===2){/* first reply only: text remains the default */}}catch(error){loading.remove();if(generation===state.conversationGeneration&&(state.currentView==='assistant'||state.currentView==='module')){const messageText=String(error?.message||'Eroare necunoscută.');addBubble('Nu am putut obține un răspuns. '+messageText,'assistant',true);setStatus('Cererea nu a reușit.');console.error('myPocket AI chat request failed:',error)}}finally{state.busy=false;sendBtn.disabled=false;inputEl.disabled=false;/* Do not reopen Android keyboard after button-only flows. Text entry gets focus only on an explicit tap. */inputEl.blur()}}
+ }else{appendTravelModeChoices(data,answerBubble);appendTravelConfirmation(data,answerBubble);appendConversationChoices(data,answerBubble)}state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);setStatus('Răspuns primit.');if(state.voiceMode||fromVoice){speakText(reply,{continuous:state.voiceMode})}else if(state.messages.length===2){/* first reply only: text remains the default */}}catch(error){loading.remove();if(generation===state.conversationGeneration&&(state.currentView==='assistant'||state.currentView==='module')){const messageText=String(error?.message||'Eroare necunoscută.');
+  const transportError=/failed to fetch|networkerror|network request failed|load failed/i.test(messageText);
+  const reason=transportError
+   ? (state.language==='ro'?'Conexiunea cu serverul a fost întreruptă. Răspunsul nu a ajuns la aplicație.':'The connection to the server was interrupted. The reply did not reach the app.')
+   : (state.language==='ro'?'Nu am putut obține un răspuns. ':'Unable to get a response. ')+messageText;
+  const bubble=addBubble(reason,'assistant',true,{autoOpen:false});
+  if(transportError){
+   const retry=document.createElement('button');retry.type='button';retry.className='transit-choice-action';
+   retry.textContent=state.language==='ro'?'Reîncearcă întrebarea':'Retry the question';
+   retry.style.cssText='margin-top:10px;max-width:100%;';
+   retry.onclick=()=>{if(state.busy)return;retry.disabled=true;inputEl.value=message;submitMessage()};
+   bubble.append(retry);
+  }
+  setStatus(state.language==='ro'?'Cererea nu a reușit.':'Request failed.');
+  console.error('myPocket AI chat request failed:',{type:String(error?.name||'Error'),networkError:transportError,detail:messageText.slice(0,160)})}}finally{state.busy=false;sendBtn.disabled=false;inputEl.disabled=false;/* Do not reopen Android keyboard after button-only flows. Text entry gets focus only on an explicit tap. */inputEl.blur()}}
 $('chatForm').addEventListener('submit',event=>{event.preventDefault();submitMessage()});inputEl.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();$('chatForm').requestSubmit()}});inputEl.addEventListener('input',()=>{inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,130)+'px'});
 $('newChatBtn').addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}archiveCurrentConversation();resetChat();void 0});
 // 08 — Navigation and module entry points; v1.0.24 quick searches stay inside the selected module
