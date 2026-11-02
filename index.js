@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.122 — expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.123 — identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.122",
+  version: "1.0.123",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2402,6 +2402,7 @@ function showAnswerDuration(host,startMs){
   const panel=document.createElement('div');panel.style.cssText='margin-top:8px;padding:9px;border:1px solid #34566e;border-radius:9px;display:grid;gap:5px';
   for(const [name,value] of rows){if(value===null||value===undefined)continue;const line=document.createElement('div');line.style.cssText='display:flex;justify-content:space-between;gap:10px';const nameEl=document.createElement('span');nameEl.textContent=name;const valueEl=document.createElement('strong');valueEl.textContent=ms(value);line.append(nameEl,valueEl);panel.append(line)}
   if(Number.isFinite(Number(stage.model_calls_estimate))){const meta=document.createElement('div');meta.textContent=(local?'Apeluri AI estimate: ':'Estimated AI calls: ')+stage.model_calls_estimate;panel.append(meta)}
+  if(stage.ai_model){const model=document.createElement('div');model.style.cssText='overflow-wrap:anywhere';model.textContent=(local?'Model AI: ':'AI model: ')+String(stage.ai_model);panel.append(model)}
   if(timing.backend_version){const v=document.createElement('div');v.textContent='Backend '+timing.backend_version;panel.append(v)}
   details.append(panel);
  }
