@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.125 — chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.126 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.125",
+  version: "1.0.126",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2294,65 +2294,119 @@ function offerTripAccommodation(destination){
 function openEncyclopediaCard(article,requestStartMs){
  if(!article||!article.extract)return;
  const host=document.createElement('div');host.dataset.directChoices='true';
- const card=document.createElement('div');card.className='selected-transit';card.style.cssText='padding:14px;line-height:1.5';
- // The panel header already contains the place name; do not repeat it in the card.
- card.style.lineHeight='1.65';
- if(article.image&&article.image.startsWith('https://')){const img=document.createElement('img');img.src=article.image;img.alt=article.title||'';img.loading='lazy';img.style.cssText='max-width:100%;max-height:170px;object-fit:contain;border-radius:12px';card.append(img)}
- if(article.description){const description=String(article.description).trim();const p=document.createElement('p');p.style.cssText='margin:14px 0;font-weight:650;opacity:.85';p.textContent=description.charAt(0).toLocaleUpperCase(state.language||'ro')+description.slice(1);card.append(p)}
+ const isCountry=article.is_country===true||Boolean(article.country_facts);
+ const lang=state.language||'ro';
+ const words={
+  ro:['Date esențiale','Capitală','Monedă / monede','Limbi oficiale','Suprafață','Fusuri orare (UTC)','Prezentare generală','Context și informații suplimentare','Orașe importante','Obiective turistice','Nu am putut verifica acum o listă de obiective pentru această țară.','Surse și verificare','Sursă date țară','Date despre locuri','Alege o destinație pentru traseu','Creează traseu','Traseu','Vezi sursa'],
+  en:['Key facts','Capital','Currency / currencies','Official languages','Area','Time zones (UTC)','Overview','Further context','Major cities','Places to visit','Verified tourist attractions are temporarily unavailable.','Sources and verification','Country data source','Places data','Choose a destination for a route','Plan route','Route','View source'],
+  fr:['Données essentielles','Capitale','Monnaie(s)','Langues officielles','Superficie','Fuseaux horaires (UTC)','Présentation','Informations complémentaires','Villes principales','Sites à visiter','Sites touristiques non vérifiables pour le moment.','Sources et vérification','Données du pays','Données des lieux','Choisir une destination','Créer un itinéraire','Itinéraire','Voir la source'],
+  de:['Wichtige Daten','Hauptstadt','Währung(en)','Amtssprachen','Fläche','Zeitzonen (UTC)','Überblick','Weitere Informationen','Wichtige Städte','Sehenswürdigkeiten','Sehenswürdigkeiten derzeit nicht verifizierbar.','Quellen und Nachweise','Länderdaten','Ortsdaten','Reiseziel auswählen','Route planen','Route','Quelle ansehen'],
+  it:['Dati essenziali','Capitale','Valuta/e','Lingue ufficiali','Superficie','Fusi orari (UTC)','Panoramica','Altre informazioni','Città principali','Luoghi da visitare','Attrazioni non verificabili al momento.','Fonti e verifiche','Dati sul paese','Dati sui luoghi','Scegli una destinazione','Crea percorso','Percorso','Vedi fonte'],
+  es:['Datos esenciales','Capital','Moneda(s)','Idiomas oficiales','Superficie','Husos horarios (UTC)','Presentación','Información adicional','Ciudades principales','Lugares de interés','No se pueden verificar atracciones turísticas ahora.','Fuentes y verificación','Datos del país','Datos de lugares','Elige un destino','Crear ruta','Ruta','Ver fuente'],
+  pt:['Dados essenciais','Capital','Moeda(s)','Línguas oficiais','Área','Fusos horários (UTC)','Visão geral','Informações adicionais','Principais cidades','Pontos turísticos','Não foi possível verificar atrações neste momento.','Fontes e verificação','Dados do país','Dados dos lugares','Escolha um destino','Criar rota','Rota','Ver fonte'],
+  nl:['Kerngegevens','Hoofdstad','Valuta','Officiële talen','Oppervlakte','Tijdzones (UTC)','Overzicht','Meer informatie','Belangrijke steden','Bezienswaardigheden','Bezienswaardigheden zijn nu niet te verifiëren.','Bronnen en verificatie','Landgegevens','Plaatsgegevens','Kies een bestemming','Route plannen','Route','Bekijk bron'],
+  ru:['Основные сведения','Столица','Валюта','Официальные языки','Площадь','Часовые пояса (UTC)','Обзор','Дополнительная информация','Крупные города','Достопримечательности','Не удалось проверить достопримечательности.','Источники и проверка','Данные о стране','Данные о местах','Выберите пункт назначения','Построить маршрут','Маршрут','Источник'],
+  pl:['Podstawowe dane','Stolica','Waluta','Języki urzędowe','Powierzchnia','Strefy czasowe (UTC)','Opis ogólny','Dodatkowe informacje','Główne miasta','Atrakcje turystyczne','Nie można teraz zweryfikować atrakcji.','Źródła i weryfikacja','Dane kraju','Dane miejsc','Wybierz cel podróży','Wyznacz trasę','Trasa','Zobacz źródło']
+ }[lang]||null;
+ const L=words||['Key facts','Capital','Currency','Official languages','Area','Time zones (UTC)','Overview','Further context','Major cities','Places to visit','Verified tourist attractions are temporarily unavailable.','Sources','Country data','Place data','Choose a destination','Plan route','Route','Source'];
+ const card=document.createElement('article');card.className='selected-transit';card.style.cssText='padding:12px;border-radius:17px;line-height:1.5;border:1px solid #3e8194;background:linear-gradient(160deg,#123247,#091e2e)';
+ const section=(heading)=>{
+  const s=document.createElement('section');s.style.cssText='margin:14px 0;padding:14px 13px;border:1px solid #345e74;border-radius:14px;background:#0c293c';
+  const h=document.createElement('h3');h.textContent=heading;h.style.cssText='font-size:16px;line-height:1.3;margin:0 0 12px;font-weight:750;color:#d4f8ff;padding-bottom:8px;border-bottom:1px solid #31586c';
+  s.append(h);card.append(s);return s;
+ };
+ const link=(url,label,parent)=>{
+  if(typeof url!=='string'||!/^https:\/\//.test(url))return;
+  const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=label;
+  a.style.cssText='color:#91e8f5;text-decoration:underline;overflow-wrap:anywhere;font-size:13px';
+  parent.append(a);
+ };
+ const textP=(parent,value)=>{
+  if(!value)return;
+  const p=document.createElement('p');p.textContent=value;p.style.cssText='margin:0 0 10px;font-size:15px;line-height:1.6;overflow-wrap:break-word';
+  parent.append(p);
+ };
+ if(article.image&&article.image.startsWith('https://')){
+  const figure=document.createElement('div');figure.style.cssText='text-align:center;margin:3px 0 10px';
+  const img=document.createElement('img');img.src=article.image;img.alt=article.title||'';img.loading='lazy';
+  img.style.cssText='display:block;margin:auto;max-width:100%;max-height:128px;object-fit:contain;border-radius:11px';
+  figure.append(img);card.append(figure);
+ }
+ if(article.description){
+  const p=document.createElement('p');p.textContent=String(article.description).trim();
+  p.style.cssText='font-size:15px;font-weight:650;color:#c9e9f0;margin:12px 2px 16px;line-height:1.45';
+  card.append(p);
+ }
  if(article.country_facts){
-  const facts=article.country_facts,labels={
-   ro:['Monedă / monede','Limbi oficiale'],en:['Currency / currencies','Official languages'],
-   fr:['Monnaie(s)','Langues officielles'],de:['Währung(en)','Amtssprachen'],
-   it:['Valuta/e','Lingue ufficiali'],es:['Moneda(s)','Idiomas oficiales'],
-   pt:['Moeda(s)','Línguas oficiais'],nl:['Valuta','Officiële talen'],
-   ru:['Валюты','Официальные языки'],pl:['Waluty','Języki urzędowe']
-  }[state.language]||['Currencies','Official languages'];
-  const factsTable=document.createElement('table');factsTable.className='geographic-facts-table';factsTable.style.cssText='width:100%;margin:12px 0;border-collapse:collapse;table-layout:fixed;font-size:clamp(13px,3.5vw,16px)';
-  const addRow=(label,value)=>{
+  const f=article.country_facts,s=section(L[0]);
+  const grid=document.createElement('dl');grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px;margin:0';
+  const fact=(label,value)=>{
    if(!value)return;
-   const row=document.createElement('tr'),th=document.createElement('th'),td=document.createElement('td');
-   th.scope='row';th.textContent=label;th.style.cssText='width:37%;text-align:left;padding:9px 8px;vertical-align:top;border:1px solid #34566e';
-   td.textContent=value;td.style.cssText='padding:9px 8px;vertical-align:top;border:1px solid #34566e;overflow-wrap:anywhere';row.append(th,td);factsTable.append(row);
+   const entry=document.createElement('div');entry.style.cssText='padding:9px 10px;border:1px solid #315a72;border-radius:10px;background:#14364b;min-width:0';
+   const dt=document.createElement('dt');dt.textContent=label;dt.style.cssText='font-size:12px;color:#b8d9e5;margin-bottom:5px;font-weight:650';
+   const dd=document.createElement('dd');dd.textContent=value;dd.style.cssText='margin:0;font-size:14px;color:#f0f9ff;line-height:1.4;overflow-wrap:anywhere';
+   entry.append(dt,dd);grid.append(entry);
   };
-  addRow(labels[0],(facts.currencies||[]).map(x=>x.name+' ('+x.code+')'+(x.symbol?' · '+x.symbol:'')).join(', '));
-  addRow(labels[1],(facts.languages||[]).join(', '));
-  if(factsTable.rows.length){card.append(factsTable);if(facts.source){const link=document.createElement('a');link.href=facts.source;link.target='_blank';link.rel='noopener noreferrer';link.textContent=state.language==='ro'?'Sursă date țară':'Country data source';link.style.cssText='display:block;margin:4px 0 12px;color:#8ce9f3';card.append(link)}}
+  fact(L[1],f.capital);
+  fact(L[2],(f.currencies||[]).map(x=>x.name+' ('+x.code+')'+(x.symbol?' · '+x.symbol:'')).join(', '));
+  fact(L[3],(f.languages||[]).join(', '));
+  if(Number.isFinite(Number(f.area_km2))&&Number(f.area_km2)>0)fact(L[4],new Intl.NumberFormat(lang).format(f.area_km2)+' km²');
+  fact(L[5],(f.timezones||[]).join(', '));
+  if(grid.childElementCount)s.append(grid);
  }
-
- const content=String(article.extract||'').trim().replace(/\\s+/g,' ');
- // Split only at sentence-ending punctuation followed by whitespace and a capital letter.
- // Never split digit-group separators (183.105), decimal measurements or abbreviations.
- const sentences=content.split(/(?<=[.!?])\\s+(?=[A-ZĂÂÎȘȚÀ-Ý])/u).filter(Boolean);
- const sections=[];
- const intro=sentences.slice(0,3).join(' ').trim(),further=sentences.slice(3);
- if(intro)sections.push([state.language==='ro'?'Prezentare generală':'Overview',intro]);
- if(further.length)sections.push([state.language==='ro'?'Informații suplimentare':'Additional information',further.join(' ')]);
- for(const [heading,paragraph] of sections){
-  const h=document.createElement('h4');h.textContent=heading;h.style.cssText='font-size:17px;margin:18px 0 8px';card.append(h);
-  const p=document.createElement('p');p.style.cssText='margin:0 0 16px;line-height:1.65';p.textContent=paragraph.charAt(0).toLocaleUpperCase(state.language||'ro')+paragraph.slice(1);card.append(p);
- }
- if(Array.isArray(article.attractions)&&article.attractions.length){
-  const h=document.createElement('h4');h.textContent=state.language==='ro'?'Obiective turistice importante':'Notable tourist sights';h.style.cssText='font-size:17px;margin:18px 0 8px';card.append(h);
-  const ul=document.createElement('ul');ul.style.cssText='padding-left:22px;margin:0 0 12px';
-  for(const sight of article.attractions){const li=document.createElement('li');li.textContent=String(sight.name||'')+(sight.address?' — '+sight.address:'');li.style.marginBottom='7px';ul.append(li)}card.append(ul);
+ // Discard Wikipedia citation markers and split at sentence boundaries; never expose
+ // a multi-screen continuous encyclopaedia paragraph.
+ const content=String(article.extract||'').trim().replaceAll('(d)','').replaceAll('(D)','').replace(/\[\d+\]/g,'').replace(/\s+/g,' ');
+ const sentences=content.split(/(?<=[.!?])\s+(?=\p{Lu})/u).filter(Boolean);
+ const intro=sentences.slice(0,3),further=sentences.slice(3,8);
+ const blocks=(list,parent)=>{
+  if(!list.length)return;
+  for(let i=0;i<list.length;i+=2)textP(parent,list.slice(i,i+2).join(' '));
+ };
+ if(intro.length)blocks(intro,section(L[6]));
+ if(further.length)blocks(further,section(L[7]));
+ const validPlaces=items=>(Array.isArray(items)?items:[]).filter(p=>p&&typeof p.name==='string'&&p.name.trim()).slice(0,7);
+ const cities=validPlaces(article.major_cities),sights=validPlaces(article.attractions);
+ const addPlace=(parent,place,i)=>{
+  const line=document.createElement('div');line.style.cssText='padding:10px 0;border-bottom:1px solid #2e5266;display:flex;flex-direction:column;gap:5px';
+  const title=document.createElement('strong');title.textContent=(i+1)+'. '+place.name;title.style.cssText='font-size:15px;color:#eef9fc';line.append(title);
+  if(place.description){const note=document.createElement('span');note.textContent=place.description;note.style.cssText='font-size:13px;line-height:1.4;color:#c3d9e2';line.append(note)}
+  if(!isCountry&&place.address){const addr=document.createElement('span');addr.textContent=place.address;addr.style.cssText='font-size:13px;line-height:1.4';line.append(addr)}
+  const actions=document.createElement('div');actions.style.cssText='display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:3px';
+  const coords=Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude));
+  if(coords){
+   const btn=document.createElement('button');btn.type='button';btn.textContent=L[16]+' · '+place.name;
+   btn.style.cssText='border:1px solid #48b6c5;border-radius:9px;background:#125270;color:#e8ffff;font-size:12px;font-weight:650;padding:7px 9px;min-height:36px;max-width:100%;overflow-wrap:anywhere;text-align:left';
+   btn.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute({latitude:Number(place.latitude),longitude:Number(place.longitude),label:place.name})};
+   actions.append(btn);
+  }
+  link(place.url,L[17],actions);line.append(actions);parent.append(line);
+ };
+ if(cities.length){const s=section(L[8]);cities.slice(0,5).forEach((p,i)=>addPlace(s,p,i))}
+ if(isCountry||sights.length){
+  const s=section(L[9]);
+  if(sights.length)sights.forEach((p,i)=>addPlace(s,p,i));
+  else textP(s,L[10]);
  }
  if(Number.isFinite(requestStartMs))showAnswerDuration(card,requestStartMs);
- if(article.url&&article.url.startsWith('https://')){const source=document.createElement('a');source.href=article.url;source.target='_blank';source.rel='noopener noreferrer';source.textContent='Wikipedia · '+(article.language||'');card.append(source)}
+ const sources=section(L[11]);sources.style.cssText+=';margin-bottom:2px';
+ link(article.url,'Wikipedia · '+(article.language||''),sources);
+ if(article.country_facts?.source){
+  const div=document.createElement('div');div.style.marginTop='8px';link(article.country_facts.source,L[12],div);sources.append(div);
+ }
+ if(article.attractions_source&&(sights.length||cities.length)){
+  const div=document.createElement('div');div.style.marginTop='8px';link(article.attractions_source,L[13],div);sources.append(div);
+ }
  host.append(card);
- const nav=document.createElement('button');nav.type='button';nav.className='transit-choice-action';nav.textContent=state.language==='ro'?'Creează traseu':'Plan route';
+ const nav=document.createElement('button');nav.type='button';nav.className='transit-choice-action';nav.style.cssText='margin:12px 0 4px;text-align:center;min-height:46px;background:linear-gradient(110deg,#24c6cd,#2b8ac7);color:#062338;font-weight:800';
+ nav.textContent=isCountry?L[14]:L[15];
  nav.onclick=()=>{
   const title=article.title||'',coords=article.coordinates;
   document.getElementById('pocketStandaloneChoices')?.remove();
-  if(coords&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))){
-   const destination={latitude:Number(coords.latitude),longitude:Number(coords.longitude),label:title};
-   const isCountry=/\\b(?:țară|tara|country|republic|stat suveran|sovereign state)\\b/i.test(String(article.description||''));
-   if(isCountry){
-    const question=state.language==='ro'?'Spre ce oraș sau obiectiv din '+title+' dorești să călătorești?':'Which destination in '+title+' would you like to visit?';
-    addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;return;
-   }
-   state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute(destination);return;
+  if(!isCountry&&coords&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))){
+   state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute({latitude:Number(coords.latitude),longitude:Number(coords.longitude),label:title});return;
   }
-  const question=state.language==='ro'?'Spre ce oraș sau obiectiv din '+title+' dorești să călătorești?':'Which city or place in '+title+' do you want to visit?';
+  const question=lang==='ro'?'Spre ce oraș sau obiectiv din '+title+' dorești să călătorești?':'Which city or place in '+title+' do you want to visit?';
   addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;
  };
  host.append(nav);openStandaloneChoicePanel(host,article.title||'Informații');
