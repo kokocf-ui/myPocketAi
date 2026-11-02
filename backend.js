@@ -1,4 +1,5 @@
 /*
+ * v155: broaden event evidence, keep event searches independent of output-format wording, add per-stage latency diagnostics.
  * v154: honor requested transit choice count, faster bounded event research, culinary quality checks.
  * v153: date-filtered event tables, deduplicated transit choices, country reference data, faster recipe prompts.
  * v152: dated list sorting and duplicate control, London rail station resolution, repeated recipe ingredient cleanup.
@@ -336,9 +337,9 @@ function eventRowsFromReply(answer,request,language='ro'){
  const filtered=items.filter(x=>x.detail.from<=last&&x.detail.to>=first).sort((a,b)=>a.detail.from-b.detail.from||a.text.localeCompare(b.text,language));
  const dedup=new Set(),rows=[];
  for(const item of filtered){
-  const key=norm(item.text)+'|'+item.detail.from;
+  const key=norm(item.text.replace(/\b(?:ora|orele)\s+\d{1,2}[:.]\d{2}\b/giu,'').replace(/\b\d{1,2}\s+(?:de\s+)?[\p{L}\p{M}]+(?:\s+20\d{2})?\b/giu,'').trim())+'|'+item.detail.from+'|'+item.detail.time;
   if(dedup.has(key))continue;dedup.add(key);
-  rows.push({date:item.detail.date,time:item.detail.time,description:item.text});
+  rows.push({date:item.detail.date,time:item.detail.time,description:item.text.replace(new RegExp('^\\s*'+item.detail.date.replace(/[.*+?^${}()|[\]\\]/g,'\\rows.push({date:item.detail.date,time:item.detail.time,description:item.text});')+'\\s*[:,–—-]?\\s*','i'),'').replace(/^\s*(?:ora|orele)\s+\d{1,2}[:.]\d{2}\s*[:,–—-]?\s*/i,'').trim()||item.text});
   if(rows.length>=30)break;
  }
  const period=month?new Intl.DateTimeFormat(language,{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(year,month-1,3))):'';
@@ -3516,7 +3517,7 @@ export default {
     const searchCountry=declaredCountry?.[1]||(explicitCountryCode?countryNameCodes.get(explicitCountryCode[0].toLowerCase())||'':'');
     // v107: UI language is not a country. Use worldwide search unless a country is explicit.
     const searchLanguage = lang;
-    const searchQuery = (message + (legalResearch ? " Prefer current official government or regulator sources for the stated jurisdiction." : " Prefer primary sources and exact dates; do not infer missing facts.")).slice(0, 550);
+    const searchQuery = ((eventResearchIntent ? message.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim() || message : message) + (legalResearch ? " Prefer current official government or regulator sources for the stated jurisdiction." : " Prefer primary sources and exact dates; do not infer missing facts.")).slice(0, 550);
     const safeSourceUrl = value => {
       try {
         const u = new URL(value);
@@ -3529,12 +3530,13 @@ export default {
       } catch { return null; }
     };
     const providerTasks = [];
+    const researchStartedAt=Date.now();
     if (shouldSearchWeb) {
       if (env.EXA_API_KEY) providerTasks.push((async () => {
         const started = Date.now();
         const response = await fetch("https://api.exa.ai/search", {
           method:"POST", headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
-          body:JSON.stringify({query:searchQuery,type:"auto",numResults:6,contents:{highlights:true}}),
+          body:JSON.stringify({query:searchQuery,type:"auto",numResults:eventResearchIntent?10:6,contents:{highlights:true}}),
           signal:AbortSignal.timeout(eventResearchIntent?9500:14000)
         });
         if (!response.ok) throw new Error("HTTP " + response.status);
@@ -3545,7 +3547,7 @@ export default {
       if (env.BRAVE_API_KEY) providerTasks.push((async () => {
         const started = Date.now();
         const u = new URL("https://api.search.brave.com/res/v1/web/search");
-        u.searchParams.set("q",searchQuery); u.searchParams.set("count","6"); u.searchParams.set("search_lang",searchLanguage);
+        u.searchParams.set("q",searchQuery); u.searchParams.set("count",eventResearchIntent?10:"6"); u.searchParams.set("search_lang",searchLanguage);
         u.searchParams.set("country",searchCountry||"ALL"); u.searchParams.set("safesearch","moderate");
         const response = await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(eventResearchIntent?9000:12000)});
         if(!response.ok) throw new Error("HTTP "+response.status);
@@ -3554,7 +3556,7 @@ export default {
       })().then(value=>({status:"fulfilled",value,provider:"Brave"})).catch(error=>({status:"rejected",provider:"Brave",error:String(error&&error.message||error).slice(0,140)})));
       if (env.TAVILY_API_KEY) providerTasks.push((async () => {
         const started=Date.now();
-        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:searchQuery,topic:"general",search_depth:"advanced",max_results:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?9500:14000)});
+        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?10:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?9500:14000)});
         if(!response.ok) throw new Error("HTTP "+response.status);
         const payload=await response.json(); const results=Array.isArray(payload.results)?payload.results:[];
         return {provider:"Tavily",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.published_date||null,snippets:[x.content||""].filter(Boolean).slice(0,3)}))};
@@ -3615,9 +3617,9 @@ export default {
         }));
         const usable=webSources.filter(x=>x.snippets.length||x.pageEvidence);
         webSearchStatus=usable.length?(settled.some(x=>x.status==="rejected")?"partial_success":"success"):(candidates.length?"weak_results":(settled.some(x=>x.status==="fulfilled")?"no_results":"error"));
-        const contextSources=usable.slice(0,eventResearchIntent?4:8).map((x,i)=>`[${i+1}] ${x.title}\nURL: ${x.url}\nPublished: ${x.publishedDate||"date not supplied"}${Number.isFinite(x.ageDays)?" (about "+x.ageDays+" days old)":""}\nProviders: ${x.providers.join(", ")}\nSearch snippets (not independently verified): ${(x.snippets.join(" | ")||"none").slice(0,eventResearchIntent?750:10000)}\nOriginal page: ${x.pageFetchStatus||"not fetched"}\nPage excerpt: ${(x.pageEvidence||"not available").slice(0,eventResearchIntent?1500:6500)}`).join("\n\n");
+        const contextSources=usable.slice(0,eventResearchIntent?7:8).map((x,i)=>`[${i+1}] ${x.title}\nURL: ${x.url}\nPublished: ${x.publishedDate||"date not supplied"}${Number.isFinite(x.ageDays)?" (about "+x.ageDays+" days old)":""}\nProviders: ${x.providers.join(", ")}\nSearch snippets (not independently verified): ${(x.snippets.join(" | ")||"none").slice(0,eventResearchIntent?750:10000)}\nOriginal page: ${x.pageFetchStatus||"not fetched"}\nPage excerpt: ${(x.pageEvidence||"not available").slice(0,eventResearchIntent?1500:6500)}`).join("\n\n");
         if(contextSources) webSearchContext="\n\nSearch run time: "+new Date().toISOString()+"\nRETRIEVED WEB EVIDENCE (search snippets are leads, not proof; page excerpts are fetched source text, not automatically authoritative):\n"+contextSources;
-        webSearchDiagnostics={providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
+        webSearchDiagnostics={research_elapsed_ms:Date.now()-researchStartedAt,providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
         console.info("Pocket AI v98 web research",JSON.stringify({stage:"web_research_completed",status:webSearchStatus,...webSearchDiagnostics}));
       }
     }
@@ -3895,6 +3897,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12},
         calculation_verified: false,
         ai_execution_ms: Date.now()-aiStartedAt,
+        research_elapsed_ms: shouldSearchWeb ? (webSearchDiagnostics?.research_elapsed_ms ?? Date.now()-researchStartedAt) : 0,
         ai_generated: true,
         ai_connected: true
       });
