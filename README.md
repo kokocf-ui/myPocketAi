@@ -1,3 +1,10 @@
+## Pocket AI — backend v174 / frontend 1.0.128 — 2026-11-02
+
+- **Reparare cazare:** atracțiile turistice folosesc din nou motorul comun de căutare Geoapify + Photon/OpenStreetMap, cu aceleași categorii păstrate pentru hotel, motel, hostel, pensiune, apartament de vacanță și chalet. Nu mai folosesc `__nearby_accommodation__` din fluxul nou de atracții.
+- **Ancorare geografică:** către motorul existent se trimit coordonatele atracției selectate ca centru de căutare, nu GPS-ul fizic al utilizatorului și nici o căutare nouă după numele atracției; raza standard a căutării comune rămâne 5 km.
+- **Continuitate:** dacă furnizorul are o problemă tehnică, se continuă la alegerea transportului fără afirmația falsă că nu există cazări. Când căutarea funcționează dar nu găsește locații cartografiate, notificarea este plutitoare, neblocantă, timp de 2 secunde. După lista de cazări există opțiunea „Continuă fără cazare”.
+- **QA:** JavaScript-ul browserului generat a fost validat. Testele simulate au confirmat liste mixte hotel/apartament/hostel/motel, centrare pe Sagrada Família, lipsa notificării la succes, notificarea temporară la zero și continuarea traseului la eroare. `tests_accommodation_recovery.mjs` a fost adăugat la `npm test` și poate fi rulat separat cu `npm run test:accommodation`. Rezultatele live și testele GitHub Actions nu sunt încă confirmate.
+
 ## Pocket AI — backend v173 / frontend 1.0.127 — 2026-11-02
 
 - **Obiective turistice pentru întreaga țară:** noua cercetare Geoapify caută în limita națională verificată prin `place_id`, nu doar într-un cerc în jurul capitalei. Rezultatele nominale, cu coordonate și țara verificată, sunt combinate cu obiectivele Wikidata și diversificate pe orașe/regiuni, fără a promite o listă exhaustivă. Când lipsesc surse naționale, obiectivele din zona capitalei sunt etichetate explicit drept atare. Interogările Wikidata, Geoapify și datele generale ale țării sunt executate în paralel acolo unde sunt independente.
