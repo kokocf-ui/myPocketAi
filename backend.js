@@ -464,6 +464,39 @@ function sourceBackedEventRows(sources,request,language='ro'){
  const reply=rows.length?(prefixes[language]||prefixes.en)+' — '+period+':\n\n'+rows.map((row,i)=>(i+1)+'. '+row.date+(row.time?' · '+row.time:'')+' — '+row.description).join('\n')+'\n\n'+(disclaimer[language]||disclaimer.en):(none[language]||none.en);
  return {reply,structured_list:rows.length?{type:'events',period,rows:rows.slice(0,60),sort:'date_ascending',dates_not_independently_verified:true,source_grounded:true}:null,diagnostics:{source_titles_considered:(sources||[]).length,source_events:rows.length,rejected_no_date:rejectedNoDate,rejected_no_year:rejectedNoYear,rejected_generic:rejectedGeneric}};
 }
+// Culinary publishers frequently expose complete Recipe schema.org JSON-LD data.
+// Extract ingredient and preparation facts without keeping publisher page instructions.
+function extractPublishedRecipeSchema(html){
+ const results=[],source=String(html||'').slice(0,350000);
+ const steps=node=>{
+  if(!node)return [];
+  if(typeof node==='string')return [node.trim()];
+  if(Array.isArray(node))return node.flatMap(steps);
+  if(typeof node==='object'){
+   if(typeof node.text==='string')return [node.text.trim()];
+   return steps(node.itemListElement||node.recipeInstructions||node.steps);
+  }
+  return [];
+ };
+ const inspect=(value,depth=0)=>{
+  if(depth>8||results.length>=8||!value)return;
+  if(Array.isArray(value)){for(const part of value)inspect(part,depth+1);return;}
+  if(typeof value!=='object')return;
+  const types=[value['@type']].flat().map(x=>String(x||'').toLowerCase());
+  if(types.some(type=>type==='recipe'||type.endsWith('/recipe'))){
+   const ingredients=(Array.isArray(value.recipeIngredient)?value.recipeIngredient:[]).filter(x=>typeof x==='string').map(x=>x.trim().slice(0,220)).filter(Boolean).slice(0,38);
+   const instructions=steps(value.recipeInstructions).map(x=>x.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().slice(0,500)).filter(Boolean).slice(0,28);
+   if(ingredients.length>=3&&instructions.length>=2)results.push({name:String(value.name||'').slice(0,180),ingredients,instructions,servings:String(Array.isArray(value.recipeYield)?value.recipeYield.join(', '):value.recipeYield||'').slice(0,90),time:String(value.totalTime||'').slice(0,55)});
+  }
+  if(value['@graph'])inspect(value['@graph'],depth+1);
+  if(value.mainEntity)inspect(value.mainEntity,depth+1);
+ };
+ for(const match of source.matchAll(/<script\b[^>]*\btype\s*=\s*["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)){
+  try{inspect(JSON.parse(match[1].replace(/^\s*<!--|-->\s*$/g,'')));}catch{}
+  if(results.length>=8)break;
+ }
+ return results;
+}
 // In long model-generated recipes, prevent a repeated ingredient block from
 // being presented as new ingredients. Never deduplicate the preparation steps.
 // One targeted quality gate for model-invented cooking materials.
@@ -4038,6 +4071,7 @@ export default {
             const type=response.headers.get("content-type")||"";
             if(!response.ok||response.status>=300||!/(?:text\/html|application\/xhtml\+xml|text\/plain)/i.test(type)){source.pageFetchStatus="not_fetched";return;}
             let body=(await response.text()).slice(0,350000);
+            if(recipeInstruction&&/text\/html|xhtml/i.test(type))source.publishedRecipes=extractPublishedRecipeSchema(body);
             if(/text\/html|xhtml/i.test(type)) body=body.replace(/<script\b[\s\S]*?<\/script>/gi," ").replace(/<style\b[\s\S]*?<\/style>/gi," ").replace(/<noscript\b[\s\S]*?<\/noscript>/gi," ").replace(/<!--([\s\S]*?)-->/g," ").replace(/<[^>]+>/g," ");
             body=body.replace(/&nbsp;|&#160;/gi," ").replace(/&amp;/gi,"&").replace(/&pound;|&#163;/gi,"£").replace(/&euro;|&#8364;/gi,"€").replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/\s+/g," ").trim();
             source.pageFetchStatus="fetched";
@@ -4050,6 +4084,11 @@ export default {
         webSearchStatus=usable.length?((pendingProviderCount>0||settled.some(x=>x.status==="rejected"))?"partial_success":"success"):(candidates.length?"weak_results":(settled.some(x=>x.status==="fulfilled")?"no_results":"error"));
         const contextSources=usable.slice(0,eventResearchIntent?15:8).map((x,i)=>`[${i+1}] ${x.title}\nURL: ${x.url}\nPublished: ${x.publishedDate||"date not supplied"}${Number.isFinite(x.ageDays)?" (about "+x.ageDays+" days old)":""}\nProviders: ${x.providers.join(", ")}\nSearch snippets (not independently verified): ${(x.snippets.join(" | ")||"none").slice(0,eventResearchIntent?600:10000)}\nOriginal page: ${x.pageFetchStatus||"not fetched"}\nPage excerpt: ${(x.pageEvidence||"not available").slice(0,eventResearchIntent?1000:6500)}`).join("\n\n");
         if(contextSources) webSearchContext="\n\nSearch run time: "+new Date().toISOString()+"\nRETRIEVED WEB EVIDENCE (search snippets are leads, not proof; page excerpts are fetched source text, not automatically authoritative):\n"+contextSources;
+
+        if(recipeInstruction&&webSources.some(x=>Array.isArray(x.publishedRecipes)&&x.publishedRecipes.length)){
+          const published=webSources.filter(x=>x.publishedRecipes?.length).slice(0,4).map(x=>'Publisher '+x.title+' ('+x.url+')\\n'+JSON.stringify(x.publishedRecipes.slice(0,3))).join('\\n\\n');
+          webSearchContext+='\\n\\nPUBLISHER RECIPE INGREDIENTS AND STEP-BY-STEP INSTRUCTIONS (source factual data; rephrase naturally without changing their meaning):\\n'+published;
+        }
         webSearchDiagnostics={research_elapsed_ms:Date.now()-researchStartedAt,max_search_wait_ms:maxSearchWaitMs,pendingProviderCount,providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
         console.info("Pocket AI v98 web research",JSON.stringify({stage:"web_research_completed",status:webSearchStatus,...webSearchDiagnostics}));
       }
@@ -4067,7 +4106,7 @@ export default {
         latency_breakdown:{research_ms:webSearchDiagnostics?.research_elapsed_ms||0,primary_ai_ms:0,sentence_correction_ms:0,review_ai_ms:0,recipe_correction_ms:0,model_calls_estimate:0,ai_model:null,events_source_grounded:true},
         ai_generated:true,ai_connected:Boolean(env.AI)});
     }
-    const culinaryEvidence=recipeInstruction?webSources.filter(x=>x.pageFetchStatus==="fetched"&&/(?:ingrediente|ingredients|zutaten|ingredienti|ingrédients|ingredientes|składniki|ингредиенты)/i.test(x.pageEvidence||"")&&/(?:preparare|preparation|method|directions|instructions|zubereitung|preparazione|preparación|przygotowanie|приготовление)/i.test(x.pageEvidence||"")):[];
+    const culinaryEvidence=recipeInstruction?webSources.filter(x=>(Array.isArray(x.publishedRecipes)&&x.publishedRecipes.length>0)||(x.pageFetchStatus==="fetched"&&/(?:ingrediente|ingredients|zutaten|ingredienti|ingrédients|ingredientes|składniki|ингредиенты)/i.test(x.pageEvidence||"")&&/(?:preparare|preparation|method|directions|instructions|zubereitung|preparazione|preparación|przygotowanie|приготовление)/i.test(x.pageEvidence||""))):[];
     if(recipeInstruction&&!culinaryEvidence.length){
       const reply=lang==='ro'?'Nu am găsit o rețetă completă cu ingrediente și pași verificabili în sursele accesibile acum. Nu voi inventa prepararea. Te rog să reîncerci căutarea.':'I could not verify a complete recipe with ingredients and cooking steps in accessible sources. Please retry.';
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,sources:[],web_search_status:webSearchStatus,recipe_grounding_status:"insufficient_evidence",ai_generated:false,ai_connected:Boolean(env.AI)});
