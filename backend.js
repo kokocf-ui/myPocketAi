@@ -792,6 +792,45 @@ async function countryMetadata(code,locale='ro'){
  return {country_code:code,currencies,languages,capital:String(record.capital?.[0]||'').slice(0,90),english_name:String(record.name?.common||'').slice(0,100),area_km2:Number.isFinite(Number(record.area))?Number(record.area):null,timezones:(record.timezones||[]).filter(x=>typeof x==='string').slice(0,6),source:'https://github.com/mledoze/countries',language_scope:'official'};
 }
 
+// Verified administrative city lists, separate from tourism queries.
+const administrativeCitiesCache=new Map();
+async function getVerifiedAdministrativeCities(wikibaseItem,locale='ro',scope='country'){
+ const qid=String(wikibaseItem||'').trim();
+ if(!/^Q[1-9]\\d{0,12}$/.test(qid))return [];
+ const language=['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(locale)?locale:'en';
+ const key=[qid,language,scope].join('|'),saved=administrativeCitiesCache.get(key);
+ if(saved&&saved.expires>Date.now())return saved.items;
+ const relation=scope==='region'?'?place wdt:P131 wd:'+qid+'.':'?place wdt:P17 wd:'+qid+'.';
+ const query=[
+  'SELECT DISTINCT ?place ?placeLabel ?coord ?links WHERE {',
+  relation,
+  ' VALUES ?kind { wd:Q515 wd:Q3957 wd:Q1549591 }',
+  ' ?place wdt:P31/wdt:P279* ?kind; wdt:P625 ?coord; wikibase:sitelinks ?links.',
+  ' FILTER(?links >= 5)',
+  ' SERVICE wikibase:label { bd:serviceParam wikibase:language "'+language+',en". }',
+  '} ORDER BY DESC(?links) LIMIT 16'
+ ].join('\\n');
+ try{
+  const url=new URL('https://query.wikidata.org/sparql');
+  url.searchParams.set('query',query);url.searchParams.set('format','json');
+  const res=await fetch(url,{headers:{Accept:'application/sparql-results+json','User-Agent':'PocketAI/1.0 (geographic localities)'},signal:AbortSignal.timeout(3400)});
+  if(!res.ok)return [];
+  const data=await res.json(),seen=new Set(),items=[];
+  for(const b of data.results?.bindings||[]){
+   const id=String(b.place?.value||'').match(/\\/(Q[1-9]\\d*)$/)?.[1];
+   const name=String(b.placeLabel?.value||'').trim();
+   const point=String(b.coord?.value||'').match(/^Point\\((-?\\d+(?:\\.\\d+)?) (-?\\d+(?:\\.\\d+)?)\\)$/);
+   if(!id||!name||/^Q\\d+$/.test(name)||!point||seen.has(id))continue;
+   const longitude=Number(point[1]),latitude=Number(point[2]);
+   if(!Number.isFinite(latitude)||!Number.isFinite(longitude)||Math.abs(latitude)>90||Math.abs(longitude)>180)continue;
+   seen.add(id);items.push({name,latitude,longitude,url:'https://www.wikidata.org/wiki/'+id,description:scope==='region'?'Localitate verificată':'Oraș verificat'});
+   if(items.length>=7)break;
+  }
+  if(items.length)administrativeCitiesCache.set(key,{items,expires:Date.now()+4*3600000});
+  return items;
+ }catch{return []}
+}
+
 // Geographically grounded country highlights: Wikidata P17 matches the exact country
 // item from Wikipedia. Results require coordinates, sitelinks and a tourism/city class.
 // A country's geographic centroid must not be used as a tourist attraction.
@@ -1074,7 +1113,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v178";
+    const API_VERSION = "v179";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
@@ -1299,6 +1338,13 @@ export default {
         }
         const isCountryProfile=Boolean(countryNameCodes.has(normalizeGeoName(encyclopediaTitle))&&countryCode) || /\b(?:țară|tara|country|republic|stat suveran|sovereign state)\b/i.test(String(article.description||''));
         article.is_country=isCountryProfile;
+        // Counties and administrative regions require a distinct locality list.
+        const isRegionProfile=!isCountryProfile&&/\\b(?:județ(?:ul)?|judet(?:ul)?|county|province|provincia|département|department|district|regiune administrativă|administrative region)\\b/i.test(String(article.description||''));
+        article.is_region=isRegionProfile;
+        if(isRegionProfile&&article.wikibase_item){
+          article.major_cities=await getVerifiedAdministrativeCities(article.wikibase_item,lang,'region');
+          if(article.major_cities.length)article.localities_source='https://www.wikidata.org/';
+        }
         if(isCountryProfile){
           if(!article.wikibase_item){
             try{
@@ -1320,6 +1366,7 @@ export default {
           ]);
           if(facts)article.country_facts=facts;
           if(highlights?.cities?.length)article.major_cities=highlights.cities;
+          if(!article.major_cities?.length)article.major_cities=await getVerifiedAdministrativeCities(article.wikibase_item,lang,'country');
           // Prefer independently notable Wikidata landmarks. Geoapify country-boundary
           // records are supplemental, not a replacement for nationwide coverage.
           const fallbackLandmarks={
