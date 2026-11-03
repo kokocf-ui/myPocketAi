@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.130 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.131 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -1227,6 +1227,37 @@ body.long-choice-active{overflow:hidden}
 .module-quick-body>.module-result-card small{color:#e0f5fc!important}
 .module-quick-body>.transit-choice-action{min-height:48px;white-space:normal;overflow-wrap:break-word}
 
+
+/* v1.0.131 — presentation-only: full-height scrollable recipe/event reader. */
+.answer-reader{max-height:calc(100dvh - 116px - env(safe-area-inset-top,0px));}
+.answer-reader-body{min-height:0!important;flex:1 1 0!important;overflow-y:auto!important;overflow-x:hidden!important;padding:14px 14px calc(42px + env(safe-area-inset-bottom,0px))!important;scroll-padding-bottom:30px;scrollbar-gutter:stable;overscroll-behavior-y:contain;}
+.answer-reader-body .recipe-reader-title{margin:18px 0 12px!important;padding:13px 12px 12px!important;border:1px solid #3b8196!important;border-left:4px solid #59d2dd!important;border-radius:13px;background:linear-gradient(120deg,#123d51,#0b2639);font-size:clamp(17px,4.1vw,20px)!important;line-height:1.4!important;overflow-wrap:anywhere}
+.answer-reader-body .recipe-reader-title:first-child{margin-top:0!important}
+.answer-reader-body .recipe-reader-label{margin:15px 0 7px!important;padding:7px 10px!important;border-left:3px solid #52b9cb;border-radius:6px;background:#17394b;color:#edfaff;font-size:16px!important;line-height:1.45!important}
+.answer-reader-body .recipe-reader-ingredient{margin:0!important;padding:5px 8px 5px 14px!important;border-bottom:1px solid #2d5264;font-size:clamp(15px,3.6vw,17px)!important;line-height:1.48!important;overflow-wrap:anywhere}
+.answer-reader-body .recipe-reader-step{margin:8px 0!important;padding:9px 10px!important;background:#102c40;border:1px solid #2f5a71;border-radius:10px;font-size:clamp(15px,3.6vw,17px)!important;line-height:1.55!important;overflow-wrap:anywhere}
+.answer-reader-body .recipe-reader-divider{height:1px;background:#438197;margin:20px 0 14px}
+.answer-reader-body .structured-results-scroller{width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:visible;}
+.answer-reader-body .structured-results-table{width:100%;max-width:100%;border-spacing:0;overflow-wrap:anywhere}
+.answer-reader-body .structured-results-table td,.answer-reader-body .structured-results-table th{word-break:normal;overflow-wrap:anywhere;white-space:normal}
+.answer-reader-body .structured-results-table a{display:block;max-width:100%;overflow-wrap:anywhere}
+@media(max-width:600px){
+ .answer-reader{top:calc(6px + env(safe-area-inset-top,0px));left:6px;right:6px;bottom:calc(100px + env(safe-area-inset-bottom,0px));max-height:none;border-radius:18px}
+ .answer-reader-header{padding:10px 12px}
+ .answer-reader-header h2{font-size:18px}
+ .answer-reader-controls{padding:8px 10px;gap:6px}
+ .answer-reader-controls button,.answer-reader-controls select{min-height:38px;padding:5px 9px}
+ .answer-reader-body{padding:12px 11px calc(46px + env(safe-area-inset-bottom,0px))!important;font-size:16px;line-height:1.5}
+ .structured-results-scroller{overflow-x:hidden!important}
+ .structured-results-table{display:block!important;width:100%!important;table-layout:auto!important;border:0!important}
+ .structured-results-table thead{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .structured-results-table tbody{display:block!important;width:100%}
+ .structured-results-table tbody tr{display:block!important;width:100%;margin:0 0 12px;border:1px solid #438398;border-radius:13px;background:#0d293c;overflow:hidden}
+ .structured-results-table tbody td{display:block!important;width:100%!important;box-sizing:border-box;border:0!important;padding:9px 11px!important;white-space:normal!important;overflow-wrap:anywhere}
+ .structured-results-table tbody td:first-child{background:#17445a;border-bottom:1px solid #3b7287!important;font-variant-numeric:tabular-nums}
+ .structured-results-table tbody td:nth-child(2){line-height:1.48}
+}
+
 </style>
 </head>
 <body>
@@ -2234,21 +2265,22 @@ function appendRecipeReaderText(host,rawText){
  const lines=text.replace(/\\r\\n?/g,'\\n').split('\\n');
  for(const line of lines){
   const stripped=line.trim();
-  if(!stripped){const gap=document.createElement('div');gap.style.height='10px';host.append(gap);continue;}
+  if(!stripped){const gap=document.createElement('div');gap.style.height='8px';host.append(gap);continue;}
+  if(/^─{3,}$/.test(stripped)){const divider=document.createElement('div');divider.className='recipe-reader-divider';host.append(divider);continue;}
   const plain=stripped.replace(/^\\*\\*/,'').replace(/\\*\\*$/,'').trim();
   const isHeading=recipeHeading.test(plain),isLabel=/^(?:ingrediente|ingredients|zutaten|ingrédients|ingredienti|ingredientes|mod de preparare|preparare|pregătire|method|preparation|instructions|zubereitung|preparación)\\s*:/iu.test(plain);
   let node;
   if(isHeading){
-   node=document.createElement('h3');node.textContent=plain;
+   node=document.createElement('h3');node.className='recipe-reader-title';node.textContent=plain;
    node.style.cssText='font-size:19px;line-height:1.35;font-weight:750;color:#a6f5ff;margin:18px 0 8px;padding:0 0 8px;border-bottom:1px solid #3e8294;overflow-wrap:anywhere';
   }else if(isLabel){
-   node=document.createElement('h4');node.textContent=plain;
+   node=document.createElement('h4');node.className='recipe-reader-label';node.textContent=plain;
    node.style.cssText='font-size:16px;line-height:1.45;color:#e7f9fb;margin:13px 0 5px;font-weight:750';
   }else{
    node=document.createElement('div');node.textContent=plain;
    node.style.cssText='font-size:16px;line-height:1.58;margin:4px 0;overflow-wrap:anywhere';
-   if(/^[-•]\\s/.test(plain))node.style.paddingLeft='11px';
-   else if(/^\\d{1,2}[.)]\\s/.test(plain))node.style.margin='8px 0';
+   if(/^[-•]\\s/.test(plain)){node.className='recipe-reader-ingredient';}
+   else if(/^\\d{1,2}[.)]\\s/.test(plain)){node.className='recipe-reader-step';}
   }
   host.append(node);
  }
