@@ -1339,7 +1339,7 @@ export default {
         const isCountryProfile=Boolean(countryNameCodes.has(normalizeGeoName(encyclopediaTitle))&&countryCode) || /\b(?:țară|tara|country|republic|stat suveran|sovereign state)\b/i.test(String(article.description||''));
         article.is_country=isCountryProfile;
         // Counties and administrative regions require a distinct locality list.
-        const isRegionProfile=!isCountryProfile&&/\\b(?:județ(?:ul)?|judet(?:ul)?|county|province|provincia|département|department|district|regiune administrativă|administrative region)\\b/i.test(String(article.description||''));
+        const isRegionProfile=!isCountryProfile&&/\b(?:județ(?:ul)?|judet(?:ul)?|county|province|provincia|département|department|district|regiune administrativă|administrative region)\b/i.test(String(article.description||''));
         article.is_region=isRegionProfile;
         if(isRegionProfile&&article.wikibase_item){
           article.major_cities=await getVerifiedAdministrativeCities(article.wikibase_item,lang,'region');
