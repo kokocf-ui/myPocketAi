@@ -1341,7 +1341,7 @@ export default {
         // Counties and administrative regions require a distinct locality list.
         const geoIntentText=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
         const regionalName=String(article.title||'')+' '+String(article.description||'');
-        const explicitCountyQuery=/(?:^|\\s)(?:judet(?:ul)?|county|province|provincia|departament(?:ul)?|department|district)(?:\\s|$)/i.test(geoIntentText);
+        const explicitCountyQuery=/(?:^|\s)(?:judet(?:ul)?|county|province|provincia|departament(?:ul)?|department|district)(?:\s|$)/i.test(geoIntentText);
         const regionalArticle=/(?:jude[țt](?:ul)?|county|province|provincia|département|department|administrative region|regiune administrativă)/i.test(regionalName)
           && !/(?:county seat|reședința județului|resedinta judetului|capitala județului)/i.test(String(article.description||''));
         const isRegionProfile=!isCountryProfile&&(explicitCountyQuery||regionalArticle);
