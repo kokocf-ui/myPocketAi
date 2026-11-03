@@ -2276,7 +2276,7 @@ function appendAnswerText(host,text){
 // Repair presentation only; all original words and cooking facts remain.
 function recipeStepPresentation(line){
  const spaced=String(line||'').replace(/([.!?])([A-ZĂÂÎȘȚ])/gu,'$1 $2');
- const match=spaced.match(/^(\d{1,2}[.)]\s*)([\s\S]*)$/u);
+ const match=spaced.match(/^(\\d{1,2}[.)]\\s*)([\\s\\S]*)$/u);
  if(!match)return {body:spaced};
  const content=match[2];
  for(const hit of content.matchAll(/([a-zăâîșț])([A-ZĂÂÎȘȚ][a-zăâîșț]{2,})/gu)){
