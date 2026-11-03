@@ -1262,6 +1262,11 @@ export default {
           if(street)exact.searchParams.set('street',street);
           if(postcode)exact.searchParams.set('postcode',postcode);
           alternatives.unshift(exact);
+          if(postcode){
+            const withoutPostcode=new URL(exact);
+            withoutPostcode.searchParams.delete('postcode');
+            alternatives.push(withoutPostcode);
+          }
         }
         const replies=await Promise.allSettled(alternatives.map(async endpoint=>{
           const response=await fetch(endpoint,{signal:AbortSignal.timeout(8000)});
@@ -1278,9 +1283,9 @@ export default {
           if(stage!=='city'&&!towns.slice(0,5).some(value=>normalize(value)===normalize(city)))return [];
           if(stage==='street'&&(!place.street||place.result_type!=='street'))return [];
           if(stage==='number'&&(place.result_type!=='building'||(street&&normalize(place.street)!==normalize(street))||!place.housenumber||
-              (postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
+              (postcode&&place.postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
           if(stage==='city'&&place.result_type!=='city')return [];
-          const label=String(place.formatted||'');
+          const label=stage==='street'?[place.street,city,place.country].filter(Boolean).join(', '):String(place.formatted||'');
           const key=stage==='street'?normalize(place.street):label;
           if(!label||seen.has(key))return [];
           seen.add(key);
