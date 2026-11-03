@@ -498,9 +498,9 @@ function recipeQualityConcern(request,answer){
 function traditionalBalmosRecipe(request,language='ro'){
  const q=String(request||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  if(!/\bbalmos(?:ul|ului)?\b/.test(q))return null;
- if(/\b(?:vegan|vegetarian|de post|fara|without|lactose.free|intoleranta|alergi|ciocolat|desert|dulce|faina|reinterpret|modern|fuziune|tradu|translate|traducere|istorie|history|origine|origin|compare|comparatie|compar)\b/.test(q))return null;
- const countMatch=q.match(/\b(\d{1,2}|una|un|o|doua|doi|trei)\s+(?:retet\w*|recipes?|variante?\s+de\s+balmos)\b/);
- const requested=countMatch?({"una":1,"un":1,"o":1,"doua":2,"doi":2,"trei":3}[countMatch[1]]||Number(countMatch[1])):1;
+ if(/\b(?:vegan|vegetarian|de post|fara|without|lactose.free|intoleranta|alergi|ciocolat|desert|dulce|faina|reinterpret|modern|fuziune|traduc\w*|translate|translation|istorie|history|origine|origin|compare|comparatie|comparare)\b/.test(q))return null;
+ const countMatch=q.match(/\b(\d{1,2}|una|un|o|doua|doi|trei|one|two|three)\s+(?:retet\w*|recipes?|variante?\s+de\s+balmos)\b/);
+ const requested=countMatch?({"una":1,"un":1,"o":1,"one":1,"doua":2,"doi":2,"two":2,"trei":3,"three":3}[countMatch[1]]||Number(countMatch[1])):1;
  if(requested>3||requested<1||!['ro','en'].includes(language))return null;
  const ro=[
   {
