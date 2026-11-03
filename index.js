@@ -2309,12 +2309,11 @@ function appendRecipeReaderText(host,rawText){
    node=document.createElement('h4');node.className='recipe-reader-label';appendAnswerText(node,plain);
    node.style.cssText='font-size:16px;line-height:1.45;color:#e7f9fb;margin:13px 0 5px;font-weight:750';
   }else{
-   node=document.createElement('div');appendAnswerText(node,plain);
+   node=document.createElement('div');
    node.style.cssText='font-size:16px;line-height:1.58;margin:4px 0;overflow-wrap:anywhere';
-   if(/^[-•]\s/.test(plain)){node.className='recipe-reader-ingredient';}
+   if(/^[-•]\s/.test(plain)){node.className='recipe-reader-ingredient';appendAnswerText(node,plain);}
    else if(/^\d{1,2}[.)]\s/.test(plain)){
     node.className='recipe-reader-step';
-    node.replaceChildren();
     const parts=recipeStepPresentation(plain);
     if(parts.title){
      const title=document.createElement('strong');
@@ -2324,7 +2323,7 @@ function appendRecipeReaderText(host,rawText){
     const detail=document.createElement('span');
     detail.className='recipe-reader-step-detail';
     appendAnswerText(detail,parts.body);node.append(detail);
-   }
+   }else{appendAnswerText(node,plain);}
   }
   host.append(node);
  }
