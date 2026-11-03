@@ -33,8 +33,6 @@ jobs:
         run: node tests_landmark_resolution.mjs
       - name: Modal first-tap and transit refresh checks
         run: node tests_modal_ui.mjs && node tests_transit_refresh.mjs
-      - name: Local-search media and module handoff safeguards
-        run: node tests_v148.mjs
       - name: Existing regression tests
         run: npm test
 

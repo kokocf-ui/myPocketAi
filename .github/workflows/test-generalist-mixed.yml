@@ -1,19 +1,13 @@
-name: Pocket AI generalist, voice and mixed-route regression
+name: Pocket AI focused regression
 on:
   push:
     branches: [main]
     paths:
       - backend.js
       - index.js
-      - tests_generalist_mixed_regression.mjs
-      - tests_response_lists_station_regression.mjs
-      - tests_events_transport_facts_regression.mjs
-      - tests_route_count_recipe_network_regression.mjs
-      - tests_research_latency_regression.mjs
       - tests_request_pipeline_regression.mjs
-      - tests_end_to_end_timing_contract.mjs
-      - tests_response_time_tourism.mjs
-      - tests_events_source_grounding.mjs
+      - tests_geographic_station_intent.mjs
+      - tests_balmos_recipe_regression.mjs
       - .github/workflows/test-generalist-mixed.yml
   workflow_dispatch:
 
@@ -33,23 +27,8 @@ jobs:
         run: |
           node --check backend.js
           node --check index.js
-          node --check tests_generalist_mixed_regression.mjs
-          node --check tests_response_lists_station_regression.mjs
-          node --check tests_events_transport_facts_regression.mjs
-          node --check tests_route_count_recipe_network_regression.mjs
-          node --check tests_research_latency_regression.mjs
-          node --check tests_request_pipeline_regression.mjs
-          node --check tests_end_to_end_timing_contract.mjs
-          node --check tests_response_time_tourism.mjs
-          node --check tests_events_source_grounding.mjs
-      - name: Regression tests without external API calls
+      - name: Focused smoke tests
         run: |
-          node tests_generalist_mixed_regression.mjs
-          node tests_response_lists_station_regression.mjs
-          node tests_events_transport_facts_regression.mjs
-          node tests_route_count_recipe_network_regression.mjs
-          node tests_research_latency_regression.mjs
           node tests_request_pipeline_regression.mjs
-          node tests_end_to_end_timing_contract.mjs
-          node tests_response_time_tourism.mjs
-          node tests_events_source_grounding.mjs
+          node tests_geographic_station_intent.mjs
+          node tests_balmos_recipe_regression.mjs

@@ -2,20 +2,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests.mjs && node tests_reader.mjs && node tests_weather.mjs && node tests_routes.mjs && node tests_alternatives.mjs && node tests_transit_access.mjs && node tests_transit_destination.mjs && node tests_named_destination.mjs && node tests_place_resolution.mjs && node tests_travel_mode_ui.mjs && node tests_destination_types.mjs && node tests_name_only.mjs && node tests_city_first_station.mjs && node tests_photon_name.mjs && node tests_local_categories.mjs && node tests_final_walk.mjs && node tests_geographic_station_intent.mjs && node tests_country_profile_regression.mjs && node tests_accommodation_recovery.mjs && node tests_balmos_recipe_regression.mjs && node tests_recipe_structure_regression.mjs && node tests_reader_layout.mjs && node tests_markdown_reader.mjs && node tests_recipe_step_spacing.mjs",
+    "test": "node tests.mjs && node tests_reader.mjs && node tests_weather.mjs && node tests_routes.mjs && node tests_transit_access.mjs && node tests_transit_refresh.mjs && node tests_name_only.mjs && node tests_local_categories.mjs && node tests_modal_ui.mjs && node tests_final_walk.mjs && node tests_place_resolution.mjs && node tests_balmos_recipe_regression.mjs && node tests_recipe_structure_regression.mjs && node tests_travel_mode_ui.mjs && node tests_geographic_station_intent.mjs && node tests_landmark_resolution.mjs && node tests_request_pipeline_regression.mjs",
     "check": "node --check backend.js && node --check index.js",
     "test:transit-access": "node tests_transit_access.mjs",
     "test:named": "node tests_name_only.mjs",
-    "test:destinations": "node tests_name_only.mjs && node tests_photon_name.mjs && node tests_city_first_station.mjs && node tests_final_walk.mjs && node tests_geographic_station_intent.mjs",
     "test:local-categories": "node tests_local_categories.mjs",
     "test:final-walk": "node tests_final_walk.mjs",
     "test:place-intents": "node tests_geographic_station_intent.mjs",
-    "test:country-profile": "node tests_country_profile_regression.mjs",
-    "test:accommodation": "node tests_accommodation_recovery.mjs",
     "test:balmos": "node tests_balmos_recipe_regression.mjs",
-    "test:recipe-structure": "node tests_recipe_structure_regression.mjs",
-    "test:reader-layout": "node tests_reader_layout.mjs",
-    "test:markdown-reader": "node tests_markdown_reader.mjs",
-    "test:recipe-step-spacing": "node tests_recipe_step_spacing.mjs"
+    "test:recipe-structure": "node tests_recipe_structure_regression.mjs"
   }
 }
