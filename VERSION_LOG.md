@@ -1,3 +1,11 @@
+## Pocket AI — backend v175 / frontend 1.0.130 — 2026-11-03
+
+- **Balmoș tradițional, nu desert:** rețeta standard folosește jintiță sau lapte gras, mălai, unt, smântână și brânză de oaie/burduf. Când sunt cerute 2–3 rețete tradiționale, sunt furnizate tot atâtea variante complete, fiecare cu propriile ingrediente și pași. Cererile explicite de adaptări (vegan, fără lactoză, traducere etc.) nu sunt înlocuite automat cu varianta clasică.
+- **Calitate culinară generală:** instrucțiunile modelului includ natura sărată a balmoșului; verificarea respinge ingredientele de prăjitură pentru o rețetă tradițională. Pentru rețetele generate dinamic, bugetul de ieșire se scalează cu numărul de rețete cerute în loc de limita fixă de 620 de tokenuri.
+- **Fereastra „Răspuns complet”:** rețetele sunt afișate în secțiuni distincte, cu titluri, ingrediente și pași, fără marcaje Markdown `**` vizibile. Textul complet rămâne derulabil în aceeași fereastră, cu navigația de jos fixă.
+- **Regresie:** `tests_balmos_recipe_regression.mjs` inclus în `npm test`, rulabil separat prin `npm run test:balmos`; verifică exact trei rețete, ingredientele tradiționale, excluderea cacao/zahăr, bugetul generării și cele trei secțiuni în modal. Sintaxa backend și frontend (inclusiv JavaScript-ul generat) și testele pure ale rețetei/afișării au trecut. Testele complete CI și rezultatele live se confirmă separat.
+- **Neschimbate:** motorul de cazare funcțional, filtrarea dublurilor, fluxul de transport, butoanele de navigație și bara de jos.
+
 ## Pocket AI — backend v174 / frontend 1.0.129 — 2026-11-03
 
 - **Cazări: eliminarea dublurilor și a adreselor false.** Pentru căutările de hoteluri/hosteluri/moteluri/pensiuni/apartamente, Geoapify nu mai folosește `address_line1` drept numele unui hotel. Sunt excluse înregistrările ce conțin doar numele unei străzi (ex. „Strada Dunării”), fără a exclude locațiile reale cu „Apartament”, „Hotel”, „Hostel” etc. Filtrul există în backend și ca verificare suplimentară în modalul frontend.
