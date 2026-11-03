@@ -1,4 +1,6 @@
 /*
+ * v175: authentic traditional balmoș and scalable, complete multi-recipe answers.
+ * v174: geospatial accommodation and original multi-provider local search restored.
  * v173: country-wide tourist sights, city attraction coordinates, country-to-accommodation flow and duration display.
  * v172: readable country profiles, verified major cities and sights from Wikidata, more useful country facts.
  * v171: verify traditional beef tripe, order transit cards by trip start and arrival.
@@ -1029,7 +1031,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v174";
+    const API_VERSION = "v175";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
