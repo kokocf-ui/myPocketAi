@@ -566,7 +566,7 @@ function normalizeCulinaryAnswer(answer,language){
  const seen=new Set(),dedup=[];
  for(const item of ingredientLines){
   const normalized=plain(item.replace(/^[-•]\s*/,''));
-  const noun=normalized.replace(/^(?:\d+(?:[.,]\d+)?\s*)+(?:g|kg|ml|l|linguri(?:ta|te)?|lingurite|bucati|cups?|tbsp|tsp|pieces?)?\s*(?:de\s+)?/,'').trim();
+  const noun=normalized.replace(/^(?:\d+(?:[.,]\d+)?\s*)+(?:linguri(?:ta|te)?|lingurite|bucati|pieces?|cups?|tbsp|tsp|kg|ml|g|l)?\s*(?:de\s+)?/,'').trim();
   if(seen.has(noun)||seen.has(normalized))continue;
   seen.add(noun);seen.add(normalized);dedup.push(item.replace(/^• /,'- '));
  }
