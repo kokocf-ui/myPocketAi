@@ -497,6 +497,22 @@ function extractPublishedRecipeSchema(html){
  }
  return results;
 }
+// Reject major heat-treatment techniques that appear in the generated answer but
+// in none of the publisher cooking methods. This is generic, not a dish recipe.
+function recipeUnsupportedTechnique(reply,evidence){
+ const plain=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ const draft=plain(reply);
+ const sources=plain((evidence||[]).map(x=>x.publishedRecipes?.length
+  ?x.publishedRecipes.flatMap(p=>p.instructions||[]).join(' ')
+  :(x.pageEvidence||'')).join(' '));
+ if(!sources)return false;
+ const techniques=[
+  /\b(?:praj\w*|frige|frig(?:e|i)\w*|cal(?:esc|este|im|it|ite|iti)\w*|rumen\w*|sot\w*|fry|frying|fried|saute\w*|browning)\b/,
+  /\b(?:coac\w*|coace|copt\w*|cuptor|bake\w*|baking|oven|roast\w*)\b/,
+  /\b(?:gratar|grill\w*|barbecue\w*)\b/
+ ];
+ return techniques.some(group=>group.test(draft)&&!group.test(sources));
+}
 // In long model-generated recipes, prevent a repeated ingredient block from
 // being presented as new ingredients. Never deduplicate the preparation steps.
 // One targeted quality gate for model-invented cooking materials.
@@ -4327,7 +4343,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       }
 
       // If the model introduces demonstrably implausible ingredients, never substitute a hardcoded recipe.
-      if(recipeInstruction&&result&&typeof result.response==="string"&&recipeQualityConcern(message,result.response)){
+      if(recipeInstruction&&result&&typeof result.response==="string"&&(recipeQualityConcern(message,result.response)||recipeUnsupportedTechnique(result.response,culinaryEvidence))){
         result={...result,response:lang==="ro"?"Verificarea culinară a identificat o contradicție între preparat și ingredientele propuse. Nu voi prezenta acești pași ca rețetă verificată. Te rog să reîncerci.":"The proposed cooking steps failed a plausibility check. Please retry."};
         stageMetrics.recipe_rejected=true;
       }
