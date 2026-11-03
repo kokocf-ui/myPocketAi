@@ -1,3 +1,10 @@
+## Pocket AI — backend v174 / frontend 1.0.129 — 2026-11-03
+
+- **Cazări: eliminarea dublurilor și a adreselor false.** Pentru căutările de hoteluri/hosteluri/moteluri/pensiuni/apartamente, Geoapify nu mai folosește `address_line1` drept numele unui hotel. Sunt excluse înregistrările ce conțin doar numele unei străzi (ex. „Strada Dunării”), fără a exclude locațiile reale cu „Apartament”, „Hotel”, „Hostel” etc. Filtrul există în backend și ca verificare suplimentară în modalul frontend.
+- **Deduplicare:** același nume și aceeași adresă sunt prezentate o singură dată, chiar dacă furnizorii returnează coordonate puțin diferite; două hoteluri cu același nume, dar aflate la adrese sau poziții diferite, rămân distincte.
+- **Păstrăm căutarea restabilită:** motorul de cazare Geoapify + Photon/OpenStreetMap, tipurile de cazare și ancorarea la atracția aleasă nu se schimbă. Notificarea de 2 secunde apare doar la zero rezultate mapate după filtrare; o eroare tehnică nu se afișează ca lipsă de cazare.
+- **Verificare:** sintaxa backendului și a scriptului generat din frontend este validă; testele simulate ale filtrului au trecut. Testul automat `tests_accommodation_recovery.mjs` acoperă și strada falsă, dubluri, cazări reale și continuitatea traseului. Publicarea versiunii finale și CI complet rămân de confirmat; alte verificări generale Actions pot eșua independent.
+
 ## Pocket AI — backend v174 / frontend 1.0.128 — 2026-11-02
 
 - **Reparare cazare:** atracțiile turistice folosesc din nou motorul comun de căutare Geoapify + Photon/OpenStreetMap, cu aceleași categorii păstrate pentru hotel, motel, hostel, pensiune, apartament de vacanță și chalet. Nu mai folosesc `__nearby_accommodation__` din fluxul nou de atracții.
