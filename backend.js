@@ -3338,6 +3338,17 @@ export default {
               const cats = Array.isArray(props.categories) ? props.categories.join(" ").toLowerCase() : "";
               const key = requestedPlaceCategory.key;
               if (key === "poi") return true;
+              // Accommodation is a named establishment, not the street/address
+              // line returned by geocoders. Keep apartments and hostels, but
+              // ignore names consisting solely of a street label.
+              if(key==="hotel"){
+                const title=String(props.name||"").trim(),road=String(props.street||raw["addr:street"]||"").trim();
+                if(!title)return false;
+                const roadOnly=/^(?:strada|str\.?|street|st\.?|road|rd\.?|bulevardul?|bd\.?|calea|drumul|uli[țt]a|rue|calle|via|rua)\s+/iu.test(title)
+                  && !/(?:hotel|hostel|motel|apart|pensiun|guest|inn\b|chalet|caban|vila|villa|suite|room|residen|lodg)/iu.test(title);
+                const normalized=v=>String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
+                if(roadOnly||(road&&normalized(road)===normalized(title)))return false;
+              }
               const checks = {
                 supermarket: /supermarket|convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(supermarket|convenience|grocery|general|greengrocer|newsagent)$/.test(String(raw.shop || "")),
                 corner_shop: /commercial\.convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(convenience|grocery|general|greengrocer|newsagent|kiosk|deli|food|butcher|seafood|farm|dairy)$/.test(String(raw.shop || "")),
@@ -3383,7 +3394,7 @@ export default {
               const isShop = ["supermarket", "mall", "shop", "market_bakery"].includes(requestedPlaceCategory.key);
               const amenity = requestedPlaceCategory.key === "fast_food" ? "fast_food" : requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
-              const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: props.name || props.address_line1 || "", amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "corner_shop" ? (rawTags.shop || "convenience") : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
+              const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: requestedPlaceCategory.key === "hotel" ? String(props.name || "").trim() : (props.name || props.address_line1 || ""), amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "corner_shop" ? (rawTags.shop || "convenience") : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? geoapifyDistanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
             if (geoapifyElements.length) {
@@ -3463,6 +3474,12 @@ export default {
                   ? /confectionery|pastry|bakery|cake|ice.?cream|gelateria|dessert/.test(photonType) || /cake|bakery|patisserie|confectionery|ice cream|gelato|dessert/i.test(String(properties.name || ""))
                 : /pharmacy|fuel|parking|car.?wash|museum|cinema|hospital|school|library|atm|bank|post.?office|toilet|hotel|station/.test(photonType);
               if (!photonCategoryMatches) return null;
+              if(requestedPlaceCategory.key==="hotel"){
+                const title=String(properties.name||"").trim();
+                const roadOnly=/^(?:strada|str\.?|street|st\.?|road|rd\.?|bulevardul?|bd\.?|calea|drumul|uli[țt]a|rue|calle|via|rua)\s+/iu.test(title)
+                  && !/(?:hotel|hostel|motel|apart|pensiun|guest|inn\b|chalet|caban|vila|villa|suite|room|residen|lodg)/iu.test(title);
+                if(!title||roadOnly)return null;
+              }
               const tags = {
                 stars: properties.stars || "", image: properties.image || "", wikimedia_commons: properties.wikimedia_commons || "", wikidata:properties.wikidata||"", brand_wikidata:properties["brand:wikidata"]||"",
                 name: properties.name || "",
@@ -3580,12 +3597,15 @@ export default {
         const unique = [];
         for (const place of places.sort((a, b) => a.distanceMeters - b.distanceMeters)) {
           const normalizedName = place.name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+          const normalizedAddress = String(place.address||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
           const duplicate = unique.find(existing => {
             const existingName = existing.name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
             const sameName = normalizedName === existingName;
+            const existingAddress=String(existing.address||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+            const sameNamedAddress=Boolean(sameName&&normalizedAddress&&existingAddress===normalizedAddress);
             const aliasMatch = normalizedName.length >= 8 && existingName.length >= 8 && (normalizedName.startsWith(existingName + " ") || existingName.startsWith(normalizedName + " "));
             const nearDistance = distanceMeters(existing.lat, existing.lon, place.lat, place.lon);
-            return (sameName || aliasMatch) && nearDistance <= 100;
+            return sameNamedAddress || ((sameName || aliasMatch) && nearDistance <= 100);
           });
           if (!duplicate) unique.push(place);
           else {
