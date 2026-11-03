@@ -1231,6 +1231,44 @@ export default {
       return json({ app: "Pocket AI", version: API_VERSION, error: "JSON invalid" }, 400);
     }
 
+    if (data?.address_lookup) {
+      const {stage,country,city,street,query,postcode}=data.address_lookup;
+      const types={city:'city',street:'street',number:'building'};
+      if (!Object.hasOwn(types,stage) || !/^[a-z]{2}$/.test(country||'') ||
+          ![query,city,street,postcode].every(value=>typeof value==='string'&&value.length<=160) ||
+          !query.trim() || (stage!=='city'&&!city) || (stage==='number'&&!street))
+        return json({error:'Invalid address search'},400);
+      if (!env.GEOAPIFY_API_KEY) return json({error:'Address search unavailable'},503);
+      const url=new URL('https://api.geoapify.com/v1/geocode/search');
+      const normalize=value=>String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
+      url.search=new URLSearchParams({
+        text:(stage==='city'?[query]:stage==='street'?[query,city]:[street+' '+query,city,postcode]).filter(Boolean).join(', '),
+        type:types[stage],filter:'countrycode:'+country,bias:'countrycode:none',format:'json',limit:'20',apiKey:env.GEOAPIFY_API_KEY
+      });
+      try {
+        const response=await fetch(url,{signal:AbortSignal.timeout(8000)});
+        if(!response.ok) return json({error:'Address search unavailable'},502);
+        const {results=[]}=await response.json();
+        const seen=new Set();
+        const candidates=results.flatMap(place=>{
+          const towns=[place.city,place.town,place.village,place.hamlet,place.municipality,place.name];
+          if(place.country_code!==country || !Number.isFinite(place.lat) || !Number.isFinite(place.lon))return [];
+          if(stage!=='city'&&!towns.slice(0,5).some(value=>normalize(value)===normalize(city)))return [];
+          if(stage==='street'&&(!place.street||place.result_type!=='street'))return [];
+          if(stage==='number'&&(normalize(place.street)!==normalize(street)||normalize(place.housenumber)!==normalize(query)||
+              (postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
+          if(stage==='city'&&place.result_type!=='city')return [];
+          const label=String(place.formatted||'');
+          if(!label||seen.has(label))return [];
+          seen.add(label);
+          return [{label,city:towns.find(Boolean)||'',street:place.street||'',latitude:place.lat,longitude:place.lon,country_code:country.toUpperCase()}];
+        });
+        return json({candidates});
+      } catch {
+        return json({error:'Address search unavailable'},502);
+      }
+    }
+
     if (
       !data ||
       typeof data.message !== "string" ||
