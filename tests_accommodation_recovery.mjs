@@ -71,7 +71,7 @@ async function runScenario(providerResponse,mode){
   skip.onclick();
   assert.equal(routes.at(-1).route_context.destination.label,destination.label);
   assert.equal(root.children.length,0,'No notice when accommodations are found');
- }else if(mode==='empty'){
+ }else if(mode==='empty'||mode==='invalid'){
   assert.equal(routes.at(-1).route_context.destination.label,destination.label);
   assert.equal(root.children.length,1,'Exactly one temporary empty notice');
   assert.ok(root.children[0].textContent.includes('Nu am identificat cazări'));
@@ -82,7 +82,25 @@ async function runScenario(providerResponse,mode){
  }
 }
 
+const cleanCode=script.slice(script.indexOf('function cleanAccommodationPlaces('),script.indexOf('function offerDestinationAccommodationBeforeRoute('));
+assert.ok(cleanCode.startsWith('function cleanAccommodationPlaces('),'Accommodation sanitizer missing');
+const cleanAccommodationPlaces=new Function(cleanCode+';return cleanAccommodationPlaces')();
+const badStreetResults=[
+ {name:'Strada Dunării',address:'Strada Dunării, Săcueni, 417435',latitude:47.35,longitude:22.08,type:'hotel / hostel'},
+ {name:'Strada Dunării',address:'Strada Dunării, Săcueni, 417435',latitude:47.351,longitude:22.081,type:'hotel / hostel'}
+];
+assert.equal(cleanAccommodationPlaces(badStreetResults).length,0,'Road address must not be represented as a lodging venue');
+const mixed=cleanAccommodationPlaces([...badStreetResults,...examplePlaces,
+ {...examplePlaces[1],latitude:examplePlaces[1].latitude+0.00001},
+ {name:'Premier Inn',latitude:51.5,longitude:-0.1},
+ {name:'Premier Inn',latitude:51.52,longitude:-0.2}
+]);
+assert.equal(mixed.length,6,'Keep apartments and distinct same-name hotel branches, remove duplicate listings');
+assert.ok(mixed.some(p=>p.type==='apartment'),'Apartments must remain included');
+assert.ok(backend.includes('requestedPlaceCategory.key === "hotel" ? String(props.name || "").trim()'),'Geoapify must require a named lodging venue');
+
 await runScenario(response(examplePlaces),'found');
 await runScenario(response([]),'empty');
+await runScenario(response(badStreetResults),'invalid');
 await runScenario({ok:false,status:503,json:async()=>({})},'error');
-console.log('Accommodation recovery: original provider + apartment/hostel/motel + return to routing + short notice OK');
+console.log('Accommodation recovery: original provider, lodging types, remove duplicate streets, distinguish hotel branches, preserve route, short empty notice OK');
