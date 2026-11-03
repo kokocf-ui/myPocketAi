@@ -1700,9 +1700,22 @@ function showPreciseJourney(choice){
   const postcode=document.createElement('input');
   postcode.placeholder=t('Cod poștal (opțional)','Postcode (optional)');
   postcode.setAttribute('aria-label',postcode.placeholder);
-  const fallback=card(t('Folosește centrul localității','Use town centre'),()=>onSelect(selected.city));
-  fallback.hidden=true;
-  const confirmed=card(t('Confirmă adresa','Confirm address'),()=>onSelect(selected.number));
+  let withoutStreet=false;
+  const notice=document.createElement('p');
+  notice.setAttribute('role','status');
+  notice.hidden=true;
+  let noticeTimer;
+  const noStreet=card(t('Localitatea nu are străzi','Locality has no named streets'),()=>{
+   withoutStreet=true;
+   delete selected.street;
+   fields.street.input.value='';
+   fields.street.list.replaceChildren();
+   clearAfter('street');
+   fields.number.input.disabled=fields.number.search.disabled=false;
+   lookup('number');
+  });
+  noStreet.hidden=true;
+  const confirmed=card(t('Confirmă adresa','Confirm address'),()=>onSelect(selected.number||selected.street||selected.city));
   confirmed.disabled=true;
   let generation=0,timer;
   function clearAfter(stage){
@@ -1710,11 +1723,13 @@ function showPreciseJourney(choice){
     delete selected[key];fields[key].input.value='';fields[key].input.disabled=true;fields[key].list.replaceChildren();
     fields[key].search.disabled=true;
    }
-   fallback.hidden=!selected.city;
-   confirmed.disabled=!selected.number;
+   noStreet.hidden=!selected.city||Boolean(selected.street)||withoutStreet;
+   confirmed.disabled=!selected.number&&!selected.street;
+   notice.hidden=true;
   }
   function choose(stage,point){
    generation++;
+   if(stage!=='number')withoutStreet=false;
    selected[stage]=point;
    fields[stage].input.value=point.label;
    fields[stage].list.replaceChildren();
@@ -1735,7 +1750,7 @@ function showPreciseJourney(choice){
      .map(point=>card(point.label,()=>choose(stage,point))));
     return;
    }
-   if(!query){list.replaceChildren();return;}
+   if(!query&&stage!=='number'){list.replaceChildren();return;}
    list.textContent=t('Se caută…','Searching…');
    try{
     const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
@@ -1746,7 +1761,18 @@ function showPreciseJourney(choice){
     if(!list.isConnected||request!==generation)return;
     candidates.sort((a,b)=>a.label.localeCompare(b.label,state.language,{numeric:true}));
     list.replaceChildren(...candidates.map(point=>card(point.label,()=>choose(stage,point))));
-    if(!candidates.length)list.textContent=t('Nu am găsit rezultate.','No matches found.');
+    if(!candidates.length){
+     list.textContent=t('Nu am găsit rezultate.','No matches found.');
+     if(stage==='number'){
+      confirmed.disabled=false;
+      notice.textContent=selected.street
+       ?t('Traseul va ajunge pe strada selectată, la un punct aproximativ.','The route will end at an approximate point on the selected street.')
+       :t('Traseul va folosi centrul localității.','The route will use the town centre.');
+      notice.hidden=false;
+      clearTimeout(noticeTimer);
+      noticeTimer=setTimeout(()=>{notice.hidden=true;},2000);
+     }
+    }
    }catch{
     if(list.isConnected&&request===generation)list.textContent=t('Căutarea nu este disponibilă acum.','Search is unavailable right now.');
    }
@@ -1768,7 +1794,7 @@ function showPreciseJourney(choice){
    fields[stage]={input,search,list};
    input.onfocus=()=>{if(!selected[stage])lookup(stage);};
    input.oninput=()=>{
-    generation++;clearTimeout(timer);delete selected[stage];list.replaceChildren();clearAfter(stage);
+    generation++;clearTimeout(timer);delete selected[stage];if(stage!=='number')withoutStreet=false;list.replaceChildren();clearAfter(stage);
     if(stage==='country')lookup(stage);
     else if(input.value.trim().length>=(stage==='number'?1:2))timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},350);
    };
@@ -1777,8 +1803,9 @@ function showPreciseJourney(choice){
   });
   postcode.oninput=()=>{
    generation++;delete selected.number;confirmed.disabled=true;fields.number.list.replaceChildren();
+   if(selected.street||withoutStreet)fields.number.input.disabled=fields.number.search.disabled=false;
   };
-  body.append(postcode,confirmed,fallback,card(t('Schimbă plecarea','Change departure'),departurePicker));
+  body.append(postcode,noStreet,notice,confirmed,card(t('Schimbă plecarea','Change departure'),departurePicker));
  }
  function destinationPicker(){addressPicker(t('Destinație','Destination'),ready);}
  function departurePicker(){
