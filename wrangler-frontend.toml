@@ -1,3 +1,9 @@
 name = "lifewise-ai-v2"
 main = "index.js"
 compatibility_date = "2026-10-28"
+
+# Serve avatar v16 as a static asset on the same origin.
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = false
