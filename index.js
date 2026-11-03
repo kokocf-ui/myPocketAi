@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.127 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.128 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.127",
+  version: "1.0.128",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2445,25 +2445,61 @@ function offerDestinationAccommodationBeforeRoute(destination){
  const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';yes.textContent=state.language==='ro'?'Da, caută cazare':'Find accommodation';
  yes.onclick=async()=>{
   document.getElementById('pocketStandaloneChoices')?.remove();
-  state.tripAccommodationDecision='yes';state.tripAccommodationSearching=true;
-  const lat=Number(destination.latitude),lon=Number(destination.longitude);
-  const next=()=>{state.tripAccommodationSearching=false;openTransportModeFromAssistant({route_context:{destination_query:destination.label,destination,pending:'profile'}})};
+  state.tripAccommodationDecision='yes';
+  state.tripAccommodationSearching=true;
+  const originalDestination={...destination};
+  const next=()=>{
+   state.tripAccommodationSearching=false;
+   openTransportModeFromAssistant({route_context:{destination_query:originalDestination.label,destination:originalDestination,pending:'profile'}});
+  };
   try{
-   // Accommodation search must be resolved by our backend, never a public browser API key.
-   const response=await fetch(APP.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'__nearby_accommodation__',language:state.language,accommodation_search:{latitude:lat,longitude:lon,radius_m:5000,label:destination.label}})});
+   // Reuse the original shared local-search engine, including its Geoapify,
+   // Photon and OpenStreetMap fallbacks. Anchor it to the selected attraction,
+   // NOT the user's physical GPS position or a new name-based geocode.
+   const response=await fetch(CLIENT_CONFIG.apiUrl,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({
+     message:'Caută cazare în jurul meu',
+     language:state.language,
+     module:'travel',
+     location:{
+      latitude:Number(originalDestination.latitude),
+      longitude:Number(originalDestination.longitude),
+      updatedAt:Date.now(),
+      accuracy:20
+     },
+     location_requested:true,
+     location_source:'selected_attraction',
+     location_label:originalDestination.label
+    })
+   });
+   if(!response.ok)throw new Error('Accommodation search HTTP '+response.status);
    const data=await response.json();
-   if(!response.ok||!Array.isArray(data.places)||!data.places.length){
-    showAccommodationNotice(state.language==='ro'?(data.status==='success'?'Nu sunt cazări identificate în apropiere.':'Serviciul de cazare nu răspunde momentan.'):'Accommodation search returned no results or is unavailable.');
-    next();return;
+   state.tripAccommodationSearching=false;
+   const found=Array.isArray(data.places)?data.places.filter(place=>
+    place&&place.latitude!=null&&place.longitude!=null&&
+    Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude))):[];
+   if(found.length){
+    openAccommodationResults(found,originalDestination);
+    return;
    }
-   state.tripAccommodationSearching=false;openAccommodationResults(data.places);
-  }catch{showAccommodationNotice(state.language==='ro'?'Serviciul de cazare nu răspunde momentan.':'Accommodation search is temporarily unavailable.');next()}
+   const noMappedPlaces=data.results_count===0&&!data.search_error_code;
+   next();
+   if(noMappedPlaces)showAccommodationNotice(state.language==='ro'
+    ?'Nu am identificat cazări cartografiate în apropiere.'
+    :'No mapped accommodation was found nearby.');
+  }catch(error){
+   state.tripAccommodationSearching=false;
+   console.warn('Accommodation search unavailable; continuing route selection',String(error?.message||error));
+   next();
+  }
  };
  const no=document.createElement('button');no.type='button';no.className='transit-choice-action';no.textContent=state.language==='ro'?'Nu, creează traseul':'No, plan my route';
  no.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationSearching=false;state.tripAccommodationDecision='no';openTransportModeFromAssistant({route_context:{destination_query:destination.label,destination,pending:'profile'}})};
  host.append(yes,no);openStandaloneChoicePanel(host,state.language==='ro'?'Cazare înainte de traseu':'Accommodation before route');return true;
 }
-function openAccommodationResults(places){
+function openAccommodationResults(places,originalDestination=state.tripAccommodationDestination){
  if(!Array.isArray(places)||!places.length)return false;
  const host=document.createElement('div');host.dataset.directChoices='true';
  const table=document.createElement('table');table.className='travel-mode-table';
@@ -2476,6 +2512,14 @@ function openAccommodationResults(places){
   btn.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();if(Number.isFinite(Number(place.latitude??place.lat))&&Number.isFinite(Number(place.longitude??place.lon))){const destination={latitude:Number(place.latitude??place.lat),longitude:Number(place.longitude??place.lon),label:name};openTransportModeFromAssistant({route_context:{destination_query:name,destination,pending:'profile'}})}else{addBubble(name+(address?' — '+address:''),'assistant')}};
   td.append(btn);tr.append(td);body.append(tr);
  });table.append(body);host.append(table);
+ if(originalDestination&&Number.isFinite(Number(originalDestination.latitude))&&Number.isFinite(Number(originalDestination.longitude))){
+  const skip=document.createElement('button');
+  skip.type='button';skip.className='transit-choice-action';
+  skip.textContent=({ro:'Continuă fără cazare',en:'Continue without accommodation',fr:'Continuer sans hébergement',de:'Ohne Unterkunft fortfahren',it:'Continua senza alloggio',es:'Continuar sin alojamiento',pt:'Continuar sem alojamento',nl:'Doorgaan zonder accommodatie',ru:'Продолжить без жилья',pl:'Kontynuuj bez noclegu'}[state.language]||'Continue without accommodation');
+  skip.style.cssText='margin-top:12px;min-height:44px';
+  skip.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationDecision='no';state.tripAccommodationSearching=false;openTransportModeFromAssistant({route_context:{destination_query:originalDestination.label,destination:originalDestination,pending:'profile'}})};
+  host.append(skip);
+ }
  openStandaloneChoicePanel(host,state.language==='ro'?'Cazări găsite':'Accommodation results');return true;
 }
 function openStandaloneChoicePanel(host,titleText){
