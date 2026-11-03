@@ -1751,7 +1751,7 @@ function showPreciseJourney(choice){
    try{
     const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
      body:JSON.stringify({address_lookup:{stage,query,country:selected.country.code.toLowerCase(),
-      city:selected.city?.city||'',street:selected.street?.street||'',postcode:stage==='number'?postcode.value.trim():''}})});
+      city:selected.city?.city||'',cityPoint:selected.city?{latitude:selected.city.latitude,longitude:selected.city.longitude}:undefined,street:selected.street?.street||'',postcode:stage==='number'?postcode.value.trim():''}})});
     if(!response.ok)throw new Error();
     const {candidates}=await response.json();
     if(!current())return;
