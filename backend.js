@@ -796,7 +796,7 @@ async function countryMetadata(code,locale='ro'){
 const administrativeCitiesCache=new Map();
 async function getVerifiedAdministrativeCities(wikibaseItem,locale='ro',scope='country'){
  const qid=String(wikibaseItem||'').trim();
- if(!/^Q[1-9]\\d{0,12}$/.test(qid))return [];
+ if(!/^Q[1-9]\d{0,12}$/.test(qid))return [];
  const language=['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(locale)?locale:'en';
  const key=[qid,language,scope].join('|'),saved=administrativeCitiesCache.get(key);
  if(saved&&saved.expires>Date.now())return saved.items;
@@ -809,7 +809,7 @@ async function getVerifiedAdministrativeCities(wikibaseItem,locale='ro',scope='c
   ' FILTER(?links >= 5)',
   ' SERVICE wikibase:label { bd:serviceParam wikibase:language "'+language+',en". }',
   '} ORDER BY DESC(?links) LIMIT 16'
- ].join('\\n');
+ ].join('\n');
  try{
   const url=new URL('https://query.wikidata.org/sparql');
   url.searchParams.set('query',query);url.searchParams.set('format','json');
@@ -817,10 +817,10 @@ async function getVerifiedAdministrativeCities(wikibaseItem,locale='ro',scope='c
   if(!res.ok)return [];
   const data=await res.json(),seen=new Set(),items=[];
   for(const b of data.results?.bindings||[]){
-   const id=String(b.place?.value||'').match(/\\/(Q[1-9]\\d*)$/)?.[1];
+   const id=String(b.place?.value||'').match(/\/(Q[1-9]\d*)$/)?.[1];
    const name=String(b.placeLabel?.value||'').trim();
-   const point=String(b.coord?.value||'').match(/^Point\\((-?\\d+(?:\\.\\d+)?) (-?\\d+(?:\\.\\d+)?)\\)$/);
-   if(!id||!name||/^Q\\d+$/.test(name)||!point||seen.has(id))continue;
+   const point=String(b.coord?.value||'').match(/^Point\((-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)\)$/);
+   if(!id||!name||/^Q\d+$/.test(name)||!point||seen.has(id))continue;
    const longitude=Number(point[1]),latitude=Number(point[2]);
    if(!Number.isFinite(latitude)||!Number.isFinite(longitude)||Math.abs(latitude)>90||Math.abs(longitude)>180)continue;
    seen.add(id);items.push({name,latitude,longitude,url:'https://www.wikidata.org/wiki/'+id,description:scope==='region'?'Localitate verificată':'Oraș verificat'});
