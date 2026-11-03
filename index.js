@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.129 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.130 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.129",
+  version: "1.0.130",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1277,7 +1277,7 @@ body.long-choice-active{overflow:hidden}
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.129'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.130'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list',transitRefreshBusy:false,transitRefreshGeneration:0,transitRefreshAbort:null };
@@ -2223,6 +2223,38 @@ function appendAnswerText(host,text){
  }
  host.append(document.createTextNode(text.slice(offset)));
 }
+// Render full culinary answers with section headings and preserved steps.
+function appendRecipeReaderText(host,rawText){
+ const text=String(rawText||'');
+ const recipeHeading=/^\\s*(?:\\*\\*)?(?:(?:rețeta|reteta|recipe|recette|rezept|ricetta|receta|receita|recept|рецепт|przepis)\\s*\\d+\\s*[:.—-]|(?:balmoș|balmos)\\b)/iu;
+ const hasRecipeStructure=/(?:^|\\n)\\s*(?:\\*\\*)?(?:rețeta|reteta|recipe|recette|rezept|ricetta|receta|receita|recept|рецепт|przepis)\\s*\\d+\\b/iu.test(text)
+  ||(/(?:^|\\n)\\s*(?:ingrediente|ingredients|zutaten|ingrédients|ingredienti|ingredientes)\\s*:/iu.test(text)
+   &&/(?:^|\\n)\\s*(?:preparare|mod de preparare|pregătire|method|preparation|instructions|zubereitung|preparación)\\s*:/iu.test(text));
+ if(!hasRecipeStructure)return false;
+ const lines=text.replace(/\\r\\n?/g,'\\n').split('\\n');
+ for(const line of lines){
+  const stripped=line.trim();
+  if(!stripped){const gap=document.createElement('div');gap.style.height='10px';host.append(gap);continue;}
+  const plain=stripped.replace(/^\\*\\*/,'').replace(/\\*\\*$/,'').trim();
+  const isHeading=recipeHeading.test(plain),isLabel=/^(?:ingrediente|ingredients|zutaten|ingrédients|ingredienti|ingredientes|mod de preparare|preparare|pregătire|method|preparation|instructions|zubereitung|preparación)\\s*:/iu.test(plain);
+  let node;
+  if(isHeading){
+   node=document.createElement('h3');node.textContent=plain;
+   node.style.cssText='font-size:19px;line-height:1.35;font-weight:750;color:#a6f5ff;margin:18px 0 8px;padding:0 0 8px;border-bottom:1px solid #3e8294;overflow-wrap:anywhere';
+  }else if(isLabel){
+   node=document.createElement('h4');node.textContent=plain;
+   node.style.cssText='font-size:16px;line-height:1.45;color:#e7f9fb;margin:13px 0 5px;font-weight:750';
+  }else{
+   node=document.createElement('div');node.textContent=plain;
+   node.style.cssText='font-size:16px;line-height:1.58;margin:4px 0;overflow-wrap:anywhere';
+   if(/^[-•]\\s/.test(plain))node.style.paddingLeft='11px';
+   else if(/^\\d{1,2}[.)]\\s/.test(plain))node.style.margin='8px 0';
+  }
+  host.append(node);
+ }
+ return true;
+}
+
 function answerExceedsFourLines(content){
  const style=getComputedStyle(content);const height=content.getBoundingClientRect().height;
  const lineHeight=parseFloat(style.lineHeight)||parseFloat(style.fontSize)*1.45;
@@ -2249,7 +2281,7 @@ function openAnswerReader(text,origin){
  const speedLabel=document.createElement('label');speedLabel.textContent=t.speed+' ';
  const speed=document.createElement('select');speed.setAttribute('aria-label',t.speed);
  for(const value of [.5,1,1.5]){const option=document.createElement('option');option.value=String(value);option.textContent=String(value)+'×';speed.append(option)}speed.value='1';speedLabel.append(speed);controls.append(pause,restart,speedLabel);
- const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',t.title);if(!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));appendAnswerText(body,String(text));}
+ const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',t.title);if(!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));if(!appendRecipeReaderText(body,String(text)))appendAnswerText(body,String(text));}
  layer.append(header,controls,body);document.body.append(layer);
  const reader={layer,origin,frame:0,cleanup:()=>{}};activeAnswerReader=reader;
  let running=true,lastTime=null,startAt=performance.now()+800,position=0;
