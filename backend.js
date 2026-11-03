@@ -1074,7 +1074,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v177";
+    const API_VERSION = "v178";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
@@ -2555,6 +2555,12 @@ export default {
         responsePlaceContext={category:suppliedCategory.key,destination:suppliedContext.destination,stars:suppliedContext.stars||null,central:suppliedContext.central===true,pending_candidates:options};
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:optionText(suppliedContext.destination,options),places:[],needs_location_clarification:true,destination_candidates:options,search_ok:false,ai_connected:Boolean(env.AI)});
       }
+    }
+    // v178: conversational identity questions must not fall into named-place geocoding.
+    const identityQuestion=message.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[!?.,]+/g," ").replace(/\s+/g," ").trim();
+    if(data.module!=="maps" && /^(?:(?:te rog |poti sa |poți să )?(?:spune(?: mi)? |zi(?: mi)? |explica(?: mi)? )?)?(?:cine esti|cine sunteti|who are you|what are you|qui es tu|qui etes vous|wer bist du|chi sei|quien eres|quem es voce|wie ben jij|кто ты|kim jestes)(?: de fapt)?$/.test(identityQuestion)){
+      const replies={ro:"Sunt Pocket AI, asistentul tău virtual. Te pot ajuta cu informații, întrebări, căutări și planificarea traseelor.",en:"I’m Pocket AI, your virtual assistant. I can help with questions, information, searches and route planning.",fr:"Je suis Pocket AI, votre assistant virtuel.",de:"Ich bin Pocket AI, dein virtueller Assistent.",it:"Sono Pocket AI, il tuo assistente virtuale.",es:"Soy Pocket AI, tu asistente virtual.",pt:"Sou Pocket AI, o seu assistente virtual.",nl:"Ik ben Pocket AI, je virtuele assistent.",ru:"Я Pocket AI, ваш виртуальный помощник.",pl:"Jestem Pocket AI, Twoim wirtualnym asystentem."};
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:replies[lang]||replies.en,ai_connected:Boolean(env.AI)});
     }
     let activePlaceRequest=placeRequestFrom(message,priorPlaceRequest,typeof data.location_query==="string"?data.location_query.trim().slice(0,160):"");
     if(selectedCandidate)activePlaceRequest={category:suppliedCategory,destination:selectedCandidate.query,stars:[1,2,3,4,5].includes(suppliedContext.stars)?suppliedContext.stars:null,central:suppliedContext.central===true,inherited:true,needsDestination:false,selected:selectedCandidate};
