@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.143",
+  version: "1.0.144",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2719,7 +2719,7 @@ function renderHistory(){const list=$('historyList');list.innerHTML='';if(!state
 // v1.0.134 — Pocket AI avatar v16 (conditional GLB viewer; image fallback)
 
 const avatar3dFrame=$('avatar3dFrame');
-let avatar3dReady=false,avatar3dStarted=false,avatar3dPending=null;
+let avatar3dReady=false,avatar3dStarted=false,avatar3dPending=null,avatarWelcomeQueued=false;
 let avatarWords=[],avatarWordStart=0,avatarWordIndex=0,avatarLastFrame=0,avatarRaf=0,avatarSpeaking=false;
 const avatarMorphNames=['UpperLipRaise','LowerLipDrop','LipPucker','MouthWide','Labiodental','LipSeal','TongueRaise'];
 const avatarMouthShapes={X:[0,0,0,0,0,.85,0],A:[0,0,0,0,0,1,0],B:[.15,.08,0,.12,0,0,0],C:[.42,.38,0,.25,0,0,0],D:[.65,.72,0,.12,0,0,0],E:[.35,.43,.65,0,0,0,0],F:[.18,.2,.95,0,0,0,0],G:[.42,.06,0,0,.9,0,0],H:[.4,.45,0,0,0,0,.8]};
@@ -2777,17 +2777,36 @@ function avatar3dSend(action,payload={}){
 }
 function avatar3dLoad(){
  if(avatar3dStarted)return;avatar3dStarted=true;
- avatar3dFrame.style.display='block';
+ avatar3dFrame.style.display='none';
  avatar3dFrame.src='/avatar-v16.html';
  avatar3dFrame.addEventListener('error',()=>{
-  avatar3dReady=false;$('avatarImage').style.visibility='visible';avatar3dFrame.style.display='none';
+  avatar3dReady=false;avatar3dFrame.style.display='none';avatarWelcomeQueued=false;hideAvatar();
   setStatus('Modelul 3D nu a putut fi încărcat.')
  },{once:true});
 }
 window.addEventListener('message',event=>{
  if(event.origin!==location.origin||event.source!==avatar3dFrame.contentWindow)return;
  if(event.data?.channel!=='pocket-avatar-v16'||event.data.action!=='ready')return;
- avatar3dReady=true;avatar3dFrame.style.display='block';$('avatarImage').style.visibility='hidden';
+ avatar3dReady=true;
+ try{
+  const doc=avatar3dFrame.contentDocument,model=avatar3dFrame.contentWindow?.pocketAITest;
+  if(doc){
+   const style=doc.createElement('style');style.textContent='html,body{height:100%!important;overflow:hidden!important;background:transparent!important}body>header,body>section{display:none!important}#view{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;min-height:0!important;max-height:none!important;background:transparent!important}';
+   doc.head.append(style);
+  }
+  if(model){
+   model.scene.background=null;
+   model.renderer.setClearColor(0x000000,0);
+   model.renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
+   const width=window.innerWidth,height=window.innerHeight;
+   model.renderer.setSize(width,height,false);
+   model.camera.aspect=width/height;model.camera.updateProjectionMatrix();
+   if(model.framing)model.framing('full');
+   model.renderer.render(model.scene,model.camera);
+  }
+ }catch(e){console.warn('Avatar application display',String(e))}
+ avatar3dFrame.style.display='block';$('avatarImage').style.visibility='hidden';
+ if(avatarWelcomeQueued&&!state.speaking){avatarWelcomeQueued=false;showAvatar({message:'',status:'',speaking:false});state.avatarTimer=setTimeout(hideAvatar,4700)}
  try{
   const test=avatar3dFrame.contentWindow.pocketAITest;
   if(test?.framing){test.framing('full');test.renderer.render(test.scene,test.camera)}
@@ -2797,7 +2816,7 @@ window.addEventListener('message',event=>{
 // 04 — Avatar lifecycle: same entrance/exit transition for every appearance
 function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility='hidden';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(speaking)avatar3dLoad();avatarOverlay.classList.add('visible');avatarOverlay.setAttribute('aria-hidden','false')}
 function hideAvatar(){avatar3dSend('stop');clearTimeout(state.avatarTimer);avatarOverlay.classList.remove('visible','speaking');avatarOverlay.setAttribute('aria-hidden','true');voiceWave.hidden=true}
-function welcomeUser(){showAvatar({message:'Salut! Sunt asistentul tău personal.',status:'Bine ai venit!'});state.avatarTimer=setTimeout(hideAvatar,6500)}
+function welcomeUser(){avatarWelcomeQueued=true;avatar3dLoad();if(avatar3dReady){avatarWelcomeQueued=false;showAvatar({message:'',status:'',speaking:false});state.avatarTimer=setTimeout(hideAvatar,4700)}}
 $('avatarClose').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false)}hideAvatar()});
 // 05 — Speech output, independent from network request handling
 let speechVoiceCache=[];
@@ -3150,6 +3169,12 @@ welcomeUser();
  border-radius:18px!important;
  font-weight:850!important;
 }
+/* Production avatar: immersive full-screen portrait without demo controls or duplicate static image. */
+.avatar-overlay,.avatar-overlay.visible{z-index:2147482000!important;background:radial-gradient(ellipse at 50% 34%,#25475e 0%,#102c43 52%,#04121f 100%)!important;padding:0!important}
+.avatar-overlay .avatar-stage{position:absolute!important;inset:0!important;width:100vw!important;max-width:none!important;height:100dvh!important;max-height:none!important;padding:0!important;margin:0!important;gap:0!important;overflow:hidden!important;transform:none!important;opacity:1!important}
+.avatar-overlay .avatar-stage #avatar3dFrame{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;border:0!important;background:transparent!important}
+.avatar-overlay .avatar-image,.avatar-overlay .avatar-close,.avatar-overlay .avatar-message,.avatar-overlay .avatar-status,.avatar-overlay .voice-wave{display:none!important}
+
 </style>
 </body>
 </html>`;
