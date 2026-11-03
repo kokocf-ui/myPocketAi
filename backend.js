@@ -1236,13 +1236,13 @@ export default {
       const types={city:'city',street:'street',number:'building'};
       if (!Object.hasOwn(types,stage) || !/^[a-z]{2}$/.test(country||'') ||
           ![query,city,street,postcode].every(value=>typeof value==='string'&&value.length<=160) ||
-          !query.trim() || (stage!=='city'&&!city) || (stage==='number'&&!street))
+          (!query.trim() && stage!=='number') || (stage!=='city'&&!city))
         return json({error:'Invalid address search'},400);
       if (!env.GEOAPIFY_API_KEY) return json({error:'Address search unavailable'},503);
       const url=new URL('https://api.geoapify.com/v1/geocode/search');
       const normalize=value=>String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
       url.search=new URLSearchParams({
-        text:(stage==='city'?[query]:stage==='street'?[query,city]:[street+' '+query,city,postcode]).filter(Boolean).join(', '),
+        text:(stage==='city'?[query]:stage==='street'?[query,city]:[[street,query].filter(Boolean).join(' '),city,postcode]).filter(Boolean).join(', '),
         type:types[stage],filter:'countrycode:'+country,bias:'countrycode:none',format:'json',limit:'20',apiKey:env.GEOAPIFY_API_KEY
       });
       try {
@@ -1255,12 +1255,13 @@ export default {
           if(place.country_code!==country || !Number.isFinite(place.lat) || !Number.isFinite(place.lon))return [];
           if(stage!=='city'&&!towns.slice(0,5).some(value=>normalize(value)===normalize(city)))return [];
           if(stage==='street'&&(!place.street||place.result_type!=='street'))return [];
-          if(stage==='number'&&(normalize(place.street)!==normalize(street)||normalize(place.housenumber)!==normalize(query)||
+          if(stage==='number'&&((street&&normalize(place.street)!==normalize(street))||!place.housenumber||(query&&!normalize(place.housenumber).startsWith(normalize(query)))||
               (postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
           if(stage==='city'&&place.result_type!=='city')return [];
           const label=String(place.formatted||'');
-          if(!label||seen.has(label))return [];
-          seen.add(label);
+          const key=stage==='street'?normalize(place.street):label;
+          if(!label||seen.has(key))return [];
+          seen.add(key);
           return [{label,city:towns.find(Boolean)||'',street:place.street||'',latitude:place.lat,longitude:place.lon,country_code:country.toUpperCase()}];
         });
         return json({candidates});
