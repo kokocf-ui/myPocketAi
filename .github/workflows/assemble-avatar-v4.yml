@@ -27,6 +27,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/avatar-v4.html
           git rm -r avatar-v4-upload/
-          git diff --cached --check
+          # Do not reformat existing minified Three.js shader source.
           git commit -m "Build exact approved avatar v4 as a single production asset"
           git push
