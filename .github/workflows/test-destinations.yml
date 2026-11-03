@@ -27,6 +27,8 @@ jobs:
           node-version: '22'
       - name: Syntax validation
         run: npm run check
+      - name: Traditional balmoș recipe completeness and reader QA
+        run: node tests_balmos_recipe_regression.mjs
       - name: Confirmed landmark and cross-country safety regression
         run: node tests_landmark_resolution.mjs
       - name: Modal first-tap and transit refresh checks
