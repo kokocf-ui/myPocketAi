@@ -83,7 +83,7 @@ try{
    })}),{AI:ai,EXA_API_KEY:'fixture'});
    const payload=await response.json();
    assert.equal(payload.status,'success');
-   assert.equal(payload.recipe_grounding_status,'sourced');
+   assert.equal(payload.recipe_grounding_status,'rejected_structure_or_quality');
    assert.equal(payload.latency_breakdown?.recipe_rejected,true,'unsafe cooking must be rejected');
    assert.equal(payload.latency_breakdown?.recipe_fallback_used,false,'fixed templates forbidden');
    assert.ok(!payload.reply.toLowerCase().includes(forbidden.toLowerCase()),'unsafe model response leaked');

@@ -1,3 +1,11 @@
+## Pocket AI — backend v177 (corecție culinară) / frontend 1.0.130 — 2026-11-03
+
+- **Cauză identificată în capturile cu ciorbă de perișoare:** modelul producea introduceri lungi, traduceri nefirești (de tip „bulion tangajos”), blocuri repetate și ingrediente duplicate („3 linguri orez” / „3 linguri de orez”). Nu este o eroare a listei sau a ferestrei „Răspuns complet”.
+- **Din sursa originală, fără halucinații:** dacă un editor culinar publică date structurate schema.org `Recipe` în limba selectată, backendul folosește direct ingredientele și pașii publicați, fără o nouă generare AI. Nu sunt stabilite manual rețete pentru anumite feluri de mâncare.
+- **Pagini fără `Recipe` complet:** modelul primește doar dovezi din cea mai relevantă pagină, nu o amestecătură de pagini. Răspunsul trebuie să aibă titlu, o singură secțiune „Ingrediente”, pași numerotați și sursa. Introducerile lungi și dublurile de cantități echivalente sunt eliminate; dacă lipsesc ingrediente/pași structurați, răspunsul este respins.
+- **Păstrăm interfața:** nu s-au schimbat frontendul, lista de rețete, transportul, cazarea ori navigația inferioară. Testul `tests_recipe_structure_regression.mjs` se execută prin `npm test`.
+- **Validare:** simularea backend cu rețetă structurată a returnat ingredientele și pașii, fără apel la model. Lansarea CI completă, verificarea live și publicarea Cloudflare trebuie confirmate separat.
+
 ## Pocket AI — backend v176 (ramură de test, nepublicată) / frontend 1.0.130 — 2026-11-03
 
 - **Rețetele nu mai sunt fixe:** eliminat răspunsul local pentru balmoș și fallback-urile fixe pentru sarmale/ciorbă de burtă. Orice cerere recunoscută ca rețetă declanșează căutare în surse culinare accesibile, independent de țară.
