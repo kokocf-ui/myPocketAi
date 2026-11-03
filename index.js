@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.130",
+  version: "1.0.131",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
