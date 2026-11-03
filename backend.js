@@ -1421,7 +1421,7 @@ export default {
                 seen.add(key);return true;
               }).slice(0,8).map(x=>({name:String(x.name).slice(0,100),address:String(x.formatted||'').slice(0,180),
                 latitude:Number(x.lat),longitude:Number(x.lon),url:'https://www.openstreetmap.org/?mlat='+Number(x.lat)+'&mlon='+Number(x.lon)+'#map=16/'+Number(x.lat)+'/'+Number(x.lon)}));
-              if(article.attractions.length)article.attractions_source='https://www.openstreetmap.org/';
+              if(article.attractions.length){article.attractions_source='https://www.openstreetmap.org/';if(isRegionProfile)article.attractions_scope='region_center_sample';}
             }
           }catch{}
         }
