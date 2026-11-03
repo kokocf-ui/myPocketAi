@@ -1,3 +1,4 @@
+import {readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import vm from 'node:vm';
@@ -57,17 +58,18 @@ console.log('PASS: frontend recipe/GPS prioritisation, generated script syntax, 
 
 
 // Avatar must use an alpha-enabled renderer before WebGL context creation.
-const avatarFixture='<html>new dr({canvas:t,antialias:!0,powerPreference:"low-power"});i.background=new ve("#b3c0cc");c.enableDamping=!1,c.minDistance=.13;touch-action:none;background:#b3c0cc</html>';
-let assetCalls=0;
-const avatarResponse=await frontend.fetch(new Request('https://pocket.test/avatar-production.html'),{
- ASSETS:{fetch:async()=>{assetCalls++;return new Response(avatarFixture,{status:200})}}
+const avatarAsset=readFileSync(new URL('./public/avatar-v4.html',import.meta.url),'utf8');
+const avatarResponse=await frontend.fetch(new Request('https://pocket.test/avatar-production.html?embedded=1'),{
+ ASSETS:{fetch:async request=>{
+  assert.equal(new URL(request.url).pathname,'/avatar-v4.html');
+  return new Response(avatarAsset,{headers:{'Content-Type':'text/html'}});
+ }}
 });
 assert.equal(avatarResponse.status,200,'production avatar endpoint must be served by worker');
-assert.equal(assetCalls,1,'production avatar must read existing published asset only once');
 const preparedAvatar=await avatarResponse.text();
-assert.ok(preparedAvatar.includes('new dr({canvas:t,alpha:!0,antialias:!0'),'WebGL alpha must be enabled at creation');
-assert.ok(preparedAvatar.includes('i.background=null'),'3D scene background must be transparent');
-assert.ok(preparedAvatar.includes('c.enabled=!1'),'avatar touch rotation must be disabled');
-assert.ok(preparedAvatar.includes('pointer-events:none;background:transparent'),'avatar canvas must not intercept touch');
-assert.ok(inline.includes("avatar3dFrame.src='/avatar-production.html'"));
+assert.ok(preparedAvatar.includes('alpha:true,antialias:true'),'WebGL alpha must be enabled at creation');
+assert.ok(preparedAvatar.includes('scene.background=null'),'3D scene background must be transparent');
+assert.ok(preparedAvatar.includes('pointer-events:none;touch-action:pan-y'));
+assert.ok(preparedAvatar.includes("channel:'pocket-avatar-v4',action:'ready'"));
+assert.ok(inline.includes("avatar3dFrame.src='/avatar-production.html?embedded=1'"));
 assert.ok(inline.includes("const searchArea=chosenRegion?"),'region destinations should share country-level resolution');

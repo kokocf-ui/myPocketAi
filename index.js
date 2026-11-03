@@ -2716,107 +2716,53 @@ function loadHistory(){try{const v=JSON.parse(localStorage.getItem(HISTORY_KEY)|
 function saveHistory(){try{localStorage.setItem(HISTORY_KEY,JSON.stringify(state.history.slice(-30)))}catch{notify('Istoricul nu a putut fi salvat pe acest dispozitiv.')}}
 function archiveCurrentConversation(){if(!state.messages.length)return;state.history.unshift({id:Date.now(),title:(state.messages.find(m=>m.role==='user')?.text||'Conversație nouă').slice(0,72),date:new Date().toLocaleString(),messages:state.messages.slice(-40),placeContext:state.placeSearchContext||null,placeResults:state.lastPlaceResults||[],distanceContext:state.distanceSearchContext||null,routeContext:state.routeSearchContext||null,weatherContext:state.weatherSearchContext||null});state.history=state.history.slice(0,30);saveHistory()}
 function renderHistory(){const list=$('historyList');list.innerHTML='';if(!state.history.length){const p=document.createElement('p');p.className='muted';p.textContent='Nu există conversații salvate încă.';list.append(p);return}state.history.forEach(item=>{const row=document.createElement('div');row.className='list-row';const span=document.createElement('span');span.textContent=item.title+' · '+item.date;const btn=document.createElement('button');btn.textContent='Deschide';btn.addEventListener('click',()=>{state.messages=Array.isArray(item.messages)?item.messages.slice():[];state.placeSearchContext=item.placeContext||null;state.lastPlaceResults=Array.isArray(item.placeResults)?item.placeResults:[];state.distanceSearchContext=item.distanceContext||null;state.routeSearchContext=item.routeContext||null;state.weatherSearchContext=item.weatherContext||null;state.lastRoute=null;state.lastRouteOptions=[];messagesEl.innerHTML='';if(!state.messages.length)messagesEl.innerHTML='<div class="empty-state">Conversație goală.</div>';state.messages.forEach(m=>addBubble(m.text,m.role));state.lastReply=[...state.messages].reverse().find(m=>m.role==='assistant')?.text||'';showView('assistant')});row.append(span,btn);list.append(row)})}
-// v1.0.134 — Pocket AI avatar v16 (conditional GLB viewer; image fallback)
-
+// Pocket AI floating 3D avatar
 const avatar3dFrame=$('avatar3dFrame');
 let avatar3dReady=false,avatar3dStarted=false,avatar3dPending=null,avatarWelcomeQueued=false;
-let avatarWords=[],avatarWordStart=0,avatarWordIndex=0,avatarLastFrame=0,avatarRaf=0,avatarSpeaking=false;
-const avatarMorphNames=['UpperLipRaise','LowerLipDrop','LipPucker','MouthWide','Labiodental','LipSeal','TongueRaise'];
-const avatarMouthShapes={X:[0,0,0,0,0,.85,0],A:[0,0,0,0,0,1,0],B:[.15,.08,0,.12,0,0,0],C:[.42,.38,0,.25,0,0,0],D:[.65,.72,0,.12,0,0,0],E:[.35,.43,.65,0,0,0,0],F:[.18,.2,.95,0,0,0,0],G:[.42,.06,0,0,.9,0,0],H:[.4,.45,0,0,0,0,.8]};
-function avatarLocalPose(key){
- const test=avatar3dFrame.contentWindow?.pocketAITest;if(!test?.rigs?.length)return;
- const weights=avatarMouthShapes[key]||avatarMouthShapes.B;
- for(const mesh of test.rigs){const dict=mesh.morphTargetDictionary||{};for(let n=0;n<avatarMorphNames.length;n++){const j=dict[avatarMorphNames[n]];if(j!==undefined)mesh.morphTargetInfluences[j]=weights[n]}}
- test.renderer.render(test.scene,test.camera);
-}
-function avatarLocalTick(ms){
- if(!avatarSpeaking)return;
- avatarRaf=requestAnimationFrame(avatarLocalTick);
- if(ms-avatarLastFrame<33)return;avatarLastFrame=ms;
- const elapsed=ms-avatarWordStart;
- const words=avatarWords.length?avatarWords:['Pocket'];
- let index=avatarWordIndex,within=elapsed;
- while(within>Math.max(180,words[index%words.length].length*53+95)){
-  within-=Math.max(180,words[index%words.length].length*53+95);index++;
-  if(index>words.length*4)index=words.length;
- }
- const word=words[Math.min(index,words.length-1)]||'Pocket';
- const letters=Array.from(word.toLocaleLowerCase()).filter(ch=>ch.toLocaleUpperCase()!==ch.toLocaleLowerCase());
- const letter=letters.length?letters[Math.min(letters.length-1,Math.floor(within/85)%letters.length)]:'a';
- let shape='B';
- if('mbp'.includes(letter))shape='A';
- else if('aăâ'.includes(letter))shape='D';
- else if('eiî'.includes(letter))shape='C';
- else if('ou'.includes(letter))shape='F';
- else if('fv'.includes(letter))shape='G';
- else if('lnrtșşțţ'.includes(letter))shape='H';
- avatarLocalPose(shape);
- // Without Android word-boundary events, keep natural speech motion until TTS actually ends.
- if(index>=words.length-1&&elapsed>words.length*275){avatarWordStart=ms;avatarWordIndex=Math.max(0,words.length-3)}
-}
-function avatarLocalStop(){
- avatarSpeaking=false;cancelAnimationFrame(avatarRaf);
- try{avatar3dFrame.contentWindow.pocketAIHeadVoiceActive=false;avatarLocalPose('X')}catch{}
-}
-function avatarLocalStart(text){
- avatarLocalStop();
- avatarWords=String(text||'').split(' ').map(w=>w.trim()).filter(Boolean);avatarWordIndex=0;avatarWordStart=performance.now();avatarLastFrame=0;
- avatarSpeaking=true;
- try{avatar3dFrame.contentWindow.pocketAIHeadVoiceActive=true}catch{}
- avatarRaf=requestAnimationFrame(avatarLocalTick);
-}
 function avatar3dSend(action,payload={}){
- if(action==='stop'){avatar3dPending=null;avatarLocalStop();return}
- if(!avatar3dReady){if(action==='start')avatar3dPending={action,payload};return}
- if(action==='start')avatarLocalStart(payload.text);
- if(action==='boundary'&&avatarSpeaking&&payload.word){
-  const word=String(payload.word).toLocaleLowerCase();
-  const next=avatarWords.findIndex((w,i)=>i>=avatarWordIndex&&w.toLocaleLowerCase()===word);
-  if(next>=0){avatarWordIndex=next;avatarWordStart=performance.now()}
+ if(!avatar3dReady){
+  if(action==='start')avatar3dPending=payload;
+  if(action==='stop')avatar3dPending=null;
+  return;
  }
+ const avatar=avatar3dFrame.contentWindow.PocketAvatarAPI;
+ if(action==='start')avatar.start(payload.text);
+ if(action==='boundary')avatar.boundary(payload.charIndex);
+ if(action==='stop')avatar.stop();
 }
 function avatar3dLoad(){
- if(avatar3dStarted)return;avatar3dStarted=true;
- avatar3dFrame.style.display='none';
- avatar3dFrame.src='/avatar-production.html';
- avatar3dFrame.addEventListener('error',()=>{
-  avatar3dReady=false;avatar3dFrame.style.display='none';avatarWelcomeQueued=false;hideAvatar();
-  setStatus('Modelul 3D nu a putut fi încărcat.')
- },{once:true});
+ if(avatar3dStarted)return;
+ avatar3dStarted=true;
+ avatar3dFrame.src='/avatar-production.html?embedded=1';
 }
 window.addEventListener('message',event=>{
  if(event.origin!==location.origin||event.source!==avatar3dFrame.contentWindow)return;
- if(event.data?.channel!=='pocket-avatar-v16'||event.data.action!=='ready')return;
+ if(event.data?.channel!=='pocket-avatar-v4')return;
+ if(event.data.action==='error'){
+  avatarWelcomeQueued=false;hideAvatar();
+  setStatus('Modelul 3D nu a putut fi încărcat.');
+  return;
+ }
+ if(event.data.action!=='ready'||avatar3dReady)return;
  avatar3dReady=true;
- try{
-  const doc=avatar3dFrame.contentDocument,model=avatar3dFrame.contentWindow?.pocketAITest;
-  if(doc){
-   const style=doc.createElement('style');style.textContent='html,body{height:100%!important;overflow:hidden!important;background:transparent!important}body>header,body>section{display:none!important}#view{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;min-height:0!important;max-height:none!important;background:transparent!important}';
-   doc.head.append(style);
-  }
-  if(model){
-   model.scene.background=null;
-   model.renderer.setClearColor(0x000000,0);
-   model.renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
-   const width=window.innerWidth,height=window.innerHeight;
-   model.renderer.setSize(width,height,false);
-   model.camera.aspect=width/height;model.camera.updateProjectionMatrix();
-   if(model.framing)model.framing('full');
-   model.renderer.render(model.scene,model.camera);
-  }
- }catch(e){console.warn('Avatar application display',String(e))}
- avatar3dFrame.style.display='block';$('avatarImage').style.visibility='hidden';
- if(avatarWelcomeQueued&&!state.speaking){avatarWelcomeQueued=false;showAvatar({message:'',status:'',speaking:false});state.avatarTimer=setTimeout(hideAvatar,4700)}
- else if(state.speaking){showAvatar({message:'',status:'',speaking:true})}
- try{
-  const test=avatar3dFrame.contentWindow.pocketAITest;
-  if(test?.framing){test.framing('full');test.renderer.render(test.scene,test.camera)}
- }catch(error){console.warn('Avatar framing',String(error))}
- if(avatar3dPending){const p=avatar3dPending;avatar3dPending=null;avatar3dSend(p.action,p.payload)}
+ avatar3dFrame.style.display='block';
+ if(avatarWelcomeQueued&&!state.speaking){
+  avatarWelcomeQueued=false;
+  showAvatar({message:'',status:'',speaking:false});
+  state.avatarTimer=setTimeout(hideAvatar,4700);
+ }else if(state.speaking){
+  avatarWelcomeQueued=false;
+  showAvatar({message:'',status:'',speaking:true});
+ }
+ if(avatar3dPending){
+  const pending=avatar3dPending;
+  avatar3dPending=null;
+  avatar3dSend('start',pending);
+ }
 });
 // 04 — Avatar lifecycle: same entrance/exit transition for every appearance
-function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility='hidden';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(speaking)avatar3dLoad();avatarOverlay.classList.toggle('visible',avatar3dReady);avatarOverlay.setAttribute('aria-hidden',avatar3dReady?'false':'true')}
-function hideAvatar(){avatar3dSend('stop');clearTimeout(state.avatarTimer);avatarOverlay.classList.remove('visible','speaking');avatarOverlay.setAttribute('aria-hidden','true');voiceWave.hidden=true}
+function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility='hidden';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(speaking)avatar3dLoad();if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(true);avatarOverlay.classList.toggle('visible',avatar3dReady);avatarOverlay.setAttribute('aria-hidden',avatar3dReady?'false':'true')}
+function hideAvatar(){avatar3dSend('stop');if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(false);clearTimeout(state.avatarTimer);avatarOverlay.classList.remove('visible','speaking');avatarOverlay.setAttribute('aria-hidden','true');voiceWave.hidden=true}
 function welcomeUser(){avatarWelcomeQueued=true;avatar3dLoad();if(avatar3dReady){avatarWelcomeQueued=false;showAvatar({message:'',status:'',speaking:false});state.avatarTimer=setTimeout(hideAvatar,4700)}}
 $('avatarClose').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false)}hideAvatar()});
 // 05 — Speech output, independent from network request handling
@@ -2832,7 +2778,7 @@ const replacements=[
 ];for(const [pattern,word] of replacements)t=t.replace(pattern,word);
 // Improve Romanian reading of decimal quantities without changing the written reply.
 t=t.replace(/(\\d),(\\d)/g,'$1 virgulă $2');return t;}
-function speakText(text,{continuous=false}={}){stopRecognition();state.dictationMode=false;setPressed($('dictationBtn'),false);if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language;utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onstart=()=>{avatar3dLoad();avatar3dSend('start',{text:utterance.text})};utterance.onboundary=(event)=>{const remaining=utterance.text.slice(event.charIndex);avatar3dSend('boundary',{word:(remaining.match(/^\S+/)||[''])[0]})};utterance.onend=()=>{avatar3dSend('stop');state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking&&!state.recognition)startRecognition('voice')},850)}};utterance.onerror=()=>{avatar3dSend('stop');state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
+function speakText(text,{continuous=false}={}){stopRecognition();state.dictationMode=false;setPressed($('dictationBtn'),false);if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language;utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onstart=()=>{avatar3dLoad();avatar3dSend('start',{text:utterance.text})};utterance.onboundary=event=>avatar3dSend('boundary',{charIndex:event.charIndex});utterance.onend=()=>{avatar3dSend('stop');state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking&&!state.recognition)startRecognition('voice')},850)}};utterance.onerror=()=>{avatar3dSend('stop');state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
 function stopSpeech(){avatar3dSend('stop');if('speechSynthesis'in window)window.speechSynthesis.cancel();state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true}
 // 06 — Speech recognition: dictation and continuous voice are distinct modes
 const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition||null;
@@ -3190,19 +3136,8 @@ export default {
   const url = new URL(request.url);
   if (request.method === 'OPTIONS') return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET,POST,OPTIONS','Access-Control-Allow-Headers':'Content-Type'}});
   if (url.pathname === '/avatar-production.html') {
-   // Reuse the existing 3D model asset; transform the demo-only viewer into transparent production mode.
-   if (!env?.ASSETS) return new Response('Avatar asset binding unavailable',{status:503});
-   const asset=await env.ASSETS.fetch(new Request(new URL('/avatar-v16.html',url)));
-   if(!asset.ok)return new Response('Avatar model unavailable',{status:502});
-   let html=await asset.text();
-   const replacements=[
-    ['new dr({canvas:t,antialias:!0,powerPreference:"low-power"})','new dr({canvas:t,alpha:!0,antialias:!0,powerPreference:"low-power"})'],
-    ['i.background=new ve("#b3c0cc")','i.background=null'],
-    ['c.enableDamping=!1,c.minDistance=.13','c.enableDamping=!1,c.enabled=!1,c.minDistance=.13'],
-    ['touch-action:none;background:#b3c0cc','touch-action:none;pointer-events:none;background:transparent']
-   ];
-   for(const [from,to] of replacements){if(!html.includes(from))return new Response('Avatar production conversion failed',{status:503});html=html.replace(from,to)}
-   return new Response(html,{headers:{'Content-Type':'text/html; charset=UTF-8','Cache-Control':'public, max-age=3600','X-Content-Type-Options':'nosniff'}});
+   if(!env?.ASSETS)return new Response('Avatar asset binding unavailable',{status:503});
+   return env.ASSETS.fetch(new Request(new URL('/avatar-v4.html',url)));
   }
   if (url.pathname !== '/' && url.pathname !== '/index.html') return new Response('Not found',{status:404});
   return new Response(htmlDocument(),{headers:{'Content-Type':'text/html; charset=UTF-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin'}});
