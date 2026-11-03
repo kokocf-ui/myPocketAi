@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.128 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.129 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.128",
+  version: "1.0.129",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1277,7 +1277,7 @@ body.long-choice-active{overflow:hidden}
 (() => {
 'use strict';
 // 01 — State and DOM references
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.128'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.129'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list',transitRefreshBusy:false,transitRefreshGeneration:0,transitRefreshAbort:null };
@@ -2437,6 +2437,35 @@ function showAccommodationNotice(message){
  el.style.cssText='position:fixed;left:6%;right:6%;bottom:115px;z-index:2147483000;padding:14px 18px;border-radius:15px;background:#15394c;color:#f3fbff;border:1px solid #36c4d5;box-shadow:0 5px 24px #0009;text-align:center;pointer-events:none;font-size:15px;';
  document.body.append(el);setTimeout(()=>el.remove(),2000);
 }
+function cleanAccommodationPlaces(places){
+ if(!Array.isArray(places))return [];
+ const norm=value=>String(value||'').normalize('NFKD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^\\p{L}\\p{N}]+/gu,' ').trim();
+ const results=[],keys=new Set();
+ for(const place of places){
+  if(!place||place.latitude==null||place.longitude==null)continue;
+  const lat=Number(place.latitude),lon=Number(place.longitude);
+  if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)continue;
+  const name=String(place.name||place.tags?.name||'').trim();
+  const nameKey=norm(name),streetKey=norm(place.street);
+  if(!nameKey)continue;
+  const roadOnly=/^(strada|str|street|st|road|rd|bulevardul|bulevard|calea|drumul|ulita|rue|calle|via|rua)( |$)/u.test(nameKey)
+   && !/(hotel|hostel|motel|apart|pensiun|guest|inn|chalet|caban|vila|villa|suite|room|residen|lodg)/u.test(nameKey);
+  if(roadOnly||(streetKey&&nameKey===streetKey))continue;
+  const addressKey=norm(place.address||place.formatted||'');
+  const key=nameKey+'|'+addressKey;
+  if(keys.has(key))continue;
+  const duplicate=results.some(prev=>{
+   const prevName=norm(prev.name||prev.tags?.name);
+   if(prevName!==nameKey)return false;
+   const meters=Math.hypot((lat-Number(prev.latitude))*111000,(lon-Number(prev.longitude))*111000*Math.cos(lat*Math.PI/180));
+   return meters<75;
+  });
+  if(duplicate)continue;
+  keys.add(key);results.push(place);
+ }
+ return results;
+}
+
 function offerDestinationAccommodationBeforeRoute(destination){
  if(!destination||destination.latitude==null||destination.longitude==null||!Number.isFinite(Number(destination.latitude))||!Number.isFinite(Number(destination.longitude))||Math.abs(Number(destination.latitude))>90||Math.abs(Number(destination.longitude))>180)return false;
  state.tripAccommodationDestination={...destination};state.travelAccommodationIntent=false;state.tripAccommodationDecision='pending';
@@ -2477,14 +2506,12 @@ function offerDestinationAccommodationBeforeRoute(destination){
    if(!response.ok)throw new Error('Accommodation search HTTP '+response.status);
    const data=await response.json();
    state.tripAccommodationSearching=false;
-   const found=Array.isArray(data.places)?data.places.filter(place=>
-    place&&place.latitude!=null&&place.longitude!=null&&
-    Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude))):[];
+   const found=cleanAccommodationPlaces(data.places);
    if(found.length){
     openAccommodationResults(found,originalDestination);
     return;
    }
-   const noMappedPlaces=data.results_count===0&&!data.search_error_code;
+   const noMappedPlaces=!data.search_error_code&&Array.isArray(data.places)&&!found.length&&(data.results_count===0||data.search_ok===true);
    next();
    if(noMappedPlaces)showAccommodationNotice(state.language==='ro'
     ?'Nu am identificat cazări cartografiate în apropiere.'
@@ -2500,7 +2527,8 @@ function offerDestinationAccommodationBeforeRoute(destination){
  host.append(yes,no);openStandaloneChoicePanel(host,state.language==='ro'?'Cazare înainte de traseu':'Accommodation before route');return true;
 }
 function openAccommodationResults(places,originalDestination=state.tripAccommodationDestination){
- if(!Array.isArray(places)||!places.length)return false;
+ places=cleanAccommodationPlaces(places);
+ if(!places.length)return false;
  const host=document.createElement('div');host.dataset.directChoices='true';
  const table=document.createElement('table');table.className='travel-mode-table';
  const body=document.createElement('tbody');
