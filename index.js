@@ -2453,7 +2453,7 @@ function cleanAccommodationPlaces(places){
   if(roadOnly||(streetKey&&nameKey===streetKey))continue;
   const addressKey=norm(place.address||place.formatted||'');
   const key=nameKey+'|'+addressKey;
-  if(keys.has(key))continue;
+  if(addressKey&&keys.has(key))continue;
   const duplicate=results.some(prev=>{
    const prevName=norm(prev.name||prev.tags?.name);
    if(prevName!==nameKey)return false;
@@ -2461,7 +2461,7 @@ function cleanAccommodationPlaces(places){
    return meters<75;
   });
   if(duplicate)continue;
-  keys.add(key);results.push(place);
+  if(addressKey)keys.add(key);results.push(place);
  }
  return results;
 }
