@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.140",
+  version: "1.0.141",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2501,7 +2501,8 @@ function openEncyclopediaCard(article,requestStartMs){
  {
   const scopeName={ro:' (zona capitalei)',en:' (capital area)',fr:' (région de la capitale)',de:' (Hauptstadtregion)',it:' (area della capitale)',es:' (zona de la capital)',pt:' (zona da capital)',nl:' (hoofdstedelijk gebied)',ru:' (район столицы)',pl:' (okolice stolicy)'};
   const sampleName={ro:' (selecție din țară)',en:' (national selection)',fr:' (sélection nationale)',de:' (landesweite Auswahl)',it:' (selezione nazionale)',es:' (selección nacional)',pt:' (seleção nacional)',nl:' (landelijke selectie)',ru:' (подборка по стране)',pl:' (wybór z całego kraju)'};
-  const scopeSuffix=article.attractions_scope==='capital'?(scopeName[lang]||scopeName.en):article.attractions_scope==='country_verified_sample'?(sampleName[lang]||sampleName.en):'';
+  const localScope={ro:' (în apropierea centrului județului)',en:' (near the county centre)',fr:' (près du centre du département)',de:' (nahe dem Regionszentrum)',it:' (vicino al centro della provincia)',es:' (cerca del centro provincial)',pt:' (perto do centro regional)',nl:' (nabij het regiocentrum)',ru:' (рядом с центром региона)',pl:' (w pobliżu centrum regionu)'};
+  const scopeSuffix=article.attractions_scope==='capital'?(scopeName[lang]||scopeName.en):article.attractions_scope==='country_verified_sample'?(sampleName[lang]||sampleName.en):article.attractions_scope==='region_center_sample'?(localScope[lang]||localScope.en):'';
   const s=section(L[9]+scopeSuffix);
   if(sights.length)sights.forEach((p,i)=>addPlace(s,p,i));
   else textP(s,isCountry?L[10]:({ro:'Nu am putut verifica momentan obiective turistice pentru această localitate.',en:'Verified tourist sights are temporarily unavailable for this town.',fr:'Impossible de vérifier les sites touristiques de cette ville.',de:'Für diesen Ort sind derzeit keine verifizierten Sehenswürdigkeiten verfügbar.',it:'Non è stato possibile verificare le attrazioni di questa località.',es:'No hay lugares turísticos verificados para esta localidad por ahora.',pt:'Não foi possível verificar pontos turísticos desta localidade.',nl:'Voor deze plaats zijn nu geen geverifieerde bezienswaardigheden beschikbaar.',ru:'Достопримечательности этого населённого пункта пока не подтверждены.',pl:'Nie udało się teraz potwierdzić atrakcji tej miejscowości.'}[lang]||'Verified sights unavailable.'));
