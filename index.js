@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.132 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.132",
+  version: "1.0.133",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1228,6 +1228,10 @@ body.long-choice-active{overflow:hidden}
 .module-quick-body>.transit-choice-action{min-height:48px;white-space:normal;overflow-wrap:break-word}
 
 
+
+/* v1.0.133: visually separate recipe step headings and descriptions. */
+.answer-reader-body .recipe-reader-step-title{display:block;font-weight:750;color:#e9faff;margin-bottom:7px;line-height:1.45}
+.answer-reader-body .recipe-reader-step-detail{display:block;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
 /* v1.0.131 — presentation-only: full-height scrollable recipe/event reader. */
 .answer-reader{max-height:calc(100dvh - 116px - env(safe-area-inset-top,0px));}
 .answer-reader-body{min-height:0!important;flex:1 1 0!important;overflow-y:auto!important;overflow-x:hidden!important;padding:14px 14px calc(42px + env(safe-area-inset-bottom,0px))!important;scroll-padding-bottom:30px;scrollbar-gutter:stable;overscroll-behavior-y:contain;}
@@ -2268,6 +2272,21 @@ function appendAnswerText(host,text){
  }
 }
 // Render full culinary answers with section headings and preserved steps.
+// Some publishers concatenate a step title with its instructions.
+// Repair presentation only; all original words and cooking facts remain.
+function recipeStepPresentation(line){
+ const spaced=String(line||'').replace(/([.!?])([A-ZĂÂÎȘȚ])/gu,'$1 $2');
+ const match=spaced.match(/^(\d{1,2}[.)]\s*)([\s\S]*)$/u);
+ if(!match)return {body:spaced};
+ const content=match[2];
+ for(const hit of content.matchAll(/([a-zăâîșț])([A-ZĂÂÎȘȚ][a-zăâîșț]{2,})/gu)){
+  const boundary=hit.index+1;
+  const title=content.slice(0,boundary).trim(),detail=content.slice(boundary).trim();
+  if(boundary>=12&&boundary<=115&&title.length>=12&&detail.length>=12&&!/[\/@]/.test(title))
+   return {title:match[1]+title,body:detail};
+ }
+ return {body:spaced};
+}
 function appendRecipeReaderText(host,rawText){
  const text=String(rawText||'');
  const recipeHeading=/^\\s*(?:\\*\\*)?(?:(?:rețeta|reteta|recipe|recette|rezept|ricetta|receta|receita|recept|рецепт|przepis)\\s*\\d+\\s*[:.—-]|(?:balmoș|balmos)\\b)/iu;
@@ -2292,8 +2311,20 @@ function appendRecipeReaderText(host,rawText){
   }else{
    node=document.createElement('div');appendAnswerText(node,plain);
    node.style.cssText='font-size:16px;line-height:1.58;margin:4px 0;overflow-wrap:anywhere';
-   if(/^[-•]\\s/.test(plain)){node.className='recipe-reader-ingredient';}
-   else if(/^\\d{1,2}[.)]\\s/.test(plain)){node.className='recipe-reader-step';}
+   if(/^[-•]\s/.test(plain)){node.className='recipe-reader-ingredient';}
+   else if(/^\d{1,2}[.)]\s/.test(plain)){
+    node.className='recipe-reader-step';
+    node.replaceChildren();
+    const parts=recipeStepPresentation(plain);
+    if(parts.title){
+     const title=document.createElement('strong');
+     title.className='recipe-reader-step-title';
+     appendAnswerText(title,parts.title);node.append(title);
+    }
+    const detail=document.createElement('span');
+    detail.className='recipe-reader-step-detail';
+    appendAnswerText(detail,parts.body);node.append(detail);
+   }
   }
   host.append(node);
  }
