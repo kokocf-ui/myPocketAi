@@ -1239,7 +1239,8 @@ export default {
           (!query.trim() && stage==='city') || (stage!=='city'&&!city))
         return json({error:'Invalid address search'},400);
       if (!env.GEOAPIFY_API_KEY) return json({error:'Address search unavailable'},503);
-      const url=new URL('https://api.geoapify.com/v1/geocode/search');
+      const autocomplete=Boolean(query.trim())&&stage!=='number';
+      const url=new URL(autocomplete?'https://api.geoapify.com/v1/geocode/autocomplete':'https://api.geoapify.com/v1/geocode/search');
       const normalize=value=>String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
       url.search=new URLSearchParams({
         text:(stage==='city'?[query]:stage==='street'?[query,city]:[[street,query].filter(Boolean).join(' '),city,postcode]).filter(Boolean).join(', '),
@@ -1262,7 +1263,7 @@ export default {
           const key=stage==='street'?normalize(place.street):label;
           if(!label||seen.has(key))return [];
           seen.add(key);
-          return [{label,city:towns.find(Boolean)||'',street:place.street||'',latitude:place.lat,longitude:place.lon,country_code:country.toUpperCase()}];
+          return [{label,city:towns.find(Boolean)||'',street:place.street||'',houseNumber:String(place.housenumber||''),latitude:place.lat,longitude:place.lon,country_code:country.toUpperCase()}];
         });
         return json({candidates});
       } catch {
