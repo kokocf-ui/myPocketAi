@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.142",
+  version: "1.0.143",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2717,13 +2717,85 @@ function saveHistory(){try{localStorage.setItem(HISTORY_KEY,JSON.stringify(state
 function archiveCurrentConversation(){if(!state.messages.length)return;state.history.unshift({id:Date.now(),title:(state.messages.find(m=>m.role==='user')?.text||'Conversație nouă').slice(0,72),date:new Date().toLocaleString(),messages:state.messages.slice(-40),placeContext:state.placeSearchContext||null,placeResults:state.lastPlaceResults||[],distanceContext:state.distanceSearchContext||null,routeContext:state.routeSearchContext||null,weatherContext:state.weatherSearchContext||null});state.history=state.history.slice(0,30);saveHistory()}
 function renderHistory(){const list=$('historyList');list.innerHTML='';if(!state.history.length){const p=document.createElement('p');p.className='muted';p.textContent='Nu există conversații salvate încă.';list.append(p);return}state.history.forEach(item=>{const row=document.createElement('div');row.className='list-row';const span=document.createElement('span');span.textContent=item.title+' · '+item.date;const btn=document.createElement('button');btn.textContent='Deschide';btn.addEventListener('click',()=>{state.messages=Array.isArray(item.messages)?item.messages.slice():[];state.placeSearchContext=item.placeContext||null;state.lastPlaceResults=Array.isArray(item.placeResults)?item.placeResults:[];state.distanceSearchContext=item.distanceContext||null;state.routeSearchContext=item.routeContext||null;state.weatherSearchContext=item.weatherContext||null;state.lastRoute=null;state.lastRouteOptions=[];messagesEl.innerHTML='';if(!state.messages.length)messagesEl.innerHTML='<div class="empty-state">Conversație goală.</div>';state.messages.forEach(m=>addBubble(m.text,m.role));state.lastReply=[...state.messages].reverse().find(m=>m.role==='assistant')?.text||'';showView('assistant')});row.append(span,btn);list.append(row)})}
 // v1.0.134 — Pocket AI avatar v16 (conditional GLB viewer; image fallback)
+
 const avatar3dFrame=$('avatar3dFrame');
 let avatar3dReady=false,avatar3dStarted=false,avatar3dPending=null;
-function avatar3dSend(action,payload={}){if(!avatar3dReady){if(action==='start')avatar3dPending={action,payload};if(action==='stop')avatar3dPending=null;return}try{avatar3dFrame.contentWindow.postMessage({channel:'pocket-avatar-v16',action,...payload},location.origin)}catch{}}
-function avatar3dLoad(){if(avatar3dStarted)return;avatar3dStarted=true;avatar3dFrame.src='/avatar-v16.html';avatar3dFrame.addEventListener('error',()=>{avatar3dReady=false;$('avatarImage').style.visibility='visible';avatar3dFrame.style.display='none';setStatus('Modelul 3D nu a putut fi încărcat.')},{once:true})}
-window.addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==avatar3dFrame.contentWindow)return;if(event.data?.channel!=='pocket-avatar-v16'||event.data.action!=='ready')return;avatar3dReady=true;avatar3dFrame.style.display='block';$('avatarImage').style.visibility='hidden';if(avatar3dPending){const p=avatar3dPending;avatar3dPending=null;avatar3dSend(p.action,p.payload)}});
+let avatarWords=[],avatarWordStart=0,avatarWordIndex=0,avatarLastFrame=0,avatarRaf=0,avatarSpeaking=false;
+const avatarMorphNames=['UpperLipRaise','LowerLipDrop','LipPucker','MouthWide','Labiodental','LipSeal','TongueRaise'];
+const avatarMouthShapes={X:[0,0,0,0,0,.85,0],A:[0,0,0,0,0,1,0],B:[.15,.08,0,.12,0,0,0],C:[.42,.38,0,.25,0,0,0],D:[.65,.72,0,.12,0,0,0],E:[.35,.43,.65,0,0,0,0],F:[.18,.2,.95,0,0,0,0],G:[.42,.06,0,0,.9,0,0],H:[.4,.45,0,0,0,0,.8]};
+function avatarLocalPose(key){
+ const test=avatar3dFrame.contentWindow?.pocketAITest;if(!test?.rigs?.length)return;
+ const weights=avatarMouthShapes[key]||avatarMouthShapes.B;
+ for(const mesh of test.rigs){const dict=mesh.morphTargetDictionary||{};for(let n=0;n<avatarMorphNames.length;n++){const j=dict[avatarMorphNames[n]];if(j!==undefined)mesh.morphTargetInfluences[j]=weights[n]}}
+ test.renderer.render(test.scene,test.camera);
+}
+function avatarLocalTick(ms){
+ if(!avatarSpeaking)return;
+ avatarRaf=requestAnimationFrame(avatarLocalTick);
+ if(ms-avatarLastFrame<33)return;avatarLastFrame=ms;
+ const elapsed=ms-avatarWordStart;
+ const words=avatarWords.length?avatarWords:['Pocket'];
+ let index=avatarWordIndex,within=elapsed;
+ while(within>Math.max(180,words[index%words.length].length*53+95)){
+  within-=Math.max(180,words[index%words.length].length*53+95);index++;
+  if(index>words.length*4)index=words.length;
+ }
+ const word=words[Math.min(index,words.length-1)]||'Pocket';
+ const letters=Array.from(word.toLocaleLowerCase()).filter(ch=>ch.toLocaleUpperCase()!==ch.toLocaleLowerCase());
+ const letter=letters.length?letters[Math.min(letters.length-1,Math.floor(within/85)%letters.length)]:'a';
+ let shape='B';
+ if('mbp'.includes(letter))shape='A';
+ else if('aăâ'.includes(letter))shape='D';
+ else if('eiî'.includes(letter))shape='C';
+ else if('ou'.includes(letter))shape='F';
+ else if('fv'.includes(letter))shape='G';
+ else if('lnrtșşțţ'.includes(letter))shape='H';
+ avatarLocalPose(shape);
+ // Without Android word-boundary events, keep natural speech motion until TTS actually ends.
+ if(index>=words.length-1&&elapsed>words.length*275){avatarWordStart=ms;avatarWordIndex=Math.max(0,words.length-3)}
+}
+function avatarLocalStop(){
+ avatarSpeaking=false;cancelAnimationFrame(avatarRaf);
+ try{avatar3dFrame.contentWindow.pocketAIHeadVoiceActive=false;avatarLocalPose('X')}catch{}
+}
+function avatarLocalStart(text){
+ avatarLocalStop();
+ avatarWords=String(text||'').split(' ').map(w=>w.trim()).filter(Boolean);avatarWordIndex=0;avatarWordStart=performance.now();avatarLastFrame=0;
+ avatarSpeaking=true;
+ try{avatar3dFrame.contentWindow.pocketAIHeadVoiceActive=true}catch{}
+ avatarRaf=requestAnimationFrame(avatarLocalTick);
+}
+function avatar3dSend(action,payload={}){
+ if(action==='stop'){avatar3dPending=null;avatarLocalStop();return}
+ if(!avatar3dReady){if(action==='start')avatar3dPending={action,payload};return}
+ if(action==='start')avatarLocalStart(payload.text);
+ if(action==='boundary'&&avatarSpeaking&&payload.word){
+  const word=String(payload.word).toLocaleLowerCase();
+  const next=avatarWords.findIndex((w,i)=>i>=avatarWordIndex&&w.toLocaleLowerCase()===word);
+  if(next>=0){avatarWordIndex=next;avatarWordStart=performance.now()}
+ }
+}
+function avatar3dLoad(){
+ if(avatar3dStarted)return;avatar3dStarted=true;
+ avatar3dFrame.style.display='block';
+ avatar3dFrame.src='/avatar-v16.html';
+ avatar3dFrame.addEventListener('error',()=>{
+  avatar3dReady=false;$('avatarImage').style.visibility='visible';avatar3dFrame.style.display='none';
+  setStatus('Modelul 3D nu a putut fi încărcat.')
+ },{once:true});
+}
+window.addEventListener('message',event=>{
+ if(event.origin!==location.origin||event.source!==avatar3dFrame.contentWindow)return;
+ if(event.data?.channel!=='pocket-avatar-v16'||event.data.action!=='ready')return;
+ avatar3dReady=true;avatar3dFrame.style.display='block';$('avatarImage').style.visibility='hidden';
+ try{
+  const test=avatar3dFrame.contentWindow.pocketAITest;
+  if(test?.framing){test.framing('full');test.renderer.render(test.scene,test.camera)}
+ }catch(error){console.warn('Avatar framing',String(error))}
+ if(avatar3dPending){const p=avatar3dPending;avatar3dPending=null;avatar3dSend(p.action,p.payload)}
+});
 // 04 — Avatar lifecycle: same entrance/exit transition for every appearance
-function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(speaking)avatar3dLoad();avatarOverlay.classList.add('visible');avatarOverlay.setAttribute('aria-hidden','false')}
+function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility='hidden';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(speaking)avatar3dLoad();avatarOverlay.classList.add('visible');avatarOverlay.setAttribute('aria-hidden','false')}
 function hideAvatar(){avatar3dSend('stop');clearTimeout(state.avatarTimer);avatarOverlay.classList.remove('visible','speaking');avatarOverlay.setAttribute('aria-hidden','true');voiceWave.hidden=true}
 function welcomeUser(){showAvatar({message:'Salut! Sunt asistentul tău personal.',status:'Bine ai venit!'});state.avatarTimer=setTimeout(hideAvatar,6500)}
 $('avatarClose').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false)}hideAvatar()});
