@@ -1113,7 +1113,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v179";
+    const API_VERSION = "v180";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
@@ -1339,7 +1339,12 @@ export default {
         const isCountryProfile=Boolean(countryNameCodes.has(normalizeGeoName(encyclopediaTitle))&&countryCode) || /\b(?:țară|tara|country|republic|stat suveran|sovereign state)\b/i.test(String(article.description||''));
         article.is_country=isCountryProfile;
         // Counties and administrative regions require a distinct locality list.
-        const isRegionProfile=!isCountryProfile&&/\b(?:județ(?:ul)?|judet(?:ul)?|county|province|provincia|département|department|district|regiune administrativă|administrative region)\b/i.test(String(article.description||''));
+        const geoIntentText=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+        const regionalName=String(article.title||'')+' '+String(article.description||'');
+        const explicitCountyQuery=/(?:^|\\s)(?:judet(?:ul)?|county|province|provincia|departament(?:ul)?|department|district)(?:\\s|$)/i.test(geoIntentText);
+        const regionalArticle=/(?:jude[țt](?:ul)?|county|province|provincia|département|department|administrative region|regiune administrativă)/i.test(regionalName)
+          && !/(?:county seat|reședința județului|resedinta judetului|capitala județului)/i.test(String(article.description||''));
+        const isRegionProfile=!isCountryProfile&&(explicitCountyQuery||regionalArticle);
         article.is_region=isRegionProfile;
         if(isRegionProfile&&article.wikibase_item){
           article.major_cities=await getVerifiedAdministrativeCities(article.wikibase_item,lang,'region');
