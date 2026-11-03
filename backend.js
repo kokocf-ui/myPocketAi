@@ -513,6 +513,17 @@ function recipeUnsupportedTechnique(reply,evidence){
  ];
  return techniques.some(group=>group.test(draft)&&!group.test(sources));
 }
+// Accept evidence only when the publisher's recipe title matches the requested dish.
+function recipeSourceMatchesDish(request,source){
+ const normalize=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ');
+ const ignore=new Set('vreau as dori reteta retete retetei recipe recipes ingredients ingrediente preparare traditional traditionala traditionale traditionala autentic original exact clasica clasic romaneasca romanesti romanesc culinara culinare pentru about with from sau cum face fac faci gateste gateasca gasesc gasesc please show three two four one doua trei patru cinci vreau tipuri variante varianta mod pas pasi steps method how cook cooking de la si sa in pe cu din the and for a an of me give more types type recipe'.split(' '));
+ const words=[...new Set(normalize(request).split(/\s+/).filter(w=>w.length>=5&&!ignore.has(w)))];
+ if(!words.length)return true;
+ const titles=[source.title,...(source.publishedRecipes||[]).map(x=>x.name)].filter(Boolean).join(' ');
+ const title=normalize(titles);
+ const matches=words.filter(w=>title.includes(w.slice(0,Math.min(5,w.length))));
+ return matches.length>=Math.min(words.length,2);
+}
 // In long model-generated recipes, prevent a repeated ingredient block from
 // being presented as new ingredients. Never deduplicate the preparation steps.
 // One targeted quality gate for model-invented cooking materials.
@@ -4122,7 +4133,7 @@ export default {
         latency_breakdown:{research_ms:webSearchDiagnostics?.research_elapsed_ms||0,primary_ai_ms:0,sentence_correction_ms:0,review_ai_ms:0,recipe_correction_ms:0,model_calls_estimate:0,ai_model:null,events_source_grounded:true},
         ai_generated:true,ai_connected:Boolean(env.AI)});
     }
-    const culinaryEvidence=recipeInstruction?webSources.filter(x=>(Array.isArray(x.publishedRecipes)&&x.publishedRecipes.length>0)||(x.pageFetchStatus==="fetched"&&/(?:ingrediente|ingredients|zutaten|ingredienti|ingrédients|ingredientes|składniki|ингредиенты)/i.test(x.pageEvidence||"")&&/(?:preparare|preparation|method|directions|instructions|zubereitung|preparazione|preparación|przygotowanie|приготовление)/i.test(x.pageEvidence||""))):[];
+    const culinaryEvidence=recipeInstruction?webSources.filter(x=>recipeSourceMatchesDish(message,x)&&((Array.isArray(x.publishedRecipes)&&x.publishedRecipes.length>0)||(x.pageFetchStatus==="fetched"&&/(?:ingrediente|ingredients|zutaten|ingredienti|ingrédients|ingredientes|składniki|ингредиенты)/i.test(x.pageEvidence||"")&&/(?:preparare|preparation|method|directions|instructions|zubereitung|preparazione|preparación|przygotowanie|приготовление)/i.test(x.pageEvidence||"")))):[];
     if(recipeInstruction&&!culinaryEvidence.length){
       const reply=lang==='ro'?'Nu am găsit o rețetă completă cu ingrediente și pași verificabili în sursele accesibile acum. Nu voi inventa prepararea. Te rog să reîncerci căutarea.':'I could not verify a complete recipe with ingredients and cooking steps in accessible sources. Please retry.';
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,sources:[],web_search_status:webSearchStatus,recipe_grounding_status:"insufficient_evidence",ai_generated:false,ai_connected:Boolean(env.AI)});
