@@ -1,5 +1,5 @@
 /**
- * myPocket AI — Frontend v1.0.131 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
+ * myPocket AI — Frontend v1.0.132 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
  * Clean-room implementation: single Cloudflare Worker serving a self-contained mobile UI.
  * Sections: configuration, markup, styles, state, navigation, chat, speech, avatar, modules, startup.
@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.131",
+  version: "1.0.132",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2243,16 +2243,29 @@ function appendStructuredCollectionTable(host,record){
  }
  return true;
 }
+// Presentation-only safe inline Markdown: bold text and HTTPS links, never HTML.
 function appendAnswerText(host,text){
- // Treat the answer as text. Only explicit HTTP(S) URLs become links.
- const pattern=/https?:\\/\\/[^\\s<>"']+/g;let offset=0;
- for(const match of String(text).matchAll(pattern)){
-  const url=match[0].replace(/[.,;!?)]+$/,'');
-  host.append(document.createTextNode(text.slice(offset,match.index)));
-  const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=url;host.append(link);
-  offset=match.index+url.length;
+ const source=String(text||'');
+ const pieces=source.split(/(\\*\\*[^*\\n]+?\\*\\*)/g);
+ for(const piece of pieces){
+  if(!piece)continue;
+  if(piece.startsWith('**')&&piece.endsWith('**')&&piece.length>4){
+   const strong=document.createElement('strong');
+   strong.textContent=piece.slice(2,-2);
+   host.append(strong);
+   continue;
+  }
+  const pattern=/https?:\\/\\/[^\\s<>"']+/g;let offset=0;
+  for(const match of piece.matchAll(pattern)){
+   const url=match[0].replace(/[.,;!?)]+$/,'');
+   host.append(document.createTextNode(piece.slice(offset,match.index)));
+   const link=document.createElement('a');
+   link.href=url;link.target='_blank';link.rel='noopener noreferrer';
+   link.textContent=url;host.append(link);
+   offset=match.index+url.length;
+  }
+  host.append(document.createTextNode(piece.slice(offset)));
  }
- host.append(document.createTextNode(text.slice(offset)));
 }
 // Render full culinary answers with section headings and preserved steps.
 function appendRecipeReaderText(host,rawText){
@@ -2271,13 +2284,13 @@ function appendRecipeReaderText(host,rawText){
   const isHeading=recipeHeading.test(plain),isLabel=/^(?:ingrediente|ingredients|zutaten|ingrédients|ingredienti|ingredientes|mod de preparare|preparare|pregătire|method|preparation|instructions|zubereitung|preparación)\\s*:/iu.test(plain);
   let node;
   if(isHeading){
-   node=document.createElement('h3');node.className='recipe-reader-title';node.textContent=plain;
+   node=document.createElement('h3');node.className='recipe-reader-title';appendAnswerText(node,plain);
    node.style.cssText='font-size:19px;line-height:1.35;font-weight:750;color:#a6f5ff;margin:18px 0 8px;padding:0 0 8px;border-bottom:1px solid #3e8294;overflow-wrap:anywhere';
   }else if(isLabel){
-   node=document.createElement('h4');node.className='recipe-reader-label';node.textContent=plain;
+   node=document.createElement('h4');node.className='recipe-reader-label';appendAnswerText(node,plain);
    node.style.cssText='font-size:16px;line-height:1.45;color:#e7f9fb;margin:13px 0 5px;font-weight:750';
   }else{
-   node=document.createElement('div');node.textContent=plain;
+   node=document.createElement('div');appendAnswerText(node,plain);
    node.style.cssText='font-size:16px;line-height:1.58;margin:4px 0;overflow-wrap:anywhere';
    if(/^[-•]\\s/.test(plain)){node.className='recipe-reader-ingredient';}
    else if(/^\\d{1,2}[.)]\\s/.test(plain)){node.className='recipe-reader-step';}
