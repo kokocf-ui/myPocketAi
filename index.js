@@ -1692,64 +1692,93 @@ function showPreciseJourney(choice){
   }),card(t('Schimbă destinația','Change destination'),destinationPicker),card(t('Schimbă plecarea','Change departure'),departurePicker));
  };
  function addressPicker(prefix,onSelect){
-  const normalize=value=>value.normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase();
-  function step(stage,selected={},back){
-   const labels={country:t('Țară','Country'),city:t('Localitate','City or town'),street:t('Stradă','Street'),number:t('Număr','House number')};
-   setModuleLayerMode(prefix+' · '+labels[stage]);
-   const field=document.createElement('input');
-   field.placeholder=labels[stage];field.setAttribute('aria-label',labels[stage]);
-   field.style.cssText='width:100%;padding:12px;background:#102d40;color:white;border:1px solid #5ecbd9;border-radius:12px';
-   const results=document.createElement('div');
-   body.append(field);
-   const postcode=field.cloneNode();
-   if(stage==='number'){
-    postcode.placeholder=t('Cod poștal (opțional)','Postcode (optional)');
-    postcode.setAttribute('aria-label',postcode.placeholder);
-    body.append(postcode);
+  setModuleLayerMode(prefix);
+  const normalize=value=>value.normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase().trim();
+  const selected={};
+  const fields={};
+  const order=['country','city','street','number'];
+  const postcode=document.createElement('input');
+  postcode.placeholder=t('Cod poștal (opțional)','Postcode (optional)');
+  postcode.setAttribute('aria-label',postcode.placeholder);
+  const fallback=card(t('Folosește centrul localității','Use town centre'),()=>onSelect(selected.city));
+  fallback.hidden=true;
+  const confirmed=card(t('Confirmă adresa','Confirm address'),()=>onSelect(selected.number));
+  confirmed.disabled=true;
+  let generation=0,timer;
+  function clearAfter(stage){
+   for(const key of order.slice(order.indexOf(stage)+1)){
+    delete selected[key];fields[key].input.value='';fields[key].input.disabled=true;fields[key].list.replaceChildren();
+    fields[key].search.disabled=true;
    }
-   if(back)body.append(card(t('Pasul anterior','Previous step'),back));
-   body.append(results);
-   const valid=()=>results.isConnected&&$('moduleQuickLayer').classList.contains('open');
-   const select=point=>{
-    if(stage==='city')step('street',{...selected,city:point.city},()=>step('city',selected,back));
-    else if(stage==='street')step('number',{...selected,street:point.street},()=>step('street',selected,back));
-    else onSelect(point);
-   };
-   if(stage==='country'){
-    const draw=()=>{
-     const q=normalize(field.value.trim());
-     results.replaceChildren(...countries.map(code=>({code,label:display.of(code)}))
-      .filter(item=>normalize(item.label).includes(q)||item.code.toLowerCase()===q)
-      .sort((a,b)=>a.label.localeCompare(b.label,state.language))
-      .map(item=>card(item.label,()=>step('city',{country:item.code.toLowerCase()},()=>step('country',{},back)))));
-    };
-    field.oninput=draw;draw();return;
-   }
-   let generation=0;
-   const search=async()=>{
-    const query=field.value.trim();
-    if(!query){field.focus();return;}
-    const request=++generation;
-    results.textContent=t('Se caută…','Searching…');
-    try{
-     const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({address_lookup:{city:'',street:'',...selected,stage,query,postcode:stage==='number'?postcode.value.trim():''}})});
-     if(!response.ok)throw new Error();
-     const {candidates}=await response.json();
-     if(!valid()||request!==generation)return;
-     results.replaceChildren(...candidates.map(point=>card(point.label,()=>select(point))));
-     if(!candidates.length)results.textContent=t('Niciun rezultat potrivit. Verifică datele și încearcă din nou.','No matching results. Check the details and try again.');
-    }catch{
-     if(valid()&&request===generation)results.textContent=t('Căutarea adresei nu este disponibilă acum.','Address search is unavailable right now.');
-    }
-   };
-   for(const input of [field,postcode]){
-    input.oninput=()=>{generation++;results.replaceChildren();};
-    input.onkeydown=event=>{if(event.key==='Enter')search();};
-   }
-   body.insertBefore(card(t('Caută','Search'),search),results);
+   fallback.hidden=!selected.city;
+   confirmed.disabled=!selected.number;
   }
-  step('country');
+  function choose(stage,point){
+   generation++;
+   selected[stage]=point;
+   fields[stage].input.value=point.label;
+   fields[stage].list.replaceChildren();
+   clearAfter(stage);
+   const next=order[order.indexOf(stage)+1];
+   if(next){fields[next].input.disabled=false;fields[next].search.disabled=false;fields[next].input.focus();}
+  }
+  async function lookup(stage){
+   const {input,list}=fields[stage];
+   if(input.disabled)return;
+   for(const field of Object.values(fields))if(field.list!==list)field.list.replaceChildren();
+   const query=input.value.trim(), request=++generation;
+   if(stage==='country'){
+    const q=normalize(query);
+    list.replaceChildren(...countries.map(code=>({code,label:display.of(code)}))
+     .filter(point=>normalize(point.label).includes(q)||point.code.toLowerCase()===q)
+     .sort((a,b)=>a.label.localeCompare(b.label,state.language))
+     .map(point=>card(point.label,()=>choose(stage,point))));
+    return;
+   }
+   if(!query){list.replaceChildren();return;}
+   list.textContent=t('Se caută…','Searching…');
+   try{
+    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({address_lookup:{stage,query,country:selected.country.code.toLowerCase(),
+      city:selected.city?.city||'',street:selected.street?.street||'',postcode:stage==='number'?postcode.value.trim():''}})});
+    if(!response.ok)throw new Error();
+    const {candidates}=await response.json();
+    if(!list.isConnected||request!==generation)return;
+    candidates.sort((a,b)=>a.label.localeCompare(b.label,state.language,{numeric:true}));
+    list.replaceChildren(...candidates.map(point=>card(point.label,()=>choose(stage,point))));
+    if(!candidates.length)list.textContent=t('Nu am găsit rezultate.','No matches found.');
+   }catch{
+    if(list.isConnected&&request===generation)list.textContent=t('Căutarea nu este disponibilă acum.','Search is unavailable right now.');
+   }
+  }
+  const labels=[t('Țară','Country'),t('Localitate','City or town'),t('Stradă','Street'),t('Număr','House number')];
+  order.forEach((stage,index)=>{
+   const row=document.createElement('div');
+   row.style.marginBottom='8px';
+   const line=document.createElement('div');
+   line.style.cssText='display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px';
+   const input=document.createElement('input');
+   input.placeholder=labels[index];input.setAttribute('aria-label',labels[index]);
+   input.style.cssText='min-width:0;padding:10px;background:#102d40;color:white;border:1px solid #5ecbd9;border-radius:10px';
+   const search=card('🔍',()=>{clearTimeout(timer);lookup(stage);});
+   search.setAttribute('aria-label',t('Caută','Search')+' '+labels[index]);
+   input.disabled=search.disabled=index>0;
+   const list=document.createElement('div');
+   list.style.cssText='max-height:18rem;overflow:auto';
+   fields[stage]={input,search,list};
+   input.onfocus=()=>{if(!selected[stage])lookup(stage);};
+   input.oninput=()=>{
+    generation++;clearTimeout(timer);delete selected[stage];list.replaceChildren();clearAfter(stage);
+    if(stage==='country')lookup(stage);
+    else if(input.value.trim().length>=(stage==='number'?1:2))timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},350);
+   };
+   input.onkeydown=event=>{if(event.key==='Enter')search.click();};
+   line.append(input,search);row.append(line,list);body.append(row);
+  });
+  postcode.oninput=()=>{
+   generation++;delete selected.number;confirmed.disabled=true;fields.number.list.replaceChildren();
+  };
+  body.append(postcode,confirmed,fallback,card(t('Schimbă plecarea','Change departure'),departurePicker));
  }
  function destinationPicker(){addressPicker(t('Destinație','Destination'),ready);}
  function departurePicker(){
