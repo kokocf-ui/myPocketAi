@@ -1489,7 +1489,8 @@ export default {
     const boardingAccessRequested=transitBoardingAccessRequest(message);
     const publicTransportIntent = !/^(?:ce este|ce inseamna|what is|explain|explica|why|de ce)\b/.test(normalizedTransitMessage)&&/\b(?:transport(?:ul)? in comun|transport(?:ul)? public|autobuz(?:e|ul)?|bus(?:es)?|tren(?:ul|e)?|train(?:s)?|metrou(?:l)?|tube|railway|by public transport|public transport)\b/i.test(normalizedTransitMessage);
     const directWalkingTarget=data.route_profile==='walk'&&data.route_destination&&Number.isFinite(data.route_destination.latitude)&&Number.isFinite(data.route_destination.longitude)&&Math.abs(data.route_destination.latitude)<=90&&Math.abs(data.route_destination.longitude)<=180&&typeof data.route_destination.label==='string';
-    if ((publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage))) {
+    const explicitMixedJourney=data.mixed_journey===true;
+    if (explicitMixedJourney || ((publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)))) {
       const transitStartedAt = Date.now();
       const transportErrors = {};
       const transitOptions = [];
@@ -1549,7 +1550,7 @@ export default {
             }
           }catch{}
         }
-        if(internationalTarget){
+        if(internationalTarget||explicitMixedJourney){
           if(!hasCoordinates&&env.GEOAPIFY_API_KEY){
             try{
               const u=new URL('https://api.geoapify.com/v1/geocode/search');
@@ -1574,16 +1575,16 @@ export default {
             });
             const reply=(lang==='en'?'Verified mixed-mode public transport options to ':'Variante de transport mixt verificate către ')+targetName+'\n'+lines.join('\n');
             return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
-              international_journey:true,mixed_journey:true,transit_available:true,route_available:Boolean(route),route,
+              international_journey:internationalTarget,mixed_journey:true,transit_available:true,route_available:Boolean(route),route,
               transit,transit_provider:'MOTIS',requested_transit_count:requestedOptionsCount,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
               route_geometry_available:Boolean(route),source:'Authorized MOTIS v6 routing provider',provider_status:{motis:planned.status}});
           }
           const detail=planned.status==='not_configured'?'international_provider_not_connected':planned.status;
           const reply=lang==='en'
-            ? 'I identified '+targetName+' as a destination outside the UK, but I cannot yet verify a complete mixed-mode itinerary with real departure times. '+(detail==='international_provider_not_connected'?'An authorized international journey provider has not been configured.':'The connected provider did not confirm a usable complete journey.')+' I will not invent connections, flights or timetables.'
-            : 'Am identificat '+targetName+' ca destinație în afara Regatului Unit, dar nu pot verifica încă un itinerar mixt complet cu ore reale de plecare. '+(detail==='international_provider_not_connected'?'Nu este configurat un furnizor internațional autorizat.':'Furnizorul conectat nu a confirmat o călătorie completă utilizabilă.')+' Nu voi inventa legături, zboruri sau orare.';
+            ? 'I identified '+targetName+' as the destination, but I cannot yet verify a complete mixed-mode itinerary with real departure times. '+(detail==='international_provider_not_connected'?'An authorized international journey provider has not been configured.':'The connected provider did not confirm a usable complete journey.')+' I will not invent connections, flights or timetables.'
+            : 'Am identificat '+targetName+' ca destinație, dar nu pot verifica încă un itinerar mixt complet cu ore reale de plecare. '+(detail==='international_provider_not_connected'?'Nu este configurat un furnizor internațional autorizat.':'Furnizorul conectat nu a confirmat o călătorie completă utilizabilă.')+' Nu voi inventa legături, zboruri sau orare.';
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
-            route_available:false,transit_available:false,international_journey:true,international_destination:targetName,
+            route_available:false,transit_available:false,international_journey:internationalTarget,mixed_journey:true,international_destination:targetName,
             provider_status:{motis:detail},reason:detail});
         }
         // Prefer verified operator station records over free-text geocoding for UK rail/tube stations.
