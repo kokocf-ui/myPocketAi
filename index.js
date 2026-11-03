@@ -2280,8 +2280,8 @@ function appendRecipeReaderText(host,rawText){
   const stripped=line.trim();
   if(!stripped){const gap=document.createElement('div');gap.style.height='8px';host.append(gap);continue;}
   if(/^─{3,}$/.test(stripped)){const divider=document.createElement('div');divider.className='recipe-reader-divider';host.append(divider);continue;}
-  const plain=stripped.replace(/^\\*\\*/,'').replace(/\\*\\*$/,'').trim();
-  const isHeading=recipeHeading.test(plain),isLabel=/^(?:ingrediente|ingredients|zutaten|ingrédients|ingredienti|ingredientes|mod de preparare|preparare|pregătire|method|preparation|instructions|zubereitung|preparación)\\s*:/iu.test(plain);
+  const plain=stripped;
+  const isHeading=recipeHeading.test(plain),isLabel=/^(?:\\*\\*)?(?:ingrediente|ingredients|zutaten|ingrédients|ingredienti|ingredientes|mod de preparare|preparare|pregătire|method|preparation|instructions|zubereitung|preparación)\\s*:/iu.test(plain);
   let node;
   if(isHeading){
    node=document.createElement('h3');node.className='recipe-reader-title';appendAnswerText(node,plain);
