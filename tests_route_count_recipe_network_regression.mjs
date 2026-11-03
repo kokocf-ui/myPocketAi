@@ -57,10 +57,15 @@ const {webcrypto}=await import('node:crypto');
 globalThis.crypto??=webcrypto;
 const priorFetch=globalThis.fetch;
 let culinaryCalls=0,sourceFetches=0;
-globalThis.fetch=async request=>{
+let fixtureRecipeTitle='';
+globalThis.fetch=async (request,options={})=>{
  const url=String(request);
- if(url.includes('api.exa.ai/search'))return Response.json({results:[{title:'Rețetă tradițională — ingrediente și preparare',url:'https://culinary-fixture.test/reteta',highlights:['Ingrediente: varză murată, carne, orez. Mod de preparare: înăbușă lent ingredientele.']}]});
- if(url.includes('culinary-fixture.test')){sourceFetches++;return new Response('<html lang="ro"><body>Ingrediente: varză murată, carne, orez, burtă de vită, ceapă, smântână. Mod de preparare: se fierb legumele, carnea și orezul după rețeta respectivă.</body></html>',{status:200,headers:{'content-type':'text/html'}});}
+ if(url.includes('api.exa.ai/search')){
+  const query=String(JSON.parse(options.body||'{}').query||'').toLowerCase();
+  fixtureRecipeTitle=query.includes('sarmal')?'Sarmale tradiționale':'Ciorbă de burtă tradițională';
+  return Response.json({results:[{title:'Rețetă: '+fixtureRecipeTitle,url:'https://culinary-fixture.test/reteta',highlights:['Ingrediente: varză murată, carne, orez, burtă de vită. Mod de preparare: se fierbe până la gătirea completă.']}]});
+ }
+ if(url.includes('culinary-fixture.test')){sourceFetches++;return new Response('<html lang="ro"><body><h1>'+fixtureRecipeTitle+'</h1>Ingrediente: varză murată, carne, orez, burtă de vită, ceapă, smântână. Mod de preparare: se fierb legumele, carnea și orezul după rețeta respectivă.</body></html>',{status:200,headers:{'content-type':'text/html'}});}
  throw Error('Unexpected recipe fixture request: '+url);
 };
 try{
@@ -120,6 +125,14 @@ assert.equal(ties[0].arrivalDateTime,'2026-11-02T23:50:00Z','same departure shou
 assert.match(backend,/selected\.sort\(\(a,b\)=>\{[\s\S]*?j\.startDateTime\|\|legs\[0\]\?\.departureTime\|\|j\.firstVehicleDepartureTime/,'backend must sort by card departure');
 assert.match(backend,/j\.arrivalDateTime\|\|legs\.at\(-1\)\?\.arrivalTime/,'backend must use arrival as tiebreaker');
 assert.match(backend,/journeys\.sort\(\(a,b\)=>Date\.parse\(a\.startDateTime\)/,'MOTIS results must be chronological');
+
+const techniqueStart=backend.indexOf('function recipeUnsupportedTechnique(');
+const techniqueEnd=backend.indexOf('function recipeSourceMatchesDish(',techniqueStart);
+assert.ok(techniqueStart>=0&&techniqueEnd>techniqueStart);
+const unsupportedTechnique=new Function(backend.slice(techniqueStart,techniqueEnd)+';return recipeUnsupportedTechnique')();
+const methodSource=[{publishedRecipes:[{instructions:['Modelează perișoare și fierbe-le direct în supă.']}]}];
+assert.equal(unsupportedTechnique('Prăjește perișoarele înainte de fierbere.',methodSource),true,'unsupported frying must be rejected for any dish');
+assert.equal(unsupportedTechnique('Fierbe perișoarele direct în supă.',methodSource),false,'published cooking method should pass');
 
 // General lexical quality gate is supplementary to source grounding.
 const qualityStart=backend.indexOf('function recipeQualityConcern(');
