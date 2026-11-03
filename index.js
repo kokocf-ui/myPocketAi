@@ -1700,6 +1700,8 @@ function showPreciseJourney(choice){
   const postcode=document.createElement('input');
   postcode.placeholder=t('Cod poștal (opțional)','Postcode (optional)');
   postcode.setAttribute('aria-label',postcode.placeholder);
+  postcode.autocomplete='postal-code';
+  postcode.style.cssText='box-sizing:border-box;width:100%;padding:12px;margin:0 0 12px;background:#102d40;color:white;border:1px solid #5ecbd9;border-radius:10px;font:inherit';
   let withoutStreet=false;
   const confirmed=card(t('Confirmă adresa','Confirm address'),()=>{
    const point=selected.number||selected.street||selected.city;
@@ -1718,7 +1720,7 @@ function showPreciseJourney(choice){
    generation++;
    if(stage!=='number')withoutStreet=false;
    selected[stage]=point;
-   fields[stage].input.value=point.label;
+   fields[stage].input.value=stage==='number'?(point.houseNumber||point.label):point.label;
    fields[stage].list.replaceChildren();
    clearAfter(stage);
    if(stage==='city'){
@@ -1796,8 +1798,15 @@ function showPreciseJourney(choice){
    line.append(input,search);row.append(line,list);body.append(row);
   });
   postcode.oninput=()=>{
-   generation++;delete selected.number;confirmed.disabled=true;fields.number.list.replaceChildren();
-   if(selected.street||withoutStreet)fields.number.input.disabled=fields.number.search.disabled=false;
+   generation++;
+   clearTimeout(timer);
+   if(selected.number)fields.number.input.value=selected.number.houseNumber||fields.number.input.value;
+   delete selected.number;
+   confirmed.disabled=!selected.street&&!(withoutStreet&&selected.city);
+   fields.number.list.replaceChildren();
+   if(selected.city&&!fields.number.input.disabled&&fields.number.input.value.trim()){
+    timer=setTimeout(()=>{if(postcode.isConnected)lookup('number');},350);
+   }
   };
   body.append(postcode,confirmed,card(t('Schimbă plecarea','Change departure'),departurePicker));
  }
