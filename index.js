@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.139",
+  version: "1.0.140",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2409,6 +2409,7 @@ function openEncyclopediaCard(article,requestStartMs){
  state.lastEncyclopediaArticle=article;
  const host=document.createElement('div');host.dataset.directChoices='true';
  const isCountry=article.is_country===true;
+ const isRegion=article.is_region===true;
  const lang=state.language||'ro';
  const words={
   ro:['Date esențiale','Capitală','Monedă / monede','Limbi oficiale','Suprafață','Fusuri orare (UTC)','Prezentare generală','Context și informații suplimentare','Orașe importante','Obiective turistice','Nu am putut verifica acum o listă de obiective pentru această țară.','Surse și verificare','Sursă date țară','Date despre locuri','Alege o destinație pentru traseu','Creează traseu','Traseu','Vezi sursa'],
@@ -2496,7 +2497,7 @@ function openEncyclopediaCard(article,requestStartMs){
   }
   link(place.url,L[17],actions);line.append(actions);parent.append(line);
  };
- if(cities.length){const s=section(L[8]);cities.slice(0,5).forEach((p,i)=>addPlace(s,p,i))}
+ if(cities.length){const heading=isRegion?({ro:'Localități importante',en:'Important towns and cities',fr:'Villes et localités principales',de:'Wichtige Orte',it:'Località importanti',es:'Localidades importantes',pt:'Localidades importantes',nl:'Belangrijke plaatsen',ru:'Важные населённые пункты',pl:'Ważne miejscowości'}[lang]||'Important towns and cities'):L[8];const s=section(heading);cities.slice(0,7).forEach((p,i)=>addPlace(s,p,i))}
  {
   const scopeName={ro:' (zona capitalei)',en:' (capital area)',fr:' (région de la capitale)',de:' (Hauptstadtregion)',it:' (area della capitale)',es:' (zona de la capital)',pt:' (zona da capital)',nl:' (hoofdstedelijk gebied)',ru:' (район столицы)',pl:' (okolice stolicy)'};
   const sampleName={ro:' (selecție din țară)',en:' (national selection)',fr:' (sélection nationale)',de:' (landesweite Auswahl)',it:' (selezione nazionale)',es:' (selección nacional)',pt:' (seleção nacional)',nl:' (landelijke selectie)',ru:' (подборка по стране)',pl:' (wybór z całego kraju)'};
