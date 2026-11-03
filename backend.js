@@ -1232,7 +1232,7 @@ export default {
     }
 
     if (data?.address_lookup) {
-      const {stage,country,city,street,query,postcode}=data.address_lookup;
+      const {stage,country,city,street,query,postcode,cityPoint}=data.address_lookup;
       const types={city:'city',street:'street',number:'building'};
       if (!Object.hasOwn(types,stage) || !/^[a-z]{2}$/.test(country||'') ||
           ![query,city,street,postcode].every(value=>typeof value==='string'&&value.length<=160) ||
@@ -1247,16 +1247,37 @@ export default {
         ...(stage==='number'?{}:{type:types[stage]}),filter:'countrycode:'+country,bias:'countrycode:none',format:'json',limit:'20',apiKey:env.GEOAPIFY_API_KEY
       });
       try {
-        const response=await fetch(url,{signal:AbortSignal.timeout(8000)});
-        if(!response.ok) return json({error:'Address search unavailable'},502);
-        const {results=[]}=await response.json();
+        const alternatives=[url];
+        if(stage==='street'&&autocomplete&&Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude)){
+          const prefix=new URL(url);
+          prefix.searchParams.set('text',query);
+          prefix.searchParams.set('bias','proximity:'+cityPoint.longitude+','+cityPoint.latitude);
+          alternatives.unshift(prefix);
+        }
+        if(stage==='number'&&query.trim()){
+          const exact=new URL(url);
+          exact.searchParams.delete('text');
+          exact.searchParams.set('city',city);
+          exact.searchParams.set('housenumber',query.trim());
+          if(street)exact.searchParams.set('street',street);
+          if(postcode)exact.searchParams.set('postcode',postcode);
+          alternatives.unshift(exact);
+        }
+        const replies=await Promise.allSettled(alternatives.map(async endpoint=>{
+          const response=await fetch(endpoint,{signal:AbortSignal.timeout(8000)});
+          if(!response.ok)throw new Error('Address search unavailable');
+          return (await response.json()).results||[];
+        }));
+        if(!replies.some(reply=>reply.status==='fulfilled'))return json({error:'Address search unavailable'},502);
+        const results=replies.flatMap(reply=>reply.status==='fulfilled'?reply.value:[]);
+
         const seen=new Set();
         const candidates=results.flatMap(place=>{
           const towns=[place.city,place.town,place.village,place.hamlet,place.municipality,place.name];
           if(place.country_code!==country || !Number.isFinite(place.lat) || !Number.isFinite(place.lon))return [];
           if(stage!=='city'&&!towns.slice(0,5).some(value=>normalize(value)===normalize(city)))return [];
           if(stage==='street'&&(!place.street||place.result_type!=='street'))return [];
-          if(stage==='number'&&((street&&normalize(place.street)!==normalize(street))||!place.housenumber||
+          if(stage==='number'&&(place.result_type!=='building'||(street&&normalize(place.street)!==normalize(street))||!place.housenumber||
               (postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
           if(stage==='city'&&place.result_type!=='city')return [];
           const label=String(place.formatted||'');
