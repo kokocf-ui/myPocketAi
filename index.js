@@ -1701,11 +1701,10 @@ function showPreciseJourney(choice){
   postcode.placeholder=t('Cod poștal (opțional)','Postcode (optional)');
   postcode.setAttribute('aria-label',postcode.placeholder);
   let withoutStreet=false;
-  const notice=document.createElement('p');
-  notice.setAttribute('role','status');
-  notice.hidden=true;
-  let noticeTimer;
-  const confirmed=card(t('Confirmă adresa','Confirm address'),()=>onSelect(selected.number||selected.street||selected.city));
+  const confirmed=card(t('Confirmă adresa','Confirm address'),()=>{
+   const point=selected.number||selected.street||selected.city;
+   onSelect({...point,approximation:selected.number?null:selected.street?'street':'locality'});
+  });
   confirmed.disabled=true;
   let generation=0,timer;
   function clearAfter(stage){
@@ -1714,7 +1713,6 @@ function showPreciseJourney(choice){
     fields[key].search.disabled=true;
    }
    confirmed.disabled=!selected.number&&!selected.street;
-   notice.hidden=true;
   }
   async function choose(stage,point){
    generation++;
@@ -1766,12 +1764,6 @@ function showPreciseJourney(choice){
      list.textContent=t('Nu am găsit rezultate.','No matches found.');
      if(stage==='number'){
       confirmed.disabled=false;
-      notice.textContent=selected.street
-       ?t('Traseul va ajunge pe strada selectată, la un punct aproximativ.','The route will end at an approximate point on the selected street.')
-       :t('Traseul va folosi centrul localității.','The route will use the town centre.');
-      notice.hidden=false;
-      clearTimeout(noticeTimer);
-      noticeTimer=setTimeout(()=>{notice.hidden=true;},2000);
      }
     }
    }catch{
@@ -1807,7 +1799,7 @@ function showPreciseJourney(choice){
    generation++;delete selected.number;confirmed.disabled=true;fields.number.list.replaceChildren();
    if(selected.street||withoutStreet)fields.number.input.disabled=fields.number.search.disabled=false;
   };
-  body.append(postcode,notice,confirmed,card(t('Schimbă plecarea','Change departure'),departurePicker));
+  body.append(postcode,confirmed,card(t('Schimbă plecarea','Change departure'),departurePicker));
  }
  function destinationPicker(){addressPicker(t('Destinație','Destination'),ready);}
  function departurePicker(){
@@ -2343,6 +2335,7 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
   if(startNavigation)startRouteTracking(current);
  }catch{if(layer.isConnected)status.textContent=t.failed}
 }
+const routeApproximationNotices=new WeakMap();
 function openWalkingRouteChoices(route,options=state.lastRouteOptions){
  dismissSelectionKeyboard();
  const usable=(Array.isArray(options)?options:[]).filter(validMapRoute);
@@ -2359,6 +2352,17 @@ function openWalkingRouteChoices(route,options=state.lastRouteOptions){
   button.onclick=()=>{layer.remove();state.lastRoute=v;openRouteMap(v,null,usable)};list.append(button);
  }
  const more=routeOptionsControl(route,[]);for(const el of Array.from(more.children))if(el.tagName==='BUTTON')list.append(el);
+ const approximation=routeApproximationNotices.get(route);
+ if(approximation){
+  const notice=document.createElement('p');
+  notice.setAttribute('role','status');
+  notice.style.cssText='pointer-events:none;margin:0 0 8px';
+  notice.textContent=approximation==='locality'
+   ?(state.language==='ro'?'Destinația este în centrul localității.':'The destination is in the town centre.')
+   :(state.language==='ro'?'Destinația este un punct aproximativ pe strada aleasă.':'The destination is an approximate point on the selected street.');
+  body.append(notice);
+  setTimeout(()=>notice.remove(),2000);
+ }
  body.append(list);layer.append(header,body);document.body.append(layer);
  const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;layer.style.bottom=(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';
  back.focus({preventScroll:true});
@@ -3078,7 +3082,7 @@ if(offered?.needs_travel_confirmation&&context?.pending==='profile'&&context?.de
 }
 state.pendingTravelConfirmationData=null;
 if(!state.pendingTravelMode&&state.routeSearchContext?.destination&&/^(?!pietonal$|transport public$|masina$|mașină$|walking$|driving$|public transport$|da$|yes$|nu$|no$)(?:[\\p{L}][\\p{L}0-9&' .-]{2,60}\\s*,\\s*[\\p{L} .'-]{2,60}|(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)\\s+.+)$/iu.test(message)){state.routeSearchContext=null;state.pendingRouteDestination=null;state.pendingTravelMode=null;state.lastTravelModeResponse=null;}if(isMapRouteFollowup(message)&&validMapRoute(state.lastRoute)){addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const reply=routeMapText().shown;addBubble(reply,'assistant');state.messages.push({role:'assistant',text:reply});openRouteMap(state.lastRoute);return}state.busy=true;const clientRequestStartedAt=performance.now();const generation=state.conversationGeneration;sendBtn.disabled=true;inputEl.disabled=true;setStatus('myPocket AI pregătește răspunsul…');addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const loading=addBubble('Se pregătește răspunsul…','assistant');try{const history=state.messages.slice(-CLIENT_CONFIG.historyLimit).map(m=>({role:m.role,content:m.text}));const gpsStartedAt=performance.now();const locationRequest=await coordinatesForRequest(message);const gpsElapsedMs=Math.round(performance.now()-gpsStartedAt);const locationIntent=locationRequest.locationIntent;const coordinates=locationRequest.coordinates;const locationErrorText=locationRequest.error;const routeDestination=state.pendingTravelMode&&state.routeSearchContext?.destination?state.routeSearchContext.destination:selectedPlaceForRoute(message);const routeStart=state.pendingRouteStart===true;state.pendingRouteStart=false;const routeViaQuery=state.pendingRouteViaQuery||undefined;state.pendingRouteViaQuery=null;const routeCompare=state.pendingRouteCompare===true;state.pendingRouteCompare=false;const travelMode=state.pendingTravelMode||undefined;state.pendingTravelMode=null;
-const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,history,module:state.currentView==='module'?state.currentModule:'assistant',route_context:state.routeSearchContext||null,travel_mode:travelMode,transit_count:state.requestedTransitCount||undefined,route_destination:routeDestination,transit_destination:travelMode==='transit'?routeDestination:undefined,transit_query:travelMode==='transit'?(state.routeSearchContext?.destination?.label||state.routeSearchContext?.destination_query||undefined):undefined,route_profile:routeStart?'walk':travelMode==='transit'?undefined:travelMode|| (routeDestination?(/driving|rutier|masina/i.test(message)?'drive':'walk'):undefined),route_start:routeStart,route_via_query:routeViaQuery,route_compare:routeCompare,weather_context:state.weatherSearchContext||null,place_context:state.placeSearchContext||null,distance_context:state.distanceSearchContext||null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});backendResponseHeadersAt=performance.now();let data;try{data=await response.json()}catch{throw new Error(state.language==='en'?'The server returned an unreadable response.':'Serverul a trimis un răspuns care nu poate fi citit.')}state.lastRequestTimings={total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:gpsElapsedMs,backend_round_trip_ms:Math.round(performance.now()-backendRequestStartedAt),time_to_headers_ms:Math.round(backendResponseHeadersAt-backendRequestStartedAt),response_read_ms:Math.round(performance.now()-backendResponseHeadersAt),server_total_ms:data.server_total_ms??null,backend_version:String(data.version||''),backend_latency:data.latency_breakdown||null};console.info('Pocket AI request timing',state.lastRequestTimings);if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));if(data.place_lookup)console.info('Pocket AI destination lookup',JSON.stringify(data.place_lookup));const reply=String(data.reply).trim();state.lastStructuredResponse=data.structured_list?{reply,list:data.structured_list,sources:data.sources||[]}:null;loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.pendingTravelConfirmationData=data.needs_travel_confirmation&&data.route_context?.destination?data:null;state.travelConfirmationPanel=null;state.weatherSearchContext=data.weather_context||null;if(Array.isArray(data.places))state.lastPlaceResults=data.places;if(Array.isArray(data.places)&&data.places.length&&(state.tripAccommodationSearching||/\\b(?:cazare|hoteluri|hotel|hostel|motel|pensiuni|accommodation|lodging|guesthouse|airbnb)\\b/i.test(message))){state.tripAccommodationSearching=false;openAccommodationResults(data.places);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}if(data.encyclopedia){openEncyclopediaCard(data.encyclopedia,clientRequestStartedAt);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}/* Accommodation is decided once, before route calculation; never offer it again after receiving a route. *//* Keep the answer in the user's current section; provider selection remains backend-driven. */if(data.needs_travel_mode)state.lastTravelModeResponse=data;if(Array.isArray(data.transit)&&data.transit.length)state.lastTransitResponse=data;const answerBubble=addBubble(reply,'assistant',false,{autoOpen:!(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification)});showAnswerDuration(answerBubble,clientRequestStartedAt);retainRouteResult(data,answerBubble);
+const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,history,module:state.currentView==='module'?state.currentModule:'assistant',route_context:state.routeSearchContext||null,travel_mode:travelMode,transit_count:state.requestedTransitCount||undefined,route_destination:routeDestination,transit_destination:travelMode==='transit'?routeDestination:undefined,transit_query:travelMode==='transit'?(state.routeSearchContext?.destination?.label||state.routeSearchContext?.destination_query||undefined):undefined,route_profile:routeStart?'walk':travelMode==='transit'?undefined:travelMode|| (routeDestination?(/driving|rutier|masina/i.test(message)?'drive':'walk'):undefined),route_start:routeStart,route_via_query:routeViaQuery,route_compare:routeCompare,weather_context:state.weatherSearchContext||null,place_context:state.placeSearchContext||null,distance_context:state.distanceSearchContext||null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});backendResponseHeadersAt=performance.now();let data;try{data=await response.json()}catch{throw new Error(state.language==='en'?'The server returned an unreadable response.':'Serverul a trimis un răspuns care nu poate fi citit.')}state.lastRequestTimings={total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:gpsElapsedMs,backend_round_trip_ms:Math.round(performance.now()-backendRequestStartedAt),time_to_headers_ms:Math.round(backendResponseHeadersAt-backendRequestStartedAt),response_read_ms:Math.round(performance.now()-backendResponseHeadersAt),server_total_ms:data.server_total_ms??null,backend_version:String(data.version||''),backend_latency:data.latency_breakdown||null};console.info('Pocket AI request timing',state.lastRequestTimings);if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));if(data.place_lookup)console.info('Pocket AI destination lookup',JSON.stringify(data.place_lookup));const reply=String(data.reply).trim();state.lastStructuredResponse=data.structured_list?{reply,list:data.structured_list,sources:data.sources||[]}:null;loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.pendingTravelConfirmationData=data.needs_travel_confirmation&&data.route_context?.destination?data:null;state.travelConfirmationPanel=null;state.weatherSearchContext=data.weather_context||null;if(Array.isArray(data.places))state.lastPlaceResults=data.places;if(Array.isArray(data.places)&&data.places.length&&(state.tripAccommodationSearching||/\\b(?:cazare|hoteluri|hotel|hostel|motel|pensiuni|accommodation|lodging|guesthouse|airbnb)\\b/i.test(message))){state.tripAccommodationSearching=false;openAccommodationResults(data.places);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}if(data.encyclopedia){openEncyclopediaCard(data.encyclopedia,clientRequestStartedAt);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}/* Accommodation is decided once, before route calculation; never offer it again after receiving a route. *//* Keep the answer in the user's current section; provider selection remains backend-driven. */if(data.needs_travel_mode)state.lastTravelModeResponse=data;if(Array.isArray(data.transit)&&data.transit.length)state.lastTransitResponse=data;const answerBubble=addBubble(reply,'assistant',false,{autoOpen:!(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification)});showAnswerDuration(answerBubble,clientRequestStartedAt);if(routeDestination?.approximation&&validMapRoute(data.route))routeApproximationNotices.set(data.route,routeDestination.approximation);retainRouteResult(data,answerBubble);
  if(Array.isArray(data.transit)&&data.transit.length&&state.navigationReturnContext){answerBubble.remove();showTransitChoices(data.transit)}else appendTransitChoiceAction(data,answerBubble);
  if(state.tripCountryOnChoice&&Array.isArray(data.destination_candidates)&&data.destination_candidates.length){
   const country=String(state.tripCountryOnChoice).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
