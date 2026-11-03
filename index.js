@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.144",
+  version: "1.0.145",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2807,6 +2807,7 @@ window.addEventListener('message',event=>{
  }catch(e){console.warn('Avatar application display',String(e))}
  avatar3dFrame.style.display='block';$('avatarImage').style.visibility='hidden';
  if(avatarWelcomeQueued&&!state.speaking){avatarWelcomeQueued=false;showAvatar({message:'',status:'',speaking:false});state.avatarTimer=setTimeout(hideAvatar,4700)}
+ else if(state.speaking){showAvatar({message:'',status:'',speaking:true})}
  try{
   const test=avatar3dFrame.contentWindow.pocketAITest;
   if(test?.framing){test.framing('full');test.renderer.render(test.scene,test.camera)}
@@ -2814,7 +2815,7 @@ window.addEventListener('message',event=>{
  if(avatar3dPending){const p=avatar3dPending;avatar3dPending=null;avatar3dSend(p.action,p.payload)}
 });
 // 04 — Avatar lifecycle: same entrance/exit transition for every appearance
-function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility='hidden';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(speaking)avatar3dLoad();avatarOverlay.classList.add('visible');avatarOverlay.setAttribute('aria-hidden','false')}
+function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility='hidden';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(speaking)avatar3dLoad();avatarOverlay.classList.toggle('visible',avatar3dReady);avatarOverlay.setAttribute('aria-hidden',avatar3dReady?'false':'true')}
 function hideAvatar(){avatar3dSend('stop');clearTimeout(state.avatarTimer);avatarOverlay.classList.remove('visible','speaking');avatarOverlay.setAttribute('aria-hidden','true');voiceWave.hidden=true}
 function welcomeUser(){avatarWelcomeQueued=true;avatar3dLoad();if(avatar3dReady){avatarWelcomeQueued=false;showAvatar({message:'',status:'',speaking:false});state.avatarTimer=setTimeout(hideAvatar,4700)}}
 $('avatarClose').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false)}hideAvatar()});
