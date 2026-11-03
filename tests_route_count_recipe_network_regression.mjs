@@ -24,11 +24,11 @@ assert.equal(plausible('Sarmale pentru 6 persoane','20 frunze de lemn sau țelin
 assert.equal(plausible('Sarmale pentru 6 persoane','20 de frunze de varză murată, carne, orez'),false);
 assert.equal(plausible('Supă de legume','Frunze de țelină în supă'),false,'celery is a valid herb in other dishes');
 assert.ok(backend.includes('if(recipeInstruction&&result&&typeof result.response'));
-assert.ok(backend.includes("if(recipeInstruction&&!shouldSearchWeb)"),'normal recipe fast path must remain');
+assert.ok(backend.includes("if(recipeInstruction){"),'sourced culinary instructions must be used');
 const recipePattern=backend.match(/const recipeInstruction = (\/.*?\/i)\.test\(normalizedResearchRequest\)/)?.[1];
 assert.ok(recipePattern,'recipe intent detector must exist');
 const isRecipe=new Function('text','return '+recipePattern+'.test(text.normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLowerCase())');
-assert.equal(isRecipe('Cum se prepară sarmalele românești tradiționale?'),true,'Romanian recipe must bypass web research');
+assert.equal(isRecipe('Cum se prepară sarmalele românești tradiționale?'),true,'Romanian recipe intent must be detected');
 assert.equal(isRecipe('Cum prepar sarmale?'),true);
 assert.equal(isRecipe('Care sunt ingredientele pentru sarmale?'),true);
 assert.equal(isRecipe('Ce evenimente sunt în Oradea?'),false);
@@ -48,47 +48,47 @@ assert.ok(script.includes('Reîncearcă întrebarea'),'network interruption must
 assert.ok(script.includes('Conexiunea cu serverul a fost întreruptă'),'raw Failed to fetch must not appear in user response');
 
 assert.ok(backend.includes('eventResearchIntent?7500:9000'),'event research budget missing');
-assert.ok(backend.includes('eventResearchIntent?1:2'),'event page fetch budget missing');
+assert.ok(backend.includes('eventResearchIntent?1:recipeInstruction?4:2'),'bounded event and recipe fetch budget missing');
 assert.ok(backend.includes('structured_list:structuredEvents?.structured_list'),'structured event table missing');
 
-// Regression from real phone capture: 79.5 s due to two sequential AI calls.
-// Reject visibly unsafe leaves on the first model output without a second inference.
+// Source-backed culinary regression: source retrieval, single model pass, no canned replacements.
 const {default: recipeWorker}=await import('./backend.js');
 const {webcrypto}=await import('node:crypto');
 globalThis.crypto??=webcrypto;
 const priorFetch=globalThis.fetch;
-let culinaryCalls=0;
-globalThis.fetch=async()=>{throw Error('recipe fast path must not access the web')};
+let culinaryCalls=0,sourceFetches=0;
+globalThis.fetch=async request=>{
+ const url=String(request);
+ if(url.includes('api.exa.ai/search'))return Response.json({results:[{title:'Rețetă tradițională — ingrediente și preparare',url:'https://culinary-fixture.test/reteta',highlights:['Ingrediente: varză murată, carne, orez. Mod de preparare: înăbușă lent ingredientele.']}]});
+ if(url.includes('culinary-fixture.test')){sourceFetches++;return new Response('<html lang="ro"><body>Ingrediente: varză murată, carne, orez, burtă de vită, ceapă, smântână. Mod de preparare: se fierb legumele, carnea și orezul după rețeta respectivă.</body></html>',{status:200,headers:{'content-type':'text/html'}});}
+ throw Error('Unexpected recipe fixture request: '+url);
+};
 try{
  const originalConsoleInfo=console.info;
  console.info=()=>{};
  try{
-  for(const [question,unsafe,forbidden,expected] of [
-   ['Rețetă de sarmale tradițională românească','20 frunze de lemn, 700 g carne, 100 g orez','frunze de lemn','varză murată'],
-   ['Rețetă ciorbă de burtă tradițional românească','1 kg burtă de porc, 2 cepe, 1 litru apă','burtă de porc','burtă de vită']
+  for(const [question,unsafe,forbidden] of [
+   ['Rețetă de sarmale tradițională românească','20 frunze de lemn, 700 g carne, 100 g orez','frunze de lemn'],
+   ['Rețetă ciorbă de burtă tradițional românească','1 kg burtă de porc, 2 cepe, 1 litru apă','burtă de porc']
   ]){
-   const ai={run:async()=>{culinaryCalls++;return {response:'Ingrediente: '+unsafe+'\nPreparare: se fierb toate ingredientele.'}}};
+   const ai={run:async()=>{culinaryCalls++;return {response:'Ingrediente: '+unsafe+'\\nPreparare: se fierb toate ingredientele.'}}};
    const response=await recipeWorker.fetch(new Request('https://fixture/api/chat',{method:'POST',body:JSON.stringify({
      message:question,module:'assistant',language:'ro',history:[],
      location:{latitude:51.49,longitude:0.28}
-   })}),{AI:ai});
+   })}),{AI:ai,EXA_API_KEY:'fixture'});
    const payload=await response.json();
    assert.equal(payload.status,'success');
-   assert.equal(payload.latency_breakdown?.recipe_fallback_used,true,'unsafe recipe should use verified local fallback');
-   assert.equal(payload.latency_breakdown?.recipe_correction_ms,0,'recipe must not use second AI call');
-   assert.match(payload.reply,new RegExp(expected,'i'));
-   assert.ok(!payload.reply.toLowerCase().includes(forbidden.toLowerCase()),'unsafe ingredient was not removed');
+   assert.equal(payload.recipe_grounding_status,'sourced');
+   assert.equal(payload.latency_breakdown?.recipe_rejected,true,'unsafe cooking must be rejected');
+   assert.equal(payload.latency_breakdown?.recipe_fallback_used,false,'fixed templates forbidden');
+   assert.ok(!payload.reply.toLowerCase().includes(forbidden.toLowerCase()),'unsafe model response leaked');
+   assert.equal(payload.sources?.length,1,'actual culinary source must be returned');
   }
  }finally{console.info=originalConsoleInfo}
 }finally{globalThis.fetch=priorFetch}
-assert.equal(culinaryCalls,2,'two recipes should require exactly one AI call each');
-const fallbackStart=backend.indexOf('function reliableRecipeFallback(');
-const fallbackEnd=backend.indexOf('function removeRepeatedRecipeIngredients(',fallbackStart);
-assert.ok(fallbackStart>=0&&fallbackEnd>fallbackStart,'missing safe culinary fallback');
-const fallback=new Function(backend.slice(fallbackStart,fallbackEnd)+';return reliableRecipeFallback')();
-assert.equal(fallback('Sarmale vegetariene de post','ro'),null,'explicitly requested vegetarian variant must not become meat sarmale');
-assert.equal(fallback('Variante moderne de sarmale','ro'),null,'modern variants must not become a traditional template');
-assert.ok(fallback('Sarmale tradiționale românești','ro')?.includes('varză murată'));
+assert.equal(culinaryCalls,2,'two recipes should need exactly one model pass each');
+assert.ok(sourceFetches>=2,'recipe pages should be fetched for grounding');
+assert.ok(!backend.includes('function reliableRecipeFallback('),'do not reintroduce fixed recipes');
 
 
 
@@ -121,9 +121,9 @@ assert.match(backend,/selected\.sort\(\(a,b\)=>\{[\s\S]*?j\.startDateTime\|\|leg
 assert.match(backend,/j\.arrivalDateTime\|\|legs\.at\(-1\)\?\.arrivalTime/,'backend must use arrival as tiebreaker');
 assert.match(backend,/journeys\.sort\(\(a,b\)=>Date\.parse\(a\.startDateTime\)/,'MOTIS results must be chronological');
 
-// Real device regression: beef liver must never be presented as traditional beef tripe.
+// General lexical quality gate is supplementary to source grounding.
 const qualityStart=backend.indexOf('function recipeQualityConcern(');
-const qualityEnd=backend.indexOf('function reliableRecipeFallback(',qualityStart);
+const qualityEnd=backend.indexOf('function removeRepeatedRecipeIngredients(',qualityStart);
 assert.ok(qualityStart>=0&&qualityEnd>qualityStart);
 const recipeQualityConcern=new Function(backend.slice(qualityStart,qualityEnd)+';return recipeQualityConcern')();
 const dish='Rețetă ciorbă de burtă tradițională românească';
@@ -131,16 +131,5 @@ assert.equal(recipeQualityConcern(dish,'Ingrediente: 1 kg ficat de vită (burtă
 assert.equal(recipeQualityConcern(dish,'Ingrediente: 1 kg burtă de vită, 250 g smântână.'),false);
 assert.equal(recipeQualityConcern(dish,'Ingrediente: 1 cană de sare și 1 kg burtă de vită.'),true);
 assert.equal(recipeQualityConcern('Ciorbă de burtă vegetariană cu ciuperci','Ingrediente: ficat de vită.'),false);
-let liverModelCalls=0;
-const liverReply=await recipeWorker.fetch(new Request('https://fixture/api/chat',{
- method:'POST',body:JSON.stringify({message:dish,module:'assistant',language:'ro',history:[]})
-}),{AI:{run:async()=>{liverModelCalls++;return {response:'Preparare: 30 de minute. Ingrediente: 1 kg ficat de vită (burtă), 1 cană de sare. Preparare: Fierbe ficatul.'}}}});
-const liverData=await liverReply.json();
-assert.equal(liverData.status,'success');
-assert.equal(liverData.latency_breakdown.recipe_fallback_used,true);
-assert.equal(liverData.latency_breakdown.model_calls_estimate,1);
-assert.equal(liverModelCalls,1);
-assert.match(liverData.reply,/burtă de vită/);
-assert.doesNotMatch(liverData.reply,/ficat de vită|1 cană de sare/);
 
-console.log('PASS: requested route count (normal + handoff + refresh), generated frontend escaping, recipe ingredient checks, one-pass cooking, event search budget, network retry UI.');
+console.log('PASS: route count and chronology, frontend, sourced culinary pages, unsafe rejection, single model call, event budgets, network retry UI.');
