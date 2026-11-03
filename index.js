@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.145",
+  version: "1.0.146",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2778,7 +2778,7 @@ function avatar3dSend(action,payload={}){
 function avatar3dLoad(){
  if(avatar3dStarted)return;avatar3dStarted=true;
  avatar3dFrame.style.display='none';
- avatar3dFrame.src='/avatar-v16.html';
+ avatar3dFrame.src='/avatar-production.html';
  avatar3dFrame.addEventListener('error',()=>{
   avatar3dReady=false;avatar3dFrame.style.display='none';avatarWelcomeQueued=false;hideAvatar();
   setStatus('Modelul 3D nu a putut fi încărcat.')
@@ -2932,7 +2932,7 @@ function requestedTransitCountInMessage(value){
  const words={unu:1,una:1,un:1,o:1,one:1,doi:2,doua:2,two:2,trei:3,three:3,patru:4,four:4};
  return Number(found[1])||words[found[1]]||null;
 }
-async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;state.tripCountryOnChoice=country;message=(state.language==='ro'?'Vreau să ajung la ':'I want to get to ')+message+', '+country;state.travelAccommodationIntent=false;state.lastEncyclopediaTripQuery=message;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
+async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;const chosenRegion=state.lastEncyclopediaArticle?.is_region===true&&state.lastEncyclopediaArticle.title===country;const searchArea=chosenRegion?(state.lastEncyclopediaArticle.parent_country||country):country;state.tripCountryOnChoice=searchArea;message=(state.language==='ro'?'Vreau să ajung la ':'I want to get to ')+message+', '+searchArea;state.travelAccommodationIntent=false;state.lastEncyclopediaTripQuery=message;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
  const explicitCount=requestedTransitCountInMessage(message);
  if(explicitCount)state.requestedTransitCount=explicitCount;
  else if(/^(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)/i.test(message)&&!state.pendingTravelMode)state.requestedTransitCount=null;
@@ -3176,14 +3176,34 @@ welcomeUser();
 .avatar-overlay .avatar-stage #avatar3dFrame{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;border:0!important;background:transparent!important}
 .avatar-overlay .avatar-image,.avatar-overlay .avatar-close,.avatar-overlay .avatar-message,.avatar-overlay .avatar-status,.avatar-overlay .voice-wave{display:none!important}
 
+/* Avatar floats over the real application, with no blocking panel or gestures. */
+.avatar-overlay,.avatar-overlay.visible{background:transparent!important;pointer-events:none!important;transition:opacity .35s ease,visibility .35s ease!important}
+.avatar-overlay .avatar-stage{pointer-events:none!important}
+.avatar-overlay .avatar-stage #avatar3dFrame{left:10%!important;top:13%!important;right:auto!important;bottom:auto!important;width:80%!important;height:73%!important;pointer-events:none!important;background:transparent!important}
+
 </style>
 </body>
 </html>`;
 }
 export default {
- async fetch(request) {
+ async fetch(request,env) {
   const url = new URL(request.url);
   if (request.method === 'OPTIONS') return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET,POST,OPTIONS','Access-Control-Allow-Headers':'Content-Type'}});
+  if (url.pathname === '/avatar-production.html') {
+   // Reuse the existing 3D model asset; transform the demo-only viewer into transparent production mode.
+   if (!env?.ASSETS) return new Response('Avatar asset binding unavailable',{status:503});
+   const asset=await env.ASSETS.fetch(new Request(new URL('/avatar-v16.html',url)));
+   if(!asset.ok)return new Response('Avatar model unavailable',{status:502});
+   let html=await asset.text();
+   const replacements=[
+    ['new dr({canvas:t,antialias:!0,powerPreference:"low-power"})','new dr({canvas:t,alpha:!0,antialias:!0,powerPreference:"low-power"})'],
+    ['i.background=new ve("#b3c0cc")','i.background=null'],
+    ['c.enableDamping=!1,c.minDistance=.13','c.enableDamping=!1,c.enabled=!1,c.minDistance=.13'],
+    ['touch-action:none;background:#b3c0cc','touch-action:none;pointer-events:none;background:transparent']
+   ];
+   for(const [from,to] of replacements){if(!html.includes(from))return new Response('Avatar production conversion failed',{status:503});html=html.replace(from,to)}
+   return new Response(html,{headers:{'Content-Type':'text/html; charset=UTF-8','Cache-Control':'public, max-age=3600','X-Content-Type-Options':'nosniff'}});
+  }
   if (url.pathname !== '/' && url.pathname !== '/index.html') return new Response('Not found',{status:404});
   return new Response(htmlDocument(),{headers:{'Content-Type':'text/html; charset=UTF-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin'}});
  }
