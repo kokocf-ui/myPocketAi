@@ -1,0 +1,32 @@
+name: Assemble Pocket AI avatar v4 (isolated)
+on:
+  push:
+    branches:
+      - feature/avatar3d-isolated-rebuild-20261103
+    paths:
+      - docs/AVATAR_V4_ASSEMBLE_TRIGGER.txt
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout isolated branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Reassemble and validate the approved 3D avatar
+        run: python3 scripts/assemble_avatar_v4.py
+      - name: Commit assembled HTML and remove temporary chunks
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/avatar-v4.html
+          git rm -r avatar-v4-upload/
+          git diff --cached --check
+          git commit -m "Build exact approved avatar v4 as a single production asset"
+          git push
