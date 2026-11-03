@@ -8,7 +8,7 @@
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.141",
+  version: "1.0.142",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -2518,15 +2518,15 @@ function openEncyclopediaCard(article,requestStartMs){
  }
  host.append(card);
  const nav=document.createElement('button');nav.type='button';nav.className='transit-choice-action';nav.style.cssText='margin:12px 0 4px;text-align:center;min-height:46px;background:linear-gradient(110deg,#24c6cd,#2b8ac7);color:#062338;font-weight:800';
- nav.textContent=isCountry?L[14]:L[15];
+ nav.textContent=(isCountry||isRegion)?L[14]:L[15];
  nav.onclick=()=>{
   state.encyclopediaTripActive=true;
   const title=article.title||'',coords=article.coordinates;
   document.getElementById('pocketStandaloneChoices')?.remove();
-  if(!isCountry&&coords&&coords.latitude!=null&&coords.longitude!=null&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))&&Math.abs(Number(coords.latitude))<=90&&Math.abs(Number(coords.longitude))<=180){
+  if(!isCountry&&!isRegion&&coords&&coords.latitude!=null&&coords.longitude!=null&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))&&Math.abs(Number(coords.latitude))<=90&&Math.abs(Number(coords.longitude))<=180){
    state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute({latitude:Number(coords.latitude),longitude:Number(coords.longitude),label:title});return;
   }
-  const question=lang==='ro'?'Spre ce oraș sau obiectiv din '+title+' dorești să călătorești?':'Which city or place in '+title+' do you want to visit?';
+  const question=lang==='ro'?'Spre ce localitate sau obiectiv concret din '+title+' dorești să călătorești?':'Which specific town or attraction in '+title+' do you want to visit?';
   const questionBubble=addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;
   const back=document.createElement('button');back.type='button';back.className='transit-choice-action';
   back.textContent=({ro:'Înapoi la prezentare',en:'Back to place details',fr:'Retour à la présentation',de:'Zurück zur Übersicht',it:'Torna alla presentazione',es:'Volver a la presentación',pt:'Voltar à apresentação',nl:'Terug naar overzicht',ru:'Назад к описанию',pl:'Wróć do opisu'}[lang]||'Back to place details');
