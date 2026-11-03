@@ -1720,7 +1720,7 @@ function showPreciseJourney(choice){
    generation++;
    if(stage!=='number')withoutStreet=false;
    selected[stage]=point;
-   fields[stage].input.value=stage==='number'?(point.houseNumber||point.label):point.label;
+   fields[stage].input.value=stage==='number'?(point.houseNumber||point.label):stage==='street'?(point.street||point.label):point.label;
    fields[stage].list.replaceChildren();
    clearAfter(stage);
    if(stage==='city'){
