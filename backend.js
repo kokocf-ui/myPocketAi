@@ -835,22 +835,23 @@ async function getVerifiedAdministrativeCities(wikibaseItem,locale='ro',scope='c
 // item from Wikipedia. Results require coordinates, sitelinks and a tourism/city class.
 // A country's geographic centroid must not be used as a tourist attraction.
 const countryHighlightsCache=new Map();
-async function getCountryHighlights(wikibaseItem,locale='ro'){
+async function getCountryHighlights(wikibaseItem,locale='ro',scope='country'){
  const qid=String(wikibaseItem||'').trim();
  if(!/^Q[1-9]\d{0,12}$/.test(qid))return null;
- const key=qid+'|'+locale,stored=countryHighlightsCache.get(key);
+ const key=qid+'|'+locale+'|'+scope,stored=countryHighlightsCache.get(key);
  if(stored&&stored.expires>Date.now())return stored.data;
  const safeLocale=['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(locale)?locale:'en';
+ const locationProperty=scope==='region'?'wdt:P131+':'wdt:P17';
  const sparql=[
   'SELECT DISTINCT ?site ?siteLabel ?siteDescription ?coord ?sitelinks ?kind WHERE {',
-  ' { ?site wdt:P17 wd:'+qid+'; wdt:P31 ?type; wdt:P625 ?coord; wikibase:sitelinks ?sitelinks.',
+  ' { ?site '+locationProperty+' wd:'+qid+'; wdt:P31 ?type; wdt:P625 ?coord; wikibase:sitelinks ?sitelinks.',
   '   VALUES ?type { wd:Q33506 wd:Q570116 wd:Q23413 wd:Q16560 wd:Q839954 wd:Q4989906 wd:Q207694 wd:Q16970 wd:Q9259 wd:Q22698 wd:Q1107656 }',
   '   BIND("sight" AS ?kind)',
   ' } UNION {',
-  '   ?site wdt:P17 wd:'+qid+'; wdt:P1435 wd:Q9259; wdt:P625 ?coord; wikibase:sitelinks ?sitelinks.',
+  '   ?site '+locationProperty+' wd:'+qid+'; wdt:P1435 wd:Q9259; wdt:P625 ?coord; wikibase:sitelinks ?sitelinks.',
   '   BIND("sight" AS ?kind)',
   ' } UNION {',
-  '   ?site wdt:P17 wd:'+qid+'; wdt:P31 wd:Q515; wdt:P625 ?coord; wikibase:sitelinks ?sitelinks.',
+  '   ?site '+locationProperty+' wd:'+qid+'; wdt:P31 wd:Q515; wdt:P625 ?coord; wikibase:sitelinks ?sitelinks.',
   '   BIND("city" AS ?kind)',
   ' }',
   ' FILTER(?sitelinks >= 12)',
@@ -1279,6 +1280,9 @@ export default {
     const supportedLanguages = ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"];
     const requestedLanguage = typeof data.language === "string" ? data.language.trim().toLowerCase().split(/[-_]/)[0] : "ro";
     const lang = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ro";
+    if(lang==='ro'&&/^(?:salut|bun[ăa]|bun[ăa] ziua|bun[ăa] seara|bun[ăa] diminea[țt]a)[.!?…]*$/iu.test(message.trim())){
+      return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Salut! Cum te pot ajuta?',ai_generated:false});
+    }
     const languageNames = {ro:"Romanian",en:"English",fr:"French",de:"German",it:"Italian",es:"Spanish",pt:"Portuguese",nl:"Dutch",ru:"Russian",pl:"Polish"};
     const responseLanguageName = languageNames[lang];
 
@@ -1348,7 +1352,13 @@ export default {
         article.is_region=isRegionProfile;
         if(isRegionProfile){const parentCode=/^(?:județ(?:ul)?|judet(?:ul)?)\b/i.test(String(article.title||''))?'RO':countryCode; if(/^[A-Z]{2}$/.test(parentCode)){article.parent_country_code=parentCode;try{article.parent_country=new Intl.DisplayNames([lang],{type:'region'}).of(parentCode)}catch{}}}
         if(isRegionProfile&&article.wikibase_item){
-          article.major_cities=await getVerifiedAdministrativeCities(article.wikibase_item,lang,'region');
+          const [cities,highlights]=await Promise.all([
+            getVerifiedAdministrativeCities(article.wikibase_item,lang,'region'),
+            getCountryHighlights(article.wikibase_item,lang,'region')
+          ]);
+          article.major_cities=cities.length?cities:(highlights?.cities||[]);
+          article.attractions=highlights?.sights||[];
+          if(article.attractions.length)article.attractions_source='https://www.wikidata.org/';
           if(article.major_cities.length)article.localities_source='https://www.wikidata.org/';
         }
         if(isCountryProfile){
@@ -1410,7 +1420,7 @@ export default {
         // Optional notable sights, grounded in a geographically scoped place provider.
         // Never infer country-wide attractions from a country's geographic centroid.
         const isCountryArticle=Boolean(article.is_country);
-        if(!isCountryArticle&&article.coordinates&&env.GEOAPIFY_API_KEY){
+        if(!isCountryArticle&&!isRegionProfile&&article.coordinates&&env.GEOAPIFY_API_KEY){
           try{
             const u=new URL('https://api.geoapify.com/v2/places');
             u.searchParams.set('categories','tourism.attraction,tourism.sights,entertainment.museum,tourism.artwork');
