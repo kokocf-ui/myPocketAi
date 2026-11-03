@@ -2311,8 +2311,8 @@ function appendRecipeReaderText(host,rawText){
   }else{
    node=document.createElement('div');
    node.style.cssText='font-size:16px;line-height:1.58;margin:4px 0;overflow-wrap:anywhere';
-   if(/^[-•]\s/.test(plain)){node.className='recipe-reader-ingredient';appendAnswerText(node,plain);}
-   else if(/^\d{1,2}[.)]\s/.test(plain)){
+   if(/^[-•]\\s/.test(plain)){node.className='recipe-reader-ingredient';appendAnswerText(node,plain);}
+   else if(/^\\d{1,2}[.)]\\s/.test(plain)){
     node.className='recipe-reader-step';
     const parts=recipeStepPresentation(plain);
     if(parts.title){
