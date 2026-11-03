@@ -3941,7 +3941,7 @@ export default {
     const eventResearchIntent=eventDiscoveryRequest;
     // Dated list requests use the source-grounded calendar; singular event questions keep the general assistant.
     const eventCalendarRequest=eventResearchIntent&&/\b(?:evenimente|evenimentelor|events|concerte|concerts|festivale|festivaluri|festivals|spectacole|shows|performances|targuri|fairs|programul\s+evenimentelor|calendarul\s+evenimentelor|calendar\s+of\s+events)\b/i.test(normalizedResearchRequest);
-    const shouldSearchWeb = data.search_web === true || (!obviouslyNonResearch && !capabilityQuestion && substantiveRequest && (recipeInstruction || explicitLookup || (!taskInsteadOfResearch && !recipeInstruction)));
+    const shouldSearchWeb = data.search_web === true || (!obviouslyNonResearch && !capabilityQuestion && (substantiveRequest || recipeInstruction) && (recipeInstruction || explicitLookup || (!taskInsteadOfResearch && !recipeInstruction)));
     const priceResearch = /\b(?:price|prices|cost|costs|how much|£|€|\$|pret\w*|preturi|preț|prețuri|cat costa|cât costă|costa|costă|oferta|oferte)\b/i.test(normalizedResearchRequest);
     const legalResearch = /\b(?:law\w*|legal\w*|legislation|regulat\w*|statut\w*|tax\w*|fine|penalt\w*|codul\s+(?:muncii|rutier|civil|penal)|lege\w*|legi|legislati\w*|regulament\w*|impozit\w*|taxa|taxe|amend\w*|sanctiun\w*|drepturi|obligatii|licente|visa|viz\w*|immigration|imigra\w*)\b/i.test(normalizedResearchRequest);
     // Reuse the full Intl.DisplayNames-backed country table for worldwide jurisdiction discovery.
