@@ -527,14 +527,15 @@ function recipeSourceMatchesDish(request,source){
 }
 // Source-grounded publisher recipes are facts and instructions, not canned dishes.
 // Only native-language publisher data can bypass model rewriting.
-function formatPublishedRecipe(recipe,language,source){
+function formatPublishedRecipe(recipe,language,source,number=1){
  const name=String(recipe.name||source.title||'').trim().replace(/\s+/g,' ').slice(0,120);
  const ingredients=(recipe.ingredients||[]).map(x=>String(x||'').replace(/\s+/g,' ').trim()).filter(Boolean);
  const steps=(recipe.instructions||[]).map(x=>String(x||'').replace(/\s+/g,' ').trim()).filter(Boolean);
  if(!name||ingredients.length<3||steps.length<2)return null;
  const labels={ro:['Ingrediente:','Mod de preparare:','Sursa:'],en:['Ingredients:','Method:','Source:']};
  const t=labels[language];if(!t)return null;
- return name+'\n\n'+(recipe.servings?recipe.servings+'\n':'')+
+ const displayHeading=(language==='ro'?'Rețeta ':'Recipe ')+number+' — '+name;
+ return displayHeading+'\n\n'+(recipe.servings?recipe.servings+'\n':'')+
   (recipe.time?recipe.time+'\n':'')+'\n'+t[0]+'\n'+ingredients.map(v=>'- '+v).join('\n')+
   '\n\n'+t[1]+'\n'+steps.map((v,i)=>(i+1)+'. '+v).join('\n')+
   '\n\n'+t[2]+' '+source.url;
@@ -572,7 +573,9 @@ function normalizeCulinaryAnswer(answer,language){
  }
  if(dedup.length<3)return null;
  const tail=(methodEnd>=0?lines.slice(methodEnd):[]).map(cleanLine).filter(Boolean).slice(0,3);
- return title+'\n\n'+cleanLine(lines[firstIngredient])+'\n'+dedup.join('\n')+
+ const displayTitle=/^(?:rețeta|reteta|recipe)\s+\d+/i.test(title)?title:
+  (language==='ro'?'Rețeta 1 — ':language==='en'?'Recipe 1 — ':'')+title.replace(/^(?:Rețetă|Reteta|Recipe)\s+(?:de|for)\s+/i,'');
+ return displayTitle+'\n\n'+cleanLine(lines[firstIngredient])+'\n'+dedup.join('\n')+
   '\n\n'+cleanLine(lines[firstMethod])+'\n'+methodLines.map((x,i)=>x.replace(/^\d+[.)]/,(i+1)+'.')).join('\n')+
   (tail.length?'\n\n'+tail.join('\n'):'');
 }
@@ -4207,7 +4210,7 @@ export default {
       if(publishedSelected.length>=Math.max(1,Math.min(6,recipeRequestCount)))break;
     }
     if(recipeInstruction&&publishedSelected.length){
-      const prepared=publishedSelected.map(({source,recipe})=>formatPublishedRecipe(recipe,lang,source)).filter(Boolean);
+      const prepared=publishedSelected.map(({source,recipe},i)=>formatPublishedRecipe(recipe,lang,source,i+1)).filter(Boolean);
       if(prepared.length){
         const shortfall=recipeRequestCount>prepared.length?(lang==='ro'?'Am putut verifica doar '+prepared.length+' dintre cele '+recipeRequestCount+' rețete solicitate.':"Only "+prepared.length+" of "+recipeRequestCount+" requested recipes could be verified."):'';
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
