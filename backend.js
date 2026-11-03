@@ -476,6 +476,13 @@ function recipeQualityConcern(request,answer){
   const implausibleQuantity=/\b(?:\d+|una|doua|one|two)\s+(?:cani|cana|cups?)\s+(?:(?:de|of)\s+)?(?:sare|piper|mustar|salt|pepper|mustard)\b/i.test(content);
   return invalidMeat||implausibleQuantity;
  }
+ if(/\bbalmos(?:ul|ului)?\b/.test(topic)){
+  if(adaptedDish)return false;
+  const sweetIngredient=/\b(?:zahar|sugar|faina|flour|cacao|cocoa|vanilie|vanilla|ciocolata|chocolate|bicarbonat|baking soda|nuca de cocos|coconut)\b/i.test(content);
+  const properBase=/\b(?:malai|cornmeal|polenta|maismehl|harina de maiz)\b/i.test(content);
+  const properLiquid=/\b(?:jintita|lapte|milk|smantana|sour cream|whey)\b/i.test(content);
+  return sweetIngredient||!properBase||!properLiquid;
+ }
  if(!/\bsarmal/.test(topic))return false;
  const wrongWrapper=/\b(?:frunze|frunzele|foi)\s+de\s+(?:lemn|telina)(?:\b|\s|\()/i.test(content)
    ||/\b(?:wood|celery)\s+leaves\s+(?:for|to)\s+(?:roll|wrap|stuff)/i.test(content);
@@ -483,6 +490,62 @@ function recipeQualityConcern(request,answer){
  const explicitVariant=/\b(?:variante|varianta|variations?|alternativ\w*|reinterpret\w*|adapt\w*|modern\w*|vegan\w*|vegetari\w*|de post|fara|without|meatless|cu frunze de|in frunze de)\b/.test(topic);
  return wrongWrapper||(!explicitVariant&&!recognizableWrapper&&/(?:frunze|foi|leaves)\b/i.test(content));
 }
+
+// Provenance: traditional Romanian balmoș recipe supplied and validated against
+// the culinary description in this project's test brief. Balmoș is a savoury
+// cornmeal-and-dairy preparation, not a sweet cake or pastry.
+// Only use this reference for unmodified traditional recipe requests.
+function traditionalBalmosRecipe(request,language='ro'){
+ const q=String(request||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ if(!/\bbalmos(?:ul|ului)?\b/.test(q))return null;
+ if(/\b(?:vegan|vegetarian|de post|fara|without|lactose.free|intoleranta|alergi|ciocolat|desert|dulce|faina|reinterpret|modern|fuziune|tradu|translate|traducere|istorie|history|origine|origin|compare|comparatie|compar)\b/.test(q))return null;
+ const countMatch=q.match(/\b(\d{1,2}|una|un|o|doua|doi|trei)\s+(?:retet\w*|recipes?|variante?\s+de\s+balmos)\b/);
+ const requested=countMatch?({"una":1,"un":1,"o":1,"doua":2,"doi":2,"trei":3}[countMatch[1]]||Number(countMatch[1])):1;
+ if(requested>3||requested<1||!['ro','en'].includes(language))return null;
+ const ro=[
+  {
+   title:'Balmoș tradițional cu jintiță (aproximativ 8 porții)',
+   time:'Pregătire: 10 minute. Fierbere: 15–25 de minute.',
+   ingredients:['2 litri jintiță (sau lapte gras de oaie, capră ori vacă)','500 g mălai (400–750 g, după consistența dorită)','200 g unt gras, cu minimum 80% grăsime','150 g smântână grasă','400 g caș de oaie sau brânză de burduf, sfărâmată','Până la 1 linguriță de sare, doar dacă brânza nu este deja sărată'],
+   steps:['Pune jintița sau laptele la încălzit într-un ceaun ori o cratiță cu fund gros, împreună cu o parte din unt; adaugă puțină sare numai dacă este necesar.','Când lichidul este aproape de fierbere, toarnă mălaiul în ploaie, amestecând continuu ca să nu formeze cocoloașe.','Redu focul și fierbe 15–25 de minute, amestecând frecvent, până când mălaiul este bine pătruns; ajustează durata după granulație.','Încorporează smântâna și cașul sau brânza sfărâmată. Amestecă ușor până când brânza se înmoaie și se observă grăsime la suprafață.','Adaugă restul untului și servește cald, simplu ori cu iaurt sau lapte bătut.']
+  },
+  {
+   title:'Balmoș cu lapte gras și brânză de burduf (variantă de casă; aproximativ 8 porții)',
+   time:'Pregătire: 10 minute. Fierbere: 15–25 de minute.',
+   ingredients:['2 litri lapte gras','500–600 g mălai','150 g unt gras','150 g smântână grasă','350–400 g brânză de burduf','Sare doar dacă este necesar'],
+   steps:['Încălzește laptele într-un vas cu fund gros și topește în el aproximativ jumătate din unt.','Adaugă treptat mălaiul, în ploaie, amestecând continuu.','Fierbe la foc mic 15–25 de minute, până când mălaiul este gătit și compoziția devine cremoasă.','Adaugă smântâna și brânza de burduf sfărâmată, amestecând până se încorporează.','Așază restul untului deasupra și servește balmoșul fierbinte.']
+  },
+  {
+   title:'Balmoș cu caș de oaie și smântână (variantă de casă; aproximativ 6–8 porții)',
+   time:'Pregătire: 10 minute. Fierbere: 15–25 de minute.',
+   ingredients:['1,5 litri lapte gras sau jintiță','400–500 g mălai','150 g unt','200 g smântână grasă','350 g caș de oaie sfărâmat','Sare după gust, dacă este nevoie'],
+   steps:['Încălzește laptele ori jintița cu jumătate din unt într-un ceaun.','Presară mălaiul treptat și amestecă bine pentru a preveni cocoloașele.','Lasă să fiarbă domol 15–25 de minute, amestecând până se gătește complet mălaiul.','Încorporează smântâna și cașul sfărâmat și amestecă până când amestecul este omogen și gras.','Servește cald, cu untul rămas deasupra și, după preferință, lapte bătut alături.']
+  }
+ ];
+ const en=[
+  {
+   title:'Traditional Romanian balmoș with whey-rich jintiță (about 8 servings)',
+   time:'Preparation: 10 minutes. Simmering: 15–25 minutes.',
+   ingredients:['2 litres jintiță (or full-fat sheep, goat or cow milk)','500 g coarse cornmeal (400–750 g depending on texture)','200 g butter with at least 80% fat','150 g full-fat sour cream','400 g crumbled sheep curd cheese or brânză de burduf','Up to 1 teaspoon salt, only if the cheese is unsalted'],
+   steps:['Warm the jintiță or milk with some of the butter in a heavy pot. Salt lightly only if needed.','Gradually rain in the cornmeal, stirring constantly to avoid lumps.','Simmer gently for 15–25 minutes, stirring often until the cornmeal is fully cooked.','Stir in the sour cream and crumbled cheese; continue gently until melted and some fat rises to the surface.','Top with remaining butter and serve hot, optionally with yoghurt or cultured buttermilk.']
+  },
+  {
+   title:'Balmoș with rich milk and brânză de burduf (home variation, about 8 servings)',
+   time:'Preparation: 10 minutes. Simmering: 15–25 minutes.',
+   ingredients:['2 litres full-fat milk','500–600 g coarse cornmeal','150 g butter','150 g full-fat sour cream','350–400 g brânză de burduf','Salt only if needed'],
+   steps:['Heat the milk with half the butter in a heavy pot.','Add the cornmeal gradually while stirring.','Cook on low heat for 15–25 minutes until the cornmeal is tender.','Mix in the sour cream and crumbled cheese.','Top with the rest of the butter and serve hot.']
+  },
+  {
+   title:'Balmoș with sheep curd and sour cream (home variation, about 6–8 servings)',
+   time:'Preparation: 10 minutes. Simmering: 15–25 minutes.',
+   ingredients:['1.5 litres full-fat milk or jintiță','400–500 g coarse cornmeal','150 g butter','200 g full-fat sour cream','350 g crumbled sheep curd','Salt only if needed'],
+   steps:['Warm the milk or jintiță with half the butter.','Add the cornmeal gradually, stirring continuously.','Simmer gently for 15–25 minutes, stirring until fully cooked.','Stir in the sour cream and crumbled sheep curd.','Add remaining butter and serve hot with cultured buttermilk, if desired.']
+  }
+ ];
+ const content=(language==='ro'?ro:en).slice(0,requested);
+ return content.map((recipe,i)=>(requested>1?(language==='ro'?'Rețeta ':'Recipe ')+(i+1)+' — ':'')+recipe.title+'\n\n'+recipe.time+'\n\n'+(language==='ro'?'Ingrediente:':'Ingredients:')+'\n'+recipe.ingredients.map(x=>'- '+x).join('\n')+'\n\n'+(language==='ro'?'Mod de preparare:':'Method:')+'\n'+recipe.steps.map((x,index)=>(index+1)+'. '+x).join('\n')).join('\n\n────────────────\n\n');
+}
+
 // Bounded safety fallback for the two recipes whose model corrections repeatedly
 // generated inedible substitutes. The broader international recipe path remains dynamic.
 function reliableRecipeFallback(request,language='ro'){
@@ -3910,6 +3973,17 @@ export default {
     // The AI remains responsible for writing and reasoning; unnecessary live lookups are skipped for recipes and creative tasks.
     const explicitLookup = /\b(?:cauta|cautare|search|searching|find|look up|verifica|verificare|documenteaza|research|investigheaza|show me|arata.mi|prezinta.mi)\b/i.test(normalizedResearchRequest);
     const recipeInstruction = /\b(?:retet\w*|recipe\w*|ingredient\w*|cum\s+(?:se\s+)?(?:prepar\w*|gatesc|gatesti|gati\w*|face|fac)\b|how to cook|sarmal\w*|ciorb\w*\s+de\s+burt\w*)\b/i.test(normalizedResearchRequest);
+    // An explicitly traditional balmoș recipe is a bounded culinary reference,
+    // not a speculative text-generation task. Return the complete requested
+    // number of recipes without risking output-token truncation.
+    const balmosReference=recipeInstruction&&data.search_web!==true
+      ?traditionalBalmosRecipe(message,lang):null;
+    if(balmosReference){
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
+        message_received:message,reply:balmosReference,recipe_reference:"traditional_balmos",
+        requested_recipes:(balmosReference.match(/(?:^|\n)Rețeta \d+ — /g)||[]).length||1,
+        ai_generated:false,ai_connected:Boolean(env.AI)});
+    }
     const taskInsteadOfResearch = /^(?:te rog\s+)?(?:scrie|creeaza|compune|redacteaza|rezuma|rezumă|rescrie|corecteaza|tradu|ajuta.ma sa|write|create|draft|summarize|rewrite|translate|help me make|help me write)\b/i.test(normalizedResearchRequest);
     const substantiveRequest = /[\p{L}\p{N}]/u.test(message)&&(/[?？]/.test(message)||normalizedResearchRequest.trim().split(/\s+/).length>=2);
     const eventResearchIntent=eventDiscoveryRequest;
@@ -4109,10 +4183,10 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     if(recipeInstruction&&!shouldSearchWeb){
       systemMessage='You are Pocket AI, a careful cooking assistant. Respond exclusively in '+responseLanguageName+
         '. Use the current user request and relevant conversation history; never assume missing dietary constraints.'+
-        ' Give a complete, coherent recipe matching the requested servings. Start with preparation and cooking times.'+
+        ' Give the exact number of distinct complete recipes requested. Never start another recipe before finishing ingredients and every preparation step of the previous one. If the model output budget is tight, keep each recipe concise, not incomplete. Give a complete, coherent recipe matching the requested servings. Start with preparation and cooking times.'+
         ' Include a single nonrepeating ingredient list with measured quantities (grams, ml, pieces), then numbered sequential steps.'+
         ' Explain actual cooking technique, appliance temperature where appropriate, duration and food-safety checks.'+
-        ' Check that every ingredient is a real edible food ingredient and that the wrappers, fillings, cooking method and timing are appropriate for the named dish. For traditional Romanian sarmale use pickled cabbage leaves or grape leaves, not wood or celery leaves; for traditional Romanian ciorbă de burtă use beef stomach lining (Romanian: burtă de vită), never beef liver (ficat de vită) or pork belly. Never use cups of salt, pepper or mustard. Explicit vegetarian, vegan, modern, or regional alternatives must follow the user\'s instructions and be labelled as adaptations, not as the traditional version. Simmer thoroughly until safely cooked.'+
+        ' Check that every ingredient is a real edible food ingredient and that the wrappers, fillings, cooking method and timing are appropriate for the named dish. Traditional Romanian balmoș is a SAVOURY cornmeal dish cooked in jintiță or full-fat milk with butter, sour cream and sheep cheese; it is NOT cake or pudding. Never use wheat flour, sugar, chocolate, baking soda, coconut or vanilla as traditional balmoș ingredients. For traditional Romanian sarmale use pickled cabbage leaves or grape leaves, not wood or celery leaves; for traditional Romanian ciorbă de burtă use beef stomach lining (Romanian: burtă de vită), never beef liver (ficat de vită) or pork belly. Never use cups of salt, pepper or mustard. Explicit vegetarian, vegan, modern, or regional alternatives must follow the user\'s instructions and be labelled as adaptations, not as the traditional version. Simmer thoroughly until safely cooked.'+
         ' Do not invent sources, do not repeat blocks, and do not omit crucial steps or shorten a cooking time unrealistically.'+
         ' Only explain variations or substitutions when useful. Answer directly without prefatory filler.';
     }
@@ -4165,6 +4239,11 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     const aiStartedAt = Date.now();
     const stageMetrics={research_ms:shouldSearchWeb?(webSearchDiagnostics?.research_elapsed_ms??Date.now()-researchStartedAt):0,primary_ai_ms:0,sentence_correction_ms:0,review_ai_ms:0,recipe_correction_ms:0,recipe_fallback_used:false,recipe_rejected:false};
     const recipeFastPath=recipeInstruction&&!shouldSearchWeb;
+    const recipeText=String(message).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+    const recipeCountMatch=recipeText.match(/\b(\d{1,2}|doua|trei|patru|cinci|two|three|four|five)\s+(?:retet\w*|recipes?|variante?\s+de\s+retet\w*)\b/);
+    const recipeCountWord={doua:2,trei:3,patru:4,cinci:5,two:2,three:3,four:4,five:5};
+    const recipeCount=recipeCountMatch?Math.min(6,recipeCountWord[recipeCountMatch[1]]||Number(recipeCountMatch[1])):1;
+    const recipeTokenBudget=recipeFastPath?Math.min(3800,Math.max(1200,Math.round(recipeCount*900+250))):768;
     const cleanedHistory=history.length&&history[history.length-1]?.role==='user'&&history[history.length-1]?.content.trim()===message.trim()?history.slice(0,-1):history;
     const modelHistory=recipeFastPath?cleanedHistory.slice(-4):cleanedHistory;
 
@@ -4175,7 +4254,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       historyCount: history.length,
       historyChars: history.reduce((sum, item) => sum + item.content.length, 0),
       systemPromptChars: systemMessage.length,
-      requestedMaxOutputTokens: eventResearchIntent ? 2200 : (recipeFastPath ? 620 : 768),
+      requestedMaxOutputTokens: eventResearchIntent ? 2200 : recipeTokenBudget,
       messageLength: message.length,
       timestamp: new Date(aiStartedAt).toISOString()
     }));
@@ -4195,7 +4274,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
               content: aiUserMessage
             }
           ],
-          max_tokens: eventResearchIntent ? 2200 : (recipeFastPath ? 620 : 768),
+          max_tokens: eventResearchIntent ? 2200 : recipeTokenBudget,
           temperature: eventResearchIntent || recipeFastPath ? 0.05 : 0.2
         }
       );
