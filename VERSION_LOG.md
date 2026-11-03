@@ -1,3 +1,11 @@
+## Pocket AI — backend v176 (ramură de test, nepublicată) / frontend 1.0.130 — 2026-11-03
+
+- **Rețetele nu mai sunt fixe:** eliminat răspunsul local pentru balmoș și fallback-urile fixe pentru sarmale/ciorbă de burtă. Orice cerere recunoscută ca rețetă declanșează căutare în surse culinare accesibile, independent de țară.
+- **Rețete din surse:** sunt căutate paginile editorilor culinari; se citesc secțiunile cu ingrediente și preparare și, când există, datele structurate schema.org `Recipe`. Răspunsul folosește dovezile găsite, include surse, iar dacă nu pot fi accesate suficiente instrucțiuni nu inventează rețeta.
+- **Corectitudine:** bugetul de generare se adaptează numărului cerut, iar verificarea respinge ingrediente improbabile și metode majore de gătire neidentificate în surse (de exemplu prăjirea propusă fără prăjire în metoda publicată). Redactarea cere română naturală și păstrarea ordinii autentice de preparare.
+- **Interfața rămâne neschimbată:** cititorul cu mai multe rețete, listele, navigația și funcțiile de transport/cazare nu sunt modificate.
+- **Stadiu:** sintaxa backend și simularea unei cereri cu sursă Exa + pagină culinară au trecut. Testele complete CI, rezultatele reale de pe internet și publicarea Cloudflare sunt încă neconfirmate.
+
 ## Pocket AI — backend v175 / frontend 1.0.130 — 2026-11-03
 
 - **Balmoș tradițional, nu desert:** rețeta standard folosește jintiță sau lapte gras, mălai, unt, smântână și brânză de oaie/burduf. Când sunt cerute 2–3 rețete tradiționale, sunt furnizate tot atâtea variante complete, fiecare cu propriile ingrediente și pași. Cererile explicite de adaptări (vegan, fără lactoză, traducere etc.) nu sunt înlocuite automat cu varianta clasică.
