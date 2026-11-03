@@ -31,7 +31,7 @@ class E{
  append(...items){this.children.push(...items)}
 }
 const reader=vm.runInNewContext(script.slice(readerStart,readerEnd)+';appendRecipeReaderText',
- {document:{createElement:tag=>new E(tag)}});
+ {document:{createElement:tag=>new E(tag)},appendAnswerText:(node,value)=>{node.textContent=String(value)},recipeStepPresentation:(value)=>({title:'',body:String(value)})});
 const host=new E('section');
 assert.equal(reader(host,three),true);
 const titles=host.children.filter(node=>node.tagName==='h3').map(node=>node.textContent);
