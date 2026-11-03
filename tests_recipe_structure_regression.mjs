@@ -24,7 +24,7 @@ Mod de preparare:
 2. Pune perișoarele în ciorba care fierbe.
 Sursa: https://culinary.example/reteta`;
 const cleaned=ctx.normalizeCulinaryAnswer(text,'ro');
-assert.ok(cleaned.startsWith('Rețetă de ciorbă de perișoare'),'No preamble before the recipe');
+assert.ok(cleaned.startsWith('Rețeta 1 — ciorbă de perișoare'),'No preamble before the recipe');
 assert.equal((cleaned.match(/orez/g)||[]).length,1,'Equivalent ingredient quantities must not be repeated');
 assert.ok(!cleaned.includes('bulion tangajos'),'Unrelated introduction must not leak');
 assert.ok(!cleaned.includes('**'),'Raw Markdown title markers must be removed');
@@ -33,6 +33,7 @@ assert.equal(ctx.normalizeCulinaryAnswer('Ingrediente: carne, orez, morcov. Prep
 const published={name:'Ciorbă de perișoare',ingredients:['500 g carne tocată','3 linguri orez','1 ou','2 morcovi'],instructions:['Amestecă ingredientele și formează perișoare.','Fierbe perișoarele direct în ciorbă.'],servings:'6 porții'};
 const publisher=ctx.formatPublishedRecipe(published,'ro',{title:'Ciorbă de perișoare',url:'https://culinary.example/reteta'});
 assert.match(publisher,/Mod de preparare:\n1\. /);
+assert.match(publisher,/^Rețeta 1 — Ciorbă de perișoare/);
 assert.match(publisher,/Sursa: https:\/\/culinary.example\/reteta/);
 assert.equal((publisher.match(/Ingrediente:/g)||[]).length,1);
 assert.equal((publisher.match(/Mod de preparare:/g)||[]).length,1);
