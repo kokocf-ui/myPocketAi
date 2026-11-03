@@ -1113,7 +1113,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v180";
+    const API_VERSION = "v181";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
@@ -1346,6 +1346,7 @@ export default {
           && !/(?:county seat|reședința județului|resedinta judetului|capitala județului)/i.test(String(article.description||''));
         const isRegionProfile=!isCountryProfile&&(explicitCountyQuery||regionalArticle);
         article.is_region=isRegionProfile;
+        if(isRegionProfile){const parentCode=/^(?:județ(?:ul)?|judet(?:ul)?)\b/i.test(String(article.title||''))?'RO':countryCode; if(/^[A-Z]{2}$/.test(parentCode)){article.parent_country_code=parentCode;try{article.parent_country=new Intl.DisplayNames([lang],{type:'region'}).of(parentCode)}catch{}}}
         if(isRegionProfile&&article.wikibase_item){
           article.major_cities=await getVerifiedAdministrativeCities(article.wikibase_item,lang,'region');
           if(article.major_cities.length)article.localities_source='https://www.wikidata.org/';
