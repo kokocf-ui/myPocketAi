@@ -4825,7 +4825,7 @@ export default {
     const eventResearchIntent=eventDiscoveryRequest;
     // Dated list requests use the source-grounded calendar; singular event questions keep the general assistant.
     const eventCalendarRequest=eventResearchIntent&&/\b(?:evenimente|evenimentelor|events|concerte|concerts|festivale|festivaluri|festivals|spectacole|shows|performances|targuri|fairs|programul\s+evenimentelor|calendarul\s+evenimentelor|calendar\s+of\s+events)\b/i.test(normalizedResearchRequest);
-    const shouldSearchWeb = data.search_web === true || (!obviouslyNonResearch && !capabilityQuestion && (substantiveRequest || recipeInstruction) && (recipeInstruction || explicitLookup || (!taskInsteadOfResearch && !recipeInstruction)));
+    const shouldSearchWeb = data.search_web === true || (!obviouslyNonResearch && !capabilityQuestion && (substantiveRequest || recipeInstruction) && (recipeInstruction || explicitLookup || ["article_collection","briefing","analysis"].includes(classifyNewsRequest(message).mode) || (!taskInsteadOfResearch && !recipeInstruction)));
     const priceResearch = /\b(?:price|prices|cost|costs|how much|£|€|\$|pret\w*|preturi|preț|prețuri|cat costa|cât costă|costa|costă|oferta|oferte)\b/i.test(normalizedResearchRequest);
     const legalResearch = /\b(?:law\w*|legal\w*|legislation|regulat\w*|statut\w*|tax\w*|fine|penalt\w*|codul\s+(?:muncii|rutier|civil|penal)|lege\w*|legi|legislati\w*|regulament\w*|impozit\w*|taxa|taxe|amend\w*|sanctiun\w*|drepturi|obligatii|licente|visa|viz\w*|immigration|imigra\w*)\b/i.test(normalizedResearchRequest);
     // Reuse the full Intl.DisplayNames-backed country table for worldwide jurisdiction discovery.
@@ -4856,7 +4856,7 @@ export default {
 
       // GDELT only supplements current-events requests; returned article listings are leads,
       // not independent fact verification. Other topics preserve the existing fast path.
-      const newsIntent = !recipeInstruction && !eventResearchIntent && classifyNewsRequest(message).mode==="article_collection";
+      const newsIntent = !recipeInstruction && !eventResearchIntent && ["article_collection","briefing"].includes(classifyNewsRequest(message).mode);
       if(newsIntent) providerTasks.push((async()=>{
         const started=Date.now(),u=new URL("https://api.gdeltproject.org/api/v2/doc/doc");
         const topic=message.replace(/^(?:(?:care sunt|arata-mi|cauta|show me|what are the)\s+)?(?:(?:ultimele|latest|recent|breaking)\s+)?(?:stiri|știri|news|noutati|actualitati)\s*(?:(?:despre|about|privind|on)\s+)?/iu,"").trim();
