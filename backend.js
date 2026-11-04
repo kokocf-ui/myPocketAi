@@ -5077,7 +5077,7 @@ export default {
         }
       }:env.AI;
       const localizedNewsRows=await localizeNewsRows(rows,lang,tracedAi,selectedAiModel,{
-        log:(reason,errorName)=>{translationErrors.push({reason,error_name:errorName||"unknown"});console.warn("Pocket AI localization:",reason,errorName||"unknown");}
+        log:(reason,detail)=>{const error=typeof detail==="object"&&detail?detail:{name:String(detail||"unknown"),code:"unknown"};translationErrors.push({reason,error_name:error.name,error_code:error.code});console.warn("Pocket AI localization:",reason,error.name,error.code);}
       });
       const translationDiagnostics={requested_language:lang,input_rows:rows.length,output_rows:localizedNewsRows.length,
         translated:localizedNewsRows.filter(r=>r.translation_status==="translated").length,
