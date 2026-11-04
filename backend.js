@@ -1577,6 +1577,32 @@ export default {
     if(lang==='ro'&&/^(?:salut|bun[ăa]|bun[ăa] ziua|bun[ăa] seara|bun[ăa] diminea[țt]a)[.!?…]*$/iu.test(message.trim())){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Salut! Cum te pot ajuta?',ai_generated:false});
     }
+    // Resolve casual wellbeing check-ins before place lookup, routes, news and
+    // older conversation context. Otherwise a polite social message may be
+    // interpreted as a geographic phrase or sent to a general AI research path.
+    const earlySocialMessage=message.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
+      .replace(/[!?.,;:]+/g," ").replace(/\s+/g," ").trim();
+    const earlyWellbeing=/^(?:(?:salut|buna|buna ziua|buna seara|hei|servus|ceau|neata)\s+)?(?:cum te simti(?: astazi| azi)?|cum esti(?: astazi| azi)?|ce mai faci(?: astazi| azi)?|ce faci(?: astazi| azi)?|cum iti merge(?: astazi| azi)?|how are you(?: feeling)?(?: today)?|how do you feel(?: today)?|how's your day(?: going)?|comment tu te sens(?: aujourd'hui)?|come ti senti(?: oggi)?|como te sientes(?: hoy)?|wie fuhlst du dich(?: heute)?|hoe voel je je(?: vandaag)?|как ты себя чувствуешь(?: сегодня)?|jak sie czujesz(?: dzisiaj)?)$/u.test(earlySocialMessage);
+    if(earlyWellbeing){
+      const replies={
+        ro:["Salut! Sunt aici și gata de vorbă. Tu cum te simți azi? 😊","Hei! Mă bucur să te aud. Cum îți merge ziua?","Bună! Sunt bine, mulțumesc că întrebi. Tu ce mai faci?"],
+        en:["Hey! I'm here and ready to chat. How's your day?","Hi! Good to hear from you. How are you doing?"],
+        fr:["Salut ! Ravie de te retrouver. Comment vas-tu ?"],
+        de:["Hallo! Schön, von dir zu hören. Wie geht es dir?"],
+        it:["Ciao! Che piacere sentirti. Come stai?"],
+        es:["¡Hola! Qué gusto saludarte. ¿Cómo estás?"],
+        pt:["Olá! Que bom falar contigo. Como estás?"],
+        nl:["Hoi! Leuk je weer te spreken. Hoe gaat het?"],
+        ru:["Привет! Рада тебя слышать. Как дела?"],
+        pl:["Cześć! Miło cię słyszeć. Jak się masz?"]
+      };
+      const choices=replies[lang]||replies.en;
+      const recent=Array.isArray(data.history)?data.history.filter(x=>x?.role==="assistant").map(x=>String(x?.content||"")).slice(-8):[];
+      const reply=choices.find(x=>!recent.includes(x))||choices[0];
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
+        message_received:message,reply,conversational_reply:true,ai_generated:false,
+        ai_connected:Boolean(env.AI),web_search_status:"not_needed"});
+    }
     const languageNames = {ro:"Romanian",en:"English",fr:"French",de:"German",it:"Italian",es:"Spanish",pt:"Portuguese",nl:"Dutch",ru:"Russian",pl:"Polish"};
     const responseLanguageName = languageNames[lang];
 
