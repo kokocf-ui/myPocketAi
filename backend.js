@@ -1181,9 +1181,9 @@ export default {
       const limit = Math.min(10, Math.max(1, Number.parseInt(url.searchParams.get("limit") || "5", 10) || 5));
       const allowed = new Set(["news", "kev", "epss"]);
       if (!allowed.has(kind)) return json({status:"error", error:"Unknown intelligence source. Choose news, kev or epss."},400);
-      if (kind === "news" && (query.length < 3 || query.length > 120 || /[\\x00-\\x1f<>]/.test(query)))
+      if (kind === "news" && (query.length < 3 || query.length > 120 || /[\x00-\x1f<>]/.test(query)))
         return json({status:"error", error:"News query must contain 3–120 printable characters."},400);
-      if (kind === "epss" && !/^CVE-\\d{4}-\\d{4,10}$/i.test(query))
+      if (kind === "epss" && !/^CVE-\d{4}-\d{4,10}$/i.test(query))
         return json({status:"error", error:"A valid CVE identifier is required for EPSS."},400);
       if (kind === "kev" && query.length > 120)
         return json({status:"error", error:"Filter is too long."},400);
@@ -1247,7 +1247,7 @@ export default {
             cve:String(v.cve||""),epss:Number(v.epss),percentile:Number(v.percentile),
             score_date:String(v.date||""),url:"https://www.first.org/epss/",
             verification:"official_probability_estimate"
-          })).filter(v=>/^CVE-\\d{4}-\\d{4,10}$/i.test(v.cve)&&Number.isFinite(v.epss));
+          })).filter(v=>/^CVE-\d{4}-\d{4,10}$/i.test(v.cve)&&Number.isFinite(v.epss));
         }
         return json({app:"Pocket AI",version:API_VERSION,status:"success",kind,source:origin,
           retrieved_at:new Date().toISOString(),verification:kind === "news"
