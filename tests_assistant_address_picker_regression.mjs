@@ -21,7 +21,7 @@ const seen=[];
 globalThis.fetch=async function(url){
  const parsed=new URL(String(url));seen.push(parsed);
  if(parsed.hostname!=='api.geoapify.com')throw Error('Unexpected provider '+parsed.hostname);
- const q=parsed.searchParams.get('text')||'',stage=parsed.searchParams.get('type')||'';
+ const q=parsed.searchParams.get('text')||'',stage=parsed.searchParams.get('type')||(q.includes('180A')||parsed.searchParams.has('housenumber')?'number':'city');
  let results=[];
  if(q.toLowerCase().includes('alba iulia')&&stage==='city'){
    results=[
