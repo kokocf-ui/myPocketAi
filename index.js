@@ -1739,7 +1739,7 @@ function showPreciseJourney(choice){
    const cityAtRequest=selected.city;
    const current=()=>list.isConnected&&(discover?selected.city===cityAtRequest:request===generation);
    const query=input.value.trim(), request=++generation;
-   if(query.length<(stage==='number'?1:3)){list.replaceChildren();return;}
+   if(query.length<1){list.replaceChildren();return;}
    if(stage==='country'){
     const q=normalize(query);
     list.replaceChildren(...countries.map(code=>({code,label:display.of(code)}))
@@ -1794,7 +1794,7 @@ function showPreciseJourney(choice){
    input.addEventListener('pointerup',event=>{if(selected[stage]){event.preventDefault();input.select();}});
    input.oninput=()=>{
     generation++;clearTimeout(timer);delete selected[stage];if(stage!=='number')withoutStreet=false;list.replaceChildren();clearAfter(stage);
-    if(input.value.trim().length>=(stage==='number'?1:3))timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},350);
+    if(input.value.trim().length>=1)timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},350);
    };
    input.onkeydown=event=>{if(event.key==='Enter')search.click();};
    line.append(input,search);row.append(line,list);body.append(row);
