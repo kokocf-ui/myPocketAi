@@ -1701,7 +1701,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     if(parts[0]!==selected.country?.code||parts[1]!==selected.city?.city||parts[2]!==region||parts[3]!==stage)continue;
     for(const point of items){
      const label=stage==='street'?String(point.street||point.label||''):String(point.houseNumber||point.label||'');
-     if(normalize(label).startsWith(prefix)||normalize(label).split(/\\s+/).some(w=>w.startsWith(prefix)))matches.set(normalize(label),point);
+     if(normalize(label).startsWith(prefix)||normalize(label).split(/\s+/).some(w=>w.startsWith(prefix)))matches.set(normalize(label),point);
     }
    }
    return [...matches.values()].slice(0,30);
