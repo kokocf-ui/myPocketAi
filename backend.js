@@ -4708,8 +4708,8 @@ export default {
 
     // Exact CVE requests: ground the answer in official datasets instead of model speculation.
     // Unavailable sources are reported as unavailable, never silently replaced with claims.
-    const requestedCve=String(message).match(/\\bCVE-\\d{4}-\\d{4,10}\\b/i)?.[0]?.toUpperCase();
-    if(requestedCve && /\\b(?:cve|vulnerab|exploit|security|securit|risc|risk|ep ss|epss|cisa|atac|attack|patch|remedi)/i.test(message)){
+    const requestedCve=String(message).match(/\bCVE-\d{4}-\d{4,10}\b/i)?.[0]?.toUpperCase();
+    if(requestedCve && /\b(?:cve|vulnerab|exploit|security|securit|risc|risk|ep ss|epss|cisa|atac|attack|patch|remedi)/i.test(message)){
       const firstUrl="https://api.first.org/data/v1/epss?cve="+encodeURIComponent(requestedCve);
       const kevUrl="https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json";
       const read=async (endpoint,timeoutMs)=>{
@@ -4746,7 +4746,7 @@ export default {
         :(ro?"Nu există scor EPSS disponibil pentru identificatorul cerut.":"No EPSS score available for this identifier."));
       lines.push(ro?"Scorul EPSS este o estimare, nu confirmarea unui atac. Verifică și recomandările producătorului.":"EPSS is a prediction, not confirmation of an attack. Also check the vendor's advisory.");
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,
-        reply:lines.join("\\n"),sources,web_search_status:first.ok||kev.ok?"success":"error",
+        reply:lines.join("\n"),sources,web_search_status:first.ok||kev.ok?"success":"error",
         public_intel:{kind:"cve",cve:requestedCve,epss_status:first.ok?"available":"unavailable",
           kev_status:kev.ok?"available":"unavailable",kev_listed:Boolean(entry),score:epss?Number(epss.epss):null},
         ai_generated:false,ai_connected:Boolean(env.AI)});
@@ -4804,7 +4804,7 @@ export default {
 
       // GDELT only supplements current-events requests; returned article listings are leads,
       // not independent fact verification. Other topics preserve the existing fast path.
-      const newsIntent = !recipeInstruction && !eventResearchIntent && /\\b(?:news|headlines|breaking|geopolitic|politic|conflict|war|razboi|război|stiri|știri|actualitat|noutati|latest developments|recent events|ce se intampla|ce s-a intamplat)\\b/i.test(normalizedResearchRequest);
+      const newsIntent = !recipeInstruction && !eventResearchIntent && /\b(?:news|headlines|breaking|geopolitic|politic|conflict|war|razboi|război|stiri|știri|actualitat|noutati|latest developments|recent events|ce se intampla|ce s-a intamplat)\b/i.test(normalizedResearchRequest);
       if(newsIntent) providerTasks.push((async()=>{
         const started=Date.now(),u=new URL("https://api.gdeltproject.org/api/v2/doc/doc");
         u.searchParams.set("query",message.slice(0,110));
