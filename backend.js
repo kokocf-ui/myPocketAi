@@ -1243,6 +1243,7 @@ export default {
         try{
           const norm=v=>String(v||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
           const streetNorm=v=>norm(v).replace(/^(strada|str\.?|street|strasse|rue|via|calle)\s+/,'');
+           const countyNorm=v=>norm(v).replace(/^(?:judet(?:ul)?|county|province)\s+/,'');
           const endpoint=new URL('https://api.tomtom.com/maps/orbis/places/geocode');
           endpoint.search=new URLSearchParams({
             query:[[street,query.trim()].filter(Boolean).join(' '),city,country==='ro'?'':postcode].filter(Boolean).join(', '),
@@ -1255,7 +1256,7 @@ export default {
             const candidates=(payload.results||[]).flatMap(item=>{
               const a=item.address||{},p=item.position?.coordinates;
               if(item.type!=='address'||a.countryCodeIso2!==country.toUpperCase()||
-                 norm(a.municipality)!==norm(city)||(street&&streetNorm(a.street)!==streetNorm(street))||
+                 norm(a.municipality)!==norm(city)||(region&&![a.countrySubdivision,a.countrySecondarySubdivision].some(x=>countyNorm(x)===countyNorm(region)))||(street&&streetNorm(a.street)!==streetNorm(street))||
                  norm(a.houseNumber)!==norm(query)||!Array.isArray(p)||!Number.isFinite(p[0])||!Number.isFinite(p[1]))return [];
               return [{label:item.title||[a.street,a.houseNumber,a.municipality].filter(Boolean).join(' '),
                 city:a.municipality,street:a.street||'',houseNumber:String(a.houseNumber),postcode:a.postalCode||'',
