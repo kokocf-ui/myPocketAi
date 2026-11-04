@@ -1420,7 +1420,7 @@ export default {
 
     // Resolve short ambiguous names before choosing any encyclopaedia or map result.
     // Geography and encyclopaedia are separate destinations; Wikipedia text is never routable by itself.
-    const entityChoiceEligible=!seekingRoute&&!data.quick_place_search&&parts.length===1&&
+    const entityChoiceEligible=!seekingRoute&&!explicitKnowledge&&!data.quick_place_search&&(!knownTopic||topicKey==='paris')&&parts.length===1&&
       /^[\p{L}][\p{L}\s'-]{2,39}$/u.test(bareTopic)&&bareTopic.split(/\s+/).length<=2&&
       !countryNameCodes.has(normalizeGeoName(bareTopic))&&!/^(?:magazin|market|restaurant|hotel|pub|cafe|farmacie)$/i.test(bareTopic);
     if(entityChoiceEligible){
@@ -1510,11 +1510,11 @@ export default {
       // verified real-world place is selected; do not silently infer a route from an article.
       const filteredWiki=wikiChoices.filter(w=>!geoChoices.some(g=>{
         const n=normalizeGeoName(w.entity_title);
-        return n===normalizeGeoName(g.entity_title)|| (g.entity_type==='region'&&n==='judetul '+normalizeGeoName(g.entity_title));
+        return n!==target&&(n===normalizeGeoName(g.entity_title)|| (g.entity_type==='region'&&n==='judetul '+normalizeGeoName(g.entity_title)));
       }));
       // A short encyclopaedia entry is relevant even if the local-language
       // search has no matching title (e.g. "Alba" in Scottish Gaelic).
-      if(!wikiChoices.some(w=>normalizeGeoName(w.entity_title)===target)){
+      if(!filteredWiki.some(w=>normalizeGeoName(w.entity_title)===target)){
         filteredWiki.push({label:bareTopic+' · '+typeText.encyclopedia,
           entity_kind:'article',entity_title:bareTopic,entity_source:'lookup'});
       }
