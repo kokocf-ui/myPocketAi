@@ -1458,7 +1458,7 @@ export default {
           entity_details:info.join(' · '),latitude:lat,longitude:lon,entity_source:source});
       };
       const jobs=[];
-      if(env.TOMTOM_API_KEY)jobs.push((async()=>{
+      const tomtomAreaLookup=async()=>{
         try{
           const u=new URL('https://api.tomtom.com/maps/orbis/places/geocode');
           u.search=new URLSearchParams({query:bareTopic,types:'area',
@@ -1473,7 +1473,7 @@ export default {
             addGeo(name,kind,String(a.countryCodeIso2||''),kind==='city'?a.countrySubdivision||'':undefined,Number(pos[1]),Number(pos[0]),'TomTom');
           }
         }catch(e){console.warn('Pocket AI entity TomTom lookup',String(e?.name||'lookup_error'))}
-      })());
+      };
       if(env.GEOAPIFY_API_KEY)jobs.push((async()=>{
         try{
           const u=new URL('https://api.geoapify.com/v1/geocode/search');
@@ -1506,6 +1506,8 @@ export default {
         }catch(e){console.warn('Pocket AI entity Wikipedia lookup',String(e?.name||'lookup_error'))}
       })());
       await Promise.all(jobs);
+      // Avoid spending TomTom calls on non-geographic knowledge questions.
+      if(geoChoices.length&&env.TOMTOM_API_KEY)await tomtomAreaLookup();
       // Geographic entries include coordinates. Wikipedia choices are informational until a
       // verified real-world place is selected; do not silently infer a route from an article.
       const filteredWiki=wikiChoices.filter(w=>!geoChoices.some(g=>{
