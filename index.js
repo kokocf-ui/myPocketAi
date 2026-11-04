@@ -1846,7 +1846,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
   // Postal codes are optional hints, not a prerequisite for routing.
   // Keep an already verified address selected when the postal text changes.
   postcode.oninput=()=>{status.textContent=t('Codul poștal este opțional; destinația verificată rămâne selectată.','Postcode is optional; the verified destination remains selected.');};
-  if(cityOnly){fields.street.row.hidden=true;fields.number.row.hidden=true;postcode.hidden=true;confirmed.textContent=t('Confirmă localitatea pentru cazare','Confirm town for accommodation');}
+  if(cityOnly){fields.street.row.hidden=true;fields.number.row.hidden=true;postcode.hidden=true;confirmed.textContent=t('Confirmă localitatea de destinație','Confirm destination town');}
    body.append(postcode,status,confirmed,approximateButton);
   if(typeof onBack==='function')body.append(card(t('Înapoi','Back'),onBack));
   if(countryCode){
