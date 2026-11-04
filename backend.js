@@ -64,6 +64,26 @@
  *    caching reduces repeat traffic but cannot guarantee availability.
  */
 
+// Fetch the CISA KEV catalog with a fallback to its official GitHub mirror.
+// Never treat an HTML block/rate-limit page as an empty catalog.
+async function fetchKevCatalog(timeoutMs=7000){
+  const endpoints=[
+    "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+    "https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json"
+  ];
+  for(const endpoint of endpoints){
+    try{
+      const response=await fetch(endpoint,{headers:{Accept:"application/json"},signal:AbortSignal.timeout(timeoutMs),
+        cf:{cacheTtl:3600,cacheEverything:true}});
+      if(!response.ok)continue;
+      const raw=await response.json();
+      if(raw&&Array.isArray(raw.vulnerabilities)&&raw.vulnerabilities.length>0)
+        return {ok:true,data:raw,url:endpoint};
+    }catch{}
+  }
+  return {ok:false,data:null,url:null};
+}
+
 // Keep named venues and their explicit town together, independent of wording order.
 function cleanTravelPlace(value){
  let text=String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim()
@@ -1209,18 +1229,22 @@ export default {
         catch {return null}
       };
       try {
-        const response = await fetch(upstream.href, {
-          headers:{"Accept":"application/json"},
-          signal:AbortSignal.timeout(kind === "kev" ? 8000 : 6500),
-          cf:{cacheTtl:kind === "kev" ? 3600 : 300,cacheEverything:true}
-        });
-        if (!response.ok) return json({status:"unavailable",source:origin,source_status:response.status,
-          items:[],verification:"not_checked",error:"The public source is temporarily unavailable."},502);
-        const contentType = response.headers.get("content-type") || "";
-        if (!contentType.toLowerCase().includes("json"))
-          return json({status:"unavailable",source:origin,items:[],verification:"not_checked",
-            error:"The source did not return JSON."},502);
-        const raw = await response.json();
+        let raw,actualSource=upstream.href;
+        if(kind==="kev"){
+          const catalog=await fetchKevCatalog(6500);
+          if(!catalog.ok)return json({status:"unavailable",source:origin,items:[],verification:"not_checked",
+            error:"The CISA catalog and its official mirror could not be verified."},502);
+          raw=catalog.data;actualSource=catalog.url;
+        }else{
+          const response=await fetch(upstream.href, {
+            headers:{"Accept":"application/json"},
+            signal:AbortSignal.timeout(6500),
+            cf:{cacheTtl:300,cacheEverything:true}
+          });
+          if (!response.ok) return json({status:"unavailable",source:origin,source_status:response.status,
+            items:[],verification:"not_checked",error:"The public source is temporarily unavailable."},502);
+          raw=await response.json();
+        }
         let items = [];
         if (kind === "news") {
           items = (Array.isArray(raw.articles) ? raw.articles : []).slice(0,limit).map(a => ({
@@ -1253,7 +1277,7 @@ export default {
           retrieved_at:new Date().toISOString(),verification:kind === "news"
             ? "Article listings are not independent confirmation of claims."
             : "Data from the named publisher; applicability and context require verification.",
-          items,source_url:endpoint,paid_api_required:false});
+          items,source_url:actualSource,paid_api_required:false});
       } catch(error) {
         return json({status:"unavailable",kind,source:origin,items:[],verification:"not_checked",
           error:"Public source request failed.",error_code:String(error?.name||"SourceError")},502);
@@ -4720,7 +4744,7 @@ export default {
           return {ok:true,data:await response.json()};
         }catch{return {ok:false,reason:"source_unavailable"}}
       };
-      const [first,kev]=await Promise.all([read(firstUrl,4500),read(kevUrl,6000)]);
+      const [first,kev]=await Promise.all([read(firstUrl,4500),fetchKevCatalog(6000)]);
       const epss=first.ok&&Array.isArray(first.data?.data)
         ?first.data.data.find(v=>String(v.cve||"").toUpperCase()===requestedCve):null;
       const entry=kev.ok&&Array.isArray(kev.data?.vulnerabilities)
