@@ -1504,6 +1504,7 @@ export default {
             if(romanianCounty&&matchesName(romanianCounty[1])){
               if(!geoChoices.some(x=>x.entity_type==='region'&&x.entity_country_code==='RO')){
                 const label=romanianCounty[1]+' · '+typeText.region+' · România';
+                keys.add(normalizeGeoName(romanianCounty[1])+'|RO|region');
                 geoChoices.unshift({label,entity_kind:'region_article',entity_type:'region',
                   entity_title:romanianCounty[1],entity_details:typeText.region+' · România',
                   entity_country_code:'RO',entity_country_name:'România',entity_source:'Wikipedia'});
