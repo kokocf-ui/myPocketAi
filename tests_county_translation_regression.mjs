@@ -35,8 +35,8 @@ assert(providerCalls.some(x=>x.includes('tomtom.com')),'geographic cross-check o
 
 const ui=frontend.slice(frontend.indexOf('function appendConversationChoices'),frontend.indexOf('function appendTravelModeOverview'));
 const county=ui.slice(ui.indexOf("if(option.entity_type==='region'"),ui.indexOf("if(option.entity_kind==='article'"));
-assert(county.includes('Scrie localitatea'),'requires named municipality');
-assert(county.includes('state.tripCountryOnChoice=regionQualifier'),'retains region for accommodation after locality choice');
+assert(county.includes('openAssistantStructuredAddress(option)')&&frontend.includes('function renderStructuredAddressPicker('),'county uses verified municipality picker');
+assert(frontend.includes('state.tripCountryOnChoice=regionName||null'),'retains chosen county until verified locality and accommodation');
 assert(!county.includes('offerDestinationAccommodationBeforeRoute('),'no lodging search at county centroid');
 assert(ui.includes("state.pendingSelectedEntityKind='article'"),'selected informational meaning retained');
 assert(frontend.includes('selected_entity_kind:selectedEntityKind'),'semantic kind reaches API');
