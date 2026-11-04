@@ -19,7 +19,7 @@ function jsonItems(text){
  if(a<0||b<=a)return null;
  try{const x=JSON.parse(raw.slice(a,b+1));return Array.isArray(x)?x:null}catch{return null}
 }
-const newsFields=["title","summary"];
+// A translation is complete only when every non-empty visible field was localized.
 export async function localizeNewsRows(rows,language,ai,model,{log=()=>{}}={}){
  const source=Array.isArray(rows)?rows:[];
  const target=LANGUAGE_NAMES[language];
@@ -34,7 +34,7 @@ export async function localizeNewsRows(rows,language,ai,model,{log=()=>{}}={}){
   if(title.length<7||title.length>350||looksUnlocalized(title,language))return;
   row.title=title.slice(0,220);
   if(row.summary&&summary&&!looksUnlocalized(summary,language)){row.summary=summary.slice(0,280);row.detail=row.summary}
-  row.translation_status="translated";accepted.add(id);
+  row.translation_status=(!row.summary||summary&&!looksUnlocalized(summary,language))?"translated":"partial_translation";if(row.translation_status==="translated")accepted.add(id);
  };
  const ask=async(items)=>{
   const result=await ai.run(model,{messages:[
@@ -71,5 +71,12 @@ export async function localizeNewsRows(rows,language,ai,model,{log=()=>{}}={}){
    row.translation_status=(!row.summary||summary&&row.summary===summary.slice(0,280))&&row.title!==row.original_title?"translated":"partial_translation";
   }catch(e){log("translation_item_failed",String(e?.name||"Error"))}
  }));
+ // Never silently pass a foreign-language excerpt as though it were localized.
+ // Preserve source provenance; consumers can display an explicit notice.
+ for(const row of out){
+  if(row.translation_status!=="translated" && (looksUnlocalized(row.title,language)||looksUnlocalized(row.summary,language))){
+   row.translation_notice=language==="ro"?"Traducere indisponibilă; text original al publicației.":"Translation unavailable; original publisher text.";
+  }
+ }
  return out;
 }

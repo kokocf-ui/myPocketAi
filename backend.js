@@ -5016,6 +5016,7 @@ export default {
       const seenTitles=new Set();
       const rows=[];
       const freshnessHours=/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?24:null;
+      const todayOnly=/\b(?:astazi|azi|today)\b/i.test(normalizedResearchRequest);
       const nowMs=Date.now();
       // Select globally retrieved publication results, not only English/RO lexical matches.
       // A language, alphabet, country or publisher is never grounds for exclusion.
@@ -5026,15 +5027,18 @@ export default {
         if(!url||originalTitle.length<15)continue;
         const parsed=new URL(url),urlPath=parsed.pathname.replace(/\/+$/,"");
         if(!urlPath||urlPath==="/")continue;
+        if(/^(?:\/emisiuni|\/stiri|\/stiri-video|\/category|\/tag|\/search)(?:\/|$)/i.test(urlPath)&&urlPath.split("/").filter(Boolean).length<=2)continue;
         const slug=urlPath.split("/").filter(Boolean).at(-1)||"";
-        if(/^(?:news|world|politics|international|latest|home|index|articles|updates)$/i.test(slug))continue;
+        if(/^(?:news|world|politics|international|latest|home|index|articles|updates|emisiuni|stiri|stiri-video|ziua-si)$/i.test(slug))continue;
         const key=originalTitle.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
         if(!key||seenTitles.has(key))continue;
         if(/(?:breaking news|latest news|stiri de ultima ora|știri de ultimă oră|world news summary|news summary|latest headlines|monthly geopolitical report|live fm|news live|live updates)\b/i.test(originalTitle))continue;
         const sourceDate=String(source.publishedDate||"");
         const normalizedDate=/^\d{8}T\d{6}Z$/.test(sourceDate)?sourceDate.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,"$1-$2-$3T$4:$5:$6Z"):sourceDate;
         const publishedMs=Date.parse(normalizedDate);
-        if(freshnessHours&&Number.isFinite(publishedMs)&&(publishedMs<nowMs-freshnessHours*3600000||publishedMs>nowMs+3600000))continue;
+        if((freshnessHours||todayOnly)&&!Number.isFinite(publishedMs))continue;
+        if(freshnessHours&&(publishedMs<nowMs-freshnessHours*3600000||publishedMs>nowMs+3600000))continue;
+        if(todayOnly&&new Date(publishedMs).toISOString().slice(0,10)!==new Date(nowMs).toISOString().slice(0,10))continue;
         // When published_at is missing, never assert the article falls inside 24h.
         const recencyStatus=Number.isFinite(publishedMs)?"dated":"date_not_verified";
         const snippets=Array.isArray(source.snippets)?source.snippets:[];
