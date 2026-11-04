@@ -4977,7 +4977,7 @@ export default {
         if(!urlPath||urlPath==="/")continue;
         const slug=urlPath.split("/").filter(Boolean).at(-1)||"";
         if(/^(?:news|world|politics|international|latest|live|home|index|articles|updates)$/i.test(slug))continue;
-        const titleKey=title.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+        const titleKey=title.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
         if(!titleKey||seenTitles.has(titleKey))continue;
         if(/(?:breaking news|latest news|stiri de ultima ora|știri de ultimă oră|world news summary|news summary|latest headlines|monthly geopolitical report|live fm|news live|live updates|diretta)\b/i.test(title))continue;
         // Search and preserve news in every source language. Keyword heuristics
