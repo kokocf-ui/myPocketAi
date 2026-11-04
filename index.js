@@ -1682,7 +1682,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    const pendingStreet=cityOnly?'':fields.street?.input.value.trim();
    if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)){
     status.textContent=t('Strada sau numărul nu sunt verificate. Selectează o sugestie verificată ori folosește butonul separat pentru centrul localității. Datele neverificate NU devin destinație.','Street or house number is not verified. Select a verified suggestion or use the separate town-centre button. Unverified address text is NOT a destination.');
-    approximateButton.hidden=false;
+    approximateButton.hidden=!selected.city||!Number.isFinite(selected.city.latitude)||!Number.isFinite(selected.city.longitude);
     return;
    }
    const point=cityOnly?selected.city:(selected.number||selected.street||selected.city);
@@ -1802,7 +1802,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
      list.textContent=t('Nu am găsit rezultate verificate.','No verified matches.');
      if(stage==='number'&&fields.number.input.value.trim()){
       status.textContent=t('Numărul nu este verificat în hărți. Poți căuta alt număr sau continua spre centrul localității; nu vom inventa o adresă exactă.','House number is not verified on the map. Search another number or continue to town centre; we will not invent an exact address.');
-      approximateButton.hidden=!selected.city;
+      approximateButton.hidden=!selected.city||!Number.isFinite(selected.city.latitude)||!Number.isFinite(selected.city.longitude);
      }
     }
    }catch{
@@ -1829,7 +1829,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    input.addEventListener('pointerup',event=>{if(selected[stage]){event.preventDefault();input.select();}});
    input.oninput=()=>{
     generation++;clearTimeout(timer);delete selected[stage];if(stage!=='number')withoutStreet=false;list.replaceChildren();clearAfter(stage);
-    approximateButton.hidden=!selected.city||cityOnly;
+    approximateButton.hidden=!selected.city||cityOnly||!Number.isFinite(selected.city.latitude)||!Number.isFinite(selected.city.longitude);
     if(stage==='street'&&selected.city&&!cityOnly){fields.number.input.disabled=false;fields.number.search.disabled=false;}
     if(input.value.trim().length>=1){
      if(stage==='street'||stage==='number'){
