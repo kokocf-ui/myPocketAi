@@ -2978,6 +2978,9 @@ function appendNewsCollectionTable(host,record){
   add("h3",t[0],"font-size:18px;margin:0 0 10px;color:#dcf9ff");
   const wrap=add("div","","width:100%;overflow-x:auto;overscroll-behavior-x:contain");
   const table=add("table","","width:100%;border-collapse:collapse;table-layout:fixed;font-size:clamp(13px,3.35vw,16px);line-height:1.5",wrap);
+  const cols=add("colgroup","",null,table);
+  add("col","","width:76%",cols);
+  add("col","","width:24%",cols);
   const head=add("thead","",null,table),header=add("tr","",null,head);
   for(const label of [t[1],t[2]])add("th",label,"padding:10px 7px;background:#19445a;border:1px solid #43758a;text-align:left",header);
   const body=add("tbody","",null,table);
