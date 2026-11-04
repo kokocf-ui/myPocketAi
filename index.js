@@ -1677,7 +1677,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
   postcode.style.cssText='box-sizing:border-box;width:100%;padding:12px;margin:0 0 12px;background:#102d40;color:white;border:1px solid #5ecbd9;border-radius:10px;font:inherit';
   let withoutStreet=false;
   const status=document.createElement('p');status.style.cssText='font-size:13px;color:#bce4ed;line-height:1.45;margin:7px 0 10px';
-  const confirmed=card(t('Confirmă localitatea / adresa','Confirm destination'),()=>{
+  const confirmed=card(cityOnly?t('Confirmă destinația','Confirm destination'):t('Confirmă localitatea / adresa','Confirm destination'),()=>{
    const pendingNumber=cityOnly?'':fields.number?.input.value.trim();
    const pendingStreet=cityOnly?'':fields.street?.input.value.trim();
    if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)){
@@ -1846,7 +1846,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
   // Postal codes are optional hints, not a prerequisite for routing.
   // Keep an already verified address selected when the postal text changes.
   postcode.oninput=()=>{status.textContent=t('Codul poștal este opțional; destinația verificată rămâne selectată.','Postcode is optional; the verified destination remains selected.');};
-  if(cityOnly){fields.street.row.hidden=true;fields.number.row.hidden=true;postcode.hidden=true;confirmed.textContent=t('Confirmă localitatea pentru cazare','Confirm town for accommodation');}
+  if(cityOnly){fields.street.row.hidden=true;fields.number.row.hidden=true;postcode.hidden=true;confirmed.textContent=t('Confirmă localitatea de destinație','Confirm destination town');}
    body.append(postcode,status,confirmed,approximateButton);
   if(typeof onBack==='function')body.append(card(t('Înapoi','Back'),onBack));
   if(countryCode){
@@ -2068,7 +2068,7 @@ function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=nu
  }
  const host=document.createElement('div');host.dataset.directChoices='true';
  const headline=cityOnly
-  ?(state.language==='ro'?'Alege o localitate pentru căutarea cazării. După ce selectezi hotelul, adresa sa devine automat destinația.':'Select a town to look for accommodation. Your chosen hotel will automatically become your destination.')
+  ?(state.language==='ro'?'Alege localitatea de destinație. După confirmare vei putea selecta mijlocul de transport.':'Choose the destination town. After confirmation, select your travel mode.')
   :(state.language==='ro'?'Alege destinația verificată pe hartă. Strada, numărul și codul poștal sunt opționale.':'Choose a verified destination. Street, house number and postcode are optional.');
  const intro=document.createElement('p');intro.textContent=headline;
  intro.style.cssText='font-size:14px;line-height:1.5;color:#cbe5ee;margin:0 0 14px';
@@ -3085,7 +3085,18 @@ function openEncyclopediaCard(article,requestStartMs){
   if(coords){
    const btn=document.createElement('button');btn.type='button';btn.textContent=L[16]+' · '+place.name;
    btn.style.cssText='border:1px solid #48b6c5;border-radius:9px;background:#125270;color:#e8ffff;font-size:12px;font-weight:650;padding:7px 9px;min-height:36px;max-width:100%;overflow-wrap:anywhere;text-align:left';
-   btn.onclick=()=>{state.encyclopediaTripActive=true;document.getElementById('pocketStandaloneChoices')?.remove();state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute({latitude:Number(place.latitude),longitude:Number(place.longitude),label:place.name})};
+   btn.onclick=()=>{
+    state.encyclopediaTripActive=true;
+    document.getElementById('pocketStandaloneChoices')?.remove();
+    state.tripCountryOnChoice=null;
+    const title=String(place.name||''),selected={latitude:Number(place.latitude),longitude:Number(place.longitude),
+     label:title,entity_title:title,entity_type:'city',entity_kind:'place',
+     entity_country_code:String(article.country_code||article.parent_country_code||''),
+     entity_region:isRegion?String(article.title||''):''};
+    // Place lists use the same mode-first flow as an independently selected town.
+    // A POI may use a verified map point, but lodging is never prompted first.
+    offerAssistantLocalityTravelMode(selected);
+   };
    actions.append(btn);
   }
   link(place.url,L[17],actions);line.append(actions);parent.append(line);
@@ -3130,7 +3141,7 @@ function openEncyclopediaCard(article,requestStartMs){
     entity_country_code:isRegion?String(article.parent_country_code||''):String(article.country_code||''),
     entity_country_name:isCountry?title:String(article.parent_country||''),
     latitude:!isCountry&&!isRegion?coords?.latitude:null,longitude:!isCountry&&!isRegion?coords?.longitude:null};
-   state.tripCountryOnChoice=null;offerAssistantScopeAccommodation(scope);return;
+   state.tripCountryOnChoice=null;offerAssistantLocalityTravelMode(scope);return;
   }
   const question=lang==='ro'?'Spre ce localitate sau obiectiv concret din '+title+' dorești să călătorești?':'Which specific town or attraction in '+title+' do you want to visit?';
   const questionBubble=addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;
