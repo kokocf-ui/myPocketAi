@@ -26,6 +26,12 @@ try{
  assert.equal(directResponse.status,200);
  const recent=await directResponse.json();
  assert.equal(recent.structured_list?.type,'news','Recent geopolitical news must use the table');
+ const romanianGeopolitics=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({message:'Ce evenimente geopolitice importante au avut loc în ultimele 24 de ore?',language:'ro'})}),{AI:{run:async()=>({response:'[]'})}});
+ assert.equal(romanianGeopolitics.status,200);
+ const geopolitics=await romanianGeopolitics.json();
+ assert.equal(geopolitics.structured_list?.type,'news','Romanian geopolitical events must not enter the local events calendar');
+ assert.ok(!/nu voi inventa un program/i.test(geopolitics.reply),'World news must not use event-schedule fallback');
  assert.equal(typeof recent.structured_list.coverage_status,'string');
  const roResponse=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
   body:JSON.stringify({message:'Știri geopolitice internationale',language:'ro'})}),{AI:{run:async()=>({response:JSON.stringify([
