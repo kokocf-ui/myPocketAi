@@ -5043,7 +5043,8 @@ export default {
         const summary=snippetClean?candidate.slice(0,280):"";
         const rawDomain=parsed.hostname.replace(/^www\./i,"");
         const publisher=rawDomain.replace(/\.(?:co\.uk|com|org|net|ro|md|ru|it|fr|de|ua|uk|eu|io|info)$/i,"").split(".")[0];
-        const sourceName=publisher?publisher.charAt(0).toUpperCase()+publisher.slice(1):rawDomain;
+        const publisherNames={"abc.net.au":"ABC News","dw.com":"Deutsche Welle","apnews.com":"Associated Press","arabnews.com":"Arab News","internazionale.it":"Internazionale","lb.ua":"LB.ua","pravda.com.ua":"Ukrainska Pravda","eldestapeweb.com":"El Destape","interfax.ru":"Interfax"};
+        const sourceName=publisherNames[rawDomain]||publisherNames[rawDomain.replace(/^www\\./,"")]||rawDomain;
         seenTitles.add(key);
         rows.push({title:originalTitle,original_title:originalTitle,url,source_name:sourceName,
           source_domain:rawDomain,published_at:source.publishedDate||null,recency_status:recencyStatus,
