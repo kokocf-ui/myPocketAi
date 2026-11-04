@@ -1725,7 +1725,8 @@ function showPreciseJourney(choice){
    clearAfter(stage);
    if(stage==='city'){
     fields.number.input.disabled=fields.number.search.disabled=false;
-    await lookup('street',true);
+    fields.street.input.disabled=fields.street.search.disabled=false;
+    fields.street.input.focus();
     return;
    }
    const next=order[order.indexOf(stage)+1];
@@ -1738,6 +1739,7 @@ function showPreciseJourney(choice){
    const cityAtRequest=selected.city;
    const current=()=>list.isConnected&&(discover?selected.city===cityAtRequest:request===generation);
    const query=input.value.trim(), request=++generation;
+   if(query.length<(stage==='number'?1:3)){list.replaceChildren();return;}
    if(stage==='country'){
     const q=normalize(query);
     list.replaceChildren(...countries.map(code=>({code,label:display.of(code)}))
@@ -1788,15 +1790,16 @@ function showPreciseJourney(choice){
    const list=document.createElement('div');
    list.style.cssText='max-height:18rem;overflow:auto';
    fields[stage]={input,search,list};
-   input.onfocus=()=>{if(!selected[stage])lookup(stage);};
+   input.onfocus=()=>{if(input.value)input.select();};
+   input.addEventListener('pointerup',event=>{if(selected[stage]){event.preventDefault();input.select();}});
    input.oninput=()=>{
     generation++;clearTimeout(timer);delete selected[stage];if(stage!=='number')withoutStreet=false;list.replaceChildren();clearAfter(stage);
-    if(stage==='country')lookup(stage);
-    else if(input.value.trim().length>=(stage==='number'?1:2))timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},350);
+    if(input.value.trim().length>=(stage==='number'?1:3))timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},350);
    };
    input.onkeydown=event=>{if(event.key==='Enter')search.click();};
    line.append(input,search);row.append(line,list);body.append(row);
   });
+  postcode.onfocus=()=>{if(postcode.value)postcode.select();};
   postcode.oninput=()=>{
    generation++;
    clearTimeout(timer);
