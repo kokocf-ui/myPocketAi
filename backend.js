@@ -5027,6 +5027,7 @@ export default {
         if(!url||originalTitle.length<15)continue;
         const parsed=new URL(url),urlPath=parsed.pathname.replace(/\/+$/,"");
         if(!urlPath||urlPath==="/")continue;
+        if(/^(?:\/emisiuni|\/stiri|\/stiri-video|\/category|\/tag|\/search)(?:\/|$)/i.test(urlPath)&&urlPath.split("/").filter(Boolean).length<=2)continue;
         const slug=urlPath.split("/").filter(Boolean).at(-1)||"";
         if(/^(?:news|world|politics|international|latest|home|index|articles|updates)$/i.test(slug))continue;
         const key=originalTitle.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
