@@ -1571,7 +1571,7 @@ export default {
         return json({status:'success',places,search_center:{latitude:lat,longitude:lon},radius_m:5000,availability_verified:false});
       }catch{return json({status:'unavailable',places:[],reason:'provider_timeout'})}
     }
-    const eventDiscoveryRequest=/\b(?:eveniment\w*|festival\w*|spectacol\w*|concert\w*|targ\w*|events?|shows?|performances?)\b/i.test(message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase());
+    const eventDiscoveryRequest=/\b(?:eveniment\w*|festival\w*|spectacol\w*|concert\w*|targ\w*|events?|shows?|performances?)\b/i.test(message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase())\n      && classifyNewsRequest(message).mode==="none"; // World affairs are reporting/analysis, not venue calendars.
     const supportedLanguages = ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"];
     const requestedLanguage = typeof data.language === "string" ? data.language.trim().toLowerCase().split(/[-_]/)[0] : "ro";
     const lang = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ro";
