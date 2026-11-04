@@ -1705,7 +1705,7 @@ export default {
         }
         const isCountryProfile=!encyclopedicOnly&&(Boolean(countryNameCodes.has(normalizeGeoName(encyclopediaTitle))&&countryCode) || /\b(?:țară|tara|country|republic|stat suveran|sovereign state)\b/i.test(String(article.description||article.source_description||'')));
         article.is_country=isCountryProfile;
-        if(isCountryProfile&&/^[A-Z]{2}$/.test(countryCode))article.country_code=countryCode;
+        if(/^[A-Z]{2}$/.test(countryCode))article.country_code=countryCode;
         // Counties and administrative regions require a distinct locality list.
         const geoIntentText=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
         const regionalName=String(article.title||'')+' '+String(article.description||'');
