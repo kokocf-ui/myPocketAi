@@ -28,7 +28,7 @@ try{
  assert.equal(recent.structured_list?.type,'news','Recent geopolitical news must use the table');
  assert.equal(typeof recent.structured_list.coverage_status,'string');
  const roResponse=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
-  body:JSON.stringify({message:'Știri geopolitice internationale',language:'ro'})}),{AI:{run:async(_model,request)=>({response:'Traducere: '+String(request.messages[1].content).split('\n')[0]+'\n\nRezumat tradus al știrii internaționale.'})}});
+  body:JSON.stringify({message:'Știri geopolitice internationale',language:'ro'})}),{AI:{run:async(_model,request)=>({response:'Ucraina: '+String(request.messages[1].content).split('\n')[0].slice(0,80)+'\n\nRezumat tradus al știrii internaționale.'})}});
  assert.equal(roResponse.status,200);
  const roNews=await roResponse.json();
  assert.equal(roNews.structured_list?.type,'news');
