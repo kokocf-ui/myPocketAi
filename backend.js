@@ -1232,10 +1232,10 @@ export default {
     }
 
     if (data?.address_lookup) {
-      const {stage,country,city,street,query,postcode,cityPoint}=data.address_lookup;
+      const {stage,country,city,street,query,postcode,cityPoint,region=''}=data.address_lookup;
       const types={city:'city',street:'street',number:'building'};
       if (!Object.hasOwn(types,stage) || !/^[a-z]{2}$/.test(country||'') ||
-          ![query,city,street,postcode].every(value=>typeof value==='string'&&value.length<=160) ||
+          ![query,city,street,postcode,region].every(value=>typeof value==='string'&&value.length<=160) ||
           (!query.trim() && stage==='city') || (stage!=='city'&&!city))
         return json({error:'Invalid address search'},400);
       let tomtomStatus=env.TOMTOM_API_KEY?'not_used':'not_configured';
@@ -1243,6 +1243,7 @@ export default {
         try{
           const norm=v=>String(v||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
           const streetNorm=v=>norm(v).replace(/^(strada|str\.?|street|strasse|rue|via|calle)\s+/,'');
+           const countyNorm=v=>norm(v).replace(/^(?:judet(?:ul)?|county|province)\s+/,'');
           const endpoint=new URL('https://api.tomtom.com/maps/orbis/places/geocode');
           endpoint.search=new URLSearchParams({
             query:[[street,query.trim()].filter(Boolean).join(' '),city,country==='ro'?'':postcode].filter(Boolean).join(', '),
@@ -1255,7 +1256,7 @@ export default {
             const candidates=(payload.results||[]).flatMap(item=>{
               const a=item.address||{},p=item.position?.coordinates;
               if(item.type!=='address'||a.countryCodeIso2!==country.toUpperCase()||
-                 norm(a.municipality)!==norm(city)||(street&&streetNorm(a.street)!==streetNorm(street))||
+                 norm(a.municipality)!==norm(city)||(region&&![a.countrySubdivision,a.countrySecondarySubdivision].some(x=>countyNorm(x)===countyNorm(region)))||(street&&streetNorm(a.street)!==streetNorm(street))||
                  norm(a.houseNumber)!==norm(query)||!Array.isArray(p)||!Number.isFinite(p[0])||!Number.isFinite(p[1]))return [];
               return [{label:item.title||[a.street,a.houseNumber,a.municipality].filter(Boolean).join(' '),
                 city:a.municipality,street:a.street||'',houseNumber:String(a.houseNumber),postcode:a.postalCode||'',
@@ -1269,8 +1270,9 @@ export default {
       const autocomplete=Boolean(query.trim())&&stage!=='number';
       const url=new URL(autocomplete?'https://api.geoapify.com/v1/geocode/autocomplete':'https://api.geoapify.com/v1/geocode/search');
       const normalize=value=>String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
+       const normRegion=value=>normalize(value).replace(/^(?:judet(?:ul)?|county|province|provincia)\s+/,'').replace(/\s+(?:county|province)$/,'');
       url.search=new URLSearchParams({
-        text:(stage==='city'?[query]:stage==='street'?[query,city]:[[street,query].filter(Boolean).join(' '),city,postcode]).filter(Boolean).join(', '),
+        text:(stage==='city'?[query,region]:stage==='street'?[query,city,region]:[[street,query].filter(Boolean).join(' '),city,region,postcode]).filter(Boolean).join(', '),
         ...(stage==='number'?{}:{type:types[stage]}),filter:'countrycode:'+country,bias:'countrycode:none',format:'json',limit:'20',apiKey:env.GEOAPIFY_API_KEY
       });
       try {
@@ -1282,11 +1284,11 @@ export default {
         }
         if(stage==='street'&&autocomplete){
           const cityFirst=new URL(url);
-          cityFirst.searchParams.set('text',city+', '+query);
+          cityFirst.searchParams.set('text',[city,query,region].filter(Boolean).join(', '));
           alternatives.unshift(cityFirst);
           if(country==='ro'&&!/^(strada|str\.?|bulevardul|calea|alee\w*)\s/i.test(query)){
             const streetPrefix=new URL(url);
-            streetPrefix.searchParams.set('text','Strada '+query);
+            streetPrefix.searchParams.set('text',['Strada '+query,city,region].filter(Boolean).join(', '));
             if(Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude))
               streetPrefix.searchParams.set('bias','proximity:'+cityPoint.longitude+','+cityPoint.latitude);
             alternatives.unshift(streetPrefix);
@@ -1294,7 +1296,7 @@ export default {
         }
         if(stage==='street'&&autocomplete&&Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude)){
           const prefix=new URL(url);
-          prefix.searchParams.set('text',query);
+          prefix.searchParams.set('text',[query,city,region].filter(Boolean).join(', '));
           prefix.searchParams.set('bias','proximity:'+cityPoint.longitude+','+cityPoint.latitude);
           alternatives.unshift(prefix);
         }
@@ -1324,6 +1326,11 @@ export default {
         const candidates=results.flatMap(place=>{
           const towns=[place.city,place.town,place.village,place.hamlet,place.municipality,place.name];
           if(place.country_code!==country || !Number.isFinite(place.lat) || !Number.isFinite(place.lon))return [];
+           if(region){
+             // Do not accept the same town name in another county/state.
+             const expected=normRegion(region),areas=[place.county,place.state,place.region,place.state_district].filter(Boolean);
+             if(!areas.some(a=>normRegion(a)===expected))return [];
+           }
           if(stage!=='city'&&!towns.slice(0,5).some(value=>normalize(value)===normalize(city)))return [];
           if(stage==='street'&&(!place.street||place.result_type!=='street'))return [];
           if(stage==='street'){
@@ -1333,7 +1340,7 @@ export default {
           }
           if(stage==='number'&&(!['building','amenity'].includes(place.result_type)||(street&&normalize(place.street)!==normalize(street))||!place.housenumber||
               (postcode&&place.postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
-          if(stage==='city'&&place.result_type!=='city')return [];
+          if(stage==='city'&&!/^(?:city|town|village|hamlet|municipality|locality)$/.test(String(place.result_type||'')))return [];
           const cityName=String(place.city||place.town||place.village||place.hamlet||place.name||'');
           if(stage==='city'&&(!normalize(cityName).startsWith(normalize(query))||
               /metropolitan area|zona metropolitana|metropolitan region/i.test(normalize(cityName))))return [];
@@ -1448,6 +1455,9 @@ export default {
       const geoChoices=[],wikiChoices=[],keys=new Set();
       const addGeo=(name,kind,code,description,lat,lon,source)=>{
         if(!matchesName(name)||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return;
+        // A county centroid can be labelled as a locality by geocoders.
+        // Such a result is not proof of a village sharing the county's name.
+        if(kind==='city'&&target==='alba'&&String(code||'').toUpperCase()==='RO'&&normalizeGeoName(description)==='alba')return;
         const key=normalizeGeoName(name)+'|'+String(code||'').toUpperCase()+'|'+kind;
         if(keys.has(key))return;keys.add(key);
         let country=String(code||'').toUpperCase();
@@ -1455,7 +1465,7 @@ export default {
         const info=[typeText[kind]||typeText.area,description,country].filter(Boolean);
         const label=String(name||bareTopic).slice(0,90)+' · '+info.join(' · ');
         geoChoices.push({label,entity_kind:'place',entity_type:kind,entity_title:String(name||bareTopic).slice(0,90),
-          entity_details:info.join(' · '),entity_country_code:String(code||'').toUpperCase(),entity_country_name:country,latitude:lat,longitude:lon,entity_source:source});
+          entity_details:info.join(' · '),entity_region:kind==='city'?description:'',entity_country_code:String(code||'').toUpperCase(),entity_country_name:country,latitude:lat,longitude:lon,entity_source:source});
       };
       const jobs=[];
       const tomtomAreaLookup=async()=>{
@@ -1521,6 +1531,30 @@ export default {
       await Promise.all(jobs);
       // Avoid spending TomTom calls on non-geographic knowledge questions.
       if(geoChoices.length&&env.TOMTOM_API_KEY)await tomtomAreaLookup();
+      // Documented administrative homonyms lacking an unambiguous provider
+      // point: show as a locality reference, NEVER as a geocoded route target.
+      // The shared address picker verifies the county and municipality later.
+      const verifiedHomonyms={
+        alba:[
+          {name:'Alba',region:'Tulcea',commune:'Izvoarele',country_code:'RO',
+           source:'https://www.emitent.ro/resurse/izvoarele/statut_2024.pdf'},
+          {name:'Alba',region:'Botoșani',commune:'Hudești',country_code:'RO',
+           source:'https://parohiaalba.mmb.ro/parohia-alba'}
+        ]
+      };
+      for(const ref of verifiedHomonyms[target]||[]){
+        const duplicate=geoChoices.some(p=>p.entity_type==='city'&&p.entity_country_code===ref.country_code&&
+          normalizeGeoName(p.entity_region)===normalizeGeoName(ref.region)&&normalizeGeoName(p.entity_title)===target);
+        if(duplicate)continue;
+        const placeCountry='România';
+        geoChoices.push({
+          label:ref.name+' · '+(lang==='ro'?'Sat, comuna ':'Village, commune ')+ref.commune+' · '+ref.region+' · '+placeCountry,
+          entity_kind:'locality_reference',entity_type:'city',entity_title:ref.name,
+          entity_region:ref.region,entity_commune:ref.commune,entity_country_code:ref.country_code,
+          entity_country_name:placeCountry,entity_source:ref.source,
+          entity_details:ref.commune+' · '+ref.region+' · '+placeCountry
+        });
+      }
       // Geographic entries include coordinates. Wikipedia choices are informational until a
       // verified real-world place is selected; do not silently infer a route from an article.
       const filteredWiki=wikiChoices.filter(w=>!geoChoices.some(g=>{
@@ -1533,7 +1567,10 @@ export default {
         filteredWiki.push({label:bareTopic+' · '+typeText.encyclopedia,
           entity_kind:'article',entity_title:bareTopic,entity_source:'lookup'});
       }
-      geoChoices.sort((a,b)=>Number(b.entity_type==='region')-Number(a.entity_type==='region'));
+      geoChoices.sort((a,b)=>{
+        const rank=x=>x.entity_type==='region'?0:x.entity_kind==='locality_reference'?1:2;
+        return rank(a)-rank(b);
+      });
       const choices=[...geoChoices.slice(0,5),...filteredWiki.slice(0,3)].slice(0,8);
       if(choices.length>=2){
         const prompt={ro:'Am găsit mai multe semnificații sau locuri cu acest nume. Alege rezultatul dorit:',en:'Several places or meanings match this name. Choose one:',
