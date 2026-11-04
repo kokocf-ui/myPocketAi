@@ -1271,7 +1271,7 @@ export default {
       const normalize=value=>String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
       url.search=new URLSearchParams({
         text:(stage==='city'?[query]:stage==='street'?[query,city]:[[street,query].filter(Boolean).join(' '),city,postcode]).filter(Boolean).join(', '),
-        ...(stage==='number'?{}:{type:types[stage]}),filter:'countrycode:'+country,bias:'countrycode:none',format:'json',limit:'20',apiKey:env.GEOAPIFY_API_KEY
+        ...(stage==='number'||stage==='city'?{}:{type:types[stage]}),filter:'countrycode:'+country,bias:'countrycode:none',format:'json',limit:'20',apiKey:env.GEOAPIFY_API_KEY
       });
       try {
         const alternatives=[url];
@@ -1333,7 +1333,7 @@ export default {
           }
           if(stage==='number'&&(!['building','amenity'].includes(place.result_type)||(street&&normalize(place.street)!==normalize(street))||!place.housenumber||
               (postcode&&place.postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
-          if(stage==='city'&&place.result_type!=='city')return [];
+          if(stage==='city'&&!['city','locality','suburb','village','town','hamlet'].includes(String(place.result_type||''))&&!place.village&&!place.town&&!place.hamlet)return [];
           const cityName=String(place.city||place.town||place.village||place.hamlet||place.name||'');
           if(stage==='city'&&(!normalize(cityName).startsWith(normalize(query))||
               /metropolitan area|zona metropolitana|metropolitan region/i.test(normalize(cityName))))return [];
