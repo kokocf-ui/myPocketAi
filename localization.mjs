@@ -19,12 +19,12 @@ function modelText(value){
  const candidates=[value?.response,value?.result?.response,value?.output_text,value?.result?.output_text,value?.output,value?.result?.output];
  for(const item of candidates){
   if(typeof item==="string"&&item.trim())return item;
-  if(Array.isArray(item)){const joined=item.map(part=>typeof part==="string"?part:part?.text||part?.content||"").filter(x=>typeof x==="string").join("\\n");if(joined.trim())return joined}
+  if(Array.isArray(item)){const joined=item.map(part=>typeof part==="string"?part:part?.text||part?.content||"").filter(x=>typeof x==="string").join("\n");if(joined.trim())return joined}
  }
  return "";
 }
 function parseTranslation(text,kind){
- const raw=String(text||"").trim().replace(/^\x60\x60\x60(?:json)?\\s*/i,"").replace(/\\s*\x60\x60\x60$/,"");
+ const raw=String(text||"").trim().replace(/^\x60\x60\x60(?:json)?\s*/i,"").replace(/\s*\x60\x60\x60$/,"");
  const open=kind==="array"?"[":"{",close=kind==="array"?"]":"}";
  const start=raw.indexOf(open),end=raw.lastIndexOf(close);
  if(start<0||end<=start)return null;
@@ -32,12 +32,12 @@ function parseTranslation(text,kind){
 }
 function parsePlainTranslation(text){
  const raw=String(text||"").trim();
- const lines=raw.split(/\\r?\\n/).map(x=>x.trim()).filter(Boolean);
- const titleLine=lines.findIndex(x=>/^(?:title|headline|titlu)\\s*:/i.test(x));
- const summaryLine=lines.findIndex(x=>/^(?:summary|excerpt|description|rezumat|descriere)\\s*:/i.test(x));
+ const lines=raw.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+ const titleLine=lines.findIndex(x=>/^(?:title|headline|titlu)\s*:/i.test(x));
+ const summaryLine=lines.findIndex(x=>/^(?:summary|excerpt|description|rezumat|descriere)\s*:/i.test(x));
  if(titleLine<0||summaryLine<0||summaryLine<=titleLine)return null;
- const title=lines.slice(titleLine,summaryLine).join(" ").replace(/^(?:title|headline|titlu)\\s*:\\s*/i,"").trim();
- const summary=lines.slice(summaryLine).join(" ").replace(/^(?:summary|excerpt|description|rezumat|descriere)\\s*:\\s*/i,"").trim();
+ const title=lines.slice(titleLine,summaryLine).join(" ").replace(/^(?:title|headline|titlu)\s*:\s*/i,"").trim();
+ const summary=lines.slice(summaryLine).join(" ").replace(/^(?:summary|excerpt|description|rezumat|descriere)\s*:\s*/i,"").trim();
  return title&&summary?{title,summary}:null;
 }
 // A translation is complete only when every non-empty visible field was localized.
