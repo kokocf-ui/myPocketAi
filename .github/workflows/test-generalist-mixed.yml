@@ -30,6 +30,8 @@ jobs:
         run: |
           node --check backend.js
           node --check index.js
+      - name: Full repository regression suite
+        run: npm test
       - name: Focused smoke tests
         run: |
           node tests_request_pipeline_regression.mjs
