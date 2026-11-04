@@ -8,11 +8,13 @@ const src=[
  {title:'Atac masiv asupra Ucrainei',summary:'Rusia a lansat drone',source_name:'Digi24',url:'https://digi24.ro/stiri/2026/11/04',published_at:'2026-11-04'}
 ];
 let n=0;
-const ai={run:async()=>{n++;if(n===1)return {response:'not valid json'};return {response:'Titlu tradus în română'};}};
+const ai={run:async()=>{n++;if(n===1)return {response:'not valid json'};return {response:JSON.stringify({title:'Titlu tradus în română',summary:'Descriere tradusă în română'})};}};
 const r=await localizeNewsRows(src,'ro',ai,'mock');
 assert.equal(r.length,3);
-assert.ok(n>=3,'Invalid batch must retry individual titles');
+assert.ok(n>=3,'Invalid batch must retry individual titles and excerpts');
 assert.equal(r[0].title,'Titlu tradus în română');
+assert.equal(r[0].summary,'Descriere tradusă în română');
+assert.equal(r[0].detail,'Descriere tradusă în română');
 assert.equal(r[0].source_name,'Interfax');
 assert.equal(r[0].url,src[0].url);
 assert.equal(r[1].translation_status,'translated');
