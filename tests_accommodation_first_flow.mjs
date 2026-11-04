@@ -22,6 +22,7 @@ const actions={};
 let lastPanel=null;
 const state={language:'ro',currentView:'assistant'};
 const ctx=vm.createContext({
+ dialogText:(ro,en)=>ro,
  state,document:{createElement:element,getElementById:()=>null,querySelector:()=>element('div')},
  openStandaloneChoicePanel:(host,title)=>{lastPanel={host,title}},
  offerDestinationAccommodationBeforeRoute:(destination,options)=>{actions.accommodation={destination,options}},
@@ -81,6 +82,7 @@ const hotelsEnd=inline.indexOf('function openStandaloneChoicePanel(',hotelsStart
 assert(hotelsStart>=0&&hotelsEnd>hotelsStart,'existing hotel choice panel present');
 const hotelActions={};
 const hotelCtx=vm.createContext({
+ dialogText:(ro,en)=>ro,
  state:{currentView:'assistant',tripAccommodationDecision:'pending'},
  document:{createElement:element,getElementById:()=>null,querySelector:()=>element('div')},
  cleanAccommodationPlaces:x=>x,
@@ -105,6 +107,7 @@ assert.equal(hotelCtx.state.assistantStructuredDestination,true);
 for(const regionName of ['Tulcea','Botoșani']){
  let pickerArgs=null,requests=0;
  const villageCtx=vm.createContext({
+ dialogText:(ro,en)=>ro,
   state:{language:'ro',currentView:'assistant'},
   document:{createElement:element,getElementById:()=>null,querySelector:()=>element('div')},
   openStandaloneChoicePanel:()=>{},
@@ -138,6 +141,7 @@ let currentPanel=null,startedRoutes=[],lodgingOptions=null;
 const flowState={language:'ro',currentView:'assistant'};
 const flowInput={value:''};
 const flowContext=vm.createContext({
+ dialogText:(ro,en)=>ro,
  state:flowState,inputEl:flowInput,
  TRAVEL_MODE_TEXT:{ro:['Cum vrei să ajungi?','Pietonal','Transport public','Mașină']},
  document:{createElement:element,getElementById:()=>null,querySelector:()=>element('div')},
