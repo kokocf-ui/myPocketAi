@@ -1455,7 +1455,7 @@ export default {
         const info=[typeText[kind]||typeText.area,description,country].filter(Boolean);
         const label=String(name||bareTopic).slice(0,90)+' · '+info.join(' · ');
         geoChoices.push({label,entity_kind:'place',entity_type:kind,entity_title:String(name||bareTopic).slice(0,90),
-          entity_details:info.join(' · '),latitude:lat,longitude:lon,entity_source:source});
+          entity_details:info.join(' · '),entity_country_code:String(code||'').toUpperCase(),entity_country_name:country,latitude:lat,longitude:lon,entity_source:source});
       };
       const jobs=[];
       const tomtomAreaLookup=async()=>{
@@ -1498,6 +1498,18 @@ export default {
           for(const item of (await response.json()).query?.search||[]){
             const title=String(item.title||'');
             if(!title||!titlesMatch(title)||/dezambiguizare|disambiguation|lista de|list of/i.test(title))continue;
+            // A Wikipedia title explicitly naming an administrative county is a
+            // county candidate even when a map service happens to call its centroid a city.
+            const romanianCounty=title.match(/^Jude[țt]ul\s+(.+)$/iu);
+            if(romanianCounty&&matchesName(romanianCounty[1])){
+              if(!geoChoices.some(x=>x.entity_type==='region'&&x.entity_country_code==='RO')){
+                const label=romanianCounty[1]+' · '+typeText.region+' · România';
+                geoChoices.unshift({label,entity_kind:'region_article',entity_type:'region',
+                  entity_title:romanianCounty[1],entity_details:typeText.region+' · România',
+                  entity_country_code:'RO',entity_country_name:'România',entity_source:'Wikipedia'});
+              }
+              continue;
+            }
             const key=normalizeGeoName(title);
             if(wikiChoices.some(x=>normalizeGeoName(x.entity_title)===key))continue;
             wikiChoices.push({label:title+' · '+typeText.encyclopedia,entity_kind:'article',entity_title:title,entity_source:lang});
@@ -1520,6 +1532,7 @@ export default {
         filteredWiki.push({label:bareTopic+' · '+typeText.encyclopedia,
           entity_kind:'article',entity_title:bareTopic,entity_source:'lookup'});
       }
+      geoChoices.sort((a,b)=>Number(b.entity_type==='region')-Number(a.entity_type==='region'));
       const choices=[...geoChoices.slice(0,5),...filteredWiki.slice(0,3)].slice(0,8);
       if(choices.length>=2){
         const prompt={ro:'Am găsit mai multe semnificații sau locuri cu acest nume. Alege rezultatul dorit:',en:'Several places or meanings match this name. Choose one:',
