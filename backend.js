@@ -1317,7 +1317,7 @@ export default {
               details.website=tags["contact:website"]||tags.website||"";
               details.description=tags.description||"";
               details.services=[tags["wheelchair"]==="yes"?"Wheelchair access":"",tags["delivery"]==="yes"?"Delivery":"",tags["takeaway"]==="yes"?"Takeaway":""].filter(Boolean);
-              if(!ids.length&&/^Q[1-9]\\d{0,11}$/.test(tags.wikidata||""))ids.push(tags.wikidata);
+              if(!ids.length&&/^Q[1-9]\d{0,11}$/.test(tags.wikidata||""))ids.push(tags.wikidata);
               const photo=tags.image||tags["image:0"]||"";
               if(/^https:\/\//i.test(photo)&&!seen.has(photo)){images.push(photo);seen.add(photo)}
             }
