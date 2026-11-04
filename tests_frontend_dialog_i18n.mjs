@@ -38,7 +38,7 @@ assert(source.includes('const t=(a,b)=>dialogText(a,b);'),'shared address picker
 assert(source.includes("dialogText('Confirmă localitatea pentru a evita un traseu către o stație greșită.'"),'station prompt localized');
 assert(!source.includes("p.textContent='Nu există conversații salvate încă.'"),'history no longer Romanian-only');
 const html=await (await frontend.fetch(new Request('https://example.test/'))).text();
-const inline=html.match(/<script[^>]*>([\\s\\S]*?)<\\/script>/i)?.[1];
+const inline=html.match(new RegExp('<script[^>]*>([\\s\\S]*?)</script>','i'))?.[1];
 assert(inline,'generated frontend JS exists');
 new vm.Script(inline);
 console.log('Ten-language frontend dialog translations, coverage and browser syntax — PASS ('+count+' entries)');
