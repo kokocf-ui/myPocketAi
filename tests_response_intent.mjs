@@ -13,6 +13,8 @@ const cases=[
  ["Summarize today's news in a short briefing","briefing"],
  ["Fă-mi un briefing scurt despre cele mai importante evenimente internaționale de astăzi.","briefing"],
  ["Care sunt cauzele conflictului?","analysis"],
+ ["Verifică dacă negocierile dintre Statele Unite și Iran sunt confirmate de surse independente.","analysis"],
+ ["Verify the latest Iran claims against independent sources","analysis"],
  ["Cum se face ciorba de burtă?","none"],
  ["Salut!","none"],
  ["România","none"]
