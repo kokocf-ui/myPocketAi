@@ -4954,6 +4954,48 @@ export default {
         console.info("Pocket AI v98 web research",JSON.stringify({stage:"web_research_completed",status:webSearchStatus,...webSearchDiagnostics}));
       }
     }
+    // News is presented as attributed article leads, never AI-invented headlines.
+    // The list and its detail panel are deterministic; publication != claim verification.
+    const newsListingIntent=!recipeInstruction&&!eventResearchIntent&&/\b(?:news|headlines|breaking|geopolitic|politic|conflict|war|razboi|război|stiri|știri|actualitat|noutati|latest developments|recent events|ce se intampla|ce s-a intamplat)\b/i.test(normalizedResearchRequest);
+    if(newsListingIntent&&shouldSearchWeb){
+      const seenTitles=new Set();
+      const rows=[];
+      for(const source of webSources){
+        if(rows.length>=12)break;
+        const url=safeSourceUrl(source.url);
+        const title=String(source.title||"").replace(/\s+/g," ").trim().slice(0,220);
+        if(!url||title.length<12)continue;
+        const titleKey=title.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+        if(!titleKey||seenTitles.has(titleKey))continue;
+        seenTitles.add(titleKey);
+        const domain=new URL(url).hostname.replace(/^www\./,"");
+        const rawSummary=String(source.pageEvidence||source.snippets?.find(v=>!String(v).startsWith("Unverified GDELT article listing:"))||"")
+          .replace(/\s+/g," ").trim();
+        rows.push({title,url,source_name:domain,published_at:source.publishedDate||null,
+          summary:rawSummary.slice(0,360),detail:rawSummary.slice(0,1200),
+          providers:Array.isArray(source.providers)?source.providers:[],
+          verification:"source_identified_claims_unverified",
+          corroborating_source_count:0});
+      }
+      const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance"};
+      const labels={ro:["Știri identificate în sursele consultate","Apasă pe titlul unei știri pentru detalii. Publicarea nu confirmă automat afirmațiile din articol.","Nu am putut identifica articole relevante în sursele disponibile."],
+        en:["News from retrieved sources","Tap a headline to read details. Publication alone does not verify its claims.","No relevant articles could be found from available sources."],
+        fr:["Actualités issues des sources consultées","Touchez un titre pour voir les détails. La publication ne confirme pas les faits.","Aucun article pertinent trouvé."],
+        de:["Nachrichten aus gefundenen Quellen","Tippen Sie auf einen Titel. Ein Artikel bestätigt seine Aussagen nicht automatisch.","Keine passenden Artikel gefunden."],
+        it:["Notizie dalle fonti consultate","Tocca un titolo per i dettagli. La pubblicazione non conferma automaticamente i fatti.","Nessun articolo pertinente trovato."],
+        es:["Noticias de fuentes consultadas","Toca un título para ver detalles. La publicación no verifica por sí sola los hechos.","No se encontraron artículos pertinentes."],
+        pt:["Notícias das fontes consultadas","Toque num título para ver detalhes. A publicação não confirma por si só os factos.","Nenhum artigo relevante encontrado."],
+        nl:["Nieuws uit gevonden bronnen","Tik op een titel voor details. Publicatie bevestigt beweringen niet automatisch.","Geen relevante artikelen gevonden."],
+        ru:["Новости из найденных источников","Нажмите на заголовок для подробностей. Публикация не подтверждает достоверность фактов.","Подходящие статьи не найдены."],
+        pl:["Wiadomości ze znalezionych źródeł","Dotknij tytułu, aby zobaczyć szczegóły. Publikacja nie potwierdza prawdziwości twierdzeń.","Nie znaleziono odpowiednich artykułów."]}[lang]||[];
+      const reply=rows.length?labels[0]+"\n"+labels[1]:labels[2];
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
+        message_received:message,reply,structured_list:list,
+        sources:rows.map((v,i)=>({number:i+1,title:v.title,url:v.url,publishedDate:v.published_at,providers:v.providers,
+          verification:v.verification})),web_search_status:webSearchStatus,
+        web_search_diagnostics:webSearchDiagnostics,ai_generated:false,ai_connected:Boolean(env.AI)});
+    }
+
     // Dated event calendars are built deterministically from web-search evidence.
     // No AI-generated event title or invented date can enter structured_list.
     if(eventCalendarRequest&&shouldSearchWeb){

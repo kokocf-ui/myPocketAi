@@ -27,6 +27,7 @@ try{
  const news=await ask('Latest news about global diplomacy');
  assert.ok(fetched.some(u=>u.includes('gdeltproject.org')),'News must consult GDELT');
  assert.ok(news.sources?.some(x=>x.providers?.includes('GDELT')),'News must preserve GDELT attribution');
- assert.equal(calls.length,1);
+ assert.equal(calls.length,0,'Source-attributed news list is deterministic');
+ assert.equal(news.structured_list?.type,'news');
  console.log('Assistant public intelligence integration regressions passed');
 }finally{globalThis.fetch=originalFetch;}

@@ -2948,7 +2948,66 @@ let activeAnswerReader=null;
 function readerLabels(){return READER_LABELS[state.language]||READER_LABELS.en}
 // Reusable two-column collection table: chronological events now, other
 // structured collections can use the same reader without altering recipes.
+function appendNewsCollectionTable(host,record){
+ if(record?.list?.type!=="news"||!Array.isArray(record.list.rows))return false;
+ const lang=state.language||"ro";
+ const t={
+  ro:["Știri","Titlu și detalii","Sursă / data","Detaliile știrii","Înapoi la știri","Deschide articolul original","Sursă identificată · afirmații neverificate","Nu este disponibil un rezumat verificabil. Consultă articolul original.","Data neprecizată"],
+  en:["News","Headline and details","Source / date","News details","Back to news","Open original article","Source identified · claims not verified","No reliable summary available. See the original article.","Date unavailable"],
+  fr:["Actualités","Titre et détails","Source / date","Détails de l’article","Retour aux actualités","Voir l’article original","Source identifiée · informations non vérifiées","Résumé fiable indisponible. Consultez l’original.","Date indisponible"],
+  de:["Nachrichten","Titel und Details","Quelle / Datum","Artikeldetails","Zurück zu Nachrichten","Originalartikel öffnen","Quelle gefunden · Aussagen nicht geprüft","Keine verlässliche Zusammenfassung. Original lesen.","Datum unbekannt"],
+  it:["Notizie","Titolo e dettagli","Fonte / data","Dettagli della notizia","Torna alle notizie","Apri articolo originale","Fonte identificata · affermazioni non verificate","Riepilogo non disponibile. Leggi l’originale.","Data non disponibile"],
+  es:["Noticias","Titular y detalles","Fuente / fecha","Detalles de la noticia","Volver a noticias","Abrir artículo original","Fuente identificada · afirmaciones no verificadas","Resumen fiable no disponible. Consulta el original.","Fecha no disponible"],
+  pt:["Notícias","Título e detalhes","Fonte / data","Detalhes da notícia","Voltar às notícias","Abrir artigo original","Fonte identificada · afirmações não verificadas","Resumo fiável indisponível. Consulte o original.","Data indisponível"],
+  nl:["Nieuws","Kop en details","Bron / datum","Nieuwsdetails","Terug naar nieuws","Origineel artikel openen","Bron gevonden · claims niet geverifieerd","Geen betrouwbare samenvatting. Lees het origineel.","Datum onbekend"],
+  ru:["Новости","Заголовок и подробности","Источник / дата","Подробности новости","К списку новостей","Открыть оригинал","Источник найден · утверждения не проверены","Проверенного обзора нет. Откройте оригинал.","Дата неизвестна"],
+  pl:["Wiadomości","Tytuł i szczegóły","Źródło / data","Szczegóły wiadomości","Wróć do wiadomości","Otwórz oryginał","Źródło znalezione · twierdzenia niezweryfikowane","Brak wiarygodnego streszczenia. Zobacz oryginał.","Data niedostępna"]
+ }[lang]||["News","Headline and details","Source / date","Details","Back","Original article","Unverified claims","No summary.","Date unavailable"];
+ const items=record.list.rows.slice(0,12);
+ const add=(tag,text,css,parent=host)=>{
+  const node=document.createElement(tag);node.textContent=text;
+  if(css)node.style.cssText=css;parent.append(node);return node;
+ };
+ const safeArticleUrl=value=>{try{const u=new URL(String(value||""));return u.protocol==="https:"&&!u.username&&!u.password?u.href:null}catch{return null}};
+ const dateText=value=>{if(!value)return t[8];let d=Date.parse(value);
+  if(!Number.isFinite(d)&&/^\d{8}T\d{6}Z$/.test(value))d=Date.parse(value.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,"$1-$2-$3T$4:$5:$6Z"));
+  return Number.isFinite(d)?new Date(d).toLocaleDateString(lang,{year:"numeric",month:"short",day:"numeric"}):String(value).slice(0,24);
+ };
+ const renderList=()=>{
+  host.replaceChildren();host.scrollTop=0;
+  add("h3",t[0],"font-size:18px;margin:0 0 10px;color:#dcf9ff");
+  const wrap=add("div","","width:100%;overflow-x:auto;overscroll-behavior-x:contain");
+  const table=add("table","","width:100%;border-collapse:collapse;table-layout:fixed;font-size:clamp(13px,3.35vw,16px);line-height:1.5",wrap);
+  const head=add("thead","",null,table),header=add("tr","",null,head);
+  for(const label of [t[1],t[2]])add("th",label,"padding:10px 7px;background:#19445a;border:1px solid #43758a;text-align:left",header);
+  const body=add("tbody","",null,table);
+  for(const item of items){
+   const tr=add("tr","",null,body);
+   const left=add("td","","padding:10px 7px;vertical-align:top;border:1px solid #34566e;overflow-wrap:anywhere;width:67%",tr);
+   const button=add("button",String(item.title||""),"text-align:left;color:#9beefa;text-decoration:underline;background:transparent;border:0;padding:0;font:inherit;font-weight:700;cursor:pointer;overflow-wrap:anywhere",left);
+   button.type="button";button.onclick=()=>renderDetail(item);
+   if(item.summary)add("p",String(item.summary).slice(0,155),"font-size:13px;color:#d2e2ed;line-height:1.4;margin:8px 0 0",left);
+   const right=add("td","","padding:10px 6px;vertical-align:top;border:1px solid #34566e;overflow-wrap:anywhere;width:33%",tr);
+   add("strong",String(item.source_name||"—"),"display:block;font-size:13px",right);
+   add("span",dateText(item.published_at),"display:block;font-size:12px;opacity:.8;margin-top:5px",right);
+  }
+  add("p",t[6],"font-size:13px;opacity:.8;margin:13px 0 0");
+ };
+ const renderDetail=item=>{
+  host.replaceChildren();host.scrollTop=0;
+  const back=add("button",t[4],"border:1px solid #4d8a9c;border-radius:10px;background:#12354b;color:#e2f9ff;padding:10px 13px;margin:0 0 12px;font:inherit");
+  back.type="button";back.onclick=renderList;
+  add("h3",String(item.title||""),"font-size:19px;line-height:1.4;color:#d9fbff;margin:4px 0 13px;overflow-wrap:anywhere");
+  add("p",String(item.source_name||"")+" · "+dateText(item.published_at),"font-size:14px;margin:0 0 12px;color:#b8d8e5");
+  add("p",t[6],"font-size:13px;color:#ffd7aa;margin:0 0 12px");
+  add("p",String(item.detail||item.summary||t[7]),"white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;margin:0 0 18px");
+  const url=safeArticleUrl(item.url);
+  if(url){const link=add("a",t[5],"display:inline-block;color:#9beefa;text-decoration:underline;overflow-wrap:anywhere");link.href=url;link.target="_blank";link.rel="noopener noreferrer";}
+ };
+ renderList();return true;
+}
 function appendStructuredCollectionTable(host,record){
+ if(appendNewsCollectionTable(host,record))return true;
  if(!record||record.list?.type!=='events'||!Array.isArray(record.list.rows))return false;
  const lang=state.language||'ro';
  const labels={ro:['Data / ora','Eveniment și locație','Datele și orele sunt preluate din rezultatele găsite; verifică programul la organizator.','Surse găsite pentru verificare'],
@@ -3095,7 +3154,7 @@ function openAnswerReader(text,origin){
  const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',t.title);if(!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));if(!appendRecipeReaderText(body,String(text)))appendAnswerText(body,String(text));}
  layer.append(header,controls,body);document.body.append(layer);
  const reader={layer,origin,frame:0,cleanup:()=>{}};activeAnswerReader=reader;
- let running=true,lastTime=null,startAt=performance.now()+800,position=0;
+ let running=!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news'),lastTime=null,startAt=performance.now()+800,position=0;
  const update=()=>{pause.textContent=running?t.pause:t.play;pause.setAttribute('aria-pressed',String(running))};
  const stop=()=>{running=false;update()};
  const play=()=>{if(body.scrollTop>=body.scrollHeight-body.clientHeight-1)body.scrollTop=0;position=body.scrollTop;running=true;lastTime=null;startAt=performance.now()+900;update()};
@@ -3125,7 +3184,7 @@ function openAnswerReader(text,origin){
  resize();update();close.focus({preventScroll:true});reader.frame=requestAnimationFrame(tick);
 }
 function prepareAnswerReader(content,bubble,text,autoOpen){
- if(!content.isConnected||!answerExceedsFourLines(content))return;
+ if(!content.isConnected||(!answerExceedsFourLines(content)&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news')))return;
  content.textContent=String(text);content.className+=' answer-preview';
  const button=document.createElement('button');button.type='button';button.className='answer-reader-open';button.textContent=readerLabels().open;button.onclick=()=>openAnswerReader(text,button);bubble.append(button);
  if(autoOpen&&(state.currentView==='assistant'||state.currentView==='module'))openAnswerReader(text,button);
