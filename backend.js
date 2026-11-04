@@ -1634,17 +1634,49 @@ export default {
       }catch{}
     }
     if(!seekingRoute&&!data.travel_mode&&!data.route_profile&&(knownTopic||explicitKnowledge||countrySuffix||verifiedCity)&&bareTopic.length>=2&&bareTopic.length<=90&&!data.quick_place_search){
-      const encyclopediaTitle=knownTopic||(countrySuffix?parts[0]:bareTopic);
+      // Selection from a disambiguation table must load the selected geographic
+      // identity, NOT the unrelated bare homonym (e.g. Alba in Scotland).
+      const rawSelection=data.selected_geographic_entity;
+      const geographicSelection=rawSelection&&typeof rawSelection==='object'&&
+        ['city','region','country'].includes(rawSelection.entity_type)&&
+        /^[A-Z]{2}$/.test(String(rawSelection.entity_country_code||''))&&
+        typeof rawSelection.entity_title==='string'&&rawSelection.entity_title.length<=90?
+        {name:rawSelection.entity_title.trim(),region:String(rawSelection.entity_region||'').slice(0,90).trim(),
+         commune:String(rawSelection.entity_commune||'').slice(0,90).trim(),
+         code:rawSelection.entity_country_code,type:rawSelection.entity_type}:null;
+      const encyclopediaTitle=geographicSelection?.name||knownTopic||(countrySuffix?parts[0]:bareTopic);
       const wikiLang=['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(lang)?lang:'en';
+      const geographicTitles=geographicSelection?.type==='region'?
+       [geographicSelection.code==='RO'?'Județul '+geographicSelection.name:geographicSelection.name,geographicSelection.name]:
+       geographicSelection?.type==='city'&&geographicSelection.region?
+       [geographicSelection.name+', '+geographicSelection.region,
+        geographicSelection.name+' ('+geographicSelection.region+')',
+        geographicSelection.name+' ('+(geographicSelection.code==='IT'?'Italia':geographicSelection.code)+')']:
+       [encyclopediaTitle];
       let article=null;
-      for(const language of [...new Set([wikiLang,'en'])]){
+      const normalizeWiki=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+      for(const language of [...new Set([wikiLang,geographicSelection?.code==='RO'?'ro':geographicSelection?.code==='IT'?'it':null,'en'].filter(Boolean))]){
+       for(const title of [...new Set(geographicTitles)]){
         try{
-          const link='https://'+language+'.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(encyclopediaTitle);
+          const link='https://'+language+'.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title);
           const response=await fetch(link,{headers:{Accept:'application/json','User-Agent':'PocketAI/1.0 (encyclopedia summaries)'},signal:AbortSignal.timeout(4500)});
           if(!response.ok)continue;const d=await response.json();
           if(d?.type==='https://mediawiki.org/wiki/HyperSwitch/errors/not_found'||!d?.extract||d?.type?.includes('disambiguation'))continue;
-          article={title:d.title||encyclopediaTitle,description:d.description||'',extract:d.extract.slice(0,1700),image:d.thumbnail?.source||'',url:d.content_urls?.desktop?.page||'',coordinates:d.coordinates?.lat!==undefined?{latitude:d.coordinates.lat,longitude:d.coordinates.lon}:null,wikibase_item:/^Q[1-9]\d*$/.test(String(d.wikibase_item||''))?d.wikibase_item:null,language};break;
+          if(geographicSelection){
+           // A fetched article must actually be the selected geographic identity.
+           // Do not fall back to a homonymous bare-topic article.
+           const proof=normalizeWiki([d.title,d.description,d.extract].filter(Boolean).join(' '));
+           const region=normalizeWiki(geographicSelection.region),commune=normalizeWiki(geographicSelection.commune);
+           const codeCountry={RO:['romania','românia','rumänien','roumanie','rumania'],IT:['italia','italy','italie','italien','italiano']};
+           const regionOk=!region||proof.includes(region)||region==='piedmont'&&proof.includes('piemonte')||region==='piemonte'&&proof.includes('piedmont');
+           const communeOk=!commune||proof.includes(commune);
+           const countryOk=(codeCountry[geographicSelection.code]||[]).some(c=>proof.includes(normalizeWiki(c)));
+           if(!regionOk&&!communeOk||!countryOk&&geographicSelection.type!=='region')continue;
+          }
+          article={title:d.title||title,description:d.description||'',extract:d.extract.slice(0,1700),image:d.thumbnail?.source||'',url:d.content_urls?.desktop?.page||'',coordinates:d.coordinates?.lat!==undefined?{latitude:d.coordinates.lat,longitude:d.coordinates.lon}:null,wikibase_item:/^Q[1-9]\d*$/.test(String(d.wikibase_item||''))?d.wikibase_item:null,language};break;
         }catch{}
+       }
+       if(article)break;
       }
       if(article){
         const encyclopedicOnly=data.selected_entity_kind==='article';
@@ -1845,8 +1877,25 @@ export default {
         const realWorldDescription=normalizeGeoName(article.description||article.source_description||'');
         article.can_route=!encyclopedicOnly&&Boolean(article.is_country||article.is_region||
           (article.coordinates&&/\b(?:city|town|village|municipality|county|province|region|capital|oras|municipiu|comuna|sat|localitate|judet|provincie|localita|ville|stadt|ciudad|cidade)\b/i.test(realWorldDescription)));
+        if(geographicSelection){
+          article.can_route=true;
+          article.selected_geography=true;
+          article.is_country=geographicSelection.type==='country';
+          article.is_region=geographicSelection.type==='region';
+        }
         const reply=[article.title,article.description,article.extract].filter(Boolean).join(' — ');
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,encyclopedia:article,ai_generated:true});
+      }
+      if(geographicSelection){
+       // No verified Wikipedia page: keep a factual geographic selection card
+       // with an explicit source-unavailable notice, never a different Alba.
+       const place=[geographicSelection.name,geographicSelection.commune,geographicSelection.region,geographicSelection.code].filter(Boolean).join(', ');
+       const fallback={title:geographicSelection.name,description:place,
+        extract:(lang==='ro'?'Ai selectat '+place+'. Nu am putut verifica o pagină Wikipedia corespunzătoare exact acestei localități.':'Selected place: '+place+'. An exact matching Wikipedia page could not be verified.'),
+        language:lang,url:'',can_route:true,is_country:geographicSelection.type==='country',
+        is_region:geographicSelection.type==='region',selected_geography:true,source_unavailable:true};
+       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+        reply:fallback.extract,encyclopedia:fallback,ai_generated:false});
       }
     }
     // Căutare reală de restaurante din OpenStreetMap, numai când cererea este locală
