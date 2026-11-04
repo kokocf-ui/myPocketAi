@@ -1912,10 +1912,10 @@ function appendConversationChoices(data,host){
     document.getElementById('pocketStandaloneChoices')?.remove();
     closeAnswerReader(false);
     if(option.entity_type==='region'||option.entity_kind==='region_article'){
-     const regionName=String(option.entity_title||option.label||'').trim().replace(/^(?:județ(?:ul)?|judet(?:ul)?|county|province|provincia)\s+/iu,'');
+     const regionName=String(option.entity_title||option.label||'').trim().replace(/^(?:județ(?:ul)?|judet(?:ul)?|county|province|provincia)\\s+/iu,'');
      const countryCode=String(option.entity_country_code||'').toUpperCase();
      const countryName=String(option.entity_country_name||'');
-     const regionQualifier=(countryCode==='RO'||/\brom[aâ]nia\b|\brum[aä]nien\b|\broumanie\b|\brom[aâ]nia\b|\brumania\b|\bрумыния\b/iu.test(countryName))
+     const regionQualifier=(countryCode==='RO'||/(?:romania|roumanie|rumania|rumanien)/iu.test(countryName))
        ?'județul '+regionName+', România'
        :regionName+(countryName?', '+countryName:'');
      const host=document.createElement('div');
@@ -1934,7 +1934,7 @@ function appendConversationChoices(data,host){
      const selectCity=async()=>{
       if(state.busy)return;
       const name=city.value.trim();
-      if(name.length<2||name.length>100||/[\n\r<>]/.test(name)){warning.textContent=state.language==='ro'?'Introdu numele unei localități.':'Enter a town or village name.';return}
+      if(name.length<2||name.length>100||/[\\n\\r<>]/.test(name)){warning.textContent=state.language==='ro'?'Introdu numele unei localități.':'Enter a town or village name.';return}
       const query=(state.language==='ro'?'Vreau să ajung la ':'I want to get to ')+name+', '+regionQualifier;
       document.getElementById('pocketStandaloneChoices')?.remove();
       state.tripCountryOnChoice=regionQualifier;state.tripAccommodationDecision=null;state.tripAccommodationDestination=null;
