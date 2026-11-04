@@ -1271,9 +1271,9 @@ export default {
       // Only verified street candidates within the selected municipality are returned.
       if(stage==='street'&&query.trim()&&env.TOMTOM_API_KEY){
         try{
-          const norm=v=>String(v||'').normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase().replace(/[^\\p{L}\\p{N} ]/gu,' ').replace(/\\s+/g,' ').trim();
-          const countyNorm=v=>norm(v).replace(/^(?:judet(?:ul)?|county|province|provincia)\\s+/,'').replace(/\\s+(?:county|province)$/,'');
-          const prefix=norm(query).replace(/^(?:strada|str|street|via|viale|corso|rue|calle)\\s+/,'');
+          const norm=v=>String(v||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/[^\p{L}\p{N} ]/gu,' ').replace(/\s+/g,' ').trim();
+          const countyNorm=v=>norm(v).replace(/^(?:judet(?:ul)?|county|province|provincia)\s+/,'').replace(/\s+(?:county|province)$/,'');
+          const prefix=norm(query).replace(/^(?:strada|str|street|via|viale|corso|rue|calle)\s+/,'');
           const endpoint=new URL('https://api.tomtom.com/maps/orbis/places/geocode');
           endpoint.search=new URLSearchParams({query:[query.trim(),city,region].filter(Boolean).join(', '),countryCodesIso2:country.toUpperCase(),types:'street',maxResults:'40'});
           if(Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude))endpoint.searchParams.set('position',cityPoint.longitude+','+cityPoint.latitude);
