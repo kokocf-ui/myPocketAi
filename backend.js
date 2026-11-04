@@ -1296,6 +1296,35 @@ export default {
       const ids = [url.searchParams.get("wikidata"),url.searchParams.get("brand_wikidata")]
         .filter(v => /^Q[1-9]\d{0,11}$/.test(String(v||""))).slice(0,2);
       const images = [], logos = [], seen = new Set();
+      const placeName=String(url.searchParams.get("name")||"").trim().slice(0,120);
+      const lat=Number(url.searchParams.get("lat")),lon=Number(url.searchParams.get("lon"));
+      const validCoords=Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180&&url.searchParams.has("lat")&&url.searchParams.has("lon");
+      const details={};
+      // Location-specific OSM tags: do not confuse a company's brand page with its branch.
+      if(validCoords&&placeName){
+        try{
+          const q='[out:json][timeout:5];(nwr(around:45,'+lat+','+lon+')[name];);out tags center 35;';
+          const response=await fetch("https://overpass.kumi.systems/api/interpreter",{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"},signal:AbortSignal.timeout(6500)});
+          if(response.ok){
+            const entries=(await response.json()).elements||[];
+            const normalize=x=>String(x||"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+            const expected=normalize(placeName);
+            const found=entries.find(e=>{const name=normalize(e.tags?.name);return name===expected||name.length>4&&expected.length>4&&(name.includes(expected)||expected.includes(name))});
+            if(found){
+              const tags=found.tags||{};
+              details.opening_hours=tags.opening_hours||"";
+              details.phone=tags["contact:phone"]||tags.phone||"";
+              details.website=tags["contact:website"]||tags.website||"";
+              details.description=tags.description||"";
+              details.services=[tags["wheelchair"]==="yes"?"Wheelchair access":"",tags["delivery"]==="yes"?"Delivery":"",tags["takeaway"]==="yes"?"Takeaway":""].filter(Boolean);
+              if(!ids.length&&/^Q[1-9]\d{0,11}$/.test(tags.wikidata||""))ids.push(tags.wikidata);
+              const photo=tags.image||tags["image:0"]||"";
+              if(/^https:\/\//i.test(photo)&&!seen.has(photo)){images.push(photo);seen.add(photo)}
+            }
+          }
+        }catch{}
+      }
+
       let website = "";
       for (const id of ids) {
         try {
@@ -1319,7 +1348,7 @@ export default {
           }
         } catch {} // optional enrichment must not block place details
       }
-      return new Response(JSON.stringify({images:images.slice(0,6),logos:logos.slice(0,6),website,source:"Wikidata/Wikimedia Commons"}),{
+      return new Response(JSON.stringify({images:images.slice(0,6),logos:logos.slice(0,6),website:details.website||website,details,source:"OSM location tags + Wikidata/Wikimedia Commons"}),{
         headers:{...corsHeaders,"Content-Type":"application/json; charset=utf-8","Cache-Control":"public, max-age=86400"}
       });
     }

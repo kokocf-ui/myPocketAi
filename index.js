@@ -1586,10 +1586,10 @@ function appendPlaceWebsite(card,value){
 const placeMediaRequests=new Map();
 function loadPlaceMedia(place){
  const ids=[place.wikidata,place.brand_wikidata].map(v=>/^Q[1-9][0-9]{0,11}$/.test(String(v||''))?String(v):'');
- if(!ids.some(Boolean))return Promise.resolve({});
- const key=ids.join(':');if(placeMediaRequests.has(key))return placeMediaRequests.get(key);
+ if(!ids.some(Boolean)&&!(place.name&&Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude))))return Promise.resolve({});
+ const key=ids.join(':')+'|'+String(place.name||'')+'|'+String(place.latitude||'')+'|'+String(place.longitude||'');if(placeMediaRequests.has(key))return placeMediaRequests.get(key);
  const u=new URL(CLIENT_CONFIG.apiUrl.split('/api/chat')[0]+'/api/place-media');
- if(ids[0])u.searchParams.set('wikidata',ids[0]);if(ids[1])u.searchParams.set('brand_wikidata',ids[1]);
+ if(ids[0])u.searchParams.set('wikidata',ids[0]);if(ids[1])u.searchParams.set('brand_wikidata',ids[1]);if(place.name)u.searchParams.set('name',String(place.name).slice(0,120));if(Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude))){u.searchParams.set('lat',place.latitude);u.searchParams.set('lon',place.longitude)}
  const request=fetch(u.href,{signal:AbortSignal.timeout(9000)}).then(r=>r.ok?r.json():{}).catch(()=>({}));
  placeMediaRequests.set(key,request);if(placeMediaRequests.size>120)placeMediaRequests.delete(placeMediaRequests.keys().next().value);return request;
 }
@@ -1647,6 +1647,7 @@ function renderModulePlaceDetails(place){state.moduleSearchReturnMode='details';
  // Only display provider-grounded attributes; never fabricate opening hours or services.
  const extraDetails=()=>{const fields=[['description',dialogText('Descriere','Description')],['opening_hours',dialogText('Program','Opening hours')],['services',dialogText('Servicii','Services')]];for(const [key,label] of fields){const value=Array.isArray(place[key])?place[key].filter(Boolean).join(', '):place[key];if(value&&typeof value==='string'&&!card.querySelector('[data-place-field="'+key+'"]')){const p=document.createElement('p');p.dataset.placeField=key;const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(value));card.append(p)}}};
  extraDetails();
+ loadPlaceMedia(place).then(data=>{if(!card.isConnected)return;const details=data.details||{};for(const key of ['description','opening_hours','services'])if(!place[key]&&details[key])place[key]=details[key];extraDetails();if(!place.phone&&details.phone){place.phone=details.phone;const p=document.createElement('p');p.textContent=l.phone+': '+details.phone;card.append(p)}});
  const line=(label,value)=>{if(value===undefined||value===null||String(value).trim()==='')return;const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));card.append(p)};
  line(l.address,place.address||[place.house_number,place.street,place.city,place.postcode].filter(Boolean).join(', '));
  line(t.category,localizedPlaceCategory(place.type||t.unspecified));
