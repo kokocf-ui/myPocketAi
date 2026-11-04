@@ -11,6 +11,7 @@ const cases=[
  ["Explain the impact of the war on energy markets","analysis"],
  ["Fă-mi un rezumat al ultimelor știri geopolitice","briefing"],
  ["Summarize today's news in a short briefing","briefing"],
+ ["Fă-mi un briefing scurt despre cele mai importante evenimente internaționale de astăzi.","briefing"],
  ["Care sunt cauzele conflictului?","analysis"],
  ["Cum se face ciorba de burtă?","none"],
  ["Salut!","none"],
