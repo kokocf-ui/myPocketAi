@@ -23,3 +23,16 @@ const english=await localizeNewsRows(src,'en',ai,'mock');
 assert.equal(english[0].title,src[0].title);
 assert.equal(english[0].translation_status,'original_untranslated');
 console.log('Shared localization fallback and protected publisher metadata: PASS');
+
+// Cloudflare model responses may omit JSON; retry once using labeled text.
+const nonJsonAi={run:async(_model,options)=>{
+ const system=options.messages[0].content;
+ if(system.includes("JSON array"))return {response:"The translated text is ready."};
+ if(system.includes("JSON object"))return {response:"Translation without JSON braces"};
+ return {response:"Title: Iranul și SUA continuă negocierile\\nSummary: Cele două țări continuă discuțiile diplomatice."};
+}};
+const fixed=await localizeNewsRows([{title:"Iran and US continue negotiations",summary:"Both countries continue diplomatic talks.",url:"https://example.org"}],"ro",nonJsonAi,"mock");
+assert.equal(fixed[0].title,"Iranul și SUA continuă negocierile");
+assert.equal(fixed[0].translation_status,"translated");
+assert.equal(fixed[0].summary,"Cele două țări continuă discuțiile diplomatice.");
+console.log("Malformed JSON fallback to labeled text: PASS");
