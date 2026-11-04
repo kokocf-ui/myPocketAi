@@ -1431,7 +1431,7 @@ export default {
       };
       const titlesMatch=value=>{
         const n=normalizeGeoName(value);
-        return n===target||n==='judetul '+target||n===target+' county'||n.startsWith(target+' ')||n.endsWith(' '+target);
+        return n===target||n==='judetul '+target||n===target+' county'||String(value||'').toLocaleLowerCase().startsWith(bareTopic.toLocaleLowerCase()+' (');
       };
       const typeText={
         ro:{region:'Județ / regiune',city:'Localitate',country:'Țară',area:'Zonă',encyclopedia:'Enciclopedie'},
