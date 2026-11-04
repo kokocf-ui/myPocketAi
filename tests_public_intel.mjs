@@ -39,6 +39,8 @@ try {
   assert.equal(r.body.items[0].epss,0.25);
   r=await call('/api/public-intel?kind=epss&q=invalid');
   assert.equal(r.status,400);
-  assert.equal(fetches.length,3);
+  assert.equal(fetches.length,4);
+  assert.ok(fetches.some(x=>x.includes('www.cisa.gov/sites/default/files/feeds/')));
+  assert.ok(fetches.some(x=>x.includes('raw.githubusercontent.com/cisagov/kev-data/')));
   console.log('Public intelligence mocked integration tests passed');
 } finally {globalThis.fetch=originalFetch;}
