@@ -2948,6 +2948,95 @@ let activeAnswerReader=null;
 function readerLabels(){return READER_LABELS[state.language]||READER_LABELS.en}
 // Reusable two-column collection table: chronological events now, other
 // structured collections can use the same reader without altering recipes.
+// Shared renderer. Backend decides the appropriate presentation from the
+// user's goal and validated data; the client creates safe, theme-consistent DOM.
+function appendAdaptivePresentation(host,record){
+ const plan=record?.plan;
+ if(plan?.version!==1||!Array.isArray(plan.blocks)||plan.blocks.length!==1)return false;
+ const block=plan.blocks[0];
+ if(!["interactive_article_table","table","list"].includes(block?.kind))return false;
+ const lang=state.language||"ro";
+ const labels={
+  ro:{back:"Înapoi la rezultate",original:"Deschide articolul original",source:"Sursă",details:"Detalii",unverified:"Sursă identificată · afirmațiile nu sunt verificate independent"},
+  en:{back:"Back to results",original:"Open original article",source:"Source",details:"Details",unverified:"Source identified · claims not independently verified"},
+  fr:{back:"Retour aux résultats",original:"Ouvrir l’article original",source:"Source",details:"Détails",unverified:"Source identifiée · informations non vérifiées"},
+  de:{back:"Zurück zu Ergebnissen",original:"Originalartikel öffnen",source:"Quelle",details:"Details",unverified:"Quelle gefunden · Aussagen nicht geprüft"},
+  it:{back:"Torna ai risultati",original:"Apri articolo originale",source:"Fonte",details:"Dettagli",unverified:"Fonte identificata · affermazioni non verificate"},
+  es:{back:"Volver a resultados",original:"Abrir artículo original",source:"Fuente",details:"Detalles",unverified:"Fuente identificada · afirmaciones no verificadas"},
+  pt:{back:"Voltar aos resultados",original:"Abrir artigo original",source:"Fonte",details:"Detalhes",unverified:"Fonte identificada · afirmações não verificadas"},
+  nl:{back:"Terug naar resultaten",original:"Open origineel artikel",source:"Bron",details:"Details",unverified:"Bron gevonden · claims niet onafhankelijk geverifieerd"},
+  ru:{back:"Назад к результатам",original:"Открыть оригинал",source:"Источник",details:"Подробности",unverified:"Источник найден · сведения не проверены"},
+  pl:{back:"Wróć do wyników",original:"Otwórz oryginał",source:"Źródło",details:"Szczegóły",unverified:"Źródło ustalone · treści niezweryfikowane"}
+ }[lang]||{back:"Back",original:"Original article",source:"Source",details:"Details",unverified:"Claims unverified"};
+ const add=(tag,value,style,parent=host)=>{
+   const n=document.createElement(tag);n.textContent=String(value??"");
+   if(style)n.style.cssText=style;
+   parent.append(n);return n;
+ };
+ const safeUrl=value=>{try{const u=new URL(String(value||""));return u.protocol==="https:"&&!u.username&&!u.password?u.href:null}catch{return null}};
+ const dateText=value=>{
+   if(!value)return "";
+   const str=String(value);
+   const parsed=/^\d{8}T\d{6}Z$/.test(str)?str.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,"$1-$2-$3T$4:$5:$6Z"):str;
+   const date=Date.parse(parsed);
+   return Number.isFinite(date)?new Date(date).toLocaleDateString(lang,{year:"numeric",month:"short",day:"numeric"}):str.slice(0,22);
+ };
+ if(block.kind==="list"){
+   const items=Array.isArray(block.items)?block.items.slice(0,35):[];
+   if(!items.length)return false;
+   const ul=add("ol","","line-height:1.6;padding-left:24px");
+   for(const item of items)add("li",String(item).slice(0,700),"padding-bottom:8px",ul);
+   return true;
+ }
+ const rows=Array.isArray(block.rows)?block.rows.slice(0,40):[];
+ const cols=Array.isArray(block.columns)?block.columns.slice(0,5):[];
+ if(!rows.length||!cols.length)return false;
+ const isArticle=block.kind==="interactive_article_table"&&block.selection?.action==="open_article_detail";
+ const cell=(row,key)=>String(row?.cells?.[key]??"").slice(0,700);
+ const showDetail=row=>{
+   host.replaceChildren();host.scrollTop=0;
+   const back=add("button",labels.back,"padding:10px 14px;margin:0 0 14px;color:#dbf8ff;border:1px solid #54859b;border-radius:10px;background:#17384c");
+   back.type="button";back.onclick=showTable;
+   const title=cell(row,"title")||cell(row,"name")||labels.details;
+   add("h3",title,"font-size:19px;line-height:1.4;overflow-wrap:anywhere;margin:0 0 12px;color:#dbf8ff");
+   const source=cell(row,"source_name"),date=dateText(cell(row,"published_at"));
+   if(source||date)add("p",[source,date].filter(Boolean).join(" · "),"font-size:13px;opacity:.85;margin:0 0 12px");
+   add("p",labels.unverified,"font-size:12px;color:#ffdaa5;margin:0 0 12px");
+   const summary=cell(row,"summary")||cell(row,"description");
+   if(summary)add("p",summary,"line-height:1.65;overflow-wrap:anywhere;white-space:pre-wrap");
+   else add("p",lang==="ro"?"Rezumat indisponibil. Consultă sursa originală.":"Summary unavailable. Read the original source.","line-height:1.6");
+   const url=safeUrl(row.source_url);
+   if(url){const a=add("a",labels.original,"color:#99ecff;text-decoration:underline;display:inline-block;margin-top:14px");a.href=url;a.target="_blank";a.rel="noopener noreferrer";}
+ };
+ const showTable=()=>{
+   host.replaceChildren();host.scrollTop=0;
+   const wrap=add("div","","width:100%;overflow-x:auto");
+   const table=add("table","","width:100%;table-layout:fixed;border-collapse:collapse;line-height:1.5;font-size:clamp(13px,3.35vw,16px)",wrap);
+   const colgroup=add("colgroup","",null,table);
+   const keys=isArticle?["title","source_name"]:cols.map(c=>String(c.key||"")).filter(Boolean);
+   if(!keys.length)return;
+   const weight=100/keys.length;
+   keys.forEach((key,index)=>add("col","",isArticle?(index===0?"width:76%":"width:24%"):"width:"+weight+"%",colgroup));
+   const head=add("thead","",null,table),tr=add("tr","",null,head);
+   keys.forEach((key,i)=>add("th",isArticle?(i===0?(lang==="ro"?"Titlu și detalii":"Headline and details"):labels.source):(cols.find(c=>c.key===key)?.label||key),
+     "text-align:left;padding:10px 6px;background:#19445a;border:1px solid #43758a;overflow-wrap:anywhere",tr));
+   const tbody=add("tbody","",null,table);
+   for(const row of rows){
+     const tr=add("tr","",null,tbody);
+     if(isArticle){
+       const left=add("td","","vertical-align:top;padding:10px 7px;border:1px solid #34566e;overflow-wrap:anywhere",tr);
+       const button=add("button",cell(row,"title"),"text-align:left;color:#9beefa;text-decoration:underline;background:transparent;border:0;padding:0;font:inherit;font-weight:700;cursor:pointer;overflow-wrap:anywhere",left);
+       button.type="button";button.onclick=()=>showDetail(row);
+       if(cell(row,"summary"))add("p",cell(row,"summary").slice(0,155),"font-size:13px;line-height:1.4;color:#d2e2ed;margin:8px 0 0",left);
+       const right=add("td","","vertical-align:top;padding:10px 5px;border:1px solid #34566e;overflow-wrap:anywhere",tr);
+       add("strong",cell(row,"source_name")||"—","font-size:12px;display:block",right);
+       add("span",dateText(cell(row,"published_at")),"display:block;font-size:11px;opacity:.8;margin-top:5px",right);
+     }else for(const key of keys)add("td",cell(row,key),"vertical-align:top;padding:9px 7px;border:1px solid #34566e;overflow-wrap:anywhere",tr);
+   }
+   if(isArticle)add("p",labels.unverified,"font-size:12px;opacity:.8;margin-top:14px");
+ };
+ showTable();return true;
+}
 function appendNewsCollectionTable(host,record){
  if(record?.list?.type!=="news"||!Array.isArray(record.list.rows))return false;
  const lang=state.language||"ro";
@@ -3155,10 +3244,10 @@ function openAnswerReader(text,origin){
  const speedLabel=document.createElement('label');speedLabel.textContent=t.speed+' ';
  const speed=document.createElement('select');speed.setAttribute('aria-label',t.speed);
  for(const value of [.5,1,1.5]){const option=document.createElement('option');option.value=String(value);option.textContent=String(value)+'×';speed.append(option)}speed.value='1';speedLabel.append(speed);controls.append(pause,restart,speedLabel);
- const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',t.title);if(!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));if(!appendRecipeReaderText(body,String(text)))appendAnswerText(body,String(text));}
+ const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',t.title);if(!(state.lastPresentationResponse?.reply===String(text).trim()&&appendAdaptivePresentation(body,state.lastPresentationResponse))&&!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));if(!appendRecipeReaderText(body,String(text)))appendAnswerText(body,String(text));}
  layer.append(header,controls,body);document.body.append(layer);
  const reader={layer,origin,frame:0,cleanup:()=>{}};activeAnswerReader=reader;
- let running=!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news'),lastTime=null,startAt=performance.now()+800,position=0;
+ let running=!(state.lastPresentationResponse?.reply===String(text).trim()&&state.lastPresentationResponse.plan?.blocks?.[0]?.kind==='interactive_article_table')&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news'),lastTime=null,startAt=performance.now()+800,position=0;
  const update=()=>{pause.textContent=running?t.pause:t.play;pause.setAttribute('aria-pressed',String(running))};
  const stop=()=>{running=false;update()};
  const play=()=>{if(body.scrollTop>=body.scrollHeight-body.clientHeight-1)body.scrollTop=0;position=body.scrollTop;running=true;lastTime=null;startAt=performance.now()+900;update()};
@@ -3732,7 +3821,7 @@ if(offered?.needs_travel_confirmation&&context?.pending==='profile'&&context?.de
 }
 state.pendingTravelConfirmationData=null;
 if(!state.pendingTravelMode&&state.routeSearchContext?.destination&&/^(?!pietonal$|transport public$|masina$|mașină$|walking$|driving$|public transport$|da$|yes$|nu$|no$)(?:[\\p{L}][\\p{L}0-9&' .-]{2,60}\\s*,\\s*[\\p{L} .'-]{2,60}|(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)\\s+.+)$/iu.test(message)){state.routeSearchContext=null;state.pendingRouteDestination=null;state.pendingTravelMode=null;state.lastTravelModeResponse=null;}if(isMapRouteFollowup(message)&&validMapRoute(state.lastRoute)){addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const reply=routeMapText().shown;addBubble(reply,'assistant');state.messages.push({role:'assistant',text:reply});openRouteMap(state.lastRoute);return}const selectedEntityKind=state.pendingSelectedEntityKind==='article'?'article':undefined;state.pendingSelectedEntityKind=null;const selectedGeographicEntity=state.pendingSelectedGeoOption||null;state.pendingSelectedGeoOption=null;state.busy=true;const clientRequestStartedAt=performance.now();const generation=state.conversationGeneration;sendBtn.disabled=true;inputEl.disabled=true;setStatus(dialogText('myPocket AI pregătește răspunsul…','Pocket AI is preparing a response…'));addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const loading=addBubble(dialogText('Se pregătește răspunsul…','Preparing response…'),'assistant');try{const history=state.messages.slice(-CLIENT_CONFIG.historyLimit).map(m=>({role:m.role,content:m.text}));const gpsStartedAt=performance.now();const locationRequest=await coordinatesForRequest(message);const gpsElapsedMs=Math.round(performance.now()-gpsStartedAt);const locationIntent=locationRequest.locationIntent;const coordinates=locationRequest.coordinates;const locationErrorText=locationRequest.error;const routeDestination=state.pendingTravelMode&&state.routeSearchContext?.destination?state.routeSearchContext.destination:selectedPlaceForRoute(message);const routeStart=state.pendingRouteStart===true;state.pendingRouteStart=false;const routeViaQuery=state.pendingRouteViaQuery||undefined;state.pendingRouteViaQuery=null;const routeCompare=state.pendingRouteCompare===true;state.pendingRouteCompare=false;const travelMode=state.pendingTravelMode||undefined;state.pendingTravelMode=null;
-const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,selected_entity_kind:selectedEntityKind,selected_geographic_entity:selectedGeographicEntity,history,module:state.currentView==='module'?state.currentModule:'assistant',route_context:state.routeSearchContext||null,travel_mode:travelMode,transit_count:state.requestedTransitCount||undefined,route_destination:routeDestination,transit_destination:travelMode==='transit'?routeDestination:undefined,transit_query:travelMode==='transit'?(state.routeSearchContext?.destination?.label||state.routeSearchContext?.destination_query||undefined):undefined,route_profile:routeStart?'walk':travelMode==='transit'?undefined:travelMode|| (routeDestination?(/driving|rutier|masina/i.test(message)?'drive':'walk'):undefined),route_start:routeStart,route_via_query:routeViaQuery,route_compare:routeCompare,weather_context:state.weatherSearchContext||null,place_context:state.placeSearchContext||null,distance_context:state.distanceSearchContext||null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});backendResponseHeadersAt=performance.now();let data;try{data=await response.json()}catch{throw new Error(dialogText('Serverul a trimis un răspuns care nu poate fi citit.','The server returned an unreadable response.'))}state.lastRequestTimings={total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:gpsElapsedMs,backend_round_trip_ms:Math.round(performance.now()-backendRequestStartedAt),time_to_headers_ms:Math.round(backendResponseHeadersAt-backendRequestStartedAt),response_read_ms:Math.round(performance.now()-backendResponseHeadersAt),server_total_ms:data.server_total_ms??null,backend_version:String(data.version||''),backend_latency:data.latency_breakdown||null};console.info('Pocket AI request timing',state.lastRequestTimings);if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));if(data.place_lookup)console.info('Pocket AI destination lookup',JSON.stringify(data.place_lookup));const reply=String(data.reply).trim();state.lastStructuredResponse=data.structured_list?{reply,list:data.structured_list,sources:data.sources||[]}:null;loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.pendingTravelConfirmationData=data.needs_travel_confirmation&&data.route_context?.destination?data:null;state.travelConfirmationPanel=null;state.weatherSearchContext=data.weather_context||null;if(Array.isArray(data.places))state.lastPlaceResults=data.places;if(Array.isArray(data.places)&&data.places.length&&(state.tripAccommodationSearching||/\\b(?:cazare|hoteluri|hotel|hostel|motel|pensiuni|accommodation|lodging|guesthouse|airbnb)\\b/i.test(message))){state.tripAccommodationSearching=false;openAccommodationResults(data.places);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}if(data.encyclopedia){openEncyclopediaCard(selectedGeographicEntity?{...data.encyclopedia,selected_geo_option:selectedGeographicEntity}:data.encyclopedia,clientRequestStartedAt);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}/* Accommodation is decided once, before route calculation; never offer it again after receiving a route. *//* Keep the answer in the user's current section; provider selection remains backend-driven. */if(data.needs_travel_mode)state.lastTravelModeResponse=data;if(Array.isArray(data.transit)&&data.transit.length)state.lastTransitResponse=data;const answerBubble=addBubble(reply,'assistant',false,{autoOpen:!(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification)});showAnswerDuration(answerBubble,clientRequestStartedAt);if(routeDestination?.approximation&&validMapRoute(data.route))routeApproximationNotices.set(data.route,routeDestination.approximation);retainRouteResult(data,answerBubble);
+const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,selected_entity_kind:selectedEntityKind,selected_geographic_entity:selectedGeographicEntity,history,module:state.currentView==='module'?state.currentModule:'assistant',route_context:state.routeSearchContext||null,travel_mode:travelMode,transit_count:state.requestedTransitCount||undefined,route_destination:routeDestination,transit_destination:travelMode==='transit'?routeDestination:undefined,transit_query:travelMode==='transit'?(state.routeSearchContext?.destination?.label||state.routeSearchContext?.destination_query||undefined):undefined,route_profile:routeStart?'walk':travelMode==='transit'?undefined:travelMode|| (routeDestination?(/driving|rutier|masina/i.test(message)?'drive':'walk'):undefined),route_start:routeStart,route_via_query:routeViaQuery,route_compare:routeCompare,weather_context:state.weatherSearchContext||null,place_context:state.placeSearchContext||null,distance_context:state.distanceSearchContext||null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});backendResponseHeadersAt=performance.now();let data;try{data=await response.json()}catch{throw new Error(dialogText('Serverul a trimis un răspuns care nu poate fi citit.','The server returned an unreadable response.'))}state.lastRequestTimings={total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:gpsElapsedMs,backend_round_trip_ms:Math.round(performance.now()-backendRequestStartedAt),time_to_headers_ms:Math.round(backendResponseHeadersAt-backendRequestStartedAt),response_read_ms:Math.round(performance.now()-backendResponseHeadersAt),server_total_ms:data.server_total_ms??null,backend_version:String(data.version||''),backend_latency:data.latency_breakdown||null};console.info('Pocket AI request timing',state.lastRequestTimings);if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));if(data.place_lookup)console.info('Pocket AI destination lookup',JSON.stringify(data.place_lookup));const reply=String(data.reply).trim();state.lastStructuredResponse=data.structured_list?{reply,list:data.structured_list,sources:data.sources||[]}:null;state.lastPresentationResponse=data.presentation?{reply,plan:data.presentation}:null;loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.pendingTravelConfirmationData=data.needs_travel_confirmation&&data.route_context?.destination?data:null;state.travelConfirmationPanel=null;state.weatherSearchContext=data.weather_context||null;if(Array.isArray(data.places))state.lastPlaceResults=data.places;if(Array.isArray(data.places)&&data.places.length&&(state.tripAccommodationSearching||/\\b(?:cazare|hoteluri|hotel|hostel|motel|pensiuni|accommodation|lodging|guesthouse|airbnb)\\b/i.test(message))){state.tripAccommodationSearching=false;openAccommodationResults(data.places);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}if(data.encyclopedia){openEncyclopediaCard(selectedGeographicEntity?{...data.encyclopedia,selected_geo_option:selectedGeographicEntity}:data.encyclopedia,clientRequestStartedAt);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}/* Accommodation is decided once, before route calculation; never offer it again after receiving a route. *//* Keep the answer in the user's current section; provider selection remains backend-driven. */if(data.needs_travel_mode)state.lastTravelModeResponse=data;if(Array.isArray(data.transit)&&data.transit.length)state.lastTransitResponse=data;const answerBubble=addBubble(reply,'assistant',false,{autoOpen:!(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification)});showAnswerDuration(answerBubble,clientRequestStartedAt);if(routeDestination?.approximation&&validMapRoute(data.route))routeApproximationNotices.set(data.route,routeDestination.approximation);retainRouteResult(data,answerBubble);
  if(Array.isArray(data.transit)&&data.transit.length&&state.navigationReturnContext){answerBubble.remove();showTransitChoices(data.transit)}else appendTransitChoiceAction(data,answerBubble);
  if(state.tripCountryOnChoice&&Array.isArray(data.destination_candidates)&&data.destination_candidates.length){
   const country=String(state.tripCountryOnChoice).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
