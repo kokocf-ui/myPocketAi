@@ -1896,7 +1896,7 @@ function appendTravelModeChoices(data,host){
 // v1.0.101: Each assistant clarification owns its own in-conversation choice table.
 function appendConversationChoices(data,host){
  const raw=Array.isArray(data.choice_options)?data.choice_options:Array.isArray(data.destination_candidates)?data.destination_candidates:[];
- const options=raw.slice(0,data.named_venue?8:4).filter(x=>x&&typeof x.label==='string');
+ const options=raw.slice(0,data.entity_disambiguation?8:data.named_venue?8:4).filter(x=>x&&typeof x.label==='string');
  if(!options.length)return false;
  const table=document.createElement('table'),caption=document.createElement('caption'),body=document.createElement('tbody');
  table.className='travel-mode-table';caption.textContent=state.language==='ro'?'Alege o opțiune':'Choose an option';table.append(caption);
@@ -1908,6 +1908,40 @@ function appendConversationChoices(data,host){
   button.onclick=async()=>{
    if(state.busy||generation!==state.conversationGeneration)return;
    buttons.forEach(b=>b.disabled=true);
+   if(data.entity_disambiguation){
+    document.getElementById('pocketStandaloneChoices')?.remove();
+    closeAnswerReader(false);
+    if(option.entity_kind==='article'||(option.entity_kind==='place'&&option.entity_type==='region')){
+     const title=String(option.entity_title||'').trim();
+     const regionTitle=option.entity_kind==='place'&&option.entity_type==='region'&&
+       /(?:rom[aâ]nia|romania|roumanie|rumänien|румыния|rumunia)/iu.test(String(option.entity_details||''))
+       &&!/^(?:județul|judetul)\s/i.test(title)?'Județul '+title:title;
+     inputEl.value=(state.language==='ro'?'Informații despre ':'Information about ')+(option.entity_kind==='article'?title:regionTitle);
+     await submitMessage();
+     return;
+    }
+    const lat=Number(option.latitude),lon=Number(option.longitude);
+    if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180){buttons.forEach(b=>b.disabled=false);return}
+    const card=document.createElement('div');
+    card.style.cssText='padding:15px;border:1px solid #39677c;border-radius:15px;background:#102f43;line-height:1.5';
+    const name=document.createElement('h3');name.textContent=String(option.entity_title||option.label);
+    name.style.cssText='color:#e2f9ff;font-size:18px;margin:0 0 9px';
+    const details=document.createElement('p');details.textContent=String(option.entity_details||'');
+    details.style.cssText='font-size:14px;color:#c7e4ed;margin:0 0 12px';
+    const context=document.createElement('p');context.textContent=state.language==='ro'
+      ?'Aceasta este o locație identificată pe hartă. Dorești să îți arăt traseul?'
+      :'This location was identified on a map. Would you like directions?';
+    context.style.cssText='font-size:15px;margin:0 0 12px';
+    const go=document.createElement('button');go.type='button';go.className='transit-choice-action';
+    go.textContent=state.language==='ro'?'Da, arată traseul':'Yes, show directions';
+    go.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();
+      offerDestinationAccommodationBeforeRoute({latitude:lat,longitude:lon,label:String(option.entity_title||option.label)})};
+    const close=document.createElement('button');close.type='button';close.className='transit-choice-action';
+    close.textContent=state.language==='ro'?'Nu, închide':'No, close';
+    close.onclick=()=>document.getElementById('pocketStandaloneChoices')?.remove();
+    card.append(name,details,context,go,close);
+    openStandaloneChoicePanel(card,String(option.entity_title||option.label));return;
+   }
    const lat=option.latitude==null?NaN:Number(option.latitude),lon=option.longitude==null?NaN:Number(option.longitude);
    if(Number.isFinite(lat)&&Number.isFinite(lon)&&state.tripCountryOnChoice){
     state.tripCountryOnChoice=null;state.pendingTravelConfirmationData=null;
@@ -2691,9 +2725,11 @@ function openEncyclopediaCard(article,requestStartMs){
   const sampleName={ro:' (selecție din țară)',en:' (national selection)',fr:' (sélection nationale)',de:' (landesweite Auswahl)',it:' (selezione nazionale)',es:' (selección nacional)',pt:' (seleção nacional)',nl:' (landelijke selectie)',ru:' (подборка по стране)',pl:' (wybór z całego kraju)'};
   const localScope={ro:' (în apropierea centrului județului)',en:' (near the county centre)',fr:' (près du centre du département)',de:' (nahe dem Regionszentrum)',it:' (vicino al centro della provincia)',es:' (cerca del centro provincial)',pt:' (perto do centro regional)',nl:' (nabij het regiocentrum)',ru:' (рядом с центром региона)',pl:' (w pobliżu centrum regionu)'};
   const scopeSuffix=article.attractions_scope==='capital'?(scopeName[lang]||scopeName.en):article.attractions_scope==='country_verified_sample'?(sampleName[lang]||sampleName.en):article.attractions_scope==='region_center_sample'?(localScope[lang]||localScope.en):'';
-  const s=section(L[9]+scopeSuffix);
-  if(sights.length)sights.forEach((p,i)=>addPlace(s,p,i));
+  if(article.can_route===true||sights.length){
+   const s=section(L[9]+scopeSuffix);
+   if(sights.length)sights.forEach((p,i)=>addPlace(s,p,i));
   else textP(s,isCountry?L[10]:({ro:'Nu am putut verifica momentan obiective turistice pentru această localitate.',en:'Verified tourist sights are temporarily unavailable for this town.',fr:'Impossible de vérifier les sites touristiques de cette ville.',de:'Für diesen Ort sind derzeit keine verifizierten Sehenswürdigkeiten verfügbar.',it:'Non è stato possibile verificare le attrazioni di questa località.',es:'No hay lugares turísticos verificados para esta localidad por ahora.',pt:'Não foi possível verificar pontos turísticos desta localidade.',nl:'Voor deze plaats zijn nu geen geverifieerde bezienswaardigheden beschikbaar.',ru:'Достопримечательности этого населённого пункта пока не подтверждены.',pl:'Nie udało się teraz potwierdzić atrakcji tej miejscowości.'}[lang]||'Verified sights unavailable.'));
+  }
  }
  if(Number.isFinite(requestStartMs))showAnswerDuration(card,requestStartMs);
  const sources=section(L[11]);sources.style.cssText+=';margin-bottom:2px';
@@ -2722,10 +2758,12 @@ function openEncyclopediaCard(article,requestStartMs){
   back.onclick=()=>{state.pendingEncyclopediaDestination=null;state.tripCountryOnChoice=null;state.encyclopediaTripActive=false;openEncyclopediaCard(article,NaN)};
   questionBubble.append(back);
  };
- host.append(nav);
+ if(article.can_route===true){
+  host.append(nav);
  const topRoute=nav.cloneNode(true);topRoute.onclick=nav.onclick;
  topRoute.style.cssText='margin:0 0 12px;text-align:center;min-height:48px;background:linear-gradient(110deg,#24c6cd,#2b8ac7);color:#062338;font-weight:800';
- host.prepend(topRoute);
+  host.prepend(topRoute);
+ }
  openStandaloneChoicePanel(host,article.title||'Informații');
 }
 function showAccommodationNotice(message){
