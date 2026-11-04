@@ -3085,7 +3085,18 @@ function openEncyclopediaCard(article,requestStartMs){
   if(coords){
    const btn=document.createElement('button');btn.type='button';btn.textContent=L[16]+' · '+place.name;
    btn.style.cssText='border:1px solid #48b6c5;border-radius:9px;background:#125270;color:#e8ffff;font-size:12px;font-weight:650;padding:7px 9px;min-height:36px;max-width:100%;overflow-wrap:anywhere;text-align:left';
-   btn.onclick=()=>{state.encyclopediaTripActive=true;document.getElementById('pocketStandaloneChoices')?.remove();state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute({latitude:Number(place.latitude),longitude:Number(place.longitude),label:place.name})};
+   btn.onclick=()=>{
+    state.encyclopediaTripActive=true;
+    document.getElementById('pocketStandaloneChoices')?.remove();
+    state.tripCountryOnChoice=null;
+    const title=String(place.name||''),selected={latitude:Number(place.latitude),longitude:Number(place.longitude),
+     label:title,entity_title:title,entity_type:'city',entity_kind:'place',
+     entity_country_code:String(article.country_code||article.parent_country_code||''),
+     entity_region:isRegion?String(article.title||''):''};
+    // Place lists use the same mode-first flow as an independently selected town.
+    // A POI may use a verified map point, but lodging is never prompted first.
+    offerAssistantLocalityTravelMode(selected);
+   };
    actions.append(btn);
   }
   link(place.url,L[17],actions);line.append(actions);parent.append(line);
