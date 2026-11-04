@@ -2058,8 +2058,8 @@ function appendConversationChoices(data,host){
    if(data.entity_disambiguation){
     document.getElementById('pocketStandaloneChoices')?.remove();
     closeAnswerReader(false);
-    if(option.entity_type==='region'||option.entity_kind==='region_article'||option.entity_kind==='locality_reference'){
-     openAssistantStructuredAddress(option);return;
+    if(['region','city','country'].includes(option.entity_type)||option.entity_kind==='region_article'||option.entity_kind==='locality_reference'){
+     confirmAssistantGeographicRoute(option);return;
     }
     if(option.entity_kind==='article'){
      const title=String(option.entity_title||'').trim();
@@ -2086,7 +2086,7 @@ function appendConversationChoices(data,host){
     const go=document.createElement('button');go.type='button';go.className='transit-choice-action';
     go.textContent=state.language==='ro'?'Da, arată traseul':'Yes, show directions';
     go.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();
-      offerDestinationAccommodationBeforeRoute({latitude:lat,longitude:lon,label:String(option.entity_title||option.label)})};
+      offerAssistantScopeAccommodation(option)};
     const close=document.createElement('button');close.type='button';close.className='transit-choice-action';
     close.textContent=state.language==='ro'?'Nu, închide':'No, close';
     close.onclick=()=>document.getElementById('pocketStandaloneChoices')?.remove();
@@ -2898,8 +2898,12 @@ function openEncyclopediaCard(article,requestStartMs){
   state.encyclopediaTripActive=true;
   const title=article.title||'',coords=article.coordinates;
   document.getElementById('pocketStandaloneChoices')?.remove();
-  if(!isCountry&&!isRegion&&coords&&coords.latitude!=null&&coords.longitude!=null&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))&&Math.abs(Number(coords.latitude))<=90&&Math.abs(Number(coords.longitude))<=180){
-   state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute({latitude:Number(coords.latitude),longitude:Number(coords.longitude),label:title});return;
+  if(isCountry||isRegion||coords&&coords.latitude!=null&&coords.longitude!=null&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))){
+   const scope={entity_type:isCountry?'country':isRegion?'region':'city',entity_kind:'place',entity_title:title,
+    entity_country_code:isCountry?String(article.country_code||''):isRegion?String(article.parent_country_code||''):'',
+    entity_country_name:isCountry?title:String(article.parent_country||''),
+    latitude:!isCountry&&!isRegion?coords?.latitude:null,longitude:!isCountry&&!isRegion?coords?.longitude:null};
+   state.tripCountryOnChoice=null;offerAssistantScopeAccommodation(scope);return;
   }
   const question=lang==='ro'?'Spre ce localitate sau obiectiv concret din '+title+' dorești să călătorești?':'Which specific town or attraction in '+title+' do you want to visit?';
   const questionBubble=addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;
