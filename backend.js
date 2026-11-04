@@ -467,7 +467,7 @@ function sourceBackedEventRows(sources,request,language='ro'){
  }
  const sortKey=date=>{
   // Preserve the first calendar day for date ranges such as 10–21 november.
-  const start=norm(date).replace(/^(\d{1,2})\s*(?:-|–|—|to)\s*\d{1,2}\s+/u,'$1 ');
+  const start=norm(String(date).replace(/^(\d{1,2})\s*[-–—]\s*\d{1,2}\s+/u,'$1 '));
   const z=start.match(/\b(\d{1,2})\s+([\p{L}]+)\b/u);
   if(z)return (monthNames.get(z[2])||13)*100+Number(z[1]);
   const w=norm(date).match(/\b([\p{L}]+)\s+(\d{1,2})\b/u);
