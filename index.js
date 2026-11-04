@@ -1664,7 +1664,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
  const ro=state.language==='ro';
  const t=(a,b)=>ro?a:b;
  const display=new Intl.DisplayNames([state.language],{type:'region'});
- const countries='AL AD AT BE BA BG BY CH CY CZ DE DK EE ES FI FR GB GR HR HU IE IS IT LI LT LU LV MC MD ME MK MT NL NO PL PT RO RS SE SI SK SM TR UA VA XK'.split(' ');
+ const countries=Array.from({length:26*26},(_,i)=>String.fromCharCode(65+Math.floor(i/26),65+i%26)).filter(code=>{try{return display.of(code)!==code}catch{return false}});
  const card=(label,action)=>{const b=document.createElement('button');b.type='button';b.className='module-result-card';b.textContent=label;b.onclick=action;return b};
   const normalize=value=>value.normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase().trim();
   const selected={};
@@ -1680,7 +1680,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
   const confirmed=card(t('Confirmă localitatea / adresa','Confirm destination'),()=>{
    const pendingNumber=cityOnly?'':fields.number?.input.value.trim();
    const pendingStreet=cityOnly?'':fields.street?.input.value.trim();
-   if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)||(postcode.value.trim()&&!selected.number)){
+   if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)){
     status.textContent=t('Adresa introdusă nu este verificată. Alege o sugestie sau golește câmpurile neverificate pentru a continua la centrul localității.','The typed address is unverified. Select a verified suggestion or clear unverified fields to continue to the town centre.');
     return;
    }
@@ -1744,8 +1744,9 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     if(!current())return;
     if(discover){
      withoutStreet=!candidates.length;
-     input.disabled=fields.street.search.disabled=withoutStreet;
-     if(withoutStreet){list.replaceChildren();fields.number.input.focus();return;}
+     // No result from the street provider must never lock a rural address field.
+     input.disabled=fields.street.search.disabled=false;
+     if(withoutStreet){list.replaceChildren();status.textContent=t('Nu există sugestii pentru stradă. Poți introduce un număr rural fără stradă sau poți confirma localitatea.','No street suggestions. You can search for a rural house number without a street or confirm the town.');fields.number.input.focus();return;}
     }
     candidates.sort((a,b)=>(a.matchRank??1)-(b.matchRank??1)||a.label.localeCompare(b.label,state.language,{numeric:true}));
     list.replaceChildren(...candidates.map((point,i)=>card((i+1)+'. '+point.label,()=>choose(stage,point))));
@@ -1785,17 +1786,9 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    line.append(input,search);row.append(line,list);body.append(row);
   });
   postcode.onfocus=()=>{if(postcode.value)postcode.select();};
-  postcode.oninput=()=>{
-   generation++;
-   clearTimeout(timer);
-   if(selected.number)fields.number.input.value=selected.number.houseNumber||fields.number.input.value;
-   delete selected.number;
-   confirmed.disabled=!selected.city;
-   fields.number.list.replaceChildren();
-   if(selected.city&&!fields.number.input.disabled&&fields.number.input.value.trim()){
-    timer=setTimeout(()=>{if(postcode.isConnected)lookup('number');},350);
-   }
-  };
+  // Postal codes are optional hints, not a prerequisite for routing.
+  // Keep an already verified address selected when the postal text changes.
+  postcode.oninput=()=>{status.textContent=t('Codul poștal este opțional; destinația verificată rămâne selectată.','Postcode is optional; the verified destination remains selected.');};
   if(cityOnly){fields.street.row.hidden=true;fields.number.row.hidden=true;postcode.hidden=true;confirmed.textContent=t('Confirmă localitatea pentru cazare','Confirm town for accommodation');}
    body.append(postcode,status,confirmed);
   if(typeof onBack==='function')body.append(card(t('Înapoi','Back'),onBack));
@@ -2024,8 +2017,27 @@ function offerAssistantScopeAccommodation(option){
   openAssistantStructuredAddress(option,{cityOnly:true,onVerifiedCity:search});
  };
  const no=document.createElement('button');no.type='button';no.className='transit-choice-action';
- no.textContent=state.language==='ro'?'Nu, aleg adresa':'No, choose an address';
- no.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationDecision='no';openAssistantStructuredAddress(option)};
+ no.textContent=state.language==='ro'?'Nu, continuă spre destinație':'No, continue to destination';
+ no.onclick=()=>{
+  document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationDecision='no';
+  // Once a specific mapped town is verified, an exact street is a choice, not a requirement.
+  if(type==='city'&&point){
+   const panel=document.createElement('div');panel.dataset.directChoices='true';
+   const msg=document.createElement('p');msg.textContent=state.language==='ro'?'Unde dorești să ajungi în această localitate?':'Where in this town would you like to go?';panel.append(msg);
+   const centre=document.createElement('button');centre.type='button';centre.className='transit-choice-action';
+   centre.textContent=state.language==='ro'?'Centrul localității':'Town centre';
+   centre.onclick=()=>{
+    document.getElementById('pocketStandaloneChoices')?.remove();
+    state.assistantStructuredDestination=true;state.routeSearchContext=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;
+    openTransportModeFromAssistant({route_context:{destination_query:point.label,destination:{...point,approximation:'locality'},pending:'profile'}});
+   };
+   const exact=document.createElement('button');exact.type='button';exact.className='transit-choice-action';
+   exact.textContent=state.language==='ro'?'Alege o stradă sau un număr':'Choose a street or house number';
+   exact.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();openAssistantStructuredAddress(option)};
+   panel.append(centre,exact);openStandaloneChoicePanel(panel,name);return;
+  }
+  openAssistantStructuredAddress(option);
+ };
  host.append(yes,no);
  openStandaloneChoicePanel(host,state.language==='ro'?'Cazare înainte de traseu':'Accommodation before route');
 }
