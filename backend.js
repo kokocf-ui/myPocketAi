@@ -5043,7 +5043,8 @@ export default {
         const summary=snippetClean?candidate.slice(0,280):"";
         const rawDomain=parsed.hostname.replace(/^www\./i,"");
         const publisher=rawDomain.replace(/\.(?:co\.uk|com|org|net|ro|md|ru|it|fr|de|ua|uk|eu|io|info)$/i,"").split(".")[0];
-        const sourceName=publisher?publisher.charAt(0).toUpperCase()+publisher.slice(1):rawDomain;
+        const publisherNames={"abc.net.au":"ABC News","dw.com":"Deutsche Welle","apnews.com":"Associated Press","arabnews.com":"Arab News","internazionale.it":"Internazionale","lb.ua":"LB.ua","pravda.com.ua":"Ukrainska Pravda","eldestapeweb.com":"El Destape","interfax.ru":"Interfax"};
+        const sourceName=publisherNames[rawDomain]||publisherNames[rawDomain.replace(/^www\\./,"")]||rawDomain;
         seenTitles.add(key);
         rows.push({title:originalTitle,original_title:originalTitle,url,source_name:sourceName,
           source_domain:rawDomain,published_at:source.publishedDate||null,recency_status:recencyStatus,
@@ -5208,6 +5209,14 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         }
       }
       return null;
+    }
+
+    const verificationIntent=/\b(?:verific\w*|confirm\w*|corobor\w*|verify|verification|surse independente|independent sources)\b/i.test(message)
+      && classifyNewsRequest(message).mode==="analysis";
+    if(verificationIntent){
+      systemMessage += lang==="ro"
+        ? "\n\nVERIFICARE FACTUALĂ: Utilizatorul cere verificarea unei afirmații, NU o listă de știri. Răspunde în limba română, cu o concluzie explicită (confirmat / parțial confirmat / neconfirmat / insuficiente dovezi), apoi arată ce afirmă fiecare sursă relevantă și linkul său. Distinge declarațiile unei părți de confirmarea independentă. Două publicații care preiau aceeași agenție sau declarație NU sunt două confirmări independente. Nu inventa verificări sau surse; dacă dovezile nu permit concluzia, spune asta. Precizează data și dacă un articol este vechi față de eveniment. Nu transforma răspunsul într-un tabel de titluri."
+        : "\n\nFACT VERIFICATION: The user requests an evidence-based verdict, not a news headline collection. Give an explicit confirmed/partially confirmed/unconfirmed/insufficient-evidence conclusion with source links and dates. Distinguish a party's claims from independent confirmation. Syndicated copies of one wire story are not independent confirmations. Never invent verification or sources. Do not return a bare headline list.";
     }
 
     function countSentences(text) {
