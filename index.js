@@ -1755,7 +1755,7 @@ function showPreciseJourney(choice){
      body:JSON.stringify({address_lookup:{stage,query,country:selected.country.code.toLowerCase(),
       city:selected.city?.city||'',cityPoint:selected.city?{latitude:selected.city.latitude,longitude:selected.city.longitude}:undefined,street:selected.street?.street||'',postcode:stage==='number'?postcode.value.trim():''}})});
     if(!response.ok)throw new Error();
-    const {candidates}=await response.json();
+    const {candidates,attribution}=await response.json();
     if(!current())return;
     if(discover){
      withoutStreet=!candidates.length;
@@ -1764,6 +1764,7 @@ function showPreciseJourney(choice){
     }
     candidates.sort((a,b)=>(a.matchRank??1)-(b.matchRank??1)||a.label.localeCompare(b.label,state.language,{numeric:true}));
     list.replaceChildren(...candidates.map(point=>card(point.label,()=>choose(stage,point))));
+    if(attribution&&candidates.length){const credit=document.createElement('small');credit.textContent=attribution;list.append(credit);}
     if(!candidates.length){
      list.textContent=t('Nu am găsit rezultate.','No matches found.');
      if(stage==='number'){
