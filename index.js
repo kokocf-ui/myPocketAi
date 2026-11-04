@@ -1937,7 +1937,8 @@ function appendConversationChoices(data,host){
       if(name.length<2||name.length>100||/[\n\r<>]/.test(name)){warning.textContent=state.language==='ro'?'Introdu numele unei localități.':'Enter a town or village name.';return}
       const query=(state.language==='ro'?'Vreau să ajung la ':'I want to get to ')+name+', '+regionQualifier;
       document.getElementById('pocketStandaloneChoices')?.remove();
-      state.tripCountryOnChoice=null;state.tripAccommodationDecision=null;state.tripAccommodationDestination=null;
+      state.tripCountryOnChoice=regionQualifier;state.tripAccommodationDecision=null;state.tripAccommodationDestination=null;
+      state.pendingEncyclopediaDestination=null;state.encyclopediaTripActive=false;
       state.routeSearchContext=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;
       inputEl.value=query;
       await submitMessage();
