@@ -1421,7 +1421,7 @@ export default {
     // Resolve short ambiguous names before choosing any encyclopaedia or map result.
     // Geography and encyclopaedia are separate destinations; Wikipedia text is never routable by itself.
     const entityChoiceEligible=!seekingRoute&&!explicitKnowledge&&!data.quick_place_search&&(!knownTopic||topicKey==='paris')&&parts.length===1&&
-      /^[\p{L}][\p{L}\s'-]{2,39}$/u.test(bareTopic)&&bareTopic.split(/\s+/).length<=2&&
+      /^[\p{L}][\p{L}\s'-]{2,39}$/u.test(bareTopic)&&bareTopic.split(/\s+/).length===1&&
       !countryNameCodes.has(normalizeGeoName(bareTopic))&&!/^(?:magazin|market|restaurant|hotel|pub|cafe|farmacie)$/i.test(bareTopic);
     if(entityChoiceEligible){
       const target=normalizeGeoName(bareTopic);
