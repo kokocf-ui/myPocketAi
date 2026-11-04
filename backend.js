@@ -5056,9 +5056,35 @@ export default {
           verification:"source_identified_claims_unverified",corroborating_source_count:0});
       }
       // Shared localization layer: choose language independently of source country.
-      const localizedNewsRows=await localizeNewsRows(rows,lang,env.AI,selectedAiModel,{
-        log:(reason)=>console.warn("Pocket AI localization:",reason)
+      // Diagnostic only: trace the translation boundary without logging article text or changing its behavior.
+      const translationStartedAt=Date.now();
+      const translationErrors=[];
+      const translationCalls=[];
+      const tracedAi=env.AI&&typeof env.AI.run==="function"?{
+        run:async(model,options)=>{
+          const startedAt=Date.now();
+          const batch=Array.isArray(options?.messages)&&String(options.messages[0]?.content||"").includes("JSON array");
+          try{
+            const result=await env.AI.run(model,options);
+            const raw=typeof result==="string"?result:String(result?.response||result?.result?.response||result?.output_text||"");
+            const call={kind:batch?"batch":"individual",duration_ms:Date.now()-startedAt,has_response:raw.length>0,response_chars:raw.length,starts_json:/^\\s*[\\[{]/.test(raw)};
+            translationCalls.push(call);
+            return result;
+          }catch(error){
+            translationCalls.push({kind:batch?"batch":"individual",duration_ms:Date.now()-startedAt,error_name:String(error?.name||"Error")});
+            throw error;
+          }
+        }
+      }:env.AI;
+      const localizedNewsRows=await localizeNewsRows(rows,lang,tracedAi,selectedAiModel,{
+        log:(reason,errorName)=>{translationErrors.push({reason,error_name:errorName||"unknown"});console.warn("Pocket AI localization:",reason,errorName||"unknown");}
       });
+      const translationDiagnostics={requested_language:lang,input_rows:rows.length,output_rows:localizedNewsRows.length,
+        translated:localizedNewsRows.filter(r=>r.translation_status==="translated").length,
+        partial:localizedNewsRows.filter(r=>r.translation_status==="partial_translation").length,
+        original:localizedNewsRows.filter(r=>r.translation_status==="original_untranslated").length,
+        elapsed_ms:Date.now()-translationStartedAt,calls:translationCalls,errors:translationErrors};
+      console.info("Pocket AI news localization trace",JSON.stringify(translationDiagnostics));
       rows.splice(0,rows.length,...localizedNewsRows);
       // Never imply that the application has a complete news feed when strict
       // publication-date and topic validation leave only a few articles.
@@ -5079,7 +5105,7 @@ export default {
         message_received:message,reply,structured_list:list,
         sources:rows.map((v,i)=>({number:i+1,title:v.title,url:v.url,publishedDate:v.published_at,providers:v.providers,
           verification:v.verification})),web_search_status:webSearchStatus,
-        web_search_diagnostics:webSearchDiagnostics,ai_generated:false,ai_connected:Boolean(env.AI)});
+        web_search_diagnostics:webSearchDiagnostics,news_translation_diagnostics:translationDiagnostics,ai_generated:false,ai_connected:Boolean(env.AI)});
     }
 
     // Dated event calendars are built deterministically from web-search evidence.
