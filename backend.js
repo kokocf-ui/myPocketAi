@@ -1252,6 +1252,11 @@ export default {
           const cityFirst=new URL(url);
           cityFirst.searchParams.set('text',city+', '+query);
           alternatives.unshift(cityFirst);
+          if(country==='ro'&&!/^(strada|str\.?|bulevardul|calea|alee\w*)\s/i.test(query)){
+            const streetPrefix=new URL(url);
+            streetPrefix.searchParams.set('text',city+', Strada '+query);
+            alternatives.unshift(streetPrefix);
+          }
         }
         if(stage==='street'&&autocomplete&&Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude)){
           const prefix=new URL(url);
