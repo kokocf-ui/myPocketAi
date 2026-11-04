@@ -30,6 +30,7 @@ assert(frontend.includes("stage==='street'?80:200"),'street autocomplete starts 
 assert(frontend.includes('const cached=matchCached(stage,input.value.trim())'),'cached suggestions display immediately');
 assert(backend.includes("if(stage==='street'&&query.trim()&&env.TOMTOM_API_KEY)"),'TomTom provides street discovery fallback');
 assert(backend.includes("types:'street'"),'TomTom is constrained to verified street results');
+assert(backend.includes('Only verified street candidates within the selected municipality'),'street results are scoped to selected town');
 // Test the real address_lookup handler in isolation using provider-shaped mock data.
 const originalFetch=globalThis.fetch;
 const seen=[];
