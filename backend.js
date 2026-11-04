@@ -1361,31 +1361,45 @@ export default {
         const candidates=results.flatMap(place=>{
           const towns=[place.city,place.town,place.village,place.hamlet,place.municipality,place.name];
           if(place.country_code!==country || !Number.isFinite(place.lat) || !Number.isFinite(place.lon))return [];
-           if(region){
-             // Do not accept the same town name in another county/state.
-             const expected=normRegion(region),areas=[place.county,place.state,place.region,place.state_district].filter(Boolean);
-             if(!areas.some(a=>normRegion(a)===expected))return [];
-           }
+          if(region){
+            // Never accept a homonymous town in the wrong county or province.
+            const expected=normRegion(region),areas=[place.county,place.state,place.region,place.state_district].filter(Boolean);
+            if(!areas.some(a=>normRegion(a)===expected))return [];
+          }
           if(stage!=='city'&&!towns.slice(0,5).some(value=>normalize(value)===normalize(city)))return [];
           if(stage==='street'&&(!place.street||place.result_type!=='street'))return [];
           if(stage==='street'){
-            const prefix=normalize(query).replace(/^(?:strada|str\.?|bulevardul|calea|aleea)\s+/,'');
-            const name=normalize(place.street).replace(/^(?:strada|str\.?|bulevardul|calea|aleea)\s+/,'');
+            const prefix=normalize(query).replace(/^(?:strada|str\\.?|bulevardul|calea|aleea)\\s+/,'');
+            const name=normalize(place.street).replace(/^(?:strada|str\\.?|bulevardul|calea|aleea)\\s+/,'');
             if(prefix&&!name.startsWith(prefix)&&!name.split(' ').some(word=>word.startsWith(prefix)))return [];
           }
           if(stage==='number'&&(!['building','amenity'].includes(place.result_type)||(street&&normalize(place.street)!==normalize(street))||!place.housenumber||
               (postcode&&place.postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
-          if(stage==='city'&&!/^(?:city|town|village|hamlet|municipality|locality|suburb|district)$/.test(String(place.result_type||''))&&!place.village&&!place.hamlet&&!place.town)return [];
-          const cityName=String(place.city||place.town||place.village||place.hamlet||place.name||'');
+          // A city-choice menu contains only settlements. No postcodes, POIs,
+          // citadels, suburbs or multiple formatted addresses for the same town.
+          if(stage==='city'&&!/^(?:city|town|village|hamlet|municipality|locality)$/.test(String(place.result_type||'')))return [];
+          const cityName=String(stage==='city'
+            ?(place.village||place.hamlet||place.town||place.city||place.municipality||place.name||'')
+            :(towns.find(Boolean)||'')).trim();
           if(stage==='city'&&(!normalize(cityName).startsWith(normalize(query))||
               /metropolitan area|zona metropolitana|metropolitan region/i.test(normalize(cityName))))return [];
-          const label=stage==='street'?[place.street,city,place.country].filter(Boolean).join(', '):
-            stage==='city'&&region&&!normalize(String(place.formatted||'')).includes(normalize(region))
-            ?[place.formatted||city,region].filter(Boolean).join(', '):String(place.formatted||'');
-          const key=stage==='street'?normalize(place.street):label;
+          const county=String(place.county||place.state_district||place.state||place.region||'').trim();
+          const commune=String(place.municipality||'').trim();
+          const areaParts=[commune&&normalize(commune)!==normalize(cityName)?commune:'',county].filter(Boolean);
+          const countryName=String(place.country||country.toUpperCase());
+          const label=stage==='city'?[cityName,...areaParts,countryName].join(', '):
+           stage==='street'?[place.street,city,countryName].filter(Boolean).join(', '):
+           String(place.formatted||'');
+          // De-duplicate by geographical identity, not provider formatting or postcode.
+          // Preserve homonyms that genuinely belong to different counties/communes.
+          const key=stage==='city'
+            ?[normalize(cityName),...areaParts.map(normalize),country].join('|')
+            :stage==='street'?normalize(place.street):label;
           if(!label||seen.has(key))return [];
           seen.add(key);
-          return [{label,matchRank:stage==='city'?(normalize(cityName)===normalize(query)?0:1):1,city:stage==='city'?cityName:(towns.find(Boolean)||''),street:place.street||'',houseNumber:String(place.housenumber||''),latitude:place.lat,longitude:place.lon,country_code:country.toUpperCase()}];
+          return [{label,matchRank:stage==='city'?(normalize(cityName)===normalize(query)?0:1):1,
+            city:cityName,county,commune,street:place.street||'',houseNumber:String(place.housenumber||''),
+            latitude:place.lat,longitude:place.lon,country_code:country.toUpperCase()}];
         });
         candidates.sort((a,b)=>a.matchRank-b.matchRank||a.label.localeCompare(b.label));
         return json({candidates,tomtom_status:tomtomStatus});
