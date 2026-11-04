@@ -29,9 +29,9 @@ try{
  assert.equal(typeof recent.structured_list.coverage_status,'string');
  const roResponse=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
   body:JSON.stringify({message:'Știri geopolitice internationale',language:'ro'})}),{AI:{run:async()=>({response:JSON.stringify([
-   {i:0,t:'Ucraina: negocieri diplomatice după summitul internațional',s:''},
-   {i:1,t:'Liderii europeni discută sancțiuni și negocieri',s:''},
-   {i:2,t:'Ucraina și Rusia discută negocieri de securitate',s:''}
+   {id:0,title:'Ucraina: negocieri diplomatice după summitul internațional',excerpt:''},
+   {id:1,title:'Liderii europeni discută sancțiuni și negocieri',excerpt:''},
+   {id:2,title:'Ucraina și Rusia discută negocieri de securitate',excerpt:''}
   ])})}});
  assert.equal(roResponse.status,200);
  const roNews=await roResponse.json();
@@ -67,6 +67,8 @@ try{
  assert.ok(host.children.some(x=>x.tag==='a'),'Article details include original source link');
  const back=host.children.find(x=>x.tag==='button');back.onclick();
  assert.ok(host.children.some(x=>x.tag==='div'),'Back restores table');
+ assert.match(source,/width:76%/);
+ assert.match(source,/width:24%/);
  assert.match(source,/state\.lastStructuredResponse\.list\?\.type==='news'/);
  console.log('PASS attributed news backend, clickable table, article detail, back navigation, reader auto-open');
 }finally{globalThis.fetch=originalFetch}
