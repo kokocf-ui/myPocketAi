@@ -1454,6 +1454,9 @@ export default {
       const geoChoices=[],wikiChoices=[],keys=new Set();
       const addGeo=(name,kind,code,description,lat,lon,source)=>{
         if(!matchesName(name)||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return;
+        // A county centroid can be labelled as a locality by geocoders.
+        // Such a result is not proof of a village sharing the county's name.
+        if(kind==='city'&&target==='alba'&&String(code||'').toUpperCase()==='RO'&&normalizeGeoName(description)==='alba')return;
         const key=normalizeGeoName(name)+'|'+String(code||'').toUpperCase()+'|'+kind;
         if(keys.has(key))return;keys.add(key);
         let country=String(code||'').toUpperCase();
@@ -1461,7 +1464,7 @@ export default {
         const info=[typeText[kind]||typeText.area,description,country].filter(Boolean);
         const label=String(name||bareTopic).slice(0,90)+' · '+info.join(' · ');
         geoChoices.push({label,entity_kind:'place',entity_type:kind,entity_title:String(name||bareTopic).slice(0,90),
-          entity_details:info.join(' · '),entity_country_code:String(code||'').toUpperCase(),entity_country_name:country,latitude:lat,longitude:lon,entity_source:source});
+          entity_details:info.join(' · '),entity_region:kind==='city'?description:'',entity_country_code:String(code||'').toUpperCase(),entity_country_name:country,latitude:lat,longitude:lon,entity_source:source});
       };
       const jobs=[];
       const tomtomAreaLookup=async()=>{
@@ -1527,6 +1530,30 @@ export default {
       await Promise.all(jobs);
       // Avoid spending TomTom calls on non-geographic knowledge questions.
       if(geoChoices.length&&env.TOMTOM_API_KEY)await tomtomAreaLookup();
+      // Documented administrative homonyms lacking an unambiguous provider
+      // point: show as a locality reference, NEVER as a geocoded route target.
+      // The shared address picker verifies the county and municipality later.
+      const verifiedHomonyms={
+        alba:[
+          {name:'Alba',region:'Tulcea',commune:'Izvoarele',country_code:'RO',
+           source:'https://www.emitent.ro/resurse/izvoarele/statut_2024.pdf'},
+          {name:'Alba',region:'Botoșani',commune:'Hudești',country_code:'RO',
+           source:'https://parohiaalba.mmb.ro/parohia-alba'}
+        ]
+      };
+      for(const ref of verifiedHomonyms[target]||[]){
+        const duplicate=geoChoices.some(p=>p.entity_type==='city'&&p.entity_country_code===ref.country_code&&
+          normalizeGeoName(p.entity_region)===normalizeGeoName(ref.region)&&normalizeGeoName(p.entity_title)===target);
+        if(duplicate)continue;
+        const placeCountry='România';
+        geoChoices.push({
+          label:ref.name+' · '+(lang==='ro'?'Sat, comuna ':'Village, commune ')+ref.commune+' · '+ref.region+' · '+placeCountry,
+          entity_kind:'locality_reference',entity_type:'city',entity_title:ref.name,
+          entity_region:ref.region,entity_commune:ref.commune,entity_country_code:ref.country_code,
+          entity_country_name:placeCountry,entity_source:ref.source,
+          entity_details:ref.commune+' · '+ref.region+' · '+placeCountry
+        });
+      }
       // Geographic entries include coordinates. Wikipedia choices are informational until a
       // verified real-world place is selected; do not silently infer a route from an article.
       const filteredWiki=wikiChoices.filter(w=>!geoChoices.some(g=>{
@@ -1539,7 +1566,10 @@ export default {
         filteredWiki.push({label:bareTopic+' · '+typeText.encyclopedia,
           entity_kind:'article',entity_title:bareTopic,entity_source:'lookup'});
       }
-      geoChoices.sort((a,b)=>Number(b.entity_type==='region')-Number(a.entity_type==='region'));
+      geoChoices.sort((a,b)=>{
+        const rank=x=>x.entity_type==='region'?0:x.entity_kind==='locality_reference'?1:2;
+        return rank(a)-rank(b);
+      });
       const choices=[...geoChoices.slice(0,5),...filteredWiki.slice(0,3)].slice(0,8);
       if(choices.length>=2){
         const prompt={ro:'Am găsit mai multe semnificații sau locuri cu acest nume. Alege rezultatul dorit:',en:'Several places or meanings match this name. Choose one:',
