@@ -4960,20 +4960,38 @@ export default {
     if(newsListingIntent&&shouldSearchWeb){
       const seenTitles=new Set();
       const rows=[];
+      // A news listing must be a dated article, not a publication homepage, category
+      // hub, rolling live landing page, index or scraped collection of outbound links.
+      const topicalNews=/(?:geopolitic|politic|international|world|global|conflict|razboi|război|war|ucrain|ukrain|russi|rusia|iran|israel|israel|europ|diplomac|militar|military|foreign)/i.test(normalizedResearchRequest);
+      const newsTopic=/\b(?:ukraine|ucrain\w*|russia|rusia|russian|rus\w*|iran|israel|israeli|militar\w*|war|conflict|attack\w*|atac\w*|dron\w*|missile\w*|rachet\w*|election\w*|aleger\w*|president\w*|președint\w*|presedint\w*|government\w*|guvern\w*|europ\w*|diplomac\w*|sanction\w*|sancțiun\w*|sancțiuni|nato|onu|united nations|summit|reuniun\w*|energy|energie|securitate|security|ceasefire|armistiti\w*|negocier\w*|negotiat\w*)\b/i;
+      const freshnessHours=/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?24:null;
+      const nowMs=Date.now();
       for(const source of webSources){
         if(rows.length>=12)break;
         const url=safeSourceUrl(source.url);
-        const title=String(source.title||"").replace(/\s+/g," ").trim().slice(0,220);
-        if(!url||title.length<12)continue;
+        const title=String(source.title||"").replace(/\s+/g," ").trim().slice(0,180);
+        if(!url||title.length<20)continue;
+        const urlPath=new URL(url).pathname.replace(/\/+$/,"");
+        if(!urlPath||urlPath==="/"||urlPath.split("/").filter(Boolean).length<2&&
+          !/\/\d{4}\/\d{2}\/\d{2}\//.test(urlPath))continue;
         const titleKey=title.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
         if(!titleKey||seenTitles.has(titleKey))continue;
-        seenTitles.add(titleKey);
+        if(/(?:breaking news|latest news|stiri de ultima ora|știri de ultimă oră|world news summary|news summary|latest headlines|monthly geopolitical report|live fm|news live|live updates|diretta)\b/i.test(title))continue;
+        // Ro/English are safely displayed in the selected Romanian UI; Cyrillic
+        // and unsupported-language titles are not mixed into a Romanian list.
+        if(lang==="ro"&&/[\u0400-\u052f\u0370-\u03ff\u0600-\u06ff]/u.test(title))continue;
+        if(topicalNews&&!newsTopic.test(title+" "+String(source.snippets?.join(" ")||"").slice(0,280)))continue;
+        const publishedMs=Date.parse(String(source.publishedDate||""));
+        if(freshnessHours&&(!Number.isFinite(publishedMs)||publishedMs<nowMs-freshnessHours*3600000||publishedMs>nowMs+3600000))continue;
         const domain=new URL(url).hostname.replace(/^www\./,"");
-        const rawSummary=String(source.pageEvidence||source.snippets?.find(v=>!String(v).startsWith("Unverified GDELT article listing:"))||"")
-          .replace(/\s+/g," ").trim();
+        // Excerpts from crawled pages may contain navigation, references, and
+        // defanged URLs; those are not article summaries.
+        const candidate=String(source.snippets?.find(v=>!String(v).startsWith("Unverified GDELT article listing:"))||"").replace(/\s+/g," ").trim();
+        const summary=/hXXps|https?:\/\/|www\.|(?:\[\.\]|###)|(?:↩)|(?:\b\d{1,3}\.\s+hXXps)/i.test(candidate)||candidate.length<65?"":candidate.slice(0,260);
+        const detail=summary||"";
+        seenTitles.add(titleKey);
         rows.push({title,url,source_name:domain,published_at:source.publishedDate||null,
-          summary:rawSummary.slice(0,360),detail:rawSummary.slice(0,1200),
-          providers:Array.isArray(source.providers)?source.providers:[],
+          summary,detail,providers:Array.isArray(source.providers)?source.providers:[],
           verification:"source_identified_claims_unverified",
           corroborating_source_count:0});
       }
