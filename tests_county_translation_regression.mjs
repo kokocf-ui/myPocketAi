@@ -34,10 +34,12 @@ assert(found.choice_options.some(x=>x.entity_kind==='article'),'retain informati
 assert(providerCalls.some(x=>x.includes('tomtom.com')),'geographic cross-check occurs');
 
 const ui=frontend.slice(frontend.indexOf('function appendConversationChoices'),frontend.indexOf('function appendTravelModeOverview'));
-const county=ui.slice(ui.indexOf("if(option.entity_type==='region'"),ui.indexOf("if(option.entity_kind==='article'"));
-assert(county.includes('openAssistantStructuredAddress(option)')&&frontend.includes('function renderStructuredAddressPicker('),'county uses verified municipality picker');
-assert(frontend.includes('state.tripCountryOnChoice=regionName||null'),'retains chosen county until verified locality and accommodation');
-assert(!county.includes('offerDestinationAccommodationBeforeRoute('),'no lodging search at county centroid');
+const county=frontend.slice(frontend.indexOf('function openAssistantStructuredAddress('),frontend.indexOf('function appendConversationChoices(',frontend.indexOf('function openAssistantStructuredAddress(')));
+assert(county.includes('renderStructuredAddressPicker({body:container')&&frontend.includes('function renderStructuredAddressPicker('),'county uses shared verified municipality picker');
+assert(county.includes("type==='region'")&&county.includes('region:regionName'),'county scope carried into verified locality lookup');
+assert(county.includes("if(type==='city'&&point){search(point);return}"),'only verified city can search hotels immediately');
+assert(county.includes('openAssistantStructuredAddress(option,{cityOnly:true'),'county lodging requests only town, not an arbitrary county centroid');
+assert(county.includes('openAssistantStructuredAddress(option)}'),'declined lodging continues to street/house lookup');
 assert(ui.includes("state.pendingSelectedEntityKind='article'"),'selected informational meaning retained');
 assert(frontend.includes('selected_entity_kind:selectedEntityKind'),'semantic kind reaches API');
 assert(backend.includes("article.can_route=!encyclopedicOnly&&Boolean("),'article cannot open map CTA');
