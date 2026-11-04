@@ -1,0 +1,21 @@
+name: Public intelligence integration tests
+on:
+  pull_request:
+    paths:
+      - backend.js
+      - tests_public_intel.mjs
+      - package.json
+      - .github/workflows/test-public-intel.yml
+  workflow_dispatch:
+jobs:
+  public-intel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check backend syntax
+        run: node --check backend.js
+      - name: Test free source adapter
+        run: node tests_public_intel.mjs

@@ -1172,6 +1172,94 @@ export default {
 
     const url = new URL(request.url);
 
+
+    // Free, source-attributed public intelligence: independent of the general assistant
+    // and deliberately isolated from maps, recipes, transport and existing search.
+    if (url.pathname === "/api/public-intel" && request.method === "GET") {
+      const kind = String(url.searchParams.get("kind") || "news").toLowerCase();
+      const query = String(url.searchParams.get("q") || "").trim();
+      const limit = Math.min(10, Math.max(1, Number.parseInt(url.searchParams.get("limit") || "5", 10) || 5));
+      const allowed = new Set(["news", "kev", "epss"]);
+      if (!allowed.has(kind)) return json({status:"error", error:"Unknown intelligence source. Choose news, kev or epss."},400);
+      if (kind === "news" && (query.length < 3 || query.length > 120 || /[\x00-\x1f<>]/.test(query)))
+        return json({status:"error", error:"News query must contain 3–120 printable characters."},400);
+      if (kind === "epss" && !/^CVE-\d{4}-\d{4,10}$/i.test(query))
+        return json({status:"error", error:"A valid CVE identifier is required for EPSS."},400);
+      if (kind === "kev" && query.length > 120)
+        return json({status:"error", error:"Filter is too long."},400);
+      const origin = kind === "news" ? "GDELT DOC 2.0"
+        : kind === "kev" ? "CISA Known Exploited Vulnerabilities" : "FIRST EPSS";
+      const endpoint = kind === "news"
+        ? "https://api.gdeltproject.org/api/v2/doc/doc"
+        : kind === "kev"
+          ? "https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json"
+          : "https://api.first.org/data/v1/epss";
+      const upstream = new URL(endpoint);
+      if (kind === "news") {
+        // Fetch article metadata, not the articles' full text.
+        upstream.searchParams.set("query",query);
+        upstream.searchParams.set("mode","artlist");
+        upstream.searchParams.set("format","json");
+        upstream.searchParams.set("maxrecords",String(limit));
+        upstream.searchParams.set("timespan","7d");
+      }
+      if (kind === "epss") upstream.searchParams.set("cve",query.toUpperCase());
+      const safeUrl = value => {
+        try {const u = new URL(String(value || ""));return u.protocol === "https:" && !u.username && !u.password ? u.href : null}
+        catch {return null}
+      };
+      try {
+        const response = await fetch(upstream.href, {
+          headers:{"Accept":"application/json"},
+          signal:AbortSignal.timeout(kind === "kev" ? 8000 : 6500),
+          cf:{cacheTtl:kind === "kev" ? 3600 : 300,cacheEverything:true}
+        });
+        if (!response.ok) return json({status:"unavailable",source:origin,source_status:response.status,
+          items:[],verification:"not_checked",error:"The public source is temporarily unavailable."},502);
+        const contentType = response.headers.get("content-type") || "";
+        if (!contentType.toLowerCase().includes("json"))
+          return json({status:"unavailable",source:origin,items:[],verification:"not_checked",
+            error:"The source did not return JSON."},502);
+        const raw = await response.json();
+        let items = [];
+        if (kind === "news") {
+          items = (Array.isArray(raw.articles) ? raw.articles : []).slice(0,limit).map(a => ({
+            title:String(a.title || "").slice(0,250),url:safeUrl(a.url),
+            published_at:String(a.seendate || ""),source_domain:String(a.domain || "").slice(0,150),
+            language:String(a.language || "").slice(0,50),source_country:String(a.sourcecountry || "").slice(0,80),
+            verification:"unverified_article"
+          })).filter(a=>a.title && a.url);
+        } else if (kind === "kev") {
+          const filter = query.toLowerCase();
+          items = (Array.isArray(raw.vulnerabilities) ? raw.vulnerabilities : [])
+            .filter(v => !filter || [v.cveID,v.vendorProject,v.product,v.vulnerabilityName]
+              .some(x=>String(x||"").toLowerCase().includes(filter)))
+            .sort((a,b)=>String(b.dateAdded||"").localeCompare(String(a.dateAdded||"")))
+            .slice(0,limit).map(v=>({
+              cve:String(v.cveID||""),vendor:String(v.vendorProject||"").slice(0,150),
+              product:String(v.product||"").slice(0,150),name:String(v.vulnerabilityName||"").slice(0,200),
+              date_added:String(v.dateAdded||""),known_ransomware_use:String(v.knownRansomwareCampaignUse||""),
+              url:"https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+              verification:"official_catalog_entry"
+            }));
+        } else {
+          items = (Array.isArray(raw.data) ? raw.data : []).slice(0,limit).map(v=>({
+            cve:String(v.cve||""),epss:Number(v.epss),percentile:Number(v.percentile),
+            score_date:String(v.date||""),url:"https://www.first.org/epss/",
+            verification:"official_probability_estimate"
+          })).filter(v=>/^CVE-\d{4}-\d{4,10}$/i.test(v.cve)&&Number.isFinite(v.epss));
+        }
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",kind,source:origin,
+          retrieved_at:new Date().toISOString(),verification:kind === "news"
+            ? "Article listings are not independent confirmation of claims."
+            : "Data from the named publisher; applicability and context require verification.",
+          items,source_url:endpoint,paid_api_required:false});
+      } catch(error) {
+        return json({status:"unavailable",kind,source:origin,items:[],verification:"not_checked",
+          error:"Public source request failed.",error_code:String(error?.name||"SourceError")},502);
+      }
+    }
+
     if (url.pathname === "/" && request.method === "GET") {
       return json({
         app: "Pocket AI",
