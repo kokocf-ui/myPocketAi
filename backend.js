@@ -396,7 +396,13 @@ function sourceBackedEventRows(sources,request,language='ro'){
   if(!title||!source.url)continue;
   const normalizedTitle=norm(title.replace(/^(?:program|programul)\s*[:\-–—]\s*/iu,''));
   const generic=genericName.test(normalizedTitle);
-  if(!eventName.test(normalizedTitle)&&!generic){rejectedGeneric++;continue;}
+  // General event calendars and ticket-category pages often concatenate
+  // multiple unrelated listings in a single search excerpt. Never invent
+  // a single "event" by assigning the first date to the entire excerpt.
+  if(generic||/^(?:bilete(?:\s+la)?|tickets?|buy tickets|event tickets|evenimente culturale)\b/iu.test(normalizedTitle)){
+    rejectedGeneric++;continue;
+  }
+  if(!eventName.test(normalizedTitle)){rejectedGeneric++;continue;}
   const snippets=(Array.isArray(source.snippets)?source.snippets:[]).slice(0,3).map(x=>String(x||'').replace(/\s+/g,' ').trim());
   const evidence=[title,...snippets,source.pageEvidence||''].join(' ');
   if(place&&!norm(evidence).split(' ').includes(place))continue;
@@ -404,7 +410,11 @@ function sourceBackedEventRows(sources,request,language='ro'){
   if(yearsInTitle.length&&!yearsInTitle.includes(year)){rejectedNoYear++;continue;}
   const yearsInEvidence=[...evidence.matchAll(/\b20\d{2}\b/g)].map(m=>Number(m[0]));
   if(!yearsInEvidence.includes(year)&&!String(source.publishedDate||'').startsWith(String(year))){rejectedNoYear++;continue;}
-  const candidates=generic?snippets.filter(x=>eventName.test(norm(x))):[title,...snippets.map(snippet=>title+' — '+snippet)];
+  // The headline, not a joined description of several events, is the
+  // evidence unit. Date may be read from one concise snippet only if the
+  // headline is about a specific event and contains no date itself.
+  const snippetsSafe=snippets.filter(v=>!/\.\.\.|…|<\/?[a-z][^>]*>/i.test(v)&&v.length<=220);
+  const candidates=[title,...snippetsSafe.map(v=>title+' — '+v)];
   const records=[];
   for(const text of candidates){
    const parsed=eventRowsFromReply('1. '+text,request,language);
@@ -415,8 +425,10 @@ function sourceBackedEventRows(sources,request,language='ro'){
   }
   if(!records.length){rejectedNoDate++;continue;}
   for(const {record,text} of records){
-   let cleanTitle=generic?String(record.description||'').slice(0,190):title.replace(/^(?:program|programul)\s*[:\-–—]\s*/iu,'').replace(/\s*(?:[-–—:]\s*(?:bilete|tickets|evenimente|eventbrite|facebook events).*)$/iu,'').trim();
-   if(generic&&!eventName.test(norm(cleanTitle)))continue;
+   let cleanTitle=title.replace(/<[^>]*>/g,' ').replace(/&(?:nbsp|amp|quot|#39);/gi,' ').replace(/^(?:program|programul)\s*[:\-–—]\s*/iu,'').replace(/\s*(?:[-–—:]\s*(?:bilete|tickets|evenimente|eventbrite|facebook events).*)$/iu,'').replace(/\s+/g,' ').trim().slice(0,165);
+   // Search listing pages and concatenated snippets are never event names.
+   if(/(?:\.\.\.|…|<|>|\s{3,})/.test(cleanTitle))continue;
+   if(!eventName.test(norm(cleanTitle)))continue;
    cleanTitle=cleanTitle.replace(/^\s*[,;:–—-]\s*/,'').trim();
    if(!cleanTitle||cleanTitle.length<8)continue;
    // Render month names in the selected interface language (e.g. December -> decembrie).
@@ -454,7 +466,9 @@ function sourceBackedEventRows(sources,request,language='ro'){
   for(const style of ['long','short'])monthNames.set(norm(new Intl.DateTimeFormat(lng,{month:style,timeZone:'UTC'}).format(new Date(Date.UTC(year,m-1,5)))).replace(/\s/g,''),m);
  }
  const sortKey=date=>{
-  const z=norm(date).match(/\b(\d{1,2})\s+([\p{L}]+)\b/u);
+  // Preserve the first calendar day for date ranges such as 10–21 november.
+  const start=norm(String(date).replace(/^(\d{1,2})\s*[-–—]\s*\d{1,2}\s+/u,'$1 '));
+  const z=start.match(/\b(\d{1,2})\s+([\p{L}]+)\b/u);
   if(z)return (monthNames.get(z[2])||13)*100+Number(z[1]);
   const w=norm(date).match(/\b([\p{L}]+)\s+(\d{1,2})\b/u);
   return w?(monthNames.get(w[1])||13)*100+Number(w[2]):9999;
