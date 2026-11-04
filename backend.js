@@ -5029,7 +5029,7 @@ export default {
         if(!urlPath||urlPath==="/")continue;
         if(/^(?:\/emisiuni|\/stiri|\/stiri-video|\/category|\/tag|\/search)(?:\/|$)/i.test(urlPath)&&urlPath.split("/").filter(Boolean).length<=2)continue;
         const slug=urlPath.split("/").filter(Boolean).at(-1)||"";
-        if(/^(?:news|world|politics|international|latest|home|index|articles|updates)$/i.test(slug))continue;
+        if(/^(?:news|world|politics|international|latest|home|index|articles|updates|emisiuni|stiri|stiri-video|ziua-si)$/i.test(slug))continue;
         const key=originalTitle.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
         if(!key||seenTitles.has(key))continue;
         if(/(?:breaking news|latest news|stiri de ultima ora|știri de ultimă oră|world news summary|news summary|latest headlines|monthly geopolitical report|live fm|news live|live updates)\b/i.test(originalTitle))continue;
