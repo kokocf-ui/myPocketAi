@@ -1680,7 +1680,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
   const confirmed=card(t('Confirmă localitatea / adresa','Confirm destination'),()=>{
    const pendingNumber=cityOnly?'':fields.number?.input.value.trim();
    const pendingStreet=cityOnly?'':fields.street?.input.value.trim();
-   if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)||(postcode.value.trim()&&!selected.number&&!selected.city)){
+   if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)||(postcode.value.trim()&&!selected.number)){
     status.textContent=t('Adresa introdusă nu este verificată. Alege o sugestie sau golește câmpurile neverificate pentru a continua la centrul localității.','The typed address is unverified. Select a verified suggestion or clear unverified fields to continue to the town centre.');
     return;
    }
