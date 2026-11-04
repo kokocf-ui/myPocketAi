@@ -1179,7 +1179,7 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 .answer-reader :focus-visible{outline:2px solid #6de7e6;outline-offset:2px}
 @media(max-width:400px){.transit-steps{font-size:14px!important}.transit-steps th,.transit-steps td{padding:8px 4px!important}}.travel-mode-table{width:100%;border-collapse:collapse;margin-top:12px}.travel-mode-table caption{text-align:left;font-weight:700}.travel-mode-table td{padding:3px 0}.travel-mode-table button{margin:3px 0}.transit-steps{width:100%;table-layout:fixed;border-collapse:collapse;margin:12px 0 20px;font-size:16px;line-height:1.4}.transit-steps caption{text-align:left;font-weight:700;margin-bottom:8px}.transit-steps th,.transit-steps td{padding:10px 7px;border-bottom:1px solid #35566a;text-align:left;vertical-align:top;overflow-wrap:anywhere}.transit-steps th:first-child{width:13%}.transit-steps th:last-child{width:26%}.transit-steps td:last-child{font-variant-numeric:tabular-nums;white-space:nowrap}.transit-steps td div{margin-top:4px}.transit-choice-action>strong{display:block;margin-bottom:6px}.transit-card-metrics{margin-top:6px;font-size:.9em;color:#b9d8e5}.transit-return-panel{flex-shrink:0;padding:0 14px}.transit-return-panel:empty{display:none}.transit-back-options{width:100%;margin:8px 0!important}.transit-choice-action{display:block;width:100%;padding:12px;margin:8px 0;border:1px solid #3e8194;border-radius:14px;background:#112c40;color:#edf6fb;font:inherit;text-align:left;line-height:1.4;white-space:pre-wrap}.transit-choice-action:disabled{opacity:.65}.transit-leg{padding:8px 0;border-bottom:1px solid #35566a;line-height:1.5;overflow-wrap:anywhere}.selected-transit{margin-bottom:10px;padding:8px;border:1px solid #3e8194;border-radius:12px}.selected-transit summary{cursor:pointer;font-weight:700;line-height:1.4}.transit-access-status{line-height:1.4}.route-options{padding:6px 14px;flex-shrink:0;font-size:14px}.route-options label{display:block}.route-options select,.route-options input{display:block;width:100%;max-width:100%;min-height:40px;margin:5px 0;padding:6px;background:#12354b;color:#edf6fb;border:1px solid #5597ac;border-radius:9px;font:inherit}.route-options summary{cursor:pointer;padding:5px 0}.route-options details[open]{max-height:150px;overflow:auto}.route-options .route-map-open{width:100%;margin:5px 0}.route-map-window.navigating .route-options,.route-map-window.navigating>a{display:none}.route-map-window [hidden]{display:none!important}.route-live-status{font-weight:600}.route-recenter{font-size:13px!important}.route-map-window{position:fixed;z-index:100;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:#0b2233;color:#edf6fb;border:2px solid #3b7185;border-radius:22px;box-shadow:0 12px 45px #000b}
 .route-map-header{display:grid;grid-template-columns:minmax(76px,auto) minmax(0,1fr) minmax(76px,auto);gap:6px;align-items:center;padding:8px;border-bottom:1px solid #33556b}.route-map-header h2{min-width:0;margin:0;font-size:17px;text-align:center;overflow-wrap:anywhere}.route-map-header button.route-header-action{width:auto;min-height:42px;padding:6px 7px;border:1px solid #5597ac;border-radius:10px;background:#12354b;color:#e4ffff;font-size:12px;font-weight:700}.route-map-status{margin:8px 14px;font-size:14px}.route-map-window>a{color:var(--cyan);margin:0 14px 10px;font-size:14px}.route-map-canvas{flex:1 1 0;min-height:140px;background:#e4e7ea}.route-directions{flex:0 1 auto;max-height:32%;overflow:auto;padding:10px 14px;border-top:1px solid #33556b;overscroll-behavior:contain}.route-directions ol{padding-left:22px;margin:8px 0}.route-directions li{padding:5px 0}.route-map-window>.route-map-open{flex-shrink:0;margin:0 14px 8px;font-size:14px;text-align:center}.route-map-open{display:block;min-height:40px;margin-top:10px;padding:8px 12px;border:1px solid #59c3d2;border-radius:12px;background:#0b354d;color:#d7ffff;font:inherit;font-size:14px}
-.travel-mode-table,.travel-confirm-panel{width:100%;max-width:100%;background:linear-gradient(150deg,#102f44,#081b2a)!important;color:#e8f8ff!important;border:1px solid #3b91a4;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px #0006}.travel-mode-table caption{background:#12394f!important;color:#e8f8ff!important;padding:12px;font-weight:700}.travel-mode-table td,.travel-mode-table tr{background:transparent!important;color:#e8f8ff!important;border-color:#315c70!important}.travel-mode-table button{background:#123a50!important;color:#e8f8ff!important;border:1px solid #438ba0!important}.route-map-window.navigating{border-radius:0!important;border:0!important}.route-map-window.navigating .route-directions{max-height:23%}.route-map-window.navigating .route-map-canvas{min-height:55%}
+.travel-mode-table,.travel-confirm-panel{width:100%;max-width:100%;background:linear-gradient(150deg,#102f44,#081b2a)!important;color:#e8f8ff!important;border:1px solid #3b91a4;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px #0006}.travel-mode-table caption{background:#12394f!important;color:#e8f8ff!important;padding:12px;font-weight:700}.travel-mode-table td,.travel-mode-table tr{background:transparent!important;color:#e8f8ff!important;border-color:#315c70!important}.travel-mode-table button{background:#123a50!important;color:#e8f8ff!important;border:1px solid #438ba0!important}.route-map-window.navigating{border-radius:0!important;border:0!important}.route-map-window.navigating .route-directions{max-height:23%}.route-map-window.navigating .route-map-canvas{min-height:60%}body.pocket-navigation-fullscreen .bottom-nav{display:none!important}.bottom-nav{z-index:120}.route-map-window.navigating .route-map-status{margin:4px 12px;font-size:13px}.route-map-window.navigating>.route-map-open{min-height:38px;margin:0 12px 4px;padding:5px}.route-map-window.navigating .route-directions{max-height:17%;font-size:13px}.route-map-window.navigating .route-map-canvas{flex:1 1 auto}
 
 /* v1.0.113 — Native browser dialog: transport and result lists open on first tap. */
 .long-choice-dialog{position:fixed;box-sizing:border-box;inset:0;margin:auto;padding:0;width:calc(100vw - 24px);max-width:560px;max-height:calc(100dvh - 32px);border:2px solid #4d94a7;border-radius:20px;background:#0d2537;color:#eaf8ff;box-shadow:0 18px 50px #000c;overflow:hidden}
@@ -2789,23 +2789,54 @@ function projectWalkingPosition(route,latitude,longitude){
  for(let i=1;i<route.coordinates.length;i++){const a=route.coordinates[i-1],b=route.coordinates[i],ax=a[0]*sx,ay=a[1]*sy,dx=(b[0]-a[0])*sx,dy=(b[1]-a[1])*sy,len=Math.hypot(dx,dy),t=len?Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/(len*len))):0,d=Math.hypot(x-ax-t*dx,y-ay-t*dy);if(d<best){best=d;along=total+t*len}total+=len;}
  const length=Number.isFinite(route.distanceMeters)?route.distanceMeters:total;return {away:best,remaining:total?Math.max(0,(1-along/total)*length):0};
 }
+function routeBearing(lat1,lon1,lat2,lon2){
+ const a=lat1*Math.PI/180,b=lat2*Math.PI/180,d=(lon2-lon1)*Math.PI/180;
+ return (Math.atan2(Math.sin(d)*Math.cos(b),Math.cos(a)*Math.sin(b)-Math.sin(a)*Math.cos(b)*Math.cos(d))*180/Math.PI+360)%360;
+}
+function nearestRouteBearing(route,lat,lon){
+ let best=Infinity,heading=null;const cos=Math.cos(lat*Math.PI/180);
+ for(let i=1;i<(route.coordinates||[]).length;i++){
+  const p=route.coordinates[i-1],q=route.coordinates[i],ax=(p[0]-lon)*cos,ay=p[1]-lat,dx=(q[0]-p[0])*cos,dy=q[1]-p[1],len=dx*dx+dy*dy,t=len?Math.max(0,Math.min(1,-(ax*dx+ay*dy)/len)):0;
+  const d=(ax+t*dx)**2+(ay+t*dy)**2;
+  if(d<best){best=d;heading=routeBearing(p[1],p[0],q[1],q[0])}
+ }
+ return heading;
+}
+let routeRotationLoading=null;
+function loadRouteRotationLibrary(){
+ if(typeof window.L?.Map?.prototype?.setHeading==='function')return Promise.resolve(true);
+ if(routeRotationLoading)return routeRotationLoading;
+ routeRotationLoading=new Promise(resolve=>{
+  const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/@tomickigrzegorz/leaflet-rotate@0.3.0/dist/leaflet-rotate.umd.min.js';script.async=true;
+  let done=false;const finish=()=>{if(done)return;done=true;clearTimeout(timer);resolve(typeof window.L?.Map?.prototype?.setHeading==='function')};
+  const timer=setTimeout(finish,3500);script.onload=finish;script.onerror=finish;document.head.append(script);
+ });
+ return routeRotationLoading;
+}
 function stopRouteTracking(current,message){
- if(!current)return;current.navigating=false;if(current.watchId!==null&&current.watchId!==undefined){navigator.geolocation?.clearWatch(current.watchId);current.watchId=null}clearTimeout(current.gpsTimer);current.gpsTimer=null;current.liveMarker?.remove();current.liveMarker=null;current.layer.classList?.remove('navigating');if(current.navigation)current.navigation.textContent=routeLiveText()[0];if(current.recenter)current.recenter.hidden=true;if(current.liveStatus){current.liveStatus.textContent=message||'';current.liveStatus.hidden=!message}
+ if(!current)return;current.navigating=false;document.body.classList?.remove('pocket-navigation-fullscreen');current.map?.stopHeadingUp?.();current.resize?.();if(current.watchId!==null&&current.watchId!==undefined){navigator.geolocation?.clearWatch(current.watchId);current.watchId=null}clearTimeout(current.gpsTimer);current.gpsTimer=null;current.liveMarker?.remove();current.liveMarker=null;current.layer.classList?.remove('navigating');if(current.navigation)current.navigation.textContent=routeLiveText()[0];if(current.recenter)current.recenter.hidden=true;if(current.liveStatus){current.liveStatus.textContent=message||'';current.liveStatus.hidden=!message}
 }
 function startRouteTracking(current){
  if(activeRouteMap!==current||!current.map||current.navigating)return;const t=routeLiveText();
  if(typeof navigator==='undefined'||!navigator.geolocation?.watchPosition){current.liveStatus.hidden=false;current.liveStatus.textContent=t[4];return}
- current.navigating=true;current.watchId=null;current.follow=true;current.firstFix=true;current.layer.classList?.add('navigating');current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];
+ current.navigating=true;current.watchId=null;current.follow=true;current.firstFix=true;current.layer.classList?.add('navigating');document.body.classList?.add('pocket-navigation-fullscreen');current.resize?.();current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];
  const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
  const success=position=>{
   if(!current.navigating||activeRouteMap!==current)return;const c=position?.coords,age=Date.now()-position?.timestamp;
   if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180||!Number.isFinite(c.accuracy)||c.accuracy<0||!Number.isFinite(age)||age>30000||age< -5000){current.liveStatus.textContent=t[8];return}
-  stale();current.lastFix=[c.latitude,c.longitude];
+  stale();const previousFix=current.lastFix;current.lastFix=[c.latitude,c.longitude];
   if(current.liveMarker)current.liveMarker.setLatLng(current.lastFix);else current.liveMarker=current.leaflet.circleMarker(current.lastFix,{radius:8,color:'#ffffff',fillColor:'#05d6dc',fillOpacity:1,weight:3}).addTo(current.map);
   current.liveMarker?.setStyle?.({opacity:1,fillOpacity:1});
   if(current.follow){if(current.firstFix){current.map.setView(current.lastFix,16,{animate:false});current.firstFix=false}else current.map.panTo(current.lastFix,{animate:false})}
   const accuracy=' ±'+Math.round(c.accuracy)+' m';
   if(c.accuracy>60){current.liveStatus.textContent=t[7]+accuracy;return}
+  let heading=Number.isFinite(c.heading)&&c.heading>=0&&c.speed>=0.5?c.heading:null;
+  if(heading===null&&previousFix){
+   const delta=Math.hypot((c.latitude-previousFix[0])*111320,(c.longitude-previousFix[1])*111320*Math.cos(c.latitude*Math.PI/180));
+   if(delta>=8)heading=routeBearing(previousFix[0],previousFix[1],c.latitude,c.longitude);
+  }
+  if(heading===null)heading=nearestRouteBearing(current.route,c.latitude,c.longitude);
+  if(Number.isFinite(heading)){current.lastHeading=heading;current.map?.setHeading?.(heading)}
   if(typeof saveLocation==='function')saveLocation(c);
   const projected=projectWalkingPosition(current.route,c.latitude,c.longitude);
   current.liveStatus.textContent=projected.away>Math.max(60,c.accuracy*2)?t[9]+accuracy:t[6]+': '+Math.round(projected.remaining).toLocaleString(state.language)+' m'+accuracy;
@@ -2839,7 +2870,7 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
  dismissSelectionKeyboard();
  if(!validMapRoute(route))return;state.lastRoute=route;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
  const layer=document.createElement('section');layer.className='route-map-window';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
- const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const previous=document.createElement('button');previous.type='button';previous.className='route-header-action';previous.textContent=dialogText("Anterior","Previous");previous.onclick=()=>{const transitOptions=transitOptionsForRoute(route);closeRouteMap(false);if(transitOptions?.length)showTransitChoices(transitOptions);else openWalkingRouteChoices(route,options)};const returning=document.createElement('button');returning.type='button';returning.className='route-header-action';returning.textContent=dialogText("Revenire","Return");returning.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else{closeRouteMap(false);if(state.currentView==='module')showView('module');else showView('home')}};header.append(previous,title,returning)
+ const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const previous=document.createElement('button');previous.type='button';previous.className='route-header-action';previous.textContent=dialogText("Anterior","Previous");previous.onclick=()=>{const transitOptions=transitOptionsForRoute(route);closeRouteMap(false);if(transitOptions?.length)showTransitChoices(transitOptions);else openWalkingRouteChoices(route,options)};const returning=document.createElement('button');returning.type='button';returning.className='route-header-action';returning.textContent=dialogText("Închide harta","Close map");returning.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else{closeRouteMap(false);if(state.currentView==='module')showView('module');else showView('home')}};header.append(previous,title,returning)
  const status=document.createElement('p');status.className='route-map-status';status.textContent=t.loading;
  const external=document.createElement('a');external.target='_blank';external.rel='noopener noreferrer';external.textContent=routeLiveText()[10];
  external.href=routeNavigationUrl(route);
@@ -2851,13 +2882,14 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
  if(list.children.length)stepsPanel.append(list);else{const missing=document.createElement('p');missing.textContent=routeActionsText().noSteps;stepsPanel.append(missing)}
  
  const host=document.createElement('div');host.className='route-map-canvas';layer.append(header,status,navigation,recenter,liveStatus,host,stepsPanel);document.body.append(layer);
- const current={layer,origin,route,navigation,recenter,liveStatus,map:null,watchId:null,navigating:false,cleanup:()=>{}};recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
- const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;layer.style.bottom=(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';current.map?.invalidateSize()};
+ const current={layer,origin,route,navigation,recenter,liveStatus,map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null};recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
+ const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;layer.style.bottom=current.navigating?'0px':(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';current.map?.invalidateSize()};current.resize=resize;
  const key=e=>{if(e.key==='Escape'){e.preventDefault();closeRouteMap()}};
  window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);document.addEventListener('keydown',key);current.cleanup=()=>{window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize);document.removeEventListener('keydown',key)};
  resize();previous.focus({preventScroll:true});
  try{const L=await loadRouteMapLibrary();if(activeRouteMap!==current||!layer.isConnected)return;
-  const map=L.map(host);current.map=map;current.leaflet=L;requestAnimationFrame(()=>{if(activeRouteMap===current)map.invalidateSize()});map.on?.('dragstart',()=>{current.follow=false});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+  const rotateReady=await loadRouteRotationLibrary();if(activeRouteMap!==current||!layer.isConnected)return;
+  const map=L.map(host,{rotate:rotateReady});current.map=map;current.leaflet=L;requestAnimationFrame(()=>{if(activeRouteMap===current)map.invalidateSize()});map.on?.('dragstart',()=>{current.follow=false});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
   const points=route.coordinates.map(p=>[p[1],p[0]]),allPoints=[...points];
   for(const alternative of (options||[]).filter(validMapRoute)){if(alternative===route||(alternative.id&&alternative.id===route.id))continue;const grey=alternative.coordinates.map(p=>[p[1],p[0]]);allPoints.push(...grey);const other=L.polyline(grey,{color:'#647f91',weight:6,opacity:.65}).addTo(map);other.on?.('click',()=>{state.lastRoute=alternative;openRouteMap(alternative,null,options)})}
   L.polyline(points,{color:'#087fd9',weight:5,opacity:1}).addTo(map);L.circleMarker(points[0],{radius:6,color:'#128a42'}).addTo(map);L.circleMarker(points.at(-1),{radius:6,color:'#c43737'}).addTo(map);map.fitBounds(allPoints,{padding:[22,22]});requestAnimationFrame(()=>{if(activeRouteMap===current){map.invalidateSize();map.fitBounds(allPoints,{padding:[22,22]})}});status.textContent=(route.distanceMeters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km'+(Number.isFinite(route.durationSeconds)?' · '+formatTravelDurationMinutes(route.durationSeconds/60):'');
@@ -3689,7 +3721,7 @@ $('chatForm').addEventListener('submit',event=>{event.preventDefault();submitMes
 $('newChatBtn').addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}archiveCurrentConversation();resetChat();void 0});
 // 08 — Navigation and module entry points; v1.0.24 quick searches stay inside the selected module
 for(const button of document.querySelectorAll('[data-module]'))button.addEventListener('click',()=>openModule(button.dataset.module));
-for(const button of document.querySelectorAll('[data-nav]'))button.addEventListener('click',()=>{const name=button.dataset.nav;if(name==='home')showView('home');else showView(name)});
+for(const button of document.querySelectorAll('[data-nav]'))button.addEventListener('click',()=>{const name=button.dataset.nav;closeRouteMap(false);closeAnswerReader(false);closeLongChoice();showView(name)});
 for(const button of document.querySelectorAll('[data-back]'))button.addEventListener('click',()=>showView('home'));
 $('askModuleBtn').addEventListener('click',()=>{if(state.currentView!=='module')return;inputEl.focus();setStatus('Scrie întrebarea în conversația modulului selectat.');});
 $('moduleQuickTrigger').addEventListener('click',openModuleQuickLayer);
