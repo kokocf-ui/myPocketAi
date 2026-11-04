@@ -1232,10 +1232,10 @@ export default {
     }
 
     if (data?.address_lookup) {
-      const {stage,country,city,street,query,postcode,cityPoint}=data.address_lookup;
+      const {stage,country,city,street,query,postcode,cityPoint,region=''}=data.address_lookup;
       const types={city:'city',street:'street',number:'building'};
       if (!Object.hasOwn(types,stage) || !/^[a-z]{2}$/.test(country||'') ||
-          ![query,city,street,postcode].every(value=>typeof value==='string'&&value.length<=160) ||
+          ![query,city,street,postcode,region].every(value=>typeof value==='string'&&value.length<=160) ||
           (!query.trim() && stage==='city') || (stage!=='city'&&!city))
         return json({error:'Invalid address search'},400);
       let tomtomStatus=env.TOMTOM_API_KEY?'not_used':'not_configured';
@@ -1269,8 +1269,9 @@ export default {
       const autocomplete=Boolean(query.trim())&&stage!=='number';
       const url=new URL(autocomplete?'https://api.geoapify.com/v1/geocode/autocomplete':'https://api.geoapify.com/v1/geocode/search');
       const normalize=value=>String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
+       const normRegion=value=>normalize(value).replace(/^(?:judet(?:ul)?|county|province|provincia)\s+/,'').replace(/\s+(?:county|province)$/,'');
       url.search=new URLSearchParams({
-        text:(stage==='city'?[query]:stage==='street'?[query,city]:[[street,query].filter(Boolean).join(' '),city,postcode]).filter(Boolean).join(', '),
+        text:(stage==='city'?[query,region]:stage==='street'?[query,city,region]:[[street,query].filter(Boolean).join(' '),city,region,postcode]).filter(Boolean).join(', '),
         ...(stage==='number'?{}:{type:types[stage]}),filter:'countrycode:'+country,bias:'countrycode:none',format:'json',limit:'20',apiKey:env.GEOAPIFY_API_KEY
       });
       try {
@@ -1282,11 +1283,11 @@ export default {
         }
         if(stage==='street'&&autocomplete){
           const cityFirst=new URL(url);
-          cityFirst.searchParams.set('text',city+', '+query);
+          cityFirst.searchParams.set('text',[city,query,region].filter(Boolean).join(', '));
           alternatives.unshift(cityFirst);
           if(country==='ro'&&!/^(strada|str\.?|bulevardul|calea|alee\w*)\s/i.test(query)){
             const streetPrefix=new URL(url);
-            streetPrefix.searchParams.set('text','Strada '+query);
+            streetPrefix.searchParams.set('text',['Strada '+query,city,region].filter(Boolean).join(', '));
             if(Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude))
               streetPrefix.searchParams.set('bias','proximity:'+cityPoint.longitude+','+cityPoint.latitude);
             alternatives.unshift(streetPrefix);
@@ -1294,7 +1295,7 @@ export default {
         }
         if(stage==='street'&&autocomplete&&Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude)){
           const prefix=new URL(url);
-          prefix.searchParams.set('text',query);
+          prefix.searchParams.set('text',[query,city,region].filter(Boolean).join(', '));
           prefix.searchParams.set('bias','proximity:'+cityPoint.longitude+','+cityPoint.latitude);
           alternatives.unshift(prefix);
         }
@@ -1324,6 +1325,11 @@ export default {
         const candidates=results.flatMap(place=>{
           const towns=[place.city,place.town,place.village,place.hamlet,place.municipality,place.name];
           if(place.country_code!==country || !Number.isFinite(place.lat) || !Number.isFinite(place.lon))return [];
+           if(region){
+             // Do not accept the same town name in another county/state.
+             const expected=normRegion(region),areas=[place.county,place.state,place.region,place.state_district].filter(Boolean);
+             if(!areas.some(a=>normRegion(a)===expected))return [];
+           }
           if(stage!=='city'&&!towns.slice(0,5).some(value=>normalize(value)===normalize(city)))return [];
           if(stage==='street'&&(!place.street||place.result_type!=='street'))return [];
           if(stage==='street'){
@@ -1333,7 +1339,7 @@ export default {
           }
           if(stage==='number'&&(!['building','amenity'].includes(place.result_type)||(street&&normalize(place.street)!==normalize(street))||!place.housenumber||
               (postcode&&place.postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
-          if(stage==='city'&&place.result_type!=='city')return [];
+          if(stage==='city'&&!/^(?:city|town|village|hamlet|municipality|locality)$/.test(String(place.result_type||'')))return [];
           const cityName=String(place.city||place.town||place.village||place.hamlet||place.name||'');
           if(stage==='city'&&(!normalize(cityName).startsWith(normalize(query))||
               /metropolitan area|zona metropolitana|metropolitan region/i.test(normalize(cityName))))return [];
