@@ -38,6 +38,15 @@ assert(frontend.includes('Unverified address text is NOT a destination.'),'unver
 assert(frontend.includes("approximateButton.hidden=!selected.city"),'town-centre fallback requires a verified locality');
 assert(frontend.includes("function prewarmStreets()"),'shared picker indexes available streets before typing');
 assert(backend.includes("piedmont:'piemonte'"),'Italian province local names and English names are reconciled');
+// An administrative village reference has no lat/lon: resolve its scoped map point
+// silently rather than asking the user to select Alba a second time.
+assert(frontend.includes("if(type==='city'&&prefillCity&&!prefillCityPoint&&!option._localityLookupDone)"),'administrative village is silently verified');
+assert(frontend.includes("openAssistantStructuredAddress({...option,_localityLookupDone:true"),'verified administrative village stays in the shared picker');
+assert(frontend.includes('fields.city.row.hidden=true'),'the already selected village is not selectable again');
+assert(frontend.includes('selected.city={city:String(prefillCity)'),'county-scoped village name survives failed geocoding');
+assert(frontend.includes("stage:'city',country:code,query:prefillCity"),'background municipality lookup keeps the chosen name');
+assert(backend.includes('city,region,postcode].filter(Boolean)'), 'rural house number geocoding includes the selected county');
+assert(backend.includes('a.municipalitySubdivision'), 'rural house numbers may use municipality subdivisions');
 // Test the real address_lookup handler in isolation using provider-shaped mock data.
 const originalFetch=globalThis.fetch;
 const seen=[];
