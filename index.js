@@ -1680,7 +1680,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
   const confirmed=card(t('Confirmă localitatea / adresa','Confirm destination'),()=>{
    const pendingNumber=fields.number?.input.value.trim();
    const pendingStreet=fields.street?.input.value.trim();
-   if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)){
+   if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)||(postcode.value.trim()&&!selected.number)){
     status.textContent=t('Adresa introdusă nu este verificată. Alege o sugestie sau golește câmpurile neverificate pentru a continua la centrul localității.','The typed address is unverified. Select a verified suggestion or clear unverified fields to continue to the town centre.');
     return;
    }
@@ -1787,7 +1787,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    clearTimeout(timer);
    if(selected.number)fields.number.input.value=selected.number.houseNumber||fields.number.input.value;
    delete selected.number;
-   confirmed.disabled=!selected.street&&!(withoutStreet&&selected.city);
+   confirmed.disabled=!selected.city;
    fields.number.list.replaceChildren();
    if(selected.city&&!fields.number.input.disabled&&fields.number.input.value.trim()){
     timer=setTimeout(()=>{if(postcode.isConnected)lookup('number');},350);
