@@ -740,6 +740,18 @@ return `<!doctype html>
 .module-places-results .module-place-details{margin:12px;border:0;border-radius:0;background:transparent}
 .module-place-details{padding:15px;border:1px solid var(--line);border-radius:15px;background:var(--panel);line-height:1.6;overflow-wrap:anywhere}
 .module-place-details a{color:var(--cyan);font-weight:750}
+/* Compact quick-selection place sheet: fixed header actions and independent detail scrolling. */
+.module-quick-sheet.details-mode #moduleLayerBody{min-height:0;overflow-y:auto;overscroll-behavior:contain;max-height:calc(100dvh - 190px)}
+.module-quick-sheet.details-mode .module-place-details{padding:10px 12px;display:flex;flex-direction:column;gap:7px}
+.module-quick-sheet.details-mode .place-detail-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:3;background:var(--panel);padding:4px 0 8px}
+.module-quick-sheet.details-mode .place-detail-identity{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
+.module-quick-sheet.details-mode .place-detail-identity h3{font-size:15px;line-height:1.25;overflow-wrap:anywhere;margin:0}
+.module-quick-sheet.details-mode .place-detail-actions{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex:0 0 112px}
+.module-quick-sheet.details-mode .place-detail-route{width:112px;min-height:38px;padding:6px;font-size:12px}
+.module-quick-sheet.details-mode .place-detail-photo{width:112px;height:74px;border-radius:9px;overflow:hidden;background:#17384b;cursor:zoom-in;display:flex;align-items:center;justify-content:center}
+.module-quick-sheet.details-mode .place-detail-photo img{width:100%;height:100%;object-fit:cover}
+.module-quick-sheet.details-mode .module-place-details p{margin:2px 0}
+
 .module-quick-body .primary-btn{width:100%;min-height:48px}
 .notice{position:fixed;z-index:40;left:18px;right:18px;bottom:calc(100px + env(safe-area-inset-bottom));padding:12px 14px;border-radius:14px;border:1px solid #437286;background:#102d40;box-shadow:0 10px 30px #0008;display:none}.notice.show{display:block}.notice{top:calc(8px + env(safe-area-inset-top));bottom:auto!important;pointer-events:none;font-size:14px;max-height:90px;overflow:hidden}.muted{color:var(--muted)}.small{font-size:13px}
 @media(max-width:390px){.page{padding:10px}.card-grid{gap:8px}.feature-card{min-height:clamp(128px,17.5vh,148px)}.card-art{height:clamp(45px,6vh,54px);font-size:30px}.card-body{padding:7px 8px}.app-header{padding:12px}.brand-mark{width:54px;height:54px}.nav-btn{font-size:11px}}
@@ -1621,7 +1633,12 @@ function mountPlaceThumbnail(host,place){
 function renderModulePlaceDetails(place){state.moduleSearchReturnMode='details';state.lastQuickPlace=place;$('moduleLayerBody').style.cssText='';document.querySelector('.module-quick-sheet')?.classList.add('details-mode');
  document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');
  const body=$('moduleLayerBody');body.innerHTML='';const card=document.createElement('div');card.className='module-place-details';
- const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=String(place.name||t.location);const logo=document.createElement('span');logo.className='module-place-result-icon place-detail-logo';logo.setAttribute('aria-hidden','true');mountPlaceThumbnail(logo,place);const heading=document.createElement('div');heading.className='place-detail-header';heading.append(title,logo);card.append(heading);
+ const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=String(place.name||t.location);const logo=document.createElement('span');logo.className='module-place-result-icon place-detail-logo';logo.setAttribute('aria-hidden','true');mountPlaceThumbnail(logo,place);const heading=document.createElement('div');heading.className='place-detail-header';
+ const headingIdentity=document.createElement('div');headingIdentity.className='place-detail-identity';headingIdentity.append(logo,title);
+ const actions=document.createElement('div');actions.className='place-detail-actions';
+ const go=document.createElement('button');go.type='button';go.className='primary-btn place-detail-route';go.textContent=dialogText("Alege traseul","Choose route");go.onclick=()=>{if(state.busy)return;offerPlaceTravelModes(place)};
+ const photo=document.createElement('div');photo.className='place-detail-photo';photo.setAttribute('aria-label',String(place.name||'')+' fotografie');mountPlaceThumbnail(photo,place);
+ actions.append(go,photo);heading.append(headingIdentity,actions);card.append(heading);
  enrichPlaceWebsite(place,card);
  const line=(label,value)=>{if(value===undefined||value===null||String(value).trim()==='')return;const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));card.append(p)};
  line(l.address,place.address||[place.house_number,place.street,place.city,place.postcode].filter(Boolean).join(', '));
@@ -1635,7 +1652,7 @@ function renderModulePlaceDetails(place){state.moduleSearchReturnMode='details';
  if(Array.isArray(place.rooms)){for(const room of place.rooms.slice(0,10)){if(!room||typeof room!=='object')continue;const p=document.createElement('p');p.textContent=[room.name||l.rooms,room.price&&room.currency?room.price+' '+room.currency:''].filter(Boolean).join(' · ');card.append(p)}}
  if(Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude)))line(t.coordinates,Number(place.latitude).toFixed(5)+', '+Number(place.longitude).toFixed(5));
  const url=typeof place.map_url==='string'&&place.map_url.startsWith('https://www.openstreetmap.org/')?place.map_url:'';if(url){const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=t.openMap;card.append(link)}
- const back=document.createElement('button');back.type='button';back.className='primary-btn';back.textContent=t.backResults;back.addEventListener('click',()=>renderModulePlaces(state.moduleSearchResults));const go=document.createElement('button');go.type='button';go.className='primary-btn';go.textContent=dialogText("Cum dorești să ajungi aici?","How would you like to get here?");go.onclick=()=>{if(state.busy)return;offerPlaceTravelModes(place)};body.append(card,go,back);$('moduleLayerTitle').textContent=t.placeDetails;body.scrollTop=0;
+ const back=document.createElement('button');back.type='button';back.className='primary-btn';back.textContent=t.backResults;back.addEventListener('click',()=>renderModulePlaces(state.moduleSearchResults));body.append(card,back);$('moduleLayerTitle').textContent=t.placeDetails;body.scrollTop=0;
 }
 const QUICK_SEARCH_ENGLISH={
 'Benzinării':'Find petrol stations near me.',
