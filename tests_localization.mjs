@@ -29,7 +29,7 @@ const nonJsonAi={run:async(_model,options)=>{
  const system=options.messages[0].content;
  if(system.includes("JSON array"))return {response:"The translated text is ready."};
  if(system.includes("JSON object"))return {response:"Translation without JSON braces"};
- return {response:"Title: Iranul și SUA continuă negocierile\\nSummary: Cele două țări continuă discuțiile diplomatice."};
+ return {response:"Title: Iranul și SUA continuă negocierile\nSummary: Cele două țări continuă discuțiile diplomatice."};
 }};
 const fixed=await localizeNewsRows([{title:"Iran and US continue negotiations",summary:"Both countries continue diplomatic talks.",url:"https://example.org"}],"ro",nonJsonAi,"mock");
 assert.equal(fixed[0].title,"Iranul și SUA continuă negocierile");
