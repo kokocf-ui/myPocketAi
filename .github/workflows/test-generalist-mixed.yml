@@ -14,6 +14,7 @@ on:
       - tests_geographic_profile_selection.mjs
       - tests_locality_list_unique.mjs
       - tests_persona_dialogue_regression.mjs
+      - tests_persona_relevance_regression.mjs
       - tests_frontend_dialog_i18n.mjs
       - tests_county_translation_regression.mjs
       - tests_assistant_address_picker_regression.mjs
@@ -46,6 +47,7 @@ jobs:
           node tests_geographic_profile_selection.mjs
           node tests_locality_list_unique.mjs
           node tests_persona_dialogue_regression.mjs
+          node tests_persona_relevance_regression.mjs
           node tests_frontend_dialog_i18n.mjs
           node tests_county_translation_regression.mjs
           node tests_assistant_address_picker_regression.mjs
