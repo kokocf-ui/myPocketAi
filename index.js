@@ -1690,6 +1690,38 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
   });
   confirmed.disabled=true;
   let generation=0,timer;
+  // Ephemeral suggestions, scoped to this destination picker only.
+  const localityIndex=new Map();
+  let localityEpoch=0;
+  const keyFor=(stage,q)=>[selected.country?.code||'',selected.city?.city||'',region,stage,normalize(q)].join('|');
+  const matchCached=(stage,q)=>{
+   const prefix=normalize(q),matches=new Map();
+   for(const [key,items] of localityIndex){
+    const parts=key.split('|');
+    if(parts[0]!==selected.country?.code||parts[1]!==selected.city?.city||parts[2]!==region||parts[3]!==stage)continue;
+    for(const point of items){
+     const label=stage==='street'?String(point.street||point.label||''):String(point.houseNumber||point.label||'');
+     if(normalize(label).startsWith(prefix)||normalize(label).split(/\\s+/).some(w=>w.startsWith(prefix)))matches.set(normalize(label),point);
+    }
+   }
+   return [...matches.values()].slice(0,30);
+  };
+  function prewarmStreets(){
+   if(cityOnly||!selected.city||!selected.country)return;
+   const epoch=++localityEpoch;
+   const snapshot={country:selected.country.code.toLowerCase(),city:selected.city.city,region,
+    cityPoint:{latitude:selected.city.latitude,longitude:selected.city.longitude}};
+   // Small bounded advance lookup; not a complete list of all streets.
+   const seeds=snapshot.country==='it'?['v','c','p']:snapshot.country==='ro'?['s','c','a']:['s','m','a'];
+   for(const query of seeds){
+    void fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({address_lookup:{...snapshot,stage:'street',query}})})
+     .then(r=>r.ok?r.json():null).then(data=>{
+       if(epoch!==localityEpoch||!data||!selected.city||selected.city.city!==snapshot.city)return;
+       if(Array.isArray(data.candidates)&&data.candidates.length)localityIndex.set(keyFor('street',query),data.candidates);
+     }).catch(()=>{});
+   }
+  }
   function clearAfter(stage){
    for(const key of order.slice(order.indexOf(stage)+1)){
     delete selected[key];fields[key].input.value='';fields[key].input.disabled=true;fields[key].list.replaceChildren();
@@ -1708,6 +1740,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    fields[stage].list.replaceChildren();
    clearAfter(stage);
    if(stage==='city'){
+    localityIndex.clear();prewarmStreets();
     fields.number.input.disabled=fields.number.search.disabled=cityOnly;
     fields.street.input.disabled=fields.street.search.disabled=cityOnly;
     status.textContent=t('Pentru centrul localității poți confirma acum. Pentru o adresă precisă, alege strada și numărul.','Confirm now for the town centre. For a specific address, select the street and house number.');
@@ -1734,7 +1767,11 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     return;
    }
    if(!query&&stage==='city'){list.replaceChildren();return;}
-   list.textContent=t('Se caută…','Searching…');
+   if(stage==='street'||stage==='number'){
+    const cached=matchCached(stage,query);
+    if(cached.length)list.replaceChildren(...cached.map((point,i)=>card((i+1)+'. '+point.label,()=>choose(stage,point))));
+    else list.textContent=t('Se caută…','Searching…');
+   }else list.textContent=t('Se caută…','Searching…');
    try{
     const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
      body:JSON.stringify({address_lookup:{stage,query,country:selected.country.code.toLowerCase(),
@@ -1742,6 +1779,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     if(!response.ok)throw new Error();
     const {candidates,attribution}=await response.json();
     if(!current())return;
+    if((stage==='street'||stage==='number')&&Array.isArray(candidates)&&candidates.length)localityIndex.set(keyFor(stage,query),candidates);
     if(discover){
      withoutStreet=!candidates.length;
      // No result from the street provider must never lock a rural address field.
@@ -1780,7 +1818,13 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    input.oninput=()=>{
     generation++;clearTimeout(timer);delete selected[stage];if(stage!=='number')withoutStreet=false;list.replaceChildren();clearAfter(stage);
     if(stage==='street'&&selected.city&&!cityOnly){fields.number.input.disabled=false;fields.number.search.disabled=false;}
-    if(input.value.trim().length>=1)timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},350);
+    if(input.value.trim().length>=1){
+     if(stage==='street'||stage==='number'){
+      const cached=matchCached(stage,input.value.trim());
+      if(cached.length)list.replaceChildren(...cached.map((point,i)=>card((i+1)+'. '+point.label,()=>choose(stage,point))));
+     }
+     timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},stage==='street'?80:200);
+    }
    };
    input.onkeydown=event=>{if(event.key==='Enter')search.click();};
    line.append(input,search);row.append(line,list);body.append(row);
@@ -1807,6 +1851,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
      confirmed.disabled=false;
      if(!cityOnly){fields.street.input.disabled=fields.street.search.disabled=false;fields.number.input.disabled=fields.number.search.disabled=false;}
      status.textContent=t('Localitate verificată: ','Verified town: ')+fields.city.input.value;
+     prewarmStreets();
     }else if(prefillCity){fields.city.input.value=String(prefillCity);void lookup('city')}
     fields.country.row.hidden=true;
     const countryNote=document.createElement('p');countryNote.style.cssText='font-size:14px;color:#cbe7ef;margin:5px 0 10px';
