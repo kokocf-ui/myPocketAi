@@ -1254,7 +1254,9 @@ export default {
           alternatives.unshift(cityFirst);
           if(country==='ro'&&!/^(strada|str\.?|bulevardul|calea|alee\w*)\s/i.test(query)){
             const streetPrefix=new URL(url);
-            streetPrefix.searchParams.set('text',city+', Strada '+query);
+            streetPrefix.searchParams.set('text','Strada '+query);
+            if(Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude))
+              streetPrefix.searchParams.set('bias','proximity:'+cityPoint.longitude+','+cityPoint.latitude);
             alternatives.unshift(streetPrefix);
           }
         }
@@ -1292,6 +1294,11 @@ export default {
           if(place.country_code!==country || !Number.isFinite(place.lat) || !Number.isFinite(place.lon))return [];
           if(stage!=='city'&&!towns.slice(0,5).some(value=>normalize(value)===normalize(city)))return [];
           if(stage==='street'&&(!place.street||place.result_type!=='street'))return [];
+          if(stage==='street'){
+            const prefix=normalize(query).replace(/^(?:strada|str\.?|bulevardul|calea|aleea)\s+/,'');
+            const name=normalize(place.street).replace(/^(?:strada|str\.?|bulevardul|calea|aleea)\s+/,'');
+            if(prefix&&!name.startsWith(prefix)&&!name.split(' ').some(word=>word.startsWith(prefix)))return [];
+          }
           if(stage==='number'&&(!['building','amenity'].includes(place.result_type)||(street&&normalize(place.street)!==normalize(street))||!place.housenumber||
               (postcode&&place.postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
           if(stage==='city'&&place.result_type!=='city')return [];
