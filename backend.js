@@ -1331,11 +1331,22 @@ export default {
       const research=env.EXA_API_KEY&&placeName&&validCoords?(async()=>{
         try{
           const query=[placeName,address].filter(Boolean).join(" ")+" opening hours facilities official store";
-          const response=await fetch("https://api.exa.ai/search",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},body:JSON.stringify({query,type:"auto",numResults:5,contents:{highlights:{numSentences:2}}}),signal:AbortSignal.timeout(5500)});
+          const response=await fetch("https://api.exa.ai/search",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},body:JSON.stringify({query,type:"auto",numResults:5,contents:{highlights:{numSentences:4},text:{maxCharacters:3000}}}),signal:AbortSignal.timeout(5500)});
           if(!response.ok)return [];
           const results=(await response.json()).results||[];
           const words=address.toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(w=>w.length>=4);
-          return results.filter(item=>{try{const u=new URL(item.url);if(u.protocol!=="https:")return false;const hay=[item.title,...(item.highlights||[])].join(" ").toLowerCase();return words.length>=2&&words.filter(w=>hay.includes(w)).length>=2}catch{return false}}).slice(0,3).map(item=>({title:String(item.title||"").slice(0,140),url:item.url,source:"Exa"}));
+          const verified=results.filter(item=>{try{const u=new URL(item.url);if(u.protocol!=="https:")return false;const hay=[item.title,...(item.highlights||[]),String(item.text||"").slice(0,800)].join(" ").toLowerCase();return words.length>=2&&words.filter(w=>hay.includes(w)).length>=2}catch{return false}}).slice(0,3);
+          const candidates=verified.map(item=>({title:String(item.title||"").slice(0,140),url:item.url,source:"Exa"}));
+          // Extract only clearly labelled information from address-matched pages.
+          const extracted={};const evidence=[];
+          for(const item of verified){
+            const text=String(item.text||"").replace(/<[^>]*>/g," ").replace(/\\s+/g," ").slice(0,3000);
+            const hours=text.match(/(?:opening hours|store hours|opening times)\\s*[:–-]\\s*((?:(?:mon|tue|wed|thu|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|daily|every day)[^.!?]{5,130}))/i);
+            if(hours&&!extracted.opening_hours){extracted.opening_hours=hours[1].trim().slice(0,150);evidence.push({field:"opening_hours",url:item.url})}
+            const phone=text.match(/(?:telephone|phone|tel)\\s*[:–-]\\s*(\\+?44[\\s()0-9-]{9,17}|0[0-9\\s()-]{9,16})/i);
+            if(phone&&!extracted.phone){extracted.phone=phone[1].trim();evidence.push({field:"phone",url:item.url})}
+          }
+          return {sources:candidates,extracted,evidence};
         }catch{return []}
       })():Promise.resolve([]);
       let website = "";
@@ -1361,8 +1372,10 @@ export default {
           }
         } catch {} // optional enrichment must not block place details
       }
-      const sources=await research;
-      return new Response(JSON.stringify({images:images.slice(0,6),logos:logos.slice(0,6),website:details.website||website,details,sources,source:"OSM location tags + Wikidata/Wikimedia Commons + verified-address web references"}),{
+      const researched=await research;
+      const sources=Array.isArray(researched)?researched:(researched.sources||[]);
+      if(researched.extracted){for(const key of ["opening_hours","phone"])if(!details[key]&&researched.extracted[key])details[key]=researched.extracted[key]}
+      return new Response(JSON.stringify({images:images.slice(0,6),logos:logos.slice(0,6),website:details.website||website,details,sources:[],evidence:researched.evidence||[],source:"OSM location tags + Wikidata/Wikimedia Commons + verified-address web references"}),{
         headers:{...corsHeaders,"Content-Type":"application/json; charset=utf-8","Cache-Control":"public, max-age=86400"}
       });
     }
