@@ -20,6 +20,12 @@ try{
  assert.equal(data.structured_list?.type,'news');
  assert.ok(data.structured_list.rows.length>=1);
  assert.ok(data.structured_list.rows.every(x=>x.url?.startsWith('https://')&&x.verification==='source_identified_claims_unverified'));
+ const directResponse=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({message:'Latest geopolitical news from the last 24 hours',language:'en'})}),{AI:{run:async()=>{throw Error('No invented news')}}});
+ assert.equal(directResponse.status,200);
+ const recent=await directResponse.json();
+ assert.equal(recent.structured_list?.type,'news','Recent geopolitical news must use the table');
+ assert.equal(typeof recent.structured_list.coverage_status,'string');
  const html=await(await frontend.fetch(new Request('https://fixture/'))).text();
  const source=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
  assert.ok(source);
