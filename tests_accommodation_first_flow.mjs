@@ -16,7 +16,7 @@ assert(start>=0&&end>start,'scope logic exists');
 const snippet=inline.slice(start,end);
 
 function element(tag){
- return {tag,children:[],style:{},textContent:'',append(...nodes){this.children.push(...nodes)},replaceChildren(...nodes){this.children=nodes}};
+ return {tag,children:[],style:{},dataset:{},textContent:'',append(...nodes){this.children.push(...nodes)},replaceChildren(...nodes){this.children=nodes}};
 }
 const actions={};
 let lastPanel=null;
@@ -82,7 +82,7 @@ assert(hotelsStart>=0&&hotelsEnd>hotelsStart,'existing hotel choice panel presen
 const hotelActions={};
 const hotelCtx=vm.createContext({
  state:{currentView:'assistant',tripAccommodationDecision:'pending'},
- document:{createElement:element,getElementById:()=>null},
+ document:{createElement:element,getElementById:()=>null,querySelector:()=>element('div')},
  cleanAccommodationPlaces:x=>x,
  openTransportModeFromAssistant:x=>{hotelActions.route=x},
  openStandaloneChoicePanel:(host,title)=>{hotelActions.panel={host,title}},
