@@ -4967,7 +4967,7 @@ export default {
       // Select globally retrieved publication results, not only English/RO lexical matches.
       // A language, alphabet, country or publisher is never grounds for exclusion.
       for(const source of webSources){
-        if(rows.length>=20)break;
+        if(rows.length>=12)break;
         const url=safeSourceUrl(source.url);
         const originalTitle=String(source.title||"").replace(/\s+/g," ").trim().slice(0,200);
         if(!url||originalTitle.length<15)continue;
@@ -5009,7 +5009,7 @@ export default {
               {role:"user",content:JSON.stringify(requestItems)}
             ],max_tokens:3200,temperature:0
           });
-          const raw=String(translated?.response||"").trim().replace(/^``(?:json)?\s*/i,"").replace(/\s*``$/,"");
+          const raw=String(translated?.response||"").trim().replace(/^```(?:json)?\s*/i,"").replace(/\s*```$/,"");
           const parsed=JSON.parse(raw);
           if(Array.isArray(parsed))for(const item of parsed){
             if(!Number.isInteger(item?.i)||!rows[item.i])continue;
