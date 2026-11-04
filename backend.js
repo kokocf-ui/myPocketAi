@@ -4518,8 +4518,13 @@ export default {
     // Exact casual greetings must never become open-ended factual research.
     // A harmless greeting is not a request for a history lesson or web search.
     // Use recent conversational turns only to vary the wording, not to invent a topic.
+    // Treat standalone "How are you feeling today?" as social intent, including
+    // common punctuation between a salutation and the follow-up. Do not accept
+    // trailing substantive requests ("... and tell me the news").
+    const wellbeingNorm=socialNorm(message).replace(/[!?.,;:]+/g,' ').replace(/\\s+/g,' ').trim();
+    const socialWellbeing=/^(?:(?:salut|buna|buna ziua|buna seara|hei|servus|ceau|neata)\\s+)?(?:cum te simti(?: astazi| azi)?|cum esti(?: astazi| azi)?|ce mai faci(?: astazi| azi)?|ce faci(?: astazi| azi)?|cum iti merge(?: astazi| azi)?|how are you(?: feeling)?(?: today)?|how do you feel(?: today)?|how's your day(?: going)?|comment tu te sens(?: aujourd'hui)?|come ti senti(?: oggi)?|como te sientes(?: hoy)?|wie fuhlst du dich(?: heute)?|hoe voel je je(?: vandaag)?|как ты себя чувствуешь(?: сегодня)?|jak sie czujesz(?: dzisiaj)?)$/u.test(wellbeingNorm);
     const simpleGreeting=/^(?:(?:salut|buna|buna ziua|buna seara|hei|servus|ceau|neata|ce faci|ce mai faci|salut ce faci|buna ce faci|salut ce mai faci|buna ce mai faci|cum esti|cum o duci)|(?:hi|hello|hey|hi how are you|hello how are you|how are you|how's it going|how are things)|(?:bonjour|salut comment ca va|comment ca va|ca va)|(?:hallo|guten tag|wie geht's|wie geht es dir)|(?:ciao|buongiorno|come stai|come va)|(?:hola|buenos dias|como estas|que tal)|(?:ola|bom dia|como vai)|(?:hoi|hallo|hoe gaat het)|(?:привет|здравствуй|здравствуйте|как дела)|(?:czesc|dzien dobry|jak sie masz))(?:[!?. ]*)$/u.test(socialNorm(message));
-    if(simpleGreeting){
+    if(simpleGreeting||socialWellbeing){
       const alternatives={
         ro:['Salut! Sunt aici, pregătită de vorbă. Tu ce mai faci? 😊','Hei! Mă bucur să te aud. Cum îți merge?','Bună! Pe aici toate bune. Cu ce te ajut azi?','Salut! Sper că ai o zi frumoasă. Ce mai e nou?'],
         en:['Hey! Good to hear from you. How are you?','Hi! I’m here and ready to chat. What’s up?','Hello! What’s on your mind today?'],
