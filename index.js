@@ -1762,7 +1762,7 @@ function showPreciseJourney(choice){
      input.disabled=fields.street.search.disabled=withoutStreet;
      if(withoutStreet){list.replaceChildren();fields.number.input.focus();return;}
     }
-    candidates.sort((a,b)=>a.label.localeCompare(b.label,state.language,{numeric:true}));
+    candidates.sort((a,b)=>(a.matchRank??1)-(b.matchRank??1)||a.label.localeCompare(b.label,state.language,{numeric:true}));
     list.replaceChildren(...candidates.map(point=>card(point.label,()=>choose(stage,point))));
     if(!candidates.length){
      list.textContent=t('Nu am găsit rezultate.','No matches found.');
