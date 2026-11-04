@@ -24,6 +24,12 @@ assert(!frontend.includes("(postcode.value.trim()&&!selected.number)"),'postal c
 assert(frontend.includes("input.disabled=fields.street.search.disabled=false;"),'empty street provider must not lock rural address');
 assert(frontend.includes("const point=cityOnly?selected.city:(selected.number||selected.street||selected.city)"),'verified locality is a valid destination');
 
+assert(frontend.includes('const localityIndex=new Map()'),'autocomplete cache must belong to the temporary picker');
+assert(frontend.includes('localityIndex.clear();prewarmStreets();'),'switching town must discard prior suggestions');
+assert(frontend.includes("stage==='street'?80:200"),'street autocomplete starts on first typed character');
+assert(frontend.includes('const cached=matchCached(stage,input.value.trim())'),'cached suggestions display immediately');
+assert(backend.includes("if(stage==='street'&&query.trim()&&env.TOMTOM_API_KEY)"),'TomTom provides street discovery fallback');
+assert(backend.includes("types:'street'"),'TomTom is constrained to verified street results');
 // Test the real address_lookup handler in isolation using provider-shaped mock data.
 const originalFetch=globalThis.fetch;
 const seen=[];
