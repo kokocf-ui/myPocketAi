@@ -1876,6 +1876,28 @@ const TRAVEL_CONFIRM_TEXT={ro:['Da, arată traseul','Nu, mulțumesc'],en:['Show 
 function openTransportModeFromAssistant(data){
  if(!data?.route_context?.destination)return false;
  if(state.tripCountryOnChoice&&state.tripAccommodationDecision!=='yes'&&state.tripAccommodationDecision!=='no'){return offerDestinationAccommodationBeforeRoute(data.route_context.destination)}
+ if(state.currentView==='assistant'&&state.assistantStructuredDestination===true){
+  const host=document.createElement('div');host.dataset.directChoices='true';
+  const labels=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;
+  const caption=document.createElement('p');caption.textContent=data.route_context.destination.label||data.route_context.destination_query||'';
+  caption.style.cssText='padding:0 0 8px;font-weight:600';host.append(caption);
+  const d=Number(data.straight_line_distance_km),distance=Number.isFinite(d)&&d>0?d:distanceToDestinationKm(data.route_context.destination);
+  for(const [i,mode] of ['walk','transit','drive'].entries()){
+   if(mode==='walk'&&distance!==null&&distance>5)continue;
+   const btn=document.createElement('button');btn.type='button';btn.className='transit-choice-action';btn.textContent=labels[i+1];
+   btn.onclick=async()=>{
+    if(state.busy)return;
+    state.assistantStructuredDestination=false;
+    state.routeSearchContext={...data.route_context,pending:'profile'};
+    state.pendingTravelMode=mode;state.pendingRouteDestination=null;
+    document.getElementById('pocketStandaloneChoices')?.remove();
+    inputEl.value=labels[i+1];
+    await submitMessage();
+   };
+   host.append(btn);
+  }
+  openStandaloneChoicePanel(host,labels[0]);return true;
+ }
  rememberNavigationSource();
  state.routeSearchContext={...data.route_context};
  switchConversationModule('maps');showNavigationReturn();
@@ -1941,6 +1963,7 @@ function openAssistantStructuredAddress(option){
    const label=String(point.label||[point.street,point.houseNumber,point.city,regionName].filter(Boolean).join(', '));
    const scopedLabel=regionName&&!label.toLocaleLowerCase().includes(regionName.toLocaleLowerCase())?label+', '+regionName:label;
    state.tripCountryOnChoice=regionName||null;
+   state.assistantStructuredDestination=true;
    state.routeSearchContext=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;
    document.getElementById('pocketStandaloneChoices')?.remove();
    offerDestinationAccommodationBeforeRoute({latitude:lat,longitude:lon,label:scopedLabel,approximation:point.approximation||null});
