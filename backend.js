@@ -4808,16 +4808,18 @@ export default {
       if(newsIntent) providerTasks.push((async()=>{
         const started=Date.now(),u=new URL("https://api.gdeltproject.org/api/v2/doc/doc");
         const topic=message.replace(/^(?:(?:care sunt|arata-mi|cauta|show me|what are the)\s+)?(?:(?:ultimele|latest|recent|breaking)\s+)?(?:stiri|știri|news|noutati|actualitati)\s*(?:(?:despre|about|privind|on)\s+)?/iu,"").trim();
-        u.searchParams.set("query",(topic.length>=3?topic:message).slice(0,110));
+        const broadGeopolitics=/geopolitic|international|world affairs|politic.*extern/i.test(topic);
+        const gdeltQuery=broadGeopolitics?"(Ukraine OR Russia OR Iran OR Israel OR NATO OR diplomacy OR sanctions OR election OR government OR conflict OR military)":(topic.length>=3?topic:message).slice(0,110);
+        u.searchParams.set("query",gdeltQuery);
         u.searchParams.set("mode","artlist");
         u.searchParams.set("format","json");
-        u.searchParams.set("timespan","7d");
-        u.searchParams.set("maxrecords","8");
+        u.searchParams.set("timespan",/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?"1d":"7d");
+        u.searchParams.set("maxrecords","45");
         const response=await fetch(u.toString(),{headers:{Accept:"application/json"},signal:AbortSignal.timeout(4500)});
         if(!response.ok)throw new Error("HTTP "+response.status);
         const payload=await response.json();
         const articles=Array.isArray(payload.articles)?payload.articles:[];
-        return {provider:"GDELT",elapsedMs:Date.now()-started,results:articles.slice(0,8).map(a=>({
+        return {provider:"GDELT",elapsedMs:Date.now()-started,results:articles.slice(0,45).map(a=>({
           title:a.title||a.url,url:a.url,publishedDate:a.seendate||null,
           snippets:["Unverified GDELT article listing: "+String(a.title||"").slice(0,180)],author:null
         }))};
@@ -4865,11 +4867,11 @@ export default {
           const resultCount=useful.reduce((sum,x)=>sum+x.value.results.length,0);
           if(!readinessTimer&&useful.length>=(eventResearchIntent?2:1)&&resultCount>=(eventResearchIntent?8:3)){
             // Brief grace period to include an additional almost-finished provider.
-            readinessTimer=setTimeout(readinessResolve,eventResearchIntent?650:newsIntent?1500:250);
+            readinessTimer=setTimeout(readinessResolve,eventResearchIntent?650:newsIntent?2200:250);
           }
           return value;
         }));
-        const maxSearchWaitMs=eventResearchIntent?7000:6000;
+        const maxSearchWaitMs=eventResearchIntent?7000:newsIntent?6300:6000;
         try{
           await Promise.race([Promise.all(tracked),ready,new Promise(resolve=>{deadlineTimer=setTimeout(resolve,maxSearchWaitMs)})]);
         }finally{
@@ -4918,9 +4920,9 @@ export default {
         };
         const rankedWebSources=[...byUrl.values()].sort((a,b)=>sourceEvidenceScore(b)-sourceEvidenceScore(a));
         // Keep at least two discovered news listings visible when GDELT responds.
-        const gdeltLeads=newsIntent?rankedWebSources.filter(x=>x.providers.includes("GDELT")).slice(0,2):[];
+        const gdeltLeads=newsIntent?rankedWebSources.filter(x=>x.providers.includes("GDELT")).slice(0,22):[];
         const remainingRanked=rankedWebSources.filter(x=>!gdeltLeads.includes(x));
-        webSources=[...remainingRanked.slice(0,(eventResearchIntent?40:10)-gdeltLeads.length),...gdeltLeads];
+        webSources=[...remainingRanked.slice(0,newsIntent?8:(eventResearchIntent?40:10)),...gdeltLeads].slice(0,newsIntent?30:(eventResearchIntent?40:10));
         // Fetch a small number of original pages for additional evidence. Redirects are not followed;
         // non-HTML pages and unavailable pages remain explicitly unverified.
         await Promise.all(webSources.slice(0,eventResearchIntent?1:recipeInstruction?4:2).map(async source=>{
@@ -4972,8 +4974,9 @@ export default {
         const title=String(source.title||"").replace(/\s+/g," ").trim().slice(0,180);
         if(!url||title.length<20)continue;
         const urlPath=new URL(url).pathname.replace(/\/+$/,"");
-        if(!urlPath||urlPath==="/"||urlPath.split("/").filter(Boolean).length<2&&
-          !/\/\d{4}\/\d{2}\/\d{2}\//.test(urlPath))continue;
+        if(!urlPath||urlPath==="/")continue;
+        const slug=urlPath.split("/").filter(Boolean).at(-1)||"";
+        if(/^(?:news|world|politics|international|latest|live|home|index|articles|updates)$/i.test(slug))continue;
         const titleKey=title.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
         if(!titleKey||seenTitles.has(titleKey))continue;
         if(/(?:breaking news|latest news|stiri de ultima ora|știri de ultimă oră|world news summary|news summary|latest headlines|monthly geopolitical report|live fm|news live|live updates|diretta)\b/i.test(title))continue;
@@ -4997,7 +5000,10 @@ export default {
           verification:"source_identified_claims_unverified",
           corroborating_source_count:0});
       }
-      const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance"};
+      // Never imply that the application has a complete news feed when strict
+      // publication-date and topic validation leave only a few articles.
+      const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",
+        result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage"};
       const labels={ro:["Știri identificate în sursele consultate","Apasă pe titlul unei știri pentru detalii. Publicarea nu confirmă automat afirmațiile din articol.","Nu am putut identifica articole relevante în sursele disponibile."],
         en:["News from retrieved sources","Tap a headline to read details. Publication alone does not verify its claims.","No relevant articles could be found from available sources."],
         fr:["Actualités issues des sources consultées","Touchez un titre pour voir les détails. La publication ne confirme pas les faits.","Aucun article pertinent trouvé."],
