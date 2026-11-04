@@ -2953,6 +2953,8 @@ function readerLabels(){return READER_LABELS[state.language]||READER_LABELS.en}
 function appendAdaptivePresentation(host,record){
  const plan=record?.plan;
  if(plan?.version!==1||!Array.isArray(plan.blocks)||plan.blocks.length!==1)return false;
+ // Event calendars, route, accommodation and transport keep their proven specialist views.
+ if(plan.source_type!=="news"&&plan.source_type!=="general"&&plan.source_type!=="generic")return false;
  const block=plan.blocks[0];
  if(!["interactive_article_table","table","list"].includes(block?.kind))return false;
  const lang=state.language||"ro";

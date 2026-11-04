@@ -38,7 +38,7 @@ assert.ok(host.children.some(n=>n.tag==='a'&&n.href==='https://digi24.ro/stiri/o
 assert.equal(host.children[0].tag,'button');
 host.children[0].onclick();
 assert.ok(host.children.some(n=>n.tag==='div'),'Back restores table');
-const generic=planPresentation({language:'ro',reply:'',structured_list:{type:'other',rows:[{name:'A',price:'15'},{name:'B',price:'16'}]}});
+const generic=planPresentation({language:'ro',reply:'',structured_list:{type:'generic',rows:[{name:'A',price:'15'},{name:'B',price:'16'}]}});
 const genericHost=new Node('div');
 assert.equal(context.appendAdaptivePresentation(genericHost,{plan:generic}),true);
 const list=planPresentation({language:'ro',reply:'- Unu\n- Doi\n- Trei'});
@@ -46,5 +46,8 @@ const listHost=new Node('div');
 assert.equal(context.appendAdaptivePresentation(listHost,{plan:list}),true);
 assert.equal(listHost.children[0].tag,'ol');
 assert.equal(listHost.children[0].children.length,3);
+const events=planPresentation({language:'ro',reply:'Calendar',structured_list:{type:'events',rows:[{date:'2026-11-04',description:'Concert',time:'19:00'}]}});
+const protectedHost=new Node('div');
+assert.equal(context.appendAdaptivePresentation(protectedHost,{plan:events}),false,'Specialized event calendar must remain active');
 assert.match(js,/state\.lastPresentationResponse=data\.presentation/);
 console.log('Adaptive presentation viewer: interactive article table, detail, back, generic table and list PASS');
