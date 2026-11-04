@@ -9,6 +9,11 @@ export function looksUnlocalized(text,lang){
  if(lang==="ro"&&scripts.test(s))return true;
  return Boolean(accentForeign[lang]?.test(s));
 }
+function safeTranslationError(e){
+ const message=String(e?.message||"").slice(0,180);
+ const known=/^(translation_(?:invalid_json|item_invalid_json)|Unexpected token|Unexpected end of JSON input|Unterminated string)/.test(message);
+ return {name:String(e?.name||"Error"),code:known?message.split(/[:\n]/)[0].slice(0,90):"model_or_runtime_error"};
+}
 function modelText(value){
  if(typeof value==="string")return value;
  return String(value?.response||value?.result?.response||value?.output_text||"");
@@ -47,7 +52,7 @@ export async function localizeNewsRows(rows,language,ai,model,{log=()=>{}}={}){
  // Small batches prevent truncation; retry only failed items with plain-text,
  // not another fragile JSON envelope.
  await Promise.all(Array.from({length:Math.ceil(all.length/3)},(_,i)=>all.slice(i*3,i*3+3)).map(async chunk=>{
-  try{await ask(chunk)}catch(e){log("translation_batch_failed",String(e?.name||"Error"))}
+  try{await ask(chunk)}catch(e){log("translation_batch_failed",safeTranslationError(e))}
  }));
  const missing=all.filter(x=>!accepted.has(x.id)).slice(0,12);
  await Promise.all(missing.map(async item=>{
@@ -69,7 +74,7 @@ export async function localizeNewsRows(rows,language,ai,model,{log=()=>{}}={}){
      row.summary=summary.slice(0,280);row.detail=row.summary;
    }
    row.translation_status=(!row.summary||summary&&row.summary===summary.slice(0,280))&&row.title!==row.original_title?"translated":"partial_translation";
-  }catch(e){log("translation_item_failed",String(e?.name||"Error"))}
+  }catch(e){log("translation_item_failed",safeTranslationError(e))}
  }));
  // Never silently pass a foreign-language excerpt as though it were localized.
  // Preserve source provenance; consumers can display an explicit notice.
