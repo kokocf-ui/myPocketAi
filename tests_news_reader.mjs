@@ -7,8 +7,9 @@ globalThis.fetch=async input=>{
  const url=String(input);
  if(url.includes('gdeltproject.org'))return new Response(JSON.stringify({articles:[
    {title:'Ukraine diplomatic talks announced after international summit',url:'https://example.com/world/2026/11/diplomacy-meeting',seendate:'20261104T150000Z',domain:'example.com'},
-   {title:'European leaders discuss sanctions and diplomatic negotiations',url:'https://news.example.org/world/2026/11/diplomatic-talks',seendate:'20261104T130000Z',domain:'news.example.org'}]}),{headers:{'content-type':'application/json'}});
- if(url==='https://example.com/world/2026/11/diplomacy-meeting'||url==='https://news.example.org/world/2026/11/diplomatic-talks')
+   {title:'European leaders discuss sanctions and diplomatic negotiations',url:'https://news.example.org/world/2026/11/diplomatic-talks',seendate:'20261104T130000Z',domain:'news.example.org'},
+   {title:'Украина и Россия обсуждают переговоры по безопасности',url:'https://agency.example.net/world/2026/11/security-talks',seendate:'20261104T140000Z',domain:'agency.example.net'}]}),{headers:{'content-type':'application/json'}});
+ if(url==='https://example.com/world/2026/11/diplomacy-meeting'||url==='https://news.example.org/world/2026/11/diplomatic-talks'||url==='https://agency.example.net/world/2026/11/security-talks')
   return new Response('<html><body>Publisher report with independently unverified statements.</body></html>',{headers:{'content-type':'text/html'}});
  throw new Error('Unexpected request '+url);
 };
@@ -26,6 +27,18 @@ try{
  const recent=await directResponse.json();
  assert.equal(recent.structured_list?.type,'news','Recent geopolitical news must use the table');
  assert.equal(typeof recent.structured_list.coverage_status,'string');
+ const roResponse=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({message:'Știri geopolitice internationale',language:'ro'})}),{AI:{run:async()=>({response:JSON.stringify([
+   {i:0,title:'Ucraina: negocieri diplomatice după summitul internațional',summary:''},
+   {i:1,title:'Liderii europeni discută sancțiuni și negocieri',summary:''},
+   {i:2,title:'Ucraina și Rusia discută negocieri de securitate',summary:''}
+  ])})}});
+ assert.equal(roResponse.status,200);
+ const roNews=await roResponse.json();
+ assert.equal(roNews.structured_list?.type,'news');
+ assert.ok(roNews.structured_list.rows.some(x=>x.original_title.includes('Украина')),'Cyrillic-language sources must be retained');
+ assert.ok(roNews.structured_list.rows.some(x=>x.title.includes('Ucraina')),'News headlines should be translated into Romanian');
+ assert.ok(roNews.structured_list.rows.every(x=>x.url.startsWith('https://')),'Translation must not modify source URLs');
  const html=await(await frontend.fetch(new Request('https://fixture/'))).text();
  const source=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
  assert.ok(source);
