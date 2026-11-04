@@ -1297,7 +1297,13 @@ export default {
       const autocomplete=Boolean(query.trim())&&stage!=='number';
       const url=new URL(autocomplete?'https://api.geoapify.com/v1/geocode/autocomplete':'https://api.geoapify.com/v1/geocode/search');
       const normalize=value=>String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
-       const normRegion=value=>normalize(value).replace(/^(?:judet(?:ul)?|county|province|provincia)\s+/,'').replace(/\s+(?:county|province)$/,'');
+       const normRegion=value=>{
+         const raw=normalize(value).replace(/^(?:judet(?:ul)?|county|province|provincia)\s+/,'').replace(/\s+(?:county|province)$/,'');
+         // Geocoders may report administrative areas in local names while UI displays translations.
+         const equivalents={piedmont:'piemonte',piemont:'piemonte',tuscany:'toscana',lombardy:'lombardia',apulia:'puglia',
+           sicily:'sicilia',sardinia:'sardegna','south tyrol':'alto adige',latium:'lazio'};
+         return equivalents[raw]||raw;
+       };
       url.search=new URLSearchParams({
         text:(stage==='city'?[query,region]:stage==='street'?[query,city,region]:[[street,query].filter(Boolean).join(' '),city,region,postcode]).filter(Boolean).join(', '),
         ...(stage==='number'||stage==='city'?{}:{type:types[stage]}),filter:'countrycode:'+country,bias:'countrycode:none',format:'json',limit:'20',apiKey:env.GEOAPIFY_API_KEY
@@ -1371,7 +1377,9 @@ export default {
           const cityName=String(place.city||place.town||place.village||place.hamlet||place.name||'');
           if(stage==='city'&&(!normalize(cityName).startsWith(normalize(query))||
               /metropolitan area|zona metropolitana|metropolitan region/i.test(normalize(cityName))))return [];
-          const label=stage==='street'?[place.street,city,place.country].filter(Boolean).join(', '):String(place.formatted||'');
+          const label=stage==='street'?[place.street,city,place.country].filter(Boolean).join(', '):
+            stage==='city'&&region&&!normalize(String(place.formatted||'')).includes(normalize(region))
+            ?[place.formatted||city,region].filter(Boolean).join(', '):String(place.formatted||'');
           const key=stage==='street'?normalize(place.street):label;
           if(!label||seen.has(key))return [];
           seen.add(key);
