@@ -1876,6 +1876,28 @@ const TRAVEL_CONFIRM_TEXT={ro:['Da, arată traseul','Nu, mulțumesc'],en:['Show 
 function openTransportModeFromAssistant(data){
  if(!data?.route_context?.destination)return false;
  if(state.tripCountryOnChoice&&state.tripAccommodationDecision!=='yes'&&state.tripAccommodationDecision!=='no'){return offerDestinationAccommodationBeforeRoute(data.route_context.destination)}
+ if(state.currentView==='assistant'&&state.assistantStructuredDestination===true){
+  const host=document.createElement('div');host.dataset.directChoices='true';
+  const labels=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;
+  const caption=document.createElement('p');caption.textContent=data.route_context.destination.label||data.route_context.destination_query||'';
+  caption.style.cssText='padding:0 0 8px;font-weight:600';host.append(caption);
+  const d=Number(data.straight_line_distance_km),distance=Number.isFinite(d)&&d>0?d:distanceToDestinationKm(data.route_context.destination);
+  for(const [i,mode] of ['walk','transit','drive'].entries()){
+   if(mode==='walk'&&distance!==null&&distance>5)continue;
+   const btn=document.createElement('button');btn.type='button';btn.className='transit-choice-action';btn.textContent=labels[i+1];
+   btn.onclick=async()=>{
+    if(state.busy)return;
+    state.assistantStructuredDestination=false;
+    state.routeSearchContext={...data.route_context,pending:'profile'};
+    state.pendingTravelMode=mode;state.pendingRouteDestination=null;
+    document.getElementById('pocketStandaloneChoices')?.remove();
+    inputEl.value=labels[i+1];
+    await submitMessage();
+   };
+   host.append(btn);
+  }
+  openStandaloneChoicePanel(host,labels[0]);return true;
+ }
  rememberNavigationSource();
  state.routeSearchContext={...data.route_context};
  switchConversationModule('maps');showNavigationReturn();
@@ -1941,6 +1963,7 @@ function openAssistantStructuredAddress(option){
    const label=String(point.label||[point.street,point.houseNumber,point.city,regionName].filter(Boolean).join(', '));
    const scopedLabel=regionName&&!label.toLocaleLowerCase().includes(regionName.toLocaleLowerCase())?label+', '+regionName:label;
    state.tripCountryOnChoice=regionName||null;
+   state.assistantStructuredDestination=true;
    state.routeSearchContext=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;
    document.getElementById('pocketStandaloneChoices')?.remove();
    offerDestinationAccommodationBeforeRoute({latitude:lat,longitude:lon,label:scopedLabel,approximation:point.approximation||null});
@@ -2948,7 +2971,7 @@ function openStandaloneChoicePanel(host,titleText,{keepOpen=false}={}){
  const old=document.getElementById('pocketStandaloneChoices');if(old)old.remove();
  const panel=document.createElement('section');panel.id='pocketStandaloneChoices';panel.className='answer-reader';panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');
  const header=document.createElement('div');header.className='answer-reader-header';const title=document.createElement('h2');title.textContent=titleText||'Alege o opțiune';
- const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent=state.language==='ro'?'Închide':'Close';close.setAttribute('aria-label',close.textContent);close.onclick=()=>panel.remove();
+ const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent=state.language==='ro'?'Închide':'Close';close.setAttribute('aria-label',close.textContent);close.onclick=()=>{if(state.assistantStructuredDestination===true)state.assistantStructuredDestination=false;panel.remove();};
  header.append(title,close);const body=document.createElement('div');body.className='answer-reader-body';body.style.whiteSpace='normal';
  while(host.firstChild)body.append(host.firstChild);
  if(state.encyclopediaTripActive&&state.lastEncyclopediaArticle&&titleText!==state.lastEncyclopediaArticle.title){
@@ -2992,7 +3015,7 @@ function showAnswerDuration(host,startMs){
  host.append(details);
 }
 function addBubble(text,role='assistant',isError=false,options={}){const empty=messagesEl.querySelector('.empty-state');if(empty)empty.remove();const el=document.createElement('div');el.className='bubble '+role+(isError?' error':'');const content=document.createElement('span');content.className='bubble-text';appendAnswerText(content,String(text));el.append(content);messagesEl.append(el);requestAnimationFrame(()=>{if(role==='assistant')prepareAnswerReader(content,el,text,options.autoOpen===true);messagesEl.scrollTop=messagesEl.scrollHeight;requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})});return el}
-function resetChat(){cancelTransitAccess(true);state.transitRefreshGeneration=(state.transitRefreshGeneration||0)+1;state.transitRefreshAbort?.abort();state.transitRefreshAbort=null;state.transitRefreshBusy=false;state.lastTransitChoice=null;state.lastTransitResponse=null;state.lastTravelModeResponse=null;state.pendingTravelMode=null;closeRouteMap(false);closeAnswerReader(false);state.lastRoute=null;state.lastRouteOptions=[];state.routeSearchContext=null;state.weatherSearchContext=null;state.placeSearchContext=null;state.distanceSearchContext=null;state.lastPlaceResults=[];state.pendingRouteDestination=null;state.pendingTravelConfirmationData=null;state.travelConfirmationPanel=null;state.pendingRouteStart=false;state.pendingRouteViaQuery=null;state.pendingRouteCompare=false;state.conversationGeneration++;state.messages=[];state.requestedTransitCount=null;const ui=UI_TEXT[state.language]||UI_TEXT.en;messagesEl.innerHTML='<div class="empty-state"></div>';const empty=messagesEl.querySelector('.empty-state');empty.append(document.createTextNode(ui.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=ui.emptyHint;empty.append(document.createElement('br'),hint);state.lastReply='';inputEl.value='';setStatus(ui.ready);stopSpeech();stopRecognition();state.voiceMode=false;state.dictationMode=false;setPressed($('voiceBtn'),false);setPressed($('dictationBtn'),false);hideAvatar();}
+function resetChat(){state.assistantStructuredDestination=false;cancelTransitAccess(true);state.transitRefreshGeneration=(state.transitRefreshGeneration||0)+1;state.transitRefreshAbort?.abort();state.transitRefreshAbort=null;state.transitRefreshBusy=false;state.lastTransitChoice=null;state.lastTransitResponse=null;state.lastTravelModeResponse=null;state.pendingTravelMode=null;closeRouteMap(false);closeAnswerReader(false);state.lastRoute=null;state.lastRouteOptions=[];state.routeSearchContext=null;state.weatherSearchContext=null;state.placeSearchContext=null;state.distanceSearchContext=null;state.lastPlaceResults=[];state.pendingRouteDestination=null;state.pendingTravelConfirmationData=null;state.travelConfirmationPanel=null;state.pendingRouteStart=false;state.pendingRouteViaQuery=null;state.pendingRouteCompare=false;state.conversationGeneration++;state.messages=[];state.requestedTransitCount=null;const ui=UI_TEXT[state.language]||UI_TEXT.en;messagesEl.innerHTML='<div class="empty-state"></div>';const empty=messagesEl.querySelector('.empty-state');empty.append(document.createTextNode(ui.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=ui.emptyHint;empty.append(document.createElement('br'),hint);state.lastReply='';inputEl.value='';setStatus(ui.ready);stopSpeech();stopRecognition();state.voiceMode=false;state.dictationMode=false;setPressed($('voiceBtn'),false);setPressed($('dictationBtn'),false);hideAvatar();}
 function setPressed(button,value){button.setAttribute('aria-pressed',String(Boolean(value)))}
 // 03 — Local conversation history (explicitly deletable)
 const HISTORY_KEY='mypocketai.history.v1';
