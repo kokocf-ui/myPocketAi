@@ -4705,6 +4705,53 @@ export default {
       });
     }
 
+
+    // Exact CVE requests: ground the answer in official datasets instead of model speculation.
+    // Unavailable sources are reported as unavailable, never silently replaced with claims.
+    const requestedCve=String(message).match(/\bCVE-\d{4}-\d{4,10}\b/i)?.[0]?.toUpperCase();
+    if(requestedCve && /\b(?:cve|vulnerab|exploit|security|securit|risc|risk|ep ss|epss|cisa|atac|attack|patch|remedi)/i.test(message)){
+      const firstUrl="https://api.first.org/data/v1/epss?cve="+encodeURIComponent(requestedCve);
+      const kevUrl="https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json";
+      const read=async (endpoint,timeoutMs)=>{
+        try{
+          const response=await fetch(endpoint,{headers:{Accept:"application/json"},signal:AbortSignal.timeout(timeoutMs),
+            cf:{cacheTtl:900,cacheEverything:true}});
+          if(!response.ok)return {ok:false,reason:"HTTP "+response.status};
+          return {ok:true,data:await response.json()};
+        }catch{return {ok:false,reason:"source_unavailable"}}
+      };
+      const [first,kev]=await Promise.all([read(firstUrl,4500),read(kevUrl,6000)]);
+      const epss=first.ok&&Array.isArray(first.data?.data)
+        ?first.data.data.find(v=>String(v.cve||"").toUpperCase()===requestedCve):null;
+      const entry=kev.ok&&Array.isArray(kev.data?.vulnerabilities)
+        ?kev.data.vulnerabilities.find(v=>String(v.cveID||"").toUpperCase()===requestedCve):null;
+      const sources=[
+        ...(first.ok?[{number:1,title:"FIRST EPSS",url:"https://www.first.org/epss/",providers:["FIRST"],publishedDate:String(epss?.date||"")}]:[]),
+        ...(kev.ok?[{number:2,title:"CISA Known Exploited Vulnerabilities",url:"https://www.cisa.gov/known-exploited-vulnerabilities-catalog",providers:["CISA"],publishedDate:String(entry?.dateAdded||"")}]:[])
+      ];
+      const ro=lang==="ro";
+      const lines=[requestedCve];
+      if(entry){
+        lines.push((ro?"CISA: vulnerabilitate inclusă în catalogul KEV.":"CISA: listed in the Known Exploited Vulnerabilities catalog.")
+          +" "+String(entry.vulnerabilityName||"").slice(0,220));
+        if(entry.dateAdded)lines.push((ro?"Adăugată la":"Added on")+" "+entry.dateAdded);
+      }else lines.push(!kev.ok
+        ?(ro?"Catalogul CISA nu a putut fi verificat acum.":"CISA catalog could not be checked now.")
+        :(ro?"Nu apare în catalogul CISA consultat. Absența nu dovedește lipsa exploatărilor.":"Not listed in the CISA catalog checked. Absence does not prove no exploitation."));
+      if(epss&&Number.isFinite(Number(epss.epss))){
+        const percent=(Number(epss.epss)*100).toFixed(2)+"%";
+        lines.push((ro?"EPSS: probabilitate estimată de exploatare în următoarele 30 de zile: ":"EPSS: estimated probability of exploitation in the next 30 days: ")+percent
+          +(epss.date?" ("+epss.date+")":"")+".");
+      }else lines.push(!first.ok?(ro?"FIRST EPSS nu este disponibil momentan.":"FIRST EPSS is temporarily unavailable.")
+        :(ro?"Nu există scor EPSS disponibil pentru identificatorul cerut.":"No EPSS score available for this identifier."));
+      lines.push(ro?"Scorul EPSS este o estimare, nu confirmarea unui atac. Verifică și recomandările producătorului.":"EPSS is a prediction, not confirmation of an attack. Also check the vendor's advisory.");
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,
+        reply:lines.join("\n"),sources,web_search_status:first.ok||kev.ok?"success":"error",
+        public_intel:{kind:"cve",cve:requestedCve,epss_status:first.ok?"available":"unavailable",
+          kev_status:kev.ok?"available":"unavailable",kev_listed:Boolean(entry),score:epss?Number(epss.epss):null},
+        ai_generated:false,ai_connected:Boolean(env.AI)});
+    }
+
     // v96: provider-neutral international web research. Providers are optional Worker secrets;
     // configured engines run concurrently. Search snippets are never treated as verified facts.
     let webSearchContext = "";
@@ -4754,6 +4801,27 @@ export default {
     const providerTasks = [];
     const researchStartedAt=Date.now();
     if (shouldSearchWeb) {
+
+      // GDELT only supplements current-events requests; returned article listings are leads,
+      // not independent fact verification. Other topics preserve the existing fast path.
+      const newsIntent = !recipeInstruction && !eventResearchIntent && /\b(?:news|headlines|breaking|geopolitic|politic|conflict|war|razboi|război|stiri|știri|actualitat|noutati|latest developments|recent events|ce se intampla|ce s-a intamplat)\b/i.test(normalizedResearchRequest);
+      if(newsIntent) providerTasks.push((async()=>{
+        const started=Date.now(),u=new URL("https://api.gdeltproject.org/api/v2/doc/doc");
+        u.searchParams.set("query",message.slice(0,110));
+        u.searchParams.set("mode","artlist");
+        u.searchParams.set("format","json");
+        u.searchParams.set("timespan","7d");
+        u.searchParams.set("maxrecords","8");
+        const response=await fetch(u.toString(),{headers:{Accept:"application/json"},signal:AbortSignal.timeout(4500)});
+        if(!response.ok)throw new Error("HTTP "+response.status);
+        const payload=await response.json();
+        const articles=Array.isArray(payload.articles)?payload.articles:[];
+        return {provider:"GDELT",elapsedMs:Date.now()-started,results:articles.slice(0,8).map(a=>({
+          title:a.title||a.url,url:a.url,publishedDate:a.seendate||null,
+          snippets:[],author:null
+        }))};
+      })().then(value=>({status:"fulfilled",value,provider:"GDELT"}))
+        .catch(error=>({status:"rejected",provider:"GDELT",error:String(error?.message||error).slice(0,140)})));
       if (env.EXA_API_KEY) providerTasks.push((async () => {
         const started = Date.now();
         const response = await fetch("https://api.exa.ai/search", {

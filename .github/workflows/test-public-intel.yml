@@ -5,6 +5,7 @@ on:
       - backend.js
       - tests_public_intel.mjs
       - package.json
+      - tests_assistant_public_intel.mjs
       - .github/workflows/test-public-intel.yml
   workflow_dispatch:
 jobs:
@@ -18,4 +19,4 @@ jobs:
       - name: Check backend syntax
         run: node --check backend.js
       - name: Test free source adapter
-        run: node tests_public_intel.mjs
+        run: node tests_public_intel.mjs && node tests_assistant_public_intel.mjs
