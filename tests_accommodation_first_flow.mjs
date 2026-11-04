@@ -68,7 +68,7 @@ assert.equal(state.assistantStructuredDestination,true);
 assert.equal(actions.route.route_context.destination.label,'Alba Iulia');
 assert.equal(actions.accommodation.options.autoSearch,true,'address selection does not re-prompt lodging');
 
-assert(source.includes('length>=1)timer=setTimeout'),'search suggestions begin with first character');
+assert(source.includes("if(input.value.trim().length>=1){")&&source.includes("stage==='street'?80:200"),'search suggestions begin with first character using scoped cache and fast network fallback');
 assert(source.includes("(i+1)+'. '+point.label"),'numbered candidate lists');
 assert(source.includes('fields.city.row.hidden=true'),'known city not requested again');
 assert(source.includes('fields.country.row.hidden=true'),'fixed country not requested again');
