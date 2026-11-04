@@ -6,9 +6,9 @@ const originalFetch=globalThis.fetch;
 globalThis.fetch=async input=>{
  const url=String(input);
  if(url.includes('gdeltproject.org'))return new Response(JSON.stringify({articles:[
-   {title:'International diplomacy meeting announced',url:'https://example.com/diplomacy',seendate:'20261104T150000Z',domain:'example.com'},
-   {title:'Another international report on diplomacy',url:'https://news.example.org/world',seendate:'20261104T130000Z',domain:'news.example.org'}]}),{headers:{'content-type':'application/json'}});
- if(url==='https://example.com/diplomacy'||url==='https://news.example.org/world')
+   {title:'Ukraine diplomatic talks announced after international summit',url:'https://example.com/world/2026/11/diplomacy-meeting',seendate:'20261104T150000Z',domain:'example.com'},
+   {title:'European leaders discuss sanctions and diplomatic negotiations',url:'https://news.example.org/world/2026/11/diplomatic-talks',seendate:'20261104T130000Z',domain:'news.example.org'}]}),{headers:{'content-type':'application/json'}});
+ if(url==='https://example.com/world/2026/11/diplomacy-meeting'||url==='https://news.example.org/world/2026/11/diplomatic-talks')
   return new Response('<html><body>Publisher report with independently unverified statements.</body></html>',{headers:{'content-type':'text/html'}});
  throw new Error('Unexpected request '+url);
 };

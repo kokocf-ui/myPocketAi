@@ -7,7 +7,7 @@ globalThis.fetch=async (input)=>{
  const u=String(input);fetched.push(u);
  if(u.includes('api.first.org'))return new Response(JSON.stringify({data:[{cve:'CVE-2026-12345',epss:'0.45',date:'2026-11-04'}]}),{headers:{'content-type':'application/json'}});
  if(u.includes('kev-data'))return new Response(JSON.stringify({vulnerabilities:[{cveID:'CVE-2026-12345',vulnerabilityName:'Demonstration vulnerability',dateAdded:'2026-11-01'}]}),{headers:{'content-type':'application/json'}});
- if(u.includes('gdeltproject.org'))return new Response(JSON.stringify({articles:[{title:'News from a publisher',url:'https://example.com/news',seendate:'20261104T130000Z'}]}),{headers:{'content-type':'application/json'}});
+ if(u.includes('gdeltproject.org'))return new Response(JSON.stringify({articles:[{title:'European leaders discuss Ukraine ceasefire negotiations',url:'https://example.com/world/2026/11/ukraine-diplomatic-talks',seendate:'20261104T130000Z'}]}),{headers:{'content-type':'application/json'}});
  if(u==='https://example.com/news')return new Response('<html><body>News event detail</body></html>',{headers:{'content-type':'text/html'}});
  throw new Error('Unexpected upstream '+u);
 };
