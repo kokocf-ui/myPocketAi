@@ -15,6 +15,15 @@ assert(frontend.includes('state.assistantStructuredDestination=true;'),'assistan
 assert(frontend.includes('if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)'), 'typed house number cannot silently become approximate');
 assert(frontend.includes('selected.city||selected.street')||frontend.includes("confirmed.disabled=!selected.city"), 'confirmed locality may be the destination');
 
+// Global destination and accommodation decision regressions.
+assert(frontend.includes('const countries=Array.from({length:26*26}'),'country picker must not be Europe-only');
+assert(frontend.includes("No, continue to destination"),'declining accommodation must not force full address');
+assert(frontend.includes("Town centre"),'verified city can be the destination without street');
+assert(frontend.includes("Choose a street or house number"),'exact address remains a choice');
+assert(!frontend.includes("(postcode.value.trim()&&!selected.number)"),'postal code must never force a selected house number');
+assert(frontend.includes("input.disabled=fields.street.search.disabled=false;"),'empty street provider must not lock rural address');
+assert(frontend.includes("const point=cityOnly?selected.city:(selected.number||selected.street||selected.city)"),'verified locality is a valid destination');
+
 // Test the real address_lookup handler in isolation using provider-shaped mock data.
 const originalFetch=globalThis.fetch;
 const seen=[];
