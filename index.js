@@ -2983,13 +2983,14 @@ function appendNewsCollectionTable(host,record){
   const body=add("tbody","",null,table);
   for(const item of items){
    const tr=add("tr","",null,body);
-   const left=add("td","","padding:10px 7px;vertical-align:top;border:1px solid #34566e;overflow-wrap:anywhere;width:67%",tr);
+   const left=add("td","","padding:10px 7px;vertical-align:top;border:1px solid #34566e;overflow-wrap:anywhere;width:76%",tr);
    const button=add("button",String(item.title||""),"text-align:left;color:#9beefa;text-decoration:underline;background:transparent;border:0;padding:0;font:inherit;font-weight:700;cursor:pointer;overflow-wrap:anywhere",left);
    button.type="button";button.onclick=()=>renderDetail(item);
    if(item.summary)add("p",String(item.summary).slice(0,155),"font-size:13px;color:#d2e2ed;line-height:1.4;margin:8px 0 0",left);
-   const right=add("td","","padding:10px 6px;vertical-align:top;border:1px solid #34566e;overflow-wrap:anywhere;width:33%",tr);
-   add("strong",String(item.source_name||"—"),"display:block;font-size:13px",right);
-   add("span",dateText(item.published_at),"display:block;font-size:12px;opacity:.8;margin-top:5px",right);
+   if(item.translation_status==="original_untranslated"&&lang!=="en")add("small",lang==="ro"?"Original · traducere indisponibilă":"Original · translation unavailable","font-size:11px;color:#ffdaa5;display:block;margin-top:6px",left);
+   const right=add("td","","padding:10px 6px;vertical-align:top;border:1px solid #34566e;overflow-wrap:anywhere;width:24%",tr);
+   add("strong",String(item.source_name||"—"),"display:block;font-size:12px;overflow-wrap:anywhere",right);
+   add("span",dateText(item.published_at),"display:block;font-size:11px;opacity:.8;margin-top:5px",right);
   }
   add("p",t[6],"font-size:13px;opacity:.8;margin:13px 0 0");
  };
