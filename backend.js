@@ -1340,10 +1340,10 @@ export default {
           // Extract only clearly labelled information from address-matched pages.
           const extracted={};const evidence=[];
           for(const item of verified){
-            const text=String(item.text||"").replace(/<[^>]*>/g," ").replace(/\\s+/g," ").slice(0,3000);
-            const hours=text.match(/(?:opening hours|store hours|opening times)\\s*[:–-]\\s*((?:(?:mon|tue|wed|thu|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|daily|every day)[^.!?]{5,130}))/i);
+            const text=[String(item.text||""),...(item.highlights||[])].join(" ").replace(/<[^>]*>/g," ").replace(/\s+/g," ").slice(0,4000);
+            const hours=text.match(/(?:opening hours|store hours|opening times)\s*[:–-]\s*((?:(?:mon|tue|wed|thu|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|daily|every day)[^.!?]{5,130}))/i);
             if(hours&&!extracted.opening_hours){extracted.opening_hours=hours[1].trim().slice(0,150);evidence.push({field:"opening_hours",url:item.url})}
-            const phone=text.match(/(?:telephone|phone|tel)\\s*[:–-]\\s*(\\+?44[\\s()0-9-]{9,17}|0[0-9\\s()-]{9,16})/i);
+            const phone=text.match(/(?:telephone|phone|tel)\s*[:–-]\s*(\+?44[\s()0-9-]{9,17}|0[0-9\s()-]{9,16})/i);
             if(phone&&!extracted.phone){extracted.phone=phone[1].trim();evidence.push({field:"phone",url:item.url})}
           }
           return {sources:candidates,extracted,evidence};
