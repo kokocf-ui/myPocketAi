@@ -53,7 +53,7 @@ try{
  assert.ok(roNews.structured_list.rows.some(x=>x.title.includes('Ucraina')),'News headlines should be translated into Romanian');
  assert.ok(roNews.structured_list.rows.every(x=>x.url.startsWith('https://')),'Translation must not modify source URLs');
  assert.ok(roNews.structured_list.rows.every(x=>!/^https?:/i.test(x.source_name)),'Publisher must not display HTTP URLs');
- assert.ok(roNews.structured_list.rows.some(x=>x.source_name==='Agency'),'Non-RO publisher should be retained');
+ assert.ok(roNews.structured_list.rows.some(x=>x.source_name==='agency.example.net'),'Non-RO publisher should be retained');
  const html=await(await frontend.fetch(new Request('https://fixture/'))).text();
  const source=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
  assert.ok(source);
