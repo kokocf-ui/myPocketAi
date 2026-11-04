@@ -22,7 +22,7 @@ const actions={};
 let lastPanel=null;
 const state={language:'ro',currentView:'assistant'};
 const ctx=vm.createContext({
- state,document:{createElement:element,getElementById:()=>null,querySelector:()=>null},
+ state,document:{createElement:element,getElementById:()=>null,querySelector:()=>element('div')},
  openStandaloneChoicePanel:(host,title)=>{lastPanel={host,title}},
  offerDestinationAccommodationBeforeRoute:(destination,options)=>{actions.accommodation={destination,options}},
  openTransportModeFromAssistant:args=>{actions.route=args},
