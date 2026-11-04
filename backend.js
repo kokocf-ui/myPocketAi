@@ -1325,6 +1325,19 @@ export default {
         }catch{}
       }
 
+      // Research only the selected place, never the entire nearby-results list.
+      // Search evidence is intentionally not treated as verified branch data without an address match.
+      const address=String(url.searchParams.get("address")||"").trim().slice(0,180);
+      const research=env.EXA_API_KEY&&placeName&&validCoords?(async()=>{
+        try{
+          const query=[placeName,address].filter(Boolean).join(" ")+" opening hours facilities official store";
+          const response=await fetch("https://api.exa.ai/search",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},body:JSON.stringify({query,type:"auto",numResults:5,contents:{highlights:{numSentences:2}}}),signal:AbortSignal.timeout(5500)});
+          if(!response.ok)return [];
+          const results=(await response.json()).results||[];
+          const words=address.toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(w=>w.length>=4);
+          return results.filter(item=>{try{const u=new URL(item.url);if(u.protocol!=="https:")return false;const hay=[item.title,...(item.highlights||[])].join(" ").toLowerCase();return words.length>=2&&words.filter(w=>hay.includes(w)).length>=2}catch{return false}}).slice(0,3).map(item=>({title:String(item.title||"").slice(0,140),url:item.url,source:"Exa"}));
+        }catch{return []}
+      })():Promise.resolve([]);
       let website = "";
       for (const id of ids) {
         try {
@@ -1348,7 +1361,8 @@ export default {
           }
         } catch {} // optional enrichment must not block place details
       }
-      return new Response(JSON.stringify({images:images.slice(0,6),logos:logos.slice(0,6),website:details.website||website,details,source:"OSM location tags + Wikidata/Wikimedia Commons"}),{
+      const sources=await research;
+      return new Response(JSON.stringify({images:images.slice(0,6),logos:logos.slice(0,6),website:details.website||website,details,sources,source:"OSM location tags + Wikidata/Wikimedia Commons + verified-address web references"}),{
         headers:{...corsHeaders,"Content-Type":"application/json; charset=utf-8","Cache-Control":"public, max-age=86400"}
       });
     }
