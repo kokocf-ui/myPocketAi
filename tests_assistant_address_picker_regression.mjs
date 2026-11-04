@@ -92,6 +92,32 @@ try{
  assert(seen.some(u=>u.searchParams.get('text')?.includes('Tulcea')),'county included in provider queries');
 }finally{globalThis.fetch=originalFetch}
 
+// TomTom may put a numbered Romanian village under its commune, with
+// Alba represented as municipalitySubdivision rather than municipality.
+const tomtomRequests=[];
+globalThis.fetch=async url=>{
+ const u=new URL(String(url));tomtomRequests.push(u);
+ if(u.hostname==='api.tomtom.com')return Response.json({results:[{
+  type:'address',address:{countryCodeIso2:'RO',municipality:'Izvoarele',
+   municipalitySubdivision:'Alba',countrySubdivision:'Tulcea',houseNumber:'28A',postalCode:'827106'},
+  position:{coordinates:[28.2,45.1]},title:'Alba 28A'
+ }]});
+ return Response.json({results:[]});
+};
+try{
+ const response=await worker.fetch(new Request('https://unit.test/api/chat',{
+  method:'POST',headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({address_lookup:{stage:'number',country:'ro',city:'Alba',
+   street:'',query:'28A',postcode:'',region:'Tulcea'}})
+ }),{TOMTOM_API_KEY:'test',GEOAPIFY_API_KEY:'test'});
+ assert.equal(response.status,200);
+ const result=await response.json();
+ assert.equal(result.provider,'tomtom','municipality subdivision can verify a rural address');
+ assert.equal(result.candidates[0].houseNumber,'28A');
+ assert(tomtomRequests.some(u=>u.searchParams.get('query')?.includes('Tulcea')),
+  'TomTom rural query includes selected county');
+}finally{globalThis.fetch=originalFetch}
+
 // Geographic candidates from administrative sources are not fake map coordinates.
 const i=backend.indexOf('// Resolve short ambiguous names');
 const j=backend.indexOf('    let verifiedCity=null;',i);
