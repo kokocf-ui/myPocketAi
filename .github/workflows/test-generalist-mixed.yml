@@ -1,7 +1,7 @@
 name: Pocket AI focused regression
 on:
   push:
-    branches: [main]
+    branches: [main, fix/accommodation-first-adaptive-address-20261104]
   pull_request:
     branches: [main]
     paths:
