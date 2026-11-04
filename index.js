@@ -2900,7 +2900,7 @@ function openEncyclopediaCard(article,requestStartMs){
   document.getElementById('pocketStandaloneChoices')?.remove();
   if(isCountry||isRegion||coords&&coords.latitude!=null&&coords.longitude!=null&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))){
    const scope={entity_type:isCountry?'country':isRegion?'region':'city',entity_kind:'place',entity_title:title,
-    entity_country_code:isCountry?String(article.country_code||''):isRegion?String(article.parent_country_code||''):'',
+    entity_country_code:isRegion?String(article.parent_country_code||''):String(article.country_code||''),
     entity_country_name:isCountry?title:String(article.parent_country||''),
     latitude:!isCountry&&!isRegion?coords?.latitude:null,longitude:!isCountry&&!isRegion?coords?.longitude:null};
    state.tripCountryOnChoice=null;offerAssistantScopeAccommodation(scope);return;
