@@ -11,6 +11,7 @@ on:
       - tests_geographic_station_intent.mjs
       - tests_balmos_recipe_regression.mjs
       - tests_entity_disambiguation.mjs
+      - tests_geographic_profile_selection.mjs
       - tests_county_translation_regression.mjs
       - tests_assistant_address_picker_regression.mjs
       - tests_accommodation_first_flow.mjs
@@ -39,6 +40,7 @@ jobs:
           node tests_geographic_station_intent.mjs
           node tests_balmos_recipe_regression.mjs
           node tests_entity_disambiguation.mjs
+          node tests_geographic_profile_selection.mjs
           node tests_county_translation_regression.mjs
           node tests_assistant_address_picker_regression.mjs
           node tests_accommodation_first_flow.mjs
