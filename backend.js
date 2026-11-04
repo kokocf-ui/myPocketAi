@@ -5211,6 +5211,14 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       return null;
     }
 
+    const verificationIntent=/\\b(?:verific\\w*|confirm\\w*|corobor\\w*|verify|verification|surse independente|independent sources)\\b/i.test(message)
+      && classifyNewsRequest(message).mode==="analysis";
+    if(verificationIntent){
+      systemMessage += lang==="ro"
+        ? "\\n\\nVERIFICARE FACTUALĂ: Utilizatorul cere verificarea unei afirmații, NU o listă de știri. Răspunde în limba română, cu o concluzie explicită (confirmat / parțial confirmat / neconfirmat / insuficiente dovezi), apoi arată ce afirmă fiecare sursă relevantă și linkul său. Distinge declarațiile unei părți de confirmarea independentă. Două publicații care preiau aceeași agenție sau declarație NU sunt două confirmări independente. Nu inventa verificări sau surse; dacă dovezile nu permit concluzia, spune asta. Precizează data și dacă un articol este vechi față de eveniment. Nu transforma răspunsul într-un tabel de titluri."
+        : "\\n\\nFACT VERIFICATION: The user requests an evidence-based verdict, not a news headline collection. Give an explicit confirmed/partially confirmed/unconfirmed/insufficient-evidence conclusion with source links and dates. Distinguish a party's claims from independent confirmation. Syndicated copies of one wire story are not independent confirmations. Never invent verification or sources. Do not return a bare headline list.";
+    }
+
     function countSentences(text) {
       return (text.match(/[^.!?]+[.!?]+(?:[”’"')\]]*)|[^.!?]+$/g) || [])
         .map(part => part.trim())
