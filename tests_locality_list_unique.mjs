@@ -18,7 +18,7 @@ globalThis.fetch=async url=>{
  return Response.json({results:[
   {result_type:'city',city:'Alba Iulia',county:'Alba',country:'Romania',
     country_code:'ro',formatted:'Alba Iulia, AB, Romania',lat:46.068,lon:23.57},
-  {result_type:'city',city:'Alba Iulia',county:'Alba',country:'Romania',
+  {result_type:'city',city:'Alba Iulia',county:'AB',state:'Alba',country:'Romania',
     country_code:'ro',postcode:'510010',formatted:'510010 Alba Iulia, Romania',lat:46.0681,lon:23.571},
   {result_type:'amenity',city:'Alba Iulia',name:'Alba Carolina Citadel',county:'Alba',
     country:'Romania',country_code:'ro',lat:46.067,lon:23.56},
