@@ -1248,6 +1248,11 @@ export default {
       });
       try {
         const alternatives=[url];
+        if(stage==='city'&&query.trim().length>=3){
+          const exactCity=new URL(url);
+          exactCity.pathname='/v1/geocode/search';
+          alternatives.unshift(exactCity);
+        }
         if(stage==='street'&&autocomplete){
           const cityFirst=new URL(url);
           cityFirst.searchParams.set('text',city+', '+query);
@@ -1302,12 +1307,16 @@ export default {
           if(stage==='number'&&(!['building','amenity'].includes(place.result_type)||(street&&normalize(place.street)!==normalize(street))||!place.housenumber||
               (postcode&&place.postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
           if(stage==='city'&&place.result_type!=='city')return [];
+          const cityName=String(place.city||place.town||place.village||place.hamlet||place.name||'');
+          if(stage==='city'&&(!normalize(cityName).startsWith(normalize(query))||
+              /metropolitan area|zona metropolitana|metropolitan region/i.test(normalize(cityName))))return [];
           const label=stage==='street'?[place.street,city,place.country].filter(Boolean).join(', '):String(place.formatted||'');
           const key=stage==='street'?normalize(place.street):label;
           if(!label||seen.has(key))return [];
           seen.add(key);
-          return [{label,city:towns.find(Boolean)||'',street:place.street||'',houseNumber:String(place.housenumber||''),latitude:place.lat,longitude:place.lon,country_code:country.toUpperCase()}];
+          return [{label,matchRank:stage==='city'?(normalize(cityName)===normalize(query)?0:1):1,city:stage==='city'?cityName:(towns.find(Boolean)||''),street:place.street||'',houseNumber:String(place.housenumber||''),latitude:place.lat,longitude:place.lon,country_code:country.toUpperCase()}];
         });
+        candidates.sort((a,b)=>a.matchRank-b.matchRank||a.label.localeCompare(b.label));
         return json({candidates});
       } catch {
         return json({error:'Address search unavailable'},502);
