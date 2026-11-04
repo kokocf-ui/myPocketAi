@@ -29,9 +29,9 @@ try{
  assert.equal(typeof recent.structured_list.coverage_status,'string');
  const roResponse=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
   body:JSON.stringify({message:'Știri geopolitice internationale',language:'ro'})}),{AI:{run:async()=>({response:JSON.stringify([
-   {i:0,title:'Ucraina: negocieri diplomatice după summitul internațional',summary:''},
-   {i:1,title:'Liderii europeni discută sancțiuni și negocieri',summary:''},
-   {i:2,title:'Ucraina și Rusia discută negocieri de securitate',summary:''}
+   {i:0,t:'Ucraina: negocieri diplomatice după summitul internațional',s:''},
+   {i:1,t:'Liderii europeni discută sancțiuni și negocieri',s:''},
+   {i:2,t:'Ucraina și Rusia discută negocieri de securitate',s:''}
   ])})}});
  assert.equal(roResponse.status,200);
  const roNews=await roResponse.json();
@@ -39,6 +39,8 @@ try{
  assert.ok(roNews.structured_list.rows.some(x=>x.original_title.includes('Украина')),'Cyrillic-language sources must be retained');
  assert.ok(roNews.structured_list.rows.some(x=>x.title.includes('Ucraina')),'News headlines should be translated into Romanian');
  assert.ok(roNews.structured_list.rows.every(x=>x.url.startsWith('https://')),'Translation must not modify source URLs');
+ assert.ok(roNews.structured_list.rows.every(x=>!/^https?:/i.test(x.source_name)),'Publisher must not display HTTP URLs');
+ assert.ok(roNews.structured_list.rows.some(x=>x.source_name==='Agency'),'Non-RO publisher should be retained');
  const html=await(await frontend.fetch(new Request('https://fixture/'))).text();
  const source=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
  assert.ok(source);
