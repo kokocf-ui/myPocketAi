@@ -10,6 +10,8 @@ assert(frontend.includes('openAssistantStructuredAddress(option);return;'),'assi
 assert(frontend.includes('openStandaloneChoicePanel(host,String(option.entity_title'), 'assistant renders address fields in its overlay');
 assert(frontend.includes('keepOpen=true')||frontend.includes('keepOpen=false'),'address lookup overlay can stay open');
 assert(frontend.includes('region:region||'), 'region is supplied to backend search');
+assert(frontend.includes("if(state.currentView==='assistant'&&state.assistantStructuredDestination===true){"),'selected assistant destination stays in its module');
+assert(frontend.includes('state.assistantStructuredDestination=true;'),'assistant destination state is tracked');
 assert(frontend.includes('if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)'), 'typed house number cannot silently become approximate');
 assert(frontend.includes('selected.city||selected.street')||frontend.includes("confirmed.disabled=!selected.city"), 'confirmed locality may be the destination');
 
