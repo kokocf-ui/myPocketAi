@@ -1247,7 +1247,7 @@ export default {
            return ({piedmont:'piemonte',piemont:'piemonte',tuscany:'toscana',lombardy:'lombardia',apulia:'puglia',sicily:'sicilia',sardinia:'sardegna'})[raw]||raw;};
           const endpoint=new URL('https://api.tomtom.com/maps/orbis/places/geocode');
           endpoint.search=new URLSearchParams({
-            query:[[street,query.trim()].filter(Boolean).join(' '),city,country==='ro'?'':postcode].filter(Boolean).join(', '),
+            query:[[street,query.trim()].filter(Boolean).join(' '),city,region,postcode].filter(Boolean).join(', '),
             countryCodesIso2:country.toUpperCase(),types:'address',maxResults:'20'
           });
           const response=await fetch(endpoint,{headers:{'TomTom-Api-Version':'2','TomTom-Api-Key':env.TOMTOM_API_KEY,Attributes:'results'},signal:AbortSignal.timeout(8000)});
@@ -1257,7 +1257,7 @@ export default {
             const candidates=(payload.results||[]).flatMap(item=>{
               const a=item.address||{},p=item.position?.coordinates;
               if(item.type!=='address'||a.countryCodeIso2!==country.toUpperCase()||
-                 norm(a.municipality)!==norm(city)||(region&&![a.countrySubdivision,a.countrySecondarySubdivision].some(x=>countyNorm(x)===countyNorm(region)))||(street&&streetNorm(a.street)!==streetNorm(street))||
+                 ![a.municipality,a.municipalitySubdivision].some(x=>norm(x)===norm(city))||(region&&![a.countrySubdivision,a.countrySecondarySubdivision].some(x=>countyNorm(x)===countyNorm(region)))||(street&&streetNorm(a.street)!==streetNorm(street))||
                  norm(a.houseNumber)!==norm(query)||!Array.isArray(p)||!Number.isFinite(p[0])||!Number.isFinite(p[1]))return [];
               return [{label:item.title||[a.street,a.houseNumber,a.municipality].filter(Boolean).join(' '),
                 city:a.municipality,street:a.street||'',houseNumber:String(a.houseNumber),postcode:a.postalCode||'',
@@ -1285,7 +1285,7 @@ export default {
             const payload=await response.json(),seen=new Set();
             const candidates=(payload.results||[]).flatMap(item=>{
               const a=item.address||{},p=item.position?.coordinates,name=String(a.street||item.title||'');
-              if(item.type!=='street'||String(a.countryCodeIso2||'').toLowerCase()!==country||norm(a.municipality)!==norm(city)||
+              if(item.type!=='street'||String(a.countryCodeIso2||'').toLowerCase()!==country||![a.municipality,a.municipalitySubdivision].some(v=>norm(v)===norm(city))||
                  (region&&![a.countrySubdivision,a.countrySecondarySubdivision].some(v=>countyNorm(v)===countyNorm(region)))||
                  !name||!norm(name).split(' ').some(w=>w.startsWith(prefix))&&!norm(name).startsWith(prefix)||
                  !Array.isArray(p)||!Number.isFinite(p[0])||!Number.isFinite(p[1])||seen.has(norm(name)))return [];

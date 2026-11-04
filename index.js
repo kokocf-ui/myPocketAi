@@ -1682,15 +1682,15 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    const pendingStreet=cityOnly?'':fields.street?.input.value.trim();
    if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)){
     status.textContent=t('Strada sau numărul nu sunt verificate. Selectează o sugestie verificată ori folosește butonul separat pentru centrul localității. Datele neverificate NU devin destinație.','Street or house number is not verified. Select a verified suggestion or use the separate town-centre button. Unverified address text is NOT a destination.');
-    approximateButton.hidden=false;
+    approximateButton.hidden=!selected.city||!Number.isFinite(selected.city.latitude)||!Number.isFinite(selected.city.longitude);
     return;
    }
    const point=cityOnly?selected.city:(selected.number||selected.street||selected.city);
-   if(!point)return;
+   if(!point||!Number.isFinite(point.latitude)||!Number.isFinite(point.longitude))return;
    onSelect({...point,approximation:cityOnly?'locality':selected.number?null:selected.street?'street':'locality',verified_region:region,verified_country:countryCode||selected.country?.code});
   });
   const approximateButton=card(t('Continuă la centrul localității (nu la numărul introdus)','Continue to town centre (not the entered house number)'),()=>{
-   if(!selected.city)return;
+   if(!selected.city||!Number.isFinite(selected.city.latitude)||!Number.isFinite(selected.city.longitude))return;
    onSelect({...selected.city,approximation:'locality',verified_region:region,verified_country:countryCode||selected.country?.code});
   });
   approximateButton.hidden=true;
@@ -1733,7 +1733,8 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     delete selected[key];fields[key].input.value='';fields[key].input.disabled=true;fields[key].list.replaceChildren();
     fields[key].search.disabled=true;
    }
-   confirmed.disabled=!selected.city;
+   const confirmedPoint=selected.number||selected.street||selected.city;
+   confirmed.disabled=!confirmedPoint||!Number.isFinite(confirmedPoint.latitude)||!Number.isFinite(confirmedPoint.longitude);
    approximateButton.hidden=true;
    // A rural number can be entered without a named street.
    if(selected.city&&!cityOnly){fields.number.input.disabled=false;fields.number.search.disabled=false;}
@@ -1801,7 +1802,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
      list.textContent=t('Nu am găsit rezultate verificate.','No verified matches.');
      if(stage==='number'&&fields.number.input.value.trim()){
       status.textContent=t('Numărul nu este verificat în hărți. Poți căuta alt număr sau continua spre centrul localității; nu vom inventa o adresă exactă.','House number is not verified on the map. Search another number or continue to town centre; we will not invent an exact address.');
-      approximateButton.hidden=!selected.city;
+      approximateButton.hidden=!selected.city||!Number.isFinite(selected.city.latitude)||!Number.isFinite(selected.city.longitude);
      }
     }
    }catch{
@@ -1828,7 +1829,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    input.addEventListener('pointerup',event=>{if(selected[stage]){event.preventDefault();input.select();}});
    input.oninput=()=>{
     generation++;clearTimeout(timer);delete selected[stage];if(stage!=='number')withoutStreet=false;list.replaceChildren();clearAfter(stage);
-    approximateButton.hidden=!selected.city||cityOnly;
+    approximateButton.hidden=!selected.city||cityOnly||!Number.isFinite(selected.city.latitude)||!Number.isFinite(selected.city.longitude);
     if(stage==='street'&&selected.city&&!cityOnly){fields.number.input.disabled=false;fields.number.search.disabled=false;}
     if(input.value.trim().length>=1){
      if(stage==='street'||stage==='number'){
@@ -1864,7 +1865,17 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
      if(!cityOnly){fields.street.input.disabled=fields.street.search.disabled=false;fields.number.input.disabled=fields.number.search.disabled=false;}
      status.textContent=t('Localitate verificată: ','Verified town: ')+fields.city.input.value;
      prewarmStreets();
-    }else if(prefillCity){fields.city.input.value=String(prefillCity);void lookup('city')}
+    }else if(prefillCity){
+     // Keep the already selected village visible and locked even when mapping
+     // providers cannot supply its centroid. House-number lookup can still run.
+     selected.city={city:String(prefillCity),label:[prefillCity,region].filter(Boolean).join(', '),latitude:null,longitude:null};
+     fields.city.input.value=String(prefillCity);
+     fields.city.input.disabled=fields.city.search.disabled=true;
+     fields.city.row.hidden=true;
+     confirmed.disabled=true;
+     if(!cityOnly){fields.street.input.disabled=fields.street.search.disabled=false;fields.number.input.disabled=fields.number.search.disabled=false;}
+     status.textContent=t('Localitatea aleasă este păstrată. Coordonatele nu sunt încă verificate; caută strada sau numărul, fără a repeta alegerea localității.','The chosen town is retained. Its coordinates are not verified yet; search for a street or number without selecting the town again.');
+    }
     fields.country.row.hidden=true;
     const countryNote=document.createElement('p');countryNote.style.cssText='font-size:14px;color:#cbe7ef;margin:5px 0 10px';
     countryNote.textContent=t('Țară: ','Country: ')+selected.country.label;
@@ -2025,6 +2036,36 @@ function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=nu
  const countryCode=String(option.entity_country_code||'').toUpperCase();
  const prefillCity=type==='city'?String(option.entity_title||''):'';
  const prefillCityPoint=type==='city'?assistantGeographicPoint(option):null;
+ // Administrative village references have a confirmed name/county but no map point.
+ // Resolve the already selected town silently instead of requiring another selection.
+ if(type==='city'&&prefillCity&&!prefillCityPoint&&!option._localityLookupDone){
+  const host=document.createElement('div');host.dataset.directChoices='true';
+  const note=document.createElement('p');note.textContent=state.language==='ro'
+   ?'Verific pe hartă localitatea deja aleasă: '+prefillCity+', '+regionName+'.'
+   :'Verifying the previously selected locality: '+prefillCity+', '+regionName+'.';
+  host.append(note);
+  openStandaloneChoicePanel(host,prefillCity,{keepOpen:true});
+  const code=countryCode.toLowerCase();
+  void fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({address_lookup:{stage:'city',country:code,query:prefillCity,city:'',street:'',postcode:'',region:regionName}})})
+   .then(r=>r.ok?r.json():null).then(data=>{
+    const normalizeName=v=>String(v||'').normalize('NFD').toLowerCase().trim();
+    const matches=(Array.isArray(data?.candidates)?data.candidates:[]).filter(p=>
+     normalizeName(p.city)===normalizeName(prefillCity)&&Number.isFinite(p.latitude)&&Number.isFinite(p.longitude));
+    // Duplicate provider labels at essentially the same village are one place.
+    const origin=matches[0],sameVillage=origin&&matches.every(p=>
+     Math.abs(p.latitude-origin.latitude)<0.015&&Math.abs(p.longitude-origin.longitude)<0.02);
+    const candidate=sameVillage?origin:null;
+    const verified=candidate?{latitude:candidate.latitude,longitude:candidate.longitude,
+     city:prefillCity,label:[prefillCity,regionName].filter(Boolean).join(', ')}:null;
+    document.getElementById('pocketStandaloneChoices')?.remove();
+    openAssistantStructuredAddress({...option,_localityLookupDone:true,...(verified||{})},{cityOnly,onVerifiedCity});
+   }).catch(()=>{
+    document.getElementById('pocketStandaloneChoices')?.remove();
+    openAssistantStructuredAddress({...option,_localityLookupDone:true},{cityOnly,onVerifiedCity});
+   });
+  return true;
+ }
  const host=document.createElement('div');host.dataset.directChoices='true';
  const headline=cityOnly
   ?(state.language==='ro'?'Alege o localitate pentru căutarea cazării. După ce selectezi hotelul, adresa sa devine automat destinația.':'Select a town to look for accommodation. Your chosen hotel will automatically become your destination.')

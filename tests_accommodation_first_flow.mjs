@@ -99,4 +99,36 @@ assert.equal(hotelActions.route.route_context.destination.longitude,23.575);
 assert.match(hotelActions.route.route_context.destination.label,/Strada Unirii 10/);
 assert.equal(hotelCtx.state.tripAccommodationDecision,'yes');
 assert.equal(hotelCtx.state.assistantStructuredDestination,true);
+
+ // Administrative village names are already selected by the user: resolving their
+ // geographic point must be silent and must not create a second city-choice list.
+for(const regionName of ['Tulcea','Botoșani']){
+ let pickerArgs=null,requests=0;
+ const villageCtx=vm.createContext({
+  state:{language:'ro',currentView:'assistant'},
+  document:{createElement:element,getElementById:()=>null,querySelector:()=>element('div')},
+  openStandaloneChoicePanel:()=>{},
+  renderStructuredAddressPicker:args=>{pickerArgs=args},
+  CLIENT_CONFIG:{apiUrl:'https://unit.test/api/chat'},
+  fetch:async (url,options)=>{
+   requests++;
+   const request=JSON.parse(options.body).address_lookup;
+   assert.equal(request.stage,'city');
+   assert.equal(request.query,'Alba');
+   assert.equal(request.region,regionName);
+   assert.equal(request.country,'ro');
+   return {ok:true,json:async()=>({candidates:[{city:'Alba',label:'Alba, '+regionName,latitude:45.3,longitude:28.1}]})};
+  },
+ });
+ vm.runInContext(snippet,villageCtx);
+ const ref={entity_kind:'locality_reference',entity_type:'city',entity_title:'Alba',
+  entity_region:regionName,entity_country_code:'RO'};
+ villageCtx.openAssistantStructuredAddress(ref);
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(requests,1,'only one silent county-scoped lookup');
+ assert.equal(pickerArgs?.prefillCity,'Alba','already selected village retained');
+ assert.equal(pickerArgs?.region,regionName);
+ assert.equal(pickerArgs?.prefillCityPoint?.city,'Alba','verified village passed to common picker');
+}
+
 console.log('Accommodation-first scope decisions and precise hotel destination regression passed.');

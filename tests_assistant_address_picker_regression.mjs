@@ -13,7 +13,7 @@ assert(frontend.includes('region:region||'), 'region is supplied to backend sear
 assert(frontend.includes("if(state.currentView==='assistant'&&state.assistantStructuredDestination===true){"),'selected assistant destination stays in its module');
 assert(frontend.includes('state.assistantStructuredDestination=true;'),'assistant destination state is tracked');
 assert(frontend.includes('if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)'), 'typed house number cannot silently become approximate');
-assert(frontend.includes('selected.city||selected.street')||frontend.includes("confirmed.disabled=!selected.city"), 'confirmed locality may be the destination');
+assert(frontend.includes("const point=cityOnly?selected.city:(selected.number||selected.street||selected.city)"),'verified locality may be destination without a street or house number');
 
 // Global destination and accommodation decision regressions.
 assert(frontend.includes('const countries=Array.from({length:26*26}'),'country picker must not be Europe-only');
@@ -38,6 +38,15 @@ assert(frontend.includes('Unverified address text is NOT a destination.'),'unver
 assert(frontend.includes("approximateButton.hidden=!selected.city"),'town-centre fallback requires a verified locality');
 assert(frontend.includes("function prewarmStreets()"),'shared picker indexes available streets before typing');
 assert(backend.includes("piedmont:'piemonte'"),'Italian province local names and English names are reconciled');
+// An administrative village reference has no lat/lon: resolve its scoped map point
+// silently rather than asking the user to select Alba a second time.
+assert(frontend.includes("if(type==='city'&&prefillCity&&!prefillCityPoint&&!option._localityLookupDone)"),'administrative village is silently verified');
+assert(frontend.includes("openAssistantStructuredAddress({...option,_localityLookupDone:true"),'verified administrative village stays in the shared picker');
+assert(frontend.includes('fields.city.row.hidden=true'),'the already selected village is not selectable again');
+assert(frontend.includes('selected.city={city:String(prefillCity)'),'county-scoped village name survives failed geocoding');
+assert(frontend.includes("stage:'city',country:code,query:prefillCity"),'background municipality lookup keeps the chosen name');
+assert(backend.includes('city,region,postcode].filter(Boolean)'), 'rural house number geocoding includes the selected county');
+assert(backend.includes('a.municipalitySubdivision'), 'rural house numbers may use municipality subdivisions');
 // Test the real address_lookup handler in isolation using provider-shaped mock data.
 const originalFetch=globalThis.fetch;
 const seen=[];
@@ -81,6 +90,32 @@ try{
  assert(house.candidates.some(p=>p.houseNumber==='180A'),'alphanumeric house numbers supported without street');
  assert(!house.candidates.some(p=>p.latitude===48.1),'house in wrong county rejected');
  assert(seen.some(u=>u.searchParams.get('text')?.includes('Tulcea')),'county included in provider queries');
+}finally{globalThis.fetch=originalFetch}
+
+// TomTom may put a numbered Romanian village under its commune, with
+// Alba represented as municipalitySubdivision rather than municipality.
+const tomtomRequests=[];
+globalThis.fetch=async url=>{
+ const u=new URL(String(url));tomtomRequests.push(u);
+ if(u.hostname==='api.tomtom.com')return Response.json({results:[{
+  type:'address',address:{countryCodeIso2:'RO',municipality:'Izvoarele',
+   municipalitySubdivision:'Alba',countrySubdivision:'Tulcea',houseNumber:'28A',postalCode:'827106'},
+  position:{coordinates:[28.2,45.1]},title:'Alba 28A'
+ }]});
+ return Response.json({results:[]});
+};
+try{
+ const response=await worker.fetch(new Request('https://unit.test/api/chat',{
+  method:'POST',headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({address_lookup:{stage:'number',country:'ro',city:'Alba',
+   street:'',query:'28A',postcode:'',region:'Tulcea'}})
+ }),{TOMTOM_API_KEY:'test',GEOAPIFY_API_KEY:'test'});
+ assert.equal(response.status,200);
+ const result=await response.json();
+ assert.equal(result.provider,'tomtom','municipality subdivision can verify a rural address');
+ assert.equal(result.candidates[0].houseNumber,'28A');
+ assert(tomtomRequests.some(u=>u.searchParams.get('query')?.includes('Tulcea')),
+  'TomTom rural query includes selected county');
 }finally{globalThis.fetch=originalFetch}
 
 // Geographic candidates from administrative sources are not fake map coordinates.
