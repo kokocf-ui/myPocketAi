@@ -55,7 +55,11 @@ export function planPresentation(payload){
  }else{
    const paras=splitReply(reply);
    const lines=reply.split(/\n/).map(x=>x.trim()).filter(Boolean);
-   const numbered=lines.length>=3&&lines.filter(x=>/^(?:\d+[.)]|[-*•])\s+/.test(x)).length/lines.length>=.65;
+   const marked=lines.filter(x=>/^(?:\d+[.)]|[-*•])\s+/.test(x));
+   // Long numbered explanations should not automatically become item collections.
+   const longExplanation=lines.length>=6&&marked.length>=6&&
+     (lines.some(x=>x.length>170)||lines.reduce((n,x)=>n+x.length,0)>750);
+   const numbered=lines.length>=3&&marked.length/lines.length>=.65&&!longExplanation;
    if(numbered)blocks.push({kind:"list",items:lines.slice(0,35).map(x=>x.replace(/^(?:\d+[.)]|[-*•])\s+/,"").slice(0,700))});
    else blocks.push({kind:"text",paragraphs:paras.length?paras:[text(reply,12000)]});
  }
