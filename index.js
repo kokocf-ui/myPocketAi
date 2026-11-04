@@ -2029,7 +2029,7 @@ function assistantGeographicPoint(option){
  if(option?.latitude==null||option?.longitude==null||!Number.isFinite(latitude)||!Number.isFinite(longitude)||Math.abs(latitude)>90||Math.abs(longitude)>180)return null;
  return {latitude,longitude,label:String(option.entity_title||option.label||''),city:String(option.entity_title||'')};
 }
-function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=null}={}){
+function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=null,onVerifiedDestination=null}={}){
  const type=assistantGeographicType(option);
  const regionName=type==='region'?String(option.entity_title||'').trim().replace(/^(?:județ(?:ul)?|judet(?:ul)?|county|province)\\s+/iu,''):
   type==='city'?String(option.entity_region||'').trim():'';
@@ -2059,10 +2059,10 @@ function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=nu
     const verified=candidate?{latitude:candidate.latitude,longitude:candidate.longitude,
      city:prefillCity,label:[prefillCity,regionName].filter(Boolean).join(', ')}:null;
     document.getElementById('pocketStandaloneChoices')?.remove();
-    openAssistantStructuredAddress({...option,_localityLookupDone:true,...(verified||{})},{cityOnly,onVerifiedCity});
+    openAssistantStructuredAddress({...option,_localityLookupDone:true,...(verified||{})},{cityOnly,onVerifiedCity,onVerifiedDestination});
    }).catch(()=>{
     document.getElementById('pocketStandaloneChoices')?.remove();
-    openAssistantStructuredAddress({...option,_localityLookupDone:true},{cityOnly,onVerifiedCity});
+    openAssistantStructuredAddress({...option,_localityLookupDone:true},{cityOnly,onVerifiedCity,onVerifiedDestination});
    });
   return true;
  }
@@ -2086,6 +2086,7 @@ function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=nu
    const verified={latitude:lat,longitude:lon,label:scopedLabel,city:String(point.city||prefillCity||''),approximation:point.approximation||null};
    document.getElementById('pocketStandaloneChoices')?.remove();
    if(cityOnly&&typeof onVerifiedCity==='function'){onVerifiedCity(verified);return;}
+   if(typeof onVerifiedDestination==='function'){onVerifiedDestination(verified);return;}
    state.tripCountryOnChoice=null;state.tripAccommodationDecision='no';
    state.assistantStructuredDestination=true;
    state.routeSearchContext=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;
@@ -2093,6 +2094,107 @@ function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=nu
   }
  });
  return true;
+}
+// The geographic search engine is unchanged. This function only orchestrates the
+// already verified locality, the chosen vehicle and the existing route engines.
+async function resolveAssistantLocalityForJourney(option){
+ const existing=assistantGeographicPoint(option);
+ if(existing)return existing;
+ if(assistantGeographicType(option)!=='city')return null;
+ const city=String(option.entity_title||'').trim(),region=String(option.entity_region||'').trim();
+ const country=String(option.entity_country_code||'').toLowerCase();
+ if(!city||!/^[a-z]{2}$/.test(country))return null;
+ try{
+  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({address_lookup:{stage:'city',country,query:city,city:'',street:'',postcode:'',region}})});
+  if(!response.ok)return null;
+  const data=await response.json();
+  const norm=v=>String(v||'').normalize('NFD').toLowerCase().trim();
+  const points=(Array.isArray(data.candidates)?data.candidates:[]).filter(p=>
+   norm(p.city)===norm(city)&&Number.isFinite(p.latitude)&&Number.isFinite(p.longitude));
+  const first=points[0];
+  if(!first||!points.every(p=>Math.abs(p.latitude-first.latitude)<0.015&&Math.abs(p.longitude-first.longitude)<0.02))return null;
+  return {latitude:first.latitude,longitude:first.longitude,label:[city,region].filter(Boolean).join(', '),city,approximation:'locality'};
+ }catch{return null;}
+}
+function startAssistantLocalityRoute(destination,mode){
+ if(!destination||!Number.isFinite(Number(destination.latitude))||!Number.isFinite(Number(destination.longitude)))return false;
+ const labels=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;
+ const index=mode==='transit'?2:mode==='drive'?3:1;
+ state.tripCountryOnChoice=null;
+ state.assistantStructuredDestination=false;
+ state.pendingTravelConfirmationData=null;
+ state.pendingRouteDestination=null;
+ state.routeSearchContext={destination_query:destination.label,destination:{...destination},pending:'profile'};
+ state.pendingTravelMode=mode;
+ document.getElementById('pocketStandaloneChoices')?.remove();
+ inputEl.value=labels[index];
+ void submitMessage();
+ return true;
+}
+function offerAssistantLocalityTravelMode(option){
+ const type=assistantGeographicType(option);
+ // A county or country is not a stop: pick the town once, then choose transport.
+ if(type!=='city'){
+  openAssistantStructuredAddress(option,{cityOnly:true,onVerifiedCity:verified=>{
+   offerAssistantLocalityTravelMode({entity_kind:'place',entity_type:'city',
+    entity_title:verified.city||verified.label,entity_region:'',
+    entity_country_code:option.entity_country_code,
+    latitude:verified.latitude,longitude:verified.longitude,label:verified.label});
+  }});
+  return;
+ }
+ const host=document.createElement('div');host.dataset.directChoices='true';
+ const note=document.createElement('p');
+ note.textContent=(state.language==='ro'?'Localitate selectată: ':'Selected town: ')+String(option.entity_title||option.label||'');
+ host.append(note);
+ const labels=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;
+ const select=async mode=>{
+  if(state.busy)return;
+  document.getElementById('pocketStandaloneChoices')?.remove();
+  if(mode==='drive'){offerAssistantCarDestination(option);return;}
+  // Transit always uses the town/nearest carrier stop, never lodging or a private address.
+  const place=await resolveAssistantLocalityForJourney(option);
+  if(place){startAssistantLocalityRoute({...place,approximation:'locality'},mode);return;}
+  const panel=document.createElement('div');panel.dataset.directChoices='true';
+  const explanation=document.createElement('p');
+  explanation.textContent=state.language==='ro'
+   ?'Localitatea este identificată, dar poziția ei nu este confirmată în hărți. Selectează localitatea verificată pentru a calcula transportul.'
+   :'The town is identified, but its map position is not verified. Choose the verified town to calculate public transport.';
+  panel.append(explanation);
+  const pick=document.createElement('button');pick.type='button';pick.className='transit-choice-action';
+  pick.textContent=state.language==='ro'?'Verifică localitatea':'Verify town';
+  pick.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();
+   openAssistantStructuredAddress(option,{cityOnly:true,onVerifiedCity:verified=>startAssistantLocalityRoute(verified,mode)});};
+  panel.append(pick);openStandaloneChoicePanel(panel,String(option.entity_title||option.label||''));
+ };
+ for(const [mode,label] of [['transit',labels[2]],['drive',labels[3]]]){
+  const button=document.createElement('button');button.type='button';button.className='transit-choice-action';
+  button.textContent=label;button.onclick=()=>{void select(mode)};host.append(button);
+ }
+ openStandaloneChoicePanel(host,labels[0]);
+}
+function offerAssistantCarDestination(option){
+ const host=document.createElement('div');host.dataset.directChoices='true';
+ const label=String(option.entity_title||option.label||'');
+ const textNode=document.createElement('p');textNode.textContent=(state.language==='ro'
+  ?'Destinație cu mașina în ':'Driving destination in ')+label;host.append(textNode);
+ const lodging=document.createElement('button');lodging.type='button';lodging.className='transit-choice-action';
+ lodging.textContent=state.language==='ro'?'Caută cazare':'Find accommodation';
+ lodging.onclick=async()=>{
+  document.getElementById('pocketStandaloneChoices')?.remove();
+  const place=await resolveAssistantLocalityForJourney(option);
+  if(place){state.assistantStructuredDestination=true;offerDestinationAccommodationBeforeRoute(place,{autoSearch:true,scopeOption:option,routeMode:'drive'});return;}
+  openAssistantStructuredAddress(option,{cityOnly:true,onVerifiedCity:verified=>{
+   state.assistantStructuredDestination=true;offerDestinationAccommodationBeforeRoute(verified,{autoSearch:true,scopeOption:option,routeMode:'drive'});
+  }});
+ };
+ const address=document.createElement('button');address.type='button';address.className='transit-choice-action';
+ address.textContent=state.language==='ro'?'Merg la o adresă':'Go to an address';
+ address.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();
+  openAssistantStructuredAddress(option,{onVerifiedDestination:point=>startAssistantLocalityRoute(point,'drive')});
+ };
+ host.append(lodging,address);openStandaloneChoicePanel(host,label);
 }
 function offerAssistantScopeAccommodation(option){
  const type=assistantGeographicType(option),point=assistantGeographicPoint(option);
@@ -2147,7 +2249,7 @@ function confirmAssistantGeographicRoute(option){
  host.append(note);
  const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';
  yes.textContent=state.language==='ro'?'Da, arată traseul':'Yes, show directions';
- yes.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();offerAssistantScopeAccommodation(option)};
+ yes.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();offerAssistantLocalityTravelMode(option)};
  const no=document.createElement('button');no.type='button';no.className='transit-choice-action';
  no.textContent=state.language==='ro'?'Nu, închide':'No, close';
  no.onclick=()=>document.getElementById('pocketStandaloneChoices')?.remove();
@@ -2199,7 +2301,7 @@ function appendConversationChoices(data,host){
     const go=document.createElement('button');go.type='button';go.className='transit-choice-action';
     go.textContent=state.language==='ro'?'Da, arată traseul':'Yes, show directions';
     go.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();
-      offerAssistantScopeAccommodation(option)};
+      offerAssistantLocalityTravelMode(option)};
     const close=document.createElement('button');close.type='button';close.className='transit-choice-action';
     close.textContent=state.language==='ro'?'Nu, închide':'No, close';
     close.onclick=()=>document.getElementById('pocketStandaloneChoices')?.remove();
