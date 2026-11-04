@@ -1573,6 +1573,8 @@ export default {
         }catch{}
       }
       if(article){
+        const encyclopedicOnly=data.selected_entity_kind==='article';
+        article.source_description=article.description;
 
         // English Wikipedia is a source, not the preferred display language.
         // Resolve the same Wikidata item in the user's language, then translate if needed.
@@ -1664,7 +1666,7 @@ export default {
             }
           }catch{}
         }
-        const isCountryProfile=Boolean(countryNameCodes.has(normalizeGeoName(encyclopediaTitle))&&countryCode) || /\b(?:țară|tara|country|republic|stat suveran|sovereign state)\b/i.test(String(article.description||''));
+        const isCountryProfile=!encyclopedicOnly&&(Boolean(countryNameCodes.has(normalizeGeoName(encyclopediaTitle))&&countryCode) || /\b(?:țară|tara|country|republic|stat suveran|sovereign state)\b/i.test(String(article.description||article.source_description||'')));
         article.is_country=isCountryProfile;
         // Counties and administrative regions require a distinct locality list.
         const geoIntentText=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -1672,7 +1674,7 @@ export default {
         const explicitCountyQuery=/(?:^|\s)(?:judet(?:ul)?|county|province|provincia|departament(?:ul)?|department|district)(?:\s|$)/i.test(geoIntentText);
         const regionalArticle=/(?:jude[țt](?:ul)?|county|province|provincia|département|department|administrative region|regiune administrativă)/i.test(regionalName)
           && !/(?:county seat|reședința județului|resedinta judetului|capitala județului)/i.test(String(article.description||''));
-        const isRegionProfile=!isCountryProfile&&(explicitCountyQuery||regionalArticle);
+        const isRegionProfile=!encyclopedicOnly&&!isCountryProfile&&(explicitCountyQuery||regionalArticle);
         article.is_region=isRegionProfile;
         if(isRegionProfile){const parentCode=/^(?:județ(?:ul)?|judet(?:ul)?)\b/i.test(String(article.title||''))?'RO':countryCode; if(/^[A-Z]{2}$/.test(parentCode)){article.parent_country_code=parentCode;try{article.parent_country=new Intl.DisplayNames([lang],{type:'region'}).of(parentCode)}catch{}}}
         if(isRegionProfile&&article.wikibase_item){
@@ -1744,7 +1746,7 @@ export default {
         // Optional notable sights, grounded in a geographically scoped place provider.
         // Never infer country-wide attractions from a country's geographic centroid.
         const isCountryArticle=Boolean(article.is_country);
-        if(!isCountryArticle&&!isRegionProfile&&article.coordinates&&env.GEOAPIFY_API_KEY){
+        if(!encyclopedicOnly&&!isCountryArticle&&!isRegionProfile&&article.coordinates&&env.GEOAPIFY_API_KEY){
           try{
             const u=new URL('https://api.geoapify.com/v2/places');
             u.searchParams.set('categories','tourism.attraction,tourism.sights,entertainment.museum,tourism.artwork');
@@ -1765,8 +1767,8 @@ export default {
             }
           }catch{}
         }
-        const realWorldDescription=normalizeGeoName(article.description||'');
-        article.can_route=Boolean(article.is_country||article.is_region||
+        const realWorldDescription=normalizeGeoName(article.description||article.source_description||'');
+        article.can_route=!encyclopedicOnly&&Boolean(article.is_country||article.is_region||
           (article.coordinates&&/\b(?:city|town|village|municipality|county|province|region|capital|oras|municipiu|comuna|sat|localitate|judet|provincie|localita|ville|stadt|ciudad|cidade)\b/i.test(realWorldDescription)));
         const reply=[article.title,article.description,article.extract].filter(Boolean).join(' — ');
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,encyclopedia:article,ai_generated:true});
