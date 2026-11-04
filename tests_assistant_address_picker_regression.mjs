@@ -31,6 +31,14 @@ assert(frontend.includes('const cached=matchCached(stage,input.value.trim())'),'
 assert(backend.includes("if(stage==='street'&&query.trim()&&env.TOMTOM_API_KEY)"),'TomTom provides street discovery fallback');
 assert(backend.includes("types:'street'"),'TomTom is constrained to verified street results');
 assert(backend.includes('Only verified street candidates within the selected municipality'),'street results are scoped to selected town');
+// Shared flow guarantees: no unverified number silently becomes an exact route.
+assert(frontend.includes('const approximateButton=card('),'shared picker offers an explicitly approximate destination');
+assert(frontend.includes("approximation:'locality'"),'fallback keeps verified locality coordinates only');
+assert(frontend.includes('Unverified address text is NOT a destination.'),'unverified address explicitly cannot become destination');
+assert(frontend.includes("approximateButton.hidden=!selected.city"),'town-centre fallback requires a verified locality');
+assert(frontend.includes("function prewarmStreets()"),'shared picker indexes available streets before typing');
+assert(backend.includes("piedmont:'piemonte'"),'Italian province local names and English names are reconciled');
+assert(!frontend.includes(String.raw`/\\\\p{M}/gu`),'Unicode normalization must not contain double-escaped unicode properties');
 // Test the real address_lookup handler in isolation using provider-shaped mock data.
 const originalFetch=globalThis.fetch;
 const seen=[];
