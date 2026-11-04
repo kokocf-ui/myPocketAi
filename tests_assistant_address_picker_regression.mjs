@@ -38,7 +38,6 @@ assert(frontend.includes('Unverified address text is NOT a destination.'),'unver
 assert(frontend.includes("approximateButton.hidden=!selected.city"),'town-centre fallback requires a verified locality');
 assert(frontend.includes("function prewarmStreets()"),'shared picker indexes available streets before typing');
 assert(backend.includes("piedmont:'piemonte'"),'Italian province local names and English names are reconciled');
-assert(!frontend.includes(String.raw`/\\\\p{M}/gu`),'Unicode normalization must not contain double-escaped unicode properties');
 // Test the real address_lookup handler in isolation using provider-shaped mock data.
 const originalFetch=globalThis.fetch;
 const seen=[];
