@@ -1417,6 +1417,118 @@ export default {
     const seekingRoute=Boolean(data.travel_mode||data.route_profile||data.route_destination||data.transit_destination||data.route_context?.destination)&&/^(?:mașină|masina|drive|driving|transport public|public transport|pietonal|walking|walk)$/i.test(message.trim()) || /\b(?:traseu|ajung|transport|route|directions|navigate|drive|walk|cauta|caută|find|nearby|aproape)\b/i.test(message);
     const possibleCity=parts.length<=2&&parts[0]?.split(/\s+/).length<=3&&/^[\p{L}\s.'-]{3,65}$/u.test(parts[0]||'')&&!/^(?:magazin|market|aldi|tesco|lidl|hotel|restaurant|pub|coffee|decathlon|sport direct)$/i.test(parts[0]||'');
     const cityLookup=!seekingRoute&&!data.quick_place_search&&possibleCity&&!explicitKnowledge&&!knownTopic&&!countrySuffix&&parts.length===1;
+
+    // Resolve short ambiguous names before choosing any encyclopaedia or map result.
+    // Geography and encyclopaedia are separate destinations; Wikipedia text is never routable by itself.
+    const entityChoiceEligible=!seekingRoute&&!data.quick_place_search&&parts.length===1&&
+      /^[\p{L}][\p{L}\s'-]{2,39}$/u.test(bareTopic)&&bareTopic.split(/\s+/).length<=2&&
+      !countryNameCodes.has(normalizeGeoName(bareTopic))&&!/^(?:magazin|market|restaurant|hotel|pub|cafe|farmacie)$/i.test(bareTopic);
+    if(entityChoiceEligible){
+      const target=normalizeGeoName(bareTopic);
+      const matchesName=value=>{
+        const n=normalizeGeoName(value).replace(/^(?:judetul|judet|county|province|provincia)\s+/,'').replace(/\s+(?:county|province)$/,'');
+        return n===target;
+      };
+      const titlesMatch=value=>{
+        const n=normalizeGeoName(value);
+        return n===target||n==='judetul '+target||n===target+' county'||n.startsWith(target+' ')||n.endsWith(' '+target);
+      };
+      const typeText={
+        ro:{region:'Județ / regiune',city:'Localitate',country:'Țară',area:'Zonă',encyclopedia:'Enciclopedie'},
+        en:{region:'County / region',city:'Town / city',country:'Country',area:'Area',encyclopedia:'Encyclopaedia'},
+        fr:{region:'Département / région',city:'Localité',country:'Pays',area:'Zone',encyclopedia:'Encyclopédie'},
+        de:{region:'Landkreis / Region',city:'Ort',country:'Land',area:'Gebiet',encyclopedia:'Enzyklopädie'},
+        it:{region:'Provincia / regione',city:'Località',country:'Paese',area:'Zona',encyclopedia:'Enciclopedia'},
+        es:{region:'Provincia / región',city:'Localidad',country:'País',area:'Zona',encyclopedia:'Enciclopedia'},
+        pt:{region:'Distrito / região',city:'Localidade',country:'País',area:'Zona',encyclopedia:'Enciclopédia'},
+        nl:{region:'Provincie / regio',city:'Plaats',country:'Land',area:'Gebied',encyclopedia:'Encyclopedie'},
+        ru:{region:'Район / регион',city:'Населённый пункт',country:'Страна',area:'Местность',encyclopedia:'Энциклопедия'},
+        pl:{region:'Powiat / region',city:'Miejscowość',country:'Kraj',area:'Obszar',encyclopedia:'Encyklopedia'}
+      }[lang];
+      const geoChoices=[],wikiChoices=[],keys=new Set();
+      const addGeo=(name,kind,code,description,lat,lon,source)=>{
+        if(!matchesName(name)||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return;
+        const key=normalizeGeoName(name)+'|'+code+'|'+kind;
+        if(keys.has(key))return;keys.add(key);
+        let country=String(code||'').toUpperCase();
+        try{if(/^[A-Z]{2}$/.test(country))country=new Intl.DisplayNames([lang],{type:'region'}).of(country)}catch{}
+        const info=[typeText[kind]||typeText.area,description,country].filter(Boolean);
+        const label=String(name||bareTopic).slice(0,90)+' · '+info.join(' · ');
+        geoChoices.push({label,entity_kind:'place',entity_type:kind,entity_title:String(name||bareTopic).slice(0,90),
+          entity_details:info.join(' · '),latitude:lat,longitude:lon,entity_source:source});
+      };
+      const jobs=[];
+      if(env.TOMTOM_API_KEY)jobs.push((async()=>{
+        try{
+          const u=new URL('https://api.tomtom.com/maps/orbis/places/geocode');
+          u.search=new URLSearchParams({query:bareTopic,types:'area',
+            areaTypes:'countrySubdivision,countrySecondarySubdivision,municipality,municipalitySubdivision',maxResults:'12'});
+          const response=await fetch(u,{headers:{'TomTom-Api-Version':'2','TomTom-Api-Key':env.TOMTOM_API_KEY,Attributes:'results'},signal:AbortSignal.timeout(4500)});
+          if(!response.ok)return;
+          for(const p of (await response.json()).results||[]){
+            if(p.type!=='area')continue;
+            const a=p.address||{},pos=p.position?.coordinates||[];
+            const kind=/countrySubdivision|countrySecondarySubdivision/i.test(p.areaType||'')?'region':'city';
+            const name=kind==='region'?a.countrySecondarySubdivision||a.countrySubdivision:a.municipality||a.municipalitySubdivision;
+            addGeo(name,kind,String(a.countryCodeIso2||''),kind==='city'?a.countrySubdivision||'':undefined,Number(pos[1]),Number(pos[0]),'TomTom');
+          }
+        }catch(e){console.warn('Pocket AI entity TomTom lookup',String(e?.name||'lookup_error'))}
+      })());
+      if(env.GEOAPIFY_API_KEY)jobs.push((async()=>{
+        try{
+          const u=new URL('https://api.geoapify.com/v1/geocode/search');
+          u.searchParams.set('text',bareTopic);u.searchParams.set('limit','12');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+          const response=await fetch(u,{signal:AbortSignal.timeout(4500)});if(!response.ok)return;
+          for(const f of (await response.json()).features||[]){
+            const p=f.properties||{},t=String(p.result_type||p.type||'');
+            const kind=/^(state|region|county|province)$/.test(t)?'region':/^(city|town|village|municipality|locality|suburb|district|borough)$/.test(t)?'city':'';
+            if(!kind)continue;
+            const name=kind==='region'?p.state||p.county||p.name:p.city||p.town||p.village||p.municipality||p.name;
+            addGeo(name,kind,String(p.country_code||''),kind==='city'?p.state||p.county||'':'',Number(p.lat),Number(p.lon),'Geoapify');
+          }
+        }catch(e){console.warn('Pocket AI entity Geoapify lookup',String(e?.name||'lookup_error'))}
+      })());
+      jobs.push((async()=>{
+        try{
+          const u=new URL('https://'+lang+'.wikipedia.org/w/api.php');
+          u.searchParams.set('action','query');u.searchParams.set('list','search');
+          u.searchParams.set('srsearch',bareTopic);u.searchParams.set('srnamespace','0');
+          u.searchParams.set('srlimit','12');u.searchParams.set('format','json');
+          const response=await fetch(u,{signal:AbortSignal.timeout(4500)});if(!response.ok)return;
+          for(const item of (await response.json()).query?.search||[]){
+            const title=String(item.title||'');
+            if(!title||!titlesMatch(title)||/dezambiguizare|disambiguation|lista de|list of/i.test(title))continue;
+            const key=normalizeGeoName(title);
+            if(wikiChoices.some(x=>normalizeGeoName(x.entity_title)===key))continue;
+            wikiChoices.push({label:title+' · '+typeText.encyclopedia,entity_kind:'article',entity_title:title,entity_source:lang});
+            if(wikiChoices.length>=4)break;
+          }
+        }catch(e){console.warn('Pocket AI entity Wikipedia lookup',String(e?.name||'lookup_error'))}
+      })());
+      await Promise.all(jobs);
+      // Geographic entries include coordinates. Wikipedia choices are informational until a
+      // verified real-world place is selected; do not silently infer a route from an article.
+      const filteredWiki=wikiChoices.filter(w=>!geoChoices.some(g=>{
+        const n=normalizeGeoName(w.entity_title);
+        return n===normalizeGeoName(g.entity_title)|| (g.entity_type==='region'&&n==='judetul '+normalizeGeoName(g.entity_title));
+      }));
+      // A short encyclopaedia entry is relevant even if the local-language
+      // search has no matching title (e.g. "Alba" in Scottish Gaelic).
+      if(!wikiChoices.some(w=>normalizeGeoName(w.entity_title)===target)){
+        filteredWiki.push({label:bareTopic+' · '+typeText.encyclopedia,
+          entity_kind:'article',entity_title:bareTopic,entity_source:'lookup'});
+      }
+      const choices=[...geoChoices.slice(0,5),...filteredWiki.slice(0,3)].slice(0,8);
+      if(choices.length>=2){
+        const prompt={ro:'Am găsit mai multe semnificații sau locuri cu acest nume. Alege rezultatul dorit:',en:'Several places or meanings match this name. Choose one:',
+          fr:'Plusieurs lieux ou sens portent ce nom. Choisissez :',de:'Mehrere Orte oder Bedeutungen tragen diesen Namen. Bitte wählen:',
+          it:'Questo nome indica più luoghi o significati. Scegli:',es:'Hay varios lugares o significados con este nombre. Elige:',
+          pt:'Existem vários locais ou significados com este nome. Escolha:',nl:'Er zijn meerdere plaatsen of betekenissen met deze naam. Kies:',
+          ru:'Найдено несколько мест или значений. Выберите:',pl:'Znaleziono kilka miejsc lub znaczeń tej nazwy. Wybierz:'}[lang];
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:prompt,
+          entity_disambiguation:true,choice_options:choices,translation_status:'localized',ai_connected:Boolean(env.AI)});
+      }
+    }
     let verifiedCity=null;
     if(cityLookup&&env.GEOAPIFY_API_KEY){
       try{
@@ -1445,6 +1557,35 @@ export default {
         }catch{}
       }
       if(article){
+
+        // Wikipedia's English fallback is a source, not an English UI preference.
+        // Translate visible fields; never publish untranslated article prose as a Romanian card.
+        if(article.language!==lang){
+          article.source_language=article.language;
+          try{
+            const result=await env.AI.run(selectedAiModel,{
+              messages:[
+                {role:'system',content:'Translate the following Wikipedia title description and extract into natural '+responseLanguageName+'. Preserve all names, dates, facts and qualifications, add nothing. Respond ONLY with a valid JSON object containing string keys "description" and "extract".'},
+                {role:'user',content:JSON.stringify({description:article.description,extract:article.extract})}
+              ],max_tokens:1350,temperature:0.1
+            });
+            const raw=String(result?.response||''),match=raw.match(/\{[\s\S]*\}/);
+            const translated=match?JSON.parse(match[0]):null;
+            if(typeof translated?.extract==='string'&&translated.extract.trim()&&typeof translated?.description==='string'){
+              article.description=translated.description.trim().slice(0,280);
+              article.extract=translated.extract.trim().slice(0,1700);
+              article.translation_status='translated';
+            }
+          }catch(e){console.warn('Pocket AI article translation',String(e?.name||'translation_error'))}
+          if(article.translation_status!=='translated'){
+            const unavailable={ro:'Rezumatul nu a putut fi tradus acum. Poți consulta sursa originală.',en:'This article summary is not available in the chosen language. See the source.',
+              fr:"Le résumé n’a pas pu être traduit. Consultez la source.",de:'Die Zusammenfassung konnte nicht übersetzt werden. Siehe Quelle.',
+              it:'Non è stato possibile tradurre il riepilogo. Consulta la fonte.',es:'No se pudo traducir el resumen. Consulta la fuente.',
+              pt:'Não foi possível traduzir o resumo. Consulte a fonte.',nl:'De samenvatting kon niet worden vertaald. Zie de bron.',
+              ru:'Не удалось перевести краткое описание. См. источник.',pl:'Nie udało się przetłumaczyć streszczenia. Zobacz źródło.'};
+            article.description='';article.extract=unavailable[lang]||unavailable.en;article.translation_status='unavailable';
+          }
+        }
         // Country code comes from the named country or verified city, not the user's GPS.
         let countryCode=countryNameCodes.get(normalizeGeoName(encyclopediaTitle))||geoQueryParts(bareTopic).country||String(verifiedCity?.country_code||'').toUpperCase();
         if(!countryCode&&env.GEOAPIFY_API_KEY){
@@ -1560,6 +1701,9 @@ export default {
             }
           }catch{}
         }
+        const realWorldDescription=normalizeGeoName(article.description||'');
+        article.can_route=Boolean(article.is_country||article.is_region||
+          (article.coordinates&&/\b(?:city|town|village|municipality|county|province|region|capital|oras|municipiu|comuna|sat|localitate|judet|provincie|localita|ville|stadt|ciudad|cidade)\b/i.test(realWorldDescription)));
         const reply=[article.title,article.description,article.extract].filter(Boolean).join(' — ');
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,encyclopedia:article,ai_generated:true});
       }
