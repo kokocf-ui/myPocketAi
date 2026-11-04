@@ -1573,32 +1573,80 @@ export default {
       }
       if(article){
 
-        // Wikipedia's English fallback is a source, not an English UI preference.
-        // Translate visible fields; never publish untranslated article prose as a Romanian card.
+        // English Wikipedia is a source, not the preferred display language.
+        // Resolve the same Wikidata item in the user's language, then translate if needed.
         if(article.language!==lang){
           article.source_language=article.language;
-          try{
-            const result=await env.AI.run(selectedAiModel,{
-              messages:[
-                {role:'system',content:'Translate the following Wikipedia title description and extract into natural '+responseLanguageName+'. Preserve all names, dates, facts and qualifications, add nothing. Respond ONLY with a valid JSON object containing string keys "description" and "extract".'},
-                {role:'user',content:JSON.stringify({description:article.description,extract:article.extract})}
-              ],max_tokens:1350,temperature:0.1
-            });
-            const raw=String(result?.response||''),match=raw.match(/\{[\s\S]*\}/);
-            const translated=match?JSON.parse(match[0]):null;
-            if(typeof translated?.extract==='string'&&translated.extract.trim()&&typeof translated?.description==='string'){
-              article.description=translated.description.trim().slice(0,280);
-              article.extract=translated.extract.trim().slice(0,1700);
-              article.translation_status='translated';
+          let localized=false;
+          if(article.wikibase_item){
+            try{
+              const u=new URL('https://www.wikidata.org/w/api.php');
+              u.searchParams.set('action','wbgetentities');u.searchParams.set('ids',article.wikibase_item);
+              u.searchParams.set('props','sitelinks');u.searchParams.set('sitefilter',lang+'wiki');
+              u.searchParams.set('format','json');
+              const page=await fetch(u,{signal:AbortSignal.timeout(3000)});
+              if(page.ok){
+                const wiki=(await page.json()).entities?.[article.wikibase_item]?.sitelinks?.[lang+'wiki']?.title;
+                if(typeof wiki==='string'&&wiki.trim()){
+                  const short=await fetch('https://'+lang+'.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(wiki),{
+                    headers:{Accept:'application/json','User-Agent':'PocketAI/1.0 (localized encyclopedia summary)'},
+                    signal:AbortSignal.timeout(4000)});
+                  if(short.ok){
+                    const local=await short.json();
+                    if(typeof local.extract==='string'&&local.extract.trim()&&!String(local.type||'').includes('disambiguation')){
+                      article.title=String(local.title||wiki);
+                      article.description=String(local.description||'').slice(0,280);
+                      article.extract=local.extract.slice(0,1700);
+                      article.image=local.thumbnail?.source||article.image;
+                      article.url=local.content_urls?.desktop?.page||article.url;
+                      if(local.coordinates?.lat!==undefined&&local.coordinates?.lon!==undefined)
+                        article.coordinates={latitude:local.coordinates.lat,longitude:local.coordinates.lon};
+                      article.language=lang;article.translation_status='localized_wikipedia';
+                      localized=true;
+                    }
+                  }
+                }
+              }
+            }catch(e){console.warn('Pocket AI encyclopedia sitelink',String(e?.name||'lookup_error'))}
+          }
+          if(!localized){
+            // Small models often return prose rather than valid JSON. Ask for prose.
+            const sourceExcerpt=String(article.extract||'').slice(0,1100).trim();
+            for(const model of [...new Set([selectedAiModel,allowedTextModels[2]])]){
+              try{
+                const result=await env.AI.run(model,{
+                  messages:[
+                    {role:'system',content:'Translate the user text into natural '+responseLanguageName+'. Preserve names, facts, numbers, dates and meaning. Return ONLY the translated text, no labels, no JSON. Do not refuse neutral encyclopedia material.'},
+                    {role:'user',content:sourceExcerpt}
+                  ],max_tokens:1200,temperature:0.1
+                });
+                let translated=String(result?.response||'').trim();
+                if(translated.startsWith('{')){
+                  try{const object=JSON.parse(translated);translated=String(object.extract||object.translation||object.text||'').trim()}catch{}
+                }
+                translated=translated.replace(/^["“](.*)["”]$/s,'$1').trim();
+                if(translated.length>=Math.min(70,Math.max(35,sourceExcerpt.length*.2))&&
+                   !/^(?:I (?:cannot|can't|am unable)|Sorry|I apologize|As an AI|Unfortunately)/i.test(translated)&&
+                   translated!==sourceExcerpt){
+                  article.extract=translated.slice(0,1700);
+                  article.description=''; // Do not display an untranslated description.
+                  article.translation_status='translated';
+                  localized=true;break;
+                }
+              }catch(e){console.warn('Pocket AI encyclopedia translation',String(e?.name||'translation_error'))}
             }
-          }catch(e){console.warn('Pocket AI article translation',String(e?.name||'translation_error'))}
-          if(article.translation_status!=='translated'){
-            const unavailable={ro:'Rezumatul nu a putut fi tradus acum. Poți consulta sursa originală.',en:'This article summary is not available in the chosen language. See the source.',
-              fr:"Le résumé n’a pas pu être traduit. Consultez la source.",de:'Die Zusammenfassung konnte nicht übersetzt werden. Siehe Quelle.',
-              it:'Non è stato possibile tradurre il riepilogo. Consulta la fonte.',es:'No se pudo traducir el resumen. Consulta la fuente.',
-              pt:'Não foi possível traduzir o resumo. Consulte a fonte.',nl:'De samenvatting kon niet worden vertaald. Zie de bron.',
-              ru:'Не удалось перевести краткое описание. См. источник.',pl:'Nie udało się przetłumaczyć streszczenia. Zobacz źródło.'};
-            article.description='';article.extract=unavailable[lang]||unavailable.en;article.translation_status='unavailable';
+          }
+          if(!localized){
+            // Do not replace all factual contents with an error message.
+            const warning={ro:'Traducerea automată nu este disponibilă momentan. Textul sursei este în limba originală:',
+              en:'Automatic translation is unavailable. The original text follows:',
+              fr:'Traduction indisponible. Texte original :',de:'Übersetzung nicht verfügbar. Originaltext:',
+              it:'Traduzione non disponibile. Testo originale:',es:'Traducción no disponible. Texto original:',
+              pt:'Tradução indisponível. Texto original:',nl:'Vertaling niet beschikbaar. Oorspronkelijke tekst:',
+              ru:'Перевод недоступен. Оригинальный текст:',pl:'Tłumaczenie niedostępne. Tekst źródłowy:'};
+            article.description='';
+            article.extract=(warning[lang]||warning.en)+'\n\n'+String(article.extract||'').slice(0,1100);
+            article.translation_status='original_with_notice';
           }
         }
         // Country code comes from the named country or verified city, not the user's GPS.
