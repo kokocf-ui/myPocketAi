@@ -38,6 +38,8 @@ jobs:
         run: |
           node --check backend.js
           node --check index.js
+      - name: Navigation and modal regression
+        run: node tests_navigation_heading.mjs
       - name: Focused smoke tests
         run: |
           node tests_request_pipeline_regression.mjs
