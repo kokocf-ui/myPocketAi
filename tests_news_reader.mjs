@@ -26,6 +26,19 @@ try{
  assert.equal(directResponse.status,200);
  const recent=await directResponse.json();
  assert.equal(recent.structured_list?.type,'news','Recent geopolitical news must use the table');
+ const romanianGeopolitics=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({message:'Ce evenimente geopolitice importante au avut loc în ultimele 24 de ore?',language:'ro'})}),{AI:{run:async()=>({response:'[]'})}});
+ assert.equal(romanianGeopolitics.status,200);
+ const geopolitics=await romanianGeopolitics.json();
+ assert.equal(geopolitics.structured_list?.type,'news','Romanian geopolitical events must not enter the local events calendar');
+ assert.ok(!/nu voi inventa un program/i.test(geopolitics.reply),'World news must not use event-schedule fallback');
+ const briefingResponse=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({message:'Fă-mi un briefing scurt despre cele mai importante evenimente internaționale de astăzi.',language:'ro'})}),{AI:{run:async()=>({response:'O sinteză bazată pe sursele consultate, cu incertitudinile precizate.'})}});
+ assert.equal(briefingResponse.status,200);
+ const briefingData=await briefingResponse.json();
+ assert.notEqual(briefingData.structured_list?.type,'events','Briefings must not use local calendar results');
+ assert.notEqual(briefingData.structured_list?.type,'news','Explicit briefing should remain prose, not become article table');
+ assert.ok(!/nu voi inventa un program/i.test(briefingData.reply),'Briefing must not return calendar fallback');
  assert.equal(typeof recent.structured_list.coverage_status,'string');
  const roResponse=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
   body:JSON.stringify({message:'Știri geopolitice internationale',language:'ro'})}),{AI:{run:async()=>({response:JSON.stringify([
