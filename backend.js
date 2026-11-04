@@ -4981,7 +4981,9 @@ export default {
         // and unsupported-language titles are not mixed into a Romanian list.
         if(lang==="ro"&&/[\u0400-\u052f\u0370-\u03ff\u0600-\u06ff]/u.test(title))continue;
         if(topicalNews&&!newsTopic.test(title+" "+String(source.snippets?.join(" ")||"").slice(0,280)))continue;
-        const publishedMs=Date.parse(String(source.publishedDate||""));
+        const sourceDate=String(source.publishedDate||"");
+        const normalizedDate=/^\d{8}T\d{6}Z$/.test(sourceDate)?sourceDate.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,"$1-$2-$3T$4:$5:$6Z"):sourceDate;
+        const publishedMs=Date.parse(normalizedDate);
         if(freshnessHours&&(!Number.isFinite(publishedMs)||publishedMs<nowMs-freshnessHours*3600000||publishedMs>nowMs+3600000))continue;
         const domain=new URL(url).hostname.replace(/^www\./,"");
         // Excerpts from crawled pages may contain navigation, references, and
