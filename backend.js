@@ -1448,7 +1448,7 @@ export default {
       const geoChoices=[],wikiChoices=[],keys=new Set();
       const addGeo=(name,kind,code,description,lat,lon,source)=>{
         if(!matchesName(name)||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return;
-        const key=normalizeGeoName(name)+'|'+code+'|'+kind;
+        const key=normalizeGeoName(name)+'|'+String(code||'').toUpperCase()+'|'+kind;
         if(keys.has(key))return;keys.add(key);
         let country=String(code||'').toUpperCase();
         try{if(/^[A-Z]{2}$/.test(country))country=new Intl.DisplayNames([lang],{type:'region'}).of(country)}catch{}
