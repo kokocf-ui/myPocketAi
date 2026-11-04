@@ -5035,7 +5035,9 @@ export default {
         const sourceDate=String(source.publishedDate||"");
         const normalizedDate=/^\d{8}T\d{6}Z$/.test(sourceDate)?sourceDate.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,"$1-$2-$3T$4:$5:$6Z"):sourceDate;
         const publishedMs=Date.parse(normalizedDate);
-        if(freshnessHours&&Number.isFinite(publishedMs)&&(publishedMs<nowMs-freshnessHours*3600000||publishedMs>nowMs+3600000))continue;
+        if((freshnessHours||todayOnly)&&!Number.isFinite(publishedMs))continue;
+        if(freshnessHours&&(publishedMs<nowMs-freshnessHours*3600000||publishedMs>nowMs+3600000))continue;
+        if(todayOnly&&new Date(publishedMs).toISOString().slice(0,10)!==new Date(nowMs).toISOString().slice(0,10))continue;
         // When published_at is missing, never assert the article falls inside 24h.
         const recencyStatus=Number.isFinite(publishedMs)?"dated":"date_not_verified";
         const snippets=Array.isArray(source.snippets)?source.snippets:[];
