@@ -46,5 +46,8 @@ const listHost=new Node('div');
 assert.equal(context.appendAdaptivePresentation(listHost,{plan:list}),true);
 assert.equal(listHost.children[0].tag,'ol');
 assert.equal(listHost.children[0].children.length,3);
+const events=planPresentation({language:'ro',reply:'Calendar',structured_list:{type:'events',rows:[{date:'2026-11-04',description:'Concert',time:'19:00'}]}});
+const protectedHost=new Node('div');
+assert.equal(context.appendAdaptivePresentation(protectedHost,{plan:events}),false,'Specialized event calendar must remain active');
 assert.match(js,/state\.lastPresentationResponse=data\.presentation/);
 console.log('Adaptive presentation viewer: interactive article table, detail, back, generic table and list PASS');
