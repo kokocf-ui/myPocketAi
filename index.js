@@ -1967,7 +1967,7 @@ function assistantGeographicPoint(option){
 }
 function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=null}={}){
  const type=assistantGeographicType(option);
- const regionName=type==='region'?String(option.entity_title||'').trim().replace(/^(?:județ(?:ul)?|judet(?:ul)?|county|province)\s+/iu,''):
+ const regionName=type==='region'?String(option.entity_title||'').trim().replace(/^(?:județ(?:ul)?|judet(?:ul)?|county|province)\\s+/iu,''):
   type==='city'?String(option.entity_region||'').trim():'';
  const countryCode=String(option.entity_country_code||'').toUpperCase();
  const prefillCity=type==='city'?String(option.entity_title||''):'';
