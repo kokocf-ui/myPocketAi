@@ -6,7 +6,7 @@ const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
 assert(frontend.includes('function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='),'a shared destination picker exists');
 assert(frontend.includes("renderStructuredAddressPicker({body:$('moduleLayerBody')"),'map module uses same picker');
-assert(frontend.includes('confirmAssistantGeographicRoute(option);return;'),'assistant confirms route before accommodation and address selection');
+assert(frontend.includes('state.pendingSelectedGeoOption={...option}')&&frontend.includes('openEncyclopediaCard(selectedGeographicEntity?'), 'assistant presents selected geographical Wikipedia information before route or accommodation');
 assert(frontend.includes('openStandaloneChoicePanel(host,String(option.entity_title'), 'assistant renders address fields in its overlay');
 assert(frontend.includes('keepOpen=true')||frontend.includes('keepOpen=false'),'address lookup overlay can stay open');
 assert(frontend.includes('region:region||'), 'region is supplied to backend search');
