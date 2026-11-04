@@ -39,7 +39,7 @@ assert(county.includes('renderStructuredAddressPicker({body:container')&&fronten
 assert(county.includes("type==='region'")&&county.includes('region:regionName'),'county scope carried into verified locality lookup');
 assert(county.includes("if(type==='city'&&point){search(point);return}"),'only verified city can search hotels immediately');
 assert(county.includes('openAssistantStructuredAddress(option,{cityOnly:true'),'county lodging requests only town, not an arbitrary county centroid');
-assert(county.includes('openAssistantStructuredAddress(option)}'),'declined lodging continues to street/house lookup');
+assert(county.includes('openAssistantStructuredAddress(option);'),'declined lodging permits choosing precise street/house lookup');
 assert(ui.includes("state.pendingSelectedEntityKind='article'"),'selected informational meaning retained');
 assert(frontend.includes('selected_entity_kind:selectedEntityKind'),'semantic kind reaches API');
 assert(backend.includes("article.can_route=!encyclopedicOnly&&Boolean("),'article cannot open map CTA');

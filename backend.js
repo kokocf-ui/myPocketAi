@@ -1266,6 +1266,33 @@ export default {
           }
         }catch{tomtomStatus='unavailable';}
       }
+      // A second geocoder is essential for towns whose streets are not indexed as
+      // Geoapify result_type=street (notably some Italian and rural addresses).
+      // Only verified street candidates within the selected municipality are returned.
+      if(stage==='street'&&query.trim()&&env.TOMTOM_API_KEY){
+        try{
+          const norm=v=>String(v||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/[^\p{L}\p{N} ]/gu,' ').replace(/\s+/g,' ').trim();
+          const countyNorm=v=>norm(v).replace(/^(?:judet(?:ul)?|county|province|provincia)\s+/,'').replace(/\s+(?:county|province)$/,'');
+          const prefix=norm(query).replace(/^(?:strada|str|street|via|viale|corso|rue|calle)\s+/,'');
+          const endpoint=new URL('https://api.tomtom.com/maps/orbis/places/geocode');
+          endpoint.search=new URLSearchParams({query:[query.trim(),city,region].filter(Boolean).join(', '),countryCodesIso2:country.toUpperCase(),types:'street',maxResults:'40'});
+          if(Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude))endpoint.searchParams.set('position',cityPoint.longitude+','+cityPoint.latitude);
+          const response=await fetch(endpoint,{headers:{'TomTom-Api-Version':'2','TomTom-Api-Key':env.TOMTOM_API_KEY,Attributes:'results'},signal:AbortSignal.timeout(6000)});
+          tomtomStatus=response.ok?'no_match':'http_'+response.status;
+          if(response.ok){
+            const payload=await response.json(),seen=new Set();
+            const candidates=(payload.results||[]).flatMap(item=>{
+              const a=item.address||{},p=item.position?.coordinates,name=String(a.street||item.title||'');
+              if(item.type!=='street'||String(a.countryCodeIso2||'').toLowerCase()!==country||norm(a.municipality)!==norm(city)||
+                 (region&&![a.countrySubdivision,a.countrySecondarySubdivision].some(v=>countyNorm(v)===countyNorm(region)))||
+                 !name||!norm(name).split(' ').some(w=>w.startsWith(prefix))&&!norm(name).startsWith(prefix)||
+                 !Array.isArray(p)||!Number.isFinite(p[0])||!Number.isFinite(p[1])||seen.has(norm(name)))return [];
+              seen.add(norm(name));return [{label:[name,city].join(', '),city:a.municipality,street:name,houseNumber:'',latitude:p[1],longitude:p[0],country_code:country.toUpperCase(),source:'TomTom',matchRank:0}];
+            });
+            if(candidates.length)return json({candidates,provider:'tomtom',attribution:'© TomTom',tomtom_status:'matched'});
+          }
+        }catch{tomtomStatus='unavailable';}
+      }
       if (!env.GEOAPIFY_API_KEY) return json({error:'Address search unavailable'},503);
       const autocomplete=Boolean(query.trim())&&stage!=='number';
       const url=new URL(autocomplete?'https://api.geoapify.com/v1/geocode/autocomplete':'https://api.geoapify.com/v1/geocode/search');

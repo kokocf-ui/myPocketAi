@@ -15,6 +15,22 @@ assert(frontend.includes('state.assistantStructuredDestination=true;'),'assistan
 assert(frontend.includes('if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)'), 'typed house number cannot silently become approximate');
 assert(frontend.includes('selected.city||selected.street')||frontend.includes("confirmed.disabled=!selected.city"), 'confirmed locality may be the destination');
 
+// Global destination and accommodation decision regressions.
+assert(frontend.includes('const countries=Array.from({length:26*26}'),'country picker must not be Europe-only');
+assert(frontend.includes("No, continue to destination"),'declining accommodation must not force full address');
+assert(frontend.includes("Town centre"),'verified city can be the destination without street');
+assert(frontend.includes("Choose a street or house number"),'exact address remains a choice');
+assert(!frontend.includes("(postcode.value.trim()&&!selected.number)"),'postal code must never force a selected house number');
+assert(frontend.includes("input.disabled=fields.street.search.disabled=false;"),'empty street provider must not lock rural address');
+assert(frontend.includes("const point=cityOnly?selected.city:(selected.number||selected.street||selected.city)"),'verified locality is a valid destination');
+
+assert(frontend.includes('const localityIndex=new Map()'),'autocomplete cache must belong to the temporary picker');
+assert(frontend.includes('localityIndex.clear();prewarmStreets();'),'switching town must discard prior suggestions');
+assert(frontend.includes("stage==='street'?80:200"),'street autocomplete starts on first typed character');
+assert(frontend.includes('const cached=matchCached(stage,input.value.trim())'),'cached suggestions display immediately');
+assert(backend.includes("if(stage==='street'&&query.trim()&&env.TOMTOM_API_KEY)"),'TomTom provides street discovery fallback');
+assert(backend.includes("types:'street'"),'TomTom is constrained to verified street results');
+assert(backend.includes('Only verified street candidates within the selected municipality'),'street results are scoped to selected town');
 // Test the real address_lookup handler in isolation using provider-shaped mock data.
 const originalFetch=globalThis.fetch;
 const seen=[];
