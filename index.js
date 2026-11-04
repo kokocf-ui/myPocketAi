@@ -1660,7 +1660,7 @@ function showJourneyMode(choice){
   body.append(button);
  }
 }
-function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',countryCode='',prefillCity=''}){
+function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',countryCode='',prefillCity='',prefillCityPoint=null,cityOnly=false}){
  const ro=state.language==='ro';
  const t=(a,b)=>ro?a:b;
  const display=new Intl.DisplayNames([state.language],{type:'region'});
@@ -1678,15 +1678,15 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
   let withoutStreet=false;
   const status=document.createElement('p');status.style.cssText='font-size:13px;color:#bce4ed;line-height:1.45;margin:7px 0 10px';
   const confirmed=card(t('Confirmă localitatea / adresa','Confirm destination'),()=>{
-   const pendingNumber=fields.number?.input.value.trim();
-   const pendingStreet=fields.street?.input.value.trim();
+   const pendingNumber=cityOnly?'':fields.number?.input.value.trim();
+   const pendingStreet=cityOnly?'':fields.street?.input.value.trim();
    if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)||(postcode.value.trim()&&!selected.number)){
     status.textContent=t('Adresa introdusă nu este verificată. Alege o sugestie sau golește câmpurile neverificate pentru a continua la centrul localității.','The typed address is unverified. Select a verified suggestion or clear unverified fields to continue to the town centre.');
     return;
    }
-   const point=selected.number||selected.street||selected.city;
+   const point=cityOnly?selected.city:(selected.number||selected.street||selected.city);
    if(!point)return;
-   onSelect({...point,approximation:selected.number?null:selected.street?'street':'locality',verified_region:region,verified_country:countryCode||selected.country?.code});
+   onSelect({...point,approximation:cityOnly?'locality':selected.number?null:selected.street?'street':'locality',verified_region:region,verified_country:countryCode||selected.country?.code});
   });
   confirmed.disabled=true;
   let generation=0,timer;
@@ -1696,6 +1696,8 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     fields[key].search.disabled=true;
    }
    confirmed.disabled=!selected.city;
+   // A rural number can be entered without a named street.
+   if(selected.city&&!cityOnly){fields.number.input.disabled=false;fields.number.search.disabled=false;}
   }
   async function choose(stage,point){
    generation++;
@@ -1706,13 +1708,13 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    fields[stage].list.replaceChildren();
    clearAfter(stage);
    if(stage==='city'){
-    fields.number.input.disabled=fields.number.search.disabled=false;
-    fields.street.input.disabled=fields.street.search.disabled=false;
+    fields.number.input.disabled=fields.number.search.disabled=cityOnly;
+    fields.street.input.disabled=fields.street.search.disabled=cityOnly;
     status.textContent=t('Pentru centrul localității poți confirma acum. Pentru o adresă precisă, alege strada și numărul.','Confirm now for the town centre. For a specific address, select the street and house number.');
-   fields.street.input.focus();
+   if(!cityOnly)fields.street.input.focus();
     return;
    }
-   const next=order[order.indexOf(stage)+1];
+   const next=cityOnly?null:order[order.indexOf(stage)+1];
    if(next){fields[next].input.disabled=false;fields[next].search.disabled=false;fields[next].input.focus();}
   }
   async function lookup(stage,discover=false){
@@ -1728,7 +1730,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     list.replaceChildren(...countries.map(code=>({code,label:display.of(code)}))
      .filter(point=>normalize(point.label).includes(q)||point.code.toLowerCase()===q)
      .sort((a,b)=>a.label.localeCompare(b.label,state.language))
-     .map(point=>card(point.label,()=>choose(stage,point))));
+     .map((point,i)=>card((i+1)+'. '+point.label,()=>choose(stage,point))));
     return;
    }
    if(!query&&stage==='city'){list.replaceChildren();return;}
@@ -1746,7 +1748,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
      if(withoutStreet){list.replaceChildren();fields.number.input.focus();return;}
     }
     candidates.sort((a,b)=>(a.matchRank??1)-(b.matchRank??1)||a.label.localeCompare(b.label,state.language,{numeric:true}));
-    list.replaceChildren(...candidates.map(point=>card(point.label,()=>choose(stage,point))));
+    list.replaceChildren(...candidates.map((point,i)=>card((i+1)+'. '+point.label,()=>choose(stage,point))));
     if(attribution&&candidates.length){const credit=document.createElement('small');credit.textContent=attribution;list.append(credit);}
     if(!candidates.length){
      list.textContent=t('Nu am găsit rezultate verificate.','No verified matches.');
@@ -1771,11 +1773,12 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    input.disabled=search.disabled=index>0;
    const list=document.createElement('div');
    list.style.cssText='max-height:18rem;overflow:auto';
-   fields[stage]={input,search,list};
+   fields[stage]={input,search,list,row};
    input.onfocus=()=>{if(input.value)input.select();};
    input.addEventListener('pointerup',event=>{if(selected[stage]){event.preventDefault();input.select();}});
    input.oninput=()=>{
     generation++;clearTimeout(timer);delete selected[stage];if(stage!=='number')withoutStreet=false;list.replaceChildren();clearAfter(stage);
+    if(stage==='street'&&selected.city&&!cityOnly){fields.number.input.disabled=false;fields.number.search.disabled=false;}
     if(input.value.trim().length>=1)timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},350);
    };
    input.onkeydown=event=>{if(event.key==='Enter')search.click();};
@@ -1793,7 +1796,8 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     timer=setTimeout(()=>{if(postcode.isConnected)lookup('number');},350);
    }
   };
-  body.append(postcode,status,confirmed);
+  if(cityOnly){fields.street.row.hidden=true;fields.number.row.hidden=true;postcode.hidden=true;confirmed.textContent=t('Confirmă localitatea pentru cazare','Confirm town for accommodation');}
+   body.append(postcode,status,confirmed);
   if(typeof onBack==='function')body.append(card(t('Înapoi','Back'),onBack));
   if(countryCode){
    const code=String(countryCode).toUpperCase();
@@ -1802,7 +1806,19 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    fields.country.input.disabled=true;fields.country.search.disabled=true;
    fields.city.input.disabled=false;fields.city.search.disabled=false;
    if(region){const area=document.createElement('p');area.textContent=t('Regiune selectată: ','Selected region: ')+region;area.style.cssText='font-size:14px;color:#cbe7ef;margin:3px 0 13px';body.prepend(area)}
-   if(prefillCity){fields.city.input.value=String(prefillCity);void lookup('city')}
+   if(prefillCityPoint&&Number.isFinite(Number(prefillCityPoint.latitude))&&Number.isFinite(Number(prefillCityPoint.longitude))){
+     selected.city={...prefillCityPoint,city:String(prefillCityPoint.city||prefillCity||''),label:String(prefillCityPoint.label||prefillCity)};
+     fields.city.input.value=String(prefillCity||selected.city.city);
+     fields.city.input.disabled=fields.city.search.disabled=true;
+     fields.city.row.hidden=true;
+     confirmed.disabled=false;
+     if(!cityOnly){fields.street.input.disabled=fields.street.search.disabled=false;fields.number.input.disabled=fields.number.search.disabled=false;}
+     status.textContent=t('Localitate verificată: ','Verified town: ')+fields.city.input.value;
+    }else if(prefillCity){fields.city.input.value=String(prefillCity);void lookup('city')}
+    fields.country.row.hidden=true;
+    const countryNote=document.createElement('p');countryNote.style.cssText='font-size:14px;color:#cbe7ef;margin:5px 0 10px';
+    countryNote.textContent=t('Țară: ','Country: ')+selected.country.label;
+    body.prepend(countryNote);
   }
  }
 
@@ -1943,33 +1959,90 @@ function appendTravelModeChoices(data,host){
  }table.append(body);addChoiceDialogOpener(table,host);return true;
 }
 // v1.0.101: Each assistant clarification owns its own in-conversation choice table.
-function openAssistantStructuredAddress(option){
- const regionName=String(option.entity_region||option.entity_title||'').trim().replace(/^(?:județ(?:ul)?|judet(?:ul)?|county|province)\s+/iu,'');
- const countryCode=String(option.entity_country_code||'RO').toUpperCase();
- const prefillCity=option.entity_kind==='locality_reference'?String(option.entity_title||''):'';
+function assistantGeographicType(option){
+ const type=String(option?.entity_type||'');
+ return type==='region'||option?.entity_kind==='region_article'?'region':type==='country'?'country':'city';
+}
+function assistantGeographicPoint(option){
+ const latitude=Number(option?.latitude),longitude=Number(option?.longitude);
+ if(option?.latitude==null||option?.longitude==null||!Number.isFinite(latitude)||!Number.isFinite(longitude)||Math.abs(latitude)>90||Math.abs(longitude)>180)return null;
+ return {latitude,longitude,label:String(option.entity_title||option.label||''),city:String(option.entity_title||'')};
+}
+function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=null}={}){
+ const type=assistantGeographicType(option);
+ const regionName=type==='region'?String(option.entity_title||'').trim().replace(/^(?:județ(?:ul)?|judet(?:ul)?|county|province)\\s+/iu,''):
+  type==='city'?String(option.entity_region||'').trim():'';
+ const countryCode=String(option.entity_country_code||'').toUpperCase();
+ const prefillCity=type==='city'?String(option.entity_title||''):'';
+ const prefillCityPoint=type==='city'?assistantGeographicPoint(option):null;
  const host=document.createElement('div');host.dataset.directChoices='true';
- const headline=state.language==='ro'?'Alege localitatea și, opțional, strada și numărul casei.':'Select the town and, optionally, the street and house number.';
+ const headline=cityOnly
+  ?(state.language==='ro'?'Alege o localitate pentru căutarea cazării. După ce selectezi hotelul, adresa sa devine automat destinația.':'Select a town to look for accommodation. Your chosen hotel will automatically become your destination.')
+  :(state.language==='ro'?'Alege destinația verificată pe hartă. Strada, numărul și codul poștal sunt opționale.':'Choose a verified destination. Street, house number and postcode are optional.');
  const intro=document.createElement('p');intro.textContent=headline;
  intro.style.cssText='font-size:14px;line-height:1.5;color:#cbe5ee;margin:0 0 14px';
  host.append(intro);
  openStandaloneChoicePanel(host,String(option.entity_title||regionName||'Destinație'),{keepOpen:true});
  const container=document.querySelector('#pocketStandaloneChoices .answer-reader-body');
  if(!container)return false;
- renderStructuredAddressPicker({body:container,prefix:headline,region:regionName,countryCode,prefillCity,
+ renderStructuredAddressPicker({body:container,prefix:headline,region:regionName,countryCode,prefillCity,prefillCityPoint,cityOnly,
   onBack:()=>document.getElementById('pocketStandaloneChoices')?.remove(),
   onSelect:point=>{
    const lat=Number(point?.latitude),lon=Number(point?.longitude);
-   if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return;
+   if(point?.latitude==null||point?.longitude==null||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return;
    const label=String(point.label||[point.street,point.houseNumber,point.city,regionName].filter(Boolean).join(', '));
    const scopedLabel=regionName&&!label.toLocaleLowerCase().includes(regionName.toLocaleLowerCase())?label+', '+regionName:label;
-   state.tripCountryOnChoice=regionName||null;
+   const verified={latitude:lat,longitude:lon,label:scopedLabel,city:String(point.city||prefillCity||''),approximation:point.approximation||null};
+   document.getElementById('pocketStandaloneChoices')?.remove();
+   if(cityOnly&&typeof onVerifiedCity==='function'){onVerifiedCity(verified);return;}
+   state.tripCountryOnChoice=null;state.tripAccommodationDecision='no';
    state.assistantStructuredDestination=true;
    state.routeSearchContext=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;
-   document.getElementById('pocketStandaloneChoices')?.remove();
-   offerDestinationAccommodationBeforeRoute({latitude:lat,longitude:lon,label:scopedLabel,approximation:point.approximation||null});
+   openTransportModeFromAssistant({route_context:{destination_query:scopedLabel,destination:verified,pending:'profile'}});
   }
  });
  return true;
+}
+function offerAssistantScopeAccommodation(option){
+ const type=assistantGeographicType(option),point=assistantGeographicPoint(option);
+ const host=document.createElement('div');host.dataset.directChoices='true';
+ const name=String(option.entity_title||option.label||'').trim();
+ const note=document.createElement('p');
+ note.textContent=state.language==='ro'
+  ?'Dorești să alegi cazare în '+name+' înainte de traseu? Dacă alegi un hotel, destinația va fi automat adresa acestuia.'
+  :'Would you like accommodation in '+name+' before planning the route? Selecting a hotel will automatically set its address as your destination.';
+ host.append(note);
+ const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';
+ yes.textContent=state.language==='ro'?'Da, aleg cazare':'Yes, choose accommodation';
+ yes.onclick=()=>{
+  document.getElementById('pocketStandaloneChoices')?.remove();
+  state.tripAccommodationDecision='yes';
+  const search=verified=>{state.assistantStructuredDestination=true;offerDestinationAccommodationBeforeRoute(verified,{autoSearch:true,scopeOption:option})};
+  // A country or county has no single meaningful hotel-search centre.
+  // Select only the town first; NEVER request a street/number before lodging.
+  if(type==='city'&&point){search(point);return}
+  openAssistantStructuredAddress(option,{cityOnly:true,onVerifiedCity:search});
+ };
+ const no=document.createElement('button');no.type='button';no.className='transit-choice-action';
+ no.textContent=state.language==='ro'?'Nu, aleg adresa':'No, choose an address';
+ no.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationDecision='no';openAssistantStructuredAddress(option)};
+ host.append(yes,no);
+ openStandaloneChoicePanel(host,state.language==='ro'?'Cazare înainte de traseu':'Accommodation before route');
+}
+function confirmAssistantGeographicRoute(option){
+ const host=document.createElement('div');host.dataset.directChoices='true';
+ const label=String(option.entity_title||option.label||'');
+ const note=document.createElement('p');
+ note.textContent=(state.language==='ro'?'Ai ales ':'You selected ')+label+'. '+(state.language==='ro'?'Dorești să îți arăt traseul?':'Would you like directions?');
+ host.append(note);
+ const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';
+ yes.textContent=state.language==='ro'?'Da, arată traseul':'Yes, show directions';
+ yes.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();offerAssistantScopeAccommodation(option)};
+ const no=document.createElement('button');no.type='button';no.className='transit-choice-action';
+ no.textContent=state.language==='ro'?'Nu, închide':'No, close';
+ no.onclick=()=>document.getElementById('pocketStandaloneChoices')?.remove();
+ host.append(yes,no);
+ openStandaloneChoicePanel(host,label);
 }
 function appendConversationChoices(data,host){
  const raw=Array.isArray(data.choice_options)?data.choice_options:Array.isArray(data.destination_candidates)?data.destination_candidates:[];
@@ -1988,8 +2061,8 @@ function appendConversationChoices(data,host){
    if(data.entity_disambiguation){
     document.getElementById('pocketStandaloneChoices')?.remove();
     closeAnswerReader(false);
-    if(option.entity_type==='region'||option.entity_kind==='region_article'||option.entity_kind==='locality_reference'){
-     openAssistantStructuredAddress(option);return;
+    if(['region','city','country'].includes(option.entity_type)||option.entity_kind==='region_article'||option.entity_kind==='locality_reference'){
+     confirmAssistantGeographicRoute(option);return;
     }
     if(option.entity_kind==='article'){
      const title=String(option.entity_title||'').trim();
@@ -2016,7 +2089,7 @@ function appendConversationChoices(data,host){
     const go=document.createElement('button');go.type='button';go.className='transit-choice-action';
     go.textContent=state.language==='ro'?'Da, arată traseul':'Yes, show directions';
     go.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();
-      offerDestinationAccommodationBeforeRoute({latitude:lat,longitude:lon,label:String(option.entity_title||option.label)})};
+      offerAssistantScopeAccommodation(option)};
     const close=document.createElement('button');close.type='button';close.className='transit-choice-action';
     close.textContent=state.language==='ro'?'Nu, închide':'No, close';
     close.onclick=()=>document.getElementById('pocketStandaloneChoices')?.remove();
@@ -2828,8 +2901,12 @@ function openEncyclopediaCard(article,requestStartMs){
   state.encyclopediaTripActive=true;
   const title=article.title||'',coords=article.coordinates;
   document.getElementById('pocketStandaloneChoices')?.remove();
-  if(!isCountry&&!isRegion&&coords&&coords.latitude!=null&&coords.longitude!=null&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))&&Math.abs(Number(coords.latitude))<=90&&Math.abs(Number(coords.longitude))<=180){
-   state.tripCountryOnChoice=null;offerDestinationAccommodationBeforeRoute({latitude:Number(coords.latitude),longitude:Number(coords.longitude),label:title});return;
+  if(isCountry||isRegion||coords&&coords.latitude!=null&&coords.longitude!=null&&Number.isFinite(Number(coords.latitude))&&Number.isFinite(Number(coords.longitude))){
+   const scope={entity_type:isCountry?'country':isRegion?'region':'city',entity_kind:'place',entity_title:title,
+    entity_country_code:isRegion?String(article.parent_country_code||''):String(article.country_code||''),
+    entity_country_name:isCountry?title:String(article.parent_country||''),
+    latitude:!isCountry&&!isRegion?coords?.latitude:null,longitude:!isCountry&&!isRegion?coords?.longitude:null};
+   state.tripCountryOnChoice=null;offerAssistantScopeAccommodation(scope);return;
   }
   const question=lang==='ro'?'Spre ce localitate sau obiectiv concret din '+title+' dorești să călătorești?':'Which specific town or attraction in '+title+' do you want to visit?';
   const questionBubble=addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;
@@ -2882,7 +2959,7 @@ function cleanAccommodationPlaces(places){
  return results;
 }
 
-function offerDestinationAccommodationBeforeRoute(destination){
+function offerDestinationAccommodationBeforeRoute(destination,{autoSearch=false,scopeOption=null}={}){
  if(!destination||destination.latitude==null||destination.longitude==null||!Number.isFinite(Number(destination.latitude))||!Number.isFinite(Number(destination.longitude))||Math.abs(Number(destination.latitude))>90||Math.abs(Number(destination.longitude))>180)return false;
  state.tripAccommodationDestination={...destination};state.travelAccommodationIntent=false;state.tripAccommodationDecision='pending';
  const host=document.createElement('div');host.dataset.directChoices='true';
@@ -2895,7 +2972,8 @@ function offerDestinationAccommodationBeforeRoute(destination){
   const originalDestination={...destination};
   const next=()=>{
    state.tripAccommodationSearching=false;
-   openTransportModeFromAssistant({route_context:{destination_query:originalDestination.label,destination:originalDestination,pending:'profile'}});
+   if(scopeOption){state.tripAccommodationDecision='no';state.assistantStructuredDestination=false;openAssistantStructuredAddress(scopeOption)}
+   else openTransportModeFromAssistant({route_context:{destination_query:originalDestination.label,destination:originalDestination,pending:'profile'}});
   };
   try{
    // Reuse the original shared local-search engine, including its Geoapify,
@@ -2924,7 +3002,7 @@ function offerDestinationAccommodationBeforeRoute(destination){
    state.tripAccommodationSearching=false;
    const found=cleanAccommodationPlaces(data.places);
    if(found.length){
-    openAccommodationResults(found,originalDestination);
+    openAccommodationResults(found,originalDestination,scopeOption);
     return;
    }
    const noMappedPlaces=!data.search_error_code&&Array.isArray(data.places)&&!found.length&&(data.results_count===0||data.search_ok===true);
@@ -2939,10 +3017,11 @@ function offerDestinationAccommodationBeforeRoute(destination){
   }
  };
  const no=document.createElement('button');no.type='button';no.className='transit-choice-action';no.textContent=state.language==='ro'?'Nu, creează traseul':'No, plan my route';
- no.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationSearching=false;state.tripAccommodationDecision='no';openTransportModeFromAssistant({route_context:{destination_query:destination.label,destination,pending:'profile'}})};
+ no.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationSearching=false;state.tripAccommodationDecision='no';if(scopeOption)openAssistantStructuredAddress(scopeOption);else openTransportModeFromAssistant({route_context:{destination_query:destination.label,destination,pending:'profile'}})};
+ if(autoSearch){void yes.onclick();return true;}
  host.append(yes,no);openStandaloneChoicePanel(host,state.language==='ro'?'Cazare înainte de traseu':'Accommodation before route');return true;
 }
-function openAccommodationResults(places,originalDestination=state.tripAccommodationDestination){
+function openAccommodationResults(places,originalDestination=state.tripAccommodationDestination,scopeOption=null){
  places=cleanAccommodationPlaces(places);
  if(!places.length)return false;
  const host=document.createElement('div');host.dataset.directChoices='true';
@@ -2953,7 +3032,7 @@ function openAccommodationResults(places,originalDestination=state.tripAccommoda
   btn.type='button';btn.className='transit-choice-action';
   const name=String(place.name||place.tags?.name||'Cazare'),address=String(place.address||place.formatted||'');
   btn.textContent=(i+1)+'. '+name+(address?' · '+address:'');
-  btn.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();if(Number.isFinite(Number(place.latitude??place.lat))&&Number.isFinite(Number(place.longitude??place.lon))){const destination={latitude:Number(place.latitude??place.lat),longitude:Number(place.longitude??place.lon),label:name};openTransportModeFromAssistant({route_context:{destination_query:name,destination,pending:'profile'}})}else{addBubble(name+(address?' — '+address:''),'assistant')}};
+  btn.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();if(place.latitude!=null&&place.longitude!=null&&Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude))){const label=[name,address].filter(Boolean).join(', ');const destination={latitude:Number(place.latitude),longitude:Number(place.longitude),label,selected_accommodation:true};state.tripAccommodationDecision='yes';state.tripAccommodationDestination=destination;state.tripCountryOnChoice=null;if(state.currentView==='assistant')state.assistantStructuredDestination=true;openTransportModeFromAssistant({route_context:{destination_query:label,destination,pending:'profile'}})}else{addBubble(name+(address?' — '+address:''),'assistant')}};
   td.append(btn);tr.append(td);body.append(tr);
  });table.append(body);host.append(table);
  if(originalDestination&&Number.isFinite(Number(originalDestination.latitude))&&Number.isFinite(Number(originalDestination.longitude))){
@@ -2961,7 +3040,7 @@ function openAccommodationResults(places,originalDestination=state.tripAccommoda
   skip.type='button';skip.className='transit-choice-action';
   skip.textContent=({ro:'Continuă fără cazare',en:'Continue without accommodation',fr:'Continuer sans hébergement',de:'Ohne Unterkunft fortfahren',it:'Continua senza alloggio',es:'Continuar sin alojamiento',pt:'Continuar sem alojamento',nl:'Doorgaan zonder accommodatie',ru:'Продолжить без жилья',pl:'Kontynuuj bez noclegu'}[state.language]||'Continue without accommodation');
   skip.style.cssText='margin-top:12px;min-height:44px';
-  skip.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationDecision='no';state.tripAccommodationSearching=false;openTransportModeFromAssistant({route_context:{destination_query:originalDestination.label,destination:originalDestination,pending:'profile'}})};
+  skip.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationDecision='no';state.tripAccommodationSearching=false;if(scopeOption){state.assistantStructuredDestination=false;openAssistantStructuredAddress(scopeOption)}else openTransportModeFromAssistant({route_context:{destination_query:originalDestination.label,destination:originalDestination,pending:'profile'}})};
   host.append(skip);
  }
  openStandaloneChoicePanel(host,state.language==='ro'?'Cazări găsite':'Accommodation results');return true;

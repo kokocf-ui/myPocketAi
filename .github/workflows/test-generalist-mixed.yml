@@ -13,6 +13,7 @@ on:
       - tests_entity_disambiguation.mjs
       - tests_county_translation_regression.mjs
       - tests_assistant_address_picker_regression.mjs
+      - tests_accommodation_first_flow.mjs
       - .github/workflows/test-generalist-mixed.yml
   workflow_dispatch:
 
@@ -40,5 +41,6 @@ jobs:
           node tests_entity_disambiguation.mjs
           node tests_county_translation_regression.mjs
           node tests_assistant_address_picker_regression.mjs
+          node tests_accommodation_first_flow.mjs
           node tests_name_only.mjs
           node tests_landmark_resolution.mjs

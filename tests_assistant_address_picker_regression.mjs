@@ -6,7 +6,7 @@ const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
 assert(frontend.includes('function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='),'a shared destination picker exists');
 assert(frontend.includes("renderStructuredAddressPicker({body:$('moduleLayerBody')"),'map module uses same picker');
-assert(frontend.includes('openAssistantStructuredAddress(option);return;'),'assistant uses shared picker for regions');
+assert(frontend.includes('confirmAssistantGeographicRoute(option);return;'),'assistant confirms route before accommodation and address selection');
 assert(frontend.includes('openStandaloneChoicePanel(host,String(option.entity_title'), 'assistant renders address fields in its overlay');
 assert(frontend.includes('keepOpen=true')||frontend.includes('keepOpen=false'),'address lookup overlay can stay open');
 assert(frontend.includes('region:region||'), 'region is supplied to backend search');
@@ -21,7 +21,7 @@ const seen=[];
 globalThis.fetch=async function(url){
  const parsed=new URL(String(url));seen.push(parsed);
  if(parsed.hostname!=='api.geoapify.com')throw Error('Unexpected provider '+parsed.hostname);
- const q=parsed.searchParams.get('text')||'',stage=parsed.searchParams.get('type')||'';
+ const q=parsed.searchParams.get('text')||'',stage=parsed.searchParams.get('type')||(q.includes('180A')||parsed.searchParams.has('housenumber')?'number':'city');
  let results=[];
  if(q.toLowerCase().includes('alba iulia')&&stage==='city'){
    results=[
