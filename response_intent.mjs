@@ -9,10 +9,13 @@ export function classifyNewsRequest(message) {
   const happening = /\b(?:ce s.a intamplat|ce se intampla|what happened|what is happening|what's happening)\b/.test(text);
   const evidenceRequest = /\b(?:surse|sources|articole|articles|titluri|headlines|stiri|news|noutati|actualitati|evenimente geopolitice)\b/.test(text);
   const briefing = /\b(?:rezum\w*|sumar\w*|sintez\w*|briefing|summary|summari\w*|pe scurt|in cateva cuvinte|short overview|tldr)\b/.test(text);
+  // Source-check requests are analytical verification, not headline collections.
+  const verification = /\\b(?:verific\\w*|confirm\\w*|corobor\\w*|fact.check\\w*|verify|verification|corroborat\\w*|independent sources|surse independente)\\b/.test(text);
   const analysis = /\b(?:analiz\w*|analyse|analyze|analysis|explic\w*|explain|de ce|why|cauz\w*|cause\w*|consecint\w*|implicati\w*|impact|compar\w*|compare|perspectiv\w*|predict\w*|what if|cum influenteaza|how does)\b/.test(text);
   const asksNews = evidenceRequest || (subject && (current || happening)) || (happening && current);
   if (!subject && !asksNews) return {mode:"none",reason:"not_current_affairs"};
   // Explicit answer-style requests take precedence over article collection.
+  if (verification && subject) return {mode:"analysis",reason:"verification_requested"};
   if (analysis) return {mode:"analysis",reason:"explanation_requested"};
   if (briefing) return {mode:"briefing",reason:"summary_requested"};
   if (asksNews || (subject && /\b(?:ce s.a intamplat|ce se intampla|what happened)\b/.test(text)))
