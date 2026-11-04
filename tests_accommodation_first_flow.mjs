@@ -131,4 +131,55 @@ for(const regionName of ['Tulcea','Botoșani']){
  assert.equal(pickerArgs?.prefillCityPoint?.city,'Alba','verified village passed to common picker');
 }
 
+
+const chosenCity={entity_kind:'place',entity_type:'city',entity_title:'Alba',entity_country_code:'IT',
+ entity_region:'Piemonte',latitude:44.7,longitude:8.03};
+let currentPanel=null,startedRoutes=[],lodgingOptions=null;
+const flowState={language:'ro',currentView:'assistant'};
+const flowInput={value:''};
+const flowContext=vm.createContext({
+ state:flowState,inputEl:flowInput,
+ TRAVEL_MODE_TEXT:{ro:['Cum vrei să ajungi?','Pietonal','Transport public','Mașină']},
+ document:{createElement:element,getElementById:()=>null,querySelector:()=>element('div')},
+ openStandaloneChoicePanel:(host,title)=>{currentPanel={host,title}},
+ renderStructuredAddressPicker:args=>{flowContext.pickerArgs=args},
+ offerDestinationAccommodationBeforeRoute:(point,options)=>{lodgingOptions={point,options}},
+ CLIENT_CONFIG:{apiUrl:'https://unit.test/api/chat'},
+ submitMessage:async()=>{startedRoutes.push({mode:flowState.pendingTravelMode,destination:flowState.routeSearchContext?.destination})},
+ console,
+});
+vm.runInContext(snippet,flowContext);
+const flowButtons=()=>currentPanel.host.children.filter(node=>node.tag==='button');
+
+// The locality is already chosen. Ask the vehicle BEFORE any accommodation/address prompt.
+flowContext.offerAssistantLocalityTravelMode(chosenCity);
+assert.equal(flowButtons().length,2,'destination mode has public transport and private car choices');
+assert.match(flowButtons()[0].textContent,/Transport public/);
+assert.match(flowButtons()[1].textContent,/Mașină/);
+flowButtons()[0].onclick();
+await new Promise(resolve=>setImmediate(resolve));
+assert.equal(startedRoutes.at(-1)?.mode,'transit','transit starts directly without lodging');
+assert.equal(startedRoutes.at(-1)?.destination?.latitude,44.7);
+assert.equal(lodgingOptions,null,'transit must never search accommodation');
+
+// Driving asks specifically for accommodation versus an exact address.
+flowContext.offerAssistantLocalityTravelMode(chosenCity);
+flowButtons()[1].onclick();
+assert.equal(flowButtons().length,2);
+assert.match(flowButtons()[0].textContent,/Caută cazare/);
+assert.match(flowButtons()[1].textContent,/Merg la o adresă/);
+flowButtons()[0].onclick();
+await new Promise(resolve=>setImmediate(resolve));
+assert.equal(lodgingOptions?.options?.routeMode,'drive','lodging keeps chosen private car mode');
+assert.equal(lodgingOptions?.options?.autoSearch,true,'lodging uses existing automatic search');
+
+flowContext.offerAssistantCarDestination(chosenCity);
+flowButtons()[1].onclick();
+assert.equal(flowContext.pickerArgs?.cityOnly,false,'car address uses existing complete address picker');
+assert.equal(typeof flowContext.pickerArgs.onSelect,'function');
+flowContext.pickerArgs.onSelect({latitude:44.71,longitude:8.04,city:'Alba',label:'Via Roma 10, Alba'});
+await new Promise(resolve=>setImmediate(resolve));
+assert.equal(startedRoutes.at(-1)?.mode,'drive','completed address starts car route directly');
+assert.match(startedRoutes.at(-1)?.destination?.label,/Via Roma 10/);
+
 console.log('Accommodation-first scope decisions and precise hotel destination regression passed.');
