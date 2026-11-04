@@ -1357,7 +1357,7 @@ export default {
         if(!replies.some(reply=>reply.status==='fulfilled'))return json({error:'Address search unavailable'},502);
         const results=replies.flatMap(reply=>reply.status==='fulfilled'?reply.value:[]);
 
-        const seen=new Set();
+        const seen=new Set(),seenLocalities=[];
         const candidates=results.flatMap(place=>{
           const towns=[place.city,place.town,place.village,place.hamlet,place.municipality,place.name];
           if(place.country_code!==country || !Number.isFinite(place.lat) || !Number.isFinite(place.lon))return [];
@@ -1383,7 +1383,8 @@ export default {
             :(towns.find(Boolean)||'')).trim();
           if(stage==='city'&&(!normalize(cityName).startsWith(normalize(query))||
               /metropolitan area|zona metropolitana|metropolitan region/i.test(normalize(cityName))))return [];
-          const county=String(place.county||place.state_district||place.state||place.region||'').trim();
+          const rawCounty=String(place.county||place.state_district||place.state||place.region||'').trim();
+          const county=rawCounty.length===2&&String(place.state||'').trim().length>2?String(place.state).trim():rawCounty;
           const commune=String(place.municipality||'').trim();
           const areaParts=[commune&&normalize(commune)!==normalize(cityName)?commune:'',county].filter(Boolean);
           const countryName=String(place.country||country.toUpperCase());
@@ -1396,6 +1397,14 @@ export default {
             ?[normalize(cityName),...areaParts.map(normalize),country].join('|')
             :stage==='street'?normalize(place.street):label;
           if(!label||seen.has(key))return [];
+          if(stage==='city'){
+            // Alternative county abbreviations or postcode labels at the same
+            // mapped town are a single locality, but distant homonyms remain.
+            const duplicate=seenLocalities.some(x=>x.city===normalize(cityName)&&
+              Math.abs(x.lat-place.lat)<0.006&&Math.abs(x.lon-place.lon)<0.006);
+            if(duplicate)return [];
+            seenLocalities.push({city:normalize(cityName),lat:place.lat,lon:place.lon});
+          }
           seen.add(key);
           return [{label,matchRank:stage==='city'?(normalize(cityName)===normalize(query)?0:1):1,
             city:cityName,county,commune,street:place.street||'',houseNumber:String(place.housenumber||''),
