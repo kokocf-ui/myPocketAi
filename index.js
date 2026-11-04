@@ -1442,7 +1442,7 @@ function showNavigationReturn(){
  if(!state.navigationReturnContext)return;
  const host=$('moduleContent');if(!host)return;
  const back=document.createElement('button');back.id='returnToSearchSource';back.type='button';back.className='transit-choice-action';
- back.textContent=state.language==='ro'?'Revenire':'Return';
+ back.textContent=dialogText("Revenire","Return");
  back.style.cssText='width:100%;min-height:48px;margin:6px 0 10px';
  back.onclick=()=>returnToNavigationSource();host.prepend(back);
 }
@@ -1660,9 +1660,85 @@ function showJourneyMode(choice){
   body.append(button);
  }
 }
+// Shared UI dialog translations. All recently added selectors and overlays use
+// this registry instead of silently falling back to English in non-English UI.
+const POCKET_DIALOG_TEXT={
+"Postcode (optional)":{fr:"Code postal (facultatif)",de:"Postleitzahl (optional)",it:"CAP (facoltativo)",es:"Código postal (opcional)",pt:"Código postal (opcional)",nl:"Postcode (optioneel)",ru:"Почтовый индекс (необязательно)",pl:"Kod pocztowy (opcjonalnie)"},
+"Confirm destination":{fr:"Confirmer la destination",de:"Ziel bestätigen",it:"Conferma destinazione",es:"Confirmar destino",pt:"Confirmar destino",nl:"Bestemming bevestigen",ru:"Подтвердить пункт назначения",pl:"Potwierdź cel podróży"},
+"Confirm destination town":{fr:"Confirmer la localité de destination",de:"Zielort bestätigen",it:"Conferma località di destinazione",es:"Confirmar localidad de destino",pt:"Confirmar localidade de destino",nl:"Bestemmingsplaats bevestigen",ru:"Подтвердить населённый пункт",pl:"Potwierdź miejscowość docelową"},
+"Continue to town centre (not the entered house number)":{fr:"Continuer vers le centre-ville (pas vers le numéro saisi)",de:"Zum Ortszentrum (nicht zur eingegebenen Hausnummer)",it:"Prosegui verso il centro (non al numero inserito)",es:"Continuar al centro (no al número indicado)",pt:"Continuar para o centro (não para o número indicado)",nl:"Ga naar het centrum (niet naar het ingevoerde huisnummer)",ru:"Продолжить к центру (не к введённому номеру дома)",pl:"Jedź do centrum (nie pod wpisany numer domu)"},
+"Country":{fr:"Pays",de:"Land",it:"Paese",es:"País",pt:"País",nl:"Land",ru:"Страна",pl:"Kraj"},
+"City or town":{fr:"Ville ou localité",de:"Stadt oder Ort",it:"Città o località",es:"Ciudad o localidad",pt:"Cidade ou localidade",nl:"Stad of plaats",ru:"Город или населённый пункт",pl:"Miasto lub miejscowość"},
+"Street (optional)":{fr:"Rue (facultatif)",de:"Straße (optional)",it:"Via (facoltativa)",es:"Calle (opcional)",pt:"Rua (opcional)",nl:"Straat (optioneel)",ru:"Улица (необязательно)",pl:"Ulica (opcjonalnie)"},
+"House number (optional)":{fr:"Numéro (facultatif)",de:"Hausnummer (optional)",it:"Numero civico (facoltativo)",es:"Número (opcional)",pt:"Número da porta (opcional)",nl:"Huisnummer (optioneel)",ru:"Номер дома (необязательно)",pl:"Numer domu (opcjonalnie)"},
+"Search":{fr:"Rechercher",de:"Suchen",it:"Cerca",es:"Buscar",pt:"Pesquisar",nl:"Zoeken",ru:"Поиск",pl:"Szukaj"},
+"Searching…":{fr:"Recherche en cours…",de:"Suche läuft…",it:"Ricerca in corso…",es:"Buscando…",pt:"A pesquisar…",nl:"Bezig met zoeken…",ru:"Поиск…",pl:"Wyszukiwanie…"},
+"No verified matches.":{fr:"Aucun résultat vérifié.",de:"Keine verifizierten Treffer.",it:"Nessun risultato verificato.",es:"No hay resultados verificados.",pt:"Não foram encontrados resultados verificados.",nl:"Geen geverifieerde resultaten.",ru:"Подтверждённых результатов нет.",pl:"Brak zweryfikowanych wyników."},
+"Search is unavailable right now.":{fr:"Recherche temporairement indisponible.",de:"Suche derzeit nicht verfügbar.",it:"Ricerca temporaneamente non disponibile.",es:"La búsqueda no está disponible ahora.",pt:"A pesquisa não está disponível agora.",nl:"Zoeken is nu niet beschikbaar.",ru:"Поиск временно недоступен.",pl:"Wyszukiwanie jest obecnie niedostępne."},
+"Back":{fr:"Retour",de:"Zurück",it:"Indietro",es:"Volver",pt:"Voltar",nl:"Terug",ru:"Назад",pl:"Wstecz"},
+"Close":{fr:"Fermer",de:"Schließen",it:"Chiudi",es:"Cerrar",pt:"Fechar",nl:"Sluiten",ru:"Закрыть",pl:"Zamknij"},
+"Selected region: ":{fr:"Région sélectionnée : ",de:"Gewählte Region: ",it:"Regione selezionata: ",es:"Región seleccionada: ",pt:"Região selecionada: ",nl:"Geselecteerde regio: ",ru:"Выбранный регион: ",pl:"Wybrany region: "},
+"Verified town: ":{fr:"Localité vérifiée : ",de:"Verifizierter Ort: ",it:"Località verificata: ",es:"Localidad verificada: ",pt:"Localidade verificada: ",nl:"Geverifieerde plaats: ",ru:"Подтверждённый населённый пункт: ",pl:"Zweryfikowana miejscowość: "},
+"Country: ":{fr:"Pays : ",de:"Land: ",it:"Paese: ",es:"País: ",pt:"País: ",nl:"Land: ",ru:"Страна: ",pl:"Kraj: "},
+"Confirm journey":{fr:"Confirmer le trajet",de:"Reise bestätigen",it:"Conferma viaggio",es:"Confirmar viaje",pt:"Confirmar viagem",nl:"Reis bevestigen",ru:"Подтвердить поездку",pl:"Potwierdź podróż"},
+"My location":{fr:"Ma position",de:"Mein Standort",it:"La mia posizione",es:"Mi ubicación",pt:"A minha localização",nl:"Mijn locatie",ru:"Моё местоположение",pl:"Moja lokalizacja"},
+"Find routes":{fr:"Calculer les itinéraires",de:"Routen suchen",it:"Trova percorsi",es:"Buscar rutas",pt:"Encontrar percursos",nl:"Routes zoeken",ru:"Найти маршруты",pl:"Znajdź trasy"},
+"Find mixed transport to ":{fr:"Rechercher un trajet multimodal vers ",de:"Gemischte Verkehrsmittel suchen nach ",it:"Cerca trasporti combinati per ",es:"Buscar transporte combinado a ",pt:"Procurar transporte combinado para ",nl:"Gecombineerd vervoer zoeken naar ",ru:"Найти комбинированный транспорт до ",pl:"Znajdź transport łączony do "},
+"Change destination":{fr:"Changer de destination",de:"Ziel ändern",it:"Cambia destinazione",es:"Cambiar destino",pt:"Alterar destino",nl:"Bestemming wijzigen",ru:"Изменить пункт назначения",pl:"Zmień cel podróży"},
+"Change departure":{fr:"Changer le départ",de:"Abfahrt ändern",it:"Cambia partenza",es:"Cambiar salida",pt:"Alterar partida",nl:"Vertrek wijzigen",ru:"Изменить отправление",pl:"Zmień miejsce wyjazdu"},
+"Destination":{fr:"Destination",de:"Ziel",it:"Destinazione",es:"Destino",pt:"Destino",nl:"Bestemming",ru:"Пункт назначения",pl:"Cel podróży"},
+"Choose departure":{fr:"Choisir le départ",de:"Startpunkt wählen",it:"Scegli partenza",es:"Elegir salida",pt:"Escolher partida",nl:"Kies vertrek",ru:"Выберите отправление",pl:"Wybierz punkt startowy"},
+"My location (GPS)":{fr:"Ma position (GPS)",de:"Mein Standort (GPS)",it:"La mia posizione (GPS)",es:"Mi ubicación (GPS)",pt:"A minha localização (GPS)",nl:"Mijn locatie (GPS)",ru:"Моё местоположение (GPS)",pl:"Moja lokalizacja (GPS)"},
+"Choose a departure address":{fr:"Choisir une adresse de départ",de:"Startadresse wählen",it:"Scegli indirizzo di partenza",es:"Elegir dirección de salida",pt:"Escolher morada de partida",nl:"Kies vertrekadres",ru:"Выберите адрес отправления",pl:"Wybierz adres początkowy"},
+"Departure":{fr:"Départ",de:"Abfahrt",it:"Partenza",es:"Salida",pt:"Partida",nl:"Vertrek",ru:"Отправление",pl:"Wyjazd"},
+"Selected town: ":{fr:"Localité sélectionnée : ",de:"Gewählter Ort: ",it:"Località selezionata: ",es:"Localidad seleccionada: ",pt:"Localidade selecionada: ",nl:"Geselecteerde plaats: ",ru:"Выбранный населённый пункт: ",pl:"Wybrana miejscowość: "},
+"Verify town":{fr:"Vérifier la localité",de:"Ort überprüfen",it:"Verifica località",es:"Verificar localidad",pt:"Verificar localidade",nl:"Plaats verifiëren",ru:"Проверить населённый пункт",pl:"Zweryfikuj miejscowość"},
+"Driving destination in ":{fr:"Destination en voiture à ",de:"Zielort mit dem Auto: ",it:"Destinazione in auto a ",es:"Destino en coche en ",pt:"Destino de carro em ",nl:"Autobestemming in ",ru:"Пункт назначения на автомобиле: ",pl:"Cel podróży samochodem: "},
+"Find accommodation":{fr:"Rechercher un hébergement",de:"Unterkunft suchen",it:"Cerca alloggio",es:"Buscar alojamiento",pt:"Procurar alojamento",nl:"Accommodatie zoeken",ru:"Найти жильё",pl:"Znajdź nocleg"},
+"Go to an address":{fr:"Aller à une adresse",de:"Zu einer Adresse fahren",it:"Vai a un indirizzo",es:"Ir a una dirección",pt:"Ir para uma morada",nl:"Naar een adres gaan",ru:"Поехать по адресу",pl:"Jedź pod adres"},
+"Yes, choose accommodation":{fr:"Oui, choisir un hébergement",de:"Ja, Unterkunft wählen",it:"Sì, scegli alloggio",es:"Sí, elegir alojamiento",pt:"Sim, escolher alojamento",nl:"Ja, accommodatie kiezen",ru:"Да, выбрать жильё",pl:"Tak, wybierz nocleg"},
+"No, continue to destination":{fr:"Non, continuer vers la destination",de:"Nein, weiter zum Ziel",it:"No, continua verso la destinazione",es:"No, continuar al destino",pt:"Não, continuar para o destino",nl:"Nee, doorgaan naar bestemming",ru:"Нет, продолжить к цели",pl:"Nie, przejdź do celu"},
+"Where in this town would you like to go?":{fr:"Où souhaitez-vous aller dans cette localité ?",de:"Wohin möchten Sie in diesem Ort?",it:"Dove vuoi andare in questa località?",es:"¿Adónde quieres ir en esta localidad?",pt:"Para onde quer ir nesta localidade?",nl:"Waar wil je naartoe in deze plaats?",ru:"Куда вы хотите попасть в этом населённом пункте?",pl:"Dokąd chcesz dotrzeć w tej miejscowości?"},
+"Town centre":{fr:"Centre-ville",de:"Ortszentrum",it:"Centro città",es:"Centro de la localidad",pt:"Centro da localidade",nl:"Centrum",ru:"Центр населённого пункта",pl:"Centrum miejscowości"},
+"Choose a street or house number":{fr:"Choisir une rue ou un numéro",de:"Straße oder Hausnummer wählen",it:"Scegli via o numero civico",es:"Elegir calle o número",pt:"Escolher rua ou número",nl:"Kies straat of huisnummer",ru:"Выберите улицу или номер дома",pl:"Wybierz ulicę lub numer domu"},
+"Accommodation before route":{fr:"Hébergement avant le trajet",de:"Unterkunft vor der Route",it:"Alloggio prima del percorso",es:"Alojamiento antes de la ruta",pt:"Alojamento antes da rota",nl:"Accommodatie voor route",ru:"Жильё до построения маршрута",pl:"Nocleg przed trasą"},
+"You selected ":{fr:"Vous avez choisi ",de:"Sie haben gewählt: ",it:"Hai selezionato ",es:"Has seleccionado ",pt:"Selecionou ",nl:"Je hebt gekozen: ",ru:"Вы выбрали ",pl:"Wybrano "},
+"Would you like directions?":{fr:"Voulez-vous un itinéraire ?",de:"Möchten Sie eine Route?",it:"Vuoi indicazioni stradali?",es:"¿Quieres indicaciones?",pt:"Quer indicações?",nl:"Wil je een route?",ru:"Показать маршрут?",pl:"Czy pokazać trasę?"},
+"Yes, show directions":{fr:"Oui, afficher l’itinéraire",de:"Ja, Route anzeigen",it:"Sì, mostra indicazioni",es:"Sí, mostrar ruta",pt:"Sim, mostrar percurso",nl:"Ja, toon route",ru:"Да, показать маршрут",pl:"Tak, pokaż trasę"},
+"No, close":{fr:"Non, fermer",de:"Nein, schließen",it:"No, chiudi",es:"No, cerrar",pt:"Não, fechar",nl:"Nee, sluiten",ru:"Нет, закрыть",pl:"Nie, zamknij"},
+"Choose an option":{fr:"Choisir une option",de:"Option auswählen",it:"Scegli un’opzione",es:"Elige una opción",pt:"Escolha uma opção",nl:"Kies een optie",ru:"Выберите вариант",pl:"Wybierz opcję"},
+"Information about ":{fr:"Informations sur ",de:"Informationen über ",it:"Informazioni su ",es:"Información sobre ",pt:"Informações sobre ",nl:"Informatie over ",ru:"Информация о ",pl:"Informacje o "},
+"Accommodation results":{fr:"Hébergements trouvés",de:"Unterkünfte gefunden",it:"Alloggi trovati",es:"Alojamientos encontrados",pt:"Alojamentos encontrados",nl:"Gevonden accommodaties",ru:"Найденное жильё",pl:"Znalezione noclegi"},
+"Response time: ":{fr:"Temps de réponse : ",de:"Antwortzeit: ",it:"Tempo di risposta: ",es:"Tiempo de respuesta: ",pt:"Tempo de resposta: ",nl:"Antwoordtijd: ",ru:"Время ответа: ",pl:"Czas odpowiedzi: "},
+"details":{fr:"détails",de:"Details",it:"dettagli",es:"detalles",pt:"detalhes",nl:"details",ru:"подробности",pl:"szczegóły"},
+"Previous":{fr:"Précédent",de:"Vorherige",it:"Precedente",es:"Anterior",pt:"Anterior",nl:"Vorige",ru:"Предыдущий",pl:"Poprzedni"},
+"Return":{fr:"Retour",de:"Zurück",it:"Indietro",es:"Volver",pt:"Voltar",nl:"Terug",ru:"Вернуться",pl:"Powrót"},
+"Retry the question":{fr:"Réessayer la question",de:"Frage erneut versuchen",it:"Riprova la domanda",es:"Reintentar la pregunta",pt:"Repetir a pergunta",nl:"Vraag opnieuw proberen",ru:"Повторить вопрос",pl:"Ponów pytanie"},
+"Request failed.":{fr:"Échec de la requête.",de:"Anfrage fehlgeschlagen.",it:"Richiesta non riuscita.",es:"La solicitud ha fallado.",pt:"O pedido falhou.",nl:"Verzoek mislukt.",ru:"Ошибка запроса.",pl:"Żądanie nie powiodło się."},
+"No, plan my route":{fr:"Non, calculer l’itinéraire",de:"Nein, Route planen",it:"No, calcola il percorso",es:"No, planificar ruta",pt:"Não, planear o percurso",nl:"Nee, plan route",ru:"Нет, построить маршрут",pl:"Nie, wyznacz trasę"},
+"Confirmed destination: ":{fr:"Destination confirmée : ",de:"Bestätigtes Ziel: ",it:"Destinazione confermata: ",es:"Destino confirmado: ",pt:"Destino confirmado: ",nl:"Bevestigde bestemming: ",ru:"Подтверждённый пункт назначения: ",pl:"Potwierdzony cel podróży: "},
+"Find accommodation near ":{fr:"Rechercher un hébergement près de ",de:"Unterkunft suchen in der Nähe von ",it:"Cerca alloggio vicino a ",es:"Buscar alojamiento cerca de ",pt:"Procurar alojamento perto de ",nl:"Accommodatie zoeken nabij ",ru:"Найти жильё рядом с ",pl:"Znajdź nocleg w pobliżu "},
+"Back to place details":{fr:"Retour à la présentation",de:"Zurück zur Ortsbeschreibung",it:"Torna ai dettagli del luogo",es:"Volver a los detalles",pt:"Voltar aos detalhes",nl:"Terug naar plaatsinformatie",ru:"Назад к описанию",pl:"Powrót do opisu"},
+"Verify destination":{fr:"Vérifier la destination",de:"Ziel überprüfen",it:"Verifica la destinazione",es:"Verificar destino",pt:"Verificar destino",nl:"Bestemming verifiëren",ru:"Проверить пункт назначения",pl:"Zweryfikuj cel"},
+"Choose the destination town. After confirmation, select your travel mode.":{fr:"Choisissez la localité de destination, puis le moyen de transport.",de:"Wählen Sie den Zielort und anschließend das Verkehrsmittel.",it:"Scegli la località di destinazione, poi il mezzo di trasporto.",es:"Elige la localidad de destino y después el medio de transporte.",pt:"Escolha a localidade de destino e depois o meio de transporte.",nl:"Kies de bestemmingsplaats en daarna het vervoermiddel.",ru:"Выберите населённый пункт, затем способ передвижения.",pl:"Wybierz miejscowość docelową, a następnie środek transportu."},
+"Choose a verified destination. Street, house number and postcode are optional.":{fr:"Choisissez une destination vérifiée. Rue, numéro et code postal sont facultatifs.",de:"Wählen Sie ein bestätigtes Ziel. Straße, Hausnummer und PLZ sind optional.",it:"Scegli una destinazione verificata. Via, numero e CAP sono facoltativi.",es:"Elige un destino verificado. Calle, número y código postal son opcionales.",pt:"Escolha um destino verificado. Rua, número e código postal são opcionais.",nl:"Kies een geverifieerde bestemming. Straat, huisnummer en postcode zijn optioneel.",ru:"Выберите подтверждённый пункт назначения. Улица, дом и индекс необязательны.",pl:"Wybierz zweryfikowany cel. Ulica, numer domu i kod pocztowy są opcjonalne."},
+"The town is identified, but its map position is not verified. Choose the verified town to calculate public transport.":{fr:"La localité est identifiée, mais sa position n’est pas confirmée. Vérifiez-la pour calculer le trajet.",de:"Der Ort ist bekannt, aber die Kartenposition ist unbestätigt. Bestätigen Sie den Ort für die ÖPNV-Suche.",it:"La località è identificata, ma la posizione non è verificata. Confermala per calcolare il trasporto pubblico.",es:"La localidad está identificada, pero su posición no está verificada. Confírmala para calcular el transporte público.",pt:"A localidade foi identificada, mas a localização não está verificada. Confirme-a para calcular o transporte público.",nl:"De plaats is herkend, maar de locatie is niet geverifieerd. Bevestig de plaats voor het OV.",ru:"Населённый пункт найден, но координаты не подтверждены. Подтвердите его для поиска транспорта.",pl:"Miejscowość rozpoznano, ale współrzędne nie są potwierdzone. Zweryfikuj ją, aby wyszukać transport."},
+"Street or house number is not verified. Select a verified suggestion or use the separate town-centre button. Unverified address text is NOT a destination.":{fr:"Rue ou numéro non vérifié. Choisissez une suggestion confirmée ou le centre-ville. L’adresse non vérifiée ne sera pas utilisée.",de:"Straße oder Hausnummer unbestätigt. Wählen Sie einen Treffer oder das Ortszentrum. Ungeprüfte Angaben werden nicht als Ziel verwendet.",it:"Via o numero non verificati. Scegli un suggerimento confermato o il centro. L’indirizzo non verificato non sarà usato.",es:"Calle o número sin verificar. Elige una sugerencia confirmada o el centro. No se usará la dirección sin verificar.",pt:"Rua ou número não verificados. Escolha uma sugestão confirmada ou o centro. A morada não verificada não será usada.",nl:"Straat of nummer niet bevestigd. Kies een geverifieerd resultaat of het centrum. Onbevestigde adressen worden niet gebruikt.",ru:"Улица или номер не подтверждены. Выберите проверенный вариант либо центр. Непроверенный адрес не будет использован.",pl:"Ulica lub numer nie są zweryfikowane. Wybierz potwierdzony wynik albo centrum. Nie użyjemy niesprawdzonego adresu."},
+"Confirm now for the town centre. For a specific address, select the street and house number.":{fr:"Confirmez le centre-ville ou choisissez une rue et un numéro précis.",de:"Bestätigen Sie das Ortszentrum oder wählen Sie eine genaue Straße und Hausnummer.",it:"Conferma il centro oppure scegli via e numero civico.",es:"Confirma el centro o elige una calle y un número concretos.",pt:"Confirme o centro ou escolha uma rua e número específicos.",nl:"Bevestig het centrum of kies straat en huisnummer.",ru:"Подтвердите центр или выберите точную улицу и дом.",pl:"Potwierdź centrum albo wybierz dokładną ulicę i numer domu."},
+"No street suggestions. You can search for a rural house number without a street or confirm the town.":{fr:"Aucune rue suggérée. Vous pouvez saisir un numéro rural sans rue ou confirmer la localité.",de:"Keine Straßenvorschläge. Sie können eine ländliche Hausnummer ohne Straße suchen oder den Ort bestätigen.",it:"Nessuna via suggerita. Puoi cercare un numero civico rurale senza via o confermare la località.",es:"No hay sugerencias de calles. Puedes buscar un número rural sin calle o confirmar la localidad.",pt:"Sem sugestões de ruas. Pode procurar um número rural sem rua ou confirmar a localidade.",nl:"Geen straatvoorstellen. Zoek een huisnummer zonder straat of bevestig de plaats.",ru:"Предложений улиц нет. Можно искать номер дома без улицы или подтвердить населённый пункт.",pl:"Brak propozycji ulic. Możesz wyszukać numer domu bez ulicy lub potwierdzić miejscowość."},
+"House number is not verified on the map. Search another number or continue to town centre; we will not invent an exact address.":{fr:"Numéro non vérifié sur la carte. Essayez un autre numéro ou continuez vers le centre ; aucune adresse ne sera inventée.",de:"Hausnummer auf der Karte nicht bestätigt. Suchen Sie eine andere oder fahren Sie zum Ortszentrum; wir erfinden keine Adresse.",it:"Numero civico non verificato. Cercane un altro o prosegui verso il centro; non inventeremo indirizzi.",es:"Número no verificado en el mapa. Busca otro o continúa al centro; no inventaremos direcciones.",pt:"Número não verificado no mapa. Procure outro ou continue para o centro; não inventaremos moradas.",nl:"Huisnummer niet bevestigd. Zoek een ander nummer of ga naar het centrum; we verzinnen geen adressen.",ru:"Номер дома не подтверждён. Попробуйте другой или перейдите к центру; адрес не будет выдуман.",pl:"Numer domu nie został potwierdzony. Spróbuj innego lub wybierz centrum; nie wymyślimy adresu."},
+"Postcode is optional; the verified destination remains selected.":{fr:"Code postal facultatif ; la destination vérifiée reste sélectionnée.",de:"PLZ optional; das bestätigte Ziel bleibt ausgewählt.",it:"CAP facoltativo; la destinazione verificata resta selezionata.",es:"El código postal es opcional; se mantiene el destino verificado.",pt:"O código postal é opcional; o destino verificado mantém-se.",nl:"Postcode is optioneel; de bevestigde bestemming blijft geselecteerd.",ru:"Индекс необязателен; подтверждённый пункт назначения остаётся выбранным.",pl:"Kod pocztowy jest opcjonalny; potwierdzony cel pozostaje wybrany."},
+"The chosen town is retained. Its coordinates are not verified yet; search for a street or number without selecting the town again.":{fr:"La localité choisie est conservée. Coordonnées non vérifiées ; recherchez rue ou numéro sans la choisir à nouveau.",de:"Der gewählte Ort bleibt erhalten. Koordinaten unbestätigt; suchen Sie Straße oder Hausnummer ohne erneute Ortswahl.",it:"La località scelta resta selezionata. Coordinate non verificate; cerca via o numero senza sceglierla di nuovo.",es:"La localidad elegida se mantiene. Coordenadas sin verificar; busca calle o número sin volver a elegirla.",pt:"A localidade escolhida mantém-se. Coordenadas não verificadas; procure rua ou número sem repetir a escolha.",nl:"De gekozen plaats blijft geselecteerd. Coördinaten niet bevestigd; zoek straat of huisnummer zonder opnieuw te kiezen.",ru:"Выбранный пункт сохранён. Координаты не подтверждены; ищите улицу или дом без повторного выбора.",pl:"Wybrana miejscowość pozostaje zapisana. Współrzędne niepotwierdzone; szukaj ulicy lub numeru bez ponownego wyboru."}
+};
+function dialogText(ro,en){
+ const lang=state.language||'ro';
+ if(lang==='ro')return ro;
+ if(lang==='en')return en;
+ return POCKET_DIALOG_TEXT[en]?.[lang]||en;
+}
 function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',countryCode='',prefillCity='',prefillCityPoint=null,cityOnly=false}){
  const ro=state.language==='ro';
- const t=(a,b)=>ro?a:b;
+ const t=(a,b)=>dialogText(a,b);
  const display=new Intl.DisplayNames([state.language],{type:'region'});
  const countries=Array.from({length:26*26},(_,i)=>String.fromCharCode(65+Math.floor(i/26),65+i%26)).filter(code=>{try{return display.of(code)!==code}catch{return false}});
  const card=(label,action)=>{const b=document.createElement('button');b.type='button';b.className='module-result-card';b.textContent=label;b.onclick=action;return b};
@@ -1995,7 +2071,7 @@ function openTransportModeFromAssistant(data){
   };body.append(btn);
  }
  const back=document.createElement('button');back.type='button';back.className='transit-choice-action';
- back.textContent=state.language==='ro'?'Revenire':'Return';
+ back.textContent=dialogText("Revenire","Return");
  back.onclick=()=>returnToNavigationSource();body.append(back);
  updateQuickLayerGeometry();$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');return true;
 }
@@ -2068,8 +2144,8 @@ function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=nu
  }
  const host=document.createElement('div');host.dataset.directChoices='true';
  const headline=cityOnly
-  ?(state.language==='ro'?'Alege localitatea de destinație. După confirmare vei putea selecta mijlocul de transport.':'Choose the destination town. After confirmation, select your travel mode.')
-  :(state.language==='ro'?'Alege destinația verificată pe hartă. Strada, numărul și codul poștal sunt opționale.':'Choose a verified destination. Street, house number and postcode are optional.');
+  ?(dialogText("Alege localitatea de destinație. După confirmare vei putea selecta mijlocul de transport.","Choose the destination town. After confirmation, select your travel mode."))
+  :(dialogText("Alege destinația verificată pe hartă. Strada, numărul și codul poștal sunt opționale.","Choose a verified destination. Street, house number and postcode are optional."));
  const intro=document.createElement('p');intro.textContent=headline;
  intro.style.cssText='font-size:14px;line-height:1.5;color:#cbe5ee;margin:0 0 14px';
  host.append(intro);
@@ -2146,7 +2222,7 @@ function offerAssistantLocalityTravelMode(option){
  }
  const host=document.createElement('div');host.dataset.directChoices='true';
  const note=document.createElement('p');
- note.textContent=(state.language==='ro'?'Localitate selectată: ':'Selected town: ')+String(option.entity_title||option.label||'');
+ note.textContent=(dialogText("Localitate selectată: ","Selected town: "))+String(option.entity_title||option.label||'');
  host.append(note);
  const labels=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;
  const select=async mode=>{
@@ -2158,12 +2234,10 @@ function offerAssistantLocalityTravelMode(option){
   if(place){startAssistantLocalityRoute({...place,approximation:'locality'},mode);return;}
   const panel=document.createElement('div');panel.dataset.directChoices='true';
   const explanation=document.createElement('p');
-  explanation.textContent=state.language==='ro'
-   ?'Localitatea este identificată, dar poziția ei nu este confirmată în hărți. Selectează localitatea verificată pentru a calcula transportul.'
-   :'The town is identified, but its map position is not verified. Choose the verified town to calculate public transport.';
+  explanation.textContent=dialogText("Localitatea este identificată, dar poziția ei nu este confirmată în hărți. Selectează localitatea verificată pentru a calcula transportul.","The town is identified, but its map position is not verified. Choose the verified town to calculate public transport.");
   panel.append(explanation);
   const pick=document.createElement('button');pick.type='button';pick.className='transit-choice-action';
-  pick.textContent=state.language==='ro'?'Verifică localitatea':'Verify town';
+  pick.textContent=dialogText("Verifică localitatea","Verify town");
   pick.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();
    openAssistantStructuredAddress(option,{cityOnly:true,onVerifiedCity:verified=>startAssistantLocalityRoute(verified,mode)});};
   panel.append(pick);openStandaloneChoicePanel(panel,String(option.entity_title||option.label||''));
@@ -2177,10 +2251,9 @@ function offerAssistantLocalityTravelMode(option){
 function offerAssistantCarDestination(option){
  const host=document.createElement('div');host.dataset.directChoices='true';
  const label=String(option.entity_title||option.label||'');
- const textNode=document.createElement('p');textNode.textContent=(state.language==='ro'
-  ?'Destinație cu mașina în ':'Driving destination in ')+label;host.append(textNode);
+ const textNode=document.createElement('p');textNode.textContent=(dialogText("Destinație cu mașina în ","Driving destination in "))+label;host.append(textNode);
  const lodging=document.createElement('button');lodging.type='button';lodging.className='transit-choice-action';
- lodging.textContent=state.language==='ro'?'Caută cazare':'Find accommodation';
+ lodging.textContent=dialogText("Caută cazare","Find accommodation");
  lodging.onclick=async()=>{
   document.getElementById('pocketStandaloneChoices')?.remove();
   const place=await resolveAssistantLocalityForJourney(option);
@@ -2190,7 +2263,7 @@ function offerAssistantCarDestination(option){
   }});
  };
  const address=document.createElement('button');address.type='button';address.className='transit-choice-action';
- address.textContent=state.language==='ro'?'Merg la o adresă':'Go to an address';
+ address.textContent=dialogText("Merg la o adresă","Go to an address");
  address.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();
   openAssistantStructuredAddress(option,{onVerifiedDestination:point=>startAssistantLocalityRoute(point,'drive')});
  };
@@ -2206,7 +2279,7 @@ function offerAssistantScopeAccommodation(option){
   :'Would you like accommodation in '+name+' before planning the route? Selecting a hotel will automatically set its address as your destination.';
  host.append(note);
  const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';
- yes.textContent=state.language==='ro'?'Da, aleg cazare':'Yes, choose accommodation';
+ yes.textContent=dialogText("Da, aleg cazare","Yes, choose accommodation");
  yes.onclick=()=>{
   document.getElementById('pocketStandaloneChoices')?.remove();
   state.tripAccommodationDecision='yes';
@@ -2217,41 +2290,41 @@ function offerAssistantScopeAccommodation(option){
   openAssistantStructuredAddress(option,{cityOnly:true,onVerifiedCity:search});
  };
  const no=document.createElement('button');no.type='button';no.className='transit-choice-action';
- no.textContent=state.language==='ro'?'Nu, continuă spre destinație':'No, continue to destination';
+ no.textContent=dialogText("Nu, continuă spre destinație","No, continue to destination");
  no.onclick=()=>{
   document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationDecision='no';
   // Once a specific mapped town is verified, an exact street is a choice, not a requirement.
   if(type==='city'&&point){
    const panel=document.createElement('div');panel.dataset.directChoices='true';
-   const msg=document.createElement('p');msg.textContent=state.language==='ro'?'Unde dorești să ajungi în această localitate?':'Where in this town would you like to go?';panel.append(msg);
+   const msg=document.createElement('p');msg.textContent=dialogText("Unde dorești să ajungi în această localitate?","Where in this town would you like to go?");panel.append(msg);
    const centre=document.createElement('button');centre.type='button';centre.className='transit-choice-action';
-   centre.textContent=state.language==='ro'?'Centrul localității':'Town centre';
+   centre.textContent=dialogText("Centrul localității","Town centre");
    centre.onclick=()=>{
     document.getElementById('pocketStandaloneChoices')?.remove();
     state.assistantStructuredDestination=true;state.routeSearchContext=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;
     openTransportModeFromAssistant({route_context:{destination_query:point.label,destination:{...point,approximation:'locality'},pending:'profile'}});
    };
    const exact=document.createElement('button');exact.type='button';exact.className='transit-choice-action';
-   exact.textContent=state.language==='ro'?'Alege o stradă sau un număr':'Choose a street or house number';
+   exact.textContent=dialogText("Alege o stradă sau un număr","Choose a street or house number");
    exact.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();openAssistantStructuredAddress(option)};
    panel.append(centre,exact);openStandaloneChoicePanel(panel,name);return;
   }
   openAssistantStructuredAddress(option);
  };
  host.append(yes,no);
- openStandaloneChoicePanel(host,state.language==='ro'?'Cazare înainte de traseu':'Accommodation before route');
+ openStandaloneChoicePanel(host,dialogText("Cazare înainte de traseu","Accommodation before route"));
 }
 function confirmAssistantGeographicRoute(option){
  const host=document.createElement('div');host.dataset.directChoices='true';
  const label=String(option.entity_title||option.label||'');
  const note=document.createElement('p');
- note.textContent=(state.language==='ro'?'Ai ales ':'You selected ')+label+'. '+(state.language==='ro'?'Dorești să îți arăt traseul?':'Would you like directions?');
+ note.textContent=(dialogText("Ai ales ","You selected "))+label+'. '+(dialogText("Dorești să îți arăt traseul?","Would you like directions?"));
  host.append(note);
  const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';
- yes.textContent=state.language==='ro'?'Da, arată traseul':'Yes, show directions';
+ yes.textContent=dialogText("Da, arată traseul","Yes, show directions");
  yes.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();offerAssistantLocalityTravelMode(option)};
  const no=document.createElement('button');no.type='button';no.className='transit-choice-action';
- no.textContent=state.language==='ro'?'Nu, închide':'No, close';
+ no.textContent=dialogText("Nu, închide","No, close");
  no.onclick=()=>document.getElementById('pocketStandaloneChoices')?.remove();
  host.append(yes,no);
  openStandaloneChoicePanel(host,label);
@@ -2261,7 +2334,7 @@ function appendConversationChoices(data,host){
  const options=raw.slice(0,data.entity_disambiguation?8:data.named_venue?8:4).filter(x=>x&&typeof x.label==='string');
  if(!options.length)return false;
  const table=document.createElement('table'),caption=document.createElement('caption'),body=document.createElement('tbody');
- table.className='travel-mode-table';caption.textContent=state.language==='ro'?'Alege o opțiune':'Choose an option';table.append(caption);
+ table.className='travel-mode-table';caption.textContent=dialogText("Alege o opțiune","Choose an option");table.append(caption);
  const generation=state.conversationGeneration,buttons=[];
  for(const [choiceIndex,option] of options.entries()){
   const row=document.createElement('tr'),cell=document.createElement('td'),button=document.createElement('button');
@@ -2276,7 +2349,7 @@ function appendConversationChoices(data,host){
     if(['region','city','country'].includes(option.entity_type)||option.entity_kind==='region_article'||option.entity_kind==='locality_reference'){
      // Return to the original informational presentation BEFORE travel choices.
      state.pendingSelectedGeoOption={...option};
-     inputEl.value=(state.language==='ro'?'Informații despre ':'Information about ')+
+     inputEl.value=(dialogText("Informații despre ","Information about "))+
       [String(option.entity_title||'').trim(),String(option.entity_region||'').trim()].filter(Boolean).join(', ');
      await submitMessage();
      return;
@@ -2287,7 +2360,7 @@ function appendConversationChoices(data,host){
        /(?:rom[aâ]nia|romania|roumanie|rumänien|румыния|rumunia)/iu.test(String(option.entity_details||''))
        &&!/^(?:județul|judetul)\s/i.test(title)?'Județul '+title:title;
      state.pendingSelectedEntityKind='article';
-     inputEl.value=(state.language==='ro'?'Informații despre ':'Information about ')+(option.entity_kind==='article'?title:regionTitle);
+     inputEl.value=(dialogText("Informații despre ","Information about "))+(option.entity_kind==='article'?title:regionTitle);
      await submitMessage();
      return;
     }
@@ -2304,11 +2377,11 @@ function appendConversationChoices(data,host){
       :'This location was identified on a map. Would you like directions?';
     context.style.cssText='font-size:15px;margin:0 0 12px';
     const go=document.createElement('button');go.type='button';go.className='transit-choice-action';
-    go.textContent=state.language==='ro'?'Da, arată traseul':'Yes, show directions';
+    go.textContent=dialogText("Da, arată traseul","Yes, show directions");
     go.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();
       offerAssistantLocalityTravelMode(option)};
     const close=document.createElement('button');close.type='button';close.className='transit-choice-action';
-    close.textContent=state.language==='ro'?'Nu, închide':'No, close';
+    close.textContent=dialogText("Nu, închide","No, close");
     close.onclick=()=>document.getElementById('pocketStandaloneChoices')?.remove();
     card.append(name,details,context,go,close);
     openStandaloneChoicePanel(card,String(option.entity_title||option.label));return;
@@ -2558,7 +2631,7 @@ function renderTransitChoices(options,selectedIndex=null){
  document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
  const heading=document.createElement('h3');heading.textContent=selectedIndex===null?t[0]:t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
  const actions=document.createElement('div');actions.className='quick-navigation-toolbar';
- const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=state.language==='ro'?'Anterior':'Previous';back.onclick=()=>{
+ const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=dialogText("Anterior","Previous");back.onclick=()=>{
   cancelTransitAccess(true);
   if(selectedIndex!==null){renderTransitChoices(options);return}
   const source=state.navigationReturnContext;
@@ -2568,7 +2641,7 @@ function renderTransitChoices(options,selectedIndex=null){
  };
  actions.append(back);
  if(state.navigationReturnContext){const original=document.createElement('button');original.type='button';original.className='transit-choice-action';
-  original.textContent=state.language==='ro'?'Revenire':'Return';
+  original.textContent=dialogText("Revenire","Return");
   original.onclick=()=>returnToNavigationSource();actions.append(original)}
  body.append(actions);
  if(selectedIndex!==null){const journey=options[selectedIndex];if(!journey)return;const summary=document.createElement('p');summary.textContent=transitBoardingSummary(journey);body.append(summary);
@@ -2728,7 +2801,7 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
  dismissSelectionKeyboard();
  if(!validMapRoute(route))return;state.lastRoute=route;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
  const layer=document.createElement('section');layer.className='route-map-window';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
- const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const previous=document.createElement('button');previous.type='button';previous.className='route-header-action';previous.textContent=state.language==='ro'?'Anterior':'Previous';previous.onclick=()=>{const transitOptions=transitOptionsForRoute(route);closeRouteMap(false);if(transitOptions?.length)showTransitChoices(transitOptions);else openWalkingRouteChoices(route,options)};const returning=document.createElement('button');returning.type='button';returning.className='route-header-action';returning.textContent=state.language==='ro'?'Revenire':'Return';returning.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else{closeRouteMap(false);if(state.currentView==='module')showView('module');else showView('home')}};header.append(previous,title,returning)
+ const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const previous=document.createElement('button');previous.type='button';previous.className='route-header-action';previous.textContent=dialogText("Anterior","Previous");previous.onclick=()=>{const transitOptions=transitOptionsForRoute(route);closeRouteMap(false);if(transitOptions?.length)showTransitChoices(transitOptions);else openWalkingRouteChoices(route,options)};const returning=document.createElement('button');returning.type='button';returning.className='route-header-action';returning.textContent=dialogText("Revenire","Return");returning.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else{closeRouteMap(false);if(state.currentView==='module')showView('module');else showView('home')}};header.append(previous,title,returning)
  const status=document.createElement('p');status.className='route-map-status';status.textContent=t.loading;
  const external=document.createElement('a');external.target='_blank';external.rel='noopener noreferrer';external.textContent=routeLiveText()[10];
  external.href=routeNavigationUrl(route);
@@ -2761,7 +2834,7 @@ function openWalkingRouteChoices(route,options=state.lastRouteOptions){
  const layer=document.createElement('section');layer.className='answer-reader route-choice-screen';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');
  const header=document.createElement('div');header.className='answer-reader-header';
  const title=document.createElement('h2');title.textContent=routeOptionsText()[0];header.append(title);
- const back=document.createElement('button');back.type='button';back.className='route-header-action';back.textContent=state.language==='ro'?'Revenire':'Return';back.style.cssText='width:auto;min-width:95px;font-size:14px;padding:6px';back.onclick=()=>{layer.remove();if(state.navigationReturnContext)returnToNavigationSource();else if(state.currentView==='module')showView('module')};header.append(back);
+ const back=document.createElement('button');back.type='button';back.className='route-header-action';back.textContent=dialogText("Revenire","Return");back.style.cssText='width:auto;min-width:95px;font-size:14px;padding:6px';back.onclick=()=>{layer.remove();if(state.navigationReturnContext)returnToNavigationSource();else if(state.currentView==='module')showView('module')};header.append(back);
  const body=document.createElement('div');body.className='answer-reader-body';body.style.cssText='white-space:normal;scroll-behavior:auto';
  const list=document.createElement('div');list.className='route-options';
  for(const [i,v] of (usable.length?usable:[route]).entries()){
@@ -2942,7 +3015,7 @@ function openAnswerReader(text,origin){
  const layer=document.createElement('section');layer.className='answer-reader';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-labelledby','answerReaderTitle');
  const header=document.createElement('div');header.className='answer-reader-header';
  const title=document.createElement('h2');title.id='answerReaderTitle';title.textContent=t.title;
- const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent=state.language==='ro'?'Revenire':'Return';close.setAttribute('aria-label',close.textContent);close.onclick=()=>closeAnswerReader();header.append(title,close);
+ const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent=dialogText("Revenire","Return");close.setAttribute('aria-label',close.textContent);close.onclick=()=>closeAnswerReader();header.append(title,close);
  const controls=document.createElement('div');controls.className='answer-reader-controls';
  const pause=document.createElement('button');pause.type='button';
  const restart=document.createElement('button');restart.type='button';restart.textContent=t.restart;
@@ -2992,7 +3065,7 @@ function offerTripAccommodation(destination){
  state.travelAccommodationIntent=false;
  const host=document.createElement('div');host.dataset.directChoices='true';
  const note=document.createElement('p');note.textContent=state.language==='ro'?'Traseul este pregătit. Dorești să caut și cazare la destinație, în zona centrală turistică?':'The route is prepared. Would you like accommodation near the tourist centre?';host.append(note);
- const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';yes.textContent=state.language==='ro'?'Da, caută cazare':'Find accommodation';
+ const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';yes.textContent=dialogText("Da, caută cazare","Find accommodation");
  yes.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();const place=String(destination||'').replace(/^(?:vreau să ajung la|i want to get to)\\s+/i,'').trim();inputEl.value=(state.language==='ro'?'Caută cazare în zona centrală turistică din ':'Find accommodation in the tourist centre of ')+place;submitMessage()};
  const no=document.createElement('button');no.type='button';no.className='transit-choice-action';no.textContent=state.language==='ro'?'Nu, continuă la traseu':'No, continue to route';no.onclick=()=>document.getElementById('pocketStandaloneChoices')?.remove();
  host.append(yes,no);openStandaloneChoicePanel(host,state.language==='ro'?'Cazare la destinație':'Accommodation');
@@ -3198,8 +3271,8 @@ function offerDestinationAccommodationBeforeRoute(destination,{autoSearch=false,
  if(!destination||destination.latitude==null||destination.longitude==null||!Number.isFinite(Number(destination.latitude))||!Number.isFinite(Number(destination.longitude))||Math.abs(Number(destination.latitude))>90||Math.abs(Number(destination.longitude))>180)return false;
  state.tripAccommodationDestination={...destination};state.travelAccommodationIntent=false;state.tripAccommodationDecision='pending';
  const host=document.createElement('div');host.dataset.directChoices='true';
- const note=document.createElement('p');note.textContent=(state.language==='ro'?'Destinație confirmată: ':'Confirmed destination: ')+destination.label+'. '+(state.language==='ro'?'Dorești să alegi cazarea înainte să calculăm traseul final?':'Choose accommodation before calculating your final route?');host.append(note);
- const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';yes.textContent=state.language==='ro'?'Da, caută cazare':'Find accommodation';
+ const note=document.createElement('p');note.textContent=(dialogText("Destinație confirmată: ","Confirmed destination: "))+destination.label+'. '+(state.language==='ro'?'Dorești să alegi cazarea înainte să calculăm traseul final?':'Choose accommodation before calculating your final route?');host.append(note);
+ const yes=document.createElement('button');yes.type='button';yes.className='transit-choice-action';yes.textContent=dialogText("Da, caută cazare","Find accommodation");
  yes.onclick=async()=>{
   document.getElementById('pocketStandaloneChoices')?.remove();
   state.tripAccommodationDecision='yes';
@@ -3251,10 +3324,10 @@ function offerDestinationAccommodationBeforeRoute(destination,{autoSearch=false,
    next();
   }
  };
- const no=document.createElement('button');no.type='button';no.className='transit-choice-action';no.textContent=state.language==='ro'?'Nu, creează traseul':'No, plan my route';
+ const no=document.createElement('button');no.type='button';no.className='transit-choice-action';no.textContent=dialogText("Nu, creează traseul","No, plan my route");
  no.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationSearching=false;state.tripAccommodationDecision='no';if(scopeOption)openAssistantStructuredAddress(scopeOption,routeMode==='drive'?{onVerifiedDestination:verified=>startAssistantLocalityRoute(verified,'drive')}:{ });else openTransportModeFromAssistant({route_context:{destination_query:destination.label,destination,pending:'profile'}})};
  if(autoSearch){void yes.onclick();return true;}
- host.append(yes,no);openStandaloneChoicePanel(host,state.language==='ro'?'Cazare înainte de traseu':'Accommodation before route');return true;
+ host.append(yes,no);openStandaloneChoicePanel(host,dialogText("Cazare înainte de traseu","Accommodation before route"));return true;
 }
 function openAccommodationResults(places,originalDestination=state.tripAccommodationDestination,scopeOption=null,routeMode=null){
  places=cleanAccommodationPlaces(places);
@@ -3278,14 +3351,14 @@ function openAccommodationResults(places,originalDestination=state.tripAccommoda
   skip.onclick=()=>{document.getElementById('pocketStandaloneChoices')?.remove();state.tripAccommodationDecision='no';state.tripAccommodationSearching=false;if(scopeOption){state.assistantStructuredDestination=false;openAssistantStructuredAddress(scopeOption,routeMode==='drive'?{onVerifiedDestination:verified=>startAssistantLocalityRoute(verified,'drive')}:{})}else openTransportModeFromAssistant({route_context:{destination_query:originalDestination.label,destination:originalDestination,pending:'profile'}})};
   host.append(skip);
  }
- openStandaloneChoicePanel(host,state.language==='ro'?'Cazări găsite':'Accommodation results');return true;
+ openStandaloneChoicePanel(host,dialogText("Cazări găsite","Accommodation results"));return true;
 }
 function openStandaloneChoicePanel(host,titleText,{keepOpen=false}={}){
  dismissSelectionKeyboard();closeAnswerReader(false);
  const old=document.getElementById('pocketStandaloneChoices');if(old)old.remove();
  const panel=document.createElement('section');panel.id='pocketStandaloneChoices';panel.className='answer-reader';panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');
  const header=document.createElement('div');header.className='answer-reader-header';const title=document.createElement('h2');title.textContent=titleText||'Alege o opțiune';
- const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent=state.language==='ro'?'Închide':'Close';close.setAttribute('aria-label',close.textContent);close.onclick=()=>{if(state.assistantStructuredDestination===true)state.assistantStructuredDestination=false;panel.remove();};
+ const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent=dialogText("Închide","Close");close.setAttribute('aria-label',close.textContent);close.onclick=()=>{if(state.assistantStructuredDestination===true)state.assistantStructuredDestination=false;panel.remove();};
  header.append(title,close);const body=document.createElement('div');body.className='answer-reader-body';body.style.whiteSpace='normal';
  while(host.firstChild)body.append(host.firstChild);
  if(state.encyclopediaTripActive&&state.lastEncyclopediaArticle&&titleText!==state.lastEncyclopediaArticle.title){
@@ -3305,7 +3378,7 @@ function showAnswerDuration(host,startMs){
  const elapsedMs=Math.max(0,Math.round(performance.now()-startMs));
  const ms=v=>Number.isFinite(Number(v))?(Math.max(0,Number(v))/1000).toFixed(1)+' s':'—';
  const details=document.createElement('details');details.className='pocket-response-duration';details.style.cssText='margin-top:8px;font-size:12px;opacity:.78;letter-spacing:.1px';
- const summary=document.createElement('summary');summary.textContent=(state.language==='ro'?'Timp răspuns: ':'Response time: ')+ms(elapsedMs)+' · '+(state.language==='ro'?'detalii':'details');summary.style.cssText='cursor:pointer;list-style:none;user-select:none';details.append(summary);
+ const summary=document.createElement('summary');summary.textContent=(dialogText("Timp răspuns: ","Response time: "))+ms(elapsedMs)+' · '+(dialogText("detalii","details"));summary.style.cssText='cursor:pointer;list-style:none;user-select:none';details.append(summary);
  const timing=state.lastRequestTimings;
  if(timing&&Math.abs((Number(timing.total_ms)||0)-elapsedMs)<10000){
   const local=state.language==='ro',stage=timing.backend_latency||{};
@@ -3559,7 +3632,7 @@ const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;c
   const choiceHost=document.createElement('div');choiceHost.dataset.directChoices='true';
   const countryNeedsSelection=Boolean(state.tripCountryOnChoice&&((Array.isArray(data.destination_candidates)&&data.destination_candidates.length)||(Array.isArray(data.choice_options)&&data.choice_options.length)));
   const choicesAdded=Boolean((countryNeedsSelection?false:appendTravelModeChoices(data,choiceHost))|appendConversationChoices(data,choiceHost));
-  if(choicesAdded&&choiceHost.querySelector('button')){answerBubble.remove();openStandaloneChoicePanel(choiceHost,state.language==='ro'?'Alege o opțiune':'Choose an option')}
+  if(choicesAdded&&choiceHost.querySelector('button')){answerBubble.remove();openStandaloneChoicePanel(choiceHost,dialogText("Alege o opțiune","Choose an option"))}
   else{appendTravelConfirmation(data,answerBubble)}
  }else{appendTravelModeChoices(data,answerBubble);appendTravelConfirmation(data,answerBubble);appendConversationChoices(data,answerBubble)}state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);setStatus('Răspuns primit.');if(state.voiceMode||fromVoice){speakText(reply,{continuous:state.voiceMode})}else if(state.messages.length===2){/* first reply only: text remains the default */}}catch(error){loading.remove();console.warn('Pocket AI request failed timing',{total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:typeof gpsElapsedMs==='number'?gpsElapsedMs:null,api_elapsed_ms:typeof backendRequestStartedAt==='number'?Math.round(performance.now()-backendRequestStartedAt):null,stage:typeof backendRequestStartedAt==='number'?'api_or_read':'gps_or_preflight'});if(generation===state.conversationGeneration&&(state.currentView==='assistant'||state.currentView==='module')){const messageText=String(error?.message||'Eroare necunoscută.');
   const transportError=/failed to fetch|networkerror|network request failed|load failed/i.test(messageText);
@@ -3569,12 +3642,12 @@ const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;c
   const bubble=addBubble(reason,'assistant',true,{autoOpen:false});
   if(transportError){
    const retry=document.createElement('button');retry.type='button';retry.className='transit-choice-action';
-   retry.textContent=state.language==='ro'?'Reîncearcă întrebarea':'Retry the question';
+   retry.textContent=dialogText("Reîncearcă întrebarea","Retry the question");
    retry.style.cssText='margin-top:10px;max-width:100%;';
    retry.onclick=()=>{if(state.busy)return;retry.disabled=true;inputEl.value=message;submitMessage()};
    bubble.append(retry);
   }
-  setStatus(state.language==='ro'?'Cererea nu a reușit.':'Request failed.');
+  setStatus(dialogText("Cererea nu a reușit.","Request failed."));
   console.error('myPocket AI chat request failed:',{type:String(error?.name||'Error'),networkError:transportError,detail:messageText.slice(0,160)})}}finally{state.busy=false;sendBtn.disabled=false;inputEl.disabled=false;/* Do not reopen Android keyboard after button-only flows. Text entry gets focus only on an explicit tap. */inputEl.blur()}}
 $('chatForm').addEventListener('submit',event=>{event.preventDefault();submitMessage()});inputEl.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();$('chatForm').requestSubmit()}});inputEl.addEventListener('input',()=>{inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,130)+'px'});
 $('newChatBtn').addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}archiveCurrentConversation();resetChat();void 0});
