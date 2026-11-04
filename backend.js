@@ -1,3 +1,4 @@
+import {planPresentation} from "./presentation.mjs";
 import {localizeNewsRows} from "./localization.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
@@ -1156,6 +1157,10 @@ export default {
         }
       }
       if(payload && payload.status==="success" && typeof payload.message_received==="string"){payload.place_context=responsePlaceContext;payload.distance_context=responseDistanceContext;payload.route_context=payload.route_context||responseRouteContext;payload.weather_context=responseWeatherContext;payload.recommended_module=(payload.route_context||responseDistanceContext||payload.route_available!==undefined||payload.transit_available!==undefined||payload.reverse_geocode_ok!==undefined)?"maps":responsePlaceContext?(["fuel","parking","car_wash","car_repair","charging","transport"].includes(responsePlaceContext.category)?"maps":"travel"):"assistant";}
+      // All successful replies share a validated presentation decision contract.
+      // Existing specialized renderers stay active until a generic UI is tested.
+      if(payload&&typeof payload==="object"&&payload.status==="success"&&typeof payload.reply==="string")
+        payload.presentation=planPresentation(payload);
       if (payload && typeof payload === "object") delete payload.ai_generated;
       if(payload&&typeof payload==="object")payload.server_total_ms=Date.now()-requestStartMs;
       return new Response(JSON.stringify(payload), {
