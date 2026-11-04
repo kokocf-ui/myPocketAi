@@ -1666,7 +1666,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
  const display=new Intl.DisplayNames([state.language],{type:'region'});
  const countries=Array.from({length:26*26},(_,i)=>String.fromCharCode(65+Math.floor(i/26),65+i%26)).filter(code=>{try{return display.of(code)!==code}catch{return false}});
  const card=(label,action)=>{const b=document.createElement('button');b.type='button';b.className='module-result-card';b.textContent=label;b.onclick=action;return b};
-  const normalize=value=>value.normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim();
+  const normalize=value=>value.normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase().trim();
   const selected={};
   const fields={};
   const order=['country','city','street','number'];
@@ -2020,7 +2020,7 @@ function assistantGeographicPoint(option){
 }
 function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=null}={}){
  const type=assistantGeographicType(option);
- const regionName=type==='region'?String(option.entity_title||'').trim().replace(/^(?:județ(?:ul)?|judet(?:ul)?|county|province)\s+/iu,''):
+ const regionName=type==='region'?String(option.entity_title||'').trim().replace(/^(?:județ(?:ul)?|judet(?:ul)?|county|province)\\s+/iu,''):
   type==='city'?String(option.entity_region||'').trim():'';
  const countryCode=String(option.entity_country_code||'').toUpperCase();
  const prefillCity=type==='city'?String(option.entity_title||''):'';
