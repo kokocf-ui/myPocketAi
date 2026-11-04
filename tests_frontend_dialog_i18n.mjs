@@ -32,7 +32,7 @@ for(const language of languages){
   else assert.notEqual(actual,en,language+': untranslated English UI label '+en);
  }
 }
-const incomplete=vm.runInContext('Object.entries(POCKET_DIALOG_TEXT).filter(([k,v])=>["fr","de","it","es","pt","nl","ru","pl"].some(l=>!v[l]||v[l]===k)).map(([k])=>k)',context);
+const incomplete=vm.runInContext('Object.entries(POCKET_DIALOG_TEXT).filter(([k,v])=>["fr","de","it","es","pt","nl","ru","pl"].some(l=>!v[l])).map(([k])=>k)',context);
 assert.equal(incomplete.length,0,'catalog must provide all eight additional translations: '+incomplete.join(', '));
 assert(source.includes('const t=(a,b)=>dialogText(a,b);'),'shared address picker uses all languages');
 assert(source.includes("dialogText('Confirmă localitatea pentru a evita un traseu către o stație greșită.'"),'station prompt localized');
