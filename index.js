@@ -1686,7 +1686,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     return;
    }
    const point=cityOnly?selected.city:(selected.number||selected.street||selected.city);
-   if(!point)return;
+   if(!point||!Number.isFinite(point.latitude)||!Number.isFinite(point.longitude))return;
    onSelect({...point,approximation:cityOnly?'locality':selected.number?null:selected.street?'street':'locality',verified_region:region,verified_country:countryCode||selected.country?.code});
   });
   const approximateButton=card(t('Continuă la centrul localității (nu la numărul introdus)','Continue to town centre (not the entered house number)'),()=>{
@@ -1733,7 +1733,8 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     delete selected[key];fields[key].input.value='';fields[key].input.disabled=true;fields[key].list.replaceChildren();
     fields[key].search.disabled=true;
    }
-   confirmed.disabled=!selected.city||!Number.isFinite(selected.city.latitude)||!Number.isFinite(selected.city.longitude);
+   const confirmedPoint=selected.number||selected.street||selected.city;
+   confirmed.disabled=!confirmedPoint||!Number.isFinite(confirmedPoint.latitude)||!Number.isFinite(confirmedPoint.longitude);
    approximateButton.hidden=true;
    // A rural number can be entered without a named street.
    if(selected.city&&!cityOnly){fields.number.input.disabled=false;fields.number.search.disabled=false;}
