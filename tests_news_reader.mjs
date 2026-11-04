@@ -60,6 +60,11 @@ try{
  const host=new N('div');
  assert.equal(context.appendNewsCollectionTable(host,{list:data.structured_list}),true);
  const wrap=host.children.find(x=>x.tag==='div'),table=wrap.children[0];
+ const colgroup=table.children.find(x=>x.tag==='colgroup');
+ assert.ok(colgroup,'Table widths must be defined at column level');
+ assert.equal(colgroup.children.length,2);
+ assert.match(colgroup.children[0].style.cssText||'',/76%/);
+ assert.match(colgroup.children[1].style.cssText||'',/24%/);
  const tbody=table.children.find(x=>x.tag==='tbody');
  assert.ok(tbody.children.length>0,'News table must have rows');
  const btn=tbody.children[0].children[0].children[0];
