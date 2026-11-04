@@ -4807,7 +4807,8 @@ export default {
       const newsIntent = !recipeInstruction && !eventResearchIntent && /\b(?:news|headlines|breaking|geopolitic|politic|conflict|war|razboi|război|stiri|știri|actualitat|noutati|latest developments|recent events|ce se intampla|ce s-a intamplat)\b/i.test(normalizedResearchRequest);
       if(newsIntent) providerTasks.push((async()=>{
         const started=Date.now(),u=new URL("https://api.gdeltproject.org/api/v2/doc/doc");
-        u.searchParams.set("query",message.slice(0,110));
+        const topic=message.replace(/^(?:(?:care sunt|arata-mi|cauta|show me|what are the)\s+)?(?:(?:ultimele|latest|recent|breaking)\s+)?(?:stiri|știri|news|noutati|actualitati)\s*(?:(?:despre|about|privind|on)\s+)?/iu,"").trim();
+        u.searchParams.set("query",(topic.length>=3?topic:message).slice(0,110));
         u.searchParams.set("mode","artlist");
         u.searchParams.set("format","json");
         u.searchParams.set("timespan","7d");
@@ -4818,7 +4819,7 @@ export default {
         const articles=Array.isArray(payload.articles)?payload.articles:[];
         return {provider:"GDELT",elapsedMs:Date.now()-started,results:articles.slice(0,8).map(a=>({
           title:a.title||a.url,url:a.url,publishedDate:a.seendate||null,
-          snippets:[],author:null
+          snippets:["Unverified GDELT article listing: "+String(a.title||"").slice(0,180)],author:null
         }))};
       })().then(value=>({status:"fulfilled",value,provider:"GDELT"}))
         .catch(error=>({status:"rejected",provider:"GDELT",error:String(error?.message||error).slice(0,140)})));
@@ -4864,7 +4865,7 @@ export default {
           const resultCount=useful.reduce((sum,x)=>sum+x.value.results.length,0);
           if(!readinessTimer&&useful.length>=(eventResearchIntent?2:1)&&resultCount>=(eventResearchIntent?8:3)){
             // Brief grace period to include an additional almost-finished provider.
-            readinessTimer=setTimeout(readinessResolve,eventResearchIntent?650:250);
+            readinessTimer=setTimeout(readinessResolve,eventResearchIntent?650:newsIntent?1500:250);
           }
           return value;
         }));
@@ -4915,7 +4916,11 @@ export default {
           }
           return score;
         };
-        webSources=[...byUrl.values()].sort((a,b)=>sourceEvidenceScore(b)-sourceEvidenceScore(a)).slice(0,eventResearchIntent?40:10);
+        const rankedWebSources=[...byUrl.values()].sort((a,b)=>sourceEvidenceScore(b)-sourceEvidenceScore(a));
+        // Keep at least two discovered news listings visible when GDELT responds.
+        const gdeltLeads=newsIntent?rankedWebSources.filter(x=>x.providers.includes("GDELT")).slice(0,2):[];
+        const remainingRanked=rankedWebSources.filter(x=>!gdeltLeads.includes(x));
+        webSources=[...remainingRanked.slice(0,(eventResearchIntent?40:10)-gdeltLeads.length),...gdeltLeads];
         // Fetch a small number of original pages for additional evidence. Redirects are not followed;
         // non-HTML pages and unavailable pages remain explicitly unverified.
         await Promise.all(webSources.slice(0,eventResearchIntent?1:recipeInstruction?4:2).map(async source=>{
