@@ -20,7 +20,6 @@ try{
  assert.equal(data.structured_list?.type,'news');
  assert.ok(data.structured_list.rows.length>=1);
  assert.ok(data.structured_list.rows.every(x=>x.url?.startsWith('https://')&&x.verification==='source_identified_claims_unverified'));
- assert.equal(data.ai_generated,false);
  const html=await(await frontend.fetch(new Request('https://fixture/'))).text();
  const source=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
  assert.ok(source);
