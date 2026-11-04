@@ -13,7 +13,7 @@ assert(frontend.includes('region:region||'), 'region is supplied to backend sear
 assert(frontend.includes("if(state.currentView==='assistant'&&state.assistantStructuredDestination===true){"),'selected assistant destination stays in its module');
 assert(frontend.includes('state.assistantStructuredDestination=true;'),'assistant destination state is tracked');
 assert(frontend.includes('if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)'), 'typed house number cannot silently become approximate');
-assert(frontend.includes('selected.city||selected.street')||frontend.includes("confirmed.disabled=!selected.city"), 'confirmed locality may be the destination');
+assert(frontend.includes("const point=cityOnly?selected.city:(selected.number||selected.street||selected.city)"),'verified locality may be destination without a street or house number');
 
 // Global destination and accommodation decision regressions.
 assert(frontend.includes('const countries=Array.from({length:26*26}'),'country picker must not be Europe-only');
