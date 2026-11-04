@@ -1637,9 +1637,16 @@ function renderModulePlaceDetails(place){state.moduleSearchReturnMode='details';
  const headingIdentity=document.createElement('div');headingIdentity.className='place-detail-identity';headingIdentity.append(logo,title);
  const actions=document.createElement('div');actions.className='place-detail-actions';
  const go=document.createElement('button');go.type='button';go.className='primary-btn place-detail-route';go.textContent=dialogText("Alege traseul","Choose route");go.onclick=()=>{if(state.busy)return;offerPlaceTravelModes(place)};
- const photo=document.createElement('div');photo.className='place-detail-photo';photo.setAttribute('aria-label',String(place.name||'')+' fotografie');mountPlaceThumbnail(photo,place);
+ const photo=document.createElement('button');photo.type='button';photo.className='place-detail-photo';photo.style.border='0';photo.style.padding='0';photo.setAttribute('aria-label',l.photos);
+ const photoHint=document.createElement('span');photoHint.textContent=dialogText('Fotografie indisponibilă','Photo unavailable');photoHint.style.cssText='font-size:11px;text-align:center;padding:6px';photo.append(photoHint);photo.disabled=true;photo.style.cursor='default';
+ const setPhoto=url=>{const src=verifiedMediaUrl(url);if(!src)return false;const img=document.createElement('img');img.alt=String(place.name||'');img.referrerPolicy='no-referrer';img.onerror=()=>{photo.replaceChildren(photoHint);photo.disabled=true;photo.style.cursor='default'};img.src=src;photo.replaceChildren(img);photo.disabled=false;photo.style.cursor='zoom-in';photo.onclick=()=>showPlacePhoto(src,place.name);return true};
+ if(!setPhoto(place.image_url)){loadPlaceMedia({...place,brand_wikidata:''}).then(data=>{if(!photo.isConnected)return;const candidate=Array.isArray(data.images)?data.images.map(verifiedMediaUrl).find(Boolean):'';if(candidate){place.image_url=candidate;setPhoto(candidate)}})}
+
  actions.append(go,photo);heading.append(headingIdentity,actions);card.append(heading);
  enrichPlaceWebsite(place,card);
+ // Only display provider-grounded attributes; never fabricate opening hours or services.
+ const extraDetails=()=>{const fields=[['description',dialogText('Descriere','Description')],['opening_hours',dialogText('Program','Opening hours')],['services',dialogText('Servicii','Services')]];for(const [key,label] of fields){const value=Array.isArray(place[key])?place[key].filter(Boolean).join(', '):place[key];if(value&&typeof value==='string'&&!card.querySelector('[data-place-field="'+key+'"]')){const p=document.createElement('p');p.dataset.placeField=key;const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(value));card.append(p)}}};
+ extraDetails();
  const line=(label,value)=>{if(value===undefined||value===null||String(value).trim()==='')return;const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));card.append(p)};
  line(l.address,place.address||[place.house_number,place.street,place.city,place.postcode].filter(Boolean).join(', '));
  line(t.category,localizedPlaceCategory(place.type||t.unspecified));
