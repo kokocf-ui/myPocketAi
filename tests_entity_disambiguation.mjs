@@ -35,5 +35,5 @@ const known=await run(...Object.values({...base,knownTopic:'Oradea',topicKey:'or
 assert.equal(known,null,'unambiguous known city stays on existing flow');
 assert(frontend.includes("if(data.entity_disambiguation){"),'frontend handles choice kinds');
 assert(frontend.includes("if(article.can_route===true){"),'article route CTA restricted to geographical subjects');
-assert(source.includes("article.can_route=Boolean("),'backend classifies route eligibility');
+assert(source.includes("article.can_route=!encyclopedicOnly&&Boolean("),'backend preserves information-only intent when classifying route eligibility');
 console.log('Entity disambiguation tests passed');

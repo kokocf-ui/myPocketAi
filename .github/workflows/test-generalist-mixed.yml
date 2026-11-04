@@ -11,6 +11,7 @@ on:
       - tests_geographic_station_intent.mjs
       - tests_balmos_recipe_regression.mjs
       - tests_entity_disambiguation.mjs
+      - tests_county_translation_regression.mjs
       - .github/workflows/test-generalist-mixed.yml
   workflow_dispatch:
 
@@ -36,5 +37,6 @@ jobs:
           node tests_geographic_station_intent.mjs
           node tests_balmos_recipe_regression.mjs
           node tests_entity_disambiguation.mjs
+          node tests_county_translation_regression.mjs
           node tests_name_only.mjs
           node tests_landmark_resolution.mjs
