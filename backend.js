@@ -1334,7 +1334,7 @@ export default {
           const response=await fetch("https://api.exa.ai/search",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},body:JSON.stringify({query,type:"auto",numResults:5,contents:{highlights:{numSentences:2}}}),signal:AbortSignal.timeout(5500)});
           if(!response.ok)return [];
           const results=(await response.json()).results||[];
-          const words=address.toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\\s+/).filter(w=>w.length>=4);
+          const words=address.toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(w=>w.length>=4);
           return results.filter(item=>{try{const u=new URL(item.url);if(u.protocol!=="https:")return false;const hay=[item.title,...(item.highlights||[])].join(" ").toLowerCase();return words.length>=2&&words.filter(w=>hay.includes(w)).length>=2}catch{return false}}).slice(0,3).map(item=>({title:String(item.title||"").slice(0,140),url:item.url,source:"Exa"}));
         }catch{return []}
       })():Promise.resolve([]);
