@@ -1623,10 +1623,10 @@ function showPlacePhoto(url,name){
 }
 function mountPlaceThumbnail(host,place){
  const url=verifiedMediaUrl(place.image_url);
- if(!url){mountPlaceLogo(host,place);if(place.wikidata){loadPlaceMedia({...place,brand_wikidata:''}).then(data=>{if(!host.isConnected||!Array.isArray(data.images))return;const photo=data.images.map(verifiedMediaUrl).find(Boolean);if(photo){place.image_url=photo;host.replaceChildren();mountPlaceThumbnail(host,place)}})}return;}
+ if(!url){mountPlaceLogo(host,place);if(host.classList.contains('place-detail-photo')){host.title=dialogText('Fotografie indisponibilă','Photo unavailable');host.style.cursor='default';}if(place.wikidata){loadPlaceMedia({...place,brand_wikidata:''}).then(data=>{if(!host.isConnected||!Array.isArray(data.images))return;const photo=data.images.map(verifiedMediaUrl).find(Boolean);if(photo){place.image_url=photo;host.replaceChildren();mountPlaceThumbnail(host,place)}})}return;}
  const img=document.createElement('img');img.src=url;img.alt=String(place.name||'Locație');img.loading='lazy';img.referrerPolicy='no-referrer';img.style.cssText='display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit';
  img.onerror=()=>{host.replaceChildren();mountPlaceLogo(host,place)};
- host.replaceChildren(img);host.style.cursor='zoom-in';
+ host.replaceChildren(img);host.style.cursor='zoom-in';host.title=dialogText('Mărește fotografia','Enlarge photo');
  host.setAttribute('aria-label','Fotografie '+String(place.name||''));
  host.addEventListener('click',event=>{event.stopPropagation();showPlacePhoto(url,place.name)});
 }
@@ -1643,6 +1643,11 @@ function renderModulePlaceDetails(place){state.moduleSearchReturnMode='details';
  const line=(label,value)=>{if(value===undefined||value===null||String(value).trim()==='')return;const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));card.append(p)};
  line(l.address,place.address||[place.house_number,place.street,place.city,place.postcode].filter(Boolean).join(', '));
  line(t.category,localizedPlaceCategory(place.type||t.unspecified));
+ line(dialogText('Program','Opening hours'),place.opening_hours);
+ line(dialogText('Descriere','Description'),place.description);
+ line(dialogText('Operator','Operator'),place.operator);
+ line(dialogText('Marcă','Brand'),place.brand);
+ if(place.wheelchair)line(dialogText('Accesibilitate scaun rulant','Wheelchair access'),place.wheelchair);
  if(Number(place.stars)>=1&&Number(place.stars)<=5)line('★ (OpenStreetMap)',String(place.stars));
  if(place.distance_meters!==undefined)line(t.distance,formatDistance(place.distance_meters));
  if(place.phone){const p=document.createElement('p');const a=document.createElement('a');a.href='tel:'+String(place.phone).replace(/[^+0-9]/g,'');a.textContent=String(place.phone);p.append(l.phone+': ',a);card.append(p)}
