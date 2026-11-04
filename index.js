@@ -1677,7 +1677,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
   postcode.style.cssText='box-sizing:border-box;width:100%;padding:12px;margin:0 0 12px;background:#102d40;color:white;border:1px solid #5ecbd9;border-radius:10px;font:inherit';
   let withoutStreet=false;
   const status=document.createElement('p');status.style.cssText='font-size:13px;color:#bce4ed;line-height:1.45;margin:7px 0 10px';
-  const confirmed=card(t('Confirmă localitatea / adresa','Confirm destination'),()=>{
+  const confirmed=card(cityOnly?t('Confirmă destinația','Confirm destination'):t('Confirmă localitatea / adresa','Confirm destination'),()=>{
    const pendingNumber=cityOnly?'':fields.number?.input.value.trim();
    const pendingStreet=cityOnly?'':fields.street?.input.value.trim();
    if((pendingNumber&&!selected.number)||(pendingStreet&&!selected.street)){
@@ -2068,7 +2068,7 @@ function openAssistantStructuredAddress(option,{cityOnly=false,onVerifiedCity=nu
  }
  const host=document.createElement('div');host.dataset.directChoices='true';
  const headline=cityOnly
-  ?(state.language==='ro'?'Alege o localitate pentru căutarea cazării. După ce selectezi hotelul, adresa sa devine automat destinația.':'Select a town to look for accommodation. Your chosen hotel will automatically become your destination.')
+  ?(state.language==='ro'?'Alege localitatea de destinație. După confirmare vei putea selecta mijlocul de transport.':'Choose the destination town. After confirmation, select your travel mode.')
   :(state.language==='ro'?'Alege destinația verificată pe hartă. Strada, numărul și codul poștal sunt opționale.':'Choose a verified destination. Street, house number and postcode are optional.');
  const intro=document.createElement('p');intro.textContent=headline;
  intro.style.cssText='font-size:14px;line-height:1.5;color:#cbe5ee;margin:0 0 14px';
@@ -3130,7 +3130,7 @@ function openEncyclopediaCard(article,requestStartMs){
     entity_country_code:isRegion?String(article.parent_country_code||''):String(article.country_code||''),
     entity_country_name:isCountry?title:String(article.parent_country||''),
     latitude:!isCountry&&!isRegion?coords?.latitude:null,longitude:!isCountry&&!isRegion?coords?.longitude:null};
-   state.tripCountryOnChoice=null;offerAssistantScopeAccommodation(scope);return;
+   state.tripCountryOnChoice=null;offerAssistantLocalityTravelMode(scope);return;
   }
   const question=lang==='ro'?'Spre ce localitate sau obiectiv concret din '+title+' dorești să călătorești?':'Which specific town or attraction in '+title+' do you want to visit?';
   const questionBubble=addBubble(question,'assistant',false,{autoOpen:false});state.messages.push({role:'assistant',text:question});state.pendingEncyclopediaDestination=title;
