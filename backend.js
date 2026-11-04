@@ -1655,7 +1655,7 @@ export default {
        [encyclopediaTitle];
       let article=null;
       const normalizeWiki=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-      for(const language of [...new Set([wikiLang,geographicSelection?.code==='RO'?'ro':geographicSelection?.code==='IT'?'it':null,'en'].filter(Boolean))]){
+      for(const language of [...new Set([wikiLang,geographicSelection?.code==='RO'?'ro':geographicSelection?.code==='IT'?'it':null,'en',...(geographicSelection?['es','pt']:[])].filter(Boolean))]){
        for(const title of [...new Set(geographicTitles)]){
         try{
           const link='https://'+language+'.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title);
