@@ -1248,6 +1248,11 @@ export default {
       });
       try {
         const alternatives=[url];
+        if(stage==='street'&&autocomplete){
+          const cityFirst=new URL(url);
+          cityFirst.searchParams.set('text',city+', '+query);
+          alternatives.unshift(cityFirst);
+        }
         if(stage==='street'&&autocomplete&&Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude)){
           const prefix=new URL(url);
           prefix.searchParams.set('text',query);
@@ -1282,7 +1287,7 @@ export default {
           if(place.country_code!==country || !Number.isFinite(place.lat) || !Number.isFinite(place.lon))return [];
           if(stage!=='city'&&!towns.slice(0,5).some(value=>normalize(value)===normalize(city)))return [];
           if(stage==='street'&&(!place.street||place.result_type!=='street'))return [];
-          if(stage==='number'&&(place.result_type!=='building'||(street&&normalize(place.street)!==normalize(street))||!place.housenumber||
+          if(stage==='number'&&(!['building','amenity'].includes(place.result_type)||(street&&normalize(place.street)!==normalize(street))||!place.housenumber||
               (postcode&&place.postcode&&normalize(place.postcode).replace(/ /g,'')!==normalize(postcode).replace(/ /g,''))))return [];
           if(stage==='city'&&place.result_type!=='city')return [];
           const label=stage==='street'?[place.street,city,place.country].filter(Boolean).join(', '):String(place.formatted||'');
