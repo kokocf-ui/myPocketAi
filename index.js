@@ -3154,7 +3154,7 @@ function openAnswerReader(text,origin){
  const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',t.title);if(!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));if(!appendRecipeReaderText(body,String(text)))appendAnswerText(body,String(text));}
  layer.append(header,controls,body);document.body.append(layer);
  const reader={layer,origin,frame:0,cleanup:()=>{}};activeAnswerReader=reader;
- let running=true,lastTime=null,startAt=performance.now()+800,position=0;
+ let running=!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news'),lastTime=null,startAt=performance.now()+800,position=0;
  const update=()=>{pause.textContent=running?t.pause:t.play;pause.setAttribute('aria-pressed',String(running))};
  const stop=()=>{running=false;update()};
  const play=()=>{if(body.scrollTop>=body.scrollHeight-body.clientHeight-1)body.scrollTop=0;position=body.scrollTop;running=true;lastTime=null;startAt=performance.now()+900;update()};
@@ -3184,7 +3184,7 @@ function openAnswerReader(text,origin){
  resize();update();close.focus({preventScroll:true});reader.frame=requestAnimationFrame(tick);
 }
 function prepareAnswerReader(content,bubble,text,autoOpen){
- if(!content.isConnected||!answerExceedsFourLines(content))return;
+ if(!content.isConnected||(!answerExceedsFourLines(content)&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news')))return;
  content.textContent=String(text);content.className+=' answer-preview';
  const button=document.createElement('button');button.type='button';button.className='answer-reader-open';button.textContent=readerLabels().open;button.onclick=()=>openAnswerReader(text,button);bubble.append(button);
  if(autoOpen&&(state.currentView==='assistant'||state.currentView==='module'))openAnswerReader(text,button);
