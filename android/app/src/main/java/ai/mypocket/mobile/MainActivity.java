@@ -7,6 +7,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.speech.RecognitionListener;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.webkit.GeolocationPermissions;
+import android.webkit.PermissionRequest;
+import android.webkit.WebChromeClient;
+import androidx.core.content.ContextCompat;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.os.Build;
@@ -50,6 +58,11 @@ public final class MainActivity extends ComponentActivity {
     private TextToSpeech tts;
     private boolean ttsReady=false;
     private String speechMode="dictation";
+    private SpeechRecognizer speechRecognizer;
+    private boolean nativeListening=false;
+    private GeolocationPermissions.Callback pendingGeoCallback;
+    private String pendingGeoOrigin;
+    private String pendingSpeechLocale="ro-RO";
 
     private final ActivityResultLauncher<PickVisualMediaRequest> gallery =
         registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
@@ -63,6 +76,73 @@ public final class MainActivity extends ComponentActivity {
                 else notifyWeb("cancelled", "");
             });
 
+    private final ActivityResultLauncher<String> micPermission =
+        registerForActivityResult(new ActivityResultContracts.RequestPermission(),granted -> {
+            if(granted)beginEmbeddedListening();
+            else notifyVoice("error","Microphone permission denied",speechMode);
+        });
+    private final ActivityResultLauncher<String[]> locationPermission =
+        registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),result -> {
+            boolean granted=Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_FINE_LOCATION)) ||
+                Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_COARSE_LOCATION));
+            if(pendingGeoCallback!=null) {
+                pendingGeoCallback.invoke(pendingGeoOrigin,granted,false);
+                pendingGeoCallback=null;pendingGeoOrigin=null;
+            }
+            notifyLocationPermission(granted);
+        });
+    private void notifyLocationPermission(boolean granted) {
+        try {
+            String js="window.dispatchEvent(new CustomEvent('pocketandroidlocation',{detail:{granted:"+granted+"}}));";
+            if(web!=null)web.evaluateJavascript(js,null);
+        }catch(Exception ignored){}
+    }
+    private void ensureLocationPermission() {
+        boolean granted=ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
+        if(granted){notifyLocationPermission(true);return;}
+        locationPermission.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION});
+    }
+    private void beginEmbeddedListening() {
+        if(!SpeechRecognizer.isRecognitionAvailable(this)){notifyVoice("error","Speech recognizer unavailable",speechMode);return;}
+        stopEmbeddedListening();
+        try {
+            speechRecognizer=SpeechRecognizer.createSpeechRecognizer(this);
+            speechRecognizer.setRecognitionListener(new RecognitionListener(){
+                @Override public void onReadyForSpeech(Bundle params){notifyVoice("listening","","");}
+                @Override public void onBeginningOfSpeech(){}
+                @Override public void onRmsChanged(float rmsdB){}
+                @Override public void onBufferReceived(byte[] buffer){}
+                @Override public void onEndOfSpeech(){}
+                @Override public void onPartialResults(Bundle results){
+                    ArrayList<String> values=results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                    if(values!=null&&!values.isEmpty())notifyVoice("partial",values.get(0),speechMode);
+                }
+                @Override public void onResults(Bundle results){
+                    nativeListening=false;
+                    ArrayList<String> values=results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                    notifyVoice("recognized",values!=null&&!values.isEmpty()?values.get(0):"",speechMode);
+                    releaseRecognizer();
+                }
+                @Override public void onError(int error){
+                    nativeListening=false;
+                    if(error==SpeechRecognizer.ERROR_NO_MATCH||error==SpeechRecognizer.ERROR_SPEECH_TIMEOUT)
+                        notifyVoice("recognized","",speechMode);
+                    else notifyVoice("error","Speech recognizer error "+error,speechMode);
+                    releaseRecognizer();
+                }
+                @Override public void onEvent(int eventType,Bundle params){}
+            });
+            Intent intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,pendingSpeechLocale);
+            intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS,true);
+            nativeListening=true;
+            speechRecognizer.startListening(intent);
+        }catch(Exception ex){nativeListening=false;releaseRecognizer();notifyVoice("error","Speech recognizer unavailable",speechMode);}
+    }
+    private void releaseRecognizer(){if(speechRecognizer!=null){speechRecognizer.destroy();speechRecognizer=null;}}
+    private void stopEmbeddedListening(){nativeListening=false;if(speechRecognizer!=null){speechRecognizer.cancel();releaseRecognizer();}}
     private final ActivityResultLauncher<Intent> microphone =
         registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -78,7 +158,8 @@ public final class MainActivity extends ComponentActivity {
         try {
             JSONObject data=new JSONObject(message);
             String action=data.optString("action","");
-            if("stop".equals(action)) { if(tts!=null) tts.stop(); return; }
+            if("stop".equals(action)) { if(tts!=null) tts.stop();stopEmbeddedListening(); return; }
+            if("stopListen".equals(action)){stopEmbeddedListening();return;}
             if("speak".equals(action)) {
                 if(!ttsReady || tts==null){notifyVoice("error","Voice engine is not ready","tts");return;}
                 String text=data.optString("text","");
@@ -91,11 +172,9 @@ public final class MainActivity extends ComponentActivity {
                 if(status==TextToSpeech.ERROR)notifyVoice("error","Could not start speech","tts");
             }else if("listen".equals(action)) {
                 speechMode=data.optString("mode","dictation");
-                Intent intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,data.optString("language","ro-RO"));
-                intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Pocket AI");
-                microphone.launch(intent);
+                pendingSpeechLocale=data.optString("language","ro-RO");
+                if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)beginEmbeddedListening();
+                else micPermission.launch(Manifest.permission.RECORD_AUDIO);
             }
         }catch(Exception ex){notifyVoice("error","Speech service unavailable","tts");}
     }
@@ -142,7 +221,20 @@ public final class MainActivity extends ComponentActivity {
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(false);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
-        web.setWebChromeClient(new WebChromeClient());
+        settings.setGeolocationEnabled(true);
+        web.setWebChromeClient(new WebChromeClient(){
+            @Override public void onGeolocationPermissionsShowPrompt(String origin,GeolocationPermissions.Callback callback) {
+                if(!APP_HOST.equals(Uri.parse(origin).getHost())){callback.invoke(origin,false,false);return;}
+                boolean granted=ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
+                if(granted)callback.invoke(origin,true,false);
+                else {pendingGeoCallback=callback;pendingGeoOrigin=origin;ensureLocationPermission();}
+            }
+            @Override public void onGeolocationPermissionsHidePrompt(){pendingGeoCallback=null;pendingGeoOrigin=null;}
+            @Override public void onPermissionRequest(PermissionRequest request) {
+                runOnUiThread(()->request.deny());
+            }
+        });
         web.setWebViewClient(new WebViewClient(){
             @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest req) {
                 Uri url=req.getUrl();
@@ -188,6 +280,8 @@ public final class MainActivity extends ComponentActivity {
                 });
         }
         web.loadUrl(APP_URL);
+        // Request GPS only after the native activity is ready, so the WebView can use it.
+        web.postDelayed(this::ensureLocationPermission,900);
     }
 
     private void launchCamera() {
@@ -235,7 +329,7 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ignored){}
     }
 
-    @Override protected void onDestroy(){if(tts!=null){tts.stop();tts.shutdown();}if(web!=null){web.destroy();}super.onDestroy();}
+    @Override protected void onDestroy(){stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}if(web!=null){web.destroy();}super.onDestroy();}
 
     @Override public void onBackPressed(){
         if (web!=null && web.canGoBack()) web.goBack();
