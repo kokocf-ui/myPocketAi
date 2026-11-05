@@ -10,6 +10,7 @@ import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNe
 import {isTelegramNewsRequest,readConsentedTelegramPosts,telegramConfigured} from "./telegram_consented_channels.mjs";
 import {classifyVoluntaryTelegramLink,telegramVerificationPrompt,telegramExternalResearchQuery} from "./telegram_voluntary_links.mjs";
 import {discoverTelegramPublicLinks,telegramPublicLinkSearchIntent} from "./telegram_public_web_links.mjs";
+import {readNewsArticleDetail} from "./news_article_detail.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
  * v176: real culinary source research and no dish-specific hardcoded responses.
@@ -1202,6 +1203,16 @@ export default {
 
     const url = new URL(request.url);
 
+
+    // Read the selected publisher page on demand. Never call a headline-only excerpt a full article.
+    if(url.pathname==="/api/news-article-detail" && request.method==="POST"){
+      if(Number(request.headers.get("content-length")||0)>4096)return json({status:"invalid_request",error:"Request too large"},413);
+      const payload=await request.json().catch(()=>null);
+      const sourceUrl=String(payload?.url||"").slice(0,1200);
+      const language=String(payload?.language||"ro").slice(0,2);
+      const result=await readNewsArticleDetail(env,sourceUrl,language);
+      return json({app:"Pocket AI",version:API_VERSION,kind:"news_article_detail",...result});
+    }
 
     // User-initiated link-only discovery from a public web index. No Telegram session or AI ingestion.
     if(url.pathname === "/api/telegram-public-links" && request.method === "GET"){
