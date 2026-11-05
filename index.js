@@ -1366,6 +1366,26 @@ body.long-choice-active{overflow:hidden}
  #view-module.learning-choose .education-card{padding:7px!important;min-height:116px!important}
 }
 </style>
+<style id="education-mobile-layout-v3">
+/* The main page owns scrolling; do not place a second, fixed-height scroll box
+   inside it. A nested scroller was clipping the last two subject cards. */
+main.page:has(#view-module.learning-choose.active){
+ overflow-y:auto!important;overscroll-behavior-y:contain!important;
+ padding-bottom:calc(115px + env(safe-area-inset-bottom))!important;
+}
+#view-module.learning-choose.active{
+ height:auto!important;max-height:none!important;min-height:0!important;
+ overflow:visible!important;padding:0 0 24px!important;
+ display:block!important;box-sizing:border-box!important;
+}
+#view-module.learning-choose #moduleContent{
+ display:block!important;height:auto!important;max-height:none!important;
+ overflow:visible!important;
+}
+#view-module.learning-choose .education-grid{padding-bottom:18px!important;}
+#view-module.learning-choose .education-card{min-height:112px!important;}
+</style>
+
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
 <section class="view" id="view-tools"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Instrumente</h2><p class="section-lead">Alege un domeniu pentru a începe.</p><div class="simple-list" id="toolsList"></div></section>
