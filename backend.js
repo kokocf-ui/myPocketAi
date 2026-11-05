@@ -6,6 +6,7 @@ import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.m
 import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion} from "./dialogue_intent.mjs";
 import {localizeNewsRows} from "./localization.mjs";
 import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPublicationDay} from "./news_context.mjs";
+import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers} from "./news_discovery.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
  * v176: real culinary source research and no dish-specific hardcoded responses.
@@ -5016,6 +5017,8 @@ export default {
         return u.toString();
       } catch { return null; }
     };
+    const discoveryPublicationDay=publicationDayWindow(message,data.client_local_day)?.day||null;
+    const newsDiscoveryPlan=buildWorldNewsDiscoveryPlan(message,{publicationDay:discoveryPublicationDay});
     const providerTasks = [];
     const researchStartedAt=Date.now();
     if (shouldSearchWeb) {
@@ -5023,26 +5026,36 @@ export default {
       // GDELT only supplements current-events requests; returned article listings are leads,
       // not independent fact verification. Other topics preserve the existing fast path.
       const newsIntent = !recipeInstruction && !eventResearchIntent && ["article_collection","briefing"].includes(classifyNewsRequest(message).mode);
-      if(newsIntent) providerTasks.push((async()=>{
-        const started=Date.now(),u=new URL("https://api.gdeltproject.org/api/v2/doc/doc");
+      if(newsIntent) {
         const topic=message.replace(/^(?:(?:care sunt|arata-mi|cauta|show me|what are the)\s+)?(?:(?:ultimele|latest|recent|breaking)\s+)?(?:stiri|știri|news|noutati|actualitati)\s*(?:(?:despre|about|privind|on)\s+)?/iu,"").trim();
         const broadGeopolitics=/geopolitic|international|world affairs|politic.*extern/i.test(topic);
-        const gdeltQuery=broadGeopolitics?"(Ukraine OR Russia OR Iran OR Israel OR NATO OR diplomacy OR sanctions OR election OR government OR conflict OR military)":(topic.length>=3?topic:message).slice(0,110);
-        u.searchParams.set("query",gdeltQuery);
-        u.searchParams.set("mode","artlist");
-        u.searchParams.set("format","json");
-        u.searchParams.set("timespan",/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?"1d":"7d");
-        u.searchParams.set("maxrecords","45");
-        const response=await fetch(u.toString(),{headers:{Accept:"application/json"},signal:AbortSignal.timeout(4500)});
-        if(!response.ok)throw new Error("HTTP "+response.status);
-        const payload=await response.json();
-        const articles=Array.isArray(payload.articles)?payload.articles:[];
-        return {provider:"GDELT",elapsedMs:Date.now()-started,results:articles.slice(0,45).map(a=>({
-          title:a.title||a.url,url:a.url,publishedDate:a.seendate||null,
-          snippets:["Unverified GDELT article listing: "+String(a.title||"").slice(0,180)],author:null
-        }))};
-      })().then(value=>({status:"fulfilled",value,provider:"GDELT"}))
-        .catch(error=>({status:"rejected",provider:"GDELT",error:String(error?.message||error).slice(0,140)})));
+        const defaultGdeltQuery=broadGeopolitics?"(Ukraine OR Russia OR Iran OR Israel OR NATO OR diplomacy OR sanctions OR election OR government OR conflict OR military)":(topic.length>=3?topic:message).slice(0,110);
+        const queryVariants=newsDiscoveryPlan.gdeltQueries||[defaultGdeltQuery];
+        for(const gdeltQuery of queryVariants){
+          providerTasks.push((async()=>{
+            const started=Date.now(),u=new URL("https://api.gdeltproject.org/api/v2/doc/doc");
+            u.searchParams.set("query",gdeltQuery);
+            u.searchParams.set("mode","artlist");
+            u.searchParams.set("format","json");
+            u.searchParams.set("sort","DateDesc");
+            u.searchParams.set("maxrecords",newsDiscoveryPlan.broadWorld?"60":"45");
+            if(discoveryPublicationDay){
+              u.searchParams.set("startdatetime",discoveryPublicationDay.replace(/-/g,"")+"000000");
+              u.searchParams.set("enddatetime",discoveryPublicationDay.replace(/-/g,"")+"235959");
+            }else{
+              u.searchParams.set("timespan",/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?"1d":"7d");
+            }
+            const response=await fetch(u.toString(),{headers:{Accept:"application/json"},signal:AbortSignal.timeout(5200)});
+            if(!response.ok)throw new Error("HTTP "+response.status);
+            const payload=await response.json(),articles=Array.isArray(payload.articles)?payload.articles:[];
+            return {provider:"GDELT",elapsedMs:Date.now()-started,results:articles.slice(0,60).map(a=>({
+              title:a.title||a.url,url:a.url,publishedDate:a.seendate||null,
+              snippets:["Unverified GDELT article listing: "+String(a.title||"").slice(0,180)],author:null
+            }))};
+          })().then(value=>({status:"fulfilled",value,provider:"GDELT"}))
+            .catch(error=>({status:"rejected",provider:"GDELT",error:String(error?.message||error).slice(0,140)})));
+        }
+      }
       if (env.EXA_API_KEY) providerTasks.push((async () => {
         const started = Date.now();
         const response = await fetch("https://api.exa.ai/search", {
