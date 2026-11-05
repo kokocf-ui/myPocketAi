@@ -1602,7 +1602,7 @@ export default {
           const rawCounty=String(place.county||place.state_district||place.state||place.region||'').trim();
           const county=rawCounty.length===2&&String(place.state||'').trim().length>2?String(place.state).trim():rawCounty;
           const commune=String(place.municipality||'').trim();
-          const areaParts=[commune&&normalize(commune)!==normalize(cityName)?commune:'',county].filter(Boolean);
+          const areaParts=[commune&&normalize(commune)!==normalize(cityName)&&!/\b(?:metropolitan area|zona metropolitana|metropolitan region|arie metropolitana)\b/i.test(commune)?commune:'',county].filter(Boolean);
           const countryName=String(place.country||country.toUpperCase());
           const label=stage==='city'?[cityName,...areaParts,countryName].join(', '):
            stage==='street'?[place.street,city,countryName].filter(Boolean).join(', '):
@@ -1622,7 +1622,7 @@ export default {
             seenLocalities.push({city:normalize(cityName),lat:place.lat,lon:place.lon});
           }
           seen.add(key);
-          return [{label,matchRank:stage==='city'?(normalize(cityName)===normalize(query)?0:1):1,
+          return [{label,matchRank:stage==='city'?(normalize(cityName)===normalize(query)?(String(place.result_type)==='city'?0:String(place.result_type)==='town'?1:2):3):1,
             city:cityName,county,commune,street:place.street||'',houseNumber:String(place.housenumber||''),
             latitude:place.lat,longitude:place.lon,country_code:country.toUpperCase()}];
         });
