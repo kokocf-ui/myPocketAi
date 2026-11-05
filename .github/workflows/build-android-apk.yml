@@ -6,6 +6,7 @@ on:
       - 'android/**'
       - 'index.js'
       - 'tests_education_android.mjs'
+      - 'tests_shopping_workspace.mjs'
       - '.github/workflows/build-android-apk.yml'
   workflow_dispatch:
 permissions:
@@ -29,7 +30,7 @@ jobs:
         with:
           gradle-version: '8.7'
       - name: Validate frontend syntax
-        run: node --check index.js && node tests_education_android.mjs
+        run: node --check index.js && node tests_education_android.mjs && node tests_shopping_workspace.mjs
       - name: Build debug APK (CI validation only; not a stable update)
         env:
           POCKET_VERSION_CODE: ${{ github.run_number }}
