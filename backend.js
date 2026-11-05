@@ -1777,6 +1777,24 @@ export default {
     if(lang==='ro'&&/^(?:salut|bun[ăa]|bun[ăa] ziua|bun[ăa] seara|bun[ăa] diminea[țt]a)[.!?…]*$/iu.test(message.trim())){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Salut! Cum te pot ajuta?',ai_generated:false});
     }
+    // Core social phrases should not depend on a potentially unavailable model.
+    // Only whole-turn matches: never intercept a longer question about identity or departure.
+    const shortSocial=String(message||"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase().replace(/[!?.,;:]+/g," ").replace(/\\s+/g," ").trim();
+    const whoAmI=/^(?:vreau sa stiu cine esti|cine esti|spune.mi cine esti|who are you|tell me who you are)$/.test(shortSocial);
+    const goodbye=/^(?:la revedere|pa|pe curand|o zi buna|ne mai auzim|bye|goodbye|see you later)$/.test(shortSocial);
+    if(whoAmI||goodbye){
+      const messages=whoAmI?{
+        ro:"Sunt Pocket AI, asistentul tău personal. Te pot ajuta cu întrebări, traduceri, învățare, informații și planificarea călătoriilor.",
+        en:"I'm Pocket AI, your personal assistant. I can help with questions, translations, learning, information and travel planning."
+      }:{
+        ro:"La revedere! 😊 Ne auzim cu drag când ai nevoie de mine.",
+        en:"Goodbye! 😊 I'll be here whenever you need me."
+      };
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
+        message_received:message,reply:messages[lang]||messages.en,
+        conversational_reply:true,ai_generated:false,ai_connected:Boolean(env.AI),
+        web_search_status:"not_needed"});
+    }
     // Resolve casual wellbeing check-ins before place lookup, routes, news and
     // older conversation context. Otherwise a polite social message may be
     // interpreted as a geographic phrase or sent to a general AI research path.
