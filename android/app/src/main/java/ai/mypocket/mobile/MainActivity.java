@@ -339,8 +339,9 @@ public final class MainActivity extends ComponentActivity {
                 });
         }
         web.loadUrl(APP_URL);
-        // Request GPS only after the native activity is ready, so the WebView can use it.
-        web.postDelayed(this::ensureLocationPermission,900);
+        // Ask for runtime permissions during the first opening, not seconds later.
+        // GPS is prompted first; microphone follows its result, even if GPS is denied.
+        ensureLocationPermission();
     }
 
     private void launchCamera() {
