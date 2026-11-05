@@ -5,6 +5,7 @@ import {planAnswerFocus} from "./answer_focus.mjs";
 import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.mjs";
 import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion} from "./dialogue_intent.mjs";
 import {localizeNewsRows} from "./localization.mjs";
+import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPublicationDay} from "./news_context.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
  * v176: real culinary source research and no dish-specific hardcoded responses.
@@ -1636,6 +1637,19 @@ export default {
     const supportedLanguages = ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"];
     const requestedLanguage = typeof data.language === "string" ? data.language.trim().toLowerCase().split(/[-_]/)[0] : "ro";
     const lang = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ro";
+    // Follow-up questions about the *actual displayed news table* have priority
+    // over fresh search and generic venue lookup. The client context is only
+    // article metadata; it is NEVER treated as independent confirmation.
+    const newsFollowup=resolveNewsFollowup(message,data.news_context,data.history);
+    if(newsFollowup){
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
+        message_received:message,reply:formatNewsFollowup(newsFollowup,lang),
+        news_followup:{kind:newsFollowup.kind,selected_index:newsFollowup.index,
+          verification:"original_source_only_not_independently_checked"},
+        sources:newsFollowup.article?[{number:1,title:newsFollowup.article.title,url:newsFollowup.article.url,
+          publishedDate:newsFollowup.article.published_at,verification:"claims_unverified"}]:[],
+        ai_generated:false,ai_connected:Boolean(env.AI),web_search_status:"not_needed"});
+    }
     if(lang==='ro'&&/^(?:salut|bun[ăa]|bun[ăa] ziua|bun[ăa] seara|bun[ăa] diminea[țt]a)[.!?…]*$/iu.test(message.trim())){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Salut! Cum te pot ajuta?',ai_generated:false});
     }
@@ -5163,6 +5177,7 @@ export default {
     // News is presented as attributed article leads, never AI-invented headlines.
     // The list and its detail panel are deterministic; publication != claim verification.
     const newsListingIntent=!recipeInstruction&&!eventResearchIntent&&classifyNewsRequest(message).mode==="article_collection";
+    const newsPublicationFilter=newsListingIntent?publicationDayWindow(message,data.client_local_day):null;
     if(newsListingIntent&&shouldSearchWeb){
       const seenTitles=new Set();
       const rows=[];
@@ -5187,6 +5202,7 @@ export default {
         const sourceDate=String(source.publishedDate||"");
         const normalizedDate=/^\d{8}T\d{6}Z$/.test(sourceDate)?sourceDate.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,"$1-$2-$3T$4:$5:$6Z"):sourceDate;
         const publishedMs=Date.parse(normalizedDate);
+        if(newsPublicationFilter&&!isWithinPublicationDay(sourceDate,newsPublicationFilter))continue;
         if((freshnessHours||todayOnly)&&!Number.isFinite(publishedMs))continue;
         if(freshnessHours&&(publishedMs<nowMs-freshnessHours*3600000||publishedMs>nowMs+3600000))continue;
         if(todayOnly&&new Date(publishedMs).toISOString().slice(0,10)!==new Date(nowMs).toISOString().slice(0,10))continue;
@@ -5239,7 +5255,7 @@ export default {
       rows.splice(0,rows.length,...localizedNewsRows);
       // Never imply that the application has a complete news feed when strict
       // publication-date and topic validation leave only a few articles.
-      const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",
+      const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",requested_publication_day:newsPublicationFilter?.day||null,publication_filter:newsPublicationFilter?.kind||"none",
         result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage",missing_publication_dates:rows.filter(r=>r.recency_status!=="dated").length};
       const labels={ro:["Știri identificate în sursele consultate","Apasă pe titlul unei știri pentru detalii. Publicarea nu confirmă automat afirmațiile din articol.","Nu am putut identifica articole relevante în sursele disponibile."],
         en:["News from retrieved sources","Tap a headline to read details. Publication alone does not verify its claims.","No relevant articles could be found from available sources."],
@@ -5251,7 +5267,8 @@ export default {
         nl:["Nieuws uit gevonden bronnen","Tik op een titel voor details. Publicatie bevestigt beweringen niet automatisch.","Geen relevante artikelen gevonden."],
         ru:["Новости из найденных источников","Нажмите на заголовок для подробностей. Публикация не подтверждает достоверность фактов.","Подходящие статьи не найдены."],
         pl:["Wiadomości ze znalezionych źródeł","Dotknij tytułu, aby zobaczyć szczegóły. Publikacja nie potwierdza prawdziwości twierdzeń.","Nie znaleziono odpowiednich artykułów."]}[lang]||[];
-      const reply=rows.length?labels[0]+"\n"+labels[1]:labels[2];
+      const dayNotice=newsPublicationFilter?(lang==="ro"?"Filtru: articole publicate pe "+newsPublicationFilter.day+" (UTC), NU toate evenimentele petrecute atunci. ":"Publication filter: "+newsPublicationFilter.day+" (UTC); this is not a verified list of events that occurred that day. "):"";
+      const reply=dayNotice+(rows.length?labels[0]+"\n"+labels[1]:labels[2]);
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
         message_received:message,reply,structured_list:list,
         sources:rows.map((v,i)=>({number:i+1,title:v.title,url:v.url,publishedDate:v.published_at,providers:v.providers,
