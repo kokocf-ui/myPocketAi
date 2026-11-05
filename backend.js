@@ -3371,6 +3371,14 @@ export default {
         if(!hasValidLocation){responseWeatherContext={...weather,pending:true};return sendWeather(t[7],{needs_location_clarification:true});}
         point={latitude,longitude,label:t[11]};
       }
+      if(!point&&/^(?:florida|florida,?\s*(?:sua|usa|united states|us))$/i.test(weather.query.trim())){
+        responseWeatherContext={...weather,pending:true,candidates:[
+          {name:"Miami",label:"Miami, Florida, SUA",query:"Miami, Florida, United States",country_code:"US",latitude:25.7617,longitude:-80.1918},
+          {name:"Orlando",label:"Orlando, Florida, SUA",query:"Orlando, Florida, United States",country_code:"US",latitude:28.5383,longitude:-81.3792},
+          {name:"Tallahassee",label:"Tallahassee, Florida, SUA",query:"Tallahassee, Florida, United States",country_code:"US",latitude:30.4383,longitude:-84.2807}
+        ]};
+        return sendWeather((lang==="ro"?"Florida este un stat mare, cu vreme diferită între regiuni. Alege orașul pentru prognoza exactă:":"Florida is a large state with varying weather. Choose a city:")+"\n"+responseWeatherContext.candidates.map((c,i)=>(i+1)+". "+c.label).join("\n"),{needs_location_clarification:true});
+      }
       if(!point)try{point=await geocodePlace(weather.query)}catch(error){
         responseWeatherContext={...weather,pending:true,candidates:error.candidates||[]};
         return sendWeather(t[8]+(error.candidates?'\n'+error.candidates.map((c,i)=>`${i+1}. ${c.label}`).join('\n'):''),{needs_location_clarification:true});
@@ -3407,8 +3415,10 @@ export default {
         }
         // Local-clock hourly forecast for the selected day, regardless of country.
         const hourly=forecast.hourly||{},hourlyRows=[];
+        const localHour=Number(new Intl.DateTimeFormat("en-GB",{timeZone:tz,hour:"2-digit",hourCycle:"h23"}).format(now));
+        const futureOnly=date===today;
         for(let j=0;j<(hourly.time||[]).length;j++){
-          const stamp=hourly.time[j];if(typeof stamp!=="string"||!stamp.startsWith(date+"T"))continue;
+          const stamp=hourly.time[j];if(typeof stamp!=="string"||!stamp.startsWith(date+"T")||(futureOnly&&Number(stamp.slice(11,13))<localHour))continue;
           const temperature=hourly.temperature_2m?.[j],probability=hourly.precipitation_probability?.[j],precipitation=hourly.precipitation?.[j],code=hourly.weather_code?.[j];
           if(!Number.isFinite(temperature))continue;
           hourlyRows.push({time:stamp.slice(11,16),temperature,precipitation_probability:Number.isFinite(probability)?probability:null,precipitation_mm:Number.isFinite(precipitation)?precipitation:null,weather_code:Number.isFinite(code)?code:null});
