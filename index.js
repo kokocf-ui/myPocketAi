@@ -1536,6 +1536,15 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
  padding:.55rem .15rem .15rem;border-top:1px solid #345b70
 }
 .adaptive-workspace__actions button{flex:1 1 8rem;min-width:0}
+.adaptive-workspace__actions--confirm .shop-inline-confirm{
+ display:grid;gap:.45rem;min-width:0;width:100%;max-height:min(35dvh,18rem);
+ overflow-y:auto;margin:0;padding:.5rem;border-radius:.8rem
+}
+.adaptive-workspace__actions--confirm .shop-inline-confirm p{margin:.1rem 0;font-size:.85rem}
+.adaptive-workspace__actions--confirm .shop-inline-confirm .adaptive-fields{
+ margin:0;grid-template-columns:repeat(2,minmax(0,1fr))
+}
+.adaptive-workspace__actions--confirm .shop-inline-confirm label{font-size:.82rem}
 .adaptive-workspace .education-toolbar{
  display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;min-width:0
 }
@@ -2236,7 +2245,8 @@ function renderShoppingList(){
    shopArchive(data,'completed',transfer.checked);shopSaveAndRender(data,false)};
   const cancel=shopButton('Renunță','Cancel');cancel.onclick=()=>{shoppingPendingAction=null;renderShoppingList()};
   buttons.append(approve,cancel);confirm.append(buttons);
-  footer.before(confirm);
+  footer.replaceChildren(confirm);
+  footer.classList.add('adaptive-workspace__actions--confirm');
  }
 }
 
