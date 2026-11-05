@@ -7,9 +7,9 @@ const source=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
 assert.ok(source,'browser script present');
 new vm.Script(source);
 
-const start=source.indexOf('function feasibleTransitChoices(options){');
+const start=source.indexOf('function compareTransitDisplayTimes(a,b){');
 const end=source.indexOf('function renderTransitChoices(options,selectedIndex=null){',start);
-assert.ok(start>=0&&end>start,'direct transit refresh implementation present');
+assert.ok(start>=0&&source.indexOf('function feasibleTransitChoices(options){',start)>start&&end>start,'transit comparison and refresh implementation present');
 const current=Date.now();
 const stop=(minutes,walk=10)=>({
  firstVehicleDepartureTime:new Date(current+minutes*60000).toISOString(),
