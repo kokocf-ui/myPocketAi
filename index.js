@@ -2222,8 +2222,13 @@ let agendaListening=false,agendaSpeech=null,agendaPendingDelete=null,agendaBirth
 function agendaRead(){
  try{return (JSON.parse(localStorage.getItem(POCKET_AGENDA_KEY)||'[]')||[]).filter(e=>e&&typeof e.title==='string'&&(agendaIsBirthday(e)||Number.isFinite(Date.parse(e.when))))}catch{return []}
 }
+function agendaSyncAndroid(events){
+ try{
+  window.PocketAndroidAgenda?.postMessage(JSON.stringify({action:'sync',events}));
+ }catch{}
+}
 function agendaWrite(events){
- try{localStorage.setItem(POCKET_AGENDA_KEY,JSON.stringify(events));return true}
+ try{localStorage.setItem(POCKET_AGENDA_KEY,JSON.stringify(events));agendaSyncAndroid(events);return true}
  catch{notify(learningLabel('Agenda nu a putut fi salvată.','Could not save the agenda.'));return false}
 }
 
@@ -2354,6 +2359,7 @@ function agendaVoiceHandleAndroid(data){
  return true;
 }
 function renderAgenda(){
+ agendaSyncAndroid(agendaRead());
  const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='calendar');
  $('moduleTitle').textContent=learningLabel('Agenda inteligentă','Smart agenda');
  const panel=organizePanel(cat);
@@ -2422,7 +2428,7 @@ function renderAgenda(){
  birthForm.onsubmit=e=>{e.preventDefault();const fields=agendaBirthdayFields(day.value,month.value,year.value);if(!fields){notify(learningLabel('Dată invalidă.','Invalid date.'));return}if(agendaBirthdaySave(person.value,fields))renderAgenda()};
  birthday.append(birthForm);scroll.append(birthday);
  const note=document.createElement('small');note.className='agenda-footnote';
- note.textContent=learningLabel('Programările și aniversările anuale sunt păstrate pe dispozitiv. Notificările când aplicația este închisă nu sunt încă activate.','Appointments and annual birthdays are saved on this device. Closed-app notifications are not yet active.');
+ note.textContent=learningLabel('Pe Android: notificări în seara precedentă la 19:00 și cu aproximativ două ore înainte, inclusiv cu aplicația închisă, dacă permiți notificările. Orele pot varia din cauza economisirii bateriei. Programările sunt păstrate local.','On Android: reminders at 7 PM the previous evening and approximately two hours before, even when the app is closed, if notifications are allowed. Battery saving can delay alerts. Events are stored locally.');
  scroll.append(note);
 }
 
