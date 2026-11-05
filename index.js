@@ -2227,6 +2227,29 @@ function agendaSyncAndroid(events){
   window.PocketAndroidAgenda?.postMessage(JSON.stringify({action:'sync',events}));
  }catch{}
 }
+function agendaReminderPreset(title){
+ const t=shopVoiceFold(title);
+ const find=words=>words.some(w=>t.split(/[^\\p{L}\\p{N}]+/u).includes(w));
+ if(find(['zbor','aeroport','avion','flight','airport']))return 'flight';
+ if(find(['tren','train','autocar','coach']))return 'train';
+ if(find(['dentist','doctor','medic','spital','hospital','clinica']))return 'medical';
+ if(find(['examen','exam','interviu','interview']))return 'exam';
+ if(find(['factura','scadenta','bill','payment']))return 'bill';
+ if(find(['hotel','cazare']))return 'hotel';
+ if(find(['sedinta','intalnire','meeting']))return 'meeting';
+ return 'default';
+}
+function agendaReminderLabels(){
+ return [['auto',learningLabel('Automat după titlu','Automatic from title')],
+  ['default',learningLabel('Programare obișnuită','Regular appointment')],
+  ['flight',learningLabel('✈️ Zbor / aeroport','✈️ Flight / airport')],
+  ['train',learningLabel('🚆 Tren / autocar','🚆 Train / coach')],
+  ['medical',learningLabel('🏥 Medic / dentist','🏥 Doctor / dentist')],
+  ['exam',learningLabel('📝 Examen / interviu','📝 Exam / interview')],
+  ['bill',learningLabel('💳 Factură / plată','💳 Bill / payment')],
+  ['hotel',learningLabel('🏨 Hotel / cazare','🏨 Hotel / stay')],
+  ['meeting',learningLabel('💼 Întâlnire','💼 Meeting')]];
+}
 function agendaWrite(events){
  try{localStorage.setItem(POCKET_AGENDA_KEY,JSON.stringify(events));agendaSyncAndroid(events);return true}
  catch{notify(learningLabel('Agenda nu a putut fi salvată.','Could not save the agenda.'));return false}
@@ -2325,7 +2348,7 @@ function agendaVoiceCommand(text){
  const title=agendaExtractTitle(spoken,parsed);
  if(!title){notify(learningLabel('Nu am înțeles denumirea programării.','Could not understand appointment title.'));return}
  const events=agendaRead();
- events.push({id:shopId(),title,when:parsed.when,createdAt:new Date().toISOString()});
+ events.push({id:shopId(),title,when:parsed.when,reminderPreset:agendaReminderPreset(title),createdAt:new Date().toISOString()});
  if(agendaWrite(events)){renderAgenda();notify(learningLabel('Programare salvată: ','Appointment saved: ')+title)}
 }
 function agendaVoiceFinish(transcript){
@@ -2382,7 +2405,8 @@ function renderAgenda(){
   const row=document.createElement('div');row.className='agenda-event';
   const stamp=document.createElement('span');stamp.className='agenda-event-time';
   stamp.textContent=agendaIsBirthday(item)?agendaNextDate(item).toLocaleDateString(locale,{weekday:'short',day:'2-digit',month:'short'})+' · '+learningLabel('anual','yearly'):new Date(item.when).toLocaleString(locale,{weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-  const name=document.createElement('strong');name.textContent=(agendaIsBirthday(item)?'🎂 ':'')+item.title;row.append(stamp,name);if(agendaIsBirthday(item)){const edit=document.createElement('button');edit.type='button';edit.className='secondary-btn';edit.textContent=learningLabel('Modifică','Edit');edit.onclick=()=>{agendaBirthdayEdit=item.id;renderAgenda()};row.append(edit)}
+  const name=document.createElement('strong');name.textContent=(agendaIsBirthday(item)?'🎂 ':'')+item.title;row.append(stamp,name);
+  if(!agendaIsBirthday(item)){const kind=document.createElement('small');kind.textContent=(agendaReminderLabels().find(pair=>pair[0]===(item.reminderPreset||agendaReminderPreset(item.title)))||agendaReminderLabels()[1])[1];name.append(kind)}if(agendaIsBirthday(item)){const edit=document.createElement('button');edit.type='button';edit.className='secondary-btn';edit.textContent=learningLabel('Modifică','Edit');edit.onclick=()=>{agendaBirthdayEdit=item.id;renderAgenda()};row.append(edit)}
   entries.append(row);
   if(agendaIsBirthday(item)&&agendaBirthdayEdit===item.id){
    const editor=document.createElement('form');editor.className='agenda-birthday-fields';
@@ -2412,9 +2436,11 @@ function renderAgenda(){
  const form=document.createElement('form');form.className='agenda-manual-fields';
  const name=document.createElement('input');name.placeholder=learningLabel('Titlul programării','Appointment title');name.required=true;
  const when=document.createElement('input');when.type='datetime-local';when.required=true;
+ const preset=document.createElement('select');preset.setAttribute('aria-label',learningLabel('Tip eveniment și mementouri','Event type and reminders'));
+ for(const [value,label] of agendaReminderLabels()){const option=document.createElement('option');option.value=value;option.textContent=label;preset.append(option)}
  const add=document.createElement('button');add.type='submit';add.className='primary-btn';add.textContent=learningLabel('Salvează','Save');
- form.append(name,when,add);form.onsubmit=e=>{e.preventDefault();const date=new Date(when.value);if(!name.value.trim()||Number.isNaN(date.getTime()))return;
-  const all=agendaRead();all.push({id:shopId(),title:name.value.trim().slice(0,140),when:date.toISOString(),createdAt:new Date().toISOString()});
+ form.append(name,when,preset,add);form.onsubmit=e=>{e.preventDefault();const date=new Date(when.value);if(!name.value.trim()||Number.isNaN(date.getTime()))return;
+  const all=agendaRead();all.push({id:shopId(),title:name.value.trim().slice(0,140),when:date.toISOString(),reminderPreset:preset.value==='auto'?agendaReminderPreset(name.value):preset.value,createdAt:new Date().toISOString()});
   if(agendaWrite(all))renderAgenda()};manual.append(form);scroll.append(manual);
  const birthday=document.createElement('details');birthday.className='agenda-manual';
  const birthdaySummary=document.createElement('summary');birthdaySummary.textContent=learningLabel('🎂 Zi de naștere (anual)','🎂 Birthday (yearly)');birthday.append(birthdaySummary);
@@ -2428,7 +2454,7 @@ function renderAgenda(){
  birthForm.onsubmit=e=>{e.preventDefault();const fields=agendaBirthdayFields(day.value,month.value,year.value);if(!fields){notify(learningLabel('Dată invalidă.','Invalid date.'));return}if(agendaBirthdaySave(person.value,fields))renderAgenda()};
  birthday.append(birthForm);scroll.append(birthday);
  const note=document.createElement('small');note.className='agenda-footnote';
- note.textContent=learningLabel('Pe Android: notificări în seara precedentă la 19:00 și cu aproximativ două ore înainte, inclusiv cu aplicația închisă, dacă permiți notificările. Orele pot varia din cauza economisirii bateriei. Programările sunt păstrate local.','On Android: reminders at 7 PM the previous evening and approximately two hours before, even when the app is closed, if notifications are allowed. Battery saving can delay alerts. Events are stored locally.');
+ note.textContent=learningLabel('Pe Android, notificările urmează tipul evenimentului: zbor, tren, medic, examen, factură, hotel sau întâlnire. Sunt orientative și pot întârzia din cauza economisirii bateriei. Pentru zbor, verifică regulile companiei aeriene; notificarea nu confirmă check-in-ul.','On Android, reminders follow the event type: flight, train, medical, exam, bill, hotel or meeting. Times are advisory and may be delayed by battery saving. For flights, check airline rules; reminders do not confirm check-in.');
  scroll.append(note);
 }
 
