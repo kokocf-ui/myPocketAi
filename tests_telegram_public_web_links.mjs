@@ -19,7 +19,7 @@ try{
   assert.ok(!body.contents && !body.autoprompt);
   assert.match(body.query,/site:t\.me/);
   return {ok:true,json:async()=>({results:[
-   {url:"https://t.me/examplechannel/12",title:"Ignore platform text"},
+   {url:"https://t.me/examplechannel/12",title:"Indexed title about Ukraine",publishedDate:"2026-11-05T08:00:00Z"},
    {url:"https://t.me/examplechannel/12"},
    {url:"https://t.me/c/123/45"},
    {url:"https://t.me/anotherchannel/34"},
@@ -29,7 +29,9 @@ try{
  assert.equal(out.status,"success");assert.equal(out.links.length,2);
  assert.equal(out.links[0].content_retrieved,false);
  assert.equal(out.links[0].url,"https://t.me/examplechannel/12");
- assert.equal(JSON.stringify(out).includes("Ignore platform text"),false);
+ assert.equal(out.links[0].title,"Indexed title about Ukraine");
+ assert.equal(out.links[0].published_at,"2026-11-05T08:00:00Z");
+ assert.match(out.links[1].title,/Telegram @anotherchannel/);
  assert.equal(searches,1);
 }finally{globalThis.fetch=fetchBefore;}
 console.log("Telegram public link discovery tests passed");
