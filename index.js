@@ -1664,6 +1664,8 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
  display:flex;align-items:center;justify-content:center;
  font-size:clamp(.85rem,3.5vw,1rem)!important;line-height:1.12
 }
+#view-module.adaptive-workspace-view .shop-voice-button[aria-pressed="true"]{border-color:#32d9df;box-shadow:0 0 0 2px #32d9df88}
+#view-module.adaptive-workspace-view .shop-voice-status{display:block;color:#b9dbe5;margin:.35rem 0 .5rem;line-height:1.3;overflow-wrap:anywhere}
 #view-module.adaptive-workspace-view .shop-entry-hint{
  display:block;line-height:1.3;white-space:normal;overflow-wrap:anywhere;
  padding-bottom:.4rem;margin-top:clamp(.3rem,.8dvh,.6rem)
@@ -1926,7 +1928,7 @@ function dismissNotice(){clearTimeout(state.noticeTimer);$('notice').classList.r
 function notify(message){const el=$('notice');dismissNotice();el.textContent=message;el.classList.add('show');state.noticeTimer=setTimeout(dismissNotice,1800)}
 inputEl.addEventListener('focus',dismissNotice);
 function setStatus(message){chatStatus.textContent=message}
-function showView(name){closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}const exitedModule=state.currentView==='module'&&name!=='module';state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));if(exitedModule)checkUiUpdateAfterModuleExit();document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
+function showView(name){if(shoppingVoiceSession?.active&&name!=='module')shopVoiceStop();closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}const exitedModule=state.currentView==='module'&&name!=='module';state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));if(exitedModule)checkUiUpdateAfterModuleExit();document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
 // Change the shared chat host without archiving, clearing GPS or starting a new conversation.
 function switchConversationModule(key){
  if(!['assistant','maps','travel'].includes(key))return;
@@ -2107,6 +2109,7 @@ async function checkUiUpdateAfterModuleExit(){
  finally{pocketUiUpdateChecking=false}
 }
 function renderOrganizeChoices(){
+ if(shoppingVoiceSession?.active)shopVoiceStop();
  const leavingShopping=$('view-module').classList.contains('adaptive-workspace-view');
  shoppingMode='entry';shoppingPendingAction=null;
  if(leavingShopping)checkUiUpdateAfterModuleExit();
@@ -2128,14 +2131,14 @@ function organizePanel(cat){
  const panel=document.createElement('div');panel.className='organize-panel';
  const bar=document.createElement('div');bar.className='education-toolbar';
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=cat[0]==='shopping'?learningLabel('← Înapoi','← Back'):learningLabel('← Categorii','← Categories');
- back.onclick=cat[0]==='shopping'?()=>{if(shoppingMode!=='entry'){shoppingMode='entry';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()}else renderOrganizeChoices()}:renderOrganizeChoices;
+ back.onclick=cat[0]==='shopping'?()=>{if(shoppingVoiceSession?.active)shopVoiceStop();if(shoppingMode!=='entry'){shoppingMode='entry';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()}else renderOrganizeChoices()}:renderOrganizeChoices;
  const title=document.createElement('strong');title.textContent=cat[1]+' '+learningLabel(cat[2],cat[3]);
  if(cat[0]==='shopping'){
   bar.classList.add('shop-navigation');
   const active=shopButton('Listă activă','Active list','primary-btn');
   active.classList.add('shop-active-toggle');
   active.setAttribute('aria-pressed',shoppingMode==='active'?'true':'false');
-  active.onclick=()=>{shoppingMode=shoppingMode==='active'?'entry':'active';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()};
+  active.onclick=()=>{if(shoppingVoiceSession?.active)shopVoiceStop();shoppingMode=shoppingMode==='active'?'entry':'active';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()};
   bar.append(back,active);
  }else bar.append(back,title);
  panel.append(bar);host.append(panel);
@@ -2210,6 +2213,163 @@ function shopInput(placeholder='',maxLength=180){
  input.maxLength=maxLength;input.placeholder=placeholder;input.setAttribute('aria-label',placeholder);
  return input;
 }
+
+/* Shopping-only voice capture. The existing Android bridge reports a final
+   phrase per recognizer session; restart it after natural pauses until Stop. */
+let shoppingVoiceSession=null;
+function shopVoiceLanguage(){
+ return ({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
+}
+function shopVoiceFold(text){
+ return String(text||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLocaleLowerCase().trim();
+}
+function shopVoiceEnd(text){
+ const cleaned=String(text||'').trim();
+ const match=cleaned.match(/(?:^|[\\s,.;!?])(sfârșit|sfarsit|atât|atat)[.!?\\s]*$/iu);
+ return {ended:Boolean(match),text:match?cleaned.slice(0,match.index).trim():cleaned};
+}
+function shopVoiceDiacritics(text){
+ if(state.language!=='ro')return String(text||'').normalize('NFC');
+ const words={faina:'făină',faină:'făină',grau:'grâu',rosii:'roșii',rosie:'roșie',
+  capsuni:'căpșuni',capsuna:'căpșună',patrunjel:'pătrunjel',paine:'pâine',
+  paini:'pâini',oua:'ouă',masline:'măsline',morcovi:'morcovi',branza:'brânză',
+  smantana:'smântână',ceapa:'ceapă',usturoi:'usturoi',malai:'mălai',zahar:'zahăr'};
+ return String(text||'').replace(/[\\p{L}]+/gu,word=>{
+  const corrected=words[shopVoiceFold(word)];
+  return corrected?(word[0]===word[0].toLocaleUpperCase()?corrected[0].toLocaleUpperCase()+corrected.slice(1):corrected):word;
+ }).normalize('NFC');
+}
+function shopVoiceItems(transcript){
+ const numberWords={un:1,o:1,unu:1,una:1,doi:2,doua:2,trei:3,patru:4,cinci:5,
+  sase:6,sapte:7,opt:8,noua:9,zece:10,unsprezece:11,doisprezece:12};
+ const units={kilogram:'kg',kilograme:'kg',kg:'kg',gram:'g',grame:'g',g:'g',
+  litru:'l',litri:'l',l:'l',mililitri:'ml',ml:'ml',bucata:'buc',bucati:'buc',
+  buc:'buc',cutie:'cutie',cutii:'cutie',pachet:'pachet',pachete:'pachet',
+  legatura:'legătură',legaturi:'legătură'};
+ const clean=String(transcript||'').replace(/(?:\\s+și\\s+|\\s+si\\s+)/giu,',')
+  .split(/[,;\\n]+/u).map(p=>p.trim()).filter(Boolean);
+ const result=[];
+ for(let raw of clean.slice(0,60)){
+  raw=raw.replace(/^(?:te rog\\s+)?(?:trece(?:-mi)? pe listă|trece pe lista|adaugă|adauga|pune pe listă|pune pe lista|vreau|cumpără|cumpara)\\s*/iu,'').trim();
+  raw=raw.replace(/^[\\s.:;-]+|[\\s.:;-]+$/g,'');
+  if(!raw)continue;
+  let quantity='1',unit='buc';
+  const words=raw.split(/\\s+/u);
+  if(words.length){
+   const first=shopVoiceFold(words[0]).replace(',','.');
+   let n=Number(first);
+   if(!Number.isFinite(n))n=numberWords[first];
+   if(first==='jumatate'||first==='jumătate'){
+    n=.5;words.shift();if(['de','din'].includes(shopVoiceFold(words[0])))words.shift();
+   }else if(Number.isFinite(n)&&n>0){words.shift()}
+   else n=null;
+   if(n!==null){
+    quantity=String(n);
+    const possibleUnit=shopVoiceFold(words[0]||'');
+    if(units[possibleUnit]){unit=units[possibleUnit];words.shift()}
+    if(['de','din'].includes(shopVoiceFold(words[0])))words.shift();
+    raw=words.join(' ');
+   }
+  }
+  const name=shopVoiceDiacritics(raw).trim().slice(0,180);
+  if(name&&/[\\p{L}]/u.test(name))result.push(shopNewItem(name,quantity,unit));
+ }
+ return result;
+}
+function shopVoiceRenderStatus(){
+ const session=shoppingVoiceSession;
+ const mic=document.querySelector('.shop-voice-button');
+ if(mic){mic.textContent=session?.active?shopLabel('■ Oprește și salvează','■ Stop and save'):shopLabel('🎙 Dictează produse','🎙 Dictate items');
+  mic.setAttribute('aria-pressed',session?.active?'true':'false')}
+ const status=document.querySelector('.shop-voice-status');
+ if(status){status.textContent=session?.active?
+  shopLabel('Ascult… ','Listening… ')+[...session.parts,session.partial].filter(Boolean).join(' ').slice(-160):
+  shopLabel('Apasă microfonul pentru dictare continuă.','Tap the microphone for continuous dictation.')}
+}
+function shopVoiceListen(){
+ const session=shoppingVoiceSession;
+ if(!session?.active)return;
+ if(pocketNativeVoiceAvailable()){
+  if(!pocketNativeVoiceSend({action:'listen',mode:'shopping',language:shopVoiceLanguage()})){
+   shopVoiceStop();notify(shopLabel('Microfonul Android nu a pornit.','Could not start Android microphone.'))}
+  return;
+ }
+ const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!Recognition){shopVoiceStop();notify(shopLabel('Recunoașterea vocală nu este disponibilă.','Speech recognition unavailable.'));return}
+ const rec=new Recognition();session.rec=rec;session.seen=new Set();
+ rec.lang=shopVoiceLanguage();rec.interimResults=true;rec.continuous=true;
+ rec.onresult=event=>{
+  if(!session.active)return;
+  let preview='';
+  for(let i=0;i<event.results.length;i++){
+   const text=String(event.results[i][0]?.transcript||'').trim();
+   if(event.results[i].isFinal&&text&&!session.seen.has(i)){
+    session.seen.add(i);shopVoiceAccept(text);
+   }else if(!event.results[i].isFinal)preview=text;
+  }
+  if(session.active){session.partial=preview;shopVoiceRenderStatus()}
+ };
+ rec.onerror=e=>{if(session.active&&e.error!=='no-speech'&&e.error!=='aborted'){
+  notify(shopLabel('Dictarea a fost întreruptă.','Dictation interrupted.'));shopVoiceStop()}};
+ rec.onend=()=>{if(!session.active||shoppingVoiceSession!==session)return;
+  if(session.partial){shopVoiceAccept(session.partial);session.partial=''}
+  session.timer=setTimeout(()=>{if(session.active)shopVoiceListen()},250)};
+ try{rec.start()}catch{shopVoiceStop();notify(shopLabel('Nu am putut porni microfonul.','Could not start microphone.'))}
+}
+function shopVoiceAccept(text){
+ const session=shoppingVoiceSession;if(!session?.active)return;
+ const ending=shopVoiceEnd(text);
+ const phrase=ending.text.trim();
+ if(phrase&&shopVoiceFold(session.parts[session.parts.length-1])!==shopVoiceFold(phrase)){
+  session.parts.push(phrase);session.partial='';
+ }
+ shopVoiceRenderStatus();
+ if(ending.ended)shopVoiceStop();
+}
+function shopVoiceStart(){
+ if(shoppingVoiceSession?.active){shopVoiceStop();return}
+ if(state.speaking){notify(shopLabel('Încheie mai întâi redarea vocală.','Finish voice playback first.'));return}
+ shoppingVoiceSession={active:true,parts:[],partial:'',timer:null,rec:null};
+ shopVoiceRenderStatus();shopVoiceListen();
+}
+function shopVoiceStop(){
+ const session=shoppingVoiceSession;if(!session?.active)return;
+ session.active=false;
+ if(session.timer!==null)clearTimeout(session.timer);
+ if(session.partial&&shopVoiceFold(session.partial)!==shopVoiceFold(session.parts[session.parts.length-1])){
+  const ending=shopVoiceEnd(session.partial);if(ending.text.trim())session.parts.push(ending.text.trim())
+ }
+ if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
+ if(session.rec){try{session.rec.onend=null;session.rec.onerror=null;session.rec.onresult=null;session.rec.abort()}catch{}}
+ shoppingVoiceSession=null;
+ const items=shopVoiceItems(session.parts.join(', '));
+ if(items.length){
+  const data=shopNormalizeData(shoppingRead());
+  data.items.push(...items);data.completedAt=null;
+  if(shoppingWrite(data)){
+   if(state.currentView==='module'&&shoppingMode==='entry')renderShoppingList();
+   notify(shopLabel('Produse adăugate: ','Items added: ')+items.length);
+  }
+ }else if(session.parts.length)notify(shopLabel('Nu am identificat produse.','No items identified.'));
+ shopVoiceRenderStatus();
+}
+function shopVoiceHandleAndroid(data){
+ if(data?.mode!=='shopping')return false;
+ const session=shoppingVoiceSession;
+ if(!session?.active)return true;
+ if(data.status==='partial'){session.partial=String(data.text||'').trim();shopVoiceRenderStatus();return true}
+ if(data.status==='recognized'){
+  session.partial='';
+  shopVoiceAccept(String(data.text||''));
+  if(session.active){
+   session.timer=setTimeout(()=>{if(session.active)shopVoiceListen()},230);
+  }
+  return true;
+ }
+ if(data.status==='error'){shopVoiceStop();notify(shopLabel('Recunoașterea vocală Android a fost întreruptă.','Android speech recognition stopped.'))}
+ return true;
+}
+
 function shopSaveAndRender(data,retainScroll=true){
  const scroll=document.querySelector('.adaptive-workspace__scroll');
  shoppingScrollPosition=retainScroll&&scroll?scroll.scrollTop:0;
@@ -2245,31 +2405,12 @@ function renderShoppingList(){
  };
  scroll.append(nameForm);
 
- const newListButton=shopButton('＋ Listă nouă','＋ New list');
- newListButton.onclick=()=>{shoppingPendingAction={type:'new'};renderShoppingList()};
- scroll.append(newListButton);
- if(shoppingPendingAction?.type==='new'){
-  const confirm=document.createElement('form');confirm.className='shop-inline-confirm';
-  const lab=document.createElement('label');lab.className='shop-label';
-  lab.textContent=shopLabel('Numele listei noi','Name of new list');
-  const newName=shopInput(shopLabel('Ex. Cumpărături săptămânale','E.g. Weekly shopping'),90);
-  newName.required=true;
-  lab.append(newName);confirm.append(lab);
-  const options=document.createElement('div');options.className='adaptive-fields';
-  const proceed=shopButton('Creează','Create','primary-btn');proceed.type='submit';
-  const cancel=shopButton('Renunță','Cancel');cancel.onclick=()=>{shoppingPendingAction=null;renderShoppingList()};
-  options.append(proceed,cancel);confirm.append(options);
-  if(data.items.length){
-   const note=document.createElement('small');
-   note.textContent=shopLabel('Arhivează întâi lista activă pentru a crea alta.','Archive the current list before creating another.');
-   confirm.prepend(note);proceed.disabled=true;
-  }
-  confirm.onsubmit=e=>{e.preventDefault();const nextName=newName.value.trim();if(!nextName||data.items.length)return;
-   data.currentName=nextName;data.completedAt=null;
-   shoppingPendingAction=null;shoppingEditingId=null;shopSaveAndRender(data,false);
-  };
-  scroll.append(confirm);
- }
+ const mic=shopButton('🎙 Dictează produse','🎙 Dictate items','primary-btn');
+ mic.classList.add('shop-voice-button');
+ mic.onclick=()=>shopVoiceStart();
+ scroll.append(mic);
+ const status=document.createElement('small');status.className='shop-voice-status';scroll.append(status);
+ shopVoiceRenderStatus();
 
  const itemTitle=document.createElement('div');itemTitle.className='shop-heading';
  const itemLabel=document.createElement('strong');itemLabel.textContent=shopLabel('Produse','Items');
@@ -5159,6 +5300,7 @@ t=t.replace(/(\\d),(\\d)/g,'$1 virgulă $2');return t;}
 function pocketNativeVoiceAvailable(){return typeof window.PocketAndroidVoice?.postMessage==='function'}
 function pocketNativeVoiceSend(payload){try{window.PocketAndroidVoice.postMessage(JSON.stringify(payload));return true}catch{return false}}
 window.pocketAndroidVoiceResult=function(data){
+ if(shopVoiceHandleAndroid(data))return;
  if(pocketExitVoiceResult(data))return;
  if(data?.mode==='tts'){
   if(pocketGreetingActive){
