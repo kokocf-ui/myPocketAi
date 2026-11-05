@@ -3031,6 +3031,7 @@ function appendAdaptivePresentation(host,record){
  };
  const showTable=()=>{
    host.replaceChildren();host.scrollTop=0;
+   if(isArticle)add("p",newsSelectionNotice(lang,rows.length),"font-size:12px;line-height:1.4;opacity:.85;margin:0 0 12px");
    const wrap=add("div","","width:100%;overflow-x:auto");
    const table=add("table","","width:100%;table-layout:fixed;border-collapse:collapse;line-height:1.5;font-size:clamp(13px,3.35vw,16px)",wrap);
    const colgroup=add("colgroup","",null,table);
@@ -3057,6 +3058,22 @@ function appendAdaptivePresentation(host,record){
    if(isArticle)add("p",labels.unverified,"font-size:12px;opacity:.8;margin-top:14px");
  };
  showTable();return true;
+}
+// Explain technical result limits without assigning an editorial verdict to a publisher.
+function newsSelectionNotice(lang,count){
+ const messages={
+  ro:"Sunt afișate rezultate limitate de căutare, selectate tehnic după relevanță, dată și duplicate. Nu reprezintă o evaluare a credibilității, orientării sau finanțării surselor. Tu decizi ce citești.",
+  en:"These are limited search results, technically selected by relevance, date and duplicates. This is not a judgment of publishers' credibility, views or funding. You decide what to read.",
+  fr:"Résultats de recherche limités par pertinence, date et doublons. Ce n’est pas un jugement sur la crédibilité, les opinions ou le financement des sources. Vous choisissez quoi lire.",
+  de:"Begrenzte Suchergebnisse nach Relevanz, Datum und Duplikaten. Keine Bewertung von Glaubwürdigkeit, Meinung oder Finanzierung der Quellen. Sie entscheiden, was Sie lesen.",
+  it:"Risultati limitati per pertinenza, data e duplicati. Non è un giudizio su attendibilità, opinioni o finanziamenti delle fonti. Sei tu a scegliere cosa leggere.",
+  es:"Resultados limitados por relevancia, fecha y duplicados. No evalúan la credibilidad, postura o financiación de las fuentes. Tú eliges qué leer.",
+  pt:"Resultados limitados por relevância, data e duplicados. Não avaliam a credibilidade, opiniões ou financiamento das fontes. Você decide o que ler.",
+  nl:"Beperkte zoekresultaten op relevantie, datum en duplicaten. Geen oordeel over betrouwbaarheid, standpunten of financiering. U kiest zelf wat u leest.",
+  ru:"Показана ограниченная выборка по релевантности, дате и повторам. Это не оценка достоверности, взглядов или финансирования источников. Вы сами выбираете, что читать.",
+  pl:"Ograniczone wyniki według trafności, daty i duplikatów. Nie jest to ocena wiarygodności, poglądów ani finansowania źródeł. To Ty decydujesz, co czytać."
+ };
+ return (messages[lang]||messages.en);
 }
 function appendNewsCollectionTable(host,record){
  if(record?.list?.type!=="news"||!Array.isArray(record.list.rows))return false;
@@ -3086,6 +3103,7 @@ function appendNewsCollectionTable(host,record){
  const renderList=()=>{
   host.replaceChildren();host.scrollTop=0;
   add("h3",t[0],"font-size:18px;margin:0 0 10px;color:#dcf9ff");
+  add("p",newsSelectionNotice(lang,items.length),"font-size:12px;line-height:1.4;opacity:.85;margin:0 0 12px");
   const wrap=add("div","","width:100%;overflow-x:auto;overscroll-behavior-x:contain");
   const table=add("table","","width:100%;border-collapse:collapse;table-layout:fixed;font-size:clamp(13px,3.35vw,16px);line-height:1.5",wrap);
   const cols=add("colgroup","",null,table);
