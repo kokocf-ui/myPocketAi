@@ -1888,9 +1888,10 @@ export default {
     const possibleCity=parts.length<=2&&parts[0]?.split(/\s+/).length<=3&&/^[\p{L}\s.'-]{3,65}$/u.test(parts[0]||'')&&!/^(?:magazin|market|aldi|tesco|lidl|hotel|restaurant|pub|coffee|decathlon|sport direct)$/i.test(parts[0]||'');
     const cityLookup=!seekingRoute&&!data.quick_place_search&&possibleCity&&!explicitKnowledge&&!knownTopic&&!countrySuffix&&parts.length===1;
 
-    // Resolve short ambiguous names before choosing any encyclopaedia or map result.
+    // Resolve short ambiguous names, including explicit knowledge questions such as
+    // "Spune-mi despre Alba", before deciding on encyclopedia or geography.
     // Geography and encyclopaedia are separate destinations; Wikipedia text is never routable by itself.
-    const entityChoiceEligible=!seekingRoute&&!explicitKnowledge&&!data.quick_place_search&&(!knownTopic||topicKey==='paris')&&parts.length===1&&
+    const entityChoiceEligible=!seekingRoute&&!data.quick_place_search&&(!knownTopic||topicKey==='paris')&&parts.length===1&&
       /^[\p{L}][\p{L}\s'-]{2,39}$/u.test(bareTopic)&&bareTopic.split(/\s+/).length===1&&
       !countryNameCodes.has(normalizeGeoName(bareTopic))&&!/^(?:magazin|market|restaurant|hotel|pub|cafe|farmacie)$/i.test(bareTopic);
     if(entityChoiceEligible){
