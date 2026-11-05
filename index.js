@@ -1584,6 +1584,24 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
  .adaptive-workspace .shop-item-controls{flex-direction:column}
 }
 </style>
+<style id="agenda-voice-workspace">
+#view-module.adaptive-workspace-view .agenda-workspace{min-width:0}
+#view-module.adaptive-workspace-view .agenda-scroll{display:flex;flex-direction:column;gap:clamp(.35rem,1dvh,.6rem);min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.agenda-microphone{width:100%;min-height:clamp(3rem,8dvh,4.2rem);font-size:clamp(1rem,3.8vw,1.2rem);border-radius:1rem}
+.agenda-speech-state,.agenda-footnote{display:block;line-height:1.35;opacity:.78}
+.agenda-entries{display:flex;flex-direction:column;gap:.4rem;min-width:0}
+.agenda-event{display:grid;grid-template-columns:minmax(5.7rem,32%) minmax(0,1fr);align-items:center;gap:.65rem;padding:.7rem .5rem;border:1px solid var(--line,#50657d55);border-radius:.65rem;min-width:0}
+.agenda-event-time{font-size:.82rem;line-height:1.25;opacity:.82}
+.agenda-event strong{overflow-wrap:anywhere}
+.agenda-manual{padding:.45rem;border:1px solid var(--line,#50657d55);border-radius:.65rem}
+.agenda-manual summary{cursor:pointer;font-size:.88rem}
+.agenda-manual-fields{display:grid;grid-template-columns:1fr;gap:.4rem;margin-top:.55rem}
+.agenda-manual-fields input,.agenda-manual-fields button{min-width:0;width:100%;box-sizing:border-box}
+.agenda-confirm{display:grid;grid-template-columns:minmax(0,1fr) minmax(4rem,auto) minmax(4rem,auto);align-items:center;gap:.4rem}
+.agenda-confirm span{overflow-wrap:anywhere}
+.agenda-confirm button{padding:.5rem!important;font-size:.85rem}
+@media(max-width:360px){.agenda-confirm{grid-template-columns:repeat(2,minmax(0,1fr))}.agenda-confirm span{grid-column:1/-1}}
+</style>
 <style id="shopping-single-screen">
 /* Shopping-only navigation: Home remains in the shared header; Back and Active List
    live in the workspace toolbar, with viewport-based sizing rather than phone offsets. */
@@ -2134,6 +2152,8 @@ async function checkUiUpdateAfterModuleExit(){
 }
 function renderOrganizeChoices(){
  if(shoppingVoiceSession?.active)shopVoiceStop();
+ if(agendaListening)agendaVoiceFinish('');
+ agendaPendingDelete=null;
  const leavingShopping=$('view-module').classList.contains('adaptive-workspace-view');
  shoppingMode='entry';shoppingPendingAction=null;
  if(leavingShopping)checkUiUpdateAfterModuleExit();
@@ -2171,6 +2191,7 @@ function organizePanel(cat){
 function openOrganizeCategory(key){
  const cat=ORGANIZE_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
  if(key==='shopping'){renderShoppingList();return}
+ if(key==='calendar'){renderAgenda();return}
  const panel=organizePanel(cat);
  const p=document.createElement('p');p.textContent=learningLabel(cat[4],cat[5]);panel.append(p);
  const button=document.createElement('button');button.type='button';button.className='primary-btn';
@@ -2180,6 +2201,154 @@ function openOrganizeCategory(key){
   inputEl.placeholder=learningLabel('Spune ce dorești să organizezi…','What would you like to organise?');
   inputEl.focus();
  };panel.append(button);
+}
+
+
+/* Calendar workspace: separate storage and speech state from shopping lists.
+   No background alarms are promised: this first iteration is a local agenda. */
+const POCKET_AGENDA_KEY='mypocketai.agenda.v1';
+let agendaListening=false,agendaSpeech=null,agendaPendingDelete=null;
+function agendaRead(){
+ try{return (JSON.parse(localStorage.getItem(POCKET_AGENDA_KEY)||'[]')||[]).filter(e=>e&&typeof e.title==='string'&&Number.isFinite(Date.parse(e.when)))}catch{return []}
+}
+function agendaWrite(events){
+ try{localStorage.setItem(POCKET_AGENDA_KEY,JSON.stringify(events));return true}
+ catch{notify(learningLabel('Agenda nu a putut fi salvată.','Could not save the agenda.'));return false}
+}
+function agendaDate(text,now=new Date()){
+ const spoken=shopVoiceFold(text);
+ const absolute=spoken.match(/\\b(\\d{1,2})[./-](\\d{1,2})(?:[./-](\\d{4}))?\\b/u);
+ const clock=spoken.match(/\\b(?:la\\s+)?(?:ora\\s+)?(\\d{1,2})(?:[:.](\\d{2}))?\\b(?=\\s*(?:dimineata|seara|dupa-amiaza)?(?:\\s|$))/u);
+ let d=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+ let dateMatch=null;
+ if(absolute){
+  const day=Number(absolute[1]),month=Number(absolute[2]),year=Number(absolute[3]||now.getFullYear());
+  const valid=new Date(year,month-1,day);
+  if(valid.getFullYear()!==year||valid.getMonth()!==month-1||valid.getDate()!==day)return null;
+  d=valid;dateMatch=absolute[0];
+ }else if(/\\b(poimaine)\\b/u.test(spoken)){d.setDate(d.getDate()+2);dateMatch='poimâine'}
+ else if(/\\bmaine\\b/u.test(spoken)){d.setDate(d.getDate()+1);dateMatch='mâine'}
+ else if(/\\bazi\\b|\\bastazi\\b/u.test(spoken))dateMatch='azi';
+ else{
+  const days=['duminica','luni','marti','miercuri','joi','vineri','sambata'];
+  const day=days.findIndex(v=>new RegExp('(?:^|\\\\s)'+v+'(?:\\\\s|$)','u').test(spoken));
+  if(day>=0){let diff=(day-d.getDay()+7)%7;if(diff===0&&/\\bviitoare\\b/u.test(spoken))diff=7;d.setDate(d.getDate()+diff);dateMatch=days[day]}
+ }
+ if(!dateMatch)return null;
+ const clockMatch=spoken.match(/\\b(?:ora\\s+|la\\s+)(\\d{1,2})(?:[:.](\\d{2}))?\\b/u);
+ if(!clockMatch)return null;
+ let hour=Number(clockMatch[1]);const minute=Number(clockMatch[2]||0);
+ if(hour>23||minute>59)return null;
+ if(hour<12&&/\\b(seara|dupa amiaza|dupamiaza)\\b/u.test(spoken))hour+=12;
+ d.setHours(hour,minute,0,0);
+ return {when:d.toISOString(),dateText:dateMatch,timeText:clockMatch[0]};
+}
+function agendaExtractTitle(transcript,dateInfo){
+ let title=String(transcript||'').trim().replace(/[.!?]+$/g,'');
+ title=title.replace(/^(?:programează|programeaza|adaugă|adauga|notează|noteaza|trece|pune|am)\\s+/iu,'');
+ title=title.replace(/\\b(?:pe\\s+)?(?:azi|astăzi|astazi|mâine|maine|poimâine|poimaine|luni|marți|marti|miercuri|joi|vineri|sâmbătă|sambata|duminică|duminica|la data de)\\b/giu,' ');
+ title=title.replace(/\\b\\d{1,2}[./-]\\d{1,2}(?:[./-]\\d{4})?\\b/gu,' ');
+ title=title.replace(/\\b(?:la\\s+)?ora\\s+\\d{1,2}(?:[:.]\\d{2})?\\b/giu,' ');
+ title=title.replace(/\\b(?:la\\s+)\\d{1,2}(?:[:.]\\d{2})?\\b/giu,' ');
+ title=title.replace(/\\b(?:amintește-mi|aminteste-mi|adu-mi aminte|cu o zi înainte|cu o zi inainte|cu două ore înainte|cu doua ore inainte)\\b.*$/iu,' ');
+ title=title.replace(/\\s+/g,' ').replace(/^(?:la|de|cu|pe)\\s+/iu,'').trim();
+ return title.slice(0,140);
+}
+function agendaVoiceCommand(text){
+ const spoken=String(text||'').trim();
+ const fold=shopVoiceFold(spoken);
+ if(/^(?:arat[aă]|afișează|afiseaza|deschide)\\s+(?:agenda|programările|programarile)/iu.test(spoken)){renderAgenda();return}
+ if(/^(?:șterge|sterge|anulează|anuleaza)\\s+/iu.test(spoken)){
+  const term=shopVoiceFold(spoken.replace(/^(?:șterge|sterge|anulează|anuleaza)\\s+(?:programarea\\s+)?/iu,''));
+  const candidates=agendaRead().filter(item=>shopVoiceFold(item.title).includes(term)&&term.length>=3);
+  if(candidates.length===1){agendaPendingDelete=candidates[0].id;renderAgenda();return}
+  notify(learningLabel('Nu am găsit o programare unică.','Could not identify one appointment.'));return
+ }
+ const parsed=agendaDate(spoken);
+ if(!parsed){notify(learningLabel('Spune și data, și ora: de exemplu „Programează dentistul mâine la ora 10”.','Please include date and time.'));return}
+ const title=agendaExtractTitle(spoken,parsed);
+ if(!title){notify(learningLabel('Nu am înțeles denumirea programării.','Could not understand appointment title.'));return}
+ const events=agendaRead();
+ events.push({id:shopId(),title,when:parsed.when,createdAt:new Date().toISOString()});
+ if(agendaWrite(events)){renderAgenda();notify(learningLabel('Programare salvată: ','Appointment saved: ')+title)}
+}
+function agendaVoiceFinish(transcript){
+ agendaListening=false;
+ if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
+ if(agendaSpeech){try{agendaSpeech.onend=null;agendaSpeech.onresult=null;agendaSpeech.abort()}catch{}agendaSpeech=null}
+ if(transcript)agendaVoiceCommand(transcript);else renderAgenda();
+}
+function agendaVoiceStart(){
+ if(agendaListening){agendaVoiceFinish('');return}
+ agendaListening=true;
+ const status=document.querySelector('.agenda-speech-state');
+ if(status)status.textContent=learningLabel('Te ascult…','Listening…');
+ if(pocketNativeVoiceAvailable()){
+  if(!pocketNativeVoiceSend({action:'listen',mode:'agenda',language:shopVoiceLanguage()}))agendaVoiceFinish('');
+  return;
+ }
+ const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!Recognition){agendaVoiceFinish('');notify(learningLabel('Microfonul nu este disponibil.','Microphone unavailable.'));return}
+ const rec=new Recognition();agendaSpeech=rec;rec.lang=shopVoiceLanguage();rec.continuous=false;rec.interimResults=false;
+ rec.onresult=e=>agendaVoiceFinish(String(e.results?.[0]?.[0]?.transcript||''));
+ rec.onerror=()=>{agendaVoiceFinish('');notify(learningLabel('Dictarea a fost întreruptă.','Speech recognition interrupted.'))};
+ rec.onend=()=>{if(agendaListening)agendaVoiceFinish('')};
+ try{rec.start()}catch{agendaVoiceFinish('')}
+}
+function agendaVoiceHandleAndroid(data){
+ if(data?.mode!=='agenda')return false;
+ if(!agendaListening)return true;
+ if(data.status==='recognized'){agendaVoiceFinish(String(data.text||''));return true}
+ if(data.status==='error'){agendaVoiceFinish('');notify(learningLabel('Microfonul a fost întrerupt.','Microphone interrupted.'))}
+ return true;
+}
+function renderAgenda(){
+ const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='calendar');
+ $('moduleTitle').textContent=learningLabel('Agenda inteligentă','Smart agenda');
+ const panel=organizePanel(cat);
+ const root=$('view-module');root.classList.add('adaptive-workspace-view');
+ panel.classList.add('adaptive-workspace','agenda-workspace');
+ const scroll=document.createElement('div');scroll.className='adaptive-workspace__scroll agenda-scroll';panel.append(scroll);
+ const mic=document.createElement('button');mic.type='button';mic.className='primary-btn agenda-microphone';
+ mic.textContent='🎙 '+learningLabel('Spune ce programezi','Speak your appointment');
+ mic.onclick=()=>agendaVoiceStart();scroll.append(mic);
+ const hint=document.createElement('small');hint.className='agenda-speech-state';
+ hint.textContent=learningLabel('Ex.: „Programează dentistul mâine la ora 10”','E.g. “Schedule dentist tomorrow at 10”');
+ scroll.append(hint);
+ const title=document.createElement('div');title.className='shop-heading';const label=document.createElement('strong');
+ label.textContent=learningLabel('Programările mele','My appointments');title.append(label);scroll.append(title);
+ const events=agendaRead().sort((a,b)=>Date.parse(a.when)-Date.parse(b.when));
+ const entries=document.createElement('div');entries.className='agenda-entries';
+ if(!events.length){const empty=document.createElement('p');empty.textContent=learningLabel('Nu ai programări. Apasă microfonul și spune ce dorești să adaugi.','No appointments yet. Tap the microphone to add one.');entries.append(empty)}
+ const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
+ for(const item of events){
+  const row=document.createElement('div');row.className='agenda-event';
+  const stamp=document.createElement('span');stamp.className='agenda-event-time';
+  stamp.textContent=new Date(item.when).toLocaleString(locale,{weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  const name=document.createElement('strong');name.textContent=item.title;row.append(stamp,name);
+  entries.append(row);
+  if(agendaPendingDelete===item.id){
+   const confirm=document.createElement('div');confirm.className='agenda-confirm';
+   const text=document.createElement('span');text.textContent=learningLabel('Ștergi programarea „','Delete appointment “')+item.title+'”?';confirm.append(text);
+   const yes=document.createElement('button');yes.type='button';yes.className='primary-btn';yes.textContent=learningLabel('Șterge','Delete');
+   yes.onclick=()=>{const all=agendaRead();if(agendaWrite(all.filter(e=>e.id!==item.id))){agendaPendingDelete=null;renderAgenda()}};
+   const no=document.createElement('button');no.type='button';no.className='secondary-btn';no.textContent=learningLabel('Renunță','Cancel');
+   no.onclick=()=>{agendaPendingDelete=null;renderAgenda()};confirm.append(yes,no);entries.append(confirm)
+  }
+ }
+ scroll.append(entries);
+ const manual=document.createElement('details');manual.className='agenda-manual';
+ const summary=document.createElement('summary');summary.textContent=learningLabel('Introducere manuală','Manual entry');manual.append(summary);
+ const form=document.createElement('form');form.className='agenda-manual-fields';
+ const name=document.createElement('input');name.placeholder=learningLabel('Titlul programării','Appointment title');name.required=true;
+ const when=document.createElement('input');when.type='datetime-local';when.required=true;
+ const add=document.createElement('button');add.type='submit';add.className='primary-btn';add.textContent=learningLabel('Salvează','Save');
+ form.append(name,when,add);form.onsubmit=e=>{e.preventDefault();const date=new Date(when.value);if(!name.value.trim()||Number.isNaN(date.getTime()))return;
+  const all=agendaRead();all.push({id:shopId(),title:name.value.trim().slice(0,140),when:date.toISOString(),createdAt:new Date().toISOString()});
+  if(agendaWrite(all))renderAgenda()};manual.append(form);scroll.append(manual);
+ const note=document.createElement('small');note.className='agenda-footnote';
+ note.textContent=learningLabel('Programările sunt păstrate pe dispozitiv. Notificările când aplicația este închisă nu sunt încă activate.','Appointments are saved on this device. Closed-app notifications are not yet active.');
+ scroll.append(note);
 }
 
 /* Shopping workspace: isolated state, preserves the v1 localStorage format.
@@ -5555,6 +5724,7 @@ function pocketNativeVoiceAvailable(){return typeof window.PocketAndroidVoice?.p
 function pocketNativeVoiceSend(payload){try{window.PocketAndroidVoice.postMessage(JSON.stringify(payload));return true}catch{return false}}
 window.pocketAndroidVoiceResult=function(data){
  if(shopVoiceHandleAndroid(data))return;
+ if(agendaVoiceHandleAndroid(data))return;
  if(pocketExitVoiceResult(data))return;
  if(data?.mode==='tts'){
   if(pocketGreetingActive){
