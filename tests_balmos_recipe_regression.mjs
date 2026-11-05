@@ -11,7 +11,7 @@ assert.ok(!backend.includes('function reliableRecipeFallback('),'Unsafe recipes 
 assert.ok(backend.includes('const culinaryEvidence='),'Recipes must require culinary source evidence');
 assert.ok(backend.includes('recipe_grounding_status'),'Source status must be surfaced');
 assert.ok(backend.includes('const recipeTokenBudget=recipeInstruction?Math.min(3800'),'Token budget must scale for sourced recipes');
-assert.ok(backend.includes('max_tokens: eventResearchIntent ? 2200 : recipeTokenBudget'),'Output token budget must be active');
+assert.ok(backend.includes('const requestedModelTokens=recipeInstruction?recipeTokenBudget:')&&backend.includes('max_tokens: requestedModelTokens'),'Output token budget must remain active and use the recipe-specific limit');
 const mark=backend.indexOf('function recipeQualityConcern(');
 const end=backend.indexOf('function removeRepeatedRecipeIngredients(',mark);
 assert.ok(mark>=0&&end>mark);
