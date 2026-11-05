@@ -65,7 +65,9 @@ try{
   throw new Error("INVALID_API_CREDENTIAL_FORMAT");
  process.stdout.write("API ID and Hash format OK (values hidden).\n");
  client=new TelegramClient(new StringSession(""),apiId,apiHash,{
-  connectionRetries:2,requestRetries:1,autoReconnect:false});
+  // Keep the authenticated DC connection alive while the owner switches to
+  // Telegram to read the login code. Limit network reconnect attempts.
+  connectionRetries:2,reconnectRetries:2,requestRetries:1,autoReconnect:true});
  // Cached only in memory for this single run. A DC migration must NOT make
  // the owner re-enter their number (or retry with different credentials).
  let cachedPhone="";
