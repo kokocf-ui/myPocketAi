@@ -48,3 +48,14 @@ dependencies {
     implementation 'androidx.webkit:webkit:1.12.1'
     implementation 'com.google.mlkit:text-recognition:16.0.1'
 }
+
+// Bundle the exact production 3D avatar within the APK rather than downloading it
+// from Cloudflare every time the native app launches.
+def pocketAvatarAssetDir = layout.buildDirectory.dir("generated/pocket-avatar-assets")
+tasks.register("bundlePocketAvatar", Copy) {
+    from(file("../public/avatar-v4.html"))
+    into(pocketAvatarAssetDir)
+    rename { "avatar-production.html" }
+}
+android.sourceSets.main.assets.srcDir(pocketAvatarAssetDir)
+tasks.matching { it.name == "preBuild" }.configureEach { dependsOn("bundlePocketAvatar") }
