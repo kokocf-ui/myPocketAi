@@ -71,7 +71,8 @@ export async function localizeNewsRows(rows,language,ai,model,{log=()=>{}}={}){
   try{await ask(chunk)}catch(e){log("translation_batch_failed",safeTranslationError(e))}
  }));
  const missing=all.filter(x=>!accepted.has(x.id));
- await Promise.all(missing.map(async item=>{
+ for(let offset=0;offset<missing.length;offset+=4){
+ await Promise.all(missing.slice(offset,offset+4).map(async item=>{
   try{
    const row=out[item.id];
    // The fallback must translate BOTH visible fields. Previously it translated
@@ -114,6 +115,7 @@ export async function localizeNewsRows(rows,language,ai,model,{log=()=>{}}={}){
    row.translation_status=(!row.summary||summary&&row.summary===summary.slice(0,280))&&row.title!==row.original_title?"translated":"partial_translation";
   }catch(e){log("translation_item_failed",safeTranslationError(e))}
  }));
+ }
  // Never silently pass a foreign-language excerpt as though it were localized.
  // Preserve source provenance; consumers can display an explicit notice.
  for(const row of out){
