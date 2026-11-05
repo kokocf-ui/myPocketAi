@@ -19,6 +19,10 @@ try{
  assert.equal(response.status,200);
  const data=await response.json();
  assert.equal(data.structured_list?.type,'news');
+ assert.equal(data.structured_list.editorial_quality_verdict,false);
+ assert.equal(data.structured_list.viewpoint_filtering_applied,false);
+ assert.match(data.structured_list.selection_policy,/technical_relevance_date_duplicates/);
+ assert.equal(data.structured_list.displayed_result_limit,12);
  assert.ok(data.structured_list.rows.length>=1);
  assert.ok(data.structured_list.rows.every(x=>x.url?.startsWith('https://')&&x.verification==='source_identified_claims_unverified'));
  const directResponse=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
@@ -57,6 +61,8 @@ try{
  const html=await(await frontend.fetch(new Request('https://fixture/'))).text();
  const source=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
  assert.ok(source);
+ assert.ok(source.includes('function newsSelectionNotice('),'News source choices must disclose technical filtering');
+ assert.ok(source.includes('Tu decizi ce citești.'),'Reader, not the assistant, decides which sources to read');
  new vm.Script(source);
  const a=source.indexOf('function appendNewsCollectionTable(');
  const b=source.indexOf('function appendStructuredCollectionTable(',a);
