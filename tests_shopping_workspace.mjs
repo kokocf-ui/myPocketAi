@@ -123,6 +123,10 @@ assert.match(inline,/shoppingPendingAction=\{type:'deleteArchived',historyIndex,
  'permanent archived-list deletion still requires confirmation');
 assert.match(inline,/kind:shoppingMode==='active'\?'actions':'entry'/);
 assert.match(inline,/if\(session.kind==='actions'\)/);
+assert.match(inline,/session.kind==='actions'&&isFinal&&phrase/);
+assert.match(inline,/shopVoiceAccept\(String\(data.text\|\|''\),true\)/);
+assert.match(inline,/shopVoiceAccept\(text,true\)/);
+assert.match(inline,/shoppingMode==='active'\?shopLabel\('Spune o comandă/);
 assert.match(inline,/shopButton\('🎙 Comenzi vocale','🎙 Voice commands'\)/);
 const migrated=evalIn("shopNormalizeData({items:[{id:'milk',name:'Lapte',checked:true,checkedAt:'2026-11-05T12:00:00Z'},{id:'bread',name:'Pâine',checked:false}],history:[{finishedAt:'2026-11-04T12:00:00Z',items:[{name:'Cartofi',checked:false}]}]})");
 assert.equal(migrated.currentName,'Lista mea');

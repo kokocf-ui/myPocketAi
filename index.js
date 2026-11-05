@@ -2344,7 +2344,7 @@ function shopVoiceRenderStatus(){
  const status=document.querySelector('.shop-voice-status');
  if(status){status.textContent=session?.active?
   (session.status==='starting'?shopLabel('Pornesc microfonul… ','Starting microphone… '):session.status==='restarting'?shopLabel('Reiau ascultarea… ','Resuming microphone… '):shopLabel('Ascult… ','Listening… '))+[...session.parts,session.partial].filter(Boolean).join(' ').slice(-160):
-  shopLabel('Apasă microfonul pentru dictare continuă.','Tap the microphone for continuous dictation.')}
+  shoppingMode==='active'?shopLabel('Spune o comandă; se aplică automat când ai terminat.','Say a command; it applies when recognized.'):shopLabel('Apasă microfonul pentru dictare continuă.','Tap the microphone for continuous dictation.')}
 }
 function shopVoiceClearWatchdog(session){
  if(session?.watchdog!=null){clearTimeout(session.watchdog);session.watchdog=null}
@@ -2393,7 +2393,7 @@ function shopVoiceListen(){
   for(let i=0;i<event.results.length;i++){
    const text=String(event.results[i][0]?.transcript||'').trim();
    if(event.results[i].isFinal&&text&&!session.seen.has(i)){
-    session.seen.add(i);shopVoiceAccept(text);
+    session.seen.add(i);shopVoiceAccept(text,true);
    }else if(!event.results[i].isFinal)preview=text;
   }
   if(session.active){session.partial=preview;shopVoiceRenderStatus()}
@@ -2405,7 +2405,7 @@ function shopVoiceListen(){
   session.timer=setTimeout(()=>{if(session.active)shopVoiceListen()},250)};
  try{rec.start()}catch{shopVoiceStop();notify(shopLabel('Nu am putut porni microfonul.','Could not start microphone.'))}
 }
-function shopVoiceAccept(text){
+function shopVoiceAccept(text,isFinal=false){
  const session=shoppingVoiceSession;if(!session?.active)return;
  const ending=shopVoiceEnd(text);
  const phrase=ending.text.trim();
@@ -2419,7 +2419,8 @@ function shopVoiceAccept(text){
   session.partial='';
  }
  shopVoiceRenderStatus();
- if(ending.ended){
+ if(ending.ended||(session.kind==='actions'&&isFinal&&phrase)){
+  // A completed action is itself the terminator: no spoken «Atât» required.
   shopVoiceStop();
   if(ending.showList){
    shoppingMode='active';shoppingPendingAction=null;shoppingEditingId=null;
@@ -2588,7 +2589,7 @@ function shopVoiceHandleAndroid(data){
  if(data.status==='partial'){session.status='listening';session.missed=0;shopVoiceWatchdog(session);session.partial=String(data.text||'').trim();shopVoiceRenderStatus();return true}
  if(data.status==='recognized'){
   shopVoiceClearWatchdog(session);session.status='restarting';session.retries=0;session.missed=0;session.partial='';
-  shopVoiceAccept(String(data.text||''));
+  shopVoiceAccept(String(data.text||''),true);
   if(session.active){
    shopVoiceRestart(session,450);
   }
