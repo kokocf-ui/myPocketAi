@@ -2198,7 +2198,7 @@ function renderShoppingList(){
  const history=document.createElement('div');history.className='shop-history';
  if(!data.history.length){const empty=document.createElement('small');
   empty.textContent=shopLabel('Nu există liste arhivate încă.','No archived lists yet.');history.append(empty)}
- data.history.forEach(entry=>{
+ data.history.forEach((entry,historyIndex)=>{
   const details=document.createElement('details');
   const summary=document.createElement('summary');
   const stamp=entry.finishedAt?new Date(entry.finishedAt):null;
@@ -2211,10 +2211,10 @@ function renderShoppingList(){
    line.textContent=(i.checked?'☑ ':'☐ ')+i.name+(i.quantity?' · '+i.quantity+' '+i.unit:'');
    details.append(line)}
   const buttons=document.createElement('div');buttons.className='shop-history-actions';
-  const copy=shopButton('Reutilizează toate','Reuse all');
-  copy.onclick=()=>{data.items.push(...entry.items.map(i=>shopNewItem(i.name,i.quantity,i.unit)));shopSaveAndRender(data)};
-  const pending=shopButton('Adaugă necumpărate','Add unbought');
-  pending.onclick=()=>{data.items.push(...entry.items.filter(i=>!i.checked).map(i=>shopNewItem(i.name,i.quantity,i.unit)));shopSaveAndRender(data)};
+  const copy=shopButton('Listă nouă din aceasta','New list from this');
+  copy.onclick=()=>{shoppingPendingAction={type:'reuse',historyIndex,onlyUnchecked:false};renderShoppingList()};
+  const pending=shopButton('Listă din necumpărate','New list of unbought');
+  pending.onclick=()=>{shoppingPendingAction={type:'reuse',historyIndex,onlyUnchecked:true};renderShoppingList()};
   buttons.append(copy,pending);details.append(buttons);history.append(details);
  });
  scroll.append(history);
@@ -2229,6 +2229,32 @@ function renderShoppingList(){
  finish.disabled=!data.items.length;
  finish.onclick=()=>{shoppingPendingAction={type:'finish'};renderShoppingList()};
  footer.append(finish);panel.append(footer);
+ if(shoppingPendingAction?.type==='reuse'){
+  const entry=data.history[shoppingPendingAction.historyIndex];
+  const onlyUnchecked=shoppingPendingAction.onlyUnchecked===true;
+  const selected=entry?.items.filter(i=>!onlyUnchecked||!i.checked)||[];
+  const confirm=document.createElement('div');confirm.className='shop-inline-confirm';
+  const explanation=document.createElement('p');
+  explanation.textContent=shopLabel(
+   'Creezi o listă nouă din „'+(entry?.name||'')+'” ('+selected.length+' produse). Lista curentă va fi arhivată fără modificarea bifelor.',
+   'Create a new list from “'+(entry?.name||'')+'” ('+selected.length+' items). The current list will be archived without changing checks.'
+  );
+  confirm.append(explanation);
+  const buttons=document.createElement('div');buttons.className='adaptive-fields';
+  const approve=shopButton('Confirmă lista nouă','Confirm new list','primary-btn');
+  approve.disabled=!entry||selected.length===0;
+  approve.onclick=()=>{
+   if(!entry||!selected.length)return;
+   const items=selected.map(i=>shopNewItem(i.name,i.quantity,i.unit));
+   if(data.items.length)shopArchive(data,'replaced',false,entry.name);
+   else data.currentName=entry.name;
+   data.items=items;shoppingPendingAction=null;shoppingEditingId=null;
+   shopSaveAndRender(data,false);
+  };
+  const cancel=shopButton('Renunță','Cancel');cancel.onclick=()=>{shoppingPendingAction=null;renderShoppingList()};
+  buttons.append(approve,cancel);confirm.append(buttons);
+  footer.replaceChildren(confirm);footer.classList.add('adaptive-workspace__actions--confirm');
+ }
  if(shoppingPendingAction?.type==='finish'){
   const confirm=document.createElement('div');confirm.className='shop-inline-confirm';
   const desc=document.createElement('p');
