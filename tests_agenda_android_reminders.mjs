@@ -18,8 +18,16 @@ assert.match(manifest,/AgendaReminderReceiver/);
 assert.match(main,/WEB_MESSAGE_LISTENER[\s\S]*?"PocketAndroidAgenda"/);
 assert.match(main,/ensureAgendaNotificationPermission\(\)/);
 assert.match(alarms,/setAndAllowWhileIdle/);
-assert.match(alarms,/event\.minusHours\(2\)/);
+assert.match(alarms,/event\.minusMinutes\(minutes\)/);
 assert.match(alarms,/LocalTime\.of\(19,0\)/);
 assert.match(alarms,/birthdayOccurrence/);
+for(const preset of ['flight','train','medical','exam','bill','hotel','meeting','default']){
+ assert.match(alarms,new RegExp('case "'+preset+'"|return "'+preset+'"'));
+}
+assert.match(alarms,/case "flight":return new long\[\]\{1440,300\}/);
+assert.match(alarms,/case "exam":return new long\[\]\{10080,1440,120\}/);
+assert.match(alarms,/event\.getYear\(\)/,'birthday annual alarms distinguish years');
+assert.match(app,/function agendaReminderPreset\(title\)/);
+assert.match(app,/reminderPreset:preset\.value==='auto'/);
 assert.match(receiver,/reschedule\(context\)/);
 console.log('PASS agenda: native bridge, reminders, reboot restoration and permissions');

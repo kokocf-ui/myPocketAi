@@ -22,6 +22,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 /** Resilient device reminders. No network or background WebView required. */
@@ -40,6 +41,43 @@ public final class AgendaReminderScheduler {
             context.getSharedPreferences(PREFS,Context.MODE_PRIVATE).edit().putString(CONTENT,events.toString()).apply();
             reschedule(context);
         }catch(Exception ignored){}
+    }
+
+    /** Category presets are advisory, not airline or medical-provider instructions.
+     * Offsets refer to event start time and do not imply check-in opens then. */
+    static String eventPreset(JSONObject e){
+        if("birthday".equals(e.optString("kind","")))return "birthday";
+        String configured=e.optString("reminderPreset","").trim().toLowerCase(Locale.ROOT);
+        switch(configured){
+            case "flight":case "train":case "medical":case "exam":case "bill":
+            case "hotel":case "meeting":case "default":return configured;
+        }
+        String text=e.optString("title","").toLowerCase(Locale.ROOT);
+        if(text.matches("(?s).*(\\bflight\\b|\\bairport\\b|\\bzbor\\b|\\baeroport\\b|\\bavion\\b).*"))return "flight";
+        if(text.matches("(?s).*(\\btrain\\b|\\btren\\b|\\bautocar\\b|\\bcoach\\b).*"))return "train";
+        if(text.matches("(?s).*(\\bdentist\\b|\\bdoctor\\b|\\bmedic\\b|\\bspital\\b|\\bclinica\\b|\\bhospital\\b).*"))return "medical";
+        if(text.matches("(?s).*(\\bexamen\\b|\\bexam\\b|\\binterviu\\b|\\binterview\\b).*"))return "exam";
+        if(text.matches("(?s).*(\\bfactura\\b|\\bfactură\\b|\\bpayment\\b|\\bscadenta\\b|\\bscadență\\b|\\bbill\\b).*"))return "bill";
+        if(text.matches("(?s).*(\\bhotel\\b|\\bcazare\\b|\\bcheck-in hotel\\b).*"))return "hotel";
+        if(text.matches("(?s).*(\\bsedinta\\b|\\bședință\\b|\\bmeeting\\b|\\bintalnire\\b|\\bîntâlnire\\b).*"))return "meeting";
+        return "default";
+    }
+
+    static long[] leadMinutes(String preset){
+        switch(preset){
+            case "flight":return new long[]{1440,300};
+            case "train":return new long[]{60};
+            case "exam":return new long[]{10080,1440,120};
+            case "bill":return new long[]{10080,1440};
+            case "hotel":return new long[]{1440,120};
+            case "meeting":return new long[]{30};
+            default:return new long[]{120};
+        }
+    }
+
+    static boolean eveningReminder(String preset){
+        return "default".equals(preset)||"medical".equals(preset)||
+            "train".equals(preset)||"meeting".equals(preset)||"birthday".equals(preset);
     }
 
     static void reschedule(Context context){
@@ -77,16 +115,23 @@ public final class AgendaReminderScheduler {
                     catch(Exception ex){continue;}
                     if(event.isBefore(now))continue;
                 }
-                // Previous evening at 19:00 local time and two hours beforehand.
-                ZonedDateTime evening=ZonedDateTime.of(event.toLocalDate().minusDays(1),LocalTime.of(19,0),ZoneId.systemDefault());
-                ZonedDateTime twoHours=event.minusHours(2);
-                scheduleFuture(context,alarm,keys,id,"evening",title,event,evening,now,birthday);
-                scheduleFuture(context,alarm,keys,id,"two-hours",title,event,twoHours,now,birthday);
+                String preset=eventPreset(e);
+                if(eveningReminder(preset)){
+                    ZonedDateTime evening=ZonedDateTime.of(event.toLocalDate().minusDays(1),LocalTime.of(19,0),ZoneId.systemDefault());
+                    scheduleFuture(context,alarm,keys,id,"evening",title,event,evening,now,birthday);
+                }
+                for(long minutes:leadMinutes(preset)){
+                    scheduleFuture(context,alarm,keys,id,"before-"+minutes,title,event,event.minusMinutes(minutes),now,birthday);
+                }
                 if(birthday){
-                    // Once this year's reminder has elapsed, prepare next year's same reminder.
+                    // Annual birthday at 09:00 local on Feb 28 during non-leap years.
+                    // If today's reminders have passed, queue the following year.
                     ZonedDateTime next=birthdayOccurrence(event.getYear()+1,e.optInt("birthdayMonth"),e.optInt("birthdayDay"),ZoneId.systemDefault());
-                    if(!evening.isAfter(now))scheduleFuture(context,alarm,keys,id,"evening",title,next,ZonedDateTime.of(next.toLocalDate().minusDays(1),LocalTime.of(19,0),ZoneId.systemDefault()),now,true);
-                    if(!twoHours.isAfter(now))scheduleFuture(context,alarm,keys,id,"two-hours",title,next,next.minusHours(2),now,true);
+                    if(eveningReminder(preset))scheduleFuture(context,alarm,keys,id,"evening",title,next,
+                        ZonedDateTime.of(next.toLocalDate().minusDays(1),LocalTime.of(19,0),ZoneId.systemDefault()),now,true);
+                    for(long minutes:leadMinutes(preset)){
+                        scheduleFuture(context,alarm,keys,id,"before-"+minutes,title,next,next.minusMinutes(minutes),now,true);
+                    }
                 }
             }
         }catch(Exception ignored){}
@@ -107,11 +152,12 @@ public final class AgendaReminderScheduler {
 
     private static void scheduleFuture(Context context,AlarmManager alarm,Set<String> keys,String id,String type,String title,ZonedDateTime event,ZonedDateTime trigger,ZonedDateTime now,boolean birthday){
         if(!trigger.isAfter(now))return;
-        String key=id+":"+type;
+        String key=id+":"+event.getYear()+":"+type;
         Intent intent=new Intent(context,AgendaReminderReceiver.class);
         intent.putExtra("title",title);
         intent.putExtra("type",type);
         intent.putExtra("birthday",birthday);
+        intent.putExtra("minutesBefore",type.startsWith("before-")?Long.parseLong(type.substring(7)):0L);
         intent.putExtra("eventAt",event.toInstant().toEpochMilli());
         PendingIntent pi=pending(context,key,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         // Inexact while-idle alarms work without Android's restricted exact-alarm permission.
@@ -127,7 +173,12 @@ public final class AgendaReminderScheduler {
         boolean birthday=intent.getBooleanExtra("birthday",false);
         String title=intent.getStringExtra("title");if(title==null||title.isEmpty())return;
         String type=intent.getStringExtra("type");
-        String message="evening".equals(type)?"Mâine: ":"În aproximativ două ore: ";
+        long minutes=intent.getLongExtra("minutesBefore",0L);
+        String message;
+        if("evening".equals(type))message="Mâine: ";
+        else if(minutes>=1440)message="Peste "+(minutes/1440)+" zile: ";
+        else if(minutes>=60)message="Peste aproximativ "+(minutes/60)+" ore: ";
+        else message="Peste aproximativ "+minutes+" minute: ";
         if(birthday)message="evening".equals(type)?"Mâine este ziua de naștere: ":"Astăzi este ziua de naștere: ";
         Intent open=new Intent(context,AvatarLaunchActivity.class);
         open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
