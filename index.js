@@ -1307,10 +1307,10 @@ body.long-choice-active{overflow:hidden}
 </style>
 <section class="view" id="view-assistant"><div class="assistant-actions"><button class="back-btn" data-back>← Acasă</button><button class="secondary-btn" id="newChatBtn">＋ Conversație nouă</button></div><h2 class="section-title">Asistent AI</h2><p class="section-lead">Scrie sau vorbește cu myPocket AI.</p><div class="chat-shell" id="sharedChatShell"><div class="chat-top"><strong>Conversație</strong><button class="round-control" id="dictationBtn" aria-label="Dictare vocală" title="Dictare vocală" aria-pressed="false">🎙️</button><button class="round-control" id="voiceBtn" aria-label="Conversație vocală" title="Conversație vocală" aria-pressed="false">🎧</button><button class="round-control" id="listenBtn" aria-label="Ascultă ultimul răspuns" title="Ascultă răspunsul">🔊</button></div><div class="messages" id="messages" aria-live="polite"><div class="empty-state">Cu ce te pot ajuta?<br><span class="small">Scrie o întrebare în română sau engleză.</span></div></div><div class="chat-status" id="chatStatus" role="status">Gata de conversație.</div><form class="chat-form" id="chatForm"><textarea id="messageInput" rows="1" maxlength="4000" placeholder="" aria-label="Mesaj pentru myPocket AI" required></textarea><button class="send-btn" id="sendBtn" aria-label="Trimite mesajul" type="submit">➤</button></form></div><div id="chatHomePlaceholder"></div></section>
 <style>
-#view-module.learning-choose,#view-module.learning-active{overflow-y:auto!important}
-#view-module.learning-choose #moduleContent,#view-module.learning-active #moduleContent{display:block!important;max-height:none!important;overflow:visible!important}
+#view-module.learning-active{overflow-y:auto!important}
+#view-module.learning-active #moduleContent{display:block!important;max-height:none!important;overflow:visible!important}
 #view-module.learning-choose #moduleChatHost{display:none!important}
-#view-module.learning-choose .section-lead,#view-module.learning-active .section-lead{display:block!important}
+#view-module.learning-active .section-lead{display:block!important}
 .education-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:7px 0 18px}
 .education-card{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:7px;min-width:0;min-height:150px;padding:13px;border:2px solid #3fabc2;border-radius:23px;background:linear-gradient(160deg,#154a67,#092538 45%,#071626);color:#f2faff;box-shadow:inset 0 3px 0 #4186ac,0 5px 0 #04111e}
 .education-card .education-art{font-size:31px;align-self:center;line-height:1.4}
@@ -1324,66 +1324,126 @@ body.long-choice-active{overflow:hidden}
 .education-photo-panel textarea{width:100%;min-height:90px;padding:10px;border-radius:8px;background:#081725;color:#f2faff;border:1px solid #548199}
 @media(max-width:350px){.education-grid{gap:8px}.education-card{padding:10px;min-height:158px}}
 </style>
-<style id="education-mobile-layout-v2">
-/* Education chooses subjects without the generic quick-search action. */
-#view-module.learning-choose .module-actions-row #moduleQuickTrigger,
-#view-module.learning-active .module-actions-row #moduleQuickTrigger{display:none!important}
-#view-module.learning-choose .section-lead{display:none!important}
+<style id="education-responsive-layout">
+/* One source of truth for Education's subject-selection screen.
+   The available space is provided by the actual flex viewport, not an
+   estimated 285px header. Only the eight subject cards are fixed to one
+   viewport; lessons and OCR remain free to scroll normally. */
+main.page:has(#view-module.learning-choose.active){
+ overflow-x:hidden!important;overflow-y:hidden!important;
+ padding:clamp(5px,0.9dvh,10px) 12px calc(108px + env(safe-area-inset-bottom,0px))!important;
+}
 #view-module.learning-choose.active{
- height:calc(100dvh - 285px)!important;
- max-height:calc(100dvh - 285px)!important;
- min-height:0!important;
- overflow-y:auto!important;
- overflow-x:hidden!important;
- overscroll-behavior-y:contain;
- -webkit-overflow-scrolling:touch;
- padding-bottom:96px!important;
+ display:grid!important;
+ grid-template-columns:minmax(106px,0.82fr) minmax(0,1.18fr)!important;
+ grid-template-rows:auto minmax(0,1fr)!important;
+ column-gap:clamp(9px,2.6vw,16px)!important;
+ row-gap:clamp(6px,1dvh,11px)!important;
+ width:100%!important;height:100%!important;max-height:100%!important;
+ min-height:0!important;margin:0!important;padding:0!important;
+ overflow:hidden!important;align-content:stretch!important;
  box-sizing:border-box!important;
 }
-#view-module.learning-choose .module-actions-row{margin-bottom:5px!important}
-#view-module.learning-choose .module-home-btn{min-height:40px!important}
-#view-module.learning-choose .module-heading-row{margin:0 0 5px!important}
-#view-module.learning-choose #moduleContent{display:block!important;max-height:none!important;overflow:visible!important;flex:none!important}
+/* display:contents lets the Home button and heading become neighboring
+   grid cells without moving the DOM (other modules stay untouched). */
+#view-module.learning-choose .module-actions-row{
+ display:contents!important;margin:0!important;
+}
+#view-module.learning-choose .module-actions-row #moduleQuickTrigger,
+#view-module.learning-active .module-actions-row #moduleQuickTrigger{
+ display:none!important;
+}
+#view-module.learning-choose .module-home-btn{
+ grid-column:1!important;grid-row:1!important;
+ width:100%!important;max-width:none!important;min-width:0!important;
+ min-height:clamp(48px,7dvh,60px)!important;
+ height:100%!important;margin:0!important;
+ padding:8px 10px!important;
+ display:flex!important;justify-content:center!important;align-items:center!important;
+ align-self:stretch!important;
+ font-size:clamp(12px,3.4vw,16px)!important;
+}
+#view-module.learning-choose .module-heading-row{
+ grid-column:2!important;grid-row:1!important;
+ display:flex!important;align-items:center!important;justify-content:flex-start!important;
+ min-height:0!important;min-width:0!important;align-self:stretch!important;
+ margin:0!important;padding:0!important;
+}
+#view-module.learning-choose .module-heading-row .section-title{
+ margin:0!important;padding:0!important;
+ font-size:clamp(18px,4.6vw,24px)!important;
+ font-weight:800!important;line-height:1.12!important;
+ overflow-wrap:break-word!important;
+ text-align:left!important;hyphens:auto;
+}
+#view-module.learning-choose .section-lead,
+#view-module.learning-choose #moduleChatHost,
+#view-module.learning-choose #askModuleBtn{
+ display:none!important;
+}
+#view-module.learning-choose #moduleContent{
+ grid-column:1/-1!important;grid-row:2!important;
+ display:block!important;flex:none!important;
+ width:100%!important;height:100%!important;max-height:100%!important;
+ min-height:0!important;margin:0!important;padding:0!important;
+ overflow:hidden!important;
+}
 #view-module.learning-choose .education-grid{
- display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
- gap:9px!important;padding:2px 0 7px!important;
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:repeat(4,minmax(0,1fr))!important;
+ width:100%!important;height:100%!important;min-height:0!important;
+ gap:clamp(6px,1dvh,10px)!important;
+ margin:0!important;padding:2px 0 4px!important;
+ overflow:hidden!important;
 }
 #view-module.learning-choose .education-card{
- box-sizing:border-box!important;min-height:112px!important;height:auto!important;
- padding:8px 10px!important;gap:3px!important;border-radius:18px!important;
- display:flex!important;justify-content:center!important;
+ display:flex!important;flex-direction:column!important;justify-content:center!important;
+ height:100%!important;min-height:0!important;max-height:100%!important;
+ min-width:0!important;overflow:hidden!important;
+ gap:clamp(2px,.45dvh,5px)!important;
+ padding:clamp(6px,1dvh,10px) clamp(7px,2vw,12px)!important;
+ border-radius:clamp(14px,3vw,20px)!important;
 }
-#view-module.learning-choose .education-art{font-size:25px!important;line-height:1.15!important}
-#view-module.learning-choose .education-card strong{font-size:clamp(12px,3.55vw,15px)!important;line-height:1.2!important}
-#view-module.learning-choose .education-card small{font-size:clamp(10px,2.9vw,12px)!important;line-height:1.24!important}
+#view-module.learning-choose .education-art{
+ font-size:clamp(21px,3.7dvh,29px)!important;
+ line-height:1.05!important;flex:0 0 auto!important;
+}
+#view-module.learning-choose .education-card strong{
+ font-size:clamp(12px,3.5vw,16px)!important;
+ line-height:1.16!important;
+}
+#view-module.learning-choose .education-card small{
+ font-size:clamp(10px,2.8vw,13px)!important;
+ line-height:1.2!important;
+}
+/* Active subject details, exercises, camera and OCR are content pages;
+   preserve their scrolling instead of clipping longer explanations. */
 #view-module.learning-active.active{
  overflow-y:auto!important;max-height:calc(100dvh - 285px)!important;
  padding-bottom:96px!important;box-sizing:border-box!important;
 }
-#view-module.learning-active #moduleQuickTrigger{display:none!important}
-@media(max-width:350px){
- #view-module.learning-choose .education-grid{gap:6px!important}
- #view-module.learning-choose .education-card{padding:7px!important;min-height:116px!important}
+/* At very short heights or very narrow widths, preserve legibility and
+   accessibility rather than cropping buttons or descriptions. */
+@media (max-height:600px), (max-width:320px){
+ main.page:has(#view-module.learning-choose.active){
+  overflow-y:auto!important;
+ }
+ #view-module.learning-choose.active{
+  height:auto!important;max-height:none!important;overflow:visible!important;
+  grid-template-rows:auto auto!important;
+ }
+ #view-module.learning-choose #moduleContent{
+  height:auto!important;max-height:none!important;overflow:visible!important;
+ }
+ #view-module.learning-choose .education-grid{
+  height:auto!important;grid-template-rows:repeat(4,minmax(104px,auto))!important;
+  overflow:visible!important;
+ }
+ #view-module.learning-choose .education-card{
+  min-height:104px!important;max-height:none!important;overflow:visible!important;
+ }
 }
-</style>
-<style id="education-mobile-layout-v3">
-/* The main page owns scrolling; do not place a second, fixed-height scroll box
-   inside it. A nested scroller was clipping the last two subject cards. */
-main.page:has(#view-module.learning-choose.active){
- overflow-y:auto!important;overscroll-behavior-y:contain!important;
- padding-bottom:calc(115px + env(safe-area-inset-bottom))!important;
-}
-#view-module.learning-choose.active{
- height:auto!important;max-height:none!important;min-height:0!important;
- overflow:visible!important;padding:0 0 24px!important;
- display:block!important;box-sizing:border-box!important;
-}
-#view-module.learning-choose #moduleContent{
- display:block!important;height:auto!important;max-height:none!important;
- overflow:visible!important;
-}
-#view-module.learning-choose .education-grid{padding-bottom:18px!important;}
-#view-module.learning-choose .education-card{min-height:112px!important;}
 </style>
 
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
