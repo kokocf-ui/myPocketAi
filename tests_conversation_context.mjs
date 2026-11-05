@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import {contextualResearchQuery} from "./conversation_context.mjs";
+import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 const h=(...t)=>t.map(content=>({role:"user",content}));
 for(const [q,history,expected,contains] of [
  ["Salariul este brut sau net?",h("Care este salariul mediu în Dubai?"),true,"Dubai"],
@@ -24,3 +24,11 @@ for(const [q,history,expected,contains] of [
 const prior=[...h("Care este salariul mediu în Dubai?"),{role:"assistant",content:"Salariul este în România."},{role:"user",content:"Este brut sau net?"}];
 assert.ok(contextualResearchQuery("Este brut sau net?",prior).query.includes("Dubai"));
 console.log("PASS contextual research follow-ups");
+
+for(const text of ["Nu ai înțeles întrebarea.","Nu asta am cerut.","Ai greșit răspunsul.","Vorbești prea mult!","Răspunde mai pe scurt.","Glumeam 😂","Ești tare amuzantă!","Îmi place personalitatea ta.","You misunderstood me.","Please be concise.","I was joking."]){
+ assert.equal(isConversationOnlyTurn(text),true,text);
+}
+for(const text of ["Nu ai înțeles știrile de ieri.","Ai greșit: salariul este 4500.","Verifică sursele de știri.","Cât costă un taxi?","Ce evenimente sunt în Oradea?","Ce părere ai despre Brexit?","Salariul este brut sau net?","Care este vremea azi?"]){
+ assert.equal(isConversationOnlyTurn(text),false,text);
+}
+console.log("PASS dialogue-only corrections and personality feedback");
