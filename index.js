@@ -1366,6 +1366,47 @@ main.page:has(#view-module.organize-choose.active){overflow-x:hidden!important;o
  #view-module.organize-choose .education-card{min-height:104px!important;max-height:none!important;overflow:visible!important}
 }
 </style>
+<style id="extra-tools-responsive-layout">
+/* Organisation reuses the approved Education layout. */
+main.page:has(#view-module.extra-tools-choose.active){overflow-x:hidden!important;overflow-y:hidden!important;padding:clamp(5px,.9dvh,10px) 12px calc(108px + env(safe-area-inset-bottom,0px))!important}
+#view-module.extra-tools-choose.active{display:grid!important;grid-template-columns:minmax(106px,.82fr) minmax(0,1.18fr)!important;grid-template-rows:auto minmax(0,1fr)!important;column-gap:clamp(9px,2.6vw,16px)!important;row-gap:clamp(6px,1dvh,11px)!important;width:100%!important;height:100%!important;max-height:100%!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+#view-module.extra-tools-choose .module-actions-row{display:contents!important;margin:0!important}
+#view-module.extra-tools-choose #moduleQuickTrigger,#view-module.extra-tools-active #moduleQuickTrigger{display:none!important}
+#view-module.extra-tools-choose .module-home-btn{grid-column:1!important;grid-row:1!important;width:100%!important;max-width:none!important;min-width:0!important;min-height:clamp(48px,7dvh,60px)!important;height:100%!important;margin:0!important;padding:8px 10px!important;display:flex!important;justify-content:center!important;align-items:center!important;align-self:stretch!important;font-size:clamp(12px,3.4vw,16px)!important}
+#view-module.extra-tools-choose .module-heading-row{grid-column:2!important;grid-row:1!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;min-height:0!important;min-width:0!important;align-self:stretch!important;margin:0!important;padding:0!important}
+#view-module.extra-tools-choose .module-heading-row .section-title{margin:0!important;padding:0!important;font-size:clamp(18px,4.6vw,24px)!important;font-weight:800!important;line-height:1.12!important;overflow-wrap:break-word!important;text-align:left!important;hyphens:auto}
+#view-module.extra-tools-choose .section-lead,#view-module.extra-tools-choose #moduleChatHost,#view-module.extra-tools-choose #askModuleBtn{display:none!important}
+#view-module.extra-tools-choose #moduleContent{grid-column:1/-1!important;grid-row:2!important;display:block!important;flex:none!important;width:100%!important;height:100%!important;max-height:100%!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+#view-module.extra-tools-choose .education-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(4,minmax(0,1fr))!important;width:100%!important;height:100%!important;min-height:0!important;gap:clamp(6px,1dvh,10px)!important;margin:0!important;padding:2px 0 4px!important;overflow:hidden!important}
+#view-module.extra-tools-choose .education-card{display:flex!important;flex-direction:column!important;justify-content:center!important;height:100%!important;min-height:0!important;max-height:100%!important;min-width:0!important;overflow:hidden!important;gap:clamp(2px,.45dvh,5px)!important;padding:clamp(6px,1dvh,10px) clamp(7px,2vw,12px)!important;border-radius:clamp(14px,3vw,20px)!important}
+#view-module.extra-tools-choose .education-art{font-size:clamp(21px,3.7dvh,29px)!important;line-height:1.05!important;flex:0 0 auto!important}
+#view-module.extra-tools-choose .education-card strong{font-size:clamp(12px,3.5vw,16px)!important;line-height:1.16!important}
+#view-module.extra-tools-choose .education-card small{font-size:clamp(10px,2.8vw,13px)!important;line-height:1.2!important}
+#view-module.extra-tools-active.active{overflow-y:auto!important;max-height:calc(100dvh - 285px)!important;padding-bottom:96px!important;box-sizing:border-box!important}
+#view-module.extra-tools-active #moduleContent{display:block!important;flex:1 1 auto!important;max-height:none!important;overflow:visible!important}
+#view-module.extra-tools-active #moduleChatHost{display:none!important}
+#view-module.extra-tools-chat #moduleContent{display:none!important}
+#view-module.extra-tools-chat #moduleChatHost{display:flex!important}
+.extra-tools-panel{display:flex;flex-direction:column;gap:12px;padding:8px 0 25px}
+.extra-tools-panel .education-toolbar{align-items:center}
+.extra-tools-panel .extra-tools-fields{display:flex;gap:8px;flex-wrap:wrap}
+.extra-tools-panel input[type=text]{flex:1 1 150px;min-width:0;background:#081725;color:#f2faff;border:1px solid #548199;border-radius:10px;padding:11px}
+.extra-tools-panel button{min-height:42px}
+.extra-tools-shop-row{display:flex;align-items:center;gap:10px;padding:11px 8px;border-bottom:1px solid #355164}
+.extra-tools-shop-row label{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.extra-tools-shop-row input{width:21px;height:21px;accent-color:#24c6c9}
+.extra-tools-shop-row .done{text-decoration:line-through;opacity:.7}
+.extra-tools-shop-row .remove{min-height:32px;padding:5px 8px}
+.extra-tools-history{display:flex;flex-direction:column;gap:8px}
+.extra-tools-history details{border:1px solid #3c6076;border-radius:10px;padding:10px}
+@media (max-height:600px), (max-width:320px){
+ main.page:has(#view-module.extra-tools-choose.active){overflow-y:auto!important}
+ #view-module.extra-tools-choose.active{height:auto!important;max-height:none!important;overflow:visible!important;grid-template-rows:auto auto!important}
+ #view-module.extra-tools-choose #moduleContent{height:auto!important;max-height:none!important;overflow:visible!important}
+ #view-module.extra-tools-choose .education-grid{height:auto!important;grid-template-rows:repeat(4,minmax(104px,auto))!important;overflow:visible!important}
+ #view-module.extra-tools-choose .education-card{min-height:104px!important;max-height:none!important;overflow:visible!important}
+}
+</style>
 <style id="education-responsive-layout">
 /* One source of truth for Education's subject-selection screen.
    The available space is provided by the actual flex viewport, not an
@@ -1692,6 +1733,56 @@ function selectedPlaceForRoute(message){
 }
 
 
+
+const EXTRA_TOOLS_CATEGORIES=[
+ ['documents','📄','Documente și PDF','Documents and PDF','Creare, citire, editare și conversie.','Create, read, edit and convert documents.','Ajută-mă cu un document sau PDF. Spune-mi ce informații ai nevoie și ce operațiuni sunt disponibile.'],
+ ['ocr','📷','Scanare și OCR','Scanning and OCR','Fotografiere și extragere de text.','Scan documents and extract text.','Vreau să extrag text dintr-o imagine sau document.'],
+ ['translate','🌐','Traduceri inteligente','Smart translation','Texte, documente și conversații.','Text, documents and conversations.','Ajută-mă să traduc corect un text. Întreabă-mă limba țintă dacă nu este clară.'],
+ ['images','🖼️','Imagini și design','Images and design','Creare, editare și analiză.','Create, edit and analyse images.','Ajută-mă să concep sau să analizez o imagine.'],
+ ['analysis','📊','Analiză și calcule','Analysis and calculations','Tabele, grafice și statistici.','Tables, charts and statistics.','Ajută-mă cu analiza datelor sau un calcul.'],
+ ['audio','🎙️','Audio și transcriere','Audio and transcription','Dictare, transcriere și voce.','Dictation, transcription and speech.','Ajută-mă să transcriu sau să redactez dintr-un mesaj audio.'],
+ ['web','🔗','Linkuri și pagini web','Links and web pages','Analiză, rezumate și verificare.','Analyse, summarise and verify links.','Ajută-mă să analizez o pagină web sau un link.'],
+ ['ideas','💡','Idei și proiecte','Ideas and projects','Planuri, soluții și creativitate.','Plans, solutions and creativity.','Ajută-mă să dezvolt o idee sau un proiect.']
+];
+function renderExtraToolsChoices(){
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('extra-tools-active','extra-tools-chat');root.classList.add('extra-tools-choose');
+ host.replaceChildren();
+ const grid=document.createElement('div');grid.className='education-grid';
+ EXTRA_TOOLS_CATEGORIES.forEach(cat=>{
+  const button=document.createElement('button');button.type='button';button.className='education-card';
+  const art=document.createElement('span');art.className='education-art';art.textContent=cat[1];
+  const name=document.createElement('strong');name.textContent=learningLabel(cat[2],cat[3]);
+  const info=document.createElement('small');info.textContent=learningLabel(cat[4],cat[5]);
+  button.append(art,name,info);button.onclick=()=>openExtraTool(cat[0]);grid.append(button);
+ });
+ host.append(grid);$('moduleLead').textContent='';
+}
+function openExtraTool(key){
+ const cat=EXTRA_TOOLS_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('extra-tools-choose','extra-tools-chat');root.classList.add('extra-tools-active');
+ host.replaceChildren();
+ const panel=document.createElement('div');panel.className='extra-tools-panel';
+ const bar=document.createElement('div');bar.className='education-toolbar';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← Instrumente','← Tools');back.onclick=renderExtraToolsChoices;
+ const title=document.createElement('strong');title.textContent=cat[1]+' '+learningLabel(cat[2],cat[3]);bar.append(back,title);panel.append(bar);
+ const desc=document.createElement('p');desc.textContent=learningLabel(cat[4],cat[5]);panel.append(desc);
+ const hint=document.createElement('p');
+ hint.textContent=learningLabel('Descrie ce ai nevoie. Pocket AI va folosi funcțiile disponibile și îți va spune când o operațiune nu este încă implementată.','Describe what you need. Pocket AI will use available functions and identify unsupported operations.');
+ panel.append(hint);
+ const start=document.createElement('button');start.type='button';start.className='primary-btn';
+ start.textContent=learningLabel('Începe cu Pocket AI','Start with Pocket AI');
+ start.onclick=()=>{
+  root.classList.remove('extra-tools-active');root.classList.add('extra-tools-chat');
+  inputEl.placeholder=learningLabel('Ce dorești să faci?','What would you like to do?');
+  inputEl.value=state.language==='ro'?cat[6]:'';
+  inputEl.focus();
+ };
+ panel.append(start);host.append(panel);
+}
+
 const ORGANIZE_CATEGORIES=[
  ['calendar','📅','Calendar și evenimente','Calendar and events','Programări, întâlniri și aniversări.','Appointments, meetings and birthdays.'],
  ['tasks','✅','Sarcini și obiective','Tasks and goals','Liste, priorități și progres.','To-dos, priorities and progress.'],
@@ -1884,7 +1975,7 @@ async function handleLearningPhoto(file){
   else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
  } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
 }
-function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();}
+function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'}],travel:[{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante, pizzerii, shaormerii și fast-food în apropierea mea.',kind:'places',description:'Caută restaurante, pub-uri, pizzerii, shaormerii și fast-food'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places',description:'Caută alte puncte de interes din apropiere'}]};
 function updateQuickLayerGeometry(){
  const header=document.querySelector('.app-header'),nav=document.querySelector('.bottom-nav');
