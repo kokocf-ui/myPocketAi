@@ -115,7 +115,12 @@ assert.equal(purchased.items[0].quantity,'10');
 assert.equal(purchased.items[1].quantity,'6');
 assert.equal(evalIn("shopVoiceApplyAction('arhivează lista',mergedCartofi).archive"),true);
 assert.equal(evalIn("shopVoiceApplyAction('pune în arhivă lista',mergedCartofi).archive"),true);
-assert.match(inline,/shoppingPendingAction=archiveRequested\?\{type:'archive'\}:null/);
+assert.match(inline,/if\(archiveRequested\)\{/);
+assert.match(inline,/shopArchiveActiveImmediately\(data\)/);
+assert.match(inline,/archive\.onclick=\(\)=>\{shopArchiveActiveImmediately\(data\)\}/);
+assert.doesNotMatch(inline,/shoppingPendingAction=\{type:'archive'\}/,'no extra confirmation for archiving');
+assert.match(inline,/shoppingPendingAction=\{type:'deleteArchived',historyIndex,entryId:/,
+ 'permanent archived-list deletion still requires confirmation');
 assert.match(inline,/kind:shoppingMode==='active'\?'actions':'entry'/);
 assert.match(inline,/if\(session.kind==='actions'\)/);
 assert.match(inline,/shopButton\('🎙 Comenzi vocale','🎙 Voice commands'\)/);
