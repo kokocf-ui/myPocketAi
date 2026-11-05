@@ -28,7 +28,7 @@ function cleanIndexedExcerpt(value){
 }
 export async function discoverTelegramPublicLinks(env={},query="",limit=8,options={}){
  const q=String(query||"").trim().replace(/\s+/g," ").slice(0,160);
- const count=Math.min(10,Math.max(1,Number(limit)||8));
+ const count=Math.min(20,Math.max(1,Number(limit)||8));
  const since=Number.isFinite(options.sinceMs)?options.sinceMs:null;
  const now=Number.isFinite(options.nowMs)?options.nowMs:Date.now();
  if(q.length<3)return {status:"invalid_query",links:[],reply:"Introdu un subiect de cel puțin 3 caractere."};
