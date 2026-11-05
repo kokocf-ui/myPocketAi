@@ -4,8 +4,8 @@ assert.equal(publicTelegramPostUrl("https://t.me/examplechannel/123"),"https://t
 assert.equal(publicTelegramPostUrl("https://t.me/s/examplechannel/123"),"https://t.me/examplechannel/123");
 for(const u of ["https://t.me/c/1234/56","https://t.me/+invite","https://evil.example/post","https://t.me/examplechannel","https://t.me/examplechannel/123/extra"])
  assert.equal(publicTelegramPostUrl(u),null);
-assert.equal(telegramPublicLinkSearchIntent("Caută pe Telegram știri despre Ucraina"),"Ucraina");
-assert.equal(telegramPublicLinkSearchIntent("search Telegram news about Romania"),"Romania");
+assert.equal(telegramPublicLinkSearchIntent("Caută pe Telegram știri despre Ucraina"),"ucraina");
+assert.equal(telegramPublicLinkSearchIntent("search Telegram news about Romania"),"romania");
 assert.equal(telegramPublicLinkSearchIntent("Știri despre România"),null);
 assert.equal((await discoverTelegramPublicLinks({},"x")).status,"invalid_query");
 assert.equal((await discoverTelegramPublicLinks({},"Ukraine")).status,"not_configured");
