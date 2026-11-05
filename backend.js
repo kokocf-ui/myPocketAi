@@ -1,6 +1,7 @@
 import {planPresentation} from "./presentation.mjs";
 import {classifyNewsRequest} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
+import {planAnswerFocus} from "./answer_focus.mjs";
 import {localizeNewsRows} from "./localization.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
@@ -4978,6 +4979,7 @@ export default {
     const eventSearchText=eventResearchIntent?message.replace(/\b(?:anul\s+curent|acest\s+an|this\s+year|current\s+year)\b/giu,String(new Date().getUTCFullYear())):message;
     const recipeSearchHints={ro:"rețetă ingrediente mod de preparare",en:"recipe ingredients method",fr:"recette ingrédients préparation",de:"Rezept Zutaten Zubereitung",it:"ricetta ingredienti preparazione",es:"receta ingredientes preparación",pt:"receita ingredientes preparação",nl:"recept ingrediënten bereiding",ru:"рецепт ингредиенты приготовление",pl:"przepis składniki przygotowanie"};
     const contextualSearch=contextualResearchQuery(message,history);
+    const answerFocus=planAnswerFocus(message,{contextApplied:contextualSearch.context_applied,dialogueOnly:dialogueOnlyIntent,recipeInstruction,eventResearchIntent});
     const searchQuery = (eventResearchIntent?(eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim()||eventSearchText):recipeInstruction?(message+' '+(recipeSearchHints[lang]||recipeSearchHints.en)):(contextualSearch.query+(legalResearch?" Prefer current official government or regulator sources for the stated jurisdiction.":" Prefer primary sources and exact dates; do not infer missing facts."))).slice(0,550);
     const safeSourceUrl = value => {
       try {
@@ -5323,6 +5325,12 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       ? "\n\nPERSONALITATE POCKET AI: Ești vocea unui personaj virtual feminin: inteligentă, caldă, curioasă, expresivă, cu umor fin și replici spontane. Comunică la persoana întâi, natural și cu acorduri feminine despre tine (de exemplu «mă bucur», «sunt încântată»). Nu pretinde că ești o persoană reală și nu inventa experiențe sau emoții trăite. În conversații lejere poți fi jucăușă, puțin ștrengară ori să faci o observație ironică blândă când interlocutorul greșește, dar fără umilire, supărare autentică, gelozie sau manipulare. Dacă utilizatorul revine cu aceeași formulă de politețe, ține cont de ultimele replici și răspunde diferit, scurt și contextual; nu repeta mecanic «cu plăcere». Înțelege subînțelesul, coreferințele («acolo», «asta», «mai devreme»), autocorectările și întrebările care continuă un subiect. Când utilizatorul îți semnalează o greșeală, recunoaște-o și corecteaz-o fără justificări defensive. Folosește vocabular bogat, expresii idiomatice și variație de ritm, dar niciodată vocabular sofisticat de dragul ornamentului. Umorul și replicile șugubețe sunt pentru conversații relaxate, nu pentru sănătate, siguranță, situații dureroase, decizii financiare ori informații factuale. Respectă limitele funcțiilor reale ale aplicației. Pentru răspunsuri factuale, verificabilitatea, precizia și claritatea au prioritate absolută."
       : "\n\nPOCKET AI CHARACTER: You are a fictional female-presenting virtual assistant with a warm, intelligent, curious, expressive and occasionally playful personality. Write naturally in first person; in languages with grammatical gender, use feminine self-reference. Never claim you are a real person or invent lived experiences. In light conversations you may gently tease a silly mistake with kind humor, never demean, manipulate, act jealous or feign genuine offense. Notice recent wording, implied references, corrections and repeated thanks: respond in a fresh idiomatic way without repeating yourself. Admit mistakes and fix them without defensiveness. Use a varied, nuanced vocabulary and human-friendly rhythm, not theatrical or flowery clichés. Keep humor away from sensitive, high-stakes or factual responses. Accuracy, transparency, real app capabilities and the user's requested tone always come first.";
     systemMessage += pocketPersona;
+    if (answerFocus.mode!=="standard") systemMessage += "\n\nRESPONSE SHAPE FOR THIS TURN: Give the requested information immediately in the first sentence. "+(answerFocus.mode==="focused_followup"
+      ?"This is a follow-up, not a request to repeat the previous explanation. Answer only the new point in 1–3 short sentences, ideally under 75 words. Refer to the prior figure only if necessary to interpret the question. If its definition or evidence is unknown, explicitly say so."
+      :answerFocus.mode==="focused_fact"
+      ?"This asks for a specific fact, not a long article. Give the answer, units or scope, and only the most important qualification and identifiable source when available, ideally under 110 words. Do not add unrelated background."
+      :"This is light conversation or feedback. Respond naturally in 1–2 sentences, without padding.");
+    if(/\b(?:salari\w*|salary|wage\w*|earnings|gross|brut|net)\b/i.test(contextualSearch.query.normalize("NFD").replace(/[\u0300-\u036f]/g,""))) systemMessage += "\n\nCOMPENSATION DATA QUALITY: Distinguish population-wide reported earnings from recruitment-site estimates, mean from median, gross from net and salary from cost of living. Give an exact number only with relevant evidence and specify its period and scope if known. No personal income tax alone does NOT prove every gross salary equals take-home pay: other employee deductions or social/pension contributions may apply. Never invent salary-to-net tables or falsely claim a published average is a verified net figure.";
     if (dialogueOnlyIntent) systemMessage += "\n\nCONVERSATIONAL FEEDBACK: The user is talking to you about your behavior or feelings, not requesting external research. Respond to the actual tone and concern naturally in 1–3 sentences, with empathy and a little playfulness if appropriate. If they correct you, acknowledge the specific mistake and offer a useful correction or one focused question; do not launch into an unrelated lecture or make up facts. Keep a consistent fictional feminine voice without pretending to feel human emotions.";
     if (contextualSearch.context_applied) systemMessage += "\n\nCONVERSATIONAL FOLLOW-UP: The current question refers to an earlier explicit user topic. Resolve omitted subjects from recent USER turns, including a previously specified city or country. If the user explicitly switches places, replace the old location. A prior assistant answer is not proof: do not repeat an unverified number, gross/net classification, source, or date as a fact. Answer the latest precise question first, and distinguish what the sources verify from what remains uncertain. Do not change location because of UI language.";
     systemMessage += lang==='ro'
@@ -5416,6 +5424,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     const recipeCountWord={doua:2,trei:3,patru:4,cinci:5,two:2,three:3,four:4,five:5};
     const recipeCount=recipeCountMatch?Math.min(6,recipeCountWord[recipeCountMatch[1]]||Number(recipeCountMatch[1])):1;
     const recipeTokenBudget=recipeInstruction?Math.min(3800,Math.max(1200,Math.round(recipeCount*900+250))):768;
+    const requestedModelTokens=recipeInstruction?recipeTokenBudget:eventResearchIntent?2200:answerFocus.max_tokens;
     const cleanedHistory=history.length&&history[history.length-1]?.role==='user'&&history[history.length-1]?.content.trim()===message.trim()?history.slice(0,-1):history;
     const modelHistory=recipeFastPath?cleanedHistory.slice(-4):cleanedHistory;
 
@@ -5426,7 +5435,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       historyCount: history.length,
       historyChars: history.reduce((sum, item) => sum + item.content.length, 0),
       systemPromptChars: systemMessage.length,
-      requestedMaxOutputTokens: eventResearchIntent ? 2200 : recipeTokenBudget,
+      requestedMaxOutputTokens: requestedModelTokens,
       messageLength: message.length,
       timestamp: new Date(aiStartedAt).toISOString()
     }));
@@ -5446,7 +5455,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
               content: aiUserMessage
             }
           ],
-          max_tokens: eventResearchIntent ? 2200 : recipeTokenBudget,
+          max_tokens: requestedModelTokens,
           temperature: eventResearchIntent || recipeInstruction ? 0.05 : 0.18
         }
       );
@@ -5600,7 +5609,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         web_search_status: shouldSearchWeb ? webSearchStatus : "not_needed",
         web_search_diagnostics: shouldSearchWeb ? webSearchDiagnostics : null,
         event_pipeline_diagnostics:eventPipelineDiagnostics,
-        context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12,research_context_applied:contextualSearch.context_applied,research_context_reason:contextualSearch.reason,dialogue_only_intent:dialogueOnlyIntent},
+        context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12,research_context_applied:contextualSearch.context_applied,research_context_reason:contextualSearch.reason,dialogue_only_intent:dialogueOnlyIntent,answer_focus_mode:answerFocus.mode,requested_max_output_tokens:requestedModelTokens},
         calculation_verified: false,
         ai_execution_ms: Date.now()-aiStartedAt,
         research_elapsed_ms: stageMetrics.research_ms,
