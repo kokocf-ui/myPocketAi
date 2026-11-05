@@ -39,7 +39,7 @@ const html=await(await frontend.fetch(new Request("https://test.local/"))).text(
 const source=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].find(x=>x[1].includes("function requestUsesLocation("))?.[1];
 assert.ok(source,"Browser script missing");
 new vm.Script(source);
-const start=source.indexOf("function requestUsesLocation("),end=source.indexOf("async function coordinatesForRequest(",start);
+const start=source.indexOf("function isCasualConversationReply("),end=source.indexOf("async function coordinatesForRequest(",start);
 assert.ok(start>0&&end>start);
 const requestUsesLocation=vm.runInNewContext(source.slice(start,end)+"\nrequestUsesLocation;",{isRecipeQuestion:()=>false,needsLocation:()=>false});
 for(const q of [
