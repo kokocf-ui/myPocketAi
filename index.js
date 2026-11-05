@@ -2462,11 +2462,33 @@ function shopVoiceMergeAdded(data,incoming){
  if(extras.size)data.items=data.items.filter(i=>!extras.has(i.id));
  return {ok:true,message:shopLabel('Total actualizat: ','Updated total: ')+survivor.name+' · '+survivor.quantity+' '+survivor.unit};
 }
+function shopVoiceSubtract(data,spoken){
+ const parsed=shopVoiceItems(spoken);
+ if(parsed.length!==1)return {ok:false,message:shopLabel('Spune o cantitate și un singur produs.','Say a quantity and one item.')};
+ const wanted=parsed[0];
+ const match=shopVoiceFindItem(data.items,wanted.name);
+ if(!match.item)return {ok:false,message:match.reason==='ambiguous'?
+  shopLabel('Mai multe produse corespund. Precizează produsul.','Several items match. Specify the item.'):
+  shopLabel('Nu găsesc produsul: ','Item not found: ')+wanted.name};
+ const target=match.item;
+ if(target.checked)return {ok:false,message:shopLabel('Produsul este deja bifat.','This item is already checked.')};
+ if(target.unit!==wanted.unit)return {ok:false,message:shopLabel('Unitățile de măsură diferă.','Measurement units do not match.')};
+ const current=Number(String(target.quantity).replace(',','.'));
+ const amount=Number(String(wanted.quantity).replace(',','.'));
+ if(!Number.isFinite(current)||!Number.isFinite(amount)||amount<=0)
+  return {ok:false,message:shopLabel('Cantitate invalidă.','Invalid quantity.')};
+ if(amount>=current)return {ok:false,message:shopLabel('Cantitatea de scăzut este egală sau mai mare decât cea existentă. Folosește «Șterge produsul» pentru eliminare.','The amount is equal to or greater than the existing quantity. Use Delete to remove it.')};
+ const remaining=String(Number((current-amount).toFixed(3)));
+ if(!shopValidateQuantity(remaining))return {ok:false,message:shopLabel('Cantitate rămasă invalidă.','Invalid remaining quantity.')};
+ target.quantity=remaining;
+ return {ok:true,message:shopLabel('Cantitate redusă: ','Reduced quantity: ')+target.name+' · '+remaining+' '+target.unit};
+}
 function shopVoiceApplyAction(sentence,data){
  const raw=String(sentence||'').trim().replace(/[.!?]+$/g,'');
  if(/^(?:arhivează(?:\\s+lista(?:\\s+activă|\\s+activa)?)?|arhiveaza(?:\\s+lista(?:\\s+activa)?)?|(?:salvează|salveaza|pune|trimite)\\s+(?:lista\\s+)?(?:în|in)\\s+(?:arhivă|arhiva)(?:\\s+lista)?)$/iu.test(raw))
   return {ok:true,archive:true,message:shopLabel('Arhivează lista.','Archive the list.')};
  const commands=[
+  {type:'subtract',re:/^(?:scoate|scade|scăde|redu|reduce)\\s+(.+)$/iu},
   {type:'delete',re:/^(?:șterge|sterge|elimină|elimina)\\s+(.+)$/iu},
   {type:'replace',re:/^(?:înlocuiește|inlocuieste|schimbă|schimba)\\s+(.+?)\\s+cu\\s+(.+)$/iu},
   {type:'quantity',re:/^(?:modifică|modifica|schimbă|schimba)\\s+(.+?)\\s+(?:la|în|in)\\s+(.+)$/iu},
@@ -2475,6 +2497,7 @@ function shopVoiceApplyAction(sentence,data){
  ];
  const found=commands.map(c=>({type:c.type,match:raw.match(c.re)})).find(c=>c.match);
  if(!found)return {ok:false,message:shopLabel('Comandă neînțeleasă: ','Unrecognized command: ')+raw};
+ if(found.type==='subtract')return shopVoiceSubtract(data,found.match[1]);
  if(found.type==='add'){
   const items=shopVoiceItems(found.match[1]);
   if(!items.length)return {ok:false,message:shopLabel('Nu am identificat produsul de adăugat.','Could not identify the item.')};
