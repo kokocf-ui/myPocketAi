@@ -3379,7 +3379,7 @@ export default {
         const u=new URL(env.OPEN_METEO_API_KEY?'https://customer-api.open-meteo.com/v1/forecast':'https://api.open-meteo.com/v1/forecast');
         u.searchParams.set('latitude',String(point.latitude));u.searchParams.set('longitude',String(point.longitude));
         u.searchParams.set('timezone','auto');u.searchParams.set('forecast_days','16');u.searchParams.set('temperature_unit','celsius');u.searchParams.set('wind_speed_unit','kmh');
-        u.searchParams.set('daily','temperature_2m_min,temperature_2m_max,precipitation_probability_max,wind_speed_10m_max');u.searchParams.set('current','temperature_2m');
+        u.searchParams.set('daily','temperature_2m_min,temperature_2m_max,precipitation_probability_max,wind_speed_10m_max');u.searchParams.set('hourly','temperature_2m,precipitation_probability,precipitation,weather_code');u.searchParams.set('current','temperature_2m');
         if(env.OPEN_METEO_API_KEY)u.searchParams.set('apikey',env.OPEN_METEO_API_KEY);
         const r=await fetch(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(10000)});
         if(!r.ok)throw Error('weather_provider_unavailable');
@@ -3405,9 +3405,33 @@ export default {
           if(Number.isFinite(rain)&&rain>=0&&rain<=100&&forecast.daily_units?.precipitation_probability_max==='%'){reply+=`\n${t[4]}: ${f(rain)}%.`;values.precipitation_probability=rain;}
           if(Number.isFinite(wind)&&wind>=0&&forecast.daily_units?.wind_speed_10m_max==='km/h'){reply+=`\n${t[5]}: ${f(wind)} km/h.`;values.wind_max=wind;}
         }
+        // Local-clock hourly forecast for the selected day, regardless of country.
+        const hourly=forecast.hourly||{},hourlyRows=[];
+        for(let j=0;j<(hourly.time||[]).length;j++){
+          const stamp=hourly.time[j];if(typeof stamp!=="string"||!stamp.startsWith(date+"T"))continue;
+          const temperature=hourly.temperature_2m?.[j],probability=hourly.precipitation_probability?.[j],precipitation=hourly.precipitation?.[j],code=hourly.weather_code?.[j];
+          if(!Number.isFinite(temperature))continue;
+          hourlyRows.push({time:stamp.slice(11,16),temperature,precipitation_probability:Number.isFinite(probability)?probability:null,precipitation_mm:Number.isFinite(precipitation)?precipitation:null,weather_code:Number.isFinite(code)?code:null});
+        }
+        const wet=hourlyRows.filter(x=>x.precipitation_mm!==null&&x.precipitation_mm>=0.1);
+        let rainWindow=null;
+        if(wet.length){
+          const first=wet[0],last=wet[wet.length-1];
+          const endHour=(Number(last.time.slice(0,2))+1)%24;
+          rainWindow={start:first.time,end:String(endHour).padStart(2,"0")+":00",estimated:true};
+        }
+        if(hourlyRows.length&&weather.period!=="current"){
+          const ro=lang==="ro";
+          reply+="\n"+(ro?"Prognoză pe ore (ora locală):":"Hourly forecast (local time):");
+          for(const h of hourlyRows.filter((_,i)=>i%3===0)){
+            reply+="\n"+h.time+" · "+f(h.temperature)+"°C"+(h.precipitation_probability!==null?" · "+(ro?"risc ploaie ":"rain chance ")+f(h.precipitation_probability)+"%":"");
+          }
+          if(rainWindow)reply+="\n"+(ro?"Precipitații estimate între ":"Estimated precipitation between ")+rainWindow.start+"–"+rainWindow.end+" ("+(ro?"interval orientativ":"approximate window")+").";
+          else if(hourlyRows.some(x=>x.precipitation_mm!==null))reply+="\n"+(ro?"Nu sunt prognozate precipitații măsurabile în intervalele orare disponibile.":"No measurable precipitation forecast in available hourly periods.");
+        }
         reply+=`\nOpen-Meteo · ${t[6]}: ${retrieved} (${tz}).\nhttps://open-meteo.com/`;
         responseWeatherContext={query:weather.query,period:weather.period,offset:weather.offset,date:weather.date||'',pending:false};
-        return sendWeather(reply,{weather_ok:true,weather:{provider:'Open-Meteo',location:point.label,latitude:point.latitude,longitude:point.longitude,date,timezone:tz,period:weather.period,retrieved_at:fetchedAt,...values},sources:[{title:'Open-Meteo',url:'https://open-meteo.com/',retrieved_at:fetchedAt}]});
+        return sendWeather(reply,{weather_ok:true,weather:{provider:'Open-Meteo',location:point.label,latitude:point.latitude,longitude:point.longitude,date,timezone:tz,period:weather.period,retrieved_at:fetchedAt,hourly:hourlyRows,rain_window:rainWindow,...values},sources:[{title:'Open-Meteo',url:'https://open-meteo.com/',retrieved_at:fetchedAt}]});
       }catch{return sendWeather(t[9]);}
     }
     const distanceText=message.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
