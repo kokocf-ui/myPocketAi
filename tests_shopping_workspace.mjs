@@ -13,6 +13,13 @@ assert.match(style,/#view-module\.adaptive-workspace-view\.active\s*\{[^}]*grid-
 assert.match(style,/\.adaptive-workspace\s*\{[^}]*grid-template-rows:auto minmax\(0,1fr\) auto/s);
 assert.match(style,/\.adaptive-workspace__scroll\s*\{[^}]*overflow-y:auto/s);
 assert.doesNotMatch(style,/(top|bottom):\s*\d{3}px/i,'new layout should not use phone-specific absolute positioning');
+const shoppingStyle=page.match(/<style id="shopping-single-screen">([\\s\\S]*?)<\\/style>/)?.[1];
+assert.ok(shoppingStyle,'shopping-only responsive style exists');
+assert.match(shoppingStyle,/\\.shop-navigation\\{[^}]*grid-template-columns:minmax\\(6\\.5rem,\\.82fr\\) minmax\\(0,1\\.18fr\\)/s);
+assert.match(shoppingStyle,/\\.shop-navigation>button\\{[^}]*margin:0!important/s,'top buttons have no staggered offset');
+assert.match(shoppingStyle,/\\.shop-active-footer\\{[^}]*grid-template-columns:repeat\\(2,minmax\\(0,1fr\\)\\)!important/s);
+assert.match(shoppingStyle,/\\.shop-active-footer>button\\{[^}]*height:clamp\\(2\\.75rem,5\\.6dvh,3\\.15rem\\)!important/s);
+assert.match(inline,/footer\\.classList\\.add\\('shop-active-footer'\\)/);
 assert.match(inline,/root\.classList\.add\('adaptive-workspace-view'\)/);
 assert.match(inline,/root\.classList\.remove\('organize-active','organize-chat','adaptive-workspace-view'\)/);
 assert.match(inline,/next\.checked=checkbox\.checked/,'only user checkbox handler changes bought status');

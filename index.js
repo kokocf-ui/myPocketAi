@@ -1587,15 +1587,27 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 <style id="shopping-single-screen">
 /* Shopping-only navigation: Home remains in the shared header; Back and Active List
    live in the workspace toolbar, with viewport-based sizing rather than phone offsets. */
+#view-module.adaptive-workspace-view{
+ --shopping-row-height:clamp(3rem,7dvh,3.75rem);
+ --shopping-column-gap:clamp(.5rem,2.5vw,1rem)
+}
+#view-module.adaptive-workspace-view .module-home-btn{
+ box-sizing:border-box!important;height:var(--shopping-row-height)!important;
+ min-height:var(--shopping-row-height)!important;max-height:var(--shopping-row-height)!important;
+ align-self:start!important;margin:0!important
+}
 #view-module.adaptive-workspace-view .shop-navigation{
- display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
- align-items:stretch;gap:clamp(.5rem,2.5vw,1rem);margin:0;min-height:clamp(3rem,7dvh,3.75rem)
+ display:grid;grid-template-columns:minmax(6.5rem,.82fr) minmax(0,1.18fr);
+ align-items:stretch;column-gap:var(--shopping-column-gap);margin:0;
+ min-height:var(--shopping-row-height);height:var(--shopping-row-height)
 }
 #view-module.adaptive-workspace-view .shop-navigation>button{
- width:100%;max-width:none;min-width:0;height:100%;min-height:3rem;
- white-space:normal;overflow-wrap:anywhere;padding:.55rem .5rem
+ display:flex!important;justify-content:center!important;align-items:center!important;
+ box-sizing:border-box!important;width:100%!important;max-width:none!important;min-width:0!important;
+ height:var(--shopping-row-height)!important;min-height:var(--shopping-row-height)!important;
+ max-height:var(--shopping-row-height)!important;margin:0!important;
+ white-space:normal;overflow-wrap:anywhere;padding:.4rem .5rem!important
 }
-#view-module.adaptive-workspace-view .shop-navigation>button:first-child{margin-top:clamp(.2rem,.7dvh,.4rem)}
 #view-module.adaptive-workspace-view .organize-panel.adaptive-workspace{
  grid-template-rows:auto minmax(0,1fr) auto;min-height:0
 }
@@ -1606,6 +1618,24 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 #view-module.adaptive-workspace-view .shop-list{min-height:0}
 #view-module.adaptive-workspace-view .adaptive-workspace__actions{flex-wrap:wrap}
 #view-module.adaptive-workspace-view .adaptive-workspace__actions>button{flex:1 1 min(9rem,100%)}
+/* Only the two active-list actions share the same compact geometry.
+   Confirmations and one-button footers retain their existing behavior. */
+#view-module.adaptive-workspace-view .shop-active-footer{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:clamp(.5rem,2.5vw,1rem)!important;align-items:stretch!important;
+ padding:.45rem 0 0!important
+}
+#view-module.adaptive-workspace-view .shop-active-footer>button{
+ display:flex!important;justify-content:center!important;align-items:center!important;
+ width:100%!important;min-width:0!important;max-width:none!important;
+ box-sizing:border-box!important;flex:none!important;
+ height:clamp(2.75rem,5.6dvh,3.15rem)!important;
+ min-height:clamp(2.75rem,5.6dvh,3.15rem)!important;
+ max-height:clamp(2.75rem,5.6dvh,3.15rem)!important;
+ margin:0!important;padding:.35rem .55rem!important;
+ font-size:clamp(.86rem,3.5vw,1rem)!important;line-height:1.1!important;
+ white-space:normal;text-align:center
+}
 </style>
 <style id="education-responsive-layout">
 /* One source of truth for Education's subject-selection screen.
@@ -2275,6 +2305,7 @@ function renderShoppingList(){
   finish.onclick=()=>{shoppingPendingAction={type:'finish'};renderShoppingList()};
   footer.append(finish);
  }else if(shoppingMode==='active'){
+  footer.classList.add('shop-active-footer');
   const archive=shopButton('Arhivează','Archive','primary-btn');archive.disabled=!data.items.length;
   archive.onclick=()=>{shoppingPendingAction={type:'archive'};renderShoppingList()};
   const history=shopButton('Arhivă','History');history.onclick=()=>{shoppingMode='archive';shoppingPendingAction=null;renderShoppingList()};
