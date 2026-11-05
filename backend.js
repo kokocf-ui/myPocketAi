@@ -5103,6 +5103,23 @@ export default {
         const payload=await response.json(); const results=payload.web&&Array.isArray(payload.web.results)?payload.web.results:[];
         return {provider:"Brave",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.page_age||x.age||null,snippets:[x.description||"",...(Array.isArray(x.extra_snippets)?x.extra_snippets:[])].filter(Boolean).slice(0,3)}))};
       })().then(value=>({status:"fulfilled",value,provider:"Brave"})).catch(error=>({status:"rejected",provider:"Brave",error:String(error&&error.message||error).slice(0,140)})));
+      // When Exa is not configured, Brave can discover PUBLIC Reuters URLs.
+      // A search result does not grant rights to full Reuters wire content.
+      if(newsIntent&&newsDiscoveryPlan.broadWorld&&!env.EXA_API_KEY&&env.BRAVE_API_KEY) providerTasks.push((async()=>{
+        const started=Date.now(),u=new URL("https://api.search.brave.com/res/v1/web/search");
+        u.searchParams.set("q","site:reuters.com/world/ "+newsDiscoveryPlan.wireQuery);
+        u.searchParams.set("count","10");
+        u.searchParams.set("country","ALL");
+        const response=await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(7200)});
+        if(!response.ok)throw new Error("HTTP "+response.status);
+        const data=await response.json(),raw=Array.isArray(data.web?.results)?data.web.results:[];
+        const results=raw.filter(x=>{try{const h=new URL(x.url).hostname.toLowerCase();return h==="reuters.com"||h.endsWith(".reuters.com")}catch{return false}});
+        return {provider:"Brave:ReutersLinks",elapsedMs:Date.now()-started,results:results.map(x=>({
+          title:x.title||x.url,url:x.url,publishedDate:x.page_age||x.age||null,
+          snippets:[x.description||""].filter(Boolean)
+        }))};
+      })().then(value=>({status:"fulfilled",value,provider:"Brave:ReutersLinks"}))
+        .catch(error=>({status:"rejected",provider:"Brave:ReutersLinks",error:String(error?.message||error).slice(0,140)})));
       if (env.TAVILY_API_KEY) providerTasks.push((async () => {
         const started=Date.now();
         const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.generalQuery:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?15:newsIntent?12:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?7500:9000)});
@@ -5121,7 +5138,7 @@ export default {
           outcomes.push(value);
           const useful=outcomes.filter(x=>x.status==="fulfilled"&&x.value.results.length>0);
           const resultCount=useful.reduce((sum,x)=>sum+x.value.results.length,0);
-          const publisherSearchEngines=new Set(useful.map(x=>x.provider));
+          const publisherSearchEngines=new Set(useful.map(x=>x.provider.split(":")[0]));
           const broadNewsReady=newsIntent&&newsDiscoveryPlan.broadWorld;
           const enoughCoverage=broadNewsReady
             ? publisherSearchEngines.size>=2&&resultCount>=12
