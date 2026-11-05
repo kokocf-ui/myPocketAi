@@ -28,7 +28,11 @@ export async function discoverTelegramPublicLinks(env={},query="",limit=8){
   for(const item of Array.isArray(data.results)?data.results:[]){
    const link=publicTelegramPostUrl(item.url);
    if(!link||seen.has(link))continue;
-   seen.add(link);links.push({url:link,platform:"Telegram",source:"Public web search index",
+   const path=new URL(link).pathname.split("/").filter(Boolean);
+   const rawTitle=String(item.title||"").replace(/\s+/g," ").trim().slice(0,180);
+   const title=rawTitle&&rawTitle.toLowerCase()!=="telegram"&&rawTitle.toLowerCase()!=="telegram: contact @telegram"?rawTitle:"Telegram @"+path[0]+" · postarea #"+path[1];
+   const publishedAt=typeof item.publishedDate==="string"&&/^\d{4}-\d{2}-\d{2}/.test(item.publishedDate)?item.publishedDate:null;
+   seen.add(link);links.push({url:link,title,published_at:publishedAt,platform:"Telegram",source:"Public web search index",
     verification:"not_verified",content_retrieved:false});
    if(links.length>=count)break;
   }
