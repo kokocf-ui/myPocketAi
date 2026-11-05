@@ -13,6 +13,28 @@ function dependent(s){
 }
 export function contextualResearchQuery(message,history){
  const current=String(message||"").trim(),unchanged={query:current,context_applied:false,reason:"standalone"};
+
+ // T4 explicit reverification is a dependent request. Preserve the last
+ // explicit subject; a previous assistant answer is NOT a source of evidence.
+ // Never reuse a stale capital question after a different substantive topic.
+ const recheck=normal(current).replace(/[!?.,;:]+/g," ").replace(/\s+/g," ").trim();
+ const capitalRecheck=/^(?:(?:nu ai inteles|nu asta am cerut|you misunderstood)(?: intrebarea)? )?(?:verifica|reverifica|check|verify)(?: din nou| inca o data| again)? (?:capitala|raspunsul despre capitala|the capital|the capital answer)(?: tarii)?$/;
+ if(capitalRecheck.test(recheck)){
+  const prior=(Array.isArray(history)?history:[])
+   .filter(x=>x?.role==="user"&&typeof x.content==="string")
+   .map(x=>x.content.trim()).filter(Boolean);
+  while(prior.length&&prior.at(-1)===current)prior.pop();
+  const last=prior.slice(-6).reverse().find(q=>{
+   const t=normal(q);
+   return !polite.test(t)&&!/^(?:nu ai inteles|nu asta am cerut|verifica din nou|you misunderstood)/.test(t);
+  });
+  if(last&&/^(?:care (?:e|este) capitala|what(?:'s| is) the capital of)/.test(normal(last)))
+   return {query:(last.replace(/[!?.,;:]+$/,"")+"; "+current+
+     "; verifică afirmația în surse actuale independente și indică explicit dacă verificarea nu a fost posibilă").slice(0,500),
+     context_applied:true,reason:"explicit_capital_recheck"};
+  return {...unchanged,reason:"capital_recheck_subject_missing"};
+ }
+
  if(!dependent(current))return unchanged;
  const prior=(Array.isArray(history)?history:[]).filter(x=>x?.role==="user"&&typeof x.content==="string").map(x=>x.content.trim()).filter(Boolean);
  while(prior.length&&prior.at(-1)===current)prior.pop();
