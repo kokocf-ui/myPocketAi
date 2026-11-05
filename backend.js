@@ -1692,11 +1692,12 @@ export default {
         message_received:message,reply:found.reply,telegram_status:found.status,
         telegram_access_mode:"public_web_index_links_only",
         structured_list:found.links.length?{type:"news",rows:found.links.map((r,i)=>({
-          title:"Postare publică Telegram "+(i+1),url:r.url,source_name:"Telegram (link indexat)",
-          detail:"Deschide sursa pentru a citi postarea; conținut neverificat.",
-          verification:"unverified_link_only",published_at:null
+          title:r.title,url:r.url,source_name:"Telegram (index web public)",
+          summary:r.excerpt||"Extras indisponibil în indexul public. Citește postarea originală dacă linkul este accesibil.",
+          detail:r.excerpt||"Conținutul postării nu este disponibil prin index. Titlul este metadată neconfirmată; deschide linkul original doar dacă este accesibil.",
+          verification:"unverified_index_excerpt",published_at:r.published_at||null
         })),result_count:found.links.length,coverage_status:"indexed_public_links_only"}:undefined,
-        sources:found.links.map((r,i)=>({number:i+1,title:"Postare Telegram "+(i+1),url:r.url,
+        sources:found.links.map((r,i)=>({number:i+1,title:r.title,url:r.url,publishedDate:r.published_at||null,
           verification:"unverified_link_only"})),
         ai_ingestion_enabled:false,global_telegram_search:false,ai_connected:Boolean(env.AI),
         web_search_status:found.status});
