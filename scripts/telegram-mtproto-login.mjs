@@ -11,14 +11,25 @@ if(!Number.isSafeInteger(apiId)||apiId<=0||!/^[a-f0-9]{32}$/i.test(apiHash)){
  process.stderr.write("Set TELEGRAM_API_ID and TELEGRAM_API_HASH in this device's environment first.\n");
  process.exit(2);
 }
-const rl=createInterface({input,output}),ask=question=>rl.question(question);
+// readline normally echoes input, including Telegram verification codes and 2FA.
+// Suppress terminal echo through its output hook; never log the collected value.
+const rl=createInterface({input,output});
+const askHidden=async(question)=>{
+ if(!input.isTTY||!output.isTTY||typeof rl._writeToOutput!=="function")
+  throw new Error("A trusted interactive terminal is required for private login.");
+ const original=rl._writeToOutput;
+ output.write(question);
+ rl._writeToOutput=()=>{};
+ try{return await rl.question("");}
+ finally{rl._writeToOutput=original;output.write("\n");}
+};
 const client=new TelegramClient(new StringSession(""),apiId,apiHash,{
  connectionRetries:2,requestRetries:1,autoReconnect:false});
 try{
  await client.start({
-  phoneNumber:()=>ask("Telegram phone number, with country code: "),
-  phoneCode:()=>ask("Telegram verification code (never send it to anyone): "),
-  password:()=>ask("Telegram two-step verification password, if required: "),
+  phoneNumber:()=>askHidden("Telegram phone number, with country code: "),
+  phoneCode:()=>askHidden("Telegram verification code (never send it to anyone): "),
+  password:()=>askHidden("Telegram two-step verification password, if required: "),
   onError:error=>process.stderr.write("Login step failed. Verify credentials and try again.\n")
  });
  if(!await client.isUserAuthorized())throw Error("Authorization did not complete");
