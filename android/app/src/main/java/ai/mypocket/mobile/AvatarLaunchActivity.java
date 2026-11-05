@@ -65,6 +65,7 @@ public final class AvatarLaunchActivity extends Activity {
             .build();
         avatarView = new WebView(this);
         avatarView.setBackgroundColor(Color.TRANSPARENT);
+        avatarView.setAlpha(0f); // no black or rectangular flash before 3D is ready
         avatarView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null);
         WebSettings settings = avatarView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -83,6 +84,13 @@ public final class AvatarLaunchActivity extends Activity {
             @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return !"appassets.androidplatform.net".equals(request.getUrl().getHost());
             }
+            @Override public void onPageFinished(WebView view,String url) {
+                super.onPageFinished(view,url);
+                if(!url.startsWith(ORIGIN+"/assets/avatar-production.html"))return;
+                // Run the production model as the TOP WebView document. The
+                // launcher-only mist controller is loaded from the APK assets.
+                view.evaluateJavascript("(function(){var s=document.createElement('script');s.src='/assets/avatar-enter.js';document.head.appendChild(s)})()",null);
+            }
         });
         setContentView(avatarView);
 
@@ -94,7 +102,9 @@ public final class AvatarLaunchActivity extends Activity {
                     String command = message.getData();
                     runOnUiThread(() -> {
                         if ("ready".equals(command) && !finishingLaunch) {
+                            if(modelReady)return;
                             modelReady = true;
+                            avatarView.setAlpha(1f);
                             // Fog comes first; the face slowly emerges during this interval.
                             handler.postDelayed(this::beginGreeting, 1450L);
                         } else if ("error".equals(command)) {
@@ -164,7 +174,7 @@ public final class AvatarLaunchActivity extends Activity {
     private void startAvatarEntrance(){
         if(introStarted || finishingLaunch)return;
         introStarted=true;
-        avatarView.loadUrl(ORIGIN + "/assets/avatar-launch.html");
+        avatarView.loadUrl(ORIGIN + "/assets/avatar-production.html?embedded=1&nativeLaunch=1");
         // Never trap the user on a stalled WebGL or speech engine.
         handler.postDelayed(this::openMain, 14000L);
     }
