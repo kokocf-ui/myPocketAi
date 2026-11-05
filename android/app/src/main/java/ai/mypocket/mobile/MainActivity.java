@@ -6,6 +6,13 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
+import android.os.Build;
+import android.view.WindowManager;
+import java.util.ArrayList;
+import java.util.Locale;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -35,6 +42,9 @@ public final class MainActivity extends ComponentActivity {
     private WebView web;
     private Uri cameraUri;
     private boolean waitingForPhoto = false;
+    private TextToSpeech tts;
+    private boolean ttsReady=false;
+    private String speechMode="dictation";
 
     private final ActivityResultLauncher<PickVisualMediaRequest> gallery =
         registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
@@ -47,6 +57,57 @@ public final class MainActivity extends ComponentActivity {
                 if (result.getResultCode() == Activity.RESULT_OK && cameraUri != null) recognize(cameraUri);
                 else notifyWeb("cancelled", "");
             });
+
+    private final ActivityResultLauncher<Intent> microphone =
+        registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                String recognized="";
+                if(result.getResultCode()==Activity.RESULT_OK && result.getData()!=null) {
+                    ArrayList<String> phrases=result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    if(phrases!=null && !phrases.isEmpty()) recognized=phrases.get(0);
+                }
+                notifyVoice("recognized",recognized,speechMode);
+            });
+
+    private void nativeVoice(String message) {
+        try {
+            JSONObject data=new JSONObject(message);
+            String action=data.optString("action","");
+            if("stop".equals(action)) { if(tts!=null) tts.stop(); return; }
+            if("speak".equals(action)) {
+                if(!ttsReady || tts==null){notifyVoice("error","Voice engine is not ready","tts");return;}
+                String text=data.optString("text","");
+                if(text.isEmpty())return;
+                if(text.length()>16000)text=text.substring(0,16000);
+                String language=data.optString("language","ro-RO");
+                tts.setLanguage(Locale.forLanguageTag(language));
+                tts.setSpeechRate(0.96f);
+                int status=tts.speak(text,TextToSpeech.QUEUE_FLUSH,null,"pocket-native-voice");
+                if(status==TextToSpeech.ERROR)notifyVoice("error","Could not start speech","tts");
+            }else if("listen".equals(action)) {
+                speechMode=data.optString("mode","dictation");
+                Intent intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,data.optString("language","ro-RO"));
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Pocket AI");
+                microphone.launch(intent);
+            }
+        }catch(Exception ex){notifyVoice("error","Speech service unavailable","tts");}
+    }
+
+    private void notifyVoice(String status,String value,String mode) {
+        try {
+            JSONObject data=new JSONObject();
+            data.put("status",status);
+            data.put("text",value);
+            data.put("mode",mode);
+            String js="window.pocketAndroidVoiceResult && window.pocketAndroidVoiceResult("+data.toString()+");";
+            runOnUiThread(()->{
+                if(web!=null && APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost()))
+                    web.evaluateJavascript(js,null);
+            });
+        }catch(Exception ignored){}
+    }
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -86,6 +147,23 @@ public final class MainActivity extends ComponentActivity {
                             .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
                         else waitingForPhoto=false;
                     });
+                });
+        }
+        tts=new TextToSpeech(this,status -> {
+            ttsReady=status==TextToSpeech.SUCCESS;
+            if(!ttsReady)notifyVoice("error","Android voice engine unavailable","tts");
+        });
+        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override public void onStart(String id){notifyVoice("start","","tts");}
+            @Override public void onDone(String id){notifyVoice("done","","tts");}
+            @Override public void onError(String id){notifyVoice("error","Speech playback failed","tts");}
+        });
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidVoice",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!APP_HOST.equals(origin.getHost()))return;
+                    runOnUiThread(()->nativeVoice(message.getData()));
                 });
         }
         web.loadUrl(APP_URL);
@@ -135,6 +213,8 @@ public final class MainActivity extends ComponentActivity {
             });
         }catch(Exception ignored){}
     }
+
+    @Override protected void onDestroy(){if(tts!=null){tts.stop();tts.shutdown();}if(web!=null){web.destroy();}super.onDestroy();}
 
     @Override public void onBackPressed(){
         if (web!=null && web.canGoBack()) web.goBack();
