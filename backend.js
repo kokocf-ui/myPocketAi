@@ -5826,7 +5826,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       let result;
       try{
         result=await env.AI.run(selectedAiModel,{
-          messages:primaryMessages,max_tokens:requestedModelTokens,
+          messages:primaryMessages,max_tokens: requestedModelTokens,
           temperature:eventResearchIntent||recipeInstruction?0.05:0.18
         });
         if(!result||typeof result.response!=="string"||!result.response.trim())
