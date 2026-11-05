@@ -2,6 +2,7 @@ import {planPresentation} from "./presentation.mjs";
 import {classifyNewsRequest} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
+import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.mjs";
 import {localizeNewsRows} from "./localization.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
@@ -2176,7 +2177,8 @@ export default {
     const normalizedTransitMessage = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     const chosenTravelMode=['walk','drive','transit'].includes(data.travel_mode)&&data.route_context?.pending==='profile'?data.travel_mode:null;
     const boardingAccessRequested=transitBoardingAccessRequest(message);
-    const publicTransportIntent = !/^(?:ce este|ce inseamna|what is|explain|explica|why|de ce)\b/.test(normalizedTransitMessage)&&/\b(?:transport(?:ul)? in comun|transport(?:ul)? public|autobuz(?:e|ul)?|bus(?:es)?|tren(?:ul|e)?|train(?:s)?|metrou(?:l)?|tube|railway|by public transport|public transport)\b/i.test(normalizedTransitMessage);
+    const transitDecision=isTransitJourneyRequest(message,{explicitTransitMode:chosenTravelMode==='transit',boardingAccessRequested,pendingRouteProfile:data.route_context?.pending==='profile',explicitTransitDestination:Boolean(data.transit_destination||data.transit_query),history:data.history});
+    const publicTransportIntent=transitDecision.is_journey;
     const directWalkingTarget=data.route_profile==='walk'&&data.route_destination&&Number.isFinite(data.route_destination.latitude)&&Number.isFinite(data.route_destination.longitude)&&Math.abs(data.route_destination.latitude)<=90&&Math.abs(data.route_destination.longitude)<=180&&typeof data.route_destination.label==='string';
     const explicitMixedJourney=data.mixed_journey===true;
     if (explicitMixedJourney || ((publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)))) {
@@ -4979,8 +4981,9 @@ export default {
     const eventSearchText=eventResearchIntent?message.replace(/\b(?:anul\s+curent|acest\s+an|this\s+year|current\s+year)\b/giu,String(new Date().getUTCFullYear())):message;
     const recipeSearchHints={ro:"rețetă ingrediente mod de preparare",en:"recipe ingredients method",fr:"recette ingrédients préparation",de:"Rezept Zutaten Zubereitung",it:"ricetta ingredienti preparazione",es:"receta ingredientes preparación",pt:"receita ingredientes preparação",nl:"recept ingrediënten bereiding",ru:"рецепт ингредиенты приготовление",pl:"przepis składniki przygotowanie"};
     const contextualSearch=contextualResearchQuery(message,history);
-    const answerFocus=planAnswerFocus(message,{contextApplied:contextualSearch.context_applied,dialogueOnly:dialogueOnlyIntent,recipeInstruction,eventResearchIntent});
-    const searchQuery = (eventResearchIntent?(eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim()||eventSearchText):recipeInstruction?(message+' '+(recipeSearchHints[lang]||recipeSearchHints.en)):(contextualSearch.query+(legalResearch?" Prefer current official government or regulator sources for the stated jurisdiction.":" Prefer primary sources and exact dates; do not infer missing facts."))).slice(0,550);
+    const correctedTopic=correctedResearchTopic(message);
+    const answerFocus=planAnswerFocus(message,{contextApplied:contextualSearch.context_applied||Boolean(correctedTopic),dialogueOnly:dialogueOnlyIntent,recipeInstruction,eventResearchIntent});
+    const searchQuery = (eventResearchIntent?(eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim()||eventSearchText):recipeInstruction?(message+' '+(recipeSearchHints[lang]||recipeSearchHints.en)):((correctedTopic||contextualSearch.query)+(legalResearch?" Prefer current official government or regulator sources for the stated jurisdiction.":" Prefer primary sources and exact dates; do not infer missing facts."))).slice(0,550);
     const safeSourceUrl = value => {
       try {
         const u = new URL(value);
@@ -5325,6 +5328,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       ? "\n\nPERSONALITATE POCKET AI: Ești vocea unui personaj virtual feminin: inteligentă, caldă, curioasă, expresivă, cu umor fin și replici spontane. Comunică la persoana întâi, natural și cu acorduri feminine despre tine (de exemplu «mă bucur», «sunt încântată»). Nu pretinde că ești o persoană reală și nu inventa experiențe sau emoții trăite. În conversații lejere poți fi jucăușă, puțin ștrengară ori să faci o observație ironică blândă când interlocutorul greșește, dar fără umilire, supărare autentică, gelozie sau manipulare. Dacă utilizatorul revine cu aceeași formulă de politețe, ține cont de ultimele replici și răspunde diferit, scurt și contextual; nu repeta mecanic «cu plăcere». Înțelege subînțelesul, coreferințele («acolo», «asta», «mai devreme»), autocorectările și întrebările care continuă un subiect. Când utilizatorul îți semnalează o greșeală, recunoaște-o și corecteaz-o fără justificări defensive. Folosește vocabular bogat, expresii idiomatice și variație de ritm, dar niciodată vocabular sofisticat de dragul ornamentului. Umorul și replicile șugubețe sunt pentru conversații relaxate, nu pentru sănătate, siguranță, situații dureroase, decizii financiare ori informații factuale. Respectă limitele funcțiilor reale ale aplicației. Pentru răspunsuri factuale, verificabilitatea, precizia și claritatea au prioritate absolută."
       : "\n\nPOCKET AI CHARACTER: You are a fictional female-presenting virtual assistant with a warm, intelligent, curious, expressive and occasionally playful personality. Write naturally in first person; in languages with grammatical gender, use feminine self-reference. Never claim you are a real person or invent lived experiences. In light conversations you may gently tease a silly mistake with kind humor, never demean, manipulate, act jealous or feign genuine offense. Notice recent wording, implied references, corrections and repeated thanks: respond in a fresh idiomatic way without repeating yourself. Admit mistakes and fix them without defensiveness. Use a varied, nuanced vocabulary and human-friendly rhythm, not theatrical or flowery clichés. Keep humor away from sensitive, high-stakes or factual responses. Accuracy, transparency, real app capabilities and the user's requested tone always come first.";
     systemMessage += pocketPersona;
+    if(correctedTopic)systemMessage += "\n\nTOPIC CORRECTION: The user has corrected the preceding subject. Explain the new subject in the current app language, rather than repeating the previous broad description or treating a mentioned transport system as a journey. Do not invent a route or destination. A route should be calculated only when the user explicitly asks for a journey or selects a route mode. Answer this correction directly and concisely.";
     if (answerFocus.mode!=="standard") systemMessage += "\n\nRESPONSE SHAPE FOR THIS TURN: Give the requested information immediately in the first sentence. "+(answerFocus.mode==="focused_followup"
       ?"This is a follow-up, not a request to repeat the previous explanation. Answer only the new point in 1–3 short sentences, ideally under 75 words. Refer to the prior figure only if necessary to interpret the question. If its definition or evidence is unknown, explicitly say so."
       :answerFocus.mode==="focused_fact"
@@ -5609,7 +5613,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         web_search_status: shouldSearchWeb ? webSearchStatus : "not_needed",
         web_search_diagnostics: shouldSearchWeb ? webSearchDiagnostics : null,
         event_pipeline_diagnostics:eventPipelineDiagnostics,
-        context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12,research_context_applied:contextualSearch.context_applied,research_context_reason:contextualSearch.reason,dialogue_only_intent:dialogueOnlyIntent,answer_focus_mode:answerFocus.mode,requested_max_output_tokens:requestedModelTokens},
+        context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12,research_context_applied:contextualSearch.context_applied,research_context_reason:contextualSearch.reason,dialogue_only_intent:dialogueOnlyIntent,topic_correction_applied:Boolean(correctedTopic),transit_intent_reason:transitDecision.reason,answer_focus_mode:answerFocus.mode,requested_max_output_tokens:requestedModelTokens},
         calculation_verified: false,
         ai_execution_ms: Date.now()-aiStartedAt,
         research_elapsed_ms: stageMetrics.research_ms,
