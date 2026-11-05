@@ -81,6 +81,22 @@ public final class MainActivity extends ComponentActivity {
     private Runnable voiceEndpointTask;
     private String lastVoicePartial="";
 
+    private static final String NOTIFICATION_PERMISSION_FLAG="agenda_notification_permission_requested";
+    private final ActivityResultLauncher<String> notificationPermission =
+        registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
+            // Events have already been persisted and scheduled in the native scheduler.
+            // The OS displays them when permission is granted.
+        });
+
+    private void ensureAgendaNotificationPermission(){
+        if(Build.VERSION.SDK_INT<33 || ContextCompat.checkSelfPermission(this,
+            Manifest.permission.POST_NOTIFICATIONS)==PackageManager.PERMISSION_GRANTED)return;
+        var prefs=getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE);
+        if(prefs.getBoolean(NOTIFICATION_PERMISSION_FLAG,false))return;
+        prefs.edit().putBoolean(NOTIFICATION_PERMISSION_FLAG,true).apply();
+        notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
+    }
+
     private final ActivityResultLauncher<PickVisualMediaRequest> gallery =
         registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
             uri -> { waitingForPhoto=false; if (uri != null) recognize(uri); else notifyWeb("cancelled", ""); });
@@ -354,6 +370,23 @@ public final class MainActivity extends ComponentActivity {
                     runOnUiThread(()->nativeVoice(message.getData()));
                 });
         }
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidAgenda",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!APP_HOST.equals(origin.getHost()))return;
+                    String payload=message.getData();
+                    runOnUiThread(()->{
+                        try{
+                            JSONObject data=new JSONObject(payload);
+                            if(!"sync".equals(data.optString("action","")))return;
+                            AgendaReminderScheduler.sync(MainActivity.this,data.getJSONArray("events").toString());
+                            ensureAgendaNotificationPermission();
+                        }catch(Exception ignored){}
+                    });
+                });
+        }
+        AgendaReminderScheduler.reschedule(this);
         // The native back action must use the app's own view stack, not WebView history.
         getOnBackPressedDispatcher().addCallback(this,new OnBackPressedCallback(true){
             @Override public void handleOnBackPressed(){
