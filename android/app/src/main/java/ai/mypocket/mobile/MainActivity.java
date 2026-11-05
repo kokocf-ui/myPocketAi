@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -75,6 +77,9 @@ public final class MainActivity extends ComponentActivity {
     private String pendingSpeechLocale="ro-RO";
     private static final String FIRST_MIC_PERMISSION_FLAG="first_microphone_permission_requested";
     private boolean microphoneRequestedForListening=false;
+    private final Handler voiceEndpointHandler=new Handler(Looper.getMainLooper());
+    private Runnable voiceEndpointTask;
+    private String lastVoicePartial="";
 
     private final ActivityResultLauncher<PickVisualMediaRequest> gallery =
         registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
@@ -127,9 +132,31 @@ public final class MainActivity extends ComponentActivity {
         prefs.edit().putBoolean(FIRST_MIC_PERMISSION_FLAG,true).apply();
         micPermission.launch(Manifest.permission.RECORD_AUDIO);
     }
+    private void cancelVoiceEndpoint() {
+        if(voiceEndpointTask!=null)voiceEndpointHandler.removeCallbacks(voiceEndpointTask);
+        voiceEndpointTask=null;
+    }
+    private void scheduleVoiceEndpoint(String recognized) {
+        if(!nativeListening || recognized==null || recognized.trim().isEmpty())return;
+        // Dictation should remain manual. Conversational voice and exit commands
+        // finish shortly after the last *changed* partial result.
+        if("dictation".equals(speechMode))return;
+        String normalized=recognized.trim();
+        if(normalized.equals(lastVoicePartial))return;
+        lastVoicePartial=normalized;
+        cancelVoiceEndpoint();
+        voiceEndpointTask=()->{
+            voiceEndpointTask=null;
+            if(nativeListening && speechRecognizer!=null) {
+                try{speechRecognizer.stopListening();}catch(Exception ignored){}
+            }
+        };
+        voiceEndpointHandler.postDelayed(voiceEndpointTask,1100L);
+    }
     private void beginEmbeddedListening() {
         if(!SpeechRecognizer.isRecognitionAvailable(this)){notifyVoice("error","Speech recognizer unavailable",speechMode);return;}
         stopEmbeddedListening();
+        lastVoicePartial="";
         try {
             speechRecognizer=SpeechRecognizer.createSpeechRecognizer(this);
             speechRecognizer.setRecognitionListener(new RecognitionListener(){
@@ -137,19 +164,22 @@ public final class MainActivity extends ComponentActivity {
                 @Override public void onBeginningOfSpeech(){}
                 @Override public void onRmsChanged(float rmsdB){}
                 @Override public void onBufferReceived(byte[] buffer){}
-                @Override public void onEndOfSpeech(){}
+                @Override public void onEndOfSpeech(){cancelVoiceEndpoint();}
                 @Override public void onPartialResults(Bundle results){
                     ArrayList<String> values=results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                    if(values!=null&&!values.isEmpty())notifyVoice("partial",values.get(0),speechMode);
+                    if(values!=null&&!values.isEmpty()){
+                        notifyVoice("partial",values.get(0),speechMode);
+                        scheduleVoiceEndpoint(values.get(0));
+                    }
                 }
                 @Override public void onResults(Bundle results){
-                    nativeListening=false;
+                    cancelVoiceEndpoint();nativeListening=false;
                     ArrayList<String> values=results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                     notifyVoice("recognized",values!=null&&!values.isEmpty()?values.get(0):"",speechMode);
                     releaseRecognizer();
                 }
                 @Override public void onError(int error){
-                    nativeListening=false;
+                    cancelVoiceEndpoint();nativeListening=false;
                     if(error==SpeechRecognizer.ERROR_NO_MATCH||error==SpeechRecognizer.ERROR_SPEECH_TIMEOUT)
                         notifyVoice("recognized","",speechMode);
                     else notifyVoice("error","Speech recognizer error "+error,speechMode);
@@ -169,7 +199,7 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ex){nativeListening=false;releaseRecognizer();notifyVoice("error","Speech recognizer unavailable",speechMode);}
     }
     private void releaseRecognizer(){if(speechRecognizer!=null){speechRecognizer.destroy();speechRecognizer=null;}}
-    private void stopEmbeddedListening(){nativeListening=false;if(speechRecognizer!=null){speechRecognizer.cancel();releaseRecognizer();}}
+    private void stopEmbeddedListening(){cancelVoiceEndpoint();lastVoicePartial="";nativeListening=false;if(speechRecognizer!=null){speechRecognizer.cancel();releaseRecognizer();}}
     private final ActivityResultLauncher<Intent> microphone =
         registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {
