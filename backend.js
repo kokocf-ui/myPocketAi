@@ -1809,6 +1809,32 @@ export default {
     // interpreted as a geographic phrase or sent to a general AI research path.
     const dialogueIntent=classifyDialogueIntent(message);
     const preventImplicitPlace=blocksImplicitPlaceLookup(message);
+    // T8: App controls are not addresses. Never send them to nearby venue
+    // search or to AI generation when the request needs a device-side action.
+    if(dialogueIntent.kind==="app_control"){
+      const command=String(message||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+      const wantsVoice=/\b(?:voce|voice|microfon|microphone)\b/.test(command);
+      const wantsLanguage=/\b(?:limba|language)\b/.test(command);
+      const wantsRestart=/\b(?:inchide|redeschide|reporneste|close|reopen|restart)\b/.test(command);
+      const guidance=[];
+      if(wantsVoice)guidance.push(lang==="ro"
+        ?"Pentru testarea vocii, folosește butonul microfon sau modul de conversație vocală."
+        :"To test voice, use the microphone button or voice conversation mode.");
+      if(wantsLanguage)guidance.push(lang==="ro"
+        ?"Pentru schimbarea limbii, deschide Setări și selectează English."
+        :"To change the language, open Settings and select English.");
+      if(wantsRestart)guidance.push(lang==="ro"
+        ?"Pentru repornire, închide aplicația din ecranul aplicațiilor recente și deschide-o din nou. Nu o pot închide din conversație."
+        :"To restart, close the app from recent apps and open it again. I cannot close it from this chat.");
+      if(!guidance.length)guidance.push(lang==="ro"
+        ?"Folosește controlul corespunzător din Setări. Nu pot modifica direct setările telefonului din conversație."
+        :"Use the corresponding control in Settings. I cannot change your phone settings directly from chat.");
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",
+        language:lang,message_received:message,reply:guidance.join("\n"),
+        conversational_reply:true,ai_generated:false,ai_connected:Boolean(env.AI),
+        context_diagnostics:{dialogue_intent_kind:"app_control"},
+        web_search_status:"not_needed"});
+    }
     // T3/T7: short social answers are NOT bare destinations. Handle them
     // before entity selection, geocoding, transportation or stale route context.
     if(dialogueIntent.kind==="social_checkin"){
