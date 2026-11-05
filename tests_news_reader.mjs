@@ -88,8 +88,9 @@ try{
  assert.ok(tbody.children.length>0,'News table must have rows');
  const btn=tbody.children[0].children[0].children[0];
  assert.equal(btn.tag,'button');btn.onclick();
- assert.ok(host.children.some(x=>x.tag==='a'),'Article details include original source link');
- const back=host.children.find(x=>x.tag==='button');back.onclick();
+ assert.ok(host.children.some(x=>x.children?.some(y=>y.tag==='a')),'Article footer includes original source link');
+ assert.equal(host.children.at(-1)?.tag,'button','Return-to-results must be below article and source');
+ const back=host.children.at(-1);back.onclick();
  assert.ok(host.children.some(x=>x.tag==='div'),'Back restores table');
  assert.match(source,/width:76%/);
  assert.match(source,/width:24%/);
