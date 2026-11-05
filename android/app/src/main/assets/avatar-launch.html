@@ -12,6 +12,14 @@ body{touch-action:none;-webkit-tap-highlight-color:transparent}
 #avatar{position:absolute;left:10%;top:13%;width:80%;height:73%;border:0;
  background:transparent!important;opacity:0;transform:translateY(26px) scale(.87);
  filter:blur(19px) brightness(.62);clip-path:circle(14% at 50% 52%);
+ /* Fade the composited iframe edges even on WebView builds that paint
+    the WebGL document's pixels opaquely. No visible rectangular tile. */
+ -webkit-mask-image:radial-gradient(ellipse 64% 66% at 50% 53%,
+   #000 0%,#000 32%,rgba(0,0,0,.98) 43%,rgba(0,0,0,.87) 56%,
+   rgba(0,0,0,.44) 73%,transparent 92%);
+ mask-image:radial-gradient(ellipse 64% 66% at 50% 53%,
+   #000 0%,#000 32%,rgba(0,0,0,.98) 43%,rgba(0,0,0,.87) 56%,
+   rgba(0,0,0,.44) 73%,transparent 92%);
  transition:opacity 1.9s ease,transform 2.15s cubic-bezier(.16,.74,.19,1),
  filter 1.9s ease,clip-path 2.05s cubic-bezier(.19,.7,.19,1);will-change:opacity,transform,filter}
 #stage.materializing #avatar{opacity:1;transform:translateY(0) scale(1);
@@ -77,12 +85,51 @@ function api(action,text){
   else if(action==='stop')avatar.stop();
  }catch(_){}
 }
+
+/** Local launch-only transparency repair for the nested Three.js document.
+ * The wallpaper shows through the Activity and WebView, but the child HTML
+ * may still paint a solid CSS backdrop even with scene.background=null.
+ * Same-origin APK assets let us clear that backdrop without touching the
+ * approved 3D model or its renderer/lip-sync controls.
+ */
+function makeAvatarDocumentTransparent(){
+ let child;
+ try{child=frame.contentDocument}catch(_){return false}
+ if(!child||!child.documentElement)return false;
+ const root=child.documentElement;
+ if(!child.getElementById('pocket-android-alpha-fix')){
+  const style=child.createElement('style');style.id='pocket-android-alpha-fix';
+  style.textContent= [
+   'html,body{background:transparent!important;background-color:transparent!important;background-image:none!important;}',
+   'html::before,html::after,body::before,body::after{background:transparent!important;background-image:none!important;}',
+   'canvas{background:transparent!important;background-color:transparent!important;}'
+  ].join('');
+  (child.head||root).appendChild(style);
+ }
+ // The canvas wrapper is frequently what makes the full iframe black:
+ // remove only CSS backdrops, keeping actual 3D material colours intact.
+ const canvases=child.querySelectorAll('canvas');
+ canvases.forEach(canvas=>{
+  for(let el=canvas;el&&el.nodeType===1;el=el.parentElement){
+   el.style.setProperty('background','transparent','important');
+   el.style.setProperty('background-color','transparent','important');
+   el.style.setProperty('background-image','none','important');
+  }
+ });
+ if(!canvases.length){
+  root.style.setProperty('background','transparent','important');
+  if(child.body)child.body.style.setProperty('background','transparent','important');
+ }
+ return true;
+}
+frame.addEventListener('load',()=>makeAvatarDocumentTransparent());
+
 window.addEventListener('message',event=>{
  if(event.origin!==location.origin||event.source!==frame.contentWindow)return;
  if(event.data?.channel!=='pocket-avatar-v4')return;
  if(event.data.action==='error'){nativeMessage('error');return}
  if(event.data.action!=='ready'||ready)return;
- ready=true;readyAt=performance.now();api('show');
+ ready=true;readyAt=performance.now();makeAvatarDocumentTransparent();api('show');
  requestAnimationFrame(()=>requestAnimationFrame(()=>stage.classList.add('materializing')));
  nativeMessage('ready');
 });
