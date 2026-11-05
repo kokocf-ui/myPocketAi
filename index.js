@@ -2052,7 +2052,7 @@ function shopArchive(data,status,keepUnchecked=false,nextName=''){
 }
 function shopValidateQuantity(value){
  const trimmed=String(value||'').trim();
- return trimmed===''||(/^\d{1,6}(?:[.,]\d{1,3})?$/.test(trimmed)&&Number(trimmed.replace(',','.'))>0);
+ return trimmed===''||(/^\\d{1,6}(?:[.,]\\d{1,3})?$/.test(trimmed)&&Number(trimmed.replace(',','.'))>0);
 }
 function shopLabel(ro,en){return learningLabel(ro,en)}
 function shopButton(ro,en,css='secondary-btn'){
