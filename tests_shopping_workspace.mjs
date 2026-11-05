@@ -66,6 +66,13 @@ assert.deepEqual(Array.from(spoken,x=>x.name),['cartofi','ouă','lapte','roșii'
 assert.deepEqual(Array.from(spoken,x=>x.quantity),['2','10','1','0.5']);
 assert.deepEqual(Array.from(spoken,x=>x.unit),['kg','buc','l','kg']);
 assert.equal(evalIn("shopVoiceEnd('trei pâini atât').ended"),true);
+assert.equal(evalIn("shopVoiceEnd('arată lista').showList"),true);
+assert.equal(evalIn("shopVoiceEnd('arată lista').text"),'');
+assert.equal(evalIn("shopVoiceEnd('două kilograme de cartofi arată lista').showList"),true);
+assert.equal(evalIn("shopVoiceEnd('două kilograme de cartofi arată lista').text"),'două kilograme de cartofi');
+assert.equal(evalIn("shopVoiceEnd('zece ouă').ended"),false);
+assert.match(inline,/if\(ending.showList\)/);
+
 assert.equal(evalIn("shopVoiceDiacritics('faina capsuni patrunjel')"),'făină căpșuni pătrunjel');
 const observed=evalIn("shopVoiceItems('2 kg de cartofi 1 L de lapte 1 L de ulei 10 ouă o jumătate de kilogram de roșii')");
 assert.equal(observed.length,5,'spoken quantities in screenshot must split into five products');
