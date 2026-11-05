@@ -2,6 +2,13 @@ import assert from "node:assert/strict";
 import {classifyNewsRequest} from "./response_intent.mjs";
 const cases=[
  ["Ce evenimente geopolitice au avut loc în ultimele 24 de ore?","article_collection"],
+ ["Ce evenimente importante s-au întâmplat ieri în lume?","article_collection"],
+ ["Ce evenimente importante s-au întâmplat astăzi la nivel mondial?","article_collection"],
+ ["What major events happened yesterday around the world?","article_collection"],
+ ["Ce evenimente au avut loc ieri în România?","article_collection"],
+ ["Care sunt evenimentele din Oradea în noiembrie?","none"],
+ ["Ce concerte au fost ieri în lume?","none"],
+ ["Ce evenimente importante s-au întâmplat în anul 2020 în lume?","none"],
  ["Știri geopolitice internaționale","article_collection"],
  ["Latest geopolitical news from the last 24 hours","article_collection"],
  ["Latest news about international diplomacy","article_collection"],
