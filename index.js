@@ -1597,6 +1597,10 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 .agenda-manual summary{cursor:pointer;font-size:.88rem}
 .agenda-manual-fields{display:grid;grid-template-columns:1fr;gap:.4rem;margin-top:.55rem}
 .agenda-manual-fields input,.agenda-manual-fields button{min-width:0;width:100%;box-sizing:border-box}
+.agenda-birthday-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;margin-top:.5rem}
+.agenda-birthday-fields input,.agenda-birthday-fields button{min-width:0;width:100%;box-sizing:border-box}
+.agenda-birthday-fields input:first-child{grid-column:1/-1}
+.agenda-birthday-fields button[type=submit]{grid-column:1/-1}
 .agenda-confirm{display:grid;grid-template-columns:minmax(0,1fr) minmax(4rem,auto) minmax(4rem,auto);align-items:center;gap:.4rem}
 .agenda-confirm span{overflow-wrap:anywhere}
 .agenda-confirm button{padding:.5rem!important;font-size:.85rem}
@@ -2214,13 +2218,50 @@ function openOrganizeCategory(key){
 /* Calendar workspace: separate storage and speech state from shopping lists.
    No background alarms are promised: this first iteration is a local agenda. */
 const POCKET_AGENDA_KEY='mypocketai.agenda.v1';
-let agendaListening=false,agendaSpeech=null,agendaPendingDelete=null;
+let agendaListening=false,agendaSpeech=null,agendaPendingDelete=null,agendaBirthdayEdit=null;
 function agendaRead(){
- try{return (JSON.parse(localStorage.getItem(POCKET_AGENDA_KEY)||'[]')||[]).filter(e=>e&&typeof e.title==='string'&&Number.isFinite(Date.parse(e.when)))}catch{return []}
+ try{return (JSON.parse(localStorage.getItem(POCKET_AGENDA_KEY)||'[]')||[]).filter(e=>e&&typeof e.title==='string'&&(agendaIsBirthday(e)||Number.isFinite(Date.parse(e.when))))}catch{return []}
 }
 function agendaWrite(events){
  try{localStorage.setItem(POCKET_AGENDA_KEY,JSON.stringify(events));return true}
  catch{notify(learningLabel('Agenda nu a putut fi salvată.','Could not save the agenda.'));return false}
+}
+
+function agendaBirthdayFields(day,month,year){
+ const d=Number(day),m=Number(month),y=year===''||year===null||year===undefined?null:Number(year);
+ if(!Number.isInteger(d)||!Number.isInteger(m)||m<1||m>12||d<1||d>31||y!==null&&(!Number.isInteger(y)||y<1000||y>9999))return null;
+ const check=new Date(y===null?2000:y,m-1,d);
+ if(check.getMonth()!==m-1||check.getDate()!==d)return null;
+ return {birthdayDay:d,birthdayMonth:m,birthYear:y};
+}
+function agendaIsBirthday(e){return e?.kind==='birthday'&&Boolean(agendaBirthdayFields(e.birthdayDay,e.birthdayMonth,e.birthYear))}
+function agendaNextDate(e,now=new Date()){
+ if(!agendaIsBirthday(e))return new Date(e.when);
+ const occurrence=year=>new Date(year,e.birthdayMonth-1,Math.min(e.birthdayDay,new Date(year,e.birthdayMonth,0).getDate()));
+ let y=now.getFullYear(),next=occurrence(y);
+ if(next<new Date(y,now.getMonth(),now.getDate()))next=occurrence(++y);
+ return next;
+}
+function agendaBirthdaySave(title,fields,id=null){
+ const events=agendaRead(),index=events.findIndex(x=>x.id===id);
+ const event={id:id||shopId(),title:title.trim().slice(0,140),kind:'birthday',...fields,createdAt:index>=0?events[index].createdAt:new Date().toISOString()};
+ if(index<0)events.push(event);else events[index]=event;
+ return agendaWrite(events);
+}
+function agendaBirthdaySpoken(text){
+ const plain=shopVoiceFold(text);
+ if(!plain.includes('ziua de nastere')&&!plain.includes('aniversarea'))return null;
+ const months=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+ const tokens=plain.split(' '),monthIndex=tokens.findIndex(x=>months.includes(x));
+ let d,m,y=null,strip='';
+ if(monthIndex>0){d=tokens[monthIndex-1];m=months.indexOf(tokens[monthIndex])+1;if(tokens[monthIndex+1]&&tokens[monthIndex+1].length===4)y=tokens[monthIndex+1];strip=tokens.slice(monthIndex-1,monthIndex+(y?2:1)).join(' ')}
+ else{
+  const raw=tokens.find(x=>x.includes('.')||x.includes('/'));
+  if(raw){const parts=raw.split(/[.\\/]/);[d,m,y]=parts;strip=raw}
+ }
+ const fields=agendaBirthdayFields(d,m,y);
+ const command=text.replace(strip,'').replace(/^(?:adaugă|adauga|notează|noteaza|pune|salvează|salveaza)\\s+/iu,'').replace(/(?:ziua de naștere|ziua de nastere|aniversarea)\\s*(?:a\\s+|lui\\s+)?/iu,'').replace(/\\s+(?:pe|la|în|in)\\s*$/iu,'').trim();
+ return {fields,title:command};
 }
 function agendaDate(text,now=new Date()){
  const spoken=shopVoiceFold(text);
@@ -2271,6 +2312,9 @@ function agendaVoiceCommand(text){
   if(candidates.length===1){agendaPendingDelete=candidates[0].id;renderAgenda();return}
   notify(learningLabel('Nu am găsit o programare unică.','Could not identify one appointment.'));return
  }
+ const birthday=agendaBirthdaySpoken(spoken);
+ if(birthday){if(!birthday.fields||!birthday.title){notify(learningLabel('Spune numele și data: „Ziua de naștere a Mariei pe 12 mai”.','Say name and date: Maria birthday on 12 May.'));return}
+ if(agendaBirthdaySave(birthday.title,birthday.fields)){renderAgenda();notify(learningLabel('Zi de naștere salvată anual.','Yearly birthday saved.'))}return}
  const parsed=agendaDate(spoken);
  if(!parsed){notify(learningLabel('Spune și data, și ora: de exemplu „Programează dentistul mâine la ora 10”.','Please include date and time.'));return}
  const title=agendaExtractTitle(spoken,parsed);
@@ -2324,16 +2368,29 @@ function renderAgenda(){
  scroll.append(hint);
  const title=document.createElement('div');title.className='shop-heading';const label=document.createElement('strong');
  label.textContent=learningLabel('Programările mele','My appointments');title.append(label);scroll.append(title);
- const events=agendaRead().sort((a,b)=>Date.parse(a.when)-Date.parse(b.when));
+ const events=agendaRead().sort((a,b)=>agendaNextDate(a)-agendaNextDate(b));
  const entries=document.createElement('div');entries.className='agenda-entries';
  if(!events.length){const empty=document.createElement('p');empty.textContent=learningLabel('Nu ai programări. Apasă microfonul și spune ce dorești să adaugi.','No appointments yet. Tap the microphone to add one.');entries.append(empty)}
  const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
  for(const item of events){
   const row=document.createElement('div');row.className='agenda-event';
   const stamp=document.createElement('span');stamp.className='agenda-event-time';
-  stamp.textContent=new Date(item.when).toLocaleString(locale,{weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-  const name=document.createElement('strong');name.textContent=item.title;row.append(stamp,name);
+  stamp.textContent=agendaIsBirthday(item)?agendaNextDate(item).toLocaleDateString(locale,{weekday:'short',day:'2-digit',month:'short'})+' · '+learningLabel('anual','yearly'):new Date(item.when).toLocaleString(locale,{weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  const name=document.createElement('strong');name.textContent=(agendaIsBirthday(item)?'🎂 ':'')+item.title;row.append(stamp,name);if(agendaIsBirthday(item)){const edit=document.createElement('button');edit.type='button';edit.className='secondary-btn';edit.textContent=learningLabel('Modifică','Edit');edit.onclick=()=>{agendaBirthdayEdit=item.id;renderAgenda()};row.append(edit)}
   entries.append(row);
+  if(agendaIsBirthday(item)&&agendaBirthdayEdit===item.id){
+   const editor=document.createElement('form');editor.className='agenda-birthday-fields';
+   const name=document.createElement('input');name.value=item.title;name.required=true;name.placeholder=learningLabel('Nume','Name');
+   const day=document.createElement('input');day.type='number';day.min=1;day.max=31;day.value=item.birthdayDay;day.required=true;
+   const month=document.createElement('input');month.type='number';month.min=1;month.max=12;month.value=item.birthdayMonth;month.required=true;
+   const year=document.createElement('input');year.type='number';year.min=1000;year.max=9999;year.value=item.birthYear||'';year.placeholder=learningLabel('An opțional','Optional year');
+   const save=document.createElement('button');save.className='primary-btn';save.textContent=learningLabel('Salvează','Save');save.type='submit';
+   const cancel=document.createElement('button');cancel.type='button';cancel.textContent=learningLabel('Renunță','Cancel');cancel.onclick=()=>{agendaBirthdayEdit=null;renderAgenda()};
+   const remove=document.createElement('button');remove.type='button';remove.textContent=learningLabel('Șterge','Delete');remove.onclick=()=>{agendaBirthdayEdit=null;agendaPendingDelete=item.id;renderAgenda()};
+   editor.append(name,day,month,year,save,cancel,remove);
+   editor.onsubmit=e=>{e.preventDefault();const fields=agendaBirthdayFields(day.value,month.value,year.value);if(!fields){notify(learningLabel('Dată invalidă.','Invalid date.'));return}if(agendaBirthdaySave(name.value,fields,item.id)){agendaBirthdayEdit=null;renderAgenda()}};
+   entries.append(editor);
+  }
   if(agendaPendingDelete===item.id){
    const confirm=document.createElement('div');confirm.className='agenda-confirm';
    const text=document.createElement('span');text.textContent=learningLabel('Ștergi programarea „','Delete appointment “')+item.title+'”?';confirm.append(text);
@@ -2353,8 +2410,19 @@ function renderAgenda(){
  form.append(name,when,add);form.onsubmit=e=>{e.preventDefault();const date=new Date(when.value);if(!name.value.trim()||Number.isNaN(date.getTime()))return;
   const all=agendaRead();all.push({id:shopId(),title:name.value.trim().slice(0,140),when:date.toISOString(),createdAt:new Date().toISOString()});
   if(agendaWrite(all))renderAgenda()};manual.append(form);scroll.append(manual);
+ const birthday=document.createElement('details');birthday.className='agenda-manual';
+ const birthdaySummary=document.createElement('summary');birthdaySummary.textContent=learningLabel('🎂 Zi de naștere (anual)','🎂 Birthday (yearly)');birthday.append(birthdaySummary);
+ const birthForm=document.createElement('form');birthForm.className='agenda-birthday-fields';
+ const person=document.createElement('input');person.placeholder=learningLabel('Nume','Name');person.required=true;
+ const day=document.createElement('input');day.type='number';day.min=1;day.max=31;day.placeholder=learningLabel('Zi','Day');day.required=true;
+ const month=document.createElement('input');month.type='number';month.min=1;month.max=12;month.placeholder=learningLabel('Lună','Month');month.required=true;
+ const year=document.createElement('input');year.type='number';year.min=1000;year.max=9999;year.placeholder=learningLabel('An naștere (opțional)','Birth year (optional)');
+ const save=document.createElement('button');save.type='submit';save.className='primary-btn';save.textContent=learningLabel('Salvează anual','Save yearly');
+ birthForm.append(person,day,month,year,save);
+ birthForm.onsubmit=e=>{e.preventDefault();const fields=agendaBirthdayFields(day.value,month.value,year.value);if(!fields){notify(learningLabel('Dată invalidă.','Invalid date.'));return}if(agendaBirthdaySave(person.value,fields))renderAgenda()};
+ birthday.append(birthForm);scroll.append(birthday);
  const note=document.createElement('small');note.className='agenda-footnote';
- note.textContent=learningLabel('Programările sunt păstrate pe dispozitiv. Notificările când aplicația este închisă nu sunt încă activate.','Appointments are saved on this device. Closed-app notifications are not yet active.');
+ note.textContent=learningLabel('Programările și aniversările anuale sunt păstrate pe dispozitiv. Notificările când aplicația este închisă nu sunt încă activate.','Appointments and annual birthdays are saved on this device. Closed-app notifications are not yet active.');
  scroll.append(note);
 }
 
