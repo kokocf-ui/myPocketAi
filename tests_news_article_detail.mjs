@@ -36,6 +36,26 @@ try{
  assert.equal(payload.content_status,"source_based_summary");
  assert.equal(payload.status,"success");
  assert.equal(requests,2);
+ // Long articles must not be represented by the first 950 characters.
+ // Every source segment is processed, and the final segment survives in the reader.
+ const paragraphs=Array.from({length:17},(_,i)=>"<p>"+("Section "+(i+1)+": Independent reporting adds dates, sources, contextual information, and carefully attributed developments that explain the subject. ").repeat(4)+"</p>").join("");
+ globalThis.fetch=async()=>new Response('<html lang="en"><body><article>'+paragraphs+'</article></body></html>',{headers:{"content-type":"text/html"}});
+ let sectionCalls=0;
+ const richEnv={AI:{run:async (_model,request)=>{
+  assert.match(request.messages[0].content,/Summarize only/);
+  const match=request.messages[1].content.match(/ARTICLE SECTION (\d+) OF (\d+)/);
+  assert.ok(match,"Each source section should be clearly identified");
+  sectionCalls++;
+  return {response:("Partea "+match[1]+": Sunt prezentate mai multe informații concrete, contextul evenimentelor și declarațiile atribuite surselor. Acest segment detaliază faptele relatate și diferențiază afirmațiile de contextul lor. ").repeat(3)};
+ }}};
+ const expanded=await readNewsArticleDetail(richEnv,"https://publisher.example/article","ro");
+ assert.equal(expanded.status,"success");
+ assert.equal(expanded.content_status,"source_based_summary");
+ assert.equal(expanded.reading_mode,"expanded_article_digest");
+ assert.equal(expanded.article_is_full_text,false);
+ assert.ok(expanded.section_count>=2&&expanded.section_count===sectionCalls);
+ assert.ok(expanded.summary.length>1000,"The expanded article account must not be truncated at 950 characters");
+ assert.ok(expanded.summary.includes("Partea "+sectionCalls+":"),"Last section should be represented");
  globalThis.fetch=async()=>new Response("<html><body><p>Very short.</p></body></html>",{headers:{"content-type":"text/html"}});
  const unavailable=await readNewsArticleDetail(env,"https://publisher.example/article","ro");
  assert.equal(unavailable.content_status,"unavailable");
