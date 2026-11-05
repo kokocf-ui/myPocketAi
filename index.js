@@ -3017,17 +3017,18 @@ function appendAdaptivePresentation(host,record){
  const cell=(row,key)=>String(row?.cells?.[key]??"").slice(0,700);
  const showDetail=row=>{
    host.replaceChildren();host.scrollTop=0;
-   const back=add("button",labels.back,"padding:10px 14px;margin:0 0 14px;color:#dbf8ff;border:1px solid #54859b;border-radius:10px;background:#17384c");
-   back.type="button";back.onclick=showTable;
    const title=cell(row,"title")||cell(row,"name")||labels.details;
    add("h3",title,"font-size:19px;line-height:1.4;overflow-wrap:anywhere;margin:0 0 12px;color:#dbf8ff");
    const source=cell(row,"source_name"),date=dateText(cell(row,"published_at"));
-   if(source||date)add("p",[source,date].filter(Boolean).join(" · "),"font-size:13px;opacity:.85;margin:0 0 12px");
-   add("p",labels.unverified,"font-size:12px;color:#ffdaa5;margin:0 0 12px");
+   if(date)add("p",date,"font-size:13px;opacity:.85;margin:0 0 12px");
    const url=safeUrl(row.source_url);
-   const detail=add("p",lang==="ro"?"Se verifică textul articolului original…":"Reading the original publisher article…","line-height:1.65;overflow-wrap:anywhere;white-space:pre-wrap");
-   if(url){const a=add("a",isTelegramLink(url)?(lang==="ro"?"Deschide postarea Telegram":"Open Telegram post"):labels.original,"color:#99ecff;text-decoration:underline;display:inline-block;margin-top:14px");a.href=url;a.target="_blank";a.rel="noopener noreferrer";}
+   const detail=add("p",lang==="ro"?"Se citește articolul…":"Reading the article…","line-height:1.7;overflow-wrap:anywhere;white-space:pre-wrap;margin:0 0 20px");
    loadSourceBasedNewsDetail(detail,url,lang,cell(row,"summary"));
+   const sourceText=lang==="ro"?"Sursa: ":lang==="fr"?"Source : ":lang==="de"?"Quelle: ":lang==="es"?"Fuente: ":lang==="it"?"Fonte: ":lang==="pt"?"Fonte: ":lang==="nl"?"Bron: ":lang==="ru"?"Источник: ":lang==="pl"?"Źródło: ":"Source: ";
+   const footer=add("p",sourceText+(source||""),"font-size:13px;color:#c6e6f1;margin:14px 0 16px;overflow-wrap:anywhere");
+   if(url){const a=add("a",isTelegramLink(url)?(lang==="ro"?"Deschide postarea Telegram":"Open Telegram post"):labels.original,"color:#99ecff;text-decoration:underline;display:block;margin-top:5px",footer);a.href=url;a.target="_blank";a.rel="noopener noreferrer";}
+   const back=add("button",labels.back,"padding:11px 16px;margin:10px 0 22px;color:#dbf8ff;border:1px solid #54859b;border-radius:10px;background:#17384c;font:inherit");
+   back.type="button";back.onclick=showTable;
  };
  let newsPage=0;
  const showTable=()=>{
@@ -3167,15 +3168,18 @@ function appendNewsCollectionTable(host,record){
  };
  const renderDetail=item=>{
   host.replaceChildren();host.scrollTop=0;
-  const back=add("button",t[4],"border:1px solid #4d8a9c;border-radius:10px;background:#12354b;color:#e2f9ff;padding:10px 13px;margin:0 0 12px;font:inherit");
-  back.type="button";back.onclick=renderList;
   add("h3",String(item.title||""),"font-size:19px;line-height:1.4;color:#d9fbff;margin:4px 0 13px;overflow-wrap:anywhere");
-  add("p",String(item.source_name||"")+" · "+dateText(item.published_at),"font-size:14px;margin:0 0 12px;color:#b8d8e5");
-  add("p",t[6],"font-size:13px;color:#ffd7aa;margin:0 0 12px");
-  const detail=add("p",lang==="ro"?"Se verifică textul articolului original…":"Reading the original publisher article…","white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;margin:0 0 18px");
+  const date=dateText(item.published_at);
+  if(item.published_at)add("p",date,"font-size:13px;margin:0 0 12px;color:#b8d8e5");
+  const detail=add("p",lang==="ro"?"Se citește articolul…":"Reading the article…","white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7;margin:0 0 20px");
   const url=safeArticleUrl(item.url);
-  if(url){const link=add("a",isTelegramLink(url)?(lang==="ro"?"Deschide postarea Telegram":"Open Telegram post"):t[5],"display:inline-block;color:#9beefa;text-decoration:underline;overflow-wrap:anywhere");link.href=url;link.target="_blank";link.rel="noopener noreferrer";}
+  // For Telegram, the optional paste-and-translate form is inserted next,
+  // before the common source footer and back button.
   loadSourceBasedNewsDetail(detail,url,lang,String(item.summary||""));
+  const footer=add("p",(lang==="ro"?"Sursa: ":lang==="fr"?"Source : ":lang==="de"?"Quelle: ":lang==="es"?"Fuente: ":lang==="it"?"Fonte: ":lang==="pt"?"Fonte: ":lang==="nl"?"Bron: ":lang==="ru"?"Источник: ":lang==="pl"?"Źródło: ":"Source: ")+String(item.source_name||""),"font-size:13px;color:#c6e6f1;margin:14px 0 16px;overflow-wrap:anywhere");
+  if(url){const link=add("a",isTelegramLink(url)?(lang==="ro"?"Deschide postarea Telegram":"Open Telegram post"):t[5],"display:block;margin-top:5px;color:#9beefa;text-decoration:underline;overflow-wrap:anywhere",footer);link.href=url;link.target="_blank";link.rel="noopener noreferrer";}
+  const back=add("button",t[4],"border:1px solid #4d8a9c;border-radius:10px;background:#12354b;color:#e2f9ff;padding:11px 16px;margin:10px 0 22px;font:inherit");
+  back.type="button";back.onclick=renderList;
  };
  renderList();return true;
 }
@@ -3260,7 +3264,7 @@ async function loadSourceBasedNewsDetail(target,url,language,indexExcerpt=''){
   const data=await response.json();
   if(data?.status==="success"&&typeof data.summary==="string"&&data.summary.trim()){
    const excerpt=data.content_status==="source_excerpt";
-   target.textContent=(excerpt?messages.excerpt+"\\n"+messages.notTranslated:messages.summary)+"\\n\\n"+data.summary.trim();
+   target.textContent=(excerpt?messages.excerpt+"\\n"+messages.notTranslated:data.reading_mode==="expanded_article_digest"?(language==="ro"?"Prezentare detaliată bazată pe articol:":language==="en"?"Detailed source-based account:":messages.summary):messages.summary)+"\\n\\n"+data.summary.trim();
   }else target.textContent=messages.unavailable;
  }catch{target.textContent=messages.unavailable;}
 }
