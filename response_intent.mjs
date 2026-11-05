@@ -10,7 +10,7 @@ export function classifyNewsRequest(message) {
   const evidenceRequest = /\b(?:surse|sources|articole|articles|titluri|headlines|stiri|news|noutati|actualitati|evenimente geopolitice)\b/.test(text);
   const briefing = /\b(?:rezum\w*|sumar\w*|sintez\w*|briefing|summary|summari\w*|pe scurt|in cateva cuvinte|short overview|tldr)\b/.test(text);
   // Source-check requests are analytical verification, not headline collections.
-  const verification = /\\b(?:verific\\w*|confirm\\w*|corobor\\w*|fact.check\\w*|verify|verification|corroborat\\w*|independent sources|surse independente)\\b/.test(text);
+  const verification = /\b(?:verific\w*|confirm\w*|corobor\w*|fact.check\w*|verify|verification|corroborat\w*|independent sources|surse independente)\b/.test(text);
   const analysis = /\b(?:analiz\w*|analyse|analyze|analysis|explic\w*|explain|de ce|why|cauz\w*|cause\w*|consecint\w*|implicati\w*|impact|compar\w*|compare|perspectiv\w*|predict\w*|what if|cum influenteaza|how does)\b/.test(text);
   // Retrospective world/national happenings are news, not calendar programmes.
   // Keep concerts, performances and local schedules on the event-discovery path.
