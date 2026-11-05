@@ -7,14 +7,17 @@ const html=await(await frontend.fetch(new Request('https://shopping-regression.t
 const script=html.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script,'frontend script is present');
 new vm.Script(script);
-assert.match(script,/shoppingPendingAction=\{type:'reuse',historyIndex,onlyUnchecked:false\}/);
+assert.match(script,/shoppingPendingAction=\{type:'deleteArchived',historyIndex,entryId:entry\.id\|\|null\}/);
 assert.match(script,/shoppingPendingAction=\{type:'reuse',historyIndex,onlyUnchecked:true\}/);
 assert.match(script,/selected\.map\(i=>shopNewItem\(i\.name,i\.quantity,i\.unit\)\)/,
  'reuse creates unchecked copies rather than mutating archived purchases');
 assert.match(script,/if\(data\.items\.length\)\{notify\(shopLabel\('Arhivează întâi lista activă\.'/,
  'active list requires explicit archiving before history reuse');
-assert.match(script,/approve\.disabled=!entry\|\|selected\.length===0\|\|data\.items\.length>0/,
- 'empty archived selections cannot be confirmed');
+assert.match(script,/approve\.disabled=!entry\|\|selected\.length===0\|\|data\.items\.length>0/);
+assert.match(script,/data\.history\.splice\(historyIndex,1\)/,'archived deletion removes only the selected archived list');
+assert.match(script,/footer\.append\(archive,history\)/,'active view has only archive/history actions');
+assert.doesNotMatch(script,/footer\.append\(add,archive,history\)/,'no redundant add-item action in active table');
+
 
 const start=script.indexOf('function shopId(){');
 const end=script.indexOf('function renderShoppingList(){',start);
