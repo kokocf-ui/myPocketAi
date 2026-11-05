@@ -3026,8 +3026,8 @@ function appendAdaptivePresentation(host,record){
    add("p",labels.unverified,"font-size:12px;color:#ffdaa5;margin:0 0 12px");
    const url=safeUrl(row.source_url);
    const detail=add("p",lang==="ro"?"Se verifică textul articolului original…":"Reading the original publisher article…","line-height:1.65;overflow-wrap:anywhere;white-space:pre-wrap");
-   if(url){const a=add("a",labels.original,"color:#99ecff;text-decoration:underline;display:inline-block;margin-top:14px");a.href=url;a.target="_blank";a.rel="noopener noreferrer";}
-   loadSourceBasedNewsDetail(detail,url,lang);
+   if(url){const a=add("a",isTelegramLink(url)?(lang==="ro"?"Deschide postarea Telegram":"Open Telegram post"):labels.original,"color:#99ecff;text-decoration:underline;display:inline-block;margin-top:14px");a.href=url;a.target="_blank";a.rel="noopener noreferrer";}
+   loadSourceBasedNewsDetail(detail,url,lang,cell(row,"summary"));
  };
  const showTable=()=>{
    host.replaceChildren();host.scrollTop=0;
@@ -3120,18 +3120,72 @@ function appendNewsCollectionTable(host,record){
   add("p",t[6],"font-size:13px;color:#ffd7aa;margin:0 0 12px");
   const detail=add("p",lang==="ro"?"Se verifică textul articolului original…":"Reading the original publisher article…","white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;margin:0 0 18px");
   const url=safeArticleUrl(item.url);
-  if(url){const link=add("a",t[5],"display:inline-block;color:#9beefa;text-decoration:underline;overflow-wrap:anywhere");link.href=url;link.target="_blank";link.rel="noopener noreferrer";}
-  loadSourceBasedNewsDetail(detail,url,lang);
+  if(url){const link=add("a",isTelegramLink(url)?(lang==="ro"?"Deschide postarea Telegram":"Open Telegram post"):t[5],"display:inline-block;color:#9beefa;text-decoration:underline;overflow-wrap:anywhere");link.href=url;link.target="_blank";link.rel="noopener noreferrer";}
+  loadSourceBasedNewsDetail(detail,url,lang,String(item.summary||""));
  };
  renderList();return true;
 }
 // Only a selected news row triggers publisher retrieval. The search snippet is not the article.
-async function loadSourceBasedNewsDetail(target,url,language){
+// Telegram links from a web index are references, not automatically readable articles.
+// Do not send channel content to AI: only a user-initiated paste-and-translate action may do that.
+function isTelegramLink(value){
+ try{const url=new URL(String(value||""));return url.protocol==="https:"&&["t.me","www.t.me","telegram.me","www.telegram.me"].includes(url.hostname.toLowerCase());}catch{return false;}
+}
+function isExactTelegramPost(value){
+ try{
+  if(!isTelegramLink(value))return false;
+  const url=new URL(String(value)),parts=url.pathname.split("/").filter(Boolean);
+  if(parts[0]==="s")parts.shift();
+  return parts.length===2&&/^[a-z][a-z0-9_]{4,31}$/i.test(parts[0])&&/^[1-9][0-9]{0,11}$/.test(parts[1]);
+ }catch{return false;}
+}
+function appendTelegramTranslationUI(target,url,language,indexExcerpt){
+ const labels={
+  ro:["Fragment tradus din indexul public (nu este postarea integrală):","Indexul public nu conține un fragment accesibil.","Nu pot citi automat întregul canal Telegram. Deschide postarea exactă și copiază textul pe care dorești să îl traduci.","Lipește textul postării publice aici","Tradu în română","Textul lipit va fi trimis modelului AI numai când apeși «Tradu». Nu este stocat ca arhivă a canalului.","Introdu cel puțin 20 de caractere.","Se traduce textul furnizat…","Traducere a textului furnizat de tine (afirmații neverificate):","Nu am putut traduce textul. Încearcă din nou.","Linkul nu identifică o postare Telegram exactă."],
+  en:["Excerpt from the public index (not the full post):","No readable excerpt in the public index.","I cannot automatically read the full Telegram channel. Open the exact post and copy the text you wish to translate.","Paste the public post text here","Translate into English","Pasted text is sent to AI only when you press Translate. It is not stored as a channel archive.","Enter at least 20 characters.","Translating the submitted text…","Your supplied text translated (claims not verified):","Translation unavailable. Please try again.","This link does not identify an exact Telegram post."],
+  fr:["Extrait de l’index public (pas le message complet) :","Aucun extrait accessible dans l’index public.","Ouvrez la publication exacte et copiez le texte à traduire.","Collez ici le texte de la publication publique","Traduire en français","Le texte est envoyé à l’IA uniquement après votre clic, sans archivage du canal.","Saisissez au moins 20 caractères.","Traduction en cours…","Traduction du texte fourni (affirmations non vérifiées) :","Traduction indisponible.","Le lien n’identifie pas une publication exacte."],
+  de:["Auszug aus dem öffentlichen Index (nicht der vollständige Beitrag):","Kein lesbarer Auszug verfügbar.","Öffnen Sie den genauen Beitrag und kopieren Sie den Text zur Übersetzung.","Text des öffentlichen Beitrags hier einfügen","Ins Deutsche übersetzen","Der Text wird erst nach Ihrem Klick an die KI gesendet und nicht als Kanalarchiv gespeichert.","Mindestens 20 Zeichen eingeben.","Text wird übersetzt…","Übersetzung des eingefügten Textes (Behauptungen ungeprüft):","Übersetzung nicht verfügbar.","Kein Link zu einem einzelnen Beitrag."],
+  it:["Estratto dall’indice pubblico (non il post completo):","Nessun estratto leggibile.","Apri il post preciso e copia il testo da tradurre.","Incolla qui il testo del post pubblico","Traduci in italiano","Il testo viene inviato all’IA solo quando premi Traduci e non viene archiviato.","Inserisci almeno 20 caratteri.","Traduzione in corso…","Traduzione del testo fornito (affermazioni non verificate):","Traduzione non disponibile.","Il link non identifica un singolo post."],
+  es:["Extracto del índice público (no la publicación completa):","No hay extracto legible.","Abre la publicación exacta y copia el texto que deseas traducir.","Pega aquí el texto público","Traducir al español","El texto solo se envía a la IA al pulsar Traducir, sin archivarse.","Introduce al menos 20 caracteres.","Traduciendo…","Traducción del texto aportado (afirmaciones sin verificar):","Traducción no disponible.","El enlace no identifica una publicación concreta."],
+  pt:["Excerto do índice público (não é a publicação completa):","Não existe um excerto legível.","Abra a publicação exata e copie o texto a traduzir.","Cole aqui o texto da publicação pública","Traduzir para português","O texto só é enviado à IA quando clicar em Traduzir e não fica arquivado.","Introduza pelo menos 20 caracteres.","A traduzir…","Tradução do texto fornecido (alegações não verificadas):","Tradução indisponível.","Este link não identifica uma publicação exata."],
+  nl:["Fragment uit de openbare index (niet het volledige bericht):","Geen leesbaar fragment beschikbaar.","Open het exacte bericht en kopieer de tekst voor vertaling.","Plak de openbare berichttekst hier","Vertaal naar Nederlands","Tekst wordt pas na uw klik naar AI verzonden en niet als kanaalarchief opgeslagen.","Voer minstens 20 tekens in.","Tekst wordt vertaald…","Vertaling van uw tekst (claims niet geverifieerd):","Vertaling niet beschikbaar.","Deze link verwijst niet naar één specifiek bericht."],
+  ru:["Фрагмент из общедоступного индекса (не полный пост):","В индексе нет читаемого фрагмента.","Откройте точный пост и скопируйте текст для перевода.","Вставьте текст публичного сообщения","Перевести на русский","Текст отправляется ИИ только после нажатия кнопки и не архивируется.","Введите не менее 20 символов.","Перевод текста…","Перевод предоставленного текста (утверждения не проверены):","Перевод недоступен.","Ссылка не указывает на конкретный пост."],
+  pl:["Fragment z publicznego indeksu (nie cała publikacja):","Brak czytelnego fragmentu.","Otwórz konkretny wpis i skopiuj tekst do tłumaczenia.","Wklej tekst publicznego wpisu","Przetłumacz na polski","Tekst trafi do AI dopiero po kliknięciu, bez archiwizowania kanału.","Wpisz co najmniej 20 znaków.","Tłumaczenie tekstu…","Tłumaczenie podanego tekstu (twierdzenia niezweryfikowane):","Tłumaczenie niedostępne.","Link nie prowadzi do konkretnego wpisu."]
+ }[language]||[];
+ const content=String(indexExcerpt||"").trim();
+ target.textContent=(content&& !/^(?:Extras indisponibil|Excerpt unavailable)/i.test(content)?labels[0]+String.fromCharCode(10)+content:labels[1])+String.fromCharCode(10)+String.fromCharCode(10)+labels[2];
+ const parent=target.parentNode||target.parentElement;
+ if(!parent)return;
+ if(!isExactTelegramPost(url)){const warning=document.createElement("p");warning.textContent=labels[10];parent.append(warning);return;}
+ const wrap=document.createElement("div");wrap.style.cssText="margin:12px 0 18px;display:flex;flex-direction:column;gap:10px";
+ const paste=document.createElement("textarea");paste.rows=5;paste.maxLength=5000;paste.placeholder=labels[3];
+ paste.setAttribute("aria-label",labels[3]);paste.style.cssText="width:100%;min-height:110px;box-sizing:border-box;border-radius:10px;padding:12px;background:#15394d;color:#e6faff;border:1px solid #5890a4;font:inherit";
+ const note=document.createElement("small");note.textContent=labels[5];note.style.cssText="display:block;color:#c2d6e2;line-height:1.45";
+ const button=document.createElement("button");button.type="button";button.textContent=labels[4];
+ button.style.cssText="align-self:flex-start;padding:10px 16px;border-radius:10px;background:#1b5466;color:#fff;border:1px solid #77b2c5;font:inherit";
+ const result=document.createElement("p");result.style.cssText="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6";
+ button.onclick=async()=>{
+  const text=String(paste.value||"").trim();if(text.length<20){result.textContent=labels[6];return;}
+  button.disabled=true;result.textContent=labels[7];
+  try{
+   const endpoint=new URL(CLIENT_CONFIG.apiUrl);endpoint.pathname="/api/telegram-user-translation";endpoint.search="";
+   const response=await fetch(endpoint.href,{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({url,language,text,consent:true})});
+   if(!response.ok)throw Error("translation_http_failure");
+   const data=await response.json();
+   result.textContent=data.status==="success"&&data.content_status==="user_supplied_translation"&&typeof data.text==="string"?
+    labels[8]+String.fromCharCode(10)+String.fromCharCode(10)+data.text:labels[9];
+  }catch{result.textContent=labels[9];}finally{button.disabled=false;}
+ };
+ wrap.append(paste,note,button,result);parent.append(wrap);
+}
+async function loadSourceBasedNewsDetail(target,url,language,indexExcerpt=''){
  const messages={
   ro:{unavailable:"Nu am putut extrage detalii din articolul original. Rezultatul din index nu reprezintă textul articolului. Deschide sursa pentru a-l citi.",summary:"Rezumat bazat pe articolul original (nu text integral):",excerpt:"Fragment din articolul original, netradus:",notTranslated:"Traducerea nu este disponibilă; fragmentul este păstrat în limba sursei."},
   en:{unavailable:"The original article could not be read. Search-index text is not the full article. Open the publisher link.",summary:"Summary based on the original article (not full text):",excerpt:"Original-language excerpt from the publisher:",notTranslated:"Translation is unavailable; this excerpt remains in the source language."}
  }[language]||{unavailable:"Original article details unavailable. Open the publisher link.",summary:"Source-based summary (not full text):",excerpt:"Original-language source excerpt:",notTranslated:"Translation unavailable."};
  if(!url){target.textContent=messages.unavailable;return;}
+ if(isTelegramLink(url)){appendTelegramTranslationUI(target,url,language,indexExcerpt);return;}
  try{
   const endpoint=new URL(CLIENT_CONFIG.apiUrl);endpoint.pathname="/api/news-article-detail";endpoint.search="";
   const response=await fetch(endpoint.href,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url,language})});
