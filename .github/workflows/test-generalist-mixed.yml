@@ -13,6 +13,8 @@ on:
       - tests_dialogue_intent.mjs
       - tests_dialogue_pipeline.mjs
       - tests_news_context.mjs
+      - tests_news_article_detail.mjs
+      - news_article_detail.mjs
       - news_context.mjs
       - news_discovery.mjs
       - telegram_consented_channels.mjs
@@ -70,6 +72,7 @@ jobs:
           node tests_telegram_voluntary_links.mjs
           node tests_telegram_public_web_links.mjs
           node tests_news_reader.mjs
+          node tests_news_article_detail.mjs
           node tests_entity_disambiguation.mjs
           node tests_geographic_profile_selection.mjs
           node tests_locality_list_unique.mjs
