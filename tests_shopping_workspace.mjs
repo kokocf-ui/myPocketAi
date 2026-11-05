@@ -16,8 +16,13 @@ assert.doesNotMatch(style,/(top|bottom):\s*\d{3}px/i,'new layout should not use 
 assert.match(inline,/root\.classList\.add\('adaptive-workspace-view'\)/);
 assert.match(inline,/root\.classList\.remove\('organize-active','organize-chat','adaptive-workspace-view'\)/);
 assert.match(inline,/next\.checked=checkbox\.checked/,'only user checkbox handler changes bought status');
-assert.match(inline,/shopArchive\(data,'completed',transfer\.checked\)/);
+assert.match(inline,/shopArchive\(data,'archived',false\)/);
 assert.match(inline,/shoppingWrite\(data\)/);
+assert.match(inline,/let shoppingMode='entry'/);
+assert.match(inline,/shopButton\('Finalizează','Finish'/);
+assert.match(inline,/shopButton\('Arhivează','Archive'/);
+assert.match(inline,/data\.completedAt=new Date\(\)\.toISOString\(\)/);
+assert.match(inline,/shoppingMode==='active'/);
 assert.match(inline,/SHOPPING_STORAGE_KEY='mypocketai\.shopping\.v1'/,'preserve existing storage key');
 
 const start=inline.indexOf('function shopId(){');
