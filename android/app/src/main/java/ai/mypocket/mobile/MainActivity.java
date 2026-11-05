@@ -368,7 +368,7 @@ public final class MainActivity extends ComponentActivity {
                     if("exit".equals(message.getData()))runOnUiThread(()->finish());
                 });
         }
-        web.loadUrl(APP_URL);
+        web.loadUrl(APP_URL + "?nativeLaunch=1");
         // Ask for runtime permissions during the first opening, not seconds later.
         // GPS is prompted first; microphone follows its result, even if GPS is denied.
         ensureLocationPermission();
