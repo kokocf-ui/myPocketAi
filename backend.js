@@ -1242,7 +1242,7 @@ export default {
     // Owner-only route: no shared public access, no AI ingestion or paid search.
     if(url.pathname==="/api/telegram-direct-status" && request.method==="GET"){
       const readiness=telegramDirectReady(env);
-      return json({app:"Pocket AI",kind:"telegram_mtproto",status:readiness.ready?"ready":"authorization_pending",
+      return json({app:"Pocket AI",kind:"telegram_mtproto",status:readiness.ready?"configured_pending_live_verification":"authorization_pending",
         credentials_configured:readiness.credentials,session_configured:readiness.session,
         owner_access_configured:readiness.owner_access,
         note:"Direct MTProto search is owner-only and requires a logged-in user session; public web-index discovery remains separate.",
