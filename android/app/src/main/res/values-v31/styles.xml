@@ -7,7 +7,7 @@
         <item name="android:navigationBarColor">@color/pocket_navy</item>
         <item name="android:windowBackground">@color/pocket_navy</item>
         <item name="android:windowSplashScreenBackground">@color/pocket_navy</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/pocket_avatar</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/pocket_navy</item>
     </style>
 </resources>
