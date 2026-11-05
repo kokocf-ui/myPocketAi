@@ -5121,13 +5121,18 @@ export default {
           outcomes.push(value);
           const useful=outcomes.filter(x=>x.status==="fulfilled"&&x.value.results.length>0);
           const resultCount=useful.reduce((sum,x)=>sum+x.value.results.length,0);
-          if(!readinessTimer&&useful.length>=(eventResearchIntent?2:1)&&resultCount>=(eventResearchIntent?8:3)){
+          const publisherSearchEngines=new Set(useful.map(x=>x.provider));
+          const broadNewsReady=newsIntent&&newsDiscoveryPlan.broadWorld;
+          const enoughCoverage=broadNewsReady
+            ? publisherSearchEngines.size>=2&&resultCount>=12
+            : useful.length>=(eventResearchIntent?2:1)&&resultCount>=(eventResearchIntent?8:3);
+          if(!readinessTimer&&enoughCoverage){
             // Brief grace period to include an additional almost-finished provider.
-            readinessTimer=setTimeout(readinessResolve,eventResearchIntent?650:newsIntent?2200:250);
+            readinessTimer=setTimeout(readinessResolve,eventResearchIntent?650:newsIntent?newsDiscoveryPlan.broadWorld?700:2200:250);
           }
           return value;
         }));
-        const maxSearchWaitMs=eventResearchIntent?7000:newsIntent?6300:6000;
+        const maxSearchWaitMs=eventResearchIntent?7000:newsIntent?newsDiscoveryPlan.broadWorld?7200:6300:6000;
         try{
           await Promise.race([Promise.all(tracked),ready,new Promise(resolve=>{deadlineTimer=setTimeout(resolve,maxSearchWaitMs)})]);
         }finally{
@@ -5175,10 +5180,13 @@ export default {
           return score;
         };
         const rankedWebSources=[...byUrl.values()].sort((a,b)=>sourceEvidenceScore(b)-sourceEvidenceScore(a));
-        // Keep at least two discovered news listings visible when GDELT responds.
-        const gdeltLeads=newsIntent?rankedWebSources.filter(x=>x.providers.includes("GDELT")).slice(0,22):[];
+        // Diverse publishers rather than eight generic results plus a block
+        // from a single GDELT source; no article is added without a real URL.
+        const gdeltLeads=newsIntent?rankedWebSources.filter(x=>x.providers.includes("GDELT")).slice(0,35):[];
         const remainingRanked=rankedWebSources.filter(x=>!gdeltLeads.includes(x));
-        webSources=[...remainingRanked.slice(0,newsIntent?8:(eventResearchIntent?40:10)),...gdeltLeads].slice(0,newsIntent?30:(eventResearchIntent?40:10));
+        webSources=newsIntent
+          ?selectNewsPublisherDiverseSources([...remainingRanked.slice(0,24),...gdeltLeads],{max:35,firstPassPerPublisher:3})
+          :[...remainingRanked.slice(0,eventResearchIntent?40:10),...gdeltLeads].slice(0,eventResearchIntent?40:10);
         // Fetch a small number of original pages for additional evidence. Redirects are not followed;
         // non-HTML pages and unavailable pages remain explicitly unverified.
         await Promise.all(webSources.slice(0,eventResearchIntent?1:recipeInstruction?4:2).map(async source=>{
@@ -5208,7 +5216,9 @@ export default {
           const published=webSources.filter(x=>x.publishedRecipes?.length).slice(0,4).map(x=>'Publisher '+x.title+' ('+x.url+')\\n'+JSON.stringify(x.publishedRecipes.slice(0,3))).join('\\n\\n');
           webSearchContext+='\\n\\nPUBLISHER RECIPE INGREDIENTS AND STEP-BY-STEP INSTRUCTIONS (source factual data; rephrase naturally without changing their meaning):\\n'+published;
         }
-        webSearchDiagnostics={research_elapsed_ms:Date.now()-researchStartedAt,max_search_wait_ms:maxSearchWaitMs,pendingProviderCount,providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
+        webSearchDiagnostics={research_elapsed_ms:Date.now()-researchStartedAt,max_search_wait_ms:maxSearchWaitMs,pendingProviderCount,providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,
+          ...(newsIntent?{...describeNewsPublishers(webSources),broad_news_query:newsDiscoveryPlan.broadWorld,licensed_wire_access:false}:{}),
+          freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
         console.info("Pocket AI v98 web research",JSON.stringify({stage:"web_research_completed",status:webSearchStatus,...webSearchDiagnostics}));
       }
     }
@@ -5219,6 +5229,8 @@ export default {
     if(newsListingIntent&&shouldSearchWeb){
       const seenTitles=new Set();
       const rows=[];
+      const candidatePublisherCount=describeNewsPublishers(webSources).unique_publisher_count;
+      const publisherRows=new Map();
       const freshnessHours=/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?24:null;
       const todayOnly=/\b(?:astazi|azi|today)\b/i.test(normalizedResearchRequest);
       const nowMs=Date.now();
@@ -5236,6 +5248,11 @@ export default {
         if(/^(?:news|world|politics|international|latest|home|index|articles|updates|emisiuni|stiri|stiri-video|ziua-si)$/i.test(slug))continue;
         const key=originalTitle.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
         if(!key||seenTitles.has(key))continue;
+        const hostKey=parsed.hostname.toLowerCase().replace(/^www\./,"");
+        const publisherUsed=publisherRows.get(hostKey)||0;
+        // When several publishers are available, avoid allowing one source
+        // to occupy the entire visible news list.
+        if(candidatePublisherCount>=3&&publisherUsed>=3)continue;
         if(/(?:breaking news|latest news|stiri de ultima ora|știri de ultimă oră|world news summary|news summary|latest headlines|monthly geopolitical report|live fm|news live|live updates)\b/i.test(originalTitle))continue;
         const sourceDate=String(source.publishedDate||"");
         const normalizedDate=/^\d{8}T\d{6}Z$/.test(sourceDate)?sourceDate.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,"$1-$2-$3T$4:$5:$6Z"):sourceDate;
@@ -5255,6 +5272,7 @@ export default {
         const publisherNames={"abc.net.au":"ABC News","dw.com":"Deutsche Welle","apnews.com":"Associated Press","arabnews.com":"Arab News","internazionale.it":"Internazionale","lb.ua":"LB.ua","pravda.com.ua":"Ukrainska Pravda","eldestapeweb.com":"El Destape","interfax.ru":"Interfax"};
         const sourceName=publisherNames[rawDomain]||publisherNames[rawDomain.replace(/^www\\./,"")]||rawDomain;
         seenTitles.add(key);
+        publisherRows.set(hostKey,publisherUsed+1);
         rows.push({title:originalTitle,original_title:originalTitle,url,source_name:sourceName,
           source_domain:rawDomain,published_at:source.publishedDate||null,recency_status:recencyStatus,
           summary,detail:summary,providers:Array.isArray(source.providers)?source.providers:[],
@@ -5294,7 +5312,8 @@ export default {
       // Never imply that the application has a complete news feed when strict
       // publication-date and topic validation leave only a few articles.
       const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",requested_publication_day:newsPublicationFilter?.day||null,publication_filter:newsPublicationFilter?.kind||"none",
-        result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage",missing_publication_dates:rows.filter(r=>r.recency_status!=="dated").length};
+        result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage",missing_publication_dates:rows.filter(r=>r.recency_status!=="dated").length,
+        ...describeNewsPublishers(rows)};
       const labels={ro:["Știri identificate în sursele consultate","Apasă pe titlul unei știri pentru detalii. Publicarea nu confirmă automat afirmațiile din articol.","Nu am putut identifica articole relevante în sursele disponibile."],
         en:["News from retrieved sources","Tap a headline to read details. Publication alone does not verify its claims.","No relevant articles could be found from available sources."],
         fr:["Actualités issues des sources consultées","Touchez un titre pour voir les détails. La publication ne confirme pas les faits.","Aucun article pertinent trouvé."],
