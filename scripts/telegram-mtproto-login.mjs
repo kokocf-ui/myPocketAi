@@ -2,20 +2,21 @@
 // Do not share Telegram API credentials, login codes or session strings.
 import {createInterface} from "node:readline/promises";
 import {stdin as input,stdout as output} from "node:process";
+import {Writable} from "node:stream";
 import {writeFile} from "node:fs/promises";
 import {TelegramClient} from "teleproto";
 import {StringSession} from "teleproto/sessions";
-// readline normally echoes input, including Telegram verification codes and 2FA.
-// Suppress terminal echo through its output hook; never log the collected value.
-const rl=createInterface({input,output});
+// Portable prompt: readline writes typed characters to its output stream.
+// Send all editing/echo output to a discard-only stream instead of relying
+// on undocumented Node.js internals (unsupported on Termux Node 22/24).
+const mutedOutput=new Writable({write(_chunk,_encoding,done){done();}});
+const rl=createInterface({input,output:mutedOutput,terminal:true,historySize:0});
 const askHidden=async(question)=>{
- if(!input.isTTY||!output.isTTY||typeof rl._writeToOutput!=="function")
+ if(!input.isTTY||!output.isTTY)
   throw new Error("A trusted interactive terminal is required for private login.");
- const original=rl._writeToOutput;
  output.write(question);
- rl._writeToOutput=()=>{};
  try{return await rl.question("");}
- finally{rl._writeToOutput=original;output.write("\n");}
+ finally{output.write("\n");}
 };
 let client;
 try{
