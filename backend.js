@@ -1661,6 +1661,25 @@ export default {
         message_received:message,reply,conversational_reply:true,ai_generated:false,
         ai_connected:Boolean(env.AI),web_search_status:"not_needed"});
     }
+    // Interpret common social utterances and country-time questions before location lookup.
+    const earlyPlain=message.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[!?.,;:]+/g," ").replace(/\s+/g," ").trim();
+    if(lang==="ro"){
+      const stop=/^(?:las o balta|lasa o balta|renunt|nu mai conteaza|uita de asta)$/.test(earlyPlain);
+      const positive=/^(?:ma simt minunat|ma simt bine|sunt fericit|sunt fericita)$/.test(earlyPlain);
+      if(stop||positive||earlyPlain==="glumeam"){
+        const reply=stop?"Sigur, lăsăm subiectul acesta. Cu ce altceva te pot ajuta?":positive?"Mă bucur să aud asta! Ce ți-a făcut ziua atât de frumoasă?":"Am înțeles, glumeai! 😄";
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,conversational_reply:true,ai_generated:false,web_search_status:"not_needed"});
+      }
+      const asksTime=/^(?:cat|cit) (?:este |e )?ora (?:acum )?in romania$|^cat este ceasul in romania$/.test(earlyPlain);
+      const asksZone=/^care este fusul orar (?:din|al) romania$|^ce fus orar are romania$/.test(earlyPlain);
+      if(asksTime||asksZone){
+        const now=new Date(),zone="Europe/Bucharest";
+        const clock=new Intl.DateTimeFormat("ro-RO",{timeZone:zone,hour:"2-digit",minute:"2-digit",hour12:false}).format(now);
+        const offset=new Intl.DateTimeFormat("en-GB",{timeZone:zone,timeZoneName:"shortOffset"}).formatToParts(now).find(p=>p.type==="timeZoneName")?.value||"";
+        const reply=asksZone?"România folosește Europe/Bucharest: EET (UTC+2) iarna și EEST (UTC+3) vara. Acum: "+offset+".":"În România este ora "+clock+" ("+offset+").";
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,ai_generated:false,web_search_status:"not_needed"});
+      }
+    }
     const languageNames = {ro:"Romanian",en:"English",fr:"French",de:"German",it:"Italian",es:"Spanish",pt:"Portuguese",nl:"Dutch",ru:"Russian",pl:"Polish"};
     const responseLanguageName = languageNames[lang];
 
