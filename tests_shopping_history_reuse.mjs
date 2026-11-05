@@ -17,7 +17,7 @@ assert.match(script,/approve\.disabled=!entry\|\|selected\.length===0\|\|data\.i
 assert.match(script,/data\.history\.splice\(historyIndex,1\)/,'archived deletion removes only the selected archived list');
 assert.match(script,/footer\.append\(archive,history\)/,'active view has only archive/history actions');
 assert.doesNotMatch(script,/footer\.append\(add,archive,history\)/,'no redundant add-item action in active table');
- 'empty archived selections cannot be confirmed');
+
 
 const start=script.indexOf('function shopId(){');
 const end=script.indexOf('function renderShoppingList(){',start);
