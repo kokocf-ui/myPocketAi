@@ -5,7 +5,7 @@ const ordinal=/\b(?:prima|primul|first|a doua|al doilea|second|a treia|al treile
 const safeUrl=value=>{try{const u=new URL(value);if(u.protocol!=="https:"||u.username||u.password||!u.hostname||u.hostname==="localhost"||u.hostname.endsWith(".local")||u.hostname.endsWith(".internal"))return null;return u.href;}catch{return null}};
 export function sanitizeNewsContext(raw){
  if(!raw||typeof raw!=="object"||raw.type!=="news"||!Array.isArray(raw.rows))return null;
- const rows=raw.rows.slice(0,12).map(v=>{
+ const rows=raw.rows.slice(0,30).map(v=>{
   if(!v||typeof v!=="object")return null;
   const url=safeUrl(v.url),title=String(v.title||"").slice(0,240).trim();
   return url&&title?{title,url,source_name:String(v.source_name||new URL(url).hostname).slice(0,90),published_at:String(v.published_at||"").slice(0,40),summary:String(v.summary||"").slice(0,500),verification:"source_identified_claims_unverified"}:null;
