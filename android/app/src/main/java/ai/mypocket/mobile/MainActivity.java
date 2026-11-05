@@ -6,22 +6,22 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebSettings;
-import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.FileProvider;
+import androidx.webkit.WebViewCompat;
+import androidx.webkit.WebViewFeature;
+import java.util.Collections;
 
 import com.google.mlkit.vision.common.InputImage;
-import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
@@ -64,22 +64,30 @@ public final class MainActivity extends ComponentActivity {
         web.setWebViewClient(new WebViewClient(){
             @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest req) {
                 Uri url=req.getUrl();
-                return !(req.isForMainFrame() && "https".equals(url.getScheme()) && APP_HOST.equals(url.getHost()));
+                if (!req.isForMainFrame()) return false;
+                if ("https".equals(url.getScheme()) && APP_HOST.equals(url.getHost())) return false;
+                if ("https".equals(url.getScheme()) && url.getHost()!=null) {
+                    try { startActivity(new Intent(Intent.ACTION_VIEW, url)); } catch(Exception ignored) {}
+                }
+                return true;
             }
         });
-        web.addJavascriptInterface(new Object() {
-            @JavascriptInterface public void capture(String source) {
-                runOnUiThread(() -> {
-                    if (!APP_HOST.equals(Uri.parse(web.getUrl() == null ? "" : web.getUrl()).getHost())) return;
-                    if (waitingForPhoto) return;
-                    waitingForPhoto = true;
-                    if ("camera".equals(source)) launchCamera();
-                    else if ("gallery".equals(source)) gallery.launch(new PickVisualMediaRequest.Builder()
-                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
-                    else waitingForPhoto=false;
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
+            WebViewCompat.addWebMessageListener(web, "PocketAndroidOCR",
+                Collections.singleton("https://" + APP_HOST),
+                (view, message, origin, isMainFrame, replyProxy) -> {
+                    if (!isMainFrame || !APP_HOST.equals(origin.getHost())) return;
+                    String source=message.getData();
+                    runOnUiThread(() -> {
+                        if (waitingForPhoto) return;
+                        waitingForPhoto=true;
+                        if ("camera".equals(source)) launchCamera();
+                        else if ("gallery".equals(source)) gallery.launch(new PickVisualMediaRequest.Builder()
+                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
+                        else waitingForPhoto=false;
+                    });
                 });
-            }
-        }, "PocketAndroidOCR");
+        }
         web.loadUrl(APP_URL);
     }
 
