@@ -1327,18 +1327,22 @@ body.long-choice-active{overflow:hidden}
 
 
 <style id="pocket-home-center-and-exit">
-/* Preserve the approved card dimensions while centering the complete content group. */
-#view-home .feature-card{justify-content:center!important}
-#view-home .feature-card .card-art{height:auto!important;min-height:0!important;flex:0 0 auto!important;background:transparent!important;border-radius:0!important;padding:0 10px 6px!important}
+/* Home: keep the six card faces and move the whole grid into the lower free area.
+   The group inside each card stays centered and the top labels do not hug the border. */
+#view-home .card-grid{padding-top:clamp(28px,4.5dvh,52px)!important;box-sizing:border-box!important}
+#view-home .feature-card{justify-content:center!important;gap:0!important}
+#view-home .feature-card .card-art{height:auto!important;min-height:0!important;flex:0 0 auto!important;background:transparent!important;border-radius:0!important;padding:0 10px 7px!important;box-shadow:none!important}
 #view-home .feature-card .card-body{flex:0 0 auto!important;min-height:0!important;width:100%!important;padding:0 12px!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
 #view-home .feature-card .card-title{text-align:center!important;margin-bottom:5px!important}
 #view-home .feature-card .card-description{text-align:center!important;overflow-wrap:anywhere!important}
-#pocketExitDialog{position:fixed;inset:0;z-index:100000;background:rgba(2,11,21,.88);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
-#pocketExitDialog.open{display:flex}
-#pocketExitDialog .exit-panel{width:min(100%,390px);background:linear-gradient(160deg,#12354a,#061523);border:2px solid #45bed9;border-radius:24px;box-shadow:0 12px 50px #000b;text-align:center;padding:20px;display:flex;flex-direction:column;align-items:center;gap:14px;color:#f1faff}
-#pocketExitDialog .exit-portrait{width:120px;height:120px;border-radius:50%;object-fit:contain;border:1px solid #49d9dc;background:#061724}
-#pocketExitDialog .exit-buttons{display:flex;width:100%;gap:12px}
-#pocketExitDialog .exit-buttons button{flex:1 1 0;min-height:50px}
+@media(max-height:740px){#view-home .card-grid{padding-top:clamp(8px,2dvh,18px)!important}}
+/* The real holographic 3D avatar is used for exit; actions float inside its overlay. */
+#avatarOverlay.exit-mode{z-index:100000!important}
+#avatarOverlay.exit-mode .avatar-stage{padding-bottom:80px;box-sizing:border-box}
+#avatarOverlay.exit-mode .avatar-message{max-width:92%;font-size:clamp(18px,4.6vw,24px)}
+#avatarOverlay .exit-buttons{display:none}
+#avatarOverlay.exit-mode .exit-buttons{position:absolute;bottom:clamp(12px,3dvh,30px);left:3%;width:94%;display:flex;gap:12px;z-index:5}
+#avatarOverlay.exit-mode .exit-buttons button{flex:1;min-height:52px}
 </style>
 <style id="organize-responsive-layout">
 /* Organisation reuses the approved Education layout. */
@@ -1898,37 +1902,41 @@ function pocketExitListen(){
 }
 function pocketExitClose(){
  pocketExitOpen=false;pocketExitListening=false;
- const dialog=$('pocketExitDialog');if(dialog){dialog.classList.remove('open');dialog.setAttribute('aria-hidden','true')}
+ avatarOverlay.classList.remove('exit-mode');
  try{window.PocketAndroidVoice?.postMessage?.(JSON.stringify({action:'stop'}))}catch{}
  try{window.speechSynthesis?.cancel()}catch{}
+ avatar3dSend('stop');hideAvatar();
 }
 function pocketExitConfirm(){
  pocketExitClose();
  try{window.PocketAndroidNavigation?.postMessage?.('exit')}catch{}
 }
 function pocketExitPrompt(){
- if(state.currentView!=='home')return;
- if(pocketExitOpen)return;
- let dialog=$('pocketExitDialog');
- if(!dialog){
-  dialog=document.createElement('div');dialog.id='pocketExitDialog';dialog.setAttribute('role','dialog');dialog.setAttribute('aria-modal','true');
-  const panel=document.createElement('div');panel.className='exit-panel';
-  const portrait=document.createElement('img');portrait.className='exit-portrait';portrait.alt='Pocket AI';portrait.src=$('avatarImage')?.src||'';
-  const question=document.createElement('strong');question.style.fontSize='20px';question.textContent=learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?');
-  const hint=document.createElement('small');hint.textContent=learningLabel('Poți răspunde vocal sau poți atinge un buton.','You can answer by voice or tap a button.');
-  const buttons=document.createElement('div');buttons.className='exit-buttons';
-  const stay=document.createElement('button');stay.type='button';stay.className='secondary-btn';stay.textContent=learningLabel('Rămân','Stay');stay.onclick=pocketExitClose;
-  const exit=document.createElement('button');exit.type='button';exit.className='primary-btn';exit.textContent=learningLabel('Închide','Close');exit.onclick=pocketExitConfirm;
-  buttons.append(stay,exit);panel.append(portrait,question,hint,buttons);dialog.append(panel);document.body.append(dialog);
+ if(state.currentView!=='home'||pocketExitOpen)return;
+ // Reuse the same 3D avatar stage and its animation as on startup and voice replies.
+ pocketExitOpen=true;avatarWelcomeQueued=false;
+ clearTimeout(state.avatarTimer);
+ const question=learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?');
+ showAvatar({message:question,status:learningLabel('Te ascult…','Listening…'),speaking:true});
+ avatarOverlay.classList.add('exit-mode');
+ let buttons=avatarOverlay.querySelector('.exit-buttons');
+ if(!buttons){
+  buttons=document.createElement('div');buttons.className='exit-buttons';
+  const stay=document.createElement('button');stay.type='button';stay.className='secondary-btn';
+  stay.textContent=learningLabel('Rămân','Stay');stay.onclick=pocketExitClose;
+  const exit=document.createElement('button');exit.type='button';exit.className='primary-btn';
+  exit.textContent=learningLabel('Închide','Close');exit.onclick=pocketExitConfirm;
+  buttons.append(stay,exit);avatarOverlay.querySelector('.avatar-stage').append(buttons);
  }
- dialog.classList.add('open');dialog.setAttribute('aria-hidden','false');pocketExitOpen=true;
- pocketExitSay(learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?'));
- // Native TTS completion initiates listening; voice remains optional.
+ avatar3dSend('start',{text:question});
+ pocketExitSay(question);
 }
 function pocketExitVoiceResult(data){
  if(!pocketExitOpen)return false;
  if(data?.mode==='tts'){
-  if(data.status==='done')pocketExitListen();
+  if(data.status==='start'){avatar3dSend('start',{text:learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?')})}
+  if(data.status==='done'){avatar3dSend('stop');avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;pocketExitListen()}
+  if(data.status==='error'){avatar3dSend('stop');avatarOverlay.classList.remove('speaking');voiceWave.hidden=true}
   return true;
  }
  if(data?.mode!=='exit')return true;
@@ -4438,7 +4446,7 @@ window.addEventListener('message',event=>{
  if(event.origin!==location.origin||event.source!==avatar3dFrame.contentWindow)return;
  if(event.data?.channel!=='pocket-avatar-v4')return;
  if(event.data.action==='error'){
-  avatarWelcomeQueued=false;hideAvatar();
+  avatarWelcomeQueued=false;if(!pocketExitOpen)hideAvatar();
   setStatus('Modelul 3D nu a putut fi încărcat.');
   return;
  }
@@ -4446,7 +4454,8 @@ window.addEventListener('message',event=>{
  avatar3dReady=true;
  avatar3dFrame.style.display='block';
  $('avatarImage').style.visibility='hidden';
- if(avatarWelcomeQueued&&!state.speaking){
+ if(pocketExitOpen){showAvatar({message:learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?'),status:learningLabel('Te ascult…','Listening…'),speaking:true});avatarOverlay.classList.add('exit-mode');}
+ else if(avatarWelcomeQueued&&!state.speaking){
   avatarWelcomeQueued=false;
   showAvatar({message:'',status:'',speaking:false});
   state.avatarTimer=setTimeout(hideAvatar,4700);
@@ -4464,7 +4473,7 @@ window.addEventListener('message',event=>{
 function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility=avatar3dReady?'hidden':'visible';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(true);avatarOverlay.classList.add('visible');avatarOverlay.setAttribute('aria-hidden','false')}
 function hideAvatar(){avatar3dSend('stop');if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(false);clearTimeout(state.avatarTimer);avatarOverlay.classList.remove('visible','speaking');avatarOverlay.setAttribute('aria-hidden','true');voiceWave.hidden=true}
 function welcomeUser(){avatarWelcomeQueued=true;showAvatar({message:'',status:'',speaking:false});try{window.PocketAndroidStartup?.postMessage?.('avatar-visible')}catch{}state.avatarTimer=setTimeout(()=>{if(!avatar3dReady){avatarWelcomeQueued=false;hideAvatar()}},10000);if(avatar3dReady){avatarWelcomeQueued=false;state.avatarTimer=setTimeout(hideAvatar,4700)}}
-$('avatarClose').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false)}hideAvatar()});
+$('avatarClose').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false)}if(pocketExitOpen)pocketExitClose();else hideAvatar()});
 // 05 — Speech output, independent from network request handling
 let speechVoiceCache=[];
 function refreshSpeechVoices(){if(!('speechSynthesis'in window))return [];try{speechVoiceCache=window.speechSynthesis.getVoices()||[]}catch{speechVoiceCache=[]}return speechVoiceCache}
