@@ -6,6 +6,7 @@ import {Writable} from "node:stream";
 import {writeFile} from "node:fs/promises";
 import {TelegramClient} from "teleproto";
 import {StringSession} from "teleproto/sessions";
+import {makePhoneMigrationHandler} from "./telegram-login-dc.mjs";
 // Portable prompt: readline writes typed characters to its output stream.
 // Send all editing/echo output to a discard-only stream instead of relying
 // on undocumented Node.js internals (unsupported on Termux Node 22/24).
@@ -65,16 +66,33 @@ try{
  process.stdout.write("API ID and Hash format OK (values hidden).\n");
  client=new TelegramClient(new StringSession(""),apiId,apiHash,{
   connectionRetries:2,requestRetries:1,autoReconnect:false});
- await client.start({
-  phoneNumber:()=>askPhone(),
-  phoneCode:()=>askHidden("Telegram verification code (never send it to anyone): "),
-  password:()=>askHidden("Telegram two-step verification password, if required: "),
-  onError:error=>{
+ // Cached only in memory for this single run. A DC migration must NOT make
+ // the owner re-enter their number (or retry with different credentials).
+ let cachedPhone="";
+ const onOtherError=error=>{
    lastSafeAuthError=authErrorCode(error);
    const safe=safeRpcInfo(error);
    process.stderr.write("Telegram login category: "+lastSafeAuthError+"; RPC: "+safe.rpc+"; HTTP/RPC status: "+(safe.status??"n/a")+"; class: "+safe.name+". No credentials shown.\n");
-   return true; // stop automatic retries to avoid flood limits
-  }
+   return true;
+ };
+ const onLoginError=makePhoneMigrationHandler({
+   switchDC:async dc=>{
+     if(typeof client._switchDC!=="function")
+       throw new Error("DATACENTER_SWITCH_NOT_AVAILABLE");
+     await client._switchDC(dc);
+   },
+   onRedirect:dc=>process.stdout.write("Telegram requested DC"+dc+". Switched server; continuing with the same phone number.\n"),
+   onSwitchFailed:()=>{
+     lastSafeAuthError="TELEGRAM_DC_SWITCH_FAILED";
+     process.stderr.write("DC migration failed; login stopped without further attempts.\n");
+   },
+   onOtherError
+ });
+ await client.start({
+  phoneNumber:async()=>cachedPhone||(cachedPhone=await askPhone()),
+  phoneCode:()=>askHidden("Telegram verification code (never send it to anyone): "),
+  password:()=>askHidden("Telegram two-step verification password, if required: "),
+  onError:onLoginError
  });
  if(!await client.isUserAuthorized())throw Error("Authorization did not complete");
  const session=client.session.save();
