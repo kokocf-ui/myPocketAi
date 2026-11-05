@@ -3994,7 +3994,7 @@ function isRecipeQuestion(text){
 function isCasualConversationReply(value){
  const text=String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
    .replace(/[!?.,;:]+/g,' ').replace(/ +/g,' ').trim();
- return /^(?:(?:eu )?(?:sunt|ma simt) (?:(?:foarte|destul de|chiar) )?(?:bine|ok|okay|excelent|grozav|in regula)(?: (?:multumesc|mersi))?|(?:(?:foarte|destul de) )?bine(?: (?:multumesc|mersi))?|(?:multumesc|mersi)(?: sunt bine)?|nu (?:prea )?(?:sunt|ma simt) bine|(?:sunt|ma simt) (?:rau|trist|trista|obosit|obosita|ingrijorat|ingrijorata)|(?:i am|i'm) (?:fine|good|okay|ok|great|not well|not okay|sad|tired|worried)(?: thanks)?|(?:fine|good|great) thanks)(?: (?:si tu|and you))?$/.test(text);
+ return /^(?:(?:eu )?(?:sunt|ma simt) (?:(?:foarte|destul de|chiar) )?(?:bine|ok|okay|excelent|grozav|in regula)(?: (?:multumesc|mersi))?|(?:(?:foarte|destul de) )?bine(?: (?:multumesc|mersi))?|(?:multumesc|mersi) sunt bine|nu (?:prea )?(?:sunt|ma simt) bine|(?:sunt|ma simt) (?:rau|trist|trista|obosit|obosita|ingrijorat|ingrijorata)|(?:i am|i'm) (?:fine|good|okay|ok|great|not well|not okay|sad|tired|worried)(?: thanks)?|(?:fine|good|great) thanks)(?: (?:si tu|and you))?$/.test(text);
 }
 function requestUsesLocation(text){
  const value=String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
