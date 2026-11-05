@@ -30,10 +30,58 @@ jobs:
           gradle-version: '8.7'
       - name: Validate frontend syntax
         run: node --check index.js && node tests_education_android.mjs
-      - name: Compile Android debug APK
+      - name: Build debug APK (CI validation only; not a stable update)
+        env:
+          POCKET_VERSION_CODE: ${{ github.run_number }}
         run: gradle -p android --no-daemon assembleDebug
+      - name: Prepare persistent release signing key
+        id: signing
+        env:
+          POCKET_KEYSTORE_B64: ${{ secrets.POCKET_KEYSTORE_B64 }}
+          POCKET_STORE_PASSWORD: ${{ secrets.POCKET_STORE_PASSWORD }}
+          POCKET_KEY_ALIAS: ${{ secrets.POCKET_KEY_ALIAS }}
+          POCKET_KEY_PASSWORD: ${{ secrets.POCKET_KEY_PASSWORD }}
+        run: |
+          if [[ -z "$POCKET_KEYSTORE_B64" && -z "$POCKET_STORE_PASSWORD" && -z "$POCKET_KEY_ALIAS" && -z "$POCKET_KEY_PASSWORD" ]]; then
+            echo "Release signing not configured. Debug build is NOT upgradeable across clean GitHub runners."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [[ -z "$POCKET_KEYSTORE_B64" || -z "$POCKET_STORE_PASSWORD" || -z "$POCKET_KEY_ALIAS" || -z "$POCKET_KEY_PASSWORD" ]]; then
+            echo "::error::Incomplete POCKET_* signing secrets; cannot safely produce release APK."
+            exit 1
+          fi
+          echo "$POCKET_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/pocket-release.jks"
+          test -s "$RUNNER_TEMP/pocket-release.jks"
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+      - name: Build updateable signed release APK
+        if: steps.signing.outputs.enabled == 'true'
+        env:
+          POCKET_VERSION_CODE: ${{ github.run_number }}
+          POCKET_KEYSTORE_PATH: ${{ runner.temp }}/pocket-release.jks
+          POCKET_STORE_PASSWORD: ${{ secrets.POCKET_STORE_PASSWORD }}
+          POCKET_KEY_ALIAS: ${{ secrets.POCKET_KEY_ALIAS }}
+          POCKET_KEY_PASSWORD: ${{ secrets.POCKET_KEY_PASSWORD }}
+        run: gradle -p android --no-daemon assembleRelease
+      - name: Verify release APK signer and version
+        if: steps.signing.outputs.enabled == 'true'
+        run: |
+          APK=android/app/build/outputs/apk/release/app-release.apk
+          test -f "$APK"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --print-certs "$APK"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | head -1
       - uses: actions/upload-artifact@v4
+        if: steps.signing.outputs.enabled == 'true'
         with:
-          name: myPocketAI-android-debug
+          name: myPocketAI-android-signed-release
+          path: android/app/build/outputs/apk/release/app-release.apk
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: steps.signing.outputs.enabled != 'true'
+        with:
+          name: myPocketAI-android-debug-NOT-UPGRADEABLE
           path: android/app/build/outputs/apk/debug/app-debug.apk
-          retention-days: 14
+          retention-days: 7
+      - name: Remove temporary signing key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/pocket-release.jks"
