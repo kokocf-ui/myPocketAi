@@ -31,7 +31,8 @@ assert.ok(inline.includes('gpsElapsedMs='));
 assert.ok(inline.includes('backend_round_trip_ms:'));
 assert.ok(inline.includes("console.info('Pocket AI request timing'"));
 
-assert.match(backend,/const maxSearchWaitMs=eventResearchIntent\?7000:newsIntent\?6300:6000/);
+assert.match(backend,/const maxSearchWaitMs=eventResearchIntent\?7000:newsIntent\?newsDiscoveryPlan\.broadWorld\?7200:6300:6000/);
+assert.match(backend,/const broadNewsReady=newsIntent&&newsDiscoveryPlan\.broadWorld/);
 assert.match(backend,/const tracked=providerTasks\.map/);
 assert.match(backend,/Promise\.race\(\[Promise\.all\(tracked\),ready,/);
 assert.ok(!backend.includes('setTimeout(resolve,1400)'),'old extra search delay still present');
