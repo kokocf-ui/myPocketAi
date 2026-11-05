@@ -696,7 +696,7 @@ const AVATAR_DATA = "data:image/webp;base64," +
 
 function htmlDocument() {
 return `<!doctype html>
-<html lang="ro">
+<html lang="ro" class="pocket-boot">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -1326,6 +1326,17 @@ body.long-choice-active{overflow:hidden}
 </style>
 
 
+<style id="pocket-avatar-first-launch">
+/* No separate photographic splash: hold ordinary app chrome behind the
+   genuine 3D avatar until its entrance has finished. */
+html.pocket-boot .app-header,
+html.pocket-boot main.page,
+html.pocket-boot .bottom-nav {visibility:hidden!important;pointer-events:none!important}
+html.pocket-boot body {background:#061522!important}
+html.pocket-boot .avatar-overlay {z-index:100001!important}
+html.pocket-boot .avatar-overlay:not(.visible) {background:#061522!important}
+html.pocket-boot #avatarImage {visibility:hidden!important}
+</style>
 <style id="pocket-home-center-and-exit">
 /* Home: keep the six card faces and move the whole grid into the lower free area.
    The group inside each card stays centered and the top labels do not hug the border. */
@@ -4426,6 +4437,8 @@ function renderHistory(){const list=$('historyList');list.innerHTML='';if(!state
 // Pocket AI floating 3D avatar
 const avatar3dFrame=$('avatar3dFrame');
 let avatar3dReady=false,avatar3dStarted=false,avatar3dPending=null,avatarWelcomeQueued=false;
+let pocketFirstEntrance=true;
+function pocketRevealMainApp(){if(!pocketFirstEntrance)return;pocketFirstEntrance=false;document.documentElement.classList.remove('pocket-boot')}
 function avatar3dSend(action,payload={}){
  if(!avatar3dReady){
   if(action==='start')avatar3dPending=payload;
@@ -4447,6 +4460,7 @@ window.addEventListener('message',event=>{
  if(event.data?.channel!=='pocket-avatar-v4')return;
  if(event.data.action==='error'){
   avatarWelcomeQueued=false;if(!pocketExitOpen)hideAvatar();
+  pocketRevealMainApp();
   setStatus('Modelul 3D nu a putut fi încărcat.');
   return;
  }
@@ -4456,7 +4470,7 @@ window.addEventListener('message',event=>{
  $('avatarImage').style.visibility='hidden';
  if(pocketExitOpen){showAvatar({message:learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?'),status:learningLabel('Te ascult…','Listening…'),speaking:true});avatarOverlay.classList.add('exit-mode');}
  else if(!state.speaking&&state.currentView==='home'){
-  // The home screen is already visible; only now greet with the ready 3D model.
+  // Keep ordinary app chrome hidden while the ready 3D model greets first.
   welcomeUser();
  }else if(state.speaking){
   avatarWelcomeQueued=false;
@@ -4470,7 +4484,7 @@ window.addEventListener('message',event=>{
 });
 // 04 — Avatar lifecycle: same entrance/exit transition for every appearance
 function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility=avatar3dReady?'hidden':'visible';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(true);avatarOverlay.classList.add('visible');avatarOverlay.setAttribute('aria-hidden','false')}
-function hideAvatar(){avatar3dSend('stop');if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(false);clearTimeout(state.avatarTimer);avatarOverlay.classList.remove('visible','speaking');avatarOverlay.setAttribute('aria-hidden','true');voiceWave.hidden=true}
+function hideAvatar(){avatar3dSend('stop');if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(false);clearTimeout(state.avatarTimer);avatarOverlay.classList.remove('visible','speaking');avatarOverlay.setAttribute('aria-hidden','true');voiceWave.hidden=true;pocketRevealMainApp()}
 let pocketGreetingActive=false;
 function welcomeUser(){
  if(!avatar3dReady||pocketGreetingActive||pocketExitOpen)return;
@@ -4836,6 +4850,9 @@ if('speechSynthesis'in window){refreshSpeechVoices();try{window.speechSynthesis.
 // Launch directly into the app. Preload the 3D avatar offscreen; it comes from
 // the Android asset bundle on APK builds and the cloud asset in browsers.
 avatar3dLoad();
+// If graphics initialization fails or the WebView does not support the model,
+// never leave the user trapped behind a blank launch screen.
+setTimeout(()=>{if(pocketFirstEntrance&&!pocketGreetingActive){pocketRevealMainApp();setStatus('Avatarul 3D nu a putut porni la timp.')}} ,12000);
 })();
 </script>
 
