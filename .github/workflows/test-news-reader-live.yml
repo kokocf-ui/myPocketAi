@@ -1,16 +1,12 @@
 name: Pocket AI live expanded news reader QA
+# A successful deployment must not run expensive LIVE Workers AI calls.
+# Execute this paid-neuron smoke test manually after changing the news/translation pipeline.
 on:
-  workflow_run:
-    workflows:
-      - Deploy MyPocketAI to Cloudflare
-    types:
-      - completed
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   news-reader-live:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 4
     steps:

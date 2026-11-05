@@ -37,7 +37,9 @@ jobs:
         run: npm test
 
   live-destinations:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    # This exercises the real deployed backend (and may invoke Workers AI).
+    # Run only on explicit request; unit-tests above still run after deployment.
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
