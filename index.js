@@ -2261,8 +2261,17 @@ function shopVoiceFold(text){
 }
 function shopVoiceEnd(text){
  const cleaned=String(text||'').trim();
+ const normalized=shopVoiceFold(cleaned).replace(/[.!?,;]+$/g,'').trim();
+ // A clear navigation command ends capture, saves and opens the active table.
+ const commands=['arata lista activa','arata lista','afiseaza lista activa',
+  'afiseaza lista','deschide lista activa','deschide lista'];
+ const command=commands.find(command=>normalized===command||normalized.endsWith(' '+command));
+ if(command){
+  const previous=normalized===command?'':cleaned.slice(0,cleaned.length-command.length).trim();
+  return {ended:true,showList:true,text:previous.replace(/[,.!?;]+$/g,'').trim()};
+ }
  const match=cleaned.match(/(?:^|[\\s,.;!?])(sfârșit|sfarsit|atât|atat)[.!?\\s]*$/iu);
- return {ended:Boolean(match),text:match?cleaned.slice(0,match.index).trim():cleaned};
+ return {ended:Boolean(match),showList:false,text:match?cleaned.slice(0,match.index).trim():cleaned};
 }
 function shopVoiceDiacritics(text){
  if(state.language!=='ro')return String(text||'').normalize('NFC');
@@ -2410,7 +2419,13 @@ function shopVoiceAccept(text){
   session.partial='';
  }
  shopVoiceRenderStatus();
- if(ending.ended)shopVoiceStop();
+ if(ending.ended){
+  shopVoiceStop();
+  if(ending.showList){
+   shoppingMode='active';shoppingPendingAction=null;shoppingEditingId=null;
+   renderShoppingList();
+  }
+ }
 }
 function shopVoiceStart(){
  if(shoppingVoiceSession?.active){shopVoiceStop();return}
