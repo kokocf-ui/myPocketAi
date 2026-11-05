@@ -4009,6 +4009,7 @@ window.addEventListener('message',event=>{
  if(event.data.action!=='ready'||avatar3dReady)return;
  avatar3dReady=true;
  avatar3dFrame.style.display='block';
+ $('avatarImage').style.visibility='hidden';
  if(avatarWelcomeQueued&&!state.speaking){
   avatarWelcomeQueued=false;
   showAvatar({message:'',status:'',speaking:false});
@@ -4024,9 +4025,9 @@ window.addEventListener('message',event=>{
  }
 });
 // 04 — Avatar lifecycle: same entrance/exit transition for every appearance
-function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility='hidden';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(speaking)avatar3dLoad();if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(true);avatarOverlay.classList.toggle('visible',avatar3dReady);avatarOverlay.setAttribute('aria-hidden',avatar3dReady?'false':'true')}
+function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility=avatar3dReady?'hidden':'visible';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(true);avatarOverlay.classList.add('visible');avatarOverlay.setAttribute('aria-hidden','false')}
 function hideAvatar(){avatar3dSend('stop');if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(false);clearTimeout(state.avatarTimer);avatarOverlay.classList.remove('visible','speaking');avatarOverlay.setAttribute('aria-hidden','true');voiceWave.hidden=true}
-function welcomeUser(){avatarWelcomeQueued=true;avatar3dLoad();if(avatar3dReady){avatarWelcomeQueued=false;showAvatar({message:'',status:'',speaking:false});state.avatarTimer=setTimeout(hideAvatar,4700)}}
+function welcomeUser(){avatarWelcomeQueued=true;showAvatar({message:'',status:'',speaking:false});state.avatarTimer=setTimeout(()=>{if(!avatar3dReady){avatarWelcomeQueued=false;hideAvatar()}},10000);if(avatar3dReady){avatarWelcomeQueued=false;state.avatarTimer=setTimeout(hideAvatar,4700)}}
 $('avatarClose').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false)}hideAvatar()});
 // 05 — Speech output, independent from network request handling
 let speechVoiceCache=[];
