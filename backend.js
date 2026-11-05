@@ -3370,6 +3370,21 @@ export default {
       if(weather.query==='@gps'){
         if(!hasValidLocation){responseWeatherContext={...weather,pending:true};return sendWeather(t[7],{needs_location_clarification:true});}
         point={latitude,longitude,label:t[11]};
+        // Resolve the supplied GPS coordinates to a human-readable locality; never change forecast coordinates.
+        try{
+          const reverse=new URL("https://nominatim.openstreetmap.org/reverse");
+          reverse.searchParams.set("lat",String(latitude));reverse.searchParams.set("lon",String(longitude));
+          reverse.searchParams.set("format","jsonv2");reverse.searchParams.set("zoom","12");reverse.searchParams.set("addressdetails","1");
+          const rr=await fetch(reverse.href,{headers:{Accept:"application/json","User-Agent":"PocketAI/105 (weather locality)"},signal:AbortSignal.timeout(3500)});
+          if(rr.ok){
+            const place=await rr.json(),a=place?.address||{};
+            const locality=a.town||a.city||a.village||a.suburb||a.municipality||a.county;
+            const district=a.suburb&&a.suburb!==locality?a.suburb:null;
+            const postcode=a.postcode||"";
+            if(locality)point.label=[district,locality,postcode].filter(Boolean).join(", ");
+          }
+        }catch{/* Preserve GPS forecast when reverse geocoding is unavailable. */}
+
       }
       if(!point&&/^(?:florida|florida,?\s*(?:sua|usa|united states|us))$/i.test(weather.query.trim())){
         responseWeatherContext={...weather,pending:true,candidates:[
