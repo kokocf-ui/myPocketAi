@@ -53,8 +53,8 @@ export async function discoverTelegramPublicLinks(env={},query="",limit=8,option
    const publishedMs=publishedAt?Date.parse(publishedAt):NaN;
    if(since!==null&&(!Number.isFinite(publishedMs)||publishedMs<since||publishedMs>now+300000))continue;
    const signature=excerpt.toLocaleLowerCase().replace(/[^\\p{L}\\p{N}]/gu,"").slice(0,110);
-   if(signature.length>65&&signatures.has(signature))continue;
-   if(signature.length>65)signatures.add(signature);
+   if(signature.length>30&&signatures.has(signature))continue;
+   if(signature.length>30)signatures.add(signature);
    seen.add(link);links.push({url:link,title,excerpt,published_at:publishedAt,platform:"Telegram",source:"Public web search index",
     verification:"not_verified",content_retrieved:false});
    if(links.length>=count)break;
