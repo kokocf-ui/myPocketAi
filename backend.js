@@ -5489,7 +5489,7 @@ export default {
       const rows=[];
       const candidatePublisherCount=describeNewsPublishers(webSources).unique_publisher_count;
       const publisherRows=new Map();
-      const freshnessHours=/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?24:null;
+      const freshnessHours=/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?24:\n        /\b(?:ultima\s+luna|ultimele\s+30\s+de\s+zile|last\s+30\s+days|past\s+month|last\s+month)\b/i.test(String(normalizedResearchRequest).normalize('NFD').replace(/[\u0300-\u036f]/g,''))?720:null;
       const todayOnly=/\b(?:astazi|azi|today)\b/i.test(normalizedResearchRequest);
       const nowMs=Date.now();
       // Select globally retrieved publication results, not only English/RO lexical matches.
