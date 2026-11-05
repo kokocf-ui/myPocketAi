@@ -23,6 +23,27 @@ for(const [q,history,expected,contains] of [
 }
 const prior=[...h("Care este salariul mediu în Dubai?"),{role:"assistant",content:"Salariul este în România."},{role:"user",content:"Este brut sau net?"}];
 assert.ok(contextualResearchQuery("Este brut sau net?",prior).query.includes("Dubai"));
+
+const recheck=contextualResearchQuery("Nu ai înțeles, verifică din nou capitala",[
+ {role:"user",content:"Care este capitala Australiei?"},
+ {role:"assistant",content:"Capitala Australiei este Canberra."},
+ {role:"user",content:"Nu ai înțeles, verifică din nou capitala"}
+]);
+assert.equal(recheck.context_applied,true);
+assert.equal(recheck.reason,"explicit_capital_recheck");
+assert.match(recheck.query,/Australiei/);
+assert.match(recheck.query,/surse actuale independente/);
+const noReference=contextualResearchQuery("Nu ai înțeles, verifică din nou capitala",[
+ {role:"user",content:"Cine a fost Albert Einstein?"}
+]);
+assert.equal(noReference.context_applied,false);
+assert.equal(noReference.reason,"capital_recheck_subject_missing");
+const switched=contextualResearchQuery("Nu ai înțeles, verifică din nou capitala",[
+ {role:"user",content:"Care este capitala Franței?"},
+ {role:"user",content:"Cine a fost Albert Einstein?"}
+]);
+assert.equal(switched.context_applied,false,"Do not reapply stale geographical context after topic switch");
+
 console.log("PASS contextual research follow-ups");
 
 for(const text of ["Nu ai înțeles întrebarea.","Nu asta am cerut.","Ai greșit răspunsul.","Vorbești prea mult!","Răspunde mai pe scurt.","Glumeam 😂","Ești tare amuzantă!","Îmi place personalitatea ta.","You misunderstood me.","Please be concise.","I was joking."]){
