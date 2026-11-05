@@ -7,6 +7,7 @@ import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion
 import {localizeNewsRows} from "./localization.mjs";
 import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPublicationDay} from "./news_context.mjs";
 import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers} from "./news_discovery.mjs";
+import {isTelegramNewsRequest,readConsentedTelegramPosts,telegramConfigured} from "./telegram_consented_channels.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
  * v176: real culinary source research and no dish-specific hardcoded responses.
@@ -1206,6 +1207,15 @@ export default {
       const kind = String(url.searchParams.get("kind") || "news").toLowerCase();
       const query = String(url.searchParams.get("q") || "").trim();
       const limit = Math.min(10, Math.max(1, Number.parseInt(url.searchParams.get("limit") || "5", 10) || 5));
+      if(kind==="telegram"){
+        const feed=await readConsentedTelegramPosts(env,{language:String(url.searchParams.get("lang")||"ro").slice(0,2),limit});
+        return json({app:"Pocket AI",version:API_VERSION,kind:"telegram",
+          status:feed.status,source:"Telegram Bot API — approved channels only",
+          items:feed.rows,verification:"Source-post metadata only. Claims are not independently verified.",
+          setup_required:feed.status==="not_configured",reason:feed.reason||null,
+          historical_limit_hours:24,ai_ingestion_enabled:false,reply:feed.reply,
+          source_url:"https://core.telegram.org/bots/api"});
+      }
       const allowed = new Set(["news", "kev", "epss"]);
       if (!allowed.has(kind)) return json({status:"error", error:"Unknown intelligence source. Choose news, kev or epss."},400);
       if (kind === "news" && (query.length < 3 || query.length > 120 || /[\x00-\x1f<>]/.test(query)))
@@ -1650,6 +1660,27 @@ export default {
         sources:newsFollowup.article?[{number:1,title:newsFollowup.article.title,url:newsFollowup.article.url,
           publishedDate:newsFollowup.article.published_at,verification:"claims_unverified"}]:[],
         ai_generated:false,ai_connected:Boolean(env.AI),web_search_status:"not_needed"});
+    }
+    // Telegram may only supply publisher-consented channel messages. It cannot
+    // be used as a general scraper or as an unverified AI research corpus.
+    if(isTelegramNewsRequest(message)){
+      const dated=publicationDayWindow(message,data.client_local_day);
+      const feed=await readConsentedTelegramPosts(env,{language:lang,limit:12,publicationDay:dated?.day||null});
+      const newsList=feed.status==="success"&&feed.rows.length?{
+        type:"news",rows:feed.rows,verification:"telegram_posts_not_verified_news",
+        sort:"published_at_desc",source_platform:"Telegram",
+        result_count:feed.rows.length,coverage_status:"authorized_channels_only",
+        publication_filter:dated?.kind||"none",requested_publication_day:dated?.day||null
+      }:null;
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
+        message_received:message,reply:feed.reply,
+        ...(newsList?{structured_list:newsList}:{}),
+        telegram_status:feed.status,telegram_reason:feed.reason||null,
+        telegram_access_mode:"publisher_opt_in_only",
+        ai_ingestion_enabled:false,web_search_status:"not_needed",
+        sources:feed.rows.map((r,i)=>({number:i+1,title:r.title,url:r.url,publishedDate:r.published_at,
+          publisher:r.source_name,verification:r.verification})),ai_generated:false,
+        ai_connected:Boolean(env.AI)});
     }
     if(lang==='ro'&&/^(?:salut|bun[ăa]|bun[ăa] ziua|bun[ăa] seara|bun[ăa] diminea[țt]a)[.!?…]*$/iu.test(message.trim())){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Salut! Cum te pot ajuta?',ai_generated:false});
