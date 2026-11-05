@@ -12,6 +12,8 @@ on:
       - tests_balmos_recipe_regression.mjs
       - tests_dialogue_intent.mjs
       - tests_dialogue_pipeline.mjs
+      - tests_news_context.mjs
+      - news_context.mjs
       - dialogue_intent.mjs
       - tests_entity_disambiguation.mjs
       - tests_geographic_profile_selection.mjs
@@ -50,6 +52,8 @@ jobs:
           node tests_balmos_recipe_regression.mjs
           node tests_dialogue_intent.mjs
           node tests_dialogue_pipeline.mjs
+          node tests_news_context.mjs
+          node tests_news_reader.mjs
           node tests_entity_disambiguation.mjs
           node tests_geographic_profile_selection.mjs
           node tests_locality_list_unique.mjs
