@@ -10,6 +10,10 @@ on:
       - tests_request_pipeline_regression.mjs
       - tests_geographic_station_intent.mjs
       - tests_balmos_recipe_regression.mjs
+      - tests_conversation_context.mjs
+      - tests_transit_topic_intent.mjs
+      - tests_answer_focus.mjs
+      - tests_response_intent.mjs
       - tests_dialogue_intent.mjs
       - tests_social_checkin_regression.mjs
       - tests_dialogue_pipeline.mjs
@@ -65,6 +69,10 @@ jobs:
           node tests_request_pipeline_regression.mjs
           node tests_geographic_station_intent.mjs
           node tests_balmos_recipe_regression.mjs
+          node tests_conversation_context.mjs
+          node tests_transit_topic_intent.mjs
+          node tests_answer_focus.mjs
+          node tests_response_intent.mjs
           node tests_dialogue_intent.mjs
           node tests_social_checkin_regression.mjs
           node tests_dialogue_pipeline.mjs
