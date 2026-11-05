@@ -41,6 +41,7 @@ on:
       - tests_persona_relevance_regression.mjs
       - tests_frontend_dialog_i18n.mjs
       - tests_education_responsive_layout.mjs
+      - tests_shopping_history_reuse.mjs
       - tests_county_translation_regression.mjs
       - tests_assistant_address_picker_regression.mjs
       - tests_accommodation_first_flow.mjs
@@ -94,6 +95,7 @@ jobs:
           node tests_persona_relevance_regression.mjs
           node tests_frontend_dialog_i18n.mjs
           node tests_education_responsive_layout.mjs
+          node tests_shopping_history_reuse.mjs
           node tests_county_translation_regression.mjs
           node tests_assistant_address_picker_regression.mjs
           node tests_accommodation_first_flow.mjs
