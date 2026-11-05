@@ -7,6 +7,8 @@ for(const u of ["https://t.me/c/1234/56","https://t.me/+invite","https://evil.ex
 assert.equal(telegramPublicLinkSearchIntent("Caută pe Telegram știri despre Ucraina"),"ucraina");
 assert.equal(telegramPublicLinkSearchIntent("search Telegram news about Romania"),"romania");
 assert.equal(telegramPublicLinkSearchIntent("Știri despre România"),null);
+assert.equal(telegramPublicLinkSearchIntent("Caută pe Telegram știri publice despre situația din Iran din ultimele 24 de ore."),"iran");
+assert.equal(telegramPublicLinkSearchIntent("Caută pe Telegram știri publice despre războiul din Ucraina din ultimele 24 de ore."),"razboiul ucraina");
 assert.equal((await discoverTelegramPublicLinks({},"x")).status,"invalid_query");
 assert.equal((await discoverTelegramPublicLinks({},"Ukraine")).status,"not_configured");
 const fetchBefore=globalThis.fetch;let searches=0;
@@ -52,5 +54,7 @@ try{
  assert.equal(result.publication_filter,"indexed_date_after_requested_cutoff");
  assert.deepEqual(result.links.map(x=>x.url),["https://t.me/recentchannel/101","https://t.me/recentchannel/102"]);
  assert.equal(result.links[1].excerpt,"");
+ assert.equal(result.undated_excluded,1);
+ assert.equal(result.stale_excluded,1);
 }finally{globalThis.fetch=previousFetch2;}
 console.log("Telegram public link discovery tests passed");
