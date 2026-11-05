@@ -1,6 +1,7 @@
 package ai.mypocket.mobile;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -72,6 +73,7 @@ public final class MainActivity extends ComponentActivity {
     private GeolocationPermissions.Callback pendingGeoCallback;
     private String pendingGeoOrigin;
     private String pendingSpeechLocale="ro-RO";
+    private static final String FIRST_MIC_PERMISSION_FLAG="first_microphone_permission_requested";
 
     private final ActivityResultLauncher<PickVisualMediaRequest> gallery =
         registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
@@ -87,8 +89,8 @@ public final class MainActivity extends ComponentActivity {
 
     private final ActivityResultLauncher<String> micPermission =
         registerForActivityResult(new ActivityResultContracts.RequestPermission(),granted -> {
-            if(granted)beginEmbeddedListening();
-            else notifyVoice("error","Microphone permission denied",speechMode);
+            if(granted)notifyVoice("permissionGranted","","permission");
+            else notifyVoice("permissionDenied","","permission");
         });
     private final ActivityResultLauncher<String[]> locationPermission =
         registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),result -> {
@@ -99,6 +101,7 @@ public final class MainActivity extends ComponentActivity {
                 pendingGeoCallback=null;pendingGeoOrigin=null;
             }
             notifyLocationPermission(granted);
+            requestMicrophonePermissionOnce();
         });
     private void notifyLocationPermission(boolean granted) {
         try {
@@ -109,8 +112,16 @@ public final class MainActivity extends ComponentActivity {
     private void ensureLocationPermission() {
         boolean granted=ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED ||
             ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
-        if(granted){notifyLocationPermission(true);return;}
+        if(granted){notifyLocationPermission(true);requestMicrophonePermissionOnce();return;}
         locationPermission.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION});
+    }
+    private void requestMicrophonePermissionOnce() {
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)return;
+        var prefs=getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE);
+        // A user who denied permission is not repeatedly interrupted on every launch.
+        if(prefs.getBoolean(FIRST_MIC_PERMISSION_FLAG,false))return;
+        prefs.edit().putBoolean(FIRST_MIC_PERMISSION_FLAG,true).apply();
+        micPermission.launch(Manifest.permission.RECORD_AUDIO);
     }
     private void beginEmbeddedListening() {
         if(!SpeechRecognizer.isRecognitionAvailable(this)){notifyVoice("error","Speech recognizer unavailable",speechMode);return;}
@@ -146,6 +157,9 @@ public final class MainActivity extends ComponentActivity {
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,pendingSpeechLocale);
             intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS,true);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS,650L);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,450L);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS,450L);
             nativeListening=true;
             speechRecognizer.startListening(intent);
         }catch(Exception ex){nativeListening=false;releaseRecognizer();notifyVoice("error","Speech recognizer unavailable",speechMode);}
