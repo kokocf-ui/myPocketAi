@@ -3323,7 +3323,7 @@ function appendNewsCollectionTable(host,record){
     renderDetail(item);
    };
    if(item.summary)add("p",String(item.summary).slice(0,155),"font-size:13px;color:#d2e2ed;line-height:1.4;margin:8px 0 0",left);
-   if(item.translation_status==="original_untranslated"&&lang!=="en")add("small",lang==="ro"?"Original · traducere indisponibilă":"Original · translation unavailable","font-size:11px;color:#ffdaa5;display:block;margin-top:6px",left);
+   if(item.translation_status&&item.translation_status!=="translated"&&lang!=="en")add("small",String(item.translation_notice|| (lang==="ro"?"Traducere incompletă sau indisponibilă; text original.":"Translation incomplete or unavailable; original text.")),"font-size:11px;color:#ffdaa5;display:block;margin-top:6px",left);
    const right=add("td","","padding:10px 6px;vertical-align:top;border:1px solid #34566e;overflow-wrap:anywhere;width:24%",tr);
    add("strong",String(item.source_name||"—"),"display:block;font-size:12px;overflow-wrap:anywhere",right);
    add("span",dateText(item.published_at),"display:block;font-size:11px;opacity:.8;margin-top:5px",right);
