@@ -7,7 +7,7 @@ export function planAnswerFocus(message,options={}){
  const standard={mode:"standard",max_tokens:768};
  if(!text||options.recipeInstruction||options.eventResearchIntent)return standard;
  const detailed=/\b(?:detaliaz\w*|detaliat\w*|pe larg|pas cu pas|in profunzime|explic\w*|analiz\w*|exhaustiv\w*|elaboreaz\w*|write (?:a |an )?(?:detailed|long)|in depth|step by step|comprehensive|compare\w*|compar\w*|argumenteaza|argument\w*|fa (?:o |un )?(?:lista|tabel)|list\w*|enumera\w*|intreg\w*|complet\w*|multiple examples)\b/.test(text);
- const complex=/\b(?:medical|medicin\w*|simptom\w*|tratament\w*|health|medication|diagnos\w*|surgery|juridic\w*|legal|drept\w*|statut\w*|reglement\w*|lege\w*|law|conflict\w*|razboi|war|politic\w*|geopolitic\w*|international\w*|eveniment\w*|stiri\w*|news|calculeaza\w*|calcule\w*|calcul\w*|program\w*|cod\b|code\b|retet\w*|recipe\w*)\b/.test(text);
+ const complex=/\b(?:medical|medic\w*|simptom\w*|tratament\w*|health|medication|diagnos\w*|surgery|juridic\w*|legal|drept\w*|statut\w*|reglement\w*|lege\w*|law|conflict\w*|razboi|war|politic\w*|geopolitic\w*|international\w*|eveniment\w*|stiri\w*|news|calculeaza\w*|calcule\w*|calcul\w*|program\w*|cod\b|code\b|retet\w*|recipe\w*)\b/.test(text);
  if(detailed||complex||text.length>150)return standard;
  if(options.dialogueOnly)return {mode:"light_conversation",max_tokens:200};
  // A follow-up inherits subject from history, but should not repeat old paragraphs.
