@@ -11,9 +11,9 @@ assert.match(script,/shoppingPendingAction=\{type:'reuse',historyIndex,onlyUnche
 assert.match(script,/shoppingPendingAction=\{type:'reuse',historyIndex,onlyUnchecked:true\}/);
 assert.match(script,/selected\.map\(i=>shopNewItem\(i\.name,i\.quantity,i\.unit\)\)/,
  'reuse creates unchecked copies rather than mutating archived purchases');
-assert.match(script,/if\(data\.items\.length\)shopArchive\(data,'replaced',false,entry\.name\)/,
- 'active list is archived before reuse');
-assert.match(script,/approve\.disabled=!entry\|\|selected\.length===0/,
+assert.match(script,/if\(data\.items\.length\)\{notify\(shopLabel\('Arhivează întâi lista activă\.'/,
+ 'active list requires explicit archiving before history reuse');
+assert.match(script,/approve\.disabled=!entry\|\|selected\.length===0\|\|data\.items\.length>0/,
  'empty archived selections cannot be confirmed');
 
 const start=script.indexOf('function shopId(){');
