@@ -15,5 +15,4 @@ for(const [type,expected] of Object.entries(cases)){
 }
 assert.equal(telegramCodeDelivery({type:{className:"SENSITIVE_SECRET"},phoneCodeHash:"SENSITIVE"}),"unidentified method");
 assert.equal(telegramCodeDelivery(null),"unidentified method");
-for(const val of cases){void val;}
 console.log("PASS Telegram code delivery labels without exposing verification secrets");
