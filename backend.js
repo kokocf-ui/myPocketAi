@@ -1688,18 +1688,29 @@ export default {
     const telegramLinkTopic=!voluntaryTelegramLink?telegramPublicLinkSearchIntent(message):null;
     if(telegramLinkTopic){
       const found=await discoverTelegramPublicLinks(env,telegramLinkTopic,8);
+      // Explicit public index search: translate only the indexed title/excerpt
+      // for the selected UI language. This does not retrieve Telegram post bodies.
+      const indexedRows=found.links.map(r=>({
+        title:r.title,url:r.url,source_name:"Telegram (index web public)",
+        summary:r.excerpt||"",detail:r.excerpt||"",
+        verification:"unverified_index_excerpt",published_at:r.published_at||null
+      }));
+      const localizedRows=await localizeNewsRows(indexedRows,lang,env.AI,selectedAiModel);
+      for(const row of localizedRows){
+        if(!row.summary){
+          const unavailable=lang==="ro"?"Extras indisponibil în indexul public.":lang==="en"?"Excerpt unavailable in the public index.":"Excerpt unavailable in public index.";
+          row.summary=unavailable;row.detail=unavailable;
+        }
+      }
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
         message_received:message,reply:found.reply,telegram_status:found.status,
         telegram_access_mode:"public_web_index_links_only",
-        structured_list:found.links.length?{type:"news",rows:found.links.map((r,i)=>({
-          title:r.title,url:r.url,source_name:"Telegram (index web public)",
-          summary:r.excerpt||"Extras indisponibil în indexul public. Citește postarea originală dacă linkul este accesibil.",
-          detail:r.excerpt||"Conținutul postării nu este disponibil prin index. Titlul este metadată neconfirmată; deschide linkul original doar dacă este accesibil.",
-          verification:"unverified_index_excerpt",published_at:r.published_at||null
-        })),result_count:found.links.length,coverage_status:"indexed_public_links_only"}:undefined,
+        structured_list:localizedRows.length?{type:"news",rows:localizedRows,result_count:localizedRows.length,coverage_status:"indexed_public_links_only"}:undefined,
         sources:found.links.map((r,i)=>({number:i+1,title:r.title,url:r.url,publishedDate:r.published_at||null,
           verification:"unverified_link_only"})),
-        ai_ingestion_enabled:false,global_telegram_search:false,ai_connected:Boolean(env.AI),
+        ai_ingestion_enabled:Boolean(found.links.length&&lang!=="en"&&env.AI&&typeof env.AI.run==="function"),
+        telegram_translation_scope:"indexed_public_metadata_only",
+        global_telegram_search:false,ai_connected:Boolean(env.AI),
         web_search_status:found.status});
     }
     // Telegram may only supply publisher-consented channel messages. It cannot
