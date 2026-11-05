@@ -25,6 +25,12 @@ assert.match(inline,/root\.classList\.remove\('organize-active','organize-chat',
 assert.match(inline,/next\.checked=checkbox\.checked/,'only user checkbox handler changes bought status');
 assert.match(inline,/shopArchive\(data,'archived',false\)/);
 assert.match(inline,/shoppingWrite\(data\)/);
+const shoppingStyle=page.match(/<style id="shopping-single-screen">([\\s\\S]*?)<\\/style>/)?.[1];
+assert.ok(shoppingStyle,'shopping scoped styles found');
+assert.match(shoppingStyle,/--shopping-action-height:clamp/);
+assert.match(shoppingStyle,/\\.adaptive-fields--product>button\\{/);
+assert.match(shoppingStyle,/\\.adaptive-workspace__actions:not\\(\\.adaptive-workspace__actions--confirm\\)>button\\{/);
+assert.match(inline,/Bifează și editează produsele din/);
 assert.match(inline,/let shoppingMode='entry'/);
 assert.match(inline,/shopButton\('Finalizează','Finish'/);
 assert.match(inline,/shopButton\('Arhivează','Archive'/);
