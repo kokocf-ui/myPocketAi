@@ -2464,7 +2464,7 @@ function shopVoiceMergeAdded(data,incoming){
 function shopVoiceApplyAction(sentence,data){
  const raw=String(sentence||'').trim().replace(/[.!?]+$/g,'');
  if(/^(?:arhivează(?:\\s+lista(?:\\s+activă|\\s+activa)?)?|arhiveaza(?:\\s+lista(?:\\s+activa)?)?|(?:salvează|salveaza|pune|trimite)\\s+(?:lista\\s+)?(?:în|in)\\s+(?:arhivă|arhiva)(?:\\s+lista)?)$/iu.test(raw))
-  return {ok:true,archive:true,message:shopLabel('Confirmă arhivarea listei.','Confirm list archiving.')};
+  return {ok:true,archive:true,message:shopLabel('Arhivează lista.','Archive the list.')};
  const commands=[
   {type:'delete',re:/^(?:șterge|sterge|elimină|elimina)\\s+(.+)$/iu},
   {type:'replace',re:/^(?:înlocuiește|inlocuieste|schimbă|schimba)\\s+(.+?)\\s+cu\\s+(.+)$/iu},
@@ -2516,6 +2516,15 @@ function shopVoiceApplyAction(sentence,data){
  }
  return {ok:false,message:shopLabel('Comanda nu a fost aplicată.','Action not applied.')};
 }
+function shopArchiveActiveImmediately(data){
+ if(!data.items.length)return false;
+ shopArchive(data,'archived',false);
+ if(!shoppingWrite(data))return false;
+ shoppingMode='entry';shoppingPendingAction=null;shoppingEditingId=null;
+ if(state.currentView==='module')renderShoppingList();
+ notify(shopLabel('Lista a fost arhivată.','List archived.'));
+ return true;
+}
 function shopVoiceApplyCommands(session){
  const data=shopNormalizeData(shoppingRead());
  if(!data.items.length){notify(shopLabel('Lista activă este goală.','Active list is empty.'));return}
@@ -2528,8 +2537,12 @@ function shopVoiceApplyCommands(session){
   if(result.archive){archiveRequested=true;continue}
   if(result.ok)changed=true;
  }
+ if(archiveRequested){
+  if(!shopArchiveActiveImmediately(data))notify(shopLabel('Arhivarea nu a fost efectuată.','Archiving did not complete.'));
+  return;
+ }
  if(changed&&!shoppingWrite(data))return;
- shoppingMode='active';shoppingPendingAction=archiveRequested?{type:'archive'}:null;shoppingEditingId=null;
+ shoppingMode='active';shoppingPendingAction=null;shoppingEditingId=null;
  if(state.currentView==='module')renderShoppingList();
  notify(messages.join(' · ').slice(0,450));
 }
@@ -2758,7 +2771,7 @@ function renderShoppingList(){
  }else if(shoppingMode==='active'){
   footer.classList.add('shop-active-footer');
   const archive=shopButton('Arhivează','Archive','primary-btn');archive.disabled=!data.items.length;
-  archive.onclick=()=>{shoppingPendingAction={type:'archive'};renderShoppingList()};
+  archive.onclick=()=>{shopArchiveActiveImmediately(data)};
   const history=shopButton('Arhivă','History');history.onclick=()=>{shoppingMode='archive';shoppingPendingAction=null;renderShoppingList()};
   footer.append(archive,history);
  }else{
@@ -2829,20 +2842,7 @@ function renderShoppingList(){
   buttons.append(approve,cancel);confirm.append(buttons);
   footer.replaceChildren(confirm);footer.classList.add('adaptive-workspace__actions--confirm');
  }
- if(shoppingPendingAction?.type==='archive'){
-  const confirm=document.createElement('div');confirm.className='shop-inline-confirm';
-  const desc=document.createElement('p');
-  desc.textContent=shopLabel('Muți lista în arhivă și eliberezi «Listă activă»? Produsele și bifele rămân în arhivă.',
-   'Move this list to the archive and clear «Active list»? Items and checks are preserved.');
-  confirm.append(desc);
-  const buttons=document.createElement('div');buttons.className='adaptive-fields';
-  const approve=shopButton('Confirmă arhivarea','Confirm archive','primary-btn');
-  approve.onclick=()=>{if(!data.items.length)return;shopArchive(data,'archived',false);data.completedAt=null;
-   shoppingPendingAction=null;shoppingEditingId=null;shoppingMode='entry';shopSaveAndRender(data,false)};
-  const cancel=shopButton('Renunță','Cancel');cancel.onclick=()=>{shoppingPendingAction=null;renderShoppingList()};
-  buttons.append(approve,cancel);confirm.append(buttons);
-  footer.replaceChildren(confirm);footer.classList.add('adaptive-workspace__actions--confirm');
- }
+
 
 }
 
