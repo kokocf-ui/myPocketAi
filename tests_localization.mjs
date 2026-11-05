@@ -36,3 +36,20 @@ assert.equal(fixed[0].title,"Iranul și SUA continuă negocierile");
 assert.equal(fixed[0].translation_status,"translated");
 assert.equal(fixed[0].summary,"Cele două țări continuă discuțiile diplomatice.");
 console.log("Malformed JSON fallback to labeled text: PASS");
+
+ // Regression: all returned headlines must be attempted, not merely the first 12.
+ const many=Array.from({length:14},(_,i)=>({title:'English headline number '+i,summary:'English news excerpt number '+i,url:'https://example.org/'+i}));
+ let directCalls=0;
+ const plainAi={run:async(_model,options)=>{
+   const system=String(options.messages?.[0]?.content||'');
+   if(system.includes('JSON array')||system.includes('JSON object')||system.includes('two labeled lines'))return {response:'invalid structured translation'};
+   directCalls++;
+   const user=String(options.messages?.[1]?.content||'');
+   return {response:'Traducere românească: '+user};
+ }};
+ const allLocalized=await localizeNewsRows(many,'ro',plainAi,'mock');
+ assert.equal(allLocalized.length,14);
+ assert.equal(allLocalized[13].translation_status,'translated');
+ assert.ok(allLocalized[13].title.startsWith('Traducere românească'));
+ assert.ok(directCalls>=28,'Plain text fallback should translate both title and excerpt of all items');
+ console.log('Full news coverage and direct text translation fallback: PASS');
