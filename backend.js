@@ -1741,7 +1741,10 @@ export default {
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
         message_received:message,reply:found.reply,telegram_status:found.status,
         telegram_access_mode:"public_web_index_links_only",telegram_date_unconfirmed_fallback:dateUnconfirmedFallback,
-        structured_list:localizedRows.length?{type:"news",rows:localizedRows,result_count:localizedRows.length,coverage_status:dateUnconfirmedFallback?"date_unconfirmed_not_recent":"indexed_public_links_only"}:undefined,
+        structured_list:localizedRows.length?{type:"news",rows:localizedRows,result_count:localizedRows.length,
+          selection_policy:"public_index_relevance_date_and_duplicates",viewpoint_filtering_applied:false,
+          editorial_quality_verdict:false,displayed_result_limit:8,
+          coverage_status:dateUnconfirmedFallback?"date_unconfirmed_not_recent":"indexed_public_links_only"}:undefined,
         sources:found.links.map((r,i)=>({number:i+1,title:r.title,url:r.url,publishedDate:r.published_at||null,
           verification:"unverified_link_only"})),
         ai_ingestion_enabled:Boolean(found.links.length&&lang!=="en"&&env.AI&&typeof env.AI.run==="function"),
@@ -1756,6 +1759,7 @@ export default {
       const feed=await readConsentedTelegramPosts(env,{language:lang,limit:12,publicationDay:dated?.day||null});
       const newsList=feed.status==="success"&&feed.rows.length?{
         type:"news",rows:feed.rows,verification:"telegram_posts_not_verified_news",
+        selection_policy:"approved_channel_access_and_date_only",viewpoint_filtering_applied:false,editorial_quality_verdict:false,
         sort:"published_at_desc",source_platform:"Telegram",
         result_count:feed.rows.length,coverage_status:"authorized_channels_only",
         publication_filter:dated?.kind||"none",requested_publication_day:dated?.day||null
@@ -5431,7 +5435,7 @@ export default {
         // When several publishers are available, avoid allowing one source
         // to occupy the entire visible news list.
         if(candidatePublisherCount>=3&&publisherUsed>=3)continue;
-        if(/(?:breaking news|latest news|stiri de ultima ora|știri de ultimă oră|world news summary|news summary|latest headlines|monthly geopolitical report|live fm|news live|live updates)\b/i.test(originalTitle))continue;
+        // Do not discard an article just because its headline includes terms like "breaking news" or "live updates".
         const sourceDate=String(source.publishedDate||"");
         const normalizedDate=/^\d{8}T\d{6}Z$/.test(sourceDate)?sourceDate.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,"$1-$2-$3T$4:$5:$6Z"):sourceDate;
         const publishedMs=Date.parse(normalizedDate);
@@ -5506,7 +5510,11 @@ export default {
       }
       // Never imply that the application has a complete news feed when strict
       // publication-date and topic validation leave only a few articles.
-      const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",requested_publication_day:newsPublicationFilter?.day||null,publication_filter:newsPublicationFilter?.kind||"none",
+      const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",
+        selection_policy:"technical_relevance_date_duplicates_and_publisher_diversity",
+        viewpoint_filtering_applied:false,editorial_quality_verdict:false,
+        retrieved_candidate_count:webSources.length,displayed_result_limit:12,
+        requested_publication_day:newsPublicationFilter?.day||null,publication_filter:newsPublicationFilter?.kind||"none",
         result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage",missing_publication_dates:rows.filter(r=>r.recency_status!=="dated"&&r.source_platform!=="Telegram").length,
         telegram_status:telegramParallelEnabled?(telegramFeed?.status||"unavailable"):"publisher_opt_in_required",
         telegram_result_count:approvedTelegramRows.length,telegram_access_mode:"publisher_opt_in_only",
