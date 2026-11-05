@@ -78,6 +78,6 @@ export function telegramPublicLinkSearchIntent(message){
   .replace(/\b(?:din|in|pe)\s+ultim(?:ele|a|ii)?\s+24\s*(?:de\s*)?(?:ore|h)\b/gi," ")
   .replace(/\b(?:last|past)\s+24\s+hours?\b/gi," ")
   .replace(/\b(?:cauta|cautare|cauta-mi|gaseste|gaseste-mi|find|search|pe|in|din|on|for|despre|about|postari|postarile|stiri|stirile|news|noutati|linkuri|linkurile|publice|public|situatia|situation|current|recente)\b/gi," ")
-  .replace(/\s+/g," ").trim();
+  .replace(/\s+/g," ").replace(/[.!?,;:]+$/g,"").trim();
  return topic.length>=3?topic:null;
 }
