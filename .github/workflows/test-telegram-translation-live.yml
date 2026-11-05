@@ -41,6 +41,8 @@ jobs:
               detected_language:result.source_language,engine:result.translation_engine||null,
               output_characters:translation.length,latin_fraction:latin/(latin+nonLatin||1)};
             console.log("POCKET_TELEGRAM_LIVE "+JSON.stringify(report));
+            // Only harmless, fixed QA fixture text is logged; never a user post.
+            console.log("POCKET_TELEGRAM_SAMPLE "+sample.id+" "+translation.slice(0,190));
             assert.equal(response.status,200);
             assert.equal(result.status,"success","The deployed translator failed to produce Romanian");
             assert.equal(result.translated_to,"ro");
