@@ -1,0 +1,44 @@
+name: Pocket AI live expanded news reader QA
+on:
+  workflow_run:
+    workflows:
+      - Deploy MyPocketAI to Cloudflare
+    types:
+      - completed
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  news-reader-live:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Probe live article detail with publisher URLs
+        env:
+          POCKET_AI_NEWS_API: https://lifewise-ai-api.kokocf.workers.dev/api/news-article-detail
+        run: |
+          node --input-type=module <<'JS'
+          import assert from "node:assert/strict";
+          const urls=[
+           "https://www.descopera.ro/stiinta/21152500-toate-cele-5-litere-genetice-din-adn-au-fost-descoperite-intr-un-asteroid-vechi-de-45-miliarde-de-ani",
+           "https://science.nasa.gov/missions/osiris-rex/asteroid-bennus-rugged-surface-baffled-nasa-we-finally-know-why/"
+          ];
+          let completed=0;
+          for(const url of urls){
+           try{
+            const response=await fetch(process.env.POCKET_AI_NEWS_API,{
+             method:"POST",headers:{"content-type":"application/json"},
+             body:JSON.stringify({url,language:"ro"}),signal:AbortSignal.timeout(35000)
+            });
+            const data=await response.json();
+            const preview={publisher:new URL(url).hostname,http_status:response.status,status:data.status,
+             content_status:data.content_status,reading_mode:data.reading_mode||null,
+             section_count:data.section_count||0,summary_length:String(data.summary||"").length,translated_to:data.translated_to||null};
+            console.log("POCKET_NEWS_READER_LIVE "+JSON.stringify(preview));
+            if(data.reading_mode==="expanded_article_digest"&&data.section_count>=1&&String(data.summary||"").length>=250)completed++;
+           }catch(error){console.log("POCKET_NEWS_READER_LIVE_ERROR "+JSON.stringify({publisher:new URL(url).hostname,type:error.name,message:String(error.message).slice(0,100)}));}
+          }
+          assert.ok(completed>=1,"No publisher returned an expanded, source-based reading");
+          console.log("PASS at least one live publisher article is rendered as expanded detail.");
+          JS
