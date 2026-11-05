@@ -8,11 +8,18 @@ const arrival=/\b(?:pana\s+(?:la|in)|catre|spre|towards|hasta|to|vers)\s+[\p{L}\
 const topic=/\b(?:ma refeream|m-am referit|i meant|i was referring|nu eu|i mean|tell me about|spune-mi despre|povesteste-mi|descrie-mi|explica-mi|explain|what is|what are|how does|cum functioneaza|cum este organizat|cum se plateste|ce este|ce inseamna|care sunt|ce tipuri|ce stii|informatii despre|informatii cu privire la|detalii despre)\b/;
 const mode=/^(?:(?:cu\s+)?(?:transport(?:ul)?\s+(?:public|in comun)|public transport|by public transport|cu\s+(?:autobuz(?:ul)?|tren(?:ul)?|metrou(?:l)?)|by (?:bus|train|tube|metro)))[.!?]*$/;
 const choices=/^(?:ce variante|care (?:sunt )?(?:variantele|optiunile)|what (?:public )?transport options)\b/;
+const fares=/^(?:cat (?:costa|este|e)\b|care (?:este|e) (?:pretul|tariful)\b|care sunt tarifele\b|cat e biletul\b|cand pleaca\b|la ce ora\b|de ce\b|how much\b|what (?:is the fare|is the price|time)\b|when (?:does|is)\b)/;
+const whichService=/^(?:ce (?:autobuz\w*|tren\w*|metrou\w*) (?:ma duce|merge|ajunge|pot lua)|which (?:bus|train|tube) (?:goes|takes|gets))\b/;
+
 export function isTransitJourneyRequest(message,options={}){
  const q=n(message);
  if(options.explicitTransitMode===true||options.boardingAccessRequested===true||options.explicitTransitDestination===true)
   return {is_journey:true,reason:"explicit_route_selection"};
  if(!transport.test(q))return {is_journey:false,reason:"not_transport"};
+ if(fares.test(q))return {is_journey:false,reason:"fare_or_schedule_question"};
+ if(whichService.test(q)&&/\b(?:la|spre|catre|pana la|to)\s+[\p{L}\p{N}]/u.test(q))
+  return {is_journey:true,reason:"requested_specific_service"};
+
  if(choices.test(q)&&arrival.test(q))return {is_journey:true,reason:"options_to_destination"};
  if(topic.test(q)&&!(trip.test(q)&&arrival.test(q)))
   return {is_journey:false,reason:"informational_or_correction"};
