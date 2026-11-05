@@ -14,6 +14,9 @@ on:
       - tests_dialogue_pipeline.mjs
       - tests_news_context.mjs
       - news_context.mjs
+      - news_discovery.mjs
+      - tests_news_discovery.mjs
+      - tests_news_source_diversity.mjs
       - dialogue_intent.mjs
       - tests_entity_disambiguation.mjs
       - tests_geographic_profile_selection.mjs
@@ -53,6 +56,8 @@ jobs:
           node tests_dialogue_intent.mjs
           node tests_dialogue_pipeline.mjs
           node tests_news_context.mjs
+          node tests_news_discovery.mjs
+          node tests_news_source_diversity.mjs
           node tests_news_reader.mjs
           node tests_entity_disambiguation.mjs
           node tests_geographic_profile_selection.mjs
