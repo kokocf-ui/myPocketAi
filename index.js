@@ -2322,13 +2322,42 @@ function shopVoiceRenderStatus(){
   mic.setAttribute('aria-pressed',session?.active?'true':'false')}
  const status=document.querySelector('.shop-voice-status');
  if(status){status.textContent=session?.active?
-  shopLabel('Ascult… ','Listening… ')+[...session.parts,session.partial].filter(Boolean).join(' ').slice(-160):
+  (session.status==='starting'?shopLabel('Pornesc microfonul… ','Starting microphone… '):session.status==='restarting'?shopLabel('Reiau ascultarea… ','Resuming microphone… '):shopLabel('Ascult… ','Listening… '))+[...session.parts,session.partial].filter(Boolean).join(' ').slice(-160):
   shopLabel('Apasă microfonul pentru dictare continuă.','Tap the microphone for continuous dictation.')}
+}
+function shopVoiceClearWatchdog(session){
+ if(session?.watchdog!=null){clearTimeout(session.watchdog);session.watchdog=null}
+}
+function shopVoiceWatchdog(session){
+ if(!session?.active||!pocketNativeVoiceAvailable())return;
+ shopVoiceClearWatchdog(session);
+ // A mobile recognizer can end after a beep without sending final results.
+ // Never leave the UI claiming to listen when no callback follows.
+ session.watchdog=setTimeout(()=>{
+  if(!session.active||shoppingVoiceSession!==session)return;
+  session.missed=(session.missed||0)+1;
+  if(session.missed>3){
+   shopVoiceStop();
+   notify(shopLabel('Microfonul nu a răspuns. Apasă din nou pentru a continua.','The microphone stopped responding. Tap again to continue.'));
+   return;
+  }
+  shopVoiceRestart(session,450);
+ },6500);
+}
+function shopVoiceRestart(session,delay){
+ if(!session?.active||shoppingVoiceSession!==session)return;
+ shopVoiceClearWatchdog(session);
+ if(session.timer!==null)clearTimeout(session.timer);
+ // The existing Android bridge can cancel its old recognizer before restarting.
+ if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
+ session.status='restarting';shopVoiceRenderStatus();
+ session.timer=setTimeout(()=>{if(session.active&&shoppingVoiceSession===session)shopVoiceListen()},delay);
 }
 function shopVoiceListen(){
  const session=shoppingVoiceSession;
  if(!session?.active)return;
  if(pocketNativeVoiceAvailable()){
+  session.status='starting';shopVoiceRenderStatus();shopVoiceWatchdog(session);
   if(!pocketNativeVoiceSend({action:'listen',mode:'shopping',language:shopVoiceLanguage()})){
    shopVoiceStop();notify(shopLabel('Microfonul Android nu a pornit.','Could not start Android microphone.'))}
   return;
@@ -2374,12 +2403,13 @@ function shopVoiceAccept(text){
 function shopVoiceStart(){
  if(shoppingVoiceSession?.active){shopVoiceStop();return}
  if(state.speaking){notify(shopLabel('Încheie mai întâi redarea vocală.','Finish voice playback first.'));return}
- shoppingVoiceSession={active:true,parts:[],partial:'',timer:null,rec:null,retries:0};
+ shoppingVoiceSession={active:true,parts:[],partial:'',timer:null,watchdog:null,rec:null,retries:0,missed:0,status:'starting'};
  shopVoiceRenderStatus();shopVoiceListen();
 }
 function shopVoiceStop(){
  const session=shoppingVoiceSession;if(!session?.active)return;
  session.active=false;
+ shopVoiceClearWatchdog(session);
  if(session.timer!==null)clearTimeout(session.timer);
  if(session.partial&&!shopVoiceFold(session.parts[session.parts.length-1]).includes(shopVoiceFold(session.partial))){
   const ending=shopVoiceEnd(session.partial);if(ending.text.trim())session.parts.push(ending.text.trim())
@@ -2405,20 +2435,22 @@ function shopVoiceHandleAndroid(data){
  if(data?.mode!=='shopping')return false;
  const session=shoppingVoiceSession;
  if(!session?.active)return true;
- if(data.status==='partial'){session.partial=String(data.text||'').trim();shopVoiceRenderStatus();return true}
+ if(data.status==='listening'){session.status='listening';session.missed=0;shopVoiceWatchdog(session);shopVoiceRenderStatus();return true}
+ if(data.status==='partial'){session.status='listening';session.missed=0;shopVoiceWatchdog(session);session.partial=String(data.text||'').trim();shopVoiceRenderStatus();return true}
  if(data.status==='recognized'){
-  session.retries=0;session.partial='';
+  shopVoiceClearWatchdog(session);session.status='restarting';session.retries=0;session.missed=0;session.partial='';
   shopVoiceAccept(String(data.text||''));
   if(session.active){
-   session.timer=setTimeout(()=>{if(session.active)shopVoiceListen()},230);
+   shopVoiceRestart(session,450);
   }
   return true;
  }
  if(data.status==='error'){
+  shopVoiceClearWatchdog(session);
   const message=String(data.text||'');
   session.retries=(session.retries||0)+1;
   if(session.retries<=3&&/error (?:6|7|8)|timeout|no.match/iu.test(message)){
-   session.timer=setTimeout(()=>{if(session.active)shopVoiceListen()},450);
+   shopVoiceRestart(session,650);
   }else{
    shopVoiceStop();notify(shopLabel('Recunoașterea vocală Android a fost întreruptă.','Android speech recognition stopped.'));
   }
