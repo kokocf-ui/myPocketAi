@@ -61,6 +61,15 @@ assert.ok(start>=0&&end>start,'shopping logic boundaries present');
 const ctx=vm.createContext({Math,Date,learningLabel:(ro,en)=>ro,localStorage:{},document:{}});
 vm.runInContext(inline.slice(start,end),ctx);
 const evalIn=expression=>vm.runInContext(expression,ctx);
+
+ctx.state={language:'ro'};
+const spoken=evalIn("shopVoiceItems('două kilograme de cartofi zece ouă un litru de lapte o jumătate de kilogram de roșii')");
+assert.equal(spoken.length,4,'one unpunctuated dictation produces four distinct products');
+assert.deepEqual(Array.from(spoken,x=>x.name),['cartofi','ouă','lapte','roșii']);
+assert.deepEqual(Array.from(spoken,x=>x.quantity),['2','10','1','0.5']);
+assert.deepEqual(Array.from(spoken,x=>x.unit),['kg','buc','l','kg']);
+assert.equal(evalIn("shopVoiceEnd('trei pâini atât').ended"),true);
+assert.equal(evalIn("shopVoiceDiacritics('faina capsuni patrunjel')"),'făină căpșuni pătrunjel');
 const migrated=evalIn("shopNormalizeData({items:[{id:'milk',name:'Lapte',checked:true,checkedAt:'2026-11-05T12:00:00Z'},{id:'bread',name:'Pâine',checked:false}],history:[{finishedAt:'2026-11-04T12:00:00Z',items:[{name:'Cartofi',checked:false}]}]})");
 assert.equal(migrated.currentName,'Lista mea');
 assert.equal(migrated.items.length,2);
