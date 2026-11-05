@@ -8,6 +8,7 @@ import {TelegramClient,Api} from "teleproto";
 import {StringSession} from "teleproto/sessions";
 import {makePhoneMigrationHandler} from "./telegram-login-dc.mjs";
 import {telegramCodeDelivery} from "./telegram-code-delivery.mjs";
+import {askTelegramVerificationCode} from "./telegram-code-fallback.mjs";
 // Portable prompt: readline writes typed characters to its output stream.
 // Send all editing/echo output to a discard-only stream instead of relying
 // on undocumented Node.js internals (unsupported on Termux Node 22/24).
@@ -103,7 +104,8 @@ try{
  });
  await client.start({
   phoneNumber:async()=>cachedPhone||(cachedPhone=await askPhone()),
-  phoneCode:()=>askHidden("Telegram verification code (never send it to anyone): "),
+  phoneCode:(_isApp,info)=>askTelegramVerificationCode(
+   info,askHidden,line=>output.write(line)),
   password:()=>askHidden("Telegram two-step verification password, if required: "),
   onError:onLoginError
  });
