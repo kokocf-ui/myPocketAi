@@ -64,7 +64,7 @@ try{
  assert.ok(source.includes('function newsSelectionNotice('),'News source choices must disclose technical filtering');
  assert.ok(source.includes('Tu decizi ce citești.'),'Reader, not the assistant, decides which sources to read');
  new vm.Script(source);
- const a=source.indexOf('function appendNewsCollectionTable(');
+ const a=source.indexOf('function newsSelectionNotice(');
  const b=source.indexOf('function appendStructuredCollectionTable(',a);
  assert.ok(a>0&&b>a);
  class N {
