@@ -3,7 +3,7 @@ import worker from './backend.js';
 import {readFileSync} from 'node:fs';
 const source=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
 assert(source.includes('REGULI DE CONCIZIE ȘI RELEVANȚĂ'),'concision rule must exist');
-assert(source.includes('temperature: eventResearchIntent || recipeInstruction ? 0.05 : 0.18'),'factual creativity reduced');
+assert(/temperature\s*:\s*eventResearchIntent\s*\|\|\s*recipeInstruction\s*\?\s*0\.05\s*:\s*0\.18/.test(source),'factual creativity reduced');
 let aiCalls=0;
 const ai={run:async()=>{aiCalls++;return {response:'irrelevant history lesson'}}};
 async function ask(message,history=[],language='ro'){
