@@ -3843,6 +3843,9 @@ function isRecipeQuestion(text){
 function requestUsesLocation(text){
  const value=String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
  if(isRecipeQuestion(value))return false;
+ // A sentence-shaping instruction, social comment or explanatory request is
+ // not a nearby business or destination, even when the GPS cache exists.
+ if(/^(?:(?:te rog|please)\s+)?(?:raspunde|reformuleaza|rescrie|rezuma|answer|respond|rephrase|rewrite|summarize|explica(?:-mi)?|explain|descrie(?:-mi)?|define|defineste|glumeam|glumesc|era o gluma|just kidding|parca(?:\s+astazi|\s+azi)?\s+esti|esti\s+(?:cam|foarte|tare|prea)\s+serioas)/i.test(value) && !/\b(?:cum ajung|traseu|ruta|route to|directions to|vreau sa ajung)\b/i.test(value))return false;
  if(needsLocation(value))return true;
  if(/(?:locatia mea|pozitia mea|my location|my position|vreme|meteo|weather|forecast|distanta|distance|kilometri|traseu|ruta|route|walking|driving|pe jos|near me|nearby)/i.test(value))return true;
  // Short venue names and explicit journeys must receive GPS even without "near me".
