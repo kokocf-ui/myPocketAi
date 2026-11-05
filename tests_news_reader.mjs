@@ -22,7 +22,7 @@ try{
  assert.equal(data.structured_list.editorial_quality_verdict,false);
  assert.equal(data.structured_list.viewpoint_filtering_applied,false);
  assert.match(data.structured_list.selection_policy,/technical_relevance_date_duplicates/);
- assert.equal(data.structured_list.displayed_result_limit,12);
+ assert.equal(data.structured_list.displayed_result_limit,30);
  assert.ok(data.structured_list.rows.length>=1);
  assert.ok(data.structured_list.rows.every(x=>x.url?.startsWith('https://')&&x.verification==='source_identified_claims_unverified'));
  const directResponse=await backend.fetch(new Request('https://test.example/api/chat',{method:'POST',headers:{'content-type':'application/json'},
