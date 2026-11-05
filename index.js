@@ -2339,7 +2339,7 @@ function shopVoiceItems(transcript){
 function shopVoiceRenderStatus(){
  const session=shoppingVoiceSession;
  const mic=document.querySelector('.shop-voice-button');
- if(mic){mic.textContent=session?.active?shopLabel('■ Oprește și salvează','■ Stop and save'):shopLabel('🎙 Dictează produse','🎙 Dictate items');
+ if(mic){mic.textContent=session?.active?shopLabel('■ Oprește și aplică','■ Stop and apply'):shoppingMode==='active'?shopLabel('🎙 Comenzi vocale','🎙 Voice commands'):shopLabel('🎙 Dictează produse','🎙 Dictate items');
   mic.setAttribute('aria-pressed',session?.active?'true':'false')}
  const status=document.querySelector('.shop-voice-status');
  if(status){status.textContent=session?.active?
@@ -2427,10 +2427,94 @@ function shopVoiceAccept(text){
   }
  }
 }
+function shopVoiceActionName(value){
+ const plain=shopVoiceFold(value).replace(/[^\\p{L}\\p{N}]+/gu,' ').trim();
+ const aliases={ouale:'oua',oul:'ou',cartofii:'cartofi',uleiul:'ulei',
+  laptele:'lapte',rosiile:'rosii',merele:'mere',painea:'paine',
+  untul:'unt',faina:'faina',branza:'branza',capsunile:'capsuni'};
+ return aliases[plain]||plain;
+}
+function shopVoiceFindItem(items,spoken){
+ const target=shopVoiceActionName(spoken);
+ if(!target)return {item:null,reason:'missing'};
+ let matches=items.filter(item=>shopVoiceActionName(item.name)===target);
+ if(!matches.length)matches=items.filter(item=>shopVoiceActionName(item.name).split(' ').includes(target));
+ if(matches.length!==1)return {item:null,reason:matches.length?'ambiguous':'missing'};
+ return {item:matches[0],reason:null};
+}
+function shopVoiceApplyAction(sentence,data){
+ const raw=String(sentence||'').trim().replace(/[.!?]+$/g,'');
+ const commands=[
+  {type:'delete',re:/^(?:șterge|sterge|elimină|elimina)\\s+(.+)$/iu},
+  {type:'replace',re:/^(?:înlocuiește|inlocuieste|schimbă|schimba)\\s+(.+?)\\s+cu\\s+(.+)$/iu},
+  {type:'quantity',re:/^(?:modifică|modifica|schimbă|schimba)\\s+(.+?)\\s+(?:la|în|in)\\s+(.+)$/iu},
+  {type:'add',re:/^(?:mai\\s+)?(?:adaugă|adauga|pune)\\s+(.+)$/iu},
+  {type:'bought',re:/^(?:am\\s+cumpărat|am\\s+cumparat|bifează|bifeaza|marchează\\s+cumpărat|marcheaza\\s+cumparat)\\s+(.+)$/iu}
+ ];
+ const found=commands.map(c=>({type:c.type,match:raw.match(c.re)})).find(c=>c.match);
+ if(!found)return {ok:false,message:shopLabel('Comandă neînțeleasă: ','Unrecognized command: ')+raw};
+ if(found.type==='add'){
+  const items=shopVoiceItems(found.match[1]);
+  if(!items.length)return {ok:false,message:shopLabel('Nu am identificat produsul de adăugat.','Could not identify the item.')};
+  data.items.push(...items);data.completedAt=null;
+  return {ok:true,message:shopLabel('Adăugat: ','Added: ')+items.map(i=>i.name).join(', ')};
+ }
+ const target=shopVoiceFindItem(data.items,found.match[1]);
+ if(!target.item)return {ok:false,message:target.reason==='ambiguous'?
+  shopLabel('Sunt mai multe produse cu acest nume. Alege produsul din tabel.','Several items match. Select one in the table.'):
+  shopLabel('Nu găsesc produsul: ','Item not found: ')+found.match[1]};
+ const item=target.item;
+ if(found.type==='delete'){
+  data.items=data.items.filter(i=>i.id!==item.id);
+  return {ok:true,message:shopLabel('Eliminat: ','Removed: ')+item.name};
+ }
+ if(found.type==='bought'){
+  item.checked=true;item.checkedAt=new Date().toISOString();
+  return {ok:true,message:shopLabel('Bifat: ','Marked bought: ')+item.name};
+ }
+ if(found.type==='quantity'){
+  const parsed=shopVoiceItems(found.match[2]+' de produs');
+  if(parsed.length!==1||parsed[0].name!=='produs'||!shopValidateQuantity(parsed[0].quantity))
+   return {ok:false,message:shopLabel('Spune cantitatea și unitatea, de exemplu «5 kilograme».','Say the quantity and unit, e.g. five kilograms.')};
+  item.quantity=parsed[0].quantity;
+  if(parsed[0].unit!=='buc'||item.unit==='buc')item.unit=parsed[0].unit;
+  return {ok:true,message:shopLabel('Cantitate modificată: ','Quantity updated: ')+item.name};
+ }
+ if(found.type==='replace'){
+  const replacement=found.match[2].trim();
+  if(!replacement||replacement.length>180)return {ok:false,message:shopLabel('Produsul nou nu este clar.','The replacement item is unclear.')};
+  const parsed=shopVoiceItems(replacement);
+  if(parsed.length!==1)return {ok:false,message:shopLabel('Spune un singur produs pentru înlocuire.','Say one replacement item.')};
+  const explicit=/^(?:\\d+(?:[.,]\\d+)?|un|o|unu|una|doi|două|doua|trei|patru|cinci|zece|jumătate|jumatate)\\s/iu.test(replacement);
+  if(!explicit&&['kg','g','l','ml'].includes(item.unit))
+   return {ok:false,message:shopLabel('Precizează și cantitatea noului produs.','Please give a quantity for the replacement.')};
+  item.name=shopVoiceDiacritics(explicit?parsed[0].name:replacement);
+  if(explicit){item.quantity=parsed[0].quantity;item.unit=parsed[0].unit}
+  return {ok:true,message:shopLabel('Produs înlocuit cu ','Item replaced with ')+item.name};
+ }
+ return {ok:false,message:shopLabel('Comanda nu a fost aplicată.','Action not applied.')};
+}
+function shopVoiceApplyCommands(session){
+ const data=shopNormalizeData(shoppingRead());
+ if(!data.items.length){notify(shopLabel('Lista activă este goală.','Active list is empty.'));return}
+ const phrases=session.parts.flatMap(part=>String(part).split(/[,;]+/u)).map(p=>p.trim()).filter(Boolean);
+ if(!phrases.length)return;
+ const messages=[];let changed=false;
+ for(const phrase of phrases){
+  const result=shopVoiceApplyAction(phrase,data);
+  messages.push(result.message);
+  if(result.ok)changed=true;
+ }
+ if(changed)shoppingWrite(data);
+ shoppingMode='active';shoppingPendingAction=null;shoppingEditingId=null;
+ if(state.currentView==='module')renderShoppingList();
+ notify(messages.join(' · ').slice(0,450));
+}
+
 function shopVoiceStart(){
  if(shoppingVoiceSession?.active){shopVoiceStop();return}
  if(state.speaking){notify(shopLabel('Încheie mai întâi redarea vocală.','Finish voice playback first.'));return}
- shoppingVoiceSession={active:true,parts:[],partial:'',timer:null,watchdog:null,rec:null,retries:0,missed:0,status:'starting'};
+ shoppingVoiceSession={active:true,kind:shoppingMode==='active'?'actions':'entry',parts:[],partial:'',timer:null,watchdog:null,rec:null,retries:0,missed:0,status:'starting'};
  shopVoiceRenderStatus();shopVoiceListen();
 }
 function shopVoiceStop(){
@@ -2444,6 +2528,7 @@ function shopVoiceStop(){
  if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
  if(session.rec){try{session.rec.onend=null;session.rec.onerror=null;session.rec.onresult=null;session.rec.abort()}catch{}}
  shoppingVoiceSession=null;
+ if(session.kind==='actions'){shopVoiceApplyCommands(session);shopVoiceRenderStatus();return}
  const items=shopVoiceItems(session.parts.join(', '));
  if(items.length){
   const data=shopNormalizeData(shoppingRead());
@@ -2553,6 +2638,11 @@ function renderShoppingList(){
  scroll.append(entryHint);
  }
  if(shoppingMode==='active'){
+ const mic=shopButton('🎙 Comenzi vocale','🎙 Voice commands');
+ mic.classList.add('shop-voice-button');mic.onclick=()=>shopVoiceStart();
+ scroll.append(mic);
+ const status=document.createElement('small');status.className='shop-voice-status';scroll.append(status);
+ shopVoiceRenderStatus();
  const list=document.createElement('div');list.className='shop-list';
  if(!data.items.length){const empty=document.createElement('small');
   empty.textContent=shopLabel('Niciun produs adăugat încă.','No items added yet.');list.append(empty)}
