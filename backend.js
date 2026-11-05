@@ -1687,7 +1687,7 @@ export default {
     // and never expose user-session credentials.
     const telegramLinkTopic=!voluntaryTelegramLink?telegramPublicLinkSearchIntent(message):null;
     if(telegramLinkTopic){
-      const rolling24h=/\\b(?:ultim(?:ele|a|ii)?\\s*24\\s*(?:de\\s*)?(?:ore|h)|last\\s*24\\s*hours?|past\\s*24\\s*hours?)\\b/iu.test(message);
+      const rolling24h=/\b(?:ultim(?:ele|a|ii)?\s*24\s*(?:de\s*)?(?:ore|h)|last\s*24\s*hours?|past\s*24\s*hours?)\b/iu.test(message);
       const found=await discoverTelegramPublicLinks(env,telegramLinkTopic,8,rolling24h?{sinceMs:Date.now()-86400000}:{});
       // Explicit public index search: translate only the indexed title/excerpt
       // for the selected UI language. This does not retrieve Telegram post bodies.
