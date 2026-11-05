@@ -4145,6 +4145,15 @@ function startSharedLocation(){
  getCurrentCoordinates(true).catch(()=>{});
  state.locationWatchId=navigator.geolocation.watchPosition(pos=>saveLocation({latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy}),err=>{if(err.code===1)forgetSharedLocation();console.info('GPS update unavailable',err.code)},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
 }
+window.addEventListener('pocketandroidlocation',event=>{
+ if(!event.detail?.granted){setStatus('Localizarea Android nu este permisă. Traseele pot necesita activarea GPS.');return}
+ getCurrentCoordinates(true).catch(()=>{});
+ if(state.locationWatchId!=null&&navigator.geolocation)navigator.geolocation.clearWatch(state.locationWatchId);
+ if(navigator.geolocation)state.locationWatchId=navigator.geolocation.watchPosition(
+  pos=>saveLocation({latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy}),
+  err=>{if(err.code===1)forgetSharedLocation();console.info('GPS update unavailable',err.code)},
+  {enableHighAccuracy:true,timeout:15000,maximumAge:30000});
+});
 async function getCurrentCoordinates(forceRefresh=false){
  const cached=cachedCoordinates();if(!forceRefresh&&cached){if(cached.age_ms>30000)getCurrentCoordinates(true).catch(()=>{});return cached;}
  if(state.locationPromise)return state.locationPromise;
