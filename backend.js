@@ -1146,6 +1146,7 @@ export default {
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
     const selectedAiModel=allowedTextModels.includes(String(env.POCKET_AI_TEXT_MODEL||""))?String(env.POCKET_AI_TEXT_MODEL):allowedTextModels[0];
+    const isWorkersAiQuotaExceeded=error=>/\b4006\b/.test(String(error?.message||""))&&/neuron|daily free allocation/i.test(String(error?.message||""));
     const requestStartMs=Date.now();
     let responsePlaceContext=null;let responsePlaceLookup=null;
     let responseDistanceContext=null;
@@ -5858,6 +5859,9 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         if(!result||typeof result.response!=="string"||!result.response.trim())
           throw Error("primary_empty_response");
       }catch(primaryError){
+        // The same Workers AI account-wide free allocation is shared by ALL
+        // models; retrying with another model cannot fix a 4006 quota error.
+        if(isWorkersAiQuotaExceeded(primaryError))throw primaryError;
         // A model outage must not make ordinary questions fail permanently.
         // One bounded fallback on a separate deployed model, with compact context,
         // prevents a second long request and avoids replaying unrelated dialogue.
@@ -6095,17 +6099,30 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
 
       const providerMessage = error && error.message ? String(error.message).slice(0, 240) : "No provider error message";
       const errorName = error && error.name ? String(error.name).slice(0, 80) : "UnknownError";
+      const quotaExceeded=isWorkersAiQuotaExceeded(error);
+      const quotaMessages={
+        ro:"Limita zilnică pentru funcțiile AI a fost atinsă. Cota gratuită se reînnoiește în mod normal la 00:00 UTC. Unele funcții pot rămâne disponibile între timp.",
+        en:"The daily AI usage limit has been reached. The free allocation normally resets at 00:00 UTC. Some non-AI features may still be available.",
+        fr:"La limite quotidienne d'utilisation de l'IA est atteinte. Le quota gratuit se renouvelle normalement à 00 h UTC.",
+        de:"Das tägliche KI-Nutzungslimit ist erreicht. Das kostenlose Kontingent wird normalerweise um 00:00 UTC zurückgesetzt.",
+        it:"Il limite giornaliero dell'IA è stato raggiunto. La quota gratuita si rinnova normalmente alle 00:00 UTC.",
+        es:"Se ha alcanzado el límite diario de IA. La cuota gratuita se restablece normalmente a las 00:00 UTC.",
+        pt:"O limite diário de IA foi atingido. A quota gratuita é normalmente renovada às 00:00 UTC.",
+        nl:"De dagelijkse AI-limiet is bereikt. Het gratis quotum wordt normaal om 00:00 UTC vernieuwd.",
+        ru:"Достигнут дневной лимит ИИ. Бесплатная квота обычно обновляется в 00:00 UTC.",
+        pl:"Osiągnięto dzienny limit AI. Bezpłatny przydział zwykle odnawia się o 00:00 UTC."
+      };
       return json({
         app: "Pocket AI",
         version: API_VERSION,
         status: "error",
-        error: "Modelul AI nu a putut genera răspunsul. Verifică logurile Worker-ului pentru diagnosticul curent.",
-        error_code: "AI_CALL_FAILED",
+        error: quotaExceeded?(quotaMessages[lang]||quotaMessages.en):"Modelul AI nu a putut genera răspunsul. Verifică logurile Worker-ului pentru diagnosticul curent.",
+        error_code: quotaExceeded?"AI_QUOTA_EXCEEDED":"AI_CALL_FAILED",
         diagnostic_id: diagnosticId,
         error_name: errorName,
-        error_detail: providerMessage,
+        ...(quotaExceeded?{quota_reset_policy:"daily_00_00_utc"}:{error_detail:providerMessage}),
         ai_connected: true
-      }, 502);
+      }, quotaExceeded?429:502);
     }
   }
 };
