@@ -2442,8 +2442,29 @@ function shopVoiceFindItem(items,spoken){
  if(matches.length!==1)return {item:null,reason:matches.length?'ambiguous':'missing'};
  return {item:matches[0],reason:null};
 }
+function shopVoiceMergeAdded(data,incoming){
+ const key=shopVoiceActionName(incoming.name);
+ const related=data.items.filter(i=>shopVoiceActionName(i.name)===key);
+ if(!related.length){data.items.push(incoming);return {ok:true,message:shopLabel('Adăugat: ','Added: ')+incoming.name+' · '+incoming.quantity+' '+incoming.unit}}
+ const active=related.filter(i=>!i.checked);
+ const incompatible=related.some(i=>i.unit!==incoming.unit);
+ if(incompatible)return {ok:false,message:shopLabel('Unități diferite pentru ','Different units for ')+incoming.name+shopLabel('. Modifică manual produsul.','. Edit the item manually.')};
+ if(!active.length){data.items.push(incoming);return {ok:true,message:shopLabel('Adăugat separat de produsele cumpărate: ','Added separately from bought items: ')+incoming.name}}
+ const amounts=[...active.map(i=>Number(String(i.quantity).replace(',','.'))),Number(String(incoming.quantity).replace(',','.'))];
+ if(amounts.some(n=>!Number.isFinite(n)||n<=0))return {ok:false,message:shopLabel('Cantitatea existentă nu este numerică pentru ','Existing quantity is not numeric for ')+incoming.name};
+ const total=amounts.reduce((a,b)=>a+b,0);
+ if(!shopValidateQuantity(String(Number(total.toFixed(3)))))return {ok:false,message:shopLabel('Cantitatea totală depășește limita.','Total quantity exceeds the limit.')};
+ const survivor=active[0];
+ survivor.quantity=String(Number(total.toFixed(3)));
+ // Consolidate only identical-name, identical-unit, unchecked duplicate rows.
+ const extras=new Set(active.slice(1).map(i=>i.id));
+ if(extras.size)data.items=data.items.filter(i=>!extras.has(i.id));
+ return {ok:true,message:shopLabel('Total actualizat: ','Updated total: ')+survivor.name+' · '+survivor.quantity+' '+survivor.unit};
+}
 function shopVoiceApplyAction(sentence,data){
  const raw=String(sentence||'').trim().replace(/[.!?]+$/g,'');
+ if(/^(?:arhivează|arhiveaza|salvează\\s+în\\s+arhivă|salveaza\\s+in\\s+arhiva|pune\\s+în\\s+arhivă|pune\\s+in\\s+arhiva)(?:\\s+(?:lista|lista\\s+activă|lista\\s+activa))?$/iu.test(raw))
+  return {ok:true,archive:true,message:shopLabel('Confirmă arhivarea listei.','Confirm list archiving.')};
  const commands=[
   {type:'delete',re:/^(?:șterge|sterge|elimină|elimina)\\s+(.+)$/iu},
   {type:'replace',re:/^(?:înlocuiește|inlocuieste|schimbă|schimba)\\s+(.+?)\\s+cu\\s+(.+)$/iu},
@@ -2456,8 +2477,9 @@ function shopVoiceApplyAction(sentence,data){
  if(found.type==='add'){
   const items=shopVoiceItems(found.match[1]);
   if(!items.length)return {ok:false,message:shopLabel('Nu am identificat produsul de adăugat.','Could not identify the item.')};
-  data.items.push(...items);data.completedAt=null;
-  return {ok:true,message:shopLabel('Adăugat: ','Added: ')+items.map(i=>i.name).join(', ')};
+  const results=items.map(i=>shopVoiceMergeAdded(data,i));
+  if(results.some(r=>r.ok))data.completedAt=null;
+  return {ok:results.some(r=>r.ok),message:results.map(r=>r.message).join(' · ')};
  }
  const target=shopVoiceFindItem(data.items,found.match[1]);
  if(!target.item)return {ok:false,message:target.reason==='ambiguous'?
@@ -2499,14 +2521,15 @@ function shopVoiceApplyCommands(session){
  if(!data.items.length){notify(shopLabel('Lista activă este goală.','Active list is empty.'));return}
  const phrases=session.parts.flatMap(part=>String(part).split(/[,;]+/u)).map(p=>p.trim()).filter(Boolean);
  if(!phrases.length)return;
- const messages=[];let changed=false;
+ const messages=[];let changed=false;let archiveRequested=false;
  for(const phrase of phrases){
   const result=shopVoiceApplyAction(phrase,data);
   messages.push(result.message);
+  if(result.archive){archiveRequested=true;continue}
   if(result.ok)changed=true;
  }
- if(changed)shoppingWrite(data);
- shoppingMode='active';shoppingPendingAction=null;shoppingEditingId=null;
+ if(changed&&!shoppingWrite(data))return;
+ shoppingMode='active';shoppingPendingAction=archiveRequested?{type:'archive'}:null;shoppingEditingId=null;
  if(state.currentView==='module')renderShoppingList();
  notify(messages.join(' · ').slice(0,450));
 }
