@@ -5050,6 +5050,13 @@ export default {
     };
     const discoveryPublicationDay=publicationDayWindow(message,data.client_local_day)?.day||null;
     const newsDiscoveryPlan=buildWorldNewsDiscoveryPlan(message,{publicationDay:discoveryPublicationDay});
+    // Start publisher-authorized Telegram updates in parallel with GDELT/Exa/
+    // Brave/Tavily. A bot cannot search Telegram globally. This is strictly
+    // opt-in channel material, never an automated AI evidence corpus.
+    const telegramParallelEnabled=shouldSearchWeb&&classifyNewsRequest(message).mode==="article_collection"&&telegramConfigured(env);
+    const telegramParallelPromise=telegramParallelEnabled
+      ? readConsentedTelegramPosts(env,{language:lang,limit:6,publicationDay:discoveryPublicationDay})
+      : null;
     const providerTasks = [];
     const researchStartedAt=Date.now();
     if (shouldSearchWeb) {
@@ -5357,10 +5364,30 @@ export default {
         elapsed_ms:Date.now()-translationStartedAt,calls:translationCalls,errors:translationErrors};
       console.info("Pocket AI news localization trace",JSON.stringify(translationDiagnostics));
       rows.splice(0,rows.length,...localizedNewsRows);
+      // Append a few opt-in Telegram publisher posts only in the deterministic
+      // source-attributed news table. Do not put post text into webSearchContext,
+      // the translation model or any other generative AI prompt.
+      const telegramFeed=telegramParallelPromise?await telegramParallelPromise:null;
+      const approvedTelegramRows=telegramFeed?.status==="success"
+        ?telegramFeed.rows.filter(p=>p?.platform==="Telegram"&&p.consent_scope==="publisher_authorized_public_channel"
+          &&p.verification==="source_identified_claims_unverified"
+          &&(!newsPublicationFilter||isWithinPublicationDay(p.published_at,newsPublicationFilter)))
+          .slice(0,3):[];
+      if(approvedTelegramRows.length){
+        rows.splice(Math.max(0,12-approvedTelegramRows.length));
+        for(const p of approvedTelegramRows)if(!rows.some(r=>r.url===p.url))rows.push({
+          ...p,source_platform:"Telegram",translation_status:"original_untranslated",
+          original_title:p.title,providers:["Telegram Bot API: publisher opt-in"],
+          corroborating_source_count:0
+        });
+      }
       // Never imply that the application has a complete news feed when strict
       // publication-date and topic validation leave only a few articles.
       const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",requested_publication_day:newsPublicationFilter?.day||null,publication_filter:newsPublicationFilter?.kind||"none",
-        result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage",missing_publication_dates:rows.filter(r=>r.recency_status!=="dated").length,
+        result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage",missing_publication_dates:rows.filter(r=>r.recency_status!=="dated"&&r.source_platform!=="Telegram").length,
+        telegram_status:telegramParallelEnabled?(telegramFeed?.status||"unavailable"):"publisher_opt_in_required",
+        telegram_result_count:approvedTelegramRows.length,telegram_access_mode:"publisher_opt_in_only",
+        telegram_ai_ingestion_enabled:false,
         ...describeNewsPublishers(rows)};
       const labels={ro:["Știri identificate în sursele consultate","Apasă pe titlul unei știri pentru detalii. Publicarea nu confirmă automat afirmațiile din articol.","Nu am putut identifica articole relevante în sursele disponibile."],
         en:["News from retrieved sources","Tap a headline to read details. Publication alone does not verify its claims.","No relevant articles could be found from available sources."],
