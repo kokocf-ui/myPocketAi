@@ -3193,6 +3193,19 @@ function isExactTelegramPost(value){
   return parts.length===2&&/^[a-z][a-z0-9_]{4,31}$/i.test(parts[0])&&/^[1-9][0-9]{0,11}$/.test(parts[1]);
  }catch{return false;}
 }
+// Extra UI guard: never label non-Latin Persian/Arabic/Russian output as
+// Romanian, even if a stale backend erroneously reports status=success.
+function telegramTranslationLooksLocalized(source,translation,language){
+ const out=String(translation||"").trim();
+ if(out.length<12||out.length<String(source||"").trim().length*.25)return false;
+ const src=String(source||"").normalize("NFKC").replace(/[^\p{L}\p{N}]/gu,"").toLowerCase();
+ const dest=out.normalize("NFKC").replace(/[^\p{L}\p{N}]/gu,"").toLowerCase();
+ if(src===dest)return false;
+ const latin=(out.match(/[A-Za-z\u00c0-\u024f]/gu)||[]).length;
+ const other=(out.match(/[\u0400-\u052f\u0600-\u08ff\u3400-\u9fff\uac00-\ud7af]/gu)||[]).length;
+ if(language==="ru")return (out.match(/[\u0400-\u052f]/gu)||[]).length>=(latin+other)*.45;
+ return latin>=12&&latin/(latin+other)>=.74;
+}
 function appendTelegramTranslationUI(target,url,language,indexExcerpt){
  const labels={
   ro:["Fragment tradus din indexul public (nu este postarea integrală):","Indexul public nu conține un fragment accesibil.","Nu pot citi automat întregul canal Telegram. Deschide postarea exactă și copiază textul pe care dorești să îl traduci.","Lipește textul postării publice aici","Tradu în română","Textul lipit va fi trimis modelului AI numai când apeși «Tradu». Nu este stocat ca arhivă a canalului.","Introdu cel puțin 20 de caractere.","Se traduce textul furnizat…","Traducere a textului furnizat de tine (afirmații neverificate):","Nu am putut traduce textul. Încearcă din nou.","Linkul nu identifică o postare Telegram exactă."],
@@ -3212,7 +3225,7 @@ function appendTelegramTranslationUI(target,url,language,indexExcerpt){
  if(!parent)return;
  if(!isExactTelegramPost(url)){const warning=document.createElement("p");warning.textContent=labels[10];parent.append(warning);return;}
  const wrap=document.createElement("div");wrap.style.cssText="margin:12px 0 18px;display:flex;flex-direction:column;gap:10px";
- const paste=document.createElement("textarea");paste.rows=5;paste.maxLength=5000;paste.placeholder=labels[3];
+ const paste=document.createElement("textarea");paste.rows=5;paste.maxLength=5000;paste.placeholder=labels[3];paste.dir="auto";
  paste.setAttribute("aria-label",labels[3]);paste.style.cssText="width:100%;min-height:110px;box-sizing:border-box;border-radius:10px;padding:12px;background:#15394d;color:#e6faff;border:1px solid #5890a4;font:inherit";
  const note=document.createElement("small");note.textContent=labels[5];note.style.cssText="display:block;color:#c2d6e2;line-height:1.45";
  const button=document.createElement("button");button.type="button";button.textContent=labels[4];
@@ -3227,7 +3240,7 @@ function appendTelegramTranslationUI(target,url,language,indexExcerpt){
     body:JSON.stringify({url,language,text,consent:true})});
    if(!response.ok)throw Error("translation_http_failure");
    const data=await response.json();
-   result.textContent=data.status==="success"&&data.content_status==="user_supplied_translation"&&typeof data.text==="string"?
+   result.textContent=data.status==="success"&&data.content_status==="user_supplied_translation"&&typeof data.text==="string"&&telegramTranslationLooksLocalized(text,data.text,language)?
     labels[8]+String.fromCharCode(10)+String.fromCharCode(10)+data.text:labels[9];
   }catch{result.textContent=labels[9];}finally{button.disabled=false;}
  };
