@@ -40,6 +40,17 @@ const authErrorCode=error=>{
  const matched=raw.match(/(?:PHONE_NUMBER_INVALID|PHONE_NUMBER_BANNED|PHONE_CODE_INVALID|PHONE_CODE_EXPIRED|PHONE_CODE_EMPTY|PHONE_PASSWORD_FLOOD|SESSION_PASSWORD_NEEDED|PASSWORD_HASH_INVALID|API_ID_INVALID|API_ID_PUBLISHED_FLOOD|FLOOD_WAIT|NETWORK_ERROR|ECONNABORTED|ETIMEDOUT|CONNECTION_NOT_INITED)/i);
  return matched?matched[0].toUpperCase():"UNCLASSIFIED_AUTH_ERROR";
 };
+// Extract only Telegram's symbolic RPC identifier and numeric status.
+// A strict whitelist prevents phone numbers, API secrets, or error prose
+// from appearing in screenshots. This does not make another request.
+const safeRpcInfo=error=>{
+ const message=String(error?.errorMessage||"");
+ const rpc=/^[A-Z][A-Z0-9_]{2,79}$/.test(message)?message:"NOT_AVAILABLE";
+ const status=typeof error?.code==="number"&&Number.isInteger(error.code)&&error.code>=100&&error.code<=599?error.code:null;
+ const kind=String(error?.name||"");
+ const name=/^(?:RPCError|FloodWaitError|Error|TypeError|TimeoutError|NetworkError)$/.test(kind)?kind:"OTHER";
+ return {rpc,status,name};
+};
 let client;
 try{
  // Ask locally instead of requiring shell exports that expose API secrets
@@ -58,7 +69,12 @@ try{
   phoneNumber:()=>askPhone(),
   phoneCode:()=>askHidden("Telegram verification code (never send it to anyone): "),
   password:()=>askHidden("Telegram two-step verification password, if required: "),
-  onError:error=>{lastSafeAuthError=authErrorCode(error);process.stderr.write("Telegram login error code: "+lastSafeAuthError+" (no credentials shown).\n");return true;}
+  onError:error=>{
+   lastSafeAuthError=authErrorCode(error);
+   const safe=safeRpcInfo(error);
+   process.stderr.write("Telegram login category: "+lastSafeAuthError+"; RPC: "+safe.rpc+"; HTTP/RPC status: "+(safe.status??"n/a")+"; class: "+safe.name+". No credentials shown.\n");
+   return true; // stop automatic retries to avoid flood limits
+  }
  });
  if(!await client.isUserAuthorized())throw Error("Authorization did not complete");
  const session=client.session.save();
