@@ -66,7 +66,7 @@ assert.equal(closes,2);
 const status=await backend.fetch(new Request("https://test.example/api/telegram-direct-status"),env);
 const statusBody=await status.json();
 assert.equal(status.status,200);
-assert.equal(statusBody.status,"ready");
+assert.equal(statusBody.status,"configured_pending_live_verification");
 assert.equal(JSON.stringify(statusBody).includes(env.TELEGRAM_API_HASH),false);
 assert.equal(JSON.stringify(statusBody).includes(env.TELEGRAM_SESSION),false);
 const unauthorized=await backend.fetch(new Request("https://test.example/api/telegram-direct-search",{
