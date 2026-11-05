@@ -1324,6 +1324,48 @@ body.long-choice-active{overflow:hidden}
 .education-photo-panel textarea{width:100%;min-height:90px;padding:10px;border-radius:8px;background:#081725;color:#f2faff;border:1px solid #548199}
 @media(max-width:350px){.education-grid{gap:8px}.education-card{padding:10px;min-height:158px}}
 </style>
+
+<style id="organize-responsive-layout">
+/* Organisation reuses the approved Education layout. */
+main.page:has(#view-module.organize-choose.active){overflow-x:hidden!important;overflow-y:hidden!important;padding:clamp(5px,.9dvh,10px) 12px calc(108px + env(safe-area-inset-bottom,0px))!important}
+#view-module.organize-choose.active{display:grid!important;grid-template-columns:minmax(106px,.82fr) minmax(0,1.18fr)!important;grid-template-rows:auto minmax(0,1fr)!important;column-gap:clamp(9px,2.6vw,16px)!important;row-gap:clamp(6px,1dvh,11px)!important;width:100%!important;height:100%!important;max-height:100%!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+#view-module.organize-choose .module-actions-row{display:contents!important;margin:0!important}
+#view-module.organize-choose #moduleQuickTrigger,#view-module.organize-active #moduleQuickTrigger{display:none!important}
+#view-module.organize-choose .module-home-btn{grid-column:1!important;grid-row:1!important;width:100%!important;max-width:none!important;min-width:0!important;min-height:clamp(48px,7dvh,60px)!important;height:100%!important;margin:0!important;padding:8px 10px!important;display:flex!important;justify-content:center!important;align-items:center!important;align-self:stretch!important;font-size:clamp(12px,3.4vw,16px)!important}
+#view-module.organize-choose .module-heading-row{grid-column:2!important;grid-row:1!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;min-height:0!important;min-width:0!important;align-self:stretch!important;margin:0!important;padding:0!important}
+#view-module.organize-choose .module-heading-row .section-title{margin:0!important;padding:0!important;font-size:clamp(18px,4.6vw,24px)!important;font-weight:800!important;line-height:1.12!important;overflow-wrap:break-word!important;text-align:left!important;hyphens:auto}
+#view-module.organize-choose .section-lead,#view-module.organize-choose #moduleChatHost,#view-module.organize-choose #askModuleBtn{display:none!important}
+#view-module.organize-choose #moduleContent{grid-column:1/-1!important;grid-row:2!important;display:block!important;flex:none!important;width:100%!important;height:100%!important;max-height:100%!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+#view-module.organize-choose .education-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(4,minmax(0,1fr))!important;width:100%!important;height:100%!important;min-height:0!important;gap:clamp(6px,1dvh,10px)!important;margin:0!important;padding:2px 0 4px!important;overflow:hidden!important}
+#view-module.organize-choose .education-card{display:flex!important;flex-direction:column!important;justify-content:center!important;height:100%!important;min-height:0!important;max-height:100%!important;min-width:0!important;overflow:hidden!important;gap:clamp(2px,.45dvh,5px)!important;padding:clamp(6px,1dvh,10px) clamp(7px,2vw,12px)!important;border-radius:clamp(14px,3vw,20px)!important}
+#view-module.organize-choose .education-art{font-size:clamp(21px,3.7dvh,29px)!important;line-height:1.05!important;flex:0 0 auto!important}
+#view-module.organize-choose .education-card strong{font-size:clamp(12px,3.5vw,16px)!important;line-height:1.16!important}
+#view-module.organize-choose .education-card small{font-size:clamp(10px,2.8vw,13px)!important;line-height:1.2!important}
+#view-module.organize-active.active{overflow-y:auto!important;max-height:calc(100dvh - 285px)!important;padding-bottom:96px!important;box-sizing:border-box!important}
+#view-module.organize-active #moduleContent{display:block!important;flex:1 1 auto!important;max-height:none!important;overflow:visible!important}
+#view-module.organize-active #moduleChatHost{display:none!important}
+#view-module.organize-chat #moduleContent{display:none!important}
+#view-module.organize-chat #moduleChatHost{display:flex!important}
+.organize-panel{display:flex;flex-direction:column;gap:12px;padding:8px 0 25px}
+.organize-panel .education-toolbar{align-items:center}
+.organize-panel .organize-fields{display:flex;gap:8px;flex-wrap:wrap}
+.organize-panel input[type=text]{flex:1 1 150px;min-width:0;background:#081725;color:#f2faff;border:1px solid #548199;border-radius:10px;padding:11px}
+.organize-panel button{min-height:42px}
+.organize-shop-row{display:flex;align-items:center;gap:10px;padding:11px 8px;border-bottom:1px solid #355164}
+.organize-shop-row label{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.organize-shop-row input{width:21px;height:21px;accent-color:#24c6c9}
+.organize-shop-row .done{text-decoration:line-through;opacity:.7}
+.organize-shop-row .remove{min-height:32px;padding:5px 8px}
+.organize-history{display:flex;flex-direction:column;gap:8px}
+.organize-history details{border:1px solid #3c6076;border-radius:10px;padding:10px}
+@media (max-height:600px), (max-width:320px){
+ main.page:has(#view-module.organize-choose.active){overflow-y:auto!important}
+ #view-module.organize-choose.active{height:auto!important;max-height:none!important;overflow:visible!important;grid-template-rows:auto auto!important}
+ #view-module.organize-choose #moduleContent{height:auto!important;max-height:none!important;overflow:visible!important}
+ #view-module.organize-choose .education-grid{height:auto!important;grid-template-rows:repeat(4,minmax(104px,auto))!important;overflow:visible!important}
+ #view-module.organize-choose .education-card{min-height:104px!important;max-height:none!important;overflow:visible!important}
+}
+</style>
 <style id="education-responsive-layout">
 /* One source of truth for Education's subject-selection screen.
    The available space is provided by the actual flex viewport, not an
@@ -1649,6 +1691,94 @@ function selectedPlaceForRoute(message){
  return {latitude:p.latitude,longitude:p.longitude,label:[p.name,p.address].filter(Boolean).join(', ').slice(0,240)};
 }
 
+
+const ORGANIZE_CATEGORIES=[
+ ['calendar','📅','Calendar și evenimente','Calendar and events','Programări, întâlniri și aniversări.','Appointments, meetings and birthdays.'],
+ ['tasks','✅','Sarcini și obiective','Tasks and goals','Liste, priorități și progres.','To-dos, priorities and progress.'],
+ ['reminders','⏰','Mementouri','Reminders','Alerte și termene-limită.','Alerts and deadlines.'],
+ ['notes','📝','Notițe personale','Personal notes','Idei și informații de păstrat.','Ideas and information to keep.'],
+ ['daily','🗓️','Planificarea zilei','Daily planning','Programul zilei, cu ajutorul AI.','Plan your day with AI.'],
+ ['budget','💳','Buget personal','Personal budget','Cheltuieli, facturi și economii.','Expenses, bills and savings.'],
+ ['shopping','🛒','Liste de cumpărături','Shopping lists','Bifezi tu; păstrăm istoricul.','You tick items; history stays.'],
+ ['documents','📁','Documente și termene','Documents and deadlines','Acte, expirări și reînnoiri.','Documents, expiry dates and renewals.']
+];
+const SHOPPING_STORAGE_KEY='mypocketai.shopping.v1';
+function shoppingRead(){try{const p=JSON.parse(localStorage.getItem(SHOPPING_STORAGE_KEY)||'{}');return {items:Array.isArray(p.items)?p.items:[],history:Array.isArray(p.history)?p.history:[]}}catch{return {items:[],history:[]}}}
+function shoppingWrite(data){try{localStorage.setItem(SHOPPING_STORAGE_KEY,JSON.stringify(data));return true}catch{notify(learningLabel('Nu s-a putut salva lista pe dispozitiv.','Could not save the list on this device.'));return false}}
+function renderOrganizeChoices(){
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('organize-active','organize-chat');root.classList.add('organize-choose');host.replaceChildren();
+ const grid=document.createElement('div');grid.className='education-grid';
+ ORGANIZE_CATEGORIES.forEach(cat=>{
+  const button=document.createElement('button');button.type='button';button.className='education-card';
+  const icon=document.createElement('span');icon.className='education-art';icon.textContent=cat[1];
+  const title=document.createElement('strong');title.textContent=learningLabel(cat[2],cat[3]);
+  const desc=document.createElement('small');desc.textContent=learningLabel(cat[4],cat[5]);
+  button.append(icon,title,desc);button.onclick=()=>openOrganizeCategory(cat[0]);grid.append(button);
+ });
+ host.append(grid);$('moduleLead').textContent='';
+}
+function organizePanel(cat){
+ const root=$('view-module'),host=$('moduleContent');root.classList.remove('organize-choose','organize-chat');root.classList.add('organize-active');host.replaceChildren();
+ const panel=document.createElement('div');panel.className='organize-panel';
+ const bar=document.createElement('div');bar.className='education-toolbar';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Categorii','← Categories');back.onclick=renderOrganizeChoices;
+ const title=document.createElement('strong');title.textContent=cat[1]+' '+learningLabel(cat[2],cat[3]);bar.append(back,title);panel.append(bar);host.append(panel);
+ return panel;
+}
+function openOrganizeCategory(key){
+ const cat=ORGANIZE_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
+ if(key==='shopping'){renderShoppingList();return}
+ const panel=organizePanel(cat);
+ const p=document.createElement('p');p.textContent=learningLabel(cat[4],cat[5]);panel.append(p);
+ const button=document.createElement('button');button.type='button';button.className='primary-btn';
+ button.textContent=learningLabel('Discută cu Pocket AI','Ask Pocket AI');
+ button.onclick=()=>{
+  $('view-module').classList.remove('organize-active');$('view-module').classList.add('organize-chat');
+  inputEl.placeholder=learningLabel('Spune ce dorești să organizezi…','What would you like to organise?');
+  inputEl.focus();
+ };panel.append(button);
+}
+function renderShoppingList(){
+ const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='shopping');
+ const panel=organizePanel(cat),data=shoppingRead();
+ const title=document.createElement('strong');title.textContent=learningLabel('Lista curentă','Current shopping list');panel.append(title);
+ const form=document.createElement('form');form.className='organize-fields';
+ const input=document.createElement('input');input.type='text';input.maxLength=180;input.required=true;input.placeholder=learningLabel('Produs și cantitate','Item and quantity');input.setAttribute('aria-label',input.placeholder);
+ const add=document.createElement('button');add.type='submit';add.className='primary-btn';add.textContent=learningLabel('Adaugă','Add');
+ form.append(input,add);form.onsubmit=event=>{event.preventDefault();const name=input.value.trim();if(!name)return;data.items.push({id:String(Date.now())+'-'+Math.random().toString(36).slice(2),name,checked:false,checkedAt:null});if(shoppingWrite(data))renderShoppingList()};panel.append(form);
+ const count=document.createElement('small');count.textContent=learningLabel('Cumpărate: ','Bought: ')+data.items.filter(i=>i.checked).length+' / '+data.items.length;panel.append(count);
+ if(!data.items.length){const empty=document.createElement('p');empty.textContent=learningLabel('Lista este goală. Adaugă primul produs.','Your list is empty. Add an item.');panel.append(empty)}
+ data.items.forEach(item=>{
+  const row=document.createElement('div');row.className='organize-shop-row';const label=document.createElement('label');
+  const check=document.createElement('input');check.type='checkbox';check.checked=item.checked===true;check.setAttribute('aria-label',item.name);
+  check.onchange=()=>{item.checked=check.checked;item.checkedAt=check.checked?new Date().toISOString():null;if(shoppingWrite(data))renderShoppingList()};
+  const name=document.createElement('span');name.textContent=item.name;if(item.checked)name.className='done';
+  label.append(check,name);row.append(label);
+  const remove=document.createElement('button');remove.type='button';remove.className='secondary-btn remove';remove.textContent='×';remove.setAttribute('aria-label',learningLabel('Elimină ','Remove ')+item.name);
+  remove.onclick=()=>{data.items=data.items.filter(i=>i.id!==item.id);if(shoppingWrite(data))renderShoppingList()};row.append(remove);panel.append(row);
+ });
+ if(data.items.length){
+  const finish=document.createElement('button');finish.type='button';finish.className='primary-btn';finish.textContent=learningLabel('Finalizează și salvează în istoric','Finish and save to history');
+  finish.onclick=()=>{
+   const archived={finishedAt:new Date().toISOString(),items:data.items.map(i=>({...i}))};
+   data.history.unshift(archived);data.items=[];if(shoppingWrite(data))renderShoppingList();
+  };panel.append(finish);
+ }
+ const h=document.createElement('strong');h.textContent=learningLabel('Istoric cumpărături','Shopping history');panel.append(h);
+ const history=document.createElement('div');history.className='organize-history';
+ if(!data.history.length){const none=document.createElement('small');none.textContent=learningLabel('Nu există liste finalizate.','No completed lists yet.');history.append(none)}
+ data.history.forEach(entry=>{
+  const details=document.createElement('details');const summary=document.createElement('summary');
+  summary.textContent=new Date(entry.finishedAt).toLocaleString(state.language||'ro')+' · '+entry.items.filter(i=>i.checked).length+'/'+entry.items.length;details.append(summary);
+  entry.items.forEach(i=>{const line=document.createElement('div');line.textContent=(i.checked?'✓ ':'□ ')+i.name;details.append(line)});
+  const copy=document.createElement('button');copy.type='button';copy.className='secondary-btn';copy.textContent=learningLabel('Copiază într-o listă nouă','Copy to current list');
+  copy.onclick=()=>{data.items.push(...entry.items.map(i=>({id:String(Date.now())+'-'+Math.random().toString(36).slice(2),name:i.name,checked:false,checkedAt:null})));if(shoppingWrite(data))renderShoppingList()};
+  details.append(copy);history.append(details);
+ });panel.append(history);
+ const note=document.createElement('small');note.textContent=learningLabel('Numai utilizatorul bifează produsele. Datele sunt salvate local pe acest dispozitiv.','Only you tick items. Data is saved locally on this device.');panel.append(note);
+}
+
 const LEARNING_SUBJECTS=[
  ['languages','🗣️','Limbi străine','Languages','Vocabular, pronunție și conversație.','Vocabulary, pronunciation and conversation.'],
  ['math','🧮','Matematică','Mathematics','Calcule, ecuații și geometrie.','Calculations, equations and geometry.'],
@@ -1754,7 +1884,7 @@ async function handleLearningPhoto(file){
   else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
  } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
 }
-function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();}
+function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();}
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'}],travel:[{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante, pizzerii, shaormerii și fast-food în apropierea mea.',kind:'places',description:'Caută restaurante, pub-uri, pizzerii, shaormerii și fast-food'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places',description:'Caută alte puncte de interes din apropiere'}]};
 function updateQuickLayerGeometry(){
  const header=document.querySelector('.app-header'),nav=document.querySelector('.bottom-nav');
