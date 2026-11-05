@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import fs from 'node:fs';
+import frontend from './index.js';
+
+const html=await(await frontend.fetch(new Request('https://fixture/'))).text();
+const source=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
+assert.ok(source,'web application script must be present');
+new vm.Script(source);
+assert.match(source,/const LEARNING_SUBJECTS=/);
+assert.match(source,/renderLearningSubjects\(\)/);
+assert.match(source,/PocketAndroidOCR\.postMessage\('camera'\)/);
+assert.match(source,/PocketAndroidOCR\.postMessage\('gallery'\)/);
+assert.match(source,/window\.pocketAndroidOcrResult/);
+assert.match(html,/education-grid/);
+assert.match(html,/learning-choose/);
+const manifest=fs.readFileSync('android/app/src/main/AndroidManifest.xml','utf8');
+const main=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
+const gradle=fs.readFileSync('android/app/build.gradle','utf8');
+assert.match(manifest,/android\.permission\.INTERNET/);
+assert.match(main,/TextRecognition\.getClient/);
+assert.match(main,/WebViewCompat\.addWebMessageListener/);
+assert.match(main,/isMainFrame/);
+assert.match(main,/PickVisualMedia/);
+assert.match(main,/ACTION_IMAGE_CAPTURE/);
+assert.match(gradle,/com\.google\.mlkit:text-recognition/);
+console.log('PASS education UI embedded JS syntax and Android native OCR integration contracts');
