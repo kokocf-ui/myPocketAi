@@ -62,7 +62,7 @@ assert.ok(agendaStart>0&&agendaEnd>agendaStart,'agenda module isolated from shop
 assert.match(inline,/if\(key==='calendar'\)\{renderAgenda\(\);return\}/);
 assert.match(inline,/if\(agendaVoiceHandleAndroid\(data\)\)return/);
 assert.match(inline,/className='primary-btn agenda-microphone'/);
-assert.match(inline,/agendaRead\(\)\.sort\(\(a,b\)=>Date\.parse\(a\.when\)-Date\.parse\(b\.when\)\)/);
+assert.match(inline,/agendaRead\(\)\.sort\(\(a,b\)=>agendaNextDate\(a\)-agendaNextDate\(b\)\)/,'sort by next occurrence, including annual birthdays');
 assert.doesNotMatch(inline.slice(agendaStart,agendaEnd),/SHOPPING_STORAGE_KEY/,'agenda cannot overwrite shopping lists');
 const ctxAgenda=vm.createContext({Date,Math,Intl,learningLabel:(ro,en)=>ro,shopVoiceFold:s=>String(s).normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim(),localStorage:{getItem:()=>null,setItem:()=>{}},state:{language:'ro'},shopId:()=> 'abc',window:{},document:{}});
 vm.runInContext(inline.slice(agendaStart,agendaEnd),ctxAgenda);
