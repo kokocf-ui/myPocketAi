@@ -1611,6 +1611,66 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 #view-module.adaptive-workspace-view .organize-panel.adaptive-workspace{
  grid-template-rows:auto minmax(0,1fr) auto;min-height:0
 }
+/* Every shopping command uses one fluid size contract, without phone offsets. */
+#view-module.adaptive-workspace-view{
+ --shopping-action-height:clamp(2.65rem,5.5dvh,3.2rem)
+}
+#view-module.adaptive-workspace-view .adaptive-workspace button:not(.shop-item-controls button):not(.shop-navigation button){
+ box-sizing:border-box;max-width:100%;min-width:0;
+ overflow-wrap:anywhere;white-space:normal;
+}
+#view-module.adaptive-workspace-view .adaptive-workspace__scroll .adaptive-fields{
+ display:grid;grid-template-columns:minmax(0,1fr) minmax(7.2rem,.68fr);
+ align-items:end;gap:clamp(.4rem,2vw,.8rem);min-width:0
+}
+#view-module.adaptive-workspace-view .adaptive-workspace__scroll .adaptive-fields:not(.adaptive-fields--product)>button{
+ width:100%;margin:0;min-height:var(--shopping-action-height);
+ height:var(--shopping-action-height);padding:.35rem .45rem;
+ display:flex;align-items:center;justify-content:center;
+ line-height:1.14;font-size:clamp(.82rem,3.5vw,1rem)
+}
+#view-module.adaptive-workspace-view .adaptive-workspace__scroll .adaptive-fields label{
+ min-width:0;margin:0
+}
+#view-module.adaptive-workspace-view .adaptive-workspace__scroll .adaptive-fields input{
+ min-width:0;box-sizing:border-box
+}
+#view-module.adaptive-workspace-view .adaptive-workspace__scroll>button,
+#view-module.adaptive-workspace-view .adaptive-fields--product>button{
+ min-height:var(--shopping-action-height);height:var(--shopping-action-height);
+ padding:.4rem .65rem;margin:0;line-height:1.12;
+ display:flex;justify-content:center;align-items:center;
+ font-size:clamp(.85rem,3.5vw,1rem)
+}
+#view-module.adaptive-workspace-view .adaptive-workspace__scroll>button{
+ width:100%;max-width:100%;margin:.4rem 0 .8rem
+}
+#view-module.adaptive-workspace-view .adaptive-fields--product{
+ grid-template-columns:minmax(0,1fr) minmax(3.6rem,.33fr) minmax(4.5rem,.44fr)!important;
+ align-items:stretch;gap:clamp(.35rem,1.8vw,.65rem)
+}
+#view-module.adaptive-workspace-view .adaptive-fields--product>input,
+#view-module.adaptive-workspace-view .adaptive-fields--product>select{
+ min-height:var(--shopping-action-height);height:var(--shopping-action-height)
+}
+#view-module.adaptive-workspace-view .adaptive-fields--product>button{
+ grid-column:1/-1;width:100%!important
+}
+#view-module.adaptive-workspace-view .adaptive-workspace__actions:not(.adaptive-workspace__actions--confirm)>button{
+ min-height:var(--shopping-action-height)!important;
+ height:var(--shopping-action-height)!important;
+ max-height:var(--shopping-action-height)!important;
+ padding:.35rem .65rem!important;margin:0!important;
+ display:flex;align-items:center;justify-content:center;
+ font-size:clamp(.85rem,3.5vw,1rem)!important;line-height:1.12
+}
+#view-module.adaptive-workspace-view .shop-entry-hint{
+ display:block;line-height:1.3;white-space:normal;overflow-wrap:anywhere;
+ padding-bottom:.4rem;margin-top:clamp(.3rem,.8dvh,.6rem)
+}
+#view-module.adaptive-workspace-view .shop-heading{
+ margin-block:clamp(.25rem,.75dvh,.55rem)!important
+}
 #view-module.adaptive-workspace-view .shop-delete-archived{
  border-color:#d16a73;color:#fff;background:linear-gradient(160deg,#8a263a,#4d1b2b)
 }
@@ -2211,7 +2271,7 @@ function renderShoppingList(){
  };
  scroll.append(productForm);
  const entryHint=document.createElement('small');entryHint.className='shop-entry-hint';
- entryHint.textContent=shopLabel('Produsele sunt în «Listă activă». Deschide tabelul de sus pentru bifare și editare.','Products are in «Active list». Open the table above to tick or edit.');
+ entryHint.textContent=shopLabel('Bifează și editează produsele din «Listă activă».','Tick and edit items in «Active list».');
  scroll.append(entryHint);
  }
  if(shoppingMode==='active'){
