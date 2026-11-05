@@ -7,6 +7,8 @@ on:
       - 'telegram_mtproto_direct.mjs'
       - 'tests_telegram_mtproto_direct.mjs'
       - 'scripts/telegram-mtproto-login.mjs'
+      - 'scripts/telegram-code-fallback.mjs'
+      - 'scripts/telegram-code-fallback.test.mjs'
       - 'scripts/telegram-code-delivery.mjs'
       - 'scripts/telegram-code-delivery.test.mjs'
       - 'scripts/telegram-login-dc.mjs'
@@ -31,6 +33,7 @@ jobs:
         run: |
           node --check scripts/telegram-mtproto-login.mjs
           node scripts/telegram-code-delivery.test.mjs
+          node scripts/telegram-code-fallback.test.mjs
           node --input-type=module -e "import {readFileSync} from 'node:fs'; import assert from 'node:assert/strict'; const text=readFileSync('scripts/telegram-mtproto-login.mjs','utf8'); assert.match(text,/reconnectRetries:2,requestRetries:1,autoReconnect:true/);"
           node --check scripts/telegram-login-dc.mjs
           node scripts/telegram-login-dc.test.mjs
