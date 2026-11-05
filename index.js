@@ -2257,10 +2257,10 @@ function agendaBirthdaySpoken(text){
  if(monthIndex>0){d=tokens[monthIndex-1];m=months.indexOf(tokens[monthIndex])+1;if(tokens[monthIndex+1]&&tokens[monthIndex+1].length===4)y=tokens[monthIndex+1];strip=tokens.slice(monthIndex-1,monthIndex+(y?2:1)).join(' ')}
  else{
   const raw=tokens.find(x=>x.includes('.')||x.includes('/'));
-  if(raw){const parts=raw.split(/[.\/]/);[d,m,y]=parts;strip=raw}
+  if(raw){const parts=raw.split(/[.\\/]/);[d,m,y]=parts;strip=raw}
  }
  const fields=agendaBirthdayFields(d,m,y);
- const command=text.replace(strip,'').replace(/^(?:adaugă|adauga|notează|noteaza|pune|salvează|salveaza)\s+/iu,'').replace(/(?:ziua de naștere|ziua de nastere|aniversarea)\s*(?:a\s+|lui\s+)?/iu,'').replace(/\s+(?:pe|la|în|in)\s*$/iu,'').trim();
+ const command=text.replace(strip,'').replace(/^(?:adaugă|adauga|notează|noteaza|pune|salvează|salveaza)\\s+/iu,'').replace(/(?:ziua de naștere|ziua de nastere|aniversarea)\\s*(?:a\\s+|lui\\s+)?/iu,'').replace(/\\s+(?:pe|la|în|in)\\s*$/iu,'').trim();
  return {fields,title:command};
 }
 function agendaDate(text,now=new Date()){
