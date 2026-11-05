@@ -3029,6 +3029,7 @@ function appendAdaptivePresentation(host,record){
    if(url){const a=add("a",isTelegramLink(url)?(lang==="ro"?"Deschide postarea Telegram":"Open Telegram post"):labels.original,"color:#99ecff;text-decoration:underline;display:inline-block;margin-top:14px");a.href=url;a.target="_blank";a.rel="noopener noreferrer";}
    loadSourceBasedNewsDetail(detail,url,lang,cell(row,"summary"));
  };
+ let newsPage=0;
  const showTable=()=>{
    host.replaceChildren();host.scrollTop=0;
    if(isArticle)add("p",newsSelectionNotice(lang,rows.length),"font-size:12px;line-height:1.4;opacity:.85;margin:0 0 12px");
@@ -3043,7 +3044,7 @@ function appendAdaptivePresentation(host,record){
    keys.forEach((key,i)=>add("th",isArticle?(i===0?(lang==="ro"?"Titlu și detalii":"Headline and details"):labels.source):(cols.find(c=>c.key===key)?.label||key),
      "text-align:left;padding:10px 6px;background:#19445a;border:1px solid #43758a;overflow-wrap:anywhere",tr));
    const tbody=add("tbody","",null,table);
-   for(const row of rows){
+   for(const row of (isArticle?rows.slice(newsPage*12,(newsPage+1)*12):rows)){
      const tr=add("tr","",null,tbody);
      if(isArticle){
        const left=add("td","","vertical-align:top;padding:10px 7px;border:1px solid #34566e;overflow-wrap:anywhere",tr);
@@ -3055,7 +3056,10 @@ function appendAdaptivePresentation(host,record){
        add("span",dateText(cell(row,"published_at")),"display:block;font-size:11px;opacity:.8;margin-top:5px",right);
      }else for(const key of keys)add("td",cell(row,key),"vertical-align:top;padding:9px 7px;border:1px solid #34566e;overflow-wrap:anywhere",tr);
    }
-   if(isArticle)add("p",labels.unverified,"font-size:12px;opacity:.8;margin-top:14px");
+   if(isArticle){
+     appendNewsPager(host,newsPage,rows.length,lang,next=>{newsPage=next;showTable();});
+     add("p",labels.unverified,"font-size:12px;opacity:.8;margin-top:14px");
+   }
  };
  showTable();return true;
 }
@@ -3075,6 +3079,36 @@ function newsSelectionNotice(lang,count){
  };
  return (messages[lang]||messages.en);
 }
+// News lists preserve all retrieved rows; 12 is a PAGE size, never a discard limit.
+function appendNewsPager(host,page,total,lang,onPage){
+ const size=12,pages=Math.ceil(total/size);
+ if(pages<=1)return;
+ const strings={
+  ro:["Anterior","Următor","Pagina","din","rezultate disponibile"],
+  en:["Previous","Next","Page","of","available results"],
+  fr:["Précédent","Suivant","Page","sur","résultats disponibles"],
+  de:["Zurück","Weiter","Seite","von","verfügbaren Ergebnissen"],
+  it:["Precedente","Successiva","Pagina","di","risultati disponibili"],
+  es:["Anterior","Siguiente","Página","de","resultados disponibles"],
+  pt:["Anterior","Seguinte","Página","de","resultados disponíveis"],
+  nl:["Vorige","Volgende","Pagina","van","beschikbare resultaten"],
+  ru:["Назад","Далее","Страница","из","доступных результатов"],
+  pl:["Poprzednia","Następna","Strona","z","dostępnych wyników"]
+ }[lang]||["Previous","Next","Page","of","available results"];
+ const wrap=document.createElement("div");wrap.style.cssText="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0";
+ const makeButton=(title,newPage)=>{
+  const btn=document.createElement("button");btn.type="button";btn.textContent=title;
+  btn.style.cssText="padding:9px 12px;border-radius:10px;background:#17384c;color:#e2f9ff;border:1px solid #4d8a9c;font:inherit";
+  btn.onclick=()=>onPage(newPage);
+  return btn;
+ };
+ if(page>0)wrap.append(makeButton(strings[0],page-1));
+ const indicator=document.createElement("span");
+ indicator.textContent=strings[2]+" "+(page+1)+" "+strings[3]+" "+pages+" · "+total+" "+strings[4];
+ indicator.style.cssText="font-size:12px;opacity:.88";wrap.append(indicator);
+ if(page<pages-1)wrap.append(makeButton(strings[1],page+1));
+ host.append(wrap);
+}
 function appendNewsCollectionTable(host,record){
  if(record?.list?.type!=="news"||!Array.isArray(record.list.rows))return false;
  const lang=state.language||"ro";
@@ -3090,7 +3124,8 @@ function appendNewsCollectionTable(host,record){
   ru:["Новости","Заголовок и подробности","Источник / дата","Подробности новости","К списку новостей","Открыть оригинал","Источник найден · утверждения не проверены","Проверенного обзора нет. Откройте оригинал.","Дата неизвестна"],
   pl:["Wiadomości","Tytuł i szczegóły","Źródło / data","Szczegóły wiadomości","Wróć do wiadomości","Otwórz oryginał","Źródło znalezione · twierdzenia niezweryfikowane","Brak wiarygodnego streszczenia. Zobacz oryginał.","Data niedostępna"]
  }[lang]||["News","Headline and details","Source / date","Details","Back","Original article","Unverified claims","No summary.","Date unavailable"];
- const items=record.list.rows.slice(0,12);
+ const items=record.list.rows.slice(0,40);
+ let newsPage=0;
  const add=(tag,text,css,parent=host)=>{
   const node=document.createElement(tag);node.textContent=text;
   if(css)node.style.cssText=css;parent.append(node);return node;
@@ -3112,7 +3147,7 @@ function appendNewsCollectionTable(host,record){
   const head=add("thead","",null,table),header=add("tr","",null,head);
   for(const label of [t[1],t[2]])add("th",label,"padding:10px 7px;background:#19445a;border:1px solid #43758a;text-align:left",header);
   const body=add("tbody","",null,table);
-  for(const item of items){
+  for(const item of items.slice(newsPage*12,(newsPage+1)*12)){
    const tr=add("tr","",null,body);
    const left=add("td","","padding:10px 7px;vertical-align:top;border:1px solid #34566e;overflow-wrap:anywhere;width:76%",tr);
    const button=add("button",String(item.title||""),"text-align:left;color:#9beefa;text-decoration:underline;background:transparent;border:0;padding:0;font:inherit;font-weight:700;cursor:pointer;overflow-wrap:anywhere",left);
@@ -3127,6 +3162,7 @@ function appendNewsCollectionTable(host,record){
    add("strong",String(item.source_name||"—"),"display:block;font-size:12px;overflow-wrap:anywhere",right);
    add("span",dateText(item.published_at),"display:block;font-size:11px;opacity:.8;margin-top:5px",right);
   }
+  appendNewsPager(host,newsPage,items.length,lang,next=>{newsPage=next;renderList();});
   add("p",t[6],"font-size:13px;opacity:.8;margin:13px 0 0");
  };
  const renderDetail=item=>{
