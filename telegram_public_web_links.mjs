@@ -42,6 +42,6 @@ export function telegramPublicLinkSearchIntent(message){
  const raw=String(message||"").trim();
  const normalized=raw.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
  if(!/\btelegram\b/.test(normalized)||!/\b(?:caut\w*|gas\w*|find|search|link\w*|postar\w*|stir\w*|news|noutat\w*)\b/.test(normalized))return null;
- const topic=raw.replace(/\btelegram\b/gi," ").replace(/\b(?:cauta|cautare|cauta-mi|gaseste|gaseste-mi|find|search|pe|in|din|on|for|despre|about|postari|postarile|stiri|stirile|news|noutati|linkuri|linkurile|publice|public)\b/gi," ").replace(/\s+/g," ").trim();
+ const topic=normalized.replace(/\btelegram\b/gi," ").replace(/\b(?:cauta|cautare|cauta-mi|gaseste|gaseste-mi|find|search|pe|in|din|on|for|despre|about|postari|postarile|stiri|stirile|news|noutati|linkuri|linkurile|publice|public)\b/gi," ").replace(/\s+/g," ").trim();
  return topic.length>=3?topic:null;
 }
