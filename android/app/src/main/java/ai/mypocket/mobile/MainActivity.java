@@ -24,6 +24,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.FileProvider;
+import androidx.core.view.WindowCompat;
 import androidx.webkit.WebViewCompat;
 import androidx.webkit.WebViewFeature;
 import java.util.Collections;
@@ -111,9 +112,12 @@ public final class MainActivity extends ComponentActivity {
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(),true);
+        getWindow().getDecorView().setSystemUiVisibility(0);
         getWindow().setStatusBarColor(Color.rgb(6,20,32));
         getWindow().setNavigationBarColor(Color.rgb(6,20,32));
         web = new WebView(this);
+        web.setFitsSystemWindows(true);
         setContentView(web);
         WebSettings settings=web.getSettings();
         settings.setJavaScriptEnabled(true);
