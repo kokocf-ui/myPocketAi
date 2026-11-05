@@ -17,6 +17,7 @@ on:
       - news_discovery.mjs
       - telegram_consented_channels.mjs
       - tests_telegram_opt_in.mjs
+      - tests_telegram_news_parallel.mjs
       - tests_news_discovery.mjs
       - tests_news_source_diversity.mjs
       - dialogue_intent.mjs
@@ -61,6 +62,7 @@ jobs:
           node tests_news_discovery.mjs
           node tests_news_source_diversity.mjs
           node tests_telegram_opt_in.mjs
+          node tests_telegram_news_parallel.mjs
           node tests_news_reader.mjs
           node tests_entity_disambiguation.mjs
           node tests_geographic_profile_selection.mjs
