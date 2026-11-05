@@ -1,0 +1,53 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import frontend from './index.js';
+
+const page=await(await frontend.fetch(new Request('https://shopping.test/'))).text();
+const inline=page.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
+assert.ok(inline,'main frontend script must exist');
+new vm.Script(inline);
+
+const style=page.match(/<style id="pocket-adaptive-workspaces">([\s\S]*?)<\/style>/)?.[1];
+assert.ok(style,'shared adaptive-workspace stylesheet must exist');
+assert.match(style,/#view-module\.adaptive-workspace-view\.active\s*\{[^}]*grid-template-rows:auto minmax\(0,1fr\)!important/s);
+assert.match(style,/\.adaptive-workspace\s*\{[^}]*grid-template-rows:auto minmax\(0,1fr\) auto/s);
+assert.match(style,/\.adaptive-workspace__scroll\s*\{[^}]*overflow-y:auto/s);
+assert.doesNotMatch(style,/(top|bottom):\s*\d{3}px/i,'new layout should not use phone-specific absolute positioning');
+assert.match(inline,/root\.classList\.add\('adaptive-workspace-view'\)/);
+assert.match(inline,/root\.classList\.remove\('organize-active','organize-chat','adaptive-workspace-view'\)/);
+assert.match(inline,/next\.checked=checkbox\.checked/,'only user checkbox handler changes bought status');
+assert.match(inline,/shopArchive\(data,'completed',transfer\.checked\)/);
+assert.match(inline,/shoppingWrite\(data\)/);
+assert.match(inline,/SHOPPING_STORAGE_KEY='mypocketai\.shopping\.v1'/,'preserve existing storage key');
+
+const start=inline.indexOf('function shopId(){');
+const end=inline.indexOf('function renderShoppingList(){',start);
+assert.ok(start>=0&&end>start,'shopping logic boundaries present');
+const ctx=vm.createContext({Math,Date,learningLabel:(ro,en)=>ro,localStorage:{},document:{}});
+vm.runInContext(inline.slice(start,end),ctx);
+const evalIn=expression=>vm.runInContext(expression,ctx);
+const migrated=evalIn("shopNormalizeData({items:[{id:'milk',name:'Lapte',checked:true,checkedAt:'2026-11-05T12:00:00Z'},{id:'bread',name:'Pâine',checked:false}],history:[{finishedAt:'2026-11-04T12:00:00Z',items:[{name:'Cartofi',checked:false}]}]})");
+assert.equal(migrated.currentName,'Lista mea');
+assert.equal(migrated.items.length,2);
+assert.equal(migrated.items[0].checked,true);
+assert.equal(migrated.items[0].checkedAt,'2026-11-05T12:00:00Z');
+assert.equal(migrated.items[1].checked,false);
+assert.equal(migrated.history.length,1,'older archived lists preserved');
+assert.equal(migrated.history[0].items[0].name,'Cartofi');
+
+ctx.data=migrated;
+evalIn("shopArchive(data,'completed',true,'Următoarea')");
+assert.equal(migrated.history.length,2);
+assert.equal(migrated.history[0].status,'completed');
+assert.equal(migrated.history[0].name,'Lista mea');
+assert.equal(migrated.history[0].items[0].checked,true,'archive does not rewrite user decisions');
+assert.equal(migrated.history[0].items[1].checked,false);
+assert.equal(migrated.items.length,1,'only unbought carried forward');
+assert.equal(migrated.items[0].name,'Pâine');
+assert.equal(migrated.items[0].checked,false,'new list never automatically marks as purchased');
+assert.equal(migrated.currentName,'Următoarea');
+assert.equal(evalIn('shopValidateQuantity("2,5")'),true);
+assert.equal(evalIn('shopValidateQuantity("0")'),false);
+assert.equal(evalIn('shopValidateQuantity("-1")'),false);
+assert.equal(evalIn('shopValidateQuantity("1.5")'),true);
+console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
