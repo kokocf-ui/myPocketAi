@@ -1974,6 +1974,7 @@ function pocketExitListen(){
 function pocketExitClose(){
  pocketClearExitTimer();
  pocketExitOpen=false;pocketExitListening=false;
+ document.documentElement.classList.remove('pocket-exit-open');
  document.querySelector('.bottom-nav')?.removeAttribute('inert');
  document.querySelector('main.page')?.removeAttribute('inert');
  avatarOverlay.classList.remove('exit-mode');
@@ -1985,10 +1986,25 @@ function pocketExitConfirm(){
  pocketExitClose();
  try{window.PocketAndroidNavigation?.postMessage?.('exit')}catch{}
 }
+function pocketSyncExitDock(){
+ const nav=document.querySelector('.bottom-nav');
+ if(!nav)return;
+ const rect=nav.getBoundingClientRect();
+ if(rect.width<1||rect.height<1)return;
+ const html=document.documentElement;
+ html.style.setProperty('--pocket-exit-left',rect.left+'px');
+ html.style.setProperty('--pocket-exit-top',rect.top+'px');
+ html.style.setProperty('--pocket-exit-width',rect.width+'px');
+ html.style.setProperty('--pocket-exit-height',rect.height+'px');
+}
+window.addEventListener('resize',()=>{if(pocketExitOpen)pocketSyncExitDock()});
+if(window.visualViewport)window.visualViewport.addEventListener('resize',()=>{if(pocketExitOpen)pocketSyncExitDock()});
 function pocketExitPrompt(){
  if(state.currentView!=='home'||pocketExitOpen)return;
  // Reuse the same 3D avatar stage and its animation as on startup and voice replies.
  pocketClearExitTimer();pocketExitOpen=true;avatarWelcomeQueued=false;
+ pocketSyncExitDock();
+ document.documentElement.classList.add('pocket-exit-open');
  document.querySelector('.bottom-nav')?.setAttribute('inert','');
  document.querySelector('main.page')?.setAttribute('inert','');
  clearTimeout(state.avatarTimer);
@@ -5088,6 +5104,47 @@ setTimeout(()=>{if(pocketFirstEntrance&&!pocketGreetingActive){pocketRevealMainA
  -webkit-user-select:none;
 }
 
+
+/* The exit dock replaces, rather than overlaps, the four Home navigation tabs.
+   Its geometry is copied from the real responsive navigation rectangle. */
+html.pocket-exit-open .bottom-nav {
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+#avatarOverlay.exit-mode .exit-buttons {
+  position:fixed!important;
+  top:var(--pocket-exit-top,auto)!important;
+  bottom:auto!important;
+  left:var(--pocket-exit-left,12px)!important;
+  width:var(--pocket-exit-width,calc(100% - 24px))!important;
+  height:var(--pocket-exit-height,82px)!important;
+  padding:6px!important;
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  column-gap:10px!important;
+  box-sizing:border-box!important;
+  background:linear-gradient(180deg,rgba(17,53,78,.99),rgba(3,18,33,.99))!important;
+  border:2px solid #3b8da7!important;
+  border-radius:29px!important;
+  box-shadow:inset 0 2px 0 rgba(199,252,255,.23),0 5px 0 #03121f,0 11px 21px rgba(0,0,0,.52)!important;
+  z-index:2147483001!important;
+  pointer-events:auto!important;
+  transform:none!important;
+}
+#avatarOverlay.exit-mode .exit-buttons button {
+  margin:0!important;
+  min-width:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  padding:8px 6px!important;
+  border-radius:22px!important;
+  font-size:clamp(16px,4.2vw,22px)!important;
+  line-height:1.1!important;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.2),inset 0 -3px 0 rgba(0,0,0,.2)!important;
+  text-align:center!important;
+}
 </style>
 </body>
 </html>`;
