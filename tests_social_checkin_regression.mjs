@@ -18,6 +18,7 @@ const cases=[
  ["I am fine, thanks.","positive"]
 ];
 let networkCalls=0,modelCalls=0;
+const seenReplies=new Map();
 const previousFetch=globalThis.fetch;
 globalThis.fetch=async()=>{networkCalls++;throw Error("Social reply cannot search web or maps");};
 const env={GEOAPIFY_API_KEY:"fixture_key",TOMTOM_API_KEY:"fixture_key",AI:{run:async()=>{modelCalls++;throw Error("Social response must not require AI");}}};
@@ -38,7 +39,9 @@ try{
   assert.ok(!x.needs_travel_confirmation&&!x.needs_travel_mode&&!x.needs_location_clarification,message);
   assert.ok(!x.route_context?.destination&&!x.named_venue&&!x.place_lookup,message);
   assert.match(x.reply,/[A-Za-z\u00c0-\u024f]/u);
+  seenReplies.set(message,x.reply);
  }
+ assert.notEqual(seenReplies.get("Sunt bine"),seenReplies.get("Bine, mulțumesc"),"Polite response should differ from generic wellbeing acknowledgement");
  assert.equal(networkCalls,0,"Social replies made a network request");
  assert.equal(modelCalls,0,"Social replies invoked a model");
  for(const query of ["Unde este Sunt Farm?","Caută Sunt Farm în Tandridge","Sunt Farm",
