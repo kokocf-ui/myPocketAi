@@ -1325,6 +1325,21 @@ body.long-choice-active{overflow:hidden}
 @media(max-width:350px){.education-grid{gap:8px}.education-card{padding:10px;min-height:158px}}
 </style>
 
+
+<style id="pocket-home-center-and-exit">
+/* Preserve the approved card dimensions while centering the complete content group. */
+#view-home .feature-card{justify-content:center!important}
+#view-home .feature-card .card-art{height:auto!important;min-height:0!important;flex:0 0 auto!important;background:transparent!important;border-radius:0!important;padding:0 10px 6px!important}
+#view-home .feature-card .card-body{flex:0 0 auto!important;min-height:0!important;width:100%!important;padding:0 12px!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+#view-home .feature-card .card-title{text-align:center!important;margin-bottom:5px!important}
+#view-home .feature-card .card-description{text-align:center!important;overflow-wrap:anywhere!important}
+#pocketExitDialog{position:fixed;inset:0;z-index:100000;background:rgba(2,11,21,.88);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
+#pocketExitDialog.open{display:flex}
+#pocketExitDialog .exit-panel{width:min(100%,390px);background:linear-gradient(160deg,#12354a,#061523);border:2px solid #45bed9;border-radius:24px;box-shadow:0 12px 50px #000b;text-align:center;padding:20px;display:flex;flex-direction:column;align-items:center;gap:14px;color:#f1faff}
+#pocketExitDialog .exit-portrait{width:120px;height:120px;border-radius:50%;object-fit:contain;border:1px solid #49d9dc;background:#061724}
+#pocketExitDialog .exit-buttons{display:flex;width:100%;gap:12px}
+#pocketExitDialog .exit-buttons button{flex:1 1 0;min-height:50px}
+</style>
 <style id="organize-responsive-layout">
 /* Organisation reuses the approved Education layout. */
 main.page:has(#view-module.organize-choose.active){overflow-x:hidden!important;overflow-y:hidden!important;padding:clamp(5px,.9dvh,10px) 12px calc(108px + env(safe-area-inset-bottom,0px))!important}
@@ -1869,6 +1884,84 @@ function renderShoppingList(){
  });panel.append(history);
  const note=document.createElement('small');note.textContent=learningLabel('Numai utilizatorul bifează produsele. Datele sunt salvate local pe acest dispozitiv.','Only you tick items. Data is saved locally on this device.');panel.append(note);
 }
+
+
+let pocketExitOpen=false;
+let pocketExitListening=false;
+function pocketExitLanguage(){return ({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO'}
+function pocketExitSay(text){
+ try{if(window.PocketAndroidVoice?.postMessage)window.PocketAndroidVoice.postMessage(JSON.stringify({action:'speak',language:pocketExitLanguage(),text}));else if('speechSynthesis' in window){speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(text);utterance.lang=pocketExitLanguage();speechSynthesis.speak(utterance)}}catch{}
+}
+function pocketExitListen(){
+ if(!pocketExitOpen)return;
+ try{if(window.PocketAndroidVoice?.postMessage){pocketExitListening=true;window.PocketAndroidVoice.postMessage(JSON.stringify({action:'listen',mode:'exit',language:pocketExitLanguage()}))}}catch{}
+}
+function pocketExitClose(){
+ pocketExitOpen=false;pocketExitListening=false;
+ const dialog=$('pocketExitDialog');if(dialog){dialog.classList.remove('open');dialog.setAttribute('aria-hidden','true')}
+ try{window.PocketAndroidVoice?.postMessage?.(JSON.stringify({action:'stop'}))}catch{}
+ try{window.speechSynthesis?.cancel()}catch{}
+}
+function pocketExitConfirm(){
+ pocketExitClose();
+ try{window.PocketAndroidNavigation?.postMessage?.('exit')}catch{}
+}
+function pocketExitPrompt(){
+ if(state.currentView!=='home')return;
+ if(pocketExitOpen)return;
+ let dialog=$('pocketExitDialog');
+ if(!dialog){
+  dialog=document.createElement('div');dialog.id='pocketExitDialog';dialog.setAttribute('role','dialog');dialog.setAttribute('aria-modal','true');
+  const panel=document.createElement('div');panel.className='exit-panel';
+  const portrait=document.createElement('img');portrait.className='exit-portrait';portrait.alt='Pocket AI';portrait.src=$('avatarImage')?.src||'';
+  const question=document.createElement('strong');question.style.fontSize='20px';question.textContent=learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?');
+  const hint=document.createElement('small');hint.textContent=learningLabel('Poți răspunde vocal sau poți atinge un buton.','You can answer by voice or tap a button.');
+  const buttons=document.createElement('div');buttons.className='exit-buttons';
+  const stay=document.createElement('button');stay.type='button';stay.className='secondary-btn';stay.textContent=learningLabel('Rămân','Stay');stay.onclick=pocketExitClose;
+  const exit=document.createElement('button');exit.type='button';exit.className='primary-btn';exit.textContent=learningLabel('Închide','Close');exit.onclick=pocketExitConfirm;
+  buttons.append(stay,exit);panel.append(portrait,question,hint,buttons);dialog.append(panel);document.body.append(dialog);
+ }
+ dialog.classList.add('open');dialog.setAttribute('aria-hidden','false');pocketExitOpen=true;
+ pocketExitSay(learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?'));
+ // Native TTS completion initiates listening; voice remains optional.
+}
+function pocketExitVoiceResult(data){
+ if(!pocketExitOpen)return false;
+ if(data?.mode==='tts'){
+  if(data.status==='done')pocketExitListen();
+  return true;
+ }
+ if(data?.mode!=='exit')return true;
+ if(data.status==='recognized'){
+  pocketExitListening=false;
+  const answer=String(data.text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  if(/(?:\\bda\\b|inchide|ies|iesire|exit|close|yes|quit|sure|confirm)/.test(answer))pocketExitConfirm();
+  else if(/(?:\\bnu\\b|raman|ramai|stay|no|cancel|continua)/.test(answer))pocketExitClose();
+ }else if(data.status==='error')pocketExitListening=false;
+ return true;
+}
+function pocketBackInsideModule(){
+ const root=$('view-module');
+ if(root.classList.contains('learning-active')){renderLearningSubjects();return true}
+ if(root.classList.contains('organize-active')||root.classList.contains('organize-chat')){renderOrganizeChoices();return true}
+ if(root.classList.contains('extra-tools-active')||root.classList.contains('extra-tools-chat')){renderExtraToolsChoices();return true}
+ return false;
+}
+window.pocketAndroidBack=function(){
+ if(pocketExitOpen){pocketExitClose();return}
+ if($('longChoiceDialog')?.open){closeLongChoice();return}
+ if(activeRouteMap){closeRouteMap();return}
+ if(activeAnswerReader){closeAnswerReader();return}
+ const quick=$('moduleQuickLayer');
+ if(quick?.classList.contains('open')){
+  const sheet=quick.querySelector('.module-quick-sheet');
+  if(sheet?.classList.contains('details-mode')||sheet?.classList.contains('results-mode')){renderModuleQuickChoices();return}
+  quick.classList.remove('open');quick.setAttribute('aria-hidden','true');return;
+ }
+ if(state.currentView==='module'&&pocketBackInsideModule())return;
+ if(state.currentView!=='home'){showView('home');return}
+ pocketExitPrompt();
+};
 
 const LEARNING_SUBJECTS=[
  ['languages','🗣️','Limbi străine','Languages','Vocabular, pronunție și conversație.','Vocabulary, pronunciation and conversation.'],
@@ -4388,6 +4481,7 @@ t=t.replace(/(\\d),(\\d)/g,'$1 virgulă $2');return t;}
 function pocketNativeVoiceAvailable(){return typeof window.PocketAndroidVoice?.postMessage==='function'}
 function pocketNativeVoiceSend(payload){try{window.PocketAndroidVoice.postMessage(JSON.stringify(payload));return true}catch{return false}}
 window.pocketAndroidVoiceResult=function(data){
+ if(pocketExitVoiceResult(data))return;
  if(data?.mode==='tts'){
   if(data.status==='done'||data.status==='error'){
    avatar3dSend('stop');state.speaking=false;
