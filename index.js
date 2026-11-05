@@ -1328,49 +1328,49 @@ body.long-choice-active{overflow:hidden}
 
 
 
-<style id="pocket-exit-particle-appearance">
-/* Same visual language as native 3D entrance: face slowly materializes from mist. */
-@keyframes pocketExitMaterialize{
- 0%{opacity:0;filter:blur(17px) brightness(.65);transform:translateY(22px) scale(.84)}
- 44%{opacity:.36;filter:blur(8px) brightness(.78)}
- 100%{opacity:1;filter:blur(0) brightness(1);transform:translateY(0) scale(1)}
+
+
+<style id="pocket-exit-stability">
+/* Exit is NOT the native launch effect: use the previously working 3D avatar,
+   with no iframe CSS filters, keyframe transforms or flashing particle layers. */
+#avatarOverlay.exit-mode.visible{
+  opacity:1!important;visibility:visible!important;
+  pointer-events:auto!important;z-index:2147483000!important;
+  transition:none!important;isolation:isolate!important;
 }
-@keyframes pocketExitFog{
- 0%{opacity:0;transform:scale(.42) translateY(18px);filter:blur(12px)}
- 26%{opacity:.96}
- 72%{opacity:.35;transform:scale(1.2) translateY(-18px)}
- 100%{opacity:0;transform:scale(1.65) translateY(-40px);filter:blur(19px)}
+#avatarOverlay.exit-mode .avatar-stage{
+  pointer-events:auto!important;
+  transform:none!important;opacity:1!important;
+  transition:none!important;
 }
-#avatarOverlay.exit-mode.visible #avatar3dFrame{
- animation:pocketExitMaterialize 2.05s cubic-bezier(.18,.72,.28,1) both!important
+#avatarOverlay.exit-mode #avatar3dFrame{
+  display:block!important;opacity:1!important;visibility:visible!important;
+  animation:none!important;filter:none!important;transform:none!important;
+  transition:none!important;
 }
-#avatarOverlay.exit-mode.visible .avatar-stage::before,
-#avatarOverlay.exit-mode.visible .avatar-stage::after{
- content:"";pointer-events:none;position:absolute;inset:20% 13% 12%;
- z-index:3;animation:pocketExitFog 2.5s ease-out both;
+#avatarOverlay.exit-mode .avatar-stage::before,
+#avatarOverlay.exit-mode .avatar-stage::after{
+  content:none!important;animation:none!important;
 }
-#avatarOverlay.exit-mode.visible .avatar-stage::before{
- background:radial-gradient(circle at 23% 61%,rgba(69,204,236,.7) 0 1px,transparent 4px),
- radial-gradient(circle at 44% 78%,rgba(33,165,209,.5) 0 2px,transparent 8px),
- radial-gradient(circle at 65% 56%,rgba(101,226,239,.7) 0 2px,transparent 6px),
- radial-gradient(circle at 82% 73%,rgba(29,174,224,.6) 0 1px,transparent 6px),
- radial-gradient(ellipse at 50% 75%,rgba(11,143,186,.48),transparent 57%);
- background-size:38px 52px,55px 57px,43px 47px,67px 71px,100% 100%;
+#avatarOverlay.exit-mode #avatarImage{display:none!important}
+#avatarOverlay.exit-mode .exit-buttons{
+  position:fixed!important;
+  bottom:calc(120px + env(safe-area-inset-bottom,0px))!important;
+  left:4vw!important;width:92vw!important;
+  z-index:2147483001!important;display:flex!important;
+  gap:12px!important;pointer-events:auto!important;
 }
-#avatarOverlay.exit-mode.visible .avatar-stage::after{
- background:radial-gradient(circle at 52% 55%,rgba(120,235,247,.65) 0 1px,transparent 5px),
- radial-gradient(circle at 37% 46%,rgba(54,189,236,.55) 0 1.5px,transparent 7px),
- radial-gradient(circle at 74% 70%,rgba(40,151,204,.55) 0 2px,transparent 8px);
- background-size:25px 38px,39px 41px,54px 47px;
- animation-delay:.13s;
+#avatarOverlay.exit-mode .exit-buttons button{
+  pointer-events:auto!important;touch-action:manipulation!important;
+  min-height:54px!important;position:relative!important;
+  font-weight:750!important;
 }
-@media(prefers-reduced-motion:reduce){
- #avatarOverlay.exit-mode.visible #avatar3dFrame{animation-duration:.6s!important}
- #avatarOverlay.exit-mode.visible .avatar-stage::before,
- #avatarOverlay.exit-mode.visible .avatar-stage::after{animation-duration:.7s!important}
+@media(max-height:670px){
+ #avatarOverlay.exit-mode .exit-buttons{
+  bottom:calc(94px + env(safe-area-inset-bottom,0px))!important;
+ }
 }
 </style>
-
 <style id="pocket-avatar-first-launch">
 /* No separate photographic splash: hold ordinary app chrome behind the
    genuine 3D avatar until its entrance has finished. */
@@ -1974,6 +1974,8 @@ function pocketExitListen(){
 function pocketExitClose(){
  pocketClearExitTimer();
  pocketExitOpen=false;pocketExitListening=false;
+ document.querySelector('.bottom-nav')?.removeAttribute('inert');
+ document.querySelector('main.page')?.removeAttribute('inert');
  avatarOverlay.classList.remove('exit-mode');
  try{window.PocketAndroidVoice?.postMessage?.(JSON.stringify({action:'stop'}))}catch{}
  try{window.speechSynthesis?.cancel()}catch{}
@@ -1987,6 +1989,8 @@ function pocketExitPrompt(){
  if(state.currentView!=='home'||pocketExitOpen)return;
  // Reuse the same 3D avatar stage and its animation as on startup and voice replies.
  pocketClearExitTimer();pocketExitOpen=true;avatarWelcomeQueued=false;
+ document.querySelector('.bottom-nav')?.setAttribute('inert','');
+ document.querySelector('main.page')?.setAttribute('inert','');
  clearTimeout(state.avatarTimer);
  const question=learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?');
  showAvatar({message:question,status:learningLabel('Te ascult…','Listening…'),speaking:true});
@@ -1998,7 +2002,11 @@ function pocketExitPrompt(){
   stay.textContent=learningLabel('Rămân','Stay');stay.onclick=pocketExitClose;
   const exit=document.createElement('button');exit.type='button';exit.className='primary-btn';
   exit.textContent=learningLabel('Închide','Close');exit.onclick=pocketExitConfirm;
-  buttons.append(stay,exit);avatarOverlay.querySelector('.avatar-stage').append(buttons);
+  for(const button of [stay,exit]){
+   button.addEventListener('pointerdown',event=>event.stopPropagation());
+   button.addEventListener('click',event=>event.stopPropagation());
+  }
+  buttons.append(stay,exit);avatarOverlay.append(buttons);
  }
  avatar3dSend('start',{text:question});
  pocketExitSay(question);
