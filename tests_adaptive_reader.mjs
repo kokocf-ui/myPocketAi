@@ -15,7 +15,8 @@ class Node{
 }
 const requestedArticles=[];
 const context={document:{createElement:tag=>new Node(tag)},state:{language:'ro'},URL,Date,
- loadSourceBasedNewsDetail:async(target,url,language,excerpt)=>{requestedArticles.push({target,url,language,excerpt});}};
+ loadSourceBasedNewsDetail:async(target,url,language,excerpt)=>{requestedArticles.push({target,url,language,excerpt});},
+ isTelegramLink:url=>/^https:\/\/t\.me\//.test(String(url||''))};
 vm.createContext(context);
 vm.runInContext(js.slice(begin,end),context);
 const plan=planPresentation({language:'ro',reply:'Știri internaționale',structured_list:{type:'news',rows:[
