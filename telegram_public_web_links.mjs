@@ -41,7 +41,7 @@ export async function discoverTelegramPublicLinks(env={},query="",limit=8,option
   });
   if(!res.ok)throw new Error("web index unavailable");
   const data=await res.json();
-  const seen=new Set(),signatures=new Set(),links=[];
+  const seen=new Set(),signatures=new Set(),links=[];\n  let undatedCount=0,staleCount=0;
   for(const item of Array.isArray(data.results)?data.results:[]){
    const link=publicTelegramPostUrl(item.url);
    if(!link||seen.has(link))continue;
@@ -51,7 +51,7 @@ export async function discoverTelegramPublicLinks(env={},query="",limit=8,option
    const excerpt=cleanIndexedExcerpt(Array.isArray(item.highlights)?item.highlights.filter(x=>typeof x==="string").join(" "):"");
    const publishedAt=typeof item.publishedDate==="string"&&/^\d{4}-\d{2}-\d{2}/.test(item.publishedDate)?item.publishedDate:null;
    const publishedMs=publishedAt?Date.parse(publishedAt):NaN;
-   if(since!==null&&(!Number.isFinite(publishedMs)||publishedMs<since||publishedMs>now+300000))continue;
+   if(since!==null&&(!Number.isFinite(publishedMs)||publishedMs<since||publishedMs>now+300000)){\n    if(!Number.isFinite(publishedMs))undatedCount++;else staleCount++;\n    continue;\n   }
    const signature=excerpt.toLocaleLowerCase().replace(/[^\\p{L}\\p{N}]/gu,"").slice(0,110);
    if(signature.length>30&&signatures.has(signature))continue;
    if(signature.length>30)signatures.add(signature);
@@ -60,7 +60,7 @@ export async function discoverTelegramPublicLinks(env={},query="",limit=8,option
    if(links.length>=count)break;
   }
   return {status:"success",links,source:"Exa public web index",
-   publication_filter:since!==null?"indexed_date_after_requested_cutoff":"none",
+   publication_filter:since!==null?"indexed_date_after_requested_cutoff":"none",undated_excluded:undatedCount,stale_excluded:staleCount,
    limitations:"Only public links indexed by Exa, not Telegram global search. No Telegram content was accessed or sent to AI.",
    reply:links.length?"Referințe către postări publice Telegram indexate. Datele indexului și afirmațiile nu au fost verificate independent.":since!==null?"Nu am identificat postări publice Telegram cu dată indexată în intervalul cerut. Postările fără dată confirmabilă au fost excluse.":"Nu am găsit linkuri publice Telegram indexate pentru această căutare."};
  }catch{return {status:"unavailable",links:[],reply:"Indexul web nu este disponibil momentan."};}
