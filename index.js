@@ -3024,11 +3024,10 @@ function appendAdaptivePresentation(host,record){
    const source=cell(row,"source_name"),date=dateText(cell(row,"published_at"));
    if(source||date)add("p",[source,date].filter(Boolean).join(" · "),"font-size:13px;opacity:.85;margin:0 0 12px");
    add("p",labels.unverified,"font-size:12px;color:#ffdaa5;margin:0 0 12px");
-   const summary=cell(row,"summary")||cell(row,"description");
-   if(summary)add("p",summary,"line-height:1.65;overflow-wrap:anywhere;white-space:pre-wrap");
-   else add("p",lang==="ro"?"Rezumat indisponibil. Consultă sursa originală.":"Summary unavailable. Read the original source.","line-height:1.6");
    const url=safeUrl(row.source_url);
+   const detail=add("p",lang==="ro"?"Se verifică textul articolului original…":"Reading the original publisher article…","line-height:1.65;overflow-wrap:anywhere;white-space:pre-wrap");
    if(url){const a=add("a",labels.original,"color:#99ecff;text-decoration:underline;display:inline-block;margin-top:14px");a.href=url;a.target="_blank";a.rel="noopener noreferrer";}
+   loadSourceBasedNewsDetail(detail,url,lang);
  };
  const showTable=()=>{
    host.replaceChildren();host.scrollTop=0;
@@ -3119,11 +3118,30 @@ function appendNewsCollectionTable(host,record){
   add("h3",String(item.title||""),"font-size:19px;line-height:1.4;color:#d9fbff;margin:4px 0 13px;overflow-wrap:anywhere");
   add("p",String(item.source_name||"")+" · "+dateText(item.published_at),"font-size:14px;margin:0 0 12px;color:#b8d8e5");
   add("p",t[6],"font-size:13px;color:#ffd7aa;margin:0 0 12px");
-  add("p",String(item.detail||item.summary||t[7]),"white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;margin:0 0 18px");
+  const detail=add("p",lang==="ro"?"Se verifică textul articolului original…":"Reading the original publisher article…","white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;margin:0 0 18px");
   const url=safeArticleUrl(item.url);
   if(url){const link=add("a",t[5],"display:inline-block;color:#9beefa;text-decoration:underline;overflow-wrap:anywhere");link.href=url;link.target="_blank";link.rel="noopener noreferrer";}
+  loadSourceBasedNewsDetail(detail,url,lang);
  };
  renderList();return true;
+}
+// Only a selected news row triggers publisher retrieval. The search snippet is not the article.
+async function loadSourceBasedNewsDetail(target,url,language){
+ const messages={
+  ro:{unavailable:"Nu am putut extrage detalii din articolul original. Rezultatul din index nu reprezintă textul articolului. Deschide sursa pentru a-l citi.",summary:"Rezumat bazat pe articolul original (nu text integral):",excerpt:"Fragment din articolul original, netradus:",notTranslated:"Traducerea nu este disponibilă; fragmentul este păstrat în limba sursei."},
+  en:{unavailable:"The original article could not be read. Search-index text is not the full article. Open the publisher link.",summary:"Summary based on the original article (not full text):",excerpt:"Original-language excerpt from the publisher:",notTranslated:"Translation is unavailable; this excerpt remains in the source language."}
+ }[language]||{unavailable:"Original article details unavailable. Open the publisher link.",summary:"Source-based summary (not full text):",excerpt:"Original-language source excerpt:",notTranslated:"Translation unavailable."};
+ if(!url){target.textContent=messages.unavailable;return;}
+ try{
+  const endpoint=new URL(APP.apiUrl);endpoint.pathname="/api/news-article-detail";endpoint.search="";
+  const response=await fetch(endpoint.href,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url,language})});
+  if(!response.ok)throw Error("article_read_failed");
+  const data=await response.json();
+  if(data?.status==="success"&&typeof data.summary==="string"&&data.summary.trim()){
+   const excerpt=data.content_status==="source_excerpt";
+   target.textContent=(excerpt?messages.excerpt+"\n"+messages.notTranslated:messages.summary)+"\n\n"+data.summary.trim();
+  }else target.textContent=messages.unavailable;
+ }catch{target.textContent=messages.unavailable;}
 }
 function appendStructuredCollectionTable(host,record){
  if(appendNewsCollectionTable(host,record))return true;
@@ -3262,7 +3280,10 @@ function openAnswerReader(text,origin){
  closeAnswerReader(false);inputEl.blur();const t=readerLabels();
  const layer=document.createElement('section');layer.className='answer-reader';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-labelledby','answerReaderTitle');
  const header=document.createElement('div');header.className='answer-reader-header';
- const title=document.createElement('h2');title.id='answerReaderTitle';title.textContent=t.title;
+ const title=document.createElement('h2');title.id='answerReaderTitle';
+ const displayingNews=Boolean((state.lastPresentationResponse?.reply===String(text).trim()&&state.lastPresentationResponse.plan?.source_type==='news')||(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news'));
+ const readerTitle=displayingNews?({ro:"Știri și detalii",en:"News and details",fr:"Actualités et détails",de:"Nachrichten und Details",it:"Notizie e dettagli",es:"Noticias y detalles",pt:"Notícias e detalhes",nl:"Nieuws en details",ru:"Новости и подробности",pl:"Wiadomości i szczegóły"}[state.language]||"News and details"):t.title;
+ title.textContent=readerTitle;
  const close=document.createElement('button');close.type='button';close.className='answer-reader-close';close.textContent=dialogText("Revenire","Return");close.setAttribute('aria-label',close.textContent);close.onclick=()=>closeAnswerReader();header.append(title,close);
  const controls=document.createElement('div');controls.className='answer-reader-controls';
  const pause=document.createElement('button');pause.type='button';
@@ -3270,7 +3291,7 @@ function openAnswerReader(text,origin){
  const speedLabel=document.createElement('label');speedLabel.textContent=t.speed+' ';
  const speed=document.createElement('select');speed.setAttribute('aria-label',t.speed);
  for(const value of [.5,1,1.5]){const option=document.createElement('option');option.value=String(value);option.textContent=String(value)+'×';speed.append(option)}speed.value='1';speedLabel.append(speed);controls.append(pause,restart,speedLabel);
- const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',t.title);if(!(state.lastPresentationResponse?.reply===String(text).trim()&&appendAdaptivePresentation(body,state.lastPresentationResponse))&&!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));if(!appendRecipeReaderText(body,String(text)))appendAnswerText(body,String(text));}
+ const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',readerTitle);if(!(state.lastPresentationResponse?.reply===String(text).trim()&&appendAdaptivePresentation(body,state.lastPresentationResponse))&&!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));if(!appendRecipeReaderText(body,String(text)))appendAnswerText(body,String(text));}
  layer.append(header,controls,body);document.body.append(layer);
  const reader={layer,origin,frame:0,cleanup:()=>{}};activeAnswerReader=reader;
  let running=!(state.lastPresentationResponse?.reply===String(text).trim()&&state.lastPresentationResponse.plan?.blocks?.[0]?.kind==='interactive_article_table')&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news'),lastTime=null,startAt=performance.now()+800,position=0;
