@@ -4,9 +4,10 @@ import {createInterface} from "node:readline/promises";
 import {stdin as input,stdout as output} from "node:process";
 import {Writable} from "node:stream";
 import {writeFile} from "node:fs/promises";
-import {TelegramClient} from "teleproto";
+import {TelegramClient,Api} from "teleproto";
 import {StringSession} from "teleproto/sessions";
 import {makePhoneMigrationHandler} from "./telegram-login-dc.mjs";
+import {telegramCodeDelivery} from "./telegram-code-delivery.mjs";
 // Portable prompt: readline writes typed characters to its output stream.
 // Send all editing/echo output to a discard-only stream instead of relying
 // on undocumented Node.js internals (unsupported on Termux Node 22/24).
@@ -68,6 +69,16 @@ try{
   // Keep the authenticated DC connection alive while the owner switches to
   // Telegram to read the login code. Limit network reconnect attempts.
   connectionRetries:2,reconnectRetries:2,requestRetries:1,autoReconnect:true});
+ // Observe Telegram's chosen delivery method on the EXISTING sendCode response.
+ // No additional code requests. NEVER print the response or phoneCodeHash.
+ const originalInvoke=client.invoke.bind(client);
+ client.invoke=async (request,...options)=>{
+   const response=await originalInvoke(request,...options);
+   if(request instanceof Api.auth.SendCode){
+     process.stdout.write("Verification code delivery: "+telegramCodeDelivery(response)+".\n");
+   }
+   return response;
+ };
  // Cached only in memory for this single run. A DC migration must NOT make
  // the owner re-enter their number (or retry with different credentials).
  let cachedPhone="";
