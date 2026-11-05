@@ -16,6 +16,9 @@ export function buildWorldNewsDiscoveryPlan(message,options={}){
   gdeltQueries,
   exaQuery:broad?"world news international affairs diplomacy economy science climate"+dateSuffix:null,
   wireQuery:broad?"Reuters world news politics diplomacy economy"+dateSuffix:null,
+  // Complement established wire reporting with independent/local investigation.
+  // Search terms do not establish publisher funding, truthfulness or independence.
+  independentQuery:broad?"world current affairs independent journalists local reporting investigative eyewitness primary evidence"+dateSuffix:null,
   generalQuery:broad?"world news international events government economy disasters science"+dateSuffix:null,
   publicationDay:previousDay,
   requestedDomain:"reuters.com"
