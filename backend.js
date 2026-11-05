@@ -5138,7 +5138,7 @@ export default {
           outcomes.push(value);
           const useful=outcomes.filter(x=>x.status==="fulfilled"&&x.value.results.length>0);
           const resultCount=useful.reduce((sum,x)=>sum+x.value.results.length,0);
-          const publisherSearchEngines=new Set(useful.map(x=>x.provider.split(":")[0]));
+          const publisherSearchEngines=new Set(useful.map(x=>String(x.provider||x.value?.provider||"unknown").split(":")[0]));
           const broadNewsReady=newsIntent&&newsDiscoveryPlan.broadWorld;
           const enoughCoverage=broadNewsReady
             ? publisherSearchEngines.size>=2&&resultCount>=12
