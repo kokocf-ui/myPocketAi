@@ -7,7 +7,6 @@ import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion
 import {localizeNewsRows} from "./localization.mjs";
 import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPublicationDay} from "./news_context.mjs";
 import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers} from "./news_discovery.mjs";
-import {isTelegramNewsRequest,readConsentedTelegramPosts,telegramConfigured} from "./telegram_consented_channels.mjs";
 import {classifyVoluntaryTelegramLink,telegramVerificationPrompt,telegramExternalResearchQuery} from "./telegram_voluntary_links.mjs";
 import {discoverTelegramPublicLinks,telegramPublicLinkSearchIntent,publicTelegramPostUrl} from "./telegram_public_web_links.mjs";
 import {readNewsArticleDetail,translateUserSuppliedTelegramText} from "./news_article_detail.mjs";
@@ -1243,14 +1242,16 @@ export default {
       const kind = String(url.searchParams.get("kind") || "news").toLowerCase();
       const query = String(url.searchParams.get("q") || "").trim();
       const limit = Math.min(10, Math.max(1, Number.parseInt(url.searchParams.get("limit") || "5", 10) || 5));
+      // Legacy Bot-API channel feed retired. The query-backed public index is
+      // the only Telegram source; no channel token or user bot is consulted.
       if(kind==="telegram"){
-        const feed=await readConsentedTelegramPosts(env,{language:String(url.searchParams.get("lang")||"ro").slice(0,2),limit});
+        const found=await discoverTelegramPublicLinks(env,query,limit);
         return json({app:"Pocket AI",version:API_VERSION,kind:"telegram",
-          status:feed.status,source:"Telegram Bot API — approved channels only",
-          items:feed.rows,verification:"Source-post metadata only. Claims are not independently verified.",
-          setup_required:feed.status==="not_configured",reason:feed.reason||null,
-          historical_limit_hours:24,ai_ingestion_enabled:false,reply:feed.reply,
-          source_url:"https://core.telegram.org/bots/api"});
+          status:found.status,source:"Exa public web index",
+          items:found.links,verification:"Indexed public references, not independently verified claims.",
+          ai_ingestion_enabled:false,telegram_session_used:false,
+          global_telegram_search:false,reply:found.reply,
+          source_url:"https://t.me/"});
       }
       const allowed = new Set(["news", "kev", "epss"]);
       if (!allowed.has(kind)) return json({status:"error", error:"Unknown intelligence source. Choose news, kev or epss."},400);
@@ -1762,28 +1763,8 @@ export default {
         global_telegram_search:false,telegram_date_filter:found.publication_filter||"none",ai_connected:Boolean(env.AI),
         web_search_status:found.status});
     }
-    // Telegram may only supply publisher-consented channel messages. It cannot
-    // be used as a general scraper or as an unverified AI research corpus.
-    if(!voluntaryTelegramLink&&isTelegramNewsRequest(message)){
-      const dated=publicationDayWindow(message,data.client_local_day);
-      const feed=await readConsentedTelegramPosts(env,{language:lang,limit:12,publicationDay:dated?.day||null});
-      const newsList=feed.status==="success"&&feed.rows.length?{
-        type:"news",rows:feed.rows,verification:"telegram_posts_not_verified_news",
-        selection_policy:"approved_channel_access_and_date_only",viewpoint_filtering_applied:false,editorial_quality_verdict:false,
-        sort:"published_at_desc",source_platform:"Telegram",
-        result_count:feed.rows.length,coverage_status:"authorized_channels_only",
-        publication_filter:dated?.kind||"none",requested_publication_day:dated?.day||null
-      }:null;
-      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
-        message_received:message,reply:feed.reply,
-        ...(newsList?{structured_list:newsList}:{}),
-        telegram_status:feed.status,telegram_reason:feed.reason||null,
-        telegram_access_mode:"publisher_opt_in_only",
-        ai_ingestion_enabled:false,web_search_status:"not_needed",
-        sources:feed.rows.map((r,i)=>({number:i+1,title:r.title,url:r.url,publishedDate:r.published_at,
-          publisher:r.source_name,verification:r.verification})),ai_generated:false,
-        ai_connected:Boolean(env.AI)});
-    }
+    // The old user/bot channel connector has been retired.
+    // Explicit public web-index queries above remain supported.
     if(lang==='ro'&&/^(?:salut|bun[ăa]|bun[ăa] ziua|bun[ăa] seara|bun[ăa] diminea[țt]a)[.!?…]*$/iu.test(message.trim())){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply:'Salut! Cum te pot ajuta?',ai_generated:false});
     }
@@ -5245,13 +5226,6 @@ export default {
     };
     const discoveryPublicationDay=publicationDayWindow(message,data.client_local_day)?.day||null;
     const newsDiscoveryPlan=buildWorldNewsDiscoveryPlan(message,{publicationDay:discoveryPublicationDay});
-    // Start publisher-authorized Telegram updates in parallel with GDELT/Exa/
-    // Brave/Tavily. A bot cannot search Telegram globally. This is strictly
-    // opt-in channel material, never an automated AI evidence corpus.
-    const telegramParallelEnabled=shouldSearchWeb&&classifyNewsRequest(message).mode==="article_collection"&&telegramConfigured(env);
-    const telegramParallelPromise=telegramParallelEnabled
-      ? readConsentedTelegramPosts(env,{language:lang,limit:6,publicationDay:discoveryPublicationDay})
-      : null;
     const providerTasks = [];
     const researchStartedAt=Date.now();
     if (shouldSearchWeb) {
@@ -5595,23 +5569,6 @@ export default {
         elapsed_ms:Date.now()-translationStartedAt,calls:translationCalls,errors:translationErrors};
       console.info("Pocket AI news localization trace",JSON.stringify(translationDiagnostics));
       rows.splice(0,rows.length,...localizedNewsRows);
-      // Append a few opt-in Telegram publisher posts only in the deterministic
-      // source-attributed news table. Do not put post text into webSearchContext,
-      // the translation model or any other generative AI prompt.
-      const telegramFeed=telegramParallelPromise?await telegramParallelPromise:null;
-      const approvedTelegramRows=telegramFeed?.status==="success"
-        ?telegramFeed.rows.filter(p=>p?.platform==="Telegram"&&p.consent_scope==="publisher_authorized_public_channel"
-          &&p.verification==="source_identified_claims_unverified"
-          &&(!newsPublicationFilter||isWithinPublicationDay(p.published_at,newsPublicationFilter)))
-          .slice(0,3):[];
-      if(approvedTelegramRows.length){
-        rows.splice(Math.max(0,30-approvedTelegramRows.length));
-        for(const p of approvedTelegramRows)if(!rows.some(r=>r.url===p.url))rows.push({
-          ...p,source_platform:"Telegram",translation_status:"original_untranslated",
-          original_title:p.title,providers:["Telegram Bot API: publisher opt-in"],
-          corroborating_source_count:0
-        });
-      }
       // Never imply that the application has a complete news feed when strict
       // publication-date and topic validation leave only a few articles.
       const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",
@@ -5620,8 +5577,7 @@ export default {
         retrieved_candidate_count:webSources.length,displayed_result_limit:30,
         requested_publication_day:newsPublicationFilter?.day||null,publication_filter:newsPublicationFilter?.kind||"none",
         result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage",missing_publication_dates:rows.filter(r=>r.recency_status!=="dated"&&r.source_platform!=="Telegram").length,
-        telegram_status:telegramParallelEnabled?(telegramFeed?.status||"unavailable"):"publisher_opt_in_required",
-        telegram_result_count:approvedTelegramRows.length,telegram_access_mode:"publisher_opt_in_only",
+        telegram_access_mode:"public_web_index_on_explicit_request_only",
         telegram_ai_ingestion_enabled:false,
         ...describeNewsPublishers(rows)};
       const labels={ro:["Știri identificate în sursele consultate","Apasă pe titlul unei știri pentru detalii. Publicarea nu confirmă automat afirmațiile din articol.","Nu am putut identifica articole relevante în sursele disponibile."],
