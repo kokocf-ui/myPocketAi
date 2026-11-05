@@ -1,0 +1,52 @@
+name: Pocket AI live Telegram translation check
+
+on:
+  workflow_run:
+    workflows:
+      - Deploy MyPocketAI to Cloudflare
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  telegram-live-translation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check real Cloudflare translation for Persian and Ukrainian
+        env:
+          POCKET_AI_TRANSLATION_API: https://lifewise-ai-api.kokocf.workers.dev/api/telegram-user-translation
+        run: |
+          node --input-type=module <<'JS'
+          import assert from "node:assert/strict";
+          // Harmless QA fixtures; no Telegram account, link or real channel content accessed.
+          const samples=[
+            {id:"PERSIAN_TO_ROMANIAN",source:"fa",text:"این یک گزارش آزمایشی درباره وضعیت هوا در تهران است. امروز آسمان ابری است و مردم منتظر باران هستند."},
+            {id:"UKRAINIAN_TO_ROMANIAN",source:"uk",text:"Це тестове повідомлення про погоду в Києві. Сьогодні небо хмарне, люди очікують дощу."}
+          ];
+          for(const sample of samples){
+            const response=await fetch(process.env.POCKET_AI_TRANSLATION_API,{
+              method:"POST",headers:{"content-type":"application/json"},
+              body:JSON.stringify({url:"https://t.me/examplechannel/123456",language:"ro",consent:true,text:sample.text}),
+              signal:AbortSignal.timeout(40000)
+            });
+            const result=await response.json();
+            const translation=String(result.text||"");
+            const latin=(translation.match(/[A-Za-z\u00c0-\u024f]/gu)||[]).length;
+            const nonLatin=(translation.match(/[\u0400-\u052f\u0600-\u08ff]/gu)||[]).length;
+            const report={case:sample.id,http_status:response.status,result_status:result.status,
+              detected_language:result.source_language,engine:result.translation_engine||null,
+              output_characters:translation.length,latin_fraction:latin/(latin+nonLatin||1)};
+            console.log("POCKET_TELEGRAM_LIVE "+JSON.stringify(report));
+            assert.equal(response.status,200);
+            assert.equal(result.status,"success","The deployed translator failed to produce Romanian");
+            assert.equal(result.translated_to,"ro");
+            assert.equal(result.source_language,sample.source);
+            assert.ok(latin>=25&&latin/(latin+nonLatin||1)>.84,"Output was not Romanian-script text");
+            assert.equal(result.source_retrieved,false);
+          }
+          console.log("PASS deployed Telegram Romanian translation of Persian and Ukrainian.");
+          JS
