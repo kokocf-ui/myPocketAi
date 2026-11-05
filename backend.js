@@ -1688,7 +1688,18 @@ export default {
     const telegramLinkTopic=!voluntaryTelegramLink?telegramPublicLinkSearchIntent(message):null;
     if(telegramLinkTopic){
       const rolling24h=/\b(?:ultim(?:ele|a|ii)?\s*24\s*(?:de\s*)?(?:ore|h)|last\s*24\s*hours?|past\s*24\s*hours?)\b/iu.test(message);
-      const found=await discoverTelegramPublicLinks(env,telegramLinkTopic,8,rolling24h?{sinceMs:Date.now()-86400000}:{});
+      let found=await discoverTelegramPublicLinks(env,telegramLinkTopic,8,rolling24h?{sinceMs:Date.now()-86400000}:{});
+      // Do not misrepresent undated links as recent. Offer them separately when the dated index is empty.
+      let dateUnconfirmedFallback=false;
+      if(rolling24h&&found.status==="success"&&!found.links.length){
+        const broader=await discoverTelegramPublicLinks(env,telegramLinkTopic,8);
+        if(broader.status==="success"&&broader.links.length){
+          found={...broader,reply:lang==="ro"
+            ?"Nu am putut confirma postări Telegram în ultimele 24 de ore. Mai jos sunt referințe publice cu data neconfirmată pentru intervalul cerut; nu reprezintă știri verificate de astăzi."
+            :"No Telegram posts could be confirmed within the last 24 hours. The references below have not been confirmed as recent or verified news."};
+          dateUnconfirmedFallback=true;
+        }
+      }
       // Explicit public index search: translate only the indexed title/excerpt
       // for the selected UI language. This does not retrieve Telegram post bodies.
       const indexedRows=found.links.map(r=>({
@@ -1705,8 +1716,8 @@ export default {
       }
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
         message_received:message,reply:found.reply,telegram_status:found.status,
-        telegram_access_mode:"public_web_index_links_only",
-        structured_list:localizedRows.length?{type:"news",rows:localizedRows,result_count:localizedRows.length,coverage_status:"indexed_public_links_only"}:undefined,
+        telegram_access_mode:"public_web_index_links_only",telegram_date_unconfirmed_fallback:dateUnconfirmedFallback,
+        structured_list:localizedRows.length?{type:"news",rows:localizedRows,result_count:localizedRows.length,coverage_status:dateUnconfirmedFallback?"date_unconfirmed_not_recent":"indexed_public_links_only"}:undefined,
         sources:found.links.map((r,i)=>({number:i+1,title:r.title,url:r.url,publishedDate:r.published_at||null,
           verification:"unverified_link_only"})),
         ai_ingestion_enabled:Boolean(found.links.length&&lang!=="en"&&env.AI&&typeof env.AI.run==="function"),
