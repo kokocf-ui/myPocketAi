@@ -5841,7 +5841,8 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
               if(firstPart.slice(-k).toLowerCase()===next.slice(0,k).toLowerCase()){overlap=k;break;}
             }
             const tail=next.slice(overlap);
-            result={...result,response:firstPart+(overlap?"":" ")+tail};
+            const wordFragment=/[\\p{L}]$/u.test(firstPart)&&/^[\\p{L}]{1,4}(?=[\\s.,;:!?)]|$)/u.test(tail);
+            result={...result,response:firstPart+(overlap||wordFragment?"":" ")+tail};
             stageMetrics.answer_continued=true;
           }
         }catch(continuationError){
