@@ -2209,6 +2209,17 @@ function shopNormalizeData(raw){
   })):[]
  };
 }
+function shopGeneratedListName(date=new Date()){
+ const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
+ const stamp=new Intl.DateTimeFormat(locale,{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(date);
+ return shopLabel('Listă ','List ')+stamp;
+}
+function shopBeginFreshList(data,date=new Date()){
+ data.currentName=shopGeneratedListName(date);
+ data.createdAt=date.toISOString();
+ data.completedAt=null;
+ data.voiceSessionSaved=false;
+}
 function shopNewItem(name,quantity='',unit=''){
  return {id:shopId(),name:name.trim().slice(0,180),quantity:String(quantity).trim(),
   unit:String(unit).trim(),checked:false,checkedAt:null};
@@ -2221,6 +2232,7 @@ function shopArchive(data,status,keepUnchecked=false,nextName=''){
  });
  data.items=keepUnchecked?previous.filter(i=>!i.checked).map(i=>shopNewItem(i.name,i.quantity,i.unit)):[];
  data.currentName=String(nextName||'Lista mea').trim().slice(0,90)||'Lista mea';
+ data.createdAt=null;data.voiceSessionSaved=false;data.completedAt=null;
  return data;
 }
 function shopValidateQuantity(value){
@@ -2420,10 +2432,11 @@ function shopVoiceStop(){
  const items=shopVoiceItems(session.parts.join(', '));
  if(items.length){
   const data=shopNormalizeData(shoppingRead());
-  if(data.voiceSessionSaved===true&&data.items.length){
-   shopArchive(data,'voice_saved',false);
-  }
-  data.items.push(...items);data.completedAt=null;data.voiceSessionSaved=true;
+  // A completed voice session is one list. Starting another dictation
+  // preserves the previous list in history, regardless of how it was created.
+  if(data.items.length)shopArchive(data,'voice_saved',false);
+  shopBeginFreshList(data);
+  data.items.push(...items);data.voiceSessionSaved=true;
   if(shoppingWrite(data)){
    if(state.currentView==='module'&&shoppingMode==='entry')renderShoppingList();
    notify(shopLabel('Produse adăugate: ','Items added: ')+items.length);
@@ -2515,6 +2528,7 @@ function renderShoppingList(){
   if(!product.value.trim())return;
   if(!shopValidateQuantity(quantity.value)){notify(shopLabel('Cantitatea trebuie să fie un număr pozitiv.',
    'Quantity must be a positive number.'));return}
+  if(!data.items.length&&(!data.createdAt||data.currentName==='Lista mea'))shopBeginFreshList(data);
   data.items.push(shopNewItem(product.value,quantity.value,unit.value));data.completedAt=null;data.voiceSessionSaved=false;
   shoppingEditingId=null;if(shopSaveAndRender(data))document.querySelector('.adaptive-fields--product input')?.focus();
  };
