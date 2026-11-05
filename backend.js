@@ -9,6 +9,7 @@ import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPubl
 import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers} from "./news_discovery.mjs";
 import {isTelegramNewsRequest,readConsentedTelegramPosts,telegramConfigured} from "./telegram_consented_channels.mjs";
 import {classifyVoluntaryTelegramLink,telegramVerificationPrompt,telegramExternalResearchQuery} from "./telegram_voluntary_links.mjs";
+import {discoverTelegramPublicLinks} from "./telegram_public_web_links.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
  * v176: real culinary source research and no dish-specific hardcoded responses.
@@ -1201,6 +1202,15 @@ export default {
 
     const url = new URL(request.url);
 
+
+    // User-initiated link-only discovery from a public web index. No Telegram session or AI ingestion.
+    if(url.pathname === "/api/telegram-public-links" && request.method === "GET"){
+      const q=String(url.searchParams.get("q")||"");
+      const limit=Math.min(10,Math.max(1,Number(url.searchParams.get("limit"))||8));
+      const result=await discoverTelegramPublicLinks(env,q,limit);
+      return json({app:"Pocket AI",version:API_VERSION,kind:"telegram_public_links",...result,
+        ai_ingestion_enabled:false,telegram_session_used:false,global_telegram_search:false});
+    }
 
     // Free, source-attributed public intelligence: independent of the general assistant
     // and deliberately isolated from maps, recipes, transport and existing search.
