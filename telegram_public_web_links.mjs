@@ -41,7 +41,8 @@ export async function discoverTelegramPublicLinks(env={},query="",limit=8,option
   });
   if(!res.ok)throw new Error("web index unavailable");
   const data=await res.json();
-  const seen=new Set(),signatures=new Set(),links=[];\n  let undatedCount=0,staleCount=0;
+  const seen=new Set(),signatures=new Set(),links=[];
+  let undatedCount=0,staleCount=0;
   for(const item of Array.isArray(data.results)?data.results:[]){
    const link=publicTelegramPostUrl(item.url);
    if(!link||seen.has(link))continue;
@@ -51,7 +52,10 @@ export async function discoverTelegramPublicLinks(env={},query="",limit=8,option
    const excerpt=cleanIndexedExcerpt(Array.isArray(item.highlights)?item.highlights.filter(x=>typeof x==="string").join(" "):"");
    const publishedAt=typeof item.publishedDate==="string"&&/^\d{4}-\d{2}-\d{2}/.test(item.publishedDate)?item.publishedDate:null;
    const publishedMs=publishedAt?Date.parse(publishedAt):NaN;
-   if(since!==null&&(!Number.isFinite(publishedMs)||publishedMs<since||publishedMs>now+300000)){\n    if(!Number.isFinite(publishedMs))undatedCount++;else staleCount++;\n    continue;\n   }
+   if(since!==null&&(!Number.isFinite(publishedMs)||publishedMs<since||publishedMs>now+300000)){
+    if(!Number.isFinite(publishedMs))undatedCount++;else staleCount++;
+    continue;
+   }
    const signature=excerpt.toLocaleLowerCase().replace(/[^\\p{L}\\p{N}]/gu,"").slice(0,110);
    if(signature.length>30&&signatures.has(signature))continue;
    if(signature.length>30)signatures.add(signature);
@@ -70,6 +74,10 @@ export function telegramPublicLinkSearchIntent(message){
  const raw=String(message||"").trim();
  const normalized=raw.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
  if(!/\btelegram\b/.test(normalized)||!/\b(?:caut\w*|gas\w*|find|search)\b/.test(normalized))return null;
- const topic=normalized.replace(/\btelegram\b/gi," ")\n  .replace(/\b(?:din|in|pe)\s+ultim(?:ele|a|ii)?\s+24\s*(?:de\s*)?(?:ore|h)\b/gi," ")\n  .replace(/\b(?:last|past)\s+24\s+hours?\b/gi," ")\n  .replace(/\b(?:cauta|cautare|cauta-mi|gaseste|gaseste-mi|find|search|pe|in|din|on|for|despre|about|postari|postarile|stiri|stirile|news|noutati|linkuri|linkurile|publice|public|situatia|situation|current|recente)\b/gi," ")\n  .replace(/\s+/g," ").trim();
+ const topic=normalized.replace(/\btelegram\b/gi," ")
+  .replace(/\b(?:din|in|pe)\s+ultim(?:ele|a|ii)?\s+24\s*(?:de\s*)?(?:ore|h)\b/gi," ")
+  .replace(/\b(?:last|past)\s+24\s+hours?\b/gi," ")
+  .replace(/\b(?:cauta|cautare|cauta-mi|gaseste|gaseste-mi|find|search|pe|in|din|on|for|despre|about|postari|postarile|stiri|stirile|news|noutati|linkuri|linkurile|publice|public|situatia|situation|current|recente)\b/gi," ")
+  .replace(/\s+/g," ").trim();
  return topic.length>=3?topic:null;
 }
