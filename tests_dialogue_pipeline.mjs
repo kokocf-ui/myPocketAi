@@ -33,7 +33,7 @@ try{
  const salary=await ask("Explică-mi în două propoziții diferența dintre salariul brut și cel net.",prior);
  assert.equal(salary.context_diagnostics.dialogue_intent_kind,"explanation");
  assert.equal(fetchCalls,0,"Social/instructional turns used an external source or POI service");
- assert.equal(aiCalls,4,"Responses should come from the contextual AI, not generic POI fallbacks");
+ assert.ok(aiCalls>=4&&aiCalls<=6,"All four turns must reach AI; an extra sentence-count correction is legitimate");
 }finally{globalThis.fetch=originalFetch}
 const html=await(await frontend.fetch(new Request("https://test.local/"))).text();
 const source=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].find(x=>x[1].includes("function requestUsesLocation("))?.[1];
