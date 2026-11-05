@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+import backend from "./backend.js";
 import {publicTelegramPostUrl,discoverTelegramPublicLinks,telegramPublicLinkSearchIntent} from "./telegram_public_web_links.mjs";
 assert.equal(publicTelegramPostUrl("https://t.me/examplechannel/123"),"https://t.me/examplechannel/123");
 assert.equal(publicTelegramPostUrl("https://t.me/s/examplechannel/123"),"https://t.me/examplechannel/123");
@@ -57,4 +59,26 @@ try{
  assert.equal(result.undated_excluded,1);
  assert.equal(result.stale_excluded,1);
 }finally{globalThis.fetch=previousFetch2;}
+// Regression: a retired personal-channel Bot API bridge must not be brought
+// back by a later news feature. All Telegram discovery is public web-index only.
+const backendSource=readFileSync(new URL("./backend.js",import.meta.url),"utf8");
+assert.doesNotMatch(backendSource,/telegram_consented_channels|readConsentedTelegramPosts|telegramConfigured|api\\.telegram\\.org\\/bot/);
+const oldFetch=globalThis.fetch;
+try{
+ globalThis.fetch=async (url,init)=>{
+  assert.equal(String(url),"https://api.exa.ai/search","Never poll a Telegram bot in a news lookup");
+  return {ok:true,json:async()=>({results:[{
+   url:"https://t.me/examplechannel/14",title:"Public headline",
+   publishedDate:"2026-11-05T09:10:00Z",
+   highlights:["Independent public-index excerpt about Ukraine."]
+  }]})};
+ };
+ const response=await backend.fetch(new Request("https://test.example/api/public-intel?kind=telegram&q=Ukraine&limit=5"),{EXA_API_KEY:"fixture"});
+ const body=await response.json();
+ assert.equal(response.status,200);
+ assert.equal(body.status,"success");
+ assert.equal(body.telegram_session_used,false);
+ assert.equal(body.items.length,1);
+ assert.equal(body.items[0].content_retrieved,false);
+}finally{globalThis.fetch=oldFetch;}
 console.log("Telegram public link discovery tests passed");
