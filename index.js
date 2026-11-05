@@ -1324,6 +1324,48 @@ body.long-choice-active{overflow:hidden}
 .education-photo-panel textarea{width:100%;min-height:90px;padding:10px;border-radius:8px;background:#081725;color:#f2faff;border:1px solid #548199}
 @media(max-width:350px){.education-grid{gap:8px}.education-card{padding:10px;min-height:158px}}
 </style>
+<style id="education-mobile-layout-v2">
+/* Education chooses subjects without the generic quick-search action. */
+#view-module.learning-choose .module-actions-row #moduleQuickTrigger,
+#view-module.learning-active .module-actions-row #moduleQuickTrigger{display:none!important}
+#view-module.learning-choose .section-lead{display:none!important}
+#view-module.learning-choose.active{
+ height:calc(100dvh - 285px)!important;
+ max-height:calc(100dvh - 285px)!important;
+ min-height:0!important;
+ overflow-y:auto!important;
+ overflow-x:hidden!important;
+ overscroll-behavior-y:contain;
+ -webkit-overflow-scrolling:touch;
+ padding-bottom:96px!important;
+ box-sizing:border-box!important;
+}
+#view-module.learning-choose .module-actions-row{margin-bottom:5px!important}
+#view-module.learning-choose .module-home-btn{min-height:40px!important}
+#view-module.learning-choose .module-heading-row{margin:0 0 5px!important}
+#view-module.learning-choose #moduleContent{display:block!important;max-height:none!important;overflow:visible!important;flex:none!important}
+#view-module.learning-choose .education-grid{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:9px!important;padding:2px 0 7px!important;
+}
+#view-module.learning-choose .education-card{
+ box-sizing:border-box!important;min-height:112px!important;height:auto!important;
+ padding:8px 10px!important;gap:3px!important;border-radius:18px!important;
+ display:flex!important;justify-content:center!important;
+}
+#view-module.learning-choose .education-art{font-size:25px!important;line-height:1.15!important}
+#view-module.learning-choose .education-card strong{font-size:clamp(12px,3.55vw,15px)!important;line-height:1.2!important}
+#view-module.learning-choose .education-card small{font-size:clamp(10px,2.9vw,12px)!important;line-height:1.24!important}
+#view-module.learning-active.active{
+ overflow-y:auto!important;max-height:calc(100dvh - 285px)!important;
+ padding-bottom:96px!important;box-sizing:border-box!important;
+}
+#view-module.learning-active #moduleQuickTrigger{display:none!important}
+@media(max-width:350px){
+ #view-module.learning-choose .education-grid{gap:6px!important}
+ #view-module.learning-choose .education-card{padding:7px!important;min-height:116px!important}
+}
+</style>
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
 <section class="view" id="view-tools"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Instrumente</h2><p class="section-lead">Alege un domeniu pentru a începe.</p><div class="simple-list" id="toolsList"></div></section>
@@ -1554,7 +1596,7 @@ function renderLearningSubjects(){
   grid.append(btn);
  });
  host.append(grid);
- $('moduleLead').textContent=learningLabel('Alege materia. Întrebările și fotografiile apar după selecție.','Choose a subject to access questions and photographs.');
+ $('moduleLead').textContent='';
 }
 function openLearningSubject(key){
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
