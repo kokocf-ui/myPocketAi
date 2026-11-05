@@ -369,9 +369,17 @@ public final class MainActivity extends ComponentActivity {
                 });
         }
         web.loadUrl(APP_URL + "?nativeLaunch=1");
-        // Ask for runtime permissions during the first opening, not seconds later.
-        // GPS is prompted first; microphone follows its result, even if GPS is denied.
-        ensureLocationPermission();
+        // The translucent launcher already asked for both permissions. Do not
+        // immediately show a duplicate prompt if the user declined either one.
+        if(getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE)
+            .getBoolean("startup_location_requested_v3",false)) {
+            boolean granted=ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
+            notifyLocationPermission(granted);
+            requestMicrophonePermissionOnce();
+        } else {
+            ensureLocationPermission();
+        }
     }
 
     private void launchCamera() {
