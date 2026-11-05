@@ -27,6 +27,9 @@ jobs:
       - name: Get repository files
         uses: actions/checkout@v4
 
+      - name: Install optional MTProto client dependencies for backend bundling
+        run: npm install --ignore-scripts --no-audit --no-fund
+
       - name: Deploy backend
         uses: cloudflare/wrangler-action@v3
         with:
