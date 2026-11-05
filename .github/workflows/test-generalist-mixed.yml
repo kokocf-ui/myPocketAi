@@ -20,6 +20,8 @@ on:
       - tests_telegram_news_parallel.mjs
       - telegram_voluntary_links.mjs
       - tests_telegram_voluntary_links.mjs
+      - tests_telegram_public_web_links.mjs
+      - telegram_public_web_links.mjs
       - tests_news_discovery.mjs
       - tests_news_source_diversity.mjs
       - dialogue_intent.mjs
@@ -66,6 +68,7 @@ jobs:
           node tests_telegram_opt_in.mjs
           node tests_telegram_news_parallel.mjs
           node tests_telegram_voluntary_links.mjs
+          node tests_telegram_public_web_links.mjs
           node tests_news_reader.mjs
           node tests_entity_disambiguation.mjs
           node tests_geographic_profile_selection.mjs
