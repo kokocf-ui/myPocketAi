@@ -4053,6 +4053,13 @@ window.pocketAndroidVoiceResult=function(data){
   }else if(data.status==='start'){avatar3dLoad();avatar3dSend('start',{text:state.lastReply||''})}
   return;
  }
+ if(data?.status==='listening'){setStatus('Te ascult în aplicație…');return;}
+ if(data?.status==='partial'){
+  const partial=String(data.text||'').trim();
+  if(data.mode==='voice')setStatus(partial?'Am auzit: '+partial:'Te ascult…');
+  else setStatus(partial?'Dictare: '+partial:'Te ascult…');
+  return;
+ }
  if(data?.status==='recognized'){
   const recognized=String(data.text||'').trim();
   if(data.mode==='voice'){
@@ -4111,7 +4118,7 @@ function cleanVoiceConversationTranscript(parts){
  return tokens.join(' ').replace(/\\s+([,.;!?])/g,'$1').trim();
 }
 function collapseRepeatedVoiceWords(value){return String(value||'').replace(/\\b([\\p{L}]+)(?:\\s+\\1\\b)+/giu,'$1')}
-function stopRecognition(){clearTimeout(state.voiceSilenceTimer);state.voiceSilenceTimer=null;state.voicePendingSubmit=false;if(state.recognition){try{state.recognition.onresult=null;state.recognition.onerror=null;state.recognition.onend=null;state.recognition.stop()}catch{}state.recognition=null}}
+function stopRecognition(){if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});clearTimeout(state.voiceSilenceTimer);state.voiceSilenceTimer=null;state.voicePendingSubmit=false;if(state.recognition){try{state.recognition.onresult=null;state.recognition.onerror=null;state.recognition.onend=null;state.recognition.stop()}catch{}state.recognition=null}}
 function startRecognition(mode){if(state.speaking){setStatus('Așteaptă finalizarea răspunsului vocal înainte să activezi microfonul.');return}if(pocketNativeVoiceAvailable()){
  hideAvatar();stopRecognition();
  const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language;
