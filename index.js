@@ -1571,12 +1571,36 @@ function openLearningSubject(key){
  const pick=document.createElement('button');pick.type='button';pick.className='secondary-btn';pick.textContent=learningLabel('🖼️ Alege fotografie','🖼️ Choose photo');
  const cameraInput=document.createElement('input');cameraInput.type='file';cameraInput.accept='image/*';cameraInput.setAttribute('capture','environment');cameraInput.hidden=true;
  const fileInput=document.createElement('input');fileInput.type='file';fileInput.accept='image/*';fileInput.hidden=true;
- photo.onclick=()=>cameraInput.click();pick.onclick=()=>fileInput.click();
+ photo.onclick=()=>window.PocketAndroidOCR?.capture?window.PocketAndroidOCR.capture('camera'):cameraInput.click();
+ pick.onclick=()=>window.PocketAndroidOCR?.capture?window.PocketAndroidOCR.capture('gallery'):fileInput.click();
  cameraInput.onchange=()=>handleLearningPhoto(cameraInput.files?.[0]);
  fileInput.onchange=()=>handleLearningPhoto(fileInput.files?.[0]);
  actions.append(photo,pick,cameraInput,fileInput);host.append(actions);
  inputEl.placeholder=learningLabel('Întreabă despre '+subject[2].toLowerCase()+'…','Ask about '+subject[3].toLowerCase()+'…');
 }
+window.pocketAndroidOcrResult=function(data){
+ if(state.currentModule!=='learning'||!activeLearningSubject||state.currentView!=='module')return;
+ if(data?.status==='cancelled')return;
+ const host=$('moduleContent');host.querySelector('.education-photo-panel')?.remove();
+ const panel=document.createElement('div');panel.className='education-photo-panel';
+ const status=document.createElement('p');
+ status.textContent=data?.status==='success'?learningLabel('Text citit pe telefon. Verifică și corectează înainte de trimitere.','Text recognized on device. Review and correct before sending.'):learningLabel('Recunoașterea textului a eșuat. Poți introduce textul manual.','Text recognition failed. You may enter text manually.');
+ const extracted=document.createElement('textarea');extracted.rows=6;extracted.value=typeof data?.text==='string'?data.text.slice(0,12000):'';
+ extracted.placeholder=learningLabel('Textul recunoscut sau corectat','Recognized or corrected text');
+ const options=document.createElement('select');options.className='text-field';
+ [['solve',learningLabel('Explică și rezolvă','Explain and solve')],['translate',learningLabel('Tradu textul','Translate text')],['read',learningLabel('Citește cu voce tare','Read aloud')]].forEach(([value,label])=>{
+  const option=document.createElement('option');option.value=value;option.textContent=label;options.append(option);
+ });
+ const button=document.createElement('button');button.type='button';button.className='primary-btn';button.textContent=learningLabel('Continuă','Continue');
+ button.onclick=()=>{
+  const text=extracted.value.trim();
+  if(!text){notify(learningLabel('Nu există text de prelucrat.','No text to process.'));return}
+  if(options.value==='read'){if('speechSynthesis' in window){speechSynthesis.cancel();const voice=new SpeechSynthesisUtterance(text);voice.lang=state.language;speechSynthesis.speak(voice)}else notify(learningLabel('Citirea vocală nu este disponibilă.','Text-to-speech unavailable.'));return}
+  inputEl.value=(options.value==='translate'?learningLabel('Tradu în limba selectată următorul text: ','Translate into the selected language: '):learningLabel('Explică și rezolvă pas cu pas pentru materia ','Explain and solve step by step for ')+learningLabel(activeLearningSubject[2],activeLearningSubject[3])+': ')+text;
+  inputEl.focus();notify(learningLabel('Textul este pregătit pentru trimitere.','Text ready to send.'));
+ };
+ panel.append(status,extracted,options,button);host.append(panel);
+};
 async function handleLearningPhoto(file){
  if(!file||!activeLearningSubject)return;
  if(!file.type.startsWith('image/')){notify(learningLabel('Selectează o imagine.','Select an image.'));return}
