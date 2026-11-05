@@ -7,6 +7,8 @@ on:
       - 'telegram_mtproto_direct.mjs'
       - 'tests_telegram_mtproto_direct.mjs'
       - 'scripts/telegram-mtproto-login.mjs'
+      - 'scripts/telegram-login-dc.mjs'
+      - 'scripts/telegram-login-dc.test.mjs'
       - 'package.json'
       - '.github/workflows/test-telegram-mtproto-build.yml'
   workflow_dispatch:
@@ -26,6 +28,8 @@ jobs:
       - name: Validate Termux login script and prohibit fragile private readline hooks
         run: |
           node --check scripts/telegram-mtproto-login.mjs
+          node --check scripts/telegram-login-dc.mjs
+          node scripts/telegram-login-dc.test.mjs
           if grep -q '_writeToOutput' scripts/telegram-mtproto-login.mjs; then
             echo 'Private readline hooks are not portable to Termux' >&2
             exit 1
