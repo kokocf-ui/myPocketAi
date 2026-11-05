@@ -1599,6 +1599,9 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 #view-module.adaptive-workspace-view .organize-panel.adaptive-workspace{
  grid-template-rows:auto minmax(0,1fr) auto;min-height:0
 }
+#view-module.adaptive-workspace-view .shop-delete-archived{
+ border-color:#d16a73;color:#fff;background:linear-gradient(160deg,#8a263a,#4d1b2b)
+}
 #view-module.adaptive-workspace-view .shop-entry-hint{display:block;margin-top:.65rem;color:#b9dbe5;line-height:1.4}
 #view-module.adaptive-workspace-view .shop-list{min-height:0}
 #view-module.adaptive-workspace-view .adaptive-workspace__actions{flex-wrap:wrap}
@@ -2251,11 +2254,12 @@ function renderShoppingList(){
    line.textContent=(i.checked?'☑ ':'☐ ')+i.name+(i.quantity?' · '+i.quantity+' '+i.unit:'');
    details.append(line)}
   const buttons=document.createElement('div');buttons.className='shop-history-actions';
-  const copy=shopButton('Listă nouă din aceasta','New list from this');
-  copy.onclick=()=>{shoppingPendingAction={type:'reuse',historyIndex,onlyUnchecked:false};renderShoppingList()};
+  const removeArchived=shopButton('Șterge','Delete');
+  removeArchived.classList.add('shop-delete-archived');
+  removeArchived.onclick=()=>{shoppingPendingAction={type:'deleteArchived',historyIndex,entryId:entry.id||null};renderShoppingList()};
   const pending=shopButton('Listă din necumpărate','New list of unbought');
   pending.onclick=()=>{shoppingPendingAction={type:'reuse',historyIndex,onlyUnchecked:true};renderShoppingList()};
-  buttons.append(copy,pending);details.append(buttons);history.append(details);
+  buttons.append(removeArchived,pending);details.append(buttons);history.append(details);
  });
  scroll.append(history);
  const note=document.createElement('small');
@@ -2271,15 +2275,39 @@ function renderShoppingList(){
   finish.onclick=()=>{shoppingPendingAction={type:'finish'};renderShoppingList()};
   footer.append(finish);
  }else if(shoppingMode==='active'){
-  const add=shopButton('＋ Adaugă produs','＋ Add item');add.onclick=()=>{shoppingMode='entry';shoppingPendingAction=null;renderShoppingList()};
   const archive=shopButton('Arhivează','Archive','primary-btn');archive.disabled=!data.items.length;
   archive.onclick=()=>{shoppingPendingAction={type:'archive'};renderShoppingList()};
   const history=shopButton('Arhivă','History');history.onclick=()=>{shoppingMode='archive';shoppingPendingAction=null;renderShoppingList()};
-  footer.append(add,archive,history);
+  footer.append(archive,history);
  }else{
   const active=shopButton('← Listă activă','← Active list','primary-btn');active.onclick=()=>{shoppingMode='active';shoppingPendingAction=null;renderShoppingList()};footer.append(active);
  }
  panel.append(footer);
+ if(shoppingPendingAction?.type==='deleteArchived'){
+  const {historyIndex,entryId}=shoppingPendingAction;
+  const entry=data.history[historyIndex];
+  const sameEntry=Boolean(entry)&&(entryId===null||entry.id===entryId);
+  const confirm=document.createElement('div');confirm.className='shop-inline-confirm';
+  const message=document.createElement('p');
+  message.textContent=shopLabel(
+   'Ștergi definitiv din arhivă lista „'+(sameEntry?entry.name:'')+'”? Această acțiune nu poate fi anulată. Lista activă nu va fi modificată.',
+   'Permanently delete archived list “'+(sameEntry?entry.name:'')+'”? This cannot be undone. The active list will not change.'
+  );
+  confirm.append(message);
+  const buttons=document.createElement('div');buttons.className='adaptive-fields';
+  const approve=shopButton('Șterge definitiv','Delete permanently','primary-btn');
+  approve.disabled=!sameEntry;
+  approve.onclick=()=>{
+   if(!sameEntry)return;
+   data.history.splice(historyIndex,1);
+   shoppingPendingAction=null;
+   shopSaveAndRender(data,false);
+  };
+  const cancel=shopButton('Anulează','Cancel');
+  cancel.onclick=()=>{shoppingPendingAction=null;renderShoppingList()};
+  buttons.append(approve,cancel);confirm.append(buttons);
+  footer.replaceChildren(confirm);footer.classList.add('adaptive-workspace__actions--confirm');
+ }
  if(shoppingPendingAction?.type==='reuse'){
   const entry=data.history[shoppingPendingAction.historyIndex];
   const onlyUnchecked=shoppingPendingAction.onlyUnchecked===true;
