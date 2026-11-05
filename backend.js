@@ -9,8 +9,8 @@ import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPubl
 import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers} from "./news_discovery.mjs";
 import {isTelegramNewsRequest,readConsentedTelegramPosts,telegramConfigured} from "./telegram_consented_channels.mjs";
 import {classifyVoluntaryTelegramLink,telegramVerificationPrompt,telegramExternalResearchQuery} from "./telegram_voluntary_links.mjs";
-import {discoverTelegramPublicLinks,telegramPublicLinkSearchIntent} from "./telegram_public_web_links.mjs";
-import {readNewsArticleDetail} from "./news_article_detail.mjs";
+import {discoverTelegramPublicLinks,telegramPublicLinkSearchIntent,publicTelegramPostUrl} from "./telegram_public_web_links.mjs";
+import {readNewsArticleDetail,translateUserSuppliedTelegramText} from "./news_article_detail.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
  * v176: real culinary source research and no dish-specific hardcoded responses.
@@ -1212,6 +1212,19 @@ export default {
       const language=String(payload?.language||"ro").slice(0,2);
       const result=await readNewsArticleDetail(env,sourceUrl,language);
       return json({app:"Pocket AI",version:API_VERSION,kind:"news_article_detail",...result});
+    }
+
+    // A public Telegram post link is a pointer, not permission to harvest it.
+    // Only translate text the user deliberately pastes into the UI and submits.
+    if(url.pathname==="/api/telegram-user-translation" && request.method==="POST"){
+      if(Number(request.headers.get("content-length")||0)>15000)return json({status:"invalid_request",error:"Request too large"},413);
+      const payload=await request.json().catch(()=>null);
+      const postUrl=typeof payload?.url==="string"&&payload.url.startsWith("https://")?publicTelegramPostUrl(payload.url):null;
+      if(!postUrl)return json({status:"invalid_url",error:"Exact public Telegram post link required"},400);
+      const result=await translateUserSuppliedTelegramText(env,payload?.text,
+        String(payload?.language||"ro").slice(0,2),payload?.consent===true);
+      return json({app:"Pocket AI",version:API_VERSION,kind:"telegram_user_translation",
+        source_url:postUrl,...result});
     }
 
     // User-initiated link-only discovery from a public web index. No Telegram session or AI ingestion.
