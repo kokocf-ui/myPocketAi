@@ -3,6 +3,10 @@ import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNe
 const y=buildWorldNewsDiscoveryPlan("Ce evenimente importante s-au întâmplat ieri în lume?",{publicationDay:"2026-11-04"});
 assert.equal(y.broadWorld,true);assert.equal(y.gdeltQueries.length,2);
 assert.match(y.wireQuery,/Reuters/);assert.match(y.exaQuery,/2026-11-04/);
+assert.match(y.independentQuery,/independent journalists/);
+assert.match(y.independentQuery,/2026-11-04/);
+assert.doesNotMatch(y.independentQuery,/site:|reuters\.com|includeDomains/);
+assert.equal(buildWorldNewsDiscoveryPlan("Știri despre Oradea").independentQuery,null);
 const english=buildWorldNewsDiscoveryPlan("What major events happened yesterday worldwide?");
 assert.equal(english.broadWorld,true);
 assert.equal(buildWorldNewsDiscoveryPlan("Știri geopolitice internaționale").broadWorld,true);
