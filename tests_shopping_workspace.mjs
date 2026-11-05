@@ -114,7 +114,7 @@ assert.equal(purchased.items.length,2,'bought quantity remains unchanged; new eg
 assert.equal(purchased.items[0].quantity,'10');
 assert.equal(purchased.items[1].quantity,'6');
 assert.equal(evalIn("shopVoiceApplyAction('arhivează lista',mergedCartofi).archive"),true);
-assert.equal(evalIn("shopVoiceApplyAction('pune în arhivă lista',mergedCartofi).archive"),false);
+assert.equal(evalIn("shopVoiceApplyAction('pune în arhivă lista',mergedCartofi).archive"),true);
 assert.match(inline,/shoppingPendingAction=archiveRequested\?\{type:'archive'\}:null/);
 assert.match(inline,/kind:shoppingMode==='active'\?'actions':'entry'/);
 assert.match(inline,/if\(session.kind==='actions'\)/);
