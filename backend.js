@@ -1782,6 +1782,39 @@ export default {
     // interpreted as a geographic phrase or sent to a general AI research path.
     const dialogueIntent=classifyDialogueIntent(message);
     const preventImplicitPlace=blocksImplicitPlaceLookup(message);
+    // T3/T7: short social answers are NOT bare destinations. Handle them
+    // before entity selection, geocoding, transportation or stale route context.
+    if(dialogueIntent.kind==="social_checkin"){
+      const isConcern=dialogueIntent.sentiment==="concern";
+      const replies=isConcern?{
+        ro:"Îmi pare rău să aud asta. Vrei să-mi spui ce s-a întâmplat?",
+        en:"I'm sorry to hear that. Want to tell me what's going on?",
+        fr:"Je suis désolée de l'apprendre. Tu veux m'en parler ?",
+        de:"Das tut mir leid. Möchtest du mir erzählen, was los ist?",
+        it:"Mi dispiace sentirlo. Vuoi raccontarmi cosa succede?",
+        es:"Siento oír eso. ¿Quieres contarme qué pasa?",
+        pt:"Lamento saber disso. Queres contar-me o que aconteceu?",
+        nl:"Jammer om te horen. Wil je vertellen wat er speelt?",
+        ru:"Жаль это слышать. Хочешь рассказать, что случилось?",
+        pl:"Przykro mi to słyszeć. Chcesz powiedzieć, co się stało?"
+      }:{
+        ro:"Mă bucur să aud! 😊 Cu ce te pot ajuta?",
+        en:"Glad to hear it! 😊 What can I help you with?",
+        fr:"Ravie de l'apprendre ! 😊 Comment puis-je t'aider ?",
+        de:"Das freut mich! 😊 Wie kann ich dir helfen?",
+        it:"Mi fa piacere! 😊 Come posso aiutarti?",
+        es:"¡Me alegro! 😊 ¿En qué puedo ayudarte?",
+        pt:"Que bom! 😊 Em que posso ajudar?",
+        nl:"Fijn om te horen! 😊 Waarmee kan ik helpen?",
+        ru:"Рада это слышать! 😊 Чем могу помочь?",
+        pl:"Miło to słyszeć! 😊 W czym mogę pomóc?"
+      };
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
+        message_received:message,reply:replies[lang]||replies.en,
+        conversational_reply:true,ai_generated:false,ai_connected:Boolean(env.AI),
+        context_diagnostics:{dialogue_intent_kind:"social_checkin",sentiment:dialogueIntent.sentiment},
+        web_search_status:"not_needed"});
+    }
     const earlySocialMessage=message.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
       .replace(/[!?.,;:]+/g," ").replace(/\s+/g," ").trim();
     const earlyWellbeing=/^(?:(?:salut|buna|buna ziua|buna seara|hei|servus|ceau|neata)\s+)?(?:cum te simti(?: astazi| azi)?|cum esti(?: astazi| azi)?|ce mai faci(?: astazi| azi)?|ce faci(?: astazi| azi)?|cum iti merge(?: astazi| azi)?|how are you(?: feeling)?(?: today)?|how do you feel(?: today)?|how's your day(?: going)?|comment tu te sens(?: aujourd'hui)?|come ti senti(?: oggi)?|como te sientes(?: hoy)?|wie fuhlst du dich(?: heute)?|hoe voel je je(?: vandaag)?|как ты себя чувствуешь(?: сегодня)?|jak sie czujesz(?: dzisiaj)?)$/u.test(earlySocialMessage);
