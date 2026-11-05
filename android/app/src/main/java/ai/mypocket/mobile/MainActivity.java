@@ -18,6 +18,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebSettings;
+import android.widget.FrameLayout;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
@@ -25,6 +26,9 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.FileProvider;
 import androidx.core.view.WindowCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
 import androidx.webkit.WebViewCompat;
 import androidx.webkit.WebViewFeature;
 import java.util.Collections;
@@ -117,8 +121,21 @@ public final class MainActivity extends ComponentActivity {
         getWindow().setStatusBarColor(Color.rgb(6,20,32));
         getWindow().setNavigationBarColor(Color.rgb(6,20,32));
         web = new WebView(this);
-        web.setFitsSystemWindows(true);
-        setContentView(web);
+        FrameLayout root=new FrameLayout(this);
+        root.setBackgroundColor(Color.rgb(6,20,32));
+        root.addView(web,new FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT));
+        ViewCompat.setOnApplyWindowInsetsListener(root,(view,insets)->{
+            Insets bars=insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
+            FrameLayout.LayoutParams params=(FrameLayout.LayoutParams)web.getLayoutParams();
+            if(params.topMargin!=bars.top||params.bottomMargin!=bars.bottom||
+               params.leftMargin!=bars.left||params.rightMargin!=bars.right){
+                params.setMargins(bars.left,bars.top,bars.right,bars.bottom);
+                web.setLayoutParams(params);
+            }
+            return insets;
+        });
+        setContentView(root);
         WebSettings settings=web.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
