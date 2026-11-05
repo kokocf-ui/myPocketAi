@@ -1950,6 +1950,19 @@ function renderShoppingList(){
 
 let pocketExitOpen=false;
 let pocketExitListening=false;
+let pocketExitDecisionTimer=null;
+function pocketClearExitTimer(){
+ if(pocketExitDecisionTimer!==null){clearTimeout(pocketExitDecisionTimer);pocketExitDecisionTimer=null}
+}
+function pocketExitChoice(value){
+ const response=String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+ const simplified=response.split(' ').filter(Boolean).join(' ').replaceAll('.','').replaceAll(',','').replaceAll('!','').replaceAll('?','');
+ // Interpret only short explicit exit answers, not arbitrary dictated phrases.
+ if(['da','da inchide','da ies','inchide','inchide aplicatia','ies','iesire','exit','close','yes','yes close','quit','confirm'].includes(simplified))return 'close';
+ if(['nu','nu inchide','nu ies','raman','ramai','nu multumesc','no','no stay','stay','cancel','continua'].includes(simplified))return 'stay';
+ return null;
+}
+
 function pocketExitLanguage(){return ({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO'}
 function pocketExitSay(text){
  try{if(window.PocketAndroidVoice?.postMessage)window.PocketAndroidVoice.postMessage(JSON.stringify({action:'speak',language:pocketExitLanguage(),text}));else if('speechSynthesis' in window){speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(text);utterance.lang=pocketExitLanguage();speechSynthesis.speak(utterance)}}catch{}
@@ -1959,6 +1972,7 @@ function pocketExitListen(){
  try{if(window.PocketAndroidVoice?.postMessage){pocketExitListening=true;window.PocketAndroidVoice.postMessage(JSON.stringify({action:'listen',mode:'exit',language:pocketExitLanguage()}))}}catch{}
 }
 function pocketExitClose(){
+ pocketClearExitTimer();
  pocketExitOpen=false;pocketExitListening=false;
  avatarOverlay.classList.remove('exit-mode');
  try{window.PocketAndroidVoice?.postMessage?.(JSON.stringify({action:'stop'}))}catch{}
@@ -1972,7 +1986,7 @@ function pocketExitConfirm(){
 function pocketExitPrompt(){
  if(state.currentView!=='home'||pocketExitOpen)return;
  // Reuse the same 3D avatar stage and its animation as on startup and voice replies.
- pocketExitOpen=true;avatarWelcomeQueued=false;
+ pocketClearExitTimer();pocketExitOpen=true;avatarWelcomeQueued=false;
  clearTimeout(state.avatarTimer);
  const question=learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?');
  showAvatar({message:question,status:learningLabel('Te ascult…','Listening…'),speaking:true});
@@ -1992,18 +2006,39 @@ function pocketExitPrompt(){
 function pocketExitVoiceResult(data){
  if(!pocketExitOpen)return false;
  if(data?.mode==='tts'){
-  if(data.status==='start'){avatar3dSend('start',{text:learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?')})}
-  if(data.status==='done'){avatar3dSend('stop');avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;pocketExitListen()}
-  if(data.status==='error'){avatar3dSend('stop');avatarOverlay.classList.remove('speaking');voiceWave.hidden=true}
+  if(data.status==='start')avatar3dSend('start',{text:learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?')});
+  if(data.status==='done'){
+   avatar3dSend('stop');avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;
+   pocketExitListen();
+  }
+  if(data.status==='error'){
+   avatar3dSend('stop');avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;
+   pocketExitListen();
+  }
   return true;
  }
  if(data?.mode!=='exit')return true;
- if(data.status==='recognized'){
-  pocketExitListening=false;
-  const answer=String(data.text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  if(/(?:\\bda\\b|inchide|ies|iesire|exit|close|yes|quit|sure|confirm)/.test(answer))pocketExitConfirm();
-  else if(/(?:\\bnu\\b|raman|ramai|stay|no|cancel|continua)/.test(answer))pocketExitClose();
- }else if(data.status==='error')pocketExitListening=false;
+ if(data.status==='partial'&&pocketExitListening){
+  // Fast path for a single clear word. Avoid waiting ~3 seconds for the speech
+  // engine to end a capture after the user has already said "Da" / "Închide".
+  pocketClearExitTimer();
+  const choice=pocketExitChoice(data.text);
+  if(choice){
+   pocketExitDecisionTimer=setTimeout(()=>{
+    pocketExitDecisionTimer=null;
+    if(!pocketExitOpen||!pocketExitListening)return;
+    if(choice==='close')pocketExitConfirm();
+    else pocketExitClose();
+   },360);
+  }
+ }else if(data.status==='recognized'){
+  pocketClearExitTimer();pocketExitListening=false;
+  const choice=pocketExitChoice(data.text);
+  if(choice==='close')pocketExitConfirm();
+  else if(choice==='stay')pocketExitClose();
+ }else if(data.status==='error'){
+  pocketClearExitTimer();pocketExitListening=false;
+ }
  return true;
 }
 function pocketBackInsideModule(){
@@ -5008,6 +5043,42 @@ setTimeout(()=>{if(pocketFirstEntrance&&!pocketGreetingActive){pocketRevealMainA
 .avatar-overlay,.avatar-overlay.visible{background:transparent!important;pointer-events:none!important;transition:opacity .35s ease,visibility .35s ease!important}
 .avatar-overlay .avatar-stage{pointer-events:none!important}
 .avatar-overlay .avatar-stage #avatar3dFrame{left:10%!important;top:13%!important;right:auto!important;bottom:auto!important;width:80%!important;height:73%!important;pointer-events:none!important;background:transparent!important}
+
+
+/* EXIT CONFIRMATION: explicitly override the normal non-interactive avatar.
+   A fullscreen transparent hit shield prevents taps reaching Home beneath it. */
+#avatarOverlay.exit-mode,
+#avatarOverlay.exit-mode.visible {
+ pointer-events:auto!important;
+ touch-action:manipulation!important;
+ z-index:2147483000!important;
+}
+#avatarOverlay.exit-mode .avatar-stage {
+ pointer-events:auto!important;
+ touch-action:manipulation!important;
+}
+#avatarOverlay.exit-mode .exit-buttons,
+#avatarOverlay.exit-mode .exit-buttons button {
+ display:flex!important;
+ pointer-events:auto!important;
+ touch-action:manipulation!important;
+ position:relative;
+ cursor:pointer!important;
+}
+#avatarOverlay.exit-mode .exit-buttons {
+ position:absolute!important;
+ z-index:2147483001!important;
+ bottom:clamp(12px,3dvh,30px)!important;
+ left:3%!important;
+ width:94%!important;
+}
+#avatarOverlay.exit-mode .exit-buttons button{
+ justify-content:center!important;
+ align-items:center!important;
+ min-height:56px!important;
+ user-select:none;
+ -webkit-user-select:none;
+}
 
 </style>
 </body>
