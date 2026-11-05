@@ -19,5 +19,8 @@
     "test:adaptive-reader": "node tests_adaptive_reader.mjs",
     "test:events-integrity": "node tests_event_source_integrity.mjs",
     "test:social-wellbeing": "node tests_social_wellbeing.mjs"
+  },
+  "dependencies": {
+    "teleproto": "1.232.1"
   }
 }
