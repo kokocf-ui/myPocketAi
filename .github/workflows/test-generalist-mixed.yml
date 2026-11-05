@@ -11,6 +11,7 @@ on:
       - tests_geographic_station_intent.mjs
       - tests_balmos_recipe_regression.mjs
       - tests_dialogue_intent.mjs
+      - tests_social_checkin_regression.mjs
       - tests_dialogue_pipeline.mjs
       - tests_news_context.mjs
       - tests_news_pagination.mjs
@@ -65,6 +66,7 @@ jobs:
           node tests_geographic_station_intent.mjs
           node tests_balmos_recipe_regression.mjs
           node tests_dialogue_intent.mjs
+          node tests_social_checkin_regression.mjs
           node tests_dialogue_pipeline.mjs
           node tests_news_context.mjs
           node tests_news_discovery.mjs
