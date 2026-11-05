@@ -70,6 +70,6 @@ export function telegramPublicLinkSearchIntent(message){
  const raw=String(message||"").trim();
  const normalized=raw.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
  if(!/\btelegram\b/.test(normalized)||!/\b(?:caut\w*|gas\w*|find|search)\b/.test(normalized))return null;
- const topic=normalized.replace(/\btelegram\b/gi," ").replace(/\b(?:cauta|cautare|cauta-mi|gaseste|gaseste-mi|find|search|pe|in|din|on|for|despre|about|postari|postarile|stiri|stirile|news|noutati|linkuri|linkurile|publice|public)\b/gi," ").replace(/\s+/g," ").trim();
+ const topic=normalized.replace(/\btelegram\b/gi," ")\n  .replace(/\b(?:din|in|pe)\s+ultim(?:ele|a|ii)?\s+24\s*(?:de\s*)?(?:ore|h)\b/gi," ")\n  .replace(/\b(?:last|past)\s+24\s+hours?\b/gi," ")\n  .replace(/\b(?:cauta|cautare|cauta-mi|gaseste|gaseste-mi|find|search|pe|in|din|on|for|despre|about|postari|postarile|stiri|stirile|news|noutati|linkuri|linkurile|publice|public|situatia|situation|current|recente)\b/gi," ")\n  .replace(/\s+/g," ").trim();
  return topic.length>=3?topic:null;
 }
