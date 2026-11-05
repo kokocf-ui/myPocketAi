@@ -3377,7 +3377,7 @@ export default {
           {name:"Orlando",label:"Orlando, Florida, SUA",query:"Orlando, Florida, United States",country_code:"US",latitude:28.5383,longitude:-81.3792},
           {name:"Tallahassee",label:"Tallahassee, Florida, SUA",query:"Tallahassee, Florida, United States",country_code:"US",latitude:30.4383,longitude:-84.2807}
         ]};
-        return sendWeather((lang==="ro"?"Florida este un stat mare, cu vreme diferită între regiuni. Alege orașul pentru prognoza exactă:":"Florida is a large state with varying weather. Choose a city:")+"\n"+responseWeatherContext.candidates.map((c,i)=>(i+1)+". "+c.label).join("\n"),{needs_location_clarification:true});
+        return sendWeather((lang==="ro"?"Florida este un stat mare, cu vreme diferită între regiuni. Alege orașul pentru prognoza exactă:":"Florida is a large state with varying weather. Choose a city:")+"\n"+responseWeatherContext.candidates.map((c,i)=>(i+1)+". "+c.label).join("\n"),{needs_location_clarification:true,weather_choices:responseWeatherContext.candidates.map((c,i)=>({number:i+1,label:c.label}))});
       }
       if(!point)try{point=await geocodePlace(weather.query)}catch(error){
         responseWeatherContext={...weather,pending:true,candidates:error.candidates||[]};
