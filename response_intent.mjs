@@ -12,7 +12,14 @@ export function classifyNewsRequest(message) {
   // Source-check requests are analytical verification, not headline collections.
   const verification = /\\b(?:verific\\w*|confirm\\w*|corobor\\w*|fact.check\\w*|verify|verification|corroborat\\w*|independent sources|surse independente)\\b/.test(text);
   const analysis = /\b(?:analiz\w*|analyse|analyze|analysis|explic\w*|explain|de ce|why|cauz\w*|cause\w*|consecint\w*|implicati\w*|impact|compar\w*|compare|perspectiv\w*|predict\w*|what if|cum influenteaza|how does)\b/.test(text);
-  const asksNews = evidenceRequest || (subject && (current || happening)) || (happening && current);
+  // Retrospective world/national happenings are news, not calendar programmes.
+  // Keep concerts, performances and local schedules on the event-discovery path.
+  const retrospectiveNewsEvents =
+    /\\b(?:eveniment\\w*|events?|developments?)\\b/.test(text) &&
+    /\\b(?:ieri|alaltaieri|azi|astazi|yesterday|today|last week|saptamana trecuta|ultimele\\s+(?:zile|24\\s+de\\s+ore))\\b/.test(text) &&
+    /\\b(?:lume|mondial\\w*|glob\\w*|international\\w*|world|worldwide|romania|europa|europe)\\b/.test(text) &&
+    !/\\b(?:concert\\w*|festival\\w*|spectacol\\w*|teatru|theatre|theater|tickets?|bilete|programul)\\b/.test(text);
+  const asksNews = retrospectiveNewsEvents || evidenceRequest || (subject && (current || happening)) || (happening && current);
   if (!subject && !asksNews) return {mode:"none",reason:"not_current_affairs"};
   // Explicit answer-style requests take precedence over article collection.
   if (verification && subject) return {mode:"analysis",reason:"verification_requested"};
