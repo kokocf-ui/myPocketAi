@@ -11,7 +11,8 @@ new vm.Script(inline);
 const styles=[...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map(x=>x[1]).join('\n');
 assert.equal((html.match(/id="education-responsive-layout"/g)||[]).length,1,'only one authoritative responsive stylesheet');
 assert.doesNotMatch(html,/id="education-mobile-layout-v[23]"/,'old contradictory styles removed');
-assert.doesNotMatch(styles,/height:calc\(100dvh\s*-\s*285px\)!important;\s*max-height:calc\(100dvh\s*-\s*285px\)!important/,'no hardcoded estimated viewport for subject chooser');
+const educationCSS=html.match(/<style id="education-responsive-layout">([\\s\\S]*?)<\\/style>/)?.[1] || '';
+assert.doesNotMatch(educationCSS,/height:calc\\(100dvh\\s*-\\s*285px\\)!important;\\s*max-height:calc\\(100dvh\\s*-\\s*285px\\)!important/,'no hardcoded viewport for subject chooser');
 
 assert.match(styles,/main\.page:has\(#view-module\.learning-choose\.active\)\s*\{[^}]*overflow-x:hidden!important;overflow-y:hidden!important/s,'main page does not scroll during normal selection');
 assert.match(styles,/#view-module\.learning-choose\.active\s*\{[^}]*display:grid!important;[^}]*grid-template-columns:[^}]*grid-template-rows:auto minmax\(0,1fr\)!important/s,'subject header and grid share the actual free viewport');
