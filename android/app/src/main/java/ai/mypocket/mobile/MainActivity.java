@@ -27,6 +27,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebSettings;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.view.Gravity;
+import android.view.View;
+import android.util.TypedValue;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
@@ -53,6 +59,8 @@ public final class MainActivity extends ComponentActivity {
     private static final String APP_URL = "https://lifewise-ai-v2.kokocf.workers.dev/";
     private static final String APP_HOST = "lifewise-ai-v2.kokocf.workers.dev";
     private WebView web;
+    private FrameLayout startupSplash;
+    private boolean startupHandoff=false;
     private Uri cameraUri;
     private boolean waitingForPhoto = false;
     private TextToSpeech tts;
@@ -204,6 +212,32 @@ public final class MainActivity extends ComponentActivity {
         root.setBackgroundColor(Color.rgb(6,20,32));
         root.addView(web,new FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT));
+        // Native-first branded splash remains above the WebView while its page and
+        // avatar initialize. Never expose a blank WebView or the home screen first.
+        startupSplash=new FrameLayout(this);
+        startupSplash.setBackgroundColor(Color.rgb(6,20,32));
+        LinearLayout branding=new LinearLayout(this);
+        branding.setGravity(Gravity.CENTER);
+        branding.setOrientation(LinearLayout.VERTICAL);
+        int imageSize=(int)(190*getResources().getDisplayMetrics().density);
+        ImageView portrait=new ImageView(this);
+        portrait.setImageResource(R.drawable.pocket_avatar);
+        portrait.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        branding.addView(portrait,new LinearLayout.LayoutParams(imageSize,imageSize));
+        TextView title=new TextView(this);
+        title.setText(R.string.app_name);
+        title.setTextColor(Color.WHITE);
+        title.setTextSize(TypedValue.COMPLEX_UNIT_SP,26);
+        title.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams titleParams=new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        titleParams.topMargin=(int)(12*getResources().getDisplayMetrics().density);
+        branding.addView(title,titleParams);
+        FrameLayout.LayoutParams centered=new FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT,Gravity.CENTER);
+        startupSplash.addView(branding,centered);
+        root.addView(startupSplash,new FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT));
         ViewCompat.setOnApplyWindowInsetsListener(root,(view,insets)->{
             Insets bars=insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
             FrameLayout.LayoutParams params=(FrameLayout.LayoutParams)web.getLayoutParams();
@@ -279,9 +313,30 @@ public final class MainActivity extends ComponentActivity {
                     runOnUiThread(()->nativeVoice(message.getData()));
                 });
         }
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidStartup",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!"https".equals(origin.getScheme())||!APP_HOST.equals(origin.getHost()))return;
+                    if("avatar-visible".equals(message.getData()))
+                        runOnUiThread(this::revealReadyAvatar);
+                });
+        }
         web.loadUrl(APP_URL);
         // Request GPS only after the native activity is ready, so the WebView can use it.
         web.postDelayed(this::ensureLocationPermission,900);
+    }
+
+    private void revealReadyAvatar(){
+        if(startupHandoff||startupSplash==null)return;
+        startupHandoff=true;
+        startupSplash.animate().alpha(0f).setDuration(300).withEndAction(()->{
+            if(startupSplash!=null){
+                android.view.ViewGroup parent=(android.view.ViewGroup)startupSplash.getParent();
+                if(parent!=null)parent.removeView(startupSplash);
+                startupSplash=null;
+            }
+        }).start();
     }
 
     private void launchCamera() {
