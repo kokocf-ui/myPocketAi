@@ -16,10 +16,11 @@ try{
   assert.equal(url,"https://api.exa.ai/search");
   const body=JSON.parse(init.body);
   assert.deepEqual(body.includeDomains,["t.me"]);
-  assert.ok(!body.contents && !body.autoprompt);
+  assert.equal(body.contents.highlights.maxCharacters,420);
+  assert.ok(!body.autoprompt);
   assert.match(body.query,/site:t\.me/);
   return {ok:true,json:async()=>({results:[
-   {url:"https://t.me/examplechannel/12",title:"Indexed title about Ukraine",publishedDate:"2026-11-05T08:00:00Z"},
+   {url:"https://t.me/examplechannel/12",title:"Indexed title about Ukraine",highlights:["Public excerpt about Ukraine."],publishedDate:"2026-11-05T08:00:00Z"},
    {url:"https://t.me/examplechannel/12"},
    {url:"https://t.me/c/123/45"},
    {url:"https://t.me/anotherchannel/34"},
@@ -30,6 +31,7 @@ try{
  assert.equal(out.links[0].content_retrieved,false);
  assert.equal(out.links[0].url,"https://t.me/examplechannel/12");
  assert.equal(out.links[0].title,"Indexed title about Ukraine");
+ assert.equal(out.links[0].excerpt,"Public excerpt about Ukraine.");
  assert.equal(out.links[0].published_at,"2026-11-05T08:00:00Z");
  assert.match(out.links[1].title,/Telegram @anotherchannel/);
  assert.equal(searches,1);
