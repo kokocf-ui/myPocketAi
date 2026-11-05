@@ -2178,7 +2178,7 @@ export default {
     const chosenTravelMode=['walk','drive','transit'].includes(data.travel_mode)&&data.route_context?.pending==='profile'?data.travel_mode:null;
     const boardingAccessRequested=transitBoardingAccessRequest(message);
     const transitDecision=isTransitJourneyRequest(message,{explicitTransitMode:chosenTravelMode==='transit',boardingAccessRequested,pendingRouteProfile:data.route_context?.pending==='profile',explicitTransitDestination:Boolean(data.transit_destination||data.transit_query),history:data.history});
-    const publicTransportIntent=transitDecision.is_journey && /\b(?:transport(?:ul)? in comun|transport(?:ul)? public|autobuz(?:e|ul)?|bus(?:es)?|tren(?:ul|e)?|train(?:s)?|metrou(?:l)?|tube|railway|by public transport|public transport|tram(?:vai)?|underground|dlr|elizabeth line)\b/i.test(normalizedTransitMessage);
+    const publicTransportIntent=transitDecision.is_journey;
     const directWalkingTarget=data.route_profile==='walk'&&data.route_destination&&Number.isFinite(data.route_destination.latitude)&&Number.isFinite(data.route_destination.longitude)&&Math.abs(data.route_destination.latitude)<=90&&Math.abs(data.route_destination.longitude)<=180&&typeof data.route_destination.label==='string';
     const explicitMixedJourney=data.mixed_journey===true;
     if (explicitMixedJourney || ((publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)))) {
