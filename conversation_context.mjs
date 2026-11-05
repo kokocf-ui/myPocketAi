@@ -28,3 +28,11 @@ export function contextualResearchQuery(message,history){
  if(normal(topic).split(/\s+/).length<3)return {...unchanged,reason:"insufficient_topic"};
  return {query:(topic.replace(/[!?.,;:]+$/,"")+"; "+current).slice(0,500),context_applied:true,reason:placeChange?"place_change":"ellipsis"};
 }
+
+// User feedback and light social conversation should not trigger unrelated web research.
+export function isConversationOnlyTurn(message){
+ const text=normal(message);
+ if(!text||text.length>240)return false;
+ if(/\d/.test(text)||/\b(?:verifica\w*|cauta\w*|search|lookup|look up|sources?|surs\w*|stiri\w*|news|actualitat\w*|meteo|vrem\w*|weather|salari\w*|salary|tax\w*|impozit\w*|eveniment\w*|concert\w*|istor\w*|geograf\w*|politic\w*|medical|medicin\w*|pret\w*|price|cost\w*|lege\w*|law)\b/.test(text))return false;
+ return /^(?:nu ai inteles\b|nu asta (?:am (?:cerut|intrebat|vrut)|voiam)\b|m-ai inteles\b|ai inteles (?:ce|la ce)\b|ai gresit\b|ai dat-o in bara\b|vorbesti prea mult\b|raspunde mai (?:pe scurt|concis)\b|te rog sa (?:fii mai concis|nu mai repeti|raspunzi mai scurt)\b|glumeam\b|glumesc\b|era o gluma\b|ma enervezi\b|sunt suparat\b|esti (?:amuzant\w*|dragut\w*|timid\w*|haioas\w*|prea serioas\w*)\b|imi place (?:de tine|personalitatea ta)\b|ce parere ai despre tine\b|you misunderstood\b|that's not what i asked\b|you got it wrong\b|you are (?:funny|cute|too serious)\b|you talk too much\b|please be (?:brief|concise)\b|i was joking\b|just kidding\b|i'm upset with you\b)/.test(text);
+}
