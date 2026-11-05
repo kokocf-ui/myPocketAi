@@ -38,4 +38,18 @@ assert(english.reply!=='My pleasure!','English repeats are avoided');
 assert.equal(aiCalls,0,'social courtesy can be answered without a slow AI call');
 const extended=await ask('Mulțumesc, dar explică-mi ce s-a întâmplat');
 assert.notEqual(extended.conversational_reply,true,'follow-up question is not mistaken for isolated thanks');
+// Cloudflare 4006 is an account-wide free-neuron quota limit, not an outage
+// that can be resolved by retrying another Workers AI model on the same account.
+let quotaCalls=0;
+const quotaResponse=await worker.fetch(new Request('https://example.test/api/chat',{
+ method:'POST',headers:{'content-type':'application/json'},
+ body:JSON.stringify({message:'Explică-mi ce este un număr prim.',language:'ro',history:[]})
+}),{AI:{run:async()=>{quotaCalls++;throw new Error("4006: you have used up your daily free allocation of 10,000 neurons");}}});
+const quotaData=await quotaResponse.json();
+assert.equal(quotaResponse.status,429,'daily quota should not be presented as generic AI 502');
+assert.equal(quotaData.error_code,'AI_QUOTA_EXCEEDED');
+assert.equal(quotaCalls,1,'do not retry another Workers AI model with the same exhausted quota');
+assert.match(quotaData.error,/limita zilnică/i);
+assert.ok(!quotaData.error_detail,'user facing quota response must not expose provider internals');
+console.log('Cloudflare Workers AI daily quota 4006 handled without futile model fallback — PASS');
 console.log('Feminine personality instructions and contextual courtesy variation — PASS');
