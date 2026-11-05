@@ -5,12 +5,6 @@ import {stdin as input,stdout as output} from "node:process";
 import {writeFile} from "node:fs/promises";
 import {TelegramClient} from "teleproto";
 import {StringSession} from "teleproto/sessions";
-const apiId=Number(process.env.TELEGRAM_API_ID);
-const apiHash=String(process.env.TELEGRAM_API_HASH||"");
-if(!Number.isSafeInteger(apiId)||apiId<=0||!/^[a-f0-9]{32}$/i.test(apiHash)){
- process.stderr.write("Set TELEGRAM_API_ID and TELEGRAM_API_HASH in this device's environment first.\n");
- process.exit(2);
-}
 // readline normally echoes input, including Telegram verification codes and 2FA.
 // Suppress terminal echo through its output hook; never log the collected value.
 const rl=createInterface({input,output});
@@ -23,9 +17,19 @@ const askHidden=async(question)=>{
  try{return await rl.question("");}
  finally{rl._writeToOutput=original;output.write("\n");}
 };
-const client=new TelegramClient(new StringSession(""),apiId,apiHash,{
- connectionRetries:2,requestRetries:1,autoReconnect:false});
+let client;
 try{
+ // Ask locally instead of requiring shell exports that expose API secrets
+ // to terminal history or user-shared screenshots. Existing env vars remain
+ // supported for advanced users; neither secret is written to disk.
+ const rawId=process.env.TELEGRAM_API_ID||await askHidden("Telegram API ID (from my.telegram.org): ");
+ const rawHash=process.env.TELEGRAM_API_HASH||await askHidden("Telegram API Hash (from my.telegram.org): ");
+ const apiId=Number(rawId);
+ const apiHash=String(rawHash||"").trim();
+ if(!Number.isSafeInteger(apiId)||apiId<=0||!/^[a-f0-9]{32}$/i.test(apiHash))
+  throw new Error("Invalid API ID/hash format.");
+ client=new TelegramClient(new StringSession(""),apiId,apiHash,{
+  connectionRetries:2,requestRetries:1,autoReconnect:false});
  await client.start({
   phoneNumber:()=>askHidden("Telegram phone number, with country code: "),
   phoneCode:()=>askHidden("Telegram verification code (never send it to anyone): "),
@@ -41,6 +45,6 @@ try{
  process.stderr.write("Telegram sign-in incomplete. No session has been uploaded.\n");
  process.exitCode=1;
 }finally{
- try{await client.disconnect()}catch{}
+ if(client)try{await client.disconnect()}catch{}
  rl.close();
 }
