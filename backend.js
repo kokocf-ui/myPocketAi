@@ -1611,7 +1611,7 @@ export default {
           const rawCounty=String(place.county||place.state_district||place.state||place.region||'').trim();
           const county=rawCounty.length===2&&String(place.state||'').trim().length>2?String(place.state).trim():rawCounty;
           const commune=String(place.municipality||'').trim();
-          const areaParts=[commune&&normalize(commune)!==normalize(cityName)&&!/\b(?:metropolitan area|zona metropolitana|metropolitan region|arie metropolitana)\b/i.test(commune)?commune:'',county].filter(Boolean);
+          const areaParts=stage==='city'?[county].filter(value=>value&&normalize(value)!==normalize(cityName)): [commune&&normalize(commune)!==normalize(cityName)?commune:'',county].filter(Boolean);
           const countryName=String(place.country||country.toUpperCase());
           const label=stage==='city'?[cityName,...areaParts,countryName].join(', '):
            stage==='street'?[place.street,city,countryName].filter(Boolean).join(', '):
