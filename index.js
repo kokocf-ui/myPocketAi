@@ -2684,7 +2684,7 @@ function shopVoiceApplyAction(sentence,data){
  if(found.type==='bought'){
   // A single spoken command may mark several named products, but never guess
   // when a name is ambiguous or missing. Validate all targets before changing any.
-  const names=found.match[1].split(/(?:\s*,\s*|\s*;\s*|\s+și\s+|\s+si\s+|\s+and\s+)/iu).map(v=>v.trim()).filter(Boolean);
+  const names=found.match[1].split(/(?:\\s*,\\s*|\\s*;\\s*|\\s+și\\s+|\\s+si\\s+|\\s+and\\s+)/iu).map(v=>v.trim()).filter(Boolean);
   if(!names.length)return {ok:false,message:shopLabel('Spune produsele cumpărate.','Say which items you bought.')};
   const matches=names.map(name=>({name,...shopVoiceFindItem(data.items,name)}));
   const missing=matches.find(match=>!match.item);
