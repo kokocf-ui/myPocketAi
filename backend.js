@@ -9,6 +9,7 @@ import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPubl
 import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers} from "./news_discovery.mjs";
 import {classifyVoluntaryTelegramLink,telegramVerificationPrompt,telegramExternalResearchQuery} from "./telegram_voluntary_links.mjs";
 import {discoverTelegramPublicLinks,telegramPublicLinkSearchIntent,publicTelegramPostUrl} from "./telegram_public_web_links.mjs";
+import {telegramDirectReady,telegramOwnerAuthorized,searchTelegramDirect} from "./telegram_mtproto_direct.mjs";
 import {readNewsArticleDetail,translateUserSuppliedTelegramText} from "./news_article_detail.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
@@ -1154,7 +1155,7 @@ export default {
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type"
+      "Access-Control-Allow-Headers": "Content-Type, Authorization"
     };
 
     const json = async (data, status = 200) => {
@@ -1234,6 +1235,32 @@ export default {
       const result=await discoverTelegramPublicLinks(env,q,limit);
       return json({app:"Pocket AI",version:API_VERSION,kind:"telegram_public_links",...result,
         ai_ingestion_enabled:false,telegram_session_used:false,global_telegram_search:false});
+    }
+
+    // Telegram MTProto (api_id/api_hash) is a separate user-authorized CLIENT.
+    // Never use the owner's Telegram session from a general chat/news request.
+    // Owner-only route: no shared public access, no AI ingestion or paid search.
+    if(url.pathname==="/api/telegram-direct-status" && request.method==="GET"){
+      const readiness=telegramDirectReady(env);
+      return json({app:"Pocket AI",kind:"telegram_mtproto",status:readiness.ready?"configured_pending_live_verification":"authorization_pending",
+        credentials_configured:readiness.credentials,session_configured:readiness.session,
+        owner_access_configured:readiness.owner_access,
+        note:"Direct MTProto search is owner-only and requires a logged-in user session; public web-index discovery remains separate.",
+        ai_ingestion_enabled:false});
+    }
+    if(url.pathname==="/api/telegram-direct-search" && request.method==="POST"){
+      // Authentication comes BEFORE parsing the payload or touching Telegram.
+      if(!await telegramOwnerAuthorized(request.headers.get("Authorization"),env.TELEGRAM_DIRECT_ACCESS_TOKEN))
+        return json({status:"unauthorized",error:"Owner access required"},401);
+      const ready=telegramDirectReady(env);
+      if(!ready.ready)return json({status:"authorization_pending",error:"Telegram MTProto session and credentials are not fully configured"},409);
+      if(Number(request.headers.get("content-length")||0)>1024)
+        return json({status:"invalid_request",error:"Request too large"},413);
+      const payload=await request.json().catch(()=>null);
+      const result=await searchTelegramDirect(env,payload?.query,payload?.limit||8);
+      return json({app:"Pocket AI",kind:"telegram_mtproto_public_search",
+        ...result,private_account_data_exposed:false,
+        ai_ingestion_enabled:false,paid_stars_used:false},result.status==="invalid_query"?400:200);
     }
 
     // Free, source-attributed public intelligence: independent of the general assistant

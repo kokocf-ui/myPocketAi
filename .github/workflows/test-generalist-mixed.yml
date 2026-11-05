@@ -28,6 +28,9 @@ on:
       - tests_telegram_voluntary_links.mjs
       - tests_telegram_public_web_links.mjs
       - telegram_public_web_links.mjs
+      - telegram_mtproto_direct.mjs
+      - tests_telegram_mtproto_direct.mjs
+      - TELEGRAM_MTPROTO_SETUP.md
       - tests_news_discovery.mjs
       - tests_news_source_diversity.mjs
       - dialogue_intent.mjs
@@ -78,6 +81,7 @@ jobs:
           node tests_news_source_diversity.mjs
           node tests_telegram_voluntary_links.mjs
           node tests_telegram_public_web_links.mjs
+          node tests_telegram_mtproto_direct.mjs
           node tests_news_pagination.mjs
           node tests_news_reader.mjs
           node tests_news_article_detail.mjs

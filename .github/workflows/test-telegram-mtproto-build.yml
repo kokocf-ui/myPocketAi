@@ -1,0 +1,28 @@
+name: Telegram MTProto offline bundle validation
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'backend.js'
+      - 'telegram_mtproto_direct.mjs'
+      - 'tests_telegram_mtproto_direct.mjs'
+      - 'package.json'
+      - '.github/workflows/test-telegram-mtproto-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  telegram-dry-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install packages without running install hooks
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Offline route and privacy regression (NO Telegram, NO Workers AI calls)
+        run: node tests_telegram_mtproto_direct.mjs
+      - name: Bundle Worker without deploying or contacting Telegram
+        run: npx -y wrangler@4 deploy --dry-run --config wrangler-backend.toml --outdir /tmp/pocketai-telegram-bundle
