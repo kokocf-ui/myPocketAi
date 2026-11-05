@@ -31,7 +31,7 @@ dialog.close=()=>{dialog.open=false;dialog.dispatch('close')};
 const content=new FakeNode('div',document),title=new FakeNode('strong',document),close=new FakeNode('button',document);
 const elements={longChoiceDialog:dialog,longChoiceContent:content,longChoiceTitle:title,longChoiceClose:close};
 const state={language:'ro',conversationGeneration:0,routeSearchContext:{pending:'profile',destination_query:'Victoria station'},busy:false};
-const ctx={document,state,messagesEl:{isConnected:true,querySelectorAll(){return []}},$:id=>elements[id],console,MutationObserver:class{observe(){}}};
+const ctx={document,state,dialogText:(ro,en)=>ro,messagesEl:{isConnected:true,querySelectorAll(){return []}},$:id=>elements[id],console,MutationObserver:class{observe(){}}};
 vm.createContext(ctx);
 const from=source.indexOf('let longChoiceOpener=null;'),to=source.indexOf(' const sharedChatShell=',from);
 assert.ok(from>=0&&to>from,'native dialog setup present');
