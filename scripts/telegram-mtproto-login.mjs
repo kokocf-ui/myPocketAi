@@ -31,7 +31,7 @@ let lastSafeAuthError="";
 const authErrorCode=error=>{
  // Only allow known Telegram error identifiers; do not print error.message,
  // phone, code, password, keys or complete error objects.
- const raw=[error?.errorMessage,error?.code,error?.name].map(x=>String(x||"")).join(" ");
+ const raw=[error?.errorMessage,error?.code,error?.name,error?.message,error?.constructor?.name].map(x=>String(x||"")).join(" ");
  const matched=raw.match(/(?:PHONE_NUMBER_INVALID|PHONE_NUMBER_BANNED|PHONE_CODE_INVALID|PHONE_CODE_EXPIRED|PHONE_CODE_EMPTY|PHONE_PASSWORD_FLOOD|SESSION_PASSWORD_NEEDED|PASSWORD_HASH_INVALID|API_ID_INVALID|API_ID_PUBLISHED_FLOOD|FLOOD_WAIT|NETWORK_ERROR|ECONNABORTED|ETIMEDOUT|CONNECTION_NOT_INITED)/i);
  return matched?matched[0].toUpperCase():"UNCLASSIFIED_AUTH_ERROR";
 };
@@ -52,7 +52,7 @@ try{
   phoneNumber:()=>askPhone(),
   phoneCode:()=>askHidden("Telegram verification code (never send it to anyone): "),
   password:()=>askHidden("Telegram two-step verification password, if required: "),
-  onError:error=>{lastSafeAuthError=authErrorCode(error);process.stderr.write("Telegram login error code: "+lastSafeAuthError+" (no credentials shown).\n");}
+  onError:error=>{lastSafeAuthError=authErrorCode(error);process.stderr.write("Telegram login error code: "+lastSafeAuthError+" (no credentials shown).\n");return true;}
  });
  if(!await client.isUserAuthorized())throw Error("Authorization did not complete");
  const session=client.session.save();
