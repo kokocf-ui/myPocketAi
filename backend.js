@@ -5822,24 +5822,46 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     }));
 
     try {
-      let result = await env.AI.run(
-        selectedAiModel,
-        {
-          messages: [
-            {
-              role: "system",
-              content: systemMessage
-            },
-            ...modelHistory,
-            {
-              role: "user",
-              content: aiUserMessage
-            }
-          ],
-          max_tokens: requestedModelTokens,
-          temperature: eventResearchIntent || recipeInstruction ? 0.05 : 0.18
+      const primaryMessages=[{role:"system",content:systemMessage},...modelHistory,{role:"user",content:aiUserMessage}];
+      let result;
+      try{
+        result=await env.AI.run(selectedAiModel,{
+          messages:primaryMessages,max_tokens:requestedModelTokens,
+          temperature:eventResearchIntent||recipeInstruction?0.05:0.18
+        });
+        if(!result||typeof result.response!=="string"||!result.response.trim())
+          throw Error("primary_empty_response");
+      }catch(primaryError){
+        // A model outage must not make ordinary questions fail permanently.
+        // One bounded fallback on a separate deployed model, with compact context,
+        // prevents a second long request and avoids replaying unrelated dialogue.
+        console.warn("Pocket AI primary model failure",JSON.stringify({
+          diagnosticId,model:selectedAiModel,error_name:String(primaryError?.name||"Error"),
+          error_code:String(primaryError?.message||"").slice(0,100)
+        }));
+        const fallbackModel=selectedAiModel==="@cf/meta/llama-3.2-3b-instruct"
+          ?"@cf/meta/llama-3.1-8b-instruct-fp8":"@cf/meta/llama-3.2-3b-instruct";
+        try{
+          result=await env.AI.run(fallbackModel,{
+            messages:[
+              {role:"system",content:systemMessage.slice(0,3800)+"\\nRespond directly to the latest user question in the requested language. Do not repeat earlier topics."},
+              ...modelHistory.slice(-2),
+              {role:"user",content:aiUserMessage.slice(0,3000)}
+            ],
+            max_tokens:Math.min(requestedModelTokens,900),temperature:0.1
+          });
+          if(!result||typeof result.response!=="string"||!result.response.trim())
+            throw Error("fallback_empty_response");
+          stageMetrics.ai_fallback_used=true;
+          stageMetrics.ai_fallback_model=fallbackModel;
+        }catch(fallbackError){
+          console.warn("Pocket AI fallback model failed",JSON.stringify({
+            diagnosticId,model:fallbackModel,error_name:String(fallbackError?.name||"Error"),
+            error_code:String(fallbackError?.message||"").slice(0,100)
+          }));
+          throw primaryError;
         }
-      );
+      }
 
       stageMetrics.primary_ai_ms=Date.now()-aiStartedAt;
       // If the model hit its generation limit, finish the answer before displaying it.
