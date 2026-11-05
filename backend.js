@@ -1230,7 +1230,7 @@ export default {
     // User-initiated link-only discovery from a public web index. No Telegram session or AI ingestion.
     if(url.pathname === "/api/telegram-public-links" && request.method === "GET"){
       const q=String(url.searchParams.get("q")||"");
-      const limit=Math.min(10,Math.max(1,Number(url.searchParams.get("limit"))||8));
+      const limit=Math.min(20,Math.max(1,Number(url.searchParams.get("limit"))||20));
       const result=await discoverTelegramPublicLinks(env,q,limit);
       return json({app:"Pocket AI",version:API_VERSION,kind:"telegram_public_links",...result,
         ai_ingestion_enabled:false,telegram_session_used:false,global_telegram_search:false});
@@ -1712,11 +1712,11 @@ export default {
     const telegramLinkTopic=!voluntaryTelegramLink?telegramPublicLinkSearchIntent(message):null;
     if(telegramLinkTopic){
       const rolling24h=/\b(?:ultim(?:ele|a|ii)?\s*24\s*(?:de\s*)?(?:ore|h)|last\s*24\s*hours?|past\s*24\s*hours?)\b/iu.test(message);
-      let found=await discoverTelegramPublicLinks(env,telegramLinkTopic,8,rolling24h?{sinceMs:Date.now()-86400000}:{});
+      let found=await discoverTelegramPublicLinks(env,telegramLinkTopic,20,rolling24h?{sinceMs:Date.now()-86400000}:{});
       // Do not misrepresent undated links as recent. Offer them separately when the dated index is empty.
       let dateUnconfirmedFallback=false;
       if(rolling24h&&found.status==="success"&&!found.links.length){
-        const broader=await discoverTelegramPublicLinks(env,telegramLinkTopic,8);
+        const broader=await discoverTelegramPublicLinks(env,telegramLinkTopic,20);
         if(broader.status==="success"&&broader.links.length){
           found={...broader,reply:lang==="ro"
             ?"Nu am putut confirma postări Telegram în ultimele 24 de ore. Mai jos sunt referințe publice cu data neconfirmată pentru intervalul cerut; nu reprezintă știri verificate de astăzi."
@@ -1743,7 +1743,7 @@ export default {
         telegram_access_mode:"public_web_index_links_only",telegram_date_unconfirmed_fallback:dateUnconfirmedFallback,
         structured_list:localizedRows.length?{type:"news",rows:localizedRows,result_count:localizedRows.length,
           selection_policy:"public_index_relevance_date_and_duplicates",viewpoint_filtering_applied:false,
-          editorial_quality_verdict:false,displayed_result_limit:8,
+          editorial_quality_verdict:false,displayed_result_limit:20,
           coverage_status:dateUnconfirmedFallback?"date_unconfirmed_not_recent":"indexed_public_links_only"}:undefined,
         sources:found.links.map((r,i)=>({number:i+1,title:r.title,url:r.url,publishedDate:r.published_at||null,
           verification:"unverified_link_only"})),
@@ -5419,7 +5419,7 @@ export default {
       // Select globally retrieved publication results, not only English/RO lexical matches.
       // A language, alphabet, country or publisher is never grounds for exclusion.
       for(const source of webSources){
-        if(rows.length>=12)break;
+        if(rows.length>=30)break;
         const url=safeSourceUrl(source.url);
         const originalTitle=String(source.title||"").replace(/\s+/g," ").trim().slice(0,200);
         if(!url||originalTitle.length<15)continue;
@@ -5501,7 +5501,7 @@ export default {
           &&(!newsPublicationFilter||isWithinPublicationDay(p.published_at,newsPublicationFilter)))
           .slice(0,3):[];
       if(approvedTelegramRows.length){
-        rows.splice(Math.max(0,12-approvedTelegramRows.length));
+        rows.splice(Math.max(0,30-approvedTelegramRows.length));
         for(const p of approvedTelegramRows)if(!rows.some(r=>r.url===p.url))rows.push({
           ...p,source_platform:"Telegram",translation_status:"original_untranslated",
           original_title:p.title,providers:["Telegram Bot API: publisher opt-in"],
@@ -5513,7 +5513,7 @@ export default {
       const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",
         selection_policy:"technical_relevance_date_duplicates_and_publisher_diversity",
         viewpoint_filtering_applied:false,editorial_quality_verdict:false,
-        retrieved_candidate_count:webSources.length,displayed_result_limit:12,
+        retrieved_candidate_count:webSources.length,displayed_result_limit:30,
         requested_publication_day:newsPublicationFilter?.day||null,publication_filter:newsPublicationFilter?.kind||"none",
         result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage",missing_publication_dates:rows.filter(r=>r.recency_status!=="dated"&&r.source_platform!=="Telegram").length,
         telegram_status:telegramParallelEnabled?(telegramFeed?.status||"unavailable"):"publisher_opt_in_required",
