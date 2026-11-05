@@ -52,7 +52,7 @@ try{
  const request=await ask(direct);
  assert.equal(request.status,"success");
  assert.equal(request.telegram_shared_reference?.mode,"needs_claim");
- assert.equal(request.ai_generated,false);
+ assert.equal(request.web_search_status,"not_needed");
  assert.match(request.reply,/Copiază afirmația exactă/);
  assert.equal(calls.length,0,"Link-only path should not fetch");
  const unsupported=await ask("Verifică acest link: https://t.me/c/1234567/3");
@@ -60,7 +60,7 @@ try{
  assert.equal(calls.length,0);
  const noProviders=await ask(combined);
  assert.equal(noProviders.telegram_shared_reference?.mode,"verification_no_sources");
- assert.equal(noProviders.ai_generated,false);
+ assert.equal(noProviders.sources.length,0);
  assert.match(noProviders.reply,/nu am găsit surse independente/);
  assert.equal(calls.length,0);
  const withProvider=await ask(combined,{EXA_API_KEY:"test_key"});
