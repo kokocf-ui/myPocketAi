@@ -74,6 +74,7 @@ public final class MainActivity extends ComponentActivity {
     private String pendingGeoOrigin;
     private String pendingSpeechLocale="ro-RO";
     private static final String FIRST_MIC_PERMISSION_FLAG="first_microphone_permission_requested";
+    private boolean microphoneRequestedForListening=false;
 
     private final ActivityResultLauncher<PickVisualMediaRequest> gallery =
         registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
@@ -89,7 +90,10 @@ public final class MainActivity extends ComponentActivity {
 
     private final ActivityResultLauncher<String> micPermission =
         registerForActivityResult(new ActivityResultContracts.RequestPermission(),granted -> {
-            if(granted)notifyVoice("permissionGranted","","permission");
+            boolean resumeListening=microphoneRequestedForListening;
+            microphoneRequestedForListening=false;
+            if(granted && resumeListening)beginEmbeddedListening();
+            else if(granted)notifyVoice("permissionGranted","","permission");
             else notifyVoice("permissionDenied","","permission");
         });
     private final ActivityResultLauncher<String[]> locationPermission =
@@ -197,7 +201,7 @@ public final class MainActivity extends ComponentActivity {
                 speechMode=data.optString("mode","dictation");
                 pendingSpeechLocale=data.optString("language","ro-RO");
                 if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)beginEmbeddedListening();
-                else micPermission.launch(Manifest.permission.RECORD_AUDIO);
+                else {microphoneRequestedForListening=true;micPermission.launch(Manifest.permission.RECORD_AUDIO);}
             }
         }catch(Exception ex){notifyVoice("error","Speech service unavailable","tts");}
     }
