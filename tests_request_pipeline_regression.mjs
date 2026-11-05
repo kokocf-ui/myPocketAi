@@ -31,7 +31,8 @@ assert.ok(inline.includes('gpsElapsedMs='));
 assert.ok(inline.includes('backend_round_trip_ms:'));
 assert.ok(inline.includes("console.info('Pocket AI request timing'"));
 
-assert.match(backend,/const maxSearchWaitMs=eventResearchIntent\?7000:newsIntent\?6300:6000/);
+assert.match(backend,/const maxSearchWaitMs=eventResearchIntent\?7000:newsIntent\?newsDiscoveryPlan\.broadWorld\?7200:6300:6000/);
+assert.match(backend,/const broadNewsReady=newsIntent&&newsDiscoveryPlan\.broadWorld/);
 assert.match(backend,/const tracked=providerTasks\.map/);
 assert.match(backend,/Promise\.race\(\[Promise\.all\(tracked\),ready,/);
 assert.ok(!backend.includes('setTimeout(resolve,1400)'),'old extra search delay still present');
@@ -46,11 +47,11 @@ assert.match(backend,/latency_breakdown:/);
 const coordStart=backend.indexOf('        const outcomes=[];',backend.indexOf('const providerTasks = [];'));
 const coordEnd=backend.indexOf('        const providerDiagnostics=',coordStart);
 assert.ok(coordStart>=0&&coordEnd>coordStart,'provider coordinator boundaries');
-const coordinator=new Function('providerTasks','eventResearchIntent',
+const coordinator=new Function('providerTasks','eventResearchIntent','newsIntent','newsDiscoveryPlan',
  'return (async()=>{'+backend.slice(coordStart,coordEnd)+';return {settled,pendingProviderCount};})()');
 const source=n=>({status:'fulfilled',value:{results:Array.from({length:n},(_,i)=>({title:'Event '+i}))}});
 const started=Date.now();
-const done=await coordinator([Promise.resolve(source(6)),Promise.resolve(source(6)),new Promise(()=>{})],true);
+const done=await coordinator([Promise.resolve(source(6)),Promise.resolve(source(6)),new Promise(()=>{})],true,false,{broadWorld:false});
 assert.equal(done.settled.length,2,'two ready search engines should be usable');
 assert.equal(done.pendingProviderCount,1,'unresponsive third engine should be reported');
 assert.ok(Date.now()-started<3500,'response should not await the stuck engine');

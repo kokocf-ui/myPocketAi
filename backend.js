@@ -6,6 +6,7 @@ import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.m
 import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion} from "./dialogue_intent.mjs";
 import {localizeNewsRows} from "./localization.mjs";
 import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPublicationDay} from "./news_context.mjs";
+import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers} from "./news_discovery.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
  * v176: real culinary source research and no dish-specific hardcoded responses.
@@ -5016,6 +5017,8 @@ export default {
         return u.toString();
       } catch { return null; }
     };
+    const discoveryPublicationDay=publicationDayWindow(message,data.client_local_day)?.day||null;
+    const newsDiscoveryPlan=buildWorldNewsDiscoveryPlan(message,{publicationDay:discoveryPublicationDay});
     const providerTasks = [];
     const researchStartedAt=Date.now();
     if (shouldSearchWeb) {
@@ -5023,31 +5026,44 @@ export default {
       // GDELT only supplements current-events requests; returned article listings are leads,
       // not independent fact verification. Other topics preserve the existing fast path.
       const newsIntent = !recipeInstruction && !eventResearchIntent && ["article_collection","briefing"].includes(classifyNewsRequest(message).mode);
-      if(newsIntent) providerTasks.push((async()=>{
-        const started=Date.now(),u=new URL("https://api.gdeltproject.org/api/v2/doc/doc");
+      if(newsIntent) {
         const topic=message.replace(/^(?:(?:care sunt|arata-mi|cauta|show me|what are the)\s+)?(?:(?:ultimele|latest|recent|breaking)\s+)?(?:stiri|știri|news|noutati|actualitati)\s*(?:(?:despre|about|privind|on)\s+)?/iu,"").trim();
         const broadGeopolitics=/geopolitic|international|world affairs|politic.*extern/i.test(topic);
-        const gdeltQuery=broadGeopolitics?"(Ukraine OR Russia OR Iran OR Israel OR NATO OR diplomacy OR sanctions OR election OR government OR conflict OR military)":(topic.length>=3?topic:message).slice(0,110);
-        u.searchParams.set("query",gdeltQuery);
-        u.searchParams.set("mode","artlist");
-        u.searchParams.set("format","json");
-        u.searchParams.set("timespan",/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?"1d":"7d");
-        u.searchParams.set("maxrecords","45");
-        const response=await fetch(u.toString(),{headers:{Accept:"application/json"},signal:AbortSignal.timeout(4500)});
-        if(!response.ok)throw new Error("HTTP "+response.status);
-        const payload=await response.json();
-        const articles=Array.isArray(payload.articles)?payload.articles:[];
-        return {provider:"GDELT",elapsedMs:Date.now()-started,results:articles.slice(0,45).map(a=>({
-          title:a.title||a.url,url:a.url,publishedDate:a.seendate||null,
-          snippets:["Unverified GDELT article listing: "+String(a.title||"").slice(0,180)],author:null
-        }))};
-      })().then(value=>({status:"fulfilled",value,provider:"GDELT"}))
-        .catch(error=>({status:"rejected",provider:"GDELT",error:String(error?.message||error).slice(0,140)})));
+        const defaultGdeltQuery=broadGeopolitics?"(Ukraine OR Russia OR Iran OR Israel OR NATO OR diplomacy OR sanctions OR election OR government OR conflict OR military)":(topic.length>=3?topic:message).slice(0,110);
+        const queryVariants=newsDiscoveryPlan.gdeltQueries||[defaultGdeltQuery];
+        for(const gdeltQuery of queryVariants){
+          providerTasks.push((async()=>{
+            const started=Date.now(),u=new URL("https://api.gdeltproject.org/api/v2/doc/doc");
+            u.searchParams.set("query",gdeltQuery);
+            u.searchParams.set("mode","artlist");
+            u.searchParams.set("format","json");
+            u.searchParams.set("sort","DateDesc");
+            u.searchParams.set("maxrecords",newsDiscoveryPlan.broadWorld?"60":"45");
+            if(discoveryPublicationDay){
+              u.searchParams.set("startdatetime",discoveryPublicationDay.replace(/-/g,"")+"000000");
+              u.searchParams.set("enddatetime",discoveryPublicationDay.replace(/-/g,"")+"235959");
+            }else{
+              u.searchParams.set("timespan",/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?"1d":"7d");
+            }
+            const response=await fetch(u.toString(),{headers:{Accept:"application/json"},signal:AbortSignal.timeout(5200)});
+            if(!response.ok)throw new Error("HTTP "+response.status);
+            const payload=await response.json(),articles=Array.isArray(payload.articles)?payload.articles:[];
+            return {provider:"GDELT",elapsedMs:Date.now()-started,results:articles.slice(0,60).map(a=>({
+              title:a.title||a.url,url:a.url,publishedDate:a.seendate||null,
+              snippets:["Unverified GDELT article listing: "+String(a.title||"").slice(0,180)],author:null
+            }))};
+          })().then(value=>({status:"fulfilled",value,provider:"GDELT"}))
+            .catch(error=>({status:"rejected",provider:"GDELT",error:String(error?.message||error).slice(0,140)})));
+        }
+      }
       if (env.EXA_API_KEY) providerTasks.push((async () => {
         const started = Date.now();
         const response = await fetch("https://api.exa.ai/search", {
           method:"POST", headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
-          body:JSON.stringify({query:searchQuery,type:"auto",numResults:eventResearchIntent?15:6,contents:{highlights:true}}),
+          body:JSON.stringify({query:newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.exaQuery:searchQuery,type:"auto",numResults:eventResearchIntent?15:newsIntent?12:6,
+            ...(newsIntent?{category:"news"}:{}),
+            ...(newsIntent&&discoveryPublicationDay?{startPublishedDate:discoveryPublicationDay+"T00:00:00.000Z",endPublishedDate:discoveryPublicationDay+"T23:59:59.999Z"}:{}),
+            contents:{highlights:true}}),
           signal:AbortSignal.timeout(eventResearchIntent?7500:9000)
         });
         if (!response.ok) throw new Error("HTTP " + response.status);
@@ -5055,19 +5071,58 @@ export default {
         const results = Array.isArray(payload.results) ? payload.results : [];
         return {provider:"Exa",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.publishedDate||null,snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null}))};
       })().then(value=>({status:"fulfilled",value,provider:"Exa"})).catch(error=>({status:"rejected",provider:"Exa",error:String(error&&error.message||error).slice(0,140)})));
+      // Optional targeted discovery of PUBLIC Reuters links. This is not a
+      // licensed Reuters feed and does not promise access to full article text.
+      if(newsIntent&&newsDiscoveryPlan.broadWorld&&env.EXA_API_KEY) providerTasks.push((async()=>{
+        const started=Date.now();
+        const response=await fetch("https://api.exa.ai/search",{
+          method:"POST",headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
+          body:JSON.stringify({query:newsDiscoveryPlan.wireQuery,type:"auto",category:"news",
+            includeDomains:["reuters.com"],numResults:8,
+            ...(discoveryPublicationDay?{startPublishedDate:discoveryPublicationDay+"T00:00:00.000Z",endPublishedDate:discoveryPublicationDay+"T23:59:59.999Z"}:{}),
+            contents:{highlights:true}}),
+          signal:AbortSignal.timeout(7000)
+        });
+        if(!response.ok)throw new Error("HTTP "+response.status);
+        const payload=await response.json(),results=Array.isArray(payload.results)?payload.results:[];
+        return {provider:"Exa:ReutersLinks",elapsedMs:Date.now()-started,results:results.map(x=>({
+          title:x.title||x.url,url:x.url,publishedDate:x.publishedDate||null,
+          snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null
+        }))};
+      })().then(value=>({status:"fulfilled",value,provider:"Exa:ReutersLinks"}))
+        .catch(error=>({status:"rejected",provider:"Exa:ReutersLinks",error:String(error?.message||error).slice(0,140)})));
       if (env.BRAVE_API_KEY) providerTasks.push((async () => {
         const started = Date.now();
         const u = new URL("https://api.search.brave.com/res/v1/web/search");
-        u.searchParams.set("q",searchQuery); u.searchParams.set("count",eventResearchIntent?15:"6"); u.searchParams.set("search_lang",searchLanguage);
+        u.searchParams.set("q",newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.generalQuery:searchQuery);
+        u.searchParams.set("count",eventResearchIntent?15:newsIntent?12:6);
+        if(!(newsIntent&&newsDiscoveryPlan.broadWorld))u.searchParams.set("search_lang",searchLanguage);
         u.searchParams.set("country",searchCountry||"ALL"); u.searchParams.set("safesearch","moderate");
         const response = await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(eventResearchIntent?7000:8500)});
         if(!response.ok) throw new Error("HTTP "+response.status);
         const payload=await response.json(); const results=payload.web&&Array.isArray(payload.web.results)?payload.web.results:[];
         return {provider:"Brave",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.page_age||x.age||null,snippets:[x.description||"",...(Array.isArray(x.extra_snippets)?x.extra_snippets:[])].filter(Boolean).slice(0,3)}))};
       })().then(value=>({status:"fulfilled",value,provider:"Brave"})).catch(error=>({status:"rejected",provider:"Brave",error:String(error&&error.message||error).slice(0,140)})));
+      // When Exa is not configured, Brave can discover PUBLIC Reuters URLs.
+      // A search result does not grant rights to full Reuters wire content.
+      if(newsIntent&&newsDiscoveryPlan.broadWorld&&!env.EXA_API_KEY&&env.BRAVE_API_KEY) providerTasks.push((async()=>{
+        const started=Date.now(),u=new URL("https://api.search.brave.com/res/v1/web/search");
+        u.searchParams.set("q","site:reuters.com/world/ "+newsDiscoveryPlan.wireQuery);
+        u.searchParams.set("count","10");
+        u.searchParams.set("country","ALL");
+        const response=await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(7200)});
+        if(!response.ok)throw new Error("HTTP "+response.status);
+        const data=await response.json(),raw=Array.isArray(data.web?.results)?data.web.results:[];
+        const results=raw.filter(x=>{try{const h=new URL(x.url).hostname.toLowerCase();return h==="reuters.com"||h.endsWith(".reuters.com")}catch{return false}});
+        return {provider:"Brave:ReutersLinks",elapsedMs:Date.now()-started,results:results.map(x=>({
+          title:x.title||x.url,url:x.url,publishedDate:x.page_age||x.age||null,
+          snippets:[x.description||""].filter(Boolean)
+        }))};
+      })().then(value=>({status:"fulfilled",value,provider:"Brave:ReutersLinks"}))
+        .catch(error=>({status:"rejected",provider:"Brave:ReutersLinks",error:String(error?.message||error).slice(0,140)})));
       if (env.TAVILY_API_KEY) providerTasks.push((async () => {
         const started=Date.now();
-        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?15:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?7500:9000)});
+        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.generalQuery:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?15:newsIntent?12:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?7500:9000)});
         if(!response.ok) throw new Error("HTTP "+response.status);
         const payload=await response.json(); const results=Array.isArray(payload.results)?payload.results:[];
         return {provider:"Tavily",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.published_date||null,snippets:[x.content||""].filter(Boolean).slice(0,3)}))};
@@ -5083,13 +5138,18 @@ export default {
           outcomes.push(value);
           const useful=outcomes.filter(x=>x.status==="fulfilled"&&x.value.results.length>0);
           const resultCount=useful.reduce((sum,x)=>sum+x.value.results.length,0);
-          if(!readinessTimer&&useful.length>=(eventResearchIntent?2:1)&&resultCount>=(eventResearchIntent?8:3)){
+          const publisherSearchEngines=new Set(useful.map(x=>String(x.provider||x.value?.provider||"unknown").split(":")[0]));
+          const broadNewsReady=newsIntent&&newsDiscoveryPlan.broadWorld;
+          const enoughCoverage=broadNewsReady
+            ? publisherSearchEngines.size>=2&&resultCount>=12
+            : useful.length>=(eventResearchIntent?2:1)&&resultCount>=(eventResearchIntent?8:3);
+          if(!readinessTimer&&enoughCoverage){
             // Brief grace period to include an additional almost-finished provider.
-            readinessTimer=setTimeout(readinessResolve,eventResearchIntent?650:newsIntent?2200:250);
+            readinessTimer=setTimeout(readinessResolve,eventResearchIntent?650:newsIntent?newsDiscoveryPlan.broadWorld?700:2200:250);
           }
           return value;
         }));
-        const maxSearchWaitMs=eventResearchIntent?7000:newsIntent?6300:6000;
+        const maxSearchWaitMs=eventResearchIntent?7000:newsIntent?newsDiscoveryPlan.broadWorld?7200:6300:6000;
         try{
           await Promise.race([Promise.all(tracked),ready,new Promise(resolve=>{deadlineTimer=setTimeout(resolve,maxSearchWaitMs)})]);
         }finally{
@@ -5137,10 +5197,13 @@ export default {
           return score;
         };
         const rankedWebSources=[...byUrl.values()].sort((a,b)=>sourceEvidenceScore(b)-sourceEvidenceScore(a));
-        // Keep at least two discovered news listings visible when GDELT responds.
-        const gdeltLeads=newsIntent?rankedWebSources.filter(x=>x.providers.includes("GDELT")).slice(0,22):[];
+        // Diverse publishers rather than eight generic results plus a block
+        // from a single GDELT source; no article is added without a real URL.
+        const gdeltLeads=newsIntent?rankedWebSources.filter(x=>x.providers.includes("GDELT")).slice(0,35):[];
         const remainingRanked=rankedWebSources.filter(x=>!gdeltLeads.includes(x));
-        webSources=[...remainingRanked.slice(0,newsIntent?8:(eventResearchIntent?40:10)),...gdeltLeads].slice(0,newsIntent?30:(eventResearchIntent?40:10));
+        webSources=newsIntent
+          ?selectNewsPublisherDiverseSources([...remainingRanked.slice(0,24),...gdeltLeads],{max:35,firstPassPerPublisher:3})
+          :[...remainingRanked.slice(0,eventResearchIntent?40:10),...gdeltLeads].slice(0,eventResearchIntent?40:10);
         // Fetch a small number of original pages for additional evidence. Redirects are not followed;
         // non-HTML pages and unavailable pages remain explicitly unverified.
         await Promise.all(webSources.slice(0,eventResearchIntent?1:recipeInstruction?4:2).map(async source=>{
@@ -5170,7 +5233,9 @@ export default {
           const published=webSources.filter(x=>x.publishedRecipes?.length).slice(0,4).map(x=>'Publisher '+x.title+' ('+x.url+')\\n'+JSON.stringify(x.publishedRecipes.slice(0,3))).join('\\n\\n');
           webSearchContext+='\\n\\nPUBLISHER RECIPE INGREDIENTS AND STEP-BY-STEP INSTRUCTIONS (source factual data; rephrase naturally without changing their meaning):\\n'+published;
         }
-        webSearchDiagnostics={research_elapsed_ms:Date.now()-researchStartedAt,max_search_wait_ms:maxSearchWaitMs,pendingProviderCount,providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
+        webSearchDiagnostics={research_elapsed_ms:Date.now()-researchStartedAt,max_search_wait_ms:maxSearchWaitMs,pendingProviderCount,providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,
+          ...(newsIntent?{...describeNewsPublishers(webSources),broad_news_query:newsDiscoveryPlan.broadWorld,licensed_wire_access:false}:{}),
+          freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
         console.info("Pocket AI v98 web research",JSON.stringify({stage:"web_research_completed",status:webSearchStatus,...webSearchDiagnostics}));
       }
     }
@@ -5181,6 +5246,8 @@ export default {
     if(newsListingIntent&&shouldSearchWeb){
       const seenTitles=new Set();
       const rows=[];
+      const candidatePublisherCount=describeNewsPublishers(webSources).unique_publisher_count;
+      const publisherRows=new Map();
       const freshnessHours=/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?24:null;
       const todayOnly=/\b(?:astazi|azi|today)\b/i.test(normalizedResearchRequest);
       const nowMs=Date.now();
@@ -5198,6 +5265,11 @@ export default {
         if(/^(?:news|world|politics|international|latest|home|index|articles|updates|emisiuni|stiri|stiri-video|ziua-si)$/i.test(slug))continue;
         const key=originalTitle.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
         if(!key||seenTitles.has(key))continue;
+        const hostKey=parsed.hostname.toLowerCase().replace(/^www\./,"");
+        const publisherUsed=publisherRows.get(hostKey)||0;
+        // When several publishers are available, avoid allowing one source
+        // to occupy the entire visible news list.
+        if(candidatePublisherCount>=3&&publisherUsed>=3)continue;
         if(/(?:breaking news|latest news|stiri de ultima ora|știri de ultimă oră|world news summary|news summary|latest headlines|monthly geopolitical report|live fm|news live|live updates)\b/i.test(originalTitle))continue;
         const sourceDate=String(source.publishedDate||"");
         const normalizedDate=/^\d{8}T\d{6}Z$/.test(sourceDate)?sourceDate.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,"$1-$2-$3T$4:$5:$6Z"):sourceDate;
@@ -5217,6 +5289,7 @@ export default {
         const publisherNames={"abc.net.au":"ABC News","dw.com":"Deutsche Welle","apnews.com":"Associated Press","arabnews.com":"Arab News","internazionale.it":"Internazionale","lb.ua":"LB.ua","pravda.com.ua":"Ukrainska Pravda","eldestapeweb.com":"El Destape","interfax.ru":"Interfax"};
         const sourceName=publisherNames[rawDomain]||publisherNames[rawDomain.replace(/^www\\./,"")]||rawDomain;
         seenTitles.add(key);
+        publisherRows.set(hostKey,publisherUsed+1);
         rows.push({title:originalTitle,original_title:originalTitle,url,source_name:sourceName,
           source_domain:rawDomain,published_at:source.publishedDate||null,recency_status:recencyStatus,
           summary,detail:summary,providers:Array.isArray(source.providers)?source.providers:[],
@@ -5256,7 +5329,8 @@ export default {
       // Never imply that the application has a complete news feed when strict
       // publication-date and topic validation leave only a few articles.
       const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",requested_publication_day:newsPublicationFilter?.day||null,publication_filter:newsPublicationFilter?.kind||"none",
-        result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage",missing_publication_dates:rows.filter(r=>r.recency_status!=="dated").length};
+        result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage",missing_publication_dates:rows.filter(r=>r.recency_status!=="dated").length,
+        ...describeNewsPublishers(rows)};
       const labels={ro:["Știri identificate în sursele consultate","Apasă pe titlul unei știri pentru detalii. Publicarea nu confirmă automat afirmațiile din articol.","Nu am putut identifica articole relevante în sursele disponibile."],
         en:["News from retrieved sources","Tap a headline to read details. Publication alone does not verify its claims.","No relevant articles could be found from available sources."],
         fr:["Actualités issues des sources consultées","Touchez un titre pour voir les détails. La publication ne confirme pas les faits.","Aucun article pertinent trouvé."],
