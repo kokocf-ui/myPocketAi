@@ -1809,8 +1809,23 @@ export default {
         ru:"Рада это слышать! 😊 Чем могу помочь?",
         pl:"Miło to słyszeć! 😊 W czym mogę pomóc?"
       };
+      const casualText=message.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+      const thanked=/\b(?:multumesc|mersi|thanks|thank you|merci|danke|grazie|gracias|obrigado|obrigada|bedankt|dziekuje)\b/u.test(casualText);
+      const thanksReplies={
+        ro:"Cu drag! 😊 Mă bucur că ești bine.",
+        en:"You're welcome! 😊 Glad you're doing well.",
+        fr:"Avec plaisir ! 😊 Contente que tu ailles bien.",
+        de:"Gern geschehen! 😊 Schön, dass es dir gut geht.",
+        it:"Di nulla! 😊 Sono felice che tu stia bene.",
+        es:"¡De nada! 😊 Me alegra que estés bien.",
+        pt:"De nada! 😊 Fico feliz por saber que estás bem.",
+        nl:"Graag gedaan! 😊 Fijn dat het goed met je gaat.",
+        ru:"Пожалуйста! 😊 Рада, что у тебя всё хорошо.",
+        pl:"Nie ma za co! 😊 Cieszę się, że u Ciebie dobrze."
+      };
+      const reply=!isConcern&&thanked?(thanksReplies[lang]||thanksReplies.en):(replies[lang]||replies.en);
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
-        message_received:message,reply:replies[lang]||replies.en,
+        message_received:message,reply,
         conversational_reply:true,ai_generated:false,ai_connected:Boolean(env.AI),
         context_diagnostics:{dialogue_intent_kind:"social_checkin",sentiment:dialogueIntent.sentiment},
         web_search_status:"not_needed"});
