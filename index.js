@@ -1306,6 +1306,24 @@ body.long-choice-active{overflow:hidden}
 .route-map-window details.selected-transit[open]>*:not(summary){margin-left:12px;margin-right:12px}
 </style>
 <section class="view" id="view-assistant"><div class="assistant-actions"><button class="back-btn" data-back>← Acasă</button><button class="secondary-btn" id="newChatBtn">＋ Conversație nouă</button></div><h2 class="section-title">Asistent AI</h2><p class="section-lead">Scrie sau vorbește cu myPocket AI.</p><div class="chat-shell" id="sharedChatShell"><div class="chat-top"><strong>Conversație</strong><button class="round-control" id="dictationBtn" aria-label="Dictare vocală" title="Dictare vocală" aria-pressed="false">🎙️</button><button class="round-control" id="voiceBtn" aria-label="Conversație vocală" title="Conversație vocală" aria-pressed="false">🎧</button><button class="round-control" id="listenBtn" aria-label="Ascultă ultimul răspuns" title="Ascultă răspunsul">🔊</button></div><div class="messages" id="messages" aria-live="polite"><div class="empty-state">Cu ce te pot ajuta?<br><span class="small">Scrie o întrebare în română sau engleză.</span></div></div><div class="chat-status" id="chatStatus" role="status">Gata de conversație.</div><form class="chat-form" id="chatForm"><textarea id="messageInput" rows="1" maxlength="4000" placeholder="" aria-label="Mesaj pentru myPocket AI" required></textarea><button class="send-btn" id="sendBtn" aria-label="Trimite mesajul" type="submit">➤</button></form></div><div id="chatHomePlaceholder"></div></section>
+<style>
+#view-module.learning-choose,#view-module.learning-active{overflow-y:auto!important}
+#view-module.learning-choose #moduleContent,#view-module.learning-active #moduleContent{display:block!important;max-height:none!important;overflow:visible!important}
+#view-module.learning-choose #moduleChatHost{display:none!important}
+#view-module.learning-choose .section-lead,#view-module.learning-active .section-lead{display:block!important}
+.education-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:7px 0 18px}
+.education-card{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:7px;min-width:0;min-height:150px;padding:13px;border:2px solid #3fabc2;border-radius:23px;background:linear-gradient(160deg,#154a67,#092538 45%,#071626);color:#f2faff;box-shadow:inset 0 3px 0 #4186ac,0 5px 0 #04111e}
+.education-card .education-art{font-size:31px;align-self:center;line-height:1.4}
+.education-card strong{font-size:15px;line-height:1.2}
+.education-card small{font-size:12px;line-height:1.35;color:#c0d5e3}
+.education-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.education-photo-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.education-photo-actions button{flex:1 1 125px}
+.education-photo-panel{display:flex;flex-direction:column;gap:10px;background:#0b2131;border:1px solid #3fabc2;border-radius:14px;padding:12px;margin-bottom:12px}
+.education-photo-panel img{display:block;max-width:100%;max-height:220px;object-fit:contain}
+.education-photo-panel textarea{width:100%;min-height:90px;padding:10px;border-radius:8px;background:#081725;color:#f2faff;border:1px solid #548199}
+@media(max-width:350px){.education-grid{gap:8px}.education-card{padding:10px;min-height:158px}}
+</style>
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
 <section class="view" id="view-tools"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Instrumente</h2><p class="section-lead">Alege un domeniu pentru a începe.</p><div class="simple-list" id="toolsList"></div></section>
@@ -1509,7 +1527,87 @@ function selectedPlaceForRoute(message){
  return {latitude:p.latitude,longitude:p.longitude,label:[p.name,p.address].filter(Boolean).join(', ').slice(0,240)};
 }
 
-function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');}
+const LEARNING_SUBJECTS=[
+ ['languages','🗣️','Limbi străine','Languages','Vocabular, pronunție și conversație.','Vocabulary, pronunciation and conversation.'],
+ ['math','🧮','Matematică','Mathematics','Calcule, ecuații și geometrie.','Calculations, equations and geometry.'],
+ ['science','⚛️','Științe','Sciences','Fizică, chimie, biologie și astronomie.','Physics, chemistry, biology and astronomy.'],
+ ['history','🌍','Istorie și geografie','History and geography','Civilizații, țări și hărți.','Civilizations, countries and maps.'],
+ ['literature','📖','Limbă și literatură','Language and literature','Gramatică, lectură și exprimare.','Grammar, reading and writing.'],
+ ['computing','💻','Informatică','Computing','Programare și competențe digitale.','Programming and digital skills.'],
+ ['exams','🎓','Pregătire examene','Exam preparation','Teste, simulări și recapitulări.','Tests, mock exams and revision.'],
+ ['practical','🧰','Cursuri practice','Practical courses','Finanțe, meserii și antreprenoriat.','Finance, careers and enterprise.']
+];
+let activeLearningSubject=null;
+function learningLabel(ro,en){return state.language==='ro'?ro:en}
+function renderLearningSubjects(){
+ const root=$('view-module'),host=$('moduleContent');
+ activeLearningSubject=null;root.classList.add('learning-choose');root.classList.remove('learning-active');
+ host.replaceChildren();
+ const grid=document.createElement('div');grid.className='education-grid';
+ LEARNING_SUBJECTS.forEach(subject=>{
+  const btn=document.createElement('button');btn.type='button';btn.className='education-card';
+  const art=document.createElement('span');art.className='education-art';art.textContent=subject[1];
+  const name=document.createElement('strong');name.textContent=learningLabel(subject[2],subject[3]);
+  const details=document.createElement('small');details.textContent=learningLabel(subject[4],subject[5]);
+  btn.append(art,name,details);
+  btn.onclick=()=>openLearningSubject(subject[0]);
+  grid.append(btn);
+ });
+ host.append(grid);
+ $('moduleLead').textContent=learningLabel('Alege materia. Întrebările și fotografiile apar după selecție.','Choose a subject to access questions and photographs.');
+}
+function openLearningSubject(key){
+ const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
+ activeLearningSubject=subject;
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose');root.classList.add('learning-active');
+ host.replaceChildren();
+ const bar=document.createElement('div');bar.className='education-toolbar';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Materii','← Subjects');back.onclick=()=>renderLearningSubjects();
+ const title=document.createElement('strong');title.textContent=subject[1]+' '+learningLabel(subject[2],subject[3]);bar.append(back,title);host.append(bar);
+ $('moduleLead').textContent=learningLabel('Întreabă, exersează sau fotografiază un text.','Ask, practise or photograph text.');
+ const actions=document.createElement('div');actions.className='education-photo-actions';
+ const photo=document.createElement('button');photo.type='button';photo.className='secondary-btn';photo.textContent=learningLabel('📷 Fotografiere text','📷 Photograph text');
+ const pick=document.createElement('button');pick.type='button';pick.className='secondary-btn';pick.textContent=learningLabel('🖼️ Alege fotografie','🖼️ Choose photo');
+ const cameraInput=document.createElement('input');cameraInput.type='file';cameraInput.accept='image/*';cameraInput.setAttribute('capture','environment');cameraInput.hidden=true;
+ const fileInput=document.createElement('input');fileInput.type='file';fileInput.accept='image/*';fileInput.hidden=true;
+ photo.onclick=()=>cameraInput.click();pick.onclick=()=>fileInput.click();
+ cameraInput.onchange=()=>handleLearningPhoto(cameraInput.files?.[0]);
+ fileInput.onchange=()=>handleLearningPhoto(fileInput.files?.[0]);
+ actions.append(photo,pick,cameraInput,fileInput);host.append(actions);
+ inputEl.placeholder=learningLabel('Întreabă despre '+subject[2].toLowerCase()+'…','Ask about '+subject[3].toLowerCase()+'…');
+}
+async function handleLearningPhoto(file){
+ if(!file||!activeLearningSubject)return;
+ if(!file.type.startsWith('image/')){notify(learningLabel('Selectează o imagine.','Select an image.'));return}
+ if(file.size>12*1024*1024){notify(learningLabel('Imaginea este prea mare (max. 12 MB).','Image too large (max. 12 MB).'));return}
+ const host=$('moduleContent');
+ host.querySelector('.education-photo-panel')?.remove();
+ const panel=document.createElement('div');panel.className='education-photo-panel';
+ const preview=document.createElement('img');preview.alt=learningLabel('Fotografia selectată','Selected photograph');preview.src=URL.createObjectURL(file);
+ preview.onload=()=>URL.revokeObjectURL(preview.src);
+ const status=document.createElement('p');status.textContent=learningLabel('Se încearcă citirea textului din fotografie…','Attempting to read the photograph…');
+ const extracted=document.createElement('textarea');extracted.rows=4;extracted.placeholder=learningLabel('Transcrie sau corectează aici textul fotografiat.','Type or correct the photographed text here.');
+ const task=document.createElement('select');task.className='text-field';
+ const choices=[[learningLabel('Explică și rezolvă','Explain and solve'),'solve'],[learningLabel('Tradu textul','Translate text'),'translate']];
+ choices.forEach(([label,value])=>{const option=document.createElement('option');option.value=value;option.textContent=label;task.append(option)});
+ const submit=document.createElement('button');submit.type='button';submit.className='primary-btn';submit.textContent=learningLabel('Folosește textul','Use text');
+ submit.onclick=()=>{
+  const content=extracted.value.trim();
+  if(!content){notify(learningLabel('Introdu textul din fotografie pentru a continua.','Enter the photographed text to continue.'));return}
+  inputEl.value=(task.value==='translate'?learningLabel('Tradu următorul text în limba selectată și explică termenii dificili:\n','Translate the following text into the selected language:\n'):learningLabel('Explică și rezolvă pas cu pas următorul exercițiu din materia ','Explain and solve this exercise step by step for ')+learningLabel(activeLearningSubject[2],activeLearningSubject[3])+':\n')+content;
+  inputEl.focus();notify(learningLabel('Textul este pregătit. Verifică-l și trimite întrebarea.','Text ready. Review and send your question.'));
+ };
+ panel.append(preview,status,extracted,task,submit);host.append(panel);
+ try {
+  if(typeof TextDetector!=='function')throw new Error('ocr_unavailable');
+  const detector=new TextDetector();
+  const lines=await detector.detect(preview);
+  if(lines?.length){extracted.value=lines.map(x=>x.rawValue||'').join('\n');status.textContent=learningLabel('Text recunoscut. Verifică-l înainte de trimitere.','Text detected. Check it before sending.')}
+  else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
+ } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
+}
+function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();}
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'}],travel:[{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante, pizzerii, shaormerii și fast-food în apropierea mea.',kind:'places',description:'Caută restaurante, pub-uri, pizzerii, shaormerii și fast-food'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places',description:'Caută alte puncte de interes din apropiere'}]};
 function updateQuickLayerGeometry(){
  const header=document.querySelector('.app-header'),nav=document.querySelector('.bottom-nav');
