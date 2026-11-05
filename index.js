@@ -1664,6 +1664,30 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
  display:flex;align-items:center;justify-content:center;
  font-size:clamp(.85rem,3.5vw,1rem)!important;line-height:1.12
 }
+/* Confirmation takes the entire footer row, not one half of the active-list grid. */
+#view-module.adaptive-workspace-view .shop-active-footer.adaptive-workspace__actions--confirm{
+ display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+ width:100%!important;min-width:0!important;
+}
+#view-module.adaptive-workspace-view .adaptive-workspace__actions--confirm>.shop-inline-confirm{
+ grid-column:1/-1!important;width:100%!important;min-width:0!important;
+ max-width:none!important;box-sizing:border-box!important;margin:0!important;
+ overflow-x:hidden!important;
+}
+#view-module.adaptive-workspace-view .adaptive-workspace__actions--confirm .shop-inline-confirm>.adaptive-fields{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:clamp(.45rem,2vw,.85rem)!important;width:100%!important;min-width:0!important;
+ align-items:stretch!important;
+}
+#view-module.adaptive-workspace-view .adaptive-workspace__actions--confirm .shop-inline-confirm>.adaptive-fields>button{
+ box-sizing:border-box!important;width:100%!important;min-width:0!important;
+ height:auto!important;min-height:var(--shopping-action-height)!important;max-height:none!important;
+ margin:0!important;padding:.45rem .55rem!important;
+ font-size:clamp(.78rem,3.1vw,.96rem)!important;
+ line-height:1.2!important;text-align:center!important;
+ white-space:normal!important;word-break:normal!important;overflow-wrap:normal!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+}
 #view-module.adaptive-workspace-view .shop-voice-button[aria-pressed="true"]{border-color:#32d9df;box-shadow:0 0 0 2px #32d9df88}
 #view-module.adaptive-workspace-view .shop-voice-status{display:block;color:#b9dbe5;margin:.35rem 0 .5rem;line-height:1.3;overflow-wrap:anywhere}
 #view-module.adaptive-workspace-view .shop-entry-hint{
@@ -2244,8 +2268,8 @@ function shopVoiceSplit(transcript){
  if(!text)return [];
  // Android can omit commas when recognizing a string of products.
  // Quantity expressions mark boundaries, including "o jumătate de kilogram".
- const qty=/(?:\b(?:o\s+jumătate|o\s+jumatate|jumătate|jumatate|un|una|unu|o|doi|două|doua|trei|patru|cinci|șase|sase|șapte|sapte|opt|nouă|noua|zece|unsprezece|doisprezece|\d+(?:[.,]\d+)?))(?=\s+(?:de\s+)?[\p{L}])/giu;
- const starts=[...text.matchAll(qty)].map(m=>m.index);
+ const qty=/(?:^|[\s,;])((?:o\s+jumătate|o\s+jumatate|jumătate|jumatate|unsprezece|doisprezece|două|doua|doi|trei|patru|cinci|șase|sase|șapte|sapte|opt|nouă|noua|zece|un|una|unu|o|\d+(?:[.,]\d+)?))(?=\s+(?:de\s+)?[\p{L}])/giu;
+ const starts=[...text.matchAll(qty)].map(m=>m.index+m[0].indexOf(m[1]));
  const segments=[];
  if(starts.length>1){
   if(starts[0]>0)segments.push(text.slice(0,starts[0]));
