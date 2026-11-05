@@ -1,0 +1,30 @@
+// Enrich research for elliptical follow-ups using recent USER turns only.
+// Never treat a previous assistant answer as a verified source.
+const normal=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/\s+/g," ").trim();
+const polite=/^(?:salut|buna|hello|hi|hey|multumesc|mersi|thanks|thank you|ok|okay|da|nu|yes|no)[!?. ]*$/;
+const start=/^(?:(?:si|iar|dar|and|but|also|what about|how about)\s+(?:(?:in|din|la|pentru|despre|at|for|about|cat|cum|cand|when|de ce|how|much|where)\b)|(?:este|e|sunt|era|erau|is it|are they|was it|does it|cat ar fi|how much would)\b)/;
+const back=/\b(?:acesta|aceasta|acestea|acel|acele|asta|aceea|mentionat|precedent|anterior|acolo|it|that|those|there|earlier|previously|brut|net|gross)\b/;
+function dependent(s){
+ const t=normal(s).replace(/[!?.,;:]+$/,"");
+ if(!t||t.split(/\s+/).length>19||polite.test(t)||/^(?:nu[,! ]+|no[,! ]+)?(?:ma refeream|i meant|nu asta|not that)\b/.test(t))return false;
+ if(/^(?:dar\s+|but\s+)?(?:cine a |who (?:invented|founded|created)|ce este |what is |poti sa |can you ).{15,}/.test(t))return false;
+ if(/^(?:este|e|sunt|is|are)\s+[A-ZĂÂÎȘȚ][\p{L}\p{M}]{2,}/iu.test(String(s).trim())&&!back.test(t))return false;
+ return start.test(t)||back.test(t)||/^(?:de ce|why|cum asa|how so)$/.test(t);
+}
+export function contextualResearchQuery(message,history){
+ const current=String(message||"").trim(),unchanged={query:current,context_applied:false,reason:"standalone"};
+ if(!dependent(current))return unchanged;
+ const prior=(Array.isArray(history)?history:[]).filter(x=>x?.role==="user"&&typeof x.content==="string").map(x=>x.content.trim()).filter(Boolean);
+ while(prior.length&&prior.at(-1)===current)prior.pop();
+ let topic="";
+ for(const t of prior.slice(-5).reverse()){
+  if(polite.test(normal(t)))break;
+  if(!dependent(t)&&normal(t).split(/\s+/).length>=4&&t.length<340){topic=t;break;}
+ }
+ if(!topic)return {...unchanged,reason:"no_recent_topic"};
+ if(/\b(?:brut|net|gross)\b/.test(normal(current))&&!/\b(?:salari\w*|salary|wage\w*|income|venit\w*|pay|tax\w*|impozit\w*|pension|pret\w*|cost\w*)\b/.test(normal(topic)))return {...unchanged,reason:"unrelated_topic"};
+ const placeChange=/^(?:si|iar|dar|and|but|also|what about)\s+(?:in|din|la|pentru|despre|at|for|about)\s+/.test(normal(current));
+ if(placeChange)topic=topic.replace(/\s+(?:în|in|din|la|at|for)\s+[A-ZĂÂÎȘȚ][\p{L}\p{M}'-]*(?:\s+[A-ZĂÂÎȘȚ][\p{L}\p{M}'-]*){0,2}\s*[?!.,]*$/u,"").trim();
+ if(normal(topic).split(/\s+/).length<3)return {...unchanged,reason:"insufficient_topic"};
+ return {query:(topic.replace(/[!?.,;:]+$/,"")+"; "+current).slice(0,500),context_applied:true,reason:placeChange?"place_change":"ellipsis"};
+}
