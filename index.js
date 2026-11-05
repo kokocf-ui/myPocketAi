@@ -4805,7 +4805,9 @@ $('languageSelect').addEventListener('change',event=>{state.language=UI_TEXT[eve
 startSharedLocation();
 loadHistory();
 if('speechSynthesis'in window){refreshSpeechVoices();try{window.speechSynthesis.addEventListener('voiceschanged',refreshSpeechVoices)}catch{window.speechSynthesis.onvoiceschanged=refreshSpeechVoices}}
-welcomeUser();
+// Launch directly into the app. Preload the 3D avatar offscreen; it comes from
+// the Android asset bundle on APK builds and the cloud asset in browsers.
+avatar3dLoad();
 })();
 </script>
 
