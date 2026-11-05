@@ -35,6 +35,7 @@ import android.view.View;
 import android.util.TypedValue;
 
 import androidx.activity.ComponentActivity;
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -322,6 +323,20 @@ public final class MainActivity extends ComponentActivity {
                         runOnUiThread(this::revealReadyAvatar);
                 });
         }
+        // The native back action must use the app's own view stack, not WebView history.
+        getOnBackPressedDispatcher().addCallback(this,new OnBackPressedCallback(true){
+            @Override public void handleOnBackPressed(){
+                if(web!=null)web.evaluateJavascript("window.pocketAndroidBack && window.pocketAndroidBack();",null);
+            }
+        });
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidNavigation",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!APP_HOST.equals(origin.getHost()))return;
+                    if("exit".equals(message.getData()))runOnUiThread(()->finish());
+                });
+        }
         web.loadUrl(APP_URL);
         // Request GPS only after the native activity is ready, so the WebView can use it.
         web.postDelayed(this::ensureLocationPermission,900);
@@ -386,8 +401,4 @@ public final class MainActivity extends ComponentActivity {
 
     @Override protected void onDestroy(){stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}if(web!=null){web.destroy();}super.onDestroy();}
 
-    @Override public void onBackPressed(){
-        if (web!=null && web.canGoBack()) web.goBack();
-        else super.onBackPressed();
-    }
 }
