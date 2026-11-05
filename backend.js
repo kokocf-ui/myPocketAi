@@ -5060,7 +5060,10 @@ export default {
         const started = Date.now();
         const response = await fetch("https://api.exa.ai/search", {
           method:"POST", headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
-          body:JSON.stringify({query:searchQuery,type:"auto",numResults:eventResearchIntent?15:6,contents:{highlights:true}}),
+          body:JSON.stringify({query:newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.exaQuery:searchQuery,type:"auto",numResults:eventResearchIntent?15:newsIntent?12:6,
+            ...(newsIntent?{category:"news"}:{}),
+            ...(newsIntent&&discoveryPublicationDay?{startPublishedDate:discoveryPublicationDay+"T00:00:00.000Z",endPublishedDate:discoveryPublicationDay+"T23:59:59.999Z"}:{}),
+            contents:{highlights:true}}),
           signal:AbortSignal.timeout(eventResearchIntent?7500:9000)
         });
         if (!response.ok) throw new Error("HTTP " + response.status);
@@ -5068,10 +5071,32 @@ export default {
         const results = Array.isArray(payload.results) ? payload.results : [];
         return {provider:"Exa",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.publishedDate||null,snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null}))};
       })().then(value=>({status:"fulfilled",value,provider:"Exa"})).catch(error=>({status:"rejected",provider:"Exa",error:String(error&&error.message||error).slice(0,140)})));
+      // Optional targeted discovery of PUBLIC Reuters links. This is not a
+      // licensed Reuters feed and does not promise access to full article text.
+      if(newsIntent&&newsDiscoveryPlan.broadWorld&&env.EXA_API_KEY) providerTasks.push((async()=>{
+        const started=Date.now();
+        const response=await fetch("https://api.exa.ai/search",{
+          method:"POST",headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
+          body:JSON.stringify({query:newsDiscoveryPlan.wireQuery,type:"auto",category:"news",
+            includeDomains:["reuters.com"],numResults:8,
+            ...(discoveryPublicationDay?{startPublishedDate:discoveryPublicationDay+"T00:00:00.000Z",endPublishedDate:discoveryPublicationDay+"T23:59:59.999Z"}:{}),
+            contents:{highlights:true}}),
+          signal:AbortSignal.timeout(7000)
+        });
+        if(!response.ok)throw new Error("HTTP "+response.status);
+        const payload=await response.json(),results=Array.isArray(payload.results)?payload.results:[];
+        return {provider:"Exa:ReutersLinks",elapsedMs:Date.now()-started,results:results.map(x=>({
+          title:x.title||x.url,url:x.url,publishedDate:x.publishedDate||null,
+          snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null
+        }))};
+      })().then(value=>({status:"fulfilled",value,provider:"Exa:ReutersLinks"}))
+        .catch(error=>({status:"rejected",provider:"Exa:ReutersLinks",error:String(error?.message||error).slice(0,140)})));
       if (env.BRAVE_API_KEY) providerTasks.push((async () => {
         const started = Date.now();
         const u = new URL("https://api.search.brave.com/res/v1/web/search");
-        u.searchParams.set("q",searchQuery); u.searchParams.set("count",eventResearchIntent?15:"6"); u.searchParams.set("search_lang",searchLanguage);
+        u.searchParams.set("q",newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.generalQuery:searchQuery);
+        u.searchParams.set("count",eventResearchIntent?15:newsIntent?12:6);
+        if(!(newsIntent&&newsDiscoveryPlan.broadWorld))u.searchParams.set("search_lang",searchLanguage);
         u.searchParams.set("country",searchCountry||"ALL"); u.searchParams.set("safesearch","moderate");
         const response = await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(eventResearchIntent?7000:8500)});
         if(!response.ok) throw new Error("HTTP "+response.status);
@@ -5080,7 +5105,7 @@ export default {
       })().then(value=>({status:"fulfilled",value,provider:"Brave"})).catch(error=>({status:"rejected",provider:"Brave",error:String(error&&error.message||error).slice(0,140)})));
       if (env.TAVILY_API_KEY) providerTasks.push((async () => {
         const started=Date.now();
-        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?15:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?7500:9000)});
+        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.generalQuery:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?15:newsIntent?12:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?7500:9000)});
         if(!response.ok) throw new Error("HTTP "+response.status);
         const payload=await response.json(); const results=Array.isArray(payload.results)?payload.results:[];
         return {provider:"Tavily",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.published_date||null,snippets:[x.content||""].filter(Boolean).slice(0,3)}))};
