@@ -30,7 +30,8 @@ assert(answer.choice_options.some(x=>x.entity_kind==='article'&&norm(x.entity_ti
 assert(answer.choice_options.filter(x=>x.entity_kind==='place'&&x.entity_type==='region'&&x.label.includes('România')).length===1,'providers deduplicated');
 assert(calls.some(x=>x.includes('tomtom.com')),'TomTom consulted for geographic meaning');
 const followUp=await run(...Object.values({...base,explicitKnowledge:true,message:'Informații despre Alba'}));
-assert.equal(followUp,null,'encyclopaedia selection does not reprompt');
+assert.equal(followUp?.entity_disambiguation,true,'explicit knowledge question also needs ambiguity choices');
+assert.ok(followUp.choice_options.some(x=>x.entity_type==='region'&&x.label.includes('România')),'county available for explicit knowledge prompt');
 const known=await run(...Object.values({...base,knownTopic:'Oradea',topicKey:'oradea',bareTopic:'Oradea',parts:['Oradea'],message:'Oradea'}));
 assert.equal(known,null,'unambiguous known city stays on existing flow');
 assert(frontend.includes("if(data.entity_disambiguation){"),'frontend handles choice kinds');
