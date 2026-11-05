@@ -1,11 +1,8 @@
 name: Pocket AI live Telegram translation check
 
+# A successful deployment must not run expensive LIVE Workers AI calls.
+# Execute this paid-neuron smoke test manually after changing the news/translation pipeline.
 on:
-  workflow_run:
-    workflows:
-      - Deploy MyPocketAI to Cloudflare
-    types:
-      - completed
   workflow_dispatch:
 
 permissions:
