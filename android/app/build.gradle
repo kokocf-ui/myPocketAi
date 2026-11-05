@@ -53,7 +53,7 @@ dependencies {
 // from Cloudflare every time the native app launches.
 def pocketAvatarAssetDir = layout.buildDirectory.dir("generated/pocket-avatar-assets")
 tasks.register("bundlePocketAvatar", Copy) {
-    from(file("../public/avatar-v4.html"))
+    from(file("$rootDir/../public/avatar-v4.html"))
     into(pocketAvatarAssetDir)
     rename { "avatar-production.html" }
 }
