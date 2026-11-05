@@ -3387,7 +3387,7 @@ export default {
         const u=new URL(env.OPEN_METEO_API_KEY?'https://customer-api.open-meteo.com/v1/forecast':'https://api.open-meteo.com/v1/forecast');
         u.searchParams.set('latitude',String(point.latitude));u.searchParams.set('longitude',String(point.longitude));
         u.searchParams.set('timezone','auto');u.searchParams.set('forecast_days','16');u.searchParams.set('temperature_unit','celsius');u.searchParams.set('wind_speed_unit','kmh');
-        u.searchParams.set('daily','temperature_2m_min,temperature_2m_max,precipitation_probability_max,wind_speed_10m_max');u.searchParams.set('hourly','temperature_2m,precipitation_probability,precipitation,weather_code');u.searchParams.set('current','temperature_2m');
+        u.searchParams.set('daily','temperature_2m_min,temperature_2m_max,precipitation_probability_max,wind_speed_10m_max');u.searchParams.set('hourly','temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,cloud_cover,wind_speed_10m');u.searchParams.set('current','temperature_2m,apparent_temperature,weather_code,cloud_cover,wind_speed_10m');
         if(env.OPEN_METEO_API_KEY)u.searchParams.set('apikey',env.OPEN_METEO_API_KEY);
         const r=await fetch(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(10000)});
         if(!r.ok)throw Error('weather_provider_unavailable');
@@ -3421,7 +3421,7 @@ export default {
           const stamp=hourly.time[j];if(typeof stamp!=="string"||!stamp.startsWith(date+"T")||(futureOnly&&Number(stamp.slice(11,13))<localHour))continue;
           const temperature=hourly.temperature_2m?.[j],probability=hourly.precipitation_probability?.[j],precipitation=hourly.precipitation?.[j],code=hourly.weather_code?.[j];
           if(!Number.isFinite(temperature))continue;
-          hourlyRows.push({time:stamp.slice(11,16),temperature,precipitation_probability:Number.isFinite(probability)?probability:null,precipitation_mm:Number.isFinite(precipitation)?precipitation:null,weather_code:Number.isFinite(code)?code:null});
+          hourlyRows.push({time:stamp.slice(11,16),temperature,feels_like:Number.isFinite(hourly.apparent_temperature?.[j])?hourly.apparent_temperature[j]:null,cloud_cover:Number.isFinite(hourly.cloud_cover?.[j])?hourly.cloud_cover[j]:null,wind_kmh:Number.isFinite(hourly.wind_speed_10m?.[j])?hourly.wind_speed_10m[j]:null,precipitation_probability:Number.isFinite(probability)?probability:null,precipitation_mm:Number.isFinite(precipitation)?precipitation:null,weather_code:Number.isFinite(code)?code:null});
         }
         const wet=hourlyRows.filter(x=>x.precipitation_mm!==null&&x.precipitation_mm>=0.1);
         let rainWindow=null;
@@ -3431,13 +3431,25 @@ export default {
           rainWindow={start:first.time,end:String(endHour).padStart(2,"0")+":00",estimated:true};
         }
         if(hourlyRows.length&&weather.period!=="current"){
-          const ro=lang==="ro";
-          reply+="\n"+(ro?"Prognoză pe ore (ora locală):":"Hourly forecast (local time):");
-          for(const h of hourlyRows.filter((_,i)=>i%3===0)){
-            reply+="\n"+h.time+" · "+f(h.temperature)+"°C"+(h.precipitation_probability!==null?" · "+(ro?"risc ploaie ":"rain chance ")+f(h.precipitation_probability)+"%":"");
+          const ro=lang==="ro",first=hourlyRows[0],cloudRows=hourlyRows.filter(x=>x.cloud_cover!==null);
+          const cloud=cloudRows.length?cloudRows.reduce((a,x)=>a+x.cloud_cover,0)/cloudRows.length:null;
+          const sky=cloud===null?(ro?"variabilă":"variable"):cloud>=75?(ro?"predominant noroasă":"mostly cloudy"):cloud>=40?(ro?"parțial noroasă":"partly cloudy"):(ro?"predominant senină":"mostly clear");
+          const probs=hourlyRows.map(x=>x.precipitation_probability).filter(Number.isFinite);
+          const peak=probs.length?Math.max(...probs):null;
+          const wind=Math.max(0,...hourlyRows.map(x=>x.wind_kmh||0));
+          if(ro){
+            reply="În "+point.label+", vremea "+(date===today?"de astăzi":"pentru "+date)+" va fi "+sky+".\nTemperaturi: "+f(values.minimum)+"–"+f(values.maximum)+"°C"+(Number.isFinite(first.feels_like)?"; temperatura resimțită la "+first.time+": "+f(first.feels_like)+"°C":"")+".";
+            if(peak!==null)reply+="\nProbabilitatea maximă de precipitații în orele disponibile: "+f(peak)+"%.";
+            if(rainWindow)reply+="\nPloaie estimată între "+rainWindow.start+" și "+rainWindow.end+" (orientativ).";
+            else if(hourlyRows.every(x=>x.precipitation_mm!==null&&x.precipitation_mm<0.1))reply+="\nNu sunt prognozate precipitații măsurabile în orele disponibile.";
+            if(wind>0)reply+="\nVânt: până la "+f(wind)+" km/h.";
+            if(Number.isFinite(first.feels_like)&&first.feels_like<=10)reply+="\nO jachetă ar fi utilă dacă ieși.";
+          }else{
+            reply="Weather in "+point.label+" ("+date+"): "+sky+".\nTemperature: "+f(values.minimum)+"–"+f(values.maximum)+"°C"+(Number.isFinite(first.feels_like)?"; feels like "+f(first.feels_like)+"°C at "+first.time:"")+".";
+            if(peak!==null)reply+="\nPeak precipitation probability in available hours: "+f(peak)+"%.";
+            if(rainWindow)reply+="\nEstimated rain: "+rainWindow.start+"–"+rainWindow.end+".";
+            if(wind>0)reply+="\nWind up to "+f(wind)+" km/h.";
           }
-          if(rainWindow)reply+="\n"+(ro?"Precipitații estimate între ":"Estimated precipitation between ")+rainWindow.start+"–"+rainWindow.end+" ("+(ro?"interval orientativ":"approximate window")+").";
-          else if(hourlyRows.some(x=>x.precipitation_mm!==null))reply+="\n"+(ro?"Nu sunt prognozate precipitații măsurabile în intervalele orare disponibile.":"No measurable precipitation forecast in available hourly periods.");
         }
         reply+=`\nOpen-Meteo · ${t[6]}: ${retrieved} (${tz}).\nhttps://open-meteo.com/`;
         responseWeatherContext={query:weather.query,period:weather.period,offset:weather.offset,date:weather.date||'',pending:false};
