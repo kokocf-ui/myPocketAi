@@ -1584,6 +1584,26 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
  .adaptive-workspace .shop-item-controls{flex-direction:column}
 }
 </style>
+<style id="shopping-single-screen">
+/* Shopping-only navigation: Home remains in the shared header; Back and Active List
+   live in the workspace toolbar, with viewport-based sizing rather than phone offsets. */
+#view-module.adaptive-workspace-view .shop-navigation{
+ display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+ align-items:stretch;gap:clamp(.5rem,2.5vw,1rem);margin:0;min-height:clamp(3rem,7dvh,3.75rem)
+}
+#view-module.adaptive-workspace-view .shop-navigation>button{
+ width:100%;max-width:none;min-width:0;height:100%;min-height:3rem;
+ white-space:normal;overflow-wrap:anywhere;padding:.55rem .5rem
+}
+#view-module.adaptive-workspace-view .shop-navigation>button:first-child{margin-top:clamp(.2rem,.7dvh,.4rem)}
+#view-module.adaptive-workspace-view .organize-panel.adaptive-workspace{
+ grid-template-rows:auto minmax(0,1fr) auto;min-height:0
+}
+#view-module.adaptive-workspace-view .shop-entry-hint{display:block;margin-top:.65rem;color:#b9dbe5;line-height:1.4}
+#view-module.adaptive-workspace-view .shop-list{min-height:0}
+#view-module.adaptive-workspace-view .adaptive-workspace__actions{flex-wrap:wrap}
+#view-module.adaptive-workspace-view .adaptive-workspace__actions>button{flex:1 1 min(9rem,100%)}
+</style>
 <style id="education-responsive-layout">
 /* One source of truth for Education's subject-selection screen.
    The available space is provided by the actual flex viewport, not an
@@ -1976,6 +1996,8 @@ const SHOPPING_STORAGE_KEY='mypocketai.shopping.v1';
 function shoppingRead(){try{return shopNormalizeData(JSON.parse(localStorage.getItem(SHOPPING_STORAGE_KEY)||'{}'))}catch{return shopNormalizeData({})}}
 function shoppingWrite(data){try{localStorage.setItem(SHOPPING_STORAGE_KEY,JSON.stringify(data));return true}catch{notify(learningLabel('Nu s-a putut salva lista pe dispozitiv.','Could not save the list on this device.'));return false}}
 function renderOrganizeChoices(){
+ shoppingMode='entry';shoppingPendingAction=null;
+ $('moduleTitle').textContent=learningLabel('Organizare personală','Personal organisation');
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('organize-active','organize-chat','adaptive-workspace-view');root.classList.add('organize-choose');host.replaceChildren();
  const grid=document.createElement('div');grid.className='education-grid';
@@ -1992,8 +2014,18 @@ function organizePanel(cat){
  const root=$('view-module'),host=$('moduleContent');root.classList.remove('organize-choose','organize-chat','adaptive-workspace-view');root.classList.add('organize-active');host.replaceChildren();
  const panel=document.createElement('div');panel.className='organize-panel';
  const bar=document.createElement('div');bar.className='education-toolbar';
- const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Categorii','← Categories');back.onclick=renderOrganizeChoices;
- const title=document.createElement('strong');title.textContent=cat[1]+' '+learningLabel(cat[2],cat[3]);bar.append(back,title);panel.append(bar);host.append(panel);
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=cat[0]==='shopping'?learningLabel('← Înapoi','← Back'):learningLabel('← Categorii','← Categories');
+ back.onclick=cat[0]==='shopping'?()=>{if(shoppingMode!=='entry'){shoppingMode='entry';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()}else renderOrganizeChoices()}:renderOrganizeChoices;
+ const title=document.createElement('strong');title.textContent=cat[1]+' '+learningLabel(cat[2],cat[3]);
+ if(cat[0]==='shopping'){
+  bar.classList.add('shop-navigation');
+  const active=shopButton('Listă activă','Active list','primary-btn');
+  active.classList.add('shop-active-toggle');
+  active.setAttribute('aria-pressed',shoppingMode==='active'?'true':'false');
+  active.onclick=()=>{shoppingMode=shoppingMode==='active'?'entry':'active';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()};
+  bar.append(back,active);
+ }else bar.append(back,title);
+ panel.append(bar);host.append(panel);
  return panel;
 }
 function openOrganizeCategory(key){
@@ -2015,6 +2047,7 @@ function openOrganizeCategory(key){
 let shoppingEditingId=null;
 let shoppingPendingAction=null;
 let shoppingScrollPosition=0;
+let shoppingMode='entry';
 function shopId(){return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2)}
 function shopNormalizeData(raw){
  const src=raw&&typeof raw==='object'&&!Array.isArray(raw)?raw:{};
@@ -2075,6 +2108,7 @@ function shopSaveAndRender(data,retainScroll=true){
 }
 function renderShoppingList(){
  const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='shopping');
+ $('moduleTitle').textContent=shopLabel('Liste de cumpărături','Shopping lists');
  const panel=organizePanel(cat),root=$('view-module');
  root.classList.add('adaptive-workspace-view');
  panel.classList.add('adaptive-workspace');
@@ -2082,11 +2116,11 @@ function renderShoppingList(){
  const scroll=document.createElement('div');scroll.className='adaptive-workspace__scroll';
  panel.append(scroll);
  const heading=document.createElement('div');heading.className='shop-heading';
- const title=document.createElement('strong');title.textContent=shopLabel('Lista curentă','Current list');
+ const title=document.createElement('strong');title.textContent=data.completedAt?shopLabel('Lista finalizată','Finished list'):shopLabel('Lista curentă','Current list');
  const count=document.createElement('small');
  count.textContent=shopLabel('Bifate de tine: ','Checked by you: ')+data.items.filter(i=>i.checked).length+' / '+data.items.length;
- heading.append(title,count);scroll.append(heading);
-
+ heading.append(title,count);if(shoppingMode!=='archive')scroll.append(heading);
+ if(shoppingMode==='entry'){
  const nameLabel=document.createElement('label');nameLabel.className='shop-label';
  nameLabel.textContent=shopLabel('Numele listei','List name');
  const nameForm=document.createElement('form');nameForm.className='adaptive-fields';
@@ -2114,13 +2148,11 @@ function renderShoppingList(){
   options.append(proceed,cancel);confirm.append(options);
   if(data.items.length){
    const note=document.createElement('small');
-   note.textContent=shopLabel('Lista actuală va fi arhivată cu toate bifele exact cum sunt.',
-      'The current list will be archived with every checkbox unchanged.');
-   confirm.prepend(note);
+   note.textContent=shopLabel('Arhivează întâi lista activă pentru a crea alta.','Archive the current list before creating another.');
+   confirm.prepend(note);proceed.disabled=true;
   }
-  confirm.onsubmit=e=>{e.preventDefault();const nextName=newName.value.trim();if(!nextName)return;
-   if(data.items.length)shopArchive(data,'replaced',false,nextName);
-   else data.currentName=nextName;
+  confirm.onsubmit=e=>{e.preventDefault();const nextName=newName.value.trim();if(!nextName||data.items.length)return;
+   data.currentName=nextName;data.completedAt=null;
    shoppingPendingAction=null;shoppingEditingId=null;shopSaveAndRender(data,false);
   };
   scroll.append(confirm);
@@ -2141,10 +2173,15 @@ function renderShoppingList(){
   if(!product.value.trim())return;
   if(!shopValidateQuantity(quantity.value)){notify(shopLabel('Cantitatea trebuie să fie un număr pozitiv.',
    'Quantity must be a positive number.'));return}
-  data.items.push(shopNewItem(product.value,quantity.value,unit.value));
+  data.items.push(shopNewItem(product.value,quantity.value,unit.value));data.completedAt=null;
   shoppingEditingId=null;if(shopSaveAndRender(data))document.querySelector('.adaptive-fields--product input')?.focus();
  };
  scroll.append(productForm);
+ const entryHint=document.createElement('small');entryHint.className='shop-entry-hint';
+ entryHint.textContent=shopLabel('Produsele sunt în «Listă activă». Deschide tabelul de sus pentru bifare și editare.','Products are in «Active list». Open the table above to tick or edit.');
+ scroll.append(entryHint);
+ }
+ if(shoppingMode==='active'){
  const list=document.createElement('div');list.className='shop-list';
  if(!data.items.length){const empty=document.createElement('small');
   empty.textContent=shopLabel('Niciun produs adăugat încă.','No items added yet.');list.append(empty)}
@@ -2176,7 +2213,9 @@ function renderShoppingList(){
    const editName=shopInput(shopLabel('Produs','Item'));editName.value=item.name;editName.required=true;
    const editQuantity=shopInput(shopLabel('Cantitate','Quantity'),20);editQuantity.value=item.quantity||'';
    editQuantity.inputMode='decimal';
-   const editUnit=unit.cloneNode(true);editUnit.value=item.unit||'buc';
+   const editUnit=document.createElement('select');editUnit.setAttribute('aria-label',shopLabel('Unitate','Unit'));
+  [['buc','buc.','pcs'],['kg','kg','kg'],['g','g','g'],['l','l','l'],['ml','ml','ml'],['pachet','pachet','pack'],['cutie','cutie','box']].forEach(([value,ro,en])=>{const option=document.createElement('option');option.value=value;option.textContent=shopLabel(ro,en);editUnit.append(option)});
+  editUnit.value=item.unit||'buc';
    const save=shopButton('Salvează modificarea','Save change','primary-btn');save.type='submit';
    editor.append(editName,editQuantity,editUnit,save);
    editor.onsubmit=e=>{e.preventDefault();if(!editName.value.trim())return;
@@ -2191,7 +2230,8 @@ function renderShoppingList(){
   list.append(row);
  });
  scroll.append(list);
-
+ }
+ if(shoppingMode==='archive'){
  const historyTitle=document.createElement('div');historyTitle.className='shop-heading';
  const historyHeading=document.createElement('strong');historyHeading.textContent=shopLabel('Istoric păstrat','Saved history');
  historyTitle.append(historyHeading);scroll.append(historyTitle);
@@ -2223,12 +2263,23 @@ function renderShoppingList(){
  note.textContent=shopLabel('Doar tu confirmi cumpărarea. Listele sunt salvate local; dezinstalarea poate șterge datele.',
   'Only you mark items bought. Lists are stored locally; uninstalling may erase them.');
  scroll.append(note);
-
+ }
  const footer=document.createElement('div');footer.className='adaptive-workspace__actions';
- const finish=shopButton('Finalizează și arhivează','Finish and archive','primary-btn');
- finish.disabled=!data.items.length;
- finish.onclick=()=>{shoppingPendingAction={type:'finish'};renderShoppingList()};
- footer.append(finish);panel.append(footer);
+ if(shoppingMode==='entry'){
+  const finish=shopButton('Finalizează','Finish','primary-btn');
+  finish.disabled=!data.items.length||Boolean(data.completedAt);
+  finish.onclick=()=>{shoppingPendingAction={type:'finish'};renderShoppingList()};
+  footer.append(finish);
+ }else if(shoppingMode==='active'){
+  const add=shopButton('＋ Adaugă produs','＋ Add item');add.onclick=()=>{shoppingMode='entry';shoppingPendingAction=null;renderShoppingList()};
+  const archive=shopButton('Arhivează','Archive','primary-btn');archive.disabled=!data.items.length;
+  archive.onclick=()=>{shoppingPendingAction={type:'archive'};renderShoppingList()};
+  const history=shopButton('Arhivă','History');history.onclick=()=>{shoppingMode='archive';shoppingPendingAction=null;renderShoppingList()};
+  footer.append(add,archive,history);
+ }else{
+  const active=shopButton('← Listă activă','← Active list','primary-btn');active.onclick=()=>{shoppingMode='active';shoppingPendingAction=null;renderShoppingList()};footer.append(active);
+ }
+ panel.append(footer);
  if(shoppingPendingAction?.type==='reuse'){
   const entry=data.history[shoppingPendingAction.historyIndex];
   const onlyUnchecked=shoppingPendingAction.onlyUnchecked===true;
@@ -2242,12 +2293,12 @@ function renderShoppingList(){
   confirm.append(explanation);
   const buttons=document.createElement('div');buttons.className='adaptive-fields';
   const approve=shopButton('Confirmă lista nouă','Confirm new list','primary-btn');
-  approve.disabled=!entry||selected.length===0;
+  approve.disabled=!entry||selected.length===0||data.items.length>0;
   approve.onclick=()=>{
    if(!entry||!selected.length)return;
    const items=selected.map(i=>shopNewItem(i.name,i.quantity,i.unit));
-   if(data.items.length)shopArchive(data,'replaced',false,entry.name);
-   else data.currentName=entry.name;
+   if(data.items.length){notify(shopLabel('Arhivează întâi lista activă.','Archive the active list first.'));return}
+   data.currentName=entry.name;data.completedAt=null;
    data.items=items;shoppingPendingAction=null;shoppingEditingId=null;
    shopSaveAndRender(data,false);
   };
@@ -2258,22 +2309,31 @@ function renderShoppingList(){
  if(shoppingPendingAction?.type==='finish'){
   const confirm=document.createElement('div');confirm.className='shop-inline-confirm';
   const desc=document.createElement('p');
-  desc.textContent=shopLabel('Se salvează exact ce ai bifat. Produsele nebifate rămân necumpărate în istoric.',
-   'Your checks are saved exactly; unchecked items remain unbought in history.');
+  desc.textContent=shopLabel('Marchezi lista ca finalizată. Rămâne în «Listă activă» până când alegi «Arhivează». Bifele nu se schimbă.',
+   'Mark the list finished. It stays in «Active list» until you choose «Archive». Checks do not change.');
   confirm.append(desc);
-  const transferLabel=document.createElement('label');
-  const transfer=document.createElement('input');transfer.type='checkbox';transfer.checked=false;
-  transferLabel.append(transfer,document.createTextNode(' '+shopLabel('Transferă produsele necumpărate în lista următoare','Move unbought items to next list')));
-  confirm.append(transferLabel);
   const buttons=document.createElement('div');buttons.className='adaptive-fields';
   const approve=shopButton('Confirmă finalizarea','Confirm finish','primary-btn');
-  approve.onclick=()=>{shoppingPendingAction=null;shoppingEditingId=null;
-   shopArchive(data,'completed',transfer.checked);shopSaveAndRender(data,false)};
+  approve.onclick=()=>{data.completedAt=new Date().toISOString();shoppingPendingAction=null;shoppingEditingId=null;shopSaveAndRender(data,false)};
   const cancel=shopButton('Renunță','Cancel');cancel.onclick=()=>{shoppingPendingAction=null;renderShoppingList()};
   buttons.append(approve,cancel);confirm.append(buttons);
-  footer.replaceChildren(confirm);
-  footer.classList.add('adaptive-workspace__actions--confirm');
+  footer.replaceChildren(confirm);footer.classList.add('adaptive-workspace__actions--confirm');
  }
+ if(shoppingPendingAction?.type==='archive'){
+  const confirm=document.createElement('div');confirm.className='shop-inline-confirm';
+  const desc=document.createElement('p');
+  desc.textContent=shopLabel('Muți lista în arhivă și eliberezi «Listă activă»? Produsele și bifele rămân în arhivă.',
+   'Move this list to the archive and clear «Active list»? Items and checks are preserved.');
+  confirm.append(desc);
+  const buttons=document.createElement('div');buttons.className='adaptive-fields';
+  const approve=shopButton('Confirmă arhivarea','Confirm archive','primary-btn');
+  approve.onclick=()=>{if(!data.items.length)return;shopArchive(data,'archived',false);data.completedAt=null;
+   shoppingPendingAction=null;shoppingEditingId=null;shoppingMode='entry';shopSaveAndRender(data,false)};
+  const cancel=shopButton('Renunță','Cancel');cancel.onclick=()=>{shoppingPendingAction=null;renderShoppingList()};
+  buttons.append(approve,cancel);confirm.append(buttons);
+  footer.replaceChildren(confirm);footer.classList.add('adaptive-workspace__actions--confirm');
+ }
+
 }
 
 
