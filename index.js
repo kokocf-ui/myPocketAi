@@ -1619,7 +1619,7 @@ async function handleLearningPhoto(file){
  submit.onclick=()=>{
   const content=extracted.value.trim();
   if(!content){notify(learningLabel('Introdu textul din fotografie pentru a continua.','Enter the photographed text to continue.'));return}
-  inputEl.value=(task.value==='translate'?learningLabel('Tradu următorul text în limba selectată și explică termenii dificili:\n','Translate the following text into the selected language:\n'):learningLabel('Explică și rezolvă pas cu pas următorul exercițiu din materia ','Explain and solve this exercise step by step for ')+learningLabel(activeLearningSubject[2],activeLearningSubject[3])+':\n')+content;
+  inputEl.value=(task.value==='translate'?learningLabel('Tradu următorul text în limba selectată și explică termenii dificili:\\n','Translate the following text into the selected language:\\n'):learningLabel('Explică și rezolvă pas cu pas următorul exercițiu din materia ','Explain and solve this exercise step by step for ')+learningLabel(activeLearningSubject[2],activeLearningSubject[3])+':\\n')+content;
   inputEl.focus();notify(learningLabel('Textul este pregătit. Verifică-l și trimite întrebarea.','Text ready. Review and send your question.'));
  };
  panel.append(preview,status,extracted,task,submit);host.append(panel);
@@ -1628,7 +1628,7 @@ async function handleLearningPhoto(file){
   const detector=new TextDetector();
   await preview.decode();
   const lines=await detector.detect(preview);
-  if(lines?.length){extracted.value=lines.map(x=>x.rawValue||'').join('\n');status.textContent=learningLabel('Text recunoscut. Verifică-l înainte de trimitere.','Text detected. Check it before sending.')}
+  if(lines?.length){extracted.value=lines.map(x=>x.rawValue||'').join('\\n');status.textContent=learningLabel('Text recunoscut. Verifică-l înainte de trimitere.','Text detected. Check it before sending.')}
   else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
  } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
 }
