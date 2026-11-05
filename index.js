@@ -1866,7 +1866,7 @@ function dismissNotice(){clearTimeout(state.noticeTimer);$('notice').classList.r
 function notify(message){const el=$('notice');dismissNotice();el.textContent=message;el.classList.add('show');state.noticeTimer=setTimeout(dismissNotice,1800)}
 inputEl.addEventListener('focus',dismissNotice);
 function setStatus(message){chatStatus.textContent=message}
-function showView(name){closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
+function showView(name){closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}const exitedModule=state.currentView==='module'&&name!=='module';state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));if(exitedModule)checkUiUpdateAfterModuleExit();document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
 // Change the shared chat host without archiving, clearing GPS or starting a new conversation.
 function switchConversationModule(key){
  if(!['assistant','maps','travel'].includes(key))return;
@@ -2028,8 +2028,28 @@ const ORGANIZE_CATEGORIES=[
 const SHOPPING_STORAGE_KEY='mypocketai.shopping.v1';
 function shoppingRead(){try{return shopNormalizeData(JSON.parse(localStorage.getItem(SHOPPING_STORAGE_KEY)||'{}'))}catch{return shopNormalizeData({})}}
 function shoppingWrite(data){try{localStorage.setItem(SHOPPING_STORAGE_KEY,JSON.stringify(data));return true}catch{notify(learningLabel('Nu s-a putut salva lista pe dispozitiv.','Could not save the list on this device.'));return false}}
+/* Check the deployed UI only after leaving a workspace. Do not reload while
+   editing a list, answering a dialog, or using an active module. */
+let pocketUiUpdateChecking=false;
+async function checkUiUpdateAfterModuleExit(){
+ if(pocketUiUpdateChecking)return;
+ pocketUiUpdateChecking=true;
+ try{
+  const response=await fetch('/__ui_version',{cache:'no-store'});
+  if(!response.ok)return;
+  const version=(await response.text()).trim();
+  if(version&&version!==document.documentElement.dataset.pocketUiVersion
+   &&!$('view-module').classList.contains('adaptive-workspace-view')
+   &&!shoppingPendingAction){
+   window.location.reload();
+  }
+ }catch(_error){/* Offline: keep the currently usable interface. */}
+ finally{pocketUiUpdateChecking=false}
+}
 function renderOrganizeChoices(){
+ const leavingShopping=$('view-module').classList.contains('adaptive-workspace-view');
  shoppingMode='entry';shoppingPendingAction=null;
+ if(leavingShopping)checkUiUpdateAfterModuleExit();
  $('moduleTitle').textContent=learningLabel('Organizare personală','Personal organisation');
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('organize-active','organize-chat','adaptive-workspace-view');root.classList.add('organize-choose');host.replaceChildren();
@@ -5598,15 +5618,27 @@ html.pocket-exit-open .bottom-nav {
 </body>
 </html>`;
 }
+/* Version changes whenever the actual frontend document changes, without
+   requiring manual version bumps or APK rebuilds. */
+function uiVersion(){
+ const content=htmlDocument();
+ let hash=2166136261;
+ for(let i=0;i<content.length;i++){hash=Math.imul(hash^content.charCodeAt(i),16777619)}
+ return (hash>>>0).toString(36);
+}
 export default {
  async fetch(request,env) {
   const url = new URL(request.url);
   if (request.method === 'OPTIONS') return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET,POST,OPTIONS','Access-Control-Allow-Headers':'Content-Type'}});
+  if (url.pathname === '/__ui_version') {
+   return new Response(uiVersion(),{headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});
+  }
   if (url.pathname === '/avatar-production.html') {
    if(!env?.ASSETS)return new Response('Avatar asset binding unavailable',{status:503});
    return env.ASSETS.fetch(new Request(new URL('/avatar-v4.html',url)));
   }
   if (url.pathname !== '/' && url.pathname !== '/index.html') return new Response('Not found',{status:404});
-  return new Response(htmlDocument(),{headers:{'Content-Type':'text/html; charset=UTF-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin'}});
+  const html=htmlDocument().replace('<html', '<html data-pocket-ui-version="'+uiVersion()+'"');
+  return new Response(html,{headers:{'Content-Type':'text/html; charset=UTF-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin'}});
  }
 };
