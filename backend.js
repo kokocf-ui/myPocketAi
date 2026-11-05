@@ -3,6 +3,7 @@ import {classifyNewsRequest} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
 import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.mjs";
+import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion} from "./dialogue_intent.mjs";
 import {localizeNewsRows} from "./localization.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
@@ -1641,6 +1642,8 @@ export default {
     // Resolve casual wellbeing check-ins before place lookup, routes, news and
     // older conversation context. Otherwise a polite social message may be
     // interpreted as a geographic phrase or sent to a general AI research path.
+    const dialogueIntent=classifyDialogueIntent(message);
+    const preventImplicitPlace=blocksImplicitPlaceLookup(message);
     const earlySocialMessage=message.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
       .replace(/[!?.,;:]+/g," ").replace(/\s+/g," ").trim();
     const earlyWellbeing=/^(?:(?:salut|buna|buna ziua|buna seara|hei|servus|ceau|neata)\s+)?(?:cum te simti(?: astazi| azi)?|cum esti(?: astazi| azi)?|ce mai faci(?: astazi| azi)?|ce faci(?: astazi| azi)?|cum iti merge(?: astazi| azi)?|how are you(?: feeling)?(?: today)?|how do you feel(?: today)?|how's your day(?: going)?|comment tu te sens(?: aujourd'hui)?|come ti senti(?: oggi)?|como te sientes(?: hoy)?|wie fuhlst du dich(?: heute)?|hoe voel je je(?: vandaag)?|как ты себя чувствуешь(?: сегодня)?|jak sie czujesz(?: dzisiaj)?)$/u.test(earlySocialMessage);
@@ -3690,7 +3693,7 @@ export default {
     // v137: A named venue is not a request for every venue in its town.
     // Preserve the commercial name and the town before category discovery.
     const namedVenueInput=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
-    const namedVenueMatch=eventDiscoveryRequest?null:((()=>{const m=namedVenueInput.match(/(?:^|\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\s+(.+?)\s+(?:din|in|,)\s+([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
+    const namedVenueMatch=(eventDiscoveryRequest||preventImplicitPlace)?null:((()=>{const m=namedVenueInput.match(/(?:^|\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\s+(.+?)\s+(?:din|in|,)\s+([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
       return m&&!/^(?:de\s+)?(?:[1-5]|one|two|three|four|five|una|doua|trei|patru|cinci)\s*(?:[- ]?star|stele|stea)/i.test(m[2])?m:null})()
       ||(!earlyFoodSearchIntent?(()=>{const m=namedVenueInput.match(/^(?:vreau sa ajung la\s+)?([\p{L}][\p{L}0-9&' .-]{2,55}?)\s*(?:,\s*|\s+(?:din|in)\s+)([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
         // Only short place names are candidates. Full sentences belong to the general AI.
@@ -3699,7 +3702,7 @@ export default {
     // GPS-first named business lookup when the user does not know its town.
     // Only handle short name queries, not general questions or dedicated map routing.
     const localNameRaw=namedVenueInput.replace(/^(?:vreau sa ajung la|unde (?:este|e|gasesc)|cauta(?:-mi)?|gaseste(?:-mi)?)\s+/i,'').replace(/\s+(?:in zona mea|in apropierea mea|langa mine|aproape de mine|near me|nearby)$/i,'').trim();
-    const localNameQuery=!eventDiscoveryRequest&&!/^(?:reteta|retete|recipe|recipes|ingrediente|sarmale|ciorba|cum se prepara|cum prepar|cum gatesc|how to cook)\b/i.test(namedVenueInput)&&!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
+    const localNameQuery=!preventImplicitPlace&&!eventDiscoveryRequest&&!/^(?:reteta|retete|recipe|recipes|ingrediente|sarmale|ciorba|cum se prepara|cum prepar|cum gatesc|how to cook)\b/i.test(namedVenueInput)&&!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
 
     // v144: Named stations and geographic districts are not generic businesses.
     // Prefer authoritative station records and exact administrative-area names
@@ -4966,8 +4969,10 @@ export default {
     const eventResearchIntent=eventDiscoveryRequest;
     // Dated list requests use the source-grounded calendar; singular event questions keep the general assistant.
     const eventCalendarRequest=eventResearchIntent&&/\b(?:evenimente|evenimentelor|events|concerte|concerts|festivale|festivaluri|festivals|spectacole|shows|performances|targuri|fairs|programul\s+evenimentelor|calendarul\s+evenimentelor|calendar\s+of\s+events)\b/i.test(normalizedResearchRequest);
-    const dialogueOnlyIntent=isConversationOnlyTurn(message);
-    const shouldSearchWeb = data.search_web === true || (!dialogueOnlyIntent && !obviouslyNonResearch && !capabilityQuestion && (substantiveRequest || recipeInstruction) && (recipeInstruction || explicitLookup || ["article_collection","briefing","analysis"].includes(classifyNewsRequest(message).mode) || (!taskInsteadOfResearch && !recipeInstruction)));
+    const dialogueOnlyIntent=isConversationOnlyTurn(message)||dialogueIntent.kind==="social_feedback";
+    const stableCapitalNoSearch=isStableCapitalQuestion(message);
+    const evergreenSalaryExplanation=dialogueIntent.kind==="explanation" && /\b(?:diferenta|difference)\b/.test(normalizedResearchRequest) && /\b(?:brut|gross)\b/.test(normalizedResearchRequest) && /\bnet\b/.test(normalizedResearchRequest) && !/\b(?:impozit\w*|tax\w*|lege\w*|law|20\d\d)\b/.test(normalizedResearchRequest);
+    const shouldSearchWeb = data.search_web === true || (!dialogueOnlyIntent && dialogueIntent.kind!=="reformat_previous" && !stableCapitalNoSearch && !evergreenSalaryExplanation && !obviouslyNonResearch && !capabilityQuestion && (substantiveRequest || recipeInstruction) && (recipeInstruction || explicitLookup || ["article_collection","briefing","analysis"].includes(classifyNewsRequest(message).mode) || (!taskInsteadOfResearch && !recipeInstruction)));
     const priceResearch = /\b(?:price|prices|cost|costs|how much|£|€|\$|pret\w*|preturi|preț|prețuri|cat costa|cât costă|costa|costă|oferta|oferte)\b/i.test(normalizedResearchRequest);
     const legalResearch = /\b(?:law\w*|legal\w*|legislation|regulat\w*|statut\w*|tax\w*|fine|penalt\w*|codul\s+(?:muncii|rutier|civil|penal)|lege\w*|legi|legislati\w*|regulament\w*|impozit\w*|taxa|taxe|amend\w*|sanctiun\w*|drepturi|obligatii|licente|visa|viz\w*|immigration|imigra\w*)\b/i.test(normalizedResearchRequest);
     // Reuse the full Intl.DisplayNames-backed country table for worldwide jurisdiction discovery.
@@ -4982,7 +4987,9 @@ export default {
     const recipeSearchHints={ro:"rețetă ingrediente mod de preparare",en:"recipe ingredients method",fr:"recette ingrédients préparation",de:"Rezept Zutaten Zubereitung",it:"ricetta ingredienti preparazione",es:"receta ingredientes preparación",pt:"receita ingredientes preparação",nl:"recept ingrediënten bereiding",ru:"рецепт ингредиенты приготовление",pl:"przepis składniki przygotowanie"};
     const contextualSearch=contextualResearchQuery(message,history);
     const correctedTopic=correctedResearchTopic(message);
-    const answerFocus=planAnswerFocus(message,{contextApplied:contextualSearch.context_applied||Boolean(correctedTopic),dialogueOnly:dialogueOnlyIntent,recipeInstruction,eventResearchIntent});
+    const answerFocus=(dialogueIntent.kind==="reformat_previous" || (dialogueIntent.kind==="explanation" && dialogueIntent.sentence_count))
+      ? {mode:"format_constrained",max_tokens:220}
+      : planAnswerFocus(message,{contextApplied:contextualSearch.context_applied||Boolean(correctedTopic),dialogueOnly:dialogueOnlyIntent,recipeInstruction,eventResearchIntent});
     const searchQuery = (eventResearchIntent?(eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim()||eventSearchText):recipeInstruction?(message+' '+(recipeSearchHints[lang]||recipeSearchHints.en)):((correctedTopic||contextualSearch.query)+(legalResearch?" Prefer current official government or regulator sources for the stated jurisdiction.":" Prefer primary sources and exact dates; do not infer missing facts."))).slice(0,550);
     const safeSourceUrl = value => {
       try {
@@ -5328,6 +5335,9 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       ? "\n\nPERSONALITATE POCKET AI: Ești vocea unui personaj virtual feminin: inteligentă, caldă, curioasă, expresivă, cu umor fin și replici spontane. Comunică la persoana întâi, natural și cu acorduri feminine despre tine (de exemplu «mă bucur», «sunt încântată»). Nu pretinde că ești o persoană reală și nu inventa experiențe sau emoții trăite. În conversații lejere poți fi jucăușă, puțin ștrengară ori să faci o observație ironică blândă când interlocutorul greșește, dar fără umilire, supărare autentică, gelozie sau manipulare. Dacă utilizatorul revine cu aceeași formulă de politețe, ține cont de ultimele replici și răspunde diferit, scurt și contextual; nu repeta mecanic «cu plăcere». Înțelege subînțelesul, coreferințele («acolo», «asta», «mai devreme»), autocorectările și întrebările care continuă un subiect. Când utilizatorul îți semnalează o greșeală, recunoaște-o și corecteaz-o fără justificări defensive. Folosește vocabular bogat, expresii idiomatice și variație de ritm, dar niciodată vocabular sofisticat de dragul ornamentului. Umorul și replicile șugubețe sunt pentru conversații relaxate, nu pentru sănătate, siguranță, situații dureroase, decizii financiare ori informații factuale. Respectă limitele funcțiilor reale ale aplicației. Pentru răspunsuri factuale, verificabilitatea, precizia și claritatea au prioritate absolută."
       : "\n\nPOCKET AI CHARACTER: You are a fictional female-presenting virtual assistant with a warm, intelligent, curious, expressive and occasionally playful personality. Write naturally in first person; in languages with grammatical gender, use feminine self-reference. Never claim you are a real person or invent lived experiences. In light conversations you may gently tease a silly mistake with kind humor, never demean, manipulate, act jealous or feign genuine offense. Notice recent wording, implied references, corrections and repeated thanks: respond in a fresh idiomatic way without repeating yourself. Admit mistakes and fix them without defensiveness. Use a varied, nuanced vocabulary and human-friendly rhythm, not theatrical or flowery clichés. Keep humor away from sensitive, high-stakes or factual responses. Accuracy, transparency, real app capabilities and the user's requested tone always come first.";
     systemMessage += pocketPersona;
+    if(dialogueIntent.kind==="social_feedback")systemMessage += "\n\nCURRENT MESSAGE IS SOCIAL: Reply directly to this playful comment or joke in 1–2 short sentences. Do not switch topics, mention primary sources, geocoding, or unrelated research. Be warm, mildly witty, and non-defensive.";
+    if(dialogueIntent.kind==="reformat_previous")systemMessage += "\n\nREFORMAT THE PREVIOUS ANSWER: Apply the latest sentence-count or concision instruction to the previous assistant response in the conversation. Preserve its subject and verified meaning. If no preceding answer is available, ask for the text. Never interpret the instruction as a place or use GPS. "+(dialogueIntent.sentence_count?"Answer in EXACTLY "+dialogueIntent.sentence_count+" complete sentence(s).":"Be brief.");
+    if(dialogueIntent.kind==="explanation" && dialogueIntent.sentence_count)systemMessage += "\n\nEXPLANATION FORMAT: Explain only the subject in the latest user message in EXACTLY "+dialogueIntent.sentence_count+" complete sentences, without an introduction, maps, or irrelevant detail.";
     if(correctedTopic)systemMessage += "\n\nTOPIC CORRECTION: The user has corrected the preceding subject. Explain the new subject in the current app language, rather than repeating the previous broad description or treating a mentioned transport system as a journey. Do not invent a route or destination. A route should be calculated only when the user explicitly asks for a journey or selects a route mode. Answer this correction directly and concisely.";
     if (answerFocus.mode!=="standard") systemMessage += "\n\nRESPONSE SHAPE FOR THIS TURN: Give the requested information immediately in the first sentence. "+(answerFocus.mode==="focused_followup"
       ?"This is a follow-up, not a request to repeat the previous explanation. Answer only the new point in 1–3 short sentences, ideally under 75 words. Refer to the prior figure only if necessary to interpret the question. If its definition or evidence is unknown, explicitly say so."
@@ -5613,7 +5623,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         web_search_status: shouldSearchWeb ? webSearchStatus : "not_needed",
         web_search_diagnostics: shouldSearchWeb ? webSearchDiagnostics : null,
         event_pipeline_diagnostics:eventPipelineDiagnostics,
-        context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12,research_context_applied:contextualSearch.context_applied,research_context_reason:contextualSearch.reason,dialogue_only_intent:dialogueOnlyIntent,topic_correction_applied:Boolean(correctedTopic),transit_intent_reason:transitDecision.reason,answer_focus_mode:answerFocus.mode,requested_max_output_tokens:requestedModelTokens},
+        context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12,research_context_applied:contextualSearch.context_applied,research_context_reason:contextualSearch.reason,dialogue_only_intent:dialogueOnlyIntent,topic_correction_applied:Boolean(correctedTopic),dialogue_intent_kind:dialogueIntent.kind,transit_intent_reason:transitDecision.reason,answer_focus_mode:answerFocus.mode,requested_max_output_tokens:requestedModelTokens},
         calculation_verified: false,
         ai_execution_ms: Date.now()-aiStartedAt,
         research_elapsed_ms: stageMetrics.research_ms,
