@@ -72,8 +72,8 @@ const call=async(env)=>{
  const response=await backend.fetch(new Request("https://test.local/api/chat",{
   method:"POST",headers:{"content-type":"application/json"},
   body:JSON.stringify({message:"Ce evenimente importante s-au întâmplat ieri în lume?",language:"en",client_local_day:"2026-11-05"})
- }),env);
- assert.equal(response.status,200);
+ }),{...env,AI:{run:async()=>({response:"[]"})}});
+ if(response.status!==200)throw Error("World news worker returned "+response.status+": "+(await response.text()).slice(0,500));
  return response.json();
 };
 try{
