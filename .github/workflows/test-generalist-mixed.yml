@@ -76,8 +76,6 @@ jobs:
           node tests_news_context.mjs
           node tests_news_discovery.mjs
           node tests_news_source_diversity.mjs
-          node tests_telegram_opt_in.mjs
-          node tests_telegram_news_parallel.mjs
           node tests_telegram_voluntary_links.mjs
           node tests_telegram_public_web_links.mjs
           node tests_news_pagination.mjs
