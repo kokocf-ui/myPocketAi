@@ -12,7 +12,8 @@ export function planAnswerFocus(message,options={}){
  if(options.dialogueOnly)return {mode:"light_conversation",max_tokens:200};
  // A follow-up inherits subject from history, but should not repeat old paragraphs.
  if(options.contextApplied && text.length<=100 && !/\b(?:mai multe|more (?:details|information)|examples|exemple)\b/.test(text))
-  return {mode:"focused_followup",max_tokens:220};
+  return /\b(?:cum|how|pasii|steps|procedur\w*|obtin\w*|apply|aplic\w*|viza|visa|permis\w*|permit|cerint\w*|requirements)\b/.test(text)
+   ? {mode:"standard",max_tokens:768} : {mode:"focused_followup",max_tokens:320};
  // General one-fact questions deserve one concise answer, not an encyclopedia page.
  const simple=/^(?:care (?:este|e|a fost)|cat (?:este|e|ar|costa)|cati|cate|cine (?:este|e|a fost)|unde (?:este|e)|cand (?:este|a fost)|what (?:is|was)|who (?:is|was)|where (?:is|was)|when (?:is|was)|how much|how many)\b/.test(text);
  if(simple&&text.length<=100)return {mode:"focused_fact",max_tokens:340};
