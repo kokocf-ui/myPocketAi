@@ -23,6 +23,10 @@ assert.match(inline,/footer\.classList\.add\('shop-active-footer'\)/);
 assert.match(inline,/root\.classList\.add\('adaptive-workspace-view'\)/);
 assert.match(inline,/root\.classList\.remove\('organize-active','organize-chat','adaptive-workspace-view'\)/);
 assert.match(inline,/next\.checked=checkbox\.checked/,'only user checkbox handler changes bought status');
+assert.match(inline,/if\(!shoppingWrite\(data\)\)\{checkbox\.checked=!checkbox\.checked/,'checkbox writes without rebuilding the entire list');
+assert.match(inline,/info\.classList\.toggle\('is-checked',checkbox\.checked\)/,'checkbox updates its row in place');
+assert.match(shoppingStyle,/\.adaptive-workspace__scroll>\.shop-voice-button\{[^}]*position:sticky;top:0;z-index:3/s,'microphone stays visible while rows scroll');
+
 assert.match(inline,/shopArchive\(data,'archived',false\)/);
 assert.match(inline,/shoppingWrite\(data\)/);
 assert.ok(shoppingStyle,'shopping scoped styles found');
@@ -104,6 +108,14 @@ const shoppingActions=evalIn("shopNormalizeData({items:[{id:'eggs',name:'ouă',q
 ctx.actionData=shoppingActions;
 assert.equal(evalIn("shopVoiceApplyAction('am cumpărat ouăle',actionData).ok"),true);
 assert.equal(shoppingActions.items.find(i=>i.id==='eggs').checked,true);
+assert.equal(evalIn("shopVoiceApplyAction('am cumpărat cartofi și ulei',actionData).ok"),true);
+assert.equal(shoppingActions.items.find(i=>i.id==='potatoes').checked,true);
+assert.equal(shoppingActions.items.find(i=>i.id==='oil').checked,true);
+shoppingActions.items.find(i=>i.id==='potatoes').checked=false;
+shoppingActions.items.find(i=>i.id==='oil').checked=false;
+assert.equal(evalIn("shopVoiceApplyAction('am cumpărat cartofi și produs necunoscut',actionData).ok"),false);
+assert.equal(shoppingActions.items.find(i=>i.id==='potatoes').checked,false,'multi-check is atomic for unknown products');
+
 assert.equal(evalIn("shopVoiceApplyAction('modifică cartofii la 5 kilograme',actionData).ok"),true);
 assert.equal(shoppingActions.items.find(i=>i.id==='potatoes').quantity,'5');
 assert.equal(evalIn("shopVoiceApplyAction('înlocuiește uleiul cu unt',actionData).ok"),false,'do not silently turn liters into butter');
