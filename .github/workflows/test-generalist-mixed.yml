@@ -24,9 +24,6 @@ on:
       - news_article_detail.mjs
       - news_context.mjs
       - news_discovery.mjs
-      - telegram_consented_channels.mjs
-      - tests_telegram_opt_in.mjs
-      - tests_telegram_news_parallel.mjs
       - telegram_voluntary_links.mjs
       - tests_telegram_voluntary_links.mjs
       - tests_telegram_public_web_links.mjs
