@@ -13,7 +13,10 @@ class Node{
  append(...items){this.children.push(...items)}
  replaceChildren(...items){this.children=[...items]}
 }
-const context={document:{createElement:tag=>new Node(tag)},state:{language:'ro'},URL,Date};
+const requestedArticles=[];
+const context={document:{createElement:tag=>new Node(tag)},state:{language:'ro'},URL,Date,
+ loadSourceBasedNewsDetail:async(target,url,language,excerpt)=>{requestedArticles.push({target,url,language,excerpt});},
+ isTelegramLink:url=>/^https:\/\/t\.me\//.test(String(url||''))};
 vm.createContext(context);
 vm.runInContext(js.slice(begin,end),context);
 const plan=planPresentation({language:'ro',reply:'Știri internaționale',structured_list:{type:'news',rows:[
@@ -34,6 +37,9 @@ const rows=table.children.find(n=>n.tag==='tbody').children;
 assert.equal(rows.length,2);
 const button=rows[0].children[0].children[0];
 button.onclick();
+assert.equal(requestedArticles.length,1,'Selecting a news row invokes the live article-detail loader');
+assert.equal(requestedArticles[0].url,'https://digi24.ro/stiri/one');
+assert.equal(requestedArticles[0].language,'ro');
 assert.ok(host.children.some(n=>n.children?.some(a=>a.tag==='a'&&a.href==='https://digi24.ro/stiri/one')));
 assert.equal(host.children.at(-1).tag,'button','Return to table must follow the article and source');
 host.children.at(-1).onclick();

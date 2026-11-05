@@ -15,9 +15,13 @@ const sentenceCount=t=>{
  const m=t.match(/\b(?:(?:in|intr-o|inexact|in exactly|using|cu)\s+)?(o|una|unu|singura|singur|one|doua|doi|two|trei|three|patru|four|[1-4])\s+(?:singura\s+)?(?:propozit\w*|sentenc\w*)\b/);
  return m?({o:1,una:1,unu:1,singura:1,singur:1,one:1,doua:2,doi:2,two:2,trei:3,three:3,patru:4,four:4}[m[1]]||Number(m[1])):null;
 };
+// Device/app controls must never be read as "venue, town" queries.
+// These instructions are handled as app-help unless an explicit UI action exists.
+const appControl=/^(?:(?:(?:te rog sa|please)\s+)?(?:inchide|redeschide|reporneste|testeaza|verifica|schimba|seteaza|activeaza|dezactiveaza|porneste|opreste|deschide|close|reopen|restart|test|change|set|enable|disable|open)\b[\s\S]{0,150}\b(?:aplicati\w*|app|voce\w*|voice|microfon\w*|microphone|limba|language|setari\w*|settings)\b|(?:cum|how)\s+(?:schimb|setez|activez|opresc|testez|change|set|enable|test)\b[\s\S]{0,100}\b(?:limba|language|voce\w*|voice|microfon\w*|microphone|aplicati\w*|app))/;
 export function classifyDialogueIntent(message){
  const text=n(message);
  if(!text||text.length>350||trip.test(text)||explicitPlace.test(text))return {kind:"none",sentence_count:null};
+ if(appControl.test(text))return {kind:"app_control",sentence_count:null};
  const socialText=plainSocial(text);
  if(checkinPositive.test(socialText))return {kind:"social_checkin",sentence_count:null,sentiment:"positive"};
  if(checkinConcern.test(socialText))return {kind:"social_checkin",sentence_count:null,sentiment:"concern"};

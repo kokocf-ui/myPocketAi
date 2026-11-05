@@ -7,7 +7,7 @@ assert(backend.includes('PERSONALITATE POCKET AI'),'Romanian persona instruction
 assert(backend.includes('POCKET AI CHARACTER'),'other languages receive persona instruction');
 assert(backend.includes('previousThanks%variants.length'),'social replies rotate based on real conversation');
 assert(backend.includes("recentAnswers.includes(socialNorm(candidate))"),'avoid recent replies');
-assert(backend.includes("temperature: eventResearchIntent || recipeInstruction ? 0.05 : 0.18"),'factual web and recipe generation preserve conservative temperature');
+assert(/temperature\s*:\s*eventResearchIntent\s*\|\|\s*recipeInstruction\s*\?\s*0\.05\s*:\s*0\.18/.test(backend),'factual web and recipe generation preserve conservative temperature');
 
 let aiCalls=0;
 const ai={run:async()=>{aiCalls++;return {response:'Răspuns de test.'}}};
