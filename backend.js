@@ -1572,6 +1572,15 @@ export default {
         }));
         if(!replies.some(reply=>reply.status==='fulfilled'))return json({error:'Address search unavailable'},502);
         const results=replies.flatMap(reply=>reply.status==='fulfilled'?reply.value:[]);
+        // Prefer a verified administrative city centroid before de-duplicating
+        // alternate geocoder results that share the same locality name.
+        if(stage==='city'){
+          const exactName=place=>String(place.city||place.town||place.village||place.hamlet||place.name||'');
+          const score=place=>(normalize(exactName(place))===normalize(query)?0:10)+
+            ({city:0,town:1,village:2,municipality:3,locality:4,hamlet:5}[String(place.result_type||'')]??9)+
+            (/metropolitan area|zona metropolitana|metropolitan region/i.test(String(place.municipality||''))?2:0);
+          results.sort((a,b)=>score(a)-score(b));
+        }
 
         const seen=new Set(),seenLocalities=[];
         const candidates=results.flatMap(place=>{
