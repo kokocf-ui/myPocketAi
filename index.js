@@ -1706,6 +1706,13 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
  white-space:normal!important;word-break:normal!important;overflow-wrap:normal!important;
  display:flex!important;align-items:center!important;justify-content:center!important;
 }
+/* The microphone stays reachable while the shopping rows scroll underneath it.
+   Sticky positioning follows the workspace viewport on every phone size. */
+#view-module.adaptive-workspace-view .adaptive-workspace__scroll>.shop-voice-button{
+ position:sticky;top:0;z-index:3;
+ box-shadow:0 .4rem .8rem #081721b8;
+ background:#13556b;
+}
 #view-module.adaptive-workspace-view .shop-voice-button[aria-pressed="true"]{border-color:#32d9df;box-shadow:0 0 0 2px #32d9df88}
 #view-module.adaptive-workspace-view .shop-voice-status{display:block;color:#b9dbe5;margin:.35rem 0 .5rem;line-height:1.3;overflow-wrap:anywhere}
 #view-module.adaptive-workspace-view .shop-entry-hint{
@@ -2674,6 +2681,21 @@ function shopVoiceApplyAction(sentence,data){
   if(results.some(r=>r.ok))data.completedAt=null;
   return {ok:results.some(r=>r.ok),message:results.map(r=>r.message).join(' · ')};
  }
+ if(found.type==='bought'){
+  // A single spoken command may mark several named products, but never guess
+  // when a name is ambiguous or missing. Validate all targets before changing any.
+  const names=found.match[1].split(/\s*(?:,|;|\s+și\s+|\s+si\s+|\s+and\s+)\s*/iu).map(v=>v.trim()).filter(Boolean);
+  if(!names.length)return {ok:false,message:shopLabel('Spune produsele cumpărate.','Say which items you bought.')};
+  const matches=names.map(name=>({name,...shopVoiceFindItem(data.items,name)}));
+  const missing=matches.find(match=>!match.item);
+  if(missing)return {ok:false,message:missing.reason==='ambiguous'?
+   shopLabel('Un produs are mai multe variante. Selectează-l din listă.','An item has multiple matches. Select it from the list.'):
+   shopLabel('Nu găsesc produsul: ','Item not found: ')+missing.name};
+  const unique=[...new Map(matches.map(match=>[match.item.id,match.item])).values()];
+  const now=new Date().toISOString();
+  unique.forEach(item=>{item.checked=true;item.checkedAt=item.checkedAt||now});
+  return {ok:true,message:shopLabel('Bifate: ','Marked bought: ')+unique.map(item=>item.name).join(', ')};
+ }
  const target=shopVoiceFindItem(data.items,found.match[1]);
  if(!target.item)return {ok:false,message:target.reason==='ambiguous'?
   shopLabel('Sunt mai multe produse cu acest nume. Alege produsul din tabel.','Several items match. Select one in the table.'):
@@ -2883,7 +2905,11 @@ function renderShoppingList(){
    // Only this deliberate checkbox interaction may change bought state.
    const next=data.items.find(i=>i.id===item.id);if(!next)return;
    next.checked=checkbox.checked;next.checkedAt=checkbox.checked?new Date().toISOString():null;
-   shopSaveAndRender(data);
+   if(!shoppingWrite(data)){checkbox.checked=!checkbox.checked;next.checked=checkbox.checked;return}
+   // Keep the current DOM and scroll position so the user can tick multiple
+   // different rows in rapid succession without losing the next tap.
+   info.classList.toggle('is-checked',checkbox.checked);
+   count.textContent=shopLabel('Bifate de tine: ','Checked by you: ')+data.items.filter(i=>i.checked).length+' / '+data.items.length;
   };
   const info=document.createElement('div');info.className='shop-item-info'+(item.checked?' is-checked':'');
   const itemName=document.createElement('strong');itemName.textContent=item.name;info.append(itemName);
