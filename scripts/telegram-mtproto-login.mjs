@@ -18,6 +18,23 @@ const askHidden=async(question)=>{
  try{return await rl.question("");}
  finally{output.write("\n");}
 };
+// Validate only the shape, never print or persist the phone number.
+const askPhone=async()=>{
+ const candidate=(await askHidden("Telegram phone number (+country code, e.g. +44...): ")).replace(/[\s()-]/g,"");
+ if(!/^\+[1-9]\d{7,14}$/.test(candidate)){
+  process.stderr.write("Phone format invalid or empty. Use +countrycode followed by digits; do not share your number here.\n");
+  throw new Error("PHONE_FORMAT_INVALID");
+ }
+ return candidate;
+};
+let lastSafeAuthError="";
+const authErrorCode=error=>{
+ // Only allow known Telegram error identifiers; do not print error.message,
+ // phone, code, password, keys or complete error objects.
+ const raw=[error?.errorMessage,error?.code,error?.name].map(x=>String(x||"")).join(" ");
+ const matched=raw.match(/(?:PHONE_NUMBER_INVALID|PHONE_NUMBER_BANNED|PHONE_CODE_INVALID|PHONE_CODE_EXPIRED|PHONE_CODE_EMPTY|PHONE_PASSWORD_FLOOD|SESSION_PASSWORD_NEEDED|PASSWORD_HASH_INVALID|API_ID_INVALID|API_ID_PUBLISHED_FLOOD|FLOOD_WAIT|NETWORK_ERROR|ECONNABORTED|ETIMEDOUT|CONNECTION_NOT_INITED)/i);
+ return matched?matched[0].toUpperCase():"UNCLASSIFIED_AUTH_ERROR";
+};
 let client;
 try{
  // Ask locally instead of requiring shell exports that expose API secrets
@@ -32,10 +49,10 @@ try{
  client=new TelegramClient(new StringSession(""),apiId,apiHash,{
   connectionRetries:2,requestRetries:1,autoReconnect:false});
  await client.start({
-  phoneNumber:()=>askHidden("Telegram phone number, with country code: "),
+  phoneNumber:()=>askPhone(),
   phoneCode:()=>askHidden("Telegram verification code (never send it to anyone): "),
   password:()=>askHidden("Telegram two-step verification password, if required: "),
-  onError:error=>process.stderr.write("Login step failed. Verify credentials and try again.\n")
+  onError:error=>{lastSafeAuthError=authErrorCode(error);process.stderr.write("Telegram login error code: "+lastSafeAuthError+" (no credentials shown).\n");}
  });
  if(!await client.isUserAuthorized())throw Error("Authorization did not complete");
  const session=client.session.save();
@@ -43,7 +60,8 @@ try{
  await writeFile(".telegram-mtproto-session",session,{encoding:"utf8",mode:0o600,flag:"wx"});
  process.stdout.write("Authorized session written to .telegram-mtproto-session.\nCopy it ONLY to the TELEGRAM_SESSION Cloudflare secret, then securely delete the local copy. Never upload this file or share it in chat.\n");
 }catch(error){
- process.stderr.write("Telegram sign-in incomplete. No session has been uploaded.\n");
+ const code=error?.message==="PHONE_FORMAT_INVALID"?"PHONE_FORMAT_INVALID":lastSafeAuthError||authErrorCode(error);
+ process.stderr.write("Telegram sign-in incomplete ["+code+"]. No session has been uploaded.\n");
  process.exitCode=1;
 }finally{
  if(client)try{await client.disconnect()}catch{}
