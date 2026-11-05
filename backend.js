@@ -1674,7 +1674,7 @@ export default {
     }
     // Telegram may only supply publisher-consented channel messages. It cannot
     // be used as a general scraper or as an unverified AI research corpus.
-    if(isTelegramNewsRequest(message)){
+    if(!voluntaryTelegramLink&&isTelegramNewsRequest(message)){
       const dated=publicationDayWindow(message,data.client_local_day);
       const feed=await readConsentedTelegramPosts(env,{language:lang,limit:12,publicationDay:dated?.day||null});
       const newsList=feed.status==="success"&&feed.rows.length?{
@@ -5074,7 +5074,7 @@ export default {
 
       // GDELT only supplements current-events requests; returned article listings are leads,
       // not independent fact verification. Other topics preserve the existing fast path.
-      const newsIntent = !recipeInstruction && !eventResearchIntent && ["article_collection","briefing"].includes(classifyNewsRequest(message).mode);
+      const newsIntent = !voluntaryTelegramLink && !recipeInstruction && !eventResearchIntent && ["article_collection","briefing"].includes(classifyNewsRequest(message).mode);
       if(newsIntent) {
         const topic=message.replace(/^(?:(?:care sunt|arata-mi|cauta|show me|what are the)\s+)?(?:(?:ultimele|latest|recent|breaking)\s+)?(?:stiri|știri|news|noutati|actualitati)\s*(?:(?:despre|about|privind|on)\s+)?/iu,"").trim();
         const broadGeopolitics=/geopolitic|international|world affairs|politic.*extern/i.test(topic);
@@ -5290,7 +5290,7 @@ export default {
     }
     // News is presented as attributed article leads, never AI-invented headlines.
     // The list and its detail panel are deterministic; publication != claim verification.
-    const newsListingIntent=!recipeInstruction&&!eventResearchIntent&&classifyNewsRequest(message).mode==="article_collection";
+    const newsListingIntent=!voluntaryTelegramLink&&!recipeInstruction&&!eventResearchIntent&&classifyNewsRequest(message).mode==="article_collection";
     const newsPublicationFilter=newsListingIntent?publicationDayWindow(message,data.client_local_day):null;
     if(newsListingIntent&&shouldSearchWeb){
       const seenTitles=new Set();
