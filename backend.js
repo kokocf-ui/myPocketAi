@@ -5813,6 +5813,42 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       );
 
       stageMetrics.primary_ai_ms=Date.now()-aiStartedAt;
+      // If the model hit its generation limit, finish the answer before displaying it.
+      // A scrollable modal cannot recover text that the model never generated.
+      const initialFinishReason=String(result?.finish_reason||result?.finishReason||result?.stop_reason||result?.stopReason||"").toLowerCase();
+      if (!recipeInstruction&&!eventResearchIntent&&answerFocus.mode==="standard"
+          && typeof result?.response==="string"&&result.response.trim()
+          && /(?:length|max[_ -]?tokens?|token[_ -]?limit)/.test(initialFinishReason)) {
+        const firstPart=result.response.trimEnd();
+        try {
+          const continued=await env.AI.run(selectedAiModel,{
+            messages:[
+              {role:"system",content:systemMessage},
+              ...modelHistory,
+              {role:"user",content:aiUserMessage},
+              {role:"assistant",content:firstPart},
+              {role:"user",content:"Continue the preceding answer exactly where it stopped. Complete the unfinished word or sentence and remaining essential points. Do not repeat the introduction or previous points. Answer in the same language."}
+            ],
+            max_tokens:1100,
+            temperature:0.1
+          });
+          const next=typeof continued?.response==="string"?continued.response.trim():"";
+          if(next&&next!==firstPart&&!firstPart.includes(next)) {
+            // Models can restart the last few words: remove an overlapping prefix.
+            let overlap=0;
+            const maxOverlap=Math.min(150,firstPart.length,next.length);
+            for(let k=maxOverlap;k>=8;k--) {
+              if(firstPart.slice(-k).toLowerCase()===next.slice(0,k).toLowerCase()){overlap=k;break;}
+            }
+            const tail=next.slice(overlap);
+            result={...result,response:firstPart+(overlap?"":" ")+tail};
+            stageMetrics.answer_continued=true;
+          }
+        }catch(continuationError){
+          console.warn("Pocket AI answer continuation failed",String(continuationError?.message||continuationError).slice(0,140));
+          stageMetrics.answer_continuation_failed=true;
+        }
+      }
       // O singură încercare de corectare dacă utilizatorul a cerut un număr exact de propoziții.
       const sentenceTarget = requestedSentenceCount(message);
       if (
