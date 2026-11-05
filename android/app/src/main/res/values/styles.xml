@@ -8,4 +8,11 @@
         <item name="android:windowBackground">@color/pocket_navy</item>
         <item name="android:windowActionModeOverlay">true</item>
     </style>
+    <style name="PocketAvatarLaunchTheme" parent="PocketTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
 </resources>
