@@ -2490,7 +2490,7 @@ function renderShoppingList(){
  const scroll=document.createElement('div');scroll.className='adaptive-workspace__scroll';
  panel.append(scroll);
  const heading=document.createElement('div');heading.className='shop-heading';
- const title=document.createElement('strong');title.textContent=data.completedAt?shopLabel('Lista finalizată','Finished list'):shopLabel('Lista curentă','Current list');
+ const title=document.createElement('strong');title.textContent=data.items.length?data.currentName:(data.completedAt?shopLabel('Lista finalizată','Finished list'):shopLabel('Lista curentă','Current list'));
  const count=document.createElement('small');
  count.textContent=shopLabel('Bifate de tine: ','Checked by you: ')+data.items.filter(i=>i.checked).length+' / '+data.items.length;
  heading.append(title,count);if(shoppingMode!=='archive')scroll.append(heading);
