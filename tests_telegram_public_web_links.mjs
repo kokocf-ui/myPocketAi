@@ -36,4 +36,21 @@ try{
  assert.match(out.links[1].title,/Telegram @anotherchannel/);
  assert.equal(searches,1);
 }finally{globalThis.fetch=fetchBefore;}
+
+const previousFetch2=globalThis.fetch;
+try{
+ globalThis.fetch=async()=>({ok:true,json:async()=>({results:[
+  {url:"https://t.me/recentchannel/101",title:"Iran current report",publishedDate:"2026-11-05T09:10:00Z",highlights:["Public indexed report about developments in Iran."]},
+  {url:"https://t.me/recentchannel/102",title:"Iran embed boilerplate",publishedDate:"2026-11-05T09:11:00Z",highlights:["[Context](/s/recentchannel/102) Embed <script async src=\\\"https://telegram.org/js/telegram-widget.js\\\"></script>"]},
+  {url:"https://t.me/recentchannel/103",title:"Old Iran report",publishedDate:"2026-06-11T08:00:00Z",highlights:["Old report outside the requested period."]},
+  {url:"https://t.me/recentchannel/104",title:"Undated Iran report",highlights:["No trustworthy index publication date found."]},
+  {url:"https://t.me/recentchannel/105",title:"Repeated Iran report",publishedDate:"2026-11-05T09:11:00Z",highlights:["Public indexed report about developments in Iran."]}
+ ]})});
+ const result=await discoverTelegramPublicLinks({EXA_API_KEY:"fixture"},"Iran",10,{
+  sinceMs:Date.parse("2026-11-04T10:00:00Z"),nowMs:Date.parse("2026-11-05T10:00:00Z")
+ });
+ assert.equal(result.publication_filter,"indexed_date_after_requested_cutoff");
+ assert.deepEqual(result.links.map(x=>x.url),["https://t.me/recentchannel/101","https://t.me/recentchannel/102"]);
+ assert.equal(result.links[1].excerpt,"");
+}finally{globalThis.fetch=previousFetch2;}
 console.log("Telegram public link discovery tests passed");
