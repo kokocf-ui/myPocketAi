@@ -62,7 +62,7 @@ try{
 // Regression: a retired personal-channel Bot API bridge must not be brought
 // back by a later news feature. All Telegram discovery is public web-index only.
 const backendSource=readFileSync(new URL("./backend.js",import.meta.url),"utf8");
-assert.doesNotMatch(backendSource,/telegram_consented_channels|readConsentedTelegramPosts|telegramConfigured|api\\.telegram\\.org\\/bot/);
+for(const banned of ["telegram_consented_channels","readConsentedTelegramPosts","telegramConfigured","api.telegram.org/bot"])assert.equal(backendSource.includes(banned),false,"Retired channel connector reference: "+banned);
 const oldFetch=globalThis.fetch;
 try{
  globalThis.fetch=async (url,init)=>{
