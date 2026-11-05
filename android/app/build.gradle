@@ -6,8 +6,25 @@ android {
         applicationId 'ai.mypocket.mobile'
         minSdk 26
         targetSdk 35
-        versionCode 1
-        versionName '0.1.0'
+        // Monotonic per GitHub Actions APK workflow run; local builds may override.
+        versionCode Integer.parseInt(System.getenv('POCKET_VERSION_CODE') ?: '1')
+        versionName '0.2.' + (System.getenv('POCKET_VERSION_CODE') ?: '0')
+    }
+    signingConfigs {
+        release {
+            def keyPath = System.getenv('POCKET_KEYSTORE_PATH')
+            if (keyPath && file(keyPath).exists()) {
+                storeFile file(keyPath)
+                storePassword System.getenv('POCKET_STORE_PASSWORD')
+                keyAlias System.getenv('POCKET_KEY_ALIAS')
+                keyPassword System.getenv('POCKET_KEY_PASSWORD')
+            }
+        }
+    }
+    buildTypes {
+        release {
+            if (System.getenv('POCKET_KEYSTORE_PATH')) signingConfig signingConfigs.release
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
