@@ -2221,11 +2221,11 @@ function shopVoiceLanguage(){
  return ({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
 }
 function shopVoiceFold(text){
- return String(text||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLocaleLowerCase().trim();
+ return String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().trim();
 }
 function shopVoiceEnd(text){
  const cleaned=String(text||'').trim();
- const match=cleaned.match(/(?:^|[\\s,.;!?])(sfârșit|sfarsit|atât|atat)[.!?\\s]*$/iu);
+ const match=cleaned.match(/(?:^|[\s,.;!?])(sfârșit|sfarsit|atât|atat)[.!?\s]*$/iu);
  return {ended:Boolean(match),text:match?cleaned.slice(0,match.index).trim():cleaned};
 }
 function shopVoiceDiacritics(text){
@@ -2234,10 +2234,24 @@ function shopVoiceDiacritics(text){
   capsuni:'căpșuni',capsuna:'căpșună',patrunjel:'pătrunjel',paine:'pâine',
   paini:'pâini',oua:'ouă',masline:'măsline',morcovi:'morcovi',branza:'brânză',
   smantana:'smântână',ceapa:'ceapă',usturoi:'usturoi',malai:'mălai',zahar:'zahăr'};
- return String(text||'').replace(/[\\p{L}]+/gu,word=>{
+ return String(text||'').replace(/[\p{L}]+/gu,word=>{
   const corrected=words[shopVoiceFold(word)];
   return corrected?(word[0]===word[0].toLocaleUpperCase()?corrected[0].toLocaleUpperCase()+corrected.slice(1):corrected):word;
  }).normalize('NFC');
+}
+function shopVoiceSplit(transcript){
+ const text=String(transcript||'').normalize('NFC').replace(/\s+/gu,' ').trim();
+ if(!text)return [];
+ // Android can omit commas when recognizing a string of products.
+ // Quantity expressions mark boundaries, including "o jumătate de kilogram".
+ const qty=/(?:\b(?:o\s+jumătate|o\s+jumatate|jumătate|jumatate|un|una|unu|o|doi|două|doua|trei|patru|cinci|șase|sase|șapte|sapte|opt|nouă|noua|zece|unsprezece|doisprezece|\d+(?:[.,]\d+)?)\b)(?=\s+(?:de\s+)?[\p{L}])/giu;
+ const starts=[...text.matchAll(qty)].map(m=>m.index);
+ const segments=[];
+ if(starts.length>1){
+  if(starts[0]>0)segments.push(text.slice(0,starts[0]));
+  for(let i=0;i<starts.length;i++)segments.push(text.slice(starts[i],starts[i+1]??text.length));
+ }else segments.push(text);
+ return segments.flatMap(p=>p.split(/\s*(?:[,;]|\bși\b|\bsi\b)\s*/iu)).map(x=>x.trim()).filter(Boolean);
 }
 function shopVoiceItems(transcript){
  const numberWords={un:1,o:1,unu:1,una:1,doi:2,doua:2,trei:3,patru:4,cinci:5,
@@ -2246,20 +2260,21 @@ function shopVoiceItems(transcript){
   litru:'l',litri:'l',l:'l',mililitri:'ml',ml:'ml',bucata:'buc',bucati:'buc',
   buc:'buc',cutie:'cutie',cutii:'cutie',pachet:'pachet',pachete:'pachet',
   legatura:'legătură',legaturi:'legătură'};
- const clean=String(transcript||'').replace(/(?:\\s+și\\s+|\\s+si\\s+)/giu,',')
-  .split(/[,;\\n]+/u).map(p=>p.trim()).filter(Boolean);
+ const clean=shopVoiceSplit(transcript);
  const result=[];
  for(let raw of clean.slice(0,60)){
-  raw=raw.replace(/^(?:te rog\\s+)?(?:trece(?:-mi)? pe listă|trece pe lista|adaugă|adauga|pune pe listă|pune pe lista|vreau|cumpără|cumpara)\\s*/iu,'').trim();
-  raw=raw.replace(/^[\\s.:;-]+|[\\s.:;-]+$/g,'');
+  raw=raw.replace(/^(?:te rog\s+)?(?:trece(?:-mi)? pe listă|trece pe lista|adaugă|adauga|pune pe listă|pune pe lista|vreau|cumpără|cumpara)\s*/iu,'').trim();
+  raw=raw.replace(/^[\s.:;-]+|[\s.:;-]+$/g,'');
   if(!raw)continue;
   let quantity='1',unit='buc';
-  const words=raw.split(/\\s+/u);
+  const words=raw.split(/\s+/u);
   if(words.length){
    const first=shopVoiceFold(words[0]).replace(',','.');
    let n=Number(first);
    if(!Number.isFinite(n))n=numberWords[first];
-   if(first==='jumatate'||first==='jumătate'){
+   if(first==='o'&&['jumatate','jumătate'].includes(shopVoiceFold(words[1]||''))){
+    n=.5;words.splice(0,2);if(['de','din'].includes(shopVoiceFold(words[0])))words.shift();
+   }else if(first==='jumatate'||first==='jumătate'){
     n=.5;words.shift();if(['de','din'].includes(shopVoiceFold(words[0])))words.shift();
    }else if(Number.isFinite(n)&&n>0){words.shift()}
    else n=null;
@@ -2272,7 +2287,7 @@ function shopVoiceItems(transcript){
    }
   }
   const name=shopVoiceDiacritics(raw).trim().slice(0,180);
-  if(name&&/[\\p{L}]/u.test(name))result.push(shopNewItem(name,quantity,unit));
+  if(name&&/[\p{L}]/u.test(name))result.push(shopNewItem(name,quantity,unit));
  }
  return result;
 }
@@ -2320,8 +2335,14 @@ function shopVoiceAccept(text){
  const session=shoppingVoiceSession;if(!session?.active)return;
  const ending=shopVoiceEnd(text);
  const phrase=ending.text.trim();
- if(phrase&&shopVoiceFold(session.parts[session.parts.length-1])!==shopVoiceFold(phrase)){
-  session.parts.push(phrase);session.partial='';
+ if(phrase){
+  const previous=String(session.parts[session.parts.length-1]||'');
+  const foldPrev=shopVoiceFold(previous),foldNext=shopVoiceFold(phrase);
+  if(foldNext!==foldPrev){
+   if(foldNext.startsWith(foldPrev+' ')&&foldPrev)session.parts[session.parts.length-1]=phrase;
+   else if(!foldPrev.startsWith(foldNext+' '))session.parts.push(phrase);
+  }
+  session.partial='';
  }
  shopVoiceRenderStatus();
  if(ending.ended)shopVoiceStop();
@@ -2329,14 +2350,14 @@ function shopVoiceAccept(text){
 function shopVoiceStart(){
  if(shoppingVoiceSession?.active){shopVoiceStop();return}
  if(state.speaking){notify(shopLabel('Încheie mai întâi redarea vocală.','Finish voice playback first.'));return}
- shoppingVoiceSession={active:true,parts:[],partial:'',timer:null,rec:null};
+ shoppingVoiceSession={active:true,parts:[],partial:'',timer:null,rec:null,retries:0};
  shopVoiceRenderStatus();shopVoiceListen();
 }
 function shopVoiceStop(){
  const session=shoppingVoiceSession;if(!session?.active)return;
  session.active=false;
  if(session.timer!==null)clearTimeout(session.timer);
- if(session.partial&&shopVoiceFold(session.partial)!==shopVoiceFold(session.parts[session.parts.length-1])){
+ if(session.partial&&!shopVoiceFold(session.parts[session.parts.length-1]).includes(shopVoiceFold(session.partial))){
   const ending=shopVoiceEnd(session.partial);if(ending.text.trim())session.parts.push(ending.text.trim())
  }
  if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
@@ -2345,7 +2366,10 @@ function shopVoiceStop(){
  const items=shopVoiceItems(session.parts.join(', '));
  if(items.length){
   const data=shopNormalizeData(shoppingRead());
-  data.items.push(...items);data.completedAt=null;
+  if(data.voiceSessionSaved===true&&data.items.length){
+   shopArchive(data,'voice_saved',false);
+  }
+  data.items.push(...items);data.completedAt=null;data.voiceSessionSaved=true;
   if(shoppingWrite(data)){
    if(state.currentView==='module'&&shoppingMode==='entry')renderShoppingList();
    notify(shopLabel('Produse adăugate: ','Items added: ')+items.length);
@@ -2359,14 +2383,22 @@ function shopVoiceHandleAndroid(data){
  if(!session?.active)return true;
  if(data.status==='partial'){session.partial=String(data.text||'').trim();shopVoiceRenderStatus();return true}
  if(data.status==='recognized'){
-  session.partial='';
+  session.retries=0;session.partial='';
   shopVoiceAccept(String(data.text||''));
   if(session.active){
    session.timer=setTimeout(()=>{if(session.active)shopVoiceListen()},230);
   }
   return true;
  }
- if(data.status==='error'){shopVoiceStop();notify(shopLabel('Recunoașterea vocală Android a fost întreruptă.','Android speech recognition stopped.'))}
+ if(data.status==='error'){
+  const message=String(data.text||'');
+  session.retries=(session.retries||0)+1;
+  if(session.retries<=3&&/error (?:6|7|8)|timeout|no.match/iu.test(message)){
+   session.timer=setTimeout(()=>{if(session.active)shopVoiceListen()},450);
+  }else{
+   shopVoiceStop();notify(shopLabel('Recunoașterea vocală Android a fost întreruptă.','Android speech recognition stopped.'));
+  }
+ }
  return true;
 }
 
@@ -2427,7 +2459,7 @@ function renderShoppingList(){
   if(!product.value.trim())return;
   if(!shopValidateQuantity(quantity.value)){notify(shopLabel('Cantitatea trebuie să fie un număr pozitiv.',
    'Quantity must be a positive number.'));return}
-  data.items.push(shopNewItem(product.value,quantity.value,unit.value));data.completedAt=null;
+  data.items.push(shopNewItem(product.value,quantity.value,unit.value));data.completedAt=null;data.voiceSessionSaved=false;
   shoppingEditingId=null;if(shopSaveAndRender(data))document.querySelector('.adaptive-fields--product input')?.focus();
  };
  scroll.append(productForm);
