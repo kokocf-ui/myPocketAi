@@ -1,6 +1,11 @@
 package ai.mypocket.mobile;
 
 import android.app.Activity;
+import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import java.util.ArrayList;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -43,6 +48,9 @@ public final class AvatarLaunchActivity extends Activity {
     private boolean startedSpeaking = false;
     private boolean finishingLaunch = false;
     private int voiceInitAttempts = 0;
+    private static final int ONBOARDING_PERMISSIONS_REQUEST=4832;
+    private static final String PREFS_NAME="pocket_permissions";
+    private boolean introStarted=false;
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -120,6 +128,42 @@ public final class AvatarLaunchActivity extends Activity {
             }
         });
 
+        // Permission prompts belong to the FIRST application opening, not a
+        // subsequent tap on the avatar. Once permission questions are answered,
+        // the clean translucent 3D entrance begins.
+        requestStartupPermissions();
+    }
+
+    private void requestStartupPermissions() {
+        SharedPreferences prefs=getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        ArrayList<String> missing=new ArrayList<>();
+        SharedPreferences.Editor editor=prefs.edit();
+        if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED
+            && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED
+            && !prefs.getBoolean("startup_location_requested_v3",false)){
+            missing.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+            missing.add(Manifest.permission.ACCESS_FINE_LOCATION);
+            editor.putBoolean("startup_location_requested_v3",true);
+        }
+        if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED
+            && !prefs.getBoolean("startup_microphone_requested_v3",false)){
+            missing.add(Manifest.permission.RECORD_AUDIO);
+            editor.putBoolean("startup_microphone_requested_v3",true);
+            editor.putBoolean("first_microphone_permission_requested",true);
+        }
+        editor.apply();
+        if(missing.isEmpty()){startAvatarEntrance();return;}
+        requestPermissions(missing.toArray(new String[0]),ONBOARDING_PERMISSIONS_REQUEST);
+    }
+
+    @Override public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if(requestCode==ONBOARDING_PERMISSIONS_REQUEST)startAvatarEntrance();
+    }
+
+    private void startAvatarEntrance(){
+        if(introStarted || finishingLaunch)return;
+        introStarted=true;
         avatarView.loadUrl(ORIGIN + "/assets/avatar-launch.html");
         // Never trap the user on a stalled WebGL or speech engine.
         handler.postDelayed(this::openMain, 14000L);
