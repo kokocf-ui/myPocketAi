@@ -13,6 +13,7 @@ on:
       - tests_dialogue_intent.mjs
       - tests_dialogue_pipeline.mjs
       - tests_news_context.mjs
+      - tests_news_pagination.mjs
       - tests_news_article_detail.mjs
       - tests_telegram_user_translation.mjs
       - news_article_detail.mjs
@@ -72,6 +73,7 @@ jobs:
           node tests_telegram_news_parallel.mjs
           node tests_telegram_voluntary_links.mjs
           node tests_telegram_public_web_links.mjs
+          node tests_news_pagination.mjs
           node tests_news_reader.mjs
           node tests_news_article_detail.mjs
           node tests_telegram_user_translation.mjs
