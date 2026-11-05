@@ -2463,7 +2463,7 @@ function shopVoiceMergeAdded(data,incoming){
 }
 function shopVoiceApplyAction(sentence,data){
  const raw=String(sentence||'').trim().replace(/[.!?]+$/g,'');
- if(/^(?:arhivează|arhiveaza|salvează\\s+în\\s+arhivă|salveaza\\s+in\\s+arhiva|pune\\s+în\\s+arhivă|pune\\s+in\\s+arhiva)(?:\\s+(?:lista|lista\\s+activă|lista\\s+activa))?$/iu.test(raw))
+ if(/^(?:arhivează(?:\\s+lista(?:\\s+activă|\\s+activa)?)?|arhiveaza(?:\\s+lista(?:\\s+activa)?)?|(?:salvează|salveaza|pune|trimite)\\s+(?:lista\\s+)?(?:în|in)\\s+(?:arhivă|arhiva)(?:\\s+lista)?)$/iu.test(raw))
   return {ok:true,archive:true,message:shopLabel('Confirmă arhivarea listei.','Confirm list archiving.')};
  const commands=[
   {type:'delete',re:/^(?:șterge|sterge|elimină|elimina)\\s+(.+)$/iu},
