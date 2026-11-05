@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="PocketTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/pocket_navy</item>
+        <item name="android:navigationBarColor">@color/pocket_navy</item>
+        <item name="android:windowBackground">@color/pocket_navy</item>
+        <item name="android:windowSplashScreenBackground">@color/pocket_navy</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/pocket_avatar</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/pocket_navy</item>
+    </style>
+</resources>
