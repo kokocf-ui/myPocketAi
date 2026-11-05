@@ -32,6 +32,11 @@ assert.match(shoppingStyle,/\.adaptive-workspace__actions:not\(\.adaptive-worksp
 assert.match(inline,/Bifează și editează produsele din/);
 assert.match(inline,/function shopVoiceStart\(\)/);
 assert.match(inline,/function shopVoiceStop\(\)/);
+assert.match(inline,/function shopVoiceWatchdog\(session\)/);
+assert.match(inline,/function shopVoiceRestart\(session,delay\)/);
+assert.match(inline,/shopVoiceClearWatchdog\(session\)/);
+assert.match(inline,/session\.status='restarting'/);
+assert.match(inline,/session\.missed>3/);
 assert.match(inline,/shopVoiceHandleAndroid\(data\)/);
 assert.match(inline,/mode:'shopping'/);
 assert.match(inline,/shopButton\('🎙 Dictează produse','🎙 Dictate items'/);
