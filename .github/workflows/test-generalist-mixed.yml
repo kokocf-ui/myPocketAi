@@ -10,6 +10,9 @@ on:
       - tests_request_pipeline_regression.mjs
       - tests_geographic_station_intent.mjs
       - tests_balmos_recipe_regression.mjs
+      - tests_dialogue_intent.mjs
+      - tests_dialogue_pipeline.mjs
+      - dialogue_intent.mjs
       - tests_entity_disambiguation.mjs
       - tests_geographic_profile_selection.mjs
       - tests_locality_list_unique.mjs
@@ -45,6 +48,8 @@ jobs:
           node tests_request_pipeline_regression.mjs
           node tests_geographic_station_intent.mjs
           node tests_balmos_recipe_regression.mjs
+          node tests_dialogue_intent.mjs
+          node tests_dialogue_pipeline.mjs
           node tests_entity_disambiguation.mjs
           node tests_geographic_profile_selection.mjs
           node tests_locality_list_unique.mjs
