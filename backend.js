@@ -9,6 +9,7 @@ import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPubl
 import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers} from "./news_discovery.mjs";
 import {isTelegramNewsRequest,readConsentedTelegramPosts,telegramConfigured} from "./telegram_consented_channels.mjs";
 import {classifyVoluntaryTelegramLink,telegramVerificationPrompt,telegramExternalResearchQuery} from "./telegram_voluntary_links.mjs";
+import {discoverTelegramPublicLinks,telegramPublicLinkSearchIntent} from "./telegram_public_web_links.mjs";
 /*
  * v177: clean culinary output, one-dish source selection and structured publisher recipe rendering.
  * v176: real culinary source research and no dish-specific hardcoded responses.
@@ -1202,6 +1203,15 @@ export default {
     const url = new URL(request.url);
 
 
+    // User-initiated link-only discovery from a public web index. No Telegram session or AI ingestion.
+    if(url.pathname === "/api/telegram-public-links" && request.method === "GET"){
+      const q=String(url.searchParams.get("q")||"");
+      const limit=Math.min(10,Math.max(1,Number(url.searchParams.get("limit"))||8));
+      const result=await discoverTelegramPublicLinks(env,q,limit);
+      return json({app:"Pocket AI",version:API_VERSION,kind:"telegram_public_links",...result,
+        ai_ingestion_enabled:false,telegram_session_used:false,global_telegram_search:false});
+    }
+
     // Free, source-attributed public intelligence: independent of the general assistant
     // and deliberately isolated from maps, recipes, transport and existing search.
     if (url.pathname === "/api/public-intel" && request.method === "GET") {
@@ -1671,6 +1681,25 @@ export default {
         telegram_shared_reference:{type:voluntaryTelegramLink.type,mode:voluntaryTelegramLink.mode,
           url:voluntaryTelegramLink.url,automatic_content_access:false},
         web_search_status:"not_needed",ai_generated:false,ai_connected:Boolean(env.AI)});
+    }
+    // When asked to search Telegram, discover only public indexed post LINKS.
+    // These links are not Telegram API search, are not evidence for the LLM,
+    // and never expose user-session credentials.
+    const telegramLinkTopic=!voluntaryTelegramLink?telegramPublicLinkSearchIntent(message):null;
+    if(telegramLinkTopic){
+      const found=await discoverTelegramPublicLinks(env,telegramLinkTopic,8);
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
+        message_received:message,reply:found.reply,telegram_status:found.status,
+        telegram_access_mode:"public_web_index_links_only",
+        structured_list:found.links.length?{type:"news",rows:found.links.map((r,i)=>({
+          title:"Postare publică Telegram "+(i+1),url:r.url,source_name:"Telegram (link indexat)",
+          detail:"Deschide sursa pentru a citi postarea; conținut neverificat.",
+          verification:"unverified_link_only",published_at:null
+        })),result_count:found.links.length,coverage_status:"indexed_public_links_only"}:undefined,
+        sources:found.links.map((r,i)=>({number:i+1,title:"Postare Telegram "+(i+1),url:r.url,
+          verification:"unverified_link_only"})),
+        ai_ingestion_enabled:false,global_telegram_search:false,ai_connected:Boolean(env.AI),
+        web_search_status:found.status});
     }
     // Telegram may only supply publisher-consented channel messages. It cannot
     // be used as a general scraper or as an unverified AI research corpus.
