@@ -3133,13 +3133,13 @@ async function loadSourceBasedNewsDetail(target,url,language){
  }[language]||{unavailable:"Original article details unavailable. Open the publisher link.",summary:"Source-based summary (not full text):",excerpt:"Original-language source excerpt:",notTranslated:"Translation unavailable."};
  if(!url){target.textContent=messages.unavailable;return;}
  try{
-  const endpoint=new URL(APP.apiUrl);endpoint.pathname="/api/news-article-detail";endpoint.search="";
+  const endpoint=new URL(CLIENT_CONFIG.apiUrl);endpoint.pathname="/api/news-article-detail";endpoint.search="";
   const response=await fetch(endpoint.href,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url,language})});
   if(!response.ok)throw Error("article_read_failed");
   const data=await response.json();
   if(data?.status==="success"&&typeof data.summary==="string"&&data.summary.trim()){
    const excerpt=data.content_status==="source_excerpt";
-   target.textContent=(excerpt?messages.excerpt+"\n"+messages.notTranslated:messages.summary)+"\n\n"+data.summary.trim();
+   target.textContent=(excerpt?messages.excerpt+"\\n"+messages.notTranslated:messages.summary)+"\\n\\n"+data.summary.trim();
   }else target.textContent=messages.unavailable;
  }catch{target.textContent=messages.unavailable;}
 }
