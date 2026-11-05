@@ -5197,6 +5197,26 @@ export default {
         const results = Array.isArray(payload.results) ? payload.results : [];
         return {provider:"Exa",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.publishedDate||null,snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null}))};
       })().then(value=>({status:"fulfilled",value,provider:"Exa"})).catch(error=>({status:"rejected",provider:"Exa",error:String(error&&error.message||error).slice(0,140)})));
+      // Independent/local reporters are included in discovery, not deemed true
+      // or financially independent merely because a search query labels them so.
+      // No publisher allowlist, ideological scoring or presumed funding status.
+      if(newsIntent&&env.EXA_API_KEY) providerTasks.push((async()=>{
+        const started=Date.now();
+        const q=newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.independentQuery:
+          searchQuery+" independent local journalism investigative eyewitness source";
+        const response=await fetch("https://api.exa.ai/search",{
+          method:"POST",headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
+          body:JSON.stringify({query:q,type:"auto",category:"news",numResults:8,
+            ...(discoveryPublicationDay?{startPublishedDate:discoveryPublicationDay+"T00:00:00.000Z",endPublishedDate:discoveryPublicationDay+"T23:59:59.999Z"}:{}),
+            contents:{highlights:true}}),signal:AbortSignal.timeout(7000)
+        });
+        if(!response.ok)throw new Error("HTTP "+response.status);
+        const payload=await response.json(),results=Array.isArray(payload.results)?payload.results:[];
+        return {provider:"Exa:IndependentReporting",elapsedMs:Date.now()-started,
+          results:results.map(x=>({title:x.title||x.url,url:x.url,
+            publishedDate:x.publishedDate||null,snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null}))};
+      })().then(value=>({status:"fulfilled",value,provider:"Exa:IndependentReporting"}))
+        .catch(error=>({status:"rejected",provider:"Exa:IndependentReporting",error:String(error?.message||error).slice(0,140)})));
       // Optional targeted discovery of PUBLIC Reuters links. This is not a
       // licensed Reuters feed and does not promise access to full article text.
       if(newsIntent&&newsDiscoveryPlan.broadWorld&&env.EXA_API_KEY) providerTasks.push((async()=>{
@@ -5229,6 +5249,21 @@ export default {
         const payload=await response.json(); const results=payload.web&&Array.isArray(payload.web.results)?payload.web.results:[];
         return {provider:"Brave",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.page_age||x.age||null,snippets:[x.description||"",...(Array.isArray(x.extra_snippets)?x.extra_snippets:[])].filter(Boolean).slice(0,3)}))};
       })().then(value=>({status:"fulfilled",value,provider:"Brave"})).catch(error=>({status:"rejected",provider:"Brave",error:String(error&&error.message||error).slice(0,140)})));
+      // When Exa is absent, do not leave independent reporting out of discovery.
+      if(newsIntent&&!env.EXA_API_KEY&&env.BRAVE_API_KEY) providerTasks.push((async()=>{
+        const started=Date.now(),u=new URL("https://api.search.brave.com/res/v1/web/search");
+        u.searchParams.set("q",newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.independentQuery:
+          searchQuery+" independent local journalism investigative eyewitness source");
+        u.searchParams.set("count","8");u.searchParams.set("country","ALL");
+        const response=await fetch(u.toString(),{headers:{"Accept":"application/json",
+          "X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(7000)});
+        if(!response.ok)throw new Error("HTTP "+response.status);
+        const payload=await response.json(),results=Array.isArray(payload.web?.results)?payload.web.results:[];
+        return {provider:"Brave:IndependentReporting",elapsedMs:Date.now()-started,
+          results:results.map(x=>({title:x.title||x.url,url:x.url,
+            publishedDate:x.page_age||x.age||null,snippets:[x.description||""].filter(Boolean)}))};
+      })().then(value=>({status:"fulfilled",value,provider:"Brave:IndependentReporting"}))
+        .catch(error=>({status:"rejected",provider:"Brave:IndependentReporting",error:String(error?.message||error).slice(0,140)})));
       // When Exa is not configured, Brave can discover PUBLIC Reuters URLs.
       // A search result does not grant rights to full Reuters wire content.
       if(newsIntent&&newsDiscoveryPlan.broadWorld&&!env.EXA_API_KEY&&env.BRAVE_API_KEY) providerTasks.push((async()=>{
