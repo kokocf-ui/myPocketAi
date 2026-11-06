@@ -4243,8 +4243,10 @@ function documentsScanExtract(raw,geometry=[]){
     const other=rows[j];
     if(!Number.isFinite(other.top)||!Number.isFinite(other.left)||isLabel(other.text))continue;
     const dy=other.top-row.bottom;
-    if(dy< -h*.5||dy>maxBelow)continue;
-    const rightOf=other.left>=row.right&&Math.abs(other.top-row.top)<=h*1.5;
+    // A value on the same horizontal line has negative dy; keep it when it
+    // is to the right of the caption (common on EU identity cards).
+    const rightOf=other.left>=row.right-h*.25&&Math.abs(other.top-row.top)<=h*1.5;
+    if(!rightOf&&(dy< -h*.5||dy>maxBelow))continue;
     const aligned=other.right>=row.left-h*2&&other.left<=row.right+Math.max(140,h*10);
     if(!rightOf&&!aligned)continue;
     // Never jump across another field caption to borrow its value.
