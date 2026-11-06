@@ -160,6 +160,7 @@ public final class AgendaReminderScheduler {
         intent.putExtra("minutesBefore",type.startsWith("before-")?Long.parseLong(type.substring(7)):0L);
         intent.putExtra("eventAt",event.toInstant().toEpochMilli());
         intent.putExtra("flightDeparturePrompt",flight && "before-180".equals(type));
+        intent.putExtra("flightPackingPrompt",flight && "before-300".equals(type));
         PendingIntent pi=pending(context,key,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         // Inexact while-idle alarms work without Android's restricted exact-alarm permission.
         alarm.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,trigger.toInstant().toEpochMilli(),pi);
@@ -181,6 +182,7 @@ public final class AgendaReminderScheduler {
         else if(minutes>=60)message="Peste aproximativ "+(minutes/60)+" ore: ";
         else message="Peste aproximativ "+minutes+" minute: ";
         if(birthday)message="evening".equals(type)?"Mâine este ziua de naștere: ":"Astăzi este ziua de naștere: ";
+        if(intent.getBooleanExtra("flightPackingPrompt",false))message="✈️ Verifică documentele și bagajele! Mai ai 5 ore până la zbor: ";
         if(intent.getBooleanExtra("flightDeparturePrompt",false))message="✈️ Este timpul să pleci spre aeroport! Zborul este peste 3 ore. Verifică durata drumului și regulile companiei aeriene: ";
         Intent open=new Intent(context,AvatarLaunchActivity.class);
         open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
