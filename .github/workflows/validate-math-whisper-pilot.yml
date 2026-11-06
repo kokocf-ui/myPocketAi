@@ -1,0 +1,35 @@
+name: Validate Math Whisper Android pilot
+on:
+  pull_request:
+    paths:
+      - 'android/**'
+      - 'index.js'
+      - 'backend.js'
+      - 'tests_math_whisper_pilot.mjs'
+      - '.github/workflows/validate-math-whisper-pilot.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  math-whisper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check syntax and Math pilot regression
+        run: |
+          npm run check
+          npm run test:ui
+          npm run test:android
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+      - name: Compile Android native AudioRecord bridge (CI only)
+        run: gradle -p android --no-daemon assembleDebug
