@@ -3398,16 +3398,20 @@ function budgetSpokenCurrency(text){
 
 function budgetVoiceExpenseTitle(raw){
  let phrase=String(raw||'').trim();
- phrase=phrase.replace(/^\s*(?:am\s+cheltuit|am\s+plătit|am\s+platit|am\s+primit|am\s+încasat|am\s+incasat|spent|paid|received|i\s+spent|i\s+paid|(?:trebuie\s+sa\s+)?platesc|(?:trebuie\s+să\s+)?plătesc)\s*/iu,'');
- phrase=phrase.replace(/(?:^|\s)\d+(?:[,.]\d+)?\s*(?:de\s+)?(?:lire(?:\s+sterline)?|lira|libr[ea]?|pounds?|gbp|zile|euro|eur|ron|lei|leu|dolari|dollars?|usd|franci|chf|pln)(?=\s|$)/iu,' ');
- phrase=phrase.replace(/\b(?:pe\s+\d{1,2}\s+)?(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)\b/giu,' ');
- phrase=phrase.replace(/^(?:lire|lei|zile)\s+(?=(?:pe|pentru|la)\s+)/iu,'');
- phrase=phrase.replace(/^(?:(?:la|de\s+la|pentru|pe|din)\s+)+/iu,'');
- return phrase.replace(/^[\s,.;:]+|[\s,.;:]+$/gu,'').replace(/\s+/g,' ').trim();
+ phrase=phrase.replace(/^\\s*(?:am\\s+cheltuit|am\\s+plătit|am\\s+platit|am\\s+primit|am\\s+încasat|am\\s+incasat|spent|paid|received|i\\s+spent|i\\s+paid|(?:trebuie\\s+sa\\s+)?platesc|(?:trebuie\\s+să\\s+)?plătesc)\\s*/iu,'');
+ phrase=phrase.replace(/(?:^|\\s)\\d+(?:[,.]\\d+)?\\s*(?:de\\s+)?(?:lire(?:\\s+sterline)?|lira|libr[ea]?|pounds?|gbp|zile|euro|eur|ron|lei|leu|dolari|dollars?|usd|franci|chf|pln)(?=\\s|$)/iu,' ');
+ phrase=phrase.replace(/\\b(?:pe\\s+\\d{1,2}\\s+)?(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)\\b/giu,' ');
+ phrase=phrase.replace(/^(?:în fiecare lună pe|in fiecare luna pe)\\s+\\d{1,2}\\s+/iu,'');
+ phrase=phrase.replace(/^(?:trebuie\\s+să|trebuie\\s+sa|voi)\\s+/iu,'');
+ phrase=phrase.replace(/^(?:plătesc|platesc)\\s+/iu,'');
+ phrase=phrase.replace(/\\s+de\\s*$/iu,'');
+ phrase=phrase.replace(/^(?:lire|lei|zile)\\s+(?=(?:pe|pentru|la)\\s+)/iu,'');
+ phrase=phrase.replace(/^(?:(?:la|de\\s+la|pentru|pe|din)\\s+)+/iu,'');
+ return phrase.replace(/^[\\s,.;:]+|[\\s,.;:]+$/gu,'').replace(/\\s+/g,' ').trim();
 }
 function budgetVoiceDate(spoken){
  const months=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
- const today=new Date(),match=spoken.match(/\b(\d{1,2})\s+(ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\s+(\d{4}))?\b/);
+ const today=new Date(),match=spoken.match(/\\b(\\d{1,2})\\s+(ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\\s+(\\d{4}))?\\b/);
  if(match){
   const day=Number(match[1]),month=months.indexOf(match[2]),year=Number(match[3]||today.getFullYear());
   let d=new Date(year,month,day);
@@ -3416,8 +3420,8 @@ function budgetVoiceDate(spoken){
   return budgetISO(d);
  }
  const d=new Date(today.getFullYear(),today.getMonth(),today.getDate());
- if(/\bpoimaine\b/.test(spoken))d.setDate(d.getDate()+2);
- else if(/\bmaine\b/.test(spoken))d.setDate(d.getDate()+1);
+ if(/\\bpoimaine\\b/.test(spoken))d.setDate(d.getDate()+2);
+ else if(/\\bmaine\\b/.test(spoken))d.setDate(d.getDate()+1);
  return budgetISO(d);
 }
 function budgetISO(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
@@ -3452,12 +3456,12 @@ function budgetRenameEntry(id){
  });
 }
 async function budgetVoiceCommand(raw){
- const spoken=shopVoiceFold(raw).replace(/[.,](?=\s|$)/g,'').trim();
+ const spoken=shopVoiceFold(raw).replace(/[.,](?=\\s|$)/g,'').trim();
  if(!spoken)return;
  if(/convert|schimb|curs valutar|exchange/.test(spoken)){
-  const amount=spoken.match(/\d+(?:[,.]\d+)?/);
+  const amount=spoken.match(/\\d+(?:[,.]\\d+)?/);
   if(amount)budgetFxAmount=amount[0].replace(',','.');
-  const pieces=spoken.split(/\s+(?:in|în|to)\s+/);
+  const pieces=spoken.split(/\\s+(?:in|în|to)\\s+/);
   const from=budgetSpokenCurrency(pieces[0]||spoken),to=budgetSpokenCurrency(pieces[1]||'');
   if(from)budgetFxFrom=from;if(to)budgetFxTo=to;
   budgetFxManual=true;budgetScreen='fx';budgetFxLoad();return;
@@ -3469,15 +3473,15 @@ async function budgetVoiceCommand(raw){
   budgetTab='planned';budgetScreen='home';renderBudget();return;
  }
  if(/cat am|raport|rezumat|sold|balanta|balance/.test(spoken)){budgetScreen='home';renderBudget();return}
- if(/^(?:am platit|paid)\s+/.test(spoken)&&!/\d/.test(spoken)){
-  const name=shopVoiceFold(spoken.replace(/^(?:am platit|paid)\s+/,'').replace(/^(?:la|pe|pentru)\s+/,''));
+ if(/^(?:am platit|paid)\\s+/.test(spoken)&&!/\\d/.test(spoken)){
+  const name=shopVoiceFold(spoken.replace(/^(?:am platit|paid)\\s+/,'').replace(/^(?:la|pe|pentru)\\s+/,''));
   const matches=budgetUpcoming(budgetRead()).filter(e=>shopVoiceFold(e.title).includes(name));
   if(matches.length===1)budgetPayPlanned(matches[0]);
   else notify(matches.length?learningLabel('Alege plata din listă; există mai multe potriviri.','Choose a payment from the list; multiple matches.'):learningLabel('Nu am găsit o plată planificată cu acest nume.','No matching planned payment.'));
   return;
  }
- const amountToken=spoken.match(/\d+(?:[,.]\d+)?\s*(?:de\s+)?(?:lire|lira|libr|pounds?|gbp|zile|euro|eur|ron|lei|leu|dolari|dollars?|usd|franci|chf|pln)/)||spoken.match(/\d+(?:[,.]\d+)?/);
- const amount=amountToken?.[0].match(/\d+(?:[,.]\d+)?/)?.[0];
+ const amountToken=spoken.match(/\\d+(?:[,.]\\d+)?\\s*(?:de\\s+)?(?:lire|lira|libr|pounds?|gbp|zile|euro|eur|ron|lei|leu|dolari|dollars?|usd|franci|chf|pln)/)||spoken.match(/\\d+(?:[,.]\\d+)?/);
+ const amount=amountToken?.[0].match(/\\d+(?:[,.]\\d+)?/)?.[0];
  const income=/am primit|salariu|incasat|venit|received|earned/.test(spoken);
  const future=/trebuie sa platesc|voi plati|platesc|will pay|in fiecare luna/.test(spoken);
  const expense=/am cheltuit|am platit|cheltuiala|spent|paid/.test(spoken)||future;
@@ -3487,7 +3491,7 @@ async function budgetVoiceCommand(raw){
  const recurring=/in fiecare luna|every month|monthly/.test(spoken)?'monthly':'';
  let due=date;
  if(recurring){
-  const dayMatch=spoken.match(/(?:in fiecare luna pe|every month on)\s+(\d{1,2})/);
+  const dayMatch=spoken.match(/(?:in fiecare luna pe|every month on)\\s+(\\d{1,2})/);
   if(dayMatch){
    const day=Number(dayMatch[1]);
    if(day<1||day>31){notify(learningLabel('Ziua lunii nu este validă.','Invalid monthly day.'));return}
@@ -3497,7 +3501,7 @@ async function budgetVoiceCommand(raw){
   }
  }
  let title=budgetVoiceExpenseTitle(raw);
- title=title.replace(/^(?:in fiecare luna pe \d{1,2}|în fiecare lună pe \d{1,2})\s*/iu,'').trim();
+ title=title.replace(/^(?:in fiecare luna pe \\d{1,2}|în fiecare lună pe \\d{1,2})\\s*/iu,'').trim();
  const currency=budgetSpokenCurrency(spoken)||budgetRead().baseCurrency;
  const ok=await budgetAddEntry({amount,currency,title:title||learningLabel('Cheltuială','Expense'),
   date:due,status:future||due>budgetDateNow()?'planned':'paid',recurring,
