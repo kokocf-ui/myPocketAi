@@ -552,4 +552,27 @@ assert.equal(reportResult.categories[0][0],'housing');
 assert.equal(reportResult.categories[0][1],550);
 assert.equal(reportResult.expenses.length,2,'no income or previous-month transactions in spending report');
 
+
+/* Voice expense descriptions, explicit editing and safe frontend refresh. */
+assert.match(inline,/function budgetVoiceExpenseTitle\(raw\)/,'budget voice title extraction has a shared helper');
+assert.match(inline,/const title=budgetVoiceExpenseTitle\(raw\)/,'budget dictation uses the shared extractor');
+assert.match(inline,/function budgetRenameEntry\(id\)/,'saved transactions can be renamed');
+assert.match(inline,/pocketEdit\(learningLabel\('Modifică descrierea'/,'saved title uses styled editing modal');
+assert.match(inline,/budget-report-editable/,'detailed expense rows offer editing');
+assert.match(inline,/budgetButton\('',\(\)=>budgetRenameEntry\(item\.id\),'budget-transaction'\)/,'recent transactions can be edited');
+assert.match(inline,/if\(leavingShopping\)checkUiUpdateAfterModuleExit\(\)/,'version check follows safe module navigation');
+assert.match(inline,/function pocketUiUpdateSafe\(\)/,'refresh requires idle state');
+assert.match(inline,/setInterval\(\(\)=>\{if\(document\.visibilityState==='visible'&&pocketUiUpdateSafe\(\)\)checkUiUpdateAfterModuleExit\(\)\},60000\)/,'idle app checks for UI updates');
+const titleStart=inline.indexOf('function budgetVoiceExpenseTitle(raw)');
+const titleEnd=inline.indexOf('function budgetRenameEntry(id)',titleStart);
+assert.ok(titleStart>0&&titleEnd>titleStart);
+const speechCtx=vm.createContext({String,learningLabel:(ro,en)=>ro});
+vm.runInContext(inline.slice(titleStart,titleEnd),speechCtx);
+const describe=value=>vm.runInContext('budgetVoiceExpenseTitle('+JSON.stringify(value)+')',speechCtx);
+assert.equal(describe('Am cheltuit 25 de lire pe combustibil'),'combustibil');
+assert.equal(describe('Am cheltuit 25 de zile pe combustibil'),'combustibil','orphan misheard currency does not remain in title');
+assert.equal(describe('Am cheltuit 45 de lire la Aldi'),'Aldi');
+assert.equal(describe('Am plătit 550 de lire pe chirie'),'chirie');
+assert.equal(describe('Am cheltuit 30 de euro pentru transport'),'transport');
+
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
