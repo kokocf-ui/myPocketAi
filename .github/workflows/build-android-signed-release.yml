@@ -10,6 +10,7 @@ on:
       - 'tests_math_whisper_pilot.mjs'
       - 'tests_math_voice_parentheses.mjs'
       - 'tests_math_linear_equations.mjs'
+      - 'tests_math_linear_graph_proof.mjs'
       - '.github/workflows/build-android-signed-release.yml'
 
 permissions:
@@ -84,6 +85,7 @@ jobs:
           node --check backend.js
           node tests_math_voice_parentheses.mjs
           node tests_math_linear_equations.mjs
+          node tests_math_linear_graph_proof.mjs
           node tests_math_whisper_pilot.mjs
       - name: Assemble signed release
         env:

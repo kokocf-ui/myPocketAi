@@ -7093,10 +7093,13 @@ function mathSvgText(svg,x,y,value,anchor='middle',size=11,color='#c7e6f1'){
  const el=mathSvgElement('text',{x,y,'text-anchor':anchor,'font-size':size,fill:color});
  el.textContent=String(value);svg.append(el);
 }
-function mathGraphFigure(question){
+function mathGraphFigure(question,focusX=null){
  const model=mathGraphModel(question);if(!model)return null;
  const f=x=>model.a*x*x+model.b*x+model.c;
  let xmin=-5,xmax=5;
+ if(Number.isFinite(focusX)&&(focusX<xmin+.8||focusX>xmax-.8)){
+  xmin=Math.floor(focusX)-5;xmax=Math.floor(focusX)+5;
+ }
  if(model.a&&Math.abs(-model.b/(2*model.a))>5&&Math.abs(-model.b/(2*model.a))<20){
   const vx=-model.b/(2*model.a);xmin=Math.floor(vx-5);xmax=Math.ceil(vx+5);
  }
@@ -7525,12 +7528,13 @@ function mathLinearSolution(source){
    rearranged+' → '+solution,solution);
   const lhs=left.a*value+left.b,rhs=right.a*value+right.b;
   const checked=number(lhs)+' = '+number(rhs);
+  const substituted=model.raw.replace(/x/g,'('+number(value)+')')
+   .replace(/\\*/g,'×').replace(/-/g,'−');
   add(learningLabel('Verificăm soluția în ecuația inițială','Check in the original equation'),
    learningLabel('Înlocuim x cu valoarea găsită în ambii membri ai ecuației originale; valorile trebuie să coincidă.',
     'Substitute the found value for x in both sides of the ORIGINAL equation. Their values must match.'),
-   learningLabel('Pentru x = ','For x = ')+number(value)+
-   learningLabel(', stânga = ', ', left = ')+number(lhs)+
-   learningLabel(' și dreapta = ',' and right = ')+number(rhs)+'.',checked);
+   learningLabel('Înlocuim x = ','Substitute x = ')+number(value)+': '+substituted+
+   learningLabel('. Calculăm separat: ','. Calculate each side: ')+checked+'.',checked);
   conclusion=learningLabel('Soluția verificată este ','The verified solution is ')+solution+'.';
  }
  return {intro:learningLabel(
@@ -7563,6 +7567,27 @@ function mathLinearMethodGuide(source){
   rules:labels.map(([title,text])=>({title,text})),
   tip:learningLabel('Nu confunda desfacerea parantezelor cu înmulțirea termenilor din interior între ei.',
    'Do not confuse expanding a product with multiplying the terms inside the bracket together.')};
+}
+
+// Plot the difference (left side minus right side) to show where an equation
+// holds. This is the graph of an ASSOCIATED FUNCTION, not the equation itself.
+function mathLinearGraphData(source){
+ const model=mathLinearEquation(source);
+ if(!model||model.kind!=='unique')return null;
+ const difference={a:model.left.a-model.right.a,b:model.left.b-model.right.b};
+ const expression='f(x) = '+mathLinearNotation().polynomial(difference);
+ if(!mathGraphModel(expression))return null;
+ const {number}=mathLinearNotation();
+ return {expression,root:model.value,
+  heading:learningLabel('Graficul funcției asociate ecuației','Graph of the associated function'),
+  intro:learningLabel('Scădem membrul drept din cel stâng și reprezentăm funcția ',
+     'Subtract the right-hand side from the left and plot ')+expression+
+   learningLabel('. Ecuația este satisfăcută acolo unde această funcție are valoarea zero.',
+     '. The equation holds where this function equals zero.'),
+  conclusion:learningLabel('Graficul intersectează axa Ox în punctul (',
+    'The graph crosses the x-axis at (')+number(model.value)+
+   learningLabel('; 0). Soluția verificată este x = ',
+    '; 0). The verified solution is x = ')+number(model.value)+'.'};
 }
 
 // For plotted functions, the graph and the explanation must share the exact
@@ -7675,10 +7700,18 @@ function mathResultPage(index){
   check.textContent=mathEqualityExplanation(verifiedEquality);
   body.append(check);
  }
- const graph=mathGraphFigure(item.text)||mathGeometryFigure(item.text);
+ const equationGraph=session.mode==='graph'?mathLinearGraphData(item.text):null;
+ const graph=mathGraphFigure(item.text)||
+  (equationGraph?mathGraphFigure(equationGraph.expression,equationGraph.root):null)||mathGeometryFigure(item.text);
  if(graph&&session.mode==='graph')body.append(graph);
  const result=document.createElement('div');result.className='math-result-copy';
- if(item.functionLesson){
+ if(item.graphLesson){
+  const heading=document.createElement('h3');heading.textContent=item.graphLesson.heading;
+  const intro=document.createElement('p');intro.textContent=item.graphLesson.intro;
+  const conclusion=document.createElement('p');conclusion.textContent=item.graphLesson.conclusion;
+  conclusion.style.cssText='font-weight:700;line-height:1.5';
+  result.append(heading,intro,conclusion);body.append(result);
+ }else if(item.functionLesson){
   const heading=document.createElement('h3');heading.textContent=item.functionLesson.heading;
   const intro=document.createElement('p');intro.textContent=item.functionLesson.intro;
   const list=document.createElement('ol');
@@ -7760,9 +7793,19 @@ async function mathFetchResult(item,session){
   if(session.tasks[session.active]===item)mathResultPage(session.active);
   return;
  }
+ if(session.mode==='graph'){
+  const associated=mathLinearGraphData(item.text);
+  if(associated){
+   if(mathResultSession!==session)return;
+   item.graphLesson=associated;
+   item.spokenReply=associated.intro+' '+associated.conclusion;
+   if(session.tasks[session.active]===item)mathResultPage(session.active);
+   return;
+  }
+ }
  // Never ask a generative model to draw a graph that the actual renderer
  // cannot provide: this produced answers about unrelated numeric exercises.
- if(session.mode==='graph'&&!mathGeometryFigure(item.text)){
+ if(session.mode==='graph'&&!mathGeometryFigure(item.text)&&!mathLinearGraphData(item.text)){
   if(mathResultSession!==session)return;
   item.reply=learningLabel('Nu există încă un grafic verificat pentru acest enunț. Nu voi inventa unul. Pentru un calcul, apasă „Rezolvă pas cu pas”; pentru un grafic de funcție, introdu de exemplu f(x) = 2x - 3.',
    'There is no verified graph for this exercise yet. I will not invent one. Use Solve step by step for arithmetic, or enter a function such as f(x) = 2x - 3.');
