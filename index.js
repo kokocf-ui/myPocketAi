@@ -7460,21 +7460,21 @@ function mathFunctionLesson(source,mode){
 // ONLY in math-result answers, not normal prose, prices or other modules.
 function mathReadableFormula(text){
  return String(text||'')
-  .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g,'($1)/($2)')
-  .replace(/\\times\b/g,'×').replace(/\\cdot\b/g,'×')
-  .replace(/\\div\b/g,'÷').replace(/\\leq?\b/g,'≤')
-  .replace(/\\geq?\b/g,'≥').replace(/\\neq\b/g,'≠')
-  .replace(/\\sqrt\{([^{}]+)\}/g,'√($1)')
-  .replace(/\\left\b|\\right\b/g,'')
-  .replace(/\^\{2\}/g,'²').replace(/\^2\b/g,'²');
+  .replace(/\\\\frac\\{([^{}]+)\\}\\{([^{}]+)\\}/g,'($1)/($2)')
+  .replace(/\\\\times\\b/g,'×').replace(/\\\\cdot\\b/g,'×')
+  .replace(/\\\\div\\b/g,'÷').replace(/\\\\leq?\\b/g,'≤')
+  .replace(/\\\\geq?\\b/g,'≥').replace(/\\\\neq\\b/g,'≠')
+  .replace(/\\\\sqrt\\{([^{}]+)\\}/g,'√($1)')
+  .replace(/\\\\left\\b|\\\\right\\b/g,'')
+  .replace(/\\^\\{2\\}/g,'²').replace(/\\^2\\b/g,'²');
 }
 function mathCleanAnswerMarkup(reply){
  let text=String(reply||'');
- text=text.replace(/\\\[((?:.|\n)*?)\\\]/g,(_,formula)=>mathReadableFormula(formula))
-  .replace(/\\\((.*?)\\\)/g,(_,formula)=>mathReadableFormula(formula))
-  .replace(/\$\$([\s\S]*?)\$\$/g,(_,formula)=>mathReadableFormula(formula));
- text=text.replace(/\$([^$\n]+)\$/g,(whole,formula)=>
-  /(?:\\[a-z]+|[=+*/^×÷]|\d\s*[-−]\s*\d)/.test(formula)?
+ text=text.replace(/\\\\\\[((?:.|\\n)*?)\\\\\\]/g,(_,formula)=>mathReadableFormula(formula))
+  .replace(/\\\\\\((.*?)\\\\\\)/g,(_,formula)=>mathReadableFormula(formula))
+  .replace(/\\$\\$([\\s\\S]*?)\\$\\$/g,(_,formula)=>mathReadableFormula(formula));
+ text=text.replace(/\\$([^$\\n]+)\\$/g,(whole,formula)=>
+  /(?:\\\\[a-z]+|[=+*/^×÷]|\\d\\s*[-−]\\s*\\d)/.test(formula)?
   mathReadableFormula(formula):whole);
  return mathReadableFormula(text);
 }
