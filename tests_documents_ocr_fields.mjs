@@ -114,7 +114,7 @@ assert.match(android,/PocketAndroidDocumentScan/);
 assert.match(android,/scanDocumentBytes\(payload\)/,'native bridge receives actual photograph bytes');
 assert.match(android,/InputImage\.fromBitmap\(bitmap,rotations\[attempt\]\)/,'ML Kit gets decoded image with tested orientation');
 assert.match(android,/result\.getTextBlocks\(\)/,'ML Kit layout lines are extracted');
-assert.match(android,/documentHasCompletePassportMrz\\(result\\)/,'scanner ranks complete passport MRZ');
+assert.match(android,/documentHasCompletePassportMrz\(result\)/,'scanner ranks complete passport MRZ');
 assert.match(android,/final int\[\] rotations=\{0,90,270,180\}/,'OCR retries photo orientation');
 assert.match(android,/scanDocumentOrientation\(recognizer,bitmap,docId,0,null,-1\)/,'native OCR starts orientation fallback');
 assert.match(android,/result\.put\("lines",lines\)/,'layout lines returned to local frontend');
