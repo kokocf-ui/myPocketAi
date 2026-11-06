@@ -1585,7 +1585,13 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 }
 </style>
 <style id="agenda-voice-workspace">
-#view-module.adaptive-workspace-view .agenda-workspace{min-width:0}
+#view-module.adaptive-workspace-view .agenda-workspace{
+ min-width:0;grid-template-rows:auto minmax(0,1fr)!important;
+}
+#view-module.adaptive-workspace-view .agenda-workspace>.agenda-microphone{
+ position:relative;z-index:2;flex-shrink:0;
+ margin:0!important;box-sizing:border-box;
+}
 #view-module.adaptive-workspace-view .agenda-scroll{display:flex;flex-direction:column;gap:clamp(.35rem,1dvh,.6rem);min-height:0;overflow-y:auto;overscroll-behavior:contain}
 .agenda-microphone{width:100%;min-height:clamp(3rem,8dvh,4.2rem);font-size:clamp(1rem,3.8vw,1.2rem);border-radius:1rem}
 .agenda-speech-state,.agenda-footnote{display:block;line-height:1.35;opacity:.78}
@@ -2288,7 +2294,7 @@ function agendaBirthdaySpoken(text){
   if(raw){const parts=raw.split(/[.\\/]/);[d,m,y]=parts;strip=raw}
  }
  const fields=agendaBirthdayFields(d,m,y);
- const command=text.replace(strip,'').replace(/^(?:adaugă|adauga|notează|noteaza|pune|salvează|salveaza)\\s+/iu,'').replace(/(?:ziua de naștere|ziua de nastere|aniversarea)\\s*(?:a\\s+|lui\\s+)?/iu,'').replace(/\\s+(?:pe|la|în|in)\\s*$/iu,'').trim();
+ const command=text.replace(strip,'').replace(/^(?:adaugă|adauga|notează|noteaza|pune|salvează|salveaza)\\s+/iu,'').replace(/(?:ziua de naștere|ziua de nastere|aniversarea)\\s*(?:(?:a\\s+)?lui\\s+|a\\s+)?/iu,'').replace(/\\s+(?:pe|la|în|in)\\s*$/iu,'').trim();
  return {fields,title:command};
 }
 function agendaDate(text,now=new Date()){
@@ -2391,7 +2397,7 @@ function renderAgenda(){
  const scroll=document.createElement('div');scroll.className='adaptive-workspace__scroll agenda-scroll';panel.append(scroll);
  const mic=document.createElement('button');mic.type='button';mic.className='primary-btn agenda-microphone';
  mic.textContent='🎙 '+learningLabel('Spune ce programezi','Speak your appointment');
- mic.onclick=()=>agendaVoiceStart();scroll.append(mic);
+ mic.onclick=()=>agendaVoiceStart();panel.insertBefore(mic,scroll);
  const hint=document.createElement('small');hint.className='agenda-speech-state';
  hint.textContent=learningLabel('Ex.: „Programează dentistul mâine la ora 10”','E.g. “Schedule dentist tomorrow at 10”');
  scroll.append(hint);
