@@ -145,7 +145,7 @@ assert.equal(arithmetic.check('2(3+4)=14'),null,'implicit multiplication is not 
 assert.equal(arithmetic.check('3+4=7=7'),null,'multiple equalities remain with the maths solver');
 assert.equal(arithmetic.check('3^2=9'),null,'unsupported operators are not guessed');
 assert.match(embedded,/Nu cita lecții video, site-uri sau surse/,'avoid fabricated lesson references');
-assert.ok(embedded.includes('const checked=equality?'),'include deterministic equality in the teaching prompt');
+assert.ok(embedded.includes("const checked=equality&&session.mode!=='explain'?"),'only full solutions include deterministic equality in the teaching prompt');
 assert.ok(embedded.includes('mathEqualityExplanation(verifiedEquality)'),'always render arithmetic equality independently of model replies');
 
 // The UI must not depend on generative AI for basic arithmetic: all terms
