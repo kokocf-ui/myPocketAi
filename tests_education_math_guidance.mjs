@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import frontend from './index.js';
+
+const html=await(await frontend.fetch(new Request('https://education.test/'))).text();
+const script=html.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
+assert.ok(script, 'education frontend script exists');
+new vm.Script(script);
+assert.match(script,/if\(key==='math'\)/,'math extras are subject-scoped');
+assert.match(script,/education-math-actions/,'math controls are separate from main grid');
+assert.match(script,/Rezolvă pas cu pas/);
+assert.match(script,/Reprezintă grafic/);
+assert.match(script,/Explică metoda/);
+assert.match(script,/activeLearningSubject\[0\]==='math'/,'OCR graph action limited to mathematics');
+assert.match(script,/options\.value==='graph'/,'OCR graph choice has a dedicated prompt');
+assert.match(script,/Dacă este ambiguă, cere clarificare/,'uncertain OCR transcription is explicitly checked');
+assert.match(script,/fără a inventa imaginea/,'do not claim non-rendered graphs exist');
+const subjects=script.match(/const LEARNING_SUBJECTS=\[([\s\S]*?)\];/)?.[1]||'';
+assert.equal((subjects.match(/^ \['/gm)||[]).length,8,'all eight landing subjects retained');
+console.log('PASS math-only guided education actions, OCR validation and unchanged subject count');
