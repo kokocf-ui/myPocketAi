@@ -188,7 +188,7 @@ assert.match(page,/\.agenda-voice-controls\{[\s\S]*?grid-template-columns:repeat
 assert.doesNotMatch(inline,/returnButton\.classList\.add\('agenda-detail-back'\)/,'detail view reuses the shared Back button');
 
 
-assert.match(inline,/if\(cat\[0\]!=='calendar'&&cat\[0\]!=='tasks'\)panel\.append\(bar\)/,'agenda and tasks reuse the shared top navigation');
+assert.match(inline,/if\(!\['calendar','tasks','reminders'\]\.includes\(cat\[0\]\)\)panel\.append\(bar\)/,'voice workspaces omit the legacy duplicate toolbar');
 assert.match(inline,/function pocketVoiceHelp\(mode,title\)/,'shared voice command guide exists');
 
 /* New voice-enabled organiser pages must inherit the shared layout from day one. */
