@@ -2533,11 +2533,11 @@ function tasksVoiceCommand(phrase){
   if(action[1]==='sterge'){tasksConfirmDelete(found[0]);return}
   tasksUpdate(found[0].id,action[1]==='arhiveaza'?{archived:true}:{done:true});renderTasks();return;
  }
- const add=spoken.match(/^(?:adaug[aă]|creeaz[aă]|noteaz[aă]|trece)\s+(?:(un\s+)?(?:obiectiv|sarcin[aă])\s*)?(.+)$/i);
+ const add=spoken.match(/^(?:adaug[aă]|creeaz[aă]|noteaz[aă]|trece)\\s+(?:(un\\s+)?(?:obiectiv|sarcin[aă])\\s*)?(.+)$/i);
  if(add){
   let title=add[2].trim();const goal=/obiectiv/i.test(spoken.slice(0,spoken.length-title.length));
   let due='';
-  const tm=title.match(/\s+(?:pentru\s+)?(m[aâ]ine|ast[aă]zi)\s*$/i);
+  const tm=title.match(/\\s+(?:pentru\\s+)?(m[aâ]ine|ast[aă]zi)\\s*$/i);
   if(tm){const d=new Date();if(/m[aâ]ine/i.test(tm[1]))d.setDate(d.getDate()+1);due=[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');title=title.slice(0,tm.index).trim()}
   const priority=/prioritate (?:mare|ridicata|ridicată)/i.test(title)?'high':'normal';
   title=title.replace(/[, ]*prioritate (?:mare|ridicata|ridicată)/i,'').trim();
