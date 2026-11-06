@@ -527,4 +527,29 @@ assert.equal(vm.runInContext("budgetCurrency('GB')",budgetCtx),'GBP');
 assert.equal(vm.runInContext("budgetCurrency('RO')",budgetCtx),'RON');
 assert.equal(vm.runInContext("budgetCurrency('DE')",budgetCtx),'EUR');
 
+
+/* Voice spending reports must show the detailed month, not silently return home. */
+assert.match(inline,/budgetScreen='report';renderBudget\(\);return/,'spoken spending report opens the report');
+assert.match(inline,/function budgetSpendingReport\(/,'spending report helper exists');
+assert.match(inline,/if\(budgetScreen==='report'\)/,'spending report has its own responsive screen');
+assert.match(inline,/budget-report-table/,'transaction detail table is present');
+assert.match(inline,/budget-report-trigger/,'report is also accessible by button');
+assert.match(page,/<style id="budget-report-layout">/,'responsive report layout styles exist');
+const reportStart=inline.indexOf('function budgetSpendingReport(');
+const reportEnd=inline.indexOf('function budgetTitleRow(',reportStart);
+assert.ok(reportStart>0&&reportEnd>reportStart,'report helper can be isolated');
+const reportContext=vm.createContext({Date,String,Number,Math,Map,Array});
+vm.runInContext(inline.slice(reportStart,reportEnd),reportContext);
+const reportResult=vm.runInContext("budgetSpendingReport("+JSON.stringify([
+ {id:'a',type:'expense',title:'Aldi',category:'food',baseAmount:45,date:'2026-11-06',createdAt:'2026-11-06T09:00:00Z'},
+ {id:'b',type:'expense',title:'Chirie',category:'housing',baseAmount:550,date:'2026-11-03',createdAt:'2026-11-03T09:00:00Z'},
+ {id:'c',type:'income',title:'Salariu',category:'salary',baseAmount:2500,date:'2026-11-01',createdAt:'2026-11-01T09:00:00Z'},
+ {id:'d',type:'expense',title:'Octombrie',category:'food',baseAmount:999,date:'2026-10-31',createdAt:'2026-10-31T09:00:00Z'}
+ ])+",new Date(2026,10,6))",reportContext);
+assert.equal(reportResult.total,595,'report includes only current month expenses');
+assert.deepEqual(Array.from(reportResult.expenses,e=>e.title),['Chirie','Aldi'],'detailed rows are ordered by date');
+assert.equal(reportResult.categories[0][0],'housing');
+assert.equal(reportResult.categories[0][1],550);
+assert.equal(reportResult.expenses.length,2,'no income or previous-month transactions in spending report');
+
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
