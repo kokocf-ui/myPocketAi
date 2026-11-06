@@ -1419,6 +1419,24 @@ body.long-choice-active{overflow:hidden}
 #view-module .budget-entry-form{display:flex;flex-direction:column;gap:.55rem}
 #view-module .budget-advice,#view-module .budget-location{font-size:clamp(.75rem,3vw,.9rem);line-height:1.3;opacity:.8}
 #view-module .budget-warning{color:#ffb6a3}
+#view-module .documents-form{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem;padding:.5rem 0}
+#view-module .documents-field{display:flex;flex-direction:column;gap:.25rem;min-width:0}
+#view-module .documents-field small{font-size:clamp(.76rem,3vw,.9rem);opacity:.83}
+#view-module .documents-photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:.45rem 0 .8rem}
+#view-module .documents-photo-tile{display:flex;flex-direction:column;gap:.3rem;min-width:0}
+#view-module .documents-photo-preview{width:100%;height:clamp(5.4rem,19dvh,9rem);min-height:0!important;border:1px solid #568da8;border-radius:.85rem;background:#133449;color:#eef8fc;overflow:hidden;padding:.35rem!important;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+#view-module .documents-photo-preview img{width:100%;height:100%;object-fit:contain;border-radius:.4rem}
+#view-module .documents-photo-tile>.secondary-btn{min-height:2.15rem!important;padding:.3rem!important;font-size:clamp(.72rem,2.8vw,.85rem)!important}
+#view-module .documents-detail{border:1px solid #426c86;border-radius:.95rem;background:#103349;padding:.8rem;margin:.3rem 0}
+#view-module .documents-detail-main{display:flex;flex-direction:column;gap:.3rem}
+#view-module .documents-detail-main strong{font-size:clamp(1.05rem,4.1vw,1.3rem)}
+#view-module .documents-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:.4rem 0}
+#view-module .documents-actions button{min-width:0!important;padding:.45rem!important;font-size:clamp(.8rem,3vw,.94rem)!important}
+.document-photo-fullscreen{position:fixed;inset:0;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;padding:4.5rem .6rem 1.2rem;border:0;background:#03111e;color:#fff;box-sizing:border-box;overflow:hidden}
+.document-photo-fullscreen::backdrop{background:rgba(0,0,0,.93)}
+.document-photo-fullscreen img{display:block;max-width:100%;width:100%;max-height:100%;height:100%;object-fit:contain}
+.document-photo-close{position:absolute;top:clamp(.7rem,4dvh,2rem);right:1rem;z-index:2;min-height:2.6rem;border-radius:1rem;border:1px solid #9acfe8;background:#123b52;color:#fff;padding:.45rem 1rem;font:inherit}
+
 </style>
 <style id="budget-report-layout">
 #view-module .budget-report-trigger{width:100%!important;min-height:2.7rem!important;height:auto!important;font-size:clamp(.8rem,3vw,1rem)!important;padding:.5rem!important}
