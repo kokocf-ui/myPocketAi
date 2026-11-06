@@ -449,4 +449,43 @@ assert.equal(notesEval("notesRead().some(item=>item.title==='Test notiță nouă
 assert.match(inline,/pocketConfirm\(learningLabel\('Ștergi notița/,'note deletion requires a styled confirmation');
 assert.doesNotMatch(inline.slice(startNotes,endNotes),/agendaSyncAndroid\(/,'notes do not directly schedule notifications');
 
+
+/* Daily planning reuses existing records: no second calendar or separate notifications. */
+assert.match(inline,/if\(key==='daily'\)\{renderDailyPlan\(\);return\}/,'daily option opens dedicated planner');
+assert.match(inline,/function renderDailyPlan\(\)/,'daily planner is rendered');
+assert.match(inline,/organizeVoiceWorkspace\(cat,\{[\s\S]*?mode:'daily'/,'daily uses shared UI header and dictation');
+assert.match(inline,/if\(dailyVoiceHandleAndroid\(data\)\)return/,'native Android daily dictation is connected');
+assert.match(inline,/function dailyPlanItems\(/,'daily planner combines calendar and tasks');
+assert.match(inline,/linked\.has\(task\.id\)/,'calendar-linked tasks never appear twice');
+assert.match(inline,/sourceModule:'daily'/,'daily-created appointment is tagged with source');
+assert.match(inline,/if\(agendaWrite\(all\)\)/,'daily creation uses the existing agenda store');
+assert.match(inline,/daily:[\s\S]*?Planifică mâine/,'daily help offers speech examples');
+assert.match(page,/<style id="daily-planning-layout">/,'daily layout has responsive controls');
+assert.match(inline,/dailyDateKey\(agendaLocalDate\(event,day\.getFullYear\(\)\)\)/,'annual birthdays and scheduled events use agenda dates');
+const dailyStart=inline.indexOf('let dailyPlanDate=new Date(),dailyListening=false;');
+const dailyEnd=inline.indexOf('function dailyVoiceStop(',dailyStart);
+assert.ok(dailyStart>0&&dailyEnd>dailyStart,'daily view selectors are testable');
+const today=new Date(2026,10,7);
+const dailyContext=vm.createContext({
+ Date,String,Number,Math,Set,Boolean,
+ learningLabel:(ro,en)=>ro,
+ agendaRead:()=>[
+  {id:'evt1',title:'Consult medical',when:'2026-11-07T11:00:00',linkedTaskId:'task1'},
+  {id:'evt2',title:'Sună la service',when:'2026-11-07T15:00:00',kind:'reminder'}
+ ],
+ tasksRead:()=>[
+  {id:'task1',title:'Consult medical',due:'2026-11-07',time:'11:00'},
+  {id:'task2',title:'Cumpără cafea',due:'2026-11-07',time:'10:00'},
+  {id:'task3',title:'Altă zi',due:'2026-11-08',time:'09:00'}
+ ],
+ agendaLocalDate:e=>new Date(e.when),
+ agendaEventOrigin:e=>e.kind==='reminder'?'Mementouri':'Agendă',
+ renderDailyPlan:()=>{},
+ state:{language:'ro'}
+});
+vm.runInContext(inline.slice(dailyStart,dailyEnd),dailyContext);
+const dailyResults=vm.runInContext('dailyPlanItems(new Date(2026,10,7))',dailyContext);
+assert.deepEqual(Array.from(dailyResults,entry=>entry.title),['Cumpără cafea','Consult medical','Sună la service'],'daily planner is chronological and de-duplicates linked tasks');
+assert.equal(dailyResults.filter(e=>e.title==='Consult medical').length,1);
+
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
