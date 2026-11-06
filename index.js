@@ -1275,6 +1275,21 @@ body.long-choice-active{overflow:hidden}
  .structured-results-table tbody td:nth-child(2){line-height:1.48}
 }
 
+
+/* Shared Pocket AI modal for confirmation, editing and information. */
+.pocket-unified-modal{position:fixed;inset:0;box-sizing:border-box;margin:auto;padding:0;width:min(92vw,490px);max-height:min(80dvh,620px);border:2px solid #5eafc6;border-radius:19px;background:linear-gradient(155deg,#173e59,#0a2437);color:#edfaff;box-shadow:0 16px 55px #000b;overflow:hidden}
+.pocket-unified-modal:not([open]){display:none}
+.pocket-unified-modal::backdrop{background:rgba(0,8,19,.8)}
+.pocket-unified-window{display:flex;flex-direction:column;min-height:0;max-height:min(80dvh,620px)}
+.pocket-unified-heading{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #447e98}
+.pocket-unified-heading strong{font-size:clamp(16px,4vw,20px);overflow-wrap:anywhere}
+.pocket-unified-body{padding:15px 16px;overflow:auto;overflow-wrap:anywhere;white-space:pre-wrap;min-height:0;line-height:1.45}
+.pocket-unified-body input,.pocket-unified-body textarea{box-sizing:border-box;width:100%;background:#0d293d;border:1px solid #76c8d9;color:#fff;border-radius:12px;padding:12px;font:inherit}
+.pocket-unified-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;padding:12px 16px 16px;border-top:1px solid #447e98}
+.pocket-unified-actions button{font:inherit;font-weight:650;min-height:44px;padding:9px 16px;border-radius:13px;border:1px solid #6ebbd1;background:linear-gradient(160deg,#246386,#123750);color:white}
+.pocket-unified-actions button.pocket-danger{background:linear-gradient(160deg,#bf3942,#761e35);border-color:#e88a92}
+.pocket-unified-actions button:focus-visible{outline:2px solid #b2f7ff;outline-offset:2px}
+
 </style>
 </head>
 <body>
@@ -2110,6 +2125,7 @@ main.page:has(#view-module.learning-choose.active){
   <div id="moduleLayerBody" class="module-quick-body"></div>
  </section>
 </div>
+<dialog id="pocketUnifiedModal" class="pocket-unified-modal" aria-labelledby="pocketUnifiedTitle"><div class="pocket-unified-window"><header class="pocket-unified-heading"><strong id="pocketUnifiedTitle">Pocket AI</strong></header><div class="pocket-unified-body" id="pocketUnifiedBody"></div><div class="pocket-unified-actions" id="pocketUnifiedActions"></div></div></dialog>
 <dialog id="longChoiceDialog" class="long-choice-dialog" aria-labelledby="longChoiceTitle"><section class="long-choice-window"><header class="long-choice-header"><strong id="longChoiceTitle">Opțiuni</strong><button type="button" class="long-choice-close" id="longChoiceClose" aria-label="Închide">✕</button></header><div id="longChoiceContent" class="long-choice-content"></div></section></dialog>
 <nav class="bottom-nav" aria-label="Navigare principală"><button class="nav-btn active" data-nav="home"><span class="nav-icon">⌂</span>Acasă</button><button class="nav-btn" data-nav="conversations"><span class="nav-icon">◷</span>Conversații</button><button class="nav-btn" data-nav="tools"><span class="nav-icon">▱</span>Instrumente</button><button class="nav-btn" data-nav="settings"><span class="nav-icon">⚙</span>Setări</button></nav>
 <div class="avatar-overlay" id="avatarOverlay" aria-hidden="true"><button class="avatar-close" id="avatarClose" aria-label="Închide avatarul">×</button><div class="avatar-stage"><img class="avatar-image" id="avatarImage" src="${AVATAR_DATA}" alt="Avatarul holografic myPocket AI"><iframe id="avatar3dFrame" title="Avatar 3D Pocket AI" loading="eager" aria-hidden="true" style="display:none;width:100%;height:100%;border:0;background:transparent;position:absolute;inset:0" allow="autoplay"></iframe><div class="avatar-message" id="avatarMessage">Salut! Sunt asistentul tău personal.</div><div class="voice-wave" id="voiceWave" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="avatar-status" id="avatarStatus">Bine ai venit!</div></div></div><div class="notice" id="notice" role="status" aria-live="polite"></div>
@@ -2131,6 +2147,39 @@ const messagesEl=$('messages'), inputEl=$('messageInput'), sendBtn=$('sendBtn'),
 // directly; no MutationObserver timing or DOM reparenting is needed for travel
 // mode and location choices. The observer is only for legacy transit tables.
 let longChoiceOpener=null;
+
+function pocketModal({title,message,mode='info',value='',onConfirm}={}){
+ const dialog=$('pocketUnifiedModal'),body=$('pocketUnifiedBody'),actions=$('pocketUnifiedActions');
+ if(!dialog||!body||!actions)return false;
+ if(dialog.open)dialog.close();
+ $('pocketUnifiedTitle').textContent=String(title||'Pocket AI');
+ body.replaceChildren();actions.replaceChildren();
+ const description=document.createElement('p');description.textContent=String(message||'');description.style.margin='0 0 10px';body.append(description);
+ let editor=null;
+ if(mode==='edit'){
+  editor=document.createElement('input');editor.type='text';editor.maxLength=140;editor.value=String(value||'');
+  editor.setAttribute('aria-label',String(title||'Edit'));body.append(editor);
+ }
+ const button=(label,fn,danger=false)=>{
+  const element=document.createElement('button');element.type='button';element.textContent=label;
+  if(danger)element.className='pocket-danger';
+  element.onclick=fn;actions.append(element);return element;
+ };
+ const close=()=>{if(dialog.open)dialog.close()};
+ if(mode!=='info')button(learningLabel('Anulare','Cancel'),close);
+ button(mode==='confirm'?learningLabel('Șterge','Delete'):mode==='edit'?learningLabel('Salvează','Save'):'OK',()=>{
+  if(mode==='edit'&&!editor.value.trim()){editor.focus();return}
+  const result=mode==='edit'?editor.value.trim():true;
+  close();if(typeof onConfirm==='function')onConfirm(result);
+ },mode==='confirm');
+ try{dialog.showModal();if(editor)editor.focus({preventScroll:true});else actions.lastElementChild?.focus({preventScroll:true})}
+ catch(err){console.error('Pocket modal failed',err);return false}
+ return true;
+}
+function pocketConfirm(message,onConfirm){return pocketModal({title:learningLabel('Confirmare ștergere','Confirm deletion'),message,mode:'confirm',onConfirm})}
+function pocketEdit(title,value,onConfirm){return pocketModal({title,message:learningLabel('Modifică înregistrarea','Edit entry'),mode:'edit',value,onConfirm})}
+function pocketInfo(title,message){return pocketModal({title,message,mode:'info'})}
+
 function closeLongChoice(){
  const dialog=$('longChoiceDialog');
  if(dialog?.open)dialog.close();
@@ -2690,8 +2739,7 @@ function tasksVoiceStart(){
  }
 }
 function tasksConfirmDelete(item){
- if(!window.confirm(learningLabel('Ștergi definitiv: ','Permanently delete: ')+item.title+'?'))return;
- if(tasksDelete(item.id))renderTasks();
+ pocketConfirm(learningLabel('Ștergi definitiv: ','Permanently delete: ')+item.title+'?',()=>{if(tasksDelete(item.id))renderTasks()});
 }
 async function tasksSuggestGoal(title){
  const panel=document.querySelector('.tasks-ai-suggestions');
@@ -2773,9 +2821,9 @@ function renderTasks(){
     buttons.append(btn(learningLabel('✓ Gata','✓ Done'),()=>{tasksUpdate(item.id,{done:true});renderTasks()}));
     buttons.append(btn(learningLabel('Arhivează','Archive'),()=>{tasksUpdate(item.id,{archived:true});renderTasks()}));
     buttons.append(btn(learningLabel('Modifică','Edit'),()=>{
-      const title=window.prompt(learningLabel('Modifică denumirea','Edit title'),item.title);
-      if(title===null||!title.trim())return;
-      tasksUpdate(item.id,{title:title.trim().slice(0,140)});renderTasks();
+      pocketEdit(learningLabel('Modifică denumirea','Edit title'),item.title,title=>{
+       tasksUpdate(item.id,{title:title.slice(0,140)});renderTasks();
+      });
     }));
     if(item.due&&item.source!=='voice')buttons.append(btn(learningLabel('În Agendă','To agenda'),()=>tasksToAgenda(item)));
     if(item.goal&&tasksSection==='goals')buttons.append(btn(learningLabel('Sugestii AI','AI suggestions'),()=>tasksSuggestGoal(item.title)));
@@ -6867,7 +6915,12 @@ $('moduleLayerBack').addEventListener('click',handleModuleLayerBack);
 $('toolsList').innerHTML='';$('toolsList').classList.add('tools-card-grid');const quickTools=[{icon:'💡',label:'Generează idei',detail:'Brainstorming pentru o problemă sau un proiect.',prompt:'Ajută-mă să generez idei pentru o problemă sau un proiect.'},{icon:'📝',label:'Redactare',detail:'Mesaje, scrisori și texte.',prompt:'Ajută-mă să redactez un text. Întreabă-mă ce tip de text și ce ton doresc.'},{icon:'🔎',label:'Compară opțiuni',detail:'Compară avantaje și dezavantaje.',prompt:'Ajută-mă să compar opțiuni, cu avantaje și dezavantaje. Întreabă-mă ce opțiuni compar.'},{icon:'📄',label:'Explică un document',detail:'Ajută-mă să înțeleg un text.',prompt:'Ajută-mă să înțeleg un document sau un text. Cere-mi să trimit textul ori documentul.'},{icon:'🧠',label:'Rezolvă o problemă',detail:'Găsește pași practici de rezolvare.',prompt:'Ajută-mă să rezolv o problemă, pas cu pas. Întreabă-mă despre situație.'},{icon:'🌐',label:'Caută informații',detail:'Formulează o cerere de cercetare.',prompt:'Ajută-mă să cercetez un subiect și să formulez o cerere de căutare clară.'}];const localizedTools={"en": [["Generate ideas", "Brainstorm a problem or project."], ["Writing", "Messages, letters and texts."], ["Compare options", "Compare advantages and disadvantages."], ["Explain a document", "Help me understand a text."], ["Solve a problem", "Find practical steps to solve it."], ["Research information", "Formulate a research question."]], "de": [["Ideen entwickeln", "Brainstorming für ein Problem oder Projekt."], ["Texte schreiben", "Nachrichten, Briefe und Texte."], ["Optionen vergleichen", "Vor- und Nachteile vergleichen."], ["Dokument erklären", "Hilf mir, einen Text zu verstehen."], ["Problem lösen", "Praktische Lösungsschritte finden."], ["Informationen suchen", "Eine Recherchefrage formulieren."]], "fr": [["Générer des idées", "Réfléchir à un problème ou un projet."], ["Rédaction", "Messages, lettres et textes."], ["Comparer des options", "Comparer les avantages et les inconvénients."], ["Expliquer un document", "M’aider à comprendre un texte."], ["Résoudre un problème", "Trouver des étapes pratiques."], ["Rechercher des informations", "Formuler une recherche."]], "it": [["Genera idee", "Idee per un problema o progetto."], ["Scrittura", "Messaggi, lettere e testi."], ["Confronta opzioni", "Confronta vantaggi e svantaggi."], ["Spiega un documento", "Aiutami a capire un testo."], ["Risolvi un problema", "Trova soluzioni pratiche."], ["Cerca informazioni", "Formula una ricerca."]], "es": [["Generar ideas", "Ideas para un problema o proyecto."], ["Redacción", "Mensajes, cartas y textos."], ["Comparar opciones", "Compara ventajas y desventajas."], ["Explicar un documento", "Ayúdame a entender un texto."], ["Resolver un problema", "Encuentra pasos prácticos."], ["Buscar información", "Formula una consulta de investigación."]], "pt": [["Gerar ideias", "Ideias para um problema ou projeto."], ["Redação", "Mensagens, cartas e textos."], ["Comparar opções", "Compara vantagens e desvantagens."], ["Explicar um documento", "Ajuda-me a compreender um texto."], ["Resolver um problema", "Encontra passos práticos."], ["Pesquisar informações", "Formula uma pesquisa."]], "nl": [["Ideeën bedenken", "Brainstorm over een probleem of project."], ["Schrijven", "Berichten, brieven en teksten."], ["Opties vergelijken", "Vergelijk voor- en nadelen."], ["Document uitleggen", "Help me een tekst te begrijpen."], ["Probleem oplossen", "Vind praktische stappen."], ["Informatie zoeken", "Formuleer een onderzoeksvraag."]], "ru": [["Предложить идеи", "Идеи для задачи или проекта."], ["Написать текст", "Сообщения, письма и тексты."], ["Сравнить варианты", "Сравнить плюсы и минусы."], ["Объяснить документ", "Помочь понять текст."], ["Решить проблему", "Найти практические шаги."], ["Найти информацию", "Сформулировать поисковый запрос."]], "pl": [["Generuj pomysły", "Pomysły na problem lub projekt."], ["Pisanie", "Wiadomości, listy i teksty."], ["Porównaj opcje", "Porównaj zalety i wady."], ["Wyjaśnij dokument", "Pomóż mi zrozumieć tekst."], ["Rozwiąż problem", "Znajdź praktyczne kroki."], ["Szukaj informacji", "Sformułuj zapytanie badawcze."]]};const originalToolLabels=quickTools.map(t=>[t.label,t.detail]);function refreshToolTranslations(){for(const [idx,tool] of quickTools.entries()){const localized=localizedTools[state.language]?.[idx]||originalToolLabels[idx];const card=$('toolsList').children[idx];if(card){card.querySelector('strong').textContent=localized[0];card.querySelectorAll('span')[1].textContent=localized[1]}}}for(const [idx,tool] of quickTools.entries()){const localized=localizedTools[state.language]?.[idx];if(localized){tool.label=localized[0];tool.detail=localized[1]}}for(const tool of quickTools){const btn=document.createElement('button');btn.type='button';btn.className='tools-action-card';const icon=document.createElement('span');icon.className='tools-card-icon';icon.textContent=tool.icon;const label=document.createElement('strong');label.textContent=tool.label;const detail=document.createElement('span');detail.textContent=tool.detail;btn.append(icon,label,detail);btn.addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}showView('assistant');inputEl.value=tool.prompt;inputEl.focus();inputEl.dispatchEvent(new Event('input',{bubbles:true}));});$('toolsList').append(btn)}
 window.__pocketToolsReady=true;refreshToolTranslations();
 pocketVoiceHelp('assistant',document.querySelector('#view-assistant .section-title'));
-$('clearHistoryBtn').addEventListener('click',()=>{if(!state.history.length){notify('Istoricul este deja gol.');return}if(!confirm('Ștergi toate conversațiile salvate pe acest dispozitiv?'))return;state.history=[];try{localStorage.removeItem(HISTORY_KEY)}catch{}renderHistory();notify('Istoricul local a fost șters.')});
+$('clearHistoryBtn').addEventListener('click',()=>{
+ if(!state.history.length){notify('Istoricul este deja gol.');return}
+ pocketConfirm(learningLabel('Ștergi toate conversațiile salvate pe acest dispozitiv?','Delete all conversations saved on this device?'),()=>{
+  state.history=[];try{localStorage.removeItem(HISTORY_KEY)}catch{}renderHistory();notify(learningLabel('Istoricul local a fost șters.','Local history deleted.'));
+ });
+});
 const UI_TEXT={
  ro:{subtitle:'Asistentul tău personal pentru orice zi',homeTitle:'Cu ce te pot ajuta?',homeLead:'Alege unul dintre instrumentele myPocket AI.',cards:[['Asistent AI','Întrebări, răspunsuri, traduceri, calcule și redactare.'],['Călătorii și turism','Locuri de vizitat, itinerarii și idei de cazare.'],['Hărți și transport','Rute pietonale și informații despre transportul în comun.'],['Învățare și educație','Matematică, limbi străine și explicații pas cu pas.'],['Organizare personală','Liste, bugete, proiecte și obiective.'],['Mai multe instrumente','Analiză, idei, documente și multe altele.']],home:'Acasă',conversations:'Conversații',tools:'Instrumente',settings:'Setări',back:'← Acasă',newChat:'＋ Conversație nouă',quick:'☰ Selecții rapide',conversation:'Conversație',empty:'Cu ce te pot ajuta?',emptyHint:'Scrie o întrebare în română sau engleză.',ready:'Gata de conversație.',moduleTitle:{travel:'Hoteluri și POI',maps:'Hărți și trasee',learning:'Învățare și educație',organize:'Organizare personală',tools:'Mai multe instrumente'},settingsLanguage:'Limba conversației',settingsLanguageHint:'Limba folosită pentru solicitările către asistent.',speechHint:'Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.',about:'Despre aplicație',localHistory:'Istoricul salvat pe acest dispozitiv.',clearHistory:'Șterge istoricul',chooseDomain:'Alege un domeniu pentru a începe.',quickTitle:'Selecții rapide',send:'Trimite mesajul',dictation:'Dictare vocală',voice:'Conversație vocală',listen:'Ascultă ultimul răspuns'},
  en:{subtitle:'Your personal assistant for every day',homeTitle:'How can I help you?',homeLead:'Choose one of your myPocket AI tools.',cards:[['AI Assistant','Questions, answers, translations, calculations and writing.'],['Travel and tourism','Places to visit, itineraries and accommodation ideas.'],['Maps and transport','Walking routes and public transport information.'],['Learning and education','Maths, languages and step-by-step explanations.'],['Personal organisation','Lists, budgets, projects and goals.'],['More tools','Analysis, ideas, documents and more.']],home:'Home',conversations:'Conversations',tools:'Tools',settings:'Settings',back:'← Home',newChat:'＋ New conversation',quick:'☰ Quick options',conversation:'Conversation',empty:'How can I help you?',emptyHint:'Type a question in English or Romanian.',ready:'Ready to chat.',moduleTitle:{travel:'Hotels and places',maps:'Maps and routes',learning:'Learning and education',organize:'Personal organisation',tools:'More tools'},settingsLanguage:'Conversation language',settingsLanguageHint:'Language used for requests to the assistant.',speechHint:'Speech recognition and available voices depend on your browser and device.',about:'About the app',localHistory:'History saved on this device.',clearHistory:'Clear history',chooseDomain:'Choose a topic to get started.',quickTitle:'Quick options',send:'Send message',dictation:'Voice dictation',voice:'Voice conversation',listen:'Listen to the latest reply'},
