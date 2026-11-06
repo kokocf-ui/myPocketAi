@@ -1806,6 +1806,12 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 .tasks-tile small{font-size:clamp(10px,2.5vw,13px);line-height:1.2}
 .tasks-toolbar,.tasks-bottom{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(6px,1.5vw,12px);flex:none}
 .tasks-toolbar button,.tasks-bottom button{min-width:0;width:100%!important;min-height:clamp(37px,7dvh,52px)!important;height:auto!important;padding:7px 9px!important;white-space:normal}
+/* The shared red Home and heading stay untouched; Back and Dictation follow beneath. */
+#view-module.tasks-workspace .module-heading-row{display:flex!important;align-items:center!important;justify-content:space-between!important}
+#view-module.tasks-workspace .module-heading-row .section-title{flex:1!important;min-width:0!important}
+#view-module.tasks-workspace .module-heading-row .pocket-voice-info{margin-left:auto!important;flex:0 0 auto!important;align-self:center!important}
+#view-module.tasks-workspace .tasks-toolbar{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:clamp(6px,1.5vw,12px)!important}
+#view-module.tasks-workspace .tasks-toolbar>button{height:clamp(2.65rem,7dvh,3.7rem)!important;min-height:0!important;max-height:none!important;min-width:0!important;width:100%!important;margin:0!important;padding:.4rem .6rem!important;font-size:clamp(.82rem,3.1vw,1.08rem)!important;border-radius:clamp(.7rem,2.6vw,1.05rem)!important}
 .tasks-title{margin:0;text-align:center;font-size:clamp(14px,4vw,21px)}
 .tasks-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:2px 3px 12px}
 .tasks-add{display:flex;gap:6px;flex-wrap:wrap;padding:4px 0}
@@ -2415,6 +2421,13 @@ function pocketVoiceHelp(mode,title){
    ['Ștergere produs','Șterge laptele'],
    ['Arhivare','Arhivează lista']
   ],
+  tasks:[
+   ['Adăugare','Adaugă sarcină cumpără filtre mâine'],
+   ['Obiectiv','Adaugă obiectiv renovează bucătăria'],
+   ['Finalizare','Bifează cumpără filtre'],
+   ['Arhivare','Arhivează cumpără filtre'],
+   ['Ștergere','Șterge cumpără filtre']
+  ],
   assistant:[
    ['Întrebare','Cum ajung la gara Grays?'],
    ['Informații','Arată-mi știrile de astăzi'],
@@ -2464,8 +2477,8 @@ function organizePanel(cat){
   active.setAttribute('aria-pressed',shoppingMode==='active'?'true':'false');
   active.onclick=()=>{if(shoppingVoiceSession?.active)shopVoiceStop();shoppingMode=shoppingMode==='active'?'entry':'active';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()};
   bar.append(back,active);
- }else if(cat[0]!=='calendar')bar.append(back,title);
- if(cat[0]!=='calendar')panel.append(bar);host.append(panel);
+ }else if(cat[0]!=='calendar'&&cat[0]!=='tasks')bar.append(back,title);
+ if(cat[0]!=='calendar'&&cat[0]!=='tasks')panel.append(bar);host.append(panel);
  return panel;
 }
 function openOrganizeCategory(key){
@@ -2568,10 +2581,10 @@ function renderTasks(){
  root.classList.add('tasks-workspace','adaptive-workspace-view');panel.classList.add('tasks-panel');panel.replaceChildren();
  const el=(tag,cls,label)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(label!==undefined)x.textContent=label;return x};
  const btn=(label,action,cls='secondary-btn')=>{const x=el('button',cls,label);x.type='button';x.onclick=action;return x};
- const heading=el('h3','tasks-title',learningLabel('Sarcini și obiective','Tasks and goals'));panel.append(heading);
+ pocketVoiceHelp('tasks',$('moduleTitle'));
  const nav=el('div','tasks-toolbar');
- nav.append(btn(learningLabel('⌂ Acasă','⌂ Home'),renderOrganizeChoices),
-   btn(learningLabel('← Înapoi','← Back'),()=>{if(tasksSection==='home')renderOrganizeChoices();else{tasksSection='home';renderTasks()}}));
+ nav.append(btn(learningLabel('← Înapoi','← Back'),()=>{if(tasksSection==='home')renderOrganizeChoices();else{tasksSection='home';renderTasks()}}),
+   btn(learningLabel('🎙 Dictare','🎙 Dictation')+(tasksListening?' •':''),tasksVoiceStart,'primary-btn'));
  panel.append(nav);
  if(tasksSection==='home'){
   const grid=el('div','tasks-tiles');
@@ -2628,10 +2641,7 @@ function renderTasks(){
    row.append(content,buttons);list.append(row);
   }
  }
- const bottom=el('div','tasks-bottom');
- bottom.append(btn(learningLabel('🎙 Dictare','🎙 Dictation')+(tasksListening?' •':''),tasksVoiceStart,'primary-btn'),
-  btn(learningLabel('ⓘ Comenzi vocale','ⓘ Voice guide'),()=>window.alert(learningLabel('„Adaugă sarcină cumpără filtre mâine”\\n„Adaugă obiectiv renovează bucătăria”\\n„Bifează cumpără filtre”\\n„Arhivează cumpără filtre”\\n„Șterge cumpără filtre” (cere confirmare)','“Add task...” / “Complete...” / “Archive...” / “Delete...”'))));
- panel.append(bottom);
+
 }
 
 /* Calendar workspace: separate storage and speech state from shopping lists.
