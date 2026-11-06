@@ -6486,6 +6486,107 @@ function renderLearningSubjects(){
  host.append(grid);
  $('moduleLead').textContent='';
 }
+// Educational dictation is isolated from the assistant's chat/voice capture.
+let mathVoiceListening=false;
+let mathLastSpokenReply='';
+function mathVoiceStop(){
+ if(mathVoiceListening){
+  mathVoiceListening=false;
+  if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
+ }
+ const button=$('mathDictation');
+ if(button)button.setAttribute('aria-pressed','false');
+}
+function mathSpokenToFormula(input){
+ const original=collapseRepeatedVoiceWords(String(input||'').trim());
+ if(!original)return '';
+ const fold=v=>v.normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+ // Interpret only explicit mathematical vocabulary. Keep unknown words intact.
+ const words={
+  zero:'0',unu:'1',una:'1',un:'1',doi:'2',doua:'2',trei:'3',patru:'4',cinci:'5',
+  sase:'6',sapte:'7',opt:'8',noua:'9',zece:'10',unsprezece:'11',doisprezece:'12',
+  treisprezece:'13',paisprezece:'14',cincisprezece:'15',saisprezece:'16',
+  saptesprezece:'17',optsprezece:'18',nouasprezece:'19',douazeci:'20',
+  treizeci:'30',patruzeci:'40',cincizeci:'50',saizeci:'60',
+  saptezeci:'70',optzeci:'80',nouazeci:'90',suta:'100'
+ };
+ let v=fold(original);
+ const mathIntent=/(?:\\b(?:egal|plus|minus|ori|inmult|impart|parantez|patrat|puterea|supra|functia|ecuatia|radical)\\b|[=+*/()^×÷])/u.test(v);
+ if(!mathIntent)return original;
+ v=v.replace(/\\b(?:deschide|deschideti|paranteza deschisa)\\s+paranteza\\b/g,'(')
+    .replace(/\\b(?:inchide|inchideti)\\s+paranteza\\b/g,')')
+    .replace(/\\bparanteza\\s+deschisa\\b/g,'(').replace(/\\bparanteza\\s+inchisa\\b/g,')')
+    .replace(/\\b(?:la|ridicat la)\\s+patrat\\b/g,'^2')
+    .replace(/\\b(?:la|ridicat la)\\s+cub\\b/g,'^3')
+    .replace(/\\bf\\s+de\\s+x\\b/g,'f(x)')
+    .replace(/\\begal(?:\\s+cu)?\\b/g,' = ')
+    .replace(/\\bplus\\b/g,' + ').replace(/\\bminus\\b/g,' - ')
+    .replace(/\\b(?:inmultit cu|ori)\\b/g,' * ')
+    .replace(/\\b(?:impartit la|supra)\\b/g,' / ');
+ const keys=Object.keys(words).sort((a,b)=>b.length-a.length);
+ v=v.replace(new RegExp('\\\\b(?:'+keys.join('|')+')\\\\b','g'),word=>words[word]);
+ // "douăzeci și trei" -> 23, but do not combine unrelated numbers.
+ v=v.replace(/\\b([2-9]0)\\s+si\\s+([1-9])\\b/g,(_,t,o)=>String(Number(t)+Number(o)));
+ return v.replace(/\\s+/g,' ').trim();
+}
+function mathVoiceHandleAndroid(data){
+ if(data?.mode!=='math')return false;
+ if(!mathVoiceListening)return true;
+ const status=$('mathEducationStatus');
+ if(data.status==='listening'){
+  if(status)status.textContent=learningLabel('Spune exercițiul. Recunoașterea va apărea în câmp.','Speak the exercise. Recognition will appear in the field.');
+  return true;
+ }
+ if(data.status==='partial'){
+  if(status)status.textContent=learningLabel('Ascult: ','Listening: ')+String(data.text||'').slice(0,110);
+  return true;
+ }
+ if(data.status==='recognized'){
+  const text=mathSpokenToFormula(data.text||'');
+  const editor=$('mathEducationText');
+  if(editor&&text){
+   const previous=editor.value.trim();
+   editor.value=(previous?previous+'\\n':'')+text;
+   editor.dispatchEvent(new Event('input',{bubbles:true}));
+   if(status)status.textContent=learningLabel('Exercițiul dictat a fost introdus. Verifică simbolurile înainte de rezolvare.','Dictation inserted. Check the symbols before solving.');
+  }else if(status)status.textContent=learningLabel('Nu am înțeles dictarea. Poți încerca din nou.','Dictation not recognized. Try again.');
+  mathVoiceStop();return true;
+ }
+ if(data.status==='error'){
+  mathVoiceStop();
+  if(status)status.textContent=learningLabel('Microfonul Android nu a putut recunoaște exercițiul.','Android microphone could not recognize the exercise.');
+  return true;
+ }
+ return true;
+}
+function mathVoiceToggle(){
+ if(mathVoiceListening){mathVoiceStop();return}
+ if(!pocketNativeVoiceAvailable()){
+  const status=$('mathEducationStatus');
+  if(status)status.textContent=learningLabel('Dictarea necesită microfonul disponibil în aplicația Android.','Dictation needs the Android microphone.');
+  return;
+ }
+ stopSpeech();stopRecognition();state.dictationMode=false;state.voiceMode=false;
+ setPressed($('dictationBtn'),false);setPressed($('voiceBtn'),false);
+ const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
+ mathVoiceListening=true;
+ $('mathDictation')?.setAttribute('aria-pressed','true');
+ if(!pocketNativeVoiceSend({action:'listen',mode:'math',language:locale})){
+  mathVoiceStop();
+  const status=$('mathEducationStatus');
+  if(status)status.textContent=learningLabel('Nu am putut porni dictarea.','Could not start dictation.');
+ }
+}
+function mathReadText(){
+ mathVoiceStop();
+ const text=mathLastSpokenReply||$('mathEducationText')?.value?.trim()||'';
+ if(!text){
+  const status=$('mathEducationStatus');
+  if(status)status.textContent=learningLabel('Introdu un exercițiu sau obține o rezolvare pentru citire.','Enter an exercise or get a solution to read.');
+  return;
+ }
+ speakText(text);
+}
 function openLearningSubject(key){
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
  activeLearningSubject=subject;
@@ -6710,6 +6811,7 @@ function mathGeometryFigure(question){
  figure.append(svg,caption);return figure;
 }
 function mathCloseResults(){
+ document.documentElement.classList.remove('math-result-visible');
  const session=mathResultSession;mathResultSession=null;
  if(session?.controller)session.controller.abort();
  const dialog=$('mathResultDialog');if(dialog?.open)dialog.close();
@@ -6719,6 +6821,8 @@ function mathResultPage(index){
  if(!session||!dialog?.open)return;
  session.active=Math.max(0,Math.min(index,session.tasks.length-1));
  const tabs=$('mathResultTabs'),body=$('mathResultBody');
+ const previousScroll=session.lastPage===session.active?body.scrollTop:0;
+ session.lastPage=session.active;
  tabs.replaceChildren();body.replaceChildren();
  if(session.tasks.length>1){
   session.tasks.forEach((task,i)=>{
@@ -6736,6 +6840,7 @@ function mathResultPage(index){
  body.append(title,source);
  const graph=mathGraphFigure(item.text)||mathGeometryFigure(item.text);
  if(graph)body.append(graph);
+ body.scrollTop=previousScroll;
  const result=document.createElement('div');result.className='math-result-copy';
  if(item.error){result.classList.add('math-result-error');result.textContent=item.error;
   const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn';
@@ -6770,7 +6875,7 @@ async function mathFetchResult(item,session){
   if(!response.ok||payload.status!=='success'||typeof payload.reply!=='string'||!payload.reply.trim())
    throw new Error(payload.error||learningLabel('Nu am primit o rezolvare validă.','No valid solution returned.'));
   if(mathResultSession!==session)return;
-  item.reply=payload.reply.trim();
+  item.reply=payload.reply.trim();mathLastSpokenReply=item.reply;
  }catch(error){
   if(mathResultSession!==session||session.controller.signal.aborted)return;
   item.error=learningLabel('Nu am putut obține rezolvarea: ','Could not obtain the solution: ')+String(error?.message||error);
@@ -6801,7 +6906,7 @@ function mathEducationRun(mode){
  $('mathResultClose').textContent=learningLabel('Revenire','Back');
  editor.value='';status.textContent='';
  if(document.activeElement?.blur)document.activeElement.blur();
- try{dialog.showModal()}catch(error){
+ try{dialog.showModal();document.documentElement.classList.add('math-result-visible')}catch(error){
   mathResultSession=null;editor.value=source;
   status.textContent=learningLabel('Fereastra de rezolvare nu poate fi deschisă.','Cannot open the solution window.');
   return;
@@ -6811,6 +6916,7 @@ function mathEducationRun(mode){
 }
 $('mathResultClose').onclick=mathCloseResults;
 $('mathResultDialog').addEventListener('close',()=>{
+ document.documentElement.classList.remove('math-result-visible');
  if(mathResultSession){mathResultSession.controller.abort();mathResultSession=null}
 });
 
@@ -9360,6 +9466,7 @@ t=t.replace(/(\\d),(\\d)/g,'$1 virgulă $2');return t;}
 function pocketNativeVoiceAvailable(){return typeof window.PocketAndroidVoice?.postMessage==='function'}
 function pocketNativeVoiceSend(payload){try{window.PocketAndroidVoice.postMessage(JSON.stringify(payload));return true}catch{return false}}
 window.pocketAndroidVoiceResult=function(data){
+ if(mathVoiceHandleAndroid(data))return;
  if(shopVoiceHandleAndroid(data))return;
  if(agendaVoiceHandleAndroid(data))return;
  if(remindersVoiceHandleAndroid(data))return;
