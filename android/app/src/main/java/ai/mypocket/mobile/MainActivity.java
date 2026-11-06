@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -113,15 +116,10 @@ public final class MainActivity extends ComponentActivity {
             if(callback==null)return;
             Uri selected=result.getData()!=null?result.getData().getData():null;
             if(result.getResultCode()==Activity.RESULT_OK && selected==null)selected=documentCameraUri;
-            boolean scan=scanNextDocumentPhoto;
             scanNextDocumentPhoto=false;
+            // Return the selected image to the page. The Documents workspace
+            // explicitly sends its saved, resized photo back for native OCR.
             callback.onReceiveValue(result.getResultCode()==Activity.RESULT_OK && selected!=null?new Uri[]{selected}:null);
-            if(scan && result.getResultCode()==Activity.RESULT_OK && selected!=null){
-                notifyDocumentScan("started","");
-                recognizeDocumentPhoto(selected);
-            } else if(scan && result.getResultCode()!=Activity.RESULT_OK){
-                notifyDocumentScan("cancelled","");
-            }
             documentCameraUri=null;
         });
 
@@ -405,7 +403,8 @@ public final class MainActivity extends ComponentActivity {
                 Collections.singleton("https://"+APP_HOST),
                 (view,message,origin,isMainFrame,replyProxy)->{
                     if(!isMainFrame||!APP_HOST.equals(origin.getHost()))return;
-                    if("next".equals(message.getData()))runOnUiThread(()->scanNextDocumentPhoto=true);
+                    final String payload=message.getData();
+                    runOnUiThread(()->scanDocumentBytes(payload));
                 });
         }
         tts=new TextToSpeech(this,status -> {
@@ -502,19 +501,47 @@ public final class MainActivity extends ComponentActivity {
         } catch(Exception ex) { notifyWeb("error","Image cannot be opened"); }
     }
 
-    private void recognizeDocumentPhoto(Uri uri){
+    private void scanDocumentBytes(String payload){
+        String id="";
         try{
-            InputImage input=InputImage.fromFilePath(this,uri);
+            JSONObject request=new JSONObject(payload);
+            if(!"scan".equals(request.optString("action")))return;
+            id=request.optString("id","");
+            if(!id.matches("[a-zA-Z0-9_-]{1,100}"))return;
+            String encoded=request.optString("base64","");
+            if(encoded.length()<32||encoded.length()>6000000){
+                notifyDocumentScan("error","",id);return;
+            }
+            byte[] bytes=Base64.decode(encoded,Base64.DEFAULT);
+            if(bytes.length>4500000){notifyDocumentScan("error","",id);return;}
+            BitmapFactory.Options opts=new BitmapFactory.Options();
+            opts.inJustDecodeBounds=true;
+            BitmapFactory.decodeByteArray(bytes,0,bytes.length,opts);
+            if(opts.outWidth<100||opts.outHeight<100||opts.outWidth>4096||opts.outHeight>4096){
+                notifyDocumentScan("error","",id);return;
+            }
+            opts.inJustDecodeBounds=false;
+            Bitmap bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.length,opts);
+            if(bitmap==null){notifyDocumentScan("error","",id);return;}
+            notifyDocumentScan("started","",id);
+            final String docId=id;
             var recognizer=TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
-            recognizer.process(input)
-                .addOnSuccessListener(result->{notifyDocumentScan("success",result.getText());recognizer.close();})
-                .addOnFailureListener(error->{notifyDocumentScan("error","");recognizer.close();});
-        }catch(Exception error){notifyDocumentScan("error","");}
+            recognizer.process(InputImage.fromBitmap(bitmap,0))
+                .addOnSuccessListener(result->{
+                    notifyDocumentScan("success",result.getText(),docId);
+                    recognizer.close();bitmap.recycle();
+                })
+                .addOnFailureListener(error->{
+                    notifyDocumentScan("error","",docId);
+                    recognizer.close();bitmap.recycle();
+                });
+        }catch(Exception error){if(!id.isEmpty())notifyDocumentScan("error","",id);}
     }
-    private void notifyDocumentScan(String status,String text){
+    private void notifyDocumentScan(String status,String text,String id){
         try{
-            JSONObject payload=new JSONObject();payload.put("status",status);payload.put("text",text);
-            String js="window.pocketAndroidDocumentScanResult && window.pocketAndroidDocumentScanResult("+payload.toString()+");";
+            JSONObject result=new JSONObject();
+            result.put("status",status);result.put("text",text);result.put("id",id);
+            String js="window.pocketAndroidDocumentScanResult && window.pocketAndroidDocumentScanResult("+result.toString()+");";
             runOnUiThread(()->{
                 if(web!=null && APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost()))
                     web.evaluateJavascript(js,null);
