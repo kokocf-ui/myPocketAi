@@ -6510,14 +6510,86 @@ function mathFitViewport(){
 window.addEventListener('resize',mathFitViewport,{passive:true});
 window.visualViewport?.addEventListener('resize',mathFitViewport,{passive:true});
 let mathVoiceListening=false;
+let mathVoiceSession=null;
 let mathLastSpokenReply='';
-function mathVoiceStop(){
- if(mathVoiceListening){
-  mathVoiceListening=false;
+function mathVoiceStatus(text){
+ const status=$('mathEducationStatus');
+ if(status)status.textContent=text;
+}
+function mathVoiceClearTimers(session){
+ if(!session)return;
+ if(session.restartTimer!==null){clearTimeout(session.restartTimer);session.restartTimer=null}
+ if(session.watchdog!==null){clearTimeout(session.watchdog);session.watchdog=null}
+}
+function mathVoiceStop({commitPartial=true}={}){
+ const session=mathVoiceSession;
+ if(session?.active&&commitPartial&&session.partial)mathVoiceAccept(session.partial,session);
+ mathVoiceListening=false;
+ mathVoiceSession=null;
+ mathVoiceClearTimers(session);
+ if(session?.active){
+  session.active=false;
   if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
  }
  const button=$('mathDictation');
  if(button)button.setAttribute('aria-pressed','false');
+}
+function mathVoiceWatchdog(session){
+ if(!session?.active||mathVoiceSession!==session)return;
+ if(session.watchdog!==null)clearTimeout(session.watchdog);
+ // Android can stop without a final callback. Keep capturing after ordinary
+ // pauses, but recover rather than leave a false "listening" indication.
+ session.watchdog=setTimeout(()=>{
+  if(!session.active||mathVoiceSession!==session)return;
+  session.missed++;
+  if(session.missed>3){
+   mathVoiceStop();
+   mathVoiceStatus(learningLabel('Microfonul nu mai răspunde. Apasă Dictare ca să continui.','The microphone stopped responding. Tap Dictate to continue.'));
+   return;
+  }
+  mathVoiceRestart(session,450);
+ },8500);
+}
+function mathVoiceListen(session){
+ if(!session?.active||mathVoiceSession!==session)return;
+ mathVoiceStatus(learningLabel('Te ascult… Dictează exercițiul; poți face pauze.','Listening… Dictate the exercise; pauses are fine.'));
+ mathVoiceWatchdog(session);
+ if(!pocketNativeVoiceSend({action:'listen',mode:'math',language:session.locale})){
+  mathVoiceStop();
+  mathVoiceStatus(learningLabel('Nu am putut porni microfonul Android.','Could not start the Android microphone.'));
+ }
+}
+function mathVoiceRestart(session,delay=450){
+ if(!session?.active||mathVoiceSession!==session)return;
+ mathVoiceClearTimers(session);
+ // The native recognizer ends after a phrase on some Android versions.
+ // Reopen the same session so a pause does not terminate the whole exercise.
+ if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
+ mathVoiceStatus(learningLabel('Dictare activă — continuă când ești pregătit.','Dictation active — continue when ready.'));
+ session.restartTimer=setTimeout(()=>{
+  session.restartTimer=null;
+  if(session.active&&mathVoiceSession===session)mathVoiceListen(session);
+ },delay);
+}
+function mathVoiceAccept(text,session){
+ if(!session?.active||mathVoiceSession!==session)return false;
+ let original=collapseRepeatedVoiceWords(String(text||'').trim());
+ if(!original)return false;
+ if(session.lastRaw===original)return false;
+ if(session.lastRaw&&session.lastRaw.startsWith(original+' '))return false;
+ if(session.lastRaw&&original.startsWith(session.lastRaw+' ')){
+  original=original.slice(session.lastRaw.length).trim();
+  if(!original)return false;
+ }
+ const formula=mathSpokenToFormula(original);
+ const editor=$('mathEducationText');
+ if(!editor||!formula)return false;
+ const existing=editor.value.trim();
+ const newExercise=/^(?:exerci[țt]iul?|problema)\\s+\\d+/iu.test(original);
+ editor.value=(existing?existing+(newExercise?'\\n':' '):'')+formula;
+ editor.dispatchEvent(new Event('input',{bubbles:true}));
+ session.lastRaw=String(text||'').trim();
+ return true;
 }
 function mathSpokenToFormula(input){
  const original=collapseRepeatedVoiceWords(String(input||'').trim());
@@ -6553,51 +6625,62 @@ function mathSpokenToFormula(input){
 }
 function mathVoiceHandleAndroid(data){
  if(data?.mode!=='math')return false;
- if(!mathVoiceListening)return true;
- const status=$('mathEducationStatus');
+ const session=mathVoiceSession;
+ if(!session?.active||!mathVoiceListening)return true;
  if(data.status==='listening'){
-  if(status)status.textContent=learningLabel('Spune exercițiul. Recunoașterea va apărea în câmp.','Speak the exercise. Recognition will appear in the field.');
+  session.missed=0;
+  mathVoiceWatchdog(session);
+  mathVoiceStatus(learningLabel('Te ascult… Spune exercițiul până la capăt.','Listening… Say the entire exercise.'));
   return true;
  }
  if(data.status==='partial'){
-  if(status)status.textContent=learningLabel('Ascult: ','Listening: ')+String(data.text||'').slice(0,110);
+  session.missed=0;
+  session.partial=String(data.text||'').trim();
+  mathVoiceWatchdog(session);
+  mathVoiceStatus(learningLabel('Aud: ','Hearing: ')+session.partial.slice(0,120));
   return true;
  }
  if(data.status==='recognized'){
-  const text=mathSpokenToFormula(data.text||'');
-  const editor=$('mathEducationText');
-  if(editor&&text){
-   const previous=editor.value.trim();
-   editor.value=(previous?previous+'\\n':'')+text;
-   editor.dispatchEvent(new Event('input',{bubbles:true}));
-   if(status)status.textContent=learningLabel('Exercițiul dictat a fost introdus. Verifică simbolurile înainte de rezolvare.','Dictation inserted. Check the symbols before solving.');
-  }else if(status)status.textContent=learningLabel('Nu am înțeles dictarea. Poți încerca din nou.','Dictation not recognized. Try again.');
-  mathVoiceStop();return true;
+  mathVoiceClearTimers(session);
+  mathVoiceAccept(data.text||session.partial,session);
+  session.partial='';session.missed=0;session.retries=0;
+  // Like Organize/Shopping: one Android recognition chunk is NOT the
+  // end of dictation. Keep listening until the user taps Dictare again.
+  mathVoiceRestart(session,450);
+  return true;
  }
  if(data.status==='error'){
-  mathVoiceStop();
-  if(status)status.textContent=learningLabel('Microfonul Android nu a putut recunoaște exercițiul.','Android microphone could not recognize the exercise.');
+  const message=String(data.text||'');
+  mathVoiceClearTimers(session);
+  session.retries++;
+  if(session.retries<=3&&/error (?:6|7|8)|timeout|no.match/iu.test(message)){
+   mathVoiceRestart(session,650);
+  }else{
+   mathVoiceStop();
+   mathVoiceStatus(learningLabel('Dictarea s-a întrerupt. Textul recunoscut a fost păstrat.','Dictation stopped. Recognized text was kept.'));
+  }
   return true;
  }
  return true;
 }
 function mathVoiceToggle(){
- if(mathVoiceListening){mathVoiceStop();return}
+ if(mathVoiceListening){
+  mathVoiceStop();
+  mathVoiceStatus(learningLabel('Dictare încheiată. Verifică exercițiul înainte de rezolvare.','Dictation finished. Check the exercise before solving.'));
+  return;
+ }
  if(!pocketNativeVoiceAvailable()){
-  const status=$('mathEducationStatus');
-  if(status)status.textContent=learningLabel('Dictarea necesită microfonul disponibil în aplicația Android.','Dictation needs the Android microphone.');
+  mathVoiceStatus(learningLabel('Dictarea necesită microfonul disponibil în aplicația Android.','Dictation requires the Android microphone.'));
   return;
  }
  stopSpeech();stopRecognition();state.dictationMode=false;state.voiceMode=false;
  setPressed($('dictationBtn'),false);setPressed($('voiceBtn'),false);
  const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
+ const session={active:true,locale,lastRaw:'',partial:'',missed:0,retries:0,watchdog:null,restartTimer:null};
+ mathVoiceSession=session;
  mathVoiceListening=true;
  $('mathDictation')?.setAttribute('aria-pressed','true');
- if(!pocketNativeVoiceSend({action:'listen',mode:'math',language:locale})){
-  mathVoiceStop();
-  const status=$('mathEducationStatus');
-  if(status)status.textContent=learningLabel('Nu am putut porni dictarea.','Could not start dictation.');
- }
+ mathVoiceListen(session);
 }
 function mathReadText(){
  mathVoiceStop();
