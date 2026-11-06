@@ -566,7 +566,7 @@ assert.match(inline,/setInterval\(\(\)=>\{if\(document\.visibilityState==='visib
 const titleStart=inline.indexOf('function budgetVoiceExpenseTitle(raw)');
 const titleEnd=inline.indexOf('function budgetRenameEntry(id)',titleStart);
 assert.ok(titleStart>0&&titleEnd>titleStart);
-const speechCtx=vm.createContext({String,learningLabel:(ro,en)=>ro});
+const speechCtx=vm.createContext({String,Date,learningLabel:(ro,en)=>ro,shopVoiceFold:s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()});
 vm.runInContext(inline.slice(titleStart,titleEnd),speechCtx);
 const describe=value=>vm.runInContext('budgetVoiceExpenseTitle('+JSON.stringify(value)+')',speechCtx);
 assert.equal(describe('Am cheltuit 25 de lire pe combustibil'),'combustibil');
@@ -576,5 +576,11 @@ assert.equal(describe('Am plătit 550 de lire pe chirie'),'chirie');
 assert.equal(describe('Am cheltuit 30 de euro pentru transport'),'transport');
 assert.equal(describe('Pe 18 noiembrie plătesc 70 de lire pentru internet'),'internet');
 assert.equal(describe('În fiecare lună pe 6 plătesc chiria de 550 de lire'),'chiria');
+assert.equal(describe('Am cheltuit 40 £ la Pepco'),'Pepco','currency symbols do not remain in spoken title');
+const queryPeriod=(speech,now=new Date(2026,10,6))=>vm.runInContext('budgetQueryPeriod('+JSON.stringify(speech)+',new Date('+now.getFullYear()+','+now.getMonth()+','+now.getDate()+'))',speechCtx);
+assert.equal(queryPeriod('Ce plăți mai am luna viitoare?').start,'2026-12-01');
+assert.equal(queryPeriod('Ce plăți mai am în luna decembrie?').end,'2026-12-31');
+assert.equal(queryPeriod('Ce plăți mai am săptămâna viitoare?').start,'2026-11-09');
+assert.equal(queryPeriod('Ce plăți mai am săptămâni viitoare?').end,'2026-12-04');
 
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
