@@ -6,6 +6,12 @@ const page=await(await frontend.fetch(new Request('https://shopping.test/'))).te
 const inline=page.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(inline,'main frontend script must exist');
 new vm.Script(inline);
+assert.doesNotMatch(inline,/webkitSpeechRecognition|window\.SpeechRecognition|new SpeechRecognition\(/,'no browser speech recognizer in the APK frontend');
+assert.match(inline,/function tasksVoiceStart\(\)[\s\S]*?mode:'tasks'/,'tasks speech uses Android bridge');
+assert.match(inline,/function agendaVoiceStart\(\)[\s\S]*?mode:'agenda'/,'agenda speech uses Android bridge');
+assert.match(inline,/function shopVoiceListen\(\)[\s\S]*?mode:'shopping'/,'shopping speech uses Android bridge');
+assert.match(inline,/function startRecognition\(mode\)[\s\S]*?pocketNativeVoiceSend\(\{action:'listen',mode,language:locale\}\)/,'general dictation uses Android bridge');
+
 
 const style=page.match(/<style id="pocket-adaptive-workspaces">([\s\S]*?)<\/style>/)?.[1];
 assert.ok(style,'shared adaptive-workspace stylesheet must exist');
