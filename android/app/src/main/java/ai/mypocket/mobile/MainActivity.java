@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Base64;
 import android.net.Uri;
 import android.os.Bundle;
@@ -535,14 +536,45 @@ public final class MainActivity extends ComponentActivity {
     }
     // Document photos can arrive sideways from different camera applications.
     // Try alternate orientations only when the first reading looks insufficient.
-    private boolean documentHasCompletePassportMrz(com.google.mlkit.vision.text.Text result){
-        String[] lines=result.getText().toUpperCase(Locale.ROOT).split("\\R");
-        for(int i=0;i<lines.length-1;i++){
-            String upper=lines[i].replaceAll("\\s+","");
-            String lower=lines[i+1].replaceAll("\\s+","");
-            if(upper.startsWith("P<")&&upper.length()==44&&lower.length()==44)return true;
+    private int passportMrzDigit(String text){
+        int[] w={7,3,1};int sum=0;
+        for(int i=0;i<text.length();i++){
+            char c=text.charAt(i);
+            int value=c=='<'?0:(c>='0'&&c<='9'?c-'0':(c>='A'&&c<='Z'?c-'A'+10:-1));
+            if(value<0)return -1;
+            sum+=value*w[i%3];
+        }
+        return sum%10;
+    }
+    private boolean documentHasValidPassportMrz(String raw){
+        if(raw==null||raw.isEmpty())return false;
+        String[] original=raw.toUpperCase(Locale.ROOT).split("\\R");
+        String[] lines=new String[original.length];
+        for(int i=0;i<original.length;i++)
+            lines[i]=original[i].replaceAll("[^A-Z0-9<]","");
+        for(int i=0;i<lines.length;i++){
+            if(!lines[i].startsWith("P<"))continue;
+            for(int upperCount=1;upperCount<=3&&i+upperCount<=lines.length;upperCount++){
+                StringBuilder a=new StringBuilder();
+                for(int x=i;x<i+upperCount;x++)a.append(lines[x]);
+                if(a.length()!=44)continue;
+                for(int lowerCount=1;lowerCount<=3&&i+upperCount+lowerCount<=lines.length;lowerCount++){
+                    StringBuilder b=new StringBuilder();
+                    for(int x=i+upperCount;x<i+upperCount+lowerCount;x++)b.append(lines[x]);
+                    if(b.length()!=44)continue;
+                    String lower=b.toString();
+                    if(!Character.isDigit(lower.charAt(9))||
+                       !Character.isDigit(lower.charAt(27)))continue;
+                    if(passportMrzDigit(lower.substring(0,9))==Character.digit(lower.charAt(9),10)&&
+                       passportMrzDigit(lower.substring(21,27))==Character.digit(lower.charAt(27),10))
+                        return true;
+                }
+            }
         }
         return false;
+    }
+    private boolean documentHasCompletePassportMrz(com.google.mlkit.vision.text.Text result){
+        return documentHasValidPassportMrz(result.getText());
     }
     private boolean documentHasCompleteIdentityMrz(com.google.mlkit.vision.text.Text result){
         String[] lines=result.getText().toUpperCase(Locale.ROOT).split("\\R");
@@ -578,6 +610,10 @@ public final class MainActivity extends ComponentActivity {
     }
     private void finishDocumentScan(com.google.mlkit.vision.text.TextRecognizer recognizer,
                                     Bitmap bitmap,String id,com.google.mlkit.vision.text.Text result){
+        finishDocumentScan(recognizer,bitmap,id,result,"");
+    }
+    private void finishDocumentScan(com.google.mlkit.vision.text.TextRecognizer recognizer,
+                                    Bitmap bitmap,String id,com.google.mlkit.vision.text.Text result,String extraText){
         try{
             JSONArray lines=new JSONArray();
             // Line coordinates make it possible to find values beside captions.
@@ -597,11 +633,70 @@ public final class MainActivity extends ComponentActivity {
                     }catch(Exception ignored){}
                 }
             }
-            notifyDocumentScan("success",result.getText(),id,lines);
+            String complete=result.getText()+(extraText.isEmpty()?"":"\n"+extraText);
+            notifyDocumentScan("success",complete,id,lines);
         }finally{
             recognizer.close();
             bitmap.recycle();
         }
+    }
+    // Passport MRZ is printed at the bottom of the biodata page. General
+    // full-page OCR often loses small machine-readable letters; scan the
+    // bottom region separately at every orientation, entirely on device.
+    private void scanPassportMrzCrop(com.google.mlkit.vision.text.TextRecognizer recognizer,
+                                     Bitmap bitmap,String id,
+                                     com.google.mlkit.vision.text.Text fullResult,
+                                     int attempt,String bestMrzText,int bestMrzScore){
+        final int[] angles={0,90,270,180};
+        if(attempt>=angles.length){
+            finishDocumentScan(recognizer,bitmap,id,fullResult,bestMrzText);
+            return;
+        }
+        Bitmap rotated=null,region=null;
+        try{
+            if(angles[attempt]==0){
+                rotated=bitmap;
+            }else{
+                Matrix matrix=new Matrix();
+                matrix.postRotate(angles[attempt]);
+                rotated=Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
+            }
+            int x=Math.max(0,Math.round(rotated.getWidth()*0.025f));
+            int y=Math.max(0,Math.round(rotated.getHeight()*0.55f));
+            int width=Math.max(1,rotated.getWidth()-2*x);
+            int height=Math.max(1,rotated.getHeight()-y);
+            Bitmap cropped=Bitmap.createBitmap(rotated,x,y,width,height);
+            if(rotated!=bitmap)rotated.recycle();
+            // Upscale the MRZ region only; do not enlarge the saved photo.
+            float multiplier=Math.min(2.0f,3000f/Math.max(1,width));
+            if(multiplier>1.10f){
+                region=Bitmap.createScaledBitmap(cropped,
+                    Math.max(1,Math.round(width*multiplier)),
+                    Math.max(1,Math.round(height*multiplier)),true);
+                if(region!=cropped)cropped.recycle();
+            }else region=cropped;
+        }catch(Exception ex){
+            if(rotated!=null&&rotated!=bitmap&&!rotated.isRecycled())rotated.recycle();
+            scanPassportMrzCrop(recognizer,bitmap,id,fullResult,attempt+1,bestMrzText,bestMrzScore);
+            return;
+        }
+        final Bitmap candidate=region;
+        recognizer.process(InputImage.fromBitmap(candidate,0))
+            .addOnSuccessListener(result->{
+                candidate.recycle();
+                String mrzText=result.getText();
+                boolean valid=documentHasValidPassportMrz(mrzText);
+                int score=valid?1000:Math.min(150,mrzText.replaceAll("[^A-Z0-9<]","").length());
+                if(mrzText.toUpperCase(Locale.ROOT).contains("P<"))score+=80;
+                String nextText=score>bestMrzScore?mrzText:bestMrzText;
+                int nextScore=Math.max(bestMrzScore,score);
+                if(valid)finishDocumentScan(recognizer,bitmap,id,fullResult,mrzText);
+                else scanPassportMrzCrop(recognizer,bitmap,id,fullResult,attempt+1,nextText,nextScore);
+            })
+            .addOnFailureListener(error->{
+                candidate.recycle();
+                scanPassportMrzCrop(recognizer,bitmap,id,fullResult,attempt+1,bestMrzText,bestMrzScore);
+            });
     }
     private void scanDocumentOrientation(com.google.mlkit.vision.text.TextRecognizer recognizer,
                                          Bitmap bitmap,String id,int attempt,
@@ -616,7 +711,10 @@ public final class MainActivity extends ComponentActivity {
                 // Passport scans should not stop merely because headings read well.
                 if((score>=12&&(!passportRequested||documentHasCompletePassportMrz(result))&&
                     (!identityRequested||documentHasCompleteIdentityMrz(result)))||attempt==rotations.length-1){
-                    finishDocumentScan(recognizer,bitmap,id,selected==null?result:selected);
+                    com.google.mlkit.vision.text.Text chosen=selected==null?result:selected;
+                    if(passportRequested&&!documentHasCompletePassportMrz(chosen))
+                        scanPassportMrzCrop(recognizer,bitmap,id,chosen,0,"",-1);
+                    else finishDocumentScan(recognizer,bitmap,id,chosen);
                 }else{
                     scanDocumentOrientation(recognizer,bitmap,id,attempt+1,selected,selectedScore,passportRequested,identityRequested);
                 }
@@ -625,7 +723,9 @@ public final class MainActivity extends ComponentActivity {
                 if(attempt<rotations.length-1){
                     scanDocumentOrientation(recognizer,bitmap,id,attempt+1,best,bestScore,passportRequested,identityRequested);
                 }else if(best!=null){
-                    finishDocumentScan(recognizer,bitmap,id,best);
+                    if(passportRequested&&!documentHasCompletePassportMrz(best))
+                        scanPassportMrzCrop(recognizer,bitmap,id,best,0,"",-1);
+                    else finishDocumentScan(recognizer,bitmap,id,best);
                 }else{
                     notifyDocumentScan("error","",id);
                     recognizer.close();bitmap.recycle();
