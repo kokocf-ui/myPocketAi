@@ -2780,7 +2780,7 @@ function notesSave(body,title='',id=null){
  return true;
 }
 function notesMatch(phrase){
- const query=notesFold(phrase).replace(/^(?:notita|notita despre|nota despre|despre|cu|numita)\\s+/u,'').trim();
+ const query=notesFold(phrase).replace(/^(?:notita despre|nota despre|notita|nota|despre|cu|numita)\\s+/u,'').trim();
  const all=notesRead();
  if(!query)return all.length===1?all[0]:null;
  const tokens=query.split(' ').filter(w=>w.length>2&&!['notita','despre','nota','pentru','care','este'].includes(w));
