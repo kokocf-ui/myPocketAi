@@ -2627,15 +2627,15 @@ function remindersVoiceStart(){
    Never choose an ambiguous reminder automatically. */
 /* Inside reminders, "Șterge mecanic" is enough: find by meaningful keyword. */
 function remindersDeleteCandidates(spoken,items){
- const fold=value=>String(value||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').replace(/\s+/g,' ').trim();
+ const fold=value=>String(value||'').normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase().replace(/[^\\p{L}\\p{N}]+/gu,' ').replace(/\\s+/g,' ').trim();
  const phrase=fold(spoken);
- const hit=phrase.match(/^(?:(?:te rog|vreau sa)\s+)?(?:sterge|elimina|scoate|anuleaza|delete|remove|cancel)\s*(.*)$/u);
+ const hit=phrase.match(/^(?:(?:te rog|vreau sa)\\s+)?(?:sterge|elimina|scoate|anuleaza|delete|remove|cancel)\\s*(.*)$/u);
  if(!hit)return null;
  const records=items.filter(e=>e.kind==='reminder');
  const last=records.slice().sort((x,y)=>Date.parse(y.createdAt||y.when)-Date.parse(x.createdAt||x.when));
- let query=hit[1].replace(/^(?:(?:din|de pe|de la)\s+)?(?:lista\s+de\s+)?(?:mementourile|mementoul|memento|reminderul|reminder|reminders|notificarea|amintirea)\b\s*/u,'');
- query=query.replace(/^(?:cu|despre|pentru|care spune|intitulat|numit|de)\s+/u,'').trim();
- if(/^(?:ultimul|ultima|cel mai recent)(?:\s+(?:memento|reminder))?$/u.test(query))return last.length?[last[0]]:[];
+ let query=hit[1].replace(/^(?:(?:din|de pe|de la)\\s+)?(?:lista\\s+de\\s+)?(?:mementourile|mementoul|memento|reminderul|reminder|reminders|notificarea|amintirea)\\b\\s*/u,'');
+ query=query.replace(/^(?:cu|despre|pentru|care spune|intitulat|numit|de)\\s+/u,'').trim();
+ if(/^(?:ultimul|ultima|cel mai recent)(?:\\s+(?:memento|reminder))?$/u.test(query))return last.length?[last[0]]:[];
  if(!query||/^(?:toate|tot|totul|lista|mementourile)$/.test(query))return records.length===1?[records[0]]:[];
  const ignore=new Set(['sa','si','la','de','cu','din','pe','pentru','imi','mi','ma','un','o','ul','aminteste','aminte','memento','reminder','trebuie','este','am','intrat','tu']);
  const aliases={mecanic:'service',mecanicul:'service',mecanica:'service',service:'mecanic',doctor:'medic',medic:'doctor'};
