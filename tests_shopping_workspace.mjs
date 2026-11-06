@@ -63,6 +63,11 @@ assert.match(inline,/POCKET_TASKS_KEY='mypocketai\.tasks\.v1'/);
 assert.match(inline,/function tasksCreate\(title,goal=false,due='',priority='normal'\)/);
 assert.match(inline,/function tasksConfirmDelete\(item\)/);
 assert.match(inline,/function tasksToAgenda\(item\)/);
+assert.match(inline,/pocketVoiceHelp\('tasks',\$\('moduleTitle'\)\)/,'tasks voice guide uses shared top heading');
+assert.doesNotMatch(inline,/const heading=el\('h3','tasks-title'/,'tasks title is not duplicated');
+assert.doesNotMatch(inline,/window\.alert\(learningLabel\('„Adaugă sarcină/,'tasks guide does not use browser alerts');
+assert.match(inline,/nav\.append\(btn\(learningLabel\('← Înapoi'/,'back action occupies the left slot');
+assert.match(inline,/btn\(learningLabel\('🎙 Dictare'/,'dictation occupies the right slot');
 assert.match(inline,/linkedTaskId===item\.id/,'agenda transfer does not duplicate a task');
 assert.match(inline,/tasksWrite\(data\.filter\(t=>t\.id!==id\)\)/,'only selected task is removed');
 assert.match(inline,/if\(tasksListening\)tasksVoiceStop\(\)/,'recognizer stops on navigation');
@@ -85,7 +90,7 @@ assert.match(page,/\.agenda-voice-controls\{[\s\S]*?grid-template-columns:repeat
 assert.doesNotMatch(inline,/returnButton\.classList\.add\('agenda-detail-back'\)/,'detail view reuses the shared Back button');
 
 
-assert.match(inline,/if\(cat\[0\]!=='calendar'\)panel\.append\(bar\)/,'agenda hides redundant category toolbar');
+assert.match(inline,/if\(cat\[0\]!=='calendar'&&cat\[0\]!=='tasks'\)panel\.append\(bar\)/,'agenda and tasks reuse the shared top navigation');
 assert.match(inline,/function pocketVoiceHelp\(mode,title\)/,'shared voice command guide exists');
 assert.match(inline,/pocketVoiceHelp\('agenda',\$\('moduleTitle'\)\)/,'agenda guide attached to title');
 assert.match(inline,/pocketVoiceHelp\('shopping',\$\('moduleTitle'\)\)/,'shopping guide attached to title');
