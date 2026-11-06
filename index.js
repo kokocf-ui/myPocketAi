@@ -2521,9 +2521,36 @@ function tasksDueLabel(value){
  const date=new Date(value+'T12:00:00');
  return Number.isNaN(date.getTime())?value:date.toLocaleDateString(state.language==='ro'?'ro-RO':'en-GB');
 }
-function tasksCreate(title,goal=false,due='',priority='normal',fromVoice=false){
+function tasksParseSpokenDeadline(value,now=new Date()){
+ let title=String(value||'').trim(),due='',time='';
+ const dm=title.match(/\b(poim[aâ]ine|m[aâ]ine|ast[aă]zi)\b/iu);
+ if(!dm)return {title,due,time};
+ const base=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+ const word=shopVoiceFold(dm[1]);
+ if(word==='maine')base.setDate(base.getDate()+1);
+ else if(word==='poimaine')base.setDate(base.getDate()+2);
+ due=[base.getFullYear(),String(base.getMonth()+1).padStart(2,'0'),String(base.getDate()).padStart(2,'0')].join('-');
+ const rest=title.slice(dm.index+dm[0].length).trim();
+ const clock=rest.match(/^(?:(?:la|ora)\s*){0,2}(\d{1,2})(?:[:.](\d{2}))?\s*$/iu);
+ if(rest&&!clock)return {title,due:'',time:''};
+ if(clock){const h=Number(clock[1]),m=Number(clock[2]||0);if(h>23||m>59)return {title,due:'',time:''};time=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')}
+ const before=title.slice(0,dm.index).replace(/\s*(?:pe|pentru|la|în|in)\s*$/iu,'').trim();
+ return {title:before||title,due,time};
+}
+function tasksRepairLegacyVoiceDates(){
+ const all=tasksRead();let changed=false;
+ for(const task of all){
+  if(task.source!=='voice'||task.due)continue;
+  const created=new Date(task.createdAt);if(Number.isNaN(created.getTime()))continue;
+  const parsed=tasksParseSpokenDeadline(task.title,created);
+  if(!parsed.due||parsed.title===task.title)continue;
+  task.title=parsed.title;task.due=parsed.due;task.time=parsed.time;changed=true;
+ }
+ if(changed&&tasksWrite(all))for(const task of all)if(task.source==='voice'&&task.due)tasksToAgenda(task,true);
+}
+function tasksCreate(title,goal=false,due='',priority='normal',fromVoice=false,time=''){
  title=String(title||'').trim();if(!title)return false;
- const data=tasksRead(),item={id:shopId(),title:title.slice(0,140),goal,priority,due,source:fromVoice?'voice':'manual',done:false,archived:false,createdAt:new Date().toISOString()};
+ const data=tasksRead(),item={id:shopId(),title:title.slice(0,140),goal,priority,due,time,source:fromVoice?'voice':'manual',done:false,archived:false,createdAt:new Date().toISOString()};
  data.push(item);
  if(!tasksWrite(data))return false;
  if(fromVoice&&due)tasksToAgenda(item,true);
@@ -2536,12 +2563,13 @@ function tasksToAgenda(item,automatic=false){
  const events=agendaRead();
  if(events.some(e=>e.linkedTaskId===item.id))return true;
  // No spoken hour: save an all-day dated entry, never an invented 09:00 appointment.
- const when=new Date(item.due+'T12:00:00');
+ const hasTime=/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(item.time||'');
+ const when=new Date(item.due+'T'+(hasTime?item.time+':00':'12:00:00'));
  if(Number.isNaN(when.getTime()))return false;
- events.push({id:shopId(),title:item.title,kind:'task',allDay:true,linkedTaskId:item.id,when:when.toISOString(),reminderPreset:'default',createdAt:new Date().toISOString()});
+ events.push({id:shopId(),title:item.title,kind:'task',allDay:!hasTime,linkedTaskId:item.id,when:when.toISOString(),reminderPreset:'default',createdAt:new Date().toISOString()});
  const ok=agendaWrite(events);
  if(!ok)return false;
- notify(automatic?learningLabel('Sarcina a fost adăugată automat în Agendă, fără oră stabilită.','Task automatically added to the agenda without a set time.'):learningLabel('Sarcina a fost adăugată în Agendă, fără oră stabilită.','Task added to the agenda without a set time.'));
+ if(!automatic)notify(hasTime?learningLabel('Adăugată în Agendă la ora specificată.','Added to agenda at the specified time.'):learningLabel('Adăugată în Agendă fără oră.','Added to agenda without a time.'));
  return true;
 }
 function tasksVoiceStatus(message){
@@ -2586,12 +2614,10 @@ function tasksVoiceCommand(phrase){
  const add=spoken.match(/^(?:adaug[aă]|creeaz[aă]|noteaz[aă]|trece)\\s+(?:(un\\s+)?(?:obiectiv|sarcin[aă])\\s*)?(.+)$/i);
  if(add){
   let title=add[2].trim();const goal=/obiectiv/i.test(spoken.slice(0,spoken.length-title.length));
-  let due='';
-  const tm=title.match(/\\s+(?:pentru\\s+)?(m[aâ]ine|ast[aă]zi)\\s*$/i);
-  if(tm){const d=new Date();if(/m[aâ]ine/i.test(tm[1]))d.setDate(d.getDate()+1);due=[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');title=title.slice(0,tm.index).trim()}
   const priority=/prioritate (?:mare|ridicata|ridicată)/i.test(title)?'high':'normal';
   title=title.replace(/[, ]*prioritate (?:mare|ridicata|ridicată)/i,'').trim();
-  if(tasksCreate(title,goal,due,priority,true)){tasksSection=goal?'goals':'items';renderTasks()}
+  const parsed=tasksParseSpokenDeadline(title);
+  if(tasksCreate(parsed.title,goal,parsed.due,priority,true,parsed.time)){tasksSection=goal?'goals':'items';renderTasks();if(goal)tasksSuggestGoal(parsed.title)}
   return;
  }
  notify(learningLabel('Spune „Adaugă sarcină...” sau „Bifează...”.','Say “Add task...” or “Complete...”.'));
@@ -2611,6 +2637,7 @@ function tasksConfirmDelete(item){
  if(tasksDelete(item.id))renderTasks();
 }
 function renderTasks(){
+ tasksRepairLegacyVoiceDates();
  $('moduleTitle').textContent=learningLabel('Sarcini și obiective','Tasks and goals');
  const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='tasks');
  const panel=organizePanel(cat),root=$('view-module');
@@ -2661,7 +2688,7 @@ function renderTasks(){
   if(!filtered.length)list.append(el('p','',learningLabel('Nu există încă înregistrări aici.','No entries here yet.')));
   for(const item of filtered){
    const row=el('div','tasks-item'),content=el('div','tasks-item-text');
-   content.append(el('strong','',item.title),el('small','',tasksDueLabel(item.due)+' · '+learningLabel('Prioritate','Priority')+': '+item.priority));
+   content.append(el('strong','',item.title),el('small','',tasksDueLabel(item.due)+(item.time?' · '+item.time:'')+' · '+learningLabel('Prioritate','Priority')+': '+item.priority));
    const buttons=el('div','tasks-actions');
    if(archive){
     buttons.append(btn(learningLabel('Restabilește','Restore'),()=>{tasksUpdate(item.id,{done:false,archived:false});renderTasks()}));
