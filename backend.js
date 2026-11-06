@@ -1205,6 +1205,33 @@ export default {
     const url = new URL(request.url);
 
 
+    // Country-only finance context. GPS coordinates are never stored or returned.
+    // An existing Geoapify API key resolves the country; network region is a fallback.
+    if(url.pathname==="/api/finance-country" && request.method==="GET"){
+      const lat=Number(url.searchParams.get("lat")),lon=Number(url.searchParams.get("lon"));
+      const valid=url.searchParams.has("lat")&&url.searchParams.has("lon")&&
+        Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180;
+      let country="",method="unknown";
+      if(valid&&env.GEOAPIFY_API_KEY){
+        try{
+          const reverse=new URL("https://api.geoapify.com/v1/geocode/reverse");
+          reverse.searchParams.set("lat",String(lat));reverse.searchParams.set("lon",String(lon));
+          reverse.searchParams.set("format","json");reverse.searchParams.set("apiKey",env.GEOAPIFY_API_KEY);
+          const res=await fetch(reverse.toString(),{signal:AbortSignal.timeout(4000)});
+          if(res.ok){
+            const data=await res.json();
+            country=String(data.results?.[0]?.country_code||data.features?.[0]?.properties?.country_code||"").toUpperCase();
+            if(/^[A-Z]{2}$/.test(country))method="gps_country";
+          }
+        }catch(_e){}
+      }
+      if(!/^[A-Z]{2}$/.test(country)){
+        country=String(request.cf?.country||"").toUpperCase();
+        method=/^[A-Z]{2}$/.test(country)?"network_country":"unknown";
+      }
+      return json({country:/^[A-Z]{2}$/.test(country)?country:null,method});
+    }
+
     // Read the selected publisher page on demand. Never call a headline-only excerpt a full article.
     if(url.pathname==="/api/news-article-detail" && request.method==="POST"){
       if(Number(request.headers.get("content-length")||0)>4096)return json({status:"invalid_request",error:"Request too large"},413);
