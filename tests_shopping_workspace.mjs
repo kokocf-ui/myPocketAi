@@ -490,7 +490,7 @@ assert.equal(dailyResults.filter(e=>e.title==='Consult medical').length,1);
 
 
 /* Budget V1: local money arithmetic, FX provenance and shared voice-first layout. */
-assert.match(inline,/if\(key==='budget'\)\{renderBudget\(\);return\}/,'budget category has its own screen');
+assert.match(inline,/if\(key==='budget'\)\{budgetGeoAsked=false;budgetScreen='home';renderBudget\(\);return\}/,'budget category has its own screen');
 assert.match(inline,/budget:[\s\S]*?Convertește 100 de lire în lei/,'budget info includes commands');
 assert.match(inline,/if\(budgetVoiceHandleAndroid\(data\)\)return/,'budget Android dictation is integrated');
 assert.match(inline,/function budgetMonthly\(/,'financial month totals');
