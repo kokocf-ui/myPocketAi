@@ -555,11 +555,11 @@ assert.equal(reportResult.expenses.length,2,'no income or previous-month transac
 
 /* Voice expense descriptions, explicit editing and safe frontend refresh. */
 assert.match(inline,/function budgetVoiceExpenseTitle\(raw\)/,'budget voice title extraction has a shared helper');
-assert.match(inline,/const title=budgetVoiceExpenseTitle\(raw\)/,'budget dictation uses the shared extractor');
+assert.match(inline,/let title=budgetVoiceExpenseTitle\(raw\)/,'budget dictation uses the shared extractor');
 assert.match(inline,/function budgetRenameEntry\(id\)/,'saved transactions can be renamed');
 assert.match(inline,/pocketEdit\(learningLabel\('Modifică descrierea'/,'saved title uses styled editing modal');
 assert.match(inline,/budget-report-editable/,'detailed expense rows offer editing');
-assert.match(inline,/budgetButton\('',\(\)=>budgetRenameEntry\(item\.id\),'budget-transaction'\)/,'recent transactions can be edited');
+assert.match(inline,/item\.status==='planned'\?budgetPayPlanned\(item\):budgetRenameEntry\(item\.id\)/,'planned payments are confirmed and completed entries remain editable');
 assert.match(inline,/if\(leavingShopping\)checkUiUpdateAfterModuleExit\(\)/,'version check follows safe module navigation');
 assert.match(inline,/function pocketUiUpdateSafe\(\)/,'refresh requires idle state');
 assert.match(inline,/setInterval\(\(\)=>\{if\(document\.visibilityState==='visible'&&pocketUiUpdateSafe\(\)\)checkUiUpdateAfterModuleExit\(\)\},60000\)/,'idle app checks for UI updates');
@@ -574,5 +574,7 @@ assert.equal(describe('Am cheltuit 25 de zile pe combustibil'),'combustibil','or
 assert.equal(describe('Am cheltuit 45 de lire la Aldi'),'Aldi');
 assert.equal(describe('Am plătit 550 de lire pe chirie'),'chirie');
 assert.equal(describe('Am cheltuit 30 de euro pentru transport'),'transport');
+assert.equal(describe('Pe 18 noiembrie plătesc 70 de lire pentru internet'),'internet');
+assert.equal(describe('În fiecare lună pe 6 plătesc chiria de 550 de lire'),'chiria');
 
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
