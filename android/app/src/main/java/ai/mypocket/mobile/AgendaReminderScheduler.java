@@ -50,7 +50,7 @@ public final class AgendaReminderScheduler {
         String configured=e.optString("reminderPreset","").trim().toLowerCase(Locale.ROOT);
         switch(configured){
             case "flight":case "train":case "medical":case "exam":case "bill":
-            case "hotel":case "meeting":case "default":return configured;
+            case "hotel":case "meeting":case "default":case "reminder":return configured;
         }
         String text=e.optString("title","").toLowerCase(Locale.ROOT);
         if(text.matches("(?s).*(\\bflight\\b|\\bairport\\b|\\bzbor\\b|\\baeroport\\b|\\bavion\\b).*"))return "flight";
@@ -67,6 +67,7 @@ public final class AgendaReminderScheduler {
         switch(preset){
             case "flight":return new long[]{1440,300,180};
             case "train":return new long[]{60};
+            case "reminder":return new long[]{0};
             case "exam":return new long[]{10080,1440,120};
             case "bill":return new long[]{10080,1440};
             case "hotel":return new long[]{1440,120};
