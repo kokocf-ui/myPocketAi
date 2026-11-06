@@ -4095,7 +4095,8 @@ async function documentsPhotoScan(blob,id){
   const base64=dataUrl.slice(dataUrl.indexOf(',')+1);
   if(base64.length<32||base64.length>6_000_000)throw new Error('size');
   if(documentsSelectedId!==id)return;
-  bridge.postMessage(JSON.stringify({action:'scan',id,base64}));
+  const type=documentsRead().find(doc=>doc.id===id)?.type||'other';
+  bridge.postMessage(JSON.stringify({action:'scan',id,base64,type}));
  }catch{
   documentsScanWorking=false;
   if(documentsSelectedId===id)renderDocuments();
@@ -4292,6 +4293,20 @@ function documentsScanExtract(raw,geometry=[]){
  const clean=value=>String(value).toUpperCase().replace(/[«‹〈]/g,'<')
   .replace(/\\s/g,'').replace(/[^A-Z0-9<]/g,'');
  const mrz=rawLines.map(clean);
+ // ML Kit may split a 44-character MRZ line into several OCR lines.
+ // Reconstruct only adjacent fragments, then require ICAO check digits.
+ const td3Candidates=[];
+ for(let i=0;i<mrz.length;i++){
+  if(!mrz[i].startsWith('P<'))continue;
+  for(let upperParts=1;upperParts<=3;upperParts++){
+   const a=mrz.slice(i,i+upperParts).join('');
+   if(a.length!==44)continue;
+   for(let lowerParts=1;lowerParts<=3;lowerParts++){
+    const b=mrz.slice(i+upperParts,i+upperParts+lowerParts).join('');
+    if(b.length===44)td3Candidates.push([a,b]);
+   }
+  }
+ }
  const weights=[7,3,1];
  const digit=value=>{
   let sum=0;
@@ -4302,9 +4317,8 @@ function documentsScanExtract(raw,geometry=[]){
   }
   return String(sum%10);
  };
- for(let j=0;j<mrz.length-1;j++){
-  const a=mrz[j],b=mrz[j+1];
-  if(a.length!==44||b.length!==44||!a.startsWith('P<'))continue;
+ for(const [a,b] of td3Candidates){
+  if(!a.startsWith('P<'))continue;
   if(digit(b.slice(0,9))!==b[9]||digit(b.slice(21,27))!==b[27])continue;
   const passportNo=b.slice(0,9).replace(/<+$/,'');
   if(passportNo)fields.number=passportNo;
