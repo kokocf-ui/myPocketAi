@@ -200,6 +200,28 @@ assert.ok(embedded.includes("step.fullAfter).join(' ')"),'voice reads the lesson
 assert.ok(embedded.includes("item.detailed=steps"),'supported arithmetic uses the local step renderer');
 assert.ok(embedded.includes("item.detailed.steps.length"),'multiple numbered steps are displayed');
 
+// The Method button is not a second solution: it teaches reusable rules.
+// Use the same verified arithmetic corpus as the Solve button.
+const method=vm.runInNewContext(embedded.slice(equalityStart,equalityEnd)+
+ String.fromCharCode(10)+'mathMethodGuide',
+ {state:{language:'ro'},learningLabel:(ro,en)=>ro,Intl});
+const guide=method('3 * (2 * -1) + 5 = 20');
+assert.ok(guide,'the sample gets a local, reusable teaching guide');
+assert.match(guide.heading,/Cum abordăm/i);
+assert.match(guide.intro,/regula generală/,'method tells the student what it teaches');
+assert.ok(guide.rules.length>=5,'cover precedence, parentheses, signs, checking');
+assert.ok(guide.rules.some(r=>/Regula semnelor/.test(r.title)),'negative multiplication rule');
+assert.ok(guide.rules.some(r=>/Verificarea/.test(r.title)),'general equality-checking advice');
+assert.ok(guide.rules.every(r=>!r.text.includes('Stânga = −1')),'do not repeat the solved equation');
+assert.ok(guide.rules.every(r=>!r.text.includes('egalitatea este falsă')),'no repeated specific verdict');
+assert.equal(method('x+1=2'),null,'symbolic exercises use the method-specific AI prompt');
+assert.equal(method('2/0=3'),null,'invalid arithmetic is not treated as valid');
+assert.ok(embedded.includes("session.mode!=='explain'"),'method mode hides the exact verdict banner');
+assert.ok(embedded.includes('item.methodGuide'),'method has its own visible renderer');
+assert.ok(embedded.includes("mode==='explain'?learningLabel('Matematică · Metodă'"),'method dialog has a distinct title');
+assert.ok(embedded.includes('Predă numai METODA GENERALĂ'),'fallback AI prompt requests general teaching');
+assert.ok(embedded.includes("mode==='explain'?mathMethodGuide(text)"),'simple-method results are built locally');
+
 const native=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(native,/"math"\.equals\(speechMode\)\)return;/,'math speech bypasses short endpoint');
 assert.match(native,/mathDictation\?4800L:2200L/,'math uses longer silence hints');
