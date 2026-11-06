@@ -38,4 +38,29 @@ assert.match(app,/mode:'reminders'/,'reminders use Android speech bridge');
 assert.match(app,/if\(key==='reminders'\)\{renderReminders\(\);return\}/,'organizer navigates directly to reminders');
 assert.match(app,/reminderPreset:'reminder'/,'new reminders use their own scheduled time');
 assert.match(alarms,/case "reminder":return new long\[\]\{0\}/,'reminder notification is scheduled at event time');
+
+import vm from 'node:vm';
+const start=app.indexOf('function remindersDeleteCandidates(');
+const end=app.indexOf('function remindersVoiceHandleAndroid(',start);
+assert.ok(start>=0&&end>start,'reminder deletion helper is isolated');
+const ctx=vm.createContext({shopVoiceFold:value=>String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()});
+vm.runInContext(app.slice(start,end),ctx);
+const get=(command,items)=>vm.runInContext('remindersDeleteCandidates('+JSON.stringify(command)+','+JSON.stringify(items)+')',ctx);
+const records=[
+ {id:'1',kind:'reminder',title:'să sun la service',createdAt:'2026-11-06T08:00:00Z'},
+ {id:'2',kind:'reminder',title:'cumpără cartofi',createdAt:'2026-11-06T08:05:00Z'},
+ {id:'3',kind:'reminder',title:'să sun la dentist',createdAt:'2026-11-06T08:10:00Z'}
+];
+for(const command of ['Șterge mementoul să sun la service','șterge să sun la service','Elimină memento service','anulează memento de la service']){
+ const items=get(command,records);
+ assert.equal(items.length,1,command);
+ assert.equal(items[0].id,'1',command);
+}
+assert.equal(get('șterge memento',[records[0]])[0].id,'1','a single reminder can be deleted by short command');
+assert.equal(get('șterge memento',records).length,0,'ambiguous generic deletion is never automatic');
+assert.equal(get('șterge să sun',records).length,0,'similar reminder titles remain ambiguous');
+assert.equal(get('șterge ultimul memento',records)[0].id,'3','last reminder is selected by creation time');
+assert.equal(get('amintește-mi mâine să sun la dentist',records),null,'create intent is not mistaken for delete');
+assert.equal(get('șterge lista de cumpărături',records).length,0,'unrelated objects are not selected');
+
 console.log('PASS agenda: native bridge, reminders, reboot restoration and permissions');
