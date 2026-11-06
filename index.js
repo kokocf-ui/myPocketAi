@@ -1737,6 +1737,40 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
  font-size:clamp(.85rem,3.1vw,1rem)!important;
  border-radius:clamp(.65rem,2vw,.9rem)!important;
 }
+
+/* General-purpose in-place confirmation: readable prompt and two equal touch targets. */
+#view-module.adaptive-workspace-view .agenda-delete-confirm{
+ display:flex;flex-direction:column;gap:clamp(.45rem,1dvh,.75rem);
+ width:100%;min-width:0;padding:clamp(.6rem,2vw,1rem);
+ border:1px solid #42647d;border-radius:clamp(.6rem,2.5vw,.95rem);
+ box-sizing:border-box;background:#102c3e;
+}
+#view-module.adaptive-workspace-view .agenda-delete-question{
+ margin:0!important;line-height:1.35;font-size:clamp(.85rem,3vw,1.05rem);
+ overflow-wrap:anywhere;
+}
+#view-module.adaptive-workspace-view .agenda-delete-choices{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:clamp(.35rem,1.3vw,.7rem);width:100%;min-width:0;
+}
+#view-module.adaptive-workspace-view .agenda-delete-choices button{
+ width:100%!important;min-width:0!important;
+ min-height:clamp(2.35rem,5.5dvh,3rem)!important;
+ margin:0!important;padding:.35rem .4rem!important;
+ border-radius:clamp(.55rem,2vw,.9rem)!important;
+ font-size:clamp(.76rem,2.85vw,1rem)!important;
+ line-height:1.2!important;white-space:normal!important;
+ overflow-wrap:anywhere;box-sizing:border-box;
+}
+#view-module.organize-active>.module-heading-row .pocket-voice-info{
+ display:inline-grid!important;place-items:center!important;
+ width:clamp(1.55rem,5.1vw,2rem)!important;height:clamp(1.55rem,5.1vw,2rem)!important;
+ min-width:0!important;min-height:0!important;padding:0!important;
+ border:1px solid #91cfe0!important;border-radius:50%!important;
+ background:transparent!important;background-image:none!important;
+ color:#a5ecff!important;box-shadow:none!important;
+ line-height:1!important;font-weight:normal!important;
+}
 </style>
 <style id="shopping-single-screen">
 /* Shopping-only navigation: Home remains in the shared header; Back and Active List
@@ -2434,6 +2468,11 @@ function agendaReminderLabels(){
   ['hotel',learningLabel('🏨 Hotel / cazare','🏨 Hotel / stay')],
   ['meeting',learningLabel('💼 Întâlnire','💼 Meeting')]];
 }
+function agendaDeleteEvent(id){
+ const all=agendaRead();
+ if(!id||!all.some(e=>e.id===id))return false;
+ return agendaWrite(all.filter(e=>e.id!==id));
+}
 function agendaWrite(events){
  try{localStorage.setItem(POCKET_AGENDA_KEY,JSON.stringify(events));agendaSyncAndroid(events);return true}
  catch{notify(learningLabel('Agenda nu a putut fi salvată.','Could not save the agenda.'));return false}
@@ -2522,7 +2561,7 @@ function agendaVoiceCommand(text){
  if(/^(?:șterge|sterge|anulează|anuleaza)\\s+/iu.test(spoken)){
   const term=shopVoiceFold(spoken.replace(/^(?:șterge|sterge|anulează|anuleaza)\\s+(?:programarea\\s+)?/iu,''));
   const candidates=agendaRead().filter(item=>shopVoiceFold(item.title).includes(term)&&term.length>=3);
-  if(candidates.length===1){agendaPendingDelete=candidates[0].id;renderAgenda();return}
+  if(candidates.length===1){agendaSelectedId=candidates[0].id;agendaEditing=false;agendaPendingDelete=candidates[0].id;renderAgenda();return}
   notify(learningLabel('Nu am găsit o programare unică.','Could not identify one appointment.'));return
  }
  const birthday=agendaBirthdaySpoken(spoken);
@@ -2644,7 +2683,7 @@ function renderAgenda(){
  const button=(label,onClick,cls='secondary-btn')=>{const e=element('button',cls,label);e.type='button';e.onclick=onClick;return e};
  const field=(name,control)=>{const wrapper=element('label','agenda-field');wrapper.append(element('span','',name),control);return wrapper};
  const input=(type,value,required=false)=>{const e=document.createElement('input');e.type=type;if(value!==undefined&&value!==null)e.value=String(value);e.required=required;return e};
- const close=()=>{agendaSelectedId=null;agendaEditing=false;agendaPendingDelete=null;renderAgenda()};
+ const close=()=>{agendaSelectedId=null;agendaEditing=false;agendaPendingDelete=null;agendaVoiceMatches=null;renderAgenda()};
  const selected=all.find(x=>x.id===agendaSelectedId);
  if(selected){
   const detail=element('section','agenda-detail');
@@ -2715,13 +2754,21 @@ function renderAgenda(){
    detail.append(form);
   }
   if(agendaPendingDelete===selected.id){
-   const confirm=element('div','agenda-confirm');
-   confirm.append(element('span','',learningLabel('Ștergi definitiv această înregistrare?','Delete this event permanently?')));
-   confirm.append(button(learningLabel('Confirmă ștergerea','Confirm deletion'),()=>{
-    if(agendaWrite(agendaRead().filter(x=>x.id!==selected.id)))close();
-   },'primary-btn'));
-   confirm.append(button(learningLabel('Renunță','Cancel'),()=>{agendaPendingDelete=null;renderAgenda()}));
-   detail.append(confirm);
+   const confirm=element('section','agenda-delete-confirm');
+   confirm.setAttribute('role','group');
+   confirm.setAttribute('aria-label',learningLabel('Confirmarea ștergerii','Confirm deletion'));
+   confirm.append(element('p','agenda-delete-question',learningLabel('Ștergi definitiv programarea „','Permanently delete “')+selected.title+'”?'));
+   const choices=element('div','agenda-delete-choices');
+   const yes=button(learningLabel('Șterge definitiv','Delete permanently'),()=>{
+    if(agendaDeleteEvent(selected.id)){
+     agendaSelectedId=null;agendaEditing=false;agendaPendingDelete=null;agendaVoiceMatches=null;
+     renderAgenda();notify(learningLabel('Programarea a fost ștearsă.','Appointment deleted.'));
+    }else notify(learningLabel('Nu am putut șterge programarea.','Could not delete appointment.'));
+   },'primary-btn');
+   yes.classList.add('agenda-delete-yes');
+   const no=button(learningLabel('Renunță','Cancel'),()=>{agendaPendingDelete=null;renderAgenda()});
+   no.classList.add('agenda-delete-no');
+   choices.append(yes,no);confirm.append(choices);detail.append(confirm);
   }
   scroll.append(detail);return;
  }
