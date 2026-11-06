@@ -409,6 +409,13 @@ public final class MainActivity extends ComponentActivity {
                     });
                 });
         }
+        // Capability marker for new native mathematics OCR. Older installed APKs do
+        // not expose this bridge; the web frontend then uses legacy camera/gallery.
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidMathOCR",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{ /* feature detection only */ });
+        }
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
             WebViewCompat.addWebMessageListener(web,"PocketAndroidDocumentScan",
                 Collections.singleton("https://"+APP_HOST),

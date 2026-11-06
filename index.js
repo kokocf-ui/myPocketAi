@@ -6221,8 +6221,9 @@ function openLearningSubject(key){
  const pick=document.createElement('button');pick.type='button';pick.className='secondary-btn';pick.textContent=learningLabel('🖼️ Alege fotografie','🖼️ Choose photo');
  const cameraInput=document.createElement('input');cameraInput.type='file';cameraInput.accept='image/*';cameraInput.setAttribute('capture','environment');cameraInput.hidden=true;
  const fileInput=document.createElement('input');fileInput.type='file';fileInput.accept='image/*';fileInput.hidden=true;
- photo.onclick=()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage(key==='math'?'camera:math':'camera'):cameraInput.click();
- pick.onclick=()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage(key==='math'?'gallery:math':'gallery'):fileInput.click();
+ const nativeMathOcrSupported=()=>Boolean(window.PocketAndroidMathOCR?.postMessage);
+ photo.onclick=()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage(key==='math'&&nativeMathOcrSupported()?'camera:math':'camera'):cameraInput.click();
+ pick.onclick=()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage(key==='math'&&nativeMathOcrSupported()?'gallery:math':'gallery'):fileInput.click();
  cameraInput.onchange=()=>handleLearningPhoto(cameraInput.files?.[0]);
  fileInput.onchange=()=>handleLearningPhoto(fileInput.files?.[0]);
  actions.append(photo,pick,cameraInput,fileInput);host.append(actions);
