@@ -4134,20 +4134,20 @@ function documentsPhotoGallery(id,host){
 
 /* Only user-approved OCR data is stored. No document image or text leaves the device. */
 function documentsScanExtract(raw){
- const lines=String(raw||'').slice(0,16000).split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+ const lines=String(raw||'').slice(0,16000).split(/\\r?\\n/).map(x=>x.trim()).filter(Boolean);
  const fields={},patterns={
-  number:/^(?:document (?:no\.?|number)|passport (?:no\.?|number)|serie(?: si numar)?|num[aă]r(?:ul)?(?: documentului)?|licen[cs]e (?:no\.?|number)|driving licence number|registration (?:no\.?|number))\s*[:#-]?\s*(.+)$/i,
-  holder:/^(?:surname(?:s)?|family name|nume(?: de familie)?|last name|titular|holder)\s*[:#-]?\s*(.+)$/i,
-  given:/^(?:given names?|first names?|prenume)\s*[:#-]?\s*(.+)$/i,
-  country:/^(?:issuing country|country of issue|[țt]ara emitent[aă]|nationality|na[țt]ionalitate)\s*[:#-]?\s*(.+)$/i,
-  issuer:/^(?:issuing authority|authority|autoritatea emitent[aă]|issued by|issuer)\s*[:#-]?\s*(.+)$/i,
-  issued:/^(?:date of issue|issue date|data emiterii|issued on|valid from|emis la)\s*[:#-]?\s*(.+)$/i,
-  expires:/^(?:date of expiry|expiry date|expiration date|expires(?: on)?|data expir[aă]rii|valabil p[aâ]n[aă] la|valid until|valid to|expir[aă] la)\s*[:#-]?\s*(.+)$/i,
-  birth:/^(?:date of birth|birth date|data na[șs]terii|born on)\s*[:#-]?\s*(.+)$/i
+  number:/^(?:document (?:no\\.?|number)|passport (?:no\\.?|number)|serie(?: si numar)?|num[aă]r(?:ul)?(?: documentului)?|licen[cs]e (?:no\\.?|number)|driving licence number|registration (?:no\\.?|number))\\s*[:#-]?\\s*(.+)$/i,
+  holder:/^(?:surname(?:s)?|family name|nume(?: de familie)?|last name|titular|holder)\\s*[:#-]?\\s*(.+)$/i,
+  given:/^(?:given names?|first names?|prenume)\\s*[:#-]?\\s*(.+)$/i,
+  country:/^(?:issuing country|country of issue|[țt]ara emitent[aă]|nationality|na[țt]ionalitate)\\s*[:#-]?\\s*(.+)$/i,
+  issuer:/^(?:issuing authority|authority|autoritatea emitent[aă]|issued by|issuer)\\s*[:#-]?\\s*(.+)$/i,
+  issued:/^(?:date of issue|issue date|data emiterii|issued on|valid from|emis la)\\s*[:#-]?\\s*(.+)$/i,
+  expires:/^(?:date of expiry|expiry date|expiration date|expires(?: on)?|data expir[aă]rii|valabil p[aâ]n[aă] la|valid until|valid to|expir[aă] la)\\s*[:#-]?\\s*(.+)$/i,
+  birth:/^(?:date of birth|birth date|data na[șs]terii|born on)\\s*[:#-]?\\s*(.+)$/i
  };
  const parseDate=(v)=>{
-  const m=String(v).match(/\b(\d{4})[-./](\d{1,2})[-./](\d{1,2})\b/) ||
-    String(v).match(/\b(\d{1,2})[./-](\d{1,2})[./-](\d{4})\b/);
+  const m=String(v).match(/\\b(\\d{4})[-./](\\d{1,2})[-./](\\d{1,2})\\b/) ||
+    String(v).match(/\\b(\\d{1,2})[./-](\\d{1,2})[./-](\\d{4})\\b/);
   if(!m)return '';
   const iso=m[1].length===4?[m[1],m[2],m[3]]:[m[3],m[2],m[1]];
   const value=iso[0]+'-'+iso[1].padStart(2,'0')+'-'+iso[2].padStart(2,'0');
