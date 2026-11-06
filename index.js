@@ -1534,6 +1534,26 @@ body.long-choice-active{overflow:hidden}
 .education-photo-panel{display:flex;flex-direction:column;gap:10px;background:#0b2131;border:1px solid #3fabc2;border-radius:14px;padding:12px;margin-bottom:12px}
 .education-photo-panel img{display:block;max-width:100%;max-height:220px;object-fit:contain}
 .education-photo-panel textarea{width:100%;min-height:90px;padding:10px;border-radius:8px;background:#081725;color:#f2faff;border:1px solid #548199}
+.education-math-workspace{
+ display:flex;flex-direction:column;gap:clamp(6px,1dvh,10px);
+ background:linear-gradient(145deg,#12364d,#081d2e);
+ border:1.5px solid #438ca8;border-radius:18px;
+ padding:clamp(10px,3vw,16px);margin:clamp(5px,1dvh,10px) 0 12px;
+}
+.education-math-workspace label{font-weight:750;color:#e4faff}
+.education-math-workspace textarea{
+ box-sizing:border-box;width:100%;min-height:86px;max-height:30dvh;
+ resize:vertical;padding:12px;border-radius:12px;
+ border:1px solid #6bb7c9;background:#061929;color:#f3fbff;
+ font:inherit;font-size:clamp(16px,3.6vw,19px);line-height:1.35;
+}
+.education-math-workspace small{color:#b9ddea;line-height:1.35;min-height:1.1em}
+.education-math-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.education-math-actions button{min-width:0;min-height:45px;font-size:clamp(13px,3.25vw,17px);line-height:1.2}
+.education-math-actions button:first-child{grid-column:1/-1}
+.education-chat-return{display:block;width:100%;min-height:40px;flex:0 0 auto;margin:0!important;padding:8px 12px!important;font-size:clamp(12px,3.2vw,15px)!important;text-align:left}
+.education-chat-return[hidden]{display:none!important}
+
 @media(max-width:350px){.education-grid{gap:8px}.education-card{padding:10px;min-height:158px}}
 </style>
 
@@ -2560,7 +2580,7 @@ function dismissNotice(){clearTimeout(state.noticeTimer);$('notice').classList.r
 function notify(message){const el=$('notice');dismissNotice();el.textContent=message;el.classList.add('show');state.noticeTimer=setTimeout(dismissNotice,1800)}
 inputEl.addEventListener('focus',dismissNotice);
 function setStatus(message){chatStatus.textContent=message}
-function showView(name){closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);if(shoppingVoiceSession?.active&&name!=='module')shopVoiceStop();const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}const exitedModule=state.currentView==='module'&&name!=='module';state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));if(exitedModule)checkUiUpdateAfterModuleExit();document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
+function showView(name){if(name!=='module')document.getElementById('mathEducationReturn')?.remove();closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);if(shoppingVoiceSession?.active&&name!=='module')shopVoiceStop();const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}const exitedModule=state.currentView==='module'&&name!=='module';state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));if(exitedModule)checkUiUpdateAfterModuleExit();document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
 // Change the shared chat host without archiving, clearing GPS or starting a new conversation.
 function switchConversationModule(key){
  if(!['assistant','maps','travel'].includes(key))return;
@@ -6274,6 +6294,7 @@ const LEARNING_SUBJECTS=[
 let activeLearningSubject=null;
 function learningLabel(ro,en){return state.language==='ro'?ro:en}
 function renderLearningSubjects(){
+ document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
  activeLearningSubject=null;root.classList.add('learning-choose');root.classList.remove('learning-active');
@@ -6313,20 +6334,40 @@ function openLearningSubject(key){
  cameraInput.onchange=()=>handleLearningPhoto(cameraInput.files?.[0]);
  fileInput.onchange=()=>handleLearningPhoto(fileInput.files?.[0]);
  actions.append(photo,pick,cameraInput,fileInput);host.append(actions);
- // Education only: contextual mathematics guidance, never modify the landing grid or other modules.
+ // Matematică stays inside this subject. Photo, gallery and typed questions all
+ // use one editable field and one action. No extra selector or confirmation.
  if(key==='math'){
-  const mathActions=document.createElement('div');mathActions.className='education-photo-actions education-math-actions';
+  const workspace=document.createElement('div');workspace.id='mathEducationWorkspace';
+  workspace.className='education-math-workspace';
+  const label=document.createElement('label');label.htmlFor='mathEducationText';
+  label.textContent=learningLabel('Exercițiul','Exercise');
+  const editor=document.createElement('textarea');editor.id='mathEducationText';
+  editor.rows=3;editor.maxLength=3500;
+  editor.placeholder=learningLabel('Scrie exercițiul sau fotografiază-l…','Type the exercise or photograph it…');
+  editor.setAttribute('aria-label',label.textContent);
+  const status=document.createElement('small');status.id='mathEducationStatus';status.setAttribute('role','status');
+  status.textContent=learningLabel('Poți scrie, fotografia sau alege o imagine.','You can type, photograph or choose an image.');
+  editor.addEventListener('input',()=>{status.textContent='';});
+  workspace.append(label,editor,status);
+  const choices=document.createElement('div');choices.className='education-math-actions';
   [
-   [learningLabel('🧩 Rezolvă pas cu pas','🧩 Solve step by step'),learningLabel('Ajută-mă să rezolv pas cu pas următorul exercițiu de matematică. Arată datele, fiecare transformare, verificarea și rezultatul. Dacă lipsesc date, întreabă înainte de a presupune: ','Help me solve this mathematics exercise step by step. Show the givens, each transformation, verification and answer. Ask before assuming missing values: ')],
-   [learningLabel('📈 Reprezintă grafic','📈 Plot a graph'),learningLabel('Analizează funcția matematică de mai jos. Stabilește domeniul, intersecțiile, punctele importante și un tabel de valori verificat; prezintă un grafic corect dacă reprezentarea grafică este disponibilă, altfel explică precis cum se trasează, fără a inventa imaginea: ','Analyze this mathematical function. Determine domain, intercepts, key points and a verified value table; show an accurate plot if graph rendering is available, otherwise explain exactly how to plot it without inventing an image: ')],
-   [learningLabel('🎓 Explică metoda','🎓 Explain the method'),learningLabel('Explică metoda matematică necesară, cu un exemplu simplu și o întrebare de verificare a înțelegerii, fără să inventezi enunțul: ','Explain the necessary mathematical method with a simple example and one comprehension check, without inventing an exercise: ')]
-  ].forEach(([label,prompt])=>{
-   const action=document.createElement('button');action.type='button';action.className='secondary-btn';action.textContent=label;
-   action.onclick=()=>{inputEl.value=prompt;inputEl.focus();};
-   mathActions.append(action);
+   ['solve',learningLabel('🧩 Rezolvă pas cu pas','🧩 Solve step by step')],
+   ['graph',learningLabel('📈 Reprezintă grafic','📈 Draw graph')],
+   ['explain',learningLabel('🎓 Explică metoda','🎓 Explain method')]
+  ].forEach(([mode,title])=>{
+   const button=document.createElement('button');button.type='button';button.className=mode==='solve'?'primary-btn':'secondary-btn';
+   button.textContent=title;button.onclick=()=>mathEducationRun(mode);
+   choices.append(button);
   });
-  host.append(mathActions);
+  workspace.append(choices);host.append(workspace);
+  document.getElementById('mathEducationReturn')?.remove();
+  const returnButton=document.createElement('button');returnButton.type='button';
+  returnButton.id='mathEducationReturn';returnButton.className='secondary-btn education-chat-return';
+  returnButton.hidden=true;returnButton.textContent=learningLabel('← Înapoi la exercițiu','← Back to exercise');
+  returnButton.onclick=()=>workspace.scrollIntoView({behavior:'smooth',block:'start'});
+  $('sharedChatShell').querySelector('.chat-top')?.after(returnButton);
  }
+
  inputEl.placeholder=learningLabel('Întreabă despre '+subject[2].toLowerCase()+'…','Ask about '+subject[3].toLowerCase()+'…');
 }
 // Educational mathematics: reject obvious OCR fragments, not legitimate hand-entered work.
@@ -6344,9 +6385,45 @@ function educationMathOcrIncomplete(value){
  if(raw.includes('=')&&raw.split('=').some(x=>!x))return true;
  return false;
 }
+function mathEducationRun(mode){
+ if(state.currentView!=='module'||activeLearningSubject?.[0]!=='math'||state.busy)return;
+ const editor=$('mathEducationText'),status=$('mathEducationStatus');
+ const exercise=editor?.value?.trim()||'';
+ if(!exercise){status.textContent=learningLabel('Scrie sau fotografiază exercițiul.','Type or photograph the exercise.');editor?.focus();return}
+ if(educationMathOcrIncomplete(exercise)){
+  status.textContent=learningLabel('Formula pare incompletă. Corectează simbolurile lipsă.','The formula appears incomplete. Correct the missing symbols.');
+  editor?.focus();return;
+ }
+ const instructions={
+  solve:learningLabel('Ești profesor de matematică. Rezolvă DIRECT exercițiul pas cu pas, cu calcule, explicații scurte și verificarea rezultatului. Nu cere confirmare când enunțul este clar.','You are a math teacher. Solve the exercise DIRECTLY step by step, with calculations, short explanations and verification. Do not ask for confirmation when the task is clear.'),
+  graph:learningLabel('Ești profesor de matematică. Analizează funcția, calculează punctele esențiale și tabelul de valori. Prezintă graficul dacă poate fi redat corect, altfel descrie trasarea precisă. Fără întrebări suplimentare dacă formula este clară.','You are a math teacher. Analyze the function, calculate essential points and values. Render a graph if available; otherwise explain how to draw it accurately. Do not ask extra questions when the function is clear.'),
+  explain:learningLabel('Ești profesor de matematică. Explică direct metoda necesară pentru acest exercițiu, cu pași simpli și un exemplu. Nu cere confirmări inutile.','You are a math teacher. Explain the method required for the exercise directly, with simple steps and one example. Do not request unnecessary confirmations.')
+ };
+ inputEl.value=instructions[mode]+'\n'+exercise;
+ status.textContent=learningLabel('Rezolvarea apare mai jos, în Matematică.','The answer appears below, in Mathematics.');
+ const returnButton=$('mathEducationReturn');
+ if(returnButton)returnButton.hidden=false;
+ void submitMessage();
+ requestAnimationFrame(()=>$('moduleChatHost')?.scrollIntoView({behavior:'smooth',block:'start'}));
+}
+// This is the ONLY interaction after photographing a mathematics exercise.
+// Recognition remains uncertain; learners may edit the text before solving.
 window.pocketAndroidOcrResult=function(data){
  if(state.currentModule!=='learning'||!activeLearningSubject||state.currentView!=='module')return;
  if(data?.status==='cancelled')return;
+ if(activeLearningSubject[0]==='math'){
+  const editor=$('mathEducationText'),status=$('mathEducationStatus');
+  if(!editor||!status)return;
+  const text=typeof data?.text==='string'?data.text.trim().slice(0,3500):'';
+  editor.value=text;
+  status.textContent=!text?
+   learningLabel('Nu am putut citi exercițiul. Repetă fotografia sau scrie aici.','Could not read the exercise. Retake the photo or type here.'):
+   data?.status==='partial'?
+   learningLabel('Citire incompletă: verifică simbolurile și corectează direct aici.','Incomplete reading: check the symbols and correct them here.'):
+   learningLabel('Text citit din fotografie. Verifică formula și apasă Rezolvă.','Text read from photo. Check the formula and tap Solve.');
+  document.getElementById('mathEducationWorkspace')?.scrollIntoView({behavior:'smooth',block:'start'});
+  return;
+ }
  const host=$('moduleContent');host.querySelector('.education-photo-panel')?.remove();
  const panel=document.createElement('div');panel.className='education-photo-panel';
  const status=document.createElement('p');
@@ -6395,6 +6472,19 @@ async function handleLearningPhoto(file){
  if(!file||!activeLearningSubject)return;
  if(!file.type.startsWith('image/')){notify(learningLabel('Selectează o imagine.','Select an image.'));return}
  if(file.size>12*1024*1024){notify(learningLabel('Imaginea este prea mare (max. 12 MB).','Image too large (max. 12 MB).'));return}
+ if(activeLearningSubject[0]==='math'){
+  const status=$('mathEducationStatus');if(status)status.textContent=learningLabel('Se citește imaginea…','Reading image…');
+  let src='';
+  try{
+   if(typeof TextDetector!=='function')throw new Error('unsupported');
+   src=URL.createObjectURL(file);
+   const image=new Image();image.src=src;await image.decode();
+   const detector=new TextDetector(),lines=await detector.detect(image);
+   window.pocketAndroidOcrResult({status:lines?.length?'review':'partial',text:(lines||[]).map(line=>line.rawValue||'').join('\n')});
+  }catch{window.pocketAndroidOcrResult({status:'partial',text:''})}
+  finally{if(src)URL.revokeObjectURL(src)}
+  return;
+ }
  const host=$('moduleContent');
  host.querySelector('.education-photo-panel')?.remove();
  const panel=document.createElement('div');panel.className='education-photo-panel';
@@ -6423,7 +6513,7 @@ async function handleLearningPhoto(file){
   else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
  } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
 }
-function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','tasks-workspace','adaptive-workspace-view');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
+function openModule(key){document.getElementById('mathEducationReturn')?.remove();if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','tasks-workspace','adaptive-workspace-view');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'}],travel:[{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante, pizzerii, shaormerii și fast-food în apropierea mea.',kind:'places',description:'Caută restaurante, pub-uri, pizzerii, shaormerii și fast-food'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places',description:'Caută alte puncte de interes din apropiere'}]};
 function updateQuickLayerGeometry(){
  const header=document.querySelector('.app-header'),nav=document.querySelector('.bottom-nav');
@@ -8363,6 +8453,8 @@ function openAnswerReader(text,origin){
  resize();update();close.focus({preventScroll:true});reader.frame=requestAnimationFrame(tick);
 }
 function prepareAnswerReader(content,bubble,text,autoOpen){
+ // Math teaching answers remain fully readable in the same subject, never a second popup.
+ if(state.currentModule==='learning'&&activeLearningSubject?.[0]==='math'&&state.currentView==='module')return;
  if(!content.isConnected||(!answerExceedsFourLines(content)&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news')))return;
  content.textContent=String(text);content.className+=' answer-preview';
  const button=document.createElement('button');button.type='button';button.className='answer-reader-open';button.textContent=readerLabels().open;button.onclick=()=>openAnswerReader(text,button);bubble.append(button);
