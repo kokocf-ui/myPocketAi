@@ -12,7 +12,7 @@ const end=source.indexOf('function documentsScanReview(host,item){',start);
 assert.ok(start>=0&&end>start,'OCR field parser available');
 const context=vm.createContext({budgetISO:d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')});
 vm.runInContext(source.slice(start,end),context);
-const result=vm.runInContext('documentsScanExtract('+JSON.stringify('PASSPORT NUMBER: AB123456\\nSurname: POPESCU\\nGiven names: ANDREI\\nDate of expiry: 11.06.2034\\nDate of issue: 12.06.2024')+')',context);
+const result=vm.runInContext('documentsScanExtract('+JSON.stringify('PASSPORT NUMBER: AB123456\nSurname: POPESCU\nGiven names: ANDREI\nDate of expiry: 11.06.2034\nDate of issue: 12.06.2024')+')',context);
 assert.equal(result.number,'AB123456');
 assert.equal(result.holder,'POPESCU');
 assert.equal(result.given,'ANDREI');
