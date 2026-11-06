@@ -401,4 +401,35 @@ assert.equal(evalIn('shopValidateQuantity("2,5")'),true);
 assert.equal(evalIn('shopValidateQuantity("0")'),false);
 assert.equal(evalIn('shopValidateQuantity("-1")'),false);
 assert.equal(evalIn('shopValidateQuantity("1.5")'),true);
+
+/* Notes: isolated storage, unified design, speech actions, no unprompted notifications. */
+assert.match(inline,/if\(key==='notes'\)\{renderNotes\(\);return\}/);
+assert.match(inline,/function renderNotes\(\)/);
+assert.match(inline,/organizeVoiceWorkspace\(cat,\{[\s\S]*?mode:'notes'/);
+assert.match(inline,/pocketVoiceHelp\(mode,\$\('moduleTitle'\)\)/);
+assert.match(inline,/notes:\[[\s\S]*?Șterge avatar/);
+assert.match(inline,/if\(notesVoiceHandleAndroid\(data\)\)return/);
+assert.match(inline,/mode:'notes'/);
+assert.match(inline,/POCKET_NOTES_KEY='mypocketai\.notes\.v1'/);
+assert.match(page,/<style id="personal-notes-workspace-style">/);
+const startNotes=inline.indexOf("const POCKET_NOTES_KEY='mypocketai.notes.v1'");
+const endNotes=inline.indexOf('function notesVoiceStop(',startNotes);
+assert.ok(startNotes>=0&&endNotes>startNotes,'isolated notes storage and matching helpers');
+const notesMemory=new Map();
+const notesContext=vm.createContext({Date,JSON,shopId:()=>String(notesMemory.size+1),
+ localStorage:{getItem:key=>notesMemory.get(key)||null,setItem:(key,val)=>notesMemory.set(key,val)},
+ notify:()=>{},learningLabel:(ro,en)=>ro,renderNotes:()=>{},notesSelectedId:null});
+vm.runInContext(inline.slice(startNotes,endNotes),notesContext);
+const notesEval=code=>vm.runInContext(code,notesContext);
+assert.equal(notesEval("notesSave('Să verificăm vocea avatarului')"),true);
+assert.equal(notesEval("notesRead().length"),1);
+assert.equal(notesEval("notesMatch('notița despre avatar').title"),'Să verificăm vocea avatarului');
+assert.equal(notesEval("notesMatch('avatar').id"),notesEval("notesRead()[0].id"));
+assert.equal(notesEval("notesMatch('necunoscut')"),null);
+assert.equal(notesEval("notesSave('Test notiță nouă')"),true);
+assert.equal(notesEval("notesRead().length"),2);
+assert.equal(notesEval("notesRead().some(item=>item.title==='Test notiță nouă')"),true);
+assert.match(inline,/pocketConfirm\(learningLabel\('Ștergi notița/,'note deletion requires a styled confirmation');
+assert.doesNotMatch(inline.slice(startNotes,endNotes),/agendaSyncAndroid\(/,'notes do not directly schedule notifications');
+
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
