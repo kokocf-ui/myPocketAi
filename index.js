@@ -2625,33 +2625,30 @@ function remindersVoiceStart(){
 }
 /* Delete intent tolerates natural short commands and speech-to-text variations.
    Never choose an ambiguous reminder automatically. */
+/* Inside reminders, "Șterge mecanic" is enough: find by meaningful keyword. */
 function remindersDeleteCandidates(spoken,items){
- const fold=value=>shopVoiceFold(value).replace(/[^\p{L}\p{N}]+/gu,' ').replace(/\s+/g,' ').trim();
+ const fold=value=>String(value||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').replace(/\s+/g,' ').trim();
  const phrase=fold(spoken);
- const hit=phrase.match(/^(?:te rog\s+)?(?:sterge|elimina|scoate|anuleaza|delete|remove|cancel)\s*(.*)$/u);
+ const hit=phrase.match(/^(?:(?:te rog|vreau sa)\s+)?(?:sterge|elimina|scoate|anuleaza|delete|remove|cancel)\s*(.*)$/u);
  if(!hit)return null;
  const records=items.filter(e=>e.kind==='reminder');
- const last=records.slice().sort((a,b)=>Date.parse(b.createdAt||b.when)-Date.parse(a.createdAt||a.when));
- let query=hit[1].replace(/^(?:(?:din|de pe|de la)\s+)?(?:lista\s+de\s+)?(?:mementoul|memento ul|memento|mementouri|mementourile|reminderul|reminder|reminders|amintirea|notificarea)\s*/u,'').trim();
+ const last=records.slice().sort((x,y)=>Date.parse(y.createdAt||y.when)-Date.parse(x.createdAt||x.when));
+ let query=hit[1].replace(/^(?:(?:din|de pe|de la)\s+)?(?:lista\s+de\s+)?(?:mementourile|mementoul|memento|reminderul|reminder|reminders|notificarea|amintirea)\b\s*/u,'');
  query=query.replace(/^(?:cu|despre|pentru|care spune|intitulat|numit|de)\s+/u,'').trim();
  if(/^(?:ultimul|ultima|cel mai recent)(?:\s+(?:memento|reminder))?$/u.test(query))return last.length?[last[0]]:[];
- if(!query||/^(?:toate|tot|totul|lista|mementourile)$/.test(query)){
-  // Only interpret "delete reminder" as a deletion when exactly one exists.
-  return records.length===1?[records[0]]:[];
- }
- const tokens=value=>value.split(' ').filter(w=>w.length>1&&!['sa','si','la','de','cu','din','pe','pentru','imi','mi','ma','un','o','ul','aminteste','aminte','memento','reminder'].includes(w));
+ if(!query||/^(?:toate|tot|totul|lista|mementourile)$/.test(query))return records.length===1?[records[0]]:[];
+ const ignore=new Set(['sa','si','la','de','cu','din','pe','pentru','imi','mi','ma','un','o','ul','aminteste','aminte','memento','reminder','trebuie','este','am','intrat','tu']);
+ const aliases={mecanic:'service',mecanicul:'service',mecanica:'service',service:'mecanic',doctor:'medic',medic:'doctor'};
+ const tokens=value=>value.split(' ').filter(w=>w.length>1&&!ignore.has(w));
  const queryWords=tokens(query);
+ if(!queryWords.length)return [];
  const ranked=records.map(item=>{
   const title=fold(item.title),nameWords=tokens(title);
-  let score=title===query?100:title.includes(query)?90:query.includes(title)&&title.length>=5?85:0;
-  if(!score&&queryWords.length){
-   const shared=queryWords.filter(w=>nameWords.some(n=>n===w||(w.length>=4&&n.length>=4&&(n.startsWith(w)||w.startsWith(n))))).length;
-   if(shared)score=Math.round(75*shared/Math.max(queryWords.length,nameWords.length));
-  }
+  const matched=queryWords.filter(w=>nameWords.some(n=>n===w||(w.length>=4&&n.length>=4&&(n.startsWith(w)||w.startsWith(n)))||aliases[w]===n||aliases[n]===w)).length;
+  const score=title===query?100:title.includes(query)?95:query.includes(title)&&title.length>=5?90:matched===queryWords.length?80:Math.round(70*matched/queryWords.length);
   return {item,score};
- }).sort((a,b)=>b.score-a.score);
- if(!ranked.length||ranked[0].score<50)return [];
- // A single clear match; if two similarly strong candidates, ask the user to be specific.
+ }).sort((x,y)=>y.score-x.score);
+ if(!ranked.length||ranked[0].score<70)return [];
  return ranked[1]&&ranked[1].score>=ranked[0].score-12?[]:[ranked[0].item];
 }
 function remindersVoiceHandleAndroid(data){
