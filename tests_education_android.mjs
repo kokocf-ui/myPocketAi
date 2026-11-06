@@ -9,8 +9,8 @@ assert.ok(source,'web application script must be present');
 new vm.Script(source);
 assert.match(source,/const LEARNING_SUBJECTS=/);
 assert.match(source,/renderLearningSubjects\(\)/);
-assert.match(source,/PocketAndroidOCR\.postMessage\(key==='math'\?'camera:math':'camera'\)/);
-assert.match(source,/PocketAndroidOCR\.postMessage\(key==='math'\?'gallery:math':'gallery'\)/);
+assert.match(source,/PocketAndroidOCR\.postMessage\(key==='math'&&nativeMathOcrSupported\(\)\?'camera:math':'camera'\)/);
+assert.match(source,/PocketAndroidOCR\.postMessage\(key==='math'&&nativeMathOcrSupported\(\)\?'gallery:math':'gallery'\)/);
 assert.match(source,/window\.pocketAndroidOcrResult/);
 assert.match(html,/education-grid/);
 assert.match(html,/learning-choose/);
@@ -19,6 +19,7 @@ const main=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainAct
 const gradle=fs.readFileSync('android/app/build.gradle','utf8');
 assert.match(manifest,/android\.permission\.INTERNET/);
 assert.match(main,/TextRecognition\.getClient/);
+assert.match(main,/PocketAndroidMathOCR/,'math OCR capability is exposed only by new APKs');
 assert.match(main,/WebViewCompat\.addWebMessageListener/);
 assert.match(main,/isMainFrame/);
 assert.match(main,/PickVisualMedia/);
