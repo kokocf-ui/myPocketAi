@@ -126,7 +126,7 @@ const equalityStart=embedded.indexOf('function mathArithmeticValue(');
 const equalityEnd=embedded.indexOf('function mathResultPage(',equalityStart);
 assert.ok(equalityStart>0&&equalityEnd>equalityStart,'local arithmetic verifier is present');
 const arithmetic=vm.runInNewContext(embedded.slice(equalityStart,equalityEnd)+
- '\\n({value:mathArithmeticValue,check:mathArithmeticEquality,explain:mathEqualityExplanation})',
+ String.fromCharCode(10)+'({value:mathArithmeticValue,check:mathArithmeticEquality,explain:mathEqualityExplanation})',
  {state:{language:'ro'},learningLabel:(ro,en)=>ro,Intl});
 const verified=arithmetic.check('3 * (2 * -1) + 5 = 20');
 assert.equal(verified.left,-1);
