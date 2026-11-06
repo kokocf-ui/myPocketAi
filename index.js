@@ -2523,7 +2523,7 @@ function tasksDueLabel(value){
 }
 function tasksCreate(title,goal=false,due='',priority='normal',fromVoice=false){
  title=String(title||'').trim();if(!title)return false;
- const data=tasksRead(),item={id:shopId(),title:title.slice(0,140),goal,priority,due,done:false,archived:false,createdAt:new Date().toISOString()};
+ const data=tasksRead(),item={id:shopId(),title:title.slice(0,140),goal,priority,due,source:fromVoice?'voice':'manual',done:false,archived:false,createdAt:new Date().toISOString()};
  data.push(item);
  if(!tasksWrite(data))return false;
  if(fromVoice&&due)tasksToAgenda(item,true);
@@ -2673,7 +2673,7 @@ function renderTasks(){
       if(title===null||!title.trim())return;
       tasksUpdate(item.id,{title:title.trim().slice(0,140)});renderTasks();
     }));
-    if(item.due)buttons.append(btn(learningLabel('În Agendă','To agenda'),()=>tasksToAgenda(item)));
+    if(item.due&&item.source!=='voice')buttons.append(btn(learningLabel('În Agendă','To agenda'),()=>tasksToAgenda(item)));
    }
    buttons.append(btn(learningLabel('Șterge','Delete'),()=>tasksConfirmDelete(item)));
    row.append(content,buttons);list.append(row);
