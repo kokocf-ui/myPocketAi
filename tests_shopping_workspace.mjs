@@ -70,6 +70,28 @@ assert.match(inline,/function tasksCreate\(title,goal=false,due='',priority='nor
 assert.match(inline,/function tasksConfirmDelete\(item\)/);
 assert.match(inline,/function tasksToAgenda\(item,automatic=false\)/);
 assert.match(inline,/function tasksParseSpokenDeadline\(value,now=new Date\(\)\)/,'voice date parser exists');
+
+const taskParserBegin=inline.indexOf('function tasksParseSpokenDeadline(');
+const taskParserEnd=inline.indexOf('function tasksRepairLegacyVoiceDates(',taskParserBegin);
+assert.ok(taskParserBegin>=0&&taskParserEnd>taskParserBegin,'task parser extractable from rendered JS');
+const taskParserCode=inline.slice(taskParserBegin,taskParserEnd);
+const parsedContext=vm.createContext({Date,shopVoiceFold:s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()});
+vm.runInContext(taskParserCode,parsedContext);
+for(const [spoken,title,date,time] of [
+ ['mâine ședință la ora 10:00','ședință','2026-11-07','10:00'],
+ ['ședință mâine la ora 10','ședință','2026-11-07','10:00'],
+ ['mâine la 10 ședință','ședință','2026-11-07','10:00'],
+ ['cumpărare cartofi Mâine ora 10:00','cumpărare cartofi','2026-11-07','10:00'],
+ ['cumpără filtre mâine','cumpără filtre','2026-11-07',''],
+ ['ședință poimâine la 13:30','ședință','2026-11-08','13:30'],
+ ['mâine','mâine','','']
+]){
+ const entry=vm.runInContext('tasksParseSpokenDeadline('+JSON.stringify(spoken)+',new Date(2026,10,6,7,40))',parsedContext);
+ assert.equal(entry.title,title,'spoken title: '+spoken);
+ assert.equal(entry.due,date,'spoken date: '+spoken);
+ assert.equal(entry.time,time,'spoken time: '+spoken);
+}
+
 assert.match(inline,/function tasksRepairLegacyVoiceDates\(\)/,'existing voice tasks with times in title are migrated');
 assert.match(inline,/async function tasksSuggestGoal\(title\)/,'goal suggestions are requested from Pocket AI');
 assert.match(inline,/tasksSuggestGoal\(goalName\)/,'manual goal creation opens suggestions');
