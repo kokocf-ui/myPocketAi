@@ -1626,6 +1626,9 @@ body.long-choice-active{overflow:hidden}
 main.page:has(#view-module.learning-math.active){
  overflow-y:hidden!important;
  overscroll-behavior:none!important;
+ height:var(--math-content-height,auto)!important;
+ max-height:var(--math-content-height,none)!important;
+ min-height:0!important;
  padding-bottom:0!important;
 }
 #view-module.learning-active.learning-math.active{
@@ -1687,12 +1690,13 @@ main.page:has(#view-module.learning-math.active){
 #view-module.learning-active.learning-math #moduleChatHost{display:none!important}
 /* When the virtual keyboard is active, keep input reachable rather than clipping. */
 main.page.math-keyboard-visible:has(#view-module.learning-math.active){
- overflow-y:auto!important;padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important;
+ overflow-y:auto!important;max-height:var(--math-content-height,none)!important;
+ padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important;
 }
-#view-module.learning-active.learning-math.active:has(textarea:focus){
+main.page.math-keyboard-visible #view-module.learning-active.learning-math.active{
  overflow:visible!important;height:auto!important;max-height:none!important;
 }
-#view-module.learning-active.learning-math.active:has(textarea:focus) #moduleContent{
+main.page.math-keyboard-visible #view-module.learning-active.learning-math #moduleContent{
  overflow:visible!important;height:auto!important;max-height:none!important;
 }
 .math-result-dialog[open]{
@@ -6466,6 +6470,8 @@ let activeLearningSubject=null;
 function learningLabel(ro,en){return state.language==='ro'?ro:en}
 function renderLearningSubjects(){
  mathVoiceStop();
+ document.querySelector('main.page')?.classList.remove('math-keyboard-visible');
+ document.querySelector('main.page')?.style.removeProperty('--math-content-height');
  mathCloseResults();
  $('view-module').classList.remove('learning-math');
  document.getElementById('mathEducationReturn')?.remove();
@@ -6487,6 +6493,22 @@ function renderLearningSubjects(){
  $('moduleLead').textContent='';
 }
 // Educational dictation is isolated from the assistant's chat/voice capture.
+function mathFitViewport(){
+ const page=document.querySelector('main.page'),view=$('view-module');
+ if(!page||!view?.classList.contains('learning-math')||!view.classList.contains('active')){
+  page?.classList.remove('math-keyboard-visible');
+  page?.style.removeProperty('--math-content-height');return;
+ }
+ const header=document.querySelector('.app-header'),nav=document.querySelector('.bottom-nav');
+ const top=header?.getBoundingClientRect().bottom||0;
+ const bottom=nav?.getBoundingClientRect().top||window.innerHeight-100;
+ const available=Math.max(200,Math.floor(bottom-top-8));
+ page.style.setProperty('--math-content-height',available+'px');
+ const focus=document.activeElement?.id==='mathEducationText';
+ page.classList.toggle('math-keyboard-visible',Boolean(focus));
+}
+window.addEventListener('resize',mathFitViewport,{passive:true});
+window.visualViewport?.addEventListener('resize',mathFitViewport,{passive:true});
 let mathVoiceListening=false;
 let mathLastSpokenReply='';
 function mathVoiceStop(){
@@ -6661,6 +6683,7 @@ function openLearningSubject(key){
    choices.append(button);
   });
   workspace.append(choices);host.append(workspace);
+  requestAnimationFrame(mathFitViewport);
  }
 
  inputEl.placeholder=learningLabel('Întreabă despre '+subject[2].toLowerCase()+'…','Ask about '+subject[3].toLowerCase()+'…');
@@ -6840,7 +6863,6 @@ function mathResultPage(index){
  body.append(title,source);
  const graph=mathGraphFigure(item.text)||mathGeometryFigure(item.text);
  if(graph)body.append(graph);
- body.scrollTop=previousScroll;
  const result=document.createElement('div');result.className='math-result-copy';
  if(item.error){result.classList.add('math-result-error');result.textContent=item.error;
   const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn';
@@ -6854,6 +6876,7 @@ function mathResultPage(index){
   result.textContent=learningLabel('Se pregătește explicația…','Preparing the explanation…');
   body.append(result);
  }
+ body.scrollTop=previousScroll;
 }
 async function mathFetchResult(item,session){
  const graph=Boolean(mathGraphModel(item.text));
@@ -7027,7 +7050,7 @@ async function handleLearningPhoto(file){
   else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
  } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
 }
-function openModule(key){mathVoiceStop();mathCloseResults();$('view-module').classList.remove('learning-math');document.getElementById('mathEducationReturn')?.remove();if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','tasks-workspace','adaptive-workspace-view');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
+function openModule(key){mathVoiceStop();mathCloseResults();document.querySelector('main.page')?.classList.remove('math-keyboard-visible');document.querySelector('main.page')?.style.removeProperty('--math-content-height');$('view-module').classList.remove('learning-math');document.getElementById('mathEducationReturn')?.remove();if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','tasks-workspace','adaptive-workspace-view');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'}],travel:[{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante, pizzerii, shaormerii și fast-food în apropierea mea.',kind:'places',description:'Caută restaurante, pub-uri, pizzerii, shaormerii și fast-food'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places',description:'Caută alte puncte de interes din apropiere'}]};
 function updateQuickLayerGeometry(){
  const header=document.querySelector('.app-header'),nav=document.querySelector('.bottom-nav');
