@@ -1639,6 +1639,28 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 .agenda-date-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem}
 .agenda-detail-actions button{flex:1;min-width:0}
 .agenda-empty{opacity:.7}
+
+#moduleTitle .pocket-voice-info,#view-assistant .pocket-voice-info{
+ display:inline-grid;place-items:center;vertical-align:middle;
+ width:1.5em;height:1.5em;margin-inline-start:.45em;
+ padding:0;border:1px solid #91cfe0;border-radius:50%;
+ background:transparent;color:#a5ecff;font-size:.68em;line-height:1;
+ box-shadow:none;cursor:pointer
+}
+.pocket-voice-guide{
+ box-sizing:border-box;width:min(92vw,28rem);max-width:92vw;
+ max-height:80dvh;overflow-y:auto;background:#0b2638;color:#effaff;
+ border:1px solid #5697b5;border-radius:1rem;padding:clamp(.7rem,3vw,1.15rem);
+ box-shadow:0 1rem 3rem #0009
+}
+.pocket-voice-guide::backdrop{background:#0009}
+.pocket-voice-guide-heading{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.6rem}
+.pocket-voice-guide-heading button{min-height:2.4rem;min-width:2.4rem;padding:.3rem}
+.pocket-voice-example{display:flex;flex-direction:column;gap:.15rem;margin:.4rem 0;padding:.55rem;border-radius:.6rem;background:#143c50;overflow-wrap:anywhere}
+.pocket-voice-example strong{font-size:.83rem;color:#a5e9fc}
+.pocket-voice-example span{font-size:.92rem}
+.pocket-voice-guide small{display:block;margin-top:.7rem;opacity:.8}
+#view-module.adaptive-workspace-view .agenda-detail-actions button{min-height:clamp(2.6rem,6dvh,3.4rem)}
 </style>
 <style id="shopping-single-screen">
 /* Shopping-only navigation: Home remains in the shared header; Back and Active List
