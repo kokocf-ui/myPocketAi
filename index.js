@@ -6548,7 +6548,7 @@ function mathPilotToggle(){
   if(!mathPilotCommand('stopMathAudio'))mathPilotCancel();
   return;
  }
- if(mathPilotAwaiting)return;
+ if(mathPilotAwaiting||mathPilotRequest)return;
  pocketModal({
   title:learningLabel('Test de dictare matematică (Whisper)','Math dictation trial (Whisper)'),
   message:learningLabel(
@@ -6575,7 +6575,13 @@ window.pocketAndroidMathAudioResult=async function(data){
   mathVoiceStatus(learningLabel('Înregistrarea nu a reușit. Poți folosi tastatura sau fotografia.','Recording failed. You can type or photograph the exercise.'));
   return;
  }
- if(data?.status!=='captured'||!mathPilotAwaiting)return;
+ if(data?.status!=='captured')return;
+ // Android auto-stops at 30 seconds; this also completes the consented trial.
+ if(mathPilotRecording){
+  mathPilotRecording=false;mathPilotAwaiting=true;
+  $('mathDictation')?.setAttribute('aria-pressed','false');
+ }
+ if(!mathPilotAwaiting)return;
  mathPilotAwaiting=false;
  const payload=String(data.audio||'');
  data.audio=null;
