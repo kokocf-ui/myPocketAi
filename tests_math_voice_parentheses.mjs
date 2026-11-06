@@ -222,6 +222,40 @@ assert.ok(embedded.includes("mode==='explain'?learningLabel('Matematică · Meto
 assert.ok(embedded.includes('Predă numai METODA GENERALĂ'),'fallback AI prompt requests general teaching');
 assert.ok(embedded.includes("mode==='explain'?mathMethodGuide(text)"),'simple-method results are built locally');
 
+// A learner must never lose the typed/dictated exercise when choosing one
+// of the three actions, navigating between modules, or reopening the WebView.
+const draftStart=embedded.indexOf('const MATH_EXERCISE_DRAFT_KEY');
+const draftEnd=embedded.indexOf('function openLearningSubject(',draftStart);
+assert.ok(draftStart>0&&draftEnd>draftStart,'persistent math draft support exists');
+const values=new Map();
+const memoryStorage={
+ getItem:key=>values.has(key)?values.get(key):null,
+ setItem:(key,value)=>values.set(key,String(value))
+};
+const freshDraft=()=>vm.runInNewContext(embedded.slice(draftStart,draftEnd)+
+ String.fromCharCode(10)+'({read:mathRestoreDraft,write:mathRememberDraft})',
+ {localStorage:memoryStorage});
+const firstDraft=freshDraft();
+assert.equal(firstDraft.read(),'','new installations start with an empty field');
+firstDraft.write('3 * (2 * -1) + 5 = 20');
+assert.equal(firstDraft.read(),'3 * (2 * -1) + 5 = 20','input stays in memory');
+assert.equal(freshDraft().read(),'3 * (2 * -1) + 5 = 20','input survives a WebView reload');
+firstDraft.write('3 * (2 * -1) + 5 = 18');
+assert.equal(freshDraft().read(),'3 * (2 * -1) + 5 = 18','editing individual numbers updates the draft');
+firstDraft.write('');
+assert.equal(freshDraft().read(),'','only an explicit clear removes the saved draft');
+const runStart=embedded.indexOf('function mathEducationRun(');
+const runEnd=embedded.indexOf("$('mathResultClose').onclick",runStart);
+assert.ok(runStart>0&&runEnd>runStart,'math actions remain present');
+const runCode=embedded.slice(runStart,runEnd);
+assert.ok(!runCode.includes("editor.value=''"),'solve/graph/method never clear the exercise');
+assert.ok(runCode.includes('mathRememberDraft(editor.value)'),'math actions retain the last user input');
+assert.ok(embedded.includes("editor.value=mathRestoreDraft()"),'navigating back restores the input');
+assert.ok(embedded.includes("editor.addEventListener('input',()=>{mathRememberDraft(editor.value)"),'manual input updates the stored draft');
+assert.ok(embedded.includes("mathRememberDraft('')"),'new conversation explicitly clears the draft');
+assert.ok(embedded.includes('if(text){editor.value=text;mathRememberDraft(text)}'),
+ 'empty OCR never deletes a previously typed exercise');
+
 const native=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(native,/"math"\.equals\(speechMode\)\)return;/,'math speech bypasses short endpoint');
 assert.match(native,/mathDictation\?4800L:2200L/,'math uses longer silence hints');

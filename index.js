@@ -6931,6 +6931,21 @@ function mathReadText(){
  }
  speakText(text);
 }
+
+ // Keep the learner's working exercise across solve/graph/method views, module
+ // navigation, and Android WebView restarts. Only explicit clearing removes it.
+ const MATH_EXERCISE_DRAFT_KEY='mypocketai.math.exercise.draft.v1';
+ let mathExerciseDraft=null;
+ function mathRestoreDraft(){
+  if(mathExerciseDraft!==null)return mathExerciseDraft;
+  try{mathExerciseDraft=String(localStorage.getItem(MATH_EXERCISE_DRAFT_KEY)||'').slice(0,3500)}
+  catch{mathExerciseDraft=''}
+  return mathExerciseDraft;
+ }
+ function mathRememberDraft(value){
+  mathExerciseDraft=String(value||'').slice(0,3500);
+  try{localStorage.setItem(MATH_EXERCISE_DRAFT_KEY,mathExerciseDraft)}catch{}
+ }
 function openLearningSubject(key){
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
  activeLearningSubject=subject;
@@ -6979,10 +6994,12 @@ function openLearningSubject(key){
   newTask.onclick=()=>{
    mathVoiceStop();mathCloseResults();mathLastSpokenReply='';const field=$('mathEducationText');
    if(field){field.value='';field.blur()}
+   mathRememberDraft('');
    const notice=$('mathEducationStatus');if(notice)notice.textContent='';
   };
   heading.append(label,newTask);
   const editor=document.createElement('textarea');editor.id='mathEducationText';editor.rows=3;editor.maxLength=3500;
+  editor.value=mathRestoreDraft();
   editor.placeholder=learningLabel('Scrie, fotografiază sau alege un exercițiu…','Type, photograph or select an exercise…');
   editor.setAttribute('aria-label',label.textContent);
   const tools=document.createElement('div');tools.className='math-entry-tools';
@@ -6991,7 +7008,7 @@ function openLearningSubject(key){
   tools.append(actions);
   const status=document.createElement('small');status.id='mathEducationStatus';status.setAttribute('role','status');
   status.textContent='';
-  editor.addEventListener('input',()=>{status.textContent=''});
+  editor.addEventListener('input',()=>{mathRememberDraft(editor.value);status.textContent=''});
   workspace.append(heading,editor,tools,status);
   const choices=document.createElement('div');choices.className='education-math-actions';
   [
@@ -7552,7 +7569,7 @@ function mathEducationRun(mode){
  const dialog=$('mathResultDialog');
  $('mathResultTitle').textContent=mode==='explain'?learningLabel('Matematică · Metodă','Mathematics · Method'):mode==='graph'?learningLabel('Matematică · Grafic','Mathematics · Graph'):learningLabel('Matematică · Rezolvare','Mathematics · Solution');
  $('mathResultClose').textContent=learningLabel('Revenire','Back');
- editor.value='';status.textContent='';
+ mathRememberDraft(editor.value);status.textContent='';
  if(document.activeElement?.blur)document.activeElement.blur();
  try{dialog.showModal();document.documentElement.classList.add('math-result-visible')}catch(error){
   mathResultSession=null;editor.value=source;
@@ -7577,7 +7594,7 @@ window.pocketAndroidOcrResult=function(data){
   const editor=$('mathEducationText'),status=$('mathEducationStatus');
   if(!editor||!status)return;
   const text=typeof data?.text==='string'?data.text.trim().slice(0,3500):'';
-  editor.value=text;
+  if(text){editor.value=text;mathRememberDraft(text)}
   status.textContent=!text?
    learningLabel('Nu am putut citi exercițiul. Repetă fotografia sau scrie aici.','Could not read the exercise. Retake the photo or type here.'):
    data?.status==='partial'?
