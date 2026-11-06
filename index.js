@@ -1553,6 +1553,75 @@ body.long-choice-active{overflow:hidden}
 .education-math-actions button:first-child{grid-column:1/-1}
 .education-chat-return{display:block;width:100%;min-height:40px;flex:0 0 auto;margin:0!important;padding:8px 12px!important;font-size:clamp(12px,3.2vw,15px)!important;text-align:left}
 .education-chat-return[hidden]{display:none!important}
+#view-module.learning-active.learning-math #moduleChatHost{display:none!important;max-height:0!important;min-height:0!important;overflow:hidden!important}
+#view-module.learning-math #askModuleBtn{display:none!important}
+#view-module.learning-math .education-toolbar{margin:0!important}
+#view-module.learning-math .education-toolbar .secondary-btn{
+ width:auto!important;min-width:0!important;min-height:40px!important;
+ padding:7px 14px!important;font-size:clamp(13px,3.5vw,16px)!important;
+}
+#view-module.learning-math #moduleContent{padding-bottom:calc(108px + env(safe-area-inset-bottom,0px))!important}
+.math-entry-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+.math-entry-heading label{font-size:clamp(16px,4vw,20px)!important;flex:1 1 auto;min-width:0}
+.math-new-task{min-height:36px!important;min-width:0!important;flex:0 0 auto!important;
+ padding:7px 10px!important;font-size:clamp(11px,2.9vw,14px)!important;
+ line-height:1.15!important;white-space:normal!important;max-width:57%;
+}
+.math-entry-tools .education-photo-actions{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ width:100%;gap:8px;margin:0!important;
+}
+.math-entry-tools .education-photo-actions button{
+ min-height:40px!important;min-width:0!important;font-size:clamp(13px,3.4vw,17px)!important;
+ padding:7px 9px!important;line-height:1.2!important;
+}
+#view-module.learning-math .education-math-workspace textarea{
+ min-height:76px;max-height:24dvh;resize:vertical;
+}
+#view-module.learning-math .education-math-workspace{gap:8px;padding:12px}
+.math-result-dialog{
+ position:fixed;inset:0;margin:auto;padding:0;
+ width:min(96vw,720px);height:min(87dvh,790px);max-height:87dvh;
+ border:2px solid #4c9dbb;border-radius:21px;
+ background:linear-gradient(160deg,#12364b,#071b2b);color:#f4fbff;
+ box-shadow:0 17px 65px #000c;overflow:hidden;
+}
+.math-result-dialog:not([open]){display:none}
+.math-result-dialog::backdrop{background:rgba(0,8,18,.83)}
+.math-result-window{display:flex;flex-direction:column;width:100%;height:100%;min-height:0}
+.math-result-header{display:flex;align-items:center;justify-content:space-between;gap:9px;
+ padding:clamp(10px,3vw,16px);border-bottom:1px solid #427e96;
+}
+.math-result-header strong{font-size:clamp(17px,4.5vw,22px);flex:1;min-width:0;line-height:1.15}
+.math-result-close{flex:0 0 auto;min-height:40px;padding:8px 14px;border-radius:14px;
+ border:1px solid #f29b92;background:linear-gradient(145deg,#db4c51,#9c263a);
+ color:#fff;font:inherit;font-weight:750;font-size:clamp(13px,3.5vw,16px);
+ box-shadow:inset 0 2px 0 #ffffff55,0 3px 0 #4b1021;
+}
+.math-result-tabs{display:flex;gap:8px;padding:10px 12px;overflow-x:auto;
+ border-bottom:1px solid #315973;scrollbar-width:thin}
+.math-result-tabs:empty{display:none}
+.math-result-tabs button{flex:0 0 auto;min-height:40px;border:1px solid #4e9db6;
+ border-radius:13px;background:#0e2d44;color:#d7edf6;padding:7px 12px;font:inherit;
+ font-weight:650;font-size:clamp(13px,3.5vw,16px)}
+.math-result-tabs button[aria-selected="true"]{border-color:#87e6ec;
+ background:linear-gradient(155deg,#26718a,#164661);color:white}
+.math-result-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;
+ padding:clamp(12px,3vw,20px) clamp(13px,3.2vw,22px);
+ line-height:1.55;font-size:clamp(15px,3.7vw,19px);overflow-wrap:anywhere}
+.math-result-body h3{font-size:clamp(17px,4vw,21px);margin:0 0 10px}
+.math-result-source{padding:9px 11px;white-space:pre-wrap;overflow-wrap:anywhere;
+ border:1px solid #326983;background:#071e31;border-radius:12px;margin:0 0 12px;
+ font-size:.9em}
+.math-result-copy{white-space:pre-wrap;line-height:1.6}
+.math-result-copy p{margin:0 0 10px}
+.math-result-plot{border:1px solid #4f9bb6;border-radius:15px;background:#071b2e;
+ padding:10px;margin:12px 0;max-width:100%}
+.math-result-plot svg{width:100%;height:auto;display:block;max-height:320px}
+.math-result-plot figcaption{font-size:.82em;color:#c0e5ed;margin-top:7px}
+.math-result-note{font-size:.87em;color:#b8d6e8;margin:6px 0 14px}
+.math-result-error{color:#ffc0b6}
+
 
 @media(max-width:350px){.education-grid{gap:8px}.education-card{padding:10px;min-height:158px}}
 </style>
@@ -2387,6 +2456,13 @@ main.page:has(#view-module.learning-choose.active){
  </section>
 </div>
 <dialog id="pocketUnifiedModal" class="pocket-unified-modal" aria-labelledby="pocketUnifiedTitle"><div class="pocket-unified-window"><header class="pocket-unified-heading"><strong id="pocketUnifiedTitle">Pocket AI</strong></header><div class="pocket-unified-body" id="pocketUnifiedBody"></div><div class="pocket-unified-actions" id="pocketUnifiedActions"></div></div></dialog>
+<dialog id="mathResultDialog" class="math-result-dialog" aria-labelledby="mathResultTitle">
+ <section class="math-result-window">
+  <header class="math-result-header"><strong id="mathResultTitle">Rezolvare</strong><button type="button" id="mathResultClose" class="math-result-close">Revenire</button></header>
+  <nav id="mathResultTabs" class="math-result-tabs" aria-label="Exerciții" role="tablist"></nav>
+  <div id="mathResultBody" class="math-result-body" role="tabpanel"></div>
+ </section>
+</dialog>
 <dialog id="pocketSelectDialog" class="pocket-unified-modal pocket-select-modal" aria-labelledby="pocketSelectTitle"><div class="pocket-unified-window"><header class="pocket-unified-heading"><strong id="pocketSelectTitle">Alege o opțiune</strong><button type="button" id="pocketSelectClose" class="back-btn">Revenire</button></header><div class="pocket-unified-body pocket-select-list" id="pocketSelectList"></div></div></dialog>
 <dialog id="longChoiceDialog" class="long-choice-dialog" aria-labelledby="longChoiceTitle"><section class="long-choice-window"><header class="long-choice-header"><strong id="longChoiceTitle">Opțiuni</strong><button type="button" class="long-choice-close" id="longChoiceClose" aria-label="Închide">✕</button></header><div id="longChoiceContent" class="long-choice-content"></div></section></dialog>
 <nav class="bottom-nav" aria-label="Navigare principală"><button class="nav-btn active" data-nav="home"><span class="nav-icon">⌂</span>Acasă</button><button class="nav-btn" data-nav="conversations"><span class="nav-icon">◷</span>Conversații</button><button class="nav-btn" data-nav="tools"><span class="nav-icon">▱</span>Instrumente</button><button class="nav-btn" data-nav="settings"><span class="nav-icon">⚙</span>Setări</button></nav>
@@ -6266,6 +6342,7 @@ function pocketBackInsideModule(){
 }
 window.pocketAndroidBack=function(){
  if(document.querySelector('dialog.document-photo-fullscreen[open]')){document.querySelector('dialog.document-photo-fullscreen[open]').close();return}
+ if($('mathResultDialog')?.open){mathCloseResults();return}
  if(pocketExitOpen){pocketExitClose();return}
  if($('longChoiceDialog')?.open){closeLongChoice();return}
  if(activeRouteMap){closeRouteMap();return}
@@ -6294,6 +6371,8 @@ const LEARNING_SUBJECTS=[
 let activeLearningSubject=null;
 function learningLabel(ro,en){return state.language==='ro'?ro:en}
 function renderLearningSubjects(){
+ mathCloseResults();
+ $('view-module').classList.remove('learning-math');
  document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
@@ -6318,6 +6397,7 @@ function openLearningSubject(key){
  $('moduleTitle').textContent=learningLabel(subject[2],subject[3]);
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('learning-choose');root.classList.add('learning-active');
+ root.classList.toggle('learning-math',key==='math');
  host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar';
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>renderLearningSubjects();
@@ -6333,39 +6413,45 @@ function openLearningSubject(key){
  pick.onclick=()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage(key==='math'&&nativeMathOcrSupported()?'gallery:math':'gallery'):fileInput.click();
  cameraInput.onchange=()=>handleLearningPhoto(cameraInput.files?.[0]);
  fileInput.onchange=()=>handleLearningPhoto(fileInput.files?.[0]);
- actions.append(photo,pick,cameraInput,fileInput);host.append(actions);
- // Matematică stays inside this subject. Photo, gallery and typed questions all
- // use one editable field and one action. No extra selector or confirmation.
+ actions.append(photo,pick,cameraInput,fileInput);if(key!=='math')host.append(actions);
+ // One input workspace for Mathematics: no chat composer or extra confirmation.
  if(key==='math'){
   const workspace=document.createElement('div');workspace.id='mathEducationWorkspace';
   workspace.className='education-math-workspace';
+  const heading=document.createElement('div');heading.className='math-entry-heading';
   const label=document.createElement('label');label.htmlFor='mathEducationText';
-  label.textContent=learningLabel('Exercițiul','Exercise');
-  const editor=document.createElement('textarea');editor.id='mathEducationText';
-  editor.rows=3;editor.maxLength=3500;
-  editor.placeholder=learningLabel('Scrie exercițiul sau fotografiază-l…','Type the exercise or photograph it…');
+  label.textContent=learningLabel('Exercițiu','Exercise');
+  const newTask=document.createElement('button');newTask.type='button';
+  newTask.className='secondary-btn math-new-task';newTask.textContent=learningLabel('＋ Conversație nouă','＋ New conversation');
+  newTask.onclick=()=>{
+   mathCloseResults();const field=$('mathEducationText');
+   if(field){field.value='';field.focus({preventScroll:true})}
+   const notice=$('mathEducationStatus');if(notice)notice.textContent='';
+  };
+  heading.append(label,newTask);
+  const editor=document.createElement('textarea');editor.id='mathEducationText';editor.rows=3;editor.maxLength=3500;
+  editor.placeholder=learningLabel('Scrie, fotografiază sau alege un exercițiu…','Type, photograph or select an exercise…');
   editor.setAttribute('aria-label',label.textContent);
+  const tools=document.createElement('div');tools.className='math-entry-tools';
+  photo.className='secondary-btn math-input-tool';photo.textContent=learningLabel('📷 Foto','📷 Camera');
+  pick.className='secondary-btn math-input-tool';pick.textContent=learningLabel('🖼️ Album','🖼️ Gallery');
+  tools.append(actions);
   const status=document.createElement('small');status.id='mathEducationStatus';status.setAttribute('role','status');
-  status.textContent=learningLabel('Poți scrie, fotografia sau alege o imagine.','You can type, photograph or choose an image.');
-  editor.addEventListener('input',()=>{status.textContent='';});
-  workspace.append(label,editor,status);
+  status.textContent='';
+  editor.addEventListener('input',()=>{status.textContent=''});
+  workspace.append(heading,editor,tools,status);
   const choices=document.createElement('div');choices.className='education-math-actions';
   [
    ['solve',learningLabel('🧩 Rezolvă pas cu pas','🧩 Solve step by step')],
-   ['graph',learningLabel('📈 Reprezintă grafic','📈 Draw graph')],
+   ['graph',learningLabel('📈 Reprezintă grafic','📈 Draw a graph')],
    ['explain',learningLabel('🎓 Explică metoda','🎓 Explain method')]
   ].forEach(([mode,title])=>{
-   const button=document.createElement('button');button.type='button';button.className=mode==='solve'?'primary-btn':'secondary-btn';
+   const button=document.createElement('button');button.type='button';
+   button.className=mode==='solve'?'primary-btn':'secondary-btn';
    button.textContent=title;button.onclick=()=>mathEducationRun(mode);
    choices.append(button);
   });
   workspace.append(choices);host.append(workspace);
-  document.getElementById('mathEducationReturn')?.remove();
-  const returnButton=document.createElement('button');returnButton.type='button';
-  returnButton.id='mathEducationReturn';returnButton.className='secondary-btn education-chat-return';
-  returnButton.hidden=true;returnButton.textContent=learningLabel('← Înapoi la exercițiu','← Back to exercise');
-  returnButton.onclick=()=>workspace.scrollIntoView({behavior:'smooth',block:'start'});
-  $('sharedChatShell').querySelector('.chat-top')?.after(returnButton);
  }
 
  inputEl.placeholder=learningLabel('Întreabă despre '+subject[2].toLowerCase()+'…','Ask about '+subject[3].toLowerCase()+'…');
@@ -6385,27 +6471,241 @@ function educationMathOcrIncomplete(value){
  if(raw.includes('=')&&raw.split('=').some(x=>!x))return true;
  return false;
 }
+// Dedicated Math results are independent of the general chat and its prompts.
+let mathResultSession=null;
+function mathSplitExercises(source){
+ const lines=String(source||'').replace(/\\r/g,'').split('\\n').map(v=>v.trim()).filter(Boolean);
+ const tasks=[];let current=[];
+ for(const line of lines){
+  if(/^(?:exerci[țt]iu|exercises?|probleme|problems?)\\s*:?\\s*$/iu.test(line))continue;
+  const numbered=/^\\d{1,2}\\s*[.)]\\s*\\S/u.test(line);
+  const unnumbered=line.replace(/^(?:\\d{1,2}\\s*[.)]|\\))\\s*/, '').trim();
+  const instruction=/^(?:rezolv(?:[ăa]|are)?|reprezint(?:[ăa])?|deseneaz(?:[ăa])?|calculeaz(?:[ăa])?|determina|determin[ăa]|afl[ăa]|construie[șs]te|solve|graph|plot|draw|calculate|find)(?:\\s|:|$)/iu.test(unnumbered);
+  if(current.length&&(numbered||instruction)){
+   tasks.push(current.join('\\n').trim());current=[];
+  }
+  current.push(unnumbered||line);
+ }
+ if(current.length)tasks.push(current.join('\\n').trim());
+ return tasks.filter(Boolean).slice(0,6);
+}
+function mathGraphModel(task){
+ const match=String(task||'').match(/(?:f\\s*\\(\\s*x\\s*\\)|y)\\s*=\\s*([^\\n\\r;]+)/i);
+ if(!match)return null;
+ const expression=match[1].trim().replace(/[−–]/g,'-').replace(/²/g,'^2').replace(/,/g,'.').replace(/\\s+/g,'').replace(/·/g,'*');
+ if(expression.length>100||!expression||/[()]/.test(expression))return null;
+ const pieces=expression.match(/[+-]?[^+-]+/g);
+ if(!pieces||pieces.join('')!==expression||pieces.length>10)return null;
+ let a=0,b=0,c=0,variable=false;
+ for(const item of pieces){
+  const sign=item[0]==='-'?-1:1;
+  const term=item.replace(/^[+-]/,'');
+  let matched=term.match(/^(\\d*(?:\\.\\d+)?)?\\*?x\\^2$/i);
+  if(matched){a+=sign*Number(matched[1]||1);variable=true;continue}
+  matched=term.match(/^(\\d*(?:\\.\\d+)?)?\\*?x$/i);
+  if(matched){b+=sign*Number(matched[1]||1);variable=true;continue}
+  if(/^\\d+(?:\\.\\d+)?$/.test(term)){c+=sign*Number(term);continue}
+  return null;
+ }
+ if(!variable||![a,b,c].every(Number.isFinite))return null;
+ return {a,b,c,expression};
+}
+function mathSvgElement(tag,attributes){
+ const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
+ for(const key of Object.keys(attributes||{}))el.setAttribute(key,String(attributes[key]));
+ return el;
+}
+function mathSvgLine(svg,x1,y1,x2,y2,stroke,width=1,opacity=1){
+ svg.append(mathSvgElement('line',{x1,y1,x2,y2,stroke,'stroke-width':width,opacity}));
+}
+function mathSvgText(svg,x,y,value,anchor='middle',size=11,color='#c7e6f1'){
+ const el=mathSvgElement('text',{x,y,'text-anchor':anchor,'font-size':size,fill:color});
+ el.textContent=String(value);svg.append(el);
+}
+function mathGraphFigure(question){
+ const model=mathGraphModel(question);if(!model)return null;
+ const f=x=>model.a*x*x+model.b*x+model.c;
+ let xmin=-5,xmax=5;
+ if(model.a&&Math.abs(-model.b/(2*model.a))>5&&Math.abs(-model.b/(2*model.a))<20){
+  const vx=-model.b/(2*model.a);xmin=Math.floor(vx-5);xmax=Math.ceil(vx+5);
+ }
+ const samples=Array.from({length:181},(_,i)=>f(xmin+(xmax-xmin)*i/180));
+ let yMin=Math.min(-4,...samples),yMax=Math.max(4,...samples);
+ const pad=Math.max(1,(yMax-yMin)*.08);yMin-=pad;yMax+=pad;
+ if(yMax-yMin<8){const mid=(yMax+yMin)/2;yMin=mid-4;yMax=mid+4}
+ const width=420,height=274,left=45,right=12,top=18,bottom=37;
+ const px=x=>left+(x-xmin)/(xmax-xmin)*(width-left-right);
+ const py=y=>top+(yMax-y)/(yMax-yMin)*(height-top-bottom);
+ const figure=document.createElement('figure');figure.className='math-result-plot';
+ const svg=mathSvgElement('svg',{viewBox:'0 0 420 274',role:'img','aria-label':'Graficul funcției f(x) = '+model.expression,preserveAspectRatio:'xMidYMid meet'});
+ const axis=document.createElementNS('http://www.w3.org/2000/svg','rect');
+ axis.setAttribute('x',left);axis.setAttribute('y',top);axis.setAttribute('width',width-left-right);
+ axis.setAttribute('height',height-top-bottom);axis.setAttribute('fill','#0b253a');svg.append(axis);
+ for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x++){
+  mathSvgLine(svg,px(x),top,px(x),height-bottom,'#396278',.8,.58);
+  if(x%2===0||x===0)mathSvgText(svg,px(x),height-bottom+17,x,'middle',11);
+ }
+ const step=Math.max(1,Math.ceil((yMax-yMin)/8));
+ for(let y=Math.ceil(yMin/step)*step;y<=yMax;y+=step){
+  mathSvgLine(svg,left,py(y),width-right,py(y),'#396278',.8,.58);
+  mathSvgText(svg,left-7,py(y)+4,Number(y.toFixed(2)),'end',10);
+ }
+ if(xmin<=0&&xmax>=0)mathSvgLine(svg,px(0),top,px(0),height-bottom,'#9eb8c7',1.4);
+ if(yMin<=0&&yMax>=0)mathSvgLine(svg,left,py(0),width-right,py(0),'#9eb8c7',1.4);
+ mathSvgText(svg,width-right,height-bottom+28,'x','end',13,'#d9fbff');
+ mathSvgText(svg,left-3,top-6,'y','end',13,'#d9fbff');
+ const path=mathSvgElement('path',{d:samples.map((y,i)=>(i?'L':'M')+px(xmin+(xmax-xmin)*i/180).toFixed(2)+' '+py(y).toFixed(2)).join(' '),
+   fill:'none',stroke:'#42dbd7','stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round'});
+ svg.append(path);
+ const points=[{x:0,y:model.c}];
+ if(Math.abs(model.a)<1e-9&&Math.abs(model.b)>1e-9)points.push({x:-model.c/model.b,y:0});
+ else if(Math.abs(model.a)>1e-9){
+  const disc=model.b*model.b-4*model.a*model.c;
+  if(disc>=0){
+   points.push({x:(-model.b+Math.sqrt(disc))/(2*model.a),y:0});
+   if(disc>0)points.push({x:(-model.b-Math.sqrt(disc))/(2*model.a),y:0});
+  }
+  points.push({x:-model.b/(2*model.a),y:f(-model.b/(2*model.a))});
+ }
+ for(const p of points){
+  if(p.x<xmin||p.x>xmax||p.y<yMin||p.y>yMax)continue;
+  svg.append(mathSvgElement('circle',{cx:px(p.x),cy:py(p.y),r:4.5,fill:'#ffca77',stroke:'#082035','stroke-width':1.3}));
+ }
+ figure.append(svg);
+ const caption=document.createElement('figcaption');
+ caption.textContent=(state.language==='ro'?'Grafic calculat local: f(x) = ':'Locally calculated graph: f(x) = ')+model.expression;
+ figure.append(caption);return figure;
+}
+function mathGeometryFigure(question){
+ const t=String(question||'').toLowerCase();
+ let kind=null;
+ if(/\\btriunghi\\b|\\btriangle\\b/u.test(t))kind='triangle';
+ else if(/\\bdreptunghi\\b|\\brectangle\\b/u.test(t))kind='rectangle';
+ else if(/\\bcerc\\b|\\bcircle\\b|\\bcircumferin/u.test(t))kind='circle';
+ if(!kind)return null;
+ const figure=document.createElement('figure');figure.className='math-result-plot';
+ const svg=mathSvgElement('svg',{viewBox:'0 0 420 265',role:'img','aria-label':'Schiță geometrică orientativă',preserveAspectRatio:'xMidYMid meet'});
+ if(kind==='triangle'){
+  svg.append(mathSvgElement('polygon',{points:'65,215 348,215 217,38',fill:'#13485a','fill-opacity':'.48',stroke:'#4ed1d5','stroke-width':3}));
+  mathSvgText(svg,55,232,'A','middle',17);mathSvgText(svg,354,234,'B','middle',17);mathSvgText(svg,218,26,'C','middle',17);
+ }else if(kind==='rectangle'){
+  svg.append(mathSvgElement('rect',{x:70,y:42,width:280,height:180,fill:'#13485a','fill-opacity':'.48',stroke:'#4ed1d5','stroke-width':3}));
+  mathSvgText(svg,59,41,'A','end',17);mathSvgText(svg,361,41,'B','start',17);
+  mathSvgText(svg,361,239,'C','start',17);mathSvgText(svg,59,239,'D','end',17);
+ }else{
+  svg.append(mathSvgElement('circle',{cx:210,cy:132,r:90,fill:'#13485a','fill-opacity':'.4',stroke:'#4ed1d5','stroke-width':3}));
+  svg.append(mathSvgElement('circle',{cx:210,cy:132,r:4,fill:'#ffca77'}));
+  mathSvgText(svg,224,127,'O','start',15);
+ }
+ const caption=document.createElement('figcaption');
+ caption.textContent=learningLabel('Schiță orientativă; lungimile și unghiurile nu sunt la scară.','Illustrative sketch; lengths and angles are not to scale.');
+ figure.append(svg,caption);return figure;
+}
+function mathCloseResults(){
+ const session=mathResultSession;mathResultSession=null;
+ if(session?.controller)session.controller.abort();
+ const dialog=$('mathResultDialog');if(dialog?.open)dialog.close();
+}
+function mathResultPage(index){
+ const session=mathResultSession,dialog=$('mathResultDialog');
+ if(!session||!dialog?.open)return;
+ session.active=Math.max(0,Math.min(index,session.tasks.length-1));
+ const tabs=$('mathResultTabs'),body=$('mathResultBody');
+ tabs.replaceChildren();body.replaceChildren();
+ if(session.tasks.length>1){
+  session.tasks.forEach((task,i)=>{
+   const button=document.createElement('button');button.type='button';
+   button.textContent=learningLabel('Exercițiul ','Exercise ')+(i+1);
+   button.setAttribute('role','tab');button.setAttribute('aria-selected',i===session.active?'true':'false');
+   button.onclick=()=>mathResultPage(i);tabs.append(button);
+  });
+ }
+ const item=session.tasks[session.active];
+ const title=document.createElement('h3');
+ title.textContent=learningLabel('Exercițiul ','Exercise ')+(session.active+1);
+ const source=document.createElement('div');source.className='math-result-source';
+ source.textContent=item.text;
+ body.append(title,source);
+ const graph=mathGraphFigure(item.text)||mathGeometryFigure(item.text);
+ if(graph)body.append(graph);
+ const result=document.createElement('div');result.className='math-result-copy';
+ if(item.error){result.classList.add('math-result-error');result.textContent=item.error;
+  const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn';
+  retry.textContent=learningLabel('Reîncearcă','Retry');
+  retry.onclick=()=>{item.error=null;item.reply='';mathResultPage(session.active);void mathFetchResult(item,session)};
+  body.append(result,retry);
+ }else if(item.reply){
+  // Render structured teaching text in-place, never in the exercise input.
+  appendAnswerText(result,item.reply);body.append(result);
+ }else{
+  result.textContent=learningLabel('Se pregătește explicația…','Preparing the explanation…');
+  body.append(result);
+ }
+}
+async function mathFetchResult(item,session){
+ const graph=Boolean(mathGraphModel(item.text));
+ const prompt=learningLabel(
+  'Ești un profesor de matematică. Rezolvă DOAR exercițiul următor. Explică pe pași scurți, arată calculele și verifică rezultatul. Dacă este o funcție, explică punctele și proprietățile ei, dar nu produce grafice ASCII sau tabele ASCII: aplicația desenează graficul separat când formula este compatibilă. Nu inventa valori și nu cere confirmări dacă enunțul este clar.',
+  'You are a mathematics teacher. Solve ONLY this exercise. Explain in short numbered steps, show calculations and verify the answer. For a function, explain its properties and key points; never output ASCII graphs or ASCII tables, because the app plots supported functions separately. Do not invent values or request confirmations for a clear problem.'
+ );
+ const requested=session.mode==='graph'?
+  learningLabel('Accentuează reprezentarea grafică și intersecțiile cu axele.','Focus on the graph and axis intercepts.'):
+  session.mode==='explain'?
+  learningLabel('Explică metoda de lucru, nu doar rezultatul.','Explain the method, not only the answer.'):
+  learningLabel('Prezintă rezolvarea pas cu pas.','Provide a step-by-step solution.');
+ const message=prompt+'\\n'+requested+'\\n'+item.text;
+ try{
+  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({message,language:state.language,module:'learning',history:[],location_requested:false}),
+   signal:session.controller.signal});
+  const payload=await response.json();
+  if(!response.ok||payload.status!=='success'||typeof payload.reply!=='string'||!payload.reply.trim())
+   throw new Error(payload.error||learningLabel('Nu am primit o rezolvare validă.','No valid solution returned.'));
+  if(mathResultSession!==session)return;
+  item.reply=payload.reply.trim();
+ }catch(error){
+  if(mathResultSession!==session||session.controller.signal.aborted)return;
+  item.error=learningLabel('Nu am putut obține rezolvarea: ','Could not obtain the solution: ')+String(error?.message||error);
+ }
+ if(mathResultSession===session&&session.tasks[session.active]===item)mathResultPage(session.active);
+}
 function mathEducationRun(mode){
- if(state.currentView!=='module'||activeLearningSubject?.[0]!=='math'||state.busy)return;
+ if(state.currentView!=='module'||activeLearningSubject?.[0]!=='math')return;
  const editor=$('mathEducationText'),status=$('mathEducationStatus');
- const exercise=editor?.value?.trim()||'';
- if(!exercise){status.textContent=learningLabel('Scrie sau fotografiază exercițiul.','Type or photograph the exercise.');editor?.focus();return}
- if(educationMathOcrIncomplete(exercise)){
-  status.textContent=learningLabel('Formula pare incompletă. Corectează simbolurile lipsă.','The formula appears incomplete. Correct the missing symbols.');
+ const source=editor?.value?.trim()||'';
+ if(!source){
+  status.textContent=learningLabel('Scrie sau fotografiază exercițiul.','Type or photograph the exercise.');
   editor?.focus();return;
  }
- const instructions={
-  solve:learningLabel('Ești profesor de matematică. Rezolvă DIRECT exercițiul pas cu pas, cu calcule, explicații scurte și verificarea rezultatului. Nu cere confirmare când enunțul este clar.','You are a math teacher. Solve the exercise DIRECTLY step by step, with calculations, short explanations and verification. Do not ask for confirmation when the task is clear.'),
-  graph:learningLabel('Ești profesor de matematică. Analizează funcția, calculează punctele esențiale și tabelul de valori. Prezintă graficul dacă poate fi redat corect, altfel descrie trasarea precisă. Fără întrebări suplimentare dacă formula este clară.','You are a math teacher. Analyze the function, calculate essential points and values. Render a graph if available; otherwise explain how to draw it accurately. Do not ask extra questions when the function is clear.'),
-  explain:learningLabel('Ești profesor de matematică. Explică direct metoda necesară pentru acest exercițiu, cu pași simpli și un exemplu. Nu cere confirmări inutile.','You are a math teacher. Explain the method required for the exercise directly, with simple steps and one example. Do not request unnecessary confirmations.')
- };
- inputEl.value=instructions[mode]+'\\n'+exercise;
- status.textContent=learningLabel('Rezolvarea apare mai jos, în Matematică.','The answer appears below, in Mathematics.');
- const returnButton=$('mathEducationReturn');
- if(returnButton)returnButton.hidden=false;
- void submitMessage();
- requestAnimationFrame(()=>$('moduleChatHost')?.scrollIntoView({behavior:'smooth',block:'start'}));
+ // Only block structurally broken standalone formulae, not word problems.
+ const hasProse=/[a-zA-ZăâîșțĂÂÎȘȚ]{3,}/u.test(source);
+ if(!hasProse&&educationMathOcrIncomplete(source)){
+  status.textContent=learningLabel('Formula este incompletă. Corectează semnele.','The formula is incomplete. Correct its symbols.');
+  editor.focus();return;
+ }
+ const tasks=mathSplitExercises(source).map(text=>({text,reply:'',error:null}));
+ if(!tasks.length){status.textContent=learningLabel('Nu există un exercițiu de rezolvat.','No exercise to solve.');return}
+ mathCloseResults();
+ const session={mode,tasks,active:0,controller:new AbortController()};
+ mathResultSession=session;
+ const dialog=$('mathResultDialog');
+ $('mathResultTitle').textContent=learningLabel('Matematică · Rezolvare','Mathematics · Solution');
+ $('mathResultClose').textContent=learningLabel('Revenire','Back');
+ editor.value='';status.textContent='';
+ if(document.activeElement?.blur)document.activeElement.blur();
+ try{dialog.showModal()}catch(error){
+  mathResultSession=null;editor.value=source;
+  status.textContent=learningLabel('Fereastra de rezolvare nu poate fi deschisă.','Cannot open the solution window.');
+  return;
+ }
+ mathResultPage(0);
+ tasks.forEach(item=>{void mathFetchResult(item,session)});
 }
+$('mathResultClose').onclick=mathCloseResults;
+$('mathResultDialog').addEventListener('close',()=>{
+ if(mathResultSession){mathResultSession.controller.abort();mathResultSession=null}
+});
+
 // This is the ONLY interaction after photographing a mathematics exercise.
 // Recognition remains uncertain; learners may edit the text before solving.
 window.pocketAndroidOcrResult=function(data){
@@ -6513,7 +6813,7 @@ async function handleLearningPhoto(file){
   else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
  } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
 }
-function openModule(key){document.getElementById('mathEducationReturn')?.remove();if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','tasks-workspace','adaptive-workspace-view');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
+function openModule(key){mathCloseResults();$('view-module').classList.remove('learning-math');document.getElementById('mathEducationReturn')?.remove();if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','tasks-workspace','adaptive-workspace-view');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'}],travel:[{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante, pizzerii, shaormerii și fast-food în apropierea mea.',kind:'places',description:'Caută restaurante, pub-uri, pizzerii, shaormerii și fast-food'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places',description:'Caută alte puncte de interes din apropiere'}]};
 function updateQuickLayerGeometry(){
  const header=document.querySelector('.app-header'),nav=document.querySelector('.bottom-nav');
