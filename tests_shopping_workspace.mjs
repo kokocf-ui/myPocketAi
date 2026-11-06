@@ -62,7 +62,14 @@ assert.ok(agendaStart>0&&agendaEnd>agendaStart,'agenda module isolated from shop
 assert.match(inline,/if\(key==='calendar'\)\{renderAgenda\(\);return\}/);
 assert.match(inline,/if\(agendaVoiceHandleAndroid\(data\)\)return/);
 assert.match(inline,/className='primary-btn agenda-microphone'/);
-assert.match(inline,/panel\.insertBefore\(mic,scroll\)/,'agenda microphone stays outside scrolling list');
+assert.match(inline,/controls\.append\(back,mic\);panel\.insertBefore\(controls,scroll\)/,'equal Back and dictation controls stay outside scroll');
+assert.match(inline,/if\(agendaSelectedId\)\{/,'Back from event details returns to calendar');
+assert.match(inline,/else renderOrganizeChoices\(\)/,'Back from calendar returns to Personal organisation');
+assert.match(inline,/\$\('moduleTitle'\)\.parentElement\?\.querySelector\('\.pocket-voice-info'\)\?\.remove\(\)/,'Personal organisation removes stale info control');
+assert.match(inline,/\['Ștergere produs','Șterge laptele'\]/,'shopping voice guide contains an executable deletion example');
+assert.match(page,/\.agenda-voice-controls\{[\s\S]*?grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/,'Back and dictation share equal adaptive columns');
+assert.doesNotMatch(inline,/returnButton\.classList\.add\('agenda-detail-back'\)/,'detail view reuses the shared Back button');
+
 
 assert.match(inline,/if\(cat\[0\]!=='calendar'\)panel\.append\(bar\)/,'agenda hides redundant category toolbar');
 assert.match(inline,/function pocketVoiceHelp\(mode,title\)/,'shared voice command guide exists');
