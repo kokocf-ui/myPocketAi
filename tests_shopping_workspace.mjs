@@ -428,6 +428,14 @@ assert.equal(notesEval("notesMatch('avatar').id"),notesEval("notesRead()[0].id")
 assert.equal(notesEval("notesMatch('necunoscut')"),null);
 assert.equal(notesEval("notesSave('Test notiță nouă')"),true);
 assert.equal(notesEval("notesRead().length"),2);
+assert.equal(notesEval("notesAutosave(notesRead()[0].id,'Text completat automat')"),true,'note edit persists automatically');
+assert.equal(notesEval("notesRead()[0].body"),'Text completat automat','input changes are preserved');
+assert.match(inline,/input\.addEventListener\('input',persistDraft\)/,'new note auto-saves on typing');
+assert.match(inline,/editor\.addEventListener\('input'/,'existing notes auto-save on typing');
+assert.doesNotMatch(inline,/Salvează modificările/,'no confusing save changes button');
+assert.match(inline,/agendaEventOrigin\(selected\)/,'agenda displays source of event');
+assert.match(inline,/if\(item\.linkedTaskId\)/,'agenda deletion also removes linked source task');
+assert.match(inline,/Pentru notificări folosește Mementouri inteligente/,'notes do not create agenda alerts');
 assert.equal(notesEval("notesRead().some(item=>item.title==='Test notiță nouă')"),true);
 assert.match(inline,/pocketConfirm\(learningLabel\('Ștergi notița/,'note deletion requires a styled confirmation');
 assert.doesNotMatch(inline.slice(startNotes,endNotes),/agendaSyncAndroid\(/,'notes do not directly schedule notifications');
