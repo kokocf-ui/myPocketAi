@@ -7512,8 +7512,8 @@ function mathLinearVerificationLines(equation,formattedValue){
  const shown=s=>String(s).replace(/-/g,'−').replace(/\\*/g,'×')
   .replace(/\\s*=\\s*/g,' = ').trim();
  const firstLine=shown(substituted)
-  .replace(/([0-9])\(([0-9]+(?:[.,][0-9]+)?)\)/g,'$1×$2')
-  .replace(/\(\(([0-9]+(?:[.,][0-9]+)?)\)/g,'($1');
+  .replace(/([0-9])\\(([0-9]+(?:[.,][0-9]+)?)\\)/g,'$1×$2')
+  .replace(/\\(\\(([0-9]+(?:[.,][0-9]+)?)\\)/g,'($1');
  const rows=[firstLine];
  for(const step of arithmetic.steps){
   if(!step.fullAfter)return null;
