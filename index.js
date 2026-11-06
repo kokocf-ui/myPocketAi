@@ -2657,6 +2657,7 @@ function pocketVoiceHelp(mode,title){
    ['Plată viitoare','Pe 18 noiembrie plătesc 70 de lire pentru internet'],
    ['Plată lunară','În fiecare lună pe 6 plătesc chiria de 550 de lire'],
    ['Plăți viitoare','Ce plăți mai am luna viitoare?'],
+   ['Luna următoare','Ce plăți am în luna următoare?'],
    ['Săptămâna viitoare','Ce plăți am săptămâna viitoare?'],
    ['Lună aleasă','Ce plăți am în decembrie?'],
    ['Scadențe','Ce facturi mai am de plătit luna aceasta?'],
@@ -3473,7 +3474,7 @@ function budgetFuturePeriod(data){
  return {start:today,end:future.sort().at(-1)||budgetISO(new Date(new Date().getFullYear(),new Date().getMonth()+1,0))};
 }
 function budgetHasExplicitPeriod(spoken){
- return /luna (?:aceasta|viitoare)|(?:in|pentru|din|pe) luna (?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)|(?:in|pentru|din|pe) (?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)|saptaman|next (?:week|month)|this (?:week|month)/.test(shopVoiceFold(spoken));
+ return /luna (?:aceasta|curenta|viitoare|urmatoare|care vine|ce vine)|(?:in|pentru|din|pe) luna (?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)|(?:in|pentru|din|pe) (?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)|saptaman|next (?:week|month)|this (?:week|month)/.test(shopVoiceFold(spoken));
 }
 function budgetQueryPeriod(spoken,now=new Date()){
  const t=shopVoiceFold(spoken),today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
@@ -3484,7 +3485,7 @@ function budgetQueryPeriod(spoken,now=new Date()){
   let y=Number(named[2]||today.getFullYear()),m=months.indexOf(named[1]);
   if(!named[2]&&new Date(y,m+1,0)<today)y++;
   first=new Date(y,m,1);last=new Date(y,m+1,0);
- }else if(/luna viitoare|next month/.test(t)){
+ }else if(/luna (?:viitoare|urmatoare|care vine|ce vine)|next month/.test(t)){
   first=new Date(today.getFullYear(),today.getMonth()+1,1);last=new Date(today.getFullYear(),today.getMonth()+2,0);
  }else if(/saptamanile viitoare|saptamani viitoare|urmatoarele saptamani|next weeks/.test(t)){
   first=new Date(today);first.setDate(today.getDate()+1);
