@@ -47,10 +47,31 @@ assert.equal(aligned.holder,'JENSEN','layout associates name below surname label
 assert.equal(aligned.given,'ANNA MARIA','layout associates given name below given-name label');
 assert.equal(passport.country,'UTO','MRZ issuing country comes from first line');
 assert.match(page,/documents-scan-review \.documents-field>\.budget-input/,'document fields have responsive compact height');
+const labelsOnly=vm.runInContext('documentsScanExtract('+JSON.stringify('/Nom/Last name\n/Prenom/First name\nDate de naissance')+')',context);
+assert.equal(Object.keys(labelsOnly).length,0,'multilingual headings are not personal data');
+const danish=vm.runInContext('documentsScanExtract('+JSON.stringify('Efternavn\nEKSEMPEL\nFornavn\nANNA\nUdløbsdato\n11.06.2034')+')',context);
+assert.equal(danish.holder,'EKSEMPEL');
+assert.equal(danish.given,'ANNA');
+assert.equal(danish.expires,'2034-06-11');
+const french=vm.runInContext('documentsScanExtract('+JSON.stringify('/Nom/Last name\nDUPONT\n/Prenom/First name\nMARIE\nDate de naissance\n15.04.1990')+')',context);
+assert.equal(french.holder,'DUPONT');
+assert.equal(french.given,'MARIE');
+assert.equal(french.birth,'1990-04-15');
+const separated=vm.runInContext('documentsScanExtract('+JSON.stringify('/Nom/Last name\n/Prenom/First name\nDUPONT\nMARIE')+','+JSON.stringify([
+ {text:'/Nom/Last name',left:20,right:145,top:10,bottom:24},
+ {text:'/Prenom/First name',left:20,right:145,top:100,bottom:114},
+ {text:'DUPONT',left:20,right:130,top:35,bottom:50},
+ {text:'MARIE',left:20,right:130,top:125,bottom:140}
+])+')',context);
+assert.equal(separated.holder,'DUPONT','geometry pairs surname label with actual value');
+assert.equal(separated.given,'MARIE','geometry pairs given-name label with actual value');
+assert.match(source,/documents-scan-review\\s+\\.documents-field>\\.budget-input/,'scanned fields compact styling in place');
 const android=readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(android,/PocketAndroidDocumentScan/);
 assert.match(android,/scanDocumentBytes\(payload\)/,'native bridge receives actual photograph bytes');
 assert.match(android,/InputImage\.fromBitmap\(bitmap,0\)/,'ML Kit gets decoded image');
+assert.match(android,/result\.getTextBlocks\(\)/,'native OCR exposes line layout');
+assert.match(android,/row\.put\("left",bounds\.left\)/,'native passes bounding box coordinates');
 assert.match(android,/result\.getTextBlocks\(\)/,'ML Kit layout lines are extracted');
 assert.match(android,/result\.put\("lines",lines\)/,'layout lines returned to local frontend');
 assert.match(source,/bridge\.postMessage\(JSON\.stringify\(\{action:'scan',id,base64\}\)\)/,'frontend sends photo bytes after saving');
