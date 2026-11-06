@@ -71,6 +71,7 @@ public final class MainActivity extends ComponentActivity {
     // User-selected document photos only; the WebView gets one chooser result, not broad file access.
     private ValueCallback<Uri[]> documentPhotoCallback;
     private Uri documentCameraUri;
+    private boolean scanNextDocumentPhoto=false;
     private TextToSpeech tts;
     private boolean ttsReady=false;
     private String speechMode="dictation";
@@ -112,7 +113,10 @@ public final class MainActivity extends ComponentActivity {
             if(callback==null)return;
             Uri selected=result.getData()!=null?result.getData().getData():null;
             if(result.getResultCode()==Activity.RESULT_OK && selected==null)selected=documentCameraUri;
+            boolean scan=scanNextDocumentPhoto;
+            scanNextDocumentPhoto=false;
             callback.onReceiveValue(result.getResultCode()==Activity.RESULT_OK && selected!=null?new Uri[]{selected}:null);
+            if(scan && result.getResultCode()==Activity.RESULT_OK && selected!=null)recognizeDocumentPhoto(selected);
             documentCameraUri=null;
         });
 
@@ -384,6 +388,14 @@ public final class MainActivity extends ComponentActivity {
                     });
                 });
         }
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidDocumentScan",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!APP_HOST.equals(origin.getHost()))return;
+                    if("next".equals(message.getData()))runOnUiThread(()->scanNextDocumentPhoto=true);
+                });
+        }
         tts=new TextToSpeech(this,status -> {
             ttsReady=status==TextToSpeech.SUCCESS;
             if(!ttsReady)notifyVoice("error","Android voice engine unavailable","tts");
@@ -476,6 +488,26 @@ public final class MainActivity extends ComponentActivity {
                     recognizer.close();
                 });
         } catch(Exception ex) { notifyWeb("error","Image cannot be opened"); }
+    }
+
+    private void recognizeDocumentPhoto(Uri uri){
+        try{
+            InputImage input=InputImage.fromFilePath(this,uri);
+            var recognizer=TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+            recognizer.process(input)
+                .addOnSuccessListener(result->{notifyDocumentScan("success",result.getText());recognizer.close();})
+                .addOnFailureListener(error->{notifyDocumentScan("error","");recognizer.close();});
+        }catch(Exception error){notifyDocumentScan("error","");}
+    }
+    private void notifyDocumentScan(String status,String text){
+        try{
+            JSONObject payload=new JSONObject();payload.put("status",status);payload.put("text",text);
+            String js="window.pocketAndroidDocumentScanResult && window.pocketAndroidDocumentScanResult("+payload.toString()+");";
+            runOnUiThread(()->{
+                if(web!=null && APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost()))
+                    web.evaluateJavascript(js,null);
+            });
+        }catch(Exception ignored){}
     }
 
     private void notifyWeb(String status,String text) {

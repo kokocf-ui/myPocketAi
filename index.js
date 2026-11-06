@@ -3893,7 +3893,7 @@ function renderBudget(){
 
 
 const POCKET_DOCUMENTS_KEY='mypocketai.documents.v1';
-let documentsListening=false,documentsSelectedId=null,documentsFilter=null,documentsEditing=false;
+let documentsListening=false,documentsSelectedId=null,documentsFilter=null,documentsEditing=false,documentsScanDraft=null;
 function documentsRead(){
  try{const a=JSON.parse(localStorage.getItem(POCKET_DOCUMENTS_KEY)||'[]');return Array.isArray(a)?a.filter(x=>x&&typeof x.id==='string'&&typeof x.title==='string'&&typeof x.expires==='string'):[]}
  catch{return []}
@@ -3944,7 +3944,7 @@ function documentsSave(title,expires,id=null,type=null){
   notify(learningLabel('Introdu un nume și o dată validă.','Enter a name and valid date.'));return false;
  }
  const all=documentsRead(),i=all.findIndex(x=>x.id===id),now=new Date().toISOString();
- const item={id:i>=0?all[i].id:shopId(),title,expires,type:type|| (i>=0?all[i].type:documentsType(title)),createdAt:i>=0?all[i].createdAt:now,updatedAt:now};
+ const item={id:i>=0?all[i].id:shopId(),title,expires,type:type|| (i>=0?all[i].type:documentsType(title)),createdAt:i>=0?all[i].createdAt:now,updatedAt:now,fields:i>=0?(all[i].fields||{}):{}};
  if(i>=0)all[i]=item;else all.push(item);
  if(!documentsWrite(all))return false;
  documentsSelectedId=null;documentsFilter=null;renderDocuments();
@@ -4116,7 +4116,7 @@ function documentsPhotoGallery(id,host){
   const file=document.createElement('input');file.type='file';file.accept='image/*';
   file.className='documents-photo-file';file.hidden=true;
   file.onchange=async()=>{if(file.files?.[0])await documentsPhotoSave(id,slot,file.files[0]);file.value=''};
-  const add=budgetButton(learningLabel('Adaugă / schimbă','Add / replace'),()=>file.click(),'secondary-btn');
+  const add=budgetButton(learningLabel('Adaugă / scanează','Add / scan'),()=>{if(window.PocketAndroidDocumentScan?.postMessage)window.PocketAndroidDocumentScan.postMessage('next');file.click()},'secondary-btn');
   area.append(preview,add,file);grid.append(area);
   documentsPhotoOperation('read',id+':'+slot).then(blob=>{
    if(!blob||!preview.isConnected)return;
@@ -4130,6 +4130,78 @@ function documentsPhotoGallery(id,host){
  host.append(grid);
 }
 
+
+
+/* Only user-approved OCR data is stored. No document image or text leaves the device. */
+function documentsScanExtract(raw){
+ const lines=String(raw||'').slice(0,16000).split(/\\r?\\n/).map(x=>x.trim()).filter(Boolean);
+ const fields={},patterns={
+  number:/^(?:document (?:no\\.?|number)|passport (?:no\\.?|number)|serie(?: si numar)?|num[aă]r(?:ul)?(?: documentului)?|licen[cs]e (?:no\\.?|number)|driving licence number|registration (?:no\\.?|number))\\s*[:#-]?\\s*(.+)$/i,
+  holder:/^(?:surname(?:s)?|family name|nume(?: de familie)?|last name|titular|holder)\\s*[:#-]?\\s*(.+)$/i,
+  given:/^(?:given names?|first names?|prenume)\\s*[:#-]?\\s*(.+)$/i,
+  country:/^(?:issuing country|country of issue|[țt]ara emitent[aă]|nationality|na[țt]ionalitate)\\s*[:#-]?\\s*(.+)$/i,
+  issuer:/^(?:issuing authority|authority|autoritatea emitent[aă]|issued by|issuer)\\s*[:#-]?\\s*(.+)$/i,
+  issued:/^(?:date of issue|issue date|data emiterii|issued on|valid from|emis la)\\s*[:#-]?\\s*(.+)$/i,
+  expires:/^(?:date of expiry|expiry date|expiration date|expires(?: on)?|data expir[aă]rii|valabil p[aâ]n[aă] la|valid until|valid to|expir[aă] la)\\s*[:#-]?\\s*(.+)$/i,
+  birth:/^(?:date of birth|birth date|data na[șs]terii|born on)\\s*[:#-]?\\s*(.+)$/i
+ };
+ const parseDate=(v)=>{
+  const m=String(v).match(/\\b(\\d{4})[-./](\\d{1,2})[-./](\\d{1,2})\\b/) ||
+    String(v).match(/\\b(\\d{1,2})[./-](\\d{1,2})[./-](\\d{4})\\b/);
+  if(!m)return '';
+  const iso=m[1].length===4?[m[1],m[2],m[3]]:[m[3],m[2],m[1]];
+  const value=iso[0]+'-'+iso[1].padStart(2,'0')+'-'+iso[2].padStart(2,'0');
+  const date=new Date(value+'T12:00:00');
+  return !Number.isNaN(date.getTime())&&budgetISO(date)===value?value:'';
+ };
+ const keys=Object.keys(patterns);
+ for(let i=0;i<lines.length;i++){
+  for(const key of keys){
+   const match=lines[i].match(patterns[key]);
+   if(!match||fields[key])continue;
+   const value=match[1].trim()||String(lines[i+1]||'').trim();
+   if(!value||value.length>120)continue;
+   if(['issued','expires','birth'].includes(key)){const d=parseDate(value);if(d)fields[key]=d;}
+   else if(key==='number'){if(/^[A-Z0-9][A-Z0-9 -]{3,35}$/i.test(value))fields[key]=value;}
+   else fields[key]=value;
+  }
+ }
+ return fields;
+}
+function documentsScanReview(host,item){
+ if(!documentsScanDraft||documentsScanDraft.id!==item.id)return;
+ const draft=documentsScanDraft,form=budgetNode('form','documents-form');
+ form.append(budgetNode('h3','budget-subtitle',learningLabel('Verifică datele recunoscute','Review recognized fields')));
+ form.append(budgetNode('p','budget-advice',learningLabel('OCR poate greși. Corectează înainte de salvare. Câmpurile neidentificate rămân goale.','OCR may be wrong. Correct before saving. Unknown fields remain empty.')));
+ const labels={number:['Serie / număr','Document number'],holder:['Nume','Surname'],given:['Prenume','Given names'],birth:['Data nașterii','Date of birth'],issued:['Data emiterii','Date of issue'],expires:['Data expirării','Expiry date'],issuer:['Autoritate emitentă','Issuing authority'],country:['Țara emitentă','Issuing country']};
+ const inputs={};
+ for(const [key,names] of Object.entries(labels)){
+  const label=budgetNode('label','documents-field');
+  label.append(budgetNode('small','',learningLabel(...names)));
+  const input=budgetNode('input','budget-input');
+  input.type=['issued','expires','birth'].includes(key)?'date':'text';
+  input.value=draft.fields[key]||item.fields?.[key]||'';
+  input.maxLength=120;input.autocomplete='off';
+  label.append(input);form.append(label);inputs[key]=input;
+ }
+ const actions=budgetNode('div','documents-actions');
+ const confirm=budgetButton(learningLabel('Confirmă și salvează datele','Confirm and save fields'),()=>{
+  const all=documentsRead(),index=all.findIndex(x=>x.id===item.id);if(index<0)return;
+  const fields={...(all[index].fields||{})};
+  for(const key of Object.keys(inputs)){const value=inputs[key].value.trim();if(value)fields[key]=value;else delete fields[key];}
+  all[index]={...all[index],fields,expires:fields.expires||'',updatedAt:new Date().toISOString()};
+  if(documentsWrite(all)){documentsScanDraft=null;renderDocuments();notify(learningLabel('Datele documentului au fost salvate.','Document fields saved.'));}
+ },'primary-btn');
+ actions.append(confirm,budgetButton(learningLabel('Renunță','Cancel'),()=>{documentsScanDraft=null;renderDocuments()},'secondary-btn'));
+ form.append(actions);form.onsubmit=e=>{e.preventDefault();confirm.click()};host.append(form);
+}
+if(typeof window!=='undefined')window.pocketAndroidDocumentScanResult=function(payload){
+ if(!documentsSelectedId||!payload)return;
+ if(payload.status!=='success'){notify(learningLabel('Nu s-a putut citi textul din fotografie. Fotografia poate fi păstrată separat.','Could not read text from photo. You may keep the photo separately.'));return}
+ const fields=documentsScanExtract(payload.text);
+ if(!Object.keys(fields).length){notify(learningLabel('Nu am identificat câmpuri cu suficientă siguranță. Completează manual datele.','No reliable fields detected. Enter the details manually.'));documentsEditing=true;renderDocuments();return}
+ documentsScanDraft={id:documentsSelectedId,fields};documentsEditing=false;renderDocuments();
+};
 
 function renderDocuments(){
  const cat=ORGANIZE_CATEGORIES.find(x=>x[0]==='documents');
@@ -4188,6 +4260,13 @@ function renderDocuments(){
   scroll.append(make('h3','budget-subtitle',learningLabel('Fotografiile documentului','Document photographs')));
   scroll.append(make('p','budget-advice',learningLabel('Atinge fotografia pentru afișare pe întreg ecranul. Poți atașa fața, verso și pagini suplimentare.','Tap a photo to view full screen. Attach front, back and additional pages.')));
   documentsPhotoGallery(item.id,scroll);
+  documentsScanReview(scroll,item);
+  if(item.fields&&Object.keys(item.fields).length){
+   const names={number:'Serie / număr',holder:'Nume',given:'Prenume',issued:'Data emiterii',birth:'Data nașterii',country:'Țara',issuer:'Autoritate emitentă'};
+   const detailFields=make('div','documents-detail');
+   for(const [key,label] of Object.entries(names))if(item.fields[key])detailFields.append(make('p','budget-advice',label+': '+item.fields[key]));
+   scroll.append(detailFields);
+  }
   const controls=make('div','documents-actions');
   controls.append(budgetButton(documentsEditing?learningLabel('Ascunde editarea','Hide editing'):learningLabel('Modifică datele','Edit details'),()=>{documentsEditing=!documentsEditing;renderDocuments()},'secondary-btn'));
   controls.append(budgetButton(learningLabel('Șterge documentul','Delete document'),()=>pocketConfirm(learningLabel('Ștergi documentul „','Delete document “')+item.title+'”?',()=>documentsDelete(item)),'secondary-btn'));

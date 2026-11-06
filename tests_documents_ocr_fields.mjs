@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {readFileSync} from 'node:fs';
+import frontend from './index.js';
+
+const page=await(await frontend.fetch(new Request('https://documents.test/'))).text();
+const source=page.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
+assert.ok(source,'frontend JS exists');
+new vm.Script(source);
+const start=source.indexOf('function documentsScanExtract(raw){');
+const end=source.indexOf('function documentsScanReview(host,item){',start);
+assert.ok(start>=0&&end>start,'OCR field parser available');
+const context=vm.createContext({budgetISO:d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')});
+vm.runInContext(source.slice(start,end),context);
+const result=vm.runInContext('documentsScanExtract('+JSON.stringify('PASSPORT NUMBER: AB123456\nSurname: POPESCU\nGiven names: ANDREI\nDate of expiry: 11.06.2034\nDate of issue: 12.06.2024')+')',context);
+assert.equal(result.number,'AB123456');
+assert.equal(result.holder,'POPESCU');
+assert.equal(result.given,'ANDREI');
+assert.equal(result.expires,'2034-06-11');
+assert.equal(result.issued,'2024-06-12');
+assert.equal(Object.keys(vm.runInContext("documentsScanExtract('random 1234')",context)).length,0,'do not guess unlabeled identifiers');
+const android=readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
+assert.match(android,/PocketAndroidDocumentScan/);
+assert.match(android,/recognizeDocumentPhoto\(selected\)/);
+assert.match(source,/function documentsScanReview\(/);
+assert.match(source,/window\.pocketAndroidDocumentScanResult/);
+console.log('Document OCR field recognition and review wiring tests passed');
