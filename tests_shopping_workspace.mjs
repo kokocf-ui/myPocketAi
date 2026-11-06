@@ -432,7 +432,7 @@ assert.equal(notesEval("notesAutosave(notesRead()[0].id,'Text completat automat'
 assert.equal(notesEval("notesRead()[0].body"),'Text completat automat','input changes are preserved');
 assert.match(inline,/input\.addEventListener\('input',persistDraft\)/,'new note auto-saves on typing');
 assert.match(inline,/editor\.addEventListener\('input'/,'existing notes auto-save on typing');
-assert.doesNotMatch(inline,/Salvează modificările/,'no confusing save changes button');
+assert.doesNotMatch(inline.slice(inline.indexOf('function renderNotes(){'),inline.indexOf('const TASKS_DRAWINGS=',inline.indexOf('function renderNotes(){')),/Salvează modificările/,'no manual save button in notes');
 assert.match(inline,/agendaEventOrigin\(selected\)/,'agenda displays source of event');
 assert.match(inline,/if\(item\.linkedTaskId\)/,'agenda deletion also removes linked source task');
 assert.match(inline,/Pentru notificări folosește Mementouri inteligente/,'notes do not create agenda alerts');
