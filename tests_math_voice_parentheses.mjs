@@ -191,7 +191,7 @@ assert.match(detailed('(-3)*(-2) = 6').steps[0].signRule,/două numere negative/
 const bothSides=detailed('2+3=1+4');
 assert.equal(bothSides.steps[0].fullAfter,'5 = 1+4');
 assert.equal(bothSides.steps[1].fullAfter,'5 = 5');
-assert.ok(embedded.includes("if(verifiedEquality&&!item.detailed)"),'do not repeat the verdict above the worked steps');
+assert.ok(embedded.includes("if(verifiedEquality&&!item.detailed&&session.mode!==\'explain\')"),'do not repeat the verdict above worked steps or method guides');
 assert.ok(embedded.includes("step.reason"),'teacher explains each operation');
 assert.ok(embedded.includes("step.fullAfter"),'complete expressions are displayed');
 assert.ok(embedded.includes("step.signRule"),'sign rules are shown where relevant');
