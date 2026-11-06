@@ -30,4 +30,12 @@ assert.match(alarms,/event\.getYear\(\)/,'birthday annual alarms distinguish yea
 assert.match(app,/function agendaReminderPreset\(title\)/);
 assert.match(app,/reminderPreset:preset\.value==='auto'/);
 assert.match(receiver,/reschedule\(context\)/);
+
+assert.match(app,/function renderReminders\(\)/,'dedicated reminder workspace is rendered');
+assert.match(app,/function remindersParseVoice\(/,'natural-language reminder parser exists');
+assert.match(app,/function remindersVoiceHandleAndroid\(/,'native speech results are handled');
+assert.match(app,/mode:'reminders'/,'reminders use Android speech bridge');
+assert.match(app,/if\(key==='reminders'\)\{renderReminders\(\);return\}/,'organizer navigates directly to reminders');
+assert.match(app,/reminderPreset:'reminder'/,'new reminders use their own scheduled time');
+assert.match(alarms,/case "reminder":return new long\[\]\{0\}/,'reminder notification is scheduled at event time');
 console.log('PASS agenda: native bridge, reminders, reboot restoration and permissions');
