@@ -2917,6 +2917,11 @@ function agendaBirthdaySpoken(text){
  return {fields,title:command};
 }
 function agendaDate(text,now=new Date()){
+ const shared=tasksParseSpokenDeadline(String(text||'').replace(/[,;]+/g,' '),now);
+ if(shared.due&&shared.time){
+  const when=new Date(shared.due+'T'+shared.time+':00');
+  if(!Number.isNaN(when.getTime()))return {when:when.toISOString(),dateText:shared.due,timeText:shared.time,sharedTitle:shared.title};
+ }
  const spoken=shopVoiceFold(text);
  const absolute=spoken.match(/\\b(\\d{1,2})[./-](\\d{1,2})(?:[./-](\\d{4}))?\\b/u);
  const clock=spoken.match(/\\b(?:la\\s+)?(?:ora\\s+)?(\\d{1,2})(?:[:.](\\d{2}))?\\b(?=\\s*(?:dimineata|seara|dupa-amiaza)?(?:\\s|$))/u);
@@ -2971,7 +2976,7 @@ function agendaVoiceCommand(text){
  if(agendaBirthdaySave(birthday.title,birthday.fields)){renderAgenda();notify(learningLabel('Zi de naștere salvată anual.','Yearly birthday saved.'))}return}
  const parsed=agendaDate(spoken);
  if(!parsed){notify(learningLabel('Spune și data, și ora: de exemplu „Programează dentistul mâine la ora 10”.','Please include date and time.'));return}
- const title=agendaExtractTitle(spoken,parsed);
+ const title=(parsed.sharedTitle?parsed.sharedTitle.replace(/^(?:programeaz[aă]|adaug[aă]|ad[aă]uga|noteaz[aă]|trece|pune|am)\s+/iu,'').replace(/^(?:o|un)\s+(?:programare|sarcin[aă])\s+/iu,'').trim():'')||agendaExtractTitle(spoken,parsed);
  if(!title){notify(learningLabel('Nu am înțeles denumirea programării.','Could not understand appointment title.'));return}
  const events=agendaRead();
  events.push({id:shopId(),title,when:parsed.when,reminderPreset:agendaReminderPreset(title),createdAt:new Date().toISOString()});
