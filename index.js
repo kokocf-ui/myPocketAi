@@ -3563,8 +3563,8 @@ function budgetSpendingReport(entries,day=new Date()){
  const expenses=entries.filter(item=>item.type==='expense'&&item.status!=='planned'&&String(item.date||'').startsWith(prefix))
   .sort((a,b)=>a.date.localeCompare(b.date)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));
  const categories=new Map();
- for(const item of expenses)categories.set(item.category||'other',
-  (categories.get(item.category||'other')||0)+Number(item.baseAmount));
+ for(const item of expenses){const category=item.category==='other'?budgetCategory(item.title):item.category||'other';
+  categories.set(category,(categories.get(category)||0)+Number(item.baseAmount));}
  const total=expenses.reduce((sum,item)=>sum+Number(item.baseAmount),0);
  return {expenses,total,categories:[...categories.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))};
 }
@@ -3617,8 +3617,8 @@ function renderBudget(){
     tr.onclick=()=>budgetRenameEntry(item.id);
     tr.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();budgetRenameEntry(item.id)}};
     const date=budgetNode('td','',item.date.slice(8,10)+'.'+item.date.slice(5,7));
-    const title=budgetNode('td','',item.title);
-    const category=budgetNode('td','',budgetCategoryLabel(item.category));
+    const title=budgetNode('td','',budgetVoiceExpenseTitle(item.title)||item.title);
+    const category=budgetNode('td','',budgetCategoryLabel(item.category==='other'?budgetCategory(item.title):item.category));
     const value=budgetNode('td','budget-report-amount',budgetFormat(item.baseAmount,ccy));
     if(item.currency!==ccy){
      const original=budgetNode('small','',budgetFormat(item.amount,item.currency));
@@ -3744,7 +3744,8 @@ function renderBudget(){
  const byCategory=new Map();
  for(const entry of totals.month){
   if(entry.type!=='expense')continue;
-  byCategory.set(entry.category,(byCategory.get(entry.category)||0)+Number(entry.baseAmount));
+  const category=entry.category==='other'?budgetCategory(entry.title):entry.category;
+  byCategory.set(category,(byCategory.get(category)||0)+Number(entry.baseAmount));
  }
  if(byCategory.size){
   budgetTitleRow(scroll,learningLabel('Distribuția cheltuielilor','Spending breakdown'));
