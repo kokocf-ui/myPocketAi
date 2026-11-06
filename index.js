@@ -7313,7 +7313,10 @@ function mathDetailedArithmetic(source){
      learningLabel('Împărțire','Division'):node.op==='+'?
      learningLabel('Adunare','Addition'):learningLabel('Scădere','Subtraction'));
    const signRule=(node.op==='*'||node.op==='/')?
-    (left<0&&right<0?
+    (left===0||right===0?
+      learningLabel('Când înmulțim cu zero, ori când împărțim zero la un număr nenul, rezultatul este zero.',
+       'Multiplying by zero, or dividing zero by a nonzero number, gives zero.'):
+     left<0&&right<0?
       learningLabel('Două numere negative dau un rezultat pozitiv la înmulțire sau împărțire.',
        'Two negative numbers give a positive result when multiplying or dividing.'):
      (left<0)!==(right<0)?
@@ -7322,11 +7325,17 @@ function mathDetailedArithmetic(source){
       learningLabel('Numerele cu semne identice dau un rezultat pozitiv.',
        'Numbers with matching signs give a positive result.')):
     node.op==='+'?
-     (left<0||right<0?
-      learningLabel('La adunarea numerelor cu semne diferite, scădem valorile absolute și păstrăm semnul celui cu valoarea absolută mai mare.',
-       'For addition with opposite signs, subtract absolute values and keep the sign of the number with the larger absolute value.'):
-      learningLabel('Adunăm cele două valori pentru a obține suma.',
-       'We add both values to find their sum.')):
+     (left===0||right===0?
+      learningLabel('Adunarea cu zero nu schimbă celălalt număr.',
+       'Adding zero does not change the other number.'):
+     left*right<0?
+      learningLabel('Pentru semne diferite, scădem valorile absolute și păstrăm semnul numărului cu valoarea absolută mai mare.',
+       'With opposite signs, subtract absolute values and keep the sign of the number with the larger absolute value.'):
+     left<0&&right<0?
+      learningLabel('Adunăm valorile absolute ale numerelor negative și păstrăm semnul minus.',
+       'Add the absolute values of both negative numbers and keep the minus sign.'):
+      learningLabel('Adunăm cele două numere pozitive.',
+       'Add the two positive numbers.')):
     learningLabel('Scăderea unui număr este echivalentă cu adunarea opusului său.',
       'Subtracting a number is the same as adding its opposite.');
    const why=(inBrackets?
