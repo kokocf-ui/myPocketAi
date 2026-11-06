@@ -69,6 +69,17 @@ assert.match(inline,/function pocketVoiceHelp\(mode,title\)/,'shared voice comma
 assert.match(inline,/pocketVoiceHelp\('agenda',\$\('moduleTitle'\)\)/,'agenda guide attached to title');
 assert.match(inline,/pocketVoiceHelp\('shopping',\$\('moduleTitle'\)\)/,'shopping guide attached to title');
 assert.match(inline,/pocketVoiceHelp\('assistant',document\.querySelector/,'assistant uses the same voice guide');
+
+assert.match(inline,/title\.parentElement\?\.append\(icon\)/,'info icon is a sibling aligned with module title');
+assert.match(page,/#view-module\.organize-active>\.module-heading-row\{[\s\S]*?display:flex!important/,'heading uses vertical alignment for info');
+assert.match(page,/\.agenda-detail>\.agenda-detail-back\{/,'details return action is compact');
+assert.match(page,/\.agenda-detail-actions\{[\s\S]*?grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/,'event edit and delete actions balanced');
+assert.match(inline,/voiceStatus\.setAttribute\('aria-live','polite'\)/,'agenda voice status is accessible');
+assert.match(inline,/panel\.insertBefore\(voiceStatus,scroll\)/,'agenda status remains visible outside calendar scroll');
+assert.match(inline,/data\.status==='partial'/,'native agenda recognition displays partial speech');
+assert.match(inline,/agendaRetryCount<2/,'native agenda recognizer retries transient failures only twice');
+assert.match(inline,/agendaSpeechStatus\(learningLabel\('Te ascult/,'native recognizer reports listening state');
+
 assert.match(inline,/dialog\.showModal\(\)/,'voice help opens as an overlay without leaving module');
 assert.match(page,/grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/,'calendar view selectors use four equal adaptive columns');
 assert.match(page,/grid-template-columns:minmax\(2\.5rem,auto\) minmax\(0,1fr\) minmax\(2\.5rem,auto\) minmax\(4\.5rem,auto\)/,'calendar navigation row has balanced controls');
