@@ -2525,7 +2525,7 @@ function tasksDueLabel(value){
 }
 function tasksParseSpokenDeadline(value,now=new Date()){
  let title=String(value||'').trim(),due='',time='';
- const dm=title.match(/\b(poim[aâ]ine|m[aâ]ine|ast[aă]zi)\b/iu);
+ const dm=title.match(/\\b(poim[aâ]ine|m[aâ]ine|ast[aă]zi)\\b/iu);
  if(!dm)return {title,due,time};
  const base=new Date(now.getFullYear(),now.getMonth(),now.getDate());
  const word=shopVoiceFold(dm[1]);
@@ -2533,10 +2533,10 @@ function tasksParseSpokenDeadline(value,now=new Date()){
  else if(word==='poimaine')base.setDate(base.getDate()+2);
  due=[base.getFullYear(),String(base.getMonth()+1).padStart(2,'0'),String(base.getDate()).padStart(2,'0')].join('-');
  const rest=title.slice(dm.index+dm[0].length).trim();
- const clock=rest.match(/^(?:(?:la|ora)\s*){0,2}(\d{1,2})(?:[:.](\d{2}))?\s*$/iu);
+ const clock=rest.match(/^(?:(?:la|ora)\\s*){0,2}(\\d{1,2})(?:[:.](\\d{2}))?\\s*$/iu);
  if(rest&&!clock)return {title,due:'',time:''};
  if(clock){const h=Number(clock[1]),m=Number(clock[2]||0);if(h>23||m>59)return {title,due:'',time:''};time=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')}
- const before=title.slice(0,dm.index).replace(/\s*(?:pe|pentru|la|în|in)\s*$/iu,'').trim();
+ const before=title.slice(0,dm.index).replace(/\\s*(?:pe|pentru|la|în|in)\\s*$/iu,'').trim();
  return {title:before||title,due,time};
 }
 function tasksRepairLegacyVoiceDates(){
@@ -2565,7 +2565,7 @@ function tasksToAgenda(item,automatic=false){
  const events=agendaRead();
  if(events.some(e=>e.linkedTaskId===item.id))return true;
  // No spoken hour: save an all-day dated entry, never an invented 09:00 appointment.
- const hasTime=/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(item.time||'');
+ const hasTime=/^(?:[01]\\d|2[0-3]):[0-5]\\d$/.test(item.time||'');
  const when=new Date(item.due+'T'+(hasTime?item.time+':00':'12:00:00'));
  if(Number.isNaN(when.getTime()))return false;
  events.push({id:shopId(),title:item.title,kind:'task',allDay:!hasTime,linkedTaskId:item.id,when:when.toISOString(),reminderPreset:'default',createdAt:new Date().toISOString()});
