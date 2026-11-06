@@ -97,6 +97,7 @@ public final class MainActivity extends ComponentActivity {
     // Separate one-take Math pilot recording; never affects legacy speech modules.
     private volatile boolean mathPcmRecording=false;
     private AudioRecord mathPcmRecorder;
+    private int mathPcmCaptureSequence=0;
     private boolean pendingMathAudioPermission=false;
     private static final int MATH_AUDIO_HZ=16000;
     private static final int MATH_AUDIO_MAX_BYTES=960000; // 30 seconds mono PCM16
@@ -328,11 +329,13 @@ public final class MainActivity extends ComponentActivity {
         System.arraycopy(pcm,0,wav,44,pcm.length);
         return wav;
     }
-    private void notifyMathAudio(String status,String audio,int durationMs){
+    private void notifyMathAudio(String status,String audio,int durationMs,int id,int index,int count){
         try{
             JSONObject response=new JSONObject();
             response.put("status",status);
             response.put("duration_ms",durationMs);
+            response.put("capture_id",id);
+            if(index>=0){response.put("part_index",index);response.put("part_count",count);}
             if(audio!=null&&!audio.isEmpty())response.put("audio",audio);
             String js="window.pocketAndroidMathAudioResult && window.pocketAndroidMathAudioResult("+response.toString()+");";
             runOnUiThread(()->{
@@ -340,6 +343,9 @@ public final class MainActivity extends ComponentActivity {
                     web.evaluateJavascript(js,null);
             });
         }catch(Exception ignored){}
+    }
+    private void notifyMathAudio(String status,String audio,int durationMs){
+        notifyMathAudio(status,audio,durationMs,mathPcmCaptureSequence,-1,0);
     }
     private void startMathPcmRecording(){
         if(mathPcmRecording)return;
@@ -357,7 +363,8 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception error){notifyMathAudio("error","",0);return;}
         mathPcmRecorder=recorder;
         mathPcmRecording=true;
-        notifyMathAudio("recording","",0);
+        final int captureId=++mathPcmCaptureSequence;
+        notifyMathAudio("recording","",0,captureId,-1,0);
         new Thread(()->{
             ByteArrayOutputStream pcm=new ByteArrayOutputStream(96000);
             byte[] buffer=new byte[4096];
@@ -380,8 +387,16 @@ public final class MainActivity extends ComponentActivity {
             if(samples.length>=16000){
                 byte[] wav=mathWavFromPcm(samples);
                 String encoded=Base64.encodeToString(wav,Base64.NO_WRAP);
-                notifyMathAudio("captured",encoded,duration);
-            }else notifyMathAudio("error","",duration);
+                // Android WebView Binder transactions can reject ~1 MB strings.
+                // Send at most 48 KB per JS callback; never store audio to disk.
+                final int chunkSize=48000;
+                final int parts=(encoded.length()+chunkSize-1)/chunkSize;
+                for(int i=0;i<parts;i++){
+                    String piece=encoded.substring(i*chunkSize,Math.min(encoded.length(),(i+1)*chunkSize));
+                    notifyMathAudio("chunk",piece,duration,captureId,i,parts);
+                }
+                notifyMathAudio("captured","",duration,captureId,-1,parts);
+            }else notifyMathAudio("error","",duration,captureId,-1,0);
         },"pocket-math-audio-pilot").start();
     }
     private void stopMathPcmRecording(){
