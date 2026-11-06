@@ -176,7 +176,7 @@ public final class MainActivity extends ComponentActivity {
         try {
             speechRecognizer=SpeechRecognizer.createSpeechRecognizer(this);
             speechRecognizer.setRecognitionListener(new RecognitionListener(){
-                @Override public void onReadyForSpeech(Bundle params){notifyVoice("listening","","");}
+                @Override public void onReadyForSpeech(Bundle params){notifyVoice("listening","",speechMode);}
                 @Override public void onBeginningOfSpeech(){}
                 @Override public void onRmsChanged(float rmsdB){}
                 @Override public void onBufferReceived(byte[] buffer){}
