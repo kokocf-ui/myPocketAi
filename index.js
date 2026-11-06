@@ -1412,7 +1412,8 @@ body.long-choice-active{overflow:hidden}
 #view-module .budget-transaction-info{display:flex;flex-direction:column;gap:.2rem;min-width:0;flex:1;overflow-wrap:anywhere}
 #view-module .budget-transaction-info small{opacity:.7}
 #view-module .budget-transaction>strong{font-size:clamp(.8rem,3vw,1rem);text-align:right;max-width:48%;overflow-wrap:anywhere}
-#view-module .budget-fx-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+#view-module .budget-fx-pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:.4rem;align-items:end}
+#view-module .budget-fx-swap{width:2.3rem!important;min-width:2.3rem!important;height:2.65rem!important;min-height:2.65rem!important;padding:0!important;font-size:1.35rem!important;line-height:1!important;border-radius:.65rem!important;align-self:end}
 #view-module .budget-field{display:flex;flex-direction:column;gap:.4rem;min-width:0}
 #view-module .budget-currency,#view-module .budget-input{box-sizing:border-box;width:100%;min-width:0;min-height:2.65rem;border-radius:.7rem;background:#112e43;color:#effaff;border:1px solid #53839b;padding:.55rem;font:inherit}
 #view-module .budget-entry-form{display:flex;flex-direction:column;gap:.55rem}
@@ -3700,7 +3701,15 @@ function renderBudget(){
   from.append(budgetCurrencySelect(budgetFxFrom||budgetLocalCurrency||ccy,v=>{budgetFxFrom=v;budgetFxManual=true;budgetFxRate=null;renderBudget()}));
   to.append(budgetNode('label','',learningLabel('În moneda','To')));
   to.append(budgetCurrencySelect(budgetFxTo,v=>{budgetFxTo=v;budgetFxRate=null;renderBudget()}));
-  row.append(from,to);scroll.append(row);
+  const swap=budgetButton('⇄',()=>{
+   const oldFrom=budgetFxFrom||budgetLocalCurrency||ccy;
+   budgetFxFrom=budgetFxTo;budgetFxTo=oldFrom;
+   budgetFxManual=true;budgetFxError='';budgetFxRate=null;
+   budgetFxLoad();
+  },'secondary-btn budget-fx-swap');
+  swap.setAttribute('aria-label',learningLabel('Inversează monedele','Swap currencies'));
+  swap.title=learningLabel('Inversează monedele','Swap currencies');
+  row.append(from,swap,to);scroll.append(row);
   const amount=budgetNode('input','budget-input');amount.type='text';amount.inputMode='decimal';
   amount.value=budgetFxAmount;amount.setAttribute('aria-label',learningLabel('Sumă pentru conversie','Amount to convert'));
   amount.oninput=()=>{budgetFxAmount=amount.value};
