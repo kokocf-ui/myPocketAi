@@ -3456,6 +3456,25 @@ function budgetUpcoming(data,until=''){
  }
  return entries.sort((a,b)=>a.date.localeCompare(b.date));
 }
+function budgetFuturePeriod(data){
+ const today=budgetDateNow();
+ const future=data.entries.filter(e=>e.status==='planned'&&e.date>=today).map(e=>e.date);
+ // Include the nearest recurrence even if its first occurrence was already paid.
+ for(const e of data.entries.filter(e=>e.recurring==='monthly')){
+  let due=new Date(e.date+'T12:00:00');
+  if(Number.isNaN(due.getTime()))continue;
+  const day=Number(e.recurringDay||due.getDate());
+  for(let i=0;i<24&&budgetISO(due)<today;i++){
+   const y=due.getFullYear(),m=due.getMonth()+1;
+   due=new Date(y,m,Math.min(day,new Date(y,m+1,0).getDate()),12);
+  }
+  if(budgetISO(due)>=today)future.push(budgetISO(due));
+ }
+ return {start:today,end:future.sort().at(-1)||budgetISO(new Date(new Date().getFullYear(),new Date().getMonth()+1,0))};
+}
+function budgetHasExplicitPeriod(spoken){
+ return /luna (?:aceasta|viitoare)|(?:in|pentru|din|pe) luna (?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)|(?:in|pentru|din|pe) (?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)|saptaman|next (?:week|month)|this (?:week|month)/.test(shopVoiceFold(spoken));
+}
 function budgetQueryPeriod(spoken,now=new Date()){
  const t=shopVoiceFold(spoken),today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
  const months=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
@@ -3522,7 +3541,7 @@ async function budgetVoiceCommand(raw){
  }
  if(/(?:ce|cate|care|arata|show|what|how many).*?(?:plati|facturi|cheltuieli|payments|bills)|(?:plati|facturi|cheltuieli).*?(?:viitoare|urmatoare|luna|saptamana)|de platit|scadente|upcoming (?:payments|bills)/.test(spoken)&&!/(?:am cheltuit|am platit|spent|paid)\\s+\\d/.test(spoken)){
   budgetTab=/efectuat|platit deja|achitat|paid already/.test(spoken)?'paid':'planned';
-  budgetPeriod=budgetQueryPeriod(spoken);
+  budgetPeriod=budgetHasExplicitPeriod(spoken)?budgetQueryPeriod(spoken):budgetTab==='planned'?budgetFuturePeriod(budgetRead()):budgetQueryPeriod(spoken);
   budgetScreen='period';renderBudget();return;
  }
  if(/cat am|raport|rezumat|sold|balanta|balance/.test(spoken)){budgetScreen='home';renderBudget();return}
@@ -3559,7 +3578,14 @@ async function budgetVoiceCommand(raw){
  const ok=await budgetAddEntry({amount,currency,title:title||learningLabel('Cheltuială','Expense'),
   date:due,status:future||due>budgetDateNow()?'planned':'paid',recurring,
   type:income?'income':'expense',category:budgetCategory(title)});
- if(ok)notify(learningLabel(future?'Plată planificată înregistrată.':'Tranzacție înregistrată.',future?'Planned payment saved.':'Transaction saved.'));
+ if(ok){
+  if(future||due>budgetDateNow()){
+   const year=Number(due.slice(0,4)),month=Number(due.slice(5,7))-1;
+   budgetTab='planned';budgetPeriod={start:budgetISO(new Date(year,month,1)),end:budgetISO(new Date(year,month+1,0))};
+   budgetScreen='period';renderBudget();
+  }
+  notify(learningLabel(future?'Plată planificată înregistrată.':'Tranzacție înregistrată.',future?'Planned payment saved.':'Transaction saved.'));
+ }
 }
 function budgetSpendingReport(entries,day=new Date()){
  const prefix=day.getFullYear()+'-'+String(day.getMonth()+1).padStart(2,'0');
@@ -3808,7 +3834,7 @@ function renderBudget(){
  }
  scroll.append(tabs);
  if(budgetPeriod&&budgetTab==='planned')scroll.append(budgetNode('small','budget-advice',learningLabel('Perioada: ','Period: ')+range.start+' — '+range.end));
- const latest=budgetTab==='planned'?visiblePlanned:[...data.entries].filter(e=>e.status!=='planned').sort((a,b)=>b.date.localeCompare(a.date)||String(b.createdAt||'').localeCompare(String(a.createdAt||''))).slice(0,10);
+ const latest=budgetTab==='planned'?(budgetPeriod?visiblePlanned:budgetUpcoming(data,budgetFuturePeriod(data).end).filter(e=>e.date>=budgetDateNow())):[...data.entries].filter(e=>e.status!=='planned').sort((a,b)=>b.date.localeCompare(a.date)||String(b.createdAt||'').localeCompare(String(a.createdAt||''))).slice(0,10);
  if(!latest.length)scroll.append(budgetNode('p','budget-empty',budgetTab==='planned'?learningLabel('Nu există plăți planificate în perioada selectată.','No scheduled payments for the selected period.'):learningLabel('Nu ai tranzacții. Începe prin a adăuga un venit sau o cheltuială.','No transactions yet. Add an income or expense.')));
  for(const item of latest){
   const row=budgetButton('',()=>item.status==='planned'?budgetPayPlanned(item):budgetRenameEntry(item.id),'budget-transaction');

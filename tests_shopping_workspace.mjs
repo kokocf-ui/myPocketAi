@@ -582,6 +582,12 @@ assert.equal(queryPeriod('Ce plăți mai am luna viitoare?').start,'2026-12-01')
 assert.equal(queryPeriod('Ce plăți mai am în luna decembrie?').end,'2026-12-31');
 assert.equal(queryPeriod('Ce plăți mai am săptămâna viitoare?').start,'2026-11-09');
 assert.equal(queryPeriod('Ce plăți mai am săptămâni viitoare?').end,'2026-12-04');
+assert.equal(queryPeriod('Ce plăți am în ianuarie 2027?').start,'2027-01-01');
+assert.equal(queryPeriod('Ce plăți am în ianuarie 2027?').end,'2027-01-31');
+assert.equal(vm.runInContext("budgetVoiceDate('platesc 80 lire pe 18 ianuarie 2027')",speechCtx),'2027-01-18');
+assert.match(inline,/budgetHasExplicitPeriod\(spoken\)\?budgetQueryPeriod\(spoken\)/,'explicit period queries are isolated');
+assert.match(inline,/budgetScreen='period';renderBudget\(\);\s*}\s*notify\(learningLabel\(future/,'new planned payments open their due month immediately');
+
 assert.match(inline,/budgetScreen='period';renderBudget\(\);return;/,'voice queries open the period results immediately');
 assert.match(inline,/if\(budgetScreen==='period'\)/,'period results have a dedicated visible screen');
 assert.match(page,/Plăți viitoare/,'Info has payment wording');
