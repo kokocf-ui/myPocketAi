@@ -171,6 +171,32 @@ assert.equal(detailed('-(3-5) = 2').conclusion.includes('adevărată'),true);
 assert.equal(detailed('2/0 = 9'),null,'division by zero needs another solver');
 assert.equal(detailed('2(3+4)=14'),null,'implicit multiplication is unsupported');
 assert.equal(detailed('x+1=2'),null,'symbolic equations go to the general model');
+// A schoolteacher-style solution must say WHY each transformation is applied,
+// retain both sides of the proposed equation, and state the verdict only once.
+assert.match(worked.intro,/ordinea|regula|paranteze/i,'the lesson begins with the precedence rule');
+assert.equal(worked.steps[0].label,'Calculăm în paranteză');
+assert.match(worked.steps[0].reason,/paranteză.*prioritate/i,'first step explains why we start inside brackets');
+assert.match(worked.steps[0].signRule,/pozitiv.*negativ.*negativ/,'explain why 2 × (-1) is negative');
+assert.equal(worked.steps[0].fullAfter,'3 × (−2) + 5 = 20','after the bracket, keep the entire proposed equality');
+assert.equal(worked.steps[1].fullAfter,'−6 + 5 = 20','after multiplication, still keep the +5 and right side');
+assert.equal(worked.steps[2].fullAfter,'−1 = 20','the final written comparison is fully visible');
+assert.match(worked.steps[1].reason,/înmulțirile.*înaintea.*adunărilor/,'explain multiplication priority');
+assert.match(worked.steps[2].reason,/stânga la dreapta/,'explain remaining additive operations');
+assert.match(worked.conclusion,/Egalitatea este falsă/);
+const correct=detailed('3 * (2 * -1) + 5 = -1');
+assert.match(correct.conclusion,/Egalitatea este adevărată/);
+assert.equal(correct.steps[2].fullAfter,'−1 = −1');
+assert.equal(detailed('5+2').steps[0].fullAfter,'7','standalone expressions should not gain a made-up equals sign');
+assert.match(detailed('(-3)*(-2) = 6').steps[0].signRule,/două numere negative/,'same-sign rule is explained');
+const bothSides=detailed('2+3=1+4');
+assert.equal(bothSides.steps[0].fullAfter,'5 = 1+4');
+assert.equal(bothSides.steps[1].fullAfter,'5 = 5');
+assert.ok(embedded.includes("if(verifiedEquality&&!item.detailed)"),'do not repeat the verdict above the worked steps');
+assert.ok(embedded.includes("step.reason"),'teacher explains each operation');
+assert.ok(embedded.includes("step.fullAfter"),'complete expressions are displayed');
+assert.ok(embedded.includes("step.signRule"),'sign rules are shown where relevant');
+assert.ok(embedded.includes("step.fullAfter).join(' ')"),'voice reads the lesson, not only the final result');
+
 assert.ok(embedded.includes("item.detailed=steps"),'supported arithmetic uses the local step renderer');
 assert.ok(embedded.includes("item.detailed.steps.length"),'multiple numbered steps are displayed');
 

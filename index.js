@@ -7238,7 +7238,7 @@ function mathDetailedArithmetic(source){
  const format=value=>formatter.format(Object.is(value,-0)?0:value).replace(/-/g,'−');
  const operator=op=>({'*':'×','/':'÷','+':'+','-':'−'}[op]||op);
  const steps=[];
- const explainSide=(input,side)=>{
+ const explainSide=(input,side,sideKey)=>{
   const raw=String(input).replace(/[−–]/g,'-').replace(/[×·]/g,'*')
    .replace(/÷/g,'/').replace(/\\s+/g,'');
   if(!raw||raw.length>180||!/^[0-9.,()+\\-*/]+$/.test(raw))return null;
@@ -7288,29 +7288,45 @@ function mathDetailedArithmetic(source){
   };
   // Re-render each expression after applying an operator. This prevents
   // omitted terms like the reported "3 × (2 × -1) + 5" -> "-6".
-  const solve=node=>{
+  const solve=(node,withinParentheses=false)=>{
    if(node.kind==='number')return node.value;
    if(node.kind==='group'){
-    const value=solve(node.inner);return value;
+    const value=solve(node.inner,true);return value;
    }
    if(node.kind==='unary'){
-    const value=solve(node.child);
+    const value=solve(node.child,withinParentheses);
     if(value===null)return null;
     node.done=node.sign==='-'?-value:value;
     return node.done;
    }
-   const left=solve(node.left),right=solve(node.right);
+   const left=solve(node.left,withinParentheses),right=solve(node.right,withinParentheses);
    if(left===null||right===null||(node.op==='/'&&right===0))return null;
    const value=node.op==='+'?left+right:node.op==='-'?left-right:
     node.op==='*'?left*right:left/right;
    if(!Number.isFinite(value)||Math.abs(value)>1e12)return null;
    const operation=display(node)+' = '+format(value);
    node.done=value;
-   const label=side+' · '+(node.op==='*'?
-     learningLabel('Înmulțire','Multiplication'):node.op==='/'?
-     learningLabel('Împărțire','Division'):node.op==='+'?
-     learningLabel('Adunare','Addition'):learningLabel('Scădere','Subtraction'));
-   steps.push({label,operation,after:display(root)});
+   const label=withinParentheses?
+     learningLabel('Calculăm în paranteză','Calculate inside the parentheses'):
+     node.op==='*'?learningLabel('Efectuăm înmulțirea','Multiply'):
+     node.op==='/'?learningLabel('Efectuăm împărțirea','Divide'):
+     node.op==='+'?learningLabel('Efectuăm adunarea','Add'):
+     learningLabel('Efectuăm scăderea','Subtract');
+   const reason=withinParentheses?
+     learningLabel('Începem cu operațiile din paranteză. Ele au prioritate față de calculele din afara parantezei.',
+       'Start with the operation inside the parentheses. It takes priority over operations outside.'):
+     node.op==='*'||node.op==='/'?
+     learningLabel('Parantezele au fost calculate. Acum facem înmulțirile și împărțirile înaintea adunărilor și scăderilor.',
+       'After the parentheses, multiplication and division come before addition and subtraction.'):
+     learningLabel('Am terminat operațiile cu prioritate mai mare. Acum calculăm termenii rămași, de la stânga la dreapta.',
+       'We have completed higher-priority operations. Now evaluate the remaining terms from left to right.');
+   const signRule=(node.op==='*'||node.op==='/') && left!==0 && right!==0 && (left<0||right<0)?
+     (Math.sign(left)===Math.sign(right)?
+      learningLabel('Regula semnelor: două numere negative dau un rezultat pozitiv.',
+       'Sign rule: two negative numbers give a positive result.'):
+      learningLabel('Regula semnelor: un număr pozitiv și unul negativ dau un rezultat negativ.',
+       'Sign rule: a positive and a negative number give a negative result.')):'';
+   steps.push({label,reason,signRule,operation,after:display(root),sideKey});
    return value;
   };
   const result=solve(root);
@@ -7319,19 +7335,31 @@ function mathDetailedArithmetic(source){
   if(baseline===null||Math.abs(baseline-result)>1e-9*Math.max(1,Math.abs(baseline)))return null;
   return {value:result,shown:display(root)};
  };
- const left=explainSide(parts[0],learningLabel('Stânga','Left'));
+ const left=explainSide(parts[0],learningLabel('Stânga','Left'),'left');
  if(!left)return null;
  let right=null;
  if(parts.length===2){
-  right=explainSide(parts[1],learningLabel('Dreapta','Right'));
+  right=explainSide(parts[1],learningLabel('Dreapta','Right'),'right');
   if(!right)return null;
  }
  if(steps.length>60)return null;
+ // Keep the originally dictated equality visible throughout a verification.
+ const rightOriginal=parts.length===2?parts[1].trim().replace(/[-−–]/g,'−').replace(/[×·*]/g,'×').replaceAll('/', '÷'):'';
+ for(const step of steps){
+  step.fullAfter=parts.length===2?
+   (step.sideKey==='left'?step.after+' = '+rightOriginal:format(left.value)+' = '+step.after):
+   step.after;
+ }
  const intro=learningLabel(
-  'Respectăm ordinea operațiilor: mai întâi parantezele, apoi înmulțirile și împărțirile, apoi adunările și scăderile.',
-  'Follow the order of operations: parentheses first, then multiplication and division, then addition and subtraction.');
+  'Mai întâi stabilim ordinea operațiilor: începem din paranteze, continuăm cu înmulțirile și împărțirile și terminăm cu adunările și scăderile. La fiecare pas rescriem întreaga expresie, fără să pierdem niciun termen.',
+  'First recall the rule: parentheses, then multiplication and division, then addition and subtraction. Rewrite the whole expression at each step without losing any term.');
  const conclusion=checked?
-  mathEqualityExplanation(checked):
+  mathEqualityExplanation(checked)+' '+
+  (checked.equal?
+   learningLabel('Cei doi membri au aceeași valoare, deci verificarea este reușită.',
+    'Both sides have the same value, so the equality checks out.'):
+   learningLabel('Cei doi membri au valori diferite. Rezultatul calculat nu corespunde numărului scris după egal.',
+    'The two sides have different values. The calculated result does not match the number after the equals sign.')):
   learningLabel('Rezultatul expresiei este ','The value of the expression is ')+format(left.value)+'.';
  return {intro,steps,conclusion,left:left.value,right:right?.value??null};
 }
@@ -7358,7 +7386,7 @@ function mathResultPage(index){
  source.textContent=item.text;
  body.append(title,source);
  const verifiedEquality=mathArithmeticEquality(item.text);
- if(verifiedEquality){
+ if(verifiedEquality&&!item.detailed){
   const check=document.createElement('p');
   check.className='math-equality-check';
   check.style.cssText='margin:12px 0 14px;font-weight:750;line-height:1.45';
@@ -7370,7 +7398,7 @@ function mathResultPage(index){
  const result=document.createElement('div');result.className='math-result-copy';
  if(item.detailed){
   const heading=document.createElement('strong');
-  heading.textContent=learningLabel('Rezolvare detaliată, calculată local','Detailed solution, calculated locally');
+  heading.textContent=learningLabel('Rezolvăm împreună, pas cu pas','Let’s solve it together, step by step');
   const intro=document.createElement('p');intro.textContent=item.detailed.intro;
   result.append(heading,intro);
   if(item.detailed.steps.length){
@@ -7379,15 +7407,25 @@ function mathResultPage(index){
    for(const step of item.detailed.steps){
     const li=document.createElement('li');
     const name=document.createElement('strong');name.textContent=step.label;
+    const why=document.createElement('p');why.textContent=step.reason;
+    why.style.cssText='margin:7px 0;line-height:1.5';
     const operation=document.createElement('div');operation.textContent=step.operation;
+    operation.style.cssText='font-weight:650;margin:8px 0;overflow-wrap:anywhere';
     const remaining=document.createElement('div');
-    remaining.textContent=learningLabel('Expresia devine: ','The expression becomes: ')+step.after;
-    remaining.style.cssText='opacity:.9;margin-top:5px';
-    li.append(name,operation,remaining);list.append(li);
+    remaining.textContent=learningLabel('Rescriem expresia completă: ','Rewrite the full expression: ')+step.fullAfter;
+    remaining.style.cssText='opacity:.92;margin-top:8px;overflow-wrap:anywhere';
+    li.append(name,why,operation);
+    if(step.signRule){
+     const note=document.createElement('p');note.textContent=step.signRule;
+     note.style.cssText='margin:5px 0;opacity:.88;font-style:italic;line-height:1.4';
+     li.append(note);
+    }
+    li.append(remaining);list.append(li);
    }
    result.append(list);
   }
-  const conclusion=document.createElement('strong');conclusion.textContent=item.detailed.conclusion;
+  const conclusion=document.createElement('p');conclusion.textContent=learningLabel('Verificare și concluzie: ','Check and conclusion: ')+item.detailed.conclusion;
+  conclusion.style.cssText='font-weight:700;line-height:1.5;margin-top:16px';
   result.append(conclusion);body.append(result);
  }else if(item.error){result.classList.add('math-result-error');result.textContent=item.error;
   const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn';
@@ -7405,19 +7443,19 @@ function mathResultPage(index){
 }
 async function mathFetchResult(item,session){
  if(session.mode==='solve'){
-  const steps=mathDetailedArithmetic(item.text);
+  const steps=item.detailed||mathDetailedArithmetic(item.text);
   if(steps){
    if(mathResultSession!==session)return;
    item.detailed=steps;
-   mathLastSpokenReply=steps.steps.map((step,i)=>(i+1)+'. '+step.label+'. '+step.operation+'. '+step.after).join(' ')+'. '+steps.conclusion;
+   mathLastSpokenReply=steps.intro+' '+steps.steps.map((step,i)=>(i+1)+'. '+step.label+'. '+step.reason+' '+step.operation+'. '+(step.signRule?step.signRule+' ':'')+step.fullAfter).join(' ')+'. '+steps.conclusion;
    if(session.tasks[session.active]===item)mathResultPage(session.active);
    return;
   }
  }
  const graph=Boolean(mathGraphModel(item.text));
  const prompt=learningLabel(
-  'Ești un profesor de matematică. Rezolvă DOAR exercițiul următor. Explică fiecare transformare intermediară în pași numerotați, fără a omite termeni sau operații. Afișează expresia completă după fiecare pas; respectă ordinea operațiilor și verifică explicit calculele la final. Dacă expresia conține un semn egal, evaluează ambele părți și spune explicit dacă egalitatea este adevărată sau falsă; nu ignora valoarea din dreapta. Nu cita lecții video, site-uri sau surse pe care utilizatorul nu le-a furnizat. Dacă este o funcție, explică punctele și proprietățile ei, dar nu produce grafice ASCII sau tabele ASCII: aplicația desenează graficul separat când formula este compatibilă. Nu inventa valori și nu cere confirmări dacă enunțul este clar.',
-  'You are a mathematics teacher. Solve ONLY this exercise. Explain every intermediate transformation in numbered steps, never dropping terms or operations. Show the complete expression after every step, respect operation precedence, and check the arithmetic explicitly. If the expression contains an equals sign, calculate both sides and explicitly say whether the equality is true or false; do not ignore the right side. Never cite videos, websites, or other references not supplied by the user. For a function, explain its properties and key points; never output ASCII graphs or ASCII tables, because the app plots supported functions separately. Do not invent values or request confirmations for a clear problem.'
+  'Ești un profesor de matematică răbdător, care predă la clasă. Rezolvă DOAR exercițiul următor. Prezintă mai întâi ideea și regula folosită, explică de ce aplicăm fiecare regulă, apoi explică fiecare transformare intermediară în pași numerotați, fără a omite termeni sau operații. Afișează expresia completă după fiecare pas; respectă ordinea operațiilor și verifică explicit calculele la final. Dacă expresia conține un semn egal, evaluează ambele părți și spune explicit dacă egalitatea este adevărată sau falsă; nu ignora valoarea din dreapta. Nu cita lecții video, site-uri sau surse pe care utilizatorul nu le-a furnizat. Dacă este o funcție, explică punctele și proprietățile ei, dar nu produce grafice ASCII sau tabele ASCII: aplicația desenează graficul separat când formula este compatibilă. Nu inventa valori și nu cere confirmări dacă enunțul este clar.',
+  'You are a patient classroom mathematics teacher. Solve ONLY this exercise. First explain the idea and rule being used, say why each rule applies, then explain every intermediate transformation in numbered steps, never dropping terms or operations. Show the complete expression after every step, respect operation precedence, and check the arithmetic explicitly. If the expression contains an equals sign, calculate both sides and explicitly say whether the equality is true or false; do not ignore the right side. Never cite videos, websites, or other references not supplied by the user. For a function, explain its properties and key points; never output ASCII graphs or ASCII tables, because the app plots supported functions separately. Do not invent values or request confirmations for a clear problem.'
  );
  const requested=session.mode==='graph'?
   learningLabel('Accentuează reprezentarea grafică și intersecțiile cu axele.','Focus on the graph and axis intercepts.'):
@@ -7458,7 +7496,8 @@ function mathEducationRun(mode){
   status.textContent=learningLabel('Formula este incompletă. Corectează semnele.','The formula is incomplete. Correct its symbols.');
   return;
  }
- const tasks=mathSplitExercises(source).map(text=>({text,reply:'',error:null}));
+ const tasks=mathSplitExercises(source).map(text=>({text,reply:'',error:null,
+  detailed:mode==='solve'?mathDetailedArithmetic(text):null}));
  if(!tasks.length){status.textContent=learningLabel('Nu există un exercițiu de rezolvat.','No exercise to solve.');return}
  mathCloseResults();
  const session={mode,tasks,active:0,controller:new AbortController()};
