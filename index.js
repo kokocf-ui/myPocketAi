@@ -2524,20 +2524,40 @@ function tasksDueLabel(value){
  return Number.isNaN(date.getTime())?value:date.toLocaleDateString(state.language==='ro'?'ro-RO':'en-GB');
 }
 function tasksParseSpokenDeadline(value,now=new Date()){
- let title=String(value||'').trim(),due='',time='';
- const dm=title.match(/\\b(poim[aâ]ine|m[aâ]ine|ast[aă]zi)\\b/iu);
- if(!dm)return {title,due,time};
- const base=new Date(now.getFullYear(),now.getMonth(),now.getDate());
- const word=shopVoiceFold(dm[1]);
- if(word==='maine')base.setDate(base.getDate()+1);
- else if(word==='poimaine')base.setDate(base.getDate()+2);
- due=[base.getFullYear(),String(base.getMonth()+1).padStart(2,'0'),String(base.getDate()).padStart(2,'0')].join('-');
- const rest=title.slice(dm.index+dm[0].length).trim();
- const clock=rest.match(/^(?:(?:la|ora)\\s*){0,2}(\\d{1,2})(?:[:.](\\d{2}))?\\s*$/iu);
- if(rest&&!clock)return {title,due:'',time:''};
- if(clock){const h=Number(clock[1]),m=Number(clock[2]||0);if(h>23||m>59)return {title,due:'',time:''};time=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')}
- const before=title.slice(0,dm.index).replace(/\\s*(?:pe|pentru|la|în|in)\\s*$/iu,'').trim();
- return {title:before||title,due,time};
+ const original=String(value||'').replace(/\\s+/g,' ').trim();
+ let title=original,due='',time='';
+ const normalized=shopVoiceFold(original);
+ const dateWord=normalized.match(/(?:^|\\s)(poimaine|maine|astazi|azi)(?=\\s|$|[,.;:])/u);
+ if(!dateWord)return {title,due,time};
+ const dateIndex=dateWord.index+(dateWord[0].startsWith(' ')?1:0);
+ const dateLength=dateWord[1].length;
+ // The folded version retains character positions for Romanian accented forms only
+ // when combining marks have been removed; locate the corresponding word in source.
+ const words=[...original.matchAll(/\\S+/gu)];
+ const corresponding=words.find(w=>shopVoiceFold(w[0].replace(/^[^\\p{L}]+|[^\\p{L}]+$/gu,''))===dateWord[1] && Math.abs(w.index-dateIndex)<4);
+ if(!corresponding)return {title,due,time};
+ const d=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+ if(dateWord[1]==='maine')d.setDate(d.getDate()+1);
+ if(dateWord[1]==='poimaine')d.setDate(d.getDate()+2);
+ const datePart=corresponding[0];
+ const prefix=original.slice(0,corresponding.index);
+ const suffix=original.slice(corresponding.index+datePart.length);
+ const withoutDate=(prefix+' '+suffix).replace(/\\s+/g,' ').trim();
+ // Only consume an hour when explicitly marked ("ora 10", "la 10", "10:30").
+ const timeRe=/(?:^|[\\s,])(?:(?:la\\s+)?ora\\s+|la\\s+)(\\d{1,2})(?:[:.](\\d{2}))?(?=\\s|$|[,.;])|(?:^|[\\s,])(\\d{1,2})[:.](\\d{2})(?=\\s|$|[,.;])/iu;
+ const timeMatch=withoutDate.match(timeRe);
+ if(timeMatch){
+  const h=Number(timeMatch[1]??timeMatch[3]),m=Number(timeMatch[2]??timeMatch[4]??0);
+  if(h>23||m>59)return {title:original,due:'',time:''};
+  time=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+ }
+ title=(timeMatch?withoutDate.replace(timeMatch[0],' '):withoutDate)
+  .replace(/^(?:pe|pentru|la|în|in)\\s+/iu,'')
+  .replace(/\\s+(?:pe|pentru|la|în|in)$/iu,'')
+  .replace(/^[\\s,.;:]+|[\\s,.;:]+$/gu,'').replace(/\\s+/g,' ').trim();
+ if(!title||/^(?:ora|la|sarcina|obiectiv)$/iu.test(shopVoiceFold(title)))return {title:original,due:'',time:''};
+ due=[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+ return {title,due,time};
 }
 function tasksRepairLegacyVoiceDates(){
  const all=tasksRead();let changed=false;
