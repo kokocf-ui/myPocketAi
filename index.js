@@ -2650,7 +2650,7 @@ function remindersDeleteCandidates(spoken,items){
   }
   return {item,score};
  }).sort((a,b)=>b.score-a.score);
- if(!ranked.length||ranked[0].score<35)return [];
+ if(!ranked.length||ranked[0].score<50)return [];
  // A single clear match; if two similarly strong candidates, ask the user to be specific.
  return ranked[1]&&ranked[1].score>=ranked[0].score-12?[]:[ranked[0].item];
 }
