@@ -1289,6 +1289,28 @@ body.long-choice-active{overflow:hidden}
 .pocket-unified-actions button{font:inherit;font-weight:650;min-height:44px;padding:9px 16px;border-radius:13px;border:1px solid #6ebbd1;background:linear-gradient(160deg,#246386,#123750);color:white}
 .pocket-unified-actions button.pocket-danger{background:linear-gradient(160deg,#bf3942,#761e35);border-color:#e88a92}
 .pocket-unified-actions button:focus-visible{outline:2px solid #b2f7ff;outline-offset:2px}
+/* One consistent dark selection window for app-owned dropdowns, including
+   Education OCR. Avoid Android's unthemed white native selection sheet. */
+.pocket-select-modal{width:min(92vw,490px);max-height:min(72dvh,610px)}
+.pocket-select-modal .pocket-unified-window{max-height:min(72dvh,610px)}
+.pocket-select-modal .pocket-unified-heading{gap:clamp(8px,2vw,14px)}
+.pocket-select-modal .pocket-unified-heading strong{min-width:0;flex:1}
+.pocket-select-modal #pocketSelectClose{
+ min-height:42px;flex:0 0 auto;padding:8px clamp(10px,3vw,18px);font-size:clamp(13px,3.5vw,16px)
+}
+.pocket-select-list{display:flex;flex-direction:column;gap:8px;min-width:0;white-space:normal}
+.pocket-select-option{
+ width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+ text-align:left;padding:12px 14px;min-height:48px;
+ border:1.5px solid #559db7;border-radius:14px;
+ color:#effaff;background:linear-gradient(150deg,#1e5272,#0c293f 90%);
+ font:inherit;font-weight:650;line-height:1.3;
+ box-shadow:inset 0 2px 0 #6ca6c140,0 3px 0 #04111e;
+}
+.pocket-select-option.is-selected{border-color:#70d9e9;background:linear-gradient(150deg,#246585,#0c314b)}
+.pocket-select-option:focus-visible{outline:2px solid #b2f7ff;outline-offset:2px}
+.pocket-select-option-mark{color:#9be9f3;flex:0 0 auto;font-weight:800}
+@media(max-height:600px){.pocket-select-modal,.pocket-select-modal .pocket-unified-window{max-height:85dvh}}
 
 </style>
 <style id="reminders-workspace-style">
@@ -2345,6 +2367,7 @@ main.page:has(#view-module.learning-choose.active){
  </section>
 </div>
 <dialog id="pocketUnifiedModal" class="pocket-unified-modal" aria-labelledby="pocketUnifiedTitle"><div class="pocket-unified-window"><header class="pocket-unified-heading"><strong id="pocketUnifiedTitle">Pocket AI</strong></header><div class="pocket-unified-body" id="pocketUnifiedBody"></div><div class="pocket-unified-actions" id="pocketUnifiedActions"></div></div></dialog>
+<dialog id="pocketSelectDialog" class="pocket-unified-modal pocket-select-modal" aria-labelledby="pocketSelectTitle"><div class="pocket-unified-window"><header class="pocket-unified-heading"><strong id="pocketSelectTitle">Alege o opțiune</strong><button type="button" id="pocketSelectClose" class="back-btn">Revenire</button></header><div class="pocket-unified-body pocket-select-list" id="pocketSelectList"></div></div></dialog>
 <dialog id="longChoiceDialog" class="long-choice-dialog" aria-labelledby="longChoiceTitle"><section class="long-choice-window"><header class="long-choice-header"><strong id="longChoiceTitle">Opțiuni</strong><button type="button" class="long-choice-close" id="longChoiceClose" aria-label="Închide">✕</button></header><div id="longChoiceContent" class="long-choice-content"></div></section></dialog>
 <nav class="bottom-nav" aria-label="Navigare principală"><button class="nav-btn active" data-nav="home"><span class="nav-icon">⌂</span>Acasă</button><button class="nav-btn" data-nav="conversations"><span class="nav-icon">◷</span>Conversații</button><button class="nav-btn" data-nav="tools"><span class="nav-icon">▱</span>Instrumente</button><button class="nav-btn" data-nav="settings"><span class="nav-icon">⚙</span>Setări</button></nav>
 <div class="avatar-overlay" id="avatarOverlay" aria-hidden="true"><button class="avatar-close" id="avatarClose" aria-label="Închide avatarul">×</button><div class="avatar-stage"><img class="avatar-image" id="avatarImage" src="${AVATAR_DATA}" alt="Avatarul holografic myPocket AI"><iframe id="avatar3dFrame" title="Avatar 3D Pocket AI" loading="eager" aria-hidden="true" style="display:none;width:100%;height:100%;border:0;background:transparent;position:absolute;inset:0" allow="autoplay"></iframe><div class="avatar-message" id="avatarMessage">Salut! Sunt asistentul tău personal.</div><div class="voice-wave" id="voiceWave" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="avatar-status" id="avatarStatus">Bine ai venit!</div></div></div><div class="notice" id="notice" role="status" aria-live="polite"></div>
@@ -2395,6 +2418,69 @@ function pocketModal({title,message,mode='info',value='',onConfirm}={}){
  catch(err){console.error('Pocket modal failed',err);return false}
  return true;
 }
+// Reusable app-styled selector. Only the popup changes; existing <select>
+// values and change handlers remain authoritative for the rest of Pocket AI.
+let pocketSelectSource=null;
+function openPocketSelect(select){
+ const dialog=$('pocketSelectDialog'),list=$('pocketSelectList');
+ if(!dialog||!list||!select||select.disabled||select.multiple||select.size>1)return false;
+ const options=Array.from(select.options||[]).filter(opt=>!opt.hidden&&!opt.disabled);
+ if(!options.length)return false;
+ if(dialog.open)dialog.close();
+ const label=select.getAttribute('aria-label')||select.closest('label')?.textContent?.trim()||learningLabel('Alege o opțiune','Choose an option');
+ $('pocketSelectTitle').textContent=String(label).slice(0,100);
+ $('pocketSelectClose').textContent=learningLabel('Revenire','Back');
+ list.replaceChildren();pocketSelectSource=select;
+ let focused=null;
+ options.forEach(opt=>{
+  const button=document.createElement('button');button.type='button';
+  button.className='pocket-select-option'+(opt.selected?' is-selected':'');
+  button.setAttribute('aria-pressed',opt.selected?'true':'false');
+  const label=document.createElement('span');label.textContent=opt.textContent||opt.value;
+  const mark=document.createElement('span');mark.className='pocket-select-option-mark';mark.setAttribute('aria-hidden','true');
+  mark.textContent=opt.selected?'✓':'';
+  button.append(label,mark);
+  button.onclick=()=>{
+   if(pocketSelectSource!==select)return;
+   const changed=select.value!==opt.value;
+   select.value=opt.value;
+   if(changed)select.dispatchEvent(new Event('change',{bubbles:true}));
+   dialog.close();
+  };
+  list.append(button);
+  if(opt.selected)focused=button;
+ });
+ try{dialog.showModal();(focused||list.firstElementChild)?.focus({preventScroll:true});return true}
+ catch(error){pocketSelectSource=null;return false}
+}
+// Capture click AND pointerdown so Android WebView never opens its white OS
+// picker. Keyboard and programmatic change keep their existing behavior.
+document.addEventListener('pointerdown',event=>{
+ const select=event.target?.closest?.('select');
+ if(!select||select.disabled||select.multiple||select.size>1||select.dataset.nativePicker==='true')return;
+ if(event.button!==undefined&&event.button!==0)return;
+ event.preventDefault();event.stopPropagation();
+ openPocketSelect(select);
+},true);
+document.addEventListener('click',event=>{
+ const select=event.target?.closest?.('select');
+ if(!select||select.disabled||select.multiple||select.size>1||select.dataset.nativePicker==='true')return;
+ event.preventDefault();event.stopPropagation();
+ if(!$('pocketSelectDialog')?.open)openPocketSelect(select);
+},true);
+document.addEventListener('keydown',event=>{
+ const select=event.target?.closest?.('select');
+ if(!select||select.disabled||select.multiple||select.size>1||select.dataset.nativePicker==='true')return;
+ if(['Enter',' ','ArrowDown'].includes(event.key)){
+  event.preventDefault();event.stopPropagation();openPocketSelect(select);
+ }
+},true);
+$('pocketSelectClose').onclick=()=>{$('pocketSelectDialog').close()};
+$('pocketSelectDialog').addEventListener('close',()=>{
+ const select=pocketSelectSource;pocketSelectSource=null;
+ if(select?.isConnected)select.focus({preventScroll:true});
+});
+
 function pocketConfirm(message,onConfirm){return pocketModal({title:learningLabel('Confirmare ștergere','Confirm deletion'),message,mode:'confirm',onConfirm})}
 function pocketEdit(title,value,onConfirm){return pocketModal({title,message:learningLabel('Modifică înregistrarea','Edit entry'),mode:'edit',value,onConfirm})}
 function pocketInfo(title,message){return pocketModal({title,message,mode:'info'})}
@@ -6282,6 +6368,7 @@ window.pocketAndroidOcrResult=function(data){
   updateMathButton();
  };
  const options=document.createElement('select');options.className='text-field';
+ options.setAttribute('aria-label',learningLabel('Acțiune pentru textul fotografiat','Action for photographed text'));
  [['solve',learningLabel('Explică și rezolvă','Explain and solve')],...(activeLearningSubject[0]==='math'?[['graph',learningLabel('Analizează și reprezintă grafic','Analyze and plot')]]:[]),['translate',learningLabel('Tradu textul','Translate text')],['read',learningLabel('Citește cu voce tare','Read aloud')]].forEach(([value,label])=>{
   const option=document.createElement('option');option.value=value;option.textContent=label;options.append(option);
  });
@@ -6316,6 +6403,7 @@ async function handleLearningPhoto(file){
  const status=document.createElement('p');status.textContent=learningLabel('Se încearcă citirea textului din fotografie…','Attempting to read the photograph…');
  const extracted=document.createElement('textarea');extracted.rows=4;extracted.placeholder=learningLabel('Transcrie sau corectează aici textul fotografiat.','Type or correct the photographed text here.');
  const task=document.createElement('select');task.className='text-field';
+ task.setAttribute('aria-label',learningLabel('Acțiune pentru textul fotografiat','Action for photographed text'));
  const choices=[[learningLabel('Explică și rezolvă','Explain and solve'),'solve'],[learningLabel('Tradu textul','Translate text'),'translate']];
  choices.forEach(([label,value])=>{const option=document.createElement('option');option.value=value;option.textContent=label;task.append(option)});
  const submit=document.createElement('button');submit.type='button';submit.className='primary-btn';submit.textContent=learningLabel('Folosește textul','Use text');
