@@ -320,6 +320,13 @@ public final class MainActivity extends ComponentActivity {
                 if(web==null || !APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost())){callback.onReceiveValue(null);return true;}
                 if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}
                 documentPhotoCallback=callback;
+                // The document chooser itself starts on-device OCR. Do not rely on a
+                // separate asynchronous WebMessage arriving before the photo result.
+                boolean imageSelection=false;
+                if(params!=null)for(String accepted:params.getAcceptTypes()){
+                    if(accepted!=null && accepted.startsWith("image/"))imageSelection=true;
+                }
+                scanNextDocumentPhoto=imageSelection;
                 try{
                     Intent pick=new Intent(Intent.ACTION_GET_CONTENT);
                     pick.setType("image/*");pick.addCategory(Intent.CATEGORY_OPENABLE);
