@@ -192,7 +192,7 @@ public final class MainActivity extends ComponentActivity {
            "agenda".equals(speechMode) || "tasks".equals(speechMode) ||
            "reminders".equals(speechMode) || "notes".equals(speechMode) ||
            "daily".equals(speechMode) || "shopping".equals(speechMode) ||
-           "documents".equals(speechMode))return;
+           "documents".equals(speechMode) || "math".equals(speechMode))return;
         String normalized=recognized.trim();
         if(normalized.equals(lastVoicePartial))return;
         lastVoicePartial=normalized;
@@ -243,8 +243,13 @@ public final class MainActivity extends ComponentActivity {
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,pendingSpeechLocale);
             intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS,true);
-            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS,2200L);
-            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,1400L);
+            // Mathematics contains spoken brackets, operators and numbers. Allow
+            // natural pauses before Android produces a partial/final result.
+            // Some recognizers ignore these hints, so the web session restarts
+            // automatically after each final chunk as in Organize.
+            boolean mathDictation="math".equals(speechMode);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS,mathDictation?4800L:2200L);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,mathDictation?2600L:1400L);
             intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS,1000L);
             nativeListening=true;
             speechRecognizer.startListening(intent);
