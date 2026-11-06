@@ -188,8 +188,19 @@ assert.match(page,/\.agenda-voice-controls\{[\s\S]*?grid-template-columns:repeat
 assert.doesNotMatch(inline,/returnButton\.classList\.add\('agenda-detail-back'\)/,'detail view reuses the shared Back button');
 
 
-assert.match(inline,/if\(cat\[0\]!=='calendar'&&cat\[0\]!=='tasks'\)panel\.append\(bar\)/,'agenda and tasks reuse the shared top navigation');
+assert.match(inline,/if\(!\['calendar','tasks','reminders'\]\.includes\(cat\[0\]\)\)panel\.append\(bar\)/,'voice workspaces omit the legacy duplicate toolbar');
 assert.match(inline,/function pocketVoiceHelp\(mode,title\)/,'shared voice command guide exists');
+
+/* New voice-enabled organiser pages must inherit the shared layout from day one. */
+assert.match(inline,/function organizeVoiceWorkspace\(cat,/,'shared organiser voice layout factory exists');
+assert.match(inline,/function renderReminders\(\)\{[\s\S]*?organizeVoiceWorkspace\(cat,/,'reminders use the shared layout');
+assert.match(inline,/pocketVoiceHelp\(mode,\$\('moduleTitle'\)\)/,'shared title gets contextual info button');
+assert.match(inline,/organize-voice-controls/,'back and dictation are paired within one toolbar');
+assert.match(page,/<style id="organize-voice-workspace-style">/,'responsive voice toolbar styles exist');
+assert.match(page,/\.organize-voice-controls\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/,'two equally sized controls on one row');
+assert.match(inline,/if\(!\['calendar','tasks','reminders'\]\.includes\(cat\[0\]\)\)bar\.append\(back,title\)/,'avoid duplicating reminder title and Categories button');
+assert.match(inline,/reminders:\[[\s\S]*?Șterge mementoul/,'reminder info help has examples');
+
 assert.match(inline,/pocketVoiceHelp\('agenda',\$\('moduleTitle'\)\)/,'agenda guide attached to title');
 assert.match(inline,/pocketVoiceHelp\('shopping',\$\('moduleTitle'\)\)/,'shopping guide attached to title');
 assert.match(inline,/pocketVoiceHelp\('assistant',document\.querySelector/,'assistant uses the same voice guide');
