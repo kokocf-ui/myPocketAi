@@ -1419,6 +1419,23 @@ body.long-choice-active{overflow:hidden}
 #view-module .budget-advice,#view-module .budget-location{font-size:clamp(.75rem,3vw,.9rem);line-height:1.3;opacity:.8}
 #view-module .budget-warning{color:#ffb6a3}
 </style>
+<style id="budget-report-layout">
+#view-module .budget-report-trigger{width:100%!important;min-height:2.7rem!important;height:auto!important;font-size:clamp(.8rem,3vw,1rem)!important;padding:.5rem!important}
+#view-module .budget-report-categories{display:flex;flex-direction:column;gap:.3rem}
+#view-module .budget-report-category{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;padding:.5rem .65rem;background:#103147;border:1px solid #315d76;border-radius:.65rem}
+#view-module .budget-report-category span{overflow-wrap:anywhere;min-width:0}
+#view-module .budget-report-category strong{white-space:nowrap;font-variant-numeric:tabular-nums}
+#view-module .budget-report-table-wrap{width:100%;min-width:0;overflow-x:auto;overscroll-behavior-x:contain;border:1px solid #39718b;border-radius:.75rem}
+#view-module .budget-report-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:clamp(.7rem,2.6vw,.88rem);line-height:1.3;text-align:left}
+#view-module .budget-report-table th{padding:.6rem .35rem;background:#173b52;color:#e6f7fe;font-weight:700}
+#view-module .budget-report-table td{padding:.65rem .35rem;border-top:1px solid #355870;vertical-align:top;overflow-wrap:anywhere}
+#view-module .budget-report-table th:nth-child(1){width:13%}
+#view-module .budget-report-table th:nth-child(2){width:32%}
+#view-module .budget-report-table th:nth-child(3){width:27%}
+#view-module .budget-report-table th:nth-child(4){width:28%;text-align:right}
+#view-module .budget-report-table td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+#view-module .budget-report-amount small{display:block;opacity:.75;margin-top:.2rem}
+</style>
 </head>
 <body>
 <header class="app-header"><img class="brand-mark" src="${AVATAR_DATA}" alt="Avatar myPocket AI"><div class="brand-copy"><div class="brand-name"><span class="my">my</span>Pocket AI</div><div class="brand-sub">Asistentul tău personal pentru orice zi</div></div><div class="plan-pill">FREE ♛</div></header>
@@ -3373,7 +3390,11 @@ async function budgetVoiceCommand(raw){
   if(to)budgetFxTo=to;
   budgetFxManual=true;budgetScreen='fx';budgetFxLoad();return;
  }
- if(/cat am|cat am cheltuit|raport|rezumat|sold|balanta|balance/.test(spoken)){
+ // Reporting intent is distinct from opening the financial dashboard.
+ if(/cat am cheltuit|cheltuieli(?:le)? (?:din|pe|pentru|luna)|raport(?:ul)? (?:de )?cheltuieli|raport lunar|spending report|how much (?:have i |did i )?spen[dt]/.test(spoken)){
+  budgetScreen='report';renderBudget();return;
+ }
+ if(/cat am|raport|rezumat|sold|balanta|balance/.test(spoken)){
   budgetScreen='home';renderBudget();return;
  }
  const amount=spoken.match(/\\d+(?:[,.]\\d+)?/);
@@ -3388,6 +3409,16 @@ async function budgetVoiceCommand(raw){
   type:income?'income':'expense',category:budgetCategory(title)});
  if(ok)notify(learningLabel('Tranzacție înregistrată.','Transaction saved.'));
 }
+function budgetSpendingReport(entries,day=new Date()){
+ const prefix=day.getFullYear()+'-'+String(day.getMonth()+1).padStart(2,'0');
+ const expenses=entries.filter(item=>item.type==='expense'&&String(item.date||'').startsWith(prefix))
+  .sort((a,b)=>a.date.localeCompare(b.date)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));
+ const categories=new Map();
+ for(const item of expenses)categories.set(item.category||'other',
+  (categories.get(item.category||'other')||0)+Number(item.baseAmount));
+ const total=expenses.reduce((sum,item)=>sum+Number(item.baseAmount),0);
+ return {expenses,total,categories:[...categories.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))};
+}
 function budgetTitleRow(root,text){root.append(budgetNode('h3','budget-subtitle',text))}
 function renderBudget(){
  const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='budget');
@@ -3399,6 +3430,56 @@ function renderBudget(){
  });
  if(!budgetGeoAsked)budgetCountryRefresh();
  const data=budgetRead(),ccy=data.baseCurrency,totals=budgetTotals(data);
+ if(budgetScreen==='report'){
+  const month=new Date().toLocaleDateString(state.language==='ro'?'ro-RO':'en-GB',{month:'long',year:'numeric'});
+  const report=budgetSpendingReport(data.entries);
+  budgetTitleRow(scroll,learningLabel('Raportul cheltuielilor','Spending report')+' · '+month);
+  const summary=budgetNode('div','budget-summary');
+  summary.append(budgetNode('small','',learningLabel('Total cheltuieli în această lună','Total expenses this month')));
+  summary.append(budgetNode('strong','budget-big',budgetFormat(report.total,ccy)));
+  summary.append(budgetNode('small','',report.expenses.length+' '+learningLabel('tranzacții','transactions')));
+  scroll.append(summary);
+  if(report.categories.length){
+   budgetTitleRow(scroll,learningLabel('Totaluri pe categorii','Totals by category'));
+   const groups=budgetNode('div','budget-report-categories');
+   for(const [category,sum] of report.categories){
+    const item=budgetNode('div','budget-report-category');
+    item.append(budgetNode('span','',budgetCategoryLabel(category)),
+     budgetNode('strong','',budgetFormat(sum,ccy)));
+    groups.append(item);
+   }
+   scroll.append(groups);
+  }
+  budgetTitleRow(scroll,learningLabel('Cheltuieli detaliate','Itemised expenses'));
+  if(!report.expenses.length)scroll.append(budgetNode('p','budget-empty',
+   learningLabel('Nu există cheltuieli înregistrate în această lună.','No expenses recorded this month.')));
+  else{
+   const table=budgetNode('table','budget-report-table');
+   const thead=budgetNode('thead','');
+   const headings=budgetNode('tr','');
+   for(const heading of [learningLabel('Data','Date'),learningLabel('Descriere','Description'),learningLabel('Categorie','Category'),learningLabel('Sumă','Amount')])
+    headings.append(budgetNode('th','',heading));
+   thead.append(headings);table.append(thead);
+   const tbody=budgetNode('tbody','');
+   for(const item of report.expenses){
+    const tr=budgetNode('tr','');
+    const date=budgetNode('td','',item.date.slice(8,10)+'.'+item.date.slice(5,7));
+    const title=budgetNode('td','',item.title);
+    const category=budgetNode('td','',budgetCategoryLabel(item.category));
+    const value=budgetNode('td','budget-report-amount',budgetFormat(item.baseAmount,ccy));
+    if(item.currency!==ccy){
+     const original=budgetNode('small','',budgetFormat(item.amount,item.currency));
+     value.append(original);
+    }
+    tr.append(date,title,category,value);tbody.append(tr);
+   }
+   table.append(tbody);
+   const frame=budgetNode('div','budget-report-table-wrap');frame.append(table);scroll.append(frame);
+  }
+  scroll.append(budgetButton(learningLabel('← Rezumat financiar','← Financial overview'),
+   ()=>{budgetScreen='home';renderBudget()},'secondary-btn'));
+  return;
+ }
  if(budgetScreen==='fx'){
   budgetTitleRow(scroll,learningLabel('Conversie valutară','Currency converter'));
   const row=budgetNode('div','budget-fx-pair');
@@ -3506,6 +3587,7 @@ function renderBudget(){
  }));
  actions.append(budgetButton('⚙ '+learningLabel('Setări','Settings'),()=>{budgetScreen='settings';renderBudget()}));
  scroll.append(actions);
+ scroll.append(budgetButton(learningLabel('Raportul cheltuielilor lunare','Monthly spending report'),()=>{budgetScreen='report';renderBudget()},'secondary-btn budget-report-trigger'));
  const byCategory=new Map();
  for(const entry of totals.month){
   if(entry.type!=='expense')continue;
