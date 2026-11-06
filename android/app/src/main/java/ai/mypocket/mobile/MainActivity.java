@@ -216,17 +216,6 @@ public final class MainActivity extends ComponentActivity {
     }
     private void releaseRecognizer(){if(speechRecognizer!=null){speechRecognizer.destroy();speechRecognizer=null;}}
     private void stopEmbeddedListening(){cancelVoiceEndpoint();lastVoicePartial="";nativeListening=false;if(speechRecognizer!=null){speechRecognizer.cancel();releaseRecognizer();}}
-    private final ActivityResultLauncher<Intent> microphone =
-        registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                String recognized="";
-                if(result.getResultCode()==Activity.RESULT_OK && result.getData()!=null) {
-                    ArrayList<String> phrases=result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    if(phrases!=null && !phrases.isEmpty()) recognized=phrases.get(0);
-                }
-                notifyVoice("recognized",recognized,speechMode);
-            });
-
     private void nativeVoice(String message) {
         try {
             JSONObject data=new JSONObject(message);
