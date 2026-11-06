@@ -68,7 +68,7 @@ const agendaCss=page.match(/<style id="agenda-voice-workspace">([\s\S]*?)<\/styl
 assert.ok(agendaCss,'agenda stylesheet exists');
 assert.match(agendaCss,/\.agenda-workspace\{[^}]*grid-template-rows:auto minmax\(0,1fr\)!important/s);
 
-assert.match(inline,/agendaRead\(\)\.sort\(\(a,b\)=>agendaNextDate\(a\)-agendaNextDate\(b\)\)/,'sort by next occurrence, including annual birthdays');
+assert.match(inline,/all\.slice\(\)\.sort\(\(a,b\)=>agendaNextDate\(a\)-agendaNextDate\(b\)\)/,'all events sorted by next occurrence, including annual birthdays');
 assert.doesNotMatch(inline.slice(agendaStart,agendaEnd),/SHOPPING_STORAGE_KEY/,'agenda cannot overwrite shopping lists');
 const ctxAgenda=vm.createContext({Date,Math,Intl,learningLabel:(ro,en)=>ro,shopVoiceFold:s=>String(s).normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim(),localStorage:{getItem:()=>null,setItem:()=>{}},state:{language:'ro'},shopId:()=> 'abc',window:{},document:{}});
 vm.runInContext(inline.slice(agendaStart,agendaEnd),ctxAgenda);
@@ -97,8 +97,17 @@ assert.equal(agendaEval("agendaBirthdaySpoken('Ziua de naștere a lui Andrei pe 
 
 assert.match(inline,/if\(birthday\)\{if\(!birthday.fields/,'voice birthday branch is handled before appointment parsing');
 assert.match(inline,/agendaBirthdaySave\(person.value,fields\)/,'manual yearly birthday form is wired');
-assert.match(inline,/agendaBirthdaySave\(name.value,fields,item.id\)/,'existing birthday can be edited');
+assert.match(inline,/Object\.assign\(change,valid\)/,'birthday editing preserves original id and annual recurrence');
 
+assert.match(inline,/agendaCalendarItems\(all,agendaCursor\)/,'selected calendar date filters appointments');
+assert.match(inline,/agendaSelectedId=item\.id/,'tap opens existing appointment');
+assert.match(inline,/agendaWrite\(list\)/,'existing event editing persists changes');
+assert.match(inline,/agendaWrite\(agendaRead\(\)\.filter\(x=>x\.id!==selected\.id\)\)/,'deleting a selected event persists after confirmation');
+assert.match(inline,/agendaVoiceOpen\(spoken\)/,'voice can open existing appointments');
+const agendaDay=agendaEval("agendaCalendarItems([{id:'1',title:'Test',when:'2026-11-06T10:00:00Z'},{id:'2',title:'Maria',kind:'birthday',birthdayDay:6,birthdayMonth:11,birthYear:null}],new Date(2026,10,6))");
+assert.equal(agendaDay.length,2,'calendar day contains appointment and annual birthday');
+assert.equal(agendaEval("agendaCalendarItems([{id:'3',title:'Maria',kind:'birthday',birthdayDay:29,birthdayMonth:2,birthYear:2000}],new Date(2027,1,28)).length"),1,'Feb 29 birthday appears on Feb 28 of non-leap years');
+assert.equal(agendaEval("agendaDateTimeLocal('2026-11-06T10:00:00Z').length"),16,'edit form uses local datetime');
 const start=inline.indexOf('function shopId(){');
 const end=inline.indexOf('function renderShoppingList(){',start);
 assert.ok(start>=0&&end>start,'shopping logic boundaries present');
