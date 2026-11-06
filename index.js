@@ -7344,7 +7344,7 @@ function mathDetailedArithmetic(source){
  }
  if(steps.length>60)return null;
  // Keep the originally dictated equality visible throughout a verification.
- const rightOriginal=parts.length===2?parts[1].trim().replace(/[−–]/g,'−').replace(/[×·*]/g,'×').replaceAll('/', '÷'):'';
+ const rightOriginal=parts.length===2?parts[1].trim().replace(/[-−–]/g,'−').replace(/[×·*]/g,'×').replaceAll('/', '÷'):'';
  for(const step of steps){
   step.fullAfter=parts.length===2?
    (step.sideKey==='left'?step.after+' = '+rightOriginal:format(left.value)+' = '+step.after):
