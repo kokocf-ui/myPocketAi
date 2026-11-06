@@ -62,6 +62,12 @@ assert.ok(agendaStart>0&&agendaEnd>agendaStart,'agenda module isolated from shop
 assert.match(inline,/if\(key==='calendar'\)\{renderAgenda\(\);return\}/);
 assert.match(inline,/if\(agendaVoiceHandleAndroid\(data\)\)return/);
 assert.match(inline,/className='primary-btn agenda-microphone'/);
+assert.match(inline,/panel\.insertBefore\(mic,scroll\)/,'agenda microphone stays outside scrolling list');
+assert.doesNotMatch(inline,/mic\.onclick=\(\)=>agendaVoiceStart\(\);scroll\.append\(mic\)/,'do not put agenda microphone inside scroll area');
+const agendaCss=page.match(/<style id="agenda-voice-workspace">([\s\S]*?)<\/style>/)?.[1];
+assert.ok(agendaCss,'agenda stylesheet exists');
+assert.match(agendaCss,/\.agenda-workspace\{[^}]*grid-template-rows:auto minmax\(0,1fr\)!important/s);
+
 assert.match(inline,/agendaRead\(\)\.sort\(\(a,b\)=>agendaNextDate\(a\)-agendaNextDate\(b\)\)/,'sort by next occurrence, including annual birthdays');
 assert.doesNotMatch(inline.slice(agendaStart,agendaEnd),/SHOPPING_STORAGE_KEY/,'agenda cannot overwrite shopping lists');
 const ctxAgenda=vm.createContext({Date,Math,Intl,learningLabel:(ro,en)=>ro,shopVoiceFold:s=>String(s).normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim(),localStorage:{getItem:()=>null,setItem:()=>{}},state:{language:'ro'},shopId:()=> 'abc',window:{},document:{}});
@@ -85,6 +91,10 @@ assert.equal(agendaEval("agendaNextDate(birthday,new Date(2027,0,1)).getDate()")
 assert.equal(agendaEval("agendaNextDate(birthday,new Date(2028,0,1)).getDate()"),29,'Leap year preserves Feb 29');
 assert.equal(agendaEval("agendaBirthdaySpoken('Adaugă ziua de naștere a Mariei pe 12 mai').fields.birthdayMonth"),5);
 assert.equal(agendaEval("agendaBirthdaySpoken('Adaugă ziua de naștere a Mariei pe 12 mai').title"),'Mariei');
+assert.equal(agendaEval("agendaBirthdaySpoken('Adaugă ziua de naștere a lui Andrei pe 12 mai').title"),'Andrei');
+assert.equal(agendaEval("agendaBirthdaySpoken('Adaugă ziua de naștere a lui Andrei pe 12 mai').fields.birthdayDay"),12);
+assert.equal(agendaEval("agendaBirthdaySpoken('Ziua de naștere a lui Andrei pe 12 mai').fields.birthdayMonth"),5);
+
 assert.match(inline,/if\(birthday\)\{if\(!birthday.fields/,'voice birthday branch is handled before appointment parsing');
 assert.match(inline,/agendaBirthdaySave\(person.value,fields\)/,'manual yearly birthday form is wired');
 assert.match(inline,/agendaBirthdaySave\(name.value,fields,item.id\)/,'existing birthday can be edited');
