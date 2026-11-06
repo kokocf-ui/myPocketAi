@@ -2436,7 +2436,7 @@ function agendaCalendarItems(events,day){
  });
 }
 function agendaVoiceOpen(text){
- const fold=shopVoiceFold(text).replace(/^(?:deschide|arata|afiseaza|vezi|modifica|editeaza)\s+(?:detaliile\s+)?(?:programarea|aniversarea|ziua de nastere|evenimentul)\s*/u,'').trim();
+ const fold=shopVoiceFold(text).replace(/^(?:deschide|arata|afiseaza|vezi|modifica|editeaza)\\s+(?:detaliile\\s+)?(?:programarea|aniversarea|ziua de nastere|evenimentul)\\s*/u,'').trim();
  if(!fold)return false;
  const matches=agendaRead().filter(item=>shopVoiceFold(item.title).includes(fold));
  if(matches.length===1){agendaSelectedId=matches[0].id;agendaEditing=/^(?:modifica|editeaza)/u.test(shopVoiceFold(text));agendaVoiceMatches=null;renderAgenda();return true}
