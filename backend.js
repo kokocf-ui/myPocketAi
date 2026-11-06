@@ -1205,6 +1205,55 @@ export default {
     const url = new URL(request.url);
 
 
+
+    // Owner-only, opt-in Mathematics ASR pilot. Never enable this endpoint without
+    // a strong POCKET_MATH_PILOT_TOKEN Cloudflare secret; audio is not persisted.
+    if(url.pathname==="/api/math-transcribe"){
+      if(request.method!=="POST")return json({error:"method_not_allowed"},405);
+      const configured=String(env.POCKET_MATH_PILOT_TOKEN||"");
+      if(configured.length<32 || !env.AI || typeof env.AI.run!=="function")
+        return json({status:"unavailable",error:"math_transcription_not_configured"},503);
+      const supplied=String(request.headers.get("Authorization")||"").replace(/^Bearer\s+/i,"");
+      // Hash both tokens and compare bytes to avoid a leaking prefix comparison.
+      const digest=async value=>new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(value)));
+      const [expected,received]=await Promise.all([digest(configured),digest(supplied)]);
+      let diff=0;for(let i=0;i<expected.length;i++)diff|=expected[i]^received[i];
+      if(!supplied || diff!==0)return json({error:"unauthorized"},401);
+      const length=Number(request.headers.get("Content-Length")||0);
+      if(length>1450000)return json({error:"audio_too_large"},413);
+      const payload=await request.json().catch(()=>null);
+      const audio=payload?.audio;
+      if(typeof audio!=="string"||audio.length<1200||audio.length>1450000||
+         !/^[A-Za-z0-9+/]+={0,2}$/.test(audio))
+        return json({error:"invalid_audio"},400);
+      let sample;
+      try{
+        sample=atob(audio.slice(0,Math.ceil(44/3)*4));
+      }catch{return json({error:"invalid_audio"},400)}
+      if(sample.length<44||sample.slice(0,4)!=="RIFF"||sample.slice(8,12)!=="WAVE"||
+         sample.slice(12,16)!=="fmt "||sample.slice(36,40)!=="data")
+        return json({error:"expected_pcm_wav"},415);
+      const u16=at=>sample.charCodeAt(at)|(sample.charCodeAt(at+1)<<8);
+      const u32=at=>sample.charCodeAt(at)|(sample.charCodeAt(at+1)<<8)|
+        (sample.charCodeAt(at+2)<<16)|(sample.charCodeAt(at+3)<<24);
+      if(u16(20)!==1||u16(22)!==1||u32(24)!==16000||
+         u16(34)!==16||u32(40)<800||u32(40)>960000 ||
+         audio.length!==Math.ceil((u32(40)+44)/3)*4)
+        return json({error:"invalid_pcm_format_or_length"},415);
+      try{
+        const response=await env.AI.run("@cf/openai/whisper-large-v3-turbo",{
+          audio,language:"ro",task:"transcribe",vad_filter:false,
+          initial_prompt:"Exerciții de matematică rostite în română. Transcrie fidel cuvintele: ori, minus unu, plus, paranteză deschisă, închide paranteza, acoladă, egal. Nu rezolva exercițiul."
+        });
+        const transcript=String(response?.text||"").slice(0,3000).trim();
+        if(!transcript)return json({error:"empty_transcription"},422);
+        return json({status:"success",transcript,engine:"whisper-large-v3-turbo",audio_deleted:true});
+      }catch(_error){
+        // Never log audio, text or credentials; do not leak model details.
+        return json({error:"transcription_unavailable"},502);
+      }
+    }
+
     // Country-only finance context. GPS coordinates are never stored or returned.
     // An existing Geoapify API key resolves the country; network region is a fallback.
     if(url.pathname==="/api/finance-country" && request.method==="GET"){
