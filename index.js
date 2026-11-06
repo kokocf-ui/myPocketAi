@@ -7240,9 +7240,9 @@ function mathDetailedArithmetic(source){
  const steps=[];
  const explainSide=(input,side)=>{
   const raw=String(input).replace(/[−–]/g,'-').replace(/[×·]/g,'*')
-   .replace(/÷/g,'/').replace(/\s+/g,'');
-  if(!raw||raw.length>180||!/^[0-9.,()+\-*/]+$/.test(raw))return null;
-  const tokens=raw.match(/(?:\d+(?:[.,]\d+)?|[.,]\d+)|[()+\-*/]/g);
+   .replace(/÷/g,'/').replace(/\\s+/g,'');
+  if(!raw||raw.length>180||!/^[0-9.,()+\\-*/]+$/.test(raw))return null;
+  const tokens=raw.match(/(?:\\d+(?:[.,]\\d+)?|[.,]\\d+)|[()+\\-*/]/g);
   if(!tokens||tokens.join('')!==raw||tokens.length>100)return null;
   let pos=0;
   const primary=()=>{
@@ -7255,7 +7255,7 @@ function mathDetailedArithmetic(source){
     if(!inner||tokens[pos++]!==')')return null;
     return {kind:'group',inner,done:undefined};
    }
-   if(!t||!/^(?:\d+(?:[.,]\d+)?|[.,]\d+)$/.test(t))return null;
+   if(!t||!/^(?:\\d+(?:[.,]\\d+)?|[.,]\\d+)$/.test(t))return null;
    pos++;return {kind:'number',value:Number(t.replace(',','.'))};
   };
   const product=()=>{
