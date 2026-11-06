@@ -7,7 +7,7 @@ const page=await(await frontend.fetch(new Request('https://documents.test/'))).t
 const source=page.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(source,'frontend JS exists');
 new vm.Script(source);
-const start=source.indexOf('function documentsScanExtract(raw,geometry=[])');
+const start=source.indexOf("function documentsScanExtract(raw,geometry=[],documentType='other')");
 const end=source.indexOf('function documentsScanReview(host,item){',start);
 assert.ok(start>=0&&end>start,'OCR field parser available');
 const context=vm.createContext({budgetISO:d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')});
