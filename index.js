@@ -6552,6 +6552,7 @@ function mathVoiceWatchdog(session){
 }
 function mathVoiceListen(session){
  if(!session?.active||mathVoiceSession!==session)return;
+ session.captureId=(session.captureId||0)+1;
  mathVoiceStatus(learningLabel('Te ascult… Dictează exercițiul; poți face pauze.','Listening… Dictate the exercise; pauses are fine.'));
  mathVoiceWatchdog(session);
  if(!pocketNativeVoiceSend({action:'listen',mode:'math',language:session.locale})){
@@ -6575,20 +6576,25 @@ function mathVoiceAccept(text,session){
  if(!session?.active||mathVoiceSession!==session)return false;
  let original=collapseRepeatedVoiceWords(String(text||'').trim());
  if(!original)return false;
- if(session.lastRaw===original)return false;
- if(session.lastRaw&&session.lastRaw.startsWith(original+' '))return false;
- if(session.lastRaw&&original.startsWith(session.lastRaw+' ')){
-  original=original.slice(session.lastRaw.length).trim();
-  if(!original)return false;
+ // Never discard a legitimately repeated bracket command in a new capture.
+ if(session.lastAcceptedCapture===session.captureId){
+  if(session.lastRaw===original)return false;
+  if(session.lastRaw&&session.lastRaw.startsWith(original+' '))return false;
+  if(session.lastRaw&&original.startsWith(session.lastRaw+' ')){
+   original=original.slice(session.lastRaw.length).trim();
+   if(!original)return false;
+  }
  }
  const formula=mathSpokenToFormula(original);
  const editor=$('mathEducationText');
  if(!editor||!formula)return false;
  const existing=editor.value.trim();
  const newExercise=/^(?:exerci[țt]iul?|problema)\\s+\\d+/iu.test(original);
- editor.value=(existing?existing+(newExercise?'\\n':' '):'')+formula;
+ editor.value=((existing?existing+(newExercise?'\\n':' '):'')+formula)
+  .replace(/(^|[([{=+*/])\\s*-\\s+(\\d+(?:[.,]\\d+)?)/g,'$1 -$2');
  editor.dispatchEvent(new Event('input',{bubbles:true}));
  session.lastRaw=String(text||'').trim();
+ session.lastAcceptedCapture=session.captureId;
  return true;
 }
 function mathSpokenToFormula(input){
@@ -6605,30 +6611,37 @@ function mathSpokenToFormula(input){
   saptezeci:'70',optzeci:'80',nouazeci:'90',suta:'100'
  };
  let v=fold(original);
- const mathIntent=/(?:\\b(?:egal|plus|minus|ori|inmult\\w*|impart\\w*|parantez\\w*|acolad\\w*|patrat|cub|putere\\w*|supra|funct\\w*|ecuat\\w*|radical)\\b|[=+*/()[\\]{}^×÷])/u.test(v);
- if(!mathIntent)return original;
- // Shape names imply opening; "închide ..." (or "... închisă") implies closing.
- // Keep this scoped to Mathematics, so ordinary prose elsewhere is untouched.
- v=v.replace(/\\b(?:(deschide|deschid|deschideti|inchide|inchid|inchideti)\\s+(?:o\\s+)?)?(paranteza\\s+(?:rotunda|patrata|dreapta)|acolada)(?:\\s+(deschisa|inchisa))?\\b/g,
-   (_,action,shape,state)=>{
-    const isClosing=Boolean(action?.startsWith('inchid')||state==='inchisa');
-    const pair=shape==='acolada'?['{','}']:/patrata|dreapta/.test(shape)?['[',']']:['(',')'];
-    return pair[Number(isClosing)];
+ const isolatedNumber=new RegExp('^(?:'+Object.keys(words).join('|')+')(?:\\\\s+si\\\\s+(?:'+Object.keys(words).join('|')+'))?$').test(v);
+ const mathIntent=/(?:\\b(?:egal|plus|minus|negativ\\w*|ori|inmult\\w*|impart\\w*|parantez\\w*|acolad\\w*|patrat|cub|putere\\w*|supra|funct\\w*|ecuat\\w*|radical)\\b|[=+*/()[\\]{}^×÷−–-])/u.test(v);
+ if(!mathIntent&&!isolatedNumber)return original;
+ // Speech-to-text may turn the spoken name of a bracket into BOTH glyphs.
+ // Bare pairs imply opening; "închisă" implies closing.
+ v=v.replace(/[−–]/g,'-');
+ v=v.replace(/(\\(\\)|\\[\\]|\\{\\})(?:\\s*[,;:]?\\s*(deschisa|inchisa)\\b)?/g,(_,pair,position)=>{
+  const shape=pair==='()'?['(',')']:pair==='[]'?['[',']']:['{','}'];
+  return shape[Number(position==='inchisa')];
+ });
+ // Plain "paranteză" opens; a spoken type chooses (), [] or {}.
+ v=v.replace(/\\b(?:(deschide|deschid|deschideti|inchide|inchid|inchideti)\\s+(?:o\\s+)?)?(parantez(?:a|e)(?:\\s+(?:rotunda|rotunde|patrata|patrate|dreapta|drepte))?|acolad(?:a|e))(?:\\s*[,;:]?\\s*(deschisa|inchisa))?\\b/g,
+   (_,action,spokenShape,position)=>{
+    const closing=Boolean(action?.startsWith('inchid')||position==='inchisa');
+    const shape=spokenShape.startsWith('acolad')?['{','}']:/patrat|dreapt/.test(spokenShape)?['[',']']:['(',')'];
+    return shape[Number(closing)];
    });
- v=v.replace(/\\b(?:deschide|deschid|deschideti)\\s+(?:o\\s+)?paranteza\\b/g,'(')
-    .replace(/\\b(?:inchide|inchid|inchideti)\\s+(?:o\\s+)?paranteza\\b/g,')')
-    .replace(/\\bparanteza\\s+deschisa\\b/g,'(').replace(/\\bparanteza\\s+inchisa\\b/g,')')
-    .replace(/\\b(?:la|ridicat la)\\s+patrat\\b/g,'^2')
+ v=v.replace(/\\b(?:la|ridicat la)\\s+patrat\\b/g,'^2')
     .replace(/\\b(?:la|ridicat la)\\s+cub\\b/g,'^3')
     .replace(/\\bf\\s+de\\s+x\\b/g,'f(x)')
     .replace(/\\begal(?:\\s+cu)?\\b/g,' = ')
     .replace(/\\bplus\\b/g,' + ').replace(/\\bminus\\b/g,' - ')
+    .replace(/\\bnegativ(?:a|ul)?\\b/g,' - ')
     .replace(/\\b(?:inmultit cu|ori)\\b/g,' * ')
     .replace(/\\b(?:impartit la|supra)\\b/g,' / ');
  const keys=Object.keys(words).sort((a,b)=>b.length-a.length);
  v=v.replace(new RegExp('\\\\b(?:'+keys.join('|')+')\\\\b','g'),word=>words[word]);
  // "douăzeci și trei" -> 23, but do not combine unrelated numbers.
  v=v.replace(/\\b([2-9]0)\\s+si\\s+([1-9])\\b/g,(_,t,o)=>String(Number(t)+Number(o)));
+ // Keep unary negatives together, including "minus" and "unu" in separate chunks.
+ v=v.replace(/(^|[([{=+*/])\\s*-\\s+(\\d+(?:[.,]\\d+)?)/g,'$1 -$2');
  return v.replace(/\\s+/g,' ').trim();
 }
 function mathVoiceHandleAndroid(data){
