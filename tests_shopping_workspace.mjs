@@ -68,7 +68,16 @@ assert.match(inline,/if\(key==='tasks'\)\{if\(tasksListening\)tasksVoiceStop\(\)
 assert.match(inline,/POCKET_TASKS_KEY='mypocketai\.tasks\.v1'/);
 assert.match(inline,/function tasksCreate\(title,goal=false,due='',priority='normal'\)/);
 assert.match(inline,/function tasksConfirmDelete\(item\)/);
-assert.match(inline,/function tasksToAgenda\(item\)/);
+assert.match(inline,/function tasksToAgenda\(item,automatic=false\)/);
+assert.match(inline,/if\(fromVoice&&due\)tasksToAgenda\(item,true\)/,'voice task with date syncs automatically');
+assert.match(inline,/tasksCreate\(title,goal,due,priority,true\)/,'spoken tasks identified as voice source');
+assert.match(inline,/source:fromVoice\?'voice':'manual'/,'task source persisted');
+assert.match(inline,/if\(item.due&&item.source!=='voice'\)/,'manual agenda button is not duplicated on voice tasks');
+assert.match(inline,/events\.some\(e=>e\.linkedTaskId===item\.id\)/,'repeated linking is deduplicated');
+assert.match(inline,/allDay:true,linkedTaskId:item\.id/,'undated hour stays all-day');
+assert.match(inline,/events:events\.filter\(e=>!e\.allDay\)/,'all-day tasks do not schedule invented Android alarm');
+assert.match(page,/\.tasks-item\{[^}]*flex-direction:column!important/s,'task title keeps full width above action buttons');
+assert.match(page,/\.tasks-item-text\{[^}]*width:100%!important/s,'task title is not squeezed letter by letter');
 assert.match(inline,/function tasksVoiceHandleAndroid\(data\)/,'Android tasks voice callback exists');
 assert.match(inline,/if\(tasksVoiceHandleAndroid\(data\)\)return/,'Android dispatcher forwards tasks speech');
 assert.match(inline,/mode:'tasks'/,'tasks microphone calls native recognizer');
