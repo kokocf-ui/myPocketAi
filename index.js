@@ -1393,7 +1393,7 @@ body.long-choice-active{overflow:hidden}
 <style id="professional-finance-workspace">
 #view-module .budget-overview-head{display:flex;justify-content:space-between;gap:.5rem;align-items:center;margin:.15rem 0}
 #view-module .budget-overview-head small{font-size:clamp(.67rem,2.7vw,.83rem);opacity:.78}
-#view-module .budget-summary{display:flex;flex-direction:column;gap:.45rem;background:linear-gradient(135deg,#103449,#092b3e);border:1px solid #386886;border-radius:1rem;padding:clamp(.85rem,3vw,1.15rem);min-width:0}
+#view-module .budget-summary{display:flex;flex-direction:column;gap:.45rem;flex-shrink:0;position:relative;z-index:0;margin-bottom:.55rem;box-sizing:border-box;background:linear-gradient(135deg,#103449,#092b3e);border:1px solid #386886;border-radius:1rem;padding:clamp(.85rem,3vw,1.15rem);min-width:0}
 #view-module .budget-summary>small{opacity:.82;overflow-wrap:anywhere}
 #view-module .budget-big{font-size:clamp(1.5rem,6vw,2.35rem);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 #view-module .budget-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;border-top:1px solid #35586d;padding-top:.55rem}
@@ -1402,7 +1402,7 @@ body.long-choice-active{overflow:hidden}
 #view-module .budget-stat small{font-size:clamp(.7rem,2.6vw,.82rem)}
 #view-module .budget-income{color:#83dfb0}
 #view-module .budget-expense{color:#ffb6a3}
-#view-module .budget-action-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem}
+#view-module .budget-action-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem;position:relative;z-index:0;clear:both;margin:.35rem 0 .55rem}
 #view-module .budget-action-grid button{min-width:0!important;min-height:clamp(2.5rem,6dvh,3.1rem)!important;height:auto!important;padding:.4rem!important;font-size:clamp(.76rem,3.1vw,.98rem)!important}
 #view-module .budget-subtitle{font-size:clamp(.95rem,3.8vw,1.15rem);margin:.35rem 0 .15rem}
 #view-module .budget-category-bar{display:flex;height:.65rem;border-radius:1rem;overflow:hidden;min-width:0}
@@ -2656,6 +2656,9 @@ function pocketVoiceHelp(mode,title){
    ['Conversie','Convertește 100 de lire în lei'],
    ['Plată viitoare','Pe 18 noiembrie plătesc 70 de lire pentru internet'],
    ['Plată lunară','În fiecare lună pe 6 plătesc chiria de 550 de lire'],
+   ['Plăți viitoare','Ce plăți mai am luna viitoare?'],
+   ['Săptămâna viitoare','Ce plăți am săptămâna viitoare?'],
+   ['Lună aleasă','Ce plăți am în decembrie?'],
    ['Scadențe','Ce facturi mai am de plătit luna aceasta?'],
    ['Confirmare','Am plătit internetul']
   ],
@@ -3520,7 +3523,7 @@ async function budgetVoiceCommand(raw){
  if(/(?:ce|cate|care|arata|show|what|how many).*?(?:plati|facturi|cheltuieli|payments|bills)|(?:plati|facturi|cheltuieli).*?(?:viitoare|urmatoare|luna|saptamana)|de platit|scadente|upcoming (?:payments|bills)/.test(spoken)&&!/(?:am cheltuit|am platit|spent|paid)\\s+\\d/.test(spoken)){
   budgetTab=/efectuat|platit deja|achitat|paid already/.test(spoken)?'paid':'planned';
   budgetPeriod=budgetQueryPeriod(spoken);
-  budgetScreen='home';renderBudget();return;
+  budgetScreen='period';renderBudget();return;
  }
  if(/cat am|raport|rezumat|sold|balanta|balance/.test(spoken)){budgetScreen='home';renderBudget();return}
  if(/^(?:am platit|paid)\\s+/.test(spoken)&&!/\\d/.test(spoken)){
@@ -3579,6 +3582,31 @@ function renderBudget(){
  });
  if(!budgetGeoAsked)budgetCountryRefresh();
  const data=budgetRead(),ccy=data.baseCurrency,totals=budgetTotals(data);
+ if(budgetScreen==='period'){
+  const range=budgetPeriod||budgetQueryPeriod('luna aceasta');
+  const upcoming=budgetUpcoming(data,range.end);
+  const results=(budgetTab==='planned'?upcoming:data.entries.filter(e=>e.status!=='planned'))
+   .filter(e=>e.date>=range.start&&e.date<=range.end)
+   .sort((a,b)=>a.date.localeCompare(b.date));
+  budgetTitleRow(scroll,budgetTab==='planned'?learningLabel('Plăți viitoare','Upcoming payments'):learningLabel('Plăți efectuate','Completed payments'));
+  scroll.append(budgetNode('small','budget-advice',learningLabel('Perioada: ','Period: ')+range.start+' — '+range.end));
+  const total=results.reduce((sum,e)=>sum+(e.type==='expense'?1:-1)*Number(e.baseAmount),0);
+  const summary=budgetNode('div','budget-summary');
+  summary.append(budgetNode('small','',learningLabel('Total în perioada aleasă','Total for selected period')));
+  summary.append(budgetNode('strong','budget-big',budgetFormat(total,ccy)));
+  summary.append(budgetNode('small','',results.length+' '+learningLabel('înregistrări','entries')));
+  scroll.append(summary);
+  if(!results.length)scroll.append(budgetNode('p','budget-empty',learningLabel('Nu există plăți înregistrate pentru această perioadă.','No payments recorded for this period.')));
+  for(const item of results){
+   const row=budgetButton('',()=>item.status==='planned'?budgetPayPlanned(item):budgetRenameEntry(item.id),'budget-transaction');
+   const info=budgetNode('span','budget-transaction-info');
+   info.append(budgetNode('strong','',budgetVoiceExpenseTitle(item.title)||item.title),budgetNode('small','',item.date+' · '+budgetCategoryLabel(item.category)));
+   row.append(info,budgetNode('strong','',budgetFormat(item.amount,item.currency)));
+   scroll.append(row);
+  }
+  scroll.append(budgetButton(learningLabel('← Rezumat financiar','← Financial overview'),()=>{budgetScreen='home';budgetPeriod=null;renderBudget()},'secondary-btn'));
+  return;
+ }
  if(budgetScreen==='report'){
   const month=new Date().toLocaleDateString(state.language==='ro'?'ro-RO':'en-GB',{month:'long',year:'numeric'});
   const report=budgetSpendingReport(data.entries);
