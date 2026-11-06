@@ -181,7 +181,7 @@ public final class AgendaReminderScheduler {
         else if(minutes>=60)message="Peste aproximativ "+(minutes/60)+" ore: ";
         else message="Peste aproximativ "+minutes+" minute: ";
         if(birthday)message="evening".equals(type)?"Mâine este ziua de naștere: ":"Astăzi este ziua de naștere: ";
-        if(intent.getBooleanExtra("flightDeparturePrompt",false))message="✈️ E timpul să pleci spre aeroport, dacă durata drumului permite. Zborul tău este peste 3 ore: ";
+        if(intent.getBooleanExtra("flightDeparturePrompt",false))message="✈️ Este timpul să pleci spre aeroport! Zborul este peste 3 ore. Verifică durata drumului și regulile companiei aeriene: ";
         Intent open=new Intent(context,AvatarLaunchActivity.class);
         open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent tap=PendingIntent.getActivity(context,0,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
