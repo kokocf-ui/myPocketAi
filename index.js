@@ -6617,7 +6617,7 @@ function mathSpokenToFormula(input){
  // Speech-to-text may turn the spoken name of a bracket into BOTH glyphs.
  // Bare pairs imply opening; "închisă" implies closing.
  v=v.replace(/[−–]/g,'-');
- v=v.replace(/(\(\)|\[\]|\{\})(?:\\s*[,;:]?\\s*(deschisa|inchisa)\\b)?/g,(_,pair,position)=>{
+ v=v.replace(/(\\(\\)|\\[\\]|\\{\\})(?:\\s*[,;:]?\\s*(deschisa|inchisa)\\b)?/g,(_,pair,position)=>{
   const shape=pair==='()'?['(',')']:pair==='[]'?['[',']']:['{','}'];
   return shape[Number(position==='inchisa')];
  });
