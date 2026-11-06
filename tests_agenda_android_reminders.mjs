@@ -57,6 +57,10 @@ for(const command of ['Șterge mementoul să sun la service','șterge să sun la
  assert.equal(items[0].id,'1',command);
 }
 assert.equal(get('șterge memento',[records[0]])[0].id,'1','a single reminder can be deleted by short command');
+assert.equal(get('șterge mecanic',records)[0]?.id,'1','short mechanic keyword matches service reminder');
+assert.equal(get('ȘTERGE SERVICE',records)[0]?.id,'1','short keyword with uppercase matches');
+assert.equal(get('șterge dentist',records)[0]?.id,'3','single meaningful keyword matches despite longer reminder title');
+assert.equal(get('șterge inexistent',records).length,0,'unknown keyword never deletes a reminder');
 assert.equal(get('șterge memento',records).length,0,'ambiguous generic deletion is never automatic');
 assert.equal(get('șterge să sun',records).length,0,'similar reminder titles remain ambiguous');
 assert.equal(get('șterge ultimul memento',records)[0].id,'3','last reminder is selected by creation time');
