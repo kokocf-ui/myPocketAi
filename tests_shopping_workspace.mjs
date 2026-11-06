@@ -188,7 +188,7 @@ assert.match(page,/\.agenda-voice-controls\{[\s\S]*?grid-template-columns:repeat
 assert.doesNotMatch(inline,/returnButton\.classList\.add\('agenda-detail-back'\)/,'detail view reuses the shared Back button');
 
 
-assert.match(inline,/if\(!\['calendar','tasks','reminders','notes','daily'\]\.includes\(cat\[0\]\)\)panel\.append\(bar\)/,'voice workspaces omit the legacy duplicate toolbar');
+assert.match(inline,/if\(!\['calendar','tasks','reminders','notes','daily','budget'\]\.includes\(cat\[0\]\)\)panel\.append\(bar\)/,'voice workspaces omit the legacy duplicate toolbar');
 assert.match(inline,/function pocketVoiceHelp\(mode,title\)/,'shared voice command guide exists');
 
 /* New voice-enabled organiser pages must inherit the shared layout from day one. */
@@ -198,7 +198,7 @@ assert.match(inline,/pocketVoiceHelp\(mode,\$\('moduleTitle'\)\)/,'shared title 
 assert.match(inline,/organize-voice-controls/,'back and dictation are paired within one toolbar');
 assert.match(page,/<style id="organize-voice-workspace-style">/,'responsive voice toolbar styles exist');
 assert.match(page,/\.organize-voice-controls\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/,'two equally sized controls on one row');
-assert.match(inline,/if\(!\['calendar','tasks','reminders','notes','daily'\]\.includes\(cat\[0\]\)\)bar\.append\(back,title\)/,'avoid duplicating reminder title and Categories button');
+assert.match(inline,/if\(!\['calendar','tasks','reminders','notes','daily','budget'\]\.includes\(cat\[0\]\)\)bar\.append\(back,title\)/,'avoid duplicating reminder title and Categories button');
 assert.match(inline,/reminders:\[[\s\S]*?Șterge mementoul/,'reminder info help has examples');
 
 assert.match(inline,/pocketVoiceHelp\('agenda',\$\('moduleTitle'\)\)/,'agenda guide attached to title');
@@ -487,5 +487,44 @@ vm.runInContext(inline.slice(dailyStart,dailyEnd),dailyContext);
 const dailyResults=vm.runInContext('dailyPlanItems(new Date(2026,10,7))',dailyContext);
 assert.deepEqual(Array.from(dailyResults,entry=>entry.title),['Cumpără cafea','Consult medical','Sună la service'],'daily planner is chronological and de-duplicates linked tasks');
 assert.equal(dailyResults.filter(e=>e.title==='Consult medical').length,1);
+
+
+/* Budget V1: local money arithmetic, FX provenance and shared voice-first layout. */
+assert.match(inline,/if\(key==='budget'\)\{renderBudget\(\);return\}/,'budget category has its own screen');
+assert.match(inline,/budget:[\s\S]*?Convertește 100 de lire în lei/,'budget info includes commands');
+assert.match(inline,/if\(budgetVoiceHandleAndroid\(data\)\)return/,'budget Android dictation is integrated');
+assert.match(inline,/function budgetMonthly\(/,'financial month totals');
+assert.match(inline,/function budgetTotals\(/,'financial balance totals');
+assert.match(inline,/openingBalance===null\?null/,'unknown balance is not invented');
+assert.match(inline,/function budgetExchangeRate\(/,'currency conversion is live source-backed');
+assert.match(inline,/api\.frankfurter\.dev\/v2\/rate/,'source URL is explicit');
+assert.match(inline,/rateDate:reference\.date,rateSource:reference\.source/,'FX date and rate snapshot persist per transaction');
+assert.match(inline,/if\(!saved\.currencyLocked&&!saved\.entries\.length&&saved\.openingBalance===null\)/,'country does not overwrite user budget after entries');
+assert.match(inline,/if\(!budgetFxManual\)budgetFxFrom=currency/,'location defaults converter but respects manual choice');
+assert.match(inline,/mode:'budget'/,'shared organiser voice UI');
+assert.match(page,/<style id="professional-finance-workspace">/,'responsive finance layout exists');
+const budgetStart=inline.indexOf("const POCKET_BUDGET_KEY='mypocketai.budget.v1'");
+const budgetEnd=inline.indexOf('const TASKS_DRAWINGS=',budgetStart);
+assert.ok(budgetStart>=0&&budgetEnd>budgetStart,'finance source is isolated');
+const ctx=vm.createContext({
+ Date,String,Number,Math,Boolean,Set,Map,Array,Intl,
+ navigator:{language:'en-GB'},state:{language:'ro'},
+ learningLabel:(a,b)=>a,shopVoiceFold:s=>String(s).toLowerCase(),localStorage:{
+ getItem:key=>key==='mypocketai.budget.v1'?JSON.stringify({baseCurrency:'GBP',openingBalance:null,entries:[
+ {id:'a',type:'income',title:'Wages',date:'2026-11-06',amount:3500,baseAmount:3500,currency:'GBP'},
+ {id:'b',type:'expense',title:'Tesco',date:'2026-11-06',amount:45,baseAmount:45,currency:'GBP'},
+ {id:'c',type:'expense',title:'Old',date:'2026-10-30',amount:10,baseAmount:10,currency:'GBP'}
+ ]}):null
+ },notify:()=>{}
+});
+vm.runInContext(inline.slice(budgetStart,inline.indexOf('function budgetCountryRefresh()',budgetStart)),ctx);
+const totals=vm.runInContext('budgetTotals(budgetRead())',ctx);
+assert.equal(totals.balance,null,'without opening balance financial balance remains unknown');
+assert.equal(totals.income,3500);
+assert.equal(totals.expenses,45);
+assert.equal(totals.totalChange,3445,'overall change includes prior month');
+assert.equal(vm.runInContext("budgetCurrency('GB')",ctx),'GBP');
+assert.equal(vm.runInContext("budgetCurrency('RO')",ctx),'RON');
+assert.equal(vm.runInContext("budgetCurrency('DE')",ctx),'EUR');
 
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
