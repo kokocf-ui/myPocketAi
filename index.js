@@ -7399,6 +7399,85 @@ function mathMethodGuide(source){
  intro:learningLabel('Învățăm regula generală, nu refacem aceeași rezolvare. Pentru calculul concret, alege „Rezolvă pas cu pas”.','Learn the general method instead of repeating the calculation. For the specific answer, use “Solve step by step”.'),
  rules,tip:learningLabel('Reține: la fiecare operație păstrează toate celelalte părți ale expresiei.','Remember: retain every other part of the expression when performing an operation.')};
 }
+// For plotted functions, the graph and the explanation must share the exact
+// same parsed coefficients. Never use an unrelated generated answer here.
+function mathFunctionLesson(source,mode){
+ const model=mathGraphModel(source);if(!model)return null;
+ const fmt=n=>new Intl.NumberFormat(state.language||'ro',{maximumFractionDigits:8}).format(Object.is(n,-0)?0:n).replace(/-/g,'−');
+ const steps=[],add=(name,description)=>steps.push({name,description});
+ const equation='f(x) = '+model.expression.replace(/-/g,'−');
+ if(Math.abs(model.a)<1e-12){
+  const m=model.b,n=model.c;
+  add(learningLabel('Recunoaștem funcția','Recognize the function'),
+   learningLabel('Este o funcție de forma f(x) = mx + n. Graficul este o dreaptă.','The function has the form f(x) = mx + n. Its graph is a straight line.'));
+  add(learningLabel('Identificăm coeficienții','Identify the coefficients'),
+   learningLabel('Panta este m = ','The slope is m = ')+fmt(m)+
+   learningLabel(', iar intersecția cu axa Oy este (0; ', ', and the y-axis intersection is (0, ')+fmt(n)+').');
+  add(learningLabel('Alegem două puncte','Choose two points'),
+   learningLabel('Două puncte distincte sunt suficiente pentru a trasa o dreaptă. Pentru x = 0 și x = 1 obținem punctele (0; ',
+    'Two distinct points are enough to draw a straight line. For x = 0 and x = 1, choose (0, ')+fmt(n)+
+    learningLabel(') și (1; ',') and (1, ')+fmt(m+n)+').');
+  if(Math.abs(m)>1e-12)add(learningLabel('Intersecția cu axa Ox','X-axis intersection'),
+   learningLabel('Din f(x) = 0 rezultă x = ', 'Solving f(x) = 0 gives x = ')+fmt(-n/m)+'.');
+  else add(learningLabel('Dreapta orizontală','Horizontal line'),
+   n===0?learningLabel('Graficul coincide cu axa Ox.','The graph coincides with the x-axis.'):
+      learningLabel('Graficul este orizontal și nu intersectează axa Ox.','The graph is horizontal and never crosses the x-axis.'));
+  add(learningLabel('Trasează și verifică','Plot and check'),
+   learningLabel('Unește cele două puncte distincte. Un punct (x; y) se află pe dreaptă numai dacă f(x) = y.',
+    'Join the two different points. A point (x, y) lies on the line only if f(x) = y.'));
+ }else{
+  const a=model.a,b=model.b,c=model.c,vx=-b/(2*a),vy=a*vx*vx+b*vx+c,delta=b*b-4*a*c;
+  add(learningLabel('Identificăm funcția','Identify the function'),
+   learningLabel('Funcția este de gradul al doilea, iar graficul ei este o parabolă.',
+    'This is a quadratic function; its graph is a parabola.'));
+  add(learningLabel('Concavitatea și vârful','Opening and vertex'),
+   (a>0?learningLabel('Parabola se deschide în sus. ','The parabola opens upward. '):
+   learningLabel('Parabola se deschide în jos. ','The parabola opens downward. '))+'V('+fmt(vx)+'; '+fmt(vy)+').');
+  add(learningLabel('Intersecția cu axa Oy','Y-axis intersection'),
+   learningLabel('Pentru x = 0 obținem (0; ','At x = 0 we obtain (0, ')+fmt(c)+').');
+  const roots=delta<0?learningLabel('Nu are intersecții reale cu axa Ox.','There are no real x-axis intersections.'):
+    Math.abs(delta)<1e-10?learningLabel('Atinge axa Ox în (','Touches the x-axis at (')+fmt(vx)+'; 0).':
+     learningLabel('Intersecțiile cu axa Ox au abscisele ','The x-axis intersections have x-coordinates ')+
+     fmt((-b-Math.sqrt(delta))/(2*a))+learningLabel(' și ',' and ')+fmt((-b+Math.sqrt(delta))/(2*a))+'.';
+  add(learningLabel('Rădăcinile','Roots'),roots);
+  add(learningLabel('Verificăm punctele','Check the points'),
+   learningLabel('Pentru fiecare punct de pe desen, înlocuim x în funcție și verificăm valoarea y.',
+    'For every point, substitute x into the formula and verify y.'));
+ }
+ return {
+  heading:mode==='explain'?learningLabel('Metoda pentru această categorie de funcții','Method for this type of function'):
+   mode==='graph'?learningLabel('Cum interpretăm graficul','How to interpret the graph'):
+    learningLabel('Analiza funcției pas cu pas','Step-by-step function analysis'),
+  intro:learningLabel('Folosim doar funcția din enunț: ','Using only the function supplied: ')+equation+'.',
+  steps,
+  conclusion:mode==='graph'?learningLabel('Graficul de mai sus este calculat local din această funcție.',
+   'The graph above was calculated locally from this function.'):
+   learningLabel('Verifică rezultatul înlocuind coordonatele punctelor în funcția dată.',
+    'Verify the result by substituting the point coordinates in the supplied function.')
+ };
+}
+// Render lightweight math notation as readable text; this formatter is used
+// ONLY in math-result answers, not normal prose, prices or other modules.
+function mathReadableFormula(text){
+ return String(text||'')
+  .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g,'($1)/($2)')
+  .replace(/\\times\b/g,'×').replace(/\\cdot\b/g,'×')
+  .replace(/\\div\b/g,'÷').replace(/\\leq?\b/g,'≤')
+  .replace(/\\geq?\b/g,'≥').replace(/\\neq\b/g,'≠')
+  .replace(/\\sqrt\{([^{}]+)\}/g,'√($1)')
+  .replace(/\\left\b|\\right\b/g,'')
+  .replace(/\^\{2\}/g,'²').replace(/\^2\b/g,'²');
+}
+function mathCleanAnswerMarkup(reply){
+ let text=String(reply||'');
+ text=text.replace(/\\\[((?:.|\n)*?)\\\]/g,(_,formula)=>mathReadableFormula(formula))
+  .replace(/\\\((.*?)\\\)/g,(_,formula)=>mathReadableFormula(formula))
+  .replace(/\$\$([\s\S]*?)\$\$/g,(_,formula)=>mathReadableFormula(formula));
+ text=text.replace(/\$([^$\n]+)\$/g,(whole,formula)=>
+  /(?:\\[a-z]+|[=+*/^×÷]|\d\s*[-−]\s*\d)/.test(formula)?
+  mathReadableFormula(formula):whole);
+ return mathReadableFormula(text);
+}
 function mathResultPage(index){
  const session=mathResultSession,dialog=$('mathResultDialog');
  if(!session||!dialog?.open)return;
