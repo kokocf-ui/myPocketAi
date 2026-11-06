@@ -156,13 +156,17 @@ public final class MainActivity extends ComponentActivity {
     private final ActivityResultLauncher<String> micPermission =
         registerForActivityResult(new ActivityResultContracts.RequestPermission(),granted -> {
             boolean resumeListening=microphoneRequestedForListening;
+            boolean mathPermissionRequested=pendingMathAudioPermission;
             microphoneRequestedForListening=false;
-            if(granted && pendingMathAudioPermission){
-                pendingMathAudioPermission=false;
-                startMathPcmRecording();
+            pendingMathAudioPermission=false;
+            // A denied Math pilot permission must return to its own recording
+            // callback, otherwise the Maths UI stays stuck in "recording" mode.
+            if(mathPermissionRequested){
+                if(granted)startMathPcmRecording();
+                else notifyMathAudio("permissionDenied","",0);
             }else if(granted && resumeListening)beginEmbeddedListening();
             else if(granted)notifyVoice("permissionGranted","","permission");
-            else {pendingMathAudioPermission=false;notifyVoice("permissionDenied","","permission");}
+            else notifyVoice("permissionDenied","","permission");
         });
     private final ActivityResultLauncher<String[]> locationPermission =
         registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),result -> {
