@@ -19,7 +19,7 @@ assert.equal(result.given,'ANDREI');
 assert.equal(result.expires,'2034-06-11');
 assert.equal(result.issued,'2024-06-12');
 assert.equal(Object.keys(vm.runInContext("documentsScanExtract('random 1234')",context)).length,0,'do not guess unlabeled identifiers');
-const mrz='P<UTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<<<<<<<<<\\nL898902C36UTO7408122F1204159ZE184226B<<<<<10';
+const mrz='P<UTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<<<<<<<<<\nL898902C36UTO7408122F1204159ZE184226B<<<<<10';
 const passport=vm.runInContext('documentsScanExtract('+JSON.stringify(mrz)+')',context);
 assert.equal(passport.number,'L898902C3');
 assert.equal(passport.holder,'ERIKSSON');
