@@ -6677,7 +6677,12 @@ function mathVoiceChooseTranscript(primary, alternatives, existing=''){
  if(!first||!Array.isArray(alternatives))return first;
  const compact=value=>mathSpokenToFormula(value,existing).replace(/\\s+/g,'');
  const baseline=compact(first);
- const stripUnaryMinus=value=>value.replace(/([*/([\\{=+])-([0-9])/g,'$1$2');
+ const stripUnaryMinus=value=>{
+  let corrected=value;
+  for(const operator of ['*','/','(','[','{','=','+'])
+   corrected=corrected.split(operator+'-').join(operator);
+  return corrected;
+ };
  for(const candidate of alternatives.slice(0,8)){
   const raw=String(candidate||'').trim();
   if(!raw||raw===first)continue;
@@ -6700,7 +6705,7 @@ function mathVoiceHandleAndroid(data){
  if(data.status==='partial'){
   session.missed=0;
   session.partial=String(data.text||'').trim();
-  if(/(?:\bminus\b|\bnegativ\w*\b|\*\s*-\s*\d)/iu.test(session.partial)){
+  if(/(?:\\bminus\\b|\\bnegativ\\w*\\b|\\*\\s*-\\s*\\d)/iu.test(session.partial)){
    session.mathNegativePartials=session.mathNegativePartials||[];
    if(!session.mathNegativePartials.includes(session.partial))
     session.mathNegativePartials.push(session.partial);
@@ -6716,7 +6721,7 @@ function mathVoiceHandleAndroid(data){
   const chosen=mathVoiceChooseTranscript(data.text||session.partial,candidates,$('mathEducationText')?.value||'');
   const possiblyLostMinus=chosen===String(data.text||session.partial).trim() &&
     (session.mathNegativePartials||[]).length>0 &&
-    !/(?:\bminus\b|\bnegativ\w*\b|\*\s*-\s*\d)/iu.test(chosen);
+    !/(?:\\bminus\\b|\\bnegativ\\w*\\b|\\*\\s*-\\s*\\d)/iu.test(chosen);
   mathVoiceAccept(chosen,session);
   session.partial='';session.mathNegativePartials=[];session.missed=0;session.retries=0;
   if(possiblyLostMinus)mathVoiceStatus(learningLabel('Verifică semnul minus: Android l-a auzit parțial, dar nu l-a confirmat.','Check the minus sign: Android heard it partially but did not confirm it.'));
