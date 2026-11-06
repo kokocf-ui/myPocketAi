@@ -145,8 +145,8 @@ assert.equal(arithmetic.check('2(3+4)=14'),null,'implicit multiplication is not 
 assert.equal(arithmetic.check('3+4=7=7'),null,'multiple equalities remain with the maths solver');
 assert.equal(arithmetic.check('3^2=9'),null,'unsupported operators are not guessed');
 assert.match(embedded,/Nu cita lecții video, site-uri sau surse/,'avoid fabricated lesson references');
-assert.match(embedded,/const checked=equality\\?/,'include deterministic equality in the teaching prompt');
-assert.match(embedded,/mathEqualityExplanation\\(verifiedEquality\\)/,'always render arithmetic equality independently of model replies');
+assert.ok(embedded.includes('const checked=equality?'),'include deterministic equality in the teaching prompt');
+assert.ok(embedded.includes('mathEqualityExplanation(verifiedEquality)'),'always render arithmetic equality independently of model replies');
 
 const native=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(native,/"math"\.equals\(speechMode\)\)return;/,'math speech bypasses short endpoint');
