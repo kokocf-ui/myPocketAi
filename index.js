@@ -1420,6 +1420,12 @@ body.long-choice-active{overflow:hidden}
 #view-module .budget-advice,#view-module .budget-location{font-size:clamp(.75rem,3vw,.9rem);line-height:1.3;opacity:.8}
 #view-module .budget-warning{color:#ffb6a3}
 #view-module .documents-form{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem;padding:.5rem 0}
+/* Document OCR review: rows size to content, never stretch to available viewport. */
+#view-module .documents-scan-review{grid-auto-rows:max-content!important;align-content:start!important;align-items:start!important;gap:clamp(.3rem,1dvh,.55rem)!important}
+#view-module .documents-scan-review .documents-field{display:flex!important;flex-direction:column!important;height:auto!important;min-height:0!important;align-self:start!important;flex:0 0 auto!important}
+#view-module .documents-scan-review .documents-field>.budget-input{display:block!important;width:100%!important;height:clamp(2.6rem,6.5dvh,3.1rem)!important;min-height:2.6rem!important;max-height:3.1rem!important;line-height:1.25!important;box-sizing:border-box!important;padding:.45rem .65rem!important}
+#view-module .documents-scan-review .documents-actions{align-self:start!important}
+
 #view-module .documents-field{display:flex;flex-direction:column;gap:.25rem;min-width:0}
 #view-module .documents-field small{font-size:clamp(.76rem,3vw,.9rem);opacity:.83}
 #view-module .documents-photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:.45rem 0 .8rem}
@@ -4161,75 +4167,135 @@ function documentsPhotoGallery(id,host){
 
 
 /* Only user-approved OCR data is stored. No document image or text leaves the device. */
-function documentsScanExtract(raw){
- const lines=String(raw||'').slice(0,16000).split(/\\r?\\n/).map(x=>x.trim()).filter(Boolean);
- const fields={},patterns={
-  number:/^(?:document (?:no\\.?|number)|passport (?:no\\.?|number)|serie(?: si numar)?|num[aă]r(?:ul)?(?: documentului)?|licen[cs]e (?:no\\.?|number)|driving licence number|registration (?:no\\.?|number))\\s*[:#-]?\\s*(.+)$/i,
-  holder:/^(?:surname(?:s)?|family name|nume(?: de familie)?|last name|titular|holder)\\s*[:#-]?\\s*(.+)$/i,
-  given:/^(?:given names?|first names?|prenume)\\s*[:#-]?\\s*(.+)$/i,
-  country:/^(?:issuing country|country of issue|[țt]ara emitent[aă]|nationality|na[țt]ionalitate)\\s*[:#-]?\\s*(.+)$/i,
-  issuer:/^(?:issuing authority|authority|autoritatea emitent[aă]|issued by|issuer)\\s*[:#-]?\\s*(.+)$/i,
-  issued:/^(?:date of issue|issue date|data emiterii|issued on|valid from|emis la)\\s*[:#-]?\\s*(.+)$/i,
-  expires:/^(?:date of expiry|expiry date|expiration date|expires(?: on)?|data expir[aă]rii|valabil p[aâ]n[aă] la|valid until|valid to|expir[aă] la)\\s*[:#-]?\\s*(.+)$/i,
-  birth:/^(?:date of birth|birth date|data na[șs]terii|born on)\\s*[:#-]?\\s*(.+)$/i
+function documentsScanExtract(raw,geometry=[]){
+ // Keep local text in memory only. Never infer a missing value from a label.
+ const rawLines=String(raw||'').slice(0,16000).split(/\\r?\\n/).map(v=>v.trim()).filter(Boolean);
+ const layout=Array.isArray(geometry)?geometry.slice(0,150):[];
+ const rows=layout.length?layout.filter(v=>v&&typeof v.text==='string').map(v=>({
+  text:v.text.trim(),left:Number(v.left),right:Number(v.right),
+  top:Number(v.top),bottom:Number(v.bottom)
+ })).filter(v=>v.text):rawLines.map(text=>({text}));
+ const normalized=value=>String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
+  .replace(/ø/gi,'o').replace(/æ/gi,'ae').replace(/œ/gi,'oe').toLowerCase()
+  .replace(/[\\/|:;,()]+/g,' ').replace(/\\s+/g,' ').trim();
+ const aliases={
+  number:['passport number','passport no','passport nr','passport number no','pasnummer','pas nr','pas no','passnummer','document number','document no','numar document','numarul documentului','serie si numar','numero du passeport','numero de passeport','numero de pasaporte','registration number','driving licence number'],
+  holder:['surname','surnames','last name','family name','nom','nom de famille','efternavn','familienname','nachname','cognome','apellido','apellidos','nume de familie','nume'],
+  given:['given name','given names','first name','first names','fornavn','fornavne','prenom','prenoms','prename','vornamen','vorname','prenume','nombre','nombres','nome proprio'],
+  birth:['date of birth','birth date','date de naissance','dato de naissance','fodselsdato','geburtsdatum','data nasterii','fecha de nacimiento','date of born'],
+  issued:['date of issue','issue date','date de delivrance','udstedelsesdato','udstedt den','ausstellungsdatum','data emiterii','fecha de expedicion','issued on'],
+  expires:['date of expiry','expiry date','expiration date','date dexpiration','date de expiration','udlobsdato','gyldig til','ablaufdatum','data expirarii','valabil pana la','fecha de caducidad','valid until','valid to','expires on'],
+  country:['issuing country','country of issue','pays emetteur','udstedende land','tara emitenta'],
+  issuer:['issuing authority','authority','autoritatea emitenta','autoritate emitenta','issued by','autorite de delivrance','udstedende myndighed']
  };
- const parseDate=(v)=>{
-  const m=String(v).match(/\\b(\\d{4})[-./](\\d{1,2})[-./](\\d{1,2})\\b/) ||
-    String(v).match(/\\b(\\d{1,2})[./-](\\d{1,2})[./-](\\d{4})\\b/);
-  if(!m)return '';
-  const iso=m[1].length===4?[m[1],m[2],m[3]]:[m[3],m[2],m[1]];
-  const value=iso[0]+'-'+iso[1].padStart(2,'0')+'-'+iso[2].padStart(2,'0');
-  const date=new Date(value+'T12:00:00');
-  return !Number.isNaN(date.getTime())&&budgetISO(date)===value?value:'';
+ const allAliases=Object.entries(aliases).flatMap(([key,words])=>words.map(word=>({key,word})))
+  .sort((a,b)=>b.word.length-a.word.length);
+ const whichLabel=text=>{
+  const n=' '+normalized(text)+' ';
+  const matched=new Set();
+  for(const {key,word} of allAliases)if(n.includes(' '+word+' '))matched.add(key);
+  return matched.size===1?[...matched][0]:null;
  };
- // ICAO TD3 passport MRZ: only accept machine-readable fields when check digits agree.
- const mrzClean=value=>String(value).toUpperCase().replace(/\\s/g,'').replace(/[^A-Z0-9<]/g,'');
- const mrzRows=lines.map(mrzClean);
- const mrzWeights=[7,3,1];
- const mrzDigit=value=>{
-  let total=0;
-  for(let i=0;i<value.length;i++){
-   const ch=value[i],n=ch==='<'?0:/[0-9]/.test(ch)?Number(ch):ch.charCodeAt(0)-55;
-   if(!Number.isInteger(n)||n<0||n>35)return '?';
-   total+=n*mrzWeights[i%3];
-  }
-  return String(total%10);
+ const months={jan:1,january:1,januar:1,janvier:1,feb:2,february:2,februar:2,fevrier:2,
+  mar:3,march:3,marts:3,mars:3,apr:4,april:4,avr:4,may:5,mai:5,maj:5,mayo:5,
+  jun:6,june:6,juni:6,juin:6,jul:7,july:7,juli:7,juillet:7,aug:8,august:8,aout:8,
+  sep:9,sept:9,september:9,septembre:9,oct:10,okt:10,october:10,oktober:10,octobre:10,
+  nov:11,november:11,novembre:11,dec:12,december:12,dezember:12,decembre:12};
+ const validISO=(year,month,day)=>{
+  if(year<1900||year>2100)return '';
+  const iso=[year,String(month).padStart(2,'0'),String(day).padStart(2,'0')].join('-');
+  const d=new Date(iso+'T12:00:00');
+  return Number.isNaN(d.getTime())||budgetISO(d)!==iso?'':iso;
  };
- for(let j=0;j<mrzRows.length-1;j++){
-  const a=mrzRows[j],b=mrzRows[j+1];
-  if(!a.startsWith('P<')||a.length!==44||b.length!==44)continue;
-  if(mrzDigit(b.slice(0,9))!==b[9]||mrzDigit(b.slice(21,27))!==b[27])continue;
-  const passportNo=b.slice(0,9).replace(/<+$/,'');
-  if(passportNo&&!fields.number)fields.number=passportNo;
-  if(mrzDigit(b.slice(13,19))===b[19]&&!fields.birth){
-   const yy=Number(b.slice(13,15)),year=yy>new Date().getFullYear()%100?1900+yy:2000+yy;
-   const value=String(year)+'-'+b.slice(15,17)+'-'+b.slice(17,19);
-   const date=new Date(value+'T12:00:00');
-   if(!Number.isNaN(date.getTime())&&budgetISO(date)===value)fields.birth=value;
+ const parseDate=text=>{
+  const t=normalized(text);
+  let m=t.match(/\\b(\\d{4})[./-](\\d{1,2})[./-](\\d{1,2})\\b/);
+  if(m)return validISO(Number(m[1]),Number(m[2]),Number(m[3]));
+  m=t.match(/\\b(\\d{1,2})[./-](\\d{1,2})[./-](\\d{4})\\b/);
+  if(m)return validISO(Number(m[3]),Number(m[2]),Number(m[1]));
+  m=t.match(/\\b(\\d{1,2})[. ]+([a-z]+)[. ,]+(\\d{4})\\b/);
+  return m&&months[m[2]]?validISO(Number(m[3]),months[m[2]],Number(m[1])):'';
+ };
+ const fields={};
+ const isLabel=text=>whichLabel(text)!==null;
+ const check=(key,value)=>{
+  const t=String(value||'').trim();
+  if(!t||t.length>100||isLabel(t))return '';
+  if(['issued','expires','birth'].includes(key))return parseDate(t);
+  if(key==='number')return /^[A-Z0-9][A-Z0-9 -]{3,30}$/i.test(t)&&/\\d/.test(t)?t:'';
+  if(key==='holder'||key==='given')return /^[\\p{L}][\\p{L}' -]{1,65}$/u.test(t) && t.split(/\\s+/).length<=5?t:'';
+  return /^[\\p{L}0-9][\\p{L}0-9 ,'.()/-]{1,99}$/u.test(t)?t:'';
+ };
+ for(let i=0;i<rows.length;i++){
+  const row=rows[i],key=whichLabel(row.text);
+  if(!key||fields[key])continue;
+  let candidate='';
+  // Same-line values require an explicit delimiter, not a multilingual slash.
+  const inline=row.text.match(/:\\s*(.+)$/);
+  if(inline)candidate=check(key,inline[1]);
+  if(!candidate&&Number.isFinite(row.top)&&Number.isFinite(row.bottom)){
+   const h=Math.max(12,row.bottom-row.top),maxBelow=Math.max(145,h*7);
+   const nearby=[];
+   for(let j=0;j<rows.length;j++){
+    if(j===i)continue;
+    const other=rows[j];
+    if(!Number.isFinite(other.top)||!Number.isFinite(other.left)||isLabel(other.text))continue;
+    const dy=other.top-row.bottom;
+    if(dy< -h*.5||dy>maxBelow)continue;
+    const rightOf=other.left>=row.right&&Math.abs(other.top-row.top)<=h*1.5;
+    const aligned=other.right>=row.left-h*2&&other.left<=row.right+Math.max(140,h*10);
+    if(!rightOf&&!aligned)continue;
+    const val=check(key,other.text);
+    if(!val)continue;
+    const distance=rightOf?(other.left-row.right)*.2+Math.abs(other.top-row.top)*.4:
+      Math.max(0,dy)+Math.abs(other.left-row.left)*.45;
+    nearby.push({val,distance});
+   }
+   nearby.sort((a,b)=>a.distance-b.distance);
+   candidate=nearby[0]?.val||'';
   }
-  if(!fields.expires){
-   const yy=Number(b.slice(21,23)),year=2000+yy;
-   const value=String(year)+'-'+b.slice(23,25)+'-'+b.slice(25,27);
-   const date=new Date(value+'T12:00:00');
-   if(!Number.isNaN(date.getTime())&&budgetISO(date)===value)fields.expires=value;
+  if(!candidate){
+   // Text-only fallback: do not cross the next recognized label.
+   for(let j=i+1;j<Math.min(rows.length,i+3);j++){
+    if(isLabel(rows[j].text))break;
+    candidate=check(key,rows[j].text);
+    if(candidate)break;
+   }
   }
-  if(!fields.country)fields.country=b.slice(10,13).replace(/</g,'');
-  const name=a.slice(5).split('<<');
-  if(name[0]&&!fields.holder)fields.holder=name[0].replace(/</g,' ').trim();
-  if(name[1]&&!fields.given)fields.given=name.slice(1).join(' ').replace(/</g,' ').trim();
-  break;
+  if(candidate)fields[key]=candidate;
  }
- const keys=Object.keys(patterns);
- for(let i=0;i<lines.length;i++){
-  for(const key of keys){
-   const match=lines[i].match(patterns[key]);
-   if(!match||fields[key])continue;
-   const value=match[1].trim()||String(lines[i+1]||'').trim();
-   if(!value||value.length>120)continue;
-   if(['issued','expires','birth'].includes(key)){const d=parseDate(value);if(d)fields[key]=d;}
-   else if(key==='number'){if(/^[A-Z0-9][A-Z0-9 -]{3,35}$/i.test(value))fields[key]=value;}
-   else fields[key]=value;
+ // ICAO TD3 passports: require validated number and expiry check digits.
+ const clean=value=>String(value).toUpperCase().replace(/[«‹〈]/g,'<')
+  .replace(/\\s/g,'').replace(/[^A-Z0-9<]/g,'');
+ const mrz=rawLines.map(clean);
+ const weights=[7,3,1];
+ const digit=value=>{
+  let sum=0;
+  for(let i=0;i<value.length;i++){
+   const c=value[i],n=c==='<'?0:/[0-9]/.test(c)?Number(c):c.charCodeAt(0)-55;
+   if(n<0||n>35)return '?';
+   sum+=n*weights[i%3];
   }
+  return String(sum%10);
+ };
+ for(let j=0;j<mrz.length-1;j++){
+  const a=mrz[j],b=mrz[j+1];
+  if(a.length!==44||b.length!==44||!a.startsWith('P<'))continue;
+  if(digit(b.slice(0,9))!==b[9]||digit(b.slice(21,27))!==b[27])continue;
+  const passportNo=b.slice(0,9).replace(/<+$/,'');
+  if(passportNo)fields.number=passportNo;
+  const expiry=validISO(2000+Number(b.slice(21,23)),Number(b.slice(23,25)),Number(b.slice(25,27)));
+  if(expiry)fields.expires=expiry;
+  if(digit(b.slice(13,19))===b[19]){
+   const yy=Number(b.slice(13,15)),year=yy>(new Date().getFullYear()%100)?1900+yy:2000+yy;
+   const birth=validISO(year,Number(b.slice(15,17)),Number(b.slice(17,19)));
+   if(birth)fields.birth=birth;
+  }
+  if(!fields.country)fields.country=a.slice(2,5); // Issuing country, not nationality.
+  const name=a.slice(5).split('<<');
+  if(name[0]&&!fields.holder)fields.holder=name[0].replace(/<+/g,' ').trim();
+  if(name[1]&&!fields.given)fields.given=name.slice(1).join(' ').replace(/<+/g,' ').trim();
+  break;
  }
  return fields;
 }
@@ -4265,7 +4331,7 @@ if(typeof window!=='undefined')window.pocketAndroidDocumentScanResult=function(p
  if(!documentsSelectedId||!payload||payload.id!==documentsSelectedId)return;
  if(payload.status==='started'){documentsScanWorking=true;renderDocuments();return}
  if(payload.status!=='success'){documentsScanWorking=false;renderDocuments();notify(learningLabel('Scanarea OCR a eșuat. Fotografia a rămas salvată; încearcă din nou sau completează manual.','OCR scan failed. Photo saved; retry or enter details manually.'));return}
- const fields=documentsScanExtract(payload.text);
+ const fields=documentsScanExtract(payload.text,payload.lines);
  if(!Object.keys(fields).length)notify(learningLabel('Nu am identificat câmpuri sigure. Verifică fotografia și completează formularul.','No reliable fields found. Check the photo and fill in the form.'));
 
  documentsScanWorking=false;documentsScanDraft={id:documentsSelectedId,fields};documentsEditing=false;renderDocuments();
