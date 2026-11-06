@@ -4059,26 +4059,26 @@ function documentsPhotoSlots(){
  return [['front',learningLabel('Față','Front')],['back',learningLabel('Verso','Back')],
   ['page3',learningLabel('Pagina 3','Page 3')],['page4',learningLabel('Pagina 4','Page 4')]];
 }
-async function documentsPhotoCompress(file){
+async function documentsPhotoCompress(file,maxEdge=1800,quality=.86){
  if(!file||!file.type.startsWith('image/')||file.size>15*1024*1024)throw new Error('invalid-image');
  const localURL=URL.createObjectURL(file);
  try{
   const img=new Image();
   await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=localURL});
-  const scale=Math.min(1,1800/Math.max(img.naturalWidth,img.naturalHeight));
+  const scale=Math.min(1,maxEdge/Math.max(img.naturalWidth,img.naturalHeight));
   const canvas=document.createElement('canvas');
   canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));
   canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
   const ctx=canvas.getContext('2d');if(!ctx)throw new Error('canvas');
   ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.drawImage(img,0,0,canvas.width,canvas.height);
-  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.86));
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',quality));
   canvas.width=0;canvas.height=0;
   if(!blob)throw new Error('encode');
   return blob;
  }finally{URL.revokeObjectURL(localURL)}
 }
-async function documentsPhotoScan(blob,id){
+async function documentsPhotoScan(originalFile,id){
  const bridge=window.PocketAndroidDocumentScan;
  if(!bridge||typeof bridge.postMessage!=='function'){
   documentsScanWorking=false;
@@ -4086,11 +4086,19 @@ async function documentsPhotoScan(blob,id){
   return;
  }
  try{
+  // Keep the gallery thumbnail small, but scan a separate high-resolution
+  // image in memory. The two MRZ lines often become unreadable at 1800px.
+  let ocrImage;
+  for(const [edge,quality] of [[3000,.91],[2600,.87],[2200,.82]]){
+   ocrImage=await documentsPhotoCompress(originalFile,edge,quality);
+   if(ocrImage.size<=4_350_000)break;
+  }
+  if(!ocrImage||ocrImage.size>4_350_000)throw new Error('ocr-image-too-large');
   const dataUrl=await new Promise((resolve,reject)=>{
    const reader=new FileReader();
    reader.onload=()=>resolve(String(reader.result||''));
    reader.onerror=()=>reject(new Error('read'));
-   reader.readAsDataURL(blob);
+   reader.readAsDataURL(ocrImage);
   });
   const base64=dataUrl.slice(dataUrl.indexOf(',')+1);
   if(base64.length<32||base64.length>6_000_000)throw new Error('size');
@@ -4109,7 +4117,7 @@ async function documentsPhotoSave(id,slot,file){
   await documentsPhotoOperation('put',id+':'+slot,blob);
   if(documentsSelectedId===id){
    documentsScanDraft=null;documentsScanWorking=true;renderDocuments();
-   documentsPhotoScan(blob,id);
+   documentsPhotoScan(file,id);
   }
   notify(learningLabel('Fotografia a fost salvată local.','Photo saved locally.'));
  }catch{
@@ -4234,6 +4242,7 @@ function documentsScanExtract(raw,geometry=[],documentType='other'){
  const check=(key,value)=>{
   const t=String(value||'').trim();
   if(!t||t.length>100||isLabel(t))return '';
+  if(documentType==='passport'&&(key==='holder'||key==='given')&&normalized(t).replace(/\\s/g,'').length<3)return '';
   if(['holder','given'].includes(key)&&isDocumentHeading(t))return '';
   if(key==='issuer'&&['carte','identite','naissance','prenom','nom','birth','date','identity'].some(w=>normalized(t).replace(/['’]/g,' ').split(' ').includes(w)))return '';
   if(key==='country'&&['carte','identite','naissance','prenom','nom','birth','date','identity'].some(w=>normalized(t).replace(/['’]/g,' ').split(' ').includes(w)))return '';
