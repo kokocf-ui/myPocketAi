@@ -1613,10 +1613,11 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 @media(max-width:360px){.agenda-confirm{grid-template-columns:repeat(2,minmax(0,1fr))}.agenda-confirm span{grid-column:1/-1}}
 
 .agenda-calendar-toolbar,.agenda-calendar-navigation,.agenda-detail-actions{display:flex;gap:clamp(.25rem,1vw,.5rem);align-items:center;min-width:0}
-.agenda-calendar-toolbar button{flex:1 1 0;min-width:0;padding:.5rem .15rem;font-size:clamp(.7rem,3vw,.95rem)}
-.agenda-calendar-navigation{justify-content:space-between}
+.agenda-calendar-toolbar{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));width:100%}
+.agenda-calendar-toolbar button{width:100%;min-width:0;min-height:2.7rem;padding:.35rem .1rem;box-sizing:border-box;font-size:clamp(.7rem,2.8vw,.95rem);line-height:1.1}
+.agenda-calendar-navigation{display:grid!important;grid-template-columns:minmax(2.5rem,auto) minmax(0,1fr) minmax(2.5rem,auto) minmax(4.5rem,auto);gap:clamp(.2rem,1vw,.5rem);align-items:center;width:100%}
 .agenda-calendar-navigation strong{flex:1;text-align:center;min-width:0;font-size:clamp(.85rem,3.5vw,1.08rem)}
-.agenda-calendar-navigation button{flex:0 0 auto;min-width:2.25rem;padding:.4rem}
+.agenda-calendar-navigation button{min-width:0;min-height:2.7rem;padding:.35rem .3rem;box-sizing:border-box}
 .agenda-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(.13rem,.8vw,.45rem);min-width:0}
 .agenda-weekday{text-align:center;font-size:.72rem;opacity:.8}
 .agenda-day{min-width:0;min-height:clamp(2.5rem,6dvh,3.5rem);padding:.2rem .05rem;border-radius:.5rem;border:1px solid transparent;background:transparent;color:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:clamp(.8rem,3vw,1rem)}
@@ -1638,6 +1639,28 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 .agenda-date-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem}
 .agenda-detail-actions button{flex:1;min-width:0}
 .agenda-empty{opacity:.7}
+
+#moduleTitle .pocket-voice-info,#view-assistant .pocket-voice-info{
+ display:inline-grid;place-items:center;vertical-align:middle;
+ width:1.5em;height:1.5em;margin-inline-start:.45em;
+ padding:0;border:1px solid #91cfe0;border-radius:50%;
+ background:transparent;color:#a5ecff;font-size:.68em;line-height:1;
+ box-shadow:none;cursor:pointer
+}
+.pocket-voice-guide{
+ box-sizing:border-box;width:min(92vw,28rem);max-width:92vw;
+ max-height:80dvh;overflow-y:auto;background:#0b2638;color:#effaff;
+ border:1px solid #5697b5;border-radius:1rem;padding:clamp(.7rem,3vw,1.15rem);
+ box-shadow:0 1rem 3rem #0009
+}
+.pocket-voice-guide::backdrop{background:#0009}
+.pocket-voice-guide-heading{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.6rem}
+.pocket-voice-guide-heading button{min-height:2.4rem;min-width:2.4rem;padding:.3rem}
+.pocket-voice-example{display:flex;flex-direction:column;gap:.15rem;margin:.4rem 0;padding:.55rem;border-radius:.6rem;background:#143c50;overflow-wrap:anywhere}
+.pocket-voice-example strong{font-size:.83rem;color:#a5e9fc}
+.pocket-voice-example span{font-size:.92rem}
+.pocket-voice-guide small{display:block;margin-top:.7rem;opacity:.8}
+#view-module.adaptive-workspace-view .agenda-detail-actions button{min-height:clamp(2.6rem,6dvh,3.4rem)}
 </style>
 <style id="shopping-single-screen">
 /* Shopping-only navigation: Home remains in the shared header; Back and Active List
@@ -2214,6 +2237,56 @@ function renderOrganizeChoices(){
  });
  host.append(grid);$('moduleLead').textContent='';
 }
+/* Reusable, contextual voice-command help; stays in the current module. */
+function pocketVoiceHelp(mode,title){
+ const examples={
+  agenda:[
+   ['Programare','Programează dentistul mâine la ora 10'],
+   ['Aniversare anuală','Adaugă ziua de naștere a lui Andrei pe 12 mai'],
+   ['Accesează','Deschide programarea la dentist'],
+   ['Modifică','Modifică programarea la dentist'],
+   ['Șterge','Șterge programarea la dentist']
+  ],
+  shopping:[
+   ['Produse','Adaugă două kilograme de cartofi și zece ouă'],
+   ['Cantitate','Scoate trei kilograme de cartofi'],
+   ['Bifare','Am cumpărat cartofi și ouă'],
+   ['Listă','Arată lista'],
+   ['Arhivare','Arhivează lista']
+  ],
+  assistant:[
+   ['Întrebare','Cum ajung la gara Grays?'],
+   ['Informații','Arată-mi știrile de astăzi'],
+   ['Căutare','Găsește o farmacie în apropiere']
+  ]
+ }[mode];
+ if(!examples||!title)return;
+ title.querySelector('.pocket-voice-info')?.remove();
+ const icon=document.createElement('button');icon.type='button';icon.className='pocket-voice-info';
+ icon.textContent='ⓘ';icon.setAttribute('aria-label',learningLabel('Ghid comenzi vocale','Voice command guide'));
+ icon.onclick=()=>{
+  const existing=document.querySelector('dialog.pocket-voice-guide');
+  if(existing){existing.close();return}
+  const dialog=document.createElement('dialog');dialog.className='pocket-voice-guide';
+  const top=document.createElement('div');top.className='pocket-voice-guide-heading';
+  const heading=document.createElement('strong');heading.textContent=learningLabel('Exemple de comenzi vocale','Voice command examples');
+  const close=document.createElement('button');close.type='button';close.className='secondary-btn';
+  close.textContent='×';close.setAttribute('aria-label',learningLabel('Închide','Close'));close.onclick=()=>dialog.close();
+  top.append(heading,close);dialog.append(top);
+  for(const [name,phrase] of examples){
+   const row=document.createElement('div');row.className='pocket-voice-example';
+   const label=document.createElement('strong');label.textContent=name;
+   const example=document.createElement('span');example.textContent='„'+phrase+'”';
+   row.append(label,example);dialog.append(row);
+  }
+  const note=document.createElement('small');
+  note.textContent=learningLabel('Apasă microfonul și rostește comanda. Exemplele nu sunt o listă exhaustivă.','Tap the microphone and speak. These are examples, not an exhaustive list.');
+  dialog.append(note);
+  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
+  document.body.append(dialog);dialog.showModal();
+ };
+ title.append(icon);
+}
 function organizePanel(cat){
  const root=$('view-module'),host=$('moduleContent');root.classList.remove('organize-choose','organize-chat','adaptive-workspace-view');root.classList.add('organize-active');host.replaceChildren();
  const panel=document.createElement('div');panel.className='organize-panel';
@@ -2228,8 +2301,8 @@ function organizePanel(cat){
   active.setAttribute('aria-pressed',shoppingMode==='active'?'true':'false');
   active.onclick=()=>{if(shoppingVoiceSession?.active)shopVoiceStop();shoppingMode=shoppingMode==='active'?'entry':'active';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()};
   bar.append(back,active);
- }else bar.append(back,title);
- panel.append(bar);host.append(panel);
+ }else if(cat[0]!=='calendar')bar.append(back,title);
+ if(cat[0]!=='calendar')panel.append(bar);host.append(panel);
  return panel;
 }
 function openOrganizeCategory(key){
@@ -2450,6 +2523,7 @@ function renderAgenda(){
  const panel=organizePanel(cat),root=$('view-module');
  root.classList.add('adaptive-workspace-view');
  panel.classList.add('adaptive-workspace','agenda-workspace');
+ pocketVoiceHelp('agenda',$('moduleTitle'));
  const scroll=document.createElement('div');scroll.className='adaptive-workspace__scroll agenda-scroll';panel.append(scroll);
  const mic=document.createElement('button');mic.type='button';mic.className='primary-btn agenda-microphone';
  mic.textContent='🎙 '+learningLabel('Spune o programare','Speak an appointment');
@@ -3110,6 +3184,7 @@ function renderShoppingList(){
  const panel=organizePanel(cat),root=$('view-module');
  root.classList.add('adaptive-workspace-view');
  panel.classList.add('adaptive-workspace');
+ pocketVoiceHelp('shopping',$('moduleTitle'));
  const data=shopNormalizeData(shoppingRead());
  const scroll=document.createElement('div');scroll.className='adaptive-workspace__scroll';
  panel.append(scroll);
@@ -6295,6 +6370,7 @@ $('moduleQuickTrigger').addEventListener('click',openModuleQuickLayer);
 $('moduleLayerBack').addEventListener('click',handleModuleLayerBack);
 $('toolsList').innerHTML='';$('toolsList').classList.add('tools-card-grid');const quickTools=[{icon:'💡',label:'Generează idei',detail:'Brainstorming pentru o problemă sau un proiect.',prompt:'Ajută-mă să generez idei pentru o problemă sau un proiect.'},{icon:'📝',label:'Redactare',detail:'Mesaje, scrisori și texte.',prompt:'Ajută-mă să redactez un text. Întreabă-mă ce tip de text și ce ton doresc.'},{icon:'🔎',label:'Compară opțiuni',detail:'Compară avantaje și dezavantaje.',prompt:'Ajută-mă să compar opțiuni, cu avantaje și dezavantaje. Întreabă-mă ce opțiuni compar.'},{icon:'📄',label:'Explică un document',detail:'Ajută-mă să înțeleg un text.',prompt:'Ajută-mă să înțeleg un document sau un text. Cere-mi să trimit textul ori documentul.'},{icon:'🧠',label:'Rezolvă o problemă',detail:'Găsește pași practici de rezolvare.',prompt:'Ajută-mă să rezolv o problemă, pas cu pas. Întreabă-mă despre situație.'},{icon:'🌐',label:'Caută informații',detail:'Formulează o cerere de cercetare.',prompt:'Ajută-mă să cercetez un subiect și să formulez o cerere de căutare clară.'}];const localizedTools={"en": [["Generate ideas", "Brainstorm a problem or project."], ["Writing", "Messages, letters and texts."], ["Compare options", "Compare advantages and disadvantages."], ["Explain a document", "Help me understand a text."], ["Solve a problem", "Find practical steps to solve it."], ["Research information", "Formulate a research question."]], "de": [["Ideen entwickeln", "Brainstorming für ein Problem oder Projekt."], ["Texte schreiben", "Nachrichten, Briefe und Texte."], ["Optionen vergleichen", "Vor- und Nachteile vergleichen."], ["Dokument erklären", "Hilf mir, einen Text zu verstehen."], ["Problem lösen", "Praktische Lösungsschritte finden."], ["Informationen suchen", "Eine Recherchefrage formulieren."]], "fr": [["Générer des idées", "Réfléchir à un problème ou un projet."], ["Rédaction", "Messages, lettres et textes."], ["Comparer des options", "Comparer les avantages et les inconvénients."], ["Expliquer un document", "M’aider à comprendre un texte."], ["Résoudre un problème", "Trouver des étapes pratiques."], ["Rechercher des informations", "Formuler une recherche."]], "it": [["Genera idee", "Idee per un problema o progetto."], ["Scrittura", "Messaggi, lettere e testi."], ["Confronta opzioni", "Confronta vantaggi e svantaggi."], ["Spiega un documento", "Aiutami a capire un testo."], ["Risolvi un problema", "Trova soluzioni pratiche."], ["Cerca informazioni", "Formula una ricerca."]], "es": [["Generar ideas", "Ideas para un problema o proyecto."], ["Redacción", "Mensajes, cartas y textos."], ["Comparar opciones", "Compara ventajas y desventajas."], ["Explicar un documento", "Ayúdame a entender un texto."], ["Resolver un problema", "Encuentra pasos prácticos."], ["Buscar información", "Formula una consulta de investigación."]], "pt": [["Gerar ideias", "Ideias para um problema ou projeto."], ["Redação", "Mensagens, cartas e textos."], ["Comparar opções", "Compara vantagens e desvantagens."], ["Explicar um documento", "Ajuda-me a compreender um texto."], ["Resolver um problema", "Encontra passos práticos."], ["Pesquisar informações", "Formula uma pesquisa."]], "nl": [["Ideeën bedenken", "Brainstorm over een probleem of project."], ["Schrijven", "Berichten, brieven en teksten."], ["Opties vergelijken", "Vergelijk voor- en nadelen."], ["Document uitleggen", "Help me een tekst te begrijpen."], ["Probleem oplossen", "Vind praktische stappen."], ["Informatie zoeken", "Formuleer een onderzoeksvraag."]], "ru": [["Предложить идеи", "Идеи для задачи или проекта."], ["Написать текст", "Сообщения, письма и тексты."], ["Сравнить варианты", "Сравнить плюсы и минусы."], ["Объяснить документ", "Помочь понять текст."], ["Решить проблему", "Найти практические шаги."], ["Найти информацию", "Сформулировать поисковый запрос."]], "pl": [["Generuj pomysły", "Pomysły na problem lub projekt."], ["Pisanie", "Wiadomości, listy i teksty."], ["Porównaj opcje", "Porównaj zalety i wady."], ["Wyjaśnij dokument", "Pomóż mi zrozumieć tekst."], ["Rozwiąż problem", "Znajdź praktyczne kroki."], ["Szukaj informacji", "Sformułuj zapytanie badawcze."]]};const originalToolLabels=quickTools.map(t=>[t.label,t.detail]);function refreshToolTranslations(){for(const [idx,tool] of quickTools.entries()){const localized=localizedTools[state.language]?.[idx]||originalToolLabels[idx];const card=$('toolsList').children[idx];if(card){card.querySelector('strong').textContent=localized[0];card.querySelectorAll('span')[1].textContent=localized[1]}}}for(const [idx,tool] of quickTools.entries()){const localized=localizedTools[state.language]?.[idx];if(localized){tool.label=localized[0];tool.detail=localized[1]}}for(const tool of quickTools){const btn=document.createElement('button');btn.type='button';btn.className='tools-action-card';const icon=document.createElement('span');icon.className='tools-card-icon';icon.textContent=tool.icon;const label=document.createElement('strong');label.textContent=tool.label;const detail=document.createElement('span');detail.textContent=tool.detail;btn.append(icon,label,detail);btn.addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}showView('assistant');inputEl.value=tool.prompt;inputEl.focus();inputEl.dispatchEvent(new Event('input',{bubbles:true}));});$('toolsList').append(btn)}
 window.__pocketToolsReady=true;refreshToolTranslations();
+pocketVoiceHelp('assistant',document.querySelector('#view-assistant .section-title'));
 $('clearHistoryBtn').addEventListener('click',()=>{if(!state.history.length){notify('Istoricul este deja gol.');return}if(!confirm('Ștergi toate conversațiile salvate pe acest dispozitiv?'))return;state.history=[];try{localStorage.removeItem(HISTORY_KEY)}catch{}renderHistory();notify('Istoricul local a fost șters.')});
 const UI_TEXT={
  ro:{subtitle:'Asistentul tău personal pentru orice zi',homeTitle:'Cu ce te pot ajuta?',homeLead:'Alege unul dintre instrumentele myPocket AI.',cards:[['Asistent AI','Întrebări, răspunsuri, traduceri, calcule și redactare.'],['Călătorii și turism','Locuri de vizitat, itinerarii și idei de cazare.'],['Hărți și transport','Rute pietonale și informații despre transportul în comun.'],['Învățare și educație','Matematică, limbi străine și explicații pas cu pas.'],['Organizare personală','Liste, bugete, proiecte și obiective.'],['Mai multe instrumente','Analiză, idei, documente și multe altele.']],home:'Acasă',conversations:'Conversații',tools:'Instrumente',settings:'Setări',back:'← Acasă',newChat:'＋ Conversație nouă',quick:'☰ Selecții rapide',conversation:'Conversație',empty:'Cu ce te pot ajuta?',emptyHint:'Scrie o întrebare în română sau engleză.',ready:'Gata de conversație.',moduleTitle:{travel:'Hoteluri și POI',maps:'Hărți și trasee',learning:'Învățare și educație',organize:'Organizare personală',tools:'Mai multe instrumente'},settingsLanguage:'Limba conversației',settingsLanguageHint:'Limba folosită pentru solicitările către asistent.',speechHint:'Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.',about:'Despre aplicație',localHistory:'Istoricul salvat pe acest dispozitiv.',clearHistory:'Șterge istoricul',chooseDomain:'Alege un domeniu pentru a începe.',quickTitle:'Selecții rapide',send:'Trimite mesajul',dictation:'Dictare vocală',voice:'Conversație vocală',listen:'Ascultă ultimul răspuns'},
