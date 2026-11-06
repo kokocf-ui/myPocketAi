@@ -4471,6 +4471,10 @@ if(typeof window!=='undefined')window.pocketAndroidDocumentScanResult=function(p
  const documentType=documentsRead().find(item=>item.id===documentsSelectedId)?.type||'other';
  const fields=documentsScanExtract(payload.text,payload.lines,documentType);
  if(!Object.keys(fields).length)notify(learningLabel('Nu am identificat câmpuri sigure. Verifică fotografia și completează formularul.','No reliable fields found. Check the photo and fill in the form.'));
+ else if(documentType==='passport'&&(!fields.number||!fields.expires))notify(learningLabel(
+  'Zona MRZ nu a putut fi validată complet. Fotografiază mai aproape cele două rânduri de la baza paginii; verifică orice date înainte de salvare.',
+  'The MRZ could not be fully verified. Retake the two lines at the bottom of the biodata page up close and review any fields before saving.'
+ ));
 
  documentsScanWorking=false;documentsScanDraft={id:documentsSelectedId,fields};documentsEditing=false;renderDocuments();
  document.querySelector('.documents-scan-review')?.scrollIntoView({block:'nearest',behavior:'smooth'});
