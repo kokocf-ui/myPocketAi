@@ -4217,12 +4217,25 @@ function documentsScanExtract(raw,geometry=[]){
   return m&&months[m[2]]?validISO(Number(m[3]),months[m[2]],Number(m[1])):'';
  };
  const fields={};
+ // Suppress page headers, translated captions and single OCR fragments.
+ // They are not personal data even when they happen to be near a valid caption.
+ const personHeadingWords=new Set(['carte','cartea','identite','identity','identitatea','card',
+  'document','documentul','republica','republique','romania','romanie','roumanie',
+  'romana','roman','romanian','nationalite','nationality','naissance','birth',
+  'date','expiry','expiration','expire','valabilitate','valabil','issue','serie',
+  'numero','number','passport','pasaport','permis','nom','prenom','nume','prenume',
+  'autoritate','authority','europeenne','european','union','europene','europa']);
+ const isDocumentHeading=value=>normalized(value).replace(/['’]/g,' ').split(' ')
+  .some(part=>personHeadingWords.has(part));
  const usedRows=new Set(); // One OCR value line cannot supply two identity fields.
  const labelRows=rows.map((r,i)=>({i,key:whichLabel(r.text),r})).filter(x=>x.key);
  const isLabel=text=>whichLabel(text)!==null;
  const check=(key,value)=>{
   const t=String(value||'').trim();
   if(!t||t.length>100||isLabel(t))return '';
+  if(['holder','given'].includes(key)&&isDocumentHeading(t))return '';
+  if(key==='issuer'&&['carte','identite','naissance','prenom','nom','birth','date','identity'].some(w=>normalized(t).replace(/['’]/g,' ').split(' ').includes(w)))return '';
+  if(key==='country'&&['carte','identite','naissance','prenom','nom','birth','date','identity'].some(w=>normalized(t).replace(/['’]/g,' ').split(' ').includes(w)))return '';
   if(['issued','expires','birth'].includes(key))return parseDate(t);
   if(key==='number')return /^[A-Z0-9][A-Z0-9 -]{3,30}$/i.test(t)&&/\\d/.test(t)?t:'';
   if(key==='holder'||key==='given')return /^[\\p{L}][\\p{L}' -]{1,65}$/u.test(t) && t.split(/\\s+/).length<=5?t:'';
@@ -4236,7 +4249,7 @@ function documentsScanExtract(raw,geometry=[]){
   const inline=row.text.match(/:\\s*(.+)$/);
   if(inline)candidate=check(key,inline[1]);
   if(!candidate&&Number.isFinite(row.top)&&Number.isFinite(row.bottom)){
-   const h=Math.max(12,row.bottom-row.top),maxBelow=Math.max(145,h*7);
+   const h=Math.max(12,row.bottom-row.top),maxBelow=Math.max(54,h*3);
    const nearby=[];
    for(let j=0;j<rows.length;j++){
     if(j===i||usedRows.has(j))continue;
@@ -4350,7 +4363,8 @@ function documentsScanReview(host,item){
   label.append(budgetNode('small','',learningLabel(...names)));
   const input=budgetNode('input','budget-input');
   input.type=['issued','expires','birth'].includes(key)?'date':'text';
-  input.value=draft.fields[key]||item.fields?.[key]||'';
+  // Never prefill a new scan with stale values from a previous scan.
+  input.value=Object.prototype.hasOwnProperty.call(draft.fields,key)?draft.fields[key]:'';
   input.maxLength=120;input.autocomplete='off';
   label.append(input);form.append(label);inputs[key]=input;
  }

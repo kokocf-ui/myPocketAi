@@ -528,35 +528,75 @@ public final class MainActivity extends ComponentActivity {
             notifyDocumentScan("started","",id);
             final String docId=id;
             var recognizer=TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
-            recognizer.process(InputImage.fromBitmap(bitmap,0))
-                .addOnSuccessListener(result->{
-                    JSONArray lines=new JSONArray();
-                    // ML Kit exposes positions of text lines. Keep this OCR-only data
-                    // on the device and use it to pair labels with their actual values.
-                    for(com.google.mlkit.vision.text.Text.TextBlock block:result.getTextBlocks()){
-                        for(com.google.mlkit.vision.text.Text.Line line:block.getLines()){
-                            if(lines.length()>=150)break;
-                            Rect bounds=line.getBoundingBox();
-                            if(bounds==null)continue;
-                            try{
-                                JSONObject row=new JSONObject();
-                                row.put("text",line.getText());
-                                row.put("left",bounds.left);
-                                row.put("top",bounds.top);
-                                row.put("right",bounds.right);
-                                row.put("bottom",bounds.bottom);
-                                lines.put(row);
-                            }catch(Exception ignored){}
-                        }
-                    }
-                    notifyDocumentScan("success",result.getText(),docId,lines);
-                    recognizer.close();bitmap.recycle();
-                })
-                .addOnFailureListener(error->{
-                    notifyDocumentScan("error","",docId);
-                    recognizer.close();bitmap.recycle();
-                });
+            scanDocumentOrientation(recognizer,bitmap,docId,0,null,-1);
         }catch(Exception error){if(!id.isEmpty())notifyDocumentScan("error","",id);}
+    }
+    // Document photos can arrive sideways from different camera applications.
+    // Try alternate orientations only when the first reading looks insufficient.
+    private int documentReadabilityScore(com.google.mlkit.vision.text.Text result){
+        String t=result.getText().toLowerCase(Locale.ROOT);
+        String[] labels={"nume","prenume","surname","given name","first name",
+            "efternavn","fornavn","date of birth","data nasterii","naissance",
+            "date of expiry","data expirarii","expiry","valabil","emiterii",
+            "passport number","pasnummer","serie","cnp","numar","number"};
+        int score=0;
+        for(String label:labels)if(t.contains(label))score+=3;
+        if(t.contains("<<"))score+=7;
+        if(java.util.regex.Pattern.compile("[0-9]{2}[./-][0-9]{2}[./-][0-9]{4}").matcher(t).find())score+=3;
+        return score;
+    }
+    private void finishDocumentScan(com.google.mlkit.vision.text.TextRecognizer recognizer,
+                                    Bitmap bitmap,String id,com.google.mlkit.vision.text.Text result){
+        try{
+            JSONArray lines=new JSONArray();
+            // Line coordinates make it possible to find values beside captions.
+            for(com.google.mlkit.vision.text.Text.TextBlock block:result.getTextBlocks()){
+                for(com.google.mlkit.vision.text.Text.Line line:block.getLines()){
+                    if(lines.length()>=150)break;
+                    Rect bounds=line.getBoundingBox();
+                    if(bounds==null)continue;
+                    try{
+                        JSONObject row=new JSONObject();
+                        row.put("text",line.getText());
+                        row.put("left",bounds.left);
+                        row.put("top",bounds.top);
+                        row.put("right",bounds.right);
+                        row.put("bottom",bounds.bottom);
+                        lines.put(row);
+                    }catch(Exception ignored){}
+                }
+            }
+            notifyDocumentScan("success",result.getText(),id,lines);
+        }finally{
+            recognizer.close();
+            bitmap.recycle();
+        }
+    }
+    private void scanDocumentOrientation(com.google.mlkit.vision.text.TextRecognizer recognizer,
+                                         Bitmap bitmap,String id,int attempt,
+                                         com.google.mlkit.vision.text.Text best,int bestScore){
+        final int[] rotations={0,90,270,180};
+        recognizer.process(InputImage.fromBitmap(bitmap,rotations[attempt]))
+            .addOnSuccessListener(result->{
+                int score=documentReadabilityScore(result);
+                com.google.mlkit.vision.text.Text selected=score>bestScore?result:best;
+                int selectedScore=Math.max(bestScore,score);
+                if(score>=12||attempt==rotations.length-1){
+                    finishDocumentScan(recognizer,bitmap,id,selected==null?result:selected);
+                }else{
+                    scanDocumentOrientation(recognizer,bitmap,id,attempt+1,selected,selectedScore);
+                }
+            })
+            .addOnFailureListener(error->{
+                if(attempt<rotations.length-1){
+                    scanDocumentOrientation(recognizer,bitmap,id,attempt+1,best,bestScore);
+                }else if(best!=null){
+                    finishDocumentScan(recognizer,bitmap,id,best);
+                }else{
+                    notifyDocumentScan("error","",id);
+                    recognizer.close();bitmap.recycle();
+                }
+            });
     }
     private void notifyDocumentScan(String status,String text,String id){
         notifyDocumentScan(status,text,id,new JSONArray());
