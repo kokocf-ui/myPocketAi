@@ -1611,6 +1611,33 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 .agenda-confirm span{overflow-wrap:anywhere}
 .agenda-confirm button{padding:.5rem!important;font-size:.85rem}
 @media(max-width:360px){.agenda-confirm{grid-template-columns:repeat(2,minmax(0,1fr))}.agenda-confirm span{grid-column:1/-1}}
+
+.agenda-calendar-toolbar,.agenda-calendar-navigation,.agenda-detail-actions{display:flex;gap:clamp(.25rem,1vw,.5rem);align-items:center;min-width:0}
+.agenda-calendar-toolbar button{flex:1 1 0;min-width:0;padding:.5rem .15rem;font-size:clamp(.7rem,3vw,.95rem)}
+.agenda-calendar-navigation{justify-content:space-between}
+.agenda-calendar-navigation strong{flex:1;text-align:center;min-width:0;font-size:clamp(.85rem,3.5vw,1.08rem)}
+.agenda-calendar-navigation button{flex:0 0 auto;min-width:2.25rem;padding:.4rem}
+.agenda-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(.13rem,.8vw,.45rem);min-width:0}
+.agenda-weekday{text-align:center;font-size:.72rem;opacity:.8}
+.agenda-day{min-width:0;min-height:clamp(2.5rem,6dvh,3.5rem);padding:.2rem .05rem;border-radius:.5rem;border:1px solid transparent;background:transparent;color:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:clamp(.8rem,3vw,1rem)}
+.agenda-day.has-events{background:#17475b}
+.agenda-day.is-selected{border-color:#5dcced;background:#256c88}
+.agenda-day.is-outside{opacity:.35}
+.agenda-day-dot{line-height:.65;color:#73d7f4;font-size:1.1rem}
+.agenda-list-heading{margin:.2rem 0;font-size:1rem}
+.agenda-event-open{width:100%;text-align:left;color:inherit;background:transparent;cursor:pointer;grid-template-columns:minmax(4.8rem,28%) minmax(0,1fr) auto}
+.agenda-event-open strong{min-width:0;display:flex;flex-direction:column;gap:.2rem;font-size:.95rem}
+.agenda-event-open strong small{font-weight:normal;opacity:.75}
+.agenda-event-chevron{font-size:1.5rem;opacity:.8}
+.agenda-detail{display:flex;flex-direction:column;gap:.7rem;min-width:0}
+.agenda-detail h3{margin:0;font-size:1.2rem}
+.agenda-detail p{margin:.1rem 0;overflow-wrap:anywhere}
+.agenda-detail-form{display:flex;flex-direction:column;gap:.65rem}
+.agenda-field{display:flex;flex-direction:column;gap:.25rem;min-width:0;font-size:.85rem}
+.agenda-field input,.agenda-field select,.agenda-field textarea{width:100%;box-sizing:border-box;min-width:0}
+.agenda-date-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem}
+.agenda-detail-actions button{flex:1;min-width:0}
+.agenda-empty{opacity:.7}
 </style>
 <style id="shopping-single-screen">
 /* Shopping-only navigation: Home remains in the shared header; Back and Active List
@@ -2339,6 +2366,7 @@ function agendaExtractTitle(transcript,dateInfo){
 function agendaVoiceCommand(text){
  const spoken=String(text||'').trim();
  const fold=shopVoiceFold(spoken);
+ if(/^(?:deschide|arată|arata|afișează|afiseaza|vezi|modifică|modifica|editează|editeaza)\\s+(?:detaliile\\s+)?(?:programarea|aniversarea|ziua de naștere|ziua de nastere|evenimentul)\\s+/iu.test(spoken)){agendaVoiceOpen(spoken);return}
  if(/^(?:arat[aă]|afișează|afiseaza|deschide)\\s+(?:agenda|programările|programarile)/iu.test(spoken)){renderAgenda();return}
  if(/^(?:șterge|sterge|anulează|anuleaza)\\s+/iu.test(spoken)){
   const term=shopVoiceFold(spoken.replace(/^(?:șterge|sterge|anulează|anuleaza)\\s+(?:programarea\\s+)?/iu,''));
@@ -2387,81 +2415,220 @@ function agendaVoiceHandleAndroid(data){
  if(data.status==='error'){agendaVoiceFinish('');notify(learningLabel('Microfonul a fost întrerupt.','Microphone interrupted.'))}
  return true;
 }
+let agendaView='month',agendaCursor=new Date(),agendaSelectedId=null,agendaEditing=false,agendaVoiceMatches=null;
+function agendaLocalDate(item,year){
+ if(agendaIsBirthday(item)){
+  const m=item.birthdayMonth-1,d=item.birthdayDay;
+  return new Date(year,m,Math.min(d,new Date(year,m+1,0).getDate()),9,0);
+ }
+ return new Date(item.when);
+}
+function agendaSameDay(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate()}
+function agendaDateTimeLocal(when){
+ const d=new Date(when);
+ const pad=n=>String(n).padStart(2,'0');
+ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
+}
+function agendaCalendarItems(events,day){
+ return events.filter(item=>{
+  const d=agendaLocalDate(item,day.getFullYear());
+  return agendaSameDay(d,day);
+ });
+}
+function agendaVoiceOpen(text){
+ const fold=shopVoiceFold(text).replace(/^(?:deschide|arata|afiseaza|vezi|modifica|editeaza)\s+(?:detaliile\s+)?(?:programarea|aniversarea|ziua de nastere|evenimentul)\s*/u,'').trim();
+ if(!fold)return false;
+ const matches=agendaRead().filter(item=>shopVoiceFold(item.title).includes(fold));
+ if(matches.length===1){agendaSelectedId=matches[0].id;agendaEditing=/^(?:modifica|editeaza)/u.test(shopVoiceFold(text));agendaVoiceMatches=null;renderAgenda();return true}
+ if(matches.length>1){agendaView='all';agendaSelectedId=null;agendaVoiceMatches=matches.map(item=>item.id);renderAgenda();notify(learningLabel('Alege programarea dorită din rezultate.','Select the appointment from results.'));return true}
+ notify(learningLabel('Nu am găsit programarea.','Appointment not found.'));return true;
+}
 function renderAgenda(){
  agendaSyncAndroid(agendaRead());
  const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='calendar');
  $('moduleTitle').textContent=learningLabel('Agenda inteligentă','Smart agenda');
- const panel=organizePanel(cat);
- const root=$('view-module');root.classList.add('adaptive-workspace-view');
+ const panel=organizePanel(cat),root=$('view-module');
+ root.classList.add('adaptive-workspace-view');
  panel.classList.add('adaptive-workspace','agenda-workspace');
  const scroll=document.createElement('div');scroll.className='adaptive-workspace__scroll agenda-scroll';panel.append(scroll);
  const mic=document.createElement('button');mic.type='button';mic.className='primary-btn agenda-microphone';
- mic.textContent='🎙 '+learningLabel('Spune ce programezi','Speak your appointment');
+ mic.textContent='🎙 '+learningLabel('Spune o programare','Speak an appointment');
  mic.onclick=()=>agendaVoiceStart();panel.insertBefore(mic,scroll);
- const hint=document.createElement('small');hint.className='agenda-speech-state';
- hint.textContent=learningLabel('Ex.: „Programează dentistul mâine la ora 10”','E.g. “Schedule dentist tomorrow at 10”');
- scroll.append(hint);
- const title=document.createElement('div');title.className='shop-heading';const label=document.createElement('strong');
- label.textContent=learningLabel('Programările mele','My appointments');title.append(label);scroll.append(title);
- const events=agendaRead().sort((a,b)=>agendaNextDate(a)-agendaNextDate(b));
- const entries=document.createElement('div');entries.className='agenda-entries';
- if(!events.length){const empty=document.createElement('p');empty.textContent=learningLabel('Nu ai programări. Apasă microfonul și spune ce dorești să adaugi.','No appointments yet. Tap the microphone to add one.');entries.append(empty)}
  const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
+ const all=agendaRead();
+ const element=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e};
+ const button=(label,onClick,cls='secondary-btn')=>{const e=element('button',cls,label);e.type='button';e.onclick=onClick;return e};
+ const field=(name,control)=>{const wrapper=element('label','agenda-field');wrapper.append(element('span','',name),control);return wrapper};
+ const input=(type,value,required=false)=>{const e=document.createElement('input');e.type=type;if(value!==undefined&&value!==null)e.value=String(value);e.required=required;return e};
+ const close=()=>{agendaSelectedId=null;agendaEditing=false;agendaPendingDelete=null;renderAgenda()};
+ const selected=all.find(x=>x.id===agendaSelectedId);
+ if(selected){
+  const detail=element('section','agenda-detail');
+  detail.append(button(learningLabel('← Înapoi la calendar','← Back to calendar'),close));
+  detail.append(element('h3','',agendaIsBirthday(selected)?'🎂 '+selected.title:selected.title));
+  const birthday=agendaIsBirthday(selected);
+  const date=agendaLocalDate(selected,agendaCursor.getFullYear());
+  detail.append(element('p','agenda-event-time',birthday?
+   date.toLocaleDateString(locale,{day:'numeric',month:'long'})+' · '+learningLabel('În fiecare an','Every year'):
+   date.toLocaleString(locale,{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})));
+  if(!agendaEditing){
+   if(selected.location)detail.append(element('p','',learningLabel('Locație: ','Location: ')+selected.location));
+   if(selected.notes)detail.append(element('p','',learningLabel('Observații: ','Notes: ')+selected.notes));
+   if(!birthday)detail.append(element('p','',learningLabel('Tip: ','Type: ')+(agendaReminderLabels().find(x=>x[0]===(selected.reminderPreset||agendaReminderPreset(selected.title)))||agendaReminderLabels()[1])[1]));
+   if(birthday&&selected.birthYear)detail.append(element('p','',learningLabel('Anul nașterii: ','Birth year: ')+selected.birthYear));
+   const actions=element('div','agenda-detail-actions');
+   actions.append(button(learningLabel('Modifică','Edit'),()=>{agendaEditing=true;renderAgenda()},'primary-btn'));
+   actions.append(button(learningLabel('Șterge','Delete'),()=>{agendaPendingDelete=selected.id;renderAgenda()}));
+   detail.append(actions);
+  }else{
+   const form=element('form','agenda-detail-form');
+   const title=input('text',selected.title,true);title.maxLength=140;
+   form.append(field(learningLabel('Titlu','Title'),title));
+   let when=null,day=null,month=null,year=null,preset=null;
+   if(birthday){
+    day=input('number',selected.birthdayDay,true);day.min=1;day.max=31;
+    month=input('number',selected.birthdayMonth,true);month.min=1;month.max=12;
+    year=input('number',selected.birthYear||'');year.min=1000;year.max=9999;
+    const dateFields=element('div','agenda-date-fields');
+    dateFields.append(field(learningLabel('Zi','Day'),day),field(learningLabel('Lună','Month'),month),field(learningLabel('An opțional','Optional year'),year));
+    form.append(dateFields);
+   }else{
+    when=input('datetime-local',agendaDateTimeLocal(selected.when),true);
+    form.append(field(learningLabel('Data și ora','Date and time'),when));
+    preset=document.createElement('select');
+    for(const [value,label] of agendaReminderLabels().filter(pair=>pair[0]!=='auto')){
+     const option=element('option','',label);option.value=value;preset.append(option);
+    }
+    preset.value=selected.reminderPreset||agendaReminderPreset(selected.title);
+    form.append(field(learningLabel('Tip eveniment și notificări','Event type and reminders'),preset));
+   }
+   const location=input('text',selected.location||'');location.maxLength=200;
+   const notes=document.createElement('textarea');notes.value=selected.notes||'';notes.maxLength=1000;notes.rows=3;
+   form.append(field(learningLabel('Locație (opțional)','Location (optional)'),location),
+               field(learningLabel('Observații (opțional)','Notes (optional)'),notes));
+   const actions=element('div','agenda-detail-actions');
+   const save=button(learningLabel('Salvează modificările','Save changes'),()=>{},'primary-btn');save.type='submit';
+   actions.append(save,button(learningLabel('Renunță','Cancel'),()=>{agendaEditing=false;renderAgenda()}));form.append(actions);
+   form.onsubmit=e=>{
+    e.preventDefault();
+    const list=agendaRead(),index=list.findIndex(x=>x.id===selected.id);
+    if(index<0)return;
+    const change={...list[index],title:title.value.trim(),location:location.value.trim(),notes:notes.value.trim()};
+    if(!change.title)return;
+    if(birthday){
+     const valid=agendaBirthdayFields(day.value,month.value,year.value);
+     if(!valid){notify(learningLabel('Dată de naștere invalidă.','Invalid birthday.'));return}
+     Object.assign(change,valid);
+    }else{
+     const parsed=new Date(when.value);
+     if(Number.isNaN(parsed.getTime())){notify(learningLabel('Dată invalidă.','Invalid date.'));return}
+     change.when=parsed.toISOString();change.reminderPreset=preset.value;
+    }
+    list[index]=change;
+    if(agendaWrite(list)){agendaEditing=false;renderAgenda()}
+   };
+   detail.append(form);
+  }
+  if(agendaPendingDelete===selected.id){
+   const confirm=element('div','agenda-confirm');
+   confirm.append(element('span','',learningLabel('Ștergi definitiv această înregistrare?','Delete this event permanently?')));
+   confirm.append(button(learningLabel('Confirmă ștergerea','Confirm deletion'),()=>{
+    if(agendaWrite(agendaRead().filter(x=>x.id!==selected.id)))close();
+   },'primary-btn'));
+   confirm.append(button(learningLabel('Renunță','Cancel'),()=>{agendaPendingDelete=null;renderAgenda()}));
+   detail.append(confirm);
+  }
+  scroll.append(detail);return;
+ }
+ const hint=element('small','agenda-speech-state',learningLabel('Ex.: „Adaugă ziua de naștere a lui Andrei pe 12 mai”','E.g. “Add Andrei’s birthday on 12 May”'));scroll.append(hint);
+ const toolbar=element('div','agenda-calendar-toolbar');
+ for(const [view,ro,en] of [['month','Lună','Month'],['week','Săptămână','Week'],['day','Zi','Day'],['all','Toate','All']]){
+  const control=button(learningLabel(ro,en),()=>{agendaView=view;agendaVoiceMatches=null;renderAgenda()},agendaView===view?'primary-btn':'secondary-btn');
+  control.setAttribute('aria-pressed',agendaView===view?'true':'false');toolbar.append(control);
+ }
+ scroll.append(toolbar);
+ const navigation=element('div','agenda-calendar-navigation');
+ const move=direction=>{
+  const next=new Date(agendaCursor.getFullYear(),agendaCursor.getMonth(),agendaCursor.getDate());
+  if(agendaView==='month')next.setMonth(next.getMonth()+direction,1);
+  else if(agendaView==='week')next.setDate(next.getDate()+7*direction);
+  else next.setDate(next.getDate()+direction);
+  agendaCursor=next;agendaVoiceMatches=null;renderAgenda();
+ };
+ navigation.append(button('‹',()=>move(-1)));
+ const header=element('strong','',agendaView==='all'?learningLabel('Toate programările','All appointments'):agendaCursor.toLocaleDateString(locale,
+  agendaView==='month'?{month:'long',year:'numeric'}:{weekday:'short',day:'numeric',month:'long',year:'numeric'}));
+ navigation.append(header,button('›',()=>move(1)),
+   button(learningLabel('Astăzi','Today'),()=>{agendaCursor=new Date();agendaVoiceMatches=null;renderAgenda()}));
+ if(agendaView!=='all')scroll.append(navigation);
+ if(agendaView==='month'||agendaView==='week'){
+  const calendar=element('div','agenda-calendar-grid');calendar.setAttribute('role','group');
+  const first=new Date(agendaCursor.getFullYear(),agendaCursor.getMonth(),1);
+  let from=agendaView==='month'?first:new Date(agendaCursor);
+  from.setDate(from.getDate()-((from.getDay()+6)%7));
+  for(let i=0;i<7;i++){
+   const weekday=new Date(2026,10,2+i);
+   calendar.append(element('small','agenda-weekday',weekday.toLocaleDateString(locale,{weekday:'short'})));
+  }
+  const count=agendaView==='week'?7:Math.ceil((new Date(first.getFullYear(),first.getMonth()+1,0).getDate()+((first.getDay()+6)%7))/7)*7;
+  for(let i=0;i<count;i++){
+   const d=new Date(from.getFullYear(),from.getMonth(),from.getDate()+i);
+   const items=agendaCalendarItems(all,d);
+   const cell=button(String(d.getDate()),()=>{agendaCursor=d;agendaVoiceMatches=null;renderAgenda()},'agenda-day');
+   cell.classList.toggle('is-selected',agendaSameDay(d,agendaCursor));
+   cell.classList.toggle('is-outside',agendaView==='month'&&d.getMonth()!==agendaCursor.getMonth());
+   if(items.length){cell.classList.add('has-events');cell.append(element('span','agenda-day-dot','•'));cell.setAttribute('aria-label',d.toLocaleDateString(locale)+' · '+items.length+' '+learningLabel('evenimente','events'))}
+   calendar.append(cell);
+  }
+  scroll.append(calendar);
+ }
+ const heading=element('h3','agenda-list-heading',agendaView==='all'?learningLabel('Programările mele','My appointments'):agendaCursor.toLocaleDateString(locale,{weekday:'long',day:'numeric',month:'long',year:'numeric'}));
+ scroll.append(heading);
+ let events=agendaView==='all'?all.slice().sort((a,b)=>agendaNextDate(a)-agendaNextDate(b)):agendaCalendarItems(all,agendaCursor).sort((a,b)=>agendaLocalDate(a,agendaCursor.getFullYear())-agendaLocalDate(b,agendaCursor.getFullYear()));
+ if(agendaVoiceMatches)events=events.filter(x=>agendaVoiceMatches.includes(x.id));
+ const entries=element('div','agenda-entries');
+ if(!events.length)entries.append(element('p','agenda-empty',learningLabel('Nu sunt programări aici. Selectează altă zi sau „Toate”.','No appointments here. Select another day or “All”.')));
  for(const item of events){
-  const row=document.createElement('div');row.className='agenda-event';
-  const stamp=document.createElement('span');stamp.className='agenda-event-time';
-  stamp.textContent=agendaIsBirthday(item)?agendaNextDate(item).toLocaleDateString(locale,{weekday:'short',day:'2-digit',month:'short'})+' · '+learningLabel('anual','yearly'):new Date(item.when).toLocaleString(locale,{weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-  const name=document.createElement('strong');name.textContent=(agendaIsBirthday(item)?'🎂 ':'')+item.title;row.append(stamp,name);
-  if(!agendaIsBirthday(item)){const kind=document.createElement('small');kind.textContent=(agendaReminderLabels().find(pair=>pair[0]===(item.reminderPreset||agendaReminderPreset(item.title)))||agendaReminderLabels()[1])[1];name.append(kind)}if(agendaIsBirthday(item)){const edit=document.createElement('button');edit.type='button';edit.className='secondary-btn';edit.textContent=learningLabel('Modifică','Edit');edit.onclick=()=>{agendaBirthdayEdit=item.id;renderAgenda()};row.append(edit)}
-  entries.append(row);
-  if(agendaIsBirthday(item)&&agendaBirthdayEdit===item.id){
-   const editor=document.createElement('form');editor.className='agenda-birthday-fields';
-   const name=document.createElement('input');name.value=item.title;name.required=true;name.placeholder=learningLabel('Nume','Name');
-   const day=document.createElement('input');day.type='number';day.min=1;day.max=31;day.value=item.birthdayDay;day.required=true;
-   const month=document.createElement('input');month.type='number';month.min=1;month.max=12;month.value=item.birthdayMonth;month.required=true;
-   const year=document.createElement('input');year.type='number';year.min=1000;year.max=9999;year.value=item.birthYear||'';year.placeholder=learningLabel('An opțional','Optional year');
-   const save=document.createElement('button');save.className='primary-btn';save.textContent=learningLabel('Salvează','Save');save.type='submit';
-   const cancel=document.createElement('button');cancel.type='button';cancel.textContent=learningLabel('Renunță','Cancel');cancel.onclick=()=>{agendaBirthdayEdit=null;renderAgenda()};
-   const remove=document.createElement('button');remove.type='button';remove.textContent=learningLabel('Șterge','Delete');remove.onclick=()=>{agendaBirthdayEdit=null;agendaPendingDelete=item.id;renderAgenda()};
-   editor.append(name,day,month,year,save,cancel,remove);
-   editor.onsubmit=e=>{e.preventDefault();const fields=agendaBirthdayFields(day.value,month.value,year.value);if(!fields){notify(learningLabel('Dată invalidă.','Invalid date.'));return}if(agendaBirthdaySave(name.value,fields,item.id)){agendaBirthdayEdit=null;renderAgenda()}};
-   entries.append(editor);
-  }
-  if(agendaPendingDelete===item.id){
-   const confirm=document.createElement('div');confirm.className='agenda-confirm';
-   const text=document.createElement('span');text.textContent=learningLabel('Ștergi programarea „','Delete appointment “')+item.title+'”?';confirm.append(text);
-   const yes=document.createElement('button');yes.type='button';yes.className='primary-btn';yes.textContent=learningLabel('Șterge','Delete');
-   yes.onclick=()=>{const all=agendaRead();if(agendaWrite(all.filter(e=>e.id!==item.id))){agendaPendingDelete=null;renderAgenda()}};
-   const no=document.createElement('button');no.type='button';no.className='secondary-btn';no.textContent=learningLabel('Renunță','Cancel');
-   no.onclick=()=>{agendaPendingDelete=null;renderAgenda()};confirm.append(yes,no);entries.append(confirm)
-  }
+  const row=button('',()=>{agendaSelectedId=item.id;agendaEditing=false;agendaPendingDelete=null;renderAgenda()},'agenda-event agenda-event-open');
+  const stamp=element('span','agenda-event-time',agendaIsBirthday(item)?
+   '🎂 '+agendaLocalDate(item,agendaView==='all'?agendaNextDate(item).getFullYear():agendaCursor.getFullYear()).toLocaleDateString(locale,{day:'2-digit',month:'short'}):
+   new Date(item.when).toLocaleString(locale,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}));
+  const info=element('strong','',item.title);
+  if(item.location)info.append(element('small','',item.location));
+  row.append(stamp,info,element('span','agenda-event-chevron','›'));entries.append(row);
  }
  scroll.append(entries);
- const manual=document.createElement('details');manual.className='agenda-manual';
- const summary=document.createElement('summary');summary.textContent=learningLabel('Introducere manuală','Manual entry');manual.append(summary);
- const form=document.createElement('form');form.className='agenda-manual-fields';
- const name=document.createElement('input');name.placeholder=learningLabel('Titlul programării','Appointment title');name.required=true;
- const when=document.createElement('input');when.type='datetime-local';when.required=true;
+ const manual=element('details','agenda-manual');
+ manual.append(element('summary','',learningLabel('Adaugă programare','Add appointment')));
+ const form=element('form','agenda-manual-fields');
+ const name=input('text','',true);name.placeholder=learningLabel('Titlul programării','Appointment title');
+ const when=input('datetime-local',agendaDateTimeLocal(agendaCursor),true);
  const preset=document.createElement('select');preset.setAttribute('aria-label',learningLabel('Tip eveniment și mementouri','Event type and reminders'));
- for(const [value,label] of agendaReminderLabels()){const option=document.createElement('option');option.value=value;option.textContent=label;preset.append(option)}
- const add=document.createElement('button');add.type='submit';add.className='primary-btn';add.textContent=learningLabel('Salvează','Save');
- form.append(name,when,preset,add);form.onsubmit=e=>{e.preventDefault();const date=new Date(when.value);if(!name.value.trim()||Number.isNaN(date.getTime()))return;
-  const all=agendaRead();all.push({id:shopId(),title:name.value.trim().slice(0,140),when:date.toISOString(),reminderPreset:preset.value==='auto'?agendaReminderPreset(name.value):preset.value,createdAt:new Date().toISOString()});
-  if(agendaWrite(all))renderAgenda()};manual.append(form);scroll.append(manual);
- const birthday=document.createElement('details');birthday.className='agenda-manual';
- const birthdaySummary=document.createElement('summary');birthdaySummary.textContent=learningLabel('🎂 Zi de naștere (anual)','🎂 Birthday (yearly)');birthday.append(birthdaySummary);
- const birthForm=document.createElement('form');birthForm.className='agenda-birthday-fields';
- const person=document.createElement('input');person.placeholder=learningLabel('Nume','Name');person.required=true;
- const day=document.createElement('input');day.type='number';day.min=1;day.max=31;day.placeholder=learningLabel('Zi','Day');day.required=true;
- const month=document.createElement('input');month.type='number';month.min=1;month.max=12;month.placeholder=learningLabel('Lună','Month');month.required=true;
- const year=document.createElement('input');year.type='number';year.min=1000;year.max=9999;year.placeholder=learningLabel('An naștere (opțional)','Birth year (optional)');
- const save=document.createElement('button');save.type='submit';save.className='primary-btn';save.textContent=learningLabel('Salvează anual','Save yearly');
- birthForm.append(person,day,month,year,save);
- birthForm.onsubmit=e=>{e.preventDefault();const fields=agendaBirthdayFields(day.value,month.value,year.value);if(!fields){notify(learningLabel('Dată invalidă.','Invalid date.'));return}if(agendaBirthdaySave(person.value,fields))renderAgenda()};
- birthday.append(birthForm);scroll.append(birthday);
- const note=document.createElement('small');note.className='agenda-footnote';
- note.textContent=learningLabel('Pe Android, notificările urmează tipul evenimentului: zbor, tren, medic, examen, factură, hotel sau întâlnire. Sunt orientative și pot întârzia din cauza economisirii bateriei. Pentru zbor, verifică regulile companiei aeriene; notificarea nu confirmă check-in-ul.','On Android, reminders follow the event type: flight, train, medical, exam, bill, hotel or meeting. Times are advisory and may be delayed by battery saving. For flights, check airline rules; reminders do not confirm check-in.');
- scroll.append(note);
+ for(const [value,label] of agendaReminderLabels()){const option=element('option','',label);option.value=value;preset.append(option)}
+ const location=input('text');location.placeholder=learningLabel('Locație (opțional)','Location (optional)');
+ const notes=document.createElement('textarea');notes.placeholder=learningLabel('Observații (opțional)','Notes (optional)');notes.rows=2;
+ const add=button(learningLabel('Salvează','Save'),()=>{},'primary-btn');add.type='submit';
+ form.append(name,when,preset,location,notes,add);form.onsubmit=e=>{
+  e.preventDefault();const date=new Date(when.value);if(!name.value.trim()||Number.isNaN(date.getTime()))return;
+  const list=agendaRead();list.push({id:shopId(),title:name.value.trim().slice(0,140),when:date.toISOString(),
+   reminderPreset:preset.value==='auto'?agendaReminderPreset(name.value):preset.value,location:location.value.trim(),notes:notes.value.trim(),createdAt:new Date().toISOString()});
+  if(agendaWrite(list)){agendaCursor=date;agendaView='day';agendaVoiceMatches=null;renderAgenda()}
+ };
+ manual.append(form);scroll.append(manual);
+ const birth=element('details','agenda-manual');birth.append(element('summary','',learningLabel('🎂 Adaugă zi de naștere anuală','🎂 Add yearly birthday')));
+ const bf=element('form','agenda-birthday-fields');
+ const person=input('text','',true);person.placeholder=learningLabel('Nume','Name');
+ const d=input('number','',true);d.min=1;d.max=31;d.placeholder=learningLabel('Zi','Day');
+ const m=input('number','',true);m.min=1;m.max=12;m.placeholder=learningLabel('Lună','Month');
+ const y=input('number');y.min=1000;y.max=9999;y.placeholder=learningLabel('An opțional','Optional year');
+ const bs=button(learningLabel('Salvează anual','Save yearly'),()=>{},'primary-btn');bs.type='submit';
+ bf.append(person,d,m,y,bs);bf.onsubmit=e=>{
+  e.preventDefault();const fields=agendaBirthdayFields(d.value,m.value,y.value);
+  if(!fields){notify(learningLabel('Dată invalidă.','Invalid date.'));return}
+  if(agendaBirthdaySave(person.value,fields)){agendaCursor=new Date(new Date().getFullYear(),fields.birthdayMonth-1,fields.birthdayDay);agendaView='month';renderAgenda()}
+ };
+ birth.append(bf);scroll.append(birth);
+ scroll.append(element('small','agenda-footnote',learningLabel('Notificările Android sunt orientative. Programările și aniversările sunt păstrate local.','Android reminders are approximate. Appointments and birthdays are stored locally.')));
 }
 
 /* Shopping workspace: isolated state, preserves the v1 localStorage format.
