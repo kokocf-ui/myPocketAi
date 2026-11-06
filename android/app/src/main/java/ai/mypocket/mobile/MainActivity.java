@@ -116,7 +116,12 @@ public final class MainActivity extends ComponentActivity {
             boolean scan=scanNextDocumentPhoto;
             scanNextDocumentPhoto=false;
             callback.onReceiveValue(result.getResultCode()==Activity.RESULT_OK && selected!=null?new Uri[]{selected}:null);
-            if(scan && result.getResultCode()==Activity.RESULT_OK && selected!=null)recognizeDocumentPhoto(selected);
+            if(scan && result.getResultCode()==Activity.RESULT_OK && selected!=null){
+                notifyDocumentScan("started","");
+                recognizeDocumentPhoto(selected);
+            } else if(scan && result.getResultCode()!=Activity.RESULT_OK){
+                notifyDocumentScan("cancelled","");
+            }
             documentCameraUri=null;
         });
 
@@ -315,6 +320,13 @@ public final class MainActivity extends ComponentActivity {
                 if(web==null || !APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost())){callback.onReceiveValue(null);return true;}
                 if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}
                 documentPhotoCallback=callback;
+                // The document chooser itself starts on-device OCR. Do not rely on a
+                // separate asynchronous WebMessage arriving before the photo result.
+                boolean imageSelection=false;
+                if(params!=null)for(String accepted:params.getAcceptTypes()){
+                    if(accepted!=null && accepted.startsWith("image/"))imageSelection=true;
+                }
+                scanNextDocumentPhoto=imageSelection;
                 try{
                     Intent pick=new Intent(Intent.ACTION_GET_CONTENT);
                     pick.setType("image/*");pick.addCategory(Intent.CATEGORY_OPENABLE);
