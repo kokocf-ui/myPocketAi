@@ -582,5 +582,10 @@ assert.equal(queryPeriod('Ce plăți mai am luna viitoare?').start,'2026-12-01')
 assert.equal(queryPeriod('Ce plăți mai am în luna decembrie?').end,'2026-12-31');
 assert.equal(queryPeriod('Ce plăți mai am săptămâna viitoare?').start,'2026-11-09');
 assert.equal(queryPeriod('Ce plăți mai am săptămâni viitoare?').end,'2026-12-04');
+assert.match(inline,/budgetScreen='period';renderBudget\(\);return;/,'voice queries open the period results immediately');
+assert.match(inline,/if\(budgetScreen==='period'\)/,'period results have a dedicated visible screen');
+assert.match(page,/Plăți viitoare/,'Info has payment wording');
+assert.match(page,/Ce plăți mai am luna viitoare/,'Info includes short future payment query');
+assert.match(page,/margin-bottom:\.55rem/,'budget summary has separation from action controls');
 
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
