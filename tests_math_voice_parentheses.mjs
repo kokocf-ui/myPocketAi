@@ -256,6 +256,55 @@ assert.ok(embedded.includes("mathRememberDraft('')"),'new conversation explicitl
 assert.ok(embedded.includes('if(text){editor.value=text;mathRememberDraft(text)}'),
  'empty OCR never deletes a previously typed exercise');
 
+
+// Regression: same mathematical function must generate both chart and lesson.
+const graphStart=embedded.indexOf('function mathGraphModel(');
+const graphEnd=embedded.indexOf('function mathSvgElement(',graphStart);
+const lessonStart=embedded.indexOf('function mathFunctionLesson(');
+const lessonEnd=embedded.indexOf('function mathResultPage(',lessonStart);
+assert.ok(graphStart>0&&lessonStart>graphEnd&&lessonEnd>lessonStart,'function renderer exists');
+const functionApi=vm.runInNewContext(
+ embedded.slice(graphStart,graphEnd)+String.fromCharCode(10)+
+ embedded.slice(lessonStart,lessonEnd)+String.fromCharCode(10)+
+ '({model:mathGraphModel,lesson:mathFunctionLesson,clean:mathCleanAnswerMarkup})',
+ {state:{language:'ro'},learningLabel:(ro,en)=>ro,Intl});
+const selectedFunction='Reprezintă grafic funcția:\nf(x) = 2x-3';
+const model=functionApi.model(selectedFunction);
+assert.deepEqual([model.a,model.b,model.c],[0,2,-3]);
+for(const mode of ['solve','graph','explain']){
+ const lesson=functionApi.lesson(selectedFunction,mode);
+ assert.ok(lesson,mode+' has a verified, locally calculated function lesson');
+ const text=[lesson.heading,lesson.intro,lesson.conclusion,...lesson.steps.map(s=>s.name+' '+s.description)].join(' ');
+ assert.match(text,/f\(x\) = 2x−3/,'lesson must name the selected function');
+ assert.match(text,/Două puncte distincte/,'two distinct points define a line');
+ assert.match(text,/1,5/,'correct x-axis intercept is one and a half');
+ assert.ok(!text.includes('18 − 3'),'must not leak another exercise');
+ assert.ok(!text.includes('3 + 4'),'must not leak another exercise');
+}
+assert.equal(functionApi.lesson('Calculează 3 + 4 × 2','graph'),null,
+ 'an arithmetic task is not a function');
+const quadratic=functionApi.lesson('f(x)=x^2-4','explain');
+assert.ok(quadratic&&quadratic.steps.some(s=>/parabolă/.test(s.description)));
+const constant=functionApi.lesson('f(x)=0x+5','graph');
+assert.ok(constant&&constant.steps.some(s=>/orizontal/.test(s.description)));
+const slash=String.fromCharCode(92);
+const latex='Întâi $3 + 4 '+slash+'times 2$; apoi $35 '+slash+'div 7$; '+
+ slash+'('+slash+'frac{1}{2}'+slash+').';
+const clean=functionApi.clean(latex);
+assert.equal(clean.includes(String.fromCharCode(36)),false,'math dollar delimiters are removed');
+assert.match(clean,/3 \+ 4 × 2/);
+assert.match(clean,/35 ÷ 7/);
+assert.match(clean,/\(1\)\/\(2\)/);
+assert.equal(functionApi.clean('Prețul este $25. Cost: $15.'),'Prețul este $25. Cost: $15.',
+ 'ordinary currency symbols must stay');
+assert.ok(embedded.includes('item.functionLesson=verifiedFunction'),'function answers bypass generated unrelated explanations');
+assert.ok(embedded.includes("if(session.mode==='graph'&&!mathGeometryFigure(item.text))"),
+ 'unsupported plots are reported as unsupported');
+assert.ok(embedded.includes("mathLastSpokenReply=item.spokenReply||item.reply||''"),
+ 'speech follows the selected task tab');
+assert.ok(embedded.includes('appendAnswerText(result,mathCleanAnswerMarkup(item.reply))'),
+ 'math-only content is formatted before display');
+
 const native=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(native,/"math"\.equals\(speechMode\)\)return;/,'math speech bypasses short endpoint');
 assert.match(native,/mathDictation\?4800L:2200L/,'math uses longer silence hints');

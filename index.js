@@ -7399,6 +7399,85 @@ function mathMethodGuide(source){
  intro:learningLabel('Învățăm regula generală, nu refacem aceeași rezolvare. Pentru calculul concret, alege „Rezolvă pas cu pas”.','Learn the general method instead of repeating the calculation. For the specific answer, use “Solve step by step”.'),
  rules,tip:learningLabel('Reține: la fiecare operație păstrează toate celelalte părți ale expresiei.','Remember: retain every other part of the expression when performing an operation.')};
 }
+// For plotted functions, the graph and the explanation must share the exact
+// same parsed coefficients. Never use an unrelated generated answer here.
+function mathFunctionLesson(source,mode){
+ const model=mathGraphModel(source);if(!model)return null;
+ const fmt=n=>new Intl.NumberFormat(state.language||'ro',{maximumFractionDigits:8}).format(Object.is(n,-0)?0:n).replace(/-/g,'−');
+ const steps=[],add=(name,description)=>steps.push({name,description});
+ const equation='f(x) = '+model.expression.replace(/-/g,'−');
+ if(Math.abs(model.a)<1e-12){
+  const m=model.b,n=model.c;
+  add(learningLabel('Recunoaștem funcția','Recognize the function'),
+   learningLabel('Este o funcție de forma f(x) = mx + n. Graficul este o dreaptă.','The function has the form f(x) = mx + n. Its graph is a straight line.'));
+  add(learningLabel('Identificăm coeficienții','Identify the coefficients'),
+   learningLabel('Panta este m = ','The slope is m = ')+fmt(m)+
+   learningLabel(', iar intersecția cu axa Oy este (0; ', ', and the y-axis intersection is (0, ')+fmt(n)+').');
+  add(learningLabel('Alegem două puncte','Choose two points'),
+   learningLabel('Două puncte distincte sunt suficiente pentru a trasa o dreaptă. Pentru x = 0 și x = 1 obținem punctele (0; ',
+    'Two distinct points are enough to draw a straight line. For x = 0 and x = 1, choose (0, ')+fmt(n)+
+    learningLabel(') și (1; ',') and (1, ')+fmt(m+n)+').');
+  if(Math.abs(m)>1e-12)add(learningLabel('Intersecția cu axa Ox','X-axis intersection'),
+   learningLabel('Din f(x) = 0 rezultă x = ', 'Solving f(x) = 0 gives x = ')+fmt(-n/m)+'.');
+  else add(learningLabel('Dreapta orizontală','Horizontal line'),
+   n===0?learningLabel('Graficul coincide cu axa Ox.','The graph coincides with the x-axis.'):
+      learningLabel('Graficul este orizontal și nu intersectează axa Ox.','The graph is horizontal and never crosses the x-axis.'));
+  add(learningLabel('Trasează și verifică','Plot and check'),
+   learningLabel('Unește cele două puncte distincte. Un punct (x; y) se află pe dreaptă numai dacă f(x) = y.',
+    'Join the two different points. A point (x, y) lies on the line only if f(x) = y.'));
+ }else{
+  const a=model.a,b=model.b,c=model.c,vx=-b/(2*a),vy=a*vx*vx+b*vx+c,delta=b*b-4*a*c;
+  add(learningLabel('Identificăm funcția','Identify the function'),
+   learningLabel('Funcția este de gradul al doilea, iar graficul ei este o parabolă.',
+    'This is a quadratic function; its graph is a parabola.'));
+  add(learningLabel('Concavitatea și vârful','Opening and vertex'),
+   (a>0?learningLabel('Parabola se deschide în sus. ','The parabola opens upward. '):
+   learningLabel('Parabola se deschide în jos. ','The parabola opens downward. '))+'V('+fmt(vx)+'; '+fmt(vy)+').');
+  add(learningLabel('Intersecția cu axa Oy','Y-axis intersection'),
+   learningLabel('Pentru x = 0 obținem (0; ','At x = 0 we obtain (0, ')+fmt(c)+').');
+  const roots=delta<0?learningLabel('Nu are intersecții reale cu axa Ox.','There are no real x-axis intersections.'):
+    Math.abs(delta)<1e-10?learningLabel('Atinge axa Ox în (','Touches the x-axis at (')+fmt(vx)+'; 0).':
+     learningLabel('Intersecțiile cu axa Ox au abscisele ','The x-axis intersections have x-coordinates ')+
+     fmt((-b-Math.sqrt(delta))/(2*a))+learningLabel(' și ',' and ')+fmt((-b+Math.sqrt(delta))/(2*a))+'.';
+  add(learningLabel('Rădăcinile','Roots'),roots);
+  add(learningLabel('Verificăm punctele','Check the points'),
+   learningLabel('Pentru fiecare punct de pe desen, înlocuim x în funcție și verificăm valoarea y.',
+    'For every point, substitute x into the formula and verify y.'));
+ }
+ return {
+  heading:mode==='explain'?learningLabel('Metoda pentru această categorie de funcții','Method for this type of function'):
+   mode==='graph'?learningLabel('Cum interpretăm graficul','How to interpret the graph'):
+    learningLabel('Analiza funcției pas cu pas','Step-by-step function analysis'),
+  intro:learningLabel('Folosim doar funcția din enunț: ','Using only the function supplied: ')+equation+'.',
+  steps,
+  conclusion:mode==='graph'?learningLabel('Graficul de mai sus este calculat local din această funcție.',
+   'The graph above was calculated locally from this function.'):
+   learningLabel('Verifică rezultatul înlocuind coordonatele punctelor în funcția dată.',
+    'Verify the result by substituting the point coordinates in the supplied function.')
+ };
+}
+// Render lightweight math notation as readable text; this formatter is used
+// ONLY in math-result answers, not normal prose, prices or other modules.
+function mathReadableFormula(text){
+ return String(text||'')
+  .replace(/\\\\frac\\{([^{}]+)\\}\\{([^{}]+)\\}/g,'($1)/($2)')
+  .replace(/\\\\times\\b/g,'×').replace(/\\\\cdot\\b/g,'×')
+  .replace(/\\\\div\\b/g,'÷').replace(/\\\\leq?\\b/g,'≤')
+  .replace(/\\\\geq?\\b/g,'≥').replace(/\\\\neq\\b/g,'≠')
+  .replace(/\\\\sqrt\\{([^{}]+)\\}/g,'√($1)')
+  .replace(/\\\\left\\b|\\\\right\\b/g,'')
+  .replace(/\\^\\{2\\}/g,'²').replace(/\\^2\\b/g,'²');
+}
+function mathCleanAnswerMarkup(reply){
+ let text=String(reply||'');
+ text=text.replace(/\\\\\\[((?:.|\\n)*?)\\\\\\]/g,(_,formula)=>mathReadableFormula(formula))
+  .replace(/\\\\\\((.*?)\\\\\\)/g,(_,formula)=>mathReadableFormula(formula))
+  .replace(/\\$\\$([\\s\\S]*?)\\$\\$/g,(_,formula)=>mathReadableFormula(formula));
+ text=text.replace(/\\$([^$\\n]+)\\$/g,(whole,formula)=>
+  /(?:\\\\[a-z]+|[=+*/^×÷]|\\d\\s*[-−]\\s*\\d)/.test(formula)?
+  mathReadableFormula(formula):whole);
+ return mathReadableFormula(text);
+}
 function mathResultPage(index){
  const session=mathResultSession,dialog=$('mathResultDialog');
  if(!session||!dialog?.open)return;
@@ -7416,6 +7495,7 @@ function mathResultPage(index){
   });
  }
  const item=session.tasks[session.active];
+ mathLastSpokenReply=item.spokenReply||item.reply||'';
  const title=document.createElement('h3');
  title.textContent=learningLabel('Exercițiul ','Exercise ')+(session.active+1);
  const source=document.createElement('div');source.className='math-result-source';
@@ -7432,7 +7512,21 @@ function mathResultPage(index){
  const graph=mathGraphFigure(item.text)||mathGeometryFigure(item.text);
  if(graph&&session.mode==='graph')body.append(graph);
  const result=document.createElement('div');result.className='math-result-copy';
- if(item.methodGuide){
+ if(item.functionLesson){
+  const heading=document.createElement('h3');heading.textContent=item.functionLesson.heading;
+  const intro=document.createElement('p');intro.textContent=item.functionLesson.intro;
+  const list=document.createElement('ol');
+  list.style.cssText='padding-left:25px;display:grid;gap:16px;margin:16px 0';
+  for(const step of item.functionLesson.steps){
+   const li=document.createElement('li');
+   const name=document.createElement('strong');name.textContent=step.name;
+   const why=document.createElement('p');why.textContent=step.description;
+   why.style.cssText='margin:6px 0;line-height:1.5';
+   li.append(name,why);list.append(li);
+  }
+  const conclusion=document.createElement('p');conclusion.textContent=item.functionLesson.conclusion;
+  result.append(heading,intro,list,conclusion);body.append(result);
+ }else if(item.methodGuide){
   const heading=document.createElement('h3');heading.textContent=item.methodGuide.heading;
   const intro=document.createElement('p');intro.textContent=item.methodGuide.intro;
   const list=document.createElement('ol');list.style.cssText='padding-left:25px;display:grid;gap:16px;margin:16px 0';
@@ -7484,7 +7578,7 @@ function mathResultPage(index){
   body.append(result,retry);
  }else if(item.reply){
   // Render structured teaching text in-place, never in the exercise input.
-  appendAnswerText(result,item.reply);body.append(result);
+  appendAnswerText(result,mathCleanAnswerMarkup(item.reply));body.append(result);
  }else{
   result.textContent=learningLabel('Se pregătește explicația…','Preparing the explanation…');
   body.append(result);
@@ -7492,12 +7586,30 @@ function mathResultPage(index){
  body.scrollTop=previousScroll;
 }
 async function mathFetchResult(item,session){
+ const verifiedFunction=item.functionLesson||mathFunctionLesson(item.text,session.mode);
+ if(verifiedFunction){
+  if(mathResultSession!==session)return;
+  item.functionLesson=verifiedFunction;
+  item.spokenReply=verifiedFunction.intro+' '+verifiedFunction.steps.map((step,i)=>(i+1)+'. '+step.name+'. '+step.description).join(' ')+'. '+verifiedFunction.conclusion;
+  if(session.tasks[session.active]===item)mathResultPage(session.active);
+  return;
+ }
+ // Never ask a generative model to draw a graph that the actual renderer
+ // cannot provide: this produced answers about unrelated numeric exercises.
+ if(session.mode==='graph'&&!mathGeometryFigure(item.text)){
+  if(mathResultSession!==session)return;
+  item.reply=learningLabel('Nu există încă un grafic verificat pentru acest enunț. Nu voi inventa unul. Pentru un calcul, apasă „Rezolvă pas cu pas”; pentru un grafic de funcție, introdu de exemplu f(x) = 2x - 3.',
+   'There is no verified graph for this exercise yet. I will not invent one. Use Solve step by step for arithmetic, or enter a function such as f(x) = 2x - 3.');
+  item.spokenReply=item.reply;
+  if(session.tasks[session.active]===item)mathResultPage(session.active);
+  return;
+ }
  if(session.mode==='explain'){
   const method=item.methodGuide||mathMethodGuide(item.text);
   if(method){
    if(mathResultSession!==session)return;
    item.methodGuide=method;
-   mathLastSpokenReply=method.intro+' '+method.rules.map((r,i)=>(i+1)+'. '+r.title+'. '+r.text).join(' ')+'. '+method.tip;
+   item.spokenReply=method.intro+' '+method.rules.map((r,i)=>(i+1)+'. '+r.title+'. '+r.text).join(' ')+'. '+method.tip;
    if(session.tasks[session.active]===item)mathResultPage(session.active);
    return;
   }
@@ -7507,7 +7619,7 @@ async function mathFetchResult(item,session){
   if(steps){
    if(mathResultSession!==session)return;
    item.detailed=steps;
-   mathLastSpokenReply=steps.intro+' '+steps.steps.map((step,i)=>(i+1)+'. '+step.label+'. '+step.reason+' '+step.operation+'. '+(step.signRule?step.signRule+' ':'')+step.fullAfter).join(' ')+'. '+steps.conclusion;
+   item.spokenReply=steps.intro+' '+steps.steps.map((step,i)=>(i+1)+'. '+step.label+'. '+step.reason+' '+step.operation+'. '+(step.signRule?step.signRule+' ':'')+step.fullAfter).join(' ')+'. '+steps.conclusion;
    if(session.tasks[session.active]===item)mathResultPage(session.active);
    return;
   }
@@ -7529,7 +7641,8 @@ async function mathFetchResult(item,session){
  const checked=equality&&session.mode!=='explain'?
   learningLabel('Verificare aritmetică locală: ','Local arithmetic verification: ')+mathEqualityExplanation(equality)+
   learningLabel(' Menționează explicit această verificare și explică de ce; nu modifica enunțul dictat.',' Explain this check explicitly without rewriting the dictated exercise.'):'';
- const message=prompt+'\\n'+requested+(checked?'\\n'+checked:'')+'\\n'+item.text;
+ const message=prompt+'\\n'+requested+(checked?'\\n'+checked:'')+'\\n'+
+  learningLabel('Răspunde strict la următorul exercițiu, nu la alte exemple:','Answer ONLY the following exercise, not another problem:')+'\\n'+item.text;
  try{
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
    body:JSON.stringify({message,language:state.language,module:'learning',history:[],location_requested:false}),
@@ -7538,7 +7651,7 @@ async function mathFetchResult(item,session){
   if(!response.ok||payload.status!=='success'||typeof payload.reply!=='string'||!payload.reply.trim())
    throw new Error(payload.error||learningLabel('Nu am primit o rezolvare validă.','No valid solution returned.'));
   if(mathResultSession!==session)return;
-  item.reply=payload.reply.trim();mathLastSpokenReply=item.reply;
+  item.reply=mathCleanAnswerMarkup(payload.reply.trim());item.spokenReply=item.reply;
  }catch(error){
   if(mathResultSession!==session||session.controller.signal.aborted)return;
   item.error=learningLabel('Nu am putut obține rezolvarea: ','Could not obtain the solution: ')+String(error?.message||error);
@@ -7560,6 +7673,7 @@ function mathEducationRun(mode){
   return;
  }
  const tasks=mathSplitExercises(source).map(text=>({text,reply:'',error:null,
+  functionLesson:mathFunctionLesson(text,mode),
   detailed:mode==='solve'?mathDetailedArithmetic(text):null,
   methodGuide:mode==='explain'?mathMethodGuide(text):null}));
  if(!tasks.length){status.textContent=learningLabel('Nu există un exercițiu de rezolvat.','No exercise to solve.');return}
