@@ -93,6 +93,46 @@ for(const [spoken,title,date,time] of [
 }
 
 assert.match(inline,/function tasksRepairLegacyVoiceDates\(\)/,'existing voice tasks with times in title are migrated');
+
+const taskStorage=new Map(),taskAgenda=[];
+let taskIdSequence=0;
+const taskCtx=vm.createContext({
+ Date,JSON,
+ localStorage:{getItem:key=>taskStorage.get(key)||null,setItem:(key,value)=>taskStorage.set(key,value)},
+ shopVoiceFold:s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim(),
+ learningLabel:(ro,en)=>ro,shopId:()=>String(++taskIdSequence),
+ agendaRead:()=>taskAgenda.slice(),
+ agendaWrite:items=>{taskAgenda.splice(0,taskAgenda.length,...items);return true},
+ state:{language:'ro'},notify:()=>{},document:{},window:{}
+});
+const taskModuleStart=inline.indexOf("const POCKET_TASKS_KEY='mypocketai.tasks.v1'");
+const taskModuleEnd=inline.indexOf('/* Calendar workspace:',taskModuleStart);
+assert.ok(taskModuleStart>0&&taskModuleEnd>taskModuleStart);
+vm.runInContext(inline.slice(taskModuleStart,taskModuleEnd),taskCtx);
+vm.runInContext("renderTasks=()=>{}",taskCtx);
+const taskEval=expression=>vm.runInContext(expression,taskCtx);
+assert.equal(taskEval("tasksCreate('.',false,'','normal',true)"),false,'punctuation-only voice entry is rejected');
+assert.equal(taskEval("tasksCreate('Ședință',false,'2026-11-07','normal',true,'10:00')"),true,'voice task is created');
+assert.equal(taskAgenda.length,1,'voice creation directly links agenda');
+assert.equal(taskAgenda[0].title,'Ședință');
+assert.equal(taskAgenda[0].when,'2026-11-07T10:00:00.000Z');
+assert.equal(taskAgenda[0].allDay,false,'spoken hour is preserved');
+const initialAgendaId=taskAgenda[0].id;
+const taskEntry=taskEval("tasksRead()[0]");
+taskCtx.changedTask={...taskEntry,time:'11:30'};
+assert.equal(taskEval("tasksToAgenda(changedTask,true)"),true,'reschedule same task');
+assert.equal(taskAgenda.length,1,'no duplicated agenda entries');
+assert.equal(taskAgenda[0].id,initialAgendaId,'reschedule preserves agenda identity');
+assert.equal(taskAgenda[0].when,'2026-11-07T11:30:00.000Z','linked time is updated');
+taskStorage.set('mypocketai.tasks.v1',JSON.stringify([
+ {id:'legacy',title:'mâine ședință la ora 10:00',source:'voice',due:'',time:'',goal:false,done:false,archived:false,priority:'normal',createdAt:'2026-11-06T07:50:00.000Z'}
+]));
+taskEval("tasksRepairLegacyVoiceDates()");
+assert.equal(taskEval("tasksRead()[0].title"),'ședință','legacy task title is repaired');
+assert.equal(taskEval("tasksRead()[0].due"),'2026-11-07','legacy task date is repaired relative to creation date');
+assert.equal(taskEval("tasksRead()[0].time"),'10:00','legacy task time is repaired');
+assert.equal(taskAgenda.length,2,'repaired task also appears in agenda');
+
 assert.match(inline,/const spokenTask=tasksParseSpokenDeadline\(spoken\)/,'date-first voice commands create tasks without an imperative verb');
 assert.match(inline,/async function tasksSuggestGoal\(title\)/,'goal suggestions are requested from Pocket AI');
 assert.match(inline,/tasksSuggestGoal\(goalName\)/,'manual goal creation opens suggestions');
