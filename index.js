@@ -7497,6 +7497,34 @@ function mathLinearNotation(value){
  };
  return {number,polynomial};
 }
+// Show each arithmetic transformation after substituting a solved linear x.
+// Unsupported or unstable substitutions never receive invented intermediate steps.
+function mathLinearVerificationLines(equation,formattedValue){
+ const substituted=String(equation||'').replace(/x/g,'('+formattedValue+')');
+ // Linear algebra supports implicit multiplication; numerical steps require
+ // explicit operators to use the existing verified arithmetic parser.
+ const expanded=substituted.replace(/([0-9)])(?=\\()/g,'$1*')
+  .replace(/(\\))(?=[0-9])/g,'$1*');
+ const check=mathArithmeticEquality(expanded);
+ if(!check||!check.equal)return null;
+ const arithmetic=mathDetailedArithmetic(expanded);
+ if(!arithmetic||arithmetic.steps.length>14)return null;
+ const shown=s=>String(s).replace(/-/g,'−').replace(/\\*/g,'×')
+  .replace(/\\s*=\\s*/g,' = ').trim();
+ const firstLine=shown(substituted)
+  .replace(/([0-9])\\(([0-9]+(?:[.,][0-9]+)?)\\)/g,'$1×$2')
+  .replace(/\\(\\(([0-9]+(?:[.,][0-9]+)?)\\)/g,'($1');
+ const rows=[firstLine];
+ for(const step of arithmetic.steps){
+  if(!step.fullAfter)return null;
+  const row=shown(step.fullAfter);
+  if(row!==rows[rows.length-1])rows.push(row);
+ }
+ const end=mathLinearNotation().number(check.left)+' = '+mathLinearNotation().number(check.right);
+ if(rows[rows.length-1]!==end)rows.push(end);
+ return rows.length>=2?rows:null;
+}
+
 function mathLinearSolution(source){
  const model=mathLinearEquation(source);if(!model)return null;
  const {number,polynomial}=mathLinearNotation(),{left,right,coefficient,constant,kind,value}=model;
@@ -7528,6 +7556,7 @@ function mathLinearSolution(source){
    rearranged+' → '+solution,solution);
   const lhs=left.a*value+left.b,rhs=right.a*value+right.b;
   const checked=number(lhs)+' = '+number(rhs);
+  const verificationLines=mathLinearVerificationLines(model.raw,number(value));
   const substituted=model.raw.replace(/x/g,'('+number(value)+')')
    .replace(/\\*/g,'×').replace(/-/g,'−');
   add(learningLabel('Verificăm soluția în ecuația inițială','Check in the original equation'),
@@ -7535,6 +7564,7 @@ function mathLinearSolution(source){
     'Substitute the found value for x in both sides of the ORIGINAL equation. Their values must match.'),
    learningLabel('Înlocuim x = ','Substitute x = ')+number(value)+': '+substituted+
    learningLabel('. Calculăm separat: ','. Calculate each side: ')+checked+'.',checked);
+  if(verificationLines)steps[steps.length-1].verificationSteps=verificationLines;
   conclusion=learningLabel('Soluția verificată este ','The verified solution is ')+solution+'.';
  }
  return {intro:learningLabel(
@@ -7757,6 +7787,16 @@ function mathResultPage(index){
     const remaining=document.createElement('div');
     remaining.textContent=learningLabel('Rescriem expresia completă: ','Rewrite the full expression: ')+step.fullAfter;
     remaining.style.cssText='opacity:.92;margin-top:8px;overflow-wrap:anywhere';
+    if(step.verificationSteps?.length){
+     const proof=document.createElement('div');proof.className='math-verification-lines';
+     proof.style.cssText='display:grid;gap:9px;margin:10px 0';
+     for(const equation of step.verificationSteps){
+      const line=document.createElement('div');line.textContent=equation;
+      line.style.cssText='font-weight:650;line-height:1.45;overflow-wrap:anywhere';
+      proof.append(line);
+     }
+     li.append(name,why,proof);list.append(li);continue;
+    }
     li.append(name,why,operation);
     if(step.signRule){
      const note=document.createElement('p');note.textContent=step.signRule;
@@ -7828,7 +7868,7 @@ async function mathFetchResult(item,session){
   if(steps){
    if(mathResultSession!==session)return;
    item.detailed=steps;
-   item.spokenReply=steps.intro+' '+steps.steps.map((step,i)=>(i+1)+'. '+step.label+'. '+step.reason+' '+step.operation+'. '+(step.signRule?step.signRule+' ':'')+step.fullAfter).join(' ')+'. '+steps.conclusion;
+   item.spokenReply=steps.intro+' '+steps.steps.map((step,i)=>(i+1)+'. '+step.label+'. '+step.reason+' '+step.operation+'. '+(step.signRule?step.signRule+' ':'')+(step.verificationSteps?step.verificationSteps.slice(0,-1).join('. ')+'. ':'')+step.fullAfter).join(' ')+'. '+steps.conclusion;
    if(session.tasks[session.active]===item)mathResultPage(session.active);
    return;
   }
