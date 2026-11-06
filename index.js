@@ -1379,6 +1379,17 @@ body.long-choice-active{overflow:hidden}
  font-size:clamp(.7rem,2.7vw,.83rem)!important;opacity:.72!important;
 }
 </style>
+<style id="daily-planning-layout">
+.daily-day-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.3rem,1.2vw,.6rem);width:100%}
+.daily-day-picker>button{min-width:0!important;min-height:clamp(2.5rem,6dvh,3rem)!important;height:auto!important;padding:.4rem .25rem!important;font-size:clamp(.75rem,3vw,1rem)!important}
+.daily-date-input{max-width:100%;min-width:0;box-sizing:border-box;font-size:1rem}
+.daily-date-heading{font-size:clamp(1rem,4vw,1.25rem);margin:.25rem 0;overflow-wrap:anywhere}
+.daily-item-list{display:flex;flex-direction:column;gap:.45rem}
+.daily-item{display:grid;grid-template-columns:minmax(3.6rem,24%) minmax(0,1fr);text-align:left;align-items:center;gap:.6rem;min-height:3.4rem!important;height:auto!important;width:100%;padding:.65rem!important;border:1px solid #467d98;border-radius:.8rem;background:transparent;color:inherit}
+.daily-item-info{display:flex;flex-direction:column;gap:.15rem;min-width:0;overflow-wrap:anywhere}
+.daily-item-info small{opacity:.7}
+.daily-item-time{font-size:.9rem}
+</style>
 </head>
 <body>
 <header class="app-header"><img class="brand-mark" src="${AVATAR_DATA}" alt="Avatar myPocket AI"><div class="brand-copy"><div class="brand-name"><span class="my">my</span>Pocket AI</div><div class="brand-sub">Asistentul tău personal pentru orice zi</div></div><div class="plan-pill">FREE ♛</div></header>
@@ -2529,6 +2540,7 @@ function renderOrganizeChoices(){
  if(agendaListening)agendaVoiceFinish('');
  remindersVoiceStop();
  notesVoiceStop();
+ dailyVoiceStop();
  agendaPendingDelete=null;
  const leavingShopping=$('view-module').classList.contains('adaptive-workspace-view');
  shoppingMode='entry';shoppingPendingAction=null;
@@ -2576,6 +2588,12 @@ function pocketVoiceHelp(mode,title){
    ['Adăugare','Amintește-mi mâine la ora 10 să sun la service'],
    ['Peste un interval','Amintește-mi peste 30 de minute să verific cuptorul'],
    ['Ștergere','Șterge mementoul să sun la service']
+  ],
+  daily:[
+   ['Programul zilei','Ce am de făcut astăzi?'],
+   ['Mâine','Ce am de făcut mâine?'],
+   ['Planifică','Planifică mâine o plimbare la ora 17'],
+   ['Deschide','Deschide plimbarea']
   ],
   notes:[
    ['Notiță','Notează să verificăm vocea avatarului'],
@@ -2632,8 +2650,8 @@ function organizePanel(cat){
   active.setAttribute('aria-pressed',shoppingMode==='active'?'true':'false');
   active.onclick=()=>{if(shoppingVoiceSession?.active)shopVoiceStop();shoppingMode=shoppingMode==='active'?'entry':'active';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()};
   bar.append(back,active);
- }else if(!['calendar','tasks','reminders','notes'].includes(cat[0]))bar.append(back,title);
- if(!['calendar','tasks','reminders','notes'].includes(cat[0]))panel.append(bar);host.append(panel);
+ }else if(!['calendar','tasks','reminders','notes','daily'].includes(cat[0]))bar.append(back,title);
+ if(!['calendar','tasks','reminders','notes','daily'].includes(cat[0]))panel.append(bar);host.append(panel);
  return panel;
 }
 function openOrganizeCategory(key){
@@ -2643,6 +2661,7 @@ function openOrganizeCategory(key){
  if(key==='tasks'){if(tasksListening)tasksVoiceStop();tasksSection='home';renderTasks();return}
  if(key==='reminders'){renderReminders();return}
  if(key==='notes'){renderNotes();return}
+ if(key==='daily'){renderDailyPlan();return}
  const panel=organizePanel(cat);
  const p=document.createElement('p');p.textContent=learningLabel(cat[4],cat[5]);panel.append(p);
  const button=document.createElement('button');button.type='button';button.className='primary-btn';
@@ -2971,6 +2990,138 @@ function renderNotes(){
  }
 }
 
+/* Daily planning is a filtered view of the existing agenda and tasks.
+   Never duplicate agenda-linked tasks or schedule a second notification. */
+let dailyPlanDate=new Date(),dailyListening=false;
+function dailyDateKey(date){
+ const pad=x=>String(x).padStart(2,'0');
+ return date.getFullYear()+'-'+pad(date.getMonth()+1)+'-'+pad(date.getDate());
+}
+function dailySelectDay(offset){
+ const now=new Date();dailyPlanDate=new Date(now.getFullYear(),now.getMonth(),now.getDate()+offset);
+ renderDailyPlan();
+}
+function dailyPlanItems(day=dailyPlanDate){
+ const dateKey=dailyDateKey(day),events=agendaRead(),items=[];
+ for(const event of events){
+  if(dailyDateKey(agendaLocalDate(event,day.getFullYear()))!==dateKey)continue;
+  const when=agendaLocalDate(event,day.getFullYear());
+  items.push({id:event.id,title:event.title,at:when.getTime(),allDay:Boolean(event.allDay),origin:agendaEventOrigin(event),eventId:event.id,kind:'agenda'});
+ }
+ const linked=new Set(events.filter(e=>e.linkedTaskId).map(e=>e.linkedTaskId));
+ for(const task of tasksRead()){
+  if(task.archived||task.done||task.due!==dateKey||linked.has(task.id))continue;
+  const time=/^(?:[01]\\d|2[0-3]):[0-5]\\d$/.test(task.time||'')?task.time:'12:00';
+  const at=new Date(dateKey+'T'+time+':00').getTime();
+  items.push({id:task.id,title:task.title,at,allDay:!task.time,origin:learningLabel('Sarcini și obiective','Tasks and goals'),taskId:task.id,kind:'task'});
+ }
+ return items.sort((a,b)=>Number(a.allDay)-Number(b.allDay)||a.at-b.at||a.title.localeCompare(b.title));
+}
+function dailyVoiceStop(){
+ if(!dailyListening)return;
+ dailyListening=false;
+ if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
+}
+function dailyVoiceStart(){
+ if(dailyListening){dailyVoiceStop();return}
+ if(!pocketNativeVoiceAvailable()){notify(learningLabel('Microfonul Android nu este disponibil.','Android microphone unavailable.'));return}
+ dailyListening=true;
+ const status=document.querySelector('.organize-voice-status');
+ if(status)status.textContent=learningLabel('Te ascult…','Listening…');
+ if(!pocketNativeVoiceSend({action:'listen',mode:'daily',language:shopVoiceLanguage()}))dailyVoiceStop();
+}
+function dailyVoiceCommand(raw){
+ const text=String(raw||'').trim();
+ const folded=String(text).normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase();
+ if(!text)return;
+ if(/^(?:ce am|arata|afiseaza|programul|planul|what|show)/u.test(folded)){
+  if(/poimaine/u.test(folded))dailySelectDay(2);
+  else if(/maine/u.test(folded))dailySelectDay(1);
+  else if(/azi|astazi|today/u.test(folded))dailySelectDay(0);
+  else renderDailyPlan();
+  return;
+ }
+ const open=folded.match(/^(?:deschide|vezi|open)\\s+(.*)$/u);
+ if(open){
+  const phrase=open[1],matches=dailyPlanItems().filter(item=>String(item.title).normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase().includes(phrase));
+  if(matches.length!==1){notify(learningLabel('Nu am găsit o singură activitate.','No unique activity found.'));return}
+  dailyOpenItem(matches[0]);return;
+ }
+ const cleaned=text.replace(/^(?:planifică|planifica|programează|programeaza|adaugă|adauga|schedule|plan)\\s+/iu,'').replace(/\\bla\\s+(\\d{1,2})(?=\\s|$)/iu,'la ora $1');
+ const parsed=agendaDate(cleaned);
+ if(!parsed){
+  notify(learningLabel('Spune activitatea, ziua și ora. Exemplu: „Planifică mâine o plimbare la ora 17”.','Say activity, day and time.'));return;
+ }
+ const title=String(parsed.sharedTitle||agendaExtractTitle(cleaned,parsed)||'').trim();
+ const when=new Date(parsed.when);
+ if(!title||when.getTime()<=Date.now()){
+  notify(learningLabel('Verifică activitatea și ora viitoare.','Check the activity and future time.'));return;
+ }
+ const all=agendaRead();
+ all.push({id:shopId(),title,when:when.toISOString(),kind:'daily',sourceModule:'daily',reminderPreset:'default',createdAt:new Date().toISOString()});
+ if(agendaWrite(all)){
+  dailyPlanDate=new Date(when.getFullYear(),when.getMonth(),when.getDate());
+  renderDailyPlan();
+  notify(learningLabel('Activitate planificată.','Activity scheduled.'));
+ }
+}
+function dailyVoiceHandleAndroid(data){
+ if(data?.mode!=='daily')return false;
+ if(!dailyListening)return true;
+ const status=document.querySelector('.organize-voice-status');
+ if(data.status==='partial'||data.status==='listening'){
+  if(status)status.textContent=data.status==='partial'?String(data.text||''):learningLabel('Te ascult…','Listening…');
+  return true;
+ }
+ if(data.status==='recognized'){dailyVoiceStop();dailyVoiceCommand(data.text);return true}
+ if(data.status==='error'){dailyVoiceStop();notify(learningLabel('Dictarea a fost întreruptă.','Dictation was interrupted.'))}
+ return true;
+}
+function dailyOpenItem(item){
+ dailyVoiceStop();
+ if(item.kind==='agenda'){
+  agendaSelectedId=item.eventId;agendaEditing=false;agendaPendingDelete=null;
+  agendaView='all';renderAgenda();return;
+ }
+ if(item.kind==='task'){
+  tasksSection='list';renderTasks();return;
+ }
+}
+function renderDailyPlan(){
+ const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='daily');
+ const {scroll}=organizeVoiceWorkspace(cat,{
+  titleRo:'Planificarea zilei',titleEn:'Daily planning',mode:'daily',
+  backAction:()=>{dailyVoiceStop();renderOrganizeChoices()},
+  onDictate:dailyVoiceStart,dictationRo:'Dictare',dictationEn:'Dictation'
+ });
+ const el=(tag,cls,value)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(value!==undefined)node.textContent=value;return node};
+ const controls=el('div','daily-day-picker');
+ const actions=[
+  [learningLabel('Astăzi','Today'),()=>dailySelectDay(0)],
+  [learningLabel('Mâine','Tomorrow'),()=>dailySelectDay(1)],
+  [learningLabel('Altă dată','Other date'),()=>picker.showPicker?.()||picker.focus()]
+ ];
+ const picker=el('input','daily-date-input');picker.type='date';picker.value=dailyDateKey(dailyPlanDate);
+ picker.setAttribute('aria-label',learningLabel('Alege data','Choose date'));
+ picker.onchange=()=>{if(picker.value){const [y,m,d]=picker.value.split('-').map(Number);dailyPlanDate=new Date(y,m-1,d);renderDailyPlan()}};
+ for(const [label,click] of actions){
+  const button=el('button','secondary-btn',label);button.type='button';button.onclick=click;
+  controls.append(button);
+ }
+ scroll.append(controls,picker);
+ const heading=el('h3','daily-date-heading',dailyPlanDate.toLocaleDateString(state.language==='ro'?'ro-RO':'en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}));
+ scroll.append(heading);
+ const list=el('div','daily-item-list'),items=dailyPlanItems();
+ if(!items.length)list.append(el('p','daily-empty',learningLabel('Nu ai activități planificate pentru această zi.','No planned activities for this day.')));
+ for(const item of items){
+  const row=el('button','daily-item');row.type='button';row.onclick=()=>dailyOpenItem(item);
+  const stamp=el('span','daily-item-time',item.allDay?learningLabel('Fără oră','No time'):new Date(item.at).toLocaleTimeString(state.language==='ro'?'ro-RO':'en-GB',{hour:'2-digit',minute:'2-digit'}));
+  const info=el('span','daily-item-info');info.append(el('strong','',item.title),el('small','',item.origin));
+  row.append(stamp,info);list.append(row);
+ }
+ scroll.append(list);
+}
+
 const TASKS_DRAWINGS={list:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="21" y="8" width="80" height="75" rx="9" fill="#d8f4fa"/><rect x="43" y="2" width="36" height="13" rx="5" fill="#68c8e0"/><path d="M32 35l6 6 11-13M32 59l6 6 11-13" fill="none" stroke="#21a58e" stroke-width="5" stroke-linecap="round"/><path d="M58 35h30M58 59h30" stroke="#4c7294" stroke-width="5" stroke-linecap="round"/></svg>',goal:'<svg viewBox="0 0 120 90" aria-hidden="true"><path d="M18 79h86" stroke="#87cbdc" stroke-width="5" stroke-linecap="round"/><path d="M26 75h24V58h22V40h24V20" fill="none" stroke="#77d5c1" stroke-width="10" stroke-linejoin="round"/><path d="M94 12v33M95 13l21 8-21 9" fill="#67bdf1" stroke="#e9fbff" stroke-width="3"/><circle cx="29" cy="67" r="6" fill="#f4cc7a"/></svg>',calendar:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="13" y="14" width="93" height="68" rx="9" fill="#daf3fa"/><path d="M13 31h93" stroke="#56c0dc" stroke-width="10"/><path d="M35 8v17M83 8v17" stroke="#fff" stroke-width="6" stroke-linecap="round"/><rect x="32" y="42" width="22" height="22" rx="5" fill="#4dc2a7"/><path d="M37 53l5 5 9-11" stroke="#fff" stroke-width="3" fill="none"/><circle cx="82" cy="60" r="15" fill="#6aace5"/><path d="M82 48v13l8 5" stroke="#fff" stroke-width="3" fill="none"/></svg>',archive:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="20" y="28" width="82" height="54" rx="7" fill="#80bcdf"/><rect x="14" y="19" width="94" height="22" rx="5" fill="#d8f4fa"/><path d="M48 47h25" stroke="#efffff" stroke-width="6" stroke-linecap="round"/><circle cx="91" cy="68" r="17" fill="#43b99f"/><path d="M82 68l6 6 12-13" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>'};
 
 /* Tasks are local-first and independent from existing agenda and shopping data. */
@@ -3290,6 +3441,7 @@ function agendaReminderLabels(){
   ['meeting',learningLabel('💼 Întâlnire','💼 Meeting')]];
 }
 function agendaEventOrigin(event){
+ if(event?.sourceModule==='daily'||event?.kind==='daily')return learningLabel('Planificarea zilei','Daily planning');
  if(event?.kind==='reminder'||event?.reminderPreset==='reminder')return learningLabel('Mementouri inteligente','Smart reminders');
  if(event?.linkedTaskId||event?.kind==='task')return learningLabel('Sarcini și obiective','Tasks and goals');
  return learningLabel('Agenda inteligentă','Smart agenda');
@@ -7073,6 +7225,7 @@ window.pocketAndroidVoiceResult=function(data){
  if(agendaVoiceHandleAndroid(data))return;
  if(remindersVoiceHandleAndroid(data))return;
  if(notesVoiceHandleAndroid(data))return;
+ if(dailyVoiceHandleAndroid(data))return;
  if(tasksVoiceHandleAndroid(data))return;
  if(pocketExitVoiceResult(data))return;
  if(data?.mode==='tts'){
