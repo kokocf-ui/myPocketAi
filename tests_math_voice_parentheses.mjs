@@ -171,6 +171,25 @@ assert.equal(detailed('-(3-5) = 2').conclusion.includes('adevărată'),true);
 assert.equal(detailed('2/0 = 9'),null,'division by zero needs another solver');
 assert.equal(detailed('2(3+4)=14'),null,'implicit multiplication is unsupported');
 assert.equal(detailed('x+1=2'),null,'symbolic equations go to the general model');
+// Classroom explanations should state the rule, the reason, and the FULL
+// equality after each operation, including the RHS and every remaining term.
+assert.match(worked.intro,/Lucrăm ca la tablă/);
+assert.match(worked.steps[0].why,/paranteză/i,'first explain why the parentheses come first');
+assert.match(worked.steps[0].why,/Semnele diferite/i,'explain multiplying a positive by a negative');
+assert.match(worked.steps[1].why,/Înmulțirea și împărțirea au prioritate/);
+assert.match(worked.steps[2].why,/semne diferite/i,'explain addition with differing signs');
+for(const step of worked.steps)assert.match(step.after,/= 20$/,'keep the comparison visible after each transformation');
+assert.match(worked.steps[2].after,/−1 = 20/,'final full equation is visible before the conclusion');
+const bothSides=detailed('2 + 2 = 8 / 2');
+assert.equal(bothSides.steps.length,2);
+assert.equal(bothSides.steps[0].after,'4 = 8/2','other side remains visible while reducing the left');
+assert.match(bothSides.steps[1].after,/^4 = 4$/,'right side reduction retains left');
+assert.match(detailed('-2+-3=-5').steps[0].why,/numerelor negative/i,'two negatives do not get an opposite-sign explanation');
+assert.match(detailed('0+3=3').steps[0].why,/zero/i,'zero receives a valid explanation');
+assert.match(detailed('0*5=0').steps[0].why,/zero/i,'multiplication by zero gets an accurate rule');
+assert.ok(embedded.includes('reason.textContent=step.why'),'render the explanation of each operation');
+assert.ok(embedded.includes('Verificarea rezultatului'),'include a classroom-style check at the end');
+
 assert.ok(embedded.includes("item.detailed=steps"),'supported arithmetic uses the local step renderer');
 assert.ok(embedded.includes("item.detailed.steps.length"),'multiple numbered steps are displayed');
 
