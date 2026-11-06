@@ -216,6 +216,7 @@ assert.match(agendaCss,/\.agenda-workspace\{[^}]*grid-template-rows:auto minmax\
 assert.match(inline,/all\.slice\(\)\.sort\(\(a,b\)=>agendaNextDate\(a\)-agendaNextDate\(b\)\)/,'all events sorted by next occurrence, including annual birthdays');
 assert.doesNotMatch(inline.slice(agendaStart,agendaEnd),/SHOPPING_STORAGE_KEY/,'agenda cannot overwrite shopping lists');
 const ctxAgenda=vm.createContext({Date,Math,Intl,learningLabel:(ro,en)=>ro,shopVoiceFold:s=>String(s).normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim(),localStorage:{getItem:()=>null,setItem:()=>{}},state:{language:'ro'},shopId:()=> 'abc',window:{},document:{}});
+vm.runInContext(taskParserCode,ctxAgenda);
 vm.runInContext(inline.slice(agendaStart,agendaEnd),ctxAgenda);
 const agendaEval=expr=>vm.runInContext(expr,ctxAgenda);
 const fixedDay=new Date('2026-11-05T12:00:00');
@@ -362,7 +363,7 @@ assert.match(inline,/kind:shoppingMode==='active'\?'actions':'entry'/);
 assert.match(inline,/if\(session.kind==='actions'\)/);
 assert.match(inline,/session.kind==='actions'&&isFinal&&phrase/);
 assert.match(inline,/shopVoiceAccept\(String\(data.text\|\|''\),true\)/);
-assert.match(inline,/shopVoiceAccept\(text,true\)/);
+assert.match(inline,/shopVoiceAccept\(String\(data.text\|\|''\),true\)/,'Android recognition passes finalized text to shopping');
 assert.match(inline,/shoppingMode==='active'\?shopLabel\('Spune o comandă/);
 assert.match(inline,/shopButton\('🎙 Comenzi vocale','🎙 Voice commands'\)/);
 const migrated=evalIn("shopNormalizeData({items:[{id:'milk',name:'Lapte',checked:true,checkedAt:'2026-11-05T12:00:00Z'},{id:'bread',name:'Pâine',checked:false}],history:[{finishedAt:'2026-11-04T12:00:00Z',items:[{name:'Cartofi',checked:false}]}]})");
