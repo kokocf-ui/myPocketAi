@@ -2590,25 +2590,12 @@ function tasksVoiceCommand(phrase){
 function tasksVoiceStart(){
  if(tasksListening){tasksVoiceStop();return}
  if(state.speaking){notify(learningLabel('Încheie mai întâi redarea vocală.','Finish voice playback first.'));return}
+ if(!pocketNativeVoiceAvailable()){notify(learningLabel('Microfonul Android nu este disponibil.','Android microphone unavailable.'));return}
  tasksListening=true;
  tasksVoiceStatus(learningLabel('Microfon activ — vorbește acum…','Microphone active — speak now…'));
- if(pocketNativeVoiceAvailable()){
-  if(!pocketNativeVoiceSend({action:'listen',mode:'tasks',language:shopVoiceLanguage()})){
-   tasksVoiceStop();notify(learningLabel('Nu am putut porni microfonul Android.','Could not start Android microphone.'));
-  }
-  return;
+ if(!pocketNativeVoiceSend({action:'listen',mode:'tasks',language:shopVoiceLanguage()})){
+  tasksVoiceStop();notify(learningLabel('Nu am putut porni microfonul Android.','Unable to start Android microphone.'));
  }
- const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!Recognition){tasksVoiceStop();notify(learningLabel('Microfonul nu este disponibil.','Microphone unavailable.'));return}
- const rec=new Recognition();tasksRecognition=rec;rec.lang=shopVoiceLanguage();rec.interimResults=true;rec.continuous=false;
- rec.onresult=e=>{
-  const item=e.results?.[e.resultIndex||0],spoken=String(item?.[0]?.transcript||'').trim();
-  if(item?.isFinal)tasksVoiceFinish(spoken);
-  else if(spoken)tasksVoiceStatus(learningLabel('Aud: ','Hearing: ')+spoken);
- };
- rec.onerror=e=>{if(tasksListening){tasksVoiceStop();notify(learningLabel('Dictarea a fost întreruptă.','Dictation interrupted.'))}};
- rec.onend=()=>{if(tasksListening)tasksVoiceFinish('')};
- try{rec.start()}catch{tasksVoiceStop();notify(learningLabel('Microfonul nu a pornit.','Microphone did not start.'))}
 }
 function tasksConfirmDelete(item){
  if(!window.confirm(learningLabel('Ștergi definitiv: ','Permanently delete: ')+item.title+'?'))return;
@@ -2846,28 +2833,13 @@ function agendaVoiceFinish(transcript){
 function agendaVoiceStart(){
  if(agendaListening){agendaVoiceFinish('');return}
  if(state.speaking){notify(learningLabel('Încheie mai întâi redarea vocală.','Finish voice playback first.'));return}
+ if(!pocketNativeVoiceAvailable()){notify(learningLabel('Microfonul Android nu este disponibil.','Android microphone unavailable.'));return}
  agendaListening=true;agendaRetryCount=0;
  agendaSpeechStatus(learningLabel('Microfon activ — vorbește acum…','Microphone active — speak now…'));
- if(pocketNativeVoiceAvailable()){
-  if(!pocketNativeVoiceSend({action:'listen',mode:'agenda',language:shopVoiceLanguage()})){
-   agendaListening=false;agendaSpeechStatus('');
-   notify(learningLabel('Nu am putut porni microfonul Android.','Unable to start Android microphone.'));
-  }
-  return;
+ if(!pocketNativeVoiceSend({action:'listen',mode:'agenda',language:shopVoiceLanguage()})){
+  agendaListening=false;agendaSpeechStatus('');
+  notify(learningLabel('Nu am putut porni microfonul Android.','Unable to start Android microphone.'));
  }
- const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!Recognition){agendaListening=false;agendaSpeechStatus('');notify(learningLabel('Microfonul nu este disponibil.','Microphone unavailable.'));return}
- const rec=new Recognition();agendaSpeech=rec;rec.lang=shopVoiceLanguage();rec.continuous=false;rec.interimResults=true;
- rec.onresult=e=>{
-  const result=e.results?.[e.resultIndex||0];
-  const heard=String(result?.[0]?.transcript||'').trim();
-  if(!heard)return;
-  if(result.isFinal)agendaVoiceFinish(heard);
-  else agendaSpeechStatus(learningLabel('Aud: ','Hearing: ')+heard);
- };
- rec.onerror=e=>{if(agendaListening){agendaListening=false;agendaSpeechStatus('');notify(learningLabel('Dictarea a fost întreruptă: ','Speech recognition interrupted: ')+String(e.error||''))}};
- rec.onend=()=>{if(agendaListening){agendaListening=false;agendaSpeechStatus('');notify(learningLabel('Nu am primit o comandă vocală.','No voice command received.'))}};
- try{rec.start()}catch{agendaListening=false;agendaSpeechStatus('');notify(learningLabel('Microfonul nu a pornit.','Microphone could not start.'))}
 }
 function agendaVoiceHandleAndroid(data){
  if(data?.mode!=='agenda')return false;
@@ -3319,33 +3291,13 @@ function shopVoiceRestart(session,delay){
 function shopVoiceListen(){
  const session=shoppingVoiceSession;
  if(!session?.active)return;
- if(pocketNativeVoiceAvailable()){
-  session.status='starting';shopVoiceRenderStatus();shopVoiceWatchdog(session);
-  if(!pocketNativeVoiceSend({action:'listen',mode:'shopping',language:shopVoiceLanguage()})){
-   shopVoiceStop();notify(shopLabel('Microfonul Android nu a pornit.','Could not start Android microphone.'))}
-  return;
+ if(!pocketNativeVoiceAvailable()){
+  shopVoiceStop();notify(shopLabel('Microfonul Android nu este disponibil.','Android microphone unavailable.'));return;
  }
- const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!Recognition){shopVoiceStop();notify(shopLabel('Recunoașterea vocală nu este disponibilă.','Speech recognition unavailable.'));return}
- const rec=new Recognition();session.rec=rec;session.seen=new Set();
- rec.lang=shopVoiceLanguage();rec.interimResults=true;rec.continuous=true;
- rec.onresult=event=>{
-  if(!session.active)return;
-  let preview='';
-  for(let i=0;i<event.results.length;i++){
-   const text=String(event.results[i][0]?.transcript||'').trim();
-   if(event.results[i].isFinal&&text&&!session.seen.has(i)){
-    session.seen.add(i);shopVoiceAccept(text,true);
-   }else if(!event.results[i].isFinal)preview=text;
-  }
-  if(session.active){session.partial=preview;shopVoiceRenderStatus()}
- };
- rec.onerror=e=>{if(session.active&&e.error!=='no-speech'&&e.error!=='aborted'){
-  notify(shopLabel('Dictarea a fost întreruptă.','Dictation interrupted.'));shopVoiceStop()}};
- rec.onend=()=>{if(!session.active||shoppingVoiceSession!==session)return;
-  if(session.partial){shopVoiceAccept(session.partial);session.partial=''}
-  session.timer=setTimeout(()=>{if(session.active)shopVoiceListen()},250)};
- try{rec.start()}catch{shopVoiceStop();notify(shopLabel('Nu am putut porni microfonul.','Could not start microphone.'))}
+ session.status='starting';shopVoiceRenderStatus();shopVoiceWatchdog(session);
+ if(!pocketNativeVoiceSend({action:'listen',mode:'shopping',language:shopVoiceLanguage()})){
+  shopVoiceStop();notify(shopLabel('Microfonul Android nu a pornit.','Could not start Android microphone.'));
+ }
 }
 function shopVoiceAccept(text,isFinal=false){
  const session=shoppingVoiceSession;if(!session?.active)return;
@@ -6567,7 +6519,7 @@ function speakText(text,{continuous=false}={}){stopRecognition();state.dictation
 if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language;utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onstart=()=>{avatar3dLoad();avatar3dSend('start',{text:utterance.text})};utterance.onboundary=event=>avatar3dSend('boundary',{charIndex:event.charIndex});utterance.onend=()=>{avatar3dSend('stop');state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking&&!state.recognition)startRecognition('voice')},120)}};utterance.onerror=()=>{avatar3dSend('stop');state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
 function stopSpeech(){if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stop'});avatar3dSend('stop');if('speechSynthesis'in window)window.speechSynthesis.cancel();state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true}
 // 06 — Speech recognition: dictation and continuous voice are distinct modes
-const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition||null;
+// Voice recognition uses the APK's native Android speech bridge only.
 // Conservative cleanup used ONLY for continuous voice conversation, not dictation.
 function cleanVoiceConversationTranscript(parts){
  const tokens=[];
@@ -6603,14 +6555,23 @@ function cleanVoiceConversationTranscript(parts){
 }
 function collapseRepeatedVoiceWords(value){return String(value||'').replace(/\\b([\\p{L}]+)(?:\\s+\\1\\b)+/giu,'$1')}
 function stopRecognition(){if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});clearTimeout(state.voiceSilenceTimer);state.voiceSilenceTimer=null;state.voicePendingSubmit=false;if(state.recognition){try{state.recognition.onresult=null;state.recognition.onerror=null;state.recognition.onend=null;state.recognition.stop()}catch{}state.recognition=null}}
-function startRecognition(mode){if(state.speaking){setStatus('Așteaptă finalizarea răspunsului vocal înainte să activezi microfonul.');return}if(pocketNativeVoiceAvailable()){
+function startRecognition(mode){
+ if(state.speaking){setStatus('Așteaptă finalizarea răspunsului vocal înainte să activezi microfonul.');return}
+ if(!pocketNativeVoiceAvailable()){
+  notify('Recunoașterea vocală Android nu este disponibilă.');
+  state.voiceMode=false;state.dictationMode=false;
+  setPressed($('voiceBtn'),false);setPressed($('dictationBtn'),false);
+  return;
+ }
  hideAvatar();stopRecognition();
  const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language;
  setStatus(mode==='voice'?'Vorbește după deschiderea microfonului Android.':'Dictare vocală Android.');
- if(!pocketNativeVoiceSend({action:'listen',mode,language:locale})){notify('Nu am putut deschide microfonul Android.');state.voiceMode=false;state.dictationMode=false;}
- return;
+ if(!pocketNativeVoiceSend({action:'listen',mode,language:locale})){
+  notify('Nu am putut deschide microfonul Android.');
+  state.voiceMode=false;state.dictationMode=false;
+  setPressed($('voiceBtn'),false);setPressed($('dictationBtn'),false);
+ }
 }
-if(!SpeechRecognition){notify('Recunoașterea vocală nu este disponibilă în acest browser. Încearcă Chrome pe Android sau continuă prin text.');if(mode==='voice'){state.voiceMode=false;setPressed($('voiceBtn'),false)}else{state.dictationMode=false;setPressed($('dictationBtn'),false)}hideAvatar();return}hideAvatar();stopRecognition();const dictationBase=mode==='dictation'?inputEl.value.replace(/\\s+/g,' ').trim():'';state.voiceParts=[];state.voiceInterim='';state.voicePendingSubmit=false;clearTimeout(state.voiceSilenceTimer);const rec=new SpeechRecognition();rec.lang=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language;rec.interimResults=true;rec.continuous=true;rec.maxAlternatives=1;state.recognition=rec;setStatus(mode==='voice'?'Te ascult. Vorbește până termini propoziția.':'Dictare activă. Vorbește; apasă din nou microfonul când ai terminat.');try{rec.start()}catch{state.recognition=null;hideAvatar();notify('Nu am putut porni microfonul. Verifică permisiunea browserului.');if(mode==='voice'){state.voiceMode=false;setPressed($('voiceBtn'),false)}else{state.dictationMode=false;setPressed($('dictationBtn'),false)}return}rec.onresult=event=>{let interimParts=[];for(let i=0;i<event.results.length;i++){const result=event.results[i];const alternative=result[0];const part=(alternative?.transcript||'').replace(/\\s+/g,' ').trim();if(result.isFinal){state.voiceParts[i]=part}else if(part){interimParts.push({index:i,text:part})}}state.voiceInterim=interimParts.map(x=>x.text).join(' ').trim();const complete=[...state.voiceParts].filter(Boolean).join(' ').replace(/\\s+/g,' ').trim();if(mode==='dictation'){const merged=collapseRepeatedVoiceWords([dictationBase,cleanVoiceConversationTranscript([complete,state.voiceInterim])].filter(Boolean).join(' ').replace(/\\s+/g,' ').trim());inputEl.value=merged;inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,130)+'px'}else{clearTimeout(state.voiceSilenceTimer);state.voiceSilenceTimer=setTimeout(()=>{if(state.voiceMode&&state.recognition===rec){state.voicePendingSubmit=true;try{rec.stop()}catch{finishVoiceCapture()}}},1250)}};rec.onerror=event=>{clearTimeout(state.voiceSilenceTimer);if(event.error!=='no-speech'&&event.error!=='aborted')notify('Microfonul: '+event.error);hideAvatar();if(mode==='voice'&&event.error!=='no-speech'){state.voiceMode=false;setPressed($('voiceBtn'),false)}else if(mode==='dictation'&&event.error!=='no-speech'){state.dictationMode=false;setPressed($('dictationBtn'),false)}};rec.onend=()=>{if(state.recognition===rec)state.recognition=null;const complete=[...state.voiceParts].filter(Boolean).join(' ').replace(/\\s+/g,' ').trim();if(mode==='dictation'){const finalText=collapseRepeatedVoiceWords([dictationBase,cleanVoiceConversationTranscript(state.voiceParts.filter(Boolean))].filter(Boolean).join(' ').replace(/\s+/g,' ').trim());if(finalText){inputEl.value=finalText;inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,130)+'px'}state.dictationMode=false;setPressed($('dictationBtn'),false);hideAvatar();setStatus('Dictare încheiată. Verifică textul înainte de trimitere.')}else if(state.voicePendingSubmit&&state.voiceMode){finishVoiceCapture()}else if(state.voiceMode&&!state.busy&&!state.speaking){setStatus('Nu am detectat o întrebare completă. Apasă microfonul și încearcă din nou.')}}}
 function finishVoiceCapture(){clearTimeout(state.voiceSilenceTimer);state.voiceSilenceTimer=null;const full=collapseRepeatedVoiceWords(cleanVoiceConversationTranscript(state.voiceParts.filter(Boolean).length?state.voiceParts.filter(Boolean):[state.voiceInterim]));state.voicePendingSubmit=false;state.voiceParts=[];state.voiceInterim='';if(full&&state.voiceMode){inputEl.value=full;submitMessage({fromVoice:true})}else if(state.voiceMode&&!state.busy&&!state.speaking){setStatus('Te ascult…');startRecognition('voice')}}
 $('dictationBtn').addEventListener('click',()=>{if(state.dictationMode){stopRecognition();state.dictationMode=false;setPressed($('dictationBtn'),false);hideAvatar();return}if(state.voiceMode){state.voiceMode=false;stopRecognition();setPressed($('voiceBtn'),false)}state.dictationMode=true;setPressed($('dictationBtn'),true);startRecognition('dictation')});
 $('voiceBtn').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false);hideAvatar();setStatus('Conversație vocală oprită.');return}state.voiceMode=true;state.dictationMode=false;setPressed($('dictationBtn'),false);setPressed($('voiceBtn'),true);setStatus('Conversație vocală activată.');startRecognition('voice')});
