@@ -2583,15 +2583,25 @@ function tasksDelete(id){const data=tasksRead();return tasksWrite(data.filter(t=
 function tasksToAgenda(item,automatic=false){
  if(!item.due){if(!automatic)notify(learningLabel('Stabilește un termen pentru a trimite sarcina în Agendă.','Set a deadline to add this task to the agenda.'));return false}
  const events=agendaRead();
- if(events.some(e=>e.linkedTaskId===item.id))return true;
- // No spoken hour: save an all-day dated entry, never an invented 09:00 appointment.
  const hasTime=/^(?:[01]\\d|2[0-3]):[0-5]\\d$/.test(item.time||'');
  const when=new Date(item.due+'T'+(hasTime?item.time+':00':'12:00:00'));
  if(Number.isNaN(when.getTime()))return false;
- events.push({id:shopId(),title:item.title,kind:'task',allDay:!hasTime,linkedTaskId:item.id,when:when.toISOString(),reminderPreset:'default',createdAt:new Date().toISOString()});
+ const previous=events.findIndex(e=>e.linkedTaskId===item.id);
+ const event={
+  ...(previous>=0?events[previous]:{}),
+  id:previous>=0?events[previous].id:shopId(),
+  title:item.title,kind:'task',allDay:!hasTime,linkedTaskId:item.id,
+  when:when.toISOString(),reminderPreset:'default',
+  createdAt:previous>=0?events[previous].createdAt:new Date().toISOString()
+ };
+ if(previous>=0){
+  const existing=events[previous];
+  if(existing.title===event.title&&existing.when===event.when&&existing.allDay===event.allDay)return true;
+  events[previous]=event;
+ }else events.push(event);
  const ok=agendaWrite(events);
  if(!ok)return false;
- if(!automatic)notify(hasTime?learningLabel('Adăugată în Agendă la ora specificată.','Added to agenda at the specified time.'):learningLabel('Adăugată în Agendă fără oră.','Added to agenda without a time.'));
+ if(!automatic)notify(hasTime?learningLabel('Sarcina a fost sincronizată în Agendă cu ora specificată.','Task synchronized with agenda at the specified time.'):learningLabel('Sarcina a fost sincronizată în Agendă fără oră.','Task synchronized with agenda without a time.'));
  return true;
 }
 function tasksVoiceStatus(message){
@@ -2633,13 +2643,19 @@ function tasksVoiceCommand(phrase){
   if(action[1]==='sterge'){tasksConfirmDelete(found[0]);return}
   tasksUpdate(found[0].id,action[1]==='arhiveaza'?{archived:true}:{done:true});renderTasks();return;
  }
- const add=spoken.match(/^(?:adaug[aă]|creeaz[aă]|noteaz[aă]|trece)\\s+(?:(un\\s+)?(?:obiectiv|sarcin[aă])\\s*)?(.+)$/i);
+ const add=spoken.match(/^(?:adaug[aă]|creeaz[aă]|noteaz[aă]|trece)\\s+(?:(?:(?:un|o)\\s+)?(?:obiectiv|sarcin[aă])\\s*)?(.+)$/i);
  if(add){
   let title=add[2].trim();const goal=/obiectiv/i.test(spoken.slice(0,spoken.length-title.length));
   const priority=/prioritate (?:mare|ridicata|ridicată)/i.test(title)?'high':'normal';
   title=title.replace(/[, ]*prioritate (?:mare|ridicata|ridicată)/i,'').trim();
   const parsed=tasksParseSpokenDeadline(title);
   if(tasksCreate(parsed.title,goal,parsed.due,priority,true,parsed.time)){tasksSection=goal?'goals':'items';renderTasks();if(goal)tasksSuggestGoal(parsed.title)}
+  return;
+ }
+ // A natural date-first phrase is a valid task command even without "Adaugă".
+ const spokenTask=tasksParseSpokenDeadline(spoken);
+ if(spokenTask.due&&spokenTask.title!==spoken){
+  if(tasksCreate(spokenTask.title,false,spokenTask.due,'normal',true,spokenTask.time)){tasksSection='items';renderTasks()}
   return;
  }
  notify(learningLabel('Spune „Adaugă sarcină...” sau „Bifează...”.','Say “Add task...” or “Complete...”.'));
