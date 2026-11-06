@@ -2376,6 +2376,7 @@ async function checkUiUpdateAfterModuleExit(){
  finally{pocketUiUpdateChecking=false}
 }
 function renderOrganizeChoices(){
+ if(tasksListening)tasksVoiceStop();
  if(shoppingVoiceSession?.active)shopVoiceStop();
  if(agendaListening)agendaVoiceFinish('');
  agendaPendingDelete=null;
@@ -2385,7 +2386,7 @@ function renderOrganizeChoices(){
  $('moduleTitle').textContent=learningLabel('Organizare personală','Personal organisation');
  $('moduleTitle').parentElement?.querySelector('.pocket-voice-info')?.remove();
  const root=$('view-module'),host=$('moduleContent');
- root.classList.remove('organize-active','organize-chat','adaptive-workspace-view');root.classList.add('organize-choose');host.replaceChildren();
+ root.classList.remove('organize-active','organize-chat','adaptive-workspace-view','tasks-workspace');root.classList.add('organize-choose');host.replaceChildren();
  const grid=document.createElement('div');grid.className='education-grid';
  ORGANIZE_CATEGORIES.forEach(cat=>{
   const button=document.createElement('button');button.type='button';button.className='education-card';
@@ -2450,7 +2451,7 @@ function pocketVoiceHelp(mode,title){
  else title.parentElement?.append(icon);
 }
 function organizePanel(cat){
- const root=$('view-module'),host=$('moduleContent');root.classList.remove('organize-choose','organize-chat','adaptive-workspace-view');root.classList.add('organize-active');host.replaceChildren();
+ const root=$('view-module'),host=$('moduleContent');root.classList.remove('organize-choose','organize-chat','adaptive-workspace-view','tasks-workspace');root.classList.add('organize-active');host.replaceChildren();
  const panel=document.createElement('div');panel.className='organize-panel';
  const bar=document.createElement('div');bar.className='education-toolbar';
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=cat[0]==='shopping'?learningLabel('← Înapoi','← Back'):learningLabel('← Categorii','← Categories');
@@ -2471,7 +2472,7 @@ function openOrganizeCategory(key){
  const cat=ORGANIZE_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
  if(key==='shopping'){renderShoppingList();return}
  if(key==='calendar'){renderAgenda();return}
- if(key==='tasks'){tasksSection='home';renderTasks();return}
+ if(key==='tasks'){if(tasksListening)tasksVoiceStop();tasksSection='home';renderTasks();return}
  const panel=organizePanel(cat);
  const p=document.createElement('p');p.textContent=learningLabel(cat[4],cat[5]);panel.append(p);
  const button=document.createElement('button');button.type='button';button.className='primary-btn';
@@ -4026,7 +4027,7 @@ async function handleLearningPhoto(file){
   else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
  } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
 }
-function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
+function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','tasks-workspace','adaptive-workspace-view');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'}],travel:[{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante, pizzerii, shaormerii și fast-food în apropierea mea.',kind:'places',description:'Caută restaurante, pub-uri, pizzerii, shaormerii și fast-food'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places',description:'Caută alte puncte de interes din apropiere'}]};
 function updateQuickLayerGeometry(){
  const header=document.querySelector('.app-header'),nav=document.querySelector('.bottom-nav');
