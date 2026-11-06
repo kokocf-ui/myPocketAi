@@ -68,7 +68,7 @@ const agendaCss=page.match(/<style id="agenda-voice-workspace">([\s\S]*?)<\/styl
 assert.ok(agendaCss,'agenda stylesheet exists');
 assert.match(agendaCss,/\.agenda-workspace\{[^}]*grid-template-rows:auto minmax\(0,1fr\)!important/s);
 
-assert.match(inline,/agendaRead\(\)\.sort\(\(a,b\)=>agendaNextDate\(a\)-agendaNextDate\(b\)\)/,'sort by next occurrence, including annual birthdays');
+assert.match(inline,/all\.slice\(\)\.sort\(\(a,b\)=>agendaNextDate\(a\)-agendaNextDate\(b\)\)/,'all events sorted by next occurrence, including annual birthdays');
 assert.doesNotMatch(inline.slice(agendaStart,agendaEnd),/SHOPPING_STORAGE_KEY/,'agenda cannot overwrite shopping lists');
 const ctxAgenda=vm.createContext({Date,Math,Intl,learningLabel:(ro,en)=>ro,shopVoiceFold:s=>String(s).normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim(),localStorage:{getItem:()=>null,setItem:()=>{}},state:{language:'ro'},shopId:()=> 'abc',window:{},document:{}});
 vm.runInContext(inline.slice(agendaStart,agendaEnd),ctxAgenda);
