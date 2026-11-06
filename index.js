@@ -7238,7 +7238,7 @@ function mathDetailedArithmetic(source){
  const format=value=>formatter.format(Object.is(value,-0)?0:value).replace(/-/g,'−');
  const operator=op=>({'*':'×','/':'÷','+':'+','-':'−'}[op]||op);
  const steps=[];
- const explainSide=(input,side)=>{
+ const explainSide=(input,side,otherSide='',isRight=false,leftValue=null)=>{
   const raw=String(input).replace(/[−–]/g,'-').replace(/[×·]/g,'*')
    .replace(/÷/g,'/').replace(/\\s+/g,'');
   if(!raw||raw.length>180||!/^[0-9.,()+\\-*/]+$/.test(raw))return null;
@@ -7286,20 +7286,22 @@ function mathDetailedArithmetic(source){
    const operand=n=>n.kind==='unary'&&n.done===undefined?'('+display(n)+')':display(n);
    return operand(node.left)+' '+operator(node.op)+' '+operand(node.right);
   };
+  const fullLine=()=>isRight?format(leftValue)+' = '+display(root):
+   parts.length===2?display(root)+' = '+otherSide:display(root);
   // Re-render each expression after applying an operator. This prevents
   // omitted terms like the reported "3 × (2 × -1) + 5" -> "-6".
-  const solve=node=>{
+  const solve=(node,inBrackets=false)=>{
    if(node.kind==='number')return node.value;
    if(node.kind==='group'){
-    const value=solve(node.inner);return value;
+    const value=solve(node.inner,true);return value;
    }
    if(node.kind==='unary'){
-    const value=solve(node.child);
+    const value=solve(node.child,inBrackets);
     if(value===null)return null;
     node.done=node.sign==='-'?-value:value;
     return node.done;
    }
-   const left=solve(node.left),right=solve(node.right);
+   const left=solve(node.left,inBrackets),right=solve(node.right,inBrackets);
    if(left===null||right===null||(node.op==='/'&&right===0))return null;
    const value=node.op==='+'?left+right:node.op==='-'?left-right:
     node.op==='*'?left*right:left/right;
@@ -7310,7 +7312,30 @@ function mathDetailedArithmetic(source){
      learningLabel('Înmulțire','Multiplication'):node.op==='/'?
      learningLabel('Împărțire','Division'):node.op==='+'?
      learningLabel('Adunare','Addition'):learningLabel('Scădere','Subtraction'));
-   steps.push({label,operation,after:display(root)});
+   const signRule=(node.op==='*'||node.op==='/')?
+    (left<0&&right<0?
+      learningLabel('Două numere negative dau un rezultat pozitiv la înmulțire sau împărțire.',
+       'Two negative numbers give a positive result when multiplying or dividing.'):
+     (left<0)!==(right<0)?
+      learningLabel('Semnele diferite dau un rezultat negativ la înmulțire sau împărțire.',
+       'Different signs give a negative result when multiplying or dividing.'):
+      learningLabel('Numerele cu semne identice dau un rezultat pozitiv.',
+       'Numbers with matching signs give a positive result.')):
+    node.op==='+'?
+     (left<0||right<0?
+      learningLabel('La adunarea numerelor cu semne diferite, scădem valorile absolute și păstrăm semnul celui cu valoarea absolută mai mare.',
+       'For addition with opposite signs, subtract absolute values and keep the sign of the number with the larger absolute value.'):
+      learningLabel('Adunăm cele două valori pentru a obține suma.',
+       'We add both values to find their sum.')):
+    learningLabel('Scăderea unui număr este echivalentă cu adunarea opusului său.',
+      'Subtracting a number is the same as adding its opposite.');
+   const why=(inBrackets?
+     learningLabel('Începem cu operația din paranteză. ','Work inside the parentheses first. '):'')+
+     (node.op==='*'||node.op==='/'?
+     learningLabel('Înmulțirea și împărțirea au prioritate față de adunare și scădere. ',
+      'Multiplication and division come before addition and subtraction. '):'')+
+     signRule;
+   steps.push({label,operation,why,after:fullLine()});
    return value;
   };
   const result=solve(root);
@@ -7319,17 +7344,17 @@ function mathDetailedArithmetic(source){
   if(baseline===null||Math.abs(baseline-result)>1e-9*Math.max(1,Math.abs(baseline)))return null;
   return {value:result,shown:display(root)};
  };
- const left=explainSide(parts[0],learningLabel('Stânga','Left'));
+ const left=explainSide(parts[0],learningLabel('Stânga','Left'),parts[1]?.trim()||'');
  if(!left)return null;
  let right=null;
  if(parts.length===2){
-  right=explainSide(parts[1],learningLabel('Dreapta','Right'));
+  right=explainSide(parts[1],learningLabel('Dreapta','Right'),'',true,left.value);
   if(!right)return null;
  }
  if(steps.length>60)return null;
  const intro=learningLabel(
-  'Respectăm ordinea operațiilor: mai întâi parantezele, apoi înmulțirile și împărțirile, apoi adunările și scăderile.',
-  'Follow the order of operations: parentheses first, then multiplication and division, then addition and subtraction.');
+  'Lucrăm ca la tablă: păstrăm toți termenii și explicăm motivul fiecărui pas. Regula: întâi operațiile din paranteze, apoi înmulțirea și împărțirea, la final adunarea și scăderea.',
+  'Work as on a classroom board: retain every term and explain each step. Rule: start inside parentheses, then multiplication and division, and finally addition and subtraction.');
  const conclusion=checked?
   mathEqualityExplanation(checked):
   learningLabel('Rezultatul expresiei este ','The value of the expression is ')+format(left.value)+'.';
@@ -7373,20 +7398,31 @@ function mathResultPage(index){
   heading.textContent=learningLabel('Rezolvare detaliată, calculată local','Detailed solution, calculated locally');
   const intro=document.createElement('p');intro.textContent=item.detailed.intro;
   result.append(heading,intro);
+  const teachingTitle=document.createElement('strong');
+  teachingTitle.textContent=learningLabel('Pașii de rezolvare','Working through the steps');
+  if(item.detailed.steps.length)result.append(teachingTitle);
   if(item.detailed.steps.length){
    const list=document.createElement('ol');
    list.style.cssText='padding-left:25px;display:grid;gap:16px;margin:16px 0';
    for(const step of item.detailed.steps){
     const li=document.createElement('li');
     const name=document.createElement('strong');name.textContent=step.label;
+    const reason=document.createElement('p');
+    reason.textContent=step.why;
+    reason.style.cssText='margin:5px 0 9px;line-height:1.45';
     const operation=document.createElement('div');operation.textContent=step.operation;
+    operation.style.cssText='font-weight:650;margin-bottom:6px';
     const remaining=document.createElement('div');
     remaining.textContent=learningLabel('Expresia devine: ','The expression becomes: ')+step.after;
     remaining.style.cssText='opacity:.9;margin-top:5px';
-    li.append(name,operation,remaining);list.append(li);
+    li.append(name,reason,operation,remaining);list.append(li);
    }
    result.append(list);
   }
+  const conclusionTitle=document.createElement('p');
+  conclusionTitle.textContent=learningLabel('Verificarea rezultatului','Checking the answer');
+  conclusionTitle.style.cssText='font-weight:750;margin:14px 0 6px';
+  result.append(conclusionTitle);
   const conclusion=document.createElement('strong');conclusion.textContent=item.detailed.conclusion;
   result.append(conclusion);body.append(result);
  }else if(item.error){result.classList.add('math-result-error');result.textContent=item.error;
