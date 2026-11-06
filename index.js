@@ -1292,8 +1292,6 @@ body.long-choice-active{overflow:hidden}
 
 </style>
 <style id="reminders-workspace-style">
-.reminders-workspace{min-height:0;display:grid;grid-template-rows:auto auto minmax(0,1fr);gap:clamp(.35rem,1.5dvh,.8rem)}
-.reminders-workspace>.education-toolbar{display:none}
 .reminders-scroll{min-height:0;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:.55rem}
 .reminders-item{display:flex;gap:.6rem;align-items:center;justify-content:space-between;padding:.6rem;border:1px solid #3b839b;border-radius:12px}
 .reminders-item-info{flex:1;min-width:0;overflow-wrap:anywhere}
@@ -1301,6 +1299,14 @@ body.long-choice-active{overflow:hidden}
 .reminders-manual>input{min-width:0;max-width:100%;box-sizing:border-box}
 .reminders-voice-status{min-height:1em}
 @media(max-width:560px){.reminders-manual{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.reminders-manual>input:first-child{grid-column:1/-1}.reminders-manual>button{grid-column:1/-1}}
+</style>
+<style id="organize-voice-workspace-style">
+/* One reusable, phone-responsive button arrangement for new voice-led modules. */
+#view-module.adaptive-workspace-view .organize-voice-workspace{min-width:0;min-height:0;display:grid!important;grid-template-rows:auto auto minmax(0,1fr)!important;gap:clamp(.3rem,1.15dvh,.65rem)!important}
+.organize-voice-controls{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch;gap:clamp(.4rem,2vw,.75rem);min-width:0}
+.organize-voice-controls>button{width:100%;min-width:0;max-width:100%;height:clamp(2.75rem,6.5dvh,3.3rem)!important;min-height:0!important;margin:0!important;box-sizing:border-box;border-radius:.85rem!important;padding:.4rem .35rem!important;font-size:clamp(.82rem,3vw,1rem)!important;white-space:normal}
+.organize-voice-status{display:block;min-height:1em;line-height:1.2}
+.organize-voice-scroll{min-height:0;overflow-y:auto;overscroll-behavior:contain}
 </style>
 </head>
 <body>
@@ -2494,6 +2500,11 @@ function pocketVoiceHelp(mode,title){
    ['Arhivare','Arhivează cumpără filtre'],
    ['Ștergere','Șterge cumpără filtre']
   ],
+  reminders:[
+   ['Adăugare','Amintește-mi mâine la ora 10 să sun la service'],
+   ['Peste un interval','Amintește-mi peste 30 de minute să verific cuptorul'],
+   ['Ștergere','Șterge mementoul să sun la service']
+  ],
   assistant:[
    ['Întrebare','Cum ajung la gara Grays?'],
    ['Informații','Arată-mi știrile de astăzi'],
@@ -2543,8 +2554,8 @@ function organizePanel(cat){
   active.setAttribute('aria-pressed',shoppingMode==='active'?'true':'false');
   active.onclick=()=>{if(shoppingVoiceSession?.active)shopVoiceStop();shoppingMode=shoppingMode==='active'?'entry':'active';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()};
   bar.append(back,active);
- }else if(cat[0]!=='calendar'&&cat[0]!=='tasks')bar.append(back,title);
- if(cat[0]!=='calendar'&&cat[0]!=='tasks')panel.append(bar);host.append(panel);
+ }else if(!['calendar','tasks','reminders'].includes(cat[0]))bar.append(back,title);
+ if(!['calendar','tasks','reminders'].includes(cat[0]))panel.append(bar);host.append(panel);
  return panel;
 }
 function openOrganizeCategory(key){
@@ -2638,20 +2649,34 @@ function remindersVoiceHandleAndroid(data){
  if(data.status==='error'){remindersVoiceStop();notify(learningLabel('Dictarea a fost întreruptă.','Dictation was interrupted.'));renderReminders()}
  return true;
 }
+/* Shared voice-first organisation layout. Future categories use this rather than ad-hoc toolbars. */
+function organizeVoiceWorkspace(cat,{titleRo,titleEn,mode,backAction,onDictate,dictationRo,dictationEn}){
+ $('moduleTitle').textContent=learningLabel(titleRo,titleEn);
+ const panel=organizePanel(cat);
+ const root=$('view-module');
+ root.classList.add('adaptive-workspace-view');
+ panel.classList.add('adaptive-workspace','organize-voice-workspace');
+ pocketVoiceHelp(mode,$('moduleTitle'));
+ const controls=document.createElement('div');
+ controls.className='organize-voice-controls';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=backAction;
+ const mic=document.createElement('button');mic.type='button';mic.className='primary-btn';
+ mic.textContent='🎙 '+learningLabel(dictationRo,dictationEn);mic.onclick=onDictate;
+ controls.append(back,mic);panel.append(controls);
+ const status=document.createElement('small');status.className='organize-voice-status';
+ status.setAttribute('role','status');status.setAttribute('aria-live','polite');panel.append(status);
+ const scroll=document.createElement('div');scroll.className='adaptive-workspace__scroll organize-voice-scroll';
+ panel.append(scroll);
+ return {panel,scroll,status};
+}
 function renderReminders(){
  const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='reminders');
- $('moduleTitle').textContent=learningLabel('Mementouri inteligente','Smart reminders');
- const panel=organizePanel(cat);
- $('view-module').classList.add('adaptive-workspace-view');
- panel.classList.add('adaptive-workspace','reminders-workspace');
- const scroll=document.createElement('div');scroll.className='adaptive-workspace__scroll reminders-scroll';
- const controls=document.createElement('div');controls.className='agenda-voice-controls';
- const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');
- back.onclick=()=>{remindersVoiceStop();renderOrganizeChoices()};
- const mic=document.createElement('button');mic.type='button';mic.className='primary-btn';
- mic.textContent=learningLabel('🎙 Dictează memento','🎙 Speak reminder');mic.onclick=remindersVoiceStart;
- controls.append(back,mic);
- const status=document.createElement('small');status.className='reminders-voice-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ const {panel,scroll}=organizeVoiceWorkspace(cat,{
+  titleRo:'Mementouri inteligente',titleEn:'Smart reminders',mode:'reminders',
+  backAction:()=>{remindersVoiceStop();renderOrganizeChoices()},
+  onDictate:remindersVoiceStart,dictationRo:'Dictare',dictationEn:'Dictation'
+ });
  const hint=document.createElement('p');hint.className='reminders-hint';
  hint.textContent=learningLabel('Spune: „Amintește-mi mâine la ora 10 să sun la service”.','Say: “Remind me tomorrow at 10 to call the garage”.');
  scroll.append(hint);
@@ -2674,7 +2699,6 @@ function renderReminders(){
  form.append(title,date,add);
  form.onsubmit=e=>{e.preventDefault();remindersCreate(title.value,new Date(date.value))};
  scroll.append(form);
- panel.append(controls,status,scroll);
 }
 
 
