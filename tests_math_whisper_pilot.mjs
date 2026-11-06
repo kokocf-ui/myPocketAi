@@ -10,12 +10,18 @@ assert.match(embedded,/function mathPilotToggle\(\)/,'math pilot is controlled b
 assert.match(embedded,/function mathPilotAvailable\(\)/,'new APK is required for continuous recording');
 assert.match(embedded,/PocketAndroidMathAudio\.postMessage/,'native recording bridge is used');
 assert.match(embedded,/window\.pocketAndroidMathAudioResult/,'recording result callback is registered');
+assert.match(embedded,/data\.status==='chunk'/,'recorded audio is chunked through Android WebView');
+assert.match(embedded,/mathPilotCaptureId/,'audio parts are scoped to the correct recording');
+assert.match(embedded,/mathPilotParts\.join\(''\)/,'audio chunks are reconstructed before upload');
 assert.match(embedded,/mode:'secret'/,'opt-in token modal uses app styling');
 assert.match(embedded,/mathPilotRequest\.abort\(\)/,'navigating away cancels pending upload');
 assert.match(embedded,/\/api\/math-transcribe/,'pilot uses dedicated backend route');
 const native=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(native,/AudioRecord\.getMinBufferSize/);
 assert.match(native,/MATH_AUDIO_MAX_BYTES=960000/,'recording is capped to 30 s at 16 kHz');
+assert.match(native,/final int chunkSize=48000/,'each WebView callback is safely below 1 MB');
+assert.match(native,/notifyMathAudio\("chunk"/,'native streams bounded audio chunks');
+assert.match(native,/notifyMathAudio\("captured","",duration,captureId/,'native sends a terminal message without a large payload');
 assert.match(native,/startMathPcmRecording\(\)/,'native recording start');
 assert.match(native,/stopMathPcmRecording\(\)/,'native recording manual stop');
 assert.match(native,/WebViewCompat\.addWebMessageListener\(web,"PocketAndroidMathAudio"/,'origin-bound native bridge');
