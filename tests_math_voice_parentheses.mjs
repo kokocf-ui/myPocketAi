@@ -68,6 +68,19 @@ for(const [spoken,formula] of [
  ['deschide paranteză doi plus trei închide paranteză ori patru','( 2 + 3 ) * 4']
 ]) assert.equal(convert(spoken),formula,spoken);
 
+// Whole-utterance Whisper produces natural punctuation after spoken pauses.
+// It must not turn comma breaks or a full stop after "egal" into maths tokens.
+for(const [spoken,formula] of [
+ ['Trei ori, paranteză, doi ori, minus unu, închide paranteza, plus cinci, egal. Douăzeci.', '3 * ( 2 * -1 ) + 5 = 20'],
+ ['3 *, (, 2 *, - 1, ), + 5, = . 20.', '3 * ( 2 * -1 ) + 5 = 20'],
+ ['Deschide paranteza, minus unu, închide paranteza.', '( -1 )'],
+ ['3,5 plus 1,25', '3,5 + 1,25'],
+ ['3.5 plus 1.25', '3.5 + 1.25'],
+ ['trei ori, deschide paranteza, doi ori minus unu, închide paranteza', '3 * ( 2 * -1 )'],
+ ['trei minus unu', '3 - 1']
+]) assert.equal(convert(spoken),formula,'Whisper speech punctuation: '+spoken);
+
+
 // Exercise dictation is split into independent Android recognition sessions.
 const acceptFrom=embedded.indexOf('function mathVoiceAccept(');
 assert.ok(acceptFrom>=0&&acceptFrom<from,'chunk acceptance is available');

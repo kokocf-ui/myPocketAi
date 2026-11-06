@@ -6764,6 +6764,15 @@ function mathSpokenToFormula(input,existing=''){
  const isolatedNumber=new RegExp('^(?:'+Object.keys(words).join('|')+')(?:\\\\s+si\\\\s+(?:'+Object.keys(words).join('|')+'))?$').test(v);
  const mathIntent=/(?:\\b(?:egal|plus|minus|negativ\\w*|ori|inmult\\w*|impart\\w*|parantez\\w*|acolad\\w*|patrat|cub|putere\\w*|supra|funct\\w*|ecuat\\w*|radical)\\b|[=+*/()[\\]{}^×÷−–-])/u.test(v);
  if(!mathIntent&&!isolatedNumber)return original;
+ // Whisper sometimes inserts comma pauses after operators/bracket names, or
+ // a full stop after "egal". These are speech punctuation, not math tokens.
+ // Preserve real decimal separators between digits (e.g. 3,5 or 3.5).
+ v=v.replace(/[,;:.!?]+/g,(marks,index,source)=>{
+  const left=source.slice(0,index).trimEnd();
+  const right=source.slice(index+marks.length).trimStart();
+  if((marks===','||marks==='.')&&/\\d$/.test(left)&&/^\\d/.test(right))return marks;
+  return ' ';
+ }).replace(/(\\d)\\s*([,.])\\s*(\\d)/g,'$1$2$3');
  // The speech engine may return "paranteză" twice (without saying "închide"),
  // or convert its spoken name into the pair "()". Record ambiguous commands
  // until we can inspect the mathematical expression around them.
