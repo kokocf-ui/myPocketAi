@@ -6179,6 +6179,20 @@ function openLearningSubject(key){
  cameraInput.onchange=()=>handleLearningPhoto(cameraInput.files?.[0]);
  fileInput.onchange=()=>handleLearningPhoto(fileInput.files?.[0]);
  actions.append(photo,pick,cameraInput,fileInput);host.append(actions);
+ // Education only: contextual mathematics guidance, never modify the landing grid or other modules.
+ if(key==='math'){
+  const mathActions=document.createElement('div');mathActions.className='education-photo-actions education-math-actions';
+  [
+   [learningLabel('🧩 Rezolvă pas cu pas','🧩 Solve step by step'),learningLabel('Ajută-mă să rezolv pas cu pas următorul exercițiu de matematică. Arată datele, fiecare transformare, verificarea și rezultatul. Dacă lipsesc date, întreabă înainte de a presupune: ','Help me solve this mathematics exercise step by step. Show the givens, each transformation, verification and answer. Ask before assuming missing values: ')],
+   [learningLabel('📈 Reprezintă grafic','📈 Plot a graph'),learningLabel('Analizează funcția matematică de mai jos. Stabilește domeniul, intersecțiile, punctele importante și un tabel de valori verificat; prezintă un grafic corect dacă reprezentarea grafică este disponibilă, altfel explică precis cum se trasează, fără a inventa imaginea: ','Analyze this mathematical function. Determine domain, intercepts, key points and a verified value table; show an accurate plot if graph rendering is available, otherwise explain exactly how to plot it without inventing an image: ')],
+   [learningLabel('🎓 Explică metoda','🎓 Explain the method'),learningLabel('Explică metoda matematică necesară, cu un exemplu simplu și o întrebare de verificare a înțelegerii, fără să inventezi enunțul: ','Explain the necessary mathematical method with a simple example and one comprehension check, without inventing an exercise: ')]
+  ].forEach(([label,prompt])=>{
+   const action=document.createElement('button');action.type='button';action.className='secondary-btn';action.textContent=label;
+   action.onclick=()=>{inputEl.value=prompt;inputEl.focus();};
+   mathActions.append(action);
+  });
+  host.append(mathActions);
+ }
  inputEl.placeholder=learningLabel('Întreabă despre '+subject[2].toLowerCase()+'…','Ask about '+subject[3].toLowerCase()+'…');
 }
 window.pocketAndroidOcrResult=function(data){
@@ -6191,7 +6205,7 @@ window.pocketAndroidOcrResult=function(data){
  const extracted=document.createElement('textarea');extracted.rows=6;extracted.value=typeof data?.text==='string'?data.text.slice(0,12000):'';
  extracted.placeholder=learningLabel('Textul recunoscut sau corectat','Recognized or corrected text');
  const options=document.createElement('select');options.className='text-field';
- [['solve',learningLabel('Explică și rezolvă','Explain and solve')],['translate',learningLabel('Tradu textul','Translate text')],['read',learningLabel('Citește cu voce tare','Read aloud')]].forEach(([value,label])=>{
+ [['solve',learningLabel('Explică și rezolvă','Explain and solve')],...(activeLearningSubject[0]==='math'?[['graph',learningLabel('Analizează și reprezintă grafic','Analyze and plot')]]:[]),['translate',learningLabel('Tradu textul','Translate text')],['read',learningLabel('Citește cu voce tare','Read aloud')]].forEach(([value,label])=>{
   const option=document.createElement('option');option.value=value;option.textContent=label;options.append(option);
  });
  const button=document.createElement('button');button.type='button';button.className='primary-btn';button.textContent=learningLabel('Continuă','Continue');
@@ -6199,7 +6213,7 @@ window.pocketAndroidOcrResult=function(data){
   const text=extracted.value.trim();
   if(!text){notify(learningLabel('Nu există text de prelucrat.','No text to process.'));return}
   if(options.value==='read'){if(pocketNativeVoiceAvailable()){speakText(text);return}if('speechSynthesis' in window){speechSynthesis.cancel();const voice=new SpeechSynthesisUtterance(text);voice.lang=state.language;speechSynthesis.speak(voice)}else notify(learningLabel('Citirea vocală nu este disponibilă.','Text-to-speech unavailable.'));return}
-  inputEl.value=(options.value==='translate'?learningLabel('Tradu în limba selectată următorul text: ','Translate into the selected language: '):learningLabel('Explică și rezolvă pas cu pas pentru materia ','Explain and solve step by step for ')+learningLabel(activeLearningSubject[2],activeLearningSubject[3])+': ')+text;
+  inputEl.value=(options.value==='translate'?learningLabel('Tradu în limba selectată următorul text: ','Translate into the selected language: '):options.value==='graph'?learningLabel('Verifică mai întâi transcrierea matematică, mai ales semnele, fracțiile și exponenții. Dacă este ambiguă, cere clarificare. Apoi analizează funcția, construiește un tabel de valori și reprezint-o grafic numai dacă există un renderer disponibil; altfel oferă instrucțiuni exacte de trasare: ','First verify the mathematical transcription, especially signs, fractions and exponents. Ask for clarification if ambiguous. Then analyze the function, build a value table and plot only when a renderer is available; otherwise provide exact plotting instructions: '):learningLabel('Verifică mai întâi transcrierea și cere clarificări pentru simbolurile incerte. Explică și rezolvă pas cu pas pentru materia ','First check the transcription and ask about uncertain symbols. Explain and solve step by step for ')+learningLabel(activeLearningSubject[2],activeLearningSubject[3])+': ')+text;
   inputEl.focus();notify(learningLabel('Textul este pregătit pentru trimitere.','Text ready to send.'));
  };
  panel.append(status,extracted,options,button);host.append(panel);
