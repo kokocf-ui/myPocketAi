@@ -6399,7 +6399,7 @@ function mathEducationRun(mode){
   graph:learningLabel('Ești profesor de matematică. Analizează funcția, calculează punctele esențiale și tabelul de valori. Prezintă graficul dacă poate fi redat corect, altfel descrie trasarea precisă. Fără întrebări suplimentare dacă formula este clară.','You are a math teacher. Analyze the function, calculate essential points and values. Render a graph if available; otherwise explain how to draw it accurately. Do not ask extra questions when the function is clear.'),
   explain:learningLabel('Ești profesor de matematică. Explică direct metoda necesară pentru acest exercițiu, cu pași simpli și un exemplu. Nu cere confirmări inutile.','You are a math teacher. Explain the method required for the exercise directly, with simple steps and one example. Do not request unnecessary confirmations.')
  };
- inputEl.value=instructions[mode]+'\n'+exercise;
+ inputEl.value=instructions[mode]+'\\n'+exercise;
  status.textContent=learningLabel('Rezolvarea apare mai jos, în Matematică.','The answer appears below, in Mathematics.');
  const returnButton=$('mathEducationReturn');
  if(returnButton)returnButton.hidden=false;
@@ -6480,7 +6480,7 @@ async function handleLearningPhoto(file){
    src=URL.createObjectURL(file);
    const image=new Image();image.src=src;await image.decode();
    const detector=new TextDetector(),lines=await detector.detect(image);
-   window.pocketAndroidOcrResult({status:lines?.length?'review':'partial',text:(lines||[]).map(line=>line.rawValue||'').join('\n')});
+   window.pocketAndroidOcrResult({status:lines?.length?'review':'partial',text:(lines||[]).map(line=>line.rawValue||'').join('\\n')});
   }catch{window.pocketAndroidOcrResult({status:'partial',text:''})}
   finally{if(src)URL.revokeObjectURL(src)}
   return;
