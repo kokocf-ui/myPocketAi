@@ -7,7 +7,7 @@ const page=await(await frontend.fetch(new Request('https://documents.test/'))).t
 const source=page.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(source,'frontend JS exists');
 new vm.Script(source);
-const start=source.indexOf('function documentsScanExtract(raw,geometry=[])');
+const start=source.indexOf("function documentsScanExtract(raw,geometry=[],documentType='other')");
 const end=source.indexOf('function documentsScanReview(host,item){',start);
 assert.ok(start>=0&&end>start,'OCR field parser available');
 const context=vm.createContext({budgetISO:d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')});
@@ -34,7 +34,7 @@ assert.equal(recovered.holder,'ERIKSSON','restore surname from split MRZ');
 assert.equal(recovered.expires,'2012-04-15','recheck expiration after merging fragments');
 
 assert.equal(vm.runInContext('documentsScanExtract('+JSON.stringify(mrz.replace('L898902C36','L898902C35'))+')',context).number,undefined,'reject bad MRZ check digit');
-const run=(text,layout)=>vm.runInContext('documentsScanExtract('+JSON.stringify(text)+','+JSON.stringify(layout||[])+')',context);
+const run=(text,layout,type)=>vm.runInContext('documentsScanExtract('+JSON.stringify(text)+','+JSON.stringify(layout||[])+','+JSON.stringify(type||'other')+')',context);
 const danishText='Efternavn/Nom/Last name\nJENSEN\nFornavne/Prénom/First name\nANNA MARIA\nUdløbsdato/Date of expiry\n12.07.2032\nPasnummer/Passport number\nAB1234567';
 const danish=run(danishText);
 assert.equal(danish.holder,'JENSEN','surname must be a value, never the translation label');
@@ -83,6 +83,30 @@ const mrzCheck=data=>{
   return sum+n*weights[i%3];
  },0)%10);
 };
+// TD2: 105x74mm identity documents with two 36-character OCR lines.
+const td2DocNo='AB1234567',td2Birth='740812',td2Expiry='320415';
+const td2Line1='I<UTOERIKSSON<<ANNA<MARIA'.padEnd(36,'<');
+const td2Line2=td2DocNo+mrzCheck(td2DocNo)+'UTO'+td2Birth+mrzCheck(td2Birth)+
+  'F'+td2Expiry+mrzCheck(td2Expiry)+'<<<<<<<'+'0';
+assert.equal(td2Line1.length,36);assert.equal(td2Line2.length,36);
+const td2=run(td2Line1+'\n'+td2Line2,[],'identity');
+assert.equal(td2.number,'AB1234567','TD2 extracts checked identity number');
+assert.equal(td2.holder,'ERIKSSON','TD2 extracts surname');
+assert.equal(td2.given,'ANNA MARIA','TD2 extracts given names');
+assert.equal(td2.birth,'1974-08-12','TD2 checks birth');
+assert.equal(td2.expires,'2032-04-15','TD2 checks expiry');
+const fragmentTD2=[
+  td2Line1.slice(0,20),td2Line1.slice(20),
+  td2Line2.slice(0,18),td2Line2.slice(18)
+].join('\n');
+assert.equal(run(fragmentTD2,[],'identity').number,'AB1234567','TD2 reconstructed from four OCR fragments');
+const badTd2Row=td2Line2.slice(0,9)+(td2Line2[9]==='0'?'1':'0')+td2Line2.slice(10);
+assert.equal(run(td2Line1+'\n'+badTd2Row,[],'identity').number,undefined,'TD2 number check digit rejects incorrect OCR');
+const romanianClassic=run('SERIA AB NR 123456\nValabilitate 02.01.2023 - 01.01.2033',[],'identity');
+assert.equal(romanianClassic.number,'AB123456','classic Romanian ID series and number recognized');
+assert.equal(romanianClassic.expires,'2033-01-01','validity end date mapped to expiry');
+assert.equal(romanianClassic.issued,undefined,'validity start is not assumed to be issue date');
+assert.equal(run('CNP 1990101123456',[],'identity').number,undefined,'do not use personal code as document number');
 const idNumber='A12345678';
 const identityRow1='I<UTO'+idNumber+mrzCheck(idNumber)+'<'.repeat(15);
 const born='740812',expiry='320415';
@@ -116,7 +140,9 @@ assert.match(android,/InputImage\.fromBitmap\(bitmap,rotations\[attempt\]\)/,'ML
 assert.match(android,/result\.getTextBlocks\(\)/,'ML Kit layout lines are extracted');
 assert.match(android,/documentHasCompletePassportMrz\(result\)/,'scanner ranks complete passport MRZ');
 assert.match(android,/final int\[\] rotations=\{0,90,270,180\}/,'OCR retries photo orientation');
-assert.match(android,/scanDocumentOrientation\(recognizer,bitmap,docId,0,null,-1,passportRequested\)/,'native OCR starts orientation fallback');
+assert.match(android,/scanDocumentOrientation\(recognizer,bitmap,docId,0,null,-1,passportRequested,identityRequested\)/,'native OCR starts type-aware orientation fallback');
+assert.match(android,/documentHasCompleteIdentityMrz\(result\)/,'Android prioritizes TD1 and TD2 MRZ');
+assert.match(source,/td2Candidates/,'frontend checks TD2 identity MRZ');
 assert.match(android,/result\.put\("lines",lines\)/,'layout lines returned to local frontend');
 assert.match(source,/bridge\.postMessage\(JSON\.stringify\(\{action:'scan',id,base64,type\}\)\)/,'frontend sends photo bytes and type to native scanner');
 assert.match(source,/documentsPhotoScan\(blob,id\)/,'scan invoked from photo save');

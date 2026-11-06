@@ -4168,7 +4168,7 @@ function documentsPhotoGallery(id,host){
 
 
 /* Only user-approved OCR data is stored. No document image or text leaves the device. */
-function documentsScanExtract(raw,geometry=[]){
+function documentsScanExtract(raw,geometry=[],documentType='other'){
  // Keep local text in memory only. Never infer a missing value from a label.
  const rawLines=String(raw||'').slice(0,16000).split(/\\r?\\n/).map(v=>v.trim()).filter(Boolean);
  const layout=Array.isArray(geometry)?geometry.slice(0,150):[];
@@ -4296,6 +4296,7 @@ function documentsScanExtract(raw,geometry=[]){
  // ML Kit may split a 44-character MRZ line into several OCR lines.
  // Reconstruct only adjacent fragments, then require ICAO check digits.
  const td3Candidates=[];
+ const td2Candidates=[];
  for(let i=0;i<mrz.length;i++){
   if(!mrz[i].startsWith('P<'))continue;
   for(let upperParts=1;upperParts<=3;upperParts++){
@@ -4304,6 +4305,19 @@ function documentsScanExtract(raw,geometry=[]){
    for(let lowerParts=1;lowerParts<=3;lowerParts++){
     const b=mrz.slice(i+upperParts,i+upperParts+lowerParts).join('');
     if(b.length===44)td3Candidates.push([a,b]);
+   }
+  }
+ }
+ // TD2 identity documents use 2 lines of 36 characters.
+ // Like TD3, accept only adjacent OCR fragments and verify checksums below.
+ for(let i=0;i<mrz.length;i++){
+  if(!/^[IAC][A-Z<]/.test(mrz[i]))continue;
+  for(let upperParts=1;upperParts<=3;upperParts++){
+   const first=mrz.slice(i,i+upperParts).join('');
+   if(first.length!==36)continue;
+   for(let lowerParts=1;lowerParts<=3;lowerParts++){
+    const second=mrz.slice(i+upperParts,i+upperParts+lowerParts).join('');
+    if(second.length===36)td2Candidates.push([first,second]);
    }
   }
  }
@@ -4335,6 +4349,28 @@ function documentsScanExtract(raw,geometry=[]){
   if(name[1])fields.given=name.slice(1).join(' ').replace(/<+/g,' ').trim();
   break;
  }
+ // ICAO TD2 (2x36, e.g. older full-size Romanian identity cards).
+ for(const [a,b] of td2Candidates){
+  if(!/^[IAC][A-Z<]/.test(a))continue;
+  if(digit(b.slice(0,9))!==b[9] ||
+     digit(b.slice(13,19))!==b[19] ||
+     digit(b.slice(21,27))!==b[27])continue;
+  const cardNo=b.slice(0,9).replace(/<+$/,'');
+  if(cardNo)fields.number=cardNo;
+  const issuedCountry=a.slice(2,5);
+  if(/^[A-Z]{3}$/.test(issuedCountry))fields.country=issuedCountry;
+  const expiry=validISO(2000+Number(b.slice(21,23)),Number(b.slice(23,25)),Number(b.slice(25,27)));
+  if(expiry)fields.expires=expiry;
+  const birthCode=b.slice(13,19);
+  const yearCode=Number(birthCode.slice(0,2));
+  const year=yearCode>(new Date().getFullYear()%100)?1900+yearCode:2000+yearCode;
+  const birth=validISO(year,Number(birthCode.slice(2,4)),Number(birthCode.slice(4,6)));
+  if(birth)fields.birth=birth;
+  const names=a.slice(5).split('<<');
+  if(names[0])fields.holder=names[0].replace(/<+/g,' ').trim();
+  if(names[1])fields.given=names.slice(1).join(' ').replace(/<+/g,' ').trim();
+  break;
+ }
  // ICAO TD1 identity cards (3 lines of 30): do not guess from partial MRZ.
  for(let j=0;j<mrz.length-2;j++){
   const a=mrz[j],b=mrz[j+1],c=mrz[j+2];
@@ -4356,6 +4392,32 @@ function documentsScanExtract(raw,geometry=[]){
   if(names.length>1&&names[0])fields.holder=names[0].replace(/<+/g,' ').trim();
   if(names.length>1&&names[1])fields.given=names.slice(1).join(' ').replace(/<+/g,' ').trim();
   break;
+ }
+ if(documentType==='identity'){
+  // Older Romanian cards print SERIA (two letters) and NR (six digits),
+  // frequently in separate OCR lines. Ignore arbitrary 13-digit CNPs.
+  if(!fields.number){
+   for(let i=0;i<rawLines.length;i++){
+    if(!/\\bseri[ae]\\b/i.test(rawLines[i]))continue;
+    const candidate=rawLines.slice(i,i+3).join(' ');
+    const match=candidate.match(/\\bseri[ae]\\s*:?\\s*([A-Z]{2})\\s*(?:nr\\.?|num[aă]r(?:ul)?)\\s*:?\\s*(\\d{6})\\b/i);
+    if(match){fields.number=match[1].toUpperCase()+match[2];break;}
+   }
+  }
+  // "Valabilitate" denotes a period; its final date is expiry.
+  // Do not assume the starting date is necessarily the issue date.
+  if(!fields.expires){
+   for(let i=0;i<rawLines.length;i++){
+    if(!/\\b(?:valabilitate|validity|valabil\\s+p[aâ]n[aă]\\s+la)\\b/i.test(rawLines[i]))continue;
+    const row=rawLines.slice(i,i+3).join(' ');
+    const dateMatches=row.match(/\\b\\d{1,2}[./-]\\d{1,2}[./-]\\d{4}\\b/g)||[];
+    if(dateMatches.length>=2){
+      const expiry=parseDate(dateMatches[1]);
+      if(expiry)fields.expires=expiry;
+      break;
+    }
+   }
+  }
  }
  // Do not silently prefill two different identity fields with the same OCR
  // text. A genuine same-name case can still be entered manually after review.
@@ -4397,7 +4459,8 @@ if(typeof window!=='undefined')window.pocketAndroidDocumentScanResult=function(p
  if(!documentsSelectedId||!payload||payload.id!==documentsSelectedId)return;
  if(payload.status==='started'){documentsScanWorking=true;renderDocuments();return}
  if(payload.status!=='success'){documentsScanWorking=false;renderDocuments();notify(learningLabel('Scanarea OCR a eșuat. Fotografia a rămas salvată; încearcă din nou sau completează manual.','OCR scan failed. Photo saved; retry or enter details manually.'));return}
- const fields=documentsScanExtract(payload.text,payload.lines);
+ const documentType=documentsRead().find(item=>item.id===documentsSelectedId)?.type||'other';
+ const fields=documentsScanExtract(payload.text,payload.lines,documentType);
  if(!Object.keys(fields).length)notify(learningLabel('Nu am identificat câmpuri sigure. Verifică fotografia și completează formularul.','No reliable fields found. Check the photo and fill in the form.'));
 
  documentsScanWorking=false;documentsScanDraft={id:documentsSelectedId,fields};documentsEditing=false;renderDocuments();
