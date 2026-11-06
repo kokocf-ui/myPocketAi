@@ -192,7 +192,7 @@ public final class MainActivity extends ComponentActivity {
            "agenda".equals(speechMode) || "tasks".equals(speechMode) ||
            "reminders".equals(speechMode) || "notes".equals(speechMode) ||
            "daily".equals(speechMode) || "shopping".equals(speechMode) ||
-           "documents".equals(speechMode))return;
+           "documents".equals(speechMode) || "math".equals(speechMode))return;
         String normalized=recognized.trim();
         if(normalized.equals(lastVoicePartial))return;
         lastVoicePartial=normalized;
