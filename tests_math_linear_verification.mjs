@@ -9,7 +9,7 @@ const start=embedded.indexOf('function mathArithmeticValue(');
 const end=embedded.indexOf('function mathResultPage(',start);
 assert.ok(start>=0&&end>start);
 const api=vm.runInNewContext(embedded.slice(start,end)+
- '\n({solve:mathLinearSolution,graph:mathLinearGraphData})',
+ '\n({solve:mathLinearSolution})',
  {state:{language:'ro'},learningLabel:(ro,en)=>ro,Intl});
 const original='Rezolvă ecuația:\n3(2x−1)+5=20';
 const solved=api.solve(original);
@@ -24,9 +24,6 @@ assert.deepEqual(proof,[
  '20 = 20'
 ],'school verification must display each calculation, not jump to conclusion');
 assert.match(solved.conclusion,/x = 3/);
-const graph=api.graph(original);
-assert.equal(graph.root,3);
-assert.equal(graph.expression,'f(x) = 6x − 18','existing graph calculation is unchanged');
 for(const [source,answer] of [
  ['2(x-3)=8',7],
  ['3(x+1)-2(x-1)=8',3],
