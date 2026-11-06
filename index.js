@@ -1824,6 +1824,8 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 .tasks-item-text small{color:#a7cbd5;margin-top:4px}
 .tasks-actions{display:flex!important;gap:clamp(5px,1.5vw,9px);flex-wrap:wrap!important;justify-content:flex-start!important;width:100%!important;min-width:0!important}
 .tasks-actions button{flex:0 1 auto;min-height:36px;min-width:0!important;max-width:100%!important;padding:6px 10px!important;font-size:clamp(12px,3vw,16px)!important}
+.tasks-ai-suggestions{min-width:0;max-width:100%;overflow-wrap:break-word;white-space:pre-wrap;line-height:1.35;color:#ccebf8;padding:3px 5px 10px}
+.tasks-ai-suggestions p{white-space:pre-wrap;overflow-wrap:break-word;max-width:100%}
 .tasks-progress{height:8px;background:#304f65;border-radius:20px;overflow:hidden}
 .tasks-progress span{display:block;height:100%;background:#50c8b9}
 @media (max-height:420px){.tasks-tile svg{height:clamp(36px,10dvh,52px)}.tasks-tile{gap:2px}.tasks-tiles{gap:5px}}
@@ -2636,6 +2638,25 @@ function tasksConfirmDelete(item){
  if(!window.confirm(learningLabel('Ștergi definitiv: ','Permanently delete: ')+item.title+'?'))return;
  if(tasksDelete(item.id))renderTasks();
 }
+async function tasksSuggestGoal(title){
+ const panel=document.querySelector('.tasks-ai-suggestions');
+ if(!panel||tasksSection!=='goals')return;
+ panel.replaceChildren();
+ const heading=document.createElement('strong');heading.textContent=learningLabel('Sugestii Pocket AI pentru: ','Pocket AI suggestions for: ')+title;
+ const body=document.createElement('p');body.textContent=learningLabel('Pregătesc pașii recomandați…','Preparing suggested steps…');
+ panel.append(heading,body);
+ try{
+  const message=state.language==='ro'
+   ?'Pentru obiectivul personal „'+title+'”, recomandă 3 până la 5 pași practici, numerotați, în limba română. Nu inventa costuri, date, rezervări sau sarcini deja executate. Răspunde doar cu pașii, concis.'
+   :'Suggest 3 to 5 practical numbered steps for the personal goal "'+title+'". Do not invent costs, dates, bookings or completed actions. Respond only with concise steps.';
+  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,module:'assistant',history:[]})});
+  const data=await response.json();
+  if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error();
+  if(panel.isConnected&&tasksSection==='goals')body.textContent=data.reply.trim().slice(0,1800);
+ }catch{
+  if(panel.isConnected&&tasksSection==='goals')body.textContent=learningLabel('Sugestiile AI nu sunt disponibile acum. Obiectivul rămâne salvat.','AI suggestions are unavailable. Your goal remains saved.');
+ }
+}
 function renderTasks(){
  tasksRepairLegacyVoiceDates();
  $('moduleTitle').textContent=learningLabel('Sarcini și obiective','Tasks and goals');
@@ -2669,6 +2690,7 @@ function renderTasks(){
   const sectionTitles={items:learningLabel('Sarcinile mele','My tasks'),goals:learningLabel('Obiective','Goals'),calendar:learningLabel('Calendar sarcini','Task calendar'),archive:learningLabel('Finalizate / Arhivă','Completed / Archive')};
   list.append(el('h4','',sectionTitles[tasksSection]));
   if(tasksSection==='goals'){
+   const aiPanel=el('section','tasks-ai-suggestions');aiPanel.setAttribute('aria-live','polite');list.append(aiPanel);
    const goals=data.filter(t=>t.goal),finished=goals.filter(t=>t.done).length;
    list.append(el('p','',learningLabel('Obiective realizate: ','Completed goals: ')+finished+' / '+goals.length));
    const progress=el('div','tasks-progress'),bar=el('span');bar.style.width=(goals.length?100*finished/goals.length:0)+'%';progress.append(bar);list.append(progress);
@@ -2682,7 +2704,7 @@ function renderTasks(){
    for(const [v,ro,en] of [['normal','Normală','Normal'],['high','Mare','High'],['low','Mică','Low']]){const op=el('option','',learningLabel(ro,en));op.value=v;priority.append(op)}
    const save=btn(learningLabel('＋ Adaugă','＋ Add'),()=>{},'primary-btn');save.type='submit';
    form.append(input,due,priority,save);
-   form.onsubmit=e=>{e.preventDefault();if(tasksCreate(input.value,tasksSection==='goals',due.value,priority.value))renderTasks()};
+   form.onsubmit=e=>{e.preventDefault();if(tasksCreate(input.value,tasksSection==='goals',due.value,priority.value)){const goalName=input.value.trim();renderTasks();if(tasksSection==='goals')tasksSuggestGoal(goalName)}};
    list.append(form);
   }
   if(!filtered.length)list.append(el('p','',learningLabel('Nu există încă înregistrări aici.','No entries here yet.')));
@@ -2701,6 +2723,7 @@ function renderTasks(){
       tasksUpdate(item.id,{title:title.trim().slice(0,140)});renderTasks();
     }));
     if(item.due&&item.source!=='voice')buttons.append(btn(learningLabel('În Agendă','To agenda'),()=>tasksToAgenda(item)));
+    if(item.goal&&tasksSection==='goals')buttons.append(btn(learningLabel('Sugestii AI','AI suggestions'),()=>tasksSuggestGoal(item.title)));
    }
    buttons.append(btn(learningLabel('Șterge','Delete'),()=>tasksConfirmDelete(item)));
    row.append(content,buttons);list.append(row);
