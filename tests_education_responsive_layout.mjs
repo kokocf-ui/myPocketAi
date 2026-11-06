@@ -23,5 +23,5 @@ assert.match(styles,/#view-module\.learning-choose #moduleContent\s*\{[^}]*grid-
 assert.match(styles,/#view-module\.learning-choose \.education-grid\s*\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)!important;[^}]*grid-template-rows:repeat\(4,minmax\(0,1fr\)\)!important/s,'all 8 subjects occupy 2×4 adaptive grid');
 assert.match(styles,/@media \(max-height:600px\), \(max-width:320px\)\s*\{[\s\S]*overflow-y:auto!important/s,'very small screens remain accessible');
 assert.match(inline,/LEARNING_SUBJECTS\s*=\s*\[/,'the eight subject cards remain registered');
-assert.match(styles,/#view-module\.learning-active\.active\s*\{[^}]*overflow-y:auto!important/s,'lessons can still scroll');
+assert.match(styles,/#view-module\.learning-active\.active\s*\{[^}]*overflow:visible!important/s,'subject exercises remain visible and scroll within the main page');
 console.log('PASS education adaptive single-viewport 2x4 subjects, centered Home/title and small-screen accessibility');
