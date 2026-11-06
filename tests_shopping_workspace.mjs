@@ -631,5 +631,23 @@ assert.equal(parseDoc('Adaugă pașaportul, expiră pe 15 martie 2028').title,'p
 assert.equal(parseDoc('Adaugă pașaportul, expiră pe 15 martie 2028').expires,'2028-03-15');
 assert.equal(parseDoc('Permisul expiră pe 20 iunie 2027').expires,'2027-06-20');
 assert.equal(parseDoc('Documentul expiră pe 31 februarie 2028'),null,'invalid expiry dates are rejected');
+assert.match(inline,/function documentsPhotoDB\(\)/,'document images use local IndexedDB');
+assert.match(inline,/mypocketai-private-documents/,'images are stored in a dedicated private app database');
+assert.match(inline,/function documentsOpenPhoto\(id,slot\)/,'image fullscreen viewer available');
+assert.match(inline,/modal\.showModal\(\)/,'full screen viewer can open');
+assert.match(inline,/modal\.addEventListener\('close'/,'image viewer has cleanup on close');
+assert.match(inline,/function documentsPhotoGallery\(id,host\)/,'document has attachable photos');
+assert.match(inline,/documentsPhotoCompress\(file\)/,'photos are compressed locally before saving');
+assert.match(inline,/function documentsDelete\(item\)/,'document deletion exists');
+assert.match(inline,/documentsPhotoDeleteAll\(item\.id\)/,'document deletion also removes photos');
+assert.match(inline,/document\.querySelector\('dialog\.document-photo-fullscreen\[open\]'\)/,'Android back closes fullscreen photo viewer');
+assert.match(inline,/function documentsTypes\(\)/,'international document categories are available');
+assert.match(page,/document-photo-fullscreen\{position:fixed/,'full screen viewer has viewport sizing');
+docCtx.localStorage.getItem=()=>JSON.stringify([
+ {id:'old1',title:'pasaport in',expires:'2030-01-30'},
+ {id:'old2',title:'permisul',expires:'2029-01-30'}]);
+assert.equal(vm.runInContext("documentsFind('pașaportul').id",docCtx),'old1','voice should open older incorrectly named passport entry');
+assert.equal(vm.runInContext("documentsFind('permisul').id",docCtx),'old2','voice matches inflected licence');
+
 
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
