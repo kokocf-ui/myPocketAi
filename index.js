@@ -3575,6 +3575,10 @@ async function budgetVoiceCommand(raw){
  }
  let title=budgetVoiceExpenseTitle(raw);
  title=title.replace(/^(?:in fiecare luna pe \\d{1,2}|în fiecare lună pe \\d{1,2})\\s*/iu,'').trim();
+ const cleanTitle=shopVoiceFold(title).replace(/[^a-z0-9 ]/g,'').trim();
+ if(!cleanTitle||/^(?:platesc|plata|cheltuiala|in|pe|la|pentru|de|zile|lire|suma)$/.test(cleanTitle)){
+  notify(learningLabel('Dictarea pare incompletă. Repetă propoziția; nu am salvat plata.','Speech seems incomplete. Please repeat; the payment was not saved.'));return;
+ }
  const currency=budgetSpokenCurrency(spoken)||budgetRead().baseCurrency;
  const ok=await budgetAddEntry({amount,currency,title:title||learningLabel('Cheltuială','Expense'),
   date:due,status:future||due>budgetDateNow()?'planned':'paid',recurring,
