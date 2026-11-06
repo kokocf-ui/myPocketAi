@@ -145,7 +145,7 @@ assert.equal(arithmetic.check('2(3+4)=14'),null,'implicit multiplication is not 
 assert.equal(arithmetic.check('3+4=7=7'),null,'multiple equalities remain with the maths solver');
 assert.equal(arithmetic.check('3^2=9'),null,'unsupported operators are not guessed');
 assert.match(embedded,/Nu cita lecții video, site-uri sau surse/,'avoid fabricated lesson references');
-assert.ok(embedded.includes('const checked=equality?'),'include deterministic equality in the teaching prompt');
+assert.ok(embedded.includes("const checked=equality&&session.mode!=='explain'?"),'only full solutions include deterministic equality in the teaching prompt');
 assert.ok(embedded.includes('mathEqualityExplanation(verifiedEquality)'),'always render arithmetic equality independently of model replies');
 
 // The UI must not depend on generative AI for basic arithmetic: all terms
@@ -191,7 +191,7 @@ assert.match(detailed('(-3)*(-2) = 6').steps[0].signRule,/două numere negative/
 const bothSides=detailed('2+3=1+4');
 assert.equal(bothSides.steps[0].fullAfter,'5 = 1+4');
 assert.equal(bothSides.steps[1].fullAfter,'5 = 5');
-assert.ok(embedded.includes("if(verifiedEquality&&!item.detailed)"),'do not repeat the verdict above the worked steps');
+assert.ok(embedded.includes("if(verifiedEquality&&!item.detailed&&session.mode!==\'explain\')"),'do not repeat the verdict above worked steps or method guides');
 assert.ok(embedded.includes("step.reason"),'teacher explains each operation');
 assert.ok(embedded.includes("step.fullAfter"),'complete expressions are displayed');
 assert.ok(embedded.includes("step.signRule"),'sign rules are shown where relevant');
@@ -199,6 +199,28 @@ assert.ok(embedded.includes("step.fullAfter).join(' ')"),'voice reads the lesson
 
 assert.ok(embedded.includes("item.detailed=steps"),'supported arithmetic uses the local step renderer');
 assert.ok(embedded.includes("item.detailed.steps.length"),'multiple numbered steps are displayed');
+
+// The Method button is not a second solution: it teaches reusable rules.
+// Use the same verified arithmetic corpus as the Solve button.
+const method=vm.runInNewContext(embedded.slice(equalityStart,equalityEnd)+
+ String.fromCharCode(10)+'mathMethodGuide',
+ {state:{language:'ro'},learningLabel:(ro,en)=>ro,Intl});
+const guide=method('3 * (2 * -1) + 5 = 20');
+assert.ok(guide,'the sample gets a local, reusable teaching guide');
+assert.match(guide.heading,/Cum abordăm/i);
+assert.match(guide.intro,/regula generală/,'method tells the student what it teaches');
+assert.ok(guide.rules.length>=5,'cover precedence, parentheses, signs, checking');
+assert.ok(guide.rules.some(r=>/Regula semnelor/.test(r.title)),'negative multiplication rule');
+assert.ok(guide.rules.some(r=>/Verificarea/.test(r.title)),'general equality-checking advice');
+assert.ok(guide.rules.every(r=>!r.text.includes('Stânga = −1')),'do not repeat the solved equation');
+assert.ok(guide.rules.every(r=>!r.text.includes('egalitatea este falsă')),'no repeated specific verdict');
+assert.equal(method('x+1=2'),null,'symbolic exercises use the method-specific AI prompt');
+assert.equal(method('2/0=3'),null,'invalid arithmetic is not treated as valid');
+assert.ok(embedded.includes("session.mode!=='explain'"),'method mode hides the exact verdict banner');
+assert.ok(embedded.includes('item.methodGuide'),'method has its own visible renderer');
+assert.ok(embedded.includes("mode==='explain'?learningLabel('Matematică · Metodă'"),'method dialog has a distinct title');
+assert.ok(embedded.includes('Predă numai METODA GENERALĂ'),'fallback AI prompt requests general teaching');
+assert.ok(embedded.includes("mode==='explain'?mathMethodGuide(text)"),'simple-method results are built locally');
 
 const native=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(native,/"math"\.equals\(speechMode\)\)return;/,'math speech bypasses short endpoint');
