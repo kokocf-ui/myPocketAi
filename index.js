@@ -6605,8 +6605,16 @@ function mathSpokenToFormula(input){
   saptezeci:'70',optzeci:'80',nouazeci:'90',suta:'100'
  };
  let v=fold(original);
- const mathIntent=/(?:\\b(?:egal|plus|minus|ori|inmult\\w*|impart\\w*|parantez\\w*|patrat|cub|putere\\w*|supra|funct\\w*|ecuat\\w*|radical)\\b|[=+*/()^×÷])/u.test(v);
+ const mathIntent=/(?:\\b(?:egal|plus|minus|ori|inmult\\w*|impart\\w*|parantez\\w*|acolad\\w*|patrat|cub|putere\\w*|supra|funct\\w*|ecuat\\w*|radical)\\b|[=+*/()[\\]{}^×÷])/u.test(v);
  if(!mathIntent)return original;
+ // Shape names imply opening; "închide ..." (or "... închisă") implies closing.
+ // Keep this scoped to Mathematics, so ordinary prose elsewhere is untouched.
+ v=v.replace(/\\b(?:(deschide|deschid|deschideti|inchide|inchid|inchideti)\\s+(?:o\\s+)?)?(paranteza\\s+(?:rotunda|patrata|dreapta)|acolada)(?:\\s+(deschisa|inchisa))?\\b/g,
+   (_,action,shape,state)=>{
+    const isClosing=Boolean(action?.startsWith('inchid')||state==='inchisa');
+    const pair=shape==='acolada'?['{','}']:/patrata|dreapta/.test(shape)?['[',']']:['(',')'];
+    return pair[Number(isClosing)];
+   });
  v=v.replace(/\\b(?:deschide|deschid|deschideti)\\s+(?:o\\s+)?paranteza\\b/g,'(')
     .replace(/\\b(?:inchide|inchid|inchideti)\\s+(?:o\\s+)?paranteza\\b/g,')')
     .replace(/\\bparanteza\\s+deschisa\\b/g,'(').replace(/\\bparanteza\\s+inchisa\\b/g,')')
