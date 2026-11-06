@@ -10,7 +10,7 @@ assert.match(embedded,/function mathPilotToggle\(\)/,'math pilot is controlled b
 assert.match(embedded,/function mathPilotAvailable\(\)/,'new APK is required for continuous recording');
 assert.match(embedded,/PocketAndroidMathAudio\.postMessage/,'native recording bridge is used');
 assert.match(embedded,/window\.pocketAndroidMathAudioResult/,'recording result callback is registered');
-assert.match(embedded,/data\.status==='chunk'/,'recorded audio is chunked through Android WebView');
+assert.match(embedded,/data\?\.status==='chunk'/,'recorded audio is chunked through Android WebView');
 assert.match(embedded,/mathPilotCaptureId/,'audio parts are scoped to the correct recording');
 assert.match(embedded,/mathPilotParts\.join\(''\)/,'audio chunks are reconstructed before upload');
 assert.match(embedded,/mode:'secret'/,'opt-in token modal uses app styling');
