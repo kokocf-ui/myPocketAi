@@ -1419,6 +1419,24 @@ body.long-choice-active{overflow:hidden}
 #view-module .budget-entry-form{display:flex;flex-direction:column;gap:.55rem}
 #view-module .budget-advice,#view-module .budget-location{font-size:clamp(.75rem,3vw,.9rem);line-height:1.3;opacity:.8}
 #view-module .budget-warning{color:#ffb6a3}
+#view-module .documents-form{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem;padding:.5rem 0}
+#view-module .documents-field{display:flex;flex-direction:column;gap:.25rem;min-width:0}
+#view-module .documents-field small{font-size:clamp(.76rem,3vw,.9rem);opacity:.83}
+#view-module .documents-photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:.45rem 0 .8rem}
+#view-module .documents-photo-tile{display:flex;flex-direction:column;gap:.3rem;min-width:0}
+#view-module .documents-photo-preview{width:100%;height:clamp(5.4rem,19dvh,9rem);min-height:0!important;border:1px solid #568da8;border-radius:.85rem;background:#133449;color:#eef8fc;overflow:hidden;padding:.35rem!important;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+#view-module .documents-photo-preview img{width:100%;height:100%;object-fit:contain;border-radius:.4rem}
+#view-module .documents-photo-tile>.secondary-btn{min-height:2.15rem!important;padding:.3rem!important;font-size:clamp(.72rem,2.8vw,.85rem)!important}
+#view-module .documents-detail{border:1px solid #426c86;border-radius:.95rem;background:#103349;padding:.8rem;margin:.3rem 0}
+#view-module .documents-detail-main{display:flex;flex-direction:column;gap:.3rem}
+#view-module .documents-detail-main strong{font-size:clamp(1.05rem,4.1vw,1.3rem)}
+#view-module .documents-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:.4rem 0}
+#view-module .documents-actions button{min-width:0!important;padding:.45rem!important;font-size:clamp(.8rem,3vw,.94rem)!important}
+.document-photo-fullscreen{position:fixed;inset:0;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;padding:4.5rem .6rem 1.2rem;border:0;background:#03111e;color:#fff;box-sizing:border-box;overflow:hidden}
+.document-photo-fullscreen::backdrop{background:rgba(0,0,0,.93)}
+.document-photo-fullscreen img{display:block;max-width:100%;width:100%;max-height:100%;height:100%;object-fit:contain}
+.document-photo-close{position:absolute;top:clamp(.7rem,4dvh,2rem);right:1rem;z-index:2;min-height:2.6rem;border-radius:1rem;border:1px solid #9acfe8;background:#123b52;color:#fff;padding:.45rem 1rem;font:inherit}
+
 </style>
 <style id="budget-report-layout">
 #view-module .budget-report-trigger{width:100%!important;min-height:2.7rem!important;height:auto!important;font-size:clamp(.8rem,3vw,1rem)!important;padding:.5rem!important}
@@ -3875,7 +3893,7 @@ function renderBudget(){
 
 
 const POCKET_DOCUMENTS_KEY='mypocketai.documents.v1';
-let documentsListening=false,documentsSelectedId=null,documentsFilter=null;
+let documentsListening=false,documentsSelectedId=null,documentsFilter=null,documentsEditing=false;
 function documentsRead(){
  try{const a=JSON.parse(localStorage.getItem(POCKET_DOCUMENTS_KEY)||'[]');return Array.isArray(a)?a.filter(x=>x&&typeof x.id==='string'&&typeof x.title==='string'&&typeof x.expires==='string'):[]}
  catch{return []}
@@ -3900,24 +3918,33 @@ function documentsParseVoice(raw){
   .replace(/(?:^|\\s)\\d{1,2}[./-]\\d{1,2}[./-]\\d{4}(?=\\s|$|[,.!?])/,' ')
   .replace(/^(?:adauga|inregistreaza|salveaza|noteaza|add|save)\\s+/,'')
   .replace(/\\b(?:documentul|actul|expira|valabil|pana|la|pe|data|de)\\b/g,' ').replace(/[,.!?;:]/g,' ').replace(/\\s+/g,' ').trim();
- if(title==='pasaportul')title='pașaport';
+ if(title==='pasaportul'||title==='pasaport in'||title==='pasaport')title='pașaport';
  if(title==='permisul')title='permis';
  if(title==='buletinul')title='buletin';
  return title.length>=3?{title,expires:date}:null;
 }
 function documentsFind(query){
  const needle=shopVoiceFold(query).replace(/^(?:documentul|actul)\\s+/,'').trim();
- const matches=documentsRead().filter(x=>shopVoiceFold(x.title)===needle||shopVoiceFold(x.title).includes(needle)||needle.includes(shopVoiceFold(x.title)));
+ const canonical=value=>shopVoiceFold(value)
+  .replace(/\\b(pasaportul|pasaport|pașaportul)\\b/gu,'pașaport')
+  .replace(/\\b(permisul|permis)\\b/gu,'permis')
+  .replace(/\\b(buletinul|buletin|cartea de identitate)\\b/gu,'identitate')
+  .replace(/\\b(in|în|pe|la|de|documentul|actul|meu|mea)\\b/gu,' ').replace(/\\s+/g,' ').trim();
+ const wanted=canonical(needle);
+ const matches=documentsRead().filter(x=>{
+  const name=canonical(x.title);
+  return name===wanted||name.includes(wanted)||wanted.includes(name);
+ });
  return matches.length===1?matches[0]:null;
 }
-function documentsSave(title,expires,id=null){
+function documentsSave(title,expires,id=null,type=null){
  title=String(title||'').trim().slice(0,100);
- const d=new Date(String(expires)+'T12:00:00');
- if(!title||!/^\\d{4}-\\d{2}-\\d{2}$/.test(expires)||Number.isNaN(d.getTime())||budgetISO(d)!==expires){
+ const d=expires?new Date(String(expires)+'T12:00:00'):null;
+ if(!title||(expires!==''&&(!/^\\d{4}-\\d{2}-\\d{2}$/.test(expires)||Number.isNaN(d.getTime())||budgetISO(d)!==expires))){
   notify(learningLabel('Introdu un nume și o dată validă.','Enter a name and valid date.'));return false;
  }
  const all=documentsRead(),i=all.findIndex(x=>x.id===id),now=new Date().toISOString();
- const item={id:i>=0?all[i].id:shopId(),title,expires,createdAt:i>=0?all[i].createdAt:now,updatedAt:now};
+ const item={id:i>=0?all[i].id:shopId(),title,expires,type:type|| (i>=0?all[i].type:documentsType(title)),createdAt:i>=0?all[i].createdAt:now,updatedAt:now};
  if(i>=0)all[i]=item;else all.push(item);
  if(!documentsWrite(all))return false;
  documentsSelectedId=null;documentsFilter=null;renderDocuments();
@@ -3953,9 +3980,7 @@ function documentsVoiceCommand(raw){
  if(remove){
   const item=documentsFind(remove[1]);
   if(!item){notify(learningLabel('Documentul nu a fost identificat clar.','Document not uniquely identified.'));return}
-  pocketConfirm(learningLabel('Ștergi documentul „','Delete document “')+item.title+'”?',()=>{
-   if(documentsWrite(documentsRead().filter(x=>x.id!==item.id))){documentsSelectedId=null;renderDocuments()}
-  });return;
+  pocketConfirm(learningLabel('Ștergi documentul „','Delete document “')+item.title+'”?',()=>documentsDelete(item));return;
  }
  if(/^(?:ce|care|arata|afiseaza|show|which|what)\\b/.test(spoken)&&/\\b(?:documente|acte|expira|expirare|expiring|documents)\\b/.test(spoken)){
   documentsFilter=/luna|saptaman|decembrie|ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|next|week|month/.test(spoken)?budgetQueryPeriod(spoken):null;
@@ -3964,7 +3989,7 @@ function documentsVoiceCommand(raw){
  const open=spoken.match(/^(?:arata|deschide|vezi|show|open)\\s+(?:documentul\\s+|actul\\s+)?(.+)$/);
  if(open){
   const item=documentsFind(open[1]);
-  if(item){documentsSelectedId=item.id;documentsFilter=null;renderDocuments()}
+  if(item){documentsSelectedId=item.id;documentsFilter=null;documentsEditing=false;renderDocuments()}
   else notify(learningLabel('Documentul nu a fost identificat clar.','Document not uniquely identified.'));
   return;
  }
@@ -3972,50 +3997,224 @@ function documentsVoiceCommand(raw){
  if(parsed){documentsSave(parsed.title,parsed.expires);return}
  notify(learningLabel('Exemplu: „Pașaportul expiră pe 15 martie 2028”.','Example: “Passport expires 15 March 2028”.'));
 }
+
+/* Personal document images are stored as locally encoded JPEG Blobs in IndexedDB.
+   This module never uploads documents to the chat, OCR endpoint or server. */
+function documentsTypes(){
+ const shared=[
+  ['identity','Carte de identitate / ID','Identity card / ID'],
+  ['passport','Pașaport','Passport'],
+  ['licence','Permis de conducere','Driving licence'],
+  ['vehicle','Carte identitate vehicul / V5C','Vehicle identity / V5C'],
+  ['registration','Certificat înmatriculare','Vehicle registration'],
+  ['inspection','ITP / MOT','Vehicle inspection / MOT'],
+  ['insurance','Asigurare','Insurance'],
+  ['nin','NIN / dovadă National Insurance','National Insurance proof'],
+  ['other','Alt document','Other document']];
+ // Region-dependent ordering; all types remain available to travellers.
+ const region=String(typeof budgetDetectedCountry!=='undefined'?budgetDetectedCountry:'').toUpperCase();
+ const priority=region==='GB'?['identity','passport','licence','nin','vehicle','inspection','registration','insurance','other']:
+  ['identity','passport','licence','vehicle','registration','inspection','insurance','nin','other'];
+ return priority.map(code=>shared.find(x=>x[0]===code));
+}
+function documentsType(title){
+ const t=shopVoiceFold(title);
+ if(/pasaport|passport/.test(t))return 'passport';
+ if(/national insurance|nin\\b/.test(t))return 'nin';
+ if(/permis|driving licen/.test(t))return 'licence';
+ if(/itp\\b|mot\\b|inspectie|inspection/.test(t))return 'inspection';
+ if(/asigurar|insurance|polita/.test(t))return 'insurance';
+ if(/certificat.*inmatriculare|registration|talon/.test(t))return 'registration';
+ if(/vehicul|v5c|vehicle|civ/.test(t))return 'vehicle';
+ if(/identitate|buletin|identity|id card/.test(t))return 'identity';
+ return 'other';
+}
+function documentsPhotoDB(){
+ return new Promise((resolve,reject)=>{
+  if(!window.indexedDB){reject(new Error('IndexedDB unavailable'));return}
+  const req=indexedDB.open('mypocketai-private-documents',1);
+  req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('images'))req.result.createObjectStore('images')};
+  req.onsuccess=()=>resolve(req.result);
+  req.onerror=()=>reject(req.error);
+ });
+}
+async function documentsPhotoOperation(mode,key,value){
+ const db=await documentsPhotoDB();
+ try{return await new Promise((resolve,reject)=>{
+  const tx=db.transaction('images',mode==='read'?'readonly':'readwrite');
+  const store=tx.objectStore('images');
+  const request=mode==='read'?store.get(key):mode==='delete'?store.delete(key):store.put(value,key);
+  request.onsuccess=()=>resolve(request.result);
+  request.onerror=()=>reject(request.error);
+  tx.onerror=()=>reject(tx.error);
+ })}finally{db.close()}
+}
+function documentsPhotoSlots(){
+ return [['front',learningLabel('Față','Front')],['back',learningLabel('Verso','Back')],
+  ['page3',learningLabel('Pagina 3','Page 3')],['page4',learningLabel('Pagina 4','Page 4')]];
+}
+async function documentsPhotoCompress(file){
+ if(!file||!file.type.startsWith('image/')||file.size>15*1024*1024)throw new Error('invalid-image');
+ const localURL=URL.createObjectURL(file);
+ try{
+  const img=new Image();
+  await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=localURL});
+  const scale=Math.min(1,1800/Math.max(img.naturalWidth,img.naturalHeight));
+  const canvas=document.createElement('canvas');
+  canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));
+  canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+  const ctx=canvas.getContext('2d');if(!ctx)throw new Error('canvas');
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.86));
+  canvas.width=0;canvas.height=0;
+  if(!blob)throw new Error('encode');
+  return blob;
+ }finally{URL.revokeObjectURL(localURL)}
+}
+async function documentsPhotoSave(id,slot,file){
+ try{
+  const blob=await documentsPhotoCompress(file);
+  await documentsPhotoOperation('put',id+':'+slot,blob);
+  if(documentsSelectedId===id)renderDocuments();
+  notify(learningLabel('Fotografia a fost salvată local.','Photo saved locally.'));
+ }catch{
+  notify(learningLabel('Fotografia nu a putut fi salvată. Încearcă un JPG/PNG mai mic.','Could not save photo. Try a smaller JPG/PNG.'));
+ }
+}
+async function documentsPhotoDeleteAll(id){
+ try{for(const [slot] of documentsPhotoSlots())await documentsPhotoOperation('delete',id+':'+slot)}
+ catch{notify(learningLabel('Nu s-au putut elimina toate fotografiile locale.','Some locally stored photos could not be removed.'))}
+}
+function documentsDelete(item){
+ if(!documentsWrite(documentsRead().filter(x=>x.id!==item.id)))return;
+ documentsPhotoDeleteAll(item.id);
+ documentsSelectedId=null;documentsEditing=false;renderDocuments();
+}
+async function documentsOpenPhoto(id,slot){
+ let blob;
+ try{blob=await documentsPhotoOperation('read',id+':'+slot)}catch{}
+ if(!blob){notify(learningLabel('Fotografia nu este disponibilă pe acest dispozitiv.','Photo unavailable on this device.'));return}
+ const url=URL.createObjectURL(blob);
+ const modal=document.createElement('dialog');modal.className='document-photo-fullscreen';
+ modal.setAttribute('aria-label',learningLabel('Fotografie document','Document photograph'));
+ const close=document.createElement('button');close.type='button';close.className='document-photo-close';
+ close.textContent='✕ '+learningLabel('Închide','Close');close.onclick=()=>modal.close();
+ const img=document.createElement('img');img.src=url;img.alt=learningLabel('Fotografia documentului','Document photo');
+ modal.append(close,img);
+ modal.addEventListener('close',()=>{URL.revokeObjectURL(url);modal.remove()},{once:true});
+ document.body.append(modal);modal.showModal();
+}
+function documentsPhotoGallery(id,host){
+ const grid=budgetNode('div','documents-photo-grid');
+ for(const [slot,label] of documentsPhotoSlots()){
+  const area=budgetNode('div','documents-photo-tile');
+  const preview=budgetNode('button','documents-photo-preview');
+  preview.type='button';preview.textContent='📷 '+label;
+  preview.setAttribute('aria-label',learningLabel('Deschide fotografia ','Open photo ')+label);
+  preview.onclick=()=>documentsOpenPhoto(id,slot);
+  const file=document.createElement('input');file.type='file';file.accept='image/*';
+  file.className='documents-photo-file';file.hidden=true;
+  file.onchange=async()=>{if(file.files?.[0])await documentsPhotoSave(id,slot,file.files[0]);file.value=''};
+  const add=budgetButton(learningLabel('Adaugă / schimbă','Add / replace'),()=>file.click(),'secondary-btn');
+  area.append(preview,add,file);grid.append(area);
+  documentsPhotoOperation('read',id+':'+slot).then(blob=>{
+   if(!blob||!preview.isConnected)return;
+   const url=URL.createObjectURL(blob);
+   const image=document.createElement('img');image.src=url;image.alt=label;
+   image.onload=()=>URL.revokeObjectURL(url);
+   image.onerror=()=>URL.revokeObjectURL(url);
+   preview.replaceChildren(image);
+  }).catch(()=>{});
+ }
+ host.append(grid);
+}
+
+
 function renderDocuments(){
  const cat=ORGANIZE_CATEGORIES.find(x=>x[0]==='documents');
- const {scroll}=organizeVoiceWorkspace(cat,{
+ if(!cat)return;
+ const {panel,scroll}=organizeVoiceWorkspace(cat,{
   titleRo:'Documente și termene',titleEn:'Documents and deadlines',mode:'documents',
-  backAction:()=>{documentsVoiceStop();if(documentsSelectedId||documentsFilter){documentsSelectedId=null;documentsFilter=null;renderDocuments()}else renderOrganizeChoices()},
+  backAction:()=>{documentsVoiceStop();if(documentsSelectedId||documentsFilter||documentsEditing){documentsSelectedId=null;documentsFilter=null;documentsEditing=false;renderDocuments()}else renderOrganizeChoices()},
   onDictate:documentsVoiceStart,dictationRo:'Dictare',dictationEn:'Dictation'
  });
- const all=documentsRead().sort((a,b)=>a.expires.localeCompare(b.expires)||a.title.localeCompare(b.title));
- const make=(tag,cls,value)=>budgetNode(tag,cls,value);
+ // The shared main heading already identifies the module. Do not duplicate it.
+ panel.querySelector('.education-toolbar')?.remove();
+ const make=(tag,cls,txt)=>budgetNode(tag,cls,txt);
+ const all=documentsRead().sort((a,b)=>(a.expires||'9999').localeCompare(b.expires||'9999')||a.title.localeCompare(b.title));
+ const types=documentsTypes();
+ const typeSelect=(selected)=>{
+  const sel=make('select','budget-input');
+  sel.setAttribute('aria-label',learningLabel('Tip document','Document type'));
+  for(const [code,ro,en] of types){const option=make('option','',learningLabel(ro,en));option.value=code;sel.append(option)}
+  sel.value=selected||'other';return sel;
+ };
+ const expiryField=(value)=>{
+  const input=make('input','budget-input');input.type='date';input.value=value||'';
+  input.setAttribute('aria-label',learningLabel('Data expirării (opțională)','Expiry date (optional)'));return input;
+ };
+ const editingForm=(item)=>{
+  const form=make('form','documents-form');
+  const type=typeSelect(item?.type||'other');
+  const title=make('input','budget-input');title.required=false;title.maxLength=100;
+  title.value=item?.title||'';title.placeholder=learningLabel('Numele documentului','Document name');
+  title.setAttribute('aria-label',learningLabel('Denumirea documentului','Document name'));
+  const date=expiryField(item?.expires);
+  const field=(label,el)=>{const container=make('label','documents-field');container.append(make('small','',label),el);return container};
+  form.append(field(learningLabel('Tip de document','Document type'),type),
+   field(learningLabel('Denumire','Name'),title),
+   field(learningLabel('Data expirării — dacă există','Expiry date — if applicable'),date));
+  type.onchange=()=>{if(!title.value.trim()||!item)title.value=types.find(x=>x[0]===type.value)?.[state.language==='ro'?1:2]||''};
+  const save=budgetButton(item?learningLabel('Salvează modificările','Save changes'):learningLabel('+ Adaugă document','+ Add document'),()=>{
+   const description=title.value.trim()||types.find(x=>x[0]===type.value)?.[state.language==='ro'?1:2]||'';
+   documentsSave(description,date.value,item?.id||null,type.value);
+  },'primary-btn');
+  form.append(save);form.onsubmit=e=>{e.preventDefault();save.click()};
+  return form;
+ };
  if(documentsSelectedId){
   const item=all.find(x=>x.id===documentsSelectedId);
   if(!item){documentsSelectedId=null;renderDocuments();return}
-  scroll.append(make('h3','budget-subtitle',learningLabel('Modifică documentul','Edit document')));
-  const form=make('form','budget-entry-form');
-  const name=make('input','budget-input');name.value=item.title;name.maxLength=100;name.required=true;name.setAttribute('aria-label',learningLabel('Denumire document','Document name'));
-  const date=make('input','budget-input');date.type='date';date.value=item.expires;date.required=true;
-  const save=budgetButton(learningLabel('Salvează modificările','Save changes'),()=>documentsSave(name.value,date.value,item.id),'primary-btn');
-  form.append(name,date,save);form.onsubmit=e=>{e.preventDefault();documentsSave(name.value,date.value,item.id)};scroll.append(form);
-  scroll.append(budgetButton(learningLabel('Șterge documentul','Delete document'),()=>pocketConfirm(learningLabel('Ștergi documentul „','Delete document “')+item.title+'”?',()=>{
-   if(documentsWrite(documentsRead().filter(x=>x.id!==item.id))){documentsSelectedId=null;renderDocuments()}
-  })));
-  scroll.append(budgetButton(learningLabel('← La documente','← Back to documents'),()=>{documentsSelectedId=null;renderDocuments()}));return;
+  scroll.append(make('h3','budget-subtitle',item.title));
+  const card=make('div','documents-detail');
+  const desc=make('div','documents-detail-main');
+  desc.append(make('strong','',item.title));
+  desc.append(make('small','',item.expires?learningLabel('Expiră: ','Expires: ')+item.expires:learningLabel('Fără dată de expirare','No expiry date')));
+  const status=item.expires&&item.expires<budgetDateNow()?learningLabel('Expirat','Expired'):item.expires?learningLabel('Valabil','Valid'):learningLabel('Fără termen','No deadline');
+  desc.append(make('small',item.expires&&item.expires<budgetDateNow()?'budget-expense':'budget-income',status));
+  card.append(desc);
+  scroll.append(card);
+  scroll.append(make('h3','budget-subtitle',learningLabel('Fotografiile documentului','Document photographs')));
+  scroll.append(make('p','budget-advice',learningLabel('Atinge fotografia pentru afișare pe întreg ecranul. Poți atașa fața, verso și pagini suplimentare.','Tap a photo to view full screen. Attach front, back and additional pages.')));
+  documentsPhotoGallery(item.id,scroll);
+  const controls=make('div','documents-actions');
+  controls.append(budgetButton(documentsEditing?learningLabel('Ascunde editarea','Hide editing'):learningLabel('Modifică datele','Edit details'),()=>{documentsEditing=!documentsEditing;renderDocuments()},'secondary-btn'));
+  controls.append(budgetButton(learningLabel('Șterge documentul','Delete document'),()=>pocketConfirm(learningLabel('Ștergi documentul „','Delete document “')+item.title+'”?',()=>documentsDelete(item)),'secondary-btn'));
+  scroll.append(controls);
+  if(documentsEditing)scroll.append(editingForm(item));
+  scroll.append(budgetButton(learningLabel('← Lista documentelor','← Document list'),()=>{documentsSelectedId=null;documentsEditing=false;renderDocuments()},'secondary-btn'));
+  return;
  }
- scroll.append(make('p','budget-advice',learningLabel('Salvăm pe dispozitiv numai denumirea și data expirării.','Only the document name and expiry date are stored locally.')));
- const form=make('form','budget-entry-form');
- const name=make('input','budget-input');name.required=true;name.maxLength=100;name.placeholder=learningLabel('Document (ex.: pașaport)','Document (e.g. passport)');
- const date=make('input','budget-input');date.type='date';date.required=true;date.setAttribute('aria-label',learningLabel('Data expirării','Expiry date'));
- const add=budgetButton(learningLabel('+ Adaugă document','+ Add document'),()=>documentsSave(name.value,date.value),'primary-btn');
- form.append(name,date,add);form.onsubmit=e=>{e.preventDefault();documentsSave(name.value,date.value)};scroll.append(form);
+ scroll.append(make('p','budget-advice',learningLabel('Documentele și fotografiile rămân în spațiul local al aplicației; nu le trimitem automat către AI.','Documents and photos stay in local app storage; they are never sent automatically to AI.')));
  if(documentsFilter)scroll.append(make('small','budget-advice',learningLabel('Perioada: ','Period: ')+documentsFilter.start+' — '+documentsFilter.end));
- const visible=all.filter(x=>!documentsFilter||x.expires>=documentsFilter.start&&x.expires<=documentsFilter.end);
+ const visible=all.filter(x=>!documentsFilter||x.expires&&x.expires>=documentsFilter.start&&x.expires<=documentsFilter.end);
  scroll.append(make('h3','budget-subtitle',learningLabel('Documente după expirare','Documents by expiry')+' · '+visible.length));
  if(!visible.length)scroll.append(make('p','budget-empty',learningLabel('Nu există documente pentru această selecție.','No documents for this selection.')));
  for(const item of visible){
-  const button=budgetButton('',()=>{documentsSelectedId=item.id;renderDocuments()},'budget-transaction');
+  const row=budgetButton('',()=>{documentsSelectedId=item.id;documentsEditing=false;documentsFilter=null;renderDocuments()},'budget-transaction');
   const detail=make('span','budget-transaction-info');
-  detail.append(make('strong','',item.title),make('small','',item.expires));
-  const status=make('span',item.expires<budgetDateNow()?'budget-expense':'budget-income',item.expires<budgetDateNow()?learningLabel('Expirat','Expired'):learningLabel('Valabil','Valid'));
-  button.append(detail,status);scroll.append(button);
+  detail.append(make('strong','',item.title),make('small','',item.expires||learningLabel('Fără dată de expirare','No expiry date')));
+  const expired=item.expires&&item.expires<budgetDateNow();
+  detail.append(make('small','',learningLabel('Atinge pentru detalii și fotografii','Tap for details and photos')));
+  const status=make('span',expired?'budget-expense':'budget-income',expired?learningLabel('Expirat','Expired'):item.expires?learningLabel('Valabil','Valid'):learningLabel('Fără termen','No deadline'));
+  row.append(detail,status);scroll.append(row);
  }
  if(documentsFilter)scroll.append(budgetButton(learningLabel('Toate documentele','All documents'),()=>{documentsFilter=null;renderDocuments()}));
- scroll.append(make('small','budget-advice',learningLabel('Notificările și atașarea de fișiere vor fi integrate separat.','Notifications and file attachments will be added separately.')));
+ scroll.append(make('h3','budget-subtitle',learningLabel('Adaugă un document','Add a document')));
+ scroll.append(editingForm(null));
+ scroll.append(make('small','budget-advice',learningLabel('Tipurile includ carte de identitate, NIN, pașaport, permis, acte auto, ITP/MOT, asigurare și alte documente.','Types include identity, National Insurance proof, passport, licence, vehicle records, inspection, insurance and more.')));
 }
-
 const TASKS_DRAWINGS={list:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="21" y="8" width="80" height="75" rx="9" fill="#d8f4fa"/><rect x="43" y="2" width="36" height="13" rx="5" fill="#68c8e0"/><path d="M32 35l6 6 11-13M32 59l6 6 11-13" fill="none" stroke="#21a58e" stroke-width="5" stroke-linecap="round"/><path d="M58 35h30M58 59h30" stroke="#4c7294" stroke-width="5" stroke-linecap="round"/></svg>',goal:'<svg viewBox="0 0 120 90" aria-hidden="true"><path d="M18 79h86" stroke="#87cbdc" stroke-width="5" stroke-linecap="round"/><path d="M26 75h24V58h22V40h24V20" fill="none" stroke="#77d5c1" stroke-width="10" stroke-linejoin="round"/><path d="M94 12v33M95 13l21 8-21 9" fill="#67bdf1" stroke="#e9fbff" stroke-width="3"/><circle cx="29" cy="67" r="6" fill="#f4cc7a"/></svg>',calendar:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="13" y="14" width="93" height="68" rx="9" fill="#daf3fa"/><path d="M13 31h93" stroke="#56c0dc" stroke-width="10"/><path d="M35 8v17M83 8v17" stroke="#fff" stroke-width="6" stroke-linecap="round"/><rect x="32" y="42" width="22" height="22" rx="5" fill="#4dc2a7"/><path d="M37 53l5 5 9-11" stroke="#fff" stroke-width="3" fill="none"/><circle cx="82" cy="60" r="15" fill="#6aace5"/><path d="M82 48v13l8 5" stroke="#fff" stroke-width="3" fill="none"/></svg>',archive:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="20" y="28" width="82" height="54" rx="7" fill="#80bcdf"/><rect x="14" y="19" width="94" height="22" rx="5" fill="#d8f4fa"/><path d="M48 47h25" stroke="#efffff" stroke-width="6" stroke-linecap="round"/><circle cx="91" cy="68" r="17" fill="#43b99f"/><path d="M82 68l6 6 12-13" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>'};
 
 /* Tasks are local-first and independent from existing agenda and shopping data. */
@@ -5558,6 +5757,7 @@ function pocketBackInsideModule(){
  return false;
 }
 window.pocketAndroidBack=function(){
+ if(document.querySelector('dialog.document-photo-fullscreen[open]')){document.querySelector('dialog.document-photo-fullscreen[open]').close();return}
  if(pocketExitOpen){pocketExitClose();return}
  if($('longChoiceDialog')?.open){closeLongChoice();return}
  if(activeRouteMap){closeRouteMap();return}

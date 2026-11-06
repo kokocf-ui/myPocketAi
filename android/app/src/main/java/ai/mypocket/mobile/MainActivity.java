@@ -17,6 +17,7 @@ import android.content.pm.PackageManager;
 import android.webkit.GeolocationPermissions;
 import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
+import android.webkit.ValueCallback;
 import androidx.core.content.ContextCompat;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
@@ -67,6 +68,9 @@ public final class MainActivity extends ComponentActivity {
     private WebView web;
     private Uri cameraUri;
     private boolean waitingForPhoto = false;
+    // User-selected document photos only; the WebView gets one chooser result, not broad file access.
+    private ValueCallback<Uri[]> documentPhotoCallback;
+    private Uri documentCameraUri;
     private TextToSpeech tts;
     private boolean ttsReady=false;
     private String speechMode="dictation";
@@ -100,6 +104,17 @@ public final class MainActivity extends ComponentActivity {
     private final ActivityResultLauncher<PickVisualMediaRequest> gallery =
         registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
             uri -> { waitingForPhoto=false; if (uri != null) recognize(uri); else notifyWeb("cancelled", ""); });
+
+    private final ActivityResultLauncher<Intent> documentPhotos =
+        registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            ValueCallback<Uri[]> callback=documentPhotoCallback;
+            documentPhotoCallback=null;
+            if(callback==null)return;
+            Uri selected=result.getData()!=null?result.getData().getData():null;
+            if(result.getResultCode()==Activity.RESULT_OK && selected==null)selected=documentCameraUri;
+            callback.onReceiveValue(result.getResultCode()==Activity.RESULT_OK && selected!=null?new Uri[]{selected}:null);
+            documentCameraUri=null;
+        });
 
     private final ActivityResultLauncher<Intent> camera =
         registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -288,10 +303,33 @@ public final class MainActivity extends ComponentActivity {
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(false);
-        settings.setAllowContentAccess(false);
+        settings.setAllowContentAccess(true); // Required for user-selected content:// images; file:// access remains disabled.
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         settings.setGeolocationEnabled(true);
         web.setWebChromeClient(new WebChromeClient(){
+            @Override public boolean onShowFileChooser(WebView view,ValueCallback<Uri[]> callback,FileChooserParams params){
+                if(web==null || !APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost())){callback.onReceiveValue(null);return true;}
+                if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}
+                documentPhotoCallback=callback;
+                try{
+                    Intent pick=new Intent(Intent.ACTION_GET_CONTENT);
+                    pick.setType("image/*");pick.addCategory(Intent.CATEGORY_OPENABLE);
+                    Intent chooser=Intent.createChooser(pick,"Alege fotografia documentului");
+                    // An optional camera action stays separate from OCR and never uploads images.
+                    try{
+                        File folder=new File(getCacheDir(),"document-camera");
+                        if(!folder.exists())folder.mkdirs();
+                        File image=File.createTempFile("document_",".jpg",folder);
+                        documentCameraUri=FileProvider.getUriForFile(MainActivity.this,getPackageName()+".fileprovider",image);
+                        Intent capture=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        capture.putExtra(MediaStore.EXTRA_OUTPUT,documentCameraUri);
+                        capture.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,new Intent[]{capture});
+                    }catch(Exception ignored){documentCameraUri=null;}
+                    documentPhotos.launch(chooser);
+                }catch(Exception ex){documentPhotoCallback=null;documentCameraUri=null;callback.onReceiveValue(null);}
+                return true;
+            }
             @Override public void onGeolocationPermissionsShowPrompt(String origin,GeolocationPermissions.Callback callback) {
                 if(!APP_HOST.equals(Uri.parse(origin).getHost())){callback.invoke(origin,false,false);return;}
                 boolean granted=ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED ||
@@ -453,6 +491,6 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ignored){}
     }
 
-    @Override protected void onDestroy(){stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}if(web!=null){web.destroy();}super.onDestroy();}
+    @Override protected void onDestroy(){if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}if(web!=null){web.destroy();}super.onDestroy();}
 
 }

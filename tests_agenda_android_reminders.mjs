@@ -17,6 +17,15 @@ assert.match(manifest,/RECEIVE_BOOT_COMPLETED/);
 assert.match(manifest,/AgendaReminderReceiver/);
 assert.match(main,/WEB_MESSAGE_LISTENER[\s\S]*?"PocketAndroidAgenda"/);
 assert.match(main,/ensureAgendaNotificationPermission\(\)/);
+assert.match(main,/onShowFileChooser\(WebView view,ValueCallback<Uri\[\]> callback/,'Android WebView supports user-selected document pictures');
+assert.match(main,/new Intent\(Intent\.ACTION_GET_CONTENT\)/,'document chooser uses OS content picker');
+assert.match(main,/MediaStore\.ACTION_IMAGE_CAPTURE/,'camera remains a user-initiated option');
+assert.match(main,/documentPhotoCallback/,'file chooser results are handled');
+assert.match(main,/settings\.setAllowFileAccess\(false\)/,'arbitrary file scheme remains disabled');
+assert.match(main,/settings\.setAllowContentAccess\(true\)/,'chosen image content URIs are permitted');
+const filePaths=readFileSync(root+'res/xml/file_paths.xml','utf8');
+assert.match(filePaths,/document_camera_cache/,'only scoped camera cache is offered');
+
 assert.match(main,/EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS,2200L/,'speech uses natural pause allowance');
 assert.match(main,/EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,1400L/,'speech does not stop on brief pauses');
 assert.match(main,/EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS,1000L/,'short syllables are not forced to finalize');
