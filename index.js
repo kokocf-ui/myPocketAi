@@ -1436,6 +1436,10 @@ body.long-choice-active{overflow:hidden}
 #view-module .budget-report-table td:last-child{text-align:right;font-variant-numeric:tabular-nums}
 #view-module .budget-report-amount small{display:block;opacity:.75;margin-top:.2rem}
 </style>
+<style id="budget-edit-report-style">
+#view-module .budget-report-editable{cursor:pointer}
+#view-module .budget-report-editable:focus-visible{outline:2px solid #9ce8ff;outline-offset:-2px}
+</style>
 </head>
 <body>
 <header class="app-header"><img class="brand-mark" src="${AVATAR_DATA}" alt="Avatar myPocket AI"><div class="brand-copy"><div class="brand-name"><span class="my">my</span>Pocket AI</div><div class="brand-sub">Asistentul tău personal pentru orice zi</div></div><div class="plan-pill">FREE ♛</div></header>
@@ -2565,21 +2569,30 @@ function shoppingWrite(data){try{localStorage.setItem(SHOPPING_STORAGE_KEY,JSON.
 /* Check the deployed UI only after leaving a workspace. Do not reload while
    editing a list, answering a dialog, or using an active module. */
 let pocketUiUpdateChecking=false;
+function pocketUiUpdateSafe(){
+ const view=state.currentView;
+ return (view!=='module'||$('view-module').classList.contains('organize-choose'))
+  &&!shoppingPendingAction&&!shoppingVoiceSession?.active&&!agendaListening
+  &&!notesListening&&!dailyListening&&!budgetVoiceListening&&!tasksListening
+  &&!remindersListening&&!document.querySelector('dialog[open]')
+  &&!document.querySelector('input:focus,textarea:focus,select:focus');
+}
 async function checkUiUpdateAfterModuleExit(){
- if(pocketUiUpdateChecking)return;
+ if(pocketUiUpdateChecking||!pocketUiUpdateSafe())return;
  pocketUiUpdateChecking=true;
  try{
   const response=await fetch('/__ui_version',{cache:'no-store'});
   if(!response.ok)return;
   const version=(await response.text()).trim();
   if(version&&version!==document.documentElement.dataset.pocketUiVersion
-   &&!$('view-module').classList.contains('adaptive-workspace-view')
-   &&!shoppingPendingAction){
-   window.location.reload();
-  }
+    &&pocketUiUpdateSafe())window.location.reload();
  }catch(_error){/* Offline: keep the currently usable interface. */}
  finally{pocketUiUpdateChecking=false}
 }
+document.addEventListener('visibilitychange',()=>{
+ if(document.visibilityState==='visible'&&pocketUiUpdateSafe())checkUiUpdateAfterModuleExit();
+});
+setInterval(()=>{if(document.visibilityState==='visible'&&pocketUiUpdateSafe())checkUiUpdateAfterModuleExit()},60000);
 function renderOrganizeChoices(){
  if(tasksListening)tasksVoiceStop();
  if(shoppingVoiceSession?.active)shopVoiceStop();
@@ -2591,7 +2604,6 @@ function renderOrganizeChoices(){
  agendaPendingDelete=null;
  const leavingShopping=$('view-module').classList.contains('adaptive-workspace-view');
  shoppingMode='entry';shoppingPendingAction=null;
- if(leavingShopping)checkUiUpdateAfterModuleExit();
  $('moduleTitle').textContent=learningLabel('Organizare personală','Personal organisation');
  $('moduleTitle').parentElement?.querySelector('.pocket-voice-info')?.remove();
  const root=$('view-module'),host=$('moduleContent');
@@ -2605,6 +2617,7 @@ function renderOrganizeChoices(){
   button.append(icon,title,desc);button.onclick=()=>openOrganizeCategory(cat[0]);grid.append(button);
  });
  host.append(grid);$('moduleLead').textContent='';
+ if(leavingShopping)checkUiUpdateAfterModuleExit();
 }
 /* Reusable, contextual voice-command help; stays in the current module. */
 function pocketVoiceHelp(mode,title){
@@ -3378,6 +3391,28 @@ function budgetSpokenCurrency(text){
  const code=word.match(/(?:^|\\s)([a-z]{3})(?:\\s|$)/);
  return code&&budgetCurrencyCodes().includes(code[1].toUpperCase())?code[1].toUpperCase():null;
 }
+
+function budgetVoiceExpenseTitle(raw){
+ let phrase=String(raw||'').trim();
+ phrase=phrase.replace(/^\\s*(?:am\\s+cheltuit|am\\s+plătit|am\\s+platit|am\\s+primit|am\\s+încasat|am\\s+incasat|spent|paid|received|i\\s+spent|i\\s+paid)\\s*/iu,'');
+ phrase=phrase.replace(/(?:^|\\s)\\d+(?:[,.]\\d+)?\\s*(?:de\\s+)?(?:lire(?:\\s+sterline)?|lira|libr[ea]?|pounds?|gbp|zile|euro|eur|ron|lei|leu|dolari|dollars?|usd|franci|chf|pln)?(?=\\s|$)/iu,' ').trim();
+ // Voice recognition may mistake "lire" for "zile"; don't leave it before "pe combustibil".
+ phrase=phrase.replace(/^(?:lire|lei|zile)\\s+(?=(?:pe|pentru|la)\\s+)/iu,'');
+ phrase=phrase.replace(/^(?:la|de\\s+la|pentru|pe|din)\\s+/iu,'').trim();
+ return phrase.replace(/^[\\s,.;:]+|[\\s,.;:]+$/gu,'').replace(/\\s+/g,' ');
+}
+function budgetRenameEntry(id){
+ const current=budgetRead().entries.find(item=>item.id===id);
+ if(!current)return;
+ pocketEdit(learningLabel('Modifică descrierea','Edit description'),current.title,newTitle=>{
+  const title=String(newTitle||'').trim().slice(0,120);
+  if(!title)return;
+  const data=budgetRead(),index=data.entries.findIndex(item=>item.id===id);
+  if(index<0)return;
+  data.entries[index]={...data.entries[index],title};
+  if(budgetWrite(data))renderBudget();
+ });
+}
 async function budgetVoiceCommand(raw){
  const spoken=shopVoiceFold(raw).replace(/[.,](?=\\s|$)/g,'').trim();
  if(!spoken)return;
@@ -3402,9 +3437,7 @@ async function budgetVoiceCommand(raw){
  const expense=/am cheltuit|am platit|cheltuiala|spent|paid/.test(spoken);
  if(!amount||(!income&&!expense)){notify(learningLabel('Exemplu: „Am cheltuit 45 de lire la Tesco”.','Example: “I spent 45 pounds at Tesco”.'));return}
  const currency=budgetSpokenCurrency(spoken)||budgetRead().baseCurrency;
- const title=String(raw).trim().replace(/^\\s*(?:am cheltuit|am plătit|am platit|am primit|spent|paid|received)\\s*/iu,'')
-  .replace(/\\d+(?:[,.]\\d+)?\\s*(?:de\\s+)?(?:lire|lira|libr[ea]?|pounds|euro|eur|ron|lei|leu|dolari|dollars|usd|franci|chf|pln)?/iu,'')
-  .replace(/^\\s*(?:la|de la|pentru|din)\\s+/iu,'').trim()|| (income?learningLabel('Venit','Income'):learningLabel('Cheltuială','Expense'));
+ const title=budgetVoiceExpenseTitle(raw)|| (income?learningLabel('Venit','Income'):learningLabel('Cheltuială','Expense'));
  const ok=await budgetAddEntry({amount:amount[0],currency,title,date:budgetDateNow(),
   type:income?'income':'expense',category:budgetCategory(title)});
  if(ok)notify(learningLabel('Tranzacție înregistrată.','Transaction saved.'));
@@ -3462,7 +3495,11 @@ function renderBudget(){
    thead.append(headings);table.append(thead);
    const tbody=budgetNode('tbody','');
    for(const item of report.expenses){
-    const tr=budgetNode('tr','');
+    const tr=budgetNode('tr','budget-report-editable');
+    tr.tabIndex=0;tr.setAttribute('role','button');
+    tr.setAttribute('aria-label',learningLabel('Modifică descrierea: ','Edit description: ')+item.title);
+    tr.onclick=()=>budgetRenameEntry(item.id);
+    tr.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();budgetRenameEntry(item.id)}};
     const date=budgetNode('td','',item.date.slice(8,10)+'.'+item.date.slice(5,7));
     const title=budgetNode('td','',item.title);
     const category=budgetNode('td','',budgetCategoryLabel(item.category));
@@ -3613,14 +3650,7 @@ function renderBudget(){
  const latest=[...data.entries].sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt.localeCompare(a.createdAt)).slice(0,10);
  if(!latest.length)scroll.append(budgetNode('p','budget-empty',learningLabel('Nu ai tranzacții. Începe prin a adăuga un venit sau o cheltuială.','No transactions yet. Add an income or expense.')));
  for(const item of latest){
-  const row=budgetButton('',()=>{
-   const message=item.title+' · '+item.date+'\\n'+budgetFormat(item.amount,item.currency)+
-    (item.currency!==ccy?'\\n'+budgetFormat(item.baseAmount,ccy)+' · '+item.rateSource+' '+item.rateDate:'');
-   pocketConfirm(learningLabel('Ștergi tranzacția?\\n','Delete transaction?\\n')+message,()=>{
-    const updated=budgetRead();updated.entries=updated.entries.filter(e=>e.id!==item.id);
-    if(budgetWrite(updated))renderBudget();
-   });
-  },'budget-transaction');
+  const row=budgetButton('',()=>budgetRenameEntry(item.id),'budget-transaction');
   const detail=budgetNode('span','budget-transaction-info');
   detail.append(budgetNode('strong','',item.title),budgetNode('small','',item.date+' · '+budgetCategoryLabel(item.category)));
   row.append(detail,budgetNode('strong',item.type==='income'?'budget-income':'',
