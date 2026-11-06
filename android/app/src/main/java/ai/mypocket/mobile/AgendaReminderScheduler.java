@@ -65,7 +65,7 @@ public final class AgendaReminderScheduler {
 
     static long[] leadMinutes(String preset){
         switch(preset){
-            case "flight":return new long[]{1440,300};
+            case "flight":return new long[]{1440,300,180};
             case "train":return new long[]{60};
             case "exam":return new long[]{10080,1440,120};
             case "bill":return new long[]{10080,1440};
@@ -118,19 +118,19 @@ public final class AgendaReminderScheduler {
                 String preset=eventPreset(e);
                 if(eveningReminder(preset)){
                     ZonedDateTime evening=ZonedDateTime.of(event.toLocalDate().minusDays(1),LocalTime.of(19,0),ZoneId.systemDefault());
-                    scheduleFuture(context,alarm,keys,id,"evening",title,event,evening,now,birthday);
+                    scheduleFuture(context,alarm,keys,id,"evening",title,event,evening,now,birthday,false);
                 }
                 for(long minutes:leadMinutes(preset)){
-                    scheduleFuture(context,alarm,keys,id,"before-"+minutes,title,event,event.minusMinutes(minutes),now,birthday);
+                    scheduleFuture(context,alarm,keys,id,"before-"+minutes,title,event,event.minusMinutes(minutes),now,birthday,"flight".equals(preset));
                 }
                 if(birthday){
                     // Annual birthday at 09:00 local on Feb 28 during non-leap years.
                     // If today's reminders have passed, queue the following year.
                     ZonedDateTime next=birthdayOccurrence(event.getYear()+1,e.optInt("birthdayMonth"),e.optInt("birthdayDay"),ZoneId.systemDefault());
                     if(eveningReminder(preset))scheduleFuture(context,alarm,keys,id,"evening",title,next,
-                        ZonedDateTime.of(next.toLocalDate().minusDays(1),LocalTime.of(19,0),ZoneId.systemDefault()),now,true);
+                        ZonedDateTime.of(next.toLocalDate().minusDays(1),LocalTime.of(19,0),ZoneId.systemDefault()),now,true,false);
                     for(long minutes:leadMinutes(preset)){
-                        scheduleFuture(context,alarm,keys,id,"before-"+minutes,title,next,next.minusMinutes(minutes),now,true);
+                        scheduleFuture(context,alarm,keys,id,"before-"+minutes,title,next,next.minusMinutes(minutes),now,true,false);
                     }
                 }
             }
@@ -150,7 +150,7 @@ public final class AgendaReminderScheduler {
         return PendingIntent.getBroadcast(context,key.hashCode(),intent,flags|PendingIntent.FLAG_IMMUTABLE);
     }
 
-    private static void scheduleFuture(Context context,AlarmManager alarm,Set<String> keys,String id,String type,String title,ZonedDateTime event,ZonedDateTime trigger,ZonedDateTime now,boolean birthday){
+    private static void scheduleFuture(Context context,AlarmManager alarm,Set<String> keys,String id,String type,String title,ZonedDateTime event,ZonedDateTime trigger,ZonedDateTime now,boolean birthday,boolean flight){
         if(!trigger.isAfter(now))return;
         String key=id+":"+event.getYear()+":"+type;
         Intent intent=new Intent(context,AgendaReminderReceiver.class);
@@ -159,6 +159,7 @@ public final class AgendaReminderScheduler {
         intent.putExtra("birthday",birthday);
         intent.putExtra("minutesBefore",type.startsWith("before-")?Long.parseLong(type.substring(7)):0L);
         intent.putExtra("eventAt",event.toInstant().toEpochMilli());
+        intent.putExtra("flightDeparturePrompt",flight && "before-180".equals(type));
         PendingIntent pi=pending(context,key,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         // Inexact while-idle alarms work without Android's restricted exact-alarm permission.
         alarm.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,trigger.toInstant().toEpochMilli(),pi);
@@ -180,6 +181,7 @@ public final class AgendaReminderScheduler {
         else if(minutes>=60)message="Peste aproximativ "+(minutes/60)+" ore: ";
         else message="Peste aproximativ "+minutes+" minute: ";
         if(birthday)message="evening".equals(type)?"Mâine este ziua de naștere: ":"Astăzi este ziua de naștere: ";
+        if(intent.getBooleanExtra("flightDeparturePrompt",false))message="✈️ E timpul să pleci spre aeroport, dacă durata drumului permite. Zborul tău este peste 3 ore: ";
         Intent open=new Intent(context,AvatarLaunchActivity.class);
         open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent tap=PendingIntent.getActivity(context,0,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
