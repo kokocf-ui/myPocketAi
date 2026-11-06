@@ -93,6 +93,7 @@ for(const [spoken,title,date,time] of [
 }
 
 assert.match(inline,/function tasksRepairLegacyVoiceDates\(\)/,'existing voice tasks with times in title are migrated');
+assert.match(inline,/const spokenTask=tasksParseSpokenDeadline\(spoken\)/,'date-first voice commands create tasks without an imperative verb');
 assert.match(inline,/async function tasksSuggestGoal\(title\)/,'goal suggestions are requested from Pocket AI');
 assert.match(inline,/tasksSuggestGoal\(goalName\)/,'manual goal creation opens suggestions');
 assert.match(inline,/tasksSuggestGoal\(parsed\.title\)/,'voice goal creation opens suggestions');
@@ -102,7 +103,8 @@ assert.match(inline,/if\(fromVoice&&due\)tasksToAgenda\(item,true\)/,'voice task
 assert.match(inline,/tasksCreate\(parsed.title,goal,parsed.due,priority,true,parsed.time\)/,'spoken tasks preserve date and hour');
 assert.match(inline,/source:fromVoice\?'voice':'manual'/,'task source persisted');
 assert.match(inline,/if\(item.due&&item.source!=='voice'\)/,'manual agenda button is not duplicated on voice tasks');
-assert.match(inline,/events\.some\(e=>e\.linkedTaskId===item\.id\)/,'repeated linking is deduplicated');
+assert.match(inline,/events\.findIndex\(e=>e\.linkedTaskId===item\.id\)/,'linked agenda entries are updated without duplicates');
+assert.match(inline,/existing\.title===event\.title&&existing\.when===event\.when/,'identical agenda entries are not rewritten');
 assert.match(inline,/allDay:!hasTime,linkedTaskId:item\.id/,'only tasks without a spoken hour remain all-day');
 assert.match(inline,/events:events\.filter\(e=>!e\.allDay\)/,'all-day tasks do not schedule invented Android alarm');
 assert.match(page,/\.tasks-item\{[^}]*flex-direction:column!important/s,'task title keeps full width above action buttons');
