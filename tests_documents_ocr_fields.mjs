@@ -28,7 +28,7 @@ assert.equal(passport.birth,'1974-08-12');
 assert.equal(passport.expires,'2012-04-15');
 const noisyPassport=vm.runInContext('documentsScanExtract('+JSON.stringify('Surname: PP')+',[],'+JSON.stringify('passport')+')',context);
 assert.equal(noisyPassport.holder,undefined,'reject two-character OCR noise rather than inventing passport surname');
-const mrzAfterFull=vm.runInContext('documentsScanExtract('+JSON.stringify('Date of issue: 10.03.2024\\nSURNAME: RANDOM\\n'+mrz)+',[],'+JSON.stringify('passport')+')',context);
+const mrzAfterFull=vm.runInContext('documentsScanExtract('+JSON.stringify('Date of issue: 10.03.2024\nSURNAME: RANDOM\n'+mrz)+',[],'+JSON.stringify('passport')+')',context);
 assert.equal(mrzAfterFull.holder,'ERIKSSON','verified MRZ overrides low-confidence full-page OCR label');
 const mrzParts=mrz.split('\n');
 const splitMrz=[mrzParts[0].slice(0,18),mrzParts[0].slice(18),mrzParts[1].slice(0,26),mrzParts[1].slice(26)].join('\n');
