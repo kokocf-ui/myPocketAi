@@ -66,7 +66,7 @@ assert.match(inline,/SHOPPING_STORAGE_KEY='mypocketai\.shopping\.v1'/,'preserve 
 /* New personal organisation workspace must stay isolated from the proven agenda/shop. */
 assert.match(inline,/if\(key==='tasks'\)\{if\(tasksListening\)tasksVoiceStop\(\);tasksSection='home';renderTasks\(\);return\}/);
 assert.match(inline,/POCKET_TASKS_KEY='mypocketai\.tasks\.v1'/);
-assert.match(inline,/function tasksCreate\(title,goal=false,due='',priority='normal'\)/);
+assert.match(inline,/function tasksCreate\(title,goal=false,due='',priority='normal',fromVoice=false\)/);
 assert.match(inline,/function tasksConfirmDelete\(item\)/);
 assert.match(inline,/function tasksToAgenda\(item,automatic=false\)/);
 assert.match(inline,/if\(fromVoice&&due\)tasksToAgenda\(item,true\)/,'voice task with date syncs automatically');
