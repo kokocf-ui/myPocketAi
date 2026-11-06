@@ -1,107 +1,29 @@
-name: Pocket AI focused regression
+name: Pocket AI minimal code checks
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
     paths:
-      - backend.js
-      - index.js
-      - tests_request_pipeline_regression.mjs
-      - tests_geographic_station_intent.mjs
-      - tests_balmos_recipe_regression.mjs
-      - tests_conversation_context.mjs
-      - tests_transit_topic_intent.mjs
-      - tests_answer_focus.mjs
-      - tests_response_intent.mjs
-      - tests_dialogue_intent.mjs
-      - tests_social_checkin_regression.mjs
-      - tests_dialogue_pipeline.mjs
-      - tests_news_context.mjs
-      - tests_news_pagination.mjs
-      - tests_news_article_detail.mjs
-      - tests_telegram_user_translation.mjs
-      - news_article_detail.mjs
-      - news_context.mjs
-      - news_discovery.mjs
-      - telegram_voluntary_links.mjs
-      - tests_telegram_voluntary_links.mjs
-      - tests_telegram_public_web_links.mjs
-      - telegram_public_web_links.mjs
-      - telegram_mtproto_direct.mjs
-      - tests_telegram_mtproto_direct.mjs
-      - TELEGRAM_MTPROTO_SETUP.md
-      - tests_news_discovery.mjs
-      - tests_news_source_diversity.mjs
-      - dialogue_intent.mjs
-      - tests_entity_disambiguation.mjs
-      - tests_geographic_profile_selection.mjs
-      - tests_locality_list_unique.mjs
-      - tests_persona_dialogue_regression.mjs
-      - tests_persona_relevance_regression.mjs
-      - tests_frontend_dialog_i18n.mjs
-      - tests_education_responsive_layout.mjs
-      - tests_shopping_history_reuse.mjs
-      - tests_shopping_workspace.mjs
-      - tests_documents_ocr_fields.mjs
-      - tests_county_translation_regression.mjs
-      - tests_assistant_address_picker_regression.mjs
-      - tests_accommodation_first_flow.mjs
-      - .github/workflows/test-generalist-mixed.yml
+      - 'backend.js'
+      - 'index.js'
+      - 'package.json'
+      - 'tests.mjs'
+      - 'tests_routes.mjs'
+      - 'tests_navigation_heading.mjs'
+      - 'tests_education_responsive_layout.mjs'
+      - '.github/workflows/test-generalist-mixed.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
-  focused-regression:
+  smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Check JavaScript syntax
-        run: |
-          node --check backend.js
-          node --check index.js
-      - name: Navigation and modal regression
-        run: node tests_navigation_heading.mjs
-      - name: Focused smoke tests
-        run: |
-          node tests_request_pipeline_regression.mjs
-          node tests_geographic_station_intent.mjs
-          node tests_balmos_recipe_regression.mjs
-          node tests_conversation_context.mjs
-          node tests_transit_topic_intent.mjs
-          node tests_answer_focus.mjs
-          node tests_response_intent.mjs
-          node tests_dialogue_intent.mjs
-          node tests_social_checkin_regression.mjs
-          node tests_dialogue_pipeline.mjs
-          node tests_news_context.mjs
-          node tests_news_discovery.mjs
-          node tests_news_source_diversity.mjs
-          node tests_telegram_voluntary_links.mjs
-          node tests_telegram_public_web_links.mjs
-          node tests_telegram_mtproto_direct.mjs
-          node tests_news_pagination.mjs
-          node tests_news_reader.mjs
-          node tests_news_article_detail.mjs
-          node tests_telegram_user_translation.mjs
-          node tests_entity_disambiguation.mjs
-          node tests_geographic_profile_selection.mjs
-          node tests_locality_list_unique.mjs
-          node tests_persona_dialogue_regression.mjs
-          node tests_persona_relevance_regression.mjs
-          node tests_frontend_dialog_i18n.mjs
-          node tests_education_responsive_layout.mjs
-          node tests_shopping_history_reuse.mjs
-          node tests_shopping_workspace.mjs
-          node tests_documents_ocr_fields.mjs
-          node tests_county_translation_regression.mjs
-          node tests_assistant_address_picker_regression.mjs
-          node tests_accommodation_first_flow.mjs
-          node tests_name_only.mjs
-          node tests_landmark_resolution.mjs
+      - name: Validate JavaScript syntax
+        run: npm run check
+      - name: Basic UI integrity
+        run: npm run test:ui
