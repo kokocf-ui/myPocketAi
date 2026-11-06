@@ -22,6 +22,21 @@ for(const [spoken,formula] of [
  ['înmulțit cu','*'],
  ['împărțit la','/'],
  ['doi plus trei','2 + 3'],
+ ['paranteză rotundă','('],
+ ['închide paranteza rotundă',')'],
+ ['deschide paranteza rotundă','('],
+ ['paranteză rotundă închisă',')'],
+ ['paranteză pătrată','['],
+ ['deschide paranteza pătrată','['],
+ ['închide paranteza pătrată',']'],
+ ['paranteză dreaptă','['],
+ ['închide paranteza dreaptă',']'],
+ ['acoladă','{'],
+ ['deschide acolada','{'],
+ ['închide acolada','}'],
+ ['acoladă închisă','}'],
+ ['paranteză pătrată doi plus trei închide paranteza pătrată ori cinci','[ 2 + 3 ] * 5'],
+ ['acoladă paranteză rotundă doi plus trei închide paranteza rotundă închide acolada','{ ( 2 + 3 ) }'],
  ['deschide paranteză doi plus trei închide paranteză ori patru','( 2 + 3 ) * 4']
 ]) assert.equal(convert(spoken),formula,spoken);
 
