@@ -3400,9 +3400,12 @@ function budgetVoiceExpenseTitle(raw){
  let phrase=String(raw||'').trim();
  phrase=phrase.replace(/^\\s*(?:am\\s+cheltuit|am\\s+plătit|am\\s+platit|am\\s+primit|am\\s+încasat|am\\s+incasat|spent|paid|received|i\\s+spent|i\\s+paid|(?:trebuie\\s+sa\\s+)?platesc|(?:trebuie\\s+să\\s+)?plătesc)\\s*/iu,'');
  phrase=phrase.replace(/(?:^|\\s)\\d+(?:[,.]\\d+)?\\s*(?:de\\s+)?(?:lire(?:\\s+sterline)?|lira|libr[ea]?|pounds?|gbp|zile|euro|eur|ron|lei|leu|dolari|dollars?|usd|franci|chf|pln)(?=\\s|$)/iu,' ');
+ phrase=phrase.replace(/(?:^|\\s)(?:pe\\s+)?\\d{1,2}\\s+(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\\s+\\d{4})?(?=\\s|$)/giu,' ');
  phrase=phrase.replace(/\\b(?:pe\\s+\\d{1,2}\\s+)?(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)\\b/giu,' ');
  phrase=phrase.replace(/^(?:în fiecare lună pe|in fiecare luna pe)\\s+\\d{1,2}\\s+/iu,'');
  phrase=phrase.replace(/^(?:trebuie\\s+să|trebuie\\s+sa|voi)\\s+/iu,'');
+ phrase=phrase.replace(/^(?:plătesc|platesc)\\s+/iu,'');
+ phrase=phrase.replace(/^(?:pe|la|pentru)\\s+(?=plătesc|platesc)/iu,'');
  phrase=phrase.replace(/^(?:plătesc|platesc)\\s+/iu,'');
  phrase=phrase.replace(/\\s+de\\s*$/iu,'');
  phrase=phrase.replace(/^(?:lire|lei|zile)\\s+(?=(?:pe|pentru|la)\\s+)/iu,'');
@@ -3437,7 +3440,11 @@ function budgetUpcoming(data){
 function budgetPayPlanned(entry){
  const data=budgetRead(),original=data.entries.find(e=>e.id===(entry.recurringFrom||entry.id));
  if(!original)return;
- if(entry.recurringFrom){
+ if(original.recurring==='monthly'&&original.status==='planned'){
+  data.entries.push({...original,id:shopId(),date:budgetDateNow(),recurring:'',status:'paid',createdAt:new Date().toISOString()});
+  const old=new Date(original.date+'T12:00:00'),day=old.getDate();
+  original.date=budgetISO(new Date(old.getFullYear(),old.getMonth()+1,Math.min(day,new Date(old.getFullYear(),old.getMonth()+2,0).getDate())));
+ }else if(entry.recurringFrom){
   data.entries.push({...original,id:shopId(),date:budgetDateNow(),recurring:'',status:'paid',createdAt:new Date().toISOString()});
  }else if(original.status==='planned'){original.status='paid';original.date=budgetDateNow()}
  else return;
@@ -3510,7 +3517,7 @@ async function budgetVoiceCommand(raw){
 }
 function budgetSpendingReport(entries,day=new Date()){
  const prefix=day.getFullYear()+'-'+String(day.getMonth()+1).padStart(2,'0');
- const expenses=entries.filter(item=>item.type==='expense'&&String(item.date||'').startsWith(prefix))
+ const expenses=entries.filter(item=>item.type==='expense'&&item.status!=='planned'&&String(item.date||'').startsWith(prefix))
   .sort((a,b)=>a.date.localeCompare(b.date)||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));
  const categories=new Map();
  for(const item of expenses)categories.set(item.category||'other',
@@ -3712,7 +3719,7 @@ function renderBudget(){
   });
   scroll.append(labels);
  }
- budgetTitleRow(scroll,learningLabel('Ultimele tranzacții','Latest transactions'));
+ budgetTitleRow(scroll,budgetTab==='planned'?learningLabel('Plăți viitoare','Upcoming payments'):learningLabel('Ultimele tranzacții','Latest transactions'));
  const planned=budgetUpcoming(data),currentMonth=planned.filter(e=>e.date.slice(0,7)===budgetDateNow().slice(0,7));
  const upcomingSum=currentMonth.reduce((sum,e)=>sum+Number(e.baseAmount),0);
  const totalsRow=budgetNode('div','budget-stats');
