@@ -1661,6 +1661,82 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 .pocket-voice-example span{font-size:.92rem}
 .pocket-voice-guide small{display:block;margin-top:.7rem;opacity:.8}
 #view-module.adaptive-workspace-view .agenda-detail-actions button{min-height:clamp(2.6rem,6dvh,3.4rem)}
+
+/* Align info as an independent control next to the title, never on a second line. */
+#view-module.organize-active>.module-heading-row{
+ display:flex!important;align-items:center;justify-content:flex-start;
+ gap:clamp(.3rem,1.2vw,.65rem);min-width:0;
+}
+#view-module.organize-active>.module-heading-row .section-title{
+ flex:0 1 auto;min-width:0;max-width:calc(100% - 2.7rem);
+ font-size:clamp(1rem,4.25vw,1.4rem)!important;line-height:1.16;
+ overflow-wrap:normal;word-break:normal;
+}
+#view-module.organize-active>.module-heading-row .pocket-voice-info{
+ flex:0 0 auto!important;margin:0!important;align-self:center;
+ width:clamp(1.7rem,5.7vw,2.2rem)!important;
+ height:clamp(1.7rem,5.7vw,2.2rem)!important;
+ font-size:clamp(.98rem,3vw,1.2rem)!important;
+ display:grid!important;place-items:center;
+}
+/* Fixed microphone and live listening feedback; calendar alone is scrollable. */
+#view-module.adaptive-workspace-view .agenda-workspace{
+ grid-template-rows:auto auto minmax(0,1fr)!important;
+ gap:clamp(.2rem,.65dvh,.45rem);
+}
+#view-module.adaptive-workspace-view .agenda-workspace>.agenda-speech-state{
+ min-height:0;margin:0;padding:0 .25rem;
+ font-size:clamp(.75rem,2.5vw,.9rem);line-height:1.2;
+ color:#a5e9fa;overflow-wrap:anywhere;
+}
+#view-module.adaptive-workspace-view .agenda-workspace>.agenda-speech-state:empty{display:none}
+#view-module.adaptive-workspace-view .agenda-microphone.is-listening{
+ border-color:#86e4f7;box-shadow:0 0 .8rem #38c9db88;
+}
+.agenda-command-example{display:block;font-size:clamp(.72rem,2.7vw,.87rem);line-height:1.25;opacity:.78}
+/* Calendar navigation: equal view cells, compact and aligned date controls. */
+#view-module.adaptive-workspace-view .agenda-calendar-toolbar{
+ display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:clamp(.2rem,.8vw,.4rem);min-width:0;
+}
+#view-module.adaptive-workspace-view .agenda-calendar-toolbar button{
+ min-height:clamp(2rem,4.6dvh,2.55rem)!important;
+ height:auto!important;padding:.25rem .15rem!important;
+ margin:0!important;border-radius:clamp(.55rem,2vw,.85rem)!important;
+ font-size:clamp(.73rem,2.85vw,.95rem)!important;
+}
+#view-module.adaptive-workspace-view .agenda-calendar-navigation{
+ display:grid!important;grid-template-columns:clamp(2.1rem,8vw,2.7rem) minmax(0,1fr) clamp(2.1rem,8vw,2.7rem) auto;
+ gap:clamp(.2rem,.9vw,.45rem);width:100%;align-items:center;
+}
+#view-module.adaptive-workspace-view .agenda-calendar-navigation button{
+ min-height:clamp(2rem,4.6dvh,2.55rem)!important;
+ height:auto!important;padding:.2rem clamp(.25rem,.9vw,.45rem)!important;
+ margin:0!important;min-width:0!important;
+ border-radius:clamp(.5rem,2vw,.8rem)!important;
+ font-size:clamp(.8rem,3vw,1rem)!important;
+}
+#view-module.adaptive-workspace-view .agenda-calendar-navigation strong{
+ min-width:0;line-height:1.2;text-align:center;
+ font-size:clamp(.8rem,3vw,1rem)!important;
+}
+/* Event details: return control and balanced actions, no full-width giant back button. */
+#view-module.adaptive-workspace-view .agenda-detail>.agenda-detail-back{
+ display:inline-flex;align-self:flex-start;justify-content:center;align-items:center;
+ width:auto!important;max-width:80%;min-height:clamp(2.25rem,5dvh,2.7rem)!important;
+ padding:.4rem .75rem!important;margin:0!important;
+ border-radius:.8rem!important;font-size:clamp(.8rem,2.95vw,1rem)!important;
+}
+#view-module.adaptive-workspace-view .agenda-detail-actions{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:clamp(.35rem,1vw,.65rem);width:100%;
+}
+#view-module.adaptive-workspace-view .agenda-detail-actions button{
+ min-width:0!important;min-height:clamp(2.4rem,5.5dvh,3rem)!important;
+ padding:.4rem .6rem!important;margin:0!important;
+ font-size:clamp(.85rem,3.1vw,1rem)!important;
+ border-radius:clamp(.65rem,2vw,.9rem)!important;
+}
 </style>
 <style id="shopping-single-screen">
 /* Shopping-only navigation: Home remains in the shared header; Back and Active List
