@@ -1816,13 +1816,14 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 .tasks-voice-status{display:block;min-height:1em;text-align:center;color:#a4edfb;font-size:clamp(10px,2.5vw,13px)}
 .tasks-toolbar .tasks-dictation.is-listening{border-color:#86e4f7!important;box-shadow:0 0 .8rem #38c9db88!important}
 .tasks-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:2px 3px 12px}
-.tasks-add{display:flex;gap:6px;flex-wrap:wrap;padding:4px 0}
-.tasks-add input,.tasks-add select{flex:1 1 135px;min-width:0;min-height:37px}
-.tasks-item{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:9px 5px;border-bottom:1px solid #567b875e;min-width:0}
-.tasks-item-text{flex:1;min-width:0;overflow-wrap:anywhere}
-.tasks-item-text small{display:block;color:#a7cbd5}
-.tasks-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
-.tasks-actions button{min-height:36px;min-width:38px;padding:6px 8px}
+.tasks-add{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(5px,1.5vw,10px);padding:4px 0;min-width:0;width:100%}
+.tasks-add input,.tasks-add select,.tasks-add button{box-sizing:border-box;width:100%;min-width:0;max-width:100%;min-height:37px}
+.tasks-item{display:flex!important;flex-direction:column!important;gap:clamp(6px,1dvh,10px);align-items:stretch!important;justify-content:flex-start!important;width:100%!important;min-width:0!important;box-sizing:border-box;padding:10px 5px;border-bottom:1px solid #567b875e}
+.tasks-item-text{display:block!important;flex:none!important;width:100%!important;max-width:100%!important;min-width:0!important;white-space:normal!important;overflow-wrap:break-word!important;word-break:normal!important}
+.tasks-item-text strong,.tasks-item-text small{display:block!important;width:100%!important;max-width:100%!important;white-space:normal!important;overflow-wrap:break-word!important;word-break:normal!important}
+.tasks-item-text small{color:#a7cbd5;margin-top:4px}
+.tasks-actions{display:flex!important;gap:clamp(5px,1.5vw,9px);flex-wrap:wrap!important;justify-content:flex-start!important;width:100%!important;min-width:0!important}
+.tasks-actions button{flex:0 1 auto;min-height:36px;min-width:0!important;max-width:100%!important;padding:6px 10px!important;font-size:clamp(12px,3vw,16px)!important}
 .tasks-progress{height:8px;background:#304f65;border-radius:20px;overflow:hidden}
 .tasks-progress span{display:block;height:100%;background:#50c8b9}
 @media (max-height:420px){.tasks-tile svg{height:clamp(36px,10dvh,52px)}.tasks-tile{gap:2px}.tasks-tiles{gap:5px}}
@@ -2520,20 +2521,28 @@ function tasksDueLabel(value){
  const date=new Date(value+'T12:00:00');
  return Number.isNaN(date.getTime())?value:date.toLocaleDateString(state.language==='ro'?'ro-RO':'en-GB');
 }
-function tasksCreate(title,goal=false,due='',priority='normal'){
+function tasksCreate(title,goal=false,due='',priority='normal',fromVoice=false){
  title=String(title||'').trim();if(!title)return false;
- const data=tasksRead();data.push({id:shopId(),title:title.slice(0,140),goal,priority,due,done:false,archived:false,createdAt:new Date().toISOString()});
- return tasksWrite(data);
+ const data=tasksRead(),item={id:shopId(),title:title.slice(0,140),goal,priority,due,done:false,archived:false,createdAt:new Date().toISOString()};
+ data.push(item);
+ if(!tasksWrite(data))return false;
+ if(fromVoice&&due)tasksToAgenda(item,true);
+ return true;
 }
 function tasksUpdate(id,update){const data=tasksRead(),i=data.findIndex(t=>t.id===id);if(i<0)return false;data[i]={...data[i],...update};return tasksWrite(data)}
 function tasksDelete(id){const data=tasksRead();return tasksWrite(data.filter(t=>t.id!==id))}
-function tasksToAgenda(item){
- if(!item.due){notify(learningLabel('Stabilește un termen pentru a trimite sarcina în Agendă.','Set a deadline to add this task to the agenda.'));return}
- const events=agendaRead();const existing=events.find(e=>e.linkedTaskId===item.id);
- if(existing){notify(learningLabel('Sarcina există deja în Agendă.','This task is already in the agenda.'));return}
- const when=new Date(item.due+'T09:00:00');if(Number.isNaN(when.getTime()))return;
- events.push({id:shopId(),title:item.title,kind:'task',linkedTaskId:item.id,when:when.toISOString(),reminderPreset:agendaReminderPreset(item.title),createdAt:new Date().toISOString()});
- if(agendaWrite(events))notify(learningLabel('Adăugat în Agendă la ora 09:00. Ora poate fi modificată acolo.','Added to the agenda at 09:00. You can change the time there.'));
+function tasksToAgenda(item,automatic=false){
+ if(!item.due){if(!automatic)notify(learningLabel('Stabilește un termen pentru a trimite sarcina în Agendă.','Set a deadline to add this task to the agenda.'));return false}
+ const events=agendaRead();
+ if(events.some(e=>e.linkedTaskId===item.id))return true;
+ // No spoken hour: save an all-day dated entry, never an invented 09:00 appointment.
+ const when=new Date(item.due+'T12:00:00');
+ if(Number.isNaN(when.getTime()))return false;
+ events.push({id:shopId(),title:item.title,kind:'task',allDay:true,linkedTaskId:item.id,when:when.toISOString(),reminderPreset:'default',createdAt:new Date().toISOString()});
+ const ok=agendaWrite(events);
+ if(!ok)return false;
+ notify(automatic?learningLabel('Sarcina a fost adăugată automat în Agendă, fără oră stabilită.','Task automatically added to the agenda without a set time.'):learningLabel('Sarcina a fost adăugată în Agendă, fără oră stabilită.','Task added to the agenda without a set time.'));
+ return true;
 }
 function tasksVoiceStatus(message){
  const status=document.querySelector('.tasks-voice-status');
@@ -2582,7 +2591,7 @@ function tasksVoiceCommand(phrase){
   if(tm){const d=new Date();if(/m[aâ]ine/i.test(tm[1]))d.setDate(d.getDate()+1);due=[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');title=title.slice(0,tm.index).trim()}
   const priority=/prioritate (?:mare|ridicata|ridicată)/i.test(title)?'high':'normal';
   title=title.replace(/[, ]*prioritate (?:mare|ridicata|ridicată)/i,'').trim();
-  if(tasksCreate(title,goal,due,priority)){tasksSection=goal?'goals':'items';renderTasks()}
+  if(tasksCreate(title,goal,due,priority,true)){tasksSection=goal?'goals':'items';renderTasks()}
   return;
  }
  notify(learningLabel('Spune „Adaugă sarcină...” sau „Bifează...”.','Say “Add task...” or “Complete...”.'));
@@ -2682,7 +2691,7 @@ function agendaRead(){
 }
 function agendaSyncAndroid(events){
  try{
-  window.PocketAndroidAgenda?.postMessage(JSON.stringify({action:'sync',events}));
+  window.PocketAndroidAgenda?.postMessage(JSON.stringify({action:'sync',events:events.filter(e=>!e.allDay)}));
  }catch{}
 }
 function agendaReminderPreset(title){
@@ -2927,6 +2936,7 @@ function renderAgenda(){
   const date=agendaLocalDate(selected,agendaCursor.getFullYear());
   detail.append(element('p','agenda-event-time',birthday?
    date.toLocaleDateString(locale,{day:'numeric',month:'long'})+' · '+learningLabel('În fiecare an','Every year'):
+   selected.allDay?date.toLocaleDateString(locale,{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' · '+learningLabel('Fără oră stabilită','No set time'):
    date.toLocaleString(locale,{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})));
   if(!agendaEditing){
    if(selected.location)detail.append(element('p','',learningLabel('Locație: ','Location: ')+selected.location));
