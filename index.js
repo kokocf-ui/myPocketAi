@@ -6221,8 +6221,8 @@ function openLearningSubject(key){
  const pick=document.createElement('button');pick.type='button';pick.className='secondary-btn';pick.textContent=learningLabel('🖼️ Alege fotografie','🖼️ Choose photo');
  const cameraInput=document.createElement('input');cameraInput.type='file';cameraInput.accept='image/*';cameraInput.setAttribute('capture','environment');cameraInput.hidden=true;
  const fileInput=document.createElement('input');fileInput.type='file';fileInput.accept='image/*';fileInput.hidden=true;
- photo.onclick=()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage('camera'):cameraInput.click();
- pick.onclick=()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage('gallery'):fileInput.click();
+ photo.onclick=()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage(key==='math'?'camera:math':'camera'):cameraInput.click();
+ pick.onclick=()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage(key==='math'?'gallery:math':'gallery'):fileInput.click();
  cameraInput.onchange=()=>handleLearningPhoto(cameraInput.files?.[0]);
  fileInput.onchange=()=>handleLearningPhoto(fileInput.files?.[0]);
  actions.append(photo,pick,cameraInput,fileInput);host.append(actions);
@@ -6242,20 +6242,57 @@ function openLearningSubject(key){
  }
  inputEl.placeholder=learningLabel('Întreabă despre '+subject[2].toLowerCase()+'…','Ask about '+subject[3].toLowerCase()+'…');
 }
+// Educational mathematics: reject obvious OCR fragments, not legitimate hand-entered work.
+function educationMathOcrIncomplete(value){
+ const raw=String(value||'').replace(/\\s+/g,'');
+ if(!raw||raw.length<4||!/\\d/.test(raw))return true;
+ // Word problems may be narrative. Only enforce symbol structure on short expressions.
+ if(/\\w{4,}\\s+\\w{4,}/.test(String(value||'')))return false;
+ let depth=0;
+ for(const ch of raw){
+  if(ch==='(')depth++;
+  else if(ch===')'&&--depth<0)return true;
+ }
+ if(depth!==0||/[=+\\-*/×÷(]$/.test(raw))return true;
+ if(raw.includes('=')&&raw.split('=').some(x=>!x))return true;
+ return false;
+}
 window.pocketAndroidOcrResult=function(data){
  if(state.currentModule!=='learning'||!activeLearningSubject||state.currentView!=='module')return;
  if(data?.status==='cancelled')return;
  const host=$('moduleContent');host.querySelector('.education-photo-panel')?.remove();
  const panel=document.createElement('div');panel.className='education-photo-panel';
  const status=document.createElement('p');
- status.textContent=data?.status==='success'?learningLabel('Text citit pe telefon. Verifică și corectează înainte de trimitere.','Text recognized on device. Review and correct before sending.'):learningLabel('Recunoașterea textului a eșuat. Poți introduce textul manual.','Text recognition failed. You may enter text manually.');
+ const mathOcr=activeLearningSubject[0]==='math';
+ const preliminary=data?.status==='review'||data?.status==='partial';
+ status.textContent=preliminary?
+  (data?.status==='partial'?learningLabel('Formula nu a fost recunoscută complet. Corectează transcrierea sau repetă fotografia.','The formula was not fully recognized. Correct the transcription or retake the photo.'):
+   learningLabel('Citire preliminară, neverificată: compară fiecare cifră și simbol cu fotografia.','Unverified preliminary reading: compare every digit and symbol against the photograph.')):
+  data?.status==='success'?learningLabel('Text citit pe telefon. Verifică și corectează înainte de trimitere.','Text recognized on device. Review and correct before sending.'):
+  learningLabel('Recunoașterea textului a eșuat. Poți introduce textul manual.','Text recognition failed. You may enter text manually.');
  const extracted=document.createElement('textarea');extracted.rows=6;extracted.value=typeof data?.text==='string'?data.text.slice(0,12000):'';
  extracted.placeholder=learningLabel('Textul recunoscut sau corectat','Recognized or corrected text');
+ const alternative=(mathOcr&&typeof data?.alternative==='string'&&data.alternative.trim()!==extracted.value.trim())?data.alternative.trim():'';
+ const altButton=document.createElement('button');altButton.type='button';altButton.className='secondary-btn';
+ altButton.textContent=learningLabel('Vezi varianta OCR alternativă','See alternate OCR reading');
+ altButton.onclick=()=>{
+  const previous=extracted.value;extracted.value=alternative;
+  // A different OCR candidate is never silently treated as the correct answer.
+  data.alternative=previous;
+  updateMathButton();
+ };
  const options=document.createElement('select');options.className='text-field';
  [['solve',learningLabel('Explică și rezolvă','Explain and solve')],...(activeLearningSubject[0]==='math'?[['graph',learningLabel('Analizează și reprezintă grafic','Analyze and plot')]]:[]),['translate',learningLabel('Tradu textul','Translate text')],['read',learningLabel('Citește cu voce tare','Read aloud')]].forEach(([value,label])=>{
   const option=document.createElement('option');option.value=value;option.textContent=label;options.append(option);
  });
  const button=document.createElement('button');button.type='button';button.className='primary-btn';button.textContent=learningLabel('Continuă','Continue');
+ const updateMathButton=()=>{
+  const invalid=mathOcr&&educationMathOcrIncomplete(extracted.value);
+  button.disabled=invalid;
+  button.title=invalid?learningLabel('Corectează mai întâi expresia incompletă.','Correct the incomplete expression first.'):'';
+ };
+ extracted.addEventListener('input',updateMathButton);
+ updateMathButton();
  button.onclick=()=>{
   const text=extracted.value.trim();
   if(!text){notify(learningLabel('Nu există text de prelucrat.','No text to process.'));return}
@@ -6263,7 +6300,9 @@ window.pocketAndroidOcrResult=function(data){
   inputEl.value=(options.value==='translate'?learningLabel('Tradu în limba selectată următorul text: ','Translate into the selected language: '):options.value==='graph'?learningLabel('Verifică mai întâi transcrierea matematică, mai ales semnele, fracțiile și exponenții. Dacă este ambiguă, cere clarificare. Apoi analizează funcția, construiește un tabel de valori și reprezint-o grafic numai dacă există un renderer disponibil; altfel oferă instrucțiuni exacte de trasare: ','First verify the mathematical transcription, especially signs, fractions and exponents. Ask for clarification if ambiguous. Then analyze the function, build a value table and plot only when a renderer is available; otherwise provide exact plotting instructions: '):learningLabel('Verifică mai întâi transcrierea și cere clarificări pentru simbolurile incerte. Explică și rezolvă pas cu pas pentru materia ','First check the transcription and ask about uncertain symbols. Explain and solve step by step for ')+learningLabel(activeLearningSubject[2],activeLearningSubject[3])+': ')+text;
   inputEl.focus();notify(learningLabel('Textul este pregătit pentru trimitere.','Text ready to send.'));
  };
- panel.append(status,extracted,options,button);host.append(panel);
+ panel.append(status,extracted);
+ if(alternative){panel.append(altButton);}
+ panel.append(options,button);host.append(panel);
 };
 async function handleLearningPhoto(file){
  if(!file||!activeLearningSubject)return;
