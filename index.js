@@ -3457,14 +3457,14 @@ function budgetQueryPeriod(spoken,now=new Date()){
  const t=shopVoiceFold(spoken),today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
  const months=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
  let first=null,last=null;
- const named=t.match(/(?:in|pentru|din|pe)?\\s*(?:luna\\s+)?(ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\\s+(\\d{4}))?/);
+ const named=t.match(/(?:\\b(?:in|pentru|din|pe)\\s+(?:luna\\s+)?|\\bluna\\s+)(ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\\s+(\\d{4}))?/);
  if(named){
   let y=Number(named[2]||today.getFullYear()),m=months.indexOf(named[1]);
   if(!named[2]&&new Date(y,m+1,0)<today)y++;
   first=new Date(y,m,1);last=new Date(y,m+1,0);
  }else if(/luna viitoare|next month/.test(t)){
   first=new Date(today.getFullYear(),today.getMonth()+1,1);last=new Date(today.getFullYear(),today.getMonth()+2,0);
- }else if(/saptamanile viitoare|urmatoarele saptamani|next weeks/.test(t)){
+ }else if(/saptamanile viitoare|saptamani viitoare|urmatoarele saptamani|next weeks/.test(t)){
   first=new Date(today);first.setDate(today.getDate()+1);
   last=new Date(today);last.setDate(today.getDate()+28);
  }else if(/saptamana viitoare|next week/.test(t)){
