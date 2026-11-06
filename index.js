@@ -7399,6 +7399,172 @@ function mathMethodGuide(source){
  intro:learningLabel('Învățăm regula generală, nu refacem aceeași rezolvare. Pentru calculul concret, alege „Rezolvă pas cu pas”.','Learn the general method instead of repeating the calculation. For the specific answer, use “Solve step by step”.'),
  rules,tip:learningLabel('Reține: la fiecare operație păstrează toate celelalte părți ale expresiei.','Remember: retain every other part of the expression when performing an operation.')};
 }
+// Verified local solver for single-variable linear equations. The same parsed
+// coefficients drive the worked solution, the proof, and the general method.
+function mathLinearEquation(source){
+ const lines=String(source||'').replace(/\\r/g,'').split('\\n').map(v=>v.trim()).filter(Boolean);
+ let raw=[...lines].reverse().find(v=>v.includes('='));
+ if(!raw)return null;
+ if(raw.includes(':'))raw=raw.slice(raw.lastIndexOf(':')+1);
+ raw=raw.replace(/[−–]/g,'-').replace(/[×·]/g,'*').replace(/÷/g,'/')
+  .replace(/＝/g,'=').replace(/\\s+/g,'').replace(/X/g,'x');
+ if(!raw.includes('x')||raw.length>160||!/^[0-9x.,()+\\-*/=]+$/.test(raw))return null;
+ const parts=raw.split('=');
+ if(parts.length!==2||parts.some(v=>!v))return null;
+ const parse=input=>{
+  const tokens=input.match(/(?:\\d+(?:[.,]\\d+)?|[.,]\\d+)|[x()+\\-*/]/g);
+  if(!tokens||tokens.join('')!==input||tokens.length>90)return null;
+  let pos=0;
+  const valid=p=>p&&Number.isFinite(p.a)&&Number.isFinite(p.b)
+   &&Math.abs(p.a)<1e11&&Math.abs(p.b)<1e11;
+  const scalar=(a,b)=>valid({a,b})?{a,b}:null;
+  const number=t=>/^(?:\\d+(?:[.,]\\d+)?|[.,]\\d+)$/.test(t||'');
+  const primary=()=>{
+   const token=tokens[pos];
+   if(token==='+'||token==='-'){
+    pos++;const child=primary();
+    return child?scalar(token==='-'?-child.a:child.a,token==='-'?-child.b:child.b):null;
+   }
+   if(token==='('){
+    pos++;const value=sum();
+    if(!value||tokens[pos]!==')')return null;
+    pos++;return value;
+   }
+   if(token==='x'){pos++;return {a:1,b:0}}
+   if(!number(token))return null;
+   pos++;return scalar(0,Number(token.replace(',','.')));
+  };
+  const multiply=(l,r)=>!l||!r||(l.a!==0&&r.a!==0)?null:
+   scalar(l.a*r.b+r.a*l.b,l.b*r.b);
+  const product=()=>{
+   let value=primary();if(!value)return null;
+   for(;;){
+    const token=tokens[pos];
+    const implicit=token==='x'||token==='('||number(token);
+    if(token!=='*'&&token!=='/'&&!implicit)break;
+    if(!implicit)pos++;
+    const right=primary();if(!right)return null;
+    if(token==='/'){
+     if(right.a!==0||right.b===0)return null;
+     value=scalar(value.a/right.b,value.b/right.b);
+    }else value=multiply(value,right);
+    if(!value)return null;
+   }
+   return value;
+  };
+  const sum=()=>{
+   let value=product();if(!value)return null;
+   while(tokens[pos]==='+'||tokens[pos]==='-'){
+    const op=tokens[pos++],right=product();
+    if(!right)return null;
+    value=scalar(value.a+(op==='+'?right.a:-right.a),
+     value.b+(op==='+'?right.b:-right.b));
+    if(!value)return null;
+   }
+   return value;
+  };
+  const result=sum();
+  return pos===tokens.length?result:null;
+ };
+ const left=parse(parts[0]),right=parse(parts[1]);
+ if(!left||!right)return null;
+ const coefficient=left.a-right.a,constant=right.b-left.b;
+ const tolerance=1e-10*Math.max(1,Math.abs(left.a),Math.abs(right.a),Math.abs(left.b),Math.abs(right.b));
+ const kind=Math.abs(coefficient)<=tolerance?
+  (Math.abs(constant)<=tolerance?'identity':'contradiction'):'unique';
+ const value=kind==='unique'?constant/coefficient:null;
+ if(kind==='unique'&&(!Number.isFinite(value)||Math.abs(value)>1e10))return null;
+ if(kind==='unique'){
+  const lhs=left.a*value+left.b,rhs=right.a*value+right.b;
+  if(!Number.isFinite(lhs)||!Number.isFinite(rhs)||
+   Math.abs(lhs-rhs)>1e-8*Math.max(1,Math.abs(lhs),Math.abs(rhs)))return null;
+ }
+ return {raw,left,right,coefficient,constant,kind,value};
+}
+function mathLinearNotation(value){
+ const number=n=>new Intl.NumberFormat(state.language||'ro',{maximumFractionDigits:9,useGrouping:false})
+  .format(Object.is(n,-0)?0:n).replace(/-/g,'−');
+ const polynomial=({a,b})=>{
+  const tiny=n=>Math.abs(n)<1e-10;
+  const ax=tiny(a)?'':(Math.abs(a-1)<1e-10?'x':
+   Math.abs(a+1)<1e-10?'−x':number(a)+'x');
+  if(tiny(b))return ax||'0';
+  if(!ax)return number(b);
+  return ax+(b<0?' − ':' + ')+number(Math.abs(b));
+ };
+ return {number,polynomial};
+}
+function mathLinearSolution(source){
+ const model=mathLinearEquation(source);if(!model)return null;
+ const {number,polynomial}=mathLinearNotation(),{left,right,coefficient,constant,kind,value}=model;
+ const initial=model.raw.replace(/\\*/g,'×').replace(/-/g,'−');
+ const simplified=polynomial(left)+' = '+polynomial(right);
+ const rearranged=polynomial({a:coefficient,b:0})+' = '+number(constant);
+ const steps=[],add=(label,reason,operation,fullAfter)=>steps.push({
+  label,reason,operation,fullAfter,signRule:''});
+ add(learningLabel('Desfacem parantezele și reducem termenii','Expand and collect like terms'),
+  learningLabel('Aplicăm proprietatea distributivă: înmulțim fiecare termen din paranteză cu factorul din fața ei. Apoi adunăm termenii asemenea, păstrând ambii membri ai ecuației.',
+   'Use the distributive law, multiplying each term inside a bracket by the outside factor. Then combine like terms and keep both sides of the equation.'),
+  initial+' → '+simplified,simplified);
+ add(learningLabel('Grupăm necunoscuta și numerele','Collect unknowns and constants'),
+  learningLabel('Scădem aceleași expresii din ambii membri: termenii cu x rămân în stânga, iar numerele în dreapta.',
+   'Subtract the same expressions from both sides: keep x terms on the left and constants on the right.'),
+  simplified+' → '+rearranged,rearranged);
+ let conclusion='';
+ if(kind==='identity'){
+  conclusion=learningLabel('Identitate verificată: orice număr real x este soluție.',
+   'Identity verified: every real number x is a solution.');
+ }else if(kind==='contradiction'){
+  conclusion=learningLabel('Ecuația nu are soluții: rezultă o egalitate falsă între două numere.',
+   'There is no solution: the equation reduces to a false numerical statement.');
+ }else{
+  const solution='x = '+number(value);
+  add(learningLabel('Împărțim la coeficientul lui x','Divide by the coefficient of x'),
+   learningLabel('Coeficientul lui x este nenul. Împărțim ambii membri la același număr, fără să schimbăm egalitatea.',
+    'The coefficient of x is nonzero. Divide both sides by this number to preserve the equality.'),
+   rearranged+' → '+solution,solution);
+  const lhs=left.a*value+left.b,rhs=right.a*value+right.b;
+  const checked=number(lhs)+' = '+number(rhs);
+  add(learningLabel('Verificăm soluția în ecuația inițială','Check in the original equation'),
+   learningLabel('Înlocuim x cu valoarea găsită în ambii membri ai ecuației originale; valorile trebuie să coincidă.',
+    'Substitute the found value for x in both sides of the ORIGINAL equation. Their values must match.'),
+   learningLabel('Pentru x = ','For x = ')+number(value)+
+   learningLabel(', stânga = ', ', left = ')+number(lhs)+
+   learningLabel(' și dreapta = ',' and right = ')+number(rhs)+'.',checked);
+  conclusion=learningLabel('Soluția verificată este ','The verified solution is ')+solution+'.';
+ }
+ return {intro:learningLabel(
+  'Rezolvăm ecuația de gradul I folosind reguli de echivalență. Nu schimbăm enunțul și verificăm rezultatul în ecuația originală.',
+  'Solve the linear equation using equivalent transformations. Keep the original equation and verify the answer in it.'),
+  steps,conclusion,kind,solution:value};
+}
+function mathLinearMethodGuide(source){
+ if(!mathLinearEquation(source))return null;
+ const labels=[
+  [learningLabel('Recunoaștem ecuația','Identify the equation'),
+   learningLabel('Este o ecuație de gradul I dacă, după simplificare, necunoscuta apare numai la puterea întâi.',
+    'It is a linear equation when the variable appears only to the first power after simplification.')],
+  [learningLabel('Aplicăm distributivitatea','Use the distributive law'),
+   learningLabel('Înmulțim fiecare termen din paranteză cu factorul exterior, respectând semnele.',
+    'Multiply every term in the brackets by the outside factor, respecting signs.')],
+  [learningLabel('Reducem termenii asemenea','Combine like terms'),
+   learningLabel('Adunăm separat termenii cu necunoscuta și termenii numerici.',
+    'Combine variable terms and constant terms separately.')],
+  [learningLabel('Păstrăm ecuații echivalente','Preserve equivalent equations'),
+   learningLabel('Adunăm sau scădem aceeași valoare în ambii membri; apoi împărțim ambii membri la coeficientul nenul al necunoscutei.',
+    'Add or subtract the same quantity on both sides, then divide both sides by the nonzero variable coefficient.')],
+  [learningLabel('Verificăm rezultatul','Verify the result'),
+   learningLabel('Înlocuim necunoscuta în ecuația inițială, nu într-o expresie modificată greșit. Dacă apare 0 = 0, sunt infinit de multe soluții; dacă apare 0 egal cu un număr nenul, nu există soluții.',
+    'Substitute into the original equation. If it reduces to 0 = 0 there are infinitely many solutions; if 0 equals a nonzero number there are no solutions.')]
+ ];
+ return {heading:learningLabel('Metoda generală pentru ecuații de gradul I','General method for linear equations'),
+  intro:learningLabel('Acestea sunt regulile aplicabile oricărei ecuații de acest tip. Pentru calculul concret, alege „Rezolvă pas cu pas”.',
+   'These rules apply to all equations of this type. For the calculation, choose Solve step by step.'),
+  rules:labels.map(([title,text])=>({title,text})),
+  tip:learningLabel('Nu confunda desfacerea parantezelor cu înmulțirea termenilor din interior între ei.',
+   'Do not confuse expanding a product with multiplying the terms inside the bracket together.')};
+}
+
 // For plotted functions, the graph and the explanation must share the exact
 // same parsed coefficients. Never use an unrelated generated answer here.
 function mathFunctionLesson(source,mode){
@@ -7674,8 +7840,8 @@ function mathEducationRun(mode){
  }
  const tasks=mathSplitExercises(source).map(text=>({text,reply:'',error:null,
   functionLesson:mathFunctionLesson(text,mode),
-  detailed:mode==='solve'?mathDetailedArithmetic(text):null,
-  methodGuide:mode==='explain'?mathMethodGuide(text):null}));
+  detailed:mode==='solve'?(mathLinearSolution(text)||mathDetailedArithmetic(text)):null,
+  methodGuide:mode==='explain'?(mathLinearMethodGuide(text)||mathMethodGuide(text)):null}));
  if(!tasks.length){status.textContent=learningLabel('Nu există un exercițiu de rezolvat.','No exercise to solve.');return}
  mathCloseResults();
  const session={mode,tasks,active:0,controller:new AbortController()};
