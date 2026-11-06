@@ -6272,13 +6272,12 @@ window.pocketAndroidOcrResult=function(data){
   learningLabel('Recunoașterea textului a eșuat. Poți introduce textul manual.','Text recognition failed. You may enter text manually.');
  const extracted=document.createElement('textarea');extracted.rows=6;extracted.value=typeof data?.text==='string'?data.text.slice(0,12000):'';
  extracted.placeholder=learningLabel('Textul recunoscut sau corectat','Recognized or corrected text');
- const alternative=(mathOcr&&typeof data?.alternative==='string'&&data.alternative.trim()!==extracted.value.trim())?data.alternative.trim():'';
+ let alternative=(mathOcr&&typeof data?.alternative==='string'&&data.alternative.trim()!==extracted.value.trim())?data.alternative.trim():'';
  const altButton=document.createElement('button');altButton.type='button';altButton.className='secondary-btn';
  altButton.textContent=learningLabel('Vezi varianta OCR alternativă','See alternate OCR reading');
  altButton.onclick=()=>{
-  const previous=extracted.value;extracted.value=alternative;
-  // A different OCR candidate is never silently treated as the correct answer.
-  data.alternative=previous;
+  const previous=extracted.value;extracted.value=alternative;alternative=previous;
+  // Either variant requires a human check before solving.
   updateMathButton();
  };
  const options=document.createElement('select');options.className='text-field';
