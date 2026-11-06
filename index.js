@@ -2592,8 +2592,10 @@ function pocketModal({title,message,mode='info',value='',onConfirm}={}){
  body.replaceChildren();actions.replaceChildren();
  const description=document.createElement('p');description.textContent=String(message||'');description.style.margin='0 0 10px';body.append(description);
  let editor=null;
- if(mode==='edit'){
-  editor=document.createElement('input');editor.type='text';editor.maxLength=140;editor.value=String(value||'');
+ if(mode==='edit'||mode==='secret'){
+  editor=document.createElement('input');editor.type=mode==='secret'?'password':'text';
+  editor.maxLength=mode==='secret'?256:140;editor.value=String(value||'');
+  if(mode==='secret'){editor.autocomplete='off';editor.spellcheck=false;editor.autocapitalize='none';}
   editor.setAttribute('aria-label',String(title||'Edit'));body.append(editor);
  }
  const button=(label,fn,danger=false)=>{
@@ -2603,9 +2605,9 @@ function pocketModal({title,message,mode='info',value='',onConfirm}={}){
  };
  const close=()=>{if(dialog.open)dialog.close()};
  if(mode!=='info')button(learningLabel('Anulare','Cancel'),close);
- button(mode==='confirm'?learningLabel('Șterge','Delete'):mode==='edit'?learningLabel('Salvează','Save'):'OK',()=>{
-  if(mode==='edit'&&!editor.value.trim()){editor.focus();return}
-  const result=mode==='edit'?editor.value.trim():true;
+ button(mode==='confirm'?learningLabel('Șterge','Delete'):mode==='edit'?learningLabel('Salvează','Save'):mode==='secret'?learningLabel('Începe testul','Start test'):'OK',()=>{
+  if((mode==='edit'||mode==='secret')&&!editor.value.trim()){editor.focus();return}
+  const result=mode==='edit'||mode==='secret'?editor.value.trim():true;
   close();if(typeof onConfirm==='function')onConfirm(result);
  },mode==='confirm');
  try{dialog.showModal();if(editor)editor.focus({preventScroll:true});else actions.lastElementChild?.focus({preventScroll:true})}
@@ -6511,6 +6513,139 @@ window.addEventListener('resize',mathFitViewport,{passive:true});
 window.visualViewport?.addEventListener('resize',mathFitViewport,{passive:true});
 let mathVoiceListening=false;
 let mathVoiceSession=null;
+// New APKs expose whole-utterance Maths audio capture, separate from system ASR.
+let mathPilotToken=''; // memory only; never write credentials to storage
+let mathPilotRecording=false;
+let mathPilotAwaiting=false;
+let mathPilotRequest=null;
+let mathPilotCaptureId=0;
+let mathPilotParts=[];
+let mathPilotExpected=0;
+function mathPilotAvailable(){return typeof window.PocketAndroidMathAudio?.postMessage==='function'}
+function mathPilotCommand(action){
+ try{window.PocketAndroidMathAudio.postMessage(JSON.stringify({action}));return true}catch{return false}
+}
+function mathPilotCancel(){
+ if(mathPilotRequest){mathPilotRequest.abort();mathPilotRequest=null}
+ if(mathPilotRecording||mathPilotAwaiting)mathPilotCommand('stopMathAudio');
+ mathPilotRecording=false;mathPilotAwaiting=false;
+ mathPilotCaptureId=0;mathPilotParts=[];mathPilotExpected=0;
+ $('mathDictation')?.setAttribute('aria-pressed','false');
+}
+function mathPilotStart(){
+ if(!mathPilotAvailable())return;
+ // The user has explicitly accepted remote transcription in the styled modal.
+ stopSpeech();stopRecognition();state.dictationMode=false;state.voiceMode=false;
+ setPressed($('dictationBtn'),false);setPressed($('voiceBtn'),false);
+ mathPilotAwaiting=false;mathPilotRecording=true;
+ mathPilotCaptureId=0;mathPilotParts=[];mathPilotExpected=0;
+ $('mathDictation')?.setAttribute('aria-pressed','true');
+ mathVoiceStatus(learningLabel('Înregistrare continuă (maximum 30 secunde). Apasă iar Dictare pentru transcriere.','Continuous recording (max 30 seconds). Tap Dictate again to transcribe.'));
+ if(!mathPilotCommand('startMathAudio')){
+  mathPilotCancel();mathVoiceStatus(learningLabel('Nu pot porni înregistrarea audio Android.','Cannot start Android audio capture.'));
+ }
+}
+function mathPilotToggle(){
+ if(mathPilotRecording){
+  mathPilotRecording=false;mathPilotAwaiting=true;
+  $('mathDictation')?.setAttribute('aria-pressed','false');
+  mathVoiceStatus(learningLabel('Pregătesc înregistrarea pentru transcriere…','Preparing recording for transcription…'));
+  if(!mathPilotCommand('stopMathAudio'))mathPilotCancel();
+  return;
+ }
+ if(mathPilotAwaiting||mathPilotRequest)return;
+ pocketModal({
+  title:learningLabel('Test de dictare matematică (Whisper)','Math dictation trial (Whisper)'),
+  message:learningLabel(
+   'Înregistrăm maximum 30 de secunde. Când apeși din nou Dictare, vocea este trimisă securizat la Cloudflare Workers AI pentru transcriere, fără stocare în Pocket AI. Introdu cheia privată de test configurată în Cloudflare. Poți renunța prin Anulare.',
+   'Record up to 30 seconds. When you tap Dictate again, audio is securely sent to Cloudflare Workers AI for transcription, without storage in Pocket AI. Enter the private test key configured in Cloudflare. Cancel to opt out.'),
+  mode:'secret',value:mathPilotToken,
+  onConfirm:key=>{
+   if(key.length<32){
+    mathVoiceStatus(learningLabel('Cheia pilot trebuie configurată în Cloudflare și să aibă cel puțin 32 de caractere.','The Cloudflare pilot key must have at least 32 characters.'));
+    return;
+   }
+   mathPilotToken=key;mathPilotStart();
+  }
+ });
+}
+window.pocketAndroidMathAudioResult=async function(data){
+ if(!mathPilotAvailable())return;
+ if(data?.status==='recording'){
+  if(mathPilotRecording||mathPilotAwaiting){
+   mathPilotCaptureId=Number(data.capture_id)||0;
+   mathPilotParts=[];mathPilotExpected=0;
+  }
+  if(mathPilotRecording)mathVoiceStatus(learningLabel('Te înregistrez… Poți face pauze fără întreruperi.','Recording… You may pause without interruption.'));
+  return;
+ }
+ if(data?.status==='chunk'){
+  if(!mathPilotCaptureId||Number(data.capture_id)!==mathPilotCaptureId||(!mathPilotRecording&&!mathPilotAwaiting))return;
+  const index=Number(data.part_index),count=Number(data.part_count);
+  const value=String(data.audio||'');
+  data.audio=null;
+  if(!Number.isInteger(index)||!Number.isInteger(count)||count<1||count>35||
+     index<0||index>=count||value.length>48000)return;
+  if(mathPilotExpected&&mathPilotExpected!==count)return;
+  mathPilotExpected=count;mathPilotParts[index]=value;
+  return;
+ }
+ if(data?.status==='error'){
+  mathPilotCancel();
+  mathVoiceStatus(learningLabel('Înregistrarea nu a reușit. Poți folosi tastatura sau fotografia.','Recording failed. You can type or photograph the exercise.'));
+  return;
+ }
+ if(data?.status!=='captured')return;
+ if(Number(data.capture_id)!==mathPilotCaptureId||!mathPilotCaptureId)return;
+ // Android auto-stops at 30 seconds; this also completes the consented trial.
+ if(mathPilotRecording){
+  mathPilotRecording=false;mathPilotAwaiting=true;
+  $('mathDictation')?.setAttribute('aria-pressed','false');
+ }
+ if(!mathPilotAwaiting)return;
+ mathPilotAwaiting=false;
+ const received=mathPilotParts.filter(part=>typeof part==='string');
+ const complete=mathPilotExpected>0&&received.length===mathPilotExpected&&
+  mathPilotParts.length===mathPilotExpected;
+ const payload=complete?mathPilotParts.join(''):'';
+ mathPilotParts=[];mathPilotExpected=0;mathPilotCaptureId=0;
+ if(payload.length<1200||payload.length>1450000){
+  mathVoiceStatus(learningLabel('Înregistrare goală sau prea lungă.','Recording empty or too long.'));
+  return;
+ }
+ const controller=new AbortController();mathPilotRequest=controller;
+ const endpoint=CLIENT_CONFIG.apiUrl.replace(/\\/api\\/chat(?:\\?.*)?$/,'/api/math-transcribe');
+ mathVoiceStatus(learningLabel('Whisper transcrie exercițiul…','Whisper is transcribing the exercise…'));
+ try{
+  const response=await fetch(endpoint,{method:'POST',
+   headers:{'Content-Type':'application/json','Authorization':'Bearer '+mathPilotToken},
+   body:JSON.stringify({audio:payload}),signal:controller.signal,cache:'no-store'});
+  const result=await response.json().catch(()=>null);
+  if(!response.ok||result?.status!=='success'){
+   if(response.status===503)throw new Error('not_configured');
+   if(response.status===401)throw new Error('unauthorized');
+   throw new Error('unavailable');
+  }
+  if(mathPilotRequest!==controller)return;
+  const raw=String(result.transcript||'').trim();
+  const editor=$('mathEducationText');
+  if(!editor||!raw||activeLearningSubject?.[0]!=='math')return;
+  const previous=editor.value.trim();
+  const interpreted=mathSpokenToFormula(raw,previous);
+  editor.value=(previous?previous+'\\n':'')+interpreted;
+  editor.dispatchEvent(new Event('input',{bubbles:true}));
+  mathVoiceStatus(learningLabel('Whisper a transcris: ','Whisper transcribed: ')+raw.slice(0,160)+' — '+learningLabel('Verifică toate semnele înainte de rezolvare.','Check every symbol before solving.'));
+ }catch(error){
+  if(controller.signal.aborted)return;
+  const reason=String(error?.message||'');
+  mathVoiceStatus(reason==='not_configured'?
+   learningLabel('Whisper nu este activat încă în Cloudflare. Nu am modificat exercițiul.','Whisper is not enabled in Cloudflare. Exercise unchanged.'):
+   reason==='unauthorized'?learningLabel('Cheia de test este incorectă.','Incorrect test key.'):
+   learningLabel('Transcrierea Whisper nu este disponibilă; poți folosi tastatura/fotografia.','Whisper transcription unavailable; type or photograph instead.'));
+ }finally{
+  if(mathPilotRequest===controller)mathPilotRequest=null;
+ }
+};
 let mathLastSpokenReply='';
 function mathVoiceStatus(text){
  const status=$('mathEducationStatus');
@@ -6522,6 +6657,7 @@ function mathVoiceClearTimers(session){
  if(session.watchdog!==null){clearTimeout(session.watchdog);session.watchdog=null}
 }
 function mathVoiceStop({commitPartial=true}={}){
+ mathPilotCancel();
  const session=mathVoiceSession;
  if(session?.active&&commitPartial&&session.partial)mathVoiceAccept(session.partial,session);
  mathVoiceListening=false;
@@ -6745,6 +6881,7 @@ function mathVoiceHandleAndroid(data){
  return true;
 }
 function mathVoiceToggle(){
+ if(mathPilotAvailable()){mathPilotToggle();return}
  if(mathVoiceListening){
   mathVoiceStop();
   mathVoiceStatus(learningLabel('Dictare încheiată. Verifică exercițiul înainte de rezolvare.','Dictation finished. Check the exercise before solving.'));

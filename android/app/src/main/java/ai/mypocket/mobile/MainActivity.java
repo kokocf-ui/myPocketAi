@@ -21,6 +21,10 @@ import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.RecognitionListener;
+import android.media.AudioRecord;
+import android.media.AudioFormat;
+import android.media.MediaRecorder;
+import java.io.ByteArrayOutputStream;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.webkit.GeolocationPermissions;
@@ -90,6 +94,14 @@ public final class MainActivity extends ComponentActivity {
     private String speechMode="dictation";
     private SpeechRecognizer speechRecognizer;
     private boolean nativeListening=false;
+    // Separate one-take Math pilot recording; never affects legacy speech modules.
+    private volatile boolean mathPcmRecording=false;
+    private AudioRecord mathPcmRecorder;
+    private int mathPcmCaptureSequence=0;
+    private boolean pendingMathAudioPermission=false;
+    private static final int MATH_AUDIO_HZ=16000;
+    private static final int MATH_AUDIO_MAX_BYTES=960000; // 30 seconds mono PCM16
+
     private GeolocationPermissions.Callback pendingGeoCallback;
     private String pendingGeoOrigin;
     private String pendingSpeechLocale="ro-RO";
@@ -145,9 +157,12 @@ public final class MainActivity extends ComponentActivity {
         registerForActivityResult(new ActivityResultContracts.RequestPermission(),granted -> {
             boolean resumeListening=microphoneRequestedForListening;
             microphoneRequestedForListening=false;
-            if(granted && resumeListening)beginEmbeddedListening();
+            if(granted && pendingMathAudioPermission){
+                pendingMathAudioPermission=false;
+                startMathPcmRecording();
+            }else if(granted && resumeListening)beginEmbeddedListening();
             else if(granted)notifyVoice("permissionGranted","","permission");
-            else notifyVoice("permissionDenied","","permission");
+            else {pendingMathAudioPermission=false;notifyVoice("permissionDenied","","permission");}
         });
     private final ActivityResultLauncher<String[]> locationPermission =
         registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),result -> {
@@ -267,6 +282,14 @@ public final class MainActivity extends ComponentActivity {
             String action=data.optString("action","");
             if("stop".equals(action)) { if(tts!=null) tts.stop();stopEmbeddedListening(); return; }
             if("stopListen".equals(action)){stopEmbeddedListening();return;}
+            if("startMathAudio".equals(action)){
+                if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)
+                    startMathPcmRecording();
+                else {pendingMathAudioPermission=true;microphoneRequestedForListening=false;
+                    micPermission.launch(Manifest.permission.RECORD_AUDIO);}
+                return;
+            }
+            if("stopMathAudio".equals(action)){stopMathPcmRecording();return;}
             if("speak".equals(action)) {
                 if(!ttsReady || tts==null){notifyVoice("error","Voice engine is not ready","tts");return;}
                 String text=data.optString("text","");
@@ -284,6 +307,103 @@ public final class MainActivity extends ComponentActivity {
                 else {microphoneRequestedForListening=true;micPermission.launch(Manifest.permission.RECORD_AUDIO);}
             }
         }catch(Exception ex){notifyVoice("error","Speech service unavailable","tts");}
+    }
+
+
+    private static void mathWavU16(byte[] out,int off,int value){
+        out[off]=(byte)(value&255);out[off+1]=(byte)((value>>8)&255);
+    }
+    private static void mathWavU32(byte[] out,int off,int value){
+        for(int i=0;i<4;i++)out[off+i]=(byte)((value>>(8*i))&255);
+    }
+    private static byte[] mathWavFromPcm(byte[] pcm){
+        byte[] wav=new byte[44+pcm.length];
+        byte[] riff=new byte[]{'R','I','F','F','W','A','V','E','f','m','t',' ','d','a','t','a'};
+        System.arraycopy(riff,0,wav,0,4);
+        mathWavU32(wav,4,pcm.length+36);
+        System.arraycopy(riff,4,wav,8,8);
+        mathWavU32(wav,16,16);mathWavU16(wav,20,1);mathWavU16(wav,22,1);
+        mathWavU32(wav,24,MATH_AUDIO_HZ);mathWavU32(wav,28,MATH_AUDIO_HZ*2);
+        mathWavU16(wav,32,2);mathWavU16(wav,34,16);
+        System.arraycopy(riff,12,wav,36,4);mathWavU32(wav,40,pcm.length);
+        System.arraycopy(pcm,0,wav,44,pcm.length);
+        return wav;
+    }
+    private void notifyMathAudio(String status,String audio,int durationMs,int id,int index,int count){
+        try{
+            JSONObject response=new JSONObject();
+            response.put("status",status);
+            response.put("duration_ms",durationMs);
+            response.put("capture_id",id);
+            if(index>=0){response.put("part_index",index);response.put("part_count",count);}
+            if(audio!=null&&!audio.isEmpty())response.put("audio",audio);
+            String js="window.pocketAndroidMathAudioResult && window.pocketAndroidMathAudioResult("+response.toString()+");";
+            runOnUiThread(()->{
+                if(web!=null && APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost()))
+                    web.evaluateJavascript(js,null);
+            });
+        }catch(Exception ignored){}
+    }
+    private void notifyMathAudio(String status,String audio,int durationMs){
+        notifyMathAudio(status,audio,durationMs,mathPcmCaptureSequence,-1,0);
+    }
+    private void startMathPcmRecording(){
+        if(mathPcmRecording)return;
+        stopEmbeddedListening(); // release Android's speech engine before AudioRecord
+        int minimum=AudioRecord.getMinBufferSize(MATH_AUDIO_HZ,AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_16BIT);
+        if(minimum<=0){notifyMathAudio("error","",0);return;}
+        final AudioRecord recorder;
+        try{
+            recorder=new AudioRecord(MediaRecorder.AudioSource.MIC,MATH_AUDIO_HZ,
+                AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_16BIT,Math.max(minimum,4096));
+            if(recorder.getState()!=AudioRecord.STATE_INITIALIZED){
+                recorder.release();notifyMathAudio("error","",0);return;
+            }
+            recorder.startRecording();
+        }catch(Exception error){notifyMathAudio("error","",0);return;}
+        mathPcmRecorder=recorder;
+        mathPcmRecording=true;
+        final int captureId=++mathPcmCaptureSequence;
+        notifyMathAudio("recording","",0,captureId,-1,0);
+        new Thread(()->{
+            ByteArrayOutputStream pcm=new ByteArrayOutputStream(96000);
+            byte[] buffer=new byte[4096];
+            long began=android.os.SystemClock.elapsedRealtime();
+            try{
+                while(mathPcmRecording && pcm.size()<MATH_AUDIO_MAX_BYTES){
+                    int wanted=Math.min(buffer.length,MATH_AUDIO_MAX_BYTES-pcm.size());
+                    int n=recorder.read(buffer,0,wanted);
+                    if(n>0)pcm.write(buffer,0,n);
+                    else if(n<0)break;
+                }
+            }catch(Exception ignored){}finally{
+                mathPcmRecording=false;
+                try{recorder.stop();}catch(Exception ignored){}
+                recorder.release();
+                mathPcmRecorder=null;
+            }
+            byte[] samples=pcm.toByteArray();
+            int duration=Math.min(30000,(int)((long)samples.length*1000/(MATH_AUDIO_HZ*2)));
+            if(samples.length>=16000){
+                byte[] wav=mathWavFromPcm(samples);
+                String encoded=Base64.encodeToString(wav,Base64.NO_WRAP);
+                // Android WebView Binder transactions can reject ~1 MB strings.
+                // Send at most 48 KB per JS callback; never store audio to disk.
+                final int chunkSize=48000;
+                final int parts=(encoded.length()+chunkSize-1)/chunkSize;
+                for(int i=0;i<parts;i++){
+                    String piece=encoded.substring(i*chunkSize,Math.min(encoded.length(),(i+1)*chunkSize));
+                    notifyMathAudio("chunk",piece,duration,captureId,i,parts);
+                }
+                notifyMathAudio("captured","",duration,captureId,-1,parts);
+            }else notifyMathAudio("error","",duration,captureId,-1,0);
+        },"pocket-math-audio-pilot").start();
+    }
+    private void stopMathPcmRecording(){
+        mathPcmRecording=false;
+        // Worker releases its recorder and emits exactly one captured callback.
+        AudioRecord recorder=mathPcmRecorder;
+        if(recorder!=null)try{recorder.stop();}catch(Exception ignored){}
     }
 
     private void notifyVoice(String status,String value,String mode) {
@@ -455,6 +575,15 @@ public final class MainActivity extends ComponentActivity {
             @Override public void onDone(String id){notifyVoice("done","","tts");}
             @Override public void onError(String id){notifyVoice("error","Speech playback failed","tts");}
         });
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidMathAudio",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!APP_HOST.equals(origin.getHost()))return;
+                    final String payload=message.getData();
+                    runOnUiThread(()->nativeVoice(payload));
+                });
+        }
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
             WebViewCompat.addWebMessageListener(web,"PocketAndroidVoice",
                 Collections.singleton("https://"+APP_HOST),
@@ -913,6 +1042,6 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ignored){}
     }
 
-    @Override protected void onDestroy(){if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}if(web!=null){web.destroy();}super.onDestroy();}
+    @Override protected void onDestroy(){if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}stopMathPcmRecording();stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}if(web!=null){web.destroy();}super.onDestroy();}
 
 }
