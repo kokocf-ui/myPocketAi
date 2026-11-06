@@ -123,7 +123,24 @@ assert.match(inline,/Object\.assign\(change,valid\)/,'birthday editing preserves
 assert.match(inline,/agendaCalendarItems\(all,agendaCursor\)/,'selected calendar date filters appointments');
 assert.match(inline,/agendaSelectedId=item\.id/,'tap opens existing appointment');
 assert.match(inline,/agendaWrite\(list\)/,'existing event editing persists changes');
-assert.match(inline,/agendaWrite\(agendaRead\(\)\.filter\(x=>x\.id!==selected\.id\)\)/,'deleting a selected event persists after confirmation');
+assert.match(inline,/agendaDeleteEvent\(selected\.id\)/,'confirmation invokes deletion by stable event id');
+assert.match(inline,/agendaPendingDelete=candidates\[0\]\.id/,'voice deletion targets a unique matching appointment');
+assert.match(inline,/agendaSelectedId=candidates\[0\]\.id/,'voice deletion opens confirmation for the selected event');
+assert.match(inline,/className='agenda-delete-confirm'|element\('section','agenda-delete-confirm'\)/,'confirmation has dedicated responsive layout');
+assert.match(page,/\.agenda-delete-choices\{[\s\S]*?grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/,'confirmation buttons use two equal columns');
+assert.match(page,/#view-module\.organize-active>\.module-heading-row \.pocket-voice-info\{[\s\S]*?background:transparent!important/,'info control is not a gray filled square');
+const agendaStorage=new Map();
+ctxAgenda.localStorage={getItem:key=>agendaStorage.get(key)||null,setItem:(key,value)=>agendaStorage.set(key,value)};
+agendaStorage.set('mypocketai.agenda.v1',JSON.stringify([
+ {id:'dentist-1',title:'Dentist',when:'2026-11-06T10:00:00.000Z'},
+ {id:'garage-1',title:'Mecanic',when:'2026-11-09T10:00:00.000Z'},
+ {id:'birthday-1',kind:'birthday',title:'Andrei',birthdayDay:12,birthdayMonth:5,birthYear:null}
+]));
+assert.equal(agendaEval("agendaDeleteEvent('dentist-1')"),true,'confirmed delete persists the selected appointment');
+assert.deepEqual(JSON.parse(agendaStorage.get('mypocketai.agenda.v1')).map(e=>e.id),['garage-1','birthday-1'],'unrelated appointments and annual birthdays remain intact');
+assert.equal(agendaEval("agendaDeleteEvent('not-present')"),false,'unknown ids cannot delete anything');
+assert.equal(agendaEval("agendaDeleteEvent('garage-1')"),true);
+assert.equal(JSON.parse(agendaStorage.get('mypocketai.agenda.v1')).length,1,'second delete persists without clearing other records');
 assert.match(inline,/agendaVoiceOpen\(spoken\)/,'voice can open existing appointments');
 const agendaDay=agendaEval("agendaCalendarItems([{id:'1',title:'Test',when:'2026-11-06T10:00:00Z'},{id:'2',title:'Maria',kind:'birthday',birthdayDay:6,birthdayMonth:11,birthYear:null}],new Date(2026,10,6))");
 assert.equal(agendaDay.length,2,'calendar day contains appointment and annual birthday');
