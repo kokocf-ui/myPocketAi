@@ -30,12 +30,11 @@ jobs:
         env:
           POCKET_KEYSTORE_B64: ${{ secrets.POCKET_KEYSTORE_B64 }}
           POCKET_STORE_PASSWORD: ${{ secrets.POCKET_STORE_PASSWORD }}
-          POCKET_KEY_ALIAS: ${{ secrets.POCKET_KEY_ALIAS }}
           POCKET_KEY_PASSWORD: ${{ secrets.POCKET_KEY_PASSWORD }}
         run: |
           set -euo pipefail
-          if [[ -z "$POCKET_KEYSTORE_B64" || -z "$POCKET_STORE_PASSWORD" || -z "$POCKET_KEY_ALIAS" || -z "$POCKET_KEY_PASSWORD" ]]; then
-            echo '::error::SIGNED RELEASE NOT CONFIGURED: Set all four POCKET_* repository Actions secrets. No debug APK will be provided by this workflow.'
+          if [[ -z "$POCKET_KEYSTORE_B64" || -z "$POCKET_STORE_PASSWORD" || -z "$POCKET_KEY_PASSWORD" ]]; then
+            echo '::error::SIGNED RELEASE NOT CONFIGURED: Set POCKET_KEYSTORE_B64, POCKET_STORE_PASSWORD and POCKET_KEY_PASSWORD. No debug APK will be provided by this workflow.'
             exit 1
           fi
           # Diagnose the exact class of failure without revealing any credential.
@@ -59,10 +58,19 @@ jobs:
             echo '::error::POCKET_STORE_PASSWORD does not open the verified keystore. Re-copy its value from the private backup.'
             exit 1
           fi
-          if ! keytool -list -keystore "$key_file" -storepass "$POCKET_STORE_PASSWORD" -alias "$POCKET_KEY_ALIAS" >/dev/null 2>&1; then
-            echo '::error::POCKET_KEY_ALIAS was not found in the verified keystore. Re-copy its exact value from the private backup.'
+          # The alias is public keystore metadata, not a password. Use the
+          # verified alias instead of relying on a manually copied secret.
+          signing_alias='mypocketai-release'
+          if ! keytool -list -keystore "$key_file" -storepass "$POCKET_STORE_PASSWORD" -alias "$signing_alias" >/dev/null 2>&1; then
+            echo '::error::Expected Android release signing alias is missing from the verified keystore.'
             exit 1
           fi
+          if ! keytool -certreq -keystore "$key_file" -storepass "$POCKET_STORE_PASSWORD" -alias "$signing_alias" -keypass "$POCKET_KEY_PASSWORD" -file "$RUNNER_TEMP/pocket-check.csr" >/dev/null 2>&1; then
+            echo '::error::POCKET_KEY_PASSWORD cannot access the signing key. Re-copy the password from the private backup.'
+            exit 1
+          fi
+          rm -f "$RUNNER_TEMP/pocket-check.csr"
+          echo "POCKET_KEY_ALIAS=$signing_alias" >> "$GITHUB_ENV"
           echo "POCKET_KEYSTORE_PATH=$key_file" >> "$GITHUB_ENV"
           echo "POCKET_VERSION_CODE=$((500000 + GITHUB_RUN_NUMBER))" >> "$GITHUB_ENV"
       - name: Check JS syntax and mathematics transcription pilot
@@ -74,7 +82,6 @@ jobs:
       - name: Assemble signed release
         env:
           POCKET_STORE_PASSWORD: ${{ secrets.POCKET_STORE_PASSWORD }}
-          POCKET_KEY_ALIAS: ${{ secrets.POCKET_KEY_ALIAS }}
           POCKET_KEY_PASSWORD: ${{ secrets.POCKET_KEY_PASSWORD }}
         run: gradle -p android --no-daemon assembleRelease
       - name: Verify signed APK and version
