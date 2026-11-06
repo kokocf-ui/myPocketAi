@@ -93,15 +93,15 @@ const invalidIdentity=run([invalidRow1,identityRow2,identityRow3].join('\n'));
 assert.equal(invalidIdentity.number,undefined,'bad TD1 number check digit must reject MRZ');
 
 assert.match(page,/documents-scan-review \.documents-field>\.budget-input/,'document fields have responsive compact height');
-const headings=run("CARTE\\nD'IDENTITE\\nNume\\nCARTE\\nPrenume\\nD'IDENTITE\\nAutoritate emitenta\\nnaissance");
+const headings=run("CARTE\nD'IDENTITE\nNume\nCARTE\nPrenume\nD'IDENTITE\nAutoritate emitenta\nnaissance");
 assert.equal(headings.holder,undefined,'identity-card title CARTE cannot be a surname');
 assert.equal(headings.given,undefined,'D IDENTITE cannot be a given name');
 assert.equal(headings.issuer,undefined,'naissance cannot be an issuing authority');
-const headingWithValues=run("CARTE D'IDENTITE\\nNume\\nPOPESCU\\nPrenume\\nANA\\nAutoritate emitenta\\nSPCLEP Oradea");
+const headingWithValues=run("CARTE D'IDENTITE\nNume\nPOPESCU\nPrenume\nANA\nAutoritate emitenta\nSPCLEP Oradea");
 assert.equal(headingWithValues.holder,'POPESCU','valid surname follows its caption');
 assert.equal(headingWithValues.given,'ANA','valid given name follows its caption');
 assert.equal(headingWithValues.issuer,'SPCLEP Oradea','issuing office remains recognized');
-assert.match(source,/input.value=Object.prototype.hasOwnProperty.call\\(draft.fields,key\\)\\?draft.fields\\[key\\]:''/,'stale saved values not mixed into rescans');
+assert.match(source,/input.value=Object.prototype.hasOwnProperty.call\(draft.fields,key\)\?draft.fields\[key\]:''/,'stale saved values not mixed into rescans');
 const android=readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(android,/PocketAndroidDocumentScan/);
 assert.match(android,/scanDocumentBytes\(payload\)/,'native bridge receives actual photograph bytes');
