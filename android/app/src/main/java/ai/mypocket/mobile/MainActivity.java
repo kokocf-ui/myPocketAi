@@ -561,6 +561,15 @@ public final class MainActivity extends ComponentActivity {
             @Override public void onError(String id){notifyVoice("error","Speech playback failed","tts");}
         });
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidMathAudio",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!APP_HOST.equals(origin.getHost()))return;
+                    final String payload=message.getData();
+                    runOnUiThread(()->nativeVoice(payload));
+                });
+        }
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
             WebViewCompat.addWebMessageListener(web,"PocketAndroidVoice",
                 Collections.singleton("https://"+APP_HOST),
                 (view,message,origin,isMainFrame,replyProxy)->{
