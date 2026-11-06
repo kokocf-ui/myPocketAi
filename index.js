@@ -6605,10 +6605,10 @@ function mathSpokenToFormula(input){
   saptezeci:'70',optzeci:'80',nouazeci:'90',suta:'100'
  };
  let v=fold(original);
- const mathIntent=/(?:\\b(?:egal|plus|minus|ori|inmult|impart|parantez|patrat|puterea|supra|functia|ecuatia|radical)\\b|[=+*/()^×÷])/u.test(v);
+ const mathIntent=/(?:\\b(?:egal|plus|minus|ori|inmult\\w*|impart\\w*|parantez\\w*|patrat|cub|putere\\w*|supra|funct\\w*|ecuat\\w*|radical)\\b|[=+*/()^×÷])/u.test(v);
  if(!mathIntent)return original;
- v=v.replace(/\\b(?:deschide|deschideti|paranteza deschisa)\\s+paranteza\\b/g,'(')
-    .replace(/\\b(?:inchide|inchideti)\\s+paranteza\\b/g,')')
+ v=v.replace(/\\b(?:deschide|deschid|deschideti)\\s+(?:o\\s+)?paranteza\\b/g,'(')
+    .replace(/\\b(?:inchide|inchid|inchideti)\\s+(?:o\\s+)?paranteza\\b/g,')')
     .replace(/\\bparanteza\\s+deschisa\\b/g,'(').replace(/\\bparanteza\\s+inchisa\\b/g,')')
     .replace(/\\b(?:la|ridicat la)\\s+patrat\\b/g,'^2')
     .replace(/\\b(?:la|ridicat la)\\s+cub\\b/g,'^3')
