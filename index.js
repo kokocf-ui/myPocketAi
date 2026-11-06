@@ -3395,7 +3395,7 @@ function budgetSpokenCurrency(text){
 function budgetVoiceExpenseTitle(raw){
  let phrase=String(raw||'').trim();
  phrase=phrase.replace(/^\s*(?:am\s+cheltuit|am\s+plătit|am\s+platit|am\s+primit|am\s+încasat|am\s+incasat|spent|paid|received|i\s+spent|i\s+paid)\s*/iu,'');
- phrase=phrase.replace(/(?:^|\s)\d+(?:[,.]\d+)?\s*(?:de\s+)?(?:lire(?:\s+sterline)?|lira|libr[ea]?|pounds?|gbp|euro|eur|ron|lei|leu|dolari|dollars?|usd|franci|chf|pln)?(?=\s|$)/iu,' ').trim();
+ phrase=phrase.replace(/(?:^|\s)\d+(?:[,.]\d+)?\s*(?:de\s+)?(?:lire(?:\s+sterline)?|lira|libr[ea]?|pounds?|gbp|zile|euro|eur|ron|lei|leu|dolari|dollars?|usd|franci|chf|pln)?(?=\s|$)/iu,' ').trim();
  // Voice recognition may mistake "lire" for "zile"; don't leave it before "pe combustibil".
  phrase=phrase.replace(/^(?:lire|lei|zile)\s+(?=(?:pe|pentru|la)\s+)/iu,'');
  phrase=phrase.replace(/^(?:la|de\s+la|pentru|pe|din)\s+/iu,'').trim();
