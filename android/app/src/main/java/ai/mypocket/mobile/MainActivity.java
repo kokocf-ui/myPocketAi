@@ -509,6 +509,7 @@ public final class MainActivity extends ComponentActivity {
             JSONObject request=new JSONObject(payload);
             if(!"scan".equals(request.optString("action")))return;
             id=request.optString("id","");
+            final boolean passportRequested="passport".equals(request.optString("type",""));
             if(!id.matches("[a-zA-Z0-9_-]{1,100}"))return;
             String encoded=request.optString("base64","");
             if(encoded.length()<32||encoded.length()>6000000){
@@ -528,11 +529,20 @@ public final class MainActivity extends ComponentActivity {
             notifyDocumentScan("started","",id);
             final String docId=id;
             var recognizer=TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
-            scanDocumentOrientation(recognizer,bitmap,docId,0,null,-1);
+            scanDocumentOrientation(recognizer,bitmap,docId,0,null,-1,passportRequested);
         }catch(Exception error){if(!id.isEmpty())notifyDocumentScan("error","",id);}
     }
     // Document photos can arrive sideways from different camera applications.
     // Try alternate orientations only when the first reading looks insufficient.
+    private boolean documentHasCompletePassportMrz(com.google.mlkit.vision.text.Text result){
+        String[] lines=result.getText().toUpperCase(Locale.ROOT).split("\\R");
+        for(int i=0;i<lines.length-1;i++){
+            String upper=lines[i].replaceAll("\\s+","");
+            String lower=lines[i+1].replaceAll("\\s+","");
+            if(upper.startsWith("P<")&&upper.length()==44&&lower.length()==44)return true;
+        }
+        return false;
+    }
     private int documentReadabilityScore(com.google.mlkit.vision.text.Text result){
         String t=result.getText().toLowerCase(Locale.ROOT);
         String[] labels={"nume","prenume","surname","given name","first name",
@@ -542,6 +552,8 @@ public final class MainActivity extends ComponentActivity {
         int score=0;
         for(String label:labels)if(t.contains(label))score+=3;
         if(t.contains("<<"))score+=7;
+        if(t.contains("p<"))score+=15;
+        if(documentHasCompletePassportMrz(result))score+=90;
         if(java.util.regex.Pattern.compile("[0-9]{2}[./-][0-9]{2}[./-][0-9]{4}").matcher(t).find())score+=3;
         return score;
     }
@@ -574,22 +586,24 @@ public final class MainActivity extends ComponentActivity {
     }
     private void scanDocumentOrientation(com.google.mlkit.vision.text.TextRecognizer recognizer,
                                          Bitmap bitmap,String id,int attempt,
-                                         com.google.mlkit.vision.text.Text best,int bestScore){
+                                         com.google.mlkit.vision.text.Text best,int bestScore,
+                                         boolean passportRequested){
         final int[] rotations={0,90,270,180};
         recognizer.process(InputImage.fromBitmap(bitmap,rotations[attempt]))
             .addOnSuccessListener(result->{
                 int score=documentReadabilityScore(result);
                 com.google.mlkit.vision.text.Text selected=score>bestScore?result:best;
                 int selectedScore=Math.max(bestScore,score);
-                if(score>=12||attempt==rotations.length-1){
+                // Passport scans should not stop merely because headings read well.
+                if((score>=12&&(!passportRequested||documentHasCompletePassportMrz(result)))||attempt==rotations.length-1){
                     finishDocumentScan(recognizer,bitmap,id,selected==null?result:selected);
                 }else{
-                    scanDocumentOrientation(recognizer,bitmap,id,attempt+1,selected,selectedScore);
+                    scanDocumentOrientation(recognizer,bitmap,id,attempt+1,selected,selectedScore,passportRequested);
                 }
             })
             .addOnFailureListener(error->{
                 if(attempt<rotations.length-1){
-                    scanDocumentOrientation(recognizer,bitmap,id,attempt+1,best,bestScore);
+                    scanDocumentOrientation(recognizer,bitmap,id,attempt+1,best,bestScore,passportRequested);
                 }else if(best!=null){
                     finishDocumentScan(recognizer,bitmap,id,best);
                 }else{
