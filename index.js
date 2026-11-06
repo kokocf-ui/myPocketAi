@@ -3919,14 +3919,14 @@ function documentsFind(query){
  });
  return matches.length===1?matches[0]:null;
 }
-function documentsSave(title,expires,id=null){
+function documentsSave(title,expires,id=null,type=null){
  title=String(title||'').trim().slice(0,100);
  const d=expires?new Date(String(expires)+'T12:00:00'):null;
  if(!title||(expires!==''&&(!/^\\d{4}-\\d{2}-\\d{2}$/.test(expires)||Number.isNaN(d.getTime())||budgetISO(d)!==expires))){
   notify(learningLabel('Introdu un nume și o dată validă.','Enter a name and valid date.'));return false;
  }
  const all=documentsRead(),i=all.findIndex(x=>x.id===id),now=new Date().toISOString();
- const item={id:i>=0?all[i].id:shopId(),title,expires,type:documentsType(title),createdAt:i>=0?all[i].createdAt:now,updatedAt:now};
+ const item={id:i>=0?all[i].id:shopId(),title,expires,type:type|| (i>=0?all[i].type:documentsType(title)),createdAt:i>=0?all[i].createdAt:now,updatedAt:now};
  if(i>=0)all[i]=item;else all.push(item);
  if(!documentsWrite(all))return false;
  documentsSelectedId=null;documentsFilter=null;renderDocuments();
@@ -4112,50 +4112,91 @@ function documentsPhotoGallery(id,host){
  host.append(grid);
 }
 
+
 function renderDocuments(){
  const cat=ORGANIZE_CATEGORIES.find(x=>x[0]==='documents');
- const {scroll}=organizeVoiceWorkspace(cat,{
+ if(!cat)return;
+ const {panel,scroll}=organizeVoiceWorkspace(cat,{
   titleRo:'Documente și termene',titleEn:'Documents and deadlines',mode:'documents',
-  backAction:()=>{documentsVoiceStop();if(documentsSelectedId||documentsFilter){documentsSelectedId=null;documentsFilter=null;renderDocuments()}else renderOrganizeChoices()},
+  backAction:()=>{documentsVoiceStop();if(documentsSelectedId||documentsFilter||documentsEditing){documentsSelectedId=null;documentsFilter=null;documentsEditing=false;renderDocuments()}else renderOrganizeChoices()},
   onDictate:documentsVoiceStart,dictationRo:'Dictare',dictationEn:'Dictation'
  });
- const all=documentsRead().sort((a,b)=>a.expires.localeCompare(b.expires)||a.title.localeCompare(b.title));
- const make=(tag,cls,value)=>budgetNode(tag,cls,value);
+ // The shared main heading already identifies the module. Do not duplicate it.
+ panel.querySelector('.education-toolbar')?.remove();
+ const make=(tag,cls,txt)=>budgetNode(tag,cls,txt);
+ const all=documentsRead().sort((a,b)=>(a.expires||'9999').localeCompare(b.expires||'9999')||a.title.localeCompare(b.title));
+ const types=documentsTypes();
+ const typeSelect=(selected)=>{
+  const sel=make('select','budget-input');
+  sel.setAttribute('aria-label',learningLabel('Tip document','Document type'));
+  for(const [code,ro,en] of types){const option=make('option','',learningLabel(ro,en));option.value=code;sel.append(option)}
+  sel.value=selected||'other';return sel;
+ };
+ const expiryField=(value)=>{
+  const input=make('input','budget-input');input.type='date';input.value=value||'';
+  input.setAttribute('aria-label',learningLabel('Data expirării (opțională)','Expiry date (optional)'));return input;
+ };
+ const editingForm=(item)=>{
+  const form=make('form','documents-form');
+  const type=typeSelect(item?.type||'other');
+  const title=make('input','budget-input');title.required=false;title.maxLength=100;
+  title.value=item?.title||'';title.placeholder=learningLabel('Numele documentului','Document name');
+  title.setAttribute('aria-label',learningLabel('Denumirea documentului','Document name'));
+  const date=expiryField(item?.expires);
+  const field=(label,el)=>{const container=make('label','documents-field');container.append(make('small','',label),el);return container};
+  form.append(field(learningLabel('Tip de document','Document type'),type),
+   field(learningLabel('Denumire','Name'),title),
+   field(learningLabel('Data expirării — dacă există','Expiry date — if applicable'),date));
+  type.onchange=()=>{if(!title.value.trim()||!item)title.value=types.find(x=>x[0]===type.value)?.[state.language==='ro'?1:2]||''};
+  const save=budgetButton(item?learningLabel('Salvează modificările','Save changes'):learningLabel('+ Adaugă document','+ Add document'),()=>{
+   const description=title.value.trim()||types.find(x=>x[0]===type.value)?.[state.language==='ro'?1:2]||'';
+   documentsSave(description,date.value,item?.id||null,type.value);
+  },'primary-btn');
+  form.append(save);form.onsubmit=e=>{e.preventDefault();save.click()};
+  return form;
+ };
  if(documentsSelectedId){
   const item=all.find(x=>x.id===documentsSelectedId);
   if(!item){documentsSelectedId=null;renderDocuments();return}
-  scroll.append(make('h3','budget-subtitle',learningLabel('Modifică documentul','Edit document')));
-  const form=make('form','budget-entry-form');
-  const name=make('input','budget-input');name.value=item.title;name.maxLength=100;name.required=true;name.setAttribute('aria-label',learningLabel('Denumire document','Document name'));
-  const date=make('input','budget-input');date.type='date';date.value=item.expires;date.required=true;
-  const save=budgetButton(learningLabel('Salvează modificările','Save changes'),()=>documentsSave(name.value,date.value,item.id),'primary-btn');
-  form.append(name,date,save);form.onsubmit=e=>{e.preventDefault();documentsSave(name.value,date.value,item.id)};scroll.append(form);
-  scroll.append(budgetButton(learningLabel('Șterge documentul','Delete document'),()=>pocketConfirm(learningLabel('Ștergi documentul „','Delete document “')+item.title+'”?',()=>{
-   if(documentsWrite(documentsRead().filter(x=>x.id!==item.id))){documentsSelectedId=null;renderDocuments()}
-  })));
-  scroll.append(budgetButton(learningLabel('← La documente','← Back to documents'),()=>{documentsSelectedId=null;renderDocuments()}));return;
+  scroll.append(make('h3','budget-subtitle',item.title));
+  const card=make('div','documents-detail');
+  const desc=make('div','documents-detail-main');
+  desc.append(make('strong','',item.title));
+  desc.append(make('small','',item.expires?learningLabel('Expiră: ','Expires: ')+item.expires:learningLabel('Fără dată de expirare','No expiry date')));
+  const status=item.expires&&item.expires<budgetDateNow()?learningLabel('Expirat','Expired'):item.expires?learningLabel('Valabil','Valid'):learningLabel('Fără termen','No deadline');
+  desc.append(make('small',item.expires&&item.expires<budgetDateNow()?'budget-expense':'budget-income',status));
+  card.append(desc);
+  scroll.append(card);
+  scroll.append(make('h3','budget-subtitle',learningLabel('Fotografiile documentului','Document photographs')));
+  scroll.append(make('p','budget-advice',learningLabel('Atinge fotografia pentru afișare pe întreg ecranul. Poți atașa fața, verso și pagini suplimentare.','Tap a photo to view full screen. Attach front, back and additional pages.')));
+  documentsPhotoGallery(item.id,scroll);
+  const controls=make('div','documents-actions');
+  controls.append(budgetButton(documentsEditing?learningLabel('Ascunde editarea','Hide editing'):learningLabel('Modifică datele','Edit details'),()=>{documentsEditing=!documentsEditing;renderDocuments()},'secondary-btn'));
+  controls.append(budgetButton(learningLabel('Șterge documentul','Delete document'),()=>pocketConfirm(learningLabel('Ștergi documentul „','Delete document “')+item.title+'”?',()=>documentsDelete(item)),'secondary-btn'));
+  scroll.append(controls);
+  if(documentsEditing)scroll.append(editingForm(item));
+  scroll.append(budgetButton(learningLabel('← Lista documentelor','← Document list'),()=>{documentsSelectedId=null;documentsEditing=false;renderDocuments()},'secondary-btn'));
+  return;
  }
- scroll.append(make('p','budget-advice',learningLabel('Salvăm pe dispozitiv numai denumirea și data expirării.','Only the document name and expiry date are stored locally.')));
- const form=make('form','budget-entry-form');
- const name=make('input','budget-input');name.required=true;name.maxLength=100;name.placeholder=learningLabel('Document (ex.: pașaport)','Document (e.g. passport)');
- const date=make('input','budget-input');date.type='date';date.required=true;date.setAttribute('aria-label',learningLabel('Data expirării','Expiry date'));
- const add=budgetButton(learningLabel('+ Adaugă document','+ Add document'),()=>documentsSave(name.value,date.value),'primary-btn');
- form.append(name,date,add);form.onsubmit=e=>{e.preventDefault();documentsSave(name.value,date.value)};scroll.append(form);
+ scroll.append(make('p','budget-advice',learningLabel('Documentele și fotografiile rămân în spațiul local al aplicației; nu le trimitem automat către AI.','Documents and photos stay in local app storage; they are never sent automatically to AI.')));
  if(documentsFilter)scroll.append(make('small','budget-advice',learningLabel('Perioada: ','Period: ')+documentsFilter.start+' — '+documentsFilter.end));
- const visible=all.filter(x=>!documentsFilter||x.expires>=documentsFilter.start&&x.expires<=documentsFilter.end);
+ const visible=all.filter(x=>!documentsFilter||x.expires&&x.expires>=documentsFilter.start&&x.expires<=documentsFilter.end);
  scroll.append(make('h3','budget-subtitle',learningLabel('Documente după expirare','Documents by expiry')+' · '+visible.length));
  if(!visible.length)scroll.append(make('p','budget-empty',learningLabel('Nu există documente pentru această selecție.','No documents for this selection.')));
  for(const item of visible){
-  const button=budgetButton('',()=>{documentsSelectedId=item.id;renderDocuments()},'budget-transaction');
+  const row=budgetButton('',()=>{documentsSelectedId=item.id;documentsEditing=false;documentsFilter=null;renderDocuments()},'budget-transaction');
   const detail=make('span','budget-transaction-info');
-  detail.append(make('strong','',item.title),make('small','',item.expires));
-  const status=make('span',item.expires<budgetDateNow()?'budget-expense':'budget-income',item.expires<budgetDateNow()?learningLabel('Expirat','Expired'):learningLabel('Valabil','Valid'));
-  button.append(detail,status);scroll.append(button);
+  detail.append(make('strong','',item.title),make('small','',item.expires||learningLabel('Fără dată de expirare','No expiry date')));
+  const expired=item.expires&&item.expires<budgetDateNow();
+  detail.append(make('small','',learningLabel('Atinge pentru detalii și fotografii','Tap for details and photos')));
+  const status=make('span',expired?'budget-expense':'budget-income',expired?learningLabel('Expirat','Expired'):item.expires?learningLabel('Valabil','Valid'):learningLabel('Fără termen','No deadline'));
+  row.append(detail,status);scroll.append(row);
  }
  if(documentsFilter)scroll.append(budgetButton(learningLabel('Toate documentele','All documents'),()=>{documentsFilter=null;renderDocuments()}));
- scroll.append(make('small','budget-advice',learningLabel('Notificările și atașarea de fișiere vor fi integrate separat.','Notifications and file attachments will be added separately.')));
+ scroll.append(make('h3','budget-subtitle',learningLabel('Adaugă un document','Add a document')));
+ scroll.append(editingForm(null));
+ scroll.append(make('small','budget-advice',learningLabel('Tipurile includ carte de identitate, NIN, pașaport, permis, acte auto, ITP/MOT, asigurare și alte documente.','Types include identity, National Insurance proof, passport, licence, vehicle records, inspection, insurance and more.')));
 }
-
 const TASKS_DRAWINGS={list:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="21" y="8" width="80" height="75" rx="9" fill="#d8f4fa"/><rect x="43" y="2" width="36" height="13" rx="5" fill="#68c8e0"/><path d="M32 35l6 6 11-13M32 59l6 6 11-13" fill="none" stroke="#21a58e" stroke-width="5" stroke-linecap="round"/><path d="M58 35h30M58 59h30" stroke="#4c7294" stroke-width="5" stroke-linecap="round"/></svg>',goal:'<svg viewBox="0 0 120 90" aria-hidden="true"><path d="M18 79h86" stroke="#87cbdc" stroke-width="5" stroke-linecap="round"/><path d="M26 75h24V58h22V40h24V20" fill="none" stroke="#77d5c1" stroke-width="10" stroke-linejoin="round"/><path d="M94 12v33M95 13l21 8-21 9" fill="#67bdf1" stroke="#e9fbff" stroke-width="3"/><circle cx="29" cy="67" r="6" fill="#f4cc7a"/></svg>',calendar:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="13" y="14" width="93" height="68" rx="9" fill="#daf3fa"/><path d="M13 31h93" stroke="#56c0dc" stroke-width="10"/><path d="M35 8v17M83 8v17" stroke="#fff" stroke-width="6" stroke-linecap="round"/><rect x="32" y="42" width="22" height="22" rx="5" fill="#4dc2a7"/><path d="M37 53l5 5 9-11" stroke="#fff" stroke-width="3" fill="none"/><circle cx="82" cy="60" r="15" fill="#6aace5"/><path d="M82 48v13l8 5" stroke="#fff" stroke-width="3" fill="none"/></svg>',archive:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="20" y="28" width="82" height="54" rx="7" fill="#80bcdf"/><rect x="14" y="19" width="94" height="22" rx="5" fill="#d8f4fa"/><path d="M48 47h25" stroke="#efffff" stroke-width="6" stroke-linecap="round"/><circle cx="91" cy="68" r="17" fill="#43b99f"/><path d="M82 68l6 6 12-13" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>'};
 
 /* Tasks are local-first and independent from existing agenda and shopping data. */
@@ -5698,6 +5739,7 @@ function pocketBackInsideModule(){
  return false;
 }
 window.pocketAndroidBack=function(){
+ if(document.querySelector('dialog.document-photo-fullscreen[open]')){document.querySelector('dialog.document-photo-fullscreen[open]').close();return}
  if(pocketExitOpen){pocketExitClose();return}
  if($('longChoiceDialog')?.open){closeLongChoice();return}
  if(activeRouteMap){closeRouteMap();return}
