@@ -256,6 +256,66 @@ assert.ok(embedded.includes("mathRememberDraft('')"),'new conversation explicitl
 assert.ok(embedded.includes('if(text){editor.value=text;mathRememberDraft(text)}'),
  'empty OCR never deletes a previously typed exercise');
 
+
+// Regression: graph, method and solve for one function must share the SAME
+// coefficients; a separate exercise can never leak into the displayed answer.
+const graphStart=embedded.indexOf('function mathGraphModel(');
+const graphEnd=embedded.indexOf('function mathSvgElement(',graphStart);
+const lessonStart=embedded.indexOf('function mathFunctionLesson(');
+const lessonEnd=embedded.indexOf('function mathResultPage(',lessonStart);
+assert.ok(graphStart>0&&lessonStart>graphEnd&&lessonEnd>lessonStart,'verified function renderer is present');
+const functionApi=vm.runInNewContext(
+ embedded.slice(graphStart,graphEnd)+String.fromCharCode(10)+
+ embedded.slice(lessonStart,lessonEnd)+String.fromCharCode(10)+
+ '({model:mathGraphModel,lesson:mathFunctionLesson,clean:mathCleanAnswerMarkup})',
+ {state:{language:'ro'},learningLabel:(ro,en)=>ro,Intl});
+const linearTask='Reprezintă grafic funcția:\nf(x) = 2x-3';
+const linear=functionApi.model(linearTask);
+assert.deepEqual([linear.a,linear.b,linear.c],[0,2,-3],'the function graph uses the supplied coefficients');
+for(const mode of ['solve','graph','explain']){
+ const lesson=functionApi.lesson(linearTask,mode);
+ assert.ok(lesson,mode+' has a verified explanation');
+ const rendered=[lesson.heading,lesson.intro,lesson.conclusion,...lesson.steps.map(s=>s.name+' '+s.description)].join(' ');
+ assert.match(rendered,/f\(x\) = 2x−3/,'the selected function is named exactly');
+ assert.match(rendered,/două puncte distincte/,'two distinct points correctly define a straight line');
+ assert.match(rendered,/1,5/,'x-axis intercept must be 1.5');
+ assert.ok(!rendered.includes('18 − 3'),'does not leak another exercise');
+ assert.ok(!rendered.includes('3 + 4'),'does not leak another exercise');
+}
+assert.equal(functionApi.lesson('Calculează 3 + 4 × 2','graph'),null,
+ 'an arithmetic exercise is never treated as the given function');
+const quadratic=functionApi.lesson('f(x)=x^2-4','explain');
+assert.ok(quadratic&&quadratic.steps.some(s=>/parabolă/.test(s.description)),
+ 'quadratic explanation uses a parabola rather than a line');
+const constant=functionApi.lesson('f(x)=0x+5','graph');
+assert.ok(constant&&constant.steps.some(s=>/orizontal/.test(s.description)),
+ 'zero-slope functions are horizontal lines');
+const slash=String.fromCharCode(92);
+const rawLatex='Întâi $3 + 4 '+slash+'times 2$; apoi $35 '+slash+'div 7$; '+
+ slash+'('+slash+'frac{1}{2}'+slash+').';
+const cleanLatex=functionApi.clean(rawLatex);
+assert.ok(!cleanLatex.includes('
+assert.match(native,/"math"\.equals\(speechMode\)\)return;/,'math speech bypasses short endpoint');
+assert.match(native,/mathDictation\?4800L:2200L/,'math uses longer silence hints');
+assert.match(native,/RecognizerIntent\.EXTRA_MAX_RESULTS,5/,'Android offers alternate maths hypotheses');
+assert.match(native,/data\.put\("alternatives",choices\)/,'Android returns alternatives only for math');
+assert.match(embedded,/function mathVoiceRestart\(session,/,'math resumes after an Android recognition segment');
+assert.match(embedded,/if\(mathVoiceListening\)\{[\s\S]*?mathVoiceStop\(\)/,'user can stop ongoing math dictation');
+console.log('PASS math voice parentheses, arithmetic, and continuous listening contracts');
+),'math delimiters are hidden');
+assert.match(cleanLatex,/3 \+ 4 × 2/);
+assert.match(cleanLatex,/35 ÷ 7/);
+assert.match(cleanLatex,/\(1\)\/\(2\)/);
+assert.equal(functionApi.clean('Prețul este $25. Cost: $15.'),'Prețul este $25. Cost: $15.',
+ 'currency amounts are not math delimiters');
+assert.ok(embedded.includes("item.functionLesson=verifiedFunction"),'verified function bypasses model answers');
+assert.ok(embedded.includes("if(session.mode==='graph'&&!mathGeometryFigure(item.text))"),
+ 'unsupported graphs do not trigger hallucinated model-based plots');
+assert.ok(embedded.includes("mathLastSpokenReply=item.spokenReply||item.reply||''"),
+ 'reading follows the selected exercise tab, not an unrelated async response');
+assert.ok(embedded.includes('appendAnswerText(result,mathCleanAnswerMarkup(item.reply))'),
+ 'all remaining AI math answers are formatted before being shown');
+
 const native=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(native,/"math"\.equals\(speechMode\)\)return;/,'math speech bypasses short endpoint');
 assert.match(native,/mathDictation\?4800L:2200L/,'math uses longer silence hints');
