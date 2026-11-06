@@ -1320,6 +1320,12 @@ body.long-choice-active{overflow:hidden}
 .notes-detail-title{overflow-wrap:anywhere;margin:.25rem 0}
 @media(max-width:480px){.notes-new-form{grid-template-columns:minmax(0,1fr)}}
 </style>
+<style id="notes-autosave">
+.notes-save-state{display:block;opacity:.74;margin:.15rem 0 .4rem}
+.notes-new-form{display:flex;flex-direction:column;gap:.35rem}
+.notes-new-form>textarea{width:100%;box-sizing:border-box}
+.agenda-event-origin{font-size:.84rem;opacity:.8}
+</style>
 </head>
 <body>
 <header class="app-header"><img class="brand-mark" src="${AVATAR_DATA}" alt="Avatar myPocket AI"><div class="brand-copy"><div class="brand-name"><span class="my">my</span>Pocket AI</div><div class="brand-sub">Asistentul tău personal pentru orice zi</div></div><div class="plan-pill">FREE ♛</div></header>
@@ -2573,8 +2579,8 @@ function organizePanel(cat){
   active.setAttribute('aria-pressed',shoppingMode==='active'?'true':'false');
   active.onclick=()=>{if(shoppingVoiceSession?.active)shopVoiceStop();shoppingMode=shoppingMode==='active'?'entry':'active';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()};
   bar.append(back,active);
- }else if(!['calendar','tasks','reminders'].includes(cat[0]))bar.append(back,title);
- if(!['calendar','tasks','reminders'].includes(cat[0]))panel.append(bar);host.append(panel);
+ }else if(!['calendar','tasks','reminders','notes'].includes(cat[0]))bar.append(back,title);
+ if(!['calendar','tasks','reminders','notes'].includes(cat[0]))panel.append(bar);host.append(panel);
  return panel;
 }
 function openOrganizeCategory(key){
@@ -2779,6 +2785,14 @@ function notesSave(body,title='',id=null){
  notesSelectedId=item.id;renderNotes();
  return true;
 }
+function notesAutosave(id,body){
+ const all=notesRead(),i=all.findIndex(item=>item.id===id);
+ if(i<0)return false;
+ const value=String(body||'').slice(0,20000);
+ if(all[i].body===value)return true;
+ all[i]={...all[i],body:value,updatedAt:new Date().toISOString()};
+ return notesWrite(all);
+}
 function notesMatch(phrase){
  const query=notesFold(phrase).replace(/^(?:notita despre|nota despre|notita|nota|despre|cu|numita)\\s+/u,'').trim();
  const all=notesRead();
@@ -2828,15 +2842,8 @@ function notesVoiceCommand(transcript){
   if(!note){notify(learningLabel('Nu am identificat o singură notiță.','Could not identify one note.'));return}
   notesSave(note.body+'\\n'+add[2],note.title,note.id);return;
  }
- const reminder=/^(?:amintește-mi|amintește mi|aminteste-mi|aminteste mi|remind me)\\s+/iu.test(text);
- if(reminder){
-  const parsed=remindersParseVoice(text);
-  if(!parsed){notify(learningLabel('Spune și când dorești notificarea.','Please say when you want the reminder.'));return}
-  const date=parsed.date;
-  if(date.getTime()<=Date.now()){notify(learningLabel('Data trebuie să fie în viitor.','Date must be in the future.'));return}
-  const all=agendaRead();
-  all.push({id:shopId(),kind:'reminder',title:parsed.title,when:date.toISOString(),reminderPreset:'reminder',createdAt:new Date().toISOString()});
-  if(agendaWrite(all))notify(learningLabel('Am salvat în Mementouri.','Saved to Reminders.'));
+ if(/^(?:amintește-mi|amintește mi|aminteste-mi|aminteste mi|remind me)\\s+/iu.test(text)){
+  notify(learningLabel('Pentru notificări folosește Mementouri inteligente.','Use Smart reminders for notifications.'));
   return;
  }
  const content=text.replace(/^(?:notează|noteaza|scrie|salvează notiță|salveaza notita|save note|take a note)\\s*(?:că|ca|:)?\\s*/iu,'').trim();
@@ -2869,16 +2876,33 @@ function renderNotes(){
  if(selected){
   scroll.append(make('h3','notes-detail-title',selected.title));
   const editor=make('textarea','notes-editor');editor.value=selected.body;editor.rows=8;editor.setAttribute('aria-label',learningLabel('Conținut notiță','Note content'));scroll.append(editor);
+  const stateText=make('small','notes-save-state',learningLabel('Se salvează automat.','Saved automatically.'));
+  editor.addEventListener('input',()=>{const ok=notesAutosave(selected.id,editor.value);stateText.textContent=ok?learningLabel('Salvat automat','Saved automatically'):learningLabel('Eroare la salvare','Save failed')});
+  editor.addEventListener('blur',()=>notesAutosave(selected.id,editor.value));
+  scroll.append(stateText);
   const actions=make('div','notes-actions');
-  actions.append(button(learningLabel('Salvează modificările','Save changes'),()=>notesSave(editor.value,selected.title,selected.id),'primary-btn'));
+  actions.append(button(learningLabel('← Lista de notițe','← Notes list'),()=>{notesAutosave(selected.id,editor.value);notesSelectedId=null;renderNotes()},'secondary-btn'));
   actions.append(button(learningLabel('Șterge','Delete'),()=>pocketConfirm(learningLabel('Ștergi notița „','Delete note “')+selected.title+'”?',()=>{notesWrite(notesRead().filter(n=>n.id!==selected.id));notesSelectedId=null;renderNotes()})));
   scroll.append(actions);return;
  }
  const hint=make('p','notes-hint',learningLabel('Spune: „Notează să verificăm vocea avatarului”.','Say: “Note that we should check the avatar voice”.'));scroll.append(hint);
- const form=make('form','notes-new-form');
- const input=make('textarea','notes-new-editor');input.rows=2;input.placeholder=learningLabel('Scrie o notiță (opțional)','Write a note (optional)');
- const save=make('button','primary-btn',learningLabel('Salvează','Save'));save.type='submit';
- form.append(input,save);form.onsubmit=event=>{event.preventDefault();notesSave(input.value)};scroll.append(form);
+ const form=make('div','notes-new-form');
+ const input=make('textarea','notes-new-editor');input.rows=2;input.placeholder=learningLabel('Scrie o notiță nouă…','Write a new note…');
+ input.setAttribute('aria-label',learningLabel('Notiță nouă','New note'));
+ const noteStatus=make('small','notes-save-state',learningLabel('Notițele se salvează automat.','Notes are saved automatically.'));
+ let newNoteId=null;
+ const persistDraft=()=>{
+  const value=input.value.trim();if(!value)return;
+  if(!newNoteId){
+   const all=notesRead(),now=new Date().toISOString(),id=shopId();
+   all.unshift({id,title:notesTitle(value),body:value.slice(0,20000),createdAt:now,updatedAt:now});
+   if(notesWrite(all))newNoteId=id;
+  }else notesAutosave(newNoteId,value);
+  noteStatus.textContent=newNoteId?learningLabel('Salvat automat','Saved automatically'):learningLabel('Eroare la salvare','Save failed');
+ };
+ input.addEventListener('input',persistDraft);
+ input.addEventListener('blur',()=>{persistDraft();if(newNoteId){notesSelectedId=null;renderNotes()}});
+ form.append(input,noteStatus);scroll.append(form);
  if(!items.length)scroll.append(make('p','notes-empty',learningLabel('Nu ai notițe salvate.','No notes saved yet.')));
  for(const note of items){
   const row=button('',()=>{notesSelectedId=note.id;renderNotes()},'notes-list-item');
@@ -3207,9 +3231,21 @@ function agendaReminderLabels(){
   ['hotel',learningLabel('🏨 Hotel / cazare','🏨 Hotel / stay')],
   ['meeting',learningLabel('💼 Întâlnire','💼 Meeting')]];
 }
+function agendaEventOrigin(event){
+ if(event?.kind==='reminder'||event?.reminderPreset==='reminder')return learningLabel('Mementouri inteligente','Smart reminders');
+ if(event?.linkedTaskId||event?.kind==='task')return learningLabel('Sarcini și obiective','Tasks and goals');
+ return learningLabel('Agenda inteligentă','Smart agenda');
+}
 function agendaDeleteEvent(id){
  const all=agendaRead();
- if(!id||!all.some(e=>e.id===id))return false;
+ const item=all.find(e=>e.id===id);
+ if(!item)return false;
+ // A reminder is the same agenda record, so its deletion is automatically shared.
+ // A linked task has a separate source record: keep both in sync.
+ if(item.linkedTaskId){
+  const tasks=tasksRead(),next=tasks.filter(task=>task.id!==item.linkedTaskId);
+  if(next.length!==tasks.length&&!tasksWrite(next))return false;
+ }
  return agendaWrite(all.filter(e=>e.id!==id));
 }
 function agendaWrite(events){
@@ -3433,6 +3469,7 @@ function renderAgenda(){
    date.toLocaleDateString(locale,{day:'numeric',month:'long'})+' · '+learningLabel('În fiecare an','Every year'):
    selected.allDay?date.toLocaleDateString(locale,{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' · '+learningLabel('Fără oră stabilită','No set time'):
    date.toLocaleString(locale,{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})));
+  detail.append(element('p','agenda-event-origin',learningLabel('Sursă: ','Source: ')+agendaEventOrigin(selected)));
   if(!agendaEditing){
    if(selected.location)detail.append(element('p','',learningLabel('Locație: ','Location: ')+selected.location));
    if(selected.notes)detail.append(element('p','',learningLabel('Observații: ','Notes: ')+selected.notes));
@@ -3564,6 +3601,7 @@ function renderAgenda(){
    '🎂 '+agendaLocalDate(item,agendaView==='all'?agendaNextDate(item).getFullYear():agendaCursor.getFullYear()).toLocaleDateString(locale,{day:'2-digit',month:'short'}):
    new Date(item.when).toLocaleString(locale,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}));
   const info=element('strong','',item.title);
+  info.append(element('small','agenda-event-origin',learningLabel('Sursă: ','Source: ')+agendaEventOrigin(item)));
   if(item.location)info.append(element('small','',item.location));
   row.append(stamp,info,element('span','agenda-event-chevron','›'));entries.append(row);
  }

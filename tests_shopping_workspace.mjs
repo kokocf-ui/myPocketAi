@@ -188,7 +188,7 @@ assert.match(page,/\.agenda-voice-controls\{[\s\S]*?grid-template-columns:repeat
 assert.doesNotMatch(inline,/returnButton\.classList\.add\('agenda-detail-back'\)/,'detail view reuses the shared Back button');
 
 
-assert.match(inline,/if\(!\['calendar','tasks','reminders'\]\.includes\(cat\[0\]\)\)panel\.append\(bar\)/,'voice workspaces omit the legacy duplicate toolbar');
+assert.match(inline,/if\(!\['calendar','tasks','reminders','notes'\]\.includes\(cat\[0\]\)\)panel\.append\(bar\)/,'voice workspaces omit the legacy duplicate toolbar');
 assert.match(inline,/function pocketVoiceHelp\(mode,title\)/,'shared voice command guide exists');
 
 /* New voice-enabled organiser pages must inherit the shared layout from day one. */
@@ -198,7 +198,7 @@ assert.match(inline,/pocketVoiceHelp\(mode,\$\('moduleTitle'\)\)/,'shared title 
 assert.match(inline,/organize-voice-controls/,'back and dictation are paired within one toolbar');
 assert.match(page,/<style id="organize-voice-workspace-style">/,'responsive voice toolbar styles exist');
 assert.match(page,/\.organize-voice-controls\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/,'two equally sized controls on one row');
-assert.match(inline,/if\(!\['calendar','tasks','reminders'\]\.includes\(cat\[0\]\)\)bar\.append\(back,title\)/,'avoid duplicating reminder title and Categories button');
+assert.match(inline,/if\(!\['calendar','tasks','reminders','notes'\]\.includes\(cat\[0\]\)\)bar\.append\(back,title\)/,'avoid duplicating reminder title and Categories button');
 assert.match(inline,/reminders:\[[\s\S]*?Șterge mementoul/,'reminder info help has examples');
 
 assert.match(inline,/pocketVoiceHelp\('agenda',\$\('moduleTitle'\)\)/,'agenda guide attached to title');
@@ -428,6 +428,14 @@ assert.equal(notesEval("notesMatch('avatar').id"),notesEval("notesRead()[0].id")
 assert.equal(notesEval("notesMatch('necunoscut')"),null);
 assert.equal(notesEval("notesSave('Test notiță nouă')"),true);
 assert.equal(notesEval("notesRead().length"),2);
+assert.equal(notesEval("notesAutosave(notesRead()[0].id,'Text completat automat')"),true,'note edit persists automatically');
+assert.equal(notesEval("notesRead()[0].body"),'Text completat automat','input changes are preserved');
+assert.match(inline,/input\.addEventListener\('input',persistDraft\)/,'new note auto-saves on typing');
+assert.match(inline,/editor\.addEventListener\('input'/,'existing notes auto-save on typing');
+assert.doesNotMatch(inline.slice(inline.indexOf('function renderNotes(){'),inline.indexOf('const TASKS_DRAWINGS=',inline.indexOf('function renderNotes(){'))),/Salvează modificările/,'no manual save button in notes');
+assert.match(inline,/agendaEventOrigin\(selected\)/,'agenda displays source of event');
+assert.match(inline,/if\(item\.linkedTaskId\)/,'agenda deletion also removes linked source task');
+assert.match(inline,/Pentru notificări folosește Mementouri inteligente/,'notes do not create agenda alerts');
 assert.equal(notesEval("notesRead().some(item=>item.title==='Test notiță nouă')"),true);
 assert.match(inline,/pocketConfirm\(learningLabel\('Ștergi notița/,'note deletion requires a styled confirmation');
 assert.doesNotMatch(inline.slice(startNotes,endNotes),/agendaSyncAndroid\(/,'notes do not directly schedule notifications');
