@@ -6518,6 +6518,9 @@ let mathPilotToken=''; // memory only; never write credentials to storage
 let mathPilotRecording=false;
 let mathPilotAwaiting=false;
 let mathPilotRequest=null;
+let mathPilotCaptureId=0;
+let mathPilotParts=[];
+let mathPilotExpected=0;
 function mathPilotAvailable(){return typeof window.PocketAndroidMathAudio?.postMessage==='function'}
 function mathPilotCommand(action){
  try{window.PocketAndroidMathAudio.postMessage(JSON.stringify({action}));return true}catch{return false}
@@ -6526,6 +6529,7 @@ function mathPilotCancel(){
  if(mathPilotRequest){mathPilotRequest.abort();mathPilotRequest=null}
  if(mathPilotRecording||mathPilotAwaiting)mathPilotCommand('stopMathAudio');
  mathPilotRecording=false;mathPilotAwaiting=false;
+ mathPilotCaptureId=0;mathPilotParts=[];mathPilotExpected=0;
  $('mathDictation')?.setAttribute('aria-pressed','false');
 }
 function mathPilotStart(){
@@ -6534,6 +6538,7 @@ function mathPilotStart(){
  stopSpeech();stopRecognition();state.dictationMode=false;state.voiceMode=false;
  setPressed($('dictationBtn'),false);setPressed($('voiceBtn'),false);
  mathPilotAwaiting=false;mathPilotRecording=true;
+ mathPilotCaptureId=0;mathPilotParts=[];mathPilotExpected=0;
  $('mathDictation')?.setAttribute('aria-pressed','true');
  mathVoiceStatus(learningLabel('Înregistrare continuă (maximum 30 secunde). Apasă iar Dictare pentru transcriere.','Continuous recording (max 30 seconds). Tap Dictate again to transcribe.'));
  if(!mathPilotCommand('startMathAudio')){
@@ -6567,7 +6572,22 @@ function mathPilotToggle(){
 window.pocketAndroidMathAudioResult=async function(data){
  if(!mathPilotAvailable())return;
  if(data?.status==='recording'){
+  if(mathPilotRecording||mathPilotAwaiting){
+   mathPilotCaptureId=Number(data.capture_id)||0;
+   mathPilotParts=[];mathPilotExpected=0;
+  }
   if(mathPilotRecording)mathVoiceStatus(learningLabel('Te înregistrez… Poți face pauze fără întreruperi.','Recording… You may pause without interruption.'));
+  return;
+ }
+ if(data?.status==='chunk'){
+  if(!mathPilotCaptureId||Number(data.capture_id)!==mathPilotCaptureId||(!mathPilotRecording&&!mathPilotAwaiting))return;
+  const index=Number(data.part_index),count=Number(data.part_count);
+  const value=String(data.audio||'');
+  data.audio=null;
+  if(!Number.isInteger(index)||!Number.isInteger(count)||count<1||count>35||
+     index<0||index>=count||value.length>48000)return;
+  if(mathPilotExpected&&mathPilotExpected!==count)return;
+  mathPilotExpected=count;mathPilotParts[index]=value;
   return;
  }
  if(data?.status==='error'){
@@ -6576,6 +6596,7 @@ window.pocketAndroidMathAudioResult=async function(data){
   return;
  }
  if(data?.status!=='captured')return;
+ if(Number(data.capture_id)!==mathPilotCaptureId||!mathPilotCaptureId)return;
  // Android auto-stops at 30 seconds; this also completes the consented trial.
  if(mathPilotRecording){
   mathPilotRecording=false;mathPilotAwaiting=true;
@@ -6583,8 +6604,11 @@ window.pocketAndroidMathAudioResult=async function(data){
  }
  if(!mathPilotAwaiting)return;
  mathPilotAwaiting=false;
- const payload=String(data.audio||'');
- data.audio=null;
+ const received=mathPilotParts.filter(part=>typeof part==='string');
+ const complete=mathPilotExpected>0&&received.length===mathPilotExpected&&
+  mathPilotParts.length===mathPilotExpected;
+ const payload=complete?mathPilotParts.join(''):'';
+ mathPilotParts=[];mathPilotExpected=0;mathPilotCaptureId=0;
  if(payload.length<1200||payload.length>1450000){
   mathVoiceStatus(learningLabel('Înregistrare goală sau prea lungă.','Recording empty or too long.'));
   return;
