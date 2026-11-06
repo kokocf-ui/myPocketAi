@@ -517,7 +517,7 @@ const ctx=vm.createContext({
  ]}):null
  },notify:()=>{}
 });
-vm.runInContext(inline.slice(budgetStart,inline.indexOf('function budgetCountryRefresh()',budgetStart)),ctx);
+vm.runInContext(inline.slice(budgetStart,inline.indexOf('function budgetVoiceStop()',budgetStart)),ctx);
 const totals=vm.runInContext('budgetTotals(budgetRead())',ctx);
 assert.equal(totals.balance,null,'without opening balance financial balance remains unknown');
 assert.equal(totals.income,3500);
