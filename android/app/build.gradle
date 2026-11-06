@@ -56,6 +56,25 @@ tasks.register("bundlePocketAvatar", Copy) {
     from(file("$rootDir/../public/avatar-v4.html"))
     into(pocketAvatarAssetDir)
     rename { "avatar-production.html" }
+    // Keep the enormous embedded GLB untouched in source. During APK packaging,
+    // make the mouth return to rest on the authoritative Android TTS completion.
+    doLast {
+        def avatarFile = new File(pocketAvatarAssetDir.get().asFile, "avatar-production.html")
+        def source = avatarFile.getText("UTF-8")
+        def before = "function stopSpeech(){state.speaking=false;state.targetWeights.set(shapes.X);setStatus('Avatar pregătit · repaus');}"
+        def after = """function stopSpeech(){
+ state.speaking=false;state.wordBoundarySeen=false;state.words=[];state.speechText='';state.wordIndex=0;
+ state.targetWeights.set(shapes.X);state.morphWeights.set(shapes.X);
+ for(const m of meshes){
+  const dict=m.morphTargetDictionary,weights=m.morphTargetInfluences;
+  if(!dict||!weights)continue;
+  for(let k=0;k<7;k++){const index=dict[names[k]];if(index!==undefined)weights[index]=state.morphWeights[k]}
+ }
+ setStatus('Avatar pregătit · repaus');
+}"""
+        if (!source.contains(before)) throw new GradleException("Avatar stopSpeech signature changed: review TTS synchronization patch")
+        avatarFile.setText(source.replace(before, after), "UTF-8")
+    }
 }
 android.sourceSets.main.assets.srcDir(pocketAvatarAssetDir)
 tasks.matching { it.name == "preBuild" }.configureEach { dependsOn("bundlePocketAvatar") }
