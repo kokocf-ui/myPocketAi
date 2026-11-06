@@ -4217,6 +4217,8 @@ function documentsScanExtract(raw,geometry=[]){
   return m&&months[m[2]]?validISO(Number(m[3]),months[m[2]],Number(m[1])):'';
  };
  const fields={};
+ const usedRows=new Set(); // One OCR value line cannot supply two identity fields.
+ const labelRows=rows.map((r,i)=>({i,key:whichLabel(r.text),r})).filter(x=>x.key);
  const isLabel=text=>whichLabel(text)!==null;
  const check=(key,value)=>{
   const t=String(value||'').trim();
@@ -4237,7 +4239,7 @@ function documentsScanExtract(raw,geometry=[]){
    const h=Math.max(12,row.bottom-row.top),maxBelow=Math.max(145,h*7);
    const nearby=[];
    for(let j=0;j<rows.length;j++){
-    if(j===i)continue;
+    if(j===i||usedRows.has(j))continue;
     const other=rows[j];
     if(!Number.isFinite(other.top)||!Number.isFinite(other.left)||isLabel(other.text))continue;
     const dy=other.top-row.bottom;
@@ -4245,21 +4247,28 @@ function documentsScanExtract(raw,geometry=[]){
     const rightOf=other.left>=row.right&&Math.abs(other.top-row.top)<=h*1.5;
     const aligned=other.right>=row.left-h*2&&other.left<=row.right+Math.max(140,h*10);
     if(!rightOf&&!aligned)continue;
+    // Never jump across another field caption to borrow its value.
+    if(!rightOf && labelRows.some(label=>label.i!==i &&
+      Number.isFinite(label.r.top) && label.r.top>row.bottom-h*.3 && label.r.top<other.top &&
+      label.r.right>=Math.min(row.left,other.left)-h &&
+      label.r.left<=Math.max(row.right,other.right)+h))continue;
     const val=check(key,other.text);
     if(!val)continue;
     const distance=rightOf?(other.left-row.right)*.2+Math.abs(other.top-row.top)*.4:
       Math.max(0,dy)+Math.abs(other.left-row.left)*.45;
-    nearby.push({val,distance});
+    nearby.push({val,distance,j});
    }
    nearby.sort((a,b)=>a.distance-b.distance);
    candidate=nearby[0]?.val||'';
+   if(candidate)usedRows.add(nearby[0].j);
   }
-  if(!candidate){
-   // Text-only fallback: do not cross the next recognized label.
+  if(!candidate && !layout.length){
+   // Without coordinates, only use the next unclaimed value before another caption.
    for(let j=i+1;j<Math.min(rows.length,i+3);j++){
     if(isLabel(rows[j].text))break;
+    if(usedRows.has(j))continue;
     candidate=check(key,rows[j].text);
-    if(candidate)break;
+    if(candidate){usedRows.add(j);break}
    }
   }
   if(candidate)fields[key]=candidate;
@@ -4293,9 +4302,36 @@ function documentsScanExtract(raw,geometry=[]){
   }
   if(!fields.country)fields.country=a.slice(2,5); // Issuing country, not nationality.
   const name=a.slice(5).split('<<');
-  if(name[0]&&!fields.holder)fields.holder=name[0].replace(/<+/g,' ').trim();
-  if(name[1]&&!fields.given)fields.given=name.slice(1).join(' ').replace(/<+/g,' ').trim();
+  if(name[0])fields.holder=name[0].replace(/<+/g,' ').trim();
+  if(name[1])fields.given=name.slice(1).join(' ').replace(/<+/g,' ').trim();
   break;
+ }
+ // ICAO TD1 identity cards (3 lines of 30): do not guess from partial MRZ.
+ for(let j=0;j<mrz.length-2;j++){
+  const a=mrz[j],b=mrz[j+1],c=mrz[j+2];
+  if(a.length!==30||b.length!==30||c.length!==30||!/^[IAC][A-Z<]/.test(a))continue;
+  if(digit(a.slice(5,14))!==a[14] ||
+     digit(b.slice(0,6))!==b[6] ||
+     digit(b.slice(8,14))!==b[14])continue;
+  const cardNo=a.slice(5,14).replace(/<+$/,'');
+  if(cardNo)fields.number=cardNo;
+  const birthCode=b.slice(0,6);
+  const yy=Number(birthCode.slice(0,2));
+  const year=yy>(new Date().getFullYear()%100)?1900+yy:2000+yy;
+  const birth=validISO(year,Number(birthCode.slice(2,4)),Number(birthCode.slice(4,6)));
+  if(birth)fields.birth=birth;
+  const expiration=validISO(2000+Number(b.slice(8,10)),Number(b.slice(10,12)),Number(b.slice(12,14)));
+  if(expiration)fields.expires=expiration;
+  fields.country=a.slice(2,5);
+  const names=c.split('<<');
+  if(names.length>1&&names[0])fields.holder=names[0].replace(/<+/g,' ').trim();
+  if(names.length>1&&names[1])fields.given=names.slice(1).join(' ').replace(/<+/g,' ').trim();
+  break;
+ }
+ // Do not silently prefill two different identity fields with the same OCR
+ // text. A genuine same-name case can still be entered manually after review.
+ if(fields.holder&&fields.given&&normalized(fields.holder)===normalized(fields.given)){
+  delete fields.given;
  }
  return fields;
 }
