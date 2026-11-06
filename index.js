@@ -2664,7 +2664,7 @@ function tasksVoiceCommand(phrase){
  }
  const add=spoken.replace(/[,;]+/g,' ').replace(/\\s+/g,' ').trim().match(/^(?:adaug[aă]|ad[aă]uga|creeaz[aă]|noteaz[aă]|trece)\\s+(?:(?:(?:un|o)\\s+)?(?:obiectiv|sarcin[aă])\\s*)?(.+)$/i);
  if(add){
-  let title=add[2].trim();const goal=/obiectiv/i.test(spoken.slice(0,spoken.length-title.length));
+  let title=add[1].trim();const goal=/obiectiv/i.test(spoken.slice(0,spoken.length-title.length));
   const priority=/prioritate (?:mare|ridicata|ridicată)/i.test(title)?'high':'normal';
   title=title.replace(/[, ]*prioritate (?:mare|ridicata|ridicată)/i,'').trim();
   const parsed=tasksParseSpokenDeadline(title);
