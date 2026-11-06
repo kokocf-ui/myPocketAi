@@ -3399,16 +3399,20 @@ function budgetSpokenCurrency(text){
 function budgetVoiceExpenseTitle(raw){
  let phrase=String(raw||'').trim();
  phrase=phrase.replace(/^\\s*(?:am\\s+cheltuit|am\\s+plătit|am\\s+platit|am\\s+primit|am\\s+încasat|am\\s+incasat|spent|paid|received|i\\s+spent|i\\s+paid|(?:trebuie\\s+sa\\s+)?platesc|(?:trebuie\\s+să\\s+)?plătesc)\\s*/iu,'');
- phrase=phrase.replace(/(?:^|\\s)\\d+(?:[,.]\\d+)?\\s*(?:de\\s+)?(?:lire(?:\\s+sterline)?|lira|libr[ea]?|pounds?|gbp|zile|euro|eur|ron|lei|leu|dolari|dollars?|usd|franci|chf|pln)(?=\\s|$)/iu,' ');
- phrase=phrase.replace(/(?:^|\\s)(?:pe\\s+)?\\d{1,2}\\s+(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\\s+\\d{4})?(?=\\s|$)/giu,' ');
+ phrase=phrase.replace(/(?:^|\\s)\\d+(?:[,.]\\d+)?\\s*(?:de\\s+)?(?:lire(?:\\s+sterline)?|lira|libr[ea]?|pounds?|gbp|zile|euro|eur|ron|lei|leu|dolari|dollars?|usd|franci|chf|pln)(?=\\s|$)/iu,' ').trim();
+ phrase=phrase.replace(/(?:^|\\s)(?:pe\\s+)?\\d{1,2}\\s+(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\\s+\\d{4})?(?=\\s|$)/giu,' ').trim();
  phrase=phrase.replace(/\\b(?:pe\\s+\\d{1,2}\\s+)?(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)\\b/giu,' ');
+ phrase=phrase.trim();
  phrase=phrase.replace(/^(?:în fiecare lună pe|in fiecare luna pe)\\s+\\d{1,2}\\s+/iu,'');
+ phrase=phrase.trim();
  phrase=phrase.replace(/^(?:trebuie\\s+să|trebuie\\s+sa|voi)\\s+/iu,'');
+ phrase=phrase.trim();
  phrase=phrase.replace(/^(?:plătesc|platesc)\\s+/iu,'');
  phrase=phrase.replace(/^(?:pe|la|pentru)\\s+(?=plătesc|platesc)/iu,'');
  phrase=phrase.replace(/^(?:plătesc|platesc)\\s+/iu,'');
  phrase=phrase.replace(/\\s+de\\s*$/iu,'');
  phrase=phrase.replace(/^(?:lire|lei|zile)\\s+(?=(?:pe|pentru|la)\\s+)/iu,'');
+ phrase=phrase.trim();
  phrase=phrase.replace(/^(?:(?:la|de\\s+la|pentru|pe|din)\\s+)+/iu,'');
  return phrase.replace(/^[\\s,.;:]+|[\\s,.;:]+$/gu,'').replace(/\\s+/g,' ').trim();
 }
