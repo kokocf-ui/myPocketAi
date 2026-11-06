@@ -1613,10 +1613,11 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 @media(max-width:360px){.agenda-confirm{grid-template-columns:repeat(2,minmax(0,1fr))}.agenda-confirm span{grid-column:1/-1}}
 
 .agenda-calendar-toolbar,.agenda-calendar-navigation,.agenda-detail-actions{display:flex;gap:clamp(.25rem,1vw,.5rem);align-items:center;min-width:0}
-.agenda-calendar-toolbar button{flex:1 1 0;min-width:0;padding:.5rem .15rem;font-size:clamp(.7rem,3vw,.95rem)}
-.agenda-calendar-navigation{justify-content:space-between}
+.agenda-calendar-toolbar{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));width:100%}
+.agenda-calendar-toolbar button{width:100%;min-width:0;min-height:2.7rem;padding:.35rem .1rem;box-sizing:border-box;font-size:clamp(.7rem,2.8vw,.95rem);line-height:1.1}
+.agenda-calendar-navigation{display:grid!important;grid-template-columns:minmax(2.5rem,auto) minmax(0,1fr) minmax(2.5rem,auto) minmax(4.5rem,auto);gap:clamp(.2rem,1vw,.5rem);align-items:center;width:100%}
 .agenda-calendar-navigation strong{flex:1;text-align:center;min-width:0;font-size:clamp(.85rem,3.5vw,1.08rem)}
-.agenda-calendar-navigation button{flex:0 0 auto;min-width:2.25rem;padding:.4rem}
+.agenda-calendar-navigation button{min-width:0;min-height:2.7rem;padding:.35rem .3rem;box-sizing:border-box}
 .agenda-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(.13rem,.8vw,.45rem);min-width:0}
 .agenda-weekday{text-align:center;font-size:.72rem;opacity:.8}
 .agenda-day{min-width:0;min-height:clamp(2.5rem,6dvh,3.5rem);padding:.2rem .05rem;border-radius:.5rem;border:1px solid transparent;background:transparent;color:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:clamp(.8rem,3vw,1rem)}
@@ -2228,8 +2229,8 @@ function organizePanel(cat){
   active.setAttribute('aria-pressed',shoppingMode==='active'?'true':'false');
   active.onclick=()=>{if(shoppingVoiceSession?.active)shopVoiceStop();shoppingMode=shoppingMode==='active'?'entry':'active';shoppingPendingAction=null;shoppingEditingId=null;renderShoppingList()};
   bar.append(back,active);
- }else bar.append(back,title);
- panel.append(bar);host.append(panel);
+ }else if(cat[0]!=='calendar')bar.append(back,title);
+ if(cat[0]!=='calendar')panel.append(bar);host.append(panel);
  return panel;
 }
 function openOrganizeCategory(key){
