@@ -159,7 +159,8 @@ public final class MainActivity extends ComponentActivity {
         if("dictation".equals(speechMode) || "budget".equals(speechMode) ||
            "agenda".equals(speechMode) || "tasks".equals(speechMode) ||
            "reminders".equals(speechMode) || "notes".equals(speechMode) ||
-           "daily".equals(speechMode) || "shopping".equals(speechMode))return;
+           "daily".equals(speechMode) || "shopping".equals(speechMode) ||
+           "documents".equals(speechMode))return;
         String normalized=recognized.trim();
         if(normalized.equals(lastVoicePartial))return;
         lastVoicePartial=normalized;

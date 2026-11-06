@@ -441,7 +441,7 @@ assert.equal(notesEval("notesAutosave(notesRead()[0].id,'Text completat automat'
 assert.equal(notesEval("notesRead()[0].body"),'Text completat automat','input changes are preserved');
 assert.match(inline,/input\.addEventListener\('input',persistDraft\)/,'new note auto-saves on typing');
 assert.match(inline,/editor\.addEventListener\('input'/,'existing notes auto-save on typing');
-assert.doesNotMatch(inline.slice(inline.indexOf('function renderNotes(){'),inline.indexOf('const TASKS_DRAWINGS=',inline.indexOf('function renderNotes(){'))),/Salvează modificările/,'no manual save button in notes');
+assert.doesNotMatch(inline.slice(inline.indexOf('function renderNotes(){'),inline.indexOf('const POCKET_DOCUMENTS_KEY=',inline.indexOf('function renderNotes(){'))),/Salvează modificările/,'no manual save button in notes');
 assert.match(inline,/agendaEventOrigin\(selected\)/,'agenda displays source of event');
 assert.match(inline,/if\(item\.linkedTaskId\)/,'agenda deletion also removes linked source task');
 assert.match(inline,/Pentru notificări folosește Mementouri inteligente/,'notes do not create agenda alerts');
@@ -603,5 +603,33 @@ assert.match(inline,/if\(budgetScreen==='period'\)/,'period results have a dedic
 assert.match(page,/Plăți viitoare/,'Info has payment wording');
 assert.match(page,/Ce plăți mai am luna viitoare/,'Info includes short future payment query');
 assert.match(page,/margin-bottom:\.55rem/,'budget summary has separation from action controls');
+
+
+/* Documents and deadlines: voice parsing, local-only storage, and shared layout. */
+assert.match(inline,/POCKET_DOCUMENTS_KEY='mypocketai\.documents\.v1'/);
+assert.match(inline,/if\(key==='documents'\)\{documentsSelectedId=null;renderDocuments\(\);return\}/);
+assert.match(inline,/function documentsVoiceHandleAndroid\(data\)/);
+assert.match(inline,/mode:'documents'/);
+assert.match(inline,/documentsWrite\(all\)/,'document metadata is persisted locally');
+assert.match(inline,/pocketConfirm\(learningLabel\('Ștergi documentul/,'deletion requires confirmation');
+assert.match(inline,/function documentsParseVoice\(raw\)/);
+assert.match(inline,/function renderDocuments\(\)/);
+assert.match(inline,/documentsFilter=.*budgetQueryPeriod\(spoken\)/,'documents reuse month-based filtering');
+assert.match(page,/\.budget-fx-swap\{[^}]*align-self:center;transform:translateY\(\.6rem\)/,'FX swap is vertically centered');
+const docBegin=inline.indexOf("const POCKET_DOCUMENTS_KEY='mypocketai.documents.v1'");
+const docEnd=inline.indexOf('const TASKS_DRAWINGS=',docBegin);
+assert.ok(docBegin>=0&&docEnd>docBegin);
+const docCtx=vm.createContext({
+ Date,Number,String,localStorage:{getItem:()=>null},
+ shopVoiceFold: v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim(),
+ budgetISO: d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'),
+ budgetDateNow:()=> '2026-11-06'
+});
+vm.runInContext(inline.slice(docBegin,docEnd),docCtx);
+const parseDoc=v=>vm.runInContext('documentsParseVoice('+JSON.stringify(v)+')',docCtx);
+assert.equal(parseDoc('Adaugă pașaportul, expiră pe 15 martie 2028').title,'pașaport');
+assert.equal(parseDoc('Adaugă pașaportul, expiră pe 15 martie 2028').expires,'2028-03-15');
+assert.equal(parseDoc('Permisul expiră pe 20 iunie 2027').expires,'2027-06-20');
+assert.equal(parseDoc('Documentul expiră pe 31 februarie 2028'),null,'invalid expiry dates are rejected');
 
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');

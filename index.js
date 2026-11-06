@@ -1413,7 +1413,7 @@ body.long-choice-active{overflow:hidden}
 #view-module .budget-transaction-info small{opacity:.7}
 #view-module .budget-transaction>strong{font-size:clamp(.8rem,3vw,1rem);text-align:right;max-width:48%;overflow-wrap:anywhere}
 #view-module .budget-fx-pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:.4rem;align-items:end}
-#view-module .budget-fx-swap{width:2.3rem!important;min-width:2.3rem!important;height:2.65rem!important;min-height:2.65rem!important;padding:0!important;font-size:1.35rem!important;line-height:1!important;border-radius:.65rem!important;align-self:end}
+#view-module .budget-fx-swap{width:2.3rem!important;min-width:2.3rem!important;height:2.65rem!important;min-height:2.65rem!important;padding:0!important;font-size:1.35rem!important;line-height:1!important;border-radius:.65rem!important;align-self:center;transform:translateY(.6rem)}
 #view-module .budget-field{display:flex;flex-direction:column;gap:.4rem;min-width:0}
 #view-module .budget-currency,#view-module .budget-input{box-sizing:border-box;width:100%;min-width:0;min-height:2.65rem;border-radius:.7rem;background:#112e43;color:#effaff;border:1px solid #53839b;padding:.55rem;font:inherit}
 #view-module .budget-entry-form{display:flex;flex-direction:column;gap:.55rem}
@@ -2575,7 +2575,7 @@ function pocketUiUpdateSafe(){
  return (view!=='module'||$('view-module').classList.contains('organize-choose'))
   &&!shoppingPendingAction&&!shoppingVoiceSession?.active&&!agendaListening
   &&!notesListening&&!dailyListening&&!budgetVoiceListening&&!tasksListening
-  &&!remindersListening&&!document.querySelector('dialog[open]')
+  &&!remindersListening&&!documentsListening&&!document.querySelector('dialog[open]')
   &&!document.querySelector('input:focus,textarea:focus,select:focus');
 }
 async function checkUiUpdateAfterModuleExit(){
@@ -2602,6 +2602,7 @@ function renderOrganizeChoices(){
  notesVoiceStop();
  dailyVoiceStop();
  budgetVoiceStop();
+ documentsVoiceStop();
  agendaPendingDelete=null;
  const leavingShopping=$('view-module').classList.contains('adaptive-workspace-view');
  shoppingMode='entry';shoppingPendingAction=null;
@@ -2649,6 +2650,13 @@ function pocketVoiceHelp(mode,title){
    ['Adăugare','Amintește-mi mâine la ora 10 să sun la service'],
    ['Peste un interval','Amintește-mi peste 30 de minute să verific cuptorul'],
    ['Ștergere','Șterge mementoul să sun la service']
+  ],
+  documents:[
+   ['Adăugare','Adaugă pașaportul, expiră pe 15 martie 2028'],
+   ['Verificare','Ce documente expiră luna viitoare?'],
+   ['Termene','Arată documentele care expiră'],
+   ['Deschidere','Arată pașaportul'],
+   ['Ștergere','Șterge pașaportul']
   ],
   budget:[
    ['Cheltuială','Am cheltuit 45 de lire la Tesco'],
@@ -2738,6 +2746,7 @@ function openOrganizeCategory(key){
  if(key==='notes'){renderNotes();return}
  if(key==='daily'){renderDailyPlan();return}
  if(key==='budget'){budgetGeoAsked=false;budgetScreen='home';renderBudget();return}
+ if(key==='documents'){documentsSelectedId=null;renderDocuments();return}
  const panel=organizePanel(cat);
  const p=document.createElement('p');p.textContent=learningLabel(cat[4],cat[5]);panel.append(p);
  const button=document.createElement('button');button.type='button';button.className='primary-btn';
@@ -3862,6 +3871,149 @@ function renderBudget(){
  scroll.append(budgetNode('small','budget-location',budgetLocalCurrency?
   learningLabel('Moneda locală detectată: ','Detected local currency: ')+budgetDetectedCountry+' / '+budgetLocalCurrency:
   learningLabel('Țara nu a fost verificată. Poți selecta manual orice monedă.','Country not verified. You can choose any currency.')));
+}
+
+
+const POCKET_DOCUMENTS_KEY='mypocketai.documents.v1';
+let documentsListening=false,documentsSelectedId=null,documentsFilter=null;
+function documentsRead(){
+ try{const a=JSON.parse(localStorage.getItem(POCKET_DOCUMENTS_KEY)||'[]');return Array.isArray(a)?a.filter(x=>x&&typeof x.id==='string'&&typeof x.title==='string'&&typeof x.expires==='string'):[]}
+ catch{return []}
+}
+function documentsWrite(items){
+ try{localStorage.setItem(POCKET_DOCUMENTS_KEY,JSON.stringify(items));return true}
+ catch{notify(learningLabel('Nu am putut salva documentele.','Could not save documents.'));return false}
+}
+function documentsDate(text){
+ const t=shopVoiceFold(text),months=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+ const m=t.match(/(?:^|\\s)(\\d{1,2})\\s+(ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\\s+(\\d{4}))?(?=\\s|$|[,.!?])/);
+ const numeric=t.match(/(?:^|\\s)(\\d{1,2})[./-](\\d{1,2})[./-](\\d{4})(?=\\s|$|[,.!?])/);
+ if(!m&&!numeric)return null;
+ const day=Number(m?m[1]:numeric[1]),month=m?months.indexOf(m[2]):Number(numeric[2])-1,year=Number((m?m[3]:numeric[3])||new Date().getFullYear()),d=new Date(year,month,day);
+ return d.getFullYear()===year&&d.getMonth()===month&&d.getDate()===day?budgetISO(d):null;
+}
+function documentsParseVoice(raw){
+ const date=documentsDate(raw);
+ if(!date)return null;
+ const t=shopVoiceFold(raw);
+ let title=t.replace(/(?:^|\\s)\\d{1,2}\\s+(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\\s+\\d{4})?(?=\\s|$|[,.!?])/,' ')
+  .replace(/(?:^|\\s)\\d{1,2}[./-]\\d{1,2}[./-]\\d{4}(?=\\s|$|[,.!?])/,' ')
+  .replace(/^(?:adauga|inregistreaza|salveaza|noteaza|add|save)\\s+/,'')
+  .replace(/\\b(?:documentul|actul|expira|valabil|pana|la|pe|data|de)\\b/g,' ').replace(/[,.!?;:]/g,' ').replace(/\\s+/g,' ').trim();
+ if(title==='pasaportul')title='pașaport';
+ if(title==='permisul')title='permis';
+ if(title==='buletinul')title='buletin';
+ return title.length>=3?{title,expires:date}:null;
+}
+function documentsFind(query){
+ const needle=shopVoiceFold(query).replace(/^(?:documentul|actul)\\s+/,'').trim();
+ const matches=documentsRead().filter(x=>shopVoiceFold(x.title)===needle||shopVoiceFold(x.title).includes(needle)||needle.includes(shopVoiceFold(x.title)));
+ return matches.length===1?matches[0]:null;
+}
+function documentsSave(title,expires,id=null){
+ title=String(title||'').trim().slice(0,100);
+ const d=new Date(String(expires)+'T12:00:00');
+ if(!title||!/^\\d{4}-\\d{2}-\\d{2}$/.test(expires)||Number.isNaN(d.getTime())||budgetISO(d)!==expires){
+  notify(learningLabel('Introdu un nume și o dată validă.','Enter a name and valid date.'));return false;
+ }
+ const all=documentsRead(),i=all.findIndex(x=>x.id===id),now=new Date().toISOString();
+ const item={id:i>=0?all[i].id:shopId(),title,expires,createdAt:i>=0?all[i].createdAt:now,updatedAt:now};
+ if(i>=0)all[i]=item;else all.push(item);
+ if(!documentsWrite(all))return false;
+ documentsSelectedId=null;documentsFilter=null;renderDocuments();
+ notify(learningLabel('Document înregistrat.','Document saved.'));return true;
+}
+function documentsVoiceStop(){
+ if(!documentsListening)return;
+ documentsListening=false;
+ if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
+}
+function documentsVoiceStart(){
+ if(documentsListening){documentsVoiceStop();return}
+ if(!pocketNativeVoiceAvailable()){notify(learningLabel('Microfonul Android nu este disponibil.','Android microphone unavailable.'));return}
+ documentsListening=true;
+ const status=document.querySelector('.organize-voice-status');
+ if(status)status.textContent=learningLabel('Te ascult…','Listening…');
+ if(!pocketNativeVoiceSend({action:'listen',mode:'documents',language:shopVoiceLanguage()}))documentsVoiceStop();
+}
+function documentsVoiceHandleAndroid(data){
+ if(data?.mode!=='documents')return false;
+ if(!documentsListening)return true;
+ if(data.status==='listening'||data.status==='partial'){
+  const status=document.querySelector('.organize-voice-status');
+  if(status)status.textContent=data.status==='partial'?String(data.text||''):learningLabel('Te ascult…','Listening…');
+ }else if(data.status==='recognized'){documentsVoiceStop();documentsVoiceCommand(data.text)}
+ else if(data.status==='error'){documentsVoiceStop();notify(learningLabel('Dictarea a fost întreruptă.','Dictation interrupted.'))}
+ return true;
+}
+function documentsVoiceCommand(raw){
+ const spoken=shopVoiceFold(raw);
+ if(!spoken)return;
+ const remove=spoken.match(/^(?:sterge|elimina|delete|remove)\\s+(?:documentul\\s+|actul\\s+)?(.+)$/);
+ if(remove){
+  const item=documentsFind(remove[1]);
+  if(!item){notify(learningLabel('Documentul nu a fost identificat clar.','Document not uniquely identified.'));return}
+  pocketConfirm(learningLabel('Ștergi documentul „','Delete document “')+item.title+'”?',()=>{
+   if(documentsWrite(documentsRead().filter(x=>x.id!==item.id))){documentsSelectedId=null;renderDocuments()}
+  });return;
+ }
+ if(/^(?:ce|care|arata|afiseaza|show|which|what)\\b/.test(spoken)&&/\\b(?:documente|acte|expira|expirare|expiring|documents)\\b/.test(spoken)){
+  documentsFilter=/luna|saptaman|decembrie|ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|next|week|month/.test(spoken)?budgetQueryPeriod(spoken):null;
+  documentsSelectedId=null;renderDocuments();return;
+ }
+ const open=spoken.match(/^(?:arata|deschide|vezi|show|open)\\s+(?:documentul\\s+|actul\\s+)?(.+)$/);
+ if(open){
+  const item=documentsFind(open[1]);
+  if(item){documentsSelectedId=item.id;documentsFilter=null;renderDocuments()}
+  else notify(learningLabel('Documentul nu a fost identificat clar.','Document not uniquely identified.'));
+  return;
+ }
+ const parsed=documentsParseVoice(raw);
+ if(parsed){documentsSave(parsed.title,parsed.expires);return}
+ notify(learningLabel('Exemplu: „Pașaportul expiră pe 15 martie 2028”.','Example: “Passport expires 15 March 2028”.'));
+}
+function renderDocuments(){
+ const cat=ORGANIZE_CATEGORIES.find(x=>x[0]==='documents');
+ const {scroll}=organizeVoiceWorkspace(cat,{
+  titleRo:'Documente și termene',titleEn:'Documents and deadlines',mode:'documents',
+  backAction:()=>{documentsVoiceStop();if(documentsSelectedId||documentsFilter){documentsSelectedId=null;documentsFilter=null;renderDocuments()}else renderOrganizeChoices()},
+  onDictate:documentsVoiceStart,dictationRo:'Dictare',dictationEn:'Dictation'
+ });
+ const all=documentsRead().sort((a,b)=>a.expires.localeCompare(b.expires)||a.title.localeCompare(b.title));
+ const make=(tag,cls,value)=>budgetNode(tag,cls,value);
+ if(documentsSelectedId){
+  const item=all.find(x=>x.id===documentsSelectedId);
+  if(!item){documentsSelectedId=null;renderDocuments();return}
+  scroll.append(make('h3','budget-subtitle',learningLabel('Modifică documentul','Edit document')));
+  const form=make('form','budget-entry-form');
+  const name=make('input','budget-input');name.value=item.title;name.maxLength=100;name.required=true;name.setAttribute('aria-label',learningLabel('Denumire document','Document name'));
+  const date=make('input','budget-input');date.type='date';date.value=item.expires;date.required=true;
+  const save=budgetButton(learningLabel('Salvează modificările','Save changes'),()=>documentsSave(name.value,date.value,item.id),'primary-btn');
+  form.append(name,date,save);form.onsubmit=e=>{e.preventDefault();documentsSave(name.value,date.value,item.id)};scroll.append(form);
+  scroll.append(budgetButton(learningLabel('Șterge documentul','Delete document'),()=>pocketConfirm(learningLabel('Ștergi documentul „','Delete document “')+item.title+'”?',()=>{
+   if(documentsWrite(documentsRead().filter(x=>x.id!==item.id))){documentsSelectedId=null;renderDocuments()}
+  })));
+  scroll.append(budgetButton(learningLabel('← La documente','← Back to documents'),()=>{documentsSelectedId=null;renderDocuments()}));return;
+ }
+ scroll.append(make('p','budget-advice',learningLabel('Salvăm pe dispozitiv numai denumirea și data expirării.','Only the document name and expiry date are stored locally.')));
+ const form=make('form','budget-entry-form');
+ const name=make('input','budget-input');name.required=true;name.maxLength=100;name.placeholder=learningLabel('Document (ex.: pașaport)','Document (e.g. passport)');
+ const date=make('input','budget-input');date.type='date';date.required=true;date.setAttribute('aria-label',learningLabel('Data expirării','Expiry date'));
+ const add=budgetButton(learningLabel('+ Adaugă document','+ Add document'),()=>documentsSave(name.value,date.value),'primary-btn');
+ form.append(name,date,add);form.onsubmit=e=>{e.preventDefault();documentsSave(name.value,date.value)};scroll.append(form);
+ if(documentsFilter)scroll.append(make('small','budget-advice',learningLabel('Perioada: ','Period: ')+documentsFilter.start+' — '+documentsFilter.end));
+ const visible=all.filter(x=>!documentsFilter||x.expires>=documentsFilter.start&&x.expires<=documentsFilter.end);
+ scroll.append(make('h3','budget-subtitle',learningLabel('Documente după expirare','Documents by expiry')+' · '+visible.length));
+ if(!visible.length)scroll.append(make('p','budget-empty',learningLabel('Nu există documente pentru această selecție.','No documents for this selection.')));
+ for(const item of visible){
+  const button=budgetButton('',()=>{documentsSelectedId=item.id;renderDocuments()},'budget-transaction');
+  const detail=make('span','budget-transaction-info');
+  detail.append(make('strong','',item.title),make('small','',item.expires));
+  const status=make('span',item.expires<budgetDateNow()?'budget-expense':'budget-income',item.expires<budgetDateNow()?learningLabel('Expirat','Expired'):learningLabel('Valabil','Valid'));
+  button.append(detail,status);scroll.append(button);
+ }
+ if(documentsFilter)scroll.append(budgetButton(learningLabel('Toate documentele','All documents'),()=>{documentsFilter=null;renderDocuments()}));
+ scroll.append(make('small','budget-advice',learningLabel('Notificările și atașarea de fișiere vor fi integrate separat.','Notifications and file attachments will be added separately.')));
 }
 
 const TASKS_DRAWINGS={list:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="21" y="8" width="80" height="75" rx="9" fill="#d8f4fa"/><rect x="43" y="2" width="36" height="13" rx="5" fill="#68c8e0"/><path d="M32 35l6 6 11-13M32 59l6 6 11-13" fill="none" stroke="#21a58e" stroke-width="5" stroke-linecap="round"/><path d="M58 35h30M58 59h30" stroke="#4c7294" stroke-width="5" stroke-linecap="round"/></svg>',goal:'<svg viewBox="0 0 120 90" aria-hidden="true"><path d="M18 79h86" stroke="#87cbdc" stroke-width="5" stroke-linecap="round"/><path d="M26 75h24V58h22V40h24V20" fill="none" stroke="#77d5c1" stroke-width="10" stroke-linejoin="round"/><path d="M94 12v33M95 13l21 8-21 9" fill="#67bdf1" stroke="#e9fbff" stroke-width="3"/><circle cx="29" cy="67" r="6" fill="#f4cc7a"/></svg>',calendar:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="13" y="14" width="93" height="68" rx="9" fill="#daf3fa"/><path d="M13 31h93" stroke="#56c0dc" stroke-width="10"/><path d="M35 8v17M83 8v17" stroke="#fff" stroke-width="6" stroke-linecap="round"/><rect x="32" y="42" width="22" height="22" rx="5" fill="#4dc2a7"/><path d="M37 53l5 5 9-11" stroke="#fff" stroke-width="3" fill="none"/><circle cx="82" cy="60" r="15" fill="#6aace5"/><path d="M82 48v13l8 5" stroke="#fff" stroke-width="3" fill="none"/></svg>',archive:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="20" y="28" width="82" height="54" rx="7" fill="#80bcdf"/><rect x="14" y="19" width="94" height="22" rx="5" fill="#d8f4fa"/><path d="M48 47h25" stroke="#efffff" stroke-width="6" stroke-linecap="round"/><circle cx="91" cy="68" r="17" fill="#43b99f"/><path d="M82 68l6 6 12-13" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>'};
@@ -7969,6 +8121,7 @@ window.pocketAndroidVoiceResult=function(data){
  if(notesVoiceHandleAndroid(data))return;
  if(dailyVoiceHandleAndroid(data))return;
  if(budgetVoiceHandleAndroid(data))return;
+ if(documentsVoiceHandleAndroid(data))return;
  if(tasksVoiceHandleAndroid(data))return;
  if(pocketExitVoiceResult(data))return;
  if(data?.mode==='tts'){
