@@ -1326,6 +1326,59 @@ body.long-choice-active{overflow:hidden}
 .notes-new-form>textarea{width:100%;box-sizing:border-box}
 .agenda-event-origin{font-size:.84rem;opacity:.8}
 </style>
+<style id="organize-notes-unified-layout">
+/* Shared organisation header: title centered in the actual space between Home and Info.
+   The outer adaptive grid still determines both widths, on any handset. */
+#view-module.organize-active.adaptive-workspace-view>.module-heading-row{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) clamp(1.7rem,5.7vw,2.2rem)!important;
+ align-items:center!important;
+ justify-content:normal!important;
+ column-gap:clamp(.25rem,1.2vw,.55rem)!important;
+ min-width:0!important;
+}
+#view-module.organize-active.adaptive-workspace-view>.module-heading-row .section-title{
+ grid-column:1!important;
+ width:100%!important;
+ max-width:100%!important;
+ min-width:0!important;
+ margin:0!important;
+ text-align:center!important;
+ justify-self:stretch!important;
+ font-size:clamp(.91rem,3.75vw,1.25rem)!important;
+ line-height:1.14!important;
+ overflow-wrap:break-word!important;
+}
+#view-module.organize-active.adaptive-workspace-view>.module-heading-row .pocket-voice-info{
+ grid-column:2!important;justify-self:center!important;align-self:center!important;margin:0!important;
+}
+/* The note card is a true flexible vertical card, never a fixed-height button. */
+#view-module .notes-list-item{
+ display:flex!important;flex-direction:column!important;align-items:stretch!important;
+ justify-content:flex-start!important;
+ height:auto!important;min-height:clamp(3.4rem,8dvh,5rem)!important;
+ max-height:none!important;width:100%!important;min-width:0!important;
+ padding:clamp(.6rem,2.2vw,.85rem)!important;
+ gap:.25rem!important;margin:0!important;
+ text-align:left!important;box-sizing:border-box!important;
+ line-height:1.3!important;white-space:normal!important;
+}
+#view-module .notes-list-title{
+ display:block!important;min-width:0!important;
+ font-size:clamp(.9rem,3.4vw,1.02rem)!important;
+ line-height:1.25!important;overflow-wrap:anywhere!important;
+}
+#view-module .notes-list-preview{
+ display:-webkit-box!important;-webkit-box-orient:vertical!important;
+ -webkit-line-clamp:2;overflow:hidden!important;
+ min-width:0!important;line-height:1.35!important;overflow-wrap:anywhere!important;
+}
+#view-module .notes-list-date{
+ display:block!important;align-self:flex-start!important;position:static!important;
+ min-width:0!important;height:auto!important;line-height:1.3!important;
+ font-size:clamp(.7rem,2.7vw,.83rem)!important;opacity:.72!important;
+}
+</style>
 </head>
 <body>
 <header class="app-header"><img class="brand-mark" src="${AVATAR_DATA}" alt="Avatar myPocket AI"><div class="brand-copy"><div class="brand-name"><span class="my">my</span>Pocket AI</div><div class="brand-sub">Asistentul tău personal pentru orice zi</div></div><div class="plan-pill">FREE ♛</div></header>
@@ -2906,9 +2959,14 @@ function renderNotes(){
  if(!items.length)scroll.append(make('p','notes-empty',learningLabel('Nu ai notițe salvate.','No notes saved yet.')));
  for(const note of items){
   const row=button('',()=>{notesSelectedId=note.id;renderNotes()},'notes-list-item');
-  row.append(make('strong','',note.title));
-  row.append(make('span','',note.body.slice(0,85)+(note.body.length>85?'…':'')));
-  row.append(make('small','',new Date(note.updatedAt).toLocaleString(state.language==='ro'?'ro-RO':'en-GB',{dateStyle:'medium',timeStyle:'short'})));
+  const heading=note.title||notesTitle(note.body);
+  row.append(make('strong','notes-list-title',heading));
+  // A note whose body repeats its generated title should not appear twice.
+  const compactBody=String(note.body||'').trim();
+  const sameText=notesFold(compactBody)===notesFold(heading);
+  const remainder=sameText?'':compactBody.startsWith(heading)?compactBody.slice(heading.length).trim():compactBody;
+  if(remainder)row.append(make('span','notes-list-preview',remainder.slice(0,110)+(remainder.length>110?'…':'')));
+  row.append(make('small','notes-list-date',new Date(note.updatedAt).toLocaleString(state.language==='ro'?'ro-RO':'en-GB',{dateStyle:'medium',timeStyle:'short'})));
   scroll.append(row);
  }
 }
