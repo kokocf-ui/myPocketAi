@@ -2623,6 +2623,37 @@ function remindersVoiceStart(){
  if(status)status.textContent=learningLabel('Te ascult…','Listening…');
  if(!pocketNativeVoiceSend({action:'listen',mode:'reminders',language:shopVoiceLanguage()}))remindersVoiceStop();
 }
+/* Delete intent tolerates natural short commands and speech-to-text variations.
+   Never choose an ambiguous reminder automatically. */
+function remindersDeleteCandidates(spoken,items){
+ const fold=value=>shopVoiceFold(value).replace(/[^\p{L}\p{N}]+/gu,' ').replace(/\s+/g,' ').trim();
+ const phrase=fold(spoken);
+ const hit=phrase.match(/^(?:te rog\s+)?(?:sterge|elimina|scoate|anuleaza|delete|remove|cancel)\s*(.*)$/u);
+ if(!hit)return null;
+ const records=items.filter(e=>e.kind==='reminder');
+ const last=records.slice().sort((a,b)=>Date.parse(b.createdAt||b.when)-Date.parse(a.createdAt||a.when));
+ let query=hit[1].replace(/^(?:(?:din|de pe|de la)\s+)?(?:lista\s+de\s+)?(?:mementoul|memento ul|memento|mementouri|mementourile|reminderul|reminder|reminders|amintirea|notificarea)\s*/u,'').trim();
+ query=query.replace(/^(?:cu|despre|pentru|care spune|intitulat|numit|de)\s+/u,'').trim();
+ if(/^(?:ultimul|ultima|cel mai recent)(?:\s+(?:memento|reminder))?$/u.test(query))return last.length?[last[0]]:[];
+ if(!query||/^(?:toate|tot|totul|lista|mementourile)$/.test(query)){
+  // Only interpret "delete reminder" as a deletion when exactly one exists.
+  return records.length===1?[records[0]]:[];
+ }
+ const tokens=value=>value.split(' ').filter(w=>w.length>1&&!['sa','si','la','de','cu','din','pe','pentru','imi','mi','ma','un','o','ul','aminteste','aminte','memento','reminder'].includes(w));
+ const queryWords=tokens(query);
+ const ranked=records.map(item=>{
+  const title=fold(item.title),nameWords=tokens(title);
+  let score=title===query?100:title.includes(query)?90:query.includes(title)&&title.length>=5?85:0;
+  if(!score&&queryWords.length){
+   const shared=queryWords.filter(w=>nameWords.some(n=>n===w||(w.length>=4&&n.length>=4&&(n.startsWith(w)||w.startsWith(n))))).length;
+   if(shared)score=Math.round(75*shared/Math.max(queryWords.length,nameWords.length));
+  }
+  return {item,score};
+ }).sort((a,b)=>b.score-a.score);
+ if(!ranked.length||ranked[0].score<50)return [];
+ // A single clear match; if two similarly strong candidates, ask the user to be specific.
+ return ranked[1]&&ranked[1].score>=ranked[0].score-12?[]:[ranked[0].item];
+}
 function remindersVoiceHandleAndroid(data){
  if(data?.mode!=='reminders')return false;
  if(!remindersListening)return true;
@@ -2633,11 +2664,10 @@ function remindersVoiceHandleAndroid(data){
  }
  if(data.status==='recognized'){
   remindersVoiceStop();
-  const spoken=String(data.text||'').trim(),fold=shopVoiceFold(spoken);
-  if(/^(?:sterge|elimina|delete|remove)\s+/.test(fold)){
-   const term=fold.replace(/^(?:sterge|elimina|delete|remove)\s+(?:mementoul\s+|reminder\s+)?/,'');
-   const found=agendaRead().filter(e=>e.kind==='reminder'&&shopVoiceFold(e.title).includes(term));
-   if(found.length!==1){notify(learningLabel('Nu am identificat un singur memento.','Could not identify one reminder.'));renderReminders();return true}
+  const spoken=String(data.text||'').trim();
+  const found=remindersDeleteCandidates(spoken,agendaRead());
+  if(found!==null){
+   if(found.length!==1){notify(learningLabel('Spune numele mementoului pe care vrei să îl ștergi.','Say the reminder name you want to delete.'));renderReminders();return true}
    pocketConfirm(learningLabel('Ștergi mementoul „','Delete reminder “')+found[0].title+'”?',()=>{agendaDeleteEvent(found[0].id);renderReminders()});
    return true;
   }
