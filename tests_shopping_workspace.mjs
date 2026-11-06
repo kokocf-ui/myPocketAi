@@ -506,7 +506,7 @@ assert.match(page,/<style id="professional-finance-workspace">/,'responsive fina
 const budgetStart=inline.indexOf("const POCKET_BUDGET_KEY='mypocketai.budget.v1'");
 const budgetEnd=inline.indexOf('const TASKS_DRAWINGS=',budgetStart);
 assert.ok(budgetStart>=0&&budgetEnd>budgetStart,'finance source is isolated');
-const ctx=vm.createContext({
+const budgetCtx=vm.createContext({
  Date,String,Number,Math,Boolean,Set,Map,Array,Intl,
  navigator:{language:'en-GB'},state:{language:'ro'},
  learningLabel:(a,b)=>a,shopVoiceFold:s=>String(s).toLowerCase(),localStorage:{
@@ -517,14 +517,14 @@ const ctx=vm.createContext({
  ]}):null
  },notify:()=>{}
 });
-vm.runInContext(inline.slice(budgetStart,inline.indexOf('function budgetVoiceStop()',budgetStart)),ctx);
-const totals=vm.runInContext('budgetTotals(budgetRead())',ctx);
+vm.runInContext(inline.slice(budgetStart,inline.indexOf('function budgetVoiceStop()',budgetStart)),budgetCtx);
+const totals=vm.runInContext('budgetTotals(budgetRead())',budgetCtx);
 assert.equal(totals.balance,null,'without opening balance financial balance remains unknown');
 assert.equal(totals.income,3500);
 assert.equal(totals.expenses,45);
 assert.equal(totals.totalChange,3445,'overall change includes prior month');
-assert.equal(vm.runInContext("budgetCurrency('GB')",ctx),'GBP');
-assert.equal(vm.runInContext("budgetCurrency('RO')",ctx),'RON');
-assert.equal(vm.runInContext("budgetCurrency('DE')",ctx),'EUR');
+assert.equal(vm.runInContext("budgetCurrency('GB')",budgetCtx),'GBP');
+assert.equal(vm.runInContext("budgetCurrency('RO')",budgetCtx),'RON');
+assert.equal(vm.runInContext("budgetCurrency('DE')",budgetCtx),'EUR');
 
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
