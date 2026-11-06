@@ -1291,6 +1291,17 @@ body.long-choice-active{overflow:hidden}
 .pocket-unified-actions button:focus-visible{outline:2px solid #b2f7ff;outline-offset:2px}
 
 </style>
+<style id="reminders-workspace-style">
+.reminders-workspace{min-height:0;display:grid;grid-template-rows:auto auto minmax(0,1fr);gap:clamp(.35rem,1.5dvh,.8rem)}
+.reminders-workspace>.education-toolbar{display:none}
+.reminders-scroll{min-height:0;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:.55rem}
+.reminders-item{display:flex;gap:.6rem;align-items:center;justify-content:space-between;padding:.6rem;border:1px solid #3b839b;border-radius:12px}
+.reminders-item-info{flex:1;min-width:0;overflow-wrap:anywhere}
+.reminders-manual{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:.4rem}
+.reminders-manual>input{min-width:0;max-width:100%;box-sizing:border-box}
+.reminders-voice-status{min-height:1em}
+@media(max-width:560px){.reminders-manual{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.reminders-manual>input:first-child{grid-column:1/-1}.reminders-manual>button{grid-column:1/-1}}
+</style>
 </head>
 <body>
 <header class="app-header"><img class="brand-mark" src="${AVATAR_DATA}" alt="Avatar myPocket AI"><div class="brand-copy"><div class="brand-name"><span class="my">my</span>Pocket AI</div><div class="brand-sub">Asistentul tău personal pentru orice zi</div></div><div class="plan-pill">FREE ♛</div></header>
@@ -2439,6 +2450,7 @@ function renderOrganizeChoices(){
  if(tasksListening)tasksVoiceStop();
  if(shoppingVoiceSession?.active)shopVoiceStop();
  if(agendaListening)agendaVoiceFinish('');
+ remindersVoiceStop();
  agendaPendingDelete=null;
  const leavingShopping=$('view-module').classList.contains('adaptive-workspace-view');
  shoppingMode='entry';shoppingPendingAction=null;
@@ -2540,6 +2552,7 @@ function openOrganizeCategory(key){
  if(key==='shopping'){renderShoppingList();return}
  if(key==='calendar'){renderAgenda();return}
  if(key==='tasks'){if(tasksListening)tasksVoiceStop();tasksSection='home';renderTasks();return}
+ if(key==='reminders'){renderReminders();return}
  const panel=organizePanel(cat);
  const p=document.createElement('p');p.textContent=learningLabel(cat[4],cat[5]);panel.append(p);
  const button=document.createElement('button');button.type='button';button.className='primary-btn';
@@ -2549,6 +2562,119 @@ function openOrganizeCategory(key){
   inputEl.placeholder=learningLabel('Spune ce dorești să organizezi…','What would you like to organise?');
   inputEl.focus();
  };panel.append(button);
+}
+
+
+/* Voice-first reminders reuse the agenda store and native Android notifications. */
+let remindersListening=false;
+function remindersParseVoice(phrase,now=new Date()){
+ const raw=String(phrase||'').trim();
+ let spoken=raw.replace(/^(?:amintește-mi|amintește mi|aminteste-mi|aminteste mi|adu-mi aminte|adu mi aminte|remind me|adaugă (?:un )?memento|adauga (?:un )?memento)\s*/iu,'').replace(/^să\s+/iu,'').trim();
+ const relative=shopVoiceFold(spoken).match(/(?:^|\s)peste\s+(\d+)\s+(minute?|minut|ore?|ora|hours?|minutes?)(?=\s|$)/u);
+ if(relative){
+  const count=Number(relative[1]),unit=relative[2],minutes=/^(?:or|ora|hour)/.test(unit)?count*60:count;
+  if(!count||minutes>525600)return null;
+  const date=new Date(now.getTime()+minutes*60000);
+  const title=spoken.replace(/peste\s+\d+\s+(?:minute?|minut|ore?|ora|hours?|minutes?)/iu,'').replace(/^(?:să|sa)\s+/iu,'').trim();
+  return title?{title,date}:null;
+ }
+ const parsed=tasksParseSpokenDeadline(spoken,now);
+ if(!parsed.due)return null;
+ const clock=parsed.time||'09:00';
+ const date=new Date(parsed.due+'T'+clock+':00');
+ const title=parsed.title.replace(/^(?:să|sa)\s+/iu,'').replace(/^(?:pentru a)\s+/iu,'').trim();
+ return title&&!Number.isNaN(date.getTime())?{title,date}:null;
+}
+function remindersCreate(title,date){
+ const clean=String(title||'').trim().slice(0,140);
+ if(!clean||!(date instanceof Date)||!Number.isFinite(date.getTime())||date.getTime()<=Date.now()){
+  notify(learningLabel('Spune ce și când dorești să îți amintesc.','Tell me what and when to remind you.'));return false;
+ }
+ const all=agendaRead(),iso=date.toISOString();
+ if(all.some(e=>e.kind==='reminder'&&shopVoiceFold(e.title)===shopVoiceFold(clean)&&e.when===iso)){
+  notify(learningLabel('Acest memento există deja.','This reminder already exists.'));return false;
+ }
+ all.push({id:shopId(),kind:'reminder',title:clean,when:iso,reminderPreset:'reminder',createdAt:new Date().toISOString()});
+ if(!agendaWrite(all))return false;
+ notify(learningLabel('Memento salvat: ','Reminder saved: ')+clean);
+ renderReminders();return true;
+}
+function remindersVoiceStop(){
+ if(!remindersListening)return;
+ remindersListening=false;
+ if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
+}
+function remindersVoiceStart(){
+ if(remindersListening){remindersVoiceStop();return}
+ if(!pocketNativeVoiceAvailable()){notify(learningLabel('Microfonul Android nu este disponibil.','Android microphone is unavailable.'));return}
+ remindersListening=true;
+ const status=document.querySelector('.reminders-voice-status');
+ if(status)status.textContent=learningLabel('Te ascult…','Listening…');
+ if(!pocketNativeVoiceSend({action:'listen',mode:'reminders',language:shopVoiceLanguage()}))remindersVoiceStop();
+}
+function remindersVoiceHandleAndroid(data){
+ if(data?.mode!=='reminders')return false;
+ if(!remindersListening)return true;
+ const status=document.querySelector('.reminders-voice-status');
+ if(data.status==='partial'||data.status==='listening'){
+  if(status)status.textContent=data.status==='partial'?String(data.text||''):learningLabel('Te ascult…','Listening…');
+  return true;
+ }
+ if(data.status==='recognized'){
+  remindersVoiceStop();
+  const spoken=String(data.text||'').trim(),fold=shopVoiceFold(spoken);
+  if(/^(?:sterge|elimina|delete|remove)\s+/.test(fold)){
+   const term=fold.replace(/^(?:sterge|elimina|delete|remove)\s+(?:mementoul\s+|reminder\s+)?/,'');
+   const found=agendaRead().filter(e=>e.kind==='reminder'&&shopVoiceFold(e.title).includes(term));
+   if(found.length!==1){notify(learningLabel('Nu am identificat un singur memento.','Could not identify one reminder.'));renderReminders();return true}
+   pocketConfirm(learningLabel('Ștergi mementoul „','Delete reminder “')+found[0].title+'”?',()=>{agendaDeleteEvent(found[0].id);renderReminders()});
+   return true;
+  }
+  const parsed=remindersParseVoice(spoken);
+  if(parsed)remindersCreate(parsed.title,parsed.date);
+  else {notify(learningLabel('Nu am înțeles data sau ora. Exemplu: „Amintește-mi mâine la ora 10 să sun la service”.','Please include a date and time, for example: “Remind me tomorrow at 10 to call”.'));renderReminders()}
+  return true;
+ }
+ if(data.status==='error'){remindersVoiceStop();notify(learningLabel('Dictarea a fost întreruptă.','Dictation was interrupted.'));renderReminders()}
+ return true;
+}
+function renderReminders(){
+ const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='reminders');
+ $('moduleTitle').textContent=learningLabel('Mementouri inteligente','Smart reminders');
+ const panel=organizePanel(cat);
+ $('view-module').classList.add('adaptive-workspace-view');
+ panel.classList.add('adaptive-workspace','reminders-workspace');
+ const scroll=document.createElement('div');scroll.className='adaptive-workspace__scroll reminders-scroll';
+ const controls=document.createElement('div');controls.className='agenda-voice-controls';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');
+ back.onclick=()=>{remindersVoiceStop();renderOrganizeChoices()};
+ const mic=document.createElement('button');mic.type='button';mic.className='primary-btn';
+ mic.textContent=learningLabel('🎙 Dictează memento','🎙 Speak reminder');mic.onclick=remindersVoiceStart;
+ controls.append(back,mic);
+ const status=document.createElement('small');status.className='reminders-voice-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ const hint=document.createElement('p');hint.className='reminders-hint';
+ hint.textContent=learningLabel('Spune: „Amintește-mi mâine la ora 10 să sun la service”.','Say: “Remind me tomorrow at 10 to call the garage”.');
+ scroll.append(hint);
+ const items=agendaRead().filter(e=>e.kind==='reminder').sort((a,b)=>Date.parse(a.when)-Date.parse(b.when));
+ if(!items.length){const empty=document.createElement('p');empty.textContent=learningLabel('Nu ai mementouri.','No reminders yet.');scroll.append(empty)}
+ for(const item of items){
+  const row=document.createElement('div');row.className='reminders-item';
+  const info=document.createElement('span');info.className='reminders-item-info';
+  const when=new Date(item.when);
+  info.textContent=item.title+' · '+when.toLocaleString(state.language==='ro'?'ro-RO':'en-GB',{dateStyle:'medium',timeStyle:'short'});
+  const remove=document.createElement('button');remove.type='button';remove.className='secondary-btn';
+  remove.textContent=learningLabel('Șterge','Delete');
+  remove.onclick=()=>pocketConfirm(learningLabel('Ștergi mementoul „','Delete reminder “')+item.title+'”?',()=>{agendaDeleteEvent(item.id);renderReminders()});
+  row.append(info,remove);scroll.append(row);
+ }
+ const form=document.createElement('form');form.className='reminders-manual';
+ const title=document.createElement('input');title.type='text';title.required=true;title.maxLength=140;title.placeholder=learningLabel('Ce să îți amintesc?','What should I remind you?');
+ const date=document.createElement('input');date.type='datetime-local';date.required=true;date.setAttribute('aria-label',learningLabel('Data și ora','Date and time'));
+ const add=document.createElement('button');add.type='submit';add.className='primary-btn';add.textContent=learningLabel('Adaugă','Add');
+ form.append(title,date,add);
+ form.onsubmit=e=>{e.preventDefault();remindersCreate(title.value,new Date(date.value))};
+ scroll.append(form);
+ panel.append(controls,status,scroll);
 }
 
 
@@ -6638,6 +6764,7 @@ function pocketNativeVoiceSend(payload){try{window.PocketAndroidVoice.postMessag
 window.pocketAndroidVoiceResult=function(data){
  if(shopVoiceHandleAndroid(data))return;
  if(agendaVoiceHandleAndroid(data))return;
+ if(remindersVoiceHandleAndroid(data))return;
  if(tasksVoiceHandleAndroid(data))return;
  if(pocketExitVoiceResult(data))return;
  if(data?.mode==='tts'){
