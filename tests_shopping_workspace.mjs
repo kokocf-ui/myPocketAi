@@ -66,15 +66,22 @@ assert.match(inline,/SHOPPING_STORAGE_KEY='mypocketai\.shopping\.v1'/,'preserve 
 /* New personal organisation workspace must stay isolated from the proven agenda/shop. */
 assert.match(inline,/if\(key==='tasks'\)\{if\(tasksListening\)tasksVoiceStop\(\);tasksSection='home';renderTasks\(\);return\}/);
 assert.match(inline,/POCKET_TASKS_KEY='mypocketai\.tasks\.v1'/);
-assert.match(inline,/function tasksCreate\(title,goal=false,due='',priority='normal',fromVoice=false\)/);
+assert.match(inline,/function tasksCreate\(title,goal=false,due='',priority='normal',fromVoice=false,time=''\)/);
 assert.match(inline,/function tasksConfirmDelete\(item\)/);
 assert.match(inline,/function tasksToAgenda\(item,automatic=false\)/);
+assert.match(inline,/function tasksParseSpokenDeadline\(value,now=new Date\(\)\)/,'voice date parser exists');
+assert.match(inline,/function tasksRepairLegacyVoiceDates\(\)/,'existing voice tasks with times in title are migrated');
+assert.match(inline,/async function tasksSuggestGoal\(title\)/,'goal suggestions are requested from Pocket AI');
+assert.match(inline,/tasksSuggestGoal\(goalName\)/,'manual goal creation opens suggestions');
+assert.match(inline,/tasksSuggestGoal\(parsed\.title\)/,'voice goal creation opens suggestions');
+assert.match(inline,/hasTime\?item\.time\+':00':'12:00:00'/,'spoken time is preserved');
+
 assert.match(inline,/if\(fromVoice&&due\)tasksToAgenda\(item,true\)/,'voice task with date syncs automatically');
-assert.match(inline,/tasksCreate\(title,goal,due,priority,true\)/,'spoken tasks identified as voice source');
+assert.match(inline,/tasksCreate\(parsed.title,goal,parsed.due,priority,true,parsed.time\)/,'spoken tasks preserve date and hour');
 assert.match(inline,/source:fromVoice\?'voice':'manual'/,'task source persisted');
 assert.match(inline,/if\(item.due&&item.source!=='voice'\)/,'manual agenda button is not duplicated on voice tasks');
 assert.match(inline,/events\.some\(e=>e\.linkedTaskId===item\.id\)/,'repeated linking is deduplicated');
-assert.match(inline,/allDay:true,linkedTaskId:item\.id/,'undated hour stays all-day');
+assert.match(inline,/allDay:!hasTime,linkedTaskId:item\.id/,'only tasks without a spoken hour remain all-day');
 assert.match(inline,/events:events\.filter\(e=>!e\.allDay\)/,'all-day tasks do not schedule invented Android alarm');
 assert.match(page,/\.tasks-item\{[^}]*flex-direction:column!important/s,'task title keeps full width above action buttons');
 assert.match(page,/\.tasks-item-text\{[^}]*width:100%!important/s,'task title is not squeezed letter by letter');
