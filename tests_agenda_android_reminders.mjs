@@ -24,7 +24,11 @@ assert.match(alarms,/birthdayOccurrence/);
 for(const preset of ['flight','train','medical','exam','bill','hotel','meeting','default']){
  assert.match(alarms,new RegExp('case "'+preset+'"|return "'+preset+'"'));
 }
-assert.match(alarms,/case "flight":return new long\[\]\{1440,300\}/);
+assert.match(alarms,/case "flight":return new long\[\]\{1440,300,180\}/,'flight notifications cover 24h, 5h and 3h');
+assert.match(alarms,/flightPackingPrompt.*before-300/,'5-hour flight prompt is scheduled');
+assert.match(alarms,/flightDeparturePrompt.*before-180/,'3-hour airport departure prompt is scheduled');
+assert.match(alarms,/Verifică documentele și bagajele/,'packing message includes documents and luggage');
+assert.match(alarms,/Este timpul să pleci spre aeroport/,'departure message instructs airport travel');
 assert.match(alarms,/case "exam":return new long\[\]\{10080,1440,120\}/);
 assert.match(alarms,/event\.getYear\(\)/,'birthday annual alarms distinguish years');
 assert.match(app,/function agendaReminderPreset\(title\)/);

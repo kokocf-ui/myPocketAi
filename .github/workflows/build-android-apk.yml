@@ -7,6 +7,7 @@ on:
       - 'index.js'
       - 'tests_education_android.mjs'
       - 'tests_shopping_workspace.mjs'
+      - 'tests_agenda_android_reminders.mjs'
       - '.github/workflows/build-android-apk.yml'
   workflow_dispatch:
 permissions:
