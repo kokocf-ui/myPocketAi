@@ -412,6 +412,15 @@ assert.match(inline,/if\(notesVoiceHandleAndroid\(data\)\)return/);
 assert.match(inline,/mode:'notes'/);
 assert.match(inline,/POCKET_NOTES_KEY='mypocketai\.notes\.v1'/);
 assert.match(page,/<style id="personal-notes-workspace-style">/);
+
+assert.match(page,/<style id="organize-notes-unified-layout">/,'one shared responsive header and note layout stylesheet');
+assert.match(page,/#view-module\.organize-active\.adaptive-workspace-view>\.module-heading-row\{[\s\S]*?grid-template-columns:minmax\(0,1fr\)/,'heading reserves title space and info column');
+assert.match(page,/#view-module\.organize-active\.adaptive-workspace-view>\.module-heading-row \.section-title\{[\s\S]*?text-align:center!important/,'module title is centered between Home and Info');
+assert.match(page,/#view-module \.notes-list-item\{[\s\S]*?height:auto!important/,'note cards grow with contents');
+assert.match(inline,/const sameText=notesFold\(compactBody\)===notesFold\(heading\)/,'same title and body are not duplicated on note cards');
+assert.match(inline,/if\(remainder\)row\.append\(make\('span','notes-list-preview'/,'preview is suppressed for exact title repeats');
+assert.match(inline,/notes-list-date/,'date stays within its note card');
+
 const startNotes=inline.indexOf("const POCKET_NOTES_KEY='mypocketai.notes.v1'");
 const endNotes=inline.indexOf('function notesVoiceStop(',startNotes);
 assert.ok(startNotes>=0&&endNotes>startNotes,'isolated notes storage and matching helpers');
