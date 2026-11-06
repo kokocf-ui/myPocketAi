@@ -1771,6 +1771,28 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
  color:#a5ecff!important;box-shadow:none!important;
  line-height:1!important;font-weight:normal!important;
 }
+
+/* Agenda: leave the existing red Home button at top. Under it, Back and
+   Dictation form two equal responsive controls, whether in calendar or details. */
+#view-module.adaptive-workspace-view .agenda-workspace>.agenda-voice-controls{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));
+ width:100%;min-width:0;gap:clamp(.35rem,1.3vw,.7rem);
+ align-items:stretch;
+}
+#view-module.adaptive-workspace-view .agenda-voice-controls button{
+ width:100%!important;min-width:0!important;
+ height:clamp(2.65rem,7dvh,3.7rem)!important;
+ min-height:0!important;max-height:none!important;
+ padding:.4rem clamp(.25rem,1vw,.6rem)!important;
+ margin:0!important;box-sizing:border-box;
+ display:flex!important;align-items:center;justify-content:center;
+ border-radius:clamp(.7rem,2.6vw,1.05rem)!important;
+ font-size:clamp(.82rem,3.1vw,1.08rem)!important;
+ font-weight:650;line-height:1.16;white-space:normal;overflow-wrap:anywhere;
+}
+#view-module.adaptive-workspace-view .agenda-voice-controls .agenda-microphone.is-listening{
+ border-color:#86e4f7;box-shadow:0 0 .8rem #38c9db88;
+}
 </style>
 <style id="shopping-single-screen">
 /* Shopping-only navigation: Home remains in the shared header; Back and Active List
@@ -2335,6 +2357,7 @@ function renderOrganizeChoices(){
  shoppingMode='entry';shoppingPendingAction=null;
  if(leavingShopping)checkUiUpdateAfterModuleExit();
  $('moduleTitle').textContent=learningLabel('Organizare personală','Personal organisation');
+ $('moduleTitle').parentElement?.querySelector('.pocket-voice-info')?.remove();
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('organize-active','organize-chat','adaptive-workspace-view');root.classList.add('organize-choose');host.replaceChildren();
  const grid=document.createElement('div');grid.className='education-grid';
@@ -2362,6 +2385,7 @@ function pocketVoiceHelp(mode,title){
    ['Cantitate','Scoate trei kilograme de cartofi'],
    ['Bifare','Am cumpărat cartofi și ouă'],
    ['Listă','Arată lista'],
+   ['Ștergere produs','Șterge laptele'],
    ['Arhivare','Arhivează lista']
   ],
   assistant:[
@@ -2671,9 +2695,19 @@ function renderAgenda(){
  panel.classList.add('adaptive-workspace','agenda-workspace');
  pocketVoiceHelp('agenda',$('moduleTitle'));
  const scroll=document.createElement('div');scroll.className='adaptive-workspace__scroll agenda-scroll';panel.append(scroll);
+ const controls=document.createElement('div');controls.className='agenda-voice-controls';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn agenda-go-back';
+ back.textContent=learningLabel('← Înapoi','← Back');
+ back.onclick=()=>{
+  if(agendaSelectedId){
+   agendaSelectedId=null;agendaEditing=false;agendaPendingDelete=null;agendaVoiceMatches=null;
+   renderAgenda();
+  }else renderOrganizeChoices();
+ };
  const mic=document.createElement('button');mic.type='button';mic.className='primary-btn agenda-microphone';
  mic.textContent='🎙 '+learningLabel('Spune o programare','Speak an appointment');
- mic.onclick=()=>agendaVoiceStart();panel.insertBefore(mic,scroll);
+ mic.onclick=()=>agendaVoiceStart();
+ controls.append(back,mic);panel.insertBefore(controls,scroll);
  const voiceStatus=document.createElement('small');voiceStatus.className='agenda-speech-state';
  voiceStatus.setAttribute('role','status');voiceStatus.setAttribute('aria-live','polite');panel.insertBefore(voiceStatus,scroll);
  agendaSpeechStatus('');
@@ -2687,8 +2721,6 @@ function renderAgenda(){
  const selected=all.find(x=>x.id===agendaSelectedId);
  if(selected){
   const detail=element('section','agenda-detail');
-  const returnButton=button(learningLabel('← Înapoi la calendar','← Back to calendar'),close);
-  returnButton.classList.add('agenda-detail-back');detail.append(returnButton);
   detail.append(element('h3','',agendaIsBirthday(selected)?'🎂 '+selected.title:selected.title));
   const birthday=agendaIsBirthday(selected);
   const date=agendaLocalDate(selected,agendaCursor.getFullYear());
