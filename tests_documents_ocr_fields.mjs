@@ -105,7 +105,7 @@ assert.match(source,/input.value=Object.prototype.hasOwnProperty.call\(draft.fie
 const android=readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(android,/PocketAndroidDocumentScan/);
 assert.match(android,/scanDocumentBytes\(payload\)/,'native bridge receives actual photograph bytes');
-assert.match(android,/InputImage\.fromBitmap\(bitmap,0\)/,'ML Kit gets decoded image');
+assert.match(android,/InputImage\.fromBitmap\(bitmap,rotations\[attempt\]\)/,'ML Kit gets decoded image with tested orientation');
 assert.match(android,/result\.getTextBlocks\(\)/,'ML Kit layout lines are extracted');
 assert.match(android,/final int\[\] rotations=\{0,90,270,180\}/,'OCR retries photo orientation');
 assert.match(android,/scanDocumentOrientation\(recognizer,bitmap,docId,0,null,-1\)/,'native OCR starts orientation fallback');
