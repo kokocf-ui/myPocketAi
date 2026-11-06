@@ -16,6 +16,19 @@ assert.match(embedded,/mathPilotParts\.join\(''\)/,'audio chunks are reconstruct
 assert.match(embedded,/mode:'secret'/,'opt-in token modal uses app styling');
 assert.match(embedded,/mathPilotRequest\.abort\(\)/,'navigating away cancels pending upload');
 assert.match(embedded,/\/api\/math-transcribe/,'pilot uses dedicated backend route');
+
+const unifiedModal=embedded.slice(embedded.indexOf('function pocketModal('),embedded.indexOf('// Reusable app-styled selector.'));
+assert.match(unifiedModal,/initialFocus\.autofocus=true/,'the modal chooses a non-editable focus target before showModal');
+assert.match(unifiedModal,/\(initialFocus\|\|actions\.lastElementChild\)\?\.focus/,'modal focuses only its buttons');
+assert.doesNotMatch(unifiedModal,/editor\??\.focus\(/,'opening the secret field or submitting it empty must not invoke Android keyboard');
+for(const [name,pattern] of [
+ ['chat input',/inputEl\.focus\(/],
+ ['Math editor',/editor\??\.focus\(/],
+ ['destination entry',/\b(?:city|field)\.focus\(/],
+ ['address wizard',/fields\.(?:street|number)\.input\.focus\(/]
+])assert.doesNotMatch(embedded,pattern,name+' must never focus itself without the user tapping an editable field');
+assert.match(embedded,/data\?\.status==='permissionDenied'/,'Android permission denial reaches the Maths pilot');
+
 const native=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(native,/AudioRecord\.getMinBufferSize/);
 assert.match(native,/MATH_AUDIO_MAX_BYTES=960000/,'recording is capped to 30 s at 16 kHz');
@@ -23,6 +36,8 @@ assert.match(native,/final int chunkSize=48000/,'each WebView callback is safely
 assert.match(native,/notifyMathAudio\("chunk"/,'native streams bounded audio chunks');
 assert.match(native,/notifyMathAudio\("captured","",duration,captureId/,'native sends a terminal message without a large payload');
 assert.match(native,/startMathPcmRecording\(\)/,'native recording start');
+assert.match(native,/boolean mathPermissionRequested=pendingMathAudioPermission/,'a pending Maths permission request is kept distinct');
+assert.match(native,/notifyMathAudio\("permissionDenied","",0\)/,'Maths receives a denial callback instead of hanging in recording');
 assert.match(native,/stopMathPcmRecording\(\)/,'native recording manual stop');
 assert.match(native,/WebViewCompat\.addWebMessageListener\(web,"PocketAndroidMathAudio"/,'origin-bound native bridge');
 assert.match(native,/Collections\.singleton\("https:\/\/"\+APP_HOST\)/);
