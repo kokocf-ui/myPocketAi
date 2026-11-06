@@ -579,6 +579,10 @@ assert.equal(describe('În fiecare lună pe 6 plătesc chiria de 550 de lire'),'
 assert.equal(describe('Am cheltuit 40 £ la Pepco'),'Pepco','currency symbols do not remain in spoken title');
 const queryPeriod=(speech,now=new Date(2026,10,6))=>vm.runInContext('budgetQueryPeriod('+JSON.stringify(speech)+',new Date('+now.getFullYear()+','+now.getMonth()+','+now.getDate()+'))',speechCtx);
 assert.equal(queryPeriod('Ce plăți mai am luna viitoare?').start,'2026-12-01');
+assert.equal(queryPeriod('Ce plăți mai am luna următoare?').start,'2026-12-01');
+assert.equal(queryPeriod('Ce plăți am în luna următoare?').end,'2026-12-31');
+assert.equal(queryPeriod('Ce plăți am în luna care vine?').start,'2026-12-01');
+assert.equal(vm.runInContext("budgetHasExplicitPeriod('ce plati am luna urmatoare')",speechCtx),true);
 assert.equal(queryPeriod('Ce plăți mai am în luna decembrie?').end,'2026-12-31');
 assert.equal(queryPeriod('Ce plăți mai am săptămâna viitoare?').start,'2026-11-09');
 assert.equal(queryPeriod('Ce plăți mai am săptămâni viitoare?').end,'2026-12-04');
