@@ -1308,6 +1308,18 @@ body.long-choice-active{overflow:hidden}
 .organize-voice-status{display:block;min-height:1em;line-height:1.2}
 .organize-voice-scroll{min-height:0;overflow-y:auto;overscroll-behavior:contain}
 </style>
+<style id="personal-notes-workspace-style">
+.notes-new-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.45rem;align-items:stretch}
+.notes-new-editor,.notes-editor{width:100%;min-width:0;box-sizing:border-box;resize:vertical;border-radius:.7rem;padding:.65rem}
+.notes-list-item{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem;text-align:left;width:100%;min-width:0;padding:.7rem;border:1px solid var(--line,#658094);border-radius:.8rem;background:transparent;color:inherit}
+.notes-list-item>strong,.notes-list-item>span{overflow-wrap:anywhere}
+.notes-list-item>span{opacity:.82;font-size:.9rem}
+.notes-list-item>small{opacity:.65}
+.notes-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+.notes-actions>button{min-width:0}
+.notes-detail-title{overflow-wrap:anywhere;margin:.25rem 0}
+@media(max-width:480px){.notes-new-form{grid-template-columns:minmax(0,1fr)}}
+</style>
 </head>
 <body>
 <header class="app-header"><img class="brand-mark" src="${AVATAR_DATA}" alt="Avatar myPocket AI"><div class="brand-copy"><div class="brand-name"><span class="my">my</span>Pocket AI</div><div class="brand-sub">Asistentul tău personal pentru orice zi</div></div><div class="plan-pill">FREE ♛</div></header>
@@ -2457,6 +2469,7 @@ function renderOrganizeChoices(){
  if(shoppingVoiceSession?.active)shopVoiceStop();
  if(agendaListening)agendaVoiceFinish('');
  remindersVoiceStop();
+ notesVoiceStop();
  agendaPendingDelete=null;
  const leavingShopping=$('view-module').classList.contains('adaptive-workspace-view');
  shoppingMode='entry';shoppingPendingAction=null;
@@ -2504,6 +2517,12 @@ function pocketVoiceHelp(mode,title){
    ['Adăugare','Amintește-mi mâine la ora 10 să sun la service'],
    ['Peste un interval','Amintește-mi peste 30 de minute să verific cuptorul'],
    ['Ștergere','Șterge mementoul să sun la service']
+  ],
+  notes:[
+   ['Notiță','Notează să verificăm vocea avatarului'],
+   ['Căutare','Arată notița despre avatar'],
+   ['Completare','Adaugă la notița despre avatar să verificăm sincronizarea'],
+   ['Ștergere','Șterge avatar']
   ],
   assistant:[
    ['Întrebare','Cum ajung la gara Grays?'],
@@ -2564,6 +2583,7 @@ function openOrganizeCategory(key){
  if(key==='calendar'){renderAgenda();return}
  if(key==='tasks'){if(tasksListening)tasksVoiceStop();tasksSection='home';renderTasks();return}
  if(key==='reminders'){renderReminders();return}
+ if(key==='notes'){renderNotes();return}
  const panel=organizePanel(cat);
  const p=document.createElement('p');p.textContent=learningLabel(cat[4],cat[5]);panel.append(p);
  const button=document.createElement('button');button.type='button';button.className='primary-btn';
@@ -2728,6 +2748,146 @@ function renderReminders(){
  scroll.append(form);
 }
 
+
+/* Personal notes: local-only, independent of agenda and reminder notifications. */
+const POCKET_NOTES_KEY='mypocketai.notes.v1';
+let notesListening=false,notesSelectedId=null;
+function notesRead(){
+ try{
+  const value=JSON.parse(localStorage.getItem(POCKET_NOTES_KEY)||'[]');
+  return Array.isArray(value)?value.filter(item=>item&&typeof item.id==='string'&&typeof item.title==='string'&&typeof item.body==='string'):[];
+ }catch{return []}
+}
+function notesWrite(items){
+ try{localStorage.setItem(POCKET_NOTES_KEY,JSON.stringify(items));return true}
+ catch{notify(learningLabel('Nu am putut salva notițele.','Could not save notes.'));return false}
+}
+function notesFold(text){
+ return String(text||'').normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase().replace(/[^\\p{L}\\p{N}]+/gu,' ').trim();
+}
+function notesTitle(body){
+ const first=String(body||'').trim().split(/\\n/)[0].replace(/^[\\s,.:;!?]+|[\\s,.:;!?]+$/g,'');
+ return first.length>52?first.slice(0,49).trim()+'…':first;
+}
+function notesSave(body,title='',id=null){
+ const value=String(body||'').trim();
+ if(!value){notify(learningLabel('Notița este goală.','The note is empty.'));return false}
+ const all=notesRead(),index=all.findIndex(n=>n.id===id),now=new Date().toISOString();
+ const item={id:index>=0?all[index].id:shopId(),title:String(title||notesTitle(value)).trim().slice(0,120),body:value.slice(0,20000),createdAt:index>=0?all[index].createdAt:now,updatedAt:now};
+ if(index>=0)all[index]=item;else all.unshift(item);
+ if(!notesWrite(all))return false;
+ notesSelectedId=item.id;renderNotes();
+ return true;
+}
+function notesMatch(phrase){
+ const query=notesFold(phrase).replace(/^(?:notita|notita despre|nota despre|despre|cu|numita)\\s+/u,'').trim();
+ const all=notesRead();
+ if(!query)return all.length===1?all[0]:null;
+ const tokens=query.split(' ').filter(w=>w.length>2&&!['notita','despre','nota','pentru','care','este'].includes(w));
+ const ranked=all.map(note=>{
+  const name=notesFold(note.title),body=notesFold(note.body);
+  const hits=tokens.filter(w=>name.split(' ').includes(w)||body.split(' ').includes(w)).length;
+  const score=name===query?100:name.includes(query)?95:tokens.length&&hits===tokens.length?80:0;
+  return {note,score};
+ }).sort((a,b)=>b.score-a.score);
+ if(!ranked.length||ranked[0].score<80||ranked[1]&&ranked[1].score===ranked[0].score)return null;
+ return ranked[0].note;
+}
+function notesVoiceStop(){
+ if(!notesListening)return;
+ notesListening=false;
+ if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
+}
+function notesVoiceStart(){
+ if(notesListening){notesVoiceStop();return}
+ if(!pocketNativeVoiceAvailable()){notify(learningLabel('Microfonul Android nu este disponibil.','Android microphone unavailable.'));return}
+ notesListening=true;
+ const status=document.querySelector('.organize-voice-status');
+ if(status)status.textContent=learningLabel('Te ascult…','Listening…');
+ if(!pocketNativeVoiceSend({action:'listen',mode:'notes',language:shopVoiceLanguage()}))notesVoiceStop();
+}
+function notesVoiceCommand(transcript){
+ const text=String(transcript||'').trim(),fold=notesFold(text);
+ if(!text)return;
+ const deletion=fold.match(/^(?:sterge|elimina|delete|remove)\\s*(.*)$/u);
+ if(deletion){
+  const note=notesMatch(deletion[1]);
+  if(!note){notify(learningLabel('Nu am identificat o singură notiță.','Could not identify one note.'));return}
+  pocketConfirm(learningLabel('Ștergi notița „','Delete note “')+note.title+'”?',()=>{notesWrite(notesRead().filter(n=>n.id!==note.id));notesSelectedId=null;renderNotes()});
+  return;
+ }
+ const open=fold.match(/^(?:arata|deschide|afiseaza|vezi|show|open)\\s+(.*)$/u);
+ if(open){
+  const note=notesMatch(open[1]);
+  if(!note){notify(learningLabel('Nu am identificat o singură notiță.','Could not identify one note.'));return}
+  notesSelectedId=note.id;renderNotes();return;
+ }
+ const add=text.match(/^(?:adaugă|adauga|completează|completeaza|append|add)\\s+la\\s+(?:notița|notita|nota)?\\s*(.+?)\\s+(?:că|ca|cu|:|—)\\s+(.+)$/iu);
+ if(add){
+  const note=notesMatch(add[1]);
+  if(!note){notify(learningLabel('Nu am identificat o singură notiță.','Could not identify one note.'));return}
+  notesSave(note.body+'\\n'+add[2],note.title,note.id);return;
+ }
+ const reminder=/^(?:amintește-mi|amintește mi|aminteste-mi|aminteste mi|remind me)\\s+/iu.test(text);
+ if(reminder){
+  const parsed=remindersParseVoice(text);
+  if(!parsed){notify(learningLabel('Spune și când dorești notificarea.','Please say when you want the reminder.'));return}
+  const date=parsed.date;
+  if(date.getTime()<=Date.now()){notify(learningLabel('Data trebuie să fie în viitor.','Date must be in the future.'));return}
+  const all=agendaRead();
+  all.push({id:shopId(),kind:'reminder',title:parsed.title,when:date.toISOString(),reminderPreset:'reminder',createdAt:new Date().toISOString()});
+  if(agendaWrite(all))notify(learningLabel('Am salvat în Mementouri.','Saved to Reminders.'));
+  return;
+ }
+ const content=text.replace(/^(?:notează|noteaza|scrie|salvează notiță|salveaza notita|save note|take a note)\\s*(?:că|ca|:)?\\s*/iu,'').trim();
+ if(content)notesSave(content);
+ else notify(learningLabel('Spune ce dorești să notez.','Tell me what to note.'));
+}
+function notesVoiceHandleAndroid(data){
+ if(data?.mode!=='notes')return false;
+ if(!notesListening)return true;
+ const status=document.querySelector('.organize-voice-status');
+ if(data.status==='listening'||data.status==='partial'){
+  if(status)status.textContent=data.status==='partial'?String(data.text||''):learningLabel('Te ascult…','Listening…');
+  return true;
+ }
+ if(data.status==='recognized'){notesVoiceStop();notesVoiceCommand(data.text);return true}
+ if(data.status==='error'){notesVoiceStop();notify(learningLabel('Dictarea a fost întreruptă.','Dictation was interrupted.'))}
+ return true;
+}
+function renderNotes(){
+ const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='notes');
+ const {scroll}=organizeVoiceWorkspace(cat,{
+  titleRo:'Notițe personale',titleEn:'Personal notes',mode:'notes',
+  backAction:()=>{notesVoiceStop();if(notesSelectedId){notesSelectedId=null;renderNotes()}else renderOrganizeChoices()},
+  onDictate:notesVoiceStart,dictationRo:'Dictare',dictationEn:'Dictation'
+ });
+ const make=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e};
+ const button=(label,fn,cls='secondary-btn')=>{const e=make('button',cls,label);e.type='button';e.onclick=fn;return e};
+ const items=notesRead().sort((a,b)=>Date.parse(b.updatedAt)-Date.parse(a.updatedAt));
+ const selected=items.find(n=>n.id===notesSelectedId);
+ if(selected){
+  scroll.append(make('h3','notes-detail-title',selected.title));
+  const editor=make('textarea','notes-editor');editor.value=selected.body;editor.rows=8;editor.setAttribute('aria-label',learningLabel('Conținut notiță','Note content'));scroll.append(editor);
+  const actions=make('div','notes-actions');
+  actions.append(button(learningLabel('Salvează modificările','Save changes'),()=>notesSave(editor.value,selected.title,selected.id),'primary-btn'));
+  actions.append(button(learningLabel('Șterge','Delete'),()=>pocketConfirm(learningLabel('Ștergi notița „','Delete note “')+selected.title+'”?',()=>{notesWrite(notesRead().filter(n=>n.id!==selected.id));notesSelectedId=null;renderNotes()})));
+  scroll.append(actions);return;
+ }
+ const hint=make('p','notes-hint',learningLabel('Spune: „Notează să verificăm vocea avatarului”.','Say: “Note that we should check the avatar voice”.'));scroll.append(hint);
+ const form=make('form','notes-new-form');
+ const input=make('textarea','notes-new-editor');input.rows=2;input.placeholder=learningLabel('Scrie o notiță (opțional)','Write a note (optional)');
+ const save=make('button','primary-btn',learningLabel('Salvează','Save'));save.type='submit';
+ form.append(input,save);form.onsubmit=event=>{event.preventDefault();notesSave(input.value)};scroll.append(form);
+ if(!items.length)scroll.append(make('p','notes-empty',learningLabel('Nu ai notițe salvate.','No notes saved yet.')));
+ for(const note of items){
+  const row=button('',()=>{notesSelectedId=note.id;renderNotes()},'notes-list-item');
+  row.append(make('strong','',note.title));
+  row.append(make('span','',note.body.slice(0,85)+(note.body.length>85?'…':'')));
+  row.append(make('small','',new Date(note.updatedAt).toLocaleString(state.language==='ro'?'ro-RO':'en-GB',{dateStyle:'medium',timeStyle:'short'})));
+  scroll.append(row);
+ }
+}
 
 const TASKS_DRAWINGS={list:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="21" y="8" width="80" height="75" rx="9" fill="#d8f4fa"/><rect x="43" y="2" width="36" height="13" rx="5" fill="#68c8e0"/><path d="M32 35l6 6 11-13M32 59l6 6 11-13" fill="none" stroke="#21a58e" stroke-width="5" stroke-linecap="round"/><path d="M58 35h30M58 59h30" stroke="#4c7294" stroke-width="5" stroke-linecap="round"/></svg>',goal:'<svg viewBox="0 0 120 90" aria-hidden="true"><path d="M18 79h86" stroke="#87cbdc" stroke-width="5" stroke-linecap="round"/><path d="M26 75h24V58h22V40h24V20" fill="none" stroke="#77d5c1" stroke-width="10" stroke-linejoin="round"/><path d="M94 12v33M95 13l21 8-21 9" fill="#67bdf1" stroke="#e9fbff" stroke-width="3"/><circle cx="29" cy="67" r="6" fill="#f4cc7a"/></svg>',calendar:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="13" y="14" width="93" height="68" rx="9" fill="#daf3fa"/><path d="M13 31h93" stroke="#56c0dc" stroke-width="10"/><path d="M35 8v17M83 8v17" stroke="#fff" stroke-width="6" stroke-linecap="round"/><rect x="32" y="42" width="22" height="22" rx="5" fill="#4dc2a7"/><path d="M37 53l5 5 9-11" stroke="#fff" stroke-width="3" fill="none"/><circle cx="82" cy="60" r="15" fill="#6aace5"/><path d="M82 48v13l8 5" stroke="#fff" stroke-width="3" fill="none"/></svg>',archive:'<svg viewBox="0 0 120 90" aria-hidden="true"><rect x="20" y="28" width="82" height="54" rx="7" fill="#80bcdf"/><rect x="14" y="19" width="94" height="22" rx="5" fill="#d8f4fa"/><path d="M48 47h25" stroke="#efffff" stroke-width="6" stroke-linecap="round"/><circle cx="91" cy="68" r="17" fill="#43b99f"/><path d="M82 68l6 6 12-13" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>'};
 
@@ -6816,6 +6976,7 @@ window.pocketAndroidVoiceResult=function(data){
  if(shopVoiceHandleAndroid(data))return;
  if(agendaVoiceHandleAndroid(data))return;
  if(remindersVoiceHandleAndroid(data))return;
+ if(notesVoiceHandleAndroid(data))return;
  if(tasksVoiceHandleAndroid(data))return;
  if(pocketExitVoiceResult(data))return;
  if(data?.mode==='tts'){
