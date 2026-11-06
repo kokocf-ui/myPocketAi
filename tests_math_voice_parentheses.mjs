@@ -148,6 +148,32 @@ assert.match(embedded,/Nu cita lecții video, site-uri sau surse/,'avoid fabrica
 assert.ok(embedded.includes('const checked=equality?'),'include deterministic equality in the teaching prompt');
 assert.ok(embedded.includes('mathEqualityExplanation(verifiedEquality)'),'always render arithmetic equality independently of model replies');
 
+// The UI must not depend on generative AI for basic arithmetic: all terms
+// survive every reduction, and the final comparison agrees with the checker.
+const detailed=vm.runInNewContext(embedded.slice(equalityStart,equalityEnd)+
+ String.fromCharCode(10)+'mathDetailedArithmetic',
+ {state:{language:'ro'},learningLabel:(ro,en)=>ro,Intl});
+const worked=detailed('3 * (2 * -1) + 5 = 20');
+assert.ok(worked,'dictated equality is supported by the local step renderer');
+assert.equal(worked.steps.length,3,'parenthesis, multiplication and addition all get independent steps');
+assert.match(worked.steps[0].operation,/2.*×.*−1.*=.*−2/);
+assert.match(worked.steps[0].after,/3.*×.*\(−2\).* \+ 5/,'+5 is not dropped after reducing parentheses');
+assert.match(worked.steps[1].operation,/3.*×.*\(−2\).*=.*−6/);
+assert.match(worked.steps[1].after,/−6 \+ 5/,'+5 is retained until the final addition');
+assert.match(worked.steps[2].operation,/−6 \+ 5 = −1/);
+assert.match(worked.conclusion,/falsă.*Stânga.*-1.*dreapta.*20/);
+assert.equal(detailed('3 * (2 * -1) + 5 = -1').steps.length,3);
+assert.equal(detailed('2*(3+4) = 14').steps.length,2);
+assert.equal(detailed('2*(3+4) = 15').conclusion.includes('falsă'),true);
+assert.equal(detailed('1,5 + 2,5 = 4').steps.length,1,'decimal commas survive');
+assert.equal(detailed('(3.5 + 0.5) / 2 = 2').steps.length,2,'decimal dots survive');
+assert.equal(detailed('-(3-5) = 2').conclusion.includes('adevărată'),true);
+assert.equal(detailed('2/0 = 9'),null,'division by zero needs another solver');
+assert.equal(detailed('2(3+4)=14'),null,'implicit multiplication is unsupported');
+assert.equal(detailed('x+1=2'),null,'symbolic equations go to the general model');
+assert.ok(embedded.includes("item.detailed=steps"),'supported arithmetic uses the local step renderer');
+assert.ok(embedded.includes("item.detailed.steps.length"),'multiple numbered steps are displayed');
+
 const native=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(native,/"math"\.equals\(speechMode\)\)return;/,'math speech bypasses short endpoint');
 assert.match(native,/mathDictation\?4800L:2200L/,'math uses longer silence hints');
