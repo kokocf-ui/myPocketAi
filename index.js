@@ -4116,7 +4116,11 @@ function documentsPhotoGallery(id,host){
   const file=document.createElement('input');file.type='file';file.accept='image/*';
   file.className='documents-photo-file';file.hidden=true;
   file.onchange=async()=>{if(file.files?.[0])await documentsPhotoSave(id,slot,file.files[0]);file.value=''};
-  const add=budgetButton(learningLabel('Adaugă / scanează','Add / scan'),()=>{if(window.PocketAndroidDocumentScan?.postMessage)window.PocketAndroidDocumentScan.postMessage('next');file.click()},'secondary-btn');
+  const add=budgetButton(learningLabel('Adaugă / scanează','Add / scan'),()=>{
+   if(!window.PocketAndroidDocumentScan?.postMessage){notify(learningLabel('Scanarea automată necesită APK-ul Android actualizat. Poți încărca fotografia și completa datele manual.','Automatic scan requires the updated Android APK. You can still attach a photo and enter details manually.'));}
+   else window.PocketAndroidDocumentScan.postMessage('next');
+   file.click();
+  },'secondary-btn');
   area.append(preview,add,file);grid.append(area);
   documentsPhotoOperation('read',id+':'+slot).then(blob=>{
    if(!blob||!preview.isConnected)return;
@@ -4154,6 +4158,43 @@ function documentsScanExtract(raw){
   const date=new Date(value+'T12:00:00');
   return !Number.isNaN(date.getTime())&&budgetISO(date)===value?value:'';
  };
+ // ICAO TD3 passport MRZ: only accept machine-readable fields when check digits agree.
+ const mrzClean=value=>String(value).toUpperCase().replace(/\\s/g,'').replace(/[^A-Z0-9<]/g,'');
+ const mrzRows=lines.map(mrzClean);
+ const mrzWeights=[7,3,1];
+ const mrzDigit=value=>{
+  let total=0;
+  for(let i=0;i<value.length;i++){
+   const ch=value[i],n=ch==='<'?0:/[0-9]/.test(ch)?Number(ch):ch.charCodeAt(0)-55;
+   if(!Number.isInteger(n)||n<0||n>35)return '?';
+   total+=n*mrzWeights[i%3];
+  }
+  return String(total%10);
+ };
+ for(let j=0;j<mrzRows.length-1;j++){
+  const a=mrzRows[j],b=mrzRows[j+1];
+  if(!a.startsWith('P<')||a.length!==44||b.length!==44)continue;
+  if(mrzDigit(b.slice(0,9))!==b[9]||mrzDigit(b.slice(21,27))!==b[27])continue;
+  const passportNo=b.slice(0,9).replace(/<+$/,'');
+  if(passportNo&&!fields.number)fields.number=passportNo;
+  if(mrzDigit(b.slice(13,19))===b[19]&&!fields.birth){
+   const yy=Number(b.slice(13,15)),year=yy>new Date().getFullYear()%100?1900+yy:2000+yy;
+   const value=String(year)+'-'+b.slice(15,17)+'-'+b.slice(17,19);
+   const date=new Date(value+'T12:00:00');
+   if(!Number.isNaN(date.getTime())&&budgetISO(date)===value)fields.birth=value;
+  }
+  if(!fields.expires){
+   const yy=Number(b.slice(21,23)),year=2000+yy;
+   const value=String(year)+'-'+b.slice(23,25)+'-'+b.slice(25,27);
+   const date=new Date(value+'T12:00:00');
+   if(!Number.isNaN(date.getTime())&&budgetISO(date)===value)fields.expires=value;
+  }
+  if(!fields.country)fields.country=b.slice(10,13).replace(/</g,'');
+  const name=a.slice(5).split('<<');
+  if(name[0]&&!fields.holder)fields.holder=name[0].replace(/</g,' ').trim();
+  if(name[1]&&!fields.given)fields.given=name.slice(1).join(' ').replace(/</g,' ').trim();
+  break;
+ }
  const keys=Object.keys(patterns);
  for(let i=0;i<lines.length;i++){
   for(const key of keys){
@@ -4173,6 +4214,7 @@ function documentsScanReview(host,item){
  const draft=documentsScanDraft,form=budgetNode('form','documents-form');
  form.append(budgetNode('h3','budget-subtitle',learningLabel('Verifică datele recunoscute','Review recognized fields')));
  form.append(budgetNode('p','budget-advice',learningLabel('OCR poate greși. Corectează înainte de salvare. Câmpurile neidentificate rămân goale.','OCR may be wrong. Correct before saving. Unknown fields remain empty.')));
+ if(!Object.keys(draft.fields).length)form.append(budgetNode('p','budget-advice',learningLabel('Niciun câmp sigur recunoscut; completează manual sau fotografiază din nou zona cu date.','No reliable fields recognized; enter details or retake a sharper photo of the data page.')));
  const labels={number:['Serie / număr','Document number'],holder:['Nume','Surname'],given:['Prenume','Given names'],birth:['Data nașterii','Date of birth'],issued:['Data emiterii','Date of issue'],expires:['Data expirării','Expiry date'],issuer:['Autoritate emitentă','Issuing authority'],country:['Țara emitentă','Issuing country']};
  const inputs={};
  for(const [key,names] of Object.entries(labels)){
@@ -4197,9 +4239,11 @@ function documentsScanReview(host,item){
 }
 if(typeof window!=='undefined')window.pocketAndroidDocumentScanResult=function(payload){
  if(!documentsSelectedId||!payload)return;
+ if(payload.status==='started'){notify(learningLabel('Se citesc datele documentului…','Reading document details…'));return}
  if(payload.status!=='success'){notify(learningLabel('Nu s-a putut citi textul din fotografie. Fotografia poate fi păstrată separat.','Could not read text from photo. You may keep the photo separately.'));return}
  const fields=documentsScanExtract(payload.text);
- if(!Object.keys(fields).length){notify(learningLabel('Nu am identificat câmpuri cu suficientă siguranță. Completează manual datele.','No reliable fields detected. Enter the details manually.'));documentsEditing=true;renderDocuments();return}
+ if(!Object.keys(fields).length)notify(learningLabel('Nu am identificat câmpuri sigure. Verifică fotografia și completează formularul.','No reliable fields found. Check the photo and fill in the form.'));
+
  documentsScanDraft={id:documentsSelectedId,fields};documentsEditing=false;renderDocuments();
 };
 
