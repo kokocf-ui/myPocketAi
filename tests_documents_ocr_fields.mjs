@@ -116,7 +116,7 @@ assert.match(android,/InputImage\.fromBitmap\(bitmap,rotations\[attempt\]\)/,'ML
 assert.match(android,/result\.getTextBlocks\(\)/,'ML Kit layout lines are extracted');
 assert.match(android,/documentHasCompletePassportMrz\(result\)/,'scanner ranks complete passport MRZ');
 assert.match(android,/final int\[\] rotations=\{0,90,270,180\}/,'OCR retries photo orientation');
-assert.match(android,/scanDocumentOrientation\(recognizer,bitmap,docId,0,null,-1\)/,'native OCR starts orientation fallback');
+assert.match(android,/scanDocumentOrientation\(recognizer,bitmap,docId,0,null,-1,passportRequested\)/,'native OCR starts orientation fallback');
 assert.match(android,/result\.put\("lines",lines\)/,'layout lines returned to local frontend');
 assert.match(source,/bridge\.postMessage\(JSON\.stringify\(\{action:'scan',id,base64,type\}\)\)/,'frontend sends photo bytes and type to native scanner');
 assert.match(source,/documentsPhotoScan\(blob,id\)/,'scan invoked from photo save');
