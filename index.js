@@ -4195,7 +4195,7 @@ function documentsScanReview(host,item){
  actions.append(confirm,budgetButton(learningLabel('Renunță','Cancel'),()=>{documentsScanDraft=null;renderDocuments()},'secondary-btn'));
  form.append(actions);form.onsubmit=e=>{e.preventDefault();confirm.click()};host.append(form);
 }
-window.pocketAndroidDocumentScanResult=function(payload){
+if(typeof window!=='undefined')window.pocketAndroidDocumentScanResult=function(payload){
  if(!documentsSelectedId||!payload)return;
  if(payload.status!=='success'){notify(learningLabel('Nu s-a putut citi textul din fotografie. Fotografia poate fi păstrată separat.','Could not read text from photo. You may keep the photo separately.'));return}
  const fields=documentsScanExtract(payload.text);
