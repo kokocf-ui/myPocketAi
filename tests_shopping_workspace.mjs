@@ -604,4 +604,32 @@ assert.match(page,/Plăți viitoare/,'Info has payment wording');
 assert.match(page,/Ce plăți mai am luna viitoare/,'Info includes short future payment query');
 assert.match(page,/margin-bottom:\.55rem/,'budget summary has separation from action controls');
 
+
+/* Documents and deadlines: voice parsing, local-only storage, and shared layout. */
+assert.match(inline,/POCKET_DOCUMENTS_KEY='mypocketai\.documents\.v1'/);
+assert.match(inline,/if\(key==='documents'\)\{documentsSelectedId=null;renderDocuments\(\);return\}/);
+assert.match(inline,/function documentsVoiceHandleAndroid\(data\)/);
+assert.match(inline,/mode:'documents'/);
+assert.match(inline,/documentsWrite\(all\)/,'document metadata is persisted locally');
+assert.match(inline,/pocketConfirm\(learningLabel\('Ștergi documentul/,'deletion requires confirmation');
+assert.match(inline,/function documentsParseVoice\(raw\)/);
+assert.match(inline,/function renderDocuments\(\)/);
+assert.match(inline,/documentsFilter=.*budgetQueryPeriod\(spoken\)/,'documents reuse month-based filtering');
+assert.match(page,/\.budget-fx-swap\{[^}]*align-self:center;transform:translateY\(\.6rem\)/,'FX swap is vertically centered');
+const docBegin=inline.indexOf("const POCKET_DOCUMENTS_KEY='mypocketai.documents.v1'");
+const docEnd=inline.indexOf('const TASKS_DRAWINGS=',docBegin);
+assert.ok(docBegin>=0&&docEnd>docBegin);
+const docCtx=vm.createContext({
+ Date,Number,String,localStorage:{getItem:()=>null},
+ shopVoiceFold: v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim(),
+ budgetISO: d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'),
+ budgetDateNow:()=> '2026-11-06'
+});
+vm.runInContext(inline.slice(docBegin,docEnd),docCtx);
+const parseDoc=v=>vm.runInContext('documentsParseVoice('+JSON.stringify(v)+')',docCtx);
+assert.equal(parseDoc('Adaugă pașaportul, expiră pe 15 martie 2028').title,'pașaport');
+assert.equal(parseDoc('Adaugă pașaportul, expiră pe 15 martie 2028').expires,'2028-03-15');
+assert.equal(parseDoc('Permisul expiră pe 20 iunie 2027').expires,'2027-06-20');
+assert.equal(parseDoc('Documentul expiră pe 31 februarie 2028'),null,'invalid expiry dates are rejected');
+
 console.log('PASS shopping: fluid workspace, manual checks, legacy lists, archive and carry-over');
