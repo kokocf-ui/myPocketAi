@@ -21,7 +21,7 @@ assert.match(shoppingStyle,/\.shop-active-footer\{[^}]*grid-template-columns:rep
 assert.match(shoppingStyle,/\.shop-active-footer>button\{[^}]*height:clamp\(2\.75rem,5\.6dvh,3\.15rem\)!important/s);
 assert.match(inline,/footer\.classList\.add\('shop-active-footer'\)/);
 assert.match(inline,/root\.classList\.add\('adaptive-workspace-view'\)/);
-assert.match(inline,/root\.classList\.remove\('organize-active','organize-chat','adaptive-workspace-view'\)/);
+assert.match(inline,/root\.classList\.remove\('organize-active','organize-chat','adaptive-workspace-view','tasks-workspace'\)/);
 assert.match(inline,/next\.checked=checkbox\.checked/,'only user checkbox handler changes bought status');
 assert.match(inline,/if\(!shoppingWrite\(data\)\)\{checkbox\.checked=!checkbox\.checked/,'checkbox writes without rebuilding the entire list');
 assert.match(inline,/info\.classList\.toggle\('is-checked',checkbox\.checked\)/,'checkbox updates its row in place');
@@ -55,6 +55,20 @@ assert.match(inline,/shopButton\('Arhivează','Archive'/);
 assert.match(inline,/data\.completedAt=new Date\(\)\.toISOString\(\)/);
 assert.match(inline,/shoppingMode==='active'/);
 assert.match(inline,/SHOPPING_STORAGE_KEY='mypocketai\.shopping\.v1'/,'preserve existing storage key');
+
+
+/* New personal organisation workspace must stay isolated from the proven agenda/shop. */
+assert.match(inline,/if\(key==='tasks'\)\{if\(tasksListening\)tasksVoiceStop\(\);tasksSection='home';renderTasks\(\);return\}/);
+assert.match(inline,/POCKET_TASKS_KEY='mypocketai\.tasks\.v1'/);
+assert.match(inline,/function tasksCreate\(title,goal=false,due='',priority='normal'\)/);
+assert.match(inline,/function tasksConfirmDelete\(item\)/);
+assert.match(inline,/function tasksToAgenda\(item\)/);
+assert.match(inline,/linkedTaskId===item\.id/,'agenda transfer does not duplicate a task');
+assert.match(inline,/tasksWrite\(data\.filter\(t=>t\.id!==id\)\)/,'only selected task is removed');
+assert.match(inline,/if\(tasksListening\)tasksVoiceStop\(\)/,'recognizer stops on navigation');
+for(const art of ['list','goal','calendar','archive'])assert.ok(inline.includes('"'+art+'":'), 'drawing is present: '+art);
+assert.match(page,/\.tasks-tiles\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/s,'illustrations are on a responsive 2x2 grid');
+assert.match(page,/\.tasks-scroll\{[^}]*overflow-y:auto/s,'only inner list scrolls');
 
 const agendaStart=inline.indexOf("const POCKET_AGENDA_KEY='mypocketai.agenda.v1'");
 const agendaEnd=inline.indexOf('/* Shopping workspace:',agendaStart);

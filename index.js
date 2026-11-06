@@ -1793,6 +1793,32 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
 #view-module.adaptive-workspace-view .agenda-voice-controls .agenda-microphone.is-listening{
  border-color:#86e4f7;box-shadow:0 0 .8rem #38c9db88;
 }
+
+/* Tasks and goals: one adaptive workspace, informative vector illustrations. */
+#view-module.tasks-workspace.active{overflow:hidden!important;min-height:0!important;max-height:100%!important;padding-bottom:0!important}
+#view-module.tasks-workspace #moduleContent{display:flex!important;min-height:0!important;overflow:hidden!important}
+.tasks-panel{display:flex;flex-direction:column;flex:1;min-height:0;gap:clamp(6px,1.2dvh,12px);padding:0!important}
+.tasks-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(6px,1.5vw,12px);flex:1;min-height:0}
+.tasks-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(3px,.7dvh,7px);min-width:0;min-height:0;border:1px solid #5c8ca59c;border-radius:clamp(10px,2.7vw,18px);padding:clamp(5px,1.2vw,12px);background:linear-gradient(150deg,#143b59,#10283f);color:#f0fbff;text-align:center}
+.tasks-tile:focus-visible{outline:3px solid #93e9ff;outline-offset:2px}
+.tasks-tile svg{display:block;width:clamp(52px,16vw,100px);height:clamp(48px,11dvh,76px);max-height:40%;flex-shrink:1}
+.tasks-tile strong{font-size:clamp(12px,3.4vw,18px);line-height:1.12}
+.tasks-tile small{font-size:clamp(10px,2.5vw,13px);line-height:1.2}
+.tasks-toolbar,.tasks-bottom{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(6px,1.5vw,12px);flex:none}
+.tasks-toolbar button,.tasks-bottom button{min-width:0;width:100%!important;min-height:clamp(37px,7dvh,52px)!important;height:auto!important;padding:7px 9px!important;white-space:normal}
+.tasks-title{margin:0;text-align:center;font-size:clamp(14px,4vw,21px)}
+.tasks-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:2px 3px 12px}
+.tasks-add{display:flex;gap:6px;flex-wrap:wrap;padding:4px 0}
+.tasks-add input,.tasks-add select{flex:1 1 135px;min-width:0;min-height:37px}
+.tasks-item{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:9px 5px;border-bottom:1px solid #567b875e;min-width:0}
+.tasks-item-text{flex:1;min-width:0;overflow-wrap:anywhere}
+.tasks-item-text small{display:block;color:#a7cbd5}
+.tasks-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.tasks-actions button{min-height:36px;min-width:38px;padding:6px 8px}
+.tasks-progress{height:8px;background:#304f65;border-radius:20px;overflow:hidden}
+.tasks-progress span{display:block;height:100%;background:#50c8b9}
+@media (max-height:420px){.tasks-tile svg{height:clamp(36px,10dvh,52px)}.tasks-tile{gap:2px}.tasks-tiles{gap:5px}}
+
 </style>
 <style id="shopping-single-screen">
 /* Shopping-only navigation: Home remains in the shared header; Back and Active List
@@ -2350,6 +2376,7 @@ async function checkUiUpdateAfterModuleExit(){
  finally{pocketUiUpdateChecking=false}
 }
 function renderOrganizeChoices(){
+ if(tasksListening)tasksVoiceStop();
  if(shoppingVoiceSession?.active)shopVoiceStop();
  if(agendaListening)agendaVoiceFinish('');
  agendaPendingDelete=null;
@@ -2359,7 +2386,7 @@ function renderOrganizeChoices(){
  $('moduleTitle').textContent=learningLabel('Organizare personală','Personal organisation');
  $('moduleTitle').parentElement?.querySelector('.pocket-voice-info')?.remove();
  const root=$('view-module'),host=$('moduleContent');
- root.classList.remove('organize-active','organize-chat','adaptive-workspace-view');root.classList.add('organize-choose');host.replaceChildren();
+ root.classList.remove('organize-active','organize-chat','adaptive-workspace-view','tasks-workspace');root.classList.add('organize-choose');host.replaceChildren();
  const grid=document.createElement('div');grid.className='education-grid';
  ORGANIZE_CATEGORIES.forEach(cat=>{
   const button=document.createElement('button');button.type='button';button.className='education-card';
@@ -2424,7 +2451,7 @@ function pocketVoiceHelp(mode,title){
  else title.parentElement?.append(icon);
 }
 function organizePanel(cat){
- const root=$('view-module'),host=$('moduleContent');root.classList.remove('organize-choose','organize-chat','adaptive-workspace-view');root.classList.add('organize-active');host.replaceChildren();
+ const root=$('view-module'),host=$('moduleContent');root.classList.remove('organize-choose','organize-chat','adaptive-workspace-view','tasks-workspace');root.classList.add('organize-active');host.replaceChildren();
  const panel=document.createElement('div');panel.className='organize-panel';
  const bar=document.createElement('div');bar.className='education-toolbar';
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=cat[0]==='shopping'?learningLabel('← Înapoi','← Back'):learningLabel('← Categorii','← Categories');
@@ -2445,6 +2472,7 @@ function openOrganizeCategory(key){
  const cat=ORGANIZE_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
  if(key==='shopping'){renderShoppingList();return}
  if(key==='calendar'){renderAgenda();return}
+ if(key==='tasks'){if(tasksListening)tasksVoiceStop();tasksSection='home';renderTasks();return}
  const panel=organizePanel(cat);
  const p=document.createElement('p');p.textContent=learningLabel(cat[4],cat[5]);panel.append(p);
  const button=document.createElement('button');button.type='button';button.className='primary-btn';
@@ -2456,6 +2484,155 @@ function openOrganizeCategory(key){
  };panel.append(button);
 }
 
+
+const TASKS_DRAWINGS={"list":"<svg viewBox=\"0 0 120 90\" aria-hidden=\"true\"><rect x=\"21\" y=\"8\" width=\"80\" height=\"75\" rx=\"9\" fill=\"#d8f4fa\"/><rect x=\"43\" y=\"2\" width=\"36\" height=\"13\" rx=\"5\" fill=\"#68c8e0\"/><path d=\"M32 35l6 6 11-13M32 59l6 6 11-13\" fill=\"none\" stroke=\"#21a58e\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M58 35h30M58 59h30\" stroke=\"#4c7294\" stroke-width=\"5\" stroke-linecap=\"round\"/></svg>","goal":"<svg viewBox=\"0 0 120 90\" aria-hidden=\"true\"><path d=\"M18 79h86\" stroke=\"#87cbdc\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M26 75h24V58h22V40h24V20\" fill=\"none\" stroke=\"#77d5c1\" stroke-width=\"10\" stroke-linejoin=\"round\"/><path d=\"M94 12v33M95 13l21 8-21 9\" fill=\"#67bdf1\" stroke=\"#e9fbff\" stroke-width=\"3\"/><circle cx=\"29\" cy=\"67\" r=\"6\" fill=\"#f4cc7a\"/></svg>","calendar":"<svg viewBox=\"0 0 120 90\" aria-hidden=\"true\"><rect x=\"13\" y=\"14\" width=\"93\" height=\"68\" rx=\"9\" fill=\"#daf3fa\"/><path d=\"M13 31h93\" stroke=\"#56c0dc\" stroke-width=\"10\"/><path d=\"M35 8v17M83 8v17\" stroke=\"#fff\" stroke-width=\"6\" stroke-linecap=\"round\"/><rect x=\"32\" y=\"42\" width=\"22\" height=\"22\" rx=\"5\" fill=\"#4dc2a7\"/><path d=\"M37 53l5 5 9-11\" stroke=\"#fff\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"82\" cy=\"60\" r=\"15\" fill=\"#6aace5\"/><path d=\"M82 48v13l8 5\" stroke=\"#fff\" stroke-width=\"3\" fill=\"none\"/></svg>","archive":"<svg viewBox=\"0 0 120 90\" aria-hidden=\"true\"><rect x=\"20\" y=\"28\" width=\"82\" height=\"54\" rx=\"7\" fill=\"#80bcdf\"/><rect x=\"14\" y=\"19\" width=\"94\" height=\"22\" rx=\"5\" fill=\"#d8f4fa\"/><path d=\"M48 47h25\" stroke=\"#efffff\" stroke-width=\"6\" stroke-linecap=\"round\"/><circle cx=\"91\" cy=\"68\" r=\"17\" fill=\"#43b99f\"/><path d=\"M82 68l6 6 12-13\" fill=\"none\" stroke=\"#fff\" stroke-width=\"4\" stroke-linecap=\"round\"/></svg>"};
+
+/* Tasks are local-first and independent from existing agenda and shopping data. */
+const POCKET_TASKS_KEY='mypocketai.tasks.v1';
+let tasksSection='home',tasksListening=false,tasksRecognition=null;
+function tasksRead(){
+ try{
+  const data=JSON.parse(localStorage.getItem(POCKET_TASKS_KEY)||'[]');
+  return Array.isArray(data)?data.filter(t=>t&&typeof t.title==='string'&&typeof t.id==='string'):[];
+ }catch{return []}
+}
+function tasksWrite(items){
+ try{localStorage.setItem(POCKET_TASKS_KEY,JSON.stringify(items));return true}
+ catch{notify(learningLabel('Nu am putut salva sarcinile.','Could not save tasks.'));return false}
+}
+function tasksDueLabel(value){
+ if(!value)return learningLabel('Fără termen','No deadline');
+ const date=new Date(value+'T12:00:00');
+ return Number.isNaN(date.getTime())?value:date.toLocaleDateString(state.language==='ro'?'ro-RO':'en-GB');
+}
+function tasksCreate(title,goal=false,due='',priority='normal'){
+ title=String(title||'').trim();if(!title)return false;
+ const data=tasksRead();data.push({id:shopId(),title:title.slice(0,140),goal,priority,due,done:false,archived:false,createdAt:new Date().toISOString()});
+ return tasksWrite(data);
+}
+function tasksUpdate(id,update){const data=tasksRead(),i=data.findIndex(t=>t.id===id);if(i<0)return false;data[i]={...data[i],...update};return tasksWrite(data)}
+function tasksDelete(id){const data=tasksRead();return tasksWrite(data.filter(t=>t.id!==id))}
+function tasksToAgenda(item){
+ if(!item.due){notify(learningLabel('Stabilește un termen pentru a trimite sarcina în Agendă.','Set a deadline to add this task to the agenda.'));return}
+ const events=agendaRead();const existing=events.find(e=>e.linkedTaskId===item.id);
+ if(existing){notify(learningLabel('Sarcina există deja în Agendă.','This task is already in the agenda.'));return}
+ const when=new Date(item.due+'T09:00:00');if(Number.isNaN(when.getTime()))return;
+ events.push({id:shopId(),title:item.title,kind:'task',linkedTaskId:item.id,when:when.toISOString(),reminderPreset:agendaReminderPreset(item.title),createdAt:new Date().toISOString()});
+ if(agendaWrite(events))notify(learningLabel('Adăugat în Agendă la ora 09:00. Ora poate fi modificată acolo.','Added to the agenda at 09:00. You can change the time there.'));
+}
+function tasksVoiceStop(){tasksListening=false;try{tasksRecognition?.stop()}catch{}tasksRecognition=null}
+function tasksVoiceCommand(phrase){
+ const spoken=String(phrase||'').trim();const norm=shopVoiceFold(spoken);
+ if(!norm)return;
+ if(/^(?:arata|afiseaza|deschide) (?:obiective|obiectivele)/.test(norm)){tasksSection='goals';renderTasks();return}
+ if(/^(?:arata|afiseaza|deschide) (?:arhiva|finalizate)/.test(norm)){tasksSection='archive';renderTasks();return}
+ const action=norm.match(/^(bifeaza|finalizeaza|arhiveaza|sterge) (?:sarcina |obiectivul )?(.+)$/);
+ if(action){
+  const found=tasksRead().filter(t=>shopVoiceFold(t.title)===action[2]||shopVoiceFold(t.title).includes(action[2]));
+  if(found.length!==1){notify(learningLabel('Nu am identificat o singură sarcină.','Could not identify one unique task.'));return}
+  if(action[1]==='sterge'){tasksConfirmDelete(found[0]);return}
+  tasksUpdate(found[0].id,action[1]==='arhiveaza'?{archived:true}:{done:true});renderTasks();return;
+ }
+ const add=spoken.match(/^(?:adaug[aă]|creeaz[aă]|noteaz[aă]|trece)\s+(?:(un\s+)?(?:obiectiv|sarcin[aă])\s*)?(.+)$/i);
+ if(add){
+  let title=add[2].trim();const goal=/obiectiv/i.test(spoken.slice(0,spoken.length-title.length));
+  let due='';
+  const tm=title.match(/\s+(?:pentru\s+)?(m[aâ]ine|ast[aă]zi)\s*$/i);
+  if(tm){const d=new Date();if(/m[aâ]ine/i.test(tm[1]))d.setDate(d.getDate()+1);due=[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');title=title.slice(0,tm.index).trim()}
+  const priority=/prioritate (?:mare|ridicata|ridicată)/i.test(title)?'high':'normal';
+  title=title.replace(/[, ]*prioritate (?:mare|ridicata|ridicată)/i,'').trim();
+  if(tasksCreate(title,goal,due,priority)){tasksSection=goal?'goals':'items';renderTasks()}
+  return;
+ }
+ notify(learningLabel('Spune „Adaugă sarcină...” sau „Bifează...”.','Say “Add task...” or “Complete...”.'));
+}
+function tasksVoiceStart(){
+ if(tasksListening){tasksVoiceStop();renderTasks();return}
+ const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!Recognition){notify(learningLabel('Dictarea nu este disponibilă pe acest dispozitiv.','Speech recognition is unavailable on this device.'));return}
+ tasksRecognition=new Recognition();tasksRecognition.lang=state.language==='ro'?'ro-RO':'en-GB';tasksRecognition.interimResults=false;tasksRecognition.continuous=false;
+ tasksListening=true;
+ tasksRecognition.onresult=e=>{const phrase=e.results?.[0]?.[0]?.transcript||'';tasksVoiceStop();tasksVoiceCommand(phrase)};
+ tasksRecognition.onerror=()=>{tasksVoiceStop();renderTasks()};
+ tasksRecognition.onend=()=>{if(tasksListening){tasksVoiceStop();renderTasks()}};
+ try{tasksRecognition.start();renderTasks()}catch{tasksVoiceStop();renderTasks()}
+}
+function tasksConfirmDelete(item){
+ if(!window.confirm(learningLabel('Ștergi definitiv: ','Permanently delete: ')+item.title+'?'))return;
+ if(tasksDelete(item.id))renderTasks();
+}
+function renderTasks(){
+ $('moduleTitle').textContent=learningLabel('Sarcini și obiective','Tasks and goals');
+ const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='tasks');
+ const panel=organizePanel(cat),root=$('view-module');
+ root.classList.add('tasks-workspace','adaptive-workspace-view');panel.classList.add('tasks-panel');panel.replaceChildren();
+ const el=(tag,cls,label)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(label!==undefined)x.textContent=label;return x};
+ const btn=(label,action,cls='secondary-btn')=>{const x=el('button',cls,label);x.type='button';x.onclick=action;return x};
+ const heading=el('h3','tasks-title',learningLabel('Sarcini și obiective','Tasks and goals'));panel.append(heading);
+ const nav=el('div','tasks-toolbar');
+ nav.append(btn(learningLabel('⌂ Acasă','⌂ Home'),renderOrganizeChoices),
+   btn(learningLabel('← Înapoi','← Back'),()=>{if(tasksSection==='home')renderOrganizeChoices();else{tasksSection='home';renderTasks()}}));
+ panel.append(nav);
+ if(tasksSection==='home'){
+  const grid=el('div','tasks-tiles');
+  const tiles=[
+   ['items','list',learningLabel('Sarcinile mele','My tasks'),learningLabel('De făcut și în lucru','To do and in progress')],
+   ['goals','goal',learningLabel('Obiective','Goals'),learningLabel('Planuri și progres','Plans and progress')],
+   ['calendar','calendar',learningLabel('Calendar sarcini','Task calendar'),learningLabel('Termene și priorități','Deadlines and priorities')],
+   ['archive','archive',learningLabel('Finalizate / Arhivă','Completed / Archive'),learningLabel('Istoric și realizări','History and achievements')]
+  ];
+  for(const item of tiles){const b=btn('',()=>{tasksSection=item[0];renderTasks()},'tasks-tile');b.innerHTML=TASKS_DRAWINGS[item[1]];b.append(el('strong','',item[2]),el('small','',item[3]));grid.append(b)}
+  panel.append(grid);
+ }else{
+  const list=el('div','tasks-scroll');panel.append(list);
+  const data=tasksRead(),archive=tasksSection==='archive';
+  const filtered=data.filter(t=>archive?(t.done||t.archived):!t.done&&!t.archived&&(tasksSection==='goals'?t.goal:tasksSection==='items'?!t.goal:!!t.due))
+    .sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999')||a.createdAt.localeCompare(b.createdAt));
+  const sectionTitles={items:learningLabel('Sarcinile mele','My tasks'),goals:learningLabel('Obiective','Goals'),calendar:learningLabel('Calendar sarcini','Task calendar'),archive:learningLabel('Finalizate / Arhivă','Completed / Archive')};
+  list.append(el('h4','',sectionTitles[tasksSection]));
+  if(tasksSection==='goals'){
+   const goals=data.filter(t=>t.goal),finished=goals.filter(t=>t.done).length;
+   list.append(el('p','',learningLabel('Obiective realizate: ','Completed goals: ')+finished+' / '+goals.length));
+   const progress=el('div','tasks-progress'),bar=el('span');bar.style.width=(goals.length?100*finished/goals.length:0)+'%';progress.append(bar);list.append(progress);
+  }
+  if(!archive){
+   const form=el('form','tasks-add'),input=el('input');input.required=true;input.maxLength=140;
+   input.placeholder=tasksSection==='goals'?learningLabel('Obiectiv nou','New goal'):learningLabel('Sarcină nouă','New task');
+   input.setAttribute('aria-label',input.placeholder);
+   const due=el('input');due.type='date';due.setAttribute('aria-label',learningLabel('Termen','Due date'));
+   const priority=el('select');priority.setAttribute('aria-label',learningLabel('Prioritate','Priority'));
+   for(const [v,ro,en] of [['normal','Normală','Normal'],['high','Mare','High'],['low','Mică','Low']]){const op=el('option','',learningLabel(ro,en));op.value=v;priority.append(op)}
+   const save=btn(learningLabel('＋ Adaugă','＋ Add'),()=>{},'primary-btn');save.type='submit';
+   form.append(input,due,priority,save);
+   form.onsubmit=e=>{e.preventDefault();if(tasksCreate(input.value,tasksSection==='goals',due.value,priority.value))renderTasks()};
+   list.append(form);
+  }
+  if(!filtered.length)list.append(el('p','',learningLabel('Nu există încă înregistrări aici.','No entries here yet.')));
+  for(const item of filtered){
+   const row=el('div','tasks-item'),content=el('div','tasks-item-text');
+   content.append(el('strong','',item.title),el('small','',tasksDueLabel(item.due)+' · '+learningLabel('Prioritate','Priority')+': '+item.priority));
+   const buttons=el('div','tasks-actions');
+   if(archive){
+    buttons.append(btn(learningLabel('Restabilește','Restore'),()=>{tasksUpdate(item.id,{done:false,archived:false});renderTasks()}));
+   }else{
+    buttons.append(btn(learningLabel('✓ Gata','✓ Done'),()=>{tasksUpdate(item.id,{done:true});renderTasks()}));
+    buttons.append(btn(learningLabel('Arhivează','Archive'),()=>{tasksUpdate(item.id,{archived:true});renderTasks()}));
+    buttons.append(btn(learningLabel('Modifică','Edit'),()=>{
+      const title=window.prompt(learningLabel('Modifică denumirea','Edit title'),item.title);
+      if(title===null||!title.trim())return;
+      tasksUpdate(item.id,{title:title.trim().slice(0,140)});renderTasks();
+    }));
+    if(item.due)buttons.append(btn(learningLabel('În Agendă','To agenda'),()=>tasksToAgenda(item)));
+   }
+   buttons.append(btn(learningLabel('Șterge','Delete'),()=>tasksConfirmDelete(item)));
+   row.append(content,buttons);list.append(row);
+  }
+ }
+ const bottom=el('div','tasks-bottom');
+ bottom.append(btn(learningLabel('🎙 Dictare','🎙 Dictation')+(tasksListening?' •':''),tasksVoiceStart,'primary-btn'),
+  btn(learningLabel('ⓘ Comenzi vocale','ⓘ Voice guide'),()=>window.alert(learningLabel('„Adaugă sarcină cumpără filtre mâine”\n„Adaugă obiectiv renovează bucătăria”\n„Bifează cumpără filtre”\n„Arhivează cumpără filtre”\n„Șterge cumpără filtre” (cere confirmare)','“Add task...” / “Complete...” / “Archive...” / “Delete...”'))));
+ panel.append(bottom);
+}
 
 /* Calendar workspace: separate storage and speech state from shopping lists.
    No background alarms are promised: this first iteration is a local agenda. */
@@ -3850,7 +4027,7 @@ async function handleLearningPhoto(file){
   else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
  } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
 }
-function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
+function openModule(key){if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','tasks-workspace','adaptive-workspace-view');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'}],travel:[{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante, pizzerii, shaormerii și fast-food în apropierea mea.',kind:'places',description:'Caută restaurante, pub-uri, pizzerii, shaormerii și fast-food'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places',description:'Caută alte puncte de interes din apropiere'}]};
 function updateQuickLayerGeometry(){
  const header=document.querySelector('.app-header'),nav=document.querySelector('.bottom-nav');
