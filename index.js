@@ -3034,7 +3034,7 @@ function dailyVoiceCommand(raw){
  const text=String(raw||'').trim();
  const folded=String(text).normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase();
  if(!text)return;
- if(/^(?:ce am|arata|afiseaza|vezi|programul|planul|what|show)/u.test(folded)){
+ if(/^(?:ce am|arata|afiseaza|programul|planul|what|show)/u.test(folded)){
   if(/poimaine/u.test(folded))dailySelectDay(2);
   else if(/maine/u.test(folded))dailySelectDay(1);
   else if(/azi|astazi|today/u.test(folded))dailySelectDay(0);
