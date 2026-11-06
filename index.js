@@ -7161,6 +7161,72 @@ function mathCloseResults(){
  if(session?.controller)session.controller.abort();
  const dialog=$('mathResultDialog');if(dialog?.open)dialog.close();
 }
+// Deterministic, no-eval check for straightforward arithmetic equalities.
+// Keep narrative problems, variables, exponents, and unsupported symbols with
+// the regular teaching engine rather than guessing an arithmetic result.
+function mathArithmeticValue(expression){
+ const raw=String(expression||'').replace(/[−–]/g,'-').replace(/[×·]/g,'*')
+  .replace(/÷/g,'/').replace(/\\s+/g,'');
+ if(!raw||raw.length>180||!/^[0-9.,()+\\-*/]+$/.test(raw))return null;
+ const tokens=raw.match(/(?:\\d+(?:[.,]\\d+)?|[.,]\\d+)|[()+\\-*/]/g);
+ if(!tokens||tokens.join('')!==raw||tokens.length>100)return null;
+ let pos=0;
+ const primary=()=>{
+  const token=tokens[pos];
+  if(token==='+'||token==='-'){
+   pos++;const value=primary();return value===null?null:token==='-'?-value:value;
+  }
+  if(token==='('){
+   pos++;const value=sum();
+   if(value===null||tokens[pos]!==')')return null;
+   pos++;return value;
+  }
+  if(!token||!/^(?:\\d+(?:[.,]\\d+)?|[.,]\\d+)$/.test(token))return null;
+  pos++;const value=Number(token.replace(',','.'));
+  return Number.isFinite(value)?value:null;
+ };
+ const product=()=>{
+  let value=primary();
+  if(value===null)return null;
+  while(tokens[pos]==='*'||tokens[pos]==='/'){
+   const operator=tokens[pos++],next=primary();
+   if(next===null||(operator==='/'&&next===0))return null;
+   value=operator==='*'?value*next:value/next;
+   if(!Number.isFinite(value))return null;
+  }
+  return value;
+ };
+ const sum=()=>{
+  let value=product();
+  if(value===null)return null;
+  while(tokens[pos]==='+'||tokens[pos]==='-'){
+   const operator=tokens[pos++],next=product();
+   if(next===null)return null;
+   value=operator==='+'?value+next:value-next;
+   if(!Number.isFinite(value))return null;
+  }
+  return value;
+ };
+ const result=sum();
+ return pos===tokens.length&&Number.isFinite(result)?result:null;
+}
+function mathArithmeticEquality(source){
+ const parts=String(source||'').replace(/＝/g,'=').split('=');
+ if(parts.length!==2)return null;
+ const left=mathArithmeticValue(parts[0]),right=mathArithmeticValue(parts[1]);
+ if(left===null||right===null)return null;
+ return {left,right,equal:Math.abs(left-right)<=1e-9*Math.max(1,Math.abs(left),Math.abs(right))};
+}
+function mathEqualityExplanation(check){
+ if(!check)return '';
+ const formatter=new Intl.NumberFormat(state.language||'ro',{maximumFractionDigits:9});
+ const number=value=>formatter.format(Object.is(value,-0)?0:value);
+ return check.equal?
+  learningLabel('Egalitatea este adevărată. Stânga = ','The equality is true. Left = ')+number(check.left)+
+   learningLabel('; dreapta = ','; right = ')+number(check.right)+'.':
+  learningLabel('Egalitatea este falsă. Stânga = ','The equality is false. Left = ')+number(check.left)+
+   learningLabel('; dreapta = ','; right = ')+number(check.right)+'.';
+}
 function mathResultPage(index){
  const session=mathResultSession,dialog=$('mathResultDialog');
  if(!session||!dialog?.open)return;
@@ -7183,6 +7249,14 @@ function mathResultPage(index){
  const source=document.createElement('div');source.className='math-result-source';
  source.textContent=item.text;
  body.append(title,source);
+ const verifiedEquality=mathArithmeticEquality(item.text);
+ if(verifiedEquality){
+  const check=document.createElement('p');
+  check.className='math-equality-check';
+  check.style.cssText='margin:12px 0 14px;font-weight:750;line-height:1.45';
+  check.textContent=mathEqualityExplanation(verifiedEquality);
+  body.append(check);
+ }
  const graph=mathGraphFigure(item.text)||mathGeometryFigure(item.text);
  if(graph)body.append(graph);
  const result=document.createElement('div');result.className='math-result-copy';
@@ -7203,15 +7277,19 @@ function mathResultPage(index){
 async function mathFetchResult(item,session){
  const graph=Boolean(mathGraphModel(item.text));
  const prompt=learningLabel(
-  'Ești un profesor de matematică. Rezolvă DOAR exercițiul următor. Explică pe pași scurți, arată calculele și verifică rezultatul. Dacă este o funcție, explică punctele și proprietățile ei, dar nu produce grafice ASCII sau tabele ASCII: aplicația desenează graficul separat când formula este compatibilă. Nu inventa valori și nu cere confirmări dacă enunțul este clar.',
-  'You are a mathematics teacher. Solve ONLY this exercise. Explain in short numbered steps, show calculations and verify the answer. For a function, explain its properties and key points; never output ASCII graphs or ASCII tables, because the app plots supported functions separately. Do not invent values or request confirmations for a clear problem.'
+  'Ești un profesor de matematică. Rezolvă DOAR exercițiul următor. Explică pe pași scurți, arată calculele și verifică rezultatul. Dacă expresia conține un semn egal, evaluează ambele părți și spune explicit dacă egalitatea este adevărată sau falsă; nu ignora valoarea din dreapta. Nu cita lecții video, site-uri sau surse pe care utilizatorul nu le-a furnizat. Dacă este o funcție, explică punctele și proprietățile ei, dar nu produce grafice ASCII sau tabele ASCII: aplicația desenează graficul separat când formula este compatibilă. Nu inventa valori și nu cere confirmări dacă enunțul este clar.',
+  'You are a mathematics teacher. Solve ONLY this exercise. Explain in short numbered steps, show calculations and verify the answer. If the expression contains an equals sign, calculate both sides and explicitly say whether the equality is true or false; do not ignore the right side. Never cite videos, websites, or other references not supplied by the user. For a function, explain its properties and key points; never output ASCII graphs or ASCII tables, because the app plots supported functions separately. Do not invent values or request confirmations for a clear problem.'
  );
  const requested=session.mode==='graph'?
   learningLabel('Accentuează reprezentarea grafică și intersecțiile cu axele.','Focus on the graph and axis intercepts.'):
   session.mode==='explain'?
   learningLabel('Explică metoda de lucru, nu doar rezultatul.','Explain the method, not only the answer.'):
   learningLabel('Prezintă rezolvarea pas cu pas.','Provide a step-by-step solution.');
- const message=prompt+'\\n'+requested+'\\n'+item.text;
+ const equality=mathArithmeticEquality(item.text);
+ const checked=equality?
+  learningLabel('Verificare aritmetică locală: ','Local arithmetic verification: ')+mathEqualityExplanation(equality)+
+  learningLabel(' Menționează explicit această verificare și explică de ce; nu modifica enunțul dictat.',' Explain this check explicitly without rewriting the dictated exercise.'):'';
+ const message=prompt+'\\n'+requested+(checked?'\\n'+checked:'')+'\\n'+item.text;
  try{
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
    body:JSON.stringify({message,language:state.language,module:'learning',history:[],location_requested:false}),

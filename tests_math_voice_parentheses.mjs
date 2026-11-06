@@ -120,6 +120,34 @@ assert.equal(
 assert.equal(choose('trei ori unu',['trei ori doi']),'trei ori unu','unrelated alternatives cannot change the dictated number');
 assert.equal(choose('trei minus unu',['trei plus unu']),'trei minus unu','never reverse the spoken operation');
 
+// Arithmetic equality verification must be deterministic for simple expressions
+// and must never evaluate arbitrary source or attempt to solve equations in x.
+const equalityStart=embedded.indexOf('function mathArithmeticValue(');
+const equalityEnd=embedded.indexOf('function mathResultPage(',equalityStart);
+assert.ok(equalityStart>0&&equalityEnd>equalityStart,'local arithmetic verifier is present');
+const arithmetic=vm.runInNewContext(embedded.slice(equalityStart,equalityEnd)+
+ String.fromCharCode(10)+'({value:mathArithmeticValue,check:mathArithmeticEquality,explain:mathEqualityExplanation})',
+ {state:{language:'ro'},learningLabel:(ro,en)=>ro,Intl});
+const verified=arithmetic.check('3 * (2 * -1) + 5 = 20');
+assert.equal(verified.left,-1);
+assert.equal(verified.right,20);
+assert.equal(verified.equal,false);
+assert.match(arithmetic.explain(verified),/falsă.*Stânga.*-1.*dreapta.*20/);
+assert.equal(arithmetic.check('3 * (2 * -1) + 5 = -1').equal,true);
+assert.equal(arithmetic.check('1,5 + 2,5 = 4').equal,true);
+assert.equal(arithmetic.check('(3.5 + 0.5) / 2 = 2').equal,true);
+assert.equal(arithmetic.check('-(3-5) = 2').equal,true);
+assert.equal(arithmetic.check('2*(3+4) = 14').equal,true);
+assert.equal(arithmetic.check('2*(3+4) = 15').equal,false);
+assert.equal(arithmetic.check('x+1=2'),null,'variables are delegated to the maths solver');
+assert.equal(arithmetic.check('2/0=Infinity'),null,'division by zero is not asserted');
+assert.equal(arithmetic.check('2(3+4)=14'),null,'implicit multiplication is not miscalculated');
+assert.equal(arithmetic.check('3+4=7=7'),null,'multiple equalities remain with the maths solver');
+assert.equal(arithmetic.check('3^2=9'),null,'unsupported operators are not guessed');
+assert.match(embedded,/Nu cita lecții video, site-uri sau surse/,'avoid fabricated lesson references');
+assert.ok(embedded.includes('const checked=equality?'),'include deterministic equality in the teaching prompt');
+assert.ok(embedded.includes('mathEqualityExplanation(verifiedEquality)'),'always render arithmetic equality independently of model replies');
+
 const native=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 assert.match(native,/"math"\.equals\(speechMode\)\)return;/,'math speech bypasses short endpoint');
 assert.match(native,/mathDictation\?4800L:2200L/,'math uses longer silence hints');
