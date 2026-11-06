@@ -3601,6 +3601,7 @@ function renderAgenda(){
    '🎂 '+agendaLocalDate(item,agendaView==='all'?agendaNextDate(item).getFullYear():agendaCursor.getFullYear()).toLocaleDateString(locale,{day:'2-digit',month:'short'}):
    new Date(item.when).toLocaleString(locale,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}));
   const info=element('strong','',item.title);
+  info.append(element('small','agenda-event-origin',learningLabel('Sursă: ','Source: ')+agendaEventOrigin(item)));
   if(item.location)info.append(element('small','',item.location));
   row.append(stamp,info,element('span','agenda-event-chevron','›'));entries.append(row);
  }
