@@ -66,7 +66,7 @@ assert.match(inline,/function tasksToAgenda\(item\)/);
 assert.match(inline,/linkedTaskId===item\.id/,'agenda transfer does not duplicate a task');
 assert.match(inline,/tasksWrite\(data\.filter\(t=>t\.id!==id\)\)/,'only selected task is removed');
 assert.match(inline,/if\(tasksListening\)tasksVoiceStop\(\)/,'recognizer stops on navigation');
-for(const art of ['list','goal','calendar','archive'])assert.ok(inline.includes('"'+art+'":'), 'drawing is present: '+art);
+for(const art of ['list','goal','calendar','archive'])assert.ok(inline.includes(art+":'"), 'drawing is present: '+art);
 assert.match(page,/\.tasks-tiles\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/s,'illustrations are on a responsive 2x2 grid');
 assert.match(page,/\.tasks-scroll\{[^}]*overflow-y:auto/s,'only inner list scrolls');
 
