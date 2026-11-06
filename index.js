@@ -1553,7 +1553,7 @@ body.long-choice-active{overflow:hidden}
 .education-math-actions button:first-child{grid-column:1/-1}
 .education-chat-return{display:block;width:100%;min-height:40px;flex:0 0 auto;margin:0!important;padding:8px 12px!important;font-size:clamp(12px,3.2vw,15px)!important;text-align:left}
 .education-chat-return[hidden]{display:none!important}
-#view-module.learning-math #moduleChatHost{display:none!important}
+#view-module.learning-active.learning-math #moduleChatHost{display:none!important;max-height:0!important;min-height:0!important;overflow:hidden!important}
 #view-module.learning-math #askModuleBtn{display:none!important}
 #view-module.learning-math .education-toolbar{margin:0!important}
 #view-module.learning-math .education-toolbar .secondary-btn{
@@ -6480,7 +6480,7 @@ function mathSplitExercises(source){
   if(/^(?:exerci[țt]iu|exercises?|probleme|problems?)\\s*:?\\s*$/iu.test(line))continue;
   const numbered=/^\\d{1,2}\\s*[.)]\\s*\\S/u.test(line);
   const unnumbered=line.replace(/^(?:\\d{1,2}\\s*[.)]|\\))\\s*/, '').trim();
-  const instruction=/^(?:rezolv(?:[ăa]|are)?|reprezint(?:[ăa])?|deseneaz(?:[ăa])?|calculeaz(?:[ăa])?|determina|determin[ăa]|afl[ăa]|construie[șs]te|solve|graph|plot|draw|calculate|find)\\b/iu.test(unnumbered);
+  const instruction=/^(?:rezolv(?:[ăa]|are)?|reprezint(?:[ăa])?|deseneaz(?:[ăa])?|calculeaz(?:[ăa])?|determina|determin[ăa]|afl[ăa]|construie[șs]te|solve|graph|plot|draw|calculate|find)(?:\\s|:|$)/iu.test(unnumbered);
   if(current.length&&(numbered||instruction)){
    tasks.push(current.join('\\n').trim());current=[];
   }
