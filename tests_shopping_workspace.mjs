@@ -6,6 +6,13 @@ const page=await(await frontend.fetch(new Request('https://shopping.test/'))).te
 const inline=page.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(inline,'main frontend script must exist');
 new vm.Script(inline);
+
+assert.match(page,/id="pocketUnifiedModal"/,'one reusable Pocket AI dialog is present');
+assert.match(inline,/function pocketConfirm\(/,'confirmations use the shared Pocket AI dialog');
+assert.match(inline,/function pocketEdit\(/,'editing uses the shared Pocket AI dialog');
+assert.doesNotMatch(inline,/\b(?:window\.)?(?:confirm|prompt|alert)\s*\(/,'no unstyled native browser message dialogs');
+assert.match(inline,/const shared=tasksParseSpokenDeadline\(/,'agenda reuses the task date-time parser');
+
 assert.doesNotMatch(inline,/webkitSpeechRecognition|window\.SpeechRecognition|new SpeechRecognition\(/,'no browser speech recognizer in the APK frontend');
 assert.match(inline,/function tasksVoiceStart\(\)[\s\S]*?mode:'tasks'/,'tasks speech uses Android bridge');
 assert.match(inline,/function agendaVoiceStart\(\)[\s\S]*?mode:'agenda'/,'agenda speech uses Android bridge');
