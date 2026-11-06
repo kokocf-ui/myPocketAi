@@ -2530,21 +2530,21 @@ function tasksParseSpokenDeadline(value,now=new Date()){
  const dateWord=normalized.match(/(?:^|\\s)(poimaine|maine|astazi|azi)(?=\\s|$|[,.;:])/u);
  if(!dateWord){
   const months=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
-  const match=normalized.match(/(?:^|[\s,])(\d{1,2})\s+(ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\s+(\d{4}))?(?=$|[\s,.;])/u);
+  const match=original.match(/(?:^|[\\s,])(\\d{1,2})\\s+(ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\\s+(\\d{4}))?(?=$|[\\s,.;])/iu);
   if(!match)return {title,due,time};
-  const day=Number(match[1]),month=months.indexOf(match[2]),year=Number(match[3]||now.getFullYear());
+  const day=Number(match[1]),month=months.indexOf(match[2].toLowerCase()),year=Number(match[3]||now.getFullYear());
   const date=new Date(year,month,day);
   if(date.getFullYear()!==year||date.getMonth()!==month||date.getDate()!==day)return {title,due,time};
   due=[year,String(month+1).padStart(2,'0'),String(day).padStart(2,'0')].join('-');
-  let working=original.replace(new RegExp(match[1]+'\\s+'+match[2]+'(?:\\s+'+(match[3]||'')+')?','iu'),' ');
-  const clock=working.match(/(?:^|[\s,])(?:la\s+)?ora\s+(\d{1,2})(?:[:.](\d{2}))?(?=$|[\s,.;])/iu);
+  let working=original.replace(match[0],' ');
+  const clock=working.match(/(?:^|[\\s,])(?:la\\s+)?ora\\s+(\\d{1,2})(?:[:.](\\d{2}))?(?=$|[\\s,.;])/iu);
   if(clock){
    const hour=Number(clock[1]),minute=Number(clock[2]||0);
    if(hour>23||minute>59)return {title:original,due:'',time:''};
    time=String(hour).padStart(2,'0')+':'+String(minute).padStart(2,'0');
    working=working.replace(clock[0],' ');
   }
-  title=working.replace(/^[\s,.;:]+|[\s,.;:]+$/gu,'').replace(/\s+/g,' ').trim();
+  title=working.replace(/^[\\s,.;:]+|[\\s,.;:]+$/gu,'').replace(/\\s+/g,' ').trim();
   if(!title)return {title:original,due:'',time:''};
   return {title,due,time};
  }
