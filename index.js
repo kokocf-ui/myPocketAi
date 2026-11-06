@@ -3893,7 +3893,7 @@ function renderBudget(){
 
 
 const POCKET_DOCUMENTS_KEY='mypocketai.documents.v1';
-let documentsListening=false,documentsSelectedId=null,documentsFilter=null,documentsEditing=false,documentsScanDraft=null;
+let documentsListening=false,documentsSelectedId=null,documentsFilter=null,documentsEditing=false,documentsScanDraft=null,documentsScanWorking=false;
 function documentsRead(){
  try{const a=JSON.parse(localStorage.getItem(POCKET_DOCUMENTS_KEY)||'[]');return Array.isArray(a)?a.filter(x=>x&&typeof x.id==='string'&&typeof x.title==='string'&&typeof x.expires==='string'):[]}
  catch{return []}
@@ -4072,13 +4072,41 @@ async function documentsPhotoCompress(file){
   return blob;
  }finally{URL.revokeObjectURL(localURL)}
 }
+async function documentsPhotoScan(blob,id){
+ const bridge=window.PocketAndroidDocumentScan;
+ if(!bridge||typeof bridge.postMessage!=='function'){
+  documentsScanWorking=false;
+  notify(learningLabel('OCR disponibil doar în APK-ul actualizat. Fotografia a fost salvată; poți completa datele manual.','OCR requires the updated APK. Photo saved; enter the details manually.'));
+  return;
+ }
+ try{
+  const dataUrl=await new Promise((resolve,reject)=>{
+   const reader=new FileReader();
+   reader.onload=()=>resolve(String(reader.result||''));
+   reader.onerror=()=>reject(new Error('read'));
+   reader.readAsDataURL(blob);
+  });
+  const base64=dataUrl.slice(dataUrl.indexOf(',')+1);
+  if(base64.length<32||base64.length>6_000_000)throw new Error('size');
+  if(documentsSelectedId!==id)return;
+  bridge.postMessage(JSON.stringify({action:'scan',id,base64}));
+ }catch{
+  documentsScanWorking=false;
+  if(documentsSelectedId===id)renderDocuments();
+  notify(learningLabel('Nu am putut transmite fotografia către OCR. Fotografia rămâne salvată.','Could not send photo to OCR. The photo remains saved.'));
+ }
+}
 async function documentsPhotoSave(id,slot,file){
  try{
   const blob=await documentsPhotoCompress(file);
   await documentsPhotoOperation('put',id+':'+slot,blob);
-  if(documentsSelectedId===id)renderDocuments();
+  if(documentsSelectedId===id){
+   documentsScanDraft=null;documentsScanWorking=true;renderDocuments();
+   documentsPhotoScan(blob,id);
+  }
   notify(learningLabel('Fotografia a fost salvată local.','Photo saved locally.'));
  }catch{
+  documentsScanWorking=false;
   notify(learningLabel('Fotografia nu a putut fi salvată. Încearcă un JPG/PNG mai mic.','Could not save photo. Try a smaller JPG/PNG.'));
  }
 }
@@ -4116,11 +4144,7 @@ function documentsPhotoGallery(id,host){
   const file=document.createElement('input');file.type='file';file.accept='image/*';
   file.className='documents-photo-file';file.hidden=true;
   file.onchange=async()=>{if(file.files?.[0])await documentsPhotoSave(id,slot,file.files[0]);file.value=''};
-  const add=budgetButton(learningLabel('Adaugă / scanează','Add / scan'),()=>{
-   if(!window.PocketAndroidDocumentScan?.postMessage){notify(learningLabel('Scanarea automată necesită APK-ul Android actualizat. Poți încărca fotografia și completa datele manual.','Automatic scan requires the updated Android APK. You can still attach a photo and enter details manually.'));}
-   else window.PocketAndroidDocumentScan.postMessage('next');
-   file.click();
-  },'secondary-btn');
+  const add=budgetButton(learningLabel('Adaugă / scanează','Add / scan'),()=>file.click(),'secondary-btn');
   area.append(preview,add,file);grid.append(area);
   documentsPhotoOperation('read',id+':'+slot).then(blob=>{
    if(!blob||!preview.isConnected)return;
@@ -4211,7 +4235,7 @@ function documentsScanExtract(raw){
 }
 function documentsScanReview(host,item){
  if(!documentsScanDraft||documentsScanDraft.id!==item.id)return;
- const draft=documentsScanDraft,form=budgetNode('form','documents-form');
+ const draft=documentsScanDraft,form=budgetNode('form','documents-form documents-scan-review');
  form.append(budgetNode('h3','budget-subtitle',learningLabel('Verifică datele recunoscute','Review recognized fields')));
  form.append(budgetNode('p','budget-advice',learningLabel('OCR poate greși. Corectează înainte de salvare. Câmpurile neidentificate rămân goale.','OCR may be wrong. Correct before saving. Unknown fields remain empty.')));
  if(!Object.keys(draft.fields).length)form.append(budgetNode('p','budget-advice',learningLabel('Niciun câmp sigur recunoscut; completează manual sau fotografiază din nou zona cu date.','No reliable fields recognized; enter details or retake a sharper photo of the data page.')));
@@ -4238,13 +4262,14 @@ function documentsScanReview(host,item){
  form.append(actions);form.onsubmit=e=>{e.preventDefault();confirm.click()};host.append(form);
 }
 if(typeof window!=='undefined')window.pocketAndroidDocumentScanResult=function(payload){
- if(!documentsSelectedId||!payload)return;
- if(payload.status==='started'){notify(learningLabel('Se citesc datele documentului…','Reading document details…'));return}
- if(payload.status!=='success'){notify(learningLabel('Nu s-a putut citi textul din fotografie. Fotografia poate fi păstrată separat.','Could not read text from photo. You may keep the photo separately.'));return}
+ if(!documentsSelectedId||!payload||payload.id!==documentsSelectedId)return;
+ if(payload.status==='started'){documentsScanWorking=true;renderDocuments();return}
+ if(payload.status!=='success'){documentsScanWorking=false;renderDocuments();notify(learningLabel('Scanarea OCR a eșuat. Fotografia a rămas salvată; încearcă din nou sau completează manual.','OCR scan failed. Photo saved; retry or enter details manually.'));return}
  const fields=documentsScanExtract(payload.text);
  if(!Object.keys(fields).length)notify(learningLabel('Nu am identificat câmpuri sigure. Verifică fotografia și completează formularul.','No reliable fields found. Check the photo and fill in the form.'));
 
- documentsScanDraft={id:documentsSelectedId,fields};documentsEditing=false;renderDocuments();
+ documentsScanWorking=false;documentsScanDraft={id:documentsSelectedId,fields};documentsEditing=false;renderDocuments();
+ document.querySelector('.documents-scan-review')?.scrollIntoView({block:'nearest',behavior:'smooth'});
 };
 
 function renderDocuments(){
@@ -4303,8 +4328,9 @@ function renderDocuments(){
   scroll.append(card);
   scroll.append(make('h3','budget-subtitle',learningLabel('Fotografiile documentului','Document photographs')));
   scroll.append(make('p','budget-advice',learningLabel('Atinge fotografia pentru afișare pe întreg ecranul. Poți atașa fața, verso și pagini suplimentare.','Tap a photo to view full screen. Attach front, back and additional pages.')));
-  documentsPhotoGallery(item.id,scroll);
+  if(documentsScanWorking)scroll.append(make('p','budget-advice',learningLabel('Se scanează documentul pe telefon…','Scanning document on your phone…')));
   documentsScanReview(scroll,item);
+  documentsPhotoGallery(item.id,scroll);
   if(item.fields&&Object.keys(item.fields).length){
    const names={number:'Serie / număr',holder:'Nume',given:'Prenume',issued:'Data emiterii',birth:'Data nașterii',country:'Țara',issuer:'Autoritate emitentă'};
    const detailFields=make('div','documents-detail');
