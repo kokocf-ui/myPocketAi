@@ -116,7 +116,12 @@ public final class MainActivity extends ComponentActivity {
             boolean scan=scanNextDocumentPhoto;
             scanNextDocumentPhoto=false;
             callback.onReceiveValue(result.getResultCode()==Activity.RESULT_OK && selected!=null?new Uri[]{selected}:null);
-            if(scan && result.getResultCode()==Activity.RESULT_OK && selected!=null)recognizeDocumentPhoto(selected);
+            if(scan && result.getResultCode()==Activity.RESULT_OK && selected!=null){
+                notifyDocumentScan("started","");
+                recognizeDocumentPhoto(selected);
+            } else if(scan && result.getResultCode()!=Activity.RESULT_OK){
+                notifyDocumentScan("cancelled","");
+            }
             documentCameraUri=null;
         });
 
