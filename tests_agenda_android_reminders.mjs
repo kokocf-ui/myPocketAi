@@ -26,9 +26,10 @@ assert.match(main,/settings\.setAllowContentAccess\(true\)/,'chosen image conten
 const filePaths=readFileSync(root+'res/xml/file_paths.xml','utf8');
 assert.match(filePaths,/document_camera_cache/,'only scoped camera cache is offered');
 
-assert.match(main,/EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS,2200L/,'speech uses natural pause allowance');
-assert.match(main,/EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,1400L/,'speech does not stop on brief pauses');
+assert.match(main,/EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS,mathDictation\?4800L:2200L/,'mathematics has longer silence allowance without changing other modules');
+assert.match(main,/EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,mathDictation\?2600L:1400L/,'mathematics tolerates pauses and other voice modules retain their setting');
 assert.match(main,/EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS,1000L/,'short syllables are not forced to finalize');
+assert.match(main,/"math"\.equals\(speechMode\)\)return/,'mathematics is excluded from the 1.1-second early stop');
 assert.match(main,/"budget"\.equals\(speechMode\)/,'budget voice is excluded from custom 1.1-second stop');
 assert.match(alarms,/setAndAllowWhileIdle/);
 assert.match(alarms,/event\.minusMinutes\(minutes\)/);
