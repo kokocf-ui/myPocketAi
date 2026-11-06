@@ -63,6 +63,16 @@ assert.match(inline,/if\(key==='calendar'\)\{renderAgenda\(\);return\}/);
 assert.match(inline,/if\(agendaVoiceHandleAndroid\(data\)\)return/);
 assert.match(inline,/className='primary-btn agenda-microphone'/);
 assert.match(inline,/panel\.insertBefore\(mic,scroll\)/,'agenda microphone stays outside scrolling list');
+
+assert.match(inline,/if\(cat\[0\]!=='calendar'\)panel\.append\(bar\)/,'agenda hides redundant category toolbar');
+assert.match(inline,/function pocketVoiceHelp\(mode,title\)/,'shared voice command guide exists');
+assert.match(inline,/pocketVoiceHelp\('agenda',\$\('moduleTitle'\)\)/,'agenda guide attached to title');
+assert.match(inline,/pocketVoiceHelp\('shopping',\$\('moduleTitle'\)\)/,'shopping guide attached to title');
+assert.match(inline,/pocketVoiceHelp\('assistant',document\.querySelector/,'assistant uses the same voice guide');
+assert.match(inline,/dialog\.showModal\(\)/,'voice help opens as an overlay without leaving module');
+assert.match(page,/grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/,'calendar view selectors use four equal adaptive columns');
+assert.match(page,/grid-template-columns:minmax\(2\.5rem,auto\) minmax\(0,1fr\) minmax\(2\.5rem,auto\) minmax\(4\.5rem,auto\)/,'calendar navigation row has balanced controls');
+
 assert.doesNotMatch(inline,/mic\.onclick=\(\)=>agendaVoiceStart\(\);scroll\.append\(mic\)/,'do not put agenda microphone inside scroll area');
 const agendaCss=page.match(/<style id="agenda-voice-workspace">([\s\S]*?)<\/style>/)?.[1];
 assert.ok(agendaCss,'agenda stylesheet exists');
