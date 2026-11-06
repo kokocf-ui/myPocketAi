@@ -2698,7 +2698,7 @@ function openOrganizeCategory(key){
  if(key==='reminders'){renderReminders();return}
  if(key==='notes'){renderNotes();return}
  if(key==='daily'){renderDailyPlan();return}
- if(key==='budget'){renderBudget();return}
+ if(key==='budget'){budgetGeoAsked=false;budgetScreen='home';renderBudget();return}
  const panel=organizePanel(cat);
  const p=document.createElement('p');p.textContent=learningLabel(cat[4],cat[5]);panel.append(p);
  const button=document.createElement('button');button.type='button';button.className='primary-btn';
@@ -3272,11 +3272,12 @@ async function budgetExchangeRate(from,to,date=''){
   !/^\\d{4}-\\d{2}-\\d{2}$/.test(String(result.date||'')))throw Error('Invalid rate response');
  return {rate:Number(result.rate),date:String(result.date),source:'Frankfurter'};
 }
+function budgetIsActive(){return $('view-module').classList.contains('organize-active')&&$('moduleTitle').textContent===learningLabel('Buget personal','Personal budget')}
 async function budgetFxLoad(){
  budgetFxError='';budgetFxRate=null;budgetFxBusy=true;renderBudget();
  try{budgetFxRate=await budgetExchangeRate(budgetFxFrom,budgetFxTo)}
  catch{budgetFxError=learningLabel('Curs indisponibil. Verifică internetul și monedele alese.','Rate unavailable. Check your connection and currencies.')}
- finally{budgetFxBusy=false;renderBudget()}
+ finally{budgetFxBusy=false;if(budgetIsActive())renderBudget()}
 }
 function budgetMonthly(entries,day=new Date()){
  const key=day.getFullYear()+'-'+String(day.getMonth()+1).padStart(2,'0');
@@ -3322,7 +3323,7 @@ async function budgetAddEntry(details){
   category:details.category||budgetCategory(title),createdAt:new Date().toISOString()});
  data.currencyLocked=true;
  if(!budgetWrite(data))return false;
- budgetScreen='home';renderBudget();return true;
+ budgetScreen='home';if(budgetIsActive())renderBudget();return true;
 }
 function budgetVoiceStop(){
  if(!budgetVoiceListening)return;
