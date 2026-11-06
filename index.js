@@ -2571,7 +2571,7 @@ function tasksRepairLegacyVoiceDates(){
  if(changed&&tasksWrite(all))for(const task of all)if(task.source==='voice'&&task.due)tasksToAgenda(task,true);
 }
 function tasksCreate(title,goal=false,due='',priority='normal',fromVoice=false,time=''){
- title=String(title||'').trim();if(!title)return false;
+ title=String(title||'').trim();if(!title||!/[\\p{L}\\p{N}]/u.test(title))return false;
  const data=tasksRead(),item={id:shopId(),title:title.slice(0,140),goal,priority,due,time,source:fromVoice?'voice':'manual',done:false,archived:false,createdAt:new Date().toISOString()};
  data.push(item);
  if(!tasksWrite(data))return false;
@@ -2746,7 +2746,7 @@ function renderTasks(){
   if(!filtered.length)list.append(el('p','',learningLabel('Nu există încă înregistrări aici.','No entries here yet.')));
   for(const item of filtered){
    const row=el('div','tasks-item'),content=el('div','tasks-item-text');
-   content.append(el('strong','',item.title),el('small','',tasksDueLabel(item.due)+(item.time?' · '+item.time:'')+' · '+learningLabel('Prioritate','Priority')+': '+item.priority));
+   content.append(el('strong','',/[\\p{L}\\p{N}]/u.test(item.title)?item.title:learningLabel('Denumire neclară — folosește Modifică','Unclear title — use Edit')),el('small','',tasksDueLabel(item.due)+(item.time?' · '+item.time:'')+' · '+learningLabel('Prioritate','Priority')+': '+item.priority));
    const buttons=el('div','tasks-actions');
    if(archive){
     buttons.append(btn(learningLabel('Restabilește','Restore'),()=>{tasksUpdate(item.id,{done:false,archived:false});renderTasks()}));
