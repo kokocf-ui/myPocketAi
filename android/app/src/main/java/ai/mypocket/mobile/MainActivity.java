@@ -156,7 +156,10 @@ public final class MainActivity extends ComponentActivity {
         if(!nativeListening || recognized==null || recognized.trim().isEmpty())return;
         // Dictation should remain manual. Conversational voice and exit commands
         // finish shortly after the last *changed* partial result.
-        if("dictation".equals(speechMode))return;
+        if("dictation".equals(speechMode) || "budget".equals(speechMode) ||
+           "agenda".equals(speechMode) || "tasks".equals(speechMode) ||
+           "reminders".equals(speechMode) || "notes".equals(speechMode) ||
+           "daily".equals(speechMode) || "shopping".equals(speechMode))return;
         String normalized=recognized.trim();
         if(normalized.equals(lastVoicePartial))return;
         lastVoicePartial=normalized;
@@ -207,9 +210,9 @@ public final class MainActivity extends ComponentActivity {
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,pendingSpeechLocale);
             intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS,true);
-            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS,650L);
-            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,450L);
-            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS,450L);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS,3000L);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,2000L);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS,1400L);
             nativeListening=true;
             speechRecognizer.startListening(intent);
         }catch(Exception ex){nativeListening=false;releaseRecognizer();notifyVoice("error","Speech recognizer unavailable",speechMode);}
