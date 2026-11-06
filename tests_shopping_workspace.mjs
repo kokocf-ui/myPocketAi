@@ -216,6 +216,7 @@ assert.match(agendaCss,/\.agenda-workspace\{[^}]*grid-template-rows:auto minmax\
 assert.match(inline,/all\.slice\(\)\.sort\(\(a,b\)=>agendaNextDate\(a\)-agendaNextDate\(b\)\)/,'all events sorted by next occurrence, including annual birthdays');
 assert.doesNotMatch(inline.slice(agendaStart,agendaEnd),/SHOPPING_STORAGE_KEY/,'agenda cannot overwrite shopping lists');
 const ctxAgenda=vm.createContext({Date,Math,Intl,learningLabel:(ro,en)=>ro,shopVoiceFold:s=>String(s).normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim(),localStorage:{getItem:()=>null,setItem:()=>{}},state:{language:'ro'},shopId:()=> 'abc',window:{},document:{}});
+vm.runInContext(taskParserCode,ctxAgenda);
 vm.runInContext(inline.slice(agendaStart,agendaEnd),ctxAgenda);
 const agendaEval=expr=>vm.runInContext(expr,ctxAgenda);
 const fixedDay=new Date('2026-11-05T12:00:00');
