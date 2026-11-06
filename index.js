@@ -2261,6 +2261,7 @@ function pocketVoiceHelp(mode,title){
   ]
  }[mode];
  if(!examples||!title)return;
+ title.parentElement?.querySelector('.pocket-voice-info')?.remove();
  title.querySelector('.pocket-voice-info')?.remove();
  const icon=document.createElement('button');icon.type='button';icon.className='pocket-voice-info';
  icon.textContent='ⓘ';icon.setAttribute('aria-label',learningLabel('Ghid comenzi vocale','Voice command guide'));
@@ -2285,7 +2286,8 @@ function pocketVoiceHelp(mode,title){
   dialog.addEventListener('close',()=>dialog.remove(),{once:true});
   document.body.append(dialog);dialog.showModal();
  };
- title.append(icon);
+ if(mode==='assistant')title.append(icon);
+ else title.parentElement?.append(icon);
 }
 function organizePanel(cat){
  const root=$('view-module'),host=$('moduleContent');root.classList.remove('organize-choose','organize-chat','adaptive-workspace-view');root.classList.add('organize-active');host.replaceChildren();
@@ -2324,7 +2326,7 @@ function openOrganizeCategory(key){
 /* Calendar workspace: separate storage and speech state from shopping lists.
    No background alarms are promised: this first iteration is a local agenda. */
 const POCKET_AGENDA_KEY='mypocketai.agenda.v1';
-let agendaListening=false,agendaSpeech=null,agendaPendingDelete=null,agendaBirthdayEdit=null;
+let agendaListening=false,agendaSpeech=null,agendaPendingDelete=null,agendaBirthdayEdit=null,agendaRetryCount=0;
 function agendaRead(){
  try{return (JSON.parse(localStorage.getItem(POCKET_AGENDA_KEY)||'[]')||[]).filter(e=>e&&typeof e.title==='string'&&(agendaIsBirthday(e)||Number.isFinite(Date.parse(e.when))))}catch{return []}
 }
@@ -2458,34 +2460,63 @@ function agendaVoiceCommand(text){
  events.push({id:shopId(),title,when:parsed.when,reminderPreset:agendaReminderPreset(title),createdAt:new Date().toISOString()});
  if(agendaWrite(events)){renderAgenda();notify(learningLabel('Programare salvată: ','Appointment saved: ')+title)}
 }
+function agendaSpeechStatus(message){
+ const label=document.querySelector('.agenda-speech-state');
+ if(label)label.textContent=message||'';
+ const mic=document.querySelector('.agenda-microphone');
+ if(mic){mic.setAttribute('aria-pressed',agendaListening?'true':'false');mic.classList.toggle('is-listening',agendaListening)}
+}
 function agendaVoiceFinish(transcript){
  agendaListening=false;
  if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
  if(agendaSpeech){try{agendaSpeech.onend=null;agendaSpeech.onresult=null;agendaSpeech.abort()}catch{}agendaSpeech=null}
- if(transcript)agendaVoiceCommand(transcript);else renderAgenda();
+ agendaSpeechStatus('');
+ const recognized=String(transcript||'').trim();
+ if(recognized)agendaVoiceCommand(recognized);
+ else notify(learningLabel('Nu am auzit o comandă. Apasă din nou microfonul și vorbește clar.','No speech recognized. Tap the microphone and try again.'));
 }
 function agendaVoiceStart(){
  if(agendaListening){agendaVoiceFinish('');return}
- agendaListening=true;
- const status=document.querySelector('.agenda-speech-state');
- if(status)status.textContent=learningLabel('Te ascult…','Listening…');
+ if(state.speaking){notify(learningLabel('Încheie mai întâi redarea vocală.','Finish voice playback first.'));return}
+ agendaListening=true;agendaRetryCount=0;
+ agendaSpeechStatus(learningLabel('Microfon activ — vorbește acum…','Microphone active — speak now…'));
  if(pocketNativeVoiceAvailable()){
-  if(!pocketNativeVoiceSend({action:'listen',mode:'agenda',language:shopVoiceLanguage()}))agendaVoiceFinish('');
+  if(!pocketNativeVoiceSend({action:'listen',mode:'agenda',language:shopVoiceLanguage()})){
+   agendaListening=false;agendaSpeechStatus('');
+   notify(learningLabel('Nu am putut porni microfonul Android.','Unable to start Android microphone.'));
+  }
   return;
  }
  const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!Recognition){agendaVoiceFinish('');notify(learningLabel('Microfonul nu este disponibil.','Microphone unavailable.'));return}
- const rec=new Recognition();agendaSpeech=rec;rec.lang=shopVoiceLanguage();rec.continuous=false;rec.interimResults=false;
- rec.onresult=e=>agendaVoiceFinish(String(e.results?.[0]?.[0]?.transcript||''));
- rec.onerror=()=>{agendaVoiceFinish('');notify(learningLabel('Dictarea a fost întreruptă.','Speech recognition interrupted.'))};
- rec.onend=()=>{if(agendaListening)agendaVoiceFinish('')};
- try{rec.start()}catch{agendaVoiceFinish('')}
+ if(!Recognition){agendaListening=false;agendaSpeechStatus('');notify(learningLabel('Microfonul nu este disponibil.','Microphone unavailable.'));return}
+ const rec=new Recognition();agendaSpeech=rec;rec.lang=shopVoiceLanguage();rec.continuous=false;rec.interimResults=true;
+ rec.onresult=e=>{
+  const result=e.results?.[e.resultIndex||0];
+  const heard=String(result?.[0]?.transcript||'').trim();
+  if(!heard)return;
+  if(result.isFinal)agendaVoiceFinish(heard);
+  else agendaSpeechStatus(learningLabel('Aud: ','Hearing: ')+heard);
+ };
+ rec.onerror=e=>{if(agendaListening){agendaListening=false;agendaSpeechStatus('');notify(learningLabel('Dictarea a fost întreruptă: ','Speech recognition interrupted: ')+String(e.error||''))}};
+ rec.onend=()=>{if(agendaListening){agendaListening=false;agendaSpeechStatus('');notify(learningLabel('Nu am primit o comandă vocală.','No voice command received.'))}};
+ try{rec.start()}catch{agendaListening=false;agendaSpeechStatus('');notify(learningLabel('Microfonul nu a pornit.','Microphone could not start.'))}
 }
 function agendaVoiceHandleAndroid(data){
  if(data?.mode!=='agenda')return false;
  if(!agendaListening)return true;
+ if(data.status==='listening'){agendaSpeechStatus(learningLabel('Te ascult…','Listening…'));return true}
+ if(data.status==='partial'){agendaSpeechStatus(learningLabel('Aud: ','Hearing: ')+String(data.text||''));return true}
  if(data.status==='recognized'){agendaVoiceFinish(String(data.text||''));return true}
- if(data.status==='error'){agendaVoiceFinish('');notify(learningLabel('Microfonul a fost întrerupt.','Microphone interrupted.'))}
+ if(data.status==='error'){
+  const message=String(data.text||'');
+  if(agendaRetryCount<2&&/error (?:6|7|8)|timeout|no.match/iu.test(message)){
+   agendaRetryCount++;
+   agendaSpeechStatus(learningLabel('Reîncerc ascultarea…','Retrying microphone…'));
+   if(pocketNativeVoiceSend({action:'listen',mode:'agenda',language:shopVoiceLanguage()}))return true;
+  }
+  agendaListening=false;agendaSpeechStatus('');
+  notify(learningLabel('Microfonul a fost întrerupt. Încearcă din nou.','Microphone interrupted. Please try again.'));
+ }
  return true;
 }
 let agendaView='month',agendaCursor=new Date(),agendaSelectedId=null,agendaEditing=false,agendaVoiceMatches=null;
@@ -2528,6 +2559,9 @@ function renderAgenda(){
  const mic=document.createElement('button');mic.type='button';mic.className='primary-btn agenda-microphone';
  mic.textContent='🎙 '+learningLabel('Spune o programare','Speak an appointment');
  mic.onclick=()=>agendaVoiceStart();panel.insertBefore(mic,scroll);
+ const voiceStatus=document.createElement('small');voiceStatus.className='agenda-speech-state';
+ voiceStatus.setAttribute('role','status');voiceStatus.setAttribute('aria-live','polite');panel.insertBefore(voiceStatus,scroll);
+ agendaSpeechStatus('');
  const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
  const all=agendaRead();
  const element=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e};
@@ -2538,7 +2572,8 @@ function renderAgenda(){
  const selected=all.find(x=>x.id===agendaSelectedId);
  if(selected){
   const detail=element('section','agenda-detail');
-  detail.append(button(learningLabel('← Înapoi la calendar','← Back to calendar'),close));
+  const returnButton=button(learningLabel('← Înapoi la calendar','← Back to calendar'),close);
+  returnButton.classList.add('agenda-detail-back');detail.append(returnButton);
   detail.append(element('h3','',agendaIsBirthday(selected)?'🎂 '+selected.title:selected.title));
   const birthday=agendaIsBirthday(selected);
   const date=agendaLocalDate(selected,agendaCursor.getFullYear());
@@ -2614,7 +2649,7 @@ function renderAgenda(){
   }
   scroll.append(detail);return;
  }
- const hint=element('small','agenda-speech-state',learningLabel('Ex.: „Adaugă ziua de naștere a lui Andrei pe 12 mai”','E.g. “Add Andrei’s birthday on 12 May”'));scroll.append(hint);
+ const hint=element('small','agenda-command-example',learningLabel('Ex.: „Adaugă ziua de naștere a lui Andrei pe 12 mai”','E.g. “Add Andrei’s birthday on 12 May”'));scroll.append(hint);
  const toolbar=element('div','agenda-calendar-toolbar');
  for(const [view,ro,en] of [['month','Lună','Month'],['week','Săptămână','Week'],['day','Zi','Day'],['all','Toate','All']]){
   const control=button(learningLabel(ro,en),()=>{agendaView=view;agendaVoiceMatches=null;renderAgenda()},agendaView===view?'primary-btn':'secondary-btn');
