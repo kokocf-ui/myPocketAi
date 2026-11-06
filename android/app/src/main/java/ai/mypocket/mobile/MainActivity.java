@@ -227,7 +227,8 @@ public final class MainActivity extends ComponentActivity {
                 @Override public void onResults(Bundle results){
                     cancelVoiceEndpoint();nativeListening=false;
                     ArrayList<String> values=results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                    notifyVoice("recognized",values!=null&&!values.isEmpty()?values.get(0):"",speechMode);
+                    notifyVoice("recognized",values!=null&&!values.isEmpty()?values.get(0):"",speechMode,
+                        "math".equals(speechMode)?values:null);
                     releaseRecognizer();
                 }
                 @Override public void onError(int error){
@@ -243,6 +244,9 @@ public final class MainActivity extends ComponentActivity {
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,pendingSpeechLocale);
             intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS,true);
+            // Request alternative math transcripts: the top hypothesis can omit "-1".
+            // Only mathematical dictation reads these alternatives.
+            if("math".equals(speechMode))intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
             // Mathematics contains spoken brackets, operators and numbers. Allow
             // natural pauses before Android produces a partial/final result.
             // Some recognizers ignore these hints, so the web session restarts
@@ -283,12 +287,24 @@ public final class MainActivity extends ComponentActivity {
     }
 
     private void notifyVoice(String status,String value,String mode) {
+        notifyVoice(status,value,mode,null);
+    }
+    private void notifyVoice(String status,String value,String mode,ArrayList<String> alternatives) {
         try {
             JSONObject data=new JSONObject();
             data.put("status",status);
             data.put("text",value);
             data.put("mode",mode);
-            String js="window.pocketAndroidVoiceResult && window.pocketAndroidVoiceResult("+data.toString()+");";
+            if("math".equals(mode)&&alternatives!=null){
+                JSONArray choices=new JSONArray();
+                for(int i=0;i<Math.min(5,alternatives.size());i++){
+                    String candidate=alternatives.get(i);
+                    if(candidate!=null&&!candidate.trim().isEmpty())
+                        choices.put(candidate.length()>3500?candidate.substring(0,3500):candidate);
+                }
+                data.put("alternatives",choices);
+            }
+            String js="window.pocketAndroidVoiceResult && window.pocketAndroidVoiceResult("+data.toString()+");" ;
             runOnUiThread(()->{
                 if(web!=null && APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost()))
                     web.evaluateJavascript(js,null);

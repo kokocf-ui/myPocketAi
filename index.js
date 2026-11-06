@@ -6553,6 +6553,7 @@ function mathVoiceWatchdog(session){
 function mathVoiceListen(session){
  if(!session?.active||mathVoiceSession!==session)return;
  session.captureId=(session.captureId||0)+1;
+ session.mathNegativePartials=[];
  mathVoiceStatus(learningLabel('Te ascult… Dictează exercițiul; poți face pauze.','Listening… Dictate the exercise; pauses are fine.'));
  mathVoiceWatchdog(session);
  if(!pocketNativeVoiceSend({action:'listen',mode:'math',language:session.locale})){
@@ -6585,10 +6586,11 @@ function mathVoiceAccept(text,session){
    if(!original)return false;
   }
  }
- const formula=mathSpokenToFormula(original);
  const editor=$('mathEducationText');
- if(!editor||!formula)return false;
+ if(!editor)return false;
  const existing=editor.value.trim();
+ const formula=mathSpokenToFormula(original,existing);
+ if(!formula)return false;
  const newExercise=/^(?:exerci[țt]iul?|problema)\\s+\\d+/iu.test(original);
  editor.value=((existing?existing+(newExercise?'\\n':' '):'')+formula)
   .replace(/(^|[([{=+*/])\\s*-\\s+(\\d+(?:[.,]\\d+)?)/g,'$1 -$2');
@@ -6597,7 +6599,7 @@ function mathVoiceAccept(text,session){
  session.lastAcceptedCapture=session.captureId;
  return true;
 }
-function mathSpokenToFormula(input){
+function mathSpokenToFormula(input,existing=''){
  const original=collapseRepeatedVoiceWords(String(input||'').trim());
  if(!original)return '';
  const fold=v=>v.normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
@@ -6614,18 +6616,22 @@ function mathSpokenToFormula(input){
  const isolatedNumber=new RegExp('^(?:'+Object.keys(words).join('|')+')(?:\\\\s+si\\\\s+(?:'+Object.keys(words).join('|')+'))?$').test(v);
  const mathIntent=/(?:\\b(?:egal|plus|minus|negativ\\w*|ori|inmult\\w*|impart\\w*|parantez\\w*|acolad\\w*|patrat|cub|putere\\w*|supra|funct\\w*|ecuat\\w*|radical)\\b|[=+*/()[\\]{}^×÷−–-])/u.test(v);
  if(!mathIntent&&!isolatedNumber)return original;
- // Speech-to-text may turn the spoken name of a bracket into BOTH glyphs.
- // Bare pairs imply opening; "închisă" implies closing.
+ // The speech engine may return "paranteză" twice (without saying "închide"),
+ // or convert its spoken name into the pair "()". Record ambiguous commands
+ // until we can inspect the mathematical expression around them.
  v=v.replace(/[−–]/g,'-');
  v=v.replace(/(\\(\\)|\\[\\]|\\{\\})(?:\\s*[,;:]?\\s*(deschisa|inchisa)\\b)?/g,(_,pair,position)=>{
-  const shape=pair==='()'?['(',')']:pair==='[]'?['[',']']:['{','}'];
-  return shape[Number(position==='inchisa')];
+  if(position==='inchisa')return pair[1];
+  if(position==='deschisa')return pair[0];
+  return pair==='()'?'\\uE000':pair==='[]'?'\\uE001':'\\uE002';
  });
- // Plain "paranteză" opens; a spoken type chooses (), [] or {}.
+ // Named brackets retain their explicit meaning. A bare "paranteză" is
+ // resolved as open/close using actual surrounding math, even across chunks.
  v=v.replace(/\\b(?:(deschide|deschid|deschideti|inchide|inchid|inchideti)\\s+(?:o\\s+)?)?(parantez(?:a|e)(?:\\s+(?:rotunda|rotunde|patrata|patrate|dreapta|drepte))?|acolad(?:a|e))(?:\\s*[,;:]?\\s*(deschisa|inchisa))?\\b/g,
    (_,action,spokenShape,position)=>{
     const closing=Boolean(action?.startsWith('inchid')||position==='inchisa');
     const shape=spokenShape.startsWith('acolad')?['{','}']:/patrat|dreapt/.test(spokenShape)?['[',']']:['(',')'];
+    if(!action&&!position&&(spokenShape==='paranteza'||spokenShape==='paranteze'))return '\\uE000';
     return shape[Number(closing)];
    });
  v=v.replace(/\\b(?:la|ridicat la)\\s+patrat\\b/g,'^2')
@@ -6642,7 +6648,49 @@ function mathSpokenToFormula(input){
  v=v.replace(/\\b([2-9]0)\\s+si\\s+([1-9])\\b/g,(_,t,o)=>String(Number(t)+Number(o)));
  // Keep unary negatives together, including "minus" and "unu" in separate chunks.
  v=v.replace(/(^|[([{=+*/])\\s*-\\s+(\\d+(?:[.,]\\d+)?)/g,'$1 -$2');
+ // An unnamed bracket follows the mathematical grammar:
+ // with an unmatched opener and a completed operand before it => close;
+ // after an operator or another opening bracket => open.
+ // Use already dictated text to resolve chunks split by Android.
+ let consumed=String(existing||''),cursor=0;
+ v=v.replace(/[\\uE000-\\uE002]/g,(marker,pos,whole)=>{
+  consumed+=whole.slice(cursor,pos);cursor=pos+marker.length;
+  const pair=marker==='\\uE001'?['[',']']:marker==='\\uE002'?['{','}']:['(',')'];
+  let depth=0;
+  for(const symbol of consumed){
+   if(symbol===pair[0])depth++;
+   else if(symbol===pair[1])depth=Math.max(0,depth-1);
+  }
+  const last=consumed.trimEnd().slice(-1);
+  const completed=/[0-9a-z)\\]}]/i.test(last);
+  const replacement=depth>0&&completed?pair[1]:pair[0];
+  consumed+=replacement;
+  return replacement;
+ });
  return v.replace(/\\s+/g,' ').trim();
+}
+// Prefer a recognizer hypothesis that explicitly preserves a unary "-1"
+// when it otherwise describes the SAME mathematical expression. Never infer
+// a sign solely from an equation or from a positive "1".
+function mathVoiceChooseTranscript(primary, alternatives, existing=''){
+ const first=String(primary||'').trim();
+ if(!first||!Array.isArray(alternatives))return first;
+ const compact=value=>mathSpokenToFormula(value,existing).replace(/\\s+/g,'');
+ const baseline=compact(first);
+ const stripUnaryMinus=value=>{
+  let corrected=value;
+  for(const operator of ['*','/','(','[','{','=','+'])
+   corrected=corrected.split(operator+'-').join(operator);
+  return corrected;
+ };
+ for(const candidate of alternatives.slice(0,8)){
+  const raw=String(candidate||'').trim();
+  if(!raw||raw===first)continue;
+  const next=compact(raw);
+  if(next!==baseline && stripUnaryMinus(next)===baseline && next!==stripUnaryMinus(next))
+   return raw;
+ }
+ return first;
 }
 function mathVoiceHandleAndroid(data){
  if(data?.mode!=='math')return false;
@@ -6657,14 +6705,26 @@ function mathVoiceHandleAndroid(data){
  if(data.status==='partial'){
   session.missed=0;
   session.partial=String(data.text||'').trim();
+  if(/(?:\\bminus\\b|\\bnegativ\\w*\\b|\\*\\s*-\\s*\\d)/iu.test(session.partial)){
+   session.mathNegativePartials=session.mathNegativePartials||[];
+   if(!session.mathNegativePartials.includes(session.partial))
+    session.mathNegativePartials.push(session.partial);
+   session.mathNegativePartials=session.mathNegativePartials.slice(-5);
+  }
   mathVoiceWatchdog(session);
   mathVoiceStatus(learningLabel('Aud: ','Hearing: ')+session.partial.slice(0,120));
   return true;
  }
  if(data.status==='recognized'){
   mathVoiceClearTimers(session);
-  mathVoiceAccept(data.text||session.partial,session);
-  session.partial='';session.missed=0;session.retries=0;
+  const candidates=[...(Array.isArray(data.alternatives)?data.alternatives:[]),...(session.mathNegativePartials||[])];
+  const chosen=mathVoiceChooseTranscript(data.text||session.partial,candidates,$('mathEducationText')?.value||'');
+  const possiblyLostMinus=chosen===String(data.text||session.partial).trim() &&
+    (session.mathNegativePartials||[]).length>0 &&
+    !/(?:\\bminus\\b|\\bnegativ\\w*\\b|\\*\\s*-\\s*\\d)/iu.test(chosen);
+  mathVoiceAccept(chosen,session);
+  session.partial='';session.mathNegativePartials=[];session.missed=0;session.retries=0;
+  if(possiblyLostMinus)mathVoiceStatus(learningLabel('Verifică semnul minus: Android l-a auzit parțial, dar nu l-a confirmat.','Check the minus sign: Android heard it partially but did not confirm it.'));
   // Like Organize/Shopping: one Android recognition chunk is NOT the
   // end of dictation. Keep listening until the user taps Dictare again.
   mathVoiceRestart(session,450);
