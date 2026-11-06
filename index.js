@@ -3886,8 +3886,8 @@ function documentsWrite(items){
 }
 function documentsDate(text){
  const t=shopVoiceFold(text),months=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
- const m=t.match(/(?:^|\s)(\d{1,2})\s+(ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\s+(\d{4}))?(?=\s|$|[,.!?])/);
- const numeric=t.match(/(?:^|\s)(\d{1,2})[./-](\d{1,2})[./-](\d{4})(?=\s|$|[,.!?])/);
+ const m=t.match(/(?:^|\\s)(\\d{1,2})\\s+(ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\\s+(\\d{4}))?(?=\\s|$|[,.!?])/);
+ const numeric=t.match(/(?:^|\\s)(\\d{1,2})[./-](\\d{1,2})[./-](\\d{4})(?=\\s|$|[,.!?])/);
  if(!m&&!numeric)return null;
  const day=Number(m?m[1]:numeric[1]),month=m?months.indexOf(m[2]):Number(numeric[2])-1,year=Number((m?m[3]:numeric[3])||new Date().getFullYear()),d=new Date(year,month,day);
  return d.getFullYear()===year&&d.getMonth()===month&&d.getDate()===day?budgetISO(d):null;
@@ -3896,24 +3896,24 @@ function documentsParseVoice(raw){
  const date=documentsDate(raw);
  if(!date)return null;
  const t=shopVoiceFold(raw);
- let title=t.replace(/(?:^|\s)\d{1,2}\s+(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\s+\d{4})?(?=\s|$|[,.!?])/,' ')
-  .replace(/(?:^|\s)\d{1,2}[./-]\d{1,2}[./-]\d{4}(?=\s|$|[,.!?])/,' ')
-  .replace(/^(?:adauga|inregistreaza|salveaza|noteaza|add|save)\s+/,'')
-  .replace(/\b(?:documentul|actul|expira|valabil|pana|la|pe|data|de)\b/g,' ').replace(/[,.!?;:]/g,' ').replace(/\s+/g,' ').trim();
+ let title=t.replace(/(?:^|\\s)\\d{1,2}\\s+(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\\s+\\d{4})?(?=\\s|$|[,.!?])/,' ')
+  .replace(/(?:^|\\s)\\d{1,2}[./-]\\d{1,2}[./-]\\d{4}(?=\\s|$|[,.!?])/,' ')
+  .replace(/^(?:adauga|inregistreaza|salveaza|noteaza|add|save)\\s+/,'')
+  .replace(/\\b(?:documentul|actul|expira|valabil|pana|la|pe|data|de)\\b/g,' ').replace(/[,.!?;:]/g,' ').replace(/\\s+/g,' ').trim();
  if(title==='pasaportul')title='pașaport';
  if(title==='permisul')title='permis';
  if(title==='buletinul')title='buletin';
  return title.length>=3?{title,expires:date}:null;
 }
 function documentsFind(query){
- const needle=shopVoiceFold(query).replace(/^(?:documentul|actul)\s+/,'').trim();
+ const needle=shopVoiceFold(query).replace(/^(?:documentul|actul)\\s+/,'').trim();
  const matches=documentsRead().filter(x=>shopVoiceFold(x.title)===needle||shopVoiceFold(x.title).includes(needle)||needle.includes(shopVoiceFold(x.title)));
  return matches.length===1?matches[0]:null;
 }
 function documentsSave(title,expires,id=null){
  title=String(title||'').trim().slice(0,100);
  const d=new Date(String(expires)+'T12:00:00');
- if(!title||!/^\d{4}-\d{2}-\d{2}$/.test(expires)||Number.isNaN(d.getTime())||budgetISO(d)!==expires){
+ if(!title||!/^\\d{4}-\\d{2}-\\d{2}$/.test(expires)||Number.isNaN(d.getTime())||budgetISO(d)!==expires){
   notify(learningLabel('Introdu un nume și o dată validă.','Enter a name and valid date.'));return false;
  }
  const all=documentsRead(),i=all.findIndex(x=>x.id===id),now=new Date().toISOString();
@@ -3949,7 +3949,7 @@ function documentsVoiceHandleAndroid(data){
 function documentsVoiceCommand(raw){
  const spoken=shopVoiceFold(raw);
  if(!spoken)return;
- const remove=spoken.match(/^(?:sterge|elimina|delete|remove)\s+(?:documentul\s+|actul\s+)?(.+)$/);
+ const remove=spoken.match(/^(?:sterge|elimina|delete|remove)\\s+(?:documentul\\s+|actul\\s+)?(.+)$/);
  if(remove){
   const item=documentsFind(remove[1]);
   if(!item){notify(learningLabel('Documentul nu a fost identificat clar.','Document not uniquely identified.'));return}
@@ -3957,11 +3957,11 @@ function documentsVoiceCommand(raw){
    if(documentsWrite(documentsRead().filter(x=>x.id!==item.id))){documentsSelectedId=null;renderDocuments()}
   });return;
  }
- if(/^(?:ce|care|arata|afiseaza|show|which|what)\b/.test(spoken)&&/\b(?:documente|acte|expira|expirare|expiring|documents)\b/.test(spoken)){
+ if(/^(?:ce|care|arata|afiseaza|show|which|what)\\b/.test(spoken)&&/\\b(?:documente|acte|expira|expirare|expiring|documents)\\b/.test(spoken)){
   documentsFilter=/luna|saptaman|decembrie|ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|next|week|month/.test(spoken)?budgetQueryPeriod(spoken):null;
   documentsSelectedId=null;renderDocuments();return;
  }
- const open=spoken.match(/^(?:arata|deschide|vezi|show|open)\s+(?:documentul\s+|actul\s+)?(.+)$/);
+ const open=spoken.match(/^(?:arata|deschide|vezi|show|open)\\s+(?:documentul\\s+|actul\\s+)?(.+)$/);
  if(open){
   const item=documentsFind(open[1]);
   if(item){documentsSelectedId=item.id;documentsFilter=null;renderDocuments()}
