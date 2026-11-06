@@ -62,6 +62,8 @@ import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import org.json.JSONObject;
+import org.json.JSONArray;
+import android.graphics.Rect;
 
 import java.io.File;
 
@@ -528,7 +530,26 @@ public final class MainActivity extends ComponentActivity {
             var recognizer=TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
             recognizer.process(InputImage.fromBitmap(bitmap,0))
                 .addOnSuccessListener(result->{
-                    notifyDocumentScan("success",result.getText(),docId);
+                    JSONArray lines=new JSONArray();
+                    // ML Kit exposes positions of text lines. Keep this OCR-only data
+                    // on the device and use it to pair labels with their actual values.
+                    for(com.google.mlkit.vision.text.Text.TextBlock block:result.getTextBlocks()){
+                        for(com.google.mlkit.vision.text.Text.Line line:block.getLines()){
+                            if(lines.length()>=150)break;
+                            Rect bounds=line.getBoundingBox();
+                            if(bounds==null)continue;
+                            try{
+                                JSONObject row=new JSONObject();
+                                row.put("text",line.getText());
+                                row.put("left",bounds.left);
+                                row.put("top",bounds.top);
+                                row.put("right",bounds.right);
+                                row.put("bottom",bounds.bottom);
+                                lines.put(row);
+                            }catch(Exception ignored){}
+                        }
+                    }
+                    notifyDocumentScan("success",result.getText(),docId,lines);
                     recognizer.close();bitmap.recycle();
                 })
                 .addOnFailureListener(error->{
@@ -538,9 +559,13 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception error){if(!id.isEmpty())notifyDocumentScan("error","",id);}
     }
     private void notifyDocumentScan(String status,String text,String id){
+        notifyDocumentScan(status,text,id,new JSONArray());
+    }
+    private void notifyDocumentScan(String status,String text,String id,JSONArray lines){
         try{
             JSONObject result=new JSONObject();
             result.put("status",status);result.put("text",text);result.put("id",id);
+            result.put("lines",lines);
             String js="window.pocketAndroidDocumentScanResult && window.pocketAndroidDocumentScanResult("+result.toString()+");";
             runOnUiThread(()->{
                 if(web!=null && APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost()))
