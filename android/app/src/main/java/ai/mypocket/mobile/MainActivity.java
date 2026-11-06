@@ -7,6 +7,11 @@ import android.graphics.Color;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import java.io.IOException;
 import android.util.Base64;
 import android.net.Uri;
 import android.os.Bundle;
@@ -74,6 +79,8 @@ public final class MainActivity extends ComponentActivity {
     private WebView web;
     private Uri cameraUri;
     private boolean waitingForPhoto = false;
+    // This flag is intentionally limited to the Education camera/gallery bridge.
+    private boolean educationMathPhoto=false;
     // User-selected document photos only; the WebView gets one chooser result, not broad file access.
     private ValueCallback<Uri[]> documentPhotoCallback;
     private Uri documentCameraUri;
@@ -394,10 +401,11 @@ public final class MainActivity extends ComponentActivity {
                     runOnUiThread(() -> {
                         if (waitingForPhoto) return;
                         waitingForPhoto=true;
-                        if ("camera".equals(source)) launchCamera();
-                        else if ("gallery".equals(source)) gallery.launch(new PickVisualMediaRequest.Builder()
+                        educationMathPhoto="camera:math".equals(source)||"gallery:math".equals(source);
+                        if ("camera".equals(source)||"camera:math".equals(source)) launchCamera();
+                        else if ("gallery".equals(source)||"gallery:math".equals(source)) gallery.launch(new PickVisualMediaRequest.Builder()
                             .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
-                        else waitingForPhoto=false;
+                        else {waitingForPhoto=false;educationMathPhoto=false;}
                     });
                 });
         }
@@ -488,18 +496,130 @@ public final class MainActivity extends ComponentActivity {
         }
     }
 
+    // ML Kit Latin text recognition is NOT a handwriting/math formula OCR engine.
+    // Use an independent contrast-enhanced pass for Education mathematics and
+    // expose uncertainty to the learner instead of silently accepting fragments.
+    private boolean educationMathPlausible(String text){
+        if(text==null)return false;
+        String raw=text.replaceAll("\\s+","");
+        if(raw.length()<5||raw.length()>800||!raw.matches("(?s).*\\d.*"))return false;
+        int depth=0;
+        for(int i=0;i<raw.length();i++){
+            char c=raw.charAt(i);
+            if(c=='(')depth++;
+            if(c==')'&&--depth<0)return false;
+        }
+        if(depth!=0||raw.matches("(?s).*[=+\\-*/(]$"))return false;
+        if(raw.indexOf('=')>=0){
+            String[] sides=raw.split("=", -1);
+            for(String side:sides)if(side.isEmpty())return false;
+        }
+        return true;
+    }
+    private int educationMathScore(String text){
+        if(text==null)return -9999;
+        String raw=text.replaceAll("\\s+","");
+        int score=educationMathPlausible(raw)?600:0;
+        for(int i=0;i<raw.length();i++){
+            char c=raw.charAt(i);
+            if(Character.isDigit(c))score+=4;
+            else if("xXyYzZ=+-*/()^÷×√".indexOf(c)>=0)score+=3;
+            else if(Character.isLetter(c))score-=3;
+        }
+        score+=Math.min(100,raw.length());
+        return score;
+    }
+    private Bitmap educationEnhancedBitmap(Uri imageUri) throws IOException{
+        BitmapFactory.Options bounds=new BitmapFactory.Options();
+        bounds.inJustDecodeBounds=true;
+        try(InputStream src=getContentResolver().openInputStream(imageUri)){
+            if(src==null)throw new IOException("Image unavailable");
+            BitmapFactory.decodeStream(src,null,bounds);
+        }
+        if(bounds.outWidth<60||bounds.outHeight<60)throw new IOException("Image too small");
+        int maxDimension=Math.max(bounds.outWidth,bounds.outHeight);
+        BitmapFactory.Options options=new BitmapFactory.Options();
+        options.inSampleSize=1;
+        while(maxDimension/options.inSampleSize>2800)options.inSampleSize*=2;
+        options.inPreferredConfig=Bitmap.Config.ARGB_8888;
+        Bitmap decoded;
+        try(InputStream src=getContentResolver().openInputStream(imageUri)){
+            if(src==null)throw new IOException("Image unavailable");
+            decoded=BitmapFactory.decodeStream(src,null,options);
+        }
+        if(decoded==null)throw new IOException("Image unavailable");
+        int angle=0;
+        try(InputStream src=getContentResolver().openInputStream(imageUri)){
+            if(src!=null){
+                android.media.ExifInterface exif=new android.media.ExifInterface(src);
+                int orientation=exif.getAttributeInt(android.media.ExifInterface.TAG_ORIENTATION,
+                    android.media.ExifInterface.ORIENTATION_NORMAL);
+                if(orientation==android.media.ExifInterface.ORIENTATION_ROTATE_90)angle=90;
+                else if(orientation==android.media.ExifInterface.ORIENTATION_ROTATE_180)angle=180;
+                else if(orientation==android.media.ExifInterface.ORIENTATION_ROTATE_270)angle=270;
+            }
+        }catch(Exception ignored){}
+        Bitmap upright=decoded;
+        if(angle!=0){
+            Matrix matrix=new Matrix();matrix.postRotate(angle);
+            upright=Bitmap.createBitmap(decoded,0,0,decoded.getWidth(),decoded.getHeight(),matrix,true);
+            if(upright!=decoded)decoded.recycle();
+        }
+        Bitmap enhanced=Bitmap.createBitmap(upright.getWidth(),upright.getHeight(),Bitmap.Config.ARGB_8888);
+        Canvas canvas=new Canvas(enhanced);
+        ColorMatrix grayscale=new ColorMatrix();grayscale.setSaturation(0f);
+        ColorMatrix contrast=new ColorMatrix(new float[]{
+            1.6f,0,0,0,-72f,
+            0,1.6f,0,0,-72f,
+            0,0,1.6f,0,-72f,
+            0,0,0,1,0
+        });
+        grayscale.postConcat(contrast);
+        Paint paint=new Paint(Paint.FILTER_BITMAP_FLAG);
+        paint.setColorFilter(new ColorMatrixColorFilter(grayscale));
+        canvas.drawBitmap(upright,0,0,paint);
+        upright.recycle();
+        return enhanced;
+    }
+    private void finishEducationMathOcr(com.google.mlkit.vision.text.TextRecognizer recognizer,
+                                         String initial,String alternate){
+        String a=initial==null?"":initial.trim(),b=alternate==null?"":alternate.trim();
+        boolean chooseAlternate=educationMathScore(b)>educationMathScore(a);
+        String selected=chooseAlternate?b:a;
+        String other=chooseAlternate?a:b;
+        if(selected.equals(other))other="";
+        notifyWeb(educationMathPlausible(selected)?"review":"partial",selected,other);
+        recognizer.close();
+    }
+    private void scanEducationMathEnhanced(Uri imageUri,
+                com.google.mlkit.vision.text.TextRecognizer recognizer,String initial){
+        // Decode and enhance off the UI thread; return both OCR readings to the
+        // learner when they differ. Neither is claimed to be authoritative.
+        new Thread(()->{
+            Bitmap enhanced=null;
+            try{enhanced=educationEnhancedBitmap(imageUri);}
+            catch(Exception ignored){finishEducationMathOcr(recognizer,initial,"");return;}
+            final Bitmap processed=enhanced;
+            runOnUiThread(()->recognizer.process(InputImage.fromBitmap(processed,0))
+                .addOnSuccessListener(result->finishEducationMathOcr(recognizer,initial,result.getText()))
+                .addOnFailureListener(error->finishEducationMathOcr(recognizer,initial,""))
+                .addOnCompleteListener(task->processed.recycle()));
+        },"pocket-education-math-image").start();
+    }
     private void recognize(Uri imageUri) {
+        final boolean math=educationMathPhoto;
+        educationMathPhoto=false;
         try {
             InputImage input=InputImage.fromFilePath(this,imageUri);
             var recognizer=TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
             recognizer.process(input)
                 .addOnSuccessListener(result -> {
-                    notifyWeb("success",result.getText());
-                    recognizer.close();
+                    if(math)scanEducationMathEnhanced(imageUri,recognizer,result.getText());
+                    else {notifyWeb("success",result.getText());recognizer.close();}
                 })
                 .addOnFailureListener(error -> {
-                    notifyWeb("error","Text recognition failed");
-                    recognizer.close();
+                    if(math)scanEducationMathEnhanced(imageUri,recognizer,"");
+                    else {notifyWeb("error","Text recognition failed");recognizer.close();}
                 });
         } catch(Exception ex) { notifyWeb("error","Image cannot be opened"); }
     }
@@ -749,10 +869,14 @@ public final class MainActivity extends ComponentActivity {
     }
 
     private void notifyWeb(String status,String text) {
+        notifyWeb(status,text,"");
+    }
+    private void notifyWeb(String status,String text,String alternative) {
         try {
             JSONObject payload=new JSONObject();
             payload.put("status",status);
             payload.put("text",text);
+            if(alternative!=null&&!alternative.isEmpty())payload.put("alternative",alternative);
             String js="window.pocketAndroidOcrResult && window.pocketAndroidOcrResult("+payload.toString()+");";
             runOnUiThread(() -> {
                 if (web!=null && APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost()))
