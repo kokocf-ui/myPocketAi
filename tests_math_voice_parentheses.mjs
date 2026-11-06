@@ -100,7 +100,7 @@ assert.equal(accept('paranteză',session),true);
 session.captureId=8;
 assert.equal(accept('paranteză',session),true);
 assert.equal(editor.value,'3 * ( (','two nested opening brackets remain possible');
-const choose=vm.runInNewContext(embedded.slice(from,to)+'\\nmathVoiceChooseTranscript',sandbox);
+const choose=vm.runInNewContext(embedded.slice(from,to)+'\nmathVoiceChooseTranscript',sandbox);
 assert.equal(
  choose('3 ori paranteză 2 ori 1 paranteză plus 5',['3 ori paranteză 2 ori minus unu paranteză plus 5']),
  '3 ori paranteză 2 ori minus unu paranteză plus 5','recover negative operand when supported by an alternate transcript');
