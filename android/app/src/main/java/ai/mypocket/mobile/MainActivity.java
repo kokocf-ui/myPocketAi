@@ -85,6 +85,8 @@ public final class MainActivity extends ComponentActivity {
     private boolean waitingForPhoto = false;
     // This flag is intentionally limited to the Education camera/gallery bridge.
     private boolean educationMathPhoto=false;
+    // URI only in Activity memory, and only sent after a separate opt-in tap.
+    private Uri mathVisionSourceUri=null;
     // User-selected document photos only; the WebView gets one chooser result, not broad file access.
     private ValueCallback<Uri[]> documentPhotoCallback;
     private Uri documentCameraUri;
@@ -552,6 +554,7 @@ public final class MainActivity extends ComponentActivity {
                         if (waitingForPhoto) return;
                         waitingForPhoto=true;
                         educationMathPhoto="camera:math".equals(source)||"gallery:math".equals(source);
+                        if(educationMathPhoto)mathVisionSourceUri=null;
                         if ("camera".equals(source)||"camera:math".equals(source)) launchCamera();
                         else if ("gallery".equals(source)||"gallery:math".equals(source)) gallery.launch(new PickVisualMediaRequest.Builder()
                             .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
@@ -565,6 +568,17 @@ public final class MainActivity extends ComponentActivity {
             WebViewCompat.addWebMessageListener(web,"PocketAndroidMathOCR",
                 Collections.singleton("https://"+APP_HOST),
                 (view,message,origin,isMainFrame,replyProxy)->{ /* feature detection only */ });
+        }
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidMathVision",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!APP_HOST.equals(origin.getHost()))return;
+                    String command=message.getData();
+                    if(command==null||!command.matches("capture:[A-Za-z0-9_-]{1,50}"))return;
+                    String id=command.substring("capture:".length());
+                    runOnUiThread(()->sendMathVisionPhoto(id));
+                });
         }
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
             WebViewCompat.addWebMessageListener(web,"PocketAndroidDocumentScan",
@@ -862,6 +876,7 @@ public final class MainActivity extends ComponentActivity {
     }
     private void recognize(Uri imageUri) {
         final boolean math=educationMathPhoto;
+        if(math)mathVisionSourceUri=imageUri;
         educationMathPhoto=false;
         try {
             InputImage input=InputImage.fromFilePath(this,imageUri);
@@ -1122,6 +1137,46 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ignored){}
     }
 
+    // The Cloudflare vision pilot may access only the last Math photo, and only
+    // after the user explicitly asks for image comparison in the review dialog.
+    private void notifyMathVisionPhoto(String status,String chunk,String id){
+        try{
+            JSONObject message=new JSONObject();
+            message.put("status",status);message.put("id",id);
+            if(chunk!=null&&!chunk.isEmpty())message.put("chunk",chunk);
+            String script="window.pocketAndroidMathVisionResult && window.pocketAndroidMathVisionResult("+message.toString()+");";
+            runOnUiThread(()->{
+                if(web!=null&&APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost()))
+                    web.evaluateJavascript(script,null);
+            });
+        }catch(Exception ignored){}
+    }
+    private void sendMathVisionPhoto(String id){
+        final Uri photo=mathVisionSourceUri;
+        if(photo==null){notifyMathVisionPhoto("error","",id);return;}
+        new Thread(()->{
+            Bitmap enhanced=null,scaled=null;
+            try{
+                enhanced=educationEnhancedBitmap(photo);
+                int w=enhanced.getWidth(),h=enhanced.getHeight();
+                float factor=Math.min(1f,1550f/Math.max(w,h));
+                scaled=factor<1f?Bitmap.createScaledBitmap(enhanced,Math.max(1,Math.round(w*factor)),Math.max(1,Math.round(h*factor)),true):enhanced;
+                ByteArrayOutputStream out=new ByteArrayOutputStream();
+                scaled.compress(Bitmap.CompressFormat.JPEG,75,out);
+                if(out.size()>950000){out.reset();scaled.compress(Bitmap.CompressFormat.JPEG,55,out);}
+                if(out.size()>950000){notifyMathVisionPhoto("error","",id);return;}
+                String encoded=Base64.encodeToString(out.toByteArray(),Base64.NO_WRAP);
+                for(int i=0;i<encoded.length();i+=48000)
+                    notifyMathVisionPhoto("chunk",encoded.substring(i,Math.min(i+48000,encoded.length())),id);
+                notifyMathVisionPhoto("complete","",id);
+            }catch(Exception ignored){
+                notifyMathVisionPhoto("error","",id);
+            }finally{
+                if(scaled!=null&&scaled!=enhanced&&!scaled.isRecycled())scaled.recycle();
+                if(enhanced!=null&&!enhanced.isRecycled())enhanced.recycle();
+            }
+        },"pocket-math-vision-optin").start();
+    }
     private void notifyWeb(String status,String text) {
         notifyWeb(status,text,"");
     }
@@ -1139,6 +1194,6 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ignored){}
     }
 
-    @Override protected void onDestroy(){if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}stopMathPcmRecording();stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}if(web!=null){web.destroy();}super.onDestroy();}
+    @Override protected void onDestroy(){if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}stopMathPcmRecording();stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}mathVisionSourceUri=null;if(web!=null){web.destroy();}super.onDestroy();}
 
 }
