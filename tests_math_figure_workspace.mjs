@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import frontend from './index.js';
+const html=await(await frontend.fetch(new Request('https://math.test/'))).text();
+const script=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
+assert.ok(script,'frontend contains Javascript');
+new vm.Script(script);
+assert.ok(script.includes('function mathFigureInsertStatement('),'figure text reaches exercise input');
+assert.ok(script.includes('field.value=statement+'),'auto figure text in workspace');
+assert.ok(script.includes('mathFigureInsertStatement(mathFigureDraft);'),'Continue wires selected figure to editor');
+assert.ok(script.includes("figureSummary.className='math-figure-summary math-figure-attached'"),'figure is visible in workspace');
+assert.ok(script.includes('note.append(label,mathFigureSnapshot(mathFigureDraft))'),'selected figure preview is rendered');
+assert.ok(script.includes("if(working.id==='free')tool('draw'"),'free drawing is separate from preset shapes');
+assert.ok(script.includes("button.setAttribute('aria-pressed',on?'true':'false')"),'gesture mode active state');
+assert.ok(script.includes("if(mode!=='graph'&&(!original||original===figureOnly))"),'no invented calculations for figure-only task');
+assert.ok(html.includes('.math-figure-attached svg{'),'preview is bounded');
+assert.ok(script.includes("if(graph&&(session.mode==='graph'||(mathFigureDraft"),'attached diagram displayed in solve, method and graph');
+console.log('PASS math figure workspace: attached visual, auto text, explicit question and gesture modes');
