@@ -2,7 +2,7 @@
 // or source languages may appear. The caller chooses which visible fields translate.
 export const LANGUAGE_NAMES=Object.freeze({ro:"Romanian",en:"English",fr:"French",de:"German",it:"Italian",es:"Spanish",pt:"Portuguese",nl:"Dutch",ru:"Russian",pl:"Polish"});
 const scripts=/[\u0400-\u052f\u0370-\u03ff\u0600-\u06ff\u4e00-\u9fff]/u;
-const accentForeign={ro:/\b(?:gli|della|nella|sono|perché|questo|notizie|guerra|ultime|m[ií]ercoles|noticias|elecciones|presidente|r[aá]pido|avec|des|une|pour|aujourd'hui)\b/i};
+const accentForeign={ro:/\b(?:gli|della|nella|sono|perché|questo|notizie|guerra|ultime|m[ií]ercoles|noticias|elecciones|presidente|r[aá]pido|avec|des|une|pour|aujourd'hui|already|however|meanwhile|therefore|although|furthermore|whereas|according\s+to|there\s+were|the\s+latest|read\s+more|become|since\s+then)\b/i};
 export function looksUnlocalized(text,lang){
  const s=String(text||"").trim();
  if(!s)return false;
@@ -67,13 +67,11 @@ function newsTranslationCoherent(source,title,summary,language){
  if(originalSummary&&(!summary||summary.length<10||looksUnlocalized(summary,language)))return false;
  // Do not accept a fluent-looking translation that silently changes the
  // most objective information (quantities, years, percentages).
- const inputNumbers=newsNumbers(originalTitle+" "+originalSummary);
- const outputNumbers=newsNumbers(title+" "+summary);
- for(const n of inputNumbers){
-  const at=outputNumbers.indexOf(n);
-  if(at<0)return false;
-  outputNumbers.splice(at,1);
- }
+ // Duplicated digits in a headline + snippet are a single factual value,
+ // not a requirement to repeat them in idiomatic Romanian translation.
+ const inputNumbers=new Set(newsNumbers(originalTitle+" "+originalSummary));
+ const outputNumbers=new Set(newsNumbers(title+" "+summary));
+ for(const n of inputNumbers)if(!outputNumbers.has(n))return false;
  // Reject obvious stuck-token loops, not authentic quotations or repetition.
  const parts=(title+" "+summary).toLowerCase().match(/[\p{L}]{3,}/gu)||[];
  if(parts.length>=8){
@@ -113,7 +111,8 @@ export async function localizeNewsRows(rows,language,ai,model,{log=()=>{}}={}){
   summary:String(row.summary||"").slice(0,280),
   publisher:String(row.source_name||"").slice(0,90),
   published_at:String(row.published_at||"").slice(0,40),
-  source_language_hint:newsLanguageHint(String(row.original_title||"")+" "+String(row.summary||""))
+  source_language_hint:({ar:"Arabic",fa:"Persian/Farsi",uk:"Ukrainian",ru:"Russian",fr:"French",de:"German",en:"English"}[row.source_language])||
+   newsLanguageHint(String(row.original_title||"")+" "+String(row.summary||""))
  }));
  const accepted=new Set();
  const apply=(id,proposal)=>{
