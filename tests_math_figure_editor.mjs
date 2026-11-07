@@ -70,10 +70,10 @@ assert.ok(source.includes("active.size===2&&pinch"),'pinch zoom with two pointer
 assert.ok(source.includes("working.yaw+=dx*.014"),'3D rotates by drag');
 assert.ok(source.includes("mode==='draw'"),'freehand drawing present');
 assert.ok(source.includes("mode==='points'"),'vertex editing present');
-assert.ok(source.includes("if(!source&&fromFigure)source=fromFigure"),'manual problem optional when known measurements suffice');
-assert.ok(source.includes("else if(!source&&mode==='graph')source=mathFigureName"),'dimensionless figures may be graphed');
+assert.ok(source.includes("if(mode!=='graph'&&!original)"),'no invented solve request when only figure measurements are selected');
+assert.ok(source.includes("const taskTexts=(mathFigureDraft&&"),'selected figures and requests are kept as one exercise');
 assert.ok(source.includes("const mismatch=mathFigureConflict(mathFigureDraft,source)"),'field/prose contradictions are checked');
-assert.ok(source.includes("item.graphLesson={heading:mathFigureName(mathFigureDraft)"));
-assert.ok(source.includes('mathFigureSnapshot(mathFigureDraft)'),'figure displayed in graph view');
+assert.ok(source.includes("item.graphLesson={heading:mathFigureName(session.figure)"));
+assert.ok(source.includes('mathFigureSnapshot(attachedFigure)'),'figure displayed using the selected session');
 assert.match(html,/\.math-figure-viewport\{[^}]*overflow:hidden/,'figure never escapes view window');
 console.log('PASS geometry library: 2D/3D catalog, empty dimensions, conflict guards, clipped figures and gestures');
