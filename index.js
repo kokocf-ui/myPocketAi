@@ -7080,6 +7080,12 @@ function mathPhotoCandidates(source,alternative){
   const emit=(letter,rawExpression)=>{
    const expression=String(rawExpression||'').split('=')[0].trim();
    if(expression.length<3||expression.length>180||!/\\d/.test(expression))return;
+   let bracketDepth=0;
+   for(const ch of expression){
+    if(ch==='(')bracketDepth++;
+    else if(ch===')'&&--bracketDepth<0)return;
+   }
+   if(bracketDepth!==0)return;
    const position=section+':'+letter;
    if(fallback&&(primaryPositions.has(position)||(section==='0'&&primaryBareLetters.has(letter))))return;
    const comparison=canonical(expression);
@@ -7087,7 +7093,7 @@ function mathPhotoCandidates(source,alternative){
    // heading. Deduplicate only a demonstrably identical formula and label;
    // never merge different real subpoints a), b), c) across two known sections.
    if(out.some(item=>item.letter===letter&&item.comparison===comparison&&
-     (item.section===section||item.section==='0'||section==='0')))return;
+     (item.section===section||item.section==='0'||section==='0'||fallback)))return;
    const signature=position+':'+expression.replace(/\\s+/g,'').toLowerCase();
    if(seen.has(signature))return;
    seen.add(signature);
@@ -9038,18 +9044,42 @@ window.pocketAndroidOcrResult=function(data){
   candidateInput.placeholder=learningLabel('Corectează aici UN exercițiu','Correct ONE exercise here');
   let selectedCandidateIndex=-1;
   if(candidates.length){
-   // Show four choices at a time in the fixed modal rather than relying on
-   // Android's native select popup, which only exposed three visible rows.
+   // One tap selects an exercise. Do not rebuild the scroll container on tap:
+   // replacing the touched node used to cancel selection on Android WebView.
    const search=document.createElement('input');
    search.type='search';search.className='text-field';
    search.placeholder=learningLabel('Caută în lista exercițiilor…','Search exercises…');
    search.setAttribute('aria-label',learningLabel('Filtrează subpunctele fotografiate','Filter photographed subpoints'));
    search.autocomplete='off';search.spellcheck=false;
    search.style.cssText='box-sizing:border-box;width:100%;flex:0 0 auto;min-height:42px;';
+   const selectedInfo=document.createElement('small');
+   selectedInfo.setAttribute('role','status');
+   selectedInfo.setAttribute('aria-live','polite');
+   selectedInfo.style.cssText='display:block;min-height:1.2em;color:#a9ddea;font-weight:650;line-height:1.35;';
+   selectedInfo.textContent=learningLabel('Niciun exercițiu selectat.','No exercise selected.');
    const choices=document.createElement('div');
    choices.setAttribute('role','group');
    choices.setAttribute('aria-label',learningLabel('Exerciții fotografiate: listă derulantă','Photographed exercises: scrollable list'));
    choices.style.cssText='display:flex;flex-direction:column;gap:6px;flex:0 0 auto;max-height:min(31dvh,232px);min-height:54px;overflow-y:auto;overscroll-behavior:contain;padding:2px 4px;border:1px solid #467f98;border-radius:12px;';
+   const updateChoiceHighlights=()=>{
+    for(const button of choices.querySelectorAll('button[data-math-photo-index]')){
+     const selected=Number(button.dataset.mathPhotoIndex)===selectedCandidateIndex;
+     button.setAttribute('aria-pressed',selected?'true':'false');
+     button.style.borderColor=selected?'#8dd9ed':'#467f98';
+     button.style.background=selected?'#205777':'#12354b';
+    }
+   };
+   const selectCandidate=i=>{
+    const entry=candidates[i];
+    if(!entry)return;
+    selectedCandidateIndex=i;
+    candidateInput.value=entry.text;
+    selectedInfo.textContent=learningLabel('Selectat: ','Selected: ')+entry.label;
+    feedback.textContent=mathPhotoOcrRisk(entry.text)?
+     learningLabel('Simboluri nesigure: V poate fi √, iar x2 poate fi x². Corectează textul înainte de confirmare.',
+      'Uncertain symbols: V may mean √ and x2 may mean x². Edit before confirming.'):'';
+    updateChoiceHighlights();
+   };
    const renderChoices=()=>{
     const query=search.value.trim().toLocaleLowerCase();
     choices.replaceChildren();
@@ -9061,27 +9091,21 @@ window.pocketAndroidOcrResult=function(data){
      choices.append(empty);
     }
     for(const i of indexes){
-     const entry=candidates[i],selected=selectedCandidateIndex===i;
+     const entry=candidates[i];
      const button=document.createElement('button');
-     button.type='button';button.setAttribute('aria-pressed',selected?'true':'false');
+     button.type='button';
+     button.dataset.mathPhotoIndex=String(i);
      button.textContent=entry.label+(entry.origin==='alternate'?
       learningLabel(' · OCR suplimentar',' · Additional OCR'):'');
-     button.style.cssText='box-sizing:border-box;width:100%;text-align:left;font:inherit;min-height:46px;flex:0 0 auto;padding:9px 12px;border-radius:10px;line-height:1.35;white-space:normal;border:1px solid '+
-      (selected?'#8dd9ed':'#467f98')+';background:'+(selected?'#205777':'#12354b')+';color:#f4fbff;';
-     button.onclick=()=>{
-      selectedCandidateIndex=i;
-      candidateInput.value=entry.text;
-      feedback.textContent=mathPhotoOcrRisk(entry.text)?
-       learningLabel('Simboluri nesigure: V poate fi √, iar x2 poate fi x². Corectează textul înainte de confirmare.',
-        'Uncertain symbols: V may mean √ and x2 may mean x². Edit before confirming.'):'';
-      renderChoices();
-     };
+     button.style.cssText='box-sizing:border-box;width:100%;text-align:left;font:inherit;min-height:46px;flex:0 0 auto;padding:9px 12px;border-radius:10px;line-height:1.35;white-space:normal;border:1px solid #467f98;background:#12354b;color:#f4fbff;touch-action:manipulation;';
+     button.onclick=()=>selectCandidate(i);
      choices.append(button);
     }
+    updateChoiceHighlights();
    };
    search.addEventListener('input',renderChoices);
    renderChoices();
-   content.append(search,choices);
+   content.append(search,selectedInfo,choices);
    if(candidates.length>4){
     const hint=document.createElement('small');
     hint.style.cssText='opacity:.86;';
