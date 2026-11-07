@@ -1,3 +1,4 @@
+import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
@@ -1204,6 +1205,9 @@ export default {
     }
 
     const url = new URL(request.url);
+
+    // Owner-approved image upload only; never triggered by ordinary device OCR.
+    if(url.pathname==="/api/math-vision")return handleMathVisionPilot(request,env,json);
 
 
 
