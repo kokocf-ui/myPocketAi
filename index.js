@@ -8099,11 +8099,12 @@ function mathSystem3x3Figure(system){
   'aria-label':learningLabel('Grafic 3D rotativ cu trei plane','Rotatable 3D chart with three planes'),
   preserveAspectRatio:'xMidYMid meet',style:'width:100%;height:auto;touch-action:none;user-select:none;display:block'});
  const tip=document.createElement('figcaption');
- tip.textContent=learningLabel('Trage pentru rotire. Apropie două degete pentru zoom. Planurile sunt secțiuni locale ale ecuațiilor.',
-  'Drag to rotate. Pinch with two fingers to zoom. Surfaces are local sections of the equations.');
- const angles={yaw:.7,pitch:.42,zoom:1};
+ tip.textContent=learningLabel('Trage pentru rotire, apropie două degete pentru zoom și atinge de două ori pentru resetare. Planurile sunt secțiuni locale ale ecuațiilor.',
+  'Drag to rotate, pinch to zoom and double-tap to reset. Surfaces are local sections of the equations.');
+ const initialView={yaw:.7,pitch:.42,zoom:1.45};
+ const angles={...initialView};
  const pointers=new Map();
- let lastPinch=null;
+ let lastPinch=null,lastTap=0,lastTapPoint=null;
  const project=point=>{
   const [x,y,z]=point.map((v,k)=>v-center[k]);
   const cy=Math.cos(angles.yaw),sy=Math.sin(angles.yaw);
@@ -8149,6 +8150,11 @@ function mathSystem3x3Figure(system){
  const distance=()=>{const p=[...pointers.values()];return p.length<2?null:Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)};
  view.addEventListener('pointerdown',event=>{
   if(event.cancelable)event.preventDefault();
+  const now=Date.now();
+  const close=lastTapPoint&&Math.hypot(event.clientX-lastTapPoint.x,event.clientY-lastTapPoint.y)<35;
+  if(event.pointerType!=='mouse'&&pointers.size===0&&close&&now-lastTap<350){
+   Object.assign(angles,initialView);lastTap=0;lastTapPoint=null;render();
+  }else if(pointers.size===0){lastTap=now;lastTapPoint={x:event.clientX,y:event.clientY};}
   pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
   try{view.setPointerCapture(event.pointerId)}catch(_){}
   lastPinch=distance();
@@ -8182,8 +8188,197 @@ function mathSystem3x3Figure(system){
  return figure;
 }
 
+// Restricted local matrix engine: 2x2/3x3, no eval and no arbitrary JS.
+function mathMatrixRead(raw){
+ const value=String(raw||'').trim();
+ if(value.length>220||!/^\\[\\[[-+0-9.,\\s]+\\](?:,\\[[-+0-9.,\\s]+\\]){1,2}\\]$/.test(value))return null;
+ let rows;
+ try{rows=JSON.parse(value)}catch(_){return null}
+ if(!Array.isArray(rows)||rows.length<2||rows.length>3||rows.some(r=>!Array.isArray(r)||r.length!==rows[0].length||r.length<2||r.length>3))return null;
+ return rows.every(r=>r.every(v=>typeof v==='number'&&Number.isFinite(v)&&Math.abs(v)<=1e6))?rows:null;
+}
+function mathMatrixDet(matrix){
+ if(!matrix||matrix.length!==matrix[0].length)return null;
+ if(matrix.length===2)return matrix[0][0]*matrix[1][1]-matrix[0][1]*matrix[1][0];
+ if(matrix.length===3)return mathMatrix3Det(matrix);
+ return null;
+}
+function mathMatrixExercise(source){
+ const raw=String(source||'').trim().replace(/−/g,'-');
+ if(raw.length>550)return null;
+ const lines=raw.split(/\\n|;/).map(x=>x.trim()).filter(Boolean);
+ const named={};
+ let operation='';
+ for(const line of lines){
+  const def=line.match(/^([AB])\\s*=\\s*(\\[\\[.*\\]\\])$/i);
+  if(def){
+   const name=def[1].toUpperCase();
+   if(named[name])return null;
+   const value=mathMatrixRead(def[2]);if(!value)return null;
+   named[name]=value;continue;
+  }
+  if(operation)return null;
+  operation=line;
+ }
+ const inline=operation.match(/^(?:det|determinant|transp(?:ose|usă)?)\\s*\\(\\s*(\\[\\[.*\\]\\]|[AB])\\s*\\)$/i);
+ let mode=null,first=null,second=null;
+ if(inline){
+  mode=/^(?:det|determinant)/i.test(operation)?'det':'transpose';
+  first=inline[1].length===1?named[inline[1].toUpperCase()]:mathMatrixRead(inline[1]);
+ }else{
+  const binary=operation.match(/^([AB])\\s*([+*×-])\\s*([AB])$/i);
+  const unary=operation.match(/^(det|determinant|transpose|transp|transpusă)\\(\\s*([AB])\\s*\\)$/i);
+  if(binary){mode=({'+':'add','-':'subtract','*':'multiply','×':'multiply'})[binary[2]];first=named[binary[1].toUpperCase()];second=named[binary[3].toUpperCase()]}
+  else if(unary){mode=/^det/i.test(unary[1])?'det':'transpose';first=named[unary[2].toUpperCase()]}
+  else return null;
+ }
+ if(!first||!mode)return null;
+ const rows=first.length,cols=first[0].length;
+ let result=null;
+ if(mode==='det'){result=mathMatrixDet(first);if(result===null)return null;}
+ else if(mode==='transpose')result=first[0].map((_,j)=>first.map(row=>row[j]));
+ else if(!second)return null;
+ else if(mode==='multiply'){
+  if(cols!==second.length)return null;
+  result=first.map(row=>second[0].map((_,j)=>row.reduce((sum,v,k)=>sum+v*second[k][j],0)));
+ }else{
+  if(rows!==second.length||cols!==second[0].length)return null;
+  result=first.map((row,i)=>row.map((v,j)=>mode==='add'?v+second[i][j]:v-second[i][j]));
+ }
+ const entries=typeof result==='number'?[result]:result.flat();
+ if(entries.some(v=>!Number.isFinite(v)||Math.abs(v)>1e12))return null;
+ return {raw,mode,first,second,result};
+}
+function mathMatrixSolution(source){
+ const m=mathMatrixExercise(source);if(!m)return null;
+ const show=a=>JSON.stringify(a);
+ const labels={det:learningLabel('Determinant','Determinant'),transpose:learningLabel('Transpunere','Transpose'),
+ add:learningLabel('Adunare','Addition'),subtract:learningLabel('Scădere','Subtraction'),multiply:learningLabel('Înmulțire','Multiplication')};
+ return {intro:learningLabel('Calculăm operația pe matrice și verificăm dimensiunile.','Compute the matrix operation, verifying dimensions.'),
+  steps:[
+   {label:learningLabel('Identificăm matricea și operația','Identify matrix and operation'),
+    reason:learningLabel('Se verifică dimensiunile și compatibilitatea operației.','Check dimensions and operation compatibility.'),
+    operation:labels[m.mode]+': '+show(m.first)+(m.second?' ; '+show(m.second):''),fullAfter:m.raw,signRule:''},
+   {label:learningLabel('Efectuăm calculul','Compute the result'),
+    reason:m.mode==='multiply'?learningLabel('Fiecare element al produsului este suma produselor din linia și coloana corespunzătoare.','Each product entry is the dot product of a row and a column.'):
+     m.mode==='det'?learningLabel('Calculăm determinantul matricei pătrate.','Compute the square matrix determinant.'):
+     learningLabel('Aplicăm operația element cu element sau inversăm liniile cu coloanele.','Apply the elementwise operation or swap rows and columns.'),
+    operation:show(m.result),fullAfter:show(m.result),signRule:''}
+  ],conclusion:learningLabel('Rezultat verificat: ','Verified result: ')+show(m.result)};
+}
+function mathMatrixMethod(source){
+ const m=mathMatrixExercise(source);if(!m)return null;
+ return {heading:learningLabel('Metoda operațiilor pe matrice','Method for matrix operations'),
+  intro:learningLabel('Forma, dimensiunile și ordinea înmulțirii sunt esențiale.','Dimensions and multiplication order matter.'),
+  rules:[
+   {title:learningLabel('Dimensiunile','Dimensions'),text:learningLabel('Pentru adunare sau scădere, matricile trebuie să aibă aceleași dimensiuni.','Addition and subtraction require matching dimensions.')},
+   {title:learningLabel('Înmulțirea','Multiplication'),text:learningLabel('Numărul coloanelor primei matrice trebuie să fie egal cu numărul liniilor celei de-a doua.','The first matrix columns must match the second matrix rows.')},
+   {title:learningLabel('Determinantul','Determinant'),text:learningLabel('Este definit doar pentru matrice pătrate.','It is defined only for square matrices.')},
+   {title:learningLabel('Transpusa','Transpose'),text:learningLabel('Schimbăm liniile cu coloanele.','Swap rows and columns.')},
+   {title:learningLabel('Verificarea','Verification'),text:learningLabel('Controlăm fiecare element rezultat, nu doar dimensiunea.','Check all resulting entries.')}
+  ],tip:learningLabel('În general A×B nu este egal cu B×A.','Usually A×B differs from B×A.')};
+}
+// Bounded symbolic polynomial parser for one variable x, degree up to 4.
+function mathSymbolicPoly(source){
+ let text=String(source||'').trim().replace(/[−–]/g,'-').replace(/²/g,'^2').replace(/³/g,'^3').replace(/×/g,'*');
+ text=text.replace(/^(?:simplific[ăa]|dezvolt[ăa]|expand|simplify)\\s*:?\\s*/i,'');
+ text=text.replace(/\\s+/g,'');
+ if(!text||text.length>160||!/^[0-9x+*()^\\-.]+$/i.test(text)||text.includes('='))return null;
+ const tokens=text.match(/(?:\\d+(?:\\.\\d+)?|x|[+*()^\\-])/gi);
+ if(!tokens||tokens.join('').toLowerCase()!==text.toLowerCase()||tokens.length>120)return null;
+ let at=0;
+ const trim=p=>{while(p.length>1&&Math.abs(p.at(-1))<1e-12)p.pop();return p};
+ const add=(a,b,sign=1)=>trim(Array.from({length:Math.max(a.length,b.length)},(_,i)=>(a[i]||0)+sign*(b[i]||0)));
+ const mul=(a,b)=>{
+  if(a.length+b.length-2>4)return null;
+  const out=Array(a.length+b.length-1).fill(0);
+  a.forEach((x,i)=>b.forEach((y,j)=>{out[i+j]+=x*y}));
+  if(out.some(v=>!Number.isFinite(v)||Math.abs(v)>1e10))return null;
+  return trim(out);
+ };
+ const atom=()=>{
+  const tok=tokens[at++];
+  if(tok==='+'||tok==='-'){const v=power();return v?(tok==='-'?v.map(n=>-n):v):null;}
+  if(tok==='('){const p=sum();if(tokens[at++]!==')')return null;return p;}
+  if(tok==='x')return [0,1];
+  if(tok&&/^\\d/.test(tok))return [Number(tok)];
+  return null;
+ };
+ const power=()=>{
+  let v=atom();if(!v)return null;
+  if(tokens[at]==='^'){
+   at++;const exponent=tokens[at++];
+   if(!/^[0-4]$/.test(exponent||''))return null;
+   let result=[1];for(let n=0;n<Number(exponent);n++){result=mul(result,v);if(!result)return null;}
+   v=result;
+  }
+  return v;
+ };
+ const product=()=>{
+  let value=power();if(!value)return null;
+  while(at<tokens.length&&tokens[at]!==')'&&tokens[at]!=='+'&&tokens[at]!=='-'){
+   const explicit=tokens[at]==='*';if(explicit)at++;
+   if(!explicit&&!['x','('].includes(tokens[at]))return null;
+   const right=power();if(!right)return null;
+   value=mul(value,right);if(!value)return null;
+  }
+  return value;
+ };
+ const sum=()=>{
+  let value=product();if(!value)return null;
+  while(tokens[at]==='+'||tokens[at]==='-'){
+   const sign=tokens[at++]==='+'?1:-1;
+   const right=product();if(!right)return null;
+   value=add(value,right,sign);
+   if(value.some(v=>!Number.isFinite(v)||Math.abs(v)>1e10))return null;
+  }
+  return value;
+ };
+ const coefficients=sum();
+ return coefficients&&at===tokens.length?{raw:text,coefficients}:null;
+}
+function mathSymbolicFormat(coefficients){
+ const fmt=mathLinearNotation().number,terms=[];
+ for(let i=coefficients.length-1;i>=0;i--){
+  const v=coefficients[i];if(Math.abs(v)<1e-10)continue;
+  const sign=v<0?'−':'+',abs=Math.abs(v);
+  const variable=i===0?'':i===1?'x':'x^'+i;
+  const term=(variable&&Math.abs(abs-1)<1e-10?'':fmt(abs))+variable;
+  terms.push({sign,term});
+ }
+ if(!terms.length)return '0';
+ return terms.map((p,i)=>(i===0?(p.sign==='−'?'−':''):(' '+p.sign+' '))+p.term).join('');
+}
+function mathSymbolicSolution(source){
+ const m=mathSymbolicPoly(source);if(!m)return null;
+ const result=mathSymbolicFormat(m.coefficients);
+ return {intro:learningLabel('Simplificăm expresia simbolică folosind distributivitatea și reducerea termenilor asemenea.','Simplify the symbolic expression by distributing and collecting like terms.'),
+  steps:[{
+   label:learningLabel('Interpretăm expresia','Parse the expression'),
+   reason:learningLabel('Recunoaștem parantezele, puterile și produsele.','Identify parentheses, powers and products.'),
+   operation:m.raw,fullAfter:m.raw,signRule:''
+  },{
+   label:learningLabel('Reducem termenii asemenea','Collect like terms'),
+   reason:learningLabel('Coeficienții fiecărei puteri a lui x sunt calculați separat și verificați numeric.','Combine coefficients for each power of x.'),
+   operation:result,fullAfter:result,signRule:''
+  }],conclusion:learningLabel('Forma simplificată: ','Simplified form: ')+result};
+}
+function mathSymbolicMethod(source){
+ if(!mathSymbolicPoly(source))return null;
+ return {heading:learningLabel('Metoda de simplificare polinomială','Polynomial simplification method'),
+  intro:learningLabel('Păstrăm egalitatea expresiei originale cu cea simplificată.','Keep the expanded expression equal to the original.'),
+  rules:[
+   {title:learningLabel('Prioritatea operațiilor','Operator precedence'),text:learningLabel('Calculăm puterile înaintea produselor și sumelor.','Compute powers before products and sums.')},
+   {title:learningLabel('Distributivitatea','Distributive property'),text:learningLabel('Înmulțim toți termenii afectați de paranteze.','Multiply all terms affected by parentheses.')},
+   {title:learningLabel('Termeni asemenea','Like terms'),text:learningLabel('Adunăm numai coeficienții acelorași puteri ale lui x.','Combine coefficients only at equal powers of x.')},
+   {title:learningLabel('Verificare','Check'),text:learningLabel('Evaluăm numeric ambele forme în câteva puncte de control.','Evaluate both forms at several check points.')}
+  ],tip:learningLabel('Motorul local tratează deocamdată polinoame în x până la gradul patru.','The local engine currently handles polynomials in x up to degree four.')};
+}
+
 function mathAlgebraEngines(){
  return [
+  {id:'matrix-operations',solve:mathMatrixSolution,explain:mathMatrixMethod,graph:()=>null},
+  {id:'symbolic-polynomials',solve:mathSymbolicSolution,explain:mathSymbolicMethod,graph:()=>null},
   {id:'linear-system-3x3',solve:mathSystem3x3Solution,explain:mathSystem3x3Method,graph:mathSystem3x3Graph},
   {id:'linear-system-2x2',solve:mathLinearSystemSolution,explain:mathLinearSystemMethod,graph:mathLinearSystemGraphData},
   {id:'linear-inequality',solve:mathLinearInequalitySolution,explain:mathLinearInequalityMethod,graph:()=>null},
