@@ -53,3 +53,36 @@ console.log("Malformed JSON fallback to labeled text: PASS");
  assert.ok(allLocalized[13].title.startsWith('Traducere românească'));
  assert.ok(directCalls>=28,'Plain text fallback should translate both title and excerpt of all items');
  console.log('Full news coverage and direct text translation fallback: PASS');
+
+
+// Romanian-language quality gate: foreign filler must not survive as fluent text.
+assert.equal(looksUnlocalized("O secetă care already traversează o regiune", "ro"),true);
+assert.equal(looksUnlocalized("Autoritățile au anunțat deja măsurile", "ro"),false);
+
+// The source repeats numbers in both its headline and snippet. One faithful
+// mention of each value in the translation is enough; no artificial repetition.
+const repeatedFacts=[{
+ title:"Київ за тиждень: 55 тривог і атака 7 листопада",
+ summary:"55 тривог за тиждень, атака 7 листопада.",
+ source_language:"uk",source_name:"kyiv.news",
+ url:"https://example.org/uk/article/55-alerts",published_at:"2026-11-07"
+}];
+let observedUkrainianHint=false;
+const coherentMock={run:async(_model,params)=>{
+ const data=JSON.parse(params.messages[1].content);
+ observedUkrainianHint=observedUkrainianHint||data.some(x=>x.source_language_hint==="Ukrainian");
+ return {response:JSON.stringify([{id:0,title:"Kievul a înregistrat 55 de alerte și un atac la 7 noiembrie",
+ summary:"Autoritățile locale au publicat bilanțul pentru această săptămână."}])};
+}};
+const translatedFacts=await localizeNewsRows(repeatedFacts,"ro",coherentMock,"mock");
+assert.equal(translatedFacts[0].translation_status,"translated","deduplicated facts must not be rejected");
+assert.equal(translatedFacts[0].source_language,"uk","publisher's original language metadata is preserved");
+assert.equal(observedUkrainianHint,true,"validated language is passed to the translator");
+
+const mixedAi={run:async()=>({response:JSON.stringify([{
+ id:0,title:"Kievul a înregistrat 55 de alerte și un atac la 7 noiembrie",
+ summary:"O secetă care already traversează o regiune afectată de conflict."
+}])})};
+const rejectedMixed=await localizeNewsRows(repeatedFacts,"ro",mixedAi,"mock");
+assert.equal(rejectedMixed[0].translation_status,"original_untranslated","mixed-language text must never be labeled Romanian");
+console.log("PASS Romanian contextual news validation, retained source provenance and deduplicated numbers");
