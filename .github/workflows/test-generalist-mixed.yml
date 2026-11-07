@@ -5,6 +5,11 @@ on:
     paths:
       - 'backend.js'
       - 'index.js'
+      - 'localization.mjs'
+      - 'news_article_detail.mjs'
+      - 'scripts/patch-avatar-lipsync.mjs'
+      - 'tests_news_contextual_translation.mjs'
+      - 'tests_avatar_lipsync_stop.mjs'
       - 'package.json'
       - 'tests.mjs'
       - 'tests_routes.mjs'
@@ -27,3 +32,8 @@ jobs:
         run: npm run check
       - name: Basic UI integrity
         run: npm run test:ui
+      - name: News context translation and avatar lip-stop tests
+        run: |
+          node tests_localization.mjs
+          node tests_news_contextual_translation.mjs
+          node tests_avatar_lipsync_stop.mjs

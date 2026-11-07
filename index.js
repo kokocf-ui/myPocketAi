@@ -6405,6 +6405,7 @@ function pocketExitPrompt(){
 function pocketExitVoiceResult(data){
  if(!pocketExitOpen)return false;
  if(data?.mode==='tts'){
+  if(data.status==='boundary')avatar3dSend('boundary',{charIndex:Number(data.text)||0});
   if(data.status==='start')avatar3dSend('start',{text:learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?')});
   if(data.status==='done'){
    avatar3dSend('stop');avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;
@@ -10480,6 +10481,7 @@ function welcomeUser(){
 $('avatarClose').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false)}if(pocketExitOpen)pocketExitClose();else hideAvatar()});
 // 05 — Speech output, independent from network request handling
 let speechVoiceCache=[];
+let pocketNativeSpokenText='';
 function refreshSpeechVoices(){if(!('speechSynthesis'in window))return [];try{speechVoiceCache=window.speechSynthesis.getVoices()||[]}catch{speechVoiceCache=[]}return speechVoiceCache}
 function getSpeechVoice(){const voices=refreshSpeechVoices();const wanted=state.language==='en'?'en-GB':String(state.language||'ro');const normalize=value=>String(value||'').toLowerCase().replace(/_/g,'-');const base=normalize(wanted).split('-')[0];const compatible=voices.filter(v=>normalize(v.lang)===normalize(wanted));const sameLanguage=voices.filter(v=>normalize(v.lang).split('-')[0]===base);const candidates=compatible.length?compatible:sameLanguage;if(!candidates.length)return null;if(state.language!=='en'){const femaleHints=/\\b(female|woman|women|femin|femeie|ioana|alina|ana|andreea|elena|irina|paula|roberta|sorana|raluca|viorica)\\b/i;const naturalHints=/(neural|natural|online|premium|enhanced)/i;const scored=candidates.map((voice,index)=>{const label=String(voice.name||'');let score=0;if(femaleHints.test(label))score+=8;if(naturalHints.test(label))score+=5;if(/google|microsoft/i.test(label))score+=1;if(voice.localService)score+=1;if(voice.default)score-=2;return {voice,score,index}}).sort((a,b)=>b.score-a.score||a.index-b.index);return scored[0].voice}return candidates.find(v=>v.default)||candidates.find(v=>v.localService)||candidates[0]}
 function waitForSpeechVoices(){if(!('speechSynthesis'in window))return Promise.resolve([]);const current=refreshSpeechVoices();if(current.length)return Promise.resolve(current);return new Promise(resolve=>{let finished=false;const done=()=>{if(finished)return;finished=true;resolve(refreshSpeechVoices())};try{window.speechSynthesis.addEventListener('voiceschanged',done,{once:true})}catch{}setTimeout(done,900)})}
@@ -10505,6 +10507,7 @@ window.pocketAndroidVoiceResult=function(data){
  if(tasksVoiceHandleAndroid(data))return;
  if(pocketExitVoiceResult(data))return;
  if(data?.mode==='tts'){
+  if(data.status==='boundary')avatar3dSend('boundary',{charIndex:Number(data.text)||0});
   if(pocketGreetingActive){
    if(data.status==='start')avatar3dSend('start',{text:learningLabel('Salut! Cum te pot ajuta?','Hello! How can I help you?')});
    if(data.status==='done'||data.status==='error'){
@@ -10518,7 +10521,7 @@ window.pocketAndroidVoiceResult=function(data){
    avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();
    if(data.status==='error')notify('Vocea Android nu a putut reda textul. Verifică motorul de sinteză vocală al telefonului.');
    if(data.status==='done'&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking)startRecognition('voice')},100)}
-  }else if(data.status==='start'){avatar3dLoad();avatar3dSend('start',{text:state.lastReply||''})}
+  }else if(data.status==='start'){avatar3dLoad();avatar3dSend('start',{text:pocketNativeSpokenText||state.lastReply||''})}
   return;
  }
  if(data?.status==='listening'){setStatus('Te ascult în aplicație…');return;}
@@ -10544,12 +10547,13 @@ function speakText(text,{continuous=false}={}){stopRecognition();state.dictation
  stopSpeech();
  state.speaking=true;
  showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});
- const ok=pocketNativeVoiceSend({action:'speak',text:prepareSpeechText(text),language:({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language});
+ pocketNativeSpokenText=prepareSpeechText(text);
+ const ok=pocketNativeVoiceSend({action:'speak',text:pocketNativeSpokenText,language:({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language});
  if(!ok){state.speaking=false;hideAvatar();notify('Nu am putut porni vocea Android.');}
  return ok;
 }
 if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language;utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onstart=()=>{avatar3dLoad();avatar3dSend('start',{text:utterance.text})};utterance.onboundary=event=>avatar3dSend('boundary',{charIndex:event.charIndex});utterance.onend=()=>{avatar3dSend('stop');state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking&&!state.recognition)startRecognition('voice')},120)}};utterance.onerror=()=>{avatar3dSend('stop');state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
-function stopSpeech(){if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stop'});avatar3dSend('stop');if('speechSynthesis'in window)window.speechSynthesis.cancel();state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true}
+function stopSpeech(){if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stop'});avatar3dSend('stop');pocketNativeSpokenText='';if('speechSynthesis'in window)window.speechSynthesis.cancel();state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true}
 // 06 — Speech recognition: dictation and continuous voice are distinct modes
 // Voice recognition uses the APK's native Android speech bridge only.
 // Conservative cleanup used ONLY for continuous voice conversation, not dictation.

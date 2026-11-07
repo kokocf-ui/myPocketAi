@@ -56,24 +56,19 @@ tasks.register("bundlePocketAvatar", Copy) {
     from(file("$rootDir/../public/avatar-v4.html"))
     into(pocketAvatarAssetDir)
     rename { "avatar-production.html" }
-    // Keep the enormous embedded GLB untouched in source. During APK packaging,
-    // make the mouth return to rest on the authoritative Android TTS completion.
+    // One shared Node patch is used by Android and Cloudflare so they
+    // render identical TTS mouth-stop behavior, without changing the GLB.
     doLast {
         def avatarFile = new File(pocketAvatarAssetDir.get().asFile, "avatar-production.html")
-        def source = avatarFile.getText("UTF-8")
-        def before = "function stopSpeech(){state.speaking=false;state.targetWeights.set(shapes.X);setStatus('Avatar pregătit · repaus');}"
-        def after = """function stopSpeech(){
- state.speaking=false;state.wordBoundarySeen=false;state.words=[];state.speechText='';state.wordIndex=0;
- state.targetWeights.set(shapes.X);state.morphWeights.set(shapes.X);
- for(const m of meshes){
-  const dict=m.morphTargetDictionary,weights=m.morphTargetInfluences;
-  if(!dict||!weights)continue;
-  for(let k=0;k<7;k++){const index=dict[names[k]];if(index!==undefined)weights[index]=state.morphWeights[k]}
- }
- setStatus('Avatar pregătit · repaus');
-}"""
-        if (!source.contains(before)) throw new GradleException("Avatar stopSpeech signature changed: review TTS synchronization patch")
-        avatarFile.setText(source.replace(before, after), "UTF-8")
+        def patcher = new File(rootDir, "../scripts/patch-avatar-lipsync.mjs")
+        if (!avatarFile.isFile() || !patcher.isFile())
+            throw new GradleException("Missing avatar or shared mouth patch")
+        def process = new ProcessBuilder("node", patcher.absolutePath, avatarFile.absolutePath)
+            .redirectErrorStream(true).start()
+        def output = process.inputStream.getText("UTF-8")
+        if (process.waitFor() != 0)
+            throw new GradleException("Avatar lip-sync patch failed: " + output)
+        println output.trim()
     }
 }
 android.sourceSets.main.assets.srcDir(pocketAvatarAssetDir)

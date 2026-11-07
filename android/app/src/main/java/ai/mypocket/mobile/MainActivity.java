@@ -91,6 +91,9 @@ public final class MainActivity extends ComponentActivity {
     private boolean scanNextDocumentPhoto=false;
     private TextToSpeech tts;
     private boolean ttsReady=false;
+    // A stale QUEUE_FLUSH callback must never restart lips after a newer voice.
+    private volatile String activeTtsUtteranceId=null;
+    private int nextTtsUtterance=0;
     private String speechMode="dictation";
     private SpeechRecognizer speechRecognizer;
     private boolean nativeListening=false;
@@ -284,7 +287,7 @@ public final class MainActivity extends ComponentActivity {
         try {
             JSONObject data=new JSONObject(message);
             String action=data.optString("action","");
-            if("stop".equals(action)) { if(tts!=null) tts.stop();stopEmbeddedListening(); return; }
+            if("stop".equals(action)) { activeTtsUtteranceId=null;if(tts!=null) tts.stop();stopEmbeddedListening(); return; }
             if("stopListen".equals(action)){stopEmbeddedListening();return;}
             if("startMathAudio".equals(action)){
                 if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)
@@ -302,8 +305,10 @@ public final class MainActivity extends ComponentActivity {
                 String language=data.optString("language","ro-RO");
                 tts.setLanguage(Locale.forLanguageTag(language));
                 tts.setSpeechRate(0.96f);
-                int status=tts.speak(text,TextToSpeech.QUEUE_FLUSH,null,"pocket-native-voice");
-                if(status==TextToSpeech.ERROR)notifyVoice("error","Could not start speech","tts");
+                String utteranceId="pocket-native-voice-"+(++nextTtsUtterance);
+                activeTtsUtteranceId=utteranceId;
+                int status=tts.speak(text,TextToSpeech.QUEUE_FLUSH,null,utteranceId);
+                if(status==TextToSpeech.ERROR){activeTtsUtteranceId=null;notifyVoice("error","Could not start speech","tts");}
             }else if("listen".equals(action)) {
                 speechMode=data.optString("mode","dictation");
                 pendingSpeechLocale=data.optString("language","ro-RO");
@@ -575,9 +580,21 @@ public final class MainActivity extends ComponentActivity {
             if(!ttsReady)notifyVoice("error","Android voice engine unavailable","tts");
         });
         tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-            @Override public void onStart(String id){notifyVoice("start","","tts");}
-            @Override public void onDone(String id){notifyVoice("done","","tts");}
-            @Override public void onError(String id){notifyVoice("error","Speech playback failed","tts");}
+            @Override public void onStart(String id){if(id.equals(activeTtsUtteranceId))notifyVoice("start","","tts");}
+            // Android 8+ delivers progress at word/phoneme boundaries for TTS
+            // engines that support it. This aligns lips to actual audio time.
+            @Override public void onRangeStart(String id,int start,int end,int frame){
+                if(id.equals(activeTtsUtteranceId))notifyVoice("boundary",String.valueOf(start),"tts");
+            }
+            @Override public void onDone(String id){
+                if(id.equals(activeTtsUtteranceId)){activeTtsUtteranceId=null;notifyVoice("done","","tts");}
+            }
+            @Override public void onStop(String id,boolean interrupted){
+                if(id.equals(activeTtsUtteranceId)){activeTtsUtteranceId=null;notifyVoice("done","","tts");}
+            }
+            @Override public void onError(String id){
+                if(id.equals(activeTtsUtteranceId)){activeTtsUtteranceId=null;notifyVoice("error","Speech playback failed","tts");}
+            }
         });
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
             WebViewCompat.addWebMessageListener(web,"PocketAndroidMathAudio",
