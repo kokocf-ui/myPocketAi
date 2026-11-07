@@ -6874,12 +6874,31 @@ function scienceFitViewport(){
   page?.style.removeProperty('--science-content-height');
   return;
  }
- const top=document.querySelector('.app-header')?.getBoundingClientRect().bottom||0;
+ const focus=document.activeElement?.id==='scienceEducationText';
+ page.classList.toggle('science-keyboard-visible',focus);
+ if(!focus){
+  // The normal flex page is already bounded by the header and bottom navigation.
+  // Giving it an additional JS-computed fixed height previously double-subtracted chrome.
+  page.style.removeProperty('--science-content-height');
+  return;
+ }
  const viewport=window.visualViewport;
  const visibleBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
- const navTop=document.querySelector('.bottom-nav')?.getBoundingClientRect().top??window.innerHeight;
- page.style.setProperty('--science-content-height',Math.max(160,Math.floor(Math.min(navTop,visibleBottom)-top-8))+'px');
- page.classList.toggle('science-keyboard-visible',document.activeElement?.id==='scienceEducationText');
+ const pageTop=page.getBoundingClientRect().top;
+ const navTop=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;
+ const usableBottom=Number.isFinite(navTop)&&navTop>pageTop&&navTop<visibleBottom?navTop:visibleBottom;
+ page.style.setProperty('--science-content-height',Math.max(130,Math.floor(usableBottom-pageTop-8))+'px');
+ // Let the page, not the window or the textarea's ancestor, follow the input.
+ const editor=document.getElementById('scienceEducationText');
+ if(editor&&document.activeElement===editor){
+  requestAnimationFrame(()=>{
+   if(document.activeElement!==editor)return;
+   const r=editor.getBoundingClientRect();
+   const bottom=Math.min(usableBottom,viewport?viewport.offsetTop+viewport.height:window.innerHeight);
+   if(r.top>=bottom-90)page.scrollTop+=r.top-(bottom-100);
+   else if(r.bottom>bottom-8&&r.top<bottom-90)page.scrollTop+=Math.min(r.bottom-bottom+12,Math.max(0,r.height-80));
+  });
+ }
 }
 window.addEventListener('resize',scienceFitViewport,{passive:true});
 window.visualViewport?.addEventListener('resize',scienceFitViewport,{passive:true});
@@ -15474,6 +15493,36 @@ main.page:has(#view-module.learning-science.active){
 .chemistry-curriculum-dialog[open] .chemistry-curriculum-list{
   min-height:0!important;overflow-y:auto!important;
   -webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+}
+
+/* Science viewport recovery v2: flex scrolling without fixed heights.
+   Keyboard uses the actual visual viewport, not the obscured bottom navigation. */
+main.page:has(#view-module.learning-science.active){
+ box-sizing:border-box!important;
+ flex:1 1 0%!important;
+ height:auto!important;max-height:none!important;min-height:0!important;
+ overflow-y:auto!important;overflow-x:hidden!important;
+ padding-bottom:calc(124px + env(safe-area-inset-bottom,0px))!important;
+ touch-action:pan-y!important;
+}
+main.page.science-keyboard-visible:has(#view-module.learning-science.active){
+ flex:0 1 auto!important;
+ height:var(--science-content-height,45dvh)!important;
+ max-height:var(--science-content-height,45dvh)!important;
+ overflow-y:auto!important;
+ padding-bottom:20px!important;
+}
+main.page.science-keyboard-visible #view-module.learning-science.active,
+main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
+ height:auto!important;max-height:none!important;min-height:0!important;
+ overflow:visible!important;
+}
+#view-module.learning-science .science-choice-panel,
+#view-module.learning-science .science-choice-list{
+ height:auto!important;max-height:none!important;overflow:visible!important;
+}
+#view-module.learning-science #scienceEducationWorkspace{
+ height:auto!important;max-height:none!important;overflow:visible!important;
 }
 </style>
 </body>
