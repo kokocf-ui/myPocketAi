@@ -7773,8 +7773,149 @@ function mathLinearInequalityMethod(source){
 }
 // Registry provides a single, auditable entry point for supported local algebra.
 // Unsupported classes remain explicit rather than receiving an invented proof.
+// Local 2x2 linear system. Strict parsing rejects nonlinear/ambiguous forms.
+// Keep both equations as ONE task, and verify the result in BOTH originals.
+function mathLinearSystem(source){
+ const cleaned=String(source||'').replace(/[−–]/g,'-').replace(/[×·]/g,'*')
+  .replace(/\\r/g,'').replace(/^[\\s{]+|[\\s}]+$/g,'').trim();
+ const rows=cleaned.split(/\\n|;/).map(v=>v.trim()).filter(Boolean);
+ if(rows.length!==2)return null;
+ const parseSide=side=>{
+  const raw=side.replace(/\\s+/g,'').replace(/,/g,'.');
+  if(!raw||raw.length>140||!/^[+\\-0-9.xy*]+$/i.test(raw))return null;
+  const parts=raw.replace(/-/g,'+-').split('+').filter(Boolean);
+  if(!parts.length||parts.length>15)return null;
+  const sums={x:0,y:0,c:0};
+  for(let term of parts){
+   const sign=term.startsWith('-')?-1:1;
+   if(sign<0)term=term.slice(1);
+   let m=term.match(/^(?:(\\d+(?:\\.\\d+)?)(?:\\*)?)?([xy])$/i);
+   if(m){sums[m[2].toLowerCase()]+=sign*Number(m[1]||1);continue;}
+   if(!/^\\d+(?:\\.\\d+)?$/.test(term))return null;
+   sums.c+=sign*Number(term);
+  }
+  return Object.values(sums).every(n=>Number.isFinite(n)&&Math.abs(n)<1e9)?sums:null;
+ };
+ const equations=[];
+ for(const row of rows){
+  const sides=row.split('=');
+  if(sides.length!==2)return null;
+  const lhs=parseSide(sides[0]),rhs=parseSide(sides[1]);
+  if(!lhs||!rhs)return null;
+  equations.push({a:lhs.x-rhs.x,b:lhs.y-rhs.y,c:rhs.c-lhs.c,original:row});
+ }
+ const [p,q]=equations;
+ const det=p.a*q.b-q.a*p.b;
+ const dx=p.c*q.b-q.c*p.b,dy=p.a*q.c-q.a*p.c;
+ const scale=Math.max(1,...equations.flatMap(v=>[Math.abs(v.a),Math.abs(v.b),Math.abs(v.c)]));
+ const eps=1e-10*scale*scale;
+ const kind=Math.abs(det)>eps?'unique':(Math.abs(dx)>eps||Math.abs(dy)>eps?'inconsistent':'dependent');
+ let x=null,y=null;
+ if(kind==='unique'){
+  x=dx/det;y=dy/det;
+  if(!Number.isFinite(x)||!Number.isFinite(y))return null;
+  if(equations.some(e=>Math.abs(e.a*x+e.b*y-e.c)>1e-8*Math.max(1,Math.abs(e.a*x),Math.abs(e.b*y),Math.abs(e.c))))return null;
+ }
+ return {equations,det,dx,dy,kind,x,y};
+}
+function mathLinearSystemSolution(source){
+ const m=mathLinearSystem(source);if(!m)return null;
+ const n=mathLinearNotation().number;
+ const steps=[{label:learningLabel('Identificăm coeficienții','Identify the coefficients'),
+  reason:learningLabel('Scriem ambele ecuații în forma ax + by = c.','Write both equations in the form ax + by = c.'),
+  operation:m.equations.map((e,i)=>(i+1)+': '+n(e.a)+'x + ('+n(e.b)+')y = '+n(e.c)).join(' ; '),
+  fullAfter:m.equations.map(e=>e.original).join(' ; '),signRule:''},
+ {label:learningLabel('Calculăm determinanții','Calculate determinants'),
+  reason:learningLabel('Folosim regula lui Cramer și verificăm dacă determinantul principal este zero.','Use Cramer’s rule and inspect the main determinant.'),
+  operation:'D = '+n(m.det)+'; Dx = '+n(m.dx)+'; Dy = '+n(m.dy),
+  fullAfter:'D = '+n(m.det),signRule:''}];
+ let conclusion;
+ if(m.kind==='unique'){
+  steps.push({label:learningLabel('Determinăm necunoscutele','Find the unknowns'),
+   reason:learningLabel('Deoarece D este nenul, x = Dx/D și y = Dy/D.','Because D is nonzero, x = Dx/D and y = Dy/D.'),
+   operation:'x = '+n(m.dx)+' / '+n(m.det)+' = '+n(m.x)+'; y = '+n(m.dy)+' / '+n(m.det)+' = '+n(m.y),
+   fullAfter:'x = '+n(m.x)+'; y = '+n(m.y),signRule:''});
+  const proof=m.equations.map((e,i)=>(i+1)+': '+n(e.a)+' × ('+n(m.x)+') + ('+n(e.b)+') × ('+n(m.y)+') = '+n(e.c)+' → '+n(e.a*m.x+e.b*m.y)+' = '+n(e.c));
+  steps.push({label:learningLabel('Verificăm ambele ecuații','Verify both original equations'),
+   reason:learningLabel('Înlocuim valorile obținute în fiecare ecuație inițială.','Substitute into both original equations.'),
+   operation:proof.join(' ; '),fullAfter:proof.at(-1),verificationSteps:proof,signRule:''});
+  conclusion=learningLabel('Soluție unică verificată: ','Verified unique solution: ')+'x = '+n(m.x)+', y = '+n(m.y)+'.';
+ }else{
+  conclusion=m.kind==='dependent'?
+   learningLabel('Sistem compatibil nedeterminat: infinit de multe soluții.','Dependent system: infinitely many solutions.'):
+   learningLabel('Sistem incompatibil: nu există soluții.','Inconsistent system: no solutions.');
+ }
+ return {intro:learningLabel('Rezolvăm sistemul liniar de două ecuații prin determinanți.','Solve the two-equation linear system using determinants.'),
+  steps,conclusion};
+}
+function mathLinearSystemMethod(source){
+ if(!mathLinearSystem(source))return null;
+ return {heading:learningLabel('Metoda generală pentru sisteme liniare 2×2','General method for 2×2 linear systems'),
+  intro:learningLabel('Metoda determinanților oferă atât soluția, cât și clasificarea sistemului.','Determinants identify the solution and classify the system.'),
+  rules:[
+   {title:learningLabel('Aducem la forma standard','Use standard form'),text:learningLabel('Scriem ecuațiile ca ax + by = c.','Write equations as ax + by = c.')},
+   {title:learningLabel('Calculăm D','Compute D'),text:learningLabel('D = a₁b₂ − a₂b₁.','D = a₁b₂ − a₂b₁.')},
+   {title:learningLabel('Calculăm Dx și Dy','Compute Dx and Dy'),text:learningLabel('Înlocuim coloana coeficienților corespunzătoarei necunoscute cu termenii liberi.','Replace the corresponding coefficient column with constants.')},
+   {title:learningLabel('Clasificăm sistemul','Classify the system'),text:learningLabel('D ≠ 0: soluție unică. D = 0 și un determinant secundar nenul: fără soluții. Toți trei zero: infinit de soluții.','D nonzero: unique. D zero with a secondary determinant nonzero: inconsistent. All zero: dependent.')},
+   {title:learningLabel('Verificăm','Verify'),text:learningLabel('Înlocuim soluția în ambele ecuații inițiale.','Substitute into both original equations.')}
+  ],tip:learningLabel('Metoda reducerii sau substituției oferă o verificare independentă.','Elimination or substitution is an independent way to check.')};
+}
+function mathLinearSystemGraphData(source){
+ const m=mathLinearSystem(source);if(!m)return null;
+ return {system:m,heading:learningLabel('Graficul sistemului de două ecuații','Graph of the linear system'),
+  intro:learningLabel('Reprezentăm cele două drepte definite de ecuațiile inițiale.','Plot the two lines defined by the original equations.'),
+  conclusion:m.kind==='unique'?
+   learningLabel('Punctul comun este (','The intersection is (')+mathLinearNotation().number(m.x)+'; '+mathLinearNotation().number(m.y)+').':
+   m.kind==='inconsistent'?learningLabel('Dreptele sunt paralele și distincte: nu există punct comun.','The lines are distinct and parallel.'):
+    learningLabel('Dreptele coincid: infinit de multe puncte comune.','The lines coincide.')};
+}
+function mathLinearSystemFigure(model){
+ if(!model||!Array.isArray(model.equations)||model.equations.length!==2)return null;
+ const {equations}=model,focusX=model.kind==='unique'?model.x:0,focusY=model.kind==='unique'?model.y:0;
+ const extent=Math.max(5,Math.min(30,Math.ceil(Math.abs(focusX)*.25+Math.abs(focusY)*.25+5)));
+ const xmin=focusX-extent,xmax=focusX+extent,ymin=focusY-extent,ymax=focusY+extent;
+ const W=420,H=300,L=40,R=15,T=18,B=36;
+ const px=x=>L+(x-xmin)*(W-L-R)/(xmax-xmin),py=y=>T+(ymax-y)*(H-T-B)/(ymax-ymin);
+ const fig=document.createElement('figure');fig.className='math-result-plot';
+ const svg=mathSvgElement('svg',{viewBox:'0 0 420 300',role:'img','aria-label':learningLabel('Două drepte ale sistemului','Two system lines')});
+ svg.append(mathSvgElement('rect',{x:L,y:T,width:W-L-R,height:H-T-B,fill:'#0b253a'}));
+ for(let v=Math.ceil(xmin);v<=xmax;v+=Math.max(1,Math.ceil(extent/5))){
+  mathSvgLine(svg,px(v),T,px(v),H-B,'#396278',.8,.5);
+  mathSvgText(svg,px(v),H-B+15,v,'middle',10);
+ }
+ for(let v=Math.ceil(ymin);v<=ymax;v+=Math.max(1,Math.ceil(extent/5))){
+  mathSvgLine(svg,L,py(v),W-R,py(v),'#396278',.8,.5);
+  mathSvgText(svg,L-5,py(v)+4,v,'end',10);
+ }
+ if(xmin<=0&&xmax>=0)mathSvgLine(svg,px(0),T,px(0),H-B,'#9eb8c7',1.5);
+ if(ymin<=0&&ymax>=0)mathSvgLine(svg,L,py(0),W-R,py(0),'#9eb8c7',1.5);
+ equations.forEach((e,i)=>{
+  const color=i===0?'#42dbd7':'#ffca77';
+  const a=Math.abs(e.b)>1e-10?{x:xmin,y:(e.c-e.a*xmin)/e.b}:
+   Math.abs(e.a)>1e-10?{x:e.c/e.a,y:ymin}:null;
+  const b=Math.abs(e.b)>1e-10?{x:xmax,y:(e.c-e.a*xmax)/e.b}:
+   Math.abs(e.a)>1e-10?{x:e.c/e.a,y:ymax}:null;
+  if(!a||!b)return;
+  // Clip visually via the plot viewport, including steep lines.
+  const clipId='mathsys-'+String(Math.abs(Math.round((e.a+e.b+e.c)*10000)))+'-'+i;
+  const defs=mathSvgElement('defs',{});
+  const clip=mathSvgElement('clipPath',{id:clipId});clip.append(mathSvgElement('rect',{x:L,y:T,width:W-L-R,height:H-T-B}));defs.append(clip);svg.append(defs);
+  svg.append(mathSvgElement('line',{x1:px(a.x),y1:py(a.y),x2:px(b.x),y2:py(b.y),
+   stroke:color,'stroke-width':3,'clip-path':'url(#'+clipId+')'}));
+ });
+ if(model.kind==='unique'&&model.x>=xmin&&model.x<=xmax&&model.y>=ymin&&model.y<=ymax){
+  svg.append(mathSvgElement('circle',{cx:px(model.x),cy:py(model.y),r:5,fill:'#fff',stroke:'#0b253a','stroke-width':1.5}));
+  mathSvgText(svg,px(model.x)+7,py(model.y)-9,'('+mathLinearNotation().number(model.x)+'; '+mathLinearNotation().number(model.y)+')','start',11,'#ffffff');
+ }
+ fig.append(svg);
+ const caption=document.createElement('figcaption');
+ caption.textContent=learningLabel('Dreapta 1 (turcoaz), dreapta 2 (galben).','Line 1 (cyan), line 2 (yellow).');
+ fig.append(caption);return fig;
+}
+
 function mathAlgebraEngines(){
  return [
+  {id:'linear-system-2x2',solve:mathLinearSystemSolution,explain:mathLinearSystemMethod,graph:mathLinearSystemGraphData},
   {id:'linear-inequality',solve:mathLinearInequalitySolution,explain:mathLinearInequalityMethod,graph:()=>null},
   {id:'linear-equation',solve:mathLinearSolution,explain:mathLinearMethodGuide,graph:mathLinearGraphData},
   {id:'quadratic-equation',solve:mathQuadraticSolution,explain:mathQuadraticMethodGuide,graph:mathQuadraticGraphData},
@@ -7923,8 +8064,8 @@ function mathResultPage(index){
   body.append(check);
  }
  const equationGraph=session.mode==='graph'?mathAlgebraLocal('graph',item.text)?.value:null;
- const graph=mathGraphFigure(item.text)||
-  (equationGraph?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null)||mathGeometryFigure(item.text);
+ const graph=(equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
+  (equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null)||mathGeometryFigure(item.text);
  if(graph&&session.mode==='graph')body.append(graph);
  const result=document.createElement('div');result.className='math-result-copy';
  if(item.graphLesson){
