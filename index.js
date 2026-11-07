@@ -7196,7 +7196,7 @@ function mathPhotoOcrRisks(source){
 function mathPhotoOcrApplyCorrection(source,kind){
  const value=String(source||'');
  if(kind==='square')return value.replace(/([a-z])2(?![0-9])/gi,'$1²');
- if(kind==='radical')return value.replace(/[vV](?=\d)/g,'√');
+ if(kind==='radical')return value.replace(/[vV](?=\\d)/g,'√');
  return value;
 }
 function mathPhotoOcrRisk(source){return mathPhotoOcrRisks(source).length>0}
