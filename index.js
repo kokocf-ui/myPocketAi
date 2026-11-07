@@ -8878,56 +8878,67 @@ window.pocketAndroidOcrResult=function(data){
   const text=typeof data?.text==='string'?data.text.trim().slice(0,3500):'';
   if(!text){status.textContent=learningLabel('Fotografia nu a putut fi citită. Exercițiul introdus anterior a fost păstrat.','Photo could not be read. The previous exercise was preserved.');return;}
   mathPhotoNeedsReview=true;
-  const workspace=$('mathEducationWorkspace');
-  workspace?.querySelector('.math-photo-review')?.remove();
-  const review=document.createElement('div');review.className='math-photo-review';
-  review.style.cssText='display:flex;flex-direction:column;gap:8px;padding:10px;border:1px solid #e6a75b;border-radius:12px;';
-  const warning=document.createElement('p');
-  warning.textContent=learningLabel('OCR neverificat: alege un exercițiu, verifică simbolurile și confirmă.','Unverified OCR: choose one exercise, check symbols and confirm.');
-  review.append(warning);
+  document.querySelector('.math-photo-review-dialog')?.remove();
+  const dialog=document.createElement('dialog');dialog.className='math-photo-review-dialog';
+  dialog.style.cssText='box-sizing:border-box;position:fixed;inset:0;margin:auto;width:min(94vw,680px);max-width:94vw;height:min(82dvh,720px);max-height:82dvh;padding:0;border:2px solid #4c9dbb;border-radius:20px;background:#0b2639;color:#f4fbff;box-shadow:0 16px 50px #000b;overflow:hidden;';
+  const frame=document.createElement('div');
+  frame.style.cssText='display:flex;flex-direction:column;height:100%;min-height:0;';
+  const header=document.createElement('div');
+  header.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto;padding:12px 16px;border-bottom:1px solid #467f98;';
+  const title=document.createElement('strong');title.textContent=learningLabel('Verifică fotografia','Review photograph');
+  const dismiss=document.createElement('button');dismiss.type='button';dismiss.className='math-result-close';
+  dismiss.textContent=learningLabel('Revenire','Back');
+  dismiss.onclick=()=>dialog.close();
+  header.append(title,dismiss);
+  const content=document.createElement('div');
+  content.style.cssText='display:flex;flex-direction:column;gap:12px;flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:14px 16px;';
+  const warning=document.createElement('p');warning.style.cssText='margin:0;line-height:1.45';
+  warning.textContent=learningLabel('OCR neverificat. Selectează un singur exercițiu. Compară cifrele, semnele, exponenții și radicalii cu fotografia, apoi corectează textul.','Unverified OCR. Select one exercise. Compare digits, signs, powers and roots with the photograph, then correct the text.');
+  content.append(warning);
   const candidates=mathPhotoCandidates(text);
+  const candidateInput=document.createElement('textarea');
+  candidateInput.rows=4;candidateInput.maxLength=240;
+  candidateInput.style.cssText='box-sizing:border-box;width:100%;min-height:100px;padding:12px;border:1px solid #6bb7c9;border-radius:12px;background:#061929;color:#fff;font:inherit;resize:vertical';
+  candidateInput.setAttribute('aria-label',learningLabel('Transcrierea exercițiului selectat','Selected exercise transcription'));
+  candidateInput.placeholder=learningLabel('Corectează aici UN exercițiu','Correct ONE exercise here');
   if(candidates.length){
-   const select=document.createElement('select');select.className='text-field';
-   select.setAttribute('aria-label',learningLabel('Exercițiul fotografiat','Photographed exercise'));
-   const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent=learningLabel('Alege exercițiul din fotografie','Choose an exercise from the photo');select.append(placeholder);
-   candidates.forEach((candidate,i)=>{
-    const option=document.createElement('option');option.value=String(i);option.textContent=candidate.label;select.append(option);
-   });
-   select.onchange=()=>{
-    if(select.value==='')return;
-    editor.value=candidates[Number(select.value)].text;
-    mathPhotoNeedsReview=true;
-    status.textContent=learningLabel('Verifică fiecare simbol și confirmă transcrierea.','Check every symbol and confirm the transcription.');
-   };
-   review.append(select);
-  }else if(text){
-   const message=document.createElement('p');message.textContent=learningLabel('Nu am putut separa sigur exercițiile. Alege unul din fotografie și scrie-l sau corectează-l în câmp.','Could not reliably separate exercises. Type or correct one exercise in the field.');
-   review.append(message);
+   const selection=document.createElement('select');selection.className='text-field';
+   selection.setAttribute('aria-label',learningLabel('Exercițiul fotografiat','Photographed exercise'));
+   const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent=learningLabel('Alege exercițiul','Choose exercise');selection.append(placeholder);
+   candidates.forEach((candidate,i)=>{const option=document.createElement('option');option.value=String(i);option.textContent=candidate.label;selection.append(option)});
+   selection.onchange=()=>{candidateInput.value=selection.value===''?'':candidates[Number(selection.value)].text};
+   content.append(selection);
+  }else{
+   const notice=document.createElement('p');
+   notice.textContent=learningLabel('Nu am putut separa exercițiile în siguranță. Transcrie unul singur din fotografie.','Could not safely separate exercises. Transcribe just one from the photograph.');
+   content.append(notice);
   }
-  editor.value='';
-  const confirmation=document.createElement('button');confirmation.type='button';confirmation.className='secondary-btn';
-  confirmation.textContent=learningLabel('Am verificat transcrierea','I checked the transcription');
+  content.append(candidateInput);
+  const feedback=document.createElement('small');
+  feedback.setAttribute('role','status');
+  feedback.style.cssText='color:#ffcd93;min-height:1.2em;';
+  content.append(feedback);
+  const footer=document.createElement('div');
+  footer.style.cssText='flex:0 0 auto;padding:12px 16px;border-top:1px solid #467f98;background:#102f43;';
+  const confirmation=document.createElement('button');confirmation.type='button';confirmation.className='primary-btn';
+  confirmation.style.cssText='width:100%;min-height:44px;';
+  confirmation.textContent=learningLabel('Confirmă exercițiul','Confirm exercise');
   confirmation.onclick=()=>{
-   const candidate=editor.value.trim();
+   const candidate=candidateInput.value.trim();
    if(educationMathOcrIncomplete(candidate)||candidate.length>240||candidate.split('\\n').length>3){
-    status.textContent=learningLabel('Transcriere incompletă sau prea multe exerciții. Introdu un singur enunț complet.','Incomplete transcription or too many exercises. Enter one complete problem.');
+    feedback.textContent=learningLabel('Introdu un singur enunț complet și verificat.','Enter one complete, verified problem.');
     return;
    }
+   editor.value=candidate;
    mathPhotoNeedsReview=false;mathRememberDraft(candidate);
-   status.textContent=learningLabel('Exercițiu confirmat. Poți alege Rezolvare, Grafic sau Metodă.','Exercise confirmed. You may choose Solve, Graph or Method.');
-   review.remove();
+   status.textContent=learningLabel('Exercițiu confirmat. Alege Rezolvare, Grafic sau Metodă.','Exercise confirmed. Choose Solve, Graph or Method.');
+   dialog.close();
   };
-  review.append(confirmation);
-  // Keep the exercise picker and confirmation before the camera/action buttons,
-  // instead of appending them below every action where mobile viewport clips them.
-  const tools=workspace?.querySelector('.math-entry-tools');
-  if(workspace&&tools)workspace.insertBefore(review,tools);
-  else workspace?.append(review);
-  requestAnimationFrame(()=>review.scrollIntoView({behavior:'smooth',block:'nearest'}));
-  status.textContent=!text?
-   learningLabel('Fotografia nu a fost citită. Introdu un singur exercițiu.','Photo could not be read. Type one exercise.'):
-   learningLabel('Selectează un exercițiu și confirmă.','Select one exercise and confirm.');
-  document.getElementById('mathEducationWorkspace')?.scrollIntoView({behavior:'smooth',block:'start'});
+  footer.append(confirmation);frame.append(header,content,footer);dialog.append(frame);
+  dialog.addEventListener('close',()=>{dialog.remove();if(mathPhotoNeedsReview)status.textContent=learningLabel('Fotografia nu este confirmată. Repetă fotografia pentru verificare.','Photo not confirmed. Retake it to review.');});
+  document.body.append(dialog);
+  try{dialog.showModal()}catch(_){dialog.setAttribute('open','')}
+  status.textContent=learningLabel('Fotografia necesită verificare într-o fereastră separată.','Photo needs review in a separate dialog.');
   return;
  }
  const host=$('moduleContent');host.querySelector('.education-photo-panel')?.remove();
