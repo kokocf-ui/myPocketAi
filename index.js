@@ -8189,7 +8189,7 @@ const CHEM_ELEMENT_NAMES=('Hidrogen Heliu Litiu Beriliu Bor Carbon Azot Oxigen F
 function chemistryVisualKind(question){
  const q=educationTheoryClean(question||'');
  if(!q)return null;
- if(/mendeleev|mendeleiev|tablou periodic|tabel periodic|sistem periodic|elemente chimice|periodic table/.test(q))return 'periodic';
+ if(/mendeleev|mendeleiev|tabloul? periodic|tabelul? periodic|sistem periodic|elemente chimice|periodic table/.test(q))return 'periodic';
  if(/structur.*atom|model.*atom|atomul|atom(?: |$)|atomi|nucleu|electroni|orbital|atomic/.test(q))return 'atom';
  if(/legatur|covalent|ionica|ionice|metalica|bonding/.test(q))return 'bond';
  if(/ph\\b|acid|bazic|alcalin|aciditate/.test(q))return 'ph';
