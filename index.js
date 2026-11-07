@@ -9760,6 +9760,71 @@ function mathAdditionalModel(source){
   return {kind:'combinatorics',label,result:fmt(result),summary:label+' = '+fmt(result),
    details:learningLabel('Formula folosită: ','Formula: ')+rule+'.',method:kind};
  }
+
+ const fraction=input.replace(/\\s+/g,'').match(/^(-?\\d{1,6})\\/(\\d{1,6})([+\\-*÷])(-?\\d{1,6})\\/(\\d{1,6})$/);
+ if(fraction){
+  const a=Number(fraction[1]),b=Number(fraction[2]),c=Number(fraction[4]),d=Number(fraction[5]);
+  if(!b||!d)return null;
+  const op=fraction[3],numerator=op==='+'?a*d+c*b:op==='-'?a*d-c*b:
+   op==='*'?a*c:a*d;
+  const denominator=op==='+'||op==='-'?b*d:op==='*'?b*d:b*c;
+  if(!denominator||![numerator,denominator].every(Number.isSafeInteger))return null;
+  const gcd=(x,y)=>{x=Math.abs(x);y=Math.abs(y);while(y){const z=x%y;x=y;y=z}return x||1};
+  const g=gcd(numerator,denominator),sgn=denominator<0?-1:1;
+  const nn=sgn*numerator/g,dd=sgn*denominator/g;
+  const result=dd===1?String(nn):nn+'/'+dd;
+  return {kind:'fractions',label:input,result,summary:input+' = '+result,
+   details:learningLabel('Aducem fracțiile la același numitor unde este necesar și simplificăm cu cel mai mare divizor comun.',
+   'Use a common denominator when necessary, then reduce by the greatest common divisor.'),method:op};
+ }
+ const sequence=input.match(/^(?:progresie\\s+)?(aritmetica|arithmetic|geometrica|geometric)\\s*[:;, ]+\\s*a1\\s*=\\s*(-?\\d+(?:[.,]\\d+)?)\\s*[,; ]+\\s*(d|r|q)\\s*=\\s*(-?\\d+(?:[.,]\\d+)?)\\s*[,; ]+\\s*n\\s*=\\s*(\\d{1,4})$/iu);
+ if(sequence){
+  const geometric=['geometrica','geometric'].includes(sequence[1].toLowerCase());
+  const a1=Number(sequence[2].replace(',','.')),step=Number(sequence[4].replace(',','.')),n=Number(sequence[5]);
+  if(n<1||n>1000||!Number.isFinite(a1)||!Number.isFinite(step))return null;
+  if(geometric&&sequence[3].toLowerCase()==='d')return null;
+  if(!geometric&&sequence[3].toLowerCase()!=='d')return null;
+  const last=geometric?a1*step**(n-1):a1+(n-1)*step;
+  const sum=geometric?(Math.abs(step-1)<1e-12?n*a1:a1*(1-step**n)/(1-step)):
+   n*(a1+last)/2;
+  if(!Number.isFinite(last)||!Number.isFinite(sum))return null;
+  const label=geometric?learningLabel('Progresie geometrică','Geometric sequence'):learningLabel('Progresie aritmetică','Arithmetic sequence');
+  return {kind:'sequences',label,result:fmt(last),summary:'a'+n+' = '+fmt(last)+'; S'+n+' = '+fmt(sum),
+   details:geometric?'aₙ = a₁ × r^(n−1); Sₙ = a₁ × (1−r^n)/(1−r).':
+    'aₙ = a₁ + (n−1)d; Sₙ = n(a₁+aₙ)/2.',method:geometric?'geometric':'arithmetic'};
+ }
+ const die=input.match(/^P\\s*\\(\\s*(zar|die)\\s*(=|>=|<=|>|<)\\s*([1-6])\\s*\\)$/iu);
+ if(die){
+  const op=die[2],target=Number(die[3]);
+  const count=[1,2,3,4,5,6].filter(x=>op==='='?x===target:
+   op==='>='?x>=target:op==='<='?x<=target:op==='>'?x>target:x<target).length;
+  const g=(x,y)=>{while(y){const z=x%y;x=y;y=z}return x||1},div=g(count,6);
+  const result=(count/div)+'/'+(6/div);
+  return {kind:'probability',label:input,result,summary:'P = '+result+' = '+fmt(count/6),
+   details:learningLabel('Zar echilibrat: șase rezultate egal probabile, ','Fair die: six equally likely outcomes, ')+
+    count+learningLabel(' favorabile.',' favourable.'),method:'equally-likely'};
+ }
+ const integral=input.match(/^(?:integrala|integral|integrate)\\s*[:=]?\\s*(.+)$/iu);
+ if(integral){
+  const poly=mathSymbolicPoly(integral[1]);
+  if(!poly)return null;
+  const coeffs=[0,...poly.coefficients.map((v,i)=>v/(i+1))];
+  const result=mathSymbolicFormat(coeffs)+' + C';
+  return {kind:'integral',label:learningLabel('Primitiva','Antiderivative'),result,
+   summary:'∫f(x) dx = '+result,
+   details:learningLabel('Integrăm fiecare termen: ∫x^n dx = x^(n+1)/(n+1) + C, pentru n ≠ −1.',
+    'Integrate term by term: ∫x^n dx = x^(n+1)/(n+1) + C for n ≠ −1.'),method:'polynomial'};
+ }
+ const limit=input.match(/^lim\\s*x\\s*(?:->|→)\\s*(-?\\d+(?:[.,]\\d+)?)\\s*[: ]\\s*(.+)$/iu);
+ if(limit){
+  const at=Number(limit[1].replace(',','.')),poly=mathSymbolicPoly(limit[2]);
+  if(!poly||!Number.isFinite(at))return null;
+  const value=poly.coefficients.reduceRight((acc,c)=>acc*at+c,0);
+  if(!Number.isFinite(value))return null;
+  return {kind:'limit',label:input,result:fmt(value),summary:'lim = '+fmt(value),
+   details:learningLabel('Polinoamele sunt continue: limita într-un punct finit se calculează prin înlocuire directă.',
+    'Polynomials are continuous: evaluate the finite-point limit by direct substitution.'),method:'polynomial'};
+ }
  const derivative=input.match(/^(?:derivata|derivative|derive|d\\/dx)\\s*[:=]?\\s*(.+)$/iu);
  if(derivative){
   const expression=derivative[1],polynomial=mathSymbolicPoly(expression);
