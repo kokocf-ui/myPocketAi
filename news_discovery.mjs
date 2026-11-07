@@ -113,7 +113,7 @@ export function cleanNewsExcerpt(value,max=280){
  if(!s)return "";
  if(s.length<=max)return s;
  const cut=s.slice(0,max+1),end=cut.search(/[.!?。؟][\s"')\]]*(?=[^.!?。؟]*$)/u);
- if(end>=70)return cut.slice(0,end+1).trim();
+ if(end>=10)return cut.slice(0,end+1).trim();
  const breakpoint=cut.lastIndexOf(" ");
  return cut.slice(0,Math.max(0,breakpoint)).trim()+"…";
 }
