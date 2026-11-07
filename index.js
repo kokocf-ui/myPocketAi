@@ -7984,7 +7984,8 @@ function mathPhotoCandidates(source,alternative){
    const rawValue=String(rawExpression||'').trim();
    // Worked chains contain multiple '=' signs; one equality belongs to the question.
    const expression=((rawValue.match(/=/g)||[]).length>1?rawValue.split('=')[0]:rawValue.replace(/=\\s*$/,'')).trim();
-   if(expression.length<3||expression.length>180||!/\\d/.test(expression))return;
+   if(expression.length<3||expression.length>180||
+      !(/[\\d√]/u.test(expression)||/[a-z]\\s*(?:=|[+\\-×*\\/])\\s*[a-z]/iu.test(expression)))return;
    let bracketDepth=0;
    for(const ch of expression){
     if(ch==='(')bracketDepth++;
@@ -8094,7 +8095,7 @@ function mathPhotoOcrRisks(source){
 function mathPhotoOcrApplyCorrection(source,kind){
  const value=String(source||'');
  if(kind==='square')return value.replace(/([a-z])2(?![0-9])/gi,'$1²');
- if(kind==='radical')return value.replace(/[vV](?=\\d)/g,'√');
+ if(kind==='radical')return value.replace(/[vV]\\s*(?=\\d)/g,'√');
  return value;
 }
 function mathPhotoOcrRisk(source){return mathPhotoOcrRisks(source).length>0}
@@ -8113,15 +8114,16 @@ function mathPhotoOcrRiskWarning(source){
 // Educational mathematics: reject obvious OCR fragments, not legitimate hand-entered work.
 function educationMathOcrIncomplete(value){
  const raw=String(value||'').replace(/\\s+/g,'');
- if(!raw||raw.length<4||!/\\d/.test(raw))return true;
+ if(!raw||raw.length<3||(!/[\\d√]/.test(raw)&&!/[a-z][=+\\-*×÷/][a-z]/i.test(raw)))return true;
  // Word problems may be narrative. Only enforce symbol structure on short expressions.
  if(/\\w{4,}\\s+\\w{4,}/.test(String(value||'')))return false;
- let depth=0;
+ const stack=[],pairs={')':'(',']':'[','}':'{'};
  for(const ch of raw){
-  if(ch==='(')depth++;
-  else if(ch===')'&&--depth<0)return true;
+  if('([{'.includes(ch))stack.push(ch);
+  else if(')]}'.includes(ch)&&stack.pop()!==pairs[ch])return true;
  }
- if(depth!==0||/[=+\\-*/×÷(]$/.test(raw))return true;
+ if(stack.length||/[=+\\-*/×÷(\\[{]$/.test(raw))return true;
+ if(/√(?=$|[=+*/×÷\\-)])/u.test(raw))return true;
  if(raw.includes('=')&&raw.split('=').some(x=>!x))return true;
  return false;
 }
