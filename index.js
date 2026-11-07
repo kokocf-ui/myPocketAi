@@ -6766,9 +6766,9 @@ function mathFigureStatement(figure){
 function mathFigureStripAutoStatements(value){
  // Stale generated figure headers can persist across workspaces; they are
  // metadata, never separate exercises. Keep user-authored questions intact.
- return String(value||'').split(/\r?\n/).filter(line=>
-  !/^\s*(?:Figura|Figure)\s*:\s*.+?\.\s*(?:Date|Given)\s*:/iu.test(line)
- ).join('\n').trim();
+ return String(value||'').split(/\\r?\\n/).filter(line=>
+  !/^\\s*(?:Figura|Figure)\\s*:\\s*.+?\\.\\s*(?:Date|Given)\\s*:/iu.test(line)
+ ).join('\\n').trim();
 }
 function mathFigureInsertStatement(figure){
  const field=document.getElementById('mathEducationText');
@@ -6779,7 +6779,7 @@ function mathFigureInsertStatement(figure){
  if(previous)value=value.replace(previous,'');
  value=mathFigureStripAutoStatements(value);
  field.dataset.figureStatement=statement;
- field.value=statement+(value?'\n'+value:'');
+ field.value=statement+(value?'\\n'+value:'');
  mathRememberDraft(field.value);
  field.dispatchEvent(new Event('input',{bubbles:true}));
 }
@@ -10047,7 +10047,7 @@ function mathEducationRun(mode){
   // figure header and one question, never manufacture multiple task tabs.
   const currentFigure=mathFigureStatement(mathFigureDraft);
   const question=mathFigureStripAutoStatements(source);
-  source=currentFigure+(question?'\n'+question:'');
+  source=currentFigure+(question?'\\n'+question:'');
   const internal=mathFigureInternalConflict(mathFigureDraft);
   if(internal){
    status.textContent=learningLabel('Date incompatibile în figură: ','Inconsistent figure measurements: ')+internal;
