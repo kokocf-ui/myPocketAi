@@ -10101,6 +10101,13 @@ function mathGraphVerifiedAnswers(source,figure){
    }
    return lines;
   }
+  if(figure.id==='triangle'&&['AB','BC','CA'].every(k=>measure(k)!==null)){
+   const a=measure('AB'),b=measure('BC'),c=measure('CA');
+   if(a+b<=c||a+c<=b||b+c<=a)return [];
+   const semi=(a+b+c)/2;
+   const area=Math.sqrt(Math.max(0,semi*(semi-a)*(semi-b)*(semi-c)));
+   put('A',area,sq);put('P',a+b+c,unit);return lines;
+  }
   if(figure.id==='equilateral'&&measure('latura')!==null){
    const a=measure('latura');put('A',a*a*Math.sqrt(3)/4,sq);put('P',3*a,unit);return lines;
   }
@@ -10116,6 +10123,8 @@ function mathGraphVerifiedAnswers(source,figure){
     put('c',hypo,unit);put('A',a*b/2,sq);put('P',a+b+hypo,unit);
    }else if(a!==null&&c!==null&&c>a){
     const leg=Math.sqrt((c-a)*(c+a));put('b',leg,unit);put('A',a*leg/2,sq);put('P',a+leg+c,unit);
+   }else if(b!==null&&c!==null&&c>b){
+    const leg=Math.sqrt((c-b)*(c+b));put('a',leg,unit);put('A',b*leg/2,sq);put('P',b+leg+c,unit);
    }
    return lines;
   }
