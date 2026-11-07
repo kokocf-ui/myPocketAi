@@ -6,6 +6,10 @@ on:
       - 'backend.js'
       - 'index.js'
       - 'localization.mjs'
+      - 'news_discovery.mjs'
+      - 'response_intent.mjs'
+      - 'tests_response_intent.mjs'
+      - 'tests_news_live_routing.mjs'
       - 'news_article_detail.mjs'
       - 'scripts/patch-avatar-lipsync.mjs'
       - 'tests_news_contextual_translation.mjs'
@@ -36,4 +40,6 @@ jobs:
         run: |
           node tests_localization.mjs
           node tests_news_contextual_translation.mjs
+          node tests_response_intent.mjs
+          node tests_news_live_routing.mjs
           node tests_avatar_lipsync_stop.mjs
