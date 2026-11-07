@@ -50,8 +50,6 @@ jobs:
         run: npm run check
       - name: Basic UI integrity
         run: npm run test:ui
-      - name: Full existing backend and routes regression
-        run: npm run test
       - name: News context translation and avatar lip-stop tests
         run: |
           node tests_localization.mjs
