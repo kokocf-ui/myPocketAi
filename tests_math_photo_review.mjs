@@ -128,7 +128,7 @@ const uiCandidates=[
  {label:'Ex. 1 · d) 9abc - 13abc',text:'9abc - 13abc'},
  {label:'Ex. 2 · a) 6x + 3y - 5z',text:'6x + 3y - 5z'}
 ];
-vm.runInNewContext(uiSource,{document,content,candidateInput,feedback,candidates:uiCandidates,mathPhotoOcrRisk:()=>false,learningLabel:(ro)=>ro});
+vm.runInNewContext(uiSource,{document,content,candidateInput,feedback,candidates:uiCandidates,mathPhotoOcrRisk:()=>false,mathPhotoOcrRiskWarning:()=>'',learningLabel:(ro)=>ro});
 const choices=content.children.find(x=>x.attrs.role==='group');
 const status=content.children.find(x=>x.attrs['aria-live']==='polite');
 assert.ok(choices&&status,'selection feedback is visible and accessible');
