@@ -300,7 +300,7 @@ assert.match(clean,/\(1\)\/\(2\)/);
 assert.equal(functionApi.clean('Prețul este $25. Cost: $15.'),'Prețul este $25. Cost: $15.',
  'ordinary currency symbols must stay');
 assert.ok(embedded.includes('item.functionLesson=verifiedFunction'),'function answers bypass generated unrelated explanations');
-assert.ok(embedded.includes("if(session.mode==='graph'&&!session.figure&&!mathGeometryFigure(item.text)&&!mathAlgebraLocal('graph',item.text))"),
+assert.ok(embedded.includes("if(session.mode==='graph'&&!session.figure&&!mathPlaneShapeModel(item.text)&&!mathRightTriangleModel(item.text)&&!mathAlgebraLocal('graph',item.text))"),
  'unsupported plots are rejected, but verified linear and quadratic equations can be graphed');
 assert.ok(embedded.includes("mathLastSpokenReply=item.spokenReply||item.reply||''"),
  'speech follows the selected task tab');
