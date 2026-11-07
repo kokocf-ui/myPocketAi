@@ -1786,6 +1786,7 @@ main.page:has(#view-module.learning-math.active){
  flex:0 1 auto;min-height:58px!important;
  height:clamp(58px,12dvh,112px)!important;max-height:17dvh!important;
  resize:none!important;overflow-y:auto!important;
+ overscroll-behavior-y:contain!important;scroll-padding-block:1lh!important;
 }
 #view-module.learning-active.learning-math .math-entry-tools .education-photo-actions button,
 #view-module.learning-active.learning-math .education-math-actions button{
@@ -7387,14 +7388,77 @@ function mathFitViewport(){
  }
  const header=document.querySelector('.app-header'),nav=document.querySelector('.bottom-nav');
  const top=header?.getBoundingClientRect().bottom||0;
- const bottom=nav?.getBoundingClientRect().top||window.innerHeight-100;
- const available=Math.max(200,Math.floor(bottom-top-8));
+ const viewport=window.visualViewport;
+ const visibleBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
+ const bottom=Math.min(nav?.getBoundingClientRect().top??window.innerHeight,visibleBottom);
+ const available=Math.max(155,Math.floor(bottom-top-8));
  page.style.setProperty('--math-content-height',available+'px');
  const focus=document.activeElement?.id==='mathEducationText';
  page.classList.toggle('math-keyboard-visible',Boolean(focus));
 }
-window.addEventListener('resize',mathFitViewport,{passive:true});
-window.visualViewport?.addEventListener('resize',mathFitViewport,{passive:true});
+// Follow the actual insertion point, including soft-wrapped lines, without
+// scrolling the entire app every time a character is typed. A temporary
+// mirror reproduces the textarea's typography to measure the caret line.
+let mathCaretFollowFrame=0;
+function mathEditorFollowCaret(editor){
+ if(!editor||!editor.isConnected||document.activeElement!==editor)return;
+ const position=Number.isInteger(editor.selectionStart)?editor.selectionStart:editor.value.length;
+ const style=window.getComputedStyle(editor);
+ const mirror=document.createElement('div'),caret=document.createElement('span');
+ Object.assign(mirror.style,{
+  position:'fixed',left:'-10000px',top:'0',visibility:'hidden',pointerEvents:'none',
+  boxSizing:'border-box',width:editor.clientWidth+'px',height:'auto',
+  margin:'0',border:'0',padding:style.padding,
+  font:style.font,fontFamily:style.fontFamily,fontSize:style.fontSize,
+  fontWeight:style.fontWeight,fontStyle:style.fontStyle,
+  letterSpacing:style.letterSpacing,lineHeight:style.lineHeight,
+  whiteSpace:'pre-wrap',overflowWrap:'anywhere',wordBreak:style.wordBreak,
+  tabSize:style.tabSize
+ });
+ caret.textContent='​';caret.style.display='inline-block';
+ mirror.append(document.createTextNode(editor.value.slice(0,position)),caret);
+ document.body.append(mirror);
+ const caretY=caret.offsetTop,styleHeight=Number.parseFloat(style.lineHeight);
+ const lineHeight=Number.isFinite(styleHeight)?styleHeight:(Number.parseFloat(style.fontSize)||16)*1.35;
+ mirror.remove();
+ const inset=Math.max(4,Number.parseFloat(style.paddingBottom)||0);
+ const above=editor.scrollTop+4,below=editor.scrollTop+editor.clientHeight-inset-4;
+ if(caretY<above)editor.scrollTop=Math.max(0,caretY-4);
+ else if(caretY+lineHeight>below)
+  editor.scrollTop=Math.max(0,caretY+lineHeight-editor.clientHeight+inset+4);
+ // The virtual keyboard may shrink visualViewport without moving the layout
+ // viewport. Scroll only the Mathematics page if the focused input is hidden.
+ const viewport=window.visualViewport;
+ const rect=editor.getBoundingClientRect();
+ const visibleBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
+ const visibleTop=viewport?viewport.offsetTop:0;
+ const page=document.querySelector('main.page');
+ if(page?.classList.contains('math-keyboard-visible')){
+  if(rect.bottom>visibleBottom-10)page.scrollTop+=rect.bottom-visibleBottom+10;
+  else if(rect.top<visibleTop+8)page.scrollTop-=visibleTop+8-rect.top;
+ }
+}
+function mathEditorScheduleCaretFollow(editor){
+ if(mathCaretFollowFrame)cancelAnimationFrame(mathCaretFollowFrame);
+ mathCaretFollowFrame=requestAnimationFrame(()=>{
+  mathCaretFollowFrame=0;
+  if(editor?.isConnected&&$('mathEducationText')===editor){
+   mathFitViewport();
+   mathEditorFollowCaret(editor);
+  }
+ });
+}
+
+window.addEventListener('resize',()=>{
+ mathFitViewport();
+ if(document.activeElement?.id==='mathEducationText')
+  mathEditorScheduleCaretFollow(document.activeElement);
+},{passive:true});
+window.visualViewport?.addEventListener('resize',()=>{
+ mathFitViewport();
+ if(document.activeElement?.id==='mathEducationText')
+  mathEditorScheduleCaretFollow(document.activeElement);
+},{passive:true});
 let mathVoiceListening=false;
 let mathVoiceSession=null;
 // New APKs expose whole-utterance Maths audio capture, separate from system ASR.
@@ -7908,7 +7972,10 @@ function openLearningSubject(key){
   }
   const status=document.createElement('small');status.id='mathEducationStatus';status.setAttribute('role','status');
   status.textContent='';
-  editor.addEventListener('input',()=>{mathRememberDraft(editor.value);status.textContent=''});
+  editor.addEventListener('input',()=>{mathRememberDraft(editor.value);status.textContent='';mathEditorScheduleCaretFollow(editor)});
+  for(const eventName of ['focus','click','keyup','select','compositionend']){
+   editor.addEventListener(eventName,()=>mathEditorScheduleCaretFollow(editor));
+  }
   workspace.append(heading,editor,status);
   const choices=document.createElement('div');choices.className='education-math-actions';
   [
