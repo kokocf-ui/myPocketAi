@@ -1542,6 +1542,25 @@ body.long-choice-active{overflow:hidden}
 .math-choice-panel{display:flex;flex-direction:column;flex:1;min-height:0;gap:9px;
  padding:clamp(10px,2.5vw,16px);border:1px solid #468aa0;border-radius:15px;
  background:linear-gradient(150deg,#12374a,#081c2d)}
+
+.math-figure-dialog{border:1px solid #478eaa;border-radius:16px;background:#0c2636;color:#e6f7fc;
+ width:min(96vw,590px);max-height:92dvh;padding:0;overflow:hidden}
+.math-figure-dialog::backdrop{background:#000a}
+.math-figure-panel{box-sizing:border-box;padding:12px;display:flex;flex-direction:column;gap:9px;max-height:92dvh;overflow-y:auto}
+.math-figure-header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.math-figure-header strong{font-size:18px}
+.math-figure-header button{min-width:42px}
+.math-figure-panel select{width:100%;min-height:40px;background:#143c50;color:#fff;border:1px solid #6aa7b8;border-radius:8px}
+.math-figure-viewport{width:100%;height:clamp(170px,32dvh,295px);overflow:hidden;border:1px solid #427d90;border-radius:12px;background:#082133}
+.math-figure-viewport svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+.math-figure-controls{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.math-figure-controls button{min-width:46px;padding:7px!important}
+.math-figure-dimensions{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:9px}
+.math-figure-dimensions label{display:flex;flex-direction:column;gap:4px;font-size:13px}
+.math-figure-dimensions input{min-width:0;width:100%;box-sizing:border-box;background:#123b50;color:#fff;border:1px solid #5799aa;border-radius:7px;padding:8px}
+.math-figure-panel small{font-size:12px;color:#b9d7e2;line-height:1.4}
+.math-figure-panel .primary-btn{min-height:40px}
+
 .math-choice-panel h2{font-size:clamp(17px,4.2vw,22px);margin:0}
 .math-choice-panel p{font-size:clamp(12px,3.2vw,15px);line-height:1.35;margin:0;color:#c1e5ee}
 .math-choice-list{display:flex;flex-direction:column;gap:8px;overflow-y:auto;min-height:0;
@@ -7073,6 +7092,133 @@ function mathReadText(){
   mathExerciseDraft=String(value||'').slice(0,3500);
   try{localStorage.setItem(MATH_EXERCISE_DRAFT_KEY,mathExerciseDraft)}catch{}
  }
+
+let mathFigureDraft=null;
+function mathFigureWorkbench(){
+ const previous=document.getElementById('mathFigureWorkbench');
+ if(previous){previous.showModal();return}
+ const shapeOptions=[
+  ['triangle','Triunghi','Triangle',['a','b','c']],
+  ['rectangle','Dreptunghi','Rectangle',['L','l']],
+  ['square','Pătrat','Square',['a']],
+  ['circle','Cerc','Circle',['r']],
+  ['trapezoid','Trapez','Trapezoid',['B','b','h']],
+  ['cube','Cub 3D','3D cube',['a']],
+  ['prism','Prismă 3D','3D prism',['L','l','h']]
+ ];
+ const dialog=document.createElement('dialog');dialog.id='mathFigureWorkbench';dialog.className='math-figure-dialog';
+ const panel=document.createElement('div');panel.className='math-figure-panel';
+ const bar=document.createElement('div');bar.className='math-figure-header';
+ const title=document.createElement('strong');title.textContent=learningLabel('Figuri geometrice','Geometric figures');
+ const close=document.createElement('button');close.type='button';close.className='secondary-btn';close.textContent='✕';close.setAttribute('aria-label',learningLabel('Închide','Close'));close.onclick=()=>dialog.close();
+ bar.append(title,close);
+ const selector=document.createElement('select');selector.setAttribute('aria-label',learningLabel('Alege figura','Choose figure'));
+ for(const entry of shapeOptions){const option=document.createElement('option');option.value=entry[0];option.textContent=learningLabel(entry[1],entry[2]);selector.append(option)}
+ const view=document.createElement('div');view.className='math-figure-viewport';
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 420 280');svg.setAttribute('role','img');svg.setAttribute('aria-label',learningLabel('Desen geometric interactiv','Interactive geometry diagram'));
+ view.append(svg);
+ const toolbar=document.createElement('div');toolbar.className='math-figure-controls';
+ const dimensions=document.createElement('div');dimensions.className='math-figure-dimensions';
+ const help=document.createElement('small');help.textContent=learningLabel('Valorile sunt opționale. Trage figura pentru deplasare. Pentru 3D, trage pentru rotire.','Measurements are optional. Drag to pan; drag 3D figures to rotate.');
+ const commit=document.createElement('button');commit.type='button';commit.className='primary-btn';commit.textContent=learningLabel('Adaugă la exercițiu','Add to exercise');
+ const state3={kind:mathFigureDraft?.kind||'triangle',zoom:1,x:0,y:0,angle:0,yaw:.55,pitch:.35,values:{}};
+ if(mathFigureDraft?.kind===state3.kind)state3.values={...mathFigureDraft.values};
+ selector.value=state3.kind;
+ function node(tag,attrs={},label){
+  const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  for(const [key,val] of Object.entries(attrs))el.setAttribute(key,String(val));
+  if(label!==undefined)el.textContent=String(label);
+  return el;
+ }
+ function line(group,x1,y1,x2,y2){group.append(node('line',{x1,y1,x2,y2,stroke:'#5ddde3','stroke-width':3,'stroke-linecap':'round'}))}
+ function caption(group,x,y,label){group.append(node('text',{x,y,fill:'#f9e7b6','font-size':17,'text-anchor':'middle'},label))}
+ function render(){
+  svg.replaceChildren();
+  const is3D=state3.kind==='cube'||state3.kind==='prism';
+  const safeX=Math.max(-110,Math.min(110,state3.x));
+  const safeY=Math.max(-70,Math.min(70,state3.y));
+  state3.x=safeX;state3.y=safeY;
+  const group=node('g',{transform:'translate('+(210+safeX)+' '+(140+safeY)+') rotate('+(is3D?0:state3.angle)+') scale('+state3.zoom+')'});
+  svg.append(group);
+  const shape=state3.kind;
+  if(shape==='triangle'){
+   group.append(node('polygon',{points:'-125,88 125,88 0,-94',fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
+   caption(group,-136,104,'A');caption(group,137,104,'B');caption(group,0,-105,'C');
+  }else if(shape==='rectangle'||shape==='square'){
+   const w=shape==='square'?178:265,h=shape==='square'?178:152;
+   group.append(node('rect',{x:-w/2,y:-h/2,width:w,height:h,fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
+  }else if(shape==='circle'){
+   group.append(node('circle',{cx:0,cy:0,r:95,fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
+   line(group,0,0,95,0);caption(group,48,-10,'r');
+  }else if(shape==='trapezoid'){
+   group.append(node('polygon',{points:'-135,85 135,85 65,-85 -65,-85',fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
+  }else{
+   const width=shape==='cube'?78:108,depth=shape==='cube'?78:65,height=shape==='cube'?78:95;
+   const corners=[];
+   for(let z=-1;z<=1;z+=2)for(let y=-1;y<=1;y+=2)for(let x=-1;x<=1;x+=2){
+    const px=x*width,py=y*height,pz=z*depth;
+    const xx=px*Math.cos(state3.yaw)-pz*Math.sin(state3.yaw);
+    const zz=px*Math.sin(state3.yaw)+pz*Math.cos(state3.yaw);
+    const yy=py*Math.cos(state3.pitch)-zz*Math.sin(state3.pitch);
+    corners.push([xx,yy]);
+   }
+   for(let a=0;a<8;a++)for(const bit of [1,2,4]){
+    const b=a^bit;if(b>a)line(group,corners[a][0],corners[a][1],corners[b][0],corners[b][1]);
+   }
+  }
+  const values=Object.entries(state3.values).filter(([key,value])=>value!=='');
+  if(values.length)caption(svg,210,267,values.map(([key,value])=>key+'='+value).join('   '));
+ }
+ function controls(){
+  toolbar.replaceChildren();
+  const actions=[
+   ['−',()=>state3.zoom=Math.max(.55,state3.zoom-.15)],
+   ['+',()=>state3.zoom=Math.min(2.2,state3.zoom+.15)],
+   ['↶',()=>{if(state3.kind==='cube'||state3.kind==='prism')state3.yaw-=.25;else state3.angle-=15}],
+   ['↷',()=>{if(state3.kind==='cube'||state3.kind==='prism')state3.yaw+=.25;else state3.angle+=15}],
+   [learningLabel('Reset','Reset'),()=>{state3.zoom=1;state3.x=0;state3.y=0;state3.angle=0;state3.yaw=.55;state3.pitch=.35}]
+  ];
+  for(const [label,action] of actions){const button=document.createElement('button');button.type='button';button.className='secondary-btn';button.textContent=label;button.onclick=()=>{action();render()};toolbar.append(button)}
+ }
+ function fields(){
+  dimensions.replaceChildren();
+  const entry=shapeOptions.find(item=>item[0]===state3.kind);
+  for(const dimension of entry[3]){
+   const wrapper=document.createElement('label');wrapper.textContent=dimension;
+   const field=document.createElement('input');field.type='text';field.inputMode='decimal';field.maxLength=16;
+   field.placeholder='—';field.value=state3.values[dimension]||'';
+   field.setAttribute('aria-label',dimension);
+   field.addEventListener('input',()=>{state3.values[dimension]=field.value.trim();render()});
+   wrapper.append(field);dimensions.append(wrapper);
+  }
+ }
+ selector.onchange=()=>{state3.kind=selector.value;state3.values={};state3.zoom=1;state3.x=0;state3.y=0;state3.angle=0;fields();render()};
+ let gesture=null;
+ svg.style.touchAction='none';
+ svg.addEventListener('pointerdown',event=>{if(event.button!==0&&event.pointerType==='mouse')return;gesture={id:event.pointerId,x:event.clientX,y:event.clientY};svg.setPointerCapture?.(event.pointerId)});
+ svg.addEventListener('pointermove',event=>{
+  if(!gesture||gesture.id!==event.pointerId)return;
+  const dx=event.clientX-gesture.x,dy=event.clientY-gesture.y;gesture.x=event.clientX;gesture.y=event.clientY;
+  if(state3.kind==='cube'||state3.kind==='prism'){state3.yaw+=dx*.012;state3.pitch=Math.max(-1.2,Math.min(1.2,state3.pitch+dy*.012))}
+  else{state3.x+=dx*420/Math.max(1,svg.getBoundingClientRect().width);state3.y+=dy*280/Math.max(1,svg.getBoundingClientRect().height)}
+  render();
+ });
+ svg.addEventListener('pointerup',()=>gesture=null);svg.addEventListener('pointercancel',()=>gesture=null);
+ commit.onclick=()=>{
+  const entry=shapeOptions.find(item=>item[0]===state3.kind);
+  const dimensionsText=Object.entries(state3.values).filter(([key,value])=>value!=='').map(([key,value])=>key+'='+value).join(', ');
+  const description=learningLabel(entry[1],entry[2])+(dimensionsText?' ('+dimensionsText+')':'');
+  mathFigureDraft={kind:state3.kind,values:{...state3.values}};
+  const field=document.getElementById('mathEducationText');
+  if(field){field.value=(field.value.trim()?field.value.trim()+'\n':'')+description;mathRememberDraft(field.value)}
+  dialog.close();field?.focus();
+ };
+ panel.append(bar,selector,view,toolbar,help,dimensions,commit);
+ dialog.append(panel);document.body.append(dialog);
+ dialog.addEventListener('close',()=>dialog.remove(),{once:true});
+ fields();controls();render();dialog.showModal();
+}
+
 function openLearningSubject(key){
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
  if(key==='math'&&mathJourney.stage!=='workspace'){
@@ -7138,6 +7284,11 @@ function openLearningSubject(key){
   photo.className='secondary-btn math-input-tool';photo.textContent=learningLabel('📷 Foto','📷 Camera');
   pick.className='secondary-btn math-input-tool';pick.textContent=learningLabel('🖼️ Album','🖼️ Gallery');
   tools.append(actions);
+  if(mathJourney.topic==='geometry'||mathJourney.topic==='trigonometry'){
+   const figures=document.createElement('button');figures.type='button';figures.className='secondary-btn math-input-tool';
+   figures.textContent=learningLabel('◇ Figuri geometrice','◇ Geometric figures');
+   figures.onclick=mathFigureWorkbench;tools.append(figures);
+  }
   const status=document.createElement('small');status.id='mathEducationStatus';status.setAttribute('role','status');
   status.textContent='';
   editor.addEventListener('input',()=>{mathRememberDraft(editor.value);status.textContent=''});
