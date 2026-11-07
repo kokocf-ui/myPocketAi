@@ -10495,10 +10495,14 @@ async function mathFetchResult(item,session){
   learningLabel('. Adaptează dificultatea explicațiilor; nu schimba enunțul.','. Adapt the explanation level without changing the exercise.');
  const message=prompt+'\\n'+classroom+'\\n'+requested+(checked?'\\n'+checked:'')+'\\n'+
   learningLabel('Răspunde strict la următorul exercițiu, nu la alte exemple:','Answer ONLY the following exercise, not another problem:')+'\\n'+item.text;
+ const taskController=new AbortController();
+ const cancelTask=()=>taskController.abort();
+ session.controller.signal.addEventListener('abort',cancelTask,{once:true});
+ const deadline=setTimeout(cancelTask,20000);
  try{
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
    body:JSON.stringify({message,language:state.language,module:'learning',history:[],location_requested:false}),
-   signal:session.controller.signal});
+   signal:taskController.signal});
   const payload=await response.json();
   if(!response.ok||payload.status!=='success'||typeof payload.reply!=='string'||!payload.reply.trim())
    throw new Error(payload.error||learningLabel('Nu am primit o rezolvare validă.','No valid solution returned.'));
@@ -10506,7 +10510,12 @@ async function mathFetchResult(item,session){
   item.reply=mathCleanAnswerMarkup(payload.reply.trim());item.spokenReply=item.reply;
  }catch(error){
   if(mathResultSession!==session||session.controller.signal.aborted)return;
-  item.error=learningLabel('Nu am putut obține rezolvarea: ','Could not obtain the solution: ')+String(error?.message||error);
+  item.error=taskController.signal.aborted?
+   learningLabel('Rezolvarea a depășit 20 de secunde. Verifică conexiunea sau încearcă din nou.','The solution exceeded 20 seconds. Check the connection or try again.'):
+   learningLabel('Nu am putut obține rezolvarea: ','Could not obtain the solution: ')+String(error?.message||error);
+ }finally{
+  clearTimeout(deadline);
+  session.controller.signal.removeEventListener('abort',cancelTask);
  }
  if(mathResultSession===session&&session.tasks[session.active]===item)mathResultPage(session.active);
 }
