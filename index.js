@@ -8872,6 +8872,7 @@ window.pocketAndroidOcrResult=function(data){
   const editor=$('mathEducationText'),status=$('mathEducationStatus');
   if(!editor||!status)return;
   const text=typeof data?.text==='string'?data.text.trim().slice(0,3500):'';
+  if(!text){status.textContent=learningLabel('Fotografia nu a putut fi citită. Exercițiul introdus anterior a fost păstrat.','Photo could not be read. The previous exercise was preserved.');return;}
   mathPhotoNeedsReview=true;
   const workspace=$('mathEducationWorkspace');
   workspace?.querySelector('.math-photo-review')?.remove();
