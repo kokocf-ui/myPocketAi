@@ -3,8 +3,8 @@
   "type": "module",
   "scripts": {
     "check": "node --check backend.js && node --check index.js",
-    "test": "node tests.mjs && node tests_routes.mjs && node tests_modal_ui.mjs && node tests_response_intent.mjs && node tests_localization.mjs && node tests_telegram_mtproto_direct.mjs",
-    "test:android": "node tests_education_android.mjs && node tests_agenda_android_reminders.mjs && node tests_shopping_workspace.mjs && node tests_documents_ocr_fields.mjs",
+    "test": "node tests.mjs && node tests_routes.mjs && node tests_modal_ui.mjs && node tests_response_intent.mjs && node tests_localization.mjs && node tests_news_contextual_translation.mjs && node tests_telegram_mtproto_direct.mjs",
+    "test:android": "node tests_education_android.mjs && node tests_agenda_android_reminders.mjs && node tests_shopping_workspace.mjs && node tests_documents_ocr_fields.mjs && node tests_avatar_lipsync_stop.mjs",
     "test:ui": "node tests_navigation_heading.mjs && node tests_education_responsive_layout.mjs && node tests_math_voice_parentheses.mjs && node tests_math_linear_equations.mjs && node tests_math_linear_graph_proof.mjs && node tests_math_linear_verification.mjs && node tests_math_whisper_pilot.mjs"
   },
   "dependencies": {
