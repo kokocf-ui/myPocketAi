@@ -81,6 +81,7 @@ jobs:
           node --check backend.js
           node tests_response_intent.mjs
           node tests_news_contextual_translation.mjs
+          node tests_news_live_routing.mjs
 
       - name: Deploy backend (retry transient Cloudflare outages only)
         env:
