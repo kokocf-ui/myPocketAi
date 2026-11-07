@@ -16,7 +16,7 @@ const element=tag=>({
 const context={learningLabel:ro=>ro,document:{createElement:element,getElementById:()=>null},
  mathSvgElement:(tag,attrs)=>{const e=element(tag);e.attributes=attrs||{};return e}};
 const api=vm.runInNewContext(source.slice(start,end)+
- '\n({groups:MATH_FIGURE_GROUPS,figures:MATH_FIGURES,copy:mathFigureCopy,definition:mathFigureDefinition,auto:mathFigureAutoExercise,conflict:mathFigureConflict,paint:mathFigurePaint,mesh:mathFigureMesh,projection:mathFigureProject3D,defaultVertices:mathFigureDefaultVertices,name:mathFigureName})',context);
+ '\n({groups:MATH_FIGURE_GROUPS,figures:MATH_FIGURES,copy:mathFigureCopy,definition:mathFigureDefinition,auto:mathFigureAutoExercise,conflict:mathFigureConflict,internal:mathFigureInternalConflict,paint:mathFigurePaint,mesh:mathFigureMesh,projection:mathFigureProject3D,defaultVertices:mathFigureDefaultVertices,name:mathFigureName})',context);
 assert.equal(api.groups.length,4,'four figure families');
 assert.equal(api.figures.filter(x=>x.group==='triangles').length,4);
 assert.ok(api.figures.some(x=>x.id==='square'));
@@ -47,6 +47,15 @@ assert.match(api.auto(rect),/lungimea 8 cm și lățimea 5 cm/);
 const circle=api.copy({id:'circle',values:{raza:'3'},unit:'cm'});
 assert.match(api.auto(circle),/raza 3 cm/);
 assert.equal(api.conflict(circle,'Cerc raza 4 cm'),'raza');
+assert.equal(api.internal(api.copy({id:'right',values:{a:'3',b:'4',c:'7'}})),'ipotenuza','hypotenuse must exceed both legs');
+assert.equal(api.internal(api.copy({id:'right',values:{a:'3',b:'4',c:'6'}})),'Pitagora','three inconsistent sides must not be solved');
+assert.equal(api.internal(api.copy({id:'right',values:{a:'3',b:'4',c:'5'}})),'','3-4-5 valid');
+assert.equal(api.internal(api.copy({id:'circle',values:{raza:'3',diametru:'8'}})),'raza / diametru');
+assert.equal(api.internal(api.copy({id:'circle',values:{raza:'3',diametru:'6'}})),'');
+assert.equal(api.internal(api.copy({id:'triangle',values:{AB:'2',BC:'3',CA:'7'}})),'inegalitatea triunghiului');
+assert.equal(api.internal(api.copy({id:'triangle',values:{AB:'3',BC:'4',CA:'5'}})),'');
+assert.equal(api.conflict(right,'Triunghi dreptunghic cu catetele 3 cm și 5 cm'),'catetele','geometry text cannot silently override selected figure');
+assert.equal(api.conflict(right,'Triunghi dreptunghic cu catetele 4 cm și 3 cm'),'','swapped leg order is fine');
 assert.equal(api.auto(api.copy({id:'circle',values:{raza:'3',diametru:'6'}})),'','do not choose between redundant values without checking');
 assert.equal(api.copy({id:'free'}).id,'free');
 assert.deepEqual(Array.from(api.defaultVertices('triangle'),x=>x.length),[2,2,2]);
