@@ -42,7 +42,7 @@ const ask=async (target,env,overrides={})=>{
 };
 try{
  const local=await ask(uk,{TFL_APP_KEY:"mock-tfl"});
- assert.equal(local.status,"success");
+ assert.equal(local.status,"success",JSON.stringify({local,hosts:calls.map(u=>u.hostname+u.pathname)}).slice(0,1200));
  assert.ok(calls.some(u=>u.hostname==="api.tfl.gov.uk"&&u.pathname.includes("JourneyResults")),
   "UK mixed mode without an international provider must still query TfL");
  assert.notEqual(local.reason,"international_provider_not_connected",
