@@ -6,7 +6,7 @@ import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.m
 import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion} from "./dialogue_intent.mjs";
 import {localizeNewsRows} from "./localization.mjs";
 import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPublicationDay} from "./news_context.mjs";
-import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers} from "./news_discovery.mjs";
+import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers,requestedNewsSourceLanguage} from "./news_discovery.mjs";
 import {classifyVoluntaryTelegramLink,telegramVerificationPrompt,telegramExternalResearchQuery} from "./telegram_voluntary_links.mjs";
 import {discoverTelegramPublicLinks,telegramPublicLinkSearchIntent,publicTelegramPostUrl} from "./telegram_public_web_links.mjs";
 import {telegramDirectReady,telegramOwnerAuthorized,searchTelegramDirect} from "./telegram_mtproto_direct.mjs";
@@ -5310,7 +5310,9 @@ export default {
     const explicitCountryCode=String(message).match(/\b(?:UK|US|USA|GB|RO|FR|DE|IT|ES|NL|PL|CA|AU)\b/);
     const searchCountry=declaredCountry?.[1]||(explicitCountryCode?countryNameCodes.get(explicitCountryCode[0].toLowerCase())||'':'');
     // v107: UI language is not a country. Use worldwide search unless a country is explicit.
-    const searchLanguage = lang;
+    // Source language belongs to the articles, not to the user-facing translation.
+    const requestedSourceLanguage=sourceBackedNewsRequested?requestedNewsSourceLanguage(message):null;
+    const searchLanguage = requestedSourceLanguage||lang;
     const eventSearchText=eventResearchIntent?message.replace(/\b(?:anul\s+curent|acest\s+an|this\s+year|current\s+year)\b/giu,String(new Date().getUTCFullYear())):message;
     const recipeSearchHints={ro:"rețetă ingrediente mod de preparare",en:"recipe ingredients method",fr:"recette ingrédients préparation",de:"Rezept Zutaten Zubereitung",it:"ricetta ingredienti preparazione",es:"receta ingredientes preparación",pt:"receita ingredientes preparação",nl:"recept ingrediënten bereiding",ru:"рецепт ингредиенты приготовление",pl:"przepis składniki przygotowanie"};
     const contextualSearch=contextualResearchQuery(message,history);
