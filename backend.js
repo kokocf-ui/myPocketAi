@@ -6,7 +6,7 @@ import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.m
 import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion} from "./dialogue_intent.mjs";
 import {localizeNewsRows} from "./localization.mjs";
 import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPublicationDay} from "./news_context.mjs";
-import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers,requestedNewsSourceLanguage} from "./news_discovery.mjs";
+import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers,requestedNewsSourceLanguages,requestedNewsArticleLimit,newsFreshnessHours,isNewsComparisonRequest,newsSearchTopic,newsSearchQuery,cleanNewsExcerpt,looksLikeNewsArticle} from "./news_discovery.mjs";
 import {classifyVoluntaryTelegramLink,telegramVerificationPrompt,telegramExternalResearchQuery} from "./telegram_voluntary_links.mjs";
 import {discoverTelegramPublicLinks,telegramPublicLinkSearchIntent,publicTelegramPostUrl} from "./telegram_public_web_links.mjs";
 import {telegramDirectReady,telegramOwnerAuthorized,searchTelegramDirect} from "./telegram_mtproto_direct.mjs";
@@ -1800,7 +1800,10 @@ export default {
     // Follow-up questions about the *actual displayed news table* have priority
     // over fresh search and generic venue lookup. The client context is only
     // article metadata; it is NEVER treated as independent confirmation.
-    const newsFollowup=resolveNewsFollowup(message,data.news_context,data.history);
+    // A new search must supersede news_context, even when it asks for sources or dates.
+    const independentNewsSearch=/\b(?:cauta|gaseste|prezinta|arata|afiseaza|find|search|show|list)\b/.test(message.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase())
+      && /\b(?:stiri|news|relatari|reports|articole|articles)\b/.test(message.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase());
+    const newsFollowup=independentNewsSearch?null:resolveNewsFollowup(message,data.news_context,data.history);
     if(newsFollowup){
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
         message_received:message,reply:formatNewsFollowup(newsFollowup,lang),
@@ -5311,8 +5314,8 @@ export default {
     const searchCountry=declaredCountry?.[1]||(explicitCountryCode?countryNameCodes.get(explicitCountryCode[0].toLowerCase())||'':'');
     // v107: UI language is not a country. Use worldwide search unless a country is explicit.
     // Source language belongs to the articles, not to the user-facing translation.
-    const requestedSourceLanguage=sourceBackedNewsRequested?requestedNewsSourceLanguage(message):null;
-    const searchLanguage = requestedSourceLanguage||lang;
+    const requestedSourceLanguages=sourceBackedNewsRequested?requestedNewsSourceLanguages(message):[];
+    const searchLanguage = requestedSourceLanguages[0]||lang;
     const eventSearchText=eventResearchIntent?message.replace(/\b(?:anul\s+curent|acest\s+an|this\s+year|current\s+year)\b/giu,String(new Date().getUTCFullYear())):message;
     const recipeSearchHints={ro:"rețetă ingrediente mod de preparare",en:"recipe ingredients method",fr:"recette ingrédients préparation",de:"Rezept Zutaten Zubereitung",it:"ricetta ingredienti preparazione",es:"receta ingredientes preparación",pt:"receita ingredientes preparação",nl:"recept ingrediënten bereiding",ru:"рецепт ингредиенты приготовление",pl:"przepis składniki przygotowanie"};
     const contextualSearch=contextualResearchQuery(message,history);
@@ -5320,7 +5323,7 @@ export default {
     const answerFocus=(dialogueIntent.kind==="reformat_previous" || (dialogueIntent.kind==="explanation" && dialogueIntent.sentence_count))
       ? {mode:"format_constrained",max_tokens:220}
       : planAnswerFocus(message,{contextApplied:contextualSearch.context_applied||Boolean(correctedTopic),dialogueOnly:dialogueOnlyIntent,recipeInstruction,eventResearchIntent});
-    const searchQuery = (telegramExternalResearchQuery(voluntaryTelegramLink)|| (eventResearchIntent?(eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim()||eventSearchText):recipeInstruction?(message+' '+(recipeSearchHints[lang]||recipeSearchHints.en)):((correctedTopic||contextualSearch.query)+(legalResearch?" Prefer current official government or regulator sources for the stated jurisdiction.":" Prefer primary sources and exact dates; do not infer missing facts.")))).slice(0,550);
+    const searchQuery = (telegramExternalResearchQuery(voluntaryTelegramLink)|| (sourceBackedNewsRequested?newsSearchQuery(message,searchLanguage):(eventResearchIntent?(eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim()||eventSearchText):recipeInstruction?(message+' '+(recipeSearchHints[lang]||recipeSearchHints.en)):((correctedTopic||contextualSearch.query)+(legalResearch?" Prefer current official government or regulator sources for the stated jurisdiction.":" Prefer primary sources and exact dates; do not infer missing facts."))))).slice(0,550);
     const safeSourceUrl = value => {
       try {
         const u = new URL(value);
@@ -5340,9 +5343,11 @@ export default {
 
       // GDELT only supplements current-events requests; returned article listings are leads,
       // not independent fact verification. Other topics preserve the existing fast path.
-      const newsIntent = !voluntaryTelegramLink && !recipeInstruction && !eventResearchIntent && ["article_collection","briefing"].includes(classifyNewsRequest(message).mode);
+      const newsIntent = sourceBackedNewsRequested || (!voluntaryTelegramLink && !recipeInstruction && !eventResearchIntent && ["article_collection","briefing"].includes(classifyNewsRequest(message).mode));
       if(newsIntent) {
-        const topic=message.replace(/^(?:(?:care sunt|arata-mi|cauta|show me|what are the)\s+)?(?:(?:ultimele|latest|recent|breaking)\s+)?(?:stiri|știri|news|noutati|actualitati)\s*(?:(?:despre|about|privind|on)\s+)?/iu,"").trim();
+        const topic=newsSearchTopic(message); // Qualified topic, never the translation instruction.
+        /* Original broad topic extraction retained for historical context:
+        const oldTopic=message.replace(/^(?:(?:care sunt|arata-mi|cauta|show me|what are the)\s+)?(?:(?:ultimele|latest|recent|breaking)\s+)?(?:stiri|știri|news|noutati|actualitati)\s*(?:(?:despre|about|privind|on)\s+)?/iu,"").trim(); */
         const broadGeopolitics=/geopolitic|international|world affairs|politic.*extern/i.test(topic);
         const defaultGdeltQuery=broadGeopolitics?"(Ukraine OR Russia OR Iran OR Israel OR NATO OR diplomacy OR sanctions OR election OR government OR conflict OR military)":(topic.length>=3?topic:message).slice(0,110);
         const queryVariants=newsDiscoveryPlan.gdeltQueries||[defaultGdeltQuery];
