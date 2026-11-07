@@ -1558,6 +1558,10 @@ body.long-choice-active{overflow:hidden}
 .math-figure-dimensions{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:9px}
 .math-figure-dimensions label{display:flex;flex-direction:column;gap:4px;font-size:13px}
 .math-figure-dimensions input{min-width:0;width:100%;box-sizing:border-box;background:#123b50;color:#fff;border:1px solid #5799aa;border-radius:7px;padding:8px}
+.math-triangle-picker{width:min(92vw,410px);max-height:82dvh}
+.math-triangle-picker .math-figure-panel{max-height:82dvh}
+.math-triangle-picker button{min-height:40px}
+.math-figure-panel button[hidden]{display:none!important}
 .math-figure-panel small{font-size:12px;color:#b9d7e2;line-height:1.4}
 .math-figure-panel .primary-btn{min-height:40px}
 
@@ -7231,18 +7235,66 @@ function mathFigureWorkbench(){
    wrapper.append(field);dimensions.append(wrapper);
   }
  }
- selector.onchange=()=>{state3.kind=selector.value;state3.values={};state3.zoom=1;state3.x=0;state3.y=0;state3.angle=0;fields();render()};
- let gesture=null;
+ function chooseTriangleType(){
+  const chooser=document.createElement('dialog');chooser.className='math-figure-dialog math-triangle-picker';
+  const body=document.createElement('div');body.className='math-figure-panel';
+  const heading=document.createElement('strong');heading.textContent=learningLabel('Ce fel de triunghi dorești?','Which type of triangle?');body.append(heading);
+  for(const [id,ro,en] of triangleTypes){
+   const option=document.createElement('button');option.type='button';option.className='secondary-btn';option.textContent=learningLabel(ro,en);
+   option.onclick=()=>{state3.triangleType=id;updateSubtype();chooser.close();render()};
+   body.append(option);
+  }
+  const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('Revenire','Back');back.onclick=()=>chooser.close();
+  body.append(back);chooser.append(body);document.body.append(chooser);
+  chooser.addEventListener('close',()=>chooser.remove(),{once:true});chooser.showModal();
+ }
+ function updateSubtype(){
+  typeRow.hidden=state3.kind!=='triangle';
+  if(!typeRow.hidden){
+   const kind=triangleTypes.find(x=>x[0]===state3.triangleType)||triangleTypes[0];
+   typeRow.textContent=learningLabel('Tip triunghi: ','Triangle type: ')+learningLabel(kind[1],kind[2]);
+  }
+ }
+ typeRow.onclick=chooseTriangleType;
+ selector.onchange=()=>{state3.kind=selector.value;state3.values={};state3.zoom=1;state3.x=0;state3.y=0;state3.angle=0;updateSubtype();fields();render();if(state3.kind==='triangle')chooseTriangleType()};
+ const pointers=new Map();let previousPinch=null;
  svg.style.touchAction='none';
- svg.addEventListener('pointerdown',event=>{if(event.button!==0&&event.pointerType==='mouse')return;gesture={id:event.pointerId,x:event.clientX,y:event.clientY};svg.setPointerCapture?.(event.pointerId)});
- svg.addEventListener('pointermove',event=>{
-  if(!gesture||gesture.id!==event.pointerId)return;
-  const dx=event.clientX-gesture.x,dy=event.clientY-gesture.y;gesture.x=event.clientX;gesture.y=event.clientY;
-  if(state3.kind==='cube'||state3.kind==='prism'){state3.yaw+=dx*.012;state3.pitch=Math.max(-1.2,Math.min(1.2,state3.pitch+dy*.012))}
-  else{state3.x+=dx*420/Math.max(1,svg.getBoundingClientRect().width);state3.y+=dy*280/Math.max(1,svg.getBoundingClientRect().height)}
-  render();
+ function pinchData(){
+  const p=Array.from(pointers.values());if(p.length!==2)return null;
+  const dx=p[1].x-p[0].x,dy=p[1].y-p[0].y;
+  return {length:Math.hypot(dx,dy),angle:Math.atan2(dy,dx),x:(p[0].x+p[1].x)/2,y:(p[0].y+p[1].y)/2};
+ }
+ svg.addEventListener('pointerdown',event=>{
+  if(event.pointerType==='mouse'&&event.button!==0)return;
+  event.preventDefault();pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
+  try{svg.setPointerCapture(event.pointerId)}catch{}
+  previousPinch=pinchData();
  });
- svg.addEventListener('pointerup',()=>gesture=null);svg.addEventListener('pointercancel',()=>gesture=null);
+ svg.addEventListener('pointermove',event=>{
+  if(!pointers.has(event.pointerId))return;
+  event.preventDefault();const old=pointers.get(event.pointerId);
+  pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
+  const solid=['cube','prism','cylinder','cone','sphere'].includes(state3.kind);
+  if(pointers.size===2){
+   const next=pinchData();
+   if(next&&previousPinch&&previousPinch.length>5){
+    state3.zoom=Math.max(.55,Math.min(2.2,state3.zoom*next.length/previousPinch.length));
+    let change=(next.angle-previousPinch.angle)*180/Math.PI;
+    if(change>180)change-=360;if(change< -180)change+=360;
+    if(solid)state3.yaw+=change*Math.PI/180;else state3.angle+=change;
+    state3.x+=(next.x-previousPinch.x)*420/Math.max(1,svg.getBoundingClientRect().width);
+    state3.y+=(next.y-previousPinch.y)*280/Math.max(1,svg.getBoundingClientRect().height);
+   }
+   previousPinch=next;
+  }else if(pointers.size===1){
+   const dx=event.clientX-old.x,dy=event.clientY-old.y;
+   if(solid){state3.yaw+=dx*.012;state3.pitch=Math.max(-1.2,Math.min(1.2,state3.pitch+dy*.012))}
+   else{state3.x+=dx*420/Math.max(1,svg.getBoundingClientRect().width);state3.y+=dy*280/Math.max(1,svg.getBoundingClientRect().height)}
+  }
+  render();
+ },{passive:false});
+ function finishTouch(event){pointers.delete(event.pointerId);previousPinch=pinchData()}
+ svg.addEventListener('pointerup',finishTouch);svg.addEventListener('pointercancel',finishTouch);
  commit.onclick=()=>{
   const entry=shapeOptions.find(item=>item[0]===state3.kind);
   const dimensionsText=Object.entries(state3.values).filter(([key,value])=>value!=='').map(([key,value])=>key+'='+value).join(', ');
@@ -7256,7 +7308,7 @@ function mathFigureWorkbench(){
  panel.append(bar,selector,typeRow,view,toolbar,help,dimensions,commit);
  dialog.append(panel);document.body.append(dialog);
  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
- fields();controls();render();dialog.showModal();
+ updateSubtype();fields();controls();render();dialog.showModal();if(state3.kind==='triangle'&&!mathFigureDraft)chooseTriangleType();
 }
 
 function openLearningSubject(key){
