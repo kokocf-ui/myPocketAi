@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import frontend from './index.js';
+const html=await(await frontend.fetch(new Request('https://science-scroll.test/'))).text();
+const rule=html.match(/\/\* Science touch\/scroll recovery \(Android WebView\)\.[\s\S]*?<\/style>/)?.[0];
+assert.ok(rule,'mobile science scroll recovery styles are served');
+for(const selector of ['main.page:has(#view-module.learning-science.active)','#view-module.learning-science.active','#view-module.learning-science #moduleContent','#view-module.learning-science .science-choice-panel','#view-module.learning-science .science-choice-list','#view-module.learning-science #scienceEducationWorkspace'])assert.ok(rule.includes(selector),selector);
+assert.match(rule,/overflow-y:auto!important/);
+assert.match(rule,/touch-action:pan-y!important/);
+assert.match(rule,/pointer-events:auto!important/);
+assert.match(rule,/padding-bottom:calc\(116px/);
+console.log('PASS science scroll-unlock CSS regression');
