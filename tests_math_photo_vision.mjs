@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
+import frontend from "./index.js";
 
 const secret="z".repeat(40);
 let calls=0,modelName="",modelInput;
@@ -30,4 +31,16 @@ assert.equal(modelInput.reasoning,false);
 assert.equal(modelInput.task,"query");
 assert.equal(calls,1,"only one valid request calls vision inference");
 assert.match(fs.readFileSync("backend.js","utf8"),/handleMathVisionPilot\(request,env,json\)/);
-console.log("PASS opt-in mathematics image OCR backend gate and shape");
+const html=await(await frontend.fetch(new Request("https://fixture/"))).text();
+assert.match(html,/PocketAndroidMathVision/);
+assert.match(html,/pocketAndroidMathVisionResult/);
+assert.match(html,/Verifică simbolurile cu AI \(pilot\)/);
+assert.match(html,/if\(!text&&!window\.PocketAndroidMathVision\?\.postMessage\)/);
+assert.match(html,/mathVisionPhotoOnDemand\(\)/);
+const native=fs.readFileSync("android/app/src/main/java/ai/mypocket/mobile/MainActivity.java","utf8");
+assert.match(native,/WebViewCompat\.addWebMessageListener\(web,"PocketAndroidMathVision"/);
+assert.match(native,/if\(!isMainFrame\|\|!APP_HOST\.equals\(origin\.getHost\(\)\)\)return;/);
+assert.match(native,/sendMathVisionPhoto\(id\)/);
+assert.match(native,/if\(math\)mathVisionSourceUri=imageUri;/);
+assert.match(native,/encoded\.substring\(i,Math\.min\(i\+48000,encoded\.length\(\)\)\)/);
+console.log("PASS opt-in mathematics image OCR backend and native photo bridge contracts");
