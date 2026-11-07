@@ -7130,10 +7130,31 @@ function mathPhotoCandidates(source,alternative){
 
 // OCR sometimes turns √5 into V5 or x² into x2. Never silently treat these
 // uncertain glyphs as verified algebra when selecting a photographed exercise.
-function mathPhotoOcrRisk(source){
+// These ambiguous OCR glyphs must never be silently interpreted as a valid
+// photographed exercise. This validation only runs on photo review, not
+// manually entered calculus equations, where prime notation can be correct.
+function mathPhotoOcrRisks(source){
  const value=String(source||'').replace(/\\s+/g,'');
- return /(?:^|[+\\-])\\d*[vV]\\d/.test(value)||/[a-z]2(?=$|[+\\-a-z])/i.test(value);
+ const risks=[];
+ if(/(?:^|[+\\-])\\d*[vV]\\d/.test(value))risks.push('radical');
+ if(/[a-z]2(?=$|[+\\-a-z])/i.test(value))risks.push('exponent');
+ if(/[a-z][\\u0027\\u2019\\u00b4\\u0060\\u2032](?![a-z])/i.test(value))risks.push('prime');
+ if(/[a-z]\\?(?=$|[+\\-a-z])/i.test(value)||/\\?(?=[+\\-]|\\d|$)/.test(value))risks.push('unknown');
+ return risks;
 }
+function mathPhotoOcrRisk(source){return mathPhotoOcrRisks(source).length>0}
+function mathPhotoOcrRiskWarning(source){
+ const risks=mathPhotoOcrRisks(source);
+ if(!risks.length)return '';
+ const terms=[];
+ if(risks.includes('radical'))terms.push(learningLabel('V5 poate însemna √5','V5 may mean √5'));
+ if(risks.includes('exponent'))terms.push(learningLabel('x2 poate însemna x²','x2 may mean x²'));
+ if(risks.includes('prime'))terms.push(learningLabel("x' poate fi un exponent citit greșit","x' may be a misread exponent"));
+ if(risks.includes('unknown'))terms.push(learningLabel('semnul ? indică un caracter necitit','? indicates an unread character'));
+ return learningLabel('Simboluri OCR nesigure: ','Uncertain OCR symbols: ')+terms.join('; ')+'. '+
+  learningLabel('Verifică și corectează formula după fotografie.','Check and correct the formula against the photo.');
+}
+
 // Educational mathematics: reject obvious OCR fragments, not legitimate hand-entered work.
 function educationMathOcrIncomplete(value){
  const raw=String(value||'').replace(/\\s+/g,'');
@@ -9078,9 +9099,7 @@ window.pocketAndroidOcrResult=function(data){
     selectedCandidateIndex=i;
     candidateInput.value=entry.text;
     selectedInfo.textContent=learningLabel('Selectat: ','Selected: ')+entry.label;
-    feedback.textContent=mathPhotoOcrRisk(entry.text)?
-     learningLabel('Simboluri nesigure: V poate fi √, iar x2 poate fi x². Corectează textul înainte de confirmare.',
-      'Uncertain symbols: V may mean √ and x2 may mean x². Edit before confirming.'):'';
+    feedback.textContent=mathPhotoOcrRiskWarning(entry.text);
     updateChoiceHighlights();
    };
    const renderChoices=()=>{
@@ -9132,9 +9151,8 @@ window.pocketAndroidOcrResult=function(data){
   confirmation.textContent=learningLabel('Confirmă exercițiul','Confirm exercise');
   confirmation.onclick=()=>{
    const candidate=candidateInput.value.trim();
-   const originalOcr=selectedCandidateIndex>=0?candidates[selectedCandidateIndex]?.text||'':'';
-   if(originalOcr&&candidate===originalOcr&&mathPhotoOcrRisk(candidate)){
-    feedback.textContent=learningLabel('Corectează simbolurile OCR ambigue înainte de confirmare (V/√, x2/x²).','Correct ambiguous OCR symbols before confirming (V/√, x2/x²).');
+   if(mathPhotoOcrRisk(candidate)){
+    feedback.textContent=mathPhotoOcrRiskWarning(candidate);
     return;
    }
    if(educationMathOcrIncomplete(candidate)||candidate.length>240||candidate.split('\\n').length>3){
