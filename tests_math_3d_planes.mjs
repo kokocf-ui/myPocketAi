@@ -25,7 +25,7 @@ function element(tag){
 const context={document,state:{language:'ro'},learningLabel:(ro,en)=>ro,
  mathLinearNotation:()=>({number:n=>String(n)}),Math,Map};
 const api=vm.runInNewContext(script.slice(a,b)+
- '\n({plane:math3DPlanePolygon,figure:mathSystem3x3Figure,graph:mathSystem3x3Graph})',context);
+ '\n({plane:math3DPlanePolygon,figure:mathSystem3x3Figure})',context);
 const center=[1,2,3],radius=5;
 const equations=[
  {a:1,b:1,c:1,d:6},
