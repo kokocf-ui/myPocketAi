@@ -7,7 +7,7 @@ assert.ok(script,'frontend script exists');
 new vm.Script(script);
 assert.ok(script.includes('function mathFigureWorkbench()'),'legacy entry point delegates to the expanded figure editor');
 assert.ok(script.includes('function mathOpenFigureLibrary()'),'expanded figure editor is present');
-assert.ok(script.includes("mathJourney.topic==='geometry'||mathJourney.topic==='trigonometry'"),'tool is only displayed for relevant topics');
+assert.ok(script.includes("['geometry','trigonometry'].includes(mathJourney.topic)"),'tool is only displayed for relevant topics');
 for(const shape of ['triangle','right','isosceles','equilateral','rectangle','square','circle','trapezoid','cube','prism','cone','sphere'])
  assert.ok(script.includes("id:'"+shape+"'"),shape+' is available');
 assert.ok(script.includes("input.placeholder=learningLabel('Opțional'"),'dimensions may stay blank');
