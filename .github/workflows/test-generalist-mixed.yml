@@ -9,6 +9,8 @@ on:
       - 'news_discovery.mjs'
       - 'news_source_integrity.mjs'
       - 'tests_news_source_integrity.mjs'
+      - 'tests_news_reader_back.mjs'
+      - 'tests_localization.mjs'
       - 'response_intent.mjs'
       - 'tests_response_intent.mjs'
       - 'tests_news_live_routing.mjs'
@@ -45,4 +47,5 @@ jobs:
           node tests_response_intent.mjs
           node tests_news_live_routing.mjs
           node tests_news_source_integrity.mjs
+          node tests_news_reader_back.mjs
           node tests_avatar_lipsync_stop.mjs
