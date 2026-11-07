@@ -41,9 +41,9 @@ const native=fs.readFileSync("android/app/src/main/java/ai/mypocket/mobile/MainA
 assert.match(native,/WebViewCompat\.addWebMessageListener\(web,"PocketAndroidMathVision"/);
 assert.match(native,/if\(!isMainFrame\|\|!APP_HOST\.equals\(origin\.getHost\(\)\)\)return;/);
 assert.match(native,/sendMathVisionPhoto\(id\)/);
-assert.match(native,/private Bitmap educationVisionBitmap\\(Uri imageUri\\)/);
-assert.match(native,/original=educationVisionBitmap\\(photo\\)/,'AI source retains original colour');
-assert.match(native,/scaled.compress\\(Bitmap.CompressFormat.JPEG,78,out\\)/,'AI upload uses high-quality compression with size cap');
+assert.match(native,/private Bitmap educationVisionBitmap\(Uri imageUri\)/);
+assert.match(native,/original=educationVisionBitmap\(photo\)/,'AI source retains original colour');
+assert.match(native,/scaled.compress\(Bitmap.CompressFormat.JPEG,78,out\)/,'AI upload uses high-quality compression with size cap');
 assert.match(native,/if\(math\)mathVisionSourceUri=imageUri;/);
 assert.match(native,/encoded\.substring\(i,Math\.min\(i\+48000,encoded\.length\(\)\)\)/);
 console.log("PASS opt-in mathematics image OCR backend and native photo bridge contracts");
