@@ -10171,6 +10171,20 @@ function mathGraphVerifiedAnswers(source,figure){
   }
   return [];
  }
+ const plotted=mathGraphModel(source);
+ if(plotted){
+  put('f(0)',plotted.c);
+  if(Math.abs(plotted.a)>1e-12){
+   const x0=-plotted.b/(2*plotted.a),y0=plotted.a*x0*x0+plotted.b*x0+plotted.c;
+   lines.push('V('+num(x0)+'; '+num(y0)+')');
+   const delta=plotted.b*plotted.b-4*plotted.a*plotted.c;
+   if(delta>=0){
+    put('x₁',(-plotted.b-Math.sqrt(delta))/(2*plotted.a));
+    if(delta>1e-12)put('x₂',(-plotted.b+Math.sqrt(delta))/(2*plotted.a));
+   }
+  }else if(Math.abs(plotted.b)>1e-12)put('x₀',-plotted.c/plotted.b);
+  return lines;
+ }
  const additional=mathAdditionalModel(source);
  if(additional?.kind==='statistics'){lines.push(additional.summary);return lines}
  const plane=mathPlaneShapeModel(source);
