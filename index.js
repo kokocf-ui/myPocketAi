@@ -8197,14 +8197,15 @@ function chemistryVisualKind(question){
  if(/molecul|h2o|co2|ch4|nh3|geometrie molecular/.test(q))return 'molecule';
  return null;
 }
-function chemistryElementNumber(question){
+function chemistryElementNumberOrNull(question){
  const q=educationTheoryClean(question||'');
  const aliases={'hidrogen':1,'heliu':2,'litiu':3,'carbon':6,'azot':7,'oxigen':8,'sodiu':11,'magneziu':12,'aluminiu':13,'siliciu':14,'fosfor':15,'sulf':16,'clor':17,'potasiu':19,'calciu':20,'fier':26,'cupru':29,'zinc':30,'argint':47,'aur':79,'mercur':80,'plumb':82,'uraniu':92};
  for(const [name,n] of Object.entries(aliases))if(new RegExp('(^| )'+name+'( |$)').test(q))return n;
  const match=String(question||'').match(/(?:element(?:ul)?|atom(?:ul)?)(?:\\s+cu)?\\s+(?:Z\\s*=?\\s*|numarul atomic\\s*)?(\\d{1,3})/i);
  if(match&&+match[1]>=1&&+match[1]<=118)return +match[1];
- return 6;
+ return null;
 }
+function chemistryElementNumber(question){return chemistryElementNumberOrNull(question)||6;}
 function chemistryAtomShells(z){
  // Common school-level shell model for Z <= 30, with Cr/Cu exceptions represented.
  const layouts=['1','2','2,1','2,2','2,3','2,4','2,5','2,6','2,7','2,8',
@@ -8258,22 +8259,70 @@ function chemistryVisualBuild(kind,question){
   scroll.append(table);box.append(scroll,detail);
   note.textContent=learningLabel('Elementele 57–71 și 89–103 sunt prezentate separat în rândurile inferioare. Derulează orizontal sau mărește vizualizarea.','Elements 57–71 and 89–103 appear in the lower rows. Scroll horizontally to inspect the table.');
  }else if(kind==='atom'){
-  addTitle('Model atomic · straturi electronice','Atomic model · electron shells');
-  const z=chemistryElementNumber(question),shells=chemistryAtomShells(z);
-  if(!shells){note.textContent=learningLabel('Pentru acest element nu este disponibil un model pe straturi verificat; consultă tabelul periodic.','A verified shell model is unavailable for this element.');box.append(note);return box}
-  const svg=svgEl('svg',{viewBox:'0 0 360 300',role:'img','aria-label':'Model atomic Z='+z},box);
-  const radii=shells.map((_,i)=>46+i*29);
-  radii.forEach((radius,i)=>{
-   svgEl('circle',{cx:180,cy:147,r:radius,fill:'none',stroke:'#78adca','stroke-width':1.7},svg);
-   for(let k=0;k<shells[i];k++){
-    const a=(Math.PI*2*k/shells[i])-Math.PI/2;
-    svgEl('circle',{cx:180+Math.cos(a)*radius,cy:147+Math.sin(a)*radius,r:4.3,fill:'#71e2eb',stroke:'#123d53','stroke-width':1},svg);
+  const normalized=educationTheoryClean(question||'');
+  const isAtomicNumber=/numar(?:ul)? atomic|atomic number|z p/.test(normalized);
+  const explicit=chemistryElementNumberOrNull(question);
+  addTitle(isAtomicNumber? 'Numărul atomic · Z = p':'Structura atomului · particule și straturi',
+    isAtomicNumber?'Atomic number · Z = p':'Atom structure · particles and shells');
+  const pick=document.createElement('div');pick.className='chem-atom-picker';
+  const pickLabel=document.createElement('label');
+  pickLabel.textContent=learningLabel('Element demonstrativ: ','Example element: ');
+  const selector=document.createElement('select');selector.setAttribute('aria-label',learningLabel('Alege elementul chimic','Choose chemical element'));
+  const basic=document.createElement('option');basic.value='general';basic.textContent=learningLabel('Atom general (fără element ales)','General atom (no element selected)');
+  selector.append(basic);
+  for(let z=1;z<=30;z++){
+   const opt=document.createElement('option');opt.value=String(z);
+   opt.textContent=(CHEM_ELEMENT_NAMES[z-1]||CHEM_ELEMENTS[z-1])+' ('+CHEM_ELEMENTS[z-1]+') · Z='+z;
+   selector.append(opt);
+  }
+  selector.value=explicit&&explicit<=30?String(explicit):'general';
+  pickLabel.append(selector);pick.append(pickLabel);box.append(pick);
+  const svg=svgEl('svg',{viewBox:'0 0 360 250',role:'img'},box);
+  const info=document.createElement('p');info.className='chem-atom-description';
+  const legend=document.createElement('p');legend.className='chem-atom-legend';
+  box.append(info,legend);
+  function renderAtom(){
+   svg.replaceChildren();
+   const z=Number(selector.value);
+   const shells=z?chemistryAtomShells(z):null;
+   svg.setAttribute('aria-label',z?'Atom neutru Z='+z:learningLabel('Schemă generală de atom','General atom diagram'));
+   if(!shells){
+    // Unspecified isotope: do not imply a particular proton/neutron count.
+    svgEl('circle',{cx:163,cy:116,r:41,fill:'#193950',stroke:'#b9dbe8','stroke-width':2},svg);
+    const nuclei=[[-13,-12,'p⁺','#e79a89'],[13,-12,'n⁰','#c7b4d9'],[-13,14,'p⁺','#e79a89'],[13,14,'n⁰','#c7b4d9']];
+    for(const [dx,dy,mark,color] of nuclei){
+     svgEl('circle',{cx:163+dx,cy:116+dy,r:13,fill:color},svg);
+     svgEl('text',{x:163+dx,y:121+dy,'text-anchor':'middle','font-size':11,fill:'#142638','font-weight':700},svg,mark);
+    }
+    svgEl('circle',{cx:163,cy:116,r:88,fill:'none',stroke:'#7fbad0','stroke-width':2},svg);
+    svgEl('circle',{cx:251,cy:116,r:7,fill:'#6de8f4'},svg);
+    svgEl('line',{x1:192,y1:93,x2:286,y2:65,stroke:'#e1f7ff','stroke-width':1.7},svg);
+    svgEl('text',{x:285,y:55,'font-size':14,fill:'#f1fbff'},svg,learningLabel('nucleu','nucleus'));
+    svgEl('line',{x1:251,y1:116,x2:295,y2:146,stroke:'#e1f7ff','stroke-width':1.7},svg);
+    svgEl('text',{x:257,y:163,'font-size':13,fill:'#aef4fb'},svg,'e⁻');
+    svgEl('text',{x:19,y:233,'font-size':13,fill:'#e5f5ff'},svg,'p⁺    n⁰    e⁻');
+    info.textContent=isAtomicNumber?
+      learningLabel('Z este numărul protonilor din nucleu. Selectează un element pentru valoarea exactă.','Z is the number of protons in the nucleus. Select an element for its value.'):
+      learningLabel('Protoni (+), neutroni (neutri) în nucleu; electroni (−) în jur. Schema nu atribuie un număr de neutroni.','Protons (+), neutrons (neutral) in nucleus; electrons (−) around it. Neutron count is unspecified.');
+    legend.textContent=learningLabel('Particule ilustrative; nu reprezintă un izotop sau un element anume.','Illustrative particles, not a specific isotope or element.');
+    return;
    }
-  });
-  svgEl('circle',{cx:180,cy:147,r:31,fill:'#d67c71',stroke:'#ffe5d1','stroke-width':2},svg);
-  svgEl('text',{x:180,y:152,'text-anchor':'middle',fill:'#0b2433','font-size':16,'font-weight':700},svg,'Z='+z);
-  const info=document.createElement('p');info.textContent=(CHEM_ELEMENT_NAMES[z-1]||CHEM_ELEMENTS[z-1])+' ('+CHEM_ELEMENTS[z-1]+') · '+shells.join(' – ')+' e⁻';box.append(info);
-  note.textContent=learningLabel('Model Bohr didactic, nu traiectorii fizice reale ale electronilor.','Educational Bohr model, not actual electron trajectories.');
+   const radii=shells.map((_,i)=>34+i*23);
+   radii.forEach((radius,i)=>{
+    svgEl('circle',{cx:180,cy:118,r:radius,fill:'none',stroke:'#78adca','stroke-width':1.6},svg);
+    for(let k=0;k<shells[i];k++){
+     const a=(Math.PI*2*k/shells[i])-Math.PI/2;
+     svgEl('circle',{cx:180+Math.cos(a)*radius,cy:118+Math.sin(a)*radius,r:3.5,fill:'#71e2eb'},svg);
+    }
+   });
+   svgEl('circle',{cx:180,cy:118,r:23,fill:'#d67c71',stroke:'#ffe5d1','stroke-width':1.6},svg);
+   svgEl('text',{x:180,y:123,'text-anchor':'middle',fill:'#0b2433','font-size':15,'font-weight':700},svg,'Z='+z);
+   svgEl('text',{x:14,y:234,fill:'#edfaff','font-size':13},svg,'p⁺='+z+'  e⁻='+z);
+   info.textContent=(CHEM_ELEMENT_NAMES[z-1]||CHEM_ELEMENTS[z-1])+' ('+CHEM_ELEMENTS[z-1]+') · Z='+z+' · '+shells.join(' – ')+' e⁻';
+   legend.textContent=learningLabel('Atom neutru: '+z+' protoni și '+z+' electroni. Neutronii depind de izotop.','Neutral atom: '+z+' protons and '+z+' electrons. Neutrons depend on isotope.');
+  }
+  selector.addEventListener('change',renderAtom);renderAtom();
+  note.textContent=learningLabel('Model Bohr didactic: straturile nu reprezintă orbite reale. Configurațiile până la Z=30 sunt schematice.','Educational Bohr shell model, not literal electron orbits. Shell diagrams through Z=30 are schematic.');
  }else if(kind==='ph'){
   addTitle('Scara pH · 0–14','pH scale · 0–14');
   const scale=document.createElement('div');scale.className='chem-ph-scale';
@@ -15722,6 +15771,21 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 .science-result-dialog:has(.chem-visual){max-height:90dvh!important;overflow-y:auto!important}
 .science-result-dialog:has(.chem-visual) .science-result-text{flex:0 1 auto;max-height:35dvh!important;overflow-y:auto!important}
 .chemistry-curriculum-detail .chem-visual{margin-top:10px}
+/* Chimie: compact intrinsic sizing and interactive, contextual atoms. */
+.chemistry-curriculum-dialog[open]{
+ min-height:0!important;height:fit-content!important;
+ max-height:min(89dvh,760px)!important;
+}
+.chemistry-curriculum-dialog .chemistry-curriculum-content{
+ flex:0 1 auto!important;max-height:calc(89dvh - 115px)!important;
+ overflow-y:auto!important;overscroll-behavior:contain!important;
+}
+.chemistry-curriculum-dialog .chemistry-curriculum-detail{flex:0 1 auto!important;overflow-y:auto!important}
+.chem-visual svg{max-height:238px!important;display:block}
+.chem-atom-picker label{display:flex;flex-direction:column;gap:5px;font-size:13px}
+.chem-atom-picker select{box-sizing:border-box;width:100%;min-height:41px;border-radius:9px;border:1px solid #579eb6;background:#0a2b40;color:#fff;padding:7px;font:inherit}
+.chem-atom-description,.chem-atom-legend{font-size:clamp(12px,3.2vw,15px)!important;line-height:1.35}
+.chem-visual:has(.chem-atom-picker){gap:6px}
 </style>
 </body>
 </html>`;
