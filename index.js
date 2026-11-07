@@ -9703,8 +9703,123 @@ function mathPlaneShapeFigure(m){
  fig.append(svg,caption);return fig;
 }
 
+
+// Deterministic extensions for remaining maths subjects. Unsupported input
+// falls through to the existing explanation path; never fabricate numeric data.
+function mathAdditionalModel(source){
+ const input=String(source||'').trim().replace(/[−–]/g,'-');
+ const fmt=x=>new Intl.NumberFormat(state.language||'ro',{maximumFractionDigits:8}).format(Object.is(x,-0)?0:x);
+ const statistics=input.match(/^(media|mean|average|mediana|median|modul|mode|varianta|variance|abaterea standard|standard deviation)\\s*(?:numerelor|of|:|=)?\\s*:?\\s*([\\d\\s,;.+-]+)$/iu);
+ if(statistics){
+  const names={media:'mean',mean:'mean',average:'mean',mediana:'median',median:'median',modul:'mode',mode:'mode',varianta:'variance',variance:'variance','abaterea standard':'std','standard deviation':'std'};
+  const operation=names[statistics[1].toLowerCase()];
+  const fields=statistics[2].trim().split(/[;, ]+/).filter(Boolean);
+  const nums=fields.map(x=>Number(x.replace(',','.')));
+  if(nums.length<2||nums.length>40||!nums.every(Number.isFinite))return null;
+  const ordered=[...nums].sort((a,b)=>a-b),n=nums.length,mean=nums.reduce((a,b)=>a+b,0)/n;
+  const median=n%2?ordered[(n-1)/2]:(ordered[n/2-1]+ordered[n/2])/2;
+  const counts=new Map();nums.forEach(x=>counts.set(x,(counts.get(x)||0)+1));
+  const max=Math.max(...counts.values()),modes=[...counts].filter(x=>x[1]===max).map(x=>x[0]);
+  const variance=nums.reduce((sum,x)=>sum+(x-mean)**2,0)/n;
+  const result=operation==='mean'?fmt(mean):operation==='median'?fmt(median):
+   operation==='mode'?(max===1?learningLabel('nu există mod unic','no unique mode'):modes.map(fmt).join('; ')):
+   fmt(operation==='variance'?variance:Math.sqrt(variance));
+  const label={mean:'Media',median:'Mediana',mode:'Modul',variance:'Varianța populației',std:'Abaterea standard a populației'}[operation];
+  return {kind:'statistics',label,result,summary:label+' = '+result,
+   details:learningLabel('Date ordonate: ','Sorted data: ')+ordered.map(fmt).join(', ')+'. n = '+n+
+    '. '+learningLabel('Media = ','Mean = ')+fmt(mean)+'.',
+   data:nums,method:operation};
+ }
+ const trig=input.match(/^(sin|cos|tan|tg)\\s*\\(?\\s*(-?\\d+(?:[.,]\\d+)?)\\s*(°|grade|degrees|deg|rad)\\s*\\)?$/iu);
+ if(trig){
+  const func=trig[1].toLowerCase()==='tg'?'tan':trig[1].toLowerCase();
+  const angle=Number(trig[2].replace(',','.')),radians=trig[3].toLowerCase()==='rad';
+  const rad=radians?angle:angle*Math.PI/180;
+  const value=func==='sin'?Math.sin(rad):func==='cos'?Math.cos(rad):Math.tan(rad);
+  if(!Number.isFinite(value)||(func==='tan'&&Math.abs(Math.cos(rad))<1e-10))return null;
+  const v=Math.abs(value)<1e-12?0:value;
+  const label=func+'('+fmt(angle)+(radians?' rad':'°')+')';
+  return {kind:'trigonometry',label,result:fmt(v),summary:label+' = '+fmt(v),
+   details:radians?learningLabel('Unghiul este exprimat în radiani.','The angle is in radians.'):
+    learningLabel('Transformăm gradele în radiani: ','Convert degrees to radians: ')+fmt(angle)+' × π / 180.',
+   radians:rad,method:func};
+ }
+ const comb=input.replace(/\\s+/g,'').match(/^(?:([CAP])\\((\\d{1,3}),(\\d{1,3})\\)|(\\d{1,3})!)$/i);
+ if(comb){
+  const n=Number(comb[2]||comb[4]),k=comb[3]===undefined?null:Number(comb[3]);
+  if(n>170||(k!==null&&k>n))return null;
+  const product=(start,end)=>{let r=1;for(let i=start;i<=end;i++)r*=i;return r};
+  const kind=comb[1]?.toUpperCase()||'P';
+  let result;
+  if(kind==='C'){const short=Math.min(k,n-k);result=1;for(let i=1;i<=short;i++)result=result*(n-short+i)/i}
+  else if(kind==='A')result=product(n-k+1,n);
+  else result=product(1,n);
+  if(!Number.isFinite(result)||!Number.isSafeInteger(Math.round(result)))return null;
+  const label=kind==='P'?n+'!':kind+'('+n+', '+k+')';
+  const rule=kind==='C'?'n! / (k! × (n−k)!)':kind==='A'?'n! / (n−k)!':'n!';
+  return {kind:'combinatorics',label,result:fmt(result),summary:label+' = '+fmt(result),
+   details:learningLabel('Formula folosită: ','Formula: ')+rule+'.',method:kind};
+ }
+ const derivative=input.match(/^(?:derivata|derivative|derive|d\\/dx)\\s*[:=]?\\s*(.+)$/iu);
+ if(derivative){
+  const expression=derivative[1],polynomial=mathSymbolicPoly(expression);
+  if(!polynomial)return null;
+  const coeffs=polynomial.coefficients;
+  const result=mathSymbolicFormat(coeffs.slice(1).map((a,i)=>a*(i+1)).length?
+   coeffs.slice(1).map((a,i)=>a*(i+1)):[0]);
+  return {kind:'derivative',label:learningLabel('Derivata','Derivative'),result,
+   summary:learningLabel('f′(x) = ','f′(x) = ')+result,
+   details:learningLabel('Aplicăm liniaritatea și regula (x^n)′ = n × x^(n−1).',
+    'Apply linearity and the power rule (x^n)′ = n × x^(n−1).'),method:'polynomial'};
+ }
+ return null;
+}
+function mathAdditionalSolution(source){
+ const m=mathAdditionalModel(source);if(!m)return null;
+ return {intro:learningLabel('Calculăm folosind o regulă matematică verificabilă.','Compute using a verifiable mathematical rule.'),
+  steps:[{label:learningLabel('Identificăm datele și formula','Identify inputs and formula'),
+   reason:m.details,operation:m.label,fullAfter:m.label,signRule:''},
+   {label:learningLabel('Calculăm și verificăm','Calculate and check'),
+   reason:learningLabel('Rezultatul este calculat local numai din datele exercițiului.','The result is computed locally only from the supplied inputs.'),
+   operation:m.summary,fullAfter:m.summary,signRule:''}],
+  conclusion:m.summary};
+}
+function mathAdditionalMethod(source){
+ const m=mathAdditionalModel(source);if(!m)return null;
+ return {heading:learningLabel('Metoda de calcul','Calculation method'),
+  intro:learningLabel('Aplicăm formula corespunzătoare tipului de exercițiu.','Use the formula for this exercise type.'),
+  rules:[{title:learningLabel('Identificarea datelor','Identify input'),text:m.label},
+   {title:learningLabel('Regula matematică','Mathematical rule'),text:m.details},
+   {title:learningLabel('Verificarea','Verification'),text:learningLabel('Controlează unitățile, semnele și valorile introduse.','Check units, signs and input values.')}],
+  tip:learningLabel('Pentru un rezultat numeric folosește Rezolvă pas cu pas.','Choose Solve step by step for a numeric answer.')};
+}
+function mathAdditionalGraph(source){
+ const m=mathAdditionalModel(source);
+ if(!m||m.kind!=='statistics')return null;
+ return {statistics:m.data,heading:learningLabel('Distribuția valorilor','Value distribution'),
+  intro:learningLabel('Diagrama reprezintă numai valorile introduse în acest exercițiu.','The chart represents only the values in this exercise.'),
+  conclusion:m.summary};
+}
+function mathStatisticsFigure(values){
+ if(!Array.isArray(values)||values.length<2||values.length>40||!values.every(Number.isFinite))return null;
+ const counts=new Map();values.forEach(value=>counts.set(value,(counts.get(value)||0)+1));
+ const pairs=[...counts].sort((a,b)=>a[0]-b[0]);if(pairs.length>30)return null;
+ const max=Math.max(...pairs.map(x=>x[1])),w=420,h=255,left=40,top=20,bottom=45;
+ const plot=document.createElement('figure');plot.className='math-result-plot';
+ const svg=mathSvgElement('svg',{viewBox:'0 0 420 255',role:'img','aria-label':learningLabel('Frecvențele datelor','Data frequencies')});
+ const usable=w-left-12,slot=usable/pairs.length,scale=(h-top-bottom)/max;
+ pairs.forEach(([value,count],i)=>{
+  const x=left+i*slot+slot*.16,barW=slot*.68,y=h-bottom-count*scale;
+  svg.append(mathSvgElement('rect',{x,y,width:barW,height:count*scale,fill:'#42dbd7'}));
+  mathSvgText(svg,x+barW/2,y-5,count,'middle',11);
+  mathSvgText(svg,x+barW/2,h-bottom+18,value,'middle',10);
+ });
+ plot.append(svg);return plot;
+}
+
 function mathAlgebraEngines(){
  return [
+  {id:'extended-mathematics',solve:mathAdditionalSolution,explain:mathAdditionalMethod,graph:mathAdditionalGraph},
   {id:'right-triangle',solve:mathRightTriangleSolution,explain:mathRightTriangleMethod,graph:mathRightTriangleGraph},
   {id:'plane-shapes',solve:mathPlaneShapeSolution,explain:mathPlaneShapeMethod,graph:mathPlaneShapeGraph},
   {id:'matrix-operations',solve:mathMatrixSolution,explain:mathMatrixMethod,graph:mathMatrixGraph},
@@ -9996,10 +10111,11 @@ function mathResultPage(index){
   (equationGraph?.planeShape?mathPlaneShapeFigure(equationGraph.planeShape):null)||
   (equationGraph?.geometry?mathRightTriangleFigure(equationGraph.geometry):null)||
   (equationGraph?.matrixView?mathMatrixHeatmap(equationGraph.matrixView):null)||
+  (equationGraph?.statistics?mathStatisticsFigure(equationGraph.statistics):null)||
   (equationGraph?.polynomial?mathSymbolicPlot(equationGraph.polynomial):null)||
   (equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
   (equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
-  (equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null)||mathGeometryFigure(item.text);
+  (equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null);
  if(graph&&(session.mode==='graph'||Boolean(attachedFigure)||Boolean(mathGraphVerifiedAnswers(item.text,null).length)))body.append(mathGraphCorner(graph,item.text,attachedFigure));
  const result=document.createElement('div');result.className='math-result-copy';
  if(item.graphLesson){
