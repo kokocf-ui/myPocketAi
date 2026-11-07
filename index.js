@@ -9941,7 +9941,7 @@ function mathResultPage(index){
   (equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
   (equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
   (equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null)||mathGeometryFigure(item.text);
- if(graph&&(session.mode==='graph'||Boolean(attachedFigure)))body.append(mathGraphCorner(graph,item.text,attachedFigure));
+ if(graph&&(session.mode==='graph'||Boolean(attachedFigure)||Boolean(mathGraphVerifiedAnswers(item.text,null).length)))body.append(mathGraphCorner(graph,item.text,attachedFigure));
  const result=document.createElement('div');result.className='math-result-copy';
  if(item.graphLesson){
   const heading=document.createElement('h3');heading.textContent=item.graphLesson.heading;
