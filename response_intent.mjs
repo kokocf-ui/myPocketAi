@@ -33,5 +33,9 @@ export function classifyNewsRequest(message) {
 // News collection always requires retrieved articles, even if a second sentence
 // asks to translate the results. A translation-only request is not news search.
 export function requiresLiveNewsRetrieval(message) {
-  return classifyNewsRequest(message).mode === "article_collection";
+  const q=normalize(message);
+  const explicitNewsRequest=/\b(?:cauta|gaseste|prezinta|arata|afiseaza|find|search|show|list)\b/.test(q)
+   && /\b(?:stiri|news|relatari|reports|articole|articles)\b/.test(q)
+   && /\b(?:recent\w*|ultim\w*|latest|current|today|astazi|azi|international|mondial\w*|surs\w*|sources?)\b/.test(q);
+  return explicitNewsRequest||classifyNewsRequest(message).mode==="article_collection";
 }

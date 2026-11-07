@@ -50,3 +50,17 @@ assert.ok(!output.reply.includes('nu pot să caut'),'never substitute an AI apol
 assert.ok(searches.some(u=>u.searchParams.get('search_lang')==='ar'),
  'Arabic-language sources must not be searched using the Romanian UI language');
 console.log('PASS source-backed Arabic news+translate: current dated result, no 2023 fallback, 5-item limit');
+
+const farsiPrompt='Caută ultimele 5 știri despre Iran publicate în limba persană. Tradu informațiile în română naturală, păstrând numele, cifrele și contextul politic. Precizează sursa și data publicării.';
+searches.length=0;
+const followupResponse=await worker.fetch(new Request('https://unit.test/api/chat',{
+ method:'POST',headers:{'content-type':'application/json'},
+ body:JSON.stringify({message:farsiPrompt,language:'ro',history:[],
+  news_context:{...output.structured_list,selected_index:0}})
+}),env);
+const second=await followupResponse.json();
+assert.equal(second.structured_list?.type,'news','T2 new Farsi request must not become old T1 article link follow-up');
+assert.ok(searches.some(u=>u.searchParams.get('search_lang')==='fa'),'new Persian-language lookup is independent');
+assert.ok(second.web_search_status!=='not_needed','a fresh news query must search the web');
+console.log('PASS T2 fresh Persian search supersedes previous Arabic article context');
+

@@ -48,12 +48,79 @@ export function describeNewsPublishers(rows){
  return {unique_publisher_count:hosts.length,reuters_article_found:hosts.some(h=>h==="reuters.com"||h.endsWith(".reuters.com")),publisher_domains:hosts.slice(0,25)};
 }
 
-const SOURCE_LANGUAGES={araba:"ar",persana:"fa",rusa:"ru",ucraineana:"uk",franceza:"fr",germana:"de",engleza:"en",
-  arabic:"ar",persian:"fa",russian:"ru",ukrainian:"uk",french:"fr",german:"de",english:"en"};
-// The output language (e.g. "tradu in romana") must never be mistaken for
-// the requested language of source articles ("surse in limba araba").
-export function requestedNewsSourceLanguage(message){
+// Discover source languages from the source clause, never from "translate to Romanian".
+const SOURCE_LANGUAGE_ALIASES=[
+ ["ar",/\b(?:araba|arabe|arabic)\b/g],
+ ["fa",/\b(?:persana|persane|persian|farsi)\b/g],
+ ["uk",/\b(?:ucraineana|ucrainene|ukrainian)\b/g],
+ ["ru",/\b(?:rusa|ruse|russian)\b/g],
+ ["fr",/\b(?:franceza|franceze|french)\b/g],
+ ["de",/\b(?:germana|germane|german)\b/g],
+ ["en",/\b(?:engleza|engleze|english)\b/g]
+];
+export function requestedNewsSourceLanguages(message){
+ const original=normal(message);
+ const sourceClause=original.split(/\b(?:tradu|traduc|translate|in romana|into romanian|compar\w*|compare\w*)\b/)[0];
+ // Only a source-qualified clause is interpreted as a language constraint.
+ const marker=sourceClause.match(/\b(?:surse|publicatii|publicate|relatari|articole|sources|reports|published)\b/);
+ if(!marker)return [];
+ const segment=sourceClause.slice(marker.index).slice(0,220);
+ const found=[];
+ for(const [lang,pattern] of SOURCE_LANGUAGE_ALIASES){
+  if(pattern.test(segment))found.push({lang,position:segment.search(pattern)});
+  pattern.lastIndex=0;
+ }
+ return found.sort((a,b)=>a.position-b.position).map(x=>x.lang);
+}
+export function requestedNewsSourceLanguage(message){return requestedNewsSourceLanguages(message)[0]||null;}
+
+export function requestedNewsArticleLimit(message){
  const q=normal(message);
- const match=q.match(/\b(?:surse|articole|stiri|publicatii|sources|articles|reports)\s+(?:in|din|written in|published in)\s+(?:limba\s+)?(araba|persana|rusa|ucraineana|franceza|germana|engleza|arabic|persian|russian|ukrainian|french|german|english)\b/);
- return match?SOURCE_LANGUAGES[match[1]]||null:null;
+ const match=q.match(/\b(?:cauta|gaseste|prezinta|afiseaza|arata|find|search|show|list|latest|ultimele|cele mai recente)\s+(?:ultimele\s+|cele mai recente\s+)?(\d{1,2})\s+(?:stiri|articole|news|articles|relatari)\b/)||
+   q.match(/\b(\d{1,2})\s+(?:stiri|articole|news|articles|relatari)\b/);
+ return match?Math.max(1,Math.min(30,Number(match[1]))):30;
+}
+export function newsFreshnessHours(message){
+ const q=normal(message);
+ if(/\b(?:ultimele\s*24|last\s*24|past\s*24|24\s*(?:de\s*)?ore|24\s*hours)\b/.test(q))return 24;
+ if(/\b(?:ultima luna|ultimele 30 de zile|last 30 days|past month|last month)\b/.test(q))return 720;
+ if(/\b(?:ultimele|recent\w*|actual\w*|latest|current|breaking|today|astazi|azi|nou\w*)\b/.test(q)
+  && !/\b(?:19\d{2}|20\d{2})\b/.test(q))return 168;
+ return null;
+}
+export function isNewsComparisonRequest(message){
+ const q=normal(message);
+ return /\b(?:compar\w*|compare|comparison|difer\w*|differences?)\b/.test(q)
+  && /\b(?:stiri|news|relatari|articole|articles|sources|surse|reports)\b/.test(q);
+}
+export function newsSearchTopic(message){
+ const q=normal(message);
+ if(/orientul mijlociu|middle east/.test(q))return "Middle East";
+ if(/ucraina|ukraine/.test(q))return "Ukraine";
+ if(/\biran\b/.test(q))return "Iran";
+ if(/franta|france/.test(q)&&/germania|germany/.test(q))return "France Germany";
+ if(/international|mondial|global|world/.test(q))return "world international";
+ return q.split(/[.!?]/)[0].replace(/\b(?:cauta|gaseste|prezinta|afiseaza|arata|ultimele|cele mai recente|stiri|articole|news|relatari|recent\w*|surse|publicate|in limba|in limbile|din|despre)\b/g," ").replace(/\s+/g," ").trim().slice(0,90)||"world international";
+}
+export function newsSearchQuery(message,sourceLanguage){
+ const subject=newsSearchTopic(message);
+ const localized={ar:"أحدث أخبار",fa:"آخرین اخبار",uk:"останні новини",ru:"последние новости",fr:"actualités récentes",de:"aktuelle Nachrichten",en:"latest news"};
+ return (localized[sourceLanguage]||"latest news")+" "+subject+" "+new Date().toISOString().slice(0,7);
+}
+// Do not turn search-engine descriptions into invented complete sentences.
+export function cleanNewsExcerpt(value,max=280){
+ const s=String(value||"").replace(/\s+/g," ").replace(/(?:^|\s)(?:#{1,3}|\|)(?=\s)/g," ").trim();
+ if(!s)return "";
+ if(s.length<=max)return s;
+ const cut=s.slice(0,max+1),end=cut.search(/[.!?。؟][\s"')\]]*(?=[^.!?。؟]*$)/u);
+ if(end>=10)return cut.slice(0,end+1).trim();
+ const breakpoint=cut.lastIndexOf(" ");
+ return cut.slice(0,Math.max(0,breakpoint)).trim()+"…";
+}
+export function looksLikeNewsArticle(title,url){
+ const t=normal(title);
+ const u=String(url||"").toLowerCase();
+ if(!t||/\b(?:about us|who we are|our team|contact us|privacy policy|cookie policy|terms of service|c ine suntem|cine suntem|a propos|uber uns|aucune information disponible|nu exista nicio informatie disponibila|please provide the article)\b/.test(t))return false;
+ if(/\/(?:about|about-us|who-we-are|contact|privacy|terms|author|authors|tag|tags|category|categories|search|home)(?:[/?#]|$)/.test(u))return false;
+ return true;
 }
