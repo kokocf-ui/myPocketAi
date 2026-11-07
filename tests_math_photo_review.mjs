@@ -27,6 +27,6 @@ assert.ok(!candidates.some(x=>x.text.includes('profesor')));
 assert.ok(script.includes('mathPhotoNeedsReview=true;'));
 assert.ok(script.includes('if(mathPhotoNeedsReview){'));
 assert.ok(script.includes('mathPhotoNeedsReview=false;mathRememberDraft(candidate);'));
-assert.ok(script.includes('Selectează UN singur exercițiu'));
+assert.ok(script.includes('Alege UN singur exercițiu'));
 assert.ok(!script.includes("if(text){editor.value=text;mathRememberDraft(text)}"),'never auto-copy photo page into solve editor');
 console.log('PASS photo OCR requires single exercise review and rejects entire-page auto-solving');
