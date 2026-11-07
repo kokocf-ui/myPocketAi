@@ -10231,7 +10231,7 @@ function mathResultPage(index){
  }
  const item=session.tasks[session.active];
  // Only compute the selected exercise; do not fire 30 parallel model requests.
- if(!item.started){item.started=true;void mathFetchResult(item,session)}
+ if(!item.started){item.started=true;queueMicrotask(()=>{if(mathResultSession===session)void mathFetchResult(item,session)})}
  mathLastSpokenReply=item.spokenReply||item.reply||'';
  const title=document.createElement('h3');
  title.textContent=learningLabel('Exercițiul ','Exercise ')+(session.active+1);
@@ -10369,7 +10369,7 @@ async function mathFetchResult(item,session){
  }
  // Never ask a generative model to draw a graph that the actual renderer
  // cannot provide: this produced answers about unrelated numeric exercises.
- if(session.mode==='graph'&&!session.figure&&!mathGeometryFigure(item.text)&&!mathAlgebraLocal('graph',item.text)){
+ if(session.mode==='graph'&&!session.figure&&!mathPlaneShapeModel(item.text)&&!mathRightTriangleModel(item.text)&&!mathAlgebraLocal('graph',item.text)){
   if(mathResultSession!==session)return;
   item.reply=learningLabel('Nu există încă un grafic verificat pentru acest enunț. Nu voi inventa unul. Pentru un calcul, apasă „Rezolvă pas cu pas”; pentru un grafic de funcție, introdu de exemplu f(x) = 2x - 3.',
    'There is no verified graph for this exercise yet. I will not invent one. Use Solve step by step for arithmetic, or enter a function such as f(x) = 2x - 3.');
