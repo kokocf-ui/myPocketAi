@@ -71,5 +71,18 @@ try{
  assert.equal(calls.filter(u=>u.hostname==="api.geoapify.com"&&u.pathname.endsWith("geocode/search")).length,1,
   "Don't repeat the same geocode after a city was resolved");
  assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"));
- console.log("PASS mixed transport: UK TfL fallback, licensed-provider failure, international refusal and single city geocode");
+
+ // Even with no country in the message, an explicit mixed-journey request to
+ // an independently resolved overseas city must never fall through to TfL.
+ const overseasWithoutCountry=await ask({label:"Berlin"},{
+  GEOAPIFY_API_KEY:"mock",TFL_APP_KEY:"mock-tfl"
+ },{transit_destination:null,message:"Cum ajung la Berlin?"});
+ assert.equal(overseasWithoutCountry.international_journey,true);
+ assert.equal(overseasWithoutCountry.reason,"international_provider_not_connected");
+ assert.equal(overseasWithoutCountry.transit_available,false);
+ assert.equal(calls.filter(u=>u.hostname==="api.geoapify.com"&&u.pathname.endsWith("geocode/search")).length,1,
+  "Explicit mixed journey should geocode a city-only destination once");
+ assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"),
+  "International destination resolved after city geocode must never enter TfL");
+ console.log("PASS mixed transport: UK TfL fallback, licensed-provider failure, overseas city-only refusal and single city geocode");
 }finally{globalThis.fetch=originalFetch;console.info=originalInfo;console.warn=originalWarn}
