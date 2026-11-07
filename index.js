@@ -7861,7 +7861,7 @@ function mathPhotoCandidates(source,alternative){
   const emit=(letter,rawExpression)=>{
    const rawValue=String(rawExpression||'').trim();
    // Worked chains contain multiple '=' signs; one equality belongs to the question.
-   const expression=((rawValue.match(/=/g)||[]).length>1?rawValue.split('=')[0]:rawValue.replace(/=\s*$/,'')).trim();
+   const expression=((rawValue.match(/=/g)||[]).length>1?rawValue.split('=')[0]:rawValue.replace(/=\\s*$/,'')).trim();
    if(expression.length<3||expression.length>180||!/\\d/.test(expression))return;
    let bracketDepth=0;
    for(const ch of expression){
@@ -7897,8 +7897,8 @@ function mathPhotoCandidates(source,alternative){
    }
    const heading=line.match(/^(?:exerci[țt]iul|exerci[țt]iu|exercises?|ex\\.?)\\s*(\\d{1,3})(?=\\s|[).:—–-]|$)/iu);
    if(heading){section=heading[1];pending=null;continue;}
-   const numbered=line.match(/^(\\\\d{1,3})[).:]\\\\s*(?![a-z][).:])(.+)$/i);
-   if(numbered&&/\\\\d|√/.test(numbered[2])){
+   const numbered=line.match(/^(\\d{1,3})[).:]\\s*(?![a-z][).:])(.+)$/i);
+   if(numbered&&/\\d|√/.test(numbered[2])){
     // Pages sometimes number problems directly, without a), b), c).
     // Keep their number as the tab identifier, independent of section headings.
     const saved=section;section='0';pending=null;emit(numbered[1],numbered[2]);section=saved;
