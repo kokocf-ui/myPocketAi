@@ -6631,6 +6631,8 @@ function pocketBackInsideModule(){
  return false;
 }
 window.pocketAndroidBack=function(){
+ if(document.getElementById('sciencePhotoDialog')?.open){document.getElementById('sciencePhotoDialog').close();return}
+ if(document.getElementById('scienceResultDialog')?.open){document.getElementById('scienceResultDialog').close();return}
  const chemistry=document.getElementById('chemistryCurriculumDialog');
  if(chemistry?.open){chemistry.pocketBack?.();return}
  if(document.getElementById('educationTheoryDialog')?.open){document.getElementById('educationTheoryDialog').close();return}
@@ -7628,6 +7630,260 @@ function chemistryCurriculumOpen(){
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
 
+// Dedicated science workspace: a bounded editor replaces the generic chat pane.
+// Chemistry has its own formula tools; the other sciences share the same layout.
+function scienceDraftKey(){
+ return 'mypocketai.science.exercise.v1.'+scienceJourney.subject+'.'+scienceJourney.topic;
+}
+function scienceDraftRead(){
+ try{return String(localStorage.getItem(scienceDraftKey())||'').slice(0,3500)}catch{return ''}
+}
+function scienceDraftSave(text){
+ try{localStorage.setItem(scienceDraftKey(),String(text||'').slice(0,3500))}catch{}
+}
+function scienceStatus(message){
+ const status=$('scienceEducationStatus');if(status)status.textContent=message;
+}
+function scienceVoiceToggle(){
+ if(scienceVoiceActive){
+  scienceVoiceStop();scienceStatus(learningLabel('Dictarea este oprită. Verifică textul.','Dictation stopped. Review the text.'));return;
+ }
+ if(!pocketNativeVoiceAvailable()){
+  scienceStatus(learningLabel('Dictarea necesită aplicația Android.','Dictation requires the Android app.'));return;
+ }
+ stopSpeech();stopRecognition();state.dictationMode=false;state.voiceMode=false;
+ const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
+ scienceVoiceActive=true;
+ $('scienceDictation')?.setAttribute('aria-pressed','true');
+ if(!pocketNativeVoiceSend({action:'listen',mode:'science',language:locale})){
+  scienceVoiceStop();scienceStatus(learningLabel('Microfon indisponibil.','Microphone unavailable.'));return;
+ }
+ scienceStatus(learningLabel('Te ascult…','Listening…'));
+}
+function scienceVoiceHandleAndroid(data){
+ if(data?.mode!=='science')return false;
+ if(!scienceVoiceActive)return true;
+ if(data.status==='recognized'){
+  const editor=$('scienceEducationText'),spoken=collapseRepeatedVoiceWords(String(data.text||'').trim());
+  if(editor&&spoken){
+   editor.value+=(editor.value.trim()?' '+spoken:spoken);
+   editor.dispatchEvent(new Event('input',{bubbles:true}));
+   scienceStatus(learningLabel('Verifică formulele și numerele din dictare.','Review dictated formulas and numbers.'));
+  }
+  scienceVoiceStop();
+ }else if(data.status==='error'){
+  scienceVoiceStop();scienceStatus(learningLabel('Dictarea nu este disponibilă acum.','Dictation is unavailable.'));
+ }else if(data.status==='partial'){
+  scienceStatus(learningLabel('Aud: ','Hearing: ')+String(data.text||'').slice(0,90));
+ }
+ return true;
+}
+function scienceRead(){
+ scienceVoiceStop();
+ const phrase=scienceLastReply||$('scienceEducationText')?.value?.trim();
+ if(phrase)speakText(phrase);
+ else scienceStatus(learningLabel('Scrie un exercițiu sau obține o explicație.','Type an exercise or get an explanation.'));
+}
+function scienceInsertSymbol(editor,symbol){
+ const a=editor.selectionStart??editor.value.length,b=editor.selectionEnd??a;
+ editor.value=editor.value.slice(0,a)+symbol+editor.value.slice(b);
+ editor.focus({preventScroll:true});
+ editor.setSelectionRange(a+symbol.length,a+symbol.length);
+ editor.dispatchEvent(new Event('input',{bubbles:true}));
+}
+function scienceShowResult(title,body){
+ document.getElementById('scienceResultDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='scienceResultDialog';
+ dialog.className='education-theory-dialog science-result-dialog';
+ const head=document.createElement('div');head.className='education-theory-head';
+ const h=document.createElement('h2');h.textContent=title;
+ const close=document.createElement('button');close.type='button';close.className='secondary-btn';
+ close.textContent=learningLabel('← Revenire','← Back');close.onclick=()=>dialog.close();
+ head.append(h,close);
+ const content=document.createElement('div');content.className='science-result-text';
+ content.textContent=body;dialog.append(head,content);
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+async function scienceWorkspaceRun(mode){
+ const editor=$('scienceEducationText'),source=editor?.value.trim()||'';
+ if(!source){scienceStatus(learningLabel('Scrie exercițiul sau enunțul de studiu.','Type the exercise or learning question.'));return}
+ if(scienceRequestController)return;
+ const subject=scienceSubjectInfo(),topic=scienceTopicInfo(),level=scienceLevelInfo();
+ const selectedSubject=learningLabel(subject?.ro||'',subject?.en||'');
+ const selectedChapter=learningLabel(topic?.ro||'',topic?.en||'');
+ const selectedLevel=learningLabel(level?.ro||'',level?.en||'');
+ const instruction=mode==='solve'?
+  learningLabel('Explică și rezolvă pas cu pas, cu verificarea formulelor, unităților și ipotezelor. Nu inventa date. În chimie, conservă atomii și sarcinile și nu inventa condiții de laborator.',
+   'Explain and solve step by step, checking formulas, units and assumptions. Do not fabricate data. In chemistry, conserve atoms and charge, and do not invent lab conditions.'):
+  learningLabel('Prezintă metoda generală, definițiile și regulile necesare, fără să inventezi măsurători.',
+   'Teach the general method, definitions and necessary rules; do not invent measured values.');
+ const message=learningLabel('Materie: ','Subject: ')+selectedSubject+
+  learningLabel('; Nivel: ','; Level: ')+selectedLevel+
+  learningLabel('; Capitol: ','; Chapter: ')+selectedChapter+'. '+
+  instruction+String.fromCharCode(10)+source;
+ const currentStage=scienceJourney.stage,subjectId=scienceJourney.subject,topicId=scienceJourney.topic;
+ const controller=new AbortController();scienceRequestController=controller;
+ scienceStatus(learningLabel('Se pregătește explicația…','Preparing explanation…'));
+ try{
+  const response=await fetch(CLIENT_CONFIG.apiUrl,{
+   method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({message,language:state.language,module:'assistant',history:[]}),
+   signal:controller.signal
+  });
+  const data=await response.json();
+  if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())
+   throw new Error('response_unavailable');
+  if(controller.signal.aborted||scienceJourney.stage!==currentStage||
+     scienceJourney.subject!==subjectId||scienceJourney.topic!==topicId)return;
+  scienceLastReply=data.reply.trim().slice(0,12000);
+  scienceStatus(learningLabel('Explicație disponibilă.','Explanation available.'));
+  scienceShowResult(
+   mode==='solve'?learningLabel('Rezolvare · ','Solution · ')+selectedSubject:
+    learningLabel('Metodă · ','Method · ')+selectedSubject,
+   scienceLastReply+String.fromCharCode(10,10)+learningLabel(
+    'Răspuns AI: verifică formulele și rezultatele înainte de utilizare.',
+    'AI answer: check formulas and results before using them.')
+  );
+ }catch(error){
+  if(!controller.signal.aborted)scienceStatus(learningLabel(
+   'Nu am primit un răspuns verificabil. Exercițiul a fost păstrat.',
+   'No response was received. Your exercise was preserved.'));
+ }finally{
+  if(scienceRequestController===controller)scienceRequestController=null;
+ }
+}
+function sciencePhotoReview(text){
+ document.getElementById('sciencePhotoDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='sciencePhotoDialog';
+ dialog.className='education-theory-dialog science-result-dialog';
+ const head=document.createElement('div');head.className='education-theory-head';
+ const title=document.createElement('h2');title.textContent=learningLabel('Verifică fotografia','Review photograph');
+ const close=document.createElement('button');close.type='button';close.className='secondary-btn';
+ close.textContent=learningLabel('← Revenire','← Back');close.onclick=()=>dialog.close();
+ head.append(title,close);
+ const note=document.createElement('p');
+ note.textContent=learningLabel(
+  'Text OCR neconfirmat. Verifică fiecare coeficient, simbol, indice și sarcină chimică înainte de folosire.',
+  'Unverified OCR text. Check each coefficient, symbol, subscript and ionic charge before use.');
+ const field=document.createElement('textarea');field.className='science-photo-editor';
+ field.value=String(text||'').slice(0,3500);
+ field.placeholder=learningLabel('Scrie aici dacă imaginea nu a fost citită.','Type here if the image could not be read.');
+ const confirm=document.createElement('button');confirm.type='button';
+ confirm.className='primary-btn';confirm.textContent=learningLabel('Confirmă transcrierea','Confirm transcription');
+ confirm.onclick=()=>{
+  const editor=$('scienceEducationText');
+  if(!editor||!field.value.trim()){scienceStatus(learningLabel('Nu există text de confirmat.','No text to confirm.'));return}
+  editor.value=field.value.trim().slice(0,3500);
+  editor.dispatchEvent(new Event('input',{bubbles:true}));dialog.close();
+ };
+ dialog.append(head,note,field,confirm);
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+async function sciencePhotoFile(file){
+ if(!file)return;
+ if(!file.type.startsWith('image/')||file.size>12*1024*1024){
+  scienceStatus(learningLabel('Alege o imagine de maximum 12 MB.','Choose an image up to 12 MB.'));return;
+ }
+ let url='';
+ try{
+  if(typeof TextDetector!=='function')throw new Error('ocr_unavailable');
+  url=URL.createObjectURL(file);
+  const img=new Image();img.src=url;await img.decode();
+  const detector=new TextDetector(),lines=await detector.detect(img);
+  sciencePhotoReview((lines||[]).map(x=>x.rawValue||'').join(String.fromCharCode(10)));
+ }catch{sciencePhotoReview('')}
+ finally{if(url)URL.revokeObjectURL(url)}
+}
+function scienceOpenWorkspace(){
+ const host=$('moduleContent');
+ const topic=scienceTopicInfo(),subject=scienceSubjectInfo();
+ const toolbar=document.createElement('div');toolbar.className='education-toolbar science-work-toolbar';
+ const back=document.createElement('button');back.type='button';
+ back.className='secondary-btn science-back-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=scienceBack;
+ const voice=document.createElement('button');voice.type='button';voice.id='scienceDictation';voice.className='secondary-btn';
+ voice.textContent=learningLabel('🎙 Dictare','🎙 Dictate');voice.setAttribute('aria-pressed','false');voice.onclick=scienceVoiceToggle;
+ const read=document.createElement('button');read.type='button';read.className='secondary-btn';
+ read.textContent=learningLabel('🔊 Citire','🔊 Read');read.onclick=scienceRead;
+ toolbar.append(back,voice,read);
+ if(scienceJourney.subject==='chemistry'){
+  const theory=document.createElement('button');theory.type='button';
+  theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
+  theory.onclick=()=>{
+   chemistryCurriculumPreset={level:scienceJourney.level,topic:scienceJourney.topic};
+   chemistryCurriculumOpen();
+  };
+  toolbar.append(theory);
+ }else if(scienceJourney.subject==='physics'){
+  const theory=document.createElement('button');theory.type='button';
+  theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
+  theory.onclick=()=>educationTheoryOpen('physics',scienceJourney.level);
+  toolbar.append(theory);
+ }
+ const workspace=document.createElement('div');
+ workspace.id='scienceEducationWorkspace';
+ workspace.className='education-math-workspace science-education-workspace';
+ const heading=document.createElement('div');heading.className='math-entry-heading';
+ const label=document.createElement('label');label.htmlFor='scienceEducationText';
+ label.textContent=learningLabel('Exercițiu','Exercise')+' · '+learningLabel(topic?.ro||'',topic?.en||'');
+ const newTask=document.createElement('button');newTask.type='button';
+ newTask.className='secondary-btn math-new-task';
+ newTask.textContent=learningLabel('＋ Conversație nouă','＋ New conversation');
+ newTask.onclick=()=>{
+  scienceVoiceStop();scienceStopRequest();scienceLastReply='';
+  const field=$('scienceEducationText');if(field){field.value='';field.scrollTop=0;field.blur()}
+  scienceDraftSave('');scienceStatus('');
+ };
+ heading.append(label,newTask);
+ const editor=document.createElement('textarea');
+ editor.id='scienceEducationText';editor.rows=6;editor.maxLength=3500;
+ editor.value=scienceDraftRead();
+ editor.placeholder=learningLabel('Introdu un exercițiu, o formulă sau un enunț…','Enter an exercise, formula or question…');
+ editor.setAttribute('aria-label',label.textContent);
+ editor.addEventListener('input',()=>{scienceDraftSave(editor.value);scienceStatus('');requestAnimationFrame(()=>{scienceFitViewport();mathEditorFollowCaret(editor)})});
+ for(const type of ['focus','click','keyup','select','compositionend'])
+  editor.addEventListener(type,()=>requestAnimationFrame(()=>{scienceFitViewport();mathEditorFollowCaret(editor)}));
+ const status=document.createElement('small');status.id='scienceEducationStatus';status.setAttribute('role','status');
+ const actions=document.createElement('div');actions.className='education-math-actions science-education-actions';
+ const solve=document.createElement('button');solve.type='button';solve.className='primary-btn';
+ solve.textContent=learningLabel('🧩 Rezolvă pas cu pas','🧩 Solve step by step');
+ solve.onclick=()=>scienceWorkspaceRun('solve');
+ const method=document.createElement('button');method.type='button';method.className='secondary-btn';
+ method.textContent=learningLabel('🎓 Explică metoda','🎓 Explain method');
+ method.onclick=()=>scienceWorkspaceRun('explain');
+ actions.append(solve,method);
+ const tools=document.createElement('div');tools.className='science-work-tools';
+ const cameraInput=document.createElement('input');cameraInput.type='file';cameraInput.accept='image/*';cameraInput.hidden=true;cameraInput.setAttribute('capture','environment');
+ const fileInput=document.createElement('input');fileInput.type='file';fileInput.accept='image/*';fileInput.hidden=true;
+ cameraInput.onchange=()=>sciencePhotoFile(cameraInput.files?.[0]);
+ fileInput.onchange=()=>sciencePhotoFile(fileInput.files?.[0]);
+ const photo=document.createElement('button');photo.type='button';photo.className='secondary-btn';
+ photo.textContent=learningLabel('📷 Foto','📷 Camera');
+ photo.onclick=()=>window.PocketAndroidOCR?.postMessage?
+  window.PocketAndroidOCR.postMessage('camera'):cameraInput.click();
+ const album=document.createElement('button');album.type='button';album.className='secondary-btn';
+ album.textContent=learningLabel('🖼️ Album','🖼️ Gallery');
+ album.onclick=()=>window.PocketAndroidOCR?.postMessage?
+  window.PocketAndroidOCR.postMessage('gallery'):fileInput.click();
+ tools.append(photo,album,cameraInput,fileInput);
+ if(scienceJourney.subject==='chemistry'){
+  const toggle=document.createElement('button');toggle.type='button';toggle.className='secondary-btn science-symbol-toggle';
+  toggle.textContent=learningLabel('⚗ Simboluri','⚗ Symbols');
+  const tray=document.createElement('div');tray.className='science-symbol-tray';tray.hidden=true;
+  for(const symbol of ['₂','₃','₄','⁺','⁻','→','⇌','(aq)']){
+   const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn';
+   btn.textContent=symbol;btn.onclick=()=>scienceInsertSymbol(editor,symbol);tray.append(btn);
+  }
+  toggle.onclick=()=>{tray.hidden=!tray.hidden};
+  tools.append(toggle,tray);
+ }
+ workspace.append(heading,editor,status,actions,tools);
+ host.append(toolbar,workspace);
+}
+
 function mathJourneyShowChoices(stage){
  const mathSubject=LEARNING_SUBJECTS.find(x=>x[0]==='math');
  if(!mathSubject)return;
@@ -7767,7 +8023,7 @@ function mathEditorFollowCaret(editor){
  const visibleBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
  const visibleTop=viewport?viewport.offsetTop:0;
  const page=document.querySelector('main.page');
- if(page?.classList.contains('math-keyboard-visible')){
+ if(page?.classList.contains('math-keyboard-visible')||page?.classList.contains('science-keyboard-visible')){
   if(rect.bottom>visibleBottom-10)page.scrollTop+=rect.bottom-visibleBottom+10;
   else if(rect.top<visibleTop+8)page.scrollTop-=visibleTop+8-rect.top;
  }
@@ -11167,6 +11423,10 @@ $('mathResultDialog').addEventListener('close',()=>{
 window.pocketAndroidOcrResult=function(data){
  if(state.currentModule!=='learning'||!activeLearningSubject||state.currentView!=='module')return;
  if(data?.status==='cancelled')return;
+ if(activeLearningSubject[0]==='science'&&scienceJourney.stage==='workspace'){
+  if(data?.status==='error'){scienceStatus(learningLabel('Fotografia nu a putut fi citită.','Photo could not be read.'));return}
+  sciencePhotoReview(typeof data?.text==='string'?data.text:'');return;
+ }
  if(activeLearningSubject[0]==='math'){
   const editor=$('mathEducationText'),status=$('mathEducationStatus');
   if(!editor||!status)return;
@@ -14118,6 +14378,7 @@ function pocketNativeVoiceAvailable(){return typeof window.PocketAndroidVoice?.p
 function pocketNativeVoiceSend(payload){try{window.PocketAndroidVoice.postMessage(JSON.stringify(payload));return true}catch{return false}}
 window.pocketAndroidVoiceResult=function(data){
  if(educationTheoryHandleAndroid(data))return;
+ if(scienceVoiceHandleAndroid(data))return;
  if(mathVoiceHandleAndroid(data))return;
  if(shopVoiceHandleAndroid(data))return;
  if(agendaVoiceHandleAndroid(data))return;
