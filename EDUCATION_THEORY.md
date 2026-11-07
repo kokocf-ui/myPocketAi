@@ -1,11 +1,15 @@
-# Biblioteca de teorie — integrare în Educație
+# Biblioteca de teorie – Matematică, Fizică, Chimie
 
-Catalogul românesc `education_theory.mjs` conține 58 de fișe verificate editorial la nivel introductiv: Matematică (20), Fizică (19), Chimie (19). Fiecare fișă are enunț, formulă unde există, sinonime și nivel; `searchTheory` acceptă textul obținut din tastatură sau dictare, fără a accesa servicii externe.
+Interfața existentă **Educație** include acum dialogul „Teorie”, fără schimbarea modulului:
+- Matematică: după alegerea nivelului, în lista ramurilor, plus buton în fereastra de lucru.
+- Științe: două butoane dedicate, Fizică și Chimie, în bara existentă.
+- Dialog modal adaptabil: căutare manuală, maximum patru sugestii pe măsură ce tastezi, enunț și formulă.
+- Dictare: Android nativ în modul `theory`; browser Web Speech API doar dacă e disponibil.
+- Înapoi: închide dialogul și revine la aceeași fereastră; recunoașterea vocală se oprește când dialogul se închide.
+- Catalog local: `education_theory.mjs`, 58 fișe (20 matematică, 19 fizică, 19 chimie), cu sinonime și filtrare pe nivel. Conținutul este introdus și în HTML-ul generat de `index.js` pentru utilizare imediată fără request separat.
 
-## Următoarea integrare în aplicația principală
+## Verificare
+`npm run check`; `npm run test:ui`; `npm run test:android`. Testele noi sunt `tests_education_theory.mjs` și `tests_education_theory_ui.mjs`.
 
-În interiorul modulului Educație, după selecția materiei, afișați două opțiuni: „Exerciții” și „Teorie”. „Teorie” folosește aceeași fereastră modală și navigația existentă, nu o pagină nouă. Folosiți `searchTheory(input, {subject,level,limit:4})` pentru sugestii, iar fișa selectată afișează **enunțul**, **formula** și eventual figura deja asociată motorului matematic. Dictarea trebuie să reutilizeze microfonul existent; nu se pornește automat. Selecția „Înapoi” revine la materia curentă. Pentru că interfața existentă `index.js` nu a putut fi citită integral prin conector, această modificare **nu pretinde că a conectat deja butonul în aplicația Android**.
-
-## Validare
-
-`node tests_education_theory.mjs` — 58 de fișe, 3 discipline, sinonime, niveluri, filtrare. Adăugați testul la CI înainte de merge. Conținutul este un catalog inițial, nu o acoperire exhaustivă a manualelor universitare. Verificați curricula înainte de declararea unei discipline „completă”.
+## Limitări
+Catalogul de 58 fișe este o bază reală, **nu** o acoperire completă a tuturor definițiilor și teoremelor universitare. Enunțurile sunt în română; traduceri corecte în celelalte limbi nu sunt încă populate. Pe telefon trebuie testate dialogul, tastatura, microfonul, Back și accesibilitatea. Nu modificați logica de rezolvare a exercițiilor pentru a afișa teoria.
