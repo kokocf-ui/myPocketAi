@@ -14,7 +14,8 @@ const env={
  mathFigureInternalConflict:()=>null,
  mathPlaneShapeModel:source=>source==='text-rectangle'?{kind:'rectangle',a:8,b:5,area:40,perimeter:26,unit:'cm'}:null,
  mathRightTriangleModel:()=>null, mathLinearEquation:()=>null,
- mathQuadraticEquation:()=>null, mathLinearSystem:()=>null
+ mathQuadraticEquation:()=>null, mathLinearSystem:()=>null,
+ mathAdditionalModel:()=>null
 };
 const f=vm.runInNewContext(script.slice(a,b)+'\nmathGraphVerifiedAnswers',env);
 assert.deepEqual([...f('text-rectangle',null)],['A = 40 cm²','P = 26 cm']);
