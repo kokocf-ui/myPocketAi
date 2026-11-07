@@ -8350,6 +8350,15 @@ function dialogText(ro,en){
  if(lang==='en')return en;
  return POCKET_DIALOG_TEXT[en]?.[lang]||en;
 }
+// Convert locally familiar city names before sending the same verified lookup
+// that succeeds for canonical provider names. In particular, the UK city field
+// must send "London" whether the user types "London" or "Londra".
+function canonicalAddressCityQuery(countryCode,input){
+ const query=String(input||'').trim();
+ const norm=query.normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase();
+ const aliases={gb:{londra:'London',londres:'London',londen:'London',londyn:'London','лондон':'London'}};
+ return aliases[String(countryCode||'').toLowerCase()]?.[norm]||query;
+}
 function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',countryCode='',prefillCity='',prefillCityPoint=null,cityOnly=false}){
  const ro=state.language==='ro';
  const t=(a,b)=>dialogText(a,b);
@@ -8466,7 +8475,9 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    for(const field of Object.values(fields))if(field.list!==list)field.list.replaceChildren();
    const cityAtRequest=selected.city;
    const current=()=>list.isConnected&&(discover?selected.city===cityAtRequest:request===generation);
-   const query=input.value.trim(), request=++generation;
+   const typedQuery=input.value.trim();
+   const query=stage==='city'?canonicalAddressCityQuery(selected.country?.code,typedQuery):typedQuery;
+   const request=++generation;
    if(query.length<1){list.replaceChildren();return;}
    if(stage==='country'){
     const q=normalize(query);
