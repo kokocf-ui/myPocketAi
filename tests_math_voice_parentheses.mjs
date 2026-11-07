@@ -253,8 +253,9 @@ assert.ok(runCode.includes('mathRememberDraft(editor.value)'),'math actions reta
 assert.ok(embedded.includes("editor.value=mathRestoreDraft()"),'navigating back restores the input');
 assert.ok(embedded.includes("editor.addEventListener('input',()=>{mathRememberDraft(editor.value)"),'manual input updates the stored draft');
 assert.ok(embedded.includes("mathRememberDraft('')"),'new conversation explicitly clears the draft');
-assert.ok(embedded.includes("if(!text){status.textContent=learningLabel(\'Fotografia nu a putut fi citită."),
- 'empty OCR never deletes a previously typed exercise');
+assert.ok(embedded.includes("if(!text&&!window.PocketAndroidMathVision?.postMessage){status.textContent="),
+ 'empty OCR retains the previous exercise; only new APKs may open the opt-in vision review on empty recognition');
+assert.ok(embedded.includes("editor.value=candidate;"),'the current exercise changes only after confirmation');
 
 
 // Regression: same mathematical function must generate both chart and lesson.
