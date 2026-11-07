@@ -19,6 +19,12 @@ jobs:
       - name: Get repository files
         uses: actions/checkout@v4
 
+      - name: Verify contextual news translation and apply avatar lip-stop patch
+        run: |
+          node --check scripts/patch-avatar-lipsync.mjs
+          node tests_news_contextual_translation.mjs
+          node scripts/patch-avatar-lipsync.mjs public/avatar-v4.html
+
       - name: Install pinned Wrangler
         run: npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@3.90.0
 
