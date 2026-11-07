@@ -9,7 +9,7 @@ new vm.Script(script);
 const a=script.indexOf('function mathLikeTermsModel(');
 const b=script.indexOf('function mathAlgebraEngines(',a);
 assert.ok(a>0&&b>a,'local like-term engine present');
-const r=script.indexOf('function mathPhotoOcrRisk(');
+const r=script.indexOf('function mathPhotoOcrRisks(');
 const z=script.indexOf('// Educational mathematics: reject obvious OCR fragments',r);
 assert.ok(r>0&&z>r,'photo OCR risk detection present');
 const engine=vm.runInNewContext(script.slice(a,b)+'\n({parse:mathLikeTermsModel,solve:mathLikeTermsSolution,method:mathLikeTermsMethod})',
