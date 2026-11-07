@@ -1,4 +1,5 @@
 import {THEORY_ENTRIES} from './education_theory.mjs';
+import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
 /**
  * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
@@ -1553,6 +1554,42 @@ body.long-choice-active{overflow:hidden}
 .education-theory-detail p{line-height:1.5}
 .education-theory-formula{font-weight:750;font-size:clamp(17px,4vw,23px);word-break:break-word;padding:10px;border:1px solid #548199;border-radius:10px}
 .education-theory-open{flex-shrink:0}
+
+/* Chemistry preview: fixed dialog chrome with a single independently scrolling chapter/lesson list. */
+.chemistry-curriculum-dialog[open]{
+ display:flex!important;flex-direction:column!important;gap:10px;
+ box-sizing:border-box!important;width:min(96vw,670px)!important;
+ height:min(88dvh,760px)!important;max-height:88dvh!important;
+ min-height:0!important;padding:12px!important;overflow:hidden!important;
+}
+.chemistry-curriculum-head{flex:0 0 auto;min-width:0}
+.chemistry-curriculum-head h2{flex:1 1 auto;min-width:0}
+.chemistry-curriculum-head button{min-height:39px;min-width:0;padding:7px 9px}
+.chemistry-curriculum-note{flex:0 0 auto;margin:0;line-height:1.35;font-size:14px;color:#c0e2ee}
+.chemistry-curriculum-content{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:8px}
+.chemistry-curriculum-content>.education-theory-search{flex:0 0 auto;margin:0}
+.chemistry-curriculum-list{
+ display:flex;flex-direction:column;gap:8px;flex:1 1 auto;min-height:0;
+ overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+ padding:2px 3px 9px 1px;scroll-padding-bottom:10px
+}
+.chemistry-curriculum-row{
+ flex:0 0 auto;display:flex!important;flex-direction:column!important;
+ align-items:flex-start!important;justify-content:center!important;gap:4px;
+ width:100%;min-height:57px;text-align:left!important;white-space:normal!important;
+ padding:10px 12px!important;overflow-wrap:anywhere
+}
+.chemistry-curriculum-row strong{font-size:15px;line-height:1.3}
+.chemistry-curriculum-row small{font-size:12px;font-weight:450;line-height:1.25;opacity:.87}
+.chemistry-curriculum-detail{overflow-y:auto;overscroll-behavior:contain;min-height:0;padding:3px}
+.chemistry-curriculum-detail h3{font-size:clamp(17px,4.4vw,23px);margin:7px 0 13px}
+.chemistry-curriculum-detail p{line-height:1.55;white-space:pre-wrap}
+@media(max-width:370px){
+ .chemistry-curriculum-head{gap:5px!important}
+ .chemistry-curriculum-head button{padding:6px!important;font-size:12px!important}
+ .chemistry-curriculum-head h2{font-size:15px!important}
+}
+
 @media(max-width:420px){.education-theory-head h2{font-size:16px}.education-theory-open{font-size:12px;padding:7px}}
 /* Mathematics uses three bounded stages. Only the list scrolls; page layout
    always remains within the existing adaptive viewport. */
@@ -6593,6 +6630,8 @@ function pocketBackInsideModule(){
  return false;
 }
 window.pocketAndroidBack=function(){
+ const chemistry=document.getElementById('chemistryCurriculumDialog');
+ if(chemistry?.open){chemistry.pocketBack?.();return}
  if(document.getElementById('educationTheoryDialog')?.open){document.getElementById('educationTheoryDialog').close();return}
  if(document.querySelector('dialog.document-photo-fullscreen[open]')){document.querySelector('dialog.document-photo-fullscreen[open]').close();return}
  if($('mathResultDialog')?.open){mathCloseResults();return}
@@ -7206,6 +7245,8 @@ function mathSubjectsForLevel(level){
 }
 
 const EDUCATION_THEORY_DATA=${JSON.stringify(THEORY_ENTRIES)};
+const CHEMISTRY_LEVEL_DATA=${JSON.stringify(CHEMISTRY_LEVELS)};
+const CHEMISTRY_TOPIC_DATA=${JSON.stringify(CHEMISTRY_TOPICS)};
 let educationTheoryVoiceInput=null;
 function educationTheoryClean(value){
  return String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\\s+/g,' ');
@@ -7274,7 +7315,7 @@ function educationTheoryOpen(subject,level){
  function render(){
   list.replaceChildren();
   const items=educationTheoryFind(input.value,subject,level,4);
-  if(!items.length){const empty=document.createElement('p');empty.textContent=learningLabel('Nu am găsit termenul în biblioteca locală.','No entry found in the local library.');list.append(empty)}
+  if(!items.length&&input.value.trim()){const empty=document.createElement('p');empty.textContent=learningLabel('Nu am găsit termenul în biblioteca locală.','No entry found in the local library.');list.append(empty)}
   items.forEach(item=>{
    const itemButton=document.createElement('button');itemButton.type='button';itemButton.className='secondary-btn education-theory-item';
    itemButton.textContent=item.title;
@@ -7291,6 +7332,153 @@ function educationTheoryOpen(subject,level){
  dialog.addEventListener('close',()=>{educationTheoryStopVoice();dialog.remove()});
  dialog.append(header,description,searchBar,list,detail);
  document.body.append(dialog);render();
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+
+
+function chemistryCurriculumOpen(){
+ educationTheoryStopVoice();
+ const old=document.getElementById('chemistryCurriculumDialog');if(old)old.remove();
+ const dialog=document.createElement('dialog');
+ dialog.id='chemistryCurriculumDialog';
+ dialog.className='education-theory-dialog chemistry-curriculum-dialog';
+ dialog.setAttribute('aria-label',learningLabel('Chimie · lecții','Chemistry · lessons'));
+ let stage='levels',selectedLevel=null,selectedTopic=null,selectedLesson=null,searchValue='';
+ const levelRank={beginner:0,medium:1,intermediate:1,advanced:2};
+ const chapter=()=>CHEMISTRY_TOPIC_DATA.find(e=>e.id===selectedTopic);
+ const isVisible=e=>e.subject==='chemistry'&&e.topic===selectedTopic&&
+  levelRank[e.level]<=levelRank[selectedLevel];
+ const eligible=()=>EDUCATION_THEORY_DATA.filter(isVisible).sort((a,b)=>
+  levelRank[a.level]-levelRank[b.level]||a.title.localeCompare(b.title,'ro'));
+ const title=document.createElement('h2');
+ const previous=document.createElement('button');previous.type='button';
+ previous.className='secondary-btn';
+ const close=document.createElement('button');close.type='button';
+ close.className='secondary-btn';close.textContent=learningLabel('Închide','Close');
+ close.onclick=()=>dialog.close();
+ const header=document.createElement('div');header.className='education-theory-head chemistry-curriculum-head';
+ header.append(title,previous,close);
+ const note=document.createElement('p');note.className='chemistry-curriculum-note';
+ const content=document.createElement('div');content.className='chemistry-curriculum-content';
+ function row(heading,description,onClick){
+  const btn=document.createElement('button');btn.type='button';
+  btn.className='secondary-btn chemistry-curriculum-row';
+  const strong=document.createElement('strong');strong.textContent=heading;btn.append(strong);
+  if(description){
+   const small=document.createElement('small');small.textContent=description;btn.append(small);
+  }
+  btn.onclick=onClick;return btn;
+ }
+ function countForTopic(topicId,limitLevel){
+  return EDUCATION_THEORY_DATA.filter(e=>e.subject==='chemistry'&&e.topic===topicId&&
+   levelRank[e.level]<=levelRank[limitLevel]).length;
+ }
+ function back(){
+  if(stage==='detail')stage='lessons';
+  else if(stage==='lessons'){stage='topics';searchValue=''}
+  else if(stage==='topics')stage='levels';
+  else {dialog.close();return}
+  render();
+ }
+ dialog.pocketBack=back;
+ previous.onclick=back;
+ dialog.addEventListener('cancel',event=>{event.preventDefault();back()});
+ dialog.addEventListener('close',()=>dialog.remove());
+ function renderLessonList(list){
+  list.replaceChildren();
+  const q=educationTheoryClean(searchValue);
+  let matches=eligible();
+  if(q){
+   const tokens=q.split(' ').filter(Boolean);
+   matches=matches.map(e=>{
+    const names=[e.title,...e.aliases].map(educationTheoryClean);
+    const blob=educationTheoryClean([e.title,...e.aliases,e.statement].join(' '));
+    let score=names.some(t=>t===q)?100:names.some(t=>t.startsWith(q))?90:
+     names.some(t=>t.split(' ').some(w=>w.startsWith(q)))?80:
+     names.some(t=>t.includes(q))?60:0;
+    if(tokens.every(t=>blob.split(' ').some(w=>w.startsWith(t))))score=Math.max(score,35+tokens.length*3);
+    return {e,score};
+   }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||
+    a.e.title.localeCompare(b.e.title,'ro')).slice(0,4).map(x=>x.e);
+  }
+  if(!matches.length){
+   const empty=document.createElement('p');empty.textContent=learningLabel(
+    'Nu există lecții care corespund acestor litere.',
+    'No lessons match these letters.');list.append(empty);
+  }
+  for(const entry of matches){
+   const lvl=CHEMISTRY_LEVEL_DATA.find(l=>l.id===(entry.level==='medium'?'intermediate':entry.level));
+   list.append(row(entry.title,lvl?learningLabel(lvl.ro,lvl.en):'',()=>{
+    selectedLesson=entry;stage='detail';render();
+   }));
+  }
+ }
+ function render(){
+  content.replaceChildren();
+  previous.textContent=learningLabel('← Înapoi','← Back');
+  title.textContent=stage==='levels'?learningLabel('Chimie · Alege nivelul','Chemistry · Choose level'):
+   stage==='topics'?learningLabel('Chimie · Capitole','Chemistry · Chapters'):
+   stage==='lessons'?learningLabel('Chimie · Lecții','Chemistry · Lessons'):
+   learningLabel('Chimie · Teorie','Chemistry · Theory');
+  if(stage==='levels'){
+   note.textContent=learningLabel(
+    'Alege nivelul de studiu. Lecțiile sunt organizate pe capitole, cu formule și explicații.',
+    'Choose a level. Lessons are organized into chapters with formulas and explanations.');
+   const list=document.createElement('div');list.className='chemistry-curriculum-list';
+   for(const level of CHEMISTRY_LEVEL_DATA){
+    const count=EDUCATION_THEORY_DATA.filter(e=>e.subject==='chemistry'&&
+     levelRank[e.level]<=levelRank[level.id]).length;
+    list.append(row(learningLabel(level.ro,level.en),
+     learningLabel(level.scopeRo,level.scopeEn)+' · '+count+
+      learningLabel(' lecții disponibile',' lessons available'),()=>{
+      selectedLevel=level.id;stage='topics';render();
+     }));
+   }
+   content.append(list);
+  }else if(stage==='topics'){
+   const level=CHEMISTRY_LEVEL_DATA.find(e=>e.id===selectedLevel);
+   note.textContent=learningLabel('Nivel: ','Level: ')+learningLabel(level?.ro||'',level?.en||'')+
+    learningLabel(' · Alege un capitol',' · Choose a chapter');
+   const list=document.createElement('div');list.className='chemistry-curriculum-list';
+   for(const topic of CHEMISTRY_TOPIC_DATA){
+    if(levelRank[topic.minLevel]>levelRank[selectedLevel])continue;
+    const count=countForTopic(topic.id,selectedLevel);if(!count)continue;
+    list.append(row(learningLabel(topic.ro,topic.en),
+     count+learningLabel(' lecții',' lessons'),()=>{
+      selectedTopic=topic.id;searchValue='';stage='lessons';render();
+     }));
+   }
+   content.append(list);
+  }else if(stage==='lessons'){
+   note.textContent=learningLabel(chapter()?.ro||'',chapter()?.en||'')+' · '+
+    eligible().length+learningLabel(' lecții',' lessons');
+   const searchBar=document.createElement('div');searchBar.className='education-theory-search';
+   const search=document.createElement('input');search.type='search';search.autocomplete='off';
+   search.placeholder=learningLabel('Caută de la prima literă…','Search from the first letter…');
+   search.setAttribute('aria-label',learningLabel('Caută lecție','Search lesson'));
+   search.value=searchValue;
+   const list=document.createElement('div');list.className='chemistry-curriculum-list';
+   search.addEventListener('input',()=>{searchValue=search.value;renderLessonList(list)});
+   searchBar.append(search);
+   content.append(searchBar,list);
+   renderLessonList(list);
+  }else if(stage==='detail'&&selectedLesson){
+   note.textContent=learningLabel(chapter()?.ro||'',chapter()?.en||'');
+   const detail=document.createElement('section');detail.className='chemistry-curriculum-detail';
+   const heading=document.createElement('h3');heading.textContent=selectedLesson.title;
+   const statement=document.createElement('p');statement.textContent=selectedLesson.statement;
+   detail.append(heading,statement);
+   if(selectedLesson.formula&&selectedLesson.formula!=='—'){
+    const formula=document.createElement('div');
+    formula.className='education-theory-formula';formula.textContent=selectedLesson.formula;
+    detail.append(formula);
+   }
+   content.append(detail);
+  }
+ }
+ dialog.append(header,note,content);
+ document.body.append(dialog);
+ render();
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
 
@@ -7920,7 +8108,7 @@ function openLearningSubject(key){
  if(key==='science'){
   for(const [code,ro,en] of [['physics','Fizică','Physics'],['chemistry','Chimie','Chemistry']]){
    const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn education-theory-open';
-   theory.textContent='📖 '+learningLabel(ro,en);theory.onclick=()=>educationTheoryOpen(code,null);bar.append(theory);
+   theory.textContent='📖 '+learningLabel(ro,en);theory.onclick=()=>code==='chemistry'?chemistryCurriculumOpen():educationTheoryOpen(code,null);bar.append(theory);
   }
  }
  host.append(bar);
