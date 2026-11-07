@@ -21,7 +21,7 @@ globalThis.fetch=async input=>{
   const text=url.searchParams.get('text')||'';
   const country=url.searchParams.get('filter');
   if(country==='countrycode:gb'&&/^London(?:,|$)/i.test(text))return Response.json({results:[london]});
-  if(country==='countrycode:gb'&&/^(?:Ox|Oxford)(?:,|\\s)/i.test(text))return Response.json({results:[oxford]});
+  if(country==='countrycode:gb'&&/^(?:O|Ox|Oxford)(?:,|\\s)/i.test(text))return Response.json({results:[oxford]});
   return Response.json({results:[]});
 };
 const lookup=async(stage,query,country='gb',city='')=>{
@@ -59,6 +59,11 @@ try {
   assert.ok(!requested.some(url=>url.hostname==='api.geoapify.com'),
     'Verified station is not queried again as an ordinary street');
 
+  const initialLetter=await lookup('street','O','gb','London');
+  assert.equal(initialLetter.candidates?.length,1,'A verified street should be suggested from its first letter');
+  assert.equal(initialLetter.candidates[0].street,'Oxford Street');
+  assert.ok(requested.some(url=>url.searchParams.get('type')==='street'),
+    'Country-scoped first-letter searches must target streets');
   const street=await lookup('street','Ox','gb','London');
   assert.equal(street.candidates?.length,1,'Street remains searchable after selecting London');
   assert.equal(street.candidates[0].street,'Oxford Street');

@@ -714,6 +714,7 @@ return `<!doctype html>
 .module-quick-header h2{font-size:20px;line-height:1.25;margin:0;overflow-wrap:anywhere}
 .module-quick-body{padding:14px;display:grid;align-content:start;gap:10px}
 .module-result-card{width:100%;text-align:left;border:1px solid #31556b;border-radius:15px;background:#0d2638;padding:15px;color:var(--text);display:flex;flex-direction:column;gap:7px}
+.module-result-card[hidden]{display:none!important}
 .module-result-card strong{font-size:17px}
 .module-result-card small{font-size:14px;line-height:1.45;color:var(--muted)}
 .module-search-status{padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--panel);line-height:1.5;overflow-wrap:anywhere}
@@ -8357,7 +8358,16 @@ function canonicalAddressCityQuery(countryCode,input){
  const query=String(input||'').trim();
  const norm=query.normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase();
  const aliases={gb:{londra:'London',londres:'London',londen:'London',londyn:'London','лондон':'London'}};
- return aliases[String(countryCode||'').toLowerCase()]?.[norm]||query;
+ const known=aliases[String(countryCode||'').toLowerCase()]||{};
+ if(known[norm])return known[norm];
+ // A user deleting "Londra" to "Londr" must not lose an already known city.
+ // Wait for >=5 characters so "Lon"/"Lond" remain open to other towns.
+ if(norm.length>=5){
+   const matching=Object.entries(known).filter(([alias])=>alias.startsWith(norm));
+   const cityNames=[...new Set(matching.map(([,city])=>city))];
+   if(cityNames.length===1)return cityNames[0];
+ }
+ return query;
 }
 function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',countryCode='',prefillCity='',prefillCityPoint=null,cityOnly=false}){
  const ro=state.language==='ro';
@@ -8404,13 +8414,21 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
   let localityEpoch=0;
   const keyFor=(stage,q)=>[selected.country?.code||'',selected.city?.city||'',region,stage,normalize(q)].join('|');
   const matchCached=(stage,q)=>{
-   const prefix=normalize(q),matches=new Map();
+   const prefix=normalize(stage==='city'?canonicalAddressCityQuery(selected.country?.code,q):q);
+   const matches=new Map();
+   const contextCountry=selected.country?.code||'';
+   const contextCity=stage==='city'?'':selected.city?.city||'';
    for(const [key,items] of localityIndex){
     const parts=key.split('|');
-    if(parts[0]!==selected.country?.code||parts[1]!==selected.city?.city||parts[2]!==region||parts[3]!==stage)continue;
+    if(parts[0]!==contextCountry||parts[1]!==contextCity||parts[2]!==region||parts[3]!==stage)continue;
     for(const point of items){
-     const label=stage==='street'?String(point.street||point.label||''):String(point.houseNumber||point.label||'');
-     if(normalize(label).startsWith(prefix)||normalize(label).split(/\s+/).some(w=>w.startsWith(prefix)))matches.set(normalize(label),point);
+     const label=stage==='city'?String(point.city||point.label||''):
+       stage==='street'?String(point.street||point.label||''):
+       String(point.houseNumber||point.label||'');
+     if(!prefix||!(normalize(label).startsWith(prefix)||normalize(label).split(/\s+/).some(w=>w.startsWith(prefix))))continue;
+     const identity=stage==='city'?[normalize(point.label||label),point.country_code,point.latitude,point.longitude].join('|'):
+       [normalize(label),normalize(point.postcode||''),normalize(point.city||'')].join('|');
+     matches.set(identity,point);
     }
    }
    return [...matches.values()].slice(0,30);
@@ -8452,10 +8470,13 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    fields[stage].list.replaceChildren();
    clearAfter(stage);
    if(stage==='city'){
-    localityIndex.clear();prewarmStreets();
+    // Street/number hints belong to the previous town, but previously verified
+    // city candidates remain useful when the user later edits the city field.
+    for(const key of localityIndex.keys())if(key.split('|')[3]!=='city')localityIndex.delete(key);
+    prewarmStreets();
     fields.number.input.disabled=fields.number.search.disabled=cityOnly;
     fields.street.input.disabled=fields.street.search.disabled=cityOnly;
-    status.textContent=t('Pentru centrul localității poți confirma acum. Pentru o adresă precisă, alege strada și numărul.','Confirm now for the town centre. For a specific address, select the street and house number.');
+    status.textContent=t('Localitate verificată. Poți căuta strada sau stația încă de la prima literă, ori confirma centrul localității.','Verified town. Search for a street or station from the first letter, or confirm the town centre.');
    // No automatic keyboard: the user taps Street when ready.
     return;
    }
@@ -8488,7 +8509,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     return;
    }
    if(!query&&stage==='city'){list.replaceChildren();return;}
-   if(stage==='street'||stage==='number'){
+   if(stage==='city'||stage==='street'||stage==='number'){
     const cached=matchCached(stage,query);
     if(cached.length)list.replaceChildren(...cached.map((point,i)=>card((i+1)+'. '+point.label,()=>choose(stage,point))));
     else list.textContent=t('Se caută…','Searching…');
@@ -8513,7 +8534,15 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
       return true;
     });
     if(!current())return;
-    if((stage==='street'||stage==='number')&&Array.isArray(candidates)&&candidates.length)localityIndex.set(keyFor(stage,query),candidates);
+    // Keep verified provider results for every typed prefix. A later empty
+    // response must not erase matching verified cities or streets already seen.
+    const saved=matchCached(stage,query);
+    if(candidates.length)localityIndex.set(keyFor(stage,query),candidates);
+    const used=new Set(candidates.map(point=>[point.label,point.latitude,point.longitude].join('|')));
+    for(const point of saved){
+      const id=[point.label,point.latitude,point.longitude].join('|');
+      if(!used.has(id)){candidates.push(point);used.add(id)}
+    }
     if(discover){
      withoutStreet=!candidates.length;
      // No result from the street provider must never lock a rural address field.
@@ -8557,11 +8586,11 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     approximateButton.hidden=!selected.city||cityOnly||!Number.isFinite(selected.city.latitude)||!Number.isFinite(selected.city.longitude);
     if(stage==='street'&&selected.city&&!cityOnly){fields.number.input.disabled=false;fields.number.search.disabled=false;}
     if(input.value.trim().length>=1){
-     if(stage==='street'||stage==='number'){
+     if(stage==='city'||stage==='street'||stage==='number'){
       const cached=matchCached(stage,input.value.trim());
       if(cached.length)list.replaceChildren(...cached.map((point,i)=>card((i+1)+'. '+point.label,()=>choose(stage,point))));
      }
-     timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},stage==='street'?80:200);
+     timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},stage==='street'?140:200);
     }
    };
    input.onkeydown=event=>{if(event.key==='Enter')search.click();};
