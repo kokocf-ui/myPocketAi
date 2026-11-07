@@ -30,7 +30,7 @@ export async function handleMathVisionPilot(request,env,json){
  try{
   const result=await env.AI.run("@cf/moondream/moondream3.1-9B-A2B",{
    task:"query",image,
-   question:"This is a photograph of a mathematics worksheet. Transcribe ALL visible exercise numbers, letters and formulas in reading order, each on a separate line. Copy the symbols EXACTLY: √ for square roots; ^2, ^3 for powers; - for negative signs; parentheses; fraction numerators and denominators using (numerator)/(denominator). Do NOT solve, explain, simplify, invent missing exercises, or quietly repair unclear symbols. Mark uncertain glyphs [?]. Output ONLY the transcription.",
+   question:"Transcribe the mathematics printed in this photograph, not the worked solutions. Include EVERY visible problem and subproblem in reading order without guessing missing characters. Format each exercise number on its own line as Exercițiul 1, Exercițiul 2, etc. Format each subproblem on its own line as a) expression, b) expression. Never merge different subproblems. Copy the mathematics exactly: square root as √, exponents as ^2 or ^3, negatives as -, parentheses and fractions as (numerator)/(denominator). If a glyph is unclear, write [?], not an invented digit or symbol. Do not solve, simplify, explain, or add Markdown code fences. Return only the transcription.",
    reasoning:false,stream:false,temperature:0,max_tokens:2300
   });
   const transcript=String(result?.answer||"").trim().slice(0,8000);
