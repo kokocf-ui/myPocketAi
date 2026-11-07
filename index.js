@@ -1542,6 +1542,18 @@ body.long-choice-active{overflow:hidden}
 .math-figures-action{width:100%;min-height:43px!important;white-space:normal!important}
 .math-figure-summary{display:block;max-height:2.8em;overflow:hidden;text-overflow:ellipsis}
 .math-figure-attached{max-height:none;overflow:visible;display:flex;flex-direction:column;gap:5px;padding:7px 9px;border:1px solid #477c96;border-radius:10px;background:#0a2a3b}
+/* Keep maths action controls immediately after the exercise, before optional tools or figure preview. */
+#view-module.learning-active.learning-math .education-math-workspace{min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain;flex:1 1 auto!important;padding-bottom:16px!important}
+#view-module.learning-active.learning-math .education-math-actions{order:0;flex:0 0 auto}
+#view-module.learning-active.learning-math .math-entry-tools{order:1;flex:0 0 auto}
+#view-module.learning-active.learning-math .math-figure-attached{order:2;flex:0 0 auto}
+.math-figure-attached{padding:7px 9px!important;max-height:none!important}
+.math-figure-attached summary{cursor:pointer;list-style:revert;font-weight:700;line-height:1.3;font-size:13px}
+.math-figure-attached:not([open]){overflow:hidden!important}
+.math-figure-attached:not([open]) figure,.math-figure-attached:not([open]) span{display:none!important}
+.math-figure-attached[open] figure{max-height:165px}
+.math-figure-attached[open] svg{max-height:150px}
+
 .math-figure-attached strong{font-size:13px}
 .math-figure-attached span{font-size:12px;line-height:1.35;color:#c7e7ef}
 .math-figure-attached figure{margin:0;max-height:125px;overflow:hidden}
@@ -6543,6 +6555,11 @@ function pocketExitVoiceResult(data){
 }
 function pocketBackInsideModule(){
  const root=$('view-module');
+ if(root.classList.contains('learning-active')&&root.classList.contains('learning-math')){
+  if(mathJourney.stage==='workspace'){mathJourney.stage='subjects';mathJourneyShowChoices('subjects');return true}
+  if(mathJourney.stage==='subjects'){mathJourney.stage='levels';mathJourneyShowChoices('levels');return true}
+  renderLearningSubjects();return true;
+ }
  if(root.classList.contains('learning-active')){renderLearningSubjects();return true}
  if(root.classList.contains('organize-active')||root.classList.contains('organize-chat')){renderOrganizeChoices();return true}
  if(root.classList.contains('extra-tools-active')||root.classList.contains('extra-tools-chat')){renderExtraToolsChoices();return true}
@@ -6724,12 +6741,13 @@ function mathFigureConflict(figure,statement){
 function mathFigureDraftSummary(){
  const note=document.getElementById('mathFigureSummary');if(!note)return;
  note.replaceChildren();
+ note.open=false;
  if(!mathFigureDraft){
   note.textContent=learningLabel('Poți lucra și fără figură.','You can also work without a figure.');
   return;
  }
- const label=document.createElement('strong');
- label.textContent=learningLabel('Figura atașată exercițiului: ','Figure attached to exercise: ')+mathFigureSummary(mathFigureDraft);
+ const label=document.createElement('summary');
+ label.textContent=learningLabel('📐 Figură atașată · Vezi/ascunde: ','📐 Attached figure · Show/hide: ')+mathFigureSummary(mathFigureDraft);
  note.append(label,mathFigureSnapshot(mathFigureDraft));
  const hint=document.createElement('span');
  hint.textContent=learningLabel('Figura este păstrată în Grafic, Rezolvare și Metodă. Completează cerința în câmpul Exercițiu sau apasă Reprezintă grafic.',
@@ -7691,7 +7709,7 @@ function openLearningSubject(key){
  root.classList.toggle('learning-math',key==='math');
  host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar';
- const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>{if(key==='math'){mathJourney.stage='subjects';mathJourneyShowChoices('subjects')}else renderLearningSubjects()};
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>{if(key==='math'){mathVoiceStop();mathCloseResults();mathJourney.stage='subjects';mathJourneyShowChoices('subjects')}else renderLearningSubjects()};
  if(key==='math'){
   bar.classList.add('math-navigation');
   back.classList.add('math-back-btn');
@@ -7748,14 +7766,14 @@ function openLearningSubject(key){
    geometry.textContent=learningLabel('📐 Figuri geometrice','📐 Geometric figures');
    geometry.onclick=mathOpenFigureLibrary;
    tools.append(geometry);
-   const figureSummary=document.createElement('small');
+   const figureSummary=document.createElement('details');
    figureSummary.id='mathFigureSummary';figureSummary.className='math-figure-summary math-figure-attached';
-   tools.append(figureSummary);
+   workspace.append(figureSummary);
   }
   const status=document.createElement('small');status.id='mathEducationStatus';status.setAttribute('role','status');
   status.textContent='';
   editor.addEventListener('input',()=>{mathRememberDraft(editor.value);status.textContent=''});
-  workspace.append(heading,editor,tools,status);
+  workspace.append(heading,editor,status);
   const choices=document.createElement('div');choices.className='education-math-actions';
   [
    ['solve',learningLabel('🧩 Rezolvă pas cu pas','🧩 Solve step by step')],
@@ -7767,7 +7785,7 @@ function openLearningSubject(key){
    button.textContent=title;button.onclick=()=>mathEducationRun(mode);
    choices.append(button);
   });
-  workspace.append(choices);host.append(workspace);
+  workspace.append(choices,tools);host.append(workspace);
   mathFigureDraftSummary();
   requestAnimationFrame(mathFitViewport);
  }
