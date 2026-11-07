@@ -721,6 +721,46 @@ public final class MainActivity extends ComponentActivity {
         score+=Math.min(100,raw.length());
         return score;
     }
+    // Vision models receive an upright, colour-preserving source image.
+    // Do not reuse the grayscale/contrast ML Kit variant: it can erase the
+    // thin diagonal or horizontal strokes that distinguish √, − and ^2.
+    private Bitmap educationVisionBitmap(Uri imageUri) throws IOException{
+        BitmapFactory.Options bounds=new BitmapFactory.Options();
+        bounds.inJustDecodeBounds=true;
+        try(InputStream src=getContentResolver().openInputStream(imageUri)){
+            if(src==null)throw new IOException("Image unavailable");
+            BitmapFactory.decodeStream(src,null,bounds);
+        }
+        if(bounds.outWidth<60||bounds.outHeight<60)throw new IOException("Image too small");
+        int maxDimension=Math.max(bounds.outWidth,bounds.outHeight);
+        BitmapFactory.Options options=new BitmapFactory.Options();
+        options.inPreferredConfig=Bitmap.Config.ARGB_8888;
+        options.inSampleSize=1;
+        while(maxDimension/options.inSampleSize>2600)options.inSampleSize*=2;
+        Bitmap decoded;
+        try(InputStream src=getContentResolver().openInputStream(imageUri)){
+            if(src==null)throw new IOException("Image unavailable");
+            decoded=BitmapFactory.decodeStream(src,null,options);
+        }
+        if(decoded==null)throw new IOException("Image cannot be decoded");
+        int angle=0;
+        try(InputStream src=getContentResolver().openInputStream(imageUri)){
+            if(src!=null){
+                android.media.ExifInterface exif=new android.media.ExifInterface(src);
+                int orientation=exif.getAttributeInt(android.media.ExifInterface.TAG_ORIENTATION,
+                    android.media.ExifInterface.ORIENTATION_NORMAL);
+                if(orientation==android.media.ExifInterface.ORIENTATION_ROTATE_90)angle=90;
+                else if(orientation==android.media.ExifInterface.ORIENTATION_ROTATE_180)angle=180;
+                else if(orientation==android.media.ExifInterface.ORIENTATION_ROTATE_270)angle=270;
+            }
+        }catch(Exception ignored){}
+        if(angle==0)return decoded;
+        Matrix matrix=new Matrix();matrix.postRotate(angle);
+        Bitmap upright=Bitmap.createBitmap(decoded,0,0,decoded.getWidth(),decoded.getHeight(),matrix,true);
+        if(upright!=decoded)decoded.recycle();
+        return upright;
+    }
+
     private Bitmap educationEnhancedBitmap(Uri imageUri) throws IOException{
         BitmapFactory.Options bounds=new BitmapFactory.Options();
         bounds.inJustDecodeBounds=true;
@@ -1155,15 +1195,16 @@ public final class MainActivity extends ComponentActivity {
         final Uri photo=mathVisionSourceUri;
         if(photo==null){notifyMathVisionPhoto("error","",id);return;}
         new Thread(()->{
-            Bitmap enhanced=null,scaled=null;
+            Bitmap original=null,scaled=null;
             try{
-                enhanced=educationEnhancedBitmap(photo);
-                int w=enhanced.getWidth(),h=enhanced.getHeight();
-                float factor=Math.min(1f,1550f/Math.max(w,h));
-                scaled=factor<1f?Bitmap.createScaledBitmap(enhanced,Math.max(1,Math.round(w*factor)),Math.max(1,Math.round(h*factor)),true):enhanced;
+                original=educationVisionBitmap(photo);
+                int w=original.getWidth(),h=original.getHeight();
+                float factor=Math.min(1f,2000f/Math.max(w,h));
+                scaled=factor<1f?Bitmap.createScaledBitmap(original,Math.max(1,Math.round(w*factor)),Math.max(1,Math.round(h*factor)),true):original;
                 ByteArrayOutputStream out=new ByteArrayOutputStream();
-                scaled.compress(Bitmap.CompressFormat.JPEG,75,out);
-                if(out.size()>950000){out.reset();scaled.compress(Bitmap.CompressFormat.JPEG,55,out);}
+                scaled.compress(Bitmap.CompressFormat.JPEG,78,out);
+                if(out.size()>950000){out.reset();scaled.compress(Bitmap.CompressFormat.JPEG,62,out);}
+                if(out.size()>950000){out.reset();scaled.compress(Bitmap.CompressFormat.JPEG,45,out);}
                 if(out.size()>950000){notifyMathVisionPhoto("error","",id);return;}
                 String encoded=Base64.encodeToString(out.toByteArray(),Base64.NO_WRAP);
                 for(int i=0;i<encoded.length();i+=48000)
@@ -1172,8 +1213,8 @@ public final class MainActivity extends ComponentActivity {
             }catch(Exception ignored){
                 notifyMathVisionPhoto("error","",id);
             }finally{
-                if(scaled!=null&&scaled!=enhanced&&!scaled.isRecycled())scaled.recycle();
-                if(enhanced!=null&&!enhanced.isRecycled())enhanced.recycle();
+                if(scaled!=null&&scaled!=original&&!scaled.isRecycled())scaled.recycle();
+                if(original!=null&&!original.isRecycled())original.recycle();
             }
         },"pocket-math-vision-optin").start();
     }
