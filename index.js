@@ -7103,6 +7103,14 @@ function mathFigureWorkbench(){
   ['square','Pătrat','Square',['a']],
   ['circle','Cerc','Circle',['r']],
   ['trapezoid','Trapez','Trapezoid',['B','b','h']],
+  ['parallelogram','Paralelogram','Parallelogram',['a','b','h']],
+  ['rhombus','Romb','Rhombus',['a','d1','d2']],
+  ['pentagon','Pentagon','Pentagon',['a']],
+  ['hexagon','Hexagon','Hexagon',['a']],
+  ['ellipse','Elipsă','Ellipse',['a','b']],
+  ['cylinder','Cilindru 3D','3D cylinder',['r','h']],
+  ['cone','Con 3D','3D cone',['r','h']],
+  ['sphere','Sferă 3D','3D sphere',['r']],
   ['cube','Cub 3D','3D cube',['a']],
   ['prism','Prismă 3D','3D prism',['L','l','h']]
  ];
@@ -7114,14 +7122,16 @@ function mathFigureWorkbench(){
  bar.append(title,close);
  const selector=document.createElement('select');selector.setAttribute('aria-label',learningLabel('Alege figura','Choose figure'));
  for(const entry of shapeOptions){const option=document.createElement('option');option.value=entry[0];option.textContent=learningLabel(entry[1],entry[2]);selector.append(option)}
+ const typeRow=document.createElement('button');typeRow.type='button';typeRow.className='secondary-btn';typeRow.textContent=learningLabel('Alege tipul de triunghi','Choose triangle type');
+ const triangleTypes=[['scalene','Oarecare','Scalene'],['equilateral','Echilateral','Equilateral'],['isosceles','Isoscel','Isosceles'],['right','Dreptunghic','Right'],['acute','Ascuțitunghic','Acute'],['obtuse','Obtuzunghic','Obtuse']];
  const view=document.createElement('div');view.className='math-figure-viewport';
  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 420 280');svg.setAttribute('role','img');svg.setAttribute('aria-label',learningLabel('Desen geometric interactiv','Interactive geometry diagram'));
  view.append(svg);
  const toolbar=document.createElement('div');toolbar.className='math-figure-controls';
  const dimensions=document.createElement('div');dimensions.className='math-figure-dimensions';
- const help=document.createElement('small');help.textContent=learningLabel('Valorile sunt opționale. Trage figura pentru deplasare. Pentru 3D, trage pentru rotire.','Measurements are optional. Drag to pan; drag 3D figures to rotate.');
+ const help=document.createElement('small');help.textContent=learningLabel('Un deget: deplasare (3D: rotire). Două degete: zoom și rotire. Valorile sunt opționale.','One finger: move (3D: rotate). Two fingers: zoom and rotate. Measurements are optional.');
  const commit=document.createElement('button');commit.type='button';commit.className='primary-btn';commit.textContent=learningLabel('Adaugă la exercițiu','Add to exercise');
- const state3={kind:mathFigureDraft?.kind||'triangle',zoom:1,x:0,y:0,angle:0,yaw:.55,pitch:.35,values:{}};
+ const state3={kind:mathFigureDraft?.kind||'triangle',triangleType:mathFigureDraft?.triangleType||'scalene',zoom:1,x:0,y:0,angle:0,yaw:.55,pitch:.35,values:{}};
  if(mathFigureDraft?.kind===state3.kind)state3.values={...mathFigureDraft.values};
  selector.value=state3.kind;
  function node(tag,attrs={},label){
@@ -7134,16 +7144,27 @@ function mathFigureWorkbench(){
  function caption(group,x,y,label){group.append(node('text',{x,y,fill:'#f9e7b6','font-size':17,'text-anchor':'middle'},label))}
  function render(){
   svg.replaceChildren();
-  const is3D=state3.kind==='cube'||state3.kind==='prism';
-  const safeX=Math.max(-110,Math.min(110,state3.x));
-  const safeY=Math.max(-70,Math.min(70,state3.y));
+  const is3D=['cube','prism','cylinder','cone','sphere'].includes(state3.kind);
+  const safeX=Math.max(-90,Math.min(90,state3.x));
+  const safeY=Math.max(-55,Math.min(55,state3.y));
   state3.x=safeX;state3.y=safeY;
   const group=node('g',{transform:'translate('+(210+safeX)+' '+(140+safeY)+') rotate('+(is3D?0:state3.angle)+') scale('+state3.zoom+')'});
   svg.append(group);
   const shape=state3.kind;
   if(shape==='triangle'){
-   group.append(node('polygon',{points:'-125,88 125,88 0,-94',fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
-   caption(group,-136,104,'A');caption(group,137,104,'B');caption(group,0,-105,'C');
+   const pts={
+    scalene:[[-115,73],[115,73],[-20,-90]],equilateral:[[-102,80],[102,80],[0,-96]],
+    isosceles:[[-110,78],[110,78],[0,-90]],right:[[-110,80],[115,80],[-110,-85]],
+    acute:[[-110,78],[110,78],[10,-93]],obtuse:[[-115,80],[115,80],[-72,-42]]
+   }[state3.triangleType]||[[-115,73],[115,73],[-20,-90]];
+   group.append(node('polygon',{points:pts.map(p=>p.join(',')).join(' '),fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
+   for(let i=0;i<3;i++){
+    const radians=state3.angle*Math.PI/180;
+    const x=(pts[i][0]*Math.cos(radians)-pts[i][1]*Math.sin(radians))*state3.zoom;
+    const y=(pts[i][0]*Math.sin(radians)+pts[i][1]*Math.cos(radians))*state3.zoom;
+    caption(svg,210+safeX+x+(x>0?11:-11),140+safeY+y+(y>0?13:-9),['A','B','C'][i]);
+   }
+   if(state3.triangleType==='right')group.append(node('polyline',{points:'-110,60 -90,60 -90,80',stroke:'#ffe19a',fill:'none','stroke-width':2}));
   }else if(shape==='rectangle'||shape==='square'){
    const w=shape==='square'?178:265,h=shape==='square'?178:152;
    group.append(node('rect',{x:-w/2,y:-h/2,width:w,height:h,fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
@@ -7152,6 +7173,24 @@ function mathFigureWorkbench(){
    line(group,0,0,95,0);caption(group,48,-10,'r');
   }else if(shape==='trapezoid'){
    group.append(node('polygon',{points:'-135,85 135,85 65,-85 -65,-85',fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
+  }else if(['parallelogram','rhombus','pentagon','hexagon','ellipse','cylinder','cone','sphere'].includes(shape)){
+   if(shape==='ellipse')group.append(node('ellipse',{cx:0,cy:0,rx:120,ry:69,fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
+   else if(shape==='sphere'){
+    group.append(node('circle',{cx:0,cy:0,r:86,fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
+    group.append(node('ellipse',{cx:0,cy:0,rx:86,ry:25,fill:'none',stroke:'#ffe19a','stroke-width':2,'stroke-dasharray':'6 5'}));
+   }else if(shape==='cylinder'||shape==='cone'){
+    group.append(node('ellipse',{cx:0,cy:68,rx:82,ry:20,fill:'#1d6170',stroke:'#5ddde3','stroke-width':3}));
+    if(shape==='cylinder'){
+     line(group,-82,-66,-82,68);line(group,82,-66,82,68);
+     group.append(node('ellipse',{cx:0,cy:-66,rx:82,ry:20,fill:'#1d6170',stroke:'#5ddde3','stroke-width':3}));
+    }else{line(group,0,-96,-82,68);line(group,0,-96,82,68)}
+   }else{
+    let points='';
+    if(shape==='parallelogram')points='-110,65 65,65 110,-65 -65,-65';
+    else if(shape==='rhombus')points='0,-90 110,0 0,90 -110,0';
+    else{const n=shape==='pentagon'?5:6;points=Array.from({length:n},(_,i)=>(100*Math.cos(i*2*Math.PI/n-Math.PI/2)).toFixed(1)+','+(100*Math.sin(i*2*Math.PI/n-Math.PI/2)).toFixed(1)).join(' ')}
+    group.append(node('polygon',{points,fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
+   }
   }else{
    const width=shape==='cube'?78:108,depth=shape==='cube'?78:65,height=shape==='cube'?78:95;
    const corners=[];
@@ -7174,8 +7213,8 @@ function mathFigureWorkbench(){
   const actions=[
    ['−',()=>state3.zoom=Math.max(.55,state3.zoom-.15)],
    ['+',()=>state3.zoom=Math.min(2.2,state3.zoom+.15)],
-   ['↶',()=>{if(state3.kind==='cube'||state3.kind==='prism')state3.yaw-=.25;else state3.angle-=15}],
-   ['↷',()=>{if(state3.kind==='cube'||state3.kind==='prism')state3.yaw+=.25;else state3.angle+=15}],
+   ['↶',()=>{if(['cube','prism','cylinder','cone','sphere'].includes(state3.kind))state3.yaw-=.25;else state3.angle-=15}],
+   ['↷',()=>{if(['cube','prism','cylinder','cone','sphere'].includes(state3.kind))state3.yaw+=.25;else state3.angle+=15}],
    [learningLabel('Reset','Reset'),()=>{state3.zoom=1;state3.x=0;state3.y=0;state3.angle=0;state3.yaw=.55;state3.pitch=.35}]
   ];
   for(const [label,action] of actions){const button=document.createElement('button');button.type='button';button.className='secondary-btn';button.textContent=label;button.onclick=()=>{action();render()};toolbar.append(button)}
@@ -7207,13 +7246,14 @@ function mathFigureWorkbench(){
  commit.onclick=()=>{
   const entry=shapeOptions.find(item=>item[0]===state3.kind);
   const dimensionsText=Object.entries(state3.values).filter(([key,value])=>value!=='').map(([key,value])=>key+'='+value).join(', ');
-  const description=learningLabel(entry[1],entry[2])+(dimensionsText?' ('+dimensionsText+')':'');
-  mathFigureDraft={kind:state3.kind,values:{...state3.values}};
+  const subtype=state3.kind==='triangle'?triangleTypes.find(x=>x[0]===state3.triangleType):null;
+  const description=learningLabel(entry[1],entry[2])+(subtype?' '+learningLabel(subtype[1],subtype[2]):'')+(dimensionsText?' ('+dimensionsText+')':'');
+  mathFigureDraft={kind:state3.kind,triangleType:state3.triangleType,values:{...state3.values}};
   const field=document.getElementById('mathEducationText');
   if(field){field.value=(field.value.trim()?field.value.trim()+'\\n':'')+description;mathRememberDraft(field.value)}
   dialog.close();field?.focus();
  };
- panel.append(bar,selector,view,toolbar,help,dimensions,commit);
+ panel.append(bar,selector,typeRow,view,toolbar,help,dimensions,commit);
  dialog.append(panel);document.body.append(dialog);
  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
  fields();controls();render();dialog.showModal();
