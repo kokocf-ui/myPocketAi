@@ -8,11 +8,26 @@ const calls=[];
 const fixedOrigin={latitude:51.478,longitude:0.283,updatedAt:Date.now()};
 const uk={latitude:51.493,longitude:-0.13,country_code:"GB",label:"London Victoria"};
 const abroad={latitude:48.8566,longitude:2.3522,country_code:"FR",label:"Paris, France"};
-let internationalFixture=false;
+let internationalFixture=false,provideTfLJourney=false;
 globalThis.fetch=async input=>{
  const url=new URL(typeof input==="string"?input:input.url);calls.push(url);
  if(url.hostname==="api.tfl.gov.uk"){
   if(url.pathname.startsWith("/StopPoint/Search"))return Response.json({matches:[]});
+  if(provideTfLJourney){
+   const at=m=>new Date(Date.now()+m*60000).toISOString();
+   return Response.json({journeys:[{
+    duration:48,startDateTime:at(5),arrivalDateTime:at(53),
+    legs:[
+     {mode:{name:"walking"},duration:8,departureTime:at(5),arrivalTime:at(13),
+      departurePoint:{commonName:"Grays origin",lat:51.478,lon:0.283},
+      arrivalPoint:{commonName:"Grays station",lat:51.476,lon:0.321}},
+     {mode:{name:"national-rail"},duration:33,departureTime:at(20),arrivalTime:at(53),
+      departurePoint:{commonName:"Grays station",lat:51.476,lon:0.321},
+      arrivalPoint:{commonName:"London Victoria",lat:51.493,lon:-0.13},
+      routeOptions:[{name:"Verified test rail"}]}
+    ]
+   }]});
+  }
   return Response.json({journeys:[]});
  }
  if(url.hostname==="motis.example")return Response.json({itineraries:[]});
@@ -61,6 +76,19 @@ try{
  assert.ok(calls.some(u=>u.hostname==="api.tfl.gov.uk"&&u.pathname.includes("JourneyResults")),
   "A failed authorized provider must allow the UK TfL fallback");
  assert.equal(outage.transit_available,false,"Never invent results");
+
+ // Verify the fallback returns actual operator legs when a TfL journey exists,
+ // instead of merely checking that TfL was called. No map geometry is invented.
+ provideTfLJourney=true;
+ const verifiedLocal=await ask(uk,{TFL_APP_KEY:"mock-tfl"});
+ assert.equal(verifiedLocal.transit_available,true,
+  "A confirmed TfL response should survive the UK mixed-mode fallback");
+ assert.equal(verifiedLocal.transit_provider,"TfL");
+ assert.ok(verifiedLocal.transit.length>=1);
+ assert.ok(verifiedLocal.transit[0].legs.some(l=>l.mode==="national-rail"));
+ assert.equal(verifiedLocal.route_geometry_available,false,
+  "Missing TfL polylines must not be replaced with invented geometry");
+ provideTfLJourney=false;
 
  internationalFixture=true;
  const city=await ask({label:"Berlin"},{
