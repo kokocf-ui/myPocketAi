@@ -33,4 +33,13 @@ assert.ok(script.includes('overflow-y:auto;overscroll-behavior:contain'));
 assert.ok(script.includes('footer.append(confirmation)'));
 assert.ok(script.includes('editor.value=candidate;'));
 assert.ok(!script.includes("if(text){editor.value=text;mathRememberDraft(text)}"),'never auto-copy photo page into solve editor');
+
+const primary=['a) 9x - 3x + 4x','b) 2x2 - 3x2 + 5x2','c) 2V5xy + 9V5xy - 10V5xy'].join('\n');
+const secondary=['a) 9x - 3x + 4x','b) 2x² - 3x² + 5x²','d) 9abc - 13abc'].join('\n');
+const merged=parse(primary,secondary);
+assert.equal(merged.map(x=>x.label.slice(0,2)).join(','),'a),b),c),d)','merge missing subpoint from alternate OCR pass');
+assert.equal(merged[1].text,'2x2 - 3x2 + 5x2','do not silently substitute a conflicting alternate formula');
+const many=Array.from({length:15},(_,i)=>String.fromCharCode(97+i)+') '+(i+2)+'x + 3').join('\n');
+assert.equal(parse(many).length,15,'no three- or twelve-row list truncation');
+assert.ok(script.includes('mathPhotoCandidates(text,data?.alternative)'),'pass enhanced OCR reading to candidate selection');
 console.log('PASS photo OCR requires single exercise review and rejects entire-page auto-solving');

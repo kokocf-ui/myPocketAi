@@ -7067,21 +7067,29 @@ function openLearningSubject(key){
 // An OCR candidate is NEVER a verified mathematical statement. A photographed
 // page must be reviewed and one exercise explicitly selected before math runs.
 let mathPhotoNeedsReview=false;
-function mathPhotoCandidates(source){
- const lines=String(source||'').replace(/\\r/g,'').split('\\n').map(x=>x.trim()).filter(Boolean);
- const out=[],seen=new Set();
- for(const line of lines){
-  const match=line.match(/^(?:EX\\.?\\s*\\d+\\s*[):.]\\s*)?([a-h])\\s*[).]\\s*(.+)$/i);
-  if(!match)continue;
-  const candidate=match[2].trim();
-  // Once a worked solution is included, keep only the first expression.
-  const expression=candidate.split('=')[0].trim();
-  if(expression.length<3||expression.length>180||!/\\d/.test(expression))continue;
-  if(seen.has(match[1].toLowerCase()+':'+expression))continue;
-  seen.add(match[1].toLowerCase()+':'+expression);
-  out.push({label:match[1].toLowerCase()+') '+expression,text:expression});
-  if(out.length>=12)break;
- }
+function mathPhotoCandidates(source,alternative){
+ // Android provides two independent OCR passes. Recover subpoints missing from
+ // the primary pass, but never automatically rewrite uncertain maths symbols.
+ const out=[],seen=new Set(),primaryLetters=new Set();
+ const collect=(raw,fallback)=>{
+  const lines=String(raw||'').replace(/\\r/g,'').split('\\n').map(x=>x.trim()).filter(Boolean);
+  for(const line of lines){
+   const match=line.match(/^(?:EX\\.?\\s*\\d+\\s*[):.]\\s*)?([a-z])\\s*[).]\\s*(.+)$/i);
+   if(!match)continue;
+   const letter=match[1].toLowerCase();
+   const expression=match[2].split('=')[0].trim();
+   if(expression.length<3||expression.length>180||!/\\d/.test(expression))continue;
+   if(fallback&&primaryLetters.has(letter))continue;
+   const key=letter+':'+expression;
+   if(seen.has(key))continue;
+   seen.add(key);
+   if(!fallback)primaryLetters.add(letter);
+   out.push({label:letter+') '+expression,text:expression});
+   if(out.length>=50)break;
+  }
+ };
+ collect(source,false);
+ if(out.length<50)collect(alternative,true);
  return out;
 }
 // Educational mathematics: reject obvious OCR fragments, not legitimate hand-entered work.
@@ -8895,7 +8903,7 @@ window.pocketAndroidOcrResult=function(data){
   const warning=document.createElement('p');warning.style.cssText='margin:0;line-height:1.45';
   warning.textContent=learningLabel('OCR neverificat. Selectează un singur exercițiu. Compară cifrele, semnele, exponenții și radicalii cu fotografia, apoi corectează textul.','Unverified OCR. Select one exercise. Compare digits, signs, powers and roots with the photograph, then correct the text.');
   content.append(warning);
-  const candidates=mathPhotoCandidates(text);
+  const candidates=mathPhotoCandidates(text,data?.alternative);
   const candidateInput=document.createElement('textarea');
   candidateInput.rows=4;candidateInput.maxLength=240;
   candidateInput.style.cssText='box-sizing:border-box;width:100%;min-height:100px;padding:12px;border:1px solid #6bb7c9;border-radius:12px;background:#061929;color:#fff;font:inherit;resize:vertical';
