@@ -7092,6 +7092,12 @@ function mathPhotoCandidates(source,alternative){
  if(out.length<50)collect(alternative,true);
  return out;
 }
+// OCR sometimes turns √5 into V5 or x² into x2. Never silently treat these
+// uncertain glyphs as verified algebra when selecting a photographed exercise.
+function mathPhotoOcrRisk(source){
+ const value=String(source||'').replace(/\\s+/g,'');
+ return /(?:^|[+\\-])\\d*[vV]\\d/.test(value)||/[a-z]2(?=$|[+\\-a-z])/i.test(value);
+}
 // Educational mathematics: reject obvious OCR fragments, not legitimate hand-entered work.
 function educationMathOcrIncomplete(value){
  const raw=String(value||'').replace(/\\s+/g,'');
@@ -8497,9 +8503,94 @@ function mathMatrixHeatmap(model){
  figure.append(wrapper,caption);return figure;
 }
 
+// Exact, bounded reduction of like monomials (integer coefficients, powers,
+// multiple letters and isolated square-root coefficients). No OCR guessing.
+function mathLikeTermsModel(source){
+ let text=String(source||'').trim().replace(/[−–]/g,'-').replace(/²/g,'^2').replace(/³/g,'^3');
+ text=text.replace(/^(?:simplific[ăa]|reduce[țt]i\\s+termenii\\s+asemenea|simplify)\\s*:?\\s*/i,'').replace(/\\s+/g,'');
+ if(text.length<3||text.length>180||!/[a-z√]/i.test(text)||/[=()*/\\\\]/.test(text))return null;
+ if(!/^[+-]?[^+-]+(?:[+-][^+-]+)+$/.test(text))return null;
+ const tokens=text.match(/[+-]?[^+-]+/g);
+ if(!tokens||tokens.length<2||tokens.length>30||tokens.join('')!==text)return null;
+ const groups=new Map();
+ for(const token of tokens){
+  const negative=token[0]==='-',body=token.replace(/^[+-]/,'');
+  const match=body.match(/^(\\d+)?(√(?:[2-9]|[1-9]\\d+))?((?:[a-z](?:\\^[1-6])?)*)$/i);
+  if(!match||(!match[1]&&!match[2]&&!match[3]))return null;
+  const coefficient=(negative?-1:1)*Number(match[1]||1);
+  if(!Number.isSafeInteger(coefficient)||Math.abs(coefficient)>100000)return null;
+  const powers=new Map(),letters=match[3].match(/[a-z](?:\\^[1-6])?/gi)||[];
+  if(letters.join('')!==match[3])return null;
+  for(const letter of letters){
+   const name=letter[0].toLowerCase(),exponent=Number(letter.split('^')[1]||1);
+   const power=(powers.get(name)||0)+exponent;
+   if(power>8)return null;
+   powers.set(name,power);
+  }
+  const suffix=[...powers].sort((a,b)=>a[0].localeCompare(b[0]))
+   .map(([name,power])=>name+(power===1?'':'^'+power)).join('');
+  const symbol=(match[2]||'')+suffix;
+  const key=symbol||'#constant';
+  if(!groups.has(key))groups.set(key,{symbol,coefficients:[],sum:0});
+  const group=groups.get(key);
+  group.sum+=coefficient;group.coefficients.push(coefficient);
+ }
+ if([...groups.values()].some(g=>Math.abs(g.sum)>1000000))return null;
+ const readable=s=>s.replace(/\\^2\\b/g,'²').replace(/\\^3\\b/g,'³').replace(/\\^(\\d+)/g,(_,x)=>'^'+x);
+ const formatCoefficient=(n,symbol)=>((symbol&&Math.abs(n)===1)?'':String(Math.abs(n)))+readable(symbol);
+ const formatResult=()=>{
+  const out=[];
+  for(const group of groups.values()){
+   if(group.sum===0)continue;
+   const negative=group.sum<0;
+   const part=formatCoefficient(group.sum,group.symbol);
+   out.push((out.length?(negative?' − ':' + '):(negative?'−':''))+part);
+  }
+  return out.join('')||'0';
+ };
+ const grouped=[...groups.values()].map(g=>{
+  const terms=g.coefficients.map((n,i)=>(i?(n<0?' − ':' + '):(n<0?'−':''))+Math.abs(n)).join('');
+  return '('+terms+')'+readable(g.symbol);
+ }).join(' + ');
+ return {raw:readable(text.replace(/-/g,'−')),grouped,result:formatResult(),groups:[...groups.values()]};
+}
+function mathLikeTermsSolution(source){
+ const m=mathLikeTermsModel(source);if(!m)return null;
+ const results=m.groups.map(g=>g.coefficients.join(', ')+' → '+g.sum+' '+g.symbol).join('; ');
+ return {intro:learningLabel('Reducem termenii asemenea. Calculăm separat coeficienții fiecărei părți literale, fără a modifica exponenții sau radicalii.',
+  'Collect like terms. Add the coefficients for each matching literal part without changing powers or radicals.'),
+  steps:[
+   {label:learningLabel('Identificăm termenii asemenea','Identify like terms'),
+    reason:learningLabel('Numai termenii cu aceleași litere, aceleași puteri și același radical se pot aduna.',
+      'Only terms with the same letters, powers and radical can be combined.'),
+    operation:m.raw,fullAfter:m.grouped,signRule:''},
+   {label:learningLabel('Calculăm coeficienții','Combine the coefficients'),
+    reason:learningLabel('Adunăm și scădem numere întregi, păstrând partea literală neschimbată.',
+      'Add and subtract integer coefficients while keeping the literal part unchanged.'),
+    operation:m.grouped+' = '+m.result,fullAfter:m.result,signRule:''}
+  ],conclusion:learningLabel('Rezultat verificat: ','Verified result: ')+m.result};
+}
+function mathLikeTermsMethod(source){
+ if(!mathLikeTermsModel(source))return null;
+ return {heading:learningLabel('Metodă: reducerea termenilor asemenea','Method: collecting like terms'),
+  intro:learningLabel('Identificăm factorii literali identici și efectuăm operațiile numai asupra coeficienților.',
+   'Identify identical variable factors and operate only on the coefficients.'),
+  rules:[
+   {title:learningLabel('Aceleași litere și puteri','Same variables and powers'),
+    text:learningLabel('x și x² nu sunt termeni asemenea. Nici xy și x nu sunt.','x and x² are not like terms; neither are xy and x.')},
+   {title:learningLabel('Radicalul trebuie să coincidă','The radical must match'),
+    text:learningLabel('2√5xy și 9√5xy pot fi adunați; √3xy este o altă parte literală.','2√5xy and 9√5xy combine, while √3xy is different.')},
+   {title:learningLabel('Adunăm coeficienții','Add coefficients'),
+    text:learningLabel('Păstrăm literele, puterile și radicalul; respectăm fiecare semn minus.','Keep the literal factors unchanged and respect every minus sign.')},
+   {title:learningLabel('Verificăm expresia inițială','Check the original expression'),
+    text:learningLabel('Comparăm fiecare termen cu enunțul și verificăm suma coeficienților.','Compare every term to the exercise and check the coefficient sums.')}
+  ],tip:learningLabel('Nu modificăm exponenții la adunare și scădere.','Do not change exponents during addition or subtraction.')};
+}
+
 function mathAlgebraEngines(){
  return [
   {id:'matrix-operations',solve:mathMatrixSolution,explain:mathMatrixMethod,graph:mathMatrixGraph},
+  {id:'like-terms',solve:mathLikeTermsSolution,explain:mathLikeTermsMethod,graph:()=>null},
   {id:'symbolic-polynomials',solve:mathSymbolicSolution,explain:mathSymbolicMethod,graph:mathSymbolicGraph},
   {id:'linear-system-3x3',solve:mathSystem3x3Solution,explain:mathSystem3x3Method,graph:mathSystem3x3Graph},
   {id:'linear-system-2x2',solve:mathLinearSystemSolution,explain:mathLinearSystemMethod,graph:mathLinearSystemGraphData},
@@ -8914,7 +9005,15 @@ window.pocketAndroidOcrResult=function(data){
    selection.setAttribute('aria-label',learningLabel('Exercițiul fotografiat','Photographed exercise'));
    const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent=learningLabel('Alege exercițiul','Choose exercise');selection.append(placeholder);
    candidates.forEach((candidate,i)=>{const option=document.createElement('option');option.value=String(i);option.textContent=candidate.label;selection.append(option)});
-   selection.onchange=()=>{candidateInput.value=selection.value===''?'':candidates[Number(selection.value)].text};
+   let photoSelectedText='';
+   selection.onchange=()=>{
+    photoSelectedText=selection.value===''?'':candidates[Number(selection.value)].text;
+    candidateInput.value=photoSelectedText;
+    feedback.textContent=photoSelectedText&&mathPhotoOcrRisk(photoSelectedText)?
+     learningLabel('Simboluri nesigure: V poate fi √, iar x2 poate fi x². Corectează textul înainte de confirmare.',
+      'Uncertain symbols: V may mean √ and x2 may mean x². Edit before confirming.'):'';
+   };
+   candidateInput.dataset.ocrSelected='';
    content.append(selection);
   }else{
    const notice=document.createElement('p');
@@ -8933,6 +9032,12 @@ window.pocketAndroidOcrResult=function(data){
   confirmation.textContent=learningLabel('Confirmă exercițiul','Confirm exercise');
   confirmation.onclick=()=>{
    const candidate=candidateInput.value.trim();
+   const selected=document.querySelector('.math-photo-review-dialog select');
+   const originalOcr=selected?.value!==''&&candidates[Number(selected.value)]?.text||'';
+   if(originalOcr&&candidate===originalOcr&&mathPhotoOcrRisk(candidate)){
+    feedback.textContent=learningLabel('Corectează simbolurile OCR ambigue înainte de confirmare (V/√, x2/x²).','Correct ambiguous OCR symbols before confirming (V/√, x2/x²).');
+    return;
+   }
    if(educationMathOcrIncomplete(candidate)||candidate.length>240||candidate.split('\\n').length>3){
     feedback.textContent=learningLabel('Introdu un singur enunț complet și verificat.','Enter one complete, verified problem.');
     return;
