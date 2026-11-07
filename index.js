@@ -8701,8 +8701,115 @@ function mathLikeTermsMethod(source){
   ],tip:learningLabel('Nu modificăm exponenții la adunare și scădere.','Do not change exponents during addition or subtraction.')};
 }
 
+// Geometry engine: refuse invented side lengths and validate Pitagora first.
+function mathRightTriangleModel(source){
+ const t=String(source||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
+  .replace(/[−–]/g,'-').toLowerCase().replace(/\\s+/g,' ').trim();
+ if(t.length>400||!/(triunghi(?:ul)? dreptunghic|right(?:[- ]angled?)?[- ]triangle|pitagora|pythagor)/.test(t))return null;
+ const numbers=[...t.matchAll(/(\\d+(?:[,.]\\d+)?)(?:\\s*(mm|cm|km|m)\\b)?/g)]
+  .map(z=>({n:Number(z[1].replace(',','.')),u:z[2]||''}));
+ if(numbers.length!==2||numbers.some(x=>!Number.isFinite(x.n)||x.n<=0||x.n>100000))return null;
+ const units=[...new Set(numbers.map(x=>x.u).filter(Boolean))];
+ if(units.length>1)return null;
+ const num='(\\\\d+(?:[.,]\\\\d+)?)';
+ const suffix='(?:\\\\s*(?:mm|cm|km|m)\\\\b)?';
+ const lead='\\\\s*(?:(?:sunt|au|de|este|are|masoara|of|measure|is|with)\\\\s*){0,3}[:=]?\\\\s*';
+ const pair=new RegExp('\\\\b(?:catetele|catete|legs)\\\\b'+lead+num+suffix+'\\\\s*(?:si|and|,)\\\\s*(?:de\\\\s*)?'+num+suffix,'i').exec(t);
+ const leg=new RegExp('\\\\b(?:cateta|catetei|leg)\\\\b'+lead+num,'i').exec(t);
+ const hyp=new RegExp('\\\\b(?:ipotenuza|ipotenuzei|hypotenuse)\\\\b'+lead+num,'i').exec(t);
+ const value=x=>Number(x.replace(',','.'));
+ let a,b,c,kind;
+ if(pair&&!leg&&!hyp){
+  a=value(pair[1]);b=value(pair[2]);c=Math.hypot(a,b);kind='hypotenuse';
+ }else if(leg&&hyp&&!pair){
+  a=value(leg[1]);c=value(hyp[1]);if(c<=a)return null;
+  b=Math.sqrt((c-a)*(c+a));kind='missing-leg';
+ }else return null;
+ if(![a,b,c].every(x=>Number.isFinite(x)&&x>0))return null;
+ if(!numbers.some(x=>x.n===a)||!numbers.some(x=>x.n===(kind==='hypotenuse'?b:c)))return null;
+ return {a,b,c,area:a*b/2,perimeter:a+b+c,kind,unit:units[0]||''};
+}
+function mathRightTriangleNumber(value){
+ return new Intl.NumberFormat(state.language||'ro',{maximumFractionDigits:6}).format(Math.abs(value)<1e-10?0:value);
+}
+function mathRightTriangleSolution(source){
+ const m=mathRightTriangleModel(source);if(!m)return null;
+ const f=mathRightTriangleNumber,u=m.unit?' '+m.unit:'';
+ const first=m.kind==='hypotenuse';
+ const steps=[
+  {label:learningLabel('Identificăm laturile','Identify the sides'),
+   reason:learningLabel('Catetele se întâlnesc la unghiul drept; ipotenuza este opusă acestuia.',
+    'The legs meet at the right angle; the hypotenuse lies opposite.'),
+   operation:first?'a = '+f(m.a)+u+', b = '+f(m.b)+u:'a = '+f(m.a)+u+', c = '+f(m.c)+u,
+   fullAfter:first?'Determinăm ipotenuza c.':'Determinăm cateta b.',signRule:''},
+  {label:learningLabel('Aplicăm teorema lui Pitagora','Apply Pythagoras'),
+   reason:learningLabel('Într-un triunghi dreptunghic, a² + b² = c².',
+    'In a right triangle, a² + b² = c².'),
+   operation:first?'c² = '+f(m.a)+'² + '+f(m.b)+'²':'b² = '+f(m.c)+'² − '+f(m.a)+'²',
+   fullAfter:first?'c = √('+f(m.a*m.a)+' + '+f(m.b*m.b)+') = '+f(m.c)+u:
+    'b = √('+f(m.c*m.c)+' − '+f(m.a*m.a)+') = '+f(m.b)+u,signRule:''},
+  {label:learningLabel('Calculăm aria','Compute the area'),
+   reason:learningLabel('Catetele reprezintă baza și înălțimea perpendiculare.',
+    'The legs form perpendicular base and height.'),
+   operation:'A = (a × b) / 2',
+   fullAfter:'A = ('+f(m.a)+' × '+f(m.b)+') / 2 = '+f(m.area)+(m.unit?' '+m.unit+'²':''),signRule:''},
+  {label:learningLabel('Calculăm perimetrul','Compute the perimeter'),
+   reason:learningLabel('Adunăm cele trei laturi.','Add the three sides.'),
+   operation:'P = a + b + c',
+   fullAfter:'P = '+f(m.a)+' + '+f(m.b)+' + '+f(m.c)+' = '+f(m.perimeter)+u,signRule:''}
+ ];
+ return {intro:learningLabel('Rezolvăm pas cu pas, fără să presupunem laturi care nu există în enunț.',
+   'Solve step by step without assuming missing information.'),steps,
+  conclusion:learningLabel('Verificat prin a² + b² = c². Ipotenuză: ','Checked with a² + b² = c². Hypotenuse: ')+f(m.c)+u+
+  learningLabel('; catete: ','; legs: ')+f(m.a)+u+', '+f(m.b)+u+
+  learningLabel('; arie: ','; area: ')+f(m.area)+(m.unit?' '+m.unit+'²':'')+
+  learningLabel('; perimetru: ','; perimeter: ')+f(m.perimeter)+u+'.'};
+}
+function mathRightTriangleMethod(source){
+ if(!mathRightTriangleModel(source))return null;
+ return {heading:learningLabel('Metodă: triunghiul dreptunghic','Right triangle method'),
+ intro:learningLabel('Selectăm formula în funcție de latura necunoscută, fără a da direct rezultatul.',
+  'Choose the formula for the unknown side, without solving it here.'),
+ rules:[
+  {title:learningLabel('Unghiul drept','Right angle'),text:learningLabel('Catetele formează unghiul de 90°; ipotenuza este opusă.','The legs meet at 90°; the hypotenuse is opposite.')},
+  {title:learningLabel('Ipotenuza necunoscută','Missing hypotenuse'),text:'c = √(a² + b²).'},
+  {title:learningLabel('Cateta necunoscută','Missing leg'),text:'b = √(c² − a²).'},
+  {title:learningLabel('Arie și perimetru','Area and perimeter'),text:'A = (a × b) / 2; P = a + b + c.'},
+  {title:learningLabel('Verificare','Check'),text:learningLabel('Ipotenuza este cea mai lungă latură și a² + b² = c².','The hypotenuse is longest and a² + b² = c².')}
+ ],tip:learningLabel('Nu aplica Pitagora unui triunghi care nu este dreptunghic.',
+  'Do not use Pythagoras without a right angle.')};
+}
+function mathRightTriangleGraph(source){
+ const geometry=mathRightTriangleModel(source);if(!geometry)return null;
+ return {geometry,heading:learningLabel('Triunghiul dreptunghic','Right triangle'),
+ intro:learningLabel('AB și AC sunt catete, BC este ipotenuza, unghiul A = 90°.',
+  'AB and AC are legs, BC is the hypotenuse, angle A = 90°.'),
+ conclusion:learningLabel('Dimensiunile sunt calculate exact; schița nu este la scară.',
+  'Dimensions are computed, but the sketch is not to scale.')};
+}
+function mathRightTriangleFigure(m){
+ if(!m||![m.a,m.b,m.c].every(Number.isFinite))return null;
+ const f=mathRightTriangleNumber,u=m.unit?' '+m.unit:'';
+ const fig=document.createElement('figure');fig.className='math-result-plot';
+ const svg=mathSvgElement('svg',{viewBox:'0 0 420 280',role:'img',
+  'aria-label':learningLabel('Schiță triunghi dreptunghic cu trei laturi','Right triangle with three labelled sides')});
+ svg.append(mathSvgElement('polygon',{points:'86,218 330,218 86,42',fill:'#13485a',
+  'fill-opacity':'.48',stroke:'#4ed1d5','stroke-width':3}));
+ svg.append(mathSvgElement('path',{d:'M86 199 H105 V218',fill:'none',stroke:'#ffca77','stroke-width':2}));
+ mathSvgText(svg,72,235,'A','end',15);mathSvgText(svg,340,235,'B','start',15);mathSvgText(svg,80,27,'C','end',15);
+ mathSvgText(svg,210,242,'a = '+f(m.a)+u,'middle',14,'#ffffff');
+ mathSvgText(svg,77,127,'b = '+f(m.b)+u,'end',14,'#ffffff');
+ mathSvgText(svg,230,113,'c = '+f(m.c)+u,'start',14,'#ffca77');
+ mathSvgText(svg,113,202,'90°','start',12,'#ffca77');
+ const caption=document.createElement('figcaption');
+ caption.textContent=learningLabel('Laturile sunt etichetate; desenul nu este la scară.',
+  'Sides are labelled; drawing is not to scale.');
+ fig.append(svg,caption);return fig;
+}
+
 function mathAlgebraEngines(){
  return [
+  {id:'right-triangle',solve:mathRightTriangleSolution,explain:mathRightTriangleMethod,graph:mathRightTriangleGraph},
   {id:'matrix-operations',solve:mathMatrixSolution,explain:mathMatrixMethod,graph:mathMatrixGraph},
   {id:'like-terms',solve:mathLikeTermsSolution,explain:mathLikeTermsMethod,graph:()=>null},
   {id:'symbolic-polynomials',solve:mathSymbolicSolution,explain:mathSymbolicMethod,graph:mathSymbolicGraph},
@@ -8856,7 +8963,8 @@ function mathResultPage(index){
   body.append(check);
  }
  const equationGraph=session.mode==='graph'?mathAlgebraLocal('graph',item.text)?.value:null;
- const graph=(equationGraph?.matrixView?mathMatrixHeatmap(equationGraph.matrixView):null)||
+ const graph=(equationGraph?.geometry?mathRightTriangleFigure(equationGraph.geometry):null)||
+  (equationGraph?.matrixView?mathMatrixHeatmap(equationGraph.matrixView):null)||
   (equationGraph?.polynomial?mathSymbolicPlot(equationGraph.polynomial):null)||
   (equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
   (equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
