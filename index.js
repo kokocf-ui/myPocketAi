@@ -8375,10 +8375,100 @@ function mathSymbolicMethod(source){
   ],tip:learningLabel('Motorul local tratează deocamdată polinoame în x până la gradul patru.','The local engine currently handles polynomials in x up to degree four.')};
 }
 
+// Graph mode for symbolic polynomials: use the coefficients computed by the
+// same local parser as Solve. It is an associated function, not an equation.
+function mathSymbolicGraph(source){
+ const p=mathSymbolicPoly(source);if(!p)return null;
+ const expression=mathSymbolicFormat(p.coefficients);
+ return {polynomial:p.coefficients,heading:learningLabel('Graficul funcției asociate expresiei','Graph of the function associated with the expression'),
+  intro:learningLabel('Considerăm expresia simplificată ca funcție: f(x) = ','Treat the simplified expression as a function: f(x) = ')+expression+'.',
+  conclusion:learningLabel('Curba este calculată local din coeficienții polinomului, fără să modificăm expresia inițială.','The curve is computed locally from the polynomial coefficients without changing the original expression.')};
+}
+function mathSymbolicPlot(coefficients){
+ if(!Array.isArray(coefficients)||coefficients.length<1||coefficients.length>5)return null;
+ const value=x=>coefficients.reduceRight((total,c)=>total*x+c,0);
+ const width=420,height=288,left=52,right=16,top=20,bottom=39,xmin=-4,xmax=4;
+ const sampled=Array.from({length:241},(_,i)=>{
+  const x=xmin+(xmax-xmin)*i/240;return {x,y:value(x)};
+ });
+ if(sampled.some(p=>!Number.isFinite(p.y)))return null;
+ const magnitude=Math.max(4,...sampled.map(p=>Math.abs(p.y)));
+ const ymin=-magnitude*1.08,ymax=magnitude*1.08;
+ const px=x=>left+(x-xmin)/(xmax-xmin)*(width-left-right);
+ const py=y=>top+(ymax-y)/(ymax-ymin)*(height-top-bottom);
+ const figure=document.createElement('figure');figure.className='math-result-plot';
+ const svg=mathSvgElement('svg',{viewBox:'0 0 420 288',role:'img','aria-label':learningLabel('Grafic polinomial verificat','Verified polynomial graph')});
+ svg.append(mathSvgElement('rect',{x:left,y:top,width:width-left-right,height:height-top-bottom,fill:'#0b253a'}));
+ for(let x=-4;x<=4;x++){
+  mathSvgLine(svg,px(x),top,px(x),height-bottom,'#396278',.7,.5);
+  if(x%2===0)mathSvgText(svg,px(x),height-bottom+16,x,'middle',10);
+ }
+ for(let i=-2;i<=2;i++){
+  const y=i*magnitude/2;
+  mathSvgLine(svg,left,py(y),width-right,py(y),'#396278',.7,.5);
+  mathSvgText(svg,left-5,py(y)+3,Number(y.toPrecision(3)),'end',10);
+ }
+ mathSvgLine(svg,px(0),top,px(0),height-bottom,'#9eb8c7',1.5);
+ mathSvgLine(svg,left,py(0),width-right,py(0),'#9eb8c7',1.5);
+ const points=sampled.map((p,i)=>(i?'L':'M')+px(p.x).toFixed(2)+' '+py(p.y).toFixed(2)).join(' ');
+ svg.append(mathSvgElement('path',{d:points,fill:'none',stroke:'#42dbd7','stroke-width':3}));
+ mathSvgText(svg,width-right,height-bottom+28,'x','end',13);
+ mathSvgText(svg,left-3,top-5,'y','end',13);
+ const caption=document.createElement('figcaption');
+ caption.textContent='f(x) = '+mathSymbolicFormat(coefficients);
+ figure.append(svg,caption);return figure;
+}
+// A matrix is not inherently a function y=f(x). Show its actual numeric
+// entries as a heat map rather than pretending it is a function graph.
+function mathMatrixGraph(source){
+ const m=mathMatrixExercise(source);if(!m)return null;
+ return {matrixView:m,
+  heading:learningLabel('Reprezentarea valorilor din matrice','Matrix values visualization'),
+  intro:learningLabel('Celulele reprezintă pozițiile din matrice, iar culoarea indică semnul și mărimea fiecărui element.','Cells show matrix positions; their colors indicate the sign and magnitude of each entry.'),
+  conclusion:learningLabel('Acesta este un tablou vizual al elementelor, nu graficul unei funcții. Rezultatul operației este calculat local.','This is a visualization of matrix entries, not a function graph. The operation result is calculated locally.')};
+}
+function mathMatrixHeatmap(model){
+ if(!model||!Array.isArray(model.first))return null;
+ const figure=document.createElement('figure');figure.className='math-result-plot';
+ const datasets=[['A',model.first]];
+ if(model.second)datasets.push(['B',model.second]);
+ datasets.push([learningLabel('Rezultat','Result'),model.result]);
+ const matrices=datasets.filter(item=>Array.isArray(item[1]));
+ const max=Math.max(1,...matrices.flatMap(([,a])=>a.flat().map(Math.abs)));
+ const wrapper=document.createElement('div');
+ wrapper.style.cssText='display:grid;gap:14px;padding:12px 6px;';
+ for(const [title,matrix] of matrices){
+  const region=document.createElement('div');
+  const heading=document.createElement('strong');
+  heading.textContent=title;
+  region.append(heading);
+  const grid=document.createElement('div');
+  grid.style.cssText='display:grid;gap:5px;margin-top:7px;max-width:100%;';
+  grid.style.gridTemplateColumns='repeat('+matrix[0].length+',minmax(0,1fr))';
+  for(const row of matrix)for(const number of row){
+   const cell=document.createElement('span');
+   const alpha=(.13+.52*Math.abs(number)/max).toFixed(3);
+   cell.style.cssText='display:flex;align-items:center;justify-content:center;min-height:48px;padding:6px 2px;border:1px solid #57849d;border-radius:7px;font-weight:700;font-variant-numeric:tabular-nums;background:'+
+    (number<0?'rgba(255,150,99,'+alpha+')':'rgba(66,219,215,'+alpha+')')+';';
+   cell.textContent=mathLinearNotation().number(number);
+   grid.append(cell);
+  }
+  region.append(grid);wrapper.append(region);
+ }
+ if(typeof model.result==='number'){
+  const scalar=document.createElement('p');
+  scalar.textContent=learningLabel('Determinant: ','Determinant: ')+mathLinearNotation().number(model.result);
+  wrapper.append(scalar);
+ }
+ const caption=document.createElement('figcaption');
+ caption.textContent=learningLabel('Turcoaz: valori pozitive sau zero. Portocaliu: valori negative. Intensitatea arată mărimea relativă.','Cyan: nonnegative values. Orange: negative values. Color intensity indicates relative magnitude.');
+ figure.append(wrapper,caption);return figure;
+}
+
 function mathAlgebraEngines(){
  return [
-  {id:'matrix-operations',solve:mathMatrixSolution,explain:mathMatrixMethod,graph:()=>null},
-  {id:'symbolic-polynomials',solve:mathSymbolicSolution,explain:mathSymbolicMethod,graph:()=>null},
+  {id:'matrix-operations',solve:mathMatrixSolution,explain:mathMatrixMethod,graph:mathMatrixGraph},
+  {id:'symbolic-polynomials',solve:mathSymbolicSolution,explain:mathSymbolicMethod,graph:mathSymbolicGraph},
   {id:'linear-system-3x3',solve:mathSystem3x3Solution,explain:mathSystem3x3Method,graph:mathSystem3x3Graph},
   {id:'linear-system-2x2',solve:mathLinearSystemSolution,explain:mathLinearSystemMethod,graph:mathLinearSystemGraphData},
   {id:'linear-inequality',solve:mathLinearInequalitySolution,explain:mathLinearInequalityMethod,graph:()=>null},
@@ -8529,7 +8619,9 @@ function mathResultPage(index){
   body.append(check);
  }
  const equationGraph=session.mode==='graph'?mathAlgebraLocal('graph',item.text)?.value:null;
- const graph=(equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
+ const graph=(equationGraph?.matrixView?mathMatrixHeatmap(equationGraph.matrixView):null)||
+  (equationGraph?.polynomial?mathSymbolicPlot(equationGraph.polynomial):null)||
+  (equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
   (equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
   (equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null)||mathGeometryFigure(item.text);
  if(graph&&session.mode==='graph')body.append(graph);
