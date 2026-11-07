@@ -7205,7 +7205,7 @@ const EDUCATION_THEORY_DATA=[{"id":"math-1","subject":"math","title":"Pitagora",
 let educationTheoryVoiceInput=null;
 let educationTheoryWebRecognition=null;
 function educationTheoryClean(value){
- return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
+ return String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\\s+/g,' ');
 }
 function educationTheoryFind(query,subject,level,limit=4){
  const names={beginner:0,medium:1,intermediate:1,advanced:2};
