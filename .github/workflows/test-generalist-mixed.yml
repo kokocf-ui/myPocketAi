@@ -19,6 +19,7 @@ on:
       - 'package.json'
       - 'tests.mjs'
       - 'tests_routes.mjs'
+      - 'tests_address_city_aliases.mjs'
       - 'tests_navigation_heading.mjs'
       - 'tests_education_responsive_layout.mjs'
       - '.github/workflows/test-generalist-mixed.yml'
@@ -44,5 +45,6 @@ jobs:
           node tests_news_contextual_translation.mjs
           node tests_response_intent.mjs
           node tests_news_live_routing.mjs
+          node tests_address_city_aliases.mjs
           node tests_news_source_integrity.mjs
           node tests_avatar_lipsync_stop.mjs

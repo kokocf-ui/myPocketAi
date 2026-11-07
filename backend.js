@@ -1621,6 +1621,13 @@ export default {
       const autocomplete=Boolean(query.trim())&&stage!=='number';
       const url=new URL(autocomplete?'https://api.geoapify.com/v1/geocode/autocomplete':'https://api.geoapify.com/v1/geocode/search');
       const normalize=value=>String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
+      // Country-scoped exonyms: the UI accepts local-language names, while
+      // geocoders and verified city records may only use their canonical names.
+      // Keep the country restriction and strict settlement/coordinate checks.
+      const localizedCityNames={
+        gb:{londra:'London',londres:'London',londen:'London',londyn:'London','лондон':'London'}
+      };
+      const cityQuery=stage==='city'?(localizedCityNames[country]?.[normalize(query)]||query):query;
        const normRegion=value=>{
          const raw=normalize(value).replace(/^(?:judet(?:ul)?|county|province|provincia)\s+/,'').replace(/\s+(?:county|province)$/,'');
          // Geocoders may report administrative areas in local names while UI displays translations.
@@ -1629,12 +1636,12 @@ export default {
          return equivalents[raw]||raw;
        };
       url.search=new URLSearchParams({
-        text:(stage==='city'?[query,region]:stage==='street'?[query,city,region]:[[street,query].filter(Boolean).join(' '),city,region,postcode]).filter(Boolean).join(', '),
+        text:(stage==='city'?[cityQuery,region]:stage==='street'?[query,city,region]:[[street,query].filter(Boolean).join(' '),city,region,postcode]).filter(Boolean).join(', '),
         ...(stage==='number'||stage==='city'?{}:{type:types[stage]}),filter:'countrycode:'+country,bias:'countrycode:none',format:'json',limit:'20',apiKey:env.GEOAPIFY_API_KEY
       });
       try {
         const alternatives=[url];
-        if(stage==='city'&&query.trim().length>=3){
+        if(stage==='city'&&cityQuery.trim().length>=3){
           const exactCity=new URL(url);
           exactCity.pathname='/v1/geocode/search';
           alternatives.unshift(exactCity);
@@ -1682,7 +1689,7 @@ export default {
         // alternate geocoder results that share the same locality name.
         if(stage==='city'){
           const exactName=place=>String(place.city||place.town||place.village||place.hamlet||place.name||'');
-          const score=place=>(normalize(exactName(place))===normalize(query)?0:10)+
+          const score=place=>(normalize(exactName(place))===normalize(cityQuery)?0:10)+
             ({city:0,town:1,village:2,municipality:3,locality:4,hamlet:5}[String(place.result_type||'')]??9)+
             (/metropolitan area|zona metropolitana|metropolitan region/i.test(String(place.municipality||''))?2:0);
           results.sort((a,b)=>score(a)-score(b));
@@ -1712,7 +1719,7 @@ export default {
           const cityName=String(stage==='city'
             ?(place.village||place.hamlet||place.town||place.city||place.municipality||place.name||'')
             :(towns.find(Boolean)||'')).trim();
-          if(stage==='city'&&(!normalize(cityName).startsWith(normalize(query))||
+          if(stage==='city'&&(!normalize(cityName).startsWith(normalize(cityQuery))||
               /metropolitan area|zona metropolitana|metropolitan region/i.test(normalize(cityName))))return [];
           const rawCounty=String(place.county||place.state_district||place.state||place.region||'').trim();
           const county=rawCounty.length===2&&String(place.state||'').trim().length>2?String(place.state).trim():rawCounty;
@@ -1737,7 +1744,7 @@ export default {
             seenLocalities.push({city:normalize(cityName),lat:place.lat,lon:place.lon});
           }
           seen.add(key);
-          return [{label,matchRank:stage==='city'?(normalize(cityName)===normalize(query)?(String(place.result_type)==='city'?0:String(place.result_type)==='town'?1:2):3):1,
+          return [{label,matchRank:stage==='city'?(normalize(cityName)===normalize(cityQuery)?(String(place.result_type)==='city'?0:String(place.result_type)==='town'?1:2):3):1,
             city:cityName,county,commune,street:place.street||'',houseNumber:String(place.housenumber||''),
             latitude:place.lat,longitude:place.lon,country_code:country.toUpperCase()}];
         });
