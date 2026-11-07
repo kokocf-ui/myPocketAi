@@ -14,7 +14,7 @@ for(const q of ['Londra','Londr','Londres','Londyn','London'])
 assert.equal(canonicalAddressCityQuery('GB','Lond'),'Lond','A short prefix is not forced into one city');
 assert.equal(canonicalAddressCityQuery('RO','Londra'),'Londra','Do not change country context');
 
-const m=frontend.indexOf('  const matchCached=(stage,q)=>{');
+const m=frontend.indexOf('  const contextCity=stage=>');
 const n=frontend.indexOf('\n  function prewarmStreets()',m);
 assert.ok(m>0&&n>m);
 const getCache=new Function('normalize','selected','region','localityIndex','canonicalAddressCityQuery',
@@ -35,10 +35,22 @@ assert.deepEqual(cached('street','Ox'),[oxford]);
 assert.deepEqual(cached('street','V'),[]);
 selected.city={city:'Manchester'};
 assert.deepEqual(cached('street','O'),[],'Do not reuse street candidates in the wrong city');
+selected.city={city:'London'};
+selected.street={street:'Oxford Street'};
+const house={houseNumber:'14',street:'Oxford Street',city:'London',postcode:'W1D',label:'14 Oxford Street'};
+index.set('GB|London::Oxford Street||number|1',[house]);
+assert.deepEqual(cached('number','1'),[house],'Keep house-number cache inside the selected street');
+selected.street={street:'Victoria Street'};
+assert.deepEqual(cached('number','1'),[],'Never reuse another street’s house number');
+selected.street=null;
+index.set('GB|||city|a',Array.from({length:11},(_,i)=>({
+ city:'A'+i,label:'A'+i,latitude:40+i/100,longitude:10,country_code:'GB'
+})));
+assert.equal(cached('city','A').length,4,'At most four cached suggestions are shown');
 
 assert.ok(frontend.includes("if(stage==='city'||stage==='street'||stage==='number'){"),
  'Show existing city and street matches immediately');
-assert.ok(frontend.includes("if(candidates.length)localityIndex.set(keyFor(stage,query),candidates);"),
+assert.ok(frontend.includes("if(candidates.length)remember(stage,query,candidates);"),
  'Store fresh verified choices for city as well as street');
 assert.ok(frontend.includes("if(key.split('|')[3]!=='city')localityIndex.delete(key);"),
  'Preserve verified cities when user selects a destination town');
