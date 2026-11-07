@@ -1700,6 +1700,14 @@ body.long-choice-active{overflow:hidden}
  padding:10px;margin:12px 0;max-width:100%}
 .math-result-plot svg{width:100%;height:auto;display:block;max-height:320px}
 .math-result-plot figcaption{font-size:.82em;color:#c0e5ed;margin-top:7px}
+
+.math-graph-corner{box-sizing:border-box;display:flex;flex-direction:column;gap:2px;
+ width:max-content;max-width:82%;margin:7px 0 0 auto;padding:6px 10px;
+ border:1px solid #5ca6be;border-radius:9px;background:#113e53;
+ color:#f4fbff;text-align:right;font-size:clamp(12px,3vw,15px);
+ font-weight:750;line-height:1.35;font-variant-numeric:tabular-nums}
+.math-graph-corner span{display:block;white-space:normal;overflow-wrap:anywhere}
+
 .math-result-note{font-size:.87em;color:#b8d6e8;margin:6px 0 14px}
 .math-result-error{color:#ffc0b6}
 /* Mathematics: keep the exercise workspace in the available viewport; only
@@ -9820,6 +9828,78 @@ function mathCleanAnswerMarkup(reply){
   mathReadableFormula(formula):whole);
  return mathReadableFormula(text);
 }
+
+/* Compact, source-grounded result labels shared by graph and worked-solution
+   views. Only deterministic models may populate them: never parse an AI reply. */
+function mathGraphVerifiedAnswers(source,figure){
+ const lines=[],num=value=>new Intl.NumberFormat(state.language||'ro',{maximumFractionDigits:6}).format(value);
+ const put=(key,value,unit='')=>{
+  if(!Number.isFinite(value))return;
+  lines.push(key+' = '+num(value)+(unit?' '+unit:''));
+ };
+ // The selected figure has priority over text-recognition, but dimensions
+ // must be known and internally consistent before any numerical answer.
+ if(figure){
+  if(mathFigureInternalConflict(figure))return [];
+  const measure=key=>mathFigureMeasurement(figure.values?.[key]);
+  const unit=figure.unit||'cm',sq=unit+'²',cub=unit+'³';
+  if(figure.id==='square'&&measure('latura')!==null){
+   const a=measure('latura');put('A',a*a,sq);put('P',4*a,unit);return lines;
+  }
+  if(figure.id==='rectangle'&&measure('lungime')!==null&&measure('latime')!==null){
+   const a=measure('lungime'),d=measure('latime');
+   put('A',a*d,sq);put('P',2*(a+d),unit);return lines;
+  }
+  if(figure.id==='cube'&&measure('latura')!==null){
+   const a=measure('latura');put('V',a*a*a,cub);put('A',6*a*a,sq);return lines;
+  }
+  if(figure.id==='sphere'&&measure('raza')!==null){
+   const r=measure('raza');put('V',4*Math.PI*r*r*r/3,cub);put('A',4*Math.PI*r*r,sq);return lines;
+  }
+  return [];
+ }
+ const plane=mathPlaneShapeModel(source);
+ if(plane){
+  const unit=plane.unit||'';
+  put('A',plane.area,unit?unit+'²':'');
+  put(plane.kind==='circle'?'C':'P',plane.perimeter,unit);
+  return lines;
+ }
+ const triangle=mathRightTriangleModel(source);
+ if(triangle){
+  const unit=triangle.unit||'';
+  put(triangle.kind==='hypotenuse'?'c':'b',triangle.kind==='hypotenuse'?triangle.c:triangle.b,unit);
+  put('A',triangle.area,unit?unit+'²':'');
+  put('P',triangle.perimeter,unit);
+  return lines;
+ }
+ const linear=mathLinearEquation(source);
+ if(linear?.kind==='unique'){put('x',linear.value);return lines}
+ const quadratic=mathQuadraticEquation(source);
+ if(quadratic?.roots?.length){
+  quadratic.roots.forEach((root,i)=>put('x'+(i+1),root));
+  return lines;
+ }
+ const system=mathLinearSystem(source);
+ if(system?.kind==='unique'){
+  put('x',system.x);put('y',system.y);return lines;
+ }
+ return [];
+}
+function mathGraphCorner(figure,source,attached){
+ const lines=mathGraphVerifiedAnswers(source,attached);
+ if(!figure||!lines.length)return figure;
+ const tag=document.createElement('div');
+ tag.className='math-graph-corner';
+ tag.setAttribute('aria-label',learningLabel('Rezultate calculate','Calculated results'));
+ for(const line of lines.slice(0,4)){
+  const value=document.createElement('span');
+  value.textContent=line;tag.append(value);
+ }
+ figure.append(tag);
+ return figure;
+}
+
 function mathResultPage(index){
  const session=mathResultSession,dialog=$('mathResultDialog');
  if(!session||!dialog?.open)return;
@@ -9861,7 +9941,7 @@ function mathResultPage(index){
   (equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
   (equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
   (equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null)||mathGeometryFigure(item.text);
- if(graph&&(session.mode==='graph'||Boolean(attachedFigure)))body.append(graph);
+ if(graph&&(session.mode==='graph'||Boolean(attachedFigure)))body.append(mathGraphCorner(graph,item.text,attachedFigure));
  const result=document.createElement('div');result.className='math-result-copy';
  if(item.graphLesson){
   const heading=document.createElement('h3');heading.textContent=item.graphLesson.heading;
