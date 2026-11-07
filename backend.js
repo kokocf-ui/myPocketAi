@@ -1,5 +1,5 @@
 import {planPresentation} from "./presentation.mjs";
-import {classifyNewsRequest} from "./response_intent.mjs";
+import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
 import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.mjs";
@@ -5297,7 +5297,10 @@ export default {
     const dialogueOnlyIntent=isConversationOnlyTurn(message)||dialogueIntent.kind==="social_feedback";
     const stableCapitalNoSearch=isStableCapitalQuestion(message);
     const evergreenSalaryExplanation=dialogueIntent.kind==="explanation" && /\b(?:diferenta|difference)\b/.test(normalizedResearchRequest) && /\b(?:brut|gross)\b/.test(normalizedResearchRequest) && /\bnet\b/.test(normalizedResearchRequest) && !/\b(?:impozit\w*|tax\w*|lege\w*|law|20\d\d)\b/.test(normalizedResearchRequest);
-    const shouldSearchWeb = voluntaryTelegramLink?.mode==="verify_user_claim" || data.search_web === true || (!dialogueOnlyIntent && dialogueIntent.kind!=="reformat_previous" && !stableCapitalNoSearch && !evergreenSalaryExplanation && !obviouslyNonResearch && !capabilityQuestion && (substantiveRequest || recipeInstruction) && (recipeInstruction || explicitLookup || ["article_collection","briefing","analysis"].includes(classifyNewsRequest(message).mode) || (!taskInsteadOfResearch && !recipeInstruction)));
+    // An explicit article collection MUST search sources before any requested translation.
+    // A generic "tradu" command in the same prompt must not send news into AI-only mode.
+    const sourceBackedNewsRequested=!voluntaryTelegramLink&&!recipeInstruction&&!eventResearchIntent&&requiresLiveNewsRetrieval(message);
+    const shouldSearchWeb = sourceBackedNewsRequested || voluntaryTelegramLink?.mode==="verify_user_claim" || data.search_web === true || (!dialogueOnlyIntent && dialogueIntent.kind!=="reformat_previous" && !stableCapitalNoSearch && !evergreenSalaryExplanation && !obviouslyNonResearch && !capabilityQuestion && (substantiveRequest || recipeInstruction) && (recipeInstruction || explicitLookup || ["article_collection","briefing","analysis"].includes(classifyNewsRequest(message).mode) || (!taskInsteadOfResearch && !recipeInstruction)));
     const priceResearch = /\b(?:price|prices|cost|costs|how much|£|€|\$|pret\w*|preturi|preț|prețuri|cat costa|cât costă|costa|costă|oferta|oferte)\b/i.test(normalizedResearchRequest);
     const legalResearch = /\b(?:law\w*|legal\w*|legislation|regulat\w*|statut\w*|tax\w*|fine|penalt\w*|codul\s+(?:muncii|rutier|civil|penal)|lege\w*|legi|legislati\w*|regulament\w*|impozit\w*|taxa|taxe|amend\w*|sanctiun\w*|drepturi|obligatii|licente|visa|viz\w*|immigration|imigra\w*)\b/i.test(normalizedResearchRequest);
     // Reuse the full Intl.DisplayNames-backed country table for worldwide jurisdiction discovery.
@@ -5586,21 +5589,25 @@ export default {
     }
     // News is presented as attributed article leads, never AI-invented headlines.
     // The list and its detail panel are deterministic; publication != claim verification.
-    const newsListingIntent=!voluntaryTelegramLink&&!recipeInstruction&&!eventResearchIntent&&classifyNewsRequest(message).mode==="article_collection";
+    const newsListingIntent=sourceBackedNewsRequested;
     const newsPublicationFilter=newsListingIntent?publicationDayWindow(message,data.client_local_day):null;
     if(newsListingIntent&&shouldSearchWeb){
       const seenTitles=new Set();
       const rows=[];
       const candidatePublisherCount=describeNewsPublishers(webSources).unique_publisher_count;
       const publisherRows=new Map();
+      const openEndedLatestNews=/\b(?:ultimele|cele mai recente|latest|most recent|breaking)\b/i.test(normalizedResearchRequest)
+        && !/\b(?:19\d{2}|20\d{2})\b/.test(normalizedResearchRequest);
+      const explicitArticleCount=normalizedResearchRequest.match(/\b(?:ultimele|latest|last|recent(?:e)?)\s+(\d{1,2})\s+(?:stiri|news|articole|articles)\b/i);
+      const maxNewsRows=explicitArticleCount?Math.min(30,Math.max(1,Number(explicitArticleCount[1]))):30;
       const freshnessHours=/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?24:
-        /\b(?:ultima\s+luna|ultimele\s+30\s+de\s+zile|last\s+30\s+days|past\s+month|last\s+month)\b/i.test(String(normalizedResearchRequest).normalize('NFD').replace(/[\u0300-\u036f]/g,''))?720:null;
+        /\b(?:ultima\s+luna|ultimele\s+30\s+de\s+zile|last\s+30\s+days|past\s+month|last\s+month)\b/i.test(String(normalizedResearchRequest).normalize('NFD').replace(/[\u0300-\u036f]/g,''))?720:openEndedLatestNews?168:null;
       const todayOnly=/\b(?:astazi|azi|today)\b/i.test(normalizedResearchRequest);
       const nowMs=Date.now();
       // Select globally retrieved publication results, not only English/RO lexical matches.
       // A language, alphabet, country or publisher is never grounds for exclusion.
       for(const source of webSources){
-        if(rows.length>=30)break;
+        if(rows.length>=maxNewsRows)break;
         const url=safeSourceUrl(source.url);
         const originalTitle=String(source.title||"").replace(/\s+/g," ").trim().slice(0,200);
         if(!url||originalTitle.length<15)continue;
@@ -5677,7 +5684,7 @@ export default {
       const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",
         selection_policy:"technical_relevance_date_duplicates_and_publisher_diversity",
         viewpoint_filtering_applied:false,editorial_quality_verdict:false,
-        retrieved_candidate_count:webSources.length,displayed_result_limit:30,
+        retrieved_candidate_count:webSources.length,displayed_result_limit:maxNewsRows,
         requested_publication_day:newsPublicationFilter?.day||null,publication_filter:newsPublicationFilter?.kind||"none",
         result_count:rows.length,coverage_status:rows.length>=4?"partial_coverage":"limited_coverage",missing_publication_dates:rows.filter(r=>r.recency_status!=="dated"&&r.source_platform!=="Telegram").length,
         telegram_access_mode:"public_web_index_on_explicit_request_only",
