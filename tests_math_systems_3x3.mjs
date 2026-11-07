@@ -24,7 +24,7 @@ assert.equal(sol.steps.length,4);
 assert.equal(sol.steps[3].verificationSteps.length,3,'verify all equations');
 assert.match(sol.conclusion,/x = 1, y = 2, z = 3/);
 assert.ok(api.method(example).rules.length>=5);
-assert.match(api.graph(example).conclusion,/Vizualizarea 3D nu este încă implementată/);
+assert.match(api.graph(example).conclusion,/Intersecția celor trei plane: \(1; 2; 3\)/);
 assert.equal(api.parse('x+y+z=3\n2x+2y+2z=6\nx-y=0').kind,'dependent');
 assert.equal(api.parse('x+y+z=3\nx+y+z=4\nx-y=0').kind,'inconsistent');
 assert.equal(api.parse('x+y+z=3\nx+y+z=3\nx-y=0').kind,'dependent');
