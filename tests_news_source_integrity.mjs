@@ -12,7 +12,7 @@ const languages=[
 ];
 for(const [expected,headline] of languages)
  assert.equal(detectActualNewsLanguage(headline),expected,expected+' must be grounded in source headline');
-assert.equal(detectActualNewsLanguage('Washington allocates millions for Iran nuclear information'),'en');
+assert.equal(detectActualNewsLanguage('Washington allocates millions for Iran nuclear information'),null,'short ambiguous headlines must not be mislabeled');
 assert.notEqual(detectActualNewsLanguage('United States conducts limited attacks against Iran'),'fa');
 assert.equal(detectActualNewsLanguage('Statele Unite anunță măsuri noi după discuții cu Iranul'),null);
 
