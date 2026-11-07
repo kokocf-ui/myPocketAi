@@ -7122,6 +7122,9 @@ function mathPhotoCandidates(source,alternative){
  };
  collect(source,false);
  if(out.length<50)collect(alternative,true);
+ // Image regions may be read out of sequence: present sections and letters in
+ // their textbook order regardless of OCR pass ordering.
+ out.sort((a,b)=>(Number(a.section)||1)-(Number(b.section)||1)||a.letter.localeCompare(b.letter));
  return out;
 }
 
