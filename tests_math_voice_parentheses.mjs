@@ -253,7 +253,7 @@ assert.ok(runCode.includes('mathRememberDraft(editor.value)'),'math actions reta
 assert.ok(embedded.includes("editor.value=mathRestoreDraft()"),'navigating back restores the input');
 assert.ok(embedded.includes("editor.addEventListener('input',()=>{mathRememberDraft(editor.value)"),'manual input updates the stored draft');
 assert.ok(embedded.includes("mathRememberDraft('')"),'new conversation explicitly clears the draft');
-assert.ok(embedded.includes('if(text){editor.value=text;mathRememberDraft(text)}'),
+assert.ok(embedded.includes("if(!text){status.textContent=learningLabel(\'Fotografia nu a putut fi citită."),
  'empty OCR never deletes a previously typed exercise');
 
 
