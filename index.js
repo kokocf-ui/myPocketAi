@@ -15426,6 +15426,55 @@ html.pocket-exit-open .bottom-nav {
   box-shadow:inset 0 2px 0 rgba(255,255,255,.2),inset 0 -3px 0 rgba(0,0,0,.2)!important;
   text-align:center!important;
 }
+
+/* Science touch/scroll recovery (Android WebView).
+   A single page scroll is more reliable than nested clipped flex scrollers.
+   Keep the fixed app navigation outside the scroll area. */
+main.page:has(#view-module.learning-science.active){
+  height:var(--science-content-height,auto)!important;
+  max-height:var(--science-content-height,none)!important;
+  overflow-x:hidden!important;overflow-y:auto!important;
+  overscroll-behavior-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  padding-bottom:calc(116px + env(safe-area-inset-bottom,0px))!important;
+}
+#view-module.learning-science.active{
+  height:auto!important;max-height:none!important;min-height:100%!important;
+  grid-template-rows:auto auto!important;align-content:start!important;
+  overflow:visible!important;
+}
+#view-module.learning-science #moduleContent{
+  height:auto!important;max-height:none!important;min-height:0!important;
+  overflow:visible!important;
+}
+#view-module.learning-science .science-choice-panel{
+  flex:0 0 auto!important;overflow:visible!important;min-height:0!important;
+}
+#view-module.learning-science .science-choice-list{
+  flex:0 0 auto!important;max-height:none!important;
+  overflow:visible!important;touch-action:pan-y!important;
+}
+#view-module.learning-science .science-choice-row,
+#view-module.learning-science .science-work-toolbar button,
+#view-module.learning-science .science-education-workspace button{
+  touch-action:manipulation!important;pointer-events:auto!important;
+}
+#view-module.learning-science #scienceEducationWorkspace{
+  flex:0 0 auto!important;max-height:none!important;
+  overflow:visible!important;touch-action:pan-y!important;
+}
+#view-module.learning-science #scienceEducationText{
+  touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;
+}
+.chemistry-curriculum-dialog[open] .chemistry-curriculum-content{
+  min-height:0!important;overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+}
+.chemistry-curriculum-dialog[open] .chemistry-curriculum-list{
+  min-height:0!important;overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+}
 </style>
 </body>
 </html>`;
