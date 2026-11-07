@@ -47,3 +47,13 @@ export function describeNewsPublishers(rows){
  const hosts=[...new Set((Array.isArray(rows)?rows:[]).map(v=>{try{return new URL(v.url).hostname.toLowerCase().replace(/^www\./,"")}catch{return null}}).filter(Boolean))];
  return {unique_publisher_count:hosts.length,reuters_article_found:hosts.some(h=>h==="reuters.com"||h.endsWith(".reuters.com")),publisher_domains:hosts.slice(0,25)};
 }
+
+const SOURCE_LANGUAGES={araba:"ar",persana:"fa",rusa:"ru",ucraineana:"uk",franceza:"fr",germana:"de",engleza:"en",
+  arabic:"ar",persian:"fa",russian:"ru",ukrainian:"uk",french:"fr",german:"de",english:"en"};
+// The output language (e.g. "tradu in romana") must never be mistaken for
+// the requested language of source articles ("surse in limba araba").
+export function requestedNewsSourceLanguage(message){
+ const q=normal(message);
+ const match=q.match(/\b(?:surse|articole|stiri|publicatii|sources|articles|reports)\s+(?:in|din|written in|published in)\s+(?:limba\s+)?(araba|persana|rusa|ucraineana|franceza|germana|engleza|arabic|persian|russian|ukrainian|french|german|english)\b/);
+ return match?SOURCE_LANGUAGES[match[1]]||null:null;
+}
