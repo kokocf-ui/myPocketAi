@@ -4,7 +4,7 @@ Interfața existentă **Educație** include acum dialogul „Teorie”, fără s
 - Matematică: după alegerea nivelului, în lista ramurilor, plus buton în fereastra de lucru.
 - Științe: două butoane dedicate, Fizică și Chimie, în bara existentă.
 - Dialog modal adaptabil: căutare manuală, maximum patru sugestii pe măsură ce tastezi, enunț și formulă.
-- Dictare: Android nativ în modul `theory`; browser Web Speech API doar dacă e disponibil.
+- Dictare: exclusiv prin puntea vocală Android nativă în modul `theory`; în browser rămâne disponibilă tastarea.
 - Înapoi: închide dialogul și revine la aceeași fereastră; recunoașterea vocală se oprește când dialogul se închide.
 - Catalog local: `education_theory.mjs`, 58 fișe (20 matematică, 19 fizică, 19 chimie), cu sinonime și filtrare pe nivel. Conținutul este introdus și în HTML-ul generat de `index.js` pentru utilizare imediată fără request separat.
 
