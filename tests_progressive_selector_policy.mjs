@@ -32,9 +32,9 @@ const apiFetch=async (_url,init)=>{
 };
 // Evaluate the same routine as the browser, but with a fake provider that only
 // returns verified-shaped results. No network or location is needed.
-const prewarm=new Function('selected','cityOnly','localityIndex','remember','keyFor','CLIENT_CONFIG','fetch',
+const prewarm=new Function('selected','cityOnly','localityIndex','remember','keyFor','CLIENT_CONFIG','fetch','region',
   'let localityEpoch=0;\n'+code.slice(preStart,preEnd)+'\nreturn prewarmNext;')
-  (selected,false,localityIndex,remember,keyFor,{apiUrl:'https://test.invalid/api/chat'},apiFetch);
+  (selected,false,localityIndex,remember,keyFor,{apiUrl:'https://test.invalid/api/chat'},apiFetch,'');
 const settle=()=>new Promise(resolve=>setTimeout(resolve,0));
 prewarm('country');
 await settle();
