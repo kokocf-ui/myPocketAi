@@ -58,6 +58,8 @@ assert.match(script,/if\(!item\.started\)\{item\.started=true;queueMicrotask\(/,
 assert.doesNotMatch(script,/tasks\.forEach\(item=>\{void mathFetchResult\(item,session\)\}\)/,'no parallel request burst');
 assert.match(script,/const deadline=setTimeout\(cancelTask,20000\)/,'network mathematics tasks have a 20-second deadline');
 assert.match(script,/clearTimeout\(deadline\)/,'timeouts are released after each result');
+assert.match(script,/item\.generated=true/,'model fallback is marked as unverified');
+assert.match(script,/item\.generated\)\{/,'only generated answers carry the verification disclosure');
 assert.doesNotMatch(script,/\|\|mathGeometryFigure\(item\.text\);/,'no unrelated generic shapes');
 assert.match(script,/additional\?\.kind==='statistics'/,'verified statistics graph corner');
 console.log('PASS maths expanded subjects and lazy exercise sessions');
