@@ -22,13 +22,13 @@ function element(tag){
   className:''
  };
 }
-const svg=(tag,attrs)=>{const node=element(tag);for(const [key,value] of Object.entries(attrs||{}))node.setAttribute(key,value);return node};
-const svgLine=(parent,x1,y1,x2,y2,stroke,width=1)=>parent.append(svg('line',{x1,y1,x2,y2,stroke,'stroke-width':width}));
+const makeSvg=(tag,attrs)=>{const node=element(tag);for(const [key,value] of Object.entries(attrs||{}))node.setAttribute(key,value);return node};
+const svgLine=(parent,x1,y1,x2,y2,stroke,width=1)=>parent.append(makeSvg('line',{x1,y1,x2,y2,stroke,'stroke-width':width}));
 const svgText=(parent,x,y,value,anchor='middle',size=11,color='#c7e6f1')=>{
- const node=svg('text',{x,y,'text-anchor':anchor,'font-size':size,fill:color});node.textContent=String(value);parent.append(node);
+ const node=makeSvg('text',{x,y,'text-anchor':anchor,'font-size':size,fill:color});node.textContent=String(value);parent.append(node);
 };
 const context={document,state:{language:'ro'},learningLabel:(ro,en)=>ro,
- mathLinearNotation:()=>({number:n=>String(n)}),mathSvgElement:svg,mathSvgLine:svgLine,mathSvgText:svgText,Math,Map};
+ mathLinearNotation:()=>({number:n=>String(n)}),mathSvgElement:makeSvg,mathSvgLine:svgLine,mathSvgText:svgText,Math,Map};
 const api=vm.runInNewContext(script.slice(a,b)+
  '\n({plane:math3DPlanePolygon,figure:mathSystem3x3Figure})',context);
 const center=[1,2,3],radius=5;
