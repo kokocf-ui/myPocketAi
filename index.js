@@ -6763,15 +6763,21 @@ function mathFigureStatement(figure){
  return learningLabel('Figura: ','Figure: ')+mathFigureName(figure)+'. '+
   learningLabel('Date: ','Given: ')+description+'.';
 }
+function mathFigureStripAutoStatements(value){
+ // Stale generated figure headers can persist across workspaces; they are
+ // metadata, never separate exercises. Keep user-authored questions intact.
+ return String(value||'').split(/\\r?\\n/).filter(line=>
+  !/^\\s*(?:Figura|Figure)\\s*:\\s*.+?\\.\\s*(?:Date|Given)\\s*:/iu.test(line)
+ ).join('\\n').trim();
+}
 function mathFigureInsertStatement(figure){
  const field=document.getElementById('mathEducationText');
  if(!field)return;
  const statement=mathFigureStatement(figure);
- // Replace the previous auto-generated description only; never touch a typed exercise.
- const old=String(field.dataset.figureStatement||'');
+ const previous=String(field.dataset.figureStatement||'');
  let value=String(field.value||'');
- if(old&&value.startsWith(old))value=value.slice(old.length).replace(/^\s+/,'');
- else if(old&&value.includes(old))value=value.replace(old,'').trim();
+ if(previous)value=value.replace(previous,'');
+ value=mathFigureStripAutoStatements(value);
  field.dataset.figureStatement=statement;
  field.value=statement+(value?'\\n'+value:'');
  mathRememberDraft(field.value);
@@ -7747,7 +7753,7 @@ function openLearningSubject(key){
   newTask.className='secondary-btn math-new-task';newTask.textContent=learningLabel('＋ Conversație nouă','＋ New conversation');
   newTask.onclick=()=>{
    mathVoiceStop();mathCloseResults();mathLastSpokenReply='';const field=$('mathEducationText');
-   if(field){field.value='';field.blur()}
+   if(field){field.value='';delete field.dataset.figureStatement;field.blur()}
    mathRememberDraft('');mathFigureDraft=null;mathFigureDraftSummary();
    const notice=$('mathEducationStatus');if(notice)notice.textContent='';
   };
@@ -9836,7 +9842,8 @@ function mathResultPage(index){
   body.append(check);
  }
  const equationGraph=session.mode==='graph'?mathAlgebraLocal('graph',item.text)?.value:null;
- const graph=(mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic)?mathFigureSnapshot(mathFigureDraft):null)||
+ const attachedFigure=session.figure&&['geometry','trigonometry'].includes(session.topic)?session.figure:null;
+ const graph=(attachedFigure?mathFigureSnapshot(attachedFigure):null)||
   (equationGraph?.planeShape?mathPlaneShapeFigure(equationGraph.planeShape):null)||
   (equationGraph?.geometry?mathRightTriangleFigure(equationGraph.geometry):null)||
   (equationGraph?.matrixView?mathMatrixHeatmap(equationGraph.matrixView):null)||
@@ -9844,7 +9851,7 @@ function mathResultPage(index){
   (equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
   (equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
   (equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null)||mathGeometryFigure(item.text);
- if(graph&&(session.mode==='graph'||(mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic))))body.append(graph);
+ if(graph&&(session.mode==='graph'||Boolean(attachedFigure)))body.append(graph);
  const result=document.createElement('div');result.className='math-result-copy';
  if(item.graphLesson){
   const heading=document.createElement('h3');heading.textContent=item.graphLesson.heading;
@@ -9956,7 +9963,7 @@ async function mathFetchResult(item,session){
  }
  // Never ask a generative model to draw a graph that the actual renderer
  // cannot provide: this produced answers about unrelated numeric exercises.
- if(session.mode==='graph'&&!mathFigureDraft&&!mathGeometryFigure(item.text)&&!mathAlgebraLocal('graph',item.text)){
+ if(session.mode==='graph'&&!session.figure&&!mathGeometryFigure(item.text)&&!mathAlgebraLocal('graph',item.text)){
   if(mathResultSession!==session)return;
   item.reply=learningLabel('Nu există încă un grafic verificat pentru acest enunț. Nu voi inventa unul. Pentru un calcul, apasă „Rezolvă pas cu pas”; pentru un grafic de funcție, introdu de exemplu f(x) = 2x - 3.',
    'There is no verified graph for this exercise yet. I will not invent one. Use Solve step by step for arithmetic, or enter a function such as f(x) = 2x - 3.');
@@ -9964,8 +9971,8 @@ async function mathFetchResult(item,session){
   if(session.tasks[session.active]===item)mathResultPage(session.active);
   return;
  }
- if(session.mode==='graph'&&mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic)){
-  item.graphLesson={heading:mathFigureName(mathFigureDraft),
+ if(session.mode==='graph'&&session.figure&&['geometry','trigonometry'].includes(session.topic)){
+  item.graphLesson={heading:mathFigureName(session.figure),
    intro:learningLabel('Figura este afișată fără valori presupuse. Poți completa date și reveni la rezolvare.',
     'The figure is displayed without invented values. Add dimensions and continue the solution.'),
    conclusion:learningLabel('Zoom și rotire sunt disponibile în editorul de figuri.','Zoom and rotation are available in the figure editor.')};
@@ -10036,6 +10043,11 @@ function mathEducationRun(mode){
  const editor=$('mathEducationText'),status=$('mathEducationStatus');
  let source=editor?.value?.trim()||'';
  if(['geometry','trigonometry'].includes(mathJourney.topic)&&mathFigureDraft){
+  // Old selections may be present in saved draft text. Keep one current
+  // figure header and one question, never manufacture multiple task tabs.
+  const currentFigure=mathFigureStatement(mathFigureDraft);
+  const question=mathFigureStripAutoStatements(source);
+  source=currentFigure+(question?'\\n'+question:'');
   const internal=mathFigureInternalConflict(mathFigureDraft);
   if(internal){
    status.textContent=learningLabel('Date incompatibile în figură: ','Inconsistent figure measurements: ')+internal;
@@ -10049,18 +10061,14 @@ function mathEducationRun(mode){
    return;
   }
   const figureOnly=mathFigureStatement(mathFigureDraft);
-  const original=editor?.value?.trim()||'';
-  if(mode!=='graph'&&(!original||original===figureOnly)){
+  const original=mathFigureStripAutoStatements(editor?.value?.trim()||'');
+  if(mode!=='graph'&&!original){
    status.textContent=learningLabel('Figura este atașată. Scrie ce dorești să calculăm sau să explicăm (de exemplu: calculează aria).',
     'The figure is attached. Write what to calculate or explain (for example: calculate the area).');
    return;
   }
-  const fromFigure=mathFigureAutoExercise(mathFigureDraft);
-  if(!source&&fromFigure)source=fromFigure;
-  // If the user has only typed a verbal request, provide exact dimensions
-  // from the explicitly filled figure. Never duplicate existing numbers.
-  else if(source&&fromFigure&&!/[0-9]/.test(source))source=fromFigure+' '+source;
-  else if(!source&&mode==='graph')source=mathFigureName(mathFigureDraft);
+  // The figure header already contains all user-entered dimensions.
+  // Do not duplicate them or prepend a second artificial problem.
  }
  if(mathPhotoNeedsReview){
   status.textContent=learningLabel('Fotografia trebuie verificată. Selectează un exercițiu și confirmă transcrierea înainte de rezolvare.','Review the photo. Select an exercise and confirm the transcription before solving.');
@@ -10076,13 +10084,17 @@ function mathEducationRun(mode){
   status.textContent=learningLabel('Formula este incompletă. Corectează semnele.','The formula is incomplete. Correct its symbols.');
   return;
  }
- const tasks=mathSplitExercises(source).map(text=>({text,reply:'',error:null,
+ const taskTexts=(mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic))?
+  [source]:mathSplitExercises(source);
+ const tasks=taskTexts.map(text=>({text,reply:'',error:null,
   functionLesson:mathFunctionLesson(text,mode),
   detailed:mode==='solve'?mathAlgebraLocal('solve',text)?.value:null,
   methodGuide:mode==='explain'?mathAlgebraLocal('explain',text)?.value:null}));
  if(!tasks.length){status.textContent=learningLabel('Nu există un exercițiu de rezolvat.','No exercise to solve.');return}
  mathCloseResults();
- const session={mode,tasks,active:0,controller:new AbortController()};
+ const session={mode,tasks,active:0,controller:new AbortController(),
+  figure:mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic)?mathFigureCopy(mathFigureDraft):null,
+  topic:mathJourney.topic};
  mathResultSession=session;
  const dialog=$('mathResultDialog');
  $('mathResultTitle').textContent=mode==='explain'?learningLabel('Matematică · Metodă','Mathematics · Method'):mode==='graph'?learningLabel('Matematică · Grafic','Mathematics · Graph'):learningLabel('Matematică · Rezolvare','Mathematics · Solution');
