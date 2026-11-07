@@ -220,7 +220,7 @@ assert.ok(embedded.includes("session.mode!=='explain'"),'method mode hides the e
 assert.ok(embedded.includes('item.methodGuide'),'method has its own visible renderer');
 assert.ok(embedded.includes("mode==='explain'?learningLabel('Matematică · Metodă'"),'method dialog has a distinct title');
 assert.ok(embedded.includes('Predă numai METODA GENERALĂ'),'fallback AI prompt requests general teaching');
-assert.ok(embedded.includes("mode==='explain'?(mathLinearMethodGuide(text)||mathQuadraticMethodGuide(text)||mathMethodGuide(text))"),'linear, quadratic and arithmetic methods are built locally');
+assert.ok(embedded.includes("mode==='explain'?mathAlgebraLocal('explain',text)?.value:null"),'linear, quadratic and arithmetic methods are built locally');
 
 // A learner must never lose the typed/dictated exercise when choosing one
 // of the three actions, navigating between modules, or reopening the WebView.
@@ -298,7 +298,7 @@ assert.match(clean,/\(1\)\/\(2\)/);
 assert.equal(functionApi.clean('Prețul este $25. Cost: $15.'),'Prețul este $25. Cost: $15.',
  'ordinary currency symbols must stay');
 assert.ok(embedded.includes('item.functionLesson=verifiedFunction'),'function answers bypass generated unrelated explanations');
-assert.ok(embedded.includes("if(session.mode==='graph'&&!mathGeometryFigure(item.text)&&!mathQuadraticGraphData(item.text)&&!mathLinearGraphData(item.text))"),
+assert.ok(embedded.includes("if(session.mode==='graph'&&!mathGeometryFigure(item.text)&&!mathAlgebraLocal('graph',item.text))"),
  'unsupported plots are rejected, but verified linear and quadratic equations can be graphed');
 assert.ok(embedded.includes("mathLastSpokenReply=item.spokenReply||item.reply||''"),
  'speech follows the selected task tab');
