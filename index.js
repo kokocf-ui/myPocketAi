@@ -9515,6 +9515,14 @@ let activeAnswerReader=null;
 function readerLabels(){return READER_LABELS[state.language]||READER_LABELS.en}
 // Reusable two-column collection table: chronological events now, other
 // structured collections can use the same reader without altering recipes.
+// A news article's Back action remains visible in the reader's scroll area.
+function attachNewsReaderBack(host,label,onBack){
+ const button=document.createElement('button');
+ button.type='button';button.className='news-reader-back';
+ button.textContent='← '+String(label||'Back to list').replace(/^←\s*/,'');
+ button.style.cssText='position:sticky;top:0;z-index:3;display:inline-flex;align-items:center;min-height:44px;padding:9px 14px;margin:0 0 14px;border:1px solid #5e95a9;border-radius:11px;background:#173b51;color:#e0f9ff;box-shadow:0 4px 12px rgba(0,0,0,.24);font:inherit;font-size:14px;cursor:pointer;max-width:100%';
+ button.onclick=onBack;host.append(button);return button;
+}
 // Shared renderer. Backend decides the appropriate presentation from the
 // user's goal and validated data; the client creates safe, theme-consistent DOM.
 function appendAdaptivePresentation(host,record){
@@ -9562,8 +9570,10 @@ function appendAdaptivePresentation(host,record){
  if(!rows.length||!cols.length)return false;
  const isArticle=block.kind==="interactive_article_table"&&block.selection?.action==="open_article_detail";
  const cell=(row,key)=>String(row?.cells?.[key]??"").slice(0,700);
+ let newsScrollPosition=0;
  const showDetail=row=>{
-   host.replaceChildren();host.scrollTop=0;
+   newsScrollPosition=host.scrollTop;host.replaceChildren();host.scrollTop=0;
+   attachNewsReaderBack(host,labels.back,()=>{showTable();host.scrollTop=newsScrollPosition});
    const title=cell(row,"title")||cell(row,"name")||labels.details;
    add("h3",title,"font-size:19px;line-height:1.4;overflow-wrap:anywhere;margin:0 0 12px;color:#dbf8ff");
    const source=cell(row,"source_name"),date=dateText(cell(row,"published_at"));
@@ -9574,8 +9584,7 @@ function appendAdaptivePresentation(host,record){
    const sourceText=lang==="ro"?"Sursa: ":lang==="fr"?"Source : ":lang==="de"?"Quelle: ":lang==="es"?"Fuente: ":lang==="it"?"Fonte: ":lang==="pt"?"Fonte: ":lang==="nl"?"Bron: ":lang==="ru"?"Источник: ":lang==="pl"?"Źródło: ":"Source: ";
    const footer=add("p",sourceText+(source||""),"font-size:13px;color:#c6e6f1;margin:14px 0 16px;overflow-wrap:anywhere");
    if(url){const a=add("a",isTelegramLink(url)?(lang==="ro"?"Deschide postarea Telegram":"Open Telegram post"):labels.original,"color:#99ecff;text-decoration:underline;display:block;margin-top:5px",footer);a.href=url;a.target="_blank";a.rel="noopener noreferrer";}
-   const back=add("button",labels.back,"padding:11px 16px;margin:10px 0 22px;color:#dbf8ff;border:1px solid #54859b;border-radius:10px;background:#17384c;font:inherit");
-   back.type="button";back.onclick=showTable;
+   // The persistent back control is above the article, not after its final paragraph.
  };
  let newsPage=0;
  const showTable=()=>{
@@ -9673,7 +9682,7 @@ function appendNewsCollectionTable(host,record){
   pl:["Wiadomości","Tytuł i szczegóły","Źródło / data","Szczegóły wiadomości","Wróć do wiadomości","Otwórz oryginał","Źródło znalezione · twierdzenia niezweryfikowane","Brak wiarygodnego streszczenia. Zobacz oryginał.","Data niedostępna"]
  }[lang]||["News","Headline and details","Source / date","Details","Back","Original article","Unverified claims","No summary.","Date unavailable"];
  const items=record.list.rows.slice(0,40);
- let newsPage=0;
+ let newsPage=0,newsScrollPosition=0;
  const add=(tag,text,css,parent=host)=>{
   const node=document.createElement(tag);node.textContent=text;
   if(css)node.style.cssText=css;parent.append(node);return node;
@@ -9714,7 +9723,8 @@ function appendNewsCollectionTable(host,record){
   add("p",t[6],"font-size:13px;opacity:.8;margin:13px 0 0");
  };
  const renderDetail=item=>{
-  host.replaceChildren();host.scrollTop=0;
+  newsScrollPosition=host.scrollTop;host.replaceChildren();host.scrollTop=0;
+  attachNewsReaderBack(host,t[4],()=>{renderList();host.scrollTop=newsScrollPosition});
   add("h3",String(item.title||""),"font-size:19px;line-height:1.4;color:#d9fbff;margin:4px 0 13px;overflow-wrap:anywhere");
   const date=dateText(item.published_at);
   if(item.published_at)add("p",date,"font-size:13px;margin:0 0 12px;color:#b8d8e5");
@@ -9725,8 +9735,7 @@ function appendNewsCollectionTable(host,record){
   loadSourceBasedNewsDetail(detail,url,lang,String(item.summary||""));
   const footer=add("p",(lang==="ro"?"Sursa: ":lang==="fr"?"Source : ":lang==="de"?"Quelle: ":lang==="es"?"Fuente: ":lang==="it"?"Fonte: ":lang==="pt"?"Fonte: ":lang==="nl"?"Bron: ":lang==="ru"?"Источник: ":lang==="pl"?"Źródło: ":"Source: ")+String(item.source_name||""),"font-size:13px;color:#c6e6f1;margin:14px 0 16px;overflow-wrap:anywhere");
   if(url){const link=add("a",isTelegramLink(url)?(lang==="ro"?"Deschide postarea Telegram":"Open Telegram post"):t[5],"display:block;margin-top:5px;color:#9beefa;text-decoration:underline;overflow-wrap:anywhere",footer);link.href=url;link.target="_blank";link.rel="noopener noreferrer";}
-  const back=add("button",t[4],"border:1px solid #4d8a9c;border-radius:10px;background:#12354b;color:#e2f9ff;padding:11px 16px;margin:10px 0 22px;font:inherit");
-  back.type="button";back.onclick=renderList;
+  // Back action remains sticky at the top while the article scrolls.
  };
  renderList();return true;
 }
