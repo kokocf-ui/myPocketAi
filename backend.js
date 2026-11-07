@@ -3648,8 +3648,9 @@ export default {
       const replies={ro:"Sunt Pocket AI, asistentul tău virtual. Te pot ajuta cu informații, întrebări, căutări și planificarea traseelor.",en:"I’m Pocket AI, your virtual assistant. I can help with questions, information, searches and route planning.",fr:"Je suis Pocket AI, votre assistant virtuel.",de:"Ich bin Pocket AI, dein virtueller Assistent.",it:"Sono Pocket AI, il tuo assistente virtuale.",es:"Soy Pocket AI, tu asistente virtual.",pt:"Sou Pocket AI, o seu assistente virtual.",nl:"Ik ben Pocket AI, je virtuele assistent.",ru:"Я Pocket AI, ваш виртуальный помощник.",pl:"Jestem Pocket AI, Twoim wirtualnym asystentem."};
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:replies[lang]||replies.en,ai_connected:Boolean(env.AI)});
     }
-    let activePlaceRequest=placeRequestFrom(message,priorPlaceRequest,typeof data.location_query==="string"?data.location_query.trim().slice(0,160):"");
-    if(selectedCandidate)activePlaceRequest={category:suppliedCategory,destination:selectedCandidate.query,stars:[1,2,3,4,5].includes(suppliedContext.stars)?suppliedContext.stars:null,central:suppliedContext.central===true,inherited:true,needsDestination:false,selected:selectedCandidate};
+    // Source-backed news is not a POI lookup, even if a named country or "source" matches a place category.
+    let activePlaceRequest=independentNewsSearch?null:placeRequestFrom(message,priorPlaceRequest,typeof data.location_query==="string"?data.location_query.trim().slice(0,160):"");
+    if(selectedCandidate&&!independentNewsSearch)activePlaceRequest={category:suppliedCategory,destination:selectedCandidate.query,stars:[1,2,3,4,5].includes(suppliedContext.stars)?suppliedContext.stars:null,central:suppliedContext.central===true,inherited:true,needsDestination:false,selected:selectedCandidate};
     if(activePlaceRequest&&!activePlaceRequest.needsDestination)responsePlaceContext={category:activePlaceRequest.category.key,destination:activePlaceRequest.destination,stars:activePlaceRequest.stars||null,central:Boolean(activePlaceRequest.central)};
     const geocodePlace=async query=>{
       const parts=geoQueryParts(query),u=new URL("https://nominatim.openstreetmap.org/search");
