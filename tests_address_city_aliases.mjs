@@ -9,6 +9,14 @@ const oxford={result_type:'street',street:'Oxford Street',city:'London',country:
 globalThis.fetch=async input=>{
   const url=new URL(typeof input==='string'?input:input.url||input.toString());
   requested.push(url);
+  if(url.hostname==='api.tfl.gov.uk'){
+    assert.ok(url.pathname.includes('/StopPoint/Search/Victoria'));
+    return Response.json({matches:[
+      {name:'Victoria Underground Station',lat:51.495,lon:-0.144,id:'940GZZLUVIC',modes:['tube']},
+      {name:'Victoria Rail Station',lat:51.4952,lon:-0.1444,id:'910GVIC',modes:['national-rail']},
+      {name:'Victoria Coach Station',lat:51.495,lon:-0.145,id:'coach',modes:['bus']}
+    ]});
+  }
   if(url.hostname!=='api.geoapify.com')throw new Error('Unexpected provider '+url.hostname);
   const text=url.searchParams.get('text')||'';
   const country=url.searchParams.get('filter');
@@ -22,7 +30,7 @@ const lookup=async(stage,query,country='gb',city='')=>{
     method:'POST',headers:{'content-type':'application/json'},
     body:JSON.stringify({address_lookup:{stage,country,city,street:'',query,postcode:'',region:'',
       cityPoint:city?{latitude:51.5074,longitude:-0.1278}:undefined}})
-  }),{GEOAPIFY_API_KEY:'test'});
+  }),{GEOAPIFY_API_KEY:'test',TFL_APP_KEY:'test'});
   assert.equal(response.status,200,'Address lookup must respond successfully');
   return response.json();
 };
@@ -36,6 +44,21 @@ try {
     assert.ok(requested.every(u=>/^London(?:,|$)/i.test(u.searchParams.get('text')||'')),
       'Provider should receive canonical London, not '+alias);
   }
+  // A stale UI choosing UK instead of ISO GB must still resolve to GB, never
+  // send countrycode:uk to the mapping provider.
+  const legacyUk=await lookup('city','Londra','uk');
+  assert.equal(legacyUk.candidates?.[0]?.city,'London');
+  assert.ok(requested.every(url=>url.searchParams.get('filter')==='countrycode:gb'));
+
+  const victoria=await lookup('street','London Victoria','gb','London');
+  assert.equal(victoria.candidates?.length,2,'Station dropdown should contain rail/tube, never a coach stop');
+  assert.equal(victoria.candidates[0].kind,'station');
+  assert.equal(victoria.candidates[0].stop_id,'910GVIC','Prefer the real rail station');
+  assert.equal(victoria.candidates[0].country_code,'GB');
+  assert.ok(requested.some(url=>url.hostname==='api.tfl.gov.uk'));
+  assert.ok(!requested.some(url=>url.hostname==='api.geoapify.com'),
+    'Verified station is not queried again as an ordinary street');
+
   const street=await lookup('street','Ox','gb','London');
   assert.equal(street.candidates?.length,1,'Street remains searchable after selecting London');
   assert.equal(street.candidates[0].street,'Oxford Street');
@@ -44,7 +67,7 @@ try {
   assert.ok(requested.every(u=>u.searchParams.get('filter')==='countrycode:fr'));
   const english=await lookup('city','London');
   assert.equal(english.candidates?.[0]?.city,'London','Existing canonical name must still work');
-  console.log('PASS address picker: localized London names, verified country, street lookup and canonical name');
+  console.log('PASS address picker: GB alias, London exonyms, verified Victoria rail station, Oxford Street');
 } finally {
   globalThis.fetch=actualFetch;
 }
