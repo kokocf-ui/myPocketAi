@@ -8,6 +8,8 @@ on:
       - 'education_theory.mjs'
       - 'chemistry_curriculum.mjs'
       - 'chemistry_advanced.mjs'
+      - 'biology_curriculum.mjs'
+      - 'tests_biology_complete.mjs'
       - 'tests_chemistry_complete.mjs'
       - 'tests_chemistry_curriculum.mjs'
       - 'math_advanced_verified.mjs'

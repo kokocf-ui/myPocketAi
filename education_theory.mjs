@@ -1,5 +1,6 @@
 import {CHEMISTRY_LESSONS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_SPECIALTY_LESSONS} from './chemistry_advanced.mjs';
+import {BIOLOGY_LESSONS,BIOLOGY_SPECIALTY_LESSONS} from './biology_curriculum.mjs';
 // Curated, offline-first Romanian theory entries. Keep explanatory theory separate from exercise solvers.
 export const THEORY_ENTRIES = Object.freeze([
   {
@@ -3007,7 +3008,9 @@ export const THEORY_ENTRIES = Object.freeze([
   }
 ,
   ...CHEMISTRY_LESSONS,
-  ...CHEMISTRY_SPECIALTY_LESSONS
+  ...CHEMISTRY_SPECIALTY_LESSONS,
+  ...BIOLOGY_LESSONS,
+  ...BIOLOGY_SPECIALTY_LESSONS
 ])
 const normalize=s=>String(s??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("ro").replace(/[‐‑–—]/g,"-").replace(/[^a-z0-9+]+/g," ").trim().replace(/\s+/g," ");
 const LEVELS={beginner:0,intermediate:1,medium:1,advanced:2};
@@ -3025,4 +3028,4 @@ export function searchTheory(query,{subject=null,level=null,limit=12}={}){
   return {entry,score};
  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||a.entry.title.localeCompare(b.entry.title,"ro")).slice(0,Math.max(0,Math.min(50,limit))).map(x=>x.entry);
 }
-export function theorySubjects(){return ["math","physics","chemistry"].map(subject=>({subject,count:THEORY_ENTRIES.filter(e=>e.subject===subject).length}));}
+export function theorySubjects(){return ["math","physics","chemistry","biology"].map(subject=>({subject,count:THEORY_ENTRIES.filter(e=>e.subject===subject).length}));}
