@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import {classifyNewsRequest} from "./response_intent.mjs";
+import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 const cases=[
  ["Ce evenimente geopolitice au avut loc în ultimele 24 de ore?","article_collection"],
  ["Ce evenimente importante s-au întâmplat ieri în lume?","article_collection"],
@@ -27,4 +27,8 @@ const cases=[
  ["România","none"]
 ];
 for(const [query,expected] of cases)assert.equal(classifyNewsRequest(query).mode,expected,query);
-console.log("PASS contextual intent: articles vs analysis vs explicit briefing");
+const arabicNewsRequest="Caută ultimele 5 știri despre Orientul Mijlociu din surse în limba arabă, inclusiv Al Jazeera Arabic și BBC Arabic. Tradu în română titlul și conținutul disponibil, respectând contextul, fără traduceri literale. Afișează data, sursa și linkul original.";
+assert.equal(classifyNewsRequest(arabicNewsRequest).mode,"article_collection","Arabic search plus translate remains a news collection");
+assert.equal(requiresLiveNewsRetrieval(arabicNewsRequest),true,"translation clause must not cancel live article retrieval");
+assert.equal(requiresLiveNewsRetrieval("Tradu această propoziție din arabă în română."),false,"standalone translation does not search the web");
+console.log("PASS contextual intent: articles vs analysis vs explicit briefing and bilingual news search");
