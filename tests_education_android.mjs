@@ -25,4 +25,10 @@ assert.match(main,/isMainFrame/);
 assert.match(main,/PickVisualMedia/);
 assert.match(main,/ACTION_IMAGE_CAPTURE/);
 assert.match(gradle,/com\.google\.mlkit:text-recognition/);
+assert.match(main,/scanEducationMathRegions\(/,'math OCR scans two overlapping image regions');
+assert.match(main,/height\*0\.63f/,'portrait regions overlap instead of cutting rows');
+assert.match(main,/width\*0\.63f/,'landscape regions overlap instead of cutting columns');
+assert.match(main,/firstRead\[0\],secondRead\[0\]/,'both region readings included in OCR review');
+assert.match(main,/educationMathPlausible\(selected\)\?"review":"partial"/,'OCR still requires review');
+
 console.log('PASS education UI embedded JS syntax and Android native OCR integration contracts');
