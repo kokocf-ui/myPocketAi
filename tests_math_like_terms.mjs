@@ -9,7 +9,7 @@ new vm.Script(script);
 const a=script.indexOf('function mathLikeTermsModel(');
 const b=script.indexOf('function mathAlgebraEngines(',a);
 assert.ok(a>0&&b>a,'local like-term engine present');
-const r=script.indexOf('function mathPhotoOcrRisk(');
+const r=script.indexOf('function mathPhotoOcrRisks(');
 const z=script.indexOf('// Educational mathematics: reject obvious OCR fragments',r);
 assert.ok(r>0&&z>r,'photo OCR risk detection present');
 const engine=vm.runInNewContext(script.slice(a,b)+'\n({parse:mathLikeTermsModel,solve:mathLikeTermsSolution,method:mathLikeTermsMethod})',
@@ -39,7 +39,12 @@ assert.equal(risk('2V5xy + 9V5xy'),true);
 assert.equal(risk('2x2 - 3x2 + 5x2'),true);
 assert.equal(risk('2√5xy + 9√5xy'),false);
 assert.equal(risk('2x² - 3x² + 5x²'),false);
-assert.ok(script.includes('originalOcr&&candidate===originalOcr&&mathPhotoOcrRisk(candidate)'),
- 'ambiguous photo formula requires editing before confirmation');
+assert.equal(risk("14x-x+4x-10x-19x'+12x"),true,'OCR apostrophe in place of squared exponent');
+assert.equal(risk('14x?-x+4x-10x-19x?+12x'),true,'OCR unknown glyph');
+assert.equal(risk('14x²-x+4x²-10x-19x²+12x'),false,'correct superscripts are safe');
+assert.equal(risk("f'(x)"),true,'photo prime is ambiguous; manually typed calculus remains allowed');
+
+assert.ok(script.includes('if(mathPhotoOcrRisk(candidate))'),
+ 'ambiguous photo formula must not be confirmed without correcting remaining errors');
 assert.ok(script.includes("id:'like-terms'"),'local engine registered');
 console.log('PASS like terms: integer monomials, radicals, powers, multiple letters and OCR ambiguity checks');

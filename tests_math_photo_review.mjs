@@ -87,7 +87,8 @@ assert.equal(parse(repeatedActual).length,2,'identical exercises in distinct kno
 assert.ok(script.includes("search.type='search'"),'filter control is visible inside review modal');
 assert.ok(script.includes("choices.style.cssText="),'inline scrollable OCR list replaces native select');
 assert.ok(script.includes("max-height:min(31dvh,232px)"),'list height is bounded to four rows on mobile');
-assert.ok(script.includes('selectedCandidateIndex>=0'),'only explicitly selected OCR item can be confirmed');
+assert.ok(script.includes('if(mathPhotoOcrRisk(candidate))'),'photo OCR ambiguity must block confirmation');
+assert.ok(script.includes('selectedCandidateIndex=i;'),'track the currently selected OCR candidate');
 assert.ok(!script.includes("const selection=document.createElement('select');selection.className='text-field';"),
  'do not use Android popup that hides all but three choices');
 
@@ -127,7 +128,7 @@ const uiCandidates=[
  {label:'Ex. 1 · d) 9abc - 13abc',text:'9abc - 13abc'},
  {label:'Ex. 2 · a) 6x + 3y - 5z',text:'6x + 3y - 5z'}
 ];
-vm.runInNewContext(uiSource,{document,content,candidateInput,feedback,candidates:uiCandidates,mathPhotoOcrRisk:()=>false,learningLabel:(ro)=>ro});
+vm.runInNewContext(uiSource,{document,content,candidateInput,feedback,candidates:uiCandidates,mathPhotoOcrRisk:()=>false,mathPhotoOcrRiskWarning:()=>'',learningLabel:(ro)=>ro});
 const choices=content.children.find(x=>x.attrs.role==='group');
 const status=content.children.find(x=>x.attrs['aria-live']==='polite');
 assert.ok(choices&&status,'selection feedback is visible and accessible');
