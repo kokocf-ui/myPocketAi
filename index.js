@@ -7067,6 +7067,37 @@ function openLearningSubject(key){
 // An OCR candidate is NEVER a verified mathematical statement. A photographed
 // page must be reviewed and one exercise explicitly selected before math runs.
 let mathPhotoNeedsReview=false;
+// The last photographed page is retrieved only when the user explicitly
+// confirms a Cloudflare vision comparison. Never send on ordinary ML Kit OCR.
+let mathVisionCapture=null;
+let mathVisionSequence=0;
+window.pocketAndroidMathVisionResult=function(data){
+ const pending=mathVisionCapture;
+ if(!pending||data?.id!==pending.id)return;
+ if(data.status==='chunk'){
+  if(typeof data.chunk!=='string'||pending.length+data.chunk.length>1350000){
+   mathVisionCapture=null;pending.reject(new Error('image_too_large'));return;
+  }
+  pending.parts.push(data.chunk);pending.length+=data.chunk.length;
+ }else if(data.status==='complete'){
+  mathVisionCapture=null;
+  pending.resolve('data:image/jpeg;base64,'+pending.parts.join(''));
+ }else if(data.status==='error'){
+  mathVisionCapture=null;pending.reject(new Error('image_unavailable'));
+ }
+};
+function mathVisionPhotoOnDemand(){
+ if(!window.PocketAndroidMathVision?.postMessage)
+  return Promise.reject(new Error('new_apk_required'));
+ if(mathVisionCapture)return Promise.reject(new Error('already_processing'));
+ return new Promise((resolve,reject)=>{
+  const id='mathvision_'+(++mathVisionSequence);
+  mathVisionCapture={id,parts:[],length:0,resolve,reject};
+  try{window.PocketAndroidMathVision.postMessage('capture:'+id)}
+  catch(error){mathVisionCapture=null;reject(error)}
+ });
+}
+
 function mathPhotoCandidates(source,alternative){
  // Keep sections distinct (a/b/c may repeat in Exercise 1 and Exercise 2).
  // Preserve one OCR variant per section+subpoint; never guess missing symbols.
@@ -9032,7 +9063,7 @@ window.pocketAndroidOcrResult=function(data){
   const editor=$('mathEducationText'),status=$('mathEducationStatus');
   if(!editor||!status)return;
   const text=typeof data?.text==='string'?data.text.trim().slice(0,3500):'';
-  if(!text){status.textContent=learningLabel('Fotografia nu a putut fi citită. Exercițiul introdus anterior a fost păstrat.','Photo could not be read. The previous exercise was preserved.');return;}
+  if(!text&&!window.PocketAndroidMathVision?.postMessage){status.textContent=learningLabel('Fotografia nu a putut fi citită. Exercițiul introdus anterior a fost păstrat.','Photo could not be read. The previous exercise was preserved.');return;}
   mathPhotoNeedsReview=true;
   document.querySelector('.math-photo-review-dialog')?.remove();
   const dialog=document.createElement('dialog');dialog.className='math-photo-review-dialog';
@@ -9061,6 +9092,84 @@ window.pocketAndroidOcrResult=function(data){
    learningLabel('; suplimentare: ','; additional: ')+(candidates.length-primaryCount)+'). '+
    learningLabel('Verifică dacă există dubluri.','Check for duplicates.');
   content.append(countNote);
+  // Pilot lives inside the existing review dialog: no extra global buttons.
+  // Only new signed APKs expose the native one-image bridge.
+  if(window.PocketAndroidMathVision?.postMessage){
+   const visionToggle=document.createElement('button');visionToggle.type='button';
+   visionToggle.className='secondary-btn';
+   visionToggle.textContent=learningLabel('Verifică simbolurile cu AI (pilot)','Check symbols with AI (pilot)');
+   visionToggle.style.cssText='align-self:stretch;min-height:42px;flex:0 0 auto;';
+   const pilotBox=document.createElement('div');
+   pilotBox.style.cssText='display:none;flex-direction:column;gap:10px;padding:12px;border:1px solid #467f98;border-radius:12px;background:#102f43;';
+   const disclosure=document.createElement('p');
+   disclosure.style.cssText='margin:0;line-height:1.45;';
+   disclosure.textContent=learningLabel(
+    'Opțional: numai după confirmare, fotografia va fi trimisă către Cloudflare Workers AI pentru o a doua transcriere. Rezultatul poate greși. Nu confirmăm și nu rezolvăm automat. Funcția necesită activarea pilotului și se folosește numai în limita gratuită stabilită.',
+    'Optional: only after confirmation, the photograph will be sent to Cloudflare Workers AI for a second reading. It may be wrong. Nothing is automatically confirmed or solved. The pilot must be enabled and is intended only for free-tier use.');
+   const pilotToken=document.createElement('input');
+   pilotToken.type='password';pilotToken.className='text-field';
+   pilotToken.autocomplete='off';pilotToken.spellcheck=false;
+   pilotToken.placeholder=learningLabel('Codul pilotului (minim 32 caractere)','Pilot token (at least 32 characters)');
+   pilotToken.setAttribute('aria-label',learningLabel('Codul privat pentru pilotul matematic','Private mathematics pilot token'));
+   pilotToken.value=mathPilotToken||'';
+   const pilotSend=document.createElement('button');pilotSend.type='button';pilotSend.className='primary-btn';
+   pilotSend.textContent=learningLabel('Sunt de acord. Trimite această fotografie','I agree. Send this photograph');
+   const pilotStatus=document.createElement('small');pilotStatus.setAttribute('role','status');
+   pilotStatus.setAttribute('aria-live','polite');pilotStatus.style.cssText='min-height:1.2em;line-height:1.4;';
+   visionToggle.onclick=()=>{
+    pilotBox.style.display=pilotBox.style.display==='none'?'flex':'none';
+   };
+   pilotSend.onclick=async()=>{
+    const token=pilotToken.value.trim();
+    if(token.length<32){
+     pilotStatus.textContent=learningLabel('Introdu codul pilotului configurat în Cloudflare.','Enter the pilot token configured in Cloudflare.');return;
+    }
+    mathPilotToken=token; // In-memory session only; never save to storage.
+    pilotSend.disabled=true;
+    pilotStatus.textContent=learningLabel('Se pregătește fotografia pentru verificare…','Preparing the photograph for review…');
+    try{
+     const image=await mathVisionPhotoOnDemand();
+     if(!dialog.open)throw new Error('cancelled');
+     pilotStatus.textContent=learningLabel('Se compară simbolurile matematice…','Comparing mathematical symbols…');
+     const response=await fetch('/api/math-vision',{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body:JSON.stringify({image})
+     });
+     const result=await response.json().catch(()=>({}));
+     if(!response.ok||result.status!=='success'||!result.transcript)
+      throw new Error(String(result.error||'vision_unavailable'));
+     pilotStatus.textContent=learningLabel('Transcriere AI neverificată. Selectează sau copiază UN exercițiu și verifică-l.','Unverified AI transcription. Choose or copy ONE exercise and verify it.');
+     pilotBox.querySelector('.math-vision-output')?.remove();
+     const output=document.createElement('div');output.className='math-vision-output';
+     output.style.cssText='display:flex;flex-direction:column;gap:8px;';
+     const textArea=document.createElement('textarea');
+     textArea.readOnly=true;textArea.rows=5;textArea.value=result.transcript.slice(0,8000);
+     textArea.style.cssText='box-sizing:border-box;width:100%;padding:10px;background:#061929;border:1px solid #6bb7c9;color:#fff;border-radius:10px;resize:vertical;';
+     textArea.setAttribute('aria-label',learningLabel('Rezultat OCR AI pentru verificare','AI OCR result for verification'));
+     output.append(textArea);
+     const choices=mathPhotoCandidates(result.transcript);
+     for(const entry of choices.slice(0,40)){
+      const choice=document.createElement('button');choice.type='button';choice.className='secondary-btn';
+      choice.style.cssText='text-align:left;min-height:42px;';
+      choice.textContent=entry.label.slice(0,220);
+      choice.onclick=()=>{
+       candidateInput.value=entry.text;
+       feedback.textContent=mathPhotoOcrRiskWarning(entry.text);
+      };
+      output.append(choice);
+     }
+     pilotBox.append(output);
+    }catch(error){
+     const key=String(error?.message||'');
+     pilotStatus.textContent=key==='math_vision_not_configured'?
+      learningLabel('Pilotul OCR AI nu este încă activat în Cloudflare.','AI OCR pilot is not enabled in Cloudflare yet.'):
+      key==='unauthorized'?learningLabel('Codul pilotului este incorect.','Incorrect pilot token.'):
+      learningLabel('Verificarea AI nu a reușit. OCR-ul local rămâne disponibil.','AI check failed. On-device OCR remains available.');
+    }finally{pilotSend.disabled=false}
+   };
+   pilotBox.append(disclosure,pilotToken,pilotSend,pilotStatus);
+   content.append(visionToggle,pilotBox);
+  }
   const candidateInput=document.createElement('textarea');
   candidateInput.rows=4;candidateInput.maxLength=240;
   candidateInput.style.cssText='box-sizing:border-box;width:100%;min-height:100px;padding:12px;border:1px solid #6bb7c9;border-radius:12px;background:#061929;color:#fff;font:inherit;resize:vertical';
@@ -9165,7 +9274,11 @@ window.pocketAndroidOcrResult=function(data){
    dialog.close();
   };
   footer.append(confirmation);frame.append(header,content,footer);dialog.append(frame);
-  dialog.addEventListener('close',()=>{dialog.remove();if(mathPhotoNeedsReview)status.textContent=learningLabel('Fotografia nu este confirmată. Repetă fotografia pentru verificare.','Photo not confirmed. Retake it to review.');});
+  dialog.addEventListener('close',()=>{
+   if(mathVisionCapture){const active=mathVisionCapture;mathVisionCapture=null;active.reject(new Error('cancelled'));}
+   dialog.remove();
+   if(mathPhotoNeedsReview)status.textContent=learningLabel('Fotografia nu este confirmată. Repetă fotografia pentru verificare.','Photo not confirmed. Retake it to review.');
+  });
   document.body.append(dialog);
   try{dialog.showModal()}catch(_){dialog.setAttribute('open','')}
   status.textContent=learningLabel('Fotografia necesită verificare într-o fereastră separată.','Photo needs review in a separate dialog.');
