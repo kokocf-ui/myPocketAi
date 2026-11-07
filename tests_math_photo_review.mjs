@@ -26,7 +26,7 @@ assert.equal(equations[1].text,'3(x-1) = 6');
 assert.equal(equations[2].text,'5x = 20');
 assert.equal(parse('a) x + 3 = 7')[0].text,'x + 3 = 7','labelled equations retain the right side');
 assert.deepEqual(parse('2x+3=7').map(x=>x.text),['2x+3=7'],'one unlabeled equation is selectable');
-assert.deepEqual(parse('2x+3=7\\n3x+4=10').map(x=>x.text),['2x+3=7','3x+4=10'],'unlabeled equation column is selectable');
+assert.deepEqual(parse('2x+3=7\n3x+4=10').map(x=>x.text),['2x+3=7','3x+4=10'],'unlabeled equation column is selectable');
 assert.equal(parse('2x+3=7=10').length,0,'ambiguous worked chain without labels is not guessed');
 const candidates=parse(noisy);
 assert.equal(candidates.length,3,'find exercise starts only');
