@@ -8703,20 +8703,20 @@ function mathLikeTermsMethod(source){
 
 // Geometry engine: refuse invented side lengths and validate Pitagora first.
 function mathRightTriangleModel(source){
- const t=String(source||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-  .replace(/[−–]/g,'-').toLowerCase().replace(/\s+/g,' ').trim();
- if(t.length>400||!/(triunghi(?:ul)? dreptunghic|right[- ]angled? triangle|pitagora|pythagor)/.test(t))return null;
- const numbers=[...t.matchAll(/(\d+(?:[,.]\d+)?)(?:\s*(mm|cm|km|m)\b)?/g)]
+ const t=String(source||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
+  .replace(/[−–]/g,'-').toLowerCase().replace(/\\s+/g,' ').trim();
+ if(t.length>400||!/(triunghi(?:ul)? dreptunghic|right(?:[- ]angled?)?[- ]triangle|pitagora|pythagor)/.test(t))return null;
+ const numbers=[...t.matchAll(/(\\d+(?:[,.]\\d+)?)(?:\\s*(mm|cm|km|m)\\b)?/g)]
   .map(z=>({n:Number(z[1].replace(',','.')),u:z[2]||''}));
  if(numbers.length!==2||numbers.some(x=>!Number.isFinite(x.n)||x.n<=0||x.n>100000))return null;
  const units=[...new Set(numbers.map(x=>x.u).filter(Boolean))];
  if(units.length>1)return null;
- const num='(\\d+(?:[.,]\\d+)?)';
- const suffix='(?:\\s*(?:mm|cm|km|m)\\b)?';
- const lead='\\s*(?:(?:sunt|au|de|este|are|masoara|of|measure|is|with)\\s*){0,3}[:=]?\\s*';
- const pair=new RegExp('\\b(?:catetele|catete|legs)\\b'+lead+num+suffix+'\\s*(?:si|and|,)\\s*(?:de\\s*)?'+num+suffix,'i').exec(t);
- const leg=new RegExp('\\b(?:cateta|catetei|leg)\\b'+lead+num,'i').exec(t);
- const hyp=new RegExp('\\b(?:ipotenuza|ipotenuzei|hypotenuse)\\b'+lead+num,'i').exec(t);
+ const num='(\\\\d+(?:[.,]\\\\d+)?)';
+ const suffix='(?:\\\\s*(?:mm|cm|km|m)\\\\b)?';
+ const lead='\\\\s*(?:(?:sunt|au|de|este|are|masoara|of|measure|is|with)\\\\s*){0,3}[:=]?\\\\s*';
+ const pair=new RegExp('\\\\b(?:catetele|catete|legs)\\\\b'+lead+num+suffix+'\\\\s*(?:si|and|,)\\\\s*(?:de\\\\s*)?'+num+suffix,'i').exec(t);
+ const leg=new RegExp('\\\\b(?:cateta|catetei|leg)\\\\b'+lead+num,'i').exec(t);
+ const hyp=new RegExp('\\\\b(?:ipotenuza|ipotenuzei|hypotenuse)\\\\b'+lead+num,'i').exec(t);
  const value=x=>Number(x.replace(',','.'));
  let a,b,c,kind;
  if(pair&&!leg&&!hyp){
