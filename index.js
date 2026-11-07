@@ -8223,11 +8223,12 @@ function showJourneyMode(choice){
  const labels=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;
  setModuleLayerMode(labels[0]);
  const body=$('moduleLayerBody');
+ const mixedNames={ro:'Transport mixt',en:'Mixed transport',fr:'Transport multimodal',de:'Kombinierter Verkehr',it:'Trasporto misto',es:'Transporte mixto',pt:'Transporte misto',nl:'Gemengd vervoer',ru:'Смешанный транспорт',pl:'Transport mieszany'};
  for(const [mode,label] of [['drive',labels[3]],['transit',labels[2]]]){
   const button=document.createElement('button');
   button.type='button';
   button.className='module-result-card';
-  button.textContent=label;
+  button.textContent=mode==='transit'&&choice.mixedJourney?(mixedNames[state.language]||mixedNames.en):label;
   button.onclick=()=>showPreciseJourney({...choice,journeyMode:mode});
   body.append(button);
  }
@@ -8330,6 +8331,7 @@ Object.assign(POCKET_DIALOG_TEXT,{
 "How would you like to get here?":{fr:"Comment souhaitez-vous venir ici ?",de:"Wie möchten Sie hierher gelangen?",it:"Come vuoi arrivare qui?",es:"¿Cómo quieres llegar aquí?",pt:"Como quer chegar aqui?",nl:"Hoe wil je hier komen?",ru:"Как вы хотите сюда добраться?",pl:"Jak chcesz tu dotrzeć?"}
 });
 Object.assign(POCKET_DIALOG_TEXT,{
+"Street or station (optional)":{fr:"Rue ou gare (facultatif)",de:"Straße oder Bahnhof (optional)",it:"Via o stazione (facoltativo)",es:"Calle o estación (opcional)",pt:"Rua ou estação (opcional)",nl:"Straat of station (optioneel)",ru:"Улица или вокзал (необязательно)",pl:"Ulica lub stacja (opcjonalnie)"},
 "Which city is ":{fr:"Dans quelle ville se trouve ",de:"In welcher Stadt liegt ",it:"In quale città si trova ",es:"¿En qué ciudad está ",pt:"Em que cidade fica ",nl:"In welke stad ligt ",ru:"В каком городе находится ",pl:"W jakim mieście znajduje się "},
 "Confirm the town to avoid directions to the wrong station.":{fr:"Confirmez la localité pour éviter une mauvaise gare.",de:"Bestätigen Sie den Ort, damit nicht die falsche Station gewählt wird.",it:"Conferma la località per evitare la stazione sbagliata.",es:"Confirma la localidad para evitar la estación equivocada.",pt:"Confirme a localidade para evitar a estação errada.",nl:"Bevestig de plaats om een verkeerd station te vermijden.",ru:"Подтвердите город, чтобы не выбрать неверную станцию.",pl:"Potwierdź miejscowość, aby uniknąć złej stacji."},
 "City or town":{fr:"Ville ou localité",de:"Stadt oder Ort",it:"Città o località",es:"Ciudad o localidad",pt:"Cidade ou localidade",nl:"Stad of plaats",ru:"Город или населённый пункт",pl:"Miasto lub miejscowość"},
@@ -8352,7 +8354,11 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
  const ro=state.language==='ro';
  const t=(a,b)=>dialogText(a,b);
  const display=new Intl.DisplayNames([state.language],{type:'region'});
- const countries=Array.from({length:26*26},(_,i)=>String.fromCharCode(65+Math.floor(i/26),65+i%26)).filter(code=>{try{return display.of(code)!==code}catch{return false}});
+ // ISO 3166-1 codes only: generating all 676 letter pairs adds invalid
+ // "Unknown Region" rows and duplicate UK/GB choices (UK is not ISO 3166-1).
+ // Preserve world-wide address selection; the mixed-route provider may still
+ // support only some of these countries.
+ const countries='AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW'.split(' ');
  const card=(label,action)=>{const b=document.createElement('button');b.type='button';b.className='module-result-card';b.textContent=label;b.onclick=action;return b};
   const normalize=value=>value.normalize('NFD').replace(/\\p{M}/gu,'').toLowerCase().trim();
   const selected={};
@@ -8375,7 +8381,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    }
    const point=cityOnly?selected.city:(selected.number||selected.street||selected.city);
    if(!point||!Number.isFinite(point.latitude)||!Number.isFinite(point.longitude))return;
-   onSelect({...point,approximation:cityOnly?'locality':selected.number?null:selected.street?'street':'locality',verified_region:region,verified_country:countryCode||selected.country?.code});
+   onSelect({...point,approximation:cityOnly?'locality':selected.number||selected.street?.kind==='station'?null:selected.street?'street':'locality',verified_region:region,verified_country:countryCode||selected.country?.code});
   });
   const approximateButton=card(t('Continuă la centrul localității (nu la numărul introdus)','Continue to town centre (not the entered house number)'),()=>{
    if(!selected.city||!Number.isFinite(selected.city.latitude)||!Number.isFinite(selected.city.longitude))return;
@@ -8444,6 +8450,13 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    // No automatic keyboard: the user taps Street when ready.
     return;
    }
+   if(stage==='street'&&point.kind==='station'){
+     // A verified station is already an exact destination; no fictitious
+     // street number should be requested for it.
+     fields.number.input.disabled=fields.number.search.disabled=true;
+     status.textContent=t('Stație verificată. Poți confirma destinația.','Verified station. You can confirm the destination.');
+     return;
+   }
    const next=cityOnly?null:order[order.indexOf(stage)+1];
    if(next){fields[next].input.disabled=false;fields[next].search.disabled=false;/* Leave next input available without focusing it. */}
   }
@@ -8474,7 +8487,20 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
      body:JSON.stringify({address_lookup:{stage,query,country:selected.country.code.toLowerCase(),
       city:selected.city?.city||'',region:region||'',cityPoint:selected.city?{latitude:selected.city.latitude,longitude:selected.city.longitude}:undefined,street:selected.street?.street||'',postcode:stage==='number'?postcode.value.trim():''}})});
     if(!response.ok)throw new Error();
-    const {candidates,attribution}=await response.json();
+    const {candidates:rawCandidates,attribution}=await response.json();
+    // Provider replies can contain the same street/postcode multiple times.
+    // Display each verified address or station identity exactly once.
+    const seenCandidates=new Set();
+    const candidates=(Array.isArray(rawCandidates)?rawCandidates:[]).filter(point=>{
+      const normalized=value=>normalize(String(value||'')).replace(/[^\p{L}\p{N}]/gu,'');
+      const key=stage==='street'
+        ?[point.kind==='station'?'station':'street',normalized(point.street||point.label),normalized(point.city||selected.city?.city),normalized(point.postcode)].join('|')
+        :stage==='number'?[normalized(point.houseNumber),normalized(point.street),normalized(point.postcode),normalized(point.city)].join('|')
+        :[normalized(point.city||point.label),point.country_code,Number(point.latitude).toFixed(3),Number(point.longitude).toFixed(3)].join('|');
+      if(seenCandidates.has(key))return false;
+      seenCandidates.add(key);
+      return true;
+    });
     if(!current())return;
     if((stage==='street'||stage==='number')&&Array.isArray(candidates)&&candidates.length)localityIndex.set(keyFor(stage,query),candidates);
     if(discover){
@@ -8498,7 +8524,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     if(current())list.textContent=t('Căutarea nu este disponibilă acum.','Search is unavailable right now.');
    }
   }
-  const labels=[t('Țară','Country'),t('Localitate','City or town'),t('Stradă (opțional)','Street (optional)'),t('Număr (opțional)','House number (optional)')];
+  const labels=[t('Țară','Country'),t('Localitate','City or town'),t('Stradă / stație (opțional)','Street or station (optional)'),t('Număr (opțional)','House number (optional)')];
   order.forEach((stage,index)=>{
    const row=document.createElement('div');
    row.style.marginBottom='8px';

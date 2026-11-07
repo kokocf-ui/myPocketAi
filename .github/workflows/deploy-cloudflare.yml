@@ -26,6 +26,7 @@ jobs:
           node tests_localization.mjs
           node tests_news_contextual_translation.mjs
           node tests_avatar_lipsync_stop.mjs
+          node tests_mixed_selector_ui.mjs
           node scripts/patch-avatar-lipsync.mjs public/avatar-v4.html
 
       - name: Install pinned Wrangler
@@ -83,6 +84,7 @@ jobs:
           node tests_news_contextual_translation.mjs
           node tests_news_live_routing.mjs
           node tests_address_city_aliases.mjs
+          node tests_mixed_selector_ui.mjs
 
       - name: Deploy backend (retry transient Cloudflare outages only)
         env:

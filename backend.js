@@ -1554,7 +1554,10 @@ export default {
     }
 
     if (data?.address_lookup) {
-      const {stage,country,city,street,query,postcode,cityPoint,region=''}=data.address_lookup;
+      const {stage,country:requestedCountry,city,street,query,postcode,cityPoint,region=''}=data.address_lookup;
+      // Previously the selector exposed the non-ISO "UK" code alongside GB.
+      // Support saved/older selections too while keeping provider country filters canonical.
+      const country=String(requestedCountry||'').toLowerCase()==='uk'?'gb':requestedCountry;
       const types={city:'city',street:'street',number:'building'};
       if (!Object.hasOwn(types,stage) || !/^[a-z]{2}$/.test(country||'') ||
           ![query,city,street,postcode,region].every(value=>typeof value==='string'&&value.length<=160) ||
@@ -1616,6 +1619,53 @@ export default {
             if(candidates.length)return json({candidates,provider:'tomtom',attribution:'© TomTom',tomtom_status:'matched'});
           }
         }catch{tomtomStatus='unavailable';}
+      }
+      // In the same compact address picker, accept a verified rail/tube
+      // station as a destination, not as a fictional street. The country and
+      // city have already been selected by the user.
+      // A named station is a destination, not a street. Query official TfL
+      // stop names only inside the selected country and London municipality.
+      const requestedStopName=String(query||'').trim();
+      const stationAlias=/^(?:london|londra)\s+(?:victoria|liverpool\s+street)(?:\s+(?:rail|railway|station))?$/i.test(requestedStopName);
+      const explicitStation=/\b(?:station|railway|rail|underground|tube|gara|gară|statie|stația)\b/iu.test(requestedStopName);
+      if(stage==='street'&&country==='gb'&&/^london$/i.test(city.trim())&&env.TFL_APP_KEY&&
+         (stationAlias||explicitStation)&&
+         (stationAlias||!/\b(?:road|street|avenue|lane|square)\b/i.test(requestedStopName))){
+        try {
+          const wanted=requestedStopName.replace(/\b(?:london|londra|station|railway|rail|underground|tube|gara|gară|statie|stația)\b/giu,' ').replace(/\s+/g,' ').trim();
+          if(wanted.length>=3){
+            const api=new URL('https://api.tfl.gov.uk/StopPoint/Search/'+encodeURIComponent(wanted));
+            api.searchParams.set('app_key',env.TFL_APP_KEY);
+            api.searchParams.set('includeHubs','true');
+            const response=await fetch(api.toString(),{headers:{Accept:'application/json'},signal:AbortSignal.timeout(7000)});
+            if(response.ok){
+              const payload=await response.json(),seen=new Set();
+              const normalizeStation=value=>String(value||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase()
+                .replace(/\b(?:london|londra|station|railway|rail|underground|tube|national|interchange)\b/g,' ')
+                .replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+              const names=Array.isArray(payload.matches)?payload.matches:[];
+              const candidates=names.flatMap(stop=>{
+                const name=String(stop.name||stop.commonName||'');
+                const lat=Number(stop.lat),lon=Number(stop.lon);
+                const modeList=Array.isArray(stop.modes)?stop.modes.map(String):[];
+                const railway=modeList.some(mode=>/rail|underground|tube|overground|dlr/i.test(mode))||
+                  (/\b(?:rail|underground|tube|overground|dlr)\b/i.test(name)&&
+                   !/\b(?:coach|bus)\b/i.test(name));
+                if(!railway||normalizeStation(name)!==normalizeStation(wanted)||
+                   !Number.isFinite(lat)||!Number.isFinite(lon)||
+                   lat<51.1||lat>51.9||lon< -0.7||lon>0.5)return [];
+                const key=[normalizeStation(name),lat.toFixed(4),lon.toFixed(4)].join('|');
+                if(seen.has(key))return [];
+                seen.add(key);
+                return [{label:name+', London, United Kingdom',city:'London',street:'',houseNumber:'',
+                  kind:'station',stop_id:String(stop.id||'').slice(0,100),country_code:'GB',
+                  latitude:lat,longitude:lon,source:'TfL',
+                  matchRank:/\b(?:national rail|rail station|railway station)\b/i.test(name)?0:1}];
+              }).sort((a,b)=>a.matchRank-b.matchRank).slice(0,8);
+              if(candidates.length)return json({candidates,provider:'tfl',attribution:'Data provided by Transport for London'});
+            }
+          }
+        }catch(e){console.warn('Pocket AI address stop lookup',String(e?.name||e).slice(0,70))}
       }
       if (!env.GEOAPIFY_API_KEY) return json({error:'Address search unavailable'},503);
       const autocomplete=Boolean(query.trim())&&stage!=='number';
