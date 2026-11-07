@@ -7985,7 +7985,7 @@ function mathSplitExercises(source){
   current.push(unnumbered||line);
  }
  if(current.length)tasks.push(current.join('\\n').trim());
- return tasks.filter(Boolean).slice(0,6);
+ return tasks.filter(Boolean).slice(0,30);
 }
 function mathGraphModel(task){
  const match=String(task||'').match(/(?:f\\s*\\(\\s*x\\s*\\)|y)\\s*=\\s*([^\\n\\r;]+)/i);
@@ -10032,6 +10032,8 @@ function mathGraphVerifiedAnswers(source,figure){
   }
   return [];
  }
+ const additional=mathAdditionalModel(source);
+ if(additional?.kind==='statistics'){lines.push(additional.summary);return lines}
  const plane=mathPlaneShapeModel(source);
  if(plane){
   const unit=plane.unit||'';
@@ -10091,6 +10093,8 @@ function mathResultPage(index){
   });
  }
  const item=session.tasks[session.active];
+ // Only compute the selected exercise; do not fire 30 parallel model requests.
+ if(!item.started){item.started=true;void mathFetchResult(item,session)}
  mathLastSpokenReply=item.spokenReply||item.reply||'';
  const title=document.createElement('h3');
  title.textContent=learningLabel('Exercițiul ','Exercise ')+(session.active+1);
@@ -10105,7 +10109,7 @@ function mathResultPage(index){
   check.textContent=mathEqualityExplanation(verifiedEquality);
   body.append(check);
  }
- const equationGraph=session.mode==='graph'?mathAlgebraLocal('graph',item.text)?.value:null;
+ const equationGraph=session.mode==='graph'||session.mode==='solve'?mathAlgebraLocal('graph',item.text)?.value:null;
  const attachedFigure=session.figure&&['geometry','trigonometry'].includes(session.topic)?session.figure:null;
  const graph=(attachedFigure?mathFigureSnapshot(attachedFigure):null)||
   (equationGraph?.planeShape?mathPlaneShapeFigure(equationGraph.planeShape):null)||
@@ -10372,7 +10376,7 @@ function mathEducationRun(mode){
   return;
  }
  mathResultPage(0);
- tasks.forEach(item=>{void mathFetchResult(item,session)});
+ // The first tab is loaded by mathResultPage; other tasks load on selection.
 }
 $('mathResultClose').onclick=mathCloseResults;
 $('mathResultDialog').addEventListener('close',()=>{
