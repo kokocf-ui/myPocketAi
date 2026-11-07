@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import frontend from './index.js';
+const html=await(await frontend.fetch(new Request('https://math-coverage.test/'))).text();
+const script=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
+assert.ok(script,'web app contains inline JavaScript');
+new vm.Script(script);
+const start=script.indexOf('function mathAdditionalModel(');
+const end=script.indexOf('function mathAlgebraEngines(',start);
+assert.ok(start>0&&end>start,'extended engines are registered');
+const stub={state:{language:'ro'},learningLabel:(ro)=>ro,
+ mathSymbolicPoly:raw=>raw==='3x^2 + 1'?{coefficients:[1,0,3]}:null,
+ mathSymbolicFormat:coeffs=>coeffs.join(','),Math,Intl,Map,Number,Array,document:{}};
+const api=vm.runInNewContext(script.slice(start,end)+'\n({model:mathAdditionalModel,solve:mathAdditionalSolution,method:mathAdditionalMethod,graph:mathAdditionalGraph})',stub);
+const mean=api.model('media: 2, 4, 6, 8');
+assert.equal(mean.kind,'statistics');
+assert.equal(mean.result,'5');
+assert.equal(api.model('mediana: 1, 2, 10, 20').result,'6,5');
+assert.equal(api.model('varianta: 1, 3').result,'1');
+assert.equal(api.graph('media: 2, 4, 6').statistics.length,3);
+assert.equal(api.model('sin(30°)').result,'0,5');
+assert.equal(api.model('cos(60°)').result,'0,5');
+assert.equal(api.model('tan(90°)'),null,'undefined tangent never shown');
+assert.equal(api.model('C(5,2)').result,'10');
+assert.equal(api.model('A(5,2)').result,'20');
+assert.equal(api.model('5!').result,'120');
+assert.equal(api.model('derivata: 3x^2 + 1').result,'0,6');
+assert.ok(api.solve('C(5,2)').steps.length>=2);
+assert.ok(api.method('sin(30°)').rules.length>=2);
+assert.match(script,/return tasks\.filter\(Boolean\)\.slice\(0,30\)/,'batch supports 30 exercises');
+assert.match(script,/if\(!item\.started\)\{item\.started=true;void mathFetchResult\(item,session\)\}/,'lazy tab computation');
+assert.doesNotMatch(script,/tasks\.forEach\(item=>\{void mathFetchResult\(item,session\)\}\)/,'no parallel request burst');
+assert.doesNotMatch(script,/\|\|mathGeometryFigure\(item\.text\);/,'no unrelated generic shapes');
+assert.match(script,/additional\?\.kind==='statistics'/,'verified statistics graph corner');
+console.log('PASS maths expanded subjects and lazy exercise sessions');
