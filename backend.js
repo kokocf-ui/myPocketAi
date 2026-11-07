@@ -2631,7 +2631,9 @@ export default {
           }catch{}
         }
         if(internationalTarget||explicitMixedJourney){
-          if(!hasCoordinates&&env.GEOAPIFY_API_KEY){
+          // A previously selected, verified UK station already has coordinates.
+          // Avoid geocoding it again just because the first snapshot was absent.
+          if(!(Number.isFinite(targetLat)&&Number.isFinite(targetLon))&&env.GEOAPIFY_API_KEY){
             try{
               const u=new URL('https://api.geoapify.com/v1/geocode/search');
               u.searchParams.set('text',targetName);u.searchParams.set('limit','5');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
@@ -2642,6 +2644,12 @@ export default {
                 if(match){targetLat=Number(match.properties.lat);targetLon=Number(match.properties.lon);}
               }
             }catch{}
+          }
+          // A destination resolved only by the second pass can still be abroad.
+          // Reclassify before falling back to the UK-only TfL planner.
+          if(Number.isFinite(targetLat)&&Number.isFinite(targetLon)&&
+             !(targetLat>=49.8&&targetLat<=59.5&&targetLon>=-9.1&&targetLon<=2.8)){
+            internationalTarget=true;
           }
           const validTarget=Number.isFinite(targetLat)&&Number.isFinite(targetLon);
           const planned=validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang):{status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
@@ -2663,9 +2671,15 @@ export default {
           const reply=lang==='en'
             ? 'I identified '+targetName+' as the destination, but I cannot yet verify a complete mixed-mode itinerary with real departure times. '+(detail==='international_provider_not_connected'?'An authorized international journey provider has not been configured.':'The connected provider did not confirm a usable complete journey.')+' I will not invent connections, flights or timetables.'
             : 'Am identificat '+targetName+' ca destinație, dar nu pot verifica încă un itinerar mixt complet cu ore reale de plecare. '+(detail==='international_provider_not_connected'?'Nu este configurat un furnizor internațional autorizat.':'Furnizorul conectat nu a confirmat o călătorie completă utilizabilă.')+' Nu voi inventa legături, zboruri sau orare.';
-          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
-            route_available:false,transit_available:false,international_journey:internationalTarget,mixed_journey:true,international_destination:targetName,
-            provider_status:{motis:detail},reason:detail});
+          // An overseas journey must only use a connected authorized international
+          // provider. Inside the UK, the existing TfL planner remains available
+          // if optional MOTIS is missing, offline or returns no usable itinerary.
+          if(internationalTarget){
+            return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
+              route_available:false,transit_available:false,international_journey:true,mixed_journey:true,international_destination:targetName,
+              provider_status:{motis:detail},reason:detail});
+          }
+          transportErrors.motis=detail;
         }
         // Prefer verified operator station records over free-text geocoding for UK rail/tube stations.
         let verifiedStopId=null;
