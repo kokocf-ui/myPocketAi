@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import frontend from './index.js';
 const html=await(await frontend.fetch(new Request('https://education.test/'))).text();
-const script=[...html.matchAll(/<script[^>]*>([\\s\\S]*?)<\\/script>/g)][0]?.[1];
+const script=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
 assert.ok(script,'inline application script exists');
 new vm.Script(script);
 const start=script.indexOf('const EDUCATION_PATHS=');
