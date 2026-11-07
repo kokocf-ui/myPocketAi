@@ -1,6 +1,7 @@
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
+import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
 /**
  * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
@@ -1646,7 +1647,8 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
  max-height:min(85dvh,750px)!important;overflow:hidden!important;
  transition:height .18s ease-out
 }
-.chemistry-molecule-dialog[open]{gap:8px!important}
+.chemistry-molecule-dialog[open],.biology-diagram-dialog[open]{gap:8px!important}
+.biology-diagram-dialog select{width:100%;min-height:43px;background:#12384a;color:#fff;border:1px solid #588fa5;border-radius:9px;padding:8px}
 .chemistry-molecule-dialog select{width:100%;min-height:43px;background:#12384a;color:#fff;border:1px solid #588fa5;border-radius:9px;padding:8px}
 .chemistry-molecule-frame{width:100%;height:clamp(185px,34dvh,310px);max-height:37dvh;border:1px solid #487e98;border-radius:12px;overflow:hidden;touch-action:none;background:#061a28;flex:1 1 auto;min-height:150px}
 .chemistry-molecule-frame svg{display:block;width:100%;height:100%;overflow:hidden;touch-action:none}
@@ -6823,11 +6825,13 @@ let scienceJourney={stage:'subjects',subject:null,level:null,specialty:null,topi
 let scienceVoiceActive=false,scienceLastReply='',scienceRequestController=null;
 function scienceSubjectInfo(){return SCIENCE_SUBJECTS.find(s=>s.id===scienceJourney.subject)||null}
 function scienceTopicChoices(){
- if(scienceJourney.subject!=='chemistry')return SCIENCE_OTHER_TOPICS[scienceJourney.subject]||[];
- if(scienceJourney.level!=='advanced'||!scienceJourney.specialty)
-  return CHEMISTRY_TOPIC_DATA.filter(x=>!x.specialty);
- const track=CHEMISTRY_SPECIALTY_DATA.find(x=>x.id===scienceJourney.specialty);
- return CHEMISTRY_TOPIC_DATA.filter(x=>x.specialty===scienceJourney.specialty||
+ const subject=scienceJourney.subject;
+ if(subject!=='chemistry'&&subject!=='biology')return SCIENCE_OTHER_TOPICS[subject]||[];
+ const topics=subject==='biology'?BIOLOGY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
+ const specializations=subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
+ if(scienceJourney.level!=='advanced'||!scienceJourney.specialty)return topics.filter(x=>!x.specialty);
+ const track=specializations.find(x=>x.id===scienceJourney.specialty);
+ return topics.filter(x=>x.specialty===scienceJourney.specialty||
   (!x.specialty&&(track?.core||[]).includes(x.id)));
 }
 function scienceTopicInfo(){return scienceTopicChoices().find(x=>x.id===scienceJourney.topic)||null}
@@ -6844,7 +6848,7 @@ function scienceBack(){
  const current=scienceJourney.stage;
  scienceVoiceStop();scienceStopRequest();
  if(current==='workspace')scienceJourney.stage='topics';
- else if(current==='topics')scienceJourney.stage=(scienceJourney.subject==='chemistry'&&scienceJourney.level==='advanced')?'specialties':'levels';
+ else if(current==='topics')scienceJourney.stage=(['chemistry','biology'].includes(scienceJourney.subject)&&scienceJourney.level==='advanced')?'specialties':'levels';
  else if(current==='specialties')scienceJourney.stage='levels';
  else if(current==='levels')scienceJourney.stage='subjects';
  else {renderLearningSubjects();return}
@@ -6916,12 +6920,12 @@ function scienceJourneyShowChoices(stage){
  list.className='math-choice-list science-choice-list';
  const choices=stage==='subjects'?SCIENCE_SUBJECTS:
   stage==='levels'?CHEMISTRY_LEVEL_DATA:
-  stage==='specialties'?CHEMISTRY_SPECIALTY_DATA:
+  stage==='specialties'?(scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
   scienceTopicChoices().filter(topic=>{
-   if(scienceJourney.subject!=='chemistry')return true;
+   if(!['chemistry','biology'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
-    EDUCATION_THEORY_DATA.some(x=>x.subject==='chemistry'&&x.topic===topic.id&&
+    EDUCATION_THEORY_DATA.some(x=>x.subject===scienceJourney.subject&&x.topic===topic.id&&
      rank[x.level==='medium'?'intermediate':x.level]<=rank[scienceJourney.level]);
   });
  for(const item of choices){
@@ -6932,11 +6936,12 @@ function scienceJourneyShowChoices(stage){
   const sub=document.createElement('small');
   sub.textContent=stage==='subjects'?
    (item.id==='chemistry'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
+     item.id==='biology'?learningLabel('10 capitole de bază · 9 specializări avansate','10 foundation chapters · 9 advanced tracks'):
      learningLabel('Spațiu de studiu','Study workspace')):
    stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
    stage==='specialties'?learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects'):
-   scienceJourney.subject==='chemistry'?
-    EDUCATION_THEORY_DATA.filter(x=>x.subject==='chemistry'&&x.topic===item.id).length+
+   ['chemistry','biology'].includes(scienceJourney.subject)?
+    EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length+
       learningLabel(' fișe teoretice',' theory entries'):'';
   btn.append(heading,sub);
   btn.onclick=()=>{
@@ -6945,7 +6950,7 @@ function scienceJourneyShowChoices(stage){
     scienceJourneyShowChoices('levels');
    }else if(stage==='levels'){
     scienceJourney.level=item.id;scienceJourney.specialty=null;
-    scienceJourneyShowChoices(scienceJourney.subject==='chemistry'&&item.id==='advanced'?'specialties':'topics');
+    scienceJourneyShowChoices(['chemistry','biology'].includes(scienceJourney.subject)&&item.id==='advanced'?'specialties':'topics');
    }else if(stage==='specialties'){
     scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
    }else{
@@ -7548,6 +7553,9 @@ const CHEMISTRY_TOPIC_DATA=${JSON.stringify([...CHEMISTRY_TOPICS,...CHEMISTRY_SP
 const CHEMISTRY_SPECIALTY_DATA=${JSON.stringify(CHEMISTRY_SPECIALIZATIONS)};
 const CHEMISTRY_MOLECULE_DATA=${JSON.stringify(CHEMISTRY_MOLECULES)};
 const CHEMISTRY_SOLVE_VERIFIED=${chemistryVerifiedExercise.toString()};
+const BIOLOGY_TOPIC_DATA=${JSON.stringify([...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS])};
+const BIOLOGY_SPECIALTY_DATA=${JSON.stringify(BIOLOGY_SPECIALIZATIONS)};
+const BIOLOGY_SOLVE_VERIFIED=${biologyVerifiedExercise.toString()};
 let educationTheoryVoiceInput=null;
 function educationTheoryClean(value){
  return String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\\s+/g,' ');
@@ -7599,7 +7607,7 @@ function educationTheoryOpen(subject,level){
  educationTheoryStopVoice();
  const old=document.getElementById('educationTheoryDialog');if(old)old.remove();
  const dialog=document.createElement('dialog');dialog.id='educationTheoryDialog';dialog.className='education-theory-dialog';
- const title=document.createElement('h2');title.textContent=learningLabel('Teorie · '+({math:'Matematică',physics:'Fizică',chemistry:'Chimie'}[subject]||''),'Theory · '+({math:'Mathematics',physics:'Physics',chemistry:'Chemistry'}[subject]||''));
+ const title=document.createElement('h2');title.textContent=learningLabel('Teorie · '+({math:'Matematică',physics:'Fizică',chemistry:'Chimie',biology:'Biologie'}[subject]||''),'Theory · '+({math:'Mathematics',physics:'Physics',chemistry:'Chemistry',biology:'Biology'}[subject]||''));
  const close=document.createElement('button');close.type='button';close.className='secondary-btn';close.textContent=learningLabel('← Înapoi','← Back');close.onclick=()=>dialog.close();
  const header=document.createElement('div');header.className='education-theory-head';header.append(title,close);
  const description=document.createElement('p');description.textContent=learningLabel('Scrie primele litere sau dictează denumirea.','Type the first letters or dictate the name.');
@@ -7802,6 +7810,129 @@ function chemistryCurriculumOpen(){
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
 
+let biologyCurriculumPreset=null;
+function biologyCurriculumOpen(){
+ educationTheoryStopVoice();
+ document.getElementById('biologyCurriculumDialog')?.remove();
+ const dialog=document.createElement('dialog');
+ dialog.id='biologyCurriculumDialog';
+ dialog.className='education-theory-dialog chemistry-curriculum-dialog biology-curriculum-dialog';
+ dialog.setAttribute('aria-label',learningLabel('Biologie · lecții','Biology · lessons'));
+ const preset=biologyCurriculumPreset;biologyCurriculumPreset=null;
+ let stage=preset?.topic?'lessons':preset?.level?(preset.level==='advanced'?'specialties':'topics'):'levels';
+ let selectedLevel=preset?.level||null,selectedTopic=preset?.topic||null;
+ let selectedSpecialty=preset?.specialty||null,selectedLesson=null,searchValue='';
+ const rank={beginner:0,medium:1,intermediate:1,advanced:2};
+ const topic=()=>BIOLOGY_TOPIC_DATA.find(x=>x.id===selectedTopic);
+ const catalog=()=>EDUCATION_THEORY_DATA.filter(x=>x.subject==='biology'&&
+  x.topic===selectedTopic&&rank[x.level]<=rank[selectedLevel])
+  .sort((a,b)=>rank[a.level]-rank[b.level]||a.title.localeCompare(b.title,'ro'));
+ const title=document.createElement('h2');
+ const previous=document.createElement('button');previous.type='button';previous.className='secondary-btn';
+ previous.textContent=learningLabel('← Înapoi','← Back');
+ const close=document.createElement('button');close.type='button';close.className='secondary-btn';
+ close.textContent=learningLabel('Închide','Close');close.onclick=()=>dialog.close();
+ const header=document.createElement('div');header.className='education-theory-head chemistry-curriculum-head';
+ header.append(title,previous,close);
+ const note=document.createElement('p');note.className='chemistry-curriculum-note';
+ const body=document.createElement('div');body.className='chemistry-curriculum-content';
+ const row=(heading,subtitle,action)=>{
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn chemistry-curriculum-row';
+  const strong=document.createElement('strong');strong.textContent=heading;
+  button.append(strong);
+  if(subtitle){const small=document.createElement('small');small.textContent=subtitle;button.append(small)}
+  button.onclick=action;return button;
+ };
+ const total=(chapterId,maximum)=>EDUCATION_THEORY_DATA.filter(e=>e.subject==='biology'&&e.topic===chapterId&&rank[e.level]<=rank[maximum]).length;
+ function back(){
+  if(stage==='detail')stage='lessons';
+  else if(stage==='lessons'){if(preset?.topic){dialog.close();return}stage='topics';searchValue=''}
+  else if(stage==='topics')stage=selectedLevel==='advanced'?'specialties':'levels';
+  else if(stage==='specialties')stage='levels';
+  else {dialog.close();return}
+  render();
+ }
+ dialog.pocketBack=back;
+ previous.onclick=back;
+ dialog.addEventListener('cancel',event=>{event.preventDefault();back()});
+ dialog.addEventListener('close',()=>dialog.remove());
+ function renderMatches(list){
+  list.replaceChildren();
+  const q=educationTheoryClean(searchValue);
+  let matches=catalog();
+  if(q){
+   const tokens=q.split(' ').filter(Boolean);
+   matches=matches.map(e=>{
+    const names=[e.title,...e.aliases].map(educationTheoryClean);
+    const words=educationTheoryClean([e.title,...e.aliases,e.statement].join(' '));
+    let score=names.some(x=>x===q)?100:names.some(x=>x.startsWith(q))?90:
+     names.some(x=>x.split(' ').some(t=>t.startsWith(q)))?80:names.some(x=>x.includes(q))?60:0;
+    if(tokens.every(t=>words.split(' ').some(w=>w.startsWith(t))))score=Math.max(score,35+tokens.length*3);
+    return {e,score};
+   }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||a.e.title.localeCompare(b.e.title,'ro')).slice(0,4).map(x=>x.e);
+  }
+  if(!matches.length)list.append(row(learningLabel('Nu există rezultate.','No matching entries.'),'',()=>{}));
+  for(const lesson of matches)list.append(row(lesson.title,'',()=>{selectedLesson=lesson;stage='detail';render()}));
+ }
+ function render(){
+  body.replaceChildren();
+  title.textContent=stage==='levels'?learningLabel('Biologie · Nivel','Biology · Level'):
+   stage==='specialties'?learningLabel('Biologie · Specializări','Biology · Specializations'):
+   stage==='topics'?learningLabel('Biologie · Capitole','Biology · Chapters'):
+   stage==='lessons'?learningLabel('Biologie · Lecții','Biology · Lessons'):
+   learningLabel('Biologie · Teorie','Biology · Theory');
+  if(stage==='levels'){
+   note.textContent=learningLabel('Alege nivelul de studiu.','Choose your study level.');
+   const list=document.createElement('div');list.className='chemistry-curriculum-list';
+   for(const level of CHEMISTRY_LEVEL_DATA)list.append(row(learningLabel(level.ro,level.en),learningLabel(level.scopeRo,level.scopeEn),()=>{
+    selectedLevel=level.id;selectedSpecialty=null;stage=level.id==='advanced'?'specialties':'topics';render();
+   }));
+   body.append(list);
+  }else if(stage==='specialties'){
+   note.textContent=learningLabel('Alege domeniul universitar.','Choose university track.');
+   const list=document.createElement('div');list.className='chemistry-curriculum-list';
+   for(const spec of BIOLOGY_SPECIALTY_DATA)list.append(row(learningLabel(spec.ro,spec.en),
+    learningLabel('4 capitole proprii','4 dedicated chapters'),()=>{
+     selectedSpecialty=spec.id;stage='topics';render();
+    }));
+   body.append(list);
+  }else if(stage==='topics'){
+   note.textContent=learningLabel('Alege capitolul.','Choose a chapter.');
+   const list=document.createElement('div');list.className='chemistry-curriculum-list';
+   const spec=BIOLOGY_SPECIALTY_DATA.find(x=>x.id===selectedSpecialty);
+   for(const chapter of BIOLOGY_TOPIC_DATA){
+    if(rank[chapter.minLevel]>rank[selectedLevel])continue;
+    if(selectedLevel==='advanced'&&!(chapter.specialty===selectedSpecialty||(!chapter.specialty&&(spec?.core||[]).includes(chapter.id))))continue;
+    const count=total(chapter.id,selectedLevel);if(!count)continue;
+    list.append(row(learningLabel(chapter.ro,chapter.en),count+learningLabel(' lecții',' lessons'),()=>{
+     selectedTopic=chapter.id;searchValue='';stage='lessons';render();
+    }));
+   }
+   body.append(list);
+  }else if(stage==='lessons'){
+   note.textContent=learningLabel(topic()?.ro||'',topic()?.en||'')+' · '+catalog().length+learningLabel(' lecții',' lessons');
+   const field=document.createElement('input');field.type='search';field.autocomplete='off';
+   field.placeholder=learningLabel('Caută de la prima literă…','Search from the first letter…');
+   field.setAttribute('aria-label',learningLabel('Caută lecție','Find lesson'));field.value=searchValue;
+   const search=document.createElement('div');search.className='education-theory-search';search.append(field);
+   const list=document.createElement('div');list.className='chemistry-curriculum-list';
+   field.addEventListener('input',()=>{searchValue=field.value;renderMatches(list)});
+   body.append(search,list);renderMatches(list);
+  }else if(stage==='detail'&&selectedLesson){
+   note.textContent=learningLabel(topic()?.ro||'',topic()?.en||'');
+   const panel=document.createElement('section');panel.className='chemistry-curriculum-detail';
+   const h=document.createElement('h3');h.textContent=selectedLesson.title;
+   const p=document.createElement('p');p.textContent=selectedLesson.statement;
+   const formula=document.createElement('div');formula.className='education-theory-formula';
+   formula.textContent=selectedLesson.formula==='—'?'':selectedLesson.formula;
+   panel.append(h,p);if(formula.textContent)panel.append(formula);body.append(panel);
+  }
+ }
+ dialog.append(header,note,body);document.body.append(dialog);render();
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+
 // Dedicated science workspace: a bounded editor replaces the generic chat pane.
 // Chemistry has its own formula tools; the other sciences share the same layout.
 function scienceDraftKey(){
@@ -7862,6 +7993,93 @@ function scienceInsertSymbol(editor,symbol){
  // Do not programmatically focus the text field: tapping a symbol must not summon the Android keyboard.
  editor.setSelectionRange(a+symbol.length,a+symbol.length);
  editor.dispatchEvent(new Event('input',{bubbles:true}));
+}
+function scienceBiologyDiagramOpen(){
+ document.getElementById('biologyDiagramDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='biologyDiagramDialog';
+ dialog.className='education-theory-dialog science-result-dialog biology-diagram-dialog';
+ const heading=document.createElement('h2');heading.textContent=learningLabel('Biologie · reprezentare','Biology · illustration');
+ const close=document.createElement('button');close.type='button';close.className='secondary-btn';
+ close.textContent=learningLabel('← Revenire','← Back');close.onclick=()=>dialog.close();
+ const header=document.createElement('div');header.className='education-theory-head';header.append(heading,close);
+ const choose=document.createElement('select');choose.setAttribute('aria-label',learningLabel('Tipul reprezentării','Illustration type'));
+ for(const [value,ro,en] of [['cell','Celulă eucariotă 2D','Eukaryotic cell 2D'],['dna','ADN dublu helix 3D','DNA double helix 3D']]){
+  const option=document.createElement('option');option.value=value;option.textContent=learningLabel(ro,en);choose.append(option);
+ }
+ const frame=document.createElement('div');frame.className='chemistry-molecule-frame biology-diagram-frame';
+ const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
+ svg.setAttribute('viewBox','0 0 360 260');svg.setAttribute('role','img');
+ frame.append(svg);
+ const control=document.createElement('div');control.className='chemistry-molecule-controls';
+ let yaw=.55,zoom=1,drag=null;
+ const line=(a,b,c,d,color,width=3)=>{
+  const el=document.createElementNS(ns,'line');
+  for(const [k,v] of Object.entries({x1:a,y1:b,x2:c,y2:d,stroke:color,'stroke-width':width,'stroke-linecap':'round'}))el.setAttribute(k,v);
+  svg.append(el);
+ };
+ const ellipse=(cx,cy,rx,ry,fill,stroke='#84b9c5')=>{
+  const el=document.createElementNS(ns,'ellipse');
+  for(const [k,v] of Object.entries({cx,cy,rx,ry,fill,stroke,'stroke-width':2}))el.setAttribute(k,v);
+  svg.append(el);
+ };
+ const label=(x,y,value,color='#f2ffff')=>{
+  const el=document.createElementNS(ns,'text');
+  for(const [k,v] of Object.entries({x,y,fill:color,'font-size':13,'font-weight':600}))el.setAttribute(k,v);
+  el.textContent=value;svg.append(el);
+ };
+ function draw(){
+  svg.replaceChildren();
+  if(choose.value==='cell'){
+   svg.setAttribute('aria-label',learningLabel('Celulă eucariotă: membrană, nucleu, mitocondrie','Eukaryotic cell: membrane, nucleus, mitochondrion'));
+   ellipse(180,130,150,102,'#15455a','#7cb4c9');
+   ellipse(157,126,52,44,'#4d4a8f','#c3afe2');
+   ellipse(164,129,16,13,'#8d68b3','#e1c7ff');
+   ellipse(261,96,33,17,'#be7748','#fbb476');
+   ellipse(256,171,32,17,'#be7748','#fbb476');
+   for(const [x,y] of [[249,95],[244,169]])for(let i=0;i<3;i++)line(x-9+i*7,y-6,x-12+i*7,y+6,'#f6dd9c',2);
+   label(118,36,learningLabel('Membrană','Membrane'));
+   line(168,40,170,32,'#e2f5fa');
+   label(115,130,learningLabel('Nucleu','Nucleus'));
+   label(215,220,learningLabel('Mitocondrie','Mitochondrion'));
+   line(260,200,260,188,'#e2f5fa');
+  }else{
+   svg.setAttribute('aria-label',learningLabel('ADN idealizat: două catene antiparalele și perechi de baze','Idealized DNA: antiparallel strands and base pairs'));
+   const pairs=['A–T','C–G','G–C','T–A','A–T','G–C','C–G','T–A','A–T','C–G','G–C'];
+   const coords=[];
+   for(let i=0;i<pairs.length;i++){
+    const theta=i*.66+yaw,y=28+i*20;
+    const r=57*zoom;
+    coords.push([{x:180+Math.cos(theta)*r,y,z:Math.sin(theta)},{x:180-Math.cos(theta)*r,y,z:-Math.sin(theta)}]);
+   }
+   for(let i=0;i<coords.length;i++){
+    const [a,b]=coords[i];line(a.x,a.y,b.x,b.y,i%2?'#e9d576':'#abceea',3);
+    if(i>0){const [lastA,lastB]=coords[i-1];
+      line(lastA.x,lastA.y,a.x,a.y,'#6ea7ff',5);
+      line(lastB.x,lastB.y,b.x,b.y,'#e67ba1',5);
+    }
+   }
+   label(12,18,learningLabel('ADN · model 3D','DNA · 3D model'));
+  }
+ }
+ choose.addEventListener('change',draw);
+ for(const [name,char,action] of [
+  ['rot-left','↶',()=>yaw-=.25],['rot-right','↷',()=>yaw+=.25],
+  ['zoom-out','−',()=>zoom=Math.max(.7,zoom-.1)],['zoom-in','+',()=>zoom=Math.min(1.5,zoom+.1)]
+ ]){const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=char;
+  b.setAttribute('aria-label',name);b.onclick=()=>{action();draw()};control.append(b)}
+ frame.addEventListener('pointerdown',event=>{drag={id:event.pointerId,x:event.clientX};frame.setPointerCapture?.(event.pointerId)});
+ frame.addEventListener('pointermove',event=>{if(!drag||drag.id!==event.pointerId||choose.value!=='dna')return;
+  yaw+=(event.clientX-drag.x)*.012;drag={id:event.pointerId,x:event.clientX};draw();
+ });
+ frame.addEventListener('pointerup',()=>drag=null);frame.addEventListener('pointercancel',()=>drag=null);
+ const note=document.createElement('small');
+ note.textContent=learningLabel(
+  'Scheme didactice simplificate; nu reprezintă o imagine microscopică reală sau un model molecular experimental.',
+  'Simplified educational diagrams, not real microscopy or experimental molecular structures.');
+ dialog.append(header,choose,frame,control,note);
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);draw();
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
 function scienceChemMoleculeOpen(){
  document.getElementById('scienceMoleculeDialog')?.remove();
@@ -7960,7 +8178,8 @@ async function scienceWorkspaceRun(mode){
    'Explain and solve step by step, checking formulas, units and assumptions. Do not fabricate data. In chemistry, conserve atoms and charge, and do not invent lab conditions.'):
   learningLabel('Prezintă metoda generală, definițiile și regulile necesare, fără să inventezi măsurători.',
    'Teach the general method, definitions and necessary rules; do not invent measured values.');
- const specialty=CHEMISTRY_SPECIALTY_DATA.find(x=>x.id===scienceJourney.specialty);
+ const activeTracks=scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
+ const specialty=activeTracks.find(x=>x.id===scienceJourney.specialty);
  const specialtyContext=specialty?learningLabel('; Specializare: ','; Specialization: ')+learningLabel(specialty.ro,specialty.en):'';
  if(scienceJourney.subject==='chemistry'){
   const locallyChecked=CHEMISTRY_SOLVE_VERIFIED(source,mode);
@@ -7974,10 +8193,22 @@ async function scienceWorkspaceRun(mode){
    scienceStatus(learningLabel('Verifică valorile și unitățile introduse.','Review the provided values and units.'));return;
   }
  }
+ if(scienceJourney.subject==='biology'){
+  const locallyChecked=BIOLOGY_SOLVE_VERIFIED(source,mode);
+  if(locallyChecked?.verified){
+   scienceLastReply=locallyChecked.body;
+   scienceStatus(learningLabel('Model biologic calculat și verificat local.','Biology model locally calculated and checked.'));
+   scienceShowResult(learningLabel('Biologie · rezultat verificat','Biology · verified result'),locallyChecked.body);
+   return;
+  }
+ }
+ const biologicalNotes=scienceJourney.subject==='biology'?learningLabel(
+  ' Folosește mecanisme biologice corecte și precizează limitele modelului, variabilitatea și ipotezele. Nu deduce diagnostice, tratamente sau protocoale de laborator dintr-un exemplu.',
+  ' Use correct biological mechanisms, with model limits, variability and assumptions. Do not derive diagnoses, treatments or laboratory protocols from a classroom example.') :'';
  const message=learningLabel('Materie: ','Subject: ')+selectedSubject+
   learningLabel('; Nivel: ','; Level: ')+selectedLevel+specialtyContext+
   learningLabel('; Capitol: ','; Chapter: ')+selectedChapter+'. '+
-  instruction+String.fromCharCode(10)+source;
+  instruction+biologicalNotes+String.fromCharCode(10)+source;
  const currentStage=scienceJourney.stage,subjectId=scienceJourney.subject,topicId=scienceJourney.topic,specialtyId=scienceJourney.specialty;
  const controller=new AbortController();scienceRequestController=controller;
  scienceStatus(learningLabel('Se pregătește explicația…','Preparing explanation…'));
@@ -8020,8 +8251,12 @@ function sciencePhotoReview(text){
  head.append(title,close);
  const note=document.createElement('p');
  note.textContent=learningLabel(
-  'Text OCR neconfirmat. Verifică fiecare coeficient, simbol, indice și sarcină chimică înainte de folosire.',
-  'Unverified OCR text. Check each coefficient, symbol, subscript and ionic charge before use.');
+  scienceJourney.subject==='biology'?
+   'Text OCR neconfirmat. Verifică secvențele ADN, procentele, numerele și termenii biologici înainte de folosire.':
+   'Text OCR neconfirmat. Verifică fiecare coeficient, simbol, indice și sarcină chimică înainte de folosire.',
+  scienceJourney.subject==='biology'?
+   'Unverified OCR: check DNA sequences, percentages, numbers and biological terms before using.':
+   'Unverified OCR text. Check each coefficient, symbol, subscript and ionic charge before use.');
  const field=document.createElement('textarea');field.className='science-photo-editor';
  field.value=String(text||'').slice(0,3500);
  field.placeholder=learningLabel('Scrie aici dacă imaginea nu a fost citită.','Type here if the image could not be read.');
@@ -8071,6 +8306,14 @@ function scienceOpenWorkspace(){
    chemistryCurriculumPreset={level:scienceJourney.level,topic:scienceJourney.topic};
    chemistryCurriculumPreset.specialty=scienceJourney.specialty;
    chemistryCurriculumOpen();
+  };
+  toolbar.append(theory);
+ }else if(scienceJourney.subject==='biology'){
+  const theory=document.createElement('button');theory.type='button';
+  theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
+  theory.onclick=()=>{
+   biologyCurriculumPreset={level:scienceJourney.level,topic:scienceJourney.topic,specialty:scienceJourney.specialty};
+   biologyCurriculumOpen();
   };
   toolbar.append(theory);
  }else if(scienceJourney.subject==='physics'){
@@ -8138,6 +8381,10 @@ function scienceOpenWorkspace(){
   const molecular=document.createElement('button');molecular.type='button';molecular.className='secondary-btn';
   molecular.textContent=learningLabel('🧬 Molecule 3D','🧬 3D Molecules');molecular.onclick=scienceChemMoleculeOpen;
   tools.append(toggle,molecular,tray);
+ }else if(scienceJourney.subject==='biology'){
+  const diagram=document.createElement('button');diagram.type='button';diagram.className='secondary-btn';
+  diagram.textContent=learningLabel('🧬 Celulă / ADN 3D','🧬 Cell / 3D DNA');diagram.onclick=scienceBiologyDiagramOpen;
+  tools.append(diagram);
  }
  workspace.append(heading,editor,status,actions,tools);
  host.append(toolbar,workspace);
