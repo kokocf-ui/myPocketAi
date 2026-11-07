@@ -7141,6 +7141,16 @@ function mathPhotoCandidates(source,alternative){
    out.push({label:prefix+letter+') '+expression,text:expression,letter,section,comparison,origin:fallback?'alternate':'primary'});
   };
   for(const line of lines){
+   // Vision OCR often returns a numbered section and the first subpoint on
+   // the same line ("1. a) ..." or "Ex. 1 · a) ..."). Preserve that first row.
+   const inlineHeading=line.match(/^(?:exerci[țt]iul|exerci[țt]iu|exercises?|ex\\.?)\\s*(\\d{1,3})\\s*[).:·—–-]?\\s*([a-z])[).:]\\s*(.+)$/iu)||
+    line.match(/^(\\d{1,3})[).:]\\s*([a-z])[).:]\\s*(.+)$/i);
+   if(inlineHeading){
+    section=inlineHeading[1];pending=null;
+    emit(inlineHeading[2].toLowerCase(),inlineHeading[3]);
+    if(out.length>=50)break;
+    continue;
+   }
    const heading=line.match(/^(?:exerci[țt]iul|exerci[țt]iu|exercises?|ex\\.?)\\s*(\\d{1,3})(?=\\s|[).:—–-]|$)/iu);
    if(heading){section=heading[1];pending=null;continue;}
    const subpoint=line.match(/^([a-z])\\s*[).:]\\s*(.*)$/i);
