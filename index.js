@@ -7708,6 +7708,89 @@ function mathQuadraticGraphData(source){
    learningLabel('Parabola nu intersectează axa Ox: nu există rădăcini reale.','The parabola does not intersect the x-axis: no real roots.')};
 }
 
+// Shared local algebra dispatch. Each handler must return null for unsupported
+// input. The registry is extensible, does not use eval and preserves older solvers.
+function mathLinearInequality(source){
+ const raw=String(source||'').trim().replaceAll('−','-').replaceAll('–','-')
+  .replaceAll('≤','<=').replaceAll('≥','>=').split(' ').join('');
+ if(raw.length>150||raw.includes('^')||raw.includes('²'))return null;
+ const matches=raw.match(/<=|>=|<|>/g);
+ if(!matches||matches.length!==1)return null;
+ const op=matches[0],parts=raw.split(op);
+ if(parts.length!==2||!parts[0]||!parts[1])return null;
+ const equation=mathLinearEquation(parts[0]+'='+parts[1]);
+ if(!equation)return null;
+ const {left,right,coefficient,constant,kind}=equation;
+ const signs={'>':'<','<':'>','>=':'<=','<=':'>='};
+ const invert=coefficient<0;
+ const solvedSign=invert?signs[op]:op;
+ const boundary=kind==='unique'?constant/coefficient:null;
+ if(kind==='unique'&&!Number.isFinite(boundary))return null;
+ const numeric=val=>op==='<'?val<0:op==='>'?val>0:op==='<='?val<=0:val>=0;
+ // If x cancels, decide the inequality using the original constant difference.
+ const universal=kind==='unique'?null:numeric(left.b-right.b);
+ const n=mathLinearNotation().number;
+ const comparison=kind==='unique'?'x '+solvedSign.replace('<=','≤').replace('>=','≥')+' '+n(boundary):
+   universal?learningLabel('Toate numerele reale','All real numbers'):
+   learningLabel('Mulțimea vidă','Empty set');
+ return {raw,op,left,right,coefficient,constant,kind,boundary,invert,
+  universal,comparison};
+}
+function mathLinearInequalitySolution(source){
+ const m=mathLinearInequality(source);if(!m)return null;
+ const n=mathLinearNotation().number;
+ const steps=[{
+  label:learningLabel('Aducem termenii cu x în același membru','Collect the x terms'),
+  reason:learningLabel('Scădem aceleași expresii din ambii membri, păstrând sensul inegalității.','Subtract the same expressions from both sides, preserving the inequality.'),
+  operation:n(m.coefficient)+'x '+m.op+' '+n(m.constant),
+  fullAfter:n(m.coefficient)+'x '+m.op+' '+n(m.constant),signRule:''
+ }];
+ if(m.kind==='unique')steps.push({
+  label:learningLabel('Împărțim la coeficientul lui x','Divide by the coefficient of x'),
+  reason:m.invert?learningLabel('Coeficientul este negativ: inversăm obligatoriu sensul inegalității.','The coefficient is negative, so reverse the inequality sign.'):
+   learningLabel('Coeficientul este pozitiv: păstrăm sensul inegalității.','The coefficient is positive, so preserve the inequality sign.'),
+  operation:m.comparison,fullAfter:m.comparison,signRule:''
+ });
+ else steps.push({
+  label:learningLabel('Analizăm inegalitatea numerică','Check the constant inequality'),
+  reason:learningLabel('Necunoscuta se elimină; verificăm dacă propoziția numerică este adevărată.','The variable cancels; evaluate the resulting numerical statement.'),
+  operation:n(m.left.b-m.right.b)+' '+m.op+' 0',fullAfter:m.comparison,signRule:''
+ });
+ return {intro:learningLabel('Rezolvăm inecuația de gradul I, cu atenție la sensul semnului.','Solve the linear inequality, checking sign reversals.'),
+  steps,conclusion:learningLabel('Mulțimea soluțiilor: ','Solution set: ')+m.comparison+'.'};
+}
+function mathLinearInequalityMethod(source){
+ if(!mathLinearInequality(source))return null;
+ return {heading:learningLabel('Metoda generală pentru inecuații liniare','General method for linear inequalities'),
+  intro:learningLabel('Transformăm inecuația fără să schimbăm mulțimea soluțiilor.','Use equivalent transformations without changing the solution set.'),
+  rules:[
+   {title:learningLabel('Desfacem parantezele','Expand brackets'),text:learningLabel('Distribuim factorii și păstrăm semnele.','Distribute factors and retain signs.')},
+   {title:learningLabel('Grupăm termenii','Collect terms'),text:learningLabel('Mutăm termenii cu x într-o parte și constantele în cealaltă.','Collect variables and constants on opposite sides.')},
+   {title:learningLabel('Verificăm semnul divizorului','Check the sign of the divisor'),text:learningLabel('La înmulțire sau împărțire cu număr negativ, inversăm sensul inegalității.','Multiplying or dividing by a negative number reverses the inequality.')},
+   {title:learningLabel('Scriem mulțimea soluțiilor','Write the solution set'),text:learningLabel('Folosim limite deschise pentru < și > și limite închise pentru ≤ și ≥.','Use open endpoints for strict inequalities and closed endpoints otherwise.')},
+   {title:learningLabel('Verificăm cu valori de control','Test representative values'),text:learningLabel('O valoare acceptată și una respinsă trebuie să respecte inecuația inițială.','Test an included and an excluded value in the original inequality.')}
+  ],tip:learningLabel('Dacă x se elimină, rezultatul poate fi întreaga mulțime reală sau mulțimea vidă.','If x cancels, the solution set may be all real numbers or empty.')};
+}
+// Registry provides a single, auditable entry point for supported local algebra.
+// Unsupported classes remain explicit rather than receiving an invented proof.
+function mathAlgebraEngines(){
+ return [
+  {id:'linear-inequality',solve:mathLinearInequalitySolution,explain:mathLinearInequalityMethod,graph:()=>null},
+  {id:'linear-equation',solve:mathLinearSolution,explain:mathLinearMethodGuide,graph:mathLinearGraphData},
+  {id:'quadratic-equation',solve:mathQuadraticSolution,explain:mathQuadraticMethodGuide,graph:mathQuadraticGraphData},
+  {id:'arithmetic',solve:mathDetailedArithmetic,explain:mathMethodGuide,graph:()=>null}
+ ];
+}
+function mathAlgebraLocal(mode,source){
+ for(const engine of mathAlgebraEngines()){
+  const handler=engine[mode];
+  if(typeof handler!=='function')continue;
+  const value=handler(source);
+  if(value)return {engine:engine.id,value};
+ }
+ return null;
+}
+
 // Plot the difference (left side minus right side) to show where an equation
 // holds. This is the graph of an ASSOCIATED FUNCTION, not the equation itself.
 function mathLinearGraphData(source){
@@ -7839,7 +7922,7 @@ function mathResultPage(index){
   check.textContent=mathEqualityExplanation(verifiedEquality);
   body.append(check);
  }
- const equationGraph=session.mode==='graph'?(mathQuadraticGraphData(item.text)||mathLinearGraphData(item.text)):null;
+ const equationGraph=session.mode==='graph'?mathAlgebraLocal('graph',item.text)?.value:null;
  const graph=mathGraphFigure(item.text)||
   (equationGraph?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null)||mathGeometryFigure(item.text);
  if(graph&&session.mode==='graph')body.append(graph);
@@ -7943,7 +8026,7 @@ async function mathFetchResult(item,session){
   return;
  }
  if(session.mode==='graph'){
-  const associated=mathQuadraticGraphData(item.text)||mathLinearGraphData(item.text);
+  const associated=mathAlgebraLocal('graph',item.text)?.value;
   if(associated){
    if(mathResultSession!==session)return;
    item.graphLesson=associated;
@@ -7954,7 +8037,7 @@ async function mathFetchResult(item,session){
  }
  // Never ask a generative model to draw a graph that the actual renderer
  // cannot provide: this produced answers about unrelated numeric exercises.
- if(session.mode==='graph'&&!mathGeometryFigure(item.text)&&!mathQuadraticGraphData(item.text)&&!mathLinearGraphData(item.text)){
+ if(session.mode==='graph'&&!mathGeometryFigure(item.text)&&!mathAlgebraLocal('graph',item.text)){
   if(mathResultSession!==session)return;
   item.reply=learningLabel('Nu există încă un grafic verificat pentru acest enunț. Nu voi inventa unul. Pentru un calcul, apasă „Rezolvă pas cu pas”; pentru un grafic de funcție, introdu de exemplu f(x) = 2x - 3.',
    'There is no verified graph for this exercise yet. I will not invent one. Use Solve step by step for arithmetic, or enter a function such as f(x) = 2x - 3.');
@@ -7963,7 +8046,7 @@ async function mathFetchResult(item,session){
   return;
  }
  if(session.mode==='explain'){
-  const method=item.methodGuide||mathQuadraticMethodGuide(item.text)||mathMethodGuide(item.text);
+  const method=item.methodGuide||mathAlgebraLocal('explain',item.text)?.value;
   if(method){
    if(mathResultSession!==session)return;
    item.methodGuide=method;
@@ -7973,7 +8056,7 @@ async function mathFetchResult(item,session){
   }
  }
  if(session.mode==='solve'){
-  const steps=item.detailed||mathQuadraticSolution(item.text)||mathDetailedArithmetic(item.text);
+  const steps=item.detailed||mathAlgebraLocal('solve',item.text)?.value;
   if(steps){
    if(mathResultSession!==session)return;
    item.detailed=steps;
@@ -8032,8 +8115,8 @@ function mathEducationRun(mode){
  }
  const tasks=mathSplitExercises(source).map(text=>({text,reply:'',error:null,
   functionLesson:mathFunctionLesson(text,mode),
-  detailed:mode==='solve'?(mathLinearSolution(text)||mathQuadraticSolution(text)||mathDetailedArithmetic(text)):null,
-  methodGuide:mode==='explain'?(mathLinearMethodGuide(text)||mathQuadraticMethodGuide(text)||mathMethodGuide(text)):null}));
+  detailed:mode==='solve'?mathAlgebraLocal('solve',text)?.value:null,
+  methodGuide:mode==='explain'?mathAlgebraLocal('explain',text)?.value:null}));
  if(!tasks.length){status.textContent=learningLabel('Nu există un exercițiu de rezolvat.','No exercise to solve.');return}
  mathCloseResults();
  const session={mode,tasks,active:0,controller:new AbortController()};
