@@ -221,7 +221,7 @@ assert.ok(embedded.includes('item.methodGuide'),'method has its own visible rend
 assert.ok(embedded.includes("mode==='explain'?learningLabel('Matematică · Metodă'"),'method dialog has a distinct title');
 assert.ok(embedded.includes('Predă numai METODA GENERALĂ'),'fallback AI prompt requests general teaching');
 assert.ok(embedded.includes('functionLesson:null,detailed:null,methodGuide:null,started:false'),'math preparation is deferred per selected task');
-assert.ok(embedded.includes("mode==='explain'?mathAlgebraLocal('explain',item.text)?.value"),'math method engines are still used on demand');
+assert.ok(embedded.includes("mathAlgebraLocal('explain',item.text)?.value"),'math method engines are still used on demand');
 
 // A learner must never lose the typed/dictated exercise when choosing one
 // of the three actions, navigating between modules, or reopening the WebView.
