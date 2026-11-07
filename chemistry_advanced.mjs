@@ -19,9 +19,9 @@ const CHAPTERS = [
  ['Principiul de incertitudine','Dispersionarea poziției și impulsului pe aceeași direcție are o limită inferioară.','Δx·Δp≥ℏ/2']
  ]},
  {id:'gen_thermo',specialty:'general',ro:'Termodinamică chimică avansată',en:'Advanced chemical thermodynamics',lessons:[
- ['Energia liberă Gibbs','La temperatură și presiune constante, ΔG negativ indică direcția spontană în condițiile considerate.','ΔG=ΔH−TΔS'],
+ ['Energia liberă Gibbs în procese spontane','La temperatură și presiune constante, ΔG negativ indică direcția spontană în condițiile considerate.','ΔG=ΔH−TΔS'],
  ['Legătura Gibbs și echilibru','La echilibru, energia standard Gibbs este legată de constanta de echilibru K pentru aceeași temperatură.','ΔG°=−RT ln K'],
- ['Potențialul chimic','Potențialul chimic al unei specii depinde de activitatea sa, nu doar de concentrația brută.','μ=μ°+RT ln a']
+ ['Potențialul chimic și activitatea','Potențialul chimic al unei specii depinde de activitatea sa, nu doar de concentrația brută.','μ=μ°+RT ln a']
  ]},
  {id:'gen_kinetics',specialty:'general',ro:'Cinetică și mecanisme',en:'Kinetics and mechanisms',lessons:[
  ['Legea Arrhenius','Pentru un comportament Arrhenius pe un interval de temperatură, constanta vitezei depinde exponențial de 1/T.','k=A·exp(−Ea/RT)'],
@@ -134,7 +134,7 @@ const CHAPTERS = [
  ['Interpretarea riscului','Riscul nu se deduce din simpla prezență a unui contaminant; contează concentrația și expunerea.','risc ≠ identificare pericol']
  ]},
  {id:'comp_quantum',specialty:'computational',ro:'Metode de structură electronică',en:'Electronic structure methods',lessons:[
- ['Ecuația Schrödinger independentă de timp','Operatorul Hamiltonian acționând asupra unei stări staționare dă energia acelei stări.','Ĥψ=Eψ'],
+ ['Ecuația Schrödinger pentru stări staționare','Operatorul Hamiltonian acționând asupra unei stări staționare dă energia acelei stări.','Ĥψ=Eψ'],
  ['Aproximația Born–Oppenheimer','Mișcarea electronică se poate aproxima separat de cea nucleară, datorită diferenței de masă.','E≈E_electronic(R)+E_nuclear(R)'],
  ['Teoria funcționalei densității','DFT folosește densitatea electronică drept variabilă centrală pentru energia stării fundamentale.','E=E[ρ]']
  ]},
