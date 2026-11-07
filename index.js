@@ -8283,7 +8283,7 @@ function mathSymbolicPoly(source){
  let text=String(source||'').trim().replace(/[−–]/g,'-').replace(/²/g,'^2').replace(/³/g,'^3').replace(/×/g,'*');
  text=text.replace(/^(?:simplific[ăa]|dezvolt[ăa]|expand|simplify)\\s*:?\\s*/i,'');
  text=text.replace(/\\s+/g,'');
- if(!text||text.length>160||!/^[0-9x+*()^\\-.]+$/i.test(text)||text.includes('='))return null;
+ if(!text||!text.includes('x')||text.length>160||!/^[0-9x+*()^\\-.]+$/i.test(text)||text.includes('='))return null;
  const tokens=text.match(/(?:\\d+(?:\\.\\d+)?|x|[+*()^\\-])/gi);
  if(!tokens||tokens.join('').toLowerCase()!==text.toLowerCase()||tokens.length>120)return null;
  let at=0;
