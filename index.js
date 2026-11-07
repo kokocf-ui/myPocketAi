@@ -1556,6 +1556,120 @@ body.long-choice-active{overflow:hidden}
 .education-theory-open{flex-shrink:0}
 
 /* Chemistry preview: fixed dialog chrome with a single independently scrolling chapter/lesson list. */
+/* Sciences: subjects first, level second, chapter third, own workspace last.
+   Fixed single-screen chrome; only active chapter/editor scrolls. */
+main.page:has(#view-module.learning-science.active){
+ height:var(--science-content-height,auto)!important;
+ max-height:var(--science-content-height,none)!important;
+ min-height:0!important;overflow:hidden!important;
+ padding-bottom:0!important;overscroll-behavior:contain!important
+}
+#view-module.learning-science.active{
+ display:grid!important;grid-template-rows:auto minmax(0,1fr)!important;
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ overflow:hidden!important;padding-bottom:0!important;gap:8px!important
+}
+#view-module.learning-science #moduleContent{
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ display:flex!important;flex-direction:column!important;
+ gap:8px!important;overflow:hidden!important;padding:0!important
+}
+#view-module.learning-science #moduleChatHost{
+ display:none!important;max-height:0!important;min-height:0!important;overflow:hidden!important
+}
+#view-module.learning-science .science-stage-toolbar{flex:0 0 auto!important}
+#view-module.learning-science .science-stage-back{min-height:46px!important;min-width:120px}
+#view-module.learning-science .science-choice-panel{
+ flex:1 1 auto!important;min-height:0!important;overflow:hidden!important;margin:0!important
+}
+#view-module.learning-science .science-choice-list{
+ display:flex!important;flex-direction:column!important;gap:8px!important;
+ flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;
+ overscroll-behavior:contain!important;scroll-padding-bottom:10px!important
+}
+#view-module.learning-science .science-choice-row{
+ min-height:59px!important;flex:0 0 auto!important;width:100%!important
+}
+#view-module.learning-science .science-work-toolbar{
+ flex:0 0 auto!important;display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important;
+ margin:0!important;align-items:stretch!important
+}
+#view-module.learning-science .science-work-toolbar>button{
+ width:100%!important;min-width:0!important;max-width:none!important;
+ min-height:43px!important;margin:0!important;padding:6px 7px!important;
+ font-size:clamp(12px,3.3vw,16px)!important
+}
+#view-module.learning-science #scienceEducationWorkspace{
+ flex:1 1 auto!important;max-height:100%!important;min-height:0!important;
+ margin:0!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+ padding:clamp(8px,1.5dvh,14px)!important
+}
+#view-module.learning-science #scienceEducationText{
+ width:100%!important;min-height:125px!important;
+ height:clamp(140px,24dvh,245px)!important;max-height:35dvh!important;
+ resize:none!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+ line-height:1.4!important;scroll-padding-block:1lh!important;
+ flex:0 0 auto!important
+}
+#view-module.learning-science .science-education-actions{flex:0 0 auto!important}
+#view-module.learning-science .science-work-tools{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:7px;min-width:0;flex:0 0 auto
+}
+#view-module.learning-science .science-work-tools>button{
+ min-width:0!important;min-height:43px!important;font-size:clamp(12px,3.4vw,16px)!important
+}
+#view-module.learning-science .science-symbol-tray[hidden]{display:none!important}
+#view-module.learning-science .science-symbol-tray{
+ grid-column:1/-1;display:flex;flex-wrap:wrap;gap:5px;
+ max-height:90px;overflow-y:auto;overscroll-behavior:contain
+}
+#view-module.learning-science .science-symbol-tray button{
+ min-height:40px!important;min-width:41px!important;padding:5px!important
+}
+main.page.science-keyboard-visible:has(#view-module.learning-science.active){
+ overflow-y:auto!important;max-height:var(--science-content-height,none)!important;
+ padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))!important
+}
+main.page.science-keyboard-visible #view-module.learning-science.active{
+ height:auto!important;max-height:none!important;overflow:visible!important
+}
+main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
+ height:auto!important;max-height:none!important;overflow:visible!important
+}
+.science-result-dialog[open]{
+ box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+ width:min(96vw,670px)!important;max-width:96vw!important;
+ height:min(85dvh,750px)!important;max-height:85dvh!important;overflow:hidden!important
+}
+.science-result-dialog .education-theory-head{flex:0 0 auto!important}
+.science-result-text{white-space:pre-wrap;overflow-y:auto;overscroll-behavior:contain;
+ line-height:1.5;flex:1 1 auto;min-height:0;padding:10px 4px;overflow-wrap:anywhere}
+.science-photo-editor{
+ width:100%;box-sizing:border-box;min-height:120px;max-height:40dvh;
+ background:#071c2b;color:#f4faff;border:1px solid #548199;border-radius:10px;
+ padding:10px;font:inherit;overflow-y:auto;resize:vertical
+}
+/* Mathematics: keep Theory on the same navigation row, not as an orphan button. */
+#view-module.learning-active.learning-math .education-toolbar.math-navigation{
+ grid-template-columns:minmax(72px,.85fr) minmax(0,2fr) minmax(78px,.85fr)!important;
+ gap:clamp(5px,1.5vw,8px)!important
+}
+#view-module.learning-active.learning-math .education-toolbar.math-navigation>.education-theory-open{
+ width:100%!important;min-width:0!important;max-width:none!important;
+ height:100%!important;min-height:43px!important;margin:0!important;
+ padding:6px 4px!important;font-size:clamp(12px,3.15vw,16px)!important;
+ white-space:normal!important
+}
+#view-module.learning-active.learning-math .math-voice-controls{gap:5px!important}
+@media(max-width:370px){
+ #view-module.learning-active.learning-math .education-toolbar.math-navigation{
+  grid-template-columns:minmax(68px,.8fr) minmax(0,2.2fr) minmax(72px,.8fr)!important
+ }
+ .science-work-toolbar{gap:5px!important}
+}
+
 .chemistry-curriculum-dialog[open]{
  display:flex!important;flex-direction:column!important;gap:10px;
  box-sizing:border-box!important;width:min(96vw,670px)!important;
