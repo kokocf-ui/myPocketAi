@@ -7801,7 +7801,7 @@ function scienceRead(){
 function scienceInsertSymbol(editor,symbol){
  const a=editor.selectionStart??editor.value.length,b=editor.selectionEnd??a;
  editor.value=editor.value.slice(0,a)+symbol+editor.value.slice(b);
- editor.focus({preventScroll:true});
+ // Do not programmatically focus the text field: tapping a symbol must not summon the Android keyboard.
  editor.setSelectionRange(a+symbol.length,a+symbol.length);
  editor.dispatchEvent(new Event('input',{bubbles:true}));
 }
