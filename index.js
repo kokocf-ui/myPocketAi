@@ -9850,8 +9850,67 @@ function mathGraphVerifiedAnswers(source,figure){
    const a=measure('lungime'),d=measure('latime');
    put('A',a*d,sq);put('P',2*(a+d),unit);return lines;
   }
+  if(figure.id==='circle'||figure.id==='semicircle'){
+   const r=measure('raza')??(measure('diametru')!==null?measure('diametru')/2:null);
+   if(r!==null){
+    put('A',Math.PI*r*r*(figure.id==='semicircle'?.5:1),sq);
+    put('P',figure.id==='semicircle'?Math.PI*r+2*r:2*Math.PI*r,unit);
+   }
+   return lines;
+  }
+  if(figure.id==='equilateral'&&measure('latura')!==null){
+   const a=measure('latura');put('A',a*a*Math.sqrt(3)/4,sq);put('P',3*a,unit);return lines;
+  }
+  if(figure.id==='isosceles'&&measure('baza')!==null&&measure('latura')!==null){
+   const base=measure('baza'),side=measure('latura');
+   if(side>base/2){put('A',base*Math.sqrt(side*side-base*base/4)/2,sq);put('P',base+2*side,unit)}
+   return lines;
+  }
+  if(figure.id==='right'){
+   const a=measure('a'),b=measure('b'),c=measure('c');
+   if(a!==null&&b!==null){
+    const hypo=Math.hypot(a,b);if(c!==null&&Math.abs(c-hypo)>1e-7)return [];
+    put('c',hypo,unit);put('A',a*b/2,sq);put('P',a+b+hypo,unit);
+   }else if(a!==null&&c!==null&&c>a){
+    const leg=Math.sqrt((c-a)*(c+a));put('b',leg,unit);put('A',a*leg/2,sq);put('P',a+leg+c,unit);
+   }
+   return lines;
+  }
+  if(figure.id==='parallelogram'){
+   const base=measure('baza'),height=measure('inaltime'),side=measure('latura');
+   if(base!==null&&height!==null)put('A',base*height,sq);
+   if(base!==null&&side!==null)put('P',2*(base+side),unit);
+   return lines;
+  }
+  if(figure.id==='trapezoid'){
+   const a=measure('bazaMare'),d=measure('bazaMica'),h=measure('inaltime');
+   if(a!==null&&d!==null&&h!==null&&a>=d)put('A',(a+d)*h/2,sq);
+   return lines;
+  }
+  if(figure.id==='rhombus'){
+   const d1=measure('diagonala1'),d2=measure('diagonala2'),a=measure('latura');
+   if(d1!==null&&d2!==null)put('A',d1*d2/2,sq);
+   if(a!==null)put('P',4*a,unit);
+   return lines;
+  }
+  if(['pentagon','hexagon'].includes(figure.id)&&measure('latura')!==null){
+   const a=measure('latura'),n=figure.id==='pentagon'?5:6;
+   put('A',n*a*a/(4*Math.tan(Math.PI/n)),sq);put('P',n*a,unit);return lines;
+  }
   if(figure.id==='cube'&&measure('latura')!==null){
    const a=measure('latura');put('V',a*a*a,cub);put('A',6*a*a,sq);return lines;
+  }
+  if(figure.id==='cuboid'&&['lungime','latime','inaltime'].every(k=>measure(k)!==null)){
+   const a=measure('lungime'),b=measure('latime'),h=measure('inaltime');
+   put('V',a*b*h,cub);put('A',2*(a*b+a*h+b*h),sq);return lines;
+  }
+  if(figure.id==='cylinder'&&measure('raza')!==null&&measure('inaltime')!==null){
+   const r=measure('raza'),h=measure('inaltime');
+   put('V',Math.PI*r*r*h,cub);put('A',2*Math.PI*r*(r+h),sq);return lines;
+  }
+  if(figure.id==='cone'&&measure('raza')!==null&&measure('inaltime')!==null){
+   const r=measure('raza'),h=measure('inaltime');
+   put('V',Math.PI*r*r*h/3,cub);put('A',Math.PI*r*(r+Math.hypot(r,h)),sq);return lines;
   }
   if(figure.id==='sphere'&&measure('raza')!==null){
    const r=measure('raza');put('V',4*Math.PI*r*r*r/3,cub);put('A',4*Math.PI*r*r,sq);return lines;
