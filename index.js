@@ -8369,6 +8369,13 @@ function canonicalAddressCityQuery(countryCode,input){
  }
  return query;
 }
+// Preserve canonical provider geography but show localized city names.
+function localizedAddressCandidateLabel(stage,point,language,countryCode){
+ const label=String(point?.label||point?.city||'');
+ if(stage!=='city'||language!=='ro'||String(countryCode||'').toUpperCase()!=='GB')return label;
+ if(String(point?.city||'').normalize('NFD').toLowerCase()!=='london')return label;
+ return label.replace(/\bLondon\b/gi,'Londra');
+}
 function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',countryCode='',prefillCity='',prefillCityPoint=null,cityOnly=false}){
  const ro=state.language==='ro';
  const t=(a,b)=>dialogText(a,b);
@@ -8466,7 +8473,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
    status.textContent='';
    approximateButton.hidden=true;
    selected[stage]=point;
-   fields[stage].input.value=stage==='number'?(point.houseNumber||point.label):stage==='street'?(point.street||point.label):point.label;
+   fields[stage].input.value=stage==='number'?(point.houseNumber||point.label):stage==='street'?(point.street||point.label):stage==='city'?localizedAddressCandidateLabel(stage,point,state.language,selected.country?.code):point.label;
    fields[stage].list.replaceChildren();
    clearAfter(stage);
    if(stage==='city'){
@@ -8505,13 +8512,13 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     list.replaceChildren(...countries.map(code=>({code,label:display.of(code)}))
      .filter(point=>normalize(point.label).includes(q)||point.code.toLowerCase()===q)
      .sort((a,b)=>a.label.localeCompare(b.label,state.language))
-     .map((point,i)=>card((i+1)+'. '+point.label,()=>choose(stage,point))));
+     .map((point,i)=>card((i+1)+'. '+localizedAddressCandidateLabel(stage,point,state.language,selected.country?.code),()=>choose(stage,point))));
     return;
    }
    if(!query&&stage==='city'){list.replaceChildren();return;}
    if(stage==='city'||stage==='street'||stage==='number'){
     const cached=matchCached(stage,query);
-    if(cached.length)list.replaceChildren(...cached.map((point,i)=>card((i+1)+'. '+point.label,()=>choose(stage,point))));
+    if(cached.length)list.replaceChildren(...cached.map((point,i)=>card((i+1)+'. '+localizedAddressCandidateLabel(stage,point,state.language,selected.country?.code),()=>choose(stage,point))));
     else list.textContent=t('Se caută…','Searching…');
    }else list.textContent=t('Se caută…','Searching…');
    try{
@@ -8550,7 +8557,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
      if(withoutStreet){list.replaceChildren();status.textContent=t('Nu există sugestii pentru stradă. Poți introduce un număr rural fără stradă sau poți confirma localitatea.','No street suggestions. You can search for a rural house number without a street or confirm the town.');return;}
     }
     candidates.sort((a,b)=>(a.matchRank??1)-(b.matchRank??1)||a.label.localeCompare(b.label,state.language,{numeric:true}));
-    list.replaceChildren(...candidates.map((point,i)=>card((i+1)+'. '+point.label,()=>choose(stage,point))));
+    list.replaceChildren(...candidates.map((point,i)=>card((i+1)+'. '+localizedAddressCandidateLabel(stage,point,state.language,selected.country?.code),()=>choose(stage,point))));
     if(attribution&&candidates.length){const credit=document.createElement('small');credit.textContent=attribution;list.append(credit);}
     if(!candidates.length){
      list.textContent=t('Nu am găsit rezultate verificate.','No verified matches.');
@@ -8588,7 +8595,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     if(input.value.trim().length>=1){
      if(stage==='city'||stage==='street'||stage==='number'){
       const cached=matchCached(stage,input.value.trim());
-      if(cached.length)list.replaceChildren(...cached.map((point,i)=>card((i+1)+'. '+point.label,()=>choose(stage,point))));
+      if(cached.length)list.replaceChildren(...cached.map((point,i)=>card((i+1)+'. '+localizedAddressCandidateLabel(stage,point,state.language,selected.country?.code),()=>choose(stage,point))));
      }
      timer=setTimeout(()=>{if(input.isConnected)lookup(stage);},stage==='street'?140:200);
     }
