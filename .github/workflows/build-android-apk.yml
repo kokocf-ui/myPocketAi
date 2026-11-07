@@ -1,19 +1,5 @@
 name: Build myPocket AI Android APK
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'android/**'
-      - 'index.js'
-      - 'scripts/patch-avatar-lipsync.mjs'
-      - 'tests_avatar_lipsync_stop.mjs'
-      - 'tests_education_android.mjs'
-      - 'tests_math_linear_equations.mjs'
-      - 'tests_math_linear_graph_proof.mjs'
-      - 'tests_math_linear_verification.mjs'
-      - 'tests_shopping_workspace.mjs'
-      - 'tests_agenda_android_reminders.mjs'
-      - '.github/workflows/build-android-apk.yml'
   workflow_dispatch:
 permissions:
   contents: read
