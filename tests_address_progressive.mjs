@@ -66,6 +66,6 @@ assert.equal(displayCity('city',{city:'London',label:'London, Ontario, Canada'},
 assert.equal(displayCity('street',{city:'London',street:'London Road',label:'London Road, London'},'ro','GB'),
  'London Road, London','Do not alter exact provider street or station names');
 assert.ok(frontend.includes("stage==='city'?localizedAddressCandidateLabel(stage,point,state.language,selected.country?.code):point.label"),
- 'Chosen city's input must display its localized name');
+ "Chosen city's input must display its localized name");
 
 console.log('PASS progressive address picker: Romanian exonyms, prefix cache, first-letter streets, city isolation and hidden buttons');
