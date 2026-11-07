@@ -1541,6 +1541,10 @@ body.long-choice-active{overflow:hidden}
  border:1.5px solid #438ca8;border-radius:18px;
  padding:clamp(10px,3vw,16px);margin:clamp(5px,1dvh,10px) 0 12px;
 }
+.math-photo-review{min-width:0;max-height: min(39dvh,340px);overflow-y:auto;overscroll-behavior:contain;}
+.math-photo-review p{margin:0;font-size:clamp(12px,3.1vw,15px);line-height:1.35;}
+.math-photo-review select{width:100%;min-width:0;min-height:42px;}
+.math-photo-review button{min-height:42px;}
 .education-math-workspace label{font-weight:750;color:#e4faff}
 .education-math-workspace textarea{
  box-sizing:border-box;width:100%;min-height:86px;max-height:30dvh;
@@ -8879,7 +8883,7 @@ window.pocketAndroidOcrResult=function(data){
   const review=document.createElement('div');review.className='math-photo-review';
   review.style.cssText='display:flex;flex-direction:column;gap:8px;padding:10px;border:1px solid #e6a75b;border-radius:12px;';
   const warning=document.createElement('p');
-  warning.textContent=learningLabel('Citire OCR neverificată. Alege UN singur exercițiu, apoi compară toate cifrele, semnele, puterile și radicalii cu fotografia. Nu vom rezolva automat pagina întreagă.','Unverified OCR. Select ONE exercise and compare all digits, signs, powers and roots against the photo. The full page will not be solved automatically.');
+  warning.textContent=learningLabel('OCR neverificat: alege un exercițiu, verifică simbolurile și confirmă.','Unverified OCR: choose one exercise, check symbols and confirm.');
   review.append(warning);
   const candidates=mathPhotoCandidates(text);
   if(candidates.length){
@@ -8913,10 +8917,16 @@ window.pocketAndroidOcrResult=function(data){
    status.textContent=learningLabel('Exercițiu confirmat. Poți alege Rezolvare, Grafic sau Metodă.','Exercise confirmed. You may choose Solve, Graph or Method.');
    review.remove();
   };
-  review.append(confirmation);workspace?.append(review);
+  review.append(confirmation);
+  // Keep the exercise picker and confirmation before the camera/action buttons,
+  // instead of appending them below every action where mobile viewport clips them.
+  const tools=workspace?.querySelector('.math-entry-tools');
+  if(workspace&&tools)workspace.insertBefore(review,tools);
+  else workspace?.append(review);
+  requestAnimationFrame(()=>review.scrollIntoView({behavior:'smooth',block:'nearest'}));
   status.textContent=!text?
    learningLabel('Fotografia nu a fost citită. Introdu un singur exercițiu.','Photo could not be read. Type one exercise.'):
-   learningLabel('OCR preliminar: verifică și confirmă un exercițiu înainte de rezolvare.','Preliminary OCR: review and confirm one exercise before solving.');
+   learningLabel('Selectează un exercițiu și confirmă.','Select one exercise and confirm.');
   document.getElementById('mathEducationWorkspace')?.scrollIntoView({behavior:'smooth',block:'start'});
   return;
  }
