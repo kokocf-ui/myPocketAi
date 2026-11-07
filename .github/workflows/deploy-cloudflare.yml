@@ -28,6 +28,7 @@ jobs:
           node tests_avatar_lipsync_stop.mjs
           node tests_mixed_selector_ui.mjs
           node tests_address_progressive.mjs
+          node tests_progressive_selector_policy.mjs
           node scripts/patch-avatar-lipsync.mjs public/avatar-v4.html
 
       - name: Install pinned Wrangler
@@ -86,6 +87,7 @@ jobs:
           node tests_news_live_routing.mjs
           node tests_address_city_aliases.mjs
           node tests_address_progressive.mjs
+          node tests_progressive_selector_policy.mjs
           node tests_mixed_selector_ui.mjs
           node tests_mixed_uk_fallback.mjs
 
