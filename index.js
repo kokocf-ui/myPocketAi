@@ -7913,8 +7913,142 @@ function mathLinearSystemFigure(model){
  fig.append(caption);return fig;
 }
 
+// Strict local 3x3 algebra: no remote model calculates or fabricates a solution.
+function mathMatrix3Det(rows){
+ if(!Array.isArray(rows)||rows.length!==3||rows.some(r=>!Array.isArray(r)||r.length!==3||r.some(v=>!Number.isFinite(v))))return null;
+ const [[a,b,c],[d,e,f],[g,h,i]]=rows;
+ return a*(e*i-f*h)-b*(d*i-f*g)+c*(d*h-e*g);
+}
+function mathSystem3x3(source){
+ const rows=String(source||'').trim().replace(/\\r/g,'').split(/\\n|;/).map(s=>s.trim()).filter(Boolean);
+ if(rows.length!==3)return null;
+ const equations=[];
+ const parseSide=side=>{
+  const src=side.replace(/\\s+/g,'').replaceAll('−','-').replaceAll('–','-').replaceAll(',','.');
+  if(!src||src.length>140||!/^[0-9.xyz+*\\-.]+$/i.test(src))return null;
+  const parts=src.replace(/-/g,'+-').split('+').filter(Boolean);
+  if(parts.length>18||!parts.length)return null;
+  const out={x:0,y:0,z:0,c:0};
+  for(let term of parts){
+   let sign=1;if(term[0]==='-'){sign=-1;term=term.slice(1);}
+   const matched=term.match(/^(?:(\\d+(?:\\.\\d+)?)(?:\\*)?)?([xyz])$/i);
+   if(matched){out[matched[2].toLowerCase()]+=sign*Number(matched[1]||1);continue;}
+   if(!/^\\d+(?:\\.\\d+)?$/.test(term))return null;
+   out.c+=sign*Number(term);
+  }
+  return Object.values(out).every(v=>Number.isFinite(v)&&Math.abs(v)<=1e7)?out:null;
+ };
+ for(const row of rows){
+  const pair=row.split('=');if(pair.length!==2)return null;
+  const l=parseSide(pair[0]),r=parseSide(pair[1]);if(!l||!r)return null;
+  const e={a:l.x-r.x,b:l.y-r.y,c:l.z-r.z,d:r.c-l.c,original:row};
+  if(Object.values(e).slice(0,4).some(v=>!Number.isFinite(v)||Math.abs(v)>2e7))return null;
+  equations.push(e);
+ }
+ const matrix=equations.map(e=>[e.a,e.b,e.c]);
+ const determinant=mathMatrix3Det(matrix);
+ if(determinant===null)return null;
+ const detX=mathMatrix3Det(equations.map(e=>[e.d,e.b,e.c]));
+ const detY=mathMatrix3Det(equations.map(e=>[e.a,e.d,e.c]));
+ const detZ=mathMatrix3Det(equations.map(e=>[e.a,e.b,e.d]));
+ // Rank via scaled pivot elimination; classify inconsistent/dependent robustly.
+ const augmented=equations.map(e=>[e.a,e.b,e.c,e.d]);
+ const scale=Math.max(1,...augmented.flat().map(Math.abs));
+ const tolerance=1e-10*scale;
+ let pivotRow=0;
+ for(let col=0;col<3&&pivotRow<3;col++){
+  let best=pivotRow;
+  for(let row=pivotRow+1;row<3;row++)if(Math.abs(augmented[row][col])>Math.abs(augmented[best][col]))best=row;
+  if(Math.abs(augmented[best][col])<=tolerance)continue;
+  [augmented[pivotRow],augmented[best]]=[augmented[best],augmented[pivotRow]];
+  const pivot=augmented[pivotRow][col];
+  for(let row=pivotRow+1;row<3;row++){
+   const ratio=augmented[row][col]/pivot;
+   for(let k=col;k<=3;k++)augmented[row][k]-=ratio*augmented[pivotRow][k];
+  }
+  pivotRow++;
+ }
+ const inconsistent=augmented.some(r=>r.slice(0,3).every(v=>Math.abs(v)<=tolerance)&&Math.abs(r[3])>tolerance);
+ const kind=inconsistent?'inconsistent':pivotRow<3?'dependent':'unique';
+ let values=null;
+ if(kind==='unique'){
+  const x=detX/determinant,y=detY/determinant,z=detZ/determinant;
+  if(![x,y,z].every(Number.isFinite))return null;
+  if(equations.some(e=>Math.abs(e.a*x+e.b*y+e.c*z-e.d)>1e-7*Math.max(1,Math.abs(e.a*x),Math.abs(e.b*y),Math.abs(e.c*z),Math.abs(e.d))))return null;
+  values={x,y,z};
+ }
+ return {equations,matrix,determinant,detX,detY,detZ,kind,values};
+}
+function mathSystem3x3Solution(source){
+ const m=mathSystem3x3(source);if(!m)return null;
+ const n=mathLinearNotation().number;
+ const steps=[{
+  label:learningLabel('Identificăm coeficienții','Identify coefficients'),
+  reason:learningLabel('Scriem fiecare ecuație în forma ax + by + cz = d.','Write each equation as ax + by + cz = d.'),
+  operation:m.equations.map((e,i)=>(i+1)+': '+[e.a,e.b,e.c,e.d].map(n).join(', ')).join(' ; '),
+  fullAfter:m.equations.map(e=>e.original).join(' ; '),signRule:''
+ },{
+  label:learningLabel('Calculăm determinanții 3×3','Compute 3×3 determinants'),
+  reason:learningLabel('D este determinantul coeficienților; Dx, Dy și Dz înlocuiesc pe rând câte o coloană cu termenii liberi.','D is the coefficient determinant; replace each column to compute Dx, Dy and Dz.'),
+  operation:'D = '+n(m.determinant)+'; Dx = '+n(m.detX)+'; Dy = '+n(m.detY)+'; Dz = '+n(m.detZ),
+  fullAfter:'D = '+n(m.determinant),signRule:''
+ }];
+ let conclusion;
+ if(m.kind==='unique'){
+  const {x,y,z}=m.values;
+  steps.push({label:learningLabel('Aplicăm regula lui Cramer','Apply Cramer’s rule'),
+   reason:learningLabel('Cum D ≠ 0, împărțim fiecare determinant secundar la D.','Since D ≠ 0, divide each replacement determinant by D.'),
+   operation:'x = '+n(m.detX)+' / '+n(m.determinant)+' = '+n(x)+'; y = '+n(m.detY)+' / '+n(m.determinant)+' = '+n(y)+'; z = '+n(m.detZ)+' / '+n(m.determinant)+' = '+n(z),
+   fullAfter:'x = '+n(x)+'; y = '+n(y)+'; z = '+n(z),signRule:''});
+  const proof=m.equations.map((e,i)=>{
+   const lhs=e.a*x+e.b*y+e.c*z;
+   return (i+1)+': '+n(e.a)+' × ('+n(x)+') + '+n(e.b)+' × ('+n(y)+') + '+n(e.c)+' × ('+n(z)+') = '+n(e.d)+' → '+n(lhs)+' = '+n(e.d);
+  });
+  steps.push({label:learningLabel('Verificăm toate cele trei ecuații','Check all three equations'),
+   reason:learningLabel('Înlocuim valorile în fiecare ecuație inițială.','Substitute all values into every original equation.'),
+   operation:proof.join(' ; '),fullAfter:proof.at(-1),verificationSteps:proof,signRule:''});
+  conclusion=learningLabel('Soluție unică verificată: ','Verified unique solution: ')+'x = '+n(x)+', y = '+n(y)+', z = '+n(z)+'.';
+ }else{
+  steps.push({label:learningLabel('Analizăm rangul sistemului','Classify by rank'),
+   reason:learningLabel('Când D = 0, nu folosim împărțirea prin D; reducerea matricei extinse stabilește compatibilitatea.','When D = 0, do not divide by D; use the augmented matrix rank to classify the system.'),
+   operation:learningLabel('Verificare prin eliminare Gauss','Checked by Gaussian elimination'),
+   fullAfter:learningLabel('Determinantul principal este zero.','The main determinant is zero.'),signRule:''});
+  conclusion=m.kind==='dependent'?
+   learningLabel('Sistem compatibil nedeterminat: infinit de multe soluții.','Dependent system: infinitely many solutions.'):
+   learningLabel('Sistem incompatibil: nu există soluții.','Inconsistent system: no solutions.');
+ }
+ return {intro:learningLabel('Rezolvăm sistemul cu trei necunoscute prin determinanți și verificare independentă.','Solve the three-variable system using determinants and independent checks.'),
+  steps,conclusion};
+}
+function mathSystem3x3Method(source){
+ if(!mathSystem3x3(source))return null;
+ return {heading:learningLabel('Metoda sistemelor liniare 3×3','Method for 3×3 linear systems'),
+  intro:learningLabel('Pornim de la trei ecuații cu necunoscutele x, y, z.','Start with three linear equations in x, y and z.'),
+  rules:[
+   {title:learningLabel('Forma standard','Standard form'),text:'ax + by + cz = d'},
+   {title:learningLabel('Matricea coeficienților','Coefficient matrix'),text:learningLabel('Așezăm coeficienții în trei rânduri și trei coloane.','Arrange coefficients in three rows and columns.')},
+   {title:learningLabel('Determinantul principal','Main determinant'),text:learningLabel('Calculăm D = det(A). Dacă D ≠ 0, sistemul are o soluție unică.','Compute D = det(A). If D ≠ 0, there is a unique solution.')},
+   {title:learningLabel('Regula lui Cramer','Cramer’s rule'),text:learningLabel('Calculăm Dx, Dy, Dz și împărțim fiecare la D doar dacă D ≠ 0.','Compute Dx, Dy, Dz and divide by D only if D is nonzero.')},
+   {title:learningLabel('Cazuri cu D = 0','Zero determinant'),text:learningLabel('Folosim rangul matricei și al matricei extinse pentru a identifica lipsa soluțiilor sau infinitatea lor.','Use matrix ranks to distinguish inconsistent from dependent systems.')},
+   {title:learningLabel('Verificarea soluției','Verify the solution'),text:learningLabel('Înlocuim x, y și z în toate cele trei ecuații originale.','Substitute x, y and z into all three original equations.')}
+  ],tip:learningLabel('Un determinant nul nu înseamnă automat că sistemul este incompatibil.','A zero determinant does not automatically mean the system is inconsistent.')};
+}
+function mathSystem3x3Graph(source){
+ const m=mathSystem3x3(source);if(!m)return null;
+ return {heading:learningLabel('Reprezentare tridimensională','Three-dimensional representation'),
+  intro:learningLabel('Fiecare ecuație liniară cu x, y și z descrie un plan în spațiu. Nu afișăm un grafic 2D ca și cum ar reprezenta aceste trei plane.','Each equation describes a plane in three-dimensional space. A 2D graph would be misleading.'),
+  conclusion:m.kind==='unique'?
+   learningLabel('Intersecția celor trei plane: ','Intersection of the three planes: ')+
+   '('+['x','y','z'].map(k=>mathLinearNotation().number(m.values[k])).join('; ')+'). '+
+   learningLabel('Vizualizarea 3D nu este încă implementată.','3D visualization is not implemented yet.'):
+   (m.kind==='dependent'?learningLabel('Sistemul are infinit de multe soluții.','The system has infinitely many solutions.'):
+    learningLabel('Sistemul nu are soluții.','The system has no solutions.'))+' '+
+   learningLabel('Vizualizarea 3D nu este încă implementată.','3D visualization is not implemented yet.')};
+}
+
 function mathAlgebraEngines(){
  return [
+  {id:'linear-system-3x3',solve:mathSystem3x3Solution,explain:mathSystem3x3Method,graph:mathSystem3x3Graph},
   {id:'linear-system-2x2',solve:mathLinearSystemSolution,explain:mathLinearSystemMethod,graph:mathLinearSystemGraphData},
   {id:'linear-inequality',solve:mathLinearInequalitySolution,explain:mathLinearInequalityMethod,graph:()=>null},
   {id:'linear-equation',solve:mathLinearSolution,explain:mathLinearMethodGuide,graph:mathLinearGraphData},
