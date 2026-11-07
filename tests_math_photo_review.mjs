@@ -19,6 +19,15 @@ const noisy=[
 '6X -5X +34 +14 -5Z -3Z =',
 'profesorjitaruionel.com'
 ].join('\n');
+const equations=parse('1. 2x + 3 = 7\n2) 3(x-1) = 6\n10. 5x = 20');
+assert.equal(equations.length,3,'standalone numbered photo exercises are not discarded');
+assert.equal(equations[0].text,'2x + 3 = 7','a single equals sign retains the right side');
+assert.equal(equations[1].text,'3(x-1) = 6');
+assert.equal(equations[2].text,'5x = 20');
+assert.equal(parse('a) x + 3 = 7')[0].text,'x + 3 = 7','labelled equations retain the right side');
+assert.deepEqual([...parse('2x+3=7').map(x=>x.text)],['2x+3=7'],'one unlabeled equation is selectable');
+assert.deepEqual([...parse('2x+3=7\n3x+4=10').map(x=>x.text)],['2x+3=7','3x+4=10'],'unlabeled equation column is selectable');
+assert.equal(parse('2x+3=7=10').length,0,'ambiguous worked chain without labels is not guessed');
 const candidates=parse(noisy);
 assert.equal(candidates.length,3,'find exercise starts only');
 assert.equal(candidates[0].text,'9X - 3X + 4 X','strip worked results');
