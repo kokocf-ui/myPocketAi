@@ -29,3 +29,9 @@ export function classifyNewsRequest(message) {
     return {mode:"article_collection",reason:"current_reporting_requested"};
   return {mode:"none",reason:"topic_without_news_request"};
 }
+
+// News collection always requires retrieved articles, even if a second sentence
+// asks to translate the results. A translation-only request is not news search.
+export function requiresLiveNewsRetrieval(message) {
+  return classifyNewsRequest(message).mode === "article_collection";
+}
