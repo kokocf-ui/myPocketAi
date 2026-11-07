@@ -2586,6 +2586,14 @@ export default {
               }
             }catch{}
           }
+          // A mixed journey may resolve an overseas city only in this second
+          // geocoding pass (e.g. "Cum ajung la Berlin?" without a country).
+          // Reclassify before the provider response or TfL fallback, otherwise
+          // the UK-only planner can be asked to serve an international target.
+          if(Number.isFinite(targetLat)&&Number.isFinite(targetLon)&&
+             !(targetLat>=49.8&&targetLat<=59.5&&targetLon>=-9.1&&targetLon<=2.8)){
+            internationalTarget=true;
+          }
           const validTarget=Number.isFinite(targetLat)&&Number.isFinite(targetLon);
           const planned=validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang):{status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
           if(planned.journeys.length){
