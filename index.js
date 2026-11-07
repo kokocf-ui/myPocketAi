@@ -6555,6 +6555,11 @@ function pocketExitVoiceResult(data){
 }
 function pocketBackInsideModule(){
  const root=$('view-module');
+ if(root.classList.contains('learning-active')&&root.classList.contains('learning-math')){
+  if(mathJourney.stage==='workspace'){mathJourney.stage='subjects';mathJourneyShowChoices('subjects');return true}
+  if(mathJourney.stage==='subjects'){mathJourney.stage='levels';mathJourneyShowChoices('levels');return true}
+  renderLearningSubjects();return true;
+ }
  if(root.classList.contains('learning-active')){renderLearningSubjects();return true}
  if(root.classList.contains('organize-active')||root.classList.contains('organize-chat')){renderOrganizeChoices();return true}
  if(root.classList.contains('extra-tools-active')||root.classList.contains('extra-tools-chat')){renderExtraToolsChoices();return true}
