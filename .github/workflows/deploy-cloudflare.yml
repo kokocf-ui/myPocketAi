@@ -22,6 +22,7 @@ jobs:
       - name: Verify contextual news translation and apply avatar lip-stop patch
         run: |
           node --check scripts/patch-avatar-lipsync.mjs
+          node tests_response_intent.mjs
           node tests_localization.mjs
           node tests_news_contextual_translation.mjs
           node tests_avatar_lipsync_stop.mjs
@@ -74,6 +75,12 @@ jobs:
         run: |
           npm install --ignore-scripts --no-audit --no-fund
           npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@3.90.0
+
+      - name: Verify backend news-search routing before deploy
+        run: |
+          node --check backend.js
+          node tests_response_intent.mjs
+          node tests_news_contextual_translation.mjs
 
       - name: Deploy backend (retry transient Cloudflare outages only)
         env:
