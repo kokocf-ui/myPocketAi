@@ -6673,6 +6673,141 @@ function mathFigureDraftSummary(){
   learningLabel('Figura selectată: ','Selected figure: ')+mathFigureSummary(mathFigureDraft):
   learningLabel('Poți lucra și fără figură.','You can also work without a figure.');
 }
+function mathFigureDefaultVertices(id){
+ const shapes={
+  triangle:[[64,195],[298,195],[164,42]],
+  right:[[70,198],[295,198],[70,42]],
+  isosceles:[[65,195],[295,195],[180,38]],
+  equilateral:[[80,199],[280,199],[180,26]],
+  square:[[100,45],[260,45],[260,205],[100,205]],
+  rectangle:[[65,67],[295,67],[295,185],[65,185]],
+  rhombus:[[180,32],[290,120],[180,210],[70,120]],
+  parallelogram:[[100,52],[300,52],[260,197],[60,197]],
+  trapezoid:[[135,48],[225,48],[300,202],[60,202]],
+  pentagon:[[180,31],[292,112],[252,214],[108,214],[68,112]],
+  hexagon:[[118,35],[242,35],[305,120],[242,205],[118,205],[55,120]],
+  semicircle:[[65,175],[295,175]]
+ };
+ return (shapes[id]||[]).map(v=>[v[0],v[1]]);
+}
+function mathFigureMesh(id){
+ const v=[],faces=[];
+ if(['cube','cuboid','prism'].includes(id)){
+  const wide=id==='cuboid'?1.35:1,narrow=id==='prism'?.7:1;
+  for(const z of [-narrow,narrow])for(const y of [-1,1])for(const x of [-wide,wide])v.push([x,y,z]);
+  faces.push([0,1,3,2],[4,5,7,6],[0,1,5,4],[2,3,7,6],[0,2,6,4],[1,3,7,5]);
+ }else if(id==='pyramid'){
+  v.push([-1,-1,-1],[1,-1,-1],[1,-1,1],[-1,-1,1],[0,1.35,0]);
+  faces.push([0,1,2,3],[0,1,4],[1,2,4],[2,3,4],[3,0,4]);
+ }else{
+  const segments=16;
+  if(id==='sphere'){
+   const rings=7;
+   for(let j=0;j<=rings;j++){
+    const lat=-Math.PI/2+j*Math.PI/rings;
+    for(let i=0;i<segments;i++){
+     const a=i*Math.PI*2/segments;
+     v.push([Math.cos(lat)*Math.cos(a),Math.sin(lat),Math.cos(lat)*Math.sin(a)]);
+    }
+   }
+   for(let j=0;j<rings;j++)for(let i=0;i<segments;i++){
+    const n=j*segments+i,n1=j*segments+(i+1)%segments;
+    faces.push([n,n1,n1+segments,n+segments]);
+   }
+  }else{
+   for(let j=0;j<2;j++)for(let i=0;i<segments;i++){
+    const a=i*Math.PI*2/segments,rad=id==='cone'&&j===1?0:1,y=j===0?-1:1;
+    v.push([rad*Math.cos(a),y,rad*Math.sin(a)]);
+   }
+   for(let i=0;i<segments;i++){
+    const n=(i+1)%segments;
+    faces.push([i,n,segments+n,segments+i]);
+   }
+   faces.push(Array.from({length:segments},(_,i)=>segments-1-i));
+   if(id==='cylinder')faces.push(Array.from({length:segments},(_,i)=>segments+i));
+  }
+ }
+ return {vertices:v,faces};
+}
+function mathFigureProject3D(point,yaw,pitch){
+ const cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+ const xx=point[0]*cy+point[2]*sy,zz=point[2]*cy-point[0]*sy;
+ const yy=point[1]*cp-zz*sp,depth=point[1]*sp+zz*cp;
+ const perspective=4.4/(4.4-depth);
+ return {x:180+xx*72*perspective,y:120-yy*72*perspective,z:depth};
+}
+function mathFigurePaint(svg,figure){
+ if(!svg||!figure)return;
+ svg.replaceChildren();
+ svg.setAttribute('viewBox','0 0 360 240');
+ svg.setAttribute('aria-label',mathFigureName(figure));
+ const defs=mathSvgElement('defs',{});
+ const clip=mathSvgElement('clipPath',{id:'figure-editor-window'});
+ clip.append(mathSvgElement('rect',{x:0,y:0,width:360,height:240}));
+ defs.append(clip);svg.append(defs);
+ const g=mathSvgElement('g',{'clip-path':'url(#figure-editor-window)'});
+ const panX=Number(figure.panX)||0,panY=Number(figure.panY)||0;
+ const scale=Math.max(1,Math.min(4,Number(figure.zoom)||1));
+ const scene=mathSvgElement('g',{transform:'translate('+(180+panX)+' '+(120+panY)+') scale('+scale+') translate(-180 -120)'});
+ const definition=mathFigureDefinition(figure.id);
+ if(definition?.solid){
+  const mesh=mathFigureMesh(figure.id);
+  const projected=mesh.vertices.map(p=>mathFigureProject3D(p,Number(figure.yaw)||0,Number(figure.pitch)||0));
+  const ordered=mesh.faces.map(face=>({
+   face,depth:face.reduce((n,i)=>n+projected[i].z,0)/face.length
+  })).sort((a,b)=>a.depth-b.depth);
+  for(const part of ordered){
+   const points=part.face.map(i=>projected[i].x.toFixed(1)+','+projected[i].y.toFixed(1)).join(' ');
+   scene.append(mathSvgElement('polygon',{points,fill:part.depth>0?'#23788a':'#12485d',
+    'fill-opacity':'.73',stroke:'#8bdde6','stroke-width':1.1,'stroke-linejoin':'round'}));
+  }
+ }else if(figure.id==='circle'||figure.id==='semicircle'){
+  if(figure.id==='circle'){
+   scene.append(mathSvgElement('circle',{cx:180,cy:120,r:85,fill:'#175064','fill-opacity':'.42',
+    stroke:'#56cdda','stroke-width':3}));
+  }else{
+   scene.append(mathSvgElement('path',{d:'M75 177 A105 105 0 0 1 285 177 Z',
+    fill:'#175064','fill-opacity':'.42',stroke:'#56cdda','stroke-width':3}));
+  }
+ }else{
+  const vertices=figure.vertices?.length?figure.vertices:mathFigureDefaultVertices(figure.id);
+  if(vertices.length>=3){
+   scene.append(mathSvgElement('polygon',{points:vertices.map(p=>p.join(',')).join(' '),
+    fill:'#175064','fill-opacity':'.42',stroke:'#56cdda','stroke-width':3}));
+   if(figure.id==='right'&&!figure.modified)
+    scene.append(mathSvgElement('path',{d:'M70 179 H89 V198',fill:'none',stroke:'#f4b96a','stroke-width':2}));
+   vertices.forEach((point,i)=>{
+    const handle=mathSvgElement('circle',{cx:point[0],cy:point[1],r:7,
+     fill:'#f9d28a',stroke:'#0b2639','stroke-width':2,'data-vertex':i});
+    scene.append(handle);
+    if(i<8)scene.append(mathSvgElement('text',{x:point[0]+7,y:point[1]-10,
+      fill:'#eaffff','font-size':14})).textContent=String.fromCharCode(65+i);
+   });
+  }
+ }
+ for(const stroke of figure.strokes||[]){
+  if(stroke.length<2)continue;
+  scene.append(mathSvgElement('polyline',{points:stroke.map(p=>p.join(',')).join(' '),
+   fill:'none',stroke:'#f5d291','stroke-width':2.4,'stroke-linejoin':'round',
+   'stroke-linecap':'round'}));
+ }
+ const text=mathFigureSummary(figure);
+ if(text.length>0){
+  const note=mathSvgElement('text',{x:12,y:226,fill:'#fff8d8','font-size':12});
+  note.textContent=text.slice(0,50);scene.append(note);
+ }
+ g.append(scene);svg.append(g);
+}
+function mathFigureSnapshot(figure){
+ const fig=document.createElement('figure');fig.className='math-result-plot';
+ const svg=mathSvgElement('svg',{role:'img'});
+ const copy=mathFigureCopy(figure);copy.zoom=1;copy.panX=0;copy.panY=0;
+ mathFigurePaint(svg,copy);
+ const caption=document.createElement('figcaption');
+ caption.textContent=learningLabel('Schiță geometrică interactivă selectată; dimensiunile nu se deduc din desen.',
+  'Selected geometry sketch; dimensions cannot be inferred from its appearance.');
+ fig.append(svg,caption);return fig;
+}
 let mathJourney={stage:'levels',level:null,topic:null};
 function mathSubjectsForLevel(level){
  return MATH_TOPICS.filter(topic=>topic.levels.includes(level));
@@ -9342,7 +9477,8 @@ function mathResultPage(index){
   body.append(check);
  }
  const equationGraph=session.mode==='graph'?mathAlgebraLocal('graph',item.text)?.value:null;
- const graph=(equationGraph?.planeShape?mathPlaneShapeFigure(equationGraph.planeShape):null)||
+ const graph=(mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic)?mathFigureSnapshot(mathFigureDraft):null)||
+  (equationGraph?.planeShape?mathPlaneShapeFigure(equationGraph.planeShape):null)||
   (equationGraph?.geometry?mathRightTriangleFigure(equationGraph.geometry):null)||
   (equationGraph?.matrixView?mathMatrixHeatmap(equationGraph.matrixView):null)||
   (equationGraph?.polynomial?mathSymbolicPlot(equationGraph.polynomial):null)||
@@ -9461,12 +9597,21 @@ async function mathFetchResult(item,session){
  }
  // Never ask a generative model to draw a graph that the actual renderer
  // cannot provide: this produced answers about unrelated numeric exercises.
- if(session.mode==='graph'&&!mathGeometryFigure(item.text)&&!mathAlgebraLocal('graph',item.text)){
+ if(session.mode==='graph'&&!mathFigureDraft&&!mathGeometryFigure(item.text)&&!mathAlgebraLocal('graph',item.text)){
   if(mathResultSession!==session)return;
   item.reply=learningLabel('Nu există încă un grafic verificat pentru acest enunț. Nu voi inventa unul. Pentru un calcul, apasă „Rezolvă pas cu pas”; pentru un grafic de funcție, introdu de exemplu f(x) = 2x - 3.',
    'There is no verified graph for this exercise yet. I will not invent one. Use Solve step by step for arithmetic, or enter a function such as f(x) = 2x - 3.');
   item.spokenReply=item.reply;
   if(session.tasks[session.active]===item)mathResultPage(session.active);
+  return;
+ }
+ if(session.mode==='graph'&&mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic)){
+  item.graphLesson={heading:mathFigureName(mathFigureDraft),
+   intro:learningLabel('Figura este afișată fără valori presupuse. Poți completa date și reveni la rezolvare.',
+    'The figure is displayed without invented values. Add dimensions and continue the solution.'),
+   conclusion:learningLabel('Zoom și rotire sunt disponibile în editorul de figuri.','Zoom and rotation are available in the figure editor.')};
+  item.spokenReply=item.graphLesson.intro+' '+item.graphLesson.conclusion;
+  if(mathResultSession===session&&session.tasks[session.active]===item)mathResultPage(session.active);
   return;
  }
  if(session.mode==='explain'){
