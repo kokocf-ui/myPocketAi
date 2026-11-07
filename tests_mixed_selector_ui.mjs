@@ -2,6 +2,20 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
+const canonicalStart=frontend.indexOf('function canonicalAddressCityQuery(');
+const canonicalEnd=frontend.indexOf('\nfunction renderStructuredAddressPicker(',canonicalStart);
+assert.ok(canonicalStart>0&&canonicalEnd>canonicalStart,'Country-localized city lookup must exist');
+// index.js emits a browser script from a template string, so the repo source
+// escapes regex backslashes one extra time. Undo only that template escaping.
+const canonicalSource=frontend.slice(canonicalStart,canonicalEnd).replace(/\\\\p/g,'\\p');
+const cityAlias=new Function(canonicalSource+'\nreturn canonicalAddressCityQuery')();
+assert.equal(cityAlias('GB','Londra'),'London');
+assert.equal(cityAlias('gb','Londres'),'London');
+assert.equal(cityAlias('GB','London'),'London');
+assert.equal(cityAlias('RO','Londra'),'Londra','A UK-specific alias must not silently change other countries');
+assert.ok(frontend.includes("stage==='city'?canonicalAddressCityQuery(selected.country?.code,typedQuery):typedQuery"),
+ 'The UI must send the canonical city name to the mapping provider');
+
 const match=frontend.match(/const countries='([^']+)'\.split\(' '\);/);
 assert.ok(match,'Structured address picker should use a fixed ISO country list');
 const countries=match[1].split(' ');

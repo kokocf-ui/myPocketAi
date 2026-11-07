@@ -21,6 +21,7 @@ on:
       - 'tests_routes.mjs'
       - 'tests_address_city_aliases.mjs'
       - 'tests_mixed_selector_ui.mjs'
+      - 'tests_mixed_uk_fallback.mjs'
       - 'tests_navigation_heading.mjs'
       - 'tests_education_responsive_layout.mjs'
       - '.github/workflows/test-generalist-mixed.yml'
@@ -48,5 +49,6 @@ jobs:
           node tests_news_live_routing.mjs
           node tests_address_city_aliases.mjs
           node tests_mixed_selector_ui.mjs
+          node tests_mixed_uk_fallback.mjs
           node tests_news_source_integrity.mjs
           node tests_avatar_lipsync_stop.mjs
