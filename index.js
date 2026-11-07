@@ -1539,6 +1539,32 @@ body.long-choice-active{overflow:hidden}
 /* Mathematics uses three bounded stages. Only the list scrolls; page layout
    always remains within the existing adaptive viewport. */
 #view-module.math-choice-stage #moduleContent{min-height:0!important;overflow:hidden!important}
+
+.math-figures-action{width:100%;min-height:43px!important;white-space:normal!important}
+.math-figure-summary{display:block;max-height:2.8em;overflow:hidden;text-overflow:ellipsis}
+.math-figure-dialog{box-sizing:border-box;position:fixed;inset:0;margin:auto;
+ width:min(96vw,720px);height:min(90dvh,780px);max-height:90dvh;
+ padding:0;border:2px solid #3d8ea8;border-radius:18px;background:#0a2536;color:#eefaff;
+ box-shadow:0 20px 60px #000c;overflow:hidden}
+.math-figure-dialog::backdrop{background:#000b}
+.math-figure-frame{display:flex;flex-direction:column;min-height:0;height:100%}
+.math-figure-head,.math-figure-foot{flex:0 0 auto;display:flex;gap:8px;align-items:center;
+ justify-content:space-between;padding:10px 12px;background:#0e3043}
+.math-figure-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+ padding:12px;display:flex;flex-direction:column;gap:10px}
+.math-figure-library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.math-figure-library button{min-width:0;min-height:55px;white-space:normal;text-align:left}
+.math-figure-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.math-figure-fields label{display:flex;flex-direction:column;gap:3px;color:#ceeff3;font-size:13px}
+.math-figure-fields input,.math-figure-fields select{box-sizing:border-box;width:100%;min-width:0;
+ min-height:42px;font:inherit;font-size:16px;padding:6px;color:#f3faff;
+ background:#071929;border:1px solid #568da6;border-radius:8px}
+.math-figure-viewport{position:relative;width:100%;height:min(34dvh,270px);min-height:165px;
+ flex:0 0 auto;overflow:hidden;border-radius:12px;border:1px solid #5187a0;background:#051824;
+ touch-action:none;overscroll-behavior:contain;contain:paint}
+.math-figure-viewport svg{display:block;width:100%;height:100%;touch-action:none;overflow:hidden}
+.math-figure-commands{display:flex;gap:6px;flex-wrap:wrap}
+.math-figure-commands button{min-width:42px;min-height:42px;padding:7px 10px}
 .math-choice-panel{display:flex;flex-direction:column;flex:1;min-height:0;gap:9px;
  padding:clamp(10px,2.5vw,16px);border:1px solid #468aa0;border-radius:15px;
  background:linear-gradient(150deg,#12374a,#081c2d)}
@@ -6545,6 +6571,108 @@ const MATH_TOPICS=[
  {id:'differential',ro:'Ecuații diferențiale',en:'Differential equations',levels:['advanced']},
  {id:'discrete',ro:'Matematică discretă',en:'Discrete mathematics',levels:['advanced']}
 ];
+// Figure selection is independent of OCR and the lesson solver. Every
+// measurement is optional and no dimensions are inferred from the drawing.
+const MATH_FIGURE_GROUPS=[
+ {id:'triangles',ro:'Triunghiuri',en:'Triangles'},
+ {id:'quadrilaterals',ro:'Patrulatere',en:'Quadrilaterals'},
+ {id:'round',ro:'Cercuri și poligoane',en:'Circles and polygons'},
+ {id:'solids',ro:'Corpuri geometrice 3D',en:'3D solids'}
+];
+const MATH_FIGURES=[
+ {id:'triangle',group:'triangles',ro:'Triunghi oarecare',en:'Scalene triangle',fields:['AB','BC','CA']},
+ {id:'right',group:'triangles',ro:'Triunghi dreptunghic',en:'Right triangle',fields:['a','b','c']},
+ {id:'isosceles',group:'triangles',ro:'Triunghi isoscel',en:'Isosceles triangle',fields:['baza','latura']},
+ {id:'equilateral',group:'triangles',ro:'Triunghi echilateral',en:'Equilateral triangle',fields:['latura']},
+ {id:'square',group:'quadrilaterals',ro:'Pătrat',en:'Square',fields:['latura']},
+ {id:'rectangle',group:'quadrilaterals',ro:'Dreptunghi',en:'Rectangle',fields:['lungime','latime']},
+ {id:'rhombus',group:'quadrilaterals',ro:'Romb',en:'Rhombus',fields:['latura','diagonala1','diagonala2']},
+ {id:'parallelogram',group:'quadrilaterals',ro:'Paralelogram',en:'Parallelogram',fields:['baza','latura','inaltime']},
+ {id:'trapezoid',group:'quadrilaterals',ro:'Trapez',en:'Trapezoid',fields:['bazaMare','bazaMica','inaltime']},
+ {id:'circle',group:'round',ro:'Cerc',en:'Circle',fields:['raza','diametru']},
+ {id:'semicircle',group:'round',ro:'Semicerc',en:'Semicircle',fields:['raza']},
+ {id:'pentagon',group:'round',ro:'Pentagon regulat',en:'Regular pentagon',fields:['latura']},
+ {id:'hexagon',group:'round',ro:'Hexagon regulat',en:'Regular hexagon',fields:['latura']},
+ {id:'cube',group:'solids',ro:'Cub 3D',en:'3D cube',fields:['latura'],solid:true},
+ {id:'cuboid',group:'solids',ro:'Paralelipiped 3D',en:'3D rectangular prism',fields:['lungime','latime','inaltime'],solid:true},
+ {id:'prism',group:'solids',ro:'Prismă 3D',en:'3D prism',fields:['baza','inaltime'],solid:true},
+ {id:'pyramid',group:'solids',ro:'Piramidă 3D',en:'3D pyramid',fields:['baza','inaltime'],solid:true},
+ {id:'cylinder',group:'solids',ro:'Cilindru 3D',en:'3D cylinder',fields:['raza','inaltime'],solid:true},
+ {id:'cone',group:'solids',ro:'Con 3D',en:'3D cone',fields:['raza','inaltime'],solid:true},
+ {id:'sphere',group:'solids',ro:'Sferă 3D',en:'3D sphere',fields:['raza'],solid:true}
+];
+let mathFigureDraft=null;
+function mathFigureDefinition(id){return MATH_FIGURES.find(x=>x.id===id)||null}
+function mathFigureName(figure){
+ const entry=mathFigureDefinition(figure?.id);
+ return entry?learningLabel(entry.ro,entry.en):learningLabel('Desen liber','Free drawing');
+}
+function mathFigureMeasurement(value){
+ if(value===undefined||value===null||value==='')return null;
+ const n=Number(String(value).replace(',','.'));
+ return Number.isFinite(n)&&n>0&&n<=100000?n:null;
+}
+function mathFigureCopy(figure){
+ return {id:figure?.id||'free',values:{...(figure?.values||{})},
+  unit:figure?.unit||'cm',vertices:Array.isArray(figure?.vertices)?
+   figure.vertices.map(v=>[v[0],v[1]]):null,
+  strokes:Array.isArray(figure?.strokes)?
+   figure.strokes.map(line=>line.map(p=>[p[0],p[1]])):[],
+  yaw:Number(figure?.yaw)||.45,pitch:Number(figure?.pitch)||.2,
+  zoom:Math.max(1,Math.min(4,Number(figure?.zoom)||1)),panX:0,panY:0};
+}
+function mathFigureAutoExercise(figure){
+ if(!figure)return '';
+ const f=key=>mathFigureMeasurement(figure.values?.[key]);
+ const u=' '+(figure.unit||'cm');
+ if(figure.id==='right'){
+  if(f('a')!==null&&f('b')!==null)
+   return 'Triunghi dreptunghic cu catetele '+f('a')+u+' și '+f('b')+u+'.';
+  if(f('a')!==null&&f('c')!==null)
+   return 'Triunghi dreptunghic: cateta '+f('a')+u+' și ipotenuza '+f('c')+u+'.';
+ }
+ if(figure.id==='square'&&f('latura')!==null)
+  return 'Pătrat latura '+f('latura')+u+'.';
+ if(figure.id==='rectangle'&&f('lungime')!==null&&f('latime')!==null)
+  return 'Dreptunghi cu lungimea '+f('lungime')+u+' și lățimea '+f('latime')+u+'.';
+ if(figure.id==='circle'&&f('raza')!==null&&f('diametru')===null)
+  return 'Cerc cu raza '+f('raza')+u+'.';
+ if(figure.id==='circle'&&f('diametru')!==null&&f('raza')===null)
+  return 'Cerc cu diametrul '+f('diametru')+u+'.';
+ return '';
+}
+function mathFigureSummary(figure){
+ if(!figure)return '';
+ const label=mathFigureName(figure);
+ const values=Object.entries(figure.values||{}).filter(([,v])=>v!=='');
+ return label+(values.length?' · '+values.map(([k,v])=>k+'='+v+(figure.unit||'cm')).join(', '):'');
+}
+function mathFigureConflict(figure,statement){
+ const text=String(statement||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');
+ const checks=[
+  ['raza',['raza','radius']],
+  ['diametru',['diametrul','diametru','diameter']],
+  ['latura',['latura','side']],
+  ['lungime',['lungimea','lungime','length']],
+  ['latime',['latimea','latime','width']]
+ ];
+ for(const [key,terms] of checks){
+  const known=mathFigureMeasurement(figure?.values?.[key]);if(known===null)continue;
+  for(const term of terms){
+   const i=text.indexOf(term);if(i<0)continue;
+   const fragment=text.slice(i+term.length).trim();
+   const match=new RegExp('^(?:de |este |is |of |:|=| )*([0-9]+(?:[.,][0-9]+)?)').exec(fragment);
+   if(match&&Math.abs(Number(match[1].replace(',','.'))-known)>1e-9)return key;
+  }
+ }
+ return '';
+}
+function mathFigureDraftSummary(){
+ const note=document.getElementById('mathFigureSummary');if(!note)return;
+ note.textContent=mathFigureDraft?
+  learningLabel('Figura selectată: ','Selected figure: ')+mathFigureSummary(mathFigureDraft):
+  learningLabel('Poți lucra și fără figură.','You can also work without a figure.');
+}
 let mathJourney={stage:'levels',level:null,topic:null};
 function mathSubjectsForLevel(level){
  return MATH_TOPICS.filter(topic=>topic.levels.includes(level));
@@ -7126,7 +7254,7 @@ function openLearningSubject(key){
   newTask.onclick=()=>{
    mathVoiceStop();mathCloseResults();mathLastSpokenReply='';const field=$('mathEducationText');
    if(field){field.value='';field.blur()}
-   mathRememberDraft('');
+   mathRememberDraft('');mathFigureDraft=null;mathFigureDraftSummary();
    const notice=$('mathEducationStatus');if(notice)notice.textContent='';
   };
   heading.append(label,newTask);
@@ -7138,10 +7266,21 @@ function openLearningSubject(key){
   photo.className='secondary-btn math-input-tool';photo.textContent=learningLabel('📷 Foto','📷 Camera');
   pick.className='secondary-btn math-input-tool';pick.textContent=learningLabel('🖼️ Album','🖼️ Gallery');
   tools.append(actions);
+  if(['geometry','trigonometry'].includes(mathJourney.topic)){
+   const geometry=document.createElement('button');geometry.type='button';
+   geometry.className='secondary-btn math-figures-action';
+   geometry.textContent=learningLabel('📐 Figuri geometrice','📐 Geometric figures');
+   geometry.onclick=mathOpenFigureLibrary;
+   tools.append(geometry);
+   const figureSummary=document.createElement('small');
+   figureSummary.id='mathFigureSummary';figureSummary.className='math-figure-summary';
+   tools.append(figureSummary);
+  }
   const status=document.createElement('small');status.id='mathEducationStatus';status.setAttribute('role','status');
   status.textContent='';
   editor.addEventListener('input',()=>{mathRememberDraft(editor.value);status.textContent=''});
   workspace.append(heading,editor,tools,status);
+  mathFigureDraftSummary();
   const choices=document.createElement('div');choices.className='education-math-actions';
   [
    ['solve',learningLabel('🧩 Rezolvă pas cu pas','🧩 Solve step by step')],
@@ -9391,7 +9530,22 @@ async function mathFetchResult(item,session){
 function mathEducationRun(mode){
  if(state.currentView!=='module'||activeLearningSubject?.[0]!=='math')return;
  const editor=$('mathEducationText'),status=$('mathEducationStatus');
- const source=editor?.value?.trim()||'';
+ let source=editor?.value?.trim()||'';
+ if(['geometry','trigonometry'].includes(mathJourney.topic)&&mathFigureDraft){
+  const mismatch=mathFigureConflict(mathFigureDraft,source);
+  if(mismatch){
+   status.textContent=learningLabel('Valoarea „','Value “')+mismatch+
+    learningLabel('” diferă între enunț și figură. Corectează diferența înainte de rezolvare.',
+     '” differs between the question and the figure. Correct the mismatch first.');
+   return;
+  }
+  const fromFigure=mathFigureAutoExercise(mathFigureDraft);
+  if(!source&&fromFigure)source=fromFigure;
+  // If the user has only typed a verbal request, provide exact dimensions
+  // from the explicitly filled figure. Never duplicate existing numbers.
+  else if(source&&fromFigure&&!/[0-9]/.test(source))source=fromFigure+' '+source;
+  else if(!source&&mode==='graph')source=mathFigureName(mathFigureDraft);
+ }
  if(mathPhotoNeedsReview){
   status.textContent=learningLabel('Fotografia trebuie verificată. Selectează un exercițiu și confirmă transcrierea înainte de rezolvare.','Review the photo. Select an exercise and confirm the transcription before solving.');
   return;
