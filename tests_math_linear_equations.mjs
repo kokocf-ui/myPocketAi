@@ -57,8 +57,8 @@ for(const invalid of [
  'f(x)=2x-3','3(2x-1)+5=20=20','x=Infinity',
  'Arată un graf pentru x în plan'
 ])assert.equal(api.parse(invalid),null,'unsupported expressions must not be guessed: '+invalid);
-assert.ok(embedded.includes("mathLinearSolution(text)||mathQuadraticSolution(text)||mathDetailedArithmetic(text)"),
+assert.ok(embedded.includes("detailed:mode==='solve'?mathAlgebraLocal('solve',text)?.value:null"),
  'Solve uses the verified local linear solver first');
-assert.ok(embedded.includes("mathLinearMethodGuide(text)||mathQuadraticMethodGuide(text)||mathMethodGuide(text)"),
+assert.ok(embedded.includes("methodGuide:mode==='explain'?mathAlgebraLocal('explain',text)?.value:null"),
  'Method uses a separate deterministic general explanation');
 console.log('PASS deterministic linear equations, identity/contradiction, method separation and regression from screenshots');
