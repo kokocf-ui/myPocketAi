@@ -7092,9 +7092,17 @@ function mathVisionPhotoOnDemand(){
  if(mathVisionCapture)return Promise.reject(new Error('already_processing'));
  return new Promise((resolve,reject)=>{
   const id='mathvision_'+(++mathVisionSequence);
-  mathVisionCapture={id,parts:[],length:0,resolve,reject};
+  const timer=setTimeout(()=>{
+   if(mathVisionCapture?.id===id){
+    const pending=mathVisionCapture;mathVisionCapture=null;
+    pending.reject(new Error('image_capture_timeout'));
+   }
+  },30000);
+  mathVisionCapture={id,parts:[],length:0,
+   resolve:value=>{clearTimeout(timer);resolve(value)},
+   reject:error=>{clearTimeout(timer);reject(error)}};
   try{window.PocketAndroidMathVision.postMessage('capture:'+id)}
-  catch(error){mathVisionCapture=null;reject(error)}
+  catch(error){const current=mathVisionCapture;mathVisionCapture=null;current?.reject(error)}
  });
 }
 
@@ -9131,7 +9139,8 @@ window.pocketAndroidOcrResult=function(data){
      const image=await mathVisionPhotoOnDemand();
      if(!dialog.open)throw new Error('cancelled');
      pilotStatus.textContent=learningLabel('Se compară simbolurile matematice…','Comparing mathematical symbols…');
-     const response=await fetch('/api/math-vision',{
+     const visionEndpoint=CLIENT_CONFIG.apiUrl.replace(/\\/api\\/chat(?:\\?.*)?$/,'/api/math-vision');
+     const response=await fetch(visionEndpoint,{
       method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
       body:JSON.stringify({image})
      });
