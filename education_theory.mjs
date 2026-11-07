@@ -457,7 +457,8 @@ export const THEORY_ENTRIES = Object.freeze([
     "statement": "Într-o reacție chimică desfășurată într-un sistem închis, masa totală a reactanților este egală cu masa totală a produselor.",
     "formula": "m_reactanți=m_produși",
     "aliases": [
-      "lavoisier"
+      "lavoisier",
+      "conservarea masei"
     ],
     "level": "beginner"
   },
