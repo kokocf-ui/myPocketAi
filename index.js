@@ -7210,7 +7210,7 @@ function mathFigureWorkbench(){
   const description=learningLabel(entry[1],entry[2])+(dimensionsText?' ('+dimensionsText+')':'');
   mathFigureDraft={kind:state3.kind,values:{...state3.values}};
   const field=document.getElementById('mathEducationText');
-  if(field){field.value=(field.value.trim()?field.value.trim()+'\n':'')+description;mathRememberDraft(field.value)}
+  if(field){field.value=(field.value.trim()?field.value.trim()+'\\n':'')+description;mathRememberDraft(field.value)}
   dialog.close();field?.focus();
  };
  panel.append(bar,selector,view,toolbar,help,dimensions,commit);
