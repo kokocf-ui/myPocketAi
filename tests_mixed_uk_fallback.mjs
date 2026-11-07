@@ -37,7 +37,7 @@ const ask=async (target,env,overrides={})=>{
    language:"ro",history:[],module:"maps",location:fixedOrigin,coordinates:fixedOrigin,
    mixed_journey:true,transit_query:target.label,transit_destination:target,...overrides
   })
- }),env);
+ }),{AI:{run:async()=>({response:"mock"})},...env});
  return res.json();
 };
 try{
