@@ -10,7 +10,7 @@ export const THEORY_ENTRIES = Object.freeze([
       "teorema lui pitagora",
       "triunghi dreptunghic"
     ],
-    "level": "medium",
+    "level": "beginner",
     "topic": "geometry"
   },
   {
@@ -22,7 +22,7 @@ export const THEORY_ENTRIES = Object.freeze([
     "aliases": [
       "reciproca pitagora"
     ],
-    "level": "medium",
+    "level": "beginner",
     "topic": "geometry"
   },
   {
@@ -35,7 +35,7 @@ export const THEORY_ENTRIES = Object.freeze([
       "thales",
       "teorema interceptelor"
     ],
-    "level": "medium",
+    "level": "beginner",
     "topic": "geometry"
   },
   {
@@ -2991,12 +2991,13 @@ export function searchTheory(query,{subject=null,level=null,limit=12}={}){
  const q=normalize(query),tokens=q.split(" ").filter(Boolean);
  const allowed=Object.hasOwn(LEVELS,level)?LEVELS[level]:2;
  const eligible=THEORY_ENTRIES.filter(e=>(!subject||e.subject===subject)&&LEVELS[e.level]<=allowed);
- if(!q)return eligible.slice(0,Math.max(0,Math.min(50,limit)));
+ if(!q)return []; // No unsolicited theory cards before the user types.
  return eligible.map(entry=>{
   const name=normalize(entry.title),names=[name,...entry.aliases.map(normalize)];
-  let score=names.some(n=>n===q)?100:names.some(n=>n.startsWith(q))?75:names.some(n=>n.includes(q))?55:0;
+  let score=names.some(n=>n===q)?100:names.some(n=>n.startsWith(q))?90:names.some(n=>n.split(' ').some(w=>w.startsWith(q)))?80:names.some(n=>n.includes(q))?55:0;
   const blob=normalize([entry.title,...entry.aliases,entry.statement].join(" "));
-  if(tokens.every(t=>blob.includes(t)))score=Math.max(score,20+tokens.length*3);
+  if(tokens.every(t=>blob.split(' ').some(w=>w.startsWith(t))))score=Math.max(score,35+tokens.length*3);
+  else if(tokens.every(t=>blob.includes(t)))score=Math.max(score,20+tokens.length*3);
   return {entry,score};
  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||a.entry.title.localeCompare(b.entry.title,"ro")).slice(0,Math.max(0,Math.min(50,limit))).map(x=>x.entry);
 }
