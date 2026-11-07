@@ -5,7 +5,10 @@ const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 const canonicalStart=frontend.indexOf('function canonicalAddressCityQuery(');
 const canonicalEnd=frontend.indexOf('\nfunction renderStructuredAddressPicker(',canonicalStart);
 assert.ok(canonicalStart>0&&canonicalEnd>canonicalStart,'Country-localized city lookup must exist');
-const cityAlias=new Function(frontend.slice(canonicalStart,canonicalEnd)+'\nreturn canonicalAddressCityQuery')();
+// index.js emits a browser script from a template string, so the repo source
+// escapes regex backslashes one extra time. Undo only that template escaping.
+const canonicalSource=frontend.slice(canonicalStart,canonicalEnd).replace(/\\\\p/g,'\\p');
+const cityAlias=new Function(canonicalSource+'\nreturn canonicalAddressCityQuery')();
 assert.equal(cityAlias('GB','Londra'),'London');
 assert.equal(cityAlias('gb','Londres'),'London');
 assert.equal(cityAlias('GB','London'),'London');
