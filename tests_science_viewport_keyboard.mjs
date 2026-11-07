@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import frontend from './index.js';
+const html=await(await frontend.fetch(new Request('https://science-viewport-regression.test/'))).text();
+const code=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
+const css=html.match(/\/\* Science viewport recovery v2:[\s\S]*?<\/style>/)?.[0]||'';
+assert.ok(code.includes('function scienceFitViewport()'));
+const fn=code.slice(code.indexOf('function scienceFitViewport()'),code.indexOf("window.addEventListener('resize',scienceFitViewport"));
+assert.match(fn,/page\.getBoundingClientRect\(\)\.top/,'subtract the actual page top once');
+assert.match(fn,/if\(!focus\)[\s\S]*?removeProperty\('--science-content-height'\)/,'normal scroll never fixes page height');
+assert.match(fn,/navTop>pageTop&&navTop<visibleBottom/,'only account for navigation when visibly above the keyboard');
+assert.match(fn,/page\.scrollTop\+=/,'keyboard caret remains reachable');
+assert.match(css,/flex:1 1 0%!important/,'use native flex for full screen');
+assert.match(css,/overflow-y:auto!important/,'visible chapter and bottom controls scroll');
+assert.match(css,/padding-bottom:20px!important/,'no extra footer-sized blank area with keyboard');
+console.log('PASS science viewport scrolling and Android keyboard CSS/JS contract');
