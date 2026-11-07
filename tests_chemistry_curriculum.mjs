@@ -30,7 +30,7 @@ const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script,'inline frontend present');
 new vm.Script(script);
 assert.match(script,/function chemistryCurriculumOpen\(\)/);
-assert.match(script,/chemistryCurriculumOpen\(\):educationTheoryOpen\(code,null\)/);
+assert.match(script,/if\(key==='science'\)\{scienceJourneyShowChoices\('subjects'\);return\}/,'Science enters subject chooser first');
 assert.match(script,/if\(chemistry\?\.open\)\{chemistry\.pocketBack\?\.\(\);return\}/);
 assert.match(script,/dialog\.addEventListener\('cancel',event=>\{event\.preventDefault\(\);back\(\)\}\)/);
 assert.match(script,/\.slice\(0,4\)\.map\(x=>x\.e\)/,'typed matches capped at four');
@@ -64,7 +64,7 @@ const subscripts=script.slice(catStart,script.indexOf('let educationTheoryVoiceI
  '\n'+script.slice(begin,end)+'\nchemistryCurriculumOpen';
 const preview=vm.runInNewContext(subscripts,{
  document:doc,learningLabel:(ro,en)=>ro,educationTheoryStopVoice:()=>{},
- CHEMISTRY_LEVELS, CHEMISTRY_TOPICS
+ chemistryCurriculumPreset:null,CHEMISTRY_LEVELS, CHEMISTRY_TOPICS
 });
 preview();
 const dialog=doc.getElementById('chemistryCurriculumDialog');

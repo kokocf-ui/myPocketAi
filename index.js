@@ -1556,6 +1556,120 @@ body.long-choice-active{overflow:hidden}
 .education-theory-open{flex-shrink:0}
 
 /* Chemistry preview: fixed dialog chrome with a single independently scrolling chapter/lesson list. */
+/* Sciences: subjects first, level second, chapter third, own workspace last.
+   Fixed single-screen chrome; only active chapter/editor scrolls. */
+main.page:has(#view-module.learning-science.active){
+ height:var(--science-content-height,auto)!important;
+ max-height:var(--science-content-height,none)!important;
+ min-height:0!important;overflow:hidden!important;
+ padding-bottom:0!important;overscroll-behavior:contain!important
+}
+#view-module.learning-science.active{
+ display:grid!important;grid-template-rows:auto minmax(0,1fr)!important;
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ overflow:hidden!important;padding-bottom:0!important;gap:8px!important
+}
+#view-module.learning-science #moduleContent{
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ display:flex!important;flex-direction:column!important;
+ gap:8px!important;overflow:hidden!important;padding:0!important
+}
+#view-module.learning-science #moduleChatHost{
+ display:none!important;max-height:0!important;min-height:0!important;overflow:hidden!important
+}
+#view-module.learning-science .science-stage-toolbar{flex:0 0 auto!important}
+#view-module.learning-science .science-stage-back{min-height:46px!important;min-width:120px}
+#view-module.learning-science .science-choice-panel{
+ flex:1 1 auto!important;min-height:0!important;overflow:hidden!important;margin:0!important
+}
+#view-module.learning-science .science-choice-list{
+ display:flex!important;flex-direction:column!important;gap:8px!important;
+ flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;
+ overscroll-behavior:contain!important;scroll-padding-bottom:10px!important
+}
+#view-module.learning-science .science-choice-row{
+ min-height:59px!important;flex:0 0 auto!important;width:100%!important
+}
+#view-module.learning-science .science-work-toolbar{
+ flex:0 0 auto!important;display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important;
+ margin:0!important;align-items:stretch!important
+}
+#view-module.learning-science .science-work-toolbar>button{
+ width:100%!important;min-width:0!important;max-width:none!important;
+ min-height:43px!important;margin:0!important;padding:6px 7px!important;
+ font-size:clamp(12px,3.3vw,16px)!important
+}
+#view-module.learning-science #scienceEducationWorkspace{
+ flex:1 1 auto!important;max-height:100%!important;min-height:0!important;
+ margin:0!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+ padding:clamp(8px,1.5dvh,14px)!important
+}
+#view-module.learning-science #scienceEducationText{
+ width:100%!important;min-height:125px!important;
+ height:clamp(140px,24dvh,245px)!important;max-height:35dvh!important;
+ resize:none!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+ line-height:1.4!important;scroll-padding-block:1lh!important;
+ flex:0 0 auto!important
+}
+#view-module.learning-science .science-education-actions{flex:0 0 auto!important}
+#view-module.learning-science .science-work-tools{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:7px;min-width:0;flex:0 0 auto
+}
+#view-module.learning-science .science-work-tools>button{
+ min-width:0!important;min-height:43px!important;font-size:clamp(12px,3.4vw,16px)!important
+}
+#view-module.learning-science .science-symbol-tray[hidden]{display:none!important}
+#view-module.learning-science .science-symbol-tray{
+ grid-column:1/-1;display:flex;flex-wrap:wrap;gap:5px;
+ max-height:90px;overflow-y:auto;overscroll-behavior:contain
+}
+#view-module.learning-science .science-symbol-tray button{
+ min-height:40px!important;min-width:41px!important;padding:5px!important
+}
+main.page.science-keyboard-visible:has(#view-module.learning-science.active){
+ overflow-y:auto!important;max-height:var(--science-content-height,none)!important;
+ padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))!important
+}
+main.page.science-keyboard-visible #view-module.learning-science.active{
+ height:auto!important;max-height:none!important;overflow:visible!important
+}
+main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
+ height:auto!important;max-height:none!important;overflow:visible!important
+}
+.science-result-dialog[open]{
+ box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+ width:min(96vw,670px)!important;max-width:96vw!important;
+ height:min(85dvh,750px)!important;max-height:85dvh!important;overflow:hidden!important
+}
+.science-result-dialog .education-theory-head{flex:0 0 auto!important}
+.science-result-text{white-space:pre-wrap;overflow-y:auto;overscroll-behavior:contain;
+ line-height:1.5;flex:1 1 auto;min-height:0;padding:10px 4px;overflow-wrap:anywhere}
+.science-photo-editor{
+ width:100%;box-sizing:border-box;min-height:120px;max-height:40dvh;
+ background:#071c2b;color:#f4faff;border:1px solid #548199;border-radius:10px;
+ padding:10px;font:inherit;overflow-y:auto;resize:vertical
+}
+/* Mathematics: keep Theory on the same navigation row, not as an orphan button. */
+#view-module.learning-active.learning-math .education-toolbar.math-navigation{
+ grid-template-columns:minmax(72px,.85fr) minmax(0,2fr) minmax(78px,.85fr)!important;
+ gap:clamp(5px,1.5vw,8px)!important
+}
+#view-module.learning-active.learning-math .education-toolbar.math-navigation>.education-theory-open{
+ width:100%!important;min-width:0!important;max-width:none!important;
+ height:100%!important;min-height:43px!important;margin:0!important;
+ padding:6px 4px!important;font-size:clamp(12px,3.15vw,16px)!important;
+ white-space:normal!important
+}
+#view-module.learning-active.learning-math .math-voice-controls{gap:5px!important}
+@media(max-width:370px){
+ #view-module.learning-active.learning-math .education-toolbar.math-navigation{
+  grid-template-columns:minmax(68px,.8fr) minmax(0,2.2fr) minmax(72px,.8fr)!important
+ }
+ .science-work-toolbar{gap:5px!important}
+}
+
 .chemistry-curriculum-dialog[open]{
  display:flex!important;flex-direction:column!important;gap:10px;
  box-sizing:border-box!important;width:min(96vw,670px)!important;
@@ -1821,7 +1935,7 @@ main.page:has(#view-module.learning-math.active){
 }
 #view-module.learning-active.learning-math .education-math-workspace textarea{
  flex:0 1 auto;min-height:58px!important;
- height:clamp(58px,12dvh,112px)!important;max-height:17dvh!important;
+ height:clamp(125px,23dvh,235px)!important;max-height:30dvh!important;
  resize:none!important;overflow-y:auto!important;
  overscroll-behavior-y:contain!important;scroll-padding-block:1lh!important;
 }
@@ -6619,6 +6733,7 @@ function pocketExitVoiceResult(data){
 }
 function pocketBackInsideModule(){
  const root=$('view-module');
+ if(root.classList.contains('learning-active')&&root.classList.contains('learning-science')){scienceBack();return true}
  if(root.classList.contains('learning-active')&&root.classList.contains('learning-math')){
   if(mathJourney.stage==='workspace'){mathJourney.stage='subjects';mathJourneyShowChoices('subjects');return true}
   if(mathJourney.stage==='subjects'){mathJourney.stage='levels';mathJourneyShowChoices('levels');return true}
@@ -6630,6 +6745,8 @@ function pocketBackInsideModule(){
  return false;
 }
 window.pocketAndroidBack=function(){
+ if(document.getElementById('sciencePhotoDialog')?.open){document.getElementById('sciencePhotoDialog').close();return}
+ if(document.getElementById('scienceResultDialog')?.open){document.getElementById('scienceResultDialog').close();return}
  const chemistry=document.getElementById('chemistryCurriculumDialog');
  if(chemistry?.open){chemistry.pocketBack?.();return}
  if(document.getElementById('educationTheoryDialog')?.open){document.getElementById('educationTheoryDialog').close();return}
@@ -6660,6 +6777,148 @@ const LEARNING_SUBJECTS=[
  ['exams','🎓','Pregătire examene','Exam preparation','Teste, simulări și recapitulări.','Tests, mock exams and revision.'],
  ['practical','🧰','Cursuri practice','Practical courses','Finanțe, meserii și antreprenoriat.','Finance, careers and enterprise.']
 ];
+const SCIENCE_SUBJECTS=[
+ {id:'physics',icon:'⚡',ro:'Fizică',en:'Physics'},
+ {id:'chemistry',icon:'🧪',ro:'Chimie',en:'Chemistry'},
+ {id:'biology',icon:'🧬',ro:'Biologie',en:'Biology'},
+ {id:'astronomy',icon:'🔭',ro:'Astronomie',en:'Astronomy'}
+];
+const SCIENCE_OTHER_TOPICS={
+ physics:[
+  {id:'mechanics',ro:'Mecanică',en:'Mechanics'},
+  {id:'heat',ro:'Termodinamică',en:'Thermodynamics'},
+  {id:'electricity',ro:'Electricitate și magnetism',en:'Electricity & magnetism'},
+  {id:'optics',ro:'Optică și unde',en:'Optics & waves'},
+  {id:'modern',ro:'Fizică modernă',en:'Modern physics'}
+ ],
+ biology:[
+  {id:'cells',ro:'Celulă și organizare',en:'Cells & organization'},
+  {id:'organisms',ro:'Organisme și anatomie',en:'Organisms & anatomy'},
+  {id:'genetics',ro:'Genetică și evoluție',en:'Genetics & evolution'},
+  {id:'ecology',ro:'Ecologie',en:'Ecology'},
+  {id:'biomedicine',ro:'Biologie moleculară',en:'Molecular biology'}
+ ],
+ astronomy:[
+  {id:'solar',ro:'Sistemul solar',en:'Solar system'},
+  {id:'stars',ro:'Stele și galaxii',en:'Stars & galaxies'},
+  {id:'observations',ro:'Observații astronomice',en:'Astronomical observations'},
+  {id:'cosmology',ro:'Cosmologie',en:'Cosmology'},
+  {id:'astrophysics',ro:'Astrofizică',en:'Astrophysics'}
+ ]
+};
+let scienceJourney={stage:'subjects',subject:null,level:null,topic:null};
+let scienceVoiceActive=false,scienceLastReply='',scienceRequestController=null;
+function scienceSubjectInfo(){return SCIENCE_SUBJECTS.find(s=>s.id===scienceJourney.subject)||null}
+function scienceTopicChoices(){
+ return scienceJourney.subject==='chemistry'?CHEMISTRY_TOPIC_DATA:(SCIENCE_OTHER_TOPICS[scienceJourney.subject]||[]);
+}
+function scienceTopicInfo(){return scienceTopicChoices().find(x=>x.id===scienceJourney.topic)||null}
+function scienceLevelInfo(){return CHEMISTRY_LEVEL_DATA.find(x=>x.id===scienceJourney.level)||null}
+function scienceStopRequest(){
+ if(scienceRequestController){scienceRequestController.abort();scienceRequestController=null}
+}
+function scienceVoiceStop(){
+ if(scienceVoiceActive&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
+ scienceVoiceActive=false;
+ $('scienceDictation')?.setAttribute('aria-pressed','false');
+}
+function scienceBack(){
+ const current=scienceJourney.stage;
+ scienceVoiceStop();scienceStopRequest();
+ if(current==='workspace')scienceJourney.stage='topics';
+ else if(current==='topics')scienceJourney.stage='levels';
+ else if(current==='levels')scienceJourney.stage='subjects';
+ else {renderLearningSubjects();return}
+ scienceJourneyShowChoices(scienceJourney.stage);
+}
+function scienceFitViewport(){
+ const page=document.querySelector('main.page'),root=$('view-module');
+ if(!page||!root?.classList.contains('learning-science')||!root.classList.contains('active')){
+  page?.classList.remove('science-keyboard-visible');
+  page?.style.removeProperty('--science-content-height');
+  return;
+ }
+ const top=document.querySelector('.app-header')?.getBoundingClientRect().bottom||0;
+ const viewport=window.visualViewport;
+ const visibleBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
+ const navTop=document.querySelector('.bottom-nav')?.getBoundingClientRect().top??window.innerHeight;
+ page.style.setProperty('--science-content-height',Math.max(160,Math.floor(Math.min(navTop,visibleBottom)-top-8))+'px');
+ page.classList.toggle('science-keyboard-visible',document.activeElement?.id==='scienceEducationText');
+}
+window.addEventListener('resize',scienceFitViewport,{passive:true});
+window.visualViewport?.addEventListener('resize',scienceFitViewport,{passive:true});
+function scienceJourneyShowChoices(stage){
+ const science=LEARNING_SUBJECTS.find(s=>s[0]==='science');
+ if(!science)return;
+ scienceVoiceStop();scienceStopRequest();
+ scienceJourney.stage=stage;
+ activeLearningSubject=science;
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-math','math-choice-stage');
+ root.classList.add('learning-active','learning-science');
+ root.classList.toggle('science-choice-stage',stage!=='workspace');
+ $('moduleTitle').textContent=learningLabel('Științe','Sciences')+
+  (stage==='subjects'?'':' · '+learningLabel(scienceSubjectInfo()?.ro||'',scienceSubjectInfo()?.en||''));
+ $('moduleLead').textContent='';
+ host.replaceChildren();
+ if(stage==='workspace'){scienceOpenWorkspace();requestAnimationFrame(scienceFitViewport);return}
+ const back=document.createElement('button');back.type='button';
+ back.className='secondary-btn science-stage-back';
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=scienceBack;
+ const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
+ bar.append(back);host.append(bar);
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
+ const title=document.createElement('h2');
+ title.textContent=stage==='subjects'?learningLabel('Alege materia','Choose subject'):
+  stage==='levels'?learningLabel('Alege nivelul','Choose level'):
+  learningLabel('Alege capitolul','Choose chapter');
+ const note=document.createElement('p');
+ note.textContent=stage==='subjects'?
+  learningLabel('Fizică, Chimie, Biologie și Astronomie.','Physics, Chemistry, Biology and Astronomy.'):
+  stage==='levels'?
+  learningLabel('Nivelul stabilește complexitatea explicațiilor.','The level controls explanation complexity.'):
+  learningLabel('Capitolele sunt organizate pentru nivelul ales.','Chapters are organized for the selected level.');
+ const list=document.createElement('div');
+ list.className='math-choice-list science-choice-list';
+ const choices=stage==='subjects'?SCIENCE_SUBJECTS:
+  stage==='levels'?CHEMISTRY_LEVEL_DATA:
+  scienceTopicChoices().filter(topic=>{
+   if(scienceJourney.subject!=='chemistry')return true;
+   const rank={beginner:0,intermediate:1,advanced:2};
+   return rank[topic.minLevel]<=rank[scienceJourney.level] &&
+    EDUCATION_THEORY_DATA.some(x=>x.subject==='chemistry'&&x.topic===topic.id&&
+     rank[x.level==='medium'?'intermediate':x.level]<=rank[scienceJourney.level]);
+  });
+ for(const item of choices){
+  const btn=document.createElement('button');btn.type='button';
+  btn.className='secondary-btn math-choice-row science-choice-row';
+  const heading=document.createElement('strong');
+  heading.textContent=(stage==='subjects'?item.icon+' ':'')+learningLabel(item.ro,item.en);
+  const sub=document.createElement('small');
+  sub.textContent=stage==='subjects'?
+   (item.id==='chemistry'?learningLabel('14 capitole · teorie populată','14 chapters · lessons available'):
+     learningLabel('Spațiu de studiu','Study workspace')):
+   stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
+   scienceJourney.subject==='chemistry'?
+    EDUCATION_THEORY_DATA.filter(x=>x.subject==='chemistry'&&x.topic===item.id).length+
+      learningLabel(' fișe teoretice',' theory entries'):'';
+  btn.append(heading,sub);
+  btn.onclick=()=>{
+   if(stage==='subjects'){
+    scienceJourney.subject=item.id;scienceJourney.level=null;scienceJourney.topic=null;
+    scienceJourneyShowChoices('levels');
+   }else if(stage==='levels'){
+    scienceJourney.level=item.id;scienceJourneyShowChoices('topics');
+   }else{
+    scienceJourney.topic=item.id;scienceJourneyShowChoices('workspace');
+   }
+  };
+  list.append(btn);
+ }
+ panel.append(title,note,list);host.append(panel);
+ requestAnimationFrame(scienceFitViewport);
+}
+
 const MATH_LEVELS=[
  {id:'beginner',ro:'Începător',en:'Beginner',scopeRo:'Primar și gimnaziu · clasele I–VIII',scopeEn:'Primary & lower secondary · grades 1–8'},
  {id:'intermediate',ro:'Mediu',en:'Intermediate',scopeRo:'Liceu · clasele IX–XII',scopeEn:'Upper secondary · grades 9–12'},
@@ -7336,6 +7595,7 @@ function educationTheoryOpen(subject,level){
 }
 
 
+let chemistryCurriculumPreset=null;
 function chemistryCurriculumOpen(){
  educationTheoryStopVoice();
  const old=document.getElementById('chemistryCurriculumDialog');if(old)old.remove();
@@ -7343,7 +7603,9 @@ function chemistryCurriculumOpen(){
  dialog.id='chemistryCurriculumDialog';
  dialog.className='education-theory-dialog chemistry-curriculum-dialog';
  dialog.setAttribute('aria-label',learningLabel('Chimie · lecții','Chemistry · lessons'));
- let stage='levels',selectedLevel=null,selectedTopic=null,selectedLesson=null,searchValue='';
+ const preset=chemistryCurriculumPreset;chemistryCurriculumPreset=null;
+ let stage=preset?.topic?'lessons':preset?.level?'topics':'levels';
+ let selectedLevel=preset?.level||null,selectedTopic=preset?.topic||null,selectedLesson=null,searchValue='';
  const levelRank={beginner:0,medium:1,intermediate:1,advanced:2};
  const chapter=()=>CHEMISTRY_TOPIC_DATA.find(e=>e.id===selectedTopic);
  const isVisible=e=>e.subject==='chemistry'&&e.topic===selectedTopic&&
@@ -7375,7 +7637,7 @@ function chemistryCurriculumOpen(){
  }
  function back(){
   if(stage==='detail')stage='lessons';
-  else if(stage==='lessons'){stage='topics';searchValue=''}
+  else if(stage==='lessons'){if(preset?.topic){dialog.close();return}stage='topics';searchValue=''}
   else if(stage==='topics')stage='levels';
   else {dialog.close();return}
   render();
@@ -7482,6 +7744,260 @@ function chemistryCurriculumOpen(){
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
 
+// Dedicated science workspace: a bounded editor replaces the generic chat pane.
+// Chemistry has its own formula tools; the other sciences share the same layout.
+function scienceDraftKey(){
+ return 'mypocketai.science.exercise.v1.'+scienceJourney.subject+'.'+scienceJourney.topic;
+}
+function scienceDraftRead(){
+ try{return String(localStorage.getItem(scienceDraftKey())||'').slice(0,3500)}catch{return ''}
+}
+function scienceDraftSave(text){
+ try{localStorage.setItem(scienceDraftKey(),String(text||'').slice(0,3500))}catch{}
+}
+function scienceStatus(message){
+ const status=$('scienceEducationStatus');if(status)status.textContent=message;
+}
+function scienceVoiceToggle(){
+ if(scienceVoiceActive){
+  scienceVoiceStop();scienceStatus(learningLabel('Dictarea este oprită. Verifică textul.','Dictation stopped. Review the text.'));return;
+ }
+ if(!pocketNativeVoiceAvailable()){
+  scienceStatus(learningLabel('Dictarea necesită aplicația Android.','Dictation requires the Android app.'));return;
+ }
+ stopSpeech();stopRecognition();state.dictationMode=false;state.voiceMode=false;
+ const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
+ scienceVoiceActive=true;
+ $('scienceDictation')?.setAttribute('aria-pressed','true');
+ if(!pocketNativeVoiceSend({action:'listen',mode:'science',language:locale})){
+  scienceVoiceStop();scienceStatus(learningLabel('Microfon indisponibil.','Microphone unavailable.'));return;
+ }
+ scienceStatus(learningLabel('Te ascult…','Listening…'));
+}
+function scienceVoiceHandleAndroid(data){
+ if(data?.mode!=='science')return false;
+ if(!scienceVoiceActive)return true;
+ if(data.status==='recognized'){
+  const editor=$('scienceEducationText'),spoken=collapseRepeatedVoiceWords(String(data.text||'').trim());
+  if(editor&&spoken){
+   editor.value+=(editor.value.trim()?' '+spoken:spoken);
+   editor.dispatchEvent(new Event('input',{bubbles:true}));
+   scienceStatus(learningLabel('Verifică formulele și numerele din dictare.','Review dictated formulas and numbers.'));
+  }
+  scienceVoiceStop();
+ }else if(data.status==='error'){
+  scienceVoiceStop();scienceStatus(learningLabel('Dictarea nu este disponibilă acum.','Dictation is unavailable.'));
+ }else if(data.status==='partial'){
+  scienceStatus(learningLabel('Aud: ','Hearing: ')+String(data.text||'').slice(0,90));
+ }
+ return true;
+}
+function scienceRead(){
+ scienceVoiceStop();
+ const phrase=scienceLastReply||$('scienceEducationText')?.value?.trim();
+ if(phrase)speakText(phrase);
+ else scienceStatus(learningLabel('Scrie un exercițiu sau obține o explicație.','Type an exercise or get an explanation.'));
+}
+function scienceInsertSymbol(editor,symbol){
+ const a=editor.selectionStart??editor.value.length,b=editor.selectionEnd??a;
+ editor.value=editor.value.slice(0,a)+symbol+editor.value.slice(b);
+ // Do not programmatically focus the text field: tapping a symbol must not summon the Android keyboard.
+ editor.setSelectionRange(a+symbol.length,a+symbol.length);
+ editor.dispatchEvent(new Event('input',{bubbles:true}));
+}
+function scienceShowResult(title,body){
+ document.getElementById('scienceResultDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='scienceResultDialog';
+ dialog.className='education-theory-dialog science-result-dialog';
+ const head=document.createElement('div');head.className='education-theory-head';
+ const h=document.createElement('h2');h.textContent=title;
+ const close=document.createElement('button');close.type='button';close.className='secondary-btn';
+ close.textContent=learningLabel('← Revenire','← Back');close.onclick=()=>dialog.close();
+ head.append(h,close);
+ const content=document.createElement('div');content.className='science-result-text';
+ content.textContent=body;dialog.append(head,content);
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+async function scienceWorkspaceRun(mode){
+ const editor=$('scienceEducationText'),source=editor?.value.trim()||'';
+ if(!source){scienceStatus(learningLabel('Scrie exercițiul sau enunțul de studiu.','Type the exercise or learning question.'));return}
+ if(scienceRequestController)return;
+ const subject=scienceSubjectInfo(),topic=scienceTopicInfo(),level=scienceLevelInfo();
+ const selectedSubject=learningLabel(subject?.ro||'',subject?.en||'');
+ const selectedChapter=learningLabel(topic?.ro||'',topic?.en||'');
+ const selectedLevel=learningLabel(level?.ro||'',level?.en||'');
+ const instruction=mode==='solve'?
+  learningLabel('Explică și rezolvă pas cu pas, cu verificarea formulelor, unităților și ipotezelor. Nu inventa date. În chimie, conservă atomii și sarcinile și nu inventa condiții de laborator.',
+   'Explain and solve step by step, checking formulas, units and assumptions. Do not fabricate data. In chemistry, conserve atoms and charge, and do not invent lab conditions.'):
+  learningLabel('Prezintă metoda generală, definițiile și regulile necesare, fără să inventezi măsurători.',
+   'Teach the general method, definitions and necessary rules; do not invent measured values.');
+ const message=learningLabel('Materie: ','Subject: ')+selectedSubject+
+  learningLabel('; Nivel: ','; Level: ')+selectedLevel+
+  learningLabel('; Capitol: ','; Chapter: ')+selectedChapter+'. '+
+  instruction+String.fromCharCode(10)+source;
+ const currentStage=scienceJourney.stage,subjectId=scienceJourney.subject,topicId=scienceJourney.topic;
+ const controller=new AbortController();scienceRequestController=controller;
+ scienceStatus(learningLabel('Se pregătește explicația…','Preparing explanation…'));
+ try{
+  const response=await fetch(CLIENT_CONFIG.apiUrl,{
+   method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({message,language:state.language,module:'assistant',history:[]}),
+   signal:controller.signal
+  });
+  const data=await response.json();
+  if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())
+   throw new Error('response_unavailable');
+  if(controller.signal.aborted||scienceJourney.stage!==currentStage||
+     scienceJourney.subject!==subjectId||scienceJourney.topic!==topicId)return;
+  scienceLastReply=data.reply.trim().slice(0,12000);
+  scienceStatus(learningLabel('Explicație disponibilă.','Explanation available.'));
+  scienceShowResult(
+   mode==='solve'?learningLabel('Rezolvare · ','Solution · ')+selectedSubject:
+    learningLabel('Metodă · ','Method · ')+selectedSubject,
+   scienceLastReply+String.fromCharCode(10,10)+learningLabel(
+    'Răspuns AI: verifică formulele și rezultatele înainte de utilizare.',
+    'AI answer: check formulas and results before using them.')
+  );
+ }catch(error){
+  if(!controller.signal.aborted)scienceStatus(learningLabel(
+   'Nu am primit un răspuns verificabil. Exercițiul a fost păstrat.',
+   'No response was received. Your exercise was preserved.'));
+ }finally{
+  if(scienceRequestController===controller)scienceRequestController=null;
+ }
+}
+function sciencePhotoReview(text){
+ document.getElementById('sciencePhotoDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='sciencePhotoDialog';
+ dialog.className='education-theory-dialog science-result-dialog';
+ const head=document.createElement('div');head.className='education-theory-head';
+ const title=document.createElement('h2');title.textContent=learningLabel('Verifică fotografia','Review photograph');
+ const close=document.createElement('button');close.type='button';close.className='secondary-btn';
+ close.textContent=learningLabel('← Revenire','← Back');close.onclick=()=>dialog.close();
+ head.append(title,close);
+ const note=document.createElement('p');
+ note.textContent=learningLabel(
+  'Text OCR neconfirmat. Verifică fiecare coeficient, simbol, indice și sarcină chimică înainte de folosire.',
+  'Unverified OCR text. Check each coefficient, symbol, subscript and ionic charge before use.');
+ const field=document.createElement('textarea');field.className='science-photo-editor';
+ field.value=String(text||'').slice(0,3500);
+ field.placeholder=learningLabel('Scrie aici dacă imaginea nu a fost citită.','Type here if the image could not be read.');
+ const confirm=document.createElement('button');confirm.type='button';
+ confirm.className='primary-btn';confirm.textContent=learningLabel('Confirmă transcrierea','Confirm transcription');
+ confirm.onclick=()=>{
+  const editor=$('scienceEducationText');
+  if(!editor||!field.value.trim()){scienceStatus(learningLabel('Nu există text de confirmat.','No text to confirm.'));return}
+  editor.value=field.value.trim().slice(0,3500);
+  editor.dispatchEvent(new Event('input',{bubbles:true}));dialog.close();
+ };
+ dialog.append(head,note,field,confirm);
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+async function sciencePhotoFile(file){
+ if(!file)return;
+ if(!file.type.startsWith('image/')||file.size>12*1024*1024){
+  scienceStatus(learningLabel('Alege o imagine de maximum 12 MB.','Choose an image up to 12 MB.'));return;
+ }
+ let url='';
+ try{
+  if(typeof TextDetector!=='function')throw new Error('ocr_unavailable');
+  url=URL.createObjectURL(file);
+  const img=new Image();img.src=url;await img.decode();
+  const detector=new TextDetector(),lines=await detector.detect(img);
+  sciencePhotoReview((lines||[]).map(x=>x.rawValue||'').join(String.fromCharCode(10)));
+ }catch{sciencePhotoReview('')}
+ finally{if(url)URL.revokeObjectURL(url)}
+}
+function scienceOpenWorkspace(){
+ const host=$('moduleContent');
+ const topic=scienceTopicInfo(),subject=scienceSubjectInfo();
+ const toolbar=document.createElement('div');toolbar.className='education-toolbar science-work-toolbar';
+ const back=document.createElement('button');back.type='button';
+ back.className='secondary-btn science-back-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=scienceBack;
+ const voice=document.createElement('button');voice.type='button';voice.id='scienceDictation';voice.className='secondary-btn';
+ voice.textContent=learningLabel('🎙 Dictare','🎙 Dictate');voice.setAttribute('aria-pressed','false');voice.onclick=scienceVoiceToggle;
+ const read=document.createElement('button');read.type='button';read.className='secondary-btn';
+ read.textContent=learningLabel('🔊 Citire','🔊 Read');read.onclick=scienceRead;
+ toolbar.append(back,voice,read);
+ if(scienceJourney.subject==='chemistry'){
+  const theory=document.createElement('button');theory.type='button';
+  theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
+  theory.onclick=()=>{
+   chemistryCurriculumPreset={level:scienceJourney.level,topic:scienceJourney.topic};
+   chemistryCurriculumOpen();
+  };
+  toolbar.append(theory);
+ }else if(scienceJourney.subject==='physics'){
+  const theory=document.createElement('button');theory.type='button';
+  theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
+  theory.onclick=()=>educationTheoryOpen('physics',scienceJourney.level);
+  toolbar.append(theory);
+ }
+ const workspace=document.createElement('div');
+ workspace.id='scienceEducationWorkspace';
+ workspace.className='education-math-workspace science-education-workspace';
+ const heading=document.createElement('div');heading.className='math-entry-heading';
+ const label=document.createElement('label');label.htmlFor='scienceEducationText';
+ label.textContent=learningLabel('Exercițiu','Exercise')+' · '+learningLabel(topic?.ro||'',topic?.en||'');
+ const newTask=document.createElement('button');newTask.type='button';
+ newTask.className='secondary-btn math-new-task';
+ newTask.textContent=learningLabel('＋ Conversație nouă','＋ New conversation');
+ newTask.onclick=()=>{
+  scienceVoiceStop();scienceStopRequest();scienceLastReply='';
+  const field=$('scienceEducationText');if(field){field.value='';field.scrollTop=0;field.blur()}
+  scienceDraftSave('');scienceStatus('');
+ };
+ heading.append(label,newTask);
+ const editor=document.createElement('textarea');
+ editor.id='scienceEducationText';editor.rows=6;editor.maxLength=3500;
+ editor.value=scienceDraftRead();
+ editor.placeholder=learningLabel('Introdu un exercițiu, o formulă sau un enunț…','Enter an exercise, formula or question…');
+ editor.setAttribute('aria-label',label.textContent);
+ editor.addEventListener('input',()=>{scienceDraftSave(editor.value);scienceStatus('');requestAnimationFrame(()=>{scienceFitViewport();mathEditorFollowCaret(editor)})});
+ for(const type of ['focus','click','keyup','select','compositionend'])
+  editor.addEventListener(type,()=>requestAnimationFrame(()=>{scienceFitViewport();mathEditorFollowCaret(editor)}));
+ const status=document.createElement('small');status.id='scienceEducationStatus';status.setAttribute('role','status');
+ const actions=document.createElement('div');actions.className='education-math-actions science-education-actions';
+ const solve=document.createElement('button');solve.type='button';solve.className='primary-btn';
+ solve.textContent=learningLabel('🧩 Rezolvă pas cu pas','🧩 Solve step by step');
+ solve.onclick=()=>scienceWorkspaceRun('solve');
+ const method=document.createElement('button');method.type='button';method.className='secondary-btn';
+ method.textContent=learningLabel('🎓 Explică metoda','🎓 Explain method');
+ method.onclick=()=>scienceWorkspaceRun('explain');
+ actions.append(solve,method);
+ const tools=document.createElement('div');tools.className='science-work-tools';
+ const cameraInput=document.createElement('input');cameraInput.type='file';cameraInput.accept='image/*';cameraInput.hidden=true;cameraInput.setAttribute('capture','environment');
+ const fileInput=document.createElement('input');fileInput.type='file';fileInput.accept='image/*';fileInput.hidden=true;
+ cameraInput.onchange=()=>sciencePhotoFile(cameraInput.files?.[0]);
+ fileInput.onchange=()=>sciencePhotoFile(fileInput.files?.[0]);
+ const photo=document.createElement('button');photo.type='button';photo.className='secondary-btn';
+ photo.textContent=learningLabel('📷 Foto','📷 Camera');
+ photo.onclick=()=>window.PocketAndroidOCR?.postMessage?
+  window.PocketAndroidOCR.postMessage('camera'):cameraInput.click();
+ const album=document.createElement('button');album.type='button';album.className='secondary-btn';
+ album.textContent=learningLabel('🖼️ Album','🖼️ Gallery');
+ album.onclick=()=>window.PocketAndroidOCR?.postMessage?
+  window.PocketAndroidOCR.postMessage('gallery'):fileInput.click();
+ tools.append(photo,album,cameraInput,fileInput);
+ if(scienceJourney.subject==='chemistry'){
+  const toggle=document.createElement('button');toggle.type='button';toggle.className='secondary-btn science-symbol-toggle';
+  toggle.textContent=learningLabel('⚗ Simboluri','⚗ Symbols');
+  const tray=document.createElement('div');tray.className='science-symbol-tray';tray.hidden=true;
+  for(const symbol of ['₂','₃','₄','⁺','⁻','→','⇌','(aq)']){
+   const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn';
+   btn.textContent=symbol;btn.onclick=()=>scienceInsertSymbol(editor,symbol);tray.append(btn);
+  }
+  toggle.onclick=()=>{tray.hidden=!tray.hidden};
+  tools.append(toggle,tray);
+ }
+ workspace.append(heading,editor,status,actions,tools);
+ host.append(toolbar,workspace);
+}
+
 function mathJourneyShowChoices(stage){
  const mathSubject=LEARNING_SUBJECTS.find(x=>x[0]==='math');
  if(!mathSubject)return;
@@ -7543,10 +8059,10 @@ let activeLearningSubject=null;
 function learningLabel(ro,en){return state.language==='ro'?ro:en}
 function renderLearningSubjects(){
  mathVoiceStop();
- document.querySelector('main.page')?.classList.remove('math-keyboard-visible');
- document.querySelector('main.page')?.style.removeProperty('--math-content-height');
+ document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');
+ document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');
  mathCloseResults();
- $('view-module').classList.remove('learning-math');
+ $('view-module').classList.remove('learning-math','learning-science','science-choice-stage');
  document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
@@ -7621,7 +8137,7 @@ function mathEditorFollowCaret(editor){
  const visibleBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
  const visibleTop=viewport?viewport.offsetTop:0;
  const page=document.querySelector('main.page');
- if(page?.classList.contains('math-keyboard-visible')){
+ if(page?.classList.contains('math-keyboard-visible')||page?.classList.contains('science-keyboard-visible')){
   if(rect.bottom>visibleBottom-10)page.scrollTop+=rect.bottom-visibleBottom+10;
   else if(rect.top<visibleTop+8)page.scrollTop-=visibleTop+8-rect.top;
  }
@@ -8077,6 +8593,7 @@ function mathReadText(){
  }
 
 function openLearningSubject(key){
+ if(key==='science'){scienceJourneyShowChoices('subjects');return}
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
  if(key==='math'&&mathJourney.stage!=='workspace'){
   mathJourneyShowChoices(mathJourney.stage==='subjects'?'subjects':'levels');return;
@@ -8105,12 +8622,6 @@ function openLearningSubject(key){
   voices.append(dictate,read);bar.append(back,voices);
   const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn education-theory-open';theory.textContent=learningLabel('📖 Teorie','📖 Theory');theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);bar.append(theory);
  }else bar.append(back);
- if(key==='science'){
-  for(const [code,ro,en] of [['physics','Fizică','Physics'],['chemistry','Chimie','Chemistry']]){
-   const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn education-theory-open';
-   theory.textContent='📖 '+learningLabel(ro,en);theory.onclick=()=>code==='chemistry'?chemistryCurriculumOpen():educationTheoryOpen(code,null);bar.append(theory);
-  }
- }
  host.append(bar);
  $('moduleLead').textContent='';
  const actions=document.createElement('div');actions.className='education-photo-actions';
@@ -11026,6 +11537,10 @@ $('mathResultDialog').addEventListener('close',()=>{
 window.pocketAndroidOcrResult=function(data){
  if(state.currentModule!=='learning'||!activeLearningSubject||state.currentView!=='module')return;
  if(data?.status==='cancelled')return;
+ if(activeLearningSubject[0]==='science'&&scienceJourney.stage==='workspace'){
+  if(data?.status==='error'){scienceStatus(learningLabel('Fotografia nu a putut fi citită.','Photo could not be read.'));return}
+  sciencePhotoReview(typeof data?.text==='string'?data.text:'');return;
+ }
  if(activeLearningSubject[0]==='math'){
   const editor=$('mathEducationText'),status=$('mathEducationStatus');
   if(!editor||!status)return;
@@ -11405,7 +11920,7 @@ async function handleLearningPhoto(file){
   else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
  } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
 }
-function openModule(key){mathVoiceStop();mathCloseResults();document.querySelector('main.page')?.classList.remove('math-keyboard-visible');document.querySelector('main.page')?.style.removeProperty('--math-content-height');$('view-module').classList.remove('learning-math');document.getElementById('mathEducationReturn')?.remove();if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','tasks-workspace','adaptive-workspace-view');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
+function openModule(key){mathVoiceStop();mathCloseResults();document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');$('view-module').classList.remove('learning-math','learning-science','science-choice-stage');document.getElementById('mathEducationReturn')?.remove();if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('learning-choose','learning-active','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','tasks-workspace','adaptive-workspace-view');activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';const trigger=$('moduleQuickTrigger');trigger.style.display=(key==='maps'||key==='travel')?'inline-flex':'none';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'}],travel:[{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante, pizzerii, shaormerii și fast-food în apropierea mea.',kind:'places',description:'Caută restaurante, pub-uri, pizzerii, shaormerii și fast-food'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places',description:'Caută alte puncte de interes din apropiere'}]};
 function updateQuickLayerGeometry(){
  const header=document.querySelector('.app-header'),nav=document.querySelector('.bottom-nav');
@@ -13977,6 +14492,7 @@ function pocketNativeVoiceAvailable(){return typeof window.PocketAndroidVoice?.p
 function pocketNativeVoiceSend(payload){try{window.PocketAndroidVoice.postMessage(JSON.stringify(payload));return true}catch{return false}}
 window.pocketAndroidVoiceResult=function(data){
  if(educationTheoryHandleAndroid(data))return;
+ if(scienceVoiceHandleAndroid(data))return;
  if(mathVoiceHandleAndroid(data))return;
  if(shopVoiceHandleAndroid(data))return;
  if(agendaVoiceHandleAndroid(data))return;
