@@ -88,7 +88,7 @@ assert.ok(script.includes("search.type='search'"),'filter control is visible ins
 assert.ok(script.includes("choices.style.cssText="),'inline scrollable OCR list replaces native select');
 assert.ok(script.includes("max-height:min(31dvh,232px)"),'list height is bounded to four rows on mobile');
 assert.ok(script.includes('if(mathPhotoOcrRisk(candidate))'),'photo OCR ambiguity must block confirmation');
-assert.ok(script.includes('selectedCandidateIndex>=0'),'explicitly track one selected OCR candidate');
+assert.ok(script.includes('selectedCandidateIndex=i;'),'track the currently selected OCR candidate');
 assert.ok(!script.includes("const selection=document.createElement('select');selection.className='text-field';"),
  'do not use Android popup that hides all but three choices');
 
