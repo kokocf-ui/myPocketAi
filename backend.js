@@ -5,6 +5,7 @@ import {planAnswerFocus} from "./answer_focus.mjs";
 import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.mjs";
 import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion} from "./dialogue_intent.mjs";
 import {localizeNewsRows} from "./localization.mjs";
+import {detectActualNewsLanguage,validateNewsArticleLead,languageCoverage} from "./news_source_integrity.mjs";
 import {resolveNewsFollowup,formatNewsFollowup,publicationDayWindow,isWithinPublicationDay} from "./news_context.mjs";
 import {buildWorldNewsDiscoveryPlan,selectNewsPublisherDiverseSources,describeNewsPublishers,requestedNewsSourceLanguages,requestedNewsArticleLimit,newsFreshnessHours,isNewsComparisonRequest,newsSearchTopic,newsSearchQuery,cleanNewsExcerpt,looksLikeNewsArticle} from "./news_discovery.mjs";
 import {classifyVoluntaryTelegramLink,telegramVerificationPrompt,telegramExternalResearchQuery} from "./telegram_voluntary_links.mjs";
@@ -5439,8 +5440,7 @@ export default {
         for(const languageHint of languages)providerTasks.push((async () => {
           const started = Date.now();
           const u = new URL("https://api.search.brave.com/res/v1/web/search");
-          u.searchParams.set("q",newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.generalQuery:
-            newsIntent?newsSearchQuery(message,languageHint):searchQuery);
+          u.searchParams.set("q",newsIntent?newsSearchQuery(message,languageHint):searchQuery);
           u.searchParams.set("count",eventResearchIntent?15:newsIntent?12:6);
           // Do not force the user's UI language on sources written in other languages.
           if(!newsIntent||requestedSourceLanguages.length)u.searchParams.set("search_lang",languageHint);
@@ -5508,10 +5508,14 @@ export default {
           const useful=outcomes.filter(x=>x.status==="fulfilled"&&x.value.results.length>0);
           const resultCount=useful.reduce((sum,x)=>sum+x.value.results.length,0);
           const publisherSearchEngines=new Set(useful.map(x=>String(x.provider||x.value?.provider||"unknown").split(":")[0]));
+          // For 2-3 requested languages, do not finish after only one search
+          // language returned; use the shared deadline if a language is absent.
+          const queryLanguages=new Set(useful.map(x=>String(x.provider||"").match(/^Brave:(ar|fa|uk|ru|fr|de|en)$/)?.[1]).filter(Boolean));
+          const multilingualPending=newsIntent&&requestedSourceLanguages.length>1&&requestedSourceLanguages.some(x=>!queryLanguages.has(x));
           const broadNewsReady=newsIntent&&newsDiscoveryPlan.broadWorld;
-          const enoughCoverage=broadNewsReady
+          const enoughCoverage=!multilingualPending&&(broadNewsReady
             ? publisherSearchEngines.size>=2&&resultCount>=12
-            : useful.length>=(eventResearchIntent?2:1)&&resultCount>=(eventResearchIntent?8:3);
+            : useful.length>=(eventResearchIntent?2:1)&&resultCount>=(eventResearchIntent?8:3));
           if(!readinessTimer&&enoughCoverage){
             // Brief grace period to include an additional almost-finished provider.
             readinessTimer=setTimeout(readinessResolve,eventResearchIntent?650:newsIntent?newsDiscoveryPlan.broadWorld?700:2200:250);
@@ -5569,7 +5573,12 @@ export default {
         // Diverse publishers rather than eight generic results plus a block
         // from a single GDELT source; no article is added without a real URL.
         const gdeltLeads=newsIntent?rankedWebSources.filter(x=>x.providers.includes("GDELT")).slice(0,35):[];
-        const remainingRanked=rankedWebSources.filter(x=>!gdeltLeads.includes(x));
+        // Keep a fair chance of every requested language even when an English
+        // provider returns first and overwhelms score-based discovery.
+        const languageSeed=newsIntent&&requestedSourceLanguages.length
+         ?requestedSourceLanguages.flatMap(code=>rankedWebSources.filter(x=>detectActualNewsLanguage(x.title,x.snippets?.[0])===code).slice(0,8)):[];
+        const prioritized=[...new Map([...languageSeed,...rankedWebSources].map(x=>[x.url,x])).values()];
+        const remainingRanked=prioritized.filter(x=>!gdeltLeads.includes(x));
         webSources=newsIntent
           ?selectNewsPublisherDiverseSources([...remainingRanked.slice(0,24),...gdeltLeads],{max:35,firstPassPerPublisher:3})
           :[...remainingRanked.slice(0,eventResearchIntent?40:10),...gdeltLeads].slice(0,eventResearchIntent?40:10);
@@ -5620,7 +5629,6 @@ export default {
       const maxNewsRows=requestedNewsArticleLimit(message);
       const freshnessHours=newsFreshnessHours(message);
       const requestedLanguageCoverage=new Set(requestedSourceLanguages);
-      const indexedSourceLanguages=webSources.some(x=>requestedLanguageCoverage.has(x.sourceLanguage));
       const todayOnly=/\b(?:astazi|azi|today)\b/i.test(normalizedResearchRequest);
       const nowMs=Date.now();
       // Select globally retrieved publication results, not only English/RO lexical matches.
@@ -5630,7 +5638,11 @@ export default {
         const url=safeSourceUrl(source.url);
         const originalTitle=String(source.title||"").replace(/\s+/g," ").trim().slice(0,200);
         if(!url||originalTitle.length<15||!looksLikeNewsArticle(originalTitle,url))continue;
-        if(indexedSourceLanguages&&!requestedLanguageCoverage.has(source.sourceLanguage))continue;
+        const leadCheck=validateNewsArticleLead({title:originalTitle,url,summary:(source.snippets||[]).join(" ")});
+        if(!leadCheck.valid)continue;
+        const actualLanguage=detectActualNewsLanguage(originalTitle,(source.snippets||[])[0]||"");
+        // The search provider's search_lang is just a preference, never proof.
+        if(requestedLanguageCoverage.size&&!requestedLanguageCoverage.has(actualLanguage))continue;
         const parsed=new URL(url),urlPath=parsed.pathname.replace(/\/+$/,"");
         if(!urlPath||urlPath==="/")continue;
         if(/^(?:\/emisiuni|\/stiri|\/stiri-video|\/category|\/tag|\/search)(?:\/|$)/i.test(urlPath)&&urlPath.split("/").filter(Boolean).length<=2)continue;
@@ -5664,7 +5676,7 @@ export default {
         seenTitles.add(key);
         publisherRows.set(hostKey,publisherUsed+1);
         rows.push({title:originalTitle,original_title:originalTitle,url,source_name:sourceName,
-          source_domain:rawDomain,source_language:source.sourceLanguage||null,published_at:source.publishedDate||null,recency_status:recencyStatus,
+          source_domain:rawDomain,source_language:actualLanguage,published_at:source.publishedDate||null,recency_status:recencyStatus,
           summary,detail:summary,providers:Array.isArray(source.providers)?source.providers:[],
           verification:"source_identified_claims_unverified",corroborating_source_count:0});
       }
@@ -5715,10 +5727,13 @@ export default {
       rows.splice(0,rows.length,...localizedNewsRows);
       // Never imply that the application has a complete news feed when strict
       // publication-date and topic validation leave only a few articles.
+      const coverage=languageCoverage(rows,requestedSourceLanguages);
+      const comparisonRequested=isNewsComparisonRequest(message);
       const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"date_descending",
         source_languages_requested:requestedSourceLanguages,
-        source_languages_found:[...new Set(rows.map(r=>r.source_language).filter(Boolean))],
-        comparison_status:isNewsComparisonRequest(message)?"not_independently_correlated":undefined,
+        source_languages_found:coverage.found,source_languages_missing:coverage.missing,
+        source_language_validation:"headline_and_excerpt_evidence_not_search_filter",
+        comparison_status:comparisonRequested?(coverage.missing.length?"insufficient_language_coverage":"not_independently_correlated"):undefined,
         selection_policy:"technical_relevance_date_duplicates_and_publisher_diversity",
         viewpoint_filtering_applied:false,editorial_quality_verdict:false,
         retrieved_candidate_count:webSources.length,displayed_result_limit:maxNewsRows,
@@ -5738,7 +5753,9 @@ export default {
         ru:["Новости из найденных источников","Нажмите на заголовок для подробностей. Публикация не подтверждает достоверность фактов.","Подходящие статьи не найдены."],
         pl:["Wiadomości ze znalezionych źródeł","Dotknij tytułu, aby zobaczyć szczegóły. Publikacja nie potwierdza prawdziwości twierdzeń.","Nie znaleziono odpowiednich artykułów."]}[lang]||[];
       const dayNotice=newsPublicationFilter?(lang==="ro"?"Filtru: articole publicate pe "+newsPublicationFilter.day+" (UTC), NU toate evenimentele petrecute atunci. ":"Publication filter: "+newsPublicationFilter.day+" (UTC); this is not a verified list of events that occurred that day. "):"";
-      const comparisonNotice=isNewsComparisonRequest(message)?(lang==="ro"?" Nu pot confirma că relatările din limbi diferite descriu același eveniment fără dovezi încrucișate; consultă sursele originale din tabel.":" Cross-language accounts are not independently correlated; review original sources below."):"";
+      const comparisonNotice=comparisonRequested?(lang==="ro"
+        ?(coverage.missing.length?" Nu am găsit articole verificabile în toate limbile cerute ("+coverage.missing.join(", ")+"). Nu voi prezenta relatări fără legătură drept o comparație.":" Nu am suficiente dovezi pentru a stabili că articolele relatează același eveniment; nu declar afirmațiile confirmate independent.")
+        :(coverage.missing.length?" Some requested source languages are missing; no cross-language comparison is claimed.":" Sources have not been independently correlated into the same event.")):"";
       const reply=dayNotice+(rows.length?labels[0]+"\n"+labels[1]+comparisonNotice:labels[2]);
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
         message_received:message,reply,structured_list:list,

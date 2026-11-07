@@ -104,8 +104,16 @@ export function newsSearchTopic(message){
 }
 export function newsSearchQuery(message,sourceLanguage){
  const subject=newsSearchTopic(message);
- const localized={ar:"أحدث أخبار",fa:"آخرین اخبار",uk:"останні новини",ru:"последние новости",fr:"actualités récentes",de:"aktuelle Nachrichten",en:"latest news"};
- return (localized[sourceLanguage]||"latest news")+" "+subject+" "+new Date().toISOString().slice(0,7);
+ const subjects={
+  "Middle East":{ar:"الشرق الأوسط",fa:"خاورمیانه",uk:"Близький Схід",ru:"Ближний Восток",fr:"Moyen Orient",de:"Nahost",en:"Middle East"},
+  "Iran":{ar:"إيران",fa:"ایران",uk:"Іран",ru:"Иран",fr:"Iran",de:"Iran",en:"Iran"},
+  "Ukraine":{ar:"أوكرانيا",fa:"اوکراین",uk:"Україна",ru:"Украина",fr:"Ukraine",de:"Ukraine",en:"Ukraine"},
+  "France Germany":{ar:"فرنسا وألمانيا",fa:"فرانسه آلمان",uk:"Франція Німеччина",ru:"Франция Германия",fr:"France Allemagne",de:"Frankreich Deutschland",en:"France Germany"},
+  "world international":{ar:"الأحداث الدولية المهمة",fa:"رویداد مهم بین المللی",uk:"головні міжнародні події",ru:"важные международные события",fr:"événement international majeur",de:"wichtige internationale Ereignisse",en:"major international event"}
+ };
+ const localized={ar:"آخر الأخبار",fa:"آخرین خبرها",uk:"свіжі новини",ru:"последние новости",fr:"actualités récentes",de:"aktuelle Nachrichten",en:"latest news"};
+ const focus=subjects[subject]?.[sourceLanguage]||subject;
+ return (localized[sourceLanguage]||"latest news")+" "+focus+" "+new Date().toISOString().slice(0,7);
 }
 // Do not turn search-engine descriptions into invented complete sentences.
 export function cleanNewsExcerpt(value,max=280){
