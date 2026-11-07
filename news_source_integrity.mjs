@@ -46,7 +46,7 @@ const landingPath=/(?:^|\/)(?:about(?:-us)?|who-we-are|our-team|privacy|terms|co
 const promptAsHeadline=/(?:nu am primit|vrei sa il introduci|please provide|i did not receive any|no text supplied|nicio informatie disponibila|do you want to enter it|input your text)/i;
 export function validateNewsArticleLead({title,url,summary}={}){
  const name=ascii(title).replace(/\s+/g," ").trim(),link=String(url||"");
- if(!name||name.length<16||promptAsHeadline.test(name)||landingHeadline.test(name)||/стрічка новин онлайн|всі новини про останні події/iu.test(name))return {valid:false,reason:"landing_or_error_title"};
+ if(!name||name.length<16||promptAsHeadline.test(name)||landingHeadline.test(name)||/стрічка новин онлайн|всі новини про останні події/iu.test(String(title||"").toLowerCase()))return {valid:false,reason:"landing_or_error_title"};
  let path="";
  try{path=new URL(link).pathname.replace(/\/+$/,"");}catch{return {valid:false,reason:"invalid_url"}}
  if(!path||path==="/"||landingPath.test(path))return {valid:false,reason:"landing_url"};
