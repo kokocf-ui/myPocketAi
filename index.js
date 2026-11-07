@@ -1539,6 +1539,31 @@ body.long-choice-active{overflow:hidden}
 /* Mathematics uses three bounded stages. Only the list scrolls; page layout
    always remains within the existing adaptive viewport. */
 #view-module.math-choice-stage #moduleContent{min-height:0!important;overflow:hidden!important}
+.math-figures-action{width:100%;min-height:43px!important;white-space:normal!important}
+.math-figure-summary{display:block;max-height:2.8em;overflow:hidden;text-overflow:ellipsis}
+.math-figure-dialog{box-sizing:border-box;position:fixed;inset:0;margin:auto;
+ width:min(96vw,720px);height:min(90dvh,780px);max-height:90dvh;
+ padding:0;border:2px solid #3d8ea8;border-radius:18px;background:#0a2536;color:#eefaff;
+ box-shadow:0 20px 60px #000c;overflow:hidden}
+.math-figure-dialog::backdrop{background:#000b}
+.math-figure-frame{display:flex;flex-direction:column;min-height:0;height:100%}
+.math-figure-head,.math-figure-foot{flex:0 0 auto;display:flex;gap:8px;align-items:center;
+ justify-content:space-between;padding:10px 12px;background:#0e3043}
+.math-figure-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+ padding:12px;display:flex;flex-direction:column;gap:10px}
+.math-figure-library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.math-figure-library button{min-width:0;min-height:55px;white-space:normal;text-align:left}
+.math-figure-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.math-figure-fields label{display:flex;flex-direction:column;gap:3px;color:#ceeff3;font-size:13px}
+.math-figure-fields input,.math-figure-fields select{box-sizing:border-box;width:100%;min-width:0;
+ min-height:42px;font:inherit;font-size:16px;padding:6px;color:#f3faff;
+ background:#071929;border:1px solid #568da6;border-radius:8px}
+.math-figure-viewport{position:relative;width:100%;height:min(34dvh,270px);min-height:165px;
+ flex:0 0 auto;overflow:hidden;border-radius:12px;border:1px solid #5187a0;background:#051824;
+ touch-action:none;overscroll-behavior:contain;contain:paint}
+.math-figure-viewport svg{display:block;width:100%;height:100%;touch-action:none;overflow:hidden}
+.math-figure-commands{display:flex;gap:6px;flex-wrap:wrap}
+.math-figure-commands button{min-width:42px;min-height:42px;padding:7px 10px}
 .math-choice-panel{display:flex;flex-direction:column;flex:1;min-height:0;gap:9px;
  padding:clamp(10px,2.5vw,16px);border:1px solid #468aa0;border-radius:15px;
  background:linear-gradient(150deg,#12374a,#081c2d)}
@@ -6564,6 +6589,520 @@ const MATH_TOPICS=[
  {id:'differential',ro:'Ecuații diferențiale',en:'Differential equations',levels:['advanced']},
  {id:'discrete',ro:'Matematică discretă',en:'Discrete mathematics',levels:['advanced']}
 ];
+const MATH_FIGURE_GROUPS=[
+ {id:'triangles',ro:'Triunghiuri',en:'Triangles'},
+ {id:'quadrilaterals',ro:'Patrulatere',en:'Quadrilaterals'},
+ {id:'round',ro:'Cercuri și poligoane',en:'Circles and polygons'},
+ {id:'solids',ro:'Corpuri geometrice 3D',en:'3D solids'}
+];
+const MATH_FIGURES=[
+ {id:'triangle',group:'triangles',ro:'Triunghi oarecare',en:'Scalene triangle',fields:['AB','BC','CA']},
+ {id:'right',group:'triangles',ro:'Triunghi dreptunghic',en:'Right triangle',fields:['a','b','c']},
+ {id:'isosceles',group:'triangles',ro:'Triunghi isoscel',en:'Isosceles triangle',fields:['baza','latura']},
+ {id:'equilateral',group:'triangles',ro:'Triunghi echilateral',en:'Equilateral triangle',fields:['latura']},
+ {id:'square',group:'quadrilaterals',ro:'Pătrat',en:'Square',fields:['latura']},
+ {id:'rectangle',group:'quadrilaterals',ro:'Dreptunghi',en:'Rectangle',fields:['lungime','latime']},
+ {id:'rhombus',group:'quadrilaterals',ro:'Romb',en:'Rhombus',fields:['latura','diagonala1','diagonala2']},
+ {id:'parallelogram',group:'quadrilaterals',ro:'Paralelogram',en:'Parallelogram',fields:['baza','latura','inaltime']},
+ {id:'trapezoid',group:'quadrilaterals',ro:'Trapez',en:'Trapezoid',fields:['bazaMare','bazaMica','inaltime']},
+ {id:'circle',group:'round',ro:'Cerc',en:'Circle',fields:['raza','diametru']},
+ {id:'semicircle',group:'round',ro:'Semicerc',en:'Semicircle',fields:['raza']},
+ {id:'pentagon',group:'round',ro:'Pentagon regulat',en:'Regular pentagon',fields:['latura']},
+ {id:'hexagon',group:'round',ro:'Hexagon regulat',en:'Regular hexagon',fields:['latura']},
+ {id:'cube',group:'solids',ro:'Cub 3D',en:'3D cube',fields:['latura'],solid:true},
+ {id:'cuboid',group:'solids',ro:'Paralelipiped 3D',en:'3D rectangular prism',fields:['lungime','latime','inaltime'],solid:true},
+ {id:'prism',group:'solids',ro:'Prismă 3D',en:'3D prism',fields:['baza','inaltime'],solid:true},
+ {id:'pyramid',group:'solids',ro:'Piramidă 3D',en:'3D pyramid',fields:['baza','inaltime'],solid:true},
+ {id:'cylinder',group:'solids',ro:'Cilindru 3D',en:'3D cylinder',fields:['raza','inaltime'],solid:true},
+ {id:'cone',group:'solids',ro:'Con 3D',en:'3D cone',fields:['raza','inaltime'],solid:true},
+ {id:'sphere',group:'solids',ro:'Sferă 3D',en:'3D sphere',fields:['raza'],solid:true}
+];
+let mathFigureDraft=null;
+function mathFigureDefinition(id){return MATH_FIGURES.find(x=>x.id===id)||null}
+function mathFigureName(figure){
+ const entry=mathFigureDefinition(figure?.id);
+ return entry?learningLabel(entry.ro,entry.en):learningLabel('Desen liber','Free drawing');
+}
+function mathFigureMeasurement(value){
+ if(value===undefined||value===null||value==='')return null;
+ const n=Number(String(value).replace(',','.'));
+ return Number.isFinite(n)&&n>0&&n<=100000?n:null;
+}
+function mathFigureCopy(figure){
+ return {id:figure?.id||'free',modified:Boolean(figure?.modified),values:{...(figure?.values||{})},
+  unit:figure?.unit||'cm',vertices:Array.isArray(figure?.vertices)?
+   figure.vertices.map(v=>[v[0],v[1]]):null,
+  strokes:Array.isArray(figure?.strokes)?
+   figure.strokes.map(line=>line.map(p=>[p[0],p[1]])):[],
+  yaw:Number(figure?.yaw)||.45,pitch:Number(figure?.pitch)||.2,
+  zoom:Math.max(1,Math.min(4,Number(figure?.zoom)||1)),panX:0,panY:0};
+}
+function mathFigureAutoExercise(figure){
+ if(!figure||figure.modified)return '';
+ const f=key=>mathFigureMeasurement(figure.values?.[key]);
+ const u=' '+(figure.unit||'cm');
+ if(figure.id==='right'){
+  if(f('a')!==null&&f('b')!==null)
+   return 'Triunghi dreptunghic cu catetele '+f('a')+u+' și '+f('b')+u+'.';
+  if(f('a')!==null&&f('c')!==null)
+   return 'Triunghi dreptunghic: cateta '+f('a')+u+' și ipotenuza '+f('c')+u+'.';
+ }
+ if(figure.id==='square'&&f('latura')!==null)
+  return 'Pătrat latura '+f('latura')+u+'.';
+ if(figure.id==='rectangle'&&f('lungime')!==null&&f('latime')!==null)
+  return 'Dreptunghi cu lungimea '+f('lungime')+u+' și lățimea '+f('latime')+u+'.';
+ if(figure.id==='circle'&&f('raza')!==null&&f('diametru')===null)
+  return 'Cerc cu raza '+f('raza')+u+'.';
+ if(figure.id==='circle'&&f('diametru')!==null&&f('raza')===null)
+  return 'Cerc cu diametrul '+f('diametru')+u+'.';
+ return '';
+}
+function mathFigureSummary(figure){
+ if(!figure)return '';
+ const label=mathFigureName(figure);
+ const values=Object.entries(figure.values||{}).filter(([,v])=>v!=='');
+ return label+(values.length?' · '+values.map(([k,v])=>k+'='+v+(figure.unit||'cm')).join(', '):'');
+}
+function mathFigureInternalConflict(figure){
+ if(!figure)return '';
+ const v=key=>mathFigureMeasurement(figure.values?.[key]);
+ if(figure.id==='circle'&&v('raza')!==null&&v('diametru')!==null&&
+  Math.abs(v('diametru')-2*v('raza'))>1e-8)return 'raza / diametru';
+ if(figure.id==='right'){
+  const a=v('a'),b=v('b'),c=v('c');
+  if(c!==null&&((a!==null&&a>=c)||(b!==null&&b>=c)))return 'ipotenuza';
+  if([a,b,c].every(n=>n!==null)&&Math.abs(a*a+b*b-c*c)>1e-8*Math.max(1,c*c))
+   return 'Pitagora';
+ }
+ if(figure.id==='triangle'&&['AB','BC','CA'].every(k=>v(k)!==null)){
+  const a=v('AB'),b=v('BC'),c=v('CA');
+  if(a+b<=c||a+c<=b||b+c<=a)return 'inegalitatea triunghiului';
+ }
+ if(figure.id==='isosceles'&&v('baza')!==null&&v('latura')!==null&&
+  2*v('latura')<=v('baza'))return 'laturile triunghiului';
+ if(figure.id==='trapezoid'&&v('bazaMare')!==null&&v('bazaMica')!==null&&
+  v('bazaMare')<v('bazaMica'))return 'bazele trapezului';
+ return '';
+}
+function mathFigureConflict(figure,statement){
+ const text=String(statement||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');
+ if(figure?.id==='right'){
+  const a=mathFigureMeasurement(figure.values?.a),b=mathFigureMeasurement(figure.values?.b);
+  if(a!==null&&b!==null){
+   const pair=/\\bcatetele\\s*(?:de\\s*)?(\\d+(?:[.,]\\d+)?)\\s*(?:mm|cm|km|m)?\\s*(?:si|and|,)\\s*(\\d+(?:[.,]\\d+)?)/.exec(text);
+   if(pair){
+    const given=[Number(pair[1].replace(',','.')),Number(pair[2].replace(',','.'))].sort((x,y)=>x-y);
+    const expected=[a,b].sort((x,y)=>x-y);
+    if(Math.abs(given[0]-expected[0])>1e-9||Math.abs(given[1]-expected[1])>1e-9)return 'catetele';
+   }
+  }
+ }
+
+ const checks=[
+  ['raza',['raza','radius']],
+  ['diametru',['diametrul','diametru','diameter']],
+  ['latura',['latura','side']],
+  ['lungime',['lungimea','lungime','length']],
+  ['latime',['latimea','latime','width']]
+ ];
+ for(const [key,terms] of checks){
+  const known=mathFigureMeasurement(figure?.values?.[key]);if(known===null)continue;
+  for(const term of terms){
+   const i=text.indexOf(term);if(i<0)continue;
+   const fragment=text.slice(i+term.length).trim();
+   const match=new RegExp('^(?:de |este |is |of |:|=| )*([0-9]+(?:[.,][0-9]+)?)').exec(fragment);
+   if(match&&Math.abs(Number(match[1].replace(',','.'))-known)>1e-9)return key;
+  }
+ }
+ return '';
+}
+function mathFigureDraftSummary(){
+ const note=document.getElementById('mathFigureSummary');if(!note)return;
+ note.textContent=mathFigureDraft?
+  learningLabel('Figura selectată: ','Selected figure: ')+mathFigureSummary(mathFigureDraft):
+  learningLabel('Poți lucra și fără figură.','You can also work without a figure.');
+}
+function mathFigureDefaultVertices(id){
+ const shapes={
+  triangle:[[64,195],[298,195],[164,42]],
+  right:[[70,198],[295,198],[70,42]],
+  isosceles:[[65,195],[295,195],[180,38]],
+  equilateral:[[80,199],[280,199],[180,26]],
+  square:[[100,45],[260,45],[260,205],[100,205]],
+  rectangle:[[65,67],[295,67],[295,185],[65,185]],
+  rhombus:[[180,32],[290,120],[180,210],[70,120]],
+  parallelogram:[[100,52],[300,52],[260,197],[60,197]],
+  trapezoid:[[135,48],[225,48],[300,202],[60,202]],
+  pentagon:[[180,31],[292,112],[252,214],[108,214],[68,112]],
+  hexagon:[[118,35],[242,35],[305,120],[242,205],[118,205],[55,120]],
+  semicircle:[[65,175],[295,175]]
+ };
+ return (shapes[id]||[]).map(v=>[v[0],v[1]]);
+}
+function mathFigureMesh(id){
+ const v=[],faces=[];
+ if(['cube','cuboid','prism'].includes(id)){
+  const wide=id==='cuboid'?1.35:1,narrow=id==='prism'?.7:1;
+  for(const z of [-narrow,narrow])for(const y of [-1,1])for(const x of [-wide,wide])v.push([x,y,z]);
+  faces.push([0,1,3,2],[4,5,7,6],[0,1,5,4],[2,3,7,6],[0,2,6,4],[1,3,7,5]);
+ }else if(id==='pyramid'){
+  v.push([-1,-1,-1],[1,-1,-1],[1,-1,1],[-1,-1,1],[0,1.35,0]);
+  faces.push([0,1,2,3],[0,1,4],[1,2,4],[2,3,4],[3,0,4]);
+ }else{
+  const segments=16;
+  if(id==='sphere'){
+   const rings=7;
+   for(let j=0;j<=rings;j++){
+    const lat=-Math.PI/2+j*Math.PI/rings;
+    for(let i=0;i<segments;i++){
+     const a=i*Math.PI*2/segments;
+     v.push([Math.cos(lat)*Math.cos(a),Math.sin(lat),Math.cos(lat)*Math.sin(a)]);
+    }
+   }
+   for(let j=0;j<rings;j++)for(let i=0;i<segments;i++){
+    const n=j*segments+i,n1=j*segments+(i+1)%segments;
+    faces.push([n,n1,n1+segments,n+segments]);
+   }
+  }else{
+   for(let j=0;j<2;j++)for(let i=0;i<segments;i++){
+    const a=i*Math.PI*2/segments,rad=id==='cone'&&j===1?0:1,y=j===0?-1:1;
+    v.push([rad*Math.cos(a),y,rad*Math.sin(a)]);
+   }
+   for(let i=0;i<segments;i++){
+    const n=(i+1)%segments;
+    faces.push([i,n,segments+n,segments+i]);
+   }
+   faces.push(Array.from({length:segments},(_,i)=>segments-1-i));
+   if(id==='cylinder')faces.push(Array.from({length:segments},(_,i)=>segments+i));
+  }
+ }
+ return {vertices:v,faces};
+}
+function mathFigureProject3D(point,yaw,pitch){
+ const cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+ const xx=point[0]*cy+point[2]*sy,zz=point[2]*cy-point[0]*sy;
+ const yy=point[1]*cp-zz*sp,depth=point[1]*sp+zz*cp;
+ const perspective=4.4/(4.4-depth);
+ return {x:180+xx*72*perspective,y:120-yy*72*perspective,z:depth};
+}
+function mathFigurePaint(svg,figure){
+ if(!svg||!figure)return;
+ svg.replaceChildren();
+ svg.setAttribute('viewBox','0 0 360 240');
+ svg.setAttribute('aria-label',mathFigureName(figure));
+ const defs=mathSvgElement('defs',{});
+ const clip=mathSvgElement('clipPath',{id:'figure-editor-window'});
+ clip.append(mathSvgElement('rect',{x:0,y:0,width:360,height:240}));
+ defs.append(clip);svg.append(defs);
+ const g=mathSvgElement('g',{'clip-path':'url(#figure-editor-window)'});
+ const panX=Number(figure.panX)||0,panY=Number(figure.panY)||0;
+ const scale=Math.max(1,Math.min(4,Number(figure.zoom)||1));
+ const scene=mathSvgElement('g',{transform:'translate('+(180+panX)+' '+(120+panY)+') scale('+scale+') translate(-180 -120)'});
+ const definition=mathFigureDefinition(figure.id);
+ if(definition?.solid){
+  const mesh=mathFigureMesh(figure.id);
+  const projected=mesh.vertices.map(p=>mathFigureProject3D(p,Number(figure.yaw)||0,Number(figure.pitch)||0));
+  const ordered=mesh.faces.map(face=>({
+   face,depth:face.reduce((n,i)=>n+projected[i].z,0)/face.length
+  })).sort((a,b)=>a.depth-b.depth);
+  for(const part of ordered){
+   const points=part.face.map(i=>projected[i].x.toFixed(1)+','+projected[i].y.toFixed(1)).join(' ');
+   scene.append(mathSvgElement('polygon',{points,fill:part.depth>0?'#23788a':'#12485d',
+    'fill-opacity':'.73',stroke:'#8bdde6','stroke-width':1.1,'stroke-linejoin':'round'}));
+  }
+ }else if(figure.id==='circle'||figure.id==='semicircle'){
+  if(figure.id==='circle'){
+   scene.append(mathSvgElement('circle',{cx:180,cy:120,r:85,fill:'#175064','fill-opacity':'.42',
+    stroke:'#56cdda','stroke-width':3}));
+  }else{
+   scene.append(mathSvgElement('path',{d:'M75 177 A105 105 0 0 1 285 177 Z',
+    fill:'#175064','fill-opacity':'.42',stroke:'#56cdda','stroke-width':3}));
+  }
+ }else{
+  const vertices=figure.vertices?.length?figure.vertices:mathFigureDefaultVertices(figure.id);
+  if(vertices.length>=3){
+   scene.append(mathSvgElement('polygon',{points:vertices.map(p=>p.join(',')).join(' '),
+    fill:'#175064','fill-opacity':'.42',stroke:'#56cdda','stroke-width':3}));
+   if(figure.id==='right'&&!figure.modified)
+    scene.append(mathSvgElement('path',{d:'M70 179 H89 V198',fill:'none',stroke:'#f4b96a','stroke-width':2}));
+   vertices.forEach((point,i)=>{
+    const handle=mathSvgElement('circle',{cx:point[0],cy:point[1],r:7,
+     fill:'#f9d28a',stroke:'#0b2639','stroke-width':2,'data-vertex':i});
+    scene.append(handle);
+    if(i<8){
+     const label=mathSvgElement('text',{x:point[0]+7,y:point[1]-10,fill:'#eaffff','font-size':14});
+     label.textContent=String.fromCharCode(65+i);scene.append(label);
+    }
+   });
+  }
+ }
+ for(const stroke of figure.strokes||[]){
+  if(stroke.length<2)continue;
+  scene.append(mathSvgElement('polyline',{points:stroke.map(p=>p.join(',')).join(' '),
+   fill:'none',stroke:'#f5d291','stroke-width':2.4,'stroke-linejoin':'round',
+   'stroke-linecap':'round'}));
+ }
+ const text=mathFigureSummary(figure);
+ if(text.length>0){
+  const note=mathSvgElement('text',{x:12,y:226,fill:'#fff8d8','font-size':12});
+  note.textContent=text.slice(0,50);scene.append(note);
+ }
+ g.append(scene);svg.append(g);
+}
+function mathFigureSnapshot(figure){
+ const fig=document.createElement('figure');fig.className='math-result-plot';
+ const svg=mathSvgElement('svg',{role:'img'});
+ const copy=mathFigureCopy(figure);copy.zoom=1;copy.panX=0;copy.panY=0;
+ mathFigurePaint(svg,copy);
+ const caption=document.createElement('figcaption');
+ caption.textContent=learningLabel('Schiță geometrică interactivă selectată; dimensiunile nu se deduc din desen.',
+  'Selected geometry sketch; dimensions cannot be inferred from its appearance.');
+ fig.append(svg,caption);return fig;
+}
+function mathOpenFigureLibrary(){
+ if(document.querySelector('.math-figure-dialog'))return;
+ const dialog=document.createElement('dialog');dialog.className='math-figure-dialog';
+ const frame=document.createElement('div');frame.className='math-figure-frame';
+ const header=document.createElement('div');header.className='math-figure-head';
+ const heading=document.createElement('strong');
+ const exit=document.createElement('button');exit.type='button';exit.className='secondary-btn';
+ exit.textContent=learningLabel('Închide','Close');exit.onclick=()=>dialog.close();
+ header.append(heading,exit);
+ const body=document.createElement('div');body.className='math-figure-body';
+ const foot=document.createElement('div');foot.className='math-figure-foot';
+ frame.append(header,body,foot);dialog.append(frame);
+ let working=mathFigureDraft?mathFigureCopy(mathFigureDraft):null;
+ let stage=working?'edit':'groups',group=null,mode=working&&mathFigureDefinition(working.id)?.solid?'rotate':'pan';
+ const btn=(text,onClick,primary=false)=>{
+  const b=document.createElement('button');b.type='button';
+  b.className=primary?'primary-btn':'secondary-btn';
+  b.textContent=text;b.onclick=onClick;return b;
+ };
+ const info=text=>{
+  const p=document.createElement('small');p.style.cssText='display:block;line-height:1.4;color:#b9ddea';
+  p.textContent=text;return p;
+ };
+ const goBack=()=>{
+  if(stage==='edit'){stage=group?'figures':'groups';working=null}
+  else if(stage==='figures'){stage='groups';group=null}
+  else dialog.close();
+  render();
+ };
+ function render(){
+  body.replaceChildren();foot.replaceChildren();
+  heading.textContent=stage==='edit'?mathFigureName(working):
+   stage==='figures'?learningLabel(MATH_FIGURE_GROUPS.find(x=>x.id===group)?.ro||'Figuri',
+    MATH_FIGURE_GROUPS.find(x=>x.id===group)?.en||'Figures'):
+   learningLabel('Figuri geometrice','Geometric figures');
+  if(stage!=='groups')foot.append(btn(learningLabel('← Înapoi','← Back'),goBack));
+  if(stage==='groups'){
+   body.append(info(learningLabel('Alege o familie de figuri sau începe un desen liber.',
+    'Choose a figure family or start a freehand drawing.')));
+   const grid=document.createElement('div');grid.className='math-figure-library';
+   for(const entry of MATH_FIGURE_GROUPS){
+    grid.append(btn(learningLabel(entry.ro,entry.en),()=>{
+     group=entry.id;stage='figures';render();
+    }));
+   }
+   grid.append(btn(learningLabel('✏️ Desen liber','✏️ Free drawing'),()=>{
+    working=mathFigureCopy({id:'free'});stage='edit';mode='draw';render();
+   }));
+   body.append(grid);
+   if(mathFigureDraft)foot.append(btn(learningLabel('Editează figura existentă','Edit existing figure'),()=>{
+    working=mathFigureCopy(mathFigureDraft);stage='edit';mode=mathFigureDefinition(working.id)?.solid?'rotate':'pan';render();
+   }));
+   return;
+  }
+  if(stage==='figures'){
+   body.append(info(learningLabel('Selectează forma. Valorile se pot introduce mai târziu.',
+    'Select a shape. Dimensions may be entered later.')));
+   const grid=document.createElement('div');grid.className='math-figure-library';
+   for(const entry of MATH_FIGURES.filter(x=>x.group===group)){
+    const tile=btn(learningLabel(entry.ro,entry.en),()=>{
+     working=mathFigureCopy({id:entry.id});
+     working.vertices=mathFigureDefaultVertices(entry.id);
+     mode=entry.solid?'rotate':'pan';stage='edit';render();
+    });
+    grid.append(tile);
+   }
+   body.append(grid);return;
+  }
+  const defined=mathFigureDefinition(working.id);
+  const solid=Boolean(defined?.solid);
+  body.append(info(learningLabel('Dimensiunile sunt opționale. Poți continua fără valori și scrie enunțul manual.',
+   'Dimensions are optional. Continue without values and type the problem manually.')));
+  const viewport=document.createElement('div');viewport.className='math-figure-viewport';
+  const svg=mathSvgElement('svg',{role:'img','aria-label':mathFigureName(working)});
+  viewport.append(svg);body.append(viewport);
+  const toolbar=document.createElement('div');toolbar.className='math-figure-commands';
+  const message=info(solid?
+   learningLabel('Trage pentru rotire 3D. Două degete măresc sau micșorează.',
+    'Drag to rotate in 3D. Pinch with two fingers to zoom.'):
+   learningLabel('Trage pentru deplasare; două degete pentru zoom. Selectează Desen sau Puncte pentru editare.',
+    'Drag to pan; pinch to zoom. Select Draw or Points to edit.'));
+  const tool=(id,ro,en)=>{
+   const button=btn(learningLabel(ro,en),()=>{mode=id;setToolStyle()});
+   button.dataset.tool=id;toolbar.append(button);
+  };
+  if(solid){tool('rotate','Rotire 3D','3D rotation');tool('pan','Mută','Pan')}
+  else{tool('pan','Mută','Pan');tool('draw','Desenează','Draw');if(working.id!=='free')tool('points','Puncte','Vertices')}
+  const zoom=(factor)=>{
+   working.zoom=Math.max(1,Math.min(4,working.zoom*factor));
+   const lim=20+(working.zoom-1)*120;
+   working.panX=Math.max(-lim,Math.min(lim,working.panX));
+   working.panY=Math.max(-lim,Math.min(lim,working.panY));
+   paint();
+  };
+  toolbar.append(btn('−',()=>zoom(1/1.25)),btn('+',()=>zoom(1.25)));
+  toolbar.append(btn(learningLabel('Recentrează','Reset view'),()=>{
+   working.zoom=1;working.panX=0;working.panY=0;working.yaw=.45;working.pitch=.2;paint();
+  }));
+  body.append(toolbar,message);
+  const help=info(learningLabel('Schița este orientativă; zoom-ul și rotirea nu modifică dimensiunile reale.',
+    'The sketch is illustrative; zoom and rotation never change actual dimensions.'));
+  body.append(help);
+  const fields=document.createElement('div');fields.className='math-figure-fields';
+  for(const field of defined?.fields||[]){
+   const label=document.createElement('label');label.textContent=field;
+   const input=document.createElement('input');input.type='number';input.min='0';input.step='any';
+   input.placeholder=learningLabel('Opțional','Optional');
+   input.value=working.values?.[field]??'';
+   input.setAttribute('aria-label',learningLabel('Valoare pentru ','Value for ')+field);
+   input.addEventListener('input',()=>{
+    const raw=input.value.trim();
+    if(!raw)delete working.values[field];else working.values[field]=raw;
+    showSummary();
+   });
+   label.append(input);fields.append(label);
+  }
+  const unitLabel=document.createElement('label');
+  unitLabel.textContent=learningLabel('Unitate de lungime','Length unit');
+  const unitInput=document.createElement('input');
+  unitInput.type='text';unitInput.maxLength=2;unitInput.autocomplete='off';
+  unitInput.value=working.unit||'cm';
+  unitInput.addEventListener('input',()=>{working.unit=unitInput.value.toLowerCase();showSummary()});
+  unitLabel.append(unitInput);fields.append(unitLabel);
+  if(defined?.fields?.length)body.append(fields);
+  const summary=info('');
+  body.append(summary);
+  const error=info('');error.setAttribute('role','status');body.append(error);
+  function showSummary(){
+   summary.textContent=mathFigureSummary(working);
+   error.textContent='';
+  }
+  function paint(){mathFigurePaint(svg,working)}
+  function setToolStyle(){
+   for(const button of toolbar.querySelectorAll('button[data-tool]')){
+    const on=button.dataset.tool===mode;
+    button.setAttribute('aria-pressed',on?'true':'false');
+    button.style.borderColor=on?'#79e6ea':'';
+   }
+   message.textContent=mode==='draw'?learningLabel('Desenează cu degetul.','Draw with your finger.'):
+    mode==='points'?learningLabel('Mutarea unui vârf transformă figura într-un desen personalizat.',
+     'Moving a vertex makes the figure a custom drawing.'):
+    mode==='rotate'?learningLabel('Glisează pentru rotire 3D.','Swipe to rotate 3D.'):
+    learningLabel('Glisează pentru deplasare în fereastră.','Drag to move within the window.');
+  }
+  const active=new Map();
+  let gesture=null,pinch=null;
+  const coord=event=>{
+   const rect=svg.getBoundingClientRect();
+   return {x:Math.max(0,Math.min(360,(event.clientX-rect.left)*360/Math.max(1,rect.width))),
+    y:Math.max(0,Math.min(240,(event.clientY-rect.top)*240/Math.max(1,rect.height)))};
+  };
+  const modelPoint=p=>[
+   Math.max(0,Math.min(360,180+(p.x-180-(working.panX||0))/working.zoom)),
+   Math.max(0,Math.min(240,120+(p.y-120-(working.panY||0))/working.zoom))
+  ];
+  svg.addEventListener('pointerdown',event=>{
+   if(event.button!==undefined&&event.button!==0)return;
+   event.preventDefault();
+   const p=coord(event);active.set(event.pointerId,p);
+   try{svg.setPointerCapture(event.pointerId)}catch{}
+   if(active.size===2){
+    const pair=[...active.values()];
+    pinch={distance:Math.hypot(pair[0].x-pair[1].x,pair[0].y-pair[1].y)||1,
+     zoom:working.zoom};gesture=null;return;
+   }
+   let index=null;
+   if(mode==='points'){
+    const attr=event.target?.getAttribute?.('data-vertex');
+    if(attr!==null&&attr!==undefined)index=Number(attr);
+   }
+   gesture={id:event.pointerId,previous:p,index};
+   if(mode==='draw'&&!solid){
+    if(!working.strokes)working.strokes=[];
+    working.strokes.push([modelPoint(p)]);gesture.stroke=working.strokes[working.strokes.length-1];
+   }
+  });
+  svg.addEventListener('pointermove',event=>{
+   if(!active.has(event.pointerId))return;
+   const p=coord(event);active.set(event.pointerId,p);
+   if(active.size===2&&pinch){
+    const pair=[...active.values()];
+    const distance=Math.hypot(pair[0].x-pair[1].x,pair[0].y-pair[1].y);
+    working.zoom=Math.max(1,Math.min(4,pinch.zoom*distance/pinch.distance));
+    const lim=20+(working.zoom-1)*120;
+    working.panX=Math.max(-lim,Math.min(lim,working.panX));
+    working.panY=Math.max(-lim,Math.min(lim,working.panY));
+    paint();return;
+   }
+   if(!gesture||gesture.id!==event.pointerId)return;
+   const dx=p.x-gesture.previous.x,dy=p.y-gesture.previous.y;
+   if(mode==='rotate'&&solid){
+    working.yaw+=dx*.014;working.pitch=Math.max(-1.25,Math.min(1.25,working.pitch+dy*.014));
+   }else if(mode==='pan'){
+    const lim=20+(working.zoom-1)*120;
+    working.panX=Math.max(-lim,Math.min(lim,working.panX+dx));
+    working.panY=Math.max(-lim,Math.min(lim,working.panY+dy));
+   }else if(mode==='draw'&&gesture.stroke){
+    const point=modelPoint(p),last=gesture.stroke[gesture.stroke.length-1];
+    if(Math.hypot(point[0]-last[0],point[1]-last[1])>2)gesture.stroke.push(point);
+   }else if(mode==='points'&&gesture.index!==null&&working.vertices?.[gesture.index]){
+    working.vertices[gesture.index]=modelPoint(p);
+    working.modified=true;
+    // An edited shape is no longer guaranteed to satisfy the original
+    // geometric constraints and must not be solved as an ideal template.
+   }
+   gesture.previous=p;paint();
+  });
+  const end=event=>{
+   active.delete(event.pointerId);
+   if(active.size<2)pinch=null;
+   gesture=null;
+  };
+  svg.addEventListener('pointerup',end);
+  svg.addEventListener('pointercancel',end);
+  svg.addEventListener('wheel',event=>{
+   event.preventDefault();zoom(event.deltaY<0?1.1:1/1.1);
+  },{passive:false});
+  setToolStyle();showSummary();paint();
+  foot.append(btn(learningLabel('Continuă','Continue'),()=>{
+   const unit=String(working.unit||'cm').toLowerCase();
+   if(!['mm','cm','m','km'].includes(unit)){
+    error.textContent=learningLabel('Alege mm, cm, m sau km.','Use mm, cm, m or km.');return;
+   }
+   if(Object.values(working.values||{}).some(v=>mathFigureMeasurement(v)===null)){
+    error.textContent=learningLabel('Valorile completate trebuie să fie pozitive. Câmpurile goale sunt permise.',
+     'Entered lengths must be positive. Empty fields are allowed.');return;
+   }
+   working.unit=unit;
+   const internal=mathFigureInternalConflict(working);
+   if(internal){
+    error.textContent=learningLabel('Valorile introduse se contrazic: ','The entered values conflict: ')+internal;
+    return;
+   }
+   mathFigureDraft=mathFigureCopy(working);
+   mathFigureDraftSummary();
+   dialog.close();
+  },true));
+ }
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);
+ render();
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+function mathFigureWorkbench(){mathOpenFigureLibrary()}
 let mathJourney={stage:'levels',level:null,topic:null};
 function mathSubjectsForLevel(level){
  return MATH_TOPICS.filter(topic=>topic.levels.includes(level));
@@ -7093,132 +7632,6 @@ function mathReadText(){
   try{localStorage.setItem(MATH_EXERCISE_DRAFT_KEY,mathExerciseDraft)}catch{}
  }
 
-let mathFigureDraft=null;
-function mathFigureWorkbench(){
- const previous=document.getElementById('mathFigureWorkbench');
- if(previous){previous.showModal();return}
- const shapeOptions=[
-  ['triangle','Triunghi','Triangle',['a','b','c']],
-  ['rectangle','Dreptunghi','Rectangle',['L','l']],
-  ['square','Pătrat','Square',['a']],
-  ['circle','Cerc','Circle',['r']],
-  ['trapezoid','Trapez','Trapezoid',['B','b','h']],
-  ['cube','Cub 3D','3D cube',['a']],
-  ['prism','Prismă 3D','3D prism',['L','l','h']]
- ];
- const dialog=document.createElement('dialog');dialog.id='mathFigureWorkbench';dialog.className='math-figure-dialog';
- const panel=document.createElement('div');panel.className='math-figure-panel';
- const bar=document.createElement('div');bar.className='math-figure-header';
- const title=document.createElement('strong');title.textContent=learningLabel('Figuri geometrice','Geometric figures');
- const close=document.createElement('button');close.type='button';close.className='secondary-btn';close.textContent='✕';close.setAttribute('aria-label',learningLabel('Închide','Close'));close.onclick=()=>dialog.close();
- bar.append(title,close);
- const selector=document.createElement('select');selector.setAttribute('aria-label',learningLabel('Alege figura','Choose figure'));
- for(const entry of shapeOptions){const option=document.createElement('option');option.value=entry[0];option.textContent=learningLabel(entry[1],entry[2]);selector.append(option)}
- const view=document.createElement('div');view.className='math-figure-viewport';
- const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 420 280');svg.setAttribute('role','img');svg.setAttribute('aria-label',learningLabel('Desen geometric interactiv','Interactive geometry diagram'));
- view.append(svg);
- const toolbar=document.createElement('div');toolbar.className='math-figure-controls';
- const dimensions=document.createElement('div');dimensions.className='math-figure-dimensions';
- const help=document.createElement('small');help.textContent=learningLabel('Valorile sunt opționale. Trage figura pentru deplasare. Pentru 3D, trage pentru rotire.','Measurements are optional. Drag to pan; drag 3D figures to rotate.');
- const commit=document.createElement('button');commit.type='button';commit.className='primary-btn';commit.textContent=learningLabel('Adaugă la exercițiu','Add to exercise');
- const state3={kind:mathFigureDraft?.kind||'triangle',zoom:1,x:0,y:0,angle:0,yaw:.55,pitch:.35,values:{}};
- if(mathFigureDraft?.kind===state3.kind)state3.values={...mathFigureDraft.values};
- selector.value=state3.kind;
- function node(tag,attrs={},label){
-  const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
-  for(const [key,val] of Object.entries(attrs))el.setAttribute(key,String(val));
-  if(label!==undefined)el.textContent=String(label);
-  return el;
- }
- function line(group,x1,y1,x2,y2){group.append(node('line',{x1,y1,x2,y2,stroke:'#5ddde3','stroke-width':3,'stroke-linecap':'round'}))}
- function caption(group,x,y,label){group.append(node('text',{x,y,fill:'#f9e7b6','font-size':17,'text-anchor':'middle'},label))}
- function render(){
-  svg.replaceChildren();
-  const is3D=state3.kind==='cube'||state3.kind==='prism';
-  const safeX=Math.max(-110,Math.min(110,state3.x));
-  const safeY=Math.max(-70,Math.min(70,state3.y));
-  state3.x=safeX;state3.y=safeY;
-  const group=node('g',{transform:'translate('+(210+safeX)+' '+(140+safeY)+') rotate('+(is3D?0:state3.angle)+') scale('+state3.zoom+')'});
-  svg.append(group);
-  const shape=state3.kind;
-  if(shape==='triangle'){
-   group.append(node('polygon',{points:'-125,88 125,88 0,-94',fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
-   caption(group,-136,104,'A');caption(group,137,104,'B');caption(group,0,-105,'C');
-  }else if(shape==='rectangle'||shape==='square'){
-   const w=shape==='square'?178:265,h=shape==='square'?178:152;
-   group.append(node('rect',{x:-w/2,y:-h/2,width:w,height:h,fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
-  }else if(shape==='circle'){
-   group.append(node('circle',{cx:0,cy:0,r:95,fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
-   line(group,0,0,95,0);caption(group,48,-10,'r');
-  }else if(shape==='trapezoid'){
-   group.append(node('polygon',{points:'-135,85 135,85 65,-85 -65,-85',fill:'#1d6170','fill-opacity':'.65',stroke:'#5ddde3','stroke-width':3}));
-  }else{
-   const width=shape==='cube'?78:108,depth=shape==='cube'?78:65,height=shape==='cube'?78:95;
-   const corners=[];
-   for(let z=-1;z<=1;z+=2)for(let y=-1;y<=1;y+=2)for(let x=-1;x<=1;x+=2){
-    const px=x*width,py=y*height,pz=z*depth;
-    const xx=px*Math.cos(state3.yaw)-pz*Math.sin(state3.yaw);
-    const zz=px*Math.sin(state3.yaw)+pz*Math.cos(state3.yaw);
-    const yy=py*Math.cos(state3.pitch)-zz*Math.sin(state3.pitch);
-    corners.push([xx,yy]);
-   }
-   for(let a=0;a<8;a++)for(const bit of [1,2,4]){
-    const b=a^bit;if(b>a)line(group,corners[a][0],corners[a][1],corners[b][0],corners[b][1]);
-   }
-  }
-  const values=Object.entries(state3.values).filter(([key,value])=>value!=='');
-  if(values.length)caption(svg,210,267,values.map(([key,value])=>key+'='+value).join('   '));
- }
- function controls(){
-  toolbar.replaceChildren();
-  const actions=[
-   ['−',()=>state3.zoom=Math.max(.55,state3.zoom-.15)],
-   ['+',()=>state3.zoom=Math.min(2.2,state3.zoom+.15)],
-   ['↶',()=>{if(state3.kind==='cube'||state3.kind==='prism')state3.yaw-=.25;else state3.angle-=15}],
-   ['↷',()=>{if(state3.kind==='cube'||state3.kind==='prism')state3.yaw+=.25;else state3.angle+=15}],
-   [learningLabel('Reset','Reset'),()=>{state3.zoom=1;state3.x=0;state3.y=0;state3.angle=0;state3.yaw=.55;state3.pitch=.35}]
-  ];
-  for(const [label,action] of actions){const button=document.createElement('button');button.type='button';button.className='secondary-btn';button.textContent=label;button.onclick=()=>{action();render()};toolbar.append(button)}
- }
- function fields(){
-  dimensions.replaceChildren();
-  const entry=shapeOptions.find(item=>item[0]===state3.kind);
-  for(const dimension of entry[3]){
-   const wrapper=document.createElement('label');wrapper.textContent=dimension;
-   const field=document.createElement('input');field.type='text';field.inputMode='decimal';field.maxLength=16;
-   field.placeholder='—';field.value=state3.values[dimension]||'';
-   field.setAttribute('aria-label',dimension);
-   field.addEventListener('input',()=>{state3.values[dimension]=field.value.trim();render()});
-   wrapper.append(field);dimensions.append(wrapper);
-  }
- }
- selector.onchange=()=>{state3.kind=selector.value;state3.values={};state3.zoom=1;state3.x=0;state3.y=0;state3.angle=0;fields();render()};
- let gesture=null;
- svg.style.touchAction='none';
- svg.addEventListener('pointerdown',event=>{if(event.button!==0&&event.pointerType==='mouse')return;gesture={id:event.pointerId,x:event.clientX,y:event.clientY};svg.setPointerCapture?.(event.pointerId)});
- svg.addEventListener('pointermove',event=>{
-  if(!gesture||gesture.id!==event.pointerId)return;
-  const dx=event.clientX-gesture.x,dy=event.clientY-gesture.y;gesture.x=event.clientX;gesture.y=event.clientY;
-  if(state3.kind==='cube'||state3.kind==='prism'){state3.yaw+=dx*.012;state3.pitch=Math.max(-1.2,Math.min(1.2,state3.pitch+dy*.012))}
-  else{state3.x+=dx*420/Math.max(1,svg.getBoundingClientRect().width);state3.y+=dy*280/Math.max(1,svg.getBoundingClientRect().height)}
-  render();
- });
- svg.addEventListener('pointerup',()=>gesture=null);svg.addEventListener('pointercancel',()=>gesture=null);
- commit.onclick=()=>{
-  const entry=shapeOptions.find(item=>item[0]===state3.kind);
-  const dimensionsText=Object.entries(state3.values).filter(([key,value])=>value!=='').map(([key,value])=>key+'='+value).join(', ');
-  const description=learningLabel(entry[1],entry[2])+(dimensionsText?' ('+dimensionsText+')':'');
-  mathFigureDraft={kind:state3.kind,values:{...state3.values}};
-  const field=document.getElementById('mathEducationText');
-  if(field){field.value=(field.value.trim()?field.value.trim()+'\\n':'')+description;mathRememberDraft(field.value)}
-  dialog.close();field?.focus();
- };
- panel.append(bar,selector,view,toolbar,help,dimensions,commit);
- dialog.append(panel);document.body.append(dialog);
- dialog.addEventListener('close',()=>dialog.remove(),{once:true});
- fields();controls();render();dialog.showModal();
-}
-
 function openLearningSubject(key){
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
  if(key==='math'&&mathJourney.stage!=='workspace'){
@@ -7272,7 +7685,7 @@ function openLearningSubject(key){
   newTask.onclick=()=>{
    mathVoiceStop();mathCloseResults();mathLastSpokenReply='';const field=$('mathEducationText');
    if(field){field.value='';field.blur()}
-   mathRememberDraft('');
+   mathRememberDraft('');mathFigureDraft=null;mathFigureDraftSummary();
    const notice=$('mathEducationStatus');if(notice)notice.textContent='';
   };
   heading.append(label,newTask);
@@ -7284,10 +7697,15 @@ function openLearningSubject(key){
   photo.className='secondary-btn math-input-tool';photo.textContent=learningLabel('📷 Foto','📷 Camera');
   pick.className='secondary-btn math-input-tool';pick.textContent=learningLabel('🖼️ Album','🖼️ Gallery');
   tools.append(actions);
-  if(mathJourney.topic==='geometry'||mathJourney.topic==='trigonometry'){
-   const figures=document.createElement('button');figures.type='button';figures.className='secondary-btn math-input-tool';
-   figures.textContent=learningLabel('◇ Figuri geometrice','◇ Geometric figures');
-   figures.onclick=mathFigureWorkbench;tools.append(figures);
+  if(['geometry','trigonometry'].includes(mathJourney.topic)){
+   const geometry=document.createElement('button');geometry.type='button';
+   geometry.className='secondary-btn math-figures-action';
+   geometry.textContent=learningLabel('📐 Figuri geometrice','📐 Geometric figures');
+   geometry.onclick=mathOpenFigureLibrary;
+   tools.append(geometry);
+   const figureSummary=document.createElement('small');
+   figureSummary.id='mathFigureSummary';figureSummary.className='math-figure-summary';
+   tools.append(figureSummary);
   }
   const status=document.createElement('small');status.id='mathEducationStatus';status.setAttribute('role','status');
   status.textContent='';
@@ -7305,6 +7723,7 @@ function openLearningSubject(key){
    choices.append(button);
   });
   workspace.append(choices);host.append(workspace);
+  mathFigureDraftSummary();
   requestAnimationFrame(mathFitViewport);
  }
 
@@ -9354,7 +9773,8 @@ function mathResultPage(index){
   body.append(check);
  }
  const equationGraph=session.mode==='graph'?mathAlgebraLocal('graph',item.text)?.value:null;
- const graph=(equationGraph?.planeShape?mathPlaneShapeFigure(equationGraph.planeShape):null)||
+ const graph=(mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic)?mathFigureSnapshot(mathFigureDraft):null)||
+  (equationGraph?.planeShape?mathPlaneShapeFigure(equationGraph.planeShape):null)||
   (equationGraph?.geometry?mathRightTriangleFigure(equationGraph.geometry):null)||
   (equationGraph?.matrixView?mathMatrixHeatmap(equationGraph.matrixView):null)||
   (equationGraph?.polynomial?mathSymbolicPlot(equationGraph.polynomial):null)||
@@ -9473,12 +9893,21 @@ async function mathFetchResult(item,session){
  }
  // Never ask a generative model to draw a graph that the actual renderer
  // cannot provide: this produced answers about unrelated numeric exercises.
- if(session.mode==='graph'&&!mathGeometryFigure(item.text)&&!mathAlgebraLocal('graph',item.text)){
+ if(session.mode==='graph'&&!mathFigureDraft&&!mathGeometryFigure(item.text)&&!mathAlgebraLocal('graph',item.text)){
   if(mathResultSession!==session)return;
   item.reply=learningLabel('Nu există încă un grafic verificat pentru acest enunț. Nu voi inventa unul. Pentru un calcul, apasă „Rezolvă pas cu pas”; pentru un grafic de funcție, introdu de exemplu f(x) = 2x - 3.',
    'There is no verified graph for this exercise yet. I will not invent one. Use Solve step by step for arithmetic, or enter a function such as f(x) = 2x - 3.');
   item.spokenReply=item.reply;
   if(session.tasks[session.active]===item)mathResultPage(session.active);
+  return;
+ }
+ if(session.mode==='graph'&&mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic)){
+  item.graphLesson={heading:mathFigureName(mathFigureDraft),
+   intro:learningLabel('Figura este afișată fără valori presupuse. Poți completa date și reveni la rezolvare.',
+    'The figure is displayed without invented values. Add dimensions and continue the solution.'),
+   conclusion:learningLabel('Zoom și rotire sunt disponibile în editorul de figuri.','Zoom and rotation are available in the figure editor.')};
+  item.spokenReply=item.graphLesson.intro+' '+item.graphLesson.conclusion;
+  if(mathResultSession===session&&session.tasks[session.active]===item)mathResultPage(session.active);
   return;
  }
  if(session.mode==='explain'){
@@ -9542,7 +9971,27 @@ async function mathFetchResult(item,session){
 function mathEducationRun(mode){
  if(state.currentView!=='module'||activeLearningSubject?.[0]!=='math')return;
  const editor=$('mathEducationText'),status=$('mathEducationStatus');
- const source=editor?.value?.trim()||'';
+ let source=editor?.value?.trim()||'';
+ if(['geometry','trigonometry'].includes(mathJourney.topic)&&mathFigureDraft){
+  const internal=mathFigureInternalConflict(mathFigureDraft);
+  if(internal){
+   status.textContent=learningLabel('Date incompatibile în figură: ','Inconsistent figure measurements: ')+internal;
+   return;
+  }
+  const mismatch=mathFigureConflict(mathFigureDraft,source);
+  if(mismatch){
+   status.textContent=learningLabel('Valoarea „','Value “')+mismatch+
+    learningLabel('” diferă între enunț și figură. Corectează diferența înainte de rezolvare.',
+     '” differs between the question and the figure. Correct the mismatch first.');
+   return;
+  }
+  const fromFigure=mathFigureAutoExercise(mathFigureDraft);
+  if(!source&&fromFigure)source=fromFigure;
+  // If the user has only typed a verbal request, provide exact dimensions
+  // from the explicitly filled figure. Never duplicate existing numbers.
+  else if(source&&fromFigure&&!/[0-9]/.test(source))source=fromFigure+' '+source;
+  else if(!source&&mode==='graph')source=mathFigureName(mathFigureDraft);
+ }
  if(mathPhotoNeedsReview){
   status.textContent=learningLabel('Fotografia trebuie verificată. Selectează un exercițiu și confirmă transcrierea înainte de rezolvare.','Review the photo. Select an exercise and confirm the transcription before solving.');
   return;
