@@ -19,7 +19,7 @@ const noisy=[
 '6X -5X +34 +14 -5Z -3Z =',
 'profesorjitaruionel.com'
 ].join('\n');
-const equations=parse('1. 2x + 3 = 7\\n2) 3(x-1) = 6\\n10. 5x = 20');
+const equations=parse('1. 2x + 3 = 7\n2) 3(x-1) = 6\n10. 5x = 20');
 assert.equal(equations.length,3,'standalone numbered photo exercises are not discarded');
 assert.equal(equations[0].text,'2x + 3 = 7','a single equals sign retains the right side');
 assert.equal(equations[1].text,'3(x-1) = 6');
