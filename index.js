@@ -7923,6 +7923,29 @@ function mathPhotoCandidates(source,alternative){
  };
  collect(source,false);
  if(out.length<50)collect(alternative,true);
+ // Photos of one equation (or a column of equations) may have no a)/b)
+ // labels. Recover only self-contained mathematical lines, never prose,
+ // partial brackets, solution chains or guessed unreadable symbols.
+ if(!out.length){
+  const rawLines=String(source||'').replace(/\\r/g,'').split('\\n').map(v=>v.trim()).filter(Boolean);
+  for(const raw of rawLines){
+   if(out.length>=50)break;
+   if(raw.length<3||raw.length>160||!/\\d/.test(raw)||!/[=+\\-−×÷*/^√]/u.test(raw)||
+      /[?]|(?:https?:|www\\.|\\.com\\b)/i.test(raw))continue;
+   const eqCount=(raw.match(/=/g)||[]).length;
+   if(eqCount>1)continue;
+   const expression=raw.replace(/=\\s*$/,'').trim();
+   if(!/^[\\dA-Za-z+\\-−×÷*/^√(){}\\[\\].,;=: \\t²³π]+$/u.test(expression))continue;
+   let depth=0,valid=true;
+   for(const ch of expression){if(ch==='(')depth++;else if(ch===')'&&--depth<0){valid=false;break}}
+   if(!valid||depth!==0)continue;
+   const bare=expression.replace(/\\s+/g,'').toLowerCase();
+   if(out.some(item=>item.comparison===canonical(bare)))continue;
+   const index=out.length+1;
+   out.push({label:String(index)+') '+expression,text:expression,letter:String(index),
+    section:'0',comparison:canonical(expression),origin:'primary'});
+  }
+ }
  // Image regions may be read out of sequence: present sections and letters in
  // their textbook order regardless of OCR pass ordering.
  out.sort((a,b)=>(Number(a.section)||1)-(Number(b.section)||1)||
