@@ -1535,6 +1535,21 @@ body.long-choice-active{overflow:hidden}
 .education-photo-panel{display:flex;flex-direction:column;gap:10px;background:#0b2131;border:1px solid #3fabc2;border-radius:14px;padding:12px;margin-bottom:12px}
 .education-photo-panel img{display:block;max-width:100%;max-height:220px;object-fit:contain}
 .education-photo-panel textarea{width:100%;min-height:90px;padding:10px;border-radius:8px;background:#081725;color:#f2faff;border:1px solid #548199}
+
+/* Mathematics uses three bounded stages. Only the list scrolls; page layout
+   always remains within the existing adaptive viewport. */
+#view-module.math-choice-stage #moduleContent{min-height:0!important;overflow:hidden!important}
+.math-choice-panel{display:flex;flex-direction:column;flex:1;min-height:0;gap:9px;
+ padding:clamp(10px,2.5vw,16px);border:1px solid #468aa0;border-radius:15px;
+ background:linear-gradient(150deg,#12374a,#081c2d)}
+.math-choice-panel h2{font-size:clamp(17px,4.2vw,22px);margin:0}
+.math-choice-panel p{font-size:clamp(12px,3.2vw,15px);line-height:1.35;margin:0;color:#c1e5ee}
+.math-choice-list{display:flex;flex-direction:column;gap:8px;overflow-y:auto;min-height:0;
+ overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.math-choice-row{min-height:62px!important;display:flex!important;flex-direction:column;
+ text-align:left!important;align-items:flex-start!important;gap:4px!important;
+ padding:10px 12px!important;flex:0 0 auto!important}
+.math-choice-row small{font-size:12px;color:#bddce9}
 .education-math-workspace{
  display:flex;flex-direction:column;gap:clamp(6px,1dvh,10px);
  background:linear-gradient(145deg,#12364d,#081d2e);
@@ -6512,6 +6527,79 @@ const LEARNING_SUBJECTS=[
  ['exams','🎓','Pregătire examene','Exam preparation','Teste, simulări și recapitulări.','Tests, mock exams and revision.'],
  ['practical','🧰','Cursuri practice','Practical courses','Finanțe, meserii și antreprenoriat.','Finance, careers and enterprise.']
 ];
+const MATH_LEVELS=[
+ {id:'beginner',ro:'Începător',en:'Beginner',scopeRo:'Primar și gimnaziu · clasele I–VIII',scopeEn:'Primary & lower secondary · grades 1–8'},
+ {id:'intermediate',ro:'Mediu',en:'Intermediate',scopeRo:'Liceu · clasele IX–XII',scopeEn:'Upper secondary · grades 9–12'},
+ {id:'advanced',ro:'Avansat',en:'Advanced',scopeRo:'Universitate și mai departe',scopeEn:'University and beyond'}
+];
+const MATH_TOPICS=[
+ {id:'arithmetic',ro:'Aritmetică',en:'Arithmetic',levels:['beginner','intermediate']},
+ {id:'algebra',ro:'Algebră',en:'Algebra',levels:['beginner','intermediate','advanced']},
+ {id:'geometry',ro:'Geometrie',en:'Geometry',levels:['beginner','intermediate','advanced'],figures:true},
+ {id:'trigonometry',ro:'Trigonometrie',en:'Trigonometry',levels:['intermediate','advanced'],figures:true},
+ {id:'functions',ro:'Funcții și grafice',en:'Functions and graphs',levels:['intermediate','advanced']},
+ {id:'measurement',ro:'Măsurători și unități',en:'Measurement and units',levels:['beginner']},
+ {id:'statistics',ro:'Statistică și probabilități',en:'Statistics and probability',levels:['beginner','intermediate','advanced']},
+ {id:'linear-algebra',ro:'Algebră liniară',en:'Linear algebra',levels:['advanced']},
+ {id:'analysis',ro:'Analiză matematică',en:'Mathematical analysis',levels:['intermediate','advanced']},
+ {id:'differential',ro:'Ecuații diferențiale',en:'Differential equations',levels:['advanced']},
+ {id:'discrete',ro:'Matematică discretă',en:'Discrete mathematics',levels:['advanced']}
+];
+let mathJourney={stage:'levels',level:null,topic:null};
+function mathSubjectsForLevel(level){
+ return MATH_TOPICS.filter(topic=>topic.levels.includes(level));
+}
+function mathJourneyShowChoices(stage){
+ const mathSubject=LEARNING_SUBJECTS.find(x=>x[0]==='math');
+ if(!mathSubject)return;
+ activeLearningSubject=mathSubject;
+ mathVoiceStop();mathCloseResults();
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose');root.classList.add('learning-active','learning-math','math-choice-stage');
+ host.replaceChildren();$('moduleLead').textContent='';
+ $('moduleTitle').textContent=learningLabel('Matematică','Mathematics');
+ const back=document.createElement('button');back.type='button';
+ back.className='secondary-btn math-stage-back';
+ back.textContent=learningLabel('← Înapoi','← Back');
+ back.onclick=stage==='levels'?renderLearningSubjects:()=>{mathJourney.stage='levels';mathJourneyShowChoices('levels')};
+ const bar=document.createElement('div');bar.className='education-toolbar';
+ bar.append(back);host.append(bar);
+ const panel=document.createElement('div');panel.className='math-choice-panel';
+ const title=document.createElement('h2');
+ title.textContent=stage==='levels'?learningLabel('Alege nivelul','Choose level'):learningLabel('Alege materia','Choose subject');
+ const note=document.createElement('p');
+ note.textContent=stage==='levels'?learningLabel('Nivelul adaptează explicațiile; poți reveni și îl poți schimba.','The level adapts explanations; you can change it at any time.'):
+  learningLabel('Materiile sunt organizate pentru nivelul ales.','Subjects are organized for the selected level.');
+ const items=document.createElement('div');items.className='math-choice-list';
+ const candidates=stage==='levels'?MATH_LEVELS:mathSubjectsForLevel(mathJourney.level);
+ for(const entry of candidates){
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn math-choice-row';
+  const heading=document.createElement('strong');heading.textContent=learningLabel(entry.ro,entry.en);
+  const subtitle=document.createElement('small');
+  subtitle.textContent=stage==='levels'?learningLabel(entry.scopeRo,entry.scopeEn):
+   (entry.figures?learningLabel('Include instrumente geometrice','Includes geometry tools'):'');
+  button.append(heading,subtitle);
+  button.onclick=()=>{
+   if(stage==='levels'){
+    mathJourney.level=entry.id;mathJourney.stage='subjects';mathJourneyShowChoices('subjects');
+   }else{
+    if(mathJourney.topic!==entry.id&&typeof mathFigureDraft!=='undefined')mathFigureDraft=null;
+    mathJourney.topic=entry.id;mathJourney.stage='workspace';
+    root.classList.remove('math-choice-stage');
+    openLearningSubject('math');
+   }
+  };
+  items.append(button);
+ }
+ panel.append(title,note,items);host.append(panel);
+ requestAnimationFrame(mathFitViewport);
+}
+function mathJourneyDescription(){
+ const level=MATH_LEVELS.find(x=>x.id===mathJourney.level);
+ const topic=MATH_TOPICS.find(x=>x.id===mathJourney.topic);
+ return {level:level?learningLabel(level.ro,level.en):'',topic:topic?learningLabel(topic.ro,topic.en):''};
+}
 let activeLearningSubject=null;
 function learningLabel(ro,en){return state.language==='ro'?ro:en}
 function renderLearningSubjects(){
@@ -6523,6 +6611,8 @@ function renderLearningSubjects(){
  document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
+ mathJourney.stage='levels';
+ root.classList.remove('math-choice-stage');
  activeLearningSubject=null;root.classList.add('learning-choose');root.classList.remove('learning-active');
  host.replaceChildren();
  const grid=document.createElement('div');grid.className='education-grid';
@@ -6985,14 +7075,19 @@ function mathReadText(){
  }
 function openLearningSubject(key){
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
+ if(key==='math'&&mathJourney.stage!=='workspace'){
+  mathJourneyShowChoices(mathJourney.stage==='subjects'?'subjects':'levels');return;
+ }
  activeLearningSubject=subject;
- $('moduleTitle').textContent=learningLabel(subject[2],subject[3]);
+ $('moduleTitle').textContent=key==='math'?
+  learningLabel(subject[2],subject[3])+' · '+mathJourneyDescription().topic:
+  learningLabel(subject[2],subject[3]);
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('learning-choose');root.classList.add('learning-active');
  root.classList.toggle('learning-math',key==='math');
  host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar';
- const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>renderLearningSubjects();
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>{if(key==='math'){mathJourney.stage='subjects';mathJourneyShowChoices('subjects')}else renderLearningSubjects()};
  if(key==='math'){
   bar.classList.add('math-navigation');
   back.classList.add('math-back-btn');
@@ -7025,7 +7120,7 @@ function openLearningSubject(key){
   workspace.className='education-math-workspace';
   const heading=document.createElement('div');heading.className='math-entry-heading';
   const label=document.createElement('label');label.htmlFor='mathEducationText';
-  label.textContent=learningLabel('Exercițiu','Exercise');
+  label.textContent=learningLabel('Exercițiu','Exercise')+' · '+mathJourneyDescription().topic;
   const newTask=document.createElement('button');newTask.type='button';
   newTask.className='secondary-btn math-new-task';newTask.textContent=learningLabel('＋ Conversație nouă','＋ New conversation');
   newTask.onclick=()=>{
@@ -9272,7 +9367,11 @@ async function mathFetchResult(item,session){
  const checked=equality&&session.mode!=='explain'?
   learningLabel('Verificare aritmetică locală: ','Local arithmetic verification: ')+mathEqualityExplanation(equality)+
   learningLabel(' Menționează explicit această verificare și explică de ce; nu modifica enunțul dictat.',' Explain this check explicitly without rewriting the dictated exercise.'):'';
- const message=prompt+'\\n'+requested+(checked?'\\n'+checked:'')+'\\n'+
+ const levelContext=mathJourneyDescription();
+ const classroom=learningLabel('Nivel: ','Level: ')+levelContext.level+
+  learningLabel('; materie: ','; subject: ')+levelContext.topic+
+  learningLabel('. Adaptează dificultatea explicațiilor; nu schimba enunțul.','. Adapt the explanation level without changing the exercise.');
+ const message=prompt+'\\n'+classroom+'\\n'+requested+(checked?'\\n'+checked:'')+'\\n'+
   learningLabel('Răspunde strict la următorul exercițiu, nu la alte exemple:','Answer ONLY the following exercise, not another problem:')+'\\n'+item.text;
  try{
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
