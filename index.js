@@ -1,4 +1,5 @@
 import {THEORY_ENTRIES} from './education_theory.mjs';
+import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
 /**
  * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
@@ -9870,9 +9871,12 @@ function mathPlaneShapeFigure(m){
 
 // Deterministic extensions for remaining maths subjects. Unsupported input
 // falls through to the existing explanation path; never fabricate numeric data.
+const mathAdvancedVerifiedBrowserModel = ${mathAdvancedVerifiedModel.toString()};
 function mathAdditionalModel(source){
  const input=String(source||'').trim().replace(/[−–]/g,'-');
  const fmt=x=>new Intl.NumberFormat(state.language||'ro',{maximumFractionDigits:8}).format(Object.is(x,-0)?0:x);
+ const extension=typeof mathAdvancedVerifiedBrowserModel==='function'?mathAdvancedVerifiedBrowserModel(source):null;
+ if(extension)return extension;
 
  const vectors=input.match(/^(?:vector|vectori|vectors?)\\s*:\\s*\\(\\s*(-?\\d+(?:[.,]\\d+)?)\\s*;\\s*(-?\\d+(?:[.,]\\d+)?)\\s*\\)\\s*([+\\-])\\s*\\(\\s*(-?\\d+(?:[.,]\\d+)?)\\s*;\\s*(-?\\d+(?:[.,]\\d+)?)\\s*\\)$/iu);
  if(vectors){
