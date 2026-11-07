@@ -7637,7 +7637,7 @@ function chemistryCurriculumOpen(){
  }
  function back(){
   if(stage==='detail')stage='lessons';
-  else if(stage==='lessons'){stage='topics';searchValue=''}
+  else if(stage==='lessons'){if(preset?.topic){dialog.close();return}stage='topics';searchValue=''}
   else if(stage==='topics')stage='levels';
   else {dialog.close();return}
   render();
