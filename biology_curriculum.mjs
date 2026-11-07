@@ -104,7 +104,7 @@ const BASIC=[
  ['Replicare biologică','Replicatele biologice sunt eșantioane independente, spre deosebire de măsurări repetate ale aceleiași probe.','n biologic ≠ n tehnic'],
  ['Microscopie optică','Limita de rezoluție depinde de lungimea de undă și de apertura numerică.','d≈0.61λ/NA'],
  ['PCR','Reacția PCR amplifică selectiv secvențe de ADN prin cicluri de temperatură și primeri.','N≈N₀·2^c (ideal)'],
- ['Interpreta­re statistică','O asociere observată nu dovedește singură o cauză; analiza trebuie să includă incertitudine și designul studiului.','corelație ≠ cauzalitate']
+ ['Interpretare statistică','O asociere observată nu dovedește singură o cauză; analiza trebuie să includă incertitudine și designul studiului.','corelație ≠ cauzalitate']
  ]]
 ];
 export const BIOLOGY_LESSONS=Object.freeze(BASIC.flatMap(([topic,level,rows])=>rows.map(([title,statement,formula],i)=>Object.freeze({
@@ -321,8 +321,8 @@ export function biologyVerifiedExercise(input,mode='solve'){
   ['Model Hardy–Weinberg ideal cu două alele: p+q=1, genotipuri p², 2pq, q².','Date: q²='+form(q2)+' ⇒ q='+form(q)+'; p='+form(p)+'.','Frecvențe: AA='+form(p*p)+', Aa='+form(2*p*q)+', aa='+form(q2)+'.']);
  }
  m=raw.match(/^(?:Punnett\s*:\s*)?([Aa]{2})\s*[x×]\s*([Aa]{2})$/);
- if(m){const parental=m[1].toUpperCase()==='AA'?'AA':m[1].toLowerCase()==='aa'?'aa':'Aa';
-  const partner=m[2].toUpperCase()==='AA'?'AA':m[2].toLowerCase()==='aa'?'aa':'Aa';
+ if(m){const parental=m[1]==='AA'||m[1]==='aa'?m[1]:'Aa';
+  const partner=m[2]==='AA'||m[2]==='aa'?m[2]:'Aa';
   const gametes=gen=>gen.split('');
   const products=gametes(parental).flatMap(x=>gametes(partner).map(y=>[x,y].sort((a,b)=>a==='A'?-1:1).join('')));
   const counts={AA:0,Aa:0,aa:0};for(const g of products)counts[g]++;
