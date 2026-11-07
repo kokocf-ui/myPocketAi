@@ -8035,15 +8035,151 @@ function mathSystem3x3Method(source){
 }
 function mathSystem3x3Graph(source){
  const m=mathSystem3x3(source);if(!m)return null;
- return {heading:learningLabel('Reprezentare tridimensională','Three-dimensional representation'),
-  intro:learningLabel('Fiecare ecuație liniară cu x, y și z descrie un plan în spațiu. Nu afișăm un grafic 2D ca și cum ar reprezenta aceste trei plane.','Each equation describes a plane in three-dimensional space. A 2D graph would be misleading.'),
+ return {system3d:m,heading:learningLabel('Reprezentare tridimensională','Three-dimensional representation'),
+  intro:learningLabel('Trei planuri calculate din ecuațiile originale. Poți roti și mări desenul prin atingere.','Three planes calculated from the original equations. Rotate and zoom by touch.'),
   conclusion:m.kind==='unique'?
    learningLabel('Intersecția celor trei plane: ','Intersection of the three planes: ')+
-   '('+['x','y','z'].map(k=>mathLinearNotation().number(m.values[k])).join('; ')+'). '+
-   learningLabel('Vizualizarea 3D nu este încă implementată.','3D visualization is not implemented yet.'):
-   (m.kind==='dependent'?learningLabel('Sistemul are infinit de multe soluții.','The system has infinitely many solutions.'):
-    learningLabel('Sistemul nu are soluții.','The system has no solutions.'))+' '+
-   learningLabel('Vizualizarea 3D nu este încă implementată.','3D visualization is not implemented yet.')};
+   '('+['x','y','z'].map(k=>mathLinearNotation().number(m.values[k])).join('; ')+').':
+   m.kind==='dependent'?learningLabel('Sistemul are infinit de multe soluții.','The system has infinitely many solutions.'):
+   learningLabel('Sistemul nu are soluții.','The system has no solutions.')};
+}
+
+// Exact plane/cube clipping before perspective projection. Every polygon
+// vertex satisfies its original equation, including vertical planes.
+function math3DPlanePolygon(equation,center,radius){
+ const normal=[equation.a,equation.b,equation.c],rhs=equation.d;
+ const magnitude=Math.hypot(...normal);
+ if(magnitude<1e-12||!Number.isFinite(magnitude)||!Number.isFinite(radius)||radius<=0)return [];
+ const corners=[];
+ for(const x of [-1,1])for(const y of [-1,1])for(const z of [-1,1])
+  corners.push([center[0]+x*radius,center[1]+y*radius,center[2]+z*radius]);
+ const points=[];
+ const add=p=>{
+  if(!p.every(Number.isFinite))return;
+  if(points.some(q=>Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2])<radius*1e-7))return;
+  points.push(p);
+ };
+ for(let i=0;i<corners.length;i++)for(let j=i+1;j<corners.length;j++){
+  const a=corners[i],b=corners[j];
+  if(a.filter((v,k)=>v!==b[k]).length!==1)continue;
+  const da=normal[0]*a[0]+normal[1]*a[1]+normal[2]*a[2]-rhs;
+  const db=normal[0]*b[0]+normal[1]*b[1]+normal[2]*b[2]-rhs;
+  const tolerance=radius*1e-9*magnitude;
+  if(Math.abs(da)<=tolerance)add(a);
+  if(Math.abs(db)<=tolerance)add(b);
+  if(da*db<0){
+   const t=da/(da-db);
+   if(t>=0&&t<=1)add(a.map((v,k)=>v+t*(b[k]-v)));
+  }
+ }
+ if(points.length<3)return [];
+ const centroid=[0,1,2].map(k=>points.reduce((acc,p)=>acc+p[k],0)/points.length);
+ const unit=normal.map(v=>v/magnitude);
+ const helper=Math.abs(unit[2])<.9?[0,0,1]:[0,1,0];
+ const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+ const v1=cross(unit,helper),len=Math.hypot(...v1);
+ if(len<1e-12)return [];
+ const axis=v1.map(v=>v/len),other=cross(unit,axis);
+ const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+ return points.sort((a,b)=>{
+  const da=a.map((v,i)=>v-centroid[i]),db=b.map((v,i)=>v-centroid[i]);
+  return Math.atan2(dot(da,other),dot(da,axis))-Math.atan2(dot(db,other),dot(db,axis));
+ });
+}
+function mathSystem3x3Figure(system){
+ if(!system||!Array.isArray(system.equations)||system.equations.length!==3)return null;
+ const center=system.kind==='unique'?[system.values.x,system.values.y,system.values.z]:[0,0,0];
+ if(center.some(v=>!Number.isFinite(v)))return null;
+ const radius=5;
+ const surfaces=system.equations.map((eq,i)=>({index:i,points:math3DPlanePolygon(eq,center,radius)}));
+ if(surfaces.every(s=>s.points.length<3))return null;
+ const colors=['#42dbd7','#ffca77','#bb9aff'];
+ const figure=document.createElement('figure');figure.className='math-result-plot';
+ const view=mathSvgElement('svg',{viewBox:'0 0 420 340',role:'img',
+  'aria-label':learningLabel('Grafic 3D rotativ cu trei plane','Rotatable 3D chart with three planes'),
+  preserveAspectRatio:'xMidYMid meet',style:'width:100%;height:auto;touch-action:none;user-select:none;display:block'});
+ const tip=document.createElement('figcaption');
+ tip.textContent=learningLabel('Trage pentru rotire. Apropie două degete pentru zoom. Planurile sunt secțiuni locale ale ecuațiilor.',
+  'Drag to rotate. Pinch with two fingers to zoom. Surfaces are local sections of the equations.');
+ const angles={yaw:.7,pitch:.42,zoom:1};
+ const pointers=new Map();
+ let lastPinch=null;
+ const project=point=>{
+  const [x,y,z]=point.map((v,k)=>v-center[k]);
+  const cy=Math.cos(angles.yaw),sy=Math.sin(angles.yaw);
+  const xx=cy*x-sy*y,yy=sy*x+cy*y;
+  const cp=Math.cos(angles.pitch),sp=Math.sin(angles.pitch);
+  const depth=sp*yy+cp*z;
+  const vertical=cp*yy-sp*z;
+  const factor=angles.zoom*11;
+  return {x:210+xx*factor,y:170-vertical*factor,depth};
+ };
+ const render=()=>{
+  view.replaceChildren();
+  view.append(mathSvgElement('rect',{x:0,y:0,width:420,height:340,fill:'#0b253a'}));
+  const endpoints=[[radius,0,0],[0,radius,0],[0,0,radius]];
+  const origin=project(center);
+  for(let axis=0;axis<3;axis++){
+   const end=project(center.map((v,i)=>v+endpoints[axis][i]));
+   const start=project(center.map((v,i)=>v-endpoints[axis][i]));
+   view.append(mathSvgElement('line',{x1:start.x,y1:start.y,x2:end.x,y2:end.y,stroke:'#7599aa','stroke-width':1.2,'stroke-dasharray':'4 4'}));
+   const lab=mathSvgElement('text',{x:end.x+5,y:end.y-5,'font-size':13,fill:'#d9fbff'});
+   lab.textContent=['x','y','z'][axis];view.append(lab);
+  }
+  const painted=surfaces.filter(s=>s.points.length>=3).map(s=>{
+   const transformed=s.points.map(project);
+   return {...s,transformed,depth:transformed.reduce((n,p)=>n+p.depth,0)/transformed.length};
+  }).sort((a,b)=>a.depth-b.depth);
+  for(const surface of painted){
+   view.append(mathSvgElement('polygon',{
+    points:surface.transformed.map(p=>p.x.toFixed(2)+','+p.y.toFixed(2)).join(' '),
+    fill:colors[surface.index],'fill-opacity':.31,
+    stroke:colors[surface.index],'stroke-width':1.8,'stroke-linejoin':'round'
+   }));
+  }
+  if(system.kind==='unique'){
+   const marker=project([system.values.x,system.values.y,system.values.z]);
+   view.append(mathSvgElement('circle',{cx:marker.x,cy:marker.y,r:5.8,fill:'#ffffff',stroke:'#001724','stroke-width':2}));
+   const label=mathSvgElement('text',{x:marker.x+9,y:marker.y-10,'font-size':12,fill:'#ffffff'});
+   label.textContent='('+['x','y','z'].map(k=>mathLinearNotation().number(system.values[k])).join('; ')+')';
+   view.append(label);
+  }
+ };
+ const limit=(v,low,high)=>Math.min(high,Math.max(low,v));
+ const distance=()=>{const p=[...pointers.values()];return p.length<2?null:Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)};
+ view.addEventListener('pointerdown',event=>{
+  if(event.cancelable)event.preventDefault();
+  pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
+  try{view.setPointerCapture(event.pointerId)}catch(_){}
+  lastPinch=distance();
+ });
+ view.addEventListener('pointermove',event=>{
+  if(!pointers.has(event.pointerId))return;
+  if(event.cancelable)event.preventDefault();
+  const previous=pointers.get(event.pointerId);
+  pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
+  if(pointers.size===1){
+   const width=Math.max(1,view.getBoundingClientRect().width);
+   angles.yaw+=(event.clientX-previous.x)/width*4;
+   angles.pitch=limit(angles.pitch+(event.clientY-previous.y)/width*4,-1.45,1.45);
+  }else{
+   const next=distance();
+   if(lastPinch&&next)angles.zoom=limit(angles.zoom*next/lastPinch,.55,2.3);
+   lastPinch=next;
+  }
+  render();
+ });
+ const release=e=>{pointers.delete(e.pointerId);lastPinch=distance()};
+ view.addEventListener('pointerup',release);
+ view.addEventListener('pointercancel',release);
+ view.addEventListener('lostpointercapture',release);
+ view.addEventListener('wheel',event=>{
+  if(event.cancelable)event.preventDefault();
+  angles.zoom=limit(angles.zoom*(event.deltaY>0?.91:1.09),.55,2.3);
+  render();
+ },{passive:false});
+ render();figure.append(view,tip);
+ return figure;
 }
 
 function mathAlgebraEngines(){
@@ -8198,7 +8334,8 @@ function mathResultPage(index){
   body.append(check);
  }
  const equationGraph=session.mode==='graph'?mathAlgebraLocal('graph',item.text)?.value:null;
- const graph=(equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
+ const graph=(equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
+  (equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
   (equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null)||mathGeometryFigure(item.text);
  if(graph&&session.mode==='graph')body.append(graph);
  const result=document.createElement('div');result.className='math-result-copy';
