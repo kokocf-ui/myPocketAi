@@ -7235,6 +7235,58 @@ function mathJourneyDescription(){
  const topic=MATH_TOPICS.find(x=>x.id===mathJourney.topic);
  return {level:level?learningLabel(level.ro,level.en):'',topic:topic?learningLabel(topic.ro,topic.en):''};
 }
+
+// Shared educational pathways: each non-mathematics category chooses a level
+// and a discipline before entering its existing learning workspace.
+const EDUCATION_PATHS={
+ languages:[['vocabulary','Vocabular','Vocabulary'],['grammar','Gramatică','Grammar'],['conversation','Conversație','Conversation'],['pronunciation','Pronunție','Pronunciation'],['reading','Citire și înțelegere','Reading comprehension'],['writing','Scriere','Writing']],
+ science:[['physics','Fizică','Physics'],['chemistry','Chimie','Chemistry'],['biology','Biologie','Biology'],['astronomy','Astronomie','Astronomy'],['earth','Științele Pământului','Earth science']],
+ history:[['history','Istorie','History'],['geography','Geografie','Geography'],['civilizations','Civilizații','Civilizations'],['maps','Hărți și orientare','Maps and orientation'],['civics','Educație civică','Civics']],
+ literature:[['grammar','Gramatică','Grammar'],['literature','Literatură','Literature'],['reading','Lectură și interpretare','Reading and interpretation'],['writing','Redactare și compunere','Writing and composition'],['orthography','Ortografie și punctuație','Spelling and punctuation']],
+ computing:[['digital','Competențe digitale','Digital literacy'],['programming','Programare','Programming'],['algorithms','Algoritmi','Algorithms'],['data','Baze de date','Databases'],['networks','Rețele și securitate','Networks and security'],['web','Dezvoltare web','Web development']],
+ exams:[['revision','Recapitulare','Revision'],['practice','Exerciții și teste','Practice and tests'],['mock','Simulări de examen','Mock exams'],['feedback','Corectare și explicații','Marking and explanations']],
+ practical:[['finance','Educație financiară','Financial literacy'],['trades','Meserii și tehnică','Trades and technical skills'],['enterprise','Antreprenoriat','Entrepreneurship'],['employment','Carieră și angajare','Careers and employment'],['everyday','Abilități practice','Everyday practical skills']]
+};
+const educationPath={key:null,stage:'levels',level:'beginner',topic:null};
+function educationPathTopic(){
+ const match=(EDUCATION_PATHS[educationPath.key]||[]).find(x=>x[0]===educationPath.topic);
+ return match?learningLabel(match[1],match[2]):'';
+}
+function educationShowChoices(stage){
+ const subject=LEARNING_SUBJECTS.find(x=>x[0]===educationPath.key);
+ if(!subject)return;
+ activeLearningSubject=subject;
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-math');
+ root.classList.add('learning-active','math-choice-stage');
+ host.replaceChildren();$('moduleLead').textContent='';
+ $('moduleTitle').textContent=learningLabel(subject[2],subject[3]);
+ const bar=document.createElement('div');bar.className='education-toolbar';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn math-stage-back';
+ back.textContent=learningLabel('← Înapoi','← Back');
+ back.onclick=()=>{if(stage==='levels')renderLearningSubjects();else{educationPath.stage='levels';educationShowChoices('levels')}};
+ bar.append(back);host.append(bar);
+ const panel=document.createElement('div');panel.className='math-choice-panel';
+ const title=document.createElement('h2');title.textContent=stage==='levels'?learningLabel('Alege nivelul','Choose level'):learningLabel('Alege materia','Choose subject');
+ const note=document.createElement('p');note.textContent=stage==='levels'?
+  learningLabel('Alege nivelul potrivit. Îl poți schimba oricând.','Choose your level. You can change it at any time.'):
+  learningLabel('Alege materia pentru a deschide spațiul de lucru.','Choose a subject to open its workspace.');
+ const items=document.createElement('div');items.className='math-choice-list';
+ const options=stage==='levels'?MATH_LEVELS:(EDUCATION_PATHS[educationPath.key]||[]).map(x=>({id:x[0],ro:x[1],en:x[2]}));
+ options.forEach(entry=>{
+  const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn math-choice-row';
+  const heading=document.createElement('strong');heading.textContent=learningLabel(entry.ro,entry.en);
+  const small=document.createElement('small');small.textContent=stage==='levels'?learningLabel(entry.scopeRo,entry.scopeEn):'';
+  btn.append(heading,small);
+  btn.onclick=()=>{
+   if(stage==='levels'){educationPath.level=entry.id;educationPath.stage='subjects';educationShowChoices('subjects')}
+   else{educationPath.topic=entry.id;educationPath.stage='workspace';root.classList.remove('math-choice-stage');openLearningSubject(educationPath.key)}
+  };
+  items.append(btn);
+ });
+ panel.append(title,note,items);host.append(panel);
+}
+
 let activeLearningSubject=null;
 function learningLabel(ro,en){return state.language==='ro'?ro:en}
 function renderLearningSubjects(){
@@ -7246,7 +7298,7 @@ function renderLearningSubjects(){
  document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
- mathJourney.stage='levels';
+ mathJourney.stage='levels';educationPath.stage='levels';educationPath.key=null;educationPath.topic=null;
  root.classList.remove('math-choice-stage');
  activeLearningSubject=null;root.classList.add('learning-choose');root.classList.remove('learning-active');
  host.replaceChildren();
@@ -7711,19 +7763,23 @@ function mathReadText(){
 
 function openLearningSubject(key){
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
+ if(key!=='math'&&EDUCATION_PATHS[key]&&(educationPath.key!==key||educationPath.stage!=='workspace')){
+  if(educationPath.key!==key){educationPath.key=key;educationPath.stage='levels';educationPath.topic=null}
+  educationShowChoices(educationPath.stage==='subjects'?'subjects':'levels');return;
+ }
  if(key==='math'&&mathJourney.stage!=='workspace'){
   mathJourneyShowChoices(mathJourney.stage==='subjects'?'subjects':'levels');return;
  }
  activeLearningSubject=subject;
  $('moduleTitle').textContent=key==='math'?
   learningLabel(subject[2],subject[3])+' · '+mathJourneyDescription().topic:
-  learningLabel(subject[2],subject[3]);
+  learningLabel(subject[2],subject[3])+(educationPathTopic()?' · '+educationPathTopic():'');
  const root=$('view-module'),host=$('moduleContent');
- root.classList.remove('learning-choose');root.classList.add('learning-active');
+ root.classList.remove('learning-choose','math-choice-stage');root.classList.add('learning-active');
  root.classList.toggle('learning-math',key==='math');
  host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar';
- const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>{if(key==='math'){mathVoiceStop();mathCloseResults();mathJourney.stage='subjects';mathJourneyShowChoices('subjects')}else renderLearningSubjects()};
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>{if(key==='math'){mathVoiceStop();mathCloseResults();mathJourney.stage='subjects';mathJourneyShowChoices('subjects')}else if(EDUCATION_PATHS[key]){educationPath.stage='subjects';educationShowChoices('subjects')}else renderLearningSubjects()};
  if(key==='math'){
   bar.classList.add('math-navigation');
   back.classList.add('math-back-btn');
@@ -7804,7 +7860,7 @@ function openLearningSubject(key){
   requestAnimationFrame(mathFitViewport);
  }
 
- inputEl.placeholder=learningLabel('Întreabă despre '+subject[2].toLowerCase()+'…','Ask about '+subject[3].toLowerCase()+'…');
+ inputEl.placeholder=educationPathTopic()?learningLabel('Întreabă despre ','Ask about ')+educationPathTopic()+'…':learningLabel('Întreabă despre '+subject[2].toLowerCase()+'…','Ask about '+subject[3].toLowerCase()+'…');
 }
 // An OCR candidate is NEVER a verified mathematical statement. A photographed
 // page must be reviewed and one exercise explicitly selected before math runs.
