@@ -1541,6 +1541,11 @@ body.long-choice-active{overflow:hidden}
 #view-module.math-choice-stage #moduleContent{min-height:0!important;overflow:hidden!important}
 .math-figures-action{width:100%;min-height:43px!important;white-space:normal!important}
 .math-figure-summary{display:block;max-height:2.8em;overflow:hidden;text-overflow:ellipsis}
+.math-figure-attached{max-height:none;overflow:visible;display:flex;flex-direction:column;gap:5px;padding:7px 9px;border:1px solid #477c96;border-radius:10px;background:#0a2a3b}
+.math-figure-attached strong{font-size:13px}
+.math-figure-attached span{font-size:12px;line-height:1.35;color:#c7e7ef}
+.math-figure-attached figure{margin:0;max-height:125px;overflow:hidden}
+.math-figure-attached svg{max-height:112px;width:100%;display:block}
 .math-figure-dialog{box-sizing:border-box;position:fixed;inset:0;margin:auto;
  width:min(96vw,720px);height:min(90dvh,780px);max-height:90dvh;
  padding:0;border:2px solid #3d8ea8;border-radius:18px;background:#0a2536;color:#eefaff;
@@ -6718,9 +6723,41 @@ function mathFigureConflict(figure,statement){
 }
 function mathFigureDraftSummary(){
  const note=document.getElementById('mathFigureSummary');if(!note)return;
- note.textContent=mathFigureDraft?
-  learningLabel('Figura selectată: ','Selected figure: ')+mathFigureSummary(mathFigureDraft):
-  learningLabel('Poți lucra și fără figură.','You can also work without a figure.');
+ note.replaceChildren();
+ if(!mathFigureDraft){
+  note.textContent=learningLabel('Poți lucra și fără figură.','You can also work without a figure.');
+  return;
+ }
+ const label=document.createElement('strong');
+ label.textContent=learningLabel('Figura atașată exercițiului: ','Figure attached to exercise: ')+mathFigureSummary(mathFigureDraft);
+ note.append(label,mathFigureSnapshot(mathFigureDraft));
+ const hint=document.createElement('span');
+ hint.textContent=learningLabel('Figura este păstrată în Grafic, Rezolvare și Metodă. Completează cerința în câmpul Exercițiu sau apasă Reprezintă grafic.',
+ 'The figure stays attached to Graph, Solve and Method. Write the question in Exercise or tap Draw graph.');
+ note.append(hint);
+}
+function mathFigureStatement(figure){
+ if(!figure)return '';
+ const values=Object.entries(figure.values||{}).filter(([,v])=>mathFigureMeasurement(v)!==null);
+ const description=values.length?
+  values.map(([key,value])=>key+' = '+value+' '+(figure.unit||'cm')).join(', '):
+  learningLabel('dimensiuni neprecizate','dimensions unspecified');
+ return learningLabel('Figura: ','Figure: ')+mathFigureName(figure)+'. '+
+  learningLabel('Date: ','Given: ')+description+'.';
+}
+function mathFigureInsertStatement(figure){
+ const field=document.getElementById('mathEducationText');
+ if(!field)return;
+ const statement=mathFigureStatement(figure);
+ // Replace the previous auto-generated description only; never touch a typed exercise.
+ const old=String(field.dataset.figureStatement||'');
+ let value=String(field.value||'');
+ if(old&&value.startsWith(old))value=value.slice(old.length).replace(/^\s+/,'');
+ else if(old&&value.includes(old))value=value.replace(old,'').trim();
+ field.dataset.figureStatement=statement;
+ field.value=statement+(value?'\\n'+value:'');
+ mathRememberDraft(field.value);
+ field.dispatchEvent(new Event('input',{bubbles:true}));
 }
 function mathFigureDefaultVertices(id){
  const shapes={
@@ -6942,10 +6979,14 @@ function mathOpenFigureLibrary(){
     'Drag to pan; pinch to zoom. Select Draw or Points to edit.'));
   const tool=(id,ro,en)=>{
    const button=btn(learningLabel(ro,en),()=>{mode=id;setToolStyle()});
-   button.dataset.tool=id;toolbar.append(button);
+   button.dataset.tool=id;button.setAttribute('aria-pressed','false');toolbar.append(button);
   };
   if(solid){tool('rotate','Rotire 3D','3D rotation');tool('pan','Mută','Pan')}
-  else{tool('pan','Mută','Pan');tool('draw','Desenează','Draw');if(working.id!=='free')tool('points','Puncte','Vertices')}
+  else{
+   tool('pan','Mută','Pan');
+   if(working.id==='free')tool('draw','Desenează','Draw');
+   if(working.id!=='free')tool('points','Puncte','Vertices');
+  }
   const zoom=(factor)=>{
    working.zoom=Math.max(1,Math.min(4,working.zoom*factor));
    const lim=20+(working.zoom-1)*120;
@@ -6996,12 +7037,15 @@ function mathOpenFigureLibrary(){
     const on=button.dataset.tool===mode;
     button.setAttribute('aria-pressed',on?'true':'false');
     button.style.borderColor=on?'#79e6ea':'';
+    button.style.background=on?'#176478':'';
+    button.style.boxShadow=on?'inset 0 0 0 2px #79e6ea':'';
+    button.title=on?learningLabel('Mod activ: glisează pe desen','Active mode: drag on the figure'):learningLabel('Activează modul','Activate mode');
    }
-   message.textContent=mode==='draw'?learningLabel('Desenează cu degetul.','Draw with your finger.'):
-    mode==='points'?learningLabel('Mutarea unui vârf transformă figura într-un desen personalizat.',
+   message.textContent=mode==='draw'?learningLabel('Mod Desenează activ: trasează cu degetul.','Draw mode active: trace with your finger.'):
+    mode==='points'?learningLabel('Mod Puncte activ: trage de un vârf. Modificarea formei o transformă în desen personalizat.',
      'Moving a vertex makes the figure a custom drawing.'):
-    mode==='rotate'?learningLabel('Glisează pentru rotire 3D.','Swipe to rotate 3D.'):
-    learningLabel('Glisează pentru deplasare în fereastră.','Drag to move within the window.');
+    mode==='rotate'?learningLabel('Mod Rotire 3D activ: glisează pe figură, nu pe buton.','3D rotation mode active: drag the figure, not the button.'):
+    learningLabel('Mod Mută activ: glisează pe figură pentru deplasare; butonul doar selectează modul.','Pan mode active: drag the figure to move it; the button selects the mode.');
   }
   const active=new Map();
   let gesture=null,pinch=null;
@@ -7093,6 +7137,7 @@ function mathOpenFigureLibrary(){
     return;
    }
    mathFigureDraft=mathFigureCopy(working);
+   mathFigureInsertStatement(mathFigureDraft);
    mathFigureDraftSummary();
    dialog.close();
   },true));
@@ -7704,7 +7749,7 @@ function openLearningSubject(key){
    geometry.onclick=mathOpenFigureLibrary;
    tools.append(geometry);
    const figureSummary=document.createElement('small');
-   figureSummary.id='mathFigureSummary';figureSummary.className='math-figure-summary';
+   figureSummary.id='mathFigureSummary';figureSummary.className='math-figure-summary math-figure-attached';
    tools.append(figureSummary);
   }
   const status=document.createElement('small');status.id='mathEducationStatus';status.setAttribute('role','status');
