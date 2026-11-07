@@ -15,10 +15,12 @@ const env={
  mathPlaneShapeModel:source=>source==='text-rectangle'?{kind:'rectangle',a:8,b:5,area:40,perimeter:26,unit:'cm'}:null,
  mathRightTriangleModel:()=>null, mathLinearEquation:()=>null,
  mathQuadraticEquation:()=>null, mathLinearSystem:()=>null,
- mathAdditionalModel:()=>null
+ mathAdditionalModel:()=>null,
+ mathGraphModel:source=>source==='f(x)=2x+3'?{a:0,b:2,c:3}:null
 };
 const f=vm.runInNewContext(script.slice(a,b)+'\nmathGraphVerifiedAnswers',env);
 assert.deepEqual([...f('text-rectangle',null)],['A = 40 cm²','P = 26 cm']);
+assert.deepEqual([...f('f(x)=2x+3',null)],['f(0) = 3','x₀ = -1,5']);
 assert.deepEqual([...f('ignored',{id:'square',unit:'cm',values:{latura:'6'}})],['A = 36 cm²','P = 24 cm']);
 assert.deepEqual([...f('ignored',{id:'rectangle',unit:'cm',values:{lungime:'8',latime:'5'}})],['A = 40 cm²','P = 26 cm']);
 assert.deepEqual([...f('ignored',{id:'cube',unit:'cm',values:{latura:'3'}})],['V = 27 cm³','A = 54 cm²']);
