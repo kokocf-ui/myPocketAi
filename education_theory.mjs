@@ -1,3 +1,4 @@
+import {CHEMISTRY_LESSONS} from './chemistry_curriculum.mjs';
 // Curated, offline-first Romanian theory entries. Keep explanatory theory separate from exercise solvers.
 export const THEORY_ENTRIES = Object.freeze([
   {
@@ -480,7 +481,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "lavoisier",
       "conservarea masei"
     ],
-    "level": "beginner"
+    "level": "beginner",
+    "topic": "reactions"
   },
   {
     "id": "chemistry-41",
@@ -492,7 +494,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "proust",
       "compozitie constanta"
     ],
-    "level": "beginner"
+    "level": "beginner",
+    "topic": "reactions"
   },
   {
     "id": "chemistry-42",
@@ -503,7 +506,8 @@ export const THEORY_ENTRIES = Object.freeze([
     "aliases": [
       "dalton"
     ],
-    "level": "medium"
+    "level": "medium",
+    "topic": "reactions"
   },
   {
     "id": "chemistry-43",
@@ -514,7 +518,8 @@ export const THEORY_ENTRIES = Object.freeze([
     "aliases": [
       "avogadro"
     ],
-    "level": "beginner"
+    "level": "beginner",
+    "topic": "solutions"
   },
   {
     "id": "chemistry-44",
@@ -526,7 +531,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "gaz ideal",
       "clapeyron mendeleev"
     ],
-    "level": "medium"
+    "level": "medium",
+    "topic": "physical"
   },
   {
     "id": "chemistry-45",
@@ -538,7 +544,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "boyle",
       "mariotte"
     ],
-    "level": "beginner"
+    "level": "beginner",
+    "topic": "solutions"
   },
   {
     "id": "chemistry-46",
@@ -549,7 +556,8 @@ export const THEORY_ENTRIES = Object.freeze([
     "aliases": [
       "charles gaze"
     ],
-    "level": "beginner"
+    "level": "beginner",
+    "topic": "solutions"
   },
   {
     "id": "chemistry-47",
@@ -560,7 +568,8 @@ export const THEORY_ENTRIES = Object.freeze([
     "aliases": [
       "gay lussac gaze"
     ],
-    "level": "beginner"
+    "level": "beginner",
+    "topic": "solutions"
   },
   {
     "id": "chemistry-48",
@@ -572,7 +581,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "le chatelier",
       "echilibru chimic"
     ],
-    "level": "medium"
+    "level": "medium",
+    "topic": "physical"
   },
   {
     "id": "chemistry-49",
@@ -584,7 +594,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "constanta echilibru",
       "guldberg waage"
     ],
-    "level": "advanced"
+    "level": "advanced",
+    "topic": "physical"
   },
   {
     "id": "chemistry-50",
@@ -596,7 +607,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "ph",
       "aciditate"
     ],
-    "level": "medium"
+    "level": "medium",
+    "topic": "acids"
   },
   {
     "id": "chemistry-51",
@@ -609,7 +621,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "lowry",
       "acizi baze"
     ],
-    "level": "medium"
+    "level": "medium",
+    "topic": "acids"
   },
   {
     "id": "chemistry-52",
@@ -621,7 +634,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "hess",
       "entalpie"
     ],
-    "level": "medium"
+    "level": "medium",
+    "topic": "physical"
   },
   {
     "id": "chemistry-53",
@@ -632,7 +646,8 @@ export const THEORY_ENTRIES = Object.freeze([
     "aliases": [
       "faraday electroliza"
     ],
-    "level": "advanced"
+    "level": "advanced",
+    "topic": "electrochem"
   },
   {
     "id": "chemistry-54",
@@ -644,7 +659,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "cinetica chimica",
       "ordin reactie"
     ],
-    "level": "advanced"
+    "level": "advanced",
+    "topic": "physical"
   },
   {
     "id": "chemistry-55",
@@ -656,7 +672,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "aufbau",
       "configuratie electronica"
     ],
-    "level": "medium"
+    "level": "medium",
+    "topic": "atomic"
   },
   {
     "id": "chemistry-56",
@@ -667,7 +684,8 @@ export const THEORY_ENTRIES = Object.freeze([
     "aliases": [
       "pauli"
     ],
-    "level": "medium"
+    "level": "medium",
+    "topic": "atomic"
   },
   {
     "id": "chemistry-57",
@@ -678,7 +696,8 @@ export const THEORY_ENTRIES = Object.freeze([
     "aliases": [
       "hund"
     ],
-    "level": "medium"
+    "level": "medium",
+    "topic": "atomic"
   },
   {
     "id": "chemistry-58",
@@ -690,7 +709,8 @@ export const THEORY_ENTRIES = Object.freeze([
       "raoult",
       "presiune vapori"
     ],
-    "level": "advanced"
+    "level": "advanced",
+    "topic": "physical"
   },
   {
     "id": "math-21",
@@ -2984,7 +3004,9 @@ export const THEORY_ENTRIES = Object.freeze([
       "power set"
     ]
   }
-]);
+,
+  ...CHEMISTRY_LESSONS
+])
 const normalize=s=>String(s??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("ro").replace(/[‐‑–—]/g,"-").replace(/[^a-z0-9+]+/g," ").trim().replace(/\s+/g," ");
 const LEVELS={beginner:0,intermediate:1,medium:1,advanced:2};
 export function searchTheory(query,{subject=null,level=null,limit=12}={}){

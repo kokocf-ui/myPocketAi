@@ -3,7 +3,7 @@ import {THEORY_ENTRIES,searchTheory,theorySubjects} from './education_theory.mjs
 const math=THEORY_ENTRIES.filter(e=>e.subject==='math');
 const topics=['arithmetic','algebra','geometry','trigonometry','functions','measurement','statistics','linear-algebra','analysis','differential','discrete'];
 assert.equal(math.length,211);
-assert.deepEqual(theorySubjects().map(x=>x.count),[211,19,19]);
+assert.deepEqual(theorySubjects().map(x=>x.count),[211,19,184]);
 assert.deepEqual([...new Set(math.map(e=>e.topic))].sort(),[...topics].sort());
 for(const t of topics)assert.ok(math.filter(e=>e.topic===t).length>=9,t+' has a populated library');
 assert.deepEqual([...new Set(math.map(e=>e.level))].sort(),['advanced','beginner','intermediate','medium'].sort());
