@@ -7060,6 +7060,26 @@ function openLearningSubject(key){
 
  inputEl.placeholder=learningLabel('Întreabă despre '+subject[2].toLowerCase()+'…','Ask about '+subject[3].toLowerCase()+'…');
 }
+// An OCR candidate is NEVER a verified mathematical statement. A photographed
+// page must be reviewed and one exercise explicitly selected before math runs.
+let mathPhotoNeedsReview=false;
+function mathPhotoCandidates(source){
+ const lines=String(source||'').replace(/\\r/g,'').split('\\n').map(x=>x.trim()).filter(Boolean);
+ const out=[],seen=new Set();
+ for(const line of lines){
+  const match=line.match(/^(?:EX\\.?\\s*\\d+\\s*[):.]\\s*)?([a-h])\\s*[).]\\s*(.+)$/i);
+  if(!match)continue;
+  const candidate=match[2].trim();
+  // Once a worked solution is included, keep only the first expression.
+  const expression=candidate.split('=')[0].trim();
+  if(expression.length<3||expression.length>180||!/\\d/.test(expression))continue;
+  if(seen.has(match[1].toLowerCase()+':'+expression))continue;
+  seen.add(match[1].toLowerCase()+':'+expression);
+  out.push({label:match[1].toLowerCase()+') '+expression,text:expression});
+  if(out.length>=12)break;
+ }
+ return out;
+}
 // Educational mathematics: reject obvious OCR fragments, not legitimate hand-entered work.
 function educationMathOcrIncomplete(value){
  const raw=String(value||'').replace(/\\s+/g,'');
@@ -8802,6 +8822,10 @@ function mathEducationRun(mode){
  if(state.currentView!=='module'||activeLearningSubject?.[0]!=='math')return;
  const editor=$('mathEducationText'),status=$('mathEducationStatus');
  const source=editor?.value?.trim()||'';
+ if(mathPhotoNeedsReview){
+  status.textContent=learningLabel('Fotografia trebuie verificată. Selectează un exercițiu și confirmă transcrierea înainte de rezolvare.','Review the photo. Select an exercise and confirm the transcription before solving.');
+  return;
+ }
  if(!source){
   status.textContent=learningLabel('Scrie sau fotografiază exercițiul.','Type or photograph the exercise.');
   return;
@@ -8848,12 +8872,50 @@ window.pocketAndroidOcrResult=function(data){
   const editor=$('mathEducationText'),status=$('mathEducationStatus');
   if(!editor||!status)return;
   const text=typeof data?.text==='string'?data.text.trim().slice(0,3500):'';
-  if(text){editor.value=text;mathRememberDraft(text)}
+  mathPhotoNeedsReview=true;
+  const workspace=$('mathEducationWorkspace');
+  workspace?.querySelector('.math-photo-review')?.remove();
+  const review=document.createElement('div');review.className='math-photo-review';
+  review.style.cssText='display:flex;flex-direction:column;gap:8px;padding:10px;border:1px solid #e6a75b;border-radius:12px;';
+  const warning=document.createElement('p');
+  warning.textContent=learningLabel('Citire OCR neverificată. Alege UN singur exercițiu, apoi compară toate cifrele, semnele, puterile și radicalii cu fotografia. Nu vom rezolva automat pagina întreagă.','Unverified OCR. Select ONE exercise and compare all digits, signs, powers and roots against the photo. The full page will not be solved automatically.');
+  review.append(warning);
+  const candidates=mathPhotoCandidates(text);
+  if(candidates.length){
+   const select=document.createElement('select');select.className='text-field';
+   select.setAttribute('aria-label',learningLabel('Exercițiul fotografiat','Photographed exercise'));
+   const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent=learningLabel('Alege exercițiul din fotografie','Choose an exercise from the photo');select.append(placeholder);
+   candidates.forEach((candidate,i)=>{
+    const option=document.createElement('option');option.value=String(i);option.textContent=candidate.label;select.append(option);
+   });
+   select.onchange=()=>{
+    if(select.value==='')return;
+    editor.value=candidates[Number(select.value)].text;
+    mathPhotoNeedsReview=true;
+    status.textContent=learningLabel('Verifică fiecare simbol și confirmă transcrierea.','Check every symbol and confirm the transcription.');
+   };
+   review.append(select);
+  }else if(text){
+   const message=document.createElement('p');message.textContent=learningLabel('Nu am putut separa sigur exercițiile. Alege unul din fotografie și scrie-l sau corectează-l în câmp.','Could not reliably separate exercises. Type or correct one exercise in the field.');
+   review.append(message);
+  }
+  editor.value='';
+  const confirmation=document.createElement('button');confirmation.type='button';confirmation.className='secondary-btn';
+  confirmation.textContent=learningLabel('Am verificat transcrierea','I checked the transcription');
+  confirmation.onclick=()=>{
+   const candidate=editor.value.trim();
+   if(educationMathOcrIncomplete(candidate)||candidate.length>240||candidate.split('\\n').length>3){
+    status.textContent=learningLabel('Transcriere incompletă sau prea multe exerciții. Introdu un singur enunț complet.','Incomplete transcription or too many exercises. Enter one complete problem.');
+    return;
+   }
+   mathPhotoNeedsReview=false;mathRememberDraft(candidate);
+   status.textContent=learningLabel('Exercițiu confirmat. Poți alege Rezolvare, Grafic sau Metodă.','Exercise confirmed. You may choose Solve, Graph or Method.');
+   review.remove();
+  };
+  review.append(confirmation);workspace?.append(review);
   status.textContent=!text?
-   learningLabel('Nu am putut citi exercițiul. Repetă fotografia sau scrie aici.','Could not read the exercise. Retake the photo or type here.'):
-   data?.status==='partial'?
-   learningLabel('Citire incompletă: verifică simbolurile și corectează direct aici.','Incomplete reading: check the symbols and correct them here.'):
-   learningLabel('Text citit din fotografie. Verifică formula și apasă Rezolvă.','Text read from photo. Check the formula and tap Solve.');
+   learningLabel('Fotografia nu a fost citită. Introdu un singur exercițiu.','Photo could not be read. Type one exercise.'):
+   learningLabel('OCR preliminar: verifică și confirmă un exercițiu înainte de rezolvare.','Preliminary OCR: review and confirm one exercise before solving.');
   document.getElementById('mathEducationWorkspace')?.scrollIntoView({behavior:'smooth',block:'start'});
   return;
  }
