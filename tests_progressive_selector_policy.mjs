@@ -5,7 +5,10 @@ const code=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 const start=code.indexOf('const PROGRESSIVE_VISIBLE_CHOICES=4;');
 const end=code.indexOf('function renderStructuredAddressPicker(',start);
 assert.ok(start>=0&&end>start,'Shared progressive dropdown renderer exists');
-const render=new Function(code.slice(start,end)+'\nreturn renderProgressiveChoiceList')();
+const helperSource=code.slice(start,end).split(String.fromCharCode(92,92)).join(String.fromCharCode(92));
+const {render,normalizeLabel}=new Function(helperSource+'\nreturn {render:renderProgressiveChoiceList,normalizeLabel:progressiveMatchText};')();
+assert.equal(normalizeLabel('Căutare'),'cautare','Diacritics should not block first-letter narrowing');
+assert.equal(normalizeLabel('CAFÉ'),'cafe');
 const host={items:[],replaceChildren(...points){this.items=points}};
 const names=Array.from({length:18},(_,i)=>({label:'Selection '+i}));
 const count=render(host,names,(point)=>point);
@@ -15,6 +18,22 @@ assert.equal(render(host,[],(point)=>point),0);
 assert.equal(host.items.length,0);
 assert.equal(render(host,[{label:'Only'}],point=>point),1);
 assert.equal(host.items.length,1);
+const nativeStart=code.indexOf('function openPocketSelect(select){');
+const nativeEnd=code.indexOf('// Capture click AND pointerdown',nativeStart);
+assert.ok(nativeStart>0&&nativeEnd>nativeStart);
+const nativeCode=code.slice(nativeStart,nativeEnd);
+assert.ok(nativeCode.includes('renderProgressiveChoiceList(list,matches'),
+ 'Native app selectors must obey the same four-suggestion cap');
+assert.ok(nativeCode.includes('search.oninput=render'),
+ 'All native select options must be preloaded and filter on the first keystroke');
+const choiceStart=code.indexOf('function openPocketSelectionPanel(');
+const choiceEnd=code.indexOf('function openStandaloneChoicePanel(',choiceStart);
+assert.ok(choiceStart>0&&choiceEnd>choiceStart);
+const choiceCode=code.slice(choiceStart,choiceEnd);
+assert.ok(choiceCode.includes('renderProgressiveChoiceList(results,visible'),
+ 'Standalone selection panels share the progressive cap');
+assert.ok(choiceCode.includes('search.oninput=render'));
+
 
 const preStart=code.indexOf('  function prewarmNext(stage){');
 const preEnd=code.indexOf('  function prewarmStreets()',preStart);
