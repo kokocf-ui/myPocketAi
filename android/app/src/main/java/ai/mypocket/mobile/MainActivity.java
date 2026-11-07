@@ -760,28 +760,104 @@ public final class MainActivity extends ComponentActivity {
         return enhanced;
     }
     private void finishEducationMathOcr(com.google.mlkit.vision.text.TextRecognizer recognizer,
-                                         String initial,String alternate){
+                                         String initial,String alternate,String upper,String lower){
         String a=initial==null?"":initial.trim(),b=alternate==null?"":alternate.trim();
         boolean chooseAlternate=educationMathScore(b)>educationMathScore(a);
         String selected=chooseAlternate?b:a;
         String other=chooseAlternate?a:b;
+        StringBuilder supplements=new StringBuilder();
+        for(String regional:new String[]{upper,lower}){
+            String crop=regional==null?"":regional.trim();
+            if(crop.isEmpty()||crop.equals(selected)||crop.equals(other))continue;
+            if(supplements.length()>0)supplements.append('\n');
+            supplements.append(crop);
+        }
+        if(supplements.length()>0)other=(other.isEmpty()?"":other+"\n")+supplements;
         if(selected.equals(other))other="";
+        // Return full-page plus region OCR as unverified alternatives.
         notifyWeb(educationMathPlausible(selected)?"review":"partial",selected,other);
         recognizer.close();
     }
+    private void scanEducationMathRegions(
+        com.google.mlkit.vision.text.TextRecognizer recognizer,Bitmap processed,
+        String initial,String alternate){
+        // Two 63% overlapping regions give small labels and formula glyphs a
+        // second chance. Neither crop is authoritative; the frontend still
+        // requires the learner to review and explicitly confirm one exercise.
+        Bitmap first=null,second=null;
+        try{
+            int width=processed.getWidth(),height=processed.getHeight();
+            if(width<120||height<120){
+                processed.recycle();
+                finishEducationMathOcr(recognizer,initial,alternate,"","");
+                return;
+            }
+            if(height>=width){
+                int band=Math.min(height,Math.max(1,Math.round(height*0.63f)));
+                first=Bitmap.createBitmap(processed,0,0,width,band);
+                second=Bitmap.createBitmap(processed,0,height-band,width,band);
+            }else{
+                int band=Math.min(width,Math.max(1,Math.round(width*0.63f)));
+                first=Bitmap.createBitmap(processed,0,0,band,height);
+                second=Bitmap.createBitmap(processed,width-band,0,band,height);
+            }
+        }catch(Exception error){
+            if(first!=null && first!=processed && !first.isRecycled())first.recycle();
+            if(second!=null && second!=processed && !second.isRecycled())second.recycle();
+            if(!processed.isRecycled())processed.recycle();
+            finishEducationMathOcr(recognizer,initial,alternate,"","");
+            return;
+        }
+        final Bitmap firstRegion=first,secondRegion=second;
+        final String[] firstRead={""},secondRead={""};
+        try{
+            recognizer.process(InputImage.fromBitmap(firstRegion,0))
+                .addOnSuccessListener(result->firstRead[0]=result.getText())
+                .addOnCompleteListener(task->{
+                    if(!firstRegion.isRecycled())firstRegion.recycle();
+                    try{
+                        recognizer.process(InputImage.fromBitmap(secondRegion,0))
+                            .addOnSuccessListener(result->secondRead[0]=result.getText())
+                            .addOnCompleteListener(last->{
+                                if(!secondRegion.isRecycled())secondRegion.recycle();
+                                if(!processed.isRecycled())processed.recycle();
+                                finishEducationMathOcr(recognizer,initial,alternate,firstRead[0],secondRead[0]);
+                            });
+                    }catch(Exception error){
+                        if(!secondRegion.isRecycled())secondRegion.recycle();
+                        if(!processed.isRecycled())processed.recycle();
+                        finishEducationMathOcr(recognizer,initial,alternate,firstRead[0],"");
+                    }
+                });
+        }catch(Exception error){
+            if(!firstRegion.isRecycled())firstRegion.recycle();
+            if(!secondRegion.isRecycled())secondRegion.recycle();
+            if(!processed.isRecycled())processed.recycle();
+            finishEducationMathOcr(recognizer,initial,alternate,"","");
+        }
+    }
     private void scanEducationMathEnhanced(Uri imageUri,
                 com.google.mlkit.vision.text.TextRecognizer recognizer,String initial){
-        // Decode and enhance off the UI thread; return both OCR readings to the
-        // learner when they differ. Neither is claimed to be authoritative.
+        // Decode and enhance off the UI thread. Alongside two full-page reads,
+        // independently inspect overlapping image regions on the device.
         new Thread(()->{
             Bitmap enhanced=null;
             try{enhanced=educationEnhancedBitmap(imageUri);}
-            catch(Exception ignored){finishEducationMathOcr(recognizer,initial,"");return;}
+            catch(Exception ignored){
+                finishEducationMathOcr(recognizer,initial,"","","");
+                return;
+            }
             final Bitmap processed=enhanced;
-            runOnUiThread(()->recognizer.process(InputImage.fromBitmap(processed,0))
-                .addOnSuccessListener(result->finishEducationMathOcr(recognizer,initial,result.getText()))
-                .addOnFailureListener(error->finishEducationMathOcr(recognizer,initial,""))
-                .addOnCompleteListener(task->processed.recycle()));
+            runOnUiThread(()->{
+                try{
+                    recognizer.process(InputImage.fromBitmap(processed,0))
+                        .addOnSuccessListener(result->scanEducationMathRegions(recognizer,processed,initial,result.getText()))
+                        .addOnFailureListener(error->scanEducationMathRegions(recognizer,processed,initial,""));
+                }catch(Exception error){
+                    if(!processed.isRecycled())processed.recycle();
+                    finishEducationMathOcr(recognizer,initial,"","","");
+                }
+            });
         },"pocket-education-math-image").start();
     }
     private void recognize(Uri imageUri) {
