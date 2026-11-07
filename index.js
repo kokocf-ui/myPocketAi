@@ -7985,18 +7985,27 @@ let mathResultSession=null;
 function mathSplitExercises(source){
  const lines=String(source||'').replace(/\\r/g,'').split('\\n').map(v=>v.trim()).filter(Boolean);
  const tasks=[];let current=[];
+ const flush=()=>{if(current.length){tasks.push(current.join('\\n').trim());current=[]}};
+ const isFormula=value=>/[\\d√]/u.test(value)&&/[=+\\-−×÷*/^√]/u.test(value)&&
+  !/[.!?]$/.test(value)&&!/[\\wăâîșț]{4,}\\s+[\\wăâîșț]{4,}/iu.test(value);
  for(const line of lines){
-  if(/^(?:exerci[țt]iu|exercises?|probleme|problems?)\\s*:?\\s*$/iu.test(line))continue;
-  const numbered=/^\\d{1,2}\\s*[.)]\\s*\\S/u.test(line);
-  const unnumbered=line.replace(/^(?:\\d{1,2}\\s*[.)]|\\))\\s*/, '').trim();
-  const instruction=/^(?:rezolv(?:[ăa]|are)?|reprezint(?:[ăa])?|deseneaz(?:[ăa])?|calculeaz(?:[ăa])?|determina|determin[ăa]|afl[ăa]|construie[șs]te|solve|graph|plot|draw|calculate|find)(?:\\s|:|$)/iu.test(unnumbered);
-  if(current.length&&(numbered||instruction)){
-   tasks.push(current.join('\\n').trim());current=[];
+  // A section heading is metadata; it must never be treated as an exercise.
+  if(/^(?:(?:exerci[țt]iul?|exercises?|ex\\.?|probleme|problems?)\\s*\\d{0,3}\\s*[:.)—–-]?\\s*(?:efectua[țt]i|calcula[țt]i|reduce[țt]i|rezolva[țt]i)?\\s*:?|exerci[țt]ii|exercises?)$/iu.test(line)){
+   flush();continue;
   }
-  current.push(unnumbered||line);
+  const numbered=line.match(/^\\d{1,3}\\s*[.)]\\s*(\\S.*)$/u);
+  const subpoint=line.match(/^[a-z]\\s*[).:]\\s*(\\S.*)$/iu);
+  const content=(numbered?.[1]||subpoint?.[1]||line).trim();
+  const instruction=/^(?:rezolv(?:[ăa]|are)?|reprezint(?:[ăa])?|deseneaz(?:[ăa])?|calculeaz(?:[ăa])?|determin[ăa]|afl[ăa]|construie[șs]te|solve|graph|plot|draw|calculate|find)(?:\\s|:|$)/iu.test(content);
+  // A complete formula on its own line is a separate exercise. Keep prose
+  // continuations together and never split an equation at an equals sign.
+  const previous=current.join('\\n');
+  const separate=numbered||subpoint||instruction||(isFormula(content)&&isFormula(previous));
+  if(current.length&&separate)flush();
+  current.push(content);
  }
- if(current.length)tasks.push(current.join('\\n').trim());
- return tasks.filter(Boolean).slice(0,30);
+ flush();
+ return tasks.filter(Boolean).slice(0,50);
 }
 function mathGraphModel(task){
  const match=String(task||'').match(/(?:f\\s*\\(\\s*x\\s*\\)|y)\\s*=\\s*([^\\n\\r;]+)/i);
