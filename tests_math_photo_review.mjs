@@ -120,30 +120,30 @@ const content=new FakeEl('div');
 const candidateInput=new FakeEl('textarea');
 const feedback=new FakeEl('small');
 const document={createElement:tag=>new FakeEl(tag)};
-const candidates=[
+const uiCandidates=[
  {label:'Ex. 1 · a) 9x - 3x + 4x',text:'9x - 3x + 4x'},
  {label:'Ex. 1 · b) 2x2 - 3x2 + 5x2',text:'2x2 - 3x2 + 5x2'},
  {label:'Ex. 1 · c) 2V5xy + 9V5xy - 10V5xy',text:'2V5xy + 9V5xy - 10V5xy'},
  {label:'Ex. 1 · d) 9abc - 13abc',text:'9abc - 13abc'},
  {label:'Ex. 2 · a) 6x + 3y - 5z',text:'6x + 3y - 5z'}
 ];
-vm.runInNewContext(uiSource,{document,content,candidateInput,feedback,candidates,mathPhotoOcrRisk:()=>false,learningLabel:(ro)=>ro});
+vm.runInNewContext(uiSource,{document,content,candidateInput,feedback,candidates:uiCandidates,mathPhotoOcrRisk:()=>false,learningLabel:(ro)=>ro});
 const choices=content.children.find(x=>x.attrs.role==='group');
 const status=content.children.find(x=>x.attrs['aria-live']==='polite');
 assert.ok(choices&&status,'selection feedback is visible and accessible');
 choices.scrollTop=100;
 const first=choices.children[0];
 first.onclick();
-assert.equal(candidateInput.value,candidates[0].text,'first exercise can be selected');
+assert.equal(candidateInput.value,uiCandidates[0].text,'first exercise can be selected');
 assert.equal(choices.children[0],first,'tap must not replace the button being touched');
 assert.equal(choices.scrollTop,100,'selection preserves scroll position');
 assert.equal(first.attrs['aria-pressed'],'true','selected button gets active state');
 choices.children[2].onclick();
-assert.equal(candidateInput.value,candidates[2].text,'middle exercise can be selected');
+assert.equal(candidateInput.value,uiCandidates[2].text,'middle exercise can be selected');
 assert.equal(choices.children[2].attrs['aria-pressed'],'true');
 assert.equal(first.attrs['aria-pressed'],'false');
 choices.children[4].onclick();
-assert.equal(candidateInput.value,candidates[4].text,'last exercise can be selected');
+assert.equal(candidateInput.value,uiCandidates[4].text,'last exercise can be selected');
 assert.match(status.textContent,/Ex\. 2/,'visible selection status follows chosen row');
 
 console.log('PASS photo OCR requires single exercise review and rejects entire-page auto-solving');
