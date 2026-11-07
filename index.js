@@ -7126,7 +7126,8 @@ function mathFigureWorkbench(){
  bar.append(title,close);
  const selector=document.createElement('select');selector.setAttribute('aria-label',learningLabel('Alege figura','Choose figure'));
  for(const entry of shapeOptions){const option=document.createElement('option');option.value=entry[0];option.textContent=learningLabel(entry[1],entry[2]);selector.append(option)}
- const typeRow=document.createElement('button');typeRow.type='button';typeRow.className='secondary-btn';typeRow.textContent=learningLabel('Alege tipul de triunghi','Choose triangle type');
+ const catalogHint=document.createElement('small');catalogHint.textContent=learningLabel('15 figuri disponibile — derulează lista pentru toate opțiunile.','15 figures available — scroll the list for all options.');
+  const typeRow=document.createElement('button');typeRow.type='button';typeRow.className='secondary-btn';typeRow.textContent=learningLabel('Alege tipul de triunghi','Choose triangle type');
  const triangleTypes=[['scalene','Oarecare','Scalene'],['equilateral','Echilateral','Equilateral'],['isosceles','Isoscel','Isosceles'],['right','Dreptunghic','Right'],['acute','Ascuțitunghic','Acute'],['obtuse','Obtuzunghic','Obtuse']];
  const view=document.createElement('div');view.className='math-figure-viewport';
  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 420 280');svg.setAttribute('role','img');svg.setAttribute('aria-label',learningLabel('Desen geometric interactiv','Interactive geometry diagram'));
@@ -7305,7 +7306,7 @@ function mathFigureWorkbench(){
   if(field){field.value=(field.value.trim()?field.value.trim()+'\\n':'')+description;mathRememberDraft(field.value)}
   dialog.close();field?.focus();
  };
- panel.append(bar,selector,typeRow,view,toolbar,help,dimensions,commit);
+ panel.append(bar,selector,catalogHint,typeRow,view,toolbar,help,dimensions,commit);
  dialog.append(panel);document.body.append(dialog);
  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
  updateSubtype();fields();controls();render();dialog.showModal();if(state3.kind==='triangle'&&!mathFigureDraft)chooseTriangleType();
