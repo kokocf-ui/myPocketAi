@@ -24,6 +24,7 @@ jobs:
           node --check scripts/patch-avatar-lipsync.mjs
           node tests_response_intent.mjs
           node tests_localization.mjs
+          node tests_news_reader_back.mjs
           node tests_news_contextual_translation.mjs
           node tests_avatar_lipsync_stop.mjs
           node scripts/patch-avatar-lipsync.mjs public/avatar-v4.html
