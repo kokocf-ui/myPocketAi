@@ -34,8 +34,8 @@ assert.match(script,/chemistryCurriculumOpen\(\):educationTheoryOpen\(code,null\
 assert.match(script,/if\(chemistry\?\.open\)\{chemistry\.pocketBack\?\.\(\);return\}/);
 assert.match(script,/dialog\.addEventListener\('cancel',event=>\{event\.preventDefault\(\);back\(\)\}\)/);
 assert.match(script,/\.slice\(0,4\)\.map\(x=>x\.e\)/,'typed matches capped at four');
-assert.match(script,/\.chemistry-curriculum-dialog\[open\]/,'responsive bounded dialog');
-assert.match(script,/\.chemistry-curriculum-list\{/,'independent lesson scrolling');
+assert.match(html,/\.chemistry-curriculum-dialog\[open\]/,'responsive bounded dialog');
+assert.match(html,/\.chemistry-curriculum-list\{/,'independent lesson scrolling');
 const catStart=script.indexOf('const EDUCATION_THEORY_DATA=');
 const begin=script.indexOf('function chemistryCurriculumOpen(');
 const end=script.indexOf('function mathJourneyShowChoices(',begin);
