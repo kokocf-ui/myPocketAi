@@ -5616,21 +5616,20 @@ export default {
       const rows=[];
       const candidatePublisherCount=describeNewsPublishers(webSources).unique_publisher_count;
       const publisherRows=new Map();
-      const openEndedLatestNews=/\b(?:ultimele|cele mai recente|latest|most recent|breaking)\b/i.test(normalizedResearchRequest)
-        && !/\b(?:19\d{2}|20\d{2})\b/.test(normalizedResearchRequest);
-      const explicitArticleCount=normalizedResearchRequest.match(/\b(?:ultimele|latest|last|recent(?:e)?)\s+(\d{1,2})\s+(?:stiri|news|articole|articles)\b/i);
-      const maxNewsRows=explicitArticleCount?Math.min(30,Math.max(1,Number(explicitArticleCount[1]))):30;
-      const freshnessHours=/\b(?:ultimele\s*24|past\s*24|last\s*24)\b/i.test(normalizedResearchRequest)?24:
-        /\b(?:ultima\s+luna|ultimele\s+30\s+de\s+zile|last\s+30\s+days|past\s+month|last\s+month)\b/i.test(String(normalizedResearchRequest).normalize('NFD').replace(/[\u0300-\u036f]/g,''))?720:openEndedLatestNews?168:null;
+      const maxNewsRows=requestedNewsArticleLimit(message);
+      const freshnessHours=newsFreshnessHours(message);
+      const requestedLanguageCoverage=new Set(requestedSourceLanguages);
+      const indexedSourceLanguages=webSources.some(x=>requestedLanguageCoverage.has(x.sourceLanguage));
       const todayOnly=/\b(?:astazi|azi|today)\b/i.test(normalizedResearchRequest);
       const nowMs=Date.now();
       // Select globally retrieved publication results, not only English/RO lexical matches.
       // A language, alphabet, country or publisher is never grounds for exclusion.
       for(const source of webSources){
-        if(rows.length>=maxNewsRows)break;
+        if(rows.length>=30)break;
         const url=safeSourceUrl(source.url);
         const originalTitle=String(source.title||"").replace(/\s+/g," ").trim().slice(0,200);
-        if(!url||originalTitle.length<15)continue;
+        if(!url||originalTitle.length<15||!looksLikeNewsArticle(originalTitle,url))continue;
+        if(indexedSourceLanguages&&!requestedLanguageCoverage.has(source.sourceLanguage))continue;
         const parsed=new URL(url),urlPath=parsed.pathname.replace(/\/+$/,"");
         if(!urlPath||urlPath==="/")continue;
         if(/^(?:\/emisiuni|\/stiri|\/stiri-video|\/category|\/tag|\/search)(?:\/|$)/i.test(urlPath)&&urlPath.split("/").filter(Boolean).length<=2)continue;
@@ -5656,18 +5655,32 @@ export default {
         const snippets=Array.isArray(source.snippets)?source.snippets:[];
         const candidate=String(snippets.find(v=>!String(v).startsWith("Unverified GDELT article listing:"))||"").replace(/\s+/g," ").trim();
         const snippetClean=!/hXXps|https?:\/\/|www\.|(?:\[\.\]|###)|↩|<[^>]{0,50}>/i.test(candidate)&&candidate.length>=55;
-        const summary=snippetClean?candidate.slice(0,280):"";
+        const summary=snippetClean?cleanNewsExcerpt(candidate,280):"";
         const rawDomain=parsed.hostname.replace(/^www\./i,"");
         const publisher=rawDomain.replace(/\.(?:co\.uk|com|org|net|ro|md|ru|it|fr|de|ua|uk|eu|io|info)$/i,"").split(".")[0];
-        const publisherNames={"abc.net.au":"ABC News","dw.com":"Deutsche Welle","apnews.com":"Associated Press","arabnews.com":"Arab News","internazionale.it":"Internazionale","lb.ua":"LB.ua","pravda.com.ua":"Ukrainska Pravda","eldestapeweb.com":"El Destape","interfax.ru":"Interfax"};
+        const publisherNames={"abc.net.au":"ABC News","dw.com":"Deutsche Welle","apnews.com":"Associated Press","arabnews.com":"Arab News","internazionale.it":"Internazionale","lb.ua":"LB.ua","pravda.com.ua":"Ukrainska Pravda","eldestapeweb.com":"El Destape","interfax.ru":"Interfax","aljazeera.net":"Al Jazeera","www.aljazeera.net":"Al Jazeera","bbc.com":"BBC","bbc.co.uk":"BBC","tagesschau.de":"Tagesschau","zeit.de":"Die Zeit","fr.euronews.com":"Euronews FR","de.euronews.com":"Euronews DE","franceinfo.fr":"Franceinfo","lemonde.fr":"Le Monde","reuters.com":"Reuters","nbcnews.com":"NBC News"};
         const sourceName=publisherNames[rawDomain]||publisherNames[rawDomain.replace(/^www\\./,"")]||rawDomain;
         seenTitles.add(key);
         publisherRows.set(hostKey,publisherUsed+1);
         rows.push({title:originalTitle,original_title:originalTitle,url,source_name:sourceName,
-          source_domain:rawDomain,published_at:source.publishedDate||null,recency_status:recencyStatus,
+          source_domain:rawDomain,source_language:source.sourceLanguage||null,published_at:source.publishedDate||null,recency_status:recencyStatus,
           summary,detail:summary,providers:Array.isArray(source.providers)?source.providers:[],
           verification:"source_identified_claims_unverified",corroborating_source_count:0});
       }
+      // Sort by verified publication time (newest first), not provider score.
+      const publishedTime=v=>{
+        const raw=String(v.published_at||"");
+        const normalized=/^\d{8}T\d{6}Z$/.test(raw)?raw.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,"$1-$2-$3T$4:$5:$6Z"):raw;
+        const date=Date.parse(normalized);return Number.isFinite(date)?date:-Infinity;
+      };
+      rows.sort((a,b)=>publishedTime(b)-publishedTime(a));
+      // Preserve language coverage before applying the requested total limit.
+      const guaranteed=requestedSourceLanguages.length>1&&maxNewsRows>=requestedSourceLanguages.length
+        ?requestedSourceLanguages.map(code=>rows.find(row=>row.source_language===code)).filter(Boolean):[];
+      const top=[...guaranteed];
+      for(const row of rows){if(top.length>=maxNewsRows)break;if(!top.includes(row))top.push(row);}
+      top.sort((a,b)=>publishedTime(b)-publishedTime(a));
+      rows.splice(0,rows.length,...top.slice(0,maxNewsRows));
       // Shared localization layer: choose language independently of source country.
       // Diagnostic only: trace the translation boundary without logging article text or changing its behavior.
       const translationStartedAt=Date.now();
@@ -5701,7 +5714,10 @@ export default {
       rows.splice(0,rows.length,...localizedNewsRows);
       // Never imply that the application has a complete news feed when strict
       // publication-date and topic validation leave only a few articles.
-      const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"source_relevance",
+      const list={type:"news",rows,verification:"articles_not_independent_confirmation",sort:"date_descending",
+        source_languages_requested:requestedSourceLanguages,
+        source_languages_found:[...new Set(rows.map(r=>r.source_language).filter(Boolean))],
+        comparison_status:isNewsComparisonRequest(message)?"not_independently_correlated":undefined,
         selection_policy:"technical_relevance_date_duplicates_and_publisher_diversity",
         viewpoint_filtering_applied:false,editorial_quality_verdict:false,
         retrieved_candidate_count:webSources.length,displayed_result_limit:maxNewsRows,
@@ -5721,7 +5737,8 @@ export default {
         ru:["Новости из найденных источников","Нажмите на заголовок для подробностей. Публикация не подтверждает достоверность фактов.","Подходящие статьи не найдены."],
         pl:["Wiadomości ze znalezionych źródeł","Dotknij tytułu, aby zobaczyć szczegóły. Publikacja nie potwierdza prawdziwości twierdzeń.","Nie znaleziono odpowiednich artykułów."]}[lang]||[];
       const dayNotice=newsPublicationFilter?(lang==="ro"?"Filtru: articole publicate pe "+newsPublicationFilter.day+" (UTC), NU toate evenimentele petrecute atunci. ":"Publication filter: "+newsPublicationFilter.day+" (UTC); this is not a verified list of events that occurred that day. "):"";
-      const reply=dayNotice+(rows.length?labels[0]+"\n"+labels[1]:labels[2]);
+      const comparisonNotice=isNewsComparisonRequest(message)?(lang==="ro"?" Nu pot confirma că relatările din limbi diferite descriu același eveniment fără dovezi încrucișate; consultă sursele originale din tabel.":" Cross-language accounts are not independently correlated; review original sources below."):"";
+      const reply=dayNotice+(rows.length?labels[0]+"\n"+labels[1]+comparisonNotice:labels[2]);
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
         message_received:message,reply,structured_list:list,
         sources:rows.map((v,i)=>({number:i+1,title:v.title,url:v.url,publishedDate:v.published_at,providers:v.providers,
