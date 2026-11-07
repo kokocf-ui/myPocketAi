@@ -8070,6 +8070,8 @@ function mathGraphFigure(question,focusX=null){
  figure.append(caption);return figure;
 }
 function mathGeometryFigure(question){
+ const verifiedShape=mathPlaneShapeModel(question);
+ if(verifiedShape)return mathPlaneShapeFigure(verifiedShape);
  const t=String(question||'').toLowerCase();
  let kind=null;
  if(/\\btriunghi\\b|\\btriangle\\b/u.test(t))kind='triangle';
@@ -9567,8 +9569,8 @@ function mathPlaneShapeModel(source){
  }
  if(rectangle){
   if(nums.length!==2)return null;
-  const length=/\\b(?:lungimea|lungime|length)\\b\\s*(?:(?:de|este|are|of|is)\\s*){0,2}[:=]?\\s*(\\d+(?:[.,]\\d+)?)/.exec(t);
-  const width=/\\b(?:latimea|latime|width)\\b\\s*(?:(?:de|este|are|of|is)\\s*){0,2}[:=]?\\s*(\\d+(?:[.,]\\d+)?)/.exec(t);
+  const length=/\\b(?:lungimea|lungime|length)\\b\\s*(?:ab\\s*)?(?:(?:de|este|are|of|is)\\s*){0,2}[:=]?\\s*(\\d+(?:[.,]\\d+)?)/.exec(t);
+  const width=/\\b(?:latimea|latime|width)\\b\\s*(?:bc\\s*)?(?:(?:de|este|are|of|is)\\s*){0,2}[:=]?\\s*(\\d+(?:[.,]\\d+)?)/.exec(t);
   if(!length||!width)return null;
   const a=value(length[1]),b=value(width[1]);
   if(!nums.some(x=>x.n===a)||!nums.some(x=>x.n===b))return null;
@@ -9659,8 +9661,8 @@ function mathPlaneShapeGraph(source){
  const planeShape=mathPlaneShapeModel(source);if(!planeShape)return null;
  return {planeShape,heading:learningLabel('Schița figurii geometrice','Geometry figure'),
  intro:learningLabel('Schiță explicativă cu dimensiunile din exercițiu.','Illustrative diagram with the supplied dimensions.'),
- conclusion:learningLabel('Calculele sunt verificate separat; schița nu este la scară.',
-  'Calculations are checked separately; this diagram is not to scale.')};
+ conclusion:learningLabel('Figura este construită din lungimile date, iar rezultatele sunt calculate local.',
+  'The figure uses the supplied lengths, and calculations are verified locally.')};
 }
 function mathPlaneShapeFigure(m){
  if(!m)return null;
@@ -9675,10 +9677,18 @@ function mathPlaneShapeFigure(m){
   mathSvgText(svg,222,115,'O','start',14);
   mathSvgText(svg,265,120,'r = '+f(m.r)+u,'middle',14,'#ffffff');
  }else{
-  const w=m.kind==='square'?165:245,h=165,x=(420-w)/2,y=45;
+  // Use supplied proportions within a bounded drawing region, independent of physical screen pixels.
+  const ratio=m.a/m.b;
+  const w=m.kind==='square'?165:(ratio>=1?Math.min(270,175*ratio):Math.min(270,175*ratio));
+  const h=m.kind==='square'?165:(ratio>=1?Math.min(185,w/ratio):Math.min(185,w/ratio));
+  const x=(420-w)/2,y=(250-h)/2;
   svg.append(mathSvgElement('rect',{x,y,width:w,height:h,fill:'#13485a','fill-opacity':'.4',stroke:'#4ed1d5','stroke-width':3}));
-  mathSvgText(svg,210,y+h+28,(m.kind==='square'?'a':'L')+' = '+f(m.a)+u,'middle',14);
-  mathSvgText(svg,x-13,y+h/2,(m.kind==='square'?'a':'l')+' = '+f(m.b)+u,'end',14);
+  if(m.kind==='rectangle'){
+   mathSvgText(svg,x-9,y-8,'A','end',15);mathSvgText(svg,x+w+9,y-8,'B','start',15);
+   mathSvgText(svg,x+w+9,y+h+14,'C','start',15);mathSvgText(svg,x-9,y+h+14,'D','end',15);
+  }
+  mathSvgText(svg,210,y+h+32,(m.kind==='square'?'a':'AB')+' = '+f(m.a)+u,'middle',14);
+  mathSvgText(svg,x-11,y+h/2,(m.kind==='square'?'a':'BC')+' = '+f(m.b)+u,'end',14);
  }
  const caption=document.createElement('figcaption');
  caption.textContent=learningLabel('Figura este orientativă, nu este la scară.','The figure is schematic and is not to scale.');
