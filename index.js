@@ -1538,6 +1538,7 @@ body.long-choice-active{overflow:hidden}
 
 .education-theory-dialog{border:1px solid #3fabc2;border-radius:17px;background:#092234;color:#eef7ff;width:min(94vw,640px);max-height:calc(100dvh - 40px);overflow:auto;padding:14px}
 .education-theory-dialog::backdrop{background:#03111cbd}
+.education-theory-dialog [hidden]{display:none!important}
 .education-theory-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .education-theory-head h2{font-size:18px;margin:0;min-width:0}
 .education-theory-head button{flex-shrink:0}
