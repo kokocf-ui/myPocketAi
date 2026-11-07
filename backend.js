@@ -5431,18 +5431,31 @@ export default {
         }))};
       })().then(value=>({status:"fulfilled",value,provider:"Exa:ReutersLinks"}))
         .catch(error=>({status:"rejected",provider:"Exa:ReutersLinks",error:String(error?.message||error).slice(0,140)})));
-      if (env.BRAVE_API_KEY) providerTasks.push((async () => {
-        const started = Date.now();
-        const u = new URL("https://api.search.brave.com/res/v1/web/search");
-        u.searchParams.set("q",newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.generalQuery:searchQuery);
-        u.searchParams.set("count",eventResearchIntent?15:newsIntent?12:6);
-        if(!(newsIntent&&newsDiscoveryPlan.broadWorld))u.searchParams.set("search_lang",searchLanguage);
-        u.searchParams.set("country",searchCountry||"ALL"); u.searchParams.set("safesearch","moderate");
-        const response = await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(eventResearchIntent?7000:8500)});
-        if(!response.ok) throw new Error("HTTP "+response.status);
-        const payload=await response.json(); const results=payload.web&&Array.isArray(payload.web.results)?payload.web.results:[];
-        return {provider:"Brave",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.page_age||x.age||null,snippets:[x.description||"",...(Array.isArray(x.extra_snippets)?x.extra_snippets:[])].filter(Boolean).slice(0,3)}))};
-      })().then(value=>({status:"fulfilled",value,provider:"Brave"})).catch(error=>({status:"rejected",provider:"Brave",error:String(error&&error.message||error).slice(0,140)})));
+      // Search each requested source language separately; never search all in Romanian.
+      // For unspecified languages, keep the original general-purpose behavior.
+      if (env.BRAVE_API_KEY) {
+        const languages=newsIntent&&requestedSourceLanguages.length?requestedSourceLanguages:[searchLanguage];
+        for(const languageHint of languages)providerTasks.push((async () => {
+          const started = Date.now();
+          const u = new URL("https://api.search.brave.com/res/v1/web/search");
+          u.searchParams.set("q",newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.generalQuery:
+            newsIntent?newsSearchQuery(message,languageHint):searchQuery);
+          u.searchParams.set("count",eventResearchIntent?15:newsIntent?12:6);
+          // Do not force the user's UI language on sources written in other languages.
+          if(!newsIntent||requestedSourceLanguages.length)u.searchParams.set("search_lang",languageHint);
+          u.searchParams.set("country",newsIntent?"ALL":searchCountry||"ALL");
+          u.searchParams.set("safesearch","moderate");
+          const response = await fetch(u.toString(),{headers:{"Accept":"application/json","X-Subscription-Token":env.BRAVE_API_KEY},signal:AbortSignal.timeout(eventResearchIntent?7000:8500)});
+          if(!response.ok)throw Error("HTTP "+response.status);
+          const payload = await response.json();
+          const results=payload.web&&Array.isArray(payload.web.results)?payload.web.results:[];
+          return {provider:"Brave"+(newsIntent?":"+languageHint:""),elapsedMs:Date.now()-started,
+            results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.page_age||x.age||null,
+              sourceLanguage:newsIntent&&requestedSourceLanguages.length?languageHint:null,
+              snippets:[x.description||"",...(Array.isArray(x.extra_snippets)?x.extra_snippets:[])].filter(Boolean).slice(0,3)}))};
+        })().then(value=>({status:"fulfilled",value,provider:value.provider}))
+          .catch(error=>({status:"rejected",provider:"Brave:"+languageHint,error:String(error?.message||error).slice(0,140)})));
+      }
       // When Exa is absent, do not leave independent reporting out of discovery.
       if(newsIntent&&!env.EXA_API_KEY&&env.BRAVE_API_KEY) providerTasks.push((async()=>{
         const started=Date.now(),u=new URL("https://api.search.brave.com/res/v1/web/search");
@@ -5518,7 +5531,7 @@ export default {
         for(const item of settled) if(item.status==="fulfilled") for(const source of item.value.results){
           const url=safeSourceUrl(source.url); if(!url) continue;
           const snippets=(Array.isArray(source.snippets)?source.snippets:[]).map(v=>String(v||"").replace(/\s+/g," ").trim()).filter(Boolean).map(v=>v.slice(0,1800));
-          candidates.push({title:String(source.title||url).slice(0,220),url,publishedDate:source.publishedDate||null,author:source.author||null,snippets,provider:item.provider});
+          candidates.push({title:String(source.title||url).slice(0,220),url,publishedDate:source.publishedDate||null,author:source.author||null,snippets,provider:item.provider,sourceLanguage:source.sourceLanguage||null});
         }
         const byUrl=new Map();
         for(const candidate of candidates){
