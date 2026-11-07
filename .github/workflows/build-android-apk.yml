@@ -5,6 +5,8 @@ on:
     paths:
       - 'android/**'
       - 'index.js'
+      - 'scripts/patch-avatar-lipsync.mjs'
+      - 'tests_avatar_lipsync_stop.mjs'
       - 'tests_education_android.mjs'
       - 'tests_math_linear_equations.mjs'
       - 'tests_math_linear_graph_proof.mjs'
@@ -34,7 +36,7 @@ jobs:
         with:
           gradle-version: '8.7'
       - name: Validate frontend syntax
-        run: node --check index.js && node tests_math_linear_equations.mjs && node tests_math_linear_graph_proof.mjs && node tests_math_linear_verification.mjs && node tests_education_android.mjs && node tests_shopping_workspace.mjs && node tests_agenda_android_reminders.mjs
+        run: node --check index.js && node tests_math_linear_equations.mjs && node tests_math_linear_graph_proof.mjs && node tests_math_linear_verification.mjs && node tests_avatar_lipsync_stop.mjs && node tests_education_android.mjs && node tests_shopping_workspace.mjs && node tests_agenda_android_reminders.mjs
       - name: Build debug APK (CI validation only; not a stable update)
         env:
           POCKET_VERSION_CODE: ${{ github.run_number }}
