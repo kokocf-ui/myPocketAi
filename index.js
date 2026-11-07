@@ -9729,6 +9729,36 @@ function mathPlaneShapeFigure(m){
 function mathAdditionalModel(source){
  const input=String(source||'').trim().replace(/[−–]/g,'-');
  const fmt=x=>new Intl.NumberFormat(state.language||'ro',{maximumFractionDigits:8}).format(Object.is(x,-0)?0:x);
+
+ const vectors=input.match(/^(?:vector|vectori|vectors?)\\s*:\\s*\\(\\s*(-?\\d+(?:[.,]\\d+)?)\\s*;\\s*(-?\\d+(?:[.,]\\d+)?)\\s*\\)\\s*([+\\-])\\s*\\(\\s*(-?\\d+(?:[.,]\\d+)?)\\s*;\\s*(-?\\d+(?:[.,]\\d+)?)\\s*\\)$/iu);
+ if(vectors){
+  const [x,y,a,b]=[vectors[1],vectors[2],vectors[4],vectors[5]].map(v=>Number(v.replace(',','.')));
+  const direction=vectors[3]==='+'?1:-1,xx=x+direction*a,yy=y+direction*b;
+  if(![xx,yy].every(Number.isFinite))return null;
+  const result='('+fmt(xx)+'; '+fmt(yy)+')';
+  return {kind:'vectors',label:input,result,summary:learningLabel('Vector rezultat = ','Result vector = ')+result,
+   details:learningLabel('Adunăm sau scădem separat coordonatele corespunzătoare.',
+    'Add or subtract corresponding vector coordinates.'),method:'coordinatewise'};
+ }
+ const dot=input.match(/^(?:produs scalar|dot product)\\s*:\\s*\\(\\s*(-?\\d+(?:[.,]\\d+)?)\\s*;\\s*(-?\\d+(?:[.,]\\d+)?)\\s*\\)\\s*(?:[·×*])?\\s*\\(\\s*(-?\\d+(?:[.,]\\d+)?)\\s*;\\s*(-?\\d+(?:[.,]\\d+)?)\\s*\\)$/iu);
+ if(dot){
+  const [x,y,a,b]=[dot[1],dot[2],dot[3],dot[4]].map(v=>Number(v.replace(',','.')));
+  const product=x*a+y*b;if(!Number.isFinite(product))return null;
+  return {kind:'vectors',label:input,result:fmt(product),summary:'u · v = '+fmt(product),
+   details:learningLabel('Produsul scalar este x₁x₂ + y₁y₂.',
+    'Dot product: x₁x₂ + y₁y₂.'),method:'dot'};
+ }
+ const complex=input.match(/^(?:complex|numere complexe)\\s*:\\s*\\(\\s*(-?\\d+(?:[.,]\\d+)?)\\s*([+\\-])\\s*(\\d+(?:[.,]\\d+)?)i\\s*\\)\\s*([+\\-])\\s*\\(\\s*(-?\\d+(?:[.,]\\d+)?)\\s*([+\\-])\\s*(\\d+(?:[.,]\\d+)?)i\\s*\\)$/iu);
+ if(complex){
+  const r1=Number(complex[1].replace(',','.')),i1=Number(complex[3].replace(',','.'))*(complex[2]==='-'?-1:1);
+  const r2=Number(complex[5].replace(',','.')),i2=Number(complex[7].replace(',','.'))*(complex[6]==='-'?-1:1);
+  const sign=complex[4]==='-'?-1:1,re=r1+sign*r2,im=i1+sign*i2;
+  if(![re,im].every(Number.isFinite))return null;
+  const result=fmt(re)+(im<0?' − ':' + ')+fmt(Math.abs(im))+'i';
+  return {kind:'complex',label:input,result,summary:'z = '+result,
+   details:learningLabel('Separăm partea reală de cea imaginară și respectăm semnele.',
+    'Combine real parts and imaginary parts separately.'),method:'complex-add'};
+ }
  const statistics=input.match(/^(media|mean|average|mediana|median|modul|mode|varianta|variance|abaterea standard|standard deviation)\\s*(?:numerelor|of|:|=)?\\s*:?\\s*([\\d\\s,;.+-]+)$/iu);
  if(statistics){
   const names={media:'mean',mean:'mean',average:'mean',mediana:'median',median:'median',modul:'mode',mode:'mode',varianta:'variance',variance:'variance','abaterea standard':'std','standard deviation':'std'};
