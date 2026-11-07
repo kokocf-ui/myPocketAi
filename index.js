@@ -8807,9 +8807,154 @@ function mathRightTriangleFigure(m){
  fig.append(svg,caption);return fig;
 }
 
+// Deterministic plane geometry from explicit dimensions. Never use numbers
+// from unrelated narrative text as silently inferred lengths.
+function mathPlaneShapeModel(source){
+ const t=String(source||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
+  .toLowerCase().replace(/\\s+/g,' ').trim();
+ if(t.length>400)return null;
+ const square=/\\b(?:patrat|patratul|square)\\b/.test(t);
+ const rectangle=/\\b(?:dreptunghi|dreptunghiul|rectangle)\\b/.test(t);
+ const circle=/\\b(?:cerc|cercul|circle)\\b/.test(t);
+ if([square,rectangle,circle].filter(Boolean).length!==1)return null;
+ const nums=[...t.matchAll(/(\\d+(?:[.,]\\d+)?)(?:\\s*(mm|cm|km|m)\\b)?/g)]
+  .map(z=>({n:Number(z[1].replace(',','.')),u:z[2]||''}));
+ if(nums.some(x=>!Number.isFinite(x.n)||x.n<=0||x.n>100000))return null;
+ const units=[...new Set(nums.map(x=>x.u).filter(Boolean))];
+ if(units.length>1)return null;
+ const unit=units[0]||'';
+ const value=x=>Number(x.replace(',','.'));
+ if(square){
+  if(nums.length!==1)return null;
+  const side=/\\b(?:latura|laturii|side)\\b\\s*(?:(?:de|este|are|of|is)\\s*){0,2}[:=]?\\s*(\\d+(?:[.,]\\d+)?)/.exec(t);
+  if(!side)return null;
+  const a=value(side[1]);
+  return {kind:'square',a,b:a,area:a*a,perimeter:4*a,unit};
+ }
+ if(rectangle){
+  if(nums.length!==2)return null;
+  const length=/\\b(?:lungimea|lungime|length)\\b\\s*(?:(?:de|este|are|of|is)\\s*){0,2}[:=]?\\s*(\\d+(?:[.,]\\d+)?)/.exec(t);
+  const width=/\\b(?:latimea|latime|width)\\b\\s*(?:(?:de|este|are|of|is)\\s*){0,2}[:=]?\\s*(\\d+(?:[.,]\\d+)?)/.exec(t);
+  if(!length||!width)return null;
+  const a=value(length[1]),b=value(width[1]);
+  if(!nums.some(x=>x.n===a)||!nums.some(x=>x.n===b))return null;
+  return {kind:'rectangle',a,b,area:a*b,perimeter:2*(a+b),unit};
+ }
+ if(nums.length!==1)return null;
+ const radius=/\\b(?:raza|razei|radius)\\b\\s*(?:(?:de|este|are|of|is)\\s*){0,2}[:=]?\\s*(\\d+(?:[.,]\\d+)?)/.exec(t);
+ const diameter=/\\b(?:diametrul|diametru|diameter)\\b\\s*(?:(?:de|este|are|of|is)\\s*){0,2}[:=]?\\s*(\\d+(?:[.,]\\d+)?)/.exec(t);
+ if(Boolean(radius)===Boolean(diameter))return null;
+ const given=value((radius||diameter)[1]),r=radius?given:given/2;
+ return {kind:'circle',r,d:2*r,area:Math.PI*r*r,perimeter:2*Math.PI*r,
+  radiusGiven:Boolean(radius),unit};
+}
+function mathPlaneNumber(n){
+ return new Intl.NumberFormat(state.language||'ro',{maximumFractionDigits:6}).format(n);
+}
+function mathPlaneShapeSolution(source){
+ const m=mathPlaneShapeModel(source);if(!m)return null;
+ const f=mathPlaneNumber,u=m.unit?' '+m.unit:'';
+ const squareUnit=m.unit?' '+m.unit+'²':'';
+ const steps=[],add=(label,reason,operation,fullAfter)=>steps.push({label,reason,operation,fullAfter,signRule:''});
+ if(m.kind==='square'){
+  add(learningLabel('Identificăm latura','Find the side'),
+   learningLabel('Toate cele patru laturi ale pătratului sunt egale.','All four sides of a square are equal.'),
+   'a = '+f(m.a)+u,'a = '+f(m.a)+u);
+  add(learningLabel('Aria pătratului','Square area'),
+   learningLabel('Aria este latura înmulțită cu ea însăși.','Multiply the side by itself.'),
+   'A = a²','A = '+f(m.a)+'² = '+f(m.area)+squareUnit);
+  add(learningLabel('Perimetrul pătratului','Square perimeter'),
+   learningLabel('Adunăm cele patru laturi.','Add all four sides.'),
+   'P = 4 × a','P = 4 × '+f(m.a)+' = '+f(m.perimeter)+u);
+ }else if(m.kind==='rectangle'){
+  add(learningLabel('Identificăm dimensiunile','Identify dimensions'),
+   learningLabel('Lungimea și lățimea sunt cele două dimensiuni distincte.','Length and width are the two dimensions.'),
+   'L = '+f(m.a)+u+', l = '+f(m.b)+u,'L = '+f(m.a)+u+', l = '+f(m.b)+u);
+  add(learningLabel('Aria dreptunghiului','Rectangle area'),
+   learningLabel('Înmulțim lungimea cu lățimea.','Multiply length by width.'),
+   'A = L × l','A = '+f(m.a)+' × '+f(m.b)+' = '+f(m.area)+squareUnit);
+  add(learningLabel('Perimetrul dreptunghiului','Rectangle perimeter'),
+   learningLabel('Fiecare dimensiune apare de două ori.','Each dimension appears twice.'),
+   'P = 2 × (L + l)','P = 2 × ('+f(m.a)+' + '+f(m.b)+') = '+f(m.perimeter)+u);
+ }else{
+  const exactArea=f(m.r*m.r)+'π',exactCirc=f(2*m.r)+'π';
+  add(learningLabel('Stabilim raza','Determine the radius'),
+   m.radiusGiven?learningLabel('Raza este dată în enunț.','The radius is supplied.'):
+    learningLabel('Raza este jumătate din diametru.','The radius is half the diameter.'),
+   m.radiusGiven?'r = '+f(m.r)+u:'r = d / 2',
+   m.radiusGiven?'r = '+f(m.r)+u:'r = '+f(m.d)+' / 2 = '+f(m.r)+u);
+  add(learningLabel('Aria cercului','Circle area'),
+   learningLabel('Înmulțim π cu pătratul razei.','Multiply π by the radius squared.'),
+   'A = π × r²','A = '+exactArea+' ≈ '+f(m.area)+squareUnit);
+  add(learningLabel('Circumferința','Circumference'),
+   learningLabel('Perimetrul cercului este 2πr.','A circle circumference is 2πr.'),
+   'C = 2 × π × r','C = '+exactCirc+' ≈ '+f(m.perimeter)+u);
+ }
+ return {intro:learningLabel('Folosim numai dimensiunile date și formulele geometrice potrivite.',
+  'Use only the supplied dimensions and relevant geometry formulas.'),
+  steps,conclusion:m.kind==='circle'?
+   learningLabel('Aria ≈ ','Area ≈ ')+f(m.area)+squareUnit+
+    learningLabel('; circumferința ≈ ','; circumference ≈ ')+f(m.perimeter)+u+'.':
+   learningLabel('Aria = ','Area = ')+f(m.area)+squareUnit+
+    learningLabel('; perimetrul = ','; perimeter = ')+f(m.perimeter)+u+'.'};
+}
+function mathPlaneShapeMethod(source){
+ const m=mathPlaneShapeModel(source);if(!m)return null;
+ const circle=m.kind==='circle',square=m.kind==='square';
+ const rules=circle?[
+  {title:learningLabel('Raza și diametrul','Radius and diameter'),text:'d = 2 × r.'},
+  {title:learningLabel('Aria','Area'),text:'A = π × r².'},
+  {title:learningLabel('Circumferința','Circumference'),text:'C = 2 × π × r.'}
+ ]:square?[
+  {title:learningLabel('Laturile','Sides'),text:learningLabel('Toate patru sunt egale.','All four are equal.')},
+  {title:learningLabel('Aria','Area'),text:'A = a².'},
+  {title:learningLabel('Perimetrul','Perimeter'),text:'P = 4 × a.'}
+ ]:[
+  {title:learningLabel('Dimensiunile','Dimensions'),text:learningLabel('Identificăm lungimea și lățimea.','Identify length and width.')},
+  {title:learningLabel('Aria','Area'),text:'A = L × l.'},
+  {title:learningLabel('Perimetrul','Perimeter'),text:'P = 2 × (L + l).'}
+ ];
+ rules.push({title:learningLabel('Unitățile','Units'),text:learningLabel('Aria are unități pătrate, iar perimetrul unități de lungime.',
+  'Area uses squared units; perimeter uses length units.')});
+ return {heading:learningLabel('Metodă: geometrie plană','Method: plane geometry'),
+ intro:learningLabel('Selectăm formula în funcție de figura dată.','Select formulas according to the specified shape.'),
+ rules,tip:learningLabel('Nu inventăm dimensiuni și nu amestecăm unitățile.',
+  'Do not invent dimensions or mix units.')};
+}
+function mathPlaneShapeGraph(source){
+ const planeShape=mathPlaneShapeModel(source);if(!planeShape)return null;
+ return {planeShape,heading:learningLabel('Schița figurii geometrice','Geometry figure'),
+ intro:learningLabel('Schiță explicativă cu dimensiunile din exercițiu.','Illustrative diagram with the supplied dimensions.'),
+ conclusion:learningLabel('Calculele sunt verificate separat; schița nu este la scară.',
+  'Calculations are checked separately; this diagram is not to scale.')};
+}
+function mathPlaneShapeFigure(m){
+ if(!m)return null;
+ const f=mathPlaneNumber,u=m.unit?' '+m.unit:'';
+ const fig=document.createElement('figure');fig.className='math-result-plot';
+ const svg=mathSvgElement('svg',{viewBox:'0 0 420 280',role:'img',
+  'aria-label':learningLabel('Schiță geometrică cu dimensiunile marcate','Shape diagram with dimensions')});
+ if(m.kind==='circle'){
+  svg.append(mathSvgElement('circle',{cx:210,cy:130,r:90,fill:'#13485a','fill-opacity':'.4',stroke:'#4ed1d5','stroke-width':3}));
+  svg.append(mathSvgElement('circle',{cx:210,cy:130,r:4,fill:'#ffca77'}));
+  svg.append(mathSvgElement('line',{x1:210,y1:130,x2:300,y2:130,stroke:'#ffca77','stroke-width':2}));
+  mathSvgText(svg,222,115,'O','start',14);
+  mathSvgText(svg,265,120,'r = '+f(m.r)+u,'middle',14,'#ffffff');
+ }else{
+  const w=m.kind==='square'?165:245,h=165,x=(420-w)/2,y=45;
+  svg.append(mathSvgElement('rect',{x,y,width:w,height:h,fill:'#13485a','fill-opacity':'.4',stroke:'#4ed1d5','stroke-width':3}));
+  mathSvgText(svg,210,y+h+28,(m.kind==='square'?'a':'L')+' = '+f(m.a)+u,'middle',14);
+  mathSvgText(svg,x-13,y+h/2,(m.kind==='square'?'a':'l')+' = '+f(m.b)+u,'end',14);
+ }
+ const caption=document.createElement('figcaption');
+ caption.textContent=learningLabel('Figura este orientativă, nu este la scară.','The figure is schematic and is not to scale.');
+ fig.append(svg,caption);return fig;
+}
+
 function mathAlgebraEngines(){
  return [
   {id:'right-triangle',solve:mathRightTriangleSolution,explain:mathRightTriangleMethod,graph:mathRightTriangleGraph},
+  {id:'plane-shapes',solve:mathPlaneShapeSolution,explain:mathPlaneShapeMethod,graph:mathPlaneShapeGraph},
   {id:'matrix-operations',solve:mathMatrixSolution,explain:mathMatrixMethod,graph:mathMatrixGraph},
   {id:'like-terms',solve:mathLikeTermsSolution,explain:mathLikeTermsMethod,graph:()=>null},
   {id:'symbolic-polynomials',solve:mathSymbolicSolution,explain:mathSymbolicMethod,graph:mathSymbolicGraph},
@@ -8963,7 +9108,8 @@ function mathResultPage(index){
   body.append(check);
  }
  const equationGraph=session.mode==='graph'?mathAlgebraLocal('graph',item.text)?.value:null;
- const graph=(equationGraph?.geometry?mathRightTriangleFigure(equationGraph.geometry):null)||
+ const graph=(equationGraph?.planeShape?mathPlaneShapeFigure(equationGraph.planeShape):null)||
+  (equationGraph?.geometry?mathRightTriangleFigure(equationGraph.geometry):null)||
   (equationGraph?.matrixView?mathMatrixHeatmap(equationGraph.matrixView):null)||
   (equationGraph?.polynomial?mathSymbolicPlot(equationGraph.polynomial):null)||
   (equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
