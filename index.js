@@ -10644,10 +10644,24 @@ async function mathFetchResult(item,session){
  const checked=equality&&session.mode!=='explain'?
   learningLabel('Verificare aritmetică locală: ','Local arithmetic verification: ')+mathEqualityExplanation(equality)+
   learningLabel(' Menționează explicit această verificare și explică de ce; nu modifica enunțul dictat.',' Explain this check explicitly without rewriting the dictated exercise.'):'';
- const levelContext=mathJourneyDescription();
+ const levelEntry=MATH_LEVELS.find(x=>x.id===session.level);
+ const topicEntry=MATH_TOPICS.find(x=>x.id===session.topic);
+ const levelContext={level:levelEntry?learningLabel(levelEntry.ro,levelEntry.en):'',
+  topic:topicEntry?learningLabel(topicEntry.ro,topicEntry.en):''};
+ const pedagogy={
+  beginner:learningLabel(
+   'Explică fiecare simbol nou și operație intermediară, evită salturile de calcul. Dacă exercițiul depășește nivelul, explică întâi noțiunile necesare fără a schimba problema.',
+   'Define new symbols, show every arithmetic step, and introduce prerequisites for advanced questions without changing them.'),
+  intermediate:learningLabel(
+   'Folosește riguros noțiunile de liceu: identifică formula, condițiile de aplicare, transformările și verificarea rezultatului.',
+   'Use upper-secondary concepts, state conditions, justify transformations, and verify results.'),
+  advanced:learningLabel(
+   'Folosește definiții și ipoteze explicite, argumente universitare riguroase, cazuri-limită și verificarea domeniului.',
+   'Use precise definitions, explicit assumptions, rigorous university-level reasoning, domain restrictions and edge cases.')
+ }[session.level]||'';
  const classroom=learningLabel('Nivel: ','Level: ')+levelContext.level+
   learningLabel('; materie: ','; subject: ')+levelContext.topic+
-  learningLabel('. Adaptează dificultatea explicațiilor; nu schimba enunțul.','. Adapt the explanation level without changing the exercise.');
+  learningLabel('. Nu modifica enunțul. ','. Do not modify the problem. ')+pedagogy;
  item.generated=true;
  const message=prompt+'\\n'+classroom+'\\n'+requested+(checked?'\\n'+checked:'')+'\\n'+
   learningLabel('Răspunde strict la următorul exercițiu, nu la alte exemple:','Answer ONLY the following exercise, not another problem:')+'\\n'+item.text;
@@ -10729,7 +10743,7 @@ function mathEducationRun(mode){
  mathCloseResults();
  const session={mode,tasks,active:0,controller:new AbortController(),
   figure:mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic)?mathFigureCopy(mathFigureDraft):null,
-  topic:mathJourney.topic};
+  topic:mathJourney.topic,level:mathJourney.level};
  mathResultSession=session;
  const dialog=$('mathResultDialog');
  $('mathResultTitle').textContent=mode==='explain'?learningLabel('Matematică · Metodă','Mathematics · Method'):mode==='graph'?learningLabel('Matematică · Grafic','Mathematics · Graph'):learningLabel('Matematică · Rezolvare','Mathematics · Solution');
