@@ -82,6 +82,7 @@ jobs:
           node tests_response_intent.mjs
           node tests_news_contextual_translation.mjs
           node tests_news_live_routing.mjs
+          node tests_mixed_uk_fallback.mjs
 
       - name: Deploy backend (retry transient Cloudflare outages only)
         env:
