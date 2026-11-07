@@ -5,6 +5,13 @@ on:
     paths:
       - 'backend.js'
       - 'index.js'
+      - 'education_theory.mjs'
+      - 'math_advanced_verified.mjs'
+      - 'tests_education_theory.mjs'
+      - 'tests_education_theory_ui.mjs'
+      - 'tests_math_advanced_verified.mjs'
+      - 'tests_math_graph_complete.mjs'
+      - 'tests_math_input_integrity.mjs'
       - 'localization.mjs'
       - 'news_discovery.mjs'
       - 'news_source_integrity.mjs'
