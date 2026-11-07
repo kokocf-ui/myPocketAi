@@ -8492,7 +8492,7 @@ function renderStructuredAddressPicker({body,prefix,onSelect,onBack,region='',co
     // Display each verified address or station identity exactly once.
     const seenCandidates=new Set();
     const candidates=(Array.isArray(rawCandidates)?rawCandidates:[]).filter(point=>{
-      const normalized=value=>normalize(String(value||'')).replace(/[^\\p{L}\\p{N}]/gu,'');
+      const normalized=value=>normalize(String(value||'')).replace(/[^\p{L}\p{N}]/gu,'');
       const key=stage==='street'
         ?[point.kind==='station'?'station':'street',normalized(point.street||point.label),normalized(point.city||selected.city?.city),normalized(point.postcode)].join('|')
         :stage==='number'?[normalized(point.houseNumber),normalized(point.street),normalized(point.postcode),normalized(point.city)].join('|')
