@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import frontend from './index.js';
+const html=await(await frontend.fetch(new Request('https://math.test/'))).text();
+const script=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
+assert.ok(script,'generated frontend script');
+new vm.Script(script);
+const workspace=script.slice(script.indexOf('function openLearningSubject('),script.indexOf('let mathPhotoNeedsReview=',script.indexOf('function openLearningSubject(')));
+assert.ok(workspace.includes('workspace.append(choices,tools);'),'solve controls are mounted ahead of photo and geometry tools');
+assert.ok(workspace.includes("document.createElement('details')"),'attached geometry preview is collapsible');
+assert.ok(!workspace.includes('workspace.append(heading,editor,tools,status)'),'large tools no longer block solve controls');
+assert.ok(script.includes('note.open=false;'),'new figure preview starts collapsed');
+assert.ok(html.includes('.math-figure-attached:not([open]) figure'),'preview hidden until requested');
+assert.ok(html.includes('.education-math-workspace{min-height:0!important;overflow-y:auto!important'),'workspace scrolls internally');
+assert.ok(script.includes("if(mathJourney.stage==='workspace'){mathJourney.stage='subjects';mathJourneyShowChoices('subjects');return true}"),'Android back returns to subjects');
+assert.ok(script.includes("if(mathJourney.stage==='subjects'){mathJourney.stage='levels';mathJourneyShowChoices('levels');return true}"),'Android back returns to levels');
+assert.ok(workspace.includes("mathJourney.stage='subjects';mathJourneyShowChoices('subjects')"),'visible back returns to subjects');
+console.log('PASS math geometry: visible solve actions, collapsible figure, bounded workspace and staged back');
