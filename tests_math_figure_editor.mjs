@@ -47,7 +47,7 @@ assert.match(api.auto(rect),/lungimea 8 cm și lățimea 5 cm/);
 const circle=api.copy({id:'circle',values:{raza:'3'},unit:'cm'});
 assert.match(api.auto(circle),/raza 3 cm/);
 assert.equal(api.conflict(circle,'Cerc raza 4 cm'),'raza');
-assert.equal(api.internal(api.copy({id:'right',values:{a:'3',b:'4',c:'7'}})),'ipotenuza','hypotenuse must exceed both legs');
+assert.equal(api.internal(api.copy({id:'right',values:{a:'3',b:'4',c:'3'}})),'ipotenuza','hypotenuse must exceed both legs');
 assert.equal(api.internal(api.copy({id:'right',values:{a:'3',b:'4',c:'6'}})),'Pitagora','three inconsistent sides must not be solved');
 assert.equal(api.internal(api.copy({id:'right',values:{a:'3',b:'4',c:'5'}})),'','3-4-5 valid');
 assert.equal(api.internal(api.copy({id:'circle',values:{raza:'3',diametru:'8'}})),'raza / diametru');
