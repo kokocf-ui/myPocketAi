@@ -6857,7 +6857,7 @@ function scienceBack(){
 function scienceEditorGrow(editor){
  if(!editor?.isConnected)return;
  const vh=window.visualViewport?.height||window.innerHeight;
- const min=Math.max(100,Math.min(148,vh*.22));
+ const min=editor.value.trim()?Math.max(100,Math.min(148,vh*.22)):Math.max(92,Math.min(112,vh*.17));
  const max=Math.max(min,Math.min(360,vh*.39));
  editor.style.setProperty('height','auto','important');
  const required=editor.scrollHeight+5;
@@ -7820,6 +7820,8 @@ function chemistryCurriculumOpen(){
     formula.className='education-theory-formula';formula.textContent=selectedLesson.formula;
     detail.append(formula);
    }
+   const visualKind=chemistryVisualKind(selectedLesson.title+' '+selectedLesson.statement.slice(0,100));
+   if(visualKind){const visual=chemistryVisualBuild(visualKind,selectedLesson.title);if(visual)detail.append(visual)}
    content.append(detail);
   }
  }
@@ -8169,6 +8171,172 @@ function scienceChemMoleculeOpen(){
  document.body.append(dialog);draw();
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
+
+/* Chemistry illustrations: deterministic educational figures, not AI-generated diagrams. */
+const CHEM_ELEMENTS=('H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm Md No Lr Rf Db Sg Bh Hs Mt Ds Rg Cn Nh Fl Mc Lv Ts Og').split(' ');
+const CHEM_ROWS=[
+ ['H',null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,'He'],
+ ['Li','Be',null,null,null,null,null,null,null,null,null,null,'B','C','N','O','F','Ne'],
+ ['Na','Mg',null,null,null,null,null,null,null,null,null,null,'Al','Si','P','S','Cl','Ar'],
+ 'K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr'.split(' '),
+ 'Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe'.split(' '),
+ 'Cs Ba La Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn'.split(' '),
+ 'Fr Ra Ac Rf Db Sg Bh Hs Mt Ds Rg Cn Nh Fl Mc Lv Ts Og'.split(' '),
+ 'Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu'.split(' '),
+ 'Th Pa U Np Pu Am Cm Bk Cf Es Fm Md No Lr'.split(' ')
+];
+const CHEM_ELEMENT_NAMES=('Hidrogen Heliu Litiu Beriliu Bor Carbon Azot Oxigen Fluor Neon Sodiu Magneziu Aluminiu Siliciu Fosfor Sulf Clor Argon Potasiu Calciu Scandiu Titan Vanadiu Crom Mangan Fier Cobalt Nichel Cupru Zinc Galiu Germaniu Arsen Seleniu Brom Kripton Rubidiu Stronțiu Ytriu Zirconiu Niobiu Molibden Technețiu Ruteniu Rodiu Paladiu Argint Cadmiu Indiu Staniu Stibiu Telur Iod Xenon Cesiu Bariu Lantan Ceriu Praseodim Neodim Promețiu Samariu Europiu Gadoliniu Terbiu Disprosiu Holmiu Erbiu Tuliu Yterbiu Lutețiu Hafniu Tantal Wolfram Reniu Osmiu Iridiu Platină Aur Mercur Taliu Plumb Bismut Poloniu Astatin Radon Franciu Radiu Actiniu Toriu Protactiniu Uraniu Neptuniu Plutoniu Americiu Curiu Berkeliu Californiu Einsteiniu Fermiu Mendeleviu Nobeliu Lawrenciu Rutherfordiu Dubniu Seaborgiu Bohriu Hassiu Meitneriu Darmstadtiu Roentgeniu Coperniciu Nihoniu Fleroviu Moscoviu Livermoriu Tennessin Oganesson').split(' ');
+function chemistryVisualKind(question){
+ const q=educationTheoryClean(question||'');
+ if(!q)return null;
+ if(/mendeleev|mendeleiev|tabloul? periodic|tabelul? periodic|sistem periodic|elemente chimice|periodic table/.test(q))return 'periodic';
+ if(/structur.*atom|model.*atom|atomul|atom(?: |$)|atomi|nucleu|electroni|orbital|atomic/.test(q))return 'atom';
+ if(/legatur|covalent|ionica|ionice|metalica|bonding/.test(q))return 'bond';
+ if(/ph\\b|acid|bazic|alcalin|aciditate/.test(q))return 'ph';
+ if(/reactii chimice|reactie chimica|reactii si ecuatii|ecuatii chimice/.test(q))return 'reaction';
+ if(/molecul|h2o|co2|ch4|nh3|geometrie molecular/.test(q))return 'molecule';
+ return null;
+}
+function chemistryElementNumber(question){
+ const q=educationTheoryClean(question||'');
+ const aliases={'hidrogen':1,'heliu':2,'litiu':3,'carbon':6,'azot':7,'oxigen':8,'sodiu':11,'magneziu':12,'aluminiu':13,'siliciu':14,'fosfor':15,'sulf':16,'clor':17,'potasiu':19,'calciu':20,'fier':26,'cupru':29,'zinc':30,'argint':47,'aur':79,'mercur':80,'plumb':82,'uraniu':92};
+ for(const [name,n] of Object.entries(aliases))if(new RegExp('(^| )'+name+'( |$)').test(q))return n;
+ const match=String(question||'').match(/(?:element(?:ul)?|atom(?:ul)?)(?:\\s+cu)?\\s+(?:Z\\s*=?\\s*|numarul atomic\\s*)?(\\d{1,3})/i);
+ if(match&&+match[1]>=1&&+match[1]<=118)return +match[1];
+ return 6;
+}
+function chemistryAtomShells(z){
+ // Common school-level shell model for Z <= 30, with Cr/Cu exceptions represented.
+ const layouts=['1','2','2,1','2,2','2,3','2,4','2,5','2,6','2,7','2,8',
+ '2,8,1','2,8,2','2,8,3','2,8,4','2,8,5','2,8,6','2,8,7','2,8,8',
+ '2,8,8,1','2,8,8,2','2,8,9,2','2,8,10,2','2,8,11,2','2,8,13,1',
+ '2,8,13,2','2,8,14,2','2,8,15,2','2,8,16,2','2,8,18,1','2,8,18,2'];
+ return z<=layouts.length?layouts[z-1].split(',').map(Number):null;
+}
+function chemistryVisualBuild(kind,question){
+ if(!kind)return null;
+ const box=document.createElement('section');box.className='chem-visual';
+ const title=document.createElement('h3');
+ const ns='http://www.w3.org/2000/svg';
+ const svgEl=(tag,attrs,parent,txt)=>{
+  const n=document.createElementNS(ns,tag);
+  for(const [k,v] of Object.entries(attrs||{}))n.setAttribute(k,String(v));
+  if(txt!==undefined)n.textContent=txt;
+  parent.append(n);return n;
+ };
+ const note=document.createElement('p');note.className='chem-visual-note';
+ const addTitle=(ro,en)=>{title.textContent=learningLabel(ro,en);box.append(title)};
+ if(kind==='periodic'){
+  addTitle('Tabloul periodic al elementelor — 118 elemente','Periodic table — 118 elements');
+  const detail=document.createElement('p');detail.className='chem-element-detail';
+  detail.textContent=learningLabel('Atinge un element pentru numărul său atomic.','Tap an element to see its atomic number.');
+  const scroll=document.createElement('div');scroll.className='chem-periodic-scroll';
+  const table=document.createElement('div');table.className='chem-periodic-grid';
+  CHEM_ROWS.forEach((row,ri)=>{
+   if(ri>=7){const caption=document.createElement('span');caption.className='chem-periodic-series';caption.textContent=ri===7?'Lantanide':'Actinide';table.append(caption)}
+   row.forEach((sym,ci)=>{
+    const cell=document.createElement('button');cell.type='button';
+    cell.className='chem-periodic-element'+(!sym?' chem-empty':'');
+    if(ri>=7)cell.style.gridColumn=String(ci+4);
+    if(!sym){cell.disabled=true;cell.tabIndex=-1}
+    else{
+     const z=CHEM_ELEMENTS.indexOf(sym)+1;
+     const num=document.createElement('small');num.textContent=String(z);
+     const mark=document.createElement('strong');mark.textContent=sym;
+     cell.append(num,mark);
+     cell.setAttribute('aria-label',sym+' Z='+z);
+     cell.onclick=()=>{detail.textContent=(CHEM_ELEMENT_NAMES[z-1]||sym)+' ('+sym+') · Z = '+z;
+      table.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));cell.classList.add('selected')};
+     if(z===chemistryElementNumber(question))cell.classList.add('selected');
+    }
+    table.append(cell);
+   });
+  });
+  const defaultSymbol=CHEM_ELEMENTS[chemistryElementNumber(question)-1];
+  const defaultZ=CHEM_ELEMENTS.indexOf(defaultSymbol)+1;
+  detail.textContent=(CHEM_ELEMENT_NAMES[defaultZ-1]||defaultSymbol)+' ('+defaultSymbol+') · Z = '+defaultZ;
+  scroll.append(table);box.append(scroll,detail);
+  note.textContent=learningLabel('Elementele 57–71 și 89–103 sunt prezentate separat în rândurile inferioare. Derulează orizontal sau mărește vizualizarea.','Elements 57–71 and 89–103 appear in the lower rows. Scroll horizontally to inspect the table.');
+ }else if(kind==='atom'){
+  addTitle('Model atomic · straturi electronice','Atomic model · electron shells');
+  const z=chemistryElementNumber(question),shells=chemistryAtomShells(z);
+  if(!shells){note.textContent=learningLabel('Pentru acest element nu este disponibil un model pe straturi verificat; consultă tabelul periodic.','A verified shell model is unavailable for this element.');box.append(note);return box}
+  const svg=svgEl('svg',{viewBox:'0 0 360 300',role:'img','aria-label':'Model atomic Z='+z},box);
+  const radii=shells.map((_,i)=>46+i*29);
+  radii.forEach((radius,i)=>{
+   svgEl('circle',{cx:180,cy:147,r:radius,fill:'none',stroke:'#78adca','stroke-width':1.7},svg);
+   for(let k=0;k<shells[i];k++){
+    const a=(Math.PI*2*k/shells[i])-Math.PI/2;
+    svgEl('circle',{cx:180+Math.cos(a)*radius,cy:147+Math.sin(a)*radius,r:4.3,fill:'#71e2eb',stroke:'#123d53','stroke-width':1},svg);
+   }
+  });
+  svgEl('circle',{cx:180,cy:147,r:31,fill:'#d67c71',stroke:'#ffe5d1','stroke-width':2},svg);
+  svgEl('text',{x:180,y:152,'text-anchor':'middle',fill:'#0b2433','font-size':16,'font-weight':700},svg,'Z='+z);
+  const info=document.createElement('p');info.textContent=(CHEM_ELEMENT_NAMES[z-1]||CHEM_ELEMENTS[z-1])+' ('+CHEM_ELEMENTS[z-1]+') · '+shells.join(' – ')+' e⁻';box.append(info);
+  note.textContent=learningLabel('Model Bohr didactic, nu traiectorii fizice reale ale electronilor.','Educational Bohr model, not actual electron trajectories.');
+ }else if(kind==='ph'){
+  addTitle('Scara pH · 0–14','pH scale · 0–14');
+  const scale=document.createElement('div');scale.className='chem-ph-scale';
+  for(let i=0;i<=14;i++){const b=document.createElement('span');b.textContent=String(i);b.style.background='hsl('+(i/14*245)+',67%,38%)';scale.append(b)}
+  box.append(scale);
+  const p=document.createElement('p');p.textContent=learningLabel('0–6: acid · 7: neutru · 8–14: bazic (la 25 °C, soluții apoase).','0–6: acidic · 7: neutral · 8–14: basic (at 25 °C, aqueous solutions).');box.append(p);
+  note.textContent=learningLabel('Scară ilustrativă; pH poate exista în afara intervalului 0–14.','Illustrative scale; pH can extend outside 0–14.');
+ }else if(kind==='bond'){
+  addTitle('Legături chimice · modele','Chemical bonds · models');
+  const svg=svgEl('svg',{viewBox:'0 0 360 180',role:'img','aria-label':'Legătură covalentă H2 și ionică NaCl'},box);
+  for(const [x,y,label,color] of [[92,60,'H','#7fcae4'],[143,60,'H','#7fcae4'],[227,60,'Na⁺','#e3c070'],[296,60,'Cl⁻','#81bd82']]){
+   svgEl('circle',{cx:x,cy:y,r:25,fill:color},svg);
+   svgEl('text',{x,y:y+5,'text-anchor':'middle',fill:'#102333','font-weight':700,'font-size':15},svg,label);
+  }
+  svgEl('line',{x1:117,y1:60,x2:118,y2:60,stroke:'#fff','stroke-width':4},svg);
+  svgEl('text',{x:116,y:123,'text-anchor':'middle',fill:'#e7fbff','font-size':15},svg,'H–H · covalentă');
+  svgEl('text',{x:260,y:123,'text-anchor':'middle',fill:'#e7fbff','font-size':15},svg,'Na⁺ Cl⁻ · ionică');
+  note.textContent=learningLabel('Scheme idealizate; metalele și structurile complexe necesită modele diferite.','Idealized diagrams; metallic and complex structures require distinct models.');
+ }else if(kind==='reaction'){
+  addTitle('Reacție chimică · conservarea atomilor','Chemical reaction · atom conservation');
+  const line=document.createElement('div');line.className='chem-reaction-line';
+  line.textContent='2 H₂ + O₂ → 2 H₂O';box.append(line);
+  note.textContent=learningLabel('Exemplu echilibrat: 4 atomi H și 2 atomi O pe fiecare parte. Nu sunt specificate condiții de laborator.','Balanced example: four H and two O atoms on each side. No laboratory conditions implied.');
+ }else if(kind==='molecule'){
+  addTitle('Molecule · modele 3D','Molecules · 3D models');
+  const button=document.createElement('button');button.className='secondary-btn';button.type='button';
+  button.textContent=learningLabel('Deschide modelul 3D (H₂O, CO₂, CH₄, NH₃)','Open 3D model (H₂O, CO₂, CH₄, NH₃)');
+  button.onclick=scienceChemMoleculeOpen;box.append(button);
+  note.textContent=learningLabel('Doar patru modele geometrice validate sunt disponibile.','Only four validated geometry models are available.');
+ }
+ box.append(note);return box;
+}
+function chemistryVisualOpen(kind,question){
+ document.getElementById('chemistryVisualDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='chemistryVisualDialog';
+ dialog.className='education-theory-dialog chem-visual-dialog';
+ const bar=document.createElement('div');bar.className='education-theory-head';
+ const h=document.createElement('h2');h.textContent=learningLabel('Chimie · Reprezentare','Chemistry · Visual');
+ const close=document.createElement('button');close.className='secondary-btn';close.type='button';
+ close.textContent=learningLabel('← Revenire','← Back');close.onclick=()=>dialog.close();
+ bar.append(h,close);
+ const visual=chemistryVisualBuild(kind,question);
+ dialog.append(bar,visual);dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+function chemistryVisualPicker(){
+ document.getElementById('chemistryVisualPicker')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='chemistryVisualPicker';
+ dialog.className='education-theory-dialog chem-visual-dialog';
+ const heading=document.createElement('div');heading.className='education-theory-head';
+ const title=document.createElement('h2');title.textContent=learningLabel('Reprezentări grafice','Visual models');
+ const close=document.createElement('button');close.className='secondary-btn';close.type='button';
+ close.textContent=learningLabel('← Revenire','← Back');close.onclick=()=>dialog.close();
+ heading.append(title,close);dialog.append(heading);
+ for(const [kind,ro,en] of [['periodic','Tabloul periodic','Periodic table'],['atom','Atom și electroni','Atom and electrons'],['bond','Legături chimice','Chemical bonds'],['molecule','Molecule 3D','3D molecules'],['reaction','Reacții','Reactions'],['ph','Scara pH','pH scale']]){
+  const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';
+  btn.textContent=learningLabel(ro,en);
+  btn.onclick=()=>{dialog.close();chemistryVisualOpen(kind,$('scienceEducationText')?.value||'')};dialog.append(btn);
+ }
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+
 function scienceShowResult(title,body){
  document.getElementById('scienceResultDialog')?.remove();
  const dialog=document.createElement('dialog');dialog.id='scienceResultDialog';
@@ -8180,6 +8348,11 @@ function scienceShowResult(title,body){
  head.append(h,close);
  const content=document.createElement('div');content.className='science-result-text';
  content.textContent=body;dialog.append(head,content);
+ if(scienceJourney.subject==='chemistry'){
+  const query=$('scienceEducationText')?.value||title;
+  const kind=chemistryVisualKind(query);
+  if(kind){const visual=chemistryVisualBuild(kind,query);if(visual)dialog.append(visual)}
+ }
  dialog.addEventListener('close',()=>dialog.remove());
  document.body.append(dialog);
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
@@ -8354,6 +8527,8 @@ function scienceOpenWorkspace(){
   scienceVoiceStop();scienceStopRequest();scienceLastReply='';
   const field=$('scienceEducationText');if(field){field.value='';field.scrollTop=0;field.blur()}
   scienceDraftSave('');scienceStatus('');
+  editor.style.removeProperty('height');editor.style.removeProperty('max-height');
+  requestAnimationFrame(()=>{scienceEditorGrow(editor);scienceFitViewport();document.querySelector('main.page')?.scrollTo(0,0)});
  };
  heading.append(label,newTask);
  const editor=document.createElement('textarea');
@@ -8399,7 +8574,9 @@ function scienceOpenWorkspace(){
   toggle.onclick=()=>{tray.hidden=!tray.hidden};
   const molecular=document.createElement('button');molecular.type='button';molecular.className='secondary-btn';
   molecular.textContent=learningLabel('🧬 Molecule 3D','🧬 3D Molecules');molecular.onclick=scienceChemMoleculeOpen;
-  tools.append(toggle,molecular,tray);
+  const visuals=document.createElement('button');visuals.type='button';visuals.className='secondary-btn';
+  visuals.textContent=learningLabel('📊 Reprezentări','📊 Visual models');visuals.onclick=chemistryVisualPicker;
+  tools.append(toggle,molecular,visuals,tray);
  }else if(scienceJourney.subject==='biology'){
   const diagram=document.createElement('button');diagram.type='button';diagram.className='secondary-btn';
   diagram.textContent=learningLabel('🧬 Celulă / ADN 3D','🧬 Cell / 3D DNA');diagram.onclick=scienceBiologyDiagramOpen;
@@ -15524,6 +15701,27 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 #view-module.learning-science #scienceEducationWorkspace{
  height:auto!important;max-height:none!important;overflow:visible!important;
 }
+
+/* Chemistry deterministic interactive representations */
+.chem-visual-dialog[open]{display:flex!important;flex-direction:column!important;gap:10px;box-sizing:border-box;width:min(98vw,850px)!important;max-width:98vw!important;max-height:90dvh!important;overflow-y:auto!important;padding:12px!important}
+.chem-visual{display:flex;flex-direction:column;gap:9px;min-width:0;color:#edf8ff}
+.chem-visual h3{font-size:clamp(16px,4vw,21px);margin:5px 0}
+.chem-visual p{margin:4px 0;line-height:1.4}
+.chem-visual svg{width:100%;height:auto;max-height:290px;border:1px solid #406b85;border-radius:12px;background:#071e30}
+.chem-visual-note{font-size:12px;color:#c1e2ee}
+.chem-periodic-scroll{overflow-x:auto;overflow-y:visible;width:100%;-webkit-overflow-scrolling:touch;touch-action:pan-x;border:1px solid #3d7694;border-radius:10px;padding:6px}
+.chem-periodic-grid{display:grid;grid-template-columns:repeat(18,minmax(39px,1fr));gap:3px;min-width:790px}
+.chem-periodic-element{box-sizing:border-box;min-width:39px;min-height:40px;padding:3px 1px;border:1px solid #4f9eba;border-radius:5px;background:#133e55;color:#f4fbff;display:flex;flex-direction:column;align-items:center;justify-content:center;touch-action:manipulation}
+.chem-periodic-element strong{font-size:15px}.chem-periodic-element small{font-size:9px;line-height:1.1}
+.chem-periodic-element.selected{border:2px solid #f9d670;background:#276e85}
+.chem-periodic-element.chem-empty{visibility:hidden;pointer-events:none}
+.chem-periodic-series{grid-column:1 / 4;color:#b4d6e2;font-size:11px;align-self:center}
+.chem-element-detail{font-weight:700}
+.chem-ph-scale{display:flex;flex-wrap:nowrap;overflow-x:auto;border-radius:8px}.chem-ph-scale span{flex:1 0 26px;min-height:43px;display:grid;place-items:center;font-weight:700;color:white}
+.chem-reaction-line{font-size:clamp(20px,6vw,32px);font-weight:700;text-align:center;border:1px solid #4d8b9f;border-radius:10px;padding:18px 6px;overflow-wrap:anywhere}
+.science-result-dialog:has(.chem-visual){max-height:90dvh!important;overflow-y:auto!important}
+.science-result-dialog:has(.chem-visual) .science-result-text{flex:0 1 auto;max-height:35dvh!important;overflow-y:auto!important}
+.chemistry-curriculum-detail .chem-visual{margin-top:10px}
 </style>
 </body>
 </html>`;

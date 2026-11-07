@@ -56,6 +56,7 @@ class FakeElement{
 }
 const created=[],doc={
  createElement:tag=>{const el=new FakeElement(tag);created.push(el);return el},
+ createElementNS:(_namespace,tag)=>{const el=new FakeElement(tag);created.push(el);return el},
  getElementById:id=>created.find(e=>e.id===id&&!e.removed)||null,
  body:{append:()=>{}}
 };
