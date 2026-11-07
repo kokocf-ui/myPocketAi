@@ -15,6 +15,7 @@ const api=vm.runInNewContext(script.slice(start,end)+'\n({model:mathAdditionalMo
 const mean=api.model('media: 2, 4, 6, 8');
 assert.equal(mean.kind,'statistics');
 assert.equal(mean.result,'5');
+assert.equal(api.model('media: 1,5; 2,5; 3,5').result,'2,5','Romanian decimal commas are not list separators when semicolons are present');
 assert.equal(api.model('mediana: 1, 2, 10, 20').result,'6');
 assert.equal(api.model('varianta: 1, 3').result,'1');
 assert.equal(api.graph('media: 2, 4, 6').statistics.length,3);
