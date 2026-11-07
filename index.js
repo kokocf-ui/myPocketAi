@@ -7072,13 +7072,13 @@ function mathPhotoCandidates(source,alternative){
  // the primary pass, but never automatically rewrite uncertain maths symbols.
  const out=[],seen=new Set(),primaryLetters=new Set();
  const collect=(raw,fallback)=>{
-  const lines=String(raw||'').replace(/\r/g,'').split('\n').map(x=>x.trim()).filter(Boolean);
+  const lines=String(raw||'').replace(/\\r/g,'').split('\\n').map(x=>x.trim()).filter(Boolean);
   for(const line of lines){
-   const match=line.match(/^(?:EX\.?\s*\d+\s*[):.]\s*)?([a-z])\s*[).]\s*(.+)$/i);
+   const match=line.match(/^(?:EX\\.?\\s*\\d+\\s*[):.]\\s*)?([a-z])\\s*[).]\\s*(.+)$/i);
    if(!match)continue;
    const letter=match[1].toLowerCase();
    const expression=match[2].split('=')[0].trim();
-   if(expression.length<3||expression.length>180||!/\d/.test(expression))continue;
+   if(expression.length<3||expression.length>180||!/\\d/.test(expression))continue;
    if(fallback&&primaryLetters.has(letter))continue;
    const key=letter+':'+expression;
    if(seen.has(key))continue;
