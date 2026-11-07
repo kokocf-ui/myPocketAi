@@ -7191,6 +7191,14 @@ function mathPhotoOcrRisks(source){
  if(/[a-z]\\?(?=$|[+\\-a-z])/i.test(value)||/\\?(?=[+\\-]|\\d|$)/.test(value))risks.push('unknown');
  return risks;
 }
+// A correction is NEVER guessed from OCR. It is applied only after a learner
+// explicitly taps the corresponding option and compares with the photograph.
+function mathPhotoOcrApplyCorrection(source,kind){
+ const value=String(source||'');
+ if(kind==='square')return value.replace(/([a-z])2(?![0-9])/gi,'$1²');
+ if(kind==='radical')return value.replace(/[vV](?=\d)/g,'√');
+ return value;
+}
 function mathPhotoOcrRisk(source){return mathPhotoOcrRisks(source).length>0}
 function mathPhotoOcrRiskWarning(source){
  const risks=mathPhotoOcrRisks(source);
@@ -9173,7 +9181,7 @@ window.pocketAndroidOcrResult=function(data){
       choice.textContent=entry.label.slice(0,220);
       choice.onclick=()=>{
        candidateInput.value=entry.text;
-       feedback.textContent=mathPhotoOcrRiskWarning(entry.text);
+       refreshMathPhotoCorrections();
       };
       output.append(choice);
      }
@@ -9227,7 +9235,7 @@ window.pocketAndroidOcrResult=function(data){
     selectedCandidateIndex=i;
     candidateInput.value=entry.text;
     selectedInfo.textContent=learningLabel('Selectat: ','Selected: ')+entry.label;
-    feedback.textContent=mathPhotoOcrRiskWarning(entry.text);
+    refreshMathPhotoCorrections();
     updateChoiceHighlights();
    };
    const renderChoices=()=>{
@@ -9306,11 +9314,36 @@ window.pocketAndroidOcrResult=function(data){
    notice.textContent=learningLabel('Nu am putut separa exercițiile în siguranță. Transcrie unul singur din fotografie.','Could not safely separate exercises. Transcribe just one from the photograph.');
    content.append(notice);
   }
-  content.append(candidateInput);
   const feedback=document.createElement('small');
   feedback.setAttribute('role','status');
+  feedback.setAttribute('aria-live','polite');
   feedback.style.cssText='color:#ffcd93;min-height:1.2em;';
-  content.append(feedback);
+  const correctionActions=document.createElement('div');
+  correctionActions.setAttribute('role','group');
+  correctionActions.setAttribute('aria-label',learningLabel('Corectarea simbolurilor OCR','Correct OCR symbols'));
+  correctionActions.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
+  const refreshMathPhotoCorrections=()=>{
+   const value=candidateInput.value;
+   feedback.textContent=mathPhotoOcrRiskWarning(value);
+   correctionActions.replaceChildren();
+   const risks=mathPhotoOcrRisks(value);
+   for(const [kind,title] of [
+    ...(risks.includes('exponent')?[['square',learningLabel('Dacă sunt puteri: x2 → x²','If these are powers: x2 → x²')]]:[]),
+    ...(risks.includes('radical')?[['radical',learningLabel('Dacă sunt radicali: V5 → √5','If these are roots: V5 → √5')]]:[])
+   ]){
+    const action=document.createElement('button');
+    action.type='button';action.className='secondary-btn';
+    action.style.cssText='min-height:42px;flex:1 1 auto;padding:8px 12px;white-space:normal;';
+    action.textContent=title;
+    action.onclick=()=>{
+     candidateInput.value=mathPhotoOcrApplyCorrection(candidateInput.value,kind);
+     refreshMathPhotoCorrections();
+    };
+    correctionActions.append(action);
+   }
+  };
+  candidateInput.addEventListener('input',refreshMathPhotoCorrections);
+  content.append(candidateInput,correctionActions,feedback);
   const footer=document.createElement('div');
   footer.style.cssText='flex:0 0 auto;padding:12px 16px;border-top:1px solid #467f98;background:#102f43;';
   const confirmation=document.createElement('button');confirmation.type='button';confirmation.className='primary-btn';
