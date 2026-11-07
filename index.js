@@ -9125,6 +9125,45 @@ window.pocketAndroidOcrResult=function(data){
     }
     updateChoiceHighlights();
    };
+   // Android WebView sometimes suppresses click after interacting with a
+   // nested scroll container. Recognize an actual stationary tap in addition
+   // to the normal button click, without treating vertical swipes as taps.
+   const tappedRow=event=>{
+    const node=event.target?.closest?.('button[data-math-photo-index]')||event.target;
+    const index=node?.dataset?.mathPhotoIndex;
+    if(index===undefined||!choices.contains(node))return null;
+    const number=Number(index);
+    return Number.isInteger(number)&&number>=0&&number<candidates.length?number:null;
+   };
+   let pointerStart=null,touchStart=null;
+   choices.addEventListener('pointerdown',event=>{
+    if(event.isPrimary===false)return;
+    pointerStart={id:event.pointerId,x:event.clientX,y:event.clientY};
+   },{passive:true});
+   choices.addEventListener('pointercancel',()=>{pointerStart=null},{passive:true});
+   choices.addEventListener('pointerup',event=>{
+    const start=pointerStart;pointerStart=null;
+    if(!start||start.id!==event.pointerId||
+       Math.abs(event.clientX-start.x)>12||Math.abs(event.clientY-start.y)>12)return;
+    const index=tappedRow(event);
+    if(index!==null)selectCandidate(index);
+   },{passive:true});
+   // Touch fallback is needed for older Android WebViews that do not deliver
+   // pointerup reliably after a finger taps an inner scrolling button.
+   choices.addEventListener('touchstart',event=>{
+    const touch=event.touches?.[0];
+    touchStart=touch?{id:touch.identifier,x:touch.clientX,y:touch.clientY}:null;
+   },{passive:true});
+   choices.addEventListener('touchcancel',()=>{touchStart=null},{passive:true});
+   choices.addEventListener('touchend',event=>{
+    const start=touchStart;touchStart=null;
+    const touch=Array.from(event.changedTouches||[]).find(item=>item.identifier===start?.id);
+    if(!start||!touch||Math.abs(touch.clientX-start.x)>12||
+       Math.abs(touch.clientY-start.y)>12)return;
+    const index=tappedRow(event);
+    if(index!==null)selectCandidate(index);
+   },{passive:true});
+   choices.addEventListener('scroll',()=>{pointerStart=null;touchStart=null},{passive:true});
    search.addEventListener('input',renderChoices);
    renderChoices();
    content.append(search,selectedInfo,choices);
