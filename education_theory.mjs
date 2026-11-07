@@ -2986,7 +2986,7 @@ export const THEORY_ENTRIES = Object.freeze([
   }
 ]);
 const normalize=s=>String(s??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("ro").replace(/[‐‑–—]/g,"-").replace(/[^a-z0-9+]+/g," ").trim().replace(/\s+/g," ");
-const LEVELS={beginner:0,medium:1,advanced:2};
+const LEVELS={beginner:0,intermediate:1,medium:1,advanced:2};
 export function searchTheory(query,{subject=null,level=null,limit=12}={}){
  const q=normalize(query),tokens=q.split(" ").filter(Boolean);
  const allowed=Object.hasOwn(LEVELS,level)?LEVELS[level]:2;
