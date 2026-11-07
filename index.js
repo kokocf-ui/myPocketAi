@@ -6857,7 +6857,7 @@ function scienceBack(){
 function scienceEditorGrow(editor){
  if(!editor?.isConnected)return;
  const vh=window.visualViewport?.height||window.innerHeight;
- const min=Math.max(100,Math.min(148,vh*.22));
+ const min=editor.value.trim()?Math.max(100,Math.min(148,vh*.22)):Math.max(92,Math.min(112,vh*.17));
  const max=Math.max(min,Math.min(360,vh*.39));
  editor.style.setProperty('height','auto','important');
  const required=editor.scrollHeight+5;
@@ -8189,10 +8189,10 @@ const CHEM_ELEMENT_NAMES=('Hidrogen Heliu Litiu Beriliu Bor Carbon Azot Oxigen F
 function chemistryVisualKind(question){
  const q=educationTheoryClean(question||'');
  if(!q)return null;
- if(/mendeleev|mendeleiev|mendeleev|tablou periodic|tabel periodic|sistem periodic|elemente chimice|periodic table/.test(q))return 'periodic';
- if(/structur.*atom|model.*atom|atomul|atom |atomi|nucleu|electroni|orbital|atomic/.test(q))return 'atom';
+ if(/mendeleev|mendeleiev|tablou periodic|tabel periodic|sistem periodic|elemente chimice|periodic table/.test(q))return 'periodic';
+ if(/structur.*atom|model.*atom|atomul|atom(?: |$)|atomi|nucleu|electroni|orbital|atomic/.test(q))return 'atom';
  if(/legatur|covalent|ionica|ionice|metalica|bonding/.test(q))return 'bond';
- if(/ph\b|acid|bazic|alcalin|aciditate/.test(q))return 'ph';
+ if(/ph\\b|acid|bazic|alcalin|aciditate/.test(q))return 'ph';
  if(/reactii chimice|reactie chimica|reactii si ecuatii|ecuatii chimice/.test(q))return 'reaction';
  if(/molecul|h2o|co2|ch4|nh3|geometrie molecular/.test(q))return 'molecule';
  return null;
@@ -8201,7 +8201,7 @@ function chemistryElementNumber(question){
  const q=educationTheoryClean(question||'');
  const aliases={'hidrogen':1,'heliu':2,'litiu':3,'carbon':6,'azot':7,'oxigen':8,'sodiu':11,'magneziu':12,'aluminiu':13,'siliciu':14,'fosfor':15,'sulf':16,'clor':17,'potasiu':19,'calciu':20,'fier':26,'cupru':29,'zinc':30,'argint':47,'aur':79,'mercur':80,'plumb':82,'uraniu':92};
  for(const [name,n] of Object.entries(aliases))if(new RegExp('(^| )'+name+'( |$)').test(q))return n;
- const match=String(question||'').match(/(?:element(?:ul)?|atom(?:ul)?)(?:\s+cu)?\s+(?:Z\s*=?\s*|numarul atomic\s*)?(\d{1,3})/i);
+ const match=String(question||'').match(/(?:element(?:ul)?|atom(?:ul)?)(?:\\s+cu)?\\s+(?:Z\\s*=?\\s*|numarul atomic\\s*)?(\\d{1,3})/i);
  if(match&&+match[1]>=1&&+match[1]<=118)return +match[1];
  return 6;
 }
