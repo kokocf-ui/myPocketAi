@@ -8,8 +8,10 @@ new vm.Script(script);
 const begin=script.indexOf('const CHEM_ELEMENTS='),end=script.indexOf('function scienceShowResult(title,body)',begin);
 assert.ok(begin>0&&end>begin,'visual code embedded in served frontend');
 class Element{
- constructor(tag){this.tag=tag;this.children=[];this.className='';this.style={};this.attributes={};this.textContent='';this.disabled=false;}
+ constructor(tag){this.tag=tag;this.children=[];this.className='';this.style={};this.attributes={};this.textContent='';this.disabled=false;this.listeners={};this.value='';}
  append(...args){this.children.push(...args)}
+ replaceChildren(...args){this.children=[...args]}
+ addEventListener(event,cb){this.listeners[event]=cb}
  setAttribute(a,b){this.attributes[a]=b}
  querySelectorAll(q){return []}
  get classList(){return {add:()=>{},remove:()=>{}}}
