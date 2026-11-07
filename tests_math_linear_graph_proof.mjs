@@ -56,6 +56,6 @@ assert.equal(far.root,12);
 const shifted=api.plot(far.expression,far.root);
 assert.ok(shifted.children.some(v=>v.tag==='svg'),'root outside ±5 still has a valid chart');
 assert.ok(embedded.includes("item.graphLesson=associated"),'Graph uses local data without model speculation');
-assert.ok(embedded.includes("equationGraph?mathGraphFigure(equationGraph.expression,equationGraph.root??null)"),
+assert.ok(embedded.includes("equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null)"),
  'graph renderer uses the verified associated formula');
 console.log('PASS linear-equation SVG graph, x-intercept, original substitution and existing function chart');
