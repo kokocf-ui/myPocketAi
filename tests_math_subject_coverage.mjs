@@ -42,7 +42,7 @@ assert.equal(api.model('1/0+1/2'),null);
 assert.equal(api.model('C(3,6)'),null);
 assert.ok(api.method('sin(30°)').rules.length>=2);
 assert.match(script,/return tasks\.filter\(Boolean\)\.slice\(0,30\)/,'batch supports 30 exercises');
-assert.match(script,/if\(!item\.started\)\{item\.started=true;void mathFetchResult\(item,session\)\}/,'lazy tab computation');
+assert.match(script,/if\(!item\.started\)\{item\.started=true;queueMicrotask\(/,'lazy tab computation');
 assert.doesNotMatch(script,/tasks\.forEach\(item=>\{void mathFetchResult\(item,session\)\}\)/,'no parallel request burst');
 assert.doesNotMatch(script,/\|\|mathGeometryFigure\(item\.text\);/,'no unrelated generic shapes');
 assert.match(script,/additional\?\.kind==='statistics'/,'verified statistics graph corner');
