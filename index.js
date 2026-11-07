@@ -1,5 +1,6 @@
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
+import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
 /**
  * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
@@ -1641,8 +1642,17 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 .science-result-dialog[open]{
  box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
  width:min(96vw,670px)!important;max-width:96vw!important;
- height:min(85dvh,750px)!important;max-height:85dvh!important;overflow:hidden!important
+ height:auto!important;min-height:min(28dvh,245px)!important;
+ max-height:min(85dvh,750px)!important;overflow:hidden!important;
+ transition:height .18s ease-out
 }
+.chemistry-molecule-dialog[open]{gap:8px!important}
+.chemistry-molecule-dialog select{width:100%;min-height:43px;background:#12384a;color:#fff;border:1px solid #588fa5;border-radius:9px;padding:8px}
+.chemistry-molecule-frame{width:100%;height:clamp(185px,34dvh,310px);max-height:37dvh;border:1px solid #487e98;border-radius:12px;overflow:hidden;touch-action:none;background:#061a28;flex:1 1 auto;min-height:150px}
+.chemistry-molecule-frame svg{display:block;width:100%;height:100%;overflow:hidden;touch-action:none}
+.chemistry-molecule-controls{display:flex;justify-content:center;gap:8px}
+.chemistry-molecule-controls button{min-height:40px;min-width:48px}
+.chemistry-molecule-dialog small{font-size:12px;line-height:1.4}
 .science-result-dialog .education-theory-head{flex:0 0 auto!important}
 .science-result-text{white-space:pre-wrap;overflow-y:auto;overscroll-behavior:contain;
  line-height:1.5;flex:1 1 auto;min-height:0;padding:10px 4px;overflow-wrap:anywhere}
@@ -1673,9 +1683,12 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 .chemistry-curriculum-dialog[open]{
  display:flex!important;flex-direction:column!important;gap:10px;
  box-sizing:border-box!important;width:min(96vw,670px)!important;
- height:min(88dvh,760px)!important;max-height:88dvh!important;
- min-height:0!important;padding:12px!important;overflow:hidden!important;
+ height:auto!important;max-height:min(88dvh,760px)!important;
+ min-height:260px!important;padding:12px!important;overflow:hidden!important;
+ transition:height .18s ease-out
 }
+.chemistry-curriculum-dialog .chemistry-curriculum-content{max-height:70dvh!important}
+.chemistry-curriculum-dialog .chemistry-curriculum-list{max-height:62dvh!important}
 .chemistry-curriculum-head{flex:0 0 auto;min-width:0}
 .chemistry-curriculum-head h2{flex:1 1 auto;min-width:0}
 .chemistry-curriculum-head button{min-height:39px;min-width:0;padding:7px 9px}
@@ -6806,11 +6819,16 @@ const SCIENCE_OTHER_TOPICS={
   {id:'astrophysics',ro:'Astrofizică',en:'Astrophysics'}
  ]
 };
-let scienceJourney={stage:'subjects',subject:null,level:null,topic:null};
+let scienceJourney={stage:'subjects',subject:null,level:null,specialty:null,topic:null};
 let scienceVoiceActive=false,scienceLastReply='',scienceRequestController=null;
 function scienceSubjectInfo(){return SCIENCE_SUBJECTS.find(s=>s.id===scienceJourney.subject)||null}
 function scienceTopicChoices(){
- return scienceJourney.subject==='chemistry'?CHEMISTRY_TOPIC_DATA:(SCIENCE_OTHER_TOPICS[scienceJourney.subject]||[]);
+ if(scienceJourney.subject!=='chemistry')return SCIENCE_OTHER_TOPICS[scienceJourney.subject]||[];
+ if(scienceJourney.level!=='advanced'||!scienceJourney.specialty)
+  return CHEMISTRY_TOPIC_DATA.filter(x=>!x.specialty);
+ const track=CHEMISTRY_SPECIALTY_DATA.find(x=>x.id===scienceJourney.specialty);
+ return CHEMISTRY_TOPIC_DATA.filter(x=>x.specialty===scienceJourney.specialty||
+  (!x.specialty&&(track?.core||[]).includes(x.id)));
 }
 function scienceTopicInfo(){return scienceTopicChoices().find(x=>x.id===scienceJourney.topic)||null}
 function scienceLevelInfo(){return CHEMISTRY_LEVEL_DATA.find(x=>x.id===scienceJourney.level)||null}
@@ -6826,10 +6844,24 @@ function scienceBack(){
  const current=scienceJourney.stage;
  scienceVoiceStop();scienceStopRequest();
  if(current==='workspace')scienceJourney.stage='topics';
- else if(current==='topics')scienceJourney.stage='levels';
+ else if(current==='topics')scienceJourney.stage=(scienceJourney.subject==='chemistry'&&scienceJourney.level==='advanced')?'specialties':'levels';
+ else if(current==='specialties')scienceJourney.stage='levels';
  else if(current==='levels')scienceJourney.stage='subjects';
  else {renderLearningSubjects();return}
  scienceJourneyShowChoices(scienceJourney.stage);
+}
+function scienceEditorGrow(editor){
+ if(!editor?.isConnected)return;
+ const vh=window.visualViewport?.height||window.innerHeight;
+ const min=Math.max(100,Math.min(148,vh*.22));
+ const max=Math.max(min,Math.min(360,vh*.39));
+ editor.style.setProperty('height','auto','important');
+ const required=editor.scrollHeight+5;
+ // Progressive growth follows content; the cap prevents the editor obscuring actions.
+ const target=Math.min(max,Math.max(min,required));
+ editor.style.setProperty('max-height',Math.ceil(max)+'px','important');
+ editor.style.setProperty('height',Math.ceil(target)+'px','important');
+ editor.style.overflowY=required>max?'auto':'hidden';
 }
 function scienceFitViewport(){
  const page=document.querySelector('main.page'),root=$('view-module');
@@ -6871,17 +6903,20 @@ function scienceJourneyShowChoices(stage){
  const title=document.createElement('h2');
  title.textContent=stage==='subjects'?learningLabel('Alege materia','Choose subject'):
   stage==='levels'?learningLabel('Alege nivelul','Choose level'):
+  stage==='specialties'?learningLabel('Alege specializarea universitară','Choose university specialization'):
   learningLabel('Alege capitolul','Choose chapter');
  const note=document.createElement('p');
  note.textContent=stage==='subjects'?
   learningLabel('Fizică, Chimie, Biologie și Astronomie.','Physics, Chemistry, Biology and Astronomy.'):
   stage==='levels'?
   learningLabel('Nivelul stabilește complexitatea explicațiilor.','The level controls explanation complexity.'):
+  stage==='specialties'?learningLabel('Fiecare specializare are capitole proprii și baze comune.','Each track has specialist and shared chapters.'):
   learningLabel('Capitolele sunt organizate pentru nivelul ales.','Chapters are organized for the selected level.');
  const list=document.createElement('div');
  list.className='math-choice-list science-choice-list';
  const choices=stage==='subjects'?SCIENCE_SUBJECTS:
   stage==='levels'?CHEMISTRY_LEVEL_DATA:
+  stage==='specialties'?CHEMISTRY_SPECIALTY_DATA:
   scienceTopicChoices().filter(topic=>{
    if(scienceJourney.subject!=='chemistry')return true;
    const rank={beginner:0,intermediate:1,advanced:2};
@@ -6896,19 +6931,23 @@ function scienceJourneyShowChoices(stage){
   heading.textContent=(stage==='subjects'?item.icon+' ':'')+learningLabel(item.ro,item.en);
   const sub=document.createElement('small');
   sub.textContent=stage==='subjects'?
-   (item.id==='chemistry'?learningLabel('14 capitole · teorie populată','14 chapters · lessons available'):
+   (item.id==='chemistry'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
      learningLabel('Spațiu de studiu','Study workspace')):
    stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
+   stage==='specialties'?learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects'):
    scienceJourney.subject==='chemistry'?
     EDUCATION_THEORY_DATA.filter(x=>x.subject==='chemistry'&&x.topic===item.id).length+
       learningLabel(' fișe teoretice',' theory entries'):'';
   btn.append(heading,sub);
   btn.onclick=()=>{
    if(stage==='subjects'){
-    scienceJourney.subject=item.id;scienceJourney.level=null;scienceJourney.topic=null;
+    scienceJourney.subject=item.id;scienceJourney.level=null;scienceJourney.specialty=null;scienceJourney.topic=null;
     scienceJourneyShowChoices('levels');
    }else if(stage==='levels'){
-    scienceJourney.level=item.id;scienceJourneyShowChoices('topics');
+    scienceJourney.level=item.id;scienceJourney.specialty=null;
+    scienceJourneyShowChoices(scienceJourney.subject==='chemistry'&&item.id==='advanced'?'specialties':'topics');
+   }else if(stage==='specialties'){
+    scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
    }else{
     scienceJourney.topic=item.id;scienceJourneyShowChoices('workspace');
    }
@@ -7505,7 +7544,10 @@ function mathSubjectsForLevel(level){
 
 const EDUCATION_THEORY_DATA=${JSON.stringify(THEORY_ENTRIES)};
 const CHEMISTRY_LEVEL_DATA=${JSON.stringify(CHEMISTRY_LEVELS)};
-const CHEMISTRY_TOPIC_DATA=${JSON.stringify(CHEMISTRY_TOPICS)};
+const CHEMISTRY_TOPIC_DATA=${JSON.stringify([...CHEMISTRY_TOPICS,...CHEMISTRY_SPECIALTY_TOPICS])};
+const CHEMISTRY_SPECIALTY_DATA=${JSON.stringify(CHEMISTRY_SPECIALIZATIONS)};
+const CHEMISTRY_MOLECULE_DATA=${JSON.stringify(CHEMISTRY_MOLECULES)};
+const CHEMISTRY_SOLVE_VERIFIED=${chemistryVerifiedExercise.toString()};
 let educationTheoryVoiceInput=null;
 function educationTheoryClean(value){
  return String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\\s+/g,' ');
@@ -7604,8 +7646,8 @@ function chemistryCurriculumOpen(){
  dialog.className='education-theory-dialog chemistry-curriculum-dialog';
  dialog.setAttribute('aria-label',learningLabel('Chimie · lecții','Chemistry · lessons'));
  const preset=chemistryCurriculumPreset;chemistryCurriculumPreset=null;
- let stage=preset?.topic?'lessons':preset?.level?'topics':'levels';
- let selectedLevel=preset?.level||null,selectedTopic=preset?.topic||null,selectedLesson=null,searchValue='';
+ let stage=preset?.topic?'lessons':preset?.level?(preset.level==='advanced'?'specialties':'topics'):'levels';
+ let selectedLevel=preset?.level||null,selectedTopic=preset?.topic||null,selectedSpecialty=preset?.specialty||null,selectedLesson=null,searchValue='';
  const levelRank={beginner:0,medium:1,intermediate:1,advanced:2};
  const chapter=()=>CHEMISTRY_TOPIC_DATA.find(e=>e.id===selectedTopic);
  const isVisible=e=>e.subject==='chemistry'&&e.topic===selectedTopic&&
@@ -7638,7 +7680,8 @@ function chemistryCurriculumOpen(){
  function back(){
   if(stage==='detail')stage='lessons';
   else if(stage==='lessons'){if(preset?.topic){dialog.close();return}stage='topics';searchValue=''}
-  else if(stage==='topics')stage='levels';
+  else if(stage==='topics')stage=selectedLevel==='advanced'?'specialties':'levels';
+  else if(stage==='specialties')stage='levels';
   else {dialog.close();return}
   render();
  }
@@ -7679,6 +7722,7 @@ function chemistryCurriculumOpen(){
   content.replaceChildren();
   previous.textContent=learningLabel('← Înapoi','← Back');
   title.textContent=stage==='levels'?learningLabel('Chimie · Alege nivelul','Chemistry · Choose level'):
+   stage==='specialties'?learningLabel('Chimie · Specializări','Chemistry · Specializations'):
    stage==='topics'?learningLabel('Chimie · Capitole','Chemistry · Chapters'):
    stage==='lessons'?learningLabel('Chimie · Lecții','Chemistry · Lessons'):
    learningLabel('Chimie · Teorie','Chemistry · Theory');
@@ -7693,8 +7737,19 @@ function chemistryCurriculumOpen(){
     list.append(row(learningLabel(level.ro,level.en),
      learningLabel(level.scopeRo,level.scopeEn)+' · '+count+
       learningLabel(' lecții disponibile',' lessons available'),()=>{
-      selectedLevel=level.id;stage='topics';render();
+      selectedLevel=level.id;selectedSpecialty=null;stage=level.id==='advanced'?'specialties':'topics';render();
      }));
+   }
+   content.append(list);
+  }else if(stage==='specialties'){
+   note.textContent=learningLabel('Alege domeniul universitar.','Choose a university track.');
+   const list=document.createElement('div');list.className='chemistry-curriculum-list';
+   for(const spec of CHEMISTRY_SPECIALTY_DATA){
+    const count=EDUCATION_THEORY_DATA.filter(e=>e.subject==='chemistry'&&e.level==='advanced'&&
+     CHEMISTRY_TOPIC_DATA.some(t=>t.id===e.topic&&t.specialty===spec.id)).length;
+    list.append(row(learningLabel(spec.ro,spec.en),count+learningLabel(' fișe specifice + bază comună',' specialist lessons + shared core'),()=>{
+     selectedSpecialty=spec.id;stage='topics';render();
+    }));
    }
    content.append(list);
   }else if(stage==='topics'){
@@ -7702,8 +7757,11 @@ function chemistryCurriculumOpen(){
    note.textContent=learningLabel('Nivel: ','Level: ')+learningLabel(level?.ro||'',level?.en||'')+
     learningLabel(' · Alege un capitol',' · Choose a chapter');
    const list=document.createElement('div');list.className='chemistry-curriculum-list';
+   const selectedTrack=CHEMISTRY_SPECIALTY_DATA.find(x=>x.id===selectedSpecialty);
    for(const topic of CHEMISTRY_TOPIC_DATA){
     if(levelRank[topic.minLevel]>levelRank[selectedLevel])continue;
+    if(selectedLevel==='advanced'&&!(topic.specialty===selectedSpecialty||
+      (!topic.specialty&&(selectedTrack?.core||[]).includes(topic.id))))continue;
     const count=countForTopic(topic.id,selectedLevel);if(!count)continue;
     list.append(row(learningLabel(topic.ro,topic.en),
      count+learningLabel(' lecții',' lessons'),()=>{
@@ -7747,7 +7805,7 @@ function chemistryCurriculumOpen(){
 // Dedicated science workspace: a bounded editor replaces the generic chat pane.
 // Chemistry has its own formula tools; the other sciences share the same layout.
 function scienceDraftKey(){
- return 'mypocketai.science.exercise.v1.'+scienceJourney.subject+'.'+scienceJourney.topic;
+ return 'mypocketai.science.exercise.v1.'+scienceJourney.subject+'.'+(scienceJourney.specialty||'general')+'.'+scienceJourney.topic;
 }
 function scienceDraftRead(){
  try{return String(localStorage.getItem(scienceDraftKey())||'').slice(0,3500)}catch{return ''}
@@ -7805,6 +7863,75 @@ function scienceInsertSymbol(editor,symbol){
  editor.setSelectionRange(a+symbol.length,a+symbol.length);
  editor.dispatchEvent(new Event('input',{bubbles:true}));
 }
+function scienceChemMoleculeOpen(){
+ document.getElementById('scienceMoleculeDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='scienceMoleculeDialog';
+ dialog.className='education-theory-dialog science-result-dialog chemistry-molecule-dialog';
+ const title=document.createElement('h2');title.textContent=learningLabel('Model molecular 3D','3D molecule model');
+ const close=document.createElement('button');close.className='secondary-btn';close.type='button';
+ close.textContent=learningLabel('← Revenire','← Back');close.onclick=()=>dialog.close();
+ const header=document.createElement('div');header.className='education-theory-head';header.append(title,close);
+ const selector=document.createElement('select');selector.setAttribute('aria-label',learningLabel('Alege molecula','Choose molecule'));
+ const source=$('scienceEducationText')?.value||'';
+ let initial=CHEMISTRY_MOLECULE_DATA.find(m=>source.includes(m.formula))?.formula||'H2O';
+ for(const molecule of CHEMISTRY_MOLECULE_DATA){const option=document.createElement('option');
+  option.value=molecule.formula;option.textContent=molecule.formula+' · '+molecule.name;
+  selector.append(option);
+ }
+ selector.value=initial;
+ const frame=document.createElement('div');frame.className='chemistry-molecule-frame';
+ const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
+ svg.setAttribute('viewBox','0 0 320 240');svg.setAttribute('role','img');
+ svg.setAttribute('aria-label',learningLabel('Model tridimensional simplificat','Simplified three-dimensional model'));
+ frame.append(svg);
+ const buttons=document.createElement('div');buttons.className='chemistry-molecule-controls';
+ let yaw=.45,pitch=.28,zoom=1,drag=null;
+ const palette={H:'#ecf5fc',O:'#e85b67',C:'#627f94',N:'#497bdc'};
+ function draw(){
+  const molecule=CHEMISTRY_MOLECULE_DATA.find(x=>x.formula===selector.value);
+  if(!molecule)return;
+  svg.replaceChildren();
+  const coords=molecule.atoms.map(([sym,x,y,z])=>{
+   const X=x*Math.cos(yaw)+z*Math.sin(yaw),Z=z*Math.cos(yaw)-x*Math.sin(yaw);
+   return {sym,x:160+X*55*zoom,y:120+(y*Math.cos(pitch)-Z*Math.sin(pitch))*55*zoom,z:y*Math.sin(pitch)+Z*Math.cos(pitch)};
+  });
+  for(const [i,j] of molecule.bonds){
+   const line=document.createElementNS(ns,'line');
+   for(const [key,val] of Object.entries({x1:coords[i].x,y1:coords[i].y,x2:coords[j].x,y2:coords[j].y,stroke:'#a8c5d1','stroke-width':'7','stroke-linecap':'round'}))line.setAttribute(key,val);
+   svg.append(line);
+  }
+  for(const a of coords.slice().sort((m,n)=>m.z-n.z)){
+   const circle=document.createElementNS(ns,'circle');
+   const radius=(a.sym==='H'?13:20)*zoom;
+   for(const [key,val] of Object.entries({cx:a.x,cy:a.y,r:radius,fill:palette[a.sym]||'#d4bd81',stroke:'#dbeff6','stroke-width':'1.3'}))circle.setAttribute(key,val);
+   svg.append(circle);
+   const label=document.createElementNS(ns,'text');label.setAttribute('x',a.x);
+   label.setAttribute('y',a.y+5);label.setAttribute('text-anchor','middle');
+   label.setAttribute('font-size',Math.max(10,14*zoom));label.setAttribute('font-weight','700');
+   label.setAttribute('fill',a.sym==='H'?'#203241':'#fff');label.textContent=a.sym;svg.append(label);
+  }
+ }
+ selector.addEventListener('change',draw);
+ for(const [value,caption,action] of [
+  ['left','↶',()=>yaw-=.23],['right','↷',()=>yaw+=.23],
+  ['zoomout','−',()=>zoom=Math.max(.65,zoom-.16)],
+  ['zoomin','+',()=>zoom=Math.min(1.65,zoom+.16)]
+ ]){const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=caption;
+   b.setAttribute('aria-label',value);b.onclick=()=>{action();draw()};buttons.append(b)}
+ frame.addEventListener('pointerdown',event=>{drag={x:event.clientX,y:event.clientY,id:event.pointerId};frame.setPointerCapture?.(event.pointerId)});
+ frame.addEventListener('pointermove',event=>{if(!drag||drag.id!==event.pointerId)return;
+  yaw+=(event.clientX-drag.x)*.01;pitch=Math.max(-1.25,Math.min(1.25,pitch+(event.clientY-drag.y)*.01));
+  drag={x:event.clientX,y:event.clientY,id:event.pointerId};draw();
+ });
+ frame.addEventListener('pointerup',()=>drag=null);
+ frame.addEventListener('pointercancel',()=>drag=null);
+ const note=document.createElement('small');
+ note.textContent=learningLabel('Model educațional idealizat. Doar moleculele validate din listă au reprezentare 3D; nu se inventează structuri.','Idealized educational model. Only curated molecules have 3D views; no structures are invented.');
+ dialog.append(header,selector,frame,buttons,note);
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);draw();
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
 function scienceShowResult(title,body){
  document.getElementById('scienceResultDialog')?.remove();
  const dialog=document.createElement('dialog');dialog.id='scienceResultDialog';
@@ -7833,11 +7960,25 @@ async function scienceWorkspaceRun(mode){
    'Explain and solve step by step, checking formulas, units and assumptions. Do not fabricate data. In chemistry, conserve atoms and charge, and do not invent lab conditions.'):
   learningLabel('Prezintă metoda generală, definițiile și regulile necesare, fără să inventezi măsurători.',
    'Teach the general method, definitions and necessary rules; do not invent measured values.');
+ const specialty=CHEMISTRY_SPECIALTY_DATA.find(x=>x.id===scienceJourney.specialty);
+ const specialtyContext=specialty?learningLabel('; Specializare: ','; Specialization: ')+learningLabel(specialty.ro,specialty.en):'';
+ if(scienceJourney.subject==='chemistry'){
+  const locallyChecked=CHEMISTRY_SOLVE_VERIFIED(source,mode);
+  if(locallyChecked?.verified){
+   scienceLastReply=locallyChecked.body;
+   scienceStatus(learningLabel('Rezultat calculat și verificat local.','Locally calculated and verified result.'));
+   scienceShowResult(learningLabel('Chimie · rezultat verificat','Chemistry · verified result'),locallyChecked.body);
+   return;
+  }
+  if(locallyChecked?.kind==='input'){
+   scienceStatus(learningLabel('Verifică valorile și unitățile introduse.','Review the provided values and units.'));return;
+  }
+ }
  const message=learningLabel('Materie: ','Subject: ')+selectedSubject+
-  learningLabel('; Nivel: ','; Level: ')+selectedLevel+
+  learningLabel('; Nivel: ','; Level: ')+selectedLevel+specialtyContext+
   learningLabel('; Capitol: ','; Chapter: ')+selectedChapter+'. '+
   instruction+String.fromCharCode(10)+source;
- const currentStage=scienceJourney.stage,subjectId=scienceJourney.subject,topicId=scienceJourney.topic;
+ const currentStage=scienceJourney.stage,subjectId=scienceJourney.subject,topicId=scienceJourney.topic,specialtyId=scienceJourney.specialty;
  const controller=new AbortController();scienceRequestController=controller;
  scienceStatus(learningLabel('Se pregătește explicația…','Preparing explanation…'));
  try{
@@ -7850,7 +7991,7 @@ async function scienceWorkspaceRun(mode){
   if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())
    throw new Error('response_unavailable');
   if(controller.signal.aborted||scienceJourney.stage!==currentStage||
-     scienceJourney.subject!==subjectId||scienceJourney.topic!==topicId)return;
+     scienceJourney.subject!==subjectId||scienceJourney.topic!==topicId||scienceJourney.specialty!==specialtyId)return;
   scienceLastReply=data.reply.trim().slice(0,12000);
   scienceStatus(learningLabel('Explicație disponibilă.','Explanation available.'));
   scienceShowResult(
@@ -7928,6 +8069,7 @@ function scienceOpenWorkspace(){
   theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
   theory.onclick=()=>{
    chemistryCurriculumPreset={level:scienceJourney.level,topic:scienceJourney.topic};
+   chemistryCurriculumPreset.specialty=scienceJourney.specialty;
    chemistryCurriculumOpen();
   };
   toolbar.append(theory);
@@ -7957,9 +8099,10 @@ function scienceOpenWorkspace(){
  editor.value=scienceDraftRead();
  editor.placeholder=learningLabel('Introdu un exercițiu, o formulă sau un enunț…','Enter an exercise, formula or question…');
  editor.setAttribute('aria-label',label.textContent);
- editor.addEventListener('input',()=>{scienceDraftSave(editor.value);scienceStatus('');requestAnimationFrame(()=>{scienceFitViewport();mathEditorFollowCaret(editor)})});
+ editor.addEventListener('input',()=>{scienceDraftSave(editor.value);scienceStatus('');requestAnimationFrame(()=>{scienceFitViewport();scienceEditorGrow(editor);mathEditorFollowCaret(editor)})});
  for(const type of ['focus','click','keyup','select','compositionend'])
-  editor.addEventListener(type,()=>requestAnimationFrame(()=>{scienceFitViewport();mathEditorFollowCaret(editor)}));
+  editor.addEventListener(type,()=>requestAnimationFrame(()=>{scienceFitViewport();scienceEditorGrow(editor);mathEditorFollowCaret(editor)}));
+ requestAnimationFrame(()=>scienceEditorGrow(editor));
  const status=document.createElement('small');status.id='scienceEducationStatus';status.setAttribute('role','status');
  const actions=document.createElement('div');actions.className='education-math-actions science-education-actions';
  const solve=document.createElement('button');solve.type='button';solve.className='primary-btn';
@@ -7992,7 +8135,9 @@ function scienceOpenWorkspace(){
    btn.textContent=symbol;btn.onclick=()=>scienceInsertSymbol(editor,symbol);tray.append(btn);
   }
   toggle.onclick=()=>{tray.hidden=!tray.hidden};
-  tools.append(toggle,tray);
+  const molecular=document.createElement('button');molecular.type='button';molecular.className='secondary-btn';
+  molecular.textContent=learningLabel('🧬 Molecule 3D','🧬 3D Molecules');molecular.onclick=scienceChemMoleculeOpen;
+  tools.append(toggle,molecular,tray);
  }
  workspace.append(heading,editor,status,actions,tools);
  host.append(toolbar,workspace);
