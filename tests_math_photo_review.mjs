@@ -56,6 +56,11 @@ const seven=[
 ].join('\n');
 const sevenCandidates=parse(seven);
 assert.equal(sevenCandidates.length,7,'all 7 subpoints, including reused labels, are detected');
+const inlineVision=parse('1. a) 9x - 3x + 4x\\nEx. 1 · b) 2x^2 - 3x^2 + 5x^2\\n2. a) 6x + 3y - 5z');
+assert.equal(inlineVision.length,3,'vision inline section plus first subpoint are preserved');
+assert.equal(inlineVision[0].section,'1');
+assert.equal(inlineVision[1].letter,'b');
+assert.equal(inlineVision[2].section,'2');
 assert.equal(sevenCandidates[3].text,'9abc - 13abc','detect label on separate line');
 assert.match(sevenCandidates[0].label,/Ex\. 1/);
 assert.match(sevenCandidates[6].label,/Ex\. 2/);
