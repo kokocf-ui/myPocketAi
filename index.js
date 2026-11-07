@@ -7632,6 +7632,82 @@ function mathLinearMethodGuide(source){
    'Do not confuse expanding a product with multiplying the terms inside the bracket together.')};
 }
 
+// Exact deterministic quadratic path: never use generated text for a polynomial
+// equation whose roots and verification can be calculated locally.
+function mathQuadraticEquation(source){
+ const lines=String(source||'').replaceAll(String.fromCharCode(13),'').split(String.fromCharCode(10));
+ let raw=[...lines].reverse().map(x=>x.trim()).find(x=>x.includes('='));
+ if(!raw)return null;
+ if(raw.includes(':'))raw=raw.slice(raw.lastIndexOf(':')+1);
+ const cleaned=raw.replaceAll('−','-').replaceAll('–','-').replaceAll('²','^2')
+  .replaceAll('×','*').replaceAll(' ','').replaceAll(String.fromCharCode(9),'');
+ const sides=cleaned.split('=');
+ if(sides.length!==2||sides[1]!=='0'||sides[0].length>120)return null;
+ const model=mathGraphModel('f(x) = '+sides[0]);
+ if(!model||Math.abs(model.a)<1e-12)return null;
+ const {a,b,c}=model,delta=b*b-4*a*c;
+ if(!Number.isFinite(delta)||!Number.isFinite(a)||!Number.isFinite(b)||!Number.isFinite(c))return null;
+ if([a,b,c,delta].some(v=>Math.abs(v)>1e9))return null;
+ const roots=delta<0?[]:delta===0?[-b/(2*a)]:[(-b-Math.sqrt(delta))/(2*a),(-b+Math.sqrt(delta))/(2*a)].sort((x,y)=>x-y);
+ if(roots.some(x=>!Number.isFinite(x)||Math.abs(a*x*x+b*x+c)>1e-6*Math.max(1,Math.abs(a*x*x),Math.abs(b*x),Math.abs(c))))return null;
+ return {raw:cleaned,a,b,c,delta,roots,expression:'f(x) = '+model.expression};
+}
+function mathQuadraticNotation(value){
+ return new Intl.NumberFormat(state.language||'ro',{maximumFractionDigits:8}).format(Object.is(value,-0)?0:value).replaceAll('-','−');
+}
+function mathQuadraticSolution(source){
+ const m=mathQuadraticEquation(source);if(!m)return null;
+ const n=mathQuadraticNotation;
+ const steps=[];
+ const add=(label,reason,operation,fullAfter,verificationSteps)=>steps.push({label,reason,operation,fullAfter,signRule:'',...(verificationSteps?{verificationSteps}:{})});
+ add(learningLabel('Identificăm coeficienții','Identify coefficients'),
+     learningLabel('Scriem ecuația în forma ax² + bx + c = 0, unde a este nenul.','Use the standard form ax² + bx + c = 0, where a is nonzero.'),
+     'a = '+n(m.a)+', b = '+n(m.b)+', c = '+n(m.c),m.raw.replaceAll('-','−'));
+ add(learningLabel('Calculăm discriminantul','Calculate the discriminant'),
+     learningLabel('Discriminantul Δ = b² − 4ac stabilește numărul soluțiilor reale.','The discriminant Δ = b² − 4ac determines the number of real roots.'),
+     'Δ = ('+n(m.b)+')² − 4 × ('+n(m.a)+') × ('+n(m.c)+') = '+n(m.delta),
+     'Δ = '+n(m.delta));
+ if(!m.roots.length){
+  return {intro:learningLabel('Rezolvăm ecuația de gradul II prin discriminant.','Solve this quadratic using its discriminant.'),steps,
+   conclusion:learningLabel('Δ < 0: ecuația nu are soluții reale.','Δ < 0: there are no real roots.')};
+ }
+ const rootsText=m.roots.map((v,i)=>'x'+(i+1)+' = '+n(v)).join('; ');
+ add(learningLabel('Calculăm soluțiile','Find the roots'),
+     learningLabel('Aplicăm formula x = (−b ± √Δ)/(2a).','Use x = (−b ± √Δ)/(2a).'),
+     'x = ('+n(-m.b)+' ± √'+n(m.delta)+') / ('+n(2*m.a)+') → '+rootsText,rootsText);
+ const proof=m.roots.map((v,i)=>{
+  const lhs=m.a*v*v+m.b*v+m.c;
+  return 'x'+(i+1)+' = '+n(v)+': '+n(m.a)+' × ('+n(v)+')² + ('+n(m.b)+') × ('+n(v)+') + '+n(m.c)+' = '+n(Math.abs(lhs)<1e-8?0:lhs);
+ });
+ add(learningLabel('Verificăm în ecuația inițială','Verify in the original equation'),
+     learningLabel('Înlocuim fiecare rădăcină în ecuația inițială; ambii membri trebuie să fie egali.','Substitute each root into the original equation.'),
+     proof.join(' | '),proof.at(-1),proof);
+ return {intro:learningLabel('Rezolvăm ecuația de gradul II prin discriminant și verificăm fiecare soluție.','Solve the quadratic using the discriminant and verify each root.'),
+  steps,conclusion:learningLabel('Soluțiile reale verificate: ','Verified real roots: ')+rootsText+'.'};
+}
+function mathQuadraticMethodGuide(source){
+ const m=mathQuadraticEquation(source);if(!m)return null;
+ return {heading:learningLabel('Metoda generală pentru ecuații de gradul II','General method for quadratic equations'),
+ intro:learningLabel('Metoda discriminantului se aplică formei ax² + bx + c = 0, cu a ≠ 0.','The discriminant method applies to ax² + bx + c = 0 with a ≠ 0.'),
+ rules:[
+  {title:learningLabel('Identificăm coeficienții','Identify coefficients'),text:learningLabel('Stabilim a, b și c, cu semnele lor.','Identify a, b and c with their signs.')},
+  {title:learningLabel('Calculăm Δ = b² − 4ac','Compute Δ = b² − 4ac'),text:learningLabel('Verificăm separat pătratul lui b și produsul 4ac, respectând semnele.','Compute the squared and product terms carefully.')},
+  {title:learningLabel('Interpretăm discriminantul','Interpret the discriminant'),text:learningLabel('Δ > 0: două soluții reale distincte; Δ = 0: o soluție reală dublă; Δ < 0: nicio soluție reală.','Positive: two distinct real roots; zero: one repeated real root; negative: no real roots.')},
+  {title:learningLabel('Aplicăm formula','Use the quadratic formula'),text:learningLabel('Pentru Δ ≥ 0, x = (−b ± √Δ)/(2a). Parantezele sunt esențiale.','For Δ ≥ 0, x = (−b ± √Δ)/(2a). Keep parentheses.')},
+  {title:learningLabel('Verificăm rădăcinile','Check the roots'),text:learningLabel('Înlocuim fiecare valoare în ecuația originală, nu într-o variantă transformată eronat.','Substitute every root into the original equation.')}
+ ],tip:learningLabel('O factorizare propusă trebuie verificată prin înmulțirea factorilor.','Any proposed factorization must be checked by multiplying its factors.')};
+}
+function mathQuadraticGraphData(source){
+ const m=mathQuadraticEquation(source);if(!m)return null;
+ const n=mathQuadraticNotation,vertex=-m.b/(2*m.a),height=m.a*vertex*vertex+m.b*vertex+m.c;
+ return {expression:m.expression,
+  heading:learningLabel('Parabola asociată ecuației','Associated quadratic parabola'),
+  intro:learningLabel('Reprezentăm f(x) = ','Plot f(x) = ')+m.expression.slice(7)+
+   learningLabel('. Vârful parabolei este (','. Its vertex is (')+n(vertex)+'; '+n(height)+').',
+  conclusion:m.roots.length?learningLabel('Intersecții cu Ox: ','Intersections with the x-axis: ')+m.roots.map(v=>'('+n(v)+'; 0)').join(', ')+'.':
+   learningLabel('Parabola nu intersectează axa Ox: nu există rădăcini reale.','The parabola does not intersect the x-axis: no real roots.')};
+}
+
 // Plot the difference (left side minus right side) to show where an equation
 // holds. This is the graph of an ASSOCIATED FUNCTION, not the equation itself.
 function mathLinearGraphData(source){
@@ -7763,9 +7839,9 @@ function mathResultPage(index){
   check.textContent=mathEqualityExplanation(verifiedEquality);
   body.append(check);
  }
- const equationGraph=session.mode==='graph'?mathLinearGraphData(item.text):null;
+ const equationGraph=session.mode==='graph'?(mathQuadraticGraphData(item.text)||mathLinearGraphData(item.text)):null;
  const graph=mathGraphFigure(item.text)||
-  (equationGraph?mathGraphFigure(equationGraph.expression,equationGraph.root):null)||mathGeometryFigure(item.text);
+  (equationGraph?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null)||mathGeometryFigure(item.text);
  if(graph&&session.mode==='graph')body.append(graph);
  const result=document.createElement('div');result.className='math-result-copy';
  if(item.graphLesson){
@@ -7867,7 +7943,7 @@ async function mathFetchResult(item,session){
   return;
  }
  if(session.mode==='graph'){
-  const associated=mathLinearGraphData(item.text);
+  const associated=mathQuadraticGraphData(item.text)||mathLinearGraphData(item.text);
   if(associated){
    if(mathResultSession!==session)return;
    item.graphLesson=associated;
@@ -7878,7 +7954,7 @@ async function mathFetchResult(item,session){
  }
  // Never ask a generative model to draw a graph that the actual renderer
  // cannot provide: this produced answers about unrelated numeric exercises.
- if(session.mode==='graph'&&!mathGeometryFigure(item.text)&&!mathLinearGraphData(item.text)){
+ if(session.mode==='graph'&&!mathGeometryFigure(item.text)&&!mathQuadraticGraphData(item.text)&&!mathLinearGraphData(item.text)){
   if(mathResultSession!==session)return;
   item.reply=learningLabel('Nu există încă un grafic verificat pentru acest enunț. Nu voi inventa unul. Pentru un calcul, apasă „Rezolvă pas cu pas”; pentru un grafic de funcție, introdu de exemplu f(x) = 2x - 3.',
    'There is no verified graph for this exercise yet. I will not invent one. Use Solve step by step for arithmetic, or enter a function such as f(x) = 2x - 3.');
@@ -7887,7 +7963,7 @@ async function mathFetchResult(item,session){
   return;
  }
  if(session.mode==='explain'){
-  const method=item.methodGuide||mathMethodGuide(item.text);
+  const method=item.methodGuide||mathQuadraticMethodGuide(item.text)||mathMethodGuide(item.text);
   if(method){
    if(mathResultSession!==session)return;
    item.methodGuide=method;
@@ -7897,7 +7973,7 @@ async function mathFetchResult(item,session){
   }
  }
  if(session.mode==='solve'){
-  const steps=item.detailed||mathDetailedArithmetic(item.text);
+  const steps=item.detailed||mathQuadraticSolution(item.text)||mathDetailedArithmetic(item.text);
   if(steps){
    if(mathResultSession!==session)return;
    item.detailed=steps;
@@ -7956,8 +8032,8 @@ function mathEducationRun(mode){
  }
  const tasks=mathSplitExercises(source).map(text=>({text,reply:'',error:null,
   functionLesson:mathFunctionLesson(text,mode),
-  detailed:mode==='solve'?(mathLinearSolution(text)||mathDetailedArithmetic(text)):null,
-  methodGuide:mode==='explain'?(mathLinearMethodGuide(text)||mathMethodGuide(text)):null}));
+  detailed:mode==='solve'?(mathLinearSolution(text)||mathQuadraticSolution(text)||mathDetailedArithmetic(text)):null,
+  methodGuide:mode==='explain'?(mathLinearMethodGuide(text)||mathQuadraticMethodGuide(text)||mathMethodGuide(text)):null}));
  if(!tasks.length){status.textContent=learningLabel('Nu există un exercițiu de rezolvat.','No exercise to solve.');return}
  mathCloseResults();
  const session={mode,tasks,active:0,controller:new AbortController()};
