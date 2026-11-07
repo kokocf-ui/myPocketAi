@@ -107,6 +107,20 @@ assert.equal(crossCrop.length,1,'do not duplicate exactly the same d) after a wr
 const ordered=parse('Exercițiul 1\nd) 9abc - 13abc\nb) 2x²-3x²+5x²\nc) 2√5xy+9√5xy-10√5xy\na) 9x-3x+4x');
 assert.equal(ordered.map(x=>x.letter).join(''),'abcd','present OCR candidates in natural textbook order');
 
+// Literal x2 and V5 remain unverified until the learner explicitly chooses
+// a visual correction. Editing only the +5 cannot bypass the OCR risk gate.
+const repairStart=script.indexOf('function mathPhotoOcrApplyCorrection(');
+const repairEnd=script.indexOf('function mathPhotoOcrRisk(source)',repairStart);
+assert.ok(repairStart>0&&repairEnd>repairStart,'photo corrections have a separate explicit helper');
+const repair=vm.runInNewContext(script.slice(repairStart,repairEnd)+'\nmathPhotoOcrApplyCorrection');
+assert.equal(repair('2x2-3x2+5','square'),'2x²-3x²+5','power correction preserves signed terms and constants');
+assert.equal(repair('2V5xy + 9v5xy - 10v5xy','radical'),'2√5xy + 9√5xy - 10√5xy','root correction preserves coefficients');
+assert.equal(repair('14x2-x+4x?-10x-19x2+12x','square'),'14x²-x+4x?-10x-19x²+12x','unknown glyph is never fabricated');
+assert.equal(repair('2x2-3x2+5','none'),'2x2-3x2+5','no unrequested transformation');
+assert.ok(script.includes("candidateInput.addEventListener('input',refreshMathPhotoCorrections)"),'changing the text refreshes stale OCR warning');
+assert.ok(script.includes("action.onclick=()=>{\n     candidateInput.value=mathPhotoOcrApplyCorrection"),'correction must require explicit button tap');
+assert.ok(script.includes("if(mathPhotoOcrRisk(candidate))"),'raw uncertain OCR remains blocked until corrected');
+
 const selectionBegin=script.indexOf('  let selectedCandidateIndex=-1;');
 const selectionEnd=script.indexOf('  content.append(candidateInput);',selectionBegin);
 assert.ok(selectionBegin>0&&selectionEnd>selectionBegin,'candidate selection UI exists');
@@ -135,7 +149,7 @@ const uiCandidates=[
  {label:'Ex. 1 · d) 9abc - 13abc',text:'9abc - 13abc'},
  {label:'Ex. 2 · a) 6x + 3y - 5z',text:'6x + 3y - 5z'}
 ];
-vm.runInNewContext(uiSource,{document,content,candidateInput,feedback,candidates:uiCandidates,mathPhotoOcrRisk:()=>false,mathPhotoOcrRiskWarning:()=>'',learningLabel:(ro)=>ro});
+vm.runInNewContext(uiSource,{document,content,candidateInput,feedback,candidates:uiCandidates,mathPhotoOcrRisk:()=>false,mathPhotoOcrRiskWarning:()=>'',refreshMathPhotoCorrections:()=>{},learningLabel:(ro)=>ro});
 const choices=content.children.find(x=>x.attrs.role==='group');
 const status=content.children.find(x=>x.attrs['aria-live']==='polite');
 assert.ok(choices&&status,'selection feedback is visible and accessible');
