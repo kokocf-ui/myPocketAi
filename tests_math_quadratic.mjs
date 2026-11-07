@@ -41,6 +41,6 @@ assert.equal(api.parse('x^3-2x+1=0'),null,'Never accept unsupported cubic');
 assert.equal(api.parse('2x^2-7x+3=1'),null,'Never silently discard a nonzero RHS');
 assert.equal(api.parse('2x^2-7x+3=0=0'),null,'Reject multiple equal signs');
 assert.ok(script.includes("detailed:mode==='solve'?mathAlgebraLocal('solve',text)?.value:null"));
-assert.ok(script.includes('mathAlgebraLocal('graph',item.text)'));
+assert.ok(script.includes("mathAlgebraLocal('graph',item.text)"));
 assert.ok(script.includes('mathQuadraticGraphData(source)'));
 console.log('PASS verified quadratic: discriminant, two roots, proof, graph, repeated/no-real roots and linear isolation');
