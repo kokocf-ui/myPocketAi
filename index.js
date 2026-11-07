@@ -8252,6 +8252,9 @@ function chemistryVisualBuild(kind,question){
     table.append(cell);
    });
   });
+  const defaultSymbol=CHEM_ELEMENTS[chemistryElementNumber(question)-1];
+  const defaultZ=CHEM_ELEMENTS.indexOf(defaultSymbol)+1;
+  detail.textContent=(CHEM_ELEMENT_NAMES[defaultZ-1]||defaultSymbol)+' ('+defaultSymbol+') · Z = '+defaultZ;
   scroll.append(table);box.append(scroll,detail);
   note.textContent=learningLabel('Elementele 57–71 și 89–103 sunt prezentate separat în rândurile inferioare. Derulează orizontal sau mărește vizualizarea.','Elements 57–71 and 89–103 appear in the lower rows. Scroll horizontally to inspect the table.');
  }else if(kind==='atom'){
@@ -15716,7 +15719,7 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 .chem-element-detail{font-weight:700}
 .chem-ph-scale{display:flex;flex-wrap:nowrap;overflow-x:auto;border-radius:8px}.chem-ph-scale span{flex:1 0 26px;min-height:43px;display:grid;place-items:center;font-weight:700;color:white}
 .chem-reaction-line{font-size:clamp(20px,6vw,32px);font-weight:700;text-align:center;border:1px solid #4d8b9f;border-radius:10px;padding:18px 6px;overflow-wrap:anywhere}
-.science-result-dialog:has(.chem-visual){max-height:90dvh!important}
+.science-result-dialog:has(.chem-visual){max-height:90dvh!important;overflow-y:auto!important}
 .science-result-dialog:has(.chem-visual) .science-result-text{flex:0 1 auto;max-height:35dvh!important;overflow-y:auto!important}
 .chemistry-curriculum-detail .chem-visual{margin-top:10px}
 </style>
