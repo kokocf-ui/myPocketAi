@@ -8,7 +8,7 @@ const calls=[];
 const fixedOrigin={latitude:51.478,longitude:0.283,updatedAt:Date.now()};
 const uk={latitude:51.493,longitude:-0.13,country_code:"GB",label:"London Victoria"};
 const abroad={latitude:48.8566,longitude:2.3522,country_code:"FR",label:"Paris, France"};
-let internationalFixture=false,provideTfLJourney=false;
+let internationalFixture=false,provideTfLJourney=false,provideMotisJourney=false;
 globalThis.fetch=async input=>{
  const url=new URL(typeof input==="string"?input:input.url);calls.push(url);
  if(url.hostname==="api.tfl.gov.uk"){
@@ -30,7 +30,25 @@ globalThis.fetch=async input=>{
   }
   return Response.json({journeys:[]});
  }
- if(url.hostname==="motis.example")return Response.json({itineraries:[]});
+ if(url.hostname==="motis.example"){
+  if(!provideMotisJourney)return Response.json({itineraries:[]});
+  const at=m=>new Date(Date.now()+m*60000).toISOString();
+  return Response.json({itineraries:[{
+   duration:240*60,startTime:at(20),endTime:at(260),transfers:0,
+   legs:[
+    {mode:"FOOT",duration:8*60,startTime:at(20),endTime:at(28),
+     from:{name:"UK origin",lat:51.478,lon:0.283,tz:"Europe/London"},
+     to:{name:"Rail boarding",lat:51.476,lon:0.321,tz:"Europe/London"}},
+    {mode:"HIGHSPEED_RAIL",duration:205*60,startTime:at(35),endTime:at(240),
+     from:{name:"Rail boarding",lat:51.476,lon:0.321,tz:"Europe/London",stopId:"gb:rail"},
+     to:{name:"Paris Nord",lat:48.8809,lon:2.3553,tz:"Europe/Paris",stopId:"fr:rail"},
+     displayName:"Verified test international rail",agencyName:"Mock rail operator"},
+    {mode:"FOOT",duration:20*60,startTime:at(240),endTime:at(260),
+     from:{name:"Paris Nord",lat:48.8809,lon:2.3553,tz:"Europe/Paris"},
+     to:{name:"Paris destination",lat:48.8566,lon:2.3522,tz:"Europe/Paris"}}
+   ]
+  }]});
+ }
  if(url.hostname==="api.geoapify.com"){
   const query=url.searchParams.get("text");
   if(internationalFixture&&query==="Berlin"){
@@ -89,6 +107,24 @@ try{
  assert.equal(verifiedLocal.route_geometry_available,false,
   "Missing TfL polylines must not be replaced with invented geometry");
  provideTfLJourney=false;
+
+ // Authorized international MOTIS: exercise the positive routing path as well
+ // as the refusal when an authorized provider is absent.
+ provideMotisJourney=true;
+ const internationalVerified=await ask(abroad,{MOTIS_API_BASE_URL:"https://motis.example",TFL_APP_KEY:"mock-tfl"});
+ assert.equal(internationalVerified.transit_available,true,
+  "An authorized provider must return its validated real-format journey rather than a refusal");
+ assert.equal(internationalVerified.international_journey,true);
+ assert.equal(internationalVerified.transit_provider,"MOTIS");
+ assert.ok(internationalVerified.transit[0].legs.some(l=>l.mode==="highspeed_rail"),
+  "Keep the verified international rail leg");
+ assert.ok(internationalVerified.transit[0].legs.some(l=>l.mode==="walking"),
+  "Keep first and final walking legs");
+ assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"),
+  "The international itinerary must not be replaced by TfL");
+ assert.ok(calls.some(u=>u.hostname==="motis.example"&&u.pathname.endsWith("/api/v6/plan")),
+  "Only the explicitly configured MOTIS v6 endpoint may be used");
+ provideMotisJourney=false;
 
  internationalFixture=true;
  const city=await ask({label:"Berlin"},{
