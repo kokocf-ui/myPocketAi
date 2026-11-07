@@ -51,4 +51,21 @@ assert.ok(backend.includes("stage==='number'?{}:{type:types[stage]}"),
  'City requests must be filtered by city type');
 assert.ok(backend.includes("stage==='street'&&query.trim().length===1"),
  'One-letter streets should be eligible for nearby prefix lookup');
+
+const localizedStart=frontend.indexOf('function localizedAddressCandidateLabel(');
+const localizedEnd=frontend.indexOf('\nfunction renderStructuredAddressPicker(',localizedStart);
+assert.ok(localizedStart>0&&localizedEnd>localizedStart,'City-label localization must exist');
+const displayCity=new Function(browserCode(frontend.slice(localizedStart,localizedEnd))+
+ '\nreturn localizedAddressCandidateLabel;')();
+assert.equal(displayCity('city',{city:'London',label:'London, England, United Kingdom'},'ro','GB'),
+ 'Londra, England, United Kingdom','Romanian UI shows Londra rather than London');
+assert.equal(displayCity('city',{city:'London',label:'London, England, United Kingdom'},'en','GB'),
+ 'London, England, United Kingdom','English UI preserves London');
+assert.equal(displayCity('city',{city:'London',label:'London, Ontario, Canada'},'ro','CA'),
+ 'London, Ontario, Canada','Canadian London must not be renamed');
+assert.equal(displayCity('street',{city:'London',street:'London Road',label:'London Road, London'},'ro','GB'),
+ 'London Road, London','Do not alter exact provider street or station names');
+assert.ok(frontend.includes("stage==='city'?localizedAddressCandidateLabel(stage,point,state.language,selected.country?.code):point.label"),
+ 'Chosen city's input must display its localized name');
+
 console.log('PASS progressive address picker: Romanian exonyms, prefix cache, first-letter streets, city isolation and hidden buttons');
