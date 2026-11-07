@@ -114,6 +114,8 @@ class FakeEl {
  setAttribute(name,val){this.attrs[name]=val;}
  append(...items){this.children.push(...items);}
  replaceChildren(...items){this.children=[...items];}
+ contains(node){return this===node||this.children.some(child=>child===node||child.contains?.(node));}
+ closest(query){return query==='button[data-math-photo-index]'&&this.tag==='button'?this:null;}
  addEventListener(name,fn){this.listeners[name]=fn;}
  querySelectorAll(selector){return selector==='button[data-math-photo-index]'?this.children.filter(x=>x.tag==='button'&&x.dataset.mathPhotoIndex!==undefined):[];}
 }
@@ -146,5 +148,26 @@ assert.equal(first.attrs['aria-pressed'],'false');
 choices.children[4].onclick();
 assert.equal(candidateInput.value,uiCandidates[4].text,'last exercise can be selected');
 assert.match(status.textContent,/Ex\. 2/,'visible selection status follows chosen row');
+
+// The Android device reported that rows stay visually selected even after
+// tapping another entry in a scrollable list. Exercise pointer/touch events
+// (not just synthetic .onclick calls), and guard against swipe selections.
+const row3=choices.children[3],row2=choices.children[2];
+choices.scrollTop=110;
+choices.listeners.pointerdown({target:row3,pointerId:9,clientX:20,clientY:90,isPrimary:true});
+choices.listeners.pointerup({target:row3,pointerId:9,clientX:22,clientY:92,isPrimary:true});
+assert.equal(candidateInput.value,uiCandidates[3].text,'real pointer tap switches selection to the fourth row');
+assert.equal(choices.scrollTop,110,'pointer selection never resets scroll');
+assert.equal(row3.attrs['aria-pressed'],'true');
+choices.listeners.pointerdown({target:row2,pointerId:10,clientX:15,clientY:150,isPrimary:true});
+choices.listeners.pointerup({target:row2,pointerId:10,clientX:15,clientY:65,isPrimary:true});
+assert.equal(candidateInput.value,uiCandidates[3].text,'drag gesture cannot accidentally select another row');
+choices.listeners.touchstart({target:row2,touches:[{identifier:2,clientX:20,clientY:50}]});
+choices.listeners.touchend({target:row2,changedTouches:[{identifier:2,clientX:21,clientY:51}]});
+assert.equal(candidateInput.value,uiCandidates[2].text,'touchend fallback switches to the intended row');
+choices.listeners.touchstart({target:row3,touches:[{identifier:3,clientX:20,clientY:70}]});
+choices.listeners.scroll({});
+choices.listeners.touchend({target:row3,changedTouches:[{identifier:3,clientX:20,clientY:70}]});
+assert.equal(candidateInput.value,uiCandidates[2].text,'scroll cancel does not select hidden row');
 
 console.log('PASS photo OCR requires single exercise review and rejects entire-page auto-solving');
