@@ -6647,8 +6647,41 @@ function mathFigureSummary(figure){
  const values=Object.entries(figure.values||{}).filter(([,v])=>v!=='');
  return label+(values.length?' · '+values.map(([k,v])=>k+'='+v+(figure.unit||'cm')).join(', '):'');
 }
+function mathFigureInternalConflict(figure){
+ if(!figure)return '';
+ const v=key=>mathFigureMeasurement(figure.values?.[key]);
+ if(figure.id==='circle'&&v('raza')!==null&&v('diametru')!==null&&
+  Math.abs(v('diametru')-2*v('raza'))>1e-8)return 'raza / diametru';
+ if(figure.id==='right'){
+  const a=v('a'),b=v('b'),c=v('c');
+  if(c!==null&&((a!==null&&a>=c)||(b!==null&&b>=c)))return 'ipotenuza';
+  if([a,b,c].every(n=>n!==null)&&Math.abs(a*a+b*b-c*c)>1e-8*Math.max(1,c*c))
+   return 'Pitagora';
+ }
+ if(figure.id==='triangle'&&['AB','BC','CA'].every(k=>v(k)!==null)){
+  const a=v('AB'),b=v('BC'),c=v('CA');
+  if(a+b<=c||a+c<=b||b+c<=a)return 'inegalitatea triunghiului';
+ }
+ if(figure.id==='isosceles'&&v('baza')!==null&&v('latura')!==null&&
+  2*v('latura')<=v('baza'))return 'laturile triunghiului';
+ if(figure.id==='trapezoid'&&v('bazaMare')!==null&&v('bazaMica')!==null&&
+  v('bazaMare')<v('bazaMica'))return 'bazele trapezului';
+ return '';
+}
 function mathFigureConflict(figure,statement){
  const text=String(statement||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');
+ if(figure?.id==='right'){
+  const a=mathFigureMeasurement(figure.values?.a),b=mathFigureMeasurement(figure.values?.b);
+  if(a!==null&&b!==null){
+   const pair=/\\bcatetele\\s*(?:de\\s*)?(\\d+(?:[.,]\\d+)?)\\s*(?:mm|cm|km|m)?\\s*(?:si|and|,)\\s*(\\d+(?:[.,]\\d+)?)/.exec(text);
+   if(pair){
+    const given=[Number(pair[1].replace(',','.')),Number(pair[2].replace(',','.'))].sort((x,y)=>x-y);
+    const expected=[a,b].sort((x,y)=>x-y);
+    if(Math.abs(given[0]-expected[0])>1e-9||Math.abs(given[1]-expected[1])>1e-9)return 'catetele';
+   }
+  }
+ }
+
  const checks=[
   ['raza',['raza','radius']],
   ['diametru',['diametrul','diametru','diameter']],
@@ -6899,7 +6932,7 @@ function mathOpenFigureLibrary(){
   else{tool('pan','Mută','Pan');tool('draw','Desenează','Draw');if(working.id!=='free')tool('points','Puncte','Vertices')}
   const zoom=(factor)=>{
    working.zoom=Math.max(1,Math.min(4,working.zoom*factor));
-   const lim=(working.zoom-1)*130;
+   const lim=20+(working.zoom-1)*120;
    working.panX=Math.max(-lim,Math.min(lim,working.panX));
    working.panY=Math.max(-lim,Math.min(lim,working.panY));
    paint();
@@ -6993,7 +7026,7 @@ function mathOpenFigureLibrary(){
     const pair=[...active.values()];
     const distance=Math.hypot(pair[0].x-pair[1].x,pair[0].y-pair[1].y);
     working.zoom=Math.max(1,Math.min(4,pinch.zoom*distance/pinch.distance));
-    const lim=(working.zoom-1)*130;
+    const lim=20+(working.zoom-1)*120;
     working.panX=Math.max(-lim,Math.min(lim,working.panX));
     working.panY=Math.max(-lim,Math.min(lim,working.panY));
     paint();return;
@@ -7003,7 +7036,7 @@ function mathOpenFigureLibrary(){
    if(mode==='rotate'&&solid){
     working.yaw+=dx*.014;working.pitch=Math.max(-1.25,Math.min(1.25,working.pitch+dy*.014));
    }else if(mode==='pan'){
-    const lim=(working.zoom-1)*130;
+    const lim=20+(working.zoom-1)*120;
     working.panX=Math.max(-lim,Math.min(lim,working.panX+dx));
     working.panY=Math.max(-lim,Math.min(lim,working.panY+dy));
    }else if(mode==='draw'&&gesture.stroke){
@@ -7037,7 +7070,13 @@ function mathOpenFigureLibrary(){
     error.textContent=learningLabel('Valorile completate trebuie să fie pozitive. Câmpurile goale sunt permise.',
      'Entered lengths must be positive. Empty fields are allowed.');return;
    }
-   working.unit=unit;mathFigureDraft=mathFigureCopy(working);
+   working.unit=unit;
+   const internal=mathFigureInternalConflict(working);
+   if(internal){
+    error.textContent=learningLabel('Valorile introduse se contrazic: ','The entered values conflict: ')+internal;
+    return;
+   }
+   mathFigureDraft=mathFigureCopy(working);
    mathFigureDraftSummary();
    dialog.close();
   },true));
@@ -7667,6 +7706,7 @@ function openLearningSubject(key){
    choices.append(button);
   });
   workspace.append(choices);host.append(workspace);
+  mathFigureDraftSummary();
   requestAnimationFrame(mathFitViewport);
  }
 
@@ -9916,6 +9956,11 @@ function mathEducationRun(mode){
  const editor=$('mathEducationText'),status=$('mathEducationStatus');
  let source=editor?.value?.trim()||'';
  if(['geometry','trigonometry'].includes(mathJourney.topic)&&mathFigureDraft){
+  const internal=mathFigureInternalConflict(mathFigureDraft);
+  if(internal){
+   status.textContent=learningLabel('Date incompatibile în figură: ','Inconsistent figure measurements: ')+internal;
+   return;
+  }
   const mismatch=mathFigureConflict(mathFigureDraft,source);
   if(mismatch){
    status.textContent=learningLabel('Valoarea „','Value “')+mismatch+
