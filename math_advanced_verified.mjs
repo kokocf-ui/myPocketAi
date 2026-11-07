@@ -43,7 +43,11 @@ export function mathAdvancedVerifiedModel(source){
   const xs=fields.map(x=>x.trim()).filter(Boolean).map(n);
   if(xs.length<2||xs.length>100||xs.some(x=>!Number.isFinite(x)))return null;
   const avg=xs.reduce((a,b)=>a+b,0)/xs.length;
-  return result('statistics',fmt(xs.reduce((a,b)=>a+(b-avg)**2,0)/(xs.length-1)),'Varianța eșantionului: suma abaterilor pătratice împărțită la n−1.');
+  const verified=result('statistics',fmt(xs.reduce((a,b)=>a+(b-avg)**2,0)/(xs.length-1)),'Varianța eșantionului: suma abaterilor pătratice împărțită la n−1.');
+  if(!verified)return null;
+  verified.summary='s² = '+verified.result;
+  verified.data=xs;
+  return verified;
  }
  m=input.match(/^(?:binomiala|binomial|distributie binomiala|distribu(?:ț|t)ie binomiala)\s*:\s*n\s*=\s*(\d{1,3})\s*[,;]\s*k\s*=\s*(\d{1,3})\s*[,;]\s*p\s*=\s*(0(?:[.,]\d+)?|1(?:[.,]0+)?)$/iu);
  if(m){const N=Number(m[1]),k=Number(m[2]),p=n(m[3]);if(N>100||k>N||p<0||p>1)return null;
