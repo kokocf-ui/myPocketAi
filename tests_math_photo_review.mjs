@@ -122,7 +122,7 @@ assert.ok(script.includes("action.onclick=()=>{\n     candidateInput.value=mathP
 assert.ok(script.includes("if(mathPhotoOcrRisk(candidate))"),'raw uncertain OCR remains blocked until corrected');
 
 const selectionBegin=script.indexOf('  let selectedCandidateIndex=-1;');
-const selectionEnd=script.indexOf('  content.append(candidateInput);',selectionBegin);
+const selectionEnd=script.indexOf("  const feedback=document.createElement('small');",selectionBegin);
 assert.ok(selectionBegin>0&&selectionEnd>selectionBegin,'candidate selection UI exists');
 const uiSource=script.slice(selectionBegin,selectionEnd);
 assert.ok(!uiSource.includes('button.onclick=()=>{'),'do not rebuild the list from a tap handler');
