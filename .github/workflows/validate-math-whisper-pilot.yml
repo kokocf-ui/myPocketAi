@@ -4,6 +4,8 @@ on:
     paths:
       - 'android/**'
       - 'index.js'
+      - 'scripts/patch-avatar-lipsync.mjs'
+      - 'tests_avatar_lipsync_stop.mjs'
       - 'backend.js'
       - 'tests_math_whisper_pilot.mjs'
       - '.github/workflows/validate-math-whisper-pilot.yml'
