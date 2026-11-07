@@ -10030,6 +10030,13 @@ function mathEducationRun(mode){
      '” differs between the question and the figure. Correct the mismatch first.');
    return;
   }
+  const figureOnly=mathFigureStatement(mathFigureDraft);
+  const original=editor?.value?.trim()||'';
+  if(mode!=='graph'&&(!original||original===figureOnly)){
+   status.textContent=learningLabel('Figura este atașată. Scrie ce dorești să calculăm sau să explicăm (de exemplu: calculează aria).',
+    'The figure is attached. Write what to calculate or explain (for example: calculate the area).');
+   return;
+  }
   const fromFigure=mathFigureAutoExercise(mathFigureDraft);
   if(!source&&fromFigure)source=fromFigure;
   // If the user has only typed a verbal request, provide exact dimensions
