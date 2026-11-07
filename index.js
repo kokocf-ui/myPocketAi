@@ -7071,6 +7071,9 @@ function mathPhotoCandidates(source,alternative){
  // Keep sections distinct (a/b/c may repeat in Exercise 1 and Exercise 2).
  // Preserve one OCR variant per section+subpoint; never guess missing symbols.
  const out=[],seen=new Set(),primaryPositions=new Set(),primaryBareLetters=new Set();
+ const canonical=value=>String(value||'').toLowerCase().replace(/[−–]/g,'-')
+  .replace(/²/g,'^2').replace(/³/g,'^3').replace(/v(?=\\d)/g,'√')
+  .replace(/\\s+/g,'');
  const collect=(raw,fallback)=>{
   const lines=String(raw||'').replace(/\\r/g,'').split('\\n').map(x=>x.trim()).filter(Boolean);
   let section='0',pending=null;
@@ -7079,12 +7082,18 @@ function mathPhotoCandidates(source,alternative){
    if(expression.length<3||expression.length>180||!/\\d/.test(expression))return;
    const position=section+':'+letter;
    if(fallback&&(primaryPositions.has(position)||(section==='0'&&primaryBareLetters.has(letter))))return;
+   const comparison=canonical(expression);
+   // The same candidate can appear twice when crop OCR loses the section
+   // heading. Deduplicate only a demonstrably identical formula and label;
+   // never merge different real subpoints a), b), c) across two known sections.
+   if(out.some(item=>item.letter===letter&&item.comparison===comparison&&
+     (item.section===section||item.section==='0'||section==='0')))return;
    const signature=position+':'+expression.replace(/\\s+/g,'').toLowerCase();
    if(seen.has(signature))return;
    seen.add(signature);
    if(!fallback){primaryPositions.add(position);primaryBareLetters.add(letter)}
    const prefix=section==='0'?'':'Ex. '+section+' · ';
-   out.push({label:prefix+letter+') '+expression,text:expression});
+   out.push({label:prefix+letter+') '+expression,text:expression,letter,section,comparison,origin:fallback?'alternate':'primary'});
   };
   for(const line of lines){
    const heading=line.match(/^(?:exerci[țt]iul|exerci[țt]iu|exercises?|ex\\.?)\\s*(\\d{1,3})(?=\\s|[).:—–-]|$)/iu);
@@ -9017,30 +9026,68 @@ window.pocketAndroidOcrResult=function(data){
   const countNote=document.createElement('small');
   countNote.setAttribute('role','status');
   countNote.style.cssText='opacity:.86;line-height:1.3;';
-  countNote.textContent=learningLabel('Subpuncte detectate: ','Subpoints detected: ')+candidates.length+
+  countNote.textContent=learningLabel('Rezultate OCR propuse: ','Suggested OCR results: ')+candidates.length+
    learningLabel(' (citire principală: ',' (primary read: ')+primaryCount+
-   learningLabel('; recuperate suplimentar: ','; additionally recovered: ')+(candidates.length-primaryCount)+')';
+   learningLabel('; suplimentare: ','; additional: ')+(candidates.length-primaryCount)+'). '+
+   learningLabel('Verifică dacă există dubluri.','Check for duplicates.');
   content.append(countNote);
   const candidateInput=document.createElement('textarea');
   candidateInput.rows=4;candidateInput.maxLength=240;
   candidateInput.style.cssText='box-sizing:border-box;width:100%;min-height:100px;padding:12px;border:1px solid #6bb7c9;border-radius:12px;background:#061929;color:#fff;font:inherit;resize:vertical';
   candidateInput.setAttribute('aria-label',learningLabel('Transcrierea exercițiului selectat','Selected exercise transcription'));
   candidateInput.placeholder=learningLabel('Corectează aici UN exercițiu','Correct ONE exercise here');
+  let selectedCandidateIndex=-1;
   if(candidates.length){
-   const selection=document.createElement('select');selection.className='text-field';
-   selection.setAttribute('aria-label',learningLabel('Exercițiul fotografiat','Photographed exercise'));
-   const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent=learningLabel('Alege exercițiul','Choose exercise');selection.append(placeholder);
-   candidates.forEach((candidate,i)=>{const option=document.createElement('option');option.value=String(i);option.textContent=candidate.label;selection.append(option)});
-   let photoSelectedText='';
-   selection.onchange=()=>{
-    photoSelectedText=selection.value===''?'':candidates[Number(selection.value)].text;
-    candidateInput.value=photoSelectedText;
-    feedback.textContent=photoSelectedText&&mathPhotoOcrRisk(photoSelectedText)?
-     learningLabel('Simboluri nesigure: V poate fi √, iar x2 poate fi x². Corectează textul înainte de confirmare.',
-      'Uncertain symbols: V may mean √ and x2 may mean x². Edit before confirming.'):'';
+   // Show four choices at a time in the fixed modal rather than relying on
+   // Android's native select popup, which only exposed three visible rows.
+   const search=document.createElement('input');
+   search.type='search';search.className='text-field';
+   search.placeholder=learningLabel('Caută în lista exercițiilor…','Search exercises…');
+   search.setAttribute('aria-label',learningLabel('Filtrează subpunctele fotografiate','Filter photographed subpoints'));
+   search.autocomplete='off';search.spellcheck=false;
+   search.style.cssText='box-sizing:border-box;width:100%;flex:0 0 auto;min-height:42px;';
+   const choices=document.createElement('div');
+   choices.setAttribute('role','group');
+   choices.setAttribute('aria-label',learningLabel('Exerciții fotografiate: listă derulantă','Photographed exercises: scrollable list'));
+   choices.style.cssText='display:flex;flex-direction:column;gap:6px;flex:0 0 auto;max-height:min(31dvh,232px);min-height:54px;overflow-y:auto;overscroll-behavior:contain;padding:2px 4px;border:1px solid #467f98;border-radius:12px;';
+   const renderChoices=()=>{
+    const query=search.value.trim().toLocaleLowerCase();
+    choices.replaceChildren();
+    const indexes=candidates.map((_,i)=>i).filter(i=>!query||candidates[i].label.toLocaleLowerCase().includes(query));
+    if(!indexes.length){
+     const empty=document.createElement('p');
+     empty.textContent=learningLabel('Nu există rezultate pentru această căutare.','No matching exercises.');
+     empty.style.cssText='margin:10px 4px;';
+     choices.append(empty);
+    }
+    for(const i of indexes){
+     const entry=candidates[i],selected=selectedCandidateIndex===i;
+     const button=document.createElement('button');
+     button.type='button';button.setAttribute('aria-pressed',selected?'true':'false');
+     button.textContent=entry.label+(entry.origin==='alternate'?
+      learningLabel(' · OCR suplimentar',' · Additional OCR'):'');
+     button.style.cssText='box-sizing:border-box;width:100%;text-align:left;font:inherit;min-height:46px;flex:0 0 auto;padding:9px 12px;border-radius:10px;line-height:1.35;white-space:normal;border:1px solid '+
+      (selected?'#8dd9ed':'#467f98')+';background:'+(selected?'#205777':'#12354b')+';color:#f4fbff;';
+     button.onclick=()=>{
+      selectedCandidateIndex=i;
+      candidateInput.value=entry.text;
+      feedback.textContent=mathPhotoOcrRisk(entry.text)?
+       learningLabel('Simboluri nesigure: V poate fi √, iar x2 poate fi x². Corectează textul înainte de confirmare.',
+        'Uncertain symbols: V may mean √ and x2 may mean x². Edit before confirming.'):'';
+      renderChoices();
+     };
+     choices.append(button);
+    }
    };
-   candidateInput.dataset.ocrSelected='';
-   content.append(selection);
+   search.addEventListener('input',renderChoices);
+   renderChoices();
+   content.append(search,choices);
+   if(candidates.length>4){
+    const hint=document.createElement('small');
+    hint.style.cssText='opacity:.86;';
+    hint.textContent=learningLabel('Glisează lista pentru a vedea toate rezultatele.','Scroll the list to see all results.');
+    content.append(hint);
+   }
   }else{
    const notice=document.createElement('p');
    notice.textContent=learningLabel('Nu am putut separa exercițiile în siguranță. Transcrie unul singur din fotografie.','Could not safely separate exercises. Transcribe just one from the photograph.');
@@ -9058,8 +9105,7 @@ window.pocketAndroidOcrResult=function(data){
   confirmation.textContent=learningLabel('Confirmă exercițiul','Confirm exercise');
   confirmation.onclick=()=>{
    const candidate=candidateInput.value.trim();
-   const selected=document.querySelector('.math-photo-review-dialog select');
-   const originalOcr=selected?.value!==''&&candidates[Number(selected.value)]?.text||'';
+   const originalOcr=selectedCandidateIndex>=0?candidates[selectedCandidateIndex]?.text||'':'';
    if(originalOcr&&candidate===originalOcr&&mathPhotoOcrRisk(candidate)){
     feedback.textContent=learningLabel('Corectează simbolurile OCR ambigue înainte de confirmare (V/√, x2/x²).','Correct ambiguous OCR symbols before confirming (V/√, x2/x²).');
     return;

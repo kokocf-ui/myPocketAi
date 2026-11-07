@@ -65,4 +65,30 @@ const twoPasses=parse(
 assert.equal(twoPasses.length,5,'recover d and second-section a from alternate reading');
 assert.ok(script.includes('const countNote=document.createElement('),'render OCR candidate recovery counts');
 
+
+const repeatedWithoutSection=[
+ 'a) 9x − 3x + 4x',
+ 'Exercițiul 1 — Reduceți termenii asemenea:',
+ 'a) 9x - 3x + 4x',
+ 'b) 2x² - 3x² + 5x²',
+ 'Exercițiul 2 — Reduceți termenii asemenea:',
+ 'a) 6x + 3y - 5z - 5x + 7y - 3z'
+].join('\n');
+const deduplicated=parse(repeatedWithoutSection);
+assert.equal(deduplicated.length,3,'same formula and subpoint with a lost section heading is deduplicated');
+assert.match(deduplicated[2].label,/Ex\. 2/,'different exercise section is preserved');
+const repeatedActual=[
+ 'Exercițiul 1',
+ 'a) 3x + 3x',
+ 'Exercițiul 2',
+ 'a) 3x + 3x'
+].join('\n');
+assert.equal(parse(repeatedActual).length,2,'identical exercises in distinct known sections remain distinct');
+assert.ok(script.includes("search.type='search'"),'filter control is visible inside review modal');
+assert.ok(script.includes("choices.style.cssText="),'inline scrollable OCR list replaces native select');
+assert.ok(script.includes("max-height:min(31dvh,232px)"),'list height is bounded to four rows on mobile');
+assert.ok(script.includes('selectedCandidateIndex>=0'),'only explicitly selected OCR item can be confirmed');
+assert.ok(!script.includes("const selection=document.createElement('select');selection.className='text-field';"),
+ 'do not use Android popup that hides all but three choices');
+
 console.log('PASS photo OCR requires single exercise review and rejects entire-page auto-solving');
