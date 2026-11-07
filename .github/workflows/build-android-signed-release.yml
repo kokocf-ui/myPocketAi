@@ -7,6 +7,8 @@ on:
     paths:
       - 'android/**'
       - 'index.js'
+      - 'scripts/patch-avatar-lipsync.mjs'
+      - 'tests_avatar_lipsync_stop.mjs'
       - 'tests_math_whisper_pilot.mjs'
       - 'tests_math_voice_parentheses.mjs'
       - 'tests_math_linear_equations.mjs'
@@ -88,6 +90,8 @@ jobs:
           node tests_math_linear_equations.mjs
           node tests_math_linear_graph_proof.mjs
           node tests_math_linear_verification.mjs
+          node tests_avatar_lipsync_stop.mjs
+          node tests_news_contextual_translation.mjs
           node tests_math_whisper_pilot.mjs
       - name: Assemble signed release
         env:
