@@ -42,4 +42,27 @@ assert.equal(merged[1].text,'2x2 - 3x2 + 5x2','do not silently substitute a conf
 const many=Array.from({length:15},(_,i)=>String.fromCharCode(97+i)+') '+(i+2)+'x + 3').join('\n');
 assert.equal(parse(many).length,15,'no three- or twelve-row list truncation');
 assert.ok(script.includes('mathPhotoCandidates(text,data?.alternative)'),'pass enhanced OCR reading to candidate selection');
+const seven=[
+ 'Exercițiul 1 — Reduceți termenii asemenea:',
+ 'a) 9x - 3x + 4x =',
+ 'b) 2x² - 3x² + 5x² =',
+ 'c) 2√5xy + 9√5xy - 10√5xy =',
+ 'd)',
+ '9abc - 13abc =',
+ 'Exercițiul 2 — Reduceți termenii asemenea:',
+ 'a) 6x + 3y - 5z - 5x + 7y - 3z =',
+ 'b) 12x - 8 + 13 - 11x + 9 + 5x =',
+ 'c) 14x² - x + 4x² - 10x - 19x² + 12x ='
+].join('\n');
+const sevenCandidates=parse(seven);
+assert.equal(sevenCandidates.length,7,'all 7 subpoints, including reused labels, are detected');
+assert.equal(sevenCandidates[3].text,'9abc - 13abc','detect label on separate line');
+assert.match(sevenCandidates[0].label,/Ex\. 1/);
+assert.match(sevenCandidates[6].label,/Ex\. 2/);
+const twoPasses=parse(
+ 'Exercițiul 1\n a) 9x - 3x + 4x\n b) 2x² - 3x² + 5x²\n c) 2√5xy + 9√5xy - 10√5xy',
+ 'Exercițiul 1\n d)\n 9abc - 13abc\n Exercițiul 2\n a) 6x + 3y - 5z - 5x + 7y - 3z');
+assert.equal(twoPasses.length,5,'recover d and second-section a from alternate reading');
+assert.ok(script.includes('const countNote=document.createElement('),'render OCR candidate recovery counts');
+
 console.log('PASS photo OCR requires single exercise review and rejects entire-page auto-solving');
