@@ -1687,7 +1687,7 @@ export default {
        };
       url.search=new URLSearchParams({
         text:(stage==='city'?[cityQuery,region]:stage==='street'?[query,city,region]:[[street,query].filter(Boolean).join(' '),city,region,postcode]).filter(Boolean).join(', '),
-        ...(stage==='number'||stage==='city'?{}:{type:types[stage]}),filter:'countrycode:'+country,bias:'countrycode:none',format:'json',limit:'20',apiKey:env.GEOAPIFY_API_KEY
+        ...(stage==='number'?{}:{type:types[stage]}),filter:'countrycode:'+country,bias:'countrycode:none',format:'json',limit:stage==='street'&&query.trim().length===1?'40':'20',apiKey:env.GEOAPIFY_API_KEY
       });
       try {
         const alternatives=[url];
@@ -1707,6 +1707,16 @@ export default {
               streetPrefix.searchParams.set('bias','proximity:'+cityPoint.longitude+','+cityPoint.latitude);
             alternatives.unshift(streetPrefix);
           }
+        }
+        // For the very first street letter, request a separate nearby prefix
+        // sample as well. The municipality and country verification below must
+        // still reject addresses from other towns. Never imply this is a full
+        // municipal street registry.
+        if(stage==='street'&&query.trim().length===1&&Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude)){
+          const nearbyPrefix=new URL(url);
+          nearbyPrefix.searchParams.set('text',query.trim());
+          nearbyPrefix.searchParams.set('bias','proximity:'+cityPoint.longitude+','+cityPoint.latitude);
+          alternatives.push(nearbyPrefix);
         }
         if(stage==='street'&&autocomplete&&Number.isFinite(cityPoint?.latitude)&&Number.isFinite(cityPoint?.longitude)){
           const prefix=new URL(url);
@@ -1769,7 +1779,10 @@ export default {
           const cityName=String(stage==='city'
             ?(place.village||place.hamlet||place.town||place.city||place.municipality||place.name||'')
             :(towns.find(Boolean)||'')).trim();
-          if(stage==='city'&&(!normalize(cityName).startsWith(normalize(cityQuery))||
+          const acceptableCityNames=stage==='city'
+            ?[cityQuery,...Object.entries(localizedCityNames[country]||{}).filter(([,official])=>normalize(official)===normalize(cityQuery)).map(([alias])=>alias)]
+            :[];
+          if(stage==='city'&&(!acceptableCityNames.some(name=>normalize(cityName).startsWith(normalize(name)))||
               /metropolitan area|zona metropolitana|metropolitan region/i.test(normalize(cityName))))return [];
           const rawCounty=String(place.county||place.state_district||place.state||place.region||'').trim();
           const county=rawCounty.length===2&&String(place.state||'').trim().length>2?String(place.state).trim():rawCounty;
