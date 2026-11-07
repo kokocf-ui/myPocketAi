@@ -7068,30 +7068,48 @@ function openLearningSubject(key){
 // page must be reviewed and one exercise explicitly selected before math runs.
 let mathPhotoNeedsReview=false;
 function mathPhotoCandidates(source,alternative){
- // Android provides two independent OCR passes. Recover subpoints missing from
- // the primary pass, but never automatically rewrite uncertain maths symbols.
- const out=[],seen=new Set(),primaryLetters=new Set();
+ // Keep sections distinct (a/b/c may repeat in Exercise 1 and Exercise 2).
+ // Preserve one OCR variant per section+subpoint; never guess missing symbols.
+ const out=[],seen=new Set(),primaryPositions=new Set(),primaryBareLetters=new Set();
  const collect=(raw,fallback)=>{
   const lines=String(raw||'').replace(/\\r/g,'').split('\\n').map(x=>x.trim()).filter(Boolean);
+  let section='0',pending=null;
+  const emit=(letter,rawExpression)=>{
+   const expression=String(rawExpression||'').split('=')[0].trim();
+   if(expression.length<3||expression.length>180||!/\\d/.test(expression))return;
+   const position=section+':'+letter;
+   if(fallback&&(primaryPositions.has(position)||(section==='0'&&primaryBareLetters.has(letter))))return;
+   const signature=position+':'+expression.replace(/\\s+/g,'').toLowerCase();
+   if(seen.has(signature))return;
+   seen.add(signature);
+   if(!fallback){primaryPositions.add(position);primaryBareLetters.add(letter)}
+   const prefix=section==='0'?'':'Ex. '+section+' · ';
+   out.push({label:prefix+letter+') '+expression,text:expression});
+  };
   for(const line of lines){
-   const match=line.match(/^(?:EX\\.?\\s*\\d+\\s*[):.]\\s*)?([a-z])\\s*[).]\\s*(.+)$/i);
-   if(!match)continue;
-   const letter=match[1].toLowerCase();
-   const expression=match[2].split('=')[0].trim();
-   if(expression.length<3||expression.length>180||!/\\d/.test(expression))continue;
-   if(fallback&&primaryLetters.has(letter))continue;
-   const key=letter+':'+expression;
-   if(seen.has(key))continue;
-   seen.add(key);
-   if(!fallback)primaryLetters.add(letter);
-   out.push({label:letter+') '+expression,text:expression});
-   if(out.length>=50)break;
+   const heading=line.match(/^(?:exerci[țt]iul|exerci[țt]iu|exercises?|ex\\.?)\\s*(\\d{1,3})(?=\\s|[).:—–-]|$)/iu);
+   if(heading){section=heading[1];pending=null;continue;}
+   const subpoint=line.match(/^([a-z])\\s*[).:]\\s*(.*)$/i);
+   if(subpoint){
+    if(pending)pending=null;
+    const letter=subpoint[1].toLowerCase(),body=subpoint[2].trim();
+    if(body)emit(letter,body);else pending=letter;
+    if(out.length>=50)break;
+    continue;
+   }
+   if(pending){
+    // ML Kit often breaks a small "d)" marker from its formula.
+    emit(pending,line);
+    pending=null;
+    if(out.length>=50)break;
+   }
   }
  };
  collect(source,false);
  if(out.length<50)collect(alternative,true);
  return out;
 }
+
 // OCR sometimes turns √5 into V5 or x² into x2. Never silently treat these
 // uncertain glyphs as verified algebra when selecting a photographed exercise.
 function mathPhotoOcrRisk(source){
@@ -8995,6 +9013,14 @@ window.pocketAndroidOcrResult=function(data){
   warning.textContent=learningLabel('OCR neverificat. Selectează un singur exercițiu. Compară cifrele, semnele, exponenții și radicalii cu fotografia, apoi corectează textul.','Unverified OCR. Select one exercise. Compare digits, signs, powers and roots with the photograph, then correct the text.');
   content.append(warning);
   const candidates=mathPhotoCandidates(text,data?.alternative);
+  const primaryCount=mathPhotoCandidates(text).length;
+  const countNote=document.createElement('small');
+  countNote.setAttribute('role','status');
+  countNote.style.cssText='opacity:.86;line-height:1.3;';
+  countNote.textContent=learningLabel('Subpuncte detectate: ','Subpoints detected: ')+candidates.length+
+   learningLabel(' (citire principală: ',' (primary read: ')+primaryCount+
+   learningLabel('; recuperate suplimentar: ','; additionally recovered: ')+(candidates.length-primaryCount)+')';
+  content.append(countNote);
   const candidateInput=document.createElement('textarea');
   candidateInput.rows=4;candidateInput.maxLength=240;
   candidateInput.style.cssText='box-sizing:border-box;width:100%;min-height:100px;padding:12px;border:1px solid #6bb7c9;border-radius:12px;background:#061929;color:#fff;font:inherit;resize:vertical';
