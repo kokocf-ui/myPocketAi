@@ -9761,6 +9761,69 @@ function mathAdditionalModel(source){
    details:learningLabel('Formula folosită: ','Formula: ')+rule+'.',method:kind};
  }
 
+
+ const conversion=input.match(/^(?:converteste|convertește|convert|transforma|transformă)?\\s*(-?\\d+(?:[.,]\\d+)?)\\s*(km²|m²|cm²|mm²|km|cm|mm|m|kg|mg|g|t|ml|l|min|h|s)\\s*(?:->|→|in|în|to)\\s*(km²|m²|cm²|mm²|km|cm|mm|m|kg|mg|g|t|ml|l|min|h|s)$/iu);
+ if(conversion){
+  const dictionary={
+   km:[0,1000],m:[0,1],cm:[0,.01],mm:[0,.001],
+   'km²':[1,1000000],'m²':[1,1],'cm²':[1,.0001],'mm²':[1,.000001],
+   kg:[2,1000],g:[2,1],mg:[2,.001],t:[2,1000000],
+   l:[3,1],ml:[3,.001],h:[4,3600],min:[4,60],s:[4,1]
+  };
+  const from=dictionary[conversion[2]],to=dictionary[conversion[3]];
+  if(from[0]!==to[0])return null;
+  const value=Number(conversion[1].replace(',','.')),result=value*from[1]/to[1];
+  if(!Number.isFinite(result))return null;
+  return {kind:'measurement',label:input,result:fmt(result),summary:fmt(value)+' '+conversion[2]+' = '+fmt(result)+' '+conversion[3],
+   details:learningLabel('Convertim prin unitatea de bază a aceleiași dimensiuni.',
+    'Convert through the base unit of the same physical dimension.'),method:'unit-conversion'};
+ }
+ const distance=input.match(/^(?:distanta|distanța|distance)\\s*(?:intre|între|between)?\\s*A\\s*\\(\\s*(-?\\d+(?:[.,]\\d+)?)\\s*;\\s*(-?\\d+(?:[.,]\\d+)?)\\s*\\)\\s*(?:si|și|and)?\\s*B\\s*\\(\\s*(-?\\d+(?:[.,]\\d+)?)\\s*;\\s*(-?\\d+(?:[.,]\\d+)?)\\s*\\)$/iu);
+ if(distance){
+  const [x1,y1,x2,y2]=distance.slice(1).map(v=>Number(v.replace(',','.')));
+  const length=Math.hypot(x2-x1,y2-y1);
+  const midpointX=(x1+x2)/2,midpointY=(y1+y2)/2;
+  return {kind:'coordinates',label:input,result:fmt(length),summary:'AB = '+fmt(length)+'; M('+fmt(midpointX)+'; '+fmt(midpointY)+')',
+   details:learningLabel('Aplicăm formula distanței dintre două puncte și media coordonatelor pentru mijloc.',
+    'Use the distance formula and average the coordinates for the midpoint.'),method:'distance'};
+ }
+ const power=input.replace(/\\s+/g,'').match(/^(-?\\d+(?:[.,]\\d+)?)\\^(-?\\d{1,3})$/);
+ if(power){
+  const base=Number(power[1].replace(',','.')),exponent=Number(power[2]);
+  if(Math.abs(exponent)>60||(base===0&&exponent<0))return null;
+  const answer=base**exponent;
+  if(!Number.isFinite(answer))return null;
+  return {kind:'powers',label:input,result:fmt(answer),summary:input+' = '+fmt(answer),
+   details:learningLabel('Puterea întreagă se obține înmulțind baza repetat; exponentul negativ înseamnă invers.',
+    'Integer powers repeat multiplication; a negative exponent gives the reciprocal.'),method:'exponentiation'};
+ }
+ const radical=input.match(/^(?:√|sqrt)\\s*\\(?\\s*(\\d+(?:[.,]\\d+)?)\\s*\\)?$/iu);
+ if(radical){
+  const value=Number(radical[1].replace(',','.')),result=Math.sqrt(value);
+  return {kind:'radicals',label:input,result:fmt(result),summary:'√'+fmt(value)+' = '+fmt(result),
+   details:learningLabel('Rădăcina pătrată principală este numărul nenegativ al cărui pătrat este valoarea dată.',
+    'The principal square root is the nonnegative number whose square equals the input.'),method:'square-root'};
+ }
+ const logarithm=input.replace(/\\s+/g,'').match(/^log_?(\\d+(?:[.,]\\d+)?)\\((\\d+(?:[.,]\\d+)?)\\)$/i);
+ if(logarithm){
+  const base=Number(logarithm[1].replace(',','.')),value=Number(logarithm[2].replace(',','.'));
+  if(base<=0||base===1||value<=0)return null;
+  const result=Math.log(value)/Math.log(base);
+  if(!Number.isFinite(result))return null;
+  return {kind:'logarithms',label:input,result:fmt(result),summary:input+' = '+fmt(result),
+   details:learningLabel('Folosim schimbarea bazei: log_b(a) = ln(a) / ln(b).',
+    'Use change of base: log_b(a) = ln(a) / ln(b).'),method:'logarithm'};
+ }
+ const ode=input.match(/^y\\s*['′]\\s*=\\s*(-?\\d+(?:[.,]\\d+)?)\\s*\\*?\\s*y(?:\\s*[,;]\\s*y\\(0\\)\\s*=\\s*(-?\\d+(?:[.,]\\d+)?))?$/iu);
+ if(ode){
+  const k=Number(ode[1].replace(',','.')),given=ode[2]===undefined?null:Number(ode[2].replace(',','.'));
+  if(!Number.isFinite(k)||(given!==null&&!Number.isFinite(given)))return null;
+  const constant=given===null?'C':fmt(given);
+  const result='y(x) = '+constant+' × e^('+fmt(k)+'x)';
+  return {kind:'differential',label:input,result,summary:result,
+   details:learningLabel('Ecuația diferențială separabilă y′ = k·y are soluția generală y = C·e^(kx). Dacă y(0) este dat, determinăm C.',
+    'The separable equation y′ = ky has general solution y = Ce^(kx). An initial value at x=0 determines C.'),method:'separation'};
+ }
  const fraction=input.replace(/\\s+/g,'').match(/^(-?\\d{1,6})\\/(\\d{1,6})([+\\-*÷])(-?\\d{1,6})\\/(\\d{1,6})$/);
  if(fraction){
   const a=Number(fraction[1]),b=Number(fraction[2]),c=Number(fraction[4]),d=Number(fraction[5]);
