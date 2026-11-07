@@ -14,4 +14,5 @@ assert.ok(script.includes("if(working.id==='free')tool('draw'"),'free drawing is
 assert.ok(script.includes("button.setAttribute('aria-pressed',on?'true':'false')"),'gesture mode active state');
 assert.ok(script.includes("if(mode!=='graph'&&(!original||original===figureOnly))"),'no invented calculations for figure-only task');
 assert.ok(html.includes('.math-figure-attached svg{'),'preview is bounded');
+assert.ok(script.includes("if(graph&&(session.mode==='graph'||(mathFigureDraft"),'attached diagram displayed in solve, method and graph');
 console.log('PASS math figure workspace: attached visual, auto text, explicit question and gesture modes');
