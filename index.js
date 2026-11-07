@@ -1536,6 +1536,21 @@ body.long-choice-active{overflow:hidden}
 .education-photo-panel img{display:block;max-width:100%;max-height:220px;object-fit:contain}
 .education-photo-panel textarea{width:100%;min-height:90px;padding:10px;border-radius:8px;background:#081725;color:#f2faff;border:1px solid #548199}
 
+.education-theory-dialog{border:1px solid #3fabc2;border-radius:17px;background:#092234;color:#eef7ff;width:min(94vw,640px);max-height:calc(100dvh - 40px);overflow:auto;padding:14px}
+.education-theory-dialog::backdrop{background:#03111cbd}
+.education-theory-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.education-theory-head h2{font-size:18px;margin:0;min-width:0}
+.education-theory-head button{flex-shrink:0}
+.education-theory-search{display:flex;gap:8px;margin:10px 0}
+.education-theory-search input{min-width:0;flex:1;background:#081725;color:#fff;border:1px solid #548199;border-radius:10px;padding:11px}
+.education-theory-results{display:grid;gap:8px;max-height:50dvh;overflow:auto}
+.education-theory-item{width:100%;text-align:left;white-space:normal;padding:10px}
+.education-theory-detail{overflow:auto;max-height:58dvh}
+.education-theory-detail h3{margin:14px 0 8px}
+.education-theory-detail p{line-height:1.5}
+.education-theory-formula{font-weight:750;font-size:clamp(17px,4vw,23px);word-break:break-word;padding:10px;border:1px solid #548199;border-radius:10px}
+.education-theory-open{flex-shrink:0}
+@media(max-width:420px){.education-theory-head h2{font-size:16px}.education-theory-open{font-size:12px;padding:7px}}
 /* Mathematics uses three bounded stages. Only the list scrolls; page layout
    always remains within the existing adaptive viewport. */
 #view-module.math-choice-stage #moduleContent{min-height:0!important;overflow:hidden!important}
@@ -6574,6 +6589,7 @@ function pocketBackInsideModule(){
  return false;
 }
 window.pocketAndroidBack=function(){
+ if(document.getElementById('educationTheoryDialog')?.open){document.getElementById('educationTheoryDialog').close();return}
  if(document.querySelector('dialog.document-photo-fullscreen[open]')){document.querySelector('dialog.document-photo-fullscreen[open]').close();return}
  if($('mathResultDialog')?.open){mathCloseResults();return}
  if(pocketExitOpen){pocketExitClose();return}
@@ -7184,6 +7200,105 @@ let mathJourney={stage:'levels',level:null,topic:null};
 function mathSubjectsForLevel(level){
  return MATH_TOPICS.filter(topic=>topic.levels.includes(level));
 }
+
+const EDUCATION_THEORY_DATA=[{"id":"math-1","subject":"math","title":"Pitagora","statement":"Într-un triunghi dreptunghic, pătratul ipotenuzei este egal cu suma pătratelor catetelor.","formula":"a² + b² = c²","aliases":["teorema lui pitagora","triunghi dreptunghic"],"level":"medium"},{"id":"math-2","subject":"math","title":"Reciproca teoremei lui Pitagora","statement":"Dacă pătratul celei mai lungi laturi a unui triunghi este egal cu suma pătratelor celorlalte două laturi, triunghiul este dreptunghic.","formula":"a² + b² = c² ⇒ unghi drept","aliases":["reciproca pitagora"],"level":"medium"},{"id":"math-3","subject":"math","title":"Teorema lui Thales","statement":"Paralelele care intersectează două secante determină pe acestea segmente proporționale.","formula":"AB/BC = DE/EF","aliases":["thales","teorema interceptelor"],"level":"medium"},{"id":"math-4","subject":"math","title":"Suma unghiurilor triunghiului","statement":"Suma măsurilor unghiurilor interioare ale oricărui triunghi euclidian este de 180°.","formula":"A + B + C = 180°","aliases":["unghiuri triunghi"],"level":"beginner"},{"id":"math-5","subject":"math","title":"Aria triunghiului","statement":"Aria unui triunghi este jumătate din produsul dintre lungimea bazei și înălțimea corespunzătoare.","formula":"A = b·h/2","aliases":["arie triunghi"],"level":"beginner"},{"id":"math-6","subject":"math","title":"Aria cercului","statement":"Aria discului de rază r este π înmulțit cu pătratul razei.","formula":"A = πr²","aliases":["suprafata cercului"],"level":"beginner"},{"id":"math-7","subject":"math","title":"Lungimea cercului","statement":"Lungimea circumferinței unui cerc este 2π înmulțit cu raza sa.","formula":"L = 2πr","aliases":["perimetru cerc","circumferinta"],"level":"beginner"},{"id":"math-8","subject":"math","title":"Ecuația de gradul al doilea","statement":"Pentru ax²+bx+c=0, cu a diferit de zero, soluțiile reale există când discriminantul este nenegativ.","formula":"Δ = b² − 4ac; x = (−b ± √Δ)/(2a)","aliases":["formula discriminantului","delta"],"level":"medium"},{"id":"math-9","subject":"math","title":"Identitatea pătratului sumei","statement":"Pătratul sumei a două numere este suma pătratelor lor plus dublul produsului.","formula":"(a+b)² = a²+2ab+b²","aliases":["formule calcul prescurtat"],"level":"medium"},{"id":"math-10","subject":"math","title":"Identitatea diferenței de pătrate","statement":"Produsul dintre suma și diferența a două numere este diferența pătratelor lor.","formula":"(a+b)(a−b)=a²−b²","aliases":["diferenta patrate"],"level":"medium"},{"id":"math-11","subject":"math","title":"Proprietatea distributivității","statement":"Înmulțirea unui număr cu o sumă este egală cu suma produselor sale cu fiecare termen.","formula":"a(b+c)=ab+ac","aliases":["distributivitate"],"level":"beginner"},{"id":"math-12","subject":"math","title":"Teorema sinusurilor","statement":"În orice triunghi, raportul dintre latura opusă unui unghi și sinusul acelui unghi este constant.","formula":"a/sin A = b/sin B = c/sin C","aliases":["legea sinusurilor"],"level":"medium"},{"id":"math-13","subject":"math","title":"Teorema cosinusurilor","statement":"Pătratul unei laturi a unui triunghi este suma pătratelor celorlalte două laturi minus dublul produsului lor cu cosinusul unghiului cuprins.","formula":"c²=a²+b²−2ab cos C","aliases":["legea cosinusurilor"],"level":"medium"},{"id":"math-14","subject":"math","title":"Definiția derivatei","statement":"Derivata unei funcții într-un punct este limita raportului incremental, dacă această limită există.","formula":"f′(x)=lim(h→0)[f(x+h)−f(x)]/h","aliases":["derivata","diferentiere"],"level":"advanced"},{"id":"math-15","subject":"math","title":"Teorema fundamentală a analizei","statement":"Dacă f este continuă pe [a,b] și F este o primitivă a lui f, integrala definită este diferența valorilor primitivei la capete.","formula":"∫ₐᵇ f(x)dx = F(b)−F(a)","aliases":["newton leibniz","integrala definita"],"level":"advanced"},{"id":"math-16","subject":"math","title":"Regula lui L'Hôpital","statement":"Pentru limite de tip 0/0 sau ∞/∞, în ipotezele teoremei, limita raportului funcțiilor este egală cu limita raportului derivatelor, dacă aceasta există.","formula":"lim f/g = lim f′/g′","aliases":["lhopital","limite nedeterminate"],"level":"advanced"},{"id":"math-17","subject":"math","title":"Teorema lui Rolle","statement":"Dacă f este continuă pe [a,b], derivabilă pe (a,b) și f(a)=f(b), există c între a și b cu derivata nulă.","formula":"f′(c)=0","aliases":["rolle"],"level":"advanced"},{"id":"math-18","subject":"math","title":"Teorema valorii medii","statement":"Pentru o funcție continuă pe [a,b] și derivabilă pe (a,b), există c în interval astfel încât panta tangentei egalează panta secantei.","formula":"f′(c)=[f(b)−f(a)]/(b−a)","aliases":["lagrange","teorema cresterilor finite"],"level":"advanced"},{"id":"math-19","subject":"math","title":"Teorema lui Bayes","statement":"Probabilitatea unei ipoteze după observarea unui eveniment se calculează folosind probabilitatea evenimentului sub ipoteză și probabilitatea sa inițială.","formula":"P(A|B)=P(B|A)P(A)/P(B)","aliases":["bayes","probabilitate conditionata"],"level":"advanced"},{"id":"math-20","subject":"math","title":"Teorema binomială","statement":"Puterea unui binom se dezvoltă ca sumă de termeni cu coeficienți binomiali.","formula":"(a+b)ⁿ=Σₖ C(n,k)aⁿ⁻ᵏbᵏ","aliases":["binomul lui newton"],"level":"advanced"},{"id":"physics-21","subject":"physics","title":"Prima lege a lui Newton","statement":"Un corp își păstrează starea de repaus sau de mișcare rectilinie uniformă dacă rezultanta forțelor externe este nulă.","formula":"ΣF = 0 ⇒ a = 0","aliases":["legea inertiei","newton 1"],"level":"beginner"},{"id":"physics-22","subject":"physics","title":"A doua lege a lui Newton","statement":"Într-un sistem de referință inerțial, rezultanta forțelor asupra unui corp de masă constantă este produsul dintre masă și accelerație.","formula":"ΣF = ma","aliases":["legea fundamentala a dinamicii","newton 2"],"level":"beginner"},{"id":"physics-23","subject":"physics","title":"A treia lege a lui Newton","statement":"Dacă un corp exercită o forță asupra altuia, al doilea exercită asupra primului o forță egală în modul și opusă ca sens.","formula":"F₁₂ = −F₂₁","aliases":["actiune si reactiune","newton 3"],"level":"beginner"},{"id":"physics-24","subject":"physics","title":"Legea gravitației universale","statement":"Două mase punctiforme se atrag cu o forță proporțională cu produsul maselor și invers proporțională cu pătratul distanței.","formula":"F=Gm₁m₂/r²","aliases":["newton gravitatie"],"level":"medium"},{"id":"physics-25","subject":"physics","title":"Legea lui Ohm","statement":"Pentru un conductor ohmic la temperatură constantă, tensiunea este produsul dintre intensitatea curentului și rezistență.","formula":"U=RI","aliases":["ohm","curent tensiune rezistenta"],"level":"beginner"},{"id":"physics-26","subject":"physics","title":"Legea lui Joule–Lenz","statement":"Căldura disipată de un rezistor parcurs de curent constant într-un interval de timp este proporțională cu pătratul curentului, rezistența și timpul.","formula":"Q=I²Rt","aliases":["joule lenz"],"level":"medium"},{"id":"physics-27","subject":"physics","title":"Legea lui Hooke","statement":"În domeniul elastic liniar, forța elastică de revenire a unui resort este opusă deplasării și proporțională cu aceasta.","formula":"F=−kx","aliases":["hooke","resort"],"level":"medium"},{"id":"physics-28","subject":"physics","title":"Legea lui Arhimede","statement":"Un corp imersat într-un fluid este împins în sus cu o forță egală cu greutatea fluidului dezlocuit.","formula":"F_A=ρ_fluid g V_dezlocuit","aliases":["arhimede","flotabilitate"],"level":"beginner"},{"id":"physics-29","subject":"physics","title":"Principiul lui Pascal","statement":"O variație de presiune aplicată unui fluid incomprimabil închis se transmite nediminuată în toate direcțiile.","formula":"p=F/A","aliases":["pascal","presa hidraulica"],"level":"medium"},{"id":"physics-30","subject":"physics","title":"Ecuația lui Bernoulli","statement":"Pentru curgerea staționară ideală a unui fluid incompresibil de-a lungul aceleiași linii de curent, suma presiunii, energiei cinetice și potențiale pe unitate de volum este constantă.","formula":"p+ρv²/2+ρgh=constant","aliases":["bernoulli"],"level":"advanced"},{"id":"physics-31","subject":"physics","title":"Conservarea energiei","statement":"Într-un sistem izolat, energia totală se conservă, deși poate trece dintr-o formă în alta.","formula":"E_total=constant","aliases":["energia se conserva"],"level":"beginner"},{"id":"physics-32","subject":"physics","title":"Conservarea impulsului","statement":"Într-un sistem izolat, impulsul total rămâne constant.","formula":"Σp_înainte=Σp_după","aliases":["conservarea cantitatii de miscare"],"level":"medium"},{"id":"physics-33","subject":"physics","title":"Legea lui Coulomb","statement":"Forța electrostatică dintre două sarcini punctiforme este proporțională cu produsul sarcinilor și invers proporțională cu pătratul distanței.","formula":"|F|=k|q₁q₂|/r²","aliases":["coulomb"],"level":"medium"},{"id":"physics-34","subject":"physics","title":"Legea inducției Faraday","statement":"Tensiunea electromotoare indusă într-un circuit este opusul vitezei de variație a fluxului magnetic prin circuit.","formula":"ε=−dΦ_B/dt","aliases":["faraday","inductie electromagnetica"],"level":"advanced"},{"id":"physics-35","subject":"physics","title":"Legea lui Snell","statement":"La refracția dintre două medii, produsul dintre indicele de refracție și sinusul unghiului față de normală este același.","formula":"n₁sin θ₁=n₂sin θ₂","aliases":["snell descartes","refractie"],"level":"medium"},{"id":"physics-36","subject":"physics","title":"Principiul incertitudinii Heisenberg","statement":"Abaterile standard ale poziției și impulsului unei particule satisfac o limită inferioară nenulă.","formula":"Δx Δp ≥ ℏ/2","aliases":["heisenberg","incertitudine"],"level":"advanced"},{"id":"physics-37","subject":"physics","title":"Echivalența masă–energie","statement":"Energia de repaus a unui corp este egală cu masa sa de repaus înmulțită cu pătratul vitezei luminii în vid.","formula":"E₀=mc²","aliases":["einstein","masa energie"],"level":"advanced"},{"id":"physics-38","subject":"physics","title":"Primul principiu al termodinamicii","statement":"Variația energiei interne este căldura primită de sistem minus lucrul mecanic efectuat de sistem.","formula":"ΔU=Q−W","aliases":["termodinamica 1"],"level":"medium"},{"id":"physics-39","subject":"physics","title":"Al doilea principiu al termodinamicii","statement":"Entropia totală a unui sistem izolat nu poate scădea.","formula":"ΔS_izolat ≥ 0","aliases":["termodinamica 2","entropie"],"level":"advanced"},{"id":"chemistry-40","subject":"chemistry","title":"Legea conservării masei","statement":"Într-o reacție chimică desfășurată într-un sistem închis, masa totală a reactanților este egală cu masa totală a produselor.","formula":"m_reactanți=m_produși","aliases":["lavoisier"],"level":"beginner"},{"id":"chemistry-41","subject":"chemistry","title":"Legea proporțiilor definite","statement":"Un compus chimic pur are aceeași proporție masică între elementele sale, indiferent de origine.","formula":"m_A/m_B=constant (același compus)","aliases":["proust","compozitie constanta"],"level":"beginner"},{"id":"chemistry-42","subject":"chemistry","title":"Legea proporțiilor multiple","statement":"Dacă două elemente formează mai mulți compuși, masele unuia care se combină cu aceeași masă a celuilalt sunt în rapoarte de numere întregi mici.","formula":"rapoarte de numere întregi mici","aliases":["dalton"],"level":"medium"},{"id":"chemistry-43","subject":"chemistry","title":"Legea lui Avogadro","statement":"Volume egale de gaze ideale, la aceeași temperatură și presiune, conțin același număr de molecule.","formula":"V ∝ n (T,p constante)","aliases":["avogadro"],"level":"beginner"},{"id":"chemistry-44","subject":"chemistry","title":"Ecuația gazului ideal","statement":"Presiunea, volumul, cantitatea de substanță și temperatura absolută a unui gaz ideal satisfac relația de stare.","formula":"pV=nRT","aliases":["gaz ideal","clapeyron mendeleev"],"level":"medium"},{"id":"chemistry-45","subject":"chemistry","title":"Legea lui Boyle–Mariotte","statement":"Pentru o cantitate fixă de gaz ideal la temperatură constantă, produsul presiunii cu volumul este constant.","formula":"pV=constant","aliases":["boyle","mariotte"],"level":"beginner"},{"id":"chemistry-46","subject":"chemistry","title":"Legea lui Charles","statement":"La presiune constantă, volumul unei cantități fixe de gaz ideal este direct proporțional cu temperatura absolută.","formula":"V/T=constant","aliases":["charles gaze"],"level":"beginner"},{"id":"chemistry-47","subject":"chemistry","title":"Legea lui Gay-Lussac","statement":"La volum constant, presiunea unei cantități fixe de gaz ideal este direct proporțională cu temperatura absolută.","formula":"p/T=constant","aliases":["gay lussac gaze"],"level":"beginner"},{"id":"chemistry-48","subject":"chemistry","title":"Principiul lui Le Châtelier","statement":"Când un sistem aflat la echilibru este perturbat, echilibrul se deplasează în sensul care contracarează parțial perturbarea.","formula":"—","aliases":["le chatelier","echilibru chimic"],"level":"medium"},{"id":"chemistry-49","subject":"chemistry","title":"Legea acțiunii maselor","statement":"La echilibru, pentru reacții ideale, raportul dintre activitățile produselor și ale reactanților ridicate la coeficienții stoechiometrici este constant la temperatura dată.","formula":"K=Πa_produși^ν/Πa_reactanți^ν","aliases":["constanta echilibru","guldberg waage"],"level":"advanced"},{"id":"chemistry-50","subject":"chemistry","title":"Definiția pH-ului","statement":"pH-ul este opusul logaritmului zecimal al activității ionilor de hidrogen.","formula":"pH=−log₁₀(a_H⁺)","aliases":["ph","aciditate"],"level":"medium"},{"id":"chemistry-51","subject":"chemistry","title":"Teoria Brønsted–Lowry","statement":"Un acid este un donor de protoni, iar o bază este un acceptor de protoni.","formula":"acid ⇌ bază conjugată + H⁺","aliases":["bronsted","lowry","acizi baze"],"level":"medium"},{"id":"chemistry-52","subject":"chemistry","title":"Legea lui Hess","statement":"Variația entalpiei unei reacții depinde doar de stările inițială și finală, nu de traseul reacției.","formula":"ΔH_total=ΣΔH_etape","aliases":["hess","entalpie"],"level":"medium"},{"id":"chemistry-53","subject":"chemistry","title":"Legea lui Faraday a electrolizei","statement":"Masa de substanță depusă la electrod este proporțională cu sarcina electrică transferată și cu masa molară, invers proporțională cu numărul de electroni transferați.","formula":"m=MQ/(zF)","aliases":["faraday electroliza"],"level":"advanced"},{"id":"chemistry-54","subject":"chemistry","title":"Legea vitezei de reacție","statement":"Pentru o reacție dată, viteza poate depinde de concentrațiile reactanților printr-o ecuație determinată experimental.","formula":"v=k[A]^m[B]^n","aliases":["cinetica chimica","ordin reactie"],"level":"advanced"},{"id":"chemistry-55","subject":"chemistry","title":"Principiul Aufbau","statement":"În modelul orbitalilor, electronii ocupă mai întâi orbitalii disponibili cu energie mai mică, cu excepțiile cunoscute.","formula":"—","aliases":["aufbau","configuratie electronica"],"level":"medium"},{"id":"chemistry-56","subject":"chemistry","title":"Principiul de excluziune Pauli","statement":"Într-un atom, nu pot exista doi electroni cu aceleași patru numere cuantice.","formula":"—","aliases":["pauli"],"level":"medium"},{"id":"chemistry-57","subject":"chemistry","title":"Regula lui Hund","statement":"Într-un set de orbitali degenerați, electronii ocupă mai întâi orbitalii separat, cu spini paraleli, înainte de împerechere.","formula":"—","aliases":["hund"],"level":"medium"},{"id":"chemistry-58","subject":"chemistry","title":"Legea lui Raoult","statement":"Într-o soluție ideală, presiunea parțială de vapori a unui component este produsul fracției sale molare cu presiunea de vapori a componentului pur.","formula":"pᵢ=xᵢpᵢ*","aliases":["raoult","presiune vapori"],"level":"advanced"}];
+let educationTheoryVoiceInput=null;
+let educationTheoryWebRecognition=null;
+function educationTheoryClean(value){
+ return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
+}
+function educationTheoryFind(query,subject,level,limit=4){
+ const names={beginner:0,medium:1,intermediate:1,advanced:2};
+ const max=Object.prototype.hasOwnProperty.call(names,level)?names[level]:2;
+ const entries=EDUCATION_THEORY_DATA.filter(e=>e.subject===subject&&names[e.level]<=max);
+ const q=educationTheoryClean(query),words=q.split(' ').filter(Boolean);
+ if(!q)return entries.slice(0,limit);
+ return entries.map(e=>{
+  const aliases=[e.title,...e.aliases].map(educationTheoryClean);
+  const blob=educationTheoryClean([e.title,...e.aliases,e.statement].join(' '));
+  let score=aliases.some(x=>x===q)?100:aliases.some(x=>x.startsWith(q))?75:aliases.some(x=>x.includes(q))?55:0;
+  if(words.every(word=>blob.includes(word)))score=Math.max(score,20+3*words.length);
+  return {e,score};
+ }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||a.e.title.localeCompare(b.e.title,'ro')).slice(0,limit).map(x=>x.e);
+}
+function educationTheoryStopVoice(){
+ if(educationTheoryVoiceInput&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
+ educationTheoryVoiceInput=null;
+ if(educationTheoryWebRecognition){try{educationTheoryWebRecognition.abort()}catch{}educationTheoryWebRecognition=null}
+}
+function educationTheoryHandleAndroid(data){
+ if(!educationTheoryVoiceInput||data?.mode!=='theory')return false;
+ if(data.status==='recognized'){
+  const field=educationTheoryVoiceInput;
+  field.value=collapseRepeatedVoiceWords(String(data.text||'').trim());
+  field.dispatchEvent(new Event('input',{bubbles:true}));
+  educationTheoryStopVoice();
+ }else if(data.status==='error'){educationTheoryStopVoice();notify(learningLabel('Dictarea teoriei nu este disponibilă.','Theory dictation is unavailable.'))}
+ return true;
+}
+function educationTheoryDictate(field){
+ if(educationTheoryVoiceInput===field){educationTheoryStopVoice();return}
+ educationTheoryStopVoice();
+ const language=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
+ if(pocketNativeVoiceAvailable()){
+  educationTheoryVoiceInput=field;
+  if(!pocketNativeVoiceSend({action:'listen',mode:'theory',language})){educationTheoryStopVoice();notify(learningLabel('Microfon indisponibil.','Microphone unavailable.'))}
+  return;
+ }
+ const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!Speech){notify(learningLabel('Dictarea nu este disponibilă aici. Poți tasta termenul.','Dictation is unavailable here. Type the term instead.'));return}
+ const recognizer=new Speech();recognizer.lang=language;recognizer.interimResults=false;recognizer.maxAlternatives=1;
+ educationTheoryVoiceInput=field;educationTheoryWebRecognition=recognizer;
+ recognizer.onresult=event=>{
+  if(educationTheoryVoiceInput!==field)return;
+  field.value=String(event.results?.[0]?.[0]?.transcript||'').trim();
+  field.dispatchEvent(new Event('input',{bubbles:true}));
+ };
+ recognizer.onerror=()=>notify(learningLabel('Dictarea nu a reușit.','Dictation failed.'));
+ recognizer.onend=()=>{educationTheoryVoiceInput=null;educationTheoryWebRecognition=null};
+ try{recognizer.start()}catch{educationTheoryStopVoice()}
+}
+function educationTheoryOpen(subject,level){
+ educationTheoryStopVoice();
+ const old=document.getElementById('educationTheoryDialog');if(old)old.remove();
+ const dialog=document.createElement('dialog');dialog.id='educationTheoryDialog';dialog.className='education-theory-dialog';
+ const title=document.createElement('h2');title.textContent=learningLabel('Teorie · '+({math:'Matematică',physics:'Fizică',chemistry:'Chimie'}[subject]||''),'Theory · '+({math:'Mathematics',physics:'Physics',chemistry:'Chemistry'}[subject]||''));
+ const close=document.createElement('button');close.type='button';close.className='secondary-btn';close.textContent=learningLabel('← Înapoi','← Back');close.onclick=()=>dialog.close();
+ const header=document.createElement('div');header.className='education-theory-head';header.append(title,close);
+ const description=document.createElement('p');description.textContent=learningLabel('Caută o definiție, teoremă sau lege. Sunt afișate maximum patru sugestii.','Find a definition, theorem or law. Up to four suggestions are shown.');
+ const searchBar=document.createElement('div');searchBar.className='education-theory-search';
+ const input=document.createElement('input');input.type='search';input.autocomplete='off';input.placeholder=learningLabel('Scrie denumirea…','Type a title…');input.setAttribute('aria-label',learningLabel('Caută teorie','Search theory'));
+ const microphone=document.createElement('button');microphone.type='button';microphone.className='secondary-btn';microphone.textContent='🎙️';microphone.setAttribute('aria-label',learningLabel('Dictează denumirea','Dictate title'));microphone.onclick=()=>educationTheoryDictate(input);
+ searchBar.append(input,microphone);
+ const list=document.createElement('div');list.className='education-theory-results';
+ const detail=document.createElement('section');detail.className='education-theory-detail';detail.hidden=true;
+ const detailTitle=document.createElement('h3'),statement=document.createElement('p'),formula=document.createElement('div');
+ formula.className='education-theory-formula';
+ const resultBack=document.createElement('button');resultBack.className='secondary-btn';resultBack.type='button';resultBack.textContent=learningLabel('← La rezultate','← Results');resultBack.onclick=()=>{detail.hidden=true;list.hidden=false;searchBar.hidden=false;description.hidden=false};
+ detail.append(resultBack,detailTitle,statement,formula);
+ function render(){
+  list.replaceChildren();
+  const items=educationTheoryFind(input.value,subject,level,4);
+  if(!items.length){const empty=document.createElement('p');empty.textContent=learningLabel('Nu am găsit termenul în biblioteca locală.','No entry found in the local library.');list.append(empty)}
+  items.forEach(item=>{
+   const itemButton=document.createElement('button');itemButton.type='button';itemButton.className='secondary-btn education-theory-item';
+   itemButton.textContent=item.title;
+   itemButton.onclick=()=>{
+    educationTheoryStopVoice();
+    detailTitle.textContent=item.title;statement.textContent=item.statement;
+    formula.textContent=item.formula==='—'?'':item.formula;formula.hidden=!formula.textContent;
+    detail.hidden=false;list.hidden=true;searchBar.hidden=true;description.hidden=true;
+   };
+   list.append(itemButton);
+  });
+ }
+ input.addEventListener('input',()=>{detail.hidden=true;list.hidden=false;searchBar.hidden=false;description.hidden=false;render()});
+ dialog.addEventListener('close',()=>{educationTheoryStopVoice();dialog.remove()});
+ dialog.append(header,description,searchBar,list,detail);
+ document.body.append(dialog);render();
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+
 function mathJourneyShowChoices(stage){
  const mathSubject=LEARNING_SUBJECTS.find(x=>x[0]==='math');
  if(!mathSubject)return;
@@ -7226,6 +7341,12 @@ function mathJourneyShowChoices(stage){
    }
   };
   items.append(button);
+ }
+ if(stage==='subjects'){
+  const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn math-choice-row';
+  theory.textContent=learningLabel('📖 Teorie – Definiții și teoreme','📖 Theory – Definitions and theorems');
+  theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);
+  items.prepend(theory);
  }
  panel.append(title,note,items);host.append(panel);
  requestAnimationFrame(mathFitViewport);
@@ -7736,7 +7857,14 @@ function openLearningSubject(key){
   read.className='secondary-btn';read.textContent=learningLabel('🔊 Citire','🔊 Read');
   read.onclick=mathReadText;
   voices.append(dictate,read);bar.append(back,voices);
+  const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn education-theory-open';theory.textContent=learningLabel('📖 Teorie','📖 Theory');theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);bar.append(theory);
  }else bar.append(back);
+ if(key==='science'){
+  for(const [code,ro,en] of [['physics','Fizică','Physics'],['chemistry','Chimie','Chemistry']]){
+   const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn education-theory-open';
+   theory.textContent='📖 '+learningLabel(ro,en);theory.onclick=()=>educationTheoryOpen(code,null);bar.append(theory);
+  }
+ }
  host.append(bar);
  $('moduleLead').textContent='';
  const actions=document.createElement('div');actions.className='education-photo-actions';
@@ -13580,6 +13708,7 @@ t=t.replace(/(\\d),(\\d)/g,'$1 virgulă $2');return t;}
 function pocketNativeVoiceAvailable(){return typeof window.PocketAndroidVoice?.postMessage==='function'}
 function pocketNativeVoiceSend(payload){try{window.PocketAndroidVoice.postMessage(JSON.stringify(payload));return true}catch{return false}}
 window.pocketAndroidVoiceResult=function(data){
+ if(educationTheoryHandleAndroid(data))return;
  if(mathVoiceHandleAndroid(data))return;
  if(shopVoiceHandleAndroid(data))return;
  if(agendaVoiceHandleAndroid(data))return;
