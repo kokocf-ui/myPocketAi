@@ -2574,7 +2574,7 @@ export default {
           }catch{}
         }
         if(internationalTarget||explicitMixedJourney){
-          if(!hasCoordinates&&env.GEOAPIFY_API_KEY){
+          if(!(Number.isFinite(targetLat)&&Number.isFinite(targetLon))&&env.GEOAPIFY_API_KEY){
             try{
               const u=new URL('https://api.geoapify.com/v1/geocode/search');
               u.searchParams.set('text',targetName);u.searchParams.set('limit','5');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
@@ -2606,9 +2606,16 @@ export default {
           const reply=lang==='en'
             ? 'I identified '+targetName+' as the destination, but I cannot yet verify a complete mixed-mode itinerary with real departure times. '+(detail==='international_provider_not_connected'?'An authorized international journey provider has not been configured.':'The connected provider did not confirm a usable complete journey.')+' I will not invent connections, flights or timetables.'
             : 'Am identificat '+targetName+' ca destinație, dar nu pot verifica încă un itinerar mixt complet cu ore reale de plecare. '+(detail==='international_provider_not_connected'?'Nu este configurat un furnizor internațional autorizat.':'Furnizorul conectat nu a confirmat o călătorie completă utilizabilă.')+' Nu voi inventa legături, zboruri sau orare.';
-          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
-            route_available:false,transit_available:false,international_journey:internationalTarget,mixed_journey:true,international_destination:targetName,
-            provider_status:{motis:detail},reason:detail});
+          // Never claim an international journey is available when no licensed
+          // provider confirmed it. Within the UK, however, try the existing
+          // verified TfL path rather than stopping the mixed-mode workflow.
+          // The origin and destination remain unchanged for that fallback.
+          if(internationalTarget){
+            return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
+              route_available:false,transit_available:false,international_journey:true,mixed_journey:true,international_destination:targetName,
+              provider_status:{motis:detail},reason:detail});
+          }
+          transportErrors.motis=detail;
         }
         // Prefer verified operator station records over free-text geocoding for UK rail/tube stations.
         let verifiedStopId=null;
