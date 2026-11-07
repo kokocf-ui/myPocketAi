@@ -83,7 +83,7 @@ function newsTranslationCoherent(source,title,summary,language){
  return true;
 }
 function contextualNewsPrompt(target){
- return "You are an expert multilingual news translator and Romanian-style news editor writing in "+target+
+ return "You are an expert multilingual news translator and professional news editor writing in "+target+
  ". Translate the HEADLINE AND EXCERPT OF EACH ITEM TOGETHER as one coherent report; read both before wording either. "+
  "Translate meaning, not individual words or subtitle fragments. Resolve pronouns, word order, idioms, Arabic journalistic expressions and dialect ONLY when supported by the supplied context. "+
  "Use fluent, idiomatic "+target+" with natural grammar, precise subjects and clear cause/effect. "+
@@ -147,9 +147,14 @@ export async function localizeNewsRows(rows,language,ai,model,{log=()=>{}}={}){
    if(Number.isInteger(id)&&items.some(item=>item.id===id))apply(id,proposal);
   }
  };
- await Promise.all(Array.from({length:Math.ceil(all.length/3)},(_,i)=>all.slice(i*3,i*3+3)).map(async chunk=>{
-  try{await ask(chunk)}catch(e){log("translation_batch_failed",safeTranslationError(e))}
- }));
+ const batches=Array.from({length:Math.ceil(all.length/3)},(_,i)=>all.slice(i*3,i*3+3));
+ // Bound simultaneous 70B requests on Arabic-heavy news feeds. A slower,
+ // coherent translation is better than dozens of overloaded half-answers.
+ for(let offset=0;offset<batches.length;offset+=4){
+  await Promise.all(batches.slice(offset,offset+4).map(async chunk=>{
+   try{await ask(chunk)}catch(e){log("translation_batch_failed",safeTranslationError(e))}
+  }));
+ }
  const missing=all.filter(x=>!accepted.has(x.id));
  for(let offset=0;offset<missing.length;offset+=4){
   await Promise.all(missing.slice(offset,offset+4).map(async item=>{
