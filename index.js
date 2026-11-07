@@ -10421,9 +10421,7 @@ function mathEducationRun(mode){
  const taskTexts=(mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic))?
   [source]:mathSplitExercises(source);
  const tasks=taskTexts.map(text=>({text,reply:'',error:null,
-  functionLesson:mathFunctionLesson(text,mode),
-  detailed:mode==='solve'?mathAlgebraLocal('solve',text)?.value:null,
-  methodGuide:mode==='explain'?mathAlgebraLocal('explain',text)?.value:null}));
+  functionLesson:null,detailed:null,methodGuide:null,started:false}));
  if(!tasks.length){status.textContent=learningLabel('Nu există un exercițiu de rezolvat.','No exercise to solve.');return}
  mathCloseResults();
  const session={mode,tasks,active:0,controller:new AbortController(),
