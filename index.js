@@ -10429,7 +10429,14 @@ function mathResultPage(index){
   retry.onclick=()=>{item.error=null;item.reply='';mathResultPage(session.active);void mathFetchResult(item,session)};
   body.append(result,retry);
  }else if(item.reply){
-  // Render structured teaching text in-place, never in the exercise input.
+  // Distinguish deterministic local results from generated explanations.
+  if(item.generated){
+   const note=document.createElement('p');note.className='math-model-disclosure';
+   note.textContent=learningLabel('Explicație AI: verifică rezultatul și pașii; pentru acest tip de problemă nu există încă verificare matematică locală.',
+    'AI explanation: check the result and steps; this problem type does not yet have local mathematical verification.');
+   note.style.cssText='font-size:.85em;opacity:.85;margin:0 0 10px;';
+   result.append(note);
+  }
   appendAnswerText(result,mathCleanAnswerMarkup(item.reply));body.append(result);
  }else{
   result.textContent=learningLabel('Se pregătește explicația…','Preparing the explanation…');
@@ -10516,6 +10523,7 @@ async function mathFetchResult(item,session){
  const classroom=learningLabel('Nivel: ','Level: ')+levelContext.level+
   learningLabel('; materie: ','; subject: ')+levelContext.topic+
   learningLabel('. Adaptează dificultatea explicațiilor; nu schimba enunțul.','. Adapt the explanation level without changing the exercise.');
+ item.generated=true;
  const message=prompt+'\\n'+classroom+'\\n'+requested+(checked?'\\n'+checked:'')+'\\n'+
   learningLabel('Răspunde strict la următorul exercițiu, nu la alte exemple:','Answer ONLY the following exercise, not another problem:')+'\\n'+item.text;
  const taskController=new AbortController();
