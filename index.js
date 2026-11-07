@@ -9713,7 +9713,9 @@ function mathAdditionalModel(source){
  if(statistics){
   const names={media:'mean',mean:'mean',average:'mean',mediana:'median',median:'median',modul:'mode',mode:'mode',varianta:'variance',variance:'variance','abaterea standard':'std','standard deviation':'std'};
   const operation=names[statistics[1].toLowerCase()];
-  const fields=statistics[2].trim().split(/[;, ]+/).filter(Boolean);
+  const values=statistics[2].trim();
+  // With semicolons, commas are decimal separators (Romanian notation).
+  const fields=(values.includes(';')?values.split(/\\s*;\\s*/):values.split(/[, ]+/)).filter(Boolean);
   const nums=fields.map(x=>Number(x.replace(',','.')));
   if(nums.length<2||nums.length>40||!nums.every(Number.isFinite))return null;
   const ordered=[...nums].sort((a,b)=>a-b),n=nums.length,mean=nums.reduce((a,b)=>a+b,0)/n;
