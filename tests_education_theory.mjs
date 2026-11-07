@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {THEORY_ENTRIES,searchTheory,theorySubjects} from './education_theory.mjs';
+assert.equal(THEORY_ENTRIES.length,58);
+assert.deepEqual(theorySubjects().map(x=>x.count),[20,19,19]);
+assert.equal(searchTheory('pitagora',{subject:'math'})[0]?.title,'Pitagora');
+assert.equal(searchTheory('teorema lui Pitagora',{subject:'math'})[0]?.title,'Pitagora');
+assert.equal(searchTheory('legea lui ohm',{subject:'physics'})[0]?.title,'Legea lui Ohm');
+assert.equal(searchTheory('conservarea masei',{subject:'chemistry'})[0]?.title,'Legea conservării masei');
+assert.equal(searchTheory('legea inertiei',{subject:'physics'})[0]?.title,'Prima lege a lui Newton');
+assert.equal(searchTheory('derivata',{subject:'math',level:'beginner'}).length,0);
+assert.ok(searchTheory('derivata',{subject:'math',level:'advanced'}).length>0);
+assert.equal(searchTheory('pitagora',{subject:'chemistry'}).length,0);
+assert.deepEqual(searchTheory('',{subject:'physics',limit:3}).length,3);
+assert.ok(THEORY_ENTRIES.every(e=>e.id&&e.title&&e.statement&&e.subject&&e.level));
+assert.equal(new Set(THEORY_ENTRIES.map(e=>e.id)).size,THEORY_ENTRIES.length);
+console.log('Education theory: 58 entries, 3 subjects, lookup and levels OK');
