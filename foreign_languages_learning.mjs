@@ -33,7 +33,7 @@ export function foreignStudyCourseMap(){
 }
 export function foreignStudyPlan(language,variant,level,topic){
  const lang=FOREIGN_LANGUAGES.find(x=>x.id===language);
- const classical=language==='la'||language==='el'&&variant==='ancient';
+ const classical=language==='la'||language==='el'&&['ancient','koine'].includes(variant);
  const levels=classical?CLASSICAL_LEVELS:FOREIGN_LEVELS;
  if(!lang||!levels.some(l=>l.id===level)||!FOREIGN_TOPICS.some(t=>t.id===topic))return null;
  const goals=classical?CLASSICAL_OUTCOMES[level]:MODERN_OUTCOMES[level];
@@ -65,7 +65,7 @@ export function foreignStudyDue(progress,now=Date.now()){
  return Object.entries(progress||{}).filter(([,v])=>v&&Number(v.due||0)<=now).map(([id])=>id);
 }
 export function foreignStudyPlacementQuestions(language,variant){
- const classical=language==='la'||language==='el'&&variant==='ancient';
+ const classical=language==='la'||language==='el'&&['ancient','koine'].includes(variant);
  const cards=classical&&language==='el'?ANCIENT_GREEK_PHRASES:FOREIGN_PHRASES[language]||[];
  return cards.slice(0,6).map((card,i)=>({id:card.id,question:card.meaning,answer:card.original,
   diagnosticOnly:true,level:classical?'foundation':'A1',index:i}));
