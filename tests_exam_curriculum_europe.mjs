@@ -100,7 +100,7 @@ const html=await result.text(),boot=html.match(/<script>([\s\S]*?)<\/script>/)?.
 assert.ok(boot&&boot.length>100000);
 new vm.Script(boot,{filename:'mypocketai-exam-boot.js'});
 for(const fragment of [
- "if(key==='exams'){examOpen('countries');return}",
+ "if(key==='exams'){examOpen('grades');return}",
  "if(root.classList.contains('learning-active')&&root.classList.contains('learning-exams'))",
  "if(activeLearningSubject[0]==='exams'&&examJourney.stage==='workspace')",
  "if(examVoiceHandleAndroid(data))return;",
