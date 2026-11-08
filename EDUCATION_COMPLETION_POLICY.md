@@ -31,6 +31,13 @@ Actualizat: 2026-11-07
 8. Cursuri practice.
 9. Testare manuală integrată a opțiunii Educație.
 
+## Regula de aliniere europeană a programelor (8 noiembrie 2026)
+- Pentru **Limbă și literatură**, se verifică acum cadrul oficial țară/jurisdicție → clasă → specializare sau regiune → obiective și capitole. Programul de studiu se afișează ordonat și marchează sursa și anul de aplicare. O referință oficială generală nu înseamnă că toate operele sau clasele din acea țară au fost verificate.
+- Programelor schimbate etapizat le păstrăm condiția de aplicare în timp; nu copiem aceleași liste în toate țările și nu prezentăm lucrări recomandate ca obligatorii.
+- Pentru țările sau clasele fără document verificat, interfața menține un traseu educațional **orientativ**, cu avertisment explicit, fără să inventeze obligativitatea.
+- Latina este limbă sau disciplină clasică, nu țară; China și Japonia rămân în afara acestei etape geografice.
+- **Nu extindem acum reconstrucția curriculară a celorlalte materii.** Terminăm cele trei module rămase din Educație (Informatică, Pregătire examene, Cursuri practice), apoi discutăm împreună revenirea și alinierea europeană pentru disciplinele deja dezvoltate. Nu afirmăm că această etapă retrospectivă a fost implementată.
+
 ## Restanțe și riscuri care NU trebuie declarate terminate prematur
 - OCR foto: caractere matematice incerte (√, semn minus, exponent), separarea tuturor exercițiilor și alegerea fără blocaj.
 - Geometrie: potrivirea strictă dintre enunț, figură și rezultatele din colț pentru fiecare exercițiu.
