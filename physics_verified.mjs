@@ -20,7 +20,7 @@ export function physicsVerifiedExercise(source,mode='solve'){
   if(m<0)return {kind:'input'};
   return build('Forță rezultantă','F = m·a','m='+format(m)+' kg, a='+format(a)+' m/s²',m*a,'N','Masă constantă; accelerație și forță coliniare.');
  }
- if(/energie cinetica|\\bec\s*=/.test(norm)&&m!==null&&v!==null){
+ if(/energi[ae] cinetica|\\bec\s*=/.test(norm)&&m!==null&&v!==null){
   if(m<0)return {kind:'input'};
   return build('Energie cinetică','Ec = m·v²/2','m='+format(m)+' kg, v='+format(v)+' m/s',m*v*v/2,'J','Viteză nerelativistă.');
  }
