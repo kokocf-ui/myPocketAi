@@ -220,12 +220,13 @@ function examOpen(stage){
     panel.append(examEl('p',examLabel('Specializarea: ','Programme: ')+(program?examLabel(program.ro,program.en):'—')));
     if(examJourney.institution)panel.append(examEl('h3',examLabel('Facultatea: ','Faculty: ')+examJourney.institution));
     if(record){
-      const historical=record.year!==Number(examJourney.session);
-      panel.append(examEl('h4',historical?examLabel('Exemplu istoric, anul ','Historical example, year ')+record.year:examLabel('Cerințe publicate pentru ','Published requirements for ')+record.year));
+      const historical=record.year!==Number(examJourney.session)||record.status==='verified-historical';
+      const referenceOnly=record.status==='reference-current'||record.status==='directory';
+      panel.append(examEl('h4',historical?examLabel('Exemplu istoric, anul ','Historical example, year ')+record.year:referenceOnly?examLabel('Sursă orientativă, anul ','Advisory source, year ')+record.year:examLabel('Cerințe publicate pentru ','Published requirements for ')+record.year));
       panel.append(examEl('p',record.mode));
       if(record.required.length)panel.append(examEl('p',examLabel('Obligatorii în sursa citată: ','Required in the cited source: ')+record.required.join(' + ')));
       record.optional.forEach(group=>panel.append(examEl('p',examLabel('Alegere între: ','Choose between: ')+group.join(' / '))));
-      if(historical)panel.append(examEl('p',examLabel('Atenție: pentru sesiunea selectată nu sunt confirmate aceleași probe.','Warning: the same requirements are not verified for the selected session.')));
+      if(historical||referenceOnly)panel.append(examEl('p',examLabel('Atenție: informațiile nu confirmă probele exacte pentru sesiunea aleasă. Verifică pagina instituției.','Warning: these details do not confirm exact requirements for your selected sitting. Check the institution’s official page.')));
       const source=examEl('a',examLabel('Regulamentul / catalogul publicat','Published requirements'));source.href=record.source;source.target='_blank';source.rel='noopener noreferrer';panel.append(source);
     }else panel.append(examEl('p',examLabel('Probele facultății nu sunt verificate. Materialele următoare sunt doar de pregătire generală.','This faculty’s admission requirements have not been verified. The following material is for general preparation only.')));
     panel.append(examEl('h3',examLabel('Domeniu: ','Field: ')+examLabel(university.ro,university.en)));
