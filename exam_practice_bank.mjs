@@ -195,6 +195,126 @@ export const EXAM_LOCAL_BANK={
       ],
       "correct": 1,
       "explanation": "Rezumatul păstrează succesiunea faptelor principale fără a inventa întâmplări."
+    },
+    {
+      "id": "romanian-writing-1",
+      "prompt": "Care structură este potrivită pentru un text argumentativ?",
+      "choices": [
+        "Opinia, argumentele susținute prin exemple, concluzia",
+        "Concluzia, fără argumente",
+        "Doar o listă de personaje",
+        "Câteva citate fără legătură"
+      ],
+      "correct": 0,
+      "explanation": "Textul argumentativ formulează o opinie, o susține prin argumente și exemple, apoi o încheie coerent."
+    },
+    {
+      "id": "romanian-writing-2",
+      "prompt": "Care formulare exprimă o concluzie susținută de argumentele anterioare?",
+      "choices": [
+        "În primul rând, voi începe textul.",
+        "Așadar, lectura poate lărgi perspectiva, așa cum arată exemplele discutate.",
+        "Nu știu despre ce am scris.",
+        "Un personaj are un nume."
+      ],
+      "correct": 1,
+      "explanation": "Concluzia reia ideea centrală și se sprijină pe argumentele prezentate."
+    },
+    {
+      "id": "romanian-writing-3",
+      "prompt": "Ce trebuie eliminat din rezumatul unui text narativ?",
+      "choices": [
+        "Evenimentele principale",
+        "Ordinea logică a întâmplărilor",
+        "Comentariile personale și episoadele inventate",
+        "Personajele indispensabile înțelegerii"
+      ],
+      "correct": 2,
+      "explanation": "Rezumatul este fidel și concis; nu introduce judecăți personale sau fapte care nu apar în operă."
+    },
+    {
+      "id": "romanian-writing-4",
+      "prompt": "Care enunț oferă un argument, nu doar o opinie?",
+      "choices": [
+        "Lectura este bună.",
+        "Cred că lectura este importantă deoarece dezvoltă vocabularul și capacitatea de a înțelege perspective diferite.",
+        "Nu-mi place nimic.",
+        "Am scris trei rânduri."
+      ],
+      "correct": 1,
+      "explanation": "Argumentul explică motivul și poate fi dezvoltat prin exemple sau dovezi."
+    },
+    {
+      "id": "romanian-writing-5",
+      "prompt": "Cum susții corect o interpretare literară?",
+      "choices": [
+        "Reproduci fără explicație un fragment",
+        "Inventezi intenția autorului",
+        "Indici o observație și o susții prin elemente concrete ale textului",
+        "Ignori cerința și povestești altceva"
+      ],
+      "correct": 2,
+      "explanation": "Interpretarea motivată leagă afirmația de dovezi din text și de cerința formulată."
+    },
+    {
+      "id": "romanian-vocabulary-1",
+      "prompt": "Care cuvânt este sinonim potrivit pentru „îndrăzneț” în contextul „un gest îndrăzneț”?",
+      "choices": [
+        "Curajos",
+        "Somnoros",
+        "Nesigur",
+        "Vechi"
+      ],
+      "correct": 0,
+      "explanation": "În context, „curajos” exprimă sens apropiat lui „îndrăzneț”."
+    },
+    {
+      "id": "romanian-vocabulary-2",
+      "prompt": "Care variantă este antonimul lui „limpede” în „o explicație limpede”?",
+      "choices": [
+        "Clară",
+        "Precisă",
+        "Confuză",
+        "Scurtă"
+      ],
+      "correct": 2,
+      "explanation": "„Confuză” este opusul lui „limpede” cu sensul de „clară, ușor de înțeles”."
+    },
+    {
+      "id": "romanian-vocabulary-3",
+      "prompt": "În „inima orașului”, cuvântul „inima” este folosit cu sens:",
+      "choices": [
+        "Medical, propriu",
+        "Figurat, pentru centru",
+        "De unitate de măsură",
+        "De nume propriu"
+      ],
+      "correct": 1,
+      "explanation": "Expresia folosește „inima” cu sens figurat pentru partea centrală a orașului."
+    },
+    {
+      "id": "romanian-vocabulary-4",
+      "prompt": "Care dintre enunțuri este scris corect?",
+      "choices": [
+        "Copiii sau întors acasă.",
+        "Copiii s-au întors acasă.",
+        "Copiii s au întors acasă.",
+        "Copiii s-au întors acasă? (afirmație)"
+      ],
+      "correct": 1,
+      "explanation": "„S-au” este forma corectă în construcția verbală „s-au întors”."
+    },
+    {
+      "id": "romanian-vocabulary-5",
+      "prompt": "Pentru a explica sensul cuvântului „rece” într-un text, verifici în primul rând:",
+      "choices": [
+        "Numărul de rânduri",
+        "Contextul și referentul",
+        "Lungimea titlului",
+        "Numele imprimantei"
+      ],
+      "correct": 1,
+      "explanation": "Același cuvânt poate descrie temperatura sau o atitudine; sensul se stabilește în context."
     }
   ],
   "english": [
