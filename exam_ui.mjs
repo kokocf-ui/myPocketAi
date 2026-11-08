@@ -72,7 +72,7 @@ function examBiologyResources(panel,printable){
   const summary=examEl('summary',(index+1)+'. '+title);summary.style.cssText='cursor:pointer;touch-action:manipulation;min-height:42px;font-weight:600;';item.append(summary);
   item.append(examEl('p',body));if(diagram)item.append(examBioDiagram(diagram));item.append(examEl('p',formula));wrap.append(item)}
  const end=examEl('p',examLabel('După lectură, apasă „Simulare nouă” pentru alt set de întrebări. Schemele apar și la exercițiile unde sunt relevante.','After studying, choose New practice for a different question set. Relevant diagrams also appear alongside exam questions.'));wrap.append(end);
- panel.append(wrap);printable.append(wrap.cloneNode(true));
+ panel.append(wrap);const printableGuide=wrap.cloneNode(true);printableGuide.querySelectorAll('details').forEach(d=>{d.open=true});printable.append(printableGuide);
 }
 function examVoiceHandleAndroid(data){
  if(data?.mode!=='examPrep')return false;
