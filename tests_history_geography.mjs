@@ -4,7 +4,7 @@ import frontend from './index.js';
 import {HG_SUBJECTS,HG_LEVELS,HG_SCOPES,HG_COUNTRIES,HG_HISTORY_TOPICS,HG_GEOGRAPHY_TOPICS,HG_SPECIALISATIONS,HG_VERIFIED_MAPS,hgMapsFor,hgCountrySuggestion} from './history_geography_curriculum.mjs';
 
 assert.deepEqual(HG_SUBJECTS.map(x=>x.id),['history','geography']);
-assert.deepEqual(HG_LEVELS.map(x=>x.id),['beginner','medium','advanced']);
+assert.deepEqual(HG_LEVELS.map(x=>x.id),['beginner','lower','medium','advanced']);
 assert.deepEqual(HG_SCOPES.map(x=>x.id),['world','national','regional']);
 for(const id of ['RO','GB-ENG','GB-SCT','GB-WLS','GB-NIR','OTHER']) assert.ok(HG_COUNTRIES.some(c=>c.id===id),id);
 for(const subject of HG_SUBJECTS){
