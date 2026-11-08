@@ -9,6 +9,8 @@ on:
       - 'chemistry_curriculum.mjs'
       - 'chemistry_advanced.mjs'
       - 'biology_curriculum.mjs'
+      - 'foreign_languages_curriculum.mjs'
+      - 'tests_foreign_languages.mjs'
       - 'astronomy_curriculum.mjs'
       - 'astronomy_verified.mjs'
       - 'tests_astronomy_complete.mjs'
