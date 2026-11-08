@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {LIT_EU_PROGRAMS,LIT_EU_COMMON,litEuropeanPlan} from './literature_curriculum_europe.mjs';
 const ui=readFileSync(new URL('./index.js',import.meta.url),'utf8');
-const europe=['RO','GB-ENG','GB-SCT','GB-WLS','FR','DE','ES','IT','PT','PL','NL','IE','FI','AT','CZ','SE','NO','DK'];
+const europe=['RO','GB-ENG','GB-SCT','GB-WLS','FR','DE','ES','IT','PT','PL','NL','IE','FI','AT','CZ','SE','NO','DK','SI','UA','LT','EE','HU'];
 for(const country of europe){
   const profile=LIT_EU_PROGRAMS[country];
   assert.ok(profile?.source?.startsWith('https://'),'Missing reference: '+country);
@@ -25,6 +25,12 @@ assert.ok(LIT_EU_PROGRAMS.NO.source.endsWith('/nor01-08'),'Norway current 2026 c
 assert.equal(litEuropeanPlan('CZ','medium','8').verified,false,'Czech phased transition needs local programme');
 assert.equal(litEuropeanPlan('AT','medium','8').verified,true);
 assert.equal(litEuropeanPlan('DK','medium','9').verified,true);
+assert.equal(litEuropeanPlan('SI','medium','7').verified,true);
+assert.equal(litEuropeanPlan('SI','medium','8').verified,false);
+assert.equal(litEuropeanPlan('UA','medium','5').verified,true);
+assert.equal(litEuropeanPlan('LT','beginner','3').verified,true);
+assert.equal(litEuropeanPlan('EE','medium','8').verified,false);
+assert.equal(litEuropeanPlan('HU','medium','8').verified,false);
 assert.equal(litEuropeanPlan('OTHER-EU','medium','8').verified,false);
 assert.match(ui,/stage==='grades'/,'grade selector');
 assert.match(ui,/stage==='regions'/,'regional selector');
