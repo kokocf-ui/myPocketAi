@@ -11,6 +11,7 @@ import {PRACTICAL_DEPTH} from './practical_depth.mjs';
 import {PRACTICAL_DEPTH_EXTRA} from './practical_depth_extra.mjs';
 import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
+import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
@@ -9273,7 +9274,7 @@ function mathJourneyShowChoices(stage){
     if(mathJourney.topic!==entry.id&&typeof mathFigureDraft!=='undefined')mathFigureDraft=null;
     mathJourney.topic=entry.id;mathJourney.stage='workspace';
     root.classList.remove('math-choice-stage');
-    openLearningSubject('math');
+    openLearningSubjectAfterCountry('math');
    }
   };
   items.append(button);
@@ -9299,7 +9300,7 @@ function renderLearningSubjects(){
  document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');
  document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');
  mathCloseResults();
- $('view-module').classList.remove('learning-math','learning-science','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','learning-practical','science-choice-stage');
+ $('view-module').classList.remove('learning-math','learning-science','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','learning-practical','learning-country-gate','science-choice-stage');
  document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
@@ -10910,6 +10911,7 @@ ${COMPUTING_UI_SCRIPT}
 ${EXAM_UI_SCRIPT}
 ${PRACTICAL_UI_SCRIPT}
 ${EDUCATION_SELECTS_UI_SCRIPT}
+${EDUCATION_COUNTRY_UI_SCRIPT}
 function eduPrintEscape(value){return String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function eduCurrentPrintable(){
  const root=$('moduleContent');if(!root)return null;
@@ -11028,11 +11030,15 @@ function eduAttachPrintAction(bar){
 }
 
 function openLearningSubject(key){
- if(key==='history'){hgRestore();hgOpen('subjects');return}
- if(key==='literature'){litOpen('countries');return}
+ if(key==='languages')return openLearningSubjectAfterCountry(key);
+ return educationCountryGate(key,()=>openLearningSubjectAfterCountry(key));
+}
+function openLearningSubjectAfterCountry(key){
+ if(key==='history'){hgOpen('subjects');return}
+ if(key==='literature'){litOpen('languages');return}
  if(key==='computing'){computingOpen('levels');return}
- if(key==='exams'){examOpen('countries');return}
- if(key==='practical'){practicalJourney.country=state.language==='ro'?'RO':'GB-ENG';practicalOpen('countries');return}
+ if(key==='exams'){examOpen('grades');return}
+ if(key==='practical'){practicalOpen('courses');return}
  if(key==='languages'){languageOpen('languages');return}
  if(key==='science'){scienceJourneyShowChoices('subjects');return}
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
