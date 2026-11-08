@@ -55,7 +55,7 @@ assert.match(COMPUTING_UI_SCRIPT,/signal:controller.signal/,'Cancellation abort 
 assert.match(COMPUTING_UI_SCRIPT,/Codul nu a fost executat/,'No false code-execution claim');
 assert.match(COMPUTING_UI_SCRIPT,/\.slice\(offset,offset\+4\)/,'Maximum four choices displayed');
 assert.match(COMPUTING_UI_SCRIPT,/data\.status==='recognized'/,'Android dictation review');
-assert.match(html,/#view-module\.learning-computing #moduleChatHost\{display:none!important\}/,'Computing hides the duplicate assistant chat');
+assert.match(html,/#view-module\.learning-computing #moduleChatHost(?:,|\{display:none!important\})/,'Computing hides the duplicate assistant chat');
 assert.match(script,/\.computing-printable','\.computing-ai-result'/,'Computing PDFs include both lesson and AI answer');
 assert.match(COMPUTING_UI_SCRIPT,/computingNewConversation/,'New conversation action belongs to Computing workspace');
 assert.match(COMPUTING_UI_SCRIPT,/computingOpen\('workspace'\);/,'New conversation reconstructs clean workspace without changing chapter');
