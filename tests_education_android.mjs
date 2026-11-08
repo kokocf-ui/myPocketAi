@@ -31,18 +31,17 @@ assert.match(main,/width\*0\.63f/,'landscape regions overlap instead of cutting 
 assert.match(main,/firstRead\[0\],secondRead\[0\]/,'both region readings included in OCR review');
 assert.match(main,/educationMathPlausible\(selected\)\?"review":"partial"/,'OCR still requires review');
 
-assert.match(source,/function eduOpenPrint\\(\\)/);
-assert.match(source,/PocketAndroidPrint\\.postMessage/);
+assert.match(source,/function eduOpenPrint\(mode='save'\)/);
+assert.match(source,/PocketAndroidPrint\.postMessage/);
 assert.match(main,/PocketAndroidPrint/);
 assert.match(main,/PrintManager/);
-assert.match(main,/createPrintDocumentAdapter/);
-assert.match(main,/htmlEncode/);
 assert.match(source,/edu-pdf-save/,'separate PDF save button');
 assert.match(source,/edu-pdf-print/,'separate print button');
 assert.match(source,/mode==='print'/);
-assert.match(main,/Intent\\.ACTION_CREATE_DOCUMENT/,'Android PDF save picker');
-assert.match(main,/application\\/pdf/,'PDF MIME');
+assert.match(main,/Intent\.ACTION_CREATE_DOCUMENT/,'Android PDF save picker');
+assert.match(main,/application\/pdf/,'PDF MIME');
 assert.match(main,/PdfDocument/,'genuine native PDF generation');
-assert.match(main,/if\\(shouldPrint\\)printEducationalMaterial\\(payload\\)/,'print only after PDF saved');
-assert.match(main,/if\\(uri==null\\)\\{notifyEducationPdf\\("cancelled"\\);return;\\}/,'cancelled save skips printing');
+assert.match(main,/if\(shouldPrint\)printSavedEducationPdf\(uri,title\)/,'print only after PDF saved');
+assert.match(main,/openInputStream\(savedPdf\)/,'print the exact saved PDF');
+assert.match(main,/if\(uri==null\)\{notifyEducationPdf\("cancelled"\);return;\}/,'cancelled save skips printing');
 console.log('PASS education UI embedded JS syntax and Android native OCR integration contracts');
