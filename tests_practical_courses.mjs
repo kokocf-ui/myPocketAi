@@ -4,6 +4,9 @@ import app from './index.js';
 import {PRACTICAL_LEVELS,PRACTICAL_COUNTRIES,PRACTICAL_COURSES,PRACTICAL_STATEMENT,practicalCourse,practicalChapters,practicalQuiz,practicalScore} from './practical_curriculum.mjs';
 import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {PRACTICAL_GUIDES,practicalGuide} from './practical_guides.mjs';
+import {PRACTICAL_SYLLABI,practicalSyllabus} from './practical_syllabi.mjs';
+import {PRACTICAL_DEPTH} from './practical_depth.mjs';
+import {PRACTICAL_DEPTH_EXTRA} from './practical_depth_extra.mjs';
 import {PRACTICAL_REFERENCES,practicalReferences} from './practical_sources.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EXAM_COUNTRY_CODES} from './exam_curriculum_europe.mjs';
@@ -19,6 +22,26 @@ assert.ok(PRACTICAL_COUNTRIES.every(x=>x.length===3),'Country selection must not
 const allChapters=PRACTICAL_COURSES.flatMap(c=>c.chapters);
 assert.equal(allChapters.length,36,'Six sequenced lessons per practical subject');
 assert.equal(Object.keys(PRACTICAL_GUIDES).length,36,'All practical lessons need a detailed tutorial');
+const deep={...PRACTICAL_DEPTH,...PRACTICAL_DEPTH_EXTRA};
+assert.equal(Object.keys(deep).length,36,'No course chapter may lack detailed teaching material');
+assert.equal(PRACTICAL_SYLLABI.length,6,'Each practical course must have a coherent syllabus');
+for(const course of PRACTICAL_COURSES){
+ const syllabus=practicalSyllabus(course.id);
+ assert.ok(syllabus?.intro.length>140,'A real course must start with a substantial introduction: '+course.id);
+ assert.ok(syllabus.outcomes.length>=4,'Learning outcomes missing: '+course.id);
+ assert.ok(syllabus.project.length>170&&syllabus.rubric.length>=4,'Meaningful final project and assessment missing: '+course.id);
+ for(const chapter of course.chapters){
+  const parts=deep[chapter.id];
+  assert.ok(parts?.length>=3,'No shallow chapter: '+chapter.id);
+  assert.ok(parts.every(([title,body])=>title.length>9&&body.length>160),'Substantial topic-specific explanations required: '+chapter.id);
+ }
+}
+assert.match(PRACTICAL_UI_SCRIPT,/const chapters=\[\.\.\.course\.chapters\]\.sort/,'Display all chapters together');
+assert.doesNotMatch(PRACTICAL_UI_SCRIPT,/if\(stage==='levels'\)/,'No needless difficulty chooser');
+assert.match(PRACTICAL_UI_SCRIPT,/practicalOpen\('chapters'\)/,'Go directly from course to lessons');
+assert.match(PRACTICAL_UI_SCRIPT,/PRACTICAL_DEPTH_DATA\[chapter\.id\]/,'Render detailed topic-specific learning');
+assert.match(PRACTICAL_UI_SCRIPT,/PRACTICAL_SYLLABI_DATA\.find/,'Course description and final project in app');
+assert.match(PRACTICAL_UI_SCRIPT,/Criterii de evaluare/,'Final course assessment criteria');
 const models=new Set();
 for(const chapter of allChapters){
  const guide=practicalGuide(chapter.id);
@@ -106,7 +129,7 @@ for(const fragment of [
  "if(key==='practical'){practicalJourney.country=",
  "if(root.classList.contains('learning-active')&&root.classList.contains('learning-practical'))",
  "if(practicalVoiceHandleAndroid(data))return;",
- "PRACTICAL_COURSES_DATA","PRACTICAL_COUNTRIES_DATA","PRACTICAL_LEVELS_DATA","PRACTICAL_GUIDES_DATA","PRACTICAL_REFERENCES_DATA",
+ "PRACTICAL_COURSES_DATA","PRACTICAL_COUNTRIES_DATA","PRACTICAL_LEVELS_DATA","PRACTICAL_GUIDES_DATA","PRACTICAL_REFERENCES_DATA","PRACTICAL_SYLLABI_DATA","PRACTICAL_DEPTH_DATA",
  "function practicalOpen(stage)","function practicalLesson(panel)",
  "educationInstallTapSelects()",
  "'.practical-printable'"
