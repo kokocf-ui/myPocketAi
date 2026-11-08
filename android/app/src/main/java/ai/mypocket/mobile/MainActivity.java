@@ -44,6 +44,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.print.PrintManager;
 import android.print.PrintDocumentAdapter;
+import android.print.PrintDocumentInfo;
+import android.print.PrintAttributes;
+import android.print.PageRange;
+import android.os.CancellationSignal;
+import android.os.ParcelFileDescriptor;
+import java.io.InputStream;
+import java.io.FileOutputStream;
 import android.graphics.pdf.PdfDocument;
 import android.graphics.Typeface;
 import java.io.OutputStream;
@@ -156,7 +163,7 @@ public final class MainActivity extends ComponentActivity {
                 String content=data.optString("text","");
                 if(!saveEducationPdf(uri,title,content))throw new IOException("PDF write failed");
                 notifyEducationPdf("saved");
-                if(shouldPrint)printEducationalMaterial(payload);
+                if(shouldPrint)printSavedEducationPdf(uri,title);
             }catch(Exception ignored){notifyEducationPdf("error");}
         });
 
@@ -1371,6 +1378,40 @@ public final class MainActivity extends ComponentActivity {
             return true;
         }catch(Exception ignored){return false;}
         finally{document.close();}
+    }
+
+    // Print exactly the PDF that was saved, instead of regenerating a second document.
+    private void printSavedEducationPdf(Uri savedPdf,String title){
+        try{
+            PrintManager manager=(PrintManager)getSystemService(Context.PRINT_SERVICE);
+            if(manager==null){notifyEducationPdf("printUnavailable");return;}
+            final String job=title.trim().isEmpty()?"Material educațional":title.trim();
+            PrintDocumentAdapter adapter=new PrintDocumentAdapter(){
+                @Override public void onLayout(PrintAttributes oldAttributes,PrintAttributes newAttributes,
+                        CancellationSignal cancellation,LayoutResultCallback callback,Bundle extras){
+                    if(cancellation.isCanceled()){callback.onLayoutCancelled();return;}
+                    PrintDocumentInfo info=new PrintDocumentInfo.Builder(job+".pdf")
+                        .setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT)
+                        .setPageCount(PrintDocumentInfo.PAGE_COUNT_UNKNOWN).build();
+                    callback.onLayoutFinished(info,true);
+                }
+                @Override public void onWrite(PageRange[] pages,ParcelFileDescriptor destination,
+                        CancellationSignal cancellation,WriteResultCallback callback){
+                    try(InputStream input=getContentResolver().openInputStream(savedPdf);
+                        FileOutputStream output=new FileOutputStream(destination.getFileDescriptor())){
+                        if(input==null)throw new IOException("Cannot read PDF");
+                        byte[] buffer=new byte[16384];int read;
+                        while((read=input.read(buffer))!=-1){
+                            if(cancellation.isCanceled()){callback.onWriteCancelled();return;}
+                            output.write(buffer,0,read);
+                        }
+                        output.flush();
+                        callback.onWriteFinished(new PageRange[]{PageRange.ALL_PAGES});
+                    }catch(Exception ignored){callback.onWriteFailed("PDF unavailable");}
+                }
+            };
+            manager.print(job,adapter,null);
+        }catch(Exception ignored){notifyEducationPdf("printUnavailable");}
     }
 
     // Print only text explicitly submitted from the Education preview, never the entire app UI.
