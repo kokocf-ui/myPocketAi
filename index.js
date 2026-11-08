@@ -7066,12 +7066,44 @@ const SCIENCE_OTHER_TOPICS={
 let scienceJourney={stage:'subjects',subject:null,level:null,grade:null,specialty:null,topic:null};
 let scienceVoiceActive=false,scienceLastReply='',scienceRequestController=null;
 function scienceSubjectInfo(){return SCIENCE_SUBJECTS.find(s=>s.id===scienceJourney.subject)||null}
+function scienceTopicAllowedGrade(topic){
+ if(educationCountrySelection.code!=='RO'||scienceJourney.level==='advanced')return true;
+ const grade=Number(scienceJourney.grade),id=topic.id,sub=scienceJourney.subject;
+ if(!Number.isInteger(grade)||grade<5)return true;
+ const school={
+ physics:{
+  6:['units','kinematics','energy','heat','fluids'],
+  7:['units','kinematics','dynamics','energy','fluids','electric'],
+  8:['units','energy','heat','electric','optics','waves']
+ },
+ chemistry:{
+  7:['fundamentals','atomic','periodic','bonding','reactions'],
+  8:['reactions','inorganic','solutions','acids','atomic','periodic'],
+  9:['fundamentals','atomic','periodic','bonding','reactions','solutions','inorganic'],
+  10:['reactions','solutions','acids','organic','inorganic'],
+  11:['organic','physical','electrochem','analytical'],
+  12:['organic','physical','electrochem','biochemistry','analytical']
+ },
+ biology:{
+  5:['cells','plants','ecology','evolution'],
+  6:['cells','anatomy','plants','ecology','evolution'],
+  7:['anatomy','genetics','cells','ecology','evolution'],
+  8:['anatomy','genetics','ecology','evolution','plants'],
+  9:['cells','biomolecules','genetics','evolution','ecology'],
+  10:['anatomy','homeostasis','genetics','ecology'],
+  11:['genetics','cells','biomolecules','microbes','methods'],
+  12:['genetics','anatomy','homeostasis','microbes','methods']
+ }
+ };
+ if(sub==='astronomy')return true; // elective general learning, not an invented compulsory syllabus
+ const allowed=school[sub]?.[grade];return !allowed||allowed.includes(id);
+}
 function scienceTopicChoices(){
  const subject=scienceJourney.subject;
  if(!['physics','chemistry','biology','astronomy'].includes(subject))return SCIENCE_OTHER_TOPICS[subject]||[];
  const topics=subject==='physics'?PHYSICS_TOPIC_DATA:subject==='biology'?BIOLOGY_TOPIC_DATA:subject==='astronomy'?ASTRONOMY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
  const specializations=subject==='physics'?PHYSICS_SPECIALTY_DATA:subject==='biology'?BIOLOGY_SPECIALTY_DATA:subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
- if(scienceJourney.level!=='advanced'||!scienceJourney.specialty)return topics.filter(x=>!x.specialty);
+ if(scienceJourney.level!=='advanced'||!scienceJourney.specialty)return topics.filter(x=>!x.specialty&&scienceTopicAllowedGrade(x));
  const track=specializations.find(x=>x.id===scienceJourney.specialty);
  return topics.filter(x=>x.specialty===scienceJourney.specialty||
   (!x.specialty&&(track?.core||[]).includes(x.id)));
