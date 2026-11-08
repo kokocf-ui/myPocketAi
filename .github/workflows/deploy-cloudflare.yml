@@ -35,6 +35,10 @@ jobs:
           node --check exam_ordered_pathways.mjs
           node --check exam_ui.mjs
           node tests_exam_curriculum_europe.mjs
+          node --check practical_curriculum.mjs
+          node --check practical_ui.mjs
+          node --check education_selects_ui.mjs
+          node tests_practical_courses.mjs
 
       - name: Verify contextual news translation and apply avatar lip-stop patch
         run: |
