@@ -1354,7 +1354,7 @@ public final class MainActivity extends ComponentActivity {
     // Shares only a previously saved PDF through Android's chooser, never its raw text.
     private void shareEducationDocumentByName(String filename){
         try{
-            if(filename==null||!filename.matches("[^/\\\\\\\\]{1,150}\\\\.pdf"))return;
+            if(filename==null||!filename.matches("[^/\\\\]{1,150}\\.pdf"))return;
             File folder=educationDocumentsFolder();
             File file=new File(folder,filename);
             if(!file.getCanonicalPath().startsWith(folder.getCanonicalPath()+File.separator)||!file.isFile())return;
