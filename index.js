@@ -1506,7 +1506,7 @@ body.long-choice-active{overflow:hidden}
 </style>
 
 <style>
-#view-module.learning-languages #moduleChatHost{display:none!important}
+#view-module.learning-languages #moduleChatHost,#view-module.learning-computing #moduleChatHost{display:none!important}
 #view-module.learning-languages .science-choice-panel{max-height:calc(100dvh - 190px);overflow-y:auto;overscroll-behavior:contain;min-height:0}
 #view-module.learning-languages .foreign-word-card{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px;margin:8px 0;border-radius:12px;border:1px solid rgba(144,198,228,.32);background:rgba(15,44,66,.35)}
 #view-module.learning-languages .foreign-original{font-size:1.32rem;line-height:1.45;flex-basis:100%;overflow-wrap:anywhere}
@@ -2855,7 +2855,7 @@ main.page:has(#view-module.learning-languages.active){
  width:100%!important;height:100%!important;max-height:100%!important;
  flex:1 1 auto!important;min-height:0!important;overflow:hidden!important;padding:0!important;
 }
-#view-module.learning-languages #moduleChatHost{display:none!important}
+#view-module.learning-languages #moduleChatHost,#view-module.learning-computing #moduleChatHost{display:none!important}
 #view-module.learning-languages .science-stage-toolbar{flex:0 0 auto!important;margin:0 0 6px!important}
 #view-module.learning-languages .science-choice-panel{
  display:flex!important;flex-direction:column!important;
@@ -10873,7 +10873,7 @@ function eduPrintEscape(value){return String(value||'').replace(/&/g,'&amp;').re
 function eduCurrentPrintable(){
  const root=$('moduleContent');if(!root)return null;
  const title=($('moduleTitle')?.textContent||learningLabel('Material educațional','Educational material')).trim();
- const selectors=['.computing-printable','.lit-result','.hg-lesson-output','.hg-event-content','#mathEducationWorkspace','#scienceEducationWorkspace','#languageStudyOutput','.foreign-lesson-output','.education-theory-detail','.education-result','.science-education-output'];
+ const selectors=['.computing-printable','.computing-ai-result','.lit-result','.hg-lesson-output','.hg-event-content','#mathEducationWorkspace','#scienceEducationWorkspace','#languageStudyOutput','.foreign-lesson-output','.education-theory-detail','.education-result','.science-education-output'];
  const parts=[];
  for(const query of selectors){
   for(const el of root.querySelectorAll(query)){
