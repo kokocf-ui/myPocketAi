@@ -31,4 +31,10 @@ assert.match(main,/width\*0\.63f/,'landscape regions overlap instead of cutting 
 assert.match(main,/firstRead\[0\],secondRead\[0\]/,'both region readings included in OCR review');
 assert.match(main,/educationMathPlausible\(selected\)\?"review":"partial"/,'OCR still requires review');
 
+assert.match(source,/function eduOpenPrint\\(\\)/);
+assert.match(source,/PocketAndroidPrint\\.postMessage/);
+assert.match(main,/PocketAndroidPrint/);
+assert.match(main,/PrintManager/);
+assert.match(main,/createPrintDocumentAdapter/);
+assert.match(main,/htmlEncode/);
 console.log('PASS education UI embedded JS syntax and Android native OCR integration contracts');
