@@ -26,9 +26,12 @@ export const TOPIC_GOALS={
 };
 export function foreignStudyCourseMap(){
  return FOREIGN_LANGUAGES.map(language=>({
-  language:language.id,variants:language.variants.length?language.variants:['standard'],
-  levels:language.id==='la'?CLASSICAL_LEVELS.map(x=>x.id):FOREIGN_LEVELS.map(x=>x.id),
-  topics:FOREIGN_TOPICS.map(x=>x.id)
+  language:language.id,
+  variants:(language.variants.length?language.variants:['standard']).map(variant=>{
+   const classical=language.id==='la'||language.id==='el'&&['ancient','koine'].includes(variant);
+   return {variant,levels:(classical?CLASSICAL_LEVELS:FOREIGN_LEVELS).map(x=>x.id),
+     topics:FOREIGN_TOPICS.map(x=>x.id)};
+  })
  }));
 }
 export function foreignStudyPlan(language,variant,level,topic){
