@@ -95,8 +95,6 @@ public final class MainActivity extends ComponentActivity {
     private WebView web;
     private final ArrayList<WebView> educationPrintWebs=new ArrayList<>();
     private FrameLayout appFrame;
-    private String pendingEducationPdfPayload;
-    private boolean pendingEducationPrint;
     private Uri cameraUri;
     private boolean waitingForPhoto = false;
     // This flag is intentionally limited to the Education camera/gallery bridge.
@@ -147,25 +145,6 @@ public final class MainActivity extends ComponentActivity {
         prefs.edit().putBoolean(NOTIFICATION_PERMISSION_FLAG,true).apply();
         notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
     }
-
-    private final ActivityResultLauncher<Intent> educationPdfDestination =
-        registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            String payload=pendingEducationPdfPayload;
-            boolean shouldPrint=pendingEducationPrint;
-            pendingEducationPdfPayload=null;
-            pendingEducationPrint=false;
-            if(payload==null)return;
-            Uri uri=result.getResultCode()==Activity.RESULT_OK&&result.getData()!=null?result.getData().getData():null;
-            if(uri==null){notifyEducationPdf("cancelled");return;}
-            try{
-                JSONObject data=new JSONObject(payload);
-                String title=data.optString("title","Material educațional");
-                String content=data.optString("text","");
-                if(!saveEducationPdf(uri,title,content))throw new IOException("PDF write failed");
-                notifyEducationPdf("saved");
-                if(shouldPrint)printSavedEducationPdf(uri,title);
-            }catch(Exception ignored){notifyEducationPdf("error");}
-        });
 
     private final ActivityResultLauncher<PickVisualMediaRequest> gallery =
         registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
@@ -601,6 +580,19 @@ public final class MainActivity extends ComponentActivity {
                         else if ("gallery".equals(source)||"gallery:math".equals(source)) gallery.launch(new PickVisualMediaRequest.Builder()
                             .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
                         else {waitingForPhoto=false;educationMathPhoto=false;}
+                    });
+                });
+        }
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidDocuments",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!"https".equals(origin.getScheme())||!APP_HOST.equals(origin.getHost()))return;
+                    final String request=message.getData();
+                    if(request==null||request.length()>220)return;
+                    runOnUiThread(()->{
+                        if("list".equals(request))listEducationDocuments();
+                        else if(request.startsWith("print:"))printEducationDocumentByName(request.substring(6));
                     });
                 });
         }
@@ -1297,30 +1289,68 @@ public final class MainActivity extends ComponentActivity {
 
     // Android Storage Access Framework always creates an application/pdf file.
     // Print requests must complete this save before the system print sheet opens.
+    private File educationDocumentsFolder(){
+        File folder=new File(getFilesDir(),"documentele_mele");
+        if(!folder.exists()&&!folder.mkdirs())throw new IllegalStateException("Documents directory unavailable");
+        return folder;
+    }
+    private String educationSafeFilename(String title){
+        String name=(title==null?"":title).replaceAll("[^\\p{L}\\p{N} _.-]","_").replaceAll("\\s+","_");
+        name=name.replaceAll("^\\.+","").trim();
+        if(name.length()>90)name=name.substring(0,90);
+        if(name.isEmpty())name="Material_educational";
+        if(!name.toLowerCase(Locale.ROOT).endsWith(".pdf"))name+=".pdf";
+        return name;
+    }
     private void requestEducationPdfSave(String payload){
-        if(pendingEducationPdfPayload!=null){notifyEducationPdf("busy");return;}
         try{
             JSONObject data=new JSONObject(payload);
             String text=data.optString("text","").trim();
             if(text.isEmpty()||text.length()>160000){notifyEducationPdf("error");return;}
             String title=data.optString("title","Material educațional").trim();
             if(title.isEmpty())title="Material educațional";
-            String name=title.replaceAll("[\\\\/:*?\"<>|\\p{Cntrl}]","_").trim();
-            if(name.length()>80)name=name.substring(0,80);
-            if(!name.toLowerCase(Locale.ROOT).endsWith(".pdf"))name+=".pdf";
-            pendingEducationPdfPayload=payload;
-            pendingEducationPrint="print".equals(data.optString("mode","save"));
-            Intent intent=new Intent(Intent.ACTION_CREATE_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("application/pdf");
-            intent.putExtra(Intent.EXTRA_TITLE,name);
-            educationPdfDestination.launch(intent);
-        }catch(Exception ignored){
-            pendingEducationPdfPayload=null;pendingEducationPrint=false;notifyEducationPdf("error");
-        }
+            File folder=educationDocumentsFolder();
+            String requested=educationSafeFilename(title);
+            String basename=requested.substring(0,requested.length()-4);
+            File output=new File(folder,requested);
+            int suffix=2;
+            while(output.exists()){output=new File(folder,basename+"_"+suffix+".pdf");suffix++;}
+            if(!saveEducationPdf(output,title,text))throw new IOException("PDF write failed");
+            notifyEducationPdf("saved");
+            if("print".equals(data.optString("mode","save")))printSavedEducationPdf(output,title);
+        }catch(Exception ignored){notifyEducationPdf("error");}
+    }
+    private void listEducationDocuments(){
+        try{
+            File[] files=educationDocumentsFolder().listFiles((dir,name)->name.toLowerCase(Locale.ROOT).endsWith(".pdf"));
+            JSONArray records=new JSONArray();
+            if(files!=null){
+                java.util.Arrays.sort(files,(a,b)->Long.compare(b.lastModified(),a.lastModified()));
+                for(File file:files){
+                    if(records.length()>=250)break;
+                    if(!file.isFile())continue;
+                    JSONObject record=new JSONObject();
+                    record.put("name",file.getName());
+                    record.put("bytes",file.length());
+                    record.put("date",file.lastModified());
+                    records.put(record);
+                }
+            }
+            String js="window.pocketEducationDocuments&&window.pocketEducationDocuments("+records.toString()+");";
+            if(web!=null&&APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost()))web.evaluateJavascript(js,null);
+        }catch(Exception ignored){notifyEducationPdf("error");}
+    }
+    private void printEducationDocumentByName(String filename){
+        try{
+            if(filename==null||!filename.matches("[^/\\\\]{1,150}\\.pdf"))return;
+            File folder=educationDocumentsFolder();
+            File file=new File(folder,filename);
+            if(!file.getCanonicalPath().startsWith(folder.getCanonicalPath()+File.separator)||!file.isFile())return;
+            printSavedEducationPdf(file,filename.replaceFirst("(?i)\\.pdf$",""));
+        }catch(Exception ignored){notifyEducationPdf("error");}
     }
 
-    private boolean saveEducationPdf(Uri destination,String title,String content){
+    private boolean saveEducationPdf(File destination,String title,String content){
         PdfDocument document=new PdfDocument();
         try{
             final int width=595,height=842,margin=48;
@@ -1370,7 +1400,7 @@ public final class MainActivity extends ComponentActivity {
                 page=document.startPage(new PdfDocument.PageInfo.Builder(width,height,1).create());
             }
             document.finishPage(page);
-            try(OutputStream stream=getContentResolver().openOutputStream(destination,"w")){
+            try(OutputStream stream=new FileOutputStream(destination)){
                 if(stream==null)throw new IOException("No output stream");
                 document.writeTo(stream);
                 stream.flush();
@@ -1381,7 +1411,7 @@ public final class MainActivity extends ComponentActivity {
     }
 
     // Print exactly the PDF that was saved, instead of regenerating a second document.
-    private void printSavedEducationPdf(Uri savedPdf,String title){
+    private void printSavedEducationPdf(File savedPdf,String title){
         try{
             PrintManager manager=(PrintManager)getSystemService(Context.PRINT_SERVICE);
             if(manager==null){notifyEducationPdf("printUnavailable");return;}
@@ -1397,7 +1427,7 @@ public final class MainActivity extends ComponentActivity {
                 }
                 @Override public void onWrite(PageRange[] pages,ParcelFileDescriptor destination,
                         CancellationSignal cancellation,WriteResultCallback callback){
-                    try(InputStream input=getContentResolver().openInputStream(savedPdf);
+                    try(InputStream input=new java.io.FileInputStream(savedPdf);
                         FileOutputStream output=new FileOutputStream(destination.getFileDescriptor())){
                         if(input==null)throw new IOException("Cannot read PDF");
                         byte[] buffer=new byte[16384];int read;
