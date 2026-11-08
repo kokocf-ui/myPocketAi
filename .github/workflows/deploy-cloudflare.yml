@@ -32,6 +32,7 @@ jobs:
           node tests_computing_curriculum.mjs
           node --check exam_curriculum_europe.mjs
           node --check exam_practice_bank.mjs
+          node --check exam_ordered_pathways.mjs
           node --check exam_ui.mjs
           node tests_exam_curriculum_europe.mjs
 
