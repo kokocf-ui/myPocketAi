@@ -64,6 +64,6 @@ assert.match(COMPUTING_UI_SCRIPT,/computingRenderAnswer\(output,String\(data\.re
 assert.doesNotMatch(COMPUTING_UI_SCRIPT,/printable\.append\(generated\)/,'Duplicate AI paragraph is not appended to lesson');
 assert.match(COMPUTING_UI_SCRIPT,/id='computingNextLesson'/,'Correct quiz exposes next chapter control');
 assert.match(COMPUTING_UI_SCRIPT,/computingJourney\.topic=nextTopic\.id;computingOpen\('workspace'\)/,'Quiz continuation advances to next chapter');
-assert.match(COMPUTING_UI_SCRIPT,/if\(!editor\.value\.trim\(\)&&!output\.textContent\.trim\(\)\)/,'Automatic progression only when no unsaved work exists');
+assert.match(COMPUTING_UI_SCRIPT,/if\(!editor\.value\.trim\(\)&&!state\.speaking\)/,'Auto progress after correct answer without losing written code or interrupting narration');
 assert.match(COMPUTING_UI_SCRIPT,/answers\.querySelectorAll\('button'\)\.forEach\(item=>item\.disabled=true\)/,'Completed quiz cannot be resubmitted');
 console.log('PASS Computing: 3 levels, 17 populated branches, 65 quizzes, navigation, PDF, OCR, voice, AI and full boot script.');
