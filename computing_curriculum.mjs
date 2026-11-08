@@ -1,0 +1,1264 @@
+// Computing curriculum for general computer science literacy and specialisations.
+
+// Educational ordering, not national accreditation; EU country alignment is a later, separate step.
+
+export const COMPUTING_LEVELS=[
+  {
+    "id": "beginner",
+    "ro": "Începător · inițiere digitală",
+    "en": "Beginner · digital foundations",
+    "focus": "Familiarizare, siguranță, gândire logică și utilizarea responsabilă a dispozitivelor."
+  },
+  {
+    "id": "medium",
+    "ro": "Mediu · gimnaziu și liceu",
+    "en": "Intermediate · school computing",
+    "focus": "Algoritmi, programare, date, rețele, web și proiecte verificate."
+  },
+  {
+    "id": "advanced",
+    "ro": "Avansat · universitate și specializări",
+    "en": "Advanced · university and specialisations",
+    "focus": "Inginerie, sisteme, algoritmi avansați, metode și proiecte de specialitate."
+  }
+];
+
+export const COMPUTING_PATHS=[
+  {
+    "id": "devices",
+    "level": "beginner",
+    "ro": "Dispozitive și software",
+    "en": "Devices and software",
+    "icon": "💻"
+  },
+  {
+    "id": "logic",
+    "level": "beginner",
+    "ro": "Logică și algoritmi vizuali",
+    "en": "Logic and visual algorithms",
+    "icon": "🧩"
+  },
+  {
+    "id": "digital",
+    "level": "beginner",
+    "ro": "Instrumente digitale și date",
+    "en": "Digital tools and data",
+    "icon": "📁"
+  },
+  {
+    "id": "safety",
+    "level": "beginner",
+    "ro": "Siguranță și cetățenie digitală",
+    "en": "Digital safety and citizenship",
+    "icon": "🛡️"
+  },
+  {
+    "id": "algorithms",
+    "level": "medium",
+    "ro": "Algoritmică",
+    "en": "Algorithms",
+    "icon": "🧠"
+  },
+  {
+    "id": "programming",
+    "level": "medium",
+    "ro": "Programare",
+    "en": "Programming",
+    "icon": "⌨️"
+  },
+  {
+    "id": "web",
+    "level": "medium",
+    "ro": "Web și interfețe",
+    "en": "Web and interfaces",
+    "icon": "🌐"
+  },
+  {
+    "id": "databases",
+    "level": "medium",
+    "ro": "Date și baze de date",
+    "en": "Data and databases",
+    "icon": "🗄️"
+  },
+  {
+    "id": "networks",
+    "level": "medium",
+    "ro": "Sisteme, rețele și proiecte",
+    "en": "Systems, networks and projects",
+    "icon": "🔗"
+  },
+  {
+    "id": "software",
+    "level": "advanced",
+    "ro": "Inginerie software",
+    "en": "Software engineering",
+    "icon": "🧱"
+  },
+  {
+    "id": "computer-science",
+    "level": "advanced",
+    "ro": "Teoria calculului și algoritmi",
+    "en": "Computer science theory",
+    "icon": "🧮"
+  },
+  {
+    "id": "artificial-intelligence",
+    "level": "advanced",
+    "ro": "Inteligență artificială și ML",
+    "en": "Artificial intelligence and ML",
+    "icon": "🤖"
+  },
+  {
+    "id": "cybersecurity",
+    "level": "advanced",
+    "ro": "Securitate informatică defensivă",
+    "en": "Defensive cybersecurity",
+    "icon": "🔐"
+  },
+  {
+    "id": "data-science",
+    "level": "advanced",
+    "ro": "Date, statistică și inginerie",
+    "en": "Data science and engineering",
+    "icon": "📊"
+  },
+  {
+    "id": "systems",
+    "level": "advanced",
+    "ro": "Sisteme și cloud",
+    "en": "Systems and cloud",
+    "icon": "☁️"
+  },
+  {
+    "id": "embedded",
+    "level": "advanced",
+    "ro": "Sisteme încorporate și IoT",
+    "en": "Embedded and IoT",
+    "icon": "⚙️"
+  },
+  {
+    "id": "hci",
+    "level": "advanced",
+    "ro": "Interacțiune, grafică și accesibilitate",
+    "en": "HCI, graphics and accessibility",
+    "icon": "🎨"
+  }
+];
+
+export const COMPUTING_TOPICS=[
+  {
+    "id": "device-types",
+    "path": "devices",
+    "ro": "Tipuri de calculatoare",
+    "en": "Types of computers",
+    "theory": "Un dispozitiv de calcul primește date, le prelucrează și produce rezultate. Telefonul, tableta și laptopul au componente și sisteme de operare diferite.",
+    "example": "Un telefon fotografiază un obiect (intrare), îl prelucrează și afișează imaginea (ieșire).",
+    "question": "Care este un exemplu de dispozitiv de calcul?",
+    "choices": [
+      "Un creion",
+      "Un laptop",
+      "O masă",
+      "Un caiet"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "hardware",
+    "path": "devices",
+    "ro": "Componente hardware",
+    "en": "Computer hardware",
+    "theory": "Procesorul execută instrucțiuni; memoria RAM păstrează temporar date; stocarea păstrează fișiere după oprire. Ecranul și tastatura sunt periferice.",
+    "example": "Dacă oprești laptopul, un fișier salvat pe SSD rămâne; conținutul temporar din RAM se pierde.",
+    "question": "Ce păstrează de regulă fișierele după oprire?",
+    "choices": [
+      "RAM",
+      "Procesorul",
+      "SSD-ul",
+      "Tastatura"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "software",
+    "path": "devices",
+    "ro": "Sistem de operare și aplicații",
+    "en": "Operating systems and apps",
+    "theory": "Sistemul de operare gestionează dispozitivul, procesele și fișierele. Aplicațiile folosesc serviciile lui pentru sarcini concrete.",
+    "example": "Android este sistem de operare; editorul foto este aplicație.",
+    "question": "Ce face sistemul de operare?",
+    "choices": [
+      "Controlează resursele dispozitivului",
+      "Înlocuiește internetul",
+      "Este doar un joc",
+      "Este un tip de tastatură"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "sequence",
+    "path": "logic",
+    "ro": "Pași în ordine",
+    "en": "Sequences",
+    "theory": "Un algoritm este o succesiune finită de instrucțiuni neambigue. Ordinea contează pentru rezultat.",
+    "example": "Rețetă: pregătește ingredientele → amestecă → coace; inversarea pașilor poate schimba rezultatul.",
+    "question": "Ce caracterizează un algoritm corect?",
+    "choices": [
+      "Instrucțiuni aleatoare",
+      "Pași finiți și clari",
+      "Doar imagini",
+      "Lipsa oricărei reguli"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "decisions",
+    "path": "logic",
+    "ro": "Decizii dacă / altfel",
+    "en": "Conditions",
+    "theory": "O condiție testează o afirmație; execuția urmează una dintre ramuri. Folosește condiții observabile.",
+    "example": "Dacă plouă, ia umbrela; altfel pleacă fără ea.",
+    "question": "Ce instrucțiune alege între două ramuri?",
+    "choices": [
+      "Repetă",
+      "Tipărește",
+      "Dacă / altfel",
+      "Salvează"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "repetition",
+    "path": "logic",
+    "ro": "Repetiții și bucle",
+    "en": "Loops",
+    "theory": "O buclă repetă pași până la un număr de iterații sau până la o condiție de oprire. O buclă fără ieșire se poate bloca.",
+    "example": "Repetă de 3 ori: desenează o stea; la final ai 3 stele.",
+    "question": "La ce folosește o buclă?",
+    "choices": [
+      "La repetarea unor pași",
+      "La ștergerea ecranului",
+      "La alegerea unei parole",
+      "La instalarea telefonului"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "files",
+    "path": "digital",
+    "ro": "Fișiere, foldere și formate",
+    "en": "Files and formats",
+    "theory": "Fișierele au nume, extensie și conținut; folderele le organizează. Extensia sugerează tipul, nu garantează siguranța.",
+    "example": "tema.pdf este un document; poza.png este imagine; documentele ar trebui denumite clar.",
+    "question": "Ce face un folder?",
+    "choices": [
+      "Execută tot codul",
+      "Organizează fișiere",
+      "Schimbă limba tastaturii",
+      "Trimite automat e-mailuri"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "search",
+    "path": "digital",
+    "ro": "Căutare și verificarea surselor",
+    "en": "Searching and evaluating sources",
+    "theory": "Caută cu termeni specifici, verifică autorul, data și dovezile. Distinge publicitatea de informația verificabilă.",
+    "example": "Compară două surse independente înainte să folosești o cifră într-un referat.",
+    "question": "Care este cea mai bună practică?",
+    "choices": [
+      "Preiei prima afirmație",
+      "Ignori data",
+      "Verifici sursele și data",
+      "Te bazezi pe titlu"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "spreadsheets",
+    "path": "digital",
+    "ro": "Tabele și formule de bază",
+    "en": "Spreadsheets",
+    "theory": "Un tabel are rânduri, coloane și celule. O formulă se recalculează când se schimbă datele de intrare.",
+    "example": "Într-o foaie de calcul, =SUM(A1:A3) însumează valorile din celulele A1–A3.",
+    "question": "Ce începe de obicei o formulă într-un tabel?",
+    "choices": [
+      "Semnul egal",
+      "Un emoji",
+      "O virgulă",
+      "Un spațiu"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "passwords",
+    "path": "safety",
+    "ro": "Parole și autentificare",
+    "en": "Passwords and authentication",
+    "theory": "Folosește parole unice și lungi și autentificare cu mai mulți factori. Nu împărtăși codurile de verificare.",
+    "example": "Un administrator de parole poate crea și păstra parole diferite pentru conturi diferite.",
+    "question": "Care practică este sigură?",
+    "choices": [
+      "Aceeași parolă peste tot",
+      "Parole unice și MFA",
+      "Parola trimisă colegilor",
+      "Codul MFA public"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "phishing",
+    "path": "safety",
+    "ro": "Mesaje frauduloase",
+    "en": "Phishing awareness",
+    "theory": "Mesajele frauduloase pot imita instituții și cer date sau acces urgent. Verifică expeditorul și accesează serviciul separat, nu prin link suspect.",
+    "example": "Un SMS cu amenințare de blocare a contului și link scurt este un semnal de verificat.",
+    "question": "Cum verifici un mesaj suspect?",
+    "choices": [
+      "Răspunzi cu parola",
+      "Deschizi orice atașament",
+      "Intri separat pe site-ul oficial",
+      "Trimiți codul MFA"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "digital-footprint",
+    "path": "safety",
+    "ro": "Amprentă digitală și respect",
+    "en": "Digital footprint and respect",
+    "theory": "Publicarea poate lăsa urme durabile. Respectă confidențialitatea, drepturile de autor și accesibilitatea.",
+    "example": "Nu publica fotografia unui coleg fără permisiune și oferă descrieri alternative imaginilor.",
+    "question": "Ce protejează viața privată?",
+    "choices": [
+      "Cererea consimțământului",
+      "Distribuirea oricăror date",
+      "Publicarea adreselor",
+      "Ignorarea surselor"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "pseudocode",
+    "path": "algorithms",
+    "ro": "Pseudocod și diagrame",
+    "en": "Pseudocode and flowcharts",
+    "theory": "Pseudocodul descrie logica fără sintaxa unui limbaj. Diagramele arată secvențe, decizii și repetiții.",
+    "example": "Citește n; dacă n > 0 afișează «pozitiv»; altfel afișează «nepozitiv».",
+    "question": "De ce folosim pseudocod?",
+    "choices": [
+      "Pentru a ascunde buguri",
+      "Pentru a descrie logic algoritmul",
+      "Pentru a mări RAM",
+      "Pentru a executa orice browser"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "variables",
+    "path": "algorithms",
+    "ro": "Variabile și expresii",
+    "en": "Variables and expressions",
+    "theory": "O variabilă leagă un nume de o valoare; expresiile combină valori și operatori. Alegerea tipului influențează operațiile.",
+    "example": "x = 3; x = x + 2; rezultatul este x = 5.",
+    "question": "Ce valoare are x după x=3; x=x+2?",
+    "choices": [
+      "3",
+      "2",
+      "5",
+      "6"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "branches",
+    "path": "algorithms",
+    "ro": "Condiții și operatori logici",
+    "en": "Conditionals and logic",
+    "theory": "Operatorii AND, OR, NOT compun predicate. Condițiile trebuie testate și pentru valori-limită.",
+    "example": "Acces permis dacă vârsta >= 18 AND contActiv.",
+    "question": "Ce întoarce True AND False?",
+    "choices": [
+      "False",
+      "True",
+      "18",
+      "Eroare mereu"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "iteration",
+    "path": "algorithms",
+    "ro": "For, while și terminare",
+    "en": "Loops and termination",
+    "theory": "Buclele au inițializare, condiție și actualizare. Verifică posibilitatea de oprire și cazurile cu zero iterații.",
+    "example": "Suma pentru i de la 1 la 4 este 1+2+3+4 = 10.",
+    "question": "Câte iterații are for i in range(3) în Python?",
+    "choices": [
+      "2",
+      "3",
+      "4",
+      "Infinit"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "functions",
+    "path": "algorithms",
+    "ro": "Funcții și parametri",
+    "en": "Functions and parameters",
+    "theory": "Funcțiile grupează calcule reutilizabile. Parametrii oferă intrări, return păstrează un rezultat fără efecte colaterale necesare.",
+    "example": "def patrat(x): return x*x; patrat(4) întoarce 16.",
+    "question": "Ce face return?",
+    "choices": [
+      "Oprește calculatorul",
+      "Apelează automat internetul",
+      "Întoarce rezultatul funcției",
+      "Șterge variabilele globale"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "collections",
+    "path": "algorithms",
+    "ro": "Liste, șiruri și dicționare",
+    "en": "Collections",
+    "theory": "Listele au poziții ordonate; dicționarele folosesc chei. Accesul trebuie să respecte limitele și existența cheilor.",
+    "example": "lista = [10, 20, 30]; lista[1] este 20 în Python.",
+    "question": "Care este lista[1] pentru [10,20,30]?",
+    "choices": [
+      "20",
+      "10",
+      "30",
+      "1"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "recursion",
+    "path": "algorithms",
+    "ro": "Recursivitate",
+    "en": "Recursion",
+    "theory": "O funcție recursivă se apelează pe o problemă mai mică și necesită caz de bază pentru terminare.",
+    "example": "factorial(3)=3×factorial(2); factorial(0)=1 este cazul de bază.",
+    "question": "Ce este esențial în recursivitate?",
+    "choices": [
+      "MFA",
+      "Un caz de bază",
+      "Un fișier PDF",
+      "O tastatură"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "complexity",
+    "path": "algorithms",
+    "ro": "Complexitate temporală și spațială",
+    "en": "Complexity basics",
+    "theory": "Notația O descrie cum crește costul cu dimensiunea intrării, ignorând factorii constanți. Compară algoritmii pe inputuri mari.",
+    "example": "Parcurgerea unei liste cu n elemente este O(n); accesul prin index este de regulă O(1).",
+    "question": "Care este complexitatea unei parcurgeri simple prin n valori?",
+    "choices": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n!)"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "python-syntax",
+    "path": "programming",
+    "ro": "Bazele Python",
+    "en": "Python foundations",
+    "theory": "Python folosește indentarea pentru blocuri. print afișează, input citește text; conversia numerică este explicită.",
+    "example": "n = int(input('Număr: ')); print(n*2)",
+    "question": "Ce tip întoarce input() în Python?",
+    "choices": [
+      "str",
+      "int",
+      "float",
+      "bool"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "javascript",
+    "path": "programming",
+    "ro": "Bazele JavaScript",
+    "en": "JavaScript foundations",
+    "theory": "JavaScript rulează în browser sau pe server. const și let definesc variabile cu reguli diferite de reasignare.",
+    "example": "const x = 2; console.log(x + 3); afișează 5.",
+    "question": "Cum declari o variabilă ce poate fi reasignată?",
+    "choices": [
+      "const",
+      "let",
+      "import",
+      "return"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "types",
+    "path": "programming",
+    "ro": "Tipuri și conversii",
+    "en": "Types and conversions",
+    "theory": "Numerele, șirurile, booleenele și colecțiile se comportă diferit. Conversiile trebuie tratate explicit și validate.",
+    "example": "În JavaScript, Number('7') produce numărul 7; '7' rămâne un șir.",
+    "question": "Ce este bool în Python?",
+    "choices": [
+      "Tip de fișier",
+      "Tablou",
+      "Tip logic True/False",
+      "Operator de rețea"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "debugging",
+    "path": "programming",
+    "ro": "Depanare și teste",
+    "en": "Debugging and tests",
+    "theory": "Reproduce eroarea, citește mesajul și izolează un exemplu minim. Testele verifică intrări obișnuite, limite și erori.",
+    "example": "Testează împărțirea la 0 separat de calculul valid, în loc să ascunzi excepția.",
+    "question": "Ce faci înainte să modifici un bug necunoscut?",
+    "choices": [
+      "Îl reproduci",
+      "Ștergi toate testele",
+      "Ignori jurnalul",
+      "Publici imediat"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "git",
+    "path": "programming",
+    "ro": "Versionare și colaborare",
+    "en": "Git and collaboration",
+    "theory": "Un commit este o fotografie logică a schimbărilor. Branch-urile izolează lucrul, review-ul verifică înainte de integrare.",
+    "example": "Folosește commit-uri mici și mesaje descriptive pentru o modificare de cod.",
+    "question": "Ce păstrează istoricul modificărilor?",
+    "choices": [
+      "PDF",
+      "Git",
+      "CSS",
+      "DNS"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "html",
+    "path": "web",
+    "ro": "HTML semantic",
+    "en": "Semantic HTML",
+    "theory": "HTML descrie structura și sensul elementelor: headings, paragrafe, formulare și legături. Semanticitatea susține accesibilitatea.",
+    "example": "<button type='button'>Salvează</button> este preferabil unui div folosit ca buton.",
+    "question": "Care element reprezintă o acțiune apăsabilă?",
+    "choices": [
+      "<div>",
+      "<span>",
+      "<button>",
+      "<br>"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "css",
+    "path": "web",
+    "ro": "CSS și layout responsive",
+    "en": "CSS and responsive layout",
+    "theory": "CSS controlează prezentarea. Flexbox și Grid ajută la layouturi adaptabile; unitățile relative evită depășirea ecranelor.",
+    "example": "Folosește max-width:100% pentru imagini și flex-wrap pentru controale când spațiul este mic.",
+    "question": "Ce proprietate permite împachetarea elementelor flex?",
+    "choices": [
+      "flex-wrap",
+      "border-radius",
+      "font-style",
+      "opacity"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "dom",
+    "path": "web",
+    "ro": "DOM și evenimente",
+    "en": "DOM and events",
+    "theory": "DOM reprezintă documentul în obiecte. Ascultătorii de evenimente reacționează la input, fără a executa cod venit de la utilizator.",
+    "example": "button.addEventListener('click', () => { status.textContent='Gata'; });",
+    "question": "Ce metodă atașează un eveniment?",
+    "choices": [
+      "innerText",
+      "addEventListener",
+      "JSON.parse",
+      "Date.now"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "accessibility",
+    "path": "web",
+    "ro": "Accesibilitate web",
+    "en": "Web accessibility",
+    "theory": "Conținutul trebuie să funcționeze la tastatură, cu etichete clare, contrast și statusuri anunțate. Nu construi controale doar din culori.",
+    "example": "Un input are label explicit, iar statusul rezultatului poate avea role='status'.",
+    "question": "Ce îmbunătățește accesibilitatea unui formular?",
+    "choices": [
+      "Placeholder exclusiv",
+      "Imagine fără descriere",
+      "Etichetă asociată inputului",
+      "Culoare fără text"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "tables",
+    "path": "databases",
+    "ro": "Tabele, înregistrări și chei",
+    "en": "Tables and keys",
+    "theory": "Un tabel relațional conține rânduri și coloane. Cheia primară identifică unic fiecare rând; tipurile previn confuziile.",
+    "example": "elevi(id, nume, clasa); id este unic chiar dacă doi elevi au același nume.",
+    "question": "Ce este o cheie primară?",
+    "choices": [
+      "Identificator unic",
+      "Titlul tabelului",
+      "O parolă",
+      "Numele bazei"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "sql",
+    "path": "databases",
+    "ro": "Interogări SQL SELECT",
+    "en": "SQL selection",
+    "theory": "SELECT cere coloane, FROM sursa, WHERE filtrarea; interogările parametrizate previn injectarea la introduceri externe.",
+    "example": "SELECT nume FROM elevi WHERE clasa = 9;",
+    "question": "Care clauză filtrează rândurile?",
+    "choices": [
+      "ORDER BY",
+      "WHERE",
+      "FROM",
+      "CREATE"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "joins",
+    "path": "databases",
+    "ro": "Relații și JOIN",
+    "en": "Database joins",
+    "theory": "O cheie străină asociază entități; JOIN combină rândurile care corespund condiției de legătură.",
+    "example": "comenzi(client_id) se leagă de clienti(id); apoi JOIN oferă numele clientului.",
+    "question": "La ce folosește JOIN?",
+    "choices": [
+      "Șterge serverul",
+      "Creează fișiere",
+      "Combină date din tabele relaționate",
+      "Schimbă extensia"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "internet",
+    "path": "networks",
+    "ro": "IP, DNS și HTTP",
+    "en": "Internet foundations",
+    "theory": "DNS rezolvă nume de domenii în adrese pentru conectare. HTTPS asigură protecția transportului, nu garantează corectitudinea unui site.",
+    "example": "Introduci un domeniu → DNS oferă adresa → browserul stabilește conexiunea HTTPS.",
+    "question": "Ce serviciu leagă numele unui domeniu de o adresă IP?",
+    "choices": [
+      "DNS",
+      "SSD",
+      "RAM",
+      "HTML"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "os-processes",
+    "path": "networks",
+    "ro": "Procese și sistem de operare",
+    "en": "Processes and operating systems",
+    "theory": "Procesele execută programe; sistemul planifică folosirea CPU și memoriei. Fișierele și permisiunile limitează accesul.",
+    "example": "Două aplicații pot rula simultan în procese separate.",
+    "question": "Cine planifică procesele?",
+    "choices": [
+      "Editorul de imagini",
+      "Sistemul de operare",
+      "Cablul USB",
+      "PDF-ul"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "encryption",
+    "path": "networks",
+    "ro": "Criptare și protecție date",
+    "en": "Encryption basics",
+    "theory": "Criptarea transformă datele pentru a fi citite doar cu cheia potrivită. Hash-ul nu este criptare reversibilă și nu înlocuiește o parolă sigură.",
+    "example": "HTTPS folosește criptarea transportului; parola se verifică printr-un mecanism de autentificare.",
+    "question": "Ce face criptarea?",
+    "choices": [
+      "Șterge erorile",
+      "Afișează fișiere",
+      "Protejează confidențialitatea datelor",
+      "Garantează adevărul unei pagini"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "projects",
+    "path": "networks",
+    "ro": "Proiect integrator și testare",
+    "en": "Capstone and verification",
+    "theory": "Un proiect clar are cerințe, intrări, ieșiri, cazuri de test, documentație și etape de revizuire. Rezultatul trebuie verificat, nu doar descris.",
+    "example": "Construiește o listă de cumpărături care adaugă, editează și elimină elemente; testează duplicările.",
+    "question": "Ce dovedește că o cerință funcționează?",
+    "choices": [
+      "Un test reproductibil",
+      "Doar o captură estetică",
+      "Un titlu frumos",
+      "Un comentariu vag"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "architecture",
+    "path": "software",
+    "ro": "Arhitectură modulară",
+    "en": "Modular architecture",
+    "theory": "Separă interfața, logica de domeniu și persistența prin contracte clare. Evită dependențele circulare și efectele ascunse.",
+    "example": "O aplicație folosește module diferite pentru UI, validare și stocare.",
+    "question": "Ce îmbunătățește separarea responsabilităților?",
+    "choices": [
+      "Cuplarea excesivă",
+      "Testabilitatea",
+      "Duplicarea codului",
+      "Lipsa interfețelor"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "testing-advanced",
+    "path": "software",
+    "ro": "Teste unitare, integrare și proprietăți",
+    "en": "Unit and integration testing",
+    "theory": "Unit-test validează funcții izolate; integrarea validează colaborarea; testarea de proprietăți examinează invarianti pe multe intrări.",
+    "example": "Pentru sortare verifică: rezultatul este ordonat și conține exact multisetul inițial.",
+    "question": "Ce verifică un test de integrare?",
+    "choices": [
+      "Doar designul",
+      "Lungimea numelui",
+      "Interacțiunea componentelor",
+      "Parola utilizatorului"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "deployment",
+    "path": "software",
+    "ro": "CI/CD și lansări sigure",
+    "en": "CI/CD and release engineering",
+    "theory": "Pipeline-ul ar trebui să construiască, testeze, scaneze și publice artefacte reproductibile. Versionarea și rollback-ul reduc riscurile.",
+    "example": "Publică dintr-un commit testat; păstrează artifact semnat și plan de rollback.",
+    "question": "Ce reduce riscul unei lansări?",
+    "choices": [
+      "Pipeline cu teste și rollback",
+      "Modificări direct în producție",
+      "Ignorarea erorilor",
+      "Secrete în cod"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "structures",
+    "path": "computer-science",
+    "ro": "Structuri de date avansate",
+    "en": "Advanced data structures",
+    "theory": "Heap, arbori și tabele hash oferă compromisuri diferite de timp și spațiu. Alege structura după operațiile dominante.",
+    "example": "O coadă cu priorități se poate implementa eficient cu un heap binar.",
+    "question": "Care structură este potrivită pentru prioritatea minimă?",
+    "choices": [
+      "Listă sortată manual mereu",
+      "Heap",
+      "Fișier audio",
+      "Parser HTML"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "graphs",
+    "path": "computer-science",
+    "ro": "Grafuri și algoritmi",
+    "en": "Graph algorithms",
+    "theory": "Grafurile au vârfuri și muchii; BFS găsește distanțe minime în grafuri neponderate; Dijkstra pentru ponderi nenegative.",
+    "example": "Într-un graf neponderat, BFS pornește din sursă și explorează pe straturi.",
+    "question": "Ce algoritm oferă distanțe minime în graf neponderat?",
+    "choices": [
+      "DFS întotdeauna",
+      "Quicksort",
+      "BFS",
+      "Hashing"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "automata",
+    "path": "computer-science",
+    "ro": "Automate, computabilitate și limite",
+    "en": "Automata and computability",
+    "theory": "Automatele finite recunosc limbaje regulate; mașinile Turing modelează calculul general. Există probleme indecidabile.",
+    "example": "Problema opririi nu poate fi rezolvată de un algoritm general pentru orice program și intrare.",
+    "question": "Ce este indecidabil în general?",
+    "choices": [
+      "Problema opririi",
+      "Adunarea a două numere",
+      "Sortarea unei liste finite",
+      "Parcurgerea unui graf finit"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "optimization",
+    "path": "computer-science",
+    "ro": "Complexitate și analiză amortizată",
+    "en": "Complexity and amortized analysis",
+    "theory": "Analiza asimptotică separă clase de creștere; amortizarea estimează costul mediu pe o secvență de operații, nu pe o distribuție aleatoare.",
+    "example": "Dublarea capacității unui vector dinamic oferă append amortizat O(1).",
+    "question": "Ce cost amortizat are append într-un vector cu dublare?",
+    "choices": [
+      "O(n²)",
+      "O(1)",
+      "O(n!)",
+      "O(log n) obligatoriu"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "ml-pipeline",
+    "path": "artificial-intelligence",
+    "ro": "Pregătirea și separarea datelor",
+    "en": "ML data pipeline",
+    "theory": "Împarte seturile de antrenare, validare și test astfel încât exemplele sau entitățile corelate să nu se scurgă între ele.",
+    "example": "Datele viitoare pentru predicție temporală nu trebuie să apară în antrenare.",
+    "question": "Ce produce scurgere de date?",
+    "choices": [
+      "Validare separată",
+      "Test ținut deoparte",
+      "Features derivate din ținta viitoare",
+      "Documentație"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "learning",
+    "path": "artificial-intelligence",
+    "ro": "Învățare supervizată și metrici",
+    "en": "Supervised learning and metrics",
+    "theory": "Clasificarea prezice categorii; regresia valori. Alege metrici după costul erorilor, dezechilibrul claselor și context.",
+    "example": "Pentru clase rare, precizia și recall pot fi mai utile decât acuratețea totală.",
+    "question": "Ce măsoară recall-ul?",
+    "choices": [
+      "Proporția cazurilor pozitive reale detectate",
+      "Dimensiunea fișierelor",
+      "Viteza rețelei",
+      "Numărul epocilor"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "neural",
+    "path": "artificial-intelligence",
+    "ro": "Rețele neuronale și optimizare",
+    "en": "Neural networks and optimization",
+    "theory": "Parametrii sunt ajustați pentru minimizarea pierderii folosind gradientul. Supraajustarea necesită validare și regularizare.",
+    "example": "Un model cu pierdere de antrenare mică și pierdere de validare mare poate supraajusta.",
+    "question": "Ce indică supraajustare?",
+    "choices": [
+      "Ambele erori zero pe date noi",
+      "Generalizare slabă pe validare",
+      "Numărul corect de clase",
+      "Validare independentă bună"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "ai-governance",
+    "path": "artificial-intelligence",
+    "ro": "Evaluare, bias și utilizare responsabilă",
+    "en": "AI evaluation and governance",
+    "theory": "Modelele pot produce erori, conținut nefundamentat și discriminare. Evaluează pe grupuri relevante și păstrează intervenția umană pentru decizii sensibile.",
+    "example": "Un asistent pentru educație ar trebui să indice incertitudinea și să nu inventeze surse.",
+    "question": "Care este o măsură de control?",
+    "choices": [
+      "Lipsa oricăror teste",
+      "Automatizarea deciziilor critice fără revizuire",
+      "Evaluarea erorilor și supraveghere umană",
+      "Ignorarea biasului"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "threat-model",
+    "path": "cybersecurity",
+    "ro": "Modelare de amenințări",
+    "en": "Threat modeling",
+    "theory": "Inventariază active, limite de încredere, suprafețe de atac și impact. Abordarea este preventivă și pe sisteme autorizate.",
+    "example": "Pentru o aplicație, verifică accesul la documente, sesiunile și rolurile.",
+    "question": "Ce urmărește modelarea amenințărilor?",
+    "choices": [
+      "Identificarea riscurilor înaintea incidentelor",
+      "Exploatarea unor servere străine",
+      "Publicarea cheilor",
+      "Dezactivarea jurnalelor"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "secure-code",
+    "path": "cybersecurity",
+    "ro": "Dezvoltare sigură și validarea intrărilor",
+    "en": "Secure coding",
+    "theory": "Validează date la granița de încredere; folosește interogări parametrizate, encoding contextual și controale de acces pe server.",
+    "example": "Pentru SQL folosește parametri, nu concatenarea șirurilor furnizate de utilizator.",
+    "question": "Ce previne de regulă SQL injection?",
+    "choices": [
+      "Concatenezi input-ul",
+      "Interogări parametrizate",
+      "Ascunzi butonul",
+      "Obfuschezi CSS"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "identity",
+    "path": "cybersecurity",
+    "ro": "Autentificare, autorizare și secrete",
+    "en": "IAM and secrets",
+    "theory": "Autentificarea stabilește identitatea, autorizarea decide permisiunile. Gestionează secretele în sisteme dedicate și aplică principiul privilegiilor minime.",
+    "example": "Un cont elev poate vedea propriile documente, dar nu pe ale altuia.",
+    "question": "Ce verificare este esențială pe server?",
+    "choices": [
+      "Doar culoarea butonului",
+      "Doar titlul paginii",
+      "Autorizarea fiecărei acțiuni",
+      "Numele fișierului"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "incident",
+    "path": "cybersecurity",
+    "ro": "Monitorizare și răspuns la incidente",
+    "en": "Detection and response",
+    "theory": "Monitorizează evenimente relevante, limitează expunerea datelor și pregătește procesul de izolare, remediere și recuperare.",
+    "example": "La compromiterea unui token: revocă-l, investighează accesul, rotește secretele afectate.",
+    "question": "Care este prima măsură la detectarea unui token compromis?",
+    "choices": [
+      "Revocă accesul compromis",
+      "Publică token-ul",
+      "Ignoră alerta",
+      "Șterge toate copiile de siguranță"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "statistics",
+    "path": "data-science",
+    "ro": "Statistica aplicată și inferență",
+    "en": "Applied statistics",
+    "theory": "Distinge populație și eșantion, corelație și cauzalitate. Intervalele de încredere reflectă incertitudinea sub ipotezele modelului.",
+    "example": "O corelație între două variabile nu demonstrează o relație cauzală.",
+    "question": "Ce NU demonstrează corelația singură?",
+    "choices": [
+      "O asociere",
+      "Cauzalitate",
+      "O tendință observată",
+      "O covariație"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "data-pipelines",
+    "path": "data-science",
+    "ro": "ETL și calitatea datelor",
+    "en": "ETL and data quality",
+    "theory": "Extrage, validează, transformă și încarcă date cu proveniență verificabilă. Gestionează duplicatele, valorile lipsă și schimbarea schemelor.",
+    "example": "Un pipeline verifică tipurile coloanelor înainte de încărcare și raportează rândurile respinse.",
+    "question": "Ce este un control de calitate util?",
+    "choices": [
+      "Ignori valorile lipsă",
+      "Elimini schema",
+      "Validezi tipurile și duplicările",
+      "Amesteci sursele"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "database-design",
+    "path": "data-science",
+    "ro": "Normalizare și tranzacții",
+    "en": "Database design and transactions",
+    "theory": "Normalizarea reduce anomaliile; tranzacțiile ACID oferă garanții de consistență în condițiile definite de motor.",
+    "example": "Un transfer între conturi trebuie să debiteze și să crediteze atomic.",
+    "question": "Care proprietate evită o tranzacție parțială?",
+    "choices": [
+      "Atomicitate",
+      "Compresie",
+      "HTML",
+      "DNS"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "visualization",
+    "path": "data-science",
+    "ro": "Vizualizare și interpretare",
+    "en": "Data visualisation",
+    "theory": "Alege graficul după tipul de date, unități și comparație; evită axele înșelătoare și omisiunile de eșantion.",
+    "example": "Pentru evoluții în timp, graficul liniar este adesea potrivit dacă axele sunt clare.",
+    "question": "Ce face graficul mai corect?",
+    "choices": [
+      "Eliminarea unităților",
+      "Axe și surse clare",
+      "Tăierea arbitrară a datelor",
+      "Culori fără legendă"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "concurrency",
+    "path": "systems",
+    "ro": "Fire, procese și sincronizare",
+    "en": "Concurrency and synchronization",
+    "theory": "Execuția concurentă necesită protejarea stării partajate; blocările pot preveni curse dar pot produce deadlock.",
+    "example": "Două fire care măresc aceeași variabilă fără sincronizare pot pierde actualizări.",
+    "question": "Ce apare când accesul concurent nu este sincronizat?",
+    "choices": [
+      "CSS",
+      "DNS",
+      "Condiție de cursă",
+      "O extensie PDF"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "distributed",
+    "path": "systems",
+    "ro": "Sisteme distribuite și consistență",
+    "en": "Distributed systems",
+    "theory": "Eșecurile parțiale, latența și duplicarea mesajelor sunt normale. Proiectează operații idempotente și retry-uri limitate.",
+    "example": "O comandă repetată cu același id nu trebuie să încaseze de două ori.",
+    "question": "Ce descrie idempotent?",
+    "choices": [
+      "Repetarea operației nu produce efecte suplimentare",
+      "Lipsa jurnalelor",
+      "Criptare obligatorie",
+      "Păstrarea tuturor parolelor"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "cloud",
+    "path": "systems",
+    "ro": "Cloud, containere și observabilitate",
+    "en": "Cloud and observability",
+    "theory": "Containerul împachetează aplicația; orchestrarea și observabilitatea urmăresc stări, loguri, metrici și trasee.",
+    "example": "Un deployment are health checks și rollback înainte de extinderea la toți utilizatorii.",
+    "question": "Ce ajută la diagnosticarea latenței?",
+    "choices": [
+      "Titlul aplicației",
+      "Metrici, loguri și trasee",
+      "Culoarea iconiței",
+      "Numele utilizatorului"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "performance",
+    "path": "systems",
+    "ro": "Profilare și optimizare",
+    "en": "Profiling and performance",
+    "theory": "Măsoară întâi blocajul real și schimbă incremental. Optimizarea prematură fără profilare poate crește riscul de erori.",
+    "example": "Un flame graph arată unde se consumă timpul CPU.",
+    "question": "Ce faci înaintea optimizării?",
+    "choices": [
+      "Rescrii întreg codul",
+      "Elimini testele",
+      "Măsori cu profiler",
+      "Crești toate timeouturile"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "electronics",
+    "path": "embedded",
+    "ro": "Microcontrolere și semnale",
+    "en": "Microcontrollers and signals",
+    "theory": "Microcontrolerul execută firmware și interacționează cu senzori prin intrări și ieșiri. Nivelurile electrice trebuie respectate.",
+    "example": "Un GPIO poate citi un buton sau controla un LED prin circuit potrivit.",
+    "question": "Ce poate face un GPIO?",
+    "choices": [
+      "Citi o intrare digitală",
+      "Stoca fișiere nelimitat",
+      "Găzdui orice browser",
+      "Înlocui routerul"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "realtime",
+    "path": "embedded",
+    "ro": "Sisteme de timp real",
+    "en": "Real-time systems",
+    "theory": "Corectitudinea depinde și de respectarea termenelor-limită. Planificarea și durata maximă de execuție trebuie analizate.",
+    "example": "Un controler trebuie să reacționeze într-un interval maxim specificat, nu doar în medie.",
+    "question": "Ce definește o cerință de timp real?",
+    "choices": [
+      "Doar viteza medie",
+      "Respectarea termenului-limită",
+      "Numărul de ferestre",
+      "Culoarea interfeței"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "iot-security",
+    "path": "embedded",
+    "ro": "IoT și securizarea dispozitivelor",
+    "en": "IoT and device security",
+    "theory": "Dispozitivele conectate au nevoie de actualizări semnate, identități unice și acces minim. Nu expune controlul fizic fără autorizare.",
+    "example": "Un senzor trimite date prin TLS și verifică semnătura firmware-ului.",
+    "question": "Ce protejează actualizarea firmware-ului?",
+    "choices": [
+      "Numele produsului",
+      "Un buton roșu",
+      "Verificarea semnăturii",
+      "Un cablu mai lung"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "user-research",
+    "path": "hci",
+    "ro": "Cercetare UX și cerințe",
+    "en": "UX research and requirements",
+    "theory": "Formulează obiective observabile din interviuri și teste, nu din presupuneri. Studiază utilizatori cu abilități diferite.",
+    "example": "Testează o aplicație educațională cu elevi și profesori, nu doar cu dezvoltatori.",
+    "question": "Ce validează o ipoteză UX?",
+    "choices": [
+      "Testul cu utilizatori reali",
+      "Preferința developerului",
+      "Un logo",
+      "Un slogan"
+    ],
+    "correct": 0,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "graphics",
+    "path": "hci",
+    "ro": "Grafică, coordonate și transformări",
+    "en": "Computer graphics",
+    "theory": "Transformările translatează, rotesc și scalează obiecte. Camera și proiecția definesc reprezentarea spațiului 3D.",
+    "example": "O rotație 3D modifică orientarea obiectului; nu trebuie confundată cu mutarea lui.",
+    "question": "Ce schimbă o translație?",
+    "choices": [
+      "Culoarea textului",
+      "Poziția obiectului",
+      "Memoria RAM",
+      "Numărul de fișiere"
+    ],
+    "correct": 1,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  },
+  {
+    "id": "accessible-design",
+    "path": "hci",
+    "ro": "Design incluziv și testare",
+    "en": "Inclusive and accessible design",
+    "theory": "Proiectează pentru contrast, navigație la tastatură, etichete pentru cititoare și dimensiuni tactile potrivite. Nu simula accesibilitatea doar estetic.",
+    "example": "Un buton are etichetă clară, rol nativ și zonă tactilă suficientă.",
+    "question": "Ce este un control accesibil?",
+    "choices": [
+      "Doar o iconiță fără text",
+      "Un div fără interacțiune",
+      "Buton nativ etichetat",
+      "Text doar în imagine"
+    ],
+    "correct": 2,
+    "practice": "Explică în cuvintele tale conceptul și construiește un exemplu propriu, apoi compară-l cu explicația din lecție."
+  }
+];
+
+export function computingPaths(level){return COMPUTING_PATHS.filter(p=>p.level===level)}
+
+export function computingTopics(level,path){return COMPUTING_TOPICS.filter(t=>t.path===path&&COMPUTING_PATHS.some(p=>p.id===path&&p.level===level))}
+
+export function computingTopic(level,path,id){return computingTopics(level,path).find(t=>t.id===id)||null}
+
+export function computingQuizCheck(topic,choice){if(!topic||!Number.isInteger(choice))return null;return {correct:choice===topic.correct,expected:topic.choices[topic.correct]}}
+
+export function computingCoverage(){return Object.fromEntries(COMPUTING_LEVELS.map(l=>[l.id,{paths:computingPaths(l.id).length,topics:COMPUTING_TOPICS.filter(t=>computingPaths(l.id).some(p=>p.id===t.path)).length}]))}
