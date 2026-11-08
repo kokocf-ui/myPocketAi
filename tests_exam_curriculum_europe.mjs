@@ -132,4 +132,11 @@ assert.match(EXAM_UI_SCRIPT,/practiceVersion=/,'Rotate practice variants, not ju
 assert.match(EXAM_UI_SCRIPT,/q\.diagram/,'Attach relevant figures to the question they explain');
 assert.match(EXAM_UI_SCRIPT,/examPracticeAnchor/,'Scroll to the new simulation');
 assert.match(EXAM_UI_SCRIPT,/printableGuide\.querySelectorAll/,'Include all study notes in printable PDF');
+assert.match(EXAM_UI_SCRIPT,/function examUniversalResources/,'Real study notes for non-Romanian and non-biology subjects');
+assert.match(EXAM_UI_SCRIPT,/EXAM_THEORY_DATA\[subject\.id\]/,'Reuse verified theory source');
+assert.match(EXAM_UI_SCRIPT,/function examFreshPractice/,'Create new exam quizzes for small local pools');
+assert.match(EXAM_UI_SCRIPT,/new Set\(normalized\.map/,'Reject duplicate AI questions');
+assert.match(EXAM_UI_SCRIPT,/examJourney\.aiQuestions=generated/,'Connect fresh questions to interactive grading');
+assert.match(EXAM_UI_SCRIPT,/Nu s-a putut crea un set diferit/,'Do not pretend repeated local questions are new');
+assert.ok(boot.includes('EXAM_THEORY_DATA'),'Curriculum-backed theory must be embedded into frontend');
 console.log('PASS European exam pathways, 26 exam records, original local questions, session warnings, PDF, camera, Android voice and script boot');
