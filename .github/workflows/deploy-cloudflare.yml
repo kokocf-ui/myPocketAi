@@ -24,6 +24,9 @@ jobs:
           node --check index.js
           node tests_frontend_boot_syntax.mjs
           node tests_history_geography.mjs
+          node tests_literature_europe.mjs
+          node tests_literature_completion.mjs
+          node tests_pdf_library.mjs
 
       - name: Verify contextual news translation and apply avatar lip-stop patch
         run: |
