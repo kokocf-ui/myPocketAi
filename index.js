@@ -3,6 +3,7 @@ import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_eur
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {PRACTICAL_COURSES,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
+import {PRACTICAL_REFERENCES} from './practical_sources.mjs';
 import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
@@ -9833,6 +9834,7 @@ const EXAM_PRACTICE_DATA=${JSON.stringify(EXAM_LOCAL_BANK)};
 const EXAM_THEORY_DATA=${JSON.stringify(Object.fromEntries(['math','physics','chemistry','biology','astronomy'].map(id=>[id,THEORY_ENTRIES.filter(e=>e.subject===id).slice(0,40)])))};
 const PRACTICAL_COURSES_DATA=${JSON.stringify(PRACTICAL_COURSES)};
 const PRACTICAL_COUNTRIES_DATA=${JSON.stringify(PRACTICAL_COUNTRIES)};
+const PRACTICAL_REFERENCES_DATA=${JSON.stringify(PRACTICAL_REFERENCES)};
 const PRACTICAL_LEVELS_DATA=${JSON.stringify(PRACTICAL_LEVELS)};
 const COMPUTING_LEVELS_DATA=${JSON.stringify(COMPUTING_LEVELS)};
 const COMPUTING_PATHS_DATA=${JSON.stringify(COMPUTING_PATHS)};
