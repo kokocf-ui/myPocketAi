@@ -40,6 +40,9 @@ jobs:
           node --check practical_ui.mjs
           node --check education_selects_ui.mjs
           node tests_practical_courses.mjs
+          node --check education_country_ui.mjs
+          node --check education_school_paths.mjs
+          node tests_education_country_first.mjs
 
       - name: Verify contextual news translation and apply avatar lip-stop patch
         run: |
