@@ -12,6 +12,7 @@ import {PRACTICAL_DEPTH_EXTRA} from './practical_depth_extra.mjs';
 import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
+import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,HG_SCHOOL_SOURCES} from './education_school_paths.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
@@ -9850,6 +9851,10 @@ const COMPUTING_LEVELS_DATA=${JSON.stringify(COMPUTING_LEVELS)};
 const COMPUTING_PATHS_DATA=${JSON.stringify(COMPUTING_PATHS)};
 const COMPUTING_TOPICS_DATA=${JSON.stringify(COMPUTING_TOPICS)};
 const HG_SUBJECT_DATA=${JSON.stringify(HG_SUBJECTS)};
+const EDUCATION_SCHOOL_YEARS_DATA=${JSON.stringify(EDUCATION_SCHOOL_YEARS)};
+const HG_SCHOOL_PLANS_DATA=${JSON.stringify(HG_SCHOOL_PLANS)};
+const HG_SCHOOL_GENERAL_DATA=${JSON.stringify(HG_SCHOOL_GENERAL)};
+const HG_SCHOOL_SOURCES_DATA=${JSON.stringify(HG_SCHOOL_SOURCES)};
 const HG_LEVEL_DATA=${JSON.stringify(HG_LEVELS)};
 const HG_SCOPE_DATA=${JSON.stringify(HG_SCOPES)};
 const HG_COUNTRY_DATA=${JSON.stringify(HG_COUNTRIES)};
@@ -10321,12 +10326,24 @@ function languageOpen(stage){
 
 
 // History & Geography: independent curriculum pathway, country and region.
-let hgJourney={stage:'subjects',subject:null,scope:'world',country:null,region:'',level:null,speciality:null,topic:null,year:null,mapType:'political',busy:false,showSolutions:false};
+let hgJourney={stage:'subjects',subject:null,scope:'world',country:null,region:'',level:null,grade:null,speciality:null,topic:null,year:null,mapType:'political',busy:false,showSolutions:false};
 const hgL=(ro,en)=>learningLabel(ro,en);
 function hgBtn(label,fn,cls='secondary-btn'){const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=label;b.onclick=fn;return b}
 function hgCountry(){return hgCountryOptions().find(x=>x.id===hgJourney.country)}
 function hgSubject(){return HG_SUBJECT_DATA.find(x=>x.id===hgJourney.subject)}
-function hgTopic(){return (hgJourney.subject==='history'?HG_HISTORY_DATA:HG_GEOGRAPHY_DATA).find(x=>x.id===hgJourney.topic)}
+function hgSchoolChapterSet(){
+ const country=hgJourney.country,subject=hgJourney.subject,grade=String(hgJourney.grade||'');
+ const exact=HG_SCHOOL_PLANS_DATA[country]?.[subject]?.[grade];
+ const general=HG_SCHOOL_GENERAL_DATA[subject]?.[hgJourney.level]||[];
+ const source=HG_SCHOOL_SOURCES_DATA[country]?.[subject];
+ const verified=Boolean(exact&&source?.grades?.includes(grade));
+ return {source:verified?source.source:null,status:verified?'official-framework':'general-learning',
+  chapters:(exact||general).map(([id,ro,en,query])=>({id,ro,en,query,grade,level:hgJourney.level}))};
+}
+function hgTopic(){
+ const item=hgSchoolChapterSet().chapters.find(x=>x.id===hgJourney.topic);
+ return item||(hgJourney.subject==='history'?HG_HISTORY_DATA:HG_GEOGRAPHY_DATA).find(x=>x.id===hgJourney.topic);
+}
 function hgSave(){
  try{localStorage.setItem('pocket-hg-country-v1',JSON.stringify({country:hgJourney.country,region:hgJourney.region,scope:hgJourney.scope}))}catch{}
 }
@@ -10344,16 +10361,17 @@ function hgRestore(){
  }
 }
 function hgText(tag,value){const e=document.createElement(tag);e.textContent=value;return e}
-function hgProgressKey(){return 'pocket-hg-progress-v1-'+hgJourney.subject+'-'+hgJourney.scope+'-'+hgJourney.country+'-'+hgJourney.level}
+function hgProgressKey(){return 'pocket-hg-progress-v1-'+hgJourney.subject+'-'+hgJourney.scope+'-'+hgJourney.country+'-'+hgJourney.level+'-'+(hgJourney.grade||'')}
 function hgStatus(value){const el=document.getElementById('hgStatus');if(el)el.textContent=value}
 function hgRemember(kind){
  try{const key=hgProgressKey(),p=JSON.parse(localStorage.getItem(key)||'{}');p[hgJourney.topic]={...(p[hgJourney.topic]||{}),[kind]:new Date().toISOString()};localStorage.setItem(key,JSON.stringify(p))}catch{}
 }
 function hgBack(){
- const prev={subjects:null,scope:'subjects',country:'scope',levels:hgJourney.scope==='world'?'scope':'country',specialties:'levels',chapters:hgJourney.level==='advanced'?'specialties':'levels',lesson:'chapters'};
+ const prev={subjects:null,scope:'subjects',country:'scope',levels:'scope',grade:'levels',specialties:'levels',chapters:hgJourney.level==='advanced'?'specialties':'levels',lesson:'chapters'};
  if(prev[hgJourney.stage])hgOpen(prev[hgJourney.stage]);else renderLearningSubjects();
 }
 function hgOpen(stage){
+ if(stage==='country')return educationCountryGate('history',()=>hgOpen('levels'));
  hgJourney.stage=stage;
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('learning-choose','learning-math','learning-science','learning-languages','math-choice-stage','science-choice-stage');
@@ -10380,7 +10398,7 @@ function hgOpen(stage){
  if(stage==='subjects')list(HG_SUBJECT_DATA,opt=>{hgJourney.subject=opt.id;hgJourney.topic=null;hgOpen('scope')});
  if(stage==='scope'){
   panel.append(hgText('p',hgL('Programa internațională este disponibilă permanent. Țara studiului nu este impusă de GPS.','International material always remains available. GPS does not dictate the school curriculum.')));
-  list(HG_SCOPE_DATA,opt=>{hgJourney.scope=opt.id;hgOpen(opt.id==='world'?'levels':'country')});
+  list(HG_SCOPE_DATA,opt=>{hgJourney.scope=opt.id;hgOpen('levels')});
  }
  if(stage==='country'){
   if(!hgJourney.country)hgRestore();
@@ -10424,7 +10442,7 @@ function hgOpen(stage){
   },'primary-btn'));
  }
  if(stage==='levels'){
-  panel.append(hgText('p',hgL('Nivelul stabilește complexitatea explicațiilor.','The level determines explanation complexity.')));
+  panel.append(hgText('p',hgL('Nivelul stabilește și clasele disponibile în țara selectată.','The level also determines the school years for the selected country.')));
   const holder=document.createElement('div');holder.className='hg-level-list';
   const descriptions={
    beginner:[hgL('Primar · noțiuni de bază','Primary · fundamentals'),hgL('Primar · orientare și noțiuni de bază','Primary · orientation and fundamentals')],
@@ -10432,7 +10450,7 @@ function hgOpen(stage){
    advanced:[hgL('Universitate și mai departe','University and beyond')]
   };
   for(const opt of HG_LEVEL_DATA){
-   const btn=hgBtn('',()=>{hgJourney.level=opt.id;hgJourney.speciality=null;hgOpen(opt.id==='advanced'?'specialties':'chapters')},'secondary-btn hg-choice hg-level-choice');
+   const btn=hgBtn('',()=>{hgJourney.level=opt.id;hgJourney.speciality=null;hgJourney.topic=null;hgJourney.grade=null;hgJourney.stage='grade';educationGradeGate('history',opt.id,grade=>{hgJourney.grade=grade;hgOpen(opt.id==='advanced'?'specialties':'chapters')},()=>hgOpen('levels'))},'secondary-btn hg-choice hg-level-choice');
    const name=hgText('strong',hgL(opt.id==='beginner'?'Începător':opt.id==='medium'?'Mediu':'Avansat',opt.id==='beginner'?'Beginner':opt.id==='medium'?'Intermediate':'Advanced'));
    const desc=hgText('span',descriptions[opt.id][0]);
    btn.append(name,desc);holder.append(btn);
@@ -10447,8 +10465,12 @@ function hgOpen(stage){
  }
  if(stage==='chapters'){
   const region=hgJourney.scope==='world'?hgL('Universală','Global'):(hgCountry()?hgL(hgCountry().ro,hgCountry().en):(hgJourney.otherCountry||''))+(hgJourney.region?' · '+hgJourney.region:'');
-  panel.append(hgText('p',region+' · '+hgL(HG_LEVEL_DATA.find(x=>x.id===hgJourney.level)?.ro||'',HG_LEVEL_DATA.find(x=>x.id===hgJourney.level)?.en||'')));
-  const opts=(hgJourney.subject==='history'?HG_HISTORY_DATA:HG_GEOGRAPHY_DATA).filter(x=>{
+  panel.append(hgText('p',region+' · '+hgL(HG_LEVEL_DATA.find(x=>x.id===hgJourney.level)?.ro||'',HG_LEVEL_DATA.find(x=>x.id===hgJourney.level)?.en||'')+' · '+(hgJourney.grade||'')));
+  const plan=hgSchoolChapterSet();if(hgJourney.level!=='advanced'){
+   panel.append(hgText('p',plan.status==='official-framework'?hgL('Succesiune adaptată cadrului școlar publicat; verifică programa oficială a clasei.','Adapted from the published national framework; check the official year syllabus.'):hgL('Învățare generală: nu există o programă oficială verificată pentru această selecție.','General learning: no verified official syllabus for this choice.')));
+   if(plan.source){const link=hgText('a',hgL('Programa școlară · sursă oficială','Official curriculum source'));link.href=plan.source;link.target='_blank';link.rel='noopener noreferrer';panel.append(link)}
+  }
+  const opts=(hgJourney.level==='advanced'?(hgJourney.subject==='history'?HG_HISTORY_DATA:HG_GEOGRAPHY_DATA):hgSchoolChapterSet().chapters).filter(x=>{
     if(hgJourney.scope==='world')return !['national','regional'].includes(x.id);
     return hgJourney.scope==='national'?x.id!=='regional':true;
   });
@@ -10460,8 +10482,8 @@ function hgLesson(panel){
  const topic=hgTopic();if(!topic)return;
  const country=hgCountry(),scope=HG_SCOPE_DATA.find(x=>x.id===hgJourney.scope);
  panel.append(hgText('h3',hgL(topic.ro,topic.en)));
- panel.append(hgText('p',hgL('Programa: ','Curriculum: ')+hgL(scope.ro,scope.en)+(hgJourney.scope!=='world'?' · '+(country?hgL(country.ro,country.en):hgJourney.otherCountry||''):'')+(hgJourney.region?' · '+hgJourney.region:'')+' · '+(hgJourney.level||'')));
- panel.append(hgText('p',hgL('Obiectiv: definește termenii, localizează fenomenele, examinează cauze și consecințe, explică dovezile și compară interpretările.','Goal: define terms, locate events, analyse causes and effects, explain evidence and compare interpretations.')));
+ panel.append(hgText('p',hgL('Programa: ','Curriculum: ')+hgL(scope.ro,scope.en)+(hgJourney.scope!=='world'?' · '+(country?hgL(country.ro,country.en):hgJourney.otherCountry||''):'')+(hgJourney.region?' · '+hgJourney.region:'')+' · '+(hgJourney.level||'')+' · '+(hgJourney.grade||'')));
+ panel.append(hgText('p',topic.query||hgL('Analizează exemple potrivite clasei selectate.','Explore grade-appropriate examples.')));
  if(topic.period)panel.append(hgText('p',hgL('Perioadă generală: ','General period: ')+topic.period));
  const notes=hgText('p',hgL('Capitolul are structură de studiu. Pentru explicații detaliate, profesorul AI generează conținut la nivelul ales, marcat ca material care necesită verificare.','This chapter has a study structure. The AI tutor creates level-specific content, explicitly marked as requiring verification.'));panel.append(notes);
  const custom=document.createElement('textarea');custom.className='hg-request';custom.rows=2;custom.placeholder=hgL('Întrebare sau subiect precis (opțional)','Specific question or topic (optional)');panel.append(custom);
@@ -10691,7 +10713,7 @@ async function hgGenerate(extra,output){
  const topic=hgTopic(),subject=hgSubject();if(!topic||!subject)return;
  hgJourney.busy=true;output.replaceChildren(hgText('p',hgL('Se pregătește lecția…','Preparing lesson…')));
  const origin=hgCountry(),place=hgJourney.scope==='world'?'global':origin?hgL(origin.ro,origin.en):hgJourney.otherCountry||'';
- const context=[hgL(subject.ro,subject.en),hgL(topic.ro,topic.en),hgJourney.level,hgJourney.speciality||'',hgJourney.scope,place,hgJourney.region||''].filter(Boolean).join(' / ');
+ const context=[hgL(subject.ro,subject.en),hgL(topic.ro,topic.en),hgJourney.level,hgJourney.grade||'',hgJourney.speciality||'',hgJourney.scope,place,hgJourney.region||''].filter(Boolean).join(' / ');
  const message='Acționează ca profesor de '+subject.ro+'. Creează lecția în limba '+(state.language||'ro')+' pentru '+context+'. Subteme: '+(topic.query||'')+'. Acoperă întregul capitol, cu subcapitole, explicații adecvate nivelului selectat, termeni și definiții, exemple concrete, interpretări și surse bibliografice reale. Pentru ISTORIE: cronologie ordonată, date corecte, localități, participanți, cauze și consecințe, context regional și internațional; include toate evenimentele majore relevante și nu limita arbitrar lista la 3-4. Pentru istoria României anterioară unirii, tratează separat Moldova, Țara Românească, Transilvania și alte teritorii relevante, fără a proiecta frontierele actuale în trecut. Pentru GEOGRAFIE: relieful, clima, apele, populația, economia, vecinii, date actualizate cu anul de referință, exemple și variabilitate regională după relevanța capitolului. La nivel avansat, explică metodologia, limitele datelor și dezbaterile academice. Adaugă 3-5 exerciții cu rezolvări explicate. Menționează sursele verificabile, cu titlu, autor/instituție și URL numai când este real; dacă nu poți verifica, marchează explicit. Nu inventa hărți, frontiere, documente, numere ori surse. Nu pretinde acreditare oficială fără document curricular specific. Scrie în text curat, fără formatare Markdown (** sau #). Cerere specială: '+String(extra||'');
  try{
   const result=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,module:'assistant',history:[]})});
