@@ -10337,6 +10337,7 @@ function hgHistoricalMap(panel,topic){
    const link=document.createElement('a');link.href=map.source;link.target='_blank';link.rel='noopener noreferrer';link.textContent=hgL('Deschide harta și sursa','Open map and source');content.append(link);
    const photo=document.createElement('img');photo.className='hg-map-image';photo.alt=map.label;
    if(map.id==='rome117')photo.src='https://commons.wikimedia.org/wiki/Special:FilePath/Roman_Empire-117AD.png';
+   if(map.id==='rome395')photo.src='https://commons.wikimedia.org/wiki/Special:FilePath/Partition_of_the_Roman_Empire_in_395_AD.png';
    if(map.id==='europe1918')photo.src='https://commons.wikimedia.org/wiki/Special:FilePath/Europe_1918.PNG';
    if(photo.src){photo.loading='lazy';photo.onerror=()=>photo.remove();content.append(photo)}
    content.append(hgText('p',hgL('Reconstituire cartografică orientativă; verifică legenda, autorul, data și licența la sursă.','Schematic historical reconstruction; verify legend, authorship, date and licence at source.')));
