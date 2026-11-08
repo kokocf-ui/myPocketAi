@@ -66,4 +66,21 @@ assert.match(COMPUTING_UI_SCRIPT,/id='computingNextLesson'/,'Correct quiz expose
 assert.match(COMPUTING_UI_SCRIPT,/computingJourney\.topic=nextTopic\.id;computingOpen\('workspace'\)/,'Quiz continuation advances to next chapter');
 assert.match(COMPUTING_UI_SCRIPT,/if\(!editor\.value\.trim\(\)&&!state\.speaking\)/,'Auto progress after correct answer without losing written code or interrupting narration');
 assert.match(COMPUTING_UI_SCRIPT,/answers\.querySelectorAll\('button'\)\.forEach\(item=>item\.disabled=true\)/,'Completed quiz cannot be resubmitted');
+// DOM-light rendering check: format assistant headings without corrupting Python **.
+class MockNode {
+ constructor(tag){this.tagName=tag;this.children=[];this._text='';this.style={cssText:''};this.className=''}
+ set textContent(value){this._text=String(value||'');this.children=[]}
+ get textContent(){return this._text+this.children.map(x=>x.textContent||'').join('')}
+ append(...nodes){this.children.push(...nodes)}
+ replaceChildren(...nodes){this._text='';this.children=[...nodes]}
+}
+const mockDocument={createElement(tag){return new MockNode(tag)}};
+const renderComputingAnswer=new Function('document',COMPUTING_UI_SCRIPT+';return computingRenderAnswer;')(mockDocument);
+const rendered=new MockNode('div');
+renderComputingAnswer(rendered,'**Exercițiu:**\nCalculează x**2, nu x2.\n\n'+String.fromCharCode(96).repeat(3)+'python\nx = 2**3\n'+String.fromCharCode(96).repeat(3)+'\n\n* Pasul 1\n* Pasul 2');
+assert.ok(rendered.children.some(n=>n.tagName==='h3'&&n.textContent==='Exercițiu:'),'Markdown heading rendered');
+assert.ok(rendered.children.some(n=>n.tagName==='pre'&&n.textContent.includes('2**3')),'Python exponentiation preserved in code');
+assert.ok(rendered.textContent.includes('x**2'),'Python exponentiation preserved in prose');
+assert.ok(!rendered.textContent.includes('**Exercițiu:**'),'Markdown formatting stripped from heading only');
+assert.equal(rendered.children.filter(n=>n.tagName==='ul').length,1,'Bullets presented as a list');
 console.log('PASS Computing: 3 levels, 17 populated branches, 65 quizzes, navigation, PDF, OCR, voice, AI and full boot script.');
