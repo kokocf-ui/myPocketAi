@@ -28,7 +28,7 @@ verify('Stefan Boltzmann luminozitate: raza=6.957e8 m; T=5772 K',4*Math.PI*6.957
 verify('Tranzit: Rp=1e7 m; Rs=1e8 m',1);
 verify('Converteste: 2 pc',2*3.261563777);
 assert.equal(astronomyVerifiedExercise('Paralaxă: p=0 arcsec')?.kind,'input');
-assert.equal(astronomyVerifiedExercise('Orbita: M=-5 kg; r=10 m')?.kind,'input');
+assert.equal(astronomyVerifiedExercise('Viteza orbitala: M=-5 kg; r=10 m')?.kind,'input');
 assert.equal(astronomyVerifiedExercise('Unde este Marte?'),null,'no false live ephemerides');
 const html=await(await frontend.fetch(new Request('https://astronomy.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
