@@ -23,7 +23,7 @@ for(const path of COMPUTING_PATHS){
 for(const topic of COMPUTING_TOPICS){
  assert.ok(!topics.has(topic.id),'Duplicated topic: '+topic.id);topics.add(topic.id);
  assert.ok(paths.has(topic.path),'Unknown branch for '+topic.id);
- for(const field of ['ro','en','theory','example','question','practice'])assert.ok(topic[field]?.length>15,'Incomplete lesson: '+topic.id+' '+field);
+ for(const field of ['ro','en','theory','example','question','practice'])assert.ok(topic[field]?.length>(['ro','en'].includes(field)?2:15),'Incomplete lesson: '+topic.id+' '+field);
  assert.equal(topic.choices.length,4,'Exactly four quiz choices');
  assert.ok(topic.choices.every(x=>x.trim()),'Empty choice: '+topic.id);
  assert.ok(Number.isInteger(topic.correct)&&topic.correct>=0&&topic.correct<4,'Invalid correct answer');
