@@ -61,6 +61,9 @@ assert.equal(helpers.matchesPeriod({year:1848},helpers.parse('1848–1849')),fal
 assert.equal(helpers.matchesCountry({countries:['România']},'Romania'),true);
 assert.equal(helpers.matchesCountry({countries:['Romania']},'France'),false);
 assert.equal(helpers.matchesCountry({region:'Europe'},'Romania'),false);
+assert.ok(script.includes('function hgDisplayStudyText(host,value)'));
+assert.ok(script.includes('NU impune o limită de 4 sau 5 evenimente'));
+assert.ok(script.includes('Nu inventa hărți, frontiere, documente, numere ori surse.'));
 assert.ok(script.includes("className='hg-map-types'"));
 assert.ok(script.includes("b.setAttribute('aria-pressed'"));
 console.log('PASS History Geography subjects, 3 levels, 3 curricula, UK subdivisions, specialist branches, time-exact maps and boot script');
