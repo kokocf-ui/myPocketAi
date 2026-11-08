@@ -36,6 +36,9 @@ for(const token of [
  'function hgGeographyMap(panel,topic)','function hgGenerate(extra,output)',
  "if(key==='history'){hgRestore();hgOpen('subjects');return}"
 ]) assert.ok(script.includes(token),token);
+assert.ok(html.includes('.learning-hg .hg-level-list'));
+assert.ok(script.includes("levels:hgJourney.scope==='world'?'scope':'country'"));
+assert.ok(script.includes("className='hg-level-list'")||script.includes("className='hg-level-list'")||script.includes("holder.className='hg-level-list'"));
 assert.ok(html.includes('.learning-hg .hg-toolbar'));
 assert.ok(html.includes('.learning-hg .hg-panel'));
 assert.ok(script.includes('hgMapMatchesPeriod(map,p)&&hgMapMatchesCountry(map,c)'));
