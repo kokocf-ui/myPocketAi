@@ -33,6 +33,7 @@ function examDictate(){
 function examBack(){
  examStopRequest();examStopVoice();if(state.speaking)stopSpeech();
  const p={workspace:'subjects',subjects:'exams',exams:'grades',grades:'countries',countries:null};
+ if(examJourney.stage==='subjects'&&examJourney.exam==='advisory'){examOpen('grades');return}
  if(p[examJourney.stage])examOpen(p[examJourney.stage]);else renderLearningSubjects();
 }
 function examList(panel,options,callback,find=true){
@@ -199,7 +200,7 @@ function examWorkspace(panel){
    const data=await response.json();if(!response.ok||data.status!=='success'||!data.reply)throw Error('unavailable');
    if(serial!==examJourney.serial||!output.isConnected)return;
    output.replaceChildren(examEl('h3',examLabel('Material de pregătire','Preparation material')));
-   if(typeof hgDisplayStudyText==='function')hgDisplayStudyText(output,String(data.reply).slice(0,65000));
+   if(typeof computingRenderAnswer==='function'){computingRenderAnswer(output,String(data.reply).slice(0,65000));output.prepend(examEl('h3',examLabel('Material de pregătire','Preparation material')))}
    else output.append(examEl('p',String(data.reply).slice(0,65000)));
    status.textContent=examLabel('Răspuns în ','Response in ')+((Date.now()-started)/1000).toFixed(1)+' s. '+examLabel('Conținut orientativ, verifică baremul oficial.','Advisory material; check official marking guidance.');
   }catch(error){if(serial===examJourney.serial)status.textContent=error.name==='AbortError'?examLabel('Cererea a fost anulată.','Request cancelled.'):examLabel('Asistentul nu este disponibil acum; simularea locală rămâne funcțională.','Assistant unavailable; local practice still works.')}
