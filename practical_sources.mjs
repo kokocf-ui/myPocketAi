@@ -2,7 +2,7 @@
 export const PRACTICAL_REFERENCES={
  career:{
   general:{title:'Europass — CV și profil profesional',url:'https://europass.europa.eu/ro/create-europass-cv?lang=en',scope:'EU guidance: CV and applications'},
-  RO:{title:'ANOFM — informare și consiliere profesională',url:'https://www.anofm.ro/servicii-pe-piata-muncii/',scope:'Romania employment support'},
+  RO:{title:'ANOFM — informare și consiliere profesională',url:'https://www.anofm.ro/informarea-si-consilierea-profesionala/',scope:'Romania employment support'},
   'GB-ENG':{title:'National Careers Service — redactarea CV-ului',url:'https://nationalcareers.service.gov.uk/careers-advice/cv-sections',scope:'England CV guidance'},
   'GB-WLS':{title:'Careers Wales — redactarea CV-ului',url:'https://careerswales.gov.wales/my-future/looking-for-work/writing-a-cv',scope:'Wales CV guidance'}
  },
@@ -46,10 +46,20 @@ export function practicalReferences(country,course,chapter){
    return [];
  }
  if(course==='career'){
-   if(chapter==='career-2')return [refs[country]||refs.general, ...(country==='RO'?[refs.general]:[])];
-   if(country==='RO')return [refs.RO];
-   if(country==='GB-ENG'||country==='GB-WLS')return [refs[country]];
-   return [{title:'Europass — dezvoltarea carierei și profilul profesional',url:'https://europass.europa.eu/en',scope:'European career tools'}];
+   if(chapter==='career-2')return [refs.general,...(refs[country]?[refs[country]]:[])];
+   if(chapter==='career-5')return [];
+   if(refs[country])return [refs[country]];
+   return [];
+ }
+ if(course==='trades'){
+   if(chapter==='trades-1'||chapter==='trades-4')return [{title:'BIPM — Sistemul internațional de unități (SI)',url:'https://www.bipm.org/en/measurement-units',scope:'Global measurement units'}];
+   if(chapter==='trades-2')return [refs[country]||refs.general].filter(Boolean);
+   return [];
+ }
+ if(course==='business'){
+   if(chapter==='business-5')return [refs[country]||refs.general].filter(Boolean);
+   if(chapter==='business-1'&&country.startsWith('GB-'))return [refs[country]||refs.general].filter(Boolean);
+   return [];
  }
  return [refs[country]||refs.general].filter(Boolean);
 }
