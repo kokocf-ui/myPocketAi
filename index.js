@@ -2921,6 +2921,10 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
 #view-module.learning-hg .hg-level-choice{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;text-align:left!important;width:100%!important;min-height:72px!important;padding:12px 15px!important;gap:4px!important;white-space:normal!important}
 #view-module.learning-hg .hg-level-choice strong{display:block;font-size:clamp(18px,4.6vw,24px);line-height:1.2}
 #view-module.learning-hg .hg-level-choice span{display:block;font-size:clamp(13px,3.5vw,17px);font-weight:400;color:#c5dfec;line-height:1.3}
+#view-module.learning-hg .hg-country-matches{display:flex;flex-direction:column;gap:6px;margin:4px 0 10px}
+#view-module.learning-hg .hg-country-result{width:100%;text-align:left;min-height:42px;padding:8px 12px}
+#view-module.learning-hg .hg-custom-country[hidden]{display:none!important}
+#view-module.learning-hg .hg-country-status{min-height:1.2em}
 #view-module.learning-hg .hg-choice-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;align-content:start!important}
 #view-module.learning-hg .hg-choice{width:100%!important;min-width:0!important;min-height:56px!important;text-align:center!important;white-space:normal!important;padding:8px!important;overflow-wrap:anywhere!important}
 #view-module.learning-hg .hg-select,#view-module.learning-hg .hg-request,#view-module.learning-hg .hg-quiz textarea{display:block!important;width:100%!important;max-width:100%!important;min-height:44px!important;margin:5px 0 9px!important;background:#0b2638;color:#effaff;border:1px solid #52859e;border-radius:10px;padding:8px!important}
@@ -9739,6 +9743,12 @@ const HG_SUBJECT_DATA=${JSON.stringify(HG_SUBJECTS)};
 const HG_LEVEL_DATA=${JSON.stringify(HG_LEVELS)};
 const HG_SCOPE_DATA=${JSON.stringify(HG_SCOPES)};
 const HG_COUNTRY_DATA=${JSON.stringify(HG_COUNTRIES)};
+const HG_COUNTRY_CODES='AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW'.split(' ');
+const HG_COUNTRY_NAMES_RO=typeof Intl.DisplayNames==='function'?new Intl.DisplayNames(['ro'],{type:'region'}):null;
+const HG_COUNTRY_NAMES_EN=typeof Intl.DisplayNames==='function'?new Intl.DisplayNames(['en'],{type:'region'}):null;
+const HG_COUNTRY_PICKER_DATA=[...HG_COUNTRY_DATA.filter(c=>c.id!=='OTHER'),...HG_COUNTRY_CODES.filter(code=>!HG_COUNTRY_DATA.some(c=>c.id===code)).map(code=>({id:code,ro:HG_COUNTRY_NAMES_RO?.of(code)||code,en:HG_COUNTRY_NAMES_EN?.of(code)||code})),HG_COUNTRY_DATA.find(c=>c.id==='OTHER')];
+function hgCountryOptions(){return HG_COUNTRY_PICKER_DATA.filter(Boolean)}
+function hgFoldCountry(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase()}
 const HG_HISTORY_DATA=${JSON.stringify(HG_HISTORY_TOPICS)};
 const HG_GEOGRAPHY_DATA=${JSON.stringify(HG_GEOGRAPHY_TOPICS)};
 const HG_SPECIALISATIONS_DATA=${JSON.stringify(HG_SPECIALISATIONS)};
@@ -10204,7 +10214,7 @@ function languageOpen(stage){
 let hgJourney={stage:'subjects',subject:null,scope:'world',country:null,region:'',level:null,speciality:null,topic:null,year:null,mapType:'political',busy:false,showSolutions:false};
 const hgL=(ro,en)=>learningLabel(ro,en);
 function hgBtn(label,fn,cls='secondary-btn'){const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=label;b.onclick=fn;return b}
-function hgCountry(){return HG_COUNTRY_DATA.find(x=>x.id===hgJourney.country)}
+function hgCountry(){return hgCountryOptions().find(x=>x.id===hgJourney.country)}
 function hgSubject(){return HG_SUBJECT_DATA.find(x=>x.id===hgJourney.subject)}
 function hgTopic(){return (hgJourney.subject==='history'?HG_HISTORY_DATA:HG_GEOGRAPHY_DATA).find(x=>x.id===hgJourney.topic)}
 function hgSave(){
@@ -10212,7 +10222,7 @@ function hgSave(){
 }
 function hgRestore(){
  try{const value=JSON.parse(localStorage.getItem('pocket-hg-country-v1')||'null');if(value&&typeof value==='object'){
-  if(HG_COUNTRY_DATA.some(x=>x.id===value.country))hgJourney.country=value.country;
+  if(hgCountryOptions().some(x=>x.id===value.country))hgJourney.country=value.country;
   if(typeof value.region==='string')hgJourney.region=value.region.slice(0,110);
   if(HG_SCOPE_DATA.some(x=>x.id===value.scope))hgJourney.scope=value.scope;
  }}catch{}
@@ -10264,21 +10274,42 @@ function hgOpen(stage){
  }
  if(stage==='country'){
   if(!hgJourney.country)hgRestore();
-  const row=document.createElement('label');row.textContent=hgL('Țara studiului','Country of study');row.className='hg-label';
-  const select=document.createElement('select');select.className='hg-select';select.setAttribute('aria-label',row.textContent);
-  for(const c of HG_COUNTRY_DATA){const o=document.createElement('option');o.value=c.id;o.textContent=hgL(c.ro,c.en);select.append(o)}
-  const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent=hgL('Selectează țara','Select country');placeholder.disabled=true;select.prepend(placeholder);select.value=hgJourney.country||'';panel.append(row,select);
+  const options=hgCountryOptions().filter(c=>c.id!=='OTHER');
+  options.sort((a,b)=>hgL(a.ro,a.en).localeCompare(hgL(b.ro,b.en),undefined,{sensitivity:'base'}));
+  const current=options.find(c=>c.id===hgJourney.country);
+  let chosen=current?.id||'';
+  const label=hgText('label',hgL('Caută și alege țara studiului','Search and choose a country'));label.className='hg-label';panel.append(label);
+  const search=document.createElement('input');search.className='hg-select';search.type='search';search.autocomplete='off';
+  search.placeholder=hgL('Scrie numele țării…','Type a country name…');
+  search.value=current?hgL(current.ro,current.en):hgJourney.country==='OTHER'?hgJourney.otherCountry||'':'';
+  search.setAttribute('aria-label',label.textContent);panel.append(search);
+  const matches=document.createElement('div');matches.className='hg-country-matches';panel.append(matches);
+  const message=hgText('p',hgL('Țara sugerată este opțională. Poți selecta orice altă țară.','The suggested country is optional. You can choose any other country.'));panel.append(message);
   const region=document.createElement('input');region.className='hg-select';region.placeholder=hgL('Regiune / oraș (opțional)','Region / city (optional)');
   region.value=hgJourney.region||'';panel.append(region);
-  const other=document.createElement('input');other.className='hg-select';other.placeholder=hgL('Numele țării, dacă nu este în listă','Country name, if not listed');
-  other.value=hgJourney.otherCountry||'';other.hidden=select.value!=='OTHER';panel.append(other);
-  select.onchange=()=>{other.hidden=select.value!=='OTHER'};
-  panel.append(hgText('p',hgL('Sugestia bazată pe poziție poate fi aproximativă. Poți alege orice altă programă.','Location-based suggestion is approximate. You can choose another curriculum.')));
+  const custom=hgBtn(hgL('Folosește denumirea introdusă (dacă lipsește din listă)','Use typed name (if missing from list)'),()=>{chosen='OTHER';matches.replaceChildren();status.textContent=hgL('Denumire introdusă manual.','Custom name selected.')},'secondary-btn hg-custom-country');
+  custom.hidden=true;panel.append(custom);
+  const status=hgText('p','');status.className='hg-country-status';panel.append(status);
+  function paint(){
+   matches.replaceChildren();
+   const query=hgFoldCountry(search.value.trim());
+   if(!query){chosen='';custom.hidden=true;return}
+   if(chosen&&chosen!=='OTHER'&&hgFoldCountry(hgL(options.find(c=>c.id===chosen)?.ro,options.find(c=>c.id===chosen)?.en))===query){custom.hidden=true;return}
+   chosen='';
+   const hits=options.filter(c=>hgFoldCountry(c.ro).startsWith(query)||hgFoldCountry(c.en).startsWith(query)||hgFoldCountry(c.id)===query).slice(0,4);
+   for(const c of hits){
+    const button=hgBtn(hgL(c.ro,c.en),()=>{chosen=c.id;search.value=hgL(c.ro,c.en);matches.replaceChildren();custom.hidden=true;status.textContent=''},'secondary-btn hg-country-result');
+    matches.append(button);
+   }
+   custom.hidden=hits.length>0;
+   status.textContent=hits.length?'':hgL('Nu există potriviri în listă. Poți introduce manual țara.','No matching country. You can enter it manually.');
+  }
+  search.addEventListener('input',paint);
   panel.append(hgBtn(hgL('Continuă','Continue'),()=>{
-   if(!select.value){select.focus();return}
-   hgJourney.country=select.value;hgJourney.region=region.value.trim().slice(0,110);
-   hgJourney.otherCountry=other.value.trim().slice(0,100);
-   if(select.value==='OTHER'&&!hgJourney.otherCountry){other.focus();return}
+   if(!chosen){status.textContent=hgL('Selectează o țară din sugestii înainte să continui.','Select a country from the suggestions before continuing.');search.focus();return}
+   hgJourney.country=chosen;hgJourney.region=region.value.trim().slice(0,110);
+   hgJourney.otherCountry=chosen==='OTHER'?search.value.trim().slice(0,100):'';
+   if(chosen==='OTHER'&&!hgJourney.otherCountry){search.focus();return}
    hgSave();hgOpen('levels');
   },'primary-btn'));
  }
