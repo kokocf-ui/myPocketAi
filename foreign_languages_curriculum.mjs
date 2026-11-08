@@ -967,7 +967,7 @@ export const ANCIENT_GREEK_PHRASES=Object.freeze([
   }
 ]);
 export const CLASSICAL_LEVELS=Object.freeze([{id:"foundation",ro:"Fundamente",en:"Foundations"},{id:"grammar",ro:"Gramatică și texte",en:"Grammar & texts"},{id:"advanced",ro:"Filologie și teologie",en:"Philology & theology"}]);
-export function languageCourseLevels(id,variant){return id==="la"||(id==="el"&&variant==="ancient")?CLASSICAL_LEVELS:FOREIGN_LEVELS}
+export function languageCourseLevels(id,variant){return id==="la"||(id==="el"&&["ancient","koine"].includes(variant))?CLASSICAL_LEVELS:FOREIGN_LEVELS}
 export function languageCoursePhrases(id,variant){return id==="el"&&variant==="ancient"?ANCIENT_GREEK_PHRASES:FOREIGN_PHRASES[id]||[]}
 export function normalizeStudyAnswer(value){return String(value||"").normalize("NFKC").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase().replace(/[!?.,;:]/g,"").replace(/\s+/g," ").trim()}
 export function checkStudyAnswer(input,expected){return normalizeStudyAnswer(input)===normalizeStudyAnswer(expected)}
