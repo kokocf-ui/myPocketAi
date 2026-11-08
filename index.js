@@ -9736,6 +9736,13 @@ function languageOpen(stage){
   const offline=!variantNeedsCuratedAudio&&languageJourney.topic==='greetings'&&(languageJourney.level==='A1'||languageIsClassical()&&languageJourney.level==='foundation');
   const words=languageWords();
   if(offline){
+   try{
+    const key='pocket-languages-progress-v1-'+languageJourney.language+'-'+(languageJourney.variant||'');
+    const learned=JSON.parse(localStorage.getItem(key)||'{}');
+    const correct=words.filter(card=>learned[card.id]?.correct).length;
+    const progress=document.createElement('p');progress.textContent=learningLabel('Cuvinte exersate corect: ','Correctly practised: ')+correct+'/'+words.length;
+    panel.append(progress);
+   }catch{}
    for(const card of words){
     const box=document.createElement('section');box.className='foreign-word-card';
     const word=document.createElement('strong');word.className='foreign-original';word.textContent=card.original;
