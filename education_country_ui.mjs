@@ -98,4 +98,48 @@ function educationCountryGate(moduleKey,proceed){
   }catch{}
  }else if(typeof budgetDetectedCountry==='string'&&budgetDetectedCountry){suggest(eduCountryFromCode(budgetDetectedCountry,null),'detected')}
 }
+function eduYearOptions(code,level,moduleKey){
+ const lv=level==='intermediate'?'medium':level;
+ const source=EDUCATION_SCHOOL_YEARS_DATA[code]?.[lv];
+ const numeric=(a,b,prefix='')=>Array.from({length:b-a+1},(_,i)=>({id:prefix+(a+i),ro:prefix?'Year '+(a+i):'Clasa '+(a+i),en:prefix?'Year '+(a+i):'Grade '+(a+i)}));
+ if(source){
+   if(code==='RO'){
+    if(moduleKey==='math'&&lv==='beginner')return numeric(1,8);
+    if(moduleKey==='science'&&lv==='beginner')return numeric(5,8);
+    if(moduleKey==='science'&&lv==='medium')return numeric(9,12);
+    if(moduleKey==='computing'&&lv==='beginner')return numeric(1,4);
+   }
+   return source;
+ }
+ return [{id:'general-'+lv,ro:lv==='beginner'?'Învățare generală – primar':lv==='medium'?'Învățare generală – secundar':'Învățare generală – universitar',en:lv==='beginner'?'General primary learning':lv==='medium'?'General secondary learning':'General university learning'}];
+}
+function educationGradeGate(moduleKey,level,proceed,back){
+ const root=document.getElementById('view-module'),host=document.getElementById('moduleContent');
+ if(!root||!host)return;
+ const country=educationCountrySelection.code;
+ const options=eduYearOptions(country,level,moduleKey);
+ if(options.length===1){proceed(options[0].id);return}
+ host.replaceChildren();
+ const toolbar=document.createElement('div');toolbar.className='education-toolbar lit-toolbar';
+ const previous=document.createElement('button');previous.type='button';previous.className='secondary-btn';previous.textContent=learningLabel('← Înapoi','← Back');previous.onclick=back;toolbar.append(previous);host.append(toolbar);
+ const panel=document.createElement('section');panel.className='math-choice-panel science-choice-panel lit-panel edu-grade-panel';panel.style.cssText='min-width:0;max-width:100%;box-sizing:border-box;';
+ const h=document.createElement('h2');h.textContent=learningLabel('Alege clasa / anul de studiu','Choose grade / school year');
+ const context=document.createElement('p');context.textContent=educationCountrySelection.label+' · '+learningLabel('Materia se adaptează clasei selectate.','Learning content follows the selected school year.');
+ const search=document.createElement('input');search.type='search';search.className='lit-input';search.placeholder=learningLabel('Scrie clasa sau anul…','Type a grade or year…');search.setAttribute('aria-label',h.textContent);
+ search.style.cssText='width:100%;box-sizing:border-box;min-height:48px;font-size:16px;';
+ const list=document.createElement('div');list.style.cssText='display:flex;flex-direction:column;gap:7px;max-width:100%;margin:8px 0;';
+ panel.append(h,context,search,list);host.append(panel);
+ let page=0;function draw(){
+  list.replaceChildren();const text=eduCountryFold(search.value);
+  const filtered=options.filter(o=>!text||eduCountryFold(o.ro).includes(text)||eduCountryFold(o.en).includes(text)||eduCountryFold(o.id).includes(text));
+  if(page>=filtered.length)page=0;
+  filtered.slice(page,page+4).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=learningLabel(o.ro,o.en);b.style.cssText='min-height:45px;text-align:left;width:100%;';b.onclick=()=>proceed(o.id);list.append(b)});
+  if(!filtered.length){const p=document.createElement('p');p.textContent=learningLabel('Nu am găsit clasa.','No matching grade.');list.append(p)}
+  if(page+4<filtered.length){const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=learningLabel('Alte clase →','More grades →');b.onclick=()=>{page+=4;draw()};list.append(b)}
+  if(page>0){const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=learningLabel('← Clase anterioare','← Previous grades');b.onclick=()=>{page=Math.max(0,page-4);draw()};list.prepend(b)}
+ }
+ search.addEventListener('focus',()=>search.select());
+ search.oninput=()=>{page=0;draw()};draw();
+}
+
 `;
