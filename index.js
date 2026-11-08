@@ -9159,7 +9159,7 @@ function scienceOpenWorkspace(){
   tools.append(tray);
  }
  workspace.append(heading,editor,status,actions,tools);
- host.append(toolbar,workspace);
+ eduAttachPrintAction(toolbar);host.append(toolbar,workspace);
 }
 
 function mathJourneyShowChoices(stage){
@@ -10797,7 +10797,7 @@ function openLearningSubject(key){
   voices.append(dictate,read);bar.append(back,voices);
   const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn education-theory-open';theory.textContent=learningLabel('📖 Teorie','📖 Theory');theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);bar.append(theory);
  }else bar.append(back);
- host.append(bar);
+ eduAttachPrintAction(bar);host.append(bar);
  $('moduleLead').textContent='';
  const actions=document.createElement('div');actions.className='education-photo-actions';
  const photo=document.createElement('button');photo.type='button';photo.className='secondary-btn';photo.textContent=learningLabel('📷 Fotografiere text','📷 Photograph text');
