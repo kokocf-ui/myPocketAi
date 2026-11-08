@@ -630,7 +630,7 @@ public final class MainActivity extends ComponentActivity {
                 (view,message,origin,isMainFrame,replyProxy)->{
                     if(!isMainFrame||!"https".equals(origin.getScheme())||!APP_HOST.equals(origin.getHost()))return;
                     final String payload=message.getData();
-                    if(payload==null||payload.length()>220000)return;
+                    if(payload==null||payload.length()>600000)return;
                     runOnUiThread(()->requestEducationPdfSave(payload));
                 });
         }
@@ -1316,7 +1316,7 @@ public final class MainActivity extends ComponentActivity {
             File output=new File(folder,requested);
             int suffix=2;
             while(output.exists()){output=new File(folder,basename+"_"+suffix+".pdf");suffix++;}
-            if(!saveEducationPdf(output,title,text,data.optBoolean("color",true)))throw new IOException("PDF write failed");
+            if(!saveEducationPdf(output,title,text,data.optBoolean("color",true),data.optJSONArray("figures")))throw new IOException("PDF write failed");
             notifyEducationPdf("saved");
             if("print".equals(data.optString("mode","save")))printSavedEducationPdf(output,title);
         }catch(Exception ignored){notifyEducationPdf("error");}
@@ -1371,7 +1371,7 @@ public final class MainActivity extends ComponentActivity {
 
     // Structured A4 PDF: explicit paragraphs, headings and page numbers.
     // Colour is optional; black-and-white output remains available.
-    private boolean saveEducationPdf(File destination,String title,String content,boolean useColor){
+    private boolean saveEducationPdf(File destination,String title,String content,boolean useColor,JSONArray figures){
         PdfDocument document=new PdfDocument();
         try{
             final int width=595,height=842,margin=48,usable=width-2*margin;
@@ -1452,6 +1452,49 @@ public final class MainActivity extends ComponentActivity {
                     y+=13;
                 }
                 first=false;blankBefore=false;
+            }
+            // Append captured figures in their original colors, with proportional scaling.
+            // Never decode unbounded images supplied by web content.
+            if(figures!=null&&figures.length()>0){
+                for(int i=0;i<Math.min(3,figures.length());i++){
+                    JSONObject figure=figures.optJSONObject(i);
+                    if(figure==null)continue;
+                    String encoded=figure.optString("data","");
+                    if(!encoded.startsWith("data:image/jpeg;base64,")||encoded.length()>115000)continue;
+                    byte[] bytes=Base64.decode(encoded.substring(encoded.indexOf(',')+1),Base64.DEFAULT);
+                    BitmapFactory.Options bounds=new BitmapFactory.Options();bounds.inJustDecodeBounds=true;
+                    BitmapFactory.decodeByteArray(bytes,0,bytes.length,bounds);
+                    if(bounds.outWidth<=0||bounds.outHeight<=0||bounds.outWidth>2000||bounds.outHeight>2000)continue;
+                    Bitmap bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    if(bitmap==null)continue;
+                    try{
+                        float targetWidth=Math.min(usable,bitmap.getWidth());
+                        float targetHeight=targetWidth*bitmap.getHeight()/Math.max(1f,bitmap.getWidth());
+                        float limit=height-2*margin-90;
+                        if(targetHeight>limit){targetHeight=limit;targetWidth=targetHeight*bitmap.getWidth()/bitmap.getHeight();}
+                        if(page==null||y+targetHeight+38>height-margin-28){
+                            if(page!=null){
+                                canvas.drawLine(margin,height-53,width-margin,height-53,rule);
+                                canvas.drawText("Pagina "+pageNumber,width-margin-footer.measureText("Pagina "+pageNumber),height-37,footer);
+                                document.finishPage(page);
+                            }
+                            page=document.startPage(new PdfDocument.PageInfo.Builder(width,height,++pageNumber).create());
+                            canvas=page.getCanvas();y=margin+14;
+                        }
+                        y+=10;
+                        Paint figurePaint=new Paint(Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
+                        if(!useColor){
+                            android.graphics.ColorMatrix saturation=new android.graphics.ColorMatrix();
+                            saturation.setSaturation(0);
+                            figurePaint.setColorFilter(new ColorMatrixColorFilter(saturation));
+                        }
+                        canvas.drawBitmap(bitmap,null,new android.graphics.RectF(margin,y,margin+targetWidth,y+targetHeight),figurePaint);
+                        y+=targetHeight+18;
+                        String label=figure.optString("label","Figură").replaceAll("[\r\n]+"," ").trim();
+                        if(label.length()>75)label=label.substring(0,75);
+                        canvas.drawText(label,margin,y,footer);y+=18;
+                    }finally{bitmap.recycle();}
+                }
             }
             if(page==null){
                 page=document.startPage(new PdfDocument.PageInfo.Builder(width,height,1).create());
