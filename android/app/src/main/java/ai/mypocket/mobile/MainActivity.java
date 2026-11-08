@@ -305,8 +305,14 @@ public final class MainActivity extends ComponentActivity {
                 if(text.isEmpty())return;
                 if(text.length()>16000)text=text.substring(0,16000);
                 String language=data.optString("language","ro-RO");
-                tts.setLanguage(Locale.forLanguageTag(language));
-                tts.setSpeechRate(0.96f);
+                int languageSupport=tts.setLanguage(Locale.forLanguageTag(language));
+                if(languageSupport==TextToSpeech.LANG_MISSING_DATA || languageSupport==TextToSpeech.LANG_NOT_SUPPORTED){
+                    notifyVoice("error","Voice data unavailable for "+language,"tts");
+                    return;
+                }
+                double requestedRate=data.optDouble("rate",0.96);
+                if(Double.isNaN(requestedRate)||Double.isInfinite(requestedRate))requestedRate=0.96;
+                tts.setSpeechRate((float)Math.max(0.65,Math.min(1.15,requestedRate)));
                 String utteranceId="pocket-native-voice-"+(++nextTtsUtterance);
                 activeTtsUtteranceId=utteranceId;
                 int status=tts.speak(text,TextToSpeech.QUEUE_FLUSH,null,utteranceId);
