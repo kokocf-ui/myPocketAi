@@ -35,6 +35,7 @@ const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
 new vm.Script(script);
 for(const marker of ['ASTRONOMY_TOPIC_DATA','ASTRONOMY_SPECIALTY_DATA','ASTRONOMY_SOLVE_VERIFIED',
  'function astronomyTheoryOpen()','function astronomyVisualBuild(kind)','function astronomyDiagramPicker()',
+ 'function astronomyOrbit3DOpen()',
  "scienceJourney.subject==='astronomy'"])
  assert.ok(script.includes(marker),marker);
 const begin=script.indexOf('function astronomyVisualKind(question,topic)');
