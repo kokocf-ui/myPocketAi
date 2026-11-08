@@ -10113,7 +10113,7 @@ function languageOpen(stage){
   const status=document.createElement('p');status.id='languageStatus';status.setAttribute('role','status');panel.append(status);
  }
  host.append(panel);
- if(stage==='lesson'&&panel.querySelector('.foreign-card-count'))languageSetCard(languageJourney.cardIndex);
+ if(stage==='lesson'&&panel.className.includes('foreign-stage-lesson')&&panel.children.some?.(el=>el.className==='foreign-card-count'))languageSetCard(languageJourney.cardIndex);
 }
 
 function openLearningSubject(key){
