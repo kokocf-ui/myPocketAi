@@ -11,7 +11,9 @@ const graphStart=embedded.indexOf('function mathGraphModel(');
 const graphEnd=embedded.indexOf('function mathGeometryFigure(',graphStart);
 const algebraStart=embedded.indexOf('function mathArithmeticValue(');
 const algebraEnd=embedded.indexOf('function mathQuadraticEquation(',algebraStart);
-assert.ok(graphStart>0&&graphEnd>graphStart&&algebraStart>graphEnd&&algebraEnd>algebraStart);
+const graphDataStart=embedded.indexOf('function mathLinearGraphData(',algebraEnd);
+const graphDataEnd=embedded.indexOf('function mathFunctionLesson(',graphDataStart);
+assert.ok(graphStart>0&&graphEnd>graphStart&&algebraStart>graphEnd&&algebraEnd>algebraStart&&graphDataStart>algebraEnd&&graphDataEnd>graphDataStart);
 
 const node=tag=>({
  tag,children:[],attributes:{},textContent:'',
@@ -20,7 +22,7 @@ const node=tag=>({
 });
 const dom={createElement:node,createElementNS:(namespace,tag)=>node(tag)};
 const api=vm.runInNewContext(
- embedded.slice(graphStart,graphEnd)+'\n'+embedded.slice(algebraStart,algebraEnd)+
+ embedded.slice(graphStart,graphEnd)+'\n'+embedded.slice(algebraStart,algebraEnd)+'\n'+embedded.slice(graphDataStart,graphDataEnd)+
  '\n({model:mathGraphModel,linear:mathLinearEquation,graph:mathLinearGraphData,plot:mathGraphFigure,solve:mathLinearSolution})',
  {state:{language:'ro'},learningLabel:(ro,en)=>ro,Intl,document:dom});
 
