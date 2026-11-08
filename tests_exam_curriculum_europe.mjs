@@ -5,6 +5,7 @@ import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS,EXAM_COUNTRY_CODES,examByCou
 import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS,examOrderedTopics} from './exam_ordered_pathways.mjs';
 import {EXAM_LOCAL_BANK,examTrainingItems,examTrainingScore} from './exam_practice_bank.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
+import {UNIVERSITY_DOMAINS,universityDomain,universityDomainSubjects} from './university_domains.mjs';
 
 assert.ok(EXAM_SPECS.length>=26,'Exam records should be populated');
 assert.ok(Object.keys(EXAM_ORDERED_PATHWAYS).length>=12);
@@ -32,8 +33,15 @@ assert.ok(examByCountry('RO').some(x=>x.id==='en8'&&x.grades.includes('8')));
 assert.ok(examByCountry('RO').some(x=>x.id==='bac'));
 const countries=EXAM_COUNTRY_CODES.filter(code=>examByCountry(code).length);
 assert.equal(countries.length,13);
-for(const code of countries){const admission=examByCountry(code).find(x=>x.id==='university');assert.ok(admission&&admission.universityAdmission&&admission.advisory&&admission.requiresInstitution&&admission.requiresProgramme,'Missing university admission path: '+code);assert.ok(admission.grades.includes('După liceu'))}
+for(const code of countries){const admission=examByCountry(code).find(x=>x.id==='university');assert.ok(admission&&admission.universityAdmission&&admission.advisory&&!admission.requiresInstitution&&!admission.requiresProgramme,'University field flow must not require institution and faculty: '+code);assert.ok(admission.grades.includes('Universitate'))}
 assert.ok(examByCountry('RO').find(x=>x.id==='university').source.includes('edu.ro'));
+assert.ok(UNIVERSITY_DOMAINS.length>=10);
+assert.equal(universityDomain('medicine').ro,'Medicină');
+assert.deepEqual(universityDomainSubjects('medicine',['biology','chemistry','physics','math']),['biology','chemistry','physics']);
+assert.ok(universityDomain('medicine').sourcesRO.some(([title,url])=>url.includes('umfiasi.ro')));
+for(const domain of UNIVERSITY_DOMAINS){assert.ok(domain.id&&domain.ro&&domain.en&&domain.focus&&domain.caution);assert.ok(domain.subjects.length>=2)}
+assert.ok(!EXAM_UI_SCRIPT.includes('Alege facultatea și universitatea în pasul următor'));
+assert.ok(!EXAM_UI_SCRIPT.includes("examJourney.grade='După liceu'"));
 assert.deepEqual(examByGrade('RO','8').map(x=>x.id),['en8','admitere']);
 assert.ok(examByCountry('GB-ENG').some(x=>x.id==='gcse'));
 assert.ok(examByCountry('GB-SCT').some(x=>x.id==='national5'));
@@ -113,9 +121,12 @@ assert.match(EXAM_UI_SCRIPT,/Capitol de recapitulare/,'AI prompt scoped to selec
 assert.match(EXAM_UI_SCRIPT,/controller\.signal/,'Abort support');
 assert.match(EXAM_UI_SCRIPT,/function examDictate/,'Dictation');
 assert.match(EXAM_UI_SCRIPT,/const read=examBtn/,'Reading toggle');
-assert.match(EXAM_UI_SCRIPT,/Admitere la universitate/,'University admissions quick access');
-assert.match(EXAM_UI_SCRIPT,/examJourney\.institution/,'University-specific institution field');
-assert.match(EXAM_UI_SCRIPT,/examJourney\.programme/,'University-specific programme field');
+assert.match(EXAM_UI_SCRIPT,/🎓 Universitate/,'Direct university entrance');
+assert.match(EXAM_UI_SCRIPT,/function examOpen\(stage\)/,'University navigation');
+assert.match(EXAM_UI_SCRIPT,/if\(stage==='universityDomains'\)/,'Field chooser before subject');
+assert.doesNotMatch(EXAM_UI_SCRIPT,/addField\('institution'/,'No mandatory institution field');
+assert.doesNotMatch(EXAM_UI_SCRIPT,/addField\('programme'/,'No mandatory faculty field');
+assert.match(EXAM_UI_SCRIPT,/Materii recomandate pentru pregătire/,'Advisory subject selection');
 assert.match(EXAM_UI_SCRIPT,/function examRomanianResources/,'Offline Romanian study notes');
 assert.match(EXAM_UI_SCRIPT,/Moromeții/,'Romanian literature summaries');
 assert.match(EXAM_UI_SCRIPT,/📖 Rezumat după cerință/,'Custom Romanian summary');
