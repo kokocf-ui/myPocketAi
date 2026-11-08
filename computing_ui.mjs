@@ -1,13 +1,13 @@
 export const COMPUTING_UI_SCRIPT = String.raw`
 // Computing UI inserted into the existing educational browser script.
-let computingJourney={stage:'levels',level:null,path:null,topic:null,busy:false,request:null,serial:0,voice:false};
+let computingJourney={stage:'levels',level:null,grade:null,path:null,topic:null,busy:false,request:null,serial:0,voice:false};
 function computingEl(tag,txt='',cls=''){const x=document.createElement(tag);x.textContent=txt;if(cls)x.className=cls;return x}
 function computingBtn(txt,fn,cls='secondary-btn'){const b=computingEl('button',txt,cls);b.type='button';b.onclick=fn;return b}
 function computingCurrent(){return COMPUTING_TOPICS_DATA.find(t=>t.id===computingJourney.topic&&t.path===computingJourney.path)||null}
 function computingStopRequest(){computingJourney.serial++;computingJourney.request?.abort();computingJourney.request=null;computingJourney.busy=false}
 function computingStopVoice(){if(computingJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});computingJourney.voice=false;$('computingDictation')?.setAttribute('aria-pressed','false')}
 function computingStatus(txt){const n=$('computingStatus');if(n)n.textContent=txt}
-function computingBack(){computingStopRequest();computingStopVoice();if(state.speaking)stopSpeech();if(computingJourney.stage==='workspace')computingOpen('topics');else if(computingJourney.stage==='topics')computingOpen('paths');else if(computingJourney.stage==='paths')computingOpen('levels');else renderLearningSubjects()}
+function computingBack(){computingStopRequest();computingStopVoice();if(state.speaking)stopSpeech();if(computingJourney.stage==='workspace')computingOpen('topics');else if(computingJourney.stage==='topics')computingOpen('paths');else if(computingJourney.stage==='paths')computingOpen('levels');else if(computingJourney.stage==='grade')computingOpen('levels');else renderLearningSubjects()}
 function computingVoiceHandleAndroid(data){
  if(data?.mode!=='computing')return false;
  if(computingJourney.stage!=='workspace')return true;
@@ -96,9 +96,10 @@ function computingOpen(stage){
   titleBar.append(fresh);
  }
  panel.append(titleBar);host.append(panel);
- if(stage==='levels'){computingChoices(panel,COMPUTING_LEVELS_DATA.map(x=>({id:x.id,ro:x.ro,en:x.en})),c=>{computingJourney.level=c.id;computingJourney.path=null;computingJourney.topic=null;computingOpen('paths')});return}
+ if(stage==='levels'){computingChoices(panel,COMPUTING_LEVELS_DATA.map(x=>({id:x.id,ro:x.ro,en:x.en})),c=>{computingJourney.level=c.id;computingJourney.grade=null;computingJourney.path=null;computingJourney.topic=null;computingJourney.stage='grade';educationGradeGate('computing',c.id,grade=>{computingJourney.grade=grade;computingOpen('paths')},()=>computingOpen('levels'))});return}
  if(stage==='paths'){
   const lv=COMPUTING_LEVELS_DATA.find(x=>x.id===computingJourney.level);if(!lv){computingOpen('levels');return}
+  computingParagraph(panel,learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(computingJourney.grade||'')+'. '+learningLabel('Parcurs orientativ, ajustat nivelului școlar.','General learning adapted to the chosen school year.'));
   computingParagraph(panel,lv.focus);
   computingChoices(panel,COMPUTING_PATHS_DATA.filter(x=>x.level===lv.id).map(x=>({id:x.id,ro:x.icon+' '+x.ro,en:x.icon+' '+x.en})),c=>{computingJourney.path=c.id;computingJourney.topic=null;computingOpen('topics')});return
  }
