@@ -8,6 +8,7 @@ import {physicsVerifiedExercise} from './physics_verified.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
 import {FOREIGN_LANGUAGES,FOREIGN_LEVELS,FOREIGN_TOPICS,FOREIGN_PHRASES,ANCIENT_GREEK_PHRASES,CLASSICAL_LEVELS} from './foreign_languages_curriculum.mjs';
+import {foreignStudyPlan,foreignStudyRubric,foreignStudyReview,foreignStudyDue,foreignStudyPlacementQuestions,foreignStudyPlacementResult} from './foreign_languages_learning.mjs';
 /**
  * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
@@ -9613,7 +9614,13 @@ const FOREIGN_TOPIC_DATA=${JSON.stringify(FOREIGN_TOPICS)};
 const FOREIGN_PHRASE_DATA=${JSON.stringify(FOREIGN_PHRASES)};
 const FOREIGN_ANCIENT_GREEK=${JSON.stringify(ANCIENT_GREEK_PHRASES)};
 const FOREIGN_CLASSICAL_LEVEL_DATA=${JSON.stringify(CLASSICAL_LEVELS)};
-let languageJourney={stage:'languages',language:null,variant:null,level:null,topic:null,phonetics:true,slow:false,busy:false,voice:false};
+const FOREIGN_PLAN=${foreignStudyPlan.toString()};
+const FOREIGN_RUBRIC=${foreignStudyRubric.toString()};
+const FOREIGN_REVIEW=${foreignStudyReview.toString()};
+const FOREIGN_DUE=${foreignStudyDue.toString()};
+const FOREIGN_PLACEMENT_QUESTIONS=${foreignStudyPlacementQuestions.toString()};
+const FOREIGN_PLACEMENT_RESULT=${foreignStudyPlacementResult.toString()};
+let languageJourney={stage:'languages',language:null,variant:null,level:null,topic:null,phonetics:true,slow:false,busy:false,voice:false,placementAnswers:[],placementIndex:0,teacherHistory:[]};
 function languageCurrent(){return FOREIGN_LANGUAGE_DATA.find(x=>x.id===languageJourney.language)}
 function languageIsClassical(){return languageJourney.language==='la'||languageJourney.language==='el'&&languageJourney.variant==='ancient'}
 function languageLevels(){return languageIsClassical()?FOREIGN_CLASSICAL_LEVEL_DATA:FOREIGN_LEVEL_DATA}
@@ -9623,7 +9630,7 @@ function languageStatus(msg){const el=$('languageStatus');if(el)el.textContent=m
 function languageVoiceStop(){if(languageJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});languageJourney.voice=false}
 function languageBack(){
  languageVoiceStop();
- const previous={variants:'languages',levels:['la','el','zh','en'].includes(languageJourney.language)?'variants':'languages',topics:'levels',lesson:'topics'};
+ const previous={placement:'levels',variants:'languages',levels:['la','el','zh','en'].includes(languageJourney.language)?'variants':'languages',topics:'levels',lesson:'topics'};
  if(previous[languageJourney.stage])languageOpen(previous[languageJourney.stage]);else renderLearningSubjects();
 }
 function languageSpeak(text){
@@ -9652,7 +9659,7 @@ function languageDictate(){
  else languageStatus(learningLabel('Te ascult…','Listening…'));
 }
 function languageRecord(card,ok){
- try{const key='pocket-languages-progress-v1-'+languageJourney.language+'-'+(languageJourney.variant||'');const obj=JSON.parse(localStorage.getItem(key)||'{}');obj[card.id]={correct:ok,date:Date.now()};localStorage.setItem(key,JSON.stringify(obj))}catch{}
+ try{const key=languageProgressKey(),obj=languageProgressLoad();obj[card.id]=FOREIGN_REVIEW(obj[card.id],ok,Date.now());localStorage.setItem(key,JSON.stringify(obj))}catch{}
 }
 function languagePractice(card){
  const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog';
@@ -9692,6 +9699,104 @@ async function languageAIGenerate(request){
  }catch{languageStatus(learningLabel('Profesorul AI nu a răspuns. Lecțiile locale rămân disponibile.','AI teacher unavailable; offline lessons remain.'))}
  finally{languageJourney.busy=false}
 }
+
+function languageProgressKey(){return 'pocket-languages-progress-v1-'+languageJourney.language+'-'+(languageJourney.variant||'')}
+function languageProgressLoad(){try{const x=JSON.parse(localStorage.getItem(languageProgressKey())||'{}');return x&&typeof x==='object'?x:{}}catch{return {}}}
+function languageLevelPlan(){return FOREIGN_PLAN(languageJourney.language,languageJourney.variant||'standard',languageJourney.level,languageJourney.topic)}
+function languagePlacementBegin(){
+ const questions=FOREIGN_PLACEMENT_QUESTIONS(languageJourney.language,languageJourney.variant);
+ if(!questions.length){languageStatus(learningLabel('Încă nu există un test local verificat pentru acest traseu.','No verified local diagnostic is available for this track.'));return}
+ languageJourney.placementIndex=0;languageJourney.placementAnswers=[];languageOpen('placement');
+}
+function languagePlacementRender(panel){
+ const questions=FOREIGN_PLACEMENT_QUESTIONS(languageJourney.language,languageJourney.variant);
+ const index=languageJourney.placementIndex,question=questions[index];
+ if(!question){
+  const verdict=FOREIGN_PLACEMENT_RESULT(languageJourney.placementAnswers,questions,languageIsClassical());
+  const info=document.createElement('p');info.textContent=learningLabel('Test introductiv: ','Starter diagnostic: ')+verdict.correct+'/'+verdict.total+' ('+verdict.percent+'%). '+verdict.notice;
+  panel.append(info);
+  panel.append(languageButton(learningLabel('Continuă la nivelul recomandat','Continue at suggested level'),()=>{languageJourney.level=verdict.recommendation;languageOpen('topics')},'primary-btn'));
+  panel.append(languageButton(learningLabel('Alege manual nivelul','Choose level manually'),()=>languageOpen('levels')));
+  return;
+ }
+ const note=document.createElement('p');note.textContent=learningLabel('Întrebarea ','Question ')+(index+1)+'/'+questions.length+'. '+learningLabel('Scrie în limba studiată: ','Write in the target language: ')+question.question;panel.append(note);
+ const input=document.createElement('input');input.id='languagePlacementAnswer';input.autocomplete='off';input.type='text';input.setAttribute('aria-label',note.textContent);panel.append(input);
+ const next=languageButton(index===questions.length-1?learningLabel('Rezultat','Result'):learningLabel('Următoarea','Next'),()=>{
+  languageJourney.placementAnswers.push(input.value);languageJourney.placementIndex++;languageOpen('placement');
+ },'primary-btn');
+ panel.append(next);
+}
+function languageReviewOpen(){
+ const cards=languageWords();
+ const progress=languageProgressLoad(),dueIds=new Set(FOREIGN_DUE(progress,Date.now()));
+ const candidates=cards.filter(card=>!progress[card.id]||dueIds.has(card.id));
+ const chosen=(candidates.length?candidates:cards).slice(0,12);
+ const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog';
+ const head=document.createElement('div');head.className='education-theory-head';
+ const h=document.createElement('h2');h.textContent=learningLabel('Recapitulare cu repetare','Spaced review');
+ head.append(h,languageButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));dialog.append(head);
+ for(const card of chosen){
+  const row=document.createElement('div');row.className='foreign-word-card';
+  const prompt=document.createElement('p');prompt.textContent=card.meaning;
+  const reveal=languageButton(learningLabel('Arată răspunsul','Reveal answer'),()=>{
+   response.hidden=false;reveal.hidden=true;
+  });
+  const response=document.createElement('div');response.hidden=true;
+  const text=document.createElement('strong');text.textContent=card.original+' · '+card.phonetic;response.append(text);
+  response.append(languageButton(learningLabel('✓ Știu','✓ Known'),()=>{languageRecord(card,true);row.remove()}),
+   languageButton(learningLabel('× Repet','× Repeat'),()=>{languageRecord(card,false);row.remove()}));
+  row.append(prompt,reveal,response);dialog.append(row);
+ }
+ dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+function languageTutorPrompt(mode,request,history){
+ const info=languageCurrent();const topic=FOREIGN_TOPIC_DATA.find(x=>x.id===languageJourney.topic);
+ const plan=languageLevelPlan(),rubric=FOREIGN_RUBRIC(languageJourney.level,languageIsClassical());
+ const turn=String(request||'').trim().slice(0,1800);
+ const previous=(history||[]).slice(-6).map(item=>item.role+': '+item.text.slice(0,1000)).join('\n');
+ return 'Acționează ca profesor AI riguros. Limba de predare: '+(state.language||'ro')+'. Limba țintă: '+info.ro+' ('+info.locale+'), varianta '+(languageJourney.variant||'standard')+'. Nivel '+languageJourney.level+'. Modul '+mode+'. Tema '+topic.ro+'. Obiective: '+plan.goals.join('; ')+'. Competențe: '+plan.topicGoals.join('; ')+'. '+
+ 'Răspunde strict la nivelul ales. Pentru fiecare expresie nouă afișează ORIGINAL, TRANSCRIERE fonetică standard adecvată limbii și variantei (IPA, Pinyin cu tonuri, Rōmaji; latina/greaca antică cu pronunție reconstruită), TRADUCERE și CONTEXT. Nu inventa foneme, tonuri, reguli sau citate. Distingi greaca antică/Koine de cea modernă; nu utiliza conversații moderne în limbile clasice. '+
+ (mode==='conversation'?'Joacă rolul unui partener de conversație; pune o singură întrebare pe rând, corectează răspunsul utilizatorului într-un paragraf scurt, apoi continuă.':
+ mode==='assessment'?'Evaluează formativ (nu certificare CEFR) folosind criteriile '+rubric.criteria.join(', ')+'. Dă întrebări variate cu dificultate progresivă și feedback; nu atribui nivelul numai pe baza vocabularului introductiv.':
+ mode==='pronunciation'?'Din textul recunoscut poți comenta doar alegerea cuvintelor, nu acuratețea acustică. Explică sunetele și tonurile într-o notă pedagogică, fără scor fonetic.':
+ mode==='listening'?'Creează un dialog scurt de ascultat, apoi întrebări de înțelegere și răspunsuri; redarea audio este responsabilitatea dispozitivului.':
+ 'Pregătește o lecție structurată, cu explicații, 8-12 exemple, gramatică, exersare și 5 exerciții cu soluții și justificări.')+
+ '\nIstoric de învățare:\n'+previous+'\nSolicitarea utilizatorului: '+turn;
+}
+function languageConversationStart(mode){
+ const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog language-tutor-dialog';
+ const heading=document.createElement('div');heading.className='education-theory-head';
+ const h=document.createElement('h2');h.textContent=learningLabel('Profesor AI · ','AI tutor · ')+mode;
+ heading.append(h,languageButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));dialog.append(heading);
+ const transcript=document.createElement('div');transcript.className='science-result-text';transcript.style.maxHeight='50dvh';transcript.style.overflowY='auto';dialog.append(transcript);
+ const entry=document.createElement('textarea');entry.rows=3;entry.id='languageTutorInput';entry.placeholder=learningLabel('Scrie răspunsul sau întrebarea…','Type your answer or question…');dialog.append(entry);
+ const notice=document.createElement('p');notice.setAttribute('role','status');dialog.append(notice);
+ const history=[];
+ const send=async()=>{
+  const spoken=entry.value.trim();if(languageJourney.busy)return;
+  languageJourney.busy=true;entry.value='';notice.textContent=learningLabel('Profesorul răspunde…','Tutor is replying…');
+  const prompt=languageTutorPrompt(mode,spoken||'Începe lecția cu prima întrebare.',history);
+  if(spoken){const user=document.createElement('p');user.textContent=learningLabel('Eu: ','Me: ')+spoken;transcript.append(user)}
+  try{
+   const controller=new AbortController();dialog.addEventListener('close',()=>controller.abort(),{once:true});
+   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:prompt,language:state.language,module:'assistant',history:[]}),signal:controller.signal});
+   const data=await response.json();if(!response.ok||data.status!=='success'||!data.reply)throw Error('no response');
+   if(!dialog.isConnected)return;
+   const text=String(data.reply).slice(0,9000);
+   const paragraph=document.createElement('p');paragraph.textContent=learningLabel('Profesor: ','Tutor: ')+text;transcript.append(paragraph);
+   history.push({role:'student',text:spoken},{role:'tutor',text});if(history.length>12)history.splice(0,history.length-12);
+   notice.textContent=learningLabel('Răspuns generat de AI; verifică explicațiile importante.','AI-generated response; verify important details.');
+   transcript.scrollTop=transcript.scrollHeight;
+  }catch{if(dialog.isConnected)notice.textContent=learningLabel('Răspuns indisponibil. Nu am înregistrat această încercare drept evaluare.','Answer unavailable. No assessment was recorded.')}
+  finally{languageJourney.busy=false}
+ };
+ dialog.append(languageButton(learningLabel('Trimite / Continuă','Send / Continue'),send,'primary-btn'),
+  languageButton(learningLabel('🔊 Citește ultimul răspuns','🔊 Read last reply'),()=>{const last=history.filter(x=>x.role==='tutor').at(-1);if(last)languageSpeak(last.text)}));
+ dialog.addEventListener('close',()=>{languageVoiceStop();dialog.remove()});
+ document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')};
+ send();
+}
+
 function languageOpen(stage){
  languageJourney.stage=stage;
  const root=$('view-module'),host=$('moduleContent');
@@ -9703,8 +9808,10 @@ function languageOpen(stage){
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
  bar.append(languageButton(learningLabel('← Înapoi','← Back'),languageBack));host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
- const title=document.createElement('h2');title.textContent=stage==='languages'?learningLabel('Alege limba','Choose language'):stage==='variants'?learningLabel('Alege varianta','Choose variant'):stage==='levels'?learningLabel('Alege nivelul','Choose level'):stage==='topics'?learningLabel('Alege capitolul','Choose chapter'):learningLabel('Lecție de limbi străine','Language lesson');panel.append(title);
+ const title=document.createElement('h2');title.textContent=stage==='languages'?learningLabel('Alege limba','Choose language'):stage==='variants'?learningLabel('Alege varianta','Choose variant'):stage==='levels'?learningLabel('Alege nivelul','Choose level'):stage==='topics'?learningLabel('Alege capitolul','Choose chapter'):stage==='placement'?learningLabel('Test introductiv','Starter diagnostic'):learningLabel('Lecție de limbi străine','Language lesson');panel.append(title);
+ if(stage==='placement'){languagePlacementRender(panel);host.append(panel);return}
  if(stage!=='lesson'){
+  if(stage==='levels')panel.append(languageButton(learningLabel('🎓 Test inițial de orientare','🎓 Starter placement check'),languagePlacementBegin));
   const list=document.createElement('div');list.className='math-choice-list science-choice-list';let options=[];
   if(stage==='languages')options=FOREIGN_LANGUAGE_DATA;
   if(stage==='variants'){
@@ -9732,6 +9839,18 @@ function languageOpen(stage){
   control.append(languageButton(learningLabel('Fonetică ','Phonetics ')+(languageJourney.phonetics?'✓':'—'),()=>{languageJourney.phonetics=!languageJourney.phonetics;languageOpen('lesson')}),
   languageButton(learningLabel('Pronunție lentă ','Slow speech ')+(languageJourney.slow?'✓':'—'),()=>{languageJourney.slow=!languageJourney.slow;languageOpen('lesson')}));
   panel.append(control);
+  const plan=languageLevelPlan();
+  if(plan){
+   const goals=document.createElement('p');goals.textContent=learningLabel('Obiective: ','Objectives: ')+plan.goals.join(' · ');
+   panel.append(goals);
+  }
+  const modes=document.createElement('div');modes.className='science-work-tools';
+  modes.append(languageButton(learningLabel('💬 Conversație AI','💬 AI conversation'),()=>languageConversationStart('conversation')),
+   languageButton(learningLabel('🎧 Ascultare','🎧 Listening'),()=>languageConversationStart('listening')),
+   languageButton(learningLabel('🗣 Pronunție','🗣 Pronunciation'),()=>languageConversationStart('pronunciation')),
+   languageButton(learningLabel('📝 Evaluare','📝 Assessment'),()=>languageConversationStart('assessment')),
+   languageButton(learningLabel('🔁 Recapitulare','🔁 Review'),languageReviewOpen));
+  panel.append(modes);
   const variantNeedsCuratedAudio=languageJourney.variant==='US'||languageJourney.variant==='traditional'||languageJourney.variant==='ecclesiastical';
   const offline=!variantNeedsCuratedAudio&&languageJourney.topic==='greetings'&&(languageJourney.level==='A1'||languageIsClassical()&&languageJourney.level==='foundation');
   const words=languageWords();
@@ -9756,6 +9875,7 @@ function languageOpen(stage){
    const p=document.createElement('p');p.textContent=learningLabel('Profesorul AI adaptează lecția după limbă, nivel și temă. Lecția nu este verificată local.','The AI teacher adapts this lesson to language, level and topic. Generated content is not locally verified.');panel.append(p);
    const request=document.createElement('textarea');request.rows=3;request.placeholder=learningLabel('Solicitare opțională…','Optional request…');panel.append(request);
    panel.append(languageButton(learningLabel('📖 Lecție + exerciții','📖 Lesson + exercises'),()=>languageAIGenerate(request.value),'primary-btn'));
+   panel.append(languageButton(learningLabel('🧑‍🏫 Profesor interactiv','🧑‍🏫 Interactive tutor'),()=>languageConversationStart('lesson')));
   }
   const status=document.createElement('p');status.id='languageStatus';status.setAttribute('role','status');panel.append(status);
  }
