@@ -27,17 +27,17 @@ export const HG_COUNTRIES=[
  {id:'OTHER',ro:'Altă țară (introdu manual)',en:'Other country (enter manually)',parent:null,source:null}
 ];
 export const HG_HISTORY_TOPICS=[
- {id:'prehistory',ro:'Preistorie și primele comunități',en:'Prehistory and first societies',period:'înainte de 3000 î.Hr.',query:'preistorie, paleolitic, neolitic, arheologie'},
- {id:'antiquity',ro:'Antichitate și civilizații',en:'Antiquity and civilizations',period:'3000 î.Hr.–500 d.Hr.',query:'Egipt, Mesopotamia, Grecia, Roma, Persia, India, China'},
- {id:'medieval',ro:'Evul Mediu',en:'Middle Ages',period:'500–1500',query:'state, imperii, religii, societate medievală'},
- {id:'earlymodern',ro:'Renaștere și epoca modernă',en:'Renaissance and early modern',period:'1450–1800',query:'explorări, Renaștere, Reformă, revoluții'},
- {id:'industrial',ro:'Revoluții și industrializare',en:'Revolutions and industrialisation',period:'1750–1914',query:'revoluții, industrializare, colonialism'},
- {id:'twentieth',ro:'Războaie mondiale și secolul XX',en:'World wars and the 20th century',period:'1914–1991',query:'fronturi, genocid, decolonizare, Războiul Rece'},
- {id:'contemporary',ro:'Lumea contemporană',en:'Contemporary world',period:'1991–prezent',query:'globalizare, integrare, transformări geopolitice'},
- {id:'civilisations',ro:'Civilizații, cultură și știință',en:'Civilizations, culture and science',period:'diacronic',query:'cultură, artă, economie, religii, descoperiri'},
- {id:'methods',ro:'Istoriografie și surse',en:'Historiography and sources',period:'diacronic',query:'izvoare primare, arheologie, bibliografie, cauzalitate'},
- {id:'national',ro:'Istorie națională',en:'National history',period:'diacronic',query:'istoria statului selectat'},
- {id:'regional',ro:'Istorie regională și locală',en:'Regional and local history',period:'diacronic',query:'istorie locală, patrimoniu, monumente'}
+ {id:'prehistory',ro:'Preistorie și primele comunități',en:'Prehistory and first societies',period:"Înainte de 3000 î.Hr.",periodEn:"Before 3000 BCE",query:'preistorie, paleolitic, neolitic, arheologie'},
+ {id:'antiquity',ro:'Antichitate și civilizații',en:'Antiquity and civilizations',period:"3000 î.Hr. – 500 d.Hr.",periodEn:"3000 BCE – 500 CE",query:'Egipt, Mesopotamia, Grecia, Roma, Persia, India, China'},
+ {id:'medieval',ro:'Evul Mediu',en:'Middle Ages',period:"500–1500",periodEn:"500–1500",query:'state, imperii, religii, societate medievală'},
+ {id:'earlymodern',ro:'Renaștere și epoca modernă',en:'Renaissance and early modern',period:"1450–1800",periodEn:"1450–1800",query:'explorări, Renaștere, Reformă, revoluții'},
+ {id:'industrial',ro:'Revoluții și industrializare',en:'Revolutions and industrialisation',period:"1750–1914",periodEn:"1750–1914",query:'revoluții, industrializare, colonialism'},
+ {id:'twentieth',ro:'Războaie mondiale și secolul XX',en:'World wars and the 20th century',period:"1914–1991",periodEn:"1914–1991",query:'fronturi, genocid, decolonizare, Războiul Rece'},
+ {id:'contemporary',ro:'Lumea contemporană',en:'Contemporary world',period:"1991–prezent",periodEn:"1991–present",query:'globalizare, integrare, transformări geopolitice'},
+ {id:'civilisations',ro:'Civilizații, cultură și știință',en:'Civilizations, culture and science',period:"Toate epocile",periodEn:"All periods",query:'cultură, artă, economie, religii, descoperiri'},
+ {id:'methods',ro:'Istoriografie și surse',en:'Historiography and sources',period:"Toate epocile",periodEn:"All periods",query:'izvoare primare, arheologie, bibliografie, cauzalitate'},
+ {id:'national',ro:'Istorie națională',en:'National history',period:"Toate epocile",periodEn:"All periods",query:'istoria statului selectat'},
+ {id:'regional',ro:'Istorie regională și locală',en:'Regional and local history',period:"Toate epocile",periodEn:"All periods",query:'istorie locală, patrimoniu, monumente'}
 ];
 export const HG_GEOGRAPHY_TOPICS=[
  {id:'earth',ro:'Pământul, coordonate și orientare',en:'Earth, coordinates and navigation',query:'glob, coordonate geografice, fusuri orare'},
