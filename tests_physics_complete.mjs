@@ -15,7 +15,7 @@ assert.ok(PHYSICS_LESSONS.every(e=>rank[e.level]>=rank[PHYSICS_TOPICS.find(t=>t.
 assert.equal(THEORY_ENTRIES.filter(x=>x.subject==='physics').length,102);
 assert.ok(searchTheory('Schrödinger',{subject:'physics',level:'advanced'}).length>0);
 assert.equal(searchTheory('Schrödinger',{subject:'physics',level:'beginner'}).length,0);
-assert.equal(PHYSICS_LESSONS.find(x=>x.title==='Legea lui Coulomb').formula,'F = k·|q₁q₂|/r²');
+assert.equal(PHYSICS_LESSONS.find(x=>x.title==='Constanta electrostatică în vid').formula,'k=1/(4πε₀)');
 assert.equal(physicsVerifiedExercise('Calculează forța: m=2 kg; a=3 m/s²')?.value,6);
 assert.equal(physicsVerifiedExercise('Calculează energia cinetică: m=2 kg; v=3 m/s')?.value,9);
 assert.equal(physicsVerifiedExercise('Calculează viteza: s=100 m; t=20 s')?.value,5);
