@@ -134,6 +134,67 @@ export const EXAM_LOCAL_BANK={
       ],
       "correct": 2,
       "explanation": "Rezumatul redă ideile principale fără a adăuga evenimente."
+    },
+    {
+      "id": "romanian-reading-1",
+      "prompt": "Conform textului, ce obiect primește Mara de la bibliotecară?",
+      "passage": "În fiecare dimineață, Mara trecea pe lângă biblioteca satului. Deși se grăbea spre școală, privea mereu ferestrele luminate. Într-o zi, a găsit ușa întredeschisă și un bilețel pe prag: „Cărțile așteaptă cititori curioși”. A intrat, iar bibliotecara i-a oferit un atlas vechi. Pe prima pagină, Mara a descoperit o hartă a locurilor pe care visa să le viziteze. După ore, s-a întors să împrumute cartea.",
+      "choices": [
+        "Un dicționar",
+        "Un atlas vechi",
+        "Un caiet de matematică",
+        "O fotografie"
+      ],
+      "correct": 1,
+      "explanation": "Textul spune explicit că bibliotecara i-a oferit un atlas vechi."
+    },
+    {
+      "id": "romanian-reading-2",
+      "prompt": "Ce sugerează faptul că Mara se întoarce după ore?",
+      "choices": [
+        "Curiozitatea și interesul pentru lectură",
+        "Teama de a merge acasă",
+        "Nevoia de a preda un caiet",
+        "Dorința de a închide biblioteca"
+      ],
+      "correct": 0,
+      "explanation": "Întoarcerea pentru a împrumuta atlasul susține interpretarea interesului pentru cărți și descoperire."
+    },
+    {
+      "id": "romanian-reading-3",
+      "prompt": "Din ce perspectivă este relatată întâmplarea?",
+      "choices": [
+        "Narator la persoana I",
+        "Dialog exclusiv",
+        "Narator la persoana a III-a",
+        "Scrisoare adresată cititorului"
+      ],
+      "correct": 2,
+      "explanation": "Narațiunea folosește forme precum „Mara trecea”, „a intrat” și „s-a întors”, la persoana a III-a."
+    },
+    {
+      "id": "romanian-reading-4",
+      "prompt": "Care este ideea principală a fragmentului?",
+      "choices": [
+        "Mara pierde drumul către școală",
+        "Biblioteca este închisă definitiv",
+        "Mara descoperă și împrumută o carte care îi trezește interesul",
+        "Bibliotecara îi interzice intrarea"
+      ],
+      "correct": 2,
+      "explanation": "Elementele esențiale sunt interesul Marei pentru bibliotecă, intrarea și descoperirea atlasului."
+    },
+    {
+      "id": "romanian-reading-5",
+      "prompt": "Care este cel mai fidel rezumat al textului?",
+      "choices": [
+        "Mara pleacă în jurul lumii cu bibliotecara",
+        "Mara observă biblioteca, intră, descoperă un atlas și se întoarce să îl împrumute",
+        "Mara scrie o scrisoare despre geografie",
+        "Mara participă la un concurs de matematică"
+      ],
+      "correct": 1,
+      "explanation": "Rezumatul păstrează succesiunea faptelor principale fără a inventa întâmplări."
     }
   ],
   "english": [
