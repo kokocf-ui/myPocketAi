@@ -44,6 +44,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.print.PrintManager;
 import android.print.PrintDocumentAdapter;
+import android.graphics.pdf.PdfDocument;
+import android.graphics.Typeface;
+import java.io.OutputStream;
 import android.webkit.WebResourceResponse;
 import java.io.InputStream;
 import android.webkit.WebSettings;
@@ -85,6 +88,8 @@ public final class MainActivity extends ComponentActivity {
     private WebView web;
     private final ArrayList<WebView> educationPrintWebs=new ArrayList<>();
     private FrameLayout appFrame;
+    private String pendingEducationPdfPayload;
+    private boolean pendingEducationPrint;
     private Uri cameraUri;
     private boolean waitingForPhoto = false;
     // This flag is intentionally limited to the Education camera/gallery bridge.
@@ -135,6 +140,25 @@ public final class MainActivity extends ComponentActivity {
         prefs.edit().putBoolean(NOTIFICATION_PERMISSION_FLAG,true).apply();
         notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
     }
+
+    private final ActivityResultLauncher<Intent> educationPdfDestination =
+        registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            String payload=pendingEducationPdfPayload;
+            boolean shouldPrint=pendingEducationPrint;
+            pendingEducationPdfPayload=null;
+            pendingEducationPrint=false;
+            if(payload==null)return;
+            Uri uri=result.getResultCode()==Activity.RESULT_OK&&result.getData()!=null?result.getData().getData():null;
+            if(uri==null){notifyEducationPdf("cancelled");return;}
+            try{
+                JSONObject data=new JSONObject(payload);
+                String title=data.optString("title","Material educațional");
+                String content=data.optString("text","");
+                if(!saveEducationPdf(uri,title,content))throw new IOException("PDF write failed");
+                notifyEducationPdf("saved");
+                if(shouldPrint)printEducationalMaterial(payload);
+            }catch(Exception ignored){notifyEducationPdf("error");}
+        });
 
     private final ActivityResultLauncher<PickVisualMediaRequest> gallery =
         registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
@@ -607,7 +631,7 @@ public final class MainActivity extends ComponentActivity {
                     if(!isMainFrame||!"https".equals(origin.getScheme())||!APP_HOST.equals(origin.getHost()))return;
                     final String payload=message.getData();
                     if(payload==null||payload.length()>220000)return;
-                    runOnUiThread(()->printEducationalMaterial(payload));
+                    runOnUiThread(()->requestEducationPdfSave(payload));
                 });
         }
         tts=new TextToSpeech(this,status -> {
@@ -1254,6 +1278,99 @@ public final class MainActivity extends ComponentActivity {
                     web.evaluateJavascript(js,null);
             });
         }catch(Exception ignored){}
+    }
+
+    private void notifyEducationPdf(String status){
+        try{
+            String script="window.pocketEduPrintResult&&window.pocketEduPrintResult("+JSONObject.quote(status)+");";
+            if(web!=null&&APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost()))
+                web.evaluateJavascript(script,null);
+        }catch(Exception ignored){}
+    }
+
+    // Android Storage Access Framework always creates an application/pdf file.
+    // Print requests must complete this save before the system print sheet opens.
+    private void requestEducationPdfSave(String payload){
+        if(pendingEducationPdfPayload!=null){notifyEducationPdf("busy");return;}
+        try{
+            JSONObject data=new JSONObject(payload);
+            String text=data.optString("text","").trim();
+            if(text.isEmpty()||text.length()>160000){notifyEducationPdf("error");return;}
+            String title=data.optString("title","Material educațional").trim();
+            if(title.isEmpty())title="Material educațional";
+            String name=title.replaceAll("[\\\\/:*?\"<>|\\p{Cntrl}]","_").trim();
+            if(name.length()>80)name=name.substring(0,80);
+            if(!name.toLowerCase(Locale.ROOT).endsWith(".pdf"))name+=".pdf";
+            pendingEducationPdfPayload=payload;
+            pendingEducationPrint="print".equals(data.optString("mode","save"));
+            Intent intent=new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("application/pdf");
+            intent.putExtra(Intent.EXTRA_TITLE,name);
+            educationPdfDestination.launch(intent);
+        }catch(Exception ignored){
+            pendingEducationPdfPayload=null;pendingEducationPrint=false;notifyEducationPdf("error");
+        }
+    }
+
+    private boolean saveEducationPdf(Uri destination,String title,String content){
+        PdfDocument document=new PdfDocument();
+        try{
+            final int width=595,height=842,margin=48;
+            final int usable=width-2*margin;
+            Paint body=new Paint(Paint.ANTI_ALIAS_FLAG);
+            body.setColor(Color.BLACK);body.setTextSize(11.5f);
+            body.setTypeface(Typeface.create("sans-serif",Typeface.NORMAL));
+            Paint heading=new Paint(Paint.ANTI_ALIAS_FLAG);
+            heading.setColor(Color.BLACK);heading.setTextSize(18f);
+            heading.setTypeface(Typeface.create("sans-serif",Typeface.BOLD));
+            int pageNumber=0;
+            PdfDocument.Page page=null;
+            Canvas canvas=null;
+            float y=margin;
+            String[] paragraphs=(title+"\\n\\n"+content).replace("\\r","").split("\\n",-1);
+            boolean firstLine=true;
+            for(String paragraph:paragraphs){
+                Paint paint=firstLine?heading:body;
+                float lineHeight=firstLine?27f:18f;
+                if(paragraph.isEmpty()){
+                    y+=lineHeight/2f;
+                    firstLine=false;
+                    continue;
+                }
+                String remaining=paragraph;
+                while(!remaining.isEmpty()){
+                    if(page==null||y+lineHeight>height-margin){
+                        if(page!=null)document.finishPage(page);
+                        page=document.startPage(new PdfDocument.PageInfo.Builder(width,height,++pageNumber).create());
+                        canvas=page.getCanvas();y=margin+20;
+                    }
+                    int take=paint.breakText(remaining,true,usable,null);
+                    take=Math.max(1,Math.min(take,remaining.length()));
+                    if(take<remaining.length()){
+                        int space=remaining.lastIndexOf(' ',take);
+                        if(space>0&&space>=take/2)take=space;
+                    }
+                    String line=remaining.substring(0,take).trim();
+                    canvas.drawText(line,margin,y,paint);
+                    y+=lineHeight;
+                    remaining=remaining.substring(take).trim();
+                    firstLine=false;
+                    paint=body;lineHeight=18f;
+                }
+            }
+            if(page==null){
+                page=document.startPage(new PdfDocument.PageInfo.Builder(width,height,1).create());
+            }
+            document.finishPage(page);
+            try(OutputStream stream=getContentResolver().openOutputStream(destination,"w")){
+                if(stream==null)throw new IOException("No output stream");
+                document.writeTo(stream);
+                stream.flush();
+            }
+            return true;
+        }catch(Exception ignored){return false;}
+        finally{document.close();}
     }
 
     // Print only text explicitly submitted from the Education preview, never the entire app UI.
