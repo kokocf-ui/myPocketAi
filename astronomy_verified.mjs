@@ -38,7 +38,9 @@ export function astronomyVerifiedExercise(source,mode='solve'){
   if(rp<=0||rs<=0||rp>=rs)return {kind:'input'};
   return answer('Adâncime tranzit','δ=(Rp/Rs)²','Rp='+rp+' m; Rs='+rs+' m',(rp/rs)**2*100,'%','Tranzit central, disc uniform, fără diluție ori pete.');
  }
- const ly=read('ly','ly'),au=read('au','au'),pc=read('pc','pc');
+ const distanceToken=q.match(/(?:^|[\\s:;])(-?\\d+(?:\\.\\d+)?(?:e[+-]?\\d+)?)\\s*(pc|ly|au)(?=$|[\\s;,.])/);
+ const parsed=distanceToken?Number(distanceToken[1]):null;
+ const ly=read('ly','ly')??(distanceToken?.[2]==='ly'?parsed:null),au=read('au','au')??(distanceToken?.[2]==='au'?parsed:null),pc=read('pc','pc')??(distanceToken?.[2]==='pc'?parsed:null);
  if(/convert|distanta|distante/.test(q)){
   const found=[ly,au,pc].filter(x=>x!==null);
   if(found.length===1){
