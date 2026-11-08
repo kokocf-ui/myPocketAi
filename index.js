@@ -2925,6 +2925,7 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
 #view-module.learning-hg .hg-map-controls,#view-module.learning-hg .hg-lesson-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 #view-module.learning-hg .hg-map-controls>input,#view-module.learning-hg .hg-map-controls>select{min-width:0;width:100%;min-height:44px;background:#092033;color:white;border:1px solid #52859e;border-radius:9px;padding:7px}
 #view-module.learning-hg .hg-map-image{display:block;width:100%;max-height:45dvh;object-fit:contain;margin:10px auto}
+#view-module.learning-hg .hg-map-frame{display:block;width:100%;height:clamp(230px,42dvh,470px);border:1px solid #52859e;border-radius:10px;margin:8px auto}
 #view-module.learning-hg .hg-map a{display:inline-block;color:#8eebff;text-decoration:underline;margin:10px 0;overflow-wrap:anywhere}
 #view-module.learning-hg .hg-quiz textarea{min-height:68px!important}
 @media(max-width:370px){#view-module.learning-hg .hg-choice-list{grid-template-columns:1fr!important}}
@@ -10347,9 +10348,28 @@ function hgHistoricalMap(panel,topic){
 }
 function hgGeographyMap(panel,topic){
  const shell=document.createElement('section');shell.className='hg-map';
- shell.append(hgText('h3',hgL('🗺️ Hărți geografice','🗺️ Geography maps')));
- shell.append(hgText('p',hgL('Pentru studiu se folosesc hărți actuale, cu dată și sursă. Nu sunt confundate cu granițele istorice.','Use dated, sourced contemporary maps for geography. These are distinct from historical borders.')));
- const link=document.createElement('a');link.href='https://www.openstreetmap.org/';link.rel='noopener noreferrer';link.target='_blank';link.textContent=hgL('Deschide harta geografică','Open geographic map');shell.append(link);
+ shell.append(hgText('h3',hgL('🗺️ Hartă geografică actuală','🗺️ Contemporary geographic map')));
+ shell.append(hgText('p',hgL('Harta de bază arată poziția și limitele actuale, nu înlocuiește o hartă tematică verificată pentru climă, relief sau populație.','The base map shows current geography; it is not a verified climate, relief or population thematic map.')));
+ const country=hgCountry();
+ const bbox=hgJourney.scope==='world'?[-170,-58,170,78]:
+  country?.parent==='RO'?[20.1,43.5,29.9,48.4]:
+  country?.parent==='GB'?[-8.8,49.8,2.2,59.5]:[-170,-58,170,78];
+ const link=document.createElement('a');link.href='https://www.openstreetmap.org/';
+ link.rel='noopener noreferrer';link.target='_blank';link.textContent=hgL('Deschide în OpenStreetMap','Open in OpenStreetMap');shell.append(link);
+ if(hgJourney.region){
+  const search=document.createElement('a');search.href='https://www.openstreetmap.org/search?query='+encodeURIComponent(hgJourney.region+' '+(country?country.en:hgJourney.otherCountry||''));
+  search.target='_blank';search.rel='noopener noreferrer';search.textContent=hgL('Caută regiunea selectată','Find selected region');shell.append(search);
+ }
+ const holder=document.createElement('div');shell.append(holder);
+ shell.append(hgBtn(hgL('🗺️ Afișează harta aici','🗺️ Show map here'),()=>{
+  holder.replaceChildren();
+  const frame=document.createElement('iframe');frame.title=hgL('Hartă geografică actuală','Current geographic map');
+  frame.className='hg-map-frame';frame.loading='lazy';frame.referrerPolicy='no-referrer';
+  frame.src='https://www.openstreetmap.org/export/embed.html?bbox='+bbox.join('%2C')+'&layer=mapnik';
+  holder.append(frame);
+  const note=hgText('small',hgL('Date cartografice © colaboratorii OpenStreetMap. Încărcarea hărții trimite o cerere către furnizorul extern.','Map data © OpenStreetMap contributors. Loading the map contacts the external provider.'));
+  holder.append(note);
+ },'secondary-btn'));
  panel.append(shell);
 }
 async function hgGenerate(extra,output){
