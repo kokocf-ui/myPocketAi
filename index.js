@@ -6993,7 +6993,7 @@ function pocketBackInsideModule(){
  if(root.classList.contains('learning-active')&&root.classList.contains('learning-computing')){computingBack();return true}
  if(root.classList.contains('learning-active')&&root.classList.contains('learning-math')){
   if(mathJourney.stage==='workspace'){mathJourney.stage='subjects';mathJourneyShowChoices('subjects');return true}
-  if(mathJourney.stage==='subjects'){mathJourney.stage='levels';mathJourneyShowChoices('levels');return true}
+  if(mathJourney.stage==='subjects'||mathJourney.stage==='grade'){mathJourney.stage='levels';mathJourneyShowChoices('levels');return true}
   renderLearningSubjects();return true;
  }
  if(root.classList.contains('learning-active')){renderLearningSubjects();return true}
@@ -7125,6 +7125,7 @@ function scienceBack(){
  else if(current==='topics')scienceJourney.stage=(['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)&&scienceJourney.level==='advanced')?'specialties':'levels';
  else if(current==='specialties')scienceJourney.stage='levels';
  else if(current==='levels')scienceJourney.stage='subjects';
+ else if(current==='grade')scienceJourney.stage='levels';
  else {renderLearningSubjects();return}
  scienceJourneyShowChoices(scienceJourney.stage);
 }
