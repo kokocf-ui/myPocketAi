@@ -2,6 +2,13 @@
 // publications. A verified framework is NOT an exhaustive list of mandatory works.
 // The generic path is explicitly advisory when a country, grade or track is not checked.
 export const LIT_EU_COMMON={
+ lower:[
+  ['reading-lower','Lectură și înțelegerea textului la gimnaziu','Analizează idei principale, fapte, personaje și dovezi din texte literare și nonliterare potrivite clasei.','genres'],
+  ['grammar-lower','Gramatică, părți de vorbire și sintaxă','Recunoaște structurile limbii și aplică regulile de exprimare în contexte școlare.','grammar'],
+  ['writing-lower','Rezumat, descriere și compunere','Respectă cerința, planul, coerența și redactarea cu exemple proprii.','composition'],
+  ['literature-lower','Poezie, proză, teatru pentru gimnaziu','Identifică narațiunea, vocea lirică și mijloacele expresive fără a impune opere neconfirmate.','authors'],
+  ['revision-lower','Recapitulare și verificarea competențelor','Rezolvă cerințe adaptate clasei alese; verifică răspunsurile, nu le confunda cu bareme oficiale.','essay']
+ ],
  beginner:[
   ['oral','Ascultare, conversație și exprimare','Înțelegere orală, vocabular, povestire și dialog.','communication'],
   ['read','Citire și înțelegerea textului','Fluență, idei principale, întrebări și rezumare.','genres'],
