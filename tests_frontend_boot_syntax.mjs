@@ -7,7 +7,7 @@ import frontend from './index.js';
 const response=await frontend.fetch(new Request('https://boot-check.test/'));
 assert.equal(response.status,200,'frontend HTML is served');
 const html=await response.text();
-const script=html.match(/<script>([\\s\\S]*?)<\\/script>/)?.[1];
+const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script&&script.length>100000,'generated app script exists');
 new vm.Script(script,{filename:'mypocketai-embedded-app.js'});
 assert.ok(script.includes('function foreignStudyButton('),'languages button has isolated name');
