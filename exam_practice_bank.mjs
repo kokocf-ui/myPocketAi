@@ -1079,6 +1079,134 @@ export const EXAM_LOCAL_BANK={
       ],
       "correct": 1,
       "explanation": "Perechile complementare în ADN sunt A–T și C–G."
+    },
+    {
+      "id": "biology-27",
+      "topics": [
+        "concepts"
+      ],
+      "diagram": "stomata",
+      "prompt": "Cum se numesc celulele ce delimitează porul stomatic și pot regla deschiderea acestuia?",
+      "choices": [
+        "Celule de gardă",
+        "Celule nervoase",
+        "Hematii",
+        "Celule musculare"
+      ],
+      "correct": 0,
+      "explanation": "Perechile de celule de gardă controlează deschiderea porului stomatic."
+    },
+    {
+      "id": "biology-28",
+      "topics": [
+        "concepts"
+      ],
+      "diagram": "circulation",
+      "prompt": "Ce tip de vas readuce sângele din țesuturi spre inimă în circulația sistemică?",
+      "choices": [
+        "Artera",
+        "Vena",
+        "Traheea",
+        "Bronhiola"
+      ],
+      "correct": 1,
+      "explanation": "Venele transportă sângele spre inimă; sensul curgerii este criteriul de definire."
+    },
+    {
+      "id": "biology-29",
+      "topics": [
+        "methods"
+      ],
+      "diagram": "microscope",
+      "prompt": "O celulă măsoară 50 µm în realitate și 5 cm într-un desen. Ce mărire are desenul?",
+      "choices": [
+        "10×",
+        "100×",
+        "1000×",
+        "10000×"
+      ],
+      "correct": 2,
+      "explanation": "5 cm = 50 000 µm, deci 50 000 / 50 = 1000×."
+    },
+    {
+      "id": "biology-30",
+      "topics": [
+        "methods"
+      ],
+      "diagram": "experiment",
+      "prompt": "Ce tip de grafic este adecvat pentru variația continuă a creșterii unei plante în timp?",
+      "choices": [
+        "Grafic liniar cu timp pe axa orizontală",
+        "Hartă politică",
+        "Diagramă circulară fără valori",
+        "Niciun grafic"
+      ],
+      "correct": 0,
+      "explanation": "Graficul liniar poate reprezenta valori ale unei mărimi continue observate în timp."
+    },
+    {
+      "id": "biology-31",
+      "topics": [
+        "methods"
+      ],
+      "diagram": "experiment",
+      "prompt": "Ce ar trebui să faci dacă două măsurători din același experiment sunt neobișnuit de diferite?",
+      "choices": [
+        "Să elimini automat una",
+        "Să verifici procedura și posibilele erori",
+        "Să înlocuiești cu o valoare inventată",
+        "Să omiți unitățile"
+      ],
+      "correct": 1,
+      "explanation": "Datele atipice trebuie investigate transparent; nu sunt eliminate arbitrar."
+    },
+    {
+      "id": "biology-32",
+      "topics": [
+        "applications"
+      ],
+      "diagram": "stomata",
+      "prompt": "De ce poate scădea transpirația când stomatele se închid?",
+      "choices": [
+        "Scade evacuarea vaporilor prin pori",
+        "Crește obligatoriu fotosinteza",
+        "Dispare apa din xilem",
+        "Se oprește orice metabolism"
+      ],
+      "correct": 0,
+      "explanation": "Închiderea stomatelor limitează difuzia vaporilor de apă prin pori."
+    },
+    {
+      "id": "biology-33",
+      "topics": [
+        "applications"
+      ],
+      "diagram": "foodchain",
+      "prompt": "Într-un lanț trofic, ce efect este plauzibil dacă scad puternic producătorii primari?",
+      "choices": [
+        "Consumatorii pot avea mai puțină hrană",
+        "Energia disponibilă crește întotdeauna",
+        "Lanțul rămâne identic prin definiție",
+        "Toate populațiile cresc simultan"
+      ],
+      "correct": 0,
+      "explanation": "Reducerea producătorilor poate limita resursele de energie disponibile consumatorilor."
+    },
+    {
+      "id": "biology-34",
+      "topics": [
+        "applications"
+      ],
+      "diagram": "punnett",
+      "prompt": "În modelul Aa × Aa, câte dintre cele patru combinații sunt heterozigote?",
+      "choices": [
+        "Niciuna",
+        "Una",
+        "Două",
+        "Patru"
+      ],
+      "correct": 2,
+      "explanation": "Combinațiile AA, Aa, Aa și aa conțin două rezultate heterozigote Aa, adică 50%."
     }
   ],
   "computing": [
