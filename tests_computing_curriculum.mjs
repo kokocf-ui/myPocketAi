@@ -5,12 +5,13 @@ import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS,computingCoverage,comp
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 
 const levels=new Set(COMPUTING_LEVELS.map(x=>x.id));
-assert.deepEqual([...levels].sort(),['advanced','beginner','medium']);
-assert.equal(COMPUTING_PATHS.length,17);
-assert.equal(COMPUTING_TOPICS.length,65);
+assert.deepEqual([...levels].sort(),['advanced','beginner','lower','medium']);
+assert.equal(COMPUTING_PATHS.length,20);
+assert.equal(COMPUTING_TOPICS.length,74);
 assert.deepEqual(computingCoverage(),{
  beginner:{paths:4,topics:12},
  medium:{paths:5,topics:24},
+ lower:{paths:3,topics:9},
  advanced:{paths:8,topics:29}
 });
 const paths=new Set(),topics=new Set();
@@ -83,4 +84,4 @@ assert.ok(rendered.children.some(n=>n.tagName==='pre'&&n.textContent.includes('2
 assert.ok(rendered.textContent.includes('x**2'),'Python exponentiation preserved in prose');
 assert.ok(!rendered.textContent.includes('**Exercițiu:**'),'Markdown formatting stripped from heading only');
 assert.equal(rendered.children.filter(n=>n.tagName==='ul').length,1,'Bullets presented as a list');
-console.log('PASS Computing: 3 levels, 17 populated branches, 65 quizzes, navigation, PDF, OCR, voice, AI and full boot script.');
+console.log('PASS Computing: 4 educational pathways, 20 branches, 74 quizzes, lower-secondary isolation, navigation, PDF, voice and full boot script.');
