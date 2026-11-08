@@ -7,6 +7,7 @@ import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
 import {physicsVerifiedExercise} from './physics_verified.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
+import {FOREIGN_LANGUAGES,FOREIGN_LEVELS,FOREIGN_TOPICS,FOREIGN_PHRASES,ANCIENT_GREEK_PHRASES,CLASSICAL_LEVELS} from './foreign_languages_curriculum.mjs';
 /**
  * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
@@ -1496,6 +1497,17 @@ body.long-choice-active{overflow:hidden}
 <style id="budget-edit-report-style">
 #view-module .budget-report-editable{cursor:pointer}
 #view-module .budget-report-editable:focus-visible{outline:2px solid #9ce8ff;outline-offset:-2px}
+</style>
+
+<style>
+#view-module.learning-languages #moduleChatHost{display:none!important}
+#view-module.learning-languages .science-choice-panel{max-height:calc(100dvh - 190px);overflow-y:auto;overscroll-behavior:contain;min-height:0}
+#view-module.learning-languages .foreign-word-card{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px;margin:8px 0;border-radius:12px;border:1px solid rgba(144,198,228,.32);background:rgba(15,44,66,.35)}
+#view-module.learning-languages .foreign-original{font-size:1.32rem;line-height:1.45;flex-basis:100%;overflow-wrap:anywhere}
+#view-module.learning-languages .foreign-phonetic{font-size:.94rem;opacity:.87;flex-basis:100%;overflow-wrap:anywhere}
+#view-module.learning-languages .foreign-word-card>div:not(.foreign-phonetic){flex-basis:100%}
+#view-module.learning-languages .foreign-word-card button{max-width:48%;flex:1}
+#view-module.learning-languages textarea{display:block;width:100%;min-height:85px;resize:vertical}
 </style>
 </head>
 <body>
@@ -9594,7 +9606,156 @@ function mathReadText(){
   try{localStorage.setItem(MATH_EXERCISE_DRAFT_KEY,mathExerciseDraft)}catch{}
  }
 
+
+const FOREIGN_LANGUAGE_DATA=${JSON.stringify(FOREIGN_LANGUAGES)};
+const FOREIGN_LEVEL_DATA=${JSON.stringify(FOREIGN_LEVELS)};
+const FOREIGN_TOPIC_DATA=${JSON.stringify(FOREIGN_TOPICS)};
+const FOREIGN_PHRASE_DATA=${JSON.stringify(FOREIGN_PHRASES)};
+const FOREIGN_ANCIENT_GREEK=${JSON.stringify(ANCIENT_GREEK_PHRASES)};
+const FOREIGN_CLASSICAL_LEVEL_DATA=${JSON.stringify(CLASSICAL_LEVELS)};
+let languageJourney={stage:'languages',language:null,variant:null,level:null,topic:null,phonetics:true,slow:false,busy:false,voice:false};
+function languageCurrent(){return FOREIGN_LANGUAGE_DATA.find(x=>x.id===languageJourney.language)}
+function languageIsClassical(){return languageJourney.language==='la'||languageJourney.language==='el'&&languageJourney.variant==='ancient'}
+function languageLevels(){return languageIsClassical()?FOREIGN_CLASSICAL_LEVEL_DATA:FOREIGN_LEVEL_DATA}
+function languageWords(){return languageJourney.language==='el'&&languageJourney.variant==='ancient'?FOREIGN_ANCIENT_GREEK:FOREIGN_PHRASE_DATA[languageJourney.language]||[]}
+function languageButton(label,fn,cls='secondary-btn'){const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=label;b.onclick=fn;return b}
+function languageStatus(msg){const el=$('languageStatus');if(el)el.textContent=msg}
+function languageVoiceStop(){if(languageJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});languageJourney.voice=false}
+function languageBack(){
+ languageVoiceStop();
+ const previous={variants:'languages',levels:['la','el','zh','en'].includes(languageJourney.language)?'variants':'languages',topics:'levels',lesson:'topics'};
+ if(previous[languageJourney.stage])languageOpen(previous[languageJourney.stage]);else renderLearningSubjects();
+}
+function languageSpeak(text){
+ const info=languageCurrent();if(!info||!text)return;
+ if(languageIsClassical()){languageStatus(learningLabel('Pentru limbile clasice folosim transcrierea reconstruită; nu pretindem o voce istorică exactă.','Classical pronunciation is reconstructed; an authentic historical voice is unavailable.'));return}
+ const locale=languageJourney.variant==='US'?'en-US':languageJourney.variant==='traditional'?'zh-TW':info.locale;
+ if(pocketNativeVoiceAvailable()){if(!pocketNativeVoiceSend({action:'speak',language:locale,text}))languageStatus(learningLabel('Voce indisponibilă.','Voice unavailable.'));return}
+ if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){languageStatus(learningLabel('Voce indisponibilă.','Voice unavailable.'));return}
+ const v=new SpeechSynthesisUtterance(text);v.lang=locale;v.rate=languageJourney.slow?.7:0.95;window.speechSynthesis.cancel();window.speechSynthesis.speak(v);
+}
+function languageVoiceHandleAndroid(data){
+ if(data?.mode!=='languageStudy')return false;
+ if(!languageJourney.voice)return true;
+ if(data.status==='partial')languageStatus(learningLabel('Aud: ','Hearing: ')+String(data.text||''));
+ if(data.status==='recognized'){languageJourney.voice=false;const e=$('languageAnswer');if(e)e.value=String(data.text||'');languageStatus(learningLabel('Text recunoscut. Verificarea textului nu e o analiză fonetică.','Transcript received. Text comparison is not pronunciation scoring.'))}
+ if(data.status==='error'){languageJourney.voice=false;languageStatus(learningLabel('Recunoașterea nu este disponibilă.','Speech recognition unavailable.'))}
+ return true;
+}
+function languageDictate(){
+ const info=languageCurrent();if(!info||languageIsClassical()){languageStatus(learningLabel('Dictarea clasică nu este disponibilă.','Classical dictation unavailable.'));return}
+ if(!pocketNativeVoiceAvailable()){languageStatus(learningLabel('Dictarea necesită Android.','Dictation requires Android.'));return}
+ if(languageJourney.voice){languageVoiceStop();return}
+ languageJourney.voice=true;stopSpeech();stopRecognition();
+ const locale=languageJourney.variant==='US'?'en-US':languageJourney.variant==='traditional'?'zh-TW':info.locale;
+ if(!pocketNativeVoiceSend({action:'listen',mode:'languageStudy',language:locale})){languageJourney.voice=false;languageStatus(learningLabel('Microfon indisponibil.','Microphone unavailable.'))}
+ else languageStatus(learningLabel('Te ascult…','Listening…'));
+}
+function languageRecord(card,ok){
+ try{const key='pocket-languages-progress-v1-'+languageJourney.language+'-'+(languageJourney.variant||'');const obj=JSON.parse(localStorage.getItem(key)||'{}');obj[card.id]={correct:ok,date:Date.now()};localStorage.setItem(key,JSON.stringify(obj))}catch{}
+}
+function languagePractice(card){
+ const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog';
+ const head=document.createElement('div');head.className='education-theory-head';
+ const h=document.createElement('h2');h.textContent=learningLabel('Exersează','Practice');
+ head.append(h,languageButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));
+ const p=document.createElement('p');p.textContent=learningLabel('Scrie în limba studiată: ','Write in the target language: ')+card.meaning;
+ const entry=document.createElement('input');entry.id='languageAnswer';entry.type='text';entry.setAttribute('aria-label',p.textContent);
+ const feedback=document.createElement('p');feedback.setAttribute('role','status');
+ const norm=x=>String(x||'').normalize('NFKC').toLocaleLowerCase().replace(/[!?.,;:]/g,'').replace(/\s+/g,' ').trim();
+ const check=languageButton(learningLabel('✓ Verifică','✓ Check'),()=>{
+  const ok=norm(entry.value)===norm(card.original);languageRecord(card,ok);
+  feedback.textContent=ok?learningLabel('Corect!','Correct!'):learningLabel('Răspunsul din lecție: ','Lesson answer: ')+card.original;
+ },'primary-btn');
+ dialog.append(head,p,entry,languageButton(learningLabel('🎙 Dictare','🎙 Dictate'),languageDictate),check,feedback);
+ dialog.addEventListener('close',()=>{languageVoiceStop();dialog.remove();languageOpen('lesson')});document.body.append(dialog);
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+async function languageAIGenerate(request){
+ if(languageJourney.busy)return;languageJourney.busy=true;
+ const info=languageCurrent(),topic=FOREIGN_TOPIC_DATA.find(x=>x.id===languageJourney.topic),snapshot=info.id+':'+languageJourney.topic+':'+languageJourney.level;
+ languageStatus(learningLabel('Se generează lecția…','Generating lesson…'));
+ const message='Profesor de limbi străine. Predă în limba '+(state.language||'ro')+' limba '+info.ro+', variantă '+(languageJourney.variant||'standard')+', nivel '+languageJourney.level+', tema '+topic.ro+'. Oferă lecție structurată: obiective, explicații, vocabular cu scriere originală, transcriere IPA/Pinyin tonal/Rōmaji după caz, traducere contextuală, gramatică, dialog, exerciții și soluții. Pentru latină și greaca veche folosește istoria limbii și texte clasice, nu conversație contemporană. Nu pretinde verificare fonetică. Solicitare: '+request;
+ try{
+  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,module:'assistant',history:[]})});
+  const result=await response.json();if(!response.ok||result.status!=='success'||!result.reply)throw Error('unavailable');
+  if(snapshot!==languageJourney.language+':'+languageJourney.topic+':'+languageJourney.level)return;
+  const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog';
+  const head=document.createElement('div');head.className='education-theory-head';
+  const title=document.createElement('h2');title.textContent=learningLabel('Lecție · ','Lesson · ')+info.ro;
+  head.append(title,languageButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));
+  const content=document.createElement('div');content.className='science-result-text';content.textContent=String(result.reply).slice(0,16000);
+  const caution=document.createElement('p');caution.textContent=learningLabel('Conținut AI: verifică transcrierea și traducerile în scop de examinare.','AI content: verify pronunciation and translations before exams.');
+  dialog.append(head,content,caution);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);
+  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+  languageStatus(learningLabel('Lecția este disponibilă.','Lesson ready.'));
+ }catch{languageStatus(learningLabel('Profesorul AI nu a răspuns. Lecțiile locale rămân disponibile.','AI teacher unavailable; offline lessons remain.'))}
+ finally{languageJourney.busy=false}
+}
+function languageOpen(stage){
+ languageJourney.stage=stage;
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-math','learning-science','math-choice-stage','science-choice-stage');
+ root.classList.add('learning-active','learning-languages');
+ const info=languageCurrent();
+ $('moduleTitle').textContent=learningLabel('Limbi străine','Languages')+(info?' · '+learningLabel(info.ro,info.en):'');
+ $('moduleLead').textContent='';host.replaceChildren();
+ const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
+ bar.append(languageButton(learningLabel('← Înapoi','← Back'),languageBack));host.append(bar);
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
+ const title=document.createElement('h2');title.textContent=stage==='languages'?learningLabel('Alege limba','Choose language'):stage==='variants'?learningLabel('Alege varianta','Choose variant'):stage==='levels'?learningLabel('Alege nivelul','Choose level'):stage==='topics'?learningLabel('Alege capitolul','Choose chapter'):learningLabel('Lecție de limbi străine','Language lesson');panel.append(title);
+ if(stage!=='lesson'){
+  const list=document.createElement('div');list.className='math-choice-list science-choice-list';let options=[];
+  if(stage==='languages')options=FOREIGN_LANGUAGE_DATA;
+  if(stage==='variants'){
+   options=languageJourney.language==='el'?[{id:'modern',ro:'Greacă modernă',en:'Modern Greek'},{id:'ancient',ro:'Greacă veche și Koine',en:'Ancient and Koine Greek'}]:
+   languageJourney.language==='la'?[{id:'classical',ro:'Latină clasică',en:'Classical Latin'},{id:'ecclesiastical',ro:'Latină ecleziastică',en:'Ecclesiastical Latin'}]:
+   languageJourney.language==='zh'?[{id:'simplified',ro:'Chineză simplificată',en:'Simplified Chinese'},{id:'traditional',ro:'Chineză tradițională',en:'Traditional Chinese'}]:
+   [{id:'GB',ro:'Engleză britanică',en:'British English'},{id:'US',ro:'Engleză americană',en:'American English'}];
+  }
+  if(stage==='levels')options=languageLevels();
+  if(stage==='topics')options=FOREIGN_TOPIC_DATA;
+  for(const opt of options){
+   const label=stage==='languages'?opt.native+' · '+learningLabel(opt.ro,opt.en):stage==='levels'&&!languageIsClassical()?opt.id+' · '+learningLabel(opt.ro,opt.en):learningLabel(opt.ro,opt.en);
+   const button=languageButton(label,()=>{
+    languageVoiceStop();
+    if(stage==='languages'){languageJourney.language=opt.id;languageJourney.variant=null;languageJourney.level=null;languageOpen(['el','la','zh','en'].includes(opt.id)?'variants':'levels')}
+    else if(stage==='variants'){languageJourney.variant=opt.id;languageOpen('levels')}
+    else if(stage==='levels'){languageJourney.level=opt.id;languageOpen('topics')}
+    else{languageJourney.topic=opt.id;languageOpen('lesson')}
+   },'secondary-btn math-choice-row science-choice-row');
+   list.append(button);
+  }
+  panel.append(list);
+ }else{
+  const control=document.createElement('div');control.className='science-work-tools';
+  control.append(languageButton(learningLabel('Fonetică ','Phonetics ')+(languageJourney.phonetics?'✓':'—'),()=>{languageJourney.phonetics=!languageJourney.phonetics;languageOpen('lesson')}),
+  languageButton(learningLabel('Pronunție lentă ','Slow speech ')+(languageJourney.slow?'✓':'—'),()=>{languageJourney.slow=!languageJourney.slow;languageOpen('lesson')}));
+  panel.append(control);
+  const offline=languageJourney.topic==='greetings'&&(languageJourney.level==='A1'||languageIsClassical()&&languageJourney.level==='foundation');
+  const words=languageWords();
+  if(offline){
+   for(const card of words){
+    const box=document.createElement('section');box.className='foreign-word-card';
+    const word=document.createElement('strong');word.className='foreign-original';word.textContent=card.original;
+    const phon=document.createElement('div');phon.className='foreign-phonetic';phon.textContent=card.phonetic;phon.hidden=!languageJourney.phonetics;
+    const meaning=document.createElement('div');meaning.textContent=card.meaning;
+    box.append(word,phon,meaning,languageButton(learningLabel('🔊 Ascultă','🔊 Listen'),()=>languageSpeak(card.original)),
+      languageButton(learningLabel('✍ Exersează','✍ Practice'),()=>languagePractice(card)));
+    panel.append(box);
+   }
+  }else{
+   const p=document.createElement('p');p.textContent=learningLabel('Profesorul AI adaptează lecția după limbă, nivel și temă. Lecția nu este verificată local.','The AI teacher adapts this lesson to language, level and topic. Generated content is not locally verified.');panel.append(p);
+   const request=document.createElement('textarea');request.rows=3;request.placeholder=learningLabel('Solicitare opțională…','Optional request…');panel.append(request);
+   panel.append(languageButton(learningLabel('📖 Lecție + exerciții','📖 Lesson + exercises'),()=>languageAIGenerate(request.value),'primary-btn'));
+  }
+  const status=document.createElement('p');status.id='languageStatus';status.setAttribute('role','status');panel.append(status);
+ }
+ host.append(panel);
+}
+
 function openLearningSubject(key){
+ if(key==='languages'){languageOpen('languages');return}
  if(key==='science'){scienceJourneyShowChoices('subjects');return}
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
  if(key==='math'&&mathJourney.stage!=='workspace'){
@@ -15494,6 +15655,7 @@ function pocketNativeVoiceAvailable(){return typeof window.PocketAndroidVoice?.p
 function pocketNativeVoiceSend(payload){try{window.PocketAndroidVoice.postMessage(JSON.stringify(payload));return true}catch{return false}}
 window.pocketAndroidVoiceResult=function(data){
  if(educationTheoryHandleAndroid(data))return;
+ if(languageVoiceHandleAndroid(data))return;
  if(scienceVoiceHandleAndroid(data))return;
  if(mathVoiceHandleAndroid(data))return;
  if(shopVoiceHandleAndroid(data))return;
