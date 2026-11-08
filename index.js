@@ -2925,6 +2925,18 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
 #view-module.learning-hg .hg-country-result{width:100%;text-align:left;min-height:42px;padding:8px 12px}
 #view-module.learning-hg .hg-custom-country[hidden]{display:none!important}
 #view-module.learning-hg .hg-country-status{min-height:1.2em}
+#view-module.learning-literature .lit-panel{display:flex;flex-direction:column;min-height:0;overflow-y:auto;gap:9px;padding-bottom:20px}
+#view-module.learning-literature .lit-options{display:flex;flex-direction:column;gap:10px}
+#view-module.learning-literature .lit-option{width:100%;min-height:63px;text-align:left;padding:12px 16px}
+#view-module.learning-literature .lit-label{display:block;font-weight:600;margin:4px 0}
+#view-module.learning-literature .lit-input{display:block;width:100%;min-width:0;background:#0b2638;color:#f3fcff;border:1px solid #548aa2;border-radius:10px;padding:10px;min-height:43px;margin-top:6px}
+#view-module.learning-literature textarea.lit-input{min-height:90px;resize:vertical}
+#view-module.learning-literature .lit-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#view-module.learning-literature .lit-controls>label{min-width:0}
+#view-module.learning-literature .lit-guidance{display:flex;gap:8px;align-items:center}
+#view-module.learning-literature .lit-actions{display:flex;flex-wrap:wrap;gap:8px}
+#view-module.learning-literature .lit-result{white-space:pre-wrap;line-height:1.5;overflow-wrap:anywhere;max-height:52dvh;overflow-y:auto}
+@media(max-width:420px){#view-module.learning-literature .lit-controls{grid-template-columns:1fr}}
 #view-module.learning-hg .hg-choice-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;align-content:start!important}
 #view-module.learning-hg .hg-choice{width:100%!important;min-width:0!important;min-height:56px!important;text-align:center!important;white-space:normal!important;padding:8px!important;overflow-wrap:anywhere!important}
 #view-module.learning-hg .hg-select,#view-module.learning-hg .hg-request,#view-module.learning-hg .hg-quiz textarea{display:block!important;width:100%!important;max-width:100%!important;min-height:44px!important;margin:5px 0 9px!important;background:#0b2638;color:#effaff;border:1px solid #52859e;border-radius:10px;padding:8px!important}
@@ -10594,8 +10606,98 @@ async function hgGenerate(extra,output){
  finally{hgJourney.busy=false}
 }
 
+
+const LIT_LANGUAGES=[['ro','Română','Romanian'],['en','Engleză','English'],['fr','Franceză','French'],['de','Germană','German'],['it','Italiană','Italian'],['es','Spaniolă','Spanish'],['pt','Portugheză','Portuguese'],['nl','Neerlandeză','Dutch'],['pl','Poloneză','Polish'],['ru','Rusă','Russian'],['zh','Chineză','Chinese'],['ja','Japoneză','Japanese'],['la','Latină','Latin'],['el','Greacă','Greek']];
+const LIT_BRANCHES=[{id:'language',ro:'Limbă și comunicare',en:'Language and communication'},{id:'literature',ro:'Literatură și lectură',en:'Literature and reading'},{id:'writing',ro:'Redactare și eseuri',en:'Writing and essays'}];
+const LIT_TOPICS={
+ language:[['grammar','Gramatică și sintaxă','Grammar and syntax'],['vocabulary','Vocabular și semantică','Vocabulary and semantics'],['spelling','Ortografie și punctuație','Spelling and punctuation'],['communication','Comunicare orală și scrisă','Oral and written communication'],['stylistics','Stilistică și retorică','Stylistics and rhetoric'],['linguistics','Lingvistică și istoria limbii','Linguistics and language history']],
+ literature:[['genres','Genuri și specii literare','Literary forms and genres'],['periods','Epoci și curente literare','Literary periods and movements'],['authors','Autori și opere','Authors and works'],['poetry','Poezie și versificație','Poetry and versification'],['narrative','Narațiune și personaje','Narrative and characters'],['theatre','Teatru și dramaturgie','Drama and theatre'],['comparison','Literatură comparată','Comparative literature'],['criticism','Critică și interpretare','Literary criticism and interpretation']],
+ writing:[['essay','Eseu argumentativ sau literar','Argumentative or literary essay'],['composition','Compunere creativă','Creative composition'],['commentary','Comentariu și analiză de text','Commentary and close reading'],['summary','Rezumat și sinteză','Summary and synthesis'],['review','Recenzie și prezentare','Review and presentation'],['research','Lucrare academică','Academic paper']]
+};
+let litJourney={stage:'languages',language:'ro',level:'beginner',branch:'writing',topic:'essay',busy:false};
+function litText(tag,label){const el=document.createElement(tag);el.textContent=label;return el}
+function litBtn(label,fn,cls='secondary-btn'){const el=document.createElement('button');el.type='button';el.className=cls;el.textContent=label;el.onclick=fn;return el}
+function litBack(){
+ const stages={languages:null,levels:'languages',branches:'levels',topics:'branches',workspace:'topics'};
+ if(stages[litJourney.stage])litOpen(stages[litJourney.stage]);else renderLearningSubjects()
+}
+function litOpen(stage){
+ litJourney.stage=stage;
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-math','learning-science','learning-languages','learning-hg','math-choice-stage','science-choice-stage');
+ root.classList.add('learning-active','learning-literature');
+ $('moduleTitle').textContent=learningLabel('Limbă și literatură','Language and literature');
+ $('moduleLead').textContent='';host.replaceChildren();
+ const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar lit-toolbar';
+ bar.append(litBtn(learningLabel('← Înapoi','← Back'),litBack,'secondary-btn lit-back'));host.append(bar);
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel';
+ const titles={languages:['Alege limba studiului','Choose study language'],levels:['Alege nivelul','Choose level'],branches:['Alege ramura','Choose area'],topics:['Alege capitolul','Choose chapter'],workspace:['Spațiu de lucru','Workspace']};
+ panel.append(litText('h2',learningLabel(...titles[stage])));host.append(panel);
+ const list=(choices,cb)=>{const box=document.createElement('div');box.className='lit-options';for(const choice of choices){
+   const btn=litBtn(learningLabel(choice.ro,choice.en),()=>cb(choice),'secondary-btn lit-option');box.append(btn)
+  }panel.append(box)};
+ if(stage==='languages'){const choices=LIT_LANGUAGES.map(x=>({id:x[0],ro:x[1],en:x[2]}));list(choices,c=>{litJourney.language=c.id;litOpen('levels')})}
+ if(stage==='levels'){
+  panel.append(litText('p',learningLabel('Nivelul determină complexitatea explicațiilor și cerințelor.','Level determines the depth of teaching and exercises.')));
+  const choices=[{id:'beginner',ro:'Începător — Primar',en:'Beginner — Primary'},{id:'medium',ro:'Mediu — Gimnaziu și liceu',en:'Intermediate — Secondary school'},{id:'advanced',ro:'Avansat — Universitate și mai departe',en:'Advanced — University and beyond'}];
+  list(choices,c=>{litJourney.level=c.id;litOpen('branches')})
+ }
+ if(stage==='branches')list(LIT_BRANCHES,c=>{litJourney.branch=c.id;litOpen('topics')});
+ if(stage==='topics')list(LIT_TOPICS[litJourney.branch].map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.topic=c.id;litOpen('workspace')});
+ if(stage==='workspace')litWorkspace(panel);
+}
+function litWorkspace(panel){
+ const lang=LIT_LANGUAGES.find(x=>x[0]===litJourney.language);
+ const branch=LIT_BRANCHES.find(x=>x.id===litJourney.branch);
+ const topic=LIT_TOPICS[litJourney.branch].find(x=>x[0]===litJourney.topic);
+ panel.append(litText('p',learningLabel(lang?.[1]||'Română',lang?.[2]||'Romanian')+' · '+learningLabel(branch.ro,branch.en)+' · '+learningLabel(topic[1],topic[2])));
+ const make=(tag,title,placeholder)=>{
+  const label=litText('label',title);label.className='lit-label';
+  const input=document.createElement(tag);input.className='lit-input';input.placeholder=placeholder;panel.append(label,input);return input;
+ };
+ const subject=make('textarea',learningLabel('Subiect / cerință','Topic / assignment'),learningLabel('Ex.: Prietenia în literatură sau caracterizarea unui personaj','E.g. Friendship in literature or character analysis'));subject.rows=2;
+ const details=make('textarea',learningLabel('Detalii, idei, argumente, operă sau autor (opțional)','Details, ideas, arguments, work or author (optional)'),learningLabel('Introdu ideile tale, citate, cerințele profesorului sau textul de analizat','Enter your ideas, quotations, assignment requirements or source text'));details.rows=4;
+ const controls=document.createElement('div');controls.className='lit-controls';
+ const typelabel=litText('label',learningLabel('Tipul lucrării','Writing type'));const type=document.createElement('select');type.className='lit-input';
+ for(const [value,ro,en] of [['essay','Eseu','Essay'],['argument','Eseu argumentativ','Argumentative essay'],['literary','Eseu literar','Literary essay'],['analysis','Analiză de text','Text analysis'],['creative','Compunere creativă','Creative composition'],['lesson','Lecție explicată','Guided lesson']]){
+  const option=document.createElement('option');option.value=value;option.textContent=learningLabel(ro,en);type.append(option)
+ }
+ type.value=litJourney.topic==='commentary'?'analysis':litJourney.topic==='composition'?'creative':litJourney.branch==='language'?'lesson':'essay';
+ typelabel.append(type);controls.append(typelabel);
+ const lengthlabel=litText('label',learningLabel('Lungime','Length'));const length=document.createElement('select');length.className='lit-input';
+ for(const [v,ro,en] of [['short','Scurt (200–300 cuvinte)','Short (200–300 words)'],['medium','Mediu (500–700 cuvinte)','Medium (500–700 words)'],['long','Lung (1000–1500 cuvinte)','Long (1000–1500 words)']]){
+  const option=document.createElement('option');option.value=v;option.textContent=learningLabel(ro,en);length.append(option)
+ }
+ length.value='medium';lengthlabel.append(length);controls.append(lengthlabel);panel.append(controls);
+ const original=litText('label',learningLabel('Vreau explicații și structură pentru învățare','Include outline and learning guidance'));
+ const guidance=document.createElement('input');guidance.type='checkbox';guidance.checked=true;original.prepend(guidance);original.className='lit-guidance';panel.append(original);
+ const out=document.createElement('div');out.className='lit-result';out.setAttribute('role','region');out.setAttribute('aria-label',learningLabel('Rezultat redactare','Writing result'));
+ const status=litText('p','');status.setAttribute('role','status');
+ const generate=litBtn(learningLabel('Compune / explică','Compose / explain'),async()=>{
+  if(litJourney.busy)return;
+  const assignment=subject.value.trim(),notes=details.value.trim();if(!assignment&&!notes){subject.focus();status.textContent=learningLabel('Introdu un subiect sau câteva detalii.','Enter a topic or details.');return}
+  litJourney.busy=true;status.textContent=learningLabel('Se redactează…','Writing…');
+  const snapshot=[litJourney.language,litJourney.level,litJourney.branch,litJourney.topic].join('|');
+  const languageName=lang?.[2]||'Romanian';
+  const requested=length.value==='short'?'200-300':length.value==='long'?'1000-1500':'500-700';
+  const message='Ești profesor de limbă și literatură. Redactează în limba '+languageName+' un material de tip '+type.value+' pentru nivelul '+litJourney.level+' și capitolul '+topic[2]+'. Lungimea țintă: '+requested+' de cuvinte. Subiect: '+assignment+'. Detalii oferite de utilizator: '+notes+'. Respectă prioritar toate detaliile și cerințele utilizatorului. Dacă este eseu, redactează un text original și coerent cu introducere, argumentare/dezvoltare și concluzie, nu doar un plan. '+(guidance.checked?'La final, oferă separat un scurt plan al lucrării și sugestii pedagogice, fără a repeta eseul.':'')+' Nu inventa citate, pagini, ediții, atribuiri literare sau bibliografie. Dacă nu este furnizat un fragment de text, nu pretinde că ai citit exact textul integral. La analize și comentarii distinge observațiile din textul furnizat de informațiile generale. Pentru o lucrare academică explică ce surse trebuie consultate. Nu reproduce fragmente lungi din opere protejate. Fără delimitatori Markdown ca **.';
+  try{
+   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:litJourney.language,module:'assistant',history:[]})});
+   const result=await response.json();if(!response.ok||result.status!=='success'||!result.reply)throw Error('unavailable');
+   if(!out.isConnected||snapshot!==[litJourney.language,litJourney.level,litJourney.branch,litJourney.topic].join('|'))return;
+   hgDisplayStudyText(out,String(result.reply).slice(0,50000));
+   status.textContent=learningLabel('Lucrarea este pregătită. Verifică faptele și adaptează textul în propriile cuvinte.','Draft ready. Verify facts and adapt it in your own words.');
+  }catch{status.textContent=learningLabel('Generarea este momentan indisponibilă.','Generation is temporarily unavailable.')}
+  finally{litJourney.busy=false}
+ },'primary-btn');
+ const copy=litBtn(learningLabel('Copiază textul','Copy text'),async()=>{if(!out.textContent)return;try{await navigator.clipboard.writeText(out.innerText||out.textContent);status.textContent=learningLabel('Text copiat.','Text copied.')}catch{status.textContent=learningLabel('Copiere indisponibilă.','Copy unavailable.')}},'secondary-btn');
+ const read=litBtn(learningLabel('Citește','Read aloud'),()=>{if(out.textContent&&typeof speakText==='function')speakText(out.textContent.slice(0,3000))},'secondary-btn');
+ const actions=document.createElement('div');actions.className='lit-actions';actions.append(generate,copy,read);panel.append(actions,out,status);
+}
+
 function openLearningSubject(key){
  if(key==='history'){hgRestore();hgOpen('subjects');return}
+ if(key==='literature'){litOpen('languages');return}
  if(key==='languages'){languageOpen('languages');return}
  if(key==='science'){scienceJourneyShowChoices('subjects');return}
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
