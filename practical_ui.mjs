@@ -90,7 +90,7 @@ function practicalQuestions(course,chapter,variant){
  const others=course.chapters.filter(x=>x.id!==chapter.id&&x.level!==chapter.level);
  const tail=[...peers,...others];const shift=tail.length?((variant%tail.length)+tail.length)%tail.length:0;
  const items=[chapter,...tail.slice(shift),...tail.slice(0,shift)].slice(0,5);
- return items.map(x=>({...x.question,chapterId:x.id,title:x.title}));
+ return items.map((x,index)=>{const rotation=(index+variant+1)%4,q=x.question,choices=[...q.choices.slice(4-rotation),...q.choices.slice(0,4-rotation)];return {...q,choices,correct:(q.correct+rotation)%4,chapterId:x.id,title:x.title}});
 }
 function practicalLesson(panel){
  const course=practicalCourse(),chapter=practicalChapter();if(!course||!chapter){practicalOpen('chapters');return}
