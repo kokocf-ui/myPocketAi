@@ -2,7 +2,7 @@
 export function astronomyVerifiedExercise(source,mode='solve'){
  const raw=String(source||'');
  const q=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/,/g,'.');
- const read=(name,unit)=>{const m=q.match(new RegExp('(?:^|[;\\s])'(?:'+name+')\\s*=\\s*(-?\\d+(?:\\.\\d+)?(?:e[+-]?\\d+)?)\\s*'+unit+'(?=$|[;\\s,.])','i'));return m?Number(m[1]):null};
+ const read=(name,unit)=>{const m=q.match(new RegExp('(?:^|[;\\s])(?:'+name+')\\s*=\\s*(-?\\d+(?:\\.\\d+)?(?:e[+-]?\\d+)?)\\s*'+unit+'(?=$|[;\\s,.])','i'));return m?Number(m[1]):null};
  const fmt=n=>Number(n.toPrecision(9)).toString();
  const answer=(label,formula,data,value,unit,assumption)=>{
   if(!Number.isFinite(value))return {kind:'input'};
