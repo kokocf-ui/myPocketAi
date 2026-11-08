@@ -10630,9 +10630,9 @@ function hgGeographyMap(panel,topic){
  panel.append(shell);
 }
 function hgDisplayStudyText(host,value){
- const raw=String(value||'').replace(/\r\n?/g,'\n').replace(/\*\*(.*?)\*\*/g,'$1').replace(/^\s*\*\s+/gm,'• ').replace(/^\s*#{1,6}\s+/gm,'').replace(/\n{3,}/g,'\n\n').trim();
+ const raw=String(value||'').replace(/\\r\\n?/g,'\\n').replace(/\\*\\*(.*?)\\*\\*/g,'$1').replace(/^\\s*\\*\\s+/gm,'• ').replace(/^\\s*#{1,6}\\s+/gm,'').replace(/\\n{3,}/g,'\\n\\n').trim();
  host.replaceChildren();
- for(const part of raw.split(/\n\s*\n/)){
+ for(const part of raw.split(/\\n\\s*\\n/)){
   if(!part.trim())continue;
   const p=document.createElement('p');p.textContent=part.trim();p.style.whiteSpace='pre-wrap';host.append(p);
  }
