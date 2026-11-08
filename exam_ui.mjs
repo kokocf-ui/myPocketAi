@@ -24,7 +24,7 @@ function examRomanianResources(panel,printable){
  EXAM_ROMANIAN_WORKS.forEach((x,i)=>picker.append(new Option(x[0]+' — '+x[1],String(i))));
  selectLabel.append(picker);
  const workSummary=examEl('div');workSummary.style.cssText='white-space:pre-wrap;line-height:1.55;';
- const useWork=examBtn(examLabel('Folosește opera pentru o cerință personalizată','Use this work for a custom task'),()=>{if(!picker.value)return;const w=EXAM_ROMANIAN_WORKS[Number(picker.value)],field=$('examAnswerText');if(field){field.value=w[0]+' — '+w[1]+'. '+examLabel('Cerință: rezumat și analiză tematică.','Task: summary and thematic analysis.');field.focus()}},'secondary-btn');
+ const useWork=examBtn(examLabel('Folosește opera pentru o cerință personalizată','Use this work for a custom task'),()=>{if(!picker.value)return;const w=EXAM_ROMANIAN_WORKS[Number(picker.value)],field=$('examAnswerText');if(field){field.value=w[0]+' — '+w[1]+'. '+examLabel('Cerință: rezumat și analiză tematică.','Task: summary and thematic analysis.');}},'secondary-btn');
  const warning=examEl('p',examLabel('Materialele sunt rezumate originale pentru informare, nu texte integrale și nici listă oficială de opere obligatorii. Pentru analiza unui fragment concret, introdu textul sau cerința în câmpul de mai jos.','These are original study notes, not full texts or an official list of prescribed works. Enter a passage or request below for a specific analysis.'));
  const printPart=examEl('section','','exam-study-print');printable.append(printPart);
  study.append(noteTitle,notes,originalTitle,example,selectLabel,workSummary,useWork,warning);panel.append(study);
@@ -280,7 +280,7 @@ function examWorkspace(panel){
  const actions=examEl('div','','lit-actions');actions.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
  const generate=async(mode)=>{
   if(examJourney.busy)return;
-  if((mode==='summary'||mode==='analyze')&&!answer.value.trim()){status.textContent=examLabel('Scrie autorul și opera, cerința sau inserează fragmentul de analizat.','Enter the author, work, request or passage for analysis.');answer.focus();return}
+  if((mode==='summary'||mode==='analyze')&&!answer.value.trim()){status.textContent=examLabel('Scrie autorul și opera, cerința sau inserează fragmentul de analizat.','Enter the author, work, request or passage for analysis.');;return}
   examStopVoice();examJourney.busy=true;const serial=++examJourney.serial;
   const controller=new AbortController();examJourney.controller=controller;
   actions.querySelectorAll('[data-mode]').forEach(x=>x.disabled=true);
