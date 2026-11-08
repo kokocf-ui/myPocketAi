@@ -79,6 +79,8 @@ export const HG_SPECIALISATIONS={
 export const HG_VERIFIED_MAPS=[
  {id:'rome117',topic:'antiquity',year:117,label:'Imperiul Roman în 117 d.Hr.',kind:'political',
   source:'https://commons.wikimedia.org/wiki/File:Roman_Empire-117AD.png',certainty:'schematic',region:'Europe',credit:'Wikimedia Commons: Roman Empire-117AD.png'},
+ {id:'rome395',topic:'antiquity',year:395,label:'Împărțirea Imperiului Roman în 395 d.Hr.',kind:'political',
+  source:'https://commons.wikimedia.org/wiki/File:Partition_of_the_Roman_Empire_in_395_AD.png',certainty:'schematic',region:'Europe',credit:'Wikimedia Commons: Partition of the Roman Empire in 395 AD.png'},
  {id:'europe1918',topic:'twentieth',year:1918,label:'Europa în 1918 (reconstituire)',kind:'political',
   source:'https://commons.wikimedia.org/wiki/File:Europe_1918.PNG',certainty:'schematic',region:'Europe',credit:'Wikimedia Commons: Europe 1918.PNG'}
 ];
