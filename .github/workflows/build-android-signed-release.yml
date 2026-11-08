@@ -11,6 +11,13 @@ on:
       - 'exam_*.mjs'
       - 'university_domains.mjs'
       - 'education_selects_ui.mjs'
+      - 'education_country_ui.mjs'
+      - 'education_school_paths.mjs'
+      - 'computing_*.mjs'
+      - 'literature_curriculum_europe.mjs'
+      - 'history_geography_curriculum.mjs'
+      - 'tests_computing_curriculum.mjs'
+      - 'tests_literature_europe.mjs'
       - 'tests_practical_courses.mjs'
       - 'tests_exam_curriculum_europe.mjs'
       - 'university_admissions_verified.mjs'
@@ -107,9 +114,17 @@ jobs:
           node --check exam_curriculum_europe.mjs
           node --check exam_ui.mjs
           node --check university_domains.mjs
+          node --check computing_curriculum.mjs
+          node --check computing_ui.mjs
+          node --check education_country_ui.mjs
+          node --check education_school_paths.mjs
+          node --check literature_curriculum_europe.mjs
           node tests_frontend_boot_syntax.mjs
           node tests_exam_curriculum_europe.mjs
           node tests_university_admissions.mjs
+          node tests_computing_curriculum.mjs
+          node tests_literature_europe.mjs
+          node tests_history_geography.mjs
           node tests_practical_courses.mjs
           node tests_education_android.mjs
           node tests_pdf_library.mjs
