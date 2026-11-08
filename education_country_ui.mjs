@@ -106,6 +106,10 @@ function eduYearOptions(code,level,moduleKey){
  const lv=level==='intermediate'?'medium':level;
  const source=EDUCATION_SCHOOL_YEARS_DATA[code]?.[lv];
  const numeric=(a,b,prefix='')=>Array.from({length:b-a+1},(_,i)=>({id:prefix+(a+i),ro:prefix?'Year '+(a+i):'Clasa '+(a+i),en:prefix?'Year '+(a+i):'Grade '+(a+i)}));
+ if(moduleKey==='computing'){
+  if(code==='RO')return lv==='beginner'?numeric(1,4):lv==='lower'?numeric(5,8):lv==='medium'?numeric(9,12):[{id:'universitate',ro:'Universitate',en:'University'}];
+  if(code==='GB-ENG')return lv==='beginner'?numeric(1,6,'Y'):lv==='lower'?numeric(7,9,'Y'):lv==='medium'?numeric(10,13,'Y'):[{id:'university',ro:'Higher education',en:'Higher education'}];
+ }
  if(source){
    if(code==='RO'){
     if(moduleKey==='math'&&lv==='beginner')return numeric(1,8);
