@@ -9709,11 +9709,28 @@ function languageBack(){
 }
 function languageSpeak(text){
  const info=languageCurrent();if(!info||!text)return;
- if(languageIsClassical()){languageStatus(learningLabel('Pentru limbile clasice folosim transcrierea reconstruită; nu pretindem o voce istorică exactă.','Classical pronunciation is reconstructed; an authentic historical voice is unavailable.'));return}
- const locale=languageJourney.variant==='US'?'en-US':languageJourney.variant==='traditional'?'zh-TW':info.locale;
- if(pocketNativeVoiceAvailable()){if(!pocketNativeVoiceSend({action:'speak',language:locale,text,rate:languageJourney.slow?0.7:0.96}))languageStatus(learningLabel('Voce indisponibilă.','Voice unavailable.'));return}
- if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){languageStatus(learningLabel('Voce indisponibilă.','Voice unavailable.'));return}
- const v=new SpeechSynthesisUtterance(text);v.lang=locale;v.rate=languageJourney.slow?0.7:0.95;window.speechSynthesis.cancel();window.speechSynthesis.speak(v);
+ const classical=languageIsClassical();
+ // Android speech engines rarely expose a Latin or Ancient Greek voice.
+ // Use a clearly labelled approximate spoken model rather than silently doing nothing.
+ const latin=languageJourney.language==='la';
+ const ancientGreek=languageJourney.language==='el'&&['ancient','koine'].includes(languageJourney.variant);
+ const locale=latin?'it-IT':ancientGreek?'el-GR':languageJourney.variant==='US'?'en-US':languageJourney.variant==='traditional'?'zh-TW':info.locale;
+ const note=classical?learningLabel(
+  latin?'Redare orientativă în latină cu voce italiană; pronunția '+(languageJourney.variant==='ecclesiastical'?'ecleziastică':'clasică')+' necesită verificare după transcriere.':'Redare orientativă a grecei vechi cu voce greacă modernă; verifică transcrierea istorică.',
+  'Approximate classical-language playback; compare the historical transcription.'
+ ):learningLabel('Se redă pronunția…','Playing pronunciation…');
+ languageStatus(note);
+ if(pocketNativeVoiceAvailable()){
+  if(!pocketNativeVoiceSend({action:'speak',language:locale,text:String(text),rate:languageJourney.slow?0.7:0.88}))
+   languageStatus(learningLabel('Voce indisponibilă. Verifică motorul TTS Android.','Voice unavailable. Check Android TTS settings.'));
+  return;
+ }
+ if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){
+  languageStatus(learningLabel('Voce indisponibilă.','Voice unavailable.'));return;
+ }
+ const v=new SpeechSynthesisUtterance(String(text));v.lang=locale;v.rate=languageJourney.slow?0.7:0.88;
+ v.onerror=()=>languageStatus(learningLabel('Motorul vocal nu poate reda acest text.','The voice engine cannot play this text.'));
+ window.speechSynthesis.cancel();window.speechSynthesis.speak(v);
 }
 function languageVoiceHandleAndroid(data){
  if(data?.mode!=='languageStudy')return false;
