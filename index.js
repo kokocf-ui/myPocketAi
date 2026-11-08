@@ -10800,6 +10800,8 @@ function eduOpenPrint(mode='save'){
  const description=document.createElement('p');description.textContent=mode==='print'?learningLabel('La imprimare vei alege întâi unde se salvează PDF-ul. Numai după salvarea reușită se va deschide imprimanta.','First choose where to save the PDF. Printing starts only after the save succeeds.'):learningLabel('Alege numele și locul salvării. Documentul va fi în format PDF.','Choose the document name and save location. The file will be a PDF.');dialog.append(description);
  const titleInput=document.createElement('input');titleInput.value=material.title;titleInput.setAttribute('aria-label',learningLabel('Titlu document','Document title'));dialog.append(titleInput);
  const editor=document.createElement('textarea');editor.value=material.text;editor.setAttribute('aria-label',learningLabel('Conținut de imprimat','Printable content'));dialog.append(editor);
+ const feedback=document.createElement('p');feedback.setAttribute('role','status');dialog.append(feedback);
+ window.pocketEduPrintResult=(state)=>{if(!dialog.isConnected)return;feedback.textContent=state==='saved'?learningLabel('Document salvat în Documentele mele.','Document saved in My Documents.'):state==='error'?learningLabel('Salvarea PDF a eșuat.','PDF save failed.'):state==='printUnavailable'?learningLabel('PDF salvat, dar imprimarea nu este disponibilă.','PDF saved, but printing is unavailable.'):state==='busy'?learningLabel('O salvare este deja în curs.','A save is already in progress.'):''};
  const print=document.createElement('button');print.type='button';print.className='primary-btn';
  print.textContent=mode==='print'?learningLabel('Salvează PDF și imprimă','Save PDF then print'):learningLabel('Salvează PDF','Save PDF');
  print.onclick=()=>{
