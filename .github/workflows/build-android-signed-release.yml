@@ -18,6 +18,7 @@ on:
       - 'history_geography_curriculum.mjs'
       - 'tests_computing_curriculum.mjs'
       - 'tests_literature_europe.mjs'
+      - 'tests_history_geography.mjs'
       - 'tests_practical_courses.mjs'
       - 'tests_exam_curriculum_europe.mjs'
       - 'university_admissions_verified.mjs'
