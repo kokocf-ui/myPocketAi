@@ -74,6 +74,19 @@ function computingChoices(panel,items,onSelect){
  }
  input.oninput=()=>{search=input.value;offset=0;render()};panel.append(box);render();
 }
+function computingGradePathAllowed(path){
+ const country=educationCountrySelection.code,grade=computingJourney.grade;
+ if((country!=='RO'&&country!=='GB-ENG')||computingJourney.level==='advanced')return true;
+ const yr=Number(String(grade||'').replace(/^Y/,''));if(!Number.isInteger(yr))return true;
+ if(computingJourney.level==='beginner'){
+  if(yr<=2)return ['devices','logic','safety'].includes(path.id);
+  return true;
+ }
+ if(yr<=6)return ['algorithms','programming'].includes(path.id);
+ if(yr<=8)return ['algorithms','programming','web','networks'].includes(path.id);
+ if(yr<=10)return ['algorithms','programming','web','databases'].includes(path.id);
+ return true;
+}
 function computingOpen(stage){
  computingStopRequest();computingStopVoice();computingJourney.stage=stage;
  const root=$('view-module'),host=$('moduleContent');if(!root||!host)return;
@@ -101,7 +114,7 @@ function computingOpen(stage){
   const lv=COMPUTING_LEVELS_DATA.find(x=>x.id===computingJourney.level);if(!lv){computingOpen('levels');return}
   computingParagraph(panel,learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(computingJourney.grade||'')+'. '+learningLabel('Parcurs orientativ, ajustat nivelului școlar.','General learning adapted to the chosen school year.'));
   computingParagraph(panel,lv.focus);
-  computingChoices(panel,COMPUTING_PATHS_DATA.filter(x=>x.level===lv.id).map(x=>({id:x.id,ro:x.icon+' '+x.ro,en:x.icon+' '+x.en})),c=>{computingJourney.path=c.id;computingJourney.topic=null;computingOpen('topics')});return
+  computingChoices(panel,COMPUTING_PATHS_DATA.filter(x=>x.level===lv.id&&computingGradePathAllowed(x)).map(x=>({id:x.id,ro:x.icon+' '+x.ro,en:x.icon+' '+x.en})),c=>{computingJourney.path=c.id;computingJourney.topic=null;computingOpen('topics')});return
  }
  if(stage==='topics'){
   const path=COMPUTING_PATHS_DATA.find(x=>x.id===computingJourney.path&&x.level===computingJourney.level);if(!path){computingOpen('paths');return}
