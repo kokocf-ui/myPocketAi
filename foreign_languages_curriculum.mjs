@@ -968,6 +968,19 @@ export const ANCIENT_GREEK_PHRASES=Object.freeze([
 ]);
 export const CLASSICAL_LEVELS=Object.freeze([{id:"foundation",ro:"Fundamente",en:"Foundations"},{id:"grammar",ro:"Gramatică și texte",en:"Grammar & texts"},{id:"advanced",ro:"Filologie și teologie",en:"Philology & theology"}]);
 export function languageCourseLevels(id,variant){return id==="la"||(id==="el"&&["ancient","koine"].includes(variant))?CLASSICAL_LEVELS:FOREIGN_LEVELS}
-export function languageCoursePhrases(id,variant){return id==="el"&&variant==="ancient"?ANCIENT_GREEK_PHRASES:FOREIGN_PHRASES[id]||[]}
+export function languageCoursePhrases(id,variant){
+ const basic=FOREIGN_PHRASES[id]||[];
+ if(id==="el"&&variant==="ancient")return ANCIENT_GREEK_PHRASES;
+ if(id==="el"&&variant==="koine")return [
+  {id:'koine-0',original:'χαῖρε',phonetic:'chaire — transliterare',meaning:'Salut!'},
+  {id:'koine-1',original:'λόγος',phonetic:'logos — transliterare',meaning:'cuvânt; rațiune'},
+  {id:'koine-2',original:'ἀγάπη',phonetic:'agapē — transliterare',meaning:'iubire'},
+  {id:'koine-3',original:'θεός',phonetic:'theos — transliterare',meaning:'Dumnezeu / zeu (context)'},
+  {id:'koine-4',original:'καί',phonetic:'kai — transliterare',meaning:'și'},
+  {id:'koine-5',original:'οὐ',phonetic:'ou — transliterare',meaning:'nu'}];
+ if(id==="en"&&variant==="US"){const ipa=['/həˈloʊ/','/ɡʊd ˈmɔrnɪŋ/','/ˈθæŋk ju/','/ɡʊdˈbaɪ/','/jɛs/','/noʊ/'];return basic.map((x,i)=>({...x,id:'en-US-'+i,phonetic:ipa[i]}))}
+ if(id==="zh"&&variant==="traditional"){const han=['你好','早上好','謝謝','再見','是','不是'];return basic.map((x,i)=>({...x,id:'zh-TW-'+i,original:han[i]}))}
+ return basic;
+}
 export function normalizeStudyAnswer(value){return String(value||"").normalize("NFKC").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase().replace(/[!?.,;:]/g,"").replace(/\s+/g," ").trim()}
 export function checkStudyAnswer(input,expected){return normalizeStudyAnswer(input)===normalizeStudyAnswer(expected)}
