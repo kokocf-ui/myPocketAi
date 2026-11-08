@@ -491,6 +491,486 @@ export const PRACTICAL_GUIDES={
       "Completează un deviz cu 5 linii și costuri distincte.",
       "Descrie condițiile de oprire ale lucrării."
     ]
+  },
+  "business-1": {
+    "goal": "Să formulezi o idee de afacere pornind de la nevoia unui client.",
+    "steps": [
+      "Identifică un grup concret de clienți, nu «toată lumea».",
+      "Descrie o problemă observabilă: ce îi încetinește, încurcă sau costă.",
+      "Analizează cum rezolvă astăzi aceeași problemă, inclusiv fără produsul tău.",
+      "Formulează o ofertă testabilă, fără promisiuni absolute.",
+      "Stabilește ce ar confirma că problema merită rezolvată."
+    ],
+    "model": [
+      "CANVAS DE PROBLEMĂ (exemplu fictiv)",
+      "Client: mic restaurant cu rezervări telefonice.",
+      "Problemă: apeluri ratate la ore de vârf.",
+      "Soluție propusă: formular simplu de solicitare a rezervării.",
+      "Alternativă actuală: registru telefonic.",
+      "Ipoteză de testat: personalul ar folosi un formular dacă reduce omisiunile."
+    ],
+    "check": [
+      "Clientul și problema sunt definiți clar.",
+      "Ipoteza poate fi infirmată prin observații.",
+      "Nu ai afirmat că există deja cerere fără dovezi."
+    ],
+    "exercise": [
+      "Completează Client → Problemă → Alternativă actuală → Ipoteză.",
+      "Pregătește trei întrebări deschise pentru utilizatori."
+    ]
+  },
+  "business-2": {
+    "goal": "Să testezi o ofertă cu feedback și date simple.",
+    "steps": [
+      "Definește un comportament măsurabil (cerere, rezervare, revenire), nu doar aprecieri.",
+      "Pregătește un material scurt care explică oferta și costurile ipotetice.",
+      "Solicită feedback fără a sugera răspunsul dorit.",
+      "Notează câți oameni au văzut oferta și câți au făcut acțiunea urmărită.",
+      "Concluzionează prudent: un grup mic nu reprezintă întreaga piață."
+    ],
+    "model": [
+      "TEST FICTIV",
+      "20 de persoane primesc descrierea unei oferte demonstrative.",
+      "5 cer detalii; 2 ar dori un test gratuit.",
+      "Rată de solicitare detalii: 5/20 = 25%.",
+      "Nu se poate deduce că 25% din piață ar cumpăra produsul."
+    ],
+    "check": [
+      "Alegi un indicator clar.",
+      "Nu colectezi mai multe date personale decât ai nevoie.",
+      "Nu confunzi feedbackul pozitiv cu plata reală."
+    ],
+    "exercise": [
+      "Desenează planul unui test de 7 zile pentru o ofertă legală.",
+      "Explică ce decizie ai lua dacă nimeni nu cere detalii."
+    ]
+  },
+  "business-3": {
+    "goal": "Să calculezi costul variabil, marja și pragul simplificat de acoperire.",
+    "steps": [
+      "Notează prețul unitar în aceeași monedă cu costurile.",
+      "Separă costurile variabile pe vânzare de cele fixe pe perioadă.",
+      "Calculează marja de contribuție = preț minus cost variabil.",
+      "Împarte costurile fixe la marja unitară pentru un prag simplificat, când marja este pozitivă.",
+      "Verifică dacă sunt și taxe, retururi, pierderi sau costuri neluate în calcul."
+    ],
+    "model": [
+      "MODEL NUMERIC FICTIV",
+      "Preț pe produs: 30; cost variabil: 18.",
+      "Marja pe unitate = 30 − 18 = 12.",
+      "Costuri fixe lunare: 240.",
+      "Prag simplificat = 240 ÷ 12 = 20 unități.",
+      "Nu este profit net final; alte costuri și taxe pot schimba rezultatul."
+    ],
+    "check": [
+      "Nu confunzi marja cu profitul net.",
+      "Costurile fixe sunt pe aceeași perioadă.",
+      "Ai explicat ipotezele calculului."
+    ],
+    "exercise": [
+      "Calculează pragul la preț 50, cost variabil 30, cost fix 300.",
+      "Repetă dacă prețul scade cu 10%."
+    ]
+  },
+  "business-4": {
+    "goal": "Să construiești un plan de afacere bazat pe fluxul de numerar.",
+    "steps": [
+      "Descrie produsul, clienții, canalele și resursele esențiale.",
+      "Estimează încasările în luna în care banii intră, nu când emiți factura.",
+      "Înregistrează plățile la scadența reală.",
+      "Calculează soldul de numerar la început și la sfârșitul fiecărei luni.",
+      "Testează un scenariu prudent, de întârziere a încasării."
+    ],
+    "model": [
+      "MODEL SIMPLIFICAT DE FLUX",
+      "Sold inițial: 800.",
+      "Luna 1: încasări 300; plăți 700; sold final 400.",
+      "Luna 2: încasări 800; plăți 500; sold final 700.",
+      "Dacă încasarea lunii 2 întârzie, poate apărea lipsă de lichiditate."
+    ],
+    "check": [
+      "Ai separat venituri facturate de încasări reale.",
+      "Ai inclus termenele de plată.",
+      "Planul prezintă riscuri, nu doar profitul optimist."
+    ],
+    "exercise": [
+      "Creează un tabel de flux pentru trei luni.",
+      "Analizează ce se întâmplă dacă cel mai mare client plătește cu întârziere."
+    ]
+  },
+  "business-5": {
+    "goal": "Să verifici condițiile legale înainte de a începe o activitate.",
+    "steps": [
+      "Descrie exact ce vei vinde sau ce serviciu vei presta.",
+      "Identifică țara, forma de organizare posibilă și autoritățile relevante.",
+      "Verifică în sursele oficiale înregistrarea, licențele și cerințele pentru activitate.",
+      "Pregătește evidența veniturilor, facturilor, contractelor și datelor personale.",
+      "Consultă o persoană competentă când apar obligații fiscale sau profesii reglementate."
+    ],
+    "model": [
+      "FIȘĂ DE VERIFICARE",
+      "Activitate: mic serviciu de editare documente.",
+      "Întrebări: este necesară înregistrarea? Ce documente se emit? Există reguli privind datele clienților?",
+      "Sursă de verificat: autoritatea sau portalul oficial din țara selectată.",
+      "Status: neconfirmat până la consultarea sursei actuale."
+    ],
+    "check": [
+      "Nu atribui taxe sau termene fără surse actuale.",
+      "Ai diferențiat regulile generale de cele pentru activitatea ta.",
+      "Documentezi data și instituția consultată."
+    ],
+    "exercise": [
+      "Completează lista instituțiilor și întrebărilor pentru o activitate aleasă.",
+      "Scrie ce informații ai nevoie de la un contabil sau consultant autorizat."
+    ]
+  },
+  "business-6": {
+    "goal": "Să redactezi o ofertă comercială clară și verificabilă.",
+    "steps": [
+      "Formulează valoarea produsului în limbajul clientului.",
+      "Menționează caracteristicile verificabile și limitele serviciului.",
+      "Explică prețul, livrarea și condițiile fără costuri ascunse.",
+      "Alege un canal de comunicare adecvat publicului.",
+      "Cere feedback și adaptează oferta fără presiune sau afirmații false."
+    ],
+    "model": [
+      "OFERTĂ FICTIVĂ",
+      "Serviciu: organizarea documentelor digitale pentru microîntreprinderi.",
+      "Include: structurare foldere, denumire fișiere, instrucțiuni de utilizare.",
+      "Nu include: suport nelimitat sau consultanță juridică.",
+      "Prețul și termenul se stabilesc în ofertă reală după evaluarea volumului.",
+      "Contact: formular oficial al prestatorului."
+    ],
+    "check": [
+      "Beneficiile sunt verificabile.",
+      "Clientul vede ce este inclus și ce nu.",
+      "Nu faci promisiuni absolute fără dovezi."
+    ],
+    "exercise": [
+      "Scrie o ofertă de maximum 120 de cuvinte.",
+      "Identifică trei afirmații înșelătoare și rescrie-le corect."
+    ]
+  },
+  "digital-1": {
+    "goal": "Să organizezi fișierele astfel încât să le găsești și să le versionez corect.",
+    "steps": [
+      "Stabilește un director principal pentru fiecare proiect.",
+      "Grupează fișierele în subfoldere: surse, lucru, rezultate finale.",
+      "Folosește nume descriptive cu data sau versiunea.",
+      "Verifică extensia reală și păstrează copii de siguranță unde este adecvat.",
+      "Nu păstra parole sau copii de acte în foldere accesibile public."
+    ],
+    "model": [
+      "STRUCTURĂ EXEMPLU",
+      "Proiect_CV/",
+      "  01_Surse/Anunt_post.pdf",
+      "  02_Lucru/CV_operator_v1.docx",
+      "  03_Final/CV_operator_2026-11-08.pdf",
+      "Fișierele din «Final» sunt doar variantele verificate."
+    ],
+    "check": [
+      "Numele permit identificarea conținutului.",
+      "Versiunile nu se confundă.",
+      "Permisiunile și copiile de siguranță sunt adecvate."
+    ],
+    "exercise": [
+      "Desenează o structură de foldere pentru 3 proiecte.",
+      "Propune un mod de redenumire pentru cinci fișiere intitulate «document»."
+    ]
+  },
+  "digital-2": {
+    "goal": "Să creezi și verifici un document înainte de exportul în PDF.",
+    "steps": [
+      "Definește publicul și obiectivul documentului.",
+      "Creează un titlu informativ și secțiuni în ordine logică.",
+      "Aplică stiluri consecvente pentru titluri, text și liste.",
+      "Verifică ortografia, numerotarea și imaginile.",
+      "Exportă ca PDF și verifică fiecare pagină pe telefon înainte de trimitere."
+    ],
+    "model": [
+      "STRUCTURA UNUI RAPORT EXEMPLU",
+      "Titlu: Raport de inventar — noiembrie 2026.",
+      "1. Scop: ce s-a verificat.",
+      "2. Date: tabelul sau sursa de observație.",
+      "3. Rezultate: valori și diferențe reale.",
+      "4. Concluzii: ce trebuie corectat.",
+      "5. Data, autor, versiune. PDF-ul trebuie să păstreze toate secțiunile."
+    ],
+    "check": [
+      "Paginile nu sunt tăiate.",
+      "Datele sensibile nu sunt afișate fără motiv.",
+      "Titlul și versiunea documentului sunt clare."
+    ],
+    "exercise": [
+      "Construiește un raport de o pagină folosind structura.",
+      "Identifică ce verifici la un PDF înainte de imprimare."
+    ]
+  },
+  "digital-3": {
+    "goal": "Să construiești un tabel și formule care se verifică ușor.",
+    "steps": [
+      "Definește coloanele și unitățile: produs, cantitate, preț unitar, total.",
+      "Introdu fiecare produs pe o linie separată și folosește numere, nu text în celule numerice.",
+      "Calculează valoarea liniei prin înmulțire.",
+      "Calculează totalul prin însumare și verifică două rânduri manual.",
+      "Folosește validare de date sau filtre doar după ce tabelul de bază este corect."
+    ],
+    "model": [
+      "TABEL EXEMPLU",
+      "A: Produs | B: Cantitate | C: Preț | D: Total",
+      "Rând 2: Caiet | 3 | 8 | formula D2=B2*C2 → 24",
+      "Rând 3: Pix | 5 | 2 | formula D3=B3*C3 → 10",
+      "D4=SUM(D2:D3) → 34",
+      "Nu confunda subtotalul cu un preț unitar."
+    ],
+    "check": [
+      "Formulele folosesc referințele corecte.",
+      "Totalurile se pot verifica manual.",
+      "Nu ai confundat separatorul zecimal cu cel de listă."
+    ],
+    "exercise": [
+      "Calculează totalurile pentru 4 produse cu prețuri diferite.",
+      "Arată ce se întâmplă dacă modifici cantitatea unui produs."
+    ]
+  },
+  "digital-4": {
+    "goal": "Să protejezi conturile și să verifici mesajele suspecte.",
+    "steps": [
+      "Folosește parole sau fraze de acces distincte pentru servicii importante.",
+      "Activează autentificarea multifactor acolo unde este disponibilă.",
+      "Nu comunica parole, coduri MFA sau coduri de recuperare în chat.",
+      "Actualizează aplicațiile din surse oficiale și verifică permisiunile.",
+      "În caz de incident, folosește procedura oficială de recuperare a contului."
+    ],
+    "model": [
+      "SCENARIU",
+      "Primești un mesaj: «Admin: pentru verificare trimite codul 2FA».",
+      "Nu îl trimiți; verifici separat dacă instituția a solicitat ceva.",
+      "Revizuiești sesiunile active și schimbi parola doar din aplicația oficială."
+    ],
+    "check": [
+      "Parolele nu sunt reutilizate.",
+      "Codurile de recuperare sunt păstrate în siguranță.",
+      "Nu instalezi aplicații necunoscute la cerere."
+    ],
+    "exercise": [
+      "Scrie o listă de protecție pentru un cont demonstrativ, fără a furniza parole reale.",
+      "Identifică trei indicii de phishing într-un mesaj fictiv."
+    ]
+  },
+  "digital-5": {
+    "goal": "Să proiectezi o automatizare simplă și verificabilă.",
+    "steps": [
+      "Descrie procesul repetitiv și scopul exact.",
+      "Definește datele de intrare, pașii, decizia și ieșirea.",
+      "Stabilește reguli pentru intrări lipsă și erori.",
+      "Testează cu date fictive, inclusiv cazuri-limită.",
+      "Păstrează controlul uman pentru bani, trimiteri externe și date sensibile."
+    ],
+    "model": [
+      "ALGORITM DEMONSTRATIV",
+      "INTRARE: cerere cu titlu și dată.",
+      "DACĂ titlul lipsește: afișează eroare și cere completare.",
+      "ALTFEL: generează nume de fișier din titlu și dată.",
+      "Creează PDF într-un folder de lucru.",
+      "Un om revizuiește înainte de expedierea externă."
+    ],
+    "check": [
+      "Există verificări pentru date invalide.",
+      "Rezultatul poate fi corectat.",
+      "Nu ai permis transferuri sau divulgări automate fără aprobare."
+    ],
+    "exercise": [
+      "Scrie pseudocod pentru clasificarea a 3 tipuri de fișiere.",
+      "Testează ce se întâmplă când un câmp necesar este gol."
+    ]
+  },
+  "digital-6": {
+    "goal": "Să coordonezi o activitate la distanță fără pierderea informațiilor.",
+    "steps": [
+      "Definește rezultatul și cine îl aprobă.",
+      "Împarte lucrul în sarcini cu responsabil și termen.",
+      "Alege un loc comun pentru documente și stabilește drepturile de acces.",
+      "Notează deciziile și diferența dintre propuneri și aprobări.",
+      "Revizuiește versiunea finală înainte de partajare."
+    ],
+    "model": [
+      "MINUTĂ DE ȘEDINȚĂ MODEL",
+      "Subiect: actualizare raport.",
+      "Decizie: tabelul trebuie revizuit.",
+      "Responsabil: persoana desemnată.",
+      "Termen: data stabilită de echipă.",
+      "Verificare: responsabilul prezintă varianta PDF spre aprobare.",
+      "Acest exemplu nu reprezintă o sarcină executată."
+    ],
+    "check": [
+      "Fiecare sarcină are un responsabil.",
+      "Permisiunile fișierelor sunt limitate corect.",
+      "Termenele și aprobările sunt clare."
+    ],
+    "exercise": [
+      "Scrie minuta unei ședințe fictive de 15 minute.",
+      "Transformă «cineva se ocupă» într-o sarcină precisă."
+    ]
+  },
+  "daily-1": {
+    "goal": "Să organizezi o zi pe priorități și timp disponibil.",
+    "steps": [
+      "Notează activitățile și termenele reale.",
+      "Separă activitățile urgente de cele importante, dar neurgente.",
+      "Estimează durata fiecăreia cu o marjă rezonabilă.",
+      "Planifică pauze și deplasări, nu numai munca efectivă.",
+      "Revizuiește la final ce trebuie mutat în ziua următoare."
+    ],
+    "model": [
+      "PLAN EXEMPLU",
+      "09:00–09:30: răspunsuri importante.",
+      "09:30–11:00: proiect principal.",
+      "11:00–11:15: pauză.",
+      "11:15–12:00: documente și verificări.",
+      "12:00–12:30: rezervă pentru întârzieri."
+    ],
+    "check": [
+      "Planul nu depășește orele disponibile.",
+      "Ai alocat timp pentru pauze.",
+      "Știi care sarcină trebuie finalizată întâi."
+    ],
+    "exercise": [
+      "Construiește un program cu trei obiective și duratele lor.",
+      "Reorganizează planul dacă apare o urgență de 45 de minute."
+    ]
+  },
+  "daily-2": {
+    "goal": "Să compari prețuri pe unitate și să alegi informat.",
+    "steps": [
+      "Notează cantitatea netă din fiecare ambalaj.",
+      "Transformă la o unitate comună: kilogram, litru sau 100 g.",
+      "Împarte prețul la cantitatea comparabilă.",
+      "Verifică termenul de valabilitate și cantitatea pe care o vei folosi.",
+      "Nu cumpăra un stoc mai mare doar pentru că prețul pe unitate este mai mic."
+    ],
+    "model": [
+      "COMPARAȚIE EXEMPLU",
+      "A: 500 g pentru 3 → 6/kg.",
+      "B: 1 kg pentru 5 → 5/kg.",
+      "B este mai ieftin per kg, dacă poți folosi produsul înainte de alterare.",
+      "Diferența: 1 per kilogram."
+    ],
+    "check": [
+      "Compari aceeași unitate și același tip de produs.",
+      "Verifici termenul și calitatea.",
+      "Ții cont de cantitatea necesară."
+    ],
+    "exercise": [
+      "Compară 750 ml la 4 cu 1 litru la 5.",
+      "Explică de ce produsul mai ieftin/kg nu este întotdeauna cea mai bună alegere."
+    ]
+  },
+  "daily-3": {
+    "goal": "Să organizezi întreținerea preventivă fără intervenții periculoase.",
+    "steps": [
+      "Citește instrucțiunile producătorului înainte de curățare sau verificare.",
+      "Întocmește o listă de controale vizuale și sarcini fără risc.",
+      "Notează reviziile obligatorii și cine are dreptul să le execute.",
+      "Oprește activitatea și apelează serviciile competente la miros de gaz, cabluri avariate sau risc de incendiu.",
+      "Păstrează dovada verificărilor și urmărește problemele recurente."
+    ],
+    "model": [
+      "CALENDAR EXEMPLU",
+      "Săptămânal: verificare vizuală și curățenie obișnuită.",
+      "Lunar: revizuirea filtrelor accesibile doar dacă manualul permite.",
+      "La termen: service și inspecții efectuate de persoane calificate.",
+      "Incident: oprire, îndepărtare din zonă și apel la specialist."
+    ],
+    "check": [
+      "Nu improvizezi la instalații periculoase.",
+      "Ai acces la instrucțiunile aparatului.",
+      "Știi pe cine contactezi când există un risc."
+    ],
+    "exercise": [
+      "Construiește un calendar pentru trei activități sigure.",
+      "Descrie diferența dintre observație vizuală și reparație tehnică."
+    ]
+  },
+  "daily-4": {
+    "goal": "Să previi contaminarea alimentelor în bucătărie.",
+    "steps": [
+      "Separă produsele crude de alimentele gata de consum.",
+      "Spală mâinile, suprafețele și ustensilele după sarcini cu risc de contaminare.",
+      "Respectă instrucțiunile oficiale de temperatură și depozitare corespunzătoare produsului.",
+      "Verifică ingredientele când există alergii și previne contaminarea încrucișată.",
+      "Nu presupune că un aliment este sigur doar pentru că arată sau miroase bine."
+    ],
+    "model": [
+      "CHECKLIST BUCĂTĂRIE",
+      "Înainte: suprafețe curate, mâini spălate, ingrediente verificate.",
+      "În timpul pregătirii: tocător separat pentru produse crude.",
+      "După: curățare, depozitare în condițiile recomandate, eliminarea riscurilor.",
+      "Pentru alergii: verificare etichete și ustensile."
+    ],
+    "check": [
+      "Ingredientele și alergiile sunt verificate.",
+      "Crudul este separat de produsele gata de consum.",
+      "Nu ignori instrucțiunile de păstrare."
+    ],
+    "exercise": [
+      "Construiește un flux de lucru pentru pregătirea unei salate și a cărnii crude.",
+      "Identifică trei puncte unde poate apărea contaminarea încrucișată."
+    ]
+  },
+  "daily-5": {
+    "goal": "Să ții o evidență minimă, sigură și actuală a documentelor.",
+    "steps": [
+      "Listează documentele utile și instituția emitentă.",
+      "Notează separat data expirării și unde verifici informația.",
+      "Folosește nume neutre de fișiere și protejează copii digitale cu acces limitat.",
+      "Nu publica documente cu identificatori personali sau fotografii de acte.",
+      "Pentru reînnoire, consultă instituția competentă din țara selectată."
+    ],
+    "model": [
+      "REGISTRU MODEL — fără date personale",
+      "Document: permis de conducere | expirare: [completezi local].",
+      "Instituție: autoritatea emitentă.",
+      "Acțiune: verificare termen în portalul oficial.",
+      "Fișier: Permis_valabilitate_verificare.pdf.",
+      "Nu stoca parole, coduri sau identificatori în acest exemplu."
+    ],
+    "check": [
+      "Nu păstrezi în clar date sensibile în liste partajate.",
+      "Expirările sunt verificate la autoritățile competente.",
+      "Ai copii de siguranță protejate."
+    ],
+    "exercise": [
+      "Creează o listă de documente fără numere sau date personale.",
+      "Stabilește când trebuie verificată expirarea fiecărui document."
+    ]
+  },
+  "daily-6": {
+    "goal": "Să pregătești un plan de reacție la evenimente neprevăzute.",
+    "steps": [
+      "Identifică ieșirile, punctul de întâlnire și persoanele care au nevoie de sprijin.",
+      "Notează modalitatea de a apela numărul local de urgență fără a inventa unul.",
+      "Pregătește contacte importante și obiecte esențiale accesibile.",
+      "Exersează mental ordinea priorităților: viață, evacuare, apel către servicii competente.",
+      "Revizuiește planul când se schimbă locuința sau membrii gospodăriei."
+    ],
+    "model": [
+      "PLAN DE BAZĂ EXEMPLU",
+      "Risc: incendiu într-o locuință.",
+      "Prioritate: părăsirea zonei periculoase, fără întoarcere după bunuri.",
+      "Punct de întâlnire: loc sigur ales de familie.",
+      "Apel: numărul de urgență valabil în zona respectivă.",
+      "Verificare: nimeni nu intră înapoi înainte de intervenția autorităților."
+    ],
+    "check": [
+      "Persoanele cunosc traseul de ieșire.",
+      "Contactele și procedurile sunt actualizate.",
+      "Nu sunt sugerate intervenții periculoase pentru persoane nepregătite."
+    ],
+    "exercise": [
+      "Redactează un checklist de evacuare pentru o situație fictivă.",
+      "Identifică trei acțiuni care ar crește riscul și trebuie evitate."
+    ]
   }
 };
 export function practicalGuide(chapterId){return PRACTICAL_GUIDES[chapterId]||null}
