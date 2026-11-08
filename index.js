@@ -10708,7 +10708,7 @@ function litWorkspace(panel){
  const details=make('textarea',learningLabel('Detalii, idei, argumente, operă sau autor (opțional)','Details, ideas, arguments, work or author (optional)'),learningLabel('Introdu ideile tale, citate, cerințele profesorului sau textul de analizat','Enter your ideas, quotations, assignment requirements or source text'));details.rows=4;
  const work=make('input',learningLabel('Titlul operei și autorul','Work title and author'),learningLabel('Ex.: Ion — Liviu Rebreanu','E.g. Pride and Prejudice — Jane Austen'));
  work.id='litWorkTitle';
- const source=make('textarea',learningLabel('Textul operei sau fragmentul (numai dacă dorești)','Source work or passage (only if you wish)'),'Source work or passage to analyse (optional)'),learningLabel('Inserează textul pentru un rezumat sau o sinteză bazată pe sursă.','Paste source text for source-based summary or synthesis.'));source.rows=5;
+ const source=make('textarea',learningLabel('Textul operei sau fragmentul (numai dacă dorești)','Source work or passage (only if you wish)'),learningLabel('Inserează textul pentru un rezumat sau o sinteză bazată pe sursă.','Paste source text for source-based summary or synthesis.'));source.rows=5;
  const attachment=document.createElement('input');attachment.type='file';attachment.accept='.txt,text/plain,.md,text/markdown';attachment.className='lit-upload';
  const uploadLabel=litText('label',learningLabel('Încarcă text (.txt sau .md)','Upload text (.txt or .md)'));uploadLabel.className='lit-label';uploadLabel.append(attachment);panel.append(uploadLabel);
  attachment.addEventListener('change',async()=>{const file=attachment.files?.[0];if(!file)return;
