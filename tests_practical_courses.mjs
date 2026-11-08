@@ -15,7 +15,7 @@ assert.deepEqual(PRACTICAL_LEVELS.map(x=>x.id),['beginner','intermediate','advan
 assert.equal(PRACTICAL_COUNTRIES.length,13,'Country-dependent official references');
 assert.deepEqual(new Set(PRACTICAL_COUNTRIES.map(x=>x[0])),new Set(EXAM_COUNTRY_CODES));
 assert.ok(PRACTICAL_STATEMENT.includes('certificare')&&PRACTICAL_STATEMENT.includes('juridică'));
-assert.ok(PRACTICAL_COUNTRIES.every(x=>x[3].startsWith('https://')));
+assert.ok(PRACTICAL_COUNTRIES.every(x=>x.length===3),'Country selection must not have an unrelated generic source URL');
 const allChapters=PRACTICAL_COURSES.flatMap(c=>c.chapters);
 assert.equal(allChapters.length,36,'Six sequenced lessons per practical subject');
 assert.equal(Object.keys(PRACTICAL_GUIDES).length,36,'All practical lessons need a detailed tutorial');
