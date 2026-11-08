@@ -291,7 +291,7 @@ export const PRACTICAL_DEPTH_EXTRA={
     ],
     [
       "Registrul verificărilor",
-      "Notează data, ce ai observat și acțiunea recomandată, fără concluzii tehnice inventate. Păstrează separat dovezile reviziilor profesionale obligatorii."
+      "Notează data, ce ai observat și acțiunea recomandată, fără concluzii tehnice inventate. Păstrează separat dovezile reviziilor profesionale obligatorii. O evidență clară permite identificarea problemelor care reapar și verificarea termenelor reale de întreținere."
     ]
   ],
   "daily-4": [
