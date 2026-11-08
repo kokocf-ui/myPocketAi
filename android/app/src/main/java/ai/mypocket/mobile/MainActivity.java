@@ -593,6 +593,7 @@ public final class MainActivity extends ComponentActivity {
                     runOnUiThread(()->{
                         if("list".equals(request))listEducationDocuments();
                         else if(request.startsWith("print:"))printEducationDocumentByName(request.substring(6));
+                        else if(request.startsWith("share:"))shareEducationDocumentByName(request.substring(6));
                     });
                 });
         }
@@ -1348,6 +1349,24 @@ public final class MainActivity extends ComponentActivity {
             if(!file.getCanonicalPath().startsWith(folder.getCanonicalPath()+File.separator)||!file.isFile())return;
             printSavedEducationPdf(file,filename.replaceFirst("(?i)\\.pdf$",""));
         }catch(Exception ignored){notifyEducationPdf("error");}
+    }
+
+    // Shares only a previously saved PDF through Android's chooser, never its raw text.
+    private void shareEducationDocumentByName(String filename){
+        try{
+            if(filename==null||!filename.matches("[^/\\\\\\\\]{1,150}\\\\.pdf"))return;
+            File folder=educationDocumentsFolder();
+            File file=new File(folder,filename);
+            if(!file.getCanonicalPath().startsWith(folder.getCanonicalPath()+File.separator)||!file.isFile())return;
+            Uri uri=FileProvider.getUriForFile(this,getPackageName()+".fileprovider",file);
+            Intent send=new Intent(Intent.ACTION_SEND);
+            send.setType("application/pdf");
+            send.putExtra(Intent.EXTRA_STREAM,uri);
+            send.putExtra(Intent.EXTRA_SUBJECT,filename);
+            send.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            send.setClipData(android.content.ClipData.newUri(getContentResolver(),filename,uri));
+            startActivity(Intent.createChooser(send,"Trimite documentul PDF"));
+        }catch(Exception ignored){notifyEducationPdf("shareUnavailable");}
     }
 
     private boolean saveEducationPdf(File destination,String title,String content){
