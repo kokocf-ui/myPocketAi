@@ -7,6 +7,15 @@ on:
     paths:
       - 'android/**'
       - 'index.js'
+      - 'practical_*.mjs'
+      - 'exam_*.mjs'
+      - 'university_domains.mjs'
+      - 'education_selects_ui.mjs'
+      - 'tests_practical_courses.mjs'
+      - 'tests_exam_curriculum_europe.mjs'
+      - 'tests_frontend_boot_syntax.mjs'
+      - 'tests_education_android.mjs'
+      - 'tests_pdf_library.mjs'
       - 'scripts/patch-avatar-lipsync.mjs'
       - 'tests_avatar_lipsync_stop.mjs'
       - 'tests_math_whisper_pilot.mjs'
@@ -87,6 +96,20 @@ jobs:
         run: |
           node --check index.js
           node --check backend.js
+          node --check practical_curriculum.mjs
+          node --check practical_guides.mjs
+          node --check practical_syllabi.mjs
+          node --check practical_depth.mjs
+          node --check practical_depth_extra.mjs
+          node --check practical_ui.mjs
+          node --check exam_curriculum_europe.mjs
+          node --check exam_ui.mjs
+          node --check university_domains.mjs
+          node tests_frontend_boot_syntax.mjs
+          node tests_exam_curriculum_europe.mjs
+          node tests_practical_courses.mjs
+          node tests_education_android.mjs
+          node tests_pdf_library.mjs
           node tests_math_voice_parentheses.mjs
           node tests_math_linear_equations.mjs
           node tests_math_linear_graph_proof.mjs
