@@ -10900,7 +10900,7 @@ function eduCurrentPrintable(){
   const work=root.querySelector('#litWorkTitle')?.value.trim()||'';
   const subject=root.querySelector('#litEssaySubject')?.value.trim()||'';
   descriptive=[work,subject].filter(Boolean).join(' — ')||title;
- }else{
+ }else if(!comp){
   const assignment=root.querySelector('.hg-request')?.value.trim()||'';
   if(assignment)descriptive=title+' — '+assignment;
   else{
