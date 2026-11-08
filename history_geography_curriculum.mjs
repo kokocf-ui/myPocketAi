@@ -6,7 +6,8 @@ export const HG_SUBJECTS=[
 ];
 export const HG_LEVELS=[
  {id:'beginner',ro:'Începător · primar',en:'Beginner · primary',focus:'Recunoaștere, cronologie, descrieri și orientare'},
- {id:'medium',ro:'Mediu · gimnaziu și liceu',en:'Intermediate · secondary',focus:'Cauze, comparații, surse și hărți tematice'},
+ {id:'lower',ro:'Începător · gimnaziu',en:'Beginner · lower secondary',focus:'Cronologie, surse și interpretare la nivel de gimnaziu'},
+ {id:'medium',ro:'Mediu · liceu',en:'Intermediate · upper secondary',focus:'Analiză de surse, comparație și argumentare la nivel de liceu'},
  {id:'advanced',ro:'Avansat · universitar',en:'Advanced · university',focus:'Metode de cercetare, GIS, izvoare, interpretări și argumentare'}
 ];
 export const HG_SCOPES=[
