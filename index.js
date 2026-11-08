@@ -2917,6 +2917,10 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
 #view-module.learning-hg .hg-toolbar{flex:0 0 auto!important;display:grid!important;grid-template-columns:minmax(106px,.82fr) minmax(0,1.18fr)!important;width:100%!important;margin:0 0 6px!important;gap:clamp(9px,2.6vw,16px)!important}
 #view-module.learning-hg .hg-toolbar .hg-back{grid-column:1!important;min-width:0!important;max-width:none!important;width:100%!important;min-height:clamp(48px,7dvh,60px)!important;margin:0!important}
 #view-module.learning-hg .hg-panel{display:flex!important;flex-direction:column!important;flex:1 1 auto!important;min-height:0!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;padding-bottom:24px!important;margin:0!important}
+#view-module.learning-hg .hg-level-list{display:flex!important;flex-direction:column!important;gap:12px!important;width:100%!important;margin-top:8px!important}
+#view-module.learning-hg .hg-level-choice{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;text-align:left!important;width:100%!important;min-height:72px!important;padding:12px 15px!important;gap:4px!important;white-space:normal!important}
+#view-module.learning-hg .hg-level-choice strong{display:block;font-size:clamp(18px,4.6vw,24px);line-height:1.2}
+#view-module.learning-hg .hg-level-choice span{display:block;font-size:clamp(13px,3.5vw,17px);font-weight:400;color:#c5dfec;line-height:1.3}
 #view-module.learning-hg .hg-choice-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;align-content:start!important}
 #view-module.learning-hg .hg-choice{width:100%!important;min-width:0!important;min-height:56px!important;text-align:center!important;white-space:normal!important;padding:8px!important;overflow-wrap:anywhere!important}
 #view-module.learning-hg .hg-select,#view-module.learning-hg .hg-request,#view-module.learning-hg .hg-quiz textarea{display:block!important;width:100%!important;max-width:100%!important;min-height:44px!important;margin:5px 0 9px!important;background:#0b2638;color:#effaff;border:1px solid #52859e;border-radius:10px;padding:8px!important}
@@ -10226,7 +10230,7 @@ function hgRemember(kind){
  try{const key=hgProgressKey(),p=JSON.parse(localStorage.getItem(key)||'{}');p[hgJourney.topic]={...(p[hgJourney.topic]||{}),[kind]:new Date().toISOString()};localStorage.setItem(key,JSON.stringify(p))}catch{}
 }
 function hgBack(){
- const prev={subjects:null,scope:'subjects',country:'scope',levels:'country',specialties:'levels',chapters:hgJourney.level==='advanced'?'specialties':'levels',lesson:'chapters'};
+ const prev={subjects:null,scope:'subjects',country:'scope',levels:hgJourney.scope==='world'?'scope':'country',specialties:'levels',chapters:hgJourney.level==='advanced'?'specialties':'levels',lesson:'chapters'};
  if(prev[hgJourney.stage])hgOpen(prev[hgJourney.stage]);else renderLearningSubjects();
 }
 function hgOpen(stage){
@@ -10278,7 +10282,22 @@ function hgOpen(stage){
    hgSave();hgOpen('levels');
   },'primary-btn'));
  }
- if(stage==='levels')list(HG_LEVEL_DATA,opt=>{hgJourney.level=opt.id;hgJourney.speciality=null;hgOpen(opt.id==='advanced'?'specialties':'chapters')});
+ if(stage==='levels'){
+  panel.append(hgText('p',hgL('Nivelul stabilește complexitatea explicațiilor.','The level determines explanation complexity.')));
+  const holder=document.createElement('div');holder.className='hg-level-list';
+  const descriptions={
+   beginner:[hgL('Primar · noțiuni de bază','Primary · fundamentals'),hgL('Primar · orientare și noțiuni de bază','Primary · orientation and fundamentals')],
+   medium:[hgL('Gimnaziu și liceu','Secondary school')],
+   advanced:[hgL('Universitate și mai departe','University and beyond')]
+  };
+  for(const opt of HG_LEVEL_DATA){
+   const btn=hgBtn('',()=>{hgJourney.level=opt.id;hgJourney.speciality=null;hgOpen(opt.id==='advanced'?'specialties':'chapters')},'secondary-btn hg-choice hg-level-choice');
+   const name=hgText('strong',hgL(opt.id==='beginner'?'Începător':opt.id==='medium'?'Mediu':'Avansat',opt.id==='beginner'?'Beginner':opt.id==='medium'?'Intermediate':'Advanced'));
+   const desc=hgText('span',descriptions[opt.id][0]);
+   btn.append(name,desc);holder.append(btn);
+  }
+  panel.append(holder);
+ }
  if(stage==='specialties'){
   panel.append(hgText('p',hgL('Specializarea completează programa; nu elimină capitolele generale.','Specialisation adds depth to the curriculum; it does not replace general chapters.')));
   list((HG_SPECIALISATIONS_DATA[hgJourney.subject]||[]).map(a=>({id:a[0],ro:a[1],en:a[2]})),opt=>{
