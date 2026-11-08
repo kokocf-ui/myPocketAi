@@ -15,7 +15,7 @@ assert.equal(BIOLOGY_SPECIALTY_TOPICS.length,36,'four own chapters per specialty
 assert.equal(BIOLOGY_LESSONS.length,60);
 assert.equal(BIOLOGY_SPECIALTY_LESSONS.length,108);
 assert.equal(biology.length,168);
-assert.deepEqual(theorySubjects().map(x=>x.count),[211,19,268,168]);
+assert.deepEqual(theorySubjects().map(x=>x.count),[211,102,268,168]);
 assert.equal(new Set(biology.map(x=>x.id)).size,168);
 assert.equal(new Set(biology.map(x=>x.title)).size,168,'every title is unique');
 assert.ok(biology.every(x=>x.id&&x.title&&x.statement&&x.formula&&x.topic&&x.level&&Array.isArray(x.aliases)));

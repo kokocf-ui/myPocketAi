@@ -1,6 +1,7 @@
 import {CHEMISTRY_LESSONS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_SPECIALTY_LESSONS} from './chemistry_advanced.mjs';
 import {BIOLOGY_LESSONS,BIOLOGY_SPECIALTY_LESSONS} from './biology_curriculum.mjs';
+import {PHYSICS_LESSONS} from './physics_curriculum.mjs';
 // Curated, offline-first Romanian theory entries. Keep explanatory theory separate from exercise solvers.
 export const THEORY_ENTRIES = Object.freeze([
   {
@@ -3010,7 +3011,8 @@ export const THEORY_ENTRIES = Object.freeze([
   ...CHEMISTRY_LESSONS,
   ...CHEMISTRY_SPECIALTY_LESSONS,
   ...BIOLOGY_LESSONS,
-  ...BIOLOGY_SPECIALTY_LESSONS
+  ...BIOLOGY_SPECIALTY_LESSONS,
+  ...PHYSICS_LESSONS
 ])
 const normalize=s=>String(s??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("ro").replace(/[‐‑–—]/g,"-").replace(/[^a-z0-9+]+/g," ").trim().replace(/\s+/g," ");
 const LEVELS={beginner:0,intermediate:1,medium:1,advanced:2};

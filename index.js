@@ -3,6 +3,8 @@ import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
+import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
+import {physicsVerifiedExercise} from './physics_verified.mjs';
 /**
  * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
@@ -6826,9 +6828,9 @@ let scienceVoiceActive=false,scienceLastReply='',scienceRequestController=null;
 function scienceSubjectInfo(){return SCIENCE_SUBJECTS.find(s=>s.id===scienceJourney.subject)||null}
 function scienceTopicChoices(){
  const subject=scienceJourney.subject;
- if(subject!=='chemistry'&&subject!=='biology')return SCIENCE_OTHER_TOPICS[subject]||[];
- const topics=subject==='biology'?BIOLOGY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
- const specializations=subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
+ if(!['physics','chemistry','biology'].includes(subject))return SCIENCE_OTHER_TOPICS[subject]||[];
+ const topics=subject==='physics'?PHYSICS_TOPIC_DATA:subject==='biology'?BIOLOGY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
+ const specializations=subject==='physics'?PHYSICS_SPECIALTY_DATA:subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
  if(scienceJourney.level!=='advanced'||!scienceJourney.specialty)return topics.filter(x=>!x.specialty);
  const track=specializations.find(x=>x.id===scienceJourney.specialty);
  return topics.filter(x=>x.specialty===scienceJourney.specialty||
@@ -6848,7 +6850,7 @@ function scienceBack(){
  const current=scienceJourney.stage;
  scienceVoiceStop();scienceStopRequest();
  if(current==='workspace')scienceJourney.stage='topics';
- else if(current==='topics')scienceJourney.stage=(['chemistry','biology'].includes(scienceJourney.subject)&&scienceJourney.level==='advanced')?'specialties':'levels';
+ else if(current==='topics')scienceJourney.stage=(['physics','chemistry','biology'].includes(scienceJourney.subject)&&scienceJourney.level==='advanced')?'specialties':'levels';
  else if(current==='specialties')scienceJourney.stage='levels';
  else if(current==='levels')scienceJourney.stage='subjects';
  else {renderLearningSubjects();return}
@@ -6939,9 +6941,9 @@ function scienceJourneyShowChoices(stage){
  list.className='math-choice-list science-choice-list';
  const choices=stage==='subjects'?SCIENCE_SUBJECTS:
   stage==='levels'?CHEMISTRY_LEVEL_DATA:
-  stage==='specialties'?(scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
+  stage==='specialties'?(scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
   scienceTopicChoices().filter(topic=>{
-   if(!['chemistry','biology'].includes(scienceJourney.subject))return true;
+   if(!['physics','chemistry','biology'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
     EDUCATION_THEORY_DATA.some(x=>x.subject===scienceJourney.subject&&x.topic===topic.id&&
@@ -6956,10 +6958,11 @@ function scienceJourneyShowChoices(stage){
   sub.textContent=stage==='subjects'?
    (item.id==='chemistry'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
      item.id==='biology'?learningLabel('10 capitole de bază · 9 specializări avansate','10 foundation chapters · 9 advanced tracks'):
+     item.id==='physics'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
      learningLabel('Spațiu de studiu','Study workspace')):
    stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
    stage==='specialties'?learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects'):
-   ['chemistry','biology'].includes(scienceJourney.subject)?
+   ['physics','chemistry','biology'].includes(scienceJourney.subject)?
     EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length+
       learningLabel(' fișe teoretice',' theory entries'):'';
   btn.append(heading,sub);
@@ -6969,7 +6972,7 @@ function scienceJourneyShowChoices(stage){
     scienceJourneyShowChoices('levels');
    }else if(stage==='levels'){
     scienceJourney.level=item.id;scienceJourney.specialty=null;
-    scienceJourneyShowChoices(['chemistry','biology'].includes(scienceJourney.subject)&&item.id==='advanced'?'specialties':'topics');
+    scienceJourneyShowChoices(['physics','chemistry','biology'].includes(scienceJourney.subject)&&item.id==='advanced'?'specialties':'topics');
    }else if(stage==='specialties'){
     scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
    }else{
@@ -7567,6 +7570,9 @@ function mathSubjectsForLevel(level){
 }
 
 const EDUCATION_THEORY_DATA=${JSON.stringify(THEORY_ENTRIES)};
+const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
+const PHYSICS_SPECIALTY_DATA=${JSON.stringify(PHYSICS_SPECIALIZATIONS)};
+const PHYSICS_SOLVE_VERIFIED=${physicsVerifiedExercise.toString()};
 const CHEMISTRY_LEVEL_DATA=${JSON.stringify(CHEMISTRY_LEVELS)};
 const CHEMISTRY_TOPIC_DATA=${JSON.stringify([...CHEMISTRY_TOPICS,...CHEMISTRY_SPECIALTY_TOPICS])};
 const CHEMISTRY_SPECIALTY_DATA=${JSON.stringify(CHEMISTRY_SPECIALIZATIONS)};
@@ -8008,6 +8014,58 @@ function scienceRead(){
  if(phrase)speakText(phrase);
  else scienceStatus(learningLabel('Scrie un exercițiu sau obține o explicație.','Type an exercise or get an explanation.'));
 }
+
+function scienceSymbolGroups(subject){
+ const common=[
+  ['Indici','₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉'],
+  ['Exponenți','⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻'],
+  ['Matematică','× ÷ ± ≈ ≠ ≤ ≥ √ ∑ ∆ ∫ ∂ ∞ ° % ·'],
+  ['Grecești','α β γ δ ε θ λ μ ν ρ σ τ φ χ ψ ω Ω Δ Σ Π']
+ ];
+ const subjectGroups={
+  chemistry:[
+   ['Ioni','⁺ ⁻ ²⁺ ³⁺ ²⁻ ³⁻'],
+   ['Reacții','→ ⇌ ⇄ ↑ ↓ Δ ⇑'],
+   ['Stări','(s) (l) (g) (aq)'],
+   ['Chimie','°C mol L M pH Kₐ Kᵦ E°']
+  ],
+  physics:[
+   ['Vectori','→ ← ↑ ↓ ↗ ↘ ∥ ⊥ ∠ ⃗'],
+   ['Mărimi și unități','m kg s A K N J W V Ω Hz Pa T C rad °C'],
+   ['Notații','Δx Δt Δv Δp ΣF ∑F v₀ x₀ θ φ λ ω ℏ ε₀ μ₀'],
+   ['Relații','⇒ ⇔ ∝ ≡ ≅ ∇ ⋅ × ² ³']
+  ],
+  biology:[
+   ['Genetică','A T C G U 5′ 3′ → ⇄ ± × %'],
+   ['Biochimie','μm nm mol L mg mL °C pH']
+  ],
+  astronomy:[
+   ['Astronomie','☉ ⊕ ☾ AU ly pc M☉ R☉ ° ′ ″ α δ'],
+   ['Unități','km m s yr kg K Hz nm']
+  ]
+ };
+ return common.concat(subjectGroups[subject]||[]);
+}
+function scienceMakeSymbolPalette(editor,subject){
+ const toggle=document.createElement('button');toggle.type='button';toggle.className='secondary-btn science-symbol-toggle';
+ toggle.textContent=learningLabel('∑ Simboluri','∑ Symbols');toggle.setAttribute('aria-expanded','false');
+ const tray=document.createElement('div');tray.className='science-symbol-tray';tray.hidden=true;
+ for(const [group,items] of scienceSymbolGroups(subject)){
+  const section=document.createElement('div');section.className='science-symbol-group';
+  const caption=document.createElement('strong');caption.textContent=group;section.append(caption);
+  const collection=document.createElement('div');collection.className='science-symbol-buttons';
+  for(const symbol of items.split(' ')){
+   if(!symbol)continue;
+   const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn';
+   btn.textContent=symbol;btn.setAttribute('aria-label',group+': '+symbol);
+   btn.onclick=()=>scienceInsertSymbol(editor,symbol);collection.append(btn);
+  }
+  section.append(collection);tray.append(section);
+ }
+ toggle.onclick=()=>{tray.hidden=!tray.hidden;toggle.setAttribute('aria-expanded',String(!tray.hidden))};
+ return {toggle,tray};
+}
+
 function scienceInsertSymbol(editor,symbol){
  const a=editor.selectionStart??editor.value.length,b=editor.selectionEnd??a;
  editor.value=editor.value.slice(0,a)+symbol+editor.value.slice(b);
@@ -8386,6 +8444,157 @@ function chemistryVisualPicker(){
  document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
 
+
+function physicsVisualKind(question,topic){
+ const q=educationTheoryClean(question||'');
+ if(q.includes('und')||q.includes('oscil')||q.includes('pendul')||topic==='waves')return 'wave';
+ if(q.includes('circuit')||q.includes('ohm')||q.includes('rezistor')||q.includes('tensiun')||topic==='electric'||topic==='circuits')return 'circuit';
+ if(q.includes('lentil')||q.includes('reflect')||q.includes('optic')||q.includes('refract')||topic==='optics')return 'optics';
+ if(q.includes('gaz')||q.includes('termodin')||q.includes('presiun')||topic==='thermodynamics')return 'thermo';
+ if(q.includes('forta')||q.includes('newton')||q.includes('greutat')||topic==='dynamics')return 'force';
+ if(q.includes('viteza')||q.includes('miscar')||q.includes('acceler')||topic==='kinematics')return 'motion';
+ if(q.includes('electron')||q.includes('quant')||q.includes('foton')||topic==='modern'||topic==='special-quantum')return 'quantum';
+ if(q.includes('energie')||q.includes('lucru mecanic')||topic==='energy')return 'energy';
+ return null;
+}
+function physicsVisualBuild(kind){
+ if(!kind)return null;
+ const section=document.createElement('section');section.className='physics-visual';
+ const title=document.createElement('h3');
+ const names={wave:['Undă sinusoidală · model','Sinusoidal wave · model'],
+  circuit:['Circuit electric · model','Electric circuit · model'],
+  optics:['Optică · raze','Optics · rays'],thermo:['Diagrama presiune–volum','Pressure–volume diagram'],
+  force:['Forțe și vectori','Forces and vectors'],motion:['Mișcare · poziție și timp','Motion · position and time'],
+  quantum:['Niveluri energetice · schematic','Energy levels · schematic'],
+  energy:['Energie · comparație schematică','Energy · schematic comparison']};
+ title.textContent=learningLabel(...names[kind]);section.append(title);
+ const ns='http://www.w3.org/2000/svg';
+ const svg=document.createElementNS(ns,'svg');
+ svg.setAttribute('viewBox','0 0 360 205');svg.setAttribute('role','img');
+ svg.setAttribute('aria-label',title.textContent);section.append(svg);
+ const node=(tag,props,text)=>{
+  const el=document.createElementNS(ns,tag);
+  for(const [k,v] of Object.entries(props||{}))el.setAttribute(k,String(v));
+  if(text!==undefined)el.textContent=text;
+  svg.append(el);return el;
+ };
+ const line=(x1,y1,x2,y2,color='#a6dfef',width=2)=>node('line',{x1,y1,x2,y2,stroke:color,'stroke-width':width,'stroke-linecap':'round'});
+ const txt=(x,y,t)=>node('text',{x,y,fill:'#e9faff','font-size':13},t);
+ if(kind==='wave'){
+  line(25,103,337,103);line(25,20,25,185);
+  let d='';for(let i=0;i<=280;i+=2){const x=35+i,y=103-60*Math.sin(i*Math.PI/95);d+=(i?' L':'M')+x+' '+y}
+  node('path',{d,fill:'none',stroke:'#79e4f0','stroke-width':3});
+  txt(293,95,'t');txt(31,24,'A');txt(38,197,'y=A sin(ωt)');
+ }else if(kind==='motion'){
+  line(35,170,330,170);line(35,170,35,22);
+  node('path',{d:'M35 158 L305 44',fill:'none',stroke:'#73e1ed','stroke-width':3});
+  txt(310,184,'t');txt(16,23,'x');txt(130,66,'x=x₀+vt');
+ }else if(kind==='force'){
+  node('rect',{x:133,y:101,width:90,height:55,rx:7,fill:'#2c6f89',stroke:'#c4edf9'});
+  line(178,101,178,28,'#f4d58d',4);line(178,156,178,194,'#ef9d91',4);
+  line(223,128,319,128,'#80dfb9',4);
+  txt(187,35,'N');txt(185,191,'mg');txt(294,119,'F');
+  txt(42,190,'ΣF⃗=ma⃗');
+ }else if(kind==='circuit'){
+  node('path',{d:'M55 65 H143 M199 65 H300 V151 H55 V65',fill:'none',stroke:'#a6dfef','stroke-width':3});
+  node('rect',{x:143,y:52,width:56,height:26,fill:'#224c62',stroke:'#fff','stroke-width':2});
+  line(55,99,55,117,'#ffcf86',3);line(43,100,67,100,'#ffcf86',3);line(49,112,61,112,'#ffcf86',3);
+  txt(154,44,'R');txt(17,112,'U');txt(162,177,'U=RI');
+ }else if(kind==='optics'){
+  line(182,25,182,186,'#7edbd0',3);line(25,108,334,108);
+  line(36,45,182,108,'#e3c57d');line(182,108,322,157,'#e3c57d');
+  line(36,160,182,108,'#9fd8ff');line(182,108,322,61,'#9fd8ff');
+  txt(187,28,'lentilă');txt(269,186,'schemă paraxială');
+ }else if(kind==='thermo'){
+  line(35,175,332,175);line(35,175,35,22);
+  node('path',{d:'M62 42 C110 70 148 98 301 144',fill:'none',stroke:'#75def0','stroke-width':3});
+  txt(315,190,'V');txt(15,23,'p');txt(142,50,'pV=nRT');
+ }else if(kind==='quantum'){
+  [64,115,158].forEach((y,i)=>{line(65,y,291,y,'#83d9f1',2);txt(300,y+5,'E'+(2-i))});
+  line(180,148,180,77,'#f7cf86',3);
+  txt(191,104,'hν');txt(38,190,'schemă discretă');
+ }else if(kind==='energy'){
+  node('rect',{x:75,y:89,width:70,height:82,fill:'#387a8f'});
+  node('rect',{x:210,y:43,width:70,height:128,fill:'#a28a56'});
+  txt(87,186,'Ec');txt(221,186,'Ep');txt(43,23,'E = Ec + Ep');
+ }
+ const note=document.createElement('small');note.className='physics-visual-note';
+ note.textContent=learningLabel('Schemă didactică; nu prezintă valori experimentale și nu este o măsurătoare.','Educational diagram; no measured values or experimental data.');
+ section.append(note);return section;
+}
+function physicsVisualPicker(){
+ document.getElementById('physicsVisualPicker')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='physicsVisualPicker';dialog.className='education-theory-dialog physics-visual-dialog';
+ const bar=document.createElement('div');bar.className='education-theory-head';
+ const h=document.createElement('h2');h.textContent=learningLabel('Fizică · Reprezentări','Physics · Diagrams');
+ const close=document.createElement('button');close.className='secondary-btn';close.type='button';
+ close.textContent=learningLabel('← Revenire','← Back');close.onclick=()=>dialog.close();
+ bar.append(h,close);dialog.append(bar);
+ for(const kind of ['motion','force','energy','wave','circuit','optics','thermo','quantum']){
+  const example=physicsVisualBuild(kind);if(!example)continue;
+  const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';
+  btn.textContent=example.children[0].textContent;btn.onclick=()=>{dialog.close();physicsVisualOpen(kind)};
+  dialog.append(btn);
+ }
+ document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+function physicsVisualOpen(kind){
+ const old=document.getElementById('physicsVisualDialog');old?.remove();
+ const dialog=document.createElement('dialog');dialog.id='physicsVisualDialog';dialog.className='education-theory-dialog physics-visual-dialog';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();
+ dialog.append(back,physicsVisualBuild(kind));
+ document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+function physicsTheoryOpen(){
+ document.getElementById('physicsTheoryDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='physicsTheoryDialog';dialog.className='education-theory-dialog physics-theory-dialog';
+ const header=document.createElement('div');header.className='education-theory-head';
+ const heading=document.createElement('h2');heading.textContent=learningLabel('Fizică · Teorie','Physics · Theory');
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();
+ header.append(heading,back);
+ const chapter=scienceJourney.topic,level=scienceJourney.level;
+ const rank={beginner:0,intermediate:1,medium:1,advanced:2};
+ const entries=EDUCATION_THEORY_DATA.filter(x=>x.subject==='physics'&&(!chapter||x.topic===chapter||(!x.topic&&chapter==='dynamics'))&&rank[x.level]<=rank[level]);
+ const search=document.createElement('input');search.type='search';search.autocomplete='off';
+ search.placeholder=learningLabel('Caută de la prima literă…','Search from the first letter…');
+ search.setAttribute('aria-label',learningLabel('Caută lecție de fizică','Search physics lesson'));
+ const list=document.createElement('div');list.className='physics-theory-list';
+ const detail=document.createElement('section');detail.className='physics-theory-detail';detail.hidden=true;
+ function show(item){
+  detail.replaceChildren();
+  const title=document.createElement('h3');title.textContent=item.title;
+  const statement=document.createElement('p');statement.textContent=item.statement;
+  const formula=document.createElement('p');formula.className='education-theory-formula';formula.textContent=item.formula;
+  const goBack=document.createElement('button');goBack.type='button';goBack.className='secondary-btn';
+  goBack.textContent=learningLabel('← La lecții','← Lessons');
+  goBack.onclick=()=>{detail.hidden=true;list.hidden=false;search.hidden=false};
+  detail.append(goBack,title,statement,formula);
+  const kind=physicsVisualKind(item.title,chapter);
+  if(kind)detail.append(physicsVisualBuild(kind));
+  detail.hidden=false;list.hidden=true;search.hidden=true;
+ }
+ function render(){
+  list.replaceChildren();
+  const q=educationTheoryClean(search.value);
+  let matches=entries;
+  if(q)matches=entries.filter(x=>educationTheoryClean(x.title+' '+x.aliases.join(' ')).includes(q)).slice(0,4);
+  if(!matches.length){const p=document.createElement('p');p.textContent=learningLabel('Nicio lecție pentru acest termen.','No matching lesson.');list.append(p)}
+  for(const item of matches){
+   const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';
+   btn.textContent=item.title;btn.onclick=()=>show(item);list.append(btn);
+  }
+ }
+ search.addEventListener('input',render);
+ dialog.append(header,search,list,detail);
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);render();
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+
 function scienceShowResult(title,body){
  document.getElementById('scienceResultDialog')?.remove();
  const dialog=document.createElement('dialog');dialog.id='scienceResultDialog';
@@ -8397,6 +8606,11 @@ function scienceShowResult(title,body){
  head.append(h,close);
  const content=document.createElement('div');content.className='science-result-text';
  content.textContent=body;dialog.append(head,content);
+ if(scienceJourney.subject==='physics'){
+  const query=$('scienceEducationText')?.value||title;
+  const kind=physicsVisualKind(query,scienceJourney.topic);
+  if(kind){const visual=physicsVisualBuild(kind);if(visual)dialog.append(visual)}
+ }
  if(scienceJourney.subject==='chemistry'){
   const query=$('scienceEducationText')?.value||title;
   const kind=chemistryVisualKind(query);
@@ -8442,6 +8656,19 @@ async function scienceWorkspaceRun(mode){
    scienceStatus(learningLabel('Model biologic calculat și verificat local.','Biology model locally calculated and checked.'));
    scienceShowResult(learningLabel('Biologie · rezultat verificat','Biology · verified result'),locallyChecked.body);
    return;
+  }
+ }
+ if(scienceJourney.subject==='physics'){
+  const checked=PHYSICS_SOLVE_VERIFIED(source,mode);
+  if(checked?.verified){
+   scienceLastReply=checked.body;
+   scienceStatus(learningLabel('Rezultat fizic calculat și verificat local.','Physics answer calculated and checked offline.'));
+   scienceShowResult(learningLabel('Fizică · rezultat verificat','Physics · verified answer'),checked.body);
+   return;
+  }
+  if(checked?.kind==='input'){
+   const info=learningLabel('Date fizice nevalide. Verifică valorile și unitățile SI.','Invalid physical data: review values and SI units.');
+   scienceStatus(info);scienceShowResult(learningLabel('Fizică · date nevalide','Physics · invalid data'),info);return;
   }
  }
  const biologicalNotes=scienceJourney.subject==='biology'?learningLabel(
@@ -8564,7 +8791,7 @@ function scienceOpenWorkspace(){
  }else if(scienceJourney.subject==='physics'){
   const theory=document.createElement('button');theory.type='button';
   theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
-  theory.onclick=()=>educationTheoryOpen('physics',scienceJourney.level);
+  theory.onclick=()=>physicsTheoryOpen();
   toolbar.append(theory);
  }
  const workspace=document.createElement('div');
@@ -8616,39 +8843,25 @@ function scienceOpenWorkspace(){
  album.onclick=()=>window.PocketAndroidOCR?.postMessage?
   window.PocketAndroidOCR.postMessage('gallery'):fileInput.click();
  tools.append(photo,album,cameraInput,fileInput);
- if(scienceJourney.subject==='chemistry'){
-  const toggle=document.createElement('button');toggle.type='button';toggle.className='secondary-btn science-symbol-toggle';
-  toggle.textContent=learningLabel('⚗ Simboluri','⚗ Symbols');
-  const tray=document.createElement('div');tray.className='science-symbol-tray';tray.hidden=true;
-  const chemistrySymbols=[
-   ['Indici','₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉'],
-   ['Exponenți','⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻'],
-   ['Ioni','⁺ ⁻ ²⁺ ³⁺ ²⁻ ³⁻'],
-   ['Reacții','→ ⇌ ⇄ ↑ ↓ Δ ⇑'],
-   ['Stări','(s) (l) (g) (aq)'],
-   ['Calcule','× ÷ ± ≈ ≠ ≤ ≥ ° · % √ ∑ ∆'],
-   ['Chimie','α β γ δ λ μ ν σ π Ω ε °C mol L M pH Kₐ Kᵦ E°']
-  ];
-  for(const [group,items] of chemistrySymbols){
-   const section=document.createElement('div');section.className='science-symbol-group';
-   const caption=document.createElement('strong');caption.textContent=group;section.append(caption);
-   const collection=document.createElement('div');collection.className='science-symbol-buttons';
-   for(const symbol of items.split(' ')){
-   const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn';
-   btn.textContent=symbol;btn.onclick=()=>scienceInsertSymbol(editor,symbol);collection.append(btn);
-   }
-   section.append(collection);tray.append(section);
+ if(['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)){
+  const {toggle,tray}=scienceMakeSymbolPalette(editor,scienceJourney.subject);
+  tools.append(toggle);
+  if(scienceJourney.subject==='chemistry'){
+   const molecular=document.createElement('button');molecular.type='button';molecular.className='secondary-btn';
+   molecular.textContent=learningLabel('🧬 Molecule 3D','🧬 3D Molecules');molecular.onclick=scienceChemMoleculeOpen;
+   const visuals=document.createElement('button');visuals.type='button';visuals.className='secondary-btn';
+   visuals.textContent=learningLabel('📊 Reprezentări','📊 Visual models');visuals.onclick=chemistryVisualPicker;
+   tools.append(molecular,visuals);
+  }else if(scienceJourney.subject==='physics'){
+   const graphics=document.createElement('button');graphics.type='button';graphics.className='secondary-btn';
+   graphics.textContent=learningLabel('📈 Reprezentări','📈 Diagrams');graphics.onclick=physicsVisualPicker;
+   tools.append(graphics);
+  }else if(scienceJourney.subject==='biology'){
+   const diagram=document.createElement('button');diagram.type='button';diagram.className='secondary-btn';
+   diagram.textContent=learningLabel('🧬 Celulă / ADN 3D','🧬 Cell / 3D DNA');diagram.onclick=scienceBiologyDiagramOpen;
+   tools.append(diagram);
   }
-  toggle.onclick=()=>{tray.hidden=!tray.hidden};
-  const molecular=document.createElement('button');molecular.type='button';molecular.className='secondary-btn';
-  molecular.textContent=learningLabel('🧬 Molecule 3D','🧬 3D Molecules');molecular.onclick=scienceChemMoleculeOpen;
-  const visuals=document.createElement('button');visuals.type='button';visuals.className='secondary-btn';
-  visuals.textContent=learningLabel('📊 Reprezentări','📊 Visual models');visuals.onclick=chemistryVisualPicker;
-  tools.append(toggle,molecular,visuals,tray);
- }else if(scienceJourney.subject==='biology'){
-  const diagram=document.createElement('button');diagram.type='button';diagram.className='secondary-btn';
-  diagram.textContent=learningLabel('🧬 Celulă / ADN 3D','🧬 Cell / 3D DNA');diagram.onclick=scienceBiologyDiagramOpen;
-  tools.append(diagram);
+  tools.append(tray);
  }
  workspace.append(heading,editor,status,actions,tools);
  host.append(toolbar,workspace);
@@ -15819,6 +16032,17 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 #view-module.learning-science .science-symbol-group>strong{font-size:12px;line-height:1.5;color:#d8edf9}
 #view-module.learning-science .science-symbol-buttons{display:flex;flex-wrap:wrap;gap:5px}
 #view-module.learning-science .science-symbol-buttons>button{flex:0 0 auto;min-width:42px!important;min-height:40px!important;padding:4px 7px!important}
+
+.physics-visual{display:flex;flex-direction:column;gap:7px;color:#eaf8ff}
+.physics-visual h3{font-size:clamp(15px,4vw,20px);margin:3px 0}
+.physics-visual svg{width:100%;height:auto;max-height:235px;display:block;border:1px solid #3f758b;border-radius:10px;background:#071d2c}
+.physics-visual-note{font-size:11px;color:#bad6df}
+.physics-theory-dialog[open],.physics-visual-dialog[open]{display:flex!important;flex-direction:column!important;width:min(96vw,700px)!important;max-width:96vw!important;height:fit-content!important;max-height:88dvh!important;overflow-y:auto!important;gap:10px!important;box-sizing:border-box!important;padding:12px!important}
+.physics-theory-list,.physics-theory-detail{display:flex;flex-direction:column;gap:7px;min-height:0;overflow-y:auto}
+.physics-theory-detail[hidden]{display:none!important}
+.physics-theory-dialog input[type=search]{min-height:43px;box-sizing:border-box;width:100%}
+.science-result-dialog:has(.physics-visual){overflow-y:auto!important;max-height:89dvh!important}
+.science-result-dialog:has(.physics-visual) .science-result-text{max-height:38dvh!important;flex:0 1 auto!important}
 </style>
 </body>
 </html>`;

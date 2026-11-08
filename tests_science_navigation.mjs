@@ -5,6 +5,7 @@ import {CHEMISTRY_TOPICS,CHEMISTRY_LEVELS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS} from './biology_curriculum.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
+import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
 
 const html=await(await frontend.fetch(new Request('https://science-navigation-test.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
@@ -53,6 +54,7 @@ const sandbox={
  requestAnimationFrame:()=>0,
  CHEMISTRY_TOPIC_DATA:[...CHEMISTRY_TOPICS,...CHEMISTRY_SPECIALTY_TOPICS],CHEMISTRY_LEVEL_DATA:CHEMISTRY_LEVELS,
  CHEMISTRY_SPECIALTY_DATA:CHEMISTRY_SPECIALIZATIONS,
+ PHYSICS_TOPIC_DATA:PHYSICS_TOPICS,PHYSICS_SPECIALTY_DATA:PHYSICS_SPECIALIZATIONS,
  BIOLOGY_TOPIC_DATA:[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],BIOLOGY_SPECIALTY_DATA:BIOLOGY_SPECIALIZATIONS,
  EDUCATION_THEORY_DATA:THEORY_ENTRIES,
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],
