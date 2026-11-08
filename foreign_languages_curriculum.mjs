@@ -135,7 +135,8 @@ export const FOREIGN_LANGUAGES=Object.freeze([
     "native": "Ελληνικά",
     "variants": [
       "modern",
-      "ancient"
+      "ancient",
+      "koine"
     ]
   }
 ]);
