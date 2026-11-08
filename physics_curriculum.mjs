@@ -326,11 +326,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-dynamics-0",
     "subject": "physics",
-    "title": "Legea inerției",
-    "statement": "Dacă rezultanta forțelor este nulă viteza rămâne constantă în reper inerțial.",
-    "formula": "ΣF⃗=0 ⇒ a⃗=0",
+    "title": "Sistem de referință inerțial",
+    "statement": "Reper în care un corp liber își păstrează viteza constantă; toate legile Newton iau forma uzuală.",
+    "formula": "ΣF⃗=0 ⇒ v⃗=constant",
     "aliases": [
-      "legea inerției"
+      "sistem de referință inerțial"
     ],
     "level": "beginner",
     "topic": "dynamics"
@@ -338,11 +338,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-dynamics-1",
     "subject": "physics",
-    "title": "A doua lege Newton",
-    "statement": "Rezultanta forțelor este masa înmulțită cu accelerația pentru masă constantă.",
+    "title": "Diagrama corpului liber",
+    "statement": "Toate forțele exterioare se reprezintă ca vectori înainte de a aplica ecuația de mișcare.",
     "formula": "ΣF⃗=ma⃗",
     "aliases": [
-      "a doua lege newton"
+      "diagrama corpului liber"
     ],
     "level": "beginner",
     "topic": "dynamics"
@@ -350,11 +350,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-dynamics-2",
     "subject": "physics",
-    "title": "Acțiune și reacțiune",
-    "statement": "Forțele reciproce acționează asupra corpurilor diferite.",
-    "formula": "F⃗₁₂=−F⃗₂₁",
+    "title": "Forța normală de contact",
+    "statement": "Suprafața exercită o forță perpendiculară asupra corpului în contact.",
+    "formula": "N ⟂ suprafață",
     "aliases": [
-      "acțiune și reacțiune"
+      "forța normală de contact"
     ],
     "level": "beginner",
     "topic": "dynamics"
@@ -422,11 +422,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-energy-3",
     "subject": "physics",
-    "title": "Conservarea energiei",
-    "statement": "Energia mecanică se conservă fără lucrul forțelor neconservative.",
-    "formula": "Ec+Ep=constant",
+    "title": "Transformarea energiei mecanice",
+    "statement": "În absența disipării, variația energiei cinetice este opusă variației energiei potențiale.",
+    "formula": "ΔEc=−ΔEp",
     "aliases": [
-      "conservarea energiei"
+      "transformarea energiei mecanice"
     ],
     "level": "beginner",
     "topic": "energy"
@@ -470,11 +470,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-fluids-2",
     "subject": "physics",
-    "title": "Arhimede",
-    "statement": "Forța de flotabilitate egalează greutatea fluidului dezlocuit.",
-    "formula": "Fa=ρgV",
+    "title": "Condiția de plutire",
+    "statement": "La echilibru, forța de flotabilitate este egală cu greutatea obiectului.",
+    "formula": "Fa=mg",
     "aliases": [
-      "arhimede"
+      "condiția de plutire"
     ],
     "level": "beginner",
     "topic": "fluids"
@@ -554,11 +554,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-electric-1",
     "subject": "physics",
-    "title": "Legea lui Ohm",
-    "statement": "Tensiune și curent pentru rezistor ohmic.",
-    "formula": "U=RI",
+    "title": "Conductanța electrică",
+    "statement": "Conductanța unui rezistor ohmic este inversul rezistenței sale.",
+    "formula": "G=1/R",
     "aliases": [
-      "legea lui ohm"
+      "conductanța electrică"
     ],
     "level": "beginner",
     "topic": "electric"
@@ -662,11 +662,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-optics-1",
     "subject": "physics",
-    "title": "Refracție",
-    "statement": "Legea lui Snell pentru două medii.",
-    "formula": "n₁ sin θ₁=n₂ sin θ₂",
+    "title": "Indicele de refracție",
+    "statement": "Indicele unui mediu este raportul dintre viteza luminii în vid și viteza luminii în mediu.",
+    "formula": "n=c/v",
     "aliases": [
-      "refracție"
+      "indicele de refracție"
     ],
     "level": "intermediate",
     "topic": "optics"
@@ -698,11 +698,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-electromagnetism-0",
     "subject": "physics",
-    "title": "Legea lui Coulomb",
-    "statement": "Forța între două sarcini punctiforme în vid este invers proporțională cu pătratul distanței.",
-    "formula": "F = k·|q₁q₂|/r²",
+    "title": "Constanta electrostatică în vid",
+    "statement": "Constanta din legea Coulomb este legată de permitivitatea vidului.",
+    "formula": "k=1/(4πε₀)",
     "aliases": [
-      "legea lui coulomb"
+      "constanta electrostatică în vid"
     ],
     "level": "intermediate",
     "topic": "electromagnetism"
@@ -734,11 +734,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-electromagnetism-3",
     "subject": "physics",
-    "title": "Inducție electromagnetică",
-    "statement": "Legea Faraday Lenz pentru variația fluxului magnetic.",
-    "formula": "ε=−dΦ/dt",
+    "title": "Flux magnetic uniform",
+    "statement": "Pentru câmp uniform și suprafață plană, fluxul este produsul dintre câmp, arie și cosinusul unghiului.",
+    "formula": "ΦB=BA cos θ",
     "aliases": [
-      "inducție electromagnetică"
+      "flux magnetic uniform"
     ],
     "level": "intermediate",
     "topic": "electromagnetism"
@@ -770,11 +770,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-thermodynamics-1",
     "subject": "physics",
-    "title": "Prima lege termodinamicii",
-    "statement": "Creșterea energiei interne este căldura primită minus lucrul făcut de sistem.",
-    "formula": "ΔU=Q−W",
+    "title": "Lucru mecanic la presiune constantă",
+    "statement": "Lucrul de expansiune al gazului este presiunea înmulțită cu variația volumului.",
+    "formula": "W=pΔV",
     "aliases": [
-      "prima lege termodinamicii"
+      "lucru mecanic la presiune constantă"
     ],
     "level": "intermediate",
     "topic": "thermodynamics"
@@ -902,11 +902,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-modern-3",
     "subject": "physics",
-    "title": "Energie masă",
-    "statement": "Energia de repaus este proporțională cu masa.",
-    "formula": "E₀=mc²",
+    "title": "Energia fotonului și impulsul",
+    "statement": "Pentru particule fără masă de repaus, energia este produsul impulsului cu viteza luminii.",
+    "formula": "E=pc",
     "aliases": [
-      "energie masă"
+      "energia fotonului și impulsul"
     ],
     "level": "intermediate",
     "topic": "modern"
@@ -986,11 +986,11 @@ export const PHYSICS_LESSONS = Object.freeze([
   {
     "id": "physics-quantum-1",
     "subject": "physics",
-    "title": "Incertitudine Heisenberg",
-    "statement": "Incertitudinile poziției și impulsului au limită inferioară.",
-    "formula": "ΔxΔp≥ℏ/2",
+    "title": "Comutator poziție impuls",
+    "statement": "Operatorii canonici poziție și impuls nu comută.",
+    "formula": "[x̂,p̂]=iℏ",
     "aliases": [
-      "incertitudine heisenberg"
+      "comutator poziție impuls"
     ],
     "level": "advanced",
     "topic": "special-quantum"
