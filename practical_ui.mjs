@@ -29,6 +29,7 @@ function practicalDictate(){
 }
 function practicalBack(){
  practicalStop();if(state.speaking)stopSpeech();
+ if(practicalJourney.stage==='courses'||practicalJourney.stage==='countries')return educationCountryGate('practical',()=>practicalOpen('courses'));
  const previous={countries:null,courses:'countries',chapters:'courses',lesson:'chapters'};
  if(previous[practicalJourney.stage])practicalOpen(previous[practicalJourney.stage]);else renderLearningSubjects();
 }
