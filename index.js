@@ -2832,6 +2832,51 @@ main.page:has(#view-module.learning-choose.active){
   min-height:104px!important;max-height:none!important;overflow:visible!important;
  }
 }
+
+/* Foreign-language screens: bounded to the device viewport with independent scrolling. */
+main.page:has(#view-module.learning-languages.active){
+ overflow:hidden!important;
+ padding:clamp(5px,.9dvh,10px) 12px calc(105px + env(safe-area-inset-bottom,0px))!important;
+}
+#view-module.learning-languages.active{
+ display:grid!important;grid-template-columns:minmax(106px,.82fr) minmax(0,1.18fr)!important;
+ grid-template-rows:auto minmax(0,1fr)!important;
+ column-gap:clamp(9px,2.6vw,16px)!important;row-gap:clamp(6px,1dvh,11px)!important;
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ width:100%!important;overflow:hidden!important;padding:0!important;margin:0!important;
+}
+#view-module.learning-languages #moduleContent{
+ grid-column:1/-1!important;grid-row:2!important;
+ display:flex!important;flex-direction:column!important;
+ width:100%!important;height:100%!important;max-height:100%!important;
+ flex:1 1 auto!important;min-height:0!important;overflow:hidden!important;padding:0!important;
+}
+#view-module.learning-languages #moduleChatHost{display:none!important}
+#view-module.learning-languages .science-stage-toolbar{flex:0 0 auto!important;margin:0 0 6px!important}
+#view-module.learning-languages .science-choice-panel{
+ display:flex!important;flex-direction:column!important;
+ flex:1 1 auto!important;min-height:0!important;max-height:none!important;
+ overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;
+ -webkit-overflow-scrolling:touch;scroll-padding-bottom:22px!important;
+ margin:0!important;padding-bottom:24px!important;
+}
+#view-module.learning-languages .foreign-stage-languages .science-choice-list{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-content:start!important;gap:clamp(6px,1dvh,10px)!important;
+ flex:0 0 auto!important;overflow:visible!important;
+}
+#view-module.learning-languages .foreign-stage-languages .science-choice-row{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ text-align:center!important;width:100%!important;min-width:0!important;
+ min-height:clamp(48px,6dvh,58px)!important;height:auto!important;
+ padding:7px 5px!important;margin:0!important;
+ font-size:clamp(12px,3.15vw,16px)!important;line-height:1.18!important;
+ white-space:normal!important;overflow-wrap:anywhere!important;
+}
+#view-module.learning-languages .foreign-stage-lesson .foreign-word-card:last-of-type{margin-bottom:18px!important}
+@media(max-height:600px){
+ #view-module.learning-languages .foreign-stage-languages .science-choice-row{min-height:44px!important;font-size:12px!important}
+}
 </style>
 
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
@@ -9902,13 +9947,13 @@ function languageOpen(stage){
  $('moduleLead').textContent='';host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
  bar.append(foreignStudyButton(learningLabel('← Înapoi','← Back'),languageBack));host.append(bar);
- const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';panel.classList.add('foreign-stage-'+stage);
  const title=document.createElement('h2');title.textContent=stage==='languages'?learningLabel('Alege limba','Choose language'):stage==='variants'?learningLabel('Alege varianta','Choose variant'):stage==='levels'?learningLabel('Alege nivelul','Choose level'):stage==='topics'?learningLabel('Alege capitolul','Choose chapter'):stage==='placement'?learningLabel('Test introductiv','Starter diagnostic'):learningLabel('Lecție de limbi străine','Language lesson');panel.append(title);
  if(stage==='placement'){languagePlacementRender(panel);host.append(panel);return}
  if(stage!=='lesson'){
   if(stage==='levels')panel.append(foreignStudyButton(learningLabel('🎓 Test inițial de orientare','🎓 Starter placement check'),languagePlacementBegin));
   if(stage==='levels')panel.append(foreignStudyButton(learningLabel('📊 Evaluare completă','📊 Full placement assessment'),languageFullPlacement));
-  const list=document.createElement('div');list.className='math-choice-list science-choice-list';let options=[];
+  const list=document.createElement('div');list.className='math-choice-list science-choice-list foreign-options';let options=[];
   if(stage==='languages')options=FOREIGN_LANGUAGE_DATA;
   if(stage==='variants'){
    options=languageJourney.language==='el'?[{id:'modern',ro:'Greacă modernă',en:'Modern Greek'},{id:'ancient',ro:'Greacă veche clasică',en:'Classical Ancient Greek'},{id:'koine',ro:'Greacă biblică / Koine',en:'Koine / Biblical Greek'}]:
@@ -9919,7 +9964,7 @@ function languageOpen(stage){
   if(stage==='levels')options=languageLevels();
   if(stage==='topics')options=FOREIGN_TOPIC_DATA;
   for(const opt of options){
-   const label=stage==='languages'?opt.native+' · '+learningLabel(opt.ro,opt.en):stage==='levels'&&!languageIsClassical()?opt.id+' · '+learningLabel(opt.ro,opt.en):learningLabel(opt.ro,opt.en);
+   const label=stage==='languages'?learningLabel(opt.ro,opt.en):stage==='levels'&&!languageIsClassical()?opt.id+' · '+learningLabel(opt.ro,opt.en):learningLabel(opt.ro,opt.en);
    const button=foreignStudyButton(label,()=>{
     languageVoiceStop();
     if(stage==='languages'){languageJourney.language=opt.id;languageJourney.variant=null;languageJourney.level=null;languageOpen(['el','la','zh','en'].includes(opt.id)?'variants':'levels')}
@@ -9927,6 +9972,7 @@ function languageOpen(stage){
     else if(stage==='levels'){languageJourney.level=opt.id;languageOpen('topics')}
     else{languageJourney.topic=opt.id;languageOpen('lesson')}
    },'secondary-btn math-choice-row science-choice-row');
+   if(stage==='languages')button.title=opt.native+' · '+learningLabel(opt.ro,opt.en);
    list.append(button);
   }
   panel.append(list);
