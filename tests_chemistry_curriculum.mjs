@@ -9,7 +9,7 @@ assert.equal(CHEMISTRY_LEVELS.length,3);
 assert.equal(CHEMISTRY_TOPICS.length,14);
 assert.equal(CHEMISTRY_LESSONS.length,165);
 assert.equal(chemistry.length,268,'184 shared lessons + 84 university specialization entries');
-assert.deepEqual(theorySubjects().map(x=>x.count),[211,19,268,168]);
+assert.deepEqual(theorySubjects().map(x=>x.count),[211,102,268,168]);
 assert.equal(new Set(CHEMISTRY_TOPICS.map(t=>t.id)).size,CHEMISTRY_TOPICS.length);
 assert.equal(new Set(chemistry.map(e=>e.title)).size,chemistry.length,'no repeated lesson titles');
 assert.equal(new Set(chemistry.map(e=>e.id)).size,chemistry.length,'unique lesson IDs');
