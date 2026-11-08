@@ -7,7 +7,7 @@ const embedded=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
 assert.ok(embedded,'embedded mathematics script exists');
 new vm.Script(embedded);
 const from=embedded.indexOf('function mathArithmeticValue(');
-const to=embedded.indexOf('function mathResultPage(',from);
+const to=embedded.indexOf('function mathQuadraticEquation(',from);
 assert.ok(from>0&&to>from,'verified local maths engine available');
 const api=vm.runInNewContext(embedded.slice(from,to)+
  '\n({parse:mathLinearEquation,solve:mathLinearSolution,method:mathLinearMethodGuide})',
