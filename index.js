@@ -10103,7 +10103,7 @@ function languageOpen(stage){
     foreignStudyButton(learningLabel('Următorul →','Next →'),()=>languageSetCard(languageJourney.cardIndex+1),'secondary-btn foreign-card-next'));
    panel.append(nav);
    // Update after the panel enters the DOM.
-   requestAnimationFrame(()=>languageSetCard(languageJourney.cardIndex));
+   // The card is initialized immediately after insertion into the DOM.
   }else{
    const p=document.createElement('p');p.textContent=learningLabel('Profesorul AI adaptează lecția după limbă, nivel și temă. Lecția nu este verificată local.','The AI teacher adapts this lesson to language, level and topic. Generated content is not locally verified.');panel.append(p);
    const request=document.createElement('textarea');request.rows=3;request.placeholder=learningLabel('Solicitare opțională…','Optional request…');panel.append(request);
@@ -10113,6 +10113,7 @@ function languageOpen(stage){
   const status=document.createElement('p');status.id='languageStatus';status.setAttribute('role','status');panel.append(status);
  }
  host.append(panel);
+ if(stage==='lesson'&&panel.querySelector('.foreign-card-count'))languageSetCard(languageJourney.cardIndex);
 }
 
 function openLearningSubject(key){
