@@ -711,7 +711,7 @@ export const EXAM_SPECS=[
   "ro": "Admitere la universitate – licență",
   "en": "University admission – undergraduate",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "romanian",
@@ -730,8 +730,8 @@ export const EXAM_SPECS=[
   "source": "https://www.edu.ro/studii-licenta",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "Fiecare universitate/facultate publică metodologia proprie; pot exista concurs scris, dosar, probe practice, interviu sau combinații. Materiile afișate sunt opțiuni de antrenament, nu probe obligatorii."
 },
 {
@@ -740,7 +740,7 @@ export const EXAM_SPECS=[
   "ro": "Admitere la universitate – UCAS",
   "en": "University applications – UCAS",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "english",
@@ -757,8 +757,8 @@ export const EXAM_SPECS=[
   "source": "https://www.ucas.com/applying/you-apply/what-and-where-study/entry-requirements",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "Nu există un examen universitar unic; cursul stabilește condiții, iar anumite programe solicită teste de admitere, interviu sau portofoliu."
 },
 {
@@ -767,7 +767,7 @@ export const EXAM_SPECS=[
   "ro": "Admitere la universitate – Scoția",
   "en": "University applications – Scotland",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "english",
@@ -783,8 +783,8 @@ export const EXAM_SPECS=[
   "source": "https://www.ucas.com/applying/you-apply/what-and-where-study/entry-requirements",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "Universitățile stabilesc condiții în funcție de Higher/Advanced Higher sau calificări echivalente. Testele și interviurile variază după program."
 },
 {
@@ -793,7 +793,7 @@ export const EXAM_SPECS=[
   "ro": "Admitere la universitate – Țara Galilor",
   "en": "University applications – Wales",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "english",
@@ -809,8 +809,8 @@ export const EXAM_SPECS=[
   "source": "https://www.ucas.com/applying/you-apply/what-and-where-study/entry-requirements",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "Intrarea se face pe bază de condiții ale programului; nu există probă unică de admitere pentru toate universitățile."
 },
 {
@@ -819,7 +819,7 @@ export const EXAM_SPECS=[
   "ro": "Admitere la universitate – Irlanda de Nord",
   "en": "University applications – Northern Ireland",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "english",
@@ -835,8 +835,8 @@ export const EXAM_SPECS=[
   "source": "https://www.ucas.com/applying/you-apply/what-and-where-study/entry-requirements",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "Condițiile sunt stabilite de fiecare instituție și program; în unele cazuri există teste, interviuri ori portofoliu."
 },
 {
@@ -845,7 +845,7 @@ export const EXAM_SPECS=[
   "ro": "Admitere la învățământul superior – Parcoursup",
   "en": "Higher education applications – Parcoursup",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "french",
@@ -861,8 +861,8 @@ export const EXAM_SPECS=[
   "source": "https://www.parcoursup.gouv.fr/",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "Parcoursup coordonează multe candidaturi, dar nu constituie un examen național unic de admitere. Procedurile și probele depind de formare și statutul candidatului."
 },
 {
@@ -871,7 +871,7 @@ export const EXAM_SPECS=[
   "ro": "Admitere la studii universitare – recrutare",
   "en": "University recruitment – Poland",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "polish",
@@ -887,8 +887,8 @@ export const EXAM_SPECS=[
   "source": "https://www.gov.pl/web/nauka",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "Condițiile diferă după instituție și program; rezultatele Matura pot fi folosite, iar pentru unele domenii există probe specifice."
 },
 {
@@ -897,7 +897,7 @@ export const EXAM_SPECS=[
   "ro": "Acces la învățământ superior – concurs național",
   "en": "Higher education access – Portugal",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "portuguese",
@@ -912,8 +912,8 @@ export const EXAM_SPECS=[
   "source": "https://www.dges.gov.pt/pt/pagina/acesso-ao-ensino-superior",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "Condițiile includ probe de ingresso și criterii specifice; verifică instituția, cursul, anul și ruta de candidatură."
 },
 {
@@ -922,7 +922,7 @@ export const EXAM_SPECS=[
   "ro": "Acces la universitate – Hochschulzugang",
   "en": "University entrance – Germany",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "german",
@@ -938,8 +938,8 @@ export const EXAM_SPECS=[
   "source": "https://www.hochschulstart.de/",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "Accesul depinde de calificarea de intrare, Land, instituție și program; unele domenii au proceduri selective, nu un examen unic național."
 },
 {
@@ -948,7 +948,7 @@ export const EXAM_SPECS=[
   "ro": "Acces / admitere la universitate",
   "en": "University admission – Spain",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "spanish",
@@ -964,8 +964,8 @@ export const EXAM_SPECS=[
   "source": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-11858",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "PAU este relevantă pentru numeroase candidaturi, dar admiterea, ponderile și cerințele depind de comunitatea autonomă și facultate. Verifică oferta locală."
 },
 {
@@ -974,7 +974,7 @@ export const EXAM_SPECS=[
   "ro": "Admitere la universitate – accesso",
   "en": "University admissions – Italy",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "italian",
@@ -990,8 +990,8 @@ export const EXAM_SPECS=[
   "source": "https://www.universitaly.it/",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "Există programe cu acces liber sau limitat și proceduri ori teste diferite. Nu presupune un test unic pentru toate facultățile."
 },
 {
@@ -1000,7 +1000,7 @@ export const EXAM_SPECS=[
   "ro": "Admitere universitară – Studielink",
   "en": "University applications – Netherlands",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "dutch",
@@ -1016,8 +1016,8 @@ export const EXAM_SPECS=[
   "source": "https://www.studielink.nl/",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "Cerințele depind de program și universitate; unele programe numerus fixus au selecție. Studielink este un portal de înscriere, nu o probă unică."
 },
 {
@@ -1026,7 +1026,7 @@ export const EXAM_SPECS=[
   "ro": "Admitere universitară – CAO",
   "en": "University applications – Ireland",
   "grades": [
-    "După liceu"
+    "Universitate"
   ],
   "subjects": [
     "english",
@@ -1042,8 +1042,8 @@ export const EXAM_SPECS=[
   "source": "https://www.cao.ie/",
   "advisory": true,
   "universityAdmission": true,
-  "requiresInstitution": true,
-  "requiresProgramme": true,
+  "requiresInstitution": false,
+  "requiresProgramme": false,
   "notice": "CAO gestionează multe candidaturi; selecția poate depinde de Leaving Certificate, cerințe ale programului și probe suplimentare."
 }
 ];
