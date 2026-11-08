@@ -8771,8 +8771,79 @@ function scienceOpenWorkspace(){
  const read=document.createElement('button');read.type='button';read.className='secondary-btn';
  read.textContent=learningLabel('🔊 Citire','🔊 Read');read.onclick=scienceRead;
  toolbar.append(back,voice,read);
- if(scienceJourney.subject==='chemistry'||scienceJourney.subject==='physics'||
-    scienceJourney.subject==='biology'||scienceJourney.subject==='astronomy'){
+ if(scienceJourney.subject==='chemistry'){
+  const theory=document.createElement('button');theory.type='button';
+  theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
+  theory.onclick=()=>{
+   chemistryCurriculumPreset={level:scienceJourney.level,topic:scienceJourney.topic};
+   chemistryCurriculumPreset.specialty=scienceJourney.specialty;
+   chemistryCurriculumOpen();
+  };
+  toolbar.append(theory);
+ }else if(scienceJourney.subject==='biology'){
+  const theory=document.createElement('button');theory.type='button';
+  theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
+  theory.onclick=()=>{
+   biologyCurriculumPreset={level:scienceJourney.level,topic:scienceJourney.topic,specialty:scienceJourney.specialty};
+   biologyCurriculumOpen();
+  };
+  toolbar.append(theory);
+ }else if(scienceJourney.subject==='physics'){
+  const theory=document.createElement('button');theory.type='button';
+  theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
+  theory.onclick=()=>physicsTheoryOpen();
+  toolbar.append(theory);
+ }
+ const workspace=document.createElement('div');
+ workspace.id='scienceEducationWorkspace';
+ workspace.className='education-math-workspace science-education-workspace';
+ const heading=document.createElement('div');heading.className='math-entry-heading';
+ const label=document.createElement('label');label.htmlFor='scienceEducationText';
+ label.textContent=learningLabel('Exercițiu','Exercise')+' · '+learningLabel(topic?.ro||'',topic?.en||'');
+ const newTask=document.createElement('button');newTask.type='button';
+ newTask.className='secondary-btn math-new-task';
+ newTask.textContent=learningLabel('＋ Conversație nouă','＋ New conversation');
+ newTask.onclick=()=>{
+  scienceVoiceStop();scienceStopRequest();scienceLastReply='';
+  const field=$('scienceEducationText');if(field){field.value='';field.scrollTop=0;field.blur()}
+  scienceDraftSave('');scienceStatus('');
+  editor.style.removeProperty('height');editor.style.removeProperty('max-height');
+  requestAnimationFrame(()=>{scienceEditorGrow(editor);scienceFitViewport();document.querySelector('main.page')?.scrollTo(0,0)});
+ };
+ heading.append(label,newTask);
+ const editor=document.createElement('textarea');
+ editor.id='scienceEducationText';editor.rows=6;editor.maxLength=3500;
+ editor.value=scienceDraftRead();
+ editor.placeholder=learningLabel('Introdu un exercițiu, o formulă sau un enunț…','Enter an exercise, formula or question…');
+ editor.setAttribute('aria-label',label.textContent);
+ editor.addEventListener('input',()=>{scienceDraftSave(editor.value);scienceStatus('');requestAnimationFrame(()=>{scienceFitViewport();scienceEditorGrow(editor);mathEditorFollowCaret(editor)})});
+ for(const type of ['focus','click','keyup','select','compositionend'])
+  editor.addEventListener(type,()=>requestAnimationFrame(()=>{scienceFitViewport();scienceEditorGrow(editor);mathEditorFollowCaret(editor)}));
+ requestAnimationFrame(()=>scienceEditorGrow(editor));
+ const status=document.createElement('small');status.id='scienceEducationStatus';status.setAttribute('role','status');
+ const actions=document.createElement('div');actions.className='education-math-actions science-education-actions';
+ const solve=document.createElement('button');solve.type='button';solve.className='primary-btn';
+ solve.textContent=learningLabel('🧩 Rezolvă pas cu pas','🧩 Solve step by step');
+ solve.onclick=()=>scienceWorkspaceRun('solve');
+ const method=document.createElement('button');method.type='button';method.className='secondary-btn';
+ method.textContent=learningLabel('🎓 Explică metoda','🎓 Explain method');
+ method.onclick=()=>scienceWorkspaceRun('explain');
+ actions.append(solve,method);
+ const tools=document.createElement('div');tools.className='science-work-tools';
+ const cameraInput=document.createElement('input');cameraInput.type='file';cameraInput.accept='image/*';cameraInput.hidden=true;cameraInput.setAttribute('capture','environment');
+ const fileInput=document.createElement('input');fileInput.type='file';fileInput.accept='image/*';fileInput.hidden=true;
+ cameraInput.onchange=()=>sciencePhotoFile(cameraInput.files?.[0]);
+ fileInput.onchange=()=>sciencePhotoFile(fileInput.files?.[0]);
+ const photo=document.createElement('button');photo.type='button';photo.className='secondary-btn';
+ photo.textContent=learningLabel('📷 Foto','📷 Camera');
+ photo.onclick=()=>window.PocketAndroidOCR?.postMessage?
+  window.PocketAndroidOCR.postMessage('camera'):cameraInput.click();
+ const album=document.createElement('button');album.type='button';album.className='secondary-btn';
+ album.textContent=learningLabel('🖼️ Album','🖼️ Gallery');
+ album.onclick=()=>window.PocketAndroidOCR?.postMessage?
+  window.PocketAndroidOCR.postMessage('gallery'):fileInput.click();
+ tools.append(photo,album,cameraInput,fileInput);
+ if(['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)){
   const {toggle,tray}=scienceMakeSymbolPalette(editor,scienceJourney.subject);
   tools.append(toggle);
   if(scienceJourney.subject==='chemistry'){
