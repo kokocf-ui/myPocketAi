@@ -42,6 +42,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.print.PrintManager;
+import android.print.PrintDocumentAdapter;
 import android.webkit.WebResourceResponse;
 import java.io.InputStream;
 import android.webkit.WebSettings;
@@ -81,6 +83,8 @@ public final class MainActivity extends ComponentActivity {
     private static final String APP_URL = "https://lifewise-ai-v2.kokocf.workers.dev/";
     private static final String APP_HOST = "lifewise-ai-v2.kokocf.workers.dev";
     private WebView web;
+    private WebView educationPrintWeb;
+    private FrameLayout appFrame;
     private Uri cameraUri;
     private boolean waitingForPhoto = false;
     // This flag is intentionally limited to the Education camera/gallery bridge.
@@ -457,6 +461,7 @@ public final class MainActivity extends ComponentActivity {
         getWindow().setNavigationBarColor(Color.rgb(6,20,32));
         web = new WebView(this);
         FrameLayout root=new FrameLayout(this);
+        appFrame=root;
         root.setBackgroundColor(Color.rgb(6,20,32));
         root.addView(web,new FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT));
@@ -593,6 +598,16 @@ public final class MainActivity extends ComponentActivity {
                     if(!isMainFrame||!APP_HOST.equals(origin.getHost()))return;
                     final String payload=message.getData();
                     runOnUiThread(()->scanDocumentBytes(payload));
+                });
+        }
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidPrint",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!"https".equals(origin.getScheme())||!APP_HOST.equals(origin.getHost()))return;
+                    final String payload=message.getData();
+                    if(payload==null||payload.length()>220000)return;
+                    runOnUiThread(()->printEducationalMaterial(payload));
                 });
         }
         tts=new TextToSpeech(this,status -> {
@@ -1241,6 +1256,45 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ignored){}
     }
 
-    @Override protected void onDestroy(){if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}stopMathPcmRecording();stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}mathVisionSourceUri=null;if(web!=null){web.destroy();}super.onDestroy();}
+    // Print only text explicitly submitted from the Education preview, never the entire app UI.
+    // Android's system print sheet supports physical printers and "Save as PDF".
+    private void printEducationalMaterial(String payload){
+        try{
+            JSONObject data=new JSONObject(payload);
+            String title=data.optString("title","Material educațional").trim();
+            String text=data.optString("text","").trim();
+            if(text.isEmpty()||text.length()>160000||appFrame==null)return;
+            if(title.isEmpty())title="Material educațional";
+            if(title.length()>120)title=title.substring(0,120);
+            if(educationPrintWeb!=null){
+                // Do not interrupt a previous print job still in progress.
+                return;
+            }
+            final String jobTitle=title;
+            final WebView printable=new WebView(this);
+            educationPrintWeb=printable;
+            printable.setBackgroundColor(Color.WHITE);
+            FrameLayout.LayoutParams layout=new FrameLayout.LayoutParams(1,1);
+            appFrame.addView(printable,layout);
+            String safeTitle=android.text.TextUtils.htmlEncode(title);
+            String safeText=android.text.TextUtils.htmlEncode(text);
+            String html="<html><head><meta charset='utf-8'><style>@page{size:A4;margin:16mm}body{font:11pt Arial,sans-serif;color:#111;line-height:1.5}h1{font-size:18pt;page-break-after:avoid}article{white-space:pre-wrap;overflow-wrap:anywhere}</style></head><body><h1>"+safeTitle+"</h1><article>"+safeText+"</article></body></html>";
+            printable.setWebViewClient(new WebViewClient(){
+                private boolean started=false;
+                @Override public void onPageFinished(WebView view,String url){
+                    if(started)return;started=true;
+                    try{
+                        PrintManager manager=(PrintManager)getSystemService(Context.PRINT_SERVICE);
+                        if(manager==null)return;
+                        PrintDocumentAdapter adapter=printable.createPrintDocumentAdapter(jobTitle);
+                        manager.print(jobTitle,adapter,null);
+                    }catch(Exception ignored){}
+                }
+            });
+            printable.loadDataWithBaseURL("https://"+APP_HOST+"/",html,"text/html","UTF-8",null);
+        }catch(Exception ignored){}
+    }
+
+    @Override protected void onDestroy(){if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}stopMathPcmRecording();stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}mathVisionSourceUri=null;if(web!=null){web.destroy();}if(educationPrintWeb!=null){educationPrintWeb.destroy();educationPrintWeb=null;}super.onDestroy();}
 
 }
