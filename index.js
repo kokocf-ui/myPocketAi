@@ -5,6 +5,8 @@ import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyV
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
 import {physicsVerifiedExercise} from './physics_verified.mjs';
+import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
+import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
 /**
  * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
@@ -6828,9 +6830,9 @@ let scienceVoiceActive=false,scienceLastReply='',scienceRequestController=null;
 function scienceSubjectInfo(){return SCIENCE_SUBJECTS.find(s=>s.id===scienceJourney.subject)||null}
 function scienceTopicChoices(){
  const subject=scienceJourney.subject;
- if(!['physics','chemistry','biology'].includes(subject))return SCIENCE_OTHER_TOPICS[subject]||[];
- const topics=subject==='physics'?PHYSICS_TOPIC_DATA:subject==='biology'?BIOLOGY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
- const specializations=subject==='physics'?PHYSICS_SPECIALTY_DATA:subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
+ if(!['physics','chemistry','biology','astronomy'].includes(subject))return SCIENCE_OTHER_TOPICS[subject]||[];
+ const topics=subject==='physics'?PHYSICS_TOPIC_DATA:subject==='biology'?BIOLOGY_TOPIC_DATA:subject==='astronomy'?ASTRONOMY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
+ const specializations=subject==='physics'?PHYSICS_SPECIALTY_DATA:subject==='biology'?BIOLOGY_SPECIALTY_DATA:subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
  if(scienceJourney.level!=='advanced'||!scienceJourney.specialty)return topics.filter(x=>!x.specialty);
  const track=specializations.find(x=>x.id===scienceJourney.specialty);
  return topics.filter(x=>x.specialty===scienceJourney.specialty||
@@ -6850,7 +6852,7 @@ function scienceBack(){
  const current=scienceJourney.stage;
  scienceVoiceStop();scienceStopRequest();
  if(current==='workspace')scienceJourney.stage='topics';
- else if(current==='topics')scienceJourney.stage=(['physics','chemistry','biology'].includes(scienceJourney.subject)&&scienceJourney.level==='advanced')?'specialties':'levels';
+ else if(current==='topics')scienceJourney.stage=(['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)&&scienceJourney.level==='advanced')?'specialties':'levels';
  else if(current==='specialties')scienceJourney.stage='levels';
  else if(current==='levels')scienceJourney.stage='subjects';
  else {renderLearningSubjects();return}
@@ -6941,9 +6943,9 @@ function scienceJourneyShowChoices(stage){
  list.className='math-choice-list science-choice-list';
  const choices=stage==='subjects'?SCIENCE_SUBJECTS:
   stage==='levels'?CHEMISTRY_LEVEL_DATA:
-  stage==='specialties'?(scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
+  stage==='specialties'?(scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:scienceJourney.subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
   scienceTopicChoices().filter(topic=>{
-   if(!['physics','chemistry','biology'].includes(scienceJourney.subject))return true;
+   if(!['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
     EDUCATION_THEORY_DATA.some(x=>x.subject===scienceJourney.subject&&x.topic===topic.id&&
@@ -6959,10 +6961,10 @@ function scienceJourneyShowChoices(stage){
    (item.id==='chemistry'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
      item.id==='biology'?learningLabel('10 capitole de bază · 9 specializări avansate','10 foundation chapters · 9 advanced tracks'):
      item.id==='physics'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
-     learningLabel('Spațiu de studiu','Study workspace')):
+     learningLabel('9 capitole de bază · 7 specializări avansate','9 foundation chapters · 7 advanced tracks')):
    stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
    stage==='specialties'?learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects'):
-   ['physics','chemistry','biology'].includes(scienceJourney.subject)?
+   ['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)?
     EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length+
       learningLabel(' fișe teoretice',' theory entries'):'';
   btn.append(heading,sub);
@@ -6972,7 +6974,7 @@ function scienceJourneyShowChoices(stage){
     scienceJourneyShowChoices('levels');
    }else if(stage==='levels'){
     scienceJourney.level=item.id;scienceJourney.specialty=null;
-    scienceJourneyShowChoices(['physics','chemistry','biology'].includes(scienceJourney.subject)&&item.id==='advanced'?'specialties':'topics');
+    scienceJourneyShowChoices(['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)&&item.id==='advanced'?'specialties':'topics');
    }else if(stage==='specialties'){
     scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
    }else{
@@ -7571,6 +7573,9 @@ function mathSubjectsForLevel(level){
 
 const EDUCATION_THEORY_DATA=${JSON.stringify(THEORY_ENTRIES)};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
+const ASTRONOMY_TOPIC_DATA=${JSON.stringify(ASTRONOMY_TOPICS)};
+const ASTRONOMY_SPECIALTY_DATA=${JSON.stringify(ASTRONOMY_SPECIALIZATIONS)};
+const ASTRONOMY_SOLVE_VERIFIED=${astronomyVerifiedExercise.toString()};
 const PHYSICS_SPECIALTY_DATA=${JSON.stringify(PHYSICS_SPECIALIZATIONS)};
 const PHYSICS_SOLVE_VERIFIED=${physicsVerifiedExercise.toString()};
 const CHEMISTRY_LEVEL_DATA=${JSON.stringify(CHEMISTRY_LEVELS)};
@@ -8595,6 +8600,88 @@ function physicsTheoryOpen(){
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
 
+
+function astronomyVisualKind(question,topic){
+ const q=educationTheoryClean(question);
+ if(/tranzit|exoplanet/.test(q)||topic==='exoplanets'||topic==='special-planetary')return 'transit';
+ if(/paralax|distanta|parsec/.test(q)||topic==='distances'||topic==='special-instruments')return 'parallax';
+ if(/orbita|kepler|gravitat|evadare/.test(q)||topic==='gravity'||topic==='special-dynamics')return 'orbit';
+ if(/hubble|cosmolog|expansiune|redshift|rosu/.test(q)||topic==='cosmology'||topic==='special-cosmo')return 'cosmos';
+ if(/spectr|stele|stea|diagrama hr/.test(q)||topic==='stars'||topic==='special-stellar')return 'hr';
+ if(/telescop|difract|observ/.test(q)||topic==='observations')return 'telescope';
+ if(/galax|spiral/.test(q)||topic==='galaxies'||topic==='special-galactic')return 'galaxy';
+ return topic==='solar'||topic==='sky'?'solar':null;
+}
+function astronomyVisualBuild(kind){
+ if(!kind)return null;
+ const names={solar:['Sistem solar · schematic','Solar system · schematic'],orbit:['Orbită eliptică · model','Elliptical orbit · model'],parallax:['Paralaxă · geometrie','Parallax · geometry'],hr:['Diagrama H–R · schematic','H–R diagram · schematic'],transit:['Tranzit planetar · model','Planet transit · model'],cosmos:['Expansiunea cosmică · schematic','Cosmic expansion · schematic'],telescope:['Telescop · raze','Telescope · rays'],galaxy:['Galaxie spirală · schematic','Spiral galaxy · schematic']};
+ const section=document.createElement('section');section.className='physics-visual astronomy-visual';
+ const title=document.createElement('h3');title.textContent=learningLabel(...names[kind]);section.append(title);
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 360 210');svg.setAttribute('role','img');svg.setAttribute('aria-label',title.textContent);section.append(svg);
+ const add=(tag,attrs,txt)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v] of Object.entries(attrs||{}))n.setAttribute(k,String(v));if(txt!==undefined)n.textContent=txt;svg.append(n);return n};
+ const line=(x1,y1,x2,y2)=>add('line',{x1,y1,x2,y2,stroke:'#9ddff3','stroke-width':2});
+ const circle=(x,y,r,color)=>add('circle',{cx:x,cy:y,r,fill:color});
+ const label=(x,y,v)=>add('text',{x,y,fill:'#eaf8ff','font-size':12},v);
+ if(kind==='solar'){
+  circle(40,105,17,'#ffd56f');label(17,147,'Soare');
+  [55,83,115,150,192,236,282].forEach((x,i)=>{circle(x+46,105,3+i*.6,['#9dc7ff','#ffbd95','#69a7ed','#e6b396','#edc88b','#aec6df','#79a6d9'][i]);line(57,105,x+40,105)});
+  label(180,182,'schematic · distanțe neproporționale');
+ }else if(kind==='orbit'){
+  add('ellipse',{cx:180,cy:106,rx:140,ry:70,fill:'none',stroke:'#8eddef','stroke-width':2});circle(95,106,13,'#ffcf73');circle(305,143,7,'#9bb9f5');line(95,106,305,143);label(67,93,'focar');label(295,165,'corp');label(158,25,'orbită eliptică');
+ }else if(kind==='parallax'){
+  circle(180,22,6,'#ffebad');circle(55,175,8,'#a9bffa');circle(305,175,8,'#a9bffa');line(55,175,180,22);line(305,175,180,22);line(55,175,305,175);label(185,28,'stea');label(116,193,'bază orbitală');
+ }else if(kind==='hr'){
+  line(45,18,45,185);line(45,185,330,185);label(48,17,'Luminozitate ↑');label(163,202,'Temperatură → scade');
+  for(let i=0;i<11;i++){circle(65+i*23,40+i*12,3+i*.25,'#acdff2')}
+  circle(84,155,14,'#eb9f8c');circle(294,44,14,'#ffdb9b');label(150,67,'secvența principală');
+ }else if(kind==='transit'){
+  circle(118,94,52,'#ffd28b');circle(139,95,11,'#223652');
+  line(200,54,200,165);line(200,165,343,165);
+  add('path',{d:'M207 70 L245 70 Q265 70 272 113 Q279 70 299 70 L339 70',fill:'none',stroke:'#88dcec','stroke-width':3});
+  label(219,184,'timp →');label(214,38,'flux normalizat');
+ }else if(kind==='cosmos'){
+  [0,1,2].forEach((n)=>{const cx=65+n*110;circle(cx,105,5+n*3,'#b9dfff');for(let j=0;j<4;j++)circle(cx+Math.cos(j*1.57)*(17+n*9),105+Math.sin(j*1.57)*(17+n*9),3,'#d9bdff');if(n<2)label(cx+44,110,'→')});
+  label(72,183,'scara cosmică crește (schematic)');
+ }else if(kind==='telescope'){
+  add('path',{d:'M85 85 L155 58 L155 152 L85 125 Z',fill:'none',stroke:'#9ddff3','stroke-width':2});line(155,58,222,105);line(155,152,222,105);line(222,105,300,105);label(63,60,'apertură');label(220,130,'focar');
+ }else if(kind==='galaxy'){
+  circle(180,107,16,'#ffd8ac');for(let arm=0;arm<3;arm++)for(let i=0;i<65;i++){const t=i*.12+arm*2.094,r=12+i*1.8;circle(180+r*Math.cos(t),107+r*.48*Math.sin(t),1.1,'#b4c9fa')}label(105,188,'spirală · fără scară');
+ }
+ return section;
+}
+function astronomyDiagramPicker(){
+ document.getElementById('astronomyDiagramDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='astronomyDiagramDialog';dialog.className='education-theory-dialog physics-theory-dialog';
+ const header=document.createElement('div');header.className='education-theory-head';
+ const title=document.createElement('h2');title.textContent=learningLabel('Astronomie · reprezentări','Astronomy · diagrams');
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();header.append(title,back);
+ const list=document.createElement('div');list.className='physics-theory-list';
+ const detail=document.createElement('div');detail.className='physics-theory-detail';detail.hidden=true;
+ for(const kind of ['solar','orbit','parallax','hr','transit','cosmos','telescope','galaxy']){
+  const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';btn.textContent=kind;btn.onclick=()=>{detail.replaceChildren(astronomyVisualBuild(kind));detail.hidden=false;list.hidden=true};list.append(btn);
+ }
+ back.onclick=()=>{if(!detail.hidden){detail.hidden=true;list.hidden=false}else dialog.close()};
+ dialog.append(header,list,detail);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')};
+}
+function astronomyTheoryOpen(){
+ document.getElementById('astronomyTheoryDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='astronomyTheoryDialog';dialog.className='education-theory-dialog physics-theory-dialog';
+ const header=document.createElement('div');header.className='education-theory-head';
+ const title=document.createElement('h2');title.textContent=learningLabel('Astronomie · teorie','Astronomy · theory');
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Revenire','← Back');header.append(title,back);
+ const search=document.createElement('input');search.type='search';search.placeholder=learningLabel('Caută de la prima literă…','Search from the first letter…');
+ const list=document.createElement('div');list.className='physics-theory-list';
+ const detail=document.createElement('section');detail.className='physics-theory-detail';detail.hidden=true;
+ const rank={beginner:0,intermediate:1,medium:1,advanced:2};
+ const entries=EDUCATION_THEORY_DATA.filter(x=>x.subject==='astronomy'&&x.topic===scienceJourney.topic&&rank[x.level]<=rank[scienceJourney.level]);
+ const render=()=>{list.replaceChildren();const q=educationTheoryClean(search.value);const matched=q?entries.filter(e=>educationTheoryClean(e.title+' '+e.aliases.join(' ')).split(' ').some(w=>w.startsWith(q))||educationTheoryClean(e.title).includes(q)).slice(0,4):entries;
+  for(const entry of matched){const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';btn.textContent=entry.title;btn.onclick=()=>{detail.replaceChildren();const h=document.createElement('h3');h.textContent=entry.title;const p=document.createElement('p');p.textContent=entry.statement;const f=document.createElement('p');f.className='education-theory-formula';f.textContent=entry.formula;detail.append(h,p,f);const graphic=astronomyVisualBuild(astronomyVisualKind(entry.title,entry.topic));if(graphic)detail.append(graphic);detail.hidden=false;list.hidden=true;search.hidden=true};list.append(btn)}
+  if(!matched.length){const note=document.createElement('p');note.textContent=learningLabel('Nu există rezultate.','No results.');list.append(note)}
+ };
+ back.onclick=()=>{if(!detail.hidden){detail.hidden=true;list.hidden=false;search.hidden=false}else dialog.close()};
+ search.addEventListener('input',render);dialog.append(header,search,list,detail);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);render();try{dialog.showModal()}catch{dialog.setAttribute('open','')};
+}
+
 function scienceShowResult(title,body){
  document.getElementById('scienceResultDialog')?.remove();
  const dialog=document.createElement('dialog');dialog.id='scienceResultDialog';
@@ -8610,6 +8697,11 @@ function scienceShowResult(title,body){
   const query=$('scienceEducationText')?.value||title;
   const kind=physicsVisualKind(query,scienceJourney.topic);
   if(kind){const visual=physicsVisualBuild(kind);if(visual)dialog.append(visual)}
+ }
+ if(scienceJourney.subject==='astronomy'){
+  const query=$('scienceEducationText')?.value||title;
+  const kind=astronomyVisualKind(query,scienceJourney.topic);
+  if(kind){const visual=astronomyVisualBuild(kind);if(visual)dialog.append(visual)}
  }
  if(scienceJourney.subject==='chemistry'){
   const query=$('scienceEducationText')?.value||title;
@@ -8633,7 +8725,7 @@ async function scienceWorkspaceRun(mode){
    'Explain and solve step by step, checking formulas, units and assumptions. Do not fabricate data. In chemistry, conserve atoms and charge, and do not invent lab conditions.'):
   learningLabel('Prezintă metoda generală, definițiile și regulile necesare, fără să inventezi măsurători.',
    'Teach the general method, definitions and necessary rules; do not invent measured values.');
- const activeTracks=scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
+ const activeTracks=scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
  const specialty=activeTracks.find(x=>x.id===scienceJourney.specialty);
  const specialtyContext=specialty?learningLabel('; Specializare: ','; Specialization: ')+learningLabel(specialty.ro,specialty.en):'';
  if(scienceJourney.subject==='chemistry'){
@@ -8657,6 +8749,11 @@ async function scienceWorkspaceRun(mode){
    scienceShowResult(learningLabel('Biologie · rezultat verificat','Biology · verified result'),locallyChecked.body);
    return;
   }
+ }
+ if(scienceJourney.subject==='astronomy'){
+  const checked=ASTRONOMY_SOLVE_VERIFIED(source,mode);
+  if(checked?.verified){scienceLastReply=checked.body;scienceStatus(learningLabel('Calcul astronomic verificat local.','Astronomy calculation checked offline.'));scienceShowResult(learningLabel('Astronomie · calcul verificat','Astronomy · verified calculation'),checked.body);return;}
+  if(checked?.kind==='input'){const notice=learningLabel('Date sau unități nevalide.','Invalid values or units.');scienceStatus(notice);scienceShowResult(learningLabel('Astronomie · verifică datele','Astronomy · review data'),notice);return;}
  }
  if(scienceJourney.subject==='physics'){
   const checked=PHYSICS_SOLVE_VERIFIED(source,mode);
@@ -8788,6 +8885,8 @@ function scienceOpenWorkspace(){
    biologyCurriculumOpen();
   };
   toolbar.append(theory);
+ }else if(scienceJourney.subject==='astronomy'){
+  const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');theory.onclick=astronomyTheoryOpen;toolbar.append(theory);
  }else if(scienceJourney.subject==='physics'){
   const theory=document.createElement('button');theory.type='button';
   theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
@@ -8856,6 +8955,8 @@ function scienceOpenWorkspace(){
    const graphics=document.createElement('button');graphics.type='button';graphics.className='secondary-btn';
    graphics.textContent=learningLabel('📈 Reprezentări','📈 Diagrams');graphics.onclick=physicsVisualPicker;
    tools.append(graphics);
+  }else if(scienceJourney.subject==='astronomy'){
+   const diagram=document.createElement('button');diagram.type='button';diagram.className='secondary-btn';diagram.textContent=learningLabel('🪐 Reprezentări','🪐 Diagrams');diagram.onclick=astronomyDiagramPicker;tools.append(diagram);
   }else if(scienceJourney.subject==='biology'){
    const diagram=document.createElement('button');diagram.type='button';diagram.className='secondary-btn';
    diagram.textContent=learningLabel('🧬 Celulă / ADN 3D','🧬 Cell / 3D DNA');diagram.onclick=scienceBiologyDiagramOpen;
