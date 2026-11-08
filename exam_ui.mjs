@@ -1,6 +1,6 @@
 export const EXAM_UI_SCRIPT = String.raw`
 // Exam preparation: country -> class -> examination -> subject -> preparation workspace.
-let examJourney={stage:'countries',country:null,grade:'',exam:null,subject:null,topic:null,session:2027,track:'',region:'',board:'',institution:'',programme:'',practiceVersion:0,busy:false,serial:0,controller:null,voice:false};
+let examJourney={stage:'countries',country:null,grade:'',exam:null,subject:null,topic:null,session:2027,track:'',region:'',board:'',institution:'',programme:'',practiceVersion:0,aiQuestions:null,aiContext:'',busy:false,serial:0,controller:null,voice:false};
 function examEl(tag,value='',cls=''){const node=document.createElement(tag);node.textContent=value;if(cls)node.className=cls;return node}
 function examBtn(label,click,cls='secondary-btn'){const b=examEl('button',label,cls);b.type='button';b.onclick=click;return b}
 function examLabel(ro,en){return learningLabel(ro,en)}
@@ -187,7 +187,7 @@ function examOpen(stage){
    panel.append(examEl('p',examLabel('Selectarea exactă a probei poate depinde de câmpurile de mai sus; fără o specificație verificată nu se certifică alinierea.','Exact subject requirements may depend on the fields above; do not assume verified alignment.')));
   }
   const ids=exam?.subjects||EXAM_SUBJECTS_DATA.map(x=>x.id);
-  examList(panel,ids.map(id=>EXAM_SUBJECTS_DATA.find(x=>x.id===id)).filter(Boolean).map(x=>({id:x.id,ro:x.ro,en:x.en})),chosen=>{examJourney.subject=chosen.id;examJourney.topic=null;examJourney.practiceVersion=0;examOpen('workspace')});return;
+  examList(panel,ids.map(id=>EXAM_SUBJECTS_DATA.find(x=>x.id===id)).filter(Boolean).map(x=>({id:x.id,ro:x.ro,en:x.en})),chosen=>{examJourney.subject=chosen.id;examJourney.topic=null;examJourney.practiceVersion=0;examJourney.aiQuestions=null;examOpen('workspace')});return;
  }
  if(stage==='workspace')examWorkspace(panel);
 }
@@ -205,6 +205,20 @@ async function examReadImage(file){
  let url='';try{if(typeof TextDetector!=='function')throw Error('unavailable');url=URL.createObjectURL(file);const im=new Image();im.src=url;await im.decode();const words=await new TextDetector().detect(im);examReviewPhoto(words.map(x=>x.rawValue).join('\n'))}
  catch{examReviewPhoto('');examStatus(examLabel('OCR local indisponibil. Poți introduce textul manual.','Local OCR unavailable. Type the question manually.'))}finally{if(url)URL.revokeObjectURL(url)}
 }
+async function examFreshPractice(country,exam,subject,sections){
+ const prompt='Generează STRICT JSON valid: un array de EXACT 5 obiecte {"prompt":"...","choices":["...","...","...","..."],"correct":0,"explanation":"..."}. Fiecare întrebare este originală, clară, cu un singur răspuns corect, explicație verificabilă și fără citate lungi. correct este indexul 0..3 și trebuie să varieze. Țara: '+country[1]+'. Examen: '+(exam?.ro||'orientativ')+'. Materie: '+subject.ro+'. Capitol: '+(sections.find(x=>x[0]===examJourney.topic)?.[1]||'recapitulare')+'. Nivel: '+examJourney.grade+'. Profil: '+(examJourney.track||'neprecizat')+'. Universitate/program: '+(examJourney.institution||'neprecizată')+'/'+(examJourney.programme||'neprecizat')+'. Probele sunt doar de antrenament; nu pretinde aliniere oficială fără programa exactă. Nu răspunde cu cod Markdown, doar JSON. Limba răspunsului '+(state.language||'ro')+'.';
+ const serial=++examJourney.serial,controller=new AbortController();examJourney.controller=controller;examJourney.busy=true;
+ try{
+  const resp=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,body:JSON.stringify({message:prompt,module:'assistant',language:state.language,history:[]})});
+  const payload=await resp.json();if(!resp.ok||payload?.status!=='success')throw Error('generation failed');
+  const raw=String(payload.reply||'').trim();let parsed;try{parsed=JSON.parse(raw)}catch{const first=raw.indexOf('['),last=raw.lastIndexOf(']');if(first<0||last<first)throw Error('not json');parsed=JSON.parse(raw.slice(first,last+1))}
+  if(serial!==examJourney.serial||examJourney.stage!=='workspace')return null;
+  if(!Array.isArray(parsed)||parsed.length!==5)throw Error('wrong question count');
+  const normalized=parsed.map((q,i)=>({id:'generated-'+i,prompt:String(q.prompt||'').slice(0,500),choices:Array.isArray(q.choices)?q.choices.map(c=>String(c).slice(0,250)):[],correct:Number(q.correct),explanation:String(q.explanation||'').slice(0,800)}));
+  if(normalized.some(q=>q.prompt.length<15||q.choices.length!==4||new Set(q.choices).size!==4||q.choices.some(c=>!c.trim())||!Number.isInteger(q.correct)||q.correct<0||q.correct>3||q.explanation.length<15)||new Set(normalized.map(q=>q.prompt)).size!==5)throw Error('invalid practice');
+  return normalized;
+ }catch{return null}finally{if(serial===examJourney.serial){examJourney.busy=false;examJourney.controller=null}}
+}
 function examWorkspace(panel){
  const country=examCountry(),exam=examSelected(),subject=examSelectedSubject();if(!country||!subject){examOpen('subjects');return}
  const key=(exam?.id||'advisory')+'|'+examJourney.session+'|'+subject.id;
@@ -212,7 +226,15 @@ function examWorkspace(panel){
  const headline=examEl('div','','exam-head');headline.style.cssText='display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;';
  panel.style.paddingBottom='160px';
  headline.append(examEl('h3',examLabel(subject.ro,subject.en)));
- headline.append(examBtn(examLabel('＋ Simulare nouă','＋ New practice'),()=>{if(state.speaking)stopSpeech();examJourney.practiceVersion=(examJourney.practiceVersion||0)+1;examOpen('workspace');$('examPracticeAnchor')?.scrollIntoView({behavior:'smooth',block:'start'})},'secondary-btn'));
+ const freshHint=examEl('p');freshHint.style.cssText='width:100%;margin:0;font-size:.91rem;';
+ const freshButton=examBtn(examLabel('＋ Simulare nouă','＋ New practice'),async()=>{if(state.speaking)stopSpeech();if(examJourney.busy)return;const local=EXAM_PRACTICE_DATA[subject.id]||[];
+ if(local.length>5){examJourney.aiQuestions=null;examJourney.practiceVersion=(examJourney.practiceVersion||0)+1;examOpen('workspace');$('examPracticeAnchor')?.scrollIntoView({behavior:'smooth',block:'start'});return}
+ freshButton.disabled=true;freshHint.textContent=examLabel('Se creează un set original nou…','Creating a new original set…');
+ const generated=await examFreshPractice(country,exam,subject,sections);if(!freshButton.isConnected)return;
+ freshButton.disabled=false;if(!generated){freshHint.textContent=examLabel('Nu s-a putut crea un set diferit. Întrebările existente rămân neschimbate; reîncearcă atunci când AI este disponibil.','A different set could not be generated. Existing questions remain unchanged; retry when AI is available.');return}
+ examJourney.aiQuestions=generated;examJourney.aiContext=examJourney.country+'|'+examJourney.exam+'|'+subject.id+'|'+examJourney.topic;examJourney.practiceVersion++;
+ examOpen('workspace');$('examPracticeAnchor')?.scrollIntoView({behavior:'smooth',block:'start'});
+ },'secondary-btn');headline.append(freshButton,freshHint);
  panel.append(headline);
  const specialKey=examJourney.country+':'+(exam?.id||'advisory')+':'+subject.id;
  const spec=EXAM_ORDERED_DATA[specialKey]||null;
@@ -223,7 +245,7 @@ function examWorkspace(panel){
  const topicPicker=examBtn((topicCurrent+1)+'. '+sections[topicCurrent][1]+' ▾',()=>{const show=topicMenu.style.display==='none';topicMenu.style.display=show?'flex':'none';topicPicker.setAttribute('aria-expanded',String(show));if(show)topicMenu.querySelector('button')?.focus({preventScroll:true})},'secondary-btn');
  topicPicker.id='examTopicTap';topicPicker.style.cssText='display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:48px;text-align:left;white-space:normal;touch-action:manipulation;margin:8px 0;';topicPicker.setAttribute('aria-expanded','false');topicPicker.setAttribute('aria-label',examLabel('Alege capitolul cu o atingere','Choose revision topic with one tap'));
  const topicMenu=examEl('div','','exam-topic-menu');topicMenu.id='examTopicMenu';topicMenu.style.cssText='display:none;flex-direction:column;gap:6px;max-height:48dvh;overflow-y:auto;padding:8px;border:1px solid #5c96a4;border-radius:10px;margin-bottom:8px;';
- sections.forEach(([topicId,title],index)=>{const b=examBtn((index+1)+'. '+title,()=>{examJourney.topic=topicId;examJourney.practiceVersion=0;examOpen('workspace')},'secondary-btn');b.style.cssText='min-height:48px;text-align:left;white-space:normal;touch-action:manipulation;width:100%;';if(topicId===examJourney.topic)b.setAttribute('aria-current','true');topicMenu.append(b)});
+ sections.forEach(([topicId,title],index)=>{const b=examBtn((index+1)+'. '+title,()=>{examJourney.topic=topicId;examJourney.practiceVersion=0;examJourney.aiQuestions=null;examOpen('workspace')},'secondary-btn');b.style.cssText='min-height:48px;text-align:left;white-space:normal;touch-action:manipulation;width:100%;';if(topicId===examJourney.topic)b.setAttribute('aria-current','true');topicMenu.append(b)});
  const focus=examEl('p',sections[topicCurrent]?.[2]||'');topicLabel.append(topicPicker,topicMenu);panel.append(topicLabel,focus);
  if(!spec)panel.append(examEl('p',examLabel('Aceasta este o ordine de recapitulare orientativă, nu o programă de examen verificată pentru această probă.','This is an advisory revision order, not a verified official exam syllabus.')));
  if(subject.id==='biology')examBiologyResources(panel,printable);
@@ -248,12 +270,15 @@ function examWorkspace(panel){
  const romanianBank=subject.id==='romanian'&&bank.length>=20?(topic==='reading'||topic==='literary'||topic==='text'?bank.slice(5,10):topic==='writing'?bank.slice(10,15):topic==='vocabulary'?bank.slice(15,20):topic==='revision'?[bank[0],bank[6],bank[11],bank[16],bank[18]]:bank.slice(0,5)):bank;
  const biologyByTopic=id=>bank.filter(q=>Array.isArray(q.topics)&&q.topics.includes(id));
  const mixedBiology=()=>{const c=biologyByTopic('concepts'),m=biologyByTopic('methods'),a=biologyByTopic('applications'),mixed=[];for(let i=0;i<Math.max(c.length,m.length,a.length);i++){if(c[i])mixed.push(c[i]);if(m[i])mixed.push(m[i]);if(a[i])mixed.push(a[i])}return mixed};
- const source=subject.id==='biology'?(topic==='revision'?mixedBiology():biologyByTopic(topic)):romanianBank;
+ const context=examJourney.country+'|'+examJourney.exam+'|'+subject.id+'|'+topic;
+ const aiBank=examJourney.aiContext===context&&Array.isArray(examJourney.aiQuestions)?examJourney.aiQuestions:null;
+ const source=aiBank||(subject.id==='biology'?(topic==='revision'?mixedBiology():biologyByTopic(topic)):romanianBank);
  const step=source.length>5?5:1;const start=source.length?((examJourney.practiceVersion||0)*step)%source.length:0;
  const limited=source.length?Array.from({length:Math.min(5,source.length)},(_,i)=>source[(start+i)%source.length]):[];
  const sim=examEl('section','','exam-practice');sim.id='examPracticeAnchor';sim.style.scrollMarginTop='105px';
  sim.append(examEl('h3',examLabel('Simulare de antrenament','Practice simulation')));
  sim.append(examEl('p',limited.length?examLabel('Setul ','Practice set ')+(examJourney.practiceVersion+1)+examLabel(': alege răspunsurile, apoi apasă „Verifică”. Punctaj orientativ, neoficial.',': select answers, then press Check. Unofficial practice score.'):examLabel('Nu există încă întrebări locale pentru capitolul ales. Poți genera material original cu AI.','No local practice questions yet for this chapter. You can generate original material with AI.')));
+ if(aiBank)sim.append(examEl('p',examLabel('Întrebări noi generate cu AI, nu verificate ca subiecte oficiale. Verifică explicațiile.','New AI-generated practice questions, not verified official papers. Check the explanations.')));
  const form=examEl('div','','exam-questions');
  const selections=Array(limited.length).fill(null);
  const score=examEl('p');score.setAttribute('role','status');
