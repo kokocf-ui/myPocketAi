@@ -92,19 +92,75 @@ function practicalQuestions(course,chapter,variant){
  const items=[chapter,...tail.slice(shift),...tail.slice(0,shift)].slice(0,5);
  return items.map((x,index)=>{const rotation=(index+variant+1)%4,q=x.question,choices=[...q.choices.slice(4-rotation),...q.choices.slice(0,4-rotation)];return {...q,choices,correct:(q.correct+rotation)%4,chapterId:x.id,title:x.title}});
 }
+
+function practicalCvWorkshop(panel){
+ const wrap=practicalNode('section','','practical-cv-workshop');
+ wrap.style.cssText='margin:18px 0;padding:14px;border:1px solid #66a1a9;border-radius:12px;min-width:0;';
+ wrap.append(practicalNode('h3',practicalLabel('📝 Construiește propriul CV','📝 Build your own CV')));
+ wrap.append(practicalNode('p',practicalLabel('Completează numai experiențe reale. Acest editor nu completează automat informații și nu salvează datele tale de contact în istoricul lecției.','Enter only real experience. This editor does not invent information or store contact details in your lesson history.')));
+ const form=practicalNode('div','','practical-cv-fields');form.style.cssText='display:grid;grid-template-columns:1fr;gap:12px;min-width:0;';
+ const cfg=[
+ ['name','Nume și prenume','Full name',false],['city','Oraș (fără adresă completă)','City (not full address)',false],
+ ['email','E-mail profesional','Professional email',false],['phone','Telefon de contact','Contact phone',false],
+ ['role','Postul dorit','Target position',false],['profile','Profil profesional – 2–4 fraze','Profile – 2–4 sentences',true],
+ ['experience','Experiență reală – rol, angajator, perioadă și realizări','Real experience – role, employer, dates and achievements',true],
+ ['education','Studii și calificări obținute','Education and qualifications actually achieved',true],
+ ['skills','Competențe relevante și demonstrabile','Relevant, demonstrable skills',true],
+ ['languages','Limbi cunoscute și nivel realist','Languages and accurate proficiency',true]
+ ];
+ const fields={};
+ cfg.forEach(([key,ro,en,multi])=>{const label=practicalNode('label',practicalLabel(ro,en),'lit-label');label.style.cssText='display:flex;flex-direction:column;gap:5px;';
+ const input=practicalNode(multi?'textarea':'input','','lit-input');if(!multi)input.type='text';else input.rows=multi===true?3:2;
+ input.maxLength=key==='experience'?5000:key==='profile'?1200:1900;input.autocomplete='off';
+ input.style.cssText='width:100%;min-width:0;max-width:100%;box-sizing:border-box;font-size:16px;';label.append(input);form.append(label);fields[key]=input;
+ });wrap.append(form);
+ const status=practicalNode('p');status.setAttribute('role','status');
+ const preview=practicalNode('article','','practical-cv-preview');preview.style.cssText='display:none;margin-top:16px;padding:14px;background:rgba(11,48,65,.5);border:1px solid #6193a4;border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;';
+ const documentForCv=()=>{
+  const val=k=>String(fields[k]?.value||'').trim();
+  const name=val('name'),role=val('role');
+  if(!name||!role){status.textContent=practicalLabel('Completează cel puțin numele și postul pentru care aplici.','Enter at least your name and target role.');return null}
+  const chunks=[name.toUpperCase(),[val('city'),val('phone'),val('email')].filter(Boolean).join(' | '),'',practicalLabel('POST VIZAT','TARGET ROLE'),role,''];
+  for(const [key,ro,en] of [['profile','PROFIL PROFESIONAL','PERSONAL PROFILE'],['experience','EXPERIENȚĂ PROFESIONALĂ','WORK EXPERIENCE'],['education','STUDII ȘI CALIFICĂRI','EDUCATION AND QUALIFICATIONS'],['skills','COMPETENȚE','SKILLS'],['languages','LIMBI','LANGUAGES']]){
+    if(val(key))chunks.push(practicalLabel(ro,en),val(key),'');
+  }
+  const title='CV_'+name.replace(/[^a-zA-Z0-9À-ž _-]/g,'').replace(/\s+/g,'_').slice(0,42)+'_'+role.replace(/[^a-zA-Z0-9À-ž _-]/g,'').replace(/\s+/g,'_').slice(0,35);
+  return {title,text:chunks.join('\n').trim()};
+ };
+ const actions=practicalNode('div','','lit-actions');actions.style.cssText='display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;';
+ const build=practicalButton(practicalLabel('✓ Creează previzualizarea CV','✓ Build CV preview'),()=>{
+  const doc=documentForCv();if(!doc)return;
+  preview.textContent=doc.text;preview.style.display='block';preview.dataset.ready='true';
+  status.textContent=practicalLabel('Verifică toate informațiile. Exemplul fictiv de mai sus nu a fost inclus în CV.','Review every entry. The fictional example above was not inserted into your CV.');
+ },'primary-btn');
+ const exportCv=mode=>{const doc=documentForCv();if(!doc)return;preview.textContent=doc.text;preview.style.display='block';preview.dataset.ready='true';eduOpenPrint(mode,doc)};
+ actions.append(build,practicalButton(practicalLabel('Salvează numai CV-ul PDF','Save CV as PDF only'),()=>exportCv('save')),practicalButton(practicalLabel('Imprimă CV','Print CV'),()=>exportCv('print')));
+ wrap.append(actions,status,preview);panel.append(wrap);
+}
+
 function practicalLesson(panel){
  const course=practicalCourse(),chapter=practicalChapter();if(!course||!chapter){practicalOpen('chapters');return}
  const saved=practicalReadSaved();
+ const guide=PRACTICAL_GUIDES_DATA[chapter.id]||null;
  const study=practicalNode('article','','practical-printable');study.style.cssText='display:block;min-width:0;max-width:100%;line-height:1.5;';
  study.append(practicalNode('h3',chapter.title));
  const meta=practicalLabel(practicalCountry()[1],practicalCountry()[2])+' · '+practicalLabel(course.ro,course.en)+' · '+(PRACTICAL_LEVELS_DATA.find(x=>x.id===chapter.level)?.ro||chapter.level);
  study.append(practicalNode('p',meta));
- study.append(practicalNode('h4',practicalLabel('Explicația lecției','Lesson explanation')),practicalNode('p',chapter.theory));
- study.append(practicalNode('h4',practicalLabel('Cum se procedează','How to proceed')),practicalNode('p',chapter.method));
- study.append(practicalNode('h4',practicalLabel('Exemplu concret','Worked example')),practicalNode('p',chapter.caseStudy));
- study.append(practicalNode('h4',practicalLabel('Exerciții de aplicare','Practical exercises')));
- chapter.practice.forEach((task,i)=>study.append(practicalNode('p',(i+1)+'. '+task)));
+ if(guide?.goal){study.append(practicalNode('h4',practicalLabel('Ce vei învăța','Learning objective')),practicalNode('p',guide.goal))}
+ study.append(practicalNode('h4',practicalLabel('Noțiuni de bază','Core concepts')),practicalNode('p',chapter.theory));
+ const steps=guide?.steps||[chapter.method];
+ study.append(practicalNode('h4',practicalLabel('Ghid pas cu pas','Step-by-step guide')));
+ const ordered=practicalNode('ol');ordered.style.cssText='padding-left:23px;line-height:1.55;';
+ steps.forEach(t=>ordered.append(practicalNode('li',t)));study.append(ordered);
+ study.append(practicalNode('h4',practicalLabel('Model complet lucrat','Complete worked example')));
+ const example=practicalNode('div',guide?.model?.join('\n')||chapter.caseStudy,'practical-worked-model');
+ example.style.cssText='white-space:pre-wrap;line-height:1.65;overflow-wrap:anywhere;padding:12px;border:1px solid #527c8c;border-radius:10px;background:rgba(3,30,49,.42);';
+ study.append(example);
+ if(guide?.check?.length){study.append(practicalNode('h4',practicalLabel('Verifică înainte de a continua','Check before continuing')));const ul=practicalNode('ul');ul.style.paddingLeft='22px';guide.check.forEach(item=>ul.append(practicalNode('li',item)));study.append(ul)}
+ study.append(practicalNode('h4',practicalLabel('Exerciții legate de această lecție','Exercises for this lesson')));
+ (guide?.exercise||chapter.practice).forEach((task,i)=>study.append(practicalNode('p',(i+1)+'. '+task)));
  panel.append(study);
+ if(chapter.id==='career-2')practicalCvWorkshop(panel);
  const note=practicalNode('p',practicalLabel('Material original, orientativ. Pentru obligații legale, fiscale, autorizări, siguranță sau meserii reglementate verifică sursele oficiale ale țării și specialiștii competenți.','Original training material. For legal, tax, licensing or safety requirements consult official local sources and qualified professionals.'));
  panel.append(note);
  const links=practicalNode('section','','practical-topic-sources');links.style.cssText='margin:12px 0;display:flex;flex-direction:column;gap:8px;';
@@ -137,9 +193,10 @@ function practicalLesson(panel){
  const status=practicalNode('p');status.id='practicalStatus';status.setAttribute('role','status');
  const output=practicalNode('div','','practical-ai-output');output.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;';
  const practiceVersion={value:0};
- function refreshExercise(){prompt.textContent=practicalLabel('Exercițiul ','Exercise ')+(practiceVersion.value+1)+'. '+chapter.practice[practiceVersion.value%chapter.practice.length]}
+ const focusedExercises=guide?.exercise||chapter.practice;
+ function refreshExercise(){prompt.textContent=practicalLabel('Exercițiul ','Exercise ')+(practiceVersion.value+1)+'. '+focusedExercises[practiceVersion.value%focusedExercises.length]}
  refreshExercise();
- practiceButtons.append(practicalButton(practicalLabel('↻ Alt exercițiu','↻ Different exercise'),()=>{practiceVersion.value=(practiceVersion.value+1)%chapter.practice.length;refreshExercise()}));
+ practiceButtons.append(practicalButton(practicalLabel('↻ Alt exercițiu','↻ Different exercise'),()=>{practiceVersion.value=(practiceVersion.value+1)%focusedExercises.length;refreshExercise()}));
  const talk=practicalButton(practicalLabel('🎙️ Dictare','🎙️ Dictation'),practicalDictate);talk.id='practicalDictation';talk.setAttribute('aria-pressed','false');practiceButtons.append(talk);
  const generate=async(mode)=>{
   if(practicalJourney.busy)return;
@@ -147,7 +204,7 @@ function practicalLesson(panel){
   practicalJourney.busy=true;const serial=++practicalJourney.serial;const controller=new AbortController();practicalJourney.controller=controller;
   practiceButtons.querySelectorAll('[data-practical-ai]').forEach(b=>b.disabled=true);status.textContent=practicalLabel('Se pregătește răspunsul…','Preparing answer…');
   const started=Date.now(),task=mode==='review'?'Verifică răspunsul pe criterii explicite: corectitudine, siguranță, lacune și pași de îmbunătățire.':'Explică lecția și cazul practic, cu pași clari și exemple verificabile, în limba interfeței.';
-  const question='Ești formator pentru un curs practic. Țara / jurisdicția: '+practicalCountry()[1]+'. Domeniu: '+course.ro+'. Nivel: '+chapter.level+'. Capitol: '+chapter.title+'. Material: '+chapter.theory+'. Metodă: '+chapter.method+'. Exemplu: '+chapter.caseStudy+'. Exercițiu: '+prompt.textContent+'. Răspuns elev: '+(taskEntry.value.trim().slice(0,2200)||'(fără răspuns)').trim()+'. Cerere: '+task+'. Limba dorită: '+(state.language||'ro')+'. Nu inventa legi, taxe, licențe, prețuri, autorizări sau certificări. Nu furniza instrucțiuni pentru lucrări periculoase fără profesionist; explică riscurile și măsuri generale de siguranță. Nu afirma că ai consultat sursa oficială în timp real. Nu acorda diplome. Răspunde educativ, structurat și concis.';
+  const question='Ești formator pentru un curs practic. Țara / jurisdicția: '+practicalCountry()[1]+'. Domeniu: '+course.ro+'. Nivel: '+chapter.level+'. Capitol: '+chapter.title+'. Material: '+chapter.theory+'. Metodă: '+chapter.method+'. Exemplu: '+(guide?.model?.join(' / ')||chapter.caseStudy).slice(0,3500)+'. Pași din lecție: '+(guide?.steps?.join(' / ')||chapter.method).slice(0,3000)+'. Exercițiu: '+prompt.textContent+'. Răspuns elev: '+(taskEntry.value.trim().slice(0,2200)||'(fără răspuns)').trim()+'. Cerere: '+task+'. Limba dorită: '+(state.language||'ro')+'. Nu inventa legi, taxe, licențe, prețuri, autorizări sau certificări. Nu furniza instrucțiuni pentru lucrări periculoase fără profesionist; explică riscurile și măsuri generale de siguranță. Nu afirma că ai consultat sursa oficială în timp real. Nu acorda diplome. Răspunde educativ, structurat și concis.';
   try{
    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module:'assistant',message:question,language:state.language,history:[]}),signal:controller.signal});
    const data=await response.json();if(!response.ok||data.status!=='success'||!data.reply)throw Error('unavailable');
