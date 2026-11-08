@@ -10524,14 +10524,14 @@ function hgHistoricalMap(panel,topic){
   const p=hgParsePeriod(period.value),c=country.value.trim();if(!p||!c)return;
   const snapshot=[period.value,c,hgJourney.mapType,hgJourney.topic].join('|');
   events.replaceChildren(hgText('p',hgL('Se cercetează evenimentele perioadei…','Researching events from this period…')));
-  const message='Cercetare istorică pentru '+c+', perioada '+p.label+', context '+types.find(x=>x[0]===hgJourney.mapType)?.[1]+'. Răspunde în '+(state.language||'ro')+'. Enumeră numai evenimente relevante perioadei (data exactă doar dacă este verificabilă), cronologie, participanți, cauze și consecințe; separă fapte de ipoteze. Pentru fiecare eveniment oferă o sursă verificabilă sau marchează explicit informația ca neverificată. Nu inventa surse, URL-uri, hărți sau granițe, nu schimba perioada și nu atribui automat evenimente țării dacă au avut loc în altă parte. Nu genera imagini. Dacă nu ai dovezi, spune explicit că nu poți verifica.';
+  const message='Cercetare istorică aprofundată, pentru '+c+', perioada '+p.label+', categorie '+types.find(x=>x[0]===hgJourney.mapType)?.[1]+'. Limba '+(state.language||'ro')+'. Construiește cronologia celor mai importante evenimente care se încadrează EXACT în perioada cerută: ordonate după dată (zi/lună/an când sunt cunoscute; altfel lună/an sau an), cu loc, persoane, cauze, desfășurare, consecințe și sursă identificabilă. NU impune o limită de 4 sau 5 evenimente. Pentru România înainte de 1859, include și Moldova, Țara Românească, Transilvania, Banat, Bucovina și alte teritorii relevante, precizând entitățile politice ale epocii și evitând anacronismele. În 1848, nu omite marile adunări și programe revoluționare, Proclamația de la Islaz, mișcările din Transilvania și evenimentele din București. Dacă data este duală stil vechi/stil nou, indică explicit ambele; nu transforma o dată necertă în certitudine. Categoria este un FILTRU TEMATIC, nu exclude contextul indispensabil. Nicio hartă nu este necesară pentru a furniza evenimente. Separă fapte de ipoteze, nu inventa surse sau URL-uri; recunoaște lacunele. Răspuns în text simplu, fără **, fără #, cu paragrafe clare.';
   try{
    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,module:'assistant',history:[]})});
    const result=await response.json();if(!response.ok||result.status!=='success'||!result.reply)throw Error('unavailable');
    if(snapshot!==[period.value,c,hgJourney.mapType,hgJourney.topic].join('|')||!events.isConnected)return;
-   events.replaceChildren(hgText('h4',hgL('Evenimente și context istoric','Events and historical context')),
-    hgText('p',String(result.reply).slice(0,20000)),
-    hgText('small',hgL('Sinteză generată AI; verifică sursele citate. Lipsa hărții nu elimină evenimentele.','AI-generated synthesis; verify citations. Missing maps do not imply missing events.')));
+   events.replaceChildren(hgText('h4',hgL('Evenimente și context istoric','Events and historical context')));
+   const content=document.createElement('div');content.className='hg-event-content';hgDisplayStudyText(content,String(result.reply).slice(0,50000));events.append(content);
+   events.append(hgText('small',hgL('Sinteză AI: verifică sursele. Lipsa hărții nu elimină evenimentele.','AI synthesis: verify sources. Missing maps do not imply missing events.')));
   }catch{if(events.isConnected)events.replaceChildren(hgText('p',hgL('Cercetarea evenimentelor este momentan indisponibilă.','Event research is temporarily unavailable.')))}
  },'primary-btn');
  for(const [kind,label] of types){
@@ -10568,18 +10568,27 @@ function hgGeographyMap(panel,topic){
  },'secondary-btn'));
  panel.append(shell);
 }
+function hgDisplayStudyText(host,value){
+ const raw=String(value||'').replace(/\r\n?/g,'\n').replace(/\*\*(.*?)\*\*/g,'$1').replace(/^\s*\*\s+/gm,'• ').replace(/^\s*#{1,6}\s+/gm,'').replace(/\n{3,}/g,'\n\n').trim();
+ host.replaceChildren();
+ for(const part of raw.split(/\n\s*\n/)){
+  if(!part.trim())continue;
+  const p=document.createElement('p');p.textContent=part.trim();p.style.whiteSpace='pre-wrap';host.append(p);
+ }
+}
 async function hgGenerate(extra,output){
  if(hgJourney.busy)return;
  const topic=hgTopic(),subject=hgSubject();if(!topic||!subject)return;
  hgJourney.busy=true;output.replaceChildren(hgText('p',hgL('Se pregătește lecția…','Preparing lesson…')));
  const origin=hgCountry(),place=hgJourney.scope==='world'?'global':origin?hgL(origin.ro,origin.en):hgJourney.otherCountry||'';
  const context=[hgL(subject.ro,subject.en),hgL(topic.ro,topic.en),hgJourney.level,hgJourney.speciality||'',hgJourney.scope,place,hgJourney.region||''].filter(Boolean).join(' / ');
- const message='Profesor universitar de '+subject.ro+'. Creează o lecție pedagogică structurată în limba '+(state.language||'ro')+' pentru '+context+'. Subteme: '+(topic.query||'')+'. Include definiții, cronologie corectă (la istorie), fapte geografice cu data datelor (la geografie), cauze, contexte, perspective din surse diferite, 3 exerciții cu explicații și soluții, bibliografie verificabilă. Nu inventa surse, linkuri, valori sau granițe. Dacă o informație nu este verificată, spune asta; nu pretinde alinierea oficială la curricula națională fără o sursă specifică. Orice hartă istorică se referă explicit la anul, tipul și incertitudinile sale; nu inventa hartă. Cerere: '+String(extra||'');
+ const message='Acționează ca profesor de '+subject.ro+'. Creează lecția în limba '+(state.language||'ro')+' pentru '+context+'. Subteme: '+(topic.query||'')+'. Acoperă întregul capitol, cu subcapitole, explicații adecvate nivelului selectat, termeni și definiții, exemple concrete, interpretări și surse bibliografice reale. Pentru ISTORIE: cronologie ordonată, date corecte, localități, participanți, cauze și consecințe, context regional și internațional; include toate evenimentele majore relevante și nu limita arbitrar lista la 3-4. Pentru istoria României anterioară unirii, tratează separat Moldova, Țara Românească, Transilvania și alte teritorii relevante, fără a proiecta frontierele actuale în trecut. Pentru GEOGRAFIE: relieful, clima, apele, populația, economia, vecinii, date actualizate cu anul de referință, exemple și variabilitate regională după relevanța capitolului. La nivel avansat, explică metodologia, limitele datelor și dezbaterile academice. Adaugă 3-5 exerciții cu rezolvări explicate. Menționează sursele verificabile, cu titlu, autor/instituție și URL numai când este real; dacă nu poți verifica, marchează explicit. Nu inventa hărți, frontiere, documente, numere ori surse. Nu pretinde acreditare oficială fără document curricular specific. Scrie în text curat, fără formatare Markdown (** sau #). Cerere specială: '+String(extra||'');
  try{
   const result=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,module:'assistant',history:[]})});
   const obj=await result.json();if(!result.ok||obj.status!=='success'||!obj.reply)throw Error('no response');
   if(hgJourney.stage!=='lesson'||hgTopic()?.id!==topic.id)return;
-  output.replaceChildren(hgText('p',String(obj.reply).slice(0,22000)),hgText('small',hgL('Material AI: sursele și datele trebuie verificate înaintea utilizării la examene.','AI material: verify facts and sources before examinations.')));
+  hgDisplayStudyText(output,String(obj.reply).slice(0,50000));
+  output.append(hgText('small',hgL('Material AI: verifică sursele și datele înaintea utilizării la examene.','AI material: verify sources and facts before examinations.')));
   hgRemember('lessonViewed');hgStatus(hgL('Lecția este disponibilă.','Lesson ready.'));
  }catch{output.replaceChildren(hgText('p',hgL('Lecția AI este momentan indisponibilă. Structura și exercițiile locale rămân accesibile.','AI lesson unavailable. Local structure and exercises remain accessible.')))}
  finally{hgJourney.busy=false}
