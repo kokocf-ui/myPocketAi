@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import frontend from './index.js';
 import {FOREIGN_LANGUAGES,FOREIGN_LEVELS,FOREIGN_TOPICS,FOREIGN_PHRASES,ANCIENT_GREEK_PHRASES,CLASSICAL_LEVELS,languageCourseLevels,languageCoursePhrases,checkStudyAnswer} from './foreign_languages_curriculum.mjs';
+import {FOREIGN_TOPIC_EXAMPLES,FOREIGN_CLASSICAL_VARIANTS} from './foreign_languages_examples.mjs';
+import {foreignStudyCourseMap,foreignStudyPlan,foreignStudyRubric,foreignStudyReview,foreignStudyDue,foreignStudyPlacementQuestions,foreignStudyPlacementResult} from './foreign_languages_learning.mjs';
 assert.equal(FOREIGN_LANGUAGES.length,14,'14 selectable languages including Greek');
 assert.equal(new Set(FOREIGN_LANGUAGES.map(x=>x.id)).size,14);
 for(const id of ['ro','en','fr','de','it','es','pt','nl','ru','pl','la','zh','ja','el'])assert.ok(FOREIGN_LANGUAGES.find(x=>x.id===id),id);
@@ -24,12 +26,41 @@ assert.match(FOREIGN_PHRASES.zh[0].phonetic,/ǐ/);
 assert.equal(FOREIGN_PHRASES.ja[0].original,'こんにちは');
 assert.equal(checkStudyAnswer('Hello!','hello'),true);
 assert.equal(checkStudyAnswer('Nein','Ja'),false);
+assert.equal(FOREIGN_LANGUAGES.find(x=>x.id==='el').variants.length,3);
+assert.equal(FOREIGN_CLASSICAL_VARIANTS.koine.length,6);
+assert.equal(foreignStudyCourseMap().length,14);
+for(const language of FOREIGN_LANGUAGES){
+ for(const topic of ['alphabet','vocabulary','grammar','conversation','reading']){
+  assert.ok(FOREIGN_TOPIC_EXAMPLES[language.id][topic].every(x=>x.original&&x.phonetic&&x.meaning));
+ }
+ const variants=language.variants.length?language.variants:['standard'];
+ for(const variant of variants){
+  const classical=language.id==='la'||language.id==='el'&&['ancient','koine'].includes(variant);
+  const levels=classical?CLASSICAL_LEVELS:FOREIGN_LEVELS;
+  for(const level of levels)for(const topic of FOREIGN_TOPICS){
+   const plan=foreignStudyPlan(language.id,variant,level.id,topic.id);
+   assert.equal(plan?.language,language.id);
+   assert.ok(plan.goals.length>=3&&plan.topicGoals.length>=3&&plan.exercises.length>=3);
+  }
+ }
+}
+assert.equal(foreignStudyPlan('el','koine','foundation','grammar')?.mode,'classical');
+assert.equal(foreignStudyPlan('zh','simplified','C2','assessment')?.phonetics,'Pinyin tonal');
+assert.equal(foreignStudyRubric('C1').certified,false);
+const initial=foreignStudyReview(null,true,0),second=foreignStudyReview(initial,true,86400000);
+assert.equal(initial.due,86400000);
+assert.equal(second.due,86400000+3*86400000);
+assert.deepEqual(foreignStudyDue({one:{due:0},two:{due:10000}},5000),['one']);
+const questions=foreignStudyPlacementQuestions('en','GB');
+assert.equal(questions.length,6);
+assert.equal(foreignStudyPlacementResult(questions.map(x=>x.answer),questions).recommendation,'A1','starter test cannot certify advanced level');
 const html=await(await frontend.fetch(new Request('https://foreign-language-regression.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
 new vm.Script(script);
 for(const key of ['FOREIGN_LANGUAGE_DATA','FOREIGN_LEVEL_DATA','FOREIGN_PHRASE_DATA',
  'function languageOpen(stage)','function languagePractice(card)','function languageAIGenerate(request)',
  'function languageSpeak(text)','function languageVoiceHandleAndroid(data)',
+ 'function languageFullPlacement()','function languageConversationStart(mode)','function languageReviewOpen()',
  "if(key==='languages'){languageOpen('languages');return}"])
  assert.ok(script.includes(key),key);
 assert.match(html,/\.foreign-word-card/);
@@ -57,7 +88,7 @@ const sandbox={
  state:{language:'ro'},Math,Date
 };
 const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(start,end)+'\n({open:languageOpen,back:languageBack,journey:languageJourney})',sandbox);
-let rows=()=>host.children[1].children[1].children;
+let rows=()=>host.children[1].children.find(x=>x.className?.includes('math-choice-list'))?.children||[];
 api.open('languages');assert.equal(rows().length,14);
 rows()[13].onclick();assert.equal(api.journey.language,'el');assert.equal(api.journey.stage,'variants');
 rows()[1].onclick();assert.equal(api.journey.variant,'ancient');assert.equal(api.journey.stage,'levels');assert.equal(rows().length,3);
