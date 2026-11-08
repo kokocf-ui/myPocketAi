@@ -3,6 +3,7 @@ import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_eur
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {UNIVERSITY_DOMAINS} from './university_domains.mjs';
+import {UNIVERSITY_PROGRAM_OPTIONS,UNIVERSITY_ADMISSION_ENTRIES} from './university_admissions_verified.mjs';
 import {PRACTICAL_COURSES,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
 import {PRACTICAL_REFERENCES} from './practical_sources.mjs';
 import {PRACTICAL_GUIDES} from './practical_guides.mjs';
@@ -9850,6 +9851,8 @@ const EXAM_ORDERED_DATA=${JSON.stringify(EXAM_ORDERED_PATHWAYS)};
 const EXAM_GENERAL_DATA=${JSON.stringify(EXAM_GENERAL_PATHWAYS)};
 const EXAM_SPECS_DATA=${JSON.stringify(EXAM_SPECS)};
 const UNIVERSITY_DOMAINS_DATA=${JSON.stringify(UNIVERSITY_DOMAINS)};
+const UNIVERSITY_PROGRAM_OPTIONS_DATA=${JSON.stringify(UNIVERSITY_PROGRAM_OPTIONS)};
+const UNIVERSITY_ADMISSION_ENTRIES_DATA=${JSON.stringify(UNIVERSITY_ADMISSION_ENTRIES)};
 const EXAM_SUBJECTS_DATA=${JSON.stringify(EXAM_SUBJECTS)};
 const EXAM_SESSION_YEARS_DATA=${JSON.stringify(EXAM_SESSION_YEARS)};
 const EXAM_PRACTICE_DATA=${JSON.stringify(EXAM_LOCAL_BANK)};
