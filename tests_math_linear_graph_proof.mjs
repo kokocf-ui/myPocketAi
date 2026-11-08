@@ -10,7 +10,7 @@ new vm.Script(embedded);
 const graphStart=embedded.indexOf('function mathGraphModel(');
 const graphEnd=embedded.indexOf('function mathGeometryFigure(',graphStart);
 const algebraStart=embedded.indexOf('function mathArithmeticValue(');
-const algebraEnd=embedded.indexOf('function mathResultPage(',algebraStart);
+const algebraEnd=embedded.indexOf('function mathQuadraticEquation(',algebraStart);
 assert.ok(graphStart>0&&graphEnd>graphStart&&algebraStart>graphEnd&&algebraEnd>algebraStart);
 
 const node=tag=>({
