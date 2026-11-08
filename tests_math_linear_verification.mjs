@@ -6,7 +6,7 @@ const embedded=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
 assert.ok(embedded,'mathematics UI script exists');
 new vm.Script(embedded);
 const start=embedded.indexOf('function mathArithmeticValue(');
-const end=embedded.indexOf('function mathResultPage(',start);
+const end=embedded.indexOf('function mathQuadraticEquation(',start);
 assert.ok(start>=0&&end>start);
 const api=vm.runInNewContext(embedded.slice(start,end)+
  '\n({solve:mathLinearSolution})',
