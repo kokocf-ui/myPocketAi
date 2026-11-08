@@ -231,7 +231,9 @@ function examWorkspace(panel){
  const bank=EXAM_PRACTICE_DATA[subject.id]||[];
  const topic=examJourney.topic;
  const romanianBank=subject.id==='romanian'&&bank.length>=20?(topic==='reading'||topic==='literary'||topic==='text'?bank.slice(5,10):topic==='writing'?bank.slice(10,15):topic==='vocabulary'?bank.slice(15,20):topic==='revision'?[bank[0],bank[6],bank[11],bank[16],bank[18]]:bank.slice(0,5)):bank;
- const source=subject.id==='biology'?(topic==='revision'?bank:bank.filter(q=>Array.isArray(q.topics)&&q.topics.includes(topic))):romanianBank;
+ const biologyByTopic=id=>bank.filter(q=>Array.isArray(q.topics)&&q.topics.includes(id));
+ const mixedBiology=()=>{const c=biologyByTopic('concepts'),m=biologyByTopic('methods'),a=biologyByTopic('applications'),mixed=[];for(let i=0;i<Math.max(c.length,m.length,a.length);i++){if(c[i])mixed.push(c[i]);if(m[i])mixed.push(m[i]);if(a[i])mixed.push(a[i])}return mixed};
+ const source=subject.id==='biology'?(topic==='revision'?mixedBiology():biologyByTopic(topic)):romanianBank;
  const step=source.length>5?5:1;const start=source.length?((examJourney.practiceVersion||0)*step)%source.length:0;
  const limited=source.length?Array.from({length:Math.min(5,source.length)},(_,i)=>source[(start+i)%source.length]):[];
  const sim=examEl('section','','exam-practice');sim.id='examPracticeAnchor';sim.style.scrollMarginTop='105px';
