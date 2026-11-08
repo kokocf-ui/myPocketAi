@@ -10983,8 +10983,8 @@ async function eduPdfFigures(){
  }
  return figures;
 }
-function eduOpenPrint(mode='save',prepared=null){
- const material=prepared||eduCurrentPrintable();
+function eduOpenPrint(mode='save'){
+ const material=arguments[1]||eduCurrentPrintable();
  if(!material?.text.trim()){alert(learningLabel('Nu există încă un material de imprimat. Generează sau completează mai întâi lucrarea.','No printable material yet. Generate or complete the work first.'));return}
  const dialog=document.createElement('dialog');dialog.className='edu-print-dialog';
  const header=document.createElement('div');header.className='edu-print-head';
