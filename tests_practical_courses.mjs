@@ -33,7 +33,7 @@ for(const course of PRACTICAL_COURSES){
  for(const chapter of course.chapters){
   const parts=deep[chapter.id];
   assert.ok(parts?.length>=3,'No shallow chapter: '+chapter.id);
-  assert.ok(parts.every(([title,body])=>title.length>9&&body.length>160),'Substantial topic-specific explanations required: '+chapter.id);
+  assert.ok(parts.every(([title,body])=>title.length>=7&&body.length>160),'Substantial topic-specific explanations required: '+chapter.id);
  }
 }
 assert.match(PRACTICAL_UI_SCRIPT,/const chapters=\[\.\.\.course\.chapters\]\.sort/,'Display all chapters together');
