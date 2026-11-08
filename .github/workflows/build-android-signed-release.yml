@@ -13,6 +13,8 @@ on:
       - 'education_selects_ui.mjs'
       - 'tests_practical_courses.mjs'
       - 'tests_exam_curriculum_europe.mjs'
+      - 'university_admissions_verified.mjs'
+      - 'tests_university_admissions.mjs'
       - 'tests_frontend_boot_syntax.mjs'
       - 'tests_education_android.mjs'
       - 'tests_pdf_library.mjs'
@@ -107,6 +109,7 @@ jobs:
           node --check university_domains.mjs
           node tests_frontend_boot_syntax.mjs
           node tests_exam_curriculum_europe.mjs
+          node tests_university_admissions.mjs
           node tests_practical_courses.mjs
           node tests_education_android.mjs
           node tests_pdf_library.mjs
