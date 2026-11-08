@@ -10343,29 +10343,29 @@ function hgParsePeriod(value){
  const raw=String(value||'').trim().replace(/[–—]/g,'-');
  if(!raw)return null;
  const date=(x)=>{
-  let m=x.match(/^(\d{1,2})\.(\d{1,2})\.(-?\d{1,4})$/);
+  let m=x.match(/^([0-9]{1,2})[.]([0-9]{1,2})[.](-?[0-9]{1,4})$/);
   if(m){const day=Number(m[1]),month=Number(m[2]),year=Number(m[3]);
    if(year===0||month<1||month>12||day<1||day>31)return null;
    const d=new Date(0);d.setUTCFullYear(year,month-1,day);
    if(d.getUTCFullYear()!==year||d.getUTCMonth()!==month-1||d.getUTCDate()!==day)return null;
    return {year,month,day,precision:'day'};
   }
-  m=x.match(/^(-?\d{1,4})-(\d{2})-(\d{2})$/);
+  m=x.match(/^(-?[0-9]{1,4})-([0-9]{2})-([0-9]{2})$/);
   if(m){const year=Number(m[1]),month=Number(m[2]),day=Number(m[3]);
    if(year===0||month<1||month>12||day<1||day>31)return null;
    const d=new Date(0);d.setUTCFullYear(year,month-1,day);
    if(d.getUTCFullYear()!==year||d.getUTCMonth()!==month-1||d.getUTCDate()!==day)return null;
    return {year,month,day,precision:'day'};
   }
-  if(/^(-?\d{1,4})$/.test(x)&&Number(x)!==0)return {year:Number(x),precision:'year'};
+  if(/^(-?[0-9]{1,4})$/.test(x)&&Number(x)!==0)return {year:Number(x),precision:'year'};
   return null;
  };
  const direct=date(raw);
  if(direct)return {start:direct,end:direct,precision:direct.precision,label:raw};
  // Range split by spaces and an en dash, or a plain hyphen between years.
- const range=raw.match(/^(-?\d{1,4})\s*-\s*(-?\d{1,4})$/);
+ const range=raw.match(/^(-?[0-9]{1,4})[ ]*-[ ]*(-?[0-9]{1,4})$/);
  if(range){const a=date(range[1]),b=date(range[2]);if(a&&b&&a.year<=b.year)return {start:a,end:b,precision:'range',label:raw}}
- const full=raw.match(/^(\d{1,2}\.\d{1,2}\.-?\d{1,4})\s+(?:-|până la|to)\s+(\d{1,2}\.\d{1,2}\.-?\d{1,4})$/i);
+ const full=raw.match(/^([0-9]{1,2}[.][0-9]{1,2}[.]-?[0-9]{1,4})[ ]+(?:-|până la|to)[ ]+([0-9]{1,2}[.][0-9]{1,2}[.]-?[0-9]{1,4})$/i);
  if(full){const a=date(full[1]),b=date(full[2]);if(a&&b&&
   (a.year<b.year||a.year===b.year&&(a.month<b.month||a.month===b.month&&a.day<=b.day)))
   return {start:a,end:b,precision:'range',label:raw}}
