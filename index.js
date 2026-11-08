@@ -10403,7 +10403,7 @@ function hgOpen(stage){
     if(hgJourney.scope==='world')return !['national','regional'].includes(x.id);
     return hgJourney.scope==='national'?x.id!=='regional':true;
   });
-  list(opts.map(opt=>hgJourney.subject==='history'?{...opt,ro:opt.ro+'\n'+(opt.period||''),en:opt.en+'\n'+(opt.periodEn||opt.period||'')}:opt),opt=>{hgJourney.topic=opt.id;hgJourney.year=null;hgJourney.showSolutions=false;hgOpen('lesson')});
+  list(opts.map(opt=>hgJourney.subject==='history'?{...opt,ro:opt.ro+'\\n'+(opt.period||''),en:opt.en+'\\n'+(opt.periodEn||opt.period||'')}:opt),opt=>{hgJourney.topic=opt.id;hgJourney.year=null;hgJourney.showSolutions=false;hgOpen('lesson')});
  }
  if(stage==='lesson')hgLesson(panel);
 }
