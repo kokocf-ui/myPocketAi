@@ -67,6 +67,17 @@ for(const [subject,questions] of banks){
  const correct=questions.slice(0,3).map(x=>x.correct);
  assert.deepEqual(examTrainingScore(questions.slice(0,3),correct),{correct:3,total:3,percent:100,kind:'practice-only'});
 }
+const biologyBank=EXAM_LOCAL_BANK.biology;
+assert.ok(biologyBank.length>=34,'Biology should have a useful multi-set question pool');
+for(const section of ['concepts','methods','applications']){
+ const eligible=biologyBank.filter(q=>q.topics?.includes(section));
+ assert.ok(eligible.length>=10,'Need two distinct five-question simulations in biology: '+section);
+ assert.equal(new Set(eligible.map(q=>q.id)).size,eligible.length);
+ assert.notDeepEqual(eligible.slice(0,5).map(q=>q.id),eligible.slice(5,10).map(q=>q.id));
+}
+const bioDiagrams=new Set(['cell','mitochondrion','dna','foodchain','plant','stomata','punnett','microscope','experiment','circulation']);
+for(const q of biologyBank.filter(q=>q.diagram)){assert.ok(bioDiagrams.has(q.diagram),'Unknown biology diagram '+q.diagram)}
+assert.ok(biologyBank.filter(q=>q.diagram).length>=20,'Biology practice must show relevant diagrams');
 assert.equal(examTrainingItems('unknown').length,0,'No invented local quiz');
 assert.deepEqual(examTrainingScore([],[]),{correct:0,total:0,percent:null,kind:'practice-only'});
 const reading=EXAM_LOCAL_BANK.romanian.filter(x=>x.id.startsWith('romanian-reading-'));
@@ -112,4 +123,13 @@ assert.match(EXAM_UI_SCRIPT,/🔎 Analiză pe text/,'Custom text analysis');
 assert.match(EXAM_UI_SCRIPT,/Ai ales: /,'Per-question chosen answer');
 assert.match(EXAM_UI_SCRIPT,/Greșite: /,'Wrong answer count');
 assert.match(EXAM_UI_SCRIPT,/bank\.slice\(15,20\)/,'Chapter-dependent vocabulary quiz');
+assert.match(EXAM_UI_SCRIPT,/function examBioDiagram/,'Draw original biology diagrams');
+assert.match(EXAM_UI_SCRIPT,/function examBiologyResources/,'Render substantial offline biology lessons');
+assert.match(EXAM_UI_SCRIPT,/Materie pentru recapitulare|Materia pentru recapitulare/,'Explicitly show the learning material');
+assert.match(EXAM_UI_SCRIPT,/examTopicTap/,'Use tap-friendly chapter selector');
+assert.match(EXAM_UI_SCRIPT,/examTopicMenu/,'In-page chapter menu');
+assert.match(EXAM_UI_SCRIPT,/practiceVersion=/,'Rotate practice variants, not just reopen the same five questions');
+assert.match(EXAM_UI_SCRIPT,/q\.diagram/,'Attach relevant figures to the question they explain');
+assert.match(EXAM_UI_SCRIPT,/examPracticeAnchor/,'Scroll to the new simulation');
+assert.match(EXAM_UI_SCRIPT,/printableGuide\.querySelectorAll/,'Include all study notes in printable PDF');
 console.log('PASS European exam pathways, 26 exam records, original local questions, session warnings, PDF, camera, Android voice and script boot');
