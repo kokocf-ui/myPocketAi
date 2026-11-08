@@ -55,4 +55,15 @@ assert.match(COMPUTING_UI_SCRIPT,/signal:controller.signal/,'Cancellation abort 
 assert.match(COMPUTING_UI_SCRIPT,/Codul nu a fost executat/,'No false code-execution claim');
 assert.match(COMPUTING_UI_SCRIPT,/\.slice\(offset,offset\+4\)/,'Maximum four choices displayed');
 assert.match(COMPUTING_UI_SCRIPT,/data\.status==='recognized'/,'Android dictation review');
+assert.match(html,/#view-module\.learning-computing #moduleChatHost\{display:none!important\}/,'Computing hides the duplicate assistant chat');
+assert.match(script,/\.computing-printable','\.computing-ai-result'/,'Computing PDFs include both lesson and AI answer');
+assert.match(COMPUTING_UI_SCRIPT,/computingNewConversation/,'New conversation action belongs to Computing workspace');
+assert.match(COMPUTING_UI_SCRIPT,/computingOpen\('workspace'\);/,'New conversation reconstructs clean workspace without changing chapter');
+assert.match(COMPUTING_UI_SCRIPT,/function computingRenderAnswer\(host,text\)/,'AI output uses a Markdown-aware safe renderer');
+assert.match(COMPUTING_UI_SCRIPT,/computingRenderAnswer\(output,String\(data\.reply\)/,'AI answer rendered once');
+assert.doesNotMatch(COMPUTING_UI_SCRIPT,/printable\.append\(generated\)/,'Duplicate AI paragraph is not appended to lesson');
+assert.match(COMPUTING_UI_SCRIPT,/id='computingNextLesson'/,'Correct quiz exposes next chapter control');
+assert.match(COMPUTING_UI_SCRIPT,/computingJourney\.topic=nextTopic\.id;computingOpen\('workspace'\)/,'Quiz continuation advances to next chapter');
+assert.match(COMPUTING_UI_SCRIPT,/if\(!editor\.value\.trim\(\)&&!output\.textContent\.trim\(\)\)/,'Automatic progression only when no unsaved work exists');
+assert.match(COMPUTING_UI_SCRIPT,/answers\.querySelectorAll\('button'\)\.forEach\(item=>item\.disabled=true\)/,'Completed quiz cannot be resubmitted');
 console.log('PASS Computing: 3 levels, 17 populated branches, 65 quizzes, navigation, PDF, OCR, voice, AI and full boot script.');
