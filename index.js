@@ -10381,7 +10381,7 @@ function hgRemember(kind){
  try{const key=hgProgressKey(),p=JSON.parse(localStorage.getItem(key)||'{}');p[hgJourney.topic]={...(p[hgJourney.topic]||{}),[kind]:new Date().toISOString()};localStorage.setItem(key,JSON.stringify(p))}catch{}
 }
 function hgBack(){
- const prev={subjects:null,scope:'subjects',country:'scope',levels:'scope',grade:'levels',specialties:'levels',chapters:hgJourney.level==='advanced'?'specialties':'levels',lesson:'chapters'};
+ const prev={subjects:'country',scope:'subjects',country:'scope',levels:'scope',grade:'levels',specialties:'levels',chapters:hgJourney.level==='advanced'?'specialties':'levels',lesson:'chapters'};
  if(prev[hgJourney.stage])hgOpen(prev[hgJourney.stage]);else renderLearningSubjects();
 }
 function hgOpen(stage){
@@ -10800,6 +10800,7 @@ function litCurrentTopic(){
 function litText(tag,label){const el=document.createElement(tag);el.textContent=label;return el}
 function litBtn(label,fn,cls='secondary-btn'){const el=document.createElement('button');el.type='button';el.className=cls;el.textContent=label;el.onclick=fn;return el}
 function litBack(){
+ if(litJourney.stage==='languages'||litJourney.stage==='countries')return educationCountryGate('literature',()=>litOpen('languages'));
  const stages={countries:null,languages:'countries',levels:'languages',grades:'levels',regions:'grades',tracks:'grades',topics:'branches',workspace:'topics'};
  if(litJourney.stage==='branches'){litOpen(litJourney.country==='RO'&&litJourney.grade==='9'?'tracks':litIsRegional()?'regions':'grades');return}
  if(stages[litJourney.stage])litOpen(stages[litJourney.stage]);else renderLearningSubjects()
