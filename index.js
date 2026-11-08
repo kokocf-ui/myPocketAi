@@ -9,6 +9,7 @@ import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
 import {FOREIGN_LANGUAGES,FOREIGN_LEVELS,FOREIGN_TOPICS,FOREIGN_PHRASES,ANCIENT_GREEK_PHRASES,CLASSICAL_LEVELS} from './foreign_languages_curriculum.mjs';
 import {MODERN_OUTCOMES,CLASSICAL_OUTCOMES,TOPIC_GOALS,foreignStudyPlan,foreignStudyRubric,foreignStudyReview,foreignStudyDue,foreignStudyPlacementQuestions,foreignStudyPlacementResult} from './foreign_languages_learning.mjs';
+import {FOREIGN_TOPIC_EXAMPLES,FOREIGN_CLASSICAL_VARIANTS} from './foreign_languages_examples.mjs';
 /**
  * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
@@ -9623,6 +9624,8 @@ const CLASSICAL_LEVELS=FOREIGN_CLASSICAL_LEVEL_DATA;
 const MODERN_OUTCOMES=${JSON.stringify(MODERN_OUTCOMES)};
 const CLASSICAL_OUTCOMES=${JSON.stringify(CLASSICAL_OUTCOMES)};
 const TOPIC_GOALS=${JSON.stringify(TOPIC_GOALS)};
+const FOREIGN_TOPIC_EXAMPLE_DATA=${JSON.stringify(FOREIGN_TOPIC_EXAMPLES)};
+const FOREIGN_CLASSICAL_VARIANT_DATA=${JSON.stringify(FOREIGN_CLASSICAL_VARIANTS)};
 const FOREIGN_PLAN=${foreignStudyPlan.toString()};
 const FOREIGN_RUBRIC=${foreignStudyRubric.toString()};
 const FOREIGN_REVIEW=${foreignStudyReview.toString()};
@@ -9631,9 +9634,23 @@ const FOREIGN_PLACEMENT_QUESTIONS=${foreignStudyPlacementQuestions.toString()};
 const FOREIGN_PLACEMENT_RESULT=${foreignStudyPlacementResult.toString()};
 let languageJourney={stage:'languages',language:null,variant:null,level:null,topic:null,phonetics:true,slow:false,busy:false,voice:false,placementAnswers:[],placementIndex:0,teacherHistory:[]};
 function languageCurrent(){return FOREIGN_LANGUAGE_DATA.find(x=>x.id===languageJourney.language)}
-function languageIsClassical(){return languageJourney.language==='la'||languageJourney.language==='el'&&languageJourney.variant==='ancient'}
+function languageIsClassical(){return languageJourney.language==='la'||languageJourney.language==='el'&&['ancient','koine'].includes(languageJourney.variant)}
 function languageLevels(){return languageIsClassical()?FOREIGN_CLASSICAL_LEVEL_DATA:FOREIGN_LEVEL_DATA}
-function languageWords(){return languageJourney.language==='el'&&languageJourney.variant==='ancient'?FOREIGN_ANCIENT_GREEK:FOREIGN_PHRASE_DATA[languageJourney.language]||[]}
+function languageWords(){
+ if(languageJourney.topic!=='greetings')return (FOREIGN_TOPIC_EXAMPLE_DATA[languageJourney.language]||{})[languageJourney.topic]||[];
+ if(languageJourney.language==='el'&&languageJourney.variant==='ancient')return FOREIGN_ANCIENT_GREEK;
+ if(languageJourney.language==='el'&&languageJourney.variant==='koine')return FOREIGN_CLASSICAL_VARIANT_DATA.koine.map((v,i)=>({id:'koine-'+i,original:v[0],phonetic:v[1],meaning:v[2]}));
+ if(languageJourney.language==='la'&&languageJourney.variant==='ecclesiastical')return FOREIGN_CLASSICAL_VARIANT_DATA.latinEcclesiastical.map((v,i)=>({id:'la-eccl-'+i,original:v[0],phonetic:v[1],meaning:v[2]}));
+ if(languageJourney.language==='en'&&languageJourney.variant==='US'){
+  const ipa=['/həˈloʊ/','/ɡʊd ˈmɔrnɪŋ/','/ˈθæŋk ju/','/ɡʊdˈbaɪ/','/jɛs/','/noʊ/'];
+  return FOREIGN_PHRASE_DATA.en.map((v,i)=>({...v,id:'en-US-'+i,phonetic:ipa[i]}));
+ }
+ if(languageJourney.language==='zh'&&languageJourney.variant==='traditional'){
+  const traditional=['你好','早上好','謝謝','再見','是','不是'];
+  return FOREIGN_PHRASE_DATA.zh.map((v,i)=>({...v,id:'zh-TW-'+i,original:traditional[i]}));
+ }
+ return FOREIGN_PHRASE_DATA[languageJourney.language]||[];
+}
 function languageButton(label,fn,cls='secondary-btn'){const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=label;b.onclick=fn;return b}
 function languageStatus(msg){const el=$('languageStatus');if(el)el.textContent=msg}
 function languageVoiceStop(){if(languageJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});languageJourney.voice=false}
@@ -9824,7 +9841,7 @@ function languageOpen(stage){
   const list=document.createElement('div');list.className='math-choice-list science-choice-list';let options=[];
   if(stage==='languages')options=FOREIGN_LANGUAGE_DATA;
   if(stage==='variants'){
-   options=languageJourney.language==='el'?[{id:'modern',ro:'Greacă modernă',en:'Modern Greek'},{id:'ancient',ro:'Greacă veche și Koine',en:'Ancient and Koine Greek'}]:
+   options=languageJourney.language==='el'?[{id:'modern',ro:'Greacă modernă',en:'Modern Greek'},{id:'ancient',ro:'Greacă veche clasică',en:'Classical Ancient Greek'},{id:'koine',ro:'Greacă biblică / Koine',en:'Koine / Biblical Greek'}]:
    languageJourney.language==='la'?[{id:'classical',ro:'Latină clasică',en:'Classical Latin'},{id:'ecclesiastical',ro:'Latină ecleziastică',en:'Ecclesiastical Latin'}]:
    languageJourney.language==='zh'?[{id:'simplified',ro:'Chineză simplificată',en:'Simplified Chinese'},{id:'traditional',ro:'Chineză tradițională',en:'Traditional Chinese'}]:
    [{id:'GB',ro:'Engleză britanică',en:'British English'},{id:'US',ro:'Engleză americană',en:'American English'}];
@@ -9860,8 +9877,7 @@ function languageOpen(stage){
    languageButton(learningLabel('📝 Evaluare','📝 Assessment'),()=>languageConversationStart('assessment')),
    languageButton(learningLabel('🔁 Recapitulare','🔁 Review'),languageReviewOpen));
   panel.append(modes);
-  const variantNeedsCuratedAudio=languageJourney.variant==='US'||languageJourney.variant==='traditional'||languageJourney.variant==='ecclesiastical';
-  const offline=!variantNeedsCuratedAudio&&languageJourney.topic==='greetings'&&(languageJourney.level==='A1'||languageIsClassical()&&languageJourney.level==='foundation');
+  const offline=(languageJourney.level==='A1'||languageIsClassical()&&languageJourney.level==='foundation')&&languageWords().length>0;
   const words=languageWords();
   if(offline){
    try{
