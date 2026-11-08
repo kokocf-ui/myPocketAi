@@ -1,3 +1,5 @@
+import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
+import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
 import {HG_SUBJECTS,HG_LEVELS,HG_SCOPES,HG_COUNTRIES,HG_HISTORY_TOPICS,HG_GEOGRAPHY_TOPICS,HG_SPECIALISATIONS,HG_VERIFIED_MAPS} from './history_geography_curriculum.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
@@ -6962,6 +6964,7 @@ function pocketExitVoiceResult(data){
 function pocketBackInsideModule(){
  const root=$('view-module');
  if(root.classList.contains('learning-active')&&root.classList.contains('learning-science')){scienceBack();return true}
+ if(root.classList.contains('learning-active')&&root.classList.contains('learning-computing')){computingBack();return true}
  if(root.classList.contains('learning-active')&&root.classList.contains('learning-math')){
   if(mathJourney.stage==='workspace'){mathJourney.stage='subjects';mathJourneyShowChoices('subjects');return true}
   if(mathJourney.stage==='subjects'){mathJourney.stage='levels';mathJourneyShowChoices('levels');return true}
@@ -9273,7 +9276,7 @@ function renderLearningSubjects(){
  document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');
  document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');
  mathCloseResults();
- $('view-module').classList.remove('learning-math','learning-science','learning-languages','learning-hg','learning-literature','science-choice-stage');
+ $('view-module').classList.remove('learning-math','learning-science','learning-languages','learning-hg','learning-literature','learning-computing','science-choice-stage');
  document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
@@ -9804,6 +9807,9 @@ function mathReadText(){
  }
 
 
+const COMPUTING_LEVELS_DATA=${JSON.stringify(COMPUTING_LEVELS)};
+const COMPUTING_PATHS_DATA=${JSON.stringify(COMPUTING_PATHS)};
+const COMPUTING_TOPICS_DATA=${JSON.stringify(COMPUTING_TOPICS)};
 const HG_SUBJECT_DATA=${JSON.stringify(HG_SUBJECTS)};
 const HG_LEVEL_DATA=${JSON.stringify(HG_LEVELS)};
 const HG_SCOPE_DATA=${JSON.stringify(HG_SCOPES)};
@@ -10862,11 +10868,12 @@ function litWorkspace(panel){
 }
 
 
+${COMPUTING_UI_SCRIPT}
 function eduPrintEscape(value){return String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function eduCurrentPrintable(){
  const root=$('moduleContent');if(!root)return null;
  const title=($('moduleTitle')?.textContent||learningLabel('Material educațional','Educational material')).trim();
- const selectors=['.lit-result','.hg-lesson-output','.hg-event-content','#mathEducationWorkspace','#scienceEducationWorkspace','#languageStudyOutput','.foreign-lesson-output','.education-theory-detail','.education-result','.science-education-output'];
+ const selectors=['.computing-printable','.lit-result','.hg-lesson-output','.hg-event-content','#mathEducationWorkspace','#scienceEducationWorkspace','#languageStudyOutput','.foreign-lesson-output','.education-theory-detail','.education-result','.science-education-output'];
  const parts=[];
  for(const query of selectors){
   for(const el of root.querySelectorAll(query)){
@@ -10886,6 +10893,8 @@ function eduCurrentPrintable(){
   }
  }
  let descriptive=title;
+ const comp=$('view-module')?.classList.contains('learning-computing');
+ if(comp){const topic=COMPUTING_TOPICS_DATA.find(x=>x.id===computingJourney.topic);descriptive='Informatica — '+(topic?.ro||'lecție');}
  const lit=$('view-module')?.classList.contains('learning-literature');
  if(lit){
   const work=root.querySelector('#litWorkTitle')?.value.trim()||'';
@@ -10978,6 +10987,7 @@ function eduAttachPrintAction(bar){
 function openLearningSubject(key){
  if(key==='history'){hgRestore();hgOpen('subjects');return}
  if(key==='literature'){litOpen('countries');return}
+ if(key==='computing'){computingOpen('levels');return}
  if(key==='languages'){languageOpen('languages');return}
  if(key==='science'){scienceJourneyShowChoices('subjects');return}
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
@@ -13923,6 +13933,9 @@ $('mathResultDialog').addEventListener('close',()=>{
 window.pocketAndroidOcrResult=function(data){
  if(state.currentModule!=='learning'||!activeLearningSubject||state.currentView!=='module')return;
  if(data?.status==='cancelled')return;
+ if(activeLearningSubject[0]==='computing'&&computingJourney.stage==='workspace'){
+  computingPhotoReview(String(data?.text||''));return;
+ }
  if(activeLearningSubject[0]==='science'&&scienceJourney.stage==='workspace'){
   if(data?.status==='error'){scienceStatus(learningLabel('Fotografia nu a putut fi citită.','Photo could not be read.'));return}
   sciencePhotoReview(typeof data?.text==='string'?data.text:'');return;
@@ -16880,6 +16893,7 @@ window.pocketAndroidVoiceResult=function(data){
  if(educationTheoryHandleAndroid(data))return;
  if(languageVoiceHandleAndroid(data))return;
  if(scienceVoiceHandleAndroid(data))return;
+ if(computingVoiceHandleAndroid(data))return;
  if(mathVoiceHandleAndroid(data))return;
  if(shopVoiceHandleAndroid(data))return;
  if(agendaVoiceHandleAndroid(data))return;
