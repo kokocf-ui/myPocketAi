@@ -10735,11 +10735,26 @@ function litOpen(stage){
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel';
  const titles={countries:['Alege țara pentru programa școlară','Choose curriculum country'],languages:['Alege limba studiului','Choose study language'],levels:['Alege nivelul','Choose level'],grades:['Alege clasa / anul de studiu','Choose year or grade'],regions:['Precizează regiunea','Specify region'],tracks:['Alege profilul','Choose school track'],branches:['Alege ramura','Choose area'],topics:['Alege capitolul','Choose chapter'],workspace:['Spațiu de lucru','Workspace']};
  panel.append(litText('h2',learningLabel(...titles[stage])));host.append(panel);
- const list=(choices,cb)=>{const box=document.createElement('div');box.className='lit-options';for(const choice of choices){
-   const btn=litBtn(learningLabel(choice.ro,choice.en),()=>cb(choice),'secondary-btn lit-option');box.append(btn)
-  }panel.append(box)};
- if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litOpen('languages')})}
- if(stage==='languages'){const choices=LIT_LANGUAGES.map(x=>({id:x[0],ro:x[1],en:x[2]}));list(choices,c=>{litJourney.language=c.id;litOpen('levels')})}
+ const list=(choices,cb,searchable=false)=>{
+  const box=document.createElement('div');box.className='lit-options';
+  const paint=(query='')=>{
+   box.replaceChildren();
+   const fold=value=>String(value||'').normalize('NFD').split('').filter(c=>{const n=c.charCodeAt(0);return n<768||n>879}).join('').toLowerCase();
+   const q=fold(query).trim();
+   const shown=(searchable?choices.filter(c=>fold(c.ro).includes(q)||fold(c.en).includes(q)).slice(0,4):choices);
+   for(const choice of shown){box.append(litBtn(learningLabel(choice.ro,choice.en),()=>cb(choice),'secondary-btn lit-option'))}
+   if(!shown.length)box.append(litText('p',learningLabel('Nu s-au găsit rezultate.','No matching results.')));
+  };
+  if(searchable){
+   const search=document.createElement('input');search.type='search';search.className='lit-input';search.setAttribute('aria-label',learningLabel('Caută în listă','Search list'));
+   search.placeholder=learningLabel('Scrie primele litere…','Start typing…');
+   search.addEventListener('input',()=>paint(search.value));
+   panel.append(search);
+  }
+  panel.append(box);paint();
+ };
+ if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litOpen('languages')},true)}
+ if(stage==='languages'){const choices=LIT_LANGUAGES.map(x=>({id:x[0],ro:x[1],en:x[2]}));list(choices,c=>{litJourney.language=c.id;litOpen('levels')},true)}
  if(stage==='levels'){
   panel.append(litText('p',learningLabel('Nivelul determină complexitatea explicațiilor și cerințelor.','Level determines the depth of teaching and exercises.')));
   const choices=[{id:'beginner',ro:'Începător — Primar',en:'Beginner — Primary'},{id:'medium',ro:'Mediu — Gimnaziu și liceu',en:'Intermediate — Secondary school'},{id:'advanced',ro:'Avansat — Universitate și mai departe',en:'Advanced — University and beyond'}];
