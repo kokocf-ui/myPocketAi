@@ -699,8 +699,8 @@ export const PHYSICS_LESSONS = Object.freeze([
     "id": "physics-electromagnetism-0",
     "subject": "physics",
     "title": "Legea lui Coulomb",
-    "statement": "q₁q₂",
-    "formula": "F=k",
+    "statement": "Forța între două sarcini punctiforme în vid este invers proporțională cu pătratul distanței.",
+    "formula": "F = k·|q₁q₂|/r²",
     "aliases": [
       "legea lui coulomb"
     ],
@@ -927,8 +927,8 @@ export const PHYSICS_LESSONS = Object.freeze([
     "id": "physics-measurement-0",
     "subject": "physics",
     "title": "Eroare relativă",
-    "statement": "Δx",
-    "formula": "ε=",
+    "statement": "Raportul erorii absolute la modulul valorii de referință nenule.",
+    "formula": "ε = |Δx|/|xref|",
     "aliases": [
       "eroare relativă"
     ],
