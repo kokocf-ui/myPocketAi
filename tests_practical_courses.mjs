@@ -42,6 +42,10 @@ assert.equal(practicalReferences('RO','daily','daily-1').length,0,'Do not invent
 assert.ok(practicalReferences('RO','business','business-5')[0].url.includes('europa.eu'),'Business registration reference must be business-specific');
 assert.ok(practicalReferences('RO','trades','trades-2')[0].url.includes('inspectiamuncii.ro'),'Use workplace safety reference for trade-safety lessons');
 assert.ok(practicalReferences('GB-ENG','finance','finance-1')[0].url.includes('moneyhelper.org.uk'),'Use UK budgeting authority');
+assert.equal(practicalReferences('RO','trades','trades-3').length,0,'No occupational-safety homepage for material-selection lessons');
+assert.ok(practicalReferences('RO','trades','trades-1')[0].url.includes('bipm.org'),'Use SI official measurements guide');
+assert.equal(practicalReferences('RO','business','business-3').length,0,'Do not pass a company-registration source off as margin training');
+assert.equal(practicalReferences('RO','career','career-5').length,0,'Do not display employment office as a portfolio tutorial');
 for(const links of Object.values(PRACTICAL_REFERENCES))for(const item of Object.values(links))assert.ok(item.url?.startsWith('https://'),'Official source URL must exist');
 assert.equal(new Set(allChapters.map(x=>x.id)).size,36);
 for(const course of PRACTICAL_COURSES){
