@@ -159,10 +159,10 @@ function computingWorkspace(panel){
    try{const key='mypocketai.computing.completed.v1',stored=JSON.parse(localStorage.getItem(key)||'{}');stored[t.id]=Date.now();localStorage.setItem(key,JSON.stringify(stored))}catch{}
    answers.querySelectorAll('button').forEach(item=>item.disabled=true);
    continueBtn.hidden=false;
-   // No unsaved work: proceed after showing the correct-answer feedback.
-   // When the learner has written code or received AI help, keep it visible until Continue is tapped.
-   if(!editor.value.trim()&&!output.textContent.trim()){
-    setTimeout(()=>{if(quiz.isConnected&&computingJourney.stage==='workspace'&&computingJourney.topic===t.id)continueBtn.click()},1800);
+   // Continue automatically when the learner has no unsaved code and is not listening to narration.
+   // Written code stays on screen until Continue is tapped; an AI explanation alone does not block progress.
+   if(!editor.value.trim()&&!state.speaking){
+    setTimeout(()=>{if(quiz.isConnected&&computingJourney.stage==='workspace'&&computingJourney.topic===t.id)continueBtn.click()},2400);
    }
   });
   b.setAttribute('aria-pressed','false');b.style.cssText='width:100%;text-align:left;white-space:normal;';answers.append(b)
