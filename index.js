@@ -2937,6 +2937,12 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
 #view-module.learning-literature .lit-actions{display:flex;flex-wrap:wrap;gap:8px}
 #view-module.learning-literature .lit-result{white-space:pre-wrap;line-height:1.5;overflow-wrap:anywhere;max-height:52dvh;overflow-y:auto}
 @media(max-width:420px){#view-module.learning-literature .lit-controls{grid-template-columns:1fr}}
+.edu-print-dialog{border:1px solid #4b95ac;border-radius:16px;background:#0a2637;color:#f2faff;width:min(94vw,720px);max-height:90dvh;overflow:auto;padding:16px}
+.edu-print-dialog::backdrop{background:#000a}
+.edu-print-dialog .edu-print-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.edu-print-dialog input,.edu-print-dialog textarea{display:block;width:100%;box-sizing:border-box;background:#102e43;color:#f5fbff;border:1px solid #5f92a8;border-radius:9px;padding:10px;margin:9px 0}
+.edu-print-dialog textarea{height:min(42dvh,380px);white-space:pre-wrap;resize:vertical}
+.edu-print-trigger{min-width:0!important}
 #view-module.learning-hg .hg-choice-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;align-content:start!important}
 #view-module.learning-hg .hg-choice{width:100%!important;min-width:0!important;min-height:56px!important;text-align:center!important;white-space:normal!important;padding:8px!important;overflow-wrap:anywhere!important}
 #view-module.learning-hg .hg-select,#view-module.learning-hg .hg-request,#view-module.learning-hg .hg-quiz textarea{display:block!important;width:100%!important;max-width:100%!important;min-height:44px!important;margin:5px 0 9px!important;background:#0b2638;color:#effaff;border:1px solid #52859e;border-radius:10px;padding:8px!important}
@@ -7081,7 +7087,7 @@ function scienceJourneyShowChoices(stage){
  back.className='secondary-btn science-stage-back';
  back.textContent=learningLabel('← Înapoi','← Back');back.onclick=scienceBack;
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
- bar.append(back);host.append(bar);
+ bar.append(back);eduAttachPrintAction(bar);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
  const title=document.createElement('h2');
  title.textContent=stage==='subjects'?learningLabel('Alege materia','Choose subject'):
@@ -9170,7 +9176,7 @@ function mathJourneyShowChoices(stage){
  back.textContent=learningLabel('← Înapoi','← Back');
  back.onclick=stage==='levels'?renderLearningSubjects:()=>{mathJourney.stage='levels';mathJourneyShowChoices('levels')};
  const bar=document.createElement('div');bar.className='education-toolbar';
- bar.append(back);host.append(bar);
+ bar.append(back);eduAttachPrintAction(bar);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel';
  const title=document.createElement('h2');
  title.textContent=stage==='levels'?learningLabel('Alege nivelul','Choose level'):learningLabel('Alege materia','Choose subject');
@@ -10131,7 +10137,7 @@ function languageOpen(stage){
  $('moduleTitle').textContent=learningLabel('Limbi străine','Languages')+(info?' · '+learningLabel(info.ro,info.en):'');
  $('moduleLead').textContent='';host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
- bar.append(foreignStudyButton(learningLabel('← Înapoi','← Back'),languageBack));host.append(bar);
+ bar.append(foreignStudyButton(learningLabel('← Înapoi','← Back'),languageBack));eduAttachPrintAction(bar);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';panel.classList.add('foreign-stage-'+stage);
  const title=document.createElement('h2');title.textContent=stage==='languages'?learningLabel('Alege limba','Choose language'):stage==='variants'?learningLabel('Alege varianta','Choose variant'):stage==='levels'?learningLabel('Alege nivelul','Choose level'):stage==='topics'?learningLabel('Alege capitolul','Choose chapter'):stage==='placement'?learningLabel('Test introductiv','Starter diagnostic'):learningLabel('Lecție de limbi străine','Language lesson');panel.append(title);
  if(stage==='placement'){languagePlacementRender(panel);host.append(panel);return}
@@ -10263,7 +10269,7 @@ function hgOpen(stage){
  $('moduleTitle').textContent=hgL('Istorie și geografie','History and geography')+(hgSubject()?' · '+hgL(hgSubject().ro,hgSubject().en):'');
  $('moduleLead').textContent='';host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar hg-toolbar';
- bar.append(hgBtn(hgL('← Înapoi','← Back'),hgBack,'secondary-btn hg-back'));host.append(bar);
+ bar.append(hgBtn(hgL('← Înapoi','← Back'),hgBack,'secondary-btn hg-back'));eduAttachPrintAction(bar);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel hg-panel hg-'+stage;
  panel.append(hgText('h2',{
   subjects:hgL('Alege materia','Choose subject'),
@@ -10629,7 +10635,7 @@ function litOpen(stage){
  $('moduleTitle').textContent=learningLabel('Limbă și literatură','Language and literature');
  $('moduleLead').textContent='';host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar lit-toolbar';
- bar.append(litBtn(learningLabel('← Înapoi','← Back'),litBack,'secondary-btn lit-back'));host.append(bar);
+ bar.append(litBtn(learningLabel('← Înapoi','← Back'),litBack,'secondary-btn lit-back'));eduAttachPrintAction(bar);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel';
  const titles={languages:['Alege limba studiului','Choose study language'],levels:['Alege nivelul','Choose level'],branches:['Alege ramura','Choose area'],topics:['Alege capitolul','Choose chapter'],workspace:['Spațiu de lucru','Workspace']};
  panel.append(litText('h2',learningLabel(...titles[stage])));host.append(panel);
@@ -10703,6 +10709,59 @@ function litWorkspace(panel){
  const copy=litBtn(learningLabel('Copiază textul','Copy text'),async()=>{if(!out.textContent)return;try{await navigator.clipboard.writeText(out.innerText||out.textContent);status.textContent=learningLabel('Text copiat.','Text copied.')}catch{status.textContent=learningLabel('Copiere indisponibilă.','Copy unavailable.')}},'secondary-btn');
  const read=litBtn(learningLabel('Citește','Read aloud'),()=>{if(out.textContent&&typeof speakText==='function')speakText(out.textContent.slice(0,3000))},'secondary-btn');
  const actions=document.createElement('div');actions.className='lit-actions';actions.append(generate,copy,read);panel.append(actions,out,status);
+}
+
+
+function eduPrintEscape(value){return String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function eduCurrentPrintable(){
+ const root=$('moduleContent');if(!root)return null;
+ const title=($('moduleTitle')?.textContent||learningLabel('Material educațional','Educational material')).trim();
+ const selectors=['.lit-result','.hg-lesson-output','.hg-event-content','#mathEducationWorkspace','#scienceEducationWorkspace','#languageStudyOutput','.foreign-lesson-output','.education-theory-detail','.education-result','.science-education-output'];
+ const parts=[];
+ for(const query of selectors){
+  for(const el of root.querySelectorAll(query)){
+   if(el.offsetParent===null||!el.textContent?.trim())continue;
+   const clone=el.cloneNode(true);
+   clone.querySelectorAll('button,input,textarea,select,iframe,script,style,nav,.education-toolbar').forEach(node=>node.remove());
+   const value=(clone.innerText||clone.textContent||'').trim();
+   if(value&&!parts.includes(value))parts.push(value);
+  }
+ }
+ if(!parts.length){
+  const panel=root.querySelector('.lit-panel,.hg-lesson-output,.hg-panel,.science-choice-panel,.math-choice-panel,.foreign-stage-lesson');
+  if(panel){
+   const clone=panel.cloneNode(true);
+   clone.querySelectorAll('button,input,textarea,select,iframe,script,style,nav,.education-toolbar,.lit-options,.hg-choice-list').forEach(node=>node.remove());
+   const value=(clone.textContent||'').trim();if(value.length>20)parts.push(value);
+  }
+ }
+ return {title,text:parts.join('\n\n').slice(0,160000)};
+}
+function eduOpenPrint(){
+ const material=eduCurrentPrintable();
+ if(!material?.text.trim()){alert(learningLabel('Nu există încă un material de imprimat. Generează sau completează mai întâi lucrarea.','No printable material yet. Generate or complete the work first.'));return}
+ const dialog=document.createElement('dialog');dialog.className='edu-print-dialog';
+ const header=document.createElement('div');header.className='edu-print-head';
+ const heading=document.createElement('strong');heading.textContent=learningLabel('PDF și imprimare','PDF and printing');
+ const close=document.createElement('button');close.className='secondary-btn';close.type='button';close.textContent=learningLabel('Închide','Close');close.onclick=()=>dialog.close();
+ header.append(heading,close);dialog.append(header);
+ const description=document.createElement('p');description.textContent=learningLabel('Verifică textul înainte de tipărire. Pe Android, alege imprimanta sau „Salvare ca PDF”.','Review the text before printing. On Android, choose a printer or Save as PDF.');dialog.append(description);
+ const titleInput=document.createElement('input');titleInput.value=material.title;titleInput.setAttribute('aria-label',learningLabel('Titlu document','Document title'));dialog.append(titleInput);
+ const editor=document.createElement('textarea');editor.value=material.text;editor.setAttribute('aria-label',learningLabel('Conținut de imprimat','Printable content'));dialog.append(editor);
+ const print=document.createElement('button');print.type='button';print.className='primary-btn';print.textContent=learningLabel('PDF / Imprimă','PDF / Print');
+ print.onclick=()=>{
+  const title=titleInput.value.trim()||'Material educațional',text=editor.value.trim();if(!text)return;
+  if(window.PocketAndroidPrint?.postMessage){window.PocketAndroidPrint.postMessage(JSON.stringify({title:title.slice(0,120),text:text.slice(0,160000)}));return}
+  const windowRef=window.open('','_blank');
+  if(!windowRef){alert(learningLabel('Deschide aplicația Android sau permite fereastra de imprimare.','Open the Android app or allow the print window.'));return}
+  const markup='<html><head><meta charset="utf-8"><title>'+eduPrintEscape(title)+'</title><style>body{font-family:Arial,sans-serif;color:#111;margin:18mm;line-height:1.5}h1{font-size:20pt}article{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11pt}@page{size:A4;margin:16mm}</style></head><body><h1>'+eduPrintEscape(title)+'</h1><article>'+eduPrintEscape(text)+'</article></body></html>';
+  windowRef.document.open();windowRef.document.write(markup);windowRef.document.close();windowRef.focus();windowRef.print();
+ };
+ dialog.append(print);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+function eduAttachPrintAction(bar){
+ if(!bar||bar.querySelector('.edu-print-trigger'))return;
+ const button=document.createElement('button');button.type='button';button.className='secondary-btn edu-print-trigger';button.textContent=learningLabel('PDF / Imprimă','PDF / Print');button.onclick=eduOpenPrint;bar.append(button)
 }
 
 function openLearningSubject(key){
