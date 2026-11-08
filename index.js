@@ -8,7 +8,7 @@ import {physicsVerifiedExercise} from './physics_verified.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
 import {FOREIGN_LANGUAGES,FOREIGN_LEVELS,FOREIGN_TOPICS,FOREIGN_PHRASES,ANCIENT_GREEK_PHRASES,CLASSICAL_LEVELS} from './foreign_languages_curriculum.mjs';
-import {foreignStudyPlan,foreignStudyRubric,foreignStudyReview,foreignStudyDue,foreignStudyPlacementQuestions,foreignStudyPlacementResult} from './foreign_languages_learning.mjs';
+import {MODERN_OUTCOMES,CLASSICAL_OUTCOMES,TOPIC_GOALS,foreignStudyPlan,foreignStudyRubric,foreignStudyReview,foreignStudyDue,foreignStudyPlacementQuestions,foreignStudyPlacementResult} from './foreign_languages_learning.mjs';
 /**
  * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
@@ -9614,6 +9614,15 @@ const FOREIGN_TOPIC_DATA=${JSON.stringify(FOREIGN_TOPICS)};
 const FOREIGN_PHRASE_DATA=${JSON.stringify(FOREIGN_PHRASES)};
 const FOREIGN_ANCIENT_GREEK=${JSON.stringify(ANCIENT_GREEK_PHRASES)};
 const FOREIGN_CLASSICAL_LEVEL_DATA=${JSON.stringify(CLASSICAL_LEVELS)};
+const FOREIGN_LANGUAGES=FOREIGN_LANGUAGE_DATA;
+const FOREIGN_LEVELS=FOREIGN_LEVEL_DATA;
+const FOREIGN_TOPICS=FOREIGN_TOPIC_DATA;
+const FOREIGN_PHRASES=FOREIGN_PHRASE_DATA;
+const ANCIENT_GREEK_PHRASES=FOREIGN_ANCIENT_GREEK;
+const CLASSICAL_LEVELS=FOREIGN_CLASSICAL_LEVEL_DATA;
+const MODERN_OUTCOMES=${JSON.stringify(MODERN_OUTCOMES)};
+const CLASSICAL_OUTCOMES=${JSON.stringify(CLASSICAL_OUTCOMES)};
+const TOPIC_GOALS=${JSON.stringify(TOPIC_GOALS)};
 const FOREIGN_PLAN=${foreignStudyPlan.toString()};
 const FOREIGN_RUBRIC=${foreignStudyRubric.toString()};
 const FOREIGN_REVIEW=${foreignStudyReview.toString()};
