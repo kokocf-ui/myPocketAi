@@ -2,6 +2,9 @@ import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathwa
 import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_europe.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
+import {PRACTICAL_COURSES,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
+import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
+import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
@@ -1510,7 +1513,7 @@ body.long-choice-active{overflow:hidden}
 </style>
 
 <style>
-#view-module.learning-languages #moduleChatHost,#view-module.learning-computing #moduleChatHost,#view-module.learning-exams #moduleChatHost{display:none!important}
+#view-module.learning-languages #moduleChatHost,#view-module.learning-computing #moduleChatHost,#view-module.learning-exams #moduleChatHost,#view-module.learning-practical #moduleChatHost{display:none!important}
 #view-module.learning-languages .science-choice-panel{max-height:calc(100dvh - 190px);overflow-y:auto;overscroll-behavior:contain;min-height:0}
 #view-module.learning-languages .foreign-word-card{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px;margin:8px 0;border-radius:12px;border:1px solid rgba(144,198,228,.32);background:rgba(15,44,66,.35)}
 #view-module.learning-languages .foreign-original{font-size:1.32rem;line-height:1.45;flex-basis:100%;overflow-wrap:anywhere}
@@ -1518,6 +1521,14 @@ body.long-choice-active{overflow:hidden}
 #view-module.learning-languages .foreign-word-card>div:not(.foreign-phonetic){flex-basis:100%}
 #view-module.learning-languages .foreign-word-card button{max-width:48%;flex:1}
 #view-module.learning-languages textarea{display:block;width:100%;min-height:85px;resize:vertical}
+</style>
+<style id="education-accessible-taps">
+#view-module.learning-active select{min-height:48px;touch-action:manipulation;font-size:16px!important;max-width:100%;}
+#view-module.learning-active .education-tap-proxy{max-width:100%;min-width:0;}
+#view-module.learning-active .education-tap-list .secondary-btn{min-width:0!important;max-width:100%!important;}
+#view-module.learning-practical .practical-panel{width:100%;max-width:100%;min-width:0;overflow-wrap:anywhere;}
+#view-module.learning-practical .practical-panel fieldset{max-width:100%;min-width:0;}
+#view-module.learning-practical .practical-panel textarea{font-size:16px;}
 </style>
 </head>
 <body>
@@ -6969,6 +6980,7 @@ function pocketBackInsideModule(){
  const root=$('view-module');
  if(root.classList.contains('learning-active')&&root.classList.contains('learning-science')){scienceBack();return true}
  if(root.classList.contains('learning-active')&&root.classList.contains('learning-exams')){examBack();return true}
+ if(root.classList.contains('learning-active')&&root.classList.contains('learning-practical')){practicalBack();return true}
  if(root.classList.contains('learning-active')&&root.classList.contains('learning-computing')){computingBack();return true}
  if(root.classList.contains('learning-active')&&root.classList.contains('learning-math')){
   if(mathJourney.stage==='workspace'){mathJourney.stage='subjects';mathJourneyShowChoices('subjects');return true}
@@ -9281,7 +9293,7 @@ function renderLearningSubjects(){
  document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');
  document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');
  mathCloseResults();
- $('view-module').classList.remove('learning-math','learning-science','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','science-choice-stage');
+ $('view-module').classList.remove('learning-math','learning-science','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','learning-practical','science-choice-stage');
  document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
@@ -9818,6 +9830,9 @@ const EXAM_SPECS_DATA=${JSON.stringify(EXAM_SPECS)};
 const EXAM_SUBJECTS_DATA=${JSON.stringify(EXAM_SUBJECTS)};
 const EXAM_SESSION_YEARS_DATA=${JSON.stringify(EXAM_SESSION_YEARS)};
 const EXAM_PRACTICE_DATA=${JSON.stringify(EXAM_LOCAL_BANK)};
+const PRACTICAL_COURSES_DATA=${JSON.stringify(PRACTICAL_COURSES)};
+const PRACTICAL_COUNTRIES_DATA=${JSON.stringify(PRACTICAL_COUNTRIES)};
+const PRACTICAL_LEVELS_DATA=${JSON.stringify(PRACTICAL_LEVELS)};
 const COMPUTING_LEVELS_DATA=${JSON.stringify(COMPUTING_LEVELS)};
 const COMPUTING_PATHS_DATA=${JSON.stringify(COMPUTING_PATHS)};
 const COMPUTING_TOPICS_DATA=${JSON.stringify(COMPUTING_TOPICS)};
@@ -10881,11 +10896,13 @@ function litWorkspace(panel){
 
 ${COMPUTING_UI_SCRIPT}
 ${EXAM_UI_SCRIPT}
+${PRACTICAL_UI_SCRIPT}
+${EDUCATION_SELECTS_UI_SCRIPT}
 function eduPrintEscape(value){return String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function eduCurrentPrintable(){
  const root=$('moduleContent');if(!root)return null;
  const title=($('moduleTitle')?.textContent||learningLabel('Material educațional','Educational material')).trim();
- const selectors=['.exam-printable','.exam-output','.computing-printable','.computing-ai-result','.lit-result','.hg-lesson-output','.hg-event-content','#mathEducationWorkspace','#scienceEducationWorkspace','#languageStudyOutput','.foreign-lesson-output','.education-theory-detail','.education-result','.science-education-output'];
+ const selectors=['.exam-printable','.exam-output','.practical-printable','.practical-ai-output','.practical-result','.computing-printable','.computing-ai-result','.lit-result','.hg-lesson-output','.hg-event-content','#mathEducationWorkspace','#scienceEducationWorkspace','#languageStudyOutput','.foreign-lesson-output','.education-theory-detail','.education-result','.science-education-output'];
  const parts=[];
  for(const query of selectors){
   for(const el of root.querySelectorAll(query)){
@@ -11003,6 +11020,7 @@ function openLearningSubject(key){
  if(key==='literature'){litOpen('countries');return}
  if(key==='computing'){computingOpen('levels');return}
  if(key==='exams'){examOpen('countries');return}
+ if(key==='practical'){practicalJourney.country=state.language==='ro'?'RO':'GB-ENG';practicalOpen('countries');return}
  if(key==='languages'){languageOpen('languages');return}
  if(key==='science'){scienceJourneyShowChoices('subjects');return}
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
@@ -16911,6 +16929,7 @@ window.pocketAndroidVoiceResult=function(data){
  if(scienceVoiceHandleAndroid(data))return;
  if(computingVoiceHandleAndroid(data))return;
  if(examVoiceHandleAndroid(data))return;
+ if(practicalVoiceHandleAndroid(data))return;
  if(mathVoiceHandleAndroid(data))return;
  if(shopVoiceHandleAndroid(data))return;
  if(agendaVoiceHandleAndroid(data))return;
