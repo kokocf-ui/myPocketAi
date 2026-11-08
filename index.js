@@ -9654,7 +9654,7 @@ function languageWords(){
  }
  return FOREIGN_PHRASE_DATA[languageJourney.language]||[];
 }
-function languageButton(label,fn,cls='secondary-btn'){const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=label;b.onclick=fn;return b}
+function foreignStudyButton(label,fn,cls='secondary-btn'){const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=label;b.onclick=fn;return b}
 function languageStatus(msg){const el=$('languageStatus');if(el)el.textContent=msg}
 function languageVoiceStop(){if(languageJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});languageJourney.voice=false}
 function languageBack(){
@@ -9694,16 +9694,16 @@ function languagePractice(card){
  const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog';
  const head=document.createElement('div');head.className='education-theory-head';
  const h=document.createElement('h2');h.textContent=learningLabel('Exersează','Practice');
- head.append(h,languageButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));
+ head.append(h,foreignStudyButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));
  const p=document.createElement('p');p.textContent=learningLabel('Scrie în limba studiată: ','Write in the target language: ')+card.meaning;
  const entry=document.createElement('input');entry.id='languageAnswer';entry.type='text';entry.setAttribute('aria-label',p.textContent);
  const feedback=document.createElement('p');feedback.setAttribute('role','status');
  const norm=x=>String(x||'').normalize('NFKC').toLocaleLowerCase().replace(/[!?.,;:]/g,'').replace(/\\s+/g,' ').trim();
- const check=languageButton(learningLabel('✓ Verifică','✓ Check'),()=>{
+ const check=foreignStudyButton(learningLabel('✓ Verifică','✓ Check'),()=>{
   const ok=norm(entry.value)===norm(card.original);languageRecord(card,ok);
   feedback.textContent=ok?learningLabel('Corect!','Correct!'):learningLabel('Răspunsul din lecție: ','Lesson answer: ')+card.original;
  },'primary-btn');
- dialog.append(head,p,entry,languageButton(learningLabel('🎙 Dictare','🎙 Dictate'),languageDictate),check,feedback);
+ dialog.append(head,p,entry,foreignStudyButton(learningLabel('🎙 Dictare','🎙 Dictate'),languageDictate),check,feedback);
  dialog.addEventListener('close',()=>{languageVoiceStop();dialog.remove();languageOpen('lesson')});document.body.append(dialog);
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
@@ -9719,7 +9719,7 @@ async function languageAIGenerate(request){
   const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog';
   const head=document.createElement('div');head.className='education-theory-head';
   const title=document.createElement('h2');title.textContent=learningLabel('Lecție · ','Lesson · ')+info.ro;
-  head.append(title,languageButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));
+  head.append(title,foreignStudyButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));
   const content=document.createElement('div');content.className='science-result-text';content.textContent=String(result.reply).slice(0,16000);
   const caution=document.createElement('p');caution.textContent=learningLabel('Conținut AI: verifică transcrierea și traducerile în scop de examinare.','AI content: verify pronunciation and translations before exams.');
   dialog.append(head,content,caution);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);
@@ -9745,13 +9745,13 @@ function languagePlacementRender(panel){
   const verdict=FOREIGN_PLACEMENT_RESULT(languageJourney.placementAnswers,questions,languageIsClassical());
   const info=document.createElement('p');info.textContent=learningLabel('Test introductiv: ','Starter diagnostic: ')+verdict.correct+'/'+verdict.total+' ('+verdict.percent+'%). '+verdict.notice;
   panel.append(info);
-  panel.append(languageButton(learningLabel('Continuă la nivelul recomandat','Continue at suggested level'),()=>{languageJourney.level=verdict.recommendation;languageOpen('topics')},'primary-btn'));
-  panel.append(languageButton(learningLabel('Alege manual nivelul','Choose level manually'),()=>languageOpen('levels')));
+  panel.append(foreignStudyButton(learningLabel('Continuă la nivelul recomandat','Continue at suggested level'),()=>{languageJourney.level=verdict.recommendation;languageOpen('topics')},'primary-btn'));
+  panel.append(foreignStudyButton(learningLabel('Alege manual nivelul','Choose level manually'),()=>languageOpen('levels')));
   return;
  }
  const note=document.createElement('p');note.textContent=learningLabel('Întrebarea ','Question ')+(index+1)+'/'+questions.length+'. '+learningLabel('Scrie în limba studiată: ','Write in the target language: ')+question.question;panel.append(note);
  const input=document.createElement('input');input.id='languagePlacementAnswer';input.autocomplete='off';input.type='text';input.setAttribute('aria-label',note.textContent);panel.append(input);
- const next=languageButton(index===questions.length-1?learningLabel('Rezultat','Result'):learningLabel('Următoarea','Next'),()=>{
+ const next=foreignStudyButton(index===questions.length-1?learningLabel('Rezultat','Result'):learningLabel('Următoarea','Next'),()=>{
   languageJourney.placementAnswers.push(input.value);languageJourney.placementIndex++;languageOpen('placement');
  },'primary-btn');
  panel.append(next);
@@ -9779,7 +9779,7 @@ function languageFullPlacement(){
  const lang=languageCurrent();const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog';
  const head=document.createElement('div');head.className='education-theory-head';
  const heading=document.createElement('h2');heading.textContent=learningLabel('Evaluare de nivel orientativă','Formative placement assessment');
- head.append(heading,languageButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));dialog.append(head);
+ head.append(heading,foreignStudyButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));dialog.append(head);
  const info=document.createElement('p');info.textContent=learningLabel('Răspunde în limba studiată. Poți sări peste cerințele dificile. Evaluarea AI nu este certificat CEFR.','Answer in the target language. Skip difficult tasks. AI placement is not CEFR certification.');dialog.append(info);
  const area=document.createElement('div');dialog.append(area);let index=0;const answers=[];
  const render=()=>{
@@ -9787,7 +9787,7 @@ function languageFullPlacement(){
   const question=document.createElement('p');question.textContent=(index+1)+'/'+questions.length+' · '+questions[index];area.append(question);
   const entry=document.createElement('textarea');entry.rows=5;entry.placeholder=learningLabel('Răspunde în limba studiată…','Answer in the target language…');entry.value=answers[index]||'';area.append(entry);
   const notice=document.createElement('p');notice.setAttribute('role','status');area.append(notice);
-  area.append(languageButton(index===questions.length-1?learningLabel('Evaluează','Assess'):learningLabel('Următoarea','Next'),async()=>{
+  area.append(foreignStudyButton(index===questions.length-1?learningLabel('Evaluează','Assess'):learningLabel('Următoarea','Next'),async()=>{
    answers[index]=entry.value.trim().slice(0,1500);
    if(index<questions.length-1){index++;render();return}
    if(languageJourney.busy)return;languageJourney.busy=true;notice.textContent=learningLabel('Se evaluează…','Assessing…');
@@ -9806,7 +9806,7 @@ function languageFullPlacement(){
     const feedback=document.createElement('p');feedback.textContent=parsed.feedback.slice(0,2400);
     const advice=document.createElement('p');advice.textContent=String(parsed.next_steps||'').slice(0,1000);
     const limit=document.createElement('p');limit.textContent=learningLabel('Estimare AI, nu certificat. Nu include evaluare acustică.','AI estimate, not certified. No acoustic evaluation.');
-    area.append(title,feedback,advice,limit,languageButton(learningLabel('Începe nivelul','Start level'),()=>{
+    area.append(title,feedback,advice,limit,foreignStudyButton(learningLabel('Începe nivelul','Start level'),()=>{
      languageJourney.level=parsed.estimated_level;dialog.close();languageOpen('topics');
     },'primary-btn'));
     try{localStorage.setItem(languageProgressKey()+'-placement',JSON.stringify({level:parsed.estimated_level,date:Date.now(),certified:false}))}catch{}
@@ -9827,17 +9827,17 @@ function languageReviewOpen(){
  const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog';
  const head=document.createElement('div');head.className='education-theory-head';
  const h=document.createElement('h2');h.textContent=learningLabel('Recapitulare cu repetare','Spaced review');
- head.append(h,languageButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));dialog.append(head);
+ head.append(h,foreignStudyButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));dialog.append(head);
  for(const card of chosen){
   const row=document.createElement('div');row.className='foreign-word-card';
   const prompt=document.createElement('p');prompt.textContent=card.meaning;
-  const reveal=languageButton(learningLabel('Arată răspunsul','Reveal answer'),()=>{
+  const reveal=foreignStudyButton(learningLabel('Arată răspunsul','Reveal answer'),()=>{
    response.hidden=false;reveal.hidden=true;
   });
   const response=document.createElement('div');response.hidden=true;
   const text=document.createElement('strong');text.textContent=card.original+' · '+card.phonetic;response.append(text);
-  response.append(languageButton(learningLabel('✓ Știu','✓ Known'),()=>{languageRecord(card,true);row.remove()}),
-   languageButton(learningLabel('× Repet','× Repeat'),()=>{languageRecord(card,false);row.remove()}));
+  response.append(foreignStudyButton(learningLabel('✓ Știu','✓ Known'),()=>{languageRecord(card,true);row.remove()}),
+   foreignStudyButton(learningLabel('× Repet','× Repeat'),()=>{languageRecord(card,false);row.remove()}));
   row.append(prompt,reveal,response);dialog.append(row);
  }
  dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')}
@@ -9861,7 +9861,7 @@ function languageConversationStart(mode){
  const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog language-tutor-dialog';
  const heading=document.createElement('div');heading.className='education-theory-head';
  const h=document.createElement('h2');h.textContent=learningLabel('Profesor AI · ','AI tutor · ')+mode;
- heading.append(h,languageButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));dialog.append(heading);
+ heading.append(h,foreignStudyButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));dialog.append(heading);
  const transcript=document.createElement('div');transcript.className='science-result-text';transcript.style.maxHeight='50dvh';transcript.style.overflowY='auto';dialog.append(transcript);
  const entry=document.createElement('textarea');entry.rows=3;entry.id='languageTutorInput';entry.placeholder=learningLabel('Scrie răspunsul sau întrebarea…','Type your answer or question…');dialog.append(entry);
  const notice=document.createElement('p');notice.setAttribute('role','status');dialog.append(notice);
@@ -9884,9 +9884,9 @@ function languageConversationStart(mode){
   }catch{if(dialog.isConnected)notice.textContent=learningLabel('Răspuns indisponibil. Nu am înregistrat această încercare drept evaluare.','Answer unavailable. No assessment was recorded.')}
   finally{languageJourney.busy=false}
  };
- dialog.append(languageButton(learningLabel('🎙 Răspunde vocal','🎙 Speak answer'),languageDictate),
-  languageButton(learningLabel('Trimite / Continuă','Send / Continue'),send,'primary-btn'),
-  languageButton(learningLabel('🔊 Citește ultimul răspuns','🔊 Read last reply'),()=>{const last=history.filter(x=>x.role==='tutor').at(-1);if(last)languageSpeak(last.text)}));
+ dialog.append(foreignStudyButton(learningLabel('🎙 Răspunde vocal','🎙 Speak answer'),languageDictate),
+  foreignStudyButton(learningLabel('Trimite / Continuă','Send / Continue'),send,'primary-btn'),
+  foreignStudyButton(learningLabel('🔊 Citește ultimul răspuns','🔊 Read last reply'),()=>{const last=history.filter(x=>x.role==='tutor').at(-1);if(last)languageSpeak(last.text)}));
  dialog.addEventListener('close',()=>{languageVoiceStop();dialog.remove()});
  document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')};
  send();
@@ -9901,13 +9901,13 @@ function languageOpen(stage){
  $('moduleTitle').textContent=learningLabel('Limbi străine','Languages')+(info?' · '+learningLabel(info.ro,info.en):'');
  $('moduleLead').textContent='';host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
- bar.append(languageButton(learningLabel('← Înapoi','← Back'),languageBack));host.append(bar);
+ bar.append(foreignStudyButton(learningLabel('← Înapoi','← Back'),languageBack));host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
  const title=document.createElement('h2');title.textContent=stage==='languages'?learningLabel('Alege limba','Choose language'):stage==='variants'?learningLabel('Alege varianta','Choose variant'):stage==='levels'?learningLabel('Alege nivelul','Choose level'):stage==='topics'?learningLabel('Alege capitolul','Choose chapter'):stage==='placement'?learningLabel('Test introductiv','Starter diagnostic'):learningLabel('Lecție de limbi străine','Language lesson');panel.append(title);
  if(stage==='placement'){languagePlacementRender(panel);host.append(panel);return}
  if(stage!=='lesson'){
-  if(stage==='levels')panel.append(languageButton(learningLabel('🎓 Test inițial de orientare','🎓 Starter placement check'),languagePlacementBegin));
-  if(stage==='levels')panel.append(languageButton(learningLabel('📊 Evaluare completă','📊 Full placement assessment'),languageFullPlacement));
+  if(stage==='levels')panel.append(foreignStudyButton(learningLabel('🎓 Test inițial de orientare','🎓 Starter placement check'),languagePlacementBegin));
+  if(stage==='levels')panel.append(foreignStudyButton(learningLabel('📊 Evaluare completă','📊 Full placement assessment'),languageFullPlacement));
   const list=document.createElement('div');list.className='math-choice-list science-choice-list';let options=[];
   if(stage==='languages')options=FOREIGN_LANGUAGE_DATA;
   if(stage==='variants'){
@@ -9920,7 +9920,7 @@ function languageOpen(stage){
   if(stage==='topics')options=FOREIGN_TOPIC_DATA;
   for(const opt of options){
    const label=stage==='languages'?opt.native+' · '+learningLabel(opt.ro,opt.en):stage==='levels'&&!languageIsClassical()?opt.id+' · '+learningLabel(opt.ro,opt.en):learningLabel(opt.ro,opt.en);
-   const button=languageButton(label,()=>{
+   const button=foreignStudyButton(label,()=>{
     languageVoiceStop();
     if(stage==='languages'){languageJourney.language=opt.id;languageJourney.variant=null;languageJourney.level=null;languageOpen(['el','la','zh','en'].includes(opt.id)?'variants':'levels')}
     else if(stage==='variants'){languageJourney.variant=opt.id;languageOpen('levels')}
@@ -9932,8 +9932,8 @@ function languageOpen(stage){
   panel.append(list);
  }else{
   const control=document.createElement('div');control.className='science-work-tools';
-  control.append(languageButton(learningLabel('Fonetică ','Phonetics ')+(languageJourney.phonetics?'✓':'—'),()=>{languageJourney.phonetics=!languageJourney.phonetics;languageOpen('lesson')}),
-  languageButton(learningLabel('Pronunție lentă ','Slow speech ')+(languageJourney.slow?'✓':'—'),()=>{languageJourney.slow=!languageJourney.slow;languageOpen('lesson')}));
+  control.append(foreignStudyButton(learningLabel('Fonetică ','Phonetics ')+(languageJourney.phonetics?'✓':'—'),()=>{languageJourney.phonetics=!languageJourney.phonetics;languageOpen('lesson')}),
+  foreignStudyButton(learningLabel('Pronunție lentă ','Slow speech ')+(languageJourney.slow?'✓':'—'),()=>{languageJourney.slow=!languageJourney.slow;languageOpen('lesson')}));
   panel.append(control);
   const plan=languageLevelPlan();
   if(plan){
@@ -9941,11 +9941,11 @@ function languageOpen(stage){
    panel.append(goals);
   }
   const modes=document.createElement('div');modes.className='science-work-tools';
-  modes.append(languageButton(learningLabel('💬 Conversație AI','💬 AI conversation'),()=>languageConversationStart('conversation')),
-   languageButton(learningLabel('🎧 Ascultare','🎧 Listening'),()=>languageConversationStart('listening')),
-   languageButton(learningLabel('🗣 Pronunție','🗣 Pronunciation'),()=>languageConversationStart('pronunciation')),
-   languageButton(learningLabel('📝 Evaluare','📝 Assessment'),()=>languageConversationStart('assessment')),
-   languageButton(learningLabel('🔁 Recapitulare','🔁 Review'),languageReviewOpen));
+  modes.append(foreignStudyButton(learningLabel('💬 Conversație AI','💬 AI conversation'),()=>languageConversationStart('conversation')),
+   foreignStudyButton(learningLabel('🎧 Ascultare','🎧 Listening'),()=>languageConversationStart('listening')),
+   foreignStudyButton(learningLabel('🗣 Pronunție','🗣 Pronunciation'),()=>languageConversationStart('pronunciation')),
+   foreignStudyButton(learningLabel('📝 Evaluare','📝 Assessment'),()=>languageConversationStart('assessment')),
+   foreignStudyButton(learningLabel('🔁 Recapitulare','🔁 Review'),languageReviewOpen));
   panel.append(modes);
   const lessonProgress=languageLessonProgress();
   if(lessonProgress[languageJourney.level+'/'+languageJourney.topic]?.seen){
@@ -9966,15 +9966,15 @@ function languageOpen(stage){
     const word=document.createElement('strong');word.className='foreign-original';word.textContent=card.original;
     const phon=document.createElement('div');phon.className='foreign-phonetic';phon.textContent=card.phonetic;phon.hidden=!languageJourney.phonetics;
     const meaning=document.createElement('div');meaning.textContent=card.meaning;
-    box.append(word,phon,meaning,languageButton(learningLabel('🔊 Ascultă','🔊 Listen'),()=>languageSpeak(card.original)),
-      languageButton(learningLabel('✍ Exersează','✍ Practice'),()=>languagePractice(card)));
+    box.append(word,phon,meaning,foreignStudyButton(learningLabel('🔊 Ascultă','🔊 Listen'),()=>languageSpeak(card.original)),
+      foreignStudyButton(learningLabel('✍ Exersează','✍ Practice'),()=>languagePractice(card)));
     panel.append(box);
    }
   }else{
    const p=document.createElement('p');p.textContent=learningLabel('Profesorul AI adaptează lecția după limbă, nivel și temă. Lecția nu este verificată local.','The AI teacher adapts this lesson to language, level and topic. Generated content is not locally verified.');panel.append(p);
    const request=document.createElement('textarea');request.rows=3;request.placeholder=learningLabel('Solicitare opțională…','Optional request…');panel.append(request);
-   panel.append(languageButton(learningLabel('📖 Lecție + exerciții','📖 Lesson + exercises'),()=>languageAIGenerate(request.value),'primary-btn'));
-   panel.append(languageButton(learningLabel('🧑‍🏫 Profesor interactiv','🧑‍🏫 Interactive tutor'),()=>languageConversationStart('lesson')));
+   panel.append(foreignStudyButton(learningLabel('📖 Lecție + exerciții','📖 Lesson + exercises'),()=>languageAIGenerate(request.value),'primary-btn'));
+   panel.append(foreignStudyButton(learningLabel('🧑‍🏫 Profesor interactiv','🧑‍🏫 Interactive tutor'),()=>languageConversationStart('lesson')));
   }
   const status=document.createElement('p');status.id='languageStatus';status.setAttribute('role','status');panel.append(status);
  }
