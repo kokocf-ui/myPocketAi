@@ -10250,7 +10250,7 @@ function hgOpen(stage){
  }[stage]||''));
  host.append(panel);
  const list=(items,callback)=>{const holder=document.createElement('div');holder.className='hg-choice-list';
-  for(const opt of items)holder.append(hgBtn((opt.icon||'')+' '+hgL(opt.ro,opt.en),()=>callback(opt),'secondary-btn hg-choice'));
+  for(const opt of items){const btn=hgBtn((opt.icon||'')+' '+hgL(opt.ro,opt.en),()=>callback(opt),'secondary-btn hg-choice');if(stage==='chapters'&&hgJourney.subject==='history')btn.style.whiteSpace='pre-line';holder.append(btn)}
   panel.append(holder);
  };
  if(stage==='subjects')list(HG_SUBJECT_DATA,opt=>{hgJourney.subject=opt.id;hgJourney.topic=null;hgOpen('scope')});
