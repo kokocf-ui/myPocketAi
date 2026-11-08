@@ -9698,7 +9698,7 @@ function languagePractice(card){
  const p=document.createElement('p');p.textContent=learningLabel('Scrie în limba studiată: ','Write in the target language: ')+card.meaning;
  const entry=document.createElement('input');entry.id='languageAnswer';entry.type='text';entry.setAttribute('aria-label',p.textContent);
  const feedback=document.createElement('p');feedback.setAttribute('role','status');
- const norm=x=>String(x||'').normalize('NFKC').toLocaleLowerCase().replace(/[!?.,;:]/g,'').replace(/\s+/g,' ').trim();
+ const norm=x=>String(x||'').normalize('NFKC').toLocaleLowerCase().replace(/[!?.,;:]/g,'').replace(/\\s+/g,' ').trim();
  const check=languageButton(learningLabel('✓ Verifică','✓ Check'),()=>{
   const ok=norm(entry.value)===norm(card.original);languageRecord(card,ok);
   feedback.textContent=ok?learningLabel('Corect!','Correct!'):learningLabel('Răspunsul din lecție: ','Lesson answer: ')+card.original;
@@ -9792,13 +9792,13 @@ function languageFullPlacement(){
    if(index<questions.length-1){index++;render();return}
    if(languageJourney.busy)return;languageJourney.busy=true;notice.textContent=learningLabel('Se evaluează…','Assessing…');
    const levels=(classical?FOREIGN_CLASSICAL_LEVEL_DATA:FOREIGN_LEVEL_DATA).map(x=>x.id);
-   const work=questions.map((q,i)=>q+'\nRăspuns: '+(answers[i]||'[lipsă]')).join('\n\n');
-   const prompt='Ești evaluator lingvistic pedagogic. Limba '+lang.ro+', varianta '+(languageJourney.variant||'standard')+'. Evaluează conservator răspunsurile: vocabular, gramatică, coerență, argumentație; nu deduce pronunția din text. Răspunde doar ca obiect JSON valid cu cheile estimated_level, feedback, next_steps. estimated_level trebuie să aparțină exact mulțimii '+levels.join(',')+'. Nu acorda nivel avansat fără dovezi suficiente. Evaluarea nu certifică nivelul. Răspunsuri:\n'+work;
+   const work=questions.map((q,i)=>q+'\\nRăspuns: '+(answers[i]||'[lipsă]')).join('\\n\\n');
+   const prompt='Ești evaluator lingvistic pedagogic. Limba '+lang.ro+', varianta '+(languageJourney.variant||'standard')+'. Evaluează conservator răspunsurile: vocabular, gramatică, coerență, argumentație; nu deduce pronunția din text. Răspunde doar ca obiect JSON valid cu cheile estimated_level, feedback, next_steps. estimated_level trebuie să aparțină exact mulțimii '+levels.join(',')+'. Nu acorda nivel avansat fără dovezi suficiente. Evaluarea nu certifică nivelul. Răspunsuri:\\n'+work;
    try{
     const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:prompt,language:state.language,module:'assistant',history:[]})});
     const result=await response.json();if(!response.ok||result.status!=='success'||!result.reply)throw Error('unavailable');
     if(!dialog.isConnected)return;
-    const body=String(result.reply).trim().replace(/^\x60{3}(?:json)?\s*/i,'').replace(/\s*\x60{3}$/,'');
+    const body=String(result.reply).trim().replace(/^\\x60{3}(?:json)?\\s*/i,'').replace(/\\s*\\x60{3}$/,'');
     const parsed=JSON.parse(body);
     if(!levels.includes(parsed.estimated_level)||typeof parsed.feedback!=='string')throw Error('invalid assessment');
     area.replaceChildren();
@@ -9844,7 +9844,7 @@ function languageTutorPrompt(mode,request,history){
  const info=languageCurrent();const topic=FOREIGN_TOPIC_DATA.find(x=>x.id===languageJourney.topic);
  const plan=languageLevelPlan(),rubric=FOREIGN_RUBRIC(languageJourney.level,languageIsClassical());
  const turn=String(request||'').trim().slice(0,1800);
- const previous=(history||[]).slice(-6).map(item=>item.role+': '+item.text.slice(0,1000)).join('\n');
+ const previous=(history||[]).slice(-6).map(item=>item.role+': '+item.text.slice(0,1000)).join('\\n');
  return 'Acționează ca profesor AI riguros. Limba de predare: '+(state.language||'ro')+'. Limba țintă: '+info.ro+' ('+info.locale+'), varianta '+(languageJourney.variant||'standard')+'. Nivel '+languageJourney.level+'. Modul '+mode+'. Tema '+topic.ro+'. Obiective: '+plan.goals.join('; ')+'. Competențe: '+plan.topicGoals.join('; ')+'. '+
  'Răspunde strict la nivelul ales. Pentru fiecare expresie nouă afișează ORIGINAL, TRANSCRIERE fonetică standard adecvată limbii și variantei (IPA, Pinyin cu tonuri, Rōmaji; latina/greaca antică cu pronunție reconstruită), TRADUCERE și CONTEXT. Nu inventa foneme, tonuri, reguli sau citate. Distingi greaca antică/Koine de cea modernă; nu utiliza conversații moderne în limbile clasice. '+
  (mode==='conversation'?'Joacă rolul unui partener de conversație; pune o singură întrebare pe rând, corectează răspunsul utilizatorului într-un paragraf scurt, apoi continuă.':
@@ -9852,7 +9852,7 @@ function languageTutorPrompt(mode,request,history){
  mode==='pronunciation'?'Din textul recunoscut poți comenta doar alegerea cuvintelor, nu acuratețea acustică. Explică sunetele și tonurile într-o notă pedagogică, fără scor fonetic.':
  mode==='listening'?'Creează un dialog scurt de ascultat, apoi întrebări de înțelegere și răspunsuri; redarea audio este responsabilitatea dispozitivului.':
  'Pregătește o lecție structurată, cu explicații, 8-12 exemple, gramatică, exersare și 5 exerciții cu soluții și justificări.')+
- '\nIstoric de învățare:\n'+previous+'\nSolicitarea utilizatorului: '+turn;
+ '\\nIstoric de învățare:\\n'+previous+'\\nSolicitarea utilizatorului: '+turn;
 }
 function languageConversationStart(mode){
  const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog language-tutor-dialog';
