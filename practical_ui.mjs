@@ -273,7 +273,7 @@ function practicalLesson(panel){
    qs.forEach((q,i)=>result.append(practicalNode('p',(i+1)+'. '+(selected[i]===q.correct?'✓ ':'✗ ')+practicalLabel('Ai ales: ','Selected: ')+q.choices[selected[i]]+'. '+practicalLabel('Răspuns corect: ','Correct answer: ')+q.choices[q.correct]+'. '+q.explanation)));
    questionHost.querySelectorAll('input').forEach(x=>x.disabled=true);verify.disabled=true;
    practicalSave({lastScore:pct,lastCorrect:correct,lastTotal:qs.length,completed:true,lastVariant:version});
-   const printableResult=practicalNode('div','','practical-printable');printableResult.append(result.cloneNode(true));panel.append(printableResult);
+   // The result is already shown once in .practical-result and collected by PDF export. Do not add a second visible copy.
   },'primary-btn');
   const newQuiz=practicalButton(practicalLabel('＋ Test nou','＋ New practice'),()=>{version=(version+1)%Math.max(1,course.chapters.length-1);practicalSave({lastVariant:version});drawQuiz();assessment.scrollIntoView({block:'start',behavior:'smooth'})});
   quizActions.append(verify,newQuiz);
