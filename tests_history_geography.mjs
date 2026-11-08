@@ -34,14 +34,14 @@ for(const token of [
  'const HG_SUBJECT_DATA=','const HG_COUNTRY_DATA=','function hgOpen(stage)',
  'function hgLesson(panel)','function hgHistoricalMap(panel,topic)',
  'function hgGeographyMap(panel,topic)','function hgGenerate(extra,output)',
- "if(key==='history'){hgRestore();hgOpen('subjects');return}"
+ "if(key==='history'){hgOpen('subjects');return}"
 ]) assert.ok(script.includes(token),token);
 assert.ok(script.includes("const HG_COUNTRY_PICKER_DATA="));
 assert.ok(script.includes("className='hg-country-matches'"));
 assert.ok(script.includes("slice(0,4)"));
 assert.ok(script.includes("function hgFoldCountry(value)"));
 assert.ok(html.includes('.learning-hg .hg-level-list'));
-assert.ok(script.includes("levels:hgJourney.scope==='world'?'scope':'country'"));
+assert.ok(script.includes("levels:'scope'"));
 assert.ok(script.includes("className='hg-level-list'")||script.includes("className='hg-level-list'")||script.includes("holder.className='hg-level-list'"));
 assert.ok(html.includes('.learning-hg .hg-toolbar'));
 assert.ok(html.includes('.learning-hg .hg-panel'));
@@ -66,6 +66,6 @@ assert.ok(script.includes('NU impune o limită de 4 sau 5 evenimente'));
 assert.ok(script.includes('Nu inventa hărți, frontiere, documente, numere ori surse.'));
 assert.ok(script.includes("className='hg-map-types'"));
 assert.ok(script.includes("b.setAttribute('aria-pressed'"));
-for(const token of ['const LIT_LANGUAGES=','const LIT_BRANCHES=','const LIT_TOPICS=','function litOpen(stage)','function litWorkspace(panel)',"if(key==='literature'){litOpen('countries');return}",'Compune / explică','Nu inventa citate','lit-input','hgDisplayStudyText(out'])assert.ok(script.includes(token),'literature: '+token);
+for(const token of ['const LIT_LANGUAGES=','const LIT_BRANCHES=','const LIT_TOPICS=','function litOpen(stage)','function litWorkspace(panel)',"if(key==='literature'){litOpen('languages');return}",'Compune / explică','Nu inventa citate','lit-input','hgDisplayStudyText(out'])assert.ok(script.includes(token),'literature: '+token);
 for(const token of ['Rezumat al operei','Sinteză tematică','Titlul operei și autorul','TEXT FURNIZAT DE UTILIZATOR','Nu căuta și nu copia rezumate',"function eduOpenPrint(mode='save')",'function eduAttachPrintAction(bar)','PocketAndroidPrint.postMessage'])assert.ok(script.includes(token),'literature/print feature: '+token);
 console.log('PASS History Geography subjects, 3 levels, 3 curricula, UK subdivisions, specialist branches, time-exact maps and boot script');
