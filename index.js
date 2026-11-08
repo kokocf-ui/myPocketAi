@@ -2925,6 +2925,13 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
 #view-module.learning-hg .hg-map-controls,#view-module.learning-hg .hg-lesson-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 #view-module.learning-hg .hg-map-controls>input,#view-module.learning-hg .hg-map-controls>select{min-width:0;width:100%;min-height:44px;background:#092033;color:white;border:1px solid #52859e;border-radius:9px;padding:7px}
 #view-module.learning-hg .hg-map-image{display:block;width:100%;max-height:45dvh;object-fit:contain;margin:10px auto}
+#view-module.learning-hg .hg-map-year-row{display:grid;grid-template-columns:1fr;margin:8px 0}
+#view-module.learning-hg .hg-map-year-row>input{min-height:45px;width:100%;background:#092033;color:#fff;border:1px solid #52859e;border-radius:9px;padding:8px}
+#view-module.learning-hg .hg-map-types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0}
+#view-module.learning-hg .hg-map-type{min-height:48px!important;width:100%!important;min-width:0!important;max-width:none!important;white-space:normal!important;text-align:center!important;margin:0!important;padding:7px!important;font-size:clamp(13px,3.3vw,17px)!important;touch-action:manipulation}
+#view-module.learning-hg .hg-map-type-active{border-color:#74ede9!important;box-shadow:0 0 0 2px #58e8e44d!important;font-weight:800!important}
+#view-module.learning-hg .hg-map-example{display:block;width:100%!important;max-width:none!important;white-space:normal!important;text-align:left!important;margin:7px 0!important;padding:9px!important}
+
 #view-module.learning-hg .hg-map-frame{display:block;width:100%;height:clamp(230px,42dvh,470px);border:1px solid #52859e;border-radius:10px;margin:8px auto}
 #view-module.learning-hg .hg-map a{display:inline-block;color:#8eebff;text-decoration:underline;margin:10px 0;overflow-wrap:anywhere}
 #view-module.learning-hg .hg-quiz textarea{min-height:68px!important}
@@ -10314,37 +10321,72 @@ function hgLesson(panel){
 function hgHistoricalMap(panel,topic){
  const shell=document.createElement('section');shell.className='hg-map';
  shell.append(hgText('h3',hgL('🗺️ Hartă istorică contextuală','🗺️ Contextual historical map')));
- const row=document.createElement('div');row.className='hg-map-controls';
- const year=document.createElement('input');year.type='number';year.step='1';year.placeholder=hgL('An (negative pentru î.Hr.)','Year (negative for BCE)');
+ const year=document.createElement('input');year.type='number';year.step='1';
+ year.placeholder=hgL('An (negativ = î.Hr.)','Year (negative = BCE)');
  const verified=HG_HISTORICAL_MAP_DATA.filter(m=>m.topic===topic.id);
- year.value=hgJourney.year??(verified[0]?.year||'');
- const type=document.createElement('select');
- for(const pair of [['political',hgL('Politică','Political')],['military',hgL('Militară','Military')],['economic',hgL('Economică','Economic')],['cultural',hgL('Culturală','Cultural')]]){
-  const option=document.createElement('option');option.value=pair[0];option.textContent=pair[1];type.append(option)
- }
- type.value=hgJourney.mapType;row.append(year,type);shell.append(row);
- const content=document.createElement('div');shell.append(content);
+ year.value=hgJourney.year??(verified.find(m=>m.kind===hgJourney.mapType)?.year??verified[0]?.year??'');
+ year.setAttribute('aria-label',hgL('Anul studiat','Year being studied'));
+ // Responsive direct-tap segmented controls replace Android native select, which
+ // required a long press in the learning WebView.
+ const types=[
+  ['political',hgL('Politică','Political')],
+  ['military',hgL('Militară','Military')],
+  ['economic',hgL('Economică','Economic')],
+  ['cultural',hgL('Culturală','Cultural')]
+ ];
+ const choices=document.createElement('div');choices.className='hg-map-types';choices.setAttribute('role','group');
+ choices.setAttribute('aria-label',hgL('Tipul hărții istorice','Historical map type'));
+ const typeButtons=new Map();
+ const content=document.createElement('div');content.className='hg-map-content';
  const render=()=>{
-  const y=Number(year.value);
-  hgJourney.year=year.value===''?null:y;hgJourney.mapType=type.value;
+  const y=Number(year.value),type=hgJourney.mapType;
+  hgJourney.year=year.value===''?null:y;
+  for(const [kind,button] of typeButtons){
+   const active=kind===type;button.setAttribute('aria-pressed',String(active));
+   button.classList.toggle('hg-map-type-active',active)
+  }
   content.replaceChildren();
-  if(!year.value||!Number.isInteger(y)){content.append(hgText('p',hgL('Alege anul pentru hartă.','Select the year for the map.')));return}
-  const maps=HG_HISTORICAL_MAP_DATA.filter(m=>m.year===y&&m.topic===topic.id&&m.kind===type.value);
+  if(!year.value||!Number.isInteger(y)){
+   content.append(hgText('p',hgL('Alege anul pentru hartă.','Select the year for the map.')));return
+  }
+  const maps=HG_HISTORICAL_MAP_DATA.filter(m=>m.year===y&&m.topic===topic.id&&m.kind===type);
   if(!maps.length){
-   content.append(hgText('p',hgL('Nu există o hartă istorică verificată pentru acest an și context. Nu se afișează granițe contemporane drept istorice.','No verified historical map for this exact year and context; present-day borders will not be misrepresented as historical.')));return
+   content.append(hgText('p',hgL('Nu avem o hartă verificată pentru anul și tipul selectate. Nu afișăm alte granițe ca și cum ar fi din acest an.','No verified map for this exact year and type. We will not substitute borders from another year.')));
+   const candidates=HG_HISTORICAL_MAP_DATA.filter(m=>m.kind===type);
+   if(candidates.length){
+    content.append(hgText('p',hgL('Exemple disponibile pentru acest tip de hartă:','Available examples of this map type:')));
+    for(const map of candidates.slice(0,6)){
+     content.append(hgBtn(String(map.period||map.year)+' · '+map.label,()=>{
+      const target=HG_HISTORY_DATA.find(t=>t.id===map.topic);
+      hgJourney.topic=map.topic;hgJourney.year=map.year;
+      if(target)hgOpen('lesson');
+     },'secondary-btn hg-map-example'));
+    }
+   }
+   return;
   }
   for(const map of maps){
-   content.append(hgText('p',map.label+' · '+map.year+' · '+type.options[type.selectedIndex].textContent));
-   const link=document.createElement('a');link.href=map.source;link.target='_blank';link.rel='noopener noreferrer';link.textContent=hgL('Deschide harta și sursa','Open map and source');content.append(link);
+   const kindLabel=types.find(t=>t[0]===map.kind)?.[1]||map.kind;
+   content.append(hgText('p',map.label+' · '+(map.period||map.year)+' · '+kindLabel));
+   const link=document.createElement('a');link.href=map.source;link.target='_blank';link.rel='noopener noreferrer';
+   link.textContent=hgL('Deschide harta și sursa','Open map and source');content.append(link);
    const photo=document.createElement('img');photo.className='hg-map-image';photo.alt=map.label;
-   if(map.id==='rome117')photo.src='https://commons.wikimedia.org/wiki/Special:FilePath/Roman_Empire-117AD.png';
-   if(map.id==='rome395')photo.src='https://commons.wikimedia.org/wiki/Special:FilePath/Partition_of_the_Roman_Empire_in_395_AD.png';
-   if(map.id==='europe1918')photo.src='https://commons.wikimedia.org/wiki/Special:FilePath/Europe_1918.PNG';
+   const assets={rome117:'Roman_Empire-117AD.png',rome395:'Partition_of_the_Roman_Empire_in_395_AD.png',europe1918:'Europe_1918.PNG'};
+   if(map.image)photo.src=map.image;
+   else if(assets[map.id])photo.src='https://commons.wikimedia.org/wiki/Special:FilePath/'+assets[map.id];
    if(photo.src){photo.loading='lazy';photo.onerror=()=>photo.remove();content.append(photo)}
-   content.append(hgText('p',hgL('Reconstituire cartografică orientativă; verifică legenda, autorul, data și licența la sursă.','Schematic historical reconstruction; verify legend, authorship, date and licence at source.')));
+   content.append(hgText('p',hgL('Sursa: ','Source: ')+map.credit+' · '+(map.certainty==='approximate'?hgL('reconstituire aproximativă','approximate reconstruction'):hgL('hartă istorică de sinteză','historical overview map'))));
   }
  };
- year.onchange=render;type.onchange=render;panel.append(shell);render();
+ for(const [kind,label] of types){
+  const button=hgBtn(label,()=>{hgJourney.mapType=kind;render()},'secondary-btn hg-map-type');
+  button.setAttribute('aria-pressed','false');typeButtons.set(kind,button);choices.append(button);
+ }
+ const top=document.createElement('div');top.className='hg-map-year-row';top.append(year);
+ shell.append(top,choices,content);
+ year.addEventListener('change',render);
+ year.addEventListener('input',()=>{if(year.value==='')render()});
+ panel.append(shell);render();
 }
 function hgGeographyMap(panel,topic){
  const shell=document.createElement('section');shell.className='hg-map';
