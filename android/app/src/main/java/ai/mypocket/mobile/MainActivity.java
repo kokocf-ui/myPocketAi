@@ -1328,7 +1328,7 @@ public final class MainActivity extends ComponentActivity {
             PdfDocument.Page page=null;
             Canvas canvas=null;
             float y=margin;
-            String[] paragraphs=(title+"\\n\\n"+content).replace("\\r","").split("\\n",-1);
+            String[] paragraphs=(title+"\n\n"+content).replace("\r","").split("\n",-1);
             boolean firstLine=true;
             for(String paragraph:paragraphs){
                 Paint paint=firstLine?heading:body;
