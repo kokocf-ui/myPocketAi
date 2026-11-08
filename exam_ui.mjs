@@ -1,6 +1,6 @@
 export const EXAM_UI_SCRIPT = String.raw`
 // Exam preparation: country -> class -> examination -> subject -> preparation workspace.
-let examJourney={stage:'countries',country:null,grade:'',exam:null,subject:null,topic:null,session:2027,track:'',region:'',board:'',institution:'',programme:'',busy:false,serial:0,controller:null,voice:false};
+let examJourney={stage:'countries',country:null,grade:'',exam:null,subject:null,topic:null,session:2027,track:'',region:'',board:'',institution:'',programme:'',practiceVersion:0,busy:false,serial:0,controller:null,voice:false};
 function examEl(tag,value='',cls=''){const node=document.createElement(tag);node.textContent=value;if(cls)node.className=cls;return node}
 function examBtn(label,click,cls='secondary-btn'){const b=examEl('button',label,cls);b.type='button';b.onclick=click;return b}
 function examLabel(ro,en){return learningLabel(ro,en)}
@@ -133,7 +133,7 @@ function examOpen(stage){
  const heading=examEl('h2',examLabel(...titles[stage]));panel.append(heading);host.append(panel);
  if(stage==='countries'){
   examList(panel,LIT_COUNTRIES.filter(x=>x[0]!=='OTHER-EU').map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{
-   examJourney.country=c.id;examJourney.grade='';examJourney.exam=null;examJourney.subject=null;examJourney.board='';examJourney.region='';examJourney.track='';examJourney.institution='';examJourney.programme='';examOpen('grades');
+   examJourney.country=c.id;examJourney.grade='';examJourney.exam=null;examJourney.subject=null;examJourney.board='';examJourney.region='';examJourney.track='';examJourney.institution='';examJourney.programme='';examJourney.practiceVersion=0;examOpen('grades');
   });return;
  }
  if(stage==='grades'){
@@ -173,7 +173,7 @@ function examOpen(stage){
    panel.append(examEl('p',examLabel('Selectarea exactă a probei poate depinde de câmpurile de mai sus; fără o specificație verificată nu se certifică alinierea.','Exact subject requirements may depend on the fields above; do not assume verified alignment.')));
   }
   const ids=exam?.subjects||EXAM_SUBJECTS_DATA.map(x=>x.id);
-  examList(panel,ids.map(id=>EXAM_SUBJECTS_DATA.find(x=>x.id===id)).filter(Boolean).map(x=>({id:x.id,ro:x.ro,en:x.en})),chosen=>{examJourney.subject=chosen.id;examJourney.topic=null;examOpen('workspace')});return;
+  examList(panel,ids.map(id=>EXAM_SUBJECTS_DATA.find(x=>x.id===id)).filter(Boolean).map(x=>({id:x.id,ro:x.ro,en:x.en})),chosen=>{examJourney.subject=chosen.id;examJourney.topic=null;examJourney.practiceVersion=0;examOpen('workspace')});return;
  }
  if(stage==='workspace')examWorkspace(panel);
 }
@@ -196,22 +196,23 @@ function examWorkspace(panel){
  const key=(exam?.id||'advisory')+'|'+examJourney.session+'|'+subject.id;
  const printable=examEl('article','','exam-printable');printable.style.cssText='min-width:0;max-width:100%;overflow-wrap:anywhere;';
  const headline=examEl('div','','exam-head');headline.style.cssText='display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;';
+ panel.style.paddingBottom='160px';
  headline.append(examEl('h3',examLabel(subject.ro,subject.en)));
- headline.append(examBtn(examLabel('＋ Simulare nouă','＋ New practice'),()=>{if(state.speaking)stopSpeech();examOpen('workspace')},'secondary-btn'));
+ headline.append(examBtn(examLabel('＋ Simulare nouă','＋ New practice'),()=>{if(state.speaking)stopSpeech();examJourney.practiceVersion=(examJourney.practiceVersion||0)+1;examOpen('workspace');$('examPracticeAnchor')?.scrollIntoView({behavior:'smooth',block:'start'})},'secondary-btn'));
  panel.append(headline);
  const specialKey=examJourney.country+':'+(exam?.id||'advisory')+':'+subject.id;
  const spec=EXAM_ORDERED_DATA[specialKey]||null;
  const sections=spec||(EXAM_GENERAL_DATA[subject.area]||EXAM_GENERAL_DATA.humanities);
  if(!sections.some(x=>x[0]===examJourney.topic))examJourney.topic=sections[0][0];
- const topicLabel=examEl('label',examLabel('Capitole de recapitulare — în ordine','Revision topics — in order'),'lit-label');
- const topicPicker=examEl('select','','lit-input');
- for(const [index,section] of sections.entries()){
-  const opt=examEl('option',(index+1)+'. '+section[1]);opt.value=section[0];topicPicker.append(opt);
- }
- topicPicker.value=examJourney.topic;
- const focus=examEl('p');const updateTopic=()=>{examJourney.topic=topicPicker.value;const section=sections.find(x=>x[0]===examJourney.topic);focus.textContent=section?.[2]||''};
- let refreshRomanian=null;topicPicker.onchange=()=>{updateTopic();examOpen('workspace')};updateTopic();topicLabel.append(topicPicker);panel.append(topicLabel,focus);
+ const topicLabel=examEl('div',examLabel('Capitole de recapitulare — în ordine','Revision topics — in order'),'lit-label');
+ const topicCurrent=sections.findIndex(x=>x[0]===examJourney.topic);
+ const topicPicker=examBtn((topicCurrent+1)+'. '+sections[topicCurrent][1]+' ▾',()=>{const show=topicMenu.style.display==='none';topicMenu.style.display=show?'flex':'none';topicPicker.setAttribute('aria-expanded',String(show));if(show)topicMenu.querySelector('button')?.focus({preventScroll:true})},'secondary-btn');
+ topicPicker.id='examTopicTap';topicPicker.style.cssText='display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:48px;text-align:left;white-space:normal;touch-action:manipulation;margin:8px 0;';topicPicker.setAttribute('aria-expanded','false');topicPicker.setAttribute('aria-label',examLabel('Alege capitolul cu o atingere','Choose revision topic with one tap'));
+ const topicMenu=examEl('div','','exam-topic-menu');topicMenu.id='examTopicMenu';topicMenu.style.cssText='display:none;flex-direction:column;gap:6px;max-height:48dvh;overflow-y:auto;padding:8px;border:1px solid #5c96a4;border-radius:10px;margin-bottom:8px;';
+ sections.forEach(([topicId,title],index)=>{const b=examBtn((index+1)+'. '+title,()=>{examJourney.topic=topicId;examJourney.practiceVersion=0;examOpen('workspace')},'secondary-btn');b.style.cssText='min-height:48px;text-align:left;white-space:normal;touch-action:manipulation;width:100%;';if(topicId===examJourney.topic)b.setAttribute('aria-current','true');topicMenu.append(b)});
+ const focus=examEl('p',sections[topicCurrent]?.[2]||'');topicLabel.append(topicPicker,topicMenu);panel.append(topicLabel,focus);
  if(!spec)panel.append(examEl('p',examLabel('Aceasta este o ordine de recapitulare orientativă, nu o programă de examen verificată pentru această probă.','This is an advisory revision order, not a verified official exam syllabus.')));
+ if(subject.id==='biology')examBiologyResources(panel,printable);
  printable.append(examEl('h4',examLabel(exam?.ro||'Pregătire orientativă',exam?.en||'Advisory preparation')));
  const meta=country[1]+' · '+examJourney.grade+' · '+examJourney.session+' · '+subject.ro;
  printable.append(examEl('p',meta));
@@ -229,10 +230,13 @@ function examWorkspace(panel){
  if(exam?.universityAdmission&&!examJourney.institution&&!examJourney.programme)panel.append(examEl('p',examLabel('Admiterea universitară este specifică fiecărei instituții. Completează universitatea și programul în pasul anterior pentru pregătire contextuală; lista de materii este orientativă.','University admission is programme-specific. Enter your university and degree in the previous step for contextual practice; the subject list is advisory.')));
  const bank=EXAM_PRACTICE_DATA[subject.id]||[];
  const topic=examJourney.topic;
- const limited=subject.id==='romanian'&&bank.length>=20?(topic==='reading'||topic==='literary'||topic==='text'?bank.slice(5,10):topic==='writing'?bank.slice(10,15):topic==='vocabulary'?bank.slice(15,20):topic==='revision'?[bank[0],bank[6],bank[11],bank[16],bank[18]]:bank.slice(0,5)):bank.slice(0,5);
- const sim=examEl('section','','exam-practice');
+ const romanianBank=subject.id==='romanian'&&bank.length>=20?(topic==='reading'||topic==='literary'||topic==='text'?bank.slice(5,10):topic==='writing'?bank.slice(10,15):topic==='vocabulary'?bank.slice(15,20):topic==='revision'?[bank[0],bank[6],bank[11],bank[16],bank[18]]:bank.slice(0,5)):bank;
+ const source=subject.id==='biology'?(topic==='revision'?bank:bank.filter(q=>Array.isArray(q.topics)&&q.topics.includes(topic))):romanianBank;
+ const step=source.length>5?5:1;const start=source.length?((examJourney.practiceVersion||0)*step)%source.length:0;
+ const limited=source.length?Array.from({length:Math.min(5,source.length)},(_,i)=>source[(start+i)%source.length]):[];
+ const sim=examEl('section','','exam-practice');sim.id='examPracticeAnchor';sim.style.scrollMarginTop='105px';
  sim.append(examEl('h3',examLabel('Simulare de antrenament','Practice simulation')));
- sim.append(examEl('p',bank.length?examLabel('Alege răspunsurile, apoi apasă „Verifică”. Nu reprezintă punctaj oficial de examen.','Select answers, then press Check. This is not an official exam score.'):examLabel('Nu există încă un set local verificat pentru această materie. Poți genera exerciții originale cu AI, iar corectarea va fi orientativă.','There is no locally verified question set for this subject. Generate original AI exercises; grading remains advisory.')));
+ sim.append(examEl('p',limited.length?examLabel('Setul ','Practice set ')+(examJourney.practiceVersion+1)+examLabel(': alege răspunsurile, apoi apasă „Verifică”. Punctaj orientativ, neoficial.',': select answers, then press Check. Unofficial practice score.'):examLabel('Nu există încă întrebări locale pentru capitolul ales. Poți genera material original cu AI.','No local practice questions yet for this chapter. You can generate original material with AI.')));
  const form=examEl('div','','exam-questions');
  const selections=Array(limited.length).fill(null);
  const score=examEl('p');score.setAttribute('role','status');
@@ -241,6 +245,7 @@ function examWorkspace(panel){
   limited.forEach((q,qi)=>{
    const item=examEl('fieldset','','exam-question');item.style.cssText='margin:10px 0;padding:12px;border:1px solid #426f84;border-radius:12px;min-width:0;';
    item.append(examEl('legend',(qi+1)+'. '+q.prompt));
+   if(subject.id==='biology'&&q.diagram){const img=examBioDiagram(q.diagram);if(img)item.append(img)}
    q.choices.forEach((choice,ci)=>{
     const label=examEl('label');label.style.cssText='display:flex;gap:8px;align-items:flex-start;padding:7px 0;overflow-wrap:anywhere;';
     const input=examEl('input');input.type='radio';input.name='exam-item-'+qi;input.value=String(ci);
