@@ -8649,6 +8649,37 @@ function astronomyVisualBuild(kind){
  }
  return section;
 }
+
+function astronomyOrbit3DOpen(){
+ document.getElementById('astronomy3DDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='astronomy3DDialog';dialog.className='education-theory-dialog physics-theory-dialog';
+ const header=document.createElement('div');header.className='education-theory-head';
+ const heading=document.createElement('h2');heading.textContent=learningLabel('Orbite · model 3D interactiv','Orbits · interactive 3D model');
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();header.append(heading,back);
+ const note=document.createElement('p');note.textContent=learningLabel('Proiecție 3D educativă. Mărimile, perioadele și distanțele nu sunt la scară.','Educational 3D projection. Sizes, periods and distances are not to scale.');
+ const frame=document.createElement('div');frame.className='physics-visual';frame.style.maxWidth='100%';frame.style.overflow='hidden';
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 360 240');svg.setAttribute('role','img');svg.setAttribute('aria-label',learningLabel('Planete și orbite rotibile','Rotatable planets and orbits'));frame.append(svg);
+ const controls=document.createElement('div');controls.className='science-work-tools';
+ const make=(ro,en,min,max,value)=>{const box=document.createElement('label');box.textContent=learningLabel(ro,en);const input=document.createElement('input');input.type='range';input.min=min;input.max=max;input.value=value;input.setAttribute('aria-label',box.textContent);box.append(input);controls.append(box);return input};
+ const turn=make('Rotire','Rotation','0','360','28'),tilt=make('Înclinare','Tilt','0','85','48'),zoom=make('Zoom','Zoom','50','140','100');
+ const ns='http://www.w3.org/2000/svg';
+ const node=(tag,attrs)=>{const el=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,String(v));svg.append(el);return el};
+ const project=(x,y,z)=>{const a=Number(turn.value)*Math.PI/180,b=Number(tilt.value)*Math.PI/180,k=Number(zoom.value)/100;const xx=x*Math.cos(a)-y*Math.sin(a),yy=x*Math.sin(a)+y*Math.cos(a);return [180+xx*k,120+(yy*Math.cos(b)-z*Math.sin(b))*k]};
+ const render=()=>{svg.replaceChildren();node('circle',{cx:180,cy:120,r:11,fill:'#ffd477'});
+  for(const [radius,size,color,phase] of [[38,3,'#bfc6d4',.2],[66,5,'#e2ba83',1.7],[91,6,'#79bafd',3.4],[113,4,'#e39a7a',5.2]]){
+   let path='';for(let i=0;i<=96;i++){const a=i*Math.PI*2/96;const p=project(radius*Math.cos(a),radius*Math.sin(a),0);path+=(i?' L':'M')+p[0].toFixed(2)+' '+p[1].toFixed(2)}
+   node('path',{d:path,stroke:'#7899b7','stroke-width':1.3,fill:'none'});
+   const pos=project(radius*Math.cos(phase),radius*Math.sin(phase),0);node('circle',{cx:pos[0],cy:pos[1],r:size,fill:color});
+  }
+ };
+ const interact=()=>render();turn.addEventListener('input',interact);tilt.addEventListener('input',interact);zoom.addEventListener('input',interact);
+ let dragX=null;svg.style.touchAction='none';
+ svg.addEventListener('pointerdown',e=>{dragX=e.clientX;svg.setPointerCapture?.(e.pointerId)});
+ svg.addEventListener('pointermove',e=>{if(dragX===null)return;turn.value=String((Number(turn.value)+e.clientX-dragX+360)%360);dragX=e.clientX;render()});
+ svg.addEventListener('pointerup',()=>dragX=null);svg.addEventListener('pointercancel',()=>dragX=null);
+ dialog.append(header,note,frame,controls);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);render();try{dialog.showModal()}catch{dialog.setAttribute('open','')};
+}
+
 function astronomyDiagramPicker(){
  document.getElementById('astronomyDiagramDialog')?.remove();
  const dialog=document.createElement('dialog');dialog.id='astronomyDiagramDialog';dialog.className='education-theory-dialog physics-theory-dialog';
@@ -8658,7 +8689,7 @@ function astronomyDiagramPicker(){
  const list=document.createElement('div');list.className='physics-theory-list';
  const detail=document.createElement('div');detail.className='physics-theory-detail';detail.hidden=true;
  for(const kind of ['solar','orbit','parallax','hr','transit','cosmos','telescope','galaxy']){
-  const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';btn.textContent=kind;btn.onclick=()=>{detail.replaceChildren(astronomyVisualBuild(kind));detail.hidden=false;list.hidden=true};list.append(btn);
+  const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';btn.textContent=learningLabel(...({solar:['Sistem solar','Solar system'],orbit:['Orbite','Orbits'],parallax:['Paralaxă','Parallax'],hr:['Diagrama H–R','H–R diagram'],transit:['Tranzit','Transit'],cosmos:['Expansiune cosmică','Cosmic expansion'],telescope:['Telescop','Telescope'],galaxy:['Galaxie','Galaxy']})[kind]);btn.onclick=()=>{detail.replaceChildren(astronomyVisualBuild(kind));detail.hidden=false;list.hidden=true};list.append(btn);
  }
  back.onclick=()=>{if(!detail.hidden){detail.hidden=true;list.hidden=false}else dialog.close()};
  dialog.append(header,list,detail);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')};
@@ -8701,7 +8732,7 @@ function scienceShowResult(title,body){
  if(scienceJourney.subject==='astronomy'){
   const query=$('scienceEducationText')?.value||title;
   const kind=astronomyVisualKind(query,scienceJourney.topic);
-  if(kind){const visual=astronomyVisualBuild(kind);if(visual)dialog.append(visual)}
+  if(kind){const visual=astronomyVisualBuild(kind);if(visual){const match=String(body).match(/Rezultat:\\s*([^\\n]+)/);if(match){const badge=document.createElement('small');badge.className='astronomy-visual-result';badge.textContent=match[1];badge.style.cssText='position:absolute;right:12px;top:12px;background:#143247;padding:4px 8px;border-radius:6px;color:white';visual.style.position='relative';visual.append(badge)}dialog.append(visual)}}
  }
  if(scienceJourney.subject==='chemistry'){
   const query=$('scienceEducationText')?.value||title;
@@ -8957,6 +8988,7 @@ function scienceOpenWorkspace(){
    tools.append(graphics);
   }else if(scienceJourney.subject==='astronomy'){
    const diagram=document.createElement('button');diagram.type='button';diagram.className='secondary-btn';diagram.textContent=learningLabel('🪐 Reprezentări','🪐 Diagrams');diagram.onclick=astronomyDiagramPicker;tools.append(diagram);
+   const threeD=document.createElement('button');threeD.type='button';threeD.className='secondary-btn';threeD.textContent=learningLabel('🪐 Orbite 3D','🪐 3D orbits');threeD.onclick=astronomyOrbit3DOpen;tools.append(threeD);
   }else if(scienceJourney.subject==='biology'){
    const diagram=document.createElement('button');diagram.type='button';diagram.className='secondary-btn';
    diagram.textContent=learningLabel('🧬 Celulă / ADN 3D','🧬 Cell / 3D DNA');diagram.onclick=scienceBiologyDiagramOpen;
