@@ -2883,6 +2883,30 @@ main.page:has(#view-module.learning-languages.active){
 #view-module.learning-languages .foreign-card-navigation button{min-width:0!important;width:100%!important;min-height:46px!important;font-size:clamp(12px,3.5vw,17px)!important}
 #view-module.learning-languages .foreign-card-navigation button:disabled{opacity:.4;cursor:default}
 #view-module.learning-languages .foreign-word-card .foreign-card-meaning{flex-basis:100%}
+
+/* Education-wide navigation rule: Back equals Home width on every study stage.
+   Both derive from the same responsive 0.82fr / 1.18fr column geometry. */
+#view-module.learning-active .education-toolbar.science-stage-toolbar,
+#view-module.learning-active.math-choice-stage .education-toolbar:not(.math-navigation){
+ display:grid!important;
+ grid-template-columns:minmax(106px,.82fr) minmax(0,1.18fr)!important;
+ gap:clamp(9px,2.6vw,16px)!important;
+ width:100%!important;min-width:0!important;
+ align-items:stretch!important;
+}
+#view-module.learning-active .education-toolbar.science-stage-toolbar > .secondary-btn:first-child,
+#view-module.learning-active.math-choice-stage .education-toolbar:not(.math-navigation) > .secondary-btn:first-child,
+#view-module.learning-active.learning-math .education-toolbar.math-navigation > .math-back-btn{
+ grid-column:1!important;
+ width:100%!important;min-width:0!important;max-width:none!important;
+ box-sizing:border-box!important;margin:0!important;
+ min-height:clamp(48px,7dvh,60px)!important;
+ height:auto!important;
+ display:flex!important;justify-content:center!important;align-items:center!important;
+ padding:8px 10px!important;
+ font-size:clamp(12px,3.4vw,16px)!important;
+ white-space:normal!important;
+}
 </style>
 
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
