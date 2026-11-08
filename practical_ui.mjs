@@ -75,7 +75,24 @@ function practicalOpen(stage){
   const finished=chapters.filter(x=>practicalSavedForChapter(x.id)?.completed).length;
   const progress=practicalNode('p',practicalLabel('Curs cu ','Course with ')+chapters.length+practicalLabel(' capitole. Parcurse: ',' chapters. Completed: ')+finished+'/'+chapters.length+'. '+practicalLabel('Alege orice capitol.','Choose any chapter.'));
   panel.append(progress);
-  practicalList(panel,chapters.map((x,i)=>({id:x.id,ro:(i+1)+'. '+x.title+(practicalSavedForChapter(x.id)?.completed?' ✓':''),en:(i+1)+'. '+x.title})),choice=>{practicalJourney.chapter=choice.id;practicalJourney.variant=0;practicalOpen('lesson')});return;
+  const syllabus=PRACTICAL_SYLLABI_DATA.find(x=>x.id===course.id);
+  if(syllabus){
+    const intro=practicalNode('section','','practical-course-syllabus');intro.style.cssText='border:1px solid #547e91;border-radius:12px;padding:12px;margin:12px 0;line-height:1.55;';
+    intro.append(practicalNode('h3',practicalLabel('Ce conține acest curs','Course overview')),practicalNode('p',syllabus.intro));
+    intro.append(practicalNode('h4',practicalLabel('Ce vei ști să faci la final','What you will be able to do')));
+    const outcomes=practicalNode('ul');outcomes.style.paddingLeft='23px';syllabus.outcomes.forEach(item=>outcomes.append(practicalNode('li',item)));intro.append(outcomes);
+    intro.append(practicalNode('p',practicalLabel('Cunoștințe necesare: ','Prerequisites: ')+syllabus.prerequisite));
+    panel.append(intro);
+  }
+  practicalList(panel,chapters.map((x,i)=>({id:x.id,ro:(i+1)+'. '+x.title+(practicalSavedForChapter(x.id)?.completed?' ✓':''),en:(i+1)+'. '+x.title})),choice=>{practicalJourney.chapter=choice.id;practicalJourney.variant=0;practicalOpen('lesson')});
+  if(syllabus){
+    const project=practicalNode('section','','practical-course-project');project.style.cssText='border:1px solid #7da7a3;border-radius:12px;padding:12px;margin:14px 0;line-height:1.55;';
+    project.append(practicalNode('h3',practicalLabel('Proiect final de curs','Final course project')),practicalNode('p',syllabus.project));
+    project.append(practicalNode('h4',practicalLabel('Criterii de evaluare','Assessment criteria')));
+    const criteria=practicalNode('ol');criteria.style.paddingLeft='23px';syllabus.rubric.forEach(item=>criteria.append(practicalNode('li',item)));project.append(criteria);
+    panel.append(project);
+  }
+  return;
  }
  if(stage==='lesson')practicalLesson(panel);
 }
@@ -139,12 +156,18 @@ function practicalLesson(panel){
  const course=practicalCourse(),chapter=practicalChapter();if(!course||!chapter){practicalOpen('chapters');return}
  const saved=practicalReadSaved();
  const guide=PRACTICAL_GUIDES_DATA[chapter.id]||null;
+ const deep=PRACTICAL_DEPTH_DATA[chapter.id]||[];
+ const syllabus=PRACTICAL_SYLLABI_DATA.find(x=>x.id===course.id)||null;
  const study=practicalNode('article','','practical-printable');study.style.cssText='display:block;min-width:0;max-width:100%;line-height:1.5;';
  study.append(practicalNode('h3',chapter.title));
  const meta=practicalLabel(practicalCountry()[1],practicalCountry()[2])+' · '+practicalLabel(course.ro,course.en)+' · '+practicalLabel('Capitolul ','Chapter ')+chapter.order+'/'+course.chapters.length;
  study.append(practicalNode('p',meta));
  if(guide?.goal){study.append(practicalNode('h4',practicalLabel('Ce vei învăța','Learning objective')),practicalNode('p',guide.goal))}
  study.append(practicalNode('h4',practicalLabel('Noțiuni de bază','Core concepts')),practicalNode('p',chapter.theory));
+ if(deep.length){
+   study.append(practicalNode('h3',practicalLabel('Lecția explicată în profunzime','In-depth learning material')));
+   deep.forEach(([heading,body])=>{study.append(practicalNode('h4',heading),practicalNode('p',body))});
+ }
  const steps=guide?.steps||[chapter.method];
  study.append(practicalNode('h4',practicalLabel('Ghid pas cu pas','Step-by-step guide')));
  const ordered=practicalNode('ol');ordered.style.cssText='padding-left:23px;line-height:1.55;';
@@ -156,6 +179,11 @@ function practicalLesson(panel){
  if(guide?.check?.length){study.append(practicalNode('h4',practicalLabel('Verifică înainte de a continua','Check before continuing')));const ul=practicalNode('ul');ul.style.paddingLeft='22px';guide.check.forEach(item=>ul.append(practicalNode('li',item)));study.append(ul)}
  study.append(practicalNode('h4',practicalLabel('Exerciții legate de această lecție','Exercises for this lesson')));
  (guide?.exercise||chapter.practice).forEach((task,i)=>study.append(practicalNode('p',(i+1)+'. '+task)));
+ if(chapter.order===course.chapters.length&&syllabus){
+   study.append(practicalNode('h3',practicalLabel('Proiectul de absolvire al cursului','Course completion project')),practicalNode('p',syllabus.project));
+   study.append(practicalNode('h4',practicalLabel('Criterii de verificare a proiectului','Project review criteria')));
+   const criteria=practicalNode('ol');criteria.style.paddingLeft='23px';syllabus.rubric.forEach(item=>criteria.append(practicalNode('li',item)));study.append(criteria);
+ }
  panel.append(study);
  if(chapter.id==='career-2')practicalCvWorkshop(panel);
  const note=practicalNode('p',practicalLabel('Material original, orientativ. Pentru obligații legale, fiscale, autorizări, siguranță sau meserii reglementate verifică sursele oficiale ale țării și specialiștii competenți.','Original training material. For legal, tax, licensing or safety requirements consult official local sources and qualified professionals.'));
