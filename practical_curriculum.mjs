@@ -1,19 +1,72 @@
 // Original offline practical learning material. Training only: not financial, legal, medical or safety certification.
 export const PRACTICAL_LEVELS=[{id:'beginner',ro:'Începător',en:'Beginner'},{id:'intermediate',ro:'Mediu',en:'Intermediate'},{id:'advanced',ro:'Avansat',en:'Advanced'}];
+// Countries select context; verified resources are resolved by topic in practical_sources.mjs.
 export const PRACTICAL_COUNTRIES=[
-['RO','România','Romania','https://www.anaf.ro/anaf/internet/ANAF/asistenta_contribuabili/servicii_oferite_contribuabililor/ghiduri_curente'],
-['GB-ENG','Anglia','England','https://www.gov.uk/browse/business/start-your-business'],
-['GB-SCT','Scoția','Scotland','https://www.gov.uk/browse/business/start-your-business'],
-['GB-WLS','Țara Galilor','Wales','https://www.gov.uk/browse/business/start-your-business'],
-['GB-NIR','Irlanda de Nord','Northern Ireland','https://www.gov.uk/browse/business/start-your-business'],
-['FR','Franța','France','https://europa.eu/youreurope/business/index_en.htm'],
-['DE','Germania','Germany','https://europa.eu/youreurope/business/index_en.htm'],
-['IT','Italia','Italy','https://europa.eu/youreurope/business/index_en.htm'],
-['ES','Spania','Spain','https://europa.eu/youreurope/business/index_en.htm'],
-['PT','Portugalia','Portugal','https://europa.eu/youreurope/business/index_en.htm'],
-['PL','Polonia','Poland','https://europa.eu/youreurope/business/index_en.htm'],
-['NL','Țările de Jos','Netherlands','https://europa.eu/youreurope/business/index_en.htm'],
-['IE','Irlanda','Ireland','https://europa.eu/youreurope/business/index_en.htm']
+  [
+    "RO",
+    "România",
+    "Romania"
+  ],
+  [
+    "GB-ENG",
+    "Anglia",
+    "England"
+  ],
+  [
+    "GB-SCT",
+    "Scoția",
+    "Scotland"
+  ],
+  [
+    "GB-WLS",
+    "Țara Galilor",
+    "Wales"
+  ],
+  [
+    "GB-NIR",
+    "Irlanda de Nord",
+    "Northern Ireland"
+  ],
+  [
+    "FR",
+    "Franța",
+    "France"
+  ],
+  [
+    "DE",
+    "Germania",
+    "Germany"
+  ],
+  [
+    "IT",
+    "Italia",
+    "Italy"
+  ],
+  [
+    "ES",
+    "Spania",
+    "Spain"
+  ],
+  [
+    "PT",
+    "Portugalia",
+    "Portugal"
+  ],
+  [
+    "PL",
+    "Polonia",
+    "Poland"
+  ],
+  [
+    "NL",
+    "Țările de Jos",
+    "Netherlands"
+  ],
+  [
+    "IE",
+    "Irlanda",
+    "Ireland"
+  ]
 ];
 export const PRACTICAL_COURSES=[
   {
