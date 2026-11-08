@@ -126,7 +126,7 @@ const html=await response.text(),boot=html.match(/<script>([\s\S]*?)<\/script>/)
 assert.ok(boot&&boot.length>100000,'App script exists');
 new vm.Script(boot,{filename:'practical-education-boot.js'});
 for(const fragment of [
- "if(key==='practical'){practicalJourney.country=",
+ "if(key==='practical'){practicalOpen('courses');return}",
  "if(root.classList.contains('learning-active')&&root.classList.contains('learning-practical'))",
  "if(practicalVoiceHandleAndroid(data))return;",
  "PRACTICAL_COURSES_DATA","PRACTICAL_COUNTRIES_DATA","PRACTICAL_LEVELS_DATA","PRACTICAL_GUIDES_DATA","PRACTICAL_REFERENCES_DATA","PRACTICAL_SYLLABI_DATA","PRACTICAL_DEPTH_DATA",
