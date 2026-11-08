@@ -91,12 +91,16 @@ function educationCountryGate(moduleKey,proceed){
   proceed();
  };
  // Geo resolution is asynchronous, never requests fresh permission and never changes a field the user touched.
- const coords=state.location;
- if(Number.isFinite(Number(coords?.latitude))&&Number.isFinite(Number(coords?.longitude))){
+ function autoDetectFromCoords(coords){
+  if(!Number.isFinite(Number(coords?.latitude))||!Number.isFinite(Number(coords?.longitude)))return;
   try{const url=new URL(CLIENT_CONFIG.apiUrl);url.pathname='/api/finance-country';url.search='';url.searchParams.set('lat',String(coords.latitude));url.searchParams.set('lon',String(coords.longitude));
    fetch(url.toString(),{headers:{Accept:'application/json'}}).then(x=>{if(!x.ok)throw Error('country');return x.json()}).then(x=>suggest(eduCountryFromCode(x.country,coords),'location')).catch(()=>{});
   }catch{}
- }else if(typeof budgetDetectedCountry==='string'&&budgetDetectedCountry){suggest(eduCountryFromCode(budgetDetectedCountry,null),'detected')}
+ }
+ const coords=state.location;
+ if(Number.isFinite(Number(coords?.latitude))&&Number.isFinite(Number(coords?.longitude)))autoDetectFromCoords(coords);
+ else if(state.locationStarted&&typeof getCurrentCoordinates==='function')getCurrentCoordinates(false).then(autoDetectFromCoords).catch(()=>{});
+ else if(typeof budgetDetectedCountry==='string'&&budgetDetectedCountry)suggest(eduCountryFromCode(budgetDetectedCountry,null),'detected');
 }
 function eduYearOptions(code,level,moduleKey){
  const lv=level==='intermediate'?'medium':level;
