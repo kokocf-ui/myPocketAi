@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {LIT_EU_PROGRAMS,LIT_EU_COMMON,litEuropeanPlan} from './literature_curriculum_europe.mjs';
+const ui=readFileSync(new URL('./index.js',import.meta.url),'utf8');
+const europe=['RO','GB-ENG','GB-SCT','GB-WLS','FR','DE','ES','IT','PT','PL','NL','IE','FI'];
+for(const country of europe){
+  const profile=LIT_EU_PROGRAMS[country];
+  assert.ok(profile?.source?.startsWith('https://'),'Missing reference: '+country);
+  assert.ok(profile.note,'Missing caveat: '+country);
+}
+assert.ok(LIT_EU_COMMON.beginner.length>=3);
+assert.ok(LIT_EU_COMMON.medium.length>=3);
+assert.equal(litEuropeanPlan('RO','medium','9','FILO').verified,true);
+assert.equal(litEuropeanPlan('RO','medium','8','TC').verified,false);
+assert.equal(litEuropeanPlan('FR','medium','1ere').units.length,4);
+assert.equal(litEuropeanPlan('FR','medium','4e').verified,false,'French implementation is phased');
+assert.equal(litEuropeanPlan('GB-ENG','medium','Y9').verified,true);
+assert.equal(litEuropeanPlan('DE','medium','9').requiresRegion,true);
+assert.equal(litEuropeanPlan('DE','medium','9').verified,false,'Germany needs Land curricula');
+assert.equal(litEuropeanPlan('ES','medium','1 ESO').verified,false,'Spain needs autonomous community');
+assert.equal(litEuropeanPlan('PL','beginner','IV').verified,true);
+assert.equal(litEuropeanPlan('PL','beginner','II').verified,false,'Polish 2026 phased entry');
+assert.equal(litEuropeanPlan('OTHER-EU','medium','8').verified,false);
+assert.match(ui,/stage==='grades'/,'grade selector');
+assert.match(ui,/stage==='regions'/,'regional selector');
+assert.match(ui,/stage==='tracks'/,'Romanian school track selector');
+assert.match(ui,/litJourney\.branch==='program'/,'ordered pathway');
+assert.match(ui,/const LIT_EUROPE_PROGRAMS=\$\{JSON\.stringify\(LIT_EU_PROGRAMS\)\}/,'embed source data in UI');
+assert.match(ui,/const curriculumScope='Țară\/jurisdicție de studiu:/,'model instructions grounded to country');
+assert.ok(!ui.match(/\['zh','Chineză','Chinese'\]/),'Asia deferred from literature selection');
+console.log('European literature curriculum mapping, phased verification and UI flow passed');
