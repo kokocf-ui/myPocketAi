@@ -3,6 +3,8 @@ import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
+import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
+import {physicsVerifiedExercise} from './physics_verified.mjs';
 /**
  * myPocket AI — Frontend v1.0.133 — readable country profiles, major cities and verified tourist sights; chronological transit choices; individual event source links and dated evidence tables; identify Workers AI model in expandable latency breakdown; visible response duration and city sights; end-to-end request timing including failures; recipe intent skips GPS, frontend latency diagnostics; route count preserved, network retry, corrected inline regex; reliable GPS requests, route context and map display
  * v1.0.54: language menu adds Russian and Polish; add localized UI labels. Previously: thicker raised 3D card surfaces, beveled edges, layered shadows and dimensional illustrative icon treatment; preserve existing avatar asset and behavior, navigation, localization, GPS, routing and speech capture.
@@ -6826,9 +6828,9 @@ let scienceVoiceActive=false,scienceLastReply='',scienceRequestController=null;
 function scienceSubjectInfo(){return SCIENCE_SUBJECTS.find(s=>s.id===scienceJourney.subject)||null}
 function scienceTopicChoices(){
  const subject=scienceJourney.subject;
- if(subject!=='chemistry'&&subject!=='biology')return SCIENCE_OTHER_TOPICS[subject]||[];
- const topics=subject==='biology'?BIOLOGY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
- const specializations=subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
+ if(!['physics','chemistry','biology'].includes(subject))return SCIENCE_OTHER_TOPICS[subject]||[];
+ const topics=subject==='physics'?PHYSICS_TOPIC_DATA:subject==='biology'?BIOLOGY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
+ const specializations=subject==='physics'?PHYSICS_SPECIALTY_DATA:subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
  if(scienceJourney.level!=='advanced'||!scienceJourney.specialty)return topics.filter(x=>!x.specialty);
  const track=specializations.find(x=>x.id===scienceJourney.specialty);
  return topics.filter(x=>x.specialty===scienceJourney.specialty||
@@ -6848,7 +6850,7 @@ function scienceBack(){
  const current=scienceJourney.stage;
  scienceVoiceStop();scienceStopRequest();
  if(current==='workspace')scienceJourney.stage='topics';
- else if(current==='topics')scienceJourney.stage=(['chemistry','biology'].includes(scienceJourney.subject)&&scienceJourney.level==='advanced')?'specialties':'levels';
+ else if(current==='topics')scienceJourney.stage=(['physics','chemistry','biology'].includes(scienceJourney.subject)&&scienceJourney.level==='advanced')?'specialties':'levels';
  else if(current==='specialties')scienceJourney.stage='levels';
  else if(current==='levels')scienceJourney.stage='subjects';
  else {renderLearningSubjects();return}
@@ -6939,9 +6941,9 @@ function scienceJourneyShowChoices(stage){
  list.className='math-choice-list science-choice-list';
  const choices=stage==='subjects'?SCIENCE_SUBJECTS:
   stage==='levels'?CHEMISTRY_LEVEL_DATA:
-  stage==='specialties'?(scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
+  stage==='specialties'?(scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
   scienceTopicChoices().filter(topic=>{
-   if(!['chemistry','biology'].includes(scienceJourney.subject))return true;
+   if(!['physics','chemistry','biology'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
     EDUCATION_THEORY_DATA.some(x=>x.subject===scienceJourney.subject&&x.topic===topic.id&&
@@ -6956,10 +6958,11 @@ function scienceJourneyShowChoices(stage){
   sub.textContent=stage==='subjects'?
    (item.id==='chemistry'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
      item.id==='biology'?learningLabel('10 capitole de bază · 9 specializări avansate','10 foundation chapters · 9 advanced tracks'):
+     item.id==='physics'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
      learningLabel('Spațiu de studiu','Study workspace')):
    stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
    stage==='specialties'?learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects'):
-   ['chemistry','biology'].includes(scienceJourney.subject)?
+   ['physics','chemistry','biology'].includes(scienceJourney.subject)?
     EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length+
       learningLabel(' fișe teoretice',' theory entries'):'';
   btn.append(heading,sub);
@@ -6969,7 +6972,7 @@ function scienceJourneyShowChoices(stage){
     scienceJourneyShowChoices('levels');
    }else if(stage==='levels'){
     scienceJourney.level=item.id;scienceJourney.specialty=null;
-    scienceJourneyShowChoices(['chemistry','biology'].includes(scienceJourney.subject)&&item.id==='advanced'?'specialties':'topics');
+    scienceJourneyShowChoices(['physics','chemistry','biology'].includes(scienceJourney.subject)&&item.id==='advanced'?'specialties':'topics');
    }else if(stage==='specialties'){
     scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
    }else{
@@ -7567,6 +7570,9 @@ function mathSubjectsForLevel(level){
 }
 
 const EDUCATION_THEORY_DATA=${JSON.stringify(THEORY_ENTRIES)};
+const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
+const PHYSICS_SPECIALTY_DATA=${JSON.stringify(PHYSICS_SPECIALIZATIONS)};
+const PHYSICS_SOLVE_VERIFIED=${physicsVerifiedExercise.toString()};
 const CHEMISTRY_LEVEL_DATA=${JSON.stringify(CHEMISTRY_LEVELS)};
 const CHEMISTRY_TOPIC_DATA=${JSON.stringify([...CHEMISTRY_TOPICS,...CHEMISTRY_SPECIALTY_TOPICS])};
 const CHEMISTRY_SPECIALTY_DATA=${JSON.stringify(CHEMISTRY_SPECIALIZATIONS)};
@@ -8397,6 +8403,11 @@ function scienceShowResult(title,body){
  head.append(h,close);
  const content=document.createElement('div');content.className='science-result-text';
  content.textContent=body;dialog.append(head,content);
+ if(scienceJourney.subject==='physics'){
+  const query=$('scienceEducationText')?.value||title;
+  const kind=physicsVisualKind(query,scienceJourney.topic);
+  if(kind){const visual=physicsVisualBuild(kind);if(visual)dialog.append(visual)}
+ }
  if(scienceJourney.subject==='chemistry'){
   const query=$('scienceEducationText')?.value||title;
   const kind=chemistryVisualKind(query);
@@ -8442,6 +8453,19 @@ async function scienceWorkspaceRun(mode){
    scienceStatus(learningLabel('Model biologic calculat și verificat local.','Biology model locally calculated and checked.'));
    scienceShowResult(learningLabel('Biologie · rezultat verificat','Biology · verified result'),locallyChecked.body);
    return;
+  }
+ }
+ if(scienceJourney.subject==='physics'){
+  const checked=PHYSICS_SOLVE_VERIFIED(source,mode);
+  if(checked?.verified){
+   scienceLastReply=checked.body;
+   scienceStatus(learningLabel('Rezultat fizic calculat și verificat local.','Physics answer calculated and checked offline.'));
+   scienceShowResult(learningLabel('Fizică · rezultat verificat','Physics · verified answer'),checked.body);
+   return;
+  }
+  if(checked?.kind==='input'){
+   const info=learningLabel('Date fizice nevalide. Verifică valorile și unitățile SI.','Invalid physical data: review values and SI units.');
+   scienceStatus(info);scienceShowResult(learningLabel('Fizică · date nevalide','Physics · invalid data'),info);return;
   }
  }
  const biologicalNotes=scienceJourney.subject==='biology'?learningLabel(
@@ -8564,7 +8588,7 @@ function scienceOpenWorkspace(){
  }else if(scienceJourney.subject==='physics'){
   const theory=document.createElement('button');theory.type='button';
   theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
-  theory.onclick=()=>educationTheoryOpen('physics',scienceJourney.level);
+  theory.onclick=()=>physicsTheoryOpen();
   toolbar.append(theory);
  }
  const workspace=document.createElement('div');
