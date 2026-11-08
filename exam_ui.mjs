@@ -107,6 +107,7 @@ function examOpen(stage){
   panel.append(examEl('p',examLabel(country[1],country[2])));
   const sl=examEl('label',examLabel('Sesiunea / anul examenului','Exam session / year'),'lit-label');
   const year=examEl('select','','lit-input');for(const yr of EXAM_SESSION_YEARS_DATA){const opt=examEl('option',String(yr));opt.value=String(yr);year.append(opt)}year.value=String(examJourney.session);year.onchange=()=>{examJourney.session=Number(year.value)};sl.append(year);panel.append(sl);
+  if(examCatalog().some(e=>e.universityAdmission)){panel.append(examBtn(examLabel('🎓 Admitere la universitate','🎓 University admission'),()=>{examJourney.grade='După liceu';examJourney.exam='university';examJourney.subject=null;examOpen('subjects')},'primary-btn'));panel.append(examEl('p',examLabel('Alege facultatea și universitatea în pasul următor; condițiile nu sunt identice pentru toate instituțiile.','Choose your institution and degree next; entry requirements vary by programme.')))}
   const list=[...new Set(examCatalog().flatMap(x=>x.grades))];
   if(!list.length){
    panel.append(examEl('p',examLabel('Pentru această țară programa oficială de examen nu este încă verificată. Putem pregăti un test orientativ, fără a-l prezenta drept examen național.','This country has no verified exam catalogue yet. Advisory practice is available, never presented as an official national exam.')));
@@ -175,7 +176,7 @@ function examWorkspace(panel){
  }
  topicPicker.value=examJourney.topic;
  const focus=examEl('p');const updateTopic=()=>{examJourney.topic=topicPicker.value;const section=sections.find(x=>x[0]===examJourney.topic);focus.textContent=section?.[2]||''};
- let refreshRomanian=null;topicPicker.onchange=()=>{updateTopic();refreshRomanian?.()};updateTopic();topicLabel.append(topicPicker);panel.append(topicLabel,focus);
+ let refreshRomanian=null;topicPicker.onchange=()=>{updateTopic();examOpen('workspace')};updateTopic();topicLabel.append(topicPicker);panel.append(topicLabel,focus);
  if(!spec)panel.append(examEl('p',examLabel('Aceasta este o ordine de recapitulare orientativă, nu o programă de examen verificată pentru această probă.','This is an advisory revision order, not a verified official exam syllabus.')));
  printable.append(examEl('h4',examLabel(exam?.ro||'Pregătire orientativă',exam?.en||'Advisory preparation')));
  const meta=country[1]+' · '+examJourney.grade+' · '+examJourney.session+' · '+subject.ro;
@@ -215,7 +216,7 @@ function examWorkspace(panel){
    if(selections.some(answer=>answer===null)){score.textContent=examLabel('Răspunde la toate întrebările pentru a primi evaluarea.','Answer all questions to see results.');return}
    const correct=limited.reduce((n,q,i)=>n+(selections[i]===q.correct?1:0),0);
    const pct=Math.round(100*correct/limited.length);
-   score.textContent=examLabel('Antrenament: ','Practice: ')+correct+'/'+limited.length+' ('+pct+'%). '+examLabel('Punctaj neoficial.','Unofficial score.');
+   score.textContent=examLabel('Antrenament: ','Practice: ')+correct+'/'+limited.length+' ('+pct+'%). '+examLabel('Corecte: ','Correct: ')+correct+' · '+examLabel('Greșite: ','Incorrect: ')+(limited.length-correct)+'. '+examLabel('Punctaj neoficial.','Unofficial score.');
    form.querySelectorAll('input').forEach(input=>input.disabled=true);check.disabled=true;
    const feedback=examEl('div','','exam-feedback');feedback.append(examEl('h4',examLabel('Explicații și răspunsuri','Answers and explanations')));
    limited.forEach((q,i)=>{const ok=selections[i]===q.correct;const chosen=q.choices[selections[i]]||examLabel('(fără răspuns)','(no answer)');feedback.append(examEl('p',(i+1)+'. '+(ok?examLabel('✓ Corect','✓ Correct'):examLabel('✗ Greșit','✗ Incorrect'))+' · '+examLabel('Ai ales: ','Your answer: ')+chosen+' · '+examLabel('Corect: ','Correct: ')+q.choices[q.correct]+' — '+q.explanation))});sim.append(feedback);printable.append(feedback.cloneNode(true));
