@@ -19,6 +19,11 @@ jobs:
       - name: Get repository files
         uses: actions/checkout@v4
 
+      - name: Verify generated app boot script before deployment
+        run: |
+          node --check index.js
+          node tests_frontend_boot_syntax.mjs
+
       - name: Verify contextual news translation and apply avatar lip-stop patch
         run: |
           node --check scripts/patch-avatar-lipsync.mjs
