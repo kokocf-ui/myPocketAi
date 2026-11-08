@@ -704,6 +704,348 @@ export const EXAM_SPECS=[
     "source": "https://www.gov.ie/en/department-of-education/publications/state-examinations-2026/",
     "notice": "Alege nivelul Higher/Ordinary și materia. Specificațiile sunt actualizate treptat în cadrul Senior Cycle Redevelopment."
   }
+,
+{
+  "country": "RO",
+  "id": "university",
+  "ro": "Admitere la universitate – licență",
+  "en": "University admission – undergraduate",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "romanian",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "computing",
+    "history",
+    "geography",
+    "foreign",
+    "philosophy",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.edu.ro/studii-licenta",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "Fiecare universitate/facultate publică metodologia proprie; pot exista concurs scris, dosar, probe practice, interviu sau combinații. Materiile afișate sunt opțiuni de antrenament, nu probe obligatorii."
+},
+{
+  "country": "GB-ENG",
+  "id": "university",
+  "ro": "Admitere la universitate – UCAS",
+  "en": "University applications – UCAS",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "english",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "computing",
+    "history",
+    "foreign",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.ucas.com/applying/you-apply/what-and-where-study/entry-requirements",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "Nu există un examen universitar unic; cursul stabilește condiții, iar anumite programe solicită teste de admitere, interviu sau portofoliu."
+},
+{
+  "country": "GB-SCT",
+  "id": "university",
+  "ro": "Admitere la universitate – Scoția",
+  "en": "University applications – Scotland",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "english",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "computing",
+    "foreign",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.ucas.com/applying/you-apply/what-and-where-study/entry-requirements",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "Universitățile stabilesc condiții în funcție de Higher/Advanced Higher sau calificări echivalente. Testele și interviurile variază după program."
+},
+{
+  "country": "GB-WLS",
+  "id": "university",
+  "ro": "Admitere la universitate – Țara Galilor",
+  "en": "University applications – Wales",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "english",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "computing",
+    "foreign",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.ucas.com/applying/you-apply/what-and-where-study/entry-requirements",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "Intrarea se face pe bază de condiții ale programului; nu există probă unică de admitere pentru toate universitățile."
+},
+{
+  "country": "GB-NIR",
+  "id": "university",
+  "ro": "Admitere la universitate – Irlanda de Nord",
+  "en": "University applications – Northern Ireland",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "english",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "computing",
+    "foreign",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.ucas.com/applying/you-apply/what-and-where-study/entry-requirements",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "Condițiile sunt stabilite de fiecare instituție și program; în unele cazuri există teste, interviuri ori portofoliu."
+},
+{
+  "country": "FR",
+  "id": "university",
+  "ro": "Admitere la învățământul superior – Parcoursup",
+  "en": "Higher education applications – Parcoursup",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "french",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "computing",
+    "philosophy",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.parcoursup.gouv.fr/",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "Parcoursup coordonează multe candidaturi, dar nu constituie un examen național unic de admitere. Procedurile și probele depind de formare și statutul candidatului."
+},
+{
+  "country": "PL",
+  "id": "university",
+  "ro": "Admitere la studii universitare – recrutare",
+  "en": "University recruitment – Poland",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "polish",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "computing",
+    "foreign",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.gov.pl/web/nauka",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "Condițiile diferă după instituție și program; rezultatele Matura pot fi folosite, iar pentru unele domenii există probe specifice."
+},
+{
+  "country": "PT",
+  "id": "university",
+  "ro": "Acces la învățământ superior – concurs național",
+  "en": "Higher education access – Portugal",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "portuguese",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "foreign",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.dges.gov.pt/pt/pagina/acesso-ao-ensino-superior",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "Condițiile includ probe de ingresso și criterii specifice; verifică instituția, cursul, anul și ruta de candidatură."
+},
+{
+  "country": "DE",
+  "id": "university",
+  "ro": "Acces la universitate – Hochschulzugang",
+  "en": "University entrance – Germany",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "german",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "computing",
+    "foreign",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.hochschulstart.de/",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "Accesul depinde de calificarea de intrare, Land, instituție și program; unele domenii au proceduri selective, nu un examen unic național."
+},
+{
+  "country": "ES",
+  "id": "university",
+  "ro": "Acces / admitere la universitate",
+  "en": "University admission – Spain",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "spanish",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "history",
+    "foreign",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-11858",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "PAU este relevantă pentru numeroase candidaturi, dar admiterea, ponderile și cerințele depind de comunitatea autonomă și facultate. Verifică oferta locală."
+},
+{
+  "country": "IT",
+  "id": "university",
+  "ro": "Admitere la universitate – accesso",
+  "en": "University admissions – Italy",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "italian",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "computing",
+    "foreign",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.universitaly.it/",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "Există programe cu acces liber sau limitat și proceduri ori teste diferite. Nu presupune un test unic pentru toate facultățile."
+},
+{
+  "country": "NL",
+  "id": "university",
+  "ro": "Admitere universitară – Studielink",
+  "en": "University applications – Netherlands",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "dutch",
+    "english",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "computing",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.studielink.nl/",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "Cerințele depind de program și universitate; unele programe numerus fixus au selecție. Studielink este un portal de înscriere, nu o probă unică."
+},
+{
+  "country": "IE",
+  "id": "university",
+  "ro": "Admitere universitară – CAO",
+  "en": "University applications – Ireland",
+  "grades": [
+    "După liceu"
+  ],
+  "subjects": [
+    "english",
+    "math",
+    "biology",
+    "chemistry",
+    "physics",
+    "computing",
+    "foreign",
+    "art",
+    "oral"
+  ],
+  "source": "https://www.cao.ie/",
+  "advisory": true,
+  "universityAdmission": true,
+  "requiresInstitution": true,
+  "requiresProgramme": true,
+  "notice": "CAO gestionează multe candidaturi; selecția poate depinde de Leaving Certificate, cerințe ale programului și probe suplimentare."
+}
 ];
 export const EXAM_COUNTRY_CODES=["RO","GB-ENG","GB-SCT","GB-WLS","GB-NIR","FR","PL","PT","DE","ES","IT","NL","IE"];
 export const EXAM_SESSION_YEARS=[2026,2027,2028];
