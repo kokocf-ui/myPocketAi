@@ -9637,7 +9637,10 @@ function languageCurrent(){return FOREIGN_LANGUAGE_DATA.find(x=>x.id===languageJ
 function languageIsClassical(){return languageJourney.language==='la'||languageJourney.language==='el'&&['ancient','koine'].includes(languageJourney.variant)}
 function languageLevels(){return languageIsClassical()?FOREIGN_CLASSICAL_LEVEL_DATA:FOREIGN_LEVEL_DATA}
 function languageWords(){
- if(languageJourney.topic!=='greetings')return (FOREIGN_TOPIC_EXAMPLE_DATA[languageJourney.language]||{})[languageJourney.topic]||[];
+ if(languageJourney.topic!=='greetings'){
+  if(['US','traditional','ecclesiastical','ancient','koine'].includes(languageJourney.variant))return [];
+  return (FOREIGN_TOPIC_EXAMPLE_DATA[languageJourney.language]||{})[languageJourney.topic]||[];
+ }
  if(languageJourney.language==='el'&&languageJourney.variant==='ancient')return FOREIGN_ANCIENT_GREEK;
  if(languageJourney.language==='el'&&languageJourney.variant==='koine')return FOREIGN_CLASSICAL_VARIANT_DATA.koine.map((v,i)=>({id:'koine-'+i,original:v[0],phonetic:v[1],meaning:v[2]}));
  if(languageJourney.language==='la'&&languageJourney.variant==='ecclesiastical')return FOREIGN_CLASSICAL_VARIANT_DATA.latinEcclesiastical.map((v,i)=>({id:'la-eccl-'+i,original:v[0],phonetic:v[1],meaning:v[2]}));
