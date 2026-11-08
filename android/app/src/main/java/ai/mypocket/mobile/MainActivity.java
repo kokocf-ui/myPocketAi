@@ -1316,7 +1316,7 @@ public final class MainActivity extends ComponentActivity {
             File output=new File(folder,requested);
             int suffix=2;
             while(output.exists()){output=new File(folder,basename+"_"+suffix+".pdf");suffix++;}
-            if(!saveEducationPdf(output,title,text))throw new IOException("PDF write failed");
+            if(!saveEducationPdf(output,title,text,data.optBoolean("color",true)))throw new IOException("PDF write failed");
             notifyEducationPdf("saved");
             if("print".equals(data.optString("mode","save")))printSavedEducationPdf(output,title);
         }catch(Exception ignored){notifyEducationPdf("error");}
@@ -1369,58 +1369,98 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ignored){notifyEducationPdf("shareUnavailable");}
     }
 
-    private boolean saveEducationPdf(File destination,String title,String content){
+    // Structured A4 PDF: explicit paragraphs, headings and page numbers.
+    // Colour is optional; black-and-white output remains available.
+    private boolean saveEducationPdf(File destination,String title,String content,boolean useColor){
         PdfDocument document=new PdfDocument();
         try{
-            final int width=595,height=842,margin=48;
-            final int usable=width-2*margin;
+            final int width=595,height=842,margin=48,usable=width-2*margin;
+            final int accent=useColor?Color.rgb(26,106,154):Color.BLACK;
             Paint body=new Paint(Paint.ANTI_ALIAS_FLAG);
-            body.setColor(Color.BLACK);body.setTextSize(11.5f);
+            body.setColor(Color.rgb(35,43,48));body.setTextSize(11.5f);
             body.setTypeface(Typeface.create("sans-serif",Typeface.NORMAL));
             Paint heading=new Paint(Paint.ANTI_ALIAS_FLAG);
-            heading.setColor(Color.BLACK);heading.setTextSize(18f);
+            heading.setColor(accent);heading.setTextSize(15.5f);
             heading.setTypeface(Typeface.create("sans-serif",Typeface.BOLD));
-            int pageNumber=0;
-            PdfDocument.Page page=null;
-            Canvas canvas=null;
-            float y=margin;
-            String[] paragraphs=(title+"\n\n"+content).replace("\r","").split("\n",-1);
-            boolean firstLine=true;
-            for(String paragraph:paragraphs){
-                Paint paint=firstLine?heading:body;
-                float lineHeight=firstLine?27f:18f;
-                if(paragraph.isEmpty()){
-                    y+=lineHeight/2f;
-                    firstLine=false;
-                    continue;
-                }
-                String remaining=paragraph;
-                while(!remaining.isEmpty()){
-                    if(page==null||y+lineHeight>height-margin){
-                        if(page!=null)document.finishPage(page);
-                        page=document.startPage(new PdfDocument.PageInfo.Builder(width,height,++pageNumber).create());
-                        canvas=page.getCanvas();y=margin+20;
+            Paint mainTitle=new Paint(Paint.ANTI_ALIAS_FLAG);
+            mainTitle.setColor(accent);mainTitle.setTextSize(19f);
+            mainTitle.setTypeface(Typeface.create("sans-serif",Typeface.BOLD));
+            Paint footer=new Paint(Paint.ANTI_ALIAS_FLAG);
+            footer.setColor(useColor?Color.rgb(92,115,126):Color.DKGRAY);
+            footer.setTextSize(9f);
+            Paint rule=new Paint(Paint.ANTI_ALIAS_FLAG);rule.setColor(accent);rule.setStrokeWidth(1.5f);
+            PdfDocument.Page page=null;Canvas canvas=null;
+            int pageNumber=0;float y=margin+14;
+            String cleanTitle=title==null?"Material educațional":title.trim();
+            String[] paragraphs=(cleanTitle+"\n\n"+content.replace("\r","")).split("\n",-1);
+            boolean first=true,blankBefore=false;
+            for(String raw:paragraphs){
+                String paragraph=raw.replaceAll("[ \t]+"," ").trim();
+                if(paragraph.isEmpty()){blankBefore=true;continue;}
+                boolean isTitle=first;
+                boolean isHeading=!first&&(paragraph.matches("(?iu)^(?:#{1,4}\\s*)?(?:\\d{1,2}[.)]\\s+)?(?:introducere|concluzii?|rezumat|personaje(?: principale)?|prezentarea acțiunii|analiză|context(?: istoric)?|bibliografie|cuprins|definiții|teorie|metodologie|rezolvare|rezultate|interpretare|observații|exemple|capitolul?\\s+\\w+)(?:\\s*[:—–-].*)?$")||paragraph.matches("^#{1,4}\\s+.+")||paragraph.matches("^\\d{1,2}\\.\\s+[^.]{3,85}$"));
+                String lineText=paragraph.replaceFirst("^#{1,4}\\s+","");
+                Paint paint=isTitle?mainTitle:(isHeading?heading:body);
+                float lineHeight=isTitle?27f:(isHeading?22f:18f);
+                if(page==null||y+lineHeight+(isHeading?14:0)>height-margin-28){
+                    if(page!=null){
+                        canvas.drawLine(margin,height-53,width-margin,height-53,rule);
+                        canvas.drawText("Pagina "+pageNumber, width-margin-footer.measureText("Pagina "+pageNumber),height-37,footer);
+                        document.finishPage(page);
                     }
-                    int take=paint.breakText(remaining,true,usable,null);
+                    page=document.startPage(new PdfDocument.PageInfo.Builder(width,height,++pageNumber).create());
+                    canvas=page.getCanvas();y=margin+14;
+                }
+                if(blankBefore&&!isTitle)y+=isHeading?9f:7f;
+                if(isHeading&&y>margin+20)y+=5f;
+                if(y+lineHeight>height-margin-28){
+                    canvas.drawLine(margin,height-53,width-margin,height-53,rule);
+                    canvas.drawText("Pagina "+pageNumber,width-margin-footer.measureText("Pagina "+pageNumber),height-37,footer);
+                    document.finishPage(page);
+                    page=document.startPage(new PdfDocument.PageInfo.Builder(width,height,++pageNumber).create());
+                    canvas=page.getCanvas();y=margin+14;
+                }
+                boolean bullet=!isHeading&&!isTitle&&lineText.matches("^[-•*]\\s+.*");
+                if(bullet)lineText=lineText.replaceFirst("^[-•*]\\s+","• ");
+                String remaining=lineText;
+                boolean firstLine=true;
+                while(!remaining.isEmpty()){
+                    float inset=isTitle||isHeading?0:(firstLine?16:0);
+                    float available=usable-inset;
+                    if(y+lineHeight>height-margin-28){
+                        canvas.drawLine(margin,height-53,width-margin,height-53,rule);
+                        canvas.drawText("Pagina "+pageNumber,width-margin-footer.measureText("Pagina "+pageNumber),height-37,footer);
+                        document.finishPage(page);
+                        page=document.startPage(new PdfDocument.PageInfo.Builder(width,height,++pageNumber).create());
+                        canvas=page.getCanvas();y=margin+14;
+                    }
+                    int take=paint.breakText(remaining,true,available,null);
                     take=Math.max(1,Math.min(take,remaining.length()));
                     if(take<remaining.length()){
                         int space=remaining.lastIndexOf(' ',take);
-                        if(space>0&&space>=take/2)take=space;
+                        if(space>take/2)take=space;
                     }
                     String line=remaining.substring(0,take).trim();
-                    canvas.drawText(line,margin,y,paint);
+                    if(!line.isEmpty())canvas.drawText(line,margin+inset,y,paint);
                     y+=lineHeight;
                     remaining=remaining.substring(take).trim();
                     firstLine=false;
-                    paint=body;lineHeight=18f;
                 }
+                if(isTitle){
+                    y+=9;
+                    canvas.drawLine(margin,y,width-margin,y,rule);
+                    y+=13;
+                }
+                first=false;blankBefore=false;
             }
             if(page==null){
                 page=document.startPage(new PdfDocument.PageInfo.Builder(width,height,1).create());
+                canvas=page.getCanvas();pageNumber=1;
             }
+            canvas.drawLine(margin,height-53,width-margin,height-53,rule);
+            canvas.drawText("Pagina "+pageNumber,width-margin-footer.measureText("Pagina "+pageNumber),height-37,footer);
             document.finishPage(page);
             try(OutputStream stream=new FileOutputStream(destination)){
-                if(stream==null)throw new IOException("No output stream");
                 document.writeTo(stream);
                 stream.flush();
             }
