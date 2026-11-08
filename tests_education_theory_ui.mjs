@@ -9,7 +9,7 @@ new vm.Script(script);
 assert.match(script,/function educationTheoryOpen\(subject,level\)/);
 assert.match(script,/function educationTheoryFind\(query,subject,level,limit=4\)/);
 assert.match(script,/educationTheoryOpen\('math',mathJourney.level\)/);
-assert.match(script,/educationTheoryOpen\('physics',scienceJourney.level\)/,'Physics theory is entered from the science workspace');
+assert.match(script,/theory.onclick=\(\)=>physicsTheoryOpen\(\)/,'Physics opens its own chapter theory from workspace');
 assert.match(script,/chemistryCurriculumPreset=\{level:scienceJourney.level,topic:scienceJourney.topic\}/,'Chemistry theory opens in the selected topic');
 assert.match(script,/educationTheoryHandleAndroid\(data\)/);
 assert.match(script,/if\(document.getElementById\('educationTheoryDialog'\)\?\.open\)/);
