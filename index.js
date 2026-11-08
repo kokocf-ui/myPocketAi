@@ -9721,6 +9721,7 @@ async function languageAIGenerate(request){
   const caution=document.createElement('p');caution.textContent=learningLabel('Conținut AI: verifică transcrierea și traducerile în scop de examinare.','AI content: verify pronunciation and translations before exams.');
   dialog.append(head,content,caution);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);
   try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+  languageLessonMark('generated');
   languageStatus(learningLabel('Lecția este disponibilă.','Lesson ready.'));
  }catch{languageStatus(learningLabel('Profesorul AI nu a răspuns. Lecțiile locale rămân disponibile.','AI teacher unavailable; offline lessons remain.'))}
  finally{languageJourney.busy=false}
@@ -9752,6 +9753,67 @@ function languagePlacementRender(panel){
  },'primary-btn');
  panel.append(next);
 }
+
+function languageLessonProgressKey(){return languageProgressKey()+'-completed'}
+function languageLessonProgress(){try{return JSON.parse(localStorage.getItem(languageLessonProgressKey())||'{}')}catch{return {}}}
+function languageLessonMark(kind){
+ try{const p=languageLessonProgress();p[languageJourney.level+'/'+languageJourney.topic]={seen:true,date:Date.now(),kind,verified:false};localStorage.setItem(languageLessonProgressKey(),JSON.stringify(p))}catch{}
+}
+function languageFullPlacement(){
+ const classical=languageIsClassical();
+ const questions=classical?[
+ 'Transliterează cinci litere și explică sensul a două cuvinte.',
+ 'Tradu două enunțuri și explică un caz sau o conjugare.',
+ 'Analizează sintaxa unui pasaj clasic și justifică traducerea.'
+ ]:[
+ 'A1: Prezintă-te și descrie o activitate cotidiană.',
+ 'A2: Povestește ce ai făcut ieri și ce vei face mâine.',
+ 'B1: Argumentează o preferință printr-o experiență personală.',
+ 'B2: Compară două opțiuni și discută avantaje și dezavantaje.',
+ 'C1: Formulează o analiză nuanțată într-un registru profesional.',
+ 'C2: Critică un argument abstract și reformulează-l în alt registru.'
+ ];
+ const lang=languageCurrent();const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog';
+ const head=document.createElement('div');head.className='education-theory-head';
+ const heading=document.createElement('h2');heading.textContent=learningLabel('Evaluare de nivel orientativă','Formative placement assessment');
+ head.append(heading,languageButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));dialog.append(head);
+ const info=document.createElement('p');info.textContent=learningLabel('Răspunde în limba studiată. Poți sări peste cerințele dificile. Evaluarea AI nu este certificat CEFR.','Answer in the target language. Skip difficult tasks. AI placement is not CEFR certification.');dialog.append(info);
+ const area=document.createElement('div');dialog.append(area);let index=0;const answers=[];
+ const render=()=>{
+  area.replaceChildren();
+  const question=document.createElement('p');question.textContent=(index+1)+'/'+questions.length+' · '+questions[index];area.append(question);
+  const entry=document.createElement('textarea');entry.rows=5;entry.placeholder=learningLabel('Răspunde în limba studiată…','Answer in the target language…');entry.value=answers[index]||'';area.append(entry);
+  const notice=document.createElement('p');notice.setAttribute('role','status');area.append(notice);
+  area.append(languageButton(index===questions.length-1?learningLabel('Evaluează','Assess'):learningLabel('Următoarea','Next'),async()=>{
+   answers[index]=entry.value.trim().slice(0,1500);
+   if(index<questions.length-1){index++;render();return}
+   if(languageJourney.busy)return;languageJourney.busy=true;notice.textContent=learningLabel('Se evaluează…','Assessing…');
+   const levels=(classical?FOREIGN_CLASSICAL_LEVEL_DATA:FOREIGN_LEVEL_DATA).map(x=>x.id);
+   const work=questions.map((q,i)=>q+'\nRăspuns: '+(answers[i]||'[lipsă]')).join('\n\n');
+   const prompt='Ești evaluator lingvistic pedagogic. Limba '+lang.ro+', varianta '+(languageJourney.variant||'standard')+'. Evaluează conservator răspunsurile: vocabular, gramatică, coerență, argumentație; nu deduce pronunția din text. Răspunde doar ca obiect JSON valid cu cheile estimated_level, feedback, next_steps. estimated_level trebuie să aparțină exact mulțimii '+levels.join(',')+'. Nu acorda nivel avansat fără dovezi suficiente. Evaluarea nu certifică nivelul. Răspunsuri:\n'+work;
+   try{
+    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:prompt,language:state.language,module:'assistant',history:[]})});
+    const result=await response.json();if(!response.ok||result.status!=='success'||!result.reply)throw Error('unavailable');
+    if(!dialog.isConnected)return;
+    const body=String(result.reply).trim().replace(/^\x60{3}(?:json)?\s*/i,'').replace(/\s*\x60{3}$/,'');
+    const parsed=JSON.parse(body);
+    if(!levels.includes(parsed.estimated_level)||typeof parsed.feedback!=='string')throw Error('invalid assessment');
+    area.replaceChildren();
+    const title=document.createElement('h3');title.textContent=learningLabel('Nivel recomandat: ','Suggested level: ')+parsed.estimated_level;
+    const feedback=document.createElement('p');feedback.textContent=parsed.feedback.slice(0,2400);
+    const advice=document.createElement('p');advice.textContent=String(parsed.next_steps||'').slice(0,1000);
+    const limit=document.createElement('p');limit.textContent=learningLabel('Estimare AI, nu certificat. Nu include evaluare acustică.','AI estimate, not certified. No acoustic evaluation.');
+    area.append(title,feedback,advice,limit,languageButton(learningLabel('Începe nivelul','Start level'),()=>{
+     languageJourney.level=parsed.estimated_level;dialog.close();languageOpen('topics');
+    },'primary-btn'));
+    try{localStorage.setItem(languageProgressKey()+'-placement',JSON.stringify({level:parsed.estimated_level,date:Date.now(),certified:false}))}catch{}
+   }catch{if(dialog.isConnected)notice.textContent=learningLabel('Evaluarea nu a putut fi verificată; nu recomand un nivel inventat.','Placement unavailable; no level was guessed.')}
+   finally{languageJourney.busy=false}
+  },'primary-btn'));
+ };
+ dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);render();try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+
 function languageReviewOpen(){
  const cards=languageWords();
  const progress=languageProgressLoad(),dueIds=new Set(FOREIGN_DUE(progress,Date.now()));
@@ -9839,6 +9901,7 @@ function languageOpen(stage){
  if(stage==='placement'){languagePlacementRender(panel);host.append(panel);return}
  if(stage!=='lesson'){
   if(stage==='levels')panel.append(languageButton(learningLabel('🎓 Test inițial de orientare','🎓 Starter placement check'),languagePlacementBegin));
+  if(stage==='levels')panel.append(languageButton(learningLabel('📊 Evaluare completă','📊 Full placement assessment'),languageFullPlacement));
   const list=document.createElement('div');list.className='math-choice-list science-choice-list';let options=[];
   if(stage==='languages')options=FOREIGN_LANGUAGE_DATA;
   if(stage==='variants'){
@@ -9878,6 +9941,10 @@ function languageOpen(stage){
    languageButton(learningLabel('📝 Evaluare','📝 Assessment'),()=>languageConversationStart('assessment')),
    languageButton(learningLabel('🔁 Recapitulare','🔁 Review'),languageReviewOpen));
   panel.append(modes);
+  const lessonProgress=languageLessonProgress();
+  if(lessonProgress[languageJourney.level+'/'+languageJourney.topic]?.seen){
+   const completion=document.createElement('p');completion.textContent=learningLabel('✓ Lecție parcursă (AI; evaluare necertificată)','✓ Lesson visited (AI, not certified)');panel.append(completion)
+  }
   const offline=(languageJourney.level==='A1'||languageIsClassical()&&languageJourney.level==='foundation')&&languageWords().length>0;
   const words=languageWords();
   if(offline){
