@@ -35,6 +35,7 @@ assert.equal(litEuropeanPlan('CH','medium','8').requiresRegion,true);
 assert.equal(litEuropeanPlan('SK','medium','8').verified,false);
 assert.equal(litEuropeanPlan('LV','medium','9').verified,true);
 assert.equal(litEuropeanPlan('OTHER-EU','medium','8').verified,false);
+assert.match(ui,/\.slice\(0,4\):choices/,'country and language suggestions capped at four');
 assert.match(ui,/stage==='grades'/,'grade selector');
 assert.match(ui,/stage==='regions'/,'regional selector');
 assert.match(ui,/stage==='tracks'/,'Romanian school track selector');
