@@ -9818,7 +9818,9 @@ function languageFullPlacement(){
 }
 
 function languageReviewOpen(){
+ if(!(languageJourney.level==='A1'||languageIsClassical()&&languageJourney.level==='foundation')){languageConversationStart('review');return}
  const cards=languageWords();
+ if(!cards.length){languageConversationStart('review');return}
  const progress=languageProgressLoad(),dueIds=new Set(FOREIGN_DUE(progress,Date.now()));
  const candidates=cards.filter(card=>!progress[card.id]||dueIds.has(card.id));
  const chosen=(candidates.length?candidates:cards).slice(0,12);
@@ -9850,6 +9852,7 @@ function languageTutorPrompt(mode,request,history){
  (mode==='conversation'?'Joacă rolul unui partener de conversație; pune o singură întrebare pe rând, corectează răspunsul utilizatorului într-un paragraf scurt, apoi continuă.':
  mode==='assessment'?'Evaluează formativ (nu certificare CEFR) folosind criteriile '+rubric.criteria.join(', ')+'. Dă întrebări variate cu dificultate progresivă și feedback; nu atribui nivelul numai pe baza vocabularului introductiv.':
  mode==='pronunciation'?'Din textul recunoscut poți comenta doar alegerea cuvintelor, nu acuratețea acustică. Explică sunetele și tonurile într-o notă pedagogică, fără scor fonetic.':
+ mode==='review'?'Evaluează prin recapitulare activă. Pune câte o întrebare, alternează traducere, gramatică, citire, conversație și explică greșelile, adaptând dificultatea la nivelul curent.':
  mode==='listening'?'Creează un dialog scurt de ascultat, apoi întrebări de înțelegere și răspunsuri; redarea audio este responsabilitatea dispozitivului.':
  'Pregătește o lecție structurată, cu explicații, 8-12 exemple, gramatică, exersare și 5 exerciții cu soluții și justificări.')+
  '\\nIstoric de învățare:\\n'+previous+'\\nSolicitarea utilizatorului: '+turn;
