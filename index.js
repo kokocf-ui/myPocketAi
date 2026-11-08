@@ -10786,6 +10786,10 @@ function eduCurrentPrintable(){
  }else{
   const assignment=root.querySelector('.hg-request')?.value.trim()||'';
   if(assignment)descriptive=title+' — '+assignment;
+  else{
+   const heading=parts.join(' ').replace(/\\s+/g,' ').slice(0,75).trim();
+   if(heading)descriptive=title+' — '+heading;
+  }
  }
  return {title:descriptive.slice(0,120),text:parts.join('\n\n').slice(0,160000)};
 }
