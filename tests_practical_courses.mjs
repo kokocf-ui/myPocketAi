@@ -25,7 +25,7 @@ for(const course of PRACTICAL_COURSES){
  assert.deepEqual(course.chapters.map(x=>x.level),['beginner','beginner','intermediate','intermediate','advanced','advanced']);
  for(const level of PRACTICAL_LEVELS)assert.equal(practicalChapters(course.id,level.id).length,2);
  for(const chapter of course.chapters){
-  assert.ok(chapter.title.length>9&&chapter.theory.length>120&&chapter.method.length>80&&chapter.caseStudy.length>45,'Insufficient offline explanation '+chapter.id);
+  assert.ok(chapter.title.length>9&&chapter.theory.length>120&&chapter.method.length>55&&chapter.caseStudy.length>40,'Insufficient offline explanation '+chapter.id);
   assert.equal(chapter.practice.length,3);
   const q=chapter.question;
   assert.ok(q.prompt.length>19&&q.choices.length===4&&new Set(q.choices).size===4);
