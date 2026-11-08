@@ -2877,6 +2877,12 @@ main.page:has(#view-module.learning-languages.active){
 @media(max-height:600px){
  #view-module.learning-languages .foreign-stage-languages .science-choice-row{min-height:44px!important;font-size:12px!important}
 }
+
+#view-module.learning-languages .foreign-card-count{margin:4px 0!important;text-align:center;font-weight:700}
+#view-module.learning-languages .foreign-card-navigation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:4px 0 10px}
+#view-module.learning-languages .foreign-card-navigation button{min-width:0!important;width:100%!important;min-height:46px!important;font-size:clamp(12px,3.5vw,17px)!important}
+#view-module.learning-languages .foreign-card-navigation button:disabled{opacity:.4;cursor:default}
+#view-module.learning-languages .foreign-word-card .foreign-card-meaning{flex-basis:100%}
 </style>
 
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
@@ -9681,7 +9687,64 @@ let languageJourney={stage:'languages',language:null,variant:null,level:null,top
 function languageCurrent(){return FOREIGN_LANGUAGE_DATA.find(x=>x.id===languageJourney.language)}
 function languageIsClassical(){return languageJourney.language==='la'||languageJourney.language==='el'&&['ancient','koine'].includes(languageJourney.variant)}
 function languageLevels(){return languageIsClassical()?FOREIGN_CLASSICAL_LEVEL_DATA:FOREIGN_LEVEL_DATA}
+
+/* Alphabet sequence is a real lesson, not a one-card placeholder.
+   Chinese uses Pinyin syllables/tones; Japanese starts with Hiragana. */
+const FOREIGN_ALPHABET_SERIES={
+ ro:'A Ă Â B C D E F G H I Î J K L M N O P Q R S Ș T Ț U V W X Y Z',
+ en:'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z',
+ fr:'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z',
+ de:'A Ä B C D E F G H I J K L M N O Ö P Q R S ß T U Ü V W X Y Z',
+ it:'A B C D E F G H I L M N O P Q R S T U V Z',
+ es:'A B C D E F G H I J K L M N Ñ O P Q R S T U V W X Y Z',
+ pt:'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z',
+ nl:'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z',
+ ru:'А Б В Г Д Е Ё Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я',
+ pl:'A Ą B C Ć D E Ę F G H I J K L Ł M N Ń O Ó P R S Ś T U W Y Z Ź Ż',
+ la:'A B C D E F G H I K L M N O P Q R S T V X Y Z',
+ el:'Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω',
+ ja:'あ い う え お か き く け こ さ し す せ そ た ち つ て と な に ぬ ね の は ひ ふ へ ほ ま み む め も や ゆ よ ら り る れ ろ わ を ん',
+ zh:'mā má mǎ mà bā bá bǎ bà dā dá dǎ dà'
+};
+const FOREIGN_LATIN_CLASSICAL_IPA={
+ A:'/a/',B:'/b/',C:'/k/',D:'/d/',E:'/e/',F:'/f/',G:'/ɡ/',H:'/h/',I:'/i/',K:'/k/',L:'/l/',M:'/m/',N:'/n/',O:'/o/',P:'/p/',Q:'/kʷ/',R:'/r/',S:'/s/',T:'/t/',V:'/w/',X:'/ks/',Y:'/y/',Z:'/d͡z/'
+};
+function languageAlphabetWords(){
+ const symbols=(FOREIGN_ALPHABET_SERIES[languageJourney.language]||'').split(' ').filter(Boolean);
+ return symbols.map((symbol,i)=>{
+  const mandarin=languageJourney.language==='zh',japanese=languageJourney.language==='ja';
+  const lower=japanese||mandarin?symbol:symbol.toLocaleLowerCase();
+  const original=mandarin||japanese?symbol:symbol+' '+lower;
+  const ipa=languageJourney.language==='la'?FOREIGN_LATIN_CLASSICAL_IPA[symbol]||'':'';
+  return {id:languageJourney.language+'-alphabet-'+i,original,phonetic:ipa,
+   meaning:mandarin?'Silabă pinyin cu ton':japanese?'Semn hiragana':'Litera '+symbol,
+   spoken:symbol};
+ });
+}
+function languageSetCard(index){
+ const words=languageWords();
+ if(!words.length)return;
+ languageJourney.cardIndex=Math.max(0,Math.min(words.length-1,index));
+ const panel=document.querySelector('#view-module.learning-languages .foreign-stage-lesson');
+ if(!panel)return;
+ const card=words[languageJourney.cardIndex];
+ const word=panel.querySelector('.foreign-original');
+ const phon=panel.querySelector('.foreign-phonetic');
+ const meaning=panel.querySelector('.foreign-card-meaning');
+ const count=panel.querySelector('.foreign-card-count');
+ if(word)word.textContent=card.original;
+ if(phon){phon.textContent=card.phonetic||'';phon.hidden=!languageJourney.phonetics||!card.phonetic}
+ if(meaning)meaning.textContent=card.meaning;
+ if(count)count.textContent=(languageJourney.cardIndex+1)+' / '+words.length;
+ const previous=panel.querySelector('.foreign-card-prev'),next=panel.querySelector('.foreign-card-next');
+ if(previous)previous.disabled=languageJourney.cardIndex===0;
+ if(next)next.disabled=languageJourney.cardIndex===words.length-1;
+ const play=panel.querySelector('.foreign-card-play'),practice=panel.querySelector('.foreign-card-practice');
+ if(play)play.onclick=()=>languageSpeak(card.spoken||card.original);
+ if(practice)practice.onclick=()=>languagePractice(card);
+}
 function languageWords(){
+ if(languageJourney.topic==='alphabet')return languageAlphabetWords();
  if(languageJourney.topic!=='greetings'){
   if(['US','traditional','ecclesiastical','ancient','koine'].includes(languageJourney.variant))return [];
   return (FOREIGN_TOPIC_EXAMPLE_DATA[languageJourney.language]||{})[languageJourney.topic]||[];
@@ -9987,7 +10050,7 @@ function languageOpen(stage){
     if(stage==='languages'){languageJourney.language=opt.id;languageJourney.variant=null;languageJourney.level=null;languageOpen(['el','la','zh','en'].includes(opt.id)?'variants':'levels')}
     else if(stage==='variants'){languageJourney.variant=opt.id;languageOpen('levels')}
     else if(stage==='levels'){languageJourney.level=opt.id;languageOpen('topics')}
-    else{languageJourney.topic=opt.id;languageOpen('lesson')}
+    else{languageJourney.topic=opt.id;languageJourney.cardIndex=0;languageOpen('lesson')}
    },'secondary-btn math-choice-row science-choice-row');
    if(stage==='languages')button.title=opt.native+' · '+learningLabel(opt.ro,opt.en);
    list.append(button);
@@ -10024,15 +10087,23 @@ function languageOpen(stage){
     const progress=document.createElement('p');progress.textContent=learningLabel('Cuvinte exersate corect: ','Correctly practised: ')+correct+'/'+words.length;
     panel.append(progress);
    }catch{}
-   for(const card of words){
-    const box=document.createElement('section');box.className='foreign-word-card';
-    const word=document.createElement('strong');word.className='foreign-original';word.textContent=card.original;
-    const phon=document.createElement('div');phon.className='foreign-phonetic';phon.textContent=card.phonetic;phon.hidden=!languageJourney.phonetics;
-    const meaning=document.createElement('div');meaning.textContent=card.meaning;
-    box.append(word,phon,meaning,foreignStudyButton(learningLabel('🔊 Ascultă','🔊 Listen'),()=>languageSpeak(card.original)),
-      foreignStudyButton(learningLabel('✍ Exersează','✍ Practice'),()=>languagePractice(card)));
-    panel.append(box);
-   }
+   // One card at a time keeps the whole lesson accessible on a phone.
+   if(!Number.isInteger(languageJourney.cardIndex))languageJourney.cardIndex=0;
+   languageJourney.cardIndex=Math.max(0,Math.min(words.length-1,languageJourney.cardIndex));
+   const counter=document.createElement('p');counter.className='foreign-card-count';panel.append(counter);
+   const box=document.createElement('section');box.className='foreign-word-card';
+   const word=document.createElement('strong');word.className='foreign-original';
+   const phon=document.createElement('div');phon.className='foreign-phonetic';
+   const meaning=document.createElement('div');meaning.className='foreign-card-meaning';
+   const play=foreignStudyButton(learningLabel('🔊 Ascultă','🔊 Listen'),()=>{},'secondary-btn foreign-card-play');
+   const practice=foreignStudyButton(learningLabel('✍ Exersează','✍ Practice'),()=>{},'secondary-btn foreign-card-practice');
+   box.append(word,phon,meaning,play,practice);panel.append(box);
+   const nav=document.createElement('div');nav.className='foreign-card-navigation';
+   nav.append(foreignStudyButton(learningLabel('← Anterior','← Previous'),()=>languageSetCard(languageJourney.cardIndex-1),'secondary-btn foreign-card-prev'),
+    foreignStudyButton(learningLabel('Următorul →','Next →'),()=>languageSetCard(languageJourney.cardIndex+1),'secondary-btn foreign-card-next'));
+   panel.append(nav);
+   // Update after the panel enters the DOM.
+   requestAnimationFrame(()=>languageSetCard(languageJourney.cardIndex));
   }else{
    const p=document.createElement('p');p.textContent=learningLabel('Profesorul AI adaptează lecția după limbă, nivel și temă. Lecția nu este verificată local.','The AI teacher adapts this lesson to language, level and topic. Generated content is not locally verified.');panel.append(p);
    const request=document.createElement('textarea');request.rows=3;request.placeholder=learningLabel('Solicitare opțională…','Optional request…');panel.append(request);
