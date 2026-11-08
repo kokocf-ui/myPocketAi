@@ -109,7 +109,7 @@ function examDictate(){
 }
 function examBack(){
  examStopRequest();examStopVoice();if(state.speaking)stopSpeech();
- const p={workspace:'subjects',subjects:examJourney.exam==='university'?'universityDomains':'exams',universityDomains:'grades',exams:'grades',grades:'countries',countries:null};
+ const p={workspace:'subjects',subjects:examJourney.exam==='university'?'universityInstitutions':'exams',universityInstitutions:'universityPrograms',universityPrograms:'universityDomains',universityDomains:'grades',exams:'grades',grades:'countries',countries:null};
  if(examJourney.stage==='subjects'&&examJourney.exam==='advisory'){examOpen('grades');return}
  if(p[examJourney.stage])examOpen(p[examJourney.stage]);else renderLearningSubjects();
 }
@@ -143,7 +143,7 @@ function examOpen(stage){
  const toolbar=examEl('div','','education-toolbar lit-toolbar');toolbar.append(examBtn(examLabel('← Înapoi','← Back'),examBack));eduAttachPrintAction(toolbar);host.append(toolbar);
  const panel=examEl('div','','math-choice-panel science-choice-panel lit-panel exam-panel');
  panel.style.cssText='width:100%;min-width:0;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;';
- const titles={countries:['Alege țara / sistemul școlar','Choose country / education system'],grades:['Alege nivelul școlar sau Universitate','Choose school level or university'],universityDomains:['Alege domeniul universitar','Choose university field'],exams:['Alege examenul','Choose examination'],subjects:['Alege materia probei','Choose examination subject'],workspace:['Pregătire pentru examen','Exam preparation workspace']};
+ const titles={countries:['Alege țara / sistemul școlar','Choose country / education system'],grades:['Alege nivelul școlar sau Universitate','Choose school level or university'],universityDomains:['Alege domeniul universitar','Choose university field'],universityPrograms:['Alege specializarea / programul','Choose the degree programme'],universityInstitutions:['Alege universitatea / facultatea','Choose university / faculty'],exams:['Alege examenul','Choose examination'],subjects:['Alege materia probei','Choose examination subject'],workspace:['Pregătire pentru examen','Exam preparation workspace']};
  const heading=examEl('h2',examLabel(...titles[stage]));panel.append(heading);host.append(panel);
  if(stage==='countries'){
   examList(panel,LIT_COUNTRIES.filter(x=>x[0]!=='OTHER-EU').map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{
@@ -175,17 +175,58 @@ function examOpen(stage){
   if(!admission){examOpen('grades');return}
   panel.append(examEl('p',examLabel('Selectează domeniul de pregătire. Materiile sugerate nu sunt automat probe obligatorii pentru orice universitate.','Choose the preparation field. Suggested subjects are not mandatory tests at every university.')));
   examList(panel,UNIVERSITY_DOMAINS_DATA.map(d=>({id:d.id,ro:d.ro,en:d.en})),selection=>{
-    examJourney.domain=selection.id;examJourney.grade='Universitate';examJourney.exam='university';examJourney.subject=null;examJourney.practiceVersion=0;examJourney.aiQuestions=null;examOpen('subjects');
+    examJourney.domain=selection.id;examJourney.grade='Universitate';examJourney.exam='university';examJourney.subject=null;examJourney.programme='';examJourney.institution='';examJourney.admissionRecord=null;examJourney.practiceVersion=0;examJourney.aiQuestions=null;examOpen('universityPrograms');
   });
+  return;
+ }
+ if(stage==='universityPrograms'){
+  const chosen=UNIVERSITY_DOMAINS_DATA.find(x=>x.id===examJourney.domain);
+  if(!chosen){examOpen('universityDomains');return}
+  panel.append(examEl('p',examLabel('Domeniu: ','Field: ')+examLabel(chosen.ro,chosen.en)+'. '+examLabel('Selectează programul exact înaintea facultății.','Select the exact degree programme before the faculty.')));
+  const programs=UNIVERSITY_PROGRAM_OPTIONS_DATA.filter(x=>x.domain===chosen.id);
+  examList(panel,programs.map(x=>({id:x.id,ro:x.ro,en:x.en})),selection=>{
+   examJourney.programme=selection.id;examJourney.institution='';examJourney.admissionRecord=null;examOpen('universityInstitutions')
+  });return;
+ }
+ if(stage==='universityInstitutions'){
+  const program=UNIVERSITY_PROGRAM_OPTIONS_DATA.find(x=>x.id===examJourney.programme);
+  if(!program){examOpen('universityPrograms');return}
+  panel.append(examEl('p',examLabel(program.ro,program.en)+'. '+examLabel('Instituțiile de mai jos au surse identificate pentru un anumit an. Nu generaliza probele între universități.','The institutions below have documented sources for a particular year. Entry requirements are not universal.')));
+  const matches=UNIVERSITY_ADMISSION_ENTRIES_DATA.filter(x=>x.country===examJourney.country&&x.program===program.id);
+  if(matches.length){
+   examList(panel,matches.map((x,i)=>({id:String(i),ro:x.name+' · '+x.year,en:x.name+' · '+x.year})),selection=>{
+     const record=matches[Number(selection.id)];
+     if(!record)return;
+     examJourney.institution=record.name;examJourney.admissionRecord=record;examOpen('subjects')
+   });
+  }else panel.append(examEl('p',examLabel('Nu am încă o facultate cu cerințe documentate pentru această specializare și țară. Poți folosi pregătirea generală, fără să o confundăm cu programa oficială.','No documented faculty is available for this programme and country yet. You can use general preparation without treating it as an official syllabus.')));
+  const label=examEl('label',examLabel('Altă universitate / facultate (opțional)','Another university / faculty (optional)'),'lit-label');
+  const manual=examEl('input');manual.type='search';manual.className='lit-input';manual.style.cssText='width:100%;box-sizing:border-box;font-size:16px;min-height:46px;';manual.placeholder=examLabel('Introdu numele facultății…','Enter the faculty name…');label.append(manual);panel.append(label);
+  panel.append(examBtn(examLabel('Continuă cu pregătire generală (probe neconfirmate)','Continue with general preparation (requirements unverified)'),()=>{
+    examJourney.institution=manual.value.trim().slice(0,120);examJourney.admissionRecord=null;examOpen('subjects')
+  }));
   return;
  }
  if(stage==='subjects'){
   const exam=examSelected();
-  if(!exam&&examJourney.exam!=='advisory'){examOpen(examJourney.exam==='university'?'universityDomains':'exams');return}
+  if(!exam&&examJourney.exam!=='advisory'){examOpen(examJourney.exam==='university'?'universityInstitutions':'exams');return}
   panel.append(examEl('p',exam?examLabel(exam.ro,exam.en):examLabel('Pregătire generală orientativă (examen neconfirmat)','Advisory practice (unverified examination)')));
   const university=exam?.universityAdmission?UNIVERSITY_DOMAINS_DATA.find(d=>d.id===examJourney.domain):null;
   if(exam?.universityAdmission&&!university){examOpen('universityDomains');return}
   if(university){
+    const record=examJourney.admissionRecord;
+    const program=UNIVERSITY_PROGRAM_OPTIONS_DATA.find(x=>x.id===examJourney.programme);
+    panel.append(examEl('p',examLabel('Specializarea: ','Programme: ')+(program?examLabel(program.ro,program.en):'—')));
+    if(examJourney.institution)panel.append(examEl('h3',examLabel('Facultatea: ','Faculty: ')+examJourney.institution));
+    if(record){
+      const historical=record.year!==Number(examJourney.session);
+      panel.append(examEl('h4',historical?examLabel('Exemplu istoric, anul ','Historical example, year ')+record.year:examLabel('Cerințe publicate pentru ','Published requirements for ')+record.year));
+      panel.append(examEl('p',record.mode));
+      if(record.required.length)panel.append(examEl('p',examLabel('Obligatorii în sursa citată: ','Required in the cited source: ')+record.required.join(' + ')));
+      record.optional.forEach(group=>panel.append(examEl('p',examLabel('Alegere între: ','Choose between: ')+group.join(' / '))));
+      if(historical)panel.append(examEl('p',examLabel('Atenție: pentru sesiunea selectată nu sunt confirmate aceleași probe.','Warning: the same requirements are not verified for the selected session.')));
+      const source=examEl('a',examLabel('Regulamentul / catalogul publicat','Published requirements'));source.href=record.source;source.target='_blank';source.rel='noopener noreferrer';panel.append(source);
+    }else panel.append(examEl('p',examLabel('Probele facultății nu sunt verificate. Materialele următoare sunt doar de pregătire generală.','This faculty’s admission requirements have not been verified. The following material is for general preparation only.')));
     panel.append(examEl('h3',examLabel('Domeniu: ','Field: ')+examLabel(university.ro,university.en)));
     panel.append(examEl('p',university.focus));
     panel.append(examEl('p',examLabel('Materiile de mai jos reprezintă direcții de pregătire, nu o confirmare că toate se dau la admitere. ','These subjects are study directions, not proof that every one is tested. ')+university.caution));
@@ -204,7 +245,8 @@ function examOpen(stage){
    if(exam.requiresTrack)addField('track',examLabel('Profil / filieră','Track / pathway'),examLabel('Ex.: real, tehnologic, general…','E.g. science, technical, general…'));
    panel.append(examEl('p',examLabel('Selectarea exactă a probei poate depinde de câmpurile de mai sus; fără o specificație verificată nu se certifică alinierea.','Exact subject requirements may depend on the fields above; do not assume verified alignment.')));
   }
-  const ids=university?university.subjects.filter(id=>(exam?.subjects||[]).includes(id)):(exam?.subjects||EXAM_SUBJECTS_DATA.map(x=>x.id));
+  const recommended=examJourney.admissionRecord?.subjectIds||university?.subjects||[];
+  const ids=university?recommended.filter(id=>(exam?.subjects||[]).includes(id)):(exam?.subjects||EXAM_SUBJECTS_DATA.map(x=>x.id));
   if(university)panel.append(examEl('h4',examLabel('Materii recomandate pentru pregătire','Suggested subjects to study')));
   examList(panel,ids.map(id=>EXAM_SUBJECTS_DATA.find(x=>x.id===id)).filter(Boolean).map(x=>({id:x.id,ro:x.ro,en:x.en})),chosen=>{examJourney.subject=chosen.id;examJourney.topic=null;examJourney.practiceVersion=0;examJourney.aiQuestions=null;examOpen('workspace')});return;
  }
@@ -274,7 +316,7 @@ function examWorkspace(panel){
  if(exam?.requiresBoard&&examJourney.board)printable.append(examEl('p','Board: '+examJourney.board));
  if(exam?.requiresTrack&&examJourney.track)printable.append(examEl('p',examLabel('Profil: ','Track: ')+examJourney.track));
  if(exam?.requiresRegion&&examJourney.region)printable.append(examEl('p',examLabel('Regiune: ','Region: ')+examJourney.region));
- if(exam?.universityAdmission){const d=UNIVERSITY_DOMAINS_DATA.find(x=>x.id===examJourney.domain);if(d){printable.append(examEl('p',examLabel('Domeniu: ','Field: ')+examLabel(d.ro,d.en)));printable.append(examEl('p',d.caution))}}
+ if(exam?.universityAdmission){const d=UNIVERSITY_DOMAINS_DATA.find(x=>x.id===examJourney.domain);if(d){printable.append(examEl('p',examLabel('Domeniu: ','Field: ')+examLabel(d.ro,d.en)));printable.append(examEl('p',d.caution))}if(examJourney.institution)printable.append(examEl('p',examLabel('Instituție: ','Institution: ')+examJourney.institution));if(examJourney.admissionRecord)printable.append(examEl('p',examLabel('Sursă privind sesiunea ','Reference for sitting ')+examJourney.admissionRecord.year+': '+examJourney.admissionRecord.source))}
  const scope=(exam?.notice||examLabel('Programa și examenul național pentru această țară nu au fost confirmate. Material orientativ.','Country-specific exam not verified. Advisory only.'));
  printable.append(examEl('p',scope));
  printable.append(examEl('p',examLabel('Material de pregătire ORIGINAL, nu subiect oficial; evaluarea automată nu înlocuiește un profesor sau baremul instituției.','ORIGINAL training material, not an official past paper; automatic scoring is not official grading.')));
