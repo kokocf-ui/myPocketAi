@@ -16,15 +16,15 @@ export function physicsVerifiedExercise(source,mode='solve'){
   return {verified:true,body,value:result,unit};
  };
  const m=read('m','kg'),a=read('a','m\\/s(?:\\^?2|²)'),v=read('v','m\\/s'),t=read('t','s'),s=read('s','m'),u=read('u','v'),i=read('i','a'),r=read('r','(?:ohm|ω|Ω)'),p=read('p','w'),f=read('f','hz'),lambda=read('lambda|λ','m');
- if(/forta|forța|newton|\\bf\\s*=/.test(norm)&&m!==null&&a!==null){
+ if(/forta|forța|newton|\\bf\s*=/.test(norm)&&m!==null&&a!==null){
   if(m<0)return {kind:'input'};
   return build('Forță rezultantă','F = m·a','m='+format(m)+' kg, a='+format(a)+' m/s²',m*a,'N','Masă constantă; accelerație și forță coliniare.');
  }
- if(/energie cinetica|\\bec\\s*=/.test(norm)&&m!==null&&v!==null){
+ if(/energie cinetica|\\bec\s*=/.test(norm)&&m!==null&&v!==null){
   if(m<0)return {kind:'input'};
   return build('Energie cinetică','Ec = m·v²/2','m='+format(m)+' kg, v='+format(v)+' m/s',m*v*v/2,'J','Viteză nerelativistă.');
  }
- if(/viteza|viteză|rapiditate|\\bv\\s*=/.test(norm)&&s!==null&&t!==null){
+ if(/viteza|viteză|rapiditate|\\bv\s*=/.test(norm)&&s!==null&&t!==null){
   if(s<0||t<=0)return {kind:'input'};
   return build('Rapiditate medie','v = s/t','s='+format(s)+' m, t='+format(t)+' s',s/t,'m/s','s este distanță parcursă, nu deplasare vectorială.');
  }
@@ -48,7 +48,7 @@ export function physicsVerifiedExercise(source,mode='solve'){
   if(f<0||lambda<=0)return {kind:'input'};
   return build('Viteza undei','v = λ·f','λ='+format(lambda)+' m, f='+format(f)+' Hz',lambda*f,'m/s','Undă periodică.');
  }
- if(/perioad|\\bt\\s*=/.test(norm)&&f!==null&&t===null){
+ if(/perioad|\\bt\s*=/.test(norm)&&f!==null&&t===null){
   if(f<=0)return {kind:'input'};
   return build('Perioada oscilației','T = 1/f','f='+format(f)+' Hz',1/f,'s','Oscilație periodică.');
  }
