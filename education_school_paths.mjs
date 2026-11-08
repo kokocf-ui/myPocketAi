@@ -830,6 +830,7 @@ export const HG_SCHOOL_PLANS={
 };
 export const HG_SCHOOL_GENERAL={
   "history": {
+    "lower": [["generic-h-l1","Surse istorice și cronologie pentru gimnaziu","Historical sources and chronology for lower secondary","Compară două izvoare, precizează perioada și diferențiază faptele de opinii."],["generic-h-l2","Comunități, civilizații și schimbare","Communities, civilisations and change","Explică legătura dintre evenimente și consecințe folosind exemple datate și verificabile."]],
     "beginner": [
       [
         "generic-h-b1",
@@ -862,6 +863,7 @@ export const HG_SCHOOL_GENERAL={
     ]
   },
   "geography": {
+    "lower": [["generic-g-l1","Orientare, hărți și scări pentru gimnaziu","Mapping and scale for lower secondary","Folosește coordonate geografice, distanțe, scări și legende pentru a interpreta o hartă."],["generic-g-l2","Mediu fizic, populație și regiuni","Physical and human geography in lower secondary","Compară relieful, clima, apele și distribuția populației folosind hărți și date cu sursă."]],
     "beginner": [
       [
         "generic-g-b1",
