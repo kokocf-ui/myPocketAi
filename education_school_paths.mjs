@@ -450,7 +450,7 @@ export const HG_SCHOOL_PLANS={
           "geo6-europe",
           "Europa – poziție și caracteristici",
           "Europe: location and geography",
-          "Relief, ape, climă, state și orașe europene.",
+          "Relief, ape, climă, state și orașe europene; compară hărți fizice și politice, explicând particularități regionale.",
           "general"
         ]
       ],
@@ -686,7 +686,7 @@ export const HG_SCHOOL_PLANS={
           "eny12-alevel-case",
           "Historical depth study",
           "Studiu istoric aprofundat",
-          "Studiu de caz cu metodologie și bibliografie.",
+          "Studiu de caz aprofundat cu întrebare de cercetare, metodologie explicită și bibliografie verificabilă.",
           "general"
         ]
       ],
@@ -776,7 +776,7 @@ export const HG_SCHOOL_PLANS={
           "eng-geo-y8-pop",
           "Populație, urbanizare și dezvoltare",
           "Population and development",
-          "Migrații, așezări și diferențe regionale.",
+          "Migrații, așezări, urbanizare, dezvoltare și diferențe regionale analizate prin hărți și date.",
           "general"
         ]
       ],
