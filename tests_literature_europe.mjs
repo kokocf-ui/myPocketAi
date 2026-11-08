@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {LIT_EU_PROGRAMS,LIT_EU_COMMON,litEuropeanPlan} from './literature_curriculum_europe.mjs';
 const ui=readFileSync(new URL('./index.js',import.meta.url),'utf8');
-const europe=['RO','GB-ENG','GB-SCT','GB-WLS','FR','DE','ES','IT','PT','PL','NL','IE','FI','AT','CZ','SE','NO','DK','SI','UA','LT','EE','HU'];
+const europe=['RO','GB-ENG','GB-SCT','GB-WLS','FR','DE','ES','IT','PT','PL','NL','IE','FI','AT','CZ','SE','NO','DK','SI','UA','LT','EE','HU','CH','SK','LV'];
 for(const country of europe){
   const profile=LIT_EU_PROGRAMS[country];
   assert.ok(profile?.source?.startsWith('https://'),'Missing reference: '+country);
@@ -31,6 +31,9 @@ assert.equal(litEuropeanPlan('UA','medium','5').verified,true);
 assert.equal(litEuropeanPlan('LT','beginner','3').verified,true);
 assert.equal(litEuropeanPlan('EE','medium','8').verified,false);
 assert.equal(litEuropeanPlan('HU','medium','8').verified,false);
+assert.equal(litEuropeanPlan('CH','medium','8').requiresRegion,true);
+assert.equal(litEuropeanPlan('SK','medium','8').verified,false);
+assert.equal(litEuropeanPlan('LV','medium','9').verified,true);
 assert.equal(litEuropeanPlan('OTHER-EU','medium','8').verified,false);
 assert.match(ui,/stage==='grades'/,'grade selector');
 assert.match(ui,/stage==='regions'/,'regional selector');
