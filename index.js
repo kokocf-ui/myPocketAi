@@ -9732,7 +9732,8 @@ function languageOpen(stage){
   control.append(languageButton(learningLabel('Fonetică ','Phonetics ')+(languageJourney.phonetics?'✓':'—'),()=>{languageJourney.phonetics=!languageJourney.phonetics;languageOpen('lesson')}),
   languageButton(learningLabel('Pronunție lentă ','Slow speech ')+(languageJourney.slow?'✓':'—'),()=>{languageJourney.slow=!languageJourney.slow;languageOpen('lesson')}));
   panel.append(control);
-  const offline=languageJourney.topic==='greetings'&&(languageJourney.level==='A1'||languageIsClassical()&&languageJourney.level==='foundation');
+  const variantNeedsCuratedAudio=languageJourney.variant==='US'||languageJourney.variant==='traditional'||languageJourney.variant==='ecclesiastical';
+  const offline=!variantNeedsCuratedAudio&&languageJourney.topic==='greetings'&&(languageJourney.level==='A1'||languageIsClassical()&&languageJourney.level==='foundation');
   const words=languageWords();
   if(offline){
    for(const card of words){
