@@ -3038,7 +3038,7 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
 // 01 — State and DOM references
 const nativeEntranceCompleted=new URLSearchParams(location.search).get('nativeLaunch')==='1';
 if(nativeEntranceCompleted)document.documentElement.classList.remove('pocket-boot');
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.130'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.131'});
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list',transitRefreshBusy:false,transitRefreshGeneration:0,transitRefreshAbort:null };
@@ -9830,6 +9830,7 @@ const EXAM_SPECS_DATA=${JSON.stringify(EXAM_SPECS)};
 const EXAM_SUBJECTS_DATA=${JSON.stringify(EXAM_SUBJECTS)};
 const EXAM_SESSION_YEARS_DATA=${JSON.stringify(EXAM_SESSION_YEARS)};
 const EXAM_PRACTICE_DATA=${JSON.stringify(EXAM_LOCAL_BANK)};
+const EXAM_THEORY_DATA=${JSON.stringify(Object.fromEntries(['math','physics','chemistry','biology','astronomy'].map(id=>[id,THEORY_ENTRIES.filter(e=>e.subject===id).slice(0,40)])))};
 const PRACTICAL_COURSES_DATA=${JSON.stringify(PRACTICAL_COURSES)};
 const PRACTICAL_COUNTRIES_DATA=${JSON.stringify(PRACTICAL_COUNTRIES)};
 const PRACTICAL_LEVELS_DATA=${JSON.stringify(PRACTICAL_LEVELS)};
