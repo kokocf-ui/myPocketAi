@@ -2943,6 +2943,12 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
 .edu-print-dialog input,.edu-print-dialog textarea{display:block;width:100%;box-sizing:border-box;background:#102e43;color:#f5fbff;border:1px solid #5f92a8;border-radius:9px;padding:10px;margin:9px 0}
 .edu-print-dialog textarea{height:min(42dvh,380px);white-space:pre-wrap;resize:vertical}
 .edu-print-trigger{min-width:0!important}
+.my-documents-panel{overflow-y:auto;min-height:0;max-height:100%}
+.my-documents-list{display:flex;flex-direction:column;gap:9px}
+.my-documents-row{display:flex;gap:10px;justify-content:space-between;align-items:center;background:#102e42;border:1px solid #497e98;border-radius:11px;padding:12px}
+.my-documents-metadata{display:flex;flex-direction:column;gap:4px;min-width:0;overflow-wrap:anywhere}
+.my-documents-metadata small{opacity:.78}
+.my-documents-row button{flex:none}
 #view-module.learning-hg .hg-choice-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;align-content:start!important}
 #view-module.learning-hg .hg-choice{width:100%!important;min-width:0!important;min-height:56px!important;text-align:center!important;white-space:normal!important;padding:8px!important;overflow-wrap:anywhere!important}
 #view-module.learning-hg .hg-select,#view-module.learning-hg .hg-request,#view-module.learning-hg .hg-quiz textarea{display:block!important;width:100%!important;max-width:100%!important;min-height:44px!important;margin:5px 0 9px!important;background:#0b2638;color:#effaff;border:1px solid #52859e;border-radius:10px;padding:8px!important}
@@ -3335,6 +3341,7 @@ function selectedPlaceForRoute(message){
 
 
 const EXTRA_TOOLS_CATEGORIES=[
+ ['my-documents','📚','Documentele mele','My documents','Biblioteca PDF salvată în aplicație.','PDF library saved inside the app.',''],
  ['documents','📄','Documente și PDF','Documents and PDF','Creare, citire, editare și conversie.','Create, read, edit and convert documents.','Ajută-mă cu un document sau PDF. Spune-mi ce informații ai nevoie și ce operațiuni sunt disponibile.'],
  ['ocr','📷','Scanare și OCR','Scanning and OCR','Fotografiere și extragere de text.','Scan documents and extract text.','Vreau să extrag text dintr-o imagine sau document.'],
  ['translate','🌐','Traduceri inteligente','Smart translation','Texte, documente și conversații.','Text, documents and conversations.','Ajută-mă să traduc corect un text. Întreabă-mă limba țintă dacă nu este clară.'],
@@ -3358,7 +3365,41 @@ function renderExtraToolsChoices(){
  });
  host.append(grid);$('moduleLead').textContent='';
 }
+
+function renderMyDocuments(){
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('extra-tools-choose','extra-tools-chat');root.classList.add('extra-tools-active');
+ host.replaceChildren();
+ const panel=document.createElement('div');panel.className='extra-tools-panel my-documents-panel';
+ const bar=document.createElement('div');bar.className='education-toolbar';
+ const back=document.createElement('button');back.className='secondary-btn';back.textContent=learningLabel('← Instrumente','← Tools');back.onclick=renderExtraToolsChoices;
+ const heading=document.createElement('h2');heading.textContent=learningLabel('Documentele mele','My documents');
+ bar.append(back);panel.append(bar,heading);
+ const info=document.createElement('p');info.textContent=learningLabel('Documente PDF păstrate privat în aplicație. Alege Imprimă pentru a utiliza sistemul Android.','PDF files kept privately within this app. Choose Print to open Android printing.');panel.append(info);
+ const status=document.createElement('p');status.className='my-documents-status';status.textContent=learningLabel('Se încarcă documentele…','Loading documents…');panel.append(status);
+ const list=document.createElement('div');list.className='my-documents-list';panel.append(list);
+ host.append(panel);
+ if(!window.PocketAndroidDocuments?.postMessage){status.textContent=learningLabel('Biblioteca este disponibilă în APK-ul Android actualizat.','The library is available in the updated Android APK.');return}
+ window.pocketEducationDocuments=(documents)=>{
+  if(!list.isConnected)return;
+  list.replaceChildren();
+  status.textContent=documents.length?learningLabel(documents.length+' document(e) PDF salvate.','Saved PDF documents: '+documents.length):learningLabel('Nu există încă documente salvate.','No documents saved yet.');
+  for(const documentInfo of documents){
+   const item=document.createElement('div');item.className='my-documents-row';
+   const metadata=document.createElement('div');metadata.className='my-documents-metadata';
+   const filename=document.createElement('strong');filename.textContent=documentInfo.name;
+   const date=document.createElement('small');date.textContent=new Date(documentInfo.date).toLocaleDateString()+' · '+Math.ceil(documentInfo.bytes/1024)+' KB';
+   metadata.append(filename,date);
+   const print=document.createElement('button');print.type='button';print.className='secondary-btn';print.textContent=learningLabel('Imprimă','Print');
+   print.onclick=()=>window.PocketAndroidDocuments?.postMessage('print:'+documentInfo.name);
+   item.append(metadata,print);list.append(item)
+  }
+ };
+ window.PocketAndroidDocuments.postMessage('list');
+}
+
 function openExtraTool(key){
+ if(key==='my-documents'){renderMyDocuments();return}
  const cat=EXTRA_TOOLS_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('extra-tools-choose','extra-tools-chat');root.classList.add('extra-tools-active');
@@ -10661,9 +10702,10 @@ function litWorkspace(panel){
   const label=litText('label',title);label.className='lit-label';
   const input=document.createElement(tag);input.className='lit-input';input.placeholder=placeholder;panel.append(label,input);return input;
  };
- const subject=make('textarea',learningLabel('Subiect / cerință','Topic / assignment'),learningLabel('Ex.: Prietenia în literatură sau caracterizarea unui personaj','E.g. Friendship in literature or character analysis'));subject.rows=2;
+ const subject=make('textarea',learningLabel('Subiect / cerință','Topic / assignment'),learningLabel('Ex.: Prietenia în literatură sau caracterizarea unui personaj','E.g. Friendship in literature or character analysis'));subject.rows=2;subject.id='litEssaySubject';
  const details=make('textarea',learningLabel('Detalii, idei, argumente, operă sau autor (opțional)','Details, ideas, arguments, work or author (optional)'),learningLabel('Introdu ideile tale, citate, cerințele profesorului sau textul de analizat','Enter your ideas, quotations, assignment requirements or source text'));details.rows=4;
  const work=make('input',learningLabel('Titlul operei și autorul (opțional)','Work title and author (optional)'),learningLabel('Ex.: Ion — Liviu Rebreanu','E.g. Pride and Prejudice — Jane Austen'));
+ work.id='litWorkTitle';
  const source=make('textarea',learningLabel('Textul operei sau fragmentul de analizat (opțional)','Source work or passage to analyse (optional)'),learningLabel('Inserează textul pentru un rezumat sau o sinteză bazată pe sursă.','Paste source text for source-based summary or synthesis.'));source.rows=5;
  const attachment=document.createElement('input');attachment.type='file';attachment.accept='.txt,text/plain,.md,text/markdown';attachment.className='lit-upload';
  const uploadLabel=litText('label',learningLabel('Încarcă text (.txt sau .md)','Upload text (.txt or .md)'));uploadLabel.className='lit-label';uploadLabel.append(attachment);panel.append(uploadLabel);
@@ -10735,7 +10777,17 @@ function eduCurrentPrintable(){
    const value=(clone.textContent||'').trim();if(value.length>20)parts.push(value);
   }
  }
- return {title,text:parts.join('\n\n').slice(0,160000)};
+ let descriptive=title;
+ const lit=$('view-module')?.classList.contains('learning-literature');
+ if(lit){
+  const work=root.querySelector('#litWorkTitle')?.value.trim()||'';
+  const subject=root.querySelector('#litEssaySubject')?.value.trim()||'';
+  descriptive=[work,subject].filter(Boolean).join(' — ')||title;
+ }else{
+  const assignment=root.querySelector('.hg-request')?.value.trim()||'';
+  if(assignment)descriptive=title+' — '+assignment;
+ }
+ return {title:descriptive.slice(0,120),text:parts.join('\n\n').slice(0,160000)};
 }
 function eduOpenPrint(mode='save'){
  const material=eduCurrentPrintable();
