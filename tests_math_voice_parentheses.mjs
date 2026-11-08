@@ -226,7 +226,7 @@ assert.ok(embedded.includes("mathAlgebraLocal('explain',item.text)?.value"),'mat
 // A learner must never lose the typed/dictated exercise when choosing one
 // of the three actions, navigating between modules, or reopening the WebView.
 const draftStart=embedded.indexOf('const MATH_EXERCISE_DRAFT_KEY');
-const draftEnd=embedded.indexOf('function openLearningSubject(',draftStart);
+const draftEnd=embedded.indexOf('const HG_SUBJECT_DATA=',draftStart);
 assert.ok(draftStart>0&&draftEnd>draftStart,'persistent math draft support exists');
 const values=new Map();
 const memoryStorage={
