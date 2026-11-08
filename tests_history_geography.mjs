@@ -13,6 +13,7 @@ for(const subject of HG_SUBJECTS){
  assert.ok(HG_SPECIALISATIONS[subject.id].length>=8,'university specialisations');
  for(const topic of topics)assert.ok(topic.id&&topic.ro&&topic.en);
 }
+for(const topic of HG_HISTORY_TOPICS) assert.ok(topic.period && topic.periodEn, 'bilingual chronological label for '+topic.id);
 assert.equal(hgMapsFor(117,'antiquity').length,1);
 assert.equal(hgMapsFor(117,'medieval').length,0,'never substitute maps from other context');
 assert.equal(hgMapsFor(118,'antiquity').length,0,'never pretend a nearby year is exact');
