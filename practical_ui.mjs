@@ -107,9 +107,24 @@ function practicalLesson(panel){
  panel.append(study);
  const note=practicalNode('p',practicalLabel('Material original, orientativ. Pentru obligații legale, fiscale, autorizări, siguranță sau meserii reglementate verifică sursele oficiale ale țării și specialiștii competenți.','Original training material. For legal, tax, licensing or safety requirements consult official local sources and qualified professionals.'));
  panel.append(note);
- const links=practicalNode('div','','lit-actions');
- const ref=practicalNode('a',practicalLabel('Sursa oficială de referință · țara selectată','Official reference · selected country'));ref.href=practicalCountry()[3];ref.target='_blank';ref.rel='noopener noreferrer';links.append(ref);
- if(course.id==='career'){const eu=practicalNode('a','Europass CV');eu.href='https://europass.europa.eu/en/create-europass-cv';eu.target='_blank';eu.rel='noopener noreferrer';links.append(eu)}
+ const links=practicalNode('section','','practical-topic-sources');links.style.cssText='margin:12px 0;display:flex;flex-direction:column;gap:8px;';
+ const sourceMap=PRACTICAL_REFERENCES_DATA[course.id]||{};
+ let references=[];
+ if(course.id==='daily'){
+   if(chapter.id==='daily-2'&&sourceMap.shopping)references=[sourceMap.shopping];
+   else if(chapter.id==='daily-4'&&sourceMap[practicalJourney.country+'-food'])references=[sourceMap[practicalJourney.country+'-food']];
+ }else if(course.id==='career'){
+   if(chapter.id==='career-2')references=[sourceMap.general,sourceMap[practicalJourney.country]].filter(Boolean);
+   else if(sourceMap[practicalJourney.country])references=[sourceMap[practicalJourney.country]];
+   else references=[{title:'Europass — instrumente de carieră',url:'https://europass.europa.eu/en',scope:'European career tools'}];
+ }else references=[sourceMap[practicalJourney.country]||sourceMap.general].filter(Boolean);
+ if(references.length){
+   links.append(practicalNode('h4',practicalLabel('Resurse oficiale relevante pentru acest subiect','Relevant official resources for this subject')));
+   const used=new Set();
+   references.forEach(ref=>{if(!ref?.url?.startsWith('https://')||used.has(ref.url))return;used.add(ref.url);
+     const a=practicalNode('a',ref.title);a.href=ref.url;a.target='_blank';a.rel='noopener noreferrer';links.append(a)});
+   links.append(practicalNode('p',practicalLabel('Sursele ajută la verificare, dar nu certifică această lecție. Verifică regulile țării și anul curent.','These links provide reference material, not certification. Check local rules and current dates.')));
+ }else links.append(practicalNode('p',practicalLabel('Nu există o sursă oficială verificată care să corespundă exact acestei lecții; nu afișăm un link fără legătură.','No verified official source for this exact lesson; unrelated links are omitted.')));
  panel.append(links);
  const progress=practicalNode('div','','practical-progress');progress.style.cssText='margin:12px 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center;';
  const mark=practicalButton(saved.completed?practicalLabel('✓ Lecție parcursă','✓ Lesson completed'):practicalLabel('○ Marchează lecția parcursă','○ Mark lesson completed'),()=>{const newStatus=!Boolean(practicalReadSaved().completed);practicalSave({completed:newStatus});mark.textContent=newStatus?practicalLabel('✓ Lecție parcursă','✓ Lesson completed'):practicalLabel('○ Marchează lecția parcursă','○ Mark lesson completed')});
