@@ -10797,6 +10797,43 @@ function eduCurrentPrintable(){
  }
  return {title:descriptive.slice(0,120),text:parts.join('\n\n').slice(0,160000)};
 }
+// Capture only figures from educational results, not surrounding interface controls.
+// Images stay inside the local Android PDF bridge; nothing is uploaded to another service.
+async function eduPdfFigures(){
+ const root=$('moduleContent');if(!root)return [];
+ const selectors=['.lit-result','.hg-lesson-output','#mathEducationWorkspace','#scienceEducationWorkspace','#languageStudyOutput','.education-result','.science-education-output'];
+ const figures=[],visited=new Set();
+ for(const areaSelector of selectors){
+  for(const area of root.querySelectorAll(areaSelector)){
+   if(area.offsetParent===null)continue;
+   for(const element of area.querySelectorAll('canvas,svg,img')){
+    if(figures.length>=3)return figures;
+    if(visited.has(element))continue;visited.add(element);
+    const box=element.getBoundingClientRect();
+    if(box.width<45||box.height<45)continue;
+    try{
+     const canvas=document.createElement('canvas');
+     const maxWidth=640,scale=Math.min(1,maxWidth/Math.max(box.width,box.height));
+     canvas.width=Math.max(1,Math.round(box.width*scale));canvas.height=Math.max(1,Math.round(box.height*scale));
+     const ctx=canvas.getContext('2d');if(!ctx)continue;
+     ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);
+     let image=element;
+     if(element.tagName.toLowerCase()==='svg'){
+      const markup=new XMLSerializer().serializeToString(element);
+      const blob=new Blob([markup],{type:'image/svg+xml;charset=utf-8'});
+      const url=URL.createObjectURL(blob);
+      try{image=new Image();image.src=url;await image.decode()}finally{URL.revokeObjectURL(url)}
+     }else if(element.tagName.toLowerCase()==='img'&&!element.complete)await element.decode();
+     ctx.drawImage(image,0,0,canvas.width,canvas.height);
+     const data=canvas.toDataURL('image/jpeg',0.68);
+     if(data.length>110000)continue;
+     figures.push({data,label:element.getAttribute('aria-label')||element.getAttribute('alt')||learningLabel('Figură educațională','Educational figure')});
+    }catch{} // Cross-origin images cannot be copied without permission.
+   }
+  }
+ }
+ return figures;
+}
 function eduOpenPrint(mode='save'){
  const material=eduCurrentPrintable();
  if(!material?.text.trim()){alert(learningLabel('Nu există încă un material de imprimat. Generează sau completează mai întâi lucrarea.','No printable material yet. Generate or complete the work first.'));return}
@@ -10812,10 +10849,10 @@ function eduOpenPrint(mode='save'){
  window.pocketEduPrintResult=(state)=>{if(!dialog.isConnected)return;feedback.textContent=state==='saved'?learningLabel('Document salvat în Documentele mele.','Document saved in My Documents.'):state==='error'?learningLabel('Salvarea PDF a eșuat.','PDF save failed.'):state==='printUnavailable'?learningLabel('PDF salvat, dar imprimarea nu este disponibilă.','PDF saved, but printing is unavailable.'):state==='busy'?learningLabel('O salvare este deja în curs.','A save is already in progress.'):''};
  const print=document.createElement('button');print.type='button';print.className='primary-btn';
  print.textContent=mode==='print'?learningLabel('Salvează PDF și imprimă','Save PDF then print'):learningLabel('Salvează PDF','Save PDF');
- print.onclick=()=>{
+ print.onclick=async()=>{
   const title=titleInput.value.trim()||'Material educațional',text=editor.value.trim();if(!text)return;
   if(window.PocketAndroidPrint?.postMessage){
-   window.PocketAndroidPrint.postMessage(JSON.stringify({mode,title:title.slice(0,120),text:text.slice(0,160000),color:document.getElementById('litPdfColor')?.value!=='bw',pages:Number(document.getElementById('litPageCount')?.value||0)}));return;
+   const figures=await eduPdfFigures();window.PocketAndroidPrint.postMessage(JSON.stringify({mode,title:title.slice(0,120),text:text.slice(0,160000),color:document.getElementById('litPdfColor')?.value!=='bw',pages:Number(document.getElementById('litPageCount')?.value||0),figures}));return;
   }
   if(mode==='print'){
    alert(learningLabel('Imprimarea cu salvare automată PDF necesită aplicația Android actualizată.','Printing with mandatory PDF saving requires the updated Android app.'));return;
