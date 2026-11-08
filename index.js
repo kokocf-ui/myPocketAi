@@ -10818,8 +10818,11 @@ const LIT_TOPICS={
 let litJourney={stage:'countries',country:'RO',language:'ro',level:'beginner',grade:'',track:'TC',region:'',branch:'program',topic:'',busy:false};
 function litProgram(){
  const profile=LIT_EUROPE_PROGRAMS[litJourney.country]||null;
- const specific=profile?.byGrade?.[String(litJourney.grade||'')]||profile?.byLevel?.[litJourney.level]||LIT_EUROPE_COMMON[litJourney.level]||LIT_EUROPE_COMMON.medium;
- const isVerified=Boolean(profile?.source&&profile?.verified?.[litJourney.level]?.includes(String(litJourney.grade||''))&&!profile.regions);
+ const effectiveLevel=litJourney.level==='lower'?'medium':litJourney.level;
+ const specific=profile?.byGrade?.[String(litJourney.grade||'')]||
+  (litJourney.level==='lower'?LIT_EUROPE_COMMON.lower:profile?.byLevel?.[effectiveLevel])||
+  LIT_EUROPE_COMMON[effectiveLevel]||LIT_EUROPE_COMMON.medium;
+ const isVerified=Boolean(profile?.source&&profile?.verified?.[effectiveLevel]?.includes(String(litJourney.grade||''))&&!profile.regions);
  return {source:profile?.source||null,sourceTitle:profile?.sourceTitle||'',verified:isVerified,regions:Boolean(profile?.regions),
   note:profile?.note||'Pentru această clasă programa oficială nu este verificată; parcursul este orientativ.',
   units:specific.map((item,index)=>({id:String(item[0])+'-'+index,topic:item[3],ro:item[1],en:item[1],focus:item[2],order:index+1}))};
@@ -10874,12 +10877,21 @@ function litOpen(stage){
  if(stage==='languages'){const choices=LIT_LANGUAGES.map(x=>({id:x[0],ro:x[1],en:x[2]}));list(choices,c=>{litJourney.language=c.id;litOpen('levels')},true)}
  if(stage==='levels'){
   panel.append(litText('p',learningLabel('Nivelul determină complexitatea explicațiilor și cerințelor.','Level determines the depth of teaching and exercises.')));
-  const choices=[{id:'beginner',ro:'Începător — Primar',en:'Beginner — Primary'},{id:'medium',ro:'Mediu — Gimnaziu și liceu',en:'Intermediate — Secondary school'},{id:'advanced',ro:'Avansat — Universitate și mai departe',en:'Advanced — University and beyond'}];
+  const choices=[{id:'beginner',ro:'Primar — clasele I–IV',en:'Primary school'},{id:'lower',ro:'Începător — Gimnaziu',en:'Beginner — lower secondary'},{id:'medium',ro:'Mediu — Liceu',en:'Intermediate — upper secondary'},{id:'advanced',ro:'Avansat — Universitate și mai departe',en:'Advanced — University and beyond'}];
   list(choices,c=>{litJourney.level=c.id;litJourney.grade='';litJourney.track='TC';litOpen('grades')})
  }
  if(stage==='grades'){
   const profile=LIT_EUROPE_PROGRAMS[litJourney.country];
-  const grades=litJourney.level==='advanced'?['Universitate / cercetare']:(profile?.grades?.[litJourney.level]|| (litJourney.level==='beginner'?['1','2','3','4']:['5','6','7','8','9','10','11','12']));
+  const country=litJourney.country;
+  const stage=litJourney.level;
+  const known={
+   'RO':{lower:['5','6','7','8'],medium:['9','10','11','12']},
+   'GB-ENG':{lower:['Y7','Y8','Y9'],medium:['Y10','Y11','Y12','Y13']},
+   'FR':{lower:['5e','4e','3e'],medium:['2nde','1ere','Terminale']}
+  };
+  const grades=stage==='advanced'?['Universitate / cercetare']:
+   known[country]?.[stage]||profile?.grades?.[stage]||
+   (stage==='lower'?['Secundar inferior — studiu general']:stage==='medium'?['Secundar superior — studiu general']:['Primar — studiu general']);
   panel.append(litText('p',learningLabel('Clasele disponibile sunt organizate după sistemul selectat. Lipsa unei verificări pentru o clasă va fi semnalată explicit.','Grades follow the selected system. Unverified classes are explicitly marked.')));
   list(grades.map(v=>({id:v,ro:v,en:v})),c=>{litJourney.grade=c.id;litJourney.region='';litOpen(litJourney.country==='RO'&&c.id==='9'?'tracks':litIsRegional()?'regions':'branches')})
  }
