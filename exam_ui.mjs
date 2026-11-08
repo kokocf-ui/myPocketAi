@@ -194,7 +194,8 @@ function examWorkspace(panel){
  if(subject.id==='romanian')refreshRomanian=examRomanianResources(panel,printable);
  if(exam?.universityAdmission&&!examJourney.institution&&!examJourney.programme)panel.append(examEl('p',examLabel('Admiterea universitară este specifică fiecărei instituții. Completează universitatea și programul în pasul anterior pentru pregătire contextuală; lista de materii este orientativă.','University admission is programme-specific. Enter your university and degree in the previous step for contextual practice; the subject list is advisory.')));
  const bank=EXAM_PRACTICE_DATA[subject.id]||[];
- const limited=(subject.id==='romanian'&&(examJourney.topic==='reading'||examJourney.topic==='literary')&&bank.length>=10)?bank.slice(5,10):bank.slice(0,5);
+ const topic=examJourney.topic;
+ const limited=subject.id==='romanian'&&bank.length>=20?(topic==='reading'||topic==='literary'||topic==='text'?bank.slice(5,10):topic==='writing'?bank.slice(10,15):topic==='vocabulary'?bank.slice(15,20):topic==='revision'?[bank[0],bank[6],bank[11],bank[16],bank[18]]:bank.slice(0,5)):bank.slice(0,5);
  const sim=examEl('section','','exam-practice');
  sim.append(examEl('h3',examLabel('Simulare de antrenament','Practice simulation')));
  sim.append(examEl('p',bank.length?examLabel('Alege răspunsurile, apoi apasă „Verifică”. Nu reprezintă punctaj oficial de examen.','Select answers, then press Check. This is not an official exam score.'):examLabel('Nu există încă un set local verificat pentru această materie. Poți genera exerciții originale cu AI, iar corectarea va fi orientativă.','There is no locally verified question set for this subject. Generate original AI exercises; grading remains advisory.')));
