@@ -727,6 +727,358 @@ export const EXAM_LOCAL_BANK={
       ],
       "correct": 0,
       "explanation": "Producătorii realizează fotosinteza sau chemosinteza."
+    },
+    {
+      "id": "biology-5",
+      "topics": [
+        "concepts"
+      ],
+      "diagram": "cell",
+      "prompt": "În schema celulei eucariote, ce structură este asociată în principal cu păstrarea ADN-ului nuclear?",
+      "choices": [
+        "Ribozomul",
+        "Nucleul",
+        "Membrana plasmatică",
+        "Citoplasma"
+      ],
+      "correct": 1,
+      "explanation": "Nucleul adăpostește cea mai mare parte a ADN-ului unei celule eucariote."
+    },
+    {
+      "id": "biology-6",
+      "topics": [
+        "concepts"
+      ],
+      "diagram": "cell",
+      "prompt": "Ce structură controlează selectiv schimbul de substanțe între celulă și mediu?",
+      "choices": [
+        "Membrana plasmatică",
+        "Nucleolul",
+        "Centriolul",
+        "Cromozomul"
+      ],
+      "correct": 0,
+      "explanation": "Membrana plasmatică are permeabilitate selectivă și participă la transportul substanțelor."
+    },
+    {
+      "id": "biology-7",
+      "topics": [
+        "concepts"
+      ],
+      "diagram": "mitochondrion",
+      "prompt": "Ce organit este ilustrat, având o membrană internă cu pliuri numite criste?",
+      "choices": [
+        "Cloroplastul",
+        "Nucleul",
+        "Mitocondria",
+        "Ribozomul"
+      ],
+      "correct": 2,
+      "explanation": "Mitocondria are două membrane, iar membrana internă formează criste."
+    },
+    {
+      "id": "biology-8",
+      "topics": [
+        "concepts"
+      ],
+      "diagram": "dna",
+      "prompt": "Care bază azotată se împerechează cu adenina în ADN-ul bicatenar obișnuit?",
+      "choices": [
+        "Uracil",
+        "Timină",
+        "Guanină",
+        "Citozină"
+      ],
+      "correct": 1,
+      "explanation": "În ADN, adenina se împerechează cu timina; guanina cu citozina."
+    },
+    {
+      "id": "biology-9",
+      "topics": [
+        "concepts"
+      ],
+      "diagram": "plant",
+      "prompt": "Ce organit al celulelor vegetale conține pigmenții fotosintetici?",
+      "choices": [
+        "Cloroplastul",
+        "Mitocondria",
+        "Ribozomul",
+        "Nucleolul"
+      ],
+      "correct": 0,
+      "explanation": "Cloroplastele conțin clorofilă în sistemele de membrane tilacoidale."
+    },
+    {
+      "id": "biology-10",
+      "topics": [
+        "concepts"
+      ],
+      "diagram": "cell",
+      "prompt": "Unde are loc sinteza proteinelor prin traducerea ARN-ului mesager?",
+      "choices": [
+        "În lizozomi",
+        "La nivelul ribozomilor",
+        "În vacuola centrală",
+        "În peretele celular"
+      ],
+      "correct": 1,
+      "explanation": "Ribozomii traduc informația ARNm în lanțuri polipeptidice."
+    },
+    {
+      "id": "biology-11",
+      "topics": [
+        "concepts"
+      ],
+      "diagram": "foodchain",
+      "prompt": "Care organism este producătorul primar în lanțul trofic reprezentat?",
+      "choices": [
+        "Iarba",
+        "Iepurele",
+        "Vulpea",
+        "Toate organismele"
+      ],
+      "correct": 0,
+      "explanation": "Plantele verzi sunt producători primari, deoarece realizează fotosinteză."
+    },
+    {
+      "id": "biology-12",
+      "topics": [
+        "concepts"
+      ],
+      "diagram": "dna",
+      "prompt": "Ce reprezintă o genă?",
+      "choices": [
+        "O moleculă de grăsime",
+        "O secvență genetică asociată unui produs funcțional",
+        "O celulă întreagă",
+        "O proteină membranară obligatorie"
+      ],
+      "correct": 1,
+      "explanation": "Genele sunt secvențe de ADN (sau ARN la unele virusuri) care contribuie la produse funcționale."
+    },
+    {
+      "id": "biology-13",
+      "topics": [
+        "methods"
+      ],
+      "diagram": "microscope",
+      "prompt": "Un obiect de 2 mm apare într-un desen cu lungimea de 20 mm. Care este mărirea desenului?",
+      "choices": [
+        "2×",
+        "5×",
+        "10×",
+        "20×"
+      ],
+      "correct": 2,
+      "explanation": "Mărirea = dimensiunea desenului / dimensiunea reală = 20/2 = 10."
+    },
+    {
+      "id": "biology-14",
+      "topics": [
+        "methods"
+      ],
+      "diagram": "experiment",
+      "prompt": "Într-un experiment privind efectul luminii asupra plantelor, ce trebuie păstrat cât mai constant între grupuri?",
+      "choices": [
+        "Cantitatea de apă și tipul plantei",
+        "Nivelul luminii",
+        "Rezultatul măsurătorii",
+        "Concluzia"
+      ],
+      "correct": 0,
+      "explanation": "Pentru a compara efectul luminii, ceilalți factori importanți trebuie controlați."
+    },
+    {
+      "id": "biology-15",
+      "topics": [
+        "methods"
+      ],
+      "diagram": "experiment",
+      "prompt": "Care este rolul grupului martor într-un experiment?",
+      "choices": [
+        "Să demonstreze automat ipoteza",
+        "Să ofere un termen de comparație",
+        "Să elimine nevoia repetării",
+        "Să ascundă variația"
+      ],
+      "correct": 1,
+      "explanation": "Grupul martor ajută la interpretarea efectului variabilei investigate."
+    },
+    {
+      "id": "biology-16",
+      "topics": [
+        "methods"
+      ],
+      "diagram": "microscope",
+      "prompt": "Obiectivul microscopului este de 40×, iar ocularul de 10×. Care este mărirea totală?",
+      "choices": [
+        "4×",
+        "50×",
+        "400×",
+        "4000×"
+      ],
+      "correct": 2,
+      "explanation": "Mărirea totală este produsul 40 × 10 = 400."
+    },
+    {
+      "id": "biology-17",
+      "topics": [
+        "methods"
+      ],
+      "diagram": "experiment",
+      "prompt": "Ce este o variabilă dependentă în experiment?",
+      "choices": [
+        "Factorul măsurat ca rezultat",
+        "Factorul modificat intenționat",
+        "Toate condițiile controlate",
+        "Numele experimentatorului"
+      ],
+      "correct": 0,
+      "explanation": "Variabila dependentă reprezintă răspunsul observat sau măsurat."
+    },
+    {
+      "id": "biology-18",
+      "topics": [
+        "methods"
+      ],
+      "diagram": "experiment",
+      "prompt": "De ce sunt utile replicatele biologice independente?",
+      "choices": [
+        "Elimină toate erorile posibile",
+        "Permit aprecierea variației biologice",
+        "Înlocuiesc ipoteza",
+        "Garantează cauzalitatea"
+      ],
+      "correct": 1,
+      "explanation": "Eșantioanele biologice independente ajută la estimarea variației și robusteții unui rezultat."
+    },
+    {
+      "id": "biology-19",
+      "topics": [
+        "methods"
+      ],
+      "diagram": "experiment",
+      "prompt": "O corelație statistică între două variabile demonstrează automat relație cauzală?",
+      "choices": [
+        "Da, întotdeauna",
+        "Nu, este nevoie de argumente și design adecvat",
+        "Da, dacă graficul este colorat",
+        "Doar dacă există trei observații"
+      ],
+      "correct": 1,
+      "explanation": "Corelația singură nu dovedește cauzalitatea; pot exista factori de confuzie."
+    },
+    {
+      "id": "biology-20",
+      "topics": [
+        "applications"
+      ],
+      "diagram": "mitochondrion",
+      "prompt": "În respirația aerobă celulară, ce moleculă este principalul transportor energetic imediat?",
+      "choices": [
+        "ADN",
+        "ATP",
+        "Celuloză",
+        "Amidon"
+      ],
+      "correct": 1,
+      "explanation": "ATP este folosit în numeroase procese celulare pentru transfer energetic."
+    },
+    {
+      "id": "biology-21",
+      "topics": [
+        "applications"
+      ],
+      "diagram": "punnett",
+      "prompt": "Într-un model monohibrid simplificat Aa × Aa, care este probabilitatea genotipului aa?",
+      "choices": [
+        "0%",
+        "25%",
+        "50%",
+        "75%"
+      ],
+      "correct": 1,
+      "explanation": "Tabelul Punnett conține AA, Aa, Aa, aa: una din patru combinații este aa, cu ipoteze mendeliene simple."
+    },
+    {
+      "id": "biology-22",
+      "topics": [
+        "applications"
+      ],
+      "diagram": "stomata",
+      "prompt": "Ce proces este influențat direct de deschiderea stomatelor frunzei?",
+      "choices": [
+        "Schimbul de CO₂ și pierderea apei",
+        "Formarea rădăcinii",
+        "Separarea cromozomilor",
+        "Contracția mușchilor"
+      ],
+      "correct": 0,
+      "explanation": "Stomatele reglează schimbul de gaze și transpirația la nivelul frunzelor."
+    },
+    {
+      "id": "biology-23",
+      "topics": [
+        "applications"
+      ],
+      "diagram": "foodchain",
+      "prompt": "În lanțul iarbă → iepure → vulpe, ce se transferă între nivelurile trofice?",
+      "choices": [
+        "Energie și materie",
+        "Doar culoarea",
+        "Toată energia fără pierderi",
+        "Niciun nutrient"
+      ],
+      "correct": 0,
+      "explanation": "Materia și energia trec între niveluri, dar transferul energetic nu este complet."
+    },
+    {
+      "id": "biology-24",
+      "topics": [
+        "applications"
+      ],
+      "diagram": "circulation",
+      "prompt": "Care structură transportă de regulă sângele de la inimă către țesuturi?",
+      "choices": [
+        "Arterele",
+        "Venele",
+        "Alveolele",
+        "Neuronii"
+      ],
+      "correct": 0,
+      "explanation": "Arterele transportă sângele în direcția îndepărtării de inimă; tipul de oxigenare diferă în circuitele pulmonar și sistemic."
+    },
+    {
+      "id": "biology-25",
+      "topics": [
+        "applications"
+      ],
+      "diagram": "plant",
+      "prompt": "Ce structură a plantei transportă predominant apă și săruri minerale?",
+      "choices": [
+        "Floemul",
+        "Xilemul",
+        "Stomata",
+        "Petala"
+      ],
+      "correct": 1,
+      "explanation": "Xilemul transportă apă și solviți minerali de la rădăcini către alte țesuturi."
+    },
+    {
+      "id": "biology-26",
+      "topics": [
+        "applications"
+      ],
+      "diagram": "dna",
+      "prompt": "Dacă un fragment ADN are secvența A–C–G, care este secvența complementară?",
+      "choices": [
+        "A–C–G",
+        "T–G–C",
+        "U–G–C",
+        "C–G–A"
+      ],
+      "correct": 1,
+      "explanation": "Perechile complementare în ADN sunt A–T și C–G."
     }
   ],
   "computing": [
