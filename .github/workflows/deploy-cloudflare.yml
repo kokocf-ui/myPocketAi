@@ -23,6 +23,7 @@ jobs:
         run: |
           node --check index.js
           node tests_frontend_boot_syntax.mjs
+          node tests_history_geography.mjs
 
       - name: Verify contextual news translation and apply avatar lip-stop patch
         run: |
