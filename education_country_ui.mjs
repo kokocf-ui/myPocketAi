@@ -14,10 +14,10 @@ function eduCountryFromCode(country,coords){
  if(code==='GB'||code==='UK'){
   const lat=Number(coords?.latitude),lon=Number(coords?.longitude);
   if(Number.isFinite(lat)&&Number.isFinite(lon)){
-   if(lat>=50&&lat<=55.8&&lon>=-6.5&&lon<=2.3)return 'GB-ENG';
-   if(lat>55.8&&lat<=60.9&&lon>=-8.8&&lon<=-0.5)return 'GB-SCT';
-   if(lat>=51.2&&lat<=53.5&&lon>=-5.6&&lon<=-2.6)return 'GB-WLS';
    if(lat>=54&&lat<=55.4&&lon>=-8.3&&lon<=-5.3)return 'GB-NIR';
+   if(lat>=51.2&&lat<=53.5&&lon>=-5.6&&lon<=-2.6)return 'GB-WLS';
+   if(lat>55.8&&lat<=60.9&&lon>=-8.8&&lon<=-0.5)return 'GB-SCT';
+   if(lat>=50&&lat<=55.8&&lon>=-6.5&&lon<=2.3)return 'GB-ENG';
   }
   return '';
  }
@@ -105,7 +105,8 @@ function eduYearOptions(code,level,moduleKey){
  if(source){
    if(code==='RO'){
     if(moduleKey==='math'&&lv==='beginner')return numeric(1,8);
-    if(moduleKey==='science'&&lv==='beginner')return numeric(5,8);
+    if(moduleKey==='science'&&lv==='beginner')return numeric(typeof scienceJourney!=='undefined'&&scienceJourney.subject==='chemistry'?7:typeof scienceJourney!=='undefined'&&scienceJourney.subject==='physics'?6:5,8);
+    if(moduleKey==='history'&&lv==='beginner'&&typeof hgJourney!=='undefined'&&['history','geography'].includes(hgJourney.subject))return source.filter(x=>x.id==='4');
     if(moduleKey==='science'&&lv==='medium')return numeric(9,12);
     if(moduleKey==='computing'&&lv==='beginner')return numeric(1,4);
    }
