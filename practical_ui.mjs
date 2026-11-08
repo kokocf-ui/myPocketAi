@@ -171,8 +171,14 @@ function practicalLesson(panel){
    else if(chapter.id==='daily-4'&&sourceMap[practicalJourney.country+'-food'])references=[sourceMap[practicalJourney.country+'-food']];
  }else if(course.id==='career'){
    if(chapter.id==='career-2')references=[sourceMap.general,sourceMap[practicalJourney.country]].filter(Boolean);
+   else if(chapter.id==='career-5')references=[];
    else if(sourceMap[practicalJourney.country])references=[sourceMap[practicalJourney.country]];
-   else references=[{title:'Europass — instrumente de carieră',url:'https://europass.europa.eu/en',scope:'European career tools'}];
+ }else if(course.id==='trades'){
+   if(chapter.id==='trades-1'||chapter.id==='trades-4')references=[{title:'BIPM — Sistemul internațional de unități (SI)',url:'https://www.bipm.org/en/measurement-units',scope:'Global measurement units'}];
+   else if(chapter.id==='trades-2')references=[sourceMap[practicalJourney.country]||sourceMap.general].filter(Boolean);
+ }else if(course.id==='business'){
+   if(chapter.id==='business-5'||chapter.id==='business-1'&&practicalJourney.country.startsWith('GB-'))
+      references=[sourceMap[practicalJourney.country]||sourceMap.general].filter(Boolean);
  }else references=[sourceMap[practicalJourney.country]||sourceMap.general].filter(Boolean);
  if(references.length){
    links.append(practicalNode('h4',practicalLabel('Resurse oficiale relevante pentru acest subiect','Relevant official resources for this subject')));
