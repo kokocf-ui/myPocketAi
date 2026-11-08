@@ -28,7 +28,7 @@ function computingRenderAnswer(host,text){
  host.replaceChildren();
  const lines=String(text||'').replace(/\r\n?/g,'\n').split('\n');
  const tick=String.fromCharCode(96),fence=tick.repeat(3);
- const clean=value=>String(value||'').replace(/\*\*/g,'').split(tick).join('').trim();
+ const clean=value=>String(value||'').replace(/(^|\s)\*\*([^\s*][^*\n]*?)\*\*(?=$|[\s.,:;!?])/gm,'$1$2').split(tick).join('').trim();
  let paragraph=[],bullets=[],code=[],inCode=false;
  const flushParagraph=()=>{if(paragraph.length){computingParagraph(host,clean(paragraph.join('\n')));paragraph=[]}};
  const flushBullets=()=>{if(bullets.length){const list=computingEl('ul');for(const value of bullets)list.append(computingEl('li',clean(value)));host.append(list);bullets=[]}};
