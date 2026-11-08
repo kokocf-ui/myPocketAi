@@ -10496,12 +10496,13 @@ function hgOpen(stage){
   const holder=document.createElement('div');holder.className='hg-level-list';
   const descriptions={
    beginner:[hgL('Primar · noțiuni de bază','Primary · fundamentals'),hgL('Primar · orientare și noțiuni de bază','Primary · orientation and fundamentals')],
-   medium:[hgL('Gimnaziu și liceu','Secondary school')],
+   lower:[hgL('Gimnaziu · clasele V–VIII','Lower secondary · Years 7–9')],
+   medium:[hgL('Liceu · clasele IX–XII','Upper secondary · Years 10–13')],
    advanced:[hgL('Universitate și mai departe','University and beyond')]
   };
   for(const opt of HG_LEVEL_DATA){
    const btn=hgBtn('',()=>{hgJourney.level=opt.id;hgJourney.speciality=null;hgJourney.topic=null;hgJourney.grade=null;hgJourney.stage='grade';educationGradeGate('history',opt.id,grade=>{hgJourney.grade=grade;hgOpen(opt.id==='advanced'?'specialties':'chapters')},()=>hgOpen('levels'))},'secondary-btn hg-choice hg-level-choice');
-   const name=hgText('strong',hgL(opt.id==='beginner'?'Începător':opt.id==='medium'?'Mediu':'Avansat',opt.id==='beginner'?'Beginner':opt.id==='medium'?'Intermediate':'Advanced'));
+   const name=hgText('strong',hgL(opt.ro,opt.en));
    const desc=hgText('span',descriptions[opt.id][0]);
    btn.append(name,desc);holder.append(btn);
   }
