@@ -7062,7 +7062,7 @@ const SCIENCE_OTHER_TOPICS={
   {id:'astrophysics',ro:'Astrofizică',en:'Astrophysics'}
  ]
 };
-let scienceJourney={stage:'subjects',subject:null,level:null,specialty:null,topic:null};
+let scienceJourney={stage:'subjects',subject:null,level:null,grade:null,specialty:null,topic:null};
 let scienceVoiceActive=false,scienceLastReply='',scienceRequestController=null;
 function scienceSubjectInfo(){return SCIENCE_SUBJECTS.find(s=>s.id===scienceJourney.subject)||null}
 function scienceTopicChoices(){
@@ -7173,9 +7173,9 @@ function scienceJourneyShowChoices(stage){
  note.textContent=stage==='subjects'?
   learningLabel('Fizică, Chimie, Biologie și Astronomie.','Physics, Chemistry, Biology and Astronomy.'):
   stage==='levels'?
-  learningLabel('Nivelul stabilește complexitatea explicațiilor.','The level controls explanation complexity.'):
+  learningLabel('Nivelul stabilește intervalul de clase; urmează selecția clasei potrivite țării.','The level determines school years; select the country-specific grade next.'):
   stage==='specialties'?learningLabel('Fiecare specializare are capitole proprii și baze comune.','Each track has specialist and shared chapters.'):
-  learningLabel('Capitolele sunt organizate pentru nivelul ales.','Chapters are organized for the selected level.');
+  learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(scienceJourney.grade||'')+'. '+learningLabel('Capitole pentru sistemul selectat; unde programa este neconfirmată, pregătirea este orientativă.','Curriculum by chosen school system; where unverified, learning is general.');
  const list=document.createElement('div');
  list.className='math-choice-list science-choice-list';
  const choices=stage==='subjects'?SCIENCE_SUBJECTS:
@@ -7210,8 +7210,8 @@ function scienceJourneyShowChoices(stage){
     scienceJourney.subject=item.id;scienceJourney.level=null;scienceJourney.specialty=null;scienceJourney.topic=null;
     scienceJourneyShowChoices('levels');
    }else if(stage==='levels'){
-    scienceJourney.level=item.id;scienceJourney.specialty=null;
-    scienceJourneyShowChoices(['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)&&item.id==='advanced'?'specialties':'topics');
+    scienceJourney.level=item.id;scienceJourney.grade=null;scienceJourney.specialty=null;
+    scienceJourney.stage='grade';educationGradeGate('science',item.id,grade=>{scienceJourney.grade=grade;scienceJourneyShowChoices(['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)&&item.id==='advanced'?'specialties':'topics')},()=>scienceJourneyShowChoices('levels'));
    }else if(stage==='specialties'){
     scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
    }else{
@@ -7803,9 +7803,23 @@ function mathOpenFigureLibrary(){
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
 function mathFigureWorkbench(){mathOpenFigureLibrary()}
-let mathJourney={stage:'levels',level:null,topic:null};
+let mathJourney={stage:'levels',level:null,grade:null,topic:null};
+function educationMathAllowed(topic){
+ const country=educationCountrySelection.code,grade=mathJourney.grade;
+ if(!grade||mathJourney.level==='advanced')return true;
+ let year=country==='RO'?Number(grade):country==='GB-ENG'?Number(String(grade).replace(/^Y/,'')):NaN;
+ if(!Number.isFinite(year)||year<1)return true;
+ if(country==='GB-ENG'){if(year<=6)year=Math.max(1,year-2);else if(year<=9)year=year-1;else year=year-1}
+ const id=topic.id;
+ if(year<=2)return ['arithmetic','measurement','geometry'].includes(id);
+ if(year<=4)return ['arithmetic','measurement','geometry','statistics'].includes(id);
+ if(year<=6)return ['arithmetic','measurement','geometry','algebra','statistics'].includes(id);
+ if(year<=8)return ['arithmetic','algebra','geometry','statistics'].includes(id);
+ if(year<=10)return ['arithmetic','algebra','geometry','trigonometry','functions','statistics'].includes(id);
+ return ['algebra','geometry','trigonometry','functions','statistics','analysis'].includes(id);
+}
 function mathSubjectsForLevel(level){
- return MATH_TOPICS.filter(topic=>topic.levels.includes(level));
+ return MATH_TOPICS.filter(topic=>topic.levels.includes(level)&&educationMathAllowed(topic));
 }
 
 const EDUCATION_THEORY_DATA=${JSON.stringify(THEORY_ENTRIES)};
@@ -9254,10 +9268,10 @@ function mathJourneyShowChoices(stage){
  bar.append(back);eduAttachPrintAction(bar);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel';
  const title=document.createElement('h2');
- title.textContent=stage==='levels'?learningLabel('Alege nivelul','Choose level'):learningLabel('Alege materia','Choose subject');
+ title.textContent=stage==='levels'?learningLabel('Alege nivelul','Choose level'):learningLabel('Alege materia pentru clasa '+(mathJourney.grade||''),'Choose subject for year '+(mathJourney.grade||''));
  const note=document.createElement('p');
- note.textContent=stage==='levels'?learningLabel('Nivelul adaptează explicațiile; poți reveni și îl poți schimba.','The level adapts explanations; you can change it at any time.'):
-  learningLabel('Materiile sunt organizate pentru nivelul ales.','Subjects are organized for the selected level.');
+ note.textContent=stage==='levels'?learningLabel('Alege nivelul, apoi clasa din sistemul școlar al țării selectate.','Choose the level, then the grade in the selected country.'):
+  learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(mathJourney.grade||'')+'. '+learningLabel('Materiile sunt filtrate pentru clasa aleasă; capitolele fără programă verificată rămân orientative.','Subjects are filtered for the chosen grade; unverified curriculum remains advisory.');
  const items=document.createElement('div');items.className='math-choice-list';
  const candidates=stage==='levels'?MATH_LEVELS:mathSubjectsForLevel(mathJourney.level);
  for(const entry of candidates){
@@ -9270,7 +9284,7 @@ function mathJourneyShowChoices(stage){
   button.append(heading,subtitle);
   button.onclick=()=>{
    if(stage==='levels'){
-    mathJourney.level=entry.id;mathJourney.stage='subjects';mathJourneyShowChoices('subjects');
+    mathJourney.level=entry.id;mathJourney.grade=null;mathJourney.stage='grade';educationGradeGate('math',entry.id,grade=>{mathJourney.grade=grade;mathJourney.stage='subjects';mathJourneyShowChoices('subjects')},()=>mathJourneyShowChoices('levels'));
    }else{
     if(mathJourney.topic!==entry.id&&typeof mathFigureDraft!=='undefined')mathFigureDraft=null;
     mathJourney.topic=entry.id;mathJourney.stage='workspace';
