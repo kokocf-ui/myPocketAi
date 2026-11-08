@@ -10795,7 +10795,7 @@ function eduCurrentPrintable(){
    if(heading)descriptive=title+' — '+heading;
   }
  }
- return {title:descriptive.slice(0,120),text:parts.join('\n\n').slice(0,160000)};
+ return {title:descriptive.slice(0,120),text:parts.join('\\n\\n').slice(0,160000)};
 }
 // Capture only figures from educational results, not surrounding interface controls.
 // Images stay inside the local Android PDF bridge; nothing is uploaded to another service.
