@@ -81,6 +81,12 @@ export const HG_VERIFIED_MAPS=[
   source:'https://commons.wikimedia.org/wiki/File:Roman_Empire-117AD.png',certainty:'schematic',region:'Europe',credit:'Wikimedia Commons: Roman Empire-117AD.png'},
  {id:'rome395',topic:'antiquity',year:395,label:'Împărțirea Imperiului Roman în 395 d.Hr.',kind:'political',
   source:'https://commons.wikimedia.org/wiki/File:Partition_of_the_Roman_Empire_in_395_AD.png',certainty:'schematic',region:'Europe',credit:'Wikimedia Commons: Partition of the Roman Empire in 395 AD.png'},
+ {id:'romanian1916',topic:'twentieth',year:1916,label:'Campania din România: contraofensivele din septembrie–octombrie 1916',kind:'military',certainty:'period',region:'Romania',
+  source:'https://commons.wikimedia.org/wiki/File:CampañaRumanaSeptiembreOctubre1916.svg',image:'https://commons.wikimedia.org/wiki/Special:FilePath/CampañaRumanaSeptiembreOctubre1916.svg',credit:'United States Military Academy / Wikimedia Commons',period:'septembrie–octombrie 1916'},
+ {id:'levant1300bce',topic:'antiquity',year:-1300,label:'Rute comerciale în Levant, aproximativ 1300 î.Hr.',kind:'economic',certainty:'approximate',region:'Levant',
+  source:'https://commons.wikimedia.org/wiki/File:Ancient_Levant_routes.png',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Ancient_Levant_routes.png',credit:'Wikimedia Commons, hartă de sinteză',period:'circa 1300 î.Hr.'},
+ {id:'schism1054',topic:'medieval',year:1054,label:'Marea Schismă: arii religioase în jurul anului 1054',kind:'cultural',certainty:'approximate',region:'Europe',
+  source:'https://commons.wikimedia.org/wiki/File:Great_Schism_1054.svg',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Great_Schism_1054.svg',credit:'Wikimedia Commons, reconstrucție istorică',period:'circa 1054 d.Hr.'},
  {id:'europe1918',topic:'twentieth',year:1918,label:'Europa în 1918 (reconstituire)',kind:'political',
   source:'https://commons.wikimedia.org/wiki/File:Europe_1918.PNG',certainty:'schematic',region:'Europe',credit:'Wikimedia Commons: Europe 1918.PNG'}
 ];
