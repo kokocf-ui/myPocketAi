@@ -8408,8 +8408,8 @@ function scienceShowResult(title,body){
 }
 async function scienceWorkspaceRun(mode){
  const editor=$('scienceEducationText'),source=editor?.value.trim()||'';
- if(!source){scienceStatus(learningLabel('Scrie exercițiul sau enunțul de studiu.','Type the exercise or learning question.'));return}
- if(scienceRequestController)return;
+ if(!source){const notice=learningLabel('Introdu mai întâi exercițiul sau enunțul de studiu. Poți folosi tastarea, dictarea ori fotografia.','Enter your question first. You can type, dictate or use a photograph.');scienceStatus(notice);scienceShowResult(learningLabel('Exercițiu lipsă','Missing exercise'),notice);return}
+ if(scienceRequestController){scienceStatus(learningLabel('Se pregătește deja un răspuns.','An answer is already being prepared.'));return}
  const subject=scienceSubjectInfo(),topic=scienceTopicInfo(),level=scienceLevelInfo();
  const selectedSubject=learningLabel(subject?.ro||'',subject?.en||'');
  const selectedChapter=learningLabel(topic?.ro||'',topic?.en||'');
@@ -8431,7 +8431,8 @@ async function scienceWorkspaceRun(mode){
    return;
   }
   if(locallyChecked?.kind==='input'){
-   scienceStatus(learningLabel('Verifică valorile și unitățile introduse.','Review the provided values and units.'));return;
+   const notice=learningLabel('Nu pot verifica aceste valori sau unități. Corectează enunțul și încearcă din nou.','These values or units cannot be verified. Correct the exercise and try again.');
+   scienceStatus(notice);scienceShowResult(learningLabel('Chimie · date de verificat','Chemistry · review input'),notice);return;
   }
  }
  if(scienceJourney.subject==='biology'){
@@ -8453,6 +8454,7 @@ async function scienceWorkspaceRun(mode){
  const currentStage=scienceJourney.stage,subjectId=scienceJourney.subject,topicId=scienceJourney.topic,specialtyId=scienceJourney.specialty;
  const controller=new AbortController();scienceRequestController=controller;
  scienceStatus(learningLabel('Se pregătește explicația…','Preparing explanation…'));
+ scienceShowResult(mode==='solve'?learningLabel('Chimie · Rezolvare','Chemistry · Solution'):learningLabel('Chimie · Metodă','Chemistry · Method'),learningLabel('Se pregătește răspunsul. Exercițiul rămâne salvat.','Preparing answer. Your exercise is preserved.'));
  try{
   const response=await fetch(CLIENT_CONFIG.apiUrl,{
    method:'POST',headers:{'Content-Type':'application/json'},
@@ -8474,9 +8476,11 @@ async function scienceWorkspaceRun(mode){
     'AI answer: check formulas and results before using them.')
   );
  }catch(error){
-  if(!controller.signal.aborted)scienceStatus(learningLabel(
-   'Nu am primit un răspuns verificabil. Exercițiul a fost păstrat.',
-   'No response was received. Your exercise was preserved.'));
+  if(!controller.signal.aborted){
+   const notice=learningLabel('Serviciul de rezolvare nu a răspuns. Nu pot confirma o soluție; exercițiul este păstrat pentru reîncercare.','The solving service did not respond. No verified solution is available; your exercise was preserved for retry.');
+   scienceStatus(notice);
+   scienceShowResult(learningLabel('Rezolvare indisponibilă','Solution unavailable'),notice);
+  }
  }finally{
   if(scienceRequestController===controller)scienceRequestController=null;
  }
@@ -8616,9 +8620,24 @@ function scienceOpenWorkspace(){
   const toggle=document.createElement('button');toggle.type='button';toggle.className='secondary-btn science-symbol-toggle';
   toggle.textContent=learningLabel('⚗ Simboluri','⚗ Symbols');
   const tray=document.createElement('div');tray.className='science-symbol-tray';tray.hidden=true;
-  for(const symbol of ['₂','₃','₄','⁺','⁻','→','⇌','(aq)']){
+  const chemistrySymbols=[
+   ['Indici','₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉'],
+   ['Exponenți','⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻'],
+   ['Ioni','⁺ ⁻ ²⁺ ³⁺ ²⁻ ³⁻'],
+   ['Reacții','→ ⇌ ⇄ ↑ ↓ Δ ⇑'],
+   ['Stări','(s) (l) (g) (aq)'],
+   ['Calcule','× ÷ ± ≈ ≠ ≤ ≥ ° · % √ ∑ ∆'],
+   ['Chimie','α β γ δ λ μ ν σ π Ω ε °C mol L M pH Kₐ Kᵦ E°']
+  ];
+  for(const [group,items] of chemistrySymbols){
+   const section=document.createElement('div');section.className='science-symbol-group';
+   const caption=document.createElement('strong');caption.textContent=group;section.append(caption);
+   const collection=document.createElement('div');collection.className='science-symbol-buttons';
+   for(const symbol of items.split(' ')){
    const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn';
-   btn.textContent=symbol;btn.onclick=()=>scienceInsertSymbol(editor,symbol);tray.append(btn);
+   btn.textContent=symbol;btn.onclick=()=>scienceInsertSymbol(editor,symbol);collection.append(btn);
+   }
+   section.append(collection);tray.append(section);
   }
   toggle.onclick=()=>{tray.hidden=!tray.hidden};
   const molecular=document.createElement('button');molecular.type='button';molecular.className='secondary-btn';
@@ -15786,6 +15805,20 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 .chem-atom-picker select{box-sizing:border-box;width:100%;min-height:41px;border-radius:9px;border:1px solid #579eb6;background:#0a2b40;color:#fff;padding:7px;font:inherit}
 .chem-atom-description,.chem-atom-legend{font-size:clamp(12px,3.2vw,15px)!important;line-height:1.35}
 .chem-visual:has(.chem-atom-picker){gap:6px}
+
+/* Science chemistry symbol palette: independent and scrollable within the viewport. */
+#view-module.learning-science .science-symbol-tray:not([hidden]){
+ display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;
+ box-sizing:border-box!important;grid-column:1/-1!important;
+ width:100%!important;max-height:min(39dvh,290px)!important;
+ overflow-y:auto!important;overflow-x:hidden!important;touch-action:pan-y!important;
+ overscroll-behavior:contain!important;padding:7px!important;
+ border:1px solid #45748b;border-radius:10px;
+}
+#view-module.learning-science .science-symbol-group{display:flex;flex-direction:column;gap:4px}
+#view-module.learning-science .science-symbol-group>strong{font-size:12px;line-height:1.5;color:#d8edf9}
+#view-module.learning-science .science-symbol-buttons{display:flex;flex-wrap:wrap;gap:5px}
+#view-module.learning-science .science-symbol-buttons>button{flex:0 0 auto;min-width:42px!important;min-height:40px!important;padding:4px 7px!important}
 </style>
 </body>
 </html>`;
