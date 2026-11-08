@@ -128,7 +128,7 @@ function practicalLesson(panel){
  const talk=practicalButton(practicalLabel('🎙️ Dictare','🎙️ Dictation'),practicalDictate);talk.id='practicalDictation';talk.setAttribute('aria-pressed','false');practiceButtons.append(talk);
  const generate=async(mode)=>{
   if(practicalJourney.busy)return;
-  if(mode==='review'&&!taskEntry.value.trim()){status.textContent=practicalLabel('Scrie mai întâi soluția sau explicația.','Enter your answer first.');taskEntry.focus();return}
+  if(mode==='review'&&!taskEntry.value.trim()){status.textContent=practicalLabel('Scrie mai întâi soluția sau explicația.','Enter your answer first.');;return}
   practicalJourney.busy=true;const serial=++practicalJourney.serial;const controller=new AbortController();practicalJourney.controller=controller;
   practiceButtons.querySelectorAll('[data-practical-ai]').forEach(b=>b.disabled=true);status.textContent=practicalLabel('Se pregătește răspunsul…','Preparing answer…');
   const started=Date.now(),task=mode==='review'?'Verifică răspunsul pe criterii explicite: corectitudine, siguranță, lacune și pași de îmbunătățire.':'Explică lecția și cazul practic, cu pași clari și exemple verificabile, în limba interfeței.';
