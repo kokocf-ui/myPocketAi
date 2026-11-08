@@ -3,6 +3,8 @@ import vm from 'node:vm';
 import app from './index.js';
 import {PRACTICAL_LEVELS,PRACTICAL_COUNTRIES,PRACTICAL_COURSES,PRACTICAL_STATEMENT,practicalCourse,practicalChapters,practicalQuiz,practicalScore} from './practical_curriculum.mjs';
 import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
+import {PRACTICAL_GUIDES,practicalGuide} from './practical_guides.mjs';
+import {PRACTICAL_REFERENCES,practicalReferences} from './practical_sources.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EXAM_COUNTRY_CODES} from './exam_curriculum_europe.mjs';
 
@@ -16,6 +18,31 @@ assert.ok(PRACTICAL_STATEMENT.includes('certificare')&&PRACTICAL_STATEMENT.inclu
 assert.ok(PRACTICAL_COUNTRIES.every(x=>x[3].startsWith('https://')));
 const allChapters=PRACTICAL_COURSES.flatMap(c=>c.chapters);
 assert.equal(allChapters.length,36,'Six sequenced lessons per practical subject');
+assert.equal(Object.keys(PRACTICAL_GUIDES).length,36,'All practical lessons need a detailed tutorial');
+const models=new Set();
+for(const chapter of allChapters){
+ const guide=practicalGuide(chapter.id);
+ assert.ok(guide,'Missing guide '+chapter.id);
+ assert.ok(guide.goal.length>=35,'Specific learning outcome '+chapter.id);
+ assert.ok(guide.steps.length>=5,'Step-by-step tutorial '+chapter.id);
+ assert.ok(guide.steps.every(x=>x.length>=35),'Substantive steps '+chapter.id);
+ assert.ok(guide.model.length>=4,'Worked example '+chapter.id);
+ assert.ok(guide.check.length>=3&&guide.exercise.length>=2,'Self-check and specific exercises '+chapter.id);
+ const model=guide.model.join('\n');
+ assert.ok(!models.has(model),'No copied model across chapters '+chapter.id);models.add(model);
+}
+const cv=PRACTICAL_GUIDES['career-2'];assert.ok(cv.steps.length>=7,'Complete CV-writing process');
+const cvText=cv.model.join(' ');for(const field of ['PROFIL PROFESIONAL','EXPERIENȚĂ PROFESIONALĂ','STUDII','COMPETENȚE'])assert.ok(cvText.includes(field),'Missing concrete CV section '+field);
+assert.ok(!cvText.includes('ANAF'),'CV must never reference the Romanian tax agency');
+const romanianCvRefs=practicalReferences('RO','career','career-2');
+assert.ok(romanianCvRefs.some(x=>x.url.includes('europass.europa.eu')),'Europass is relevant to a CV');
+assert.ok(romanianCvRefs.some(x=>x.url.includes('anofm.ro')),'ANOFM is relevant to Romanian careers');
+assert.ok(!romanianCvRefs.some(x=>x.url.includes('anaf.ro')),'ANAF is not relevant to CV writing');
+assert.equal(practicalReferences('RO','daily','daily-1').length,0,'Do not invent a source for a daily-planning lesson');
+assert.ok(practicalReferences('RO','business','business-5')[0].url.includes('europa.eu'),'Business registration reference must be business-specific');
+assert.ok(practicalReferences('RO','trades','trades-2')[0].url.includes('inspectiamuncii.ro'),'Use workplace safety reference for trade-safety lessons');
+assert.ok(practicalReferences('GB-ENG','finance','finance-1')[0].url.includes('moneyhelper.org.uk'),'Use UK budgeting authority');
+for(const links of Object.values(PRACTICAL_REFERENCES))for(const item of Object.values(links))assert.ok(item.url?.startsWith('https://'),'Official source URL must exist');
 assert.equal(new Set(allChapters.map(x=>x.id)).size,36);
 for(const course of PRACTICAL_COURSES){
  assert.ok(course.ro&&course.en&&course.icon&&course.summary);
@@ -46,6 +73,12 @@ assert.equal(practicalQuiz('not-real','none').length,0);
 
 assert.match(PRACTICAL_UI_SCRIPT,/function practicalOpen\(stage\)/,'Functional navigation');
 assert.match(PRACTICAL_UI_SCRIPT,/function practicalLesson\(panel\)/,'Lesson panel');
+assert.match(PRACTICAL_UI_SCRIPT,/function practicalCvWorkshop\(panel\)/,'Interactive real CV drafting workshop');
+assert.match(PRACTICAL_UI_SCRIPT,/Salvează numai CV-ul PDF/,'CV-only PDF export');
+assert.match(PRACTICAL_UI_SCRIPT,/guide\?\.steps/,'Render chapter-specific instructions');
+assert.match(PRACTICAL_UI_SCRIPT,/guide\?\.model/,'Render fully worked examples');
+assert.match(PRACTICAL_UI_SCRIPT,/PRACTICAL_REFERENCES_DATA\[course\.id\]/,'Use contextual official references');
+assert.doesNotMatch(PRACTICAL_UI_SCRIPT,/ref\.href=practicalCountry\(\)\[3\]/,'Remove universal ANAF country reference');
 assert.match(PRACTICAL_UI_SCRIPT,/function practicalBack\(\)/,'Back navigation');
 assert.match(PRACTICAL_UI_SCRIPT,/function practicalVoiceHandleAndroid\(data\)/,'Android voice');
 assert.match(PRACTICAL_UI_SCRIPT,/practical-printable/,'PDF materials');
@@ -69,7 +102,7 @@ for(const fragment of [
  "if(key==='practical'){practicalJourney.country=",
  "if(root.classList.contains('learning-active')&&root.classList.contains('learning-practical'))",
  "if(practicalVoiceHandleAndroid(data))return;",
- "PRACTICAL_COURSES_DATA","PRACTICAL_COUNTRIES_DATA","PRACTICAL_LEVELS_DATA",
+ "PRACTICAL_COURSES_DATA","PRACTICAL_COUNTRIES_DATA","PRACTICAL_LEVELS_DATA","PRACTICAL_GUIDES_DATA","PRACTICAL_REFERENCES_DATA",
  "function practicalOpen(stage)","function practicalLesson(panel)",
  "educationInstallTapSelects()",
  "'.practical-printable'"
