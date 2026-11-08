@@ -1,7 +1,7 @@
 export const PRACTICAL_UI_SCRIPT=String.raw`
-// Practical education: country -> useful skills -> level -> ordered lessons -> workbook.
+// Practical education: country -> independent courses -> all lessons -> serious workbook.
 // Every panel is local to Education. The public conversational pane remains hidden.
-let practicalJourney={stage:'countries',country:'RO',course:'',level:'beginner',chapter:'',variant:0,voice:false,serial:0,controller:null,busy:false};
+let practicalJourney={stage:'countries',country:'RO',course:'',chapter:'',variant:0,voice:false,serial:0,controller:null,busy:false};
 function practicalNode(tag,text='',className=''){const element=document.createElement(tag);if(text)element.textContent=text;if(className)element.className=className;return element}
 function practicalButton(text,fn,kind='secondary-btn'){const node=practicalNode('button',text,kind);node.type='button';node.onclick=fn;node.style.cssText='min-height:46px;max-width:100%;touch-action:manipulation;white-space:normal;overflow-wrap:anywhere;';return node}
 function practicalLabel(ro,en){return learningLabel(ro,en)}
@@ -29,7 +29,7 @@ function practicalDictate(){
 }
 function practicalBack(){
  practicalStop();if(state.speaking)stopSpeech();
- const previous={countries:null,courses:'countries',levels:'courses',chapters:'levels',lesson:'chapters'};
+ const previous={countries:null,courses:'countries',chapters:'courses',lesson:'chapters'};
  if(previous[practicalJourney.stage])practicalOpen(previous[practicalJourney.stage]);else renderLearningSubjects();
 }
 function practicalList(parent,items,onPick){
@@ -58,7 +58,7 @@ function practicalOpen(stage){
  document.getElementById('moduleTitle').textContent=practicalLabel('Cursuri practice','Practical courses');document.getElementById('moduleLead').textContent='';
  host.replaceChildren();const bar=practicalNode('div','','education-toolbar lit-toolbar');bar.append(practicalButton(practicalLabel('← Înapoi','← Back'),practicalBack));eduAttachPrintAction(bar);host.append(bar);
  const panel=practicalNode('section','','math-choice-panel science-choice-panel lit-panel practical-panel');panel.style.cssText='min-width:0;width:100%;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;padding-bottom:155px;';
- const titles={countries:['Țara / sistemul de referință','Country / reference system'],courses:['Alege domeniul practic','Choose a practical subject'],levels:['Alege nivelul de studiu','Choose a learning level'],chapters:['Capitole în ordine','Chapters in order'],lesson:['Lecție și aplicație','Lesson and practical application']};
+ const titles={countries:['Țara / sistemul de referință','Country / reference system'],courses:['Alege un curs practic','Choose a practical course'],chapters:['Toate capitolele cursului','All chapters in this course'],lesson:['Curs practic · lecție și aplicație','Practical course · lesson and application']};
  panel.append(practicalNode('h2',practicalLabel(...titles[stage])));host.append(panel);
  if(stage==='countries'){
   const c=practicalCountry();panel.append(practicalNode('p',practicalLabel('Selectează țara pentru surse oficiale, fără a presupune reguli locale unice.','Select a country for official sources; local laws are not universal.')));
@@ -66,17 +66,14 @@ function practicalOpen(stage){
  }
  panel.append(practicalNode('p',practicalLabel(practicalCountry()[1],practicalCountry()[2])));
  if(stage==='courses'){
-  practicalList(panel,PRACTICAL_COURSES_DATA.map(c=>({id:c.id,icon:c.icon,ro:c.ro+' — '+c.summary,en:c.en})),choice=>{practicalJourney.course=choice.id;practicalJourney.chapter='';practicalOpen('levels')});return;
+  practicalList(panel,PRACTICAL_COURSES_DATA.map(c=>({id:c.id,icon:c.icon,ro:c.ro+' — '+c.summary,en:c.en})),choice=>{practicalJourney.course=choice.id;practicalJourney.chapter='';practicalOpen('chapters')});return;
  }
  const course=practicalCourse();if(!course){practicalOpen('courses');return}
  panel.append(practicalNode('p',practicalLabel(course.ro,course.en)));
- if(stage==='levels'){
-  const levels=PRACTICAL_LEVELS_DATA.map(l=>({id:l.id,ro:l.ro+' · '+course.chapters.filter(x=>x.level===l.id).length+' '+practicalLabel('capitole','chapters'),en:l.en}));
-  practicalList(panel,levels,choice=>{practicalJourney.level=choice.id;practicalJourney.chapter='';practicalOpen('chapters')});return;
- }
  if(stage==='chapters'){
-  const chapters=course.chapters.filter(x=>x.level===practicalJourney.level);
-  const progress=practicalNode('p',practicalLabel('Parcursul este salvat local, separat pe lecție și țară.','Your progress is saved locally per lesson and country.'));
+  const chapters=[...course.chapters].sort((a,b)=>a.order-b.order);
+  const finished=chapters.filter(x=>practicalSavedForChapter(x.id)?.completed).length;
+  const progress=practicalNode('p',practicalLabel('Curs cu ','Course with ')+chapters.length+practicalLabel(' capitole. Parcurse: ',' chapters. Completed: ')+finished+'/'+chapters.length+'. '+practicalLabel('Alege orice capitol.','Choose any chapter.'));
   panel.append(progress);
   practicalList(panel,chapters.map((x,i)=>({id:x.id,ro:(i+1)+'. '+x.title+(practicalSavedForChapter(x.id)?.completed?' ✓':''),en:(i+1)+'. '+x.title})),choice=>{practicalJourney.chapter=choice.id;practicalJourney.variant=0;practicalOpen('lesson')});return;
  }
@@ -86,8 +83,8 @@ function practicalSavedForChapter(id){
  try{const key=['mypocketai.practical.v1',practicalJourney.country,practicalJourney.course,id].join('.');return JSON.parse(localStorage.getItem(key)||'{}')}catch{return null}
 }
 function practicalQuestions(course,chapter,variant){
- const peers=course.chapters.filter(x=>x.id!==chapter.id&&x.level===chapter.level);
- const others=course.chapters.filter(x=>x.id!==chapter.id&&x.level!==chapter.level);
+ const peers=course.chapters.filter(x=>x.id!==chapter.id&&Math.abs(x.order-chapter.order)===1);
+ const others=course.chapters.filter(x=>x.id!==chapter.id&&!peers.includes(x));
  const tail=[...peers,...others];const shift=tail.length?((variant%tail.length)+tail.length)%tail.length:0;
  const items=[chapter,...tail.slice(shift),...tail.slice(0,shift)].slice(0,5);
  return items.map((x,index)=>{const rotation=(index+variant+1)%4,q=x.question,choices=[...q.choices.slice(4-rotation),...q.choices.slice(0,4-rotation)];return {...q,choices,correct:(q.correct+rotation)%4,chapterId:x.id,title:x.title}});
@@ -144,7 +141,7 @@ function practicalLesson(panel){
  const guide=PRACTICAL_GUIDES_DATA[chapter.id]||null;
  const study=practicalNode('article','','practical-printable');study.style.cssText='display:block;min-width:0;max-width:100%;line-height:1.5;';
  study.append(practicalNode('h3',chapter.title));
- const meta=practicalLabel(practicalCountry()[1],practicalCountry()[2])+' · '+practicalLabel(course.ro,course.en)+' · '+(PRACTICAL_LEVELS_DATA.find(x=>x.id===chapter.level)?.ro||chapter.level);
+ const meta=practicalLabel(practicalCountry()[1],practicalCountry()[2])+' · '+practicalLabel(course.ro,course.en)+' · '+practicalLabel('Capitolul ','Chapter ')+chapter.order+'/'+course.chapters.length;
  study.append(practicalNode('p',meta));
  if(guide?.goal){study.append(practicalNode('h4',practicalLabel('Ce vei învăța','Learning objective')),practicalNode('p',guide.goal))}
  study.append(practicalNode('h4',practicalLabel('Noțiuni de bază','Core concepts')),practicalNode('p',chapter.theory));
@@ -210,7 +207,7 @@ function practicalLesson(panel){
   practicalJourney.busy=true;const serial=++practicalJourney.serial;const controller=new AbortController();practicalJourney.controller=controller;
   practiceButtons.querySelectorAll('[data-practical-ai]').forEach(b=>b.disabled=true);status.textContent=practicalLabel('Se pregătește răspunsul…','Preparing answer…');
   const started=Date.now(),task=mode==='review'?'Verifică răspunsul pe criterii explicite: corectitudine, siguranță, lacune și pași de îmbunătățire.':'Explică lecția și cazul practic, cu pași clari și exemple verificabile, în limba interfeței.';
-  const question='Ești formator pentru un curs practic. Țara / jurisdicția: '+practicalCountry()[1]+'. Domeniu: '+course.ro+'. Nivel: '+chapter.level+'. Capitol: '+chapter.title+'. Material: '+chapter.theory+'. Metodă: '+chapter.method+'. Exemplu: '+(guide?.model?.join(' / ')||chapter.caseStudy).slice(0,3500)+'. Pași din lecție: '+(guide?.steps?.join(' / ')||chapter.method).slice(0,3000)+'. Exercițiu: '+prompt.textContent+'. Răspuns elev: '+(taskEntry.value.trim().slice(0,2200)||'(fără răspuns)').trim()+'. Cerere: '+task+'. Limba dorită: '+(state.language||'ro')+'. Nu inventa legi, taxe, licențe, prețuri, autorizări sau certificări. Nu furniza instrucțiuni pentru lucrări periculoase fără profesionist; explică riscurile și măsuri generale de siguranță. Nu afirma că ai consultat sursa oficială în timp real. Nu acorda diplome. Răspunde educativ, structurat și concis.';
+  const question='Ești formator pentru un curs practic. Țara / jurisdicția: '+practicalCountry()[1]+'. Domeniu: '+course.ro+'. Capitol: +chapter.title+'. Material: '+chapter.theory+'. Metodă: '+chapter.method+'. Exemplu: '+(guide?.model?.join(' / ')||chapter.caseStudy).slice(0,3500)+'. Pași din lecție: '+(guide?.steps?.join(' / ')||chapter.method).slice(0,3000)+'. Exercițiu: '+prompt.textContent+'. Răspuns elev: '+(taskEntry.value.trim().slice(0,2200)||'(fără răspuns)').trim()+'. Cerere: '+task+'. Limba dorită: '+(state.language||'ro')+'. Nu inventa legi, taxe, licențe, prețuri, autorizări sau certificări. Nu furniza instrucțiuni pentru lucrări periculoase fără profesionist; explică riscurile și măsuri generale de siguranță. Nu afirma că ai consultat sursa oficială în timp real. Nu acorda diplome. Răspunde educativ, structurat și concis.';
   try{
    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module:'assistant',message:question,language:state.language,history:[]}),signal:controller.signal});
    const data=await response.json();if(!response.ok||data.status!=='success'||!data.reply)throw Error('unavailable');
