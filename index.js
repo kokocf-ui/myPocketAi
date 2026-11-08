@@ -7023,7 +7023,7 @@ function scienceJourneyShowChoices(stage){
  scienceJourney.stage=stage;
  activeLearningSubject=science;
  const root=$('view-module'),host=$('moduleContent');
- root.classList.remove('learning-choose','learning-math','math-choice-stage');
+ root.classList.remove('learning-choose','learning-math','learning-hg','learning-languages','math-choice-stage');
  root.classList.add('learning-active','learning-science');
  root.classList.toggle('science-choice-stage',stage!=='workspace');
  $('moduleTitle').textContent=learningLabel('Științe','Sciences')+
@@ -9116,7 +9116,7 @@ function mathJourneyShowChoices(stage){
  activeLearningSubject=mathSubject;
  mathVoiceStop();mathCloseResults();
  const root=$('view-module'),host=$('moduleContent');
- root.classList.remove('learning-choose');root.classList.add('learning-active','learning-math','math-choice-stage');
+ root.classList.remove('learning-choose','learning-hg','learning-languages');root.classList.add('learning-active','learning-math','math-choice-stage');
  host.replaceChildren();$('moduleLead').textContent='';
  $('moduleTitle').textContent=learningLabel('Matematică','Mathematics');
  const back=document.createElement('button');back.type='button';
@@ -9174,7 +9174,7 @@ function renderLearningSubjects(){
  document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');
  document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');
  mathCloseResults();
- $('view-module').classList.remove('learning-math','learning-science','science-choice-stage');
+ $('view-module').classList.remove('learning-math','learning-science','learning-languages','learning-hg','science-choice-stage');
  document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
@@ -10073,7 +10073,7 @@ function languageConversationStart(mode){
 function languageOpen(stage){
  languageJourney.stage=stage;
  const root=$('view-module'),host=$('moduleContent');
- root.classList.remove('learning-choose','learning-math','learning-science','math-choice-stage','science-choice-stage');
+ root.classList.remove('learning-choose','learning-math','learning-science','learning-hg','math-choice-stage','science-choice-stage');
  root.classList.add('learning-active','learning-languages');
  const info=languageCurrent();
  $('moduleTitle').textContent=learningLabel('Limbi străine','Languages')+(info?' · '+learningLabel(info.ro,info.en):'');
@@ -10237,7 +10237,7 @@ function hgOpen(stage){
   const row=document.createElement('label');row.textContent=hgL('Țara studiului','Country of study');row.className='hg-label';
   const select=document.createElement('select');select.className='hg-select';select.setAttribute('aria-label',row.textContent);
   for(const c of HG_COUNTRY_DATA){const o=document.createElement('option');o.value=c.id;o.textContent=hgL(c.ro,c.en);select.append(o)}
-  select.value=hgJourney.country||'GB-ENG';panel.append(row,select);
+  const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent=hgL('Selectează țara','Select country');placeholder.disabled=true;select.prepend(placeholder);select.value=hgJourney.country||'';panel.append(row,select);
   const region=document.createElement('input');region.className='hg-select';region.placeholder=hgL('Regiune / oraș (opțional)','Region / city (optional)');
   region.value=hgJourney.region||'';panel.append(region);
   const other=document.createElement('input');other.className='hg-select';other.placeholder=hgL('Numele țării, dacă nu este în listă','Country name, if not listed');
@@ -10245,6 +10245,7 @@ function hgOpen(stage){
   select.onchange=()=>{other.hidden=select.value!=='OTHER'};
   panel.append(hgText('p',hgL('Sugestia bazată pe poziție poate fi aproximativă. Poți alege orice altă programă.','Location-based suggestion is approximate. You can choose another curriculum.')));
   panel.append(hgBtn(hgL('Continuă','Continue'),()=>{
+   if(!select.value){select.focus();return}
    hgJourney.country=select.value;hgJourney.region=region.value.trim().slice(0,110);
    hgJourney.otherCountry=other.value.trim().slice(0,100);
    if(select.value==='OTHER'&&!hgJourney.otherCountry){other.focus();return}
