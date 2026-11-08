@@ -109,6 +109,7 @@ function examDictate(){
 }
 function examBack(){
  examStopRequest();examStopVoice();if(state.speaking)stopSpeech();
+ if(examJourney.stage==='grades'||examJourney.stage==='countries')return educationCountryGate('exams',()=>examOpen('grades'));
  const p={workspace:'subjects',subjects:examJourney.exam==='university'?'universityInstitutions':'exams',universityInstitutions:'universityPrograms',universityPrograms:'universityDomains',universityDomains:'grades',exams:'grades',grades:'countries',countries:null};
  if(examJourney.stage==='subjects'&&examJourney.exam==='advisory'){examOpen('grades');return}
  if(p[examJourney.stage])examOpen(p[examJourney.stage]);else renderLearningSubjects();
