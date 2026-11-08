@@ -1,4 +1,4 @@
-export const PRACTICAL_UI_SCRIPT=String.raw\`
+export const PRACTICAL_UI_SCRIPT=String.raw`
 // Practical education: country -> useful skills -> level -> ordered lessons -> workbook.
 // Every panel is local to Education. The public conversational pane remains hidden.
 let practicalJourney={stage:'countries',country:'RO',course:'',level:'beginner',chapter:'',variant:0,voice:false,serial:0,controller:null,busy:false};
@@ -177,4 +177,4 @@ function practicalLesson(panel){
  }
  drawQuiz();assessment.append(quizActions,result);panel.append(assessment);
 }
-\`;
+`;
