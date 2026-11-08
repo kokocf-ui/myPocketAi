@@ -157,11 +157,39 @@ export const HG_SCHOOL_PLANS={
     "history": {
       "4": [
         [
-          "ro4-time",
-          "Timpul istoric și viața comunității",
-          "Historical time and community life",
-          "Familia, comunitatea și sursele simple despre trecut; construiește o linie cronologică cu evenimente documentate.",
-          "h4"
+          "ro4-family",
+          "Trecutul familiei și al comunității",
+          "Family and community history",
+          "Cronologia personală, schimbări între generații, mărturii și obiecte păstrate în familie.",
+          "primar"
+        ],
+        [
+          "ro4-sources",
+          "Izvoare istorice, timp și locuri",
+          "Historical evidence, time and places",
+          "Fotografii vechi, documente, monumente, linii ale timpului și diferența dintre surse și presupuneri.",
+          "primar"
+        ],
+        [
+          "ro4-heritage",
+          "Patrimoniu și monumente din România",
+          "Romanian heritage and monuments",
+          "Locuri și monumente cunoscute, prezentate fără inventarea faptelor istorice.",
+          "primar"
+        ],
+        [
+          "ro4-people",
+          "Personalități și evenimente din istoria românilor",
+          "People and events in Romanian history",
+          "Studii de caz alese din istoria românilor, plasate pe o axă cronologică simplă.",
+          "primar"
+        ],
+        [
+          "ro4-change",
+          "Viața oamenilor în trecut și astăzi",
+          "Everyday life then and now",
+          "Compară locuirea, munca, școala și mijloacele de transport din epoci diferite.",
+          "primar"
         ]
       ],
       "5": [
@@ -214,6 +242,27 @@ export const HG_SCHOOL_PLANS={
           "Iluminism, revoluții și drepturi",
           "Enlightenment, revolutions and rights",
           "Ideile iluministe și transformările politice; compară cauze și consecințe cu surse istorice.",
+          "g6"
+        ],
+        [
+          "ro6-explorers",
+          "Marile descoperiri geografice și expansiunea europeană",
+          "Exploration and European expansion",
+          "Expediții, rute, contacte culturale și consecințe asupra societăților.",
+          "g6"
+        ],
+        [
+          "ro6-reformation",
+          "Reforma religioasă și schimbările politice",
+          "Religious reformation and political change",
+          "Schimbări în societate, instituții și putere; compară perspective istorice.",
+          "g6"
+        ],
+        [
+          "ro6-revolutions",
+          "Revoluții și formarea lumii moderne",
+          "Revolutions and the early modern world",
+          "Transformări politice, economice și sociale cu cauze și consecințe.",
           "g6"
         ]
       ],
@@ -290,6 +339,70 @@ export const HG_SCHOOL_PLANS={
           "Războaie, Marea Unire, regimuri politice, comunism și tranziție democratică.",
           "g8"
         ]
+      ],
+      "9": [
+        [
+          "ro9-sources",
+          "Analiza izvoarelor și cronologia lumii antice",
+          "Sources and ancient chronology",
+          "Interpretarea textelor, hărților și descoperirilor arheologice; pregătire generală, nu programă certificată.",
+          "general"
+        ],
+        [
+          "ro9-mediterranean",
+          "Civilizații mediteraneene și lumea medievală",
+          "Mediterranean cultures and medieval world",
+          "Analiza comparată a instituțiilor, culturii și a schimbărilor; nivel liceal.",
+          "general"
+        ]
+      ],
+      "10": [
+        [
+          "ro10-modern",
+          "Renaștere, Reformă și formarea statelor moderne",
+          "Renaissance, Reformation and modern states",
+          "Analizează schimbările ideilor, instituțiilor și economiei cu documente istorice.",
+          "general"
+        ],
+        [
+          "ro10-revolutions",
+          "Iluminismul și revoluțiile moderne",
+          "Enlightenment and revolutions",
+          "Cauze, programe politice, efecte sociale și comparație între revoluții.",
+          "general"
+        ]
+      ],
+      "11": [
+        [
+          "ro11-world",
+          "Războaie, transformări și societatea secolului XX",
+          "War and twentieth-century societies",
+          "Analiză comparativă a conflictelor, democrației, dictaturilor și propagandei.",
+          "general"
+        ],
+        [
+          "ro11-europe",
+          "Europa și România în secolul XX",
+          "Romania and Europe in the twentieth century",
+          "Relații internaționale, experiențe sociale și interpretări istorice, în cadrul unei învățări generale.",
+          "general"
+        ]
+      ],
+      "12": [
+        [
+          "ro12-modern-ro",
+          "România modernă și contemporană: sinteză critică",
+          "Modern Romanian history: critical synthesis",
+          "Surse, reforme, regimuri și transformări economice analizate comparativ.",
+          "general"
+        ],
+        [
+          "ro12-historical-essays",
+          "Eseu istoric, cauzalitate și interpretarea documentelor",
+          "Historical essays and document interpretation",
+          "Formulează argumente din surse, fără date inventate sau citate nerecunoscute.",
+          "general"
+        ]
       ]
     },
     "geography": {
@@ -363,6 +476,70 @@ export const HG_SCHOOL_PLANS={
           "Populația și economia României",
           "Romania: population and economy",
           "Populație, localități, agricultură, industrie, transport și dezvoltare.",
+          "general"
+        ]
+      ],
+      "9": [
+        [
+          "rogeo9-earth",
+          "Pământul ca sistem – relief, atmosferă și apă",
+          "Earth systems: landforms, atmosphere and water",
+          "Reprezentare geografică, procese fizice și relații între componente.",
+          "general"
+        ],
+        [
+          "rogeo9-mapping",
+          "Hărți, coordonate și observații",
+          "Maps, coordinates and field observations",
+          "Cartografie de bază și citirea datelor geografice.",
+          "general"
+        ]
+      ],
+      "10": [
+        [
+          "rogeo10-pop",
+          "Populația, așezările și resursele",
+          "Population, settlements and resources",
+          "Procese demografice, urbanizare și distribuția activităților economice.",
+          "general"
+        ],
+        [
+          "rogeo10-economy",
+          "Economii și spații de dezvoltare",
+          "Economies and development",
+          "Studiu comparativ al regiunilor și al indicatorilor.",
+          "general"
+        ]
+      ],
+      "11": [
+        [
+          "rogeo11-environment",
+          "Mediu, climă și riscuri naturale",
+          "Environment and natural hazards",
+          "Schimbare climatică, resurse și vulnerabilitate regională.",
+          "general"
+        ],
+        [
+          "rogeo11-global",
+          "Sisteme globale și diferențe regionale",
+          "Global systems and regions",
+          "Analiză a hărților tematice și a datelor comparabile.",
+          "general"
+        ]
+      ],
+      "12": [
+        [
+          "rogeo12-europe",
+          "România, Europa și Uniunea Europeană",
+          "Romania, Europe and the European Union",
+          "Geografie politică, integrare, conexiuni și diferențe regionale.",
+          "general"
+        ],
+        [
+          "rogeo12-case",
+          "Studiu de caz și analiză de hartă",
+          "Case studies and map analysis",
+          "Redactarea argumentată a unui studiu geografic cu surse.",
           "general"
         ]
       ]
@@ -464,6 +641,70 @@ export const HG_SCHOOL_PLANS={
           "Cauze și consecințe ale conflictelor moderne, interpretări și memorie.",
           "ks3"
         ]
+      ],
+      "Y10": [
+        [
+          "eny10-gcse-source",
+          "Historical sources and interpretations (GCSE advisory)",
+          "Izvoare și interpretări istorice (GCSE orientativ)",
+          "Interpretarea izvoarelor și a semnificației evenimentelor; conținutul exact diferă după exam board.",
+          "general"
+        ],
+        [
+          "eny10-gcse-depth",
+          "Depth study of a historical period",
+          "Studiul aprofundat al unei perioade",
+          "Analiză de epocă aleasă după specificația școlii; fără a inventa o programă comună.",
+          "general"
+        ]
+      ],
+      "Y11": [
+        [
+          "eny11-gcse-revision",
+          "GCSE historical enquiry and revision",
+          "Recapitulare și investigație istorică GCSE",
+          "Argumente, cronologie, surse și exerciții orientative pentru specificații diferite.",
+          "general"
+        ],
+        [
+          "eny11-gcse-essay",
+          "Evidence-based historical writing",
+          "Eseu istoric bazat pe izvoare",
+          "Construcția răspunsurilor și verificarea ideilor din documente.",
+          "general"
+        ]
+      ],
+      "Y12": [
+        [
+          "eny12-alevel-source",
+          "Advanced source evaluation (A-level advisory)",
+          "Evaluarea avansată a surselor A-level",
+          "Critică a surselor și istoriografie; programa depinde de board.",
+          "general"
+        ],
+        [
+          "eny12-alevel-case",
+          "Historical depth study",
+          "Studiu istoric aprofundat",
+          "Studiu de caz cu metodologie și bibliografie.",
+          "general"
+        ]
+      ],
+      "Y13": [
+        [
+          "eny13-alevel-synthesis",
+          "Independent historical argument",
+          "Argument istoric independent",
+          "Comparații, evaluarea dovezilor, formularea unei sinteze.",
+          "general"
+        ],
+        [
+          "eny13-alevel-research",
+          "Extended historical investigation",
+          "Cercetare istorică extinsă",
+          "Planificarea și prezentarea unei cercetări cu izvoare și limite declarate.",
+          "general"
+        ]
       ]
     },
     "geography": {
@@ -545,6 +786,42 @@ export const HG_SCHOOL_PLANS={
           "Sisteme globale și sustenabilitate",
           "Global systems and sustainability",
           "Schimbări de mediu, economie, climă și evaluarea datelor.",
+          "general"
+        ]
+      ],
+      "Y10": [
+        [
+          "engeo10-gcse-land",
+          "Physical geography for GCSE (advisory)",
+          "Geografie fizică GCSE (orientativ)",
+          "Procese și peisaje geografice, fără atribuirea unei specificații exam board.",
+          "general"
+        ]
+      ],
+      "Y11": [
+        [
+          "engeo11-gcse-urban",
+          "Human geography and fieldwork (advisory)",
+          "Geografie umană și teren GCSE (orientativ)",
+          "Populație, urbanizare, dezvoltare și interpretarea observațiilor.",
+          "general"
+        ]
+      ],
+      "Y12": [
+        [
+          "engeo12-alevel-data",
+          "Advanced geographical data analysis",
+          "Analiza avansată a datelor geografice",
+          "Indicatori, studii de caz și cercetare orientativă.",
+          "general"
+        ]
+      ],
+      "Y13": [
+        [
+          "engeo13-alevel-project",
+          "Independent geographic investigation",
+          "Investigație geografică independentă",
+          "Proiect cu metodologie, date, grafice și interpretări.",
           "general"
         ]
       ]
