@@ -74,12 +74,12 @@ function computingPhotoReview(raw){
  const input=computingEl('textarea');input.rows=8;input.value=String(raw||'').slice(0,16000);input.style.cssText='box-sizing:border-box;width:100%;max-width:100%;';dialog.append(input);
  const group=computingEl('div');group.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
  group.append(computingBtn(learningLabel('Renunță','Cancel'),()=>dialog.close()));
- group.append(computingBtn(learningLabel('Inserează','Insert'),()=>{ed.value+=(ed.value.trim()?'\\n':'')+input.value;dialog.close()},'primary-btn'));
+ group.append(computingBtn(learningLabel('Inserează','Insert'),()=>{ed.value+=(ed.value.trim()?'\n':'')+input.value;dialog.close()},'primary-btn'));
  dialog.append(group);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);dialog.showModal();
 }
 async function computingReadImage(file){
  if(!file)return;if(file.size>12*1024*1024){computingStatus(learningLabel('Imagine prea mare.','Image too large.'));return}
- let url='';try{if(typeof TextDetector!=='function')throw Error('unsupported');url=URL.createObjectURL(file);const image=new Image();image.src=url;await image.decode();const words=await new TextDetector().detect(image);computingPhotoReview(words.map(x=>x.rawValue).join('\\n'))}
+ let url='';try{if(typeof TextDetector!=='function')throw Error('unsupported');url=URL.createObjectURL(file);const image=new Image();image.src=url;await image.decode();const words=await new TextDetector().detect(image);computingPhotoReview(words.map(x=>x.rawValue).join('\n'))}
  catch{computingPhotoReview('');computingStatus(learningLabel('OCR local indisponibil; introdu manual textul.','Local OCR unavailable; type the text.'))}finally{if(url)URL.revokeObjectURL(url)}
 }
 function computingWorkspace(panel){
