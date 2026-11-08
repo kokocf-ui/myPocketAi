@@ -1,3 +1,4 @@
+import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathways.mjs';
 import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_europe.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
@@ -9811,6 +9812,8 @@ function mathReadText(){
  }
 
 
+const EXAM_ORDERED_DATA=${JSON.stringify(EXAM_ORDERED_PATHWAYS)};
+const EXAM_GENERAL_DATA=${JSON.stringify(EXAM_GENERAL_PATHWAYS)};
 const EXAM_SPECS_DATA=${JSON.stringify(EXAM_SPECS)};
 const EXAM_SUBJECTS_DATA=${JSON.stringify(EXAM_SUBJECTS)};
 const EXAM_SESSION_YEARS_DATA=${JSON.stringify(EXAM_SESSION_YEARS)};
