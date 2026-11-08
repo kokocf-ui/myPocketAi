@@ -9663,15 +9663,15 @@ function languageSpeak(text){
  const info=languageCurrent();if(!info||!text)return;
  if(languageIsClassical()){languageStatus(learningLabel('Pentru limbile clasice folosim transcrierea reconstruită; nu pretindem o voce istorică exactă.','Classical pronunciation is reconstructed; an authentic historical voice is unavailable.'));return}
  const locale=languageJourney.variant==='US'?'en-US':languageJourney.variant==='traditional'?'zh-TW':info.locale;
- if(pocketNativeVoiceAvailable()){if(!pocketNativeVoiceSend({action:'speak',language:locale,text}))languageStatus(learningLabel('Voce indisponibilă.','Voice unavailable.'));return}
+ if(pocketNativeVoiceAvailable()){if(!pocketNativeVoiceSend({action:'speak',language:locale,text,rate:languageJourney.slow?0.7:0.96}))languageStatus(learningLabel('Voce indisponibilă.','Voice unavailable.'));return}
  if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){languageStatus(learningLabel('Voce indisponibilă.','Voice unavailable.'));return}
- const v=new SpeechSynthesisUtterance(text);v.lang=locale;v.rate=languageJourney.slow?.7:0.95;window.speechSynthesis.cancel();window.speechSynthesis.speak(v);
+ const v=new SpeechSynthesisUtterance(text);v.lang=locale;v.rate=languageJourney.slow?0.7:0.95;window.speechSynthesis.cancel();window.speechSynthesis.speak(v);
 }
 function languageVoiceHandleAndroid(data){
  if(data?.mode!=='languageStudy')return false;
  if(!languageJourney.voice)return true;
  if(data.status==='partial')languageStatus(learningLabel('Aud: ','Hearing: ')+String(data.text||''));
- if(data.status==='recognized'){languageJourney.voice=false;const e=$('languageAnswer');if(e)e.value=String(data.text||'');languageStatus(learningLabel('Text recunoscut. Verificarea textului nu e o analiză fonetică.','Transcript received. Text comparison is not pronunciation scoring.'))}
+ if(data.status==='recognized'){languageJourney.voice=false;const e=$('languageTutorInput')||$('languageAnswer');if(e){e.value=String(data.text||'');e.dispatchEvent(new Event('input',{bubbles:true}))}languageStatus(learningLabel('Text recunoscut. Verificarea textului nu e o analiză fonetică.','Transcript received. Text comparison is not pronunciation scoring.'));const tutorNotice=document.querySelector('.language-tutor-dialog [role=status]');if(tutorNotice)tutorNotice.textContent=learningLabel('Dictare primită. Poți trimite răspunsul. Nu este un scor fonetic.','Dictation received. You can send your answer; this is not a phonetic score.')}
  if(data.status==='error'){languageJourney.voice=false;languageStatus(learningLabel('Recunoașterea nu este disponibilă.','Speech recognition unavailable.'))}
  return true;
 }
@@ -9816,7 +9816,8 @@ function languageConversationStart(mode){
   }catch{if(dialog.isConnected)notice.textContent=learningLabel('Răspuns indisponibil. Nu am înregistrat această încercare drept evaluare.','Answer unavailable. No assessment was recorded.')}
   finally{languageJourney.busy=false}
  };
- dialog.append(languageButton(learningLabel('Trimite / Continuă','Send / Continue'),send,'primary-btn'),
+ dialog.append(languageButton(learningLabel('🎙 Răspunde vocal','🎙 Speak answer'),languageDictate),
+  languageButton(learningLabel('Trimite / Continuă','Send / Continue'),send,'primary-btn'),
   languageButton(learningLabel('🔊 Citește ultimul răspuns','🔊 Read last reply'),()=>{const last=history.filter(x=>x.role==='tutor').at(-1);if(last)languageSpeak(last.text)}));
  dialog.addEventListener('close',()=>{languageVoiceStop();dialog.remove()});
  document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')};
