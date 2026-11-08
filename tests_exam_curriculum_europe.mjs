@@ -30,6 +30,10 @@ for(const e of EXAM_SPECS){
 }
 assert.ok(examByCountry('RO').some(x=>x.id==='en8'&&x.grades.includes('8')));
 assert.ok(examByCountry('RO').some(x=>x.id==='bac'));
+const countries=EXAM_COUNTRY_CODES.filter(code=>examByCountry(code).length);
+assert.equal(countries.length,13);
+for(const code of countries){const admission=examByCountry(code).find(x=>x.id==='university');assert.ok(admission&&admission.universityAdmission&&admission.advisory&&admission.requiresInstitution&&admission.requiresProgramme,'Missing university admission path: '+code);assert.ok(admission.grades.includes('După liceu'))}
+assert.ok(examByCountry('RO').find(x=>x.id==='university').source.includes('edu.ro'));
 assert.deepEqual(examByGrade('RO','8').map(x=>x.id),['en8','admitere']);
 assert.ok(examByCountry('GB-ENG').some(x=>x.id==='gcse'));
 assert.ok(examByCountry('GB-SCT').some(x=>x.id==='national5'));
@@ -65,6 +69,12 @@ for(const [subject,questions] of banks){
 }
 assert.equal(examTrainingItems('unknown').length,0,'No invented local quiz');
 assert.deepEqual(examTrainingScore([],[]),{correct:0,total:0,percent:null,kind:'practice-only'});
+const reading=EXAM_LOCAL_BANK.romanian.filter(x=>x.id.startsWith('romanian-reading-'));
+const writing=EXAM_LOCAL_BANK.romanian.filter(x=>x.id.startsWith('romanian-writing-'));
+const vocabulary=EXAM_LOCAL_BANK.romanian.filter(x=>x.id.startsWith('romanian-vocabulary-'));
+assert.equal(reading.length,5);assert.ok(reading[0].passage.length>200);assert.equal(writing.length,5);assert.equal(vocabulary.length,5);
+const onceWrong=reading.map((q,i)=>i===2?(q.correct+1)%q.choices.length:q.correct);
+assert.deepEqual(examTrainingScore(reading,onceWrong),{correct:4,total:5,percent:80,kind:'practice-only'},'One wrong answer out of five MUST be 80%, not 60%');
 
 const result=await app.fetch(new Request('https://boot-check.test/'));assert.equal(result.status,200);
 const html=await result.text(),boot=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
@@ -92,4 +102,14 @@ assert.match(EXAM_UI_SCRIPT,/Capitol de recapitulare/,'AI prompt scoped to selec
 assert.match(EXAM_UI_SCRIPT,/controller\.signal/,'Abort support');
 assert.match(EXAM_UI_SCRIPT,/function examDictate/,'Dictation');
 assert.match(EXAM_UI_SCRIPT,/const read=examBtn/,'Reading toggle');
+assert.match(EXAM_UI_SCRIPT,/Admitere la universitate/,'University admissions quick access');
+assert.match(EXAM_UI_SCRIPT,/examJourney\.institution/,'University-specific institution field');
+assert.match(EXAM_UI_SCRIPT,/examJourney\.programme/,'University-specific programme field');
+assert.match(EXAM_UI_SCRIPT,/function examRomanianResources/,'Offline Romanian study notes');
+assert.match(EXAM_UI_SCRIPT,/Moromeții/,'Romanian literature summaries');
+assert.match(EXAM_UI_SCRIPT,/📖 Rezumat după cerință/,'Custom Romanian summary');
+assert.match(EXAM_UI_SCRIPT,/🔎 Analiză pe text/,'Custom text analysis');
+assert.match(EXAM_UI_SCRIPT,/Ai ales: /,'Per-question chosen answer');
+assert.match(EXAM_UI_SCRIPT,/Greșite: /,'Wrong answer count');
+assert.match(EXAM_UI_SCRIPT,/bank\.slice\(15,20\)/,'Chapter-dependent vocabulary quiz');
 console.log('PASS European exam pathways, 26 exam records, original local questions, session warnings, PDF, camera, Android voice and script boot');
