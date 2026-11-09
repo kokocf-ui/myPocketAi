@@ -150,4 +150,14 @@ for(const [lang,locale,label] of [
 }
 assert.doesNotMatch(PRACTICAL_UI_SCRIPT,/language:state\.language==='ro'\?'ro-RO':'en-GB'/,'No English-only fallback for configured languages');
 
+
+// The authored lesson and quiz use the cached education translation helper.
+// Translation must never alter the selected answer indices or duplicate a score report.
+assert.match(PRACTICAL_UI_SCRIPT,/const translatableNodes=\[\]/,'Lesson source elements are tracked');
+assert.match(PRACTICAL_UI_SCRIPT,/eduTranslateMaterial\(original,'practical:'\+chapter\.id\+':'\+i\)/,'Lesson translation is chunked and cached');
+assert.match(PRACTICAL_UI_SCRIPT,/eduTranslateMaterial\(originals,'practicalQuiz:'\+course\.id/,'Quiz translation is cached per quiz version');
+assert.match(PRACTICAL_UI_SCRIPT,/choiceTexts\[j\]\.textContent=displayChoices\[i\]\[j\]/,'Translations replace only visible quiz text');
+assert.match(PRACTICAL_UI_SCRIPT,/selected\[i\]===q\.correct/,'Scoring still uses immutable original correct index');
+assert.match(PRACTICAL_UI_SCRIPT,/questionHost\.querySelectorAll\('input'\)\.forEach\(x=>x\.disabled=true\)/,'Inputs disabled while translation is pending');
+
 console.log('PASS practical courses: 6 domains, 36 lessons, 13 country references, two quiz variants per chapter, scoring, PDF, Android navigation and one-tap selectors');
