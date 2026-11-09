@@ -49,7 +49,7 @@ for(const token of [
  "if(root.classList.contains('learning-active')&&root.classList.contains('learning-computing'))",
  "if(activeLearningSubject[0]==='computing'&&computingJourney.stage==='workspace')",
  "if(computingVoiceHandleAndroid(data))return;",
- "'computing-printable'","state.speaking?learningLabel('Oprește','Stop')",
+ "'computing-printable'","state.speaking?computingLabel('Oprește','Stop')",
  "function eduOpenPrint(mode='save')"
 ])assert.ok(script.includes(token),'Missing computing UI integration: '+token);
 assert.match(COMPUTING_UI_SCRIPT,/signal:controller.signal/,'Cancellation abort signal wired to request');
@@ -70,8 +70,8 @@ assert.equal(labelFor({language:'fr'})('Alege nivelul','Choose level'),'Choisir 
 assert.equal(labelFor({language:'de'})('Alege nivelul','Choose level'),'Niveau wählen');
 
 assert.match(COMPUTING_UI_SCRIPT,/language:computingSpeechLocale\(\)/,'Dictation uses the selected locale');
-const voiceLocale=new Function('state',COMPUTING_UI_SCRIPT+';return computingSpeechLocale;');
-const responseLanguage=new Function('state',COMPUTING_UI_SCRIPT+';return computingResponseLanguage;');
+const voiceLocale=new Function('state',COMPUTING_UI_SCRIPT+';return computingSpeechLocale();');
+const responseLanguage=new Function('state',COMPUTING_UI_SCRIPT+';return computingResponseLanguage();');
 for(const [language,locale,label] of [
  ['ro','ro-RO','română'],['en','en-GB','engleză'],['fr','fr-FR','franceză'],
  ['de','de-DE','germană'],['it','it-IT','italiană'],['es','es-ES','spaniolă'],
