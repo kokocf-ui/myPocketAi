@@ -1,3 +1,6 @@
+import {HG_GENERAL_GRADE_LESSONS} from './education_general_paths.mjs';
+import {RO_GRADE_LESSONS} from './education_grade_lessons_ro.mjs';
+import {ENGLAND_GRADE_LESSONS} from './education_grade_lessons_eng.mjs';
 // Explicit country and grade mapping; only marked official where curriculum source is verified.
 export const EDUCATION_SCHOOL_YEARS={
  RO:{
@@ -757,6 +760,19 @@ export const HG_SCHOOL_GENERAL={
     ]
   }
 };
+// Fallback content must still be teachable, never a single vague card.
+// General units are NOT a country's verified programme of study.
+for(const [subject,levels] of Object.entries(HG_GENERAL_GRADE_LESSONS)){
+ for(const [level,entries] of Object.entries(levels)){
+  const list=HG_SCHOOL_GENERAL[subject][level];
+  entries.forEach(([ro,en,description],i)=>{
+   if(list.some(x=>x[1]===ro))return;
+   list.push(['generic-'+subject+'-'+level+'-unit'+(i+1),ro,en,
+    description+' '+(subject==='history'?'Folosește surse istorice și o cronologie verificată.':'Folosește hărți, date și comparații între locuri.')]);
+  });
+ }
+}
+
 export const HG_SCHOOL_SOURCES={RO:{history:{grades:['5','6','7','8'],source:'https://www.edu.ro/Ordin_ministru_3393_2017'},geography:{grades:[],source:'https://www.edu.ro/manuale-scolare'}},'GB-ENG':{history:{grades:['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9'],source:'https://www.gov.uk/government/publications/national-curriculum-in-england-history-programmes-of-study'},geography:{grades:[],source:'https://www.gov.uk/government/publications/national-curriculum-in-england-geography-programmes-of-study'}}};
 
 // Teaching modules supplement the English Key Stage framework with a usable
@@ -883,6 +899,27 @@ for(const [subject,years] of Object.entries(ENGLAND_YEAR_STUDY_MODULES)){
   ]));
  }
 }
+// Add grade-specific subject lessons while retaining established chapter IDs and
+// manually authored core lessons. The mapping is a pedagogical sequence and is
+// never represented as the official mandated order for each year.
+for(const [country,packs] of [['RO',RO_GRADE_LESSONS],['GB-ENG',ENGLAND_GRADE_LESSONS]]){
+ for(const [subject,years] of Object.entries(packs)){
+  for(const [grade,rows] of Object.entries(years)){
+   const list=HG_SCHOOL_PLANS[country]?.[subject]?.[grade];if(!list)continue;
+   rows.forEach((entry,i)=>{
+    const [one,two,focus]=entry;
+    const ro=country==='RO'?one:two,en=country==='RO'?two:one;
+    const id=(country==='RO'?'ro':'eng')+'-'+subject+'-'+grade.toLowerCase()+'-unit'+(i+1);
+    if(list.some(e=>e[0]===id||e[1]===ro||e[2]===en))return;
+    const query=focus.trim()+' '+(subject==='history'?
+      'Învățare: cronologie, terminologie, izvoare autentice, exemplu datat și exercițiu de argumentare.':
+      'Învățare: localizare pe hartă, concepte geografice, date și comparație între două locuri.');
+    list.push([id,ro,en,query,Number(String(grade).replace('Y',''))<=6?'primary':'secondary']);
+   });
+  }
+ }
+}
+
 // Both History and Geography have statutory framework content at KS1–KS3.
 // This verifies the STAGE only; the year-by-year grouping above is pedagogic.
 HG_SCHOOL_SOURCES['GB-ENG'].geography.grades=['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9'];

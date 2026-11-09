@@ -5,6 +5,7 @@ import {COMPUTING_TOPICS,COMPUTING_PATHS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {HG_SCHOOL_PLANS,hgSchoolChapters} from './education_school_paths.mjs';
 import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
+import {LIT_EU_COMMON,LIT_EU_PROGRAMS,litEuropeanPlan} from './literature_curriculum_europe.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 
 const filtered = new Function('educationCountrySelection','computingJourney',
@@ -48,6 +49,39 @@ for(const id of ['eng-geo-y1-local','eng-geography-y1-sub1','eng-geography-y1-su
  assert.ok(guide?.length>=3,'Offline chapter missing: '+id);
  assert.ok(guide.every(row=>row.length===4&&row[2].length>90&&row[3].length>90),id+' must have real bilingual theory');
 }
+// Study topics must cover more than a handful of cards for every mapped year.
+for(const [country,years] of [['RO',['4','5','6','7','8','9','10','11','12']],['GB-ENG',Array.from({length:13},(_,i)=>'Y'+(i+1))]]){
+ for(const subject of ['history','geography'])for(const grade of years){
+  const n=Number(String(grade).replace('Y',''));
+  const level=country==='RO'?n<=4?'beginner':n<=8?'lower':'medium':n<=6?'beginner':n<=9?'lower':'medium';
+  const plan=hgSchoolChapters(country,subject,level,grade);
+  assert.ok(plan.chapters.length>=9,country+'/'+subject+'/'+grade+' has only '+plan.chapters.length+' modules');
+  assert.equal(new Set(plan.chapters.map(x=>x.id)).size,plan.chapters.length,country+'/'+subject+'/'+grade+' duplicate ids');
+  assert.equal(new Set(plan.chapters.map(x=>x.ro)).size,plan.chapters.length,country+'/'+subject+'/'+grade+' duplicate labels');
+ }
+}
+for(const subject of ['history','geography'])for(const level of ['beginner','lower','medium','advanced']){
+ const plan=hgSchoolChapters('FR',subject,level,'general-'+level);
+ assert.ok(plan.chapters.length>=9,'Unverified curriculum must have a general non-statutory study path: '+subject+'/'+level);
+ assert.equal(plan.status,'general-learning','No unsupported statutory claims');
+}
+for(const id of ['ro4-family','ro4-sources','ro4-heritage','ro4-people','ro4-change','geo4-near','geo4-romania','geo4-people']){
+ const guide=HG_LOCAL_GUIDES[id];
+ assert.ok(guide?.length>=6,id+' must have a structured offline lesson');
+ assert.ok(guide.every(x=>x.length===4&&x[2].length>=80&&x[3].length>=80),id+' bilingual theory incomplete');
+}
+for(const [level,units] of Object.entries(LIT_EU_COMMON)){
+ assert.ok(units.length>=10,'Literature '+level+' must have at least ten structured units');
+ assert.equal(new Set(units.map(x=>x[0])).size,units.length,'Duplicate literature unit keys');
+}
+for(const country of ['RO','GB-ENG','FR','DE','IT','ES']){
+ const profile=LIT_EU_PROGRAMS[country];
+ if(!profile)continue;
+ for(const [level,units] of Object.entries(profile.byLevel||{}))assert.ok(units.length>=10,country+' '+level+' literature too short');
+ for(const [grade,units] of Object.entries(profile.byGrade||{}))assert.ok(units.length>=10,country+' '+grade+' literature too short');
+}
+assert.ok(litEuropeanPlan('RO','medium','9','TC').units.length>=10,'Romanian ninth-grade literature must not be four broad cards');
+assert.equal(litEuropeanPlan('RO','medium','9','TC').verified,true,'Keep ninth grade official framework separate from advisory unit sequencing');
 const england1=hgSchoolChapters('GB-ENG','geography','beginner','Y1');
 assert.equal(england1.status,'official-framework','KS1 geography should reference statutory DfE programme');
 const year=EDUCATION_COUNTRY_UI_SCRIPT;
@@ -82,6 +116,27 @@ assert.ok(html.includes('className=')||boot.includes('className='),
 for(const section of ['scienceTopicChoices().filter','mathSubjectsForLevel(mathJourney.level).map',
  'litJourney.branch===','FOREIGN_TOPIC_DATA,languageJourney.topic']){
  assert.ok(boot.includes(section),'Education topic picker missing integration: '+section);
+}
+assert.ok(boot.includes('function educationScienceTheoryReader(subjectId,topicId,level){'),
+ 'Science workspaces must show their existing local theory directly');
+const begin=boot.indexOf('function hgBack(){'),end=boot.indexOf('function hgOpen(stage){',begin);
+assert.ok(begin>=0&&end>begin,'History Back source missing');
+const makeBack=(journey,open,opts,gradeGate)=>new Function('hgJourney','hgOpen','eduYearOptions','educationCountrySelection','educationGradeGate','renderLearningSubjects',
+ boot.slice(begin,end)+';return hgBack;')(journey,open,opts,{code:'RO'},gradeGate,()=>{});
+{
+ const journey={stage:'chapters',level:'beginner'},screens=[];
+ const back=makeBack(journey,stage=>screens.push(stage),()=>[{id:'4'}],()=>{throw Error('A single grade must not loop via the grade gate')});
+ back();assert.deepEqual(screens,['levels'],'Back from Romanian Grade 4 chapters returns to the level selector');
+}
+{
+ const journey={stage:'chapters',level:'lower'},screens=[];
+ const back=makeBack(journey,stage=>screens.push(stage),()=>[{id:'5'},{id:'6'}],(_m,_l,_accept,_cancel)=>screens.push('grade-gate'));
+ back();assert.equal(journey.stage,'grade');assert.deepEqual(screens,['grade-gate']);
+}
+{
+ const journey={stage:'chapters',level:'advanced'},screens=[];
+ const back=makeBack(journey,stage=>screens.push(stage),()=>[],()=>{});
+ back();assert.deepEqual(screens,['specialties']);
 }
 assert.ok(!boot.includes('Capitolul are structură de studiu. Pentru explicații detaliate'),
  'Opening a chapter must not be just a placeholder');
