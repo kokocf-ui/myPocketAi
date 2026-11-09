@@ -111,7 +111,7 @@ try{
  const local=await ask(uk,{TFL_APP_KEY:"mock-tfl"});
  assert.equal(local.status,"success",JSON.stringify({local,hosts:calls.map(u=>u.hostname+u.pathname)}).slice(0,1200));
  assert.ok(calls.some(u=>u.hostname==="api.tfl.gov.uk"&&u.pathname.includes("JourneyResults")),
-  "UK mixed mode without an international provider must still query TfL: "+JSON.stringify({hosts:calls.map(u=>u.hostname+u.pathname),reply:local.reply,provider_status:local.provider_status,reason:local.reason,transit_available:local.transit_available}).slice(0,1400));
+  "UK mixed mode without an international provider must still query TfL: "+JSON.stringify({hosts:calls.map(u=>u.hostname+u.pathname),reply:local.reply,provider_status:local.provider_status,full_diag:local.diagnostics?.providers,reason:local.reason,transit_available:local.transit_available}).slice(0,1400));
  assert.notEqual(local.reason,"international_provider_not_connected",
   "UK does not require international routing permission");
  assert.notEqual(local.international_journey,true);
