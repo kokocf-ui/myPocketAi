@@ -1,6 +1,19 @@
 // Country-aware lesson reader, preserving in-module navigation and the
 // grade/country selection. A chapter outline is not marked as a full lesson.
+import {EDUCATION_BIBLIOGRAPHY_DATA} from './education_bibliography_catalog.mjs';
 export const EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT=String.raw`
+const EDUCATION_BIBLIOGRAPHY_IN_APP=${JSON.stringify(EDUCATION_BIBLIOGRAPHY_DATA)};
+function educationBibliographyForRuntime(country,subject,grade){
+ const c=String(country||'').toUpperCase(),s=String(subject||'').toLowerCase();
+ const alias={math:'mathematics',science:'biology',computer:'computing'};
+ const name=alias[s]||s,match=String(grade||'').match(/\\d+/);
+ const year=match?Number(match[0]):0;
+ if(year<1||year>20)return [];
+ return (EDUCATION_BIBLIOGRAPHY_IN_APP[c]||[]).filter(r=>
+  year>=r.min&&year<=r.max&&(r.subjects.includes(name)||r.subjects.includes('*'))
+ );
+}
+
 function educationInternationalOpen(subject,level,grade,onBack){
  const root=document.getElementById('view-module'),host=document.getElementById('moduleContent');
  if(!root||!host)return;
@@ -23,6 +36,24 @@ function educationInternationalOpen(subject,level,grade,onBack){
  const advisory=mk('p',local('Programă orientativă; nu este o listă oficială de capitole obligatorii.','Advisory learning path, not an official list of compulsory chapters.'));
  advisory.style.cssText='font-size:.82em;line-height:1.35;opacity:.84;margin:0 0 10px;';
  panel.append(title,detail,advisory);
+ // Stable source bibliography is shown BEFORE optional AI explanations.
+ // A curriculum reference is not an assertion that app lessons are statutory.
+ const offlineReferences=educationBibliographyForRuntime(code,subject,grade);
+ if(offlineReferences.length){
+  const bibliography=mk('details','','edu-intl-bibliography');
+  bibliography.style.cssText='margin:0 0 10px;padding:7px 9px;border:1px solid var(--border-color,#667);border-radius:9px;';
+  bibliography.append(mk('summary',local('Biblioteca și sursele materiei','Subject library and sources')));
+  for(const entry of offlineReferences){
+   const row=mk('div','','edu-intl-bibliography-row');row.style.cssText='margin:9px 0;';
+   const a=mk('a',local(entry.ro,entry.en));a.href=entry.url;
+   a.target='_blank';a.rel='noopener noreferrer';
+   a.style.cssText='display:block;overflow-wrap:anywhere;font-size:.88em;';
+   const note=mk('p',local(entry.noteRo,entry.noteEn));
+   note.style.cssText='font-size:.76em;opacity:.82;line-height:1.4;margin:3px 0 0;';
+   row.append(a,note);bibliography.append(row);
+  }
+  panel.append(bibliography);
+ }
  const url=NATIONAL_UNIT_SOURCES?.[code];
  if(url){
   const a=mk('a',local('Sursă educațională','Education source'));a.href=url;a.target='_blank';a.rel='noopener noreferrer';
@@ -105,7 +136,7 @@ function educationInternationalOpen(subject,level,grade,onBack){
   reader.append(status,prose);
   // A full sourced explanation is fetched only when the student chooses to
   // open it. This avoids spending the free AI quota for every chapter preview.
-  const detailed=mk('button',local('📖 Lecție integrală din surse','📖 Detailed sourced lesson'),'primary-btn');
+  const detailed=mk('button',local('✨ Ajutor AI: explicații suplimentare','✨ Optional AI explanation'),'primary-btn');
   detailed.type='button';detailed.style.cssText='min-height:44px;max-width:100%;margin:7px 0 9px;';
   reader.append(detailed);
   detailed.onclick=async()=>{
@@ -243,6 +274,8 @@ function educationInternationalOpen(subject,level,grade,onBack){
    }catch{}
   }catch{}
  };
- refreshNationalCourse();
+ // The source-indexed learning libraries must not be overwritten by AI.
+ if(code!=='RO'&&code!=='GB-ENG'&&!rows.some(r=>String(r[0]).startsWith('national-')))
+  refreshNationalCourse();
 }
 `;
