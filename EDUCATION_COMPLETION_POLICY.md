@@ -1,4 +1,15 @@
 # Învățare și educație — regulă de lucru și criterii de finalizare
+
+## Decizie actuală — 9 noiembrie 2026: EUROPA (prioritate obligatorie)
+- Utilizatorul a cerut explicit **Europa**, nu extindere mondială. Extinderea la restul lumii fusese inițiativa asistentului și nu este o cerință pentru închiderea etapei actuale.
+- **Păstrăm integral** codul și informațiile pentru țările deja implementate din afara Europei, fără ștergere și fără dezvoltări suplimentare în această etapă. Se reiau doar la cererea ulterioară a utilizatorului.
+- Continuitate obligatorie: pornim de la România și Anglia și integrăm Europa: țara / jurisdicția → etapa școlară → clasa / anul → disciplina → capitol → lecția/biblioteca indexată. Regatul Unit are sisteme distincte pentru Anglia, Scoția, Țara Galilor și Irlanda de Nord.
+- O listă de ministere, Eurydice sau titluri de capitole este **bibliografie/sursă**, nu o bibliotecă didactică completă. Pentru a declara o materie terminată sunt necesare lecțiile efective, proveniența, nivelul și anul aplicării, accesul din UI, verificarea drepturilor de reutilizare și testarea integrată.
+- AI-ul poate oferi explicații opționale, dar nu înlocuiește, nu suprascrie și nu certifică programele ori bibliotecile școlare europene.
+- Catalogul european include țările membre ale Consiliului Europei, cele patru jurisdicții școlare britanice și alte coduri europene selectabile (BY/RU/VA/XK), fără a presupune statutul politic sau existența unui curriculum autonom pentru toate.
+- Ramura `feat/international-all-subjects-curriculum-20261109` conține progresul de integrare, însă nu trebuie declarată finalizată și nu trebuie publicat APK-ul înainte de validarea bibliotecilor reale.
+- Nu solicita teste manuale după fiecare materie, nu fragmenta implementarea în confirmări. Verificările interne și CI au loc între timp, iar testarea manuală se face la finalul opțiunii Educație.
+
 Actualizat: 2026-11-07
 
 ## Principiu stabilit
