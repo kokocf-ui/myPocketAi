@@ -5,7 +5,7 @@ function educationInternationalOpen(subject,level,grade,onBack){
  const root=document.getElementById('view-module'),host=document.getElementById('moduleContent');
  if(!root||!host)return;
  const code=educationCountrySelection.code||'WORLD',countryName=educationCountrySelection.label||code;
- const rows=worldwideStudyChapters(code,subject,level,grade,countryName,countryName,HG_SCHOOL_GENERAL_DATA);
+ let rows=worldwideStudyChapters(code,subject,level,grade,countryName,countryName,HG_SCHOOL_GENERAL_DATA);
  if(!rows.length){if(typeof onBack==='function')onBack();return}
  root.classList.add('learning-intl-curriculum');
  host.replaceChildren();
@@ -50,6 +50,7 @@ function educationInternationalOpen(subject,level,grade,onBack){
   list.style.display='none';search.style.display='none';reader.style.display='block';reader.replaceChildren();
   const national=educationLocalContext(code,subject);
   const nationalLesson=item[0].startsWith('national-');
+  const sourcedLesson=item[0].startsWith('sourced-');
   const lessonTitle=mk('h3',local(item[1],item[2]));lessonTitle.style.cssText='font-size:1rem;margin:5px 0 8px;';
   reader.append(lessonTitle);
   const status=mk('p','','edu-intl-reader-status');status.style.cssText='font-size:.82em;opacity:.8;';
@@ -102,9 +103,71 @@ function educationInternationalOpen(subject,level,grade,onBack){
    status.textContent=fromTranslation?'':state.language==='ro'?'':local('','');
   }
   reader.append(status,prose);
+  // A full sourced explanation is fetched only when the student chooses to
+  // open it. This avoids spending the free AI quota for every chapter preview.
+  const detailed=mk('button',local('📖 Lecție integrală din surse','📖 Detailed sourced lesson'),'primary-btn');
+  detailed.type='button';detailed.style.cssText='min-height:44px;max-width:100%;margin:7px 0 9px;';
+  reader.append(detailed);
+  detailed.onclick=async()=>{
+   if(!CLIENT_CONFIG?.apiUrl)return;
+   detailed.disabled=true;status.textContent=local('Se caută sursele pentru lecție…','Finding lesson sources…');
+   try{
+    const endpoint=new URL(CLIENT_CONFIG.apiUrl);
+    endpoint.pathname='/api/education-country-lesson';endpoint.search='';
+    const response=await fetch(endpoint.toString(),{
+     method:'POST',headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({country:code,subject,level,grade,topic:item[2],language:state.language})
+    });
+    const data=response.ok?await response.json():null;
+    if(serial!==token||!reader.isConnected)return;
+    if(data?.status!=='success'||!data.lesson){
+     status.textContent=local('Nu s-a putut verifica o lecție detaliată din surse. Păstrăm explicația orientativă.',
+      'No source-verified detailed lesson was available. The advisory outline remains.');
+     detailed.disabled=false;return;
+    }
+    const lesson=data.lesson;
+    prose.replaceChildren();
+    const section=(heading,paragraph)=>{
+     const h=mk('h4',heading);h.style.cssText='margin:10px 0 4px;';
+     const p=mk('p',paragraph);p.style.cssText='line-height:1.55;margin:0 0 10px;';
+     prose.append(h,p);
+    };
+    section(local('Introducere','Introduction'),lesson.introduction);
+    for(const concept of lesson.concepts)section(local('Explicație','Explanation'),concept);
+    section(local('Exemplu explicat','Worked example'),lesson.workedExample);
+    const quiz=mk('details','','edu-intl-review');
+    quiz.append(mk('summary',local('Verifică răspunsurile','Check answers')));
+    for(let i=0;i<lesson.questions.length;i++){
+     quiz.append(mk('p',(i+1)+'. '+lesson.questions[i]));
+     const answer=mk('p',lesson.answers[i]);answer.style.cssText='font-weight:600;padding-left:8px;';
+     quiz.append(answer);
+    }
+    prose.append(quiz);
+    if(Array.isArray(data.sources)){
+     const references=mk('section','','edu-intl-sources');
+     references.append(mk('h4',local('Surse consultate','Source references')));
+     for(const src of data.sources.slice(0,5)){
+      if(!/^https:\/\//.test(String(src.url||'')))continue;
+      const a=mk('a',src.title||src.url);a.href=src.url;a.target='_blank';a.rel='noopener noreferrer';
+      a.style.cssText='display:block;overflow-wrap:anywhere;margin:5px 0;font-size:.85em;';
+      references.append(a);
+     }
+     prose.append(references);
+    }
+    detailed.remove();status.textContent=local('Lecție orientativă construită din surse identificate.','Advisory lesson constructed from identified evidence.');
+   }catch{
+    if(serial===token&&reader.isConnected){
+     status.textContent=local('Serviciul de documentare nu este disponibil.','Evidence service unavailable.');
+     detailed.disabled=false;
+    }
+   }
+  };
   const returnButton=mk('button',local('← Înapoi la capitole','← Back to chapters'),'secondary-btn');
   returnButton.type='button';returnButton.onclick=chapterList;reader.append(returnButton);
-  if(state.language==='ro'){content(source)}
+  if(sourcedLesson){
+   content({title:item[2],explanation:item[3],focus:item[2],
+    activity:state.language==='ro'?'Formulează două întrebări și verifică un exemplu din sursele de mai jos.':'Formulate two questions and verify an example against the cited sources.'});
+  }else if(state.language==='ro'){content(source)}
   else if(state.language==='en'&&nationalLesson&&national){
    content({title:item[2],explanation:national.en,focus:item[2]+'. '+local('','Compare evidence and explain the selected topic.'),
     activity:national.activityEn});
@@ -140,5 +203,46 @@ function educationInternationalOpen(subject,level,grade,onBack){
    more.type='button';more.onclick=()=>{page+=4;draw()};list.append(more)}
  }
  search.oninput=()=>{page=0;draw()};draw();
+ // Load a country/grade-specific chapter sequence from public sources.
+ // The complete advisory fallback is immediately available offline.
+ const refreshNationalCourse=async()=>{
+  if(!CLIENT_CONFIG?.apiUrl)return;
+  const locale=state.language||'ro';
+  const cacheKey=['pocket-national-course-v1',code,subject,level,grade,locale].join(':');
+  const apply=data=>{
+   if(data?.status!=='success'||!Array.isArray(data.chapters)||data.chapters.length<8)return false;
+   const national=rows.filter(row=>row[0].startsWith('national-'));
+   const localNames=new Set(national.map(row=>fold(row[1])+'|'+fold(row[2])));
+   const newRows=data.chapters.slice(0,22).map((item,i)=>[
+    'sourced-'+code+'-'+subject+'-'+grade+'-'+i,
+    String(item.title||'').slice(0,110),String(item.title||'').slice(0,110),
+    String(item.focus||'').slice(0,350)
+   ]).filter(row=>row[1].length>=8&&row[3].length>=35&&!localNames.has(fold(row[1])+'|'+fold(row[2])));
+   if(newRows.length<8)return false;
+   rows=[...national,...newRows];page=0;
+   advisory.textContent=local('Capitole orientative adaptate țării și clasei din surse educaționale; nu reprezintă programa oficială obligatorie.',
+    'Advisory chapters adapted to the country and grade using education sources; not a mandatory official syllabus.');
+   if(!selected)draw();
+   return true;
+  };
+  try{
+   const cached=JSON.parse(localStorage.getItem(cacheKey)||'null');
+   if(cached&&Date.now()-cached.time<12*60*60*1000&&apply(cached.data))return;
+  }catch{}
+  try{
+   const endpoint=new URL(CLIENT_CONFIG.apiUrl);
+   endpoint.pathname='/api/education-country-curriculum';endpoint.search='';
+   const reply=await fetch(endpoint.toString(),{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({country:code,subject,level,grade,language:locale})
+   });
+   const data=reply.ok?await reply.json():null;
+   if(!host.isConnected||educationCountrySelection.code!==code)return;
+   if(apply(data))try{
+    localStorage.setItem(cacheKey,JSON.stringify({time:Date.now(),data:{status:'success',chapters:data.chapters}}))
+   }catch{}
+  }catch{}
+ };
+ refreshNationalCourse();
 }
 `;
