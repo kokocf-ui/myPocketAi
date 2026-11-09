@@ -18629,6 +18629,13 @@ main.page:has(#view-module.learning-languages.active){
  margin:0!important;gap:6px!important;
 }
 
+/* Long Computing theory now has readable line spacing while PDF capture
+   and the existing Android navigation controls remain unchanged. */
+#view-module.learning-computing .computing-printable p{
+ line-height:1.6!important;overflow-wrap:anywhere!important;
+ max-width:100%!important;
+}
+
 </style>
 </body>
 </html>`;

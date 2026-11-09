@@ -100,7 +100,7 @@ function computingGradePathAllowed(path){
   // Do not apply the medium-level path whitelist to Year 7–9.
   return ['lower-logic','lower-programming','lower-digital'].includes(path.id);
  }
- if(computingJourney.level==='beginner'&&yr<=2)return ['devices','logic','safety'].includes(path.id);
+ if(computingJourney.level==='beginner'&&yr<=2)return ['devices','logic','digital','safety'].includes(path.id);
  return true;
 }
 function computingOpen(stage){

@@ -1,3 +1,4 @@
+import {COMPUTING_EXTENDED_THEORY} from './computing_extended_theory.mjs';
 // Computing curriculum for general computer science literacy and specialisations.
 
 // Educational ordering, not national accreditation; EU country alignment is a later, separate step.
@@ -1463,6 +1464,7 @@ Creează date fictive 12,14,11,15,13 °C. Suma este 65, iar media este 13 °C. R
 Verificarea rezultatului
 Controlează formulele, unitățile și intervalele. Arată o limitare: cinci valori nu descriu clima unei regiuni. Încheie cu o concluzie bazată pe date.`
 };
+Object.assign(COMPUTING_DEEP_THEORY,COMPUTING_EXTENDED_THEORY);
 for(const topic of COMPUTING_TOPICS){
  const extra=COMPUTING_DEEP_THEORY[topic.id];
  if(extra)topic.theory=topic.theory+'\n\n'+extra;
