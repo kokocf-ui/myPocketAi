@@ -201,6 +201,9 @@ function eduYearOptions(code,level,moduleKey){
    }
    return source;
  }
+ // Worldwide country mappings; unsupported national curricula remain explicitly advisory.
+ const worldwide=worldwideSchoolYears(code,lv,moduleKey);
+ if(worldwide.length)return worldwide;
  return [{id:'general-'+lv,ro:lv==='beginner'?'Învățare generală – primar':lv==='medium'?'Învățare generală – secundar':'Învățare generală – universitar',en:lv==='beginner'?'General primary learning':lv==='medium'?'General secondary learning':'General university learning'}];
 }
 function educationGradeGate(moduleKey,level,proceed,back){
@@ -214,7 +217,12 @@ function educationGradeGate(moduleKey,level,proceed,back){
  const previous=document.createElement('button');previous.type='button';previous.className='secondary-btn';previous.textContent=eduUiLabel('← Înapoi','← Back');previous.onclick=back;toolbar.append(previous);host.append(toolbar);
  const panel=document.createElement('section');panel.className='math-choice-panel science-choice-panel lit-panel edu-grade-panel';panel.style.cssText='min-width:0;max-width:100%;box-sizing:border-box;max-height:calc(100dvh - 345px);overflow-y:auto;overscroll-behavior:contain;padding-bottom:16px;';
  const h=document.createElement('h2');h.textContent=eduUiLabel('Alege clasa / anul de studiu','Choose grade / school year');
- const context=document.createElement('p');context.textContent=educationCountrySelection.label+' · '+eduUiLabel('Materia se adaptează clasei selectate.','Learning content follows the selected school year.');
+ const context=document.createElement('p');
+ const worldInfo=worldwideSchoolNotice(country);
+ const mappedNational=country==='RO'||country==='GB-ENG';
+ context.textContent=educationCountrySelection.label+' · '+eduUiLabel('Materia se adaptează clasei selectate.','Learning content follows the selected school year.')+
+  (!mappedNational?' '+eduUiLabel('Traseu de studiu orientativ, nu programa oficială verificată pentru țara și clasa selectate.','Advisory study sequence, not an officially verified national curriculum for this country and school year.'):'' );
+ context.setAttribute('aria-live','polite');
  const search=document.createElement('input');search.type='search';search.className='lit-input';search.placeholder=eduUiLabel('Scrie clasa sau anul…','Type a grade or year…');search.setAttribute('aria-label',h.textContent);
  search.style.cssText='width:100%;box-sizing:border-box;min-height:48px;font-size:16px;background:#0e2938;color:#fff;border:1px solid #5e9dad;border-radius:10px;padding:10px;';
  const list=document.createElement('div');list.className='edu-grade-choice-grid';
@@ -225,7 +233,18 @@ function educationGradeGate(moduleKey,level,proceed,back){
   const filtered=options.filter(o=>!text||eduCountryFold(o.ro).includes(text)||eduCountryFold(o.en).includes(text)||eduCountryFold(o.id).includes(text));
   if(page>=filtered.length)page=0;
   filtered.slice(page,page+4).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel(o.ro,o.en);b.style.cssText='min-height:52px;text-align:center;width:100%;min-width:0;padding:8px;white-space:normal;overflow-wrap:anywhere;';b.onclick=()=>proceed(o.id);list.append(b)});
-  if(!filtered.length){const p=document.createElement('p');p.textContent=eduUiLabel('Nu am găsit clasa.','No matching grade.');list.append(p)}
+  if(!filtered.length){const p=document.createElement('p');p.textContent=eduUiLabel('Clasa nu apare în sugestii. Poți folosi denumirea introdusă pentru un parcurs orientativ.','Grade not in the suggestions. You can use the entered name for an advisory study path.');list.append(p)}
+  // Some countries, states, boards and vocational schools use different
+  // grade names; do not block their lessons because a provisional map omits it.
+  if(text&&!filtered.length&&search.value.trim().length<=40){
+   const entered=search.value.trim().replace(/[<>]/g,'').slice(0,40);
+   if(entered){
+    const custom=document.createElement('button');custom.type='button';custom.className='secondary-btn';
+    custom.textContent=eduUiLabel('Folosește clasa: ','Use grade: ')+entered;
+    custom.style.cssText='grid-column:1/-1;min-height:44px;width:100%;white-space:normal';
+    custom.onclick=()=>proceed(entered);list.append(custom);
+   }
+  }
   if(page+4<filtered.length){const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel('Alte clase →','More grades →');b.style.cssText='grid-column:1/-1;min-height:44px;width:100%;';b.onclick=()=>{page+=4;draw();list.scrollIntoView({block:"nearest"})};list.append(b)}
   if(page>0){const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel('← Clase anterioare','← Previous grades');b.style.cssText='grid-column:1/-1;min-height:44px;width:100%;';b.onclick=()=>{page=Math.max(0,page-4);draw();list.scrollIntoView({block:"nearest"})};list.prepend(b)}
  }
