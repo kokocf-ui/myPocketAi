@@ -6,6 +6,8 @@ on:
       - 'backend.js'
       - 'index.js'
       - 'education_theory.mjs'
+      - 'education_worldwide_paths.mjs'
+      - 'tests_worldwide_all_subjects.mjs'
       - 'chemistry_curriculum.mjs'
       - 'chemistry_advanced.mjs'
       - 'biology_curriculum.mjs'
@@ -63,7 +65,9 @@ jobs:
       - name: Validate JavaScript syntax
         run: npm run check
       - name: Verify education year, lesson contents and browser boot
-        run: node tests_education_content_navigation.mjs
+        run: |
+          node tests_education_content_navigation.mjs
+          node tests_worldwide_all_subjects.mjs
 
       - name: Basic UI integrity
         run: npm run test:ui
