@@ -4336,9 +4336,14 @@ async function budgetExchangeRate(from,to,date=''){
  if(base===quote)return {rate:1,date:date||budgetDateNow(),source:'identical'};
  const url='https://api.frankfurter.dev/v2/rate/'+encodeURIComponent(base.toLowerCase())+'/'+encodeURIComponent(quote.toLowerCase())+
   (date?'?date='+encodeURIComponent(date):'');
- const response=await fetch(url,{headers:{Accept:'application/json'}});
- if(!response.ok)throw Error('No reference rate');
- const result=await response.json();
+ // A stalled FX request must never leave the manual Save button disabled.
+ const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),12000);
+ let result;
+ try{
+  const response=await fetch(url,{headers:{Accept:'application/json'},signal:controller.signal});
+  if(!response.ok)throw Error('No reference rate');
+  result=await response.json();
+ }finally{clearTimeout(timeout)}
  if(result.base?.toUpperCase()!==base||result.quote?.toUpperCase()!==quote||
   !Number.isFinite(Number(result.rate))||Number(result.rate)<=0||
   !/^\\d{4}-\\d{2}-\\d{2}$/.test(String(result.date||'')))throw Error('Invalid rate response');
