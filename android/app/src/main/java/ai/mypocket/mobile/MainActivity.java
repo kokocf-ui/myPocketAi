@@ -492,6 +492,9 @@ public final class MainActivity extends ComponentActivity {
         WebSettings settings=web.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
+        // Native app HTML is delivered by Cloudflare and changes independently of the APK.
+        // Never reuse a stale cached home screen after an app update or relaunch.
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(true); // Required for user-selected content:// images; file:// access remains disabled.
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
@@ -705,7 +708,9 @@ public final class MainActivity extends ComponentActivity {
                     if("exit".equals(message.getData()))runOnUiThread(()->finish());
                 });
         }
-        web.loadUrl(APP_URL + "?nativeLaunch=1");
+        // Unique document URL prevents WebView/HTTP intermediary caches from showing an old UI.
+        // No cookies, offline documents or localStorage are cleared.
+        web.loadUrl(APP_URL + "?nativeLaunch=1&uiFresh=" + System.currentTimeMillis());
         // The translucent launcher already asked for both permissions. Do not
         // immediately show a duplicate prompt if the user declined either one.
         if(getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE)

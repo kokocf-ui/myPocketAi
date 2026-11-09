@@ -66,6 +66,8 @@ jobs:
         run: npm run check
       - name: Verify education year, lesson contents and browser boot
         run: node tests_education_content_navigation.mjs
+      - name: Confirm current Cloudflare home and Android cache-busting
+        run: node tests_android_home_refresh.mjs
           node tests_literature_verified_authors.mjs
 
       - name: Basic UI integrity

@@ -126,6 +126,7 @@ jobs:
           node --check literature_curriculum_europe.mjs
           node tests_frontend_boot_syntax.mjs
           node tests_home_einstein_layout.mjs
+          node tests_android_home_refresh.mjs
           node tests_exam_curriculum_europe.mjs
           node tests_university_admissions.mjs
           node tests_computing_curriculum.mjs
