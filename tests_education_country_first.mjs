@@ -5,10 +5,11 @@ import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,educationYears,
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 assert.ok(EDUCATION_SCHOOL_YEARS.RO.beginner.some(x=>x.id==='4'));
-assert.ok(EDUCATION_SCHOOL_YEARS.RO.medium.some(x=>x.id==='8'));
-assert.ok(EDUCATION_SCHOOL_YEARS.RO.medium.some(x=>x.id==='12'));
+assert.ok(EDUCATION_SCHOOL_YEARS.RO.lower.some(x=>x.id==='8'));
+assert.deepEqual(EDUCATION_SCHOOL_YEARS.RO.medium.map(x=>x.id),['9','10','11','12']);
 assert.ok(EDUCATION_SCHOOL_YEARS['GB-ENG'].beginner.some(x=>x.id==='Y1'));
-assert.ok(EDUCATION_SCHOOL_YEARS['GB-ENG'].medium.some(x=>x.id==='Y11'));
+assert.deepEqual(EDUCATION_SCHOOL_YEARS['GB-ENG'].lower.map(x=>x.id),['Y7','Y8','Y9']);
+assert.deepEqual(EDUCATION_SCHOOL_YEARS['GB-ENG'].medium.map(x=>x.id),['Y10','Y11','Y12','Y13']);
 assert.equal(educationYears('FR','beginner')[0].id,'general-beginner');
 const ro4=hgSchoolChapters('RO','history','beginner','4');
 const ro5=hgSchoolChapters('RO','history','medium','5');
