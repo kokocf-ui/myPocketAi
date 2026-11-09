@@ -3018,6 +3018,46 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
 #view-module.learning-hg .hg-map a{display:inline-block;color:#8eebff;text-decoration:underline;margin:10px 0;overflow-wrap:anywhere}
 #view-module.learning-hg .hg-quiz textarea{min-height:68px!important}
 @media(max-width:370px){#view-module.learning-hg .hg-choice-list{grid-template-columns:1fr!important}}
+
+/* Education reading mode: use the real available height rather than reserving
+   the bottom navigation twice. The dock stays independently fixed. */
+main.page:has(#view-module.learning-hg.active),
+main.page:has(#view-module.learning-languages.active){
+ padding-bottom:clamp(9px,1.2dvh,16px)!important;
+}
+#view-module.learning-hg.active{height:100%!important;min-height:0!important}
+#view-module.learning-hg #moduleContent{flex:1 1 auto!important;min-height:0!important}
+#view-module.learning-hg .hg-panel{height:100%!important;min-height:0!important;overflow-y:auto!important;scroll-padding-bottom:18px!important;-webkit-overflow-scrolling:touch}
+#view-module.learning-hg .hg-offline-lesson{
+ display:flex;flex-direction:column;gap:8px;width:100%;min-width:0;
+ padding:12px;border:1px solid #367f96;border-radius:14px;background:#0a2839;
+}
+#view-module.learning-hg .hg-offline-lesson h3{font-size:clamp(17px,4.3vw,22px);margin:0 0 3px}
+#view-module.learning-hg .hg-local-toc{display:flex;flex-direction:column;gap:7px;min-width:0}
+#view-module.learning-hg .hg-theory-chapter{min-width:0;margin:0;border:1px solid #477e98;border-radius:11px;background:#0d2e40;padding:0;overflow:hidden}
+#view-module.learning-hg .hg-theory-chapter[open]{border-color:#72c9d9;background:#102f42}
+#view-module.learning-hg .hg-theory-chapter summary{
+ display:block;padding:12px 14px;min-height:48px;cursor:pointer;
+ font-weight:700;font-size:clamp(15px,3.9vw,19px);line-height:1.3;
+ list-style:none;overflow-wrap:anywhere;touch-action:manipulation;
+}
+#view-module.learning-hg .hg-theory-chapter summary::-webkit-details-marker{display:none}
+#view-module.learning-hg .hg-theory-chapter summary::before{content:'▸';display:inline-block;margin-right:8px;color:#83e9ef}
+#view-module.learning-hg .hg-theory-chapter[open]>summary::before{content:'▾'}
+#view-module.learning-hg .hg-theory-body{margin:0;padding:6px 14px 12px;line-height:1.58;white-space:pre-wrap;overflow-wrap:anywhere}
+#view-module.learning-hg .hg-ai-inline{
+ display:flex;flex-direction:column;gap:8px;margin:6px 10px 12px;
+ padding:12px;border:1px solid #367e95;border-radius:11px;background:#071f30;
+}
+#view-module.learning-hg .hg-ai-inline h4{font-size:clamp(15px,3.7vw,18px);margin:0}
+#view-module.learning-hg .hg-ai-inline .hg-request{margin:0!important;max-height:26dvh;resize:vertical}
+#view-module.learning-hg .hg-ai-inline .hg-deepen{width:100%;max-width:100%;min-height:47px;white-space:normal}
+#view-module.learning-hg .hg-ai-inline .hg-lesson-output{min-width:0;max-height:none;overflow-wrap:anywhere}
+@media(max-height:620px){
+ main.page:has(#view-module.learning-hg.active){overflow-y:auto!important}
+ #view-module.learning-hg.active{height:auto!important;min-height:100%!important}
+ #view-module.learning-hg #moduleContent,#view-module.learning-hg .hg-panel{height:auto!important;max-height:none!important;overflow:visible!important}
+}
 </style>
 
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
@@ -10575,25 +10615,37 @@ function hgLessonSections(topic){
 }
 function hgShowCoreLesson(panel,guide){
  const section=document.createElement('section');section.className='hg-offline-lesson';
- section.style.cssText='min-width:0;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;border:1px solid #377f96;border-radius:12px;padding:12px';
- section.append(hgText('h3',hgL('Cuprins și teorie de studiu','Study contents and theory')));
+ section.append(hgText('h3',hgL('Teme de studiu · cuprins și teorie','Study topics · contents and theory')));
  const toc=document.createElement('div');toc.className='hg-local-toc';
- toc.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:9px 0;';
- const chapters=[];
- for(let i=0;i<guide.length;i++){
-  const [heading,body]=guide[i];
-  const details=document.createElement('details');details.className='hg-theory-chapter';details.open=i===0;
-  details.style.cssText='padding:10px;margin:9px 0;border:1px solid #306a7e;border-radius:10px;background:#0c2c3b';
+ const chapters=[];let aiInline=null;
+ const mountAI=()=>{
+  const active=chapters.find(ch=>ch.open);
+  if(!active||!aiInline)return;
+  active.append(aiInline);
+ };
+ guide.forEach(([heading,body],i)=>{
+  const details=document.createElement('details');details.className='hg-theory-chapter';
+  details.open=i===0;
   const summary=document.createElement('summary');summary.textContent=(i+1)+'. '+heading;
-  summary.style.cssText='font-weight:700;cursor:pointer';
-  const paragraph=hgText('p',body);
-  paragraph.style.cssText='white-space:pre-wrap;line-height:1.55;overflow-wrap:anywhere;';
-  details.append(summary,paragraph);chapters.push(details);
-  const button=hgBtn((i+1)+'. '+heading,()=>{details.open=true;details.scrollIntoView({block:'nearest'})},'secondary-btn hg-toc-button');
-  button.style.cssText='width:100%;min-width:0;min-height:50px;padding:7px;white-space:normal;font-size:14px;overflow-wrap:anywhere;';
-  toc.append(button);
- }
- section.append(toc,...chapters);panel.append(section);
+  const paragraph=hgText('p',body);paragraph.className='hg-theory-body';
+  details.append(summary,paragraph);
+  details.addEventListener('toggle',()=>{
+   if(!details.open)return;
+   chapters.forEach(other=>{if(other!==details)other.open=false});
+   hgJourney.activeSubtopic=heading;
+   if(aiInline){
+    const request=aiInline.querySelector('textarea');
+    const response=aiInline.querySelector('.hg-lesson-output');
+    if(request)request.value=heading;
+    if(response)response.replaceChildren();
+   }
+   mountAI();
+  });
+  chapters.push(details);toc.append(details);
+ });
+ section.append(toc);panel.append(section);
+ hgJourney.activeSubtopic=guide[0]?.[0]||'';
+ return {section,chapters,mountAI:node=>{aiInline=node;mountAI()}};
 }
 
 function hgLesson(panel){
@@ -10603,11 +10655,12 @@ function hgLesson(panel){
  panel.append(hgText('p',hgL('Programa: ','Curriculum: ')+hgL(scope.ro,scope.en)+(hgJourney.scope!=='world'?' · '+(country?hgL(country.ro,country.en):hgJourney.otherCountry||''):'')+(hgJourney.region?' · '+hgJourney.region:'')+' · '+(hgJourney.level||'')+' · '+(hgJourney.grade||'')));
  panel.append(hgText('p',topic.query||hgL('Analizează exemple potrivite clasei selectate.','Explore grade-appropriate examples.')));
  if(topic.period)panel.append(hgText('p',hgL('Perioadă generală: ','General period: ')+topic.period));
- const guide=hgLessonSections(topic);hgShowCoreLesson(panel,guide);
- panel.append(hgText('h3',hgL('Aprofundează cu profesorul AI (opțional)','Explore further with AI (optional)')));
+ const guide=hgLessonSections(topic);const lessonView=hgShowCoreLesson(panel,guide);
+ const aiInline=document.createElement('section');aiInline.className='hg-ai-inline';
+ aiInline.append(hgText('h4',hgL('Aprofundează tema selectată cu profesorul AI','Explore this topic with the AI teacher')));
  const custom=document.createElement('textarea');custom.className='hg-request';custom.rows=2;
  custom.placeholder=hgL('Alege o subtemă sau scrie întrebarea ta','Choose a study topic or enter your question');
- custom.setAttribute('aria-label',custom.placeholder);panel.append(custom);
+ custom.setAttribute('aria-label',custom.placeholder);custom.value=guide[0]?.[0]||'';aiInline.append(custom);
  const suggestions=document.createElement('div');suggestions.className='hg-lesson-suggestions';
  suggestions.style.cssText='display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;min-width:0';
  const paint=()=>{
@@ -10622,9 +10675,10 @@ function hgLesson(panel){
   suggestions.style.display=matches.length?'grid':'none';
  };
  custom.addEventListener('focus',paint);custom.addEventListener('input',paint);
- panel.append(suggestions);
- const output=document.createElement('div');output.className='hg-lesson-output';output.setAttribute('role','region');output.setAttribute('aria-label',hgL('Conținut lecție','Lesson content'));panel.append(output);
- panel.append(hgBtn(hgL('📖 Aprofundează cu AI','📖 Expand with AI'),()=>hgGenerate(custom.value,output),'primary-btn'));
+ aiInline.append(suggestions);
+ const output=document.createElement('div');output.className='hg-lesson-output';output.setAttribute('role','region');output.setAttribute('aria-label',hgL('Conținut lecție','Lesson content'));
+ const deepen=hgBtn(hgL('📖 Aprofundează tema cu AI','📖 Explore topic with AI'),()=>hgGenerate(custom.value,output),'primary-btn hg-deepen');
+ aiInline.append(deepen,output);lessonView.mountAI(aiInline);
  const actions=document.createElement('div');actions.className='hg-lesson-actions';
  actions.append(hgBtn(hgL('🔊 Citește','🔊 Read aloud'),()=>{
   const content=output.textContent||topic.ro;if(!content)return;
@@ -10848,13 +10902,14 @@ async function hgGenerate(extra,output){
  if(hgJourney.busy)return;
  const topic=hgTopic(),subject=hgSubject();if(!topic||!subject)return;
  hgJourney.busy=true;output.replaceChildren(hgText('p',hgL('Se pregătește lecția…','Preparing lesson…')));
+ const activeSubtopic=hgJourney.activeSubtopic||'';
  const origin=hgCountry(),place=hgJourney.scope==='world'?'global':origin?hgL(origin.ro,origin.en):hgJourney.otherCountry||'';
  const context=[hgL(subject.ro,subject.en),hgL(topic.ro,topic.en),hgJourney.level,hgJourney.grade||'',hgJourney.speciality||'',hgJourney.scope,place,hgJourney.region||''].filter(Boolean).join(' / ');
  const message='Acționează ca profesor de '+subject.ro+'. Creează lecția în limba '+(state.language||'ro')+' pentru '+context+'. Subteme: '+(topic.query||'')+'. Acoperă întregul capitol, cu subcapitole, explicații adecvate nivelului selectat, termeni și definiții, exemple concrete, interpretări și surse bibliografice reale. Pentru ISTORIE: cronologie ordonată, date corecte, localități, participanți, cauze și consecințe, context regional și internațional; include toate evenimentele majore relevante și nu limita arbitrar lista la 3-4. Pentru istoria României anterioară unirii, tratează separat Moldova, Țara Românească, Transilvania și alte teritorii relevante, fără a proiecta frontierele actuale în trecut. Pentru GEOGRAFIE: relieful, clima, apele, populația, economia, vecinii, date actualizate cu anul de referință, exemple și variabilitate regională după relevanța capitolului. La nivel avansat, explică metodologia, limitele datelor și dezbaterile academice. Adaugă 3-5 exerciții cu rezolvări explicate. Menționează sursele verificabile, cu titlu, autor/instituție și URL numai când este real; dacă nu poți verifica, marchează explicit. Nu inventa hărți, frontiere, documente, numere ori surse. Nu pretinde acreditare oficială fără document curricular specific. Scrie în text curat, fără formatare Markdown (** sau #). Cerere specială: '+String(extra||'');
  try{
   const result=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,module:'education_study',education_subject:hgJourney.subject,history:[]})});
   const obj=await result.json();if(!result.ok||obj.status!=='success'||!obj.reply)throw Error('no response');
-  if(hgJourney.stage!=='lesson'||hgTopic()?.id!==topic.id)return;
+  if(hgJourney.stage!=='lesson'||hgTopic()?.id!==topic.id||activeSubtopic!==(hgJourney.activeSubtopic||''))return;
   hgDisplayStudyText(output,String(obj.reply).slice(0,50000));
   output.append(hgText('small',hgL('Material AI: verifică sursele și datele înaintea utilizării la examene.','AI material: verify sources and facts before examinations.')));
   hgRemember('lessonViewed');hgStatus(hgL('Lecția este disponibilă.','Lesson ready.'));
