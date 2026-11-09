@@ -11,6 +11,30 @@ const abroad={latitude:48.8566,longitude:2.3522,country_code:"FR",label:"Paris, 
 let internationalFixture=false,provideTfLJourney=false,provideMotisJourney=false;
 globalThis.fetch=async input=>{
  const url=new URL(typeof input==="string"?input:input.url);calls.push(url);
+ if(url.hostname==="api.transcapi.com"){
+  const at=m=>new Date(Date.now()+m*60000).toISOString();
+  if(url.searchParams.get('from_lon')==='4.9041'||url.searchParams.get('from_lon')==='-5.9301'){
+   const ireland=url.searchParams.get('from_lon')==='-5.9301';
+   const origin=ireland?'Belfast':'Amsterdam',dest=ireland?'Dublin':'Brussels';
+   return Response.json({timezone:ireland?'Europe/Dublin':'Europe/Amsterdam',itineraries:[{
+    start_time:at(12),end_time:at(237),fare:null,
+    legs:[
+     {mode:"WALK",duration_s:600,from:{name:origin},to:{name:origin+" station"}},
+     {mode:ireland?"TRAM":"RAIL",from:{name:origin+" station"},to:{name:dest+" station"},
+      route:{line:"R2",operator:"Mock regional"},start_time:{scheduled:at(27)},end_time:{scheduled:at(222)},
+      fare_local:ireland?{currency:"EUR",amount:2}:null},
+     {mode:"WALK",duration_s:900,from:{name:dest+" station"},to:{name:dest}}
+    ]}]});
+  }
+  return Response.json({itineraries:[{
+   start_time:at(12),end_time:at(237),fare:{amount_gbp:65.4,complete:false},
+   legs:[
+    {mode:"WALK",duration_s:600,from:{name:"Grays departure",latitude:51.478,longitude:0.283},to:{name:"Grays station",latitude:51.476,longitude:0.321}},
+    {mode:"RAIL",route:{line:"R1",operator:"Mock railway"},from:{name:"Grays station"},to:{name:"Manchester Piccadilly"},start_time:{scheduled:at(27)},end_time:{scheduled:at(222)}},
+    {mode:"WALK",duration_s:900,from:{name:"Manchester Piccadilly"},to:{name:"Vale Lane"}}
+   ]
+  }]});
+ }
  if(url.hostname==="api.tfl.gov.uk"){
   if(url.pathname.startsWith("/StopPoint/Search"))return Response.json({matches:[]});
   if(provideTfLJourney){
@@ -96,6 +120,43 @@ try{
   "Manchester should offer the national rail, coach/bus and local Bee Network planners");
  assert.ok(manchesterResult.planning_links.every(item=>item.url.startsWith("https://")),
   "Only official https sources are offered");
+
+ const connectedNationwide=await ask(manchester,{TFL_APP_KEY:"mock-tfl",TRANSCAPI_API_KEY:"test-key"});
+ assert.equal(connectedNationwide.transit_available,true,"A configured UK planner must return the itinerary in the app");
+ assert.equal(connectedNationwide.transit_provider,"TransCAPI");
+ assert.equal(connectedNationwide.uk_national_journey,true);
+ assert.equal(connectedNationwide.transit[0].legs.length,3);
+ assert.equal(connectedNationwide.transit[0].boarding_stop?.label,"Grays station");
+ assert.equal(connectedNationwide.transit[0].boarding_stop?.latitude,51.476);
+ assert.equal(connectedNationwide.transit[0].boarding_stop?.longitude,0.321);
+ assert.ok(!connectedNationwide.planning_links?.length,"Success must not redirect to external planning websites");
+ assert.ok(calls.some(u=>u.hostname==="api.transcapi.com"&&u.pathname==="/v1/journey.json"));
+ assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"),"Manchester must never be requested through TfL");
+
+ const amsterdamOrigin={latitude:52.3676,longitude:4.9041,updatedAt:Date.now()};
+ const belfastOrigin={latitude:54.5973,longitude:-5.9301,updatedAt:Date.now()};
+ const brussels={latitude:50.8503,longitude:4.3517,country_code:"BE",label:"Brussels, Belgium"};
+ const dublin={latitude:53.3498,longitude:-6.2603,country_code:"IE",label:"Dublin, Ireland"};
+ const beneluxResult=await ask(brussels,{TRANSCAPI_API_KEY:"mock-key"},{
+  location:amsterdamOrigin,coordinates:amsterdamOrigin
+ });
+ assert.equal(beneluxResult.transit_available,true,"Amsterdam→Brussels can be planned inside the Benelux zone");
+ assert.equal(beneluxResult.international_journey,true);
+ assert.equal(beneluxResult.transit_provider,"TransCAPI");
+ assert.equal(beneluxResult.transit[0].time_zone,"Europe/Amsterdam");
+ assert.equal(beneluxResult.provider_status.region,"benelux");
+ assert.ok(!beneluxResult.reply.includes('£'),"Do not label unpriced Belgian routes as pounds");
+ assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"),"Never call TfL outside London");
+ const irelandResult=await ask(dublin,{TRANSCAPI_API_KEY:"mock-key"},{
+  location:belfastOrigin,coordinates:belfastOrigin
+ });
+ assert.equal(irelandResult.transit_available,true,"Belfast→Dublin is within the Ireland planning zone");
+ assert.equal(irelandResult.provider_status.region,"ireland");
+ assert.ok(irelandResult.reply.includes('EUR'),"Keep known Luas fare in its currency");
+ const crossZone=await ask(dublin,{TRANSCAPI_API_KEY:"mock-key"});
+ assert.equal(crossZone.transit_available,false,"TransCAPI must not invent Great Britain→Ireland crossings");
+ assert.equal(crossZone.reason,'international_provider_not_connected');
+ assert.ok(!calls.some(u=>u.hostname==='api.transcapi.com'),"Do not spend quota for unsupported cross-zone journeys");
 
  const birminghamResult=await ask(cityOutsideLondon,{TFL_APP_KEY:"mock-tfl"});
  assert.equal(birminghamResult.uk_national_journey,true);

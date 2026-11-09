@@ -16005,7 +16005,7 @@ async function selectTransitJourney(options,index){
  if(!validTransitBoardingStop(stop)){fail(t[11]);return}
  const departure=Date.parse(journey.firstVehicleDepartureTime||stop.departure_time||'');if(Number.isFinite(departure)&&departure<=Date.now()){fail(t[14]);return}
  let timer,locationReady=false;try{
-  const coordinates=await getCurrentCoordinates(false);if(!valid())return;if(!coordinates||!Number.isFinite(coordinates.latitude)||!Number.isFinite(coordinates.longitude)){fail(t[12]);return}
+  const coordinates=state.lastTransitChoice?.journeyOrigin||await getCurrentCoordinates(false);if(!valid())return;if(!coordinates||!Number.isFinite(coordinates.latitude)||!Number.isFinite(coordinates.longitude)){fail(t[12]);return}
   locationReady=true;const controller=new AbortController();state.transitAccessAbort=controller;timer=setTimeout(()=>controller.abort(),25000);
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,body:JSON.stringify({message:routeActionsText().prompt+stop.label,language:state.language,module:state.currentModule||'assistant',history:[],location:coordinates,coordinates,location_requested:true,route_profile:'walk',route_destination:{latitude:stop.latitude,longitude:stop.longitude,label:stop.label},route_context:null})});
   const data=await response.json();if(!valid())return;if(!response.ok||data.status!=='success'||data.route_available!==true||!transitWalkingMatches(data.route,stop)){fail(t[13]);return}
