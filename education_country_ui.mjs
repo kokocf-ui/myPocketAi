@@ -6,7 +6,7 @@ const EDUCATION_UI_TRANSLATIONS={"en":{"← Înapoi":"← Back","Țara pentru ca
 function eduUiLabel(ro,en){
  const lang=state.language||'ro';
  if(lang==='ro')return ro;
- return EDUCATION_UI_TRANSLATIONS[lang]?.[ro]||(typeof learningLabel==='function'?eduUiLabel(ro,en):(en||ro));
+ return EDUCATION_UI_TRANSLATIONS[lang]?.[ro]||(typeof learningLabel==='function'?learningLabel(ro,en):(en||ro));
 }
 const EDU_UK_COUNTRY_NAMES={"GB-ENG":{"ro":"Anglia","en":"England","fr":"Angleterre","de":"England","it":"Inghilterra","es":"Inglaterra","pt":"Inglaterra","nl":"Engeland","ru":"Англия","pl":"Anglia"},"GB-SCT":{"ro":"Scoția","en":"Scotland","fr":"Écosse","de":"Schottland","it":"Scozia","es":"Escocia","pt":"Escócia","nl":"Schotland","ru":"Шотландия","pl":"Szkocja"},"GB-WLS":{"ro":"Țara Galilor","en":"Wales","fr":"Pays de Galles","de":"Wales","it":"Galles","es":"Gales","pt":"País de Gales","nl":"Wales","ru":"Уэльс","pl":"Walia"},"GB-NIR":{"ro":"Irlanda de Nord","en":"Northern Ireland","fr":"Irlande du Nord","de":"Nordirland","it":"Irlanda del Nord","es":"Irlanda del Norte","pt":"Irlanda do Norte","nl":"Noord-Ierland","ru":"Северная Ирландия","pl":"Irlandia Północna"}};
 // Translate requested educational content through the existing assistant.
