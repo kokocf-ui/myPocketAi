@@ -1,156 +1,17 @@
 // Explicit country and grade mapping; only marked official where curriculum source is verified.
 export const EDUCATION_SCHOOL_YEARS={
-  "RO": {
-    "beginner": [
-      {
-        "id": "1",
-        "ro": "Clasa a 1-a",
-        "en": "Grade 1"
-      },
-      {
-        "id": "2",
-        "ro": "Clasa a 2-a",
-        "en": "Grade 2"
-      },
-      {
-        "id": "3",
-        "ro": "Clasa a 3-a",
-        "en": "Grade 3"
-      },
-      {
-        "id": "4",
-        "ro": "Clasa a 4-a",
-        "en": "Grade 4"
-      }
-    ],
-    "medium": [
-      {
-        "id": "5",
-        "ro": "Clasa a 5-a",
-        "en": "Grade 5"
-      },
-      {
-        "id": "6",
-        "ro": "Clasa a 6-a",
-        "en": "Grade 6"
-      },
-      {
-        "id": "7",
-        "ro": "Clasa a 7-a",
-        "en": "Grade 7"
-      },
-      {
-        "id": "8",
-        "ro": "Clasa a 8-a",
-        "en": "Grade 8"
-      },
-      {
-        "id": "9",
-        "ro": "Clasa a 9-a",
-        "en": "Grade 9"
-      },
-      {
-        "id": "10",
-        "ro": "Clasa a 10-a",
-        "en": "Grade 10"
-      },
-      {
-        "id": "11",
-        "ro": "Clasa a 11-a",
-        "en": "Grade 11"
-      },
-      {
-        "id": "12",
-        "ro": "Clasa a 12-a",
-        "en": "Grade 12"
-      }
-    ],
-    "advanced": [
-      {
-        "id": "universitate",
-        "ro": "Universitate",
-        "en": "University"
-      }
-    ]
-  },
-  "GB-ENG": {
-    "beginner": [
-      {
-        "id": "Y1",
-        "ro": "Year 1",
-        "en": "Year 1"
-      },
-      {
-        "id": "Y2",
-        "ro": "Year 2",
-        "en": "Year 2"
-      },
-      {
-        "id": "Y3",
-        "ro": "Year 3",
-        "en": "Year 3"
-      },
-      {
-        "id": "Y4",
-        "ro": "Year 4",
-        "en": "Year 4"
-      },
-      {
-        "id": "Y5",
-        "ro": "Year 5",
-        "en": "Year 5"
-      },
-      {
-        "id": "Y6",
-        "ro": "Year 6",
-        "en": "Year 6"
-      }
-    ],
-    "medium": [
-      {
-        "id": "Y7",
-        "ro": "Year 7",
-        "en": "Year 7"
-      },
-      {
-        "id": "Y8",
-        "ro": "Year 8",
-        "en": "Year 8"
-      },
-      {
-        "id": "Y9",
-        "ro": "Year 9",
-        "en": "Year 9"
-      },
-      {
-        "id": "Y10",
-        "ro": "Year 10",
-        "en": "Year 10"
-      },
-      {
-        "id": "Y11",
-        "ro": "Year 11",
-        "en": "Year 11"
-      },
-      {
-        "id": "Y12",
-        "ro": "Year 12",
-        "en": "Year 12"
-      },
-      {
-        "id": "Y13",
-        "ro": "Year 13",
-        "en": "Year 13"
-      }
-    ],
-    "advanced": [
-      {
-        "id": "university",
-        "ro": "Universitate",
-        "en": "University"
-      }
-    ]
-  }
+ RO:{
+  beginner:Array.from({length:4},(_,i)=>({id:String(i+1),ro:'Clasa a '+(i+1)+'-a',en:'Grade '+(i+1)})),
+  lower:Array.from({length:4},(_,i)=>({id:String(i+5),ro:'Clasa a '+(i+5)+'-a',en:'Grade '+(i+5)})),
+  medium:Array.from({length:4},(_,i)=>({id:String(i+9),ro:'Clasa a '+(i+9)+'-a',en:'Grade '+(i+9)})),
+  advanced:[{id:'universitate',ro:'Universitate',en:'University'}]
+ },
+ 'GB-ENG':{
+  beginner:Array.from({length:6},(_,i)=>({id:'Y'+(i+1),ro:'Year '+(i+1),en:'Year '+(i+1)})),
+  lower:Array.from({length:3},(_,i)=>({id:'Y'+(i+7),ro:'Year '+(i+7),en:'Year '+(i+7)})),
+  medium:Array.from({length:4},(_,i)=>({id:'Y'+(i+10),ro:'Year '+(i+10),en:'Year '+(i+10)})),
+  advanced:[{id:'university',ro:'Universitate',en:'University'}]
+ }
 };
 export const HG_SCHOOL_PLANS={
   "RO": {
