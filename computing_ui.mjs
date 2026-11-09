@@ -166,7 +166,7 @@ function computingWorkspace(panel){
  lessonContext.className='computing-school-context';
  printable.append(lessonContext,lessonHeading,computingEl('h4',computingLabel('Teorie și definiții','Theory and definitions')));
  const theoryNode=computingParagraph(printable,t.theory);printable.append(computingEl('h4',computingLabel('Exemplu explicat','Worked example')));
- const codeExample=/(?:^|\\n)\\s*(?:print\\(|if |for |while |def |const |let |SELECT |<html|function |#include)/m.test(t.example);
+ const codeExample=/(?:^|\n)\s*(?:print\(|if |for |while |def |const |let |SELECT |<html|function |#include)/m.test(t.example);
  const example=computingEl(codeExample?'pre':'div',t.example);
  example.style.cssText='padding:12px;border:1px solid #789dad;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;max-width:100%;box-sizing:border-box;'+(codeExample?'font-family:monospace;':'font-family:inherit;');
  printable.append(example);
