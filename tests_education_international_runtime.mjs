@@ -29,6 +29,22 @@ for(const code of ['BG','HR','EE','FI','MD','MK','RS','SI']){
 }
 assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/EDUCATION_EUROPE_CODES\.has\(code\)/);
 assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/Am consultat fișa/);
+// Exercise the actual browser bibliography resolver, not only its source text.
+const embeddedSources=JSON.parse(vm.runInNewContext(
+ EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT+'\\nJSON.stringify({'+
+ "ro:educationBibliographyForRuntime('RO','history','8'),"+
+ "en:educationBibliographyForRuntime('GB-ENG','mathematics','Y8'),"+
+ "fr:educationBibliographyForRuntime('FR','literature','CP'),"+
+ "md:educationBibliographyForRuntime('MD','history','7'),"+
+ "jp:educationBibliographyForRuntime('JP','history','J2')"+
+ '})'
+));
+assert.ok(embeddedSources.ro.some(r=>r.id==='ro-gymnasium-programmes'));
+assert.ok(embeddedSources.en.some(r=>r.id==='eng-stat-mathematics'));
+assert.ok(embeddedSources.fr.some(r=>r.kind==='subject-curriculum-reference'));
+assert.ok(embeddedSources.md.some(r=>r.id==='europe-official-source-MD'));
+assert.ok(!embeddedSources.jp.some(r=>r.id.startsWith('europe-')));
+
 // Bibliographies are local and tied to the selected country/year/subject.
 assert.ok(EDUCATION_BIBLIOGRAPHY_DATA.RO?.length>=4);
 const ro8=educationBibliographyFor('RO','history','8');
