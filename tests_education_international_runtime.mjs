@@ -31,7 +31,7 @@ assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/EDUCATION_EUROPE_CODES\.h
 assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/Am consultat fișa/);
 // Exercise the actual browser bibliography resolver, not only its source text.
 const embeddedSources=JSON.parse(vm.runInNewContext(
- EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT+'\\nJSON.stringify({'+
+ EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT+'\nJSON.stringify({'+
  "ro:educationBibliographyForRuntime('RO','history','8'),"+
  "en:educationBibliographyForRuntime('GB-ENG','mathematics','Y8'),"+
  "fr:educationBibliographyForRuntime('FR','literature','CP'),"+
