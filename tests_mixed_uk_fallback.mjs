@@ -126,6 +126,9 @@ try{
  assert.equal(connectedNationwide.transit_provider,"TransCAPI");
  assert.equal(connectedNationwide.uk_national_journey,true);
  assert.equal(connectedNationwide.transit[0].legs.length,3);
+ assert.equal(connectedNationwide.transit[0].boarding_stop?.label,"Grays station");
+ assert.equal(connectedNationwide.transit[0].boarding_stop?.latitude,51.476);
+ assert.equal(connectedNationwide.transit[0].boarding_stop?.longitude,0.321);
  assert.ok(!connectedNationwide.planning_links?.length,"Success must not redirect to external planning websites");
  assert.ok(calls.some(u=>u.hostname==="api.transcapi.com"&&u.pathname==="/v1/journey.json"));
  assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"),"Manchester must never be requested through TfL");
