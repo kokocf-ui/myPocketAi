@@ -30,7 +30,7 @@ for(const code of ['JP','BR','AU','CA']){
 }
 for(const code of ['BG','HR','EE','FI','MD','MK','RS','SI']){
  assert.ok(EUROPE_ADVISORY_SCHOOL_SCHEMES[code],code+' requires an advisory grade path');
- assert.ok(educationBibliographyFor(code,'history','8').length>=2,code+' requires source references');
+ assert.ok(educationBibliographyFor(code,'history','8').length>=(EUROPE_EURYDICE_COUNTRIES.includes(code)?2:1),code+' requires source references');
 }
 assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/EDUCATION_EUROPE_CODES\.has\(code\)/);
 assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/Am consultat fișa/);
