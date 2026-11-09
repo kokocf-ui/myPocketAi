@@ -74,21 +74,162 @@ export function worldwideSchoolNotice(country){
  const map=EDUCATION_WORLDWIDE_SCHEMES[String(country||'').toUpperCase()]||fallback;
  return {verifiedCurriculum:false,note:map.note,source:map.source,schemeMapped:map!==fallback};
 }
+
+// Subject-wide, advisory learning sequences for countries without a verified
+// subject syllabus. Each row identifies a teachable concept and an explicit
+// inquiry or worked-example task; never label these as a national requirement.
+// Further country-specific certified syllabi take priority in their own modules.
+export const WORLDWIDE_GENERIC_SUBJECTS={
+ mathematics:[
+ ['Numere și operații','Numbers and operations','Calculează cu numere potrivite nivelului; explică estimarea, ordinea operațiilor și verificarea rezultatului.'],
+ ['Fracții, proporții și procente','Fractions, ratios and percentages','Reprezintă fracții; rezolvă o problemă cu proporționalitate și procente în contexte reale.'],
+ ['Expresii algebrice și ecuații','Algebraic expressions and equations','Simplifică o expresie; rezolvă o ecuație și verifică substituind soluția.'],
+ ['Funcții și reprezentări grafice','Functions and graphs','Construiește un tabel de valori, trasează un grafic și interpretează relația dintre variabile.'],
+ ['Geometrie plană','Plane geometry','Demonstrează proprietăți ale figurilor și calculează lungimi, arii și unghiuri.'],
+ ['Corpuri geometrice și măsurători','Solid geometry and measurement','Compară volume, suprafețe și unități; justifică formula folosită.'],
+ ['Date și statistici','Data and statistics','Colectează un set mic de date, compară media și mediana și explică limitele eșantionului.'],
+ ['Probabilitate și combinatorică','Probability and counting','Enumeră rezultate posibile și verifică o probabilitate cu un experiment simplu.'],
+ ['Raționament și demonstrație','Reasoning and proof','Explică de ce un rezultat este adevărat, indică ipotezele și verifică un contraexemplu.'],
+ ['Probleme integrate și recapitulare','Integrated problems and review','Combină două metode, arată calculele pas cu pas și compară o a doua rezolvare.']
+ ],
+ physics:[
+ ['Măsurare și unități SI','Measurement and SI units','Măsoară o mărime, precizează unitatea și estimează incertitudinea.'],
+ ['Mișcare și grafice','Motion and graphs','Compară distanța și deplasarea; interpretează un grafic poziție-timp.'],
+ ['Forțe și legile mișcării','Forces and motion','Desenează diagrama forțelor și explică rezultanta într-un exemplu.'],
+ ['Energie și lucru mecanic','Energy and work','Urmărește transferurile de energie și calculează lucrul într-un caz simplu.'],
+ ['Presiune și fluide','Pressure and fluids','Compară presiunea în două situații și justifică efectul suprafeței.'],
+ ['Căldură și termodinamică','Heat and thermodynamics','Distingi temperatura de energia termică și compară mecanisme de transfer.'],
+ ['Unde și sunet','Waves and sound','Compară frecvența, amplitudinea și lungimea de undă pe o schemă.'],
+ ['Lumină și optică','Light and optics','Explică reflexia și refracția folosind o diagramă etichetată.'],
+ ['Electricitate și magnetism','Electricity and magnetism','Construiește schema unui circuit simplu și explică rolul componentelor.'],
+ ['Investigații fizice','Physics investigations','Formulează ipoteza, variabilele, tabelul de măsurători și concluzia cu limite.']
+ ],
+ chemistry:[
+ ['Atomul și elementele','Atoms and elements','Descrie protonii, neutronii și electronii; verifică numărul atomic.'],
+ ['Tabelul periodic','Periodic table','Compară două elemente folosind grupa, perioada și proprietăți verificabile.'],
+ ['Legături și structuri','Bonding and structure','Deosebește legătura ionică, covalentă și metalică în exemple simple.'],
+ ['Formule și nomenclatură','Formulas and nomenclature','Interpretează o formulă și verifică numărul atomilor fiecărui element.'],
+ ['Reacții chimice','Chemical reactions','Echilibrează o ecuație și identifică reactanții și produșii.'],
+ ['Acizi, baze și pH','Acids bases and pH','Compară aciditatea și bazicitatea și explică rolul indicatorilor.'],
+ ['Soluții și concentrație','Solutions and concentration','Calculează concentrații cu unități și verifică rezultatul.'],
+ ['Energetică și viteza reacțiilor','Energetics and rates','Explică energia de reacție și factorii care influențează viteza.'],
+ ['Chimie organică și materiale','Organic chemistry and materials','Recunoaște grupe funcționale simple și compară materiale uzuale.'],
+ ['Siguranță și experiment','Lab safety and experiment','Evaluează riscurile, observă datele și formulează o concluzie fără experimente periculoase.']
+ ],
+ biology:[
+ ['Celule și organizare','Cells and organisation','Compară structura celulelor și funcțiile organitelor.'],
+ ['Țesuturi și organe','Tissues and organs','Explică modul în care celulele formează sisteme funcționale.'],
+ ['Nutriție și metabolism','Nutrition and metabolism','Descrie schimbul de substanțe și rolul enzimelor cu exemple.'],
+ ['Respirație și circulație','Respiration and circulation','Urmărește transportul oxigenului și al nutrienților în organism.'],
+ ['Reproducere și dezvoltare','Reproduction and development','Compară mecanisme de reproducere și dezvoltare la organisme.'],
+ ['Genetică și ereditate','Genetics and inheritance','Interpretează o schemă ereditară și diferențiază genotipul de fenotip.'],
+ ['Evoluție și biodiversitate','Evolution and biodiversity','Examinează dovezi pentru adaptare și clasifică organisme după trăsături.'],
+ ['Ecologie și ecosisteme','Ecology and ecosystems','Construiește un lanț trofic și analizează interdependențe.'],
+ ['Sănătate și homeostazie','Health and homeostasis','Explică reglarea internă și diferența dintre dovezi și mituri.'],
+ ['Metoda științifică','Scientific method','Formulează o întrebare verificabilă și interpretează date cu limite.']
+ ],
+ computing:[
+ ['Dispozitive și sisteme','Devices and systems','Explică rolul procesorului, memoriei și stocării într-un dispozitiv.'],
+ ['Reprezentarea informației','Data representation','Compară textul, imaginile și numerele codificate digital.'],
+ ['Algoritmi și pași','Algorithms and steps','Descompune o problemă și scrie un algoritm verificabil.'],
+ ['Programare și variabile','Programming and variables','Scrie un program simplu și urmărește valorile variabilelor.'],
+ ['Condiții și bucle','Conditions and loops','Compară ramificarea și repetiția prin exemple executabile.'],
+ ['Funcții și modularizare','Functions and modularity','Construiește și testează o funcție reutilizabilă.'],
+ ['Date, tabele și baze de date','Data and databases','Proiectează un tabel de date și formulează o interogare simplă.'],
+ ['Rețele și internet','Networks and internet','Descrie transferul unui mesaj și separă internetul de web.'],
+ ['Securitate și etică digitală','Cybersecurity and digital ethics','Analizează o tentativă de phishing și reguli de protecție a datelor.'],
+ ['Testare și proiect software','Testing and software project','Creează cazuri de test și îmbunătățește un proiect mic.']
+ ],
+ literature:[
+ ['Lectura și înțelegerea textului','Reading and comprehension','Identifică ideea principală și susține interpretarea cu fragmente citate scurt.'],
+ ['Genuri și specii literare','Literary genres','Compară liricul, epicul și dramaticul cu trăsături textuale.'],
+ ['Narațiune și perspectivă','Narrative and perspective','Descrie naratorul, punctul de vedere și cronologia dintr-un text.'],
+ ['Personaje și conflict','Characters and conflict','Argumentează o trăsătură a personajului prin acțiuni și replici.'],
+ ['Poezie și expresivitate','Poetry and language','Analizează ritmul, imaginile și două figuri de stil.'],
+ ['Teatru și dialog','Drama and dialogue','Explică rolul dialogului, al didascaliilor și al conflictului.'],
+ ['Context istoric și cultural','Historical and cultural context','Distinge contextul documentat de interpretarea personală.'],
+ ['Literatură națională și universală','National and world literature','Compară teme în opere din două tradiții fără a inventa autori sau titluri.'],
+ ['Eseu și argumentare','Essay and argument','Scrie o teză, două argumente și o concluzie susținută de text.'],
+ ['Analiză, sinteză și revizuire','Analysis synthesis and revision','Revizuiește un rezumat pentru fidelitate și coerență.']
+ ],
+ language:[
+ ['Comunicare și vocabular','Communication and vocabulary','Folosește termeni potriviți situației și explică sensuri în context.'],
+ ['Sunete și scriere','Sounds and writing','Compară pronunțarea și ortografia în exemple uzuale.'],
+ ['Părți de vorbire','Parts of speech','Identifică și utilizează corect forme gramaticale.'],
+ ['Propoziție și frază','Sentences and clauses','Construiește enunțuri și analizează legături sintactice.'],
+ ['Ortografie și punctuație','Spelling and punctuation','Corectează un paragraf și justifică semnele folosite.'],
+ ['Înțelegere orală','Listening comprehension','Extrage ideile esențiale dintr-un mesaj adaptat vârstei.'],
+ ['Comunicare orală','Speaking and discussion','Pregătește o prezentare cu introducere, argumente și concluzie.'],
+ ['Lectură critică','Critical reading','Separă faptele, opiniile și afirmațiile neverificate.'],
+ ['Redactare și revizuire','Writing and editing','Scrie și revizuiește un text pentru un public precis.'],
+ ['Evaluare integrată','Integrated assessment','Combină lectura, scrierea și prezentarea într-o sarcină practică.']
+ ],
+ astronomy:[
+ ['Cerul și observația','Sky observation','Identifică direcții și obiecte cerești folosind hărți ale cerului.'],
+ ['Pământul și mișcările sale','Earth motion','Explică ziua, noaptea și anotimpurile prin mișcări corecte.'],
+ ['Luna și fazele','Moon and phases','Construiește o schemă pentru fazele Lunii fără a confunda eclipsa.'],
+ ['Sistemul solar','Solar system','Compară planetele prin dimensiune, orbită și atmosferă.'],
+ ['Gravitație și orbite','Gravity and orbits','Explică legătura dintre gravitație și mișcarea orbitală.'],
+ ['Stele și spectre','Stars and spectra','Compară luminozitatea și temperatura cu indicii observaționale.'],
+ ['Galaxii și Univers','Galaxies and Universe','Descrie scările cosmice și rolul observațiilor în cosmologie.'],
+ ['Instrumente astronomice','Astronomical instruments','Explică modul de lucru al telescoapelor și limitele măsurătorilor.'],
+ ['Explorare spațială','Space exploration','Compară misiuni documentate și scopuri științifice.'],
+ ['Proiect de observație','Observation project','Construiește un jurnal cu date, ora și incertitudinea observației.']
+ ],
+ economics:[
+ ['Nevoi, resurse și alegeri','Needs resources and choices','Compară costurile de oportunitate a două decizii.'],
+ ['Cerere, ofertă și piețe','Supply demand and markets','Interpretează un grafic al cererii și ofertei.'],
+ ['Producție și productivitate','Production and productivity','Calculează productivitatea pentru un exemplu simplu.'],
+ ['Bani și sistem bancar','Money and banking','Explică funcțiile banilor și diferența dintre economisire și credit.'],
+ ['Venit, buget și economii','Income budgets and savings','Construiește un buget lunar folosind sume și categorii.'],
+ ['Prețuri și inflație','Prices and inflation','Compară puterea de cumpărare folosind un indice explicit.'],
+ ['Locuri de muncă și salarii','Labour and wages','Examinează legătura dintre competențe și piața muncii.'],
+ ['Comerț internațional','International trade','Compară avantaje și riscuri ale schimburilor comerciale.'],
+ ['Politici publice','Public policies','Separă datele de opiniile privind o politică economică.'],
+ ['Date economice și proiect','Economic data project','Prezintă un tabel cu sursă, an și limite.']
+ ],
+ civics:[
+ ['Comunitate și reguli','Community and rules','Explică de ce există reguli și cum se aplică echitabil.'],
+ ['Drepturi și responsabilități','Rights and responsibilities','Analizează un drept și responsabilitățile asociate.'],
+ ['Instituții și guvernare','Institutions and government','Identifică roluri instituționale fără a presupune un sistem unic.'],
+ ['Legi și proceduri','Laws and processes','Compară procesul legislativ din surse oficiale.'],
+ ['Participare democratică','Democratic participation','Explică forme legale de participare civică.'],
+ ['Media și informații','Media literacy','Verifică o afirmație folosind două surse independente.'],
+ ['Diversitate și dialog','Diversity and dialogue','Construiește un argument respectuos și examinează perspective diferite.'],
+ ['Economie și societate','Economy and society','Analizează un serviciu public și sursele finanțării.'],
+ ['Mediu și comunitate','Environment and community','Propune un proiect civic măsurabil.'],
+ ['Proiect civic','Civic project','Stabilește obiectiv, resurse, responsabilități și evaluare.']
+ ]
+};
+const WORLDWIDE_SUBJECT_ALIASES={math:'mathematics',matematica:'mathematics',informatica:'computing',informatics:'computing',computer_science:'computing',computerScience:'computing',limba:'language',romanian:'language',english:'language',physics:'physics',fizica:'physics',chimie:'chemistry',chemistry:'chemistry',biologie:'biology',biology:'biology',literatura:'literature',literature:'literature',astronomie:'astronomy',astronomy:'astronomy',economie:'economics',economics:'economics',civica:'civics',civics:'civics'};
+
 export function worldwideStudyChapters(country,subject,level,grade,countryRo,countryEn,generalPaths){
  const lv=level==='intermediate'?'medium':level;
- if(subject!=='history'&&subject!=='geography')return [];
- const base=generalPaths?.[subject]?.[lv]||[];
+ const canonical=WORLDWIDE_SUBJECT_ALIASES[subject]||subject;
+ const thematic=WORLDWIDE_GENERIC_SUBJECTS[canonical];
+ if(subject!=='history'&&subject!=='geography'&&!thematic)return [];
+ const base=(subject==='history'||subject==='geography')
+  ?(generalPaths?.[subject]?.[lv]||[])
+  :thematic.map(([ro,en,focus])=>[ro,en,focus]);
  const code=String(country||'').replace(/[^A-Z0-9-]/g,'').slice(0,12)||'WORLD';
  const yr=String(grade||'').replace(/[^A-Za-z0-9-]/g,'').slice(0,16)||lv;
  const regionRo=String(countryRo||country||'țara selectată').slice(0,90);
  const regionEn=String(countryEn||country||'selected country').slice(0,90);
+ const stageGuidance=lv==='beginner'?'Folosește observații și exemple concrete accesibile copiilor.':lv==='lower'?'Adaugă explicații cauzale, exerciții de aplicare și termeni noi.':lv==='medium'?'Folosește analiză comparativă, date și argumente susținute.':'Introdu metode avansate, limite și cercetare independentă.';
  const common=base.map(([ro,en,focus],i)=>[
   'intl-'+code+'-'+subject+'-'+lv+'-'+yr+'-'+(i+1),
-  ro,en,focus+' '+(subject==='history'?
-  'Examinează izvoare datate și distinge faptele documentate de interpretări.':
-  'Localizează și verifică hărți, unități de măsură, surse și ani.')
+  ro,en,focus+' '+stageGuidance+' '+(subject==='history'?
+  'Examinează izvoare datate și distinge faptele documentate de interpretări.':subject==='geography'?
+  'Localizează și verifică hărți, unități de măsură, surse și ani.':
+  'Explică metoda, oferă un exemplu rezolvat și verifică rezultatul cu un exercițiu adaptat nivelului.')
  ]);
- const local=subject==='history'?
+ const local=subject!=='history'&&subject!=='geography'?[
+  ['Bazele materiei: recapitulare pentru '+regionRo,'Core subject review for '+regionEn,'Definește termenii esențiali și verifică înțelegerea cu cinci întrebări scurte.'],
+  ['Exemplu rezolvat și metodă','Worked example and method','Parcurge pași numerotați, arată justificarea și verifică rezultatul; dificultatea crește cu anul școlar.'],
+  ['Aplicații în context local','Applications in local context','Alege un exemplu verificabil din '+regionRo+'; nu atribui reguli școlare oficiale fără sursă.'],
+  ['Exerciții progresive','Progressive practice','Rezolvă trei exerciții: unul de bază, unul de aplicare, unul de argumentare; explică fiecare răspuns.'],
+  ['Proiect și evaluare','Project and assessment','Realizează o sarcină practică, descrie metoda, criteriile și limitele concluziei.']
+ ]:subject==='history'?
  [
   ['Istoria locală și sursele din '+regionRo,'Local history and sources in '+regionEn,'Caută surse oficiale, muzee, arhive și documente datate despre regiuni, nu afirmații inventate.'],
   ['Transformări politice și comunități din '+regionRo,'Communities and political changes in '+regionEn,'Identifică perioade, schimbări instituționale și interpretări concurente cu dovezi independente.'],
