@@ -20,6 +20,7 @@ import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
 import {HG_SUBJECTS,HG_LEVELS,HG_SCOPES,HG_COUNTRIES,HG_HISTORY_TOPICS,HG_GEOGRAPHY_TOPICS,HG_SPECIALISATIONS,HG_VERIFIED_MAPS} from './history_geography_curriculum.mjs';
 import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
+import {HG_THEME_DATA,hgThemeFold,buildHgThemeGuide} from './education_hg_theme_guides.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
@@ -10066,6 +10067,9 @@ const HG_SCHOOL_PLANS_DATA=${JSON.stringify(HG_SCHOOL_PLANS)};
 const HG_SCHOOL_GENERAL_DATA=${JSON.stringify(HG_SCHOOL_GENERAL)};
 const HG_SCHOOL_SOURCES_DATA=${JSON.stringify(HG_SCHOOL_SOURCES)};
 const HG_LOCAL_GUIDES_DATA=${JSON.stringify(HG_LOCAL_GUIDES)};
+const HG_THEME_DATA=${JSON.stringify(HG_THEME_DATA)};
+const hgThemeFold=${hgThemeFold.toString()};
+const buildHgThemeGuide=${buildHgThemeGuide.toString()};
 const HG_LEVEL_DATA=${JSON.stringify(HG_LEVELS)};
 const HG_SCOPE_DATA=${JSON.stringify(HG_SCOPES)};
 const HG_COUNTRY_DATA=${JSON.stringify(HG_COUNTRIES)};
@@ -10712,6 +10716,14 @@ function hgOpen(stage){
 function hgLessonSections(topic){
  const manual=HG_LOCAL_GUIDES_DATA[topic.id];
  if(Array.isArray(manual)&&manual.length)return manual.map(v=>[hgL(v[0],v[1]),hgL(v[2],v[3])]);
+ // Grade-specific offline notes are expanded only when a chapter is opened.
+ // Do not serialize 500 large lessons into every Android start-up document.
+ const national=HG_SCHOOL_PLANS_DATA[hgJourney.country]?.[hgJourney.subject]?.[String(hgJourney.grade||'')]||[];
+ if(national.some(v=>v[0]===topic.id)){
+  const guide=buildHgThemeGuide([topic.id,topic.ro,topic.en,topic.query||''],hgJourney.subject,String(hgJourney.grade),hgJourney.country);
+  if(guide.length>=3)return guide.map(v=>[hgL(v[0],v[1]),hgL(v[2],v[3])]);
+ }
+
  const goal=String(topic.query||hgL(topic.ro,topic.en));
  if(hgJourney.subject==='geography')return [
   [hgL('Ce învățăm','Learning goals'),
