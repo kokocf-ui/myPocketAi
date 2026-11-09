@@ -15,6 +15,16 @@ assert.ok(frontend.includes('transit_departure_at:choice.transitDepartureAt||nul
 assert.ok(frontend.includes('transit_departure_at:state.lastTransitChoice?.transitDepartureAt'),'Refresh keeps scheduled day');
 assert.ok(frontend.includes('function showTransitRetrySelector(choice)'),'Unverified mixed routes offer an in-app retry');
 assert.ok(backend.includes('transit_departure_at:departureAt'),'Backend reports selected date');
+// Verify that rail operator codes are readable and do not affect bus line CC.
+const labelFunctions=frontend.slice(frontend.indexOf('function transitDateLabel('),frontend.indexOf('function validTransitBoardingStop('));
+const helpers=new Function('state',labelFunctions+'\nreturn {transitDateLabel,transitLineLabel,transitBoardingLineLabel};')({language:'ro'});
+assert.equal(helpers.transitLineLabel({mode:'national-rail',lineNames:['CC']}),'c2c');
+assert.equal(helpers.transitLineLabel({mode:'bus',lineNames:['CC']}),'CC');
+assert.equal(helpers.transitBoardingLineLabel({mode:'national-rail',line_names:['CC']},{mode:'national-rail'}),'c2c');
+assert.ok(/11\\.11\\.2026/.test(helpers.transitDateLabel('2026-11-11T13:00:00Z','Europe/London')));
+assert.ok(frontend.includes("dateLine.className='transit-result-date'"),'Cards must display the actual travel date');
+assert.ok(frontend.includes("request.className='transit-selected-departure'"),'Show the calendar date the user requested');
+assert.ok(backend.includes('startsAt>=earliestRequested-120000'),'Reject TfL routes earlier than calendar selection');
 assert.ok(backend.includes("tflUrl.searchParams.set('date'"),'TfL gets a local date for scheduled departures');
 
 const oldFetch=globalThis.fetch;
