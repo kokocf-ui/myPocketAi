@@ -66,4 +66,12 @@ const numbers=getCandidates([
  {houseNumber:'2',street:'Oxford Street',postcode:'W1D',city:'London'}
 ],'number',normalized,{city:london});
 assert.equal(numbers.length,2,'Distinct real house numbers must not be lost');
+const selectStart=frontend.indexOf('async function selectTransitJourney(');
+const selectEnd=frontend.indexOf('function appendSelectedTransit(',selectStart);
+assert.ok(selectStart>0&&selectEnd>selectStart);
+assert.ok(frontend.slice(selectStart,selectEnd).includes('state.lastTransitChoice?.journeyOrigin||await getCurrentCoordinates(false)'),
+ 'Selecting an A-to-B journey must calculate boarding access from the chosen departure, not phone GPS');
+assert.ok(frontend.includes("const gps=state.lastTransitChoice?.journeyOrigin||await getCurrentCoordinates(false)"),
+ 'Refreshing an A-to-B journey must preserve the chosen departure');
+
 console.log('PASS mixed selector: ISO countries, station inputs, transport label and address deduplication');
