@@ -63,6 +63,7 @@ export const EDUCATION_WORLDWIDE_SCHEMES={
  UA:scheme(grades(1,4),grades(5,9),grades(10,12),'Tranziția către noile structuri poate diferi după cohortă; verifică programa actuală.'),
  IL:scheme(grades(1,6),grades(7,9),grades(10,12),'Diferite sisteme și limbi de predare; configurație orientativă.')
 };
+export const EDUCATION_WORLDWIDE_FALLBACK=fallback;
 export function worldwideSchoolYears(country,level,subject=''){
  const lv=level==='intermediate'?'medium':level;
  const map=EDUCATION_WORLDWIDE_SCHEMES[String(country||'').toUpperCase()]||fallback;
