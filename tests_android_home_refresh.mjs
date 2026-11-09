@@ -23,6 +23,21 @@ for(let attempt=0;attempt<3;attempt++){
   error=Error('UI hash mismatch: expected '+expected+' got '+actual);
  }catch(e){error=e}
 }
+const livePage=await fetch('https://lifewise-ai-v2.kokocf.workers.dev/?nativeLaunch=1&inspect='+Date.now(),
+ {headers:{'Cache-Control':'no-cache'},signal:AbortSignal.timeout(15000)});
+const liveText=await livePage.text();
+const localCards=[...html.matchAll(/data-module="(assistant|learning|travel|organize|maps|tools)"/g)].slice(0,6).map(x=>x[1]);
+const remoteCards=[...liveText.matchAll(/data-module="(assistant|learning|travel|organize|maps|tools)"/g)].slice(0,6).map(x=>x[1]);
+console.log('LIVE FRONTEND DETAIL',JSON.stringify({
+ status:livePage.status,contentBytes:liveText.length,
+ liveVersion:actual,expectedVersion:expected,
+ liveHtmlVersion:liveText.match(/data-pocket-ui-version="([^"]+)"/)?.[1],
+ hasEinstein:liveText.includes('home-einstein'),
+ hasNewHotelCard:liveText.includes('Caută cazare și opțiuni de sejur.'),
+ oldTravelCard:liveText.includes('Călătorii și turism'),
+ localCards,remoteCards,
+ responseHeaders:Object.fromEntries([...livePage.headers].filter(([k])=>['date','cache-control','cf-cache-status','age','etag'].includes(k)))
+}));
 console.log('Cloudflare frontend version:',actual,'expected:',expected);
 if(actual!==expected)throw error||new Error('Live deployed document does not match GitHub main');
 console.log('PASS: deployed frontend includes Einstein and new card layout; Android WebView reloads it uncached');
