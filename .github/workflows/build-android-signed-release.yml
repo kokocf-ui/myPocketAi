@@ -19,6 +19,7 @@ on:
       - 'tests_computing_curriculum.mjs'
       - 'tests_literature_europe.mjs'
       - 'tests_history_geography.mjs'
+      - 'tests_education_country_first.mjs'
       - 'tests_practical_courses.mjs'
       - 'tests_exam_curriculum_europe.mjs'
       - 'university_admissions_verified.mjs'
@@ -126,6 +127,7 @@ jobs:
           node tests_computing_curriculum.mjs
           node tests_literature_europe.mjs
           node tests_history_geography.mjs
+          node tests_education_country_first.mjs
           node tests_practical_courses.mjs
           node tests_education_android.mjs
           node tests_pdf_library.mjs
