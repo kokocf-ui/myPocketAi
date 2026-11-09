@@ -13,6 +13,19 @@ globalThis.fetch=async input=>{
  const url=new URL(typeof input==="string"?input:input.url);calls.push(url);
  if(url.hostname==="api.transcapi.com"){
   const at=m=>new Date(Date.now()+m*60000).toISOString();
+  if(url.searchParams.get('from_lon')==='4.9041'||url.searchParams.get('from_lon')==='-5.9301'){
+   const ireland=url.searchParams.get('from_lon')==='-5.9301';
+   const origin=ireland?'Belfast':'Amsterdam',dest=ireland?'Dublin':'Brussels';
+   return Response.json({timezone:ireland?'Europe/Dublin':'Europe/Amsterdam',itineraries:[{
+    start_time:at(12),end_time:at(237),fare:null,
+    legs:[
+     {mode:"WALK",duration_s:600,from:{name:origin},to:{name:origin+" station"}},
+     {mode:ireland?"TRAM":"RAIL",from:{name:origin+" station"},to:{name:dest+" station"},
+      route:{line:"R2",operator:"Mock regional"},start_time:{scheduled:at(27)},end_time:{scheduled:at(222)},
+      fare_local:ireland?{currency:"EUR",amount:2}:null},
+     {mode:"WALK",duration_s:900,from:{name:dest+" station"},to:{name:dest}}
+    ]}]});
+  }
   return Response.json({itineraries:[{
    start_time:at(12),end_time:at(237),fare:{amount_gbp:65.4,complete:false},
    legs:[
@@ -116,6 +129,31 @@ try{
  assert.ok(!connectedNationwide.planning_links?.length,"Success must not redirect to external planning websites");
  assert.ok(calls.some(u=>u.hostname==="api.transcapi.com"&&u.pathname==="/v1/journey.json"));
  assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"),"Manchester must never be requested through TfL");
+
+ const amsterdamOrigin={latitude:52.3676,longitude:4.9041,updatedAt:Date.now()};
+ const belfastOrigin={latitude:54.5973,longitude:-5.9301,updatedAt:Date.now()};
+ const brussels={latitude:50.8503,longitude:4.3517,country_code:"BE",label:"Brussels, Belgium"};
+ const dublin={latitude:53.3498,longitude:-6.2603,country_code:"IE",label:"Dublin, Ireland"};
+ const beneluxResult=await ask(brussels,{TRANSCAPI_API_KEY:"mock-key"},{
+  location:amsterdamOrigin,coordinates:amsterdamOrigin
+ });
+ assert.equal(beneluxResult.transit_available,true,"Amsterdam→Brussels can be planned inside the Benelux zone");
+ assert.equal(beneluxResult.international_journey,true);
+ assert.equal(beneluxResult.transit_provider,"TransCAPI");
+ assert.equal(beneluxResult.transit[0].time_zone,"Europe/Amsterdam");
+ assert.equal(beneluxResult.provider_status.region,"benelux");
+ assert.ok(!beneluxResult.reply.includes('£'),"Do not label unpriced Belgian routes as pounds");
+ assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"),"Never call TfL outside London");
+ const irelandResult=await ask(dublin,{TRANSCAPI_API_KEY:"mock-key"},{
+  location:belfastOrigin,coordinates:belfastOrigin
+ });
+ assert.equal(irelandResult.transit_available,true,"Belfast→Dublin is within the Ireland planning zone");
+ assert.equal(irelandResult.provider_status.region,"ireland");
+ assert.ok(irelandResult.reply.includes('EUR'),"Keep known Luas fare in its currency");
+ const crossZone=await ask(dublin,{TRANSCAPI_API_KEY:"mock-key"});
+ assert.equal(crossZone.transit_available,false,"TransCAPI must not invent Great Britain→Ireland crossings");
+ assert.equal(crossZone.reason,'international_provider_not_connected');
+ assert.ok(!calls.some(u=>u.hostname==='api.transcapi.com'),"Do not spend quota for unsupported cross-zone journeys");
 
  const birminghamResult=await ask(cityOutsideLondon,{TFL_APP_KEY:"mock-tfl"});
  assert.equal(birminghamResult.uk_national_journey,true);
