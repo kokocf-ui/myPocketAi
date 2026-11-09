@@ -2,7 +2,7 @@
 // curriculum chapter labels. These are pedagogical summaries, not a substitute
 // for each school's scheme of work or a GCSE/A-level exam-board specification.
 // Existing hand-written chapter guides always take precedence.
-const THEME_DATA=[
+export const HG_THEME_DATA=[
  [
   "history",
   "(izvoar|sources|evidence|document|istoric|history|timeline|cronolog|anul|secol|source|artefact|interpret|istoriograf|eseu|argument|cercetare|heritage|patrimoni)",
@@ -314,19 +314,22 @@ const THEME_DATA=[
   "Count pedestrians for ten minutes in two locations at the same time of day, using the same method, and explain why one count does not establish an annual trend."
  ]
 ];
-const fold=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-const makeGuide=(row,subject,grade,country)=>{
- const text=fold(row.slice(0,4).join(' '));
- const hits=THEME_DATA.filter(x=>x[0]===subject&&new RegExp(x[1],'i').test(text)).slice(0,2);
+export const hgThemeFold=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+export const buildHgThemeGuide=(row,subject,grade,country)=>{
+ const text=hgThemeFold(row.slice(0,4).join(' '));
+ const score=x=>{const re=x[1];return re.startsWith('(izvoar|sources')||re.startsWith('(hărt|map')||re.startsWith('(teren|observa')?1:0};
+ const hits=HG_THEME_DATA.filter(x=>x[0]===subject&&new RegExp(x[1],'i').test(text)).sort((a,b)=>score(a)-score(b)).slice(0,2);
  const roName=row[1],enName=row[2]||roName;
  const roIntro='Tema „'+roName+'” este studiată la nivelul '+grade+' în traseul orientativ '+(country==='RO'?'pentru România':'pentru Anglia')+'. Lecția explică noțiunile de bază și propune analizarea unor exemple; ordinea exactă a predării poate varia de la o școală la alta.';
  const enIntro='The topic “'+enName+'” is part of the suggested '+grade+' study path '+(country==='RO'?'for Romania':'for England')+'. The lesson explains key concepts and invites evidence-based examples; the precise teaching sequence varies by school.';
- const guide=[['Despre această lecție','About this lesson',roIntro,enIntro]];
+ const guide=[];
  for(const theme of hits){
-  guide.push(['Teorie și explicații','Theory and explanation',theme[2],theme[3]]);
-  guide.push(['Termeni esențiali','Key terms',theme[4],theme[5]]);
-  guide.push(['Exemplu comentat','Worked example',theme[6],theme[7]]);
+  const labelRo=theme[4].split('–')[0].trim(),labelEn=theme[5].split('–')[0].trim();
+  guide.push(['Teorie: '+labelRo,'Theory: '+labelEn,theme[2],theme[3]]);
+  guide.push(['Termeni: '+labelRo,'Terms: '+labelEn,theme[4],theme[5]]);
+  guide.push(['Exemplu: '+labelRo,'Example: '+labelEn,theme[6],theme[7]]);
  }
+ guide.push(['Despre această lecție','About this lesson',roIntro,enIntro]);
  const focus=String(row[3]||'');
  if(!hits.length)guide.push(['Ce presupune tema','What this topic covers',
   'Această unitate de studiu urmărește: '+focus+' Pentru dezvoltarea integrală a subiectului folosește materialele școlii sau cere profesorului AI o explicație verificabilă și exemple.',
@@ -348,7 +351,7 @@ export function expandHgLessonGuides(plans,guides){
    for(const [grade,rows] of Object.entries(grades)){
     for(const row of rows){
      if(Array.isArray(guides[row[0]])&&guides[row[0]].length)continue;
-     const guide=makeGuide(row,subject,grade,country);
+     const guide=buildHgThemeGuide(row,subject,grade,country);
      if(guide.length<3)unmatched++;
      guides[row[0]]=guide;count++;
     }
