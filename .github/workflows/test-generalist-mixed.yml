@@ -10,6 +10,8 @@ on:
       - 'education_national_subject_units.mjs'
       - 'education_national_lesson_context.mjs'
       - 'tests_education_international_depth.mjs'
+      - 'education_curriculum_research.mjs'
+      - 'tests_education_country_research.mjs'
       - 'education_international_course_ui.mjs'
       - 'tests_education_international_runtime.mjs'
       - 'tests_education_country_progression.mjs'
@@ -78,6 +80,7 @@ jobs:
           node tests_education_international_runtime.mjs
           node tests_education_country_progression.mjs
           node tests_education_international_depth.mjs
+          node tests_education_country_research.mjs
 
       - name: Basic UI integrity
         run: npm run test:ui
