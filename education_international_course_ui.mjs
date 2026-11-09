@@ -13,7 +13,7 @@ function educationInternationalOpen(subject,level,grade,onBack){
  const local=(ro,en)=>state.language==='ro'?ro:en;
  const toolbar=mk('div','','education-toolbar');
  const back=mk('button',local('← Înapoi','← Back'),'secondary-btn');back.type='button';
- toolbar.append(back);host.append(toolbar);
+ toolbar.append(back);if(typeof eduAttachPrintAction==='function')eduAttachPrintAction(toolbar);host.append(toolbar);
  const panel=mk('section','','math-choice-panel science-choice-panel edu-intl-programme');
  panel.style.cssText='width:100%;max-width:100%;min-width:0;box-sizing:border-box;overflow-y:auto;overscroll-behavior:contain;padding:12px 14px 18px;';
  const title=mk('h2',local('Programa de studiu','Study programme')+' · '+countryName);
@@ -70,7 +70,7 @@ function educationInternationalOpen(subject,level,grade,onBack){
   function content(data,fromTranslation=false){
    if(!reader.isConnected||serial!==token)return;
    prose.replaceChildren();
-   const heading=mk('h4',local('Explicație','Explanation'));heading.style.cssText='margin:9px 0 4px;';
+   const heading=mk('h4',nationalLesson&&national?local('Contextul țării · introducere','Country context · introduction'):local('Obiective și explicații orientative','Advisory objectives and notes'));heading.style.cssText='margin:9px 0 4px;';
    const explanation=mk('p',data.explanation);explanation.style.cssText='margin:0 0 10px;';
    const objectiveHeading=mk('h4',local('Obiectivul lecției','Lesson objective'));objectiveHeading.style.cssText='margin:9px 0 4px;';
    const objective=mk('p',data.focus);objective.style.cssText='margin:0 0 10px;';
@@ -86,7 +86,14 @@ function educationInternationalOpen(subject,level,grade,onBack){
     feedback.textContent=local('Lecție marcată ca parcursă. Verifică răspunsul la exercițiu înainte de următorul capitol.',
      'Lesson marked as studied. Check your exercise answer before the next chapter.');
    };
-   prose.append(check,feedback);
+   const selfReview=mk('details','','edu-intl-self-check');
+   const reviewSummary=mk('summary',local('Cum verific răspunsul?','How to review my answer'));
+   const reviewText=mk('p',local(
+    'Verifică dacă ai explicat ideea principală, ai prezentat un exemplu concret, ai folosit surse cu dată și ai delimitat ce nu este cunoscut. Acesta este un ghid de autoevaluare, nu un punctaj automat.',
+    'Check that you explained the main idea, gave a concrete example, used dated evidence and identified what remains uncertain. This is self-review guidance, not an automatic grade.'));
+   reviewText.style.cssText='font-size:.91em;line-height:1.5;';
+   selfReview.append(reviewSummary,reviewText);
+   prose.append(selfReview,check,feedback);
    if(!nationalLesson||!national){
     const note=mk('p',local('Acest material este un plan de studiu orientativ, nu o lecție națională verificată integral.',
      'This is an advisory study outline, not a fully verified national lesson.'));
