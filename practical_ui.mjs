@@ -302,15 +302,20 @@ function practicalLesson(panel){
  const introduction=practicalNode('p',practicalLabel('5 întrebări din domeniu, cu prima întrebare din lecția curentă. Rezultatul este de antrenament, nu certificare.','Five questions across this subject, beginning with the current lesson. Practice score only, not a qualification.'));
  assessment.append(introduction);
  const questionHost=practicalNode('div');assessment.append(questionHost);
+ const quizLanguageNotice=practicalNode('p');quizLanguageNotice.setAttribute('role','status');assessment.append(quizLanguageNotice);
  const quizActions=practicalNode('div','','lit-actions'),result=practicalNode('div','','practical-result');quizActions.style.cssText='display:flex;gap:9px;flex-wrap:wrap;';
  let version=Number.isFinite(saved.lastVariant)?saved.lastVariant:0;
  function drawQuiz(){
   questionHost.replaceChildren();result.replaceChildren();
   const qs=practicalQuestions(course,chapter,version),selected=Array(qs.length).fill(null);
+  const quizRefs=[],displayChoices=qs.map(q=>[...q.choices]),displayExplanations=qs.map(q=>q.explanation);
+  quizLanguageNotice.textContent='';
   qs.forEach((q,i)=>{
    const group=practicalNode('fieldset','','practical-question');group.style.cssText='margin:10px 0;border:1px solid #42718a;border-radius:10px;padding:10px;min-width:0;';
-   group.append(practicalNode('legend',(i+1)+'. '+q.prompt));
-   q.choices.forEach((choice,j)=>{const label=practicalNode('label');label.style.cssText='display:flex;align-items:flex-start;gap:8px;padding:7px 0;min-height:35px;';const radio=practicalNode('input');radio.type='radio';radio.name='practical-q-'+i;radio.value=String(j);radio.onchange=()=>selected[i]=j;label.append(radio,document.createTextNode(choice));group.append(label)});
+   const legend=practicalNode('legend',(i+1)+'. '+q.prompt);group.append(legend);
+   const choiceTexts=[];
+   q.choices.forEach((choice,j)=>{const label=practicalNode('label');label.style.cssText='display:flex;align-items:flex-start;gap:8px;padding:7px 0;min-height:35px;';const radio=practicalNode('input');radio.type='radio';radio.name='practical-q-'+i;radio.value=String(j);radio.onchange=()=>selected[i]=j;const choiceText=document.createTextNode(choice);label.append(radio,choiceText);choiceTexts.push(choiceText);group.append(label)});
+   quizRefs.push({legend,choiceTexts});
    questionHost.append(group);
   });
   quizActions.replaceChildren();
@@ -318,13 +323,43 @@ function practicalLesson(panel){
    if(selected.some(x=>x===null)){result.textContent=practicalLabel('Completează toate răspunsurile pentru a primi rezultatul.','Answer all questions before checking.');return}
    const correct=qs.reduce((n,q,i)=>n+(selected[i]===q.correct?1:0),0),pct=Math.round(correct/qs.length*100);
    result.replaceChildren(practicalNode('h4',practicalLabel('Rezultat: ','Result: ')+correct+'/'+qs.length+' ('+pct+'%)'));
-   qs.forEach((q,i)=>result.append(practicalNode('p',(i+1)+'. '+(selected[i]===q.correct?'✓ ':'✗ ')+practicalLabel('Ai ales: ','Selected: ')+q.choices[selected[i]]+'. '+practicalLabel('Răspuns corect: ','Correct answer: ')+q.choices[q.correct]+'. '+q.explanation)));
+   qs.forEach((q,i)=>result.append(practicalNode('p',(i+1)+'. '+(selected[i]===q.correct?'✓ ':'✗ ')+practicalLabel('Ai ales: ','Selected: ')+displayChoices[i][selected[i]]+'. '+practicalLabel('Răspuns corect: ','Correct answer: ')+displayChoices[i][q.correct]+'. '+displayExplanations[i])));
    questionHost.querySelectorAll('input').forEach(x=>x.disabled=true);verify.disabled=true;
    practicalSave({lastScore:pct,lastCorrect:correct,lastTotal:qs.length,completed:true,lastVariant:version});
    // The result is already shown once in .practical-result and collected by PDF export. Do not add a second visible copy.
   },'primary-btn');
   const newQuiz=practicalButton(practicalLabel('＋ Test nou','＋ New practice'),()=>{version=(version+1)%Math.max(1,course.chapters.length-1);practicalSave({lastVariant:version});drawQuiz();assessment.scrollIntoView({block:'start',behavior:'smooth'})});
   quizActions.append(verify,newQuiz);
+  if(state.language!=='ro'&&typeof eduTranslateMaterial==='function'){
+   const expectedVersion=version,expectedLanguage=state.language;
+   quizLanguageNotice.textContent=practicalLabel('Se traduce testul…','Translating the test…');
+   questionHost.querySelectorAll('input').forEach(x=>x.disabled=true);verify.disabled=true;
+   const originals={};
+   qs.forEach((q,i)=>{
+    originals['q'+i]=q.prompt;
+    if(q.explanation)originals['e'+i]=q.explanation;
+    q.choices.forEach((choice,j)=>{originals['c'+i+'_'+j]=choice});
+   });
+   Promise.resolve(eduTranslateMaterial(originals,'practicalQuiz:'+course.id+':'+chapter.id+':'+expectedVersion)).then(localized=>{
+    if(!quizRefs[0]?.legend.isConnected||expectedVersion!==version||state.language!==expectedLanguage)return;
+    if(localized){
+     qs.forEach((q,i)=>{
+      quizRefs[i].legend.textContent=(i+1)+'. '+localized['q'+i];
+      if(q.explanation)displayExplanations[i]=localized['e'+i];
+      q.choices.forEach((choice,j)=>{
+       displayChoices[i][j]=localized['c'+i+'_'+j];
+       quizRefs[i].choiceTexts[j].textContent=displayChoices[i][j];
+      });
+     });
+     quizLanguageNotice.textContent='';
+    }else quizLanguageNotice.textContent=practicalLabel('Traducerea nu este disponibilă. Este afișat textul original.','Translation unavailable. The original text is shown.');
+    questionHost.querySelectorAll('input').forEach(x=>x.disabled=false);verify.disabled=false;
+   }).catch(()=>{
+    if(!quizRefs[0]?.legend.isConnected)return;
+    quizLanguageNotice.textContent=practicalLabel('Traducerea nu este disponibilă. Este afișat textul original.','Translation unavailable. The original text is shown.');
+    questionHost.querySelectorAll('input').forEach(x=>x.disabled=false);verify.disabled=false;
+   });
+  }
  }
  drawQuiz();assessment.append(quizActions,result);panel.append(assessment);
 }
