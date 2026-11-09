@@ -131,7 +131,7 @@ function computingOpen(stage){
   computingParagraph(panel,computingLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+computingLabel('Clasa: ','Grade: ')+(computingJourney.grade||'')+'. '+computingLabel('Parcurs orientativ, ajustat nivelului școlar.','General learning adapted to the chosen school year.'));
   computingParagraph(panel,lv.focus);
   if(educationCountrySelection.code!=='RO'&&educationCountrySelection.code!=='GB-ENG'){
-   const intl=computingBtn(computingLabel('🌍 Parcursul țării selectate','🌍 Selected country study path'),
+   const intl=computingBtn(computingLabel('📚 Teme de studiu','📚 Study topics'),
     ()=>educationInternationalOpen('computing',computingJourney.level,computingJourney.grade,()=>computingOpen('paths')),'secondary-btn');
    intl.classList.add('edu-national-outline');panel.append(intl);
   }
