@@ -14,6 +14,7 @@ import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
+import {POCKET_LANGUAGES,POCKET_COUNTRY_LANGUAGES,pocketLanguageFromLocale,pocketLanguageFromCountry,pocketPreferredLanguage} from './language_first_install.mjs';
 import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,HG_SCHOOL_SOURCES} from './education_school_paths.mjs';
 import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchoolYears,worldwideSchoolNotice,worldwideStudyChapters} from './education_worldwide_paths.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
@@ -3167,6 +3168,12 @@ main.page:has(#view-module.learning-languages.active){
 const nativeEntranceCompleted=new URLSearchParams(location.search).get('nativeLaunch')==='1';
 if(nativeEntranceCompleted)document.documentElement.classList.remove('pocket-boot');
 const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.132'});
+const POCKET_LANGUAGES=${JSON.stringify(POCKET_LANGUAGES)};
+const POCKET_COUNTRY_LANGUAGES=${JSON.stringify(POCKET_COUNTRY_LANGUAGES)};
+const pocketLanguageFromLocale=${pocketLanguageFromLocale.toString()};
+const pocketLanguageFromCountry=${pocketLanguageFromCountry.toString()};
+const pocketPreferredLanguage=${pocketPreferredLanguage.toString()};
+
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list',transitRefreshBusy:false,transitRefreshGeneration:0,transitRefreshAbort:null };
@@ -4318,8 +4325,9 @@ function budgetCountryRefresh(){
     saved.baseCurrency=currency;budgetWrite(saved);
    }
    if(!budgetFxManual)budgetFxFrom=currency;
-   if($('view-module').classList.contains('organize-active')&&
-    $('moduleTitle').textContent===learningLabel('Buget personal','Personal budget'))renderBudget();
+   // Never re-create a form while a person is typing/saving an income or
+   // expense. The new currency is applied on the next safe overview render.
+   if(budgetScreen==='home'&&budgetIsActive())renderBudget();
   }).catch(()=>{budgetGeoMethod='unavailable';budgetLocalCurrency=''});
 }
 async function budgetExchangeRate(from,to,date=''){
@@ -4802,14 +4810,41 @@ function renderBudget(){
   category.value=budgetEditorType==='income'?'salary':'other';
   desc.oninput=()=>{if(category.value==='other'||category.value==='salary')category.value=budgetCategory(desc.value)};
   form.append(desc,value,currency,category,date);
-  const save=budgetButton(learningLabel('Înregistrează tranzacția','Save transaction'),async()=>{
-   save.disabled=true;save.textContent=learningLabel('Se verifică…','Checking…');
-   const ok=await budgetAddEntry({title:desc.value,amount:value.value,currency:currency.value,
-    category:category.value,type:budgetEditorType,date:date.value});
-   if(!ok){save.disabled=false;save.textContent=learningLabel('Înregistrează tranzacția','Save transaction')}
-  },'primary-btn');
-  form.append(save);form.onsubmit=e=>{e.preventDefault();save.click()};
-  scroll.append(form);
+  // One submit path covers both touch and the Android keyboard Done key.
+  // Inline validation remains visible even when Android suppresses a toast.
+  form.noValidate=true;
+  const save=budgetButton(learningLabel('Finalizează și salvează','Finish and save'),()=>{},'primary-btn');
+  save.type='submit';
+  const feedback=budgetNode('p','budget-warning','');
+  feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
+  feedback.style.cssText='min-height:1.3em;margin:4px 0;white-space:normal;';
+  let saving=false;
+  form.addEventListener('submit',async event=>{
+   event.preventDefault();
+   if(saving)return;
+   const title=desc.value.trim(),amount=budgetAmount(value.value),day=date.value;
+   feedback.textContent='';
+   if(!title){feedback.textContent=learningLabel('Introdu descrierea venitului sau cheltuielii.','Enter a description for the income or expense.');desc.focus();return}
+   if(amount===null){feedback.textContent=learningLabel('Introdu o sumă pozitivă validă.','Enter a valid positive amount.');value.focus();return}
+   if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(day)||Number.isNaN(Date.parse(day+'T12:00:00'))){
+    feedback.textContent=learningLabel('Alege o dată validă.','Choose a valid date.');date.focus();return;
+   }
+   saving=true;save.disabled=true;
+   save.textContent=learningLabel('Se salvează…','Saving…');
+   feedback.textContent=learningLabel('Înregistrăm tranzacția.','Saving the transaction.');
+   try{
+    const ok=await budgetAddEntry({title,amount,currency:currency.value,
+     category:category.value,type:budgetEditorType,date:day});
+    if(ok){notify(learningLabel('Tranzacția a fost salvată.','Transaction saved.'));return}
+    feedback.textContent=learningLabel('Înregistrarea nu a fost salvată. Verifică data, suma și cursul valutar, apoi reîncearcă.','Not saved. Check date, amount and exchange rate, then retry.');
+   }catch{
+    feedback.textContent=learningLabel('A apărut o eroare la salvare. Reîncearcă.','Saving failed. Please retry.');
+   }finally{
+    saving=false;
+    if(save.isConnected){save.disabled=false;save.textContent=learningLabel('Finalizează și salvează','Finish and save')}
+   }
+  });
+  form.append(save,feedback);scroll.append(form);
   scroll.append(budgetNode('small','budget-advice',learningLabel('Dacă moneda diferă, suma se convertește la cursul verificat al datei și se salvează împreună cu cursul.','Foreign currency entries use a verified dated rate, stored with the entry.')));
   return;
  }
@@ -18084,7 +18119,55 @@ ru:{travel:'Найдите отели, рестораны и другие мес
 pl:{travel:'Znajdź hotele, restauracje i inne miejsca w pobliżu.',maps:'Planuj trasy i sprawdzaj transport publiczny.',learning:'Ucz się krok po kroku i otrzymuj jasne wyjaśnienia.',organize:'Organizuj listy, budżety, projekty i cele.',tools:'Odkrywaj analizy, pomysły, dokumenty i dodatkowe narzędzia.'},
 nl:{travel:'Vind hotels, restaurants en andere plaatsen in de buurt.',maps:'Plan routes en bekijk informatie over het openbaar vervoer.',learning:'Leer stap voor stap en krijg duidelijke uitleg.',organize:'Organiseer lijsten, budgetten, projecten en doelen.',tools:'Ontdek analyses, ideeën, documenten en extra hulpmiddelen.'}};return (leads[lang]||leads.en)[key]||MODULES[key]?.lead||''}
 function applyUiLanguage(){closeAnswerReader(false);document.querySelectorAll('.answer-reader-open').forEach(b=>b.textContent=readerLabels().open);const d=UI_TEXT[state.language]||UI_TEXT.en;document.documentElement.lang=state.language;$('home-title').textContent=d.homeTitle;document.querySelector('#view-home>.lead').textContent=d.homeLead;document.querySelector('.brand-sub').textContent=d.subtitle;const plan=document.querySelector('.plan-pill');if(plan)plan.textContent=state.language==='ro'?'GRATUIT ♛':state.language==='fr'?'GRATUIT ♛':state.language==='de'?'KOSTENLOS ♛':state.language==='it'?'GRATUITO ♛':state.language==='es'?'GRATIS ♛':state.language==='pt'?'GRÁTIS ♛':state.language==='nl'?'GRATIS ♛':state.language==='ru'?'БЕСПЛАТНО ♛':state.language==='pl'?'BEZPŁATNIE ♛':'FREE ♛';document.querySelectorAll('#view-home .feature-card').forEach((card,i)=>{if(d.cards[i]){card.querySelector('.card-title').textContent=d.cards[i][0];card.querySelector('.card-description').textContent=d.cards[i][1]}});document.querySelectorAll('.bottom-nav [data-nav]').forEach(b=>{const label=b.dataset.nav==='home'?d.home:b.dataset.nav==='conversations'?d.conversations:b.dataset.nav==='tools'?d.tools:d.settings;const icon=b.querySelector('.nav-icon');b.replaceChildren(icon,document.createTextNode(label))});document.querySelectorAll('[data-back]').forEach(b=>b.textContent=d.back);$('newChatBtn').textContent=d.newChat;$('moduleQuickTrigger').textContent=d.quick;$('moduleLayerTitle').textContent=d.quickTitle;$('moduleLayerBack').textContent=state.language==='en'?'← Back':state.language==='fr'?'← Retour':state.language==='de'?'← Zurück':state.language==='it'?'← Indietro':state.language==='es'?'← Volver':state.language==='pt'?'← Voltar':state.language==='nl'?'← Terug':state.language==='ru'?'← Назад':state.language==='pl'?'← Wstecz':'← Înapoi';document.querySelector('#sharedChatShell .chat-top strong').textContent=d.conversation;const empty=messagesEl.querySelector('.empty-state');if(empty){empty.replaceChildren(document.createTextNode(d.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=d.emptyHint;empty.append(document.createElement('br'),hint)}if(!state.messages.length)setStatus(d.ready);$('languageSelect').setAttribute('aria-label',d.settingsLanguage);const settings=$('view-settings');settings.querySelector('h2').textContent=d.settings;settings.querySelector('.module-panel h3').textContent=d.settingsLanguage;settings.querySelector('.module-panel p').textContent=d.settingsLanguageHint;settings.querySelector('.module-panel .small').textContent=d.speechHint;settings.querySelectorAll('.module-panel')[1].querySelector('h3').textContent=d.about;settings.querySelectorAll('.module-panel')[1].querySelectorAll('p')[1].textContent=state.language==='en'?'Local conversations can be deleted in the Conversations section.':state.language==='fr'?'Les conversations locales peuvent être supprimées dans la section Conversations.':state.language==='de'?'Lokale Gespräche können im Bereich Gespräche gelöscht werden.':state.language==='it'?'Le conversazioni locali possono essere eliminate nella sezione Conversazioni.':state.language==='es'?'Las conversaciones locales se pueden borrar en la sección Conversaciones.':state.language==='pt'?'As conversas locais podem ser apagadas na secção Conversas.':state.language==='nl'?'Lokale gesprekken kunnen worden verwijderd in het onderdeel Gesprekken.':'Conversațiile locale pot fi șterse din secțiunea Conversații.';const conversations=$('view-conversations');conversations.querySelector('h2').textContent=d.conversations;conversations.querySelector('.section-lead').textContent=d.localHistory;$('clearHistoryBtn').textContent=d.clearHistory;const toolsView=$('view-tools');toolsView.querySelector('h2').textContent=d.tools;toolsView.querySelector('.section-lead').textContent=d.chooseDomain;if(window.__pocketToolsReady===true)refreshToolTranslations();document.querySelector('#view-assistant>.section-title').textContent=d.cards[0][0];document.querySelector('#view-assistant .section-lead').textContent=state.language==='en'?'Type or speak with myPocket AI.':state.language==='fr'?'Écrivez ou parlez avec myPocket AI.':state.language==='de'?'Schreibe oder sprich mit myPocket AI.':state.language==='it'?'Scrivi o parla con myPocket AI.':state.language==='es'?'Escribe o habla con myPocket AI.':state.language==='pt'?'Escreve ou fala com myPocket AI.':state.language==='nl'?'Typ of praat met myPocket AI.':'Scrie sau vorbește cu myPocket AI.';inputEl.setAttribute('aria-label',d.send);$('sendBtn').setAttribute('aria-label',d.send);$('dictationBtn').setAttribute('aria-label',d.dictation);$('dictationBtn').title=d.dictation;$('voiceBtn').setAttribute('aria-label',d.voice);$('voiceBtn').title=d.voice;$('listenBtn').setAttribute('aria-label',d.listen);$('listenBtn').title=d.listen;if(state.currentView==='module'){const m=MODULES[state.currentModule];if(m){$('moduleTitle').textContent=(state.currentModule==='learning'&&activeLearningSubject)?learningLabel(activeLearningSubject[2],activeLearningSubject[3]):(d.moduleTitle[state.currentModule]||m.title);$('moduleLead').textContent=(state.currentModule==='learning'&&activeLearningSubject)?'':localizedModuleLead(state.currentModule)}}const quickLayer=$('moduleQuickLayer');if(quickLayer?.classList.contains('open')){if(state.moduleSearchResults?.length&&state.moduleSearchCategory?.kind==='places'){renderModulePlaces(state.moduleSearchResults)}else if(state.moduleSearchCategory){$('moduleLayerTitle').textContent=localizedQuickChoiceTitle(state.moduleSearchCategory);if(state.moduleSearchBusy)moduleStatus(quickUiText().searching+' '+localizedQuickChoiceTitle(state.moduleSearchCategory).toLowerCase()+' '+quickUiText().nearby)}else{ $('moduleLayerTitle').textContent=d.quickTitle;renderModuleQuickChoices()}}try{localStorage.setItem('mypocketai.language',state.language)}catch{}}
-try{const savedLanguage=localStorage.getItem('mypocketai.language');if(savedLanguage&&UI_TEXT[savedLanguage])state.language=savedLanguage;$('languageSelect').value=state.language}catch{}applyUiLanguage();
+// A saved value from any earlier installation always has priority, including
+// the language previously chosen explicitly in Settings. Only an actual new
+// installation may be auto-detected by device region / location.
+let pocketFirstInstallAutoLanguage=false,pocketAutoCountryConfidence=0;
+const pocketPhoneLocale=String(navigator.language||navigator.languages?.[0]||'en');
+try{
+ const savedLanguage=localStorage.getItem('mypocketai.language');
+ const initial=pocketPreferredLanguage(savedLanguage,pocketPhoneLocale,Object.keys(UI_TEXT));
+ state.language=initial.language;pocketFirstInstallAutoLanguage=initial.allowAutomaticDetection;
+ $('languageSelect').value=state.language;
+}catch{
+ state.language=pocketLanguageFromLocale(pocketPhoneLocale);
+ pocketFirstInstallAutoLanguage=true;
+}
+applyUiLanguage();
+// Location is consulted once for the first install only, without requesting
+// new permissions (shared startup location already handles those). If GPS
+// is unavailable, existing IP-country lookup provides an approximate fallback.
+function pocketApplyFirstInstallCountry(code,confidence){
+ if(!pocketFirstInstallAutoLanguage||confidence<pocketAutoCountryConfidence)return;
+ const selected=pocketLanguageFromCountry(code,pocketPhoneLocale);
+ if(!UI_TEXT[selected])return;
+ pocketAutoCountryConfidence=confidence;
+ if(state.language!==selected){
+  state.language=selected;applyUiLanguage();
+  if(typeof syncLanguageMenu==='function')syncLanguageMenu();
+ }
+}
+function pocketFirstInstallDetectCountry(){
+ if(!pocketFirstInstallAutoLanguage)return;
+ const endpoint=new URL(CLIENT_CONFIG.apiUrl);
+ endpoint.pathname='/api/finance-country';endpoint.search='';
+ const fetchCountry=async(coordinates,confidence)=>{
+  const url=new URL(endpoint.toString());
+  if(coordinates&&Number.isFinite(Number(coordinates.latitude))&&Number.isFinite(Number(coordinates.longitude))){
+   url.searchParams.set('lat',String(coordinates.latitude));url.searchParams.set('lon',String(coordinates.longitude));
+  }
+  const response=await fetch(url.toString(),{headers:{Accept:'application/json'}});
+  if(!response.ok)throw Error('country unavailable');
+  const body=await response.json();
+  const code=String(body.country||'').toUpperCase().trim();
+  if(code)pocketApplyFirstInstallCountry(code,confidence);
+ };
+ // Parallel fallbacks: network country quickly, GPS (when permitted) wins.
+ fetchCountry(null,1).catch(()=>{});
+ if(typeof getCurrentCoordinates==='function'){
+  getCurrentCoordinates(false).then(coords=>fetchCountry(coords,2)).catch(()=>{});
+ }
+}
 const languageSelectNode=$('languageSelect');
 const languageDialog=document.createElement('div');
 languageDialog.id='languageDialog';
@@ -18106,9 +18189,16 @@ sortedLanguages.forEach(o=>{const btn=document.createElement('button');btn.type=
 languageButton.addEventListener('click',()=>{syncLanguageMenu();languageDialog.hidden=false});
 languageDialogClose.addEventListener('click',closeLanguageDialog);
 syncLanguageMenu();
-$('languageSelect').addEventListener('change',event=>{state.language=UI_TEXT[event.target.value]?event.target.value:'ro';event.target.value=state.language;applyUiLanguage();syncLanguageMenu()});
+$('languageSelect').addEventListener('change',event=>{
+ pocketFirstInstallAutoLanguage=false; // in-flight country detection cannot override a user choice
+ state.language=UI_TEXT[event.target.value]?event.target.value:'en';
+ event.target.value=state.language;
+ try{localStorage.setItem('mypocketai.language.source','manual')}catch{}
+ applyUiLanguage();syncLanguageMenu();
+});
 // 09 — Startup: bind state, begin location permission/request, load local data, greet once
 startSharedLocation();
+pocketFirstInstallDetectCountry();
 loadHistory();
 if('speechSynthesis'in window){refreshSpeechVoices();try{window.speechSynthesis.addEventListener('voiceschanged',refreshSpeechVoices)}catch{window.speechSynthesis.onvoiceschanged=refreshSpeechVoices}}
 // Launch directly into the app. Preload the 3D avatar offscreen; it comes from
