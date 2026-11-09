@@ -8,6 +8,9 @@ on:
       - 'education_theory.mjs'
       - 'education_worldwide_paths.mjs'
       - 'education_national_subject_units.mjs'
+      - 'education_international_course_ui.mjs'
+      - 'tests_education_international_runtime.mjs'
+      - 'computing_ui.mjs'
       - 'tests_worldwide_all_subjects.mjs'
       - 'chemistry_curriculum.mjs'
       - 'chemistry_advanced.mjs'
@@ -69,6 +72,7 @@ jobs:
         run: |
           node tests_education_content_navigation.mjs
           node tests_worldwide_all_subjects.mjs
+          node tests_education_international_runtime.mjs
 
       - name: Basic UI integrity
         run: npm run test:ui
