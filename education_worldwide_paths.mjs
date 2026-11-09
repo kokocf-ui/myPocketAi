@@ -1,3 +1,4 @@
+import {nationalSubjectUnits} from './education_national_subject_units.mjs';
 // Worldwide Education: one country-first school-year selection for all
 // subjects, without presenting an international approximation as the national
 // legally prescribed syllabus. ISCED is a comparison framework, NOT a syllabus.
@@ -208,6 +209,7 @@ export function worldwideStudyChapters(country,subject,level,grade,countryRo,cou
  const canonical=WORLDWIDE_SUBJECT_ALIASES[subject]||subject;
  const thematic=WORLDWIDE_GENERIC_SUBJECTS[canonical];
  if(subject!=='history'&&subject!=='geography'&&!thematic)return [];
+ const national=nationalSubjectUnits(country,canonical);
  const base=(subject==='history'||subject==='geography')
   ?(generalPaths?.[subject]?.[lv]||[])
   :thematic.map(([ro,en,focus])=>[ro,en,focus]);
@@ -244,5 +246,9 @@ export function worldwideStudyChapters(country,subject,level,grade,countryRo,cou
   ['Economia, resursele și transporturile din '+regionRo,'Economy, resources and transport in '+regionEn,'Compară sectoare economice și rețele de transport cu surse actualizate.'],
   ['Proiect geografic: observație și hartă','Geographical enquiry: fieldwork and map','Formulează o întrebare, analizează o hartă și compară date, cu limitele metodei.']
  ];
- return [...common,...local.map(([ro,en,focus],i)=>['intl-'+code+'-'+subject+'-'+lv+'-'+yr+'-local'+(i+1),ro,en,focus])];
+ const nationalRows=national.map(([ro,en,focus],i)=>[
+  'national-'+code+'-'+canonical+'-'+lv+'-'+yr+'-'+(i+1),ro,en,
+  focus+' '+stageGuidance+' Studiază sursele locale; nu presupune că ordinea capitolelor este obligatorie.'
+ ]);
+ return [...nationalRows,...common,...local.map(([ro,en,focus],i)=>['intl-'+code+'-'+subject+'-'+lv+'-'+yr+'-local'+(i+1),ro,en,focus])];
 }
