@@ -25,6 +25,39 @@ assert.ok(/11.+11.+2026/.test(helpers.transitDateLabel('2026-11-11T13:00:00Z','E
 assert.ok(frontend.includes("dateLine.className='transit-result-date'"),'Cards must display the actual travel date');
 assert.ok(frontend.includes("request.className='transit-selected-departure'"),'Show the calendar date the user requested');
 assert.ok(backend.includes('startsAt>=earliestRequested-120000'),'Reject TfL routes earlier than calendar selection');
+const boardingSource=frontend.slice(frontend.indexOf('function transitBoardingBuffer('),frontend.indexOf('function appendTransitCards('));
+const boarding=new Function('dialogText','transitClock','transitDateLabel',boardingSource+
+ '\\nreturn {transitBoardingBuffer,transitBoardingAdvice};')(
+ (ro,en)=>ro,
+ (iso)=>new Date(iso).toISOString().slice(11,16),
+ (iso)=>new Date(iso).toISOString().slice(0,10));
+const requestedDate=new Date(Date.now()+24*3600000);
+requestedDate.setMinutes(0,0,0);
+const requestMs=requestedDate.getTime();
+const later=minutes=>new Date(requestMs+minutes*60000).toISOString();
+const makeJourney=(startMin,boardMin,walkMin)=>({
+ startDateTime:later(startMin),arrivalDateTime:later(240),
+ firstVehicleDepartureTime:later(boardMin),walkToFirstStopMinutes:walkMin,
+ safetyMarginMinutes:5,time_zone:'Europe/London',
+ boarding_stop:{departure_time:later(boardMin)},
+ legs:[{mode:'walking',departureTime:later(startMin)},{mode:'national-rail',departureTime:later(boardMin)}]
+});
+const safe=makeJourney(8,11,3);
+const tight=boarding.transitBoardingBuffer(safe);
+assert.equal(tight.slack,0,'Provider walk reaches the vehicle with zero spare minutes');
+assert.equal(tight.recommended,requestMs+3*60000,'Leave by 10:03 for a 10:11 departure and 3 minutes walking');
+assert.ok(boarding.transitBoardingAdvice(safe).includes('5 min de rezervă'),
+ 'Show a clear five-minute safety buffer recommendation in the card');
+const impossible=makeJourney(2,5,3);
+const filterSource=frontend.slice(frontend.indexOf('function feasibleTransitChoices('),frontend.indexOf('const TRANSIT_REFRESH_TEXT='));
+const feasible=new Function('state','transitBoardingBuffer','compareTransitDisplayTimes',
+ filterSource+'\\nreturn feasibleTransitChoices;')(
+ {lastTransitChoice:{transitDepartureAt:later(0)}},boarding.transitBoardingBuffer,()=>0);
+assert.deepEqual(feasible([safe,impossible]),[safe],
+ 'Do not offer future itinerary requiring the user to leave before their chosen time');
+assert.ok(frontend.includes("bufferNotice.className='transit-boarding-buffer-notice'"),
+ 'Show the buffer recommendation on the itinerary card');
+
 assert.ok(backend.includes("tflUrl.searchParams.set('date'"),'TfL gets a local date for scheduled departures');
 
 const oldFetch=globalThis.fetch;
