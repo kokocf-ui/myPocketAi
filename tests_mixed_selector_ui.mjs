@@ -74,4 +74,10 @@ assert.ok(frontend.slice(selectStart,selectEnd).includes('state.lastTransitChoic
 assert.ok(frontend.includes("const gps=state.lastTransitChoice?.journeyOrigin||await getCurrentCoordinates(false)"),
  'Refreshing an A-to-B journey must preserve the chosen departure');
 
+assert.ok(frontend.includes('function transitSearchSelectors(){'),'Mode and time selectors must be available');
+assert.ok(frontend.includes("['bus_only',dialogText('Doar autobuz / autocar'"),'Bus-only must be clearly labelled');
+assert.ok(frontend.includes("transit_preference:choice.transitPreference||'all'"),'Submit selected mode to backend');
+assert.ok(frontend.includes("transit_departure_offset:choice.transitDepartureOffset||0"),'Submit selected departure window');
+assert.ok(frontend.includes("transit_preference:state.lastTransitChoice?.transitPreference"),'Refresh must preserve selected mode');
+
 console.log('PASS mixed selector: ISO countries, station inputs, transport label and address deduplication');
