@@ -21,6 +21,7 @@ import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_cur
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
 import {LIT_OFFLINE_THEORY} from './literature_offline_theory.mjs';
+import {VERIFIED_LITERARY_AUTHORS} from './literature_verified_authors.mjs';
 import {HG_SUBJECTS,HG_LEVELS,HG_SCOPES,HG_COUNTRIES,HG_HISTORY_TOPICS,HG_GEOGRAPHY_TOPICS,HG_SPECIALISATIONS,HG_VERIFIED_MAPS} from './history_geography_curriculum.mjs';
 import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
 import {HG_THEME_DATA,hgThemeFold,buildHgThemeGuide} from './education_hg_theme_guides.mjs';
@@ -11142,6 +11143,7 @@ async function hgGenerate(extra,output){
 const LIT_EUROPE_PROGRAMS=${JSON.stringify(LIT_EU_PROGRAMS)};
 const LIT_EUROPE_COMMON=${JSON.stringify(LIT_EU_COMMON)};
 const LIT_OFFLINE_THEORY_DATA=${JSON.stringify(LIT_OFFLINE_THEORY)};
+const LIT_VERIFIED_AUTHORS=${JSON.stringify(VERIFIED_LITERARY_AUTHORS)};
 const LIT_COUNTRIES=[
  ['RO','România','Romania','ro','https://www.edu.ro/press_rel_11_2026'],
  ['GB-ENG','Anglia','England','en','https://www.gov.uk/government/publications/national-curriculum-in-england-english-programmes-of-study'],
@@ -11201,8 +11203,11 @@ function litCurrentTopic(){
 function litText(tag,label){const el=document.createElement(tag);el.textContent=label;return el}
 function litBtn(label,fn,cls='secondary-btn'){const el=document.createElement('button');el.type='button';el.className=cls;el.textContent=label;el.onclick=fn;return el}
 function litBack(){
- if(litJourney.stage==='languages'||litJourney.stage==='countries')return educationCountryGate('literature',()=>litOpen('languages'));
- const stages={countries:null,languages:'countries',levels:'languages',grades:'levels',regions:'grades',tracks:'grades',topics:'branches',workspace:'topics'};
+ // Country sets the native study language. Choosing another language is
+ // optional, not an obligatory intermediate page.
+ if(litJourney.stage==='languages'){litOpen('levels');return}
+ if(litJourney.stage==='countries'||litJourney.stage==='levels')return educationCountryGate('literature',()=>litOpen('levels'));
+ const stages={countries:null,languages:'levels',levels:'countries',grades:'levels',regions:'grades',tracks:'grades',topics:'branches',workspace:'topics'};
  if(litJourney.stage==='branches'){litOpen(litJourney.country==='RO'&&litJourney.grade==='9'?'tracks':litIsRegional()?'regions':'grades');return}
  if(stages[litJourney.stage])litOpen(stages[litJourney.stage]);else renderLearningSubjects()
 }
@@ -11236,9 +11241,16 @@ function litOpen(stage){
   }
   panel.append(box);paint();
  };
- if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litOpen('languages')},true)}
+ if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litOpen('levels')},true)}
  if(stage==='languages'){const choices=LIT_LANGUAGES.map(x=>({id:x[0],ro:x[1],en:x[2]}));list(choices,c=>{litJourney.language=c.id;litOpen('levels')},true)}
  if(stage==='levels'){
+  const currentLanguage=LIT_LANGUAGES.find(x=>x[0]===litJourney.language);
+  const currentLabel=learningLabel(currentLanguage?.[1]||'Română',currentLanguage?.[2]||'Romanian');
+  const languageHint=litText('p',learningLabel('Limba materiei: ','Subject language: ')+currentLabel);
+  languageHint.className='lit-selected-language';panel.append(languageHint);
+  const changeLanguage=litBtn(learningLabel('Schimbă limba studiată (opțional)','Change subject language (optional)'),()=>litOpen('languages'),'secondary-btn lit-change-language');
+  changeLanguage.style.cssText='min-height:36px;max-width:100%;width:auto;padding:7px 12px;font-size:.86rem;margin:0 0 10px;';
+  panel.append(changeLanguage);
   panel.append(litText('p',learningLabel('Nivelul determină complexitatea explicațiilor și cerințelor.','Level determines the depth of teaching and exercises.')));
   const choices=[{id:'beginner',ro:'Primar — clasele I–IV',en:'Primary school'},{id:'lower',ro:'Începător — Gimnaziu',en:'Beginner — lower secondary'},{id:'medium',ro:'Mediu — Liceu',en:'Intermediate — upper secondary'},{id:'advanced',ro:'Avansat — Universitate și mai departe',en:'Advanced — University and beyond'}];
   list(choices,c=>{litJourney.level=c.id;litJourney.grade='';litJourney.track='TC';litOpen('grades')})
@@ -11368,15 +11380,43 @@ function litWorkspace(panel){
   const key=String(value||'').replace(/^\\/works\\//,'');
   return /^OL\\d+W$/.test(key)?key:'';
  };
+ const curatedByName=name=>LIT_VERIFIED_AUTHORS.find(a=>cleanName(a.name)===cleanName(name))||null;
+ const curatedAuthorMatches=term=>{
+  const needle=cleanName(term);
+  if(needle.length<3)return [];
+  const words=needle.split(' ').filter(Boolean);
+  return LIT_VERIFIED_AUTHORS.filter(a=>{
+   const tokens=cleanName(a.name).split(' ');
+   return words.every(w=>tokens.some(t=>t.startsWith(w)));
+  });
+ };
+ const curatedWorkMatches=term=>{
+  const needle=cleanName(term);
+  if(needle.length<4)return [];
+  const matches=[];
+  for(const author of LIT_VERIFIED_AUTHORS){
+   for(const entry of author.works){
+    if(cleanName(entry.title).includes(needle))matches.push({author,entry});
+   }
+  }
+  return matches.slice(0,20);
+ };
  const chooseWork=(item,authorName)=>{
   const name=String(authorName||'').trim(),title=String(item?.title||'').trim();
   if(!name||!title)return;
   work.value=title+' — '+name;
   work.dispatchEvent(new Event('input',{bubbles:true}));
   const key=workKey(item.key);
-  if(key){
+  if(item?.sourceUrl){
+   work.dataset.catalogSource=item.sourceUrl;
+   work.dataset.catalogVerified='true';
+  }else if(key){
    work.dataset.catalogSource='https://openlibrary.org/works/'+key;
-  }else delete work.dataset.catalogSource;
+   delete work.dataset.catalogVerified;
+  }else{
+   delete work.dataset.catalogSource;
+   delete work.dataset.catalogVerified;
+  }
   if(type.value!=='essay'&&type.value!=='lesson')type.value='lesson';
   subject.value=type.value==='essay'?'Eseu despre '+title+' de '+name:'Studiul operei '+title+' de '+name;
   lookupStatus.textContent=lw(16);
@@ -11399,6 +11439,48 @@ function litWorkspace(panel){
   actions.append(study,essay,infoLink('https://openlibrary.org/works/'+key,lw(14)));
   card.append(actions);return card;
  };
+ let curatedVisible=0;
+ const curatedWorkCard=(item,author)=>{
+  const card=document.createElement('article');card.className='lit-research-card';
+  card.append(litText('strong',item.title));
+  card.append(litText('small',String(item.year)+' · '+item.kind));
+  const actions=document.createElement('div');actions.className='lit-research-actions';
+  const selection={title:item.title,sourceUrl:author.sourceUrl};
+  actions.append(
+   lookupAction(lw(12),()=>{type.value='lesson';chooseWork(selection,author.name)}),
+   lookupAction(lw(13),()=>{type.value='essay';chooseWork(selection,author.name)}),
+   infoLink(author.sourceUrl,lw(14)));
+  card.append(actions);return card;
+ };
+ const showCuratedAuthor=(author,more=false)=>{
+  if(!more){
+   lookupSerial++;lookupAuthor=null;lookupOffset=0;lookupSeen.clear();
+   lookupResults.replaceChildren();curatedVisible=0;
+   lookupResults.append(litText('h3',author.name));
+   lookupResults.append(litText('p',String(author.birthYear)+'–'+String(author.deathYear)));
+   lookupResults.append(infoLink(author.sourceUrl,author.sourceTitle));
+   lookupResults.append(litText('p',learningLabel(
+    'Bibliografie verificată din sursă instituțională. Sunt afișate volume și antologii, nu textele integrale.',
+    'Source-checked bibliography of books and collections, not full copyrighted texts.')));
+  }
+  const next=author.works.slice(curatedVisible,curatedVisible+6);
+  for(const item of next)lookupResults.append(curatedWorkCard(item,author));
+  curatedVisible+=next.length;
+  lookupStatus.textContent=lw(9)+' · '+curatedVisible+' / '+author.works.length;
+  lookupMore.hidden=curatedVisible>=author.works.length;
+  lookupMore.textContent=lw(11);
+  lookupMore.onclick=()=>showCuratedAuthor(author,true);
+ };
+ const showCuratedWorks=matches=>{
+  lookupSerial++;lookupAuthor=null;lookupOffset=0;lookupSeen.clear();
+  lookupResults.replaceChildren();lookupMore.hidden=true;
+  lookupStatus.textContent=lw(18)+' · '+matches.length;
+  for(const {author,entry} of matches){
+   const card=curatedWorkCard(entry,author);
+   card.prepend(litText('p',author.name));
+   lookupResults.append(card);
+  }
+ };
  const displayAuthorWorks=async author=>{
   if(lookupBusy||!author)return;
   const serial=lookupSerial;
@@ -11419,6 +11501,8 @@ function litWorkspace(panel){
   }finally{lookupBusy=false;lookupMore.disabled=false}
  };
  const showAuthor=author=>{
+  const verified=curatedByName(author?.name);
+  if(verified){showCuratedAuthor(verified);return}
   lookupAuthor=author;lookupOffset=0;lookupSeen.clear();lookupSerial++;
   lookupResults.replaceChildren();lookupMore.hidden=true;
   const heading=litText('h3',author.name);lookupResults.append(heading);
@@ -11455,6 +11539,22 @@ function litWorkspace(panel){
   const term=work.value.trim().slice(0,160);
   if(!term){lookupStatus.textContent=lw(1);work.focus();return}
   if(lookupBusy)return;
+  const verifiedAuthors=curatedAuthorMatches(term);
+  if(verifiedAuthors.length){
+   lookupSerial++;lookupAuthor=null;lookupOffset=0;lookupSeen.clear();
+   lookupResults.replaceChildren();lookupMore.hidden=true;
+   lookupStatus.textContent=lw(3)+' · '+verifiedAuthors.length;
+   for(const author of verifiedAuthors){
+    const card=document.createElement('article');card.className='lit-research-card';
+    card.append(litText('strong',author.name));
+    card.append(litText('small',String(author.birthYear)+'–'+String(author.deathYear)));
+    card.append(lookupAction(lw(4),()=>showCuratedAuthor(author)));
+    lookupResults.append(card);
+   }
+   return;
+  }
+  const verifiedWorks=curatedWorkMatches(term);
+  if(verifiedWorks.length){showCuratedWorks(verifiedWorks);return}
   lookupSerial++;const serial=lookupSerial;
   lookupAuthor=null;lookupSeen.clear();lookupOffset=0;lookupMore.hidden=true;
   lookupResults.replaceChildren();lookupStatus.textContent=lw(2);lookupBusy=true;lookupButton.disabled=true;
@@ -11687,7 +11787,7 @@ function openLearningSubject(key){
 }
 function openLearningSubjectAfterCountry(key){
  if(key==='history'){hgOpen('subjects');return}
- if(key==='literature'){litOpen('languages');return}
+ if(key==='literature'){litOpen('levels');return}
  if(key==='computing'){computingOpen('levels');return}
  if(key==='exams'){examOpen('grades');return}
  if(key==='practical'){practicalOpen('courses');return}

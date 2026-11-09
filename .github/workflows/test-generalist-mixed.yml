@@ -5,6 +5,8 @@ on:
     paths:
       - 'backend.js'
       - 'index.js'
+      - 'literature_verified_authors.mjs'
+      - 'tests_literature_verified_authors.mjs'
       - 'education_theory.mjs'
       - 'chemistry_curriculum.mjs'
       - 'chemistry_advanced.mjs'
@@ -64,6 +66,7 @@ jobs:
         run: npm run check
       - name: Verify education year, lesson contents and browser boot
         run: node tests_education_content_navigation.mjs
+          node tests_literature_verified_authors.mjs
 
       - name: Basic UI integrity
         run: npm run test:ui
