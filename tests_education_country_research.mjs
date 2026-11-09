@@ -69,7 +69,7 @@ try{
  const req=new Request('https://pocket-edu.test/api/education-country-curriculum',{method:'POST',
   headers:{'Content-Type':'application/json'},body:JSON.stringify({...courseContext,grade:'J3'})});
  const result=await backend.fetch(req,env);assert.equal(result.status,200);
- const json=await result.json();assert.equal(json.status,'success');
+ const json=await result.json();assert.equal(json.status,'success',JSON.stringify(json));
  assert.equal(json.chapters.length,10);
  const bad=await backend.fetch(new Request('https://pocket-edu.test/api/education-country-lesson',{method:'POST',body:'not json'}),env);
  assert.equal(bad.status,400);
