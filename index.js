@@ -19,6 +19,7 @@ import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_cur
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
 import {HG_SUBJECTS,HG_LEVELS,HG_SCOPES,HG_COUNTRIES,HG_HISTORY_TOPICS,HG_GEOGRAPHY_TOPICS,HG_SPECIALISATIONS,HG_VERIFIED_MAPS} from './history_geography_curriculum.mjs';
+import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
@@ -9911,6 +9912,7 @@ const EDUCATION_SCHOOL_YEARS_DATA=${JSON.stringify(EDUCATION_SCHOOL_YEARS)};
 const HG_SCHOOL_PLANS_DATA=${JSON.stringify(HG_SCHOOL_PLANS)};
 const HG_SCHOOL_GENERAL_DATA=${JSON.stringify(HG_SCHOOL_GENERAL)};
 const HG_SCHOOL_SOURCES_DATA=${JSON.stringify(HG_SCHOOL_SOURCES)};
+const HG_LOCAL_GUIDES_DATA=${JSON.stringify(HG_LOCAL_GUIDES)};
 const HG_LEVEL_DATA=${JSON.stringify(HG_LEVELS)};
 const HG_SCOPE_DATA=${JSON.stringify(HG_SCOPES)};
 const HG_COUNTRY_DATA=${JSON.stringify(HG_COUNTRIES)};
@@ -10425,7 +10427,12 @@ function hgRemember(kind){
  try{const key=hgProgressKey(),p=JSON.parse(localStorage.getItem(key)||'{}');p[hgJourney.topic]={...(p[hgJourney.topic]||{}),[kind]:new Date().toISOString()};localStorage.setItem(key,JSON.stringify(p))}catch{}
 }
 function hgBack(){
- const prev={subjects:'country',scope:'subjects',country:'scope',levels:'scope',grade:'levels',specialties:'levels',chapters:hgJourney.level==='advanced'?'specialties':'levels',lesson:'chapters'};
+ if(hgJourney.stage==='chapters'&&hgJourney.level!=='advanced'){
+  educationGradeGate('history',hgJourney.level,grade=>{
+   hgJourney.grade=grade;hgJourney.topic=null;hgOpen('chapters');
+  },()=>hgOpen('levels'));return;
+ }
+ const prev={subjects:'country',scope:'subjects',country:'scope',levels:'scope',grade:'levels',specialties:'levels',chapters:'specialties',lesson:'chapters'};
  if(prev[hgJourney.stage])hgOpen(prev[hgJourney.stage]);else renderLearningSubjects();
 }
 function hgOpen(stage){
@@ -10435,7 +10442,7 @@ function hgOpen(stage){
  root.classList.remove('learning-choose','learning-math','learning-science','learning-languages','math-choice-stage','science-choice-stage');
  root.classList.add('learning-active','learning-hg');
  $('moduleTitle').textContent=hgL('Istorie și geografie','History and geography')+(hgSubject()?' · '+hgL(hgSubject().ro,hgSubject().en):'');
- $('moduleLead').textContent='';host.replaceChildren();
+ $('moduleLead').textContent='';host.replaceChildren();host.scrollTop=0;root.scrollTop=0;const mainView=root.closest('main');if(mainView)mainView.scrollTop=0;
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar hg-toolbar';
  bar.append(hgBtn(hgL('← Înapoi','← Back'),hgBack,'secondary-btn hg-back'));eduAttachPrintAction(bar);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel hg-panel hg-'+stage;
@@ -10526,7 +10533,11 @@ function hgOpen(stage){
   const region=hgJourney.scope==='world'?hgL('Universală','Global'):(hgCountry()?hgL(hgCountry().ro,hgCountry().en):(hgJourney.otherCountry||''))+(hgJourney.region?' · '+hgJourney.region:'');
   panel.append(hgText('p',region+' · '+hgL(HG_LEVEL_DATA.find(x=>x.id===hgJourney.level)?.ro||'',HG_LEVEL_DATA.find(x=>x.id===hgJourney.level)?.en||'')+' · '+(hgJourney.grade||'')));
   const plan=hgSchoolChapterSet();if(hgJourney.level!=='advanced'){
-   panel.append(hgText('p',plan.status==='official-framework'?hgL('Succesiune adaptată cadrului școlar publicat; verifică programa oficială a clasei.','Adapted from the published national framework; check the official year syllabus.'):hgL('Învățare generală: nu există o programă oficială verificată pentru această selecție.','General learning: no verified official syllabus for this choice.')));
+   panel.append(hgText('p',plan.status==='official-framework'&&hgJourney.country==='GB-ENG'?
+   hgL('Programa oficială engleză este pe Key Stages; capitolele sunt ordonate orientativ pe Year.','English curriculum is specified by Key Stage; chapter order by Year is advisory.'):
+   plan.status==='official-framework'?
+   hgL('Capitole adaptate cadrului școlar publicat; verifică programa clasei.','Chapters adapted to the published framework; check your school syllabus.'):
+   hgL('Plan de studiu orientativ: programa exactă pentru acest an sau examen nu a fost verificată.','Advisory study sequence: exact year or exam specification not yet verified.')));
    if(plan.source){const link=hgText('a',hgL('Programa școlară · sursă oficială','Official curriculum source'));link.href=plan.source;link.target='_blank';link.rel='noopener noreferrer';panel.append(link)}
   }
   const opts=(hgJourney.level==='advanced'?(hgJourney.subject==='history'?HG_HISTORY_DATA:HG_GEOGRAPHY_DATA):hgSchoolChapterSet().chapters).filter(x=>{
