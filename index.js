@@ -10937,6 +10937,84 @@ function litWorkspace(panel){
  const details=make('textarea',learningLabel('Detalii, idei, argumente, operă sau autor (opțional)','Details, ideas, arguments, work or author (optional)'),learningLabel('Introdu ideile tale, citate, cerințele profesorului sau textul de analizat','Enter your ideas, quotations, assignment requirements or source text'));details.rows=4;
  const work=make('input',learningLabel('Titlul operei și autorul','Work title and author'),learningLabel('Ex.: Ion — Liviu Rebreanu','E.g. Pride and Prejudice — Jane Austen'));
  work.id='litWorkTitle';
+ // Author/work lookup is an explicit action. Only retrieved, cited sources are displayed.
+ const lookupRow=document.createElement('div');lookupRow.className='lit-research-toolbar';
+ const lookupStatus=litText('p','');lookupStatus.className='lit-research-status';lookupStatus.setAttribute('role','status');
+ const lookupResults=document.createElement('section');lookupResults.className='lit-research-results';
+ lookupResults.setAttribute('role','region');lookupResults.setAttribute('aria-label',learningLabel('Rezultate despre autor sau operă','Results for author or work'));
+ let lookupTerm='',lookupCursor={},lookupRunning=false,lookupCount=0,lookupLastSearch=0;
+ const lookupButton=litBtn(learningLabel('🔎 Caută autorul / opera','🔎 Search author or work'),async()=>{
+  const term=work.value.trim().slice(0,160);
+  if(!term){lookupStatus.textContent=learningLabel('Scrie numele autorului sau titlul operei.','Enter an author or work title.');work.focus();return}
+  lookupTerm=term;lookupCursor={};lookupCount=0;lookupResults.replaceChildren();lookupLastSearch++;
+  await litLookupFetch(lookupLastSearch);
+ },'primary-btn lit-research-go');
+ const lookupMore=litBtn(learningLabel('Mai multe rezultate','More results'),async()=>litLookupFetch(lookupLastSearch),'secondary-btn lit-research-more');
+ lookupMore.hidden=true;
+ lookupRow.append(lookupButton);panel.append(lookupRow,lookupStatus,lookupResults,lookupMore);
+ work.addEventListener('keydown',event=>{
+  if(event.key==='Enter'){event.preventDefault();lookupButton.click()}
+ });
+ const lookupLanguages=()=>{
+  const preferred=String(state.language||'ro').slice(0,2),literary=String(litJourney.language||'ro').slice(0,2);
+  return [...new Set([preferred,literary,'ro','en'])].filter(v=>['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(v)).slice(0,3);
+ };
+ async function litLookupFetch(generation){
+  if(lookupRunning||!lookupTerm)return;
+  lookupRunning=true;lookupButton.disabled=true;lookupMore.disabled=true;
+  lookupStatus.textContent=learningLabel('Se caută surse despre autor sau operă…','Searching sources for the author or work…');
+  const languages=lookupLanguages(),batch=[],nextCursor={...lookupCursor};let success=0,failures=0;
+  try{
+   for(const locale of languages){
+    if(generation!==lookupLastSearch||!lookupResults.isConnected)return;
+    if(lookupCount>0&&lookupCursor[locale]===null)continue;
+    const params=new URLSearchParams({action:'query',list:'search',srsearch:lookupTerm,srnamespace:'0',srlimit:'12',srprop:'',format:'json',origin:'*'});
+    if(typeof lookupCursor[locale]==='number')params.set('sroffset',String(lookupCursor[locale]));
+    try{
+     const response=await fetch('https://'+locale+'.wikipedia.org/w/api.php?'+params.toString(),{credentials:'omit'});
+     if(!response.ok)throw Error('search_unavailable');
+     const data=await response.json();
+     if(data.error||!Array.isArray(data.query?.search))throw Error('search_invalid');
+     success++;
+     const items=data.query.search;
+     items.forEach(item=>{if(item&&typeof item.title==='string')batch.push({locale,title:item.title,pageid:item.pageid})});
+     nextCursor[locale]=Number.isInteger(data.continue?.sroffset)?data.continue.sroffset:null;
+    }catch{failures++}
+   }
+   if(generation!==lookupLastSearch||!lookupResults.isConnected)return;
+   if(!success){lookupStatus.textContent=learningLabel('Căutarea nu este disponibilă. Verifică internetul și reîncearcă.','Search unavailable. Check your internet connection and try again.');return}
+   lookupCursor=nextCursor;
+   const seen=new Set(Array.from(lookupResults.querySelectorAll('[data-source-key]')).map(el=>el.dataset.sourceKey));
+   let added=0;
+   for(const item of batch){
+    const key=item.locale+':'+item.pageid;
+    if(seen.has(key))continue;seen.add(key);added++;
+    const card=document.createElement('article');card.className='lit-research-card';card.dataset.sourceKey=key;
+    const heading=litText('strong',item.title+' · Wikipedia ('+item.locale.toUpperCase()+')');card.append(heading);
+    const detail=litText('p','');detail.className='lit-research-detail';detail.hidden=true;
+    const detailButton=litBtn(learningLabel('Vezi informațiile','View details'),async()=>{
+     if(!detail.hidden){detail.hidden=true;return}
+     detail.hidden=false;detail.textContent=learningLabel('Se încarcă informațiile…','Loading details…');
+     const q=new URLSearchParams({action:'query',prop:'extracts',explaintext:'1',exchars:'6500',pageids:String(item.pageid),format:'json',origin:'*'});
+     try{
+      const res=await fetch('https://'+item.locale+'.wikipedia.org/w/api.php?'+q.toString(),{credentials:'omit'});
+      if(!res.ok)throw Error('details_unavailable');
+      const data=await res.json();const article=data.query?.pages?.[String(item.pageid)];
+      detail.textContent=String(article?.extract||'').trim()||learningLabel('Nu este disponibil un rezumat. Consultă sursa.','No summary is available. Open the source.');
+     }catch{detail.textContent=learningLabel('Detaliile nu pot fi încărcate. Poți consulta sursa.','Details unavailable. You can open the source.')}
+    },'secondary-btn');
+    const url='https://'+item.locale+'.wikipedia.org/wiki/'+encodeURIComponent(item.title.replaceAll(' ','_'));
+    const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';
+    link.textContent=learningLabel('Sursa originală (extern)','Original source (external)');
+    const actions=document.createElement('div');actions.className='lit-research-actions';actions.append(detailButton,link);
+    card.append(actions,detail);lookupResults.append(card);
+   }
+   lookupCount+=added;lookupStatus.textContent=lookupCount+' '+learningLabel('rezultate afișate din Wikipedia. Nu reprezintă toate sursele de pe internet.','Wikipedia results shown. This is not an exhaustive search of the internet.');
+   if(!lookupCount)lookupStatus.textContent=learningLabel('Nu am găsit rezultate pentru această formulare. Încearcă numele complet sau alt titlu.','No results for this phrase. Try the full name or a different title.');
+   if(failures)lookupStatus.textContent+=' '+learningLabel('Unele surse nu au putut fi consultate.','Some sources were unavailable.');
+   lookupMore.hidden=!languages.some(locale=>typeof lookupCursor[locale]==='number');
+  }finally{lookupRunning=false;lookupButton.disabled=false;lookupMore.disabled=false}
+ }
  const source=make('textarea',learningLabel('Textul operei sau fragmentul (numai dacă dorești)','Source work or passage (only if you wish)'),learningLabel('Inserează textul pentru un rezumat sau o sinteză bazată pe sursă.','Paste source text for source-based summary or synthesis.'));source.rows=5;
  const attachment=document.createElement('input');attachment.type='file';attachment.accept='.txt,text/plain,.md,text/markdown';attachment.className='lit-upload';
  const uploadLabel=litText('label',learningLabel('Încarcă text (.txt sau .md)','Upload text (.txt or .md)'));uploadLabel.className='lit-label';uploadLabel.append(attachment);panel.append(uploadLabel);
@@ -17778,6 +17856,98 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 .edu-pdf-actions .edu-icon-action{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 42px!important;width:42px!important;min-width:42px!important;max-width:42px!important;height:42px!important;min-height:42px!important;max-height:42px!important;padding:4px!important;margin:0!important;border-radius:9px!important;font-size:21px!important;line-height:1!important}
 .education-toolbar .edu-pdf-actions .edu-print-trigger{max-width:42px!important}
 .practical-cv-actions .edu-pdf-actions{margin-left:0!important}
+
+/* Education viewport repair: use the available vertical space and scroll if the
+   eight study cards or a language list exceed a small Android screen. */
+main.page:has(#view-module.learning-choose.active),
+main.page:has(#view-module.learning-languages.active){
+ overflow-x:hidden!important;overflow-y:auto!important;
+ touch-action:pan-y!important;
+ padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important
+}
+#view-module.learning-choose.active{
+ height:auto!important;max-height:none!important;min-height:0!important;
+ grid-template-rows:auto auto!important;overflow:visible!important
+}
+#view-module.learning-choose #moduleContent{
+ height:auto!important;max-height:none!important;overflow:visible!important
+}
+#view-module.learning-choose .education-grid{
+ height:clamp(350px,53dvh,475px)!important;
+ min-height:350px!important;max-height:none!important;
+ grid-template-rows:repeat(4,minmax(72px,1fr))!important;
+ column-gap:clamp(12px,2vw,20px)!important;
+ row-gap:clamp(12px,2dvh,19px)!important;
+ padding:clamp(9px,1.8dvh,17px) 0 6px!important;
+ overflow:visible!important
+}
+#view-module.learning-choose .education-card{
+ height:100%!important;min-height:72px!important;max-height:none!important;
+ overflow:hidden!important
+}
+#view-module.learning-languages.active{
+ height:auto!important;max-height:none!important;min-height:0!important;
+ grid-template-rows:auto auto!important;align-content:start!important;
+ overflow:visible!important;padding-bottom:0!important
+}
+#view-module.learning-languages #moduleContent{
+ display:flex!important;flex-direction:column!important;flex:0 0 auto!important;
+ height:auto!important;max-height:none!important;min-height:0!important;
+ overflow:visible!important
+}
+#view-module.learning-languages .science-choice-panel{
+ display:flex!important;flex-direction:column!important;flex:0 0 auto!important;
+ height:auto!important;max-height:none!important;min-height:0!important;
+ overflow:visible!important;padding-bottom:20px!important
+}
+#view-module.learning-languages .foreign-stage-languages .science-choice-list{
+ flex:0 0 auto!important;height:auto!important;max-height:none!important;
+ overflow:visible!important;row-gap:clamp(10px,1.5dvh,15px)!important;
+ padding-bottom:12px!important
+}
+#view-module.learning-languages .foreign-stage-languages .science-choice-row{
+ min-height:clamp(49px,7dvh,62px)!important
+}
+/* The higher-specificity study toolbar rule previously stretched PDF icons
+   to 100-180 px; restore real square touch targets and a single horizontal row. */
+#view-module.learning-active .education-toolbar.science-stage-toolbar > .edu-pdf-actions,
+#view-module.learning-active .education-toolbar .edu-pdf-actions{
+ grid-column:2!important;justify-self:end!important;align-self:center!important;
+ display:inline-flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
+ width:auto!important;max-width:max-content!important;min-width:0!important;
+ gap:6px!important;margin:0!important
+}
+#view-module.learning-active .education-toolbar .edu-pdf-actions > .secondary-btn.edu-icon-action,
+#view-module.learning-active .education-toolbar .edu-pdf-actions > .edu-print-trigger{
+ box-sizing:border-box!important;
+ display:inline-flex!important;flex:0 0 42px!important;
+ width:42px!important;min-width:42px!important;max-width:42px!important;
+ height:42px!important;min-height:42px!important;max-height:42px!important;
+ aspect-ratio:1!important;padding:4px!important;margin:0!important;
+ border-radius:9px!important;font-size:21px!important
+}
+#view-module.learning-active .practical-cv-actions .edu-pdf-actions > .edu-icon-action{
+ width:42px!important;min-width:42px!important;max-width:42px!important;
+ height:42px!important;min-height:42px!important;max-height:42px!important;
+ flex:0 0 42px!important;aspect-ratio:1!important
+}
+/* Author/work results stay inside the literature workspace. */
+.lit-research-toolbar{display:flex;gap:8px;margin:8px 0 5px}
+.lit-research-go{min-height:44px!important;width:100%;text-align:center}
+.lit-research-status{margin:7px 0;font-size:13px;line-height:1.4}
+.lit-research-results{display:flex;flex-direction:column;gap:9px;
+ min-width:0;max-height:55dvh;overflow-y:auto;overscroll-behavior:contain}
+.lit-research-card{border:1px solid #42788f;border-radius:12px;background:#0b2639;
+ padding:10px;display:flex;flex-direction:column;gap:8px}
+.lit-research-card strong{overflow-wrap:anywhere}
+.lit-research-detail{white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.5}
+.lit-research-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.lit-research-actions a{color:#83e4ff;text-decoration:underline;font-size:13px}
+.lit-research-more{margin:9px 0;min-height:42px}
+@media(max-height:540px){
+ #view-module.learning-choose .education-grid{height:auto!important;min-height:0!important;
+  grid-template-rows:repeat(4,minmax(90px,auto))!important}
+}
 </style>
 </body>
 </html>`;
