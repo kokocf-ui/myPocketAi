@@ -209,7 +209,7 @@ export function worldwideStudyChapters(country,subject,level,grade,countryRo,cou
  const canonical=WORLDWIDE_SUBJECT_ALIASES[subject]||subject;
  const thematic=WORLDWIDE_GENERIC_SUBJECTS[canonical];
  if(subject!=='history'&&subject!=='geography'&&!thematic)return [];
- const national=nationalSubjectUnits(country,canonical);
+ const national=nationalSubjectUnits(country,canonical,lv,grade);
  const base=(subject==='history'||subject==='geography')
   ?(generalPaths?.[subject]?.[lv]||[])
   :thematic.map(([ro,en,focus])=>[ro,en,focus]);
