@@ -3,7 +3,7 @@ export const EXAM_UI_SCRIPT = String.raw`
 let examJourney={stage:'countries',country:null,grade:'',exam:null,subject:null,topic:null,session:2027,track:'',region:'',board:'',institution:'',programme:'',domain:null,practiceVersion:0,aiQuestions:null,aiContext:'',busy:false,serial:0,controller:null,voice:false};
 function examEl(tag,value='',cls=''){const node=document.createElement(tag);node.textContent=value;if(cls)node.className=cls;return node}
 function examBtn(label,click,cls='secondary-btn'){const b=examEl('button',label,cls);b.type='button';b.onclick=click;return b}
-function examLabel(ro,en){return learningLabel(ro,en)}
+function examLabel(ro,en){return typeof eduUiLabel==='function'?eduUiLabel(ro,en):learningLabel(ro,en)}
 function examCountry(){return LIT_COUNTRIES.find(x=>x[0]===examJourney.country)||null}
 function examCatalog(){return EXAM_SPECS_DATA.filter(x=>x.country===examJourney.country)}
 function examSelected(){return examCatalog().find(x=>x.id===examJourney.exam)||null}
