@@ -21,11 +21,19 @@ function practicalVoiceHandleAndroid(data){
  if(data.status==='recognized'||data.status==='error'){practicalJourney.voice=false;document.getElementById('practicalDictation')?.setAttribute('aria-pressed','false')}
  return true;
 }
+function practicalSpeechLocale(){
+ const locales={ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'};
+ return locales[state.language]||'en-GB';
+}
+function practicalResponseLanguage(){
+ const names={ro:'română',en:'engleză',fr:'franceză',de:'germană',it:'italiană',es:'spaniolă',pt:'portugheză',nl:'neerlandeză',ru:'rusă',pl:'poloneză'};
+ return names[state.language]||'engleză';
+}
 function practicalDictate(){
  if(practicalJourney.voice){practicalJourney.voice=false;pocketNativeVoiceSend({action:'stopListen'});document.getElementById('practicalDictation')?.setAttribute('aria-pressed','false');return}
  if(!pocketNativeVoiceAvailable()){const el=document.getElementById('practicalStatus');if(el)el.textContent=practicalLabel('Dictarea necesită aplicația Android.','Dictation requires the Android app.');return}
  stopSpeech();stopRecognition();practicalJourney.voice=true;document.getElementById('practicalDictation')?.setAttribute('aria-pressed','true');
- if(!pocketNativeVoiceSend({action:'listen',mode:'practicalCourses',language:state.language==='ro'?'ro-RO':'en-GB'})){practicalJourney.voice=false;document.getElementById('practicalDictation')?.setAttribute('aria-pressed','false')}
+ if(!pocketNativeVoiceSend({action:'listen',mode:'practicalCourses',language:practicalSpeechLocale()})){practicalJourney.voice=false;document.getElementById('practicalDictation')?.setAttribute('aria-pressed','false')}
 }
 function practicalBack(){
  practicalStop();if(state.speaking)stopSpeech();
@@ -240,7 +248,7 @@ function practicalLesson(panel){
   practicalJourney.busy=true;const serial=++practicalJourney.serial;const controller=new AbortController();practicalJourney.controller=controller;
   practiceButtons.querySelectorAll('[data-practical-ai]').forEach(b=>b.disabled=true);status.textContent=practicalLabel('Se pregătește răspunsul…','Preparing answer…');
   const started=Date.now(),task=mode==='review'?'Verifică răspunsul pe criterii explicite: corectitudine, siguranță, lacune și pași de îmbunătățire.':'Explică lecția și cazul practic, cu pași clari și exemple verificabile, în limba interfeței.';
-  const question='Ești formator pentru un curs practic. Țara / jurisdicția: '+practicalCountry()[1]+'. Domeniu: '+course.ro+'. Capitol: '+chapter.title+'. Material: '+chapter.theory+'. Metodă: '+chapter.method+'. Exemplu: '+(guide?.model?.join(' / ')||chapter.caseStudy).slice(0,3500)+'. Pași din lecție: '+(guide?.steps?.join(' / ')||chapter.method).slice(0,3000)+'. Exercițiu: '+prompt.textContent+'. Răspuns elev: '+(taskEntry.value.trim().slice(0,2200)||'(fără răspuns)').trim()+'. Cerere: '+task+'. Limba dorită: '+(state.language||'ro')+'. Nu inventa legi, taxe, licențe, prețuri, autorizări sau certificări. Nu furniza instrucțiuni pentru lucrări periculoase fără profesionist; explică riscurile și măsuri generale de siguranță. Nu afirma că ai consultat sursa oficială în timp real. Nu acorda diplome. Răspunde educativ, structurat și concis.';
+  const question='Ești formator pentru un curs practic. Țara / jurisdicția: '+practicalCountry()[1]+'. Domeniu: '+course.ro+'. Capitol: '+chapter.title+'. Material: '+chapter.theory+'. Metodă: '+chapter.method+'. Exemplu: '+(guide?.model?.join(' / ')||chapter.caseStudy).slice(0,3500)+'. Pași din lecție: '+(guide?.steps?.join(' / ')||chapter.method).slice(0,3000)+'. Exercițiu: '+prompt.textContent+'. Răspuns elev: '+(taskEntry.value.trim().slice(0,2200)||'(fără răspuns)').trim()+'. Cerere: '+task+'. Limba dorită: '+practicalResponseLanguage()+'. Formulează natural și corect gramatical, fără traduceri literale sau termeni englezești românizați artificial; păstrează terminologia tehnică consacrată. Nu inventa legi, taxe, licențe, prețuri, autorizări sau certificări. Nu furniza instrucțiuni pentru lucrări periculoase fără profesionist; explică riscurile și măsuri generale de siguranță. Nu afirma că ai consultat sursa oficială în timp real. Nu acorda diplome. Răspunde educativ, structurat și concis.';
   try{
    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module:'assistant',message:question,language:state.language,history:[]}),signal:controller.signal});
    const data=await response.json();if(!response.ok||data.status!=='success'||!data.reply)throw Error('unavailable');
