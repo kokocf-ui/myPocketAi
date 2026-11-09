@@ -38,7 +38,7 @@ function educationInternationalOpen(subject,level,grade,onBack){
  const body=mk('article','','edu-intl-reader');body.style.cssText='display:none;min-width:0;overflow-wrap:anywhere;';
  panel.append(search,list,body);host.append(panel);
  let page=0;
- const fold=value=>String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+ const fold=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  function choose(item){
   list.style.display='none';search.style.display='none';body.style.display='block';body.replaceChildren();
   const title=mk('h3',local(item[1],item[2]));body.append(title);
