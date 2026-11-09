@@ -1,8 +1,10 @@
 // Country-aware lesson reader, preserving in-module navigation and the
 // grade/country selection. A chapter outline is not marked as a full lesson.
 import {EDUCATION_BIBLIOGRAPHY_DATA} from './education_bibliography_catalog.mjs';
+import {EUROPE_EDUCATION_COUNTRIES} from './education_europe_catalog.mjs';
 export const EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT=String.raw`
 const EDUCATION_BIBLIOGRAPHY_IN_APP=${JSON.stringify(EDUCATION_BIBLIOGRAPHY_DATA)};
+const EDUCATION_EUROPE_CODES=new Set(${JSON.stringify(EUROPE_EDUCATION_COUNTRIES)});
 function educationBibliographyForRuntime(country,subject,grade){
  const c=String(country||'').toUpperCase(),s=String(subject||'').toLowerCase();
  const alias={math:'mathematics',science:'biology',computer:'computing'};
@@ -109,14 +111,14 @@ function educationInternationalOpen(subject,level,grade,onBack){
    const exerciseHeading=mk('h4',local('Exercițiu practic','Practice activity'));exerciseHeading.style.cssText='margin:9px 0 4px;';
    const exercise=mk('p',data.activity);exercise.style.cssText='margin:0 0 10px;';
    prose.append(heading,explanation,objectiveHeading,objective,exerciseHeading,exercise);
-   const check=mk('button',local('✓ Am parcurs lecția','✓ I have studied this lesson'),'secondary-btn');
+   const check=mk('button',local('✓ Am consultat fișa','✓ I have reviewed this note'),'secondary-btn');
    check.type='button';check.style.cssText='max-width:100%;min-height:44px;margin:8px 0;';
    const feedback=mk('p','','edu-intl-feedback');
    check.onclick=()=>{
     const key='pocket-intl-progress-'+code+'-'+subject+'-'+level+'-'+grade;
     try{const state=JSON.parse(localStorage.getItem(key)||'{}');state[item[0]]=new Date().toISOString();localStorage.setItem(key,JSON.stringify(state))}catch{}
-    feedback.textContent=local('Lecție marcată ca parcursă. Verifică răspunsul la exercițiu înainte de următorul capitol.',
-     'Lesson marked as studied. Check your exercise answer before the next chapter.');
+    feedback.textContent=local('Fișă consultată. Verifică lecția integrală și sursele înainte de evaluare.',
+     'Note reviewed. Check the full lesson and sources before assessment.');
    };
    const selfReview=mk('details','','edu-intl-self-check');
    const reviewSummary=mk('summary',local('Cum verific răspunsul?','How to review my answer'));
@@ -275,7 +277,7 @@ function educationInternationalOpen(subject,level,grade,onBack){
   }catch{}
  };
  // The source-indexed learning libraries must not be overwritten by AI.
- if(code!=='RO'&&code!=='GB-ENG'&&!rows.some(r=>String(r[0]).startsWith('national-')))
+ if(!EDUCATION_EUROPE_CODES.has(code)&&code!=='RO'&&code!=='GB-ENG'&&!rows.some(r=>String(r[0]).startsWith('national-')))
   refreshNationalCourse();
 }
 `;
