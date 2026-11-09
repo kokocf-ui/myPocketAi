@@ -17958,6 +17958,45 @@ main.page:has(#view-module.learning-languages.active){
  #view-module.learning-choose .education-grid{height:auto!important;min-height:0!important;
   grid-template-rows:repeat(4,minmax(90px,auto))!important}
 }
+
+/* Education: occupy the safe space above the fixed bottom navigation without
+   changing the compact layout of other sections. */
+#view-module.learning-choose .education-grid{
+ height:clamp(355px,62dvh,540px)!important;
+ min-height:355px!important;row-gap:clamp(12px,2.15dvh,21px)!important
+}
+/* Educational request handoff is a deliberate choice, never an auto-send. */
+.education-scope-dialog{
+ box-sizing:border-box;width:min(94vw,580px)!important;max-width:94vw!important;
+ max-height:min(76dvh,700px)!important;overflow-y:auto!important;
+ border:2px solid #52bfd6!important;border-radius:17px!important;
+ padding:18px!important;background:#092437!important;color:#f1fbff!important;
+ box-shadow:0 16px 48px #000a!important;z-index:100200!important
+}
+.education-scope-dialog::backdrop{background:rgba(0,13,24,.75)}
+.education-scope-dialog h2{font-size:clamp(18px,4vw,24px);line-height:1.3;margin:0 0 10px}
+.education-scope-dialog p{font-size:clamp(14px,3.5vw,17px);line-height:1.4;margin:8px 0}
+.education-scope-dialog blockquote{
+ box-sizing:border-box;margin:14px 0;padding:12px;background:#0e3449;
+ border-left:4px solid #68dce7;border-radius:8px;max-height:19dvh;
+ overflow-y:auto;overflow-wrap:anywhere;white-space:pre-wrap
+}
+.education-scope-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.education-scope-actions>button{
+ flex:1 1 140px!important;max-width:none!important;min-width:0!important;
+ min-height:44px!important;white-space:normal!important;
+ font-size:clamp(13px,3.5vw,16px)!important
+}
+.education-transfer-draft{
+ margin:10px 0;padding:12px;display:flex;flex-direction:column;gap:8px;
+ border:1px solid #52bfd6;border-radius:12px;background:#12374b;
+ overflow-wrap:anywhere
+}
+.education-transfer-draft p{margin:0;white-space:pre-wrap}
+@media(max-height:600px){
+ #view-module.learning-choose .education-grid{height:auto!important;min-height:0!important;
+ grid-template-rows:repeat(4,minmax(92px,auto))!important}
+}
 </style>
 </body>
 </html>`;
