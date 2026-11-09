@@ -2625,6 +2625,7 @@ export default {
     if (explicitMixedJourney || ((publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)))) {
       const transitStartedAt = Date.now();
       const transportErrors = {};
+      let effectiveDepartureAt=null;
       const transitOptions = [];
       const requestedOptionsCount=requestedTransitCount(message,data.transit_count);
       let targetName = "London";
@@ -2720,7 +2721,7 @@ export default {
               transit_available:false,route_available:false,reason:'departure_time_out_of_range'});
           }
           const departureAt=selectedDeparture?new Date(requestedMs).toISOString():null;
-          const effectiveDepartureAt=departureAt||(departureOffsetMinutes?new Date(Date.now()+departureOffsetMinutes*60000).toISOString():null);
+          effectiveDepartureAt=departureAt||(departureOffsetMinutes?new Date(Date.now()+departureOffsetMinutes*60000).toISOString():null);
           const transcapiZone=validTarget&&hasValidLocation?transCAPISharedZone(
             {latitude,longitude},{latitude:targetLat,longitude:targetLon}):null;
           const transcapiEligible=Boolean(transcapiZone)&&
