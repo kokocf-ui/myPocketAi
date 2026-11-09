@@ -81,12 +81,28 @@ function mapItinerary(it,now,timeZone,zone){
  }
  if(invalid||!hasTransit||!legs.length||Math.abs(last-cursor)>300000||legs.some(l=>l.cancelled))return null;
  const moving=legs.filter(l=>l.mode!=='walking'),firstBoard=moving[0];
+ const boardIndex=legs.indexOf(firstBoard),beforeBoard=legs[boardIndex-1];
+ const departure=firstBoard.departurePoint;
+ // Prefer the vehicle stop's own coordinates. If absent, the provider's
+ // final walking waypoint can identify it ONLY when its name matches.
+ const matchingWalk=beforeBoard?.mode==='walking'&&beforeBoard.to===firstBoard.from?beforeBoard:null;
+ const boardingCoordinates=Number.isFinite(departure?.lat)&&Number.isFinite(departure?.lon)?
+   {latitude:departure.lat,longitude:departure.lon}:
+   matchingWalk?.arrivalLatLon&&Number.isFinite(matchingWalk.arrivalLatLon.lat)&&Number.isFinite(matchingWalk.arrivalLatLon.lon)?
+   {latitude:matchingWalk.arrivalLatLon.lat,longitude:matchingWalk.arrivalLatLon.lon}:null;
+ const boarding_stop=boardingCoordinates?{
+   ...boardingCoordinates,label:firstBoard.from,
+   stop_id:departure.naptanId||matchingWalk?.departurePoint?.naptanId||'',
+   line_names:firstBoard.lineNames,departure_time:firstBoard.departureTime,
+   towards:firstBoard.towards,indicator:firstBoard.platform||''
+ }:null;
  const fare=zone==='gb'&&it.fare?.amount_gbp!==null&&it.fare?.amount_gbp!==undefined&&Number.isFinite(Number(it.fare.amount_gbp))?Number(it.fare.amount_gbp):null;
  return {
   provider:'TransCAPI',region:zone,time_zone:timeZone,durationMinutes:(last-first)/60000,
   startDateTime:clockString(first),arrivalDateTime:clockString(last),
   legs,routeSegments:[],geometryAvailable:false,
   firstVehicleDepartureTime:firstBoard.departureTime,walkToFirstStopMinutes,
+  boarding_stop,safetyMarginMinutes:5,
   transferCount:Math.max(0,moving.length-1),
   departureFeasible:Date.parse(firstBoard.departureTime)>=now+(walkToFirstStopMinutes+5)*60000,
   fareGBP:fare,fareComplete:fare!==null&&it.fare?.complete===true,
