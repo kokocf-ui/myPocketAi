@@ -11333,8 +11333,14 @@ function litWorkspace(panel){
   const nationalStudy=document.createElement('section');nationalStudy.className='lit-offline-theory';
   const heading=litText('h3',learningLabel('📖 Literatura țării selectate','📖 Literature in the selected country'));
   const unit=litProgram().units.find(x=>x.id===litJourney.topic);
-  const intro=litText('p',learningLabel(unit?.focus||'Studiază opera în contextul cultural și istoric, pe baza surselor verificabile.',
-   'Study the selected national author or tradition in its cultural and historical context, using verified sources.'));
+  const nationalOriginal=String(unit?.focus||'Studiază opera în contextul cultural și istoric, pe baza surselor verificabile.');
+  const intro=litText('p',state.language==='ro'?nationalOriginal:learningLabel('Se traduce lecția…','Translating lesson…'));
+  if(state.language!=='ro'){
+   const key='national-literature:'+litJourney.country+':'+litJourney.grade+':'+(unit?.id||'');
+   Promise.resolve(eduTranslateMaterial({focus:nationalOriginal},key)).then(result=>{
+    if(intro.isConnected)intro.textContent=result?.focus||nationalOriginal;
+   }).catch(()=>{if(intro.isConnected)intro.textContent=nationalOriginal});
+  }
   const task=litText('p',learningLabel('Activitate: identifică tema, două trăsături de stil și contextul; argumentează folosind un fragment pe care îl poți consulta legal.',
    'Activity: identify the theme, two stylistic features and the historical context; support your interpretation with a lawfully available excerpt.'));
   nationalStudy.append(heading,intro,task);panel.append(nationalStudy);
