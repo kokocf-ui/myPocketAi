@@ -88,7 +88,7 @@ export async function planUKNationalJourney(env,from,to,limit=4){
  url.searchParams.set('limit',String(Math.min(4,Math.max(1,Number(limit)||4))));
  let response,payload;
  try{
-  response=await fetch(url,{headers:{'X-Api-Key':key,'Accept':'application/json'},signal:AbortSignal.timeout(14000)});
+  response=await fetch(url.toString(),{headers:{'X-Api-Key':key,'Accept':'application/json'},signal:AbortSignal.timeout(14000)});
   if(!response.ok)return {status:response.status===429?'quota_exceeded':response.status===422?'outside_coverage':'http_'+response.status,journeys:[]};
   payload=await response.json();
  }catch{return {status:'unavailable',journeys:[]};}
