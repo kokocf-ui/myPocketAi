@@ -18,7 +18,9 @@ const sourceData={results:[
   highlights:['Tokugawa shogunate and Edo period 1603 to 1868. Japanese school history examines social and cultural transitions, political domains and everyday life.']},
  {title:'Japan history education Edo era source',url:'https://www.nichibun.ac.jp/en/education',
   highlights:['Japan Edo period history includes the Tokugawa shogunate, urban life and social organisations.']},
- {title:'Fake unrelated hit',url:'http://127.0.0.1/data',highlights:['Edo period']}]
+ {title:'Fake unrelated hit',url:'http://127.0.0.1/data',highlights:['Edo period']},
+ {title:'German secondary school history of Edo-period Japan',url:'https://www.kmk.org/education/syllabus',
+  highlights:['Germany secondary syllabus includes a comparative lesson on the Japanese Edo period.']}]
 };
 let searches=0,models=0;
 const fakeFetch=async(url,opts)=>{
