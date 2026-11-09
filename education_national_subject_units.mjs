@@ -168,7 +168,7 @@ export function nationalSubjectUnits(country,subject,level='',grade=''){
  if(!level||!grade||rows.length<2)return rows;
  // The grade determines an advisory teaching order; no unsupported legal
  // claim is made about the official annual sequence.
- const number=Number(String(grade).match(/\\d+/)?.[0]||0);
+ const number=Number(String(grade).match(/\d+/)?.[0]||0);
  const offset=Number.isFinite(number)&&number>0?(number-1)%rows.length:0;
  return [...rows.slice(offset),...rows.slice(0,offset)];
 }
