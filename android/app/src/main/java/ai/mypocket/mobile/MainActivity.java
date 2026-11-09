@@ -594,6 +594,8 @@ public final class MainActivity extends ComponentActivity {
                         if("list".equals(request))listEducationDocuments();
                         else if(request.startsWith("print:"))printEducationDocumentByName(request.substring(6));
                         else if(request.startsWith("share:"))shareEducationDocumentByName(request.substring(6));
+                        else if(request.startsWith("open:"))openEducationDocumentByName(request.substring(5));
+                        else if(request.startsWith("delete:"))deleteEducationDocumentByName(request.substring(7));
                     });
                 });
         }
@@ -1367,6 +1369,33 @@ public final class MainActivity extends ComponentActivity {
             send.setClipData(android.content.ClipData.newUri(getContentResolver(),filename,uri));
             startActivity(Intent.createChooser(send,"Trimite documentul PDF"));
         }catch(Exception ignored){notifyEducationPdf("shareUnavailable");}
+    }
+
+    // Open an existing saved PDF in the user's installed PDF viewer.
+    private void openEducationDocumentByName(String filename){
+        try{
+            if(filename==null||!filename.matches("[^/\\\\\\\\]{1,150}\\\\.pdf"))return;
+            File folder=educationDocumentsFolder();
+            File file=new File(folder,filename);
+            if(!file.getCanonicalPath().startsWith(folder.getCanonicalPath()+File.separator)||!file.isFile())return;
+            Uri uri=FileProvider.getUriForFile(this,getPackageName()+".fileprovider",file);
+            Intent view=new Intent(Intent.ACTION_VIEW);
+            view.setDataAndType(uri,"application/pdf");
+            view.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            view.setClipData(android.content.ClipData.newUri(getContentResolver(),filename,uri));
+            startActivity(Intent.createChooser(view,"Deschide documentul PDF"));
+        }catch(Exception ignored){notifyEducationPdf("openUnavailable");}
+    }
+    // Called only after explicit confirmation in the document library UI.
+    private void deleteEducationDocumentByName(String filename){
+        try{
+            if(filename==null||!filename.matches("[^/\\\\\\\\]{1,150}\\\\.pdf"))return;
+            File folder=educationDocumentsFolder();
+            File file=new File(folder,filename);
+            if(!file.getCanonicalPath().startsWith(folder.getCanonicalPath()+File.separator)||!file.isFile())return;
+            if(file.delete())listEducationDocuments();
+            else notifyEducationPdf("error");
+        }catch(Exception ignored){notifyEducationPdf("error");}
     }
 
     // Structured A4 PDF: explicit paragraphs, headings and page numbers.
