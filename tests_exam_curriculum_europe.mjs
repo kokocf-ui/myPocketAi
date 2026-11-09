@@ -143,6 +143,12 @@ assert.match(EXAM_UI_SCRIPT,/practiceVersion=/,'Rotate practice variants, not ju
 assert.match(EXAM_UI_SCRIPT,/q\.diagram/,'Attach relevant figures to the question they explain');
 assert.match(EXAM_UI_SCRIPT,/examPracticeAnchor/,'Scroll to the new simulation');
 assert.match(EXAM_UI_SCRIPT,/printableGuide\.querySelectorAll/,'Include all study notes in printable PDF');
+assert.match(EXAM_UI_SCRIPT,/printPart\.hidden=true/,'Romanian print-only notes must not duplicate the visible study window');
+assert.match(EXAM_UI_SCRIPT,/printableGuide\.hidden=true/,'Biology print-only duplicate is hidden from user');
+assert.match(EXAM_UI_SCRIPT,/clone\.hidden=true/,'Universal print-only duplicate is hidden from user');
+assert.match(EXAM_UI_SCRIPT,/field\.scrollIntoView/,'Using a Romanian work takes user to the editable task');
+assert.doesNotMatch(EXAM_UI_SCRIPT,/field\.focus\(/,'Using a work must not pop up the Android keyboard');
+
 assert.match(EXAM_UI_SCRIPT,/function examUniversalResources/,'Real study notes for non-Romanian and non-biology subjects');
 assert.match(EXAM_UI_SCRIPT,/EXAM_THEORY_DATA\[subject\.id\]/,'Reuse verified theory source');
 assert.match(EXAM_UI_SCRIPT,/function examFreshPractice/,'Create new exam quizzes for small local pools');
