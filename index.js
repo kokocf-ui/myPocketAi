@@ -3488,7 +3488,7 @@ function renderMyDocuments(){
  const icon=(glyph,title,kind,handler)=>{const b=document.createElement('button');b.type='button';b.className='edu-icon-action edu-icon-'+kind;b.textContent=glyph;b.title=title;b.setAttribute('aria-label',title);b.onclick=handler;actions.append(b);return b};
  const print=icon('🖨',learningLabel('Imprimă PDF','Print PDF'),'print',()=>{for(const name of selected)window.PocketAndroidDocuments?.postMessage('print:'+name)});
  const share=icon('↗',learningLabel('Trimite PDF prin WhatsApp sau e-mail','Share PDF via WhatsApp or email'),'share',()=>{for(const name of selected)window.PocketAndroidDocuments?.postMessage('share:'+name)});
- const del=icon('🗑',learningLabel('Șterge PDF','Delete PDF'),'delete',()=>{if(!selected.size)return;if(!confirm(learningLabel('Ștergi definitiv documentele selectate?','Permanently delete selected documents?')))return;for(const name of selected)window.PocketAndroidDocuments?.postMessage('delete:'+name);selected.clear();refresh()});
+ const del=icon('🗑',learningLabel('Șterge PDF','Delete PDF'),'delete',()=>{if(!selected.size)return;pocketConfirm(learningLabel('Ștergi definitiv documentele selectate?','Permanently delete selected documents?'),()=>{for(const name of selected)window.PocketAndroidDocuments?.postMessage('delete:'+name);selected.clear();refresh()})});
  const refresh=()=>{print.disabled=selected.size!==1;share.disabled=selected.size!==1;del.disabled=!selected.size};refresh();panel.append(actions);
  const status=document.createElement('p');status.className='my-documents-status';status.setAttribute('role','status');status.textContent=learningLabel('Se încarcă documentele…','Loading documents…');panel.append(status);
  const list=document.createElement('div');list.className='my-documents-list';panel.append(list);host.append(panel);
@@ -3500,7 +3500,7 @@ function renderMyDocuments(){
    const row=document.createElement('div');row.className='my-documents-row';
    const check=document.createElement('input');check.type='checkbox';check.className='my-documents-check';check.checked=selected.has(doc.name);check.setAttribute('aria-label',learningLabel('Selectează ','Select ')+doc.name);check.onchange=()=>{if(check.checked)selected.add(doc.name);else selected.delete(doc.name);refresh()};
    const name=document.createElement('button');name.type='button';name.className='my-documents-open';name.title=learningLabel('Deschide PDF','Open PDF');const title=document.createElement('strong');title.textContent=doc.name;const date=document.createElement('small');date.textContent=new Date(doc.date).toLocaleDateString()+' · '+Math.ceil(doc.bytes/1024)+' KB';name.append(title,date);name.onclick=()=>window.PocketAndroidDocuments?.postMessage('open:'+doc.name);
-   const trash=document.createElement('button');trash.type='button';trash.className='edu-icon-action edu-icon-delete';trash.textContent='🗑';trash.title=learningLabel('Șterge PDF','Delete PDF');trash.setAttribute('aria-label',trash.title);trash.onclick=()=>{if(confirm(learningLabel('Ștergi definitiv ','Permanently delete ')+doc.name+'?'))window.PocketAndroidDocuments?.postMessage('delete:'+doc.name)};
+   const trash=document.createElement('button');trash.type='button';trash.className='edu-icon-action edu-icon-delete';trash.textContent='🗑';trash.title=learningLabel('Șterge PDF','Delete PDF');trash.setAttribute('aria-label',trash.title);trash.onclick=()=>pocketConfirm(learningLabel('Ștergi definitiv ','Permanently delete ')+doc.name+'?',()=>window.PocketAndroidDocuments?.postMessage('delete:'+doc.name));
    row.append(check,name,trash);list.append(row);
   }
  };window.PocketAndroidDocuments.postMessage('list');
@@ -11328,9 +11328,9 @@ function litWorkspace(panel){
  const attachment=document.createElement('input');attachment.type='file';attachment.accept='.txt,text/plain,.md,text/markdown';attachment.className='lit-upload';
  const uploadLabel=litText('label',learningLabel('Încarcă text (.txt sau .md)','Upload text (.txt or .md)'));uploadLabel.className='lit-label';uploadLabel.append(attachment);panel.append(uploadLabel);
  attachment.addEventListener('change',async()=>{const file=attachment.files?.[0];if(!file)return;
-  if(file.size>1024*512){alert(learningLabel('Fișierul este prea mare (maxim 512 KB).','File is too large (maximum 512 KB).'));return}
+  if(file.size>1024*512){pocketInfo(learningLabel('Fișier prea mare','File too large'),learningLabel('Fișierul este prea mare (maxim 512 KB).','File is too large (maximum 512 KB).'));return}
   try{source.value=(await file.text()).slice(0,100000)}
-  catch{alert(learningLabel('Textul nu a putut fi citit.','Could not read text.'))}
+  catch{pocketInfo(learningLabel('Eroare citire','Read error'),learningLabel('Textul nu a putut fi citit.','Could not read text.'))}
  });
  const controls=document.createElement('div');controls.className='lit-controls';
  const typelabel=litText('label',learningLabel('Tipul lucrării','Writing type'));const type=document.createElement('select');type.className='lit-input';
@@ -11475,7 +11475,7 @@ async function eduPdfFigures(){
 }
 function eduOpenPrint(mode='save'){
  const material=arguments[1]||eduCurrentPrintable();
- if(!material?.text.trim()){alert(learningLabel('Nu există încă un material de imprimat. Generează sau completează mai întâi lucrarea.','No printable material yet. Generate or complete the work first.'));return}
+ if(!material?.text.trim()){pocketInfo(learningLabel('Material indisponibil','No printable material'),learningLabel('Nu există încă un material de imprimat. Generează sau completează mai întâi lucrarea.','No printable material yet. Generate or complete the work first.'));return}
  const dialog=document.createElement('dialog');dialog.className='edu-print-dialog';
  const header=document.createElement('div');header.className='edu-print-head';
  const heading=document.createElement('strong');heading.textContent=mode==='print'?learningLabel('Imprimare document PDF','Print PDF document'):learningLabel('Salvare document PDF','Save PDF document');
@@ -11494,10 +11494,10 @@ function eduOpenPrint(mode='save'){
    const figures=await eduPdfFigures();window.PocketAndroidPrint.postMessage(JSON.stringify({mode,title:title.slice(0,120),text:text.slice(0,160000),color:document.getElementById('litPdfColor')?.value!=='bw',pages:Number(document.getElementById('litPageCount')?.value||0),figures}));return;
   }
   if(mode==='print'){
-   alert(learningLabel('Imprimarea cu salvare automată PDF necesită aplicația Android actualizată.','Printing with mandatory PDF saving requires the updated Android app.'));return;
+   pocketInfo(learningLabel('Imprimare PDF','PDF printing'),learningLabel('Imprimarea cu salvare automată PDF necesită aplicația Android actualizată.','Printing with mandatory PDF saving requires the updated Android app.'));return;
   }
   const win=window.open('','_blank');
-  if(!win){alert(learningLabel('Permite fereastra de salvare PDF sau folosește aplicația Android.','Allow the PDF save window or use the Android app.'));return}
+  if(!win){pocketInfo(learningLabel('Salvare PDF','PDF saving'),learningLabel('Permite fereastra de salvare PDF sau folosește aplicația Android.','Allow the PDF save window or use the Android app.'));return}
   const markup='<html><head><meta charset="utf-8"><title>'+eduPrintEscape(title)+'</title><style>body{font-family:Arial,sans-serif;color:#111;margin:18mm;line-height:1.5}h1{font-size:20pt}article{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11pt}@page{size:A4;margin:16mm}</style></head><body><h1>'+eduPrintEscape(title)+'</h1><article>'+eduPrintEscape(text)+'</article></body></html>';
   win.document.open();win.document.write(markup);win.document.close();win.focus();win.print();
  };
