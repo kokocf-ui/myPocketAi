@@ -109,7 +109,9 @@ function mapItinerary(it,now,timeZone,zone){
   nextAvailable:false
  };
 }
-export async function planTransCAPIJourney(env,from,to,limit=4){
+export async function planTransCAPIJourney(env,from,to,limit=4,options={}){
+ const preference=options?.preference==='bus_only'?'bus_only':'all';
+ const departureOffsetMinutes=[0,60,120].includes(Number(options?.departureOffsetMinutes))?Number(options.departureOffsetMinutes):0;
  const key=String(env?.TRANSCAPI_API_KEY||'').trim();
  if(!key)return {status:'not_configured',journeys:[]};
  const zone=transCAPISharedZone(from,to);
@@ -117,7 +119,9 @@ export async function planTransCAPIJourney(env,from,to,limit=4){
  const url=new URL('https://api.transcapi.com/v1/journey.json');
  url.searchParams.set('from_lat',String(from.latitude));url.searchParams.set('from_lon',String(from.longitude));
  url.searchParams.set('to_lat',String(to.latitude));url.searchParams.set('to_lon',String(to.longitude));
- url.searchParams.set('transit_modes','tram,rail');
+ // TransCAPI always searches bus and coach; empty transit_modes means ONLY bus/coach.
+ url.searchParams.set('transit_modes',preference==='bus_only'?'':'tram,rail');
+ if(departureOffsetMinutes)url.searchParams.set('datetime',new Date(Date.now()+departureOffsetMinutes*60000).toISOString());
  url.searchParams.set('modes','');url.searchParams.set('include_steps','true');
  url.searchParams.set('include_fares','true');url.searchParams.set('include_live','true');
  url.searchParams.set('limit',String(Math.min(4,Math.max(1,Number(limit)||4))));
@@ -133,12 +137,13 @@ export async function planTransCAPIJourney(env,from,to,limit=4){
  for(const candidate of payload.itineraries.slice(0,20)){
   const j=mapItinerary(candidate,now,timeZone,zone);
   if(!j||!j.departureFeasible)continue;
+  if(preference==='bus_only'&&j.legs.some(l=>l.mode!=='walking'&&l.mode!=='bus'&&l.mode!=='coach'))continue;
   const signature=j.legs.filter(l=>l.mode!=='walking').map(l=>[l.mode,l.from,l.to,l.departureTime,...l.lineNames].join('|')).join('~');
   if(seen.has(signature))continue;
   seen.add(signature);j.nextAvailable=payload.next_available===true;journeys.push(j);
  }
  journeys.sort((a,b)=>Date.parse(a.startDateTime)-Date.parse(b.startDateTime)||Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime));
- return {status:journeys.length?'success':'no_usable_journeys',region:zone,journeys:journeys.slice(0,Math.min(4,Math.max(1,Number(limit)||4)))};
+ return {status:journeys.length?'success':'no_usable_journeys',region:zone,preference,departureOffsetMinutes,journeys:journeys.slice(0,Math.min(4,Math.max(1,Number(limit)||4)))};
 }
 // Preserve the existing UK adapter API for previous tests and integrations.
 export const planUKNationalJourney=planTransCAPIJourney;
