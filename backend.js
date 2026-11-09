@@ -662,6 +662,21 @@ function removeRepeatedRecipeIngredients(answer){
  }
  return {text:out.join('\n'),duplicates};
 }
+// TfL nationalSearch is not a substitute for national rail and regional
+// journey planners. This guard is deliberately about coverage, not country.
+function isTfLLondonCorridorPoint(lat,lon){
+ return Number.isFinite(lat)&&Number.isFinite(lon)&&lat>=51.28&&lat<=51.72&&lon>=-0.55&&lon<=0.43;
+}
+function officialUKTransitSources(destination){
+ const lat=Number(destination?.latitude),lon=Number(destination?.longitude);
+ const links=[
+  {name:'National Rail',url:'https://www.nationalrail.co.uk/journey-planner/',kind:'rail',description:'Verified UK railway timetable and fares (enter departure and arrival stations)'},
+  {name:'Traveline',url:'https://www.traveline.info/plan-a-journey',kind:'multimodal',description:'UK bus, coach and wider public transport journey planning'}
+ ];
+ if(Number.isFinite(lat)&&Number.isFinite(lon)&&lat>=53.3&&lat<=53.7&&lon>=-2.7&&lon<=-1.8)
+  links.push({name:'Bee Network / TfGM',url:'https://tfgm.com/plan-a-journey',kind:'regional',description:'Greater Manchester bus, tram and local journey planner'});
+ return links;
+}
 function formatJourneyDurationMinutes(value,language='ro'){
  if(value===null||value===undefined||!Number.isFinite(Number(value))||Number(value)<0)return '—';
  const amount=Math.round(Number(value)),days=Math.floor(amount/1440),hours=Math.floor(amount%1440/60),minutes=amount%60;
@@ -2646,6 +2661,8 @@ export default {
         const knownCountry=geoQueryParts(targetName).country;
         const selectedCountry=String(selectedDestination?.country_code||selectedDestination?.countryCode||'').toUpperCase();
         const hasCoordinates=Number.isFinite(targetLat)&&Number.isFinite(targetLon);
+        const ukRegionalJourney=hasCoordinates&&targetLat>=49.8&&targetLat<=59.5&&targetLon>=-9.1&&targetLon<=2.8&&
+          !(isTfLLondonCorridorPoint(latitude,longitude)&&isTfLLondonCorridorPoint(targetLat,targetLon));
         const outsideUkCoordinates=hasCoordinates&&!(targetLat>=49.8&&targetLat<=59.5&&targetLon>=-9.1&&targetLon<=2.8);
         let internationalTarget=Boolean((knownCountry&&knownCountry!=='GB')||(selectedCountry&&selectedCountry!=='GB')||outsideUkCoordinates);
         // Resolve city-only destinations in a mixed/international travel request before calling TfL.
@@ -2666,7 +2683,7 @@ export default {
             }
           }catch{}
         }
-        if(internationalTarget||explicitMixedJourney){
+        if(internationalTarget||explicitMixedJourney||ukRegionalJourney){
           // A previously selected, verified UK station already has coordinates.
           // Avoid geocoding it again just because the first snapshot was absent.
           if(!(Number.isFinite(targetLat)&&Number.isFinite(targetLon))&&env.GEOAPIFY_API_KEY){
@@ -2707,9 +2724,9 @@ export default {
           const reply=lang==='en'
             ? 'I identified '+targetName+' as the destination, but I cannot yet verify a complete mixed-mode itinerary with real departure times. '+(detail==='international_provider_not_connected'?'An authorized international journey provider has not been configured.':'The connected provider did not confirm a usable complete journey.')+' I will not invent connections, flights or timetables.'
             : 'Am identificat '+targetName+' ca destinație, dar nu pot verifica încă un itinerar mixt complet cu ore reale de plecare. '+(detail==='international_provider_not_connected'?'Nu este configurat un furnizor internațional autorizat.':'Furnizorul conectat nu a confirmat o călătorie completă utilizabilă.')+' Nu voi inventa legături, zboruri sau orare.';
-          // An overseas journey must only use a connected authorized international
-          // provider. Inside the UK, the existing TfL planner remains available
-          // if optional MOTIS is missing, offline or returns no usable itinerary.
+          // Overseas journeys require an authorized provider. UK national journeys
+          // may use TfL only when the whole journey falls in the London corridor;
+          // the national fallback below supplies official verification links.
           if(internationalTarget){
             return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
               route_available:false,transit_available:false,international_journey:true,mixed_journey:true,international_destination:targetName,
@@ -2894,6 +2911,22 @@ export default {
         if (!hasValidLocation) {
           const reply = lang === "en" ? "To plan public transport from your current position, allow location access in the map module or enter a starting postcode or station. No journey has been guessed." : "Pentru a planifica transportul public de la poziția ta, permite accesul la locație în modulul Hărți sau introdu un cod poștal ori o stație de plecare. Nu am inventat un traseu.";
           return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:false,transit_available:false,reason:"origin_location_missing",ai_connected:Boolean(env.AI)});
+        }
+        // National UK public transport must not be routed through London's
+        // planner when either verified endpoint is outside its local corridor.
+        const inUkDestination=targetLat>=49.8&&targetLat<=59.5&&targetLon>=-9.1&&targetLon<=2.8;
+        const londonCorridor=isTfLLondonCorridorPoint(latitude,longitude)&&isTfLLondonCorridorPoint(targetLat,targetLon);
+        if(inUkDestination&&!londonCorridor){
+          const links=officialUKTransitSources({latitude:targetLat,longitude:targetLon});
+          const detail=transportErrors.motis||'national_provider_not_configured';
+          const reply=lang==='en'
+            ? 'The destination '+targetName+' is outside the London planning area. I cannot yet verify a nationwide public-transport itinerary with real times. Use National Rail for train connections, Traveline for bus/coach connections and the regional planner where available. These are official planning sources, not invented departures.'
+            : 'Destinația '+targetName+' este în afara zonei de planificare londoneze. Nu pot verifica încă un itinerar național cu ore reale. Consultă National Rail pentru legăturile feroviare, Traveline pentru autobuze/autocare și planificatorul regional, unde este disponibil. Sunt surse de verificare, nu plecări inventate.';
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
+            route_available:false,transit_available:false,uk_national_journey:true,mixed_journey:explicitMixedJourney,
+            transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
+            planning_links:links,transit_provider:'national_unverified',
+            provider_status:{tfl:'outside_london_corridor',motis:detail},reason:'national_public_transport_not_verified',ai_connected:Boolean(env.AI)});
         }
         if (env.TFL_APP_KEY) {
           try {
