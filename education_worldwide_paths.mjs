@@ -1,4 +1,5 @@
 import {nationalSubjectUnits} from './education_national_subject_units.mjs';
+import {EUROPE_ADVISORY_SCHOOL_SCHEMES} from './education_europe_catalog.mjs';
 // Worldwide Education: one country-first school-year selection for all
 // subjects, without presenting an international approximation as the national
 // legally prescribed syllabus. ISCED is a comparison framework, NOT a syllabus.
@@ -64,6 +65,10 @@ export const EDUCATION_WORLDWIDE_SCHEMES={
  UA:scheme(grades(1,4),grades(5,9),grades(10,12),'Tranziția către noile structuri poate diferi după cohortă; verifică programa actuală.'),
  IL:scheme(grades(1,6),grades(7,9),grades(10,12),'Diferite sisteme și limbi de predare; configurație orientativă.')
 };
+// Keep all pre-existing schemes; improve Europe-only school-year navigation.
+for(const [country,model] of Object.entries(EUROPE_ADVISORY_SCHOOL_SCHEMES)){
+ if(!EDUCATION_WORLDWIDE_SCHEMES[country])EDUCATION_WORLDWIDE_SCHEMES[country]=model;
+}
 export const EDUCATION_WORLDWIDE_FALLBACK=fallback;
 export function worldwideSchoolYears(country,level,subject=''){
  const lv=level==='intermediate'?'medium':level;
