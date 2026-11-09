@@ -258,7 +258,7 @@ function examOpen(stage){
     const l=examEl('label',label,'lit-label'),input=examEl('input');input.className='lit-input';input.placeholder=placeholder;input.value=examJourney[id]||'';
     input.oninput=()=>{examJourney[id]=input.value.trim().slice(0,90)};l.append(input);panel.append(l);
    };
-   if(exam.requiresRegion)addField('region',examLabel('Land / regiune / comunitate','State or region'),examLabel('Ex.: Bayern, Cataluña…','E.g. Bavaria, Catalonia…'));
+   if(exam.requiresRegion)addField('region',examLabel('Stat / regiune / comunitate','State or region'),examLabel('Ex.: Bayern, Cataluña…','E.g. Bavaria, Catalonia…'));
    if(exam.requiresBoard)addField('board',examLabel('Comisie / specificație','Exam board / specification'),examLabel('Ex.: AQA, Edexcel, OCR, WJEC…','E.g. AQA, Edexcel, OCR, WJEC…'));
    if(exam.requiresTrack)addField('track',examLabel('Profil / filieră','Track / pathway'),examLabel('Ex.: real, tehnologic, general…','E.g. science, technical, general…'));
    panel.append(examEl('p',examLabel('Selectarea exactă a probei poate depinde de câmpurile de mai sus; fără o specificație verificată nu se certifică alinierea.','Exact subject requirements may depend on the fields above; do not assume verified alignment.')));
