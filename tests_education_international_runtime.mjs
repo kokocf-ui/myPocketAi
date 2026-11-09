@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import frontend from './index.js';
 import {educationBibliographyFor,EDUCATION_BIBLIOGRAPHY_DATA} from './education_bibliography_catalog.mjs';
-import {EUROPE_EDUCATION_COUNTRIES,EUROPE_EDUCATION_SOURCES,isEuropeanEducationCountry,EUROPE_ADVISORY_SCHOOL_SCHEMES} from './education_europe_catalog.mjs';
+import {EUROPE_EDUCATION_COUNTRIES,EUROPE_EDUCATION_SOURCES,EUROPE_EURYDICE_COUNTRIES,isEuropeanEducationCountry,EUROPE_ADVISORY_SCHOOL_SCHEMES} from './education_europe_catalog.mjs';
 import {EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT} from './education_international_course_ui.mjs';
 import {nationalSubjectUnits,NATIONAL_SUBJECT_UNITS} from './education_national_subject_units.mjs';
 import {worldwideStudyChapters,WORLDWIDE_GENERIC_SUBJECTS} from './education_worldwide_paths.mjs';
@@ -15,8 +15,13 @@ assert.equal(new Set(EUROPE_EDUCATION_COUNTRIES).size,EUROPE_EDUCATION_COUNTRIES
 for(const code of EUROPE_EDUCATION_COUNTRIES){
  assert.ok(isEuropeanEducationCountry(code),'Missing Europe code: '+code);
  assert.ok(EUROPE_EDUCATION_SOURCES[code]);
- assert.ok(EDUCATION_BIBLIOGRAPHY_DATA[code]?.some(r=>r.kind==='education-system-comparison'),
-  'Missing Europe school-system reference: '+code);
+ assert.ok(Array.isArray(EDUCATION_BIBLIOGRAPHY_DATA[code]),'Missing Europe source registry: '+code);
+ if(EUROPE_EURYDICE_COUNTRIES.includes(code))
+  assert.ok(EDUCATION_BIBLIOGRAPHY_DATA[code].some(r=>r.kind==='education-system-comparison'),
+   'Missing Eurydice comparison for participating country: '+code);
+ else
+  assert.ok(!EDUCATION_BIBLIOGRAPHY_DATA[code].some(r=>r.id==='europe-structure-2026-'+code),
+   'Do not cite Eurydice as a national source for uncovered jurisdiction: '+code);
 }
 for(const code of ['JP','BR','AU','CA']){
  assert.equal(isEuropeanEducationCountry(code),false);
