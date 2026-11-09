@@ -3020,6 +3020,15 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
 @media(max-width:370px){#view-module.learning-hg .hg-choice-list{grid-template-columns:1fr!important}}
 
 
+/* Keep PDF save/print icon buttons compact even inside wide education toolbars. */
+#view-module.learning-active .education-toolbar .edu-pdf-actions > .secondary-btn.edu-icon-action{
+ min-width:42px!important;max-width:42px!important;
+ min-height:42px!important;max-height:42px!important;
+ width:42px!important;height:42px!important;
+ padding:0!important;margin:0!important;
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+}
+
 /* Compact, inline curriculum navigator available in each subject lesson. */
 #view-module.learning-active .education-topic-picker{
  min-width:0;width:100%;border:1px solid #478da3;border-radius:12px;
