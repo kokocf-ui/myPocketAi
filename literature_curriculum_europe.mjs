@@ -1,3 +1,4 @@
+import {LITERATURE_DEEP_UNITS} from './literature_extended_study.mjs';
 // Literature pathways for Europe, referenced against official national/jurisdictional
 // publications. A verified framework is NOT an exhaustive list of mandatory works.
 // The generic path is explicitly advisory when a country, grade or track is not checked.
@@ -136,6 +137,27 @@ export const LIT_EU_PROGRAMS={
  byLevel:{beginner:[['listen','Klausīšanās un saziņa','Ascultare și comunicare în context.','communication'],['read','Lasīšana','Citire, înțelegere și literatură.','genres'],['write','Rakstīšana','Compunere și ortografie.','composition']],medium:[['texts','Teksti un literatūra','Receptare literară și interpretare.','authors'],['language','Valodas līdzekļi','Analiză și folosire a limbii.','grammar'],['writing','Argumentēšana','Scriere, conversație și argumentare.','essay']]}}
 
 };
+// Every level must expose a meaningful sequence of smaller study units in
+// addition to its broad curriculum domains. Not a mandatory list of texts.
+function literatureExpandRows(rows,level){
+ const known=new Set(rows.map(x=>String(x[0])));
+ for(const [id,title,focus,area] of (LITERATURE_DEEP_UNITS[level]||[])){
+  const uniqueId='study-'+level+'-'+id;
+  if(!known.has(uniqueId)){rows.push([uniqueId,title,focus,area]);known.add(uniqueId)}
+ }
+}
+for(const [level,rows] of Object.entries(LIT_EU_COMMON))literatureExpandRows(rows,level);
+for(const profile of Object.values(LIT_EU_PROGRAMS)){
+ for(const [level,rows] of Object.entries(profile.byLevel||{})){
+  literatureExpandRows(rows,level==='intermediate'?'medium':level);
+ }
+ for(const [grade,rows] of Object.entries(profile.byGrade||{})){
+  const year=Number(String(grade).replace('Y',''));
+  const level=year<=4?'beginner':year<=8?'lower':'medium';
+  literatureExpandRows(rows,level);
+ }
+}
+
 export function litEuropeanPlan(country, level, grade, track){
  const profile=LIT_EU_PROGRAMS[country]||null;
  const generic=LIT_EU_COMMON[level]||LIT_EU_COMMON.medium;
