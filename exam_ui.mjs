@@ -30,8 +30,7 @@ function examRomanianResources(panel,printable){
   if(!w||!field)return;
   field.value=w[0]+' — '+w[1]+'. '+examLabel('Cerință: rezumat și analiză tematică.','Task: summary and thematic analysis.');
   field.dispatchEvent(new Event('input',{bubbles:true}));
-  field.scrollIntoView({behavior:'smooth',block:'center'});
-  field.focus({preventScroll:true});
+  field.scrollIntoView({behavior:'smooth',block:'center'}); // No forced keyboard: focus occurs only after user taps.
   examStatus(examLabel('Opera a fost introdusă în câmpul de lucru. Poți modifica cerința.','Work inserted into the writing field. You can edit the task.'));
  },'secondary-btn');
  const warning=examEl('p',examLabel('Materialele sunt rezumate originale pentru informare, nu texte integrale și nici listă oficială de opere obligatorii. Pentru analiza unui fragment concret, introdu textul sau cerința în câmpul de mai jos.','These are original study notes, not full texts or an official list of prescribed works. Enter a passage or request below for a specific analysis.'));
