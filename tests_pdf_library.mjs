@@ -19,4 +19,14 @@ assert.match(frontend,/async function eduPdfFigures\(/,'graphics captured for PD
 assert.match(android,/ColorMatrixColorFilter/,'grayscale diagram support');
 assert.match(android,/canvas\.drawBitmap\(bitmap/,'figures embedded in native PDF');
 assert.match(android,/canvas\.drawText\("Pagina "/,'native PDF page numbering');
+assert.match(frontend,/PocketAndroidDocuments\\?\\.postMessage\\('open:'/,'PDF open command wired');
+assert.match(frontend,/PocketAndroidDocuments\\?\\.postMessage\\('delete:'/,'PDF delete command wired');
+assert.match(frontend,/my-documents-check/,'Document checkbox is available');
+assert.match(frontend,/edu-icon-save/,'Compact save icon');
+assert.match(frontend,/edu-icon-print/,'Compact print icon');
+assert.match(frontend,/edu-icon-delete/,'Compact delete icon');
+assert.match(android,/request\\.startsWith\\("open:"\\)/,'Native open command');
+assert.match(android,/request\\.startsWith\\("delete:"\\)/,'Native delete command');
+assert.match(android,/Intent\\.ACTION_VIEW/,'Native PDF viewer');
+assert.match(android,/private void deleteEducationDocumentByName/,'Native PDF deletion');
 console.log('PDF library and literature export integration checks passed');
