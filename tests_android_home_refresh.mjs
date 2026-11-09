@@ -51,7 +51,7 @@ const localHome=cardModules(html),remoteHome=cardModules(liveText);
 assert.deepEqual(localHome.codes,expectedCards,'GitHub home card order must be expected');
 assert.deepEqual(remoteHome.codes,expectedCards,'Cloudflare must serve Einstein home card order');
 assert.match(remoteHome.content,/class="home-einstein"/,'Live home contains approved Einstein image');
-assert.match(remoteHome.content,/data:image\\/webp;base64,/,'Live Einstein portrait embedded');
+assert.ok(remoteHome.content.includes('data:image/webp;base64,'),'Live Einstein portrait embedded');
 assert.match(remoteHome.content,/Caută cazare și opțiuni de sejur/,'Hotel card is newly labelled');
 assert.doesNotMatch(remoteHome.content,/Călătorii și turism/,'Old Travel label must not render');
 console.log('PASS live Cloudflare cards and Einstein image. Runtime version token differs:',actual!==expected);
