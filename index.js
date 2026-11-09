@@ -10968,7 +10968,7 @@ function litWorkspace(panel){
  let lookupSerial=0,lookupAuthor=null,lookupOffset=0,lookupTotal=0,lookupBusy=false;
  lookupRow.append(lookupButton);panel.append(lookupRow,lookupStatus,lookupResults,lookupMore);
  work.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();lookupButton.click()}});
- const cleanName=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+ const cleanName=value=>String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLocaleLowerCase().replace(/[^\\p{L}\\p{N}]+/gu,' ').trim();
  const catalogRead=async url=>{
   if(lookupCache.has(url))return lookupCache.get(url);
   const request=fetch(url,{credentials:'omit',headers:{Accept:'application/json'}}).then(async response=>{
@@ -10989,12 +10989,12 @@ function litWorkspace(panel){
   return litBtn(label,callback,'secondary-btn');
  };
  const authorKey=value=>{
-  const key=String(value||'').replace(/^\/authors\//,'');
-  return /^OL\d+A$/.test(key)?key:'';
+  const key=String(value||'').replace(/^\\/authors\\//,'');
+  return /^OL\\d+A$/.test(key)?key:'';
  };
  const workKey=value=>{
-  const key=String(value||'').replace(/^\/works\//,'');
-  return /^OL\d+W$/.test(key)?key:'';
+  const key=String(value||'').replace(/^\\/works\\//,'');
+  return /^OL\\d+W$/.test(key)?key:'';
  };
  const chooseWork=(item,authorName)=>{
   const name=String(authorName||'').trim(),title=String(item?.title||'').trim();
