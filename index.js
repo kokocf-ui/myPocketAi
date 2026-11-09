@@ -3397,37 +3397,32 @@ function renderExtraToolsChoices(){
 }
 
 function renderMyDocuments(){
- const root=$('view-module'),host=$('moduleContent');
- root.classList.remove('extra-tools-choose','extra-tools-chat');root.classList.add('extra-tools-active');
- host.replaceChildren();
+ const root=$('view-module'),host=$('moduleContent');root.classList.remove('extra-tools-choose','extra-tools-chat');root.classList.add('extra-tools-active');host.replaceChildren();
  const panel=document.createElement('div');panel.className='extra-tools-panel my-documents-panel';
  const bar=document.createElement('div');bar.className='education-toolbar';
- const back=document.createElement('button');back.className='secondary-btn';back.textContent=learningLabel('← Instrumente','← Tools');back.onclick=renderExtraToolsChoices;
- const heading=document.createElement('h2');heading.textContent=learningLabel('Documentele mele','My documents');
- bar.append(back);panel.append(bar,heading);
- const info=document.createElement('p');info.textContent=learningLabel('Documentele PDF sunt păstrate privat. Poți imprima sau distribui PDF-ul către o aplicație de e-mail ori WhatsApp.','PDFs are stored privately. Print or share the PDF to an email or WhatsApp app.');panel.append(info);
- const status=document.createElement('p');status.className='my-documents-status';status.textContent=learningLabel('Se încarcă documentele…','Loading documents…');panel.append(status);
- const list=document.createElement('div');list.className='my-documents-list';panel.append(list);
- host.append(panel);
- if(!window.PocketAndroidDocuments?.postMessage){status.textContent=learningLabel('Biblioteca este disponibilă în APK-ul Android actualizat.','The library is available in the updated Android APK.');return}
- window.pocketEducationDocuments=(documents)=>{
-  if(!list.isConnected)return;
-  list.replaceChildren();
-  status.textContent=documents.length?learningLabel(documents.length+' document(e) PDF salvate.','Saved PDF documents: '+documents.length):learningLabel('Nu există încă documente salvate.','No documents saved yet.');
-  for(const documentInfo of documents){
-   const item=document.createElement('div');item.className='my-documents-row';
-   const metadata=document.createElement('div');metadata.className='my-documents-metadata';
-   const filename=document.createElement('strong');filename.textContent=documentInfo.name;
-   const date=document.createElement('small');date.textContent=new Date(documentInfo.date).toLocaleDateString()+' · '+Math.ceil(documentInfo.bytes/1024)+' KB';
-   metadata.append(filename,date);
-   const print=document.createElement('button');print.type='button';print.className='secondary-btn';print.textContent=learningLabel('Imprimă','Print');
-   print.onclick=()=>window.PocketAndroidDocuments?.postMessage('print:'+documentInfo.name);
-   const share=document.createElement('button');share.type='button';share.className='secondary-btn';share.textContent=learningLabel('Trimite PDF','Share PDF');share.onclick=()=>window.PocketAndroidDocuments?.postMessage('share:'+documentInfo.name);
-   const actions=document.createElement('div');actions.className='my-documents-actions';actions.append(print,share);
-   item.append(metadata,actions);list.append(item)
+ const back=document.createElement('button');back.className='secondary-btn';back.textContent=learningLabel('← Instrumente','← Tools');back.onclick=renderExtraToolsChoices;bar.append(back);panel.append(bar);
+ const heading=document.createElement('h2');heading.textContent=learningLabel('Documentele mele','My documents');panel.append(heading);
+ const hint=document.createElement('p');hint.textContent=learningLabel('Atinge numele pentru a deschide PDF-ul. Bifează un document pentru imprimare, distribuire sau ștergere.','Tap a name to open the PDF. Select a document to print, share or delete.');panel.append(hint);
+ const selected=new Set(),actions=document.createElement('div');actions.className='my-documents-batch';
+ const icon=(glyph,title,kind,handler)=>{const b=document.createElement('button');b.type='button';b.className='edu-icon-action edu-icon-'+kind;b.textContent=glyph;b.title=title;b.setAttribute('aria-label',title);b.onclick=handler;actions.append(b);return b};
+ const print=icon('🖨',learningLabel('Imprimă PDF','Print PDF'),'print',()=>{for(const name of selected)window.PocketAndroidDocuments?.postMessage('print:'+name)});
+ const share=icon('↗',learningLabel('Trimite PDF prin WhatsApp sau e-mail','Share PDF via WhatsApp or email'),'share',()=>{for(const name of selected)window.PocketAndroidDocuments?.postMessage('share:'+name)});
+ const del=icon('🗑',learningLabel('Șterge PDF','Delete PDF'),'delete',()=>{if(!selected.size)return;if(!confirm(learningLabel('Ștergi definitiv documentele selectate?','Permanently delete selected documents?')))return;for(const name of selected)window.PocketAndroidDocuments?.postMessage('delete:'+name);selected.clear();refresh()});
+ const refresh=()=>{print.disabled=selected.size!==1;share.disabled=selected.size!==1;del.disabled=!selected.size};refresh();panel.append(actions);
+ const status=document.createElement('p');status.className='my-documents-status';status.setAttribute('role','status');status.textContent=learningLabel('Se încarcă documentele…','Loading documents…');panel.append(status);
+ const list=document.createElement('div');list.className='my-documents-list';panel.append(list);host.append(panel);
+ if(!window.PocketAndroidDocuments?.postMessage){status.textContent=learningLabel('Biblioteca necesită APK-ul Android actualizat.','The library requires the updated Android APK.');return}
+ window.pocketEducationDocuments=docs=>{
+  if(!list.isConnected)return;list.replaceChildren();const names=new Set(docs.map(x=>x.name));for(const name of selected)if(!names.has(name))selected.delete(name);refresh();
+  status.textContent=docs.length?learningLabel(docs.length+' document(e) PDF salvate.','Saved PDF documents: '+docs.length):learningLabel('Nu există încă documente salvate.','No saved documents.');
+  for(const doc of docs){
+   const row=document.createElement('div');row.className='my-documents-row';
+   const check=document.createElement('input');check.type='checkbox';check.className='my-documents-check';check.checked=selected.has(doc.name);check.setAttribute('aria-label',learningLabel('Selectează ','Select ')+doc.name);check.onchange=()=>{if(check.checked)selected.add(doc.name);else selected.delete(doc.name);refresh()};
+   const name=document.createElement('button');name.type='button';name.className='my-documents-open';name.title=learningLabel('Deschide PDF','Open PDF');const title=document.createElement('strong');title.textContent=doc.name;const date=document.createElement('small');date.textContent=new Date(doc.date).toLocaleDateString()+' · '+Math.ceil(doc.bytes/1024)+' KB';name.append(title,date);name.onclick=()=>window.PocketAndroidDocuments?.postMessage('open:'+doc.name);
+   const trash=document.createElement('button');trash.type='button';trash.className='edu-icon-action edu-icon-delete';trash.textContent='🗑';trash.title=learningLabel('Șterge PDF','Delete PDF');trash.setAttribute('aria-label',trash.title);trash.onclick=()=>{if(confirm(learningLabel('Ștergi definitiv ','Permanently delete ')+doc.name+'?'))window.PocketAndroidDocuments?.postMessage('delete:'+doc.name)};
+   row.append(check,name,trash);list.append(row);
   }
- };
- window.PocketAndroidDocuments.postMessage('list');
+ };window.PocketAndroidDocuments.postMessage('list');
 }
 
 function openExtraTool(key){
@@ -11110,9 +11105,12 @@ function eduOpenPrint(mode='save'){
 }
 function eduAttachPrintAction(bar){
  if(!bar||bar.querySelector('.edu-pdf-save'))return;
- const save=document.createElement('button');save.type='button';save.className='secondary-btn edu-print-trigger edu-pdf-save';save.textContent=learningLabel('Salvează PDF','Save PDF');save.onclick=()=>eduOpenPrint('save');
- const print=document.createElement('button');print.type='button';print.className='secondary-btn edu-print-trigger edu-pdf-print';print.textContent=learningLabel('Imprimă','Print');print.onclick=()=>eduOpenPrint('print');
- bar.append(save,print);
+ const add=(glyph,description,kind,mode)=>{
+  const b=document.createElement('button');b.type='button';b.className='secondary-btn edu-print-trigger edu-pdf-'+mode+' edu-icon-action edu-icon-'+kind;
+  b.textContent=glyph;b.title=description;b.setAttribute('aria-label',description);b.onclick=()=>eduOpenPrint(mode);bar.append(b);
+ };
+ add('💾',learningLabel('Salvează PDF','Save PDF'),'save','save');
+ add('🖨',learningLabel('Imprimă','Print'),'print','print');
 }
 
 function openLearningSubject(key){
@@ -17716,6 +17714,21 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 .physics-theory-dialog input[type=search]{min-height:43px;box-sizing:border-box;width:100%}
 .science-result-dialog:has(.physics-visual){overflow-y:auto!important;max-height:89dvh!important}
 .science-result-dialog:has(.physics-visual) .science-result-text{max-height:38dvh!important;flex:0 1 auto!important}
+
+.edu-icon-action{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 48px!important;width:48px!important;min-width:48px!important;height:44px!important;min-height:44px!important;padding:4px!important;border-radius:12px!important;font-size:23px!important;line-height:1!important}
+.edu-icon-save{color:#78ecac!important;background:#123e32!important;border:1px solid #39bc79!important}
+.edu-icon-print{color:#86d9ff!important;background:#113a56!important;border:1px solid #52b5e8!important}
+.edu-icon-delete{color:#ffb8b8!important;background:#54212a!important;border:1px solid #db5c65!important}
+.edu-icon-share{color:#ffe6a5!important;background:#47391e!important;border:1px solid #d5a44e!important}
+.edu-icon-action:disabled{opacity:.35!important}
+.education-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.education-toolbar .edu-print-trigger{max-width:48px!important}
+.my-documents-batch{display:flex;gap:8px;margin:10px 0}
+.my-documents-row{display:flex;align-items:center;gap:10px;min-width:0}
+.my-documents-check{width:23px;height:23px;flex:0 0 auto;accent-color:#56d4f2}
+.my-documents-open{flex:1;min-width:0;text-align:left;background:transparent;border:0;color:inherit;cursor:pointer;padding:8px 4px;overflow-wrap:anywhere}
+.my-documents-open strong,.my-documents-open small{display:block}
+.my-documents-panel{padding-bottom:100px}
 </style>
 </body>
 </html>`;
