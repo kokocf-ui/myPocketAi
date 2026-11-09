@@ -15779,7 +15779,7 @@ const TRANSIT_LAYOUT_TEXT={
 function transitLayoutText(){return TRANSIT_LAYOUT_TEXT[state.language]||TRANSIT_LAYOUT_TEXT.en}
 function dismissSelectionKeyboard(){const focused=document.activeElement;if(focused&&(/^(INPUT|TEXTAREA|SELECT)$/.test(focused.tagName)||focused.isContentEditable))focused.blur();if(typeof inputEl!=='undefined'&&inputEl&&inputEl!==focused&&document.activeElement===inputEl)inputEl.blur()}
 function showTransitChoices(options){dismissSelectionKeyboard();closeAnswerReader(false);closeRouteMap(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=transitAccessText()[0];renderTransitChoices(options)}
-function transitOptionsForRoute(route){const selected=state.selectedTransitJourney;return selected?.accessRoute&&transitWalkingMatches(route,selected.journey.boarding_stop)?selected.options:null}
+function transitOptionsForRoute(route){const selected=state.selectedTransitJourney;return selected?.finalWalkRoute===route?selected.options:selected?.accessRoute&&transitWalkingMatches(route,selected.journey.boarding_stop)?selected.options:null}
 function appendTransitReturnAction(host,route){const options=transitOptionsForRoute(route);if(!options?.length)return;const back=document.createElement('button');back.type='button';back.className='route-map-open transit-back-options';back.textContent='← '+transitLayoutText()[4];back.onclick=()=>showTransitChoices(options);host.append(back)}
 function appendTransitLegs(host,journey){
  const t=transitLayoutText(),table=document.createElement('table');table.className='transit-steps';
@@ -15857,14 +15857,22 @@ async function showFinalTransitWalk(journey,button){
   if(!res.ok||data.status!=='success'||!validMapRoute(data.route)||!end||
     transitDistance(end,pair.destination)>120)throw Error('unverified_final_walk');
   button.textContent=original;
+  if(state.selectedTransitJourney?.journey===journey)state.selectedTransitJourney.finalWalkRoute=data.route;
   await openRouteMap(data.route,button,Array.isArray(data.routes)?data.routes:[data.route]);
  }catch{button.textContent=words[2]}finally{clearTimeout(timer);button.disabled=false}
 }
 function appendFinalTransitWalkAction(host,journey){
- const pair=finalTransitWalkPoints(journey);if(!pair)return;
+ const lastLeg=journey?.legs?.at(-1);
+ if(!/^(walking|walk|foot|pedestrian)$/i.test(String(lastLeg?.mode||'')))return;
+ const pair=finalTransitWalkPoints(journey);
+ if(!pair){
+  const note=document.createElement('p');note.className='transit-access-status';note.setAttribute('role','status');
+  note.textContent=dialogText('Ultima etapă pe jos este indicată, dar pașii până la adresă nu pot fi verificați încă pe hartă.','The last walking leg is listed, but street-by-street directions to the address cannot yet be verified on the map.');
+  host.append(note);return;
+ }
  const words=FINAL_WALK_TEXT[state.language]||FINAL_WALK_TEXT.en;
  const button=document.createElement('button');button.type='button';button.className='transit-choice-action';
- button.textContent=words[0]+' · '+(pair.meters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km';
+ button.textContent='🧭 '+words[0]+' · '+(pair.meters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km';
  button.onclick=()=>showFinalTransitWalk(journey,button);
  host.append(button);
 }
@@ -15991,7 +15999,8 @@ function renderTransitChoices(options,selectedIndex=null){
   // generic retry from the public-transport card after an expired departure.
   if(selected?.accessRoute&&!selected.error){const walk=document.createElement('button');walk.type='button';walk.className='transit-choice-action';walk.textContent=t[9];walk.onclick=()=>openRouteMap(selected.accessRoute,walk,selected.accessOptions);body.append(walk)}
   if(state.lastTransitChoice){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
-  appendTransitLegs(body,journey);appendFinalTransitWalkAction(body,journey);return;
+  // Keep final-mile directions above the long leg table.
+  appendFinalTransitWalkAction(body,journey);appendTransitLegs(body,journey);return;
  }
  const available=feasibleTransitChoices(options);
  if(!available.length){const p=document.createElement('p');p.className='transit-access-status';p.textContent=transitRefreshText()[5];body.append(p)}

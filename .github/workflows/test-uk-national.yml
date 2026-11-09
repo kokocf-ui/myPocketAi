@@ -11,6 +11,7 @@ on:
       - 'tests_mixed_uk_fallback.mjs'
       - 'tests_mixed_selector_ui.mjs'
       - 'index.js'
+      - 'tests_transit_final_mile.mjs'
       - '.github/workflows/test-uk-national.yml'
 jobs:
   national-transport:
@@ -23,4 +24,4 @@ jobs:
       - name: Check transport syntax
         run: node --check backend.js && node --check uk_national_transit.mjs && node --check tests_mixed_uk_fallback.mjs && node --check tests_uk_national_transit.mjs
       - name: Test mocked national provider and backend routing
-        run: node tests_uk_national_transit.mjs && node tests_mixed_uk_fallback.mjs && node tests_mixed_selector_ui.mjs
+        run: node tests_uk_national_transit.mjs && node tests_mixed_uk_fallback.mjs && node tests_mixed_selector_ui.mjs && node tests_transit_final_mile.mjs
