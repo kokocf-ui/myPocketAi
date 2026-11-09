@@ -10998,14 +10998,15 @@ function eduCurrentPrintable(){
  const root=$('moduleContent');if(!root)return null;
  const title=($('moduleTitle')?.textContent||learningLabel('Material educațional','Educational material')).trim();
  const selectors=['.exam-printable','.exam-output','.practical-printable','.practical-ai-output','.practical-result','.computing-printable','.computing-ai-result','.lit-result','.hg-lesson-output','.hg-event-content','#mathEducationWorkspace','#scienceEducationWorkspace','#languageStudyOutput','.foreign-lesson-output','.education-theory-detail','.education-result','.science-education-output'];
- const parts=[];
+ const parts=[],captured=[];
  for(const query of selectors){
   for(const el of root.querySelectorAll(query)){
    if(el.offsetParent===null||!el.textContent?.trim())continue;
+   if(captured.some(parent=>parent.contains(el)))continue;
    const clone=el.cloneNode(true);
    clone.querySelectorAll('button,input,textarea,select,iframe,script,style,nav,.education-toolbar').forEach(node=>node.remove());
    const value=(clone.innerText||clone.textContent||'').trim();
-   if(value&&!parts.includes(value))parts.push(value);
+   if(value&&!parts.includes(value)){parts.push(value);captured.push(el)}
   }
  }
  if(!parts.length){
@@ -17729,6 +17730,21 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 .my-documents-open{flex:1;min-width:0;text-align:left;background:transparent;border:0;color:inherit;cursor:pointer;padding:8px 4px;overflow-wrap:anywhere}
 .my-documents-open strong,.my-documents-open small{display:block}
 .my-documents-panel{padding-bottom:100px}
+
+/* The fixed footer must never hide the final exercise or document row. */
+#view-module .math-choice-panel,#view-module .science-choice-panel,#view-module .lit-panel,
+#view-module .hg-panel,#view-module .exam-panel,#moduleContent,.my-documents-list{
+ scroll-padding-bottom:calc(112px + env(safe-area-inset-bottom))!important;
+}
+#view-module.learning-active #moduleContent,
+#view-module.learning-choose #moduleContent,
+#view-module.extra-tools-active #moduleContent{
+ padding-bottom:calc(112px + env(safe-area-inset-bottom))!important;
+ box-sizing:border-box!important;
+}
+#view-module .exam-topic-menu,#view-module .lit-options,#view-module .hg-choice-list{
+ scroll-padding-bottom:20px;
+}
 </style>
 </body>
 </html>`;
