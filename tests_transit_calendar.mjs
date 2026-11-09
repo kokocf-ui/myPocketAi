@@ -21,7 +21,7 @@ const helpers=new Function('state',labelFunctions+'\nreturn {transitDateLabel,tr
 assert.equal(helpers.transitLineLabel({mode:'national-rail',lineNames:['CC']}),'c2c');
 assert.equal(helpers.transitLineLabel({mode:'bus',lineNames:['CC']}),'CC');
 assert.equal(helpers.transitBoardingLineLabel({mode:'national-rail',line_names:['CC']},{mode:'national-rail'}),'c2c');
-assert.ok(/11\\.11\\.2026/.test(helpers.transitDateLabel('2026-11-11T13:00:00Z','Europe/London')));
+assert.ok(/11.+11.+2026/.test(helpers.transitDateLabel('2026-11-11T13:00:00Z','Europe/London')),'The requested date must be presented in the travel date line');
 assert.ok(frontend.includes("dateLine.className='transit-result-date'"),'Cards must display the actual travel date');
 assert.ok(frontend.includes("request.className='transit-selected-departure'"),'Show the calendar date the user requested');
 assert.ok(backend.includes('startsAt>=earliestRequested-120000'),'Reject TfL routes earlier than calendar selection');
