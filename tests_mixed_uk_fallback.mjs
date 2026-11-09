@@ -26,6 +26,15 @@ globalThis.fetch=async input=>{
      {mode:"WALK",duration_s:900,from:{name:dest+" station"},to:{name:dest}}
     ]}]});
   }
+  if(url.searchParams.get('transit_modes')===''){
+   return Response.json({itineraries:[{
+    start_time:at(12),end_time:at(237),fare:null,
+    legs:[
+     {mode:"WALK",from:{name:"Start"},to:{name:"Bus stop"},duration_s:600},
+     {mode:"COACH",route:{line:"Coach X",operator:"Mock coach"},from:{name:"Bus stop"},to:{name:"Manchester"},start_time:{scheduled:at(27)},end_time:{scheduled:at(222)}},
+     {mode:"WALK",from:{name:"Manchester"},to:{name:"Destination"},duration_s:900}
+    ]}]});
+  }
   return Response.json({itineraries:[{
    start_time:at(12),end_time:at(237),fare:{amount_gbp:65.4,complete:false},
    legs:[
@@ -132,6 +141,15 @@ try{
  assert.ok(!connectedNationwide.planning_links?.length,"Success must not redirect to external planning websites");
  assert.ok(calls.some(u=>u.hostname==="api.transcapi.com"&&u.pathname==="/v1/journey.json"));
  assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"),"Manchester must never be requested through TfL");
+
+ const busOnly=await ask(manchester,{TRANSCAPI_API_KEY:"test-key"},{transit_preference:"bus_only",transit_departure_offset:60});
+ assert.equal(busOnly.transit_available,true,"Requested coach-only itinerary must display in app");
+ assert.equal(busOnly.transit_preference,"bus_only");
+ assert.equal(busOnly.transit_departure_offset,60);
+ assert.ok(busOnly.transit[0].legs.some(l=>l.mode==='coach'));
+ assert.ok(busOnly.transit[0].legs.every(l=>['coach','bus','walking'].includes(l.mode)),"No rail in bus-only option");
+ assert.ok(calls.some(u=>u.hostname==="api.transcapi.com"&&u.searchParams.get('transit_modes')===''));
+ assert.ok(calls.some(u=>u.hostname==="api.transcapi.com"&&u.searchParams.has('datetime')));
 
  const amsterdamOrigin={latitude:52.3676,longitude:4.9041,updatedAt:Date.now()};
  const belfastOrigin={latitude:54.5973,longitude:-5.9301,updatedAt:Date.now()};
