@@ -56,6 +56,23 @@ assert.match(COMPUTING_UI_SCRIPT,/signal:controller.signal/,'Cancellation abort 
 assert.match(COMPUTING_UI_SCRIPT,/Codul nu a fost executat/,'No false code-execution claim');
 assert.match(COMPUTING_UI_SCRIPT,/\.slice\(offset,offset\+4\)/,'Maximum four choices displayed');
 assert.match(COMPUTING_UI_SCRIPT,/data\.status==='recognized'/,'Android dictation review');
+
+// Language selection must not silently send non-English speech to the English recognizer.
+assert.match(COMPUTING_UI_SCRIPT,/function computingSpeechLocale\(\)/,'Speech locale helper is present');
+assert.match(COMPUTING_UI_SCRIPT,/language:computingSpeechLocale\(\)/,'Dictation uses the selected locale');
+const voiceLocale=new Function('state',COMPUTING_UI_SCRIPT+';return computingSpeechLocale;');
+const responseLanguage=new Function('state',COMPUTING_UI_SCRIPT+';return computingResponseLanguage;');
+for(const [language,locale,label] of [
+ ['ro','ro-RO','română'],['en','en-GB','engleză'],['fr','fr-FR','franceză'],
+ ['de','de-DE','germană'],['it','it-IT','italiană'],['es','es-ES','spaniolă'],
+ ['pt','pt-PT','portugheză'],['nl','nl-NL','neerlandeză'],['ru','ru-RU','rusă'],
+ ['pl','pl-PL','poloneză']]){
+ assert.equal(voiceLocale({language}),locale,'Speech recognition locale: '+language);
+ assert.equal(responseLanguage({language}),label,'Explicit AI response language: '+language);
+}
+assert.match(COMPUTING_UI_SCRIPT,/Evită traducerile literale/,'AI requests natural terminology');
+assert.doesNotMatch(COMPUTING_UI_SCRIPT,/Nu inventa output/,'No untranslated output jargon in AI prompt');
+
 assert.match(html,/#view-module\.learning-computing #moduleChatHost(?:,|\{display:none!important\})/,'Computing hides the duplicate assistant chat');
 assert.match(script,/\.computing-printable','\.computing-ai-result'/,'Computing PDFs include both lesson and AI answer');
 assert.match(COMPUTING_UI_SCRIPT,/computingNewConversation/,'New conversation action belongs to Computing workspace');
