@@ -2710,12 +2710,14 @@ export default {
           // door-to-door provider before MOTIS or the old external-link fallback.
           // GB, Ireland and NL+BE each have their own TransCAPI planning zone.
           // Cross-zone UK→Europe journeys still require a licensed international planner.
+          const transportPreference=data.transit_preference==='bus_only'?'bus_only':'all';
+          const departureOffsetMinutes=[0,60,120].includes(Number(data.transit_departure_offset))?Number(data.transit_departure_offset):0;
           const transcapiZone=validTarget&&hasValidLocation?transCAPISharedZone(
             {latitude,longitude},{latitude:targetLat,longitude:targetLon}):null;
           const transcapiEligible=Boolean(transcapiZone)&&
-            (transcapiZone!=='gb'||!isTfLLondonCorridorPoint(latitude,longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
+            (transportPreference==='bus_only'||transcapiZone!=='gb'||!isTfLLondonCorridorPoint(latitude,longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
           if(transcapiEligible){
-            const national=await planTransCAPIJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},requestedOptionsCount);
+            const national=await planTransCAPIJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},requestedOptionsCount,{preference:transportPreference,departureOffsetMinutes});
             if(national.journeys.length){
               const transit=national.journeys,first=transit[0];
               const clock=value=>{
@@ -2733,11 +2735,15 @@ export default {
                 international_journey:internationalTarget,uk_national_journey:transcapiZone==='gb',mixed_journey:true,
                 transit_available:true,route_available:false,route_geometry_available:false,
                 transit_geometry_available:false,transit,fastest_transit:first,transit_provider:'TransCAPI',
-                requested_transit_count:requestedOptionsCount,
+                requested_transit_count:requestedOptionsCount,transit_preference:transportPreference,transit_departure_offset:departureOffsetMinutes,
                 transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
                 provider_status:{transcapi:national.status,region:transcapiZone},source:'TransCAPI: published schedules with available live updates'});
             }
             transportErrors.transcapi=national.status;
+            if(transportPreference==='bus_only'){
+              const reply=lang==='en'?'No bus/coach-only itinerary could be verified for the selected departure window. Try a later time or the combined bus-and-rail search.':'Nu am putut verifica un itinerar numai cu autobuz/autocar în intervalul de plecare ales. Încearcă o oră mai târzie sau căutarea combinată autobuz + tren.';
+              return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,transit_available:false,route_available:false,transit_provider:'TransCAPI',reason:'bus_only_not_verified',transit_preference:'bus_only',transit_departure_offset:departureOffsetMinutes,provider_status:{transcapi:national.status}});
+            }
           }
           const planned=validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang):{status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
           if(planned.journeys.length){
