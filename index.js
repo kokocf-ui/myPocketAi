@@ -15879,6 +15879,31 @@ function appendTransitLegs(host,journey){
   const departure=document.createElement('div'),arrival=document.createElement('div');departure.textContent=transitClock(leg.departureTime,leg.departureZone||journey.time_zone);arrival.textContent='→ '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone);time.append(departure,arrival);row.append(step,action,time);body.append(row);
  }table.append(body);host.append(table);
 }
+// Provider boarding times are never shifted. This only calculates a leave-by
+// recommendation so an access walk has a practical buffer before boarding.
+function transitBoardingBuffer(journey){
+ const first=(journey?.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||'')));
+ const boarding=Date.parse(journey?.firstVehicleDepartureTime||journey?.boarding_stop?.departure_time||first?.departureTime||'');
+ const walking=Number(journey?.walkToFirstStopMinutes);
+ if(!Number.isFinite(boarding)||!Number.isFinite(walking)||walking<0)return null;
+ const margin=Number.isFinite(Number(journey?.safetyMarginMinutes))?
+  Math.max(0,Math.min(15,Number(journey.safetyMarginMinutes))):5;
+ const recommended=boarding-(walking+margin)*60000;
+ const start=Date.parse(journey?.startDateTime||journey?.legs?.[0]?.departureTime||'');
+ const slack=Number.isFinite(start)?(boarding-start)/60000-walking:null;
+ return {recommended,margin,slack,walking,boarding};
+}
+function transitBoardingAdvice(journey){
+ const buffer=transitBoardingBuffer(journey);
+ if(!buffer||buffer.margin===0||buffer.slack===null||buffer.slack>=buffer.margin)return '';
+ const zone=journey?.legs?.[0]?.departureZone||journey?.time_zone||'Europe/London';
+ const recommended=new Date(buffer.recommended).toISOString();
+ const recommendedDate=transitDateLabel(recommended,zone);
+ const scheduledDate=transitDateLabel(journey?.startDateTime,zone);
+ return dialogText('Pentru '+buffer.margin+' min de rezervă la îmbarcare, pleacă spre stație până la ',
+  'For a '+buffer.margin+'-minute boarding buffer, leave for the stop by ')+
+  (recommendedDate!==scheduledDate?recommendedDate+' ':'')+transitClock(recommended,zone);
+}
 function appendTransitCards(host,options){
  const t=transitAccessText(),labels=transitLayoutText();
  for(const [i,journey] of options.entries()){
@@ -15901,7 +15926,13 @@ function appendTransitCards(host,options){
   const routeLine=document.createElement('div');routeLine.className='transit-card-route-overview';
   routeLine.style.cssText='font-size:clamp(12px,3.4vw,14px);line-height:1.45;margin:7px 0 5px;opacity:.95;overflow-wrap:anywhere';
   routeLine.textContent=vehicles.map(x=>transitModeName(x.mode)+(transitLineLabel(x)?' '+transitLineLabel(x):'')+(x.to?' → '+x.to:'')).join(' · ');
-  button.append(heading,dateLine,boarding,routeLine,metrics);button.onclick=()=>{closeAnswerReader(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=t[0];selectTransitJourney(options,i)};host.append(button);
+  const bufferText=transitBoardingAdvice(journey);
+  const bufferNotice=document.createElement('div');bufferNotice.className='transit-boarding-buffer-notice';
+  bufferNotice.style.cssText='font-size:13px;line-height:1.4;color:#f8ecd1;margin-top:7px';
+  bufferNotice.textContent=bufferText;
+  button.append(heading,dateLine,boarding,routeLine,metrics);
+  if(bufferText)button.append(bufferNotice);
+  button.onclick=()=>{closeAnswerReader(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=t[0];selectTransitJourney(options,i)};host.append(button);
  }
 }
 function appendTransitOverview(host,text){
@@ -15991,7 +16022,16 @@ function compareTransitDisplayTimes(a,b){
 }
 function feasibleTransitChoices(options){
  const now=Date.now();
+ const requestedAt=state.lastTransitChoice?.transitDepartureAt||state.lastTransitResponse?.transit_departure_at;
+ const requestedMs=requestedAt?Date.parse(requestedAt):null;
  return (Array.isArray(options)?options:[]).filter(journey=>{
+  const buffer=transitBoardingBuffer(journey);
+  // Calendar departure is the earliest acceptable *recommended* start.
+  if(buffer){
+   if(buffer.recommended<now)return false;
+   if(Number.isFinite(requestedMs)&&buffer.recommended<requestedMs-120000)return false;
+   return true;
+  }
   const departure=Date.parse(journey.firstVehicleDepartureTime||journey.boarding_stop?.departure_time||'');
   if(!Number.isFinite(departure))return true;
   const walking=Number(journey.walkToFirstStopMinutes);
@@ -16105,6 +16145,8 @@ function renderTransitChoices(options,selectedIndex=null){
   summary.textContent=dialogText('Data călătoriei: ','Journey date: ')+
    transitDateLabel(journey.startDateTime,journey.time_zone)+' · '+transitBoardingSummary(journey);
   body.append(summary);
+  const bufferText=transitBoardingAdvice(journey);
+  if(bufferText){const notice=document.createElement('p');notice.className='transit-boarding-buffer-notice';notice.textContent=bufferText;body.append(notice)}
   const selected=state.selectedTransitJourney,status=document.createElement('p');status.className='transit-access-status';status.setAttribute('role','status');status.textContent=selected?.loading?t[10]:selected?.error||'';body.append(status);
   // Walking directions are viewed in the map, not repeatedly offered as a
   // generic retry from the public-transport card after an expired departure.
