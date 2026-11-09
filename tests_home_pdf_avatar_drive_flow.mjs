@@ -68,12 +68,12 @@ assert.match(html,/#view-module\.learning-languages \.foreign-stage-languages \.
 assert.match(html,/#view-module\.learning-active \.education-toolbar \.edu-pdf-actions > \.secondary-btn\.edu-icon-action\{[\s\S]*?min-width:42px!important;[\s\S]*?min-height:42px!important/,
  'A more specific rule overrides the old 100–180px icon minimum');
 assert.match(source,/🔎 Caută autorul \/ opera/,'Literature has an explicit author/work search button');
-assert.match(source,/work\.addEventListener\('keydown',event=>\{/,'Enter can execute the literature search');
-assert.match(source,/litLookupFetch\(lookupLastSearch\)/,'Search button executes lookup instead of only filling the field');
-assert.match(source,/srsearch:lookupTerm/,'Search submits the typed author or work title');
-assert.match(source,/origin:'\*'/,'Search permits anonymous cross-origin Wikipedia access');
-assert.match(source,/explaintext:'1'/,'In-app article details use source text');
-assert.match(source,/lookupMore\.hidden=!languages\.some/,'Further search results can be paged');
+assert.match(source,/work\.addEventListener\('keydown',e=>\{/,'Enter can execute the literature search');
+assert.match(source,/litSearchAuthorOrWork\(\)/,'Search button executes author-first lookup');
+assert.match(source,/search\/authors\.json\?q=/,'Search first queries author records');
+assert.match(source,/authors\/\x27\+author\.key\+\x27\/works\.json/,'Works are retrieved for the selected author');
+assert.match(source,/const id=cleanName\(title\)/,'Work titles are deduplicated');
+assert.match(source,/lookupMore\.hidden=lookupOffset>=lookupTotal/,'More works are paginated only while available');
 assert.match(source,/lookupResults\.replaceChildren\(\)/,'Starting a new query clears old results');
 
 console.log('PASS: Education layout, PDF buttons, sourced author/work search, avatar and driving route flow');
