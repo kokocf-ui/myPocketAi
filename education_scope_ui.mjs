@@ -2,13 +2,20 @@ export const EDUCATION_SCOPE_UI_SCRIPT = String.raw`/* Conservative education-on
 let eduScopeBypass='';
 const EDU_SCOPE_SENTINEL='EDU_SCOPE_REDIRECT';
 function eduScopeFold(value){
- return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+ const lower=String(value||'').toLowerCase();
+ const normalized=/[\u0400-\u052f]/u.test(lower)?lower:lower.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ return normalized.replace(/\s+/g,' ').trim();
 }
 function eduScopeIntent(raw){
  const s=eduScopeFold(raw).slice(0,1900);
  if(s.length<6)return null;
+ // Cyrillic words are not recognized by JavaScript ASCII word boundaries.
+ if(/(?:объясни|объясните|урок|задача|обучение|для школы)/u.test(s))return null;
+ if(/(?:найди|подбери|забронируй)/u.test(s)&&/(?:отел|гостиниц|ресторан)/u.test(s))return 'travel';
+ if(/(?:напомни|добавь|запиши)/u.test(s)&&/(?:календар|напоминани|список покупок|задач)/u.test(s))return 'organize';
+ if(/(?:погода завтра|новости сегодня|отправь письмо)/u.test(s))return 'assistant';
  // Explanations, coursework and interdisciplinary questions are legitimate study.
- if(/\b(?:exercitiu|lectie|tema de |tema pentru|pentru scoala|pentru curs|explica|explicatie|analizeaza|analiza literara|rezolva|demonstreaza|teorema|cum se calculeaza|ce inseamna|invat|studiez|explain|exercise|homework|lesson|teach me|what is|how does|for school|pour le cours|exercice|lecon|explique|hausaufgabe|erklar|ubung|lezione|esercizio|spiega|leccion|ejercicio|explicar|licao|oefening|lesstof|объясни|урок|задача|lekcja|zadanie|wyjasnij)\b/u.test(s))return null;
+ if(/\b(?:exercitiu|lectie|tema de |tema pentru|pentru scoala|pentru curs|informatii despre|information about|recherche sur|informacion sobre|explica|explicatie|analizeaza|analiza literara|rezolva|demonstreaza|teorema|cum se calculeaza|ce inseamna|invat|studiez|explain|exercise|homework|lesson|teach me|what is|how does|for school|pour le cours|exercice|lecon|explique|hausaufgabe|erklar|ubung|lezione|esercizio|spiega|leccion|ejercicio|explicar|licao|oefening|lesstof|объясни|урок|задача|lekcja|zadanie|wyjasnij)\b/u.test(s))return null;
  if(/(?:cum (?:pot sa )?ajung|du[- ]ma (?:la|spre)|vreau (?:un )?traseu|arata[- ]mi (?:ruta|traseul)|traseu (?:cu masina |pietonal |spre |catre )|navigheaza|directions to|navigate to|take me to|how (?:do i|can i) get to|route to|comment aller|itineraire vers|wie komme ich|route nach|percorso per|como llegar|ruta a |como chegar|hoe kom ik|route naar|как добраться|маршрут до|jak dojade|trasa do)/u.test(s))return 'maps';
  const request=/(?:^|[.!?]\s*)(?:cauta|gaseste|rezerva|vreau sa (?:gasesc|rezerv)|find|search for|book|reserve|recommend|cherche|trouve|reserver|suche|finde|buche|cerca|trova|prenota|buscar|encuentra|reserva|procura|encontra|reservar|zoek|vind|boek|найди|забронируй|znajdz|zarezerwuj)\b/u.test(s);
  if(request&&/\b(?:hotel|hoteluri|cazare|pensiune|restaurant|restaurante|cafenea|pub|hostel|accommodation|lodging|restaurants?|cafe|hotels?|auberge|unterkunft|albergo|ristorante|hospedaje|alojamiento|restaurantes?|hotele|nocleg|гостиниц|отел|ресторан)\b/u.test(s))return 'travel';
