@@ -2720,6 +2720,7 @@ export default {
               transit_available:false,route_available:false,reason:'departure_time_out_of_range'});
           }
           const departureAt=selectedDeparture?new Date(requestedMs).toISOString():null;
+          const effectiveDepartureAt=departureAt||(departureOffsetMinutes?new Date(Date.now()+departureOffsetMinutes*60000).toISOString():null);
           const transcapiZone=validTarget&&hasValidLocation?transCAPISharedZone(
             {latitude,longitude},{latitude:targetLat,longitude:targetLon}):null;
           const transcapiEligible=Boolean(transcapiZone)&&
@@ -2754,7 +2755,7 @@ export default {
             }
           }
           // MOTIS does not yet validate scheduled searches. Never silently use the current hour.
-          const planned=departureAt?{status:'scheduled_search_not_supported',journeys:[]}:
+          const planned=effectiveDepartureAt?{status:'scheduled_search_not_supported',journeys:[]}:
             validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang):
             {status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
           if(planned.journeys.length){
@@ -2999,12 +3000,12 @@ export default {
             tflUrl.searchParams.set("alternativeMetro", "true");
             tflUrl.searchParams.set("alternativeRoute", "true");
             tflUrl.searchParams.set("maxWalkingMinutes", "20");
-            if(departureAt){
+            if(effectiveDepartureAt){
               // TfL expects date/time local to the London departure timezone.
               const ukParts=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{
                 timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit',
                 hour:'2-digit',minute:'2-digit',hourCycle:'h23'
-              }).formatToParts(new Date(departureAt)).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
+              }).formatToParts(new Date(effectiveDepartureAt)).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
               tflUrl.searchParams.set('date',ukParts.year+ukParts.month+ukParts.day);
               tflUrl.searchParams.set('time',ukParts.hour+ukParts.minute);
               tflUrl.searchParams.set('timeIs','Departing');
