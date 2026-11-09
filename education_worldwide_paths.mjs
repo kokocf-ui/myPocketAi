@@ -202,7 +202,7 @@ export const WORLDWIDE_GENERIC_SUBJECTS={
  ['Proiect civic','Civic project','Stabilește obiectiv, resurse, responsabilități și evaluare.']
  ]
 };
-const WORLDWIDE_SUBJECT_ALIASES={math:'mathematics',matematica:'mathematics',informatica:'computing',informatics:'computing',computer_science:'computing',computerScience:'computing',limba:'language',romanian:'language',english:'language',physics:'physics',fizica:'physics',chimie:'chemistry',chemistry:'chemistry',biologie:'biology',biology:'biology',literatura:'literature',literature:'literature',astronomie:'astronomy',astronomy:'astronomy',economie:'economics',economics:'economics',civica:'civics',civics:'civics'};
+export const WORLDWIDE_SUBJECT_ALIASES={math:'mathematics',matematica:'mathematics',informatica:'computing',informatics:'computing',computer_science:'computing',computerScience:'computing',limba:'language',romanian:'language',english:'language',physics:'physics',fizica:'physics',chimie:'chemistry',chemistry:'chemistry',biologie:'biology',biology:'biology',literatura:'literature',literature:'literature',astronomie:'astronomy',astronomy:'astronomy',economie:'economics',economics:'economics',civica:'civics',civics:'civics'};
 
 export function worldwideStudyChapters(country,subject,level,grade,countryRo,countryEn,generalPaths){
  const lv=level==='intermediate'?'medium':level;
