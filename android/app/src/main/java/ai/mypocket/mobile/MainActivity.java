@@ -1374,7 +1374,7 @@ public final class MainActivity extends ComponentActivity {
     // Open an existing saved PDF in the user's installed PDF viewer.
     private void openEducationDocumentByName(String filename){
         try{
-            if(filename==null||!filename.matches("[^/\\\\\\\\]{1,150}\\\\.pdf"))return;
+            if(filename==null||!filename.matches("[^/\\\\]{1,150}\\.pdf"))return;
             File folder=educationDocumentsFolder();
             File file=new File(folder,filename);
             if(!file.getCanonicalPath().startsWith(folder.getCanonicalPath()+File.separator)||!file.isFile())return;
@@ -1389,7 +1389,7 @@ public final class MainActivity extends ComponentActivity {
     // Called only after explicit confirmation in the document library UI.
     private void deleteEducationDocumentByName(String filename){
         try{
-            if(filename==null||!filename.matches("[^/\\\\\\\\]{1,150}\\\\.pdf"))return;
+            if(filename==null||!filename.matches("[^/\\\\]{1,150}\\.pdf"))return;
             File folder=educationDocumentsFolder();
             File file=new File(folder,filename);
             if(!file.getCanonicalPath().startsWith(folder.getCanonicalPath()+File.separator)||!file.isFile())return;
