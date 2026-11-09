@@ -34,6 +34,10 @@ try{
  assert.equal(valid.journeys[0].fareComplete,false);
  assert.equal(valid.journeys[0].geometryAvailable,false,'Never manufacture map geometry');
  assert.equal(valid.journeys[0].walkToFirstStopMinutes,10);
+ assert.equal(valid.journeys[0].boarding_stop?.label,'Grays station');
+ assert.equal(valid.journeys[0].boarding_stop?.latitude,51.476);
+ assert.equal(valid.journeys[0].boarding_stop?.longitude,0.321);
+ assert.equal(valid.journeys[0].safetyMarginMinutes,5);
  assert.ok(calls[0].url.pathname.endsWith('/v1/journey.json'));
  assert.equal(calls[0].url.searchParams.get('limit'),'4');
  assert.equal(calls[0].init.headers['X-Api-Key'],'test-key');
