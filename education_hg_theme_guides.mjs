@@ -315,13 +315,14 @@ export const HG_THEME_DATA=[
  ]
 ];
 export const hgThemeFold=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-export const buildHgThemeGuide=(row,subject,grade,country)=>{
+export const buildHgThemeGuide=(row,subject,grade,country,countryLabel='')=>{
  const text=hgThemeFold(row.slice(0,4).join(' '));
  const score=x=>{const re=x[1];return re.startsWith('(izvoar|sources')||re.startsWith('(hărt|map')||re.startsWith('(teren|observa')?1:0};
  const hits=HG_THEME_DATA.filter(x=>x[0]===subject&&new RegExp(x[1],'i').test(text)).sort((a,b)=>score(a)-score(b)).slice(0,2);
  const roName=row[1],enName=row[2]||roName;
- const roIntro='Tema „'+roName+'” este studiată la nivelul '+grade+' în traseul orientativ '+(country==='RO'?'pentru România':'pentru Anglia')+'. Lecția explică noțiunile de bază și propune analizarea unor exemple; ordinea exactă a predării poate varia de la o școală la alta.';
- const enIntro='The topic “'+enName+'” is part of the suggested '+grade+' study path '+(country==='RO'?'for Romania':'for England')+'. The lesson explains key concepts and invites evidence-based examples; the precise teaching sequence varies by school.';
+ const selectedCountry=countryLabel||({RO:'România','GB-ENG':'Anglia'}[country])||country;
+ const roIntro='Tema „'+roName+'” este studiată la nivelul '+grade+' în traseul orientativ pentru '+selectedCountry+'. Lecția explică noțiunile de bază și propune analizarea unor exemple; ordinea exactă a predării poate varia de la o școală la alta.';
+ const enIntro='The topic “'+enName+'” is part of the advisory '+grade+' study path for '+selectedCountry+'. The lesson explains concepts and invites evidence-based examples; it is not a verified national syllabus for every grade.';
  const guide=[];
  for(const theme of hits){
   const labelRo=theme[4].split('–')[0].trim(),labelEn=theme[5].split('–')[0].trim();
@@ -331,9 +332,13 @@ export const buildHgThemeGuide=(row,subject,grade,country)=>{
  }
  guide.push(['Despre această lecție','About this lesson',roIntro,enIntro]);
  const focus=String(row[3]||'');
- if(!hits.length)guide.push(['Ce presupune tema','What this topic covers',
-  'Această unitate de studiu urmărește: '+focus+' Pentru dezvoltarea integrală a subiectului folosește materialele școlii sau cere profesorului AI o explicație verificabilă și exemple.',
-  'The study topic is: '+enName+'. Use your school material or request a source-checked explanation from the AI teacher for a full treatment.']);
+ if(!hits.length)guide.push(['Teorie și termeni de bază','Foundational theory and terms',
+  subject==='history'?
+  'Istoria investighează trecutul prin izvoare materiale, documentare și orale. Cronologia arată ce s-a întâmplat și când, iar explicația istorică examinează cauze, schimbări și perspective. Pentru '+roName+' documentează împrejurările din surse verificabile; o tradiție locală nu dovedește singură un eveniment. Obiectiv: '+focus:
+  'Geografia studiază relația dintre spațiu, mediu și activitatea umană. În '+roName+' explică unde se află locurile analizate, cum sunt reprezentate pe hartă, care sunt datele măsurabile și ce limite au. Vremea și clima, relieful și populația necesită scări și surse diferite. Obiectiv: '+focus,
+  subject==='history'?
+  'History investigates the past using artefacts, documents and testimony. Chronology identifies when events occurred, while explanation examines causes, changes and perspectives. For '+enName+', use documented evidence; a local tradition alone cannot prove an event. Study focus: '+focus:
+  'Geography investigates places, environments and human activity. For '+enName+', establish location, map scale, measurable data and their limitations. Climate, landscape and population require different timeframes and sources. Study focus: '+focus]);
  guide.push(subject==='history'?
   ['Exersează cercetarea istorică','Practise historical enquiry',
    'Pentru „'+roName+'”, întocmește o cronologie cu cel puțin trei repere documentate. Caută o sursă din epoca studiată și o interpretare modernă; explică autorul, data, două observații, o cauză posibilă și o limită a dovezii. Nu inventa date care nu apar în sursă.',
