@@ -4,7 +4,7 @@ let examJourney={stage:'countries',country:null,grade:'',exam:null,subject:null,
 function examEl(tag,value='',cls=''){const node=document.createElement(tag);node.textContent=value;if(cls)node.className=cls;return node}
 function examBtn(label,click,cls='secondary-btn'){const b=examEl('button',label,cls);b.type='button';b.onclick=click;return b}
 function examLabel(ro,en){return typeof eduUiLabel==='function'?eduUiLabel(ro,en):learningLabel(ro,en)}
-function examCountry(){return LIT_COUNTRIES.find(x=>x[0]===examJourney.country)||null}
+function examCountry(){return LIT_COUNTRIES.find(x=>x[0]===examJourney.country)||[examJourney.country,educationCountrySelection.label||examJourney.country,educationCountrySelection.label||examJourney.country]}
 function examCatalog(){return EXAM_SPECS_DATA.filter(x=>x.country===examJourney.country)}
 function examSelected(){return examCatalog().find(x=>x.id===examJourney.exam)||null}
 function examSelectedSubject(){return EXAM_SUBJECTS_DATA.find(x=>x.id===examJourney.subject)||null}
@@ -163,7 +163,7 @@ function examOpen(stage){
  const titles={countries:['Alege țara / sistemul școlar','Choose country / education system'],grades:['Alege nivelul școlar sau Universitate','Choose school level or university'],universityDomains:['Alege domeniul universitar','Choose university field'],universityPrograms:['Alege specializarea / programul','Choose the degree programme'],universityInstitutions:['Alege universitatea / facultatea','Choose university / faculty'],exams:['Alege examenul','Choose examination'],subjects:['Alege materia probei','Choose examination subject'],workspace:['Pregătire pentru examen','Exam preparation workspace']};
  const heading=examEl('h2',examLabel(...titles[stage]));panel.append(heading);host.append(panel);
  if(stage==='countries'){
-  examList(panel,LIT_COUNTRIES.filter(x=>x[0]!=='OTHER-EU').map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{
+  examList(panel,HG_COUNTRY_PICKER_DATA.filter(x=>x.id!=='OTHER').map(x=>({id:x.id,ro:x.ro,en:x.en})),c=>{
    examJourney.country=c.id;examJourney.grade='';examJourney.exam=null;examJourney.subject=null;examJourney.board='';examJourney.region='';examJourney.track='';examJourney.institution='';examJourney.programme='';examJourney.domain=null;examJourney.practiceVersion=0;examOpen('grades');
   });return;
  }
