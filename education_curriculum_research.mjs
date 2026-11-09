@@ -152,7 +152,7 @@ export function validateEducationCourseRequest(raw){
  const level=textLength(raw.level,13).toLowerCase();
  if(!['beginner','lower','medium','intermediate','advanced'].includes(level))return null;
  const grade=textLength(raw.grade,24);
- if(!grade||!/^[\\p{L}\\p{N}\\s.\\-]{1,24}$/u.test(grade))return null;
+ if(!grade||!/^[\p{L}\p{N}\s.\-]{1,24}$/u.test(grade))return null;
  const language=textLength(raw.language,2).toLowerCase()||'ro';
  if(!LANGS.has(language))return null;
  return {country,countryName:countryName(country),subject,level,grade,language,topic:''};
@@ -165,7 +165,7 @@ function parseCourseJson(raw){
  const chapters=[],seen=new Set();
  for(const item of result.chapters.slice(0,22)){
   const title=textLength(item?.title,110),focus=textLength(item?.focus,350);
-  const k=title.normalize('NFD').toLowerCase().replace(/[\\u0300-\\u036f]/g,'');
+  const k=title.normalize('NFD').toLowerCase().replace(/[\u0300-\u036f]/g,'');
   if(title.length<8||focus.length<35||seen.has(k))continue;
   seen.add(k);chapters.push({title,focus});
  }
@@ -182,7 +182,7 @@ export async function researchEducationCountryCourse(raw,env,deps={}){
  if(!env?.AI||typeof env.AI.run!=='function')
   return {status:'unavailable',code:'model_unavailable',curriculumStatus:'unverified',chapters:[],sources:evid.sources};
  const language={ro:'Romanian',en:'English',fr:'French',de:'German',it:'Italian',es:'Spanish',pt:'Portuguese',nl:'Dutch',ru:'Russian',pl:'Polish'}[request.language];
- const lines=evid.sources.map(s=>'['+s.id+'] '+s.title+'\\n'+s.excerpt).join('\\n\\n').slice(0,5600);
+ const lines=evid.sources.map(s=>'['+s.id+'] '+s.title+'\\n'+s.excerpt).join('\n\n').slice(0,5600);
  const instruction=[
   'Based only on these retrieved public educational excerpts, create an age-appropriate advisory course progression for the selected country, subject and school year.',
   'It MUST be specific to the selected country and level; do not transplant Romanian, English or generic school chapter lists.',
@@ -192,8 +192,8 @@ export async function researchEducationCountryCourse(raw,env,deps={}){
   'Write in '+language+'. Return JSON only: {"chapters":[{"title":"...","focus":"..."}]}.',
   'Give 8-16 distinct teachable chapters; each title >=8 characters and focus >=35 characters with a concrete local educational point.',
   'Country '+request.countryName+'; grade '+request.grade+'; level '+request.level+'; subject '+request.subject+'.',
-  'Evidence:\\n'+lines
- ].join('\\n');
+  'Evidence:\n'+lines
+ ].join('\n');
  try{
   const modelName=['@cf/meta/llama-3.1-8b-instruct-fast','@cf/meta/llama-3.1-8b-instruct-fp8','@cf/meta/llama-3.2-3b-instruct'].includes(env.POCKET_AI_TEXT_MODEL)?env.POCKET_AI_TEXT_MODEL:'@cf/meta/llama-3.1-8b-instruct-fast';
   const generated=await env.AI.run(modelName,{messages:[
