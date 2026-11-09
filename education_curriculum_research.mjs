@@ -14,6 +14,7 @@ function countryName(code){
 }
 export function validateEducationLessonRequest(raw){
  if(!raw||typeof raw!=='object'||Array.isArray(raw))return null;
+ if(/[<>]/.test(String(raw.grade||''))||/[<>]/.test(String(raw.topic||'')))return null;
  const country=textLength(raw.country,7).toUpperCase();
  if(!/^[A-Z]{2}$|^GB-(ENG|SCT|WLS|NIR)$/.test(country))return null;
  const subject=textLength(raw.subject,20).toLowerCase();
@@ -145,6 +146,7 @@ export async function researchEducationCountryLesson(raw,env,deps={}){
 
 export function validateEducationCourseRequest(raw){
  if(!raw||typeof raw!=='object'||Array.isArray(raw))return null;
+ if(/[<>]/.test(String(raw.grade||''))||/[<>]/.test(String(raw.topic||'')))return null;
  const country=textLength(raw.country,7).toUpperCase();
  if(!/^[A-Z]{2}$|^GB-(ENG|SCT|WLS|NIR)$/.test(country))return null;
  const subject=textLength(raw.subject,20).toLowerCase();
