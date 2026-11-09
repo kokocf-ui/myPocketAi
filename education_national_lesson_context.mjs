@@ -88,6 +88,150 @@ export const EDUCATION_LOCAL_CONTEXT={
   }
  }
 };
+
+Object.assign(EDUCATION_LOCAL_CONTEXT,{
+ 'GB-SCT':{
+  history:{
+   ro:'Istoria Scoției include regatele medievale, transformările asociate Reformei și Uniunea din 1707. Studierea Scoției presupune și comunitățile locale, limbile și transformările industriale ulterioare. O hartă medievală nu poate fi interpretată ca și cum frontierele contemporane ar fi existat neschimbate.',
+   en:'Scottish history includes medieval kingdoms, transformations associated with the Reformation and the Union of 1707. Study also involves local communities, languages and later industrial change. Medieval maps must not be interpreted as though modern borders had always existed.',
+   activityRo:'Compară o sursă medievală cu un document din 1707 și identifică perioada, autorul și perspectiva.',
+   activityEn:'Compare a medieval source with a document from 1707; identify its period, creator and viewpoint.'
+  },
+  geography:{
+   ro:'Highlands, Lowlands și insulele Scoției diferă prin relief, utilizarea terenurilor și tipare de așezare. Clima oceanică și proximitatea Atlanticului influențează precipitațiile. Glasgow și Edinburgh sunt importante centre urbane, dar au funcții și evoluții istorice diferite.',
+   en:'Scotland’s Highlands, Lowlands and islands differ in relief, land use and settlement patterns. Oceanic climate and Atlantic influence affect precipitation. Glasgow and Edinburgh are important urban centres but have different roles and histories.',
+   activityRo:'Compară două hărți ale densității așezărilor și arată cum influențează relieful transportul.',
+   activityEn:'Compare two settlement-density maps and explain how terrain influences transport.'
+  }
+ },
+ 'GB-WLS':{
+  history:{
+   ro:'Țara Galilor are o istorie distinctă de cea a Angliei, cu regate medievale galeze, o tradiție lingvistică proprie și transformări industriale importante. Exploatarea cărbunelui din secolele XIX și XX a influențat comunitățile din văile sudice. Instituțiile devoluate moderne trebuie studiate separat de instituțiile medievale.',
+   en:'Wales has a history distinct from England, including medieval Welsh kingdoms, its own linguistic tradition and major industrial change. Coal mining in the nineteenth and twentieth centuries shaped communities in the southern valleys. Modern devolved institutions should be distinguished from medieval institutions.',
+   activityRo:'Compară două izvoare despre viața într-o vale industrială galeză și explică ce nu pot demonstra.',
+   activityEn:'Compare two sources about life in a Welsh industrial valley and explain what they cannot establish.'
+  },
+  geography:{
+   ro:'Relieful Țării Galilor include Munții Cambriani, masivul Eryri/Snowdonia, văi și un litoral întins. Clima atlantică influențează precipitațiile, iar așezările sunt distribuite inegal. În sud se află importante zone urbane și văi cu istorie industrială.',
+   en:'Wales includes the Cambrian Mountains, Eryri/Snowdonia, valleys and an extensive coastline. Atlantic conditions influence rainfall and settlement is unevenly distributed. The south contains important urban areas and valleys with an industrial history.',
+   activityRo:'Localizează Eryri, Cardiff și două văi; compară relieful cu distribuția așezărilor.',
+   activityEn:'Locate Eryri, Cardiff and two valleys; compare relief with settlement distribution.'
+  }
+ },
+ AU:{
+  history:{
+   ro:'Istoria Australiei începe cu istoriile numeroaselor popoare aborigene și ale locuitorilor insulelor din Strâmtoarea Torres, ale căror culturi au continuitate îndelungată. Colonizarea britanică de la sfârșitul secolului al XVIII-lea a avut consecințe profunde pentru comunitățile indigene. Federația din 1901 a creat Commonwealth of Australia.',
+   en:'Australia’s history includes the long and continuing histories of diverse Aboriginal and Torres Strait Islander peoples. British colonisation from the late eighteenth century had profound effects on Indigenous communities. Federation in 1901 established the Commonwealth of Australia.',
+   activityRo:'Compară o mărturie indigenă și un document colonial, precizând cine le-a realizat și ce perspective oferă.',
+   activityEn:'Compare an Indigenous account with a colonial document, identifying their creators and different perspectives.'
+  },
+  geography:{
+   ro:'Australia este un continent-insulă cu regiuni climatice variate, de la zone tropicale la deșerturi și regiuni temperate. Sistemul Murray–Darling este important pentru resursele de apă, iar Marea Barieră de Corali este un ecosistem marin distinct. Așezările sunt concentrate în multe zone de coastă, cu mari diferențe față de interior.',
+   en:'Australia is an island continent with climates ranging from tropical through arid to temperate. The Murray–Darling river system matters for water resources, while the Great Barrier Reef is a distinct marine ecosystem. Much settlement is concentrated in coastal areas, contrasting with the interior.',
+   activityRo:'Compară o regiune aridă cu o regiune de coastă folosind date de precipitații și o hartă a populației.',
+   activityEn:'Compare an arid region with a coastal region using rainfall data and a population map.'
+  }
+ },
+ IE:{
+  history:{
+   ro:'Istoria Irlandei include comunități medievale, transformări politice și religioase, Marea Foamete din anii 1840 și migrațiile asociate. La începutul secolului XX, mișcările pentru independență au modificat organizarea politică a insulei. Republica Irlanda și Irlanda de Nord au astăzi instituții și jurisdicții distincte.',
+   en:'Ireland’s history includes medieval communities, political and religious change, the Great Famine of the 1840s and associated migration. Independence movements changed the island’s political organisation in the early twentieth century. Today the Republic of Ireland and Northern Ireland have distinct jurisdictions and institutions.',
+   activityRo:'Construiește o cronologie care distinge Foametea din anii 1840 de evenimentele politice ale secolului XX.',
+   activityEn:'Build a timeline distinguishing the Great Famine of the 1840s from twentieth-century political developments.'
+  },
+  geography:{
+   ro:'Insula Irlanda are o climă oceanică, cu influență atlantică, dealuri și lanțuri muntoase periferice și câmpii în zona centrală. Dublin, Cork și Galway au poziții și funcții urbane diferite. Ținuturile de coastă, terenurile agricole și bazinele hidrografice pot fi comparate prin hărți și date.',
+   en:'The island of Ireland has an oceanic climate influenced by the Atlantic, peripheral hills and mountains and central lowlands. Dublin, Cork and Galway have different positions and urban roles. Coastal landscapes, agricultural land and river basins can be compared using maps and dated data.',
+   activityRo:'Identifică trei orașe și două unități de relief; explică influența Atlanticului asupra climei.',
+   activityEn:'Locate three cities and two landforms; explain the Atlantic influence on climate.'
+  }
+ },
+ IN:{
+  history:{
+   ro:'Istoria subcontinentului indian cuprinde civilizații urbane din Valea Indusului, imperii și comunități cu tradiții lingvistice și religioase diverse. Dominația colonială britanică și mișcările pentru independență au precedat anul 1947, când India a devenit independentă. Istoria unei regiuni sau a unei comunități nu reprezintă automat experiența tuturor populațiilor.',
+   en:'The Indian subcontinent has histories of Indus Valley urban settlements, empires and communities with varied languages and religious traditions. British colonial rule and independence movements preceded India’s independence in 1947. The experience of one region or community should not be assumed to represent all others.',
+   activityRo:'Compară două izvoare din epoci diferite și explică cine le-a creat și ce limite au.',
+   activityEn:'Compare two sources from different periods, explaining their creators and limitations.'
+  },
+  geography:{
+   ro:'India cuprinde lanțul Himalaya în nord, câmpiile indo-gangetice și Podișul Deccan. Musonul influențează distribuția sezonieră a precipitațiilor, dar efectele variază între regiuni. Populația, agricultura și orașele sunt distribuite neuniform, astfel încât datele naționale trebuie completate cu observații regionale.',
+   en:'India includes the Himalayas in the north, the Indo-Gangetic plains and the Deccan Plateau. The monsoon shapes seasonal rainfall, although its effects vary by region. Population, agriculture and cities are unevenly distributed, so national data should be complemented by regional evidence.',
+   activityRo:'Compară două regiuni cu regimuri de precipitații diferite și explică legătura cu agricultura.',
+   activityEn:'Compare two regions with different rainfall patterns and explain their connection to agriculture.'
+  }
+ },
+ US:{
+  history:{
+   ro:'Istoria Statelor Unite cuprinde istoriile distincte ale popoarelor indigene, colonizarea europeană, formarea statului federal și conflictele privind sclavia și drepturile civile. Declarația de Independență din 1776 și Constituția din 1787 sunt documente fondatoare diferite. Războiul Civil din 1861–1865 și mișcările pentru drepturi civile cer analiză de surse și perspective.',
+   en:'US history includes the distinct histories of Indigenous peoples, European colonisation, the formation of the federal state and struggles over slavery and civil rights. The Declaration of Independence of 1776 and Constitution of 1787 are different founding documents. The Civil War of 1861–1865 and civil rights movements require evidence from varied perspectives.',
+   activityRo:'Compară scopul Declarației de Independență cu rolul Constituției și identifică două diferențe.',
+   activityEn:'Compare the purpose of the Declaration of Independence with the role of the Constitution and identify two differences.'
+  },
+  geography:{
+   ro:'Statele Unite au regiuni fizice contrastante, de la Munții Apalași și Marile Câmpii la Munții Stâncoși și coasta Pacificului. Sistemul Mississippi–Missouri și Marile Lacuri influențează transportul și utilizarea resurselor. Clima și densitatea populației diferă puternic între state și regiuni.',
+   en:'The United States has contrasting physical regions, from the Appalachians and Great Plains to the Rockies and Pacific coast. The Mississippi–Missouri river system and Great Lakes influence transport and resources. Climate and population density differ greatly between states and regions.',
+   activityRo:'Alege două state cu peisaje diferite, compară relieful, clima și distribuția orașelor.',
+   activityEn:'Choose two states with different landscapes; compare relief, climate and the distribution of cities.'
+  }
+ },
+ CA:{
+  history:{
+   ro:'Istoria Canadei include tradițiile și experiențele Primelor Națiuni, Inuit și Métis, contactele coloniale franceze și britanice și dezvoltarea federației. Confederația din 1867 a fost un proces constituțional, iar extinderea sa a avut etape. Politicile privind școlile rezidențiale și procesele de reconciliere sunt subiecte istorice esențiale care cer surse responsabile.',
+   en:'Canadian history includes First Nations, Inuit and Métis experiences, French and British colonial encounters and the development of the federation. Confederation in 1867 was a constitutional process with later stages of expansion. Residential-school policies and reconciliation are essential topics requiring careful, responsible sources.',
+   activityRo:'Construiește o cronologie a Confederației și separă punctele de vedere ale instituțiilor și comunităților indigene.',
+   activityEn:'Build a Confederation timeline and distinguish institutional and Indigenous community perspectives.'
+  },
+  geography:{
+   ro:'Canada include Scutul Canadian, Marile Câmpii, Munții Stâncoși și vaste regiuni arctice. Fluviul Sfântul Laurențiu leagă sisteme de transport și așezări importante. Distanțele mari, diferențele climatice și distribuția populației influențează relațiile dintre provincii, teritorii și orașe.',
+   en:'Canada includes the Canadian Shield, Great Plains, Rocky Mountains and extensive Arctic regions. The St Lawrence connects major transport systems and settlements. Large distances, climate differences and population patterns influence connections among provinces, territories and cities.',
+   activityRo:'Compară o provincie atlantică cu un teritoriu arctic folosind o hartă climatică și o statistică datată.',
+   activityEn:'Compare an Atlantic province with an Arctic territory using a climate map and dated statistics.'
+  }
+ },
+ NZ:{
+  history:{
+   ro:'Istoria Aotearoa Noua Zeelandă include tradițiile și comunitățile Māori și contactele cu europenii. Te Tiriti o Waitangi / Tratatul de la Waitangi din 1840 este esențial pentru înțelegerea istoriei politice, iar diferențele dintre versiunile în te reo Māori și engleză au semnificație istorică. Analiza presupune surse și perspective multiple.',
+   en:'Aotearoa New Zealand’s history includes Māori communities and traditions and encounters with Europeans. Te Tiriti o Waitangi / the Treaty of Waitangi of 1840 is central to political history, and differences between its te reo Māori and English texts matter. Study requires multiple sources and perspectives.',
+   activityRo:'Compară rolul celor două versiuni ale tratatului și explică de ce traducerea poate afecta interpretarea.',
+   activityEn:'Compare the two Treaty texts and explain why translation can affect interpretation.'
+  },
+  geography:{
+   ro:'Noua Zeelandă cuprinde Insula de Nord și Insula de Sud, cu relief montan și procese tectonice active. Alpii Sudici modelează clima și precipitațiile, iar în Insula de Nord există regiuni vulcanice. Biodiversitatea include specii endemice a căror conservare este importantă.',
+   en:'New Zealand includes the North and South Islands, with mountain landscapes and active tectonic processes. The Southern Alps shape climate and rainfall, while the North Island includes volcanic regions. Biodiversity includes endemic species whose conservation is important.',
+   activityRo:'Localizează Alpii Sudici și o zonă vulcanică, apoi explică două diferențe regionale.',
+   activityEn:'Locate the Southern Alps and a volcanic area, then explain two regional differences.'
+  }
+ },
+ MX:{
+  history:{
+   ro:'Istoria Mexicului cuprinde societăți mezoamericane diverse, inclusiv civilizațiile maya și mexica, apoi colonizarea spaniolă și transformările ulterioare. Independența a început să fie revendicată la începutul secolului XIX, iar Revoluția Mexicană a început în 1910. Nu toate culturile precoloniale au existat simultan sau în aceleași regiuni.',
+   en:'Mexican history includes diverse Mesoamerican societies, including Maya and Mexica civilisations, followed by Spanish colonisation and later transformations. Independence movements emerged in the early nineteenth century and the Mexican Revolution began in 1910. Precolonial cultures did not all exist at the same time or in the same places.',
+   activityRo:'Compară o hartă culturală precolonială cu o hartă modernă și explică diferențele de timp și spațiu.',
+   activityEn:'Compare a precolonial cultural map with a modern map and explain differences in time and place.'
+  },
+  geography:{
+   ro:'Mexicul are un relief variat, cu lanțurile Sierra Madre, Podișul Mexican, Peninsula Yucatán și litorale la Pacific, Golful Mexic și Marea Caraibilor. Mediile naturale variază de la zone aride la păduri tropicale. Orașele și activitățile economice trebuie analizate pe regiuni, nu ca un singur tipar național.',
+   en:'Mexico has varied terrain including the Sierra Madre ranges, Mexican Plateau, Yucatán Peninsula and coasts on the Pacific, Gulf of Mexico and Caribbean. Environments range from arid zones to tropical forests. Cities and economic activities should be analysed regionally rather than as a single national pattern.',
+   activityRo:'Alege o regiune aridă și una umedă, compară precipitațiile și vegetația pe hărți.',
+   activityEn:'Choose an arid and a humid region, comparing rainfall and vegetation on maps.'
+  }
+ },
+ PT:{
+  history:{
+   ro:'Istoria Portugaliei cuprinde formarea regatului medieval, expansiunea maritimă din secolele XV–XVI și relațiile coloniale cu efecte complexe asupra societăților. În secolul XX, Estado Novo a fost un regim autoritar, iar Revoluția Garoafelor din 25 aprilie 1974 a marcat tranziția democratică. Studiul cere perspective diferite asupra expansiunii și colonialismului.',
+   en:'Portuguese history includes the medieval kingdom, maritime expansion in the fifteenth and sixteenth centuries and colonial relationships with complex consequences. In the twentieth century, Estado Novo was an authoritarian regime; the Carnation Revolution of 25 April 1974 marked a democratic transition. Study needs multiple perspectives on expansion and colonialism.',
+   activityRo:'Construiește o cronologie a expansiunii maritime și a Revoluției din 1974, distingând epocile.',
+   activityEn:'Build a timeline of maritime expansion and the 1974 Revolution, keeping the periods distinct.'
+  },
+  geography:{
+   ro:'Portugalia cuprinde teritoriul continental din vestul Peninsulei Iberice și arhipelagurile Azore și Madeira din Atlantic. Fluviile Douro și Tejo sunt repere hidrografice importante. Diferențele dintre nord și sud și dintre continent și insule pot fi analizate prin relief, climă și utilizarea terenurilor.',
+   en:'Portugal includes mainland territory in the west of the Iberian Peninsula and the Azores and Madeira archipelagos in the Atlantic. The Douro and Tagus are important river systems. Differences between north and south and between mainland and islands can be explored through relief, climate and land use.',
+   activityRo:'Compară Madeira și o regiune continentală după climă și relief, indicând sursele.',
+   activityEn:'Compare Madeira with a mainland region for climate and relief, citing sources.'
+  }
+ }
+});
+
 export function educationLocalContext(country,subject){
  return EDUCATION_LOCAL_CONTEXT[String(country||'').toUpperCase()]?.[subject]||null;
 }
