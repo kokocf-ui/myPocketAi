@@ -38,6 +38,29 @@ try{
  assert.equal(valid.journeys[0].boarding_stop?.latitude,51.476);
  assert.equal(valid.journeys[0].boarding_stop?.longitude,0.321);
  assert.equal(valid.journeys[0].safetyMarginMinutes,5);
+ // A bus-only search uses the documented empty transit_modes query parameter.
+ const railRejected=await planTransCAPIJourney({TRANSCAPI_API_KEY:'test-key'},from,to,4,{preference:'bus_only'});
+ assert.equal(railRejected.status,'no_usable_journeys','Never show rail under bus-only preference');
+ assert.equal(calls.at(-1).url.searchParams.get('transit_modes'),'');
+ assert.equal(calls.at(-1).url.searchParams.get('modes'),'');
+ const later=await planTransCAPIJourney({TRANSCAPI_API_KEY:'test-key'},from,to,4,{departureOffsetMinutes:60});
+ assert.equal(later.status,'success');
+ assert.ok(Date.parse(calls.at(-1).url.searchParams.get('datetime'))>Date.now()+57*60000);
+ globalThis.fetch=async (input,init)=>{
+  const url=new URL(input);calls.push({url,init});
+  return Response.json({itineraries:[{start_time:at(12),end_time:at(237),fare:null,
+   legs:[
+    {mode:'WALK',duration_s:600,from:{name:'Origin'},to:{name:'Bus stop'}},
+    {mode:'BUS',from:{name:'Bus stop'},to:{name:'Manchester stop'},route:{line:'X1'},
+     start_time:{scheduled:at(27)},end_time:{scheduled:at(222)}},
+    {mode:'WALK',duration_s:900,from:{name:'Manchester stop'},to:{name:'Destination'}}
+   ]}]});
+ };
+ const buses=await planTransCAPIJourney({TRANSCAPI_API_KEY:'test-key'},from,to,4,{preference:'bus_only'});
+ assert.equal(buses.status,'success');
+ assert.ok(buses.journeys[0].legs.some(l=>l.mode==='bus'));
+ assert.ok(buses.journeys[0].legs.every(l=>['walking','bus','coach'].includes(l.mode)));
+
  assert.ok(calls[0].url.pathname.endsWith('/v1/journey.json'));
  assert.equal(calls[0].url.searchParams.get('limit'),'4');
  assert.equal(calls[0].init.headers['X-Api-Key'],'test-key');

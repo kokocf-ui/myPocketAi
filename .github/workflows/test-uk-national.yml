@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - fix/uk-nationwide-mixed-itineraries
+      - feature/transport-bus-only-alternatives
   pull_request:
     paths:
       - 'backend.js'
