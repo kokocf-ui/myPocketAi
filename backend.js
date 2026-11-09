@@ -1846,6 +1846,25 @@ export default {
     }
 
     const message = data.message.trim();
+    // Education requests are not routes, POIs, weather or local searches.
+    // Route a user-selected school lesson directly to a bounded tutoring response.
+    if(data.module==='education_study'&&['history','geography'].includes(data.education_subject)){
+      const subject=data.education_subject;
+      const locale=['ro','en','fr','de','es','it','pt'].includes(data.language)?data.language:'ro';
+      const system='You are a careful school teacher of '+(subject==='history'?'history':'geography')+
+        '. Answer the lesson request in '+locale+'. Never interpret a historical event, date or region as a geolocation, transport or nearby-place request. '+
+        'Present chronological context, causes, evidence and outcomes for history; for geography describe physical and human characteristics, using correct time and region context. '+
+        'Follow the country, grade, topic and curriculum caveats from the user request. Do not invent historical maps, official syllabi, citations or factual certainty. '+
+        'Do not repeat complete paragraphs, preambles or exercises. Use readable headings and paragraphs, no raw markdown characters.';
+      try{
+        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system},{role:'user',content:message}],temperature:0.2,max_tokens:1800});
+        const reply=String(response?.response||response?.result?.response||'').trim();
+        if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:subject},503);
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,education_subject:subject,ai_generated:true});
+      }catch(error){
+        return json({status:'unavailable',error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'education_generation_unavailable',education_subject:subject},503);
+      }
+    }
     if(message==='__nearby_accommodation__'){
       const q=data.accommodation_search||{},lat=Number(q.latitude),lon=Number(q.longitude);
       if(q.latitude==null||q.longitude==null||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return json({status:'error',places:[],error:'Invalid destination coordinates'},400);
