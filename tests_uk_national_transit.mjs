@@ -44,8 +44,15 @@ try{
  assert.equal(calls.at(-1).url.searchParams.get('transit_modes'),'');
  assert.equal(calls.at(-1).url.searchParams.get('modes'),'');
  const later=await planTransCAPIJourney({TRANSCAPI_API_KEY:'test-key'},from,to,4,{departureOffsetMinutes:60});
- assert.equal(later.status,'success');
+ assert.equal(later.status,'no_usable_journeys','Provider departures before the requested hour must be rejected');
  assert.ok(Date.parse(calls.at(-1).url.searchParams.get('datetime'))>Date.now()+57*60000);
+ const scheduled=new Date(Date.now()+24*60*60000).toISOString();
+ const selected=await planTransCAPIJourney({TRANSCAPI_API_KEY:'test-key'},from,to,4,{departureAt:scheduled});
+ assert.equal(calls.at(-1).url.searchParams.get('datetime'),scheduled,'Use exact calendar departure time');
+ assert.equal(selected.status,'no_usable_journeys','Never substitute earlier routes for tomorrow');
+ assert.equal((await planTransCAPIJourney({TRANSCAPI_API_KEY:'test-key'},from,to,4,{departureAt:'invalid-date'})).status,'invalid_departure_time');
+ assert.equal((await planTransCAPIJourney({TRANSCAPI_API_KEY:'test-key'},from,to,4,{departureAt:new Date(Date.now()+65*86400000).toISOString()})).status,'invalid_departure_time');
+ 
  globalThis.fetch=async (input,init)=>{
   const url=new URL(input);calls.push({url,init});
   return Response.json({itineraries:[{start_time:at(12),end_time:at(237),fare:null,

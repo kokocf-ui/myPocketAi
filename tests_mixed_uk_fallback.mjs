@@ -12,7 +12,8 @@ let internationalFixture=false,provideTfLJourney=false,provideMotisJourney=false
 globalThis.fetch=async input=>{
  const url=new URL(typeof input==="string"?input:input.url);calls.push(url);
  if(url.hostname==="api.transcapi.com"){
-  const at=m=>new Date(Date.now()+m*60000).toISOString();
+  const requested=Date.parse(url.searchParams.get('datetime')||'');
+  const at=m=>new Date((Number.isFinite(requested)?requested:Date.now())+m*60000).toISOString();
   if(url.searchParams.get('from_lon')==='4.9041'||url.searchParams.get('from_lon')==='-5.9301'){
    const ireland=url.searchParams.get('from_lon')==='-5.9301';
    const origin=ireland?'Belfast':'Amsterdam',dest=ireland?'Dublin':'Brussels';
@@ -110,7 +111,7 @@ try{
  const local=await ask(uk,{TFL_APP_KEY:"mock-tfl"});
  assert.equal(local.status,"success",JSON.stringify({local,hosts:calls.map(u=>u.hostname+u.pathname)}).slice(0,1200));
  assert.ok(calls.some(u=>u.hostname==="api.tfl.gov.uk"&&u.pathname.includes("JourneyResults")),
-  "UK mixed mode without an international provider must still query TfL");
+  "UK mixed mode without an international provider must still query TfL: "+JSON.stringify({hosts:calls.map(u=>u.hostname+u.pathname),reply:local.reply,provider_status:local.provider_status,full_diag:local.diagnostics?.providers,reason:local.reason,transit_available:local.transit_available}).slice(0,1400));
  assert.notEqual(local.reason,"international_provider_not_connected",
   "UK does not require international routing permission");
  assert.notEqual(local.international_journey,true);
@@ -124,11 +125,10 @@ try{
  assert.equal(manchesterResult.provider_status?.tfl,"outside_london_corridor");
  assert.ok(!calls.some(url=>url.hostname==="api.tfl.gov.uk"),
   "Manchester must never be sent to the TfL journey planner");
- assert.deepEqual(manchesterResult.planning_links?.map(item=>item.name),
-  ["National Rail","Traveline","Bee Network / TfGM"],
-  "Manchester should offer the national rail, coach/bus and local Bee Network planners");
- assert.ok(manchesterResult.planning_links.every(item=>item.url.startsWith("https://")),
-  "Only official https sources are offered");
+ assert.ok(!manchesterResult.planning_links?.length,
+  'Mixed journeys must remain in the app instead of forcing official outbound sites');
+ assert.equal(manchesterResult.provider_status?.transcapi,'not_configured',
+  'Report when the national planner is not configured on this Worker');
 
  const connectedNationwide=await ask(manchester,{TFL_APP_KEY:"mock-tfl",TRANSCAPI_API_KEY:"test-key"});
  assert.equal(connectedNationwide.transit_available,true,"A configured UK planner must return the itinerary in the app");
@@ -180,9 +180,8 @@ try{
  assert.equal(birminghamResult.uk_national_journey,true);
  assert.ok(!calls.some(url=>url.hostname==="api.tfl.gov.uk"),
   "Outside-London cities must not use the London-only planner");
- assert.deepEqual(birminghamResult.planning_links?.map(item=>item.name),
-  ["National Rail","Traveline"],
-  "The Manchester regional provider must not be suggested for Birmingham");
+ assert.ok(!birminghamResult.planning_links?.length,
+  'Missing national results in mixed mode should not become external links');
 
  const regularJourney=await ask(manchester,{TFL_APP_KEY:"mock-tfl"},{mixed_journey:false,message:"Transport public spre Manchester Piccadilly"});
  assert.equal(regularJourney.uk_national_journey,true,"Non-mixed UK public transit should also avoid TfL");
