@@ -25,7 +25,7 @@ const fakeFetch=async(url,opts)=>{
  searches++;assert.equal(url,'https://api.exa.ai/search');
  assert.equal(opts.headers['x-api-key'],'test-key');
  const query=JSON.parse(opts.body).query;
- assert.match(query,/Japan/);assert.match(query,/J2/);
+ assert.match(query,/Japan/);assert.match(query,/J[23]/);
  return {ok:true,json:async()=>sourceData};
 };
 const chapterList=Array.from({length:10},(_,i)=>({title:'Japan history lesson '+(i+1),focus:'Japan historical source investigation and chronological interpretation for school-year J2, topic '+(i+1)+'.'}));
