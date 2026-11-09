@@ -130,6 +130,11 @@ function computingOpen(stage){
   const lv=COMPUTING_LEVELS_DATA.find(x=>x.id===computingJourney.level);if(!lv){computingOpen('levels');return}
   computingParagraph(panel,computingLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+computingLabel('Clasa: ','Grade: ')+(computingJourney.grade||'')+'. '+computingLabel('Parcurs orientativ, ajustat nivelului școlar.','General learning adapted to the chosen school year.'));
   computingParagraph(panel,lv.focus);
+  if(educationCountrySelection.code!=='RO'&&educationCountrySelection.code!=='GB-ENG'){
+   const intl=computingBtn(computingLabel('🌍 Parcursul țării selectate','🌍 Selected country study path'),
+    ()=>educationInternationalOpen('computing',computingJourney.level,computingJourney.grade,()=>computingOpen('paths')),'secondary-btn');
+   intl.classList.add('edu-national-outline');panel.append(intl);
+  }
   const paths=COMPUTING_PATHS_DATA.filter(x=>x.level===lv.id&&computingGradePathAllowed(x));
    if(!paths.length)computingParagraph(panel,computingLabel('Nu există ramuri pentru această clasă; verifică nivelul sau revino la alegere.','No branches are available for this grade. Please choose another level.'));
    computingChoices(panel,paths.map(x=>({id:x.id,ro:x.icon+' '+x.ro,en:x.icon+' '+x.en})),c=>{computingJourney.path=c.id;computingJourney.topic=null;computingOpen('topics')});return
