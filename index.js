@@ -10509,12 +10509,19 @@ function hgRemember(kind){
  try{const key=hgProgressKey(),p=JSON.parse(localStorage.getItem(key)||'{}');p[hgJourney.topic]={...(p[hgJourney.topic]||{}),[kind]:new Date().toISOString()};localStorage.setItem(key,JSON.stringify(p))}catch{}
 }
 function hgBack(){
- if(hgJourney.stage==='chapters'&&hgJourney.level!=='advanced'){
+ // A single available school year auto-advances in educationGradeGate.
+ // Sending Back into that gate used to reopen the same chapter screen.
+ if(hgJourney.stage==='chapters'){
+  if(hgJourney.level==='advanced'){hgOpen('specialties');return}
+  const options=eduYearOptions(educationCountrySelection.code,hgJourney.level,'history');
+  if(options.length<2){hgOpen('levels');return}
+  hgJourney.stage='grade';
   educationGradeGate('history',hgJourney.level,grade=>{
    hgJourney.grade=grade;hgJourney.topic=null;hgOpen('chapters');
-  },()=>hgOpen('levels'));return;
+  },()=>hgOpen('levels'));
+  return;
  }
- const prev={subjects:'country',scope:'subjects',country:'scope',levels:'scope',grade:'levels',specialties:'levels',chapters:'specialties',lesson:'chapters'};
+ const prev={subjects:'country',scope:'subjects',country:'scope',levels:'scope',grade:'levels',specialties:'levels',lesson:'chapters'};
  if(prev[hgJourney.stage])hgOpen(prev[hgJourney.stage]);else renderLearningSubjects();
 }
 function hgOpen(stage){
