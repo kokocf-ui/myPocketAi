@@ -160,8 +160,8 @@ assert.ok(boot.includes('EXAM_THEORY_DATA'),'Curriculum-backed theory must be em
 // Verify each supported speech locale and AI response language without Android services.
 assert.match(EXAM_UI_SCRIPT,/function examSpeechLocale\(\)/,'10-language speech helper');
 assert.match(EXAM_UI_SCRIPT,/language:examSpeechLocale\(\)/,'Selected speech locale passed to Android');
-const examVoiceLocale=new Function('state',EXAM_UI_SCRIPT+';return examSpeechLocale;');
-const examReplyLanguage=new Function('state',EXAM_UI_SCRIPT+';return examResponseLanguage;');
+const examVoiceLocale=new Function('state',EXAM_UI_SCRIPT+';return examSpeechLocale();');
+const examReplyLanguage=new Function('state',EXAM_UI_SCRIPT+';return examResponseLanguage();');
 for(const [lang,locale,label] of [
  ['ro','ro-RO','română'],['en','en-GB','engleză'],['fr','fr-FR','franceză'],['de','de-DE','germană'],['it','it-IT','italiană'],
  ['es','es-ES','spaniolă'],['pt','pt-PT','portugheză'],['nl','nl-NL','neerlandeză'],['ru','ru-RU','rusă'],['pl','pl-PL','poloneză']
