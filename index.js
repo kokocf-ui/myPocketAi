@@ -10940,7 +10940,7 @@ function litWorkspace(panel){
  };
  const subject=make('textarea',learningLabel('Subiect / cerință (opțional dacă ai introdus opera și autorul)','Topic / assignment (optional if work and author are entered)'),learningLabel('Ex.: Prietenia în literatură sau caracterizarea unui personaj','E.g. Friendship in literature or character analysis'));subject.rows=2;subject.id='litEssaySubject';
  const details=make('textarea',learningLabel('Detalii, idei, argumente, operă sau autor (opțional)','Details, ideas, arguments, work or author (optional)'),learningLabel('Introdu ideile tale, citate, cerințele profesorului sau textul de analizat','Enter your ideas, quotations, assignment requirements or source text'));details.rows=4;
- const work=make('input',learningLabel('Titlul operei și autorul','Work title and author'),learningLabel('Ex.: Ion — Liviu Rebreanu','E.g. Pride and Prejudice — Jane Austen'));
+ const work=make('input',learningLabel('Autor sau titlul operei','Author or work title'),learningLabel('Ex.: Liviu Rebreanu sau Ion','E.g. Jane Austen or Pride and Prejudice'));
  work.id='litWorkTitle';
  // Author/work lookup is an explicit action. Only retrieved, cited sources are displayed.
  // Bibliographic search: author first, then distinct works recorded for that author.
@@ -10949,7 +10949,7 @@ function litWorkspace(panel){
  const lookupStatus=litText('p','');lookupStatus.className='lit-research-status';lookupStatus.setAttribute('role','status');
  const lookupResults=document.createElement('section');lookupResults.className='lit-research-results';
  lookupResults.setAttribute('role','region');lookupResults.setAttribute('aria-label','Bibliografie');
- const lookupMore=litBtn('','', 'secondary-btn lit-research-more');lookupMore.hidden=true;
+ const lookupMore=litBtn('',()=>{},'secondary-btn lit-research-more');lookupMore.hidden=true;
  const literatureWords={
   ro:['🔎 Caută autorul / opera','Introdu numele scriitorului sau titlul operei.','Se caută scriitorul…','Scriitori identificați','Alege scriitorul pentru a vedea operele','Nu am găsit scriitori cu acest nume. Caut după titlul operei…','Niciun autor sau titlu găsit în catalog.','Nu pot consulta catalogul acum. Reîncearcă.','Se încarcă operele…','Opere înregistrate în catalog','Nu sunt înregistrate opere pentru acest autor.','Mai multe opere','Studiază','Eseu','Sursă bibliografică','Este afișat catalogul Open Library; unele opere pot lipsi.','Opera este selectată. Alege cerința și apasă „Compune / explică”.','Autor','Titlul căutat','Alte opere de același autor','Ani / date de publicare, dacă sunt documentate'],
   en:['🔎 Find author / work','Enter the writer’s name or a work title.','Finding authors…','Matching authors','Choose a writer to see recorded works','No matching writer. Searching by work title…','No author or work found in the catalogue.','Catalogue unavailable. Try again.','Loading works…','Works recorded in the catalogue','No works are recorded for this author.','More works','Study','Essay','Bibliographic source','This is the Open Library catalogue; some works may be missing.','Work selected. Choose your task and select Compose / explain.','Author','Work title match','More works by this author','Publication dates where recorded'],
