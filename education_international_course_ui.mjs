@@ -7,10 +7,10 @@ function educationBibliographyForRuntime(country,subject,grade){
  const c=String(country||'').toUpperCase(),s=String(subject||'').toLowerCase();
  const alias={math:'mathematics',science:'biology',computer:'computing'};
  const name=alias[s]||s,match=String(grade||'').match(/\d+/);
- const year=match?Number(match[0]):0;
- if(year<1||year>20)return [];
+ const rawGrade=String(grade||''),year=match?Number(match[0]):0;
+ if(!rawGrade||/univ|higher.education|master|bachelor|licen/i.test(rawGrade))return [];
  return (EDUCATION_BIBLIOGRAPHY_IN_APP[c]||[]).filter(r=>
-  year>=r.min&&year<=r.max&&(r.subjects.includes(name)||r.subjects.includes('*'))
+  (r.anyGrade===true||(year>=r.min&&year<=r.max))&&(r.subjects.includes(name)||r.subjects.includes('*'))
  );
 }
 
