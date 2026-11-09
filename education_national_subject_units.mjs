@@ -122,6 +122,26 @@ Object.assign(NATIONAL_SUBJECT_UNITS,{
  }
 });
 
+
+export const NATIONAL_PRIMARY_UNITS={
+ FR:{history:[['Urmele trecutului într-un oraș francez','Traces of the past in a French town','Compară două fotografii ale aceluiași loc și observă ce s-a schimbat în timp.']],geography:[['Harta Franței, munți și râuri','Map of France mountains and rivers','Identifică pe o hartă Alpii, Pirineii și Sena, apoi construiește o legendă simplă.']],mathematics:[['Numerație și măsurători în ciclul 2','Number sense and measurement in cycle 2','Gruparea numerelor și măsurarea obiectelor, cu exemple cotidiene și verificare.']]},
+ IT:{history:[['Orașe și monumente din Italia','Italian towns and monuments','Alege un monument și notează ce poți afla dintr-o fotografie datată.']],geography:[['Peninsula și insulele Italiei','Italian peninsula and islands','Localizează Sicilia, Sardinia și munții pe o hartă simplă.']]},
+ JP:{history:[['Japonia de ieri și de astăzi','Japan past and present','Compară locuințe, transport și sărbători din două perioade folosind imagini datate.']],geography:[['Cele patru insule principale ale Japoniei','Four main Japanese islands','Identifică Honshū, Hokkaidō, Kyūshū și Shikoku pe hartă.']],mathematics:[['Numere, forme și probleme vizuale','Japanese primary numbers shapes and problems','Folosește reprezentări vizuale și mai multe metode de calcul pentru o problemă practică.']]},
+ DE:{history:[['Orașul meu din Germania: atunci și acum','A German town then and now','Compară clădiri, transport și tradiții prin imagini și documente locale.']],geography:[['Landuri, râuri și munți din Germania','German states rivers and mountains','Localizează Rinul, Dunărea și Alpii într-o hartă cu legendă.']]},
+ ES:{history:[['Tradiții și locuri istorice din Spania','Spanish traditions and historical places','Alege un loc dintr-o regiune spaniolă și compară trecutul cu prezentul.']],geography:[['Harta Spaniei și a insulelor','Map of Spain and its islands','Recunoaște peninsula, Balearele și Canarele pe hartă.']]},
+ BR:{history:[['Comunități și tradiții din Brazilia','Brazilian communities and traditions','Compară două tradiții regionale fără a generaliza populația întregii țări.']],geography:[['Amazonia și râul Amazon','Amazon forest and river','Localizează râul, pădurea tropicală și regiunile Braziliei.']]},
+ 'GB-SCT':{history:[['Locuri vechi și povești documentate din Scoția','Scottish historical places and evidence','Compară un castel și o stradă veche, folosind surse vizuale.']],geography:[['Highlands, Lowlands și insule','Highlands Lowlands and islands','Descrie două peisaje scoțiene folosind harta.']],mathematics:[['Numeracy în contexte scoțiene','Scottish numeracy in everyday contexts','Estimează, măsoară și explică soluții cu exemple locale accesibile copiilor.']]},
+ 'GB-WLS':{history:[['Viața unei comunități galeze în trecut','Welsh community life in the past','Compară fotografii ale unei școli sau mine din trecut și prezent.']],geography:[['Munți, văi și coasta galeză','Welsh mountains valleys and coast','Construiește o hartă simplă cu Snowdonia/Eryri și două orașe.']]},
+ AU:{history:[['Comunități și istorii ale Primelor Națiuni','Australian First Nations communities and histories','Învață despre diversitatea comunităților indigene prin materiale și surse respectuoase.']],geography:[['Deșert, pădure și coastă australiană','Australian desert forest and coast','Compară peisaje și climate folosind o hartă a Australiei.']],mathematics:[['Mathematics Foundation to Year 6: numere și tipare','Australian primary numbers and patterns','Construiește tipare, folosește reprezentări și rezolvă probleme concrete.']]},
+ IE:{history:[['Viața într-o comunitate irlandeză în trecut','Irish community life in the past','Compară obiecte și fotografii din două generații.']],geography:[['Insula Irlanda și coasta atlantică','Island of Ireland and Atlantic coast','Localizează Dublin, Galway și forme de relief pe hartă.']]},
+ IN:{history:[['Obiceiuri și moștenire culturală în India','Indian heritage and community life','Compară două exemple culturale regionale fără a le considera universale.']],geography:[['Himalaya, câmpii și muson','Himalayas plains and monsoon','Recunoaște relieful și anotimpurile ploioase pe hărți simple.']],mathematics:[['Raționament și calcul în exemple cotidiene','Primary mathematical thinking in India','Rezolvă situații practice cu numere, grupare și verificarea calculelor.']]},
+ US:{history:[['Istoria locală și comunitățile americane','US local history and communities','Construiește o cronologie cu trei repere documentate dintr-o localitate.']],geography:[['State și regiuni ale SUA','US states and regions','Identifică statul selectat și compară două peisaje regionale.']]},
+ CA:{history:[['Comunități indigene și istorie locală','Indigenous communities and local history in Canada','Studiază o comunitate din provincia aleasă prin surse locale și datate.']],geography:[['Provincii, teritorii și peisaje','Canadian provinces territories and landscapes','Localizează provincia și compară două peisaje naturale.']]},
+ NZ:{history:[['Istoria locală Māori și a comunității','Māori and local community history','Exploră povestiri și izvoare locale respectând contextul cultural.']],geography:[['Insulele de Nord și Sud','New Zealand North and South Islands','Localizează insulele și două forme de relief.']]},
+ MX:{history:[['Orașe și tradiții din Mexic','Mexican towns and traditions','Compară două exemple regionale prin imagini și surse locale.']],geography:[['Munți și mări în Mexic','Mexican mountains and coasts','Identifică Sierra Madre și coastele pe o hartă simplă.']]},
+ PT:{history:[['Orașe și monumente ale Portugaliei','Portuguese towns and monuments','Compară un loc istoric din două perioade prin fotografii datate.']],geography:[['Portugalia continentală și insulele','Portugal mainland and islands','Localizează Lisabona, Porto, Azore și Madeira.']]}
+};
+
 export const NATIONAL_UNIT_SOURCES={
  'GB-SCT':'https://education.gov.scot/curriculum-for-excellence/experiences-and-outcomes/',
  'GB-WLS':'https://hwb.gov.wales/curriculum-for-wales',
@@ -141,6 +161,14 @@ export const NATIONAL_UNIT_SOURCES={
  ES:'https://educagob.educacionfpydeportes.gob.es/',
  BR:'https://www.gov.br/mec/pt-br'
 };
-export function nationalSubjectUnits(country,subject){
- return NATIONAL_SUBJECT_UNITS[String(country||'').toUpperCase()]?.[subject]||[];
+export function nationalSubjectUnits(country,subject,level='',grade=''){
+ const key=String(country||'').toUpperCase(),lv=level==='intermediate'?'medium':level;
+ if(lv==='beginner')return NATIONAL_PRIMARY_UNITS[key]?.[subject]||[];
+ const rows=NATIONAL_SUBJECT_UNITS[key]?.[subject]||[];
+ if(!level||!grade||rows.length<2)return rows;
+ // The grade determines an advisory teaching order; no unsupported legal
+ // claim is made about the official annual sequence.
+ const number=Number(String(grade).match(/\\d+/)?.[0]||0);
+ const offset=Number.isFinite(number)&&number>0?(number-1)%rows.length:0;
+ return [...rows.slice(offset),...rows.slice(0,offset)];
 }
