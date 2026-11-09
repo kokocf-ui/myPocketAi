@@ -82,6 +82,33 @@ try{
   "UK does not require international routing permission");
  assert.notEqual(local.international_journey,true);
 
+
+ const manchester={latitude:53.478,longitude:-2.233,country_code:"GB",label:"Manchester Piccadilly, Manchester"};
+ const cityOutsideLondon={latitude:52.4862,longitude:-1.8904,country_code:"GB",label:"Birmingham New Street, Birmingham"};
+ const manchesterResult=await ask(manchester,{TFL_APP_KEY:"mock-tfl"});
+ assert.equal(manchesterResult.uk_national_journey,true,"Manchester should use UK-wide routing");
+ assert.equal(manchesterResult.transit_available,false,"No fabricated Manchester times without authorized provider");
+ assert.equal(manchesterResult.provider_status?.tfl,"outside_london_corridor");
+ assert.ok(!calls.some(url=>url.hostname==="api.tfl.gov.uk"),
+  "Manchester must never be sent to the TfL journey planner");
+ assert.deepEqual(manchesterResult.planning_links?.map(item=>item.name),
+  ["National Rail","Traveline","Bee Network / TfGM"],
+  "Manchester should offer the national rail, coach/bus and local Bee Network planners");
+ assert.ok(manchesterResult.planning_links.every(item=>item.url.startsWith("https://")),
+  "Only official https sources are offered");
+
+ const birminghamResult=await ask(cityOutsideLondon,{TFL_APP_KEY:"mock-tfl"});
+ assert.equal(birminghamResult.uk_national_journey,true);
+ assert.ok(!calls.some(url=>url.hostname==="api.tfl.gov.uk"),
+  "Outside-London cities must not use the London-only planner");
+ assert.deepEqual(birminghamResult.planning_links?.map(item=>item.name),
+  ["National Rail","Traveline"],
+  "The Manchester regional provider must not be suggested for Birmingham");
+
+ const regularJourney=await ask(manchester,{TFL_APP_KEY:"mock-tfl"},{mixed_journey:false,message:"Transport public spre Manchester Piccadilly"});
+ assert.equal(regularJourney.uk_national_journey,true,"Non-mixed UK public transit should also avoid TfL");
+ assert.ok(!calls.some(url=>url.hostname==="api.tfl.gov.uk"),
+  "Regular Manchester public-transport planning must not rely on TfL");
  const notLicensed=await ask(abroad,{TFL_APP_KEY:"mock-tfl"});
  assert.equal(notLicensed.international_journey,true);
  assert.equal(notLicensed.reason,"international_provider_not_connected");
