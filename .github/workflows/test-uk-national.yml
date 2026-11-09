@@ -4,11 +4,13 @@ on:
     branches:
       - fix/uk-nationwide-mixed-itineraries
       - feature/transport-bus-only-alternatives
+      - fix/mixed-calendar-transit-20261109
   pull_request:
     paths:
       - 'backend.js'
       - 'uk_national_transit.mjs'
       - 'tests_uk_national_transit.mjs'
+      - 'tests_transit_calendar.mjs'
       - 'tests_mixed_uk_fallback.mjs'
       - 'tests_mixed_selector_ui.mjs'
       - 'index.js'
@@ -23,6 +25,6 @@ jobs:
         with:
           node-version: '22'
       - name: Check transport syntax
-        run: node --check backend.js && node --check uk_national_transit.mjs && node --check tests_mixed_uk_fallback.mjs && node --check tests_uk_national_transit.mjs
+        run: node --check backend.js && node --check uk_national_transit.mjs && node --check tests_mixed_uk_fallback.mjs && node --check tests_uk_national_transit.mjs && node --check index.js && node --check tests_transit_calendar.mjs
       - name: Test mocked national provider and backend routing
-        run: node tests_uk_national_transit.mjs && node tests_mixed_uk_fallback.mjs && node tests_mixed_selector_ui.mjs && node tests_transit_final_mile.mjs
+        run: node tests_uk_national_transit.mjs && node tests_transit_calendar.mjs && node tests_mixed_uk_fallback.mjs && node tests_mixed_selector_ui.mjs && node tests_transit_final_mile.mjs
