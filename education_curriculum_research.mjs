@@ -51,7 +51,11 @@ function parseExaSources(rows,request){
   // a matching country-code top-level domain.
   const country=request.countryName.toLowerCase(),countryCode=request.country.toLowerCase();
   const hostname=new URL(url).hostname.toLowerCase();
-  const matchesCountry=all.includes(country)||
+  // A German curriculum discussing Japan is not a Japanese curriculum.
+  // Require the target country near the start of the source title, or a
+  // country-matching educational domain. Topic mentions alone do not qualify.
+  const titlePosition=title.toLowerCase().indexOf(country);
+  const matchesCountry=(titlePosition>=0&&titlePosition<=26)||
    (/^[a-z]{2}$/.test(countryCode)&&hostname.endsWith('.'+countryCode));
   if(!matchesCountry)continue;
   const keywords=request.topic.toLowerCase().split(/[\s,/]+/).filter(w=>w.length>4);
