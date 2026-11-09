@@ -1,5 +1,5 @@
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
-import {researchEducationCountryLesson} from "./education_curriculum_research.mjs";
+import {researchEducationCountryLesson,researchEducationCountryCourse} from "./education_curriculum_research.mjs";
 import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
@@ -1222,6 +1222,20 @@ export default {
     }
 
     const url = new URL(request.url);
+
+    // Research a country- and grade-specific chapter index using public
+    // curriculum evidence. If evidence is insufficient, the UI keeps its
+    // clearly marked advisory fallback instead of inventing national rules.
+    if(url.pathname==="/api/education-country-curriculum"){
+      if(request.method!=="POST")return json({status:"invalid_request",code:"method_not_allowed"},405);
+      if(Number(request.headers.get("content-length")||0)>2800)
+        return json({status:"invalid_request",code:"request_too_large"},413);
+      const raw=await request.text().catch(()=>"");
+      if(raw.length>2800)return json({status:"invalid_request",code:"request_too_large"},413);
+      let payload;try{payload=JSON.parse(raw)}catch{return json({status:"invalid_request",code:"invalid_json"},400)}
+      const answer=await researchEducationCountryCourse(payload,env);
+      return json({app:"Pocket AI",version:API_VERSION,...answer},answer.status==="invalid_request"?400:200);
+    }
 
     // On-demand international education. Do not identify an evidence-based
     // advisory lesson with a country's legally prescribed syllabus.
