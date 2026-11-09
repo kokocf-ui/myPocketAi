@@ -2,12 +2,33 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import frontend from './index.js';
 import {educationBibliographyFor,EDUCATION_BIBLIOGRAPHY_DATA} from './education_bibliography_catalog.mjs';
+import {EUROPE_EDUCATION_COUNTRIES,EUROPE_EDUCATION_SOURCES,isEuropeanEducationCountry,EUROPE_ADVISORY_SCHOOL_SCHEMES} from './education_europe_catalog.mjs';
 import {EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT} from './education_international_course_ui.mjs';
 import {nationalSubjectUnits,NATIONAL_SUBJECT_UNITS} from './education_national_subject_units.mjs';
 import {worldwideStudyChapters,WORLDWIDE_GENERIC_SUBJECTS} from './education_worldwide_paths.mjs';
 import {HG_GENERAL_GRADE_LESSONS} from './education_general_paths.mjs';
 
 new vm.Script(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,{filename:'education-international-ui.js'});
+// European scope and explicit classification, with world records preserved.
+assert.ok(EUROPE_EDUCATION_COUNTRIES.length>=53);
+assert.equal(new Set(EUROPE_EDUCATION_COUNTRIES).size,EUROPE_EDUCATION_COUNTRIES.length);
+for(const code of EUROPE_EDUCATION_COUNTRIES){
+ assert.ok(isEuropeanEducationCountry(code),'Missing Europe code: '+code);
+ assert.ok(EUROPE_EDUCATION_SOURCES[code]);
+ assert.ok(EDUCATION_BIBLIOGRAPHY_DATA[code]?.some(r=>r.kind==='education-system-comparison'),
+  'Missing Europe school-system reference: '+code);
+}
+for(const code of ['JP','BR','AU','CA']){
+ assert.equal(isEuropeanEducationCountry(code),false);
+ assert.ok(EDUCATION_BIBLIOGRAPHY_DATA[code]?.length>0,
+  'Do not delete existing world-country sources: '+code);
+}
+for(const code of ['BG','HR','EE','FI','MD','MK','RS','SI']){
+ assert.ok(EUROPE_ADVISORY_SCHOOL_SCHEMES[code],code+' requires an advisory grade path');
+ assert.ok(educationBibliographyFor(code,'history','8').length>=2,code+' requires source references');
+}
+assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/EDUCATION_EUROPE_CODES\.has\(code\)/);
+assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/Am consultat fișa/);
 // Bibliographies are local and tied to the selected country/year/subject.
 assert.ok(EDUCATION_BIBLIOGRAPHY_DATA.RO?.length>=4);
 const ro8=educationBibliographyFor('RO','history','8');
