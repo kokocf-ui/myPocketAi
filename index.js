@@ -15,6 +15,7 @@ import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,HG_SCHOOL_SOURCES} from './education_school_paths.mjs';
+import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchoolYears,worldwideSchoolNotice,worldwideStudyChapters} from './education_worldwide_paths.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
@@ -10064,6 +10065,11 @@ const COMPUTING_PATHS_DATA=${JSON.stringify(COMPUTING_PATHS)};
 const COMPUTING_TOPICS_DATA=${JSON.stringify(COMPUTING_TOPICS)};
 const HG_SUBJECT_DATA=${JSON.stringify(HG_SUBJECTS)};
 const EDUCATION_SCHOOL_YEARS_DATA=${JSON.stringify(EDUCATION_SCHOOL_YEARS)};
+const EDUCATION_WORLDWIDE_SCHEMES=${JSON.stringify(EDUCATION_WORLDWIDE_SCHEMES)};
+const fallback=${JSON.stringify(EDUCATION_WORLDWIDE_FALLBACK)};
+const worldwideSchoolYears=${worldwideSchoolYears.toString()};
+const worldwideSchoolNotice=${worldwideSchoolNotice.toString()};
+const worldwideStudyChapters=${worldwideStudyChapters.toString()};
 const HG_SCHOOL_PLANS_DATA=${JSON.stringify(HG_SCHOOL_PLANS)};
 const HG_SCHOOL_GENERAL_DATA=${JSON.stringify(HG_SCHOOL_GENERAL)};
 const HG_SCHOOL_SOURCES_DATA=${JSON.stringify(HG_SCHOOL_SOURCES)};
@@ -10556,8 +10562,14 @@ function hgSchoolChapterSet(){
  const general=HG_SCHOOL_GENERAL_DATA[subject]?.[hgJourney.level]||[];
  const source=HG_SCHOOL_SOURCES_DATA[country]?.[subject];
  const verified=Boolean(exact&&source?.grades?.includes(grade));
+ // All countries get full international chapter lists plus local enquiry.
+ const chosen=hgCountry(),countryRo=chosen?.ro||hgJourney.otherCountry||educationCountrySelection.label||country,
+       countryEn=chosen?.en||hgJourney.otherCountry||educationCountrySelection.label||country;
+ const worldwide=(!exact&&country)?
+  worldwideStudyChapters(country,subject,hgJourney.level,grade,countryRo,countryEn,HG_SCHOOL_GENERAL_DATA):[];
+ const rows=exact||(worldwide.length?worldwide:general);
  return {source:verified?source.source:null,status:verified?'official-framework':'general-learning',
-  chapters:(exact||general).map(([id,ro,en,query])=>({id,ro,en,query,grade,level:hgJourney.level}))};
+  chapters:rows.map(([id,ro,en,query])=>({id,ro,en,query,grade,level:hgJourney.level}))};
 }
 function hgTopic(){
  const item=hgSchoolChapterSet().chapters.find(x=>x.id===hgJourney.topic);
@@ -10719,9 +10731,12 @@ function hgLessonSections(topic){
  if(Array.isArray(manual)&&manual.length)return manual.map(v=>[hgL(v[0],v[1]),hgL(v[2],v[3])]);
  // Grade-specific offline notes are expanded only when a chapter is opened.
  // Do not serialize 500 large lessons into every Android start-up document.
- const national=HG_SCHOOL_PLANS_DATA[hgJourney.country]?.[hgJourney.subject]?.[String(hgJourney.grade||'')]||[];
- if(national.some(v=>v[0]===topic.id)){
-  const guide=buildHgThemeGuide([topic.id,topic.ro,topic.en,topic.query||''],hgJourney.subject,String(hgJourney.grade),hgJourney.country);
+ const chapterSet=hgSchoolChapterSet().chapters;
+ if(chapterSet.some(v=>v.id===topic.id)){
+  const countryName=hgCountry();
+  const displayName=countryName?hgL(countryName.ro,countryName.en):
+   (hgJourney.otherCountry||educationCountrySelection.label||hgJourney.country||'');
+  const guide=buildHgThemeGuide([topic.id,topic.ro,topic.en,topic.query||''],hgJourney.subject,String(hgJourney.grade),hgJourney.country,displayName);
   if(guide.length>=3)return guide.map(v=>[hgL(v[0],v[1]),hgL(v[2],v[3])]);
  }
 
@@ -11197,8 +11212,9 @@ function litOpen(stage){
    'GB-ENG':{lower:['Y7','Y8','Y9'],medium:['Y10','Y11','Y12','Y13']},
    'FR':{lower:['5e','4e','3e'],medium:['2nde','1ere','Terminale']}
   };
+  const globalGrades=worldwideSchoolYears(country,stage,'literature');
   const grades=stage==='advanced'?['Universitate / cercetare']:
-   known[country]?.[stage]||profile?.grades?.[stage]||
+   known[country]?.[stage]||globalGrades.map(x=>x.id)||profile?.grades?.[stage]||
    (stage==='lower'?['Secundar inferior — studiu general']:stage==='medium'?['Secundar superior — studiu general']:['Primar — studiu general']);
   panel.append(litText('p',learningLabel('Clasele disponibile sunt organizate după sistemul selectat. Lipsa unei verificări pentru o clasă va fi semnalată explicit.','Grades follow the selected system. Unverified classes are explicitly marked.')));
   list(grades.map(v=>({id:v,ro:v,en:v})),c=>{litJourney.grade=c.id;litJourney.region='';litOpen(litJourney.country==='RO'&&c.id==='9'?'tracks':litIsRegional()?'regions':'branches')})
@@ -11227,7 +11243,7 @@ function litOpen(stage){
 }
 function litWorkspace(panel){
  const lang=LIT_LANGUAGES.find(x=>x[0]===litJourney.language);
- const curriculum=LIT_COUNTRIES.find(x=>x[0]===litJourney.country)||LIT_COUNTRIES[0];
+ const curriculum=LIT_COUNTRIES.find(x=>x[0]===litJourney.country)||[litJourney.country,educationCountrySelection.label||litJourney.country,educationCountrySelection.label||litJourney.country,litJourney.language];
  const branch=LIT_BRANCHES.find(x=>x.id===litJourney.branch);
  const topic=litCurrentTopic();if(!topic){litOpen('topics');return}
  const plan=litProgram();
