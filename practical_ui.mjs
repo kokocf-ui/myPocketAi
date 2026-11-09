@@ -149,7 +149,11 @@ function practicalCvWorkshop(panel){
   status.textContent=practicalLabel('Verifică toate informațiile. Exemplul fictiv de mai sus nu a fost inclus în CV.','Review every entry. The fictional example above was not inserted into your CV.');
  },'primary-btn');
  const exportCv=mode=>{const doc=documentForCv();if(!doc)return;preview.textContent=doc.text;preview.style.display='block';preview.dataset.ready='true';eduOpenPrint(mode,doc)};
- actions.append(build,practicalButton(practicalLabel('Salvează numai CV-ul PDF','Save CV as PDF only'),()=>exportCv('save')),practicalButton(practicalLabel('Imprimă CV','Print CV'),()=>exportCv('print')));
+ const pdfSave=practicalButton('💾',()=>exportCv('save'),'secondary-btn edu-icon-action edu-icon-save');
+ pdfSave.title=practicalLabel('Salvează CV PDF','Save CV as PDF');pdfSave.setAttribute('aria-label',pdfSave.title);
+ const pdfPrint=practicalButton('🖨',()=>exportCv('print'),'secondary-btn edu-icon-action edu-icon-print');
+ pdfPrint.title=practicalLabel('Imprimă CV','Print CV');pdfPrint.setAttribute('aria-label',pdfPrint.title);
+ actions.append(build,pdfSave,pdfPrint);
  wrap.append(actions,status,preview);panel.append(wrap);
 }
 
