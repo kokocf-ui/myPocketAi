@@ -134,6 +134,7 @@ jobs:
           node tests_education_country_progression.mjs
           node tests_education_international_depth.mjs
           node tests_education_country_research.mjs
+          node tests_education_additional_subjects.mjs
           node tests_practical_courses.mjs
           node tests_education_android.mjs
           node tests_pdf_library.mjs
