@@ -18872,6 +18872,37 @@ main.page:has(#view-module.learning-languages.active){
  margin:4px 0 11px;white-space:pre-wrap;line-height:1.6;
 }
 
+
+/* Education: ten subjects in a phone-sized five-row selector. The previous
+   four-row fixed grid clipped the last cards. Each option remains readable
+   without ornamental descriptions consuming the height needed for buttons. */
+#view-module.learning-choose .education-grid{
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:repeat(5,minmax(0,1fr))!important;
+ height:100%!important;min-height:0!important;
+ row-gap:clamp(3px,.7dvh,8px)!important;
+ column-gap:clamp(5px,1vw,10px)!important;
+ padding:2px 0 3px!important;
+ overflow:hidden!important;
+}
+#view-module.learning-choose .education-card{
+ flex-direction:row!important;align-items:center!important;
+ justify-content:flex-start!important;
+ min-height:0!important;height:100%!important;
+ gap:clamp(5px,.9vw,9px)!important;
+ padding:clamp(3px,.6dvh,7px) clamp(5px,1.3vw,10px)!important;
+ border-radius:clamp(9px,1.9vw,14px)!important;
+}
+#view-module.learning-choose .education-art{
+ align-self:center!important;font-size:clamp(16px,3.1dvh,23px)!important;
+ line-height:1!important;
+}
+#view-module.learning-choose .education-card strong{
+ font-size:clamp(11px,2.9vw,15px)!important;
+ line-height:1.15!important;
+}
+#view-module.learning-choose .education-card small{display:none!important;}
+
 </style>
 </body>
 </html>`;
