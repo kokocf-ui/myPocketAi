@@ -12,6 +12,7 @@ import {PRACTICAL_DEPTH} from './practical_depth.mjs';
 import {PRACTICAL_DEPTH_EXTRA} from './practical_depth_extra.mjs';
 import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
+import {EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT} from './education_international_course_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {POCKET_LANGUAGES,POCKET_COUNTRY_LANGUAGES,pocketLanguageFromLocale,pocketLanguageFromCountry,pocketPreferredLanguage} from './language_first_install.mjs';
@@ -7417,6 +7418,12 @@ function scienceJourneyShowChoices(stage){
   };
   list.append(btn);
  }
+ if(stage==='topics'&&educationCountrySelection.code!=='RO'&&educationCountrySelection.code!=='GB-ENG'){
+  const intl=document.createElement('button');intl.type='button';intl.className='secondary-btn math-choice-row science-choice-row edu-national-outline';
+  intl.textContent=learningLabel('🌍 Parcursul țării selectate','🌍 Selected country study path');
+  intl.onclick=()=>educationInternationalOpen(scienceJourney.subject,scienceJourney.level,scienceJourney.grade,()=>scienceJourneyShowChoices('topics'));
+  list.prepend(intl);
+ }
  panel.append(title,note,list);host.append(panel);
  requestAnimationFrame(scienceFitViewport);
 }
@@ -9537,6 +9544,12 @@ function mathJourneyShowChoices(stage){
   theory.textContent=learningLabel('📖 Teorie – Definiții și teoreme','📖 Theory – Definitions and theorems');
   theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);
   items.prepend(theory);
+  if(educationCountrySelection.code!=='RO'&&educationCountrySelection.code!=='GB-ENG'){
+   const intl=document.createElement('button');intl.type='button';intl.className='secondary-btn math-choice-row edu-national-outline';
+   intl.textContent=learningLabel('🌍 Parcursul țării selectate','🌍 Selected country study path');
+   intl.onclick=()=>educationInternationalOpen('mathematics',mathJourney.level,mathJourney.grade,()=>mathJourneyShowChoices('subjects'));
+   items.prepend(intl);
+  }
  }
  panel.append(title,note,items);host.append(panel);
  requestAnimationFrame(mathFitViewport);
@@ -11583,6 +11596,7 @@ ${EXAM_UI_SCRIPT}
 ${PRACTICAL_UI_SCRIPT}
 ${EDUCATION_SELECTS_UI_SCRIPT}
 ${EDUCATION_COUNTRY_UI_SCRIPT}
+${EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT}
 ${EDUCATION_SCOPE_UI_SCRIPT}
 function eduPrintEscape(value){return String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function eduCurrentPrintable(){
