@@ -40,7 +40,7 @@ export const ASTRONOMY_TOPICS=Object.freeze([
     "id": "observations",
     "ro": "Instrumente și observații",
     "en": "Instruments and observations",
-    "minLevel": "intermediate"
+    "minLevel": "beginner"
   },
   {
     "id": "cosmology",
