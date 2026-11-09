@@ -11,6 +11,17 @@ const abroad={latitude:48.8566,longitude:2.3522,country_code:"FR",label:"Paris, 
 let internationalFixture=false,provideTfLJourney=false,provideMotisJourney=false;
 globalThis.fetch=async input=>{
  const url=new URL(typeof input==="string"?input:input.url);calls.push(url);
+ if(url.hostname==="api.transcapi.com"){
+  const at=m=>new Date(Date.now()+m*60000).toISOString();
+  return Response.json({itineraries:[{
+   start_time:at(12),end_time:at(237),fare:{amount_gbp:65.4,complete:false},
+   legs:[
+    {mode:"WALK",duration_s:600,from:{name:"Grays departure",latitude:51.478,longitude:0.283},to:{name:"Grays station",latitude:51.476,longitude:0.321}},
+    {mode:"RAIL",route:{line:"R1",operator:"Mock railway"},from:{name:"Grays station"},to:{name:"Manchester Piccadilly"},start_time:{scheduled:at(27)},end_time:{scheduled:at(222)}},
+    {mode:"WALK",duration_s:900,from:{name:"Manchester Piccadilly"},to:{name:"Vale Lane"}}
+   ]
+  }]});
+ }
  if(url.hostname==="api.tfl.gov.uk"){
   if(url.pathname.startsWith("/StopPoint/Search"))return Response.json({matches:[]});
   if(provideTfLJourney){
@@ -96,6 +107,15 @@ try{
   "Manchester should offer the national rail, coach/bus and local Bee Network planners");
  assert.ok(manchesterResult.planning_links.every(item=>item.url.startsWith("https://")),
   "Only official https sources are offered");
+
+ const connectedNationwide=await ask(manchester,{TFL_APP_KEY:"mock-tfl",TRANSCAPI_API_KEY:"test-key"});
+ assert.equal(connectedNationwide.transit_available,true,"A configured UK planner must return the itinerary in the app");
+ assert.equal(connectedNationwide.transit_provider,"TransCAPI");
+ assert.equal(connectedNationwide.uk_national_journey,true);
+ assert.equal(connectedNationwide.transit[0].legs.length,3);
+ assert.ok(!connectedNationwide.planning_links?.length,"Success must not redirect to external planning websites");
+ assert.ok(calls.some(u=>u.hostname==="api.transcapi.com"&&u.pathname==="/v1/journey.json"));
+ assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"),"Manchester must never be requested through TfL");
 
  const birminghamResult=await ask(cityOutsideLondon,{TFL_APP_KEY:"mock-tfl"});
  assert.equal(birminghamResult.uk_national_journey,true);
