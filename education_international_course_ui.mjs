@@ -6,7 +6,7 @@ const EDUCATION_BIBLIOGRAPHY_IN_APP=${JSON.stringify(EDUCATION_BIBLIOGRAPHY_DATA
 function educationBibliographyForRuntime(country,subject,grade){
  const c=String(country||'').toUpperCase(),s=String(subject||'').toLowerCase();
  const alias={math:'mathematics',science:'biology',computer:'computing'};
- const name=alias[s]||s,match=String(grade||'').match(/\\d+/);
+ const name=alias[s]||s,match=String(grade||'').match(/\d+/);
  const year=match?Number(match[0]):0;
  if(year<1||year>20)return [];
  return (EDUCATION_BIBLIOGRAPHY_IN_APP[c]||[]).filter(r=>
