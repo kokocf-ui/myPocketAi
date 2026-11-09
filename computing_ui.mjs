@@ -5,7 +5,7 @@ const COMPUTING_UI_LOCALES={"en":{"← Înapoi":"Back","Alege nivelul":"Choose l
 function computingLabel(ro,en){
  const language=state.language||'ro';
  if(language==='ro')return ro;
- return COMPUTING_UI_LOCALES[language]?.[ro]||(typeof learningLabel==='function'?learningLabel(ro,en):(en||ro));
+ return COMPUTING_UI_LOCALES[language]?.[ro]||(typeof eduUiLabel==='function'?eduUiLabel(ro,en):(typeof learningLabel==='function'?learningLabel(ro,en):(en||ro)));
 }
 let computingJourney={stage:'levels',level:null,grade:null,path:null,topic:null,busy:false,request:null,serial:0,voice:false};
 function computingEl(tag,txt='',cls=''){const x=document.createElement(tag);x.textContent=txt;if(cls)x.className=cls;return x}
