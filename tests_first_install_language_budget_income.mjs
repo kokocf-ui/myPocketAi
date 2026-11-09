@@ -50,7 +50,7 @@ assert.ok(functionStart>=0&&functionEnd>functionStart,'Budget entry function pre
 const state={entries:[],baseCurrency:'GBP',currencyLocked:false,openingBalance:null};
 const writes=[];
 const factory=new Function('budgetAmount','budgetRead','budgetExchangeRate','budgetDateNow','budgetWrite','shopId','budgetIsActive','renderBudget','notify','learningLabel',
- 'const budgetScreen="home";'+script.slice(functionStart,functionEnd)+'\nreturn budgetAddEntry');
+ 'let budgetScreen="home";'+script.slice(functionStart,functionEnd)+'\nreturn budgetAddEntry');
 const add=factory(
  value=>{const n=Number(value);return Number.isFinite(n)&&n>0?n:null},
  ()=>state,
