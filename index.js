@@ -11106,7 +11106,7 @@ function eduOpenPrint(mode='save'){
 function eduAttachPrintAction(bar){
  if(!bar||bar.querySelector('.edu-pdf-save'))return;
  const add=(glyph,description,kind,mode)=>{
-  const b=document.createElement('button');b.type='button';b.className='secondary-btn edu-print-trigger edu-pdf-'+mode+' edu-icon-action edu-icon-'+kind;
+  const b=document.createElement('button');b.type='button';b.className='secondary-btn edu-print-trigger '+(mode==='save'?'edu-pdf-save':'edu-pdf-print')+' edu-icon-action edu-icon-'+kind;
   b.textContent=glyph;b.title=description;b.setAttribute('aria-label',description);b.onclick=()=>eduOpenPrint(mode);bar.append(b);
  };
  add('💾',learningLabel('Salvează PDF','Save PDF'),'save','save');
