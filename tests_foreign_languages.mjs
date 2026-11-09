@@ -69,7 +69,7 @@ const start=script.indexOf('const FOREIGN_LANGUAGE_DATA=');
 const end=script.indexOf('function openLearningSubject(key)',start);
 assert.ok(start>=0&&end>start);
 class FakeEl{
- constructor(tag){this.tag=tag;this.children=[];this.textContent='';this.className='';this.value='';this.style={};this.hidden=false;this.onclick=null;this.attributes={};}
+ constructor(tag){this.tag=tag;this.children=[];this.textContent='';this.className='';this.value='';this.style={};this.hidden=false;this.onclick=null;this.attributes={};this.classList={add:(...names)=>{this.className=[this.className,...names].join(' ').trim()},remove:()=>{}};}
  append(...kids){this.children.push(...kids)}
  replaceChildren(...kids){this.children=[...kids]}
  setAttribute(k,v){this.attributes[k]=v}
