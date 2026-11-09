@@ -61,6 +61,7 @@ const sandbox={
  EDUCATION_THEORY_DATA:THEORY_ENTRIES,
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],
  learningLabel:(ro,en)=>ro,
+ eduAttachPrintAction:()=>{},
  $:key=>elements[key]||null,
  pocketNativeVoiceAvailable:()=>false,
  scienceOpenWorkspace:()=>{workspaces++},
