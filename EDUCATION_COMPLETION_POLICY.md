@@ -1,4 +1,27 @@
 # Învățare și educație — regulă de lucru și criterii de finalizare
+
+## Închiderea etapei curente — decizia utilizatorului, 9 noiembrie 2026
+
+**Stare: EDUCAȚIE–EUROPA ÎNCHEIATĂ CA ETAPĂ DE DEZVOLTARE ÎN VERSIUNEA CURENTĂ; NU SE MAI EXTINDE ACUM.**
+
+- Utilizatorul a decis oprirea dezvoltării suplimentare a bibliotecilor europene în această etapă și trecerea la restul proiectului. Nu mai iniția automat alte sprinturi pentru Educație și nu cere aprobări fragmentate.
+- Se păstrează toate clasele, materiile, referințele, lecțiile și celelalte țări deja implementate. Lipsurile de acoperire rămân îmbunătățiri opționale viitoare, nu blocaje pentru schimbarea priorității.
+- Testele GitHub Actions ale commitului `d4dfe489ae119abd76b2d9d8d9d5af7d020a150a` au trecut: verificări minime de cod, validarea pilotului Math Whisper Android și regresia transport UK.
+- Această închidere **nu atestă** importarea manualelor integrale, verificarea fiecărei programe naționale, testarea vizuală Android sau publicarea unui APK. Nu afișa utilizatorilor finali etichete neadevărate precum „toate bibliotecile verificate”.
+- Publicarea și integrarea în `main` rămân pași separați; un merge în `main` pornește automat workflow-ul de deploy Cloudflare, deci nu se execută doar pentru a consemna decizia de închidere.
+- Precedentele cerințe de exhaustivitate rămân documentate ca ținte viitoare, dar decizia de a închide acum etapa prevalează asupra interdicției anterioare de a o considera încheiată în planificarea curentă.
+
+
+## Decizie actuală — 9 noiembrie 2026: EUROPA (prioritate obligatorie)
+- Utilizatorul a cerut explicit **Europa**, nu extindere mondială. Extinderea la restul lumii fusese inițiativa asistentului și nu este o cerință pentru închiderea etapei actuale.
+- **Păstrăm integral** codul și informațiile pentru țările deja implementate din afara Europei, fără ștergere și fără dezvoltări suplimentare în această etapă. Se reiau doar la cererea ulterioară a utilizatorului.
+- Continuitate obligatorie: pornim de la România și Anglia și integrăm Europa: țara / jurisdicția → etapa școlară → clasa / anul → disciplina → capitol → lecția/biblioteca indexată. Regatul Unit are sisteme distincte pentru Anglia, Scoția, Țara Galilor și Irlanda de Nord.
+- O listă de ministere, Eurydice sau titluri de capitole este **bibliografie/sursă**, nu o bibliotecă didactică completă. Pentru a declara o materie terminată sunt necesare lecțiile efective, proveniența, nivelul și anul aplicării, accesul din UI, verificarea drepturilor de reutilizare și testarea integrată.
+- AI-ul poate oferi explicații opționale, dar nu înlocuiește, nu suprascrie și nu certifică programele ori bibliotecile școlare europene.
+- Catalogul european include țările membre ale Consiliului Europei, cele patru jurisdicții școlare britanice și alte coduri europene selectabile (BY/RU/VA/XK), fără a presupune statutul politic sau existența unui curriculum autonom pentru toate.
+- Ramura `feat/international-all-subjects-curriculum-20261109` conține progresul de integrare, însă nu trebuie declarată finalizată și nu trebuie publicat APK-ul înainte de validarea bibliotecilor reale.
+- Nu solicita teste manuale după fiecare materie, nu fragmenta implementarea în confirmări. Verificările interne și CI au loc între timp, iar testarea manuală se face la finalul opțiunii Educație.
+
 Actualizat: 2026-11-07
 
 ## Principiu stabilit

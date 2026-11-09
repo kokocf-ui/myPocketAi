@@ -6,7 +6,7 @@ const EDUCATION_UI_TRANSLATIONS={"en":{"← Înapoi":"← Back","Țara pentru ca
 function eduUiLabel(ro,en){
  const lang=state.language||'ro';
  if(lang==='ro')return ro;
- return EDUCATION_UI_TRANSLATIONS[lang]?.[ro]||(typeof learningLabel==='function'?eduUiLabel(ro,en):(en||ro));
+ return EDUCATION_UI_TRANSLATIONS[lang]?.[ro]||(typeof learningLabel==='function'?learningLabel(ro,en):(en||ro));
 }
 const EDU_UK_COUNTRY_NAMES={"GB-ENG":{"ro":"Anglia","en":"England","fr":"Angleterre","de":"England","it":"Inghilterra","es":"Inglaterra","pt":"Inglaterra","nl":"Engeland","ru":"Англия","pl":"Anglia"},"GB-SCT":{"ro":"Scoția","en":"Scotland","fr":"Écosse","de":"Schottland","it":"Scozia","es":"Escocia","pt":"Escócia","nl":"Schotland","ru":"Шотландия","pl":"Szkocja"},"GB-WLS":{"ro":"Țara Galilor","en":"Wales","fr":"Pays de Galles","de":"Wales","it":"Galles","es":"Gales","pt":"País de Gales","nl":"Wales","ru":"Уэльс","pl":"Walia"},"GB-NIR":{"ro":"Irlanda de Nord","en":"Northern Ireland","fr":"Irlande du Nord","de":"Nordirland","it":"Irlanda del Nord","es":"Irlanda del Norte","pt":"Irlanda do Norte","nl":"Noord-Ierland","ru":"Северная Ирландия","pl":"Irlandia Północna"}};
 // Translate requested educational content through the existing assistant.
@@ -179,6 +179,15 @@ function eduYearOptions(code,level,moduleKey){
  const lv=level==='intermediate'?'medium':level;
  const source=EDUCATION_SCHOOL_YEARS_DATA[code]?.[lv];
  const numeric=(a,b,prefix='')=>Array.from({length:b-a+1},(_,i)=>({id:prefix+(a+i),ro:prefix?'Year '+(a+i):'Clasa '+(a+i),en:prefix?'Year '+(a+i):'Grade '+(a+i)}));
+ // Mathematics and Sciences expose three difficulty bands (not four).
+ // Their Beginner band spans BOTH primary and lower-secondary; otherwise
+ // Year 7/8/9 and comparable national grades become impossible to select.
+ if((moduleKey==='math'||moduleKey==='science')&&lv==='beginner'&&code!=='RO'&&code!=='GB-ENG'){
+  const primary=worldwideSchoolYears(code,'beginner',moduleKey);
+  const lower=worldwideSchoolYears(code,'lower',moduleKey);
+  const seen=new Set();
+  return [...primary,...lower].filter(y=>{if(seen.has(y.id))return false;seen.add(y.id);return true});
+ }
  if(moduleKey==='math'){
   if(code==='RO')return lv==='beginner'?numeric(1,8):lv==='medium'?numeric(9,12):[{id:'universitate',ro:'Universitate',en:'University'}];
   if(code==='GB-ENG')return lv==='beginner'?numeric(1,9,'Y'):lv==='medium'?numeric(10,13,'Y'):[{id:'university',ro:'Higher education',en:'Higher education'}];

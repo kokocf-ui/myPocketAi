@@ -12,15 +12,19 @@ import {PRACTICAL_DEPTH} from './practical_depth.mjs';
 import {PRACTICAL_DEPTH_EXTRA} from './practical_depth_extra.mjs';
 import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
+import {EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT} from './education_international_course_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {POCKET_LANGUAGES,POCKET_COUNTRY_LANGUAGES,pocketLanguageFromLocale,pocketLanguageFromCountry,pocketPreferredLanguage} from './language_first_install.mjs';
 import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,HG_SCHOOL_SOURCES} from './education_school_paths.mjs';
-import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchoolYears,worldwideSchoolNotice,worldwideStudyChapters} from './education_worldwide_paths.mjs';
+import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,WORLDWIDE_GENERIC_SUBJECTS,WORLDWIDE_SUBJECT_ALIASES,worldwideSchoolYears,worldwideSchoolNotice,worldwideActualStage,worldwideGradeDepth,worldwideStudyChapters} from './education_worldwide_paths.mjs';
+import {NATIONAL_SUBJECT_UNITS,NATIONAL_PRIMARY_UNITS,NATIONAL_UNIT_SOURCES,nationalSubjectUnits} from './education_national_subject_units.mjs';
+import {EDUCATION_LOCAL_CONTEXT,educationLocalContext} from './education_national_lesson_context.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
 import {LIT_OFFLINE_THEORY} from './literature_offline_theory.mjs';
+import {VERIFIED_LITERARY_AUTHORS} from './literature_verified_authors.mjs';
 import {HG_SUBJECTS,HG_LEVELS,HG_SCOPES,HG_COUNTRIES,HG_HISTORY_TOPICS,HG_GEOGRAPHY_TOPICS,HG_SPECIALISATIONS,HG_VERIFIED_MAPS} from './history_geography_curriculum.mjs';
 import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
 import {HG_THEME_DATA,hgThemeFold,buildHgThemeGuide} from './education_hg_theme_guides.mjs';
@@ -7189,6 +7193,8 @@ const LEARNING_SUBJECTS=[
  ['history','🌍','Istorie și geografie','History and geography','Civilizații, țări și hărți.','Civilizations, countries and maps.'],
  ['literature','📖','Limbă și literatură','Language and literature','Gramatică, lectură și exprimare.','Grammar, reading and writing.'],
  ['computing','💻','Informatică','Computing','Programare și competențe digitale.','Programming and digital skills.'],
+ ['economics','📊','Economie','Economics','Piețe, resurse și buget.','Markets, resources and budgets.'],
+ ['civics','🏛️','Educație civică','Civics','Drepturi, instituții și societate.','Rights, institutions and society.'],
  ['exams','🎓','Pregătire examene','Exam preparation','Teste, simulări și recapitulări.','Tests, mock exams and revision.'],
  ['practical','🧰','Cursuri practice','Practical courses','Finanțe, meserii și antreprenoriat.','Finance, careers and enterprise.']
 ];
@@ -7415,6 +7421,12 @@ function scienceJourneyShowChoices(stage){
    }
   };
   list.append(btn);
+ }
+ if(stage==='topics'&&educationCountrySelection.code!=='RO'&&educationCountrySelection.code!=='GB-ENG'){
+  const intl=document.createElement('button');intl.type='button';intl.className='secondary-btn math-choice-row science-choice-row edu-national-outline';
+  intl.textContent=learningLabel('🌍 Parcursul țării selectate','🌍 Selected country study path');
+  intl.onclick=()=>educationInternationalOpen(scienceJourney.subject,scienceJourney.level,scienceJourney.grade,()=>scienceJourneyShowChoices('topics'));
+  list.prepend(intl);
  }
  panel.append(title,note,list);host.append(panel);
  requestAnimationFrame(scienceFitViewport);
@@ -9536,6 +9548,12 @@ function mathJourneyShowChoices(stage){
   theory.textContent=learningLabel('📖 Teorie – Definiții și teoreme','📖 Theory – Definitions and theorems');
   theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);
   items.prepend(theory);
+  if(educationCountrySelection.code!=='RO'&&educationCountrySelection.code!=='GB-ENG'){
+   const intl=document.createElement('button');intl.type='button';intl.className='secondary-btn math-choice-row edu-national-outline';
+   intl.textContent=learningLabel('🌍 Parcursul țării selectate','🌍 Selected country study path');
+   intl.onclick=()=>educationInternationalOpen('mathematics',mathJourney.level,mathJourney.grade,()=>mathJourneyShowChoices('subjects'));
+   items.prepend(intl);
+  }
  }
  panel.append(title,note,items);host.append(panel);
  requestAnimationFrame(mathFitViewport);
@@ -9552,7 +9570,7 @@ function renderLearningSubjects(){
  document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');
  document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');
  mathCloseResults();
- $('view-module').classList.remove('learning-math','learning-science','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','learning-practical','learning-country-gate','science-choice-stage');
+ $('view-module').classList.remove('learning-math','learning-science','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','learning-practical','learning-country-gate','learning-intl-curriculum','science-choice-stage');
  document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
@@ -10109,6 +10127,16 @@ const EDUCATION_WORLDWIDE_SCHEMES=${JSON.stringify(EDUCATION_WORLDWIDE_SCHEMES)}
 const fallback=${JSON.stringify(EDUCATION_WORLDWIDE_FALLBACK)};
 const worldwideSchoolYears=${worldwideSchoolYears.toString()};
 const worldwideSchoolNotice=${worldwideSchoolNotice.toString()};
+const WORLDWIDE_GENERIC_SUBJECTS=${JSON.stringify(WORLDWIDE_GENERIC_SUBJECTS)};
+const WORLDWIDE_SUBJECT_ALIASES=${JSON.stringify(WORLDWIDE_SUBJECT_ALIASES)};
+const NATIONAL_SUBJECT_UNITS=${JSON.stringify(NATIONAL_SUBJECT_UNITS)};
+const NATIONAL_PRIMARY_UNITS=${JSON.stringify(NATIONAL_PRIMARY_UNITS)};
+const NATIONAL_UNIT_SOURCES=${JSON.stringify(NATIONAL_UNIT_SOURCES)};
+const EDUCATION_LOCAL_CONTEXT=${JSON.stringify(EDUCATION_LOCAL_CONTEXT)};
+const educationLocalContext=${educationLocalContext.toString()};
+const nationalSubjectUnits=${nationalSubjectUnits.toString()};
+const worldwideActualStage=${worldwideActualStage.toString()};
+const worldwideGradeDepth=${worldwideGradeDepth.toString()};
 const worldwideStudyChapters=${worldwideStudyChapters.toString()};
 const HG_SCHOOL_PLANS_DATA=${JSON.stringify(HG_SCHOOL_PLANS)};
 const HG_SCHOOL_GENERAL_DATA=${JSON.stringify(HG_SCHOOL_GENERAL)};
@@ -11142,6 +11170,7 @@ async function hgGenerate(extra,output){
 const LIT_EUROPE_PROGRAMS=${JSON.stringify(LIT_EU_PROGRAMS)};
 const LIT_EUROPE_COMMON=${JSON.stringify(LIT_EU_COMMON)};
 const LIT_OFFLINE_THEORY_DATA=${JSON.stringify(LIT_OFFLINE_THEORY)};
+const LIT_VERIFIED_AUTHORS=${JSON.stringify(VERIFIED_LITERARY_AUTHORS)};
 const LIT_COUNTRIES=[
  ['RO','România','Romania','ro','https://www.edu.ro/press_rel_11_2026'],
  ['GB-ENG','Anglia','England','en','https://www.gov.uk/government/publications/national-curriculum-in-england-english-programmes-of-study'],
@@ -11186,9 +11215,20 @@ function litProgram(){
   (litJourney.level==='lower'?LIT_EUROPE_COMMON.lower:profile?.byLevel?.[effectiveLevel])||
   LIT_EUROPE_COMMON[effectiveLevel]||LIT_EUROPE_COMMON.medium;
  const isVerified=Boolean(profile?.source&&profile?.verified?.[effectiveLevel]?.includes(String(litJourney.grade||''))&&!profile.regions);
- return {source:profile?.source||null,sourceTitle:profile?.sourceTitle||'',verified:isVerified,regions:Boolean(profile?.regions),
-  note:profile?.note||'Pentru această clasă programa oficială nu este verificată; parcursul este orientativ.',
-  units:specific.map((item,index)=>({id:String(item[0])+'-'+index,topic:item[3],ro:item[1],en:item[1],focus:item[2],order:index+1}))};
+ // Country-specific literary tradition precedes international general units.
+ // These are advisory topics, not compulsory reading lists. Introduce
+ // secondary-level authors only after the age-appropriate primary literacy path.
+ const national=litJourney.level==='medium'||litJourney.level==='advanced'?
+   nationalSubjectUnits(litJourney.country,'literature').map(([ro,en,focus],i)=>({
+    id:'national-literature-'+litJourney.country+'-'+i,topic:'national-literature',
+    ro,en,focus,order:i+1,national:true
+   })):[];
+ const mapped=specific.map((item,index)=>({
+  id:String(item[0])+'-'+index,topic:item[3],ro:item[1],en:item[1],focus:item[2],order:index+1+national.length
+ }));
+ return {source:profile?.source||null,sourceTitle:profile?.sourceTitle||'',verified:isVerified&&!national.length,
+  regions:Boolean(profile?.regions),note:profile?.note||'Pentru această clasă programa oficială nu este verificată; parcursul este orientativ.',
+  units:[...national,...mapped]};
 }
 function litIsRegional(){return Boolean(LIT_EUROPE_PROGRAMS[litJourney.country]?.regions)}
 function litCurrentTopic(){
@@ -11201,8 +11241,11 @@ function litCurrentTopic(){
 function litText(tag,label){const el=document.createElement(tag);el.textContent=label;return el}
 function litBtn(label,fn,cls='secondary-btn'){const el=document.createElement('button');el.type='button';el.className=cls;el.textContent=label;el.onclick=fn;return el}
 function litBack(){
- if(litJourney.stage==='languages'||litJourney.stage==='countries')return educationCountryGate('literature',()=>litOpen('languages'));
- const stages={countries:null,languages:'countries',levels:'languages',grades:'levels',regions:'grades',tracks:'grades',topics:'branches',workspace:'topics'};
+ // Country sets the native study language. Choosing another language is
+ // optional, not an obligatory intermediate page.
+ if(litJourney.stage==='languages'){litOpen('levels');return}
+ if(litJourney.stage==='countries'||litJourney.stage==='levels')return educationCountryGate('literature',()=>litOpen('levels'));
+ const stages={countries:null,languages:'levels',levels:'countries',grades:'levels',regions:'grades',tracks:'grades',topics:'branches',workspace:'topics'};
  if(litJourney.stage==='branches'){litOpen(litJourney.country==='RO'&&litJourney.grade==='9'?'tracks':litIsRegional()?'regions':'grades');return}
  if(stages[litJourney.stage])litOpen(stages[litJourney.stage]);else renderLearningSubjects()
 }
@@ -11236,9 +11279,16 @@ function litOpen(stage){
   }
   panel.append(box);paint();
  };
- if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litOpen('languages')},true)}
+ if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litOpen('levels')},true)}
  if(stage==='languages'){const choices=LIT_LANGUAGES.map(x=>({id:x[0],ro:x[1],en:x[2]}));list(choices,c=>{litJourney.language=c.id;litOpen('levels')},true)}
  if(stage==='levels'){
+  const currentLanguage=LIT_LANGUAGES.find(x=>x[0]===litJourney.language);
+  const currentLabel=learningLabel(currentLanguage?.[1]||'Română',currentLanguage?.[2]||'Romanian');
+  const languageHint=litText('p',learningLabel('Limba materiei: ','Subject language: ')+currentLabel);
+  languageHint.className='lit-selected-language';panel.append(languageHint);
+  const changeLanguage=litBtn(learningLabel('Schimbă limba studiată (opțional)','Change subject language (optional)'),()=>litOpen('languages'),'secondary-btn lit-change-language');
+  changeLanguage.style.cssText='min-height:36px;max-width:100%;width:auto;padding:7px 12px;font-size:.86rem;margin:0 0 10px;';
+  panel.append(changeLanguage);
   panel.append(litText('p',learningLabel('Nivelul determină complexitatea explicațiilor și cerințelor.','Level determines the depth of teaching and exercises.')));
   const choices=[{id:'beginner',ro:'Primar — clasele I–IV',en:'Primary school'},{id:'lower',ro:'Începător — Gimnaziu',en:'Beginner — lower secondary'},{id:'medium',ro:'Mediu — Liceu',en:'Intermediate — upper secondary'},{id:'advanced',ro:'Avansat — Universitate și mai departe',en:'Advanced — University and beyond'}];
   list(choices,c=>{litJourney.level=c.id;litJourney.grade='';litJourney.track='TC';litOpen('grades')})
@@ -11293,6 +11343,22 @@ function litWorkspace(panel){
 
  // The currently selected chapter teaches its core concepts offline, before
  // the optional author lookup, essay generator or AI conversation begins.
+ if(topic[0]==='national-literature'){
+  const nationalStudy=document.createElement('section');nationalStudy.className='lit-offline-theory';
+  const heading=litText('h3',learningLabel('📖 Literatura țării selectate','📖 Literature in the selected country'));
+  const unit=litProgram().units.find(x=>x.id===litJourney.topic);
+  const nationalOriginal=String(unit?.focus||'Studiază opera în contextul cultural și istoric, pe baza surselor verificabile.');
+  const intro=litText('p',state.language==='ro'?nationalOriginal:learningLabel('Se traduce lecția…','Translating lesson…'));
+  if(state.language!=='ro'){
+   const key='national-literature:'+litJourney.country+':'+litJourney.grade+':'+(unit?.id||'');
+   Promise.resolve(eduTranslateMaterial({focus:nationalOriginal},key)).then(result=>{
+    if(intro.isConnected)intro.textContent=result?.focus||nationalOriginal;
+   }).catch(()=>{if(intro.isConnected)intro.textContent=nationalOriginal});
+  }
+  const task=litText('p',learningLabel('Activitate: identifică tema, două trăsături de stil și contextul; argumentează folosind un fragment pe care îl poți consulta legal.',
+   'Activity: identify the theme, two stylistic features and the historical context; support your interpretation with a lawfully available excerpt.'));
+  nationalStudy.append(heading,intro,task);panel.append(nationalStudy);
+ }
  const localTheory=LIT_OFFLINE_THEORY_DATA[String(topic[0]||'')];
  if(Array.isArray(localTheory)&&localTheory.length===4){
   const study=document.createElement('details');study.className='lit-offline-theory';study.open=true;
@@ -11368,15 +11434,43 @@ function litWorkspace(panel){
   const key=String(value||'').replace(/^\\/works\\//,'');
   return /^OL\\d+W$/.test(key)?key:'';
  };
+ const curatedByName=name=>LIT_VERIFIED_AUTHORS.find(a=>cleanName(a.name)===cleanName(name))||null;
+ const curatedAuthorMatches=term=>{
+  const needle=cleanName(term);
+  if(needle.length<3)return [];
+  const words=needle.split(' ').filter(Boolean);
+  return LIT_VERIFIED_AUTHORS.filter(a=>{
+   const tokens=cleanName(a.name).split(' ');
+   return words.every(w=>tokens.some(t=>t.startsWith(w)));
+  });
+ };
+ const curatedWorkMatches=term=>{
+  const needle=cleanName(term);
+  if(needle.length<4)return [];
+  const matches=[];
+  for(const author of LIT_VERIFIED_AUTHORS){
+   for(const entry of author.works){
+    if(cleanName(entry.title).includes(needle))matches.push({author,entry});
+   }
+  }
+  return matches.slice(0,20);
+ };
  const chooseWork=(item,authorName)=>{
   const name=String(authorName||'').trim(),title=String(item?.title||'').trim();
   if(!name||!title)return;
   work.value=title+' — '+name;
   work.dispatchEvent(new Event('input',{bubbles:true}));
   const key=workKey(item.key);
-  if(key){
+  if(item?.sourceUrl){
+   work.dataset.catalogSource=item.sourceUrl;
+   work.dataset.catalogVerified='true';
+  }else if(key){
    work.dataset.catalogSource='https://openlibrary.org/works/'+key;
-  }else delete work.dataset.catalogSource;
+   delete work.dataset.catalogVerified;
+  }else{
+   delete work.dataset.catalogSource;
+   delete work.dataset.catalogVerified;
+  }
   if(type.value!=='essay'&&type.value!=='lesson')type.value='lesson';
   subject.value=type.value==='essay'?'Eseu despre '+title+' de '+name:'Studiul operei '+title+' de '+name;
   lookupStatus.textContent=lw(16);
@@ -11399,6 +11493,48 @@ function litWorkspace(panel){
   actions.append(study,essay,infoLink('https://openlibrary.org/works/'+key,lw(14)));
   card.append(actions);return card;
  };
+ let curatedVisible=0;
+ const curatedWorkCard=(item,author)=>{
+  const card=document.createElement('article');card.className='lit-research-card';
+  card.append(litText('strong',item.title));
+  card.append(litText('small',String(item.year)+' · '+item.kind));
+  const actions=document.createElement('div');actions.className='lit-research-actions';
+  const selection={title:item.title,sourceUrl:author.sourceUrl};
+  actions.append(
+   lookupAction(lw(12),()=>{type.value='lesson';chooseWork(selection,author.name)}),
+   lookupAction(lw(13),()=>{type.value='essay';chooseWork(selection,author.name)}),
+   infoLink(author.sourceUrl,lw(14)));
+  card.append(actions);return card;
+ };
+ const showCuratedAuthor=(author,more=false)=>{
+  if(!more){
+   lookupSerial++;lookupAuthor=null;lookupOffset=0;lookupSeen.clear();
+   lookupResults.replaceChildren();curatedVisible=0;
+   lookupResults.append(litText('h3',author.name));
+   lookupResults.append(litText('p',String(author.birthYear)+'–'+String(author.deathYear)));
+   lookupResults.append(infoLink(author.sourceUrl,author.sourceTitle));
+   lookupResults.append(litText('p',learningLabel(
+    'Bibliografie verificată din sursă instituțională. Sunt afișate volume și antologii, nu textele integrale.',
+    'Source-checked bibliography of books and collections, not full copyrighted texts.')));
+  }
+  const next=author.works.slice(curatedVisible,curatedVisible+6);
+  for(const item of next)lookupResults.append(curatedWorkCard(item,author));
+  curatedVisible+=next.length;
+  lookupStatus.textContent=lw(9)+' · '+curatedVisible+' / '+author.works.length;
+  lookupMore.hidden=curatedVisible>=author.works.length;
+  lookupMore.textContent=lw(11);
+  lookupMore.onclick=()=>showCuratedAuthor(author,true);
+ };
+ const showCuratedWorks=matches=>{
+  lookupSerial++;lookupAuthor=null;lookupOffset=0;lookupSeen.clear();
+  lookupResults.replaceChildren();lookupMore.hidden=true;
+  lookupStatus.textContent=lw(18)+' · '+matches.length;
+  for(const {author,entry} of matches){
+   const card=curatedWorkCard(entry,author);
+   card.prepend(litText('p',author.name));
+   lookupResults.append(card);
+  }
+ };
  const displayAuthorWorks=async author=>{
   if(lookupBusy||!author)return;
   const serial=lookupSerial;
@@ -11419,6 +11555,8 @@ function litWorkspace(panel){
   }finally{lookupBusy=false;lookupMore.disabled=false}
  };
  const showAuthor=author=>{
+  const verified=curatedByName(author?.name);
+  if(verified){showCuratedAuthor(verified);return}
   lookupAuthor=author;lookupOffset=0;lookupSeen.clear();lookupSerial++;
   lookupResults.replaceChildren();lookupMore.hidden=true;
   const heading=litText('h3',author.name);lookupResults.append(heading);
@@ -11455,6 +11593,22 @@ function litWorkspace(panel){
   const term=work.value.trim().slice(0,160);
   if(!term){lookupStatus.textContent=lw(1);work.focus();return}
   if(lookupBusy)return;
+  const verifiedAuthors=curatedAuthorMatches(term);
+  if(verifiedAuthors.length){
+   lookupSerial++;lookupAuthor=null;lookupOffset=0;lookupSeen.clear();
+   lookupResults.replaceChildren();lookupMore.hidden=true;
+   lookupStatus.textContent=lw(3)+' · '+verifiedAuthors.length;
+   for(const author of verifiedAuthors){
+    const card=document.createElement('article');card.className='lit-research-card';
+    card.append(litText('strong',author.name));
+    card.append(litText('small',String(author.birthYear)+'–'+String(author.deathYear)));
+    card.append(lookupAction(lw(4),()=>showCuratedAuthor(author)));
+    lookupResults.append(card);
+   }
+   return;
+  }
+  const verifiedWorks=curatedWorkMatches(term);
+  if(verifiedWorks.length){showCuratedWorks(verifiedWorks);return}
   lookupSerial++;const serial=lookupSerial;
   lookupAuthor=null;lookupSeen.clear();lookupOffset=0;lookupMore.hidden=true;
   lookupResults.replaceChildren();lookupStatus.textContent=lw(2);lookupBusy=true;lookupButton.disabled=true;
@@ -11556,6 +11710,7 @@ ${EXAM_UI_SCRIPT}
 ${PRACTICAL_UI_SCRIPT}
 ${EDUCATION_SELECTS_UI_SCRIPT}
 ${EDUCATION_COUNTRY_UI_SCRIPT}
+${EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT}
 ${EDUCATION_SCOPE_UI_SCRIPT}
 function eduPrintEscape(value){return String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function eduCurrentPrintable(){
@@ -11685,9 +11840,44 @@ function openLearningSubject(key){
  if(key==='languages')return openLearningSubjectAfterCountry(key);
  return educationCountryGate(key,()=>openLearningSubjectAfterCountry(key));
 }
+function educationInternationalExtraLevels(key){
+ const entry=LEARNING_SUBJECTS.find(item=>item[0]===key);
+ if(!entry)return renderLearningSubjects();
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-country-gate','learning-intl-curriculum');
+ root.classList.add('learning-active');
+ $('moduleTitle').textContent=learningLabel(entry[2],entry[3]);$('moduleLead').textContent='';
+ host.replaceChildren();
+ const bar=document.createElement('div');bar.className='education-toolbar';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=renderLearningSubjects;
+ bar.append(back);host.append(bar);
+ const panel=document.createElement('section');panel.className='math-choice-panel science-choice-panel';
+ const heading=document.createElement('h2');heading.textContent=learningLabel('Alege nivelul de studiu','Choose study level');
+ panel.append(heading);
+ const levels=[
+  {id:'beginner',ro:'Primar',en:'Primary'},
+  {id:'lower',ro:'Gimnaziu',en:'Lower secondary'},
+  {id:'medium',ro:'Liceu',en:'Upper secondary'},
+  {id:'advanced',ro:'Universitar',en:'Higher education'}
+ ];
+ const choices=document.createElement('div');choices.className='lit-options';
+ for(const item of levels){
+  const button=document.createElement('button');button.type='button';button.className='secondary-btn lit-option';
+  button.textContent=learningLabel(item.ro,item.en);button.onclick=()=>{
+   const selectYear=()=>educationGradeGate(key,item.id,grade=>{
+    educationInternationalOpen(key,item.id,grade,selectYear);
+   },()=>educationInternationalExtraLevels(key));
+   selectYear();
+  };
+  choices.append(button);
+ }
+ panel.append(choices);host.append(panel);
+}
 function openLearningSubjectAfterCountry(key){
+ if(key==='economics'||key==='civics'){educationInternationalExtraLevels(key);return}
  if(key==='history'){hgOpen('subjects');return}
- if(key==='literature'){litOpen('languages');return}
+ if(key==='literature'){litOpen('levels');return}
  if(key==='computing'){computingOpen('levels');return}
  if(key==='exams'){examOpen('grades');return}
  if(key==='practical'){practicalOpen('courses');return}
@@ -18781,6 +18971,37 @@ main.page:has(#view-module.learning-languages.active){
 #view-module.learning-literature .lit-offline-theory p{
  margin:4px 0 11px;white-space:pre-wrap;line-height:1.6;
 }
+
+
+/* Education: ten subjects in a phone-sized five-row selector. The previous
+   four-row fixed grid clipped the last cards. Each option remains readable
+   without ornamental descriptions consuming the height needed for buttons. */
+#view-module.learning-choose .education-grid{
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:repeat(5,minmax(0,1fr))!important;
+ height:100%!important;min-height:0!important;
+ row-gap:clamp(3px,.7dvh,8px)!important;
+ column-gap:clamp(5px,1vw,10px)!important;
+ padding:2px 0 3px!important;
+ overflow:hidden!important;
+}
+#view-module.learning-choose .education-card{
+ flex-direction:row!important;align-items:center!important;
+ justify-content:flex-start!important;
+ min-height:0!important;height:100%!important;
+ gap:clamp(5px,.9vw,9px)!important;
+ padding:clamp(3px,.6dvh,7px) clamp(5px,1.3vw,10px)!important;
+ border-radius:clamp(9px,1.9vw,14px)!important;
+}
+#view-module.learning-choose .education-art{
+ align-self:center!important;font-size:clamp(16px,3.1dvh,23px)!important;
+ line-height:1!important;
+}
+#view-module.learning-choose .education-card strong{
+ font-size:clamp(11px,2.9vw,15px)!important;
+ line-height:1.15!important;
+}
+#view-module.learning-choose .education-card small{display:none!important;}
 
 </style>
 </body>

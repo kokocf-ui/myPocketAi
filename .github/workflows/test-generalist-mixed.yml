@@ -5,7 +5,21 @@ on:
     paths:
       - 'backend.js'
       - 'index.js'
+      - 'literature_verified_authors.mjs'
+      - 'tests_literature_verified_authors.mjs'
       - 'education_theory.mjs'
+      - 'education_worldwide_paths.mjs'
+      - 'education_national_subject_units.mjs'
+      - 'education_national_lesson_context.mjs'
+      - 'tests_education_international_depth.mjs'
+      - 'education_curriculum_research.mjs'
+      - 'tests_education_country_research.mjs'
+      - 'tests_education_additional_subjects.mjs'
+      - 'education_international_course_ui.mjs'
+      - 'tests_education_international_runtime.mjs'
+      - 'tests_education_country_progression.mjs'
+      - 'computing_ui.mjs'
+      - 'tests_worldwide_all_subjects.mjs'
       - 'chemistry_curriculum.mjs'
       - 'chemistry_advanced.mjs'
       - 'biology_curriculum.mjs'
@@ -63,7 +77,15 @@ jobs:
       - name: Validate JavaScript syntax
         run: npm run check
       - name: Verify education year, lesson contents and browser boot
-        run: node tests_education_content_navigation.mjs
+        run: |
+          node tests_education_content_navigation.mjs
+          node tests_literature_verified_authors.mjs
+          node tests_worldwide_all_subjects.mjs
+          node tests_education_international_runtime.mjs
+          node tests_education_country_progression.mjs
+          node tests_education_international_depth.mjs
+          node tests_education_country_research.mjs
+          node tests_education_additional_subjects.mjs
 
       - name: Basic UI integrity
         run: npm run test:ui
