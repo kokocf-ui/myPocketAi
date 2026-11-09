@@ -11192,9 +11192,20 @@ function litProgram(){
   (litJourney.level==='lower'?LIT_EUROPE_COMMON.lower:profile?.byLevel?.[effectiveLevel])||
   LIT_EUROPE_COMMON[effectiveLevel]||LIT_EUROPE_COMMON.medium;
  const isVerified=Boolean(profile?.source&&profile?.verified?.[effectiveLevel]?.includes(String(litJourney.grade||''))&&!profile.regions);
- return {source:profile?.source||null,sourceTitle:profile?.sourceTitle||'',verified:isVerified,regions:Boolean(profile?.regions),
-  note:profile?.note||'Pentru această clasă programa oficială nu este verificată; parcursul este orientativ.',
-  units:specific.map((item,index)=>({id:String(item[0])+'-'+index,topic:item[3],ro:item[1],en:item[1],focus:item[2],order:index+1}))};
+ // Country-specific literary tradition precedes international general units.
+ // These are advisory topics, not compulsory reading lists. Introduce
+ // secondary-level authors only after the age-appropriate primary literacy path.
+ const national=litJourney.level==='medium'||litJourney.level==='advanced'?
+   nationalSubjectUnits(litJourney.country,'literature').map(([ro,en,focus],i)=>({
+    id:'national-literature-'+litJourney.country+'-'+i,topic:'national-literature',
+    ro,en,focus,order:i+1,national:true
+   })):[];
+ const mapped=specific.map((item,index)=>({
+  id:String(item[0])+'-'+index,topic:item[3],ro:item[1],en:item[1],focus:item[2],order:index+1+national.length
+ }));
+ return {source:profile?.source||null,sourceTitle:profile?.sourceTitle||'',verified:isVerified&&!national.length,
+  regions:Boolean(profile?.regions),note:profile?.note||'Pentru această clasă programa oficială nu este verificată; parcursul este orientativ.',
+  units:[...national,...mapped]};
 }
 function litIsRegional(){return Boolean(LIT_EUROPE_PROGRAMS[litJourney.country]?.regions)}
 function litCurrentTopic(){
@@ -11299,6 +11310,16 @@ function litWorkspace(panel){
 
  // The currently selected chapter teaches its core concepts offline, before
  // the optional author lookup, essay generator or AI conversation begins.
+ if(topic[0]==='national-literature'){
+  const nationalStudy=document.createElement('section');nationalStudy.className='lit-offline-theory';
+  const heading=litText('h3',learningLabel('📖 Literatura țării selectate','📖 Literature in the selected country'));
+  const unit=litProgram().units.find(x=>x.id===litJourney.topic);
+  const intro=litText('p',learningLabel(unit?.focus||'Studiază opera în contextul cultural și istoric, pe baza surselor verificabile.',
+   'Study the selected national author or tradition in its cultural and historical context, using verified sources.'));
+  const task=litText('p',learningLabel('Activitate: identifică tema, două trăsături de stil și contextul; argumentează folosind un fragment pe care îl poți consulta legal.',
+   'Activity: identify the theme, two stylistic features and the historical context; support your interpretation with a lawfully available excerpt.'));
+  nationalStudy.append(heading,intro,task);panel.append(nationalStudy);
+ }
  const localTheory=LIT_OFFLINE_THEORY_DATA[String(topic[0]||'')];
  if(Array.isArray(localTheory)&&localTheory.length===4){
   const study=document.createElement('details');study.className='lit-offline-theory';study.open=true;
