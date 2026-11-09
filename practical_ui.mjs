@@ -71,7 +71,7 @@ function practicalOpen(stage){
  panel.append(practicalNode('h2',practicalLabel(...titles[stage])));host.append(panel);
  if(stage==='countries'){
   const c=practicalCountry();panel.append(practicalNode('p',practicalLabel('Selectează țara pentru surse oficiale, fără a presupune reguli locale unice.','Select a country for official sources; local laws are not universal.')));
-  practicalList(panel,PRACTICAL_COUNTRIES_DATA.map(v=>({id:v[0],ro:v[1],en:v[2]})),choice=>{practicalJourney.country=choice.id;practicalJourney.course='';practicalJourney.chapter='';practicalOpen('courses')});return;
+  practicalList(panel,HG_COUNTRY_PICKER_DATA.filter(v=>v.id!=='OTHER').map(v=>({id:v.id,ro:v.ro,en:v.en})),choice=>{practicalJourney.country=choice.id;practicalJourney.course='';practicalJourney.chapter='';practicalOpen('courses')});return;
  }
  panel.append(practicalNode('p',practicalLabel(practicalCountry()[1],practicalCountry()[2])));
  if(stage==='courses'){
