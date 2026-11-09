@@ -34,6 +34,20 @@ assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/function educationCountryGate\(moduleK
 assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/if\(moduleKey==='languages'\)\{proceed\(\);return\}/);
 assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/function eduCountryApply\(moduleKey,code\)/);
 assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/function educationGradeGate\(moduleKey,level,proceed,back\)/);
+
+// A level label must not silently expose unrelated grades from the shared catalogue.
+const start=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function eduYearOptions(');
+const end=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function educationGradeGate(',start);
+assert.ok(start>=0&&end>start,'School-year routing must be available for isolated testing');
+const yearsFunction=new Function('EDUCATION_SCHOOL_YEARS_DATA',
+ 'let scienceJourney={subject:"physics"};\n'+EDUCATION_COUNTRY_UI_SCRIPT.slice(start,end)+'\nreturn eduYearOptions;')(EDUCATION_SCHOOL_YEARS);
+assert.deepEqual(yearsFunction('RO','intermediate','math').map(x=>x.id),['9','10','11','12'],
+ 'Romanian Maths intermediate must contain only high-school classes');
+assert.deepEqual(yearsFunction('RO','beginner','math').map(x=>x.id),['1','2','3','4','5','6','7','8']);
+assert.deepEqual(yearsFunction('GB-ENG','intermediate','math').map(x=>x.id),['Y10','Y11','Y12','Y13']);
+assert.deepEqual(yearsFunction('RO','lower','history').map(x=>x.id),['5','6','7','8']);
+assert.deepEqual(yearsFunction('RO','medium','computing').map(x=>x.id),['9','10','11','12']);
+
 assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/input\.addEventListener\('focus',\(\)=>\{input\.select\(\)\}\)/);
 assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/\.slice\(0,4\)/,'Only four visible country suggestions');
 assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/fetch\(url\.toString/,'Location-based suggestion');
