@@ -155,15 +155,17 @@ async function computingReadImage(file){
 }
 function computingWorkspace(panel){
  const t=computingCurrent(),path=COMPUTING_PATHS_DATA.find(x=>x.id===computingJourney.path);if(!t||!path){computingOpen('topics');return}
- computingParagraph(panel,computingLabel(path.ro,path.en)+' · '+computingLabel(t.ro,t.en));
+ const lessonIntro=computingParagraph(panel,computingLabel(path.ro,path.en)+' · '+computingLabel(t.ro,t.en));
  const printable=computingEl('article','','computing-printable');printable.style.cssText='min-width:0;max-width:100%;overflow-wrap:anywhere;';
- printable.append(computingEl('h3',computingLabel(t.ro,t.en)),computingEl('h4',computingLabel('Teorie și definiții','Theory and definitions')));
- computingParagraph(printable,t.theory);printable.append(computingEl('h4',computingLabel('Exemplu','Example')));
+ const lessonHeading=computingEl('h3',computingLabel(t.ro,t.en));
+ printable.append(lessonHeading,computingEl('h4',computingLabel('Teorie și definiții','Theory and definitions')));
+ const theoryNode=computingParagraph(printable,t.theory);printable.append(computingEl('h4',computingLabel('Exemplu','Example')));
  const example=computingEl('pre',t.example);example.style.cssText='padding:12px;border:1px solid #789dad;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%;box-sizing:border-box;';printable.append(example);
  computingParagraph(printable,computingLabel('Exemplu ilustrativ; codul nu este executat automat.','Illustrative example; code is not executed.'));
  panel.append(printable);
- const quiz=computingEl('section','','computing-quiz');quiz.append(computingEl('h3',computingLabel('Exercițiu de verificare','Knowledge check')));computingParagraph(quiz,t.question);
+ const quiz=computingEl('section','','computing-quiz');quiz.append(computingEl('h3',computingLabel('Exercițiu de verificare','Knowledge check')));const quizQuestion=computingParagraph(quiz,t.question);
  const answers=computingEl('div','','lit-options');answers.style.cssText='display:flex;flex-direction:column;gap:7px;';
+ const choiceButtons=[];
  const feedback=computingEl('p');feedback.setAttribute('role','status');
  const chapterTopics=COMPUTING_TOPICS_DATA.filter(item=>item.path===path.id);
  const chapterIndex=chapterTopics.findIndex(item=>item.id===t.id);
@@ -194,7 +196,7 @@ function computingWorkspace(panel){
     setTimeout(()=>{if(quiz.isConnected&&computingJourney.stage==='workspace'&&computingJourney.topic===t.id)continueBtn.click()},2400);
    }
   });
-  b.setAttribute('aria-pressed','false');b.style.cssText='width:100%;text-align:left;white-space:normal;';answers.append(b)
+  b.setAttribute('aria-pressed','false');b.style.cssText='width:100%;text-align:left;white-space:normal;';choiceButtons.push(b);answers.append(b)
  });
  quiz.append(answers,feedback,continueBtn);panel.append(quiz);
  const label=computingEl('label',computingLabel('Scrie problema, întrebarea sau codul','Enter the task, question or code'),'lit-label');label.htmlFor='computingInput';panel.append(label);
@@ -238,6 +240,31 @@ function computingWorkspace(panel){
  const sync=()=>{if(!read.isConnected){window.removeEventListener('pocket-speech-state',sync);return}read.textContent=state.speaking?computingLabel('Oprește','Stop'):computingLabel('Citește','Read aloud');read.setAttribute('aria-pressed',String(Boolean(state.speaking)))};
  read.setAttribute('aria-pressed','false');window.addEventListener('pocket-speech-state',sync);actions.append(read);
  panel.append(actions,output,status);
+ // The quiz keeps its original correct index; only visible text is translated.
+ if(state.language!=='ro'){
+  const languageAtOpen=state.language,topicAtOpen=t.id;
+  const notice=computingEl('p',computingLabel('Se traduce lecția…','Translating the lesson…'));
+  notice.className='computing-translation-status';notice.setAttribute('role','status');
+  panel.insertBefore(notice,printable);
+  choiceButtons.forEach(b=>b.disabled=true);
+  const originals={area:path.ro,title:t.ro,theory:t.theory,example:t.example,question:t.question,choices:t.choices};
+  const translate=typeof eduTranslateMaterial==='function'?eduTranslateMaterial(originals,'computing:'+t.id):Promise.resolve(null);
+  Promise.resolve(translate).then(localized=>{
+   if(!panel.isConnected||computingJourney.topic!==topicAtOpen||state.language!==languageAtOpen)return;
+   if(localized){
+    lessonIntro.textContent=localized.area+' · '+localized.title;
+    lessonHeading.textContent=localized.title;theoryNode.textContent=localized.theory;
+    example.textContent=localized.example;quizQuestion.textContent=localized.question;
+    localized.choices.forEach((value,i)=>{choiceButtons[i].textContent=(i+1)+'. '+value});
+    notice.textContent='';
+   }else notice.textContent=computingLabel('Traducerea nu este disponibilă. Este afișat textul original.','Translation unavailable. The original text is shown.');
+   choiceButtons.forEach(b=>b.disabled=false);
+  }).catch(()=>{
+   if(!panel.isConnected)return;
+   notice.textContent=computingLabel('Traducerea nu este disponibilă. Este afișat textul original.','Translation unavailable. The original text is shown.');
+   choiceButtons.forEach(b=>b.disabled=false);
+  });
+ }
 }
 
 `;
