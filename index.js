@@ -11210,7 +11210,7 @@ function litOpen(stage){
   const known={
    'RO':{beginner:['1','2','3','4'],lower:['5','6','7','8'],medium:['9','10','11','12']},
    'GB-ENG':{beginner:['Y1','Y2','Y3','Y4','Y5','Y6'],lower:['Y7','Y8','Y9'],medium:['Y10','Y11','Y12','Y13']},
-   'FR':{lower:['5e','4e','3e'],medium:['2nde','1ere','Terminale']}
+   'FR':{beginner:['CP','CE1','CE2','CM1','CM2'],lower:['6e','5e','4e','3e'],medium:['2nde','1re','terminale']}
   };
   const globalGrades=worldwideSchoolYears(country,stage,'literature');
   const grades=stage==='advanced'?['Universitate / cercetare']:
