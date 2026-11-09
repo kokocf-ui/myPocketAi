@@ -7192,6 +7192,8 @@ const LEARNING_SUBJECTS=[
  ['history','🌍','Istorie și geografie','History and geography','Civilizații, țări și hărți.','Civilizations, countries and maps.'],
  ['literature','📖','Limbă și literatură','Language and literature','Gramatică, lectură și exprimare.','Grammar, reading and writing.'],
  ['computing','💻','Informatică','Computing','Programare și competențe digitale.','Programming and digital skills.'],
+ ['economics','📊','Economie','Economics','Piețe, resurse și buget.','Markets, resources and budgets.'],
+ ['civics','🏛️','Educație civică','Civics','Drepturi, instituții și societate.','Rights, institutions and society.'],
  ['exams','🎓','Pregătire examene','Exam preparation','Teste, simulări și recapitulări.','Tests, mock exams and revision.'],
  ['practical','🧰','Cursuri practice','Practical courses','Finanțe, meserii și antreprenoriat.','Finance, careers and enterprise.']
 ];
@@ -11738,7 +11740,42 @@ function openLearningSubject(key){
  if(key==='languages')return openLearningSubjectAfterCountry(key);
  return educationCountryGate(key,()=>openLearningSubjectAfterCountry(key));
 }
+function educationInternationalExtraLevels(key){
+ const entry=LEARNING_SUBJECTS.find(item=>item[0]===key);
+ if(!entry)return renderLearningSubjects();
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-country-gate','learning-intl-curriculum');
+ root.classList.add('learning-active');
+ $('moduleTitle').textContent=learningLabel(entry[2],entry[3]);$('moduleLead').textContent='';
+ host.replaceChildren();
+ const bar=document.createElement('div');bar.className='education-toolbar';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=renderLearningSubjects;
+ bar.append(back);host.append(bar);
+ const panel=document.createElement('section');panel.className='math-choice-panel science-choice-panel';
+ const heading=document.createElement('h2');heading.textContent=learningLabel('Alege nivelul de studiu','Choose study level');
+ panel.append(heading);
+ const levels=[
+  {id:'beginner',ro:'Primar',en:'Primary'},
+  {id:'lower',ro:'Gimnaziu',en:'Lower secondary'},
+  {id:'medium',ro:'Liceu',en:'Upper secondary'},
+  {id:'advanced',ro:'Universitar',en:'Higher education'}
+ ];
+ const choices=document.createElement('div');choices.className='lit-options';
+ for(const item of levels){
+  const button=document.createElement('button');button.type='button';button.className='secondary-btn lit-option';
+  button.textContent=learningLabel(item.ro,item.en);button.onclick=()=>{
+   const selectYear=()=>educationGradeGate(key,item.id,grade=>{
+    educationInternationalOpen(key,item.id,grade,selectYear);
+   },()=>educationInternationalExtraLevels(key));
+   selectYear();
+  };
+  choices.append(button);
+ }
+ panel.append(choices);host.append(panel);
+}
 function openLearningSubjectAfterCountry(key){
+ if(key==='economics'||key==='civics'){educationInternationalExtraLevels(key);return}
  if(key==='history'){hgOpen('subjects');return}
  if(key==='literature'){litOpen('languages');return}
  if(key==='computing'){computingOpen('levels');return}
