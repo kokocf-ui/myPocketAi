@@ -10943,83 +10943,180 @@ function litWorkspace(panel){
  const work=make('input',learningLabel('Titlul operei și autorul','Work title and author'),learningLabel('Ex.: Ion — Liviu Rebreanu','E.g. Pride and Prejudice — Jane Austen'));
  work.id='litWorkTitle';
  // Author/work lookup is an explicit action. Only retrieved, cited sources are displayed.
+ // Bibliographic search: author first, then distinct works recorded for that author.
+ // Open Library work records are not separate editions and may not be a complete bibliography.
  const lookupRow=document.createElement('div');lookupRow.className='lit-research-toolbar';
  const lookupStatus=litText('p','');lookupStatus.className='lit-research-status';lookupStatus.setAttribute('role','status');
  const lookupResults=document.createElement('section');lookupResults.className='lit-research-results';
- lookupResults.setAttribute('role','region');lookupResults.setAttribute('aria-label',learningLabel('Rezultate despre autor sau operă','Results for author or work'));
- let lookupTerm='',lookupCursor={},lookupRunning=false,lookupCount=0,lookupLastSearch=0;
- const lookupButton=litBtn(learningLabel('🔎 Caută autorul / opera','🔎 Search author or work'),async()=>{
-  const term=work.value.trim().slice(0,160);
-  if(!term){lookupStatus.textContent=learningLabel('Scrie numele autorului sau titlul operei.','Enter an author or work title.');work.focus();return}
-  lookupTerm=term;lookupCursor={};lookupCount=0;lookupResults.replaceChildren();lookupLastSearch++;
-  await litLookupFetch(lookupLastSearch);
- },'primary-btn lit-research-go');
- const lookupMore=litBtn(learningLabel('Mai multe rezultate','More results'),async()=>litLookupFetch(lookupLastSearch),'secondary-btn lit-research-more');
- lookupMore.hidden=true;
- lookupRow.append(lookupButton);panel.append(lookupRow,lookupStatus,lookupResults,lookupMore);
- work.addEventListener('keydown',event=>{
-  if(event.key==='Enter'){event.preventDefault();lookupButton.click()}
- });
- const lookupLanguages=()=>{
-  const preferred=String(state.language||'ro').slice(0,2),literary=String(litJourney.language||'ro').slice(0,2);
-  return [...new Set([preferred,literary,'ro','en'])].filter(v=>['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(v)).slice(0,3);
+ lookupResults.setAttribute('role','region');lookupResults.setAttribute('aria-label','Bibliografie');
+ const lookupMore=litBtn('','', 'secondary-btn lit-research-more');lookupMore.hidden=true;
+ const literatureWords={
+  ro:['🔎 Caută autorul / opera','Introdu numele scriitorului sau titlul operei.','Se caută scriitorul…','Scriitori identificați','Alege scriitorul pentru a vedea operele','Nu am găsit scriitori cu acest nume. Caut după titlul operei…','Niciun autor sau titlu găsit în catalog.','Nu pot consulta catalogul acum. Reîncearcă.','Se încarcă operele…','Opere înregistrate în catalog','Nu sunt înregistrate opere pentru acest autor.','Mai multe opere','Studiază','Eseu','Sursă bibliografică','Este afișat catalogul Open Library; unele opere pot lipsi.','Opera este selectată. Alege cerința și apasă „Compune / explică”.','Autor','Titlul căutat','Alte opere de același autor','Ani / date de publicare, dacă sunt documentate'],
+  en:['🔎 Find author / work','Enter the writer’s name or a work title.','Finding authors…','Matching authors','Choose a writer to see recorded works','No matching writer. Searching by work title…','No author or work found in the catalogue.','Catalogue unavailable. Try again.','Loading works…','Works recorded in the catalogue','No works are recorded for this author.','More works','Study','Essay','Bibliographic source','This is the Open Library catalogue; some works may be missing.','Work selected. Choose your task and select Compose / explain.','Author','Work title match','More works by this author','Publication dates where recorded'],
+  fr:['🔎 Chercher un auteur / une œuvre','Saisissez le nom de l’auteur ou le titre.','Recherche des auteurs…','Auteurs trouvés','Choisissez un auteur pour voir ses œuvres','Aucun auteur trouvé. Recherche par titre…','Aucun auteur ni titre trouvé.','Catalogue indisponible. Réessayez.','Chargement des œuvres…','Œuvres répertoriées','Aucune œuvre répertoriée pour cet auteur.','Autres œuvres','Étudier','Dissertation','Source bibliographique','Catalogue Open Library ; certaines œuvres peuvent manquer.','Œuvre sélectionnée. Choisissez la consigne et lancez la rédaction.','Auteur','Titre trouvé','Autres œuvres du même auteur','Dates de publication documentées'],
+  de:['🔎 Autor / Werk suchen','Namen des Autors oder Werktitel eingeben.','Autoren werden gesucht…','Gefundene Autoren','Autor auswählen, um Werke zu sehen','Kein Autor gefunden. Suche nach Werktitel…','Kein Autor oder Werk gefunden.','Katalog nicht verfügbar. Erneut versuchen.','Werke werden geladen…','Im Katalog erfasste Werke','Keine Werke zu diesem Autor erfasst.','Weitere Werke','Lernen','Aufsatz','Bibliografische Quelle','Open-Library-Katalog; einige Werke können fehlen.','Werk ausgewählt. Aufgabe wählen und die Erstellung starten.','Autor','Gefundener Titel','Weitere Werke dieses Autors','Dokumentierte Veröffentlichungsdaten'],
+  it:['🔎 Cerca autore / opera','Inserisci il nome dello scrittore o il titolo.','Ricerca degli autori…','Autori trovati','Scegli un autore per vedere le opere','Nessun autore trovato. Ricerca per titolo…','Nessun autore o opera nel catalogo.','Catalogo non disponibile. Riprova.','Caricamento delle opere…','Opere nel catalogo','Nessuna opera registrata per questo autore.','Altre opere','Studia','Saggio','Fonte bibliografica','Catalogo Open Library; alcune opere potrebbero mancare.','Opera selezionata. Scegli la richiesta e avvia la composizione.','Autore','Titolo trovato','Altre opere dell’autore','Date di pubblicazione documentate'],
+  es:['🔎 Buscar autor / obra','Escribe el nombre del autor o el título.','Buscando autores…','Autores encontrados','Elige un autor para ver sus obras','No hay autor. Buscando por título…','No se encontró autor ni obra.','Catálogo no disponible. Inténtalo de nuevo.','Cargando obras…','Obras registradas en el catálogo','No hay obras registradas para este autor.','Más obras','Estudiar','Ensayo','Fuente bibliográfica','Catálogo Open Library; pueden faltar obras.','Obra seleccionada. Elige la tarea e inicia la redacción.','Autor','Título encontrado','Más obras del autor','Fechas de publicación documentadas'],
+  pt:['🔎 Procurar autor / obra','Escreve o nome do autor ou o título.','A procurar autores…','Autores encontrados','Escolhe o autor para ver as obras','Autor não encontrado. A procurar pelo título…','Nenhum autor ou obra encontrado.','Catálogo indisponível. Tenta novamente.','A carregar obras…','Obras registadas no catálogo','Não há obras registadas para este autor.','Mais obras','Estudar','Ensaio','Fonte bibliográfica','Catálogo Open Library; podem faltar obras.','Obra selecionada. Escolhe a tarefa e inicia a redação.','Autor','Título encontrado','Mais obras deste autor','Datas de publicação documentadas'],
+  nl:['🔎 Auteur / werk zoeken','Voer de naam van de schrijver of de titel in.','Auteurs zoeken…','Gevonden auteurs','Kies een schrijver om werken te bekijken','Geen schrijver gevonden. Zoeken op titel…','Geen auteur of werk gevonden.','Catalogus niet beschikbaar. Probeer opnieuw.','Werken laden…','Werken in de catalogus','Geen werken gevonden voor deze auteur.','Meer werken','Bestuderen','Essay','Bibliografische bron','Open Library-catalogus; sommige werken ontbreken mogelijk.','Werk geselecteerd. Kies de opdracht en start de tekst.','Auteur','Gevonden titel','Meer werken van deze auteur','Vermelde publicatiedata'],
+  ru:['🔎 Найти автора / произведение','Введите имя писателя или название произведения.','Поиск авторов…','Найденные авторы','Выберите писателя, чтобы увидеть произведения','Автор не найден. Поиск по названию…','Автор или произведение не найдены.','Каталог недоступен. Повторите попытку.','Загрузка произведений…','Произведения в каталоге','Для этого автора нет записей о произведениях.','Ещё произведения','Изучить','Эссе','Библиографический источник','Каталог Open Library может быть неполным.','Произведение выбрано. Укажите задание и запустите создание текста.','Автор','Найденное название','Другие произведения автора','Подтверждённые даты публикации'],
+  pl:['🔎 Znajdź autora / utwór','Wpisz nazwisko pisarza lub tytuł utworu.','Wyszukiwanie autorów…','Znalezieni autorzy','Wybierz autora, aby zobaczyć utwory','Nie znaleziono autora. Szukam tytułu…','Nie znaleziono autora ani utworu.','Katalog niedostępny. Spróbuj ponownie.','Wczytywanie utworów…','Utwory w katalogu','Brak utworów przypisanych temu autorowi.','Więcej utworów','Studiuj','Esej','Źródło bibliograficzne','Katalog Open Library może być niekompletny.','Utwór wybrany. Wybierz zadanie i rozpocznij pisanie.','Autor','Znaleziony tytuł','Inne utwory autora','Udokumentowane daty publikacji']
  };
- async function litLookupFetch(generation){
-  if(lookupRunning||!lookupTerm)return;
-  lookupRunning=true;lookupButton.disabled=true;lookupMore.disabled=true;
-  lookupStatus.textContent=learningLabel('Se caută surse despre autor sau operă…','Searching sources for the author or work…');
-  const languages=lookupLanguages(),batch=[],nextCursor={...lookupCursor};let success=0,failures=0;
+ const lw=i=>(literatureWords[state.language]||literatureWords.en)[i];
+ const lookupButton=litBtn(lw(0),()=>litSearchAuthorOrWork(),'primary-btn lit-research-go');
+ const lookupCache=new Map(),lookupSeen=new Set();
+ let lookupSerial=0,lookupAuthor=null,lookupOffset=0,lookupTotal=0,lookupBusy=false;
+ lookupRow.append(lookupButton);panel.append(lookupRow,lookupStatus,lookupResults,lookupMore);
+ work.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();lookupButton.click()}});
+ const cleanName=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+ const catalogRead=async url=>{
+  if(lookupCache.has(url))return lookupCache.get(url);
+  const request=fetch(url,{credentials:'omit',headers:{Accept:'application/json'}}).then(async response=>{
+   if(!response.ok)throw Error('catalogue_'+response.status);
+   return response.json();
+  }).catch(error=>{lookupCache.delete(url);throw error});
+  lookupCache.set(url,request);return request;
+ };
+ const infoLink=(url,label)=>{
+  const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';
+  a.textContent=label;return a;
+ };
+ const litSourceNote=()=>{
+  const note=litText('small',lw(15));note.className='lit-research-note';
+  lookupResults.append(note);
+ };
+ const lookupAction=(label,callback)=>{
+  return litBtn(label,callback,'secondary-btn');
+ };
+ const authorKey=value=>{
+  const key=String(value||'').replace(/^\/authors\//,'');
+  return /^OL\d+A$/.test(key)?key:'';
+ };
+ const workKey=value=>{
+  const key=String(value||'').replace(/^\/works\//,'');
+  return /^OL\d+W$/.test(key)?key:'';
+ };
+ const chooseWork=(item,authorName)=>{
+  const name=String(authorName||'').trim(),title=String(item?.title||'').trim();
+  if(!name||!title)return;
+  work.value=title+' — '+name;
+  work.dispatchEvent(new Event('input',{bubbles:true}));
+  const key=workKey(item.key);
+  if(key){
+   work.dataset.catalogSource='https://openlibrary.org/works/'+key;
+  }else delete work.dataset.catalogSource;
+  if(type.value!=='essay'&&type.value!=='lesson')type.value='lesson';
+  subject.value=type.value==='essay'?'Eseu despre '+title+' de '+name:'Studiul operei '+title+' de '+name;
+  lookupStatus.textContent=lw(16);
+  subject.scrollIntoView({behavior:'smooth',block:'center'});
+ };
+ const createWorkCard=(item,authorName)=>{
+  const key=workKey(item.key),title=String(item.title||'').trim();
+  if(!key||!title)return null;
+  const id=cleanName(title);
+  if(!id||lookupSeen.has(id))return null;
+  lookupSeen.add(id);
+  const card=document.createElement('article');card.className='lit-research-card';
+  const heading=litText('strong',title);card.append(heading);
+  if(item.first_publish_date||item.first_publish_year){
+   const date=litText('small',String(item.first_publish_date||item.first_publish_year));card.append(date);
+  }
+  const actions=document.createElement('div');actions.className='lit-research-actions';
+  const study=lookupAction(lw(12),()=>{type.value='lesson';chooseWork(item,authorName)});
+  const essay=lookupAction(lw(13),()=>{type.value='essay';chooseWork(item,authorName)});
+  actions.append(study,essay,infoLink('https://openlibrary.org/works/'+key,lw(14)));
+  card.append(actions);return card;
+ };
+ const displayAuthorWorks=async author=>{
+  if(lookupBusy||!author)return;
+  const serial=lookupSerial;
+  lookupBusy=true;lookupMore.disabled=true;lookupStatus.textContent=lw(8);
   try{
-   for(const locale of languages){
-    if(generation!==lookupLastSearch||!lookupResults.isConnected)return;
-    if(lookupCount>0&&lookupCursor[locale]===null)continue;
-    const params=new URLSearchParams({action:'query',list:'search',srsearch:lookupTerm,srnamespace:'0',srlimit:'12',srprop:'',format:'json',origin:'*'});
-    if(typeof lookupCursor[locale]==='number')params.set('sroffset',String(lookupCursor[locale]));
-    try{
-     const response=await fetch('https://'+locale+'.wikipedia.org/w/api.php?'+params.toString(),{credentials:'omit'});
-     if(!response.ok)throw Error('search_unavailable');
-     const data=await response.json();
-     if(data.error||!Array.isArray(data.query?.search))throw Error('search_invalid');
-     success++;
-     const items=data.query.search;
-     items.forEach(item=>{if(item&&typeof item.title==='string')batch.push({locale,title:item.title,pageid:item.pageid})});
-     nextCursor[locale]=Number.isInteger(data.continue?.sroffset)?data.continue.sroffset:null;
-    }catch{failures++}
+   const url='https://openlibrary.org/authors/'+author.key+'/works.json?limit=50&offset='+lookupOffset;
+   const data=await catalogRead(url);
+   if(serial!==lookupSerial||lookupAuthor?.key!==author.key||!lookupResults.isConnected)return;
+   const entries=Array.isArray(data.entries)?data.entries:[];
+   let added=0;for(const entry of entries){const card=createWorkCard(entry,author.name);if(card){lookupResults.append(card);added++}}
+   lookupOffset+=entries.length;lookupTotal=Number.isFinite(Number(data.size))?Number(data.size):lookupOffset;
+   lookupStatus.textContent=lw(9)+' · '+lookupSeen.size+' / '+lookupTotal;
+   if(!lookupOffset)lookupStatus.textContent=lw(10);
+   lookupMore.hidden=lookupOffset>=lookupTotal||entries.length===0;
+   if(lookupOffset===entries.length)litSourceNote();
+  }catch{
+   if(serial===lookupSerial)lookupStatus.textContent=lw(7);
+  }finally{lookupBusy=false;lookupMore.disabled=false}
+ };
+ const showAuthor=author=>{
+  lookupAuthor=author;lookupOffset=0;lookupSeen.clear();lookupSerial++;
+  lookupResults.replaceChildren();lookupMore.hidden=true;
+  const heading=litText('h3',author.name);lookupResults.append(heading);
+  if(author.birth_date)lookupResults.append(litText('p',String(author.birth_date)));
+  lookupResults.append(infoLink('https://openlibrary.org/authors/'+author.key,lw(14)));
+  void displayAuthorWorks(author);
+ };
+ const titleFallback=async term=>{
+  lookupStatus.textContent=lw(5);
+  const url='https://openlibrary.org/search.json?title='+encodeURIComponent(term)+'&limit=12&fields=key,title,author_name,author_key,first_publish_year';
+  const data=await catalogRead(url);
+  const rows=Array.isArray(data.docs)?data.docs:[];
+  const seen=new Set();let count=0;
+  lookupResults.replaceChildren();
+  for(const entry of rows){
+   const key=workKey(entry.key),title=String(entry.title||'').trim();
+   const author=String(entry.author_name?.[0]||'').trim();
+   const person=authorKey(entry.author_key?.[0]);
+   const id=cleanName(title)+'|'+cleanName(author);
+   if(!key||!title||!author||seen.has(id))continue;seen.add(id);count++;
+   const card=document.createElement('article');card.className='lit-research-card';
+   card.append(litText('strong',title),litText('p',lw(17)+': '+author));
+   const actions=document.createElement('div');actions.className='lit-research-actions';
+   actions.append(lookupAction(lw(12),()=>{type.value='lesson';chooseWork(entry,author)}),
+    lookupAction(lw(13),()=>{type.value='essay';chooseWork(entry,author)}));
+   if(person)actions.append(lookupAction(lw(19),()=>showAuthor({key:person,name:author})));
+   actions.append(infoLink('https://openlibrary.org/works/'+key,lw(14)));card.append(actions);
+   lookupResults.append(card);
+  }
+  lookupStatus.textContent=count?lw(18)+' · '+count:lw(6);
+  if(count)litSourceNote();
+ };
+ const litSearchAuthorOrWork=async()=>{
+  const term=work.value.trim().slice(0,160);
+  if(!term){lookupStatus.textContent=lw(1);work.focus();return}
+  if(lookupBusy)return;
+  lookupSerial++;const serial=lookupSerial;
+  lookupAuthor=null;lookupSeen.clear();lookupOffset=0;lookupMore.hidden=true;
+  lookupResults.replaceChildren();lookupStatus.textContent=lw(2);lookupBusy=true;lookupButton.disabled=true;
+  try{
+   const url='https://openlibrary.org/search/authors.json?q='+encodeURIComponent(term)+'&limit=18';
+   const data=await catalogRead(url);
+   if(serial!==lookupSerial||!lookupResults.isConnected)return;
+   const candidates=Array.isArray(data.docs)?data.docs:[],unique=new Map();
+   for(const item of candidates){
+    const key=authorKey(item.key),name=String(item.name||'').trim();
+    if(!key||!name)continue;
+    const identity=cleanName(name)+'|'+cleanName(item.birth_date||'');
+    const previous=unique.get(identity);
+    if(!previous||Number(item.work_count||0)>Number(previous.work_count||0))
+     unique.set(identity,{key,name,birth_date:String(item.birth_date||''),work_count:Number(item.work_count||0)});
    }
-   if(generation!==lookupLastSearch||!lookupResults.isConnected)return;
-   if(!success){lookupStatus.textContent=learningLabel('Căutarea nu este disponibilă. Verifică internetul și reîncearcă.','Search unavailable. Check your internet connection and try again.');return}
-   lookupCursor=nextCursor;
-   const seen=new Set(Array.from(lookupResults.querySelectorAll('[data-source-key]')).map(el=>el.dataset.sourceKey));
-   let added=0;
-   for(const item of batch){
-    const key=item.locale+':'+item.pageid;
-    if(seen.has(key))continue;seen.add(key);added++;
-    const card=document.createElement('article');card.className='lit-research-card';card.dataset.sourceKey=key;
-    const heading=litText('strong',item.title+' · Wikipedia ('+item.locale.toUpperCase()+')');card.append(heading);
-    const detail=litText('p','');detail.className='lit-research-detail';detail.hidden=true;
-    const detailButton=litBtn(learningLabel('Vezi informațiile','View details'),async()=>{
-     if(!detail.hidden){detail.hidden=true;return}
-     detail.hidden=false;detail.textContent=learningLabel('Se încarcă informațiile…','Loading details…');
-     const q=new URLSearchParams({action:'query',prop:'extracts',explaintext:'1',exchars:'6500',pageids:String(item.pageid),format:'json',origin:'*'});
-     try{
-      const res=await fetch('https://'+item.locale+'.wikipedia.org/w/api.php?'+q.toString(),{credentials:'omit'});
-      if(!res.ok)throw Error('details_unavailable');
-      const data=await res.json();const article=data.query?.pages?.[String(item.pageid)];
-      detail.textContent=String(article?.extract||'').trim()||learningLabel('Nu este disponibil un rezumat. Consultă sursa.','No summary is available. Open the source.');
-     }catch{detail.textContent=learningLabel('Detaliile nu pot fi încărcate. Poți consulta sursa.','Details unavailable. You can open the source.')}
-    },'secondary-btn');
-    const url='https://'+item.locale+'.wikipedia.org/wiki/'+encodeURIComponent(item.title.replaceAll(' ','_'));
-    const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';
-    link.textContent=learningLabel('Sursa originală (extern)','Original source (external)');
-    const actions=document.createElement('div');actions.className='lit-research-actions';actions.append(detailButton,link);
-    card.append(actions,detail);lookupResults.append(card);
+   const authors=[...unique.values()].sort((a,b)=>
+    Number(cleanName(b.name)===cleanName(term))-Number(cleanName(a.name)===cleanName(term))||
+    b.work_count-a.work_count).slice(0,7);
+   if(!authors.length){lookupBusy=false;await titleFallback(term);return}
+   lookupStatus.textContent=lw(3)+' · '+authors.length;
+   for(const author of authors){
+    const card=document.createElement('article');card.className='lit-research-card';
+    card.append(litText('strong',author.name));
+    if(author.birth_date)card.append(litText('small',author.birth_date));
+    card.append(lookupAction(lw(4),()=>showAuthor(author)));
+    lookupResults.append(card);
    }
-   lookupCount+=added;lookupStatus.textContent=lookupCount+' '+learningLabel('rezultate afișate din Wikipedia. Nu reprezintă toate sursele de pe internet.','Wikipedia results shown. This is not an exhaustive search of the internet.');
-   if(!lookupCount)lookupStatus.textContent=learningLabel('Nu am găsit rezultate pentru această formulare. Încearcă numele complet sau alt titlu.','No results for this phrase. Try the full name or a different title.');
-   if(failures)lookupStatus.textContent+=' '+learningLabel('Unele surse nu au putut fi consultate.','Some sources were unavailable.');
-   lookupMore.hidden=!languages.some(locale=>typeof lookupCursor[locale]==='number');
-  }finally{lookupRunning=false;lookupButton.disabled=false;lookupMore.disabled=false}
- }
+   litSourceNote();
+  }catch{if(serial===lookupSerial)lookupStatus.textContent=lw(7)}
+  finally{lookupBusy=false;lookupButton.disabled=false}
+ };
+ lookupMore.textContent=lw(11);
+ lookupMore.onclick=()=>displayAuthorWorks(lookupAuthor);
  const source=make('textarea',learningLabel('Textul operei sau fragmentul (numai dacă dorești)','Source work or passage (only if you wish)'),learningLabel('Inserează textul pentru un rezumat sau o sinteză bazată pe sursă.','Paste source text for source-based summary or synthesis.'));source.rows=5;
  const attachment=document.createElement('input');attachment.type='file';attachment.accept='.txt,text/plain,.md,text/markdown';attachment.className='lit-upload';
  const uploadLabel=litText('label',learningLabel('Încarcă text (.txt sau .md)','Upload text (.txt or .md)'));uploadLabel.className='lit-label';uploadLabel.append(attachment);panel.append(uploadLabel);
