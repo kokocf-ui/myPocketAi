@@ -15433,11 +15433,30 @@ function formatTravelDurationMinutes(value){
 }
 function transitClock(value,zone){if(!value)return '—';const s=String(value);if(/(?:Z|[+-]\\d{2}:?\\d{2})$/i.test(s)){const d=new Date(s);if(Number.isFinite(d.getTime()))try{return d.toLocaleTimeString(state.language,{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:zone||'Europe/London'})}catch{}}
  const m=s.match(/(?:T|\\s)(\\d{2}:\\d{2})/);return m?m[1]:/^\\d{2}:\\d{2}/.test(s)?s.slice(0,5):'—';}
+// Show the timetable day explicitly: 12:57 tomorrow must never look like 12:57 today.
+function transitDateLabel(value,zone){
+ const d=new Date(value||'');
+ if(!Number.isFinite(d.getTime()))return '—';
+ try{return d.toLocaleDateString(state.language||'ro',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:zone||'Europe/London'})}
+ catch{return d.toISOString().slice(0,10)}
+}
+function transitLineLabel(leg){
+ const name=String(leg?.mode||'').toLowerCase();
+ return (Array.isArray(leg?.lineNames)?leg.lineNames:[])
+  .map(value=>/^CC$/i.test(String(value||'').trim())&&/rail|train/.test(name)?'c2c':String(value||''))
+  .join(', ');
+}
+function transitBoardingLineLabel(stop,vehicle){
+ const name=String(vehicle?.mode||stop?.mode||'').toLowerCase();
+ return (Array.isArray(stop?.line_names)?stop.line_names:(vehicle?.lineNames||[]))
+  .map(value=>/^CC$/i.test(String(value||'').trim())&&/rail|train/.test(name)?'c2c':String(value||''))
+  .join(', ');
+}
 function validTransitBoardingStop(stop){return stop&&typeof stop.label==='string'&&stop.label.trim()&&Number.isFinite(stop.latitude)&&Number.isFinite(stop.longitude)&&Math.abs(stop.latitude)<=90&&Math.abs(stop.longitude)<=180}
 function transitDistance(a,b){const rad=Math.PI/180,dlat=(b.latitude-a.latitude)*rad,dlon=(b.longitude-a.longitude)*rad,h=Math.sin(dlat/2)**2+Math.cos(a.latitude*rad)*Math.cos(b.latitude*rad)*Math.sin(dlon/2)**2;return 6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)))}
 function transitWalkingMatches(route,stop){if(!validMapRoute(route)||!['walk','foot'].includes(route.profile)||!validTransitBoardingStop(stop))return false;const end=route.coordinates.at(-1),destination=route.destination;return destination&&Number.isFinite(destination.latitude)&&Number.isFinite(destination.longitude)&&transitDistance(destination,stop)<2&&transitDistance({latitude:end[1],longitude:end[0]},stop)<=120}
 function cancelTransitAccess(clearSelection=false){state.transitAccessGeneration=(state.transitAccessGeneration||0)+1;state.transitAccessAbort?.abort();state.transitAccessAbort=null;if(clearSelection)state.selectedTransitJourney=null}
-function transitBoardingSummary(journey){const stop=journey.boarding_stop,t=transitAccessText();if(!validTransitBoardingStop(stop))return t[11];const vehicle=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))),line=(stop.line_names||vehicle?.lineNames||[]).join(', ');return [t[7]+': '+stop.label,stop.indicator?stop.indicator:'',line?t[6]+': '+line:'',stop.towards?'→ '+stop.towards:'',t[4]+': '+transitClock(stop.departure_time||journey.firstVehicleDepartureTime,journey.time_zone)].filter(Boolean).join(' · ')}
+function transitBoardingSummary(journey){const stop=journey.boarding_stop,t=transitAccessText();if(!validTransitBoardingStop(stop))return t[11];const vehicle=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))),line=transitBoardingLineLabel(stop,vehicle);return [t[7]+': '+stop.label,stop.indicator?stop.indicator:'',line?t[6]+': '+line:'',stop.towards?'→ '+stop.towards:'',t[4]+': '+transitClock(stop.departure_time||journey.firstVehicleDepartureTime,journey.time_zone)].filter(Boolean).join(' · ')}
 const TRAVEL_MODE_TEXT={ro:['Cum vrei să ajungi?','Pietonal','Transport public','Mașină'],en:['How would you like to travel?','Walk','Public transport','Drive'],fr:['Comment souhaitez-vous voyager ?','À pied','Transports publics','Voiture'],de:['Wie möchten Sie reisen?','Zu Fuß','Öffentliche Verkehrsmittel','Auto'],it:['Come vuoi viaggiare?','A piedi','Trasporto pubblico','Auto'],es:['¿Cómo quieres viajar?','A pie','Transporte público','Coche'],pt:['Como pretende viajar?','A pé','Transportes públicos','Carro'],nl:['Hoe wil je reizen?','Lopen','Openbaar vervoer','Auto'],ru:['Как вы хотите добраться?','Пешком','Общественный транспорт','Автомобиль'],pl:['Jak chcesz dotrzeć?','Pieszo','Transport publiczny','Samochód']};
 const TRAVEL_CONFIRM_TEXT={ro:['Da, arată traseul','Nu, mulțumesc'],en:['Show directions','No, thanks'],fr:['Afficher le trajet','Non, merci'],de:['Route anzeigen','Nein, danke'],it:['Mostra percorso','No, grazie'],es:['Mostrar ruta','No, gracias'],pt:['Mostrar percurso','Não, obrigado'],nl:['Toon route','Nee, bedankt'],ru:['Показать маршрут','Нет, спасибо'],pl:['Pokaż trasę','Nie, dziękuję']};
 function openTransportModeFromAssistant(data){
@@ -15855,7 +15874,7 @@ function appendTransitLegs(host,journey){
  const body=document.createElement('tbody');
  for(const [i,leg] of (journey.legs||[]).entries()){
   const row=document.createElement('tr'),step=document.createElement('th'),action=document.createElement('td'),time=document.createElement('td');step.setAttribute('scope','row');step.textContent=String(i+1);
-  const mode=document.createElement('strong');mode.textContent=transitModeName(leg.mode)+((leg.lineNames||[]).length?' '+leg.lineNames.join(', '):'');
+  const mode=document.createElement('strong');mode.textContent=transitModeName(leg.mode)+(transitLineLabel(leg)?' '+transitLineLabel(leg):'');
   const places=document.createElement('div');places.textContent=(leg.from||'—')+' → '+(leg.to||'—');action.append(mode,places);
   const departure=document.createElement('div'),arrival=document.createElement('div');departure.textContent=transitClock(leg.departureTime,leg.departureZone||journey.time_zone);arrival.textContent='→ '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone);time.append(departure,arrival);row.append(step,action,time);body.append(row);
  }table.append(body);host.append(table);
@@ -15866,13 +15885,23 @@ function appendTransitCards(host,options){
   const button=document.createElement('button');button.type='button';button.className='transit-choice-action transit-journey-choice';
   const first=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))),heading=document.createElement('strong');
   heading.textContent=(i+1)+'. '+transitClock(journey.startDateTime||first?.departureTime||journey.firstVehicleDepartureTime,journey.legs?.[0]?.departureZone||journey.time_zone)+' → '+transitClock(journey.arrivalDateTime||journey.legs?.at(-1)?.arrivalTime,journey.legs?.at(-1)?.arrivalZone||journey.time_zone)+' · '+formatTravelDurationMinutes(journey.durationMinutes);
+  const departureZone=journey.legs?.[0]?.departureZone||journey.time_zone;
+  const arrivalZone=journey.legs?.at(-1)?.arrivalZone||journey.time_zone;
+  const journeyStart=journey.startDateTime||first?.departureTime||journey.firstVehicleDepartureTime;
+  const dateStart=transitDateLabel(journeyStart,departureZone),dateEnd=transitDateLabel(journey.arrivalDateTime,arrivalZone);
+  const dateLine=document.createElement('div');dateLine.className='transit-result-date';
+  dateLine.style.cssText='font-size:14px;line-height:1.4;margin:7px 0 6px;color:#e3f2f7;font-weight:600';
+  const firstModeLive=first?.realtime===true;
+  dateLine.textContent=dialogText('Data călătoriei: ','Journey date: ')+dateStart+
+    (dateEnd!=='—'&&dateEnd!==dateStart?' → '+dateEnd:'')+
+    ' · '+(firstModeLive?dialogText('Prima cursă: actualizată live','First service: live update'):dialogText('Orar programat','Scheduled timetable'));
   const boarding=document.createElement('div');boarding.textContent=transitBoardingSummary(journey);
   const metrics=document.createElement('div');metrics.className='transit-card-metrics';metrics.textContent=[Number.isFinite(journey.walkToFirstStopMinutes)?labels[6]+': '+formatTravelDurationMinutes(journey.walkToFirstStopMinutes):'',Number.isFinite(journey.transferCount)?labels[5]+': '+journey.transferCount:''].filter(Boolean).join(' · ');
   const vehicles=(journey.legs||[]).filter(x=>!/^(?:walking|walk|foot|pedestrian)$/i.test(String(x.mode||'')));
   const routeLine=document.createElement('div');routeLine.className='transit-card-route-overview';
   routeLine.style.cssText='font-size:clamp(12px,3.4vw,14px);line-height:1.45;margin:7px 0 5px;opacity:.95;overflow-wrap:anywhere';
-  routeLine.textContent=vehicles.map(x=>transitModeName(x.mode)+((x.lineNames||[]).length?' '+x.lineNames.join(', '):'')+(x.to?' → '+x.to:'')).join(' · ');
-  button.append(heading,boarding,routeLine,metrics);button.onclick=()=>{closeAnswerReader(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=t[0];selectTransitJourney(options,i)};host.append(button);
+  routeLine.textContent=vehicles.map(x=>transitModeName(x.mode)+(transitLineLabel(x)?' '+transitLineLabel(x):'')+(x.to?' → '+x.to:'')).join(' · ');
+  button.append(heading,dateLine,boarding,routeLine,metrics);button.onclick=()=>{closeAnswerReader(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=t[0];selectTransitJourney(options,i)};host.append(button);
  }
 }
 function appendTransitOverview(host,text){
@@ -16046,6 +16075,18 @@ function renderTransitChoices(options,selectedIndex=null){
  dismissSelectionKeyboard();
  document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
  const heading=document.createElement('h3');heading.textContent=selectedIndex===null?t[0]:t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
+  if(selectedIndex===null){
+    const chosen=state.lastTransitChoice?.transitDepartureAt||state.lastTransitResponse?.transit_departure_at;
+    if(chosen&&Number.isFinite(Date.parse(chosen))){
+      const request=document.createElement('p');request.className='transit-selected-departure';
+      request.style.cssText='font-size:14px;color:#d4eef4;margin:2px 0 6px';
+      request.textContent=dialogText('Plecare solicitată: ','Requested departure: ')+
+       transitDateLabel(chosen,options?.[0]?.time_zone)+' '+
+       transitClock(chosen,options?.[0]?.time_zone)+
+       dialogText(' (ora locală)',' (local time)');
+      body.append(request);
+    }
+  }
  const actions=document.createElement('div');actions.className='quick-navigation-toolbar';
  const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=dialogText("Anterior","Previous");back.onclick=()=>{
   cancelTransitAccess(true);
@@ -16060,7 +16101,10 @@ function renderTransitChoices(options,selectedIndex=null){
   original.textContent=dialogText("Revenire","Return");
   original.onclick=()=>returnToNavigationSource();actions.append(original)}
  body.append(actions);
- if(selectedIndex!==null){const journey=options[selectedIndex];if(!journey)return;const summary=document.createElement('p');summary.textContent=transitBoardingSummary(journey);body.append(summary);
+ if(selectedIndex!==null){const journey=options[selectedIndex];if(!journey)return;const summary=document.createElement('p');
+  summary.textContent=dialogText('Data călătoriei: ','Journey date: ')+
+   transitDateLabel(journey.startDateTime,journey.time_zone)+' · '+transitBoardingSummary(journey);
+  body.append(summary);
   const selected=state.selectedTransitJourney,status=document.createElement('p');status.className='transit-access-status';status.setAttribute('role','status');status.textContent=selected?.loading?t[10]:selected?.error||'';body.append(status);
   // Walking directions are viewed in the map, not repeatedly offered as a
   // generic retry from the public-transport card after an expired departure.
