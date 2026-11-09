@@ -58,4 +58,28 @@ assert.match(COMPUTING_UI_SCRIPT,/eduTranslateMaterial\(originals,'computing:'\+
 assert.match(COMPUTING_UI_SCRIPT,/choiceButtons\.forEach\(b=>b\.disabled=true\)/,'Hold quiz while translation is pending');
 assert.match(COMPUTING_UI_SCRIPT,/localized\.choices\.forEach/,'Keep answer ordering in displayed choices');
 
+
+// Catch future UI strings that are added without translations in any supported language.
+const sharedCatalog=new Function('state','learningLabel',
+ EDUCATION_COUNTRY_UI_SCRIPT+';return EDUCATION_UI_TRANSLATIONS;')({language:'ro'},fallback);
+const computingCatalog=new Function('state',COMPUTING_UI_SCRIPT+';return COMPUTING_UI_LOCALES;')({language:'ro'});
+const uiStrings=[
+ ['country','eduUiLabel',EDUCATION_COUNTRY_UI_SCRIPT],
+ ['selectors','eduUiLabel',EDUCATION_SELECTS_UI_SCRIPT],
+ ['computing','computingLabel',COMPUTING_UI_SCRIPT],
+ ['exams','examLabel',EXAM_UI_SCRIPT],
+ ['practical','practicalLabel',PRACTICAL_UI_SCRIPT]
+];
+for(const [scope,helper,script] of uiStrings){
+ const pattern=new RegExp(helper+"\\('((?:[^'\\\\]|\\\\.)*)','((?:[^'\\\\]|\\\\.)*)'\\)","g");
+ const strings=[...new Set([...script.matchAll(pattern)].map(x=>x[1]))];
+ for(const key of strings){
+  for(const lang of ['en','fr','de','it','es','pt','nl','ru','pl']){
+   const value=sharedCatalog[lang]?.[key]||((scope==='computing')?computingCatalog[lang]?.[key]:null);
+   assert.ok(typeof value==='string'&&value.trim().length>0,
+    'Untranslated static '+scope+' UI key in '+lang+': '+key);
+  }
+ }
+}
+
 console.log('PASS 10-language Education navigation, country lookup and embedded script syntax');
