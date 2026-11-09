@@ -159,6 +159,8 @@ async function computingReadImage(file){
 function computingWorkspace(panel){
  const t=computingCurrent(),path=COMPUTING_PATHS_DATA.find(x=>x.id===computingJourney.path);if(!t||!path){computingOpen('topics');return}
  const lessonIntro=computingParagraph(panel,computingLabel(path.ro,path.en)+' · '+computingLabel(t.ro,t.en));
+ const topicChoices=COMPUTING_TOPICS_DATA.filter(item=>item.path===path.id).map(item=>({id:item.id,ro:item.ro,en:item.en}));
+ if(topicChoices.length>1)panel.append(educationTopicPicker(computingLabel('📚 Teme de studiu','📚 Study topics'),topicChoices,t.id,item=>{computingJourney.topic=item.id;computingOpen('workspace')}));
  const printable=computingEl('article','','computing-printable');printable.style.cssText='min-width:0;max-width:100%;overflow-wrap:anywhere;';
  const lessonHeading=computingEl('h3',computingLabel(t.ro,t.en));
  const lessonContext=computingEl('p',computingLabel('Țara: ','Country: ')+educationCountrySelection.label+
