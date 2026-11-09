@@ -90,15 +90,27 @@ for(const code of new Set([...Object.keys(EDUCATION_WORLDWIDE_SCHEMES),...Object
 // intact and can be extended later. None of these links certify lesson text.
 for(const [code,country] of Object.entries(EUROPE_EDUCATION_SOURCES)){
  const refs=EDUCATION_BIBLIOGRAPHY_DATA[code]||(EDUCATION_BIBLIOGRAPHY_DATA[code]=[]);
- if(country.url&&!refs.some(r=>r.url===country.url)){
-  refs.push({
-   id:'europe-official-source-'+code,kind:country.kind,
-   anyGrade:true,min:0,max:20,subjects:['*'],
-   ro:'Portal educațional: '+country.ro,en:'Education portal: '+country.en,
-   url:country.url,
-   noteRo:'Referință instituțională; programa exactă, profilul și anul clasei nu sunt confirmate de această adresă.',
-   noteEn:'Institutional reference; this page does not certify the selected annual syllabus or school track.'
-  });
+ if(country.url){
+  // Upgrade the already-indexed worldwide portal instead of leaving an
+  // anonymous duplicate; European provenance takes precedence.
+  const prior=refs.find(r=>r.url===country.url);
+  if(prior&&prior.id==='country-reference-'+code){
+   prior.id='europe-official-source-'+code;
+   prior.kind=country.kind;
+   prior.ro='Portal educațional: '+country.ro;
+   prior.en='Education portal: '+country.en;
+   prior.noteRo='Referință instituțională; programa exactă, profilul și anul clasei nu sunt confirmate de această adresă.';
+   prior.noteEn='Institutional reference; this page does not certify the selected annual syllabus or school track.';
+  }else if(!prior){
+   refs.push({
+    id:'europe-official-source-'+code,kind:country.kind,
+    anyGrade:true,min:0,max:20,subjects:['*'],
+    ro:'Portal educațional: '+country.ro,en:'Education portal: '+country.en,
+    url:country.url,
+    noteRo:'Referință instituțională; programa exactă, profilul și anul clasei nu sunt confirmate de această adresă.',
+    noteEn:'Institutional reference; this page does not certify the selected annual syllabus or school track.'
+   });
+  }
  }
  const lit=LIT_EU_PROGRAMS[code];
  if(lit?.source&&!refs.some(r=>r.url===lit.source)){
