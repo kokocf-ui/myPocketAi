@@ -2626,6 +2626,7 @@ export default {
       const transitStartedAt = Date.now();
       const transportErrors = {};
       let effectiveDepartureAt=null;
+      let departureAt=null;
       const transitOptions = [];
       const requestedOptionsCount=requestedTransitCount(message,data.transit_count);
       let targetName = "London";
@@ -2720,7 +2721,7 @@ export default {
               reply:lang==='en'?'Choose a departure date and time within the next 60 days.':'Alege o dată și o oră de plecare în următoarele 60 de zile.',
               transit_available:false,route_available:false,reason:'departure_time_out_of_range'});
           }
-          const departureAt=selectedDeparture?new Date(requestedMs).toISOString():null;
+          departureAt=selectedDeparture?new Date(requestedMs).toISOString():null;
           effectiveDepartureAt=departureAt||(departureOffsetMinutes?new Date(Date.now()+departureOffsetMinutes*60000).toISOString():null);
           const transcapiZone=validTarget&&hasValidLocation?transCAPISharedZone(
             {latitude,longitude},{latitude:targetLat,longitude:targetLon}):null;
