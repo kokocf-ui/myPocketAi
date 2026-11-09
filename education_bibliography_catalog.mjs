@@ -1,6 +1,8 @@
 // Curated references for an offline-first educational library.
 import {NATIONAL_UNIT_SOURCES} from './education_national_subject_units.mjs';
 import {EDUCATION_WORLDWIDE_SCHEMES} from './education_worldwide_paths.mjs';
+import {EUROPE_EDUCATION_SOURCES,EUROPE_EURYDICE_REFERENCE,EUROPE_EURYDICE_STRUCTURE_2026} from './education_europe_catalog.mjs';
+import {LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
 // A source link is NOT a full lesson or proof of an annual mandatory syllabus.
 // All lessons remain in the app; these references provide provenance and legal
 // scope without spending AI quota or silently changing authored lesson lists.
@@ -83,6 +85,52 @@ for(const code of new Set([...Object.keys(EDUCATION_WORLDWIDE_SCHEMES),...Object
   noteRo:'Punct de documentare generală. Nu confirmă programa acestei clase, obligația unei teme ori textul integral al lecției.',
   noteEn:'General background source. Not a verified syllabus for this year, compulsory topic or complete lesson.'
  }];
+}
+// Europe is the current completion scope. Existing non-European records remain
+// intact and can be extended later. None of these links certify lesson text.
+for(const [code,country] of Object.entries(EUROPE_EDUCATION_SOURCES)){
+ const refs=EDUCATION_BIBLIOGRAPHY_DATA[code]||(EDUCATION_BIBLIOGRAPHY_DATA[code]=[]);
+ if(country.url&&!refs.some(r=>r.url===country.url)){
+  refs.push({
+   id:'europe-official-source-'+code,kind:country.kind,
+   anyGrade:true,min:0,max:20,subjects:['*'],
+   ro:'Portal educațional: '+country.ro,en:'Education portal: '+country.en,
+   url:country.url,
+   noteRo:'Referință instituțională; programa exactă, profilul și anul clasei nu sunt confirmate de această adresă.',
+   noteEn:'Institutional reference; this page does not certify the selected annual syllabus or school track.'
+  });
+ }
+ const lit=LIT_EU_PROGRAMS[code];
+ if(lit?.source&&!refs.some(r=>r.url===lit.source)){
+  refs.push({
+   id:'europe-literature-framework-'+code,kind:'subject-curriculum-reference',
+   anyGrade:true,min:0,max:20,subjects:['literature','language'],
+   ro:lit.sourceTitle||'Limbă și literatură: referință',en:lit.sourceTitle||'Language and literature reference',
+   url:lit.source,
+   noteRo:lit.note||'Verifică separat versiunea, clasa și profilul.',
+   noteEn:'Verify the current version, school year and course before calling a syllabus official.'
+  });
+ }
+ refs.push({
+  id:'europe-structure-2026-'+code,kind:'education-system-comparison',
+  anyGrade:true,min:0,max:20,subjects:['*'],
+  ro:'Structura sistemelor educaționale europene 2026/2027 – Eurydice',
+  en:'Structure of European education systems 2026/2027 – Eurydice',
+  url:EUROPE_EURYDICE_STRUCTURE_2026,
+  noteRo:'Comparație a structurilor școlare; nu este un manual sau programa tuturor materiilor.',
+  noteEn:'School-system comparison, not a textbook or a subject-by-year syllabus.'
+ });
+ if(!country.url&&country.kind!=='not-national-school-system'){
+  refs.push({
+   id:'europe-documentation-'+code,kind:'country-education-reference',
+   anyGrade:true,min:0,max:20,subjects:['*'],
+   ro:'Eurydice – registrul sistemelor școlare europene',
+   en:'Eurydice – European national education systems',
+   url:EUROPE_EURYDICE_REFERENCE,
+   noteRo:'Catalog general. Este posibil ca această jurisdicție să nu fie în rețeaua Eurydice; programa nu a fost verificată.',
+   noteEn:'General directory. The jurisdiction may not participate; no individual syllabus has been verified.'
+  });
+ }
 }
 // Lookup is deterministic, with explicit scope and no AI-generated bibliography.
 export function educationBibliographyFor(country,subject,grade){
