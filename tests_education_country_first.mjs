@@ -75,4 +75,17 @@ assert.ok(!boot.includes("if(key==='history'){hgRestore();hgOpen('subjects');ret
 assert.ok(!boot.includes("if(key==='practical'){practicalJourney.country=state.language"));
 assert.ok(!boot.includes("if(key==='exams'){examOpen('countries');return}"));
 for(const route of ["educationGradeGate('math',entry.id","educationGradeGate('science',item.id","educationGradeGate('computing',c.id","educationGradeGate('history',opt.id"])assert.ok(boot.includes(route),route);
+
+// Science fallback cannot expose university and high-school-only subjects at beginner level.
+const beginScience=boot.indexOf('function scienceTopicAllowedGrade(topic)');
+const endScience=boot.indexOf('function scienceTopicChoices()',beginScience);
+assert.ok(beginScience>=0&&endScience>beginScience,'Science grade router in web app');
+const scienceFunction=boot.slice(beginScience,endScience);
+const probe=(country,level,grade,subject,topic)=>new Function('educationCountrySelection','scienceJourney','topic',scienceFunction+';return scienceTopicAllowedGrade(topic);')({code:country},{level,grade,subject},topic);
+assert.equal(probe('FR','beginner','general-beginner','physics',{id:'modern',minLevel:'intermediate'}),false);
+assert.equal(probe('FR','beginner','general-beginner','astronomy',{id:'cosmology',minLevel:'intermediate'}),false);
+assert.equal(probe('FR','intermediate','general-medium','chemistry',{id:'organic',minLevel:'intermediate'}),true);
+assert.equal(probe('RO','beginner','8','physics',{id:'waves',minLevel:'intermediate'}),true,'Romanian class VIII exceptions remain explicit');
+assert.equal(probe('RO','beginner','7','chemistry',{id:'organic',minLevel:'intermediate'}),false);
+assert.equal(probe('RO','intermediate','9','physics',{id:'special-quantum',minLevel:'advanced'}),false);
 console.log('PASS country-first Education: country field, location suggestion, school-year isolation and non-duplicated quiz report');
