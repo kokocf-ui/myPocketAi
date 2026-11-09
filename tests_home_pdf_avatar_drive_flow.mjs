@@ -54,4 +54,26 @@ bubble.items[1].onclick();
 assert.equal(calls.at(-1)?.kind,'map','Explicit Open map action still works');
 assert.doesNotMatch(source,/if\(choices\.length<=1&&state\.lastRoute\.profile==='drive'\)/,'Single driving route cannot skip the choice screen');
 assert.match(source,/else openWalkingRouteChoices\(route,options\)/,'Map Back returns to options');
-console.log('PASS: home spacing, square adjacent PDF buttons, short avatar exit and driving route choice before map');
+
+// Education category cards must use the vertical space instead of being crammed
+// against the top while the lower part of the screen is empty.
+assert.match(html,/#view-module\.learning-choose \.education-grid\{\s*height:clamp\(350px,53dvh,475px\)/,
+ 'Four subject rows use the free device height');
+assert.match(html,/#view-module\.learning-choose \.education-grid\{[\s\S]*?row-gap:clamp\(12px,2dvh,19px\)/,
+ 'Subject rows have visible vertical separation');
+assert.match(html,/main\.page:has\(#view-module\.learning-languages\.active\)\{[\s\S]*?overflow-x:hidden!important;overflow-y:auto!important/,
+ 'Foreign-language pages scroll instead of cropping the last row');
+assert.match(html,/#view-module\.learning-languages \.foreign-stage-languages \.science-choice-list\{[^}]*overflow:visible!important/,
+ 'The entire language option list remains reachable');
+assert.match(html,/#view-module\.learning-active \.education-toolbar \.edu-pdf-actions > \.secondary-btn\.edu-icon-action\{[\s\S]*?min-width:42px!important;[\s\S]*?min-height:42px!important/,
+ 'A more specific rule overrides the old 100–180px icon minimum');
+assert.match(source,/🔎 Caută autorul \/ opera/,'Literature has an explicit author/work search button');
+assert.match(source,/work\.addEventListener\('keydown',event=>\{/,'Enter can execute the literature search');
+assert.match(source,/litLookupFetch\(lookupLastSearch\)/,'Search button executes lookup instead of only filling the field');
+assert.match(source,/srsearch:lookupTerm/,'Search submits the typed author or work title');
+assert.match(source,/origin:'\*'/,'Search permits anonymous cross-origin Wikipedia access');
+assert.match(source,/explaintext:'1'/,'In-app article details use source text');
+assert.match(source,/lookupMore\.hidden=!languages\.some/,'Further search results can be paged');
+assert.match(source,/lookupResults\.replaceChildren\(\)/,'Starting a new query clears old results');
+
+console.log('PASS: Education layout, PDF buttons, sourced author/work search, avatar and driving route flow');
