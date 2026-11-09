@@ -23,7 +23,10 @@ assert.ok(engMath.some(r=>r.id==='eng-oak-lessons'));
 const engHistoryGCSE=educationBibliographyFor('GB-ENG','history','Y11');
 assert.ok(!engHistoryGCSE.some(r=>r.kind==='curriculum-framework'),
  'Do not claim the KS1–3 history framework is a compulsory Y11 history specification');
-assert.deepEqual(educationBibliographyFor('JP','history','J2'),[]);
+assert.ok(educationBibliographyFor('JP','history','J2').some(r=>r.kind==='country-education-reference'));
+assert.ok(educationBibliographyFor('FR','geography','CP').some(r=>r.kind==='country-education-reference'));
+assert.ok(educationBibliographyFor('DE','mathematics','7').some(r=>r.kind==='country-education-reference'));
+assert.deepEqual(educationBibliographyFor('ZZ','history','J2'),[]);
 assert.deepEqual(educationBibliographyFor('RO','history','university'),[]);
 assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/educationBibliographyForRuntime/);
 assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/Biblioteca și sursele materiei/);
