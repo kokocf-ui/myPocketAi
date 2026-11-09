@@ -31,7 +31,7 @@ const copies=vm.runInNewContext(indexSource.slice(tstart,tend+3)+'\nUI_TEXT');
 for(const locale of ['ro','en','fr','de','it','es','pt','nl','ru','pl']){
  assert.equal(copies[locale].cards.length,6,locale+' should translate all six cards');
 }
-assert.deepEqual(copies.ro.cards.map(c=>c[0]),['Asistent AI','Învățare și educație','Hoteluri','Organizare personală','Hărți','Mai multe instrumente']);
+assert.deepEqual(Array.from(copies.ro.cards,c=>c[0]),['Asistent AI','Învățare și educație','Hoteluri','Organizare personală','Hărți','Mai multe instrumente']);
 assert.equal(copies.en.cards[2][0],'Hotels');
 assert.equal(copies.en.cards[4][0],'Maps');
 assert.match(indexSource,/document\.querySelectorAll\('#view-home \.feature-card'\)\.forEach\(\(card,i\)=>/,'Home translations are order-aware');
