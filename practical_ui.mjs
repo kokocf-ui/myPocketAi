@@ -161,7 +161,10 @@ function practicalCvWorkshop(panel){
  pdfSave.title=practicalLabel('Salvează CV PDF','Save CV as PDF');pdfSave.setAttribute('aria-label',pdfSave.title);
  const pdfPrint=practicalButton('🖨',()=>exportCv('print'),'secondary-btn edu-icon-action edu-icon-print');
  pdfPrint.title=practicalLabel('Imprimă CV','Print CV');pdfPrint.setAttribute('aria-label',pdfPrint.title);
- actions.append(build,pdfSave,pdfPrint);
+ const pdfActions=practicalNode('div','','edu-pdf-actions');
+ pdfActions.setAttribute('role','group');pdfActions.setAttribute('aria-label',practicalLabel('Salvează și imprimă CV','Save and print CV'));
+ pdfActions.append(pdfSave,pdfPrint);actions.classList.add('practical-cv-actions');
+ actions.append(build,pdfActions);
  wrap.append(actions,status,preview);panel.append(wrap);
 }
 
