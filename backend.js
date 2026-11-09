@@ -2711,13 +2711,21 @@ export default {
           // GB, Ireland and NL+BE each have their own TransCAPI planning zone.
           // Cross-zone UK→Europe journeys still require a licensed international planner.
           const transportPreference=data.transit_preference==='bus_only'?'bus_only':'all';
-          const departureOffsetMinutes=[0,60,120].includes(Number(data.transit_departure_offset))?Number(data.transit_departure_offset):0;
+          const departureOffsetMinutes=[0,15,30,60,120].includes(Number(data.transit_departure_offset))?Number(data.transit_departure_offset):0;
+          const selectedDeparture=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
+          const requestedMs=selectedDeparture?Date.parse(selectedDeparture):null;
+          if(selectedDeparture&&(!Number.isFinite(requestedMs)||requestedMs<Date.now()-120000||requestedMs>Date.now()+60*86400000)){
+            return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+              reply:lang==='en'?'Choose a departure date and time within the next 60 days.':'Alege o dată și o oră de plecare în următoarele 60 de zile.',
+              transit_available:false,route_available:false,reason:'departure_time_out_of_range'});
+          }
+          const departureAt=selectedDeparture?new Date(requestedMs).toISOString():null;
           const transcapiZone=validTarget&&hasValidLocation?transCAPISharedZone(
             {latitude,longitude},{latitude:targetLat,longitude:targetLon}):null;
           const transcapiEligible=Boolean(transcapiZone)&&
             (transportPreference==='bus_only'||transcapiZone!=='gb'||!isTfLLondonCorridorPoint(latitude,longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
           if(transcapiEligible){
-            const national=await planTransCAPIJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},requestedOptionsCount,{preference:transportPreference,departureOffsetMinutes});
+            const national=await planTransCAPIJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},requestedOptionsCount,{preference:transportPreference,departureOffsetMinutes,departureAt});
             if(national.journeys.length){
               const transit=national.journeys,first=transit[0];
               const clock=value=>{
@@ -2735,17 +2743,20 @@ export default {
                 international_journey:internationalTarget,uk_national_journey:transcapiZone==='gb',mixed_journey:true,
                 transit_available:true,route_available:false,route_geometry_available:false,
                 transit_geometry_available:false,transit,fastest_transit:first,transit_provider:'TransCAPI',
-                requested_transit_count:requestedOptionsCount,transit_preference:transportPreference,transit_departure_offset:departureOffsetMinutes,
+                requested_transit_count:requestedOptionsCount,transit_preference:transportPreference,transit_departure_offset:departureOffsetMinutes,transit_departure_at:departureAt,
                 transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
                 provider_status:{transcapi:national.status,region:transcapiZone},source:'TransCAPI: published schedules with available live updates'});
             }
             transportErrors.transcapi=national.status;
             if(transportPreference==='bus_only'){
               const reply=lang==='en'?'No bus/coach-only itinerary could be verified for the selected departure window. Try a later time or the combined bus-and-rail search.':'Nu am putut verifica un itinerar numai cu autobuz/autocar în intervalul de plecare ales. Încearcă o oră mai târzie sau căutarea combinată autobuz + tren.';
-              return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,transit_available:false,route_available:false,transit_provider:'TransCAPI',reason:'bus_only_not_verified',transit_preference:'bus_only',transit_departure_offset:departureOffsetMinutes,provider_status:{transcapi:national.status}});
+              return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,transit_available:false,route_available:false,transit_provider:'TransCAPI',reason:'bus_only_not_verified',transit_preference:'bus_only',transit_departure_offset:departureOffsetMinutes,transit_departure_at:departureAt,provider_status:{transcapi:national.status}});
             }
           }
-          const planned=validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang):{status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
+          // MOTIS does not yet validate scheduled searches. Never silently use the current hour.
+          const planned=departureAt?{status:'scheduled_search_not_supported',journeys:[]}:
+            validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang):
+            {status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
           if(planned.journeys.length){
             const transit=planned.journeys.slice(0,requestedOptionsCount),fastest=planned.journeys[0];
             const coordinates=fastest.legs.flatMap(l=>l.coordinates||[]);
@@ -2958,15 +2969,23 @@ export default {
         const londonCorridor=isTfLLondonCorridorPoint(latitude,longitude)&&isTfLLondonCorridorPoint(targetLat,targetLon);
         if(inUkDestination&&!londonCorridor){
           const links=officialUKTransitSources({latitude:targetLat,longitude:targetLon});
-          const detail=transportErrors.motis||'national_provider_not_configured';
+          const detail=transportErrors.transcapi||transportErrors.motis||'national_provider_not_configured';
+          const serviceText=detail==='not_configured'?
+            (lang==='en'?'The national planner API key is not configured on the active Worker.':'Cheia planificatorului național nu este configurată în Workerul activ.'):
+            detail==='quota_exceeded'?
+            (lang==='en'?'The national planner daily quota has been reached.':'Limita zilnică a planificatorului național a fost atinsă.'):
+            detail==='date_out_of_range'||detail==='invalid_departure_time'?
+            (lang==='en'?'The chosen date is outside the available timetable.':'Data aleasă nu este acoperită de orarul disponibil.'):
+            (lang==='en'?'The connected national planner did not confirm a usable itinerary for this departure.':'Planificatorul național conectat nu a confirmat un itinerar utilizabil pentru această plecare.');
           const reply=lang==='en'
-            ? 'The destination '+targetName+' is outside the London planning area. I cannot yet verify a nationwide public-transport itinerary with real times. Use National Rail for train connections, Traveline for bus/coach connections and the regional planner where available. These are official planning sources, not invented departures.'
-            : 'Destinația '+targetName+' este în afara zonei de planificare londoneze. Nu pot verifica încă un itinerar național cu ore reale. Consultă National Rail pentru legăturile feroviare, Traveline pentru autobuze/autocare și planificatorul regional, unde este disponibil. Sunt surse de verificare, nu plecări inventate.';
+            ? 'No verified nationwide public transport route to '+targetName+' at the chosen departure time. '+serviceText+' Try a nearby departure time or a different day.'
+            : 'Nu există un traseu național verificat către '+targetName+' pentru plecarea aleasă. '+serviceText+' Încearcă o oră apropiată sau o altă zi.';
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
             route_available:false,transit_available:false,uk_national_journey:true,mixed_journey:explicitMixedJourney,
             transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
-            planning_links:links,transit_provider:'national_unverified',
-            provider_status:{tfl:'outside_london_corridor',motis:detail},reason:'national_public_transport_not_verified',ai_connected:Boolean(env.AI)});
+            planning_links:explicitMixedJourney?[]:links,transit_provider:'national_unverified',
+            provider_status:{tfl:'outside_london_corridor',motis:transportErrors.motis||null,transcapi:transportErrors.transcapi||'not_attempted'},
+            transit_departure_at:departureAt,reason:'national_public_transport_not_verified',ai_connected:Boolean(env.AI)});
         }
         if (env.TFL_APP_KEY) {
           try {
@@ -2980,6 +2999,16 @@ export default {
             tflUrl.searchParams.set("alternativeMetro", "true");
             tflUrl.searchParams.set("alternativeRoute", "true");
             tflUrl.searchParams.set("maxWalkingMinutes", "20");
+            if(departureAt){
+              // TfL expects date/time local to the London departure timezone.
+              const ukParts=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{
+                timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit',
+                hour:'2-digit',minute:'2-digit',hourCycle:'h23'
+              }).formatToParts(new Date(departureAt)).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
+              tflUrl.searchParams.set('date',ukParts.year+ukParts.month+ukParts.day);
+              tflUrl.searchParams.set('time',ukParts.hour+ukParts.minute);
+              tflUrl.searchParams.set('timeIs','Departing');
+            }
             tflUrl.searchParams.set("maxWalkingMinutesTransfer", "12");
             tflUrl.searchParams.set("journeyPreference", "LeastTime");
             tflUrl.searchParams.set("app_key", env.TFL_APP_KEY);
