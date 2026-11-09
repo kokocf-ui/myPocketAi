@@ -6878,6 +6878,10 @@ function pocketExitChoice(value){
 }
 
 function pocketExitLanguage(){return ({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO'}
+function pocketExitQuestion(){
+ const questions={ro:'Pleci?',en:'Leaving?',fr:'Tu pars ?',de:'Gehst du?',it:'Vai via?',es:'¿Te vas?',pt:'Vais sair?',nl:'Ga je weg?',ru:'Уходите?',pl:'Wychodzisz?'};
+ return questions[state.language]||questions.ro;
+}
 function pocketExitSay(text){
  try{if(window.PocketAndroidVoice?.postMessage)window.PocketAndroidVoice.postMessage(JSON.stringify({action:'speak',language:pocketExitLanguage(),text}));else if('speechSynthesis' in window){speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(text);utterance.lang=pocketExitLanguage();speechSynthesis.speak(utterance)}}catch{}
 }
@@ -6922,7 +6926,7 @@ function pocketExitPrompt(){
  document.querySelector('.bottom-nav')?.setAttribute('inert','');
  document.querySelector('main.page')?.setAttribute('inert','');
  clearTimeout(state.avatarTimer);
- const question=learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?');
+ const question=pocketExitQuestion();
  showAvatar({message:question,status:learningLabel('Te ascult…','Listening…'),speaking:true});
  avatarOverlay.classList.add('exit-mode');
  let buttons=avatarOverlay.querySelector('.exit-buttons');
@@ -6945,7 +6949,7 @@ function pocketExitVoiceResult(data){
  if(!pocketExitOpen)return false;
  if(data?.mode==='tts'){
   if(data.status==='boundary')avatar3dSend('boundary',{charIndex:Number(data.text)||0});
-  if(data.status==='start')avatar3dSend('start',{text:learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?')});
+  if(data.status==='start')avatar3dSend('start',{text:pocketExitQuestion()});
   if(data.status==='done'){
    avatar3dSend('stop');avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;
    pocketExitListen();
@@ -11110,12 +11114,15 @@ function eduOpenPrint(mode='save'){
 }
 function eduAttachPrintAction(bar){
  if(!bar||bar.querySelector('.edu-pdf-save'))return;
+ const group=document.createElement('div');group.className='edu-pdf-actions';
+ group.setAttribute('role','group');group.setAttribute('aria-label',learningLabel('Salvare și imprimare PDF','Save and print PDF'));
  const add=(glyph,description,kind,mode)=>{
   const b=document.createElement('button');b.type='button';b.className='secondary-btn edu-print-trigger '+(mode==='save'?'edu-pdf-save':'edu-pdf-print')+' edu-icon-action edu-icon-'+kind;
-  b.textContent=glyph;b.title=description;b.setAttribute('aria-label',description);b.onclick=()=>eduOpenPrint(mode);bar.append(b);
+  b.textContent=glyph;b.title=description;b.setAttribute('aria-label',description);b.onclick=()=>eduOpenPrint(mode);group.append(b);
  };
  add('💾',learningLabel('Salvează PDF','Save PDF'),'save','save');
  add('🖨',learningLabel('Imprimă','Print'),'print','print');
+ bar.append(group);
 }
 
 function openLearningSubject(key){
@@ -16007,7 +16014,7 @@ function openWalkingRouteChoices(route,options=state.lastRouteOptions){
  back.focus({preventScroll:true});
 }
 function retainRouteResult(data,bubble){
- if(validMapRoute(data.route)){state.lastRouteOptions=Array.isArray(data.routes)?data.routes.filter(validMapRoute):[data.route];if(!state.lastRouteOptions.some(v=>v===data.route))state.lastRouteOptions=state.lastRouteOptions.map(v=>v.id===data.route.id?data.route:v);state.lastRoute=data.route;state.lastRouteReply=String(data.reply||'').trim();const button=document.createElement('button');button.type='button';button.className='route-map-open';button.textContent=routeMapText().open;button.onclick=()=>openRouteMap(data.route,button,data.routes);bubble.append(routeOptionsControl(data.route,data.routes),button,routeNavigationLink(data.route));if(data.auto_open_map)requestAnimationFrame(()=>openRouteMap(data.route,button))}
+ if(validMapRoute(data.route)){state.lastRouteOptions=Array.isArray(data.routes)?data.routes.filter(validMapRoute):[data.route];if(!state.lastRouteOptions.some(v=>v===data.route))state.lastRouteOptions=state.lastRouteOptions.map(v=>v.id===data.route.id?data.route:v);state.lastRoute=data.route;state.lastRouteReply=String(data.reply||'').trim();const button=document.createElement('button');button.type='button';button.className='route-map-open';button.textContent=routeMapText().open;button.onclick=()=>openRouteMap(data.route,button,data.routes);bubble.append(routeOptionsControl(data.route,data.routes),button,routeNavigationLink(data.route));if(data.auto_open_map)requestAnimationFrame(()=>{if(data.route.profile==='drive')openWalkingRouteChoices(data.route,state.lastRouteOptions);else openRouteMap(data.route,button,state.lastRouteOptions)})}
  else if(data.route_available===false&&data.route_context){state.lastRoute=null;state.lastRouteOptions=[];}
 }
 const READER_LABELS={
@@ -16458,7 +16465,7 @@ function closeAnswerReader(restoreFocus=true){
 function openAnswerReader(text,origin){
  dismissSelectionKeyboard();
  if(state.lastTransitResponse?.reply===String(text).trim()&&Array.isArray(state.lastTransitResponse.transit)&&state.lastTransitResponse.transit.length){showTransitChoices(state.lastTransitResponse.transit);return}
- if(state.lastRouteReply===String(text).trim()&&validMapRoute(state.lastRoute)){const choices=(state.lastRouteOptions||[]).filter(validMapRoute);if(choices.length<=1&&state.lastRoute.profile==='drive')openRouteMap(state.lastRoute,null,choices);else openWalkingRouteChoices(state.lastRoute,choices);return}
+ if(state.lastRouteReply===String(text).trim()&&validMapRoute(state.lastRoute)){const choices=(state.lastRouteOptions||[]).filter(validMapRoute);openWalkingRouteChoices(state.lastRoute,choices);return}
  closeRouteMap(false);
  closeAnswerReader(false);inputEl.blur();const t=readerLabels();
  const layer=document.createElement('section');layer.className='answer-reader';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-labelledby','answerReaderTitle');
@@ -16974,7 +16981,7 @@ window.addEventListener('message',event=>{
  avatar3dReady=true;
  avatar3dFrame.style.display='block';
  $('avatarImage').style.visibility='hidden';
- if(pocketExitOpen){showAvatar({message:learningLabel('Vrei să închizi aplicația sau mai ai nevoie de mine?','Do you want to close the app, or do you still need me?'),status:learningLabel('Te ascult…','Listening…'),speaking:true});avatarOverlay.classList.add('exit-mode');}
+ if(pocketExitOpen){showAvatar({message:pocketExitQuestion(),status:learningLabel('Te ascult…','Listening…'),speaking:true});avatarOverlay.classList.add('exit-mode');}
  else if(!state.speaking&&state.currentView==='home'&&!nativeEntranceCompleted){
   // Keep ordinary app chrome hidden while the ready 3D model greets first.
   welcomeUser();
@@ -17749,6 +17756,28 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 #view-module .exam-topic-menu,#view-module .lit-options,#view-module .hg-choice-list{
  scroll-padding-bottom:20px;
 }
+
+/* v1.0.148: restore breathing room between home cards without obscuring the last row. */
+#view-home.active{height:calc(100dvh - 258px)!important;max-height:calc(100dvh - 258px)!important}
+#view-home .card-grid{
+ padding-top:clamp(18px,2.5dvh,30px)!important;
+ row-gap:clamp(13px,2.4dvh,21px)!important;
+ column-gap:clamp(12px,1.8vw,18px)!important
+}
+@media(max-height:700px) and (max-width:699px){
+ #view-home.active{height:calc(100dvh - 240px)!important;max-height:calc(100dvh - 240px)!important}
+ #view-home .card-grid{row-gap:clamp(11px,2dvh,15px)!important;padding-top:14px!important}
+}
+@media(max-height:520px){
+ #view-home.active{height:auto!important;max-height:none!important;overflow:visible!important}
+ #view-home .card-grid{grid-template-rows:none!important;gap:12px!important;height:auto!important}
+ #view-home .feature-card{height:auto!important;min-height:96px!important}
+}
+/* Save and print: adjacent square icon-only controls, consistently in every education toolbar. */
+.edu-pdf-actions{display:inline-flex!important;flex-flow:row nowrap!important;align-items:center!important;gap:5px!important;flex:0 0 auto!important;margin-left:auto!important}
+.edu-pdf-actions .edu-icon-action{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 42px!important;width:42px!important;min-width:42px!important;max-width:42px!important;height:42px!important;min-height:42px!important;max-height:42px!important;padding:4px!important;margin:0!important;border-radius:9px!important;font-size:21px!important;line-height:1!important}
+.education-toolbar .edu-pdf-actions .edu-print-trigger{max-width:42px!important}
+.practical-cv-actions .edu-pdf-actions{margin-left:0!important}
 </style>
 </body>
 </html>`;
