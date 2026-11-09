@@ -5,6 +5,7 @@ import {COMPUTING_TOPICS,COMPUTING_PATHS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {HG_SCHOOL_PLANS,hgSchoolChapters} from './education_school_paths.mjs';
 import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
+import {LIT_EU_COMMON,LIT_EU_PROGRAMS,litEuropeanPlan} from './literature_curriculum_europe.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 
 const filtered = new Function('educationCountrySelection','computingJourney',
@@ -69,6 +70,18 @@ for(const id of ['ro4-family','ro4-sources','ro4-heritage','ro4-people','ro4-cha
  assert.ok(guide?.length>=6,id+' must have a structured offline lesson');
  assert.ok(guide.every(x=>x.length===4&&x[2].length>=80&&x[3].length>=80),id+' bilingual theory incomplete');
 }
+for(const [level,units] of Object.entries(LIT_EU_COMMON)){
+ assert.ok(units.length>=10,'Literature '+level+' must have at least ten structured units');
+ assert.equal(new Set(units.map(x=>x[0])).size,units.length,'Duplicate literature unit keys');
+}
+for(const country of ['RO','GB-ENG','FR','DE','IT','ES']){
+ const profile=LIT_EU_PROGRAMS[country];
+ if(!profile)continue;
+ for(const [level,units] of Object.entries(profile.byLevel||{}))assert.ok(units.length>=10,country+' '+level+' literature too short');
+ for(const [grade,units] of Object.entries(profile.byGrade||{}))assert.ok(units.length>=10,country+' '+grade+' literature too short');
+}
+assert.ok(litEuropeanPlan('RO','medium','9','TC').units.length>=10,'Romanian ninth-grade literature must not be four broad cards');
+assert.equal(litEuropeanPlan('RO','medium','9','TC').verified,true,'Keep ninth grade official framework separate from advisory unit sequencing');
 const england1=hgSchoolChapters('GB-ENG','geography','beginner','Y1');
 assert.equal(england1.status,'official-framework','KS1 geography should reference statutory DfE programme');
 const year=EDUCATION_COUNTRY_UI_SCRIPT;
