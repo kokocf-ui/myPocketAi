@@ -758,6 +758,135 @@ export const HG_SCHOOL_GENERAL={
   }
 };
 export const HG_SCHOOL_SOURCES={RO:{history:{grades:['5','6','7','8'],source:'https://www.edu.ro/Ordin_ministru_3393_2017'},geography:{grades:[],source:'https://www.edu.ro/manuale-scolare'}},'GB-ENG':{history:{grades:['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9'],source:'https://www.gov.uk/government/publications/national-curriculum-in-england-history-programmes-of-study'},geography:{grades:[],source:'https://www.gov.uk/government/publications/national-curriculum-in-england-geography-programmes-of-study'}}};
+
+// Teaching modules supplement the English Key Stage framework with a usable
+// Year-by-Year study table. DfE publishes Key Stage content, not a mandatory
+// separate Year 1, Year 2, ... lesson list. GCSE and A-level sequences depend
+// on exam board and optional subject selection.
+const ENGLAND_YEAR_STUDY_MODULES={
+ history:{
+  Y1:[
+   ['Trecutul familiei: obiecte și amintiri','Family history through objects and memories','Folosește fotografii, povești și obiecte pentru a compara două generații, fără să confunzi amintirea cu dovada independentă.'],
+   ['Viața de zi cu zi: ieri și astăzi','Daily life: past and present','Compară școala, transportul și locuirea în trecutul apropiat și astăzi folosind exemple datate.'],
+   ['Surse, fotografii și ordinea întâmplărilor','Sources, photographs and ordering events','Învață să distingi înainte și după, să construiești o cronologie simplă și să verifici o fotografie.']],
+  Y2:[
+   ['Marele incendiu din Londra ca studiu de caz','The Great Fire of London as a case study','Studiază 1666, cauzele cunoscute, consecințele și sursele, fără a trata legendele ca dovezi.'],
+   ['Viețile persoanelor din perioade diferite','People living in different periods','Compară două persoane istorice și explică ce au schimbat și cum știm acest lucru.'],
+   ['Linii ale timpului și obiecte din muzeu','Timelines and museum objects','Așază evenimente în ordine și descrie ce poate demonstra un obiect de patrimoniu și ce nu.']],
+  Y3:[
+   ['Viața vânătorilor și a primilor fermieri','Hunter-gatherers and the first farmers','Compară traiul vânătorilor-culegători cu așezările agricultorilor folosind urme arheologice.'],
+   ['Epoca bronzului și tehnologia','Bronze Age technology and society','Studiază schimbarea uneltelor, comerțul și monumentele, distingând interpretările de artefacte.'],
+   ['Epoca fierului în Britania','Iron Age Britain','Explorează așezările, agricultura, cetățile și dovezile arheologice din Britania preromană.']],
+  Y4:[
+   ['Venirea romanilor în Britania','Roman arrival in Britain','Explică invazia romană, rezistența locală și schimbările politice cu o cronologie accesibilă.'],
+   ['Drumuri, orașe și viață romană','Roman roads, towns and daily life','Analizează exemple de drumuri, orașe, construcții și schimbări ale vieții cotidiene.'],
+   ['Urme romane și izvoare istorice','Roman archaeology and evidence','Compară obiecte, inscripții și relatări pentru a înțelege limitele surselor antice.']],
+  Y5:[
+   ['Regate anglo-saxone','Anglo-Saxon kingdoms','Localizează regatele, transformările culturale și schimbările din Britania după perioada romană.'],
+   ['Vikingii: comerț, migrație și conflict','Vikings: trade, migration and conflict','Compară așezările, expedițiile și contactele dintre vikingi și anglo-saxoni.'],
+   ['Formarea regatelor și sursele perioadei','Kingdom formation and period sources','Construiește o cronologie și evaluează relatări, obiecte și hărți despre regatele britanice.']],
+  Y6:[
+   ['Cetățile Greciei antice','City-states of Ancient Greece','Compară Atena și Sparta, instituțiile și viața socială folosind termeni potriviți.'],
+   ['Idei, artă și moștenire greacă','Ancient Greek ideas and legacy','Studiază mituri, jocuri, arte și influențe, distingând tradiția de dovada istorică.'],
+   ['Civilizații ale lumii: comparație','Comparing a world civilisation','Compară Grecia cu o altă civilizație studiată prin cronologie, organizare și surse.']],
+  Y7:[
+   ['1066 și cucerirea normandă','1066 and the Norman Conquest','Explică evenimentele esențiale din 1066 și urmările schimbării de putere în Anglia.'],
+   ['Feudalism, castele și societate','Feudalism, castles and medieval society','Analizează structuri sociale, pământ, obligații și limitele modelului feudal.'],
+   ['Biserica, orașele și Magna Carta','Church, towns and Magna Carta','Examinează religia, comerțul, instituțiile și documentul din 1215 în context.']],
+  Y8:[
+   ['Reforma și monarhia Tudorilor','Reformation and Tudor monarchy','Studiază schimbările religioase, politice și sociale din Anglia secolului al XVI-lea.'],
+   ['Stuarți, război civil și Parlament','Stuarts, Civil War and Parliament','Construiește o cronologie a tensiunilor dintre monarhie și Parlament și evaluează consecințele.'],
+   ['Industrializare, muncă și schimbări sociale','Industrialisation and social change','Analizează fabricile, urbanizarea, transportul, imperiul și efectele asupra unor grupuri diferite.']],
+  Y9:[
+   ['Primul Război Mondial: cauze și urmări','First World War: causes and consequences','Distinge cauzele de lungă durată de evenimentele declanșatoare și studiază impactul războiului.'],
+   ['Al Doilea Război Mondial și Holocaustul','Second World War and the Holocaust','Prezintă cronologia, persecuția, genocidul și memoria folosind surse documentate și limbaj adecvat.'],
+   ['Lumea după 1945 și schimbările sociale','Post-war world and social change','Analizează decolonizarea, tensiunile Războiului Rece și mișcările pentru drepturi.']],
+  Y10:[
+   ['Studiu tematic GCSE și schimbare în timp','GCSE thematic study and change over time','Organizare orientativă GCSE: compară schimbări și continuități pe durate istorice mari, potrivit unei specificații alese.'],
+   ['Perioadă de adâncire GCSE','GCSE historical depth study','Studiază contextul, cauzele și consecințele într-o perioadă specificată de consiliul de examene.'],
+   ['Folosirea surselor și argumentarea','Source use and historical arguments','Învață să susții o afirmație cu dovezi și să identifici limitele și perspectivele surselor.']],
+  Y11:[
+   ['Interpretări diferite ale aceluiași eveniment','Different interpretations of events','Compară argumentele a doi istorici și identifică dovezile care susțin interpretările.'],
+   ['Recapitulare cronologică și cauzalitate GCSE','GCSE chronology and causation revision','Reorganizează evenimente și formulează răspunsuri cu explicație, dovezi și concluzie.'],
+   ['Exerciții GCSE după specificația aleasă','GCSE specification-based practice','Simulează întrebări structurate pe surse, semnificație și consecințe fără a pretinde examene oficiale.']],
+  Y12:[
+   ['Documente și contextul unei perioade A-level','A-level period and sources','Studiază în profunzime o perioadă aleasă potrivit specificației A-level și examinează surse primare.'],
+   ['Istoriografie și perspective','Historiography and perspectives','Compară interpretări, metode și argumente ale istoricilor pentru aceeași problemă.'],
+   ['Eseu istoric bazat pe dovezi','Evidence-based historical essay','Construiește teză, argumente, contraargumente și concluzie, cu referințe verificabile.']],
+  Y13:[
+   ['Studiu de profunzime și sinteză A-level','Advanced depth study and synthesis','Integrează cunoștințele din mai multe perioade și explică schimbări și continuități.'],
+   ['Cercetare independentă și evaluarea surselor','Independent research and source evaluation','Delimitează întrebarea, selectează surse credibile și discută limitele lor în raport cu tema.'],
+   ['Eseu extins și recapitulare A-level','Extended essay and A-level revision','Planifică redactarea, folosirea citărilor și recapitularea potrivit specificației efective.']]
+ },
+ geography:{
+  Y1:[
+   ['Repere: acasă, școală și cartier','Landmarks: home, school and neighbourhood','Recunoaște repere precum strada, parc, școală și râu, comparând elemente naturale și construite.'],
+   ['Vremea și anotimpurile','Weather and seasons','Observă ploaia, vântul și temperatura și notează vremea într-un jurnal simplu.'],
+   ['Prima hartă: simboluri și direcții','My first map: symbols and directions','Desenează o hartă simplă a drumului spre școală și folosește stânga, dreapta, aproape și departe.']],
+  Y2:[
+   ['Cele șapte continente și cinci oceane','Seven continents and five oceans','Folosește globul și atlasele pentru a localiza continentele și oceanele fără memorare mecanică.'],
+   ['Cele patru țări ale Regatului Unit','The four countries of the UK','Identifică Anglia, Scoția, Țara Galilor și Irlanda de Nord, capitale și mările din jur.'],
+   ['Locuri diferite: comparație și climă','Comparing places and climate','Compară o zonă britanică cu una din afara Europei după relief, climă și mod de viață.']],
+  Y3:[
+   ['Puncte cardinale și legendă','Compass points and map keys','Folosește nord, sud, est, vest, legende și semne convenționale pe o hartă.'],
+   ['Râuri și forme de relief','Rivers and landforms','Identifică munți, dealuri, văi și cursuri de apă, explicând noțiuni simple de relief.'],
+   ['Observații din teren','Fieldwork near school','Colectează observații despre împrejurimile școlii și marchează-le pe o schiță.']],
+  Y4:[
+   ['Europa: țări, capitale și regiuni','European countries and regions','Identifică țări și regiuni europene folosind hărți și surse actuale.'],
+   ['Latitudine, longitudine și orientare','Latitude, longitude and orientation','Exersează citirea coordonatelor pe hartă și orientarea cu punctele cardinale.'],
+   ['Activități umane și utilizarea terenului','Land use and human activity','Compară agricultura, locuirea și transportul în regiuni diferite.']],
+  Y5:[
+   ['Ciclul apei și râurile','Water cycle and rivers','Urmărește evaporarea, condensarea și precipitațiile și rolul lor în formarea râurilor.'],
+   ['Vulcani și cutremure','Volcanoes and earthquakes','Explică pe înțelesul elevilor mișcările scoarței și efectele lor asupra așezărilor.'],
+   ['Resurse și utilizare responsabilă','Resources and sustainable use','Analizează apă, sol și energie, identificând utilizări și limite.']],
+  Y6:[
+   ['Așezări și dezvoltarea orașelor','Settlements and urban development','Compară orașele și satele după funcții, activități, transport și servicii.'],
+   ['Comerț global și interdependență','Global trade and interdependence','Analizează traseul unui produs și legăturile dintre producători și consumatori.'],
+   ['Mediu, protecție și investigație locală','Environment and local investigation','Planifică o observație de teren, înregistrează date și propune o măsură realistă de protecție.']],
+  Y7:[
+   ['Hărți, scale și coordonate geografice','Maps, scale and geographical coordinates','Folosește scara și coordonatele pentru a localiza locuri și compara distanțe.'],
+   ['Tectonica plăcilor și hazarduri','Plate tectonics and hazards','Explică relația dintre mișcarea plăcilor și anumite cutremure și vulcani.'],
+   ['Râuri, vreme și observații de teren','Rivers, weather and field observations','Analizează procese fizice folosind hărți, date meteorologice și note de teren.']],
+  Y8:[
+   ['Migrație și cauze ale mobilității','Migration and human mobility','Compară factori economici, sociali și de mediu care influențează migrația.'],
+   ['Urbanizare și dezvoltare inegală','Urbanisation and unequal development','Interpretează date despre creșterea orașelor și diferențe între regiuni.'],
+   ['Ecosisteme și folosirea resurselor','Ecosystems and resource use','Studiază interacțiunile dintre plante, animale, climă și activitățile umane.']],
+  Y9:[
+   ['Schimbări climatice: dovezi și efecte','Climate change: evidence and impacts','Interpretează serii de temperatură și exemple de impact, separând observația de explicație.'],
+   ['Hazarduri, risc și reziliență','Hazards, risk and resilience','Compară pericole naturale și metode de reducere a expunerii.'],
+   ['Sustenabilitate și date geografice','Sustainability and geographical data','Evaluează opțiuni de dezvoltare prin indicatori, hărți și surse recente.']],
+  Y10:[
+   ['Geografie fizică GCSE','GCSE physical geography','Studiu orientativ al reliefului și proceselor fizice, cu exemple alese după specificația de examen.'],
+   ['Geografie umană GCSE','GCSE human geography','Compară orașe, resurse și dezvoltare folosind studii de caz și date din programa aleasă.'],
+   ['Măsurători și observații în teren','Fieldwork methods','Planifică o colectare de date și explică reprezentativitatea și limitele măsurătorilor.']],
+  Y11:[
+   ['Hărți, grafice și interpretarea datelor GCSE','GCSE maps and data interpretation','Interpretează grafice, diagrame și hărți tematice cu unități și surse.'],
+   ['Studii de caz și evaluarea soluțiilor','Case studies and evaluation','Evaluează mai multe soluții pentru o problemă geografică, cu argumente și limite.'],
+   ['Recapitulare GCSE după specificație','GCSE specification-based revision','Exersează explicații, evaluări și răspunsuri bazate pe date fără a inventa conținut de examen.']],
+  Y12:[
+   ['Sistemele Pământului și procese fizice','Earth systems and physical processes','Analizează cicluri naturale și conexiuni dintre atmosferă, hidrosferă și litosferă.'],
+   ['Populație, spațiu și dezvoltare','Population, space and development','Evaluează schimbările demografice și distribuția activităților umane la scară globală.'],
+   ['Proiect de investigație geografică','Geographical investigation project','Formulează întrebare, metodă, colectare de date și evaluare a riscurilor.']],
+  Y13:[
+   ['Analiza critică a datelor geografice','Critical geographical data analysis','Examinează validitatea surselor, limitele eșantionării și modele spațiale complexe.'],
+   ['Politici, mediu și dezvoltare durabilă','Policy, environment and sustainability','Compară opțiuni de politici prin dovezi, efecte sociale și costuri de mediu.'],
+   ['Lucrare de cercetare și sinteză A-level','A-level research and synthesis','Pregătește concluzii și eseuri bazate pe dovezi, potrivit cerințelor consiliului de examene.']]
+ }
+};
+for(const [subject,years] of Object.entries(ENGLAND_YEAR_STUDY_MODULES)){
+ for(const [year,topics] of Object.entries(years)){
+  const existing=HG_SCHOOL_PLANS['GB-ENG']?.[subject]?.[year];
+  if(!existing)continue;
+  topics.forEach(([ro,en,description],i)=>existing.push([
+   'eng-'+subject+'-'+year.toLowerCase()+'-sub'+(i+1),ro,en,description,
+   Number(year.slice(1))<=2?'ks1':Number(year.slice(1))<=6?'ks2':Number(year.slice(1))<=9?'ks3':'exam-optional'
+  ]));
+ }
+}
+// Both History and Geography have statutory framework content at KS1–KS3.
+// This verifies the STAGE only; the year-by-year grouping above is pedagogic.
+HG_SCHOOL_SOURCES['GB-ENG'].geography.grades=['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9'];
+
 export function educationYears(country,level){
  const lv=level==='intermediate'?'medium':level;
  return EDUCATION_SCHOOL_YEARS[country]?.[lv]||[{id:'general-'+lv,ro:lv==='beginner'?'Învățare generală — primar':lv==='medium'?'Învățare generală — secundar':'Învățare generală — universitar',en:lv==='beginner'?'General primary learning':lv==='medium'?'General secondary learning':'General university learning'}];

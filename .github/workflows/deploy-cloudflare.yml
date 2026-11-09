@@ -43,6 +43,7 @@ jobs:
           node --check education_country_ui.mjs
           node --check education_school_paths.mjs
           node tests_education_country_first.mjs
+          node tests_education_content_navigation.mjs
 
       - name: Verify contextual news translation and apply avatar lip-stop patch
         run: |

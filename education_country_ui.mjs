@@ -212,23 +212,24 @@ function educationGradeGate(moduleKey,level,proceed,back){
  host.replaceChildren();
  const toolbar=document.createElement('div');toolbar.className='education-toolbar lit-toolbar';
  const previous=document.createElement('button');previous.type='button';previous.className='secondary-btn';previous.textContent=eduUiLabel('← Înapoi','← Back');previous.onclick=back;toolbar.append(previous);host.append(toolbar);
- const panel=document.createElement('section');panel.className='math-choice-panel science-choice-panel lit-panel edu-grade-panel';panel.style.cssText='min-width:0;max-width:100%;box-sizing:border-box;';
+ const panel=document.createElement('section');panel.className='math-choice-panel science-choice-panel lit-panel edu-grade-panel';panel.style.cssText='min-width:0;max-width:100%;box-sizing:border-box;max-height:calc(100dvh - 345px);overflow-y:auto;overscroll-behavior:contain;padding-bottom:16px;';
  const h=document.createElement('h2');h.textContent=eduUiLabel('Alege clasa / anul de studiu','Choose grade / school year');
  const context=document.createElement('p');context.textContent=educationCountrySelection.label+' · '+eduUiLabel('Materia se adaptează clasei selectate.','Learning content follows the selected school year.');
  const search=document.createElement('input');search.type='search';search.className='lit-input';search.placeholder=eduUiLabel('Scrie clasa sau anul…','Type a grade or year…');search.setAttribute('aria-label',h.textContent);
- search.style.cssText='width:100%;box-sizing:border-box;min-height:48px;font-size:16px;';
- const list=document.createElement('div');list.style.cssText='display:flex;flex-direction:column;gap:7px;max-width:100%;margin:8px 0;';
+ search.style.cssText='width:100%;box-sizing:border-box;min-height:48px;font-size:16px;background:#0e2938;color:#fff;border:1px solid #5e9dad;border-radius:10px;padding:10px;';
+ const list=document.createElement('div');list.className='edu-grade-choice-grid';
+ list.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-width:100%;margin:8px 0;align-content:start;';
  panel.append(h,context,search,list);host.append(panel);
  let page=0;function draw(){
   list.replaceChildren();const text=eduCountryFold(search.value);
   const filtered=options.filter(o=>!text||eduCountryFold(o.ro).includes(text)||eduCountryFold(o.en).includes(text)||eduCountryFold(o.id).includes(text));
   if(page>=filtered.length)page=0;
-  filtered.slice(page,page+4).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel(o.ro,o.en);b.style.cssText='min-height:45px;text-align:left;width:100%;';b.onclick=()=>proceed(o.id);list.append(b)});
+  filtered.slice(page,page+4).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel(o.ro,o.en);b.style.cssText='min-height:52px;text-align:center;width:100%;min-width:0;padding:8px;white-space:normal;overflow-wrap:anywhere;';b.onclick=()=>proceed(o.id);list.append(b)});
   if(!filtered.length){const p=document.createElement('p');p.textContent=eduUiLabel('Nu am găsit clasa.','No matching grade.');list.append(p)}
-  if(page+4<filtered.length){const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel('Alte clase →','More grades →');b.onclick=()=>{page+=4;draw()};list.append(b)}
-  if(page>0){const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel('← Clase anterioare','← Previous grades');b.onclick=()=>{page=Math.max(0,page-4);draw()};list.prepend(b)}
+  if(page+4<filtered.length){const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel('Alte clase →','More grades →');b.style.cssText='grid-column:1/-1;min-height:44px;width:100%;';b.onclick=()=>{page+=4;draw();list.scrollIntoView({block:"nearest"})};list.append(b)}
+  if(page>0){const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel('← Clase anterioare','← Previous grades');b.style.cssText='grid-column:1/-1;min-height:44px;width:100%;';b.onclick=()=>{page=Math.max(0,page-4);draw();list.scrollIntoView({block:"nearest"})};list.prepend(b)}
  }
- search.addEventListener('focus',()=>search.select());
+ search.addEventListener('focus',()=>{search.select();page=0;draw()});
  search.oninput=()=>{page=0;draw()};draw();
 }
 
