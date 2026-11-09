@@ -61,8 +61,8 @@ const engHistoryGCSE=educationBibliographyFor('GB-ENG','history','Y11');
 assert.ok(!engHistoryGCSE.some(r=>r.kind==='curriculum-framework'),
  'Do not claim the KS1–3 history framework is a compulsory Y11 history specification');
 assert.ok(educationBibliographyFor('JP','history','J2').some(r=>r.kind==='country-education-reference'));
-assert.ok(educationBibliographyFor('FR','geography','CP').some(r=>r.kind==='country-education-reference'));
-assert.ok(educationBibliographyFor('DE','mathematics','7').some(r=>r.kind==='country-education-reference'));
+assert.ok(educationBibliographyFor('FR','geography','CP').some(r=>r.id==='europe-official-source-FR'));
+assert.ok(educationBibliographyFor('DE','mathematics','7').some(r=>r.id==='europe-official-source-DE'));
 assert.deepEqual(educationBibliographyFor('ZZ','history','J2'),[]);
 assert.deepEqual(educationBibliographyFor('RO','history','university'),[]);
 assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/educationBibliographyForRuntime/);
