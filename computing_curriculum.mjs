@@ -1279,7 +1279,7 @@ COMPUTING_TOPICS.push(...[{"id":"lower-sequences","path":"lower-logic","ro":"Pa�
 // The national curriculum defines skills by key stage; each year assignment is an
 // age-appropriate teaching organisation, not an invented statutory lesson order.
 const COMPUTING_DEEP_THEORY={
- 'device-types':\`Cum recunoști un calculator
+ 'device-types':`Cum recunoști un calculator
 Un calculator este un dispozitiv care primește informații (intrări), le transformă folosind instrucțiuni și oferă un rezultat (ieșire). Nu trebuie să aibă forma unui laptop: un telefon, o tabletă, o consolă și un calculator desktop îndeplinesc această funcție.
 
 Intrare, procesare, ieșire și stocare
@@ -1288,8 +1288,8 @@ La un telefon, camera captează lumina și o transformă în date; procesorul ap
 Comparație
 Un desktop are de regulă unitate centrală și periferice separate. Un laptop reunește tastatura, ecranul și bateria, iar telefonul are senzori și ecran tactil. Ele au funcții comune, deși diferă prin mărime, consum de energie și utilizare.
 
-De reținut: obiectele care folosesc tehnologia nu sunt neapărat calculatoare; caută prelucrarea informației după instrucțiuni. Exersează desenând un lanț intrare → procesare → ieșire pentru un dispozitiv cunoscut.\`,
- 'hardware':\`Piesele unui sistem de calcul
+De reținut: obiectele care folosesc tehnologia nu sunt neapărat calculatoare; caută prelucrarea informației după instrucțiuni. Exersează desenând un lanț intrare → procesare → ieșire pentru un dispozitiv cunoscut.`,
+ 'hardware':`Piesele unui sistem de calcul
 Hardware înseamnă componente fizice: procesor (CPU), memorie, unitate de stocare, placă de bază, ecran, tastatură și componente de conectare. Software înseamnă instrucțiunile și programele care folosesc aceste componente.
 
 Procesorul (CPU)
@@ -1304,8 +1304,8 @@ Pe SSD sau pe HDD se păstrează fișiere, aplicații și sistemul de operare du
 Periferice
 Tastatura, microfonul și camera sunt intrări; ecranul și difuzoarele sunt ieșiri. Unele dispozitive, precum ecranul tactil, pot îndeplini ambele roluri.
 
-Verificare: explică ce se întâmplă cu un document nesalvat atunci când dispozitivul se oprește brusc și de ce salvarea contează.\`,
- 'software':\`Sistem de operare, aplicație și fișier
+Verificare: explică ce se întâmplă cu un document nesalvat atunci când dispozitivul se oprește brusc și de ce salvarea contează.`,
+ 'software':`Sistem de operare, aplicație și fișier
 Sistemul de operare (de exemplu Android, Windows sau Linux) coordonează hardware-ul, memoria, fișierele, conexiunile și procesele. Aplicațiile sunt programe care folosesc aceste servicii pentru o activitate: fotografiere, editarea textelor, navigare sau învățare.
 
 Cum lucrează împreună
@@ -1314,112 +1314,112 @@ Când deschizi o fotografie, aplicația solicită fișierul prin sistemul de ope
 Instalare și actualizare
 Instalarea introduce fișierele unei aplicații; o actualizare poate corecta erori și vulnerabilități. Folosește surse cunoscute și verifică permisiunile. Un document .pdf nu este o aplicație instalată.
 
-Exercițiu: separă în trei categorii Android, editor foto, cameră și procesor: sistem de operare, aplicație sau hardware.\`,
- 'sequence':\`De ce contează ordinea
+Exercițiu: separă în trei categorii Android, editor foto, cameră și procesor: sistem de operare, aplicație sau hardware.`,
+ 'sequence':`De ce contează ordinea
 Un algoritm este o descriere finită, clară a pașilor necesari pentru a rezolva o problemă. Fiecare pas trebuie să poată fi înțeles fără interpretări contradictorii. Intrările sunt datele inițiale, iar ieșirea este rezultatul.
 
 Execută manual
 Pentru media numerelor 2, 4 și 6: adună 2+4+6=12; împarte 12 la 3; obții 4. Dacă împarți înainte să aduni, rezultatul poate deveni incorect.
 
 Cum verifici
-Rulează pașii pe alte valori, inclusiv zero. Identifică primul pas, ultimul pas și momentul în care algoritmul se oprește. O diagramă de flux poate reprezenta instrucțiunile prin săgeți.\`,
- 'decisions':\`Ce este o condiție
+Rulează pașii pe alte valori, inclusiv zero. Identifică primul pas, ultimul pas și momentul în care algoritmul se oprește. O diagramă de flux poate reprezenta instrucțiunile prin săgeți.`,
+ 'decisions':`Ce este o condiție
 O condiție are rezultatul adevărat sau fals. Instrucțiunea „dacă … altfel” permite executarea unei ramuri în funcție de rezultat. Comparările pot folosi egalitatea sau semnele mai mic / mai mare.
 
 Exemplu verificat
 Dacă temperatura este mai mică decât 0, afișează „îngheț”; altfel afișează „fără îngheț”. La -2 rezultatul este „îngheț”; la 0 rezultatul este „fără îngheț”.
 
 Test la limită
-Valoarea exactă de la graniță, aici 0, este esențială. Înainte de programare, notează ce se întâmplă atât când condiția este adevărată, cât și când este falsă.\`,
- 'repetition':\`Repetiția evită copierea pașilor
+Valoarea exactă de la graniță, aici 0, este esențială. Înainte de programare, notează ce se întâmplă atât când condiția este adevărată, cât și când este falsă.`,
+ 'repetition':`Repetiția evită copierea pașilor
 O buclă repetă una sau mai multe instrucțiuni. Poți folosi un număr fix de repetări („de 5 ori”) sau poți repeta până când o condiție devine falsă.
 
 Trasare
 Pornește cu total=0. La fiecare din trei repetări adaugă 2. După prima ai 2, după a doua 4, după a treia 6. Un tabel cu numărul repetării și valoarea totalului te ajută să urmărești exact algoritmul.
 
 Oprirea
-Bucla trebuie să aibă o condiție de terminare. Dacă această condiție nu se modifică niciodată, o buclă poate deveni infinită. Testează valorile inițiale și cazul cu zero repetări.\`,
- 'files':\`Fișier, folder și cale
+Bucla trebuie să aibă o condiție de terminare. Dacă această condiție nu se modifică niciodată, o buclă poate deveni infinită. Testează valorile inițiale și cazul cu zero repetări.`,
+ 'files':`Fișier, folder și cale
 Un fișier reprezintă un conținut salvat sub un nume, de exemplu „tema.pdf”. Un folder grupează fișiere și subfoldere. O cale arată unde se află un fișier în structura dispozitivului.
 
 Extensiile
 .pdf este folosit pentru documente, .png pentru imagini, .txt pentru text. Extensia ajută la recunoaștere, dar nu demonstrează că un fișier este sigur. Evită să deschizi atașamente neașteptate.
 
 Exersează
-Creează structura Școală → Informatică → Tema1 și propune nume clare pentru documente. Explică de ce un fișier cu numele „final-final2” este mai greu de găsit.\`,
- 'search':\`Căutare și verificare
+Creează structura Școală → Informatică → Tema1 și propune nume clare pentru documente. Explică de ce un fișier cu numele „final-final2” este mai greu de găsit.`,
+ 'search':`Căutare și verificare
 Un motor de căutare găsește pagini pe baza cuvintelor introduse. Rezultatele sunt selectate și ordonate automat; primul rezultat nu este neapărat cel mai corect.
 
 Metodă
 Formulează cuvinte-cheie precise. Verifică autorul, instituția, data publicării și dacă alte surse independente confirmă informația. Pentru o definiție tehnică, preferă documentația originală.
 
 Exercițiu
-Caută aceeași informație prin două formulări și compară de ce apar pagini diferite. Nu copia un răspuns fără să înțelegi sursa.\`,
- 'spreadsheets':\`Ce este un tabel de calcul
+Caută aceeași informație prin două formulări și compară de ce apar pagini diferite. Nu copia un răspuns fără să înțelegi sursa.`,
+ 'spreadsheets':`Ce este un tabel de calcul
 O foaie de calcul conține rânduri, coloane și celule. O celulă poate avea text, numere sau formule. O formulă începe de regulă cu semnul = și calculează folosind valorile celulelor.
 
 Exemplu
 Dacă A1=5 și A2=7, formula =A1+A2 produce 12. Schimbarea valorii A1 poate actualiza automat rezultatul. Un grafic poate ajuta la compararea valorilor.
 
 Lucrul corect
-Scrie titluri explicite, nu amesteca unitățile de măsură, verifică datele introduse și nu afișa informații personale în tabele distribuite public.\`,
- 'passwords':\`Parole și autentificare
+Scrie titluri explicite, nu amesteca unitățile de măsură, verifică datele introduse și nu afișa informații personale în tabele distribuite public.`,
+ 'passwords':`Parole și autentificare
 O parolă protejează accesul la cont. Folosește parole lungi și unice pentru fiecare serviciu. Un manager de parole poate crea și stoca în siguranță parole diferite.
 
 Autentificare suplimentară
 Un al doilea factor, precum un cod în aplicație sau o cheie de securitate, reduce riscul dacă parola este furată. Nu comunica nimănui codurile de autentificare.
 
 Activitate
-Compară o parolă scurtă reutilizată cu o expresie lungă și unică, fără să folosești parolele tale reale în exercițiu.\`,
- 'phishing':\`Cum recunoști o înșelătorie
+Compară o parolă scurtă reutilizată cu o expresie lungă și unică, fără să folosești parolele tale reale în exercițiu.`,
+ 'phishing':`Cum recunoști o înșelătorie
 Phishing înseamnă încercarea de a obține parole, bani sau date prin mesaje care imită persoane ori instituții. Indicii frecvente sunt urgența artificială, adrese neobișnuite și solicitarea unui cod secret.
 
 Procedură sigură
 Nu folosi linkul din mesajul suspect. Deschide separat aplicația sau site-ul oficial și verifică informația. Raportează mesajul dacă este necesar.
 
 Exercițiu
-Analizează un mesaj fictiv care amenință cu blocarea contului. Identifică două semnale de alarmă și o modalitate sigură de verificare.\`,
- 'digital-footprint':\`Ce rămâne după publicare
+Analizează un mesaj fictiv care amenință cu blocarea contului. Identifică două semnale de alarmă și o modalitate sigură de verificare.`,
+ 'digital-footprint':`Ce rămâne după publicare
 Amprenta digitală include fotografii, comentarii, conturi și informații colectate despre activitatea online. Unele materiale pot fi copiate înainte să le ștergi.
 
 Protecție
 Verifică setările de confidențialitate, publică doar ce este necesar și cere permisiunea altor persoane înainte de a posta date sau imagini despre ele.
 
 Exercițiu
-Compară ce informații ar trebui să fie publice și ce informații ar trebui păstrate private într-un profil școlar fictiv.\`,
- 'lower-sequences':\`Instrucțiuni precise și executare
+Compară ce informații ar trebui să fie publice și ce informații ar trebui păstrate private într-un profil școlar fictiv.`,
+ 'lower-sequences':`Instrucțiuni precise și executare
 Un algoritm descrie pași finiți, neambigui, cu intrări și rezultate. În pseudocod, un algoritm poate fi citit și verificat independent de limbajul de programare.
 
 Exemplu pas cu pas
 Pentru media numerelor 3, 6 și 9: citește cele trei numere; suma devine 18; împarte 18 la 3; afișează 6. Dacă programul primește alte valori, pașii rămân identici.
 
 Verificare
-Scrie un tabel cu intrările, calculul și ieșirea. Găsește două intrări noi și aplică aceeași succesiune. Dacă nu poți determina rezultatul fără să ghicești, instrucțiunile nu sunt suficient de precise.\`,
- 'lower-conditions':\`Expresii logice și ramificare
+Scrie un tabel cu intrările, calculul și ieșirea. Găsește două intrări noi și aplică aceeași succesiune. Dacă nu poți determina rezultatul fără să ghicești, instrucțiunile nu sunt suficient de precise.`,
+ 'lower-conditions':`Expresii logice și ramificare
 Operatorii de comparație (<, >, ==) testează valori. Rezultatul unei expresii logice este adevărat sau fals. În program, condiția determină dacă se execută ramura „dacă” sau „altfel”.
 
 Exemplu
 La testul „nota >= 5”, nota 7 duce pe ramura adevărată, nota 3 pe ramura falsă, iar nota 5 verifică limita. Compară rezultatul așteptat cu cel obținut.
 
 Condiții compuse
-Două condiții pot fi reunite cu „și”, când trebuie îndeplinite amândouă, sau cu „sau”, când este suficientă una. Verifică fiecare caz, nu doar exemplul în care condiția este adevărată.\`,
- 'lower-loops':\`Cum funcționează o buclă
+Două condiții pot fi reunite cu „și”, când trebuie îndeplinite amândouă, sau cu „sau”, când este suficientă una. Verifică fiecare caz, nu doar exemplul în care condiția este adevărată.`,
+ 'lower-loops':`Cum funcționează o buclă
 O buclă „pentru” este potrivită când știi numărul de repetări. O buclă „cât timp” continuă doar când condiția sa rămâne adevărată.
 
 Trasare manuală
 Pentru total=0 și cinci repetări ale instrucțiunii total=total+2, valorile sunt 2,4,6,8,10. Tabelul repetare → valoare previne greșelile de numărare.
 
 Erori obișnuite
-Verifică inițializarea, actualizarea și condiția de oprire. Dacă indicele nu se modifică, bucla poate să nu se termine.\`,
- 'lower-variables':\`Memorie și valori
+Verifică inițializarea, actualizarea și condiția de oprire. Dacă indicele nu se modifică, bucla poate să nu se termine.`,
+ 'lower-variables':`Memorie și valori
 O variabilă este un nume asociat unei valori. Atribuirea schimbă conținutul variabilei, spre deosebire de egalitatea din matematică, unde semnul = exprimă o relație.
 
 Exemplu urmărit
 După n=2, expresia n=n+4 citește vechea valoare 2 și memorează 6. Apoi n=n*2 produce 12. Creează un tabel al valorilor după fiecare instrucțiune.
 
 Tipuri de date
-Un număr, un text și o valoare adevărat/fals au utilizări diferite. Textul „5” nu trebuie confundat cu numărul 5 la adunare.\`,
- 'lower-python':\`Programare Python – prima lecție
+Un număr, un text și o valoare adevărat/fals au utilizări diferite. Textul „5” nu trebuie confundat cu numărul 5 la adunare.`,
+ 'lower-python':`Programare Python – prima lecție
 Python este un limbaj de programare interpretat. Un program este format din instrucțiuni pe care interpretul le citește conform regulilor limbajului. O comandă nu funcționează doar pentru că seamănă cu o propoziție în română.
 
 Afișarea pe ecran
@@ -1429,41 +1429,41 @@ Variabile și tipuri
 n=5 memorează numărul 5. print(n*2) afișează 10. Poți modifica n printr-o atribuire nouă și apoi reafișa valoarea.
 
 Indentare și erori
-După o instrucțiune if, blocul asociat trebuie indentat corespunzător. Codul din lecție este explicat static: aplicația nu pretinde că l-a executat. Scrie trei instrucțiuni și prezice ieșirea înainte de a le testa într-un mediu Python.\`,
- 'lower-debug':\`Tipuri de erori
+După o instrucțiune if, blocul asociat trebuie indentat corespunzător. Codul din lecție este explicat static: aplicația nu pretinde că l-a executat. Scrie trei instrucțiuni și prezice ieșirea înainte de a le testa într-un mediu Python.`,
+ 'lower-debug':`Tipuri de erori
 O eroare de sintaxă încalcă regulile limbajului; o eroare de logică produce un rezultat greșit chiar dacă programul rulează; o eroare de intrare apare când programul nu tratează valori neașteptate.
 
 Metodă sistematică
 Reproduce eroarea cu un exemplu mic. Notează intrarea, rezultatul așteptat și rezultatul obținut. Caută instrucțiunea unde valorile diferă; corectează doar cauza și rulează din nou testele.
 
 Valori-limită
-Pentru verificarea numerelor pare testează 0, 1, 2, un număr negativ și un număr mare. Un singur caz corect nu garantează funcționarea tuturor cazurilor.\`,
- 'lower-data':\`Date binare și fișiere
+Pentru verificarea numerelor pare testează 0, 1, 2, un număr negativ și un număr mare. Un singur caz corect nu garantează funcționarea tuturor cazurilor.`,
+ 'lower-data':`Date binare și fișiere
 Un bit poate avea valoarea 0 sau 1. Opt biți alcătuiesc un octet. Calculatoarele folosesc codificări pentru a reprezenta litere, numere, imagini și sunete.
 
 Exemplu de reprezentare
 Numărul zecimal 5 poate fi scris 101 în baza 2. Textul are nevoie de o codificare, precum UTF-8, pentru a fi stocat și citit corect.
 
 Compresie și formate
-PNG și JPEG stochează imagini folosind metode diferite. Compresia cu pierderi poate reduce dimensiunea, dar poate elimina detalii. Compară două fișiere după format, dimensiune și fidelitate.\`,
- 'lower-privacy':\`Date personale și surse verificate
+PNG și JPEG stochează imagini folosind metode diferite. Compresia cu pierderi poate reduce dimensiunea, dar poate elimina detalii. Compară două fișiere după format, dimensiune și fidelitate.`,
+ 'lower-privacy':`Date personale și surse verificate
 Datele personale pot identifica direct sau indirect o persoană. Partajarea numelui, adresei sau locației precise poate avea consecințe asupra confidențialității.
 
 Permisiuni
 O aplicație ar trebui să primească doar permisiunile necesare. De exemplu, un calculator de buzunar nu are în mod normal nevoie de acces la contacte.
 
 Evaluarea sursei
-Verifică cine publică o informație, când și cu ce dovezi. Pentru mesaje ce cer urgent coduri de autentificare, nu răspunde și verifică separat serviciul oficial.\`,
- 'lower-project':\`Structura unui proiect digital
+Verifică cine publică o informație, când și cu ce dovezi. Pentru mesaje ce cer urgent coduri de autentificare, nu răspunde și verifică separat serviciul oficial.`,
+ 'lower-project':`Structura unui proiect digital
 Un proiect are scop, cerințe, date, metodă, rezultate și verificare. Un proiect bun poate fi reprodus de o altă persoană pornind de la pașii documentați.
 
 Exemplu: temperaturile din cinci zile
 Creează date fictive 12,14,11,15,13 °C. Suma este 65, iar media este 13 °C. Reprezintă datele într-un tabel sau grafic, precizează că sunt fictive și nu le prezenta ca măsurători reale.
 
 Verificarea rezultatului
-Controlează formulele, unitățile și intervalele. Arată o limitare: cinci valori nu descriu clima unei regiuni. Încheie cu o concluzie bazată pe date.\`
+Controlează formulele, unitățile și intervalele. Arată o limitare: cinci valori nu descriu clima unei regiuni. Încheie cu o concluzie bazată pe date.`
 };
 for(const topic of COMPUTING_TOPICS){
  const extra=COMPUTING_DEEP_THEORY[topic.id];
- if(extra)topic.theory=topic.theory+'\\n\\n'+extra;
+ if(extra)topic.theory=topic.theory+'\n\n'+extra;
 }
