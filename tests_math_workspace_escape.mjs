@@ -13,6 +13,6 @@ assert.ok(script.includes('note.open=false;'),'new figure preview starts collaps
 assert.ok(html.includes('.math-figure-attached:not([open]) figure'),'preview hidden until requested');
 assert.ok(html.includes('.education-math-workspace{min-height:0!important;overflow-y:auto!important'),'workspace scrolls internally');
 assert.ok(script.includes("if(mathJourney.stage==='workspace'){mathJourney.stage='subjects';mathJourneyShowChoices('subjects');return true}"),'Android back returns to subjects');
-assert.ok(script.includes("if(mathJourney.stage==='subjects'){mathJourney.stage='levels';mathJourneyShowChoices('levels');return true}"),'Android back returns to levels');
+assert.ok(script.includes("if(mathJourney.stage==='subjects'||mathJourney.stage==='grade'){mathJourney.stage='levels';mathJourneyShowChoices('levels');return true}"),'Android back returns to levels from subjects or grade');
 assert.ok(workspace.includes("mathJourney.stage='subjects';mathJourneyShowChoices('subjects')"),'visible back returns to subjects');
 console.log('PASS math geometry: visible solve actions, collapsible figure, bounded workspace and staged back');
