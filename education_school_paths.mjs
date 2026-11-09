@@ -1,3 +1,4 @@
+import {HG_GENERAL_GRADE_LESSONS} from './education_general_paths.mjs';
 import {RO_GRADE_LESSONS} from './education_grade_lessons_ro.mjs';
 import {ENGLAND_GRADE_LESSONS} from './education_grade_lessons_eng.mjs';
 // Explicit country and grade mapping; only marked official where curriculum source is verified.
@@ -759,6 +760,19 @@ export const HG_SCHOOL_GENERAL={
     ]
   }
 };
+// Fallback content must still be teachable, never a single vague card.
+// General units are NOT a country's verified programme of study.
+for(const [subject,levels] of Object.entries(HG_GENERAL_GRADE_LESSONS)){
+ for(const [level,entries] of Object.entries(levels)){
+  const list=HG_SCHOOL_GENERAL[subject][level];
+  entries.forEach(([ro,en,description],i)=>{
+   if(list.some(x=>x[1]===ro))return;
+   list.push(['generic-'+subject+'-'+level+'-unit'+(i+1),ro,en,
+    description+' '+(subject==='history'?'Folosește surse istorice și o cronologie verificată.':'Folosește hărți, date și comparații între locuri.')]);
+  });
+ }
+}
+
 export const HG_SCHOOL_SOURCES={RO:{history:{grades:['5','6','7','8'],source:'https://www.edu.ro/Ordin_ministru_3393_2017'},geography:{grades:[],source:'https://www.edu.ro/manuale-scolare'}},'GB-ENG':{history:{grades:['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9'],source:'https://www.gov.uk/government/publications/national-curriculum-in-england-history-programmes-of-study'},geography:{grades:[],source:'https://www.gov.uk/government/publications/national-curriculum-in-england-geography-programmes-of-study'}}};
 
 // Teaching modules supplement the English Key Stage framework with a usable
