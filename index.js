@@ -18,6 +18,7 @@ import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,HG_SCHOOL_SOURC
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
+import {LIT_OFFLINE_THEORY} from './literature_offline_theory.mjs';
 import {HG_SUBJECTS,HG_LEVELS,HG_SCOPES,HG_COUNTRIES,HG_HISTORY_TOPICS,HG_GEOGRAPHY_TOPICS,HG_SPECIALISATIONS,HG_VERIFIED_MAPS} from './history_geography_curriculum.mjs';
 import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
 import {HG_THEME_DATA,hgThemeFold,buildHgThemeGuide} from './education_hg_theme_guides.mjs';
@@ -11085,6 +11086,7 @@ async function hgGenerate(extra,output){
 // Country and language are separate choices; the present curriculum scope is Europe.
 const LIT_EUROPE_PROGRAMS=${JSON.stringify(LIT_EU_PROGRAMS)};
 const LIT_EUROPE_COMMON=${JSON.stringify(LIT_EU_COMMON)};
+const LIT_OFFLINE_THEORY_DATA=${JSON.stringify(LIT_OFFLINE_THEORY)};
 const LIT_COUNTRIES=[
  ['RO','România','Romania','ro','https://www.edu.ro/press_rel_11_2026'],
  ['GB-ENG','Anglia','England','en','https://www.gov.uk/government/publications/national-curriculum-in-england-english-programmes-of-study'],
@@ -11232,6 +11234,22 @@ function litWorkspace(panel){
  const choices=litJourney.branch==='program'?plan.units.map(x=>({id:x.id,ro:x.ro,en:x.en})):(LIT_TOPICS[litJourney.branch]||[]).map(x=>({id:x[0],ro:x[1],en:x[2]}));
  if(choices.length>1)panel.append(educationTopicPicker(learningLabel('📚 Teme de studiu','📚 Study topics'),choices,litJourney.topic,x=>{litJourney.topic=x.id;litOpen('workspace')}));
  panel.append(litText('p',learningLabel(curriculum[1],curriculum[2])+' · '+learningLabel(lang?.[1]||'Română',lang?.[2]||'Romanian')+' · '+learningLabel(branch.ro,branch.en)+' · '+String(litJourney.grade||'')+' · '+learningLabel(topic[1],topic[2])));
+
+ // The currently selected chapter teaches its core concepts offline, before
+ // the optional author lookup, essay generator or AI conversation begins.
+ const localTheory=LIT_OFFLINE_THEORY_DATA[String(topic[0]||'')];
+ if(Array.isArray(localTheory)&&localTheory.length===4){
+  const study=document.createElement('details');study.className='lit-offline-theory';study.open=true;
+  const heading=document.createElement('summary');heading.textContent=learningLabel('📘 Teorie și metodă de studiu','📘 Theory and study method');study.append(heading);
+  study.append(litText('h3',learningLabel('Explicația lecției','Lesson explanation')));
+  study.append(litText('p',learningLabel(localTheory[0],localTheory[1])));
+  study.append(litText('h3',learningLabel('Exemplu și exercițiu','Example and practice')));
+  study.append(litText('p',learningLabel(localTheory[2],localTheory[3])));
+  if(litJourney.branch==='program'&&topic[3]){
+   study.append(litText('p',learningLabel('Obiectivul clasei: ','Grade learning focus: ')+String(topic[3])));
+  }
+  panel.append(study);
+ }
  const make=(tag,title,placeholder)=>{
   const label=litText('label',title);label.className='lit-label';
   const input=document.createElement(tag);input.className='lit-input';input.placeholder=placeholder;panel.append(label,input);return input;
@@ -11487,7 +11505,7 @@ function eduPrintEscape(value){return String(value||'').replace(/&/g,'&amp;').re
 function eduCurrentPrintable(){
  const root=$('moduleContent');if(!root)return null;
  const title=($('moduleTitle')?.textContent||learningLabel('Material educațional','Educational material')).trim();
- const selectors=['.exam-printable','.exam-output','.practical-printable','.practical-ai-output','.practical-result','.computing-printable','.computing-ai-result','.lit-result','.hg-lesson-output','.hg-event-content','#mathEducationWorkspace','#scienceEducationWorkspace','#languageStudyOutput','.foreign-lesson-output','.education-theory-detail','.education-result','.science-education-output'];
+ const selectors=['.exam-printable','.exam-output','.practical-printable','.practical-ai-output','.practical-result','.computing-printable','.computing-ai-result','.lit-offline-theory','.lit-result','.hg-lesson-output','.hg-event-content','#mathEducationWorkspace','#scienceEducationWorkspace','#languageStudyOutput','.foreign-lesson-output','.education-theory-detail','.education-result','.science-education-output'];
  const parts=[],captured=[];
  for(const query of selectors){
   for(const el of root.querySelectorAll(query)){
@@ -18634,6 +18652,23 @@ main.page:has(#view-module.learning-languages.active){
 #view-module.learning-computing .computing-printable p{
  line-height:1.6!important;overflow-wrap:anywhere!important;
  max-width:100%!important;
+}
+
+/* Theory is readable before AI input, contained within the subject workspace. */
+#view-module.learning-literature .lit-offline-theory{
+ border:1px solid #4c91a7;border-radius:14px;background:#102b3d;
+ box-sizing:border-box;max-width:100%;padding:12px 14px;margin:10px 0 18px;
+ overflow-wrap:anywhere;
+}
+#view-module.learning-literature .lit-offline-theory summary{
+ cursor:pointer;font-weight:750;font-size:clamp(15px,3.7vw,19px);
+ padding:4px 0;line-height:1.35;
+}
+#view-module.learning-literature .lit-offline-theory h3{
+ font-size:clamp(15px,3.7vw,18px);margin:14px 0 6px;
+}
+#view-module.learning-literature .lit-offline-theory p{
+ margin:4px 0 11px;white-space:pre-wrap;line-height:1.6;
 }
 
 </style>
