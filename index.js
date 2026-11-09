@@ -3058,6 +3058,41 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
  border-color:#8ce7ed;box-shadow:inset 3px 0 #5acddb;
 }
 
+
+/* Existing science curriculum theory is available in the work area, offline,
+   with one active lesson, rather than hidden behind a separate dialog. */
+#view-module.learning-science .science-inline-theory{
+ display:flex;flex-direction:column;gap:6px;min-width:0;width:100%;
+ box-sizing:border-box;border:1px solid #46889c;border-radius:12px;
+ padding:10px;background:#0b293b;margin:6px 0 12px;
+}
+#view-module.learning-science .science-inline-theory h3{
+ margin:0 0 5px;font-size:clamp(16px,4vw,20px);line-height:1.28;
+}
+#view-module.learning-science .science-inline-theory-item{
+ width:100%;min-width:0;background:#0b2333;
+ border:1px solid #3d7189;border-radius:10px;overflow:hidden;
+}
+#view-module.learning-science .science-inline-theory-item[open]{border-color:#75d2dd}
+#view-module.learning-science .science-inline-theory-item summary{
+ min-height:45px;display:block;padding:10px 12px;
+ font-size:clamp(14px,3.6vw,17px);line-height:1.3;
+ cursor:pointer;list-style:none;font-weight:650;overflow-wrap:anywhere;
+}
+#view-module.learning-science .science-inline-theory-item summary::-webkit-details-marker{display:none}
+#view-module.learning-science .science-inline-theory-item summary::before{content:'▸';color:#76e6ed;margin-right:8px}
+#view-module.learning-science .science-inline-theory-item[open] summary::before{content:'▾'}
+#view-module.learning-science .science-inline-theory-item p{
+ padding:5px 12px 9px;line-height:1.55;white-space:pre-wrap;margin:0;
+}
+#view-module.learning-science .science-inline-theory-item small{
+ display:block;color:#b9dbe9;padding:0 12px 12px;overflow-wrap:anywhere;
+}
+#view-module.learning-science .science-inline-formula{
+ white-space:pre-wrap;overflow-wrap:anywhere;margin:2px 12px 10px;
+ padding:10px;border-radius:8px;border:1px solid #4a7f95;background:#081b29;color:#e8f9ff;
+}
+
 /* Education reading mode: use the real available height rather than reserving
    the bottom navigation twice. The dock stays independently fixed. */
 main.page:has(#view-module.learning-hg.active),
@@ -9259,6 +9294,42 @@ async function sciencePhotoFile(file){
  }catch{sciencePhotoReview('')}
  finally{if(url)URL.revokeObjectURL(url)}
 }
+function educationScienceTheoryReader(subjectId,topicId,level){
+ const rank={beginner:0,medium:1,intermediate:1,advanced:2};
+ const max=rank[level]??0;
+ const lessons=EDUCATION_THEORY_DATA.filter(item=>item.subject===subjectId&&item.topic===topicId&&
+  (rank[item.level]??3)<=max);
+ const section=document.createElement('section');section.className='science-inline-theory';
+ const head=document.createElement('h3');
+ head.textContent=learningLabel('📖 Lecții și teorie de studiu','📖 Study lessons and theory')+' ('+lessons.length+')';
+ section.append(head);
+ if(!lessons.length){
+  const empty=document.createElement('p');empty.textContent=learningLabel('Nu există încă lecții verificate pentru acest capitol. Poți folosi profesorul AI, dar răspunsurile trebuie verificate.','No local theory entries for this chapter. AI explanations are available but should be verified.');
+  section.append(empty);return section;
+ }
+ const openItems=[];
+ lessons.forEach((item,index)=>{
+  const details=document.createElement('details');details.className='science-inline-theory-item';
+  details.open=index===0;
+  const summary=document.createElement('summary');summary.textContent=(index+1)+'. '+item.title;
+  details.append(summary);
+  const statement=document.createElement('p');statement.textContent=item.statement;details.append(statement);
+  if(item.formula){
+   const formula=document.createElement('pre');formula.className='science-inline-formula';
+   formula.textContent=item.formula;details.append(formula);
+  }
+  if(Array.isArray(item.aliases)&&item.aliases.length){
+   const glossary=document.createElement('small');glossary.textContent=learningLabel('Termeni asociați: ','Related terms: ')+item.aliases.join(' · ');
+   details.append(glossary);
+  }
+  details.addEventListener('toggle',()=>{
+   if(details.open)openItems.forEach(other=>{if(other!==details)other.open=false});
+  });
+  openItems.push(details);section.append(details);
+ });
+ return section;
+}
+
 function scienceOpenWorkspace(){
  const host=$('moduleContent');
  const topic=scienceTopicInfo(),subject=scienceSubjectInfo();
@@ -9300,6 +9371,7 @@ function scienceOpenWorkspace(){
  workspace.className='education-math-workspace science-education-workspace';
  const availableTopics=scienceTopicChoices().filter(entry=>EDUCATION_THEORY_DATA.some(t=>t.subject===scienceJourney.subject&&t.topic===entry.id));
  if(availableTopics.length>1)workspace.append(educationTopicPicker(learningLabel('📚 Teme de studiu','📚 Study topics'),availableTopics,scienceJourney.topic,entry=>{scienceJourney.topic=entry.id;scienceJourneyShowChoices('workspace')}));
+ if(topic)workspace.append(educationScienceTheoryReader(scienceJourney.subject,topic.id,scienceJourney.level));
  const heading=document.createElement('div');heading.className='math-entry-heading';
  const label=document.createElement('label');label.htmlFor='scienceEducationText';
  label.textContent=learningLabel('Exercițiu','Exercise')+' · '+learningLabel(topic?.ro||'',topic?.en||'');
