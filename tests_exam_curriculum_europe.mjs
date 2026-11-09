@@ -156,4 +156,19 @@ assert.match(EXAM_UI_SCRIPT,/new Set\(normalized\.map/,'Reject duplicate AI ques
 assert.match(EXAM_UI_SCRIPT,/examJourney\.aiQuestions=generated/,'Connect fresh questions to interactive grading');
 assert.match(EXAM_UI_SCRIPT,/Nu s-a putut crea un set diferit/,'Do not pretend repeated local questions are new');
 assert.ok(boot.includes('EXAM_THEORY_DATA'),'Curriculum-backed theory must be embedded into frontend');
+
+// Verify each supported speech locale and AI response language without Android services.
+assert.match(EXAM_UI_SCRIPT,/function examSpeechLocale\(\)/,'10-language speech helper');
+assert.match(EXAM_UI_SCRIPT,/language:examSpeechLocale\(\)/,'Selected speech locale passed to Android');
+const examVoiceLocale=new Function('state',EXAM_UI_SCRIPT+';return examSpeechLocale;');
+const examReplyLanguage=new Function('state',EXAM_UI_SCRIPT+';return examResponseLanguage;');
+for(const [lang,locale,label] of [
+ ['ro','ro-RO','română'],['en','en-GB','engleză'],['fr','fr-FR','franceză'],['de','de-DE','germană'],['it','it-IT','italiană'],
+ ['es','es-ES','spaniolă'],['pt','pt-PT','portugheză'],['nl','nl-NL','neerlandeză'],['ru','ru-RU','rusă'],['pl','pl-PL','poloneză']
+]){
+ assert.equal(examVoiceLocale({language:lang}),locale,'Recognition locale: '+lang);
+ assert.equal(examReplyLanguage({language:lang}),label,'Response language: '+lang);
+}
+assert.doesNotMatch(EXAM_UI_SCRIPT,/language:state\.language==='ro'\?'ro-RO':'en-GB'/,'No English-only fallback for configured languages');
+
 console.log('PASS European exam pathways, 26 exam records, original local questions, session warnings, PDF, camera, Android voice and script boot');
