@@ -10611,7 +10611,7 @@ function hgLesson(panel){
  const suggestions=document.createElement('div');suggestions.className='hg-lesson-suggestions';
  suggestions.style.cssText='display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;min-width:0';
  const paint=()=>{
-  const fold=x=>String(x||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+  const fold=x=>String(x||'').toLowerCase();
   suggestions.replaceChildren();
   const matches=guide.filter(v=>fold(v[0]).includes(fold(custom.value))).slice(0,4);
   for(const item of matches){
