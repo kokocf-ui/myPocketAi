@@ -27,7 +27,7 @@ assert.ok(frontend.includes("request.className='transit-selected-departure'"),'S
 assert.ok(backend.includes('startsAt>=earliestRequested-120000'),'Reject TfL routes earlier than calendar selection');
 const boardingSource=frontend.slice(frontend.indexOf('function transitBoardingBuffer('),frontend.indexOf('function appendTransitCards('));
 const boarding=new Function('dialogText','transitClock','transitDateLabel',boardingSource+
- '\\nreturn {transitBoardingBuffer,transitBoardingAdvice};')(
+ '\nreturn {transitBoardingBuffer,transitBoardingAdvice};')(
  (ro,en)=>ro,
  (iso)=>new Date(iso).toISOString().slice(11,16),
  (iso)=>new Date(iso).toISOString().slice(0,10));
@@ -51,7 +51,7 @@ assert.ok(boarding.transitBoardingAdvice(safe).includes('5 min de rezervă'),
 const impossible=makeJourney(2,5,3);
 const filterSource=frontend.slice(frontend.indexOf('function feasibleTransitChoices('),frontend.indexOf('const TRANSIT_REFRESH_TEXT='));
 const feasible=new Function('state','transitBoardingBuffer','compareTransitDisplayTimes',
- filterSource+'\\nreturn feasibleTransitChoices;')(
+ filterSource+'\nreturn feasibleTransitChoices;')(
  {lastTransitChoice:{transitDepartureAt:later(0)}},boarding.transitBoardingBuffer,()=>0);
 assert.deepEqual(feasible([safe,impossible]),[safe],
  'Do not offer future itinerary requiring the user to leave before their chosen time');
