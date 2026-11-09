@@ -135,4 +135,19 @@ for(const fragment of [
  "'.practical-printable'"
 ])assert.ok(boot.includes(fragment),'Practical module missing in boot: '+fragment);
 assert.match(html,/#view-module\.learning-practical #moduleChatHost\{display:none!important\}/,'Do not duplicate conversation host');
+
+// Verify each supported speech locale and AI response language without Android services.
+assert.match(PRACTICAL_UI_SCRIPT,/function practicalSpeechLocale\(\)/,'10-language speech helper');
+assert.match(PRACTICAL_UI_SCRIPT,/language:practicalSpeechLocale\(\)/,'Selected speech locale passed to Android');
+const practicalVoiceLocale=new Function('state',PRACTICAL_UI_SCRIPT+';return practicalSpeechLocale;');
+const practicalReplyLanguage=new Function('state',PRACTICAL_UI_SCRIPT+';return practicalResponseLanguage;');
+for(const [lang,locale,label] of [
+ ['ro','ro-RO','română'],['en','en-GB','engleză'],['fr','fr-FR','franceză'],['de','de-DE','germană'],['it','it-IT','italiană'],
+ ['es','es-ES','spaniolă'],['pt','pt-PT','portugheză'],['nl','nl-NL','neerlandeză'],['ru','ru-RU','rusă'],['pl','pl-PL','poloneză']
+]){
+ assert.equal(practicalVoiceLocale({language:lang}),locale,'Recognition locale: '+lang);
+ assert.equal(practicalReplyLanguage({language:lang}),label,'Response language: '+lang);
+}
+assert.doesNotMatch(PRACTICAL_UI_SCRIPT,/language:state\.language==='ro'\?'ro-RO':'en-GB'/,'No English-only fallback for configured languages');
+
 console.log('PASS practical courses: 6 domains, 36 lessons, 13 country references, two quiz variants per chapter, scoring, PDF, Android navigation and one-tap selectors');
