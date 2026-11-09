@@ -141,6 +141,14 @@ try{
  assert.ok(!connectedNationwide.planning_links?.length,"Success must not redirect to external planning websites");
  assert.ok(calls.some(u=>u.hostname==="api.transcapi.com"&&u.pathname==="/v1/journey.json"));
  assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"),"Manchester must never be requested through TfL");
+ const scheduledDay=new Date(Date.now()+86400000).toISOString();
+ const futureNational=await ask(manchester,{TRANSCAPI_API_KEY:'test-key'},{transit_departure_at:scheduledDay});
+ assert.equal(futureNational.transit_available,true,'National planner supports a chosen future day');
+ assert.equal(futureNational.transit_departure_at,scheduledDay);
+ assert.ok(Date.parse(futureNational.transit[0].startDateTime)>=Date.parse(scheduledDay),
+   'Next-day trip must not be substituted by the current day');
+ assert.ok(calls.some(u=>u.hostname==='api.transcapi.com'&&u.searchParams.get('datetime')===scheduledDay),
+   'Selected date is sent without picking a different hour');
 
  const busOnly=await ask(manchester,{TRANSCAPI_API_KEY:"test-key"},{transit_preference:"bus_only",transit_departure_offset:60});
  assert.equal(busOnly.transit_available,true,"Requested coach-only itinerary must display in app");
@@ -211,7 +219,12 @@ try{
  assert.ok(verifiedLocal.transit[0].legs.some(l=>l.mode==="national-rail"));
  assert.equal(verifiedLocal.route_geometry_available,false,
   "Missing TfL polylines must not be replaced with invented geometry");
- provideTfLJourney=false;
+ const wrongDay=await ask(uk,{TFL_APP_KEY:'mock-tfl'},{transit_departure_at:new Date(Date.now()+86400000).toISOString()});
+ assert.equal(wrongDay.transit_available,false,
+   'Reject current-day TfL journey when the calendar requests tomorrow');
+ assert.ok(calls.some(u=>u.hostname==='api.tfl.gov.uk'&&u.searchParams.has('date')),
+   'TfL must receive an explicit journey date');
+  provideTfLJourney=false;
 
  // Authorized international MOTIS: exercise the positive routing path as well
  // as the refusal when an authorized provider is absent.
