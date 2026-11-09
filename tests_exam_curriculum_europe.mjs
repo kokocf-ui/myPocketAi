@@ -171,4 +171,12 @@ for(const [lang,locale,label] of [
 }
 assert.doesNotMatch(EXAM_UI_SCRIPT,/language:state\.language==='ro'\?'ro-RO':'en-GB'/,'No English-only fallback for configured languages');
 
+
+// Local practice may be translated without changing original grading metadata.
+assert.match(EXAM_UI_SCRIPT,/eduTranslateMaterial\(originals,'examQuiz:'\+subject\.id/,'Exam local quiz translation is connected');
+assert.match(EXAM_UI_SCRIPT,/displayedChoices\[i\]\[q\.correct\]/,'Exam grading explanation uses translated choice labels');
+assert.match(EXAM_UI_SCRIPT,/selections\[i\]===q\.correct/,'Exam scoring still uses original answer indices');
+assert.match(EXAM_UI_SCRIPT,/form\.querySelectorAll\('input'\)\.forEach\(input=>input\.disabled=true\)/,'Exam answers are held while translation loads');
+assert.match(EXAM_UI_SCRIPT,/if\(!aiBank&&state\.language!=='ro'/,'AI-generated questions are not incorrectly retranslated');
+
 console.log('PASS European exam pathways, 26 exam records, original local questions, session warnings, PDF, camera, Android voice and script boot');
