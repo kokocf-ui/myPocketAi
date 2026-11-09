@@ -46,6 +46,14 @@ function parseExaSources(rows,request){
     .concat(hit.text?[hit.text]:[]).map(snippet).filter(Boolean).slice(0,3);
   if(!title&&!extracts.length)continue;
   const all=(title+' '+extracts.join(' ')).toLowerCase();
+  // A worldwide search can return a relevant-looking syllabus from the
+  // WRONG country. Only accept references with explicit country context or
+  // a matching country-code top-level domain.
+  const country=request.countryName.toLowerCase(),countryCode=request.country.toLowerCase();
+  const hostname=new URL(url).hostname.toLowerCase();
+  const matchesCountry=all.includes(country)||
+   (/^[a-z]{2}$/.test(countryCode)&&hostname.endsWith('.'+countryCode));
+  if(!matchesCountry)continue;
   const keywords=request.topic.toLowerCase().split(/[\s,/]+/).filter(w=>w.length>4);
   // Avoid unrelated search hits: at least one topic-bearing token must exist.
   if(keywords.length&&!keywords.some(word=>all.includes(word)))continue;
