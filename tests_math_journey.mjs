@@ -9,7 +9,7 @@ const end=script.indexOf('let activeLearningSubject=',start);
 assert.ok(start>0&&end>start,'level/subject navigation is isolated');
 const source=script.slice(start,end);
 const api=vm.runInNewContext(source+'\n({levels:MATH_LEVELS,subjects:MATH_TOPICS,forLevel:mathSubjectsForLevel})',
- {learningLabel:(ro)=>ro});
+ {learningLabel:(ro)=>ro,educationCountrySelection:{code:'RO'}});
 assert.deepEqual(Array.from(api.levels,x=>x.id),['beginner','intermediate','advanced']);
 assert.equal(api.levels[0].scopeRo.includes('I–VIII'),true);
 assert.ok(api.levels[2].scopeRo.includes('Universitate'));
