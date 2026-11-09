@@ -1,4 +1,6 @@
 // Curated references for an offline-first educational library.
+import {NATIONAL_UNIT_SOURCES} from './education_national_subject_units.mjs';
+import {EDUCATION_WORLDWIDE_SCHEMES} from './education_worldwide_paths.mjs';
 // A source link is NOT a full lesson or proof of an annual mandatory syllabus.
 // All lessons remain in the app; these references provide provenance and legal
 // scope without spending AI quota or silently changing authored lesson lists.
@@ -66,13 +68,30 @@ export const EDUCATION_BIBLIOGRAPHY_DATA={
    noteEn:'Optional teaching resources, not legal requirements; availability varies by subject.'}
  ]
 };
+// Bring every previously indexed country reference into the SAME source system.
+// An education portal, broad framework or third-party source is not proof of
+// a national year-by-year syllabus or a complete subject library.
+for(const code of new Set([...Object.keys(EDUCATION_WORLDWIDE_SCHEMES),...Object.keys(NATIONAL_UNIT_SOURCES)])){
+ if(EDUCATION_BIBLIOGRAPHY_DATA[code])continue; // curated RO/England wins
+ const url=EDUCATION_WORLDWIDE_SCHEMES[code]?.source||NATIONAL_UNIT_SOURCES[code];
+ if(!/^https:\/\//.test(String(url||'')))continue;
+ EDUCATION_BIBLIOGRAPHY_DATA[code]=[{
+  id:'country-reference-'+code,kind:'country-education-reference',
+  anyGrade:true,min:0,max:20,subjects:['*'],
+  ro:'Sursă educațională pentru '+code,en:'Education reference for '+code,
+  url,
+  noteRo:'Punct de documentare generală. Nu confirmă programa acestei clase, obligația unei teme ori textul integral al lecției.',
+  noteEn:'General background source. Not a verified syllabus for this year, compulsory topic or complete lesson.'
+ }];
+}
 // Lookup is deterministic, with explicit scope and no AI-generated bibliography.
 export function educationBibliographyFor(country,subject,grade){
  const key=String(country||'').toUpperCase(),s=String(subject||'').toLowerCase();
  const raw=String(grade||''),m=raw.match(/\d+/);
  const year=m?Number(m[0]):null;
- if(!Number.isInteger(year)||year<1||year>20)return [];
+ if(!raw||/univ|higher.education|master|bachelor|licen/i.test(raw))return [];
+ const numeric=Number.isInteger(year)&&year>=1&&year<=20;
  return (EDUCATION_BIBLIOGRAPHY_DATA[key]||[]).filter(x=>
-  x.min<=year&&x.max>=year&&(x.subjects.includes(s)||x.subjects.includes('*'))
+  ((x.anyGrade===true)|| (numeric&&x.min<=year&&x.max>=year))&&(x.subjects.includes(s)||x.subjects.includes('*'))
  ).map(({subjects,min,max,...source})=>({...source,country:key,subject:s,grade:raw}));
 }
