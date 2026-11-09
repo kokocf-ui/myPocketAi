@@ -7062,9 +7062,12 @@ let scienceJourney={stage:'subjects',subject:null,level:null,grade:null,specialt
 let scienceVoiceActive=false,scienceLastReply='',scienceRequestController=null;
 function scienceSubjectInfo(){return SCIENCE_SUBJECTS.find(s=>s.id===scienceJourney.subject)||null}
 function scienceTopicAllowedGrade(topic){
- if(educationCountrySelection.code!=='RO'||scienceJourney.level==='advanced')return true;
+ if(scienceJourney.level==='advanced')return true;
+ const stageAllows=()=>scienceJourney.level==='intermediate'?
+  topic.minLevel!=='advanced':topic.minLevel==='beginner';
+ if(educationCountrySelection.code!=='RO')return stageAllows();
  const grade=Number(scienceJourney.grade),id=topic.id,sub=scienceJourney.subject;
- if(!Number.isInteger(grade)||grade<5)return true;
+ if(!Number.isInteger(grade)||grade<5)return stageAllows();
  const school={
  physics:{
   6:['units','kinematics','energy','heat','fluids'],
@@ -7090,8 +7093,9 @@ function scienceTopicAllowedGrade(topic){
   12:['genetics','anatomy','homeostasis','microbes','methods']
  }
  };
- if(sub==='astronomy')return true; // elective general learning, not an invented compulsory syllabus
- const allowed=school[sub]?.[grade];return !allowed||allowed.includes(id);
+ if(sub==='astronomy')return stageAllows(); // optional general learning, never imply a compulsory school syllabus
+ const allowed=school[sub]?.[grade];
+ return allowed?allowed.includes(id):stageAllows(); // unverified grades must not expose higher-level-only topics
 }
 function scienceTopicChoices(){
  const subject=scienceJourney.subject;
