@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import frontend from './index.js';
+import backend from './backend.js';
 import {HG_SUBJECTS,HG_LEVELS,HG_SCOPES,HG_COUNTRIES,HG_HISTORY_TOPICS,HG_GEOGRAPHY_TOPICS,HG_SPECIALISATIONS,HG_VERIFIED_MAPS,hgMapsFor,hgCountrySuggestion} from './history_geography_curriculum.mjs';
 
 assert.deepEqual(HG_SUBJECTS.map(x=>x.id),['history','geography']);
@@ -68,4 +69,20 @@ assert.ok(script.includes("className='hg-map-types'"));
 assert.ok(script.includes("b.setAttribute('aria-pressed'"));
 for(const token of ['const LIT_LANGUAGES=','const LIT_BRANCHES=','const LIT_TOPICS=','function litOpen(stage)','function litWorkspace(panel)',"if(key==='literature'){litOpen('languages');return}",'Compune / explică','Nu inventa citate','lit-input','hgDisplayStudyText(out'])assert.ok(script.includes(token),'literature: '+token);
 for(const token of ['Rezumat al operei','Sinteză tematică','Titlul operei și autorul','TEXT FURNIZAT DE UTILIZATOR','Nu căuta și nu copia rezumate',"function eduOpenPrint(mode='save')",'function eduAttachPrintAction(bar)','PocketAndroidPrint.postMessage'])assert.ok(script.includes(token),'literature/print feature: '+token);
+
+// History event queries are lesson requests, never place lookups.
+assert.match(script,/module:'education_study',education_subject:hgJourney\.subject/);
+let selectedModel='',selectedInput;
+const historicalReply='Răscoala din 1907: cauze agrare, desfășurare și consecințe istorice.';
+const testResponse=await backend.fetch(new Request('https://api.fixture.test/api/chat',{
+ method:'POST',headers:{'Content-Type':'application/json'},
+ body:JSON.stringify({module:'education_study',education_subject:'history',language:'ro',message:'Acționează ca profesor de istorie: Răscoala din 1907 — cauze și consecințe.'})
+}),{AI:{run:async(model,data)=>{selectedModel=model;selectedInput=data;return {response:historicalReply}}}});
+assert.equal(testResponse.status,200);
+const result=await testResponse.json();
+assert.equal(result.reply,historicalReply,'Do not return a location search response for history');
+assert.equal(result.education_subject,'history');
+assert.match(selectedInput.messages[0].content,/Never interpret a historical event/);
+assert.match(selectedInput.messages[1].content,/Răscoala din 1907/);
+assert.ok(selectedModel.startsWith('@cf/'));
 console.log('PASS History Geography subjects, 3 levels, 3 curricula, UK subdivisions, specialist branches, time-exact maps and boot script');
