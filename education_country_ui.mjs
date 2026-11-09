@@ -179,6 +179,15 @@ function eduYearOptions(code,level,moduleKey){
  const lv=level==='intermediate'?'medium':level;
  const source=EDUCATION_SCHOOL_YEARS_DATA[code]?.[lv];
  const numeric=(a,b,prefix='')=>Array.from({length:b-a+1},(_,i)=>({id:prefix+(a+i),ro:prefix?'Year '+(a+i):'Clasa '+(a+i),en:prefix?'Year '+(a+i):'Grade '+(a+i)}));
+ // Mathematics and Sciences expose three difficulty bands (not four).
+ // Their Beginner band spans BOTH primary and lower-secondary; otherwise
+ // Year 7/8/9 and comparable national grades become impossible to select.
+ if((moduleKey==='math'||moduleKey==='science')&&lv==='beginner'&&code!=='RO'&&code!=='GB-ENG'){
+  const primary=worldwideSchoolYears(code,'beginner',moduleKey);
+  const lower=worldwideSchoolYears(code,'lower',moduleKey);
+  const seen=new Set();
+  return [...primary,...lower].filter(y=>{if(seen.has(y.id))return false;seen.add(y.id);return true});
+ }
  if(moduleKey==='math'){
   if(code==='RO')return lv==='beginner'?numeric(1,8):lv==='medium'?numeric(9,12):[{id:'universitate',ro:'Universitate',en:'University'}];
   if(code==='GB-ENG')return lv==='beginner'?numeric(1,9,'Y'):lv==='medium'?numeric(10,13,'Y'):[{id:'university',ro:'Higher education',en:'Higher education'}];
