@@ -64,8 +64,24 @@ new vm.Script(boot,{filename:'pocket-education-content.js'});
 for(const fragment of ['const HG_LOCAL_GUIDES_DATA=','function hgLessonSections(topic){',
  'function hgShowCoreLesson(panel,guide){','className=\'hg-offline-lesson\'',
  'className=\'hg-local-toc\'','className=\'hg-lesson-suggestions\'',
- 'const guide=hgLessonSections(topic);hgShowCoreLesson(panel,guide);']){
+ 'const guide=hgLessonSections(topic);const lessonView=hgShowCoreLesson(panel,guide);']){
  assert.ok(boot.includes(fragment),'Missing integrated lesson UI: '+fragment);
+}
+assert.ok(boot.includes('function educationTopicPicker(label,entries,selected,onSelect){'),
+ 'All study modules share one compact chapter navigator');
+assert.ok(boot.includes("chapters.forEach(other=>{if(other!==details)other.open=false})"),
+ 'Opening one local theory chapter closes the previous one');
+assert.ok(boot.includes('lessonView.mountAI(aiInline)'),
+ 'AI deepening is mounted directly under the selected theory topic');
+assert.ok(!boot.includes('secondary-btn hg-toc-button'),
+ 'Do not duplicate the chapter list as a second grid');
+assert.ok(html.includes('main.page:has(#view-module.learning-hg.active)'),
+ 'History and geography viewport layout exists');
+assert.ok(html.includes('className=')||boot.includes('className='),
+ 'Produced markup or client script must be non-empty');
+for(const section of ['scienceTopicChoices().filter','mathSubjectsForLevel(mathJourney.level).map',
+ 'litJourney.branch===','FOREIGN_TOPIC_DATA,languageJourney.topic']){
+ assert.ok(boot.includes(section),'Education topic picker missing integration: '+section);
 }
 assert.ok(!boot.includes('Capitolul are structură de studiu. Pentru explicații detaliate'),
  'Opening a chapter must not be just a placeholder');

@@ -3018,6 +3018,85 @@ main.page:has(#view-module.learning-hg.active){overflow:hidden!important;padding
 #view-module.learning-hg .hg-map a{display:inline-block;color:#8eebff;text-decoration:underline;margin:10px 0;overflow-wrap:anywhere}
 #view-module.learning-hg .hg-quiz textarea{min-height:68px!important}
 @media(max-width:370px){#view-module.learning-hg .hg-choice-list{grid-template-columns:1fr!important}}
+
+
+/* Keep PDF save/print icon buttons compact even inside wide education toolbars. */
+#view-module.learning-active .education-toolbar .edu-pdf-actions > .secondary-btn.edu-icon-action{
+ min-width:42px!important;max-width:42px!important;
+ min-height:42px!important;max-height:42px!important;
+ width:42px!important;height:42px!important;
+ padding:0!important;margin:0!important;
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+}
+
+/* Compact, inline curriculum navigator available in each subject lesson. */
+#view-module.learning-active .education-topic-picker{
+ min-width:0;width:100%;border:1px solid #478da3;border-radius:12px;
+ background:#0b293b;box-sizing:border-box;position:sticky;top:0;z-index:3;
+ overflow:visible;margin:6px 0 10px;
+}
+#view-module.learning-active .education-topic-picker>summary{
+ cursor:pointer;list-style:none;min-height:44px;padding:10px 12px;
+ display:flex;align-items:center;color:#e8fbff;font-weight:700;
+ font-size:clamp(14px,3.6vw,17px);line-height:1.3;overflow-wrap:anywhere;
+}
+#view-module.learning-active .education-topic-picker>summary::-webkit-details-marker{display:none}
+#view-module.learning-active .education-topic-picker>summary::before{content:'▸';color:#82e6ef;margin-right:8px}
+#view-module.learning-active .education-topic-picker[open]>summary::before{content:'▾'}
+#view-module.learning-active .education-topic-picker .education-topic-search{
+ display:block;width:calc(100% - 20px);min-height:43px;margin:4px 10px 8px;
+ border:1px solid #548ca5;border-radius:10px;color:#fff;background:#0c2232;padding:8px 10px;
+}
+#view-module.learning-active .education-topic-picker .education-topic-options{
+ max-height:min(35dvh,300px);overflow-y:auto;overscroll-behavior:contain;
+ padding:0 10px 10px;display:flex;flex-direction:column;gap:6px;
+}
+#view-module.learning-active .education-topic-picker .education-topic-option{
+ text-align:left;min-height:43px;padding:8px 12px;white-space:normal;width:100%;max-width:100%;
+}
+#view-module.learning-active .education-topic-picker .education-topic-option[aria-current="true"]{
+ border-color:#8ce7ed;box-shadow:inset 3px 0 #5acddb;
+}
+
+/* Education reading mode: use the real available height rather than reserving
+   the bottom navigation twice. The dock stays independently fixed. */
+main.page:has(#view-module.learning-hg.active),
+main.page:has(#view-module.learning-languages.active){
+ padding-bottom:clamp(9px,1.2dvh,16px)!important;
+}
+#view-module.learning-hg.active{height:100%!important;min-height:0!important}
+#view-module.learning-hg #moduleContent{flex:1 1 auto!important;min-height:0!important}
+#view-module.learning-hg .hg-panel{height:100%!important;min-height:0!important;overflow-y:auto!important;scroll-padding-bottom:18px!important;-webkit-overflow-scrolling:touch}
+#view-module.learning-hg .hg-offline-lesson{
+ display:flex;flex-direction:column;gap:8px;width:100%;min-width:0;
+ padding:12px;border:1px solid #367f96;border-radius:14px;background:#0a2839;
+}
+#view-module.learning-hg .hg-offline-lesson h3{font-size:clamp(17px,4.3vw,22px);margin:0 0 3px}
+#view-module.learning-hg .hg-local-toc{display:flex;flex-direction:column;gap:7px;min-width:0}
+#view-module.learning-hg .hg-theory-chapter{min-width:0;margin:0;border:1px solid #477e98;border-radius:11px;background:#0d2e40;padding:0;overflow:hidden}
+#view-module.learning-hg .hg-theory-chapter[open]{border-color:#72c9d9;background:#102f42}
+#view-module.learning-hg .hg-theory-chapter summary{
+ display:block;padding:12px 14px;min-height:48px;cursor:pointer;
+ font-weight:700;font-size:clamp(15px,3.9vw,19px);line-height:1.3;
+ list-style:none;overflow-wrap:anywhere;touch-action:manipulation;
+}
+#view-module.learning-hg .hg-theory-chapter summary::-webkit-details-marker{display:none}
+#view-module.learning-hg .hg-theory-chapter summary::before{content:'▸';display:inline-block;margin-right:8px;color:#83e9ef}
+#view-module.learning-hg .hg-theory-chapter[open]>summary::before{content:'▾'}
+#view-module.learning-hg .hg-theory-body{margin:0;padding:6px 14px 12px;line-height:1.58;white-space:pre-wrap;overflow-wrap:anywhere}
+#view-module.learning-hg .hg-ai-inline{
+ display:flex;flex-direction:column;gap:8px;margin:6px 10px 12px;
+ padding:12px;border:1px solid #367e95;border-radius:11px;background:#071f30;
+}
+#view-module.learning-hg .hg-ai-inline h4{font-size:clamp(15px,3.7vw,18px);margin:0}
+#view-module.learning-hg .hg-ai-inline .hg-request{margin:0!important;max-height:26dvh;resize:vertical}
+#view-module.learning-hg .hg-ai-inline .hg-deepen{width:100%;max-width:100%;min-height:47px;white-space:normal}
+#view-module.learning-hg .hg-ai-inline .hg-lesson-output{min-width:0;max-height:none;overflow-wrap:anywhere}
+@media(max-height:620px){
+ main.page:has(#view-module.learning-hg.active){overflow-y:auto!important}
+ #view-module.learning-hg.active{height:auto!important;min-height:100%!important}
+ #view-module.learning-hg #moduleContent,#view-module.learning-hg .hg-panel{height:auto!important;max-height:none!important;overflow:visible!important}
+}
 </style>
 
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
@@ -3409,7 +3488,7 @@ function renderMyDocuments(){
  const icon=(glyph,title,kind,handler)=>{const b=document.createElement('button');b.type='button';b.className='edu-icon-action edu-icon-'+kind;b.textContent=glyph;b.title=title;b.setAttribute('aria-label',title);b.onclick=handler;actions.append(b);return b};
  const print=icon('🖨',learningLabel('Imprimă PDF','Print PDF'),'print',()=>{for(const name of selected)window.PocketAndroidDocuments?.postMessage('print:'+name)});
  const share=icon('↗',learningLabel('Trimite PDF prin WhatsApp sau e-mail','Share PDF via WhatsApp or email'),'share',()=>{for(const name of selected)window.PocketAndroidDocuments?.postMessage('share:'+name)});
- const del=icon('🗑',learningLabel('Șterge PDF','Delete PDF'),'delete',()=>{if(!selected.size)return;if(!confirm(learningLabel('Ștergi definitiv documentele selectate?','Permanently delete selected documents?')))return;for(const name of selected)window.PocketAndroidDocuments?.postMessage('delete:'+name);selected.clear();refresh()});
+ const del=icon('🗑',learningLabel('Șterge PDF','Delete PDF'),'delete',()=>{if(!selected.size)return;pocketConfirm(learningLabel('Ștergi definitiv documentele selectate?','Permanently delete selected documents?'),()=>{for(const name of selected)window.PocketAndroidDocuments?.postMessage('delete:'+name);selected.clear();refresh()})});
  const refresh=()=>{print.disabled=selected.size!==1;share.disabled=selected.size!==1;del.disabled=!selected.size};refresh();panel.append(actions);
  const status=document.createElement('p');status.className='my-documents-status';status.setAttribute('role','status');status.textContent=learningLabel('Se încarcă documentele…','Loading documents…');panel.append(status);
  const list=document.createElement('div');list.className='my-documents-list';panel.append(list);host.append(panel);
@@ -3421,7 +3500,7 @@ function renderMyDocuments(){
    const row=document.createElement('div');row.className='my-documents-row';
    const check=document.createElement('input');check.type='checkbox';check.className='my-documents-check';check.checked=selected.has(doc.name);check.setAttribute('aria-label',learningLabel('Selectează ','Select ')+doc.name);check.onchange=()=>{if(check.checked)selected.add(doc.name);else selected.delete(doc.name);refresh()};
    const name=document.createElement('button');name.type='button';name.className='my-documents-open';name.title=learningLabel('Deschide PDF','Open PDF');const title=document.createElement('strong');title.textContent=doc.name;const date=document.createElement('small');date.textContent=new Date(doc.date).toLocaleDateString()+' · '+Math.ceil(doc.bytes/1024)+' KB';name.append(title,date);name.onclick=()=>window.PocketAndroidDocuments?.postMessage('open:'+doc.name);
-   const trash=document.createElement('button');trash.type='button';trash.className='edu-icon-action edu-icon-delete';trash.textContent='🗑';trash.title=learningLabel('Șterge PDF','Delete PDF');trash.setAttribute('aria-label',trash.title);trash.onclick=()=>{if(confirm(learningLabel('Ștergi definitiv ','Permanently delete ')+doc.name+'?'))window.PocketAndroidDocuments?.postMessage('delete:'+doc.name)};
+   const trash=document.createElement('button');trash.type='button';trash.className='edu-icon-action edu-icon-delete';trash.textContent='🗑';trash.title=learningLabel('Șterge PDF','Delete PDF');trash.setAttribute('aria-label',trash.title);trash.onclick=()=>pocketConfirm(learningLabel('Ștergi definitiv ','Permanently delete ')+doc.name+'?',()=>window.PocketAndroidDocuments?.postMessage('delete:'+doc.name));
    row.append(check,name,trash);list.append(row);
   }
  };window.PocketAndroidDocuments.postMessage('list');
@@ -9219,6 +9298,8 @@ function scienceOpenWorkspace(){
  const workspace=document.createElement('div');
  workspace.id='scienceEducationWorkspace';
  workspace.className='education-math-workspace science-education-workspace';
+ const availableTopics=scienceTopicChoices().filter(entry=>EDUCATION_THEORY_DATA.some(t=>t.subject===scienceJourney.subject&&t.topic===entry.id));
+ if(availableTopics.length>1)workspace.append(educationTopicPicker(learningLabel('📚 Teme de studiu','📚 Study topics'),availableTopics,scienceJourney.topic,entry=>{scienceJourney.topic=entry.id;scienceJourneyShowChoices('workspace')}));
  const heading=document.createElement('div');heading.className='math-entry-heading';
  const label=document.createElement('label');label.htmlFor='scienceEducationText';
  label.textContent=learningLabel('Exercițiu','Exercise')+' · '+learningLabel(topic?.ro||'',topic?.en||'');
@@ -10325,6 +10406,7 @@ function languageOpen(stage){
   }
   panel.append(list);
  }else{
+  panel.append(educationTopicPicker(learningLabel('📚 Teme de studiu','📚 Study topics'),FOREIGN_TOPIC_DATA,languageJourney.topic,x=>{languageJourney.topic=x.id;languageJourney.cardIndex=0;languageOpen('lesson')}));
   const control=document.createElement('div');control.className='science-work-tools';
   control.append(foreignStudyButton(learningLabel('Fonetică ','Phonetics ')+(languageJourney.phonetics?'✓':'—'),()=>{languageJourney.phonetics=!languageJourney.phonetics;languageOpen('lesson')}),
   foreignStudyButton(learningLabel('Pronunție lentă ','Slow speech ')+(languageJourney.slow?'✓':'—'),()=>{languageJourney.slow=!languageJourney.slow;languageOpen('lesson')}));
@@ -10573,27 +10655,70 @@ function hgLessonSections(topic){
    hgL('Construiește o cronologie cu trei repere documentate, explică o cauză și o consecință și redactează o concluzie susținută de surse.','Build a timeline of three documented events, explain one cause and one consequence and write a supported conclusion.')]
  ];
 }
+/* One compact chapter chooser for every education workspace.
+   A single active curriculum topic is rendered; other chapters stay collapsed. */
+function educationTopicPicker(label,entries,selected,onSelect){
+ const valid=(entries||[]).filter(x=>x&&x.id!=null);
+ const drawer=document.createElement('details');drawer.className='education-topic-picker';
+ const summary=document.createElement('summary');
+ const current=valid.find(x=>String(x.id)===String(selected));
+ const display=x=>learningLabel(x.ro||x.title||String(x.id),x.en||x.ro||x.title||String(x.id));
+ summary.textContent=label+' · '+(current?display(current):learningLabel('Alege tema','Choose a topic'));
+ summary.setAttribute('aria-label',learningLabel('Deschide lista temelor de studiu','Open study topic list'));
+ const search=document.createElement('input');search.type='search';search.className='education-topic-search';
+ search.placeholder=learningLabel('Caută tema de la prima literă…','Find a topic by typing…');
+ search.setAttribute('aria-label',search.placeholder);
+ const list=document.createElement('div');list.className='education-topic-options';
+ const fold=t=>String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ const paint=()=>{
+  list.replaceChildren();
+  const q=fold(search.value.trim());
+  const matches=q?valid.filter(x=>fold(display(x)).includes(q)).slice(0,4):valid;
+  for(const item of matches){
+   const button=document.createElement('button');button.type='button';button.className='secondary-btn education-topic-option';
+   button.textContent=display(item);button.setAttribute('aria-current',String(item.id)===String(selected)?'true':'false');
+   button.onclick=()=>{drawer.open=false;if(String(item.id)!==String(selected))onSelect(item)};
+   list.append(button);
+  }
+  if(!matches.length){const p=document.createElement('p');p.textContent=learningLabel('Nu există teme cu această denumire.','No matching topics.');list.append(p)}
+ };
+ search.addEventListener('input',paint);drawer.addEventListener('toggle',()=>{if(drawer.open){search.value='';paint()}});
+ drawer.append(summary,search,list);paint();
+ return drawer;
+}
 function hgShowCoreLesson(panel,guide){
  const section=document.createElement('section');section.className='hg-offline-lesson';
- section.style.cssText='min-width:0;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;border:1px solid #377f96;border-radius:12px;padding:12px';
- section.append(hgText('h3',hgL('Cuprins și teorie de studiu','Study contents and theory')));
+ section.append(hgText('h3',hgL('Teme de studiu · cuprins și teorie','Study topics · contents and theory')));
  const toc=document.createElement('div');toc.className='hg-local-toc';
- toc.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:9px 0;';
- const chapters=[];
- for(let i=0;i<guide.length;i++){
-  const [heading,body]=guide[i];
-  const details=document.createElement('details');details.className='hg-theory-chapter';details.open=i===0;
-  details.style.cssText='padding:10px;margin:9px 0;border:1px solid #306a7e;border-radius:10px;background:#0c2c3b';
+ const chapters=[];let aiInline=null;
+ const mountAI=()=>{
+  const active=chapters.find(ch=>ch.open);
+  if(!active||!aiInline)return;
+  active.append(aiInline);
+ };
+ guide.forEach(([heading,body],i)=>{
+  const details=document.createElement('details');details.className='hg-theory-chapter';
+  details.open=i===0;
   const summary=document.createElement('summary');summary.textContent=(i+1)+'. '+heading;
-  summary.style.cssText='font-weight:700;cursor:pointer';
-  const paragraph=hgText('p',body);
-  paragraph.style.cssText='white-space:pre-wrap;line-height:1.55;overflow-wrap:anywhere;';
-  details.append(summary,paragraph);chapters.push(details);
-  const button=hgBtn((i+1)+'. '+heading,()=>{details.open=true;details.scrollIntoView({block:'nearest'})},'secondary-btn hg-toc-button');
-  button.style.cssText='width:100%;min-width:0;min-height:50px;padding:7px;white-space:normal;font-size:14px;overflow-wrap:anywhere;';
-  toc.append(button);
- }
- section.append(toc,...chapters);panel.append(section);
+  const paragraph=hgText('p',body);paragraph.className='hg-theory-body';
+  details.append(summary,paragraph);
+  details.addEventListener('toggle',()=>{
+   if(!details.open)return;
+   chapters.forEach(other=>{if(other!==details)other.open=false});
+   hgJourney.activeSubtopic=heading;
+   if(aiInline){
+    const request=aiInline.querySelector('textarea');
+    const response=aiInline.querySelector('.hg-lesson-output');
+    if(request)request.value=heading;
+    if(response)response.replaceChildren();
+   }
+   mountAI();
+  });
+  chapters.push(details);toc.append(details);
+ });
+ section.append(toc);panel.append(section);
+ hgJourney.activeSubtopic=guide[0]?.[0]||'';
+ return {section,chapters,mountAI:node=>{aiInline=node;mountAI()}};
 }
 
 function hgLesson(panel){
@@ -10603,11 +10728,12 @@ function hgLesson(panel){
  panel.append(hgText('p',hgL('Programa: ','Curriculum: ')+hgL(scope.ro,scope.en)+(hgJourney.scope!=='world'?' · '+(country?hgL(country.ro,country.en):hgJourney.otherCountry||''):'')+(hgJourney.region?' · '+hgJourney.region:'')+' · '+(hgJourney.level||'')+' · '+(hgJourney.grade||'')));
  panel.append(hgText('p',topic.query||hgL('Analizează exemple potrivite clasei selectate.','Explore grade-appropriate examples.')));
  if(topic.period)panel.append(hgText('p',hgL('Perioadă generală: ','General period: ')+topic.period));
- const guide=hgLessonSections(topic);hgShowCoreLesson(panel,guide);
- panel.append(hgText('h3',hgL('Aprofundează cu profesorul AI (opțional)','Explore further with AI (optional)')));
+ const guide=hgLessonSections(topic);const lessonView=hgShowCoreLesson(panel,guide);
+ const aiInline=document.createElement('section');aiInline.className='hg-ai-inline';
+ aiInline.append(hgText('h4',hgL('Aprofundează tema selectată cu profesorul AI','Explore this topic with the AI teacher')));
  const custom=document.createElement('textarea');custom.className='hg-request';custom.rows=2;
  custom.placeholder=hgL('Alege o subtemă sau scrie întrebarea ta','Choose a study topic or enter your question');
- custom.setAttribute('aria-label',custom.placeholder);panel.append(custom);
+ custom.setAttribute('aria-label',custom.placeholder);custom.value=guide[0]?.[0]||'';aiInline.append(custom);
  const suggestions=document.createElement('div');suggestions.className='hg-lesson-suggestions';
  suggestions.style.cssText='display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;min-width:0';
  const paint=()=>{
@@ -10622,9 +10748,10 @@ function hgLesson(panel){
   suggestions.style.display=matches.length?'grid':'none';
  };
  custom.addEventListener('focus',paint);custom.addEventListener('input',paint);
- panel.append(suggestions);
- const output=document.createElement('div');output.className='hg-lesson-output';output.setAttribute('role','region');output.setAttribute('aria-label',hgL('Conținut lecție','Lesson content'));panel.append(output);
- panel.append(hgBtn(hgL('📖 Aprofundează cu AI','📖 Expand with AI'),()=>hgGenerate(custom.value,output),'primary-btn'));
+ aiInline.append(suggestions);
+ const output=document.createElement('div');output.className='hg-lesson-output';output.setAttribute('role','region');output.setAttribute('aria-label',hgL('Conținut lecție','Lesson content'));
+ const deepen=hgBtn(hgL('📖 Aprofundează tema cu AI','📖 Explore topic with AI'),()=>hgGenerate(custom.value,output),'primary-btn hg-deepen');
+ aiInline.append(deepen,output);lessonView.mountAI(aiInline);
  const actions=document.createElement('div');actions.className='hg-lesson-actions';
  actions.append(hgBtn(hgL('🔊 Citește','🔊 Read aloud'),()=>{
   const content=output.textContent||topic.ro;if(!content)return;
@@ -10848,13 +10975,14 @@ async function hgGenerate(extra,output){
  if(hgJourney.busy)return;
  const topic=hgTopic(),subject=hgSubject();if(!topic||!subject)return;
  hgJourney.busy=true;output.replaceChildren(hgText('p',hgL('Se pregătește lecția…','Preparing lesson…')));
+ const activeSubtopic=hgJourney.activeSubtopic||'';
  const origin=hgCountry(),place=hgJourney.scope==='world'?'global':origin?hgL(origin.ro,origin.en):hgJourney.otherCountry||'';
  const context=[hgL(subject.ro,subject.en),hgL(topic.ro,topic.en),hgJourney.level,hgJourney.grade||'',hgJourney.speciality||'',hgJourney.scope,place,hgJourney.region||''].filter(Boolean).join(' / ');
  const message='Acționează ca profesor de '+subject.ro+'. Creează lecția în limba '+(state.language||'ro')+' pentru '+context+'. Subteme: '+(topic.query||'')+'. Acoperă întregul capitol, cu subcapitole, explicații adecvate nivelului selectat, termeni și definiții, exemple concrete, interpretări și surse bibliografice reale. Pentru ISTORIE: cronologie ordonată, date corecte, localități, participanți, cauze și consecințe, context regional și internațional; include toate evenimentele majore relevante și nu limita arbitrar lista la 3-4. Pentru istoria României anterioară unirii, tratează separat Moldova, Țara Românească, Transilvania și alte teritorii relevante, fără a proiecta frontierele actuale în trecut. Pentru GEOGRAFIE: relieful, clima, apele, populația, economia, vecinii, date actualizate cu anul de referință, exemple și variabilitate regională după relevanța capitolului. La nivel avansat, explică metodologia, limitele datelor și dezbaterile academice. Adaugă 3-5 exerciții cu rezolvări explicate. Menționează sursele verificabile, cu titlu, autor/instituție și URL numai când este real; dacă nu poți verifica, marchează explicit. Nu inventa hărți, frontiere, documente, numere ori surse. Nu pretinde acreditare oficială fără document curricular specific. Scrie în text curat, fără formatare Markdown (** sau #). Cerere specială: '+String(extra||'');
  try{
   const result=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,module:'education_study',education_subject:hgJourney.subject,history:[]})});
   const obj=await result.json();if(!result.ok||obj.status!=='success'||!obj.reply)throw Error('no response');
-  if(hgJourney.stage!=='lesson'||hgTopic()?.id!==topic.id)return;
+  if(hgJourney.stage!=='lesson'||hgTopic()?.id!==topic.id||activeSubtopic!==(hgJourney.activeSubtopic||''))return;
   hgDisplayStudyText(output,String(obj.reply).slice(0,50000));
   output.append(hgText('small',hgL('Material AI: verifică sursele și datele înaintea utilizării la examene.','AI material: verify sources and facts before examinations.')));
   hgRemember('lessonViewed');hgStatus(hgL('Lecția este disponibilă.','Lesson ready.'));
@@ -11010,6 +11138,8 @@ function litWorkspace(panel){
  const branch=LIT_BRANCHES.find(x=>x.id===litJourney.branch);
  const topic=litCurrentTopic();if(!topic){litOpen('topics');return}
  const plan=litProgram();
+ const choices=litJourney.branch==='program'?plan.units.map(x=>({id:x.id,ro:x.ro,en:x.en})):(LIT_TOPICS[litJourney.branch]||[]).map(x=>({id:x[0],ro:x[1],en:x[2]}));
+ if(choices.length>1)panel.append(educationTopicPicker(learningLabel('📚 Teme de studiu','📚 Study topics'),choices,litJourney.topic,x=>{litJourney.topic=x.id;litOpen('workspace')}));
  panel.append(litText('p',learningLabel(curriculum[1],curriculum[2])+' · '+learningLabel(lang?.[1]||'Română',lang?.[2]||'Romanian')+' · '+learningLabel(branch.ro,branch.en)+' · '+String(litJourney.grade||'')+' · '+learningLabel(topic[1],topic[2])));
  const make=(tag,title,placeholder)=>{
   const label=litText('label',title);label.className='lit-label';
@@ -11198,9 +11328,9 @@ function litWorkspace(panel){
  const attachment=document.createElement('input');attachment.type='file';attachment.accept='.txt,text/plain,.md,text/markdown';attachment.className='lit-upload';
  const uploadLabel=litText('label',learningLabel('Încarcă text (.txt sau .md)','Upload text (.txt or .md)'));uploadLabel.className='lit-label';uploadLabel.append(attachment);panel.append(uploadLabel);
  attachment.addEventListener('change',async()=>{const file=attachment.files?.[0];if(!file)return;
-  if(file.size>1024*512){alert(learningLabel('Fișierul este prea mare (maxim 512 KB).','File is too large (maximum 512 KB).'));return}
+  if(file.size>1024*512){pocketInfo(learningLabel('Fișier prea mare','File too large'),learningLabel('Fișierul este prea mare (maxim 512 KB).','File is too large (maximum 512 KB).'));return}
   try{source.value=(await file.text()).slice(0,100000)}
-  catch{alert(learningLabel('Textul nu a putut fi citit.','Could not read text.'))}
+  catch{pocketInfo(learningLabel('Eroare citire','Read error'),learningLabel('Textul nu a putut fi citit.','Could not read text.'))}
  });
  const controls=document.createElement('div');controls.className='lit-controls';
  const typelabel=litText('label',learningLabel('Tipul lucrării','Writing type'));const type=document.createElement('select');type.className='lit-input';
@@ -11345,7 +11475,7 @@ async function eduPdfFigures(){
 }
 function eduOpenPrint(mode='save'){
  const material=arguments[1]||eduCurrentPrintable();
- if(!material?.text.trim()){alert(learningLabel('Nu există încă un material de imprimat. Generează sau completează mai întâi lucrarea.','No printable material yet. Generate or complete the work first.'));return}
+ if(!material?.text.trim()){pocketInfo(learningLabel('Material indisponibil','No printable material'),learningLabel('Nu există încă un material de imprimat. Generează sau completează mai întâi lucrarea.','No printable material yet. Generate or complete the work first.'));return}
  const dialog=document.createElement('dialog');dialog.className='edu-print-dialog';
  const header=document.createElement('div');header.className='edu-print-head';
  const heading=document.createElement('strong');heading.textContent=mode==='print'?learningLabel('Imprimare document PDF','Print PDF document'):learningLabel('Salvare document PDF','Save PDF document');
@@ -11364,10 +11494,10 @@ function eduOpenPrint(mode='save'){
    const figures=await eduPdfFigures();window.PocketAndroidPrint.postMessage(JSON.stringify({mode,title:title.slice(0,120),text:text.slice(0,160000),color:document.getElementById('litPdfColor')?.value!=='bw',pages:Number(document.getElementById('litPageCount')?.value||0),figures}));return;
   }
   if(mode==='print'){
-   alert(learningLabel('Imprimarea cu salvare automată PDF necesită aplicația Android actualizată.','Printing with mandatory PDF saving requires the updated Android app.'));return;
+   pocketInfo(learningLabel('Imprimare PDF','PDF printing'),learningLabel('Imprimarea cu salvare automată PDF necesită aplicația Android actualizată.','Printing with mandatory PDF saving requires the updated Android app.'));return;
   }
   const win=window.open('','_blank');
-  if(!win){alert(learningLabel('Permite fereastra de salvare PDF sau folosește aplicația Android.','Allow the PDF save window or use the Android app.'));return}
+  if(!win){pocketInfo(learningLabel('Salvare PDF','PDF saving'),learningLabel('Permite fereastra de salvare PDF sau folosește aplicația Android.','Allow the PDF save window or use the Android app.'));return}
   const markup='<html><head><meta charset="utf-8"><title>'+eduPrintEscape(title)+'</title><style>body{font-family:Arial,sans-serif;color:#111;margin:18mm;line-height:1.5}h1{font-size:20pt}article{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11pt}@page{size:A4;margin:16mm}</style></head><body><h1>'+eduPrintEscape(title)+'</h1><article>'+eduPrintEscape(text)+'</article></body></html>';
   win.document.open();win.document.write(markup);win.document.close();win.focus();win.print();
  };
@@ -11427,6 +11557,10 @@ function openLearningSubjectAfterCountry(key){
   const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn education-theory-open';theory.textContent=learningLabel('📖 Teorie','📖 Theory');theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);bar.append(theory);
  }else bar.append(back);
  eduAttachPrintAction(bar);host.append(bar);
+ if(key==='math'){
+  const choiceSet=mathSubjectsForLevel(mathJourney.level).map(x=>({id:x.id,ro:x.ro,en:x.en}));
+  if(choiceSet.length>1)host.append(educationTopicPicker(learningLabel('📚 Ramuri și teme','📚 Study areas'),choiceSet,mathJourney.topic,x=>{mathJourney.topic=x.id;mathJourney.stage='workspace';openLearningSubjectAfterCountry('math')}));
+ }
  $('moduleLead').textContent='';
  const actions=document.createElement('div');actions.className='education-photo-actions';
  const photo=document.createElement('button');photo.type='button';photo.className='secondary-btn';photo.textContent=learningLabel('📷 Fotografiere text','📷 Photograph text');

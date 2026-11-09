@@ -170,6 +170,8 @@ function practicalCvWorkshop(panel){
 
 function practicalLesson(panel){
  const course=practicalCourse(),chapter=practicalChapter();if(!course||!chapter){practicalOpen('chapters');return}
+ const chapterChoices=[...course.chapters].sort((a,b)=>a.order-b.order).map(x=>({id:x.id,ro:x.order+'. '+x.title,en:x.order+'. '+x.title}));
+ if(chapterChoices.length>1)panel.append(educationTopicPicker(practicalLabel('📚 Capitolele cursului','📚 Course chapters'),chapterChoices,chapter.id,x=>{practicalJourney.chapter=x.id;practicalJourney.variant=0;practicalOpen('lesson')}));
  const saved=practicalReadSaved();
  const guide=PRACTICAL_GUIDES_DATA[chapter.id]||null;
  const deep=PRACTICAL_DEPTH_DATA[chapter.id]||[];

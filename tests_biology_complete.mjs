@@ -88,6 +88,9 @@ const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(star
  CHEMISTRY_LEVEL_DATA:CHEMISTRY_LEVELS,EDUCATION_THEORY_DATA:THEORY_ENTRIES,
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],
  learningLabel:(ro,en)=>ro,$:id=>els[id]||null,
+ eduAttachPrintAction:()=>{},
+ educationCountrySelection:{code:'GB-ENG',label:'Anglia'},
+ educationGradeGate:(moduleKey,level,proceed)=>proceed(level==='beginner'?'Y1':level==='intermediate'?'Y9':'Y13'),
  scienceOpenWorkspace:()=>{workspaces++},
  pocketNativeVoiceAvailable:()=>false,
  renderLearningSubjects:()=>{},scienceVoiceStop:()=>{},scienceStopRequest:()=>{}
