@@ -1,6 +1,6 @@
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
-import {planUKNationalJourney} from "./uk_national_transit.mjs";
+import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
@@ -2708,25 +2708,34 @@ export default {
           const validTarget=Number.isFinite(targetLat)&&Number.isFinite(targetLon);
           // Nationwide GB transit is not a TfL service. Try a permitted, keyed
           // door-to-door provider before MOTIS or the old external-link fallback.
-          const nationalUK=validTarget&&hasValidLocation&&!internationalTarget&&
-            targetLat>=49.8&&targetLat<=61.0&&targetLon>=-8.7&&targetLon<=2.0&&
-            (!isTfLLondonCorridorPoint(latitude,longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
-          if(nationalUK){
-            const national=await planUKNationalJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},requestedOptionsCount);
+          // GB, Ireland and NL+BE each have their own TransCAPI planning zone.
+          // Cross-zone UK→Europe journeys still require a licensed international planner.
+          const transcapiZone=validTarget&&hasValidLocation?transCAPISharedZone(
+            {latitude,longitude},{latitude:targetLat,longitude:targetLon}):null;
+          const transcapiEligible=Boolean(transcapiZone)&&
+            (transcapiZone!=='gb'||!isTfLLondonCorridorPoint(latitude,longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
+          if(transcapiEligible){
+            const national=await planTransCAPIJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},requestedOptionsCount);
             if(national.journeys.length){
-              const transit=national.journeys;
-              const clock=value=>{const date=new Date(value);return Number.isNaN(date.getTime())?'—':date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/London'});};
+              const transit=national.journeys,first=transit[0];
+              const clock=value=>{
+                const date=new Date(value);
+                return Number.isNaN(date.getTime())?'—':date.toLocaleString(lang==='en'?'en-GB':'ro-RO',{
+                  day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',timeZone:first.time_zone});
+              };
               const modes=j=>j.legs.filter(l=>l.mode!=='walking').map(l=>[l.mode,...(l.lineNames||[])].filter(Boolean).join(' ')).join(' → ');
-              const summary=transit.map((j,i)=>(i+1)+'. '+clock(j.startDateTime)+'–'+clock(j.arrivalDateTime)+' · '+formatJourneyDurationMinutes(j.durationMinutes,lang)+' · '+modes(j)+(j.fareGBP!==null?' · '+(j.fareComplete?'£':'de la £')+j.fareGBP.toFixed(2):'')).join('\n');
-              const first=transit[0];
-              const legs=first.legs.map((l,i)=>(i+1)+'. '+clock(l.departureTime)+'–'+clock(l.arrivalTime)+' · '+(l.mode==='walking'?'Pe jos':l.mode+' '+(l.lineNames||[]).join(' '))+' · '+l.from+' → '+l.to).join('\n');
-              const reply=(lang==='en'?'UK public transport to ':'Transport public în Marea Britanie către ')+targetName+'\n'+summary+'\n\n'+(lang==='en'?'Steps — option 1:':'Etape — varianta 1:')+'\n'+legs;
+              const fare=j=>j.fareGBP===null?'':(' · '+(j.fareComplete?'£':lang==='en'?'from £':'de la £')+j.fareGBP.toFixed(2));
+              const summary=transit.map((j,i)=>(i+1)+'. '+clock(j.startDateTime)+'–'+clock(j.arrivalDateTime)+' · '+formatJourneyDurationMinutes(j.durationMinutes,lang)+' · '+modes(j)+fare(j)).join('\n');
+              const legs=first.legs.map((l,i)=>(i+1)+'. '+clock(l.departureTime)+'–'+clock(l.arrivalTime)+' · '+(l.mode==='walking'?(lang==='en'?'Walk':'Pe jos'):l.mode+' '+(l.lineNames||[]).join(' '))+' · '+l.from+' → '+l.to+(l.fareLocal?' · '+l.fareLocal.amount.toFixed(2)+' '+l.fareLocal.currency:'')).join('\n');
+              const regionName=transcapiZone==='gb'?(lang==='en'?'Great Britain':'Marea Britanie'):transcapiZone==='ireland'?(lang==='en'?'Ireland':'Irlanda'):(lang==='en'?'Netherlands / Belgium':'Olanda / Belgia');
+              const reply=(lang==='en'?'Public transport in ':'Transport public în ')+regionName+' → '+targetName+'\n'+summary+'\n\n'+(lang==='en'?'Steps — option 1:':'Etape — varianta 1:')+'\n'+legs;
               return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
-                uk_national_journey:true,mixed_journey:true,transit_available:true,route_available:false,route_geometry_available:false,
+                international_journey:internationalTarget,uk_national_journey:transcapiZone==='gb',mixed_journey:true,
+                transit_available:true,route_available:false,route_geometry_available:false,
                 transit_geometry_available:false,transit,fastest_transit:first,transit_provider:'TransCAPI',
                 requested_transit_count:requestedOptionsCount,
                 transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
-                provider_status:{transcapi:national.status},source:'TransCAPI: published schedules with available live updates'});
+                provider_status:{transcapi:national.status,region:transcapiZone},source:'TransCAPI: published schedules with available live updates'});
             }
             transportErrors.transcapi=national.status;
           }
