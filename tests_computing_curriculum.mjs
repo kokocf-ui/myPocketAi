@@ -59,6 +59,16 @@ assert.match(COMPUTING_UI_SCRIPT,/data\.status==='recognized'/,'Android dictatio
 
 // Language selection must not silently send non-English speech to the English recognizer.
 assert.match(COMPUTING_UI_SCRIPT,/function computingSpeechLocale\(\)/,'Speech locale helper is present');
+assert.match(COMPUTING_UI_SCRIPT,/function computingLabel\(ro,en\)/,'Localized Computing labels are enabled');
+const labelFor=new Function('state',COMPUTING_UI_SCRIPT+';return computingLabel;');
+for(const language of ['ro','en','fr','de','it','es','pt','nl','ru','pl']){
+ const label=labelFor({language});
+ assert.ok(label('Alege nivelul','Choose level'),'Localized level title: '+language);
+ assert.ok(label('🧩 Rezolvă pas cu pas','🧩 Solve step by step'),'Localized solve button: '+language);
+}
+assert.equal(labelFor({language:'fr'})('Alege nivelul','Choose level'),'Choisir le niveau');
+assert.equal(labelFor({language:'de'})('Alege nivelul','Choose level'),'Niveau wählen');
+
 assert.match(COMPUTING_UI_SCRIPT,/language:computingSpeechLocale\(\)/,'Dictation uses the selected locale');
 const voiceLocale=new Function('state',COMPUTING_UI_SCRIPT+';return computingSpeechLocale;');
 const responseLanguage=new Function('state',COMPUTING_UI_SCRIPT+';return computingResponseLanguage;');
