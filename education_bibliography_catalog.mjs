@@ -24,11 +24,11 @@ const GB_MANDATORY_RANGE={
 };
 export const EDUCATION_BIBLIOGRAPHY_DATA={
  RO:[
-  {id:'ro-primary-programmes',kind:'curriculum-index',min:1,max:4,subjects:RO_PRIMARY_SUBJECTS,
-   ro:'Programe școlare pentru învățământul primar (catalog MEC)',en:'Romanian primary school programmes (MEC)',
+  {id:'ro-primary-structure',kind:'education-structure',min:1,max:4,subjects:RO_PRIMARY_SUBJECTS,
+   ro:'Învățământul primar – structură și clase (MEC)',en:'Romanian primary school structure (MEC)',
    url:'https://www.edu.ro/invatamant-primar',
-   noteRo:'Verifică disciplina și ordinul aplicabil clasei. Catalogul nu certifică lecțiile din aplicație.',
-   noteEn:'Check the individual subject and applicable order; this index does not certify app lessons.'},
+   noteRo:'Pagina descrie structura primară, nu conține toate programele disciplinelor. Verifică separat ordinul fiecărei discipline.',
+   noteEn:'This page describes primary school structure, not each subject programme. Check the specific applicable order.'},
   {id:'ro-gymnasium-programmes',kind:'curriculum-framework',min:5,max:8,subjects:RO_SCHOOL_SUBJECTS,
    ro:'OMEN 3393/2017 – programe pentru gimnaziu',en:'Romania: lower-secondary curriculum, order 3393/2017',
    url:'https://www.edu.ro/Ordin_ministru_3393_2017',
