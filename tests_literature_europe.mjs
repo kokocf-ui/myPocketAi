@@ -12,7 +12,7 @@ assert.ok(LIT_EU_COMMON.beginner.length>=3);
 assert.ok(LIT_EU_COMMON.medium.length>=3);
 assert.equal(litEuropeanPlan('RO','medium','9','FILO').verified,true);
 assert.equal(litEuropeanPlan('RO','medium','8','TC').verified,false);
-assert.equal(litEuropeanPlan('FR','medium','1ere').units.length,4);
+assert.ok(litEuropeanPlan('FR','medium','1ere').units.length>=10,'Expanded advisory French literature programme must expose substantive units');
 assert.equal(litEuropeanPlan('FR','medium','4e').verified,false,'French implementation is phased');
 assert.equal(litEuropeanPlan('GB-ENG','medium','Y9').verified,true);
 assert.equal(litEuropeanPlan('DE','medium','9').requiresRegion,true);
