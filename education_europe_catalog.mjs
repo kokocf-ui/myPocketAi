@@ -10,6 +10,13 @@ export const EUROPE_EDUCATION_SOURCES=Object.freeze(
    sourceStatus:kind==='not-national-school-system'?'not-applicable':
     url?'general-portal':'general-reference'})]))
 );
+// Conservative subset of countries with Eurydice national units; a global
+// Europe publication must not be presented as a source about every territory.
+export const EUROPE_EURYDICE_COUNTRIES=Object.freeze([
+ 'AL','AT','BE','BA','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR',
+ 'HU','IS','IE','IT','LV','LI','LT','LU','MT','ME','NL','MK','NO','PL',
+ 'PT','RO','RS','SK','SI','ES','SE','CH'
+]);
 export const EUROPE_EURYDICE_REFERENCE='https://eurydice.eacea.ec.europa.eu/national-education-systems';
 export const EUROPE_EURYDICE_STRUCTURE_2026='https://op.europa.eu/en/publication-detail/-/publication/b82d1d07-abf4-11f1-b9e5-01aa75ed71a1/language-en';
 const STAGE_RANGES={"AL":[[1,5],[6,9],[10,12]],"AM":[[1,4],[5,9],[10,12]],"AZ":[[1,4],[5,9],[10,11]],"BA":[[1,5],[6,9],[10,13]],"BG":[[1,4],[5,7],[8,12]],"HR":[[1,4],[5,8],[9,12]],"CY":[[1,6],[7,9],[10,12]],"CZ":[[1,5],[6,9],[10,13]],"EE":[[1,6],[7,9],[10,12]],"FI":[[1,6],[7,9],[10,12]],"GE":[[1,6],[7,9],[10,12]],"HU":[[1,4],[5,8],[9,12]],"IS":[[1,6],[7,10],[11,14]],"LV":[[1,6],[7,9],[10,12]],"LT":[[1,4],[5,10],[11,12]],"MD":[[1,4],[5,9],[10,12]],"ME":[[1,5],[6,9],[10,13]],"MK":[[1,5],[6,9],[10,13]],"NO":[[1,7],[8,10],[11,13]],"RS":[[1,4],[5,8],[9,12]],"SK":[[1,4],[5,9],[10,13]],"SI":[[1,5],[6,9],[10,13]],"SE":[[1,6],[7,9],[10,12]],"UA":[[1,4],[5,9],[10,12]],"BY":[[1,4],[5,9],[10,11]],"RU":[[1,4],[5,9],[10,11]],"XK":[[1,5],[6,9],[10,12]],"PL":[[1,4],[5,8],[9,12]],"AT":[[1,4],[5,8],[9,12]],"GR":[[1,6],[7,9],[10,12]],"PT":[[1,4],[5,9],[10,12]],"TR":[[1,4],[5,8],[9,12]],"FR":[[1,5],[6,9],[10,12]],"IT":[[1,5],[6,8],[9,13]],"DE":[[1,4],[5,10],[11,13]],"ES":[[1,6],[7,10],[11,12]],"DK":[[1,6],[7,9],[10,12]],"NL":[[1,8],[9,11],[12,14]]};
