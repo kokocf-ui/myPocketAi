@@ -1,7 +1,7 @@
 // Curated references for an offline-first educational library.
 import {NATIONAL_UNIT_SOURCES} from './education_national_subject_units.mjs';
 import {EDUCATION_WORLDWIDE_SCHEMES} from './education_worldwide_paths.mjs';
-import {EUROPE_EDUCATION_SOURCES,EUROPE_EURYDICE_REFERENCE,EUROPE_EURYDICE_STRUCTURE_2026} from './education_europe_catalog.mjs';
+import {EUROPE_EDUCATION_SOURCES,EUROPE_EURYDICE_COUNTRIES,EUROPE_EURYDICE_REFERENCE,EUROPE_EURYDICE_STRUCTURE_2026} from './education_europe_catalog.mjs';
 import {LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
 // A source link is NOT a full lesson or proof of an annual mandatory syllabus.
 // All lessons remain in the app; these references provide provenance and legal
@@ -123,7 +123,7 @@ for(const [code,country] of Object.entries(EUROPE_EDUCATION_SOURCES)){
    noteEn:'Verify the current version, school year and course before calling a syllabus official.'
   });
  }
- refs.push({
+ if(EUROPE_EURYDICE_COUNTRIES.includes(code))refs.push({
   id:'europe-structure-2026-'+code,kind:'education-system-comparison',
   anyGrade:true,min:0,max:20,subjects:['*'],
   ro:'Structura sistemelor educaționale europene 2026/2027 – Eurydice',
@@ -132,7 +132,7 @@ for(const [code,country] of Object.entries(EUROPE_EDUCATION_SOURCES)){
   noteRo:'Comparație a structurilor școlare; nu este un manual sau programa tuturor materiilor.',
   noteEn:'School-system comparison, not a textbook or a subject-by-year syllabus.'
  });
- if(!country.url&&country.kind!=='not-national-school-system'){
+ if(!country.url&&EUROPE_EURYDICE_COUNTRIES.includes(code)){
   refs.push({
    id:'europe-documentation-'+code,kind:'country-education-reference',
    anyGrade:true,min:0,max:20,subjects:['*'],
