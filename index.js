@@ -18589,6 +18589,34 @@ main.page:has(#view-module.learning-languages.active){
 .uk-transit-source-link{display:flex!important;align-items:center!important;
  min-height:45px!important;text-decoration:none!important;color:#e9faff!important;
  text-align:left!important;padding:10px 14px!important}
+
+/* Shared Education navigation geometry.  The Back button mirrors Home's
+   .82fr column, regardless of subject, country selector or grade chooser.
+   Ordinary top bars contain Back left and PDF actions right. Math's bespoke
+   multi-control work row is intentionally unaffected. */
+#view-module.learning-active .education-toolbar:not(.math-navigation){
+ display:grid!important;
+ grid-template-columns:minmax(106px,.82fr) minmax(0,1.18fr)!important;
+ grid-template-rows:auto!important;
+ column-gap:clamp(9px,2.6vw,16px)!important;
+ align-items:center!important;width:100%!important;min-width:0!important;
+ box-sizing:border-box!important;
+}
+#view-module.learning-active .education-toolbar:not(.math-navigation) > .secondary-btn:first-child{
+ grid-column:1!important;grid-row:1!important;
+ box-sizing:border-box!important;width:100%!important;
+ min-width:0!important;max-width:none!important;margin:0!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ white-space:normal!important;
+}
+#view-module.learning-active .education-toolbar:not(.math-navigation) > .edu-pdf-actions{
+ grid-column:2!important;grid-row:1!important;
+ justify-self:end!important;align-self:center!important;
+ display:inline-flex!important;flex-flow:row nowrap!important;
+ width:max-content!important;max-width:100%!important;
+ margin:0!important;gap:6px!important;
+}
+
 </style>
 </body>
 </html>`;
