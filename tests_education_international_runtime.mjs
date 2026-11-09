@@ -1,12 +1,34 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import frontend from './index.js';
+import {educationBibliographyFor,EDUCATION_BIBLIOGRAPHY_DATA} from './education_bibliography_catalog.mjs';
 import {EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT} from './education_international_course_ui.mjs';
 import {nationalSubjectUnits,NATIONAL_SUBJECT_UNITS} from './education_national_subject_units.mjs';
 import {worldwideStudyChapters,WORLDWIDE_GENERIC_SUBJECTS} from './education_worldwide_paths.mjs';
 import {HG_GENERAL_GRADE_LESSONS} from './education_general_paths.mjs';
 
 new vm.Script(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,{filename:'education-international-ui.js'});
+// Bibliographies are local and tied to the selected country/year/subject.
+assert.ok(EDUCATION_BIBLIOGRAPHY_DATA.RO?.length>=4);
+const ro8=educationBibliographyFor('RO','history','8');
+assert.ok(ro8.some(r=>r.id==='ro-gymnasium-programmes'));
+assert.ok(ro8.some(r=>r.id==='ro-approved-textbooks'));
+assert.ok(!ro8.some(r=>r.id==='ro-2026-grade9'));
+const ro9=educationBibliographyFor('RO','literature','9');
+assert.ok(ro9.some(r=>r.id==='ro-2026-grade9'));
+assert.ok(!educationBibliographyFor('RO','literature','10').some(r=>r.id==='ro-2026-grade9'));
+const engMath=educationBibliographyFor('GB-ENG','mathematics','Y8');
+assert.ok(engMath.some(r=>r.url.includes('mathematics-programmes')));
+assert.ok(engMath.some(r=>r.id==='eng-oak-lessons'));
+const engHistoryGCSE=educationBibliographyFor('GB-ENG','history','Y11');
+assert.ok(!engHistoryGCSE.some(r=>r.kind==='curriculum-framework'),
+ 'Do not claim the KS1–3 history framework is a compulsory Y11 history specification');
+assert.deepEqual(educationBibliographyFor('JP','history','J2'),[]);
+assert.deepEqual(educationBibliographyFor('RO','history','university'),[]);
+assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/educationBibliographyForRuntime/);
+assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/Biblioteca și sursele materiei/);
+assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/code!=='RO'&&code!=='GB-ENG'/);
+assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/Optional AI explanation/);
 assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/function educationInternationalOpen\(subject,level,grade,onBack\)/);
 assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/slice\(page,page\+4\)/);
 assert.match(EDUCATION_INTERNATIONAL_COURSE_UI_SCRIPT,/root\.classList\.remove\('learning-intl-curriculum'\)/);
