@@ -101,7 +101,7 @@ assert.equal(practicalQuiz('not-real','none').length,0);
 assert.match(PRACTICAL_UI_SCRIPT,/function practicalOpen\(stage\)/,'Functional navigation');
 assert.match(PRACTICAL_UI_SCRIPT,/function practicalLesson\(panel\)/,'Lesson panel');
 assert.match(PRACTICAL_UI_SCRIPT,/function practicalCvWorkshop\(panel\)/,'Interactive real CV drafting workshop');
-assert.match(PRACTICAL_UI_SCRIPT,/Salvează numai CV-ul PDF/,'CV-only PDF export');
+assert.match(PRACTICAL_UI_SCRIPT,/Salvează CV PDF/,'CV-only PDF export with compact accessible icon');
 assert.match(PRACTICAL_UI_SCRIPT,/guide\?\.steps/,'Render chapter-specific instructions');
 assert.match(PRACTICAL_UI_SCRIPT,/guide\?\.model/,'Render fully worked examples');
 assert.match(PRACTICAL_UI_SCRIPT,/PRACTICAL_REFERENCES_DATA\[course\.id\]/,'Use contextual official references');
