@@ -1,3 +1,5 @@
+import {RO_GRADE_LESSONS} from './education_grade_lessons_ro.mjs';
+import {ENGLAND_GRADE_LESSONS} from './education_grade_lessons_eng.mjs';
 // Explicit country and grade mapping; only marked official where curriculum source is verified.
 export const EDUCATION_SCHOOL_YEARS={
  RO:{
@@ -883,6 +885,27 @@ for(const [subject,years] of Object.entries(ENGLAND_YEAR_STUDY_MODULES)){
   ]));
  }
 }
+// Add grade-specific subject lessons while retaining established chapter IDs and
+// manually authored core lessons. The mapping is a pedagogical sequence and is
+// never represented as the official mandated order for each year.
+for(const [country,packs] of [['RO',RO_GRADE_LESSONS],['GB-ENG',ENGLAND_GRADE_LESSONS]]){
+ for(const [subject,years] of Object.entries(packs)){
+  for(const [grade,rows] of Object.entries(years)){
+   const list=HG_SCHOOL_PLANS[country]?.[subject]?.[grade];if(!list)continue;
+   rows.forEach((entry,i)=>{
+    const [one,two,focus]=entry;
+    const ro=country==='RO'?one:two,en=country==='RO'?two:one;
+    const id=(country==='RO'?'ro':'eng')+'-'+subject+'-'+grade.toLowerCase()+'-unit'+(i+1);
+    if(list.some(e=>e[0]===id||e[1]===ro||e[2]===en))return;
+    const query=focus.trim()+' '+(subject==='history'?
+      'Învățare: cronologie, terminologie, izvoare autentice, exemplu datat și exercițiu de argumentare.':
+      'Învățare: localizare pe hartă, concepte geografice, date și comparație între două locuri.');
+    list.push([id,ro,en,query,Number(String(grade).replace('Y',''))<=6?'primary':'secondary']);
+   });
+  }
+ }
+}
+
 // Both History and Geography have statutory framework content at KS1–KS3.
 // This verifies the STAGE only; the year-by-year grouping above is pedagogic.
 HG_SCHOOL_SOURCES['GB-ENG'].geography.grades=['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9'];
