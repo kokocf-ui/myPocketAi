@@ -1,3 +1,4 @@
+import {RO_PRIMARY_CORE} from './education_ro_primary_core.mjs';
 // Offline core lessons for History / Geography. Each section is a genuine
 // teaching paragraph, available immediately without an AI request.
 // The English DfE specifies Key Stages; Year-by-Year groupings are advisory.
@@ -58,3 +59,6 @@ export const HG_LOCAL_GUIDES={
   ['Observații și hărți','Observations and mapping','Scara hărții leagă distanța desenată de cea reală, iar coordonatele ajută la localizare. Formulează o întrebare, colectează observații comparabile și notează data, locul și metoda.','Map scale connects drawn and real distances and coordinates help locate places. Ask a question, collect comparable observations and record date, location and method.']
  ]
 };
+
+// Primary lessons override generic topic scaffolding with real offline material.
+Object.assign(HG_LOCAL_GUIDES, RO_PRIMARY_CORE);
