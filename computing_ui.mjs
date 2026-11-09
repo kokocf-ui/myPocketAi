@@ -91,15 +91,16 @@ function computingChoices(panel,items,onSelect){
 }
 function computingGradePathAllowed(path){
  const country=educationCountrySelection.code,grade=computingJourney.grade;
+ if(path.level!==computingJourney.level)return false;
  if((country!=='RO'&&country!=='GB-ENG')||computingJourney.level==='advanced')return true;
- const yr=Number(String(grade||'').replace(/^Y/,''));if(!Number.isInteger(yr))return true;
- if(computingJourney.level==='beginner'){
-  if(yr<=2)return ['devices','logic','safety'].includes(path.id);
-  return true;
+ const yr=Number(String(grade||'').replace(/^Y/,''));
+ if(!Number.isInteger(yr))return true;
+ if(computingJourney.level==='lower'){
+  // The dedicated KS3 / Romanian gymnasium topics have lower-* IDs.
+  // Do not apply the medium-level path whitelist to Year 7–9.
+  return ['lower-logic','lower-programming','lower-digital'].includes(path.id);
  }
- if(yr<=6)return ['algorithms','programming'].includes(path.id);
- if(yr<=8)return ['algorithms','programming','web','networks'].includes(path.id);
- if(yr<=10)return ['algorithms','programming','web','databases'].includes(path.id);
+ if(computingJourney.level==='beginner'&&yr<=2)return ['devices','logic','safety'].includes(path.id);
  return true;
 }
 function computingOpen(stage){
@@ -129,7 +130,9 @@ function computingOpen(stage){
   const lv=COMPUTING_LEVELS_DATA.find(x=>x.id===computingJourney.level);if(!lv){computingOpen('levels');return}
   computingParagraph(panel,computingLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+computingLabel('Clasa: ','Grade: ')+(computingJourney.grade||'')+'. '+computingLabel('Parcurs orientativ, ajustat nivelului școlar.','General learning adapted to the chosen school year.'));
   computingParagraph(panel,lv.focus);
-  computingChoices(panel,COMPUTING_PATHS_DATA.filter(x=>x.level===lv.id&&computingGradePathAllowed(x)).map(x=>({id:x.id,ro:x.icon+' '+x.ro,en:x.icon+' '+x.en})),c=>{computingJourney.path=c.id;computingJourney.topic=null;computingOpen('topics')});return
+  const paths=COMPUTING_PATHS_DATA.filter(x=>x.level===lv.id&&computingGradePathAllowed(x));
+   if(!paths.length)computingParagraph(panel,computingLabel('Nu există ramuri pentru această clasă; verifică nivelul sau revino la alegere.','No branches are available for this grade. Please choose another level.'));
+   computingChoices(panel,paths.map(x=>({id:x.id,ro:x.icon+' '+x.ro,en:x.icon+' '+x.en})),c=>{computingJourney.path=c.id;computingJourney.topic=null;computingOpen('topics')});return
  }
  if(stage==='topics'){
   const path=COMPUTING_PATHS_DATA.find(x=>x.id===computingJourney.path&&x.level===computingJourney.level);if(!path){computingOpen('paths');return}
@@ -158,10 +161,20 @@ function computingWorkspace(panel){
  const lessonIntro=computingParagraph(panel,computingLabel(path.ro,path.en)+' · '+computingLabel(t.ro,t.en));
  const printable=computingEl('article','','computing-printable');printable.style.cssText='min-width:0;max-width:100%;overflow-wrap:anywhere;';
  const lessonHeading=computingEl('h3',computingLabel(t.ro,t.en));
- printable.append(lessonHeading,computingEl('h4',computingLabel('Teorie și definiții','Theory and definitions')));
- const theoryNode=computingParagraph(printable,t.theory);printable.append(computingEl('h4',computingLabel('Exemplu','Example')));
- const example=computingEl('pre',t.example);example.style.cssText='padding:12px;border:1px solid #789dad;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%;box-sizing:border-box;';printable.append(example);
- computingParagraph(printable,computingLabel('Exemplu ilustrativ; codul nu este executat automat.','Illustrative example; code is not executed.'));
+ const lessonContext=computingEl('p',computingLabel('Țara: ','Country: ')+educationCountrySelection.label+
+  ' · '+computingLabel('Clasa: ','Grade: ')+(computingJourney.grade||''));
+ lessonContext.className='computing-school-context';
+ printable.append(lessonContext,lessonHeading,computingEl('h4',computingLabel('Teorie și definiții','Theory and definitions')));
+ const theoryNode=computingParagraph(printable,t.theory);printable.append(computingEl('h4',computingLabel('Exemplu explicat','Worked example')));
+ const codeExample=/(?:^|\\n)\\s*(?:print\\(|if |for |while |def |const |let |SELECT |<html|function |#include)/m.test(t.example);
+ const example=computingEl(codeExample?'pre':'div',t.example);
+ example.style.cssText='padding:12px;border:1px solid #789dad;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;max-width:100%;box-sizing:border-box;'+(codeExample?'font-family:monospace;':'font-family:inherit;');
+ printable.append(example);
+ if(codeExample)computingParagraph(printable,computingLabel('Cod ilustrativ, neexecutat în aplicație.','Illustrative code; not executed in the app.'));
+ if(t.practice){
+  printable.append(computingEl('h4',computingLabel('Aplică și exersează','Apply and practise')));
+  computingParagraph(printable,t.practice);
+ }
  panel.append(printable);
  const quiz=computingEl('section','','computing-quiz');quiz.append(computingEl('h3',computingLabel('Exercițiu de verificare','Knowledge check')));const quizQuestion=computingParagraph(quiz,t.question);
  const answers=computingEl('div','','lit-options');answers.style.cssText='display:flex;flex-direction:column;gap:7px;';
