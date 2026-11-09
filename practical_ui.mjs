@@ -5,7 +5,7 @@ let practicalJourney={stage:'countries',country:'RO',course:'',chapter:'',varian
 function practicalNode(tag,text='',className=''){const element=document.createElement(tag);if(text)element.textContent=text;if(className)element.className=className;return element}
 function practicalButton(text,fn,kind='secondary-btn'){const node=practicalNode('button',text,kind);node.type='button';node.onclick=fn;node.style.cssText='min-height:46px;max-width:100%;touch-action:manipulation;white-space:normal;overflow-wrap:anywhere;';return node}
 function practicalLabel(ro,en){return typeof eduUiLabel==='function'?eduUiLabel(ro,en):learningLabel(ro,en)}
-function practicalCountry(){return PRACTICAL_COUNTRIES_DATA.find(c=>c[0]===practicalJourney.country)||PRACTICAL_COUNTRIES_DATA[0]}
+function practicalCountry(){return PRACTICAL_COUNTRIES_DATA.find(c=>c[0]===practicalJourney.country)||[practicalJourney.country,educationCountrySelection.label||practicalJourney.country,educationCountrySelection.label||practicalJourney.country]}
 function practicalCourse(){return PRACTICAL_COURSES_DATA.find(c=>c.id===practicalJourney.course)}
 function practicalChapter(){return practicalCourse()?.chapters.find(x=>x.id===practicalJourney.chapter)}
 function practicalStop(){practicalJourney.serial++;practicalJourney.controller?.abort();practicalJourney.controller=null;practicalJourney.busy=false;if(practicalJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});practicalJourney.voice=false}
@@ -71,7 +71,7 @@ function practicalOpen(stage){
  panel.append(practicalNode('h2',practicalLabel(...titles[stage])));host.append(panel);
  if(stage==='countries'){
   const c=practicalCountry();panel.append(practicalNode('p',practicalLabel('Selectează țara pentru surse oficiale, fără a presupune reguli locale unice.','Select a country for official sources; local laws are not universal.')));
-  practicalList(panel,PRACTICAL_COUNTRIES_DATA.map(v=>({id:v[0],ro:v[1],en:v[2]})),choice=>{practicalJourney.country=choice.id;practicalJourney.course='';practicalJourney.chapter='';practicalOpen('courses')});return;
+  practicalList(panel,HG_COUNTRY_PICKER_DATA.filter(v=>v.id!=='OTHER').map(v=>({id:v.id,ro:v.ro,en:v.en})),choice=>{practicalJourney.country=choice.id;practicalJourney.course='';practicalJourney.chapter='';practicalOpen('courses')});return;
  }
  panel.append(practicalNode('p',practicalLabel(practicalCountry()[1],practicalCountry()[2])));
  if(stage==='courses'){
