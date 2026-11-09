@@ -44,7 +44,96 @@ export const NATIONAL_SUBJECT_UNITS={
   literature:[['Machado de Assis și realismul brazilian','Machado de Assis and Brazilian realism','Analizează narațiunea și ironia în opere selectate.']]
  }
 };
+
+// Additional locally-grounded examples. Placement within years remains advisory;
+// state/province, language and school track must be confirmed for mandatory content.
+Object.assign(NATIONAL_SUBJECT_UNITS,{
+ 'GB-SCT':{
+  history:[
+   ['Picții și regatele medievale ale Scoției','Picts and medieval Scottish kingdoms','Compară izvoare despre picți, regatul Alba și relațiile cu vecinii insulelor britanice.'],
+   ['Reforma scoțiană și Uniunea din 1707','Scottish Reformation and the 1707 Union','Studiază Reforma, instituțiile scoțiene și Actele Uniunii în context cronologic.'],
+   ['Industrializare, migrație și Scoția modernă','Industrialisation migration and modern Scotland','Analizează dezvoltarea industrială a Glasgowului, migrația și reorganizarea autonomiei scoțiene.']],
+  geography:[
+   ['Highlands, Lowlands și insulele Scoției','Scottish Highlands Lowlands and islands','Compara relieful, clima și așezările din Highlands, Lowlands și arhipelaguri.'],
+   ['Râurile Clyde și Tay, orașe și transport','Clyde Tay cities and transport','Localizează rețelele fluviale și urbane pe hărți și date regionale.']],
+  literature:[
+   ['Robert Burns și poezia scoțiană','Robert Burns and Scottish poetry','Studiază teme și limbaj în poezia scoțiană, inclusiv tradiția Scots.'],
+   ['Walter Scott și romanul istoric','Walter Scott and historical fiction','Compară ficțiunea istorică cu documentele despre perioadele reprezentate.']],
+  mathematics:[['Numeracy across learning în Curriculum for Excellence','Numeracy across learning in CfE','Aplică proporțiile, estimarea și interpretarea datelor în situații interdisciplinare.']],
+  computing:[['Technologies și gândire computațională în Scoția','Technologies and computing in Scotland','Explorează algoritmi, proiectare și competențe digitale conform progresiei orientative CfE.']]
+ },
+ 'GB-WLS':{
+  history:[['Regatele medievale galeze','Medieval Welsh kingdoms','Studiază regatele și documentele medievale din Țara Galilor.'],['Industrializarea sudului Țării Galilor','Industrialisation in South Wales','Analizează mineritul și siderurgia în transformarea comunităților.'],['Autoguvernarea Țării Galilor','Welsh devolution','Examinează evoluția instituțiilor devoluate și Adunarea/Senedd.']],
+  geography:[['Munții Cambriani și coasta galeză','Cambrian Mountains and Welsh coast','Interpretează relieful și relația dintre climă, așezări și economie.'],['Văile sudice și transformări urbane','South Wales Valleys and urban change','Compară pe hărți dezvoltarea așezărilor și schimbările industriale.']],
+  literature:[['Dylan Thomas și literatura galeză','Dylan Thomas and Welsh literature','Analizează imagistica poetică și raportul dintre loc și identitate.']],
+  civics:[['Senedd și guvernarea Țării Galilor','Senedd and Welsh governance','Descrie atribuțiile devoluate folosind documente instituționale.']]
+ },
+ AU:{
+  history:[['Primele Națiuni ale Australiei','Aboriginal and Torres Strait Islander histories','Studiază continuitatea culturilor indigene și diversele perspective istorice.'],['Colonizarea europeană și consecințele sale','European colonisation and consequences','Analizează impactul colonizării din perspective multiple și izvoare documentate.'],['Federația australiană din 1901','Australian Federation in 1901','Compară motivele și consecințele federației și dezvoltarea democrației.']],
+  geography:[['Great Barrier Reef și ecosisteme','Great Barrier Reef and ecosystems','Analizează ecosistemele și presiunile de mediu cu date și surse.'],['Bazinul Murray-Darling','Murray–Darling Basin','Compară utilizarea apei, agricultura și riscurile climatice.'],['Deșerturile și orașele Australiei','Australian deserts and cities','Explică distribuția populației și contrastul dintre interior și coastă.']],
+  literature:[['Literatura australiană și legătura cu locul','Australian literature and sense of place','Compară perspective ale peisajului și identității în opere australiene.']],
+  civics:[['Parlamentul federal și statele Australiei','Australian federal parliament and states','Explică federalismul și responsabilitățile diferitelor niveluri de guvernare.']],
+  mathematics:[['Mathematics Version 9.0: number and algebra','Australian Mathematics v9: number and algebra','Aplică strategii de calcul, relații algebrice și verificare pe probleme gradate.']],
+  computing:[['Digital Technologies și proiecte informatice','Digital Technologies and computing projects','Decompune probleme, reprezintă date și evaluează aplicații digitale.']]
+ },
+ IE:{
+  history:[['Irlanda medievală și așezările monastice','Medieval Ireland and monastic settlements','Examinează surse despre comunități și centre de învățare medievale.'],['Marea Foamete și migrația','Great Famine and migration','Analizează cauze, consecințe și surse privind foametea din secolul XIX.'],['Independența și formarea statului irlandez','Irish independence and state formation','Construiește cronologia proceselor politice de la începutul secolului XX.']],
+  geography:[['Coasta Atlantică și relieful Irlandei','Atlantic coast and Irish landforms','Compară clima atlantică și formele de relief cu hărți climatice.'],['Dublin, Cork și dezvoltarea regională','Dublin Cork and regional development','Analizează diferențele dintre regiuni urbane și rurale.']],
+  literature:[['W. B. Yeats și poezia irlandeză','W. B. Yeats and Irish poetry','Analizează simboluri și contextul cultural al poeziei.'],['James Joyce și literatura modernistă','James Joyce and modernism','Examinează tehnicile narative și contextul orașului Dublin.']],
+  civics:[['Oireachtas și instituțiile irlandeze','Oireachtas and Irish institutions','Descrie procesul legislativ și rolurile instituțiilor.']]
+ },
+ IN:{
+  history:[['Civilizația Văii Indusului','Indus Valley civilisation','Examinează izvoare arheologice și distribuția vechilor așezări.'],['Imperiul Maurya și Așoka','Maurya Empire and Ashoka','Analizează edicte și contexte politice ale lumii antice indiene.'],['Colonialismul britanic și independența','British colonialism and Indian independence','Compară surse privind mișcarea pentru independență și anul 1947.']],
+  geography:[['Himalaya și câmpia Indo-Gangetică','Himalaya and Indo-Gangetic plain','Explică relația dintre relief, climă și populație.'],['Musonul și agricultura Indiei','Monsoon and Indian agriculture','Interpretează hărți ale precipitațiilor și date sezoniere.'],['Podișul Deccan și regiuni economice','Deccan Plateau and economic regions','Localizează formele de relief și distribuția activităților economice.']],
+  literature:[['Rabindranath Tagore și literatura bengaleză','Rabindranath Tagore and Bengali literature','Analizează teme literare și diversitatea lingvistică a Indiei.'],['Premchand și proza hindi','Premchand and Hindi fiction','Examinează personaje și teme sociale prin rezumate și fragmente autorizate.']],
+  civics:[['Constituția Indiei și federalismul','Indian Constitution and federalism','Explică structura parlamentară și diversitatea administrativă cu surse oficiale.']],
+  mathematics:[['NCF 2023: raționament și aplicații numerice','NCF 2023: mathematical reasoning','Rezolvă probleme contextualizate și argumentează metode matematice.']],
+  computing:[['Gândire computațională și aplicarea algoritmilor','Computational thinking and algorithms','Construiește pași de rezolvare și verifică cod pentru probleme de învățare.']]
+ },
+ US:{
+  history:[['Societăți indigene din America de Nord','Indigenous societies of North America','Compară comunități și izvoare regionale fără a generaliza toate culturile.'],['Fondarea Statelor Unite și constituția','US founding and Constitution','Analizează documente ale independenței și organizarea federală.'],['Războiul Civil și abolirea sclaviei','Civil War and abolition of slavery','Examinează cauze, consecințe și drepturi constituționale.'],['Mișcarea pentru drepturi civile','Civil Rights Movement','Analizează schimbările legislative și activismul prin izvoare datate.']],
+  geography:[['Munții Apalași și Munții Stâncoși','Appalachian and Rocky Mountains','Compară relieful și ecosistemele prin hărți tematice.'],['Mississippi, Marile Lacuri și regiuni economice','Mississippi Great Lakes and regional economies','Localizează bazinele hidrografice și compară utilizarea resurselor.']],
+  literature:[['Mark Twain și literatura americană','Mark Twain and US literature','Analizează vocea narativă și contextul istoric cu perspectivă critică.'],['Maya Angelou și literatura secolului XX','Maya Angelou and twentieth-century literature','Studiază autobiografia, identitatea și drepturile civile.']],
+  civics:[['Constituția federală și drepturile statelor','US Constitution and federalism','Descrie rolul celor trei puteri și diferențele dintre competențele statale și federale.']]
+ },
+ CA:{
+  history:[['Primele Națiuni, Métis și Inuit','First Nations Métis and Inuit','Studiază diversitatea comunităților și a tradițiilor istorice.'],['Confederația canadiană','Canadian Confederation','Analizează documentele din 1867 și dezvoltarea federalismului.'],['Școlile rezidențiale și reconcilierea','Residential schools and reconciliation','Examinează experiențe istorice, documente și mărturii cu respect pentru victime.']],
+  geography:[['Scutul Canadian și regiunile naturale','Canadian Shield and natural regions','Compară structura reliefului și folosirea resurselor.'],['Arctica, fluviul Sfântul Laurențiu și marile orașe','Canadian Arctic St Lawrence and cities','Analizează contrastul climatic și distribuția populației.']],
+  literature:[['Literatura canadiană în engleză și franceză','English and French Canadian literature','Compară tradiții literare și contexte lingvistice distincte.'],['Margaret Atwood și proza contemporană','Margaret Atwood and contemporary fiction','Analizează perspectivă, simboluri și tematică în opere selectate.']],
+  civics:[['Federalism, provincii și teritorii','Canadian federalism provinces and territories','Explică organizarea provinciei alese și instituțiile federale.']]
+ },
+ NZ:{
+  history:[['Societatea Māori înainte de contactul european','Māori history before European contact','Studiază istoria locală prin tradiții orale și surse documentate.'],['Te Tiriti o Waitangi și interpretările sale','Treaty of Waitangi and its interpretations','Compară textele, contextul și interpretările tratatului din 1840.'],['Dezvoltarea Noii Zeelande moderne','Modern Aotearoa New Zealand','Analizează migrația și transformările politice prin izvoare.']],
+  geography:[['Alpii Sudici și regiunile tectonice','Southern Alps and tectonic regions','Localizează relieful și riscurile seismice.'],['Platoul vulcanic și biodiversitatea','Volcanic Plateau and biodiversity','Examinează peisajele și speciile endemice cu hărți și date.']],
+  literature:[['Katherine Mansfield și proza modernistă','Katherine Mansfield and modernist fiction','Analizează narațiune și detalii cotidiene în proza scurtă.'],['Literatura te reo Māori și tradițiile orale','Te reo Māori literature and oral traditions','Studiază rolul limbii, oralității și contextelor culturale.']],
+  civics:[['Parlamentul și autoguvernarea locală','New Zealand Parliament and local government','Descrie competențele parlamentare și mecanismele democratice.']]
+ },
+ MX:{
+  history:[['Civilizațiile mezoamericane','Mesoamerican civilizations','Compară așezările maya, mexica și alte comunități din surse arheologice.'],['Independența Mexicului','Mexican independence','Construiește o cronologie a procesului de independență din secolul XIX.'],['Revoluția Mexicană','Mexican Revolution','Analizează schimbările sociale și constituționale din secolul XX.']],
+  geography:[['Sierra Madre și Podișul Mexican','Sierra Madre and Mexican Plateau','Localizează lanțurile montane și zonele climatice.'],['Peninsula Yucatán și coastele Mexicului','Yucatán and Mexican coasts','Compară zonele naturale, peisajele și distribuția populației.']],
+  literature:[['Sor Juana Inés de la Cruz','Sor Juana Inés de la Cruz','Examinează contextul baroc și rolul intelectual al autoarei.'],['Octavio Paz și literatura mexicană','Octavio Paz and Mexican literature','Analizează imagistica și tema identității în opere selectate.']],
+  civics:[['Constituția Mexicului și federalismul','Mexican Constitution and federalism','Descrie rolurile instituțiilor federale și ale statelor.']]
+ },
+ PT:{
+  history:[['Regatul Portugaliei și începuturile maritime','Portuguese kingdom and maritime expansion','Examinează expedițiile și contactele comerciale cu perspective istorice multiple.'],['Colonialismul portughez și consecințele sale','Portuguese colonialism and its consequences','Analizează istoria colonială fără a omite consecințele asupra societăților colonizate.'],['Estado Novo și Revoluția Garoafelor','Estado Novo and Carnation Revolution','Construiește o cronologie a dictaturii și tranziției democratice din 1974.']],
+  geography:[['Râurile Tejo și Douro','Tagus and Douro rivers','Localizează bazinele hidrografice și compara utilizările terenului.'],['Azore, Madeira și Portugalia continentală','Azores Madeira and mainland Portugal','Compară relieful, clima și particularitățile insulare.']],
+  literature:[['Luís de Camões și epopeea','Luís de Camões and epic poetry','Analizează forma epică și contextul istoric al operei.'],['José Saramago și romanul contemporan','José Saramago and contemporary fiction','Examinează tehnici narative și teme filozofice.']],
+  civics:[['Constituția portugheză și instituții','Portuguese Constitution and institutions','Explică instituțiile Republicii și principiile democratice.']]
+ }
+});
+
 export const NATIONAL_UNIT_SOURCES={
+ 'GB-SCT':'https://education.gov.scot/curriculum-for-excellence/experiences-and-outcomes/',
+ 'GB-WLS':'https://hwb.gov.wales/curriculum-for-wales',
+ AU:'https://www.australiancurriculum.edu.au/',
+ IE:'https://www.curriculumonline.ie/',
+ IN:'https://ncert.gov.in/pdf/focus-group/NCF-SE_2023EN.pdf',
+ US:'https://www.socialstudies.org/standards/c3',
+ CA:'https://www.dcp.edu.gov.on.ca/',
+ NZ:'https://newzealandcurriculum.tahurangi.education.govt.nz/',
+ MX:'https://www.gob.mx/sep',
+ PT:'https://www.dge.mec.pt/aprendizagens-essenciais',
+
  FR:'https://www.education.gouv.fr/les-programmes-du-college-470408',
  IT:'https://www.mim.gov.it/documents/20182/8952594/Indicazioni%2Bnazionali%2B2025.pdf/593dfc49-bcdc-ffbb-747a-5c368b4bac01',
  JP:'https://www.mext.go.jp/en/policy/education/elsec/title02/detail02/1373859.htm',
