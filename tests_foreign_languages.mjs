@@ -73,13 +73,15 @@ class FakeEl{
  append(...kids){this.children.push(...kids)}
  replaceChildren(...kids){this.children=[...kids]}
  setAttribute(k,v){this.attributes[k]=v}
+ querySelector(){return null}
+ addEventListener(){}
 }
 const classes=new Set();
 const root={classList:{add:(...a)=>a.forEach(x=>classes.add(x)),remove:(...a)=>a.forEach(x=>classes.delete(x))}};
 const host=new FakeEl('div'),title=new FakeEl('h2'),lead=new FakeEl('div');
 const lookup={'view-module':root,moduleContent:host,moduleTitle:title,moduleLead:lead};
 const sandbox={
- document:{createElement:tag=>new FakeEl(tag),querySelector:()=>null},
+ document:{createElement:tag=>new FakeEl(tag),querySelector:()=>null,getElementById:()=>null},
  $:id=>lookup[id]||null,
  LEARNING_SUBJECTS:[['languages','🗣️','Limbi străine','Languages']],
  learningLabel:(ro,en)=>ro,
