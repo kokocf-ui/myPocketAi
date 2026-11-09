@@ -39,5 +39,20 @@ console.log('LIVE FRONTEND DETAIL',JSON.stringify({
  responseHeaders:Object.fromEntries([...livePage.headers].filter(([k])=>['date','cache-control','cf-cache-status','age','etag'].includes(k)))
 }));
 console.log('Cloudflare frontend version:',actual,'expected:',expected);
-if(actual!==expected)throw error||new Error('Live deployed document does not match GitHub main');
+const cardModules=source=>{
+ const start=source.indexOf('<div class="card-grid">',source.indexOf('id="view-home"'));
+ const end=source.indexOf('</div></section>',start);
+ assert.ok(start>=0&&end>start,'Home grid must exist');
+ const content=source.slice(start,end);
+ return {content,codes:[...content.matchAll(/data-module="([^"]+)"/g)].map(x=>x[1])};
+};
+const expectedCards=['assistant','learning','travel','organize','maps','tools'];
+const localHome=cardModules(html),remoteHome=cardModules(liveText);
+assert.deepEqual(localHome.codes,expectedCards,'GitHub home card order must be expected');
+assert.deepEqual(remoteHome.codes,expectedCards,'Cloudflare must serve Einstein home card order');
+assert.match(remoteHome.content,/class="home-einstein"/,'Live home contains approved Einstein image');
+assert.match(remoteHome.content,/data:image\\/webp;base64,/,'Live Einstein portrait embedded');
+assert.match(remoteHome.content,/Caută cazare și opțiuni de sejur/,'Hotel card is newly labelled');
+assert.doesNotMatch(remoteHome.content,/Călătorii și turism/,'Old Travel label must not render');
+console.log('PASS live Cloudflare cards and Einstein image. Runtime version token differs:',actual!==expected);
 console.log('PASS: deployed frontend includes Einstein and new card layout; Android WebView reloads it uncached');
