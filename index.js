@@ -19,6 +19,7 @@ import {POCKET_LANGUAGES,POCKET_COUNTRY_LANGUAGES,pocketLanguageFromLocale,pocke
 import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,HG_SCHOOL_SOURCES} from './education_school_paths.mjs';
 import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,WORLDWIDE_GENERIC_SUBJECTS,WORLDWIDE_SUBJECT_ALIASES,worldwideSchoolYears,worldwideSchoolNotice,worldwideStudyChapters} from './education_worldwide_paths.mjs';
 import {NATIONAL_SUBJECT_UNITS,NATIONAL_PRIMARY_UNITS,NATIONAL_UNIT_SOURCES,nationalSubjectUnits} from './education_national_subject_units.mjs';
+import {EDUCATION_LOCAL_CONTEXT,educationLocalContext} from './education_national_lesson_context.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
@@ -10128,6 +10129,8 @@ const WORLDWIDE_SUBJECT_ALIASES=${JSON.stringify(WORLDWIDE_SUBJECT_ALIASES)};
 const NATIONAL_SUBJECT_UNITS=${JSON.stringify(NATIONAL_SUBJECT_UNITS)};
 const NATIONAL_PRIMARY_UNITS=${JSON.stringify(NATIONAL_PRIMARY_UNITS)};
 const NATIONAL_UNIT_SOURCES=${JSON.stringify(NATIONAL_UNIT_SOURCES)};
+const EDUCATION_LOCAL_CONTEXT=${JSON.stringify(EDUCATION_LOCAL_CONTEXT)};
+const educationLocalContext=${educationLocalContext.toString()};
 const nationalSubjectUnits=${nationalSubjectUnits.toString()};
 const worldwideStudyChapters=${worldwideStudyChapters.toString()};
 const HG_SCHOOL_PLANS_DATA=${JSON.stringify(HG_SCHOOL_PLANS)};
