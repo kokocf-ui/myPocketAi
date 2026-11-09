@@ -9569,7 +9569,7 @@ function renderLearningSubjects(){
  document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');
  document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');
  mathCloseResults();
- $('view-module').classList.remove('learning-math','learning-science','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','learning-practical','learning-country-gate','science-choice-stage');
+ $('view-module').classList.remove('learning-math','learning-science','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','learning-practical','learning-country-gate','learning-intl-curriculum','science-choice-stage');
  document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
