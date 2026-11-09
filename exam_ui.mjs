@@ -359,18 +359,21 @@ function examWorkspace(panel){
  if(aiBank)sim.append(examEl('p',examLabel('Întrebări noi generate cu AI, nu verificate ca subiecte oficiale. Verifică explicațiile.','New AI-generated practice questions, not verified official papers. Check the explanations.')));
  const form=examEl('div','','exam-questions');
  const selections=Array(limited.length).fill(null);
+ const displayedChoices=limited.map(q=>[...q.choices]),displayedExplanations=limited.map(q=>q.explanation);
+ const quizRefs=[];
  const score=examEl('p');score.setAttribute('role','status');
  if(limited.length){
-  const passage=limited.find(q=>q.passage)?.passage;if(passage){sim.append(examEl('h4',examLabel('Citește fragmentul și răspunde la întrebări','Read the passage and answer the questions')));sim.append(examEl('p',passage))}
+  const passage=limited.find(q=>q.passage)?.passage;let passageNode=null;if(passage){sim.append(examEl('h4',examLabel('Citește fragmentul și răspunde la întrebări','Read the passage and answer the questions')));passageNode=examEl('p',passage);sim.append(passageNode)}
   limited.forEach((q,qi)=>{
    const item=examEl('fieldset','','exam-question');item.style.cssText='margin:10px 0;padding:12px;border:1px solid #426f84;border-radius:12px;min-width:0;';
-   item.append(examEl('legend',(qi+1)+'. '+q.prompt));
+   const legend=examEl('legend',(qi+1)+'. '+q.prompt);item.append(legend);
+   const choiceTexts=[];
    if(subject.id==='biology'&&q.diagram){const img=examBioDiagram(q.diagram);if(img)item.append(img)}
    q.choices.forEach((choice,ci)=>{
     const label=examEl('label');label.style.cssText='display:flex;gap:8px;align-items:flex-start;padding:7px 0;overflow-wrap:anywhere;';
     const input=examEl('input');input.type='radio';input.name='exam-item-'+qi;input.value=String(ci);
-    input.onchange=()=>{selections[qi]=ci};label.append(input,document.createTextNode(choice));item.append(label);
-   });form.append(item);
+    input.onchange=()=>{selections[qi]=ci};const choiceText=document.createTextNode(choice);label.append(input,choiceText);choiceTexts.push(choiceText);item.append(label);
+   });quizRefs.push({legend,choiceTexts});form.append(item);
   });
   const check=examBtn(examLabel('✓ Verifică simularea','✓ Check practice'),()=>{
    if(selections.some(answer=>answer===null)){score.textContent=examLabel('Răspunde la toate întrebările pentru a primi evaluarea.','Answer all questions to see results.');return}
@@ -379,10 +382,43 @@ function examWorkspace(panel){
    score.textContent=examLabel('Antrenament: ','Practice: ')+correct+'/'+limited.length+' ('+pct+'%). '+examLabel('Corecte: ','Correct: ')+correct+' · '+examLabel('Greșite: ','Incorrect: ')+(limited.length-correct)+'. '+examLabel('Punctaj neoficial.','Unofficial score.');
    form.querySelectorAll('input').forEach(input=>input.disabled=true);check.disabled=true;
    const feedback=examEl('div','','exam-feedback');feedback.append(examEl('h4',examLabel('Explicații și răspunsuri','Answers and explanations')));
-   limited.forEach((q,i)=>{const ok=selections[i]===q.correct;const chosen=q.choices[selections[i]]||examLabel('(fără răspuns)','(no answer)');feedback.append(examEl('p',(i+1)+'. '+(ok?examLabel('✓ Corect','✓ Correct'):examLabel('✗ Greșit','✗ Incorrect'))+' · '+examLabel('Ai ales: ','Your answer: ')+chosen+' · '+examLabel('Corect: ','Correct: ')+q.choices[q.correct]+' — '+q.explanation))});sim.append(feedback);printable.append(feedback.cloneNode(true));
+   limited.forEach((q,i)=>{const ok=selections[i]===q.correct;const chosen=displayedChoices[i][selections[i]]||examLabel('(fără răspuns)','(no answer)');feedback.append(examEl('p',(i+1)+'. '+(ok?examLabel('✓ Corect','✓ Correct'):examLabel('✗ Greșit','✗ Incorrect'))+' · '+examLabel('Ai ales: ','Your answer: ')+chosen+' · '+examLabel('Corect: ','Correct: ')+displayedChoices[i][q.correct]+' — '+displayedExplanations[i]))});sim.append(feedback);printable.append(feedback.cloneNode(true));
    try{const storageKey='mypocketai.exam.results.v1',history=JSON.parse(localStorage.getItem(storageKey)||'{}');history[key]={correct,total:limited.length,percent:pct,timestamp:Date.now(),kind:'practice'};localStorage.setItem(storageKey,JSON.stringify(history))}catch{}
   },'primary-btn');
   sim.append(form,check,score);
+  if(!aiBank&&state.language!=='ro'&&typeof eduTranslateMaterial==='function'){
+   const expectedTopic=examJourney.topic,expectedVersion=examJourney.practiceVersion,expectedLanguage=state.language;
+   const notice=examEl('p',examLabel('Se traduce testul…','Translating the test…'));
+   notice.className='exam-translation-status';notice.setAttribute('role','status');sim.append(notice);
+   form.querySelectorAll('input').forEach(input=>input.disabled=true);check.disabled=true;
+   const originals={};
+   if(passage)originals.passage=passage;
+   limited.forEach((q,i)=>{
+    originals['q'+i]=q.prompt;
+    if(q.explanation)originals['e'+i]=q.explanation;
+    q.choices.forEach((choice,j)=>{originals['c'+i+'_'+j]=choice});
+   });
+   Promise.resolve(eduTranslateMaterial(originals,'examQuiz:'+subject.id+':'+topic+':'+expectedVersion)).then(localized=>{
+    if(!sim.isConnected||expectedTopic!==examJourney.topic||expectedVersion!==examJourney.practiceVersion||state.language!==expectedLanguage)return;
+    if(localized){
+     if(passageNode)passageNode.textContent=localized.passage;
+     limited.forEach((q,i)=>{
+      quizRefs[i].legend.textContent=(i+1)+'. '+localized['q'+i];
+      if(q.explanation)displayedExplanations[i]=localized['e'+i];
+      q.choices.forEach((choice,j)=>{
+       displayedChoices[i][j]=localized['c'+i+'_'+j];
+       quizRefs[i].choiceTexts[j].textContent=displayedChoices[i][j];
+      });
+     });
+     notice.textContent='';
+    }else notice.textContent=examLabel('Traducerea nu este disponibilă. Este afișat textul original.','Translation unavailable. The original text is shown.');
+    form.querySelectorAll('input').forEach(input=>input.disabled=false);check.disabled=false;
+   }).catch(()=>{
+    if(!sim.isConnected)return;
+    notice.textContent=examLabel('Traducerea nu este disponibilă. Este afișat textul original.','Translation unavailable. The original text is shown.');
+    form.querySelectorAll('input').forEach(input=>input.disabled=false);check.disabled=false;
+   });
+  }
  }else sim.append(form,score);
  panel.append(sim);
  const writeLabel=examEl('label',examLabel('Răspuns scris, problemă sau subiect scanat','Written answer, question or scanned task'),'lit-label');writeLabel.htmlFor='examAnswerText';panel.append(writeLabel);
