@@ -1,4 +1,5 @@
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
+import {researchEducationCountryLesson} from "./education_curriculum_research.mjs";
 import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
@@ -1221,6 +1222,19 @@ export default {
     }
 
     const url = new URL(request.url);
+
+    // On-demand international education. Do not identify an evidence-based
+    // advisory lesson with a country's legally prescribed syllabus.
+    if(url.pathname==="/api/education-country-lesson"){
+      if(request.method!=="POST")return json({status:"invalid_request",code:"method_not_allowed"},405);
+      if(Number(request.headers.get("content-length")||0)>3500)
+        return json({status:"invalid_request",code:"request_too_large"},413);
+      const rawBody=await request.text().catch(()=>"");
+      if(rawBody.length>3500)return json({status:"invalid_request",code:"request_too_large"},413);
+      let payload;try{payload=JSON.parse(rawBody)}catch{return json({status:"invalid_request",code:"invalid_json"},400)}
+      const answer=await researchEducationCountryLesson(payload,env);
+      return json({app:"Pocket AI",version:API_VERSION,...answer},answer.status==="invalid_request"?400:200);
+    }
 
     // Owner-approved image upload only; never triggered by ordinary device OCR.
     if(url.pathname==="/api/math-vision")return handleMathVisionPilot(request,env,json);
