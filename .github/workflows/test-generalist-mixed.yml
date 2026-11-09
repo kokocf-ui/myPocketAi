@@ -5,6 +5,8 @@ on:
     paths:
       - 'backend.js'
       - 'index.js'
+      - 'literature_verified_authors.mjs'
+      - 'tests_literature_verified_authors.mjs'
       - 'education_theory.mjs'
       - 'education_worldwide_paths.mjs'
       - 'education_national_subject_units.mjs'
@@ -77,6 +79,7 @@ jobs:
       - name: Verify education year, lesson contents and browser boot
         run: |
           node tests_education_content_navigation.mjs
+          node tests_literature_verified_authors.mjs
           node tests_worldwide_all_subjects.mjs
           node tests_education_international_runtime.mjs
           node tests_education_country_progression.mjs
