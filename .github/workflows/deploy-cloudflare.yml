@@ -23,6 +23,7 @@ jobs:
         run: |
           node --check index.js
           node tests_frontend_boot_syntax.mjs
+          node tests_home_einstein_layout.mjs
           node tests_history_geography.mjs
           node tests_literature_europe.mjs
           node tests_literature_completion.mjs
