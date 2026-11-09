@@ -52,6 +52,7 @@ jobs:
           node tests_news_contextual_translation.mjs
           node tests_avatar_lipsync_stop.mjs
           node tests_mixed_selector_ui.mjs
+          node tests_transit_final_mile.mjs
           node tests_address_progressive.mjs
           node tests_progressive_selector_policy.mjs
           node scripts/patch-avatar-lipsync.mjs public/avatar-v4.html
@@ -114,6 +115,7 @@ jobs:
           node tests_address_progressive.mjs
           node tests_progressive_selector_policy.mjs
           node tests_mixed_selector_ui.mjs
+          node tests_transit_final_mile.mjs
           node tests_mixed_uk_fallback.mjs
 
       - name: Deploy backend (retry transient Cloudflare outages only)
