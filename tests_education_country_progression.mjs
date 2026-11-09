@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {NATIONAL_PRIMARY_UNITS,NATIONAL_UNIT_SOURCES,nationalSubjectUnits} from './education_national_subject_units.mjs';
-import {worldwideStudyChapters,worldwideSchoolYears} from './education_worldwide_paths.mjs';
+import {worldwideStudyChapters,worldwideSchoolYears,worldwideActualStage,worldwideGradeDepth} from './education_worldwide_paths.mjs';
 import {HG_GENERAL_GRADE_LESSONS} from './education_general_paths.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 
@@ -40,5 +40,17 @@ for(const country of ['JP','FR','ES','IT','IN','GB-SCT','AU']){
   assert.ok([...beginner].every(x=>combined.has(x)),country+' '+subject+' missing primary year');
   assert.ok([...lower].every(x=>combined.has(x)),country+' '+subject+' missing lower-secondary year');
  }
+}
+for(const country of ['JP','FR','IT','AU','US','IN']){
+ const primary=worldwideSchoolYears(country,'beginner')[0].id;
+ const junior=worldwideSchoolYears(country,'lower')[0].id;
+ const senior=worldwideSchoolYears(country,'medium')[0].id;
+ for(const [grade,expected] of [[primary,'beginner'],[junior,'lower'],[senior,'medium']]){
+  assert.equal(worldwideActualStage(country,'beginner',grade),expected,country+' stage must follow year, not menu label');
+ }
+ const primaryRows=worldwideStudyChapters(country,'history','beginner',primary,country,country,HG_GENERAL_GRADE_LESSONS);
+ const juniorRows=worldwideStudyChapters(country,'history','beginner',junior,country,country,HG_GENERAL_GRADE_LESSONS);
+ assert.notDeepEqual(primaryRows.map(x=>x[1]),juniorRows.map(x=>x[1]),country+' primary topics differ from junior stage');
+ assert.equal(worldwideGradeDepth(country,'beginner',junior).stage,'lower');
 }
 console.log('PASS national primary and secondary content: '+locallyGrounded.length+' country profiles, school-stage progressions');
