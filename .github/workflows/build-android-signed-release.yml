@@ -130,6 +130,7 @@ jobs:
           node tests_education_country_first.mjs
           node tests_education_content_navigation.mjs
           node tests_worldwide_all_subjects.mjs
+          node tests_education_international_runtime.mjs
           node tests_practical_courses.mjs
           node tests_education_android.mjs
           node tests_pdf_library.mjs
