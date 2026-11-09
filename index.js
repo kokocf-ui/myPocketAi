@@ -10548,6 +10548,54 @@ function hgOpen(stage){
  }
  if(stage==='lesson')hgLesson(panel);
 }
+function hgLessonSections(topic){
+ const manual=HG_LOCAL_GUIDES_DATA[topic.id];
+ if(Array.isArray(manual)&&manual.length)return manual.map(v=>[hgL(v[0],v[1]),hgL(v[2],v[3])]);
+ const goal=String(topic.query||hgL(topic.ro,topic.en));
+ if(hgJourney.subject==='geography')return [
+  [hgL('Ce învățăm','Learning goals'),
+   hgL('Acest capitol examinează: ','This chapter examines: ')+goal+' '+hgL('Geografia explică legăturile dintre locuri, procese naturale și activități umane.','Geography studies links between places, natural processes and human activity.')],
+  [hgL('Concepte și metode','Key concepts and methods'),
+   hgL('Identifică locul, scara hărții, elementele naturale și cele construite. Notează ce este observat direct, ce provine din date și ce este o explicație care trebuie verificată.','Identify the location, map scale and natural and built features. Separate observations, reported data and explanations that need checking.')],
+  [hgL('Model de analiză','Worked analysis method'),
+   hgL('Compară două locuri într-un tabel: poziția, caracteristicile fizice, activitățile umane, o asemănare și o deosebire. Pentru fiecare afirmație păstrează o sursă sau o observație.','Compare two places in a table: location, physical features, human activity, one similarity and one difference. Support each claim with evidence.')],
+  [hgL('Exercițiu de investigare','Investigation exercise'),
+   hgL('Alege o hartă cu titlu și legendă, formulează o întrebare și explică ce date ar trebui colectate pentru un răspuns credibil.','Choose a map with a title and key, ask a question and explain what evidence would be needed for a reliable answer.')]
+ ];
+ return [
+  [hgL('Context istoric și cronologie','Historical context and timeline'),
+   hgL('Tema acestui capitol este: ','This chapter concerns: ')+goal+' '+hgL('Așază evenimentele în ordinea corectă și distinge contextul de eveniment.','Place events in chronological order and distinguish background from events.')],
+  [hgL('Cauze, schimbări și urmări','Causes, change and consequences'),
+   hgL('Explică factorii politici, economici, sociali și culturali. Nu presupune că un eveniment a cauzat altul doar fiindcă a avut loc mai devreme.','Examine political, economic, social and cultural factors. One event happening earlier does not by itself prove causation.')],
+  [hgL('Izvoare și interpretări','Sources and interpretations'),
+   hgL('Pentru fiecare sursă verifică autorul, data, scopul și limitele. Două relatări despre același eveniment pot avea perspective diferite.','For each source check its author, date, purpose and limits. Two accounts of the same event may reflect different perspectives.')],
+  [hgL('Model de lucru','Worked method'),
+   hgL('Construiește o cronologie cu trei repere documentate, explică o cauză și o consecință și redactează o concluzie susținută de surse.','Build a timeline of three documented events, explain one cause and one consequence and write a supported conclusion.')]
+ ];
+}
+function hgShowCoreLesson(panel,guide){
+ const section=document.createElement('section');section.className='hg-offline-lesson';
+ section.style.cssText='min-width:0;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;border:1px solid #377f96;border-radius:12px;padding:12px';
+ section.append(hgText('h3',hgL('Cuprins și teorie de studiu','Study contents and theory')));
+ const toc=document.createElement('div');toc.className='hg-local-toc';
+ toc.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:9px 0;';
+ const chapters=[];
+ for(let i=0;i<guide.length;i++){
+  const [heading,body]=guide[i];
+  const details=document.createElement('details');details.className='hg-theory-chapter';details.open=i===0;
+  details.style.cssText='padding:10px;margin:9px 0;border:1px solid #306a7e;border-radius:10px;background:#0c2c3b';
+  const summary=document.createElement('summary');summary.textContent=(i+1)+'. '+heading;
+  summary.style.cssText='font-weight:700;cursor:pointer';
+  const paragraph=hgText('p',body);
+  paragraph.style.cssText='white-space:pre-wrap;line-height:1.55;overflow-wrap:anywhere;';
+  details.append(summary,paragraph);chapters.push(details);
+  const button=hgBtn((i+1)+'. '+heading,()=>{details.open=true;details.scrollIntoView({block:'nearest'})},'secondary-btn hg-toc-button');
+  button.style.cssText='width:100%;min-width:0;min-height:50px;padding:7px;white-space:normal;font-size:14px;overflow-wrap:anywhere;';
+  toc.append(button);
+ }
+ section.append(toc,...chapters);panel.append(section);
+}
+
 function hgLesson(panel){
  const topic=hgTopic();if(!topic)return;
  const country=hgCountry(),scope=HG_SCOPE_DATA.find(x=>x.id===hgJourney.scope);
@@ -10555,10 +10603,28 @@ function hgLesson(panel){
  panel.append(hgText('p',hgL('Programa: ','Curriculum: ')+hgL(scope.ro,scope.en)+(hgJourney.scope!=='world'?' · '+(country?hgL(country.ro,country.en):hgJourney.otherCountry||''):'')+(hgJourney.region?' · '+hgJourney.region:'')+' · '+(hgJourney.level||'')+' · '+(hgJourney.grade||'')));
  panel.append(hgText('p',topic.query||hgL('Analizează exemple potrivite clasei selectate.','Explore grade-appropriate examples.')));
  if(topic.period)panel.append(hgText('p',hgL('Perioadă generală: ','General period: ')+topic.period));
- const notes=hgText('p',hgL('Capitolul are structură de studiu. Pentru explicații detaliate, profesorul AI generează conținut la nivelul ales, marcat ca material care necesită verificare.','This chapter has a study structure. The AI tutor creates level-specific content, explicitly marked as requiring verification.'));panel.append(notes);
- const custom=document.createElement('textarea');custom.className='hg-request';custom.rows=2;custom.placeholder=hgL('Întrebare sau subiect precis (opțional)','Specific question or topic (optional)');panel.append(custom);
+ const guide=hgLessonSections(topic);hgShowCoreLesson(panel,guide);
+ panel.append(hgText('h3',hgL('Aprofundează cu profesorul AI (opțional)','Explore further with AI (optional)')));
+ const custom=document.createElement('textarea');custom.className='hg-request';custom.rows=2;
+ custom.placeholder=hgL('Alege o subtemă sau scrie întrebarea ta','Choose a study topic or enter your question');
+ custom.setAttribute('aria-label',custom.placeholder);panel.append(custom);
+ const suggestions=document.createElement('div');suggestions.className='hg-lesson-suggestions';
+ suggestions.style.cssText='display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;min-width:0';
+ const paint=()=>{
+  const fold=x=>String(x||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+  suggestions.replaceChildren();
+  const matches=guide.filter(v=>fold(v[0]).includes(fold(custom.value))).slice(0,4);
+  for(const item of matches){
+   const select=hgBtn(item[0],()=>{custom.value=item[0];suggestions.style.display='none';custom.blur()},'secondary-btn hg-topic-suggestion');
+   select.style.cssText='min-width:0;min-height:46px;white-space:normal;font-size:13px;padding:7px;';
+   suggestions.append(select);
+  }
+  suggestions.style.display=matches.length?'grid':'none';
+ };
+ custom.addEventListener('focus',paint);custom.addEventListener('input',paint);
+ panel.append(suggestions);
  const output=document.createElement('div');output.className='hg-lesson-output';output.setAttribute('role','region');output.setAttribute('aria-label',hgL('Conținut lecție','Lesson content'));panel.append(output);
- panel.append(hgBtn(hgL('📖 Lecție completă + exerciții','📖 Complete lesson + exercises'),()=>hgGenerate(custom.value,output),'primary-btn'));
+ panel.append(hgBtn(hgL('📖 Aprofundează cu AI','📖 Expand with AI'),()=>hgGenerate(custom.value,output),'primary-btn'));
  const actions=document.createElement('div');actions.className='hg-lesson-actions';
  actions.append(hgBtn(hgL('🔊 Citește','🔊 Read aloud'),()=>{
   const content=output.textContent||topic.ro;if(!content)return;
