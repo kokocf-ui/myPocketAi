@@ -204,8 +204,25 @@ export const WORLDWIDE_GENERIC_SUBJECTS={
 };
 export const WORLDWIDE_SUBJECT_ALIASES={math:'mathematics',matematica:'mathematics',informatica:'computing',informatics:'computing',computer_science:'computing',computerScience:'computing',limba:'language',romanian:'language',english:'language',physics:'physics',fizica:'physics',chimie:'chemistry',chemistry:'chemistry',biologie:'biology',biology:'biology',literatura:'literature',literature:'literature',astronomie:'astronomy',astronomy:'astronomy',economie:'economics',economics:'economics',civica:'civics',civics:'civics'};
 
+export function worldwideActualStage(country,level,grade){
+ const code=String(country||'').toUpperCase(),mapped=EDUCATION_WORLDWIDE_SCHEMES[code]||fallback;
+ const id=String(grade||'');
+ for(const stage of ['beginner','lower','medium']){
+  if(mapped[stage].some(row=>row.id===id))return stage;
+ }
+ return level==='intermediate'?'medium':level;
+}
+export function worldwideGradeDepth(country,level,grade){
+ const code=String(country||'').toUpperCase(),stage=worldwideActualStage(country,level,grade);
+ const mapped=EDUCATION_WORLDWIDE_SCHEMES[code]||fallback;
+ const options=mapped[stage]||[];
+ const position=options.findIndex(row=>row.id===String(grade||''));
+ return {stage,position:Math.max(0,position),count:options.length||1};
+}
+
 export function worldwideStudyChapters(country,subject,level,grade,countryRo,countryEn,generalPaths){
- const lv=level==='intermediate'?'medium':level;
+ const lv=worldwideActualStage(country,level,grade);
+ const depth=worldwideGradeDepth(country,level,grade);
  const canonical=WORLDWIDE_SUBJECT_ALIASES[subject]||subject;
  const thematic=WORLDWIDE_GENERIC_SUBJECTS[canonical];
  if(subject!=='history'&&subject!=='geography'&&!thematic)return [];
@@ -218,9 +235,12 @@ export function worldwideStudyChapters(country,subject,level,grade,countryRo,cou
  const regionRo=String(countryRo||country||'țara selectată').slice(0,90);
  const regionEn=String(countryEn||country||'selected country').slice(0,90);
  const stageGuidance=lv==='beginner'?'Folosește observații și exemple concrete accesibile copiilor.':lv==='lower'?'Adaugă explicații cauzale, exerciții de aplicare și termeni noi.':lv==='medium'?'Folosește analiză comparativă, date și argumente susținute.':'Introdu metode avansate, limite și cercetare independentă.';
+ const relative=depth.count>1?depth.position/(depth.count-1):0;
+ const gradeGuidance=relative<0.34?'Clasa este la începutul nivelului: pornește de la exemple familiare, termeni definiți și întrebări directe.':relative<0.67?'Clasa este în mijlocul nivelului: construiește legături între concepte și explică un caz comparativ.':'Clasa este la sfârșitul nivelului: folosește argumentare, aplicații independente și verificarea surselor.';
+
  const common=base.map(([ro,en,focus],i)=>[
   'intl-'+code+'-'+subject+'-'+lv+'-'+yr+'-'+(i+1),
-  ro,en,focus+' '+stageGuidance+' '+(subject==='history'?
+  ro,en,focus+' '+stageGuidance+' '+gradeGuidance+' '+(subject==='history'?
   'Examinează izvoare datate și distinge faptele documentate de interpretări.':subject==='geography'?
   'Localizează și verifică hărți, unități de măsură, surse și ani.':
   'Explică metoda, oferă un exemplu rezolvat și verifică rezultatul cu un exercițiu adaptat nivelului.')
@@ -248,7 +268,7 @@ export function worldwideStudyChapters(country,subject,level,grade,countryRo,cou
  ];
  const nationalRows=national.map(([ro,en,focus],i)=>[
   'national-'+code+'-'+canonical+'-'+lv+'-'+yr+'-'+(i+1),ro,en,
-  focus+' '+stageGuidance+' Studiază sursele locale; nu presupune că ordinea capitolelor este obligatorie.'
+  focus+' '+stageGuidance+' '+gradeGuidance+' Studiază sursele locale; nu presupune că ordinea capitolelor este obligatorie.'
  ]);
  return [...nationalRows,...common,...local.map(([ro,en,focus],i)=>['intl-'+code+'-'+subject+'-'+lv+'-'+yr+'-local'+(i+1),ro,en,focus])];
 }
