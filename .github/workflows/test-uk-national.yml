@@ -1,0 +1,24 @@
+name: UK nationwide transport regression
+on:
+  push:
+    branches:
+      - fix/uk-nationwide-mixed-itineraries
+  pull_request:
+    paths:
+      - 'backend.js'
+      - 'uk_national_transit.mjs'
+      - 'tests_uk_national_transit.mjs'
+      - 'tests_mixed_uk_fallback.mjs'
+      - '.github/workflows/test-uk-national.yml'
+jobs:
+  national-transport:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check transport syntax
+        run: node --check backend.js && node --check uk_national_transit.mjs && node --check tests_mixed_uk_fallback.mjs && node --check tests_uk_national_transit.mjs
+      - name: Test mocked national provider and backend routing
+        run: node tests_uk_national_transit.mjs && node tests_mixed_uk_fallback.mjs
