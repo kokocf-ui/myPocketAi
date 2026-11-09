@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {worldwideSchoolYears,worldwideStudyChapters,WORLDWIDE_GENERIC_SUBJECTS} from './education_worldwide_paths.mjs';
+import {nationalSubjectUnits,NATIONAL_UNIT_SOURCES} from './education_national_subject_units.mjs';
 import {HG_GENERAL_GRADE_LESSONS} from './education_general_paths.mjs';
 
 const countries=['FR','DE','IT','ES','JP','IN','BR','NG','GB-SCT','UNMAPPED'];
@@ -22,3 +23,14 @@ for(const alias of ['math','informatica','fizica','chimie','biologie','literatur
 }
 assert.equal(worldwideStudyChapters('JP','not-a-subject','lower','L2','Japonia','Japan',HG_GENERAL_GRADE_LESSONS).length,0,'Unknown subjects should not masquerade as verified lessons');
 console.log('PASS: worldwide 12-subject advisory curriculum by country and school stage');
+
+for(const country of ['FR','IT','JP','DE','ES','BR']){
+ assert.ok(NATIONAL_UNIT_SOURCES[country],country+' requires provenance reference');
+ for(const subject of ['history','geography','literature']){
+  const own=nationalSubjectUnits(country,subject);
+  assert.ok(own.length>0,country+'/'+subject+' should include nationally distinctive units');
+  const result=worldwideStudyChapters(country,subject,'lower',worldwideSchoolYears(country,'lower')[0].id,country,country,HG_GENERAL_GRADE_LESSONS);
+  assert.ok(result.some(x=>x[0].startsWith('national-'+country+'-'+subject)),country+'/'+subject+' local units must lead');
+ }
+}
+assert.notDeepEqual(nationalSubjectUnits('FR','history').map(x=>x[0]),nationalSubjectUnits('JP','history').map(x=>x[0]),'No copy/paste curricula across countries');
