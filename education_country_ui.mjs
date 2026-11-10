@@ -66,9 +66,13 @@ async function eduTranslateMaterial(original,identity){
 }
 let educationCountrySelection={code:'',label:'',method:'unconfirmed',activeModule:null,callback:null,requestId:0};
 function eduCountryFold(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLocaleLowerCase()}
+// Education has a Europe-focused country picker. The app-wide country list
+// remains global for maps, finance, transport and general knowledge.
+// Oman (OM) is a real country but is not a European school jurisdiction.
+const EDU_EUROPE_COUNTRY_CODES=new Set(('AD AL AT BA BE BG BY CH CY CZ DE DK EE ES FI FR GR HR HU IE IS IT LI LT LU LV MC MD ME MK MT NL NO PL PT RO RS RU SE SI SK SM TR UA VA XK GB-ENG GB-SCT GB-WLS GB-NIR').split(' '));
 function eduCountryOptions(){
  const all=typeof HG_COUNTRY_PICKER_DATA!=='undefined'?HG_COUNTRY_PICKER_DATA:[];
- const seen=new Set();return all.filter(x=>x&&x.id!=='OTHER'&&!seen.has(x.id)&&seen.add(x.id));
+ const seen=new Set();return all.filter(x=>x&&EDU_EUROPE_COUNTRY_CODES.has(x.id)&&!seen.has(x.id)&&seen.add(x.id));
 }
 function eduCountryLabel(country){
  const code=country?.id||'',lang=state.language||'ro';
