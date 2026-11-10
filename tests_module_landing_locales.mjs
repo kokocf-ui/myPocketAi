@@ -15,10 +15,14 @@ for(const [language,locale] of countryLocales){
 }
 assert.match(ui,/if\(key==='maps'\|\|key==='travel'\)renderModuleLandingChoices\(\)/,'Maps/Hotels must display choices immediately');
 assert.match(ui,/function renderModuleLandingChoices\(\)/);
-assert.match(ui,/openModuleQuickLayer\(\);[\s\S]{0,180}module-result-card/,'Use existing search actions');
+assert.match(ui,/openModuleLandingAction\(choice\)/,'Each landing card opens its selected action directly');
+assert.match(ui,/function openModuleLandingAction\(choice\)/,'Single supported landing dispatcher');
+assert.doesNotMatch(ui,/function renderModuleQuickChoices\(/,'Legacy quick-choice table must be deleted');
+assert.doesNotMatch(ui,/id="moduleQuickTrigger"/,'Remove hidden quick-choice button from DOM');
 assert.match(ui,/const translated=window\.__pocketEuropeanUiText\?\.\[lang\]\?\.wordTranslations/,'Screens translate static Ukrainian category labels');
 assert.match(ui,/Restore measured full-height subject selection/,'Last stylesheet corrects earlier CSS cap');
-assert.match(ui,/#view-module\.module-landing #moduleQuickTrigger\{display:none!important\}/,'No duplicated quick trigger');
+assert.match(ui,/function returnToModuleLanding\(\)/,'Back returns to module landing');
+assert.match(ui,/if\(state\.moduleSearchResults\.length\)/,'Optional previous results are retained');
 const ua=EUROPEAN_UI_LOCALES.uk;
 assert.equal(ua.cards[0][0],'ШІ-помічник');
 assert.equal(ua.quickChoices['Hoteluri'],'Готелі');
