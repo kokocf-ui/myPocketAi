@@ -244,8 +244,12 @@ public final class AvatarLaunchActivity extends Activity {
         android.widget.TextView body=setupLabel(detail,13,bodyColor,false);
         android.widget.LinearLayout.LayoutParams bodyLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
         bodyLp.topMargin=setupDp(4);item.addView(body,bodyLp);
-        android.widget.LinearLayout.LayoutParams boxLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
-        boxLp.topMargin=setupDp(8);parent.addView(item,boxLp);
+        boolean horizontal=parent.getOrientation()==android.widget.LinearLayout.HORIZONTAL;
+        android.widget.LinearLayout.LayoutParams boxLp=horizontal
+            ?new android.widget.LinearLayout.LayoutParams(0,-2,1f)
+            :new android.widget.LinearLayout.LayoutParams(-1,-2);
+        if(horizontal)boxLp.leftMargin=setupDp(6);else boxLp.topMargin=setupDp(8);
+        parent.addView(item,boxLp);
     }
 
     private void showFirstInstallationPanel(){
@@ -255,7 +259,10 @@ public final class AvatarLaunchActivity extends Activity {
         panel.setCancelable(false);
         android.widget.LinearLayout column=new android.widget.LinearLayout(this);
         column.setOrientation(android.widget.LinearLayout.VERTICAL);
-        column.setPadding(setupDp(20),setupDp(18),setupDp(20),setupDp(18));
+        boolean landscape=getResources().getDisplayMetrics().widthPixels>
+            getResources().getDisplayMetrics().heightPixels;
+        column.setPadding(setupDp(landscape?12:20),setupDp(landscape?8:18),
+            setupDp(landscape?12:20),setupDp(landscape?8:18));
         column.setBackground(setupBackground(Color.rgb(10,39,57),Color.rgb(72,137,167),22));
         column.addView(setupLabel("myPocket AI",15,cyan,true));
         android.widget.TextView title=setupLabel(onboardingString(
@@ -276,13 +283,17 @@ public final class AvatarLaunchActivity extends Activity {
             "Aby aplikacja działała poprawnie, Android może poprosić o te uprawnienia:"),14,soft,false);
         android.widget.LinearLayout.LayoutParams descLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
         descLp.topMargin=setupDp(8);column.addView(desc,descLp);
-        addSetupInfo(column,onboardingString("Localizare","Location","Localisation","Standort","Posizione","Ubicación","Localização","Locatie","Геолокация","Lokalizacja"),
+        android.widget.LinearLayout infoItems=new android.widget.LinearLayout(this);
+        infoItems.setOrientation(landscape?android.widget.LinearLayout.HORIZONTAL:
+            android.widget.LinearLayout.VERTICAL);
+        column.addView(infoItems,new android.widget.LinearLayout.LayoutParams(-1,-2));
+        addSetupInfo(infoItems,onboardingString("Localizare","Location","Localisation","Standort","Posizione","Ubicación","Localização","Locatie","Геолокация","Lokalizacja"),
             onboardingString("Trasee, transport și locuri din apropiere.","Routes, transport and nearby places.",
                 "Itinéraires, transports et lieux proches.","Routen, Verkehr und Orte in der Nähe.",
                 "Percorsi, trasporti e luoghi vicini.","Rutas, transporte y lugares cercanos.",
                 "Rotas, transportes e locais próximos.","Routes, vervoer en plekken dichtbij.",
                 "Маршруты, транспорт и места рядом.","Trasy, transport i pobliskie miejsca."),foreground,soft);
-        addSetupInfo(column,onboardingString("Fotografiere","Camera","Appareil photo","Kamera","Fotocamera","Cámara","Câmara","Camera","Камера","Aparat"),
+        addSetupInfo(infoItems,onboardingString("Fotografiere","Camera","Appareil photo","Kamera","Fotocamera","Cámara","Câmara","Camera","Камера","Aparat"),
             onboardingString("Scanarea documentelor și a exercițiilor; camera se deschide doar când o alegi.",
                 "Scan documents and exercises; the camera opens only when you choose it.",
                 "Numériser des documents et exercices, uniquement à votre demande.",
@@ -293,7 +304,7 @@ public final class AvatarLaunchActivity extends Activity {
                 "Documenten en oefeningen scannen alleen als je dat kiest.",
                 "Сканирование документов и заданий только по вашему выбору.",
                 "Skanowanie dokumentów i zadań tylko na żądanie."),foreground,soft);
-        addSetupInfo(column,onboardingString("Notificări","Notifications","Notifications","Benachrichtigungen","Notifiche","Notificaciones","Notificações","Meldingen","Уведомления","Powiadomienia"),
+        addSetupInfo(infoItems,onboardingString("Notificări","Notifications","Notifications","Benachrichtigungen","Notifiche","Notificaciones","Notificações","Meldingen","Уведомления","Powiadomienia"),
             onboardingString("Mementouri, Agendă și alerte pentru evenimente.",
                 "Reminders, Agenda and event alerts.",
                 "Rappels, agenda et alertes d’événements.",
