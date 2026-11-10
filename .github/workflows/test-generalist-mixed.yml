@@ -76,6 +76,8 @@ jobs:
         run: node tests_literature_activity_flow.mjs
       - name: Android literature level to Grade 8 navigation
         run: node tests_literature_navigation_viewport.mjs
+      - name: Country-first Education navigation
+        run: node tests_education_country_first.mjs
       - name: UI checks 1-5
         run: |
           node tests_navigation_heading.mjs
