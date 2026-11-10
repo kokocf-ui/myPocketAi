@@ -111,6 +111,7 @@ jobs:
       - name: Verify backend news-search routing before deploy
         run: |
           node --check backend.js
+          npm run test:culinary
           node tests_response_intent.mjs
           node tests_news_contextual_translation.mjs
           node tests_news_live_routing.mjs
