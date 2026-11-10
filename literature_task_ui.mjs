@@ -126,8 +126,40 @@ function litSimpleLiterature(panel){
    rows=(data.docs||[]).flatMap(x=>(x.author_name||[]).map(w=>({title:String(x.title||''),author:String(w||''),url:/^\/works\/OL\d+W$/.test(x.key||'')?'https://openlibrary.org'+x.key:''})))
     .filter(x=>fold(x.title)===fold(name)&&(!author||fold(x.author).includes(author)));
   }catch{feedback.textContent=litSimpleLabel('Catalog indisponibil; nu pot confirma atribuirea.','Catalogue unavailable; attribution unverified.');return}
-  const distinct=[...new Map(rows.map(x=>[fold(x.title)+'|'+fold(x.author),x])).values()].slice(0,7);
-  for(const row of distinct)results.append(litSimpleButton(row.title+' — '+row.author,()=>select(row.title,row.author,row.url)));
+  // A person-name query is different from a book-title query. Open
+  // the exact author's own works, not titles merely containing that name.
+  if(!rows.length&&!parts[1])try{
+   const response=await fetch('https://openlibrary.org/search/authors.json?q='+encodeURIComponent(name)+'&limit=8',{credentials:'omit'});
+   if(!response.ok)throw Error('author_search');
+   const data=await response.json();
+   if(n!==searchNumber||!results.isConnected)return;
+   const matches=(data.docs||[]).filter(x=>fold(x.name)===fold(name));
+   const author=matches.length===1?matches[0]:null;
+   const key=String(author?.key||'').replace(/^\\/authors\\//,'');
+   if(/^OL\\d+A$/.test(key)){
+    const worksResponse=await fetch('https://openlibrary.org/authors/'+key+'/works.json?limit=50',{credentials:'omit'});
+    if(!worksResponse.ok)throw Error('author_works');
+    const works=await worksResponse.json();
+    if(n!==searchNumber||!results.isConnected)return;
+    rows=(works.entries||[]).filter(x=>String(x.title||'').trim())
+     .map(x=>({title:String(x.title).trim(),author:String(author.name),url:
+      /^\\/works\\/OL\\d+W$/.test(x.key||'')?'https://openlibrary.org'+x.key:
+      'https://openlibrary.org/authors/'+key}));
+   }
+  }catch{feedback.textContent=litSimpleLabel('Catalogul autorilor nu este disponibil acum.','Author catalogue unavailable right now.')}
+  const distinct=[...new Map(rows.map(x=>[fold(x.title)+'|'+fold(x.author),x])).values()];
+  let page=0;
+  const show=()=>{
+   const batch=distinct.slice(page,page+7);
+   for(const row of batch)results.append(litSimpleButton(row.title+' — '+row.author,()=>select(row.title,row.author,row.url)));
+   page+=batch.length;
+   if(page<distinct.length)results.append(litSimpleButton(
+    litSimpleLabel('Alte opere','More works'),()=>{
+     const last=results.lastElementChild;if(last?.textContent===litSimpleLabel('Alte opere','More works'))last.remove();
+     show();
+    }));
+  };
+  show();
   feedback.textContent=distinct.length?distinct.length+' '+litSimpleLabel('rezultate distincte','distinct matches'):
    litSimpleLabel('Nicio potrivire sigură. Încearcă titlul și autorul.','No confident match; try title and author.');
  };
