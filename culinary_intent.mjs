@@ -2,7 +2,7 @@
 const normalize=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
  .toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
 const numberWords={o:1,un:1,una:1,one:1,doua:2,doi:2,two:2,trei:3,three:3,patru:4,four:4,cinci:5,five:5,sase:6,six:6};
-const exclude=new Set(
+const exclude=new Set((
  'vreau as dori te rog please show find search give get want like '+
  'cauta cautami gaseste gasestemi arata aratami ofera oferami prezinta prezentami '+
  'da dami da mi imi pune pune mi '+
@@ -12,8 +12,8 @@ const exclude=new Set(
  'mod preparare prepararea preparat pregatire cooking cook how cum se face fac faci '+
  'traditional traditionale traditionala traditionali traditional romanesc romaneasca romanesti '+
  'pentru about from with de la in pe ale unui unei un una o si sau the and of for to me my i you '+
- '1 2 3 4 5 6 o doi doua trei patru cinci sase one two three four five six'.split(' ')
-);
+ '1 2 3 4 5 6 o doi doua trei patru cinci sase one two three four five six'
+).split(' '));
 export function recipeDishKeywords(input){
  const words=normalize(input).split(' ').filter(x=>x.length>=4&&!exclude.has(x));
  return [...new Set(words)];
