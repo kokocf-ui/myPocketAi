@@ -594,7 +594,7 @@ public final class MainActivity extends ComponentActivity {
                     if(!isMainFrame||!"https".equals(origin.getScheme())||!APP_HOST.equals(origin.getHost()))return;
                     final String request=message.getData();
                     if(request==null||request.length()>(
-                        request.startsWith("share-many:")||request.startsWith("delete-many:")?16000:220))return;
+                        request.startsWith("share-many:")||request.startsWith("delete-many:")?60000:220))return;
                     runOnUiThread(()->{
                         if("list".equals(request))listEducationDocuments();
                         else if(request.startsWith("share-many:"))shareManyEducationDocuments(request.substring(11));
@@ -1500,7 +1500,7 @@ public final class MainActivity extends ComponentActivity {
     private void shareManyEducationDocuments(String payload){
         try{
             JSONArray files=new JSONArray(payload);
-            if(files.length()<1||files.length()>80)return;
+            if(files.length()<1||files.length()>250)return;
             File folder=educationDocumentsFolder();
             ArrayList<Uri> uris=new ArrayList<>();
             java.util.HashSet<String> unique=new java.util.HashSet<>();
@@ -1527,7 +1527,7 @@ public final class MainActivity extends ComponentActivity {
     private void deleteManyEducationDocuments(String payload){
         try{
             JSONArray files=new JSONArray(payload);
-            if(files.length()<1||files.length()>80)return;
+            if(files.length()<1||files.length()>250)return;
             File folder=educationDocumentsFolder();
             java.util.HashSet<String> unique=new java.util.HashSet<>();
             for(int i=0;i<files.length();i++){
