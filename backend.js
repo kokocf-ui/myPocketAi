@@ -1,5 +1,5 @@
 import {parseCulinaryRequest,culinarySearchQuery,recipeDishKeywords,humanizeRecipeDuration,humanizeRecipeServings} from "./culinary_intent.mjs";
-import {classifyAssistantFeedback,resolveRecipeFollowupComplaint} from "./social_feedback.mjs";
+import {classifyAssistantFeedback,resolveRecipeFollowupComplaint,resolveRecipeRequestRecall,formatRecipeRequestRecall} from "./social_feedback.mjs";
 import {assembleSourcedRecipeVariants} from "./culinary_multi.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
@@ -1925,6 +1925,18 @@ export default {
     const supportedLanguages = ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"];
     const requestedLanguage = typeof data.language === "string" ? data.language.trim().toLowerCase().split(/[-_]/)[0] : "ro";
     const lang = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ro";
+    // Questions about an earlier recipe request must be answered from the
+    // user's actual conversation history before culinary keyword detection.
+    // "Câte rețete de sarmale am spus să îmi dai?" is not a recipe search.
+    const recipeRecall=resolveRecipeRequestRecall(message,data.history);
+    if(recipeRecall){
+      return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+        message_received:originalMessage,reply:formatRecipeRequestRecall(recipeRecall,lang),
+        conversational_reply:true,recipe_recall_status:recipeRecall.kind,
+        requested_recipe_count:recipeRecall.kind==='found'?recipeRecall.count:null,
+        recipe_recall_dish:recipeRecall.dish||null,ai_generated:false,
+        web_search_status:'not_needed',ai_connected:Boolean(env.AI)});
+    }
     const cookingCorrection=resolveRecipeFollowupComplaint(message,data.history);
     if(cookingCorrection?.kind==='clarify'){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,

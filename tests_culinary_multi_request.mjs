@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {parseCulinaryRequest,recipeDishKeywords,culinarySearchQuery,humanizeRecipeDuration,humanizeRecipeServings} from './culinary_intent.mjs';
-import {classifyAssistantFeedback,resolveRecipeFollowupComplaint} from './social_feedback.mjs';
-import {assembleSourcedRecipeVariants,recipeIngredientSignature} from './culinary_multi.mjs';
+import {classifyAssistantFeedback,resolveRecipeFollowupComplaint,resolveRecipeRequestRecall,formatRecipeRequestRecall} from './social_feedback.mjs';
+import {assembleSourcedRecipeVariants,recipeIngredientSignature,recipeQualityGate} from './culinary_multi.mjs';
 
 for(const [message,quantity,expectedIntent] of [
  ['Dă-mi 3 rețete de guacamole',3,true],
@@ -234,4 +234,99 @@ const repeated=await assembleSourcedRecipeVariants({
  validate:()=>true
 });
 assert.equal(repeated.count,1,'same ingredient list must not count as a distinct variation');
+
+const recallHistory=[
+ {role:'user',content:'Dă-mi 3 rețete de sarmale'},
+ {role:'assistant',content:'Rețeta 1 — Sarmale cu varză murată'},
+ {role:'user',content:'Arată mai multe rețete de guacamole'},
+ {role:'assistant',content:'Rețeta 1 — Guacamole'},
+ {role:'user',content:'Câte rețete de sarmale am spus să îmi dai?'}
+];
+const recalled=resolveRecipeRequestRecall('Câte rețete de sarmale am spus să îmi dai?',recallHistory);
+assert.equal(recalled?.kind,'found');
+assert.equal(recalled.count,3);
+assert.equal(recalled.dish,'sarmale');
+assert.equal(recalled.original,'Dă-mi 3 rețete de sarmale');
+assert.equal(formatRecipeRequestRecall(recalled,'ro'),'Mi-ai cerut 3 rețete de sarmale.');
+const altRecall=resolveRecipeRequestRecall('Care a fost solicitarea mea cu privire la sarmale?',recallHistory);
+assert.equal(altRecall?.count,3);
+assert.equal(altRecall?.dish,'sarmale');
+const guacRecall=resolveRecipeRequestRecall('Câte rețete de guacamole am cerut?',recallHistory);
+assert.equal(guacRecall?.count,3);
+assert.equal(guacRecall?.explicitCount,false);
+assert.match(formatRecipeRequestRecall(guacRecall,'ro'),/Ai cerut mai multe rețete de guacamole/);
+const unknown=resolveRecipeRequestRecall('Câte rețete de sarmale ți-am cerut?',[
+ {role:'user',content:'Dă-mi 2 rețete de guacamole'}
+]);
+assert.equal(unknown?.kind,'not_found');
+assert.equal(unknown.dish,'sarmale');
+assert.match(formatRecipeRequestRecall(unknown,'ro'),/Nu găsesc/);
+assert.equal(resolveRecipeRequestRecall('Dă-mi trei rețete de sarmale',recallHistory),null);
+assert.equal(resolveRecipeRequestRecall('Câte rețete de sarmale există în România?',recallHistory),null);
+assert.match(backend,/const recipeRecall=resolveRecipeRequestRecall\(message,data\.history\)/);
+assert.ok(backend.indexOf('const recipeRecall=resolveRecipeRequestRecall(')<backend.indexOf('const cookingCorrection=resolveRecipeFollowupComplaint('));
+assert.match(backend,/web_search_status:'not_needed',ai_connected:Boolean\(env\.AI\)/);
+
+// The incomplete three-ingredient advertising-style "sarmale" response in
+// the Android screenshot must not count as a verified second recipe.
+const weakSarmale=[
+ 'Rețeta 1 — Sarmale tradiționale cu porc',
+ 'Ingrediente:',
+ '- 1 kg Varză murată foi Drag de România',
+ '- 500 g Carne tocată amestec Carrefour La Piață',
+ '- 200 g Untură de gâscă',
+ 'Mod de preparare:',
+ '1. Pregătește varza.',
+ '2. Fierbe sarmalele.'
+].join('\n');
+assert.equal(recipeQualityGate(weakSarmale,'sarmale'),false);
+const validSarmale=[
+ 'Rețeta 1 — Sarmale de post cu ciuperci',
+ 'Ingrediente:',
+ '- 1 varză murată',
+ '- 400 g ciuperci',
+ '- 150 g orez',
+ '- 2 cepe',
+ '- 2 linguri ulei',
+ '- 1 lingură boia',
+ 'Mod de preparare:',
+ '1. Călește ceapa și amestecă umplutura.',
+ '2. Înfășoară sarmalele în foi de varză și fierbe.'
+].join('\n');
+assert.equal(recipeQualityGate(validSarmale,'sarmale'),true);
+const sellers=Array.from({length:7},(_,i)=>({
+ url:'https://sursaculinara'+i+'.example/reteta-sarmale',
+ title:'Sarmale variante '+i,pageEvidence:'Ingrediente și Mod de preparare'
+}));
+const callLog=[];
+const extras=[
+ ['1 varză murată','400 g ciuperci','150 g orez','2 cepe','2 linguri ulei'],
+ ['1 varză murată','500 g carne de porc','150 g orez','2 cepe','2 linguri smântână'],
+ ['5 foi de viță','600 g carne de vită','200 g orez','1 morcov','2 cepe'],
+ ['1 varză murată','200 g păsat','2 cepe','1 morcov','2 linguri ulei']
+];
+const expanded=await assembleSourcedRecipeVariants({
+ count:3,language:'ro',dish:'sarmale',sources:sellers,published:[],
+ renderSource:async src=>{
+  const i=sellers.findIndex(x=>x.url===src.url);callLog.push(i);
+  if(i===0)return weakSarmale;
+  if(i===1)return '';
+  if(i===2)return validSarmale;
+  if(i===3)return validSarmale;
+  if(i===4||i===5)return makeRecipe('Sarmale '+i,extras[i-3],src.url);
+  if(i===6)return makeRecipe('Sarmale cu păsat',extras[3],src.url);
+  return '';
+ },
+ validate:()=>true
+});
+assert.equal(expanded.count,3,'Second evidence batch should recover distinct, complete recipes');
+assert.ok(callLog.some(x=>x>=4),'Second batch should run when early sources are bad');
+assert.equal((expanded.reply.match(/^Rețeta \d+/gm)||[]).length,3);
+assert.equal(expanded.sources.length,3);
+assert.equal(expanded.missing,0);
+assert.ok(expanded.provenance.every(x=>x==='publisher_assisted'));
+
+// A partial response must disclose the shortfall BEFORE a long recipe list.
+assert.ok(onlyOne.reply.startsWith('Am găsit 1 din cele 3 rețete cerute'));
+
 console.log('Culinary queries/counts, recipe source matching, social GPS guard and education navigation OK');
