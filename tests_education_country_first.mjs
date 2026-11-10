@@ -52,7 +52,7 @@ assert.deepEqual(yearsFunction('RO','medium','computing').map(x=>x.id),['9','10'
 assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/input\.addEventListener\('focus',\(\)=>\{input\.select\(\)\}\)/);
 assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/\.slice\(0,4\)/,'Only four visible country suggestions');
 assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/fetch\(url\.toString/,'Location-based suggestion');
-assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/touched\|\|educationCountrySelection\.requestId/,'Manual edits win over GPS');
+assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/touched\|\|automaticChosen\|\|educationCountrySelection\.requestId/,'Manual edits and first country suggestion win over late GPS');
 assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/pocket-edu-country-confirmed-v1/);
 assert.doesNotMatch(PRACTICAL_UI_SCRIPT,/result\.cloneNode\(true\)/,'No duplicate visible quiz report');
 assert.match(PRACTICAL_UI_SCRIPT,/practical-result/);
