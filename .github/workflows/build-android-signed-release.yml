@@ -7,6 +7,7 @@ on:
     paths:
       - 'android/**'
       - 'index.js'
+      - 'backend.js'
       - 'tests_home_einstein_layout.mjs'
       - 'practical_*.mjs'
       - 'exam_*.mjs'
@@ -163,6 +164,7 @@ jobs:
           node tests_first_install_consent.mjs
           node tests_seven_europe_literature.mjs
           node tests_hungarian_school_paths.mjs
+          node tests_literature_tutor_response.mjs
           node tests_literature_navigation_viewport.mjs
           node tests_education_reader_documents_regression.mjs
           node tests_pdf_library.mjs
