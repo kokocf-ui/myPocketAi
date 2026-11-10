@@ -117,6 +117,13 @@ jobs:
           echo "POCKET_VERSION_CODE=$((500000 + GITHUB_RUN_NUMBER))" >> "$GITHUB_ENV"
       - name: Check JS syntax and mathematics transcription pilot
         run: |
+          echo "::group::Signed release source provenance"
+          git log -1 --format='FULL_RELEASE_COMMIT=%H%nCOMMIT_TIME=%cI%nCOMMIT_MESSAGE=%s'
+          echo "GITHUB_SHA=${GITHUB_SHA}"
+          echo "::endgroup::"
+          echo "::group::Poland 2026 curriculum regression guard"
+          node --input-type=module -e "import {litEuropeanPlan} from './literature_curriculum_europe.mjs';import assert from 'node:assert/strict';assert.equal(litEuropeanPlan('PL','beginner','IV').verified,true,'PL grade IV missing verified framework');assert.equal(litEuropeanPlan('PL','beginner','II').verified,false,'PL grade II must remain phased');assert.equal(litEuropeanPlan('AT','medium','8').verified,true,'AT grade 8 verified framework missing');console.log('PASS: Poland IV true, Poland II false, Austria 8 true');"
+          echo "::endgroup::"
           node --check index.js
           node --check backend.js
           node --check practical_curriculum.mjs
