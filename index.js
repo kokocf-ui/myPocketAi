@@ -3311,6 +3311,33 @@ main.page:has(#view-module.learning-languages.active){
 #view-module.my-documents-active .my-documents-open{min-width:0!important;flex:1 1 auto!important}
 #view-module.my-documents-active .my-documents-open strong{overflow-wrap:anywhere}
 </style>
+<style id="pdf-library-bulk-layout">
+#view-module.my-documents-active .my-documents-batch[hidden]{display:none!important}
+#view-module.my-documents-active .my-documents-batch{
+ position:sticky!important;top:0!important;z-index:6!important;
+ background:#0a293d!important;padding:8px 10px!important;
+ border:1px solid #467e96!important;border-radius:12px!important;
+ display:flex!important;align-items:center!important;gap:10px!important;
+ flex-wrap:nowrap!important;box-sizing:border-box!important;
+ width:100%!important;min-height:58px!important
+}
+#view-module.my-documents-active .my-documents-count{
+ font-size:clamp(12px,3.4vw,16px);margin-right:auto;white-space:nowrap
+}
+#view-module.my-documents-active .my-documents-row{
+ display:grid!important;grid-template-columns:26px minmax(0,1fr)!important;
+ align-items:center!important;gap:12px!important;
+ padding:12px!important;min-height:78px!important
+}
+#view-module.my-documents-active .my-documents-row .my-documents-check{
+ width:22px!important;height:22px!important;margin:0!important
+}
+#view-module.my-documents-active .my-documents-row .my-documents-open{
+ grid-column:2!important;width:100%!important;text-align:left!important;
+ padding:8px 0!important;min-width:0!important
+}
+#view-module.my-documents-active .my-documents-panel{scroll-padding-top:64px!important}
+</style>
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
 <section class="view" id="view-tools"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Instrumente</h2><p class="section-lead">Alege un domeniu pentru a începe.</p><div class="simple-list" id="toolsList"></div></section>
@@ -3719,13 +3746,36 @@ function renderMyDocuments(){
  const panel=document.createElement('div');panel.className='extra-tools-panel my-documents-panel';
  const bar=document.createElement('div');bar.className='education-toolbar';
  const back=document.createElement('button');back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=renderExtraToolsChoices;bar.append(back);panel.append(bar);
- const hint=document.createElement('p');hint.textContent=learningLabel('Atinge numele pentru a deschide PDF-ul. Bifează un document pentru imprimare, distribuire sau ștergere.','Tap a name to open the PDF. Select a document to print, share or delete.');panel.append(hint);
+ const hint=document.createElement('p');hint.textContent=learningLabel('Atinge titlul pentru vizualizare A4 în aplicație. Bifează documentele pentru acțiuni comune.','Tap a title to preview A4 pages in the app. Select documents for shared actions.');panel.append(hint);
  const selected=new Set(),actions=document.createElement('div');actions.className='my-documents-batch';
- const icon=(glyph,title,kind,handler)=>{const b=document.createElement('button');b.type='button';b.className='edu-icon-action edu-icon-'+kind;b.textContent=glyph;b.title=title;b.setAttribute('aria-label',title);b.onclick=handler;actions.append(b);return b};
- const print=icon('🖨',learningLabel('Imprimă PDF','Print PDF'),'print',()=>{for(const name of selected)window.PocketAndroidDocuments?.postMessage('print:'+name)});
- const share=icon('↗',learningLabel('Trimite PDF prin WhatsApp sau e-mail','Share PDF via WhatsApp or email'),'share',()=>{for(const name of selected)window.PocketAndroidDocuments?.postMessage('share:'+name)});
- const del=icon('🗑',learningLabel('Șterge PDF','Delete PDF'),'delete',()=>{if(!selected.size)return;pocketConfirm(learningLabel('Ștergi definitiv documentele selectate?','Permanently delete selected documents?'),()=>{for(const name of selected)window.PocketAndroidDocuments?.postMessage('delete:'+name);selected.clear();refresh()})});
- const refresh=()=>{print.disabled=selected.size!==1;share.disabled=selected.size!==1;del.disabled=!selected.size};refresh();panel.append(actions);
+ actions.setAttribute('role','group');actions.setAttribute('aria-label',learningLabel('Acțiuni documente selectate','Selected documents actions'));
+ const selectedCount=document.createElement('strong');selectedCount.className='my-documents-count';actions.append(selectedCount);
+ const icon=(glyph,title,kind,handler)=>{
+  const b=document.createElement('button');b.type='button';
+  b.className='edu-icon-action edu-icon-'+kind;
+  b.textContent=glyph;b.title=title;b.setAttribute('aria-label',title);
+  b.onclick=handler;actions.append(b);return b;
+ };
+ const requestNames=()=>Array.from(selected);
+ const print=icon('🖨',learningLabel('Imprimă documentul','Print selected PDF'),'print',()=>{
+  const names=requestNames();if(names.length===1)window.PocketAndroidDocuments?.postMessage('print:'+names[0]);
+ });
+ const share=icon('↗',learningLabel('Trimite documentele prin WhatsApp sau e-mail','Share selected PDFs via WhatsApp or email'),'share',()=>{
+  const names=requestNames();if(!names.length)return;
+  window.PocketAndroidDocuments?.postMessage(names.length===1?'share:'+names[0]:'share-many:'+JSON.stringify(names));
+ });
+ const del=icon('🗑',learningLabel('Șterge documentele selectate','Delete selected PDFs'),'delete',()=>{
+  const names=requestNames();if(!names.length)return;
+  pocketConfirm(learningLabel('Ștergi definitiv '+names.length+' document(e) selectate?','Permanently delete '+names.length+' selected PDF(s)?'),()=>{
+   window.PocketAndroidDocuments?.postMessage('delete-many:'+JSON.stringify(names));
+  });
+ });
+ const refresh=()=>{
+  actions.hidden=!selected.size;
+  selectedCount.textContent=selected.size+' '+learningLabel('selectate','selected');
+  print.disabled=selected.size!==1;share.disabled=del.disabled=!selected.size;
+ };
+ refresh();panel.append(actions);
  const status=document.createElement('p');status.className='my-documents-status';status.setAttribute('role','status');status.textContent=learningLabel('Se încarcă documentele…','Loading documents…');panel.append(status);
  const list=document.createElement('div');list.className='my-documents-list';panel.append(list);host.append(panel);
  if(!window.PocketAndroidDocuments?.postMessage){status.textContent=learningLabel('Biblioteca necesită APK-ul Android actualizat.','The library requires the updated Android APK.');return}
@@ -3736,8 +3786,7 @@ function renderMyDocuments(){
    const row=document.createElement('div');row.className='my-documents-row';
    const check=document.createElement('input');check.type='checkbox';check.className='my-documents-check';check.checked=selected.has(doc.name);check.setAttribute('aria-label',learningLabel('Selectează ','Select ')+doc.name);check.onchange=()=>{if(check.checked)selected.add(doc.name);else selected.delete(doc.name);refresh()};
    const name=document.createElement('button');name.type='button';name.className='my-documents-open';name.title=learningLabel('Deschide PDF','Open PDF');const title=document.createElement('strong');title.textContent=doc.name;const date=document.createElement('small');date.textContent=new Date(doc.date).toLocaleDateString()+' · '+Math.ceil(doc.bytes/1024)+' KB';name.append(title,date);name.onclick=()=>window.PocketAndroidDocuments?.postMessage('open:'+doc.name);
-   const trash=document.createElement('button');trash.type='button';trash.className='edu-icon-action edu-icon-delete';trash.textContent='🗑';trash.title=learningLabel('Șterge PDF','Delete PDF');trash.setAttribute('aria-label',trash.title);trash.onclick=()=>pocketConfirm(learningLabel('Ștergi definitiv ','Permanently delete ')+doc.name+'?',()=>window.PocketAndroidDocuments?.postMessage('delete:'+doc.name));
-   row.append(check,name,trash);list.append(row);
+   row.append(check,name);list.append(row);
   }
  };window.PocketAndroidDocuments.postMessage('list');
 }
