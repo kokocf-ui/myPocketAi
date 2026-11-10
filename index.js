@@ -11905,7 +11905,10 @@ function eduCurrentPrintable(){
  if(lit){
   const work=root.querySelector('#litWorkTitle')?.value.trim()||'';
   const subject=root.querySelector('#litEssaySubject')?.value.trim()||'';
-  descriptive=[work,subject].filter(Boolean).join(' — ')||title;
+  const lesson=root.querySelector('.lit-activity-heading')?.textContent?.trim()||'';
+  const area=typeof litJourney==='object'?litJourney.branch:'';
+  descriptive=[work,subject,lesson].filter(Boolean).join(' — ')||
+   [title,area].filter(Boolean).join(' — ');
  }else if(!comp&&!examination){
   const assignment=root.querySelector('.hg-request')?.value.trim()||'';
   if(assignment)descriptive=title+' — '+assignment;
@@ -11965,13 +11968,40 @@ function eduOpenPrint(mode='save'){
  const titleInput=document.createElement('input');titleInput.value=material.title;titleInput.setAttribute('aria-label',learningLabel('Titlu document','Document title'));dialog.append(titleInput);
  const editor=document.createElement('textarea');editor.value=material.text;editor.setAttribute('aria-label',learningLabel('Conținut de imprimat','Printable content'));dialog.append(editor);
  const feedback=document.createElement('p');feedback.setAttribute('role','status');dialog.append(feedback);
- window.pocketEduPrintResult=(state)=>{if(!dialog.isConnected)return;feedback.textContent=state==='saved'?learningLabel('Document salvat în Documentele mele.','Document saved in My Documents.'):state==='error'?learningLabel('Salvarea PDF a eșuat.','PDF save failed.'):state==='printUnavailable'?learningLabel('PDF salvat, dar imprimarea nu este disponibilă.','PDF saved, but printing is unavailable.'):state==='busy'?learningLabel('O salvare este deja în curs.','A save is already in progress.'):''};
+ let submitted=false;
+ window.pocketEduPrintResult=(state)=>{
+  if(!dialog.isConnected)return;
+  if(state==='saved'){
+   feedback.textContent=mode==='print'?
+    learningLabel('PDF salvat. Se deschide imprimarea Android.','PDF saved. Android print chooser is opening.'):
+    learningLabel('PDF salvat în Documentele mele.','PDF saved in My Documents.');
+   // Native Android only reports success after the PDF file has been written.
+   // The Android print chooser is independent; the app dialog must not stay open underneath it.
+   dialog.close();
+   notify(mode==='print'?learningLabel('PDF salvat; continuă în fereastra de imprimare.','PDF saved; continue in the Android print chooser.'):
+    learningLabel('PDF salvat. Îl găsești în Instrumente → Documentele mele.','PDF saved. Find it in Tools → My Documents.'));
+   return;
+  }
+  submitted=false;print.disabled=false;
+  feedback.textContent=state==='error'?learningLabel('Salvarea PDF a eșuat.','PDF save failed.'):
+   state==='printUnavailable'?learningLabel('PDF salvat, dar imprimarea nu este disponibilă.','PDF saved, but printing is unavailable.'):
+   state==='busy'?learningLabel('O salvare este deja în curs.','A save is already in progress.'):
+   learningLabel('Nu am primit confirmarea salvării.','No save confirmation received.');
+ };
  const print=document.createElement('button');print.type='button';print.className='primary-btn';
  print.textContent=mode==='print'?learningLabel('Salvează PDF și imprimă','Save PDF then print'):learningLabel('Salvează PDF','Save PDF');
  print.onclick=async()=>{
-  const title=titleInput.value.trim()||'Material educațional',text=editor.value.trim();if(!text)return;
+  if(submitted)return;
+  const title=titleInput.value.trim()||'Material educațional',text=editor.value.trim();
+  if(!text){feedback.textContent=learningLabel('Documentul este gol.','The document is empty.');return}
   if(window.PocketAndroidPrint?.postMessage){
-   const figures=await eduPdfFigures();window.PocketAndroidPrint.postMessage(JSON.stringify({mode,title:title.slice(0,120),text:text.slice(0,160000),color:document.getElementById('litPdfColor')?.value!=='bw',pages:Number(document.getElementById('litPageCount')?.value||0),figures}));return;
+   submitted=true;print.disabled=true;
+   feedback.textContent=learningLabel('Se salvează PDF-ul…','Saving PDF…');
+   try{
+    const figures=await eduPdfFigures();
+    window.PocketAndroidPrint.postMessage(JSON.stringify({mode,title:title.slice(0,120),text:text.slice(0,160000),color:document.getElementById('litPdfColor')?.value!=='bw',pages:Number(document.getElementById('litPageCount')?.value||0),figures}));
+   }catch{window.pocketEduPrintResult('error')}
+   return;
   }
   if(mode==='print'){
    pocketInfo(learningLabel('Imprimare PDF','PDF printing'),learningLabel('Imprimarea cu salvare automată PDF necesită aplicația Android actualizată.','Printing with mandatory PDF saving requires the updated Android app.'));return;
@@ -11981,7 +12011,12 @@ function eduOpenPrint(mode='save'){
   const markup='<html><head><meta charset="utf-8"><title>'+eduPrintEscape(title)+'</title><style>body{font-family:Arial,sans-serif;color:#111;margin:18mm;line-height:1.5}h1{font-size:20pt}article{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11pt}@page{size:A4;margin:16mm}</style></head><body><h1>'+eduPrintEscape(title)+'</h1><article>'+eduPrintEscape(text)+'</article></body></html>';
   win.document.open();win.document.write(markup);win.document.close();win.focus();win.print();
  };
- dialog.append(print);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+ dialog.append(print);
+ dialog.addEventListener('close',()=>{
+  if(window.pocketEduPrintResult)window.pocketEduPrintResult=null;
+  dialog.remove();
+ });
+ document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
 function eduAttachPrintAction(bar){
  if(!bar||bar.querySelector('.edu-pdf-save'))return;
