@@ -2,6 +2,7 @@ import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathwa
 import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_europe.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
+import {RECIPE_READER_PAGES_UI_SCRIPT} from './recipe_reader_pages_ui.mjs';
 import {UNIVERSITY_DOMAINS} from './university_domains.mjs';
 import {UNIVERSITY_PROGRAM_OPTIONS,UNIVERSITY_ADMISSION_ENTRIES} from './university_admissions_verified.mjs';
 import {PRACTICAL_COURSES,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
@@ -51,7 +52,7 @@ const APP = Object.freeze({
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
-  historyLimit: 12
+  historyLimit: 20
 });
 const AVATAR_DATA = "data:image/webp;base64," +
   [
@@ -3174,7 +3175,7 @@ main.page:has(#view-module.learning-languages.active){
 // 01 — State and DOM references
 const nativeEntranceCompleted=new URLSearchParams(location.search).get('nativeLaunch')==='1';
 if(nativeEntranceCompleted)document.documentElement.classList.remove('pocket-boot');
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:12,version:'1.0.132'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:20,version:'1.0.132'});
 const POCKET_LANGUAGES=${JSON.stringify(POCKET_LANGUAGES)};
 const POCKET_COUNTRY_LANGUAGES=${JSON.stringify(POCKET_COUNTRY_LANGUAGES)};
 const pocketLanguageFromLocale=${pocketLanguageFromLocale.toString()};
@@ -17327,6 +17328,7 @@ function closeAnswerReader(restoreFocus=true){
  cancelAnimationFrame(reader.frame);reader.cleanup();reader.layer.remove();
  if(restoreFocus&&reader.origin?.isConnected)reader.origin.focus({preventScroll:true});
 }
+${RECIPE_READER_PAGES_UI_SCRIPT}
 function openAnswerReader(text,origin){
  dismissSelectionKeyboard();
  if(state.lastTransitResponse?.reply===String(text).trim()&&Array.isArray(state.lastTransitResponse.transit)&&state.lastTransitResponse.transit.length){showTransitChoices(state.lastTransitResponse.transit);return}
@@ -17346,10 +17348,10 @@ function openAnswerReader(text,origin){
  const speedLabel=document.createElement('label');speedLabel.textContent=t.speed+' ';
  const speed=document.createElement('select');speed.setAttribute('aria-label',t.speed);
  for(const value of [.5,1,1.5]){const option=document.createElement('option');option.value=String(value);option.textContent=String(value)+'×';speed.append(option)}speed.value='1';speedLabel.append(speed);controls.append(pause,restart,speedLabel);
- const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',readerTitle);if(!(state.lastPresentationResponse?.reply===String(text).trim()&&appendAdaptivePresentation(body,state.lastPresentationResponse))&&!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));if(!appendRecipeReaderText(body,String(text)))appendAnswerText(body,String(text));}
- layer.append(header,controls,body);document.body.append(layer);
+ const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',readerTitle);layer.append(header,controls,body);let recipePaged=false;if(!(state.lastPresentationResponse?.reply===String(text).trim()&&appendAdaptivePresentation(body,state.lastPresentationResponse))&&!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));recipePaged=renderRecipePages(layer,body,String(text),appendRecipeReaderText,appendAnswerText);if(!recipePaged&&!appendRecipeReaderText(body,String(text)))appendAnswerText(body,String(text));}
+ document.body.append(layer);
  const reader={layer,origin,frame:0,cleanup:()=>{}};activeAnswerReader=reader;
- let running=!(state.lastPresentationResponse?.reply===String(text).trim()&&state.lastPresentationResponse.plan?.blocks?.[0]?.kind==='interactive_article_table')&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news'),lastTime=null,startAt=performance.now()+800,position=0;
+ let running=!recipePaged&&!(state.lastPresentationResponse?.reply===String(text).trim()&&state.lastPresentationResponse.plan?.blocks?.[0]?.kind==='interactive_article_table')&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news'),lastTime=null,startAt=performance.now()+800,position=0;
  const update=()=>{pause.textContent=running?t.pause:t.play;pause.setAttribute('aria-pressed',String(running))};
  const stop=()=>{running=false;update()};
  const play=()=>{if(body.scrollTop>=body.scrollHeight-body.clientHeight-1)body.scrollTop=0;position=body.scrollTop;running=true;lastTime=null;startAt=performance.now()+900;update()};
