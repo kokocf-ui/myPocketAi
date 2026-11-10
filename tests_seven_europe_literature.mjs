@@ -58,7 +58,7 @@ assert.ok(script,'Frontend boot script');
 new vm.Script(script,{filename:'european-language-literature-ui.js'});
 assert.match(script,/const EUROPEAN_UI_TEXT=/,'European locales are rendered');
 assert.match(script,/LIT_BRANCHES=\[\{id:'program'/,'Grade programme visible in Literature menu');
-assert.match(script,/litOpen\\(tracks\\.length>1\\?'tracks'/,'School tracks are decided after the selected grade');
+assert.ok(script.includes("litOpen(tracks.length>1?'tracks'"),'School tracks are decided after the selected grade');
 for(const lang of ['hr','sr','hu','tr'])assert.ok(html.includes('<option value="'+lang+'">'),'UI language dropdown missing '+lang);
 const native=readFileSync('android/app/src/main/java/ai/mypocket/mobile/AvatarLaunchActivity.java','utf8');
 for(const lang of ['hr','sr','hu','tr'])assert.ok(native.includes('case "'+lang+'":'),'Native locale missing '+lang);
