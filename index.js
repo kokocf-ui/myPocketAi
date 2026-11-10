@@ -19420,7 +19420,8 @@ main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;ov
  font-size:clamp(17px,4.6vw,23px)!important;line-height:1.15!important;overflow-wrap:anywhere}
 #view-module.module-landing .section-lead,#view-module.module-landing #moduleChatHost,
 #view-module.module-landing #askModuleBtn{display:none!important}
-#view-module.module-landing #moduleContent{grid-column:1/-1!important;grid-row:2!important;height:100%!important;
+#view-module.module-landing #moduleContent{grid-column:1/-1!important;grid-row:2!important;display:block!important;
+ flex:none!important;width:100%!important;box-sizing:border-box!important;height:100%!important;
  min-height:0!important;max-height:100%!important;overflow-y:auto!important;overscroll-behavior:contain;
  scrollbar-width:thin;padding:0 2px 12px!important}
 #view-module.module-landing .module-landing-grid{display:grid!important;
