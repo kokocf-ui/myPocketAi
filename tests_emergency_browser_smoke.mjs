@@ -6,7 +6,8 @@ import frontend from './index.js';
 
 const response=await frontend.fetch(new Request('https://lifewise-ai-v2.kokocf.workers.dev/?nativeLaunch=1'));
 const html=await response.text();
-const server=createServer((req,res)=>{res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end(html)});
+const renderedVersion=html.match(/data-pocket-ui-version="([^"]+)"/)?.[1]||'test-browser';
+const server=createServer((req,res)=>{if(req.url?.startsWith('/__ui_version')){res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8'});res.end(renderedVersion);return;}res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end(html)});
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const host='http://127.0.0.1:'+server.address().port+'/?nativeLaunch=1';
 let browser;
