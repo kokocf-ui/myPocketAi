@@ -38,12 +38,12 @@ for(const [country,language] of Object.entries(expected)){
   }
  }
 }
-for(const code of ['hr','sr','hu','tr','cs','sk','sl','bg','el','fi','sv','no','da','is','et','lv','lt','uk','bs','mk','sq','be','ca','ga','cy','mt']){
+for(const code of ['hr','sr','hu','tr','cs','sk','sl','bg','el','fi','sv','no','da','is','et','lv','lt','uk','bs','mk','sq','be','ca','ga','cy','mt','eu','gl','lb','fo','hy','ka','az','rm']){
  assert.ok(POCKET_LANGUAGES.includes(code),'Missing UI language '+code);
  assert.ok(EUROPEAN_UI_LOCALES[code].homeTitle,'Untranslated home '+code);
  assert.ok(EUROPEAN_LANGUAGE_LABELS[code],'Missing selector label '+code);
 }
-assert.equal(POCKET_LANGUAGES.length,36);
+assert.equal(POCKET_LANGUAGES.length,44);
 const gateFactory=new Function('HG_COUNTRY_PICKER_DATA','state',EDUCATION_COUNTRY_UI_SCRIPT+';return eduCountryOptions;');
 const countries=gateFactory(
  [{id:'OM',ro:'Oman',en:'Oman'},{id:'RO'},{id:'MD'},{id:'PL'},{id:'HR'},
