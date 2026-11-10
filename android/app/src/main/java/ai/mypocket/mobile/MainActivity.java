@@ -52,6 +52,7 @@ import android.os.ParcelFileDescriptor;
 import java.io.InputStream;
 import java.io.FileOutputStream;
 import android.graphics.pdf.PdfDocument;
+import android.graphics.pdf.PdfRenderer;
 import android.graphics.Typeface;
 import java.io.OutputStream;
 import android.webkit.WebResourceResponse;
@@ -592,9 +593,12 @@ public final class MainActivity extends ComponentActivity {
                 (view,message,origin,isMainFrame,replyProxy)->{
                     if(!isMainFrame||!"https".equals(origin.getScheme())||!APP_HOST.equals(origin.getHost()))return;
                     final String request=message.getData();
-                    if(request==null||request.length()>220)return;
+                    if(request==null||request.length()>(
+                        request.startsWith("share-many:")||request.startsWith("delete-many:")?16000:220))return;
                     runOnUiThread(()->{
                         if("list".equals(request))listEducationDocuments();
+                        else if(request.startsWith("share-many:"))shareManyEducationDocuments(request.substring(11));
+                        else if(request.startsWith("delete-many:"))deleteManyEducationDocuments(request.substring(12));
                         else if(request.startsWith("print:"))printEducationDocumentByName(request.substring(6));
                         else if(request.startsWith("share:"))shareEducationDocumentByName(request.substring(6));
                         else if(request.startsWith("open:"))openEducationDocumentByName(request.substring(5));
@@ -1376,20 +1380,165 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ignored){notifyEducationPdf("shareUnavailable");}
     }
 
-    // Open an existing saved PDF in the user's installed PDF viewer.
+    // Render the exact saved PDF bytes inside the app. No third-party viewer is launched.
+    // Keep only one page bitmap in memory; page changes do not accumulate bitmaps.
+    private void renderEducationPdfPage(PdfRenderer renderer,int index,ImageView image,TextView count,Bitmap[] active){
+        try(PdfRenderer.Page page=renderer.openPage(index)){
+            int displayWidth=getResources().getDisplayMetrics().widthPixels;
+            int width=Math.min(1200,Math.max(480,displayWidth*2));
+            int height=Math.max(1,Math.round(width*(page.getHeight()/(float)page.getWidth())));
+            Bitmap bitmap=Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
+            bitmap.eraseColor(Color.WHITE);
+            page.render(bitmap,null,null,PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+            Bitmap previous=active[0];
+            image.setImageBitmap(bitmap);
+            active[0]=bitmap;
+            if(previous!=null&&!previous.isRecycled())previous.recycle();
+            count.setText("Pagina "+(index+1)+" din "+renderer.getPageCount());
+        }catch(Exception ignored){
+            count.setText("Pagina PDF nu poate fi afișată.");
+        }
+    }
     private void openEducationDocumentByName(String filename){
+        ParcelFileDescriptor descriptor=null;
+        PdfRenderer renderer=null;
         try{
             if(filename==null||!filename.matches("[^/\\\\]{1,150}\\.pdf"))return;
             File folder=educationDocumentsFolder();
             File file=new File(folder,filename);
             if(!file.getCanonicalPath().startsWith(folder.getCanonicalPath()+File.separator)||!file.isFile())return;
-            Uri uri=FileProvider.getUriForFile(this,getPackageName()+".fileprovider",file);
-            Intent view=new Intent(Intent.ACTION_VIEW);
-            view.setDataAndType(uri,"application/pdf");
-            view.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            view.setClipData(android.content.ClipData.newUri(getContentResolver(),filename,uri));
-            startActivity(Intent.createChooser(view,"Deschide documentul PDF"));
-        }catch(Exception ignored){notifyEducationPdf("openUnavailable");}
+            descriptor=ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);
+            renderer=new PdfRenderer(descriptor);
+            if(renderer.getPageCount()<1)throw new IOException("Empty PDF");
+            final PdfRenderer pdf=renderer;
+            final ParcelFileDescriptor handle=descriptor;
+            android.app.Dialog dialog=new android.app.Dialog(this);
+            LinearLayout root=new LinearLayout(this);
+            root.setOrientation(LinearLayout.VERTICAL);
+            root.setBackgroundColor(Color.rgb(10,31,45));
+            LinearLayout top=new LinearLayout(this);
+            top.setOrientation(LinearLayout.HORIZONTAL);
+            top.setGravity(Gravity.CENTER_VERTICAL);
+            android.widget.Button back=new android.widget.Button(this);
+            back.setText("← Înapoi");
+            back.setOnClickListener(v->dialog.dismiss());
+            TextView heading=new TextView(this);
+            heading.setText(filename);
+            heading.setTextColor(Color.WHITE);
+            heading.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+            heading.setMaxLines(2);
+            heading.setEllipsize(android.text.TextUtils.TruncateAt.END);
+            top.addView(back,new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+            top.addView(heading,new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,1f));
+            root.addView(top,new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+            android.widget.ScrollView scroll=new android.widget.ScrollView(this);
+            scroll.setFillViewport(true);
+            scroll.setBackgroundColor(Color.rgb(224,229,234));
+            ImageView pageImage=new ImageView(this);
+            pageImage.setAdjustViewBounds(true);
+            pageImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            pageImage.setBackgroundColor(Color.WHITE);
+            final int pad=Math.round(10*getResources().getDisplayMetrics().density);
+            scroll.setPadding(pad,pad,pad,pad);
+            scroll.addView(pageImage,new android.widget.ScrollView.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+            root.addView(scroll,new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,0,1f));
+            LinearLayout navigation=new LinearLayout(this);
+            navigation.setGravity(Gravity.CENTER);
+            navigation.setOrientation(LinearLayout.HORIZONTAL);
+            android.widget.Button prev=new android.widget.Button(this);
+            prev.setText("◀");
+            android.widget.Button next=new android.widget.Button(this);
+            next.setText("▶");
+            TextView pageLabel=new TextView(this);
+            pageLabel.setTextColor(Color.WHITE);
+            pageLabel.setGravity(Gravity.CENTER);
+            pageLabel.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+            navigation.addView(prev,new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,1f));
+            navigation.addView(pageLabel,new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,2f));
+            navigation.addView(next,new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,1f));
+            root.addView(navigation,new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+            final int[] index={0};
+            final Bitmap[] active={null};
+            Runnable render=()->{
+                renderEducationPdfPage(pdf,index[0],pageImage,pageLabel,active);
+                prev.setEnabled(index[0]>0);
+                next.setEnabled(index[0]<pdf.getPageCount()-1);
+                scroll.scrollTo(0,0);
+            };
+            prev.setOnClickListener(v->{if(index[0]>0){index[0]--;render.run();}});
+            next.setOnClickListener(v->{if(index[0]+1<pdf.getPageCount()){index[0]++;render.run();}});
+            dialog.setContentView(root);
+            dialog.setOnDismissListener(v->{
+                pageImage.setImageDrawable(null);
+                if(active[0]!=null&&!active[0].isRecycled())active[0].recycle();
+                try{pdf.close();}catch(Exception ignored){}
+                try{handle.close();}catch(Exception ignored){}
+            });
+            dialog.show();
+            if(dialog.getWindow()!=null){
+                dialog.getWindow().setLayout(
+                    android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                    android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+            }
+            render.run();
+        }catch(Exception ignored){
+            try{if(renderer!=null)renderer.close();}catch(Exception ignoredClose){}
+            try{if(descriptor!=null)descriptor.close();}catch(Exception ignoredClose){}
+            notifyEducationPdf("openUnavailable");
+        }
+    }
+    // A single Android chooser sends all selected PDFs together.
+    private void shareManyEducationDocuments(String payload){
+        try{
+            JSONArray files=new JSONArray(payload);
+            if(files.length()<1||files.length()>80)return;
+            File folder=educationDocumentsFolder();
+            ArrayList<Uri> uris=new ArrayList<>();
+            java.util.HashSet<String> unique=new java.util.HashSet<>();
+            for(int i=0;i<files.length();i++){
+                String name=files.optString(i,"");
+                if(!name.matches("[^/\\\\]{1,150}\\.pdf")||!unique.add(name))continue;
+                File file=new File(folder,name);
+                if(!file.getCanonicalPath().startsWith(folder.getCanonicalPath()+File.separator)||!file.isFile())continue;
+                uris.add(FileProvider.getUriForFile(this,getPackageName()+".fileprovider",file));
+            }
+            if(uris.isEmpty())return;
+            Intent send=new Intent(Intent.ACTION_SEND_MULTIPLE);
+            send.setType("application/pdf");
+            send.putParcelableArrayListExtra(Intent.EXTRA_STREAM,uris);
+            send.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            android.content.ClipData clip=android.content.ClipData.newUri(
+                getContentResolver(),"Documentele mele",uris.get(0));
+            for(int i=1;i<uris.size();i++)clip.addItem(new android.content.ClipData.Item(uris.get(i)));
+            send.setClipData(clip);
+            startActivity(Intent.createChooser(send,"Trimite documentele PDF"));
+        }catch(Exception ignored){notifyEducationPdf("shareUnavailable");}
+    }
+    // One confirmation in the UI, one atomic selection batch; no file outside the app folder.
+    private void deleteManyEducationDocuments(String payload){
+        try{
+            JSONArray files=new JSONArray(payload);
+            if(files.length()<1||files.length()>80)return;
+            File folder=educationDocumentsFolder();
+            java.util.HashSet<String> unique=new java.util.HashSet<>();
+            for(int i=0;i<files.length();i++){
+                String name=files.optString(i,"");
+                if(!name.matches("[^/\\\\]{1,150}\\.pdf")||!unique.add(name))continue;
+                File file=new File(folder,name);
+                if(!file.getCanonicalPath().startsWith(folder.getCanonicalPath()+File.separator)||!file.isFile())continue;
+                file.delete();
+            }
+            listEducationDocuments();
+        }catch(Exception ignored){notifyEducationPdf("error");}
     }
     // Called only after explicit confirmation in the document library UI.
     private void deleteEducationDocumentByName(String filename){
@@ -1429,10 +1578,14 @@ public final class MainActivity extends ComponentActivity {
             String[] paragraphs=(cleanTitle+"\n\n"+content.replace("\r","")).split("\n",-1);
             boolean first=true,blankBefore=false;
             for(String raw:paragraphs){
-                String paragraph=raw.replaceAll("[ \t]+"," ").trim();
+                // Convert Markdown styling to native PDF typography, not literal "**" glyphs.
+                // Correct a confirmed erroneous AI heading ("Lehul/Lehula") conservatively.
+                boolean markedHeading=raw.trim().matches("^\\*\\*[^*]{3,90}\\*\\*$");
+                String paragraph=raw.replaceAll("(?iu)\\bLehul(?:a)?\\b","Lecția")
+                    .replace("**","").replace("__","").replaceAll("[ \\t]+"," ").trim();
                 if(paragraph.isEmpty()){blankBefore=true;continue;}
                 boolean isTitle=first;
-                boolean isHeading=!first&&(paragraph.matches("(?iu)^(?:#{1,4}\\s*)?(?:\\d{1,2}[.)]\\s+)?(?:introducere|concluzii?|rezumat|personaje(?: principale)?|prezentarea acțiunii|analiză|context(?: istoric)?|bibliografie|cuprins|definiții|teorie|metodologie|rezolvare|rezultate|interpretare|observații|exemple|capitolul?\\s+\\w+)(?:\\s*[:—–-].*)?$")||paragraph.matches("^#{1,4}\\s+.+")||paragraph.matches("^\\d{1,2}\\.\\s+[^.]{3,85}$"));
+                boolean isHeading=!first&&(markedHeading||paragraph.matches("(?iu)^(?:#{1,4}\\s*)?(?:\\d{1,2}[.)]\\s+)?(?:introducere|concluzii?|rezumat|personaje(?: principale)?|prezentarea acțiunii|analiză|context(?: istoric)?|bibliografie|cuprins|definiții|teorie|metodologie|rezolvare|rezultate|interpretare|observații|exemple|capitolul?\\s+\\w+)(?:\\s*[:—–-].*)?$")||paragraph.matches("^#{1,4}\\s+.+")||paragraph.matches("^\\d{1,2}\\.\\s+[^.]{3,85}$"));
                 String lineText=paragraph.replaceFirst("^#{1,4}\\s+","");
                 Paint paint=isTitle?mainTitle:(isHeading?heading:body);
                 float lineHeight=isTitle?27f:(isHeading?22f:18f);
