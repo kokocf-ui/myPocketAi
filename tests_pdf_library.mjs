@@ -7,7 +7,7 @@ const paths=readFileSync(new URL('./android/app/src/main/res/xml/file_paths.xml'
 
 assert.match(frontend,/special:'my-documents'/,'My Documents appears in the visible Tools cards');
 assert.match(frontend,/openModule\('tools'\);renderMyDocuments\(\)/,'Tools card opens native PDF library');
-assert.match(frontend,/PocketAndroidDocuments\?\.postMessage\('share:'/,'PDF share action is wired to native bridge');
+assert.match(frontend,/share-many:'\+JSON\.stringify\(names\)/,'PDF batch share action is wired to native bridge');
 assert.match(android,/request\.startsWith\("share:"\)/,'share command received on Android');
 assert.match(android,/Intent\.ACTION_SEND/,'native share chooser');
 assert.match(android,/Intent\.EXTRA_STREAM/,'share real PDF attachment, not text');
@@ -20,13 +20,15 @@ assert.match(android,/ColorMatrixColorFilter/,'grayscale diagram support');
 assert.match(android,/canvas\.drawBitmap\(bitmap/,'figures embedded in native PDF');
 assert.match(android,/canvas\.drawText\("Pagina "/,'native PDF page numbering');
 assert.ok(frontend.includes("postMessage('open:'"),'PDF open command wired');
-assert.ok(frontend.includes("postMessage('delete:'"),'PDF delete command wired');
+assert.ok(frontend.includes("postMessage('delete-many:'"),'Delete multiple selected PDFs from shared toolbar');
 assert.match(frontend,/my-documents-check/,'Document checkbox is available');
+assert.match(frontend,/actions\.hidden=!selected\.size/,'Toolbar appears only when documents are selected');
+assert.match(android,/Intent\.ACTION_SEND_MULTIPLE/,'Multiple selected PDFs share in one Android chooser');
 assert.match(frontend,/edu-icon-save/,'Compact save icon');
 assert.match(frontend,/edu-icon-print/,'Compact print icon');
 assert.match(frontend,/edu-icon-delete/,'Compact delete icon');
 assert.ok(android.includes('request.startsWith("open:")'),'Native open command');
 assert.ok(android.includes('request.startsWith("delete:")'),'Native delete command');
-assert.ok(android.includes('Intent.ACTION_VIEW'),'Native PDF viewer');
+assert.ok(android.includes('new PdfRenderer(descriptor)'),'PDF preview renders original pages inside Android');
 assert.ok(android.includes('private void deleteEducationDocumentByName'),'Native PDF deletion');
 console.log('PDF library and literature export integration checks passed');

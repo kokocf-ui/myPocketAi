@@ -8,6 +8,7 @@ on:
       - 'literature_task_ui.mjs'
       - 'tests_literature_activity_flow.mjs'
       - 'tests_education_reader_documents_regression.mjs'
+      - 'tests_pdf_library_bulk_preview.mjs'
       - 'tests_literature_tutor_response.mjs'
       - 'literature_verified_authors.mjs'
       - 'tests_literature_verified_authors.mjs'
@@ -80,6 +81,10 @@ jobs:
         run: node tests_literature_tutor_response.mjs
       - name: Education reader and PDF document library regression
         run: node tests_education_reader_documents_regression.mjs
+      - name: A4 PDF viewer and bulk document actions
+        run: |
+          node tests_pdf_library_bulk_preview.mjs
+          node tests_pdf_library.mjs
       - name: Android literature level to Grade 8 navigation
         run: node tests_literature_navigation_viewport.mjs
       - name: Country-first Education navigation

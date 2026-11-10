@@ -1907,12 +1907,14 @@ export default {
       const system='You are a patient and knowledgeable language and literature teacher. Respond in language code '+locale+
         '. This is strictly an educational task, not a travel, navigation, location, weather, business or map request. '+
         instructions[activity]+' Use the supplied country, school year and subject area to adapt depth without inventing an official curriculum. '+
-        'Keep useful headings and paragraphs. Be precise and complete, avoid unverified author attributions, made-up quotations and filler. '+
+        'Keep useful correctly spelled headings and paragraphs. In Romanian write „Lecție”, „Introducere”, „Definiții”, not erroneous invented headings such as „Lehul” or „Lehula”. Avoid literal Markdown markers (** or ##) because content is saved as a formatted PDF. Be precise and complete, avoid unverified author attributions, made-up quotations and filler. '+
         'For the correction activity only, refer to the question text and student answer in the request. '+
         'Never confuse dictionary entries with destinations. If the user has not supplied a needed text passage, do not pretend to have read it.';
       try{
         const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
-        const reply=String(response?.response||response?.result?.response||'').trim();
+        let reply=String(response?.response||response?.result?.response||'').trim();
+        // Safely correct the two exact malformed Romanian lesson-title tokens observed in production.
+        if(locale==='ro')reply=reply.replace(/\bLehul(?:a)?\b/giu,'Lecția');
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'language_literature'},503);
         // Fail closed if a provider ignores the education route.
         if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
