@@ -207,7 +207,7 @@ public final class AvatarLaunchActivity extends Activity {
             case "ES":case "MX":case "AR":case "CL":return "es";
             case "PT":case "BR":return "pt";
             case "NL":case "BE":return "nl";
-            case "RU":case "BY":return "ru";
+            case "RU":return "ru";
             case "PL":return "pl";
             case "HR":return "hr";case "RS":case "ME":return "sr";case "HU":return "hu";case "TR":return "tr";
             case "CZ":return "cs";case "SK":return "sk";case "SI":return "sl";case "BG":return "bg";
