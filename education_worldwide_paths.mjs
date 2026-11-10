@@ -22,6 +22,21 @@ const grades=(a,b,ro='Clasa',en='Grade')=>seq(a,b,'',ro,en);
 const years=(a,b)=>seq(a,b,'Y','Year','Year');
 const lv=(c,d,ro,en)=>seq(c,d,'',ro,en);
 export const EDUCATION_WORLDWIDE_SCHEMES={
+ // Grade names are national; these entries are not claims that all school
+ // streams or national lesson plans have been legally verified.
+ MD:scheme(grades(1,4,'Clasa','Grade'),grades(5,9,'Clasa','Grade'),grades(10,12,'Clasa','Grade'),
+  'Republica Moldova: primar I–IV, gimnaziu V–IX, liceu X–XII. Programa de română diferă de România; consultarea pentru reforma 2026 nu este încă echivalentă cu aprobarea.',
+  'https://www.edu.gov.md/ro/content/invatamint-general'),
+ HR:scheme(grades(1,4,'Razred','Grade'),grades(5,8,'Razred','Grade'),seq(1,4,'G','Gimnazija · anul','Gymnasium · year'),
+  'Croația: osnovna škola are opt clase; gimnazija și strukovna škola sunt trasee diferite.',
+  'https://narodne-novine.nn.hr/clanci/sluzbeni/2019_01_10_215.html'),
+ RS:scheme(grades(1,4,'Razred','Grade'),grades(5,8,'Razred','Grade'),seq(1,4,'G','Gimnazija · anul','Gymnasium · year'),
+  'Serbia: curriculumul pentru clasele I, V și unele clase de gimnaziu are actualizări în 2026. Alege alfabetul și filiera.',
+  'https://zuov.gov.rs/zakoni-i-pravilnici/'),
+ HU:scheme(grades(1,4,'Évfolyam','Grade'),grades(5,8,'Évfolyam','Grade'),seq(1,4,'G','Gimnázium · anul','Gymnasium · year'),
+  'Ungaria: traseul uzual 8+4 nu înlocuiește opțiunile de gimnázium cu 6 sau 8 clase.',
+  'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat'),
+
  'GB-SCT':scheme(seq(1,7,'P','Primary','Primary'),seq(1,3,'S','Secondary','Secondary'),seq(4,6,'S','Secondary','Secondary'),'Stadiile școlare sunt orientative; specializările și S4–S6 se aleg potrivit școlii și calificării.','https://education.gov.scot/'),
  'GB-WLS':scheme(years(1,6),years(7,9),years(10,13),'Curriculum for Wales este organizat pe etape de progres și programe; anii nu sunt capitole obligatorii.','https://hwb.gov.wales/'),
  'GB-NIR':scheme(years(1,7),years(8,10),years(11,14),'Anii sunt orientativi pentru Irlanda de Nord; examenele și traseele diferă după calificare.','https://ccea.org.uk/'),
@@ -31,7 +46,7 @@ export const EDUCATION_WORLDWIDE_SCHEMES={
  IT:scheme(seq(1,5,'P','Scuola primaria · anul','Scuola primaria · year'),seq(1,3,'M','Secondaria I · anul','Lower secondary · year'),seq(1,5,'S','Secondaria II · anul','Upper secondary · year'),'În liceu și școli tehnice/profesionale există trasee distincte.','https://www.mim.gov.it/'),
  PT:scheme(grades(1,4,'Ano','Year'),grades(5,9,'Ano','Year'),grades(10,12,'Ano','Year'),'Împărțirea în cicluri școlare portugheze este diferită de nivelurile generale ale meniului.','https://www.dge.mec.pt/'),
  DE:scheme(grades(1,4,'Klasse','Grade'),grades(5,10,'Klasse','Grade'),grades(11,13,'Klasse','Grade'),'Durata Grundschule și clasele secundare diferă între landuri și trasee; configurație orientativă până la alegerea landului.','https://www.kmk.org/'),
- AT:scheme(grades(1,4,'Klasse','Grade'),grades(5,8,'Klasse','Grade'),grades(9,12,'Klasse','Grade'),'Traseele și durata școlarizării diferă între tipurile de școală.'),
+ AT:scheme(grades(1,4,'Klasse','Grade'),grades(5,8,'Klasse','Grade'),grades(9,13,'Klasse','Grade'),'Traseele și durata școlarizării diferă între AHS (până în clasa 12) și BHS (până în clasa 13); anul suplimentar nu este obligatoriu tuturor.'),
  PL:scheme(grades(1,4,'Klasa','Grade'),grades(5,8,'Klasa','Grade'),seq(1,4,'L','Liceu · anul','Upper secondary · year'),'Clasele 1–8 pot aparține aceleiași școli; separarea în aplicație este didactică.'),
  NL:scheme(seq(1,8,'G','Groep','Group'),seq(1,3,'V','Voortgezet · anul','Secondary · year'),seq(4,6,'V','Voortgezet · anul','Secondary · year'),'Traseele VMBO/HAVO/VWO au durate și programe diferite; anii nu reprezintă un program unic.'),
  BE:scheme(grades(1,6,'Primar · anul','Primary · year'),seq(1,3,'S','Secundar · anul','Secondary · year'),seq(4,6,'S','Secundar · anul','Secondary · year'),'Învățământul este organizat de comunități lingvistice; trebuie aleasă comunitatea pentru programă exactă.'),

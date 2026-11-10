@@ -13,6 +13,12 @@ on:
       - 'university_domains.mjs'
       - 'education_selects_ui.mjs'
       - 'education_country_ui.mjs'
+      - 'european_app_locales.mjs'
+      - 'language_first_install.mjs'
+      - 'literature_seven_country_tracks.mjs'
+      - 'literature_curriculum_europe.mjs'
+      - 'education_worldwide_paths.mjs'
+      - 'tests_seven_europe_literature.mjs'
       - 'education_school_paths.mjs'
       - 'computing_*.mjs'
       - 'literature_curriculum_europe.mjs'
@@ -142,6 +148,7 @@ jobs:
           node tests_practical_courses.mjs
           node tests_education_android.mjs
           node tests_first_install_consent.mjs
+          node tests_seven_europe_literature.mjs
           node tests_education_reader_documents_regression.mjs
           node tests_pdf_library.mjs
           node tests_math_voice_parentheses.mjs

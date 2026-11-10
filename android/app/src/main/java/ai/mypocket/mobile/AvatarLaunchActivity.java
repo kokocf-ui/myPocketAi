@@ -156,8 +156,46 @@ public final class AvatarLaunchActivity extends Activity {
             case "ro":return ro;case "fr":return fr;case "de":return de;
             case "it":return it;case "es":return es;case "pt":return pt;
             case "nl":return nl;case "ru":return ru;case "pl":return pl;
-            default:return en;
+            default:return europeanSetupLabel(en);
         }
+    }
+    // New European country languages use localized first-run information, too.
+    // All other native languages have a readable English fallback until verified.
+    private String europeanSetupLabel(String english){
+        String[] keys={
+         "Welcome!","For the app to work properly, Android may ask for these permissions:",
+         "Location","Routes, transport and nearby places.","Camera",
+         "Scan documents and exercises; the camera opens only when you choose it.",
+         "Notifications","Reminders, Agenda and event alerts.",
+         "Tap “Next”. Only Android grants permissions; you can decline or change them later in Settings.",
+         "Next"
+        };
+        String[] translated;
+        switch(initialSetupLanguage){
+         case "hr":translated=new String[]{"Dobro došli!","Za pravilan rad Android može zatražiti ove dozvole:",
+          "Lokacija","Rute, prijevoz i mjesta u blizini.","Kamera",
+          "Skeniranje dokumenata i zadataka; kamera se otvara samo na vaš zahtjev.",
+          "Obavijesti","Podsjetnici, kalendar i obavijesti o događajima.",
+          "Dodirnite „Dalje”. Dozvole odobrava Android; možete ih odbiti ili naknadno promijeniti u postavkama.","Dalje"};break;
+         case "sr":translated=new String[]{"Добро дошли!","За правилан рад Android може тражити ове дозволе:",
+          "Локација","Руте, превоз и оближња места.","Камера",
+          "Скенирање докумената и задатака; камера се отвара само на ваш захтев.",
+          "Обавештења","Подсетници, календар и обавештења о догађајима.",
+          "Додирните „Даље”. Дозволе одобрава Android; можете их одбити или касније променити у подешавањима.","Даље"};break;
+         case "hu":translated=new String[]{"Üdvözöljük!","A megfelelő működéshez az Android az alábbi engedélyeket kérheti:",
+          "Helyadatok","Útvonalak, közlekedés és közeli helyek.","Kamera",
+          "Dokumentumok és feladatok beolvasása; a kamera csak kérésre nyílik meg.",
+          "Értesítések","Emlékeztetők, naptár és eseményjelzések.",
+          "Koppints a „Tovább” gombra. Az engedélyeket az Android kezeli, később módosíthatod őket.","Tovább"};break;
+         case "tr":translated=new String[]{"Hoş geldiniz!","Uygulamanın düzgün çalışması için Android şu izinleri isteyebilir:",
+          "Konum","Rotalar, ulaşım ve yakındaki yerler.","Kamera",
+          "Belge ve soruları taramak için; kamera yalnızca siz seçtiğinizde açılır.",
+          "Bildirimler","Hatırlatıcılar, takvim ve etkinlik uyarıları.",
+          "“İleri”ye dokunun. İzinleri Android verir; daha sonra ayarlardan değiştirebilirsiniz.","İleri"};break;
+         default:return english;
+        }
+        for(int i=0;i<keys.length;i++)if(keys[i].equals(english))return translated[i];
+        return english;
     }
     private static String firstSetupLanguageForCountry(String region,String phoneLanguage){
         String cc=(region==null?"":region).toUpperCase(Locale.ROOT);
@@ -169,8 +207,14 @@ public final class AvatarLaunchActivity extends Activity {
             case "ES":case "MX":case "AR":case "CL":return "es";
             case "PT":case "BR":return "pt";
             case "NL":case "BE":return "nl";
-            case "RU":case "BY":return "ru";
+            case "RU":return "ru";
             case "PL":return "pl";
+            case "HR":return "hr";case "RS":case "ME":return "sr";case "HU":return "hu";case "TR":return "tr";
+            case "CZ":return "cs";case "SK":return "sk";case "SI":return "sl";case "BG":return "bg";
+            case "GR":case "CY":return "el";case "FI":return "fi";case "SE":return "sv";case "NO":return "no";
+            case "DK":return "da";case "IS":return "is";case "EE":return "et";case "LV":return "lv";
+            case "LT":return "lt";case "UA":return "uk";case "BA":return "bs";case "MK":return "mk";
+            case "AL":case "XK":return "sq";case "BY":return "be";case "AD":return "ca";case "MT":return "mt";
             case "GB":case "UK":case "IE":case "US":case "CA":case "AU":return "en";
             default:
                 String code=phoneLanguage==null?"":phoneLanguage.toLowerCase(Locale.ROOT);
@@ -197,7 +241,7 @@ public final class AvatarLaunchActivity extends Activity {
     }
     private String currentLaunchLanguage(SharedPreferences prefs){
         String saved=prefs.getString("ui_language_native","");
-        if(saved!=null&&saved.matches("ro|en|fr|de|it|es|pt|nl|ru|pl"))return saved;
+        if(saved!=null&&saved.matches("ro|en|fr|de|it|es|pt|nl|ru|pl|hr|sr|hu|tr|cs|sk|sl|bg|el|fi|sv|no|da|is|et|lv|lt|uk|bs|mk|sq|be|ca|ga|cy|mt"))return saved;
         return detectFirstSetupLanguage();
     }
     private static String greetingForLanguage(String language){
@@ -211,6 +255,32 @@ public final class AvatarLaunchActivity extends Activity {
             case "nl":return "Hallo! Waarmee kan ik je helpen?";
             case "ru":return "Привет! Чем могу помочь?";
             case "pl":return "Cześć! W czym mogę pomóc?";
+            case "hr":return "Pozdrav! Kako vam mogu pomoći?";
+            case "sr":return "Здраво! Како могу да помогнем?";
+            case "hu":return "Szia! Miben segíthetek?";
+            case "tr":return "Merhaba! Size nasıl yardımcı olabilirim?";
+            case "cs":return "Ahoj! Jak vám mohu pomoci?";
+            case "sk":return "Ahoj! Ako vám môžem pomôcť?";
+            case "sl":return "Živjo! Kako vam lahko pomagam?";
+            case "bg":return "Здравейте! Как мога да помогна?";
+            case "el":return "Γεια σας! Πώς μπορώ να βοηθήσω;";
+            case "fi":return "Hei! Miten voin auttaa?";
+            case "sv":return "Hej! Hur kan jag hjälpa dig?";
+            case "no":return "Hei! Hvordan kan jeg hjelpe deg?";
+            case "da":return "Hej! Hvordan kan jeg hjælpe?";
+            case "is":return "Halló! Hvernig get ég hjálpað?";
+            case "et":return "Tere! Kuidas saan aidata?";
+            case "lv":return "Sveiki! Kā varu palīdzēt?";
+            case "lt":return "Sveiki! Kaip galiu padėti?";
+            case "uk":return "Привіт! Чим можу допомогти?";
+            case "bs":return "Zdravo! Kako vam mogu pomoći?";
+            case "mk":return "Здраво! Како можам да помогнам?";
+            case "sq":return "Përshëndetje! Si mund t'ju ndihmoj?";
+            case "be":return "Вітаю! Чым магу дапамагчы?";
+            case "ca":return "Hola! Com et puc ajudar?";
+            case "ga":return "Dia duit! Conas is féidir liom cabhrú?";
+            case "cy":return "Helo! Sut alla i helpu?";
+            case "mt":return "Bonġu! Kif nista’ ngħinek?";
             default:return "Hello! How can I help you?";
         }
     }
@@ -219,7 +289,9 @@ public final class AvatarLaunchActivity extends Activity {
             case "ro":return "ro-RO";case "fr":return "fr-FR";case "de":return "de-DE";
             case "it":return "it-IT";case "es":return "es-ES";case "pt":return "pt-PT";
             case "nl":return "nl-NL";case "ru":return "ru-RU";case "pl":return "pl-PL";
-            default:return "en-GB";
+            case "hr":return "hr-HR";case "sr":return "sr-RS";case "hu":return "hu-HU";
+            case "tr":return "tr-TR";case "no":return "nb-NO";case "be":return "be-BY";
+            default:return language;
         }
     }
     private int setupDp(int amount){return (int)(amount*getResources().getDisplayMetrics().density+.5f);}
