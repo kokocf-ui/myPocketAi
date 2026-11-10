@@ -12,25 +12,25 @@ const main=readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivi
 const mist=readFileSync('android/app/src/main/assets/avatar-enter.js','utf8');
 const lit=readFileSync('literature_task_ui.mjs','utf8');
 
-assert.match(launcher,/first_setup_complete_v1/,'Onboarding runs only on new installations');
-assert.match(launcher,/info\.lastUpdateTime>info\.firstInstallTime/,'App upgrades skip first-run question');
-assert.match(launcher,/showFirstInstallationPanel\(\)/,'Single professional first-run panel');
-for(const entry of ['first_setup_location','first_setup_camera','first_setup_notifications']){
- assert.match(launcher,new RegExp(entry),'Consent preference '+entry+' is stored');
-}
-assert.match(launcher,/detectFirstSetupLanguage\(\)/,'Language is known before rendering the setup panel');
-assert.match(launcher,/onboardingString\(/,'First-run copy is localized');
-assert.match(launcher,/location\.isChecked\(\)/,'Location request is opt-in');
-assert.match(launcher,/if\(location\.isChecked\(\) && checkSelfPermission/,'Android location prompt only follows opt-in');
-assert.doesNotMatch(launcher,/missing\.add\(Manifest\.permission\.RECORD_AUDIO\)/,'No microphone prompt at startup');
-assert.doesNotMatch(launcher,/requestPermissions\(new String\[\]\{Manifest\.permission\.POST_NOTIFICATIONS/,'No notification prompt at startup');
-assert.match(main,/if\("open"\.equals\(action\)\)\{ensureAgendaNotificationPermission\(\);return;\}/,'Agenda open is the only notification permission trigger');
-assert.match(main,/if\(!"sync"\.equals\(action\)\)return;/,'Background sync does not ask permission');
-assert.match(main,/!prefs\.getBoolean\("first_setup_notifications",false\)/,'Notification opt-out respected');
-assert.match(boot,/JSON\.stringify\(\{action:'open'\}\)/,'Entering Agenda notifies Android');
-assert.match(main,/firstSetupCameraAllowed\(\)/,'Camera opt-out respected');
+assert.match(launcher,/first_setup_complete_v1/,'Information screen is shown only on fresh installations');
+assert.match(launcher,/info\\.lastUpdateTime>info\\.firstInstallTime/,'Existing installations skip first-launch information');
+assert.match(launcher,/showFirstInstallationPanel\\(\\)/,'One native informational onboarding screen');
+assert.match(launcher,/onboardingString\\(/,'First-launch information is localized');
+assert.match(launcher,/Mai departe/,'Localized Next button is available');
+assert.match(launcher,/beginSystemPermissions\\(\\);/,'Next proceeds to Android location permission');
+assert.match(launcher,/ONBOARDING_NOTIFICATIONS_REQUEST/,'Dedicated notification permission request is chained');
+assert.match(launcher,/requestPermissions\\(new String\\[\\]\\{Manifest\\.permission\\.POST_NOTIFICATIONS\\}/,'Android asks for notifications at setup on Android 13+');
+assert.match(launcher,/if\\(requestCode==ONBOARDING_PERMISSIONS_REQUEST\\)requestNotificationPermission\\(\\)/,'Notification follows location callback');
+assert.match(launcher,/else if\\(requestCode==ONBOARDING_NOTIFICATIONS_REQUEST\\)startAvatarEntrance\\(\\)/,'Avatar starts after Android notification response');
+assert.doesNotMatch(launcher,/new android\\.widget\\.CheckBox/,'No app-defined permission checkboxes');
+assert.doesNotMatch(launcher,/requestPermissions\\(new String\\[\\]\\{Manifest\\.permission\\.RECORD_AUDIO/,'No microphone request during onboarding');
+assert.doesNotMatch(main,/ensureAgendaNotificationPermission/,'Agenda no longer launches a duplicate notification request');
+assert.match(main,/if\\("open"\\.equals\\(action\\)\\)return;/,'Agenda open only acknowledges the event');
+assert.match(main,/if\\(!"sync"\\.equals\\(action\\)\\)return;/,'Background reminder sync does not prompt');
+assert.doesNotMatch(main,/firstSetupCameraAllowed|allowCameraOnExplicitRequest/,'No app-specific camera permission question');
+assert.match(main,/chooser\\.putExtra\\(Intent\\.EXTRA_INITIAL_INTENTS,new Intent\\[\\]\\{capture\\}\\)/,'Native camera option remains');
 assert.match(boot,/first_setup_language/,'Initial native regional language used on first install');
 assert.match(mist,/const cx=width\*\.5,cy=height\*\.47/,'Mist is centered on face, not chest');
 assert.match(lit,/eduOpenPrint\('save',material,\(\)=>dialog\.close\(\)\)/,'Reader Save closes after successful export');
 assert.match(lit,/eduOpenPrint\('print',material,\(\)=>dialog\.close\(\)\)/,'Reader Print closes after successful save and handoff');
-console.log('PASS: first-run localized consent, Agenda-only notifications, avatar mist and reader dismissal');
+console.log('PASS: first-run localized info + native Android location/notifications + camera + avatar');
