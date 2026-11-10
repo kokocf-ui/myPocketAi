@@ -168,6 +168,29 @@ const ukrainianUi={
  'Cursuri practice':'Практичні курси','Finanțe, meserii și antreprenoriat.':'Фінанси, професії та підприємництво.'
  }
 };
+const catalanUi={
+ subtitle:'El teu assistent personal per a cada dia',
+ settingsLanguage:'Idioma de la interfície i de la conversa',
+ settingsLanguageHint:'Tria la llengua que vols utilitzar a tota l’aplicació.',
+ speechHint:'El reconeixement de veu i les veus disponibles depenen del dispositiu i del navegador.',
+ about:'Sobre l’aplicació',localHistory:'Historial desat en aquest dispositiu.',
+ localPrivacy:'Pots esborrar les converses locals des de la secció Converses.',
+ clearHistory:'Esborra l’historial',conversation:'Conversa',
+ send:'Envia el missatge',dictation:'Dictat de veu',voice:'Conversa de veu',
+ listen:'Escolta la darrera resposta',freeLabel:'GRATUÏT ♛',
+ assistantLead:'Escriu o parla amb myPocket AI.',
+ ready:'A punt per conversar.',emptyHint:'Escriu una pregunta en català.',
+ chooseDomain:'Tria una categoria per començar.',
+ backShort:'← Enrere',
+ toolsCards:[
+  ['Els meus documents','Arxius PDF desats, impressió i compartició.'],
+  ['Genera idees','Pluja d’idees per a un problema o projecte.'],
+  ['Redacció','Missatges, cartes i textos.'],
+  ['Compara opcions','Compara els avantatges i els inconvenients.'],
+  ['Resol un problema','Troba passos pràctics per resoldre’l.'],
+  ['Cerca informació','Formula una consulta de recerca.']
+ ]
+};
 const priorityDetails={
  hr:{send:'Pošalji',dictation:'Diktiranje',voice:'Glasovni razgovor',listen:'Preslušaj zadnji odgovor',about:'O aplikaciji',
   cards:['Pitanja i brza pomoć.','Predmeti, objašnjenja i vježbe.','Smještaj i boravak.','Popisi, proračuni i planiranje.','Rute, lokacije i prijevoz.','Dokumenti i dodatni alati.']},
@@ -187,6 +210,7 @@ export const EUROPEAN_UI_LOCALES=Object.freeze(Object.fromEntries(Object.entries
  if(priorityDetails[code])Object.assign(fields,Object.fromEntries(Object.entries(priorityDetails[code]).filter(([key])=>key!=='cards')));
  if(labels[code])fields.cards=labels[code].map((title,i)=>[title,priorityDetails[code]?.cards[i]||fullCards[code]?.[i]||homeLead]);
  if(code==='uk')Object.assign(fields,ukrainianUi);
+ if(code==='ca')Object.assign(fields,catalanUi);
  if(labels[code])fields.moduleTitle={travel:labels[code][2],maps:labels[code][4],learning:labels[code][1],
   organize:labels[code][3],tools:labels[code][5]};
  return [code,Object.freeze(fields)];
