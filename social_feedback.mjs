@@ -57,6 +57,14 @@ export function resolveRecipeRequestRecall(text,history=[]){
  for(let i=userTurns.length-1;i>=0;i--){
   const prior=userTurns[i].content.trim();
   if(!prior||prior===String(text||'').trim())continue;
+  // Never interpret an earlier "how many recipes did I ask for?" question
+  // or a complaint as an explicit instruction to prepare new recipes.
+  const historical=prior.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+  if((/\b(?:cate|cati|care|ce|how many|what)\b/.test(historical)
+      &&/\b(?:am|mea|my|did i|requested|asked)\b/.test(historical)
+      &&/\b(?:cerut|spus|zis|solicitarea|cererea|request|asked)\b/.test(historical))
+    ||resolveRecipeFollowupComplaint(prior,[]))continue;
   const parsed=parseCulinaryRequest(prior);
   if(!parsed.isRecipe||!parsed.keywords.length)continue;
   if(askedDish.length&&!askedDish.every(word=>parsed.keywords.some(w=>w===word||w.startsWith(word.slice(0,5)))))continue;
