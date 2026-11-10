@@ -17,7 +17,7 @@ const exclude=new Set((
  '1 2 3 4 5 6 o doi doua trei patru cinci sase one two three four five six'
 ).split(' '));
 export function recipeDishKeywords(input){
- const words=normalize(input).split(' ').filter(x=>x.length>=4&&!exclude.has(x));
+ const words=normalize(input).split(' ').filter(x=>(x.length>=4||['pui','ton','oua','ham','egg'].includes(x))&&!exclude.has(x));
  return [...new Set(words)];
 }
 export function parseCulinaryRequest(input){
