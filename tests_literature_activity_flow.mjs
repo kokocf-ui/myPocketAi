@@ -20,7 +20,7 @@ for(const type of ['grammar','vocabulary','analysis','literature','writing','ass
 }
 assert.match(script,/c\.id==='literature'\?'workspace':'topics'/,'Literature opens directly into work lookup');
 assert.match(script,/if\(stage==='workspace'\)litSimpleWorkspace\(panel\)/,'Old universal essay form is bypassed');
-assert.match(script,/if\(litJourney\.stage==='workspace'&&litJourney\.branch==='literature'\)/,
+assert.match(script,/litOpen\\(litJourney\\.branch==='literature'\\?'branches':'topics'\\);return;/,
  'Back from literary work selection returns to categories');
 assert.match(script,/if\(typeof litFitWindow==='function'\)requestAnimationFrame\(litFitWindow\)/);
 assert.match(LITERATURE_TASK_UI_SCRIPT,/function litSimpleWorkspace\(panel\)/);
