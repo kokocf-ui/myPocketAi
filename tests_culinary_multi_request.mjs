@@ -145,4 +145,9 @@ assert.match(backend,/if\(recipeInstruction&&publishedSelected\.length>=recipeRe
 assert.match(backend,/if\(prepared\.length>=recipeRequestCount\)/);
 assert.match(backend,/Exa:CookingEnglish/);
 assert.match(backend,/const recipeBalanced=recipeInstruction/);
+assert.match(backend,/pageText:recipeInstruction&&typeof x\.text==="string"/);
+assert.match(backend,/pageFetchStatus="provider_extracted"/);
+assert.match(backend,/\["fetched","provider_extracted"\]\.includes\(x\.pageFetchStatus\)/);
+assert.match(backend,/providerExtractedRecipePages/);
+
 console.log('Culinary queries/counts, recipe source matching, social GPS guard and education navigation OK');

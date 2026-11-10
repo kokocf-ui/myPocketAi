@@ -5636,16 +5636,16 @@ export default {
         const started = Date.now();
         const response = await fetch("https://api.exa.ai/search", {
           method:"POST", headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
-          body:JSON.stringify({query:newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.exaQuery:searchQuery,type:"auto",numResults:eventResearchIntent?15:newsIntent?12:recipeInstruction?Math.min(15,Math.max(8,culinaryRequest.count*4)):6,
+          body:JSON.stringify({query:newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.exaQuery:searchQuery,type:"auto",numResults:eventResearchIntent?15:newsIntent?12:recipeInstruction?10:6,
             ...(newsIntent?{category:"news"}:{}),
             ...(newsIntent&&discoveryPublicationDay?{startPublishedDate:discoveryPublicationDay+"T00:00:00.000Z",endPublishedDate:discoveryPublicationDay+"T23:59:59.999Z"}:{}),
-            contents:{highlights:true}}),
+            contents:recipeInstruction?{highlights:true,text:{maxCharacters:12000}}:{highlights:true}}),
           signal:AbortSignal.timeout(eventResearchIntent?7500:9000)
         });
         if (!response.ok) throw new Error("HTTP " + response.status);
         const payload = await response.json();
         const results = Array.isArray(payload.results) ? payload.results : [];
-        return {provider:"Exa",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.publishedDate||null,snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null}))};
+        return {provider:"Exa",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.publishedDate||null,snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null,pageText:recipeInstruction&&typeof x.text==="string"?x.text.slice(0,14000):""}))};
       })().then(value=>({status:"fulfilled",value,provider:"Exa"})).catch(error=>({status:"rejected",provider:"Exa",error:String(error&&error.message||error).slice(0,140)})));
       // For 2+ requested recipes, include another source language rather than
       // returning one variant from the first Romanian search result.
@@ -5655,7 +5655,7 @@ export default {
           const response=await fetch("https://api.exa.ai/search",{
             method:"POST",headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
             body:JSON.stringify({query:culinarySearchQuery(message,'en'),type:"auto",
-              numResults:Math.min(12,culinaryRequest.count*4),contents:{highlights:true}}),
+              numResults:Math.min(10,culinaryRequest.count*4),contents:{highlights:true,text:{maxCharacters:12000}}}),
             signal:AbortSignal.timeout(7500)
           });
           if(!response.ok)throw Error("HTTP "+response.status);
@@ -5663,7 +5663,8 @@ export default {
           return {provider:"Exa:CookingEnglish",elapsedMs:Date.now()-started,
             results:(Array.isArray(body.results)?body.results:[]).map(x=>({
               title:x.title||x.url,url:x.url,publishedDate:x.publishedDate||null,
-              snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null
+              snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null,
+              pageText:typeof x.text==="string"?x.text.slice(0,14000):""
             }))};
         })().then(value=>({status:"fulfilled",value,provider:value.provider}))
           .catch(error=>({status:"rejected",provider:"Exa:CookingEnglish",
@@ -5814,13 +5815,13 @@ export default {
         for(const item of settled) if(item.status==="fulfilled") for(const source of item.value.results){
           const url=safeSourceUrl(source.url); if(!url) continue;
           const snippets=(Array.isArray(source.snippets)?source.snippets:[]).map(v=>String(v||"").replace(/\s+/g," ").trim()).filter(Boolean).map(v=>v.slice(0,1800));
-          candidates.push({title:String(source.title||url).slice(0,220),url,publishedDate:source.publishedDate||null,author:source.author||null,snippets,provider:item.provider,sourceLanguage:source.sourceLanguage||null});
+          candidates.push({title:String(source.title||url).slice(0,220),url,publishedDate:source.publishedDate||null,author:source.author||null,snippets,provider:item.provider,sourceLanguage:source.sourceLanguage||null,pageText:recipeInstruction&&typeof source.pageText==="string"?source.pageText.slice(0,14000):""});
         }
         const byUrl=new Map();
         for(const candidate of candidates){
           const existing=byUrl.get(candidate.url);
           if(!existing) byUrl.set(candidate.url,{...candidate,providers:[candidate.provider]});
-          else { if(!existing.providers.includes(candidate.provider)) existing.providers.push(candidate.provider); for(const snippet of candidate.snippets) if(!existing.snippets.includes(snippet)&&existing.snippets.length<5) existing.snippets.push(snippet); if(!existing.publishedDate&&candidate.publishedDate)existing.publishedDate=candidate.publishedDate; }
+          else { if(!existing.providers.includes(candidate.provider)) existing.providers.push(candidate.provider); for(const snippet of candidate.snippets) if(!existing.snippets.includes(snippet)&&existing.snippets.length<5) existing.snippets.push(snippet); if(!existing.publishedDate&&candidate.publishedDate)existing.publishedDate=candidate.publishedDate; if(!existing.pageText&&candidate.pageText)existing.pageText=candidate.pageText; }
         }
         const freshnessSensitive = /\b(?:latest|current|today|tonight|this week|this month|recent|now|actual|azi|astăzi|acum|ultimele|recent|saptamana aceasta|luna aceasta|pret|preț|price|prices|cost|costă|costa)\b/i.test(normalizedResearchRequest);
         const sourceEvidenceScore = source => {
@@ -5909,6 +5910,22 @@ export default {
             source.pageEvidence=body.slice(excerptStart,excerptStart+(recipeInstruction?9000:6500));
           }catch{source.pageFetchStatus="fetch_failed";}
         }));
+        // Exa may extract a recipe publisher's page even when a site blocks
+        // direct HTML fetch. Keep this source provenance distinct from "fetched".
+        if(recipeInstruction)for(const source of webSources){
+          const extracted=String(source.pageText||'').slice(0,14000);
+          if(!extracted)continue;
+          const direct=String(source.pageEvidence||'');
+          const ingredients=/(?:ingrediente|ingredients|zutaten|ingredienti|ingrédients|ingredientes|składniki|ингредиенты)/i;
+          const method=/(?:preparare|preparation|method|directions|instructions|steps|zubereitung|preparazione|preparación|przygotowanie|приготовление)/i;
+          if(ingredients.test(direct)&&method.test(direct))continue;
+          if(ingredients.test(extracted)&&method.test(extracted)){
+            const start=Math.max(0,extracted.search(ingredients)-250);
+            source.pageEvidence=extracted.slice(start,start+9000);
+            source.pageFetchStatus="provider_extracted";
+            source.recipeEvidenceProvider="Exa";
+          }
+        }
         const usable=webSources.filter(x=>x.snippets.length||x.pageEvidence);
         webSearchStatus=usable.length?((pendingProviderCount>0||settled.some(x=>x.status==="rejected"))?"partial_success":"success"):(candidates.length?"weak_results":(settled.some(x=>x.status==="fulfilled")?"no_results":"error"));
         const contextSources=usable.slice(0,eventResearchIntent?15:8).map((x,i)=>`[${i+1}] ${x.title}\nURL: ${x.url}\nPublished: ${x.publishedDate||"date not supplied"}${Number.isFinite(x.ageDays)?" (about "+x.ageDays+" days old)":""}\nProviders: ${x.providers.join(", ")}\nSearch snippets (not independently verified): ${(x.snippets.join(" | ")||"none").slice(0,eventResearchIntent?600:10000)}\nOriginal page: ${x.pageFetchStatus||"not fetched"}\nPage excerpt: ${(x.pageEvidence||"not available").slice(0,eventResearchIntent?1000:6500)}`).join("\n\n");
@@ -5918,7 +5935,7 @@ export default {
           const published=webSources.filter(x=>x.publishedRecipes?.length).slice(0,4).map(x=>'Publisher '+x.title+' ('+x.url+')\\n'+JSON.stringify(x.publishedRecipes.slice(0,3))).join('\\n\\n');
           webSearchContext+='\\n\\nPUBLISHER RECIPE INGREDIENTS AND STEP-BY-STEP INSTRUCTIONS (source factual data; rephrase naturally without changing their meaning):\\n'+published;
         }
-        webSearchDiagnostics={research_elapsed_ms:Date.now()-researchStartedAt,max_search_wait_ms:maxSearchWaitMs,pendingProviderCount,providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,
+        webSearchDiagnostics={research_elapsed_ms:Date.now()-researchStartedAt,max_search_wait_ms:maxSearchWaitMs,pendingProviderCount,providers:providerDiagnostics,rawResultCount:candidates.length,uniqueUrlCount:byUrl.size,duplicateCount:candidates.length-byUrl.size,sourceCount:webSources.length,pagesFetched:webSources.filter(x=>x.pageFetchStatus==="fetched").length,providerExtractedRecipePages:webSources.filter(x=>x.pageFetchStatus==="provider_extracted").length,corroboratedSourceCount:webSources.filter(x=>x.providers.length>1).length,
           ...(newsIntent?{...describeNewsPublishers(webSources),broad_news_query:newsDiscoveryPlan.broadWorld,licensed_wire_access:false}:{}),
           freshnessSensitive,searchCountry:searchCountry||"ALL",searchLanguage};
         console.info("Pocket AI v98 web research",JSON.stringify({stage:"web_research_completed",status:webSearchStatus,...webSearchDiagnostics}));
@@ -6084,7 +6101,7 @@ export default {
         latency_breakdown:{research_ms:webSearchDiagnostics?.research_elapsed_ms||0,primary_ai_ms:0,sentence_correction_ms:0,review_ai_ms:0,recipe_correction_ms:0,model_calls_estimate:0,ai_model:null,events_source_grounded:true},
         ai_generated:true,ai_connected:Boolean(env.AI)});
     }
-    const culinaryEvidence=recipeInstruction?webSources.filter(x=>recipeSourceMatchesDish(message,x)&&((Array.isArray(x.publishedRecipes)&&x.publishedRecipes.length>0)||(x.pageFetchStatus==="fetched"&&/(?:ingrediente|ingredients|zutaten|ingredienti|ingrédients|ingredientes|składniki|ингредиенты)/i.test(x.pageEvidence||"")&&/(?:preparare|preparation|method|directions|instructions|zubereitung|preparazione|preparación|przygotowanie|приготовление)/i.test(x.pageEvidence||"")))):[];
+    const culinaryEvidence=recipeInstruction?webSources.filter(x=>recipeSourceMatchesDish(message,x)&&((Array.isArray(x.publishedRecipes)&&x.publishedRecipes.length>0)||(["fetched","provider_extracted"].includes(x.pageFetchStatus)&&/(?:ingrediente|ingredients|zutaten|ingredienti|ingrédients|ingredientes|składniki|ингредиенты)/i.test(x.pageEvidence||"")&&/(?:preparare|preparation|method|directions|instructions|zubereitung|preparazione|preparación|przygotowanie|приготовление)/i.test(x.pageEvidence||"")))):[];
     if(recipeInstruction&&!culinaryEvidence.length){
       const reply=lang==='ro'?'Nu am găsit o rețetă completă cu ingrediente și pași verificabili în sursele accesibile acum. Nu voi inventa prepararea. Te rog să reîncerci căutarea.':'I could not verify a complete recipe with ingredients and cooking steps in accessible sources. Please retry.';
       return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,sources:[],web_search_status:webSearchStatus,recipe_grounding_status:"insufficient_evidence",ai_generated:false,ai_connected:Boolean(env.AI)});
