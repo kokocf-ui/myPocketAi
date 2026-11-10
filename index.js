@@ -3178,7 +3178,8 @@ main.page:has(#view-module.learning-languages.active){
  min-height:0!important;overflow:hidden!important;
  padding:0!important;margin:0!important;box-sizing:border-box!important
 }
-#view-module.learning-literature .lit-toolbar{flex:0 0 auto!important;margin:0 10px 8px!important;padding:0!important}
+#view-module.learning-literature .lit-toolbar{position:relative!important;z-index:5!important;pointer-events:auto!important;flex:0 0 auto!important;margin:0 10px 8px!important;padding:0!important}
+#view-module.learning-literature .lit-back{position:relative!important;z-index:6!important;pointer-events:auto!important;touch-action:manipulation!important}
 #view-module.learning-literature .lit-panel{flex:1 1 auto!important;min-height:0!important;max-height:none!important;overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain!important;scrollbar-gutter:stable;padding:clamp(12px,2dvh,24px)!important;margin:0 10px 8px!important;display:flex!important;flex-direction:column!important;gap:12px!important}
 #view-module.learning-literature .lit-panel:has(.lit-options){justify-content:flex-start!important}
 #view-module.learning-literature .lit-panel:has(.lit-options) .lit-options{margin-block:auto!important}
@@ -9829,7 +9830,15 @@ function mathJourneyDescription(){
  return {level:level?learningLabel(level.ro,level.en):'',topic:topic?learningLabel(topic.ro,topic.en):''};
 }
 let activeLearningSubject=null;
-function learningLabel(ro,en){return state.language==='ro'?ro:en}
+function learningLabel(ro,en){
+ const lang=state.language||'ro';
+ if(lang==='ro')return ro;
+ // School navigation shares the Education translations with the country
+ // picker. The chosen curriculum must never silently switch app language.
+ const translated=typeof EDUCATION_UI_TRANSLATIONS!=='undefined'
+   ?EDUCATION_UI_TRANSLATIONS[lang]?.[ro]:null;
+ return translated||en||ro;
+}
 function renderLearningSubjects(){
  mathVoiceStop();
  document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');
@@ -9855,7 +9864,26 @@ function renderLearningSubjects(){
  });
  host.append(grid);
  $('moduleLead').textContent='';
+ requestAnimationFrame(educationFitMenuViewport);
 }
+// Fill precisely the usable height down to the dock, even on Android WebView
+// where a percentage-height Education container can leave a large blank strip.
+function educationFitMenuViewport(){
+ const root=$('view-module');
+ if(!root?.classList.contains('learning-choose')||!root.classList.contains('active'))return;
+ const dock=document.querySelector('.bottom-nav');
+ const top=root.getBoundingClientRect().top;
+ const visible=window.visualViewport
+  ?window.visualViewport.offsetTop+window.visualViewport.height:window.innerHeight;
+ const bottom=Math.min(dock?.getBoundingClientRect().top??visible,visible);
+ if(!Number.isFinite(top)||!Number.isFinite(bottom))return;
+ const px=Math.floor(bottom-top-10);
+ if(px<350){root.style.removeProperty('height');root.style.removeProperty('max-height');return}
+ root.style.setProperty('height',px+'px','important');
+ root.style.setProperty('max-height',px+'px','important');
+}
+if(typeof window!=='undefined'&&window.addEventListener)
+ window.addEventListener('resize',()=>requestAnimationFrame(educationFitMenuViewport));
 // Educational dictation is isolated from the assistant's chat/voice capture.
 function mathFitViewport(){
  const page=document.querySelector('main.page'),view=$('view-module');
@@ -11507,14 +11535,29 @@ function litFitWindow(){
 }
 if(typeof window!=='undefined'&&window.addEventListener)window.addEventListener('resize',()=>{if($('view-module')?.classList.contains('learning-literature'))requestAnimationFrame(litFitWindow)});
 function litBack(){
- // Country sets the native study language. Choosing another language is
- // optional, not an obligatory intermediate page.
- if(litJourney.stage==='languages'){litOpen('levels');return}
- if(litJourney.stage==='countries'||litJourney.stage==='levels')return educationCountryGate('literature',()=>litOpen('levels'));
- const stages={countries:null,languages:'levels',levels:'countries',grades:'levels',regions:'grades',tracks:'grades',topics:'branches',workspace:'topics'};
- if(litJourney.stage==='workspace'&&litJourney.branch==='literature'){litOpen('branches');return}
- if(litJourney.stage==='branches'){litOpen(litNeedsTrack()?'tracks':litIsRegional()?'regions':'grades');return}
- if(stages[litJourney.stage])litOpen(stages[litJourney.stage]);else renderLearningSubjects()
+ // Each visible Back button must advance to an earlier screen. A stale
+ // school-track lookup must never trap pupils in the study menu.
+ const stage=litJourney.stage;
+ try{
+  if(stage==='countries'){renderLearningSubjects();return}
+  if(stage==='levels'){educationCountryGate('literature',()=>litOpen('levels'));return}
+  if(stage==='languages'){litOpen('levels');return}
+  if(stage==='grades'){litOpen('levels');return}
+  if(stage==='regions'||stage==='tracks'){litOpen('grades');return}
+  if(stage==='branches'){
+   let hasTracks=false;
+   try{hasTracks=litNeedsTrack()}catch(error){console.error('lit_back_tracks',error)}
+   litOpen(hasTracks?'tracks':litIsRegional()?'regions':'grades');return;
+  }
+  if(stage==='topics'){litOpen('branches');return}
+  if(stage==='workspace'){
+   litOpen(litJourney.branch==='literature'?'branches':'topics');return;
+  }
+  renderLearningSubjects();
+ }catch(error){
+  console.error('literature_back_recovered',stage,error);
+  renderLearningSubjects();
+ }
 }
 function litOpen(stage){
  litJourney.stage=stage;
