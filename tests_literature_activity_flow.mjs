@@ -32,6 +32,12 @@ assert.match(LITERATURE_TASK_UI_SCRIPT,/rows=\(data\.docs\|\|\[\]\)\.flatMap/,
  'Search results must be publisher metadata, not invented author matching');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/fold\(x\.title\)===fold\(name\)/,
  'Only exact work title matches appear (avoid unrelated literature)');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/search\\/authors\\.json\\?q=/,
+ 'Searching by an author name must use author lookup, not only title lookup');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/works\\.json\\?limit=50/,
+ 'Author search must provide bibliography from that author works');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/Alte opere/,
+ 'Author works must be paginated rather than silently truncated');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/const buttons=branch==='analysis'/,
  'Grammar and analysis must have distinct controls');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/if\(!needsInput\)run\('lesson'\)/,
