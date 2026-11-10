@@ -9865,6 +9865,20 @@ function renderLearningSubjects(){
  host.append(grid);
  $('moduleLead').textContent='';
  requestAnimationFrame(educationFitMenuViewport);
+ // Translate subject titles AND descriptions in the Settings language,
+ // regardless of which country has been selected for the syllabus.
+ const lang=state.language||'ro';
+ if(lang!=='ro'&&typeof eduTranslateMaterial==='function'){
+  const original={titles:LEARNING_SUBJECTS.map(item=>item[2]),details:LEARNING_SUBJECTS.map(item=>item[4])};
+  eduTranslateMaterial(original,'education:subject-menu','ro').then(result=>{
+   if(!result?.titles||!result?.details||!grid.isConnected||
+      state.language!==lang||!root.classList.contains('learning-choose'))return;
+   Array.from(grid.children).forEach((card,i)=>{
+    if(result.titles[i])card.querySelector('strong').textContent=result.titles[i];
+    if(result.details[i])card.querySelector('small').textContent=result.details[i];
+   });
+  }).catch(error=>console.warn('education_menu_translation_unavailable',error));
+ }
 }
 // Fill precisely the usable height down to the dock, even on Android WebView
 // where a percentage-height Education container can leave a large blank strip.
