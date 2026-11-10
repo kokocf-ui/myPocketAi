@@ -3,6 +3,30 @@ export const LITERATURE_TASK_UI_SCRIPT=String.raw`
 function litSimpleNode(tag,text='',className=''){const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;return el}
 function litSimpleButton(text,fn){const b=litSimpleNode('button',text,'lit-activity-button');b.type='button';b.onclick=fn;return b}
 function litSimpleLabel(ro,en){return learningLabel(ro,en)}
+
+let litReaderOpen=null;
+function litShowMaterialReader(title,text){
+ const body=String(text||'').trim();if(!body)return;
+ if(litReaderOpen?.isConnected)litReaderOpen.close();
+ const dialog=document.createElement('dialog');dialog.className='lit-material-reader';
+ dialog.setAttribute('aria-label',title);
+ const head=litSimpleNode('div','','lit-reader-head');
+ const caption=litSimpleNode('strong',title,'lit-reader-title');
+ const close=litSimpleButton(litSimpleLabel('Înapoi','Back'),()=>dialog.close());
+ close.classList.add('lit-reader-close');head.append(caption,close);
+ const content=litSimpleNode('article','','lit-reader-scroll');
+ hgDisplayStudyText(content,body);
+ const actions=litSimpleNode('div','','lit-reader-footer');
+ const material={title,text:body};
+ const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),()=>eduOpenPrint('save',material));
+ const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),()=>eduOpenPrint('print',material));
+ actions.append(save,print);
+ dialog.append(head,content,actions);
+ dialog.addEventListener('close',()=>{dialog.remove();if(litReaderOpen===dialog)litReaderOpen=null});
+ document.body.append(dialog);litReaderOpen=dialog;
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+
 let litSimpleSerial=0,litSimpleAbort=null;
 async function litSimpleGenerate(out,status,mode,request,source='',onReady=null){
  if(litSimpleAbort)litSimpleAbort.abort();
@@ -89,6 +113,9 @@ function litSimpleWorkspace(panel){
   const task=title+'. '+(phrase?'Textul utilizatorului: '+phrase+'. ':'')+'Solicitare: '+mode+'.';
   litSimpleGenerate(out,status,mode,task,'',text=>{
    if(mode==='exercises'||mode==='test'){assignmentText=text;review.hidden=false}
+   litShowMaterialReader(title+' · '+litSimpleLabel(
+    mode==='lesson'?'Teorie':mode==='examples'?'Exemple':mode==='exercises'?'Exerciții':mode==='test'?'Test':mode==='define'?'Definiție':mode==='analysis'?'Analiză':'Material',
+    mode==='lesson'?'Theory':mode==='examples'?'Examples':mode==='exercises'?'Exercises':mode==='test'?'Test':mode==='define'?'Definition':mode==='analysis'?'Analysis':'Material'),text);
   });
  };
  const buttons=branch==='analysis'?[['Analizează','Analyse','analysis'],['Explică metoda','Explain method','lesson']]:
@@ -109,7 +136,8 @@ function litSimpleWorkspace(panel){
   if(!answers.value.trim()){answers.focus();return}
   litSimpleGenerate(correction,status,'correction',
    'Evaluează răspunsul elevului: '+answers.value.trim().slice(0,1500)+'.',
-   'Întrebările originale: '+assignmentText.slice(0,2200)+'. Oferă corectarea pe fiecare întrebare.');
+   'Întrebările originale: '+assignmentText.slice(0,2200)+'. Oferă corectarea pe fiecare întrebare.',
+   text=>litShowMaterialReader(litSimpleLabel('Corectarea exercițiilor','Corrected answers'),text));
  }),correction);
  panel.append(review);
  if(!needsInput)run('lesson');
@@ -133,7 +161,8 @@ function litSimpleLiterature(panel){
   for(const [ro,en,mode] of types)acts.append(litSimpleButton(litSimpleLabel(ro,en),()=>{
    out.replaceChildren();litSimpleGenerate(out,feedback,mode,'Opera: '+chosen.name+'. Autor: '+chosen.author+'.',
    'Sursă bibliografică (metadate, nu text integral): '+chosen.url+'. '+
-   (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'));
+   (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
+   result=>litShowMaterialReader(chosen.name+' — '+chosen.author,result));
   }));
   feedback.textContent=litSimpleLabel('Opera selectată; alege activitatea.','Work selected; choose an activity.');
   title.scrollIntoView({block:'nearest',behavior:'auto'});
