@@ -42,4 +42,13 @@ assert.doesNotMatch(index,/height:clamp\(355px,62dvh,540px\)!important/);
 for(const [key,fn] of [['learning-literature','litBack'],['learning-hg','hgBack'],['learning-languages','languageBack']]){
  assert.ok(index.includes("root.classList.contains('"+key+"')){"+fn+"();return true}"),key+' must honor Android Back within its study levels');
 }
+const uiStart=index.indexOf('function isRecipeQuestion(text){');
+const uiEnd=index.indexOf('// Keep small talk out of location and pending-route flows.',uiStart);
+assert.ok(uiStart>=0&&uiEnd>uiStart,'frontend culinary classifier must be present');
+const uiContext=vm.createContext({});
+vm.runInContext(index.slice(uiStart,uiEnd),uiContext);
+for(const sentence of ['Găsește-mi trei rețete de guacamole','Arată-mi o rețetă de sarmale','Find three guacamole recipes']){
+ assert.equal(vm.runInContext('isRecipeQuestion('+JSON.stringify(sentence)+')',uiContext),true,sentence);
+}
+assert.match(index,/const locationIntent=!isRecipeQuestion\(text\)/);
 console.log('Culinary intent, multi-recipe preservation and education navigation checks passed');

@@ -18059,9 +18059,10 @@ async function getCurrentCoordinates(forceRefresh=false){
  return state.locationPromise;
 }
 function isRecipeQuestion(text){
- const v=String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
- const prefixes=['reteta','retete','recipe','recipes','ingrediente','sarmale','ciorba','cum se prepara','cum prepar','cum gatesc','how to cook'];
- return prefixes.some(word=>v===word||v.startsWith(word+' '));
+ const value=String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  .toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+ // A command such as "găsește-mi trei rețete" is culinary, not GPS search.
+ return /\b(?:retet\w*|recipe\w*|ingredient\w*|cum\s+(?:se\s+)?(?:prepar\w*|gatesc|gatesti|gati\w*|face|fac)\b|how\s+to\s+cook|sarmal\w*|ciorb\w*\s+de\s+burt\w*)\b/.test(value);
 }
 // Keep small talk out of location and pending-route flows.
 function isCasualConversationReply(value){
@@ -18083,7 +18084,7 @@ function requestUsesLocation(text){
    || (/^[\\p{L}0-9&' .-]{3,55}$/u.test(value)&&value.split(/\\s+/).length<=3&&!/^(?:ce|care|cum|cat|cand|what|why|how|hello|salut|multumesc)\\b/i.test(value));
 }
 async function coordinatesForRequest(text){
- const locationIntent=!isCasualConversationReply(text)&&(Boolean(state.pendingTravelMode)||requestUsesLocation(text)),cached=cachedCoordinates();
+ const locationIntent=!isRecipeQuestion(text)&&!isCasualConversationReply(text)&&(Boolean(state.pendingTravelMode)||requestUsesLocation(text)),cached=cachedCoordinates();
  if(!locationIntent)return {coordinates:cached,locationIntent:false,error:null};
  if(cached&&cached.age_ms<=30000)return {coordinates:cached,locationIntent:true,error:null};
  let timer;try{
@@ -18101,8 +18102,8 @@ function requestedTransitCountInMessage(value){
  const words={unu:1,una:1,un:1,o:1,one:1,doi:2,doua:2,two:2,trei:3,three:3,patru:4,four:4};
  return Number(found[1])||words[found[1]]||null;
 }
-async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;if(state.currentView==='module'&&state.currentModule==='learning'&&activeLearningSubject){const topic=learningLabel(activeLearningSubject[2],activeLearningSubject[3]);message=(state.language==='ro'?'Materia: ':'Subject: ')+topic+'. '+message;}if(isCasualConversationReply(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;}if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;const chosenRegion=state.lastEncyclopediaArticle?.is_region===true&&state.lastEncyclopediaArticle.title===country;const searchArea=chosenRegion?country+', '+(state.lastEncyclopediaArticle.parent_country||''):country;state.tripCountryOnChoice=searchArea;message=(dialogText("Vreau să ajung la ","I want to get to "))+message+', '+searchArea;state.travelAccommodationIntent=false;state.lastEncyclopediaTripQuery=message;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
- const explicitCount=requestedTransitCountInMessage(message);
+async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;if(state.currentView==='module'&&state.currentModule==='learning'&&activeLearningSubject){const topic=learningLabel(activeLearningSubject[2],activeLearningSubject[3]);message=(state.language==='ro'?'Materia: ':'Subject: ')+topic+'. '+message;}if(isRecipeQuestion(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isCasualConversationReply(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;}if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;const chosenRegion=state.lastEncyclopediaArticle?.is_region===true&&state.lastEncyclopediaArticle.title===country;const searchArea=chosenRegion?country+', '+(state.lastEncyclopediaArticle.parent_country||''):country;state.tripCountryOnChoice=searchArea;message=(dialogText("Vreau să ajung la ","I want to get to "))+message+', '+searchArea;state.travelAccommodationIntent=false;state.lastEncyclopediaTripQuery=message;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
+ const explicitCount=isRecipeQuestion(message)?null:requestedTransitCountInMessage(message);
  if(explicitCount)state.requestedTransitCount=explicitCount;
  else if(/^(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)/i.test(message)&&!state.pendingTravelMode)state.requestedTransitCount=null;
 // A short yes/no confirms the last identified destination locally. It must not become a new AI query.
