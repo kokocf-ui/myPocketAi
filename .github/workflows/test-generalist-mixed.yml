@@ -7,6 +7,7 @@ on:
       - 'index.js'
       - 'literature_task_ui.mjs'
       - 'tests_literature_activity_flow.mjs'
+      - 'tests_education_reader_documents_regression.mjs'
       - 'tests_literature_tutor_response.mjs'
       - 'literature_verified_authors.mjs'
       - 'tests_literature_verified_authors.mjs'
@@ -77,6 +78,8 @@ jobs:
         run: node tests_literature_activity_flow.mjs
       - name: Language tutoring response and conditional quiz regression
         run: node tests_literature_tutor_response.mjs
+      - name: Education reader and PDF document library regression
+        run: node tests_education_reader_documents_regression.mjs
       - name: Android literature level to Grade 8 navigation
         run: node tests_literature_navigation_viewport.mjs
       - name: Country-first Education navigation
