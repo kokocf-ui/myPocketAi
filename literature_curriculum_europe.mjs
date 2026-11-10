@@ -1,4 +1,5 @@
 import {LITERATURE_DEEP_UNITS} from './literature_extended_study.mjs';
+import {LIT_SEVEN_COUNTRY_PROGRAMS} from './literature_seven_country_tracks.mjs';
 // Literature pathways for Europe, referenced against official national/jurisdictional
 // publications. A verified framework is NOT an exhaustive list of mandatory works.
 // The generic path is explicitly advisory when a country, grade or track is not checked.
@@ -137,6 +138,8 @@ export const LIT_EU_PROGRAMS={
  byLevel:{beginner:[['listen','Klausīšanās un saziņa','Ascultare și comunicare în context.','communication'],['read','Lasīšana','Citire, înțelegere și literatură.','genres'],['write','Rakstīšana','Compunere și ortografie.','composition']],medium:[['texts','Teksti un literatūra','Receptare literară și interpretare.','authors'],['language','Valodas līdzekļi','Analiză și folosire a limbii.','grammar'],['writing','Argumentēšana','Scriere, conversație și argumentare.','essay']]}}
 
 };
+// Seven dedicated national packs, with 2026/27 curriculum transition notes.
+Object.assign(LIT_EU_PROGRAMS,LIT_SEVEN_COUNTRY_PROGRAMS);
 // Every level must expose a meaningful sequence of smaller study units in
 // addition to its broad curriculum domains. Not a mandatory list of texts.
 function literatureExpandRows(rows,level){
