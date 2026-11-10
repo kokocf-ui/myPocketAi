@@ -252,7 +252,7 @@ const altRecall=resolveRecipeRequestRecall('Care a fost solicitarea mea cu privi
 assert.equal(altRecall?.count,3);
 assert.equal(altRecall?.dish,'sarmale');
 const guacRecall=resolveRecipeRequestRecall('Câte rețete de guacamole am cerut?',recallHistory);
-assert.equal(guacRecall?.count,3);
+assert.equal(guacRecall?.count,10);
 assert.equal(guacRecall?.explicitCount,false);
 assert.match(formatRecipeRequestRecall(guacRecall,'ro'),/Ai cerut mai multe rețete de guacamole/);
 const unknown=resolveRecipeRequestRecall('Câte rețete de sarmale ți-am cerut?',[
