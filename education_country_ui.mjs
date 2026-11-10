@@ -155,9 +155,11 @@ function educationCountryGate(moduleKey,proceed){
   educationCountrySelection.method=method;
   status.textContent=method==='location'?eduUiLabel('Țară sugerată din locația disponibilă a telefonului.','Suggested from available phone location.'):eduUiLabel('Ultima țară aleasă; poți schimba.','Previously chosen country; you can change it.');
  }
- // Wait for the current country's suggestion instead of showing a prior
- // Romanian selection and immediately replacing it with England.
- if(geoPending){
+ // A confirmed school-country choice always wins over phone GPS.
+ // Someone physically in Romania can deliberately study for Hungary.
+ // Geolocation supplies a default ONLY until the first manual confirmation.
+ if(lastConfirmed)suggest(lastConfirmed,'saved');
+ else if(geoPending){
   status.textContent=eduUiLabel('Se verifică țara din locația telefonului…','Checking the phone location…');
   setTimeout(savedFallback,2500);
  }else if(typeof budgetDetectedCountry==='string'&&budgetDetectedCountry)
@@ -190,8 +192,8 @@ function educationCountryGate(moduleKey,proceed){
   }catch{}
  }
  const coords=state.location;
- if(Number.isFinite(Number(coords?.latitude))&&Number.isFinite(Number(coords?.longitude)))autoDetectFromCoords(coords);
- else if(state.locationStarted&&typeof getCurrentCoordinates==='function')getCurrentCoordinates(false).then(autoDetectFromCoords).catch(savedFallback);
+ if(!lastConfirmed&&Number.isFinite(Number(coords?.latitude))&&Number.isFinite(Number(coords?.longitude)))autoDetectFromCoords(coords);
+ else if(!lastConfirmed&&state.locationStarted&&typeof getCurrentCoordinates==='function')getCurrentCoordinates(false).then(autoDetectFromCoords).catch(savedFallback);
  else if(typeof budgetDetectedCountry==='string'&&budgetDetectedCountry)suggest(eduCountryFromCode(budgetDetectedCountry,null),'detected');
 }
 function eduYearOptions(code,level,moduleKey){
