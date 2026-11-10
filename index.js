@@ -19394,7 +19394,8 @@ main.page:has(#view-module.learning-languages.active){
 /* Restore measured full-height subject selection. Override obsolete 53dvh cap. */
 #view-module.learning-choose.active{height:100%!important;max-height:100%!important;min-height:0!important;
  grid-template-rows:auto minmax(0,1fr)!important;overflow:hidden!important}
-#view-module.learning-choose #moduleContent{height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important}
+#view-module.learning-choose #moduleContent{height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important;
+ padding:0!important;box-sizing:border-box!important}
 #view-module.learning-choose .education-grid{height:100%!important;min-height:0!important;max-height:100%!important;
  grid-template-rows:repeat(4,minmax(0,1fr))!important;row-gap:clamp(6px,1dvh,10px)!important;
  padding:2px 0 4px!important;overflow:hidden!important}
