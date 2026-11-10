@@ -1883,6 +1883,46 @@ export default {
 
     let message = data.message.trim();
     const originalMessage=message;
+    // Grammar, literature and vocabulary are never transport or geolocation.
+    // The assistant route may interpret the word "location" in a system
+    // instruction as a travel request; isolate these lessons before intent
+    // classification and let the subject-specific teacher produce the output.
+    if(data.module==='education_study'&&data.education_subject==='language_literature'){
+      const locale=['ro','en','fr','de','es','it','pt','nl','ru','pl','ja','zh','el','la'].includes(data.language)?data.language:'ro';
+      const activity=['lesson','examples','exercises','test','define','analysis','write','study','summary','essay','correction'].includes(data.education_activity)
+        ?data.education_activity:'lesson';
+      const instructions={
+        lesson:'Teach the complete lesson with definitions, major subtopics, meaningful examples and explanations; do not return just a short introduction.',
+        examples:'Provide multiple detailed worked examples, showing the correct reasoning and each applicable rule.',
+        exercises:'Give at least five varied questions/tasks appropriate for this grade. Do not reveal final answers before the learner attempts them.',
+        test:'Give five numbered assessment questions appropriate for the current class and topic. Do not provide the answers or solutions until asked to correct responses.',
+        define:'Give a precise dictionary definition, part of speech, possible senses and several real usage examples. Distinguish abbreviation from a full word.',
+        analysis:'Analyse the supplied text or fragment directly, explaining linguistic or literary features and the evidence in it. Never invent a quoted passage.',
+        write:'Produce the requested writing task using a coherent structure, suitable for the grade and national context.',
+        study:'Teach the selected literary work with its author, verifiable context, themes, structure, characters when relevant, and techniques. No fabricated quotations.',
+        summary:'Produce a faithful, understandable summary of the selected literary work; distinguish information that cannot be verified.',
+        essay:'Write a structured essay on the selected work, with relevant interpretation and a grounded conclusion; do not invent textual quotes.',
+        correction:'Assess the learner answers against the exact questions supplied, identify each correct/incorrect response and explain the corrections constructively.'
+      };
+      const system='You are a patient and knowledgeable language and literature teacher. Respond in language code '+locale+
+        '. This is strictly an educational task, not a travel, navigation, location, weather, business or map request. '+
+        instructions[activity]+' Use the supplied country, school year and subject area to adapt depth without inventing an official curriculum. '+
+        'Keep useful headings and paragraphs. Be precise and complete, avoid unverified author attributions, made-up quotations and filler. '+
+        'For the correction activity only, refer to the question text and student answer in the request. '+
+        'Never confuse dictionary entries with destinations. If the user has not supplied a needed text passage, do not pretend to have read it.';
+      try{
+        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
+        const reply=String(response?.response||response?.result?.response||'').trim();
+        if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'language_literature'},503);
+        // Fail closed if a provider ignores the education route.
+        if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
+          return json({status:'unavailable',error:'education_wrong_intent',education_subject:'language_literature'},503);
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,
+          education_subject:'language_literature',education_activity:activity,ai_generated:true});
+      }catch(error){
+        return json({status:'unavailable',error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'education_generation_unavailable',education_subject:'language_literature'},503);
+      }
+    }
     // Education requests are not routes, POIs, weather or local searches.
     // Route a user-selected school lesson directly to a bounded tutoring response.
     if(data.module==='education_study'&&['history','geography'].includes(data.education_subject)){

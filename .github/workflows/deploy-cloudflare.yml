@@ -28,6 +28,7 @@ jobs:
           node tests_literature_europe.mjs
           node tests_literature_completion.mjs
           node tests_literature_verified_authors.mjs
+          node tests_literature_tutor_response.mjs
           node tests_pdf_library.mjs
           node --check computing_curriculum.mjs
           node --check computing_ui.mjs
@@ -111,6 +112,7 @@ jobs:
       - name: Verify backend news-search routing before deploy
         run: |
           node --check backend.js
+          node tests_literature_tutor_response.mjs
           npm run test:culinary
           node tests_response_intent.mjs
           node tests_news_contextual_translation.mjs
