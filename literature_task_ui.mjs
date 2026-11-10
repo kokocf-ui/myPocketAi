@@ -35,7 +35,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
   if(controller.signal.aborted||!out.isConnected||serial!==litSimpleSerial||
      snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
   const text=String(data.reply).trim().slice(0,72000);
-  if(/(?:nu am coordonate gps|permite accesul la locație|departure address\/postcode|do not have usable gps coordinates)/i.test(text))
+  if(/(?:nu am coordonate gps|permite accesul la locație|departure address\/postcode|do not have usable gps)/i.test(text))
     throw Error('wrong_intent');
   hgDisplayStudyText(out,text);
   if(typeof onReady==='function')onReady(text);
