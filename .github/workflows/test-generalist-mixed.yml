@@ -135,13 +135,16 @@ jobs:
           node tests_science_resolution_symbols.mjs
           node tests_physics_complete.mjs
           node tests_astronomy_complete.mjs
-      - name: UI checks 46-50
-        run: |
-          node tests_foreign_languages.mjs
-          node tests_history_geography.mjs
-          node tests_education_hg_theory_coverage.mjs
-          node tests_education_worldwide.mjs
-          node tests_literature_offline_theory.mjs
+      - name: UI checks 46 tests_foreign_languages.mjs
+        run: node tests_foreign_languages.mjs
+      - name: UI checks 47 tests_history_geography.mjs
+        run: node tests_history_geography.mjs
+      - name: UI checks 48 tests_education_hg_theory_coverage.mjs
+        run: node tests_education_hg_theory_coverage.mjs
+      - name: UI checks 49 tests_education_worldwide.mjs
+        run: node tests_education_worldwide.mjs
+      - name: UI checks 50 tests_literature_offline_theory.mjs
+        run: node tests_literature_offline_theory.mjs
       - name: UI checks 51-55
         run: |
           node tests_literature_verified_authors.mjs
