@@ -11249,7 +11249,7 @@ function litFitWindow(){
  root.style.setProperty('max-height',pixels+'px','important');
  root.style.setProperty('min-height','0','important');
 }
-window.addEventListener('resize',()=>{if($('view-module')?.classList.contains('learning-literature'))requestAnimationFrame(litFitWindow)});
+if(typeof window!=='undefined'&&window.addEventListener)window.addEventListener('resize',()=>{if($('view-module')?.classList.contains('learning-literature'))requestAnimationFrame(litFitWindow)});
 function litBack(){
  // Country sets the native study language. Choosing another language is
  // optional, not an obligatory intermediate page.
