@@ -61,5 +61,29 @@ try{
   assert.equal(now,true,key+' cannot return home');
   assert.equal(errors.length,0,key+' generated a browser exception');
  }
- console.log('PASS browser tap-through: maps/hotels/education/organisation/tools/assistant and back');
+ // Locale switching is the regression that originally blocked app startup.
+ await page.evaluate(()=>{
+  const select=document.querySelector('#languageSelect');
+  select.value='uk';
+  select.dispatchEvent(new Event('change',{bubbles:true}));
+ });
+ await new Promise(resolve=>setTimeout(resolve,300));
+ const ua=await page.evaluate(()=>({
+  locale:document.documentElement.lang,
+  names:[...document.querySelectorAll('#view-home .card-title')].map(x=>x.textContent),
+  nav:[...document.querySelectorAll('.bottom-nav [data-nav]')].map(x=>x.textContent.trim())
+ }));
+ console.log('UKRAINIAN_UI',JSON.stringify(ua));
+ assert.equal(ua.locale,'uk');
+ assert.equal(ua.names[0],'ШІ-помічник');
+ assert.equal(ua.names[2],'Готелі');
+ await page.click('[data-module="learning"]',{timeout:5000});
+ await new Promise(resolve=>setTimeout(resolve,250));
+ const uaSubjects=await page.evaluate(()=>[...document.querySelectorAll('#view-module .education-card strong')].map(x=>x.textContent));
+ console.log('UKRAINIAN_EDUCATION',JSON.stringify(uaSubjects));
+ assert.ok(uaSubjects.includes('Математика'));
+ assert.ok(uaSubjects.includes('Інформатика'));
+ await page.click('#view-module [data-back]',{timeout:5000});
+ assert.equal(await page.$eval('#view-home',el=>el.classList.contains('active')),true);
+ console.log('PASS browser tap-through: all home modules, back navigation, Ukrainian settings and Education labels');
 }finally{if(browser)await browser.close();await new Promise(resolve=>server.close(resolve))}
