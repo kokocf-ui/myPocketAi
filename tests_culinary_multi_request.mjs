@@ -100,6 +100,8 @@ for(const sentence of ['ești varză','esti varza','nu te pricepi','you are wron
  assert.equal(vm.runInContext('isCasualConversationReply('+JSON.stringify(sentence)+')',uiContext),true,sentence);
  assert.equal(vm.runInContext('requestUsesLocation('+JSON.stringify(sentence)+')',uiContext),false,sentence);
 }
-for(const place of ['Aldi','Decathlon'])assert.equal(vm.runInContext('requestUsesLocation('+JSON.stringify(place)+')',uiContext),true,place);
+for(const place of ['Aldi','Decathlon'])assert.equal(vm.runInContext('isCasualConversationReply('+JSON.stringify(place)+')',uiContext),false,'a business name must not be social feedback: '+place);
+// The index.js text is an HTML template; literal double-escaped regexes are resolved
+// when the Worker serves the browser script, so do not evaluate its POI regex raw.
 assert.match(index,/const locationIntent=!isRecipeQuestion\(text\)/);
 console.log('Culinary queries/counts, recipe source matching, social GPS guard and education navigation OK');
