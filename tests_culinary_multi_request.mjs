@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {parseCulinaryRequest,recipeDishKeywords,culinarySearchQuery,humanizeRecipeDuration,humanizeRecipeServings} from './culinary_intent.mjs';
-import {classifyAssistantFeedback} from './social_feedback.mjs';
+import {classifyAssistantFeedback,resolveRecipeFollowupComplaint} from './social_feedback.mjs';
+import {assembleSourcedRecipeVariants,recipeIngredientSignature} from './culinary_multi.mjs';
 
 for(const [message,quantity,expectedIntent] of [
  ['Dă-mi 3 rețete de guacamole',3,true],
@@ -150,4 +151,87 @@ assert.match(backend,/pageFetchStatus="provider_extracted"/);
 assert.match(backend,/\["fetched","provider_extracted"\]\.includes\(x\.pageFetchStatus\)/);
 assert.match(backend,/providerExtractedRecipePages/);
 
+
+const relevantHistory=[
+ {role:'user',content:'Dă-mi 2 rețete de guacamole'},
+ {role:'assistant',content:'Rețeta 1 — Guacamole clasic'},
+ {role:'user',content:'Ești varză'},
+ {role:'assistant',content:'Am răspuns pe lângă subiect. Ce anume vrei să corectez?'}
+];
+const complaint='Am cerut mai multe rețete și tu mi-ai oferit doar una';
+assert.deepEqual(resolveRecipeFollowupComplaint(complaint,relevantHistory),{
+ kind:'retry',dish:'guacamole',count:2,request:'Dă-mi 2 rețete de guacamole'
+});
+assert.deepEqual(resolveRecipeFollowupComplaint(complaint,[]),{kind:'clarify'});
+assert.equal(resolveRecipeFollowupComplaint('Dă-mi trei rețete de guacamole',relevantHistory),null);
+assert.deepEqual(resolveRecipeFollowupComplaint('Ți-am cerut 3 rețete și mi-ai dat numai una',[
+ {role:'user',content:'Caută-mi trei rețete de sarmale'}
+]),{kind:'retry',dish:'sarmale',count:3,request:'Dă-mi 3 rețete de sarmale'});
+assert.match(backend,/const cookingCorrection=resolveRecipeFollowupComplaint\(message,data\.history\)/);
+assert.match(backend,/if\(cookingCorrection\?\.kind==='retry'\)message=cookingCorrection\.request/);
+assert.match(backend,/await assembleSourcedRecipeVariants\(/);
+assert.match(backend,/delivered_recipe_count:result\.count/);
+assert.match(backend,/requested_recipe_count:result\.requested/);
+assert.match(backend,/const titleCandidates=lines\.slice\(0,firstIngredient\)/);
+
+// Full recipes are composed from independent publisher evidence. The tested
+// count is the number of COMPLETE ingredient and method sections, not the
+// requested number repeated in a system instruction.
+const makeRecipe=(name,items,url,num=1)=>[
+ 'Rețeta '+num+' — '+name,
+ 'Ingrediente:',
+ ...items.map(x=>'- '+x),
+ 'Mod de preparare:',
+ '1. Taie ingredientele în bucăți.',
+ '2. Amestecă și servește preparatul.',
+ 'Sursa: '+url
+].join('\n');
+const items=[
+ ['2 avocado','1 lime','1 ceapă roșie','1 roșie'],
+ ['2 avocado','1 mango','1 lime','1 ardei iute'],
+ ['2 avocado','2 linguri iaurt','1 castravete','1 lămâie']
+];
+const demo=[
+ {url:'https://first.test/guacamole',title:'Guacamole clasic',pageEvidence:'Ingrediente și Mod de preparare'},
+ {url:'https://second.test/mango',title:'Guacamole mango',pageEvidence:'Ingrediente și Mod de preparare'},
+ {url:'https://third.test/iaurt',title:'Guacamole cu iaurt',pageEvidence:'Ingrediente și Mod de preparare'}
+];
+const fullResult=await assembleSourcedRecipeVariants({
+ count:3,language:'ro',dish:'guacamole',sources:demo,
+ published:[{source:demo[0],recipe:{name:'Guacamole clasic',ingredients:items[0]}}],
+ renderPublished:(recipe,language,src,num)=>makeRecipe(recipe.name,recipe.ingredients,src.url,num),
+ renderSource:async src=>{
+  const pos=demo.findIndex(x=>x.url===src.url);
+  return makeRecipe(src.title,items[pos],src.url);
+ },
+ validate:()=>true
+});
+assert.equal(fullResult.count,3);
+assert.equal(fullResult.missing,0);
+assert.equal((fullResult.reply.match(/^Rețeta \d+/gm)||[]).length,3);
+assert.equal((fullResult.reply.match(/^Ingrediente:/gm)||[]).length,3);
+assert.equal((fullResult.reply.match(/^Mod de preparare:/gm)||[]).length,3);
+assert.equal(fullResult.sources.length,3);
+assert.ok(!fullResult.reply.includes('Nu voi inventa restul'));
+assert.equal(recipeIngredientSignature(fullResult.reply.split('────────────────')[0]).length,4);
+
+const onlyOne=await assembleSourcedRecipeVariants({
+ count:3,language:'ro',dish:'guacamole',sources:[demo[0]],
+ published:[{source:demo[0],recipe:{ingredients:items[0]}}],
+ renderPublished:(recipe,language,src,num)=>makeRecipe('Guacamole clasic',recipe.ingredients,src.url,num),
+ renderSource:async()=>{throw Error('must not repeat the same publisher')},
+ validate:()=>true
+});
+assert.equal(onlyOne.count,1);
+assert.equal(onlyOne.requested,3);
+assert.match(onlyOne.reply,/Am găsit 1 din cele 3 rețete cerute/);
+assert.equal((onlyOne.reply.match(/^Rețeta \d+/gm)||[]).length,1);
+
+const repeated=await assembleSourcedRecipeVariants({
+ count:2,language:'ro',dish:'guacamole',sources:[demo[0],demo[1]],
+ published:[],
+ renderSource:async s=>makeRecipe(s.title,items[0],s.url),
+ validate:()=>true
+});
+assert.equal(repeated.count,1,'same ingredient list must not count as a distinct variation');
 console.log('Culinary queries/counts, recipe source matching, social GPS guard and education navigation OK');
