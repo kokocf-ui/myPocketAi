@@ -33,8 +33,8 @@ export const EDUCATION_WORLDWIDE_SCHEMES={
  RS:scheme(grades(1,4,'Razred','Grade'),grades(5,8,'Razred','Grade'),seq(1,4,'G','Gimnazija · anul','Gymnasium · year'),
   'Serbia: curriculumul pentru clasele I, V și unele clase de gimnaziu are actualizări în 2026. Alege alfabetul și filiera.',
   'https://zuov.gov.rs/zakoni-i-pravilnici/'),
- HU:scheme(grades(1,4,'Évfolyam','Grade'),grades(5,8,'Évfolyam','Grade'),seq(1,4,'G','Gimnázium · anul','Gymnasium · year'),
-  'Ungaria: traseul uzual 8+4 nu înlocuiește opțiunile de gimnázium cu 6 sau 8 clase.',
+ HU:scheme(grades(1,4,'Évfolyam','Grade'),grades(5,8,'Évfolyam','Grade'),grades(9,13,'Évfolyam','Grade'),
+  'Ungaria: gimnázium 8 ani de la clasa 5, 6 ani de la clasa 7, 4 ani de la clasa 9; technikum poate continua până la 13. Alte școli profesionale au trasee distincte.',
   'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat'),
 
  'GB-SCT':scheme(seq(1,7,'P','Primary','Primary'),seq(1,3,'S','Secondary','Secondary'),seq(4,6,'S','Secondary','Secondary'),'Stadiile școlare sunt orientative; specializările și S4–S6 se aleg potrivit școlii și calificării.','https://education.gov.scot/'),
