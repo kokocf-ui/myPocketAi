@@ -135,15 +135,15 @@ function litSimpleLiterature(panel){
    if(n!==searchNumber||!results.isConnected)return;
    const matches=(data.docs||[]).filter(x=>fold(x.name)===fold(name));
    const author=matches.length===1?matches[0]:null;
-   const key=String(author?.key||'').replace(/^\\/authors\\//,'');
-   if(/^OL\\d+A$/.test(key)){
+   const key=String(author?.key||'').replace(/^\/authors\//,'');
+   if(/^OL\d+A$/.test(key)){
     const worksResponse=await fetch('https://openlibrary.org/authors/'+key+'/works.json?limit=50',{credentials:'omit'});
     if(!worksResponse.ok)throw Error('author_works');
     const works=await worksResponse.json();
     if(n!==searchNumber||!results.isConnected)return;
     rows=(works.entries||[]).filter(x=>String(x.title||'').trim())
      .map(x=>({title:String(x.title).trim(),author:String(author.name),url:
-      /^\\/works\\/OL\\d+W$/.test(x.key||'')?'https://openlibrary.org'+x.key:
+      /^\/works\/OL\d+W$/.test(x.key||'')?'https://openlibrary.org'+x.key:
       'https://openlibrary.org/authors/'+key}));
    }
   }catch{feedback.textContent=litSimpleLabel('Catalogul autorilor nu este disponibil acum.','Author catalogue unavailable right now.')}
