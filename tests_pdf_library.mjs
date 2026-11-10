@@ -7,7 +7,7 @@ const paths=readFileSync(new URL('./android/app/src/main/res/xml/file_paths.xml'
 
 assert.match(frontend,/special:'my-documents'/,'My Documents appears in the visible Tools cards');
 assert.match(frontend,/openModule\('tools'\);renderMyDocuments\(\)/,'Tools card opens native PDF library');
-assert.match(frontend,/PocketAndroidDocuments\?\.postMessage\('share:'/,'PDF share action is wired to native bridge');
+assert.match(frontend,/share-many:'\+JSON\.stringify\(names\)/,'PDF batch share action is wired to native bridge');
 assert.match(android,/request\.startsWith\("share:"\)/,'share command received on Android');
 assert.match(android,/Intent\.ACTION_SEND/,'native share chooser');
 assert.match(android,/Intent\.EXTRA_STREAM/,'share real PDF attachment, not text');
