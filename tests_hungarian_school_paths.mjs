@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import app from './index.js';
+import backend from './backend.js';
 import {literatureTracksForGrade,hungaryAdmissionTopicsForGrade,HUNGARY_ADMISSION_REFERENCES} from './literature_school_streams.mjs';
 import {worldwideSchoolYears} from './education_worldwide_paths.mjs';
 import {LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
@@ -49,4 +50,28 @@ assert.match(script,/id:'admission'/,'Hungarian admissions action available');
 assert.match(script,/litHungaryAdmissionTopics\(litJourney\.grade\)/,'Admission tasks match the selected grade');
 assert.match(script,/Numele școlii vizate/,'Learner can specify school');
 assert.match(script,/HUNGARY_ADMISSION_REFERENCES/,'Official admissions links are shown');
+// The admissions route must accept BOTH school maths and Hungarian language,
+// without being rejected as an off-topic Language & Literature query.
+let prompt=null;
+const sampleEnv={AI:{run:async(model,request)=>{prompt=request;return {response:'1. Oldd meg a feladatot: 12 + 8 = ?'}}}};
+const admissionsResponse=await backend.fetch(new Request('https://hungary-admissions.test/api/chat',{
+ method:'POST',headers:{'Content-Type':'application/json'},
+ body:JSON.stringify({module:'education_study',education_subject:'school_admission',education_activity:'exercises',
+  language:'ro',message:'România → Ungaria. Clasa 8 către clasa 9: matematică, 5 exerciții originale.'})
+}),sampleEnv);
+const admissionData=await admissionsResponse.json();
+assert.equal(admissionsResponse.status,200,'Dedicated Hungary tutor must work');
+assert.equal(admissionData.education_subject,'school_admission');
+assert.equal(admissionData.language,'ro','Romanian learner may receive explanations in Romanian');
+assert.ok(prompt.messages[0].content.includes('mathematics'),'Admission tutor must support maths as well as Hungarian');
+assert.ok(prompt.messages[0].content.includes('school-specific'),'Never invent the chosen school rules');
+const hungarianResponse=await backend.fetch(new Request('https://hungary-admissions.test/api/chat',{
+ method:'POST',headers:{'Content-Type':'application/json'},
+ body:JSON.stringify({module:'education_study',education_subject:'language_literature',education_activity:'lesson',
+  language:'hu',message:'Magyar irodalom, 9. osztály: költészet.'})
+}),sampleEnv);
+const hungarianData=await hungarianResponse.json();
+assert.equal(hungarianResponse.status,200,'Hungarian is a supported Literature teaching language');
+assert.equal(hungarianData.language,'hu','Do not silently translate Hungarian lessons into Romanian');
+assert.ok(prompt.messages[0].content.includes('language code hu'));
 console.log('PASS Hungarian pathways: 1-4 without gymnázium, 5-8 school-specific, 9-13 upper school, cross-border admission and GPS-independent country');
