@@ -37,13 +37,22 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  status.textContent=litSimpleLabel('Se pregătește materialul…','Preparing study material…');
  const isHungarianAdmission=litJourney.country==='HU'&&litJourney.branch==='admission';
  const apiSubject=isHungarianAdmission?'school_admission':'language_literature';
- const answerLanguage=isHungarianAdmission?(state.language||'ro'):litJourney.language;
- const language=LIT_LANGUAGES.find(x=>x[0]===answerLanguage)?.[2]||'English';
+ // Interface/output language is a user choice. The target curriculum may
+ // be Hungarian, Polish etc. without changing the user's Settings language.
+ const answerLanguage=(typeof state!=='undefined'&&state.language)||litJourney.language||'ro';
+ const language=LIT_LANGUAGES.find(x=>x[0]===answerLanguage)?.[2]||
+  (typeof Intl!=='undefined'&&Intl.DisplayNames
+    ?new Intl.DisplayNames(['en'],{type:'language'}).of(answerLanguage):'English');
+ const curriculumLanguage=LIT_LANGUAGES.find(x=>x[0]===litJourney.language)?.[2]||
+  litJourney.language||'the original study language';
  const admissionPolicy=isHungarianAdmission
   ?' This is entry/transfer preparation for Hungary. Present practice prompts in Hungarian and explain the method in the user interface language. Different written exams apply for entry to grades 5, 7 and 9. Never imply any school-specific admission requirement, year, exemption, assessment rule, document or deadline is verified without an official source. If a school name is supplied but not its official policy, explicitly ask the learner to check the chosen school. '
   :'';
  const prompt=(isHungarianAdmission?'You are a Hungarian school admission tutor for language, mathematics and transfer. Write in ':'You are an experienced language and literature teacher. Write in ')+language+
  '. Country of education: '+(educationCountrySelection.label||litJourney.country)+
+ '. Original curriculum language: '+curriculumLanguage+
+ '. Explain lesson content and the national curriculum in '+language+
+ '. Retain proper names, original literary titles, technical symbols and original-language examples as needed, with explanations in '+language+'.'+
  '. Class/year: '+litJourney.grade+'. Profile: '+litJourney.track+'. Region: '+(litJourney.region||'unspecified')+
  '. Curriculum: '+(plan.verified?'general framework identified; order is pedagogical':'advisory plan; do not claim an officially verified national syllabus')+
  '. Activity: '+mode+'. '+admissionPolicy+' Explain the lesson fully and directly, without offering a form. '+

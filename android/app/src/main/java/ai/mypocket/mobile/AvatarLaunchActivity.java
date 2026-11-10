@@ -241,7 +241,7 @@ public final class AvatarLaunchActivity extends Activity {
     }
     private String currentLaunchLanguage(SharedPreferences prefs){
         String saved=prefs.getString("ui_language_native","");
-        if(saved!=null&&saved.matches("ro|en|fr|de|it|es|pt|nl|ru|pl|hr|sr|hu|tr|cs|sk|sl|bg|el|fi|sv|no|da|is|et|lv|lt|uk|bs|mk|sq|be|ca|ga|cy|mt"))return saved;
+        if(saved!=null&&saved.matches("ro|en|fr|de|it|es|pt|nl|ru|pl|hr|sr|hu|tr|cs|sk|sl|bg|el|fi|sv|no|da|is|et|lv|lt|uk|bs|mk|sq|be|ca|ga|cy|mt|eu|gl|lb|fo|hy|ka|az|rm"))return saved;
         return detectFirstSetupLanguage();
     }
     private static String greetingForLanguage(String language){

@@ -27,7 +27,14 @@ const core={
  ca:['Inici','Configuració','Converses','Eines','Com et puc ajudar?','Tria una eina de myPocket AI.','＋ Conversa nova','☰ Selecció ràpida','← Inici'],
  ga:['Baile','Socruithe','Comhráite','Uirlisí','Conas is féidir liom cabhrú?','Roghnaigh uirlis myPocket AI.','＋ Comhrá nua','☰ Roghnú tapa','← Baile'],
  cy:['Hafan','Gosodiadau','Sgyrsiau','Offer','Sut alla i helpu?','Dewiswch offeryn myPocket AI.','＋ Sgwrs newydd','☰ Dewis cyflym','← Hafan'],
- mt:['Bidu','Settings','Konversazzjonijiet','Għodod','Kif nista’ ngħinek?','Agħżel għodda myPocket AI.','＋ Konversazzjoni ġdida','☰ Għażla rapida','← Bidu']
+ mt:['Bidu','Settings','Konversazzjonijiet','Għodod','Kif nista’ ngħinek?','Agħżel għodda myPocket AI.','＋ Konversazzjoni ġdida','☰ Għażla rapida','← Bidu'], eu:['Hasiera','Ezarpenak','Elkarrizketak','Tresnak','Nola lagun zaitzaket?','Aukeratu myPocket AI tresna bat.','＋ Elkarrizketa berria','☰ Aukera azkarrak','← Hasiera'],
+ gl:['Inicio','Configuración','Conversas','Ferramentas','Como podo axudarche?','Escolle unha ferramenta de myPocket AI.','＋ Nova conversa','☰ Selección rápida','← Inicio'],
+ lb:['Startsäit','Astellungen','Gespréicher','Tools','Wéi kann ech hëllefen?','Wielt en Tool vu myPocket AI.','＋ Neit Gespréich','☰ Schnellauswiel','← Startsäit'],
+ fo:['Heim','Stillingar','Samrøður','Amboð','Hvussu kann eg hjálpa?','Vel eitt amboð í myPocket AI.','＋ Nýggj samrøða','☰ Skjótval','← Heim'],
+ hy:['Գլխավոր','Կարգավորումներ','Զրույցներ','Գործիքներ','Ինչպե՞ս կարող եմ օգնել։','Ընտրեք myPocket AI գործիք։','＋ Նոր զրույց','☰ Արագ ընտրություն','← Գլխավոր'],
+ ka:['მთავარი','პარამეტრები','საუბრები','ხელსაწყოები','როგორ შემიძლია დაგეხმაროთ?','აირჩიეთ myPocket AI-ის ხელსაწყო.','＋ ახალი საუბარი','☰ სწრაფი არჩევანი','← მთავარი'],
+ az:['Ana səhifə','Parametrlər','Söhbətlər','Alətlər','Necə kömək edə bilərəm?','myPocket AI alətini seçin.','＋ Yeni söhbət','☰ Sürətli seçim','← Ana səhifə'],
+ rm:['Pagina iniziala','Configuraziuns','Conversaziuns','Utensils','Co poss jau gidar?','Tscherna in utensil da myPocket AI.','＋ Nova conversaziun','☰ Selecziun svelta','← Pagina iniziala']
 };
 const labels={
  hr:['Asistent AI','Učenje i obrazovanje','Hoteli','Osobna organizacija','Karte','Više alata'],
@@ -62,5 +69,5 @@ export const EUROPEAN_LANGUAGE_LABELS=Object.freeze({
  sl:'Slovenščina',bg:'Български',el:'Ελληνικά',fi:'Suomi',sv:'Svenska',
  no:'Norsk',da:'Dansk',is:'Íslenska',et:'Eesti',lv:'Latviešu',lt:'Lietuvių',
  uk:'Українська',bs:'Bosanski',mk:'Македонски',sq:'Shqip',be:'Беларуская',
- ca:'Català',ga:'Gaeilge',cy:'Cymraeg',mt:'Malti'
+ ca:'Català',ga:'Gaeilge',cy:'Cymraeg',mt:'Malti',eu:'Euskara',gl:'Galego',lb:'Lëtzebuergesch',fo:'Føroyskt',hy:'Հայերեն',ka:'ქართული',az:'Azərbaycanca',rm:'Rumantsch'
 });

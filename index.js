@@ -3379,7 +3379,7 @@ main.page:has(#view-module.my-documents-active.active){
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
 <section class="view" id="view-tools"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Instrumente</h2><p class="section-lead">Alege un domeniu pentru a începe.</p><div class="simple-list" id="toolsList"></div></section>
-<section class="view" id="view-settings"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Setări</h2><div class="module-panel"><h3>Limba conversației</h3><p>Limba folosită pentru solicitările către asistent.</p><select class="text-field" id="languageSelect" aria-label="Limba conversației"><option value="ro">Română</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="ru">Русский</option><option value="pl">Polski</option><option value="hr">Hrvatski</option><option value="sr">Српски</option><option value="hu">Magyar</option><option value="tr">Türkçe</option><option value="cs">Čeština</option><option value="sk">Slovenčina</option><option value="sl">Slovenščina</option><option value="bg">Български</option><option value="el">Ελληνικά</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="no">Norsk</option><option value="da">Dansk</option><option value="is">Íslenska</option><option value="et">Eesti</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="uk">Українська</option><option value="bs">Bosanski</option><option value="mk">Македонски</option><option value="sq">Shqip</option><option value="be">Беларуская</option><option value="ca">Català</option><option value="ga">Gaeilge</option><option value="cy">Cymraeg</option><option value="mt">Malti</option></select><p class="small">Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.</p></div><div class="module-panel"><h3>Despre aplicație</h3><p>myPocket AI · Frontend ${APP.version}</p><p class="small">Conversațiile locale pot fi șterse din secțiunea Conversații.</p></div></section>
+<section class="view" id="view-settings"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Setări</h2><div class="module-panel"><h3>Limba conversației</h3><p>Limba folosită pentru solicitările către asistent.</p><select class="text-field" id="languageSelect" aria-label="Limba conversației"><option value="ro">Română</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="ru">Русский</option><option value="pl">Polski</option><option value="hr">Hrvatski</option><option value="sr">Српски</option><option value="hu">Magyar</option><option value="tr">Türkçe</option><option value="cs">Čeština</option><option value="sk">Slovenčina</option><option value="sl">Slovenščina</option><option value="bg">Български</option><option value="el">Ελληνικά</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="no">Norsk</option><option value="da">Dansk</option><option value="is">Íslenska</option><option value="et">Eesti</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="uk">Українська</option><option value="bs">Bosanski</option><option value="mk">Македонски</option><option value="sq">Shqip</option><option value="be">Беларуская</option><option value="ca">Català</option><option value="ga">Gaeilge</option><option value="cy">Cymraeg</option><option value="mt">Malti</option><option value="eu">Euskara</option><option value="gl">Galego</option><option value="lb">Lëtzebuergesch</option><option value="fo">Føroyskt</option><option value="hy">Հայերեն</option><option value="ka">ქართული</option><option value="az">Azərbaycanca</option><option value="rm">Rumantsch</option></select><p class="small">Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.</p></div><div class="module-panel"><h3>Despre aplicație</h3><p>myPocket AI · Frontend ${APP.version}</p><p class="small">Conversațiile locale pot fi șterse din secțiunea Conversații.</p></div></section>
 </main>
 <div class="module-quick-layer" id="moduleQuickLayer" aria-hidden="true">
  <section class="module-quick-sheet" role="dialog" aria-modal="true" aria-labelledby="moduleLayerTitle">
@@ -9865,6 +9865,20 @@ function renderLearningSubjects(){
  host.append(grid);
  $('moduleLead').textContent='';
  requestAnimationFrame(educationFitMenuViewport);
+ // Translate subject titles AND descriptions in the Settings language,
+ // regardless of which country has been selected for the syllabus.
+ const lang=state.language||'ro';
+ if(lang!=='ro'&&typeof eduTranslateMaterial==='function'){
+  const original={titles:LEARNING_SUBJECTS.map(item=>item[2]),details:LEARNING_SUBJECTS.map(item=>item[4])};
+  eduTranslateMaterial(original,'education:subject-menu','ro').then(result=>{
+   if(!result?.titles||!result?.details||!grid.isConnected||
+      state.language!==lang||!root.classList.contains('learning-choose'))return;
+   Array.from(grid.children).forEach((card,i)=>{
+    if(result.titles[i])card.querySelector('strong').textContent=result.titles[i];
+    if(result.details[i])card.querySelector('small').textContent=result.details[i];
+   });
+  }).catch(error=>console.warn('education_menu_translation_unavailable',error));
+ }
 }
 // Fill precisely the usable height down to the dock, even on Android WebView
 // where a percentage-height Education container can leave a large blank strip.
@@ -11592,6 +11606,33 @@ function litOpen(stage){
    panel.append(search);
   }
   panel.append(box);paint();
+  // National programme titles may be in Hungarian, Polish, etc. Translate
+  // the labels to the Settings language without changing grade IDs or links.
+  // Never block a tap while a translation is loading.
+  if(!searchable&&['tracks','branches','topics'].includes(stage)&&
+     typeof eduTranslateMaterial==='function'&&
+     choices.length&&choices.length<=100){
+   const target=state.language||'ro';
+   const source=stage==='topics'&&litJourney.branch==='program'
+      ?(LIT_COUNTRIES.find(x=>x[0]===litJourney.country)?.[3]||'ro'):'ro';
+   if(target!==source){
+    const names={labels:choices.map(x=>String(x.ro||x.en||''))};
+    const identity=['lit','labels',stage,litJourney.country,litJourney.level,litJourney.grade,litJourney.branch].join(':');
+    const currentStage=litJourney.stage;
+    eduTranslateMaterial(names,identity,source).then(result=>{
+     if(!result?.labels||!box.isConnected||litJourney.stage!==currentStage||
+        state.language!==target||result.labels.length!==choices.length)return;
+     const cards=Array.from(box.children).filter(el=>el.tagName==='BUTTON');
+     cards.forEach((card,index)=>{
+      const label=result.labels[index];
+      if(typeof label!=='string'||!label.trim())return;
+      const leading=card.firstChild;
+      if(leading?.nodeType===3)leading.nodeValue=label;
+      else if(!card.querySelector('.lit-choice-description'))card.textContent=label;
+     });
+    }).catch(error=>console.warn('lit_label_translation_unavailable',error));
+   }
+  }
  };
  if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litOpen('levels')},true)}
  if(stage==='languages'){const choices=LIT_LANGUAGES.map(x=>({id:x[0],ro:x[1],en:x[2]}));list(choices,c=>{litJourney.language=c.id;litOpen('levels')},true)}
@@ -12204,6 +12245,9 @@ function eduAttachPrintAction(bar){
 }
 
 function openLearningSubject(key){
+ // The tall eight-card menu uses a measured inline height. Clear it before
+ // entering any curriculum; otherwise the height can trap lesson navigation.
+ const root=$('view-module');root?.style.removeProperty('height');root?.style.removeProperty('max-height');
  if(key==='languages')return openLearningSubjectAfterCountry(key);
  return educationCountryGate(key,()=>openLearningSubjectAfterCountry(key));
 }

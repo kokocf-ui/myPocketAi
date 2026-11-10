@@ -34,8 +34,8 @@ for(const token of [
  "import {VERIFIED_LITERARY_AUTHORS} from './literature_verified_authors.mjs'",
  'const LIT_VERIFIED_AUTHORS=${JSON.stringify(VERIFIED_LITERARY_AUTHORS)}',
  "if(key==='literature'){",
- "if(litJourney.stage==='languages'){litOpen('levels');return}",
- "if(litJourney.stage==='countries'||litJourney.stage==='levels')",
+ "if(stage==='languages'){litOpen('levels');return}",
+ "if(stage==='levels'){educationCountryGate('literature',()=>litOpen('levels'));return}",
  "litChangeLanguageNeverExists" // temporary replaced below
 ])if(token!=='litChangeLanguageNeverExists')assert.ok(source.includes(token),'Missing literature flow: '+token);
 assert.doesNotMatch(source,/Schimbă limba studiată \(opțional\)/, 'No redundant language selection');
