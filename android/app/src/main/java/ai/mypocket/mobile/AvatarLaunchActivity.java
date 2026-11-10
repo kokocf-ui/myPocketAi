@@ -51,6 +51,7 @@ public final class AvatarLaunchActivity extends Activity {
     private static final int ONBOARDING_PERMISSIONS_REQUEST=4832;
     private static final String PREFS_NAME="pocket_permissions";
     private boolean introStarted=false;
+    private boolean firstSetupShownThisLaunch=false;
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -203,6 +204,7 @@ public final class AvatarLaunchActivity extends Activity {
         return label;
     }
     private void showFirstInstallationPanel(){
+        firstSetupShownThisLaunch=true;
         final int foreground=Color.rgb(239,250,255),soft=Color.rgb(175,210,226),cyan=Color.rgb(87,218,232);
         android.app.Dialog panel=new android.app.Dialog(this);
         panel.getWindow();panel.setCancelable(false);
@@ -388,6 +390,7 @@ public final class AvatarLaunchActivity extends Activity {
             if (isFinishing()) return;
             Intent intent = new Intent(AvatarLaunchActivity.this, MainActivity.class);
             intent.putExtra("intro_already_played", true);
+            if(firstSetupShownThisLaunch)intent.putExtra("first_setup_language",initialSetupLanguage);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
