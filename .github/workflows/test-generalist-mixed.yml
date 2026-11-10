@@ -74,6 +74,8 @@ jobs:
 
       - name: Focused language-and-literature screen regression
         run: node tests_literature_activity_flow.mjs
+      - name: Android literature level to Grade 8 navigation
+        run: node tests_literature_navigation_viewport.mjs
       - name: UI checks 1-5
         run: |
           node tests_navigation_heading.mjs
