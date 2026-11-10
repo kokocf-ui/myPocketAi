@@ -7161,6 +7161,9 @@ function pocketBackInsideModule(){
   if(mathJourney.stage==='subjects'||mathJourney.stage==='grade'){mathJourney.stage='levels';mathJourneyShowChoices('levels');return true}
   renderLearningSubjects();return true;
  }
+ if(root.classList.contains('learning-active')&&root.classList.contains('learning-literature')){litBack();return true}
+ if(root.classList.contains('learning-active')&&root.classList.contains('learning-hg')){hgBack();return true}
+ if(root.classList.contains('learning-active')&&root.classList.contains('learning-languages')){languageBack();return true}
  if(root.classList.contains('learning-active')){renderLearningSubjects();return true}
  if(root.classList.contains('organize-active')||root.classList.contains('organize-chat')){renderOrganizeChoices();return true}
  if(root.classList.contains('extra-tools-active')||root.classList.contains('extra-tools-chat')){renderExtraToolsChoices();return true}
@@ -18789,12 +18792,8 @@ main.page:has(#view-module.learning-languages.active){
   grid-template-rows:repeat(4,minmax(90px,auto))!important}
 }
 
-/* Education: occupy the safe space above the fixed bottom navigation without
-   changing the compact layout of other sections. */
-#view-module.learning-choose .education-grid{
- height:clamp(355px,62dvh,540px)!important;
- min-height:355px!important;row-gap:clamp(12px,2.15dvh,21px)!important
-}
+/* Keep the compact 53dvh eight-card layout declared above.
+   The later 62dvh override pushed the fourth card row under the bottom navigation. */
 /* Educational request handoff is a deliberate choice, never an auto-send. */
 .education-scope-dialog{
  box-sizing:border-box;width:min(94vw,580px)!important;max-width:94vw!important;
