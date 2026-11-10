@@ -34,6 +34,9 @@ assert.match(boot,/root\.classList\.add\('extra-tools-active','my-documents-acti
 assert.match(boot,/back\.textContent=learningLabel\('← Înapoi','← Back'\);back\.onclick=renderExtraToolsChoices/,'Back button returns from Documents to Tools');
 assert.match(html,/#view-module\.my-documents-active #moduleContent\{[\s\S]*?grid-column:1\/-1!important/,'Documents use entire width rather than left column');
 assert.match(html,/#view-module\.my-documents-active \.my-documents-batch\{[\s\S]*?display:flex!important/,'Print/share/delete actions remain visible');
+assert.match(html,/id="pdf-library-viewport-fix"/,'My Documents must use a dedicated scroll viewport');
+assert.match(html,/#view-module\.my-documents-active\.active\{[\s\S]*?height:calc\(100dvh - 265px\)!important/,'Library area extends to the bottom navigation instead of clipping halfway');
+assert.match(html,/#view-module\.my-documents-active \.my-documents-list\{[\s\S]*?overflow-y:auto!important/,'The PDF rows scroll independently');
 assert.match(boot,/window\.PocketAndroidDocuments\.postMessage\('list'\)/,'Document list is fetched from Android storage');
 assert.match(boot,/window\.PocketAndroidDocuments\?\.postMessage\('print:'/);
 assert.match(boot,/share-many:'\+JSON\.stringify\(names\)/);
@@ -42,8 +45,11 @@ assert.match(boot,/window\.PocketAndroidDocuments\?\.postMessage\('delete-many:'
 const pdf=boot.slice(boot.indexOf("function eduOpenPrint(mode='save')"),boot.indexOf("function eduAttachPrintAction(bar)"));
 assert.ok(pdf.length>1000);
 assert.match(pdf,/if\(state==='saved'\)/,'Only a native success event confirms save');
-assert.match(pdf,/dialog\.close\(\)/,'Save success closes export dialog');
-assert.match(pdf,/submitted=true;print\.disabled=true/,'Prevent duplicate save submissions');
+assert.doesNotMatch(pdf,/document\.createElement\('dialog'\)/,'Do not open a second save/print dialog after tapping the reader action');
+assert.doesNotMatch(pdf,/dialog\.showModal\(\)/,'No duplicate PDF modal');
+assert.match(pdf,/eduPdfExportPending=true/,'Prevent repeated direct export taps');
+assert.match(pdf,/window\.pocketEduPrintResult=state=>/,'Native result callback remains wired');
+assert.match(pdf,/mode:mode==='print'\?'print':'save'/,'Printing still saves PDF first through the native bridge');
 assert.match(pdf,/window\.PocketAndroidPrint\.postMessage/,'Native bridge remains the source of PDF success');
 assert.match(pdf,/PocketAndroidPrint/);
 assert.match(boot,/const lesson=root\.querySelector\('\.lit-activity-heading'\)/,'PDF filename includes lesson');
@@ -52,4 +58,4 @@ assert.match(java,/new File\(getFilesDir\(\),"documentele_mele"\)/,'Saved files 
 assert.match(java,/notifyEducationPdf\("saved"\)/,'Android acknowledges save only after success');
 assert.match(java,/if\("list"\.equals\(request\)\)listEducationDocuments\(\)/,'Library bridge returns saved files');
 
-console.log('PASS: full-screen reader, aligned controls, documents library reset, native save confirmation');
+console.log('PASS: full-screen reader, full-height PDF list, direct export without duplicate modal, native save confirmation');
