@@ -1,3 +1,4 @@
+import {recipeSpeciesCompatible} from './culinary_intent.mjs';
 // Build multiple separate source-backed cooking variants. Neither a model
 // prompt nor a list of search results proves that the requested count was met.
 const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
@@ -19,6 +20,7 @@ export function recipeQualityGate(text,dish=''){
  if(!section)return false;
  const ingredients=section[1].split('\n').filter(x=>/^\s*[-•]\s+\S/.test(x));
  if(ingredients.length<3)return false;
+ if(!recipeSpeciesCompatible(dish,raw.slice(0,section.index+section[0].length)))return false;
  if(ingredients.some(x=>/\b(?:carrefour|kaufland|auchan|tesco|lidl|aldi|walmart|sainsburys|drag\s+de\s+romania)\b/i.test(norm(x))))return false;
  if(/\bsarmal/.test(norm(dish))){
   if(ingredients.length<5)return false;
@@ -32,10 +34,10 @@ function isSameVariant(a,b){
  return overlap/Math.max(a.length,b.length)>=0.78;
 }
 export async function assembleSourcedRecipeVariants({
- count=1,language='ro',request='',dish='',sources=[],published=[],
+ count=1,openEnded=false,language='ro',request='',dish='',sources=[],published=[],
  renderPublished,renderSource,validate
 }){
- const requested=Math.min(6,Math.max(1,Number(count)||1)),items=[],usedUrls=new Set(),signatures=[];
+ const requested=Math.min(12,Math.max(1,Number(count)||1)),items=[],usedUrls=new Set(),signatures=[];
  const languageLabel=language==='ro'?'Rețeta ':'Recipe ';
  const sourceLabel=language==='ro'?'Sursa: ':'Source: ';
  const apply=(value,source,kind)=>{
@@ -68,7 +70,7 @@ export async function assembleSourcedRecipeVariants({
   // Only a bounded parallel batch. Avoid repeating a single publisher URL
   // or burning unrestricted Workers AI calls.
   const unique=[...new Map(waiting.map(s=>[s.url,s])).values()];
-  const pool=unique.slice(0,Math.min(7,Math.max(4,requested*2+1)));
+  const pool=unique.slice(0,Math.min(10,Math.max(4,requested*2+1)));
   const firstBatch=Math.min(4,Math.max(2,requested));
   // Work through a second batch only when fewer real variants have passed
   // validation. This improves recall without always spending 7 AI calls.
@@ -82,9 +84,11 @@ export async function assembleSourcedRecipeVariants({
   }
  }
  const missing=requested-items.length;
- const warning=missing>0?(language==='ro'
+ const warning=missing>0?(openEnded
+  ?(language==='ro'?'Am găsit '+items.length+' variante distincte în sursele consultate până acum. Poți cere și alte variante.':'I found '+items.length+' distinct variants in the sources checked so far. You can request more.')
+  :(language==='ro'
   ?'Am găsit '+items.length+' din cele '+requested+' rețete cerute cu ingrediente și pași susținuți de sursele disponibile. Nu voi inventa restul.'
-  :'I found '+items.length+' of '+requested+' requested recipes with ingredients and steps supported by available sources. I will not invent the rest.'):'';
+  :'I found '+items.length+' of '+requested+' requested recipes with ingredients and steps supported by available sources. I will not invent the rest.')):'';
  return {count:items.length,requested,missing,
   reply:(warning?warning+(items.length?'\n\n':''):'')+items.map(x=>x.text).join('\n\n────────────────\n\n'),
   sources:items.map(x=>x.source),provenance:items.map(x=>x.kind)};

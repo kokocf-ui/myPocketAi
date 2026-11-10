@@ -81,8 +81,8 @@ export function formatRecipeRequestRecall(found,language='ro'){
   ?'Nu găsesc în istoricul disponibil al acestei conversații cererea anterioară'+(found.dish?' pentru '+found.dish:'')+'.'
   :'I cannot find the earlier recipe request'+(found.dish?' for '+found.dish:'')+' in the available conversation history.';
  if(!found.explicitCount)return ro
-  ?'Ai cerut mai multe rețete de '+found.dish+'. Aplicația a interpretat această formulare ca '+found.count+' rețete.'
-  :'You asked for several '+found.dish+' recipes. The app interpreted that as '+found.count+'.';
+  ?'Ai cerut mai multe rețete de '+found.dish+', fără să precizezi un număr exact.'
+  :'You asked for several '+found.dish+' recipes, without specifying an exact number.';
  return ro?'Mi-ai cerut '+found.count+' rețete de '+found.dish+'.'
   :'You asked me for '+found.count+' '+found.dish+' recipes.';
 }

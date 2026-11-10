@@ -17,7 +17,7 @@ const exclude=new Set((
  '1 2 3 4 5 6 o doi doua trei patru cinci sase one two three four five six'
 ).split(' '));
 export function recipeDishKeywords(input){
- const words=normalize(input).split(' ').filter(x=>x.length>=4&&!exclude.has(x));
+ const words=normalize(input).split(' ').filter(x=>(x.length>=4||['pui','ton','oua','ham','egg'].includes(x))&&!exclude.has(x));
  return [...new Set(words)];
 }
 export function parseCulinaryRequest(input){
@@ -27,8 +27,12 @@ export function parseCulinaryRequest(input){
   ||text.match(/\b(\d{1,2}|one|two|three|four|five|six)\s+(?:[a-z]+\s+){1,3}recipes?\b/);
  const wantsSeveral=!m&&/\b(?:(?:mai\s+)?multe|cateva|several|multiple|more|different|diverse)\s+(?:(?:variante?|types?|versions?)\s+(?:de|of)\s+)?(?:retet\w*|recipes?)\b/.test(text);
  const pluralRecipes=/\b(?:retete|recipes)\b/.test(text);
- const count=m?Math.min(6,Math.max(1,Number(m[1])||numberWords[m[1]]||1)):(wantsSeveral||pluralRecipes?3:1);
- return {isRecipe,count,keywords:recipeDishKeywords(input)};
+ const explicitCount=Boolean(m);
+ // "mai multe" is open-ended, not a request for exactly three. Collect a
+ // bounded first page of source-backed results; further requests can extend it.
+ const openEnded=!explicitCount&&(wantsSeveral||pluralRecipes);
+ const count=m?Math.min(12,Math.max(1,Number(m[1])||numberWords[m[1]]||1)):(openEnded?10:1);
+ return {isRecipe,count,explicitCount,openEnded,keywords:recipeDishKeywords(input)};
 }
 export function culinarySearchQuery(input,language='ro'){
  const terms=recipeDishKeywords(input);
@@ -56,4 +60,21 @@ export function humanizeRecipeServings(value,language='ro'){
  if(!chosen)return '';
  if(/^\d+(?:[.,]\d+)?$/.test(chosen))return (language==='ro'?'Porții: ':'Servings: ')+chosen;
  return chosen;
+}
+
+// A duck dish is not an acceptable result for a chicken-breast query,
+// even when the source mentions chicken stock elsewhere on its page.
+export function recipeSpeciesCompatible(request,sourceText){
+ const q=String(request||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ const t=String(sourceText||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ const species=[
+  {pattern:/\b(?:pui|chicken)\b/,conflicts:/\b(?:rata|duck|curcan|turkey|porc|pork|vita|beef)\b/},
+  {pattern:/\b(?:rata|duck)\b/,conflicts:/\b(?:pui|chicken|curcan|turkey|porc|pork|vita|beef)\b/},
+  {pattern:/\b(?:curcan|turkey)\b/,conflicts:/\b(?:pui|chicken|rata|duck|porc|pork|vita|beef)\b/},
+  {pattern:/\b(?:porc|pork)\b/,conflicts:/\b(?:pui|chicken|rata|duck|curcan|turkey|vita|beef)\b/},
+  {pattern:/\b(?:vita|beef)\b/,conflicts:/\b(?:pui|chicken|rata|duck|curcan|turkey|porc|pork)\b/}
+ ];
+ const selected=species.find(x=>x.pattern.test(q));
+ if(!selected)return true;
+ return selected.pattern.test(t)&&!selected.conflicts.test(t);
 }
