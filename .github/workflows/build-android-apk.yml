@@ -6,9 +6,13 @@ on:
     paths:
       - 'android/**'
       - 'index.js'
+      - 'backend.js'
       - 'european_app_locales.mjs'
       - 'language_first_install.mjs'
       - 'literature_seven_country_tracks.mjs'
+      - 'literature_school_streams.mjs'
+      - 'literature_task_ui.mjs'
+      - 'tests_hungarian_school_paths.mjs'
       - 'literature_curriculum_europe.mjs'
       - 'education_worldwide_paths.mjs'
       - 'education_country_ui.mjs'
@@ -37,7 +41,7 @@ jobs:
         with:
           gradle-version: '8.7'
       - name: Validate frontend syntax
-        run: node --check index.js && node tests_math_linear_equations.mjs && node tests_math_linear_graph_proof.mjs && node tests_math_linear_verification.mjs && node tests_avatar_lipsync_stop.mjs && node tests_education_android.mjs && node tests_shopping_workspace.mjs && node tests_agenda_android_reminders.mjs && node tests_seven_europe_literature.mjs
+        run: node --check index.js && node tests_math_linear_equations.mjs && node tests_math_linear_graph_proof.mjs && node tests_math_linear_verification.mjs && node tests_avatar_lipsync_stop.mjs && node tests_education_android.mjs && node tests_shopping_workspace.mjs && node tests_agenda_android_reminders.mjs && node tests_seven_europe_literature.mjs && node tests_hungarian_school_paths.mjs
       - name: Build debug APK (CI validation only; not a stable update)
         env:
           POCKET_VERSION_CODE: ${{ github.run_number }}

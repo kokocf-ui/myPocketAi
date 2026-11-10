@@ -106,7 +106,7 @@ function eduCountryApply(moduleKey,code){
  educationCountrySelection.code=code;educationCountrySelection.label=eduCountryLabel(c);educationCountrySelection.method='selected';
  try{localStorage.setItem('pocket-edu-country-confirmed-v1',JSON.stringify({code,updatedAt:Date.now()}))}catch{}
  if(typeof hgJourney!=='undefined'){hgJourney.country=code;hgJourney.region='';hgJourney.topic=null;hgJourney.speciality=null;hgJourney.level=null;hgJourney.grade=null}
- if(typeof litJourney!=='undefined'){litJourney.country=code;litJourney.level='beginner';litJourney.grade='';litJourney.branch='program';litJourney.topic='';const def=LIT_COUNTRIES.find(x=>x[0]===code);if(def)litJourney.language=def[3]}
+ if(typeof litJourney!=='undefined'){litJourney.country=code;litJourney.level='beginner';litJourney.grade='';litJourney.track='TC';litJourney.targetSchool='';litJourney.branch='program';litJourney.topic='';const def=LIT_COUNTRIES.find(x=>x[0]===code);if(def)litJourney.language=def[3]}
  if(typeof examJourney!=='undefined'){examJourney.country=code;examJourney.grade='';examJourney.exam=null;examJourney.subject=null;examJourney.domain=null;examJourney.topic=null;examJourney.track='';examJourney.board='';examJourney.region='';examJourney.aiQuestions=null;examJourney.practiceVersion=0}
  if(typeof practicalJourney!=='undefined'){practicalJourney.country=code;practicalJourney.course='';practicalJourney.chapter=''}
  if(typeof mathJourney!=='undefined'){mathJourney.stage='levels';mathJourney.level=null;mathJourney.topic=null;mathJourney.grade=null}
@@ -155,9 +155,11 @@ function educationCountryGate(moduleKey,proceed){
   educationCountrySelection.method=method;
   status.textContent=method==='location'?eduUiLabel('Țară sugerată din locația disponibilă a telefonului.','Suggested from available phone location.'):eduUiLabel('Ultima țară aleasă; poți schimba.','Previously chosen country; you can change it.');
  }
- // Wait for the current country's suggestion instead of showing a prior
- // Romanian selection and immediately replacing it with England.
- if(geoPending){
+ // A confirmed school-country choice always wins over phone GPS.
+ // Someone physically in Romania can deliberately study for Hungary.
+ // Geolocation supplies a default ONLY until the first manual confirmation.
+ if(lastConfirmed)suggest(lastConfirmed,'saved');
+ else if(geoPending){
   status.textContent=eduUiLabel('Se verifică țara din locația telefonului…','Checking the phone location…');
   setTimeout(savedFallback,2500);
  }else if(typeof budgetDetectedCountry==='string'&&budgetDetectedCountry)
@@ -190,8 +192,8 @@ function educationCountryGate(moduleKey,proceed){
   }catch{}
  }
  const coords=state.location;
- if(Number.isFinite(Number(coords?.latitude))&&Number.isFinite(Number(coords?.longitude)))autoDetectFromCoords(coords);
- else if(state.locationStarted&&typeof getCurrentCoordinates==='function')getCurrentCoordinates(false).then(autoDetectFromCoords).catch(savedFallback);
+ if(!lastConfirmed&&Number.isFinite(Number(coords?.latitude))&&Number.isFinite(Number(coords?.longitude)))autoDetectFromCoords(coords);
+ else if(!lastConfirmed&&state.locationStarted&&typeof getCurrentCoordinates==='function')getCurrentCoordinates(false).then(autoDetectFromCoords).catch(savedFallback);
  else if(typeof budgetDetectedCountry==='string'&&budgetDetectedCountry)suggest(eduCountryFromCode(budgetDetectedCountry,null),'detected');
 }
 function eduYearOptions(code,level,moduleKey){

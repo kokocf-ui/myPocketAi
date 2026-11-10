@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import frontend from './index.js';
+import {literatureTracksForGrade} from './literature_school_streams.mjs';
 
 const html=await(await frontend.fetch(new Request('https://literature-navigation.test/'))).text();
 const code=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
@@ -43,6 +44,7 @@ const api=vm.runInNewContext(run,{
  LIT_COUNTRIES:[['RO','România','Romania','ro']],
  LIT_LANGUAGES:[['ro','Română','Romanian']],
  LIT_EUROPE_PROGRAMS:{RO:{byLevel:{},byGrade:{},verified:{},regions:false}},
+ litSchoolTracksForGrade:literatureTracksForGrade,
  LIT_EUROPE_COMMON:{beginner:[['g','Morfologie și sintaxă','', 'grammar']],lower:[['g','Morfologie și sintaxă','', 'grammar']],medium:[['g','Morfologie și sintaxă','', 'grammar']]},
  educationCountrySelection:{code:'RO',label:'România'},
  worldwideSchoolYears:()=>[],

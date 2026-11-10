@@ -1887,8 +1887,47 @@ export default {
     // The assistant route may interpret the word "location" in a system
     // instruction as a travel request; isolate these lessons before intent
     // classification and let the subject-specific teacher produce the output.
+    // Dedicated Hungary school-admission tutor. Unlike the literature route,
+    // this route deliberately permits Hungarian-language AND mathematics tasks.
+    // Choosing a Hungarian curriculum does not depend on the user's GPS.
+    if(data.module==='education_study'&&data.education_subject==='school_admission'){
+      const locale=['ro','en','hu','hr','sr','de','fr','pl','tr','it','es','pt','nl','uk'].includes(data.language)?data.language:'ro';
+      const activity=['lesson','examples','exercises','test','correction','analysis','write'].includes(data.education_activity)
+        ?data.education_activity:'lesson';
+      const instructions={
+        lesson:'Teach the admission preparation topic in full: definitions, reasoning, relevant vocabulary, examples and worked methods.',
+        examples:'Provide varied, clearly explained examples. For math include numbered calculations and checks.',
+        exercises:'Set at least five original grade-appropriate problems in Hungarian. Include no solutions until the pupil replies.',
+        test:'Set five original admission-practice tasks in Hungarian, without the answer key until correction is requested.',
+        correction:'Review the exact learner answers against the previous questions, give clear steps and correct mistakes.',
+        analysis:'Analyse the supplied Hungarian text or admissions instruction carefully and translate it if needed.',
+        write:'Prepare original Hungarian-language school writing practice with explanation in the requested response language.'
+      };
+      const system='You are a specialist educator for school entrance and cross-border school transfer in Hungary. '+
+        'Respond with explanations in language code '+locale+'; provide Hungarian-language questions and school vocabulary where relevant. '+
+        instructions[activity]+' Admission preparation may involve Hungarian language, reading, mathematics, and document understanding. '+
+        'Hungarian 8-year gymnázium begins in grade 5, 6-year gymnázium in grade 7, and 4-year gymnázium in grade 9. '+
+        'A pupil located in Romania may request Hungary as the country of intended study. '+
+        'School-specific entrance examinations, exemptions, documents, exact syllabus and dates vary by institution and year. '+
+        'NEVER invent an official paper, mandatory test, entrance quota, waiver, verified school-specific requirement, or claim you fetched an unprovided school policy. '+
+        'The application may give a school name, but that name alone does not establish any policy; ask the learner to verify the school admission announcement. '+
+        'Only cite a source if supplied or independently verified; when uncertain, explain the limitation. '+
+        'Use readable paragraphs and steps; no invented quoted literature, no unrelated maps, transit or GPS.';
+      try{
+        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
+        const reply=String(response?.response||response?.result?.response||'').trim();
+        if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'school_admission'},503);
+        if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
+          return json({status:'unavailable',error:'education_wrong_intent',education_subject:'school_admission'},503);
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,
+          education_subject:'school_admission',education_activity:activity,ai_generated:true});
+      }catch(error){
+        return json({status:'unavailable',error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'education_generation_unavailable',
+          education_subject:'school_admission'},503);
+      }
+    }
     if(data.module==='education_study'&&data.education_subject==='language_literature'){
-      const locale=['ro','en','fr','de','es','it','pt','nl','ru','pl','ja','zh','el','la'].includes(data.language)?data.language:'ro';
+      const locale=['ro','en','fr','de','es','it','pt','nl','ru','pl','ja','zh','el','la','hu','hr','sr','tr','cs','sk','sl','bg','fi','sv','no','da','is','et','lv','lt','uk','bs','mk','sq','be','ca','ga','cy','mt'].includes(data.language)?data.language:'ro';
       const activity=['lesson','examples','exercises','test','define','analysis','write','study','summary','essay','correction'].includes(data.education_activity)
         ?data.education_activity:'lesson';
       const instructions={

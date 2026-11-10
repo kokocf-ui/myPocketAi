@@ -7,6 +7,7 @@ on:
     paths:
       - 'android/**'
       - 'index.js'
+      - 'backend.js'
       - 'tests_home_einstein_layout.mjs'
       - 'practical_*.mjs'
       - 'exam_*.mjs'
@@ -16,6 +17,10 @@ on:
       - 'european_app_locales.mjs'
       - 'language_first_install.mjs'
       - 'literature_seven_country_tracks.mjs'
+      - 'literature_school_streams.mjs'
+      - 'literature_task_ui.mjs'
+      - 'tests_hungarian_school_paths.mjs'
+      - 'tests_literature_navigation_viewport.mjs'
       - 'literature_curriculum_europe.mjs'
       - 'education_worldwide_paths.mjs'
       - 'tests_seven_europe_literature.mjs'
@@ -140,6 +145,8 @@ jobs:
           node --check education_country_ui.mjs
           node --check education_school_paths.mjs
           node --check literature_curriculum_europe.mjs
+          node --check literature_school_streams.mjs
+          node --check literature_task_ui.mjs
           node tests_frontend_boot_syntax.mjs
           node tests_home_einstein_layout.mjs
           node tests_android_home_refresh.mjs
@@ -156,6 +163,9 @@ jobs:
           node tests_education_android.mjs
           node tests_first_install_consent.mjs
           node tests_seven_europe_literature.mjs
+          node tests_hungarian_school_paths.mjs
+          node tests_literature_tutor_response.mjs
+          node tests_literature_navigation_viewport.mjs
           node tests_education_reader_documents_regression.mjs
           node tests_pdf_library.mjs
           node tests_math_voice_parentheses.mjs

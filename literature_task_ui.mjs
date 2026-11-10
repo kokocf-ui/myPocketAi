@@ -35,12 +35,18 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  const snapshot=[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|');
  const plan=litProgram();litJourney.busy=true;
  status.textContent=litSimpleLabel('Se pregătește materialul…','Preparing study material…');
- const language=LIT_LANGUAGES.find(x=>x[0]===litJourney.language)?.[2]||'Romanian';
- const prompt='You are an experienced language and literature teacher. Write in '+language+
+ const isHungarianAdmission=litJourney.country==='HU'&&litJourney.branch==='admission';
+ const apiSubject=isHungarianAdmission?'school_admission':'language_literature';
+ const answerLanguage=isHungarianAdmission?(state.language||'ro'):litJourney.language;
+ const language=LIT_LANGUAGES.find(x=>x[0]===answerLanguage)?.[2]||'English';
+ const admissionPolicy=isHungarianAdmission
+  ?' This is entry/transfer preparation for Hungary. Present practice prompts in Hungarian and explain the method in the user interface language. Different written exams apply for entry to grades 5, 7 and 9. Never imply any school-specific admission requirement, year, exemption, assessment rule, document or deadline is verified without an official source. If a school name is supplied but not its official policy, explicitly ask the learner to check the chosen school. '
+  :'';
+ const prompt=(isHungarianAdmission?'You are a Hungarian school admission tutor for language, mathematics and transfer. Write in ':'You are an experienced language and literature teacher. Write in ')+language+
  '. Country of education: '+(educationCountrySelection.label||litJourney.country)+
  '. Class/year: '+litJourney.grade+'. Profile: '+litJourney.track+'. Region: '+(litJourney.region||'unspecified')+
  '. Curriculum: '+(plan.verified?'general framework identified; order is pedagogical':'advisory plan; do not claim an officially verified national syllabus')+
- '. Activity: '+mode+'. Explain the lesson fully and directly, without offering a form. '+
+ '. Activity: '+mode+'. '+admissionPolicy+' Explain the lesson fully and directly, without offering a form. '+
  'For lessons give substantial definitions and explanations, rules and grade-appropriate examples. '+
  'For exercises and tests produce at least five clear numbered tasks without exposing their solutions until the learner answers. '+
  'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
@@ -50,11 +56,11 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',
    headers:{'Content-Type':'application/json'},
    body:JSON.stringify({message:prompt.slice(0,3900),module:'education_study',
-    education_subject:'language_literature',education_activity:mode,
-    language:litJourney.language,history:[]}),
+    education_subject:apiSubject,education_activity:mode,
+    language:answerLanguage,history:[]}),
    signal:controller.signal});
   const data=await response.json();
-  if(!response.ok||data.status!=='success'||data.education_subject!=='language_literature'||
+  if(!response.ok||data.status!=='success'||data.education_subject!==apiSubject||
      typeof data.reply!=='string'||!data.reply.trim())throw Error('no_educational_reply');
   if(controller.signal.aborted||!out.isConnected||serial!==litSimpleSerial||
      snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
@@ -90,6 +96,15 @@ function litSimpleWorkspace(panel){
  if(!topic){panel.append(litSimpleNode('p',litSimpleLabel('Selectează un capitol.','Choose a chapter.')));return}
  const title=litSimpleLabel(topic[1],topic[2]);
  litSimpleHeading(panel,title,litSimpleLabel('Alege o singură activitate. Rezultatul apare aici.','Choose one activity; its result appears here.'));
+ if(branch==='admission'){
+  panel.append(litSimpleNode('p',litSimpleLabel(
+   'Pentru admitere în Ungaria: probele și transferul depind de clasa-țintă și instituție. Exercițiile de aici sunt de pregătire, nu subiecte oficiale.',
+   'Hungarian admission and transfer requirements depend on target grade and school. These are practice exercises, not official examination papers.'
+  ),'lit-activity-note'));
+  const sourceLink=litSimpleNode('a',litSimpleLabel('Sursa: procedura de admitere KIFIR','Source: KIFIR admissions guidance'));
+  sourceLink.href=HUNGARY_ADMISSION_REFERENCES.foreignPupils;sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';
+  panel.append(sourceLink);
+ }
  const needsInput=['analysis','writing'].includes(branch)||(branch==='vocabulary'&&litJourney.topic==='dictionary');
  const request=needsInput?litSimpleNode(branch==='vocabulary'?'input':'textarea','','lit-input lit-activity-input'):null;
  if(request){request.placeholder=branch==='analysis'?litSimpleLabel('Propoziția sau fragmentul de analizat','Sentence or passage to analyse'):
@@ -104,13 +119,17 @@ function litSimpleWorkspace(panel){
   assignmentText='';review.hidden=true;review.open=false;answers.value='';
   out.replaceChildren();
   if(mode==='lesson'){
-   const basic=LIT_OFFLINE_THEORY_DATA[topic[0]]||LIT_OFFLINE_THEORY_DATA[branch==='vocabulary'?'vocabulary':'grammar'];
+   const basic=branch==='admission'?null:(LIT_OFFLINE_THEORY_DATA[topic[0]]||LIT_OFFLINE_THEORY_DATA[branch==='vocabulary'?'vocabulary':'grammar']);
    if(basic?.length===4){out.append(litSimpleNode('h4',litSimpleLabel('Repere de bază','Key concepts')));
     out.append(litSimpleNode('p',litSimpleLabel(basic[0],basic[1])));
     out.append(litSimpleNode('h4',litSimpleLabel('Exemplu','Example')));
     out.append(litSimpleNode('p',litSimpleLabel(basic[2],basic[3])))}
   }
-  const task=title+'. '+(phrase?'Textul utilizatorului: '+phrase+'. ':'')+'Solicitare: '+mode+'.';
+  const school=branch==='admission'&&litJourney.targetSchool
+    ?' Școală vizată: '+litJourney.targetSchool+'. Numele singur nu confirmă cerințele oficiale.'
+    :'';
+  const task=title+'. '+(branch==='admission'?topic[3]+school+' ':'')+
+    (phrase?'Textul utilizatorului: '+phrase+'. ':'')+'Solicitare: '+mode+'.';
   litSimpleGenerate(out,status,mode,task,'',text=>{
    if(mode==='exercises'||mode==='test'){assignmentText=text;review.hidden=false}
    litShowMaterialReader(title+' · '+litSimpleLabel(
