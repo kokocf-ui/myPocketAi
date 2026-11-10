@@ -36,6 +36,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  const plan=litProgram();litJourney.busy=true;
  status.textContent=litSimpleLabel('Se pregătește materialul…','Preparing study material…');
  const isHungarianAdmission=litJourney.country==='HU'&&litJourney.branch==='admission';
+ const apiSubject=isHungarianAdmission?'school_admission':'language_literature';
  const answerLanguage=isHungarianAdmission?(state.language||'ro'):litJourney.language;
  const language=LIT_LANGUAGES.find(x=>x[0]===answerLanguage)?.[2]||'English';
  const admissionPolicy=isHungarianAdmission
@@ -55,11 +56,11 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',
    headers:{'Content-Type':'application/json'},
    body:JSON.stringify({message:prompt.slice(0,3900),module:'education_study',
-    education_subject:'language_literature',education_activity:mode,
+    education_subject:apiSubject,education_activity:mode,
     language:answerLanguage,history:[]}),
    signal:controller.signal});
   const data=await response.json();
-  if(!response.ok||data.status!=='success'||data.education_subject!=='language_literature'||
+  if(!response.ok||data.status!=='success'||data.education_subject!==apiSubject||
      typeof data.reply!=='string'||!data.reply.trim())throw Error('no_educational_reply');
   if(controller.signal.aborted||!out.isConnected||serial!==litSimpleSerial||
      snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
