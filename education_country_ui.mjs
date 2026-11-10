@@ -135,15 +135,30 @@ function educationCountryGate(moduleKey,proceed){
  const status=document.createElement('p');status.setAttribute('role','status');
  const confirm=document.createElement('button');confirm.type='button';confirm.className='primary-btn';confirm.textContent=eduUiLabel('Continuă','Continue');confirm.style.cssText='min-height:48px;touch-action:manipulation;max-width:100%;';
  panel.append(h,note,input,matches,status,confirm);host.append(panel);
- let selected='',touched=false;
+ let selected='',touched=false,automaticChosen=false;
+ const lastConfirmed=eduCountryLastConfirmed();
+ const initialCoords=state.location;
+ const geoPending=(Number.isFinite(Number(initialCoords?.latitude))&&Number.isFinite(Number(initialCoords?.longitude)))
+  ||(state.locationStarted&&typeof getCurrentCoordinates==='function');
+ function savedFallback(){
+  if(!automaticChosen&&!touched&&lastConfirmed)suggest(lastConfirmed,'saved');
+  else if(!automaticChosen&&!touched)status.textContent=eduUiLabel('Țara nu a fost confirmată; alege din câmp.','Country not yet confirmed; choose it using the field.');
+ }
  function suggest(code,method){
-  const country=eduCountryFind(code);if(!country||touched||educationCountrySelection.requestId!==requestId)return;
+  const country=eduCountryFind(code);if(!country||touched||automaticChosen||educationCountrySelection.requestId!==requestId)return;
+  automaticChosen=true;
   selected=code;input.value=eduCountryLabel(country);
   educationCountrySelection.method=method;
   status.textContent=method==='location'?eduUiLabel('Țară sugerată din locația disponibilă a telefonului.','Suggested from available phone location.'):eduUiLabel('Ultima țară aleasă; poți schimba.','Previously chosen country; you can change it.');
  }
- const saved=eduCountryLastConfirmed();if(saved)suggest(saved,'saved');
- else status.textContent=eduUiLabel('Țara nu a fost confirmată; alege din câmp.','Country not yet confirmed; choose it using the field.');
+ // Wait for the current country's suggestion instead of showing a prior
+ // Romanian selection and immediately replacing it with England.
+ if(geoPending){
+  status.textContent=eduUiLabel('Se verifică țara din locația telefonului…','Checking the phone location…');
+  setTimeout(savedFallback,2500);
+ }else if(typeof budgetDetectedCountry==='string'&&budgetDetectedCountry)
+  suggest(eduCountryFromCode(budgetDetectedCountry,null),'detected');
+ else savedFallback();
  input.addEventListener('focus',()=>{input.select()});
  const countries=eduCountryOptions(),fold=eduCountryFold;
  function draw(){
@@ -167,12 +182,12 @@ function educationCountryGate(moduleKey,proceed){
  function autoDetectFromCoords(coords){
   if(!Number.isFinite(Number(coords?.latitude))||!Number.isFinite(Number(coords?.longitude)))return;
   try{const url=new URL(CLIENT_CONFIG.apiUrl);url.pathname='/api/finance-country';url.search='';url.searchParams.set('lat',String(coords.latitude));url.searchParams.set('lon',String(coords.longitude));
-   fetch(url.toString(),{headers:{Accept:'application/json'}}).then(x=>{if(!x.ok)throw Error('country');return x.json()}).then(x=>suggest(eduCountryFromCode(x.country,coords),'location')).catch(()=>{});
+   fetch(url.toString(),{headers:{Accept:'application/json'}}).then(x=>{if(!x.ok)throw Error('country');return x.json()}).then(x=>suggest(eduCountryFromCode(x.country,coords),'location')).catch(savedFallback);
   }catch{}
  }
  const coords=state.location;
  if(Number.isFinite(Number(coords?.latitude))&&Number.isFinite(Number(coords?.longitude)))autoDetectFromCoords(coords);
- else if(state.locationStarted&&typeof getCurrentCoordinates==='function')getCurrentCoordinates(false).then(autoDetectFromCoords).catch(()=>{});
+ else if(state.locationStarted&&typeof getCurrentCoordinates==='function')getCurrentCoordinates(false).then(autoDetectFromCoords).catch(savedFallback);
  else if(typeof budgetDetectedCountry==='string'&&budgetDetectedCountry)suggest(eduCountryFromCode(budgetDetectedCountry,null),'detected');
 }
 function eduYearOptions(code,level,moduleKey){
