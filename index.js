@@ -3147,12 +3147,40 @@ main.page:has(#view-module.learning-languages.active){
 }
 </style>
 <style id="literature-one-screen-ui">
-#view-module.learning-literature.active{display:flex!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important;box-sizing:border-box!important}
-#view-module.learning-literature .module-actions-row,#view-module.learning-literature .module-heading-row,#view-module.learning-literature #moduleLead{flex:0 0 auto!important}
-#view-module.learning-literature.learning-active #moduleContent{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important;padding:0!important;margin:0!important;box-sizing:border-box!important}
+/* Preserve the existing Education two-column header grid.
+   Flex inadvertently made the Home button stretch to several hundred pixels. */
+#view-module.learning-literature.active{
+ display:grid!important;
+ grid-template-columns:minmax(106px,.82fr) minmax(0,1.18fr)!important;
+ grid-template-rows:clamp(58px,8dvh,72px) minmax(0,1fr)!important;
+ gap:clamp(8px,1.4vw,12px)!important;
+ align-items:stretch!important;align-content:stretch!important;
+ min-height:0!important;overflow:hidden!important;
+ padding:0 0 8px!important;box-sizing:border-box!important
+}
+#view-module.learning-literature .module-actions-row{display:contents!important}
+#view-module.learning-literature .module-home-btn{
+ grid-column:1!important;grid-row:1!important;
+ height:clamp(50px,7dvh,60px)!important;max-height:60px!important;
+ width:100%!important;min-height:0!important;align-self:center!important
+}
+#view-module.learning-literature .module-heading-row{
+ grid-column:2!important;grid-row:1!important;min-height:0!important;
+ display:flex!important;align-items:center!important
+}
+#view-module.learning-literature #moduleLead{display:none!important}
+#view-module.learning-literature.learning-active #moduleContent{
+ grid-column:1/-1!important;grid-row:2!important;
+ display:flex!important;flex-direction:column!important;
+ width:100%!important;height:100%!important;max-height:100%!important;
+ min-height:0!important;overflow:hidden!important;
+ padding:0!important;margin:0!important;box-sizing:border-box!important
+}
 #view-module.learning-literature .lit-toolbar{flex:0 0 auto!important;margin:0 10px 8px!important;padding:0!important}
 #view-module.learning-literature .lit-panel{flex:1 1 auto!important;min-height:0!important;max-height:none!important;overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain!important;scrollbar-gutter:stable;padding:clamp(12px,2dvh,24px)!important;margin:0 10px 8px!important;display:flex!important;flex-direction:column!important;gap:12px!important}
-#view-module.learning-literature .lit-panel:has(.lit-options){justify-content:safe center!important}
+#view-module.learning-literature .lit-panel:has(.lit-options){justify-content:flex-start!important}
+#view-module.learning-literature .lit-panel:has(.lit-options) .lit-options{margin-block:auto!important}
+#view-module.learning-literature .lit-panel .lit-options>button{flex-shrink:0!important}
 #view-module.learning-literature .lit-options{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:clamp(9px,2vw,15px)!important;align-content:center!important}
 #view-module.learning-literature .lit-choice-card{min-height:100px!important;width:100%!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;gap:7px!important;white-space:normal!important;overflow-wrap:anywhere!important;padding:12px 9px!important;font-size:clamp(14px,3.7vw,17px)!important;border-radius:19px!important;border:2px solid #469ab1!important;background:linear-gradient(160deg,#185476,#0e2c47 75%)!important;box-shadow:inset 0 3px 0 #3a9bbb,0 5px 0 #041522,0 8px 14px #0007!important}
 #view-module.learning-literature .lit-choice-description{display:block;color:#c3dce7;font-size:clamp(11px,2.9vw,13px);font-weight:400;line-height:1.3}
@@ -11301,9 +11329,7 @@ function litOpen(stage){
   const currentLabel=learningLabel(currentLanguage?.[1]||'Română',currentLanguage?.[2]||'Romanian');
   const languageHint=litText('p',learningLabel('Limba materiei: ','Subject language: ')+currentLabel);
   languageHint.className='lit-selected-language';panel.append(languageHint);
-  const changeLanguage=litBtn(learningLabel('Schimbă limba studiată (opțional)','Change subject language (optional)'),()=>litOpen('languages'),'secondary-btn lit-change-language');
-  changeLanguage.style.cssText='min-height:36px;max-width:100%;width:auto;padding:7px 12px;font-size:.86rem;margin:0 0 10px;';
-  panel.append(changeLanguage);
+
   panel.append(litText('p',learningLabel('Nivelul determină complexitatea explicațiilor și cerințelor.','Level determines the depth of teaching and exercises.')));
   const choices=[{id:'beginner',ro:'Primar — clasele I–IV',en:'Primary school'},{id:'lower',ro:'Începător — Gimnaziu',en:'Beginner — lower secondary'},{id:'medium',ro:'Mediu — Liceu',en:'Intermediate — upper secondary'},{id:'advanced',ro:'Avansat — Universitate și mai departe',en:'Advanced — University and beyond'}];
   list(choices,c=>{litJourney.level=c.id;litJourney.grade='';litJourney.track='TC';litOpen('grades')})
@@ -11842,7 +11868,14 @@ function openLearningSubject(key){
 }
 function openLearningSubjectAfterCountry(key){
  if(key==='history'){hgOpen('subjects');return}
- if(key==='literature'){litOpen('levels');return}
+ if(key==='literature'){
+  const selected=LIT_COUNTRIES.find(x=>x[0]===educationCountrySelection.code);
+  const incoming=String(educationCountrySelection.code||litJourney.country||'RO');
+  if(litJourney.country!==incoming){litJourney.grade='';litJourney.level='beginner';}
+  litJourney.country=incoming;
+  if(selected?.[3]&&LIT_LANGUAGES.some(x=>x[0]===selected[3]))litJourney.language=selected[3];
+  litOpen('levels');return
+ }
  if(key==='computing'){computingOpen('levels');return}
  if(key==='exams'){examOpen('grades');return}
  if(key==='practical'){practicalOpen('courses');return}

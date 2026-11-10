@@ -67,7 +67,7 @@ assert.ok(script.includes('NU impune o limită de 4 sau 5 evenimente'));
 assert.ok(script.includes('Nu inventa hărți, frontiere, documente, numere ori surse.'));
 assert.ok(script.includes("className='hg-map-types'"));
 assert.ok(script.includes("b.setAttribute('aria-pressed'"));
-for(const token of ['const LIT_LANGUAGES=','const LIT_BRANCHES=','const LIT_TOPICS=','function litOpen(stage)','function litWorkspace(panel)',"if(key==='literature'){litOpen('levels');return}",'Compune / explică','Nu inventa citate','lit-input','hgDisplayStudyText(out'])assert.ok(script.includes(token),'literature: '+token);
+for(const token of ['const LIT_LANGUAGES=','const LIT_BRANCHES=','const LIT_TOPICS=','function litOpen(stage)','function litWorkspace(panel)',"if(key==='literature'){","litJourney.country=incoming",'Compune / explică','Nu inventa citate','lit-input','hgDisplayStudyText(out'])assert.ok(script.includes(token),'literature: '+token);
 for(const token of ['Rezumat al operei','Sinteză tematică','Autor sau titlul operei','TEXT FURNIZAT DE UTILIZATOR','Nu căuta și nu copia rezumate',"function eduOpenPrint(mode='save')",'function eduAttachPrintAction(bar)','PocketAndroidPrint.postMessage'])assert.ok(script.includes(token),'literature/print feature: '+token);
 
 // History event queries are lesson requests, never place lookups.
