@@ -16,7 +16,7 @@ for(const [language,locale] of countryLocales){
 assert.match(ui,/if\(key==='maps'\|\|key==='travel'\)renderModuleLandingChoices\(\)/,'Maps/Hotels must display choices immediately');
 assert.match(ui,/function renderModuleLandingChoices\(\)/);
 assert.match(ui,/openModuleQuickLayer\(\);[\s\S]{0,180}module-result-card/,'Use existing search actions');
-assert.match(ui,/const translated=EUROPEAN_UI_TEXT\[lang\]\?\.wordTranslations/,'Screens translate static Ukrainian category labels');
+assert.match(ui,/const translated=window\.__pocketEuropeanUiText\?\.\[lang\]\?\.wordTranslations/,'Screens translate static Ukrainian category labels');
 assert.match(ui,/Restore measured full-height subject selection/,'Last stylesheet corrects earlier CSS cap');
 assert.match(ui,/#view-module\.module-landing #moduleQuickTrigger\{display:none!important\}/,'No duplicated quick trigger');
 const ua=EUROPEAN_UI_LOCALES.uk;
