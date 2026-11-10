@@ -6396,6 +6396,8 @@ function agendaVoiceOpen(text){
  notify(learningLabel('Nu am găsit programarea.','Appointment not found.'));return true;
 }
 function renderAgenda(){
+ // Only the visible Agenda screen may trigger Android's notification prompt.
+ try{window.PocketAndroidAgenda?.postMessage(JSON.stringify({action:'open'}))}catch{}
  agendaSyncAndroid(agendaRead());
  const cat=ORGANIZE_CATEGORIES.find(c=>c[0]==='calendar');
  $('moduleTitle').textContent=learningLabel('Agenda inteligentă','Smart agenda');
@@ -18573,6 +18575,12 @@ const pocketPhoneLocale=String(navigator.language||navigator.languages?.[0]||'en
 try{
  const savedLanguage=localStorage.getItem('mypocketai.language');
  const initial=pocketPreferredLanguage(savedLanguage,pocketPhoneLocale,Object.keys(UI_TEXT));
+ // Native first-install setup detects the region before the WebView begins.
+ // On updates, or whenever the user has explicitly saved a language, this
+ // query is absent and must never override the persisted preference.
+ const firstNative=new URL(window.location.href).searchParams.get('first_setup_language');
+ if(!savedLanguage&&firstNative&&Object.prototype.hasOwnProperty.call(UI_TEXT,firstNative))
+  initial.language=firstNative;
  state.language=initial.language;pocketFirstInstallAutoLanguage=initial.allowAutomaticDetection;
  $('languageSelect').value=state.language;
 }catch{
