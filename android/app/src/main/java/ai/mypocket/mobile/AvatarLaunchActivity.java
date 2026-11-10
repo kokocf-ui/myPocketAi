@@ -37,7 +37,8 @@ import java.util.Locale;
  */
 public final class AvatarLaunchActivity extends Activity {
     private static final String ORIGIN = "https://appassets.androidplatform.net";
-    private static final String GREETING = "Salut! Cum te pot ajuta?";
+    private String currentGreeting = "Hello! How can I help you?";
+    private String launchLanguage = "en";
     private static final String UTTERANCE_ID = "pocket-intro-greeting";
 
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -49,6 +50,7 @@ public final class AvatarLaunchActivity extends Activity {
     private boolean finishingLaunch = false;
     private int voiceInitAttempts = 0;
     private static final int ONBOARDING_PERMISSIONS_REQUEST=4832;
+    private static final int ONBOARDING_NOTIFICATIONS_REQUEST=4833;
     private static final String PREFS_NAME="pocket_permissions";
     private boolean introStarted=false;
     private boolean firstSetupShownThisLaunch=false;
@@ -117,14 +119,14 @@ public final class AvatarLaunchActivity extends Activity {
         speech = new TextToSpeech(this, status -> {
             ttsReady = status == TextToSpeech.SUCCESS;
             if (ttsReady && speech != null) {
-                speech.setLanguage(Locale.forLanguageTag("ro-RO"));
+                // The greeting voice is chosen below using the app locale.
                 speech.setSpeechRate(0.98f);
             }
         });
         speech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override public void onStart(String utteranceId) {
                 if (UTTERANCE_ID.equals(utteranceId))
-                    runOnUiThread(() -> sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(true,'Salut! Cum te pot ajuta?');"));
+                    runOnUiThread(() -> sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(true," + org.json.JSONObject.quote(currentGreeting) + ");"));
             }
             @Override public void onDone(String utteranceId) {
                 if (UTTERANCE_ID.equals(utteranceId))
@@ -145,10 +147,9 @@ public final class AvatarLaunchActivity extends Activity {
         requestStartupPermissions();
     }
 
-    // This is application-level consent. Android itself may show a separate
-    // location prompt after Continue; camera capture uses ACTION_IMAGE_CAPTURE
-    // (the device camera app, so no CAMERA runtime permission is required).
-    // Notification permission is NEVER asked until the user enters Agenda.
+    // A single explanatory first-launch screen precedes the system dialogs.
+    // Android alone grants location and notification permissions; camera capture
+    // uses ACTION_IMAGE_CAPTURE and needs no duplicate custom consent panel.
     private String initialSetupLanguage="en";
     private String onboardingString(String ro,String en,String fr,String de,String it,String es,String pt,String nl,String ru,String pl) {
         switch(initialSetupLanguage){
@@ -188,7 +189,38 @@ public final class AvatarLaunchActivity extends Activity {
                 else if(tm.getSimCountryIso()!=null && !tm.getSimCountryIso().isEmpty())region=tm.getSimCountryIso();
             }
         }catch(Exception ignored){}
+        // A Romanian SIM in Britain should not force a Romanian first screen.
+        // Time zone is a permission-free hint until GPS is authorized.
+        if("Europe/London".equals(java.util.TimeZone.getDefault().getID())
+            && (region==null||region.isEmpty()||region.equalsIgnoreCase(device.getCountry())))region="GB";
         return firstSetupLanguageForCountry(region,device.getLanguage());
+    }
+    private String currentLaunchLanguage(SharedPreferences prefs){
+        String saved=prefs.getString("ui_language_native","");
+        if(saved!=null&&saved.matches("ro|en|fr|de|it|es|pt|nl|ru|pl"))return saved;
+        return detectFirstSetupLanguage();
+    }
+    private static String greetingForLanguage(String language){
+        switch(language){
+            case "ro":return "Salut! Cum te pot ajuta?";
+            case "fr":return "Bonjour ! Comment puis-je vous aider ?";
+            case "de":return "Hallo! Wie kann ich dir helfen?";
+            case "it":return "Ciao! Come posso aiutarti?";
+            case "es":return "¡Hola! ¿En qué puedo ayudarte?";
+            case "pt":return "Olá! Como posso ajudar?";
+            case "nl":return "Hallo! Waarmee kan ik je helpen?";
+            case "ru":return "Привет! Чем могу помочь?";
+            case "pl":return "Cześć! W czym mogę pomóc?";
+            default:return "Hello! How can I help you?";
+        }
+    }
+    private static String speechTagForLanguage(String language){
+        switch(language){
+            case "ro":return "ro-RO";case "fr":return "fr-FR";case "de":return "de-DE";
+            case "it":return "it-IT";case "es":return "es-ES";case "pt":return "pt-PT";
+            case "nl":return "nl-NL";case "ru":return "ru-RU";case "pl":return "pl-PL";
+            default:return "en-GB";
+        }
     }
     private int setupDp(int amount){return (int)(amount*getResources().getDisplayMetrics().density+.5f);}
     private android.graphics.drawable.GradientDrawable setupBackground(int color,int stroke,int corners){
@@ -203,127 +235,153 @@ public final class AvatarLaunchActivity extends Activity {
         if(bold)label.setTypeface(null,android.graphics.Typeface.BOLD);
         return label;
     }
+    private void addSetupInfo(android.widget.LinearLayout parent,String title,String detail,int headingColor,int bodyColor){
+        android.widget.LinearLayout item=new android.widget.LinearLayout(this);
+        item.setOrientation(android.widget.LinearLayout.VERTICAL);
+        item.setPadding(setupDp(12),setupDp(10),setupDp(12),setupDp(10));
+        item.setBackground(setupBackground(Color.rgb(16,49,69),Color.rgb(57,105,130),12));
+        item.addView(setupLabel(title,15,headingColor,true));
+        android.widget.TextView body=setupLabel(detail,13,bodyColor,false);
+        android.widget.LinearLayout.LayoutParams bodyLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
+        bodyLp.topMargin=setupDp(4);item.addView(body,bodyLp);
+        boolean horizontal=parent.getOrientation()==android.widget.LinearLayout.HORIZONTAL;
+        android.widget.LinearLayout.LayoutParams boxLp=horizontal
+            ?new android.widget.LinearLayout.LayoutParams(0,-2,1f)
+            :new android.widget.LinearLayout.LayoutParams(-1,-2);
+        if(horizontal)boxLp.leftMargin=setupDp(6);else boxLp.topMargin=setupDp(8);
+        parent.addView(item,boxLp);
+    }
+
     private void showFirstInstallationPanel(){
         firstSetupShownThisLaunch=true;
         final int foreground=Color.rgb(239,250,255),soft=Color.rgb(175,210,226),cyan=Color.rgb(87,218,232);
         android.app.Dialog panel=new android.app.Dialog(this);
-        panel.getWindow();panel.setCancelable(false);
+        panel.setCancelable(false);
         android.widget.LinearLayout column=new android.widget.LinearLayout(this);
         column.setOrientation(android.widget.LinearLayout.VERTICAL);
-        column.setPadding(setupDp(20),setupDp(22),setupDp(20),setupDp(20));
+        boolean landscape=getResources().getDisplayMetrics().widthPixels>
+            getResources().getDisplayMetrics().heightPixels;
+        column.setPadding(setupDp(landscape?12:20),setupDp(landscape?8:18),
+            setupDp(landscape?12:20),setupDp(landscape?8:18));
         column.setBackground(setupBackground(Color.rgb(10,39,57),Color.rgb(72,137,167),22));
-        android.widget.TextView tag=setupLabel("myPocket AI",16,cyan,true);column.addView(tag);
+        column.addView(setupLabel("myPocket AI",15,cyan,true));
         android.widget.TextView title=setupLabel(onboardingString(
-            "Bun venit!","Welcome!","Bienvenue !","Willkommen!","Benvenuto!","¡Bienvenido!","Bem-vindo!","Welkom!","Добро пожаловать!","Witamy!"),24,foreground,true);
+            "Bun venit!","Welcome!","Bienvenue !","Willkommen!","Benvenuto!","¡Bienvenido!",
+            "Bem-vindo!","Welkom!","Добро пожаловать!","Witamy!"),22,foreground,true);
         android.widget.LinearLayout.LayoutParams titleLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
-        titleLp.topMargin=setupDp(10);column.addView(title,titleLp);
+        titleLp.topMargin=setupDp(8);column.addView(title,titleLp);
         android.widget.TextView desc=setupLabel(onboardingString(
-            "Alege ce funcții dorești să activezi. Poți continua fără să bifezi nimic.",
-            "Choose which features to enable. You can continue without selecting any.",
-            "Choisissez les fonctions à activer. Aucune sélection n'est obligatoire.",
-            "Wähle die gewünschten Funktionen. Du kannst auch ohne Auswahl fortfahren.",
-            "Scegli le funzioni da attivare. Puoi continuare senza selezionarle.",
-            "Elige las funciones que deseas activar. Puedes continuar sin seleccionar ninguna.",
-            "Escolhe as funções a ativar. Podes continuar sem selecionar nenhuma.",
-            "Kies welke functies je activeert. Je kunt doorgaan zonder iets te kiezen.",
-            "Выберите функции. Можно продолжить без разрешений.",
-            "Wybierz funkcje. Możesz kontynuować bez zaznaczania opcji."),14,soft,false);
+            "Pentru buna funcționare, Android poate solicita următoarele permisiuni:",
+            "For the app to work properly, Android may ask for these permissions:",
+            "Pour le bon fonctionnement, Android peut demander ces autorisations :",
+            "Für die volle Funktion kann Android um folgende Berechtigungen bitten:",
+            "Per un corretto funzionamento, Android potrebbe richiedere queste autorizzazioni:",
+            "Para funcionar correctamente, Android puede solicitar estos permisos:",
+            "Para funcionar corretamente, o Android pode solicitar estas permissões:",
+            "Voor een goede werking kan Android om de volgende toestemmingen vragen:",
+            "Для работы приложения Android может запросить следующие разрешения:",
+            "Aby aplikacja działała poprawnie, Android może poprosić o te uprawnienia:"),14,soft,false);
         android.widget.LinearLayout.LayoutParams descLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
-        descLp.topMargin=setupDp(10);descLp.bottomMargin=setupDp(18);column.addView(desc,descLp);
-        android.widget.CheckBox location=new android.widget.CheckBox(this);
-        location.setText(onboardingString("Localizare — pentru trasee și locuri apropiate",
-            "Location — routes and nearby places","Localisation — trajets et lieux proches",
-            "Standort — Routen und Orte in der Nähe","Posizione — percorsi e luoghi vicini",
-            "Ubicación — rutas y lugares cercanos","Localização — rotas e lugares próximos",
-            "Locatie — routes en plaatsen dichtbij","Геолокация — маршруты и места рядом",
-            "Lokalizacja — trasy i pobliskie miejsca"));
-        android.widget.CheckBox camera=new android.widget.CheckBox(this);
-        camera.setText(onboardingString("Fotografiere — pentru scanarea documentelor și exercițiilor",
-            "Camera — scan documents and exercises","Appareil photo — numériser documents et exercices",
-            "Kamera — Dokumente und Übungen scannen","Fotocamera — scansiona documenti ed esercizi",
-            "Cámara — escanear documentos y ejercicios","Câmara — digitalizar documentos e exercícios",
-            "Camera — documenten en opgaven scannen","Камера — сканировать документы и задания",
-            "Aparat — skanowanie dokumentów i zadań"));
-        android.widget.CheckBox notification=new android.widget.CheckBox(this);
-        notification.setText(onboardingString("Notificări — cerere Android doar când deschizi Agenda",
-            "Notifications — Android asks only when you open Agenda",
-            "Notifications — demande Android à l'ouverture de l'agenda",
-            "Benachrichtigungen — Android fragt erst beim Öffnen der Agenda",
-            "Notifiche — Android chiede solo quando apri l'Agenda",
-            "Notificaciones — Android pregunta al abrir la Agenda",
-            "Notificações — Android pergunta ao abrir a Agenda",
-            "Meldingen — Android vraagt pas bij het openen van de agenda",
-            "Уведомления — запрос Android только при открытии календаря",
-            "Powiadomienia — Android zapyta dopiero po otwarciu kalendarza"));
-        for(android.widget.CheckBox item:new android.widget.CheckBox[]{location,camera,notification}){
-            item.setTextColor(foreground);item.setTextSize(15);item.setButtonTintList(
-                android.content.res.ColorStateList.valueOf(cyan));item.setPadding(0,setupDp(8),0,setupDp(8));
-            column.addView(item,new android.widget.LinearLayout.LayoutParams(-1,-2));
-        }
-        android.widget.TextView locale=setupLabel(onboardingString(
-            "Limba inițială este aleasă automat din regiunea telefonului.",
-            "Initial language is selected automatically from the phone region.",
-            "La langue initiale dépend de la région du téléphone.",
-            "Die Anfangssprache richtet sich nach der Telefonregion.",
-            "La lingua iniziale dipende dalla regione del telefono.",
-            "El idioma inicial se elige según la región del teléfono.",
-            "O idioma inicial depende da região do telemóvel.",
-            "De starttaal is gebaseerd op de telefoonregio.",
-            "Начальный язык определяется регионом телефона.",
-            "Język początkowy zależy od regionu telefonu."),12,soft,false);
-        android.widget.LinearLayout.LayoutParams localeLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
-        localeLp.topMargin=setupDp(10);column.addView(locale,localeLp);
+        descLp.topMargin=setupDp(8);column.addView(desc,descLp);
+        android.widget.LinearLayout infoItems=new android.widget.LinearLayout(this);
+        infoItems.setOrientation(landscape?android.widget.LinearLayout.HORIZONTAL:
+            android.widget.LinearLayout.VERTICAL);
+        column.addView(infoItems,new android.widget.LinearLayout.LayoutParams(-1,-2));
+        addSetupInfo(infoItems,onboardingString("Localizare","Location","Localisation","Standort","Posizione","Ubicación","Localização","Locatie","Геолокация","Lokalizacja"),
+            onboardingString("Trasee, transport și locuri din apropiere.","Routes, transport and nearby places.",
+                "Itinéraires, transports et lieux proches.","Routen, Verkehr und Orte in der Nähe.",
+                "Percorsi, trasporti e luoghi vicini.","Rutas, transporte y lugares cercanos.",
+                "Rotas, transportes e locais próximos.","Routes, vervoer en plekken dichtbij.",
+                "Маршруты, транспорт и места рядом.","Trasy, transport i pobliskie miejsca."),foreground,soft);
+        addSetupInfo(infoItems,onboardingString("Fotografiere","Camera","Appareil photo","Kamera","Fotocamera","Cámara","Câmara","Camera","Камера","Aparat"),
+            onboardingString("Scanarea documentelor și a exercițiilor; camera se deschide doar când o alegi.",
+                "Scan documents and exercises; the camera opens only when you choose it.",
+                "Numériser des documents et exercices, uniquement à votre demande.",
+                "Dokumente und Aufgaben nur bei Bedarf fotografieren.",
+                "Fotografa documenti ed esercizi solo quando lo richiedi.",
+                "Escanear documentos y ejercicios solo cuando lo solicites.",
+                "Digitalizar documentos e exercícios apenas quando necessário.",
+                "Documenten en oefeningen scannen alleen als je dat kiest.",
+                "Сканирование документов и заданий только по вашему выбору.",
+                "Skanowanie dokumentów i zadań tylko na żądanie."),foreground,soft);
+        addSetupInfo(infoItems,onboardingString("Notificări","Notifications","Notifications","Benachrichtigungen","Notifiche","Notificaciones","Notificações","Meldingen","Уведомления","Powiadomienia"),
+            onboardingString("Mementouri, Agendă și alerte pentru evenimente.",
+                "Reminders, Agenda and event alerts.",
+                "Rappels, agenda et alertes d’événements.",
+                "Erinnerungen, Kalender und Terminbenachrichtigungen.",
+                "Promemoria, agenda e avvisi sugli eventi.",
+                "Recordatorios, agenda y avisos de eventos.",
+                "Lembretes, agenda e avisos de eventos.",
+                "Herinneringen, agenda en meldingen voor afspraken.",
+                "Напоминания, календарь и оповещения о событиях.",
+                "Przypomnienia, kalendarz i powiadomienia o wydarzeniach."),foreground,soft);
+        android.widget.TextView foot=setupLabel(onboardingString(
+            "Apasă „Mai departe”. Permisiunile sunt acordate exclusiv în ferestrele Android; poți refuza sau modifica ulterior din setările telefonului.",
+            "Tap “Next”. Only Android grants permissions; you can decline or change them later in Settings.",
+            "Appuyez sur « Suivant ». Vous pouvez refuser ou modifier les autorisations dans Android.",
+            "Tippe auf „Weiter“. Berechtigungen bestätigst du nur in Android und kannst sie später ändern.",
+            "Tocca « Avanti ». I permessi sono gestiti da Android e puoi modificarli in seguito.",
+            "Pulsa « Siguiente ». Android gestiona los permisos y puedes cambiarlos después.",
+            "Toque em « Seguinte ». O Android gere as permissões e pode alterá-las depois.",
+            "Tik op 'Verder'. Android beheert de toestemming; je kunt die later wijzigen.",
+            "Нажмите «Далее». Разрешения выдаёт Android, позже их можно изменить.",
+            "Naciśnij „Dalej”. Uprawnienia nadaje Android, a później można je zmienić."),12,soft,false);
+        android.widget.LinearLayout.LayoutParams footLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
+        footLp.topMargin=setupDp(10);column.addView(foot,footLp);
         android.widget.Button continueButton=new android.widget.Button(this);
         continueButton.setAllCaps(false);
-        continueButton.setText(onboardingString("Continuă","Continue","Continuer","Weiter","Continua","Continuar","Continuar","Doorgaan","Продолжить","Kontynuuj"));
+        continueButton.setText(onboardingString("Mai departe","Next","Suivant","Weiter","Avanti","Siguiente","Seguinte","Verder","Далее","Dalej"));
         continueButton.setTextColor(foreground);continueButton.setTextSize(17);
         continueButton.setBackground(setupBackground(Color.rgb(19,105,145),cyan,13));
         android.widget.LinearLayout.LayoutParams continueLp=new android.widget.LinearLayout.LayoutParams(-1,setupDp(52));
-        continueLp.topMargin=setupDp(20);column.addView(continueButton,continueLp);
-        android.widget.TextView skip=setupLabel(onboardingString("Nu acum","Not now","Pas maintenant","Nicht jetzt","Non ora","Ahora no","Agora não","Niet nu","Не сейчас","Nie teraz"),14,soft,false);
-        skip.setGravity(android.view.Gravity.CENTER);
-        android.widget.LinearLayout.LayoutParams skipLp=new android.widget.LinearLayout.LayoutParams(-1,setupDp(44));
-        skipLp.topMargin=setupDp(6);column.addView(skip,skipLp);
-        android.widget.ScrollView scroll=new android.widget.ScrollView(this);scroll.setFillViewport(false);
-        scroll.addView(column);
+        continueLp.topMargin=setupDp(16);column.addView(continueButton,continueLp);
+        android.widget.ScrollView scroll=new android.widget.ScrollView(this);
+        scroll.setFillViewport(false);scroll.addView(column);
         panel.setContentView(scroll);
-        android.view.Window window=panel.getWindow();
-        if(window!=null){
-            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            window.setLayout(getResources().getDisplayMetrics().widthPixels-setupDp(28),-2);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            WindowManager.LayoutParams p=window.getAttributes();p.dimAmount=.86f;window.setAttributes(p);
-        }
-        final Runnable commit=()->{
+        continueButton.setOnClickListener(v->{
+            continueButton.setEnabled(false);
             panel.dismiss();
             SharedPreferences prefs=getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE);
             prefs.edit().putBoolean("first_setup_complete_v1",true)
-                .putBoolean("first_setup_location",location.isChecked())
-                .putBoolean("first_setup_camera",camera.isChecked())
-                .putBoolean("first_setup_notifications",notification.isChecked())
+                .putString("ui_language_native",initialSetupLanguage)
                 .putBoolean("startup_location_requested_v3",true)
                 .putBoolean("startup_microphone_requested_v3",true)
                 .putBoolean("first_microphone_permission_requested",true)
                 .apply();
-            if(location.isChecked() && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED
-                && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION},ONBOARDING_PERMISSIONS_REQUEST);
-            } else startAvatarEntrance();
-        };
-        continueButton.setOnClickListener(v->commit.run());
-        skip.setOnClickListener(v->{
-            location.setChecked(false);camera.setChecked(false);notification.setChecked(false);
-            commit.run();
+            beginSystemPermissions();
         });
         panel.show();
-        if(panel.getWindow()!=null)panel.getWindow().setLayout(
-            getResources().getDisplayMetrics().widthPixels-setupDp(28),
-            android.view.WindowManager.LayoutParams.WRAP_CONTENT);
+        if(panel.getWindow()!=null){
+            android.view.Window window=panel.getWindow();
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            WindowManager.LayoutParams params=window.getAttributes();
+            params.dimAmount=.82f;window.setAttributes(params);
+            window.setLayout(getResources().getDisplayMetrics().widthPixels-setupDp(28),
+                android.view.WindowManager.LayoutParams.WRAP_CONTENT);
+        }
+    }
+
+    private void beginSystemPermissions(){
+        if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED
+            && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION},ONBOARDING_PERMISSIONS_REQUEST);
+        }else requestNotificationPermission();
+    }
+
+    private void requestNotificationPermission(){
+        if(android.os.Build.VERSION.SDK_INT>=33
+            && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)!=PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                ONBOARDING_NOTIFICATIONS_REQUEST);
+        }else startAvatarEntrance();
     }
 
     private void requestStartupPermissions() {
         SharedPreferences prefs=getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        launchLanguage=currentLaunchLanguage(prefs);
+        initialSetupLanguage=launchLanguage;
         if(prefs.getBoolean("first_setup_complete_v1",false)){startAvatarEntrance();return;}
         // An APK update is not a first installation: preserve previous consent.
         boolean updated=false;
@@ -343,13 +401,13 @@ public final class AvatarLaunchActivity extends Activity {
                 .putBoolean("first_microphone_permission_requested",true).apply();
             startAvatarEntrance();return;
         }
-        initialSetupLanguage=detectFirstSetupLanguage();
         showFirstInstallationPanel();
     }
 
     @Override public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
         super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        if(requestCode==ONBOARDING_PERMISSIONS_REQUEST)startAvatarEntrance();
+        if(requestCode==ONBOARDING_PERMISSIONS_REQUEST)requestNotificationPermission();
+        else if(requestCode==ONBOARDING_NOTIFICATIONS_REQUEST)startAvatarEntrance();
     }
 
     private void startAvatarEntrance(){
@@ -371,7 +429,16 @@ public final class AvatarLaunchActivity extends Activity {
             return;
         }
         startedSpeaking = true;
-        int result = speech.speak(GREETING, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
+        int support=speech.setLanguage(Locale.forLanguageTag(speechTagForLanguage(launchLanguage)));
+        if(support==TextToSpeech.LANG_MISSING_DATA || support==TextToSpeech.LANG_NOT_SUPPORTED){
+            launchLanguage="en";
+            support=speech.setLanguage(Locale.forLanguageTag("en-GB"));
+            if(support==TextToSpeech.LANG_MISSING_DATA || support==TextToSpeech.LANG_NOT_SUPPORTED){
+                openMain();return;
+            }
+        }
+        currentGreeting=greetingForLanguage(launchLanguage);
+        int result = speech.speak(currentGreeting, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
         if (result == TextToSpeech.ERROR) openMain();
     }
 
