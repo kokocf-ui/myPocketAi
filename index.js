@@ -3184,7 +3184,7 @@ main.page:has(#view-module.learning-languages.active){
 #view-module.learning-literature .lit-panel:has(.lit-options) .lit-options{margin-block:auto!important}
 #view-module.learning-literature .lit-panel .lit-options>button{flex-shrink:0!important}
 #view-module.learning-literature .lit-options{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:clamp(9px,2vw,15px)!important;align-content:center!important}
-#view-module.learning-literature .lit-choice-card{min-height:100px!important;width:100%!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;gap:7px!important;white-space:normal!important;overflow-wrap:anywhere!important;padding:12px 9px!important;font-size:clamp(14px,3.7vw,17px)!important;border-radius:19px!important;border:2px solid #469ab1!important;background:linear-gradient(160deg,#185476,#0e2c47 75%)!important;box-shadow:inset 0 3px 0 #3a9bbb,0 5px 0 #041522,0 8px 14px #0007!important}
+#view-module.learning-literature .lit-choice-card{position:relative!important;z-index:2!important;pointer-events:auto!important;touch-action:manipulation!important;min-height:100px!important;width:100%!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;gap:7px!important;white-space:normal!important;overflow-wrap:anywhere!important;padding:12px 9px!important;font-size:clamp(14px,3.7vw,17px)!important;border-radius:19px!important;border:2px solid #469ab1!important;background:linear-gradient(160deg,#185476,#0e2c47 75%)!important;box-shadow:inset 0 3px 0 #3a9bbb,0 5px 0 #041522,0 8px 14px #0007!important}
 #view-module.learning-literature .lit-choice-description{display:block;color:#c3dce7;font-size:clamp(11px,2.9vw,13px);font-weight:400;line-height:1.3}
 #view-module.learning-literature .lit-activity-heading{font-size:clamp(18px,4.5vw,23px)!important;margin:6px 0}
 #view-module.learning-literature .lit-activity-note{font-size:clamp(12px,3vw,14px);color:#b9d2dc;margin:2px 0}
@@ -11578,8 +11578,14 @@ function litOpen(stage){
   panel.append(litText('p',learningLabel('Clasele disponibile sunt organizate după sistemul selectat. Lipsa unei verificări pentru o clasă va fi semnalată explicit.','Grades follow the selected system. Unverified classes are explicitly marked.')));
   list(grades.map(v=>({id:v,ro:v,en:v})),c=>{
     litJourney.grade=c.id;litJourney.region='';
-    litJourney.track=litAvailableTracks()[0]?.[0]||'TC';
-    litOpen(litNeedsTrack()?'tracks':litIsRegional()?'regions':'branches')
+    // A school-profile lookup must never prevent selection of a class,
+    // including university. The curriculum page remains reachable.
+    let tracks=[];
+    try{tracks=litAvailableTracks()}catch(error){
+      console.error('literature_grade_track_lookup_failed',error);
+    }
+    litJourney.track=tracks[0]?.[0]||'TC';
+    litOpen(tracks.length>1?'tracks':litIsRegional()?'regions':'branches')
    })
  }
  if(stage==='tracks'){
