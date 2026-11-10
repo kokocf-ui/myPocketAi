@@ -15,15 +15,15 @@ assert.match(html,/\.lit-material-reader\[open\]\{display:flex!important\}/,'Rea
 assert.match(html,/\.lit-material-reader \.lit-reader-scroll\{[\s\S]*?overflow:auto!important/,'Reader text must scroll inside the overlay');
 assert.match(html,/\.lit-material-reader \.lit-reader-footer\{[\s\S]*?grid-template-columns:1fr 1fr!important/,'Reader Save and Print share the footer');
 assert.match(html,/#view-module\.learning-literature \.lit-toolbar\{[\s\S]*?grid-template-columns:minmax\(106px,\.82fr\)/,'Back row matches Home header geometry');
-assert.match(html,/#view-module\.learning-literature \.lit-toolbar>\.edu-pdf-actions\{[\s\S]*?grid-column:2!important/,'PDF icons are right-aligned and uncropped');
+assert.doesNotMatch(boot,/bar\.append\(litBtn\(learningLabel\('← Înapoi','← Back'\),litBack,'secondary-btn lit-back'\)\);eduAttachPrintAction\(bar\)/,'No duplicate literature Save/Print toolbar buttons');
 
 assert.match(LITERATURE_TASK_UI_SCRIPT,/function litShowMaterialReader\(title,text\)/);
 assert.match(LITERATURE_TASK_UI_SCRIPT,/dialog\.showModal\(\)/,'Reader opens as overlay');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/litShowMaterialReader\(title\+' · '/,'Lessons open in reader after actual result');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/litShowMaterialReader\(chosen\.name\+' — '/,'Literary studies and essays use same reader');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/litShowMaterialReader\(litSimpleLabel\('Corectarea/,'Corrected exercises use the reader');
-assert.match(LITERATURE_TASK_UI_SCRIPT,/eduOpenPrint\('save',material\)/,'Reader Save passes the exact lesson');
-assert.match(LITERATURE_TASK_UI_SCRIPT,/eduOpenPrint\('print',material\)/,'Reader Print passes the exact lesson');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/eduOpenPrint\('save',material,\(\)=>dialog\.close\(\)\)/,'Reader Save closes only after a confirmed export');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/eduOpenPrint\('print',material,\(\)=>dialog\.close\(\)\)/,'Reader Print closes after successful PDF save and print handoff');
 
 assert.match(boot,/function resetExtraToolsScreen\(\)/,'Explicit reset of inherited learning state');
 for(const oldClass of ['learning-literature','learning-hg','learning-math','learning-active']){
@@ -34,9 +34,10 @@ assert.match(boot,/root\.classList\.add\('extra-tools-active','my-documents-acti
 assert.match(boot,/back\.textContent=learningLabel\('← Înapoi','← Back'\);back\.onclick=renderExtraToolsChoices/,'Back button returns from Documents to Tools');
 assert.match(html,/#view-module\.my-documents-active #moduleContent\{[\s\S]*?grid-column:1\/-1!important/,'Documents use entire width rather than left column');
 assert.match(html,/#view-module\.my-documents-active \.my-documents-batch\{[\s\S]*?display:flex!important/,'Print/share/delete actions remain visible');
-assert.match(html,/id="pdf-library-viewport-fix"/,'My Documents must use a dedicated scroll viewport');
-assert.match(html,/#view-module\.my-documents-active\.active\{[\s\S]*?height:calc\(100dvh - 265px\)!important/,'Library area extends to the bottom navigation instead of clipping halfway');
-assert.match(html,/#view-module\.my-documents-active \.my-documents-list\{[\s\S]*?overflow-y:auto!important/,'The PDF rows scroll independently');
+assert.match(html,/id="pdf-library-flow-fix"/,'My Documents must have an explicit non-clipping scrolling layout');
+assert.match(html,/#view-module\.my-documents-active\.active\{[\s\S]*?height:auto!important;max-height:none!important/,'Library must not have a fixed viewport that clips document rows');
+assert.match(html,/#view-module\.my-documents-active \.my-documents-list\{[\s\S]*?max-height:none!important/,'All documents remain reachable by ordinary page scrolling');
+assert.match(html,/main\.page:has\(#view-module\.my-documents-active\.active\)\{[\s\S]*?overflow-y:auto!important/,'The app page provides vertical scrolling above the fixed dock');
 assert.match(boot,/window\.PocketAndroidDocuments\.postMessage\('list'\)/,'Document list is fetched from Android storage');
 assert.match(boot,/window\.PocketAndroidDocuments\?\.postMessage\('print:'/);
 assert.match(boot,/share-many:'\+JSON\.stringify\(names\)/);
@@ -49,6 +50,7 @@ assert.doesNotMatch(pdf,/document\.createElement\('dialog'\)/,'Do not open a sec
 assert.doesNotMatch(pdf,/dialog\.showModal\(\)/,'No duplicate PDF modal');
 assert.match(pdf,/eduPdfExportPending=true/,'Prevent repeated direct export taps');
 assert.match(pdf,/window\.pocketEduPrintResult=state=>/,'Native result callback remains wired');
+assert.match(pdf,/closeReaderAfterExport\?\.\(\)/,'Only the native saved callback closes the reader');
 assert.match(pdf,/mode:mode==='print'\?'print':'save'/,'Printing still saves PDF first through the native bridge');
 assert.match(pdf,/window\.PocketAndroidPrint\.postMessage/,'Native bridge remains the source of PDF success');
 assert.match(pdf,/PocketAndroidPrint/);
@@ -58,4 +60,4 @@ assert.match(java,/new File\(getFilesDir\(\),"documentele_mele"\)/,'Saved files 
 assert.match(java,/notifyEducationPdf\("saved"\)/,'Android acknowledges save only after success');
 assert.match(java,/if\("list"\.equals\(request\)\)listEducationDocuments\(\)/,'Library bridge returns saved files');
 
-console.log('PASS: full-screen reader, full-height PDF list, direct export without duplicate modal, native save confirmation');
+console.log('PASS: documents page scrolls; one reader export toolbar; reader closes on confirmed Android save');

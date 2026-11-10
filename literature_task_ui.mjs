@@ -18,8 +18,8 @@ function litShowMaterialReader(title,text){
  hgDisplayStudyText(content,body);
  const actions=litSimpleNode('div','','lit-reader-footer');
  const material={title,text:body};
- const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),()=>eduOpenPrint('save',material));
- const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),()=>eduOpenPrint('print',material));
+ const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),()=>eduOpenPrint('save',material,()=>dialog.close()));
+ const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),()=>eduOpenPrint('print',material,()=>dialog.close()));
  actions.append(save,print);
  dialog.append(head,content,actions);
  dialog.addEventListener('close',()=>{dialog.remove();if(litReaderOpen===dialog)litReaderOpen=null});

@@ -142,6 +142,10 @@ public final class MainActivity extends ComponentActivity {
         if(Build.VERSION.SDK_INT<33 || ContextCompat.checkSelfPermission(this,
             Manifest.permission.POST_NOTIFICATIONS)==PackageManager.PERMISSION_GRANTED)return;
         var prefs=getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE);
+        // The first-install checkbox records preference, not an Android grant.
+        // Android asks only after the user actually enters Agenda.
+        if(prefs.getBoolean("first_setup_complete_v1",false)
+            && !prefs.getBoolean("first_setup_notifications",false))return;
         if(prefs.getBoolean(NOTIFICATION_PERMISSION_FLAG,false))return;
         prefs.edit().putBoolean(NOTIFICATION_PERMISSION_FLAG,true).apply();
         notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
@@ -525,7 +529,8 @@ public final class MainActivity extends ComponentActivity {
                         Intent capture=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         capture.putExtra(MediaStore.EXTRA_OUTPUT,documentCameraUri);
                         capture.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,new Intent[]{capture});
+                        if(firstSetupCameraAllowed())
+                            chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,new Intent[]{capture});
                     }catch(Exception ignored){documentCameraUri=null;}
                     documentPhotos.launch(chooser);
                 }catch(Exception ex){documentPhotoCallback=null;documentCameraUri=null;callback.onReceiveValue(null);}
@@ -536,7 +541,12 @@ public final class MainActivity extends ComponentActivity {
                 boolean granted=ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
                 if(granted)callback.invoke(origin,true,false);
-                else {pendingGeoCallback=callback;pendingGeoOrigin=origin;ensureLocationPermission();}
+                else if(getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE)
+                    .getBoolean("first_setup_complete_v1",false)) {
+                    // Never re-prompt automatically on the home screen after a
+                    // first-install opt-out or an Android denial.
+                    callback.invoke(origin,false,false);
+                }else {pendingGeoCallback=callback;pendingGeoOrigin=origin;ensureLocationPermission();}
             }
             @Override public void onGeolocationPermissionsHidePrompt(){pendingGeoCallback=null;pendingGeoOrigin=null;}
             @Override public void onPermissionRequest(PermissionRequest request) {
@@ -690,9 +700,10 @@ public final class MainActivity extends ComponentActivity {
                     runOnUiThread(()->{
                         try{
                             JSONObject data=new JSONObject(payload);
-                            if(!"sync".equals(data.optString("action","")))return;
+                            String action=data.optString("action","");
+                            if("open".equals(action)){ensureAgendaNotificationPermission();return;}
+                            if(!"sync".equals(action))return;
                             AgendaReminderScheduler.sync(MainActivity.this,data.getJSONArray("events").toString());
-                            ensureAgendaNotificationPermission();
                         }catch(Exception ignored){}
                     });
                 });
@@ -714,21 +725,40 @@ public final class MainActivity extends ComponentActivity {
         }
         // Unique document URL prevents WebView/HTTP intermediary caches from showing an old UI.
         // No cookies, offline documents or localStorage are cleared.
-        web.loadUrl(APP_URL + "?nativeLaunch=1&uiFresh=" + System.currentTimeMillis());
-        // The translucent launcher already asked for both permissions. Do not
-        // immediately show a duplicate prompt if the user declined either one.
-        if(getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE)
-            .getBoolean("startup_location_requested_v3",false)) {
-            boolean granted=ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
-            notifyLocationPermission(granted);
-            requestMicrophonePermissionOnce();
-        } else {
-            ensureLocationPermission();
-        }
+        String setupLanguage=getIntent().getStringExtra("first_setup_language");
+        String langParam=setupLanguage!=null && setupLanguage.matches("ro|en|fr|de|it|es|pt|nl|ru|pl")
+            ?"&first_setup_language="+Uri.encode(setupLanguage):"";
+        web.loadUrl(APP_URL + "?nativeLaunch=1&uiFresh=" + System.currentTimeMillis()+langParam);
+        // Never show another permission prompt during launch. Location was
+        // handled by the first-install panel and microphone is requested only
+        // after an explicit voice action.
+        boolean granted=ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
+        notifyLocationPermission(granted);
     }
 
+    private boolean firstSetupCameraAllowed(){
+        var prefs=getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE);
+        return !prefs.getBoolean("first_setup_complete_v1",false)
+            || prefs.getBoolean("first_setup_camera",true);
+    }
+    private void allowCameraOnExplicitRequest(Runnable action){
+        if(firstSetupCameraAllowed()){action.run();return;}
+        new android.app.AlertDialog.Builder(this)
+            .setTitle("Camera / Cameră")
+            .setMessage("Ai dezactivat fotografierea la instalare. Activezi camera pentru această funcție?")
+            .setNegativeButton("Nu",null)
+            .setPositiveButton("Activează",(dialog,which)->{
+                getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE)
+                    .edit().putBoolean("first_setup_camera",true).apply();
+                action.run();
+            }).show();
+    }
     private void launchCamera() {
+        if(!firstSetupCameraAllowed()){
+            allowCameraOnExplicitRequest(this::launchCamera);
+            return;
+        }
         try {
             File folder=new File(getCacheDir(), "camera");
             if (!folder.exists() && !folder.mkdirs()) throw new IllegalStateException("cache folder unavailable");

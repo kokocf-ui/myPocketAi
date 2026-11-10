@@ -29,6 +29,9 @@ on:
       - 'tests_university_admissions.mjs'
       - 'tests_frontend_boot_syntax.mjs'
       - 'tests_education_android.mjs'
+      - 'tests_first_install_consent.mjs'
+      - 'android/app/src/main/java/ai/mypocket/mobile/AvatarLaunchActivity.java'
+      - 'android/app/src/main/assets/avatar-enter.js'
       - 'tests_pdf_library.mjs'
       - 'scripts/patch-avatar-lipsync.mjs'
       - 'tests_avatar_lipsync_stop.mjs'
@@ -138,6 +141,8 @@ jobs:
           node tests_education_content_navigation.mjs
           node tests_practical_courses.mjs
           node tests_education_android.mjs
+          node tests_first_install_consent.mjs
+          node tests_education_reader_documents_regression.mjs
           node tests_pdf_library.mjs
           node tests_math_voice_parentheses.mjs
           node tests_math_linear_equations.mjs
