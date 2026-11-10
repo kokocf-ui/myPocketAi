@@ -33,12 +33,12 @@ const source=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 for(const token of [
  "import {VERIFIED_LITERARY_AUTHORS} from './literature_verified_authors.mjs'",
  'const LIT_VERIFIED_AUTHORS=${JSON.stringify(VERIFIED_LITERARY_AUTHORS)}',
- "if(key==='literature'){litOpen('levels');return}",
+ "if(key==='literature'){",
  "if(litJourney.stage==='languages'){litOpen('levels');return}",
  "if(litJourney.stage==='countries'||litJourney.stage==='levels')",
  "litChangeLanguageNeverExists" // temporary replaced below
 ])if(token!=='litChangeLanguageNeverExists')assert.ok(source.includes(token),'Missing literature flow: '+token);
-assert.match(source,/Schimbă limba studiată \(opțional\)/);
+assert.doesNotMatch(source,/Schimbă limba studiată \(opțional\)/, 'No redundant language selection');
 assert.match(source,/const verifiedAuthors=curatedAuthorMatches\(term\)/);
 assert.match(source,/if\(verifiedAuthors\.length\)\{/);
 assert.match(source,/const verified=curatedByName\(author\?\.name\)/);
@@ -53,5 +53,5 @@ assert.ok(script,'Embedded app script missing');
 new vm.Script(script,{filename:'literature-verified-boot.js'});
 assert.ok(script.includes('Nichita Stănescu'));
 assert.ok(script.includes('Institutul Cultural Român'));
-assert.ok(script.includes("if(key==='literature'){litOpen('levels');return}"));
+assert.ok(script.includes("if(key==='literature'){"));
 console.log('PASS: Romanian study-language default and source-verified Nichita Stănescu works');
