@@ -23,6 +23,7 @@ import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchool
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
+import {literatureTracksForGrade,hungaryAdmissionTopicsForGrade,HUNGARY_ADMISSION_REFERENCES} from './literature_school_streams.mjs';
 import {LIT_OFFLINE_THEORY} from './literature_offline_theory.mjs';
 import {VERIFIED_LITERARY_AUTHORS} from './literature_verified_authors.mjs';
 import {HG_SUBJECTS,HG_LEVELS,HG_SCOPES,HG_COUNTRIES,HG_HISTORY_TOPICS,HG_GEOGRAPHY_TOPICS,HG_SPECIALISATIONS,HG_VERIFIED_MAPS} from './history_geography_curriculum.mjs';
@@ -11423,6 +11424,9 @@ async function hgGenerate(extra,output){
 // Country and language are separate choices; the present curriculum scope is Europe.
 const LIT_EUROPE_PROGRAMS=${JSON.stringify(LIT_EU_PROGRAMS)};
 const LIT_EUROPE_COMMON=${JSON.stringify(LIT_EU_COMMON)};
+const litSchoolTracksForGrade=${literatureTracksForGrade.toString()};
+const litHungaryAdmissionTopics=${hungaryAdmissionTopicsForGrade.toString()};
+const HUNGARY_ADMISSION_REFERENCES=${JSON.stringify(HUNGARY_ADMISSION_REFERENCES)};
 const LIT_OFFLINE_THEORY_DATA=${JSON.stringify(LIT_OFFLINE_THEORY)};
 const LIT_VERIFIED_AUTHORS=${JSON.stringify(VERIFIED_LITERARY_AUTHORS)};
 const LIT_COUNTRIES=[
@@ -11465,7 +11469,7 @@ const LIT_TOPICS={
  literature:[['genres','Genuri și specii literare','Literary forms and genres'],['periods','Epoci și curente literare','Literary periods and movements'],['authors','Autori și opere','Authors and works'],['poetry','Poezie și versificație','Poetry and versification'],['narrative','Narațiune și personaje','Narrative and characters'],['theatre','Teatru și dramaturgie','Drama and theatre'],['comparison','Literatură comparată','Comparative literature'],['criticism','Critică și interpretare','Literary criticism and interpretation']],
  writing:[['essay','Eseu argumentativ sau literar','Argumentative or literary essay'],['composition','Compunere creativă','Creative composition'],['commentary','Comentariu și analiză de text','Commentary and close reading'],['summary','Rezumat și sinteză','Summary and synthesis'],['review','Recenzie și prezentare','Review and presentation'],['work-summary','Rezumat și sinteză de operă','Work summary and synthesis'],['research','Lucrare academică','Academic paper']]
 };
-let litJourney={stage:'countries',country:'RO',language:'ro',level:'beginner',grade:'',track:'TC',region:'',branch:'program',topic:'',busy:false};
+let litJourney={stage:'countries',country:'RO',language:'ro',level:'beginner',grade:'',track:'TC',region:'',branch:'program',topic:'',targetSchool:'',busy:false};
 function litProgram(){
  const profile=LIT_EUROPE_PROGRAMS[litJourney.country]||null;
  const effectiveLevel=litJourney.level==='lower'?'medium':litJourney.level;
@@ -11478,8 +11482,10 @@ function litProgram(){
   units:specific.map((item,index)=>({id:String(item[0])+'-'+index,topic:item[3],ro:item[1],en:item[1],focus:item[2],order:index+1}))};
 }
 function litIsRegional(){return Boolean(LIT_EUROPE_PROGRAMS[litJourney.country]?.regions)}
- function litNeedsTrack(){return Boolean((LIT_EUROPE_PROGRAMS[litJourney.country]?.tracks||[]).length>0&&(litJourney.country!=='RO'||litJourney.grade==='9'))}
+ function litAvailableTracks(){return litSchoolTracksForGrade(litJourney.country,litJourney.level,litJourney.grade,LIT_EUROPE_PROGRAMS[litJourney.country]?.tracks||[])}
+ function litNeedsTrack(){return litAvailableTracks().length>1}
 function litCurrentTopic(){
+ if(litJourney.branch==='admission')return litHungaryAdmissionTopics(litJourney.grade).find(x=>x[0]===litJourney.topic)||null;
  if(litJourney.branch==='program'){
   const unit=litProgram().units.find(x=>x.id===litJourney.topic);
   return unit?[unit.topic,unit.ro,unit.en,unit.focus]:null;
@@ -11570,24 +11576,57 @@ function litOpen(stage){
    known[country]?.[stage]||globalGrades.map(x=>x.id)||profile?.grades?.[stage]||
    (stage==='lower'?['Secundar inferior — studiu general']:stage==='medium'?['Secundar superior — studiu general']:['Primar — studiu general']);
   panel.append(litText('p',learningLabel('Clasele disponibile sunt organizate după sistemul selectat. Lipsa unei verificări pentru o clasă va fi semnalată explicit.','Grades follow the selected system. Unverified classes are explicitly marked.')));
-  list(grades.map(v=>({id:v,ro:v,en:v})),c=>{litJourney.grade=c.id;litJourney.region='';litOpen(litNeedsTrack()?'tracks':litIsRegional()?'regions':'branches')})
+  list(grades.map(v=>({id:v,ro:v,en:v})),c=>{
+    litJourney.grade=c.id;litJourney.region='';
+    litJourney.track=litAvailableTracks()[0]?.[0]||'TC';
+    litOpen(litNeedsTrack()?'tracks':litIsRegional()?'regions':'branches')
+   })
  }
  if(stage==='tracks'){
-  const profile=LIT_EUROPE_PROGRAMS[litJourney.country];
-  list((profile?.tracks||[['TC','Trunchi comun']]).map(x=>({id:x[0],ro:x[1],en:x[1]})),c=>{litJourney.track=c.id;litOpen('branches')})
+  const available=litAvailableTracks();
+  if(!available.length){litJourney.track='TC';litOpen('branches');return}
+  if(available.length===1){litJourney.track=available[0][0];litOpen('branches');return}
+  list(available.map(x=>({id:x[0],ro:x[1],en:x[2]||x[1]})),
+    c=>{litJourney.track=c.id;litOpen('branches')})
  }
  if(stage==='regions'){
   panel.append(litText('p',learningLabel('Programa poate varia în funcție de land/comunitate. Fără documentul regional verificat nu pretindem că lista locală este obligatorie.','Curriculum may vary by state or region. Without a verified regional document the local list is advisory.')));
   const field=document.createElement('input');field.className='lit-input';field.value=litJourney.region||'';field.placeholder=learningLabel('Land / comunitate autonomă (opțional)','State / autonomous community (optional)');panel.append(field);
   panel.append(litBtn(learningLabel('Continuă','Continue'),()=>{litJourney.region=field.value.trim().slice(0,80);litOpen('branches')},'primary-btn'))
  }
- if(stage==='branches')list(LIT_BRANCHES,c=>{litJourney.branch=c.id;litJourney.topic=c.id==='literature'?'authors':'';litOpen(c.id==='literature'?'workspace':'topics')});
+ if(stage==='branches'){
+  const choices=litJourney.country==='HU'
+   ?[...LIT_BRANCHES,{id:'admission',
+      ro:'🎓 Pregătire pentru admitere / transfer în Ungaria',
+      en:'🎓 Hungarian school admission / transfer preparation',
+      noteRo:'Exerciții pentru clasele 5, 7 sau 9 și cerințe de transfer',
+      noteEn:'Entrance practice for grades 5, 7 or 9 and transfer requirements'}]
+   :LIT_BRANCHES;
+  list(choices,c=>{litJourney.branch=c.id;litJourney.topic=c.id==='literature'?'authors':'';litOpen(c.id==='literature'?'workspace':'topics')})
+ }
  if(stage==='topics'){
   const plan=litProgram();
   const notice=litText('p',plan.verified?learningLabel('Cadru curricular oficial identificat pentru acest nivel. Ordinea lecțiilor este o organizare didactică a competențelor, nu o listă obligatorie de opere.','Official curriculum framework identified. Lesson order is a teaching plan, not a mandatory book list.'):learningLabel('Plan de studiu orientativ. Programa exactă pentru această clasă / regiune nu este încă verificată.','Advisory learning path: exact grade or regional curriculum is not yet verified.'));
   panel.append(notice);
   if(plan.source){const a=document.createElement('a');a.href=plan.source;a.target='_blank';a.rel='noopener noreferrer';a.textContent=learningLabel('Sursa oficială / cadrul de referință','Official framework source')+': '+plan.sourceTitle;panel.append(a)}
-  if(litJourney.branch==='program'){
+  if(litJourney.branch==='admission'&&litJourney.country==='HU'){
+   panel.append(litText('p',learningLabel(
+    'Pregătirea urmează CLASA de admitere: după a IV-a → a V-a (8 ani); după a VI-a → a VII-a (6 ani); după a VIII-a → a IX-a (4 ani, tehnic sau profesional). Cerințele exacte diferă după unitate și an.',
+    'Entrance grade: after grade 4 → 5 (8-year); after grade 6 → 7 (6-year); after grade 8 → 9 (4-year, technical or vocational). Exact requirements vary by school and year.'
+   )));
+   const school=document.createElement('input');school.type='text';school.className='lit-input';
+   school.placeholder=learningLabel('Numele școlii vizate (opțional)','Target school name (optional)');
+   school.setAttribute('aria-label',school.placeholder);school.value=litJourney.targetSchool||'';
+   school.oninput=()=>{litJourney.targetSchool=school.value.trim().slice(0,140)};
+   panel.append(school);
+   const official=document.createElement('a');official.href=HUNGARY_ADMISSION_REFERENCES.foreignPupils;
+   official.target='_blank';official.rel='noopener noreferrer';
+   official.textContent=learningLabel('Reguli și documente pentru elevi veniți din străinătate (sursă oficială)',
+    'Official admissions and documents for pupils arriving from abroad');
+   panel.append(official);
+   list(litHungaryAdmissionTopics(litJourney.grade).map(x=>({id:x[0],ro:x[1],en:x[2]})),
+    c=>{litJourney.topic=c.id;litOpen('workspace')})
+  }else if(litJourney.branch==='program'){
    list(plan.units.map(unit=>({id:unit.id,ro:unit.order+'. '+unit.ro,en:unit.order+'. '+unit.en})),c=>{litJourney.topic=c.id;litOpen('workspace')})
   }else list(LIT_TOPICS[litJourney.branch].map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.topic=c.id;litOpen('workspace')})
  }
