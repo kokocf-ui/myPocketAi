@@ -1,6 +1,8 @@
 // Shared cooking-intent detection, quantity and clean search query.
 const normalize=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
- .toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+ .toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ')
+ // Common dictation and typing variants of the internationally named dish.
+ .replace(/\b(?:guacomole|guacamol|guacomale|guacamolle)\b/g,'guacamole').trim();
 const numberWords={o:1,un:1,una:1,one:1,doua:2,doi:2,two:2,trei:3,three:3,patru:4,four:4,cinci:5,five:5,sase:6,six:6};
 const exclude=new Set((
  'vreau as dori te rog please show find search give get want like '+
@@ -33,4 +35,25 @@ export function culinarySearchQuery(input,language='ro'){
  const dish=terms.slice(0,8).join(' ');
  const hints=language==='ro'?'reteta ingrediente mod de preparare':'recipe ingredients preparation method';
  return (dish?dish+' ':normalize(input)+' ')+hints;
+}
+
+export function humanizeRecipeDuration(value,language='ro'){
+ const v=String(value||'').trim();
+ const m=v.match(/^P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/i);
+ if(!m)return v;
+ const day=Number(m[1]||0),hour=Number(m[2]||0),minute=Number(m[3]||0),sec=Number(m[4]||0);
+ if(!(day||hour||minute||sec))return '';
+ const ro=language==='ro';
+ return [day?day+(ro?(day===1?' zi':' zile'):(day===1?' day':' days')):'',
+  hour?hour+(ro?(hour===1?' oră':' ore'):(hour===1?' hour':' hours')):'',
+  minute?minute+(ro?(minute===1?' minut':' minute'):(minute===1?' minute':' minutes')):'',
+  sec?sec+(ro?(sec===1?' secundă':' secunde'):(sec===1?' second':' seconds')):''].filter(Boolean).join(' ');
+}
+export function humanizeRecipeServings(value,language='ro'){
+ const chunks=String(value||'').split(/\s*,\s*/).map(x=>x.trim()).filter(Boolean);
+ const strong=chunks.find(x=>/\b(?:portii|porții|servings?|persoane|people)\b/i.test(x));
+ const chosen=strong||chunks[0]||'';
+ if(!chosen)return '';
+ if(/^\d+(?:[.,]\d+)?$/.test(chosen))return (language==='ro'?'Porții: ':'Servings: ')+chosen;
+ return chosen;
 }

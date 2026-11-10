@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
-import {parseCulinaryRequest,recipeDishKeywords,culinarySearchQuery} from './culinary_intent.mjs';
+import {parseCulinaryRequest,recipeDishKeywords,culinarySearchQuery,humanizeRecipeDuration,humanizeRecipeServings} from './culinary_intent.mjs';
+import {classifyAssistantFeedback} from './social_feedback.mjs';
 
 for(const [message,quantity,expectedIntent] of [
  ['Dă-mi 3 rețete de guacamole',3,true],
@@ -104,4 +105,49 @@ for(const place of ['Aldi','Decathlon'])assert.equal(vm.runInContext('isCasualCo
 // The index.js text is an HTML template; literal double-escaped regexes are resolved
 // when the Worker serves the browser script, so do not evaluate its POI regex raw.
 assert.match(index,/const locationIntent=!isRecipeQuestion\(text\)/);
+
+for(const [text,expected] of [
+ ['Ești varză','negative'],['esti varza','negative'],
+ ['Nu te pricepi','negative'],['Ai greșit','negative'],
+ ['Unde este Aldi?',null],['Ești pregătită să pleci?',null],
+ ['Unde găsesc varză?',null],['sarmale',null],['salut',null]
+])assert.equal(classifyAssistantFeedback(text),expected,'Feedback intent: '+text);
+const socialPosition=backend.indexOf("if(classifyAssistantFeedback(message)==='negative')");
+const oldHistoryPosition=backend.indexOf('const modelHistory=');
+assert.ok(socialPosition>0&&oldHistoryPosition>socialPosition,
+ 'Direct criticism must return before reuse of lesson history or AI generation');
+assert.match(backend,/reply:replies\[lang\]\|\|replies\.en/);
+assert.match(backend,/const modelHistory=recipeInstruction&&culinaryRequest\.keywords\.length\?\[\]/);
+for(const prompt of [
+ 'Dă-mi mai multe rețete de guacomole','Găsește 3 rețete de guacamol',
+ 'Vreau 3 rețete de guacamole'
+]){
+ assert.deepEqual(recipeDishKeywords(prompt),['guacamole'],'Correct common spelling: '+prompt);
+ assert.match(culinarySearchQuery(prompt,'ro'),/^guacamole reteta ingrediente mod de preparare$/);
+}
+assert.equal(humanizeRecipeDuration('PT10M','ro'),'10 minute');
+assert.equal(humanizeRecipeDuration('PT1H15M','ro'),'1 oră 15 minute');
+assert.equal(humanizeRecipeServings('4, 4 porții','ro'),'4 porții');
+assert.equal(humanizeRecipeServings('4','ro'),'Porții: 4');
+const fmtStart=backend.indexOf('function formatPublishedRecipe(');
+const fmtEnd=backend.indexOf('// Reformat only a real recipe section',fmtStart);
+assert.ok(fmtStart>0&&fmtEnd>fmtStart);
+const fmt=new Function('humanizeRecipeDuration','humanizeRecipeServings',
+ backend.slice(fmtStart,fmtEnd)+'\nreturn formatPublishedRecipe;')(humanizeRecipeDuration,humanizeRecipeServings);
+const samplePublished={name:'Guacamole',servings:'4, 4 porții',time:'PT10M',
+ ingredients:['2 avocado','1 ceapă','1 lime'],
+ instructions:['Se toacă ceapa.','Se zdrobește avocado și se amestecă.']};
+const native=fmt(samplePublished,'ro',{title:'Guacamole',url:'https://example.org/guacamole'},1);
+assert.ok(native.includes('4 porții'));
+assert.ok(native.includes('Timp total: 10 minute'));
+assert.ok(!native.includes('PT10M')&&!native.includes('4, 4 porții'));
+assert.match(backend,/if\(recipeInstruction&&publishedSelected\.length>=recipeRequestCount\)/);
+assert.match(backend,/if\(prepared\.length>=recipeRequestCount\)/);
+assert.match(backend,/Exa:CookingEnglish/);
+assert.match(backend,/const recipeBalanced=recipeInstruction/);
+assert.match(backend,/pageText:recipeInstruction&&typeof x\.text==="string"/);
+assert.match(backend,/pageFetchStatus="provider_extracted"/);
+assert.match(backend,/\["fetched","provider_extracted"\]\.includes\(x\.pageFetchStatus\)/);
+assert.match(backend,/providerExtractedRecipePages/);
+
 console.log('Culinary queries/counts, recipe source matching, social GPS guard and education navigation OK');
