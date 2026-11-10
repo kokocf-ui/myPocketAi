@@ -14,7 +14,7 @@ assert.match(html,/#view-module\.learning-literature \.lit-panel\{[^}]*overflow-
  'Only inner literature panel scrolls');
 assert.match(html,/\.lit-options\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/s,
  'Activity cards should form a two-column grid');
-assert.match(script,/const LIT_BRANCHES=\[\{id:'grammar'/,'Grammar is an independent first-level activity');
+assert.match(script,/const LIT_BRANCHES=\[\{id:'program'/,'Grade-specific programme is the first study activity');
 for(const type of ['grammar','vocabulary','analysis','literature','writing','assessment']){
  assert.ok(script.includes("id:'"+type+"'"),'Missing category '+type);
 }
