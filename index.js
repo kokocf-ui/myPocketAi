@@ -3338,37 +3338,36 @@ main.page:has(#view-module.learning-languages.active){
 }
 #view-module.my-documents-active .my-documents-panel{scroll-padding-top:64px!important}
 </style>
-<style id="pdf-library-viewport-fix">
-/* The library is a single screen. Its PDF rows, not the entire page, scroll.
-   A calculated mobile height avoids the inherited 100%-height clipping band
-   halfway between the header and the fixed bottom navigation. */
-@media(max-width:699px){
- #view-module.my-documents-active.active{
-  height:calc(100dvh - 265px)!important;max-height:calc(100dvh - 265px)!important;
-  min-height:0!important;overflow:hidden!important
- }
+<style id="pdf-library-flow-fix">
+/* Do not crop documents to a percentage of the device height. The app's
+   existing main.page is the scroll viewport, with a fixed bottom dock. */
+main.page:has(#view-module.my-documents-active.active){
+ overflow-y:auto!important;overflow-x:hidden!important;
+ padding-bottom:calc(126px + env(safe-area-inset-bottom))!important;
+ -webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;
+}
+#view-module.my-documents-active.active{
+ grid-template-rows:auto auto!important;
+ height:auto!important;max-height:none!important;min-height:0!important;
+ overflow:visible!important;align-content:start!important
+}
+#view-module.my-documents-active #moduleContent{
+ grid-column:1/-1!important;grid-row:2!important;
+ height:auto!important;max-height:none!important;min-height:0!important;
+ overflow:visible!important;flex:none!important
 }
 #view-module.my-documents-active .my-documents-panel{
  display:flex!important;flex-direction:column!important;
- flex:1 1 auto!important;min-height:0!important;height:100%!important;
- overflow:hidden!important;gap:8px!important;
- padding:4px 2px 4px!important
-}
-#view-module.my-documents-active .my-documents-panel>.education-toolbar,
-#view-module.my-documents-active .my-documents-panel>.my-documents-batch,
-#view-module.my-documents-active .my-documents-panel>.my-documents-status,
-#view-module.my-documents-active .my-documents-panel>p{
- flex:0 0 auto!important;margin:0!important
+ flex:none!important;height:auto!important;max-height:none!important;min-height:0!important;
+ overflow:visible!important;gap:10px!important;padding:4px 2px 16px!important
 }
 #view-module.my-documents-active .my-documents-batch{
  position:static!important;flex-shrink:0!important
 }
 #view-module.my-documents-active .my-documents-list{
- display:flex!important;flex-direction:column!important;
- flex:1 1 0!important;min-height:0!important;max-height:100%!important;
- overflow-y:auto!important;overflow-x:hidden!important;
- overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
- padding:4px 2px 24px!important;scroll-padding-bottom:28px!important
+ display:flex!important;flex-direction:column!important;gap:9px!important;
+ flex:none!important;height:auto!important;min-height:0!important;max-height:none!important;
+ overflow:visible!important;padding:4px 2px 22px!important
 }
 #view-module.my-documents-active .my-documents-list>.my-documents-row{
  flex:0 0 auto!important;min-width:0!important
@@ -11515,7 +11514,7 @@ function litOpen(stage){
  $('moduleTitle').textContent=learningLabel('Limbă și literatură','Language and literature');
  $('moduleLead').textContent='';host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar lit-toolbar';
- bar.append(litBtn(learningLabel('← Înapoi','← Back'),litBack,'secondary-btn lit-back'));eduAttachPrintAction(bar);host.append(bar);
+ bar.append(litBtn(learningLabel('← Înapoi','← Back'),litBack,'secondary-btn lit-back'));host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel';
  const titles={countries:['Alege țara pentru programa școlară','Choose curriculum country'],languages:['Alege limba studiului','Choose study language'],levels:['Alege nivelul','Choose level'],grades:['Alege clasa / anul de studiu','Choose year or grade'],regions:['Precizează regiunea','Specify region'],tracks:['Alege profilul','Choose school track'],branches:['Ce dorești să studiezi?','What would you like to study?'],topics:['Alege capitolul','Choose chapter'],workspace:['Spațiu de lucru','Workspace']};
  panel.append(litText('h2',learningLabel(...titles[stage])));host.append(panel);
@@ -12053,12 +12052,16 @@ function eduOpenPrint(mode='save'){
   return;
  }
  const title=String(material.title||'Material educațional').trim().slice(0,120)||'Material educațional';
+ const closeReaderAfterExport=typeof arguments[2]==='function'?arguments[2]:null;
  if(window.PocketAndroidPrint?.postMessage){
   eduPdfExportPending=true;
   window.pocketEduPrintResult=state=>{
    eduPdfExportPending=false;
    window.pocketEduPrintResult=null;
    if(state==='saved'){
+    // Close only after Android confirmed that PDF bytes were written.
+    // Print uses the same successful save before opening the system print sheet.
+    try{closeReaderAfterExport?.()}catch{}
     notify(mode==='print'?
      learningLabel('PDF salvat în Documentele mele. Continuă în fereastra de imprimare Android.','PDF saved in My Documents. Continue in the Android print chooser.'):
      learningLabel('PDF salvat în Documentele mele.','PDF saved in My Documents.'));
