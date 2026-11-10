@@ -5,6 +5,8 @@ on:
     paths:
       - 'backend.js'
       - 'index.js'
+      - 'literature_task_ui.mjs'
+      - 'tests_literature_activity_flow.mjs'
       - 'literature_verified_authors.mjs'
       - 'tests_literature_verified_authors.mjs'
       - 'education_theory.mjs'
