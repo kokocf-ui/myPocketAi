@@ -131,25 +131,9 @@ public final class MainActivity extends ComponentActivity {
     private Runnable voiceEndpointTask;
     private String lastVoicePartial="";
 
-    private static final String NOTIFICATION_PERMISSION_FLAG="agenda_notification_permission_requested";
-    private final ActivityResultLauncher<String> notificationPermission =
-        registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
-            // Events have already been persisted and scheduled in the native scheduler.
-            // The OS displays them when permission is granted.
-        });
-
-    private void ensureAgendaNotificationPermission(){
-        if(Build.VERSION.SDK_INT<33 || ContextCompat.checkSelfPermission(this,
-            Manifest.permission.POST_NOTIFICATIONS)==PackageManager.PERMISSION_GRANTED)return;
-        var prefs=getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE);
-        // The first-install checkbox records preference, not an Android grant.
-        // Android asks only after the user actually enters Agenda.
-        if(prefs.getBoolean("first_setup_complete_v1",false)
-            && !prefs.getBoolean("first_setup_notifications",false))return;
-        if(prefs.getBoolean(NOTIFICATION_PERMISSION_FLAG,false))return;
-        prefs.edit().putBoolean(NOTIFICATION_PERMISSION_FLAG,true).apply();
-        notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
-    }
+    // Notification authorization now belongs exclusively to the native
+    // Android prompt after the first-launch information screen.
+    // Opening Agenda must not show another permission dialogue.
 
     private final ActivityResultLauncher<PickVisualMediaRequest> gallery =
         registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
@@ -201,7 +185,6 @@ public final class MainActivity extends ComponentActivity {
                 pendingGeoCallback=null;pendingGeoOrigin=null;
             }
             notifyLocationPermission(granted);
-            requestMicrophonePermissionOnce();
         });
     private void notifyLocationPermission(boolean granted) {
         try {
@@ -212,7 +195,7 @@ public final class MainActivity extends ComponentActivity {
     private void ensureLocationPermission() {
         boolean granted=ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED ||
             ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
-        if(granted){notifyLocationPermission(true);requestMicrophonePermissionOnce();return;}
+        if(granted){notifyLocationPermission(true);return;}
         locationPermission.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION});
     }
     private void requestMicrophonePermissionOnce() {
@@ -529,8 +512,7 @@ public final class MainActivity extends ComponentActivity {
                         Intent capture=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         capture.putExtra(MediaStore.EXTRA_OUTPUT,documentCameraUri);
                         capture.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        if(firstSetupCameraAllowed())
-                            chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,new Intent[]{capture});
+                        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,new Intent[]{capture});
                     }catch(Exception ignored){documentCameraUri=null;}
                     documentPhotos.launch(chooser);
                 }catch(Exception ex){documentPhotoCallback=null;documentCameraUri=null;callback.onReceiveValue(null);}
@@ -712,7 +694,7 @@ public final class MainActivity extends ComponentActivity {
                         try{
                             JSONObject data=new JSONObject(payload);
                             String action=data.optString("action","");
-                            if("open".equals(action)){ensureAgendaNotificationPermission();return;}
+                            if("open".equals(action))return; // permission was requested on first installation
                             if(!"sync".equals(action))return;
                             AgendaReminderScheduler.sync(MainActivity.this,data.getJSONArray("events").toString());
                         }catch(Exception ignored){}
@@ -753,36 +735,14 @@ public final class MainActivity extends ComponentActivity {
         String langParam=setupLanguage!=null && setupLanguage.matches("ro|en|fr|de|it|es|pt|nl|ru|pl")
             ?"&first_setup_language="+Uri.encode(setupLanguage):"";
         web.loadUrl(APP_URL + "?nativeLaunch=1&uiFresh=" + System.currentTimeMillis()+langParam);
-        // Never show another permission prompt during launch. Location was
-        // handled by the first-install panel and microphone is requested only
-        // after an explicit voice action.
+        // Permissions were requested after the first-launch information screen.
+        // Microphone remains on-demand when the user starts a voice feature.
         boolean granted=ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED ||
             ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
         notifyLocationPermission(granted);
     }
 
-    private boolean firstSetupCameraAllowed(){
-        var prefs=getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE);
-        return !prefs.getBoolean("first_setup_complete_v1",false)
-            || prefs.getBoolean("first_setup_camera",true);
-    }
-    private void allowCameraOnExplicitRequest(Runnable action){
-        if(firstSetupCameraAllowed()){action.run();return;}
-        new android.app.AlertDialog.Builder(this)
-            .setTitle("Camera / Cameră")
-            .setMessage("Ai dezactivat fotografierea la instalare. Activezi camera pentru această funcție?")
-            .setNegativeButton("Nu",null)
-            .setPositiveButton("Activează",(dialog,which)->{
-                getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE)
-                    .edit().putBoolean("first_setup_camera",true).apply();
-                action.run();
-            }).show();
-    }
     private void launchCamera() {
-        if(!firstSetupCameraAllowed()){
-            allowCameraOnExplicitRequest(this::launchCamera);
-            return;
-        }
         try {
             File folder=new File(getCacheDir(), "camera");
             if (!folder.exists() && !folder.mkdirs()) throw new IllegalStateException("cache folder unavailable");
