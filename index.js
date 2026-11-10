@@ -11437,25 +11437,25 @@ const LIT_COUNTRIES=[
  ['ES','Spania','Spain','es','https://educagob.educacionfpydeportes.gob.es/'],
  ['PT','Portugalia','Portugal','pt','https://www.dge.mec.pt/'],
  ['NL','Țările de Jos','Netherlands','nl','https://www.slo.nl/'],
- ['BE','Belgia','Belgium','fr',null],['AT','Austria','Austria','de',null],
+ ['BE','Belgia','Belgium','fr',null],['AT','Austria','Austria','de','https://www.bmb.gv.at/Themen/schule/schulpraxis/lp/lp_ms.html'],
  ['CH','Elveția','Switzerland','de',null],['IE','Irlanda','Ireland','en',null],
- ['PL','Polonia','Poland','pl',null],['CZ','Cehia','Czechia','cs',null],
- ['SK','Slovacia','Slovakia','sk',null],['HU','Ungaria','Hungary','hu',null],
+ ['PL','Polonia','Poland','pl','https://www.gov.pl/web/edukacja/'],['CZ','Cehia','Czechia','cs',null],
+ ['SK','Slovacia','Slovakia','sk',null],['HU','Ungaria','Hungary','hu','https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat'],
  ['BG','Bulgaria','Bulgaria','bg',null],['GR','Grecia','Greece','el',null],
- ['CY','Cipru','Cyprus','el',null],['HR','Croația','Croatia','hr',null],
- ['SI','Slovenia','Slovenia','sl',null],['RS','Serbia','Serbia','sr',null],
+ ['CY','Cipru','Cyprus','el',null],['HR','Croația','Croatia','hr','https://narodne-novine.nn.hr/clanci/sluzbeni/2019_01_10_215.html'],
+ ['SI','Slovenia','Slovenia','sl',null],['RS','Serbia','Serbia','sr','https://zuov.gov.rs/zakoni-i-pravilnici/'],
  ['BA','Bosnia și Herțegovina','Bosnia and Herzegovina','bs',null],
  ['ME','Muntenegru','Montenegro','sr',null],['MK','Macedonia de Nord','North Macedonia','mk',null],
- ['AL','Albania','Albania','sq',null],['MD','Republica Moldova','Moldova','ro',null],
+ ['AL','Albania','Albania','sq',null],['MD','Republica Moldova','Moldova','ro','https://www.edu.gov.md/ro/content/invatamint-general'],
  ['UA','Ucraina','Ukraine','uk',null],['LT','Lituania','Lithuania','lt',null],
  ['LV','Letonia','Latvia','lv',null],['EE','Estonia','Estonia','et',null],
  ['FI','Finlanda','Finland','fi',null],['SE','Suedia','Sweden','sv',null],
  ['NO','Norvegia','Norway','no',null],['DK','Danemarca','Denmark','da',null],
  ['IS','Islanda','Iceland','is',null],['LU','Luxemburg','Luxembourg','fr',null],
- ['MT','Malta','Malta','en',null],['TR','Turcia','Türkiye','tr',null],['RU','Rusia (partea europeană)','European Russia','ru',null],['BY','Belarus','Belarus','be',null],['XK','Kosovo','Kosovo','sq',null],['AD','Andorra','Andorra','ca',null],['LI','Liechtenstein','Liechtenstein','de',null],['MC','Monaco','Monaco','fr',null],['SM','San Marino','San Marino','it',null],['VA','Vatican','Vatican City','it',null],['OTHER-EU','Altă țară europeană','Other European country','',null]
+ ['MT','Malta','Malta','en',null],['TR','Turcia','Türkiye','tr','https://tymm.meb.gov.tr/ogretim-programlari/ders/turk-dili-ve-edebiyati-dersi'],['RU','Rusia (partea europeană)','European Russia','ru',null],['BY','Belarus','Belarus','be',null],['XK','Kosovo','Kosovo','sq',null],['AD','Andorra','Andorra','ca',null],['LI','Liechtenstein','Liechtenstein','de',null],['MC','Monaco','Monaco','fr',null],['SM','San Marino','San Marino','it',null],['VA','Vatican','Vatican City','it',null],['OTHER-EU','Altă țară europeană','Other European country','',null]
 ];
 const LIT_LANGUAGES=[['ro','Română','Romanian'],['en','Engleză','English'],['fr','Franceză','French'],['de','Germană','German'],['it','Italiană','Italian'],['es','Spaniolă','Spanish'],['pt','Portugheză','Portuguese'],['nl','Neerlandeză','Dutch'],['pl','Poloneză','Polish'],['ru','Rusă','Russian'],['la','Latină','Latin'],['el','Greacă','Greek'],['cy','Galeză','Welsh'],['ga','Irlandeză','Irish'],['fi','Finlandeză','Finnish'],['sv','Suedeză','Swedish'],['no','Norvegiană','Norwegian'],['da','Daneză','Danish'],['is','Islandeză','Icelandic'],['cs','Cehă','Czech'],['sk','Slovacă','Slovak'],['hu','Maghiară','Hungarian'],['bg','Bulgară','Bulgarian'],['hr','Croată','Croatian'],['sl','Slovenă','Slovenian'],['sr','Sârbă','Serbian'],['bs','Bosniacă','Bosnian'],['mk','Macedoneană','Macedonian'],['sq','Albaneză','Albanian'],['uk','Ucraineană','Ukrainian'],['lt','Lituaniană','Lithuanian'],['lv','Letonă','Latvian'],['et','Estonă','Estonian'],['tr','Turcă','Turkish'],['be','Belarusă','Belarusian'],['ca','Catalană','Catalan']];
-const LIT_BRANCHES=[{id:'grammar',ro:'📚 Gramatică și fonetică',en:'📚 Grammar and phonetics',noteRo:'Reguli, exemple și teste',noteEn:'Rules, examples and tests'},{id:'vocabulary',ro:'🔤 Vocabular și dicționar',en:'🔤 Vocabulary and dictionary',noteRo:'Sensuri, sinonime și definiții',noteEn:'Meanings, synonyms and definitions'},{id:'analysis',ro:'🔎 Analiză lingvistică',en:'🔎 Linguistic analysis',noteRo:'Cuvinte, propoziții și texte',noteEn:'Words, sentences and passages'},{id:'literature',ro:'📖 Literatură',en:'📖 Literature',noteRo:'Studiază, rezumat, eseu și analiză',noteEn:'Study, summary, essay and analysis'},{id:'writing',ro:'✍️ Comunicare și redactare',en:'✍️ Communication and writing',noteRo:'Texte și compuneri',noteEn:'Texts and compositions'},{id:'assessment',ro:'🎓 Pregătire evaluări',en:'🎓 Assessment practice',noteRo:'Recapitulări și teste',noteEn:'Revision and tests'}];
+const LIT_BRANCHES=[{id:'program',ro:'📑 Programa clasei și capitole',en:'📑 Grade syllabus and chapters',noteRo:'Materii organizate după anul selectat',noteEn:'Lessons by school year'},{id:'grammar',ro:'📚 Gramatică și fonetică',en:'📚 Grammar and phonetics',noteRo:'Reguli, exemple și teste',noteEn:'Rules, examples and tests'},{id:'vocabulary',ro:'🔤 Vocabular și dicționar',en:'🔤 Vocabulary and dictionary',noteRo:'Sensuri, sinonime și definiții',noteEn:'Meanings, synonyms and definitions'},{id:'analysis',ro:'🔎 Analiză lingvistică',en:'🔎 Linguistic analysis',noteRo:'Cuvinte, propoziții și texte',noteEn:'Words, sentences and passages'},{id:'literature',ro:'📖 Literatură',en:'📖 Literature',noteRo:'Studiază, rezumat, eseu și analiză',noteEn:'Study, summary, essay and analysis'},{id:'writing',ro:'✍️ Comunicare și redactare',en:'✍️ Communication and writing',noteRo:'Texte și compuneri',noteEn:'Texts and compositions'},{id:'assessment',ro:'🎓 Pregătire evaluări',en:'🎓 Assessment practice',noteRo:'Recapitulări și teste',noteEn:'Revision and tests'}];
 const LIT_TOPICS={
  grammar:[['grammar','Morfologie și sintaxă','Morphology and syntax'],['phonetics','Fonetică și pronunție','Phonetics and pronunciation'],['spelling','Ortografie și punctuație','Spelling and punctuation']],
  vocabulary:[['vocabulary','Sensuri și relații lexicale','Word meanings and relationships'],['dictionary','Dicționar — cuvinte și expresii','Dictionary — words and phrases'],['stylistics','Expresivitate și stilistică','Stylistics and expression']],
@@ -11478,6 +11478,7 @@ function litProgram(){
   units:specific.map((item,index)=>({id:String(item[0])+'-'+index,topic:item[3],ro:item[1],en:item[1],focus:item[2],order:index+1}))};
 }
 function litIsRegional(){return Boolean(LIT_EUROPE_PROGRAMS[litJourney.country]?.regions)}
+ function litNeedsTrack(){return Boolean((LIT_EUROPE_PROGRAMS[litJourney.country]?.tracks||[]).length>0&&(litJourney.country!=='RO'||litJourney.grade==='9'))}
 function litCurrentTopic(){
  if(litJourney.branch==='program'){
   const unit=litProgram().units.find(x=>x.id===litJourney.topic);
@@ -11506,7 +11507,7 @@ function litBack(){
  if(litJourney.stage==='countries'||litJourney.stage==='levels')return educationCountryGate('literature',()=>litOpen('levels'));
  const stages={countries:null,languages:'levels',levels:'countries',grades:'levels',regions:'grades',tracks:'grades',topics:'branches',workspace:'topics'};
  if(litJourney.stage==='workspace'&&litJourney.branch==='literature'){litOpen('branches');return}
- if(litJourney.stage==='branches'){litOpen(litJourney.country==='RO'&&litJourney.grade==='9'?'tracks':litIsRegional()?'regions':'grades');return}
+ if(litJourney.stage==='branches'){litOpen(litNeedsTrack()?'tracks':litIsRegional()?'regions':'grades');return}
  if(stages[litJourney.stage])litOpen(stages[litJourney.stage]);else renderLearningSubjects()
 }
 function litOpen(stage){
@@ -11569,7 +11570,7 @@ function litOpen(stage){
    known[country]?.[stage]||globalGrades.map(x=>x.id)||profile?.grades?.[stage]||
    (stage==='lower'?['Secundar inferior — studiu general']:stage==='medium'?['Secundar superior — studiu general']:['Primar — studiu general']);
   panel.append(litText('p',learningLabel('Clasele disponibile sunt organizate după sistemul selectat. Lipsa unei verificări pentru o clasă va fi semnalată explicit.','Grades follow the selected system. Unverified classes are explicitly marked.')));
-  list(grades.map(v=>({id:v,ro:v,en:v})),c=>{litJourney.grade=c.id;litJourney.region='';litOpen(litJourney.country==='RO'&&c.id==='9'?'tracks':litIsRegional()?'regions':'branches')})
+  list(grades.map(v=>({id:v,ro:v,en:v})),c=>{litJourney.grade=c.id;litJourney.region='';litOpen(litNeedsTrack()?'tracks':litIsRegional()?'regions':'branches')})
  }
  if(stage==='tracks'){
   const profile=LIT_EUROPE_PROGRAMS[litJourney.country];
