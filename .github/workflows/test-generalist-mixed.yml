@@ -72,6 +72,8 @@ jobs:
           node-version: '22'
       - name: Validate JavaScript syntax
         run: npm run check
+      - name: Maps/Hotels, Education height and multilingual navigation
+        run: node tests_module_landing_locales.mjs
       - name: Verify education year, lesson contents and browser boot
         run: node tests_education_content_navigation.mjs
       - name: Confirm current Cloudflare home and Android cache-busting
