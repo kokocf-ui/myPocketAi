@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
-import {parseCulinaryRequest,recipeDishKeywords,culinarySearchQuery,humanizeRecipeDuration,humanizeRecipeServings} from './culinary_intent.mjs';
+import {parseCulinaryRequest,recipeDishKeywords,recipeSpeciesCompatible,culinarySearchQuery,humanizeRecipeDuration,humanizeRecipeServings} from './culinary_intent.mjs';
 import {classifyAssistantFeedback,resolveRecipeFollowupComplaint,resolveRecipeRequestRecall,formatRecipeRequestRecall} from './social_feedback.mjs';
 import {assembleSourcedRecipeVariants,recipeIngredientSignature,recipeQualityGate} from './culinary_multi.mjs';
 
@@ -12,9 +12,9 @@ for(const [message,quantity,expectedIntent] of [
  ['Te rog două variante de rețetă de guacamole',2,true],
  ['Give me three guacamole recipes',3,true],
  ['Cum se prepară ciorbă de burtă?',1,true],
- ['Caută-mi mai multe rețete de guacamole',3,true],
- ['Dă-mi mai multe rețete de guacamole',3,true],
- ['Give me several guacamole recipes',3,true],
+ ['Caută-mi mai multe rețete de guacamole',10,true],
+ ['Dă-mi mai multe rețete de guacamole',10,true],
+ ['Give me several guacamole recipes',10,true],
  ['Unde este gara?',1,false],
  ['Ești varză',1,false]
 ]){
@@ -43,7 +43,7 @@ assert.match(backend,/recipeInstruction\?Math\.min\(12,Math\.max\(5,culinaryRequ
 const matchStart=backend.indexOf('function recipeSourceMatchesDish(');
 const matchEnd=backend.indexOf('// Source-grounded publisher recipes',matchStart);
 assert.ok(matchStart>=0&&matchEnd>matchStart);
-const matchContext=vm.createContext({recipeDishKeywords});
+const matchContext=vm.createContext({recipeDishKeywords,recipeSpeciesCompatible});
 vm.runInContext(backend.slice(matchStart,matchEnd),matchContext);
 for(const [query,dish,expected] of [
  ['Găsește-mi trei rețete de guacamole','Guacamole cu lămâie',true],
