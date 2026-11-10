@@ -70,6 +70,8 @@ jobs:
         run: node tests_android_home_refresh.mjs
           node tests_literature_verified_authors.mjs
 
+      - name: Focused language-and-literature screen regression
+        run: node tests_literature_activity_flow.mjs
       - name: Basic UI integrity
         run: npm run test:ui
       - name: Complete publisher recipe regression
