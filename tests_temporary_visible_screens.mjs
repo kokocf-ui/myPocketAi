@@ -25,7 +25,7 @@ try{
  const page=await browser.newPage();
  await page.setViewport({width:390,height:860,isMobile:true,deviceScaleFactor:1,hasTouch:true});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
+ await page.goto('http://127.0.0.1:'+server.address().port+'/?nativeLaunch=1',{waitUntil:'domcontentloaded'});
  await sleep(700);
  async function measure(module){
   await page.click('[data-module="'+module+'"]');await sleep(220);
