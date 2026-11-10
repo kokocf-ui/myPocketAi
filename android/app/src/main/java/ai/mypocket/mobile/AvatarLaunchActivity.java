@@ -37,7 +37,8 @@ import java.util.Locale;
  */
 public final class AvatarLaunchActivity extends Activity {
     private static final String ORIGIN = "https://appassets.androidplatform.net";
-    private static final String GREETING = "Salut! Cum te pot ajuta?";
+    private String currentGreeting = "Hello! How can I help you?";
+    private String launchLanguage = "en";
     private static final String UTTERANCE_ID = "pocket-intro-greeting";
 
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -117,14 +118,14 @@ public final class AvatarLaunchActivity extends Activity {
         speech = new TextToSpeech(this, status -> {
             ttsReady = status == TextToSpeech.SUCCESS;
             if (ttsReady && speech != null) {
-                speech.setLanguage(Locale.forLanguageTag("ro-RO"));
+                // The greeting voice is chosen below using the app locale.
                 speech.setSpeechRate(0.98f);
             }
         });
         speech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override public void onStart(String utteranceId) {
                 if (UTTERANCE_ID.equals(utteranceId))
-                    runOnUiThread(() -> sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(true,'Salut! Cum te pot ajuta?');"));
+                    runOnUiThread(() -> sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(true," + org.json.JSONObject.quote(currentGreeting) + ");"));
             }
             @Override public void onDone(String utteranceId) {
                 if (UTTERANCE_ID.equals(utteranceId))
@@ -188,7 +189,38 @@ public final class AvatarLaunchActivity extends Activity {
                 else if(tm.getSimCountryIso()!=null && !tm.getSimCountryIso().isEmpty())region=tm.getSimCountryIso();
             }
         }catch(Exception ignored){}
+        // A Romanian SIM in Britain should not force a Romanian first screen.
+        // Time zone is a permission-free hint until GPS is authorized.
+        if("Europe/London".equals(java.util.TimeZone.getDefault().getID())
+            && (region==null||region.isEmpty()||region.equalsIgnoreCase(device.getCountry())))region="GB";
         return firstSetupLanguageForCountry(region,device.getLanguage());
+    }
+    private String currentLaunchLanguage(SharedPreferences prefs){
+        String saved=prefs.getString("ui_language_native","");
+        if(saved!=null&&saved.matches("ro|en|fr|de|it|es|pt|nl|ru|pl"))return saved;
+        return detectFirstSetupLanguage();
+    }
+    private static String greetingForLanguage(String language){
+        switch(language){
+            case "ro":return "Salut! Cum te pot ajuta?";
+            case "fr":return "Bonjour ! Comment puis-je vous aider ?";
+            case "de":return "Hallo! Wie kann ich dir helfen?";
+            case "it":return "Ciao! Come posso aiutarti?";
+            case "es":return "¡Hola! ¿En qué puedo ayudarte?";
+            case "pt":return "Olá! Como posso ajudar?";
+            case "nl":return "Hallo! Waarmee kan ik je helpen?";
+            case "ru":return "Привет! Чем могу помочь?";
+            case "pl":return "Cześć! W czym mogę pomóc?";
+            default:return "Hello! How can I help you?";
+        }
+    }
+    private static String speechTagForLanguage(String language){
+        switch(language){
+            case "ro":return "ro-RO";case "fr":return "fr-FR";case "de":return "de-DE";
+            case "it":return "it-IT";case "es":return "es-ES";case "pt":return "pt-PT";
+            case "nl":return "nl-NL";case "ru":return "ru-RU";case "pl":return "pl-PL";
+            default:return "en-GB";
+        }
     }
     private int setupDp(int amount){return (int)(amount*getResources().getDisplayMetrics().density+.5f);}
     private android.graphics.drawable.GradientDrawable setupBackground(int color,int stroke,int corners){
@@ -298,6 +330,7 @@ public final class AvatarLaunchActivity extends Activity {
             panel.dismiss();
             SharedPreferences prefs=getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE);
             prefs.edit().putBoolean("first_setup_complete_v1",true)
+                .putString("ui_language_native",initialSetupLanguage)
                 .putBoolean("first_setup_location",location.isChecked())
                 .putBoolean("first_setup_camera",camera.isChecked())
                 .putBoolean("first_setup_notifications",notification.isChecked())
@@ -324,6 +357,8 @@ public final class AvatarLaunchActivity extends Activity {
 
     private void requestStartupPermissions() {
         SharedPreferences prefs=getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        launchLanguage=currentLaunchLanguage(prefs);
+        initialSetupLanguage=launchLanguage;
         if(prefs.getBoolean("first_setup_complete_v1",false)){startAvatarEntrance();return;}
         // An APK update is not a first installation: preserve previous consent.
         boolean updated=false;
@@ -343,7 +378,6 @@ public final class AvatarLaunchActivity extends Activity {
                 .putBoolean("first_microphone_permission_requested",true).apply();
             startAvatarEntrance();return;
         }
-        initialSetupLanguage=detectFirstSetupLanguage();
         showFirstInstallationPanel();
     }
 
@@ -371,7 +405,16 @@ public final class AvatarLaunchActivity extends Activity {
             return;
         }
         startedSpeaking = true;
-        int result = speech.speak(GREETING, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
+        int support=speech.setLanguage(Locale.forLanguageTag(speechTagForLanguage(launchLanguage)));
+        if(support==TextToSpeech.LANG_MISSING_DATA || support==TextToSpeech.LANG_NOT_SUPPORTED){
+            launchLanguage="en";
+            support=speech.setLanguage(Locale.forLanguageTag("en-GB"));
+            if(support==TextToSpeech.LANG_MISSING_DATA || support==TextToSpeech.LANG_NOT_SUPPORTED){
+                openMain();return;
+            }
+        }
+        currentGreeting=greetingForLanguage(launchLanguage);
+        int result = speech.speak(currentGreeting, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
         if (result == TextToSpeech.ERROR) openMain();
     }
 
