@@ -18,7 +18,7 @@ assert.match(manifest,/AgendaReminderReceiver/);
 assert.match(main,/WEB_MESSAGE_LISTENER[\s\S]*?"PocketAndroidAgenda"/);
 const launcher=readFileSync(root+'java/ai/mypocket/mobile/AvatarLaunchActivity.java','utf8');
 assert.match(launcher,/ONBOARDING_NOTIFICATIONS_REQUEST/,'Android notification permission is requested at first install');
-assert.match(launcher,/Manifest\\.permission\\.POST_NOTIFICATIONS/,'Android notifications are in first-run permission chain');
+assert.match(launcher,/Manifest\.permission\.POST_NOTIFICATIONS/,'Android notifications are in first-run permission chain');
 assert.doesNotMatch(main,/ensureAgendaNotificationPermission/,'Opening Agenda does not request notification permission again');
 assert.match(main,/onShowFileChooser\(WebView view,ValueCallback<Uri\[\]> callback/,'Android WebView supports user-selected document pictures');
 assert.match(main,/new Intent\(Intent\.ACTION_GET_CONTENT\)/,'document chooser uses OS content picker');
