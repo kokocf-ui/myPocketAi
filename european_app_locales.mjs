@@ -35,13 +35,24 @@ const labels={
  hu:['AI asszisztens','Tanulás és oktatás','Szállodák','Személyes szervezés','Térképek','További eszközök'],
  tr:['AI Asistan','Öğrenme ve eğitim','Oteller','Kişisel düzenleme','Haritalar','Diğer araçlar']
 };
+const priorityDetails={
+ hr:{send:'Pošalji',dictation:'Diktiranje',voice:'Glasovni razgovor',listen:'Preslušaj zadnji odgovor',about:'O aplikaciji',
+  cards:['Pitanja i brza pomoć.','Predmeti, objašnjenja i vježbe.','Smještaj i boravak.','Popisi, proračuni i planiranje.','Rute, lokacije i prijevoz.','Dokumenti i dodatni alati.']},
+ sr:{send:'Пошаљи',dictation:'Диктирање',voice:'Гласовни разговор',listen:'Преслушај последњи одговор',about:'О апликацији',
+  cards:['Питања, одговори и брза помоћ.','Предмети, објашњења и вежбе.','Смештај и боравак.','Спискови, буџети и планирање.','Руте, места и превоз.','Документи и додатни алати.']},
+ hu:{send:'Küldés',dictation:'Diktálás',voice:'Hangbeszélgetés',listen:'Utolsó válasz meghallgatása',about:'Az alkalmazásról',
+  cards:['Kérdések, válaszok és gyors segítség.','Tantárgyak, magyarázatok és feladatok.','Szállás és utazás.','Listák, költségvetés és tervek.','Útvonalak, helyek és közlekedés.','Dokumentumok és további eszközök.']},
+ tr:{send:'Gönder',dictation:'Sesle yazma',voice:'Sesli sohbet',listen:'Son yanıtı dinle',about:'Uygulama hakkında',
+  cards:['Sorular, yanıtlar ve hızlı yardım.','Dersler, açıklamalar ve alıştırmalar.','Konaklama ve seyahat.','Listeler, bütçeler ve planlama.','Rotalar, konumlar ve ulaşım.','Belgeler ve diğer araçlar.']}
+};
 export const EUROPEAN_UI_LOCALES=Object.freeze(Object.fromEntries(Object.entries(core).map(([code,value])=>{
  const [home,settings,conversations,tools,homeTitle,homeLead,newChat,quick,back]=value;
  const fields={home,settings,conversations,tools,homeTitle,homeLead,newChat,quick,back,
   empty:homeTitle,emptyHint:homeLead,ready:homeLead,
   settingsLanguage:settings,settingsLanguageHint:settings,
   subtitle:'myPocket AI',chooseDomain:homeLead,quickTitle:quick};
- if(labels[code])fields.cards=labels[code].map(title=>[title,'myPocket AI']);
+ if(priorityDetails[code])Object.assign(fields,Object.fromEntries(Object.entries(priorityDetails[code]).filter(([key])=>key!=='cards')));
+ if(labels[code])fields.cards=labels[code].map((title,i)=>[title,priorityDetails[code]?.cards[i]||'myPocket AI']);
  if(labels[code])fields.moduleTitle={travel:labels[code][2],maps:labels[code][4],learning:labels[code][1],
   organize:labels[code][3],tools:labels[code][5]};
  return [code,Object.freeze(fields)];
