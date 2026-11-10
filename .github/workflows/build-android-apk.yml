@@ -6,6 +6,7 @@ on:
     paths:
       - 'android/**'
       - 'index.js'
+      - 'backend.js'
       - 'european_app_locales.mjs'
       - 'language_first_install.mjs'
       - 'literature_seven_country_tracks.mjs'
