@@ -548,7 +548,7 @@ function recipeUnsupportedTechnique(reply,evidence){
 // Accept evidence only when the publisher's recipe title matches the requested dish.
 function recipeSourceMatchesDish(request,source){
  const normalize=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ');
- const ignore=new Set('vreau as dori reteta retete retetei recipe recipes ingredients ingrediente preparare traditional traditionala traditionale traditionala autentic original exact clasica clasic romaneasca romanesti romanesc culinara culinare pentru about with from sau cum face fac faci gateste gateasca gasesc gasesc please show three two four one doua trei patru cinci vreau tipuri variante varianta mod pas pasi steps method how cook cooking de la si sa in pe cu din the and for a an of me give more types type recipe'.split(' '));
+ const ignore=new Set('vreau as dori reteta retete retetei recipe recipes ingredients ingrediente preparare traditional traditionala traditionale traditionala autentic original exact clasica clasic romaneasca romanesti romanesc culinara culinare pentru about with from sau cum face fac faci gateste gateasca gasesc gaseste cauta arata prezinta recomanda spune afiseaza ofera da da mi gaseste-mi cauta-mi arata-mi find search please show three two four one doua trei patru cinci vreau tipuri variante varianta mod pas pasi steps method how cook cooking de la si sa in pe cu din the and for a an of me give more types type recipe'.split(' '));
  const words=[...new Set(normalize(request).split(/\s+/).filter(w=>w.length>=5&&!ignore.has(w)))];
  if(!words.length)return true;
  const titles=[source.title,...(source.publishedRecipes||[]).map(x=>x.name)].filter(Boolean).join(' ');

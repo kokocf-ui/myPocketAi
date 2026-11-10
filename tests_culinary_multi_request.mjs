@@ -21,6 +21,21 @@ assert.match(backend,/const recipeInstruction = culinaryRequest\.isRecipe/);
 assert.match(backend,/const recipeRequestCount=culinaryRequest\.count/);
 assert.match(backend,/const recipeCount=culinaryRequest\.count/);
 assert.match(backend,/const localNameQuery=!culinaryRequest\.isRecipe/);
+// Source matching must ignore words such as "găsește-mi" rather than
+// rejecting every guacamole or sarmale publisher as an unrelated page.
+const matchStart=backend.indexOf('function recipeSourceMatchesDish(');
+const matchEnd=backend.indexOf('// Source-grounded publisher recipes',matchStart);
+assert.ok(matchStart>=0&&matchEnd>matchStart);
+const matchContext=vm.createContext({});
+vm.runInContext(backend.slice(matchStart,matchEnd),matchContext);
+for(const [query,dish] of [
+ ['Găsește-mi trei rețete de guacamole','Guacamole cu lămâie'],
+ ['Arată-mi 3 rețete de sarmale','Sarmale tradiționale'],
+ ['Caută o rețetă de guacamole','Guacamole clasic']
+]){
+ const matches=vm.runInContext('recipeSourceMatchesDish('+JSON.stringify(query)+','+JSON.stringify({title:dish,publishedRecipes:[]})+')',matchContext);
+ assert.equal(matches,true,'Publisher must match request: '+query);
+}
 const start=backend.indexOf('function normalizeSingleCulinaryAnswer(');
 const end=backend.indexOf('// In long model-generated recipes',start);
 assert.ok(start>=0&&end>start);
