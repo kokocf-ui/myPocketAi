@@ -144,9 +144,13 @@ Object.assign(LIT_EU_PROGRAMS,LIT_SEVEN_COUNTRY_PROGRAMS);
 // addition to its broad curriculum domains. Not a mandatory list of texts.
 function literatureExpandRows(rows,level){
  const known=new Set(rows.map(x=>String(x[0])));
+ const titles=new Set(rows.map(x=>String(x[1]).normalize('NFD').toLocaleLowerCase()));
  for(const [id,title,focus,area] of (LITERATURE_DEEP_UNITS[level]||[])){
   const uniqueId='study-'+level+'-'+id;
-  if(!known.has(uniqueId)){rows.push([uniqueId,title,focus,area]);known.add(uniqueId)}
+  const titleKey=String(title).normalize('NFD').toLocaleLowerCase();
+  if(!known.has(uniqueId)&&!titles.has(titleKey)){
+   rows.push([uniqueId,title,focus,area]);known.add(uniqueId);titles.add(titleKey);
+  }
  }
 }
 for(const [level,rows] of Object.entries(LIT_EU_COMMON))literatureExpandRows(rows,level);
