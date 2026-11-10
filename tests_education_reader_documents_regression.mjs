@@ -36,7 +36,7 @@ assert.match(html,/#view-module\.my-documents-active #moduleContent\{[\s\S]*?gri
 assert.match(html,/#view-module\.my-documents-active \.my-documents-batch\{[\s\S]*?display:flex!important/,'Print/share/delete actions remain visible');
 assert.match(boot,/window\.PocketAndroidDocuments\.postMessage\('list'\)/,'Document list is fetched from Android storage');
 assert.match(boot,/window\.PocketAndroidDocuments\?\.postMessage\('print:'/);
-assert.match(boot,/window\.PocketAndroidDocuments\?\.postMessage\('share:'/);
+assert.match(boot,/share-many:'\+JSON\.stringify\(names\)/);
 assert.match(boot,/window\.PocketAndroidDocuments\?\.postMessage\('delete-many:'/);
 
 const pdf=boot.slice(boot.indexOf("function eduOpenPrint(mode='save')"),boot.indexOf("function eduAttachPrintAction(bar)"));
