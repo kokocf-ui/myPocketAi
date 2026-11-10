@@ -85,7 +85,9 @@
   const t=ready?Math.max(0,(now-readyAt)/1000):0;
   const spread=ready?Math.min(1,t/1.9):.05;
   const cloud=ready?Math.max(0,1-t/2.8):.14;
-  const cx=width*.5,cy=height*.59;
+  // Move the mist ring to the face/neck center, not the lower chest.
+  // The original 59% center sat noticeably below the head on portrait phones.
+  const cx=width*.5,cy=height*.47;
   for(const p of particles){
    const k=.09+p.radius*.19+spread*(.12+p.speed*.17);
    const x=cx+Math.cos(p.angle)*width*k+Math.sin(t*1.6+p.phase)*5;
