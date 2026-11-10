@@ -3,37 +3,56 @@ export const LITERATURE_TASK_UI_SCRIPT=String.raw`
 function litSimpleNode(tag,text='',className=''){const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;return el}
 function litSimpleButton(text,fn){const b=litSimpleNode('button',text,'lit-activity-button');b.type='button';b.onclick=fn;return b}
 function litSimpleLabel(ro,en){return learningLabel(ro,en)}
-let litSimpleSerial=0;
-async function litSimpleGenerate(out,status,mode,request,source=''){
- if(litJourney.busy)return;
+let litSimpleSerial=0,litSimpleAbort=null;
+async function litSimpleGenerate(out,status,mode,request,source='',onReady=null){
+ if(litSimpleAbort)litSimpleAbort.abort();
+ const controller=new AbortController();litSimpleAbort=controller;
  const serial=++litSimpleSerial;
  const snapshot=[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|');
  const plan=litProgram();litJourney.busy=true;
  status.textContent=litSimpleLabel('Se pregătește materialul…','Preparing study material…');
  const language=LIT_LANGUAGES.find(x=>x[0]===litJourney.language)?.[2]||'Romanian';
- const prompt='You are an experienced, careful teacher. Write in '+language+
+ const prompt='You are an experienced language and literature teacher. Write in '+language+
  '. Country of education: '+(educationCountrySelection.label||litJourney.country)+
  '. Class/year: '+litJourney.grade+'. Profile: '+litJourney.track+'. Region: '+(litJourney.region||'unspecified')+
- '. Curriculum: '+(plan.verified?'official general framework identified, lesson order is pedagogical':'only an advisory plan; do not claim official national grade programme')+
- '. Activity: '+mode+'. Respond directly with the complete useful result, not a short introduction or a form. '+
- 'For teaching lessons provide definitions, detailed explanations, grade-appropriate examples, and exercises organised into at least five sections. '+
- 'For exercises give several worked examples. For a quiz give five questions without answers in advance. '+
- 'For literary study, cover context, themes, construction, stylistic devices and interpretation, without inventing citations. '+
- 'For a summary or essay, use only reliably known facts and the user-supplied text; explain uncertainties. '+
- 'Do not invent authorship, original work text, exact quotations or national curricula. Never request location/GPS. '+
+ '. Curriculum: '+(plan.verified?'general framework identified; order is pedagogical':'advisory plan; do not claim an officially verified national syllabus')+
+ '. Activity: '+mode+'. Explain the lesson fully and directly, without offering a form. '+
+ 'For lessons give substantial definitions and explanations, rules and grade-appropriate examples. '+
+ 'For exercises and tests produce at least five clear numbered tasks without exposing their solutions until the learner answers. '+
+ 'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
+ 'For an essay or summary provide a complete coherent text, not a template. Never invent quotations or an author attribution. '+
  'Task: '+request+'. '+source;
  try{
-  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
-   body:JSON.stringify({message:eduScopePrompt(prompt),module:'assistant',language:litJourney.language,history:[]})});
+  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({message:prompt.slice(0,3900),module:'education_study',
+    education_subject:'language_literature',education_activity:mode,
+    language:litJourney.language,history:[]}),
+   signal:controller.signal});
   const data=await response.json();
-  if(!response.ok||data.status!=='success'||!data.reply)throw Error('no_reply');
-  if(!out.isConnected||serial!==litSimpleSerial||snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
-  hgDisplayStudyText(out,String(data.reply).slice(0,72000));
-  status.textContent=litSimpleLabel('Material pregătit. Poți salva PDF sau imprima.','Material ready. You can save or print.');
+  if(!response.ok||data.status!=='success'||data.education_subject!=='language_literature'||
+     typeof data.reply!=='string'||!data.reply.trim())throw Error('no_educational_reply');
+  if(controller.signal.aborted||!out.isConnected||serial!==litSimpleSerial||
+     snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
+  const text=String(data.reply).trim().slice(0,72000);
+  if(/(?:nu am coordonate gps|permite accesul la locație|departure address\/postcode|do not have usable gps coordinates)/i.test(text))
+    throw Error('wrong_intent');
+  hgDisplayStudyText(out,text);
+  if(typeof onReady==='function')onReady(text);
+  status.textContent=mode==='correction'?
+    litSimpleLabel('Răspunsurile au fost evaluate.','Answers checked.'):
+    litSimpleLabel('Materialul este afișat. Poți salva PDF sau imprima.','Material displayed. You can save or print.');
   out.scrollIntoView({behavior:'auto',block:'nearest'});
- }catch{
-  if(serial===litSimpleSerial&&status.isConnected)status.textContent=litSimpleLabel('Serviciul AI nu răspunde; reîncearcă fără a pierde selecția.','AI service unavailable. Retry without losing the selection.');
- }finally{litJourney.busy=false}
+ }catch(error){
+  if(controller.signal.aborted||serial!==litSimpleSerial)return;
+  status.textContent=litSimpleLabel(
+    'Materialul nu a putut fi generat. Încearcă din nou; nu este necesară localizarea telefonului.',
+    'The lesson could not be generated. Try again; no phone location is required.');
+  if(!out.textContent.trim())out.append(litSimpleNode('p',
+    litSimpleLabel('Momentan nu există un răspuns educațional verificabil.','No usable educational response is available yet.')));
+ }finally{
+  if(serial===litSimpleSerial){litJourney.busy=false;litSimpleAbort=null}
+ }
 }
 function litSimpleHeading(panel,title,note){
  panel.append(litSimpleNode('h3',title,'lit-activity-heading'));
@@ -58,6 +77,7 @@ function litSimpleWorkspace(panel){
  const run=(mode)=>{
   const phrase=request?.value.trim()||'';
   if(needsInput&&!phrase&&mode!=='lesson'){request.focus();status.textContent=litSimpleLabel('Introdu textul sau cuvântul solicitat.','Enter the requested text or word.');return}
+  assignmentText='';review.hidden=true;review.open=false;answers.value='';
   out.replaceChildren();
   if(mode==='lesson'){
    const basic=LIT_OFFLINE_THEORY_DATA[topic[0]]||LIT_OFFLINE_THEORY_DATA[branch==='vocabulary'?'vocabulary':'grammar'];
@@ -67,7 +87,9 @@ function litSimpleWorkspace(panel){
     out.append(litSimpleNode('p',litSimpleLabel(basic[2],basic[3])))}
   }
   const task=title+'. '+(phrase?'Textul utilizatorului: '+phrase+'. ':'')+'Solicitare: '+mode+'.';
-  litSimpleGenerate(out,status,mode,task);
+  litSimpleGenerate(out,status,mode,task,'',text=>{
+   if(mode==='exercises'||mode==='test'){assignmentText=text;review.hidden=false}
+  });
  };
  const buttons=branch==='analysis'?[['Analizează','Analyse','analysis'],['Explică metoda','Explain method','lesson']]:
   branch==='writing'?[['Compune','Compose','write'],['Explică','Explain','lesson']]:
@@ -75,13 +97,22 @@ function litSimpleWorkspace(panel){
   [['Teorie','Theory','lesson'],['Exemple','Examples','examples'],['Exerciții','Exercises','exercises'],['Teste','Tests','test']];
  for(const [ro,en,mode]of buttons)bar.append(litSimpleButton(litSimpleLabel(ro,en),()=>run(mode)));
  panel.append(bar,status,out);
+
+ const review=litSimpleNode('details','','lit-activity-review');
+ review.hidden=true;
+ const summary=litSimpleNode('summary',litSimpleLabel('Răspunde la întrebări și verifică','Answer and check the questions'));
+ const answers=litSimpleNode('textarea','','lit-input');answers.rows=3;answers.placeholder=litSimpleLabel('Răspunde la exercițiile afișate mai sus','Answer the exercises shown above');
+ let assignmentText='';
+ const correction=litSimpleNode('article','','lit-result lit-activity-output');
+ review.append(summary,answers,litSimpleButton(litSimpleLabel('Corectează','Check answers'),()=>{
+  if(!assignmentText){status.textContent=litSimpleLabel('Alege mai întâi Exerciții sau Teste.','Choose Exercises or Tests first.');return}
+  if(!answers.value.trim()){answers.focus();return}
+  litSimpleGenerate(correction,status,'correction',
+   'Evaluează răspunsul elevului: '+answers.value.trim().slice(0,1500)+'.',
+   'Întrebările originale: '+assignmentText.slice(0,2200)+'. Oferă corectarea pe fiecare întrebare.');
+ }),correction);
+ panel.append(review);
  if(!needsInput)run('lesson');
- const review=litSimpleNode('details','','lit-activity-review'),summary=litSimpleNode('summary',litSimpleLabel('Verifică răspunsurile','Check answers'));
- const answers=litSimpleNode('textarea','','lit-input');answers.rows=3;answers.placeholder=litSimpleLabel('Scrie răspunsurile tale aici','Write your answers here');
- review.append(summary,answers,litSimpleButton(litSimpleLabel('Corectează','Mark answers'),()=>{
-  if(!answers.value.trim()||!out.textContent.trim()){answers.focus();return}
-  litSimpleGenerate(out,status,'correction','Evaluate the learner answer: '+answers.value.trim(),'Exercises or questions: '+out.textContent.slice(0,10000));
- }));panel.append(review);
 }
 function litSimpleLiterature(panel){
  litSimpleHeading(panel,litSimpleLabel('Literatură: autor și operă','Literature: author and work'),
