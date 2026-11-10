@@ -3196,6 +3196,121 @@ main.page:has(#view-module.learning-languages.active){
 #view-module.learning-literature .lit-activity-status{font-size:13px;color:#aed0dd;margin:2px 0}
 @media(max-width:350px){#view-module.learning-literature .lit-options{gap:8px!important}#view-module.learning-literature .lit-choice-card{min-height:85px!important;font-size:13px!important}}
 </style>
+<style id="lit-reader-documents-fix">
+/* Keep literature controls aligned with the existing Home/title grid.
+   Remove the 10px left/right offset that cropped the Print icon on Android. */
+#view-module.learning-literature .lit-toolbar{
+ display:grid!important;
+ grid-template-columns:minmax(106px,.82fr) minmax(0,1.18fr)!important;
+ gap:clamp(8px,1.4vw,12px)!important;width:100%!important;min-width:0!important;
+ align-items:center!important;margin:0 0 8px!important;padding:0!important;box-sizing:border-box!important
+}
+#view-module.learning-literature .lit-toolbar>.lit-back{
+ grid-column:1!important;width:100%!important;max-width:none!important;min-width:0!important;
+ height:clamp(50px,7dvh,60px)!important;margin:0!important
+}
+#view-module.learning-literature .lit-toolbar>.edu-pdf-actions{
+ grid-column:2!important;margin-left:auto!important;margin-right:0!important;
+ max-width:100%!important;justify-content:flex-end!important
+}
+#view-module.learning-literature .lit-panel{margin:0 0 8px!important;width:100%!important;min-width:0!important}
+
+/* Large, self-contained lesson reader. Only its body scrolls; the app dock remains fixed. */
+.lit-material-reader{
+ position:fixed!important;inset:0!important;margin:auto!important;
+ width:min(96vw,820px)!important;max-width:96vw!important;
+ height:min(84dvh,790px)!important;max-height:84dvh!important;
+ min-height:0!important;padding:0!important;overflow:hidden!important;
+ border:2px solid #5297ac!important;border-radius:19px!important;
+ background:linear-gradient(170deg,#12394c,#061b2d)!important;color:#f0faff!important;
+ box-shadow:0 15px 55px #000d!important;box-sizing:border-box!important;
+ flex-direction:column!important
+}
+.lit-material-reader[open]{display:flex!important}
+.lit-material-reader::backdrop{background:#000b!important}
+.lit-material-reader .lit-reader-head{
+ display:flex!important;align-items:center!important;gap:8px!important;
+ justify-content:space-between!important;min-width:0!important;flex:0 0 auto!important;
+ padding:12px 14px!important;border-bottom:1px solid #4a849d!important
+}
+.lit-material-reader .lit-reader-title{
+ min-width:0;overflow-wrap:anywhere;font-size:clamp(16px,4vw,20px);line-height:1.25
+}
+.lit-material-reader .lit-reader-close{
+ padding:9px 12px!important;min-height:42px!important;min-width:76px!important;
+ width:auto!important;max-width:110px!important;flex:0 0 auto!important
+}
+.lit-material-reader .lit-reader-scroll{
+ flex:1 1 auto!important;min-height:0!important;max-height:none!important;overflow:auto!important;
+ -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+ padding:16px!important;scroll-padding-bottom:30px!important;
+ line-height:1.62!important;white-space:pre-wrap!important;font-size:clamp(15px,3.7vw,18px)!important
+}
+.lit-material-reader .lit-reader-scroll p{margin:0 0 13px;overflow-wrap:anywhere}
+.lit-material-reader .lit-reader-footer{
+ display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;
+ padding:12px 14px max(12px,env(safe-area-inset-bottom))!important;
+ flex:0 0 auto!important;border-top:1px solid #4a849d!important
+}
+.lit-material-reader .lit-reader-footer button{min-width:0!important;width:100%!important;padding:10px 6px!important}
+
+/* My Documents must not inherit the two-column lesson workspace. */
+#view-module.my-documents-active.active{
+ display:grid!important;grid-template-columns:minmax(106px,.82fr) minmax(0,1.18fr)!important;
+ grid-template-rows:clamp(58px,8dvh,72px) minmax(0,1fr)!important;
+ gap:clamp(8px,1.4vw,12px)!important;
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ width:100%!important;overflow:hidden!important;padding:0 0 8px!important
+}
+#view-module.my-documents-active .module-actions-row{display:contents!important}
+#view-module.my-documents-active .module-home-btn{
+ grid-column:1!important;grid-row:1!important;align-self:center!important;
+ width:100%!important;max-width:none!important;height:clamp(50px,7dvh,60px)!important;
+ min-height:0!important;max-height:60px!important
+}
+#view-module.my-documents-active .module-heading-row{
+ grid-column:2!important;grid-row:1!important;display:flex!important;align-items:center!important;
+ min-width:0!important
+}
+#view-module.my-documents-active .module-heading-row .section-title{
+ font-size:clamp(17px,4.6vw,23px)!important;overflow-wrap:anywhere!important
+}
+#view-module.my-documents-active #moduleLead,#view-module.my-documents-active #moduleChatHost{
+ display:none!important
+}
+#view-module.my-documents-active #moduleContent{
+ grid-column:1/-1!important;grid-row:2!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ display:flex!important;flex-direction:column!important;overflow:hidden!important;
+ padding:0!important;margin:0!important
+}
+#view-module.my-documents-active .my-documents-panel{
+ display:flex!important;flex-direction:column!important;flex:1 1 auto!important;
+ min-width:0!important;width:100%!important;max-width:100%!important;
+ min-height:0!important;max-height:100%!important;overflow-y:auto!important;
+ margin:0!important;padding:4px 2px 20px!important;
+ scroll-padding-bottom:28px!important
+}
+#view-module.my-documents-active .my-documents-panel .education-toolbar{
+ display:flex!important;justify-content:flex-start!important;width:100%!important;margin:0!important
+}
+#view-module.my-documents-active .my-documents-panel .education-toolbar>button{
+ width:min(45%,220px)!important;min-width:95px!important
+}
+#view-module.my-documents-active .my-documents-batch{
+ display:flex!important;flex-wrap:wrap!important;gap:10px!important;
+ min-height:44px!important;align-items:center!important
+}
+#view-module.my-documents-active .my-documents-batch .edu-icon-action{
+ display:inline-flex!important;justify-content:center!important;align-items:center!important;
+ width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;
+ margin:0!important;padding:0!important;flex:0 0 44px!important;font-size:21px!important
+}
+#view-module.my-documents-active .my-documents-row{min-width:0!important;width:100%!important;box-sizing:border-box!important}
+#view-module.my-documents-active .my-documents-open{min-width:0!important;flex:1 1 auto!important}
+#view-module.my-documents-active .my-documents-open strong{overflow-wrap:anywhere}
+</style>
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button><button class="primary-btn module-quick-trigger" id="moduleQuickTrigger" style="display:none">☰ Selecții rapide</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
 <section class="view" id="view-tools"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Instrumente</h2><p class="section-lead">Alege un domeniu pentru a începe.</p><div class="simple-list" id="toolsList"></div></section>
@@ -3565,9 +3680,23 @@ const EXTRA_TOOLS_CATEGORIES=[
  ['web','🔗','Linkuri și pagini web','Links and web pages','Analiză, rezumate și verificare.','Analyse, summarise and verify links.','Ajută-mă să analizez o pagină web sau un link.'],
  ['ideas','💡','Idei și proiecte','Ideas and projects','Planuri, soluții și creativitate.','Plans, solutions and creativity.','Ajută-mă să dezvolt o idee sau un proiect.']
 ];
+function resetExtraToolsScreen(){
+ const root=$('view-module');
+ root.classList.remove('learning-choose','learning-active','learning-math','learning-science',
+  'learning-languages','learning-hg','learning-literature','learning-computing',
+  'learning-exams','learning-practical','learning-country-gate','science-choice-stage',
+  'math-choice-stage','extra-tools-choose','extra-tools-active','extra-tools-chat','my-documents-active');
+ for(const prop of ['height','max-height','min-height'])root.style.removeProperty(prop);
+ const page=document.querySelector('main.page');
+ page?.classList.remove('math-keyboard-visible','science-keyboard-visible');
+ page?.style.removeProperty('--math-content-height');
+ page?.style.removeProperty('--science-content-height');
+}
 function renderExtraToolsChoices(){
+ resetExtraToolsScreen();
  const root=$('view-module'),host=$('moduleContent');
- root.classList.remove('extra-tools-active','extra-tools-chat');root.classList.add('extra-tools-choose');
+ root.classList.add('extra-tools-choose');
+ $('moduleTitle').textContent=learningLabel('Mai multe instrumente','More tools');
  host.replaceChildren();
  const grid=document.createElement('div');grid.className='education-grid';
  EXTRA_TOOLS_CATEGORIES.forEach(cat=>{
@@ -3581,11 +3710,15 @@ function renderExtraToolsChoices(){
 }
 
 function renderMyDocuments(){
- const root=$('view-module'),host=$('moduleContent');root.classList.remove('extra-tools-choose','extra-tools-chat');root.classList.add('extra-tools-active');host.replaceChildren();
+ resetExtraToolsScreen();
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.add('extra-tools-active','my-documents-active');
+ $('moduleTitle').textContent=learningLabel('Documentele mele','My documents');
+ $('moduleLead').textContent='';
+ host.replaceChildren();
  const panel=document.createElement('div');panel.className='extra-tools-panel my-documents-panel';
  const bar=document.createElement('div');bar.className='education-toolbar';
- const back=document.createElement('button');back.className='secondary-btn';back.textContent=learningLabel('← Instrumente','← Tools');back.onclick=renderExtraToolsChoices;bar.append(back);panel.append(bar);
- const heading=document.createElement('h2');heading.textContent=learningLabel('Documentele mele','My documents');panel.append(heading);
+ const back=document.createElement('button');back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=renderExtraToolsChoices;bar.append(back);panel.append(bar);
  const hint=document.createElement('p');hint.textContent=learningLabel('Atinge numele pentru a deschide PDF-ul. Bifează un document pentru imprimare, distribuire sau ștergere.','Tap a name to open the PDF. Select a document to print, share or delete.');panel.append(hint);
  const selected=new Set(),actions=document.createElement('div');actions.className='my-documents-batch';
  const icon=(glyph,title,kind,handler)=>{const b=document.createElement('button');b.type='button';b.className='edu-icon-action edu-icon-'+kind;b.textContent=glyph;b.title=title;b.setAttribute('aria-label',title);b.onclick=handler;actions.append(b);return b};
@@ -3612,8 +3745,9 @@ function renderMyDocuments(){
 function openExtraTool(key){
  if(key==='my-documents'){renderMyDocuments();return}
  const cat=EXTRA_TOOLS_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
+ resetExtraToolsScreen();
  const root=$('view-module'),host=$('moduleContent');
- root.classList.remove('extra-tools-choose','extra-tools-chat');root.classList.add('extra-tools-active');
+ root.classList.add('extra-tools-active');
  host.replaceChildren();
  const panel=document.createElement('div');panel.className='extra-tools-panel';
  const bar=document.createElement('div');bar.className='education-toolbar';
