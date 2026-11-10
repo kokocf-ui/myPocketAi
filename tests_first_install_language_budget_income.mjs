@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import {readFileSync} from 'node:fs';
 import app from './index.js';
 import {POCKET_LANGUAGES,pocketPreferredLanguage,pocketLanguageFromLocale,pocketLanguageFromCountry} from './language_first_install.mjs';
 
@@ -67,4 +68,18 @@ assert.equal(state.entries[0].baseAmount,195);
 assert.equal(writes.length,1);
 assert.equal(await add({title:'Salariu',amount:'',currency:'GBP',date:'2026-11-09',type:'income'}),false);
 assert.equal(state.entries.length,1,'Invalid form never saved');
-console.log('PASS first-install locale + explicit override + Android income save + FX timeout and duplicate protection');
+
+const avatarNative=readFileSync('android/app/src/main/java/ai/mypocket/mobile/AvatarLaunchActivity.java','utf8');
+const mainNative=readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
+const countryGate=readFileSync('education_country_ui.mjs','utf8');
+assert.match(avatarNative,/greetingForLanguage\(String language\)/,'Avatar has localized greetings');
+assert.match(avatarNative,/speechTagForLanguage\(launchLanguage\)/,'Avatar chooses locale for TTS');
+assert.match(avatarNative,/ui_language_native/,'Avatar reads native language selection');
+assert.doesNotMatch(avatarNative,/speech\.setLanguage\(Locale\.forLanguageTag\("ro-RO"\)\)/,'Romanian is not hardcoded as the startup voice');
+assert.match(mainNative,/PocketAndroidLocale/,'App language is synced to native launcher');
+assert.match(mainNative,/visibilitychange/,'Automatic language detection is persisted before next launch');
+assert.match(countryGate,/automaticChosen/,'Country suggestions settle once per Education entry');
+assert.match(countryGate,/setTimeout\(savedFallback,2500\)/,'Prior country waits for geolocation to avoid a visual flip');
+assert.match(countryGate,/touched\|\|automaticChosen\|\|educationCountrySelection\.requestId/,'Manual Education country input cannot be overwritten');
+
+console.log('PASS first-install locale + explicit override + native avatar greeting + stable Education country + Android income save + FX timeout and duplicate protection');
