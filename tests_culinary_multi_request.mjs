@@ -171,7 +171,7 @@ assert.match(backend,/const cookingCorrection=resolveRecipeFollowupComplaint\(me
 assert.match(backend,/if\(cookingCorrection\?\.kind==='retry'\)message=cookingCorrection\.request/);
 assert.match(backend,/await assembleSourcedRecipeVariants\(/);
 assert.match(backend,/delivered_recipe_count:result\.count/);
-assert.match(backend,/requested_recipe_count:result\.requested/);
+assert.match(backend,/requested_recipe_count:culinaryRequest\.explicitCount\?result\.requested:null/);
 assert.match(backend,/const titleCandidates=lines\.slice\(0,firstIngredient\)/);
 
 // Full recipes are composed from independent publisher evidence. The tested
