@@ -72,6 +72,8 @@ jobs:
 
       - name: Basic UI integrity
         run: npm run test:ui
+      - name: Complete publisher recipe regression
+        run: npm run test:culinary
       - name: News context translation and avatar lip-stop tests
         run: |
           node tests_localization.mjs
