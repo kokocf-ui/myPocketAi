@@ -4,7 +4,11 @@ import {readFileSync} from 'node:fs';
 import app from './index.js';
 import {POCKET_LANGUAGES,pocketPreferredLanguage,pocketLanguageFromLocale,pocketLanguageFromCountry} from './language_first_install.mjs';
 
-assert.deepEqual(POCKET_LANGUAGES,['ro','en','fr','de','it','es','pt','nl','ru','pl']);
+assert.equal(POCKET_LANGUAGES.length,36,'European UI locales available');
+for(const locale of ['ro','en','fr','de','it','es','pt','nl','ru','pl','hr','sr','hu','tr','cs','sk','sl','bg','el','fi','sv','no','da','is','et','lv','lt','uk','bs','mk','sq','be','ca','ga','cy','mt'])assert.ok(POCKET_LANGUAGES.includes(locale),'Missing language '+locale);
+for(const [country,lang] of [['MD','ro'],['PL','pl'],['HR','hr'],['RS','sr'],['HU','hu'],['AT','de'],['TR','tr']]){
+ assert.equal(pocketLanguageFromCountry(country,'en-GB'),lang,'Wrong first-install regional language for '+country);
+}
 assert.deepEqual(pocketPreferredLanguage(null,'en-GB'),{language:'en',allowAutomaticDetection:true});
 assert.deepEqual(pocketPreferredLanguage(null,'ro-RO'),{language:'ro',allowAutomaticDetection:true});
 assert.deepEqual(pocketPreferredLanguage('fr','en-GB'),{language:'fr',allowAutomaticDetection:false},'Saved manual French wins in UK');
