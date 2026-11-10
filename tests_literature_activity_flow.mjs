@@ -12,8 +12,8 @@ assert.match(html,/#view-module\.learning-literature\.learning-active #moduleCon
  'Main literature page must be a fixed viewport');
 assert.match(html,/#view-module\.learning-literature \.lit-panel\{[^}]*overflow-y:auto!important/s,
  'Only inner literature panel scrolls');
-assert.match(html,/\.lit-choice-card\{[^}]*grid/s,
- 'Activity cards should be laid out consistently');
+assert.match(html,/\.lit-options\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/s,
+ 'Activity cards should form a two-column grid');
 assert.match(script,/const LIT_BRANCHES=\[\{id:'grammar'/,'Grammar is an independent first-level activity');
 for(const type of ['grammar','vocabulary','analysis','literature','writing','assessment']){
  assert.ok(script.includes("id:'"+type+"'"),'Missing category '+type);
