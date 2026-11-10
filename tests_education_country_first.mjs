@@ -64,7 +64,7 @@ for(const token of [
 "return educationCountryGate(key,()=>openLearningSubjectAfterCountry(key))",
 "if(key==='languages')return openLearningSubjectAfterCountry(key)",
 "if(key==='history'){hgOpen('subjects');return}",
-"if(key==='literature'){litOpen('levels');return}",
+"if(key==='literature'){","litJourney.country=incoming",
 "if(key==='exams'){examOpen('grades');return}",
 "if(key==='practical'){practicalOpen('courses');return}",
 "const HG_SCHOOL_PLANS_DATA=","const EDUCATION_SCHOOL_YEARS_DATA=",
