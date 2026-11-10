@@ -9835,7 +9835,7 @@ function learningLabel(ro,en){
  if(lang==='ro')return ro;
  // School navigation shares the Education translations with the country
  // picker. The chosen curriculum must never silently switch app language.
- const translated=EUROPEAN_UI_TEXT[lang]?.wordTranslations?.[ro]||(typeof EDUCATION_UI_TRANSLATIONS!=='undefined'
+ const translated=window.__pocketEuropeanUiText?.[lang]?.wordTranslations?.[ro]||(typeof EDUCATION_UI_TRANSLATIONS!=='undefined'
    ?EDUCATION_UI_TRANSLATIONS[lang]?.[ro]:null);
  return translated||en||ro;
 }
@@ -18716,6 +18716,7 @@ const UI_TEXT={
 // Missing niche translations keep the safe English label; core navigation
 // switches to each added European language without blocking app startup.
 const EUROPEAN_UI_TEXT=${JSON.stringify(EUROPEAN_UI_LOCALES)};
+window.__pocketEuropeanUiText=EUROPEAN_UI_TEXT;
 for(const [language,local] of Object.entries(EUROPEAN_UI_TEXT))UI_TEXT[language]={...UI_TEXT.en,...local,moduleTitle:{...UI_TEXT.en.moduleTitle,...(local.moduleTitle||{})}};
 function localizedModuleLead(key){const lang=state.language;const leads={
 ro:{travel:'Caută hoteluri, restaurante și alte puncte de interes din apropiere.',maps:'Planifică trasee și consultă informații despre transportul în comun.',learning:'Învață pas cu pas, exersează limbi și cere explicații clare.',organize:'Organizează liste, bugete, proiecte și obiective.',tools:'Spațiu pentru analiză, idei, documente și instrumente suplimentare.'},
