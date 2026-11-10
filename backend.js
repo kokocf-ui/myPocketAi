@@ -1,4 +1,5 @@
-import {parseCulinaryRequest,culinarySearchQuery,recipeDishKeywords} from "./culinary_intent.mjs";
+import {parseCulinaryRequest,culinarySearchQuery,recipeDishKeywords,humanizeRecipeDuration,humanizeRecipeServings} from "./culinary_intent.mjs";
+import {classifyAssistantFeedback} from "./social_feedback.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
@@ -564,8 +565,10 @@ function formatPublishedRecipe(recipe,language,source,number=1){
  const labels={ro:['Ingrediente:','Mod de preparare:','Sursa:'],en:['Ingredients:','Method:','Source:']};
  const t=labels[language];if(!t)return null;
  const displayHeading=(language==='ro'?'Rețeta ':'Recipe ')+number+' — '+name;
- return displayHeading+'\n\n'+(recipe.servings?recipe.servings+'\n':'')+
-  (recipe.time?recipe.time+'\n':'')+'\n'+t[0]+'\n'+ingredients.map(v=>'- '+v).join('\n')+
+ const servings=humanizeRecipeServings(recipe.servings,language);
+ const duration=humanizeRecipeDuration(recipe.time,language);
+ return displayHeading+'\n\n'+(servings?servings+'\n':'')+
+  (duration?(language==='ro'?'Timp total: ':'Total time: ')+duration+'\n':'')+'\n'+t[0]+'\n'+ingredients.map(v=>'- '+v).join('\n')+
   '\n\n'+t[1]+'\n'+steps.map((v,i)=>(i+1)+'. '+v).join('\n')+
   '\n\n'+t[2]+' '+source.url;
 }
@@ -1998,6 +2001,22 @@ export default {
     // Core social phrases should not depend on a potentially unavailable model.
     // Only whole-turn matches: never intercept a longer question about identity or departure.
     const shortSocial=String(message||"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase().replace(/[!?.,;:]+/g," ").replace(/\\s+/g," ").trim();
+    // Direct criticism belongs to this conversation, not to the last lesson
+    // or a nearby-places search. Return before replaying historical topics.
+    if(classifyAssistantFeedback(message)==='negative'){
+      const replies={
+        ro:"Am răspuns pe lângă subiect. Ce anume vrei să corectez?",
+        en:"I missed the point. What would you like me to correct?",
+        fr:"Ma réponse était hors sujet. Que souhaites-tu que je corrige ?",
+        de:"Meine Antwort war nicht passend. Was soll ich korrigieren?",
+        it:"La mia risposta era fuori tema. Che cosa vuoi che corregga?",
+        es:"Mi respuesta no venía al caso. ¿Qué quieres que corrija?"
+      };
+      return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,
+        message_received:message,reply:replies[lang]||replies.en,
+        conversational_reply:true,ai_generated:false,ai_connected:Boolean(env.AI),
+        web_search_status:"not_needed",location_received:false});
+    }
     const whoAmI=/^(?:vreau sa stiu cine esti|cine esti|spune.mi cine esti|who are you|tell me who you are)$/.test(shortSocial);
     const goodbye=/^(?:la revedere|pa|pe curand|o zi buna|ne mai auzim|bye|goodbye|see you later)$/.test(shortSocial);
     if(whoAmI||goodbye){
@@ -5628,6 +5647,28 @@ export default {
         const results = Array.isArray(payload.results) ? payload.results : [];
         return {provider:"Exa",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.publishedDate||null,snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null}))};
       })().then(value=>({status:"fulfilled",value,provider:"Exa"})).catch(error=>({status:"rejected",provider:"Exa",error:String(error&&error.message||error).slice(0,140)})));
+      // For 2+ requested recipes, include another source language rather than
+      // returning one variant from the first Romanian search result.
+      if(recipeInstruction&&culinaryRequest.count>1&&env.EXA_API_KEY){
+        providerTasks.push((async()=>{
+          const started=Date.now();
+          const response=await fetch("https://api.exa.ai/search",{
+            method:"POST",headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
+            body:JSON.stringify({query:culinarySearchQuery(message,'en'),type:"auto",
+              numResults:Math.min(12,culinaryRequest.count*4),contents:{highlights:true}}),
+            signal:AbortSignal.timeout(7500)
+          });
+          if(!response.ok)throw Error("HTTP "+response.status);
+          const body=await response.json();
+          return {provider:"Exa:CookingEnglish",elapsedMs:Date.now()-started,
+            results:(Array.isArray(body.results)?body.results:[]).map(x=>({
+              title:x.title||x.url,url:x.url,publishedDate:x.publishedDate||null,
+              snippets:Array.isArray(x.highlights)?x.highlights.slice(0,3):[],author:x.author||null
+            }))};
+        })().then(value=>({status:"fulfilled",value,provider:value.provider}))
+          .catch(error=>({status:"rejected",provider:"Exa:CookingEnglish",
+            error:String(error?.message||error).slice(0,140)})));
+      }
       // Independent/local reporters are included in discovery, not deemed true
       // or financially independent merely because a search query labels them so.
       // No publisher allowlist, ideological scoring or presumed funding status.
@@ -5748,12 +5789,14 @@ export default {
           const queryLanguages=new Set(useful.map(x=>String(x.provider||"").match(/^Brave:(ar|fa|uk|ru|fr|de|en)$/)?.[1]).filter(Boolean));
           const multilingualPending=newsIntent&&requestedSourceLanguages.length>1&&requestedSourceLanguages.some(x=>!queryLanguages.has(x));
           const broadNewsReady=newsIntent&&newsDiscoveryPlan.broadWorld;
-          const enoughCoverage=!multilingualPending&&(broadNewsReady
+          const enoughCoverage=recipeInstruction
+            ?resultCount>=Math.max(8,culinaryRequest.count*4)&&(publisherSearchEngines.size>=2||providerTasks.length===1)
+            :!multilingualPending&&(broadNewsReady
             ? publisherSearchEngines.size>=2&&resultCount>=12
             : useful.length>=(eventResearchIntent?2:1)&&resultCount>=(eventResearchIntent?8:3));
           if(!readinessTimer&&enoughCoverage){
             // Brief grace period to include an additional almost-finished provider.
-            readinessTimer=setTimeout(readinessResolve,eventResearchIntent?650:newsIntent?newsDiscoveryPlan.broadWorld?700:2200:250);
+            readinessTimer=setTimeout(readinessResolve,recipeInstruction?650:eventResearchIntent?650:newsIntent?newsDiscoveryPlan.broadWorld?700:2200:250);
           }
           return value;
         }));
@@ -5818,15 +5861,39 @@ export default {
           ?[...remainingRanked.filter(x=>recipeSourceMatchesDish(message,x)),
             ...remainingRanked.filter(x=>!recipeSourceMatchesDish(message,x))]
           :remainingRanked;
+        // Prefer distinct publisher domains before fetching pages; three
+        // variants from a single duplicated page are not independent recipes.
+        const recipeDomains=new Set(),recipeDiverse=[];
+        if(recipeInstruction)for(const source of recipeRanked){
+          const host=new URL(source.url).hostname.replace(/^www\./,'');
+          if(recipeDomains.has(host))continue;
+          recipeDomains.add(host);recipeDiverse.push(source);
+        }
+        const recipeBalanced=recipeInstruction
+          ?[...new Map([...recipeDiverse,...recipeRanked].map(x=>[x.url,x])).values()]
+          :remainingRanked;
         webSources=newsIntent
           ?selectNewsPublisherDiverseSources([...remainingRanked.slice(0,24),...gdeltLeads],{max:35,firstPassPerPublisher:3})
-          :[...recipeRanked.slice(0,eventResearchIntent?40:recipeInstruction?20:10),...gdeltLeads]
+           :[...recipeBalanced.slice(0,eventResearchIntent?40:recipeInstruction?20:10),...gdeltLeads]
             .slice(0,eventResearchIntent?40:recipeInstruction?20:10);
         // Fetch a small number of original pages for additional evidence. Redirects are not followed;
         // non-HTML pages and unavailable pages remain explicitly unverified.
         await Promise.all(webSources.slice(0,eventResearchIntent?1:recipeInstruction?Math.min(12,Math.max(5,culinaryRequest.count*3)):2).map(async source=>{
           try{
-            const response=await fetch(source.url,{headers:{"Accept":"text/html,application/xhtml+xml,text/plain;q=0.9"},redirect:"manual",signal:AbortSignal.timeout(eventResearchIntent?2000:3000)});
+            const opts={headers:{"Accept":"text/html,application/xhtml+xml,text/plain;q=0.9"},
+              redirect:"manual",signal:AbortSignal.timeout(eventResearchIntent?2000:3000)};
+            let response=await fetch(source.url,opts);
+            if(recipeInstruction&&[301,302,303,307,308].includes(response.status)){
+              const target=response.headers.get("location");
+              if(target){
+                // Follow only another URL on the same publisher hostname.
+                const resolved=new URL(target,source.url);
+                const url=safeSourceUrl(resolved.toString());
+                const host=new URL(source.url).hostname.replace(/^www\./,'');
+                if(url&&resolved.hostname.replace(/^www\./,'')===host)
+                  response=await fetch(url,{...opts,signal:AbortSignal.timeout(3000)});
+              }
+            }
             const type=response.headers.get("content-type")||"";
             if(!response.ok||response.status>=300||!/(?:text\/html|application\/xhtml\+xml|text\/plain)/i.test(type)){source.pageFetchStatus="not_fetched";return;}
             let body=(await response.text()).slice(0,350000);
@@ -6039,10 +6106,11 @@ export default {
       usedRecipes.add(identity);publishedSelected.push(candidate);
       if(publishedSelected.length>=Math.max(1,Math.min(6,recipeRequestCount)))break;
     }
-    const foreignCandidateAvailable=publishedCandidates.some(x=>x.source.pageLanguage!==lang);
-    if(recipeInstruction&&publishedSelected.length&&(publishedSelected.length>=recipeRequestCount||!foreignCandidateAvailable)){
+    // For multi-recipe requests, keep searching/rewriting publisher evidence
+    // until the requested count is supported, not just the first recipe.
+    if(recipeInstruction&&publishedSelected.length>=recipeRequestCount){
       const prepared=publishedSelected.map(({source,recipe},i)=>formatPublishedRecipe(recipe,lang,source,i+1)).filter(Boolean);
-      if(prepared.length){
+      if(prepared.length>=recipeRequestCount){
         const shortfall=recipeRequestCount>prepared.length?(lang==='ro'?'Am putut verifica doar '+prepared.length+' dintre cele '+recipeRequestCount+' rețete solicitate.':"Only "+prepared.length+" of "+recipeRequestCount+" requested recipes could be verified."):'';
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
           reply:prepared.join('\n\n────────────────\n\n')+(shortfall?'\n\n'+shortfall:''),
@@ -6198,7 +6266,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     const recipeTokenBudget=recipeInstruction?Math.min(3800,Math.max(1200,Math.round(recipeCount*900+250))):768;
     const requestedModelTokens=recipeInstruction?recipeTokenBudget:eventResearchIntent?2200:answerFocus.max_tokens;
     const cleanedHistory=history.length&&history[history.length-1]?.role==='user'&&history[history.length-1]?.content.trim()===message.trim()?history.slice(0,-1):history;
-    const modelHistory=recipeFastPath?cleanedHistory.slice(-4):cleanedHistory;
+    const modelHistory=recipeInstruction&&culinaryRequest.keywords.length?[]:recipeFastPath?cleanedHistory.slice(-4):cleanedHistory;
 
     console.info("Pocket AI v96 diagnostic", JSON.stringify({
       diagnosticId,
@@ -6242,7 +6310,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
               ...modelHistory.slice(-2),
               {role:"user",content:aiUserMessage.slice(0,3000)}
             ],
-            max_tokens:Math.min(requestedModelTokens,900),temperature:0.1
+            max_tokens:recipeInstruction?Math.min(requestedModelTokens,3300):Math.min(requestedModelTokens,900),temperature:0.1
           });
           if(!result||typeof result.response!=="string"||!result.response.trim())
             throw Error("fallback_empty_response");
