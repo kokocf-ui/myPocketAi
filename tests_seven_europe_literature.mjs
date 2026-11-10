@@ -27,7 +27,9 @@ for(const [country,language] of Object.entries(expected)){
   for(const row of grades){
    assert.ok(national.byGrade[row.id],country+' missing actual chapter route for '+row.id);
    const planned=litEuropeanPlan(country,stage,row.id,national.tracks[0][0]);
-   assert.equal(planned.verified,false,'Do not call advisory lesson sequence statutory');
+   const frameworkVerified=(country==='PL'&&stage==='beginner'&&['I','IV'].includes(row.id));
+   assert.equal(planned.verified,frameworkVerified,'Verify only documented national framework and grade');
+   assert.ok(planned.note.includes('program')||planned.note.length>90,'Advisory national grade sequence must be explained');
    assert.ok(planned.units.length>=13,country+' '+row.id+' has only '+planned.units.length+' study units');
    assert.ok(planned.units.filter(x=>x.id.startsWith(country.toLowerCase()+'-')).every(x=>x.focus.length>=85),country+' '+row.id+' country-specific unit focus not teachable');
    assert.equal(new Set(planned.units.map(x=>x.label)).size,planned.units.length,country+' duplicate unit title');

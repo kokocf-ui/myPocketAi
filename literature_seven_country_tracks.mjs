@@ -22,7 +22,7 @@ const profiles={
   sourceTitle:'MEN — nowe podstawy programowe 2026; reforma wdrażana etapowo',
   note:'În 2026/27 reforma pentru școala primară se aplică treptat; clasele neincluse în cohortele reformei nu trebuie tratate ca având programa nouă. Pentru liceu și technikum se alege traseul.',
   tracks:[['LICEUM','Liceum ogólnokształcące'],['TECH','Technikum']],
-  stages:{beginner:range(1,4),lower:range(5,8),medium:upper('L')},
+  stages:{beginner:['I','II','III','IV'],lower:['V','VI','VII','VIII'],medium:upper('L')},
   chapters:{language:['Fonetyka, ortografia i interpunkcja','Części mowy i odmiana wyrazów','Składnia zdania i wypowiedzenia','Słowotwórstwo, style i frazeologia'],
    literature:['Czytanie ze zrozumieniem i argumentacja','Liryka: podmiot liryczny i środki stylistyczne','Epika: narracja, bohater, czas i przestrzeń','Dramat: dialog, konflikt i interpretacja'],
    authors:['Adam Mickiewicz — romantyzm i interpretacja','Bolesław Prus — narracja realistyczna','Henryk Sienkiewicz — powieść historyczna'],
@@ -162,7 +162,10 @@ export const LIT_SEVEN_COUNTRY_PROGRAMS=Object.freeze(Object.fromEntries(
   return [code,Object.freeze({
    source:p.source,sourceTitle:p.sourceTitle,note:p.note,regions:false,
    language:p.language,tracks:p.tracks,grades,
-   verified:{}, // official framework located, detailed grade-by-grade sequence is advisory
+   verified:code==='PL'?{beginner:['I','IV']}:
+    code==='AT'?{medium:['5','6','7','8']}:{},
+   // Only national framework + grade verified where previously documented.
+   // Original lesson sequences and sample authors remain advisory, not mandatory.
    byGrade
   })];
  })
