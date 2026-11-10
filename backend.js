@@ -1,4 +1,4 @@
-import {parseCulinaryRequest} from "./culinary_intent.mjs";
+import {parseCulinaryRequest,culinarySearchQuery,recipeDishKeywords} from "./culinary_intent.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
@@ -548,12 +548,10 @@ function recipeUnsupportedTechnique(reply,evidence){
 // Accept evidence only when the publisher's recipe title matches the requested dish.
 function recipeSourceMatchesDish(request,source){
  const normalize=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ');
- const ignore=new Set('vreau as dori reteta retete retetei recipe recipes ingredients ingrediente preparare traditional traditionala traditionale traditionala autentic original exact clasica clasic romaneasca romanesti romanesc culinara culinare pentru about with from sau cum face fac faci gateste gateasca gasesc gaseste cauta arata prezinta recomanda spune afiseaza ofera da da mi gaseste-mi cauta-mi arata-mi find search please show three two four one doua trei patru cinci vreau tipuri variante varianta mod pas pasi steps method how cook cooking de la si sa in pe cu din the and for a an of me give more types type recipe'.split(' '));
- const words=[...new Set(normalize(request).split(/\s+/).filter(w=>w.length>=5&&!ignore.has(w)))];
- if(!words.length)return true;
- const titles=[source.title,...(source.publishedRecipes||[]).map(x=>x.name)].filter(Boolean).join(' ');
- const title=normalize(titles);
- const matches=words.filter(w=>title.includes(w.slice(0,Math.min(5,w.length))));
+ const words=recipeDishKeywords(request);
+ if(!words.length)return false; // Never accept an unrelated source when the dish is unknown.
+ const title=normalize([source.title,...(source.publishedRecipes||[]).map(x=>x.name)].filter(Boolean).join(' '));
+ const matches=words.filter(word=>title.includes(word.slice(0,Math.min(5,word.length))));
  return matches.length>=Math.min(words.length,2);
 }
 // Source-grounded publisher recipes are facts and instructions, not canned dishes.
@@ -4127,7 +4125,10 @@ export default {
     const earlyPlaceCategoryMention = /(?:^| )(?:restaurant\w*|pubs?|bars?|biergarten\w*|taverns?|taprooms?|takeaway|takeout|food delivery|pizza|burger|sushi|comand\w*|livrare\w*|dinner|fast food|cafe|cafenele?\w*|cofetari\w*|patiseri\w*|gelateri\w*|confectioner\w*|dessert\w*|brutari\w*|deliver food|order food|ordering food|supermarket\w*|groceries|grocery store\w*|food shop\w*|alimentar\w*|shopping mall\w*|mall\w*|centre comerciale|centru comercial|shopping centre\w*|shopping center\w*|retail park\w*|magazin\w*|magazine\w*|shops|shop\w*|stores|store\w*|shopping|cumparaturi|farmaci\w*|pharmacy|pharmacies|chemist\w*|drugstore\w*|parc\w*|parks|garden\w*|gradini|muze\w*|museum\w*|cinema\w*|cinematografe|theatre\w*|teatru\w*|spital\w*|hospital\w*|clinic\w*|clinica\w*|doctor\w*|medic\w*|primarie\w*|town hall|city hall|police\w*|politie\w*|fire station\w*|pompieri|scoala\w*|school\w*|universit\w*|library|bibliotec\w*|benzinar\w*|benzinarii|fuel station\w*|petrol station\w*|gas station\w*|charging station\w*|incarcare electrica|electric vehicle charging|ev charger\w*|parcar\w*|parking\w*|car wash\w*|car washes|spalatorie auto|spalatorii auto|spalatorie de masini|service auto|car repair\w*|mechanic\w*|toilet\w*|toaleta\w*|atm|bancomat\w*|bank\w*|banca\w*|post office|posta\w*|hotel\w*|hoteluri|hotel\w*|bus station\w*|gara\w*|train station\w*|railway station\w*|bus stop\w*|statie de autobuz|airport\w*|aeroport\w*|attraction\w*|obiective turistice|puncte de interes|points of interest|poi)(?: |$)/.test(earlyIntentText);
     const explicitPlaceLookup = /\b(?:find|search|show|recommend|look for|near me|nearby|in my area|closest|nearest|around me|points of interest|poi|what is near|what's near|places around|cauta|gaseste|arata mi|recomanda mi|din apropiere|in apropiere|in jurul|in jurul locatiei mele|ce puncte de interes|ce exista in apropiere|locuri din apropiere|cele mai apropiate|unde gasesc|unde este|unde sunt|gaseste mi|arata mi)/i.test(earlyIntentText) || /\b(?:hotels?|hoteluri|hostels?|restaurants?|shops?|stores?|supermarkets?|pharmacies|chemists?|drugstores?|parks?|cinemas?|hospitals?|clinics?|fuel stations?|petrol stations?|gas stations?|charging stations?|parking|car washes?|spalatorii|farmacii|town halls?|libraries|schools?|universities|restaurants|restaurante|magazine|supermarketuri|farmacii|parcuri|muzee|cinematografe|spitale|benzinarii|parcari|puncte de interes)\s+(?:in|near|around|din|zona|la|langa)\s+[a-z0-9]/i.test(earlyIntentText);
     const culinaryRequest=parseCulinaryRequest(message);
-    const earlyFoodSearchIntent = Boolean(activePlaceRequest)&&!culinaryRequest.isRecipe;
+    // Short complaints and social responses must never be treated as unnamed
+    // venues even if the request carries old cached coordinates.
+    const nonPlaceFeedback=/^(?:(?:tu\s+)?(?:esti|sunteti|sunt|you\s+(?:are|re))\b|(?:nu\s+(?:te\s+pricepi|stii|intelegi)|ai\s+gresit|gresesti|raspunsul\s+(?:tau|este)|ce\s+prostii|bravo|multumesc|thanks|sorry|imi\s+pare\s+rau)\b)/i.test(earlyIntentText);
+    const earlyFoodSearchIntent = Boolean(activePlaceRequest)&&!culinaryRequest.isRecipe&&!nonPlaceFeedback;
     const locationIntentText = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
       .toLowerCase().replace(/[șş]/g, "s").replace(/[țţ]/g, "t");
     const locationIntent = /(?:\b(localiz\w*|locația mea|locatia mea|locația actuală|locatia actuala|locație actuală|locatie actuala|gps|coordonate|identifică locația|identifica locatia|where am i|locate me|my location|current location|current position|nearest station|closest station|nearest train station|closest train station|nearest railway station|cea mai apropiata gara|gara cea mai apropiata|cea mai apropiata statie)\b)/i.test(locationIntentText);
@@ -4141,7 +4142,7 @@ export default {
       placeSearchIntent:Boolean(earlyFoodSearchIntent), routeModule:Boolean(data.module === "maps"),
       locationPayloadPresent:Boolean(hasValidLocation), timestamp:new Date().toISOString()
     }));
-    if ((locationIntent || streetIntent) && !earlyFoodSearchIntent && !culinaryRequest.isRecipe) {
+    if ((locationIntent || streetIntent) && !earlyFoodSearchIntent && !culinaryRequest.isRecipe && !nonPlaceFeedback) {
       if (!hasValidLocation) {
         console.warn("Pocket AI v96 location diagnostic", JSON.stringify({
           diagnosticId: locationDiagnosticId,
@@ -4257,7 +4258,7 @@ export default {
     // v137: A named venue is not a request for every venue in its town.
     // Preserve the commercial name and the town before category discovery.
     const namedVenueInput=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
-    const namedVenueMatch=(eventDiscoveryRequest||preventImplicitPlace||voluntaryTelegramLink)?null:((()=>{const m=namedVenueInput.match(/(?:^|\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\s+(.+?)\s+(?:din|in|,)\s+([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
+    const namedVenueMatch=(nonPlaceFeedback||eventDiscoveryRequest||preventImplicitPlace||voluntaryTelegramLink)?null:((()=>{const m=namedVenueInput.match(/(?:^|\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\s+(.+?)\s+(?:din|in|,)\s+([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
       return m&&!/^(?:de\s+)?(?:[1-5]|one|two|three|four|five|una|doua|trei|patru|cinci)\s*(?:[- ]?star|stele|stea)/i.test(m[2])?m:null})()
       ||(!earlyFoodSearchIntent?(()=>{const m=namedVenueInput.match(/^(?:vreau sa ajung la\s+)?([\p{L}][\p{L}0-9&' .-]{2,55}?)\s*(?:,\s*|\s+(?:din|in)\s+)([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
         // Only short place names are candidates. Full sentences belong to the general AI.
@@ -4266,7 +4267,7 @@ export default {
     // GPS-first named business lookup when the user does not know its town.
     // Only handle short name queries, not general questions or dedicated map routing.
     const localNameRaw=namedVenueInput.replace(/^(?:vreau sa ajung la|unde (?:este|e|gasesc)|cauta(?:-mi)?|gaseste(?:-mi)?)\s+/i,'').replace(/\s+(?:in zona mea|in apropierea mea|langa mine|aproape de mine|near me|nearby)$/i,'').trim();
-    const localNameQuery=!culinaryRequest.isRecipe&&!voluntaryTelegramLink&&!preventImplicitPlace&&!eventDiscoveryRequest&&!/^(?:reteta|retete|recipe|recipes|ingrediente|sarmale|ciorba|cum se prepara|cum prepar|cum gatesc|how to cook)\b/i.test(namedVenueInput)&&!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
+    const localNameQuery=!nonPlaceFeedback&&!culinaryRequest.isRecipe&&!voluntaryTelegramLink&&!preventImplicitPlace&&!eventDiscoveryRequest&&!/^(?:reteta|retete|recipe|recipes|ingrediente|sarmale|ciorba|cum se prepara|cum prepar|cum gatesc|how to cook)\b/i.test(namedVenueInput)&&!data.quick_place_search&&!earlyFoodSearchIntent&&(!namedVenueMatch||/\b(?:in zona mea|in apropierea mea|langa mine|near me|nearby)$/i.test(namedVenueInput))&&/^(?:assistant)$/i.test(String(data.module||'assistant'))&&hasValidLocation&&/^[\p{L}0-9&' .-]{3,65}$/u.test(localNameRaw)&&localNameRaw.split(/\s+/).length<=4&&!/^(?:ce|care|cum|cat|cate|cand|de ce|what|why|how|where|when|vreme|meteo|salut|hello|multumesc)\b/i.test(localNameRaw)?localNameRaw:null;
 
     // v144: Named stations and geographic districts are not generic businesses.
     // Prefer authoritative station records and exact administrative-area names
@@ -5559,7 +5560,7 @@ export default {
     const answerFocus=(dialogueIntent.kind==="reformat_previous" || (dialogueIntent.kind==="explanation" && dialogueIntent.sentence_count))
       ? {mode:"format_constrained",max_tokens:220}
       : planAnswerFocus(message,{contextApplied:contextualSearch.context_applied||Boolean(correctedTopic),dialogueOnly:dialogueOnlyIntent,recipeInstruction,eventResearchIntent});
-    const searchQuery = (telegramExternalResearchQuery(voluntaryTelegramLink)|| (sourceBackedNewsRequested?newsSearchQuery(message,searchLanguage):(eventResearchIntent?(eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim()||eventSearchText):recipeInstruction?(message+' '+(recipeSearchHints[lang]||recipeSearchHints.en)):((correctedTopic||contextualSearch.query)+(legalResearch?" Prefer current official government or regulator sources for the stated jurisdiction.":" Prefer primary sources and exact dates; do not infer missing facts."))))).slice(0,550);
+    const searchQuery = (telegramExternalResearchQuery(voluntaryTelegramLink)|| (sourceBackedNewsRequested?newsSearchQuery(message,searchLanguage):(eventResearchIntent?(eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim()||eventSearchText):recipeInstruction?culinarySearchQuery(message,searchLanguage):((correctedTopic||contextualSearch.query)+(legalResearch?" Prefer current official government or regulator sources for the stated jurisdiction.":" Prefer primary sources and exact dates; do not infer missing facts."))))).slice(0,550);
     const safeSourceUrl = value => {
       try {
         const u = new URL(value);
@@ -5616,7 +5617,7 @@ export default {
         const started = Date.now();
         const response = await fetch("https://api.exa.ai/search", {
           method:"POST", headers:{"Content-Type":"application/json","x-api-key":env.EXA_API_KEY},
-          body:JSON.stringify({query:newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.exaQuery:searchQuery,type:"auto",numResults:eventResearchIntent?15:newsIntent?12:6,
+          body:JSON.stringify({query:newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.exaQuery:searchQuery,type:"auto",numResults:eventResearchIntent?15:newsIntent?12:recipeInstruction?Math.min(15,Math.max(8,culinaryRequest.count*4)):6,
             ...(newsIntent?{category:"news"}:{}),
             ...(newsIntent&&discoveryPublicationDay?{startPublishedDate:discoveryPublicationDay+"T00:00:00.000Z",endPublishedDate:discoveryPublicationDay+"T23:59:59.999Z"}:{}),
             contents:{highlights:true}}),
@@ -5675,7 +5676,7 @@ export default {
           const started = Date.now();
           const u = new URL("https://api.search.brave.com/res/v1/web/search");
           u.searchParams.set("q",newsIntent?newsSearchQuery(message,languageHint):searchQuery);
-          u.searchParams.set("count",eventResearchIntent?15:newsIntent?12:6);
+          u.searchParams.set("count",eventResearchIntent?15:newsIntent?12:recipeInstruction?Math.min(15,Math.max(8,culinaryRequest.count*4)):6);
           // Do not force the user's UI language on sources written in other languages.
           if(!newsIntent||requestedSourceLanguages.length)u.searchParams.set("search_lang",languageHint);
           u.searchParams.set("country",newsIntent?"ALL":searchCountry||"ALL");
@@ -5725,7 +5726,7 @@ export default {
         .catch(error=>({status:"rejected",provider:"Brave:ReutersLinks",error:String(error?.message||error).slice(0,140)})));
       if (env.TAVILY_API_KEY) providerTasks.push((async () => {
         const started=Date.now();
-        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.generalQuery:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?15:newsIntent?12:6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?7500:9000)});
+        const response=await fetch("https://api.tavily.com/search",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+env.TAVILY_API_KEY},body:JSON.stringify({query:newsIntent&&newsDiscoveryPlan.broadWorld?newsDiscoveryPlan.generalQuery:searchQuery,topic:"general",search_depth:eventResearchIntent?"basic":"advanced",max_results:eventResearchIntent?15:newsIntent?12:recipeInstruction?Math.min(15,Math.max(8,culinaryRequest.count*4)):6,include_answer:false,include_raw_content:false}),signal:AbortSignal.timeout(eventResearchIntent?7500:9000)});
         if(!response.ok) throw new Error("HTTP "+response.status);
         const payload=await response.json(); const results=Array.isArray(payload.results)?payload.results:[];
         return {provider:"Tavily",elapsedMs:Date.now()-started,results:results.map(x=>({title:x.title||x.url,url:x.url,publishedDate:x.published_date||null,snippets:[x.content||""].filter(Boolean).slice(0,3)}))};
@@ -5813,12 +5814,17 @@ export default {
          ?requestedSourceLanguages.flatMap(code=>rankedWebSources.filter(x=>detectActualNewsLanguage(x.title,x.snippets?.[0])===code).slice(0,8)):[];
         const prioritized=[...new Map([...languageSeed,...rankedWebSources].map(x=>[x.url,x])).values()];
         const remainingRanked=prioritized.filter(x=>!gdeltLeads.includes(x));
+        const recipeRanked=recipeInstruction
+          ?[...remainingRanked.filter(x=>recipeSourceMatchesDish(message,x)),
+            ...remainingRanked.filter(x=>!recipeSourceMatchesDish(message,x))]
+          :remainingRanked;
         webSources=newsIntent
           ?selectNewsPublisherDiverseSources([...remainingRanked.slice(0,24),...gdeltLeads],{max:35,firstPassPerPublisher:3})
-          :[...remainingRanked.slice(0,eventResearchIntent?40:10),...gdeltLeads].slice(0,eventResearchIntent?40:10);
+          :[...recipeRanked.slice(0,eventResearchIntent?40:recipeInstruction?20:10),...gdeltLeads]
+            .slice(0,eventResearchIntent?40:recipeInstruction?20:10);
         // Fetch a small number of original pages for additional evidence. Redirects are not followed;
         // non-HTML pages and unavailable pages remain explicitly unverified.
-        await Promise.all(webSources.slice(0,eventResearchIntent?1:recipeInstruction?4:2).map(async source=>{
+        await Promise.all(webSources.slice(0,eventResearchIntent?1:recipeInstruction?Math.min(12,Math.max(5,culinaryRequest.count*3)):2).map(async source=>{
           try{
             const response=await fetch(source.url,{headers:{"Accept":"text/html,application/xhtml+xml,text/plain;q=0.9"},redirect:"manual",signal:AbortSignal.timeout(eventResearchIntent?2000:3000)});
             const type=response.headers.get("content-type")||"";
