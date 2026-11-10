@@ -554,6 +554,17 @@ public final class MainActivity extends ComponentActivity {
             }
         });
         web.setWebViewClient(new WebViewClient(){
+            @Override public void onPageFinished(WebView view,String url){
+                super.onPageFinished(view,url);
+                if(!"https".equals(Uri.parse(url).getScheme())||!APP_HOST.equals(Uri.parse(url).getHost()))return;
+                // Event-driven native locale sync; no repeating background tests.
+                view.evaluateJavascript("(function(){if(window.__pocketNativeLocaleSync)return;window.__pocketNativeLocaleSync=true;"
+                    +"function send(){try{var lang=localStorage.getItem('mypocketai.language');"
+                    +"if(lang&&window.PocketAndroidLocale)window.PocketAndroidLocale.postMessage(lang)}catch(e){}}"
+                    +"var picker=document.getElementById('languageSelect');"
+                    +"if(picker)picker.addEventListener('change',function(){setTimeout(send,0)});"
+                    +"document.addEventListener('visibilitychange',send);window.addEventListener('pagehide',send);send()})()",null);
+            }
             @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request) {
                 Uri resource=request.getUrl();
                 if("https".equals(resource.getScheme()) && APP_HOST.equals(resource.getHost())
@@ -721,6 +732,19 @@ public final class MainActivity extends ComponentActivity {
                 (view,message,origin,isMainFrame,replyProxy)->{
                     if(!isMainFrame||!APP_HOST.equals(origin.getHost()))return;
                     if("exit".equals(message.getData()))runOnUiThread(()->finish());
+                });
+        }
+        // The launcher is a separate WebView. Persist explicit language changes
+        // so its greeting matches the next launch rather than defaulting to Romanian.
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidLocale",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!"https".equals(origin.getScheme())||!APP_HOST.equals(origin.getHost()))return;
+                    String locale=message.getData();
+                    if(locale!=null&&locale.matches("ro|en|fr|de|it|es|pt|nl|ru|pl"))
+                        getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE)
+                            .edit().putString("ui_language_native",locale).apply();
                 });
         }
         // Unique document URL prevents WebView/HTTP intermediary caches from showing an old UI.
