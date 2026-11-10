@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import app from './index.js';
 const native=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/MainActivity.java',import.meta.url),'utf8');
 assert.match(native,/settings\.setCacheMode\(WebSettings\.LOAD_NO_CACHE\)/);
-assert.match(native,/web\.loadUrl\(APP_URL \+ "\?nativeLaunch=1&uiFresh=" \+ System\.currentTimeMillis\(\)\)/);
+assert.match(native,/web\.loadUrl\(APP_URL \+ "\?nativeLaunch=1&uiFresh=" \+ System\.currentTimeMillis\(\)\+langParam\)/,'Always bust cache while adding first-install language only when present');
 assert.match(native,/private static final String APP_URL = "https:\/\/lifewise-ai-v2\.kokocf\.workers\.dev\/";/);
 assert.doesNotMatch(native,/web\.clearData\(|web\.clearFormData\(|CookieManager\.getInstance\(\)\.removeAllCookies/,'Keep user data');
 const local=await app.fetch(new Request('https://version-fixture.example/'));
