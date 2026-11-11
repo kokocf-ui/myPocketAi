@@ -203,7 +203,8 @@ public final class MainActivity extends ComponentActivity {
         // Email remains native and is used only on explicit PDF sharing.
         android.content.SharedPreferences saved=getSharedPreferences("pocket_user_profile",Context.MODE_PRIVATE);
         String name=saved.getString("preferred_name","");
-        int age=saved.getInt("age",0);
+        int age=UserProfileDates.ageFromBirthDate(saved.getString("birth_date",""));
+        if(age==0)age=saved.getInt("age",0); // Legacy account before birth-date support
         String sex=saved.getString("sex","undisclosed");
         if(name==null||name.isEmpty()||age<1||age>120)return;
         if(!"male".equals(sex)&&!"female".equals(sex))sex="undisclosed";
@@ -216,6 +217,58 @@ public final class MainActivity extends ComponentActivity {
                 +JSONObject.quote(profile.toString())+");window.dispatchEvent(new Event('pocket-profile-ready'))}catch(e){}})()";
             view.evaluateJavascript(js,null);
         }catch(Exception ignored){}
+    }
+    private void sendPocketAccount(WebView view,boolean saved, String error){
+        if(view==null)return;
+        try{
+            android.content.SharedPreferences prefs=getSharedPreferences("pocket_user_profile",Context.MODE_PRIVATE);
+            String birth=prefs.getString("birth_date","");
+            int age=UserProfileDates.ageFromBirthDate(birth);
+            if(age==0)age=prefs.getInt("age",0);
+            JSONObject profile=new JSONObject();
+            profile.put("email",prefs.getString("email",""));
+            profile.put("preferred_name",prefs.getString("preferred_name",""));
+            profile.put("birth_date",birth);
+            profile.put("age",age);
+            profile.put("sex",prefs.getString("sex","undisclosed"));
+            profile.put("saved",saved);
+            if(error!=null&&!error.isEmpty())profile.put("error",error);
+            view.evaluateJavascript("window.pocketAccountNativeResponse && window.pocketAccountNativeResponse("
+                +profile.toString()+");",null);
+        }catch(Exception ignored){}
+    }
+    private void handlePocketAccount(WebView view,String payload){
+        if(payload==null||payload.length()>3000)return;
+        try{
+            JSONObject input=new JSONObject(payload);
+            String action=input.optString("action","");
+            if("read".equals(action)){sendPocketAccount(view,false,null);return;}
+            if(!"save".equals(action))return;
+            String email=input.optString("email","").trim();
+            String name=input.optString("preferred_name","").trim().replaceAll("\\s+"," ");
+            String dob=input.optString("birth_date","").trim();
+            String sex=input.optString("sex","undisclosed");
+            if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()||email.length()>254){
+                sendPocketAccount(view,false,"Adresa de e-mail nu este validă.");return;
+            }
+            if(name.length()<2||name.length()>50){
+                sendPocketAccount(view,false,"Numele trebuie să aibă 2–50 de caractere.");return;
+            }
+            int age;
+            if(!dob.isEmpty()){
+                age=UserProfileDates.ageFromBirthDate(dob);
+                if(age==0){sendPocketAccount(view,false,"Data nașterii nu este validă.");return;}
+            }else{
+                age=getSharedPreferences("pocket_user_profile",Context.MODE_PRIVATE).getInt("age",0);
+                if(age<1||age>120){sendPocketAccount(view,false,"Completează data nașterii.");return;}
+            }
+            if(!"male".equals(sex)&&!"female".equals(sex))sex="undisclosed";
+            getSharedPreferences("pocket_user_profile",Context.MODE_PRIVATE).edit()
+                .putString("email",email).putString("preferred_name",name)
+                .putString("birth_date",dob).putInt("age",age).putString("sex",sex).apply();
+            provideLocalUserProfile(view);
+            sendPocketAccount(view,true,null);
+        }catch(Exception ignored){sendPocketAccount(view,false,"Nu am putut salva profilul.");}
     }
     private void prefillEmailForSharedPdf(Intent send){
         String email=getSharedPreferences("pocket_user_profile",Context.MODE_PRIVATE)
@@ -598,6 +651,17 @@ public final class MainActivity extends ComponentActivity {
                 return true;
             }
         });
+        // Profile bridge is available only to the app's trusted first-party page.
+        // Email never enters window.__pocketNativeProfile or the AI request.
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidAccount",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!"https".equals(origin.getScheme())||!APP_HOST.equals(origin.getHost()))return;
+                    final String payload=message.getData();
+                    runOnUiThread(()->handlePocketAccount(view,payload));
+                });
+        }
         if (WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
             WebViewCompat.addWebMessageListener(web, "PocketAndroidOCR",
                 Collections.singleton("https://" + APP_HOST),

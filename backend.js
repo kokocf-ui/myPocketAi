@@ -2851,7 +2851,10 @@ export default {
     const publicTransportIntent=transitDecision.is_journey;
     const directWalkingTarget=data.route_profile==='walk'&&data.route_destination&&Number.isFinite(data.route_destination.latitude)&&Number.isFinite(data.route_destination.longitude)&&Math.abs(data.route_destination.latitude)<=90&&Math.abs(data.route_destination.longitude)<=180&&typeof data.route_destination.label==='string';
     const explicitMixedJourney=data.mixed_journey===true;
-    if (explicitMixedJourney || ((publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)))) {
+    // A destination named "Underground" is not a request to ride the Tube.
+    // Explicit car instructions must reach the road router, not transit lookup.
+    const explicitCarRoute=routeMessageSpec(message)?.profile==='drive' && chosenTravelMode!=='transit';
+    if (explicitMixedJourney || (!explicitCarRoute && (publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)))) {
       const transitStartedAt = Date.now();
       const transportErrors = {};
       let effectiveDepartureAt=null;

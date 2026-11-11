@@ -15,6 +15,9 @@ const conversation=[
  ['Salut Eva!','greeting'],
  ['Eva!','greeting'],
  ['Eva, ai un minut?','banter'],
+ ['Eva, ce faci dacă te invit la o cafea?','banter'],
+ ['Eva, iar faci pe deșteapta? 😂','banter'],
+ ['Eva, știi la ce mă gândesc?','banter'],
  ['Eva, ești proastă!','boundary'],
  ['Eva, vreau să închid aplicația.','device_control'],
  ['Închide aplicația','device_control']
@@ -92,7 +95,10 @@ for(const text of [
  'Mulțumesc încă o dată!',
  'Eva, vreau să închid aplicația.',
  'Eva, ai un minut?',
- 'Eva!'
+ 'Eva!',
+ 'Eva, ce faci dacă te invit la o cafea?',
+ 'Eva, iar faci pe deșteapta? 😂',
+ 'Eva, știi la ce mă gândesc?'
 ])assert.equal(vm.runInContext('isEvaConversationClient('+JSON.stringify(text)+')',ctx),true,text);
 for(const text of ['Aldi','Eva, vreau să merg la Victoria Underground',
  'Salut Eva, cum ajung la Victoria?','Eva, caută restaurante în Grays',
