@@ -74,3 +74,15 @@ CREATE TABLE IF NOT EXISTS comm_list_ops(
  UNIQUE(list_id,revision), UNIQUE(list_id,actor_id,client_id)
 );
 CREATE INDEX IF NOT EXISTS comm_list_ops_rev ON comm_list_ops(list_id,revision);
+
+-- One non-exportable ECDH device key per verified beta user. Public JWK only.
+CREATE TABLE IF NOT EXISTS comm_device_keys(
+ user_id uuid PRIMARY KEY REFERENCES comm_users(id) ON DELETE CASCADE,
+ exchange_public jsonb NOT NULL,
+ created_at timestamptz NOT NULL DEFAULT now()
+);
+-- Direct threads are singletons for each unordered pair of verified contacts.
+CREATE TABLE IF NOT EXISTS comm_direct_threads(
+ pair_key text PRIMARY KEY,
+ thread_id uuid NOT NULL UNIQUE REFERENCES comm_threads(id) ON DELETE CASCADE
+);
