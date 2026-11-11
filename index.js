@@ -2,6 +2,7 @@ import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathwa
 import {ACCOUNT_STYLE,ACCOUNT_HTML,ACCOUNT_SCRIPT} from './account_settings_ui.mjs';
 import {COMMUNICATION_HTML,COMMUNICATION_STYLE,COMMUNICATION_SCRIPT} from './communication_ui.mjs';
 import {COMMUNICATION_LIVE_SCRIPT} from './communication_live_ui.mjs';
+import {COMMUNICATION_LIVE_STYLE} from './communication_live_style.mjs';
 import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_europe.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
@@ -20053,6 +20054,7 @@ html body button:disabled:not(.nav-btn):not(.feature-card):not(.transit-journey-
    assistant controls and action buttons from every module, without JS changes. */
 
 ${COMMUNICATION_STYLE}
+${COMMUNICATION_LIVE_STYLE}
 
 </style>
 </body>
