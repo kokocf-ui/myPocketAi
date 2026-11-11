@@ -11,7 +11,7 @@ import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
-import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys} from "./ro_transport_mode_policy.mjs";
+import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints} from "./ro_transport_mode_policy.mjs";
 import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
 import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
 import {romanianNationalQuery,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
@@ -2965,7 +2965,9 @@ export default {
         const allJourneys=requestedAt&&result.journeys.length
           ?result.journeys.filter(j=>Date.parse(j.startDateTime)>=requestedAt-120000)
           :result.journeys;
-        const journeys=rankRomanianJourneys(filterRomanianVehicleJourneys(allJourneys,vehicle)).slice(0,requestedOptionsCount);
+        const vehicleJourneys=filterRomanianVehicleJourneys(allJourneys,vehicle);
+        const cityJourneys=filterRomanianCityEndpoints(vehicleJourneys,origin,destination);
+        const journeys=rankRomanianJourneys(cityJourneys).slice(0,requestedOptionsCount);
         if(journeys.length){
           const reply=romanianJourneySummary(journeys,origin,destination,lang);
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
@@ -2976,7 +2978,17 @@ export default {
             requested_transit_count:requestedOptionsCount});
         }
         // A real train response does not fulfill an explicit coach request.
-        if(result.status==='ok'&&allJourneys.length&&vehicle!=='all'&&!journeys.length){
+        if(result.status==='ok'&&vehicleJourneys.length&&!cityJourneys.length){
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+            message_received:message,transit_available:false,route_available:false,
+            mixed_journey:true,romanian_national_journey:true,transit_provider:'Bilo',
+            reason:'ro_departure_or_arrival_station_unverified',
+            reply:lang==='en'
+              ?'The operator returned services, but the first/last station could not be confirmed as belonging to the requested towns. No different departure station was silently substituted.'
+              :'Operatorul a returnat curse, dar stația de plecare sau sosire nu corespunde localității cerute. Nu am înlocuit-o automat cu altă stație.',
+            provider_status:{bilo:result.status}});
+        }
+        if(result.status==='ok'&&allJourneys.length&&vehicle!=='all'&&!vehicleJourneys.length){
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
             message_received:message,reply:romanianModeNoResultsMessage(vehicle,lang),
             transit_available:false,route_available:false,mixed_journey:true,
