@@ -3414,6 +3414,7 @@ ${ACCOUNT_HTML}
 <nav class="bottom-nav" aria-label="Navigare principală"><button class="nav-btn active" data-nav="home"><span class="nav-icon">⌂</span>Acasă</button><button class="nav-btn" data-nav="conversations"><span class="nav-icon">◷</span>Conversații</button><button class="nav-btn" data-nav="tools"><span class="nav-icon">▱</span>Instrumente</button><button class="nav-btn" data-nav="settings"><span class="nav-icon">⚙</span>Setări</button></nav>
 <div class="avatar-overlay" id="avatarOverlay" aria-hidden="true"><button class="avatar-close" id="avatarClose" aria-label="Închide avatarul">×</button><div class="avatar-stage"><img class="avatar-image" id="avatarImage" src="${AVATAR_DATA}" alt="Avatarul holografic myPocket AI"><iframe id="avatar3dFrame" title="Avatar 3D Pocket AI" loading="eager" aria-hidden="true" style="display:none;width:100%;height:100%;border:0;background:transparent;position:absolute;inset:0" allow="autoplay"></iframe><div class="avatar-message" id="avatarMessage">Salut! Sunt asistentul tău personal.</div><div class="voice-wave" id="voiceWave" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="avatar-status" id="avatarStatus">Bine ai venit!</div></div></div><div class="notice" id="notice" role="status" aria-live="polite"></div>
 <script>
+${ACCOUNT_SCRIPT}
 (() => {
 'use strict';
 // 01 — State and DOM references
@@ -18696,7 +18697,6 @@ function isRecipeQuestion(text){
 // Keep small talk out of location and pending-route flows.
 // Guard obvious personal dialogue locally; the backend Eva speech-act gate
 // makes the final routing decision. Do not suppress explicit maps/tasks here.
-${ACCOUNT_SCRIPT}
 function evaClientNormalize(value){
  return String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
   .toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\\s+/g,' ').trim();
