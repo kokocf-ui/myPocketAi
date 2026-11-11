@@ -8,7 +8,7 @@ const html=await(await app.fetch(new Request('https://account-ui.test/'))).text(
 for(const id of ['pocketAccountOpen','pocketAccountDialog','pocketAccountEmail','pocketAccountName','pocketAccountDob','pocketAccountAge','pocketAccountSex','pocketAccountSave']){
  assert.ok(html.includes('id="'+id+'"'),'Missing account control '+id);
 }
-assert.ok(html.includes('Frontend 1.0.148'),'Settings version is updated');
+assert.ok(html.includes('Versiunea 1.0.148'),'Settings version is updated');
 assert.ok(html.includes('Cont</button>'),'Account entry is visibly labeled');
 assert.ok(html.includes('Vârstă (calculată automat)'));
 assert.ok(html.includes('.pocket-account-dialog'),'Account has its own compact styling');
