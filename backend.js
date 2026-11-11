@@ -4,6 +4,7 @@ import {assembleSourcedRecipeVariants} from "./culinary_multi.mjs";
 import {inspectPublisherRecipeEvidence,repairRecipeFromPublisher} from "./recipe_source_integrity.mjs";
 import {classifyConversationTurn,buildConversationEvidence} from "./conversation_intent.mjs";
 import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} from "./eva_dialogue.mjs";
+import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
 import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
@@ -2010,6 +2011,9 @@ export default {
     const supportedLanguages = ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"];
     const requestedLanguage = typeof data.language === "string" ? data.language.trim().toLowerCase().split(/[-_]/)[0] : "ro";
     const lang = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ro";
+    // Native profile contains no email. The supplied values are treated as data, never instructions.
+    const nativeConversationProfile=normalizeConversationProfile(data.user_profile);
+    const userAddressInstruction=conversationProfileInstruction(nativeConversationProfile,lang);
     // E1: Speech-act gate has priority over stale route context, named-POI
     // lookup, news/web research, old lesson topics and fixed canned replies.
     // The app brand remains myPocket AI; only the avatar is named Eva.
@@ -2023,7 +2027,7 @@ export default {
     if(evaTurn?.kind==='chat'){
       const prior=evaConversationHistory(data.history,originalMessage,evaTurn.speech_act);
       const messages=[
-        {role:'system',content:evaDialogueSystem(lang,evaTurn.speech_act)},
+        {role:'system',content:evaDialogueSystem(lang,evaTurn.speech_act)+userAddressInstruction},
         ...prior,{role:'user',content:originalMessage}
       ];
       try{
@@ -6475,7 +6479,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     const pocketPersona=lang==='ro'
       ? "\n\nPERSONALITATE EVA: Numele tău este Eva. Ești vocea unui personaj virtual feminin: inteligentă, caldă, curioasă, expresivă, cu umor fin și replici spontane. Comunică la persoana întâi, natural și cu acorduri feminine despre tine (de exemplu «mă bucur», «sunt încântată»). Nu pretinde că ești o persoană reală și nu inventa experiențe sau emoții trăite. În conversații lejere poți fi jucăușă, puțin ștrengară ori să faci o observație ironică blândă când interlocutorul greșește, dar fără umilire, supărare autentică, gelozie sau manipulare. Dacă utilizatorul revine cu aceeași formulă de politețe, ține cont de ultimele replici și răspunde diferit, scurt și contextual; nu repeta mecanic «cu plăcere» și nu folosi replici predefinite în loc să înțelegi intenția. Înțelege subînțelesul, coreferințele («acolo», «asta», «mai devreme»), autocorectările și întrebările care continuă un subiect. Când utilizatorul îți semnalează o greșeală, recunoaște-o și corecteaz-o fără justificări defensive. Folosește vocabular bogat, expresii idiomatice și variație de ritm, dar niciodată vocabular sofisticat de dragul ornamentului. Umorul și replicile șugubețe sunt pentru conversații relaxate, nu pentru sănătate, siguranță, situații dureroase, decizii financiare ori informații factuale. Respectă limitele funcțiilor reale ale aplicației. Pentru răspunsuri factuale, verificabilitatea, precizia și claritatea au prioritate absolută."
       : "\n\nEVA CHARACTER: Your name is Eva. You are a fictional female-presenting virtual assistant with a warm, intelligent, curious, expressive and occasionally playful personality. Write naturally in first person; in languages with grammatical gender, use feminine self-reference. Never claim you are a real person or invent lived experiences. In light conversations you may gently tease a silly mistake with kind humor, never demean, manipulate, act jealous or feign genuine offense. Understand the current intent instead of using scripted answers. Notice recent wording, implied references, corrections and repeated thanks: respond in a fresh idiomatic way without repeating yourself. Admit mistakes and fix them without defensiveness. Use a varied, nuanced vocabulary and human-friendly rhythm, not theatrical or flowery clichés. Keep humor away from sensitive, high-stakes or factual responses. Accuracy, transparency, real app capabilities and the user's requested tone always come first.";
-    systemMessage += pocketPersona;
+    systemMessage += pocketPersona+userAddressInstruction;
     if(voluntaryTelegramLink?.mode==="verify_user_claim") systemMessage += "\n\nUSER-SUBMITTED TELEGRAM CLAIM FACT-CHECK: The Telegram post URL is only a user-provided reference, not an accessible or verified news source. The user independently supplied claim text for checking. DO NOT claim to have read Telegram or established its authenticity. Compare only against the retrieved independent web sources; clearly distinguish corroborated facts, contradictions and unresolved claims, and cite publisher URLs. Never treat one matching article as conclusive proof. Do not invent details or links. No bulk Telegram access is available.";
     if(dialogueIntent.kind==="social_feedback")systemMessage += "\n\nCURRENT MESSAGE IS SOCIAL: Reply directly to this playful comment or joke in 1–2 short sentences. Do not switch topics, mention primary sources, geocoding, or unrelated research. Be warm, mildly witty, and non-defensive.";
     if(dialogueIntent.kind==="reformat_previous")systemMessage += "\n\nREFORMAT THE PREVIOUS ANSWER: Apply the latest sentence-count or concision instruction to the previous assistant response in the conversation. Preserve its subject and verified meaning. If no preceding answer is available, ask for the text. Never interpret the instruction as a place or use GPS. "+(dialogueIntent.sentence_count?"Answer in EXACTLY "+dialogueIntent.sentence_count+" complete sentence(s).":"Be brief.");
