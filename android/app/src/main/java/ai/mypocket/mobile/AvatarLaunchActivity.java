@@ -395,10 +395,28 @@ public final class AvatarLaunchActivity extends Activity {
             onboardingString("Cum să îți spunem?","How should we address you?","Comment vous appeler ?","Wie sollen wir dich nennen?","Come possiamo chiamarti?","¿Cómo te llamamos?","Como devemos tratar-te?","Hoe spreken we je aan?","Как к вам обращаться?","Jak mamy się do Ciebie zwracać?"),
             android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_FLAG_CAP_WORDS,50);
         addProfileInput(column,onboardingString("Nume preferat","Preferred name","Prénom préféré","Bevorzugter Name","Nome preferito","Nombre preferido","Nome preferido","Voorkeursnaam","Предпочитаемое имя","Preferowane imię"),nameField,foreground);
-        android.widget.EditText ageField=setupTextField(
-            onboardingString("Ani","Years","Ans","Jahre","Anni","Años","Anos","Jaar","Лет","Lat"),
-            android.text.InputType.TYPE_CLASS_NUMBER,3);
-        addProfileInput(column,onboardingString("Vârstă","Age","Âge","Alter","Età","Edad","Idade","Leeftijd","Возраст","Wiek"),ageField,foreground);
+        // A birth date makes age advance automatically each year; an age
+        // number alone would become stale after the first installation.
+        android.widget.EditText birthField=setupTextField("YYYY-MM-DD",
+            android.text.InputType.TYPE_CLASS_DATETIME|android.text.InputType.TYPE_DATETIME_VARIATION_DATE,10);
+        birthField.setFocusable(false);
+        birthField.setOnClickListener(view->{
+            java.util.Calendar now=java.util.Calendar.getInstance();
+            int initialYear=now.get(java.util.Calendar.YEAR)-25;
+            android.app.DatePickerDialog picker=new android.app.DatePickerDialog(this,
+                (datePicker,year,month,day)->birthField.setText(
+                    String.format(Locale.ROOT,"%04d-%02d-%02d",year,month+1,day)),
+                initialYear,now.get(java.util.Calendar.MONTH),now.get(java.util.Calendar.DAY_OF_MONTH));
+            picker.getDatePicker().setMaxDate(System.currentTimeMillis());
+            java.util.Calendar earliest=java.util.Calendar.getInstance();
+            earliest.add(java.util.Calendar.YEAR,-120);
+            picker.getDatePicker().setMinDate(earliest.getTimeInMillis());
+            picker.show();
+        });
+        addProfileInput(column,onboardingString("Data nașterii (vârsta se actualizează automat)",
+            "Date of birth (age updates automatically)","Date de naissance","Geburtsdatum",
+            "Data di nascita","Fecha de nacimiento","Data de nascimento",
+            "Geboortedatum","Дата рождения","Data urodzenia"),birthField,foreground);
         android.widget.TextView genderLabel=setupLabel(onboardingString("Sex (pentru acordul gramatical)","Sex (for grammatical agreement)",
             "Sexe (accord grammatical)","Geschlecht (grammatikalische Anrede)","Sesso (accordo grammaticale)",
             "Sexo (concordancia gramatical)","Sexo (concordância gramatical)","Geslacht (grammaticale aanspreekvorm)",
@@ -518,7 +536,7 @@ public final class AvatarLaunchActivity extends Activity {
         continueButton.setOnClickListener(v->{
             String email=emailField.getText().toString().trim();
             String preferredName=nameField.getText().toString().trim().replaceAll("\\s+"," ");
-            String ageText=ageField.getText().toString().trim();
+            String birthDate=birthField.getText().toString().trim();
             if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()||email.length()>254){
                 emailField.setError(onboardingString("Introdu o adresă e-mail validă.","Enter a valid email address.",
                     "Saisissez une adresse e-mail valide.","Bitte gültige E-Mail eingeben.","Inserisci un'e-mail valida.",
@@ -532,22 +550,22 @@ public final class AvatarLaunchActivity extends Activity {
                     "Introduza o nome preferido.","Vul je voorkeursnaam in.","Укажите имя.","Podaj preferowane imię."));
                 nameField.requestFocus();return;
             }
-            int age;
-            try{age=Integer.parseInt(ageText);}catch(NumberFormatException ignored){age=0;}
-            if(age<1||age>120){
-                ageField.setError(onboardingString("Introdu o vârstă validă (1–120).",
-                    "Enter a valid age (1–120).","Indiquez un âge valide (1–120).",
-                    "Gültiges Alter eingeben (1–120).","Inserisci un'età valida (1–120).",
-                    "Introduce una edad válida (1–120).","Introduza uma idade válida (1–120).",
-                    "Voer een geldige leeftijd in (1–120).","Укажите возраст от 1 до 120.","Podaj wiek od 1 do 120."));
-                ageField.requestFocus();return;
+            int age=UserProfileDates.ageFromBirthDate(birthDate);
+            if(age==0){
+                birthField.setError(onboardingString("Selectează o dată a nașterii validă.",
+                    "Choose a valid date of birth.","Choisissez une date de naissance valide.",
+                    "Gültiges Geburtsdatum wählen.","Scegli una data di nascita valida.",
+                    "Selecciona una fecha de nacimiento válida.","Escolhe uma data de nascimento válida.",
+                    "Kies een geldige geboortedatum.","Укажите дату рождения.",
+                    "Wybierz poprawną datę urodzenia."));
+                return;
             }
             int selected=genderChoices.getCheckedRadioButtonId()-10070;
             String sex=sexCodes[Math.max(0,Math.min(2,selected))];
             // Private application storage. No automatic mail or profile upload.
             getSharedPreferences("pocket_user_profile",Context.MODE_PRIVATE).edit()
                 .putString("email",email).putString("preferred_name",preferredName)
-                .putInt("age",age).putString("sex",sex).apply();
+                .putInt("age",age).putString("birth_date",birthDate).putString("sex",sex).apply();
             continueButton.setEnabled(false);
             panel.dismiss();
             SharedPreferences prefs=getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE);
