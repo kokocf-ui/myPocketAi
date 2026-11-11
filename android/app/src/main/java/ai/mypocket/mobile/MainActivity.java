@@ -646,7 +646,23 @@ public final class MainActivity extends ComponentActivity {
             }
             @Override public void onGeolocationPermissionsHidePrompt(){pendingGeoCallback=null;pendingGeoOrigin=null;}
             @Override public void onPermissionRequest(PermissionRequest request) {
-                runOnUiThread(()->request.deny());
+                // Only the trusted app origin may request audio recording.
+                // Never grant camera, geolocation or other WebView resources.
+                runOnUiThread(()->{
+                    if(request==null)return;
+                    Uri origin=request.getOrigin();
+                    boolean trusted=origin!=null
+                        && "https".equalsIgnoreCase(origin.getScheme())
+                        && APP_HOST.equalsIgnoreCase(origin.getHost());
+                    String[] resources=request.getResources();
+                    boolean audioOnly=resources!=null&&resources.length==1
+                        && PermissionRequest.RESOURCE_AUDIO_CAPTURE.equals(resources[0]);
+                    boolean granted=ContextCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED;
+                    if(trusted&&audioOnly&&granted)
+                        request.grant(new String[]{PermissionRequest.RESOURCE_AUDIO_CAPTURE});
+                    else request.deny();
+                });
             }
         });
         web.setWebViewClient(new WebViewClient(){
