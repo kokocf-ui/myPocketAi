@@ -2880,7 +2880,7 @@ export default {
         (hasValidLocation?{latitude,longitude}:null);
       const urbanTo=data.transit_destination||data.route_context?.destination||data.route_destination;
       const urbanRegion=romanianUrbanRegion(urbanFrom,urbanTo);
-      if(urbanRegion && !explicitCarRoute){
+      if(urbanRegion && !explicitCarRoute && env.RO_URBAN_API_URL && env.RO_URBAN_API_TOKEN){
         const selectedUrbanAt=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
         const result=await planRomanianUrbanViaOracle(env,{
           from:urbanFrom,to:urbanTo,departureAt:selectedUrbanAt||null,limit:requestedOptionsCount
