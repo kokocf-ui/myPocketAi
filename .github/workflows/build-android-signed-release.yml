@@ -41,6 +41,8 @@ on:
       - 'tests_frontend_boot_syntax.mjs'
       - 'tests_education_android.mjs'
       - 'tests_first_install_consent.mjs'
+      - 'eva_dialogue.mjs'
+      - 'tests_eva_dialogue.mjs'
       - 'android/app/src/main/java/ai/mypocket/mobile/AvatarLaunchActivity.java'
       - 'android/app/src/main/assets/avatar-enter.js'
       - 'tests_pdf_library.mjs'
@@ -161,6 +163,7 @@ jobs:
           node tests_education_content_navigation.mjs
           node tests_practical_courses.mjs
           node tests_education_android.mjs
+          node tests_eva_dialogue.mjs
           node tests_first_install_consent.mjs
           node tests_seven_europe_literature.mjs
           node tests_hungarian_school_paths.mjs
