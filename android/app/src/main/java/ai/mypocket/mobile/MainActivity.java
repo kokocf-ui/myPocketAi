@@ -229,7 +229,8 @@ public final class MainActivity extends ComponentActivity {
             profile.put("email",prefs.getString("email",""));
             profile.put("preferred_name",prefs.getString("preferred_name",""));
             profile.put("birth_date",birth);
-            profile.put("age",age);
+            profile.put("age",age); // internal compatibility, never shown in Cont
+            profile.put("birthday_greeting_enabled",prefs.getBoolean("birthday_greeting_enabled",true));
             profile.put("sex",prefs.getString("sex","undisclosed"));
             profile.put("saved",saved);
             if(error!=null&&!error.isEmpty())profile.put("error",error);
@@ -248,6 +249,7 @@ public final class MainActivity extends ComponentActivity {
             String name=input.optString("preferred_name","").trim().replaceAll("\\s+"," ");
             String dob=input.optString("birth_date","").trim();
             String sex=input.optString("sex","undisclosed");
+            boolean birthdayGreetings=input.optBoolean("birthday_greeting_enabled",true);
             if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()||email.length()>254){
                 sendPocketAccount(view,false,"Adresa de e-mail nu este validă.");return;
             }
@@ -265,7 +267,9 @@ public final class MainActivity extends ComponentActivity {
             if(!"male".equals(sex)&&!"female".equals(sex))sex="undisclosed";
             getSharedPreferences("pocket_user_profile",Context.MODE_PRIVATE).edit()
                 .putString("email",email).putString("preferred_name",name)
-                .putString("birth_date",dob).putInt("age",age).putString("sex",sex).apply();
+                .putString("birth_date",dob).putInt("age",age).putString("sex",sex)
+                .putBoolean("birthday_greeting_enabled",birthdayGreetings).apply();
+            ProfileBirthdayScheduler.reschedule(this);
             provideLocalUserProfile(view);
             sendPocketAccount(view,true,null);
         }catch(Exception ignored){sendPocketAccount(view,false,"Nu am putut salva profilul.");}
@@ -792,6 +796,7 @@ public final class MainActivity extends ComponentActivity {
                 });
         }
         AgendaReminderScheduler.reschedule(this);
+        ProfileBirthdayScheduler.reschedule(this);
         // The native back action must use the app's own view stack, not WebView history.
         getOnBackPressedDispatcher().addCallback(this,new OnBackPressedCallback(true){
             @Override public void handleOnBackPressed(){
