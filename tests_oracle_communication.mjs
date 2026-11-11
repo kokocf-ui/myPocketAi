@@ -12,6 +12,8 @@ assert.match(ORACLE_COMMUNICATION_SCRIPT,/WhatsApp/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/smsto:\?body=/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/pocketInviteReceived/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/pocketCommunicationImportShopping/);
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/await send\(\{action:'contacts'\}\)/,'server identity checked before declaring active');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/identity\.id=null;await dbWrite\(identity\)/,'stale id recovered without deleting device key');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'upload'/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'attachment'/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'list_share'/);
