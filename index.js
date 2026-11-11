@@ -3748,6 +3748,21 @@ function showDedicatedRouteResults(route,options=state.lastRouteOptions){
  openWalkingRouteChoices(route,options);
 }
 
+
+function showDedicatedRouteIssue(message){
+ if(state.currentView!=='module')return;
+ finishRouteSearchLoading();
+ const view=$('view-module');view.classList.remove('module-landing');view.classList.add('route-results-active');
+ const panel=document.createElement('section');panel.id='routeResultsLanding';panel.className='route-results-landing';
+ const heading=document.createElement('h3');heading.textContent=dialogText('Traseul nu este disponibil','Route unavailable');
+ const note=document.createElement('p');note.textContent=String(message||dialogText('Nu am putut calcula traseul.','Unable to calculate the route.')).slice(0,1200);
+ const back=document.createElement('button');back.type='button';back.className='route-results-show';
+ back.textContent=dialogText('← Înapoi la rezultate','← Back to results');
+ back.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else returnToModuleLanding()};
+ panel.append(heading,note,back);$('moduleContent').replaceChildren(panel);
+ document.querySelector('.route-choice-screen')?.remove();
+}
+
 function showNavigationReturnInPanel(body){
  // Back and Return to list are grouped in the transport header.
 }
@@ -17441,7 +17456,7 @@ function openWalkingRouteChoices(route,options=state.lastRouteOptions){
  const layer=document.createElement('section');layer.className='answer-reader route-choice-screen';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');
  const header=document.createElement('div');header.className='answer-reader-header';
  const title=document.createElement('h2');title.textContent=routeOptionsText()[0];header.append(title);
- const back=document.createElement('button');back.type='button';back.className='route-header-action';back.textContent=dialogText("Revenire","Return");back.style.cssText='width:auto;min-width:95px;font-size:14px;padding:6px';back.onclick=()=>{layer.remove();if(state.navigationReturnContext)returnToNavigationSource();else if(state.currentView==='module')showView('module')};header.append(back);
+ const back=document.createElement('button');back.type='button';back.className='route-header-action';back.textContent=dialogText("Revenire","Return");back.style.cssText='width:auto;min-width:95px;font-size:14px;padding:6px';back.onclick=()=>{layer.remove();if(state.navigationReturnContext)returnToNavigationSource();else if(state.currentView==='module')returnToModuleLanding()};header.append(back);
  const body=document.createElement('div');body.className='answer-reader-body';body.style.cssText='white-space:normal;scroll-behavior:auto';
  const list=document.createElement('div');list.className='route-options';
  for(const [i,v] of (usable.length?usable:[route]).entries()){
@@ -18722,6 +18737,7 @@ if(offered?.needs_travel_confirmation&&context?.pending==='profile'&&context?.de
 state.pendingTravelConfirmationData=null;
 if(!state.pendingTravelMode&&state.routeSearchContext?.destination&&/^(?!pietonal$|transport public$|masina$|mașină$|walking$|driving$|public transport$|da$|yes$|nu$|no$)(?:[\\p{L}][\\p{L}0-9&' .-]{2,60}\\s*,\\s*[\\p{L} .'-]{2,60}|(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)\\s+.+)$/iu.test(message)){state.routeSearchContext=null;state.pendingRouteDestination=null;state.pendingTravelMode=null;state.lastTravelModeResponse=null;}if(isMapRouteFollowup(message)&&validMapRoute(state.lastRoute)){addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const reply=routeMapText().shown;addBubble(reply,'assistant');state.messages.push({role:'assistant',text:reply});openRouteMap(state.lastRoute);return}const routeLoadingRequested=state.currentView==='module'&&['maps','travel'].includes(state.currentModule)&&(Boolean(state.pendingTravelMode)||state.pendingRouteStart===true||state.pendingRouteCompare===true);
 const routeLoadingProfile=state.pendingTravelMode||(state.pendingRouteStart?'walk':state.routeSearchContext?.profile)||'walk';
+const routePickerFromPlace=Boolean(state.routeSearchContext?.destination)&&routeLoadingRequested&&routeLoadingProfile!=='transit';
 const selectedEntityKind=state.pendingSelectedEntityKind==='article'?'article':undefined;state.pendingSelectedEntityKind=null;const selectedGeographicEntity=state.pendingSelectedGeoOption||null;state.pendingSelectedGeoOption=null;state.busy=true;if(routeLoadingRequested)beginRouteSearchLoading(routeLoadingProfile);const clientRequestStartedAt=performance.now();const generation=state.conversationGeneration;sendBtn.disabled=true;inputEl.disabled=true;setStatus(dialogText('myPocket AI pregătește răspunsul…','Pocket AI is preparing a response…'));addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const loading=addBubble(dialogText('Se pregătește răspunsul…','Preparing response…'),'assistant');try{const history=state.messages.slice(-CLIENT_CONFIG.historyLimit).map(m=>({role:m.role,content:m.text}));const gpsStartedAt=performance.now();const locationRequest=await coordinatesForRequest(message);const gpsElapsedMs=Math.round(performance.now()-gpsStartedAt);const locationIntent=locationRequest.locationIntent;const coordinates=locationRequest.coordinates;const locationErrorText=locationRequest.error;const routeDestination=state.pendingTravelMode&&state.routeSearchContext?.destination?state.routeSearchContext.destination:selectedPlaceForRoute(message);const routeStart=state.pendingRouteStart===true;state.pendingRouteStart=false;const routeViaQuery=state.pendingRouteViaQuery||undefined;state.pendingRouteViaQuery=null;const routeCompare=state.pendingRouteCompare===true;state.pendingRouteCompare=false;const travelMode=state.pendingTravelMode||undefined;state.pendingTravelMode=null;
 const newsFollowupText=String(message).normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
 const newsContextRequested=Boolean(state.newsConversationContext)&&/(?:surs\\w*|source\\w*|link\\w*|confirmat\\w*|neclar\\w*|verificat\\w*|confirmed|unclear|unverified|original)/i.test(newsFollowupText);
@@ -18749,6 +18765,7 @@ if(routeLoadingRequested&&routeLoadingProfile!=='transit'&&validMapRoute(data.ro
  setStatus(dialogText('Trasee găsite.','Routes found.'));
  return;
 }
+if(routePickerFromPlace){state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);showDedicatedRouteIssue(reply);setStatus(dialogText('Traseu indisponibil.','Route unavailable.'));return;}
 const weatherSummary=reply;const answerBubble=addBubble(weatherSummary,'assistant',false,{autoOpen:!(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification||data.weather_ok)});if(data.weather_ok&&data.weather){const weather=data.weather,host=document.createElement('div'),narrative=document.createElement('div'),toggle=document.createElement('button'),hourly=document.createElement('div'),grid=document.createElement('div');host.style.cssText='display:flex;flex-direction:column;gap:12px';narrative.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55';narrative.textContent=weatherSummary;toggle.type='button';toggle.className='transit-choice-action';toggle.style.cssText='min-height:52px;touch-action:manipulation;cursor:pointer;text-align:center';toggle.textContent=dialogText('🌦️ Vezi prognoza pe ore','🌦️ View hourly forecast');hourly.hidden=true;hourly.style.cssText='max-height:55vh;overflow-y:auto';const location=document.createElement('p');location.textContent=String(weather.location||'')+' · '+String(weather.date||'')+' ('+String(weather.timezone||'')+')';hourly.append(location);grid.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px';const icon=code=>code===0?'☀️':code<=3?'⛅':code===45||code===48?'🌫️':code>=51&&code<=67?'🌧️':code>=71&&code<=77?'❄️':code>=80&&code<=82?'🌦️':code>=95?'⛈️':'☁️';for(const h of weather.hourly||[]){const cell=document.createElement('div'),label=document.createElement('div'),precip=document.createElement('div');cell.style.cssText='border:1px solid #53798b;border-radius:10px;padding:10px;text-align:center';label.textContent=h.time+' '+icon(h.weather_code)+' '+Math.round(h.temperature)+'°C';precip.textContent='💧 '+(h.precipitation_probability??'—')+'% · '+(h.precipitation_mm??'—')+' mm';cell.append(label,precip);grid.append(cell)}hourly.append(grid);toggle.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();const opening=hourly.hidden;hourly.hidden=!opening;narrative.hidden=opening;toggle.textContent=opening?dialogText('← Înapoi la rezumat','← Back to summary'):dialogText('🌦️ Vezi prognoza pe ore','🌦️ View hourly forecast');const body=host.closest('.answer-reader-body');if(body)body.scrollTop=0});host.append(narrative,toggle,hourly);answerBubble.remove();openStandaloneChoicePanel(host,dialogText('Prognoză meteo','Weather forecast'),{keepOpen:true});}if(data.weather_choices?.length){answerBubble.remove();openPocketSelectionPanel(data.weather_choices,dialogText('Alege localitatea pentru prognoză','Choose a forecast location'),option=>{closeLongChoice();inputEl.value=String(option.number);submitMessage()})}showAnswerDuration(answerBubble,clientRequestStartedAt);if(routeDestination?.approximation&&validMapRoute(data.route))routeApproximationNotices.set(data.route,routeDestination.approximation);retainRouteResult(data,answerBubble);
  appendOfficialUKJourneySources(data,answerBubble);
  if(Array.isArray(data.transit)&&data.transit.length&&state.navigationReturnContext){answerBubble.remove();showTransitChoices(data.transit)}else appendTransitChoiceAction(data,answerBubble);
@@ -18796,6 +18813,7 @@ const weatherSummary=reply;const answerBubble=addBubble(weatherSummary,'assistan
    retry.onclick=()=>{if(state.busy)return;retry.disabled=true;inputEl.value=message;submitMessage()};
    bubble.append(retry);
   }
+  if(routePickerFromPlace)showDedicatedRouteIssue(reason);
   setStatus(dialogText("Cererea nu a reușit.","Request failed."));
   console.error('myPocket AI chat request failed:',{type:String(error?.name||'Error'),networkError:transportError,detail:messageText.slice(0,160)})}}finally{if(routeLoadingRequested)requestAnimationFrame(finishRouteSearchLoading);state.busy=false;sendBtn.disabled=false;inputEl.disabled=false;/* Do not reopen Android keyboard after button-only flows. Text entry gets focus only on an explicit tap. */inputEl.blur()}}
 $('chatForm').addEventListener('submit',event=>{event.preventDefault();submitMessage()});inputEl.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();$('chatForm').requestSubmit()}});inputEl.addEventListener('input',()=>{inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,130)+'px'});
@@ -19622,6 +19640,9 @@ main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;ov
 .route-results-landing .route-results-show{min-height:58px;padding:12px 15px;
  font-size:16px;font-weight:750;color:#f1ffff!important;border:1.5px solid #68b4b7;border-radius:16px;
  background:linear-gradient(120deg,#1c5f5e,#10465a,#102f45)!important}
+
+
+#view-module.route-results-active .route-results-landing .route-results-show:focus-visible{outline:3px solid #8ae5db;outline-offset:3px}
 
 </style>
 </body>
