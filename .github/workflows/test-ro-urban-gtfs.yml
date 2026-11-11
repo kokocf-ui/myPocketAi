@@ -5,6 +5,10 @@ on:
       - 'ro_urban_gtfs.mjs'
       - 'ro_urban_gtfs_import.mjs'
       - 'tests_ro_urban_gtfs.mjs'
+      - 'tests_ro_urban_server.mjs'
+      - 'ro_urban_server.mjs'
+      - 'tests_ro_urban_server.mjs'
+      - 'ro_urban_server.mjs'
       - '.github/workflows/test-ro-urban-gtfs.yml'
   pull_request:
     paths:
@@ -20,5 +24,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --check ro_urban_gtfs.mjs && node --check ro_urban_gtfs_import.mjs
-      - run: node --test tests_ro_urban_gtfs.mjs
+      - run: node --check ro_urban_gtfs.mjs && node --check ro_urban_gtfs_import.mjs && node --check ro_urban_server.mjs
+      - run: node --test tests_ro_urban_gtfs.mjs tests_ro_urban_server.mjs
