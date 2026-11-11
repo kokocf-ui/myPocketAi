@@ -25,6 +25,9 @@ jobs:
           node tests_frontend_boot_syntax.mjs
           node --check communication_ui.mjs
           node tests_communication_ui.mjs
+          node --check oracle_communication_ui.mjs
+          node --check oracle-communication/server.mjs
+          node tests_oracle_communication.mjs
           node tests_home_einstein_layout.mjs
           node tests_history_geography.mjs
           node tests_literature_europe.mjs
