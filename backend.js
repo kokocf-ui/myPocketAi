@@ -3668,7 +3668,10 @@ export default {
                   if(undergroundRequested&&!/(?:underground|metro|tube|940g)/i.test(meta))continue;
                   if(victoriaUndergroundRequested&&Array.isArray(data.matches)&&data.matches.some(p=>String(p.id)==='940GZZLUVIC')&&String(stop.id)!=='940GZZLUVIC')continue;
                   unique.add(key);
-                  const label=victoriaUndergroundRequested?'Victoria Underground Station, London':stopName;
+                  const victoriaGenericStation=/^(?:(?:london|londra)\s+)?victoria(?:\s+(?:rail|railway|station))?$/i.test(name.trim());
+                  const isTube=/(?:tube|underground|metro|940g)/i.test(meta);
+                  const label=victoriaUndergroundRequested?'Victoria Underground Station, London':
+                    victoriaGenericStation?'Victoria '+(isTube?'Underground':'Rail')+' Station, London':stopName;
                   if(!candidates.some(v=>normalizeGeoName(v.label)===normalizeGeoName(label)&&routeGeoDistance(v,{latitude:lat,longitude:lon})<450)){
                     candidates.push({latitude:lat,longitude:lon,label,country_code:'GB',resolution_source:'tfl_verified_station',stop_id:String(stop.id)});
                   }
