@@ -29,7 +29,13 @@ const isRoGPS=pt=>Number.isFinite(Number(pt?.latitude))&&Number.isFinite(Number(
 const isDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(String(value||''))&&!Number.isNaN(Date.parse(String(value)+'T12:00:00Z'));
 const placeName=value=>{
  if(typeof value==='string')return value.trim().slice(0,140);
- if(value&&typeof value==='object')return String(value.name||value.station||value.label||value.city||'').trim().slice(0,140);
+ if(value&&typeof value==='object'){
+  const text=value.name||value.station_name||value.stop_name||value.stationName||
+   value.stopName||value.display_name||value.label||value.city||value.locality;
+  if(typeof text==='string')return text.trim().slice(0,140);
+  if(value.station&&value.station!==value)return placeName(value.station);
+  if(value.stop&&value.stop!==value)return placeName(value.stop);
+ }
  return '';
 };
 const normalizeMode=raw=>{
@@ -38,6 +44,8 @@ const normalizeMode=raw=>{
  if(/tren|train|rail|interregio|regio/.test(mode))return 'train';
  if(/autocar|coach/.test(mode))return 'coach';
  if(/autobuz|bus/.test(mode))return 'bus';
+ if(/feroviar|feroviara|feroviara/.test(mode))return 'train';
+ if(/microbuz|minibus/.test(mode))return 'bus';
  return '';
 };
 function localClock(iso){
@@ -75,20 +83,29 @@ function bucharestOffset(date){
  return (m[1]==='-'?-1:1)*(Number(m[2])*60+Number(m[3]||0));
 }
 function providerTimestamp(value,date,previous=null){
+ if(value&&typeof value==='object'){
+  value=value.iso||value.datetime||value.dateTime||value.timestamp||
+   value.local_datetime||value.local_time||value.time||value.value||'';
+ }
+ if(typeof value==='number'&&Number.isFinite(value)){
+  const n=Math.abs(value)<1e11?value*1000:value;
+  return n>=946684800000&&n<=4102444800000?n:null;
+ }
  const raw=String(value??'').trim();
  if(!raw)return null;
+ // Provider clock-only HH:mm[:ss] requires the requested travel date.
  const plain=raw.match(/^(?:(\d{4}-\d{2}-\d{2})[T\s])?(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
  if(plain){
   const day=plain[1]||date;
   const offset=bucharestOffset(day);
   if(offset===null||Number(plain[2])>23||Number(plain[3])>59||Number(plain[4]||0)>59)return null;
   let ts=Date.parse(day+'T'+plain[2].padStart(2,'0')+':'+plain[3]+':'+(plain[4]||'00')+'Z')-offset*60000;
-  // A stated arrival clock earlier than departure may be a next-day train.
   if(previous!==null&&ts<previous&&previous-ts<24*3600000)ts+=86400000;
   return Number.isFinite(ts)?ts:null;
  }
- const parsed=Date.parse(raw);
- return Number.isFinite(parsed)?parsed:null;
+ const iso=raw.replace(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})\s*([+-]\d{2}:\d{2})$/,'$1T$2$3');
+ const parsed=Date.parse(iso);
+ return Number.isFinite(parsed)&&parsed>=946684800000&&parsed<=4102444800000?parsed:null;
 }
 function biloFare(item){
  const pricing=item?.pricing?.fares;
@@ -105,17 +122,18 @@ function biloFare(item){
  return null;
 }
 function biloRecords(payload){
- // Some API responses wrap search in data, results, or structuredContent.
- let node=payload;
+ // Preserve transport type found on a parent envelope when results are nested.
+ let node=payload,parentMode='';
  for(let i=0;i<5;i++){
-  if(Array.isArray(node))return {items:node,mode:''};
+  if(Array.isArray(node))return {items:node,mode:parentMode};
   if(!node||typeof node!=='object')break;
+  parentMode=String(node.mode||node.transport_mode||parentMode||'').slice(0,30);
   for(const key of ['trips','journeys','results','items']){
-   if(Array.isArray(node[key]))return {items:node[key],mode:String(node.mode||'')};
+   if(Array.isArray(node[key]))return {items:node[key],mode:parentMode};
   }
   node=node.structuredContent||node.data||node.result;
  }
- return {items:[],mode:''};
+ return {items:[],mode:parentMode};
 }
 // Only aggregate, non-sensitive response metadata. Never store or return raw
 // provider bodies, station queries, messages, tokens, or passenger data.
@@ -145,39 +163,97 @@ export function inspectBiloSearchResponse(payload){
   records_returned:Math.min(10000,records)
  };
 }
+function biloLegs(item){
+ const record=item.trip&&typeof item.trip==='object'?item.trip:
+  item.journey&&typeof item.journey==='object'?item.journey:
+  item.itinerary&&typeof item.itinerary==='object'?item.itinerary:item;
+ const candidates=[record.legs,record.segments,record.stages,record.steps,
+  record.route?.legs,record.route?.segments,record.route?.stages];
+ return {record,segments:candidates.find(Array.isArray)||[record]};
+}
+function biloLegFields(seg,item,rootMode,date){
+ const from=placeName(seg.from||seg.origin||seg.fromStation||seg.departureStation||
+  seg.departure_station||seg.origin_station||seg.originStation||
+  seg.from_stop||seg.fromStop||seg.departure_stop||seg.departureStop||
+  seg.departure?.station||seg.departure?.stop||seg.departure?.location||
+  seg.start?.station||seg.start?.stop||
+  item.from||item.origin||item.departure_station||item.departure?.station);
+ const to=placeName(seg.to||seg.destination||seg.toStation||seg.arrivalStation||
+  seg.arrival_station||seg.destination_station||seg.destinationStation||
+  seg.to_stop||seg.toStop||seg.arrival_stop||seg.arrivalStop||
+  seg.arrival?.station||seg.arrival?.stop||seg.arrival?.location||
+  seg.end?.station||seg.end?.stop||
+  item.to||item.destination||item.arrival_station||item.arrival?.station);
+ const modes=[seg.mode,seg.type,seg.transport_mode,seg.transportMode,
+  seg.transport_type,seg.vehicle_type,seg.vehicleType,seg.category,
+  seg.transport?.mode,seg.transport?.type,seg.vehicle?.type,
+  seg.service?.type,seg.service?.category,item.mode,item.transport_mode,
+  item.transport_type,rootMode];
+ let mode=modes.map(normalizeMode).find(Boolean)||'';
+ // Source explicitly marks this as a train/coach, even when the
+ // broad search mode is "all"; never infer mode from the requested route.
+ if(!mode&&[seg.train_number,seg.trainNumber,seg.train?.number,item.train_number,
+   item.train?.number,seg.service?.train_number].some(Boolean))mode='train';
+ if(!mode&&[seg.bus_number,seg.bus?.number,seg.coach_number,item.bus_number].some(Boolean))mode='bus';
+ // Explicitly unknown provider mode is not overridden by a train-number hint.
+ if([seg.mode,seg.transport_mode,seg.transportMode,seg.transport_type,item.mode].some(v=>normalize(v)==='unknown'))mode='';
+ const departValue=seg.departureTime??seg.departure_time??seg.departure_at??
+  seg.startDateTime??seg.start_time??seg.startTime??seg.dep_time??
+  seg.departure?.time??seg.departure?.datetime??seg.departure?.date_time??
+  seg.start?.time??seg.departure??item.departure_time??item.departure?.time;
+ const arriveValue=seg.arrivalTime??seg.arrival_time??seg.arrival_at??
+  seg.endDateTime??seg.end_time??seg.endTime??seg.arr_time??
+  seg.arrival?.time??seg.arrival?.datetime??seg.arrival?.date_time??
+  seg.end?.time??seg.arrival??item.arrival_time??item.arrival?.time;
+ const dep=providerTimestamp(departValue,date);
+ const arr=providerTimestamp(arriveValue,date,dep);
+ return {from,to,mode,dep,arr,
+  reason:!from?'missing_origin':!to?'missing_destination':!mode?'missing_transport_mode':
+    dep===null?'missing_departure_time':arr===null?'missing_arrival_time':
+    arr<=dep?'invalid_time_order':null};
+}
+function biloParseHint(payload,date=''){
+ const {items,mode}=biloRecords(payload);
+ const counts=new Map();
+ for(const item of items.slice(0,12)){
+  if(!item||typeof item!=='object')continue;
+  const {record,segments}=biloLegs(item);
+  if(!segments.length){counts.set('missing_legs',(counts.get('missing_legs')||0)+1);continue;}
+  for(const leg of segments.slice(0,8)){
+   if(!leg||typeof leg!=='object')continue;
+   const reason=biloLegFields(leg,record,mode,date).reason;
+   if(reason)counts.set(reason,(counts.get(reason)||0)+1);
+  }
+ }
+ const allowed=['missing_origin','missing_destination','missing_transport_mode',
+   'missing_departure_time','missing_arrival_time','invalid_time_order','missing_legs'];
+ return allowed.sort((a,b)=>(counts.get(b)||0)-(counts.get(a)||0))
+   .find(x=>counts.has(x))||'unsupported_structure';
+}
 export function normalizeBiloTrips(payload,limit=5,date=''){
  const {items,mode:rootMode}=biloRecords(payload);
  const seen=new Set(),out=[];
- for(const item of items){
+ for(const item of items.slice(0,100)){
   if(out.length>=Math.min(10,Math.max(1,limit)))break;
   if(!item||typeof item!=='object')continue;
-  const segments=Array.isArray(item.legs)?item.legs:
-    Array.isArray(item.segments)?item.segments:
-    Array.isArray(item.connections)?item.connections:
-    [item]; // Bilo search API v2 exposes flat result records.
+  const {record,segments}=biloLegs(item);
   if(!segments.length||segments.length>8)continue;
   const legs=[];
   for(const seg of segments){
    if(!seg||typeof seg!=='object'){legs.length=0;break;}
-   const from=placeName(seg.from||seg.origin||seg.fromStation||seg.departureStation||
-     seg.departure_station||seg.origin_station||((segments.length===1)?item.origin:null));
-   const to=placeName(seg.to||seg.destination||seg.toStation||seg.arrivalStation||
-     seg.arrival_station||seg.destination_station||((segments.length===1)?item.destination:null));
-   const mode=normalizeMode(seg.mode||seg.type||seg.transportMode||seg.transport_mode||
-     seg.category||item.mode||item.transport_mode||rootMode||
-     (seg.train_number||seg.trainNumber||item.train_number?'rail':''));
-   const dep=providerTimestamp(seg.departureTime||seg.departure_time||seg.departure||
-     seg.departure_at||seg.startDateTime||seg.startTime||seg.start_time,date);
-   const arr=providerTimestamp(seg.arrivalTime||seg.arrival_time||seg.arrival||
-     seg.arrival_at||seg.endDateTime||seg.endTime||seg.end_time,date,dep);
-   if(!from||!to||!mode||dep===null||arr===null||arr<=dep||
-      (legs.length&&dep<Date.parse(legs[legs.length-1].arrivalTime))){legs.length=0;break;}
+   const fields=biloLegFields(seg,segments.length===1?record:{mode:record.mode,transport_mode:record.transport_mode,train_number:record.train_number},rootMode,date);
+   if(fields.reason || (legs.length&&fields.dep<Date.parse(legs[legs.length-1].arrivalTime))){
+    legs.length=0;break;
+   }
    const line=String(seg.line||seg.lineName||seg.line_name||seg.trainNumber||
-      seg.train_number||seg.routeShortName||seg.number||item.train_number||'').slice(0,36);
-   const operator=seg.operator||seg.operatorName||seg.operator_name||item.operator||'';
-   legs.push({mode,from,to,departureTime:new Date(dep).toISOString(),
-      arrivalTime:new Date(arr).toISOString(),lineNames:line?[line]:[],
-      operator:String(typeof operator==='object'?operator.name||'':operator).slice(0,100)});
+    seg.train_number||seg.routeShortName||seg.service?.number||
+    seg.number||record.train_number||'').slice(0,36);
+   const operator=seg.operator||seg.operatorName||seg.operator_name||
+     seg.service?.operator||record.operator||'';
+   legs.push({mode:fields.mode,from:fields.from,to:fields.to,
+     departureTime:new Date(fields.dep).toISOString(),arrivalTime:new Date(fields.arr).toISOString(),
+     lineNames:line?[line]:[],
+     operator:String(typeof operator==='object'?operator.name||'':operator).slice(0,100)});
   }
   if(!legs.length)continue;
   const start=legs[0].departureTime,end=legs[legs.length-1].arrivalTime;
@@ -187,7 +263,7 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
   if(seen.has(id))continue;
   seen.add(id);
   out.push({startDateTime:start,arrivalDateTime:end,durationMinutes,legs,
-    time_zone:'Europe/Bucharest',fareLocal:biloFare(item),
+    time_zone:'Europe/Bucharest',fareLocal:biloFare(record)||biloFare(item),
     scheduled:true,real_time:false,source:'Bilo: operator schedule'});
  }
  return out;
@@ -216,7 +292,8 @@ export async function planRomanianNationalJourney(env,query,opts={}){
   const journeys=normalizeBiloTrips(payload,limit,date);
   if(journeys.length)return {status:'ok',journeys};
   const diagnosis=inspectBiloSearchResponse(payload);
-  return {status:diagnosis.status,records_returned:diagnosis.records_returned,journeys:[]};
+  return {status:diagnosis.status,records_returned:diagnosis.records_returned,
+   parse_hint:diagnosis.status==='results_unparsable'?biloParseHint(payload,date):null,journeys:[]};
  }catch(e){return {status:e?.name==='TimeoutError'?'timeout':'provider_network_error',journeys:[]};}
 }
 export async function reverseRomanianOriginCity(env,pt,fetchImpl=fetch){

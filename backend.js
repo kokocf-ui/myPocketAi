@@ -2959,7 +2959,8 @@ export default {
              :'Nu am putut confirma un itinerar cu trenul sau autocarul pentru ruta și data alese.');
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
           transit_available:false,route_available:false,mixed_journey:true,romanian_national_journey:true,
-          transit_provider:'Bilo',reason:providerReason,provider_status:{bilo:result.status,http_status:result.http_status||null,records_returned:result.records_returned??null}});
+          transit_provider:'Bilo',reason:providerReason,provider_status:{bilo:result.status,http_status:result.http_status||null,
+            records_returned:result.records_returned??null,parse_hint:result.parse_hint||null}});
       }
       let targetName = "London";
       let targetLat = null;

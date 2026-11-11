@@ -52,6 +52,52 @@ assert.equal(flat[0].legs[0].from,'București Nord');
 assert.equal(flat[0].legs[0].mode,'train');
 assert.equal(flat[0].legs[0].departureTime,'2026-11-12T06:30:00.000Z');
 assert.deepEqual(flat[0].fareLocal,{amount:65,currency:'RON'});
+
+const nestedBilo={data:{mode:'rail',results:[{itinerary:{route:{legs:[{
+ departure:{station:{name:'București Nord'},time:'2026-11-12T08:30:00+02:00'},
+ arrival:{station:{name:'Ploiești Vest'},time:'2026-11-12T09:15:00+02:00'},
+ transport:{mode:'rail'},service:{number:'R 3001'},operator:{name:'CFR Călători'}
+},{
+ departure:{station:{name:'Ploiești Vest'},time:'2026-11-12T09:25:00+02:00'},
+ arrival:{station:{name:'Brașov'},time:'2026-11-12T11:05:00+02:00'},
+ transport:{mode:'rail'},service:{number:'R 3002'}
+}]}}}]}};
+const multi=normalizeBiloTrips(nestedBilo,5,'2026-11-12');
+assert.equal(multi.length,1,'Nested itinerary should be read');
+assert.equal(multi[0].durationMinutes,155,'Elapsed includes connection time');
+assert.equal(multi[0].legs.length,2,'Real route has two legs');
+assert.equal(multi[0].legs[0].to,'Ploiești Vest');
+assert.equal(multi[0].legs[1].to,'Brașov');
+assert.equal(multi[0].legs[1].mode,'train');
+
+const implicitRail={mode:'all',results:[{
+ origin:{station_name:'București Nord'},destination:{station_name:'Brașov'},
+ departure_time:'08:30',arrival_time:'11:05',train_number:'IR 3001'
+}]};
+assert.equal(normalizeBiloTrips(implicitRail,5,'2026-11-12').length,1,
+ 'Train number in Bilo record is evidence of rail mode, even when search mode is all');
+
+const missingArrivalStation={mode:'rail',results:[{
+ origin:'București Nord',departure_time:'08:30',arrival_time:'11:05',train_number:'IR 100'
+}]};
+const unparseable=await planRomanianNationalJourney(
+ {BILO_API_KEY:'test-only'},{origin:'București',destination:'Brașov'},
+ {date:'2026-11-12',fetchImpl:async()=>({ok:true,status:200,json:async()=>missingArrivalStation})}
+);
+assert.equal(unparseable.status,'results_unparsable');
+assert.equal(unparseable.parse_hint,'missing_destination');
+assert.equal(unparseable.records_returned,1);
+assert.equal(normalizeBiloTrips({results:[{origin:'București',destination:'Brașov',
+ departure_time:'08:30',arrival_time:'11:05',mode:'unknown'}]},5,'2026-11-12').length,0,
+ 'Unknown transport type without provider train/bus evidence must be rejected');
+const brokenConnection={results:[{legs:[{
+ from:'București',to:'Ploiești',mode:'train',departure_time:'08:30',arrival_time:'09:30'
+},{
+ from:'Ploiești',to:'Brașov',mode:'train',departure_time:'09:00',arrival_time:'10:45'
+}]}]};
+assert.equal(normalizeBiloTrips(brokenConnection,5,'2026-11-12').length,0,
+ 'Overlapping timetable legs must never be shown as a valid connection');
+
 assert.equal(normalizeBiloTrips({schema_version:2,mode:'rail',results:[{
  origin:'Oradea',destination:'Cluj',departure_time:'23:50',arrival_time:'01:10'
 }]},5,'2026-11-12')[0].durationMinutes,80,'Overnight connection');
@@ -110,6 +156,7 @@ assert.match(backend,/ro_provider_access_forbidden/,'403 has distinct safe diagn
 for(const marker of ['ro_provider_no_results','ro_provider_unparsable_results','ro_provider_unknown_format','ro_provider_error_envelope'])
  assert.ok(backend.includes(marker),'Backend exposes diagnostic: '+marker);
 assert.ok(backend.includes('records_returned:result.records_returned??null'),'Safe record counts exposed to UI');
+assert.ok(backend.includes('parse_hint:result.parse_hint||null'),'Safe Bilo parse failure category exposed to UI');
 
 assert.ok(backend.includes('http_status:result.http_status||null'),'Provider HTTP status is returned without token');
 
