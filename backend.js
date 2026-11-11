@@ -9,7 +9,7 @@ import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
-import {romanianNationalQuery,planRomanianNationalJourney,bucharestTravelDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
+import {romanianNationalQuery,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
@@ -2889,7 +2889,7 @@ export default {
             reply:lang==='en'?'Choose a valid departure in the next 60 days.':'Alege o plecare validă în următoarele 60 de zile.',
             transit_available:false,route_available:false,reason:'ro_departure_date_invalid'});
         }
-        const date=bucharestTravelDate(selectedAt||null);
+        const date=romanianDepartureDate(message,selectedAt||null);
         const result=await planRomanianNationalJourney(env,{origin,destination},{date,limit:requestedOptionsCount});
         const journeys=requestedAt&&result.journeys.length
           ?result.journeys.filter(j=>Date.parse(j.startDateTime)>=requestedAt-120000)

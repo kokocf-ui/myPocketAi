@@ -1,13 +1,34 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {romanianNationalQuery,normalizeBiloTrips,planRomanianNationalJourney,
-  romanianJourneySummary,bucharestTravelDate,reverseRomanianOriginCity} from './ro_national_transit.mjs';
+  romanianJourneySummary,bucharestTravelDate,romanianDepartureDate,reverseRomanianOriginCity} from './ro_national_transit.mjs';
 
 const p=s=>romanianNationalQuery(s,{mixed_journey:false});
 assert.deepEqual(p('Cu trenul din Oradea la Cluj-Napoca?'),
  {origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true});
 assert.deepEqual(p('Transport public din București până la Brașov'),
  {origin:'București',destination:'Brașov',hasOrigin:true,hasDestination:true});
+
+assert.deepEqual(p('Cu trenul din București la Brașov mâine?'),
+ {origin:'București',destination:'Brașov',hasOrigin:true,hasDestination:true},
+ 'Accented mâine must not trigger address resolution');
+assert.deepEqual(p('Cu trenul din București la Brașov maine?'),
+ {origin:'București',destination:'Brașov',hasOrigin:true,hasDestination:true},
+ 'Unaccented maine works too');
+assert.deepEqual(p('Cu autocarul din Oradea la Cluj-Napoca poimâine?'),
+ {origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true});
+assert.deepEqual(p('Transport public din București până la Brașov pe 15 noiembrie 2026'),
+ {origin:'București',destination:'Brașov',hasOrigin:true,hasDestination:true});
+assert.deepEqual(p('Cu trenul din Oradea la Cluj-Napoca pe 15.11.2026'),
+ {origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true});
+const now=new Date('2026-11-11T10:15:00Z');
+assert.equal(romanianDepartureDate('Cu trenul din București la Brașov mâine?',null,now),'2026-11-12');
+assert.equal(romanianDepartureDate('Cu trenul din București la Brașov poimâine?',null,now),'2026-11-13');
+assert.equal(romanianDepartureDate('Cu trenul din București la Brașov azi?',null,now),'2026-11-11');
+assert.equal(romanianDepartureDate('Cu trenul din București la Brașov pe 15 noiembrie 2026',null,now),'2026-11-15');
+assert.equal(romanianDepartureDate('Cu trenul din București la Brașov pe 16.11.2026',null,now),'2026-11-16');
+assert.equal(romanianDepartureDate('Cu trenul din București la Brașov mâine?','2026-11-20T12:00:00+02:00',now),'2026-11-20','Explicit selected UI date takes priority');
+assert.equal(romanianDepartureDate('Cu trenul din București la Brașov mâine?',null,new Date('2026-11-11T23:30:00Z')),'2026-11-13','Romania local day matters near midnight UK');
 assert.equal(p('Din Grays la Manchester cu trenul'),null,'Do not hijack UK journeys');
 assert.equal(p('Cum merg cu mașina din Oradea la Cluj?'),null,'Do not route cars to rail adapter');
 assert.equal(p('Ce mai faci?'),null);
@@ -63,6 +84,7 @@ assert.equal(forbidden.http_status,403);
 assert.equal((await reverseRomanianOriginCity({GEOAPIFY_API_KEY:'x'},{latitude:51.5,longitude:-0.1},()=>{throw Error('must not geocode UK')})),'');
 const backend=readFileSync('backend.js','utf8');
 assert.match(backend,/romanianNationalQuery\(message/,'Romanian intent enters unified backend');
+assert.match(backend,/romanianDepartureDate\(message,selectedAt\|\|null\)/,'Backend uses text date, not always today');
 assert.match(backend,/roTransitQuery \|\| explicitMixedJourney/,'Romanian queries reach transit branch');
 assert.match(backend,/transit_provider:'Bilo'/,'Response identifies the provider');
 assert.match(backend,/ro_provider_access_forbidden/,'403 has distinct safe diagnostic');
