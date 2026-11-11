@@ -268,6 +268,35 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
  }
  return out;
 }
+// Bilo search records may contain only an opaque tripId and summary.
+// The documented /trip-details endpoint supplies the full timetable without
+// another billed search. Never infer a timetable from the identifier alone.
+function biloTripId(record){
+ if(!record||typeof record!=='object')return '';
+ const value=record.tripId??record.trip_id??record.trip?.tripId??
+  record.journey?.tripId??record.itinerary?.tripId??record.id;
+ // Preserve the provider identifier exactly; never put it into a URL path.
+ if(typeof value!=='string'&&typeof value!=='number')return '';
+ const id=String(value);
+ return id.length>0&&id.length<=256&&!/[\u0000-\u001f\u007f]/.test(id)?id:'';
+}
+function detailTrips(payload,limit,date){
+ let value=payload;
+ for(let depth=0;depth<6;depth++){
+  if(!value||typeof value!=='object')break;
+  if(Array.isArray(value))return normalizeBiloTrips({results:value},limit,date);
+  if(['results','trips','journeys','items'].some(k=>Array.isArray(value[k])))
+   return normalizeBiloTrips(value,limit,date);
+  if(Array.isArray(value.legs)||Array.isArray(value.segments)||
+     Array.isArray(value.stages)||Array.isArray(value.steps)||
+     Array.isArray(value.route?.legs)||Array.isArray(value.route?.segments)||
+     Array.isArray(value.itinerary?.legs)||Array.isArray(value.trip?.legs))
+   return normalizeBiloTrips({results:[value]},limit,date);
+  value=value.data||value.result||value.details||value.structuredContent||
+   value.trip||value.journey||value.itinerary;
+ }
+ return [];
+}
 export async function planRomanianNationalJourney(env,query,opts={}){
  const key=String(env?.BILO_API_KEY||'').trim();
  if(!query?.origin||!query?.destination)return {status:'origin_or_destination_required',journeys:[]};
@@ -276,12 +305,17 @@ export async function planRomanianNationalJourney(env,query,opts={}){
  if(!isDate(date))return {status:'date_invalid',journeys:[]};
  const limit=Math.min(8,Math.max(1,Number(opts.limit)||5));
  const url='https://mcp.bilo.ro/api/v1/search';
+ const requestId=opts.idempotencyKey||crypto.randomUUID();
+ const fetchImpl=opts.fetchImpl||fetch;
+ const headers={'Authorization':'Bearer '+key,'Content-Type':'application/json',
+  'Accept':'application/json'};
  try{
-  const response=await (opts.fetchImpl||fetch)(url,{
+  // Exact documented search fields; Bilo rejects unknown request properties.
+  const response=await fetchImpl(url,{
    method:'POST',
-   headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json','Accept':'application/json'},
+   headers:{...headers,'Idempotency-Key':requestId},
    body:JSON.stringify({origin:query.origin,destination:query.destination,date,
-    passengers:1,mode:'all',railClass:'2',sort:'duration',limit}),
+    mode:'all',limit}),
    signal:AbortSignal.timeout(9500)
   });
   if(response.status===401)return {status:'authentication_failed',http_status:401,journeys:[]};
@@ -292,8 +326,50 @@ export async function planRomanianNationalJourney(env,query,opts={}){
   const journeys=normalizeBiloTrips(payload,limit,date);
   if(journeys.length)return {status:'ok',journeys};
   const diagnosis=inspectBiloSearchResponse(payload);
+  const candidateIds=[];
+  const seen=new Set();
+  // Fetch details only for returned search records that carry an actual tripId.
+  // Never issue a second /search, and never request details for synthetic IDs.
+  const {items}=biloRecords(payload);
+  for(const record of items){
+   const id=biloTripId(record);
+   if(!id||seen.has(id))continue;
+   seen.add(id);candidateIds.push({id,record});
+   if(candidateIds.length>=Math.min(limit,5))break;
+  }
+  const completed=[];
+  let detailRequests=0,detailSuccesses=0;
+  for(const candidate of candidateIds){
+   detailRequests++;
+   try{
+    const detailResponse=await fetchImpl('https://mcp.bilo.ro/api/v1/trip-details',{
+     method:'POST',headers,
+     body:JSON.stringify({tripId:candidate.id}),
+     signal:AbortSignal.timeout(6500)
+    });
+    if(!detailResponse.ok)continue;
+    const detailPayload=await detailResponse.json();
+    const detailed=detailTrips(detailPayload,1,date);
+    if(!detailed.length)continue;
+    detailSuccesses++;
+    for(const trip of detailed){
+     // An optional published fare can remain on the search summary.
+     if(!trip.fareLocal)trip.fareLocal=biloFare(candidate.record);
+     completed.push(trip);
+    }
+   }catch{
+    // Fail closed: one malformed detail must not discard other valid trips.
+   }
+  }
+  if(completed.length){
+   completed.sort((a,b)=>Date.parse(a.startDateTime)-Date.parse(b.startDateTime));
+   return {status:'ok',journeys:completed.slice(0,limit),
+    detail_requests:detailRequests,detail_successes:detailSuccesses};
+  }
   return {status:diagnosis.status,records_returned:diagnosis.records_returned,
-   parse_hint:diagnosis.status==='results_unparsable'?biloParseHint(payload,date):null,journeys:[]};
+   parse_hint:diagnosis.status==='results_unparsable'
+    ?(detailRequests?'trip_details_not_usable':biloParseHint(payload,date)):null,
+   detail_requests:detailRequests,detail_successes:detailSuccesses,journeys:[]};
  }catch(e){return {status:e?.name==='TimeoutError'?'timeout':'provider_network_error',journeys:[]};}
 }
 export async function reverseRomanianOriginCity(env,pt,fetchImpl=fetch){
