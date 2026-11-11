@@ -1252,17 +1252,12 @@ export default {
 
     const url = new URL(request.url);
 
-    // Signed device invitations and encrypted peer messages, independent of AI.
+    // Preserve the legacy Durable Object data for safe migration, but do not
+    // accept any further peer messages or invites outside the Oracle VM.
     if(url.pathname==="/api/communication"){
-      if(!env.POCKET_COMM_HUB)return new Response(JSON.stringify({error:"communication_not_configured"}),{status:503,headers:{...corsHeaders,"Content-Type":"application/json"}});
-      const namespace=env.POCKET_COMM_HUB;
-      const hub=namespace.get(namespace.idFromName("pilot-v1"));
-      const result=await hub.fetch(request);
-      const headers=new Headers(result.headers);
-      headers.set("Access-Control-Allow-Origin","https://lifewise-ai-v2.kokocf.workers.dev");
-      headers.set("Access-Control-Allow-Headers","Content-Type,X-Pocket-Id,X-Pocket-Timestamp,X-Pocket-Nonce,X-Pocket-Signature");
-      headers.set("Cache-Control","no-store");
-      return new Response(result.body,{status:result.status,headers});
+      return new Response(JSON.stringify({error:"communication_moved_to_oracle"}),{
+        status:410,headers:{...corsHeaders,"Content-Type":"application/json","Cache-Control":"no-store"}
+      });
     }
 
     // Owner-approved image upload only; never triggered by ordinary device OCR.
