@@ -195,6 +195,8 @@ function biloLegFields(seg,item,rootMode,date){
  if(!mode&&[seg.train_number,seg.trainNumber,seg.train?.number,item.train_number,
    item.train?.number,seg.service?.train_number].some(Boolean))mode='train';
  if(!mode&&[seg.bus_number,seg.bus?.number,seg.coach_number,item.bus_number].some(Boolean))mode='bus';
+ // Explicitly unknown provider mode is not overridden by a train-number hint.
+ if([seg.mode,seg.transport_mode,seg.transportMode,seg.transport_type,item.mode].some(v=>normalize(v)==='unknown'))mode='';
  const departValue=seg.departureTime??seg.departure_time??seg.departure_at??
   seg.startDateTime??seg.start_time??seg.startTime??seg.dep_time??
   seg.departure?.time??seg.departure?.datetime??seg.departure?.date_time??
