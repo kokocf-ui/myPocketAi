@@ -138,7 +138,9 @@ export async function reverseRomanianOriginCity(env,pt,fetchImpl=fetch){
 export function bucharestTravelDate(value,now=new Date()){
  const timestamp=value?new Date(value):now;
  const dt=Number.isFinite(timestamp.getTime())?timestamp:now;
- return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Bucharest',year:'numeric',month:'2-digit',day:'2-digit'}).format(dt);
+ const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Bucharest',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(dt);
+ const fields=Object.fromEntries(parts.map(p=>[p.type,p.value]));
+ return fields.year+'-'+fields.month+'-'+fields.day;
 }
 export function romanianJourneySummary(journeys,origin,destination,language='ro'){
  const clock=localClock;
