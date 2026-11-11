@@ -3634,7 +3634,7 @@ function dismissNotice(){clearTimeout(state.noticeTimer);$('notice').classList.r
 function notify(message){const el=$('notice');dismissNotice();el.textContent=message;el.classList.add('show');state.noticeTimer=setTimeout(dismissNotice,1800)}
 inputEl.addEventListener('focus',dismissNotice);
 function setStatus(message){chatStatus.textContent=message}
-function showView(name){closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);if(name!=='module')finishRouteSearchLoading();if(name!=='module')document.getElementById('mathEducationReturn')?.remove();if(shoppingVoiceSession?.active&&name!=='module')shopVoiceStop();const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}const exitedModule=state.currentView==='module'&&name!=='module';state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));if(exitedModule)checkUiUpdateAfterModuleExit();document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
+function showView(name){closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);if(name!=='module'){finishRouteSearchLoading();clearDedicatedRouteResults();}if(name!=='module')document.getElementById('mathEducationReturn')?.remove();if(shoppingVoiceSession?.active&&name!=='module')shopVoiceStop();const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}const exitedModule=state.currentView==='module'&&name!=='module';state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));if(exitedModule)checkUiUpdateAfterModuleExit();document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
 // Change the shared chat host without archiving, clearing GPS or starting a new conversation.
 function switchConversationModule(key){
  if(!['assistant','maps','travel'].includes(key))return;
@@ -3657,7 +3657,7 @@ function rememberNavigationSource(place=null){
 }
 function returnToNavigationSource(){
  const source=state.navigationReturnContext;if(!source)return;
- finishRouteSearchLoading();
+ finishRouteSearchLoading();clearDedicatedRouteResults();
  document.getElementById('returnToSearchSource')?.remove();
  if(state.busy){state.conversationGeneration++;state.busy=false}
  closeLongChoice();closeRouteMap(false);cancelTransitAccess(true);
@@ -3700,6 +3700,7 @@ function enterModuleRouteConversation(){
 /* Route queries use the assistant API without exposing the chat while searching. */
 function beginRouteSearchLoading(profile){
  if(state.currentView!=='module'||!['maps','travel'].includes(state.currentModule))return;
+ clearDedicatedRouteResults();
  const view=$('view-module'),host=$('moduleContent');
  const heading=profile==='drive'
   ?dialogText('Căutăm traseul cu mașina','Finding a driving route')
@@ -3722,6 +3723,44 @@ function beginRouteSearchLoading(profile){
 function finishRouteSearchLoading(){
  $('view-module')?.classList.remove('route-searching');
  document.getElementById('routeSearchLoading')?.remove();
+}
+
+
+// Keep route requests inside a dedicated Maps/Hotels journey UI, not the
+// assistant transcript. Existing network, route geometry and GPS stay intact.
+function clearDedicatedRouteResults(){
+ $('view-module')?.classList.remove('route-results-active');
+ document.querySelector('.route-choice-screen')?.remove();
+ document.getElementById('routeResultsLanding')?.remove();
+}
+function showDedicatedRouteResults(route,options=state.lastRouteOptions){
+ if(!validMapRoute(route)||state.currentView!=='module')return;
+ finishRouteSearchLoading();
+ const view=$('view-module'),host=$('moduleContent');
+ view.classList.remove('module-landing');view.classList.add('route-results-active');
+ const panel=document.createElement('section');panel.id='routeResultsLanding';panel.className='route-results-landing';
+ const heading=document.createElement('h3');heading.textContent=routeOptionsText()[0];
+ const note=document.createElement('p');note.textContent=dialogText('Alege una dintre variante pentru a vedea traseul pe hartă.','Choose a route to view it on the map.');
+ const again=document.createElement('button');again.type='button';again.className='route-results-show';
+ again.textContent=routeOptionsText()[0];again.onclick=()=>openWalkingRouteChoices(state.lastRoute||route,state.lastRouteOptions?.length?state.lastRouteOptions:options);
+ panel.append(heading,note,again);host.replaceChildren(panel);
+ document.querySelector('.route-choice-screen')?.remove();
+ openWalkingRouteChoices(route,options);
+}
+
+
+function showDedicatedRouteIssue(message){
+ if(state.currentView!=='module')return;
+ finishRouteSearchLoading();
+ const view=$('view-module');view.classList.remove('module-landing');view.classList.add('route-results-active');
+ const panel=document.createElement('section');panel.id='routeResultsLanding';panel.className='route-results-landing';
+ const heading=document.createElement('h3');heading.textContent=dialogText('Traseul nu este disponibil','Route unavailable');
+ const note=document.createElement('p');note.textContent=String(message||dialogText('Nu am putut calcula traseul.','Unable to calculate the route.')).slice(0,1200);
+ const back=document.createElement('button');back.type='button';back.className='route-results-show';
+ back.textContent=dialogText('← Înapoi la rezultate','← Back to results');
+ back.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else returnToModuleLanding()};
+ panel.append(heading,note,back);$('moduleContent').replaceChildren(panel);
+ document.querySelector('.route-choice-screen')?.remove();
 }
 
 function showNavigationReturnInPanel(body){
@@ -15648,7 +15687,7 @@ function openModule(key){mathVoiceStop();mathCloseResults();document.querySelect
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'}],travel:[{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante, pizzerii, shaormerii și fast-food în apropierea mea.',kind:'places',description:'Caută restaurante, pub-uri, pizzerii, shaormerii și fast-food'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places',description:'Caută alte puncte de interes din apropiere'}]};
 /* Maps and hotels regain their own landing options. Keep existing search logic. */
 function renderModuleLandingChoices(){
- finishRouteSearchLoading();
+ finishRouteSearchLoading();clearDedicatedRouteResults();
  document.querySelector('.module-quick-sheet')?.classList.remove('mode-choice-screen');
  document.getElementById('returnToSearchSource')?.remove();
  const view=$('view-module'),host=$('moduleContent');
@@ -17417,7 +17456,7 @@ function openWalkingRouteChoices(route,options=state.lastRouteOptions){
  const layer=document.createElement('section');layer.className='answer-reader route-choice-screen';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');
  const header=document.createElement('div');header.className='answer-reader-header';
  const title=document.createElement('h2');title.textContent=routeOptionsText()[0];header.append(title);
- const back=document.createElement('button');back.type='button';back.className='route-header-action';back.textContent=dialogText("Revenire","Return");back.style.cssText='width:auto;min-width:95px;font-size:14px;padding:6px';back.onclick=()=>{layer.remove();if(state.navigationReturnContext)returnToNavigationSource();else if(state.currentView==='module')showView('module')};header.append(back);
+ const back=document.createElement('button');back.type='button';back.className='route-header-action';back.textContent=dialogText("Revenire","Return");back.style.cssText='width:auto;min-width:95px;font-size:14px;padding:6px';back.onclick=()=>{layer.remove();if(state.navigationReturnContext)returnToNavigationSource();else if(state.currentView==='module')returnToModuleLanding()};header.append(back);
  const body=document.createElement('div');body.className='answer-reader-body';body.style.cssText='white-space:normal;scroll-behavior:auto';
  const list=document.createElement('div');list.className='route-options';
  for(const [i,v] of (usable.length?usable:[route]).entries()){
@@ -17425,7 +17464,7 @@ function openWalkingRouteChoices(route,options=state.lastRouteOptions){
   button.textContent=(v===route?'✓ ':'')+(v.label||('Traseu '+(i+1)))+' · '+(v.distanceMeters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km'+(Number.isFinite(v.durationSeconds)?' · '+formatTravelDurationMinutes(v.durationSeconds/60):'');
   button.onclick=()=>{layer.remove();state.lastRoute=v;openRouteMap(v,null,usable)};list.append(button);
  }
- const more=routeOptionsControl(route,[]);for(const el of Array.from(more.children))if(el.tagName==='BUTTON')list.append(el);
+ const more=routeOptionsControl(route,[]);for(const el of Array.from(more.children))if(el.tagName==='BUTTON'){const action=el.onclick;el.onclick=()=>{layer.remove();action?.()};list.append(el);}
  const approximation=routeApproximationNotices.get(route);
  if(approximation){
   const notice=document.createElement('p');
@@ -18698,6 +18737,7 @@ if(offered?.needs_travel_confirmation&&context?.pending==='profile'&&context?.de
 state.pendingTravelConfirmationData=null;
 if(!state.pendingTravelMode&&state.routeSearchContext?.destination&&/^(?!pietonal$|transport public$|masina$|mașină$|walking$|driving$|public transport$|da$|yes$|nu$|no$)(?:[\\p{L}][\\p{L}0-9&' .-]{2,60}\\s*,\\s*[\\p{L} .'-]{2,60}|(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)\\s+.+)$/iu.test(message)){state.routeSearchContext=null;state.pendingRouteDestination=null;state.pendingTravelMode=null;state.lastTravelModeResponse=null;}if(isMapRouteFollowup(message)&&validMapRoute(state.lastRoute)){addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const reply=routeMapText().shown;addBubble(reply,'assistant');state.messages.push({role:'assistant',text:reply});openRouteMap(state.lastRoute);return}const routeLoadingRequested=state.currentView==='module'&&['maps','travel'].includes(state.currentModule)&&(Boolean(state.pendingTravelMode)||state.pendingRouteStart===true||state.pendingRouteCompare===true);
 const routeLoadingProfile=state.pendingTravelMode||(state.pendingRouteStart?'walk':state.routeSearchContext?.profile)||'walk';
+const routePickerFromPlace=Boolean(state.routeSearchContext?.destination)&&routeLoadingRequested&&routeLoadingProfile!=='transit';
 const selectedEntityKind=state.pendingSelectedEntityKind==='article'?'article':undefined;state.pendingSelectedEntityKind=null;const selectedGeographicEntity=state.pendingSelectedGeoOption||null;state.pendingSelectedGeoOption=null;state.busy=true;if(routeLoadingRequested)beginRouteSearchLoading(routeLoadingProfile);const clientRequestStartedAt=performance.now();const generation=state.conversationGeneration;sendBtn.disabled=true;inputEl.disabled=true;setStatus(dialogText('myPocket AI pregătește răspunsul…','Pocket AI is preparing a response…'));addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const loading=addBubble(dialogText('Se pregătește răspunsul…','Preparing response…'),'assistant');try{const history=state.messages.slice(-CLIENT_CONFIG.historyLimit).map(m=>({role:m.role,content:m.text}));const gpsStartedAt=performance.now();const locationRequest=await coordinatesForRequest(message);const gpsElapsedMs=Math.round(performance.now()-gpsStartedAt);const locationIntent=locationRequest.locationIntent;const coordinates=locationRequest.coordinates;const locationErrorText=locationRequest.error;const routeDestination=state.pendingTravelMode&&state.routeSearchContext?.destination?state.routeSearchContext.destination:selectedPlaceForRoute(message);const routeStart=state.pendingRouteStart===true;state.pendingRouteStart=false;const routeViaQuery=state.pendingRouteViaQuery||undefined;state.pendingRouteViaQuery=null;const routeCompare=state.pendingRouteCompare===true;state.pendingRouteCompare=false;const travelMode=state.pendingTravelMode||undefined;state.pendingTravelMode=null;
 const newsFollowupText=String(message).normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
 const newsContextRequested=Boolean(state.newsConversationContext)&&/(?:surs\\w*|source\\w*|link\\w*|confirmat\\w*|neclar\\w*|verificat\\w*|confirmed|unclear|unverified|original)/i.test(newsFollowupText);
@@ -18711,7 +18751,22 @@ if(data.structured_list?.type==='news'&&Array.isArray(data.structured_list.rows)
   summary:String(row.summary||'').slice(0,500)
  }))};
 if(data.news_followup&&state.newsConversationContext&&Number.isInteger(data.news_followup.selected_index))
- state.newsConversationContext.selected_index=data.news_followup.selected_index;state.lastPresentationResponse=data.presentation?{reply,plan:data.presentation}:null;loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.pendingTravelConfirmationData=data.needs_travel_confirmation&&data.route_context?.destination?data:null;state.travelConfirmationPanel=null;state.weatherSearchContext=data.weather_context||null;if(Array.isArray(data.places))state.lastPlaceResults=data.places;if(Array.isArray(data.places)&&data.places.length&&(state.tripAccommodationSearching||/\\b(?:cazare|hoteluri|hotel|hostel|motel|pensiuni|accommodation|lodging|guesthouse|airbnb)\\b/i.test(message))){state.tripAccommodationSearching=false;openAccommodationResults(data.places);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}if(data.encyclopedia){openEncyclopediaCard(selectedGeographicEntity?{...data.encyclopedia,selected_geo_option:selectedGeographicEntity}:data.encyclopedia,clientRequestStartedAt);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}/* Accommodation is decided once, before route calculation; never offer it again after receiving a route. *//* Keep the answer in the user's current section; provider selection remains backend-driven. */if(data.needs_travel_mode)state.lastTravelModeResponse=data;if(Array.isArray(data.transit)&&data.transit.length)state.lastTransitResponse=data;const weatherSummary=reply;const answerBubble=addBubble(weatherSummary,'assistant',false,{autoOpen:!(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification||data.weather_ok)});if(data.weather_ok&&data.weather){const weather=data.weather,host=document.createElement('div'),narrative=document.createElement('div'),toggle=document.createElement('button'),hourly=document.createElement('div'),grid=document.createElement('div');host.style.cssText='display:flex;flex-direction:column;gap:12px';narrative.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55';narrative.textContent=weatherSummary;toggle.type='button';toggle.className='transit-choice-action';toggle.style.cssText='min-height:52px;touch-action:manipulation;cursor:pointer;text-align:center';toggle.textContent=dialogText('🌦️ Vezi prognoza pe ore','🌦️ View hourly forecast');hourly.hidden=true;hourly.style.cssText='max-height:55vh;overflow-y:auto';const location=document.createElement('p');location.textContent=String(weather.location||'')+' · '+String(weather.date||'')+' ('+String(weather.timezone||'')+')';hourly.append(location);grid.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px';const icon=code=>code===0?'☀️':code<=3?'⛅':code===45||code===48?'🌫️':code>=51&&code<=67?'🌧️':code>=71&&code<=77?'❄️':code>=80&&code<=82?'🌦️':code>=95?'⛈️':'☁️';for(const h of weather.hourly||[]){const cell=document.createElement('div'),label=document.createElement('div'),precip=document.createElement('div');cell.style.cssText='border:1px solid #53798b;border-radius:10px;padding:10px;text-align:center';label.textContent=h.time+' '+icon(h.weather_code)+' '+Math.round(h.temperature)+'°C';precip.textContent='💧 '+(h.precipitation_probability??'—')+'% · '+(h.precipitation_mm??'—')+' mm';cell.append(label,precip);grid.append(cell)}hourly.append(grid);toggle.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();const opening=hourly.hidden;hourly.hidden=!opening;narrative.hidden=opening;toggle.textContent=opening?dialogText('← Înapoi la rezumat','← Back to summary'):dialogText('🌦️ Vezi prognoza pe ore','🌦️ View hourly forecast');const body=host.closest('.answer-reader-body');if(body)body.scrollTop=0});host.append(narrative,toggle,hourly);answerBubble.remove();openStandaloneChoicePanel(host,dialogText('Prognoză meteo','Weather forecast'),{keepOpen:true});}if(data.weather_choices?.length){answerBubble.remove();openPocketSelectionPanel(data.weather_choices,dialogText('Alege localitatea pentru prognoză','Choose a forecast location'),option=>{closeLongChoice();inputEl.value=String(option.number);submitMessage()})}showAnswerDuration(answerBubble,clientRequestStartedAt);if(routeDestination?.approximation&&validMapRoute(data.route))routeApproximationNotices.set(data.route,routeDestination.approximation);retainRouteResult(data,answerBubble);
+ state.newsConversationContext.selected_index=data.news_followup.selected_index;state.lastPresentationResponse=data.presentation?{reply,plan:data.presentation}:null;loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.pendingTravelConfirmationData=data.needs_travel_confirmation&&data.route_context?.destination?data:null;state.travelConfirmationPanel=null;state.weatherSearchContext=data.weather_context||null;if(Array.isArray(data.places))state.lastPlaceResults=data.places;if(Array.isArray(data.places)&&data.places.length&&(state.tripAccommodationSearching||/\\b(?:cazare|hoteluri|hotel|hostel|motel|pensiuni|accommodation|lodging|guesthouse|airbnb)\\b/i.test(message))){state.tripAccommodationSearching=false;openAccommodationResults(data.places);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}if(data.encyclopedia){openEncyclopediaCard(selectedGeographicEntity?{...data.encyclopedia,selected_geo_option:selectedGeographicEntity}:data.encyclopedia,clientRequestStartedAt);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}/* Accommodation is decided once, before route calculation; never offer it again after receiving a route. *//* Keep the answer in the user's current section; provider selection remains backend-driven. */if(data.needs_travel_mode)state.lastTravelModeResponse=data;if(Array.isArray(data.transit)&&data.transit.length)state.lastTransitResponse=data;
+// With a known destination, walking/driving results belong in the route
+// choice screen immediately. Do not momentarily show the chat transcript.
+if(routeLoadingRequested&&routeLoadingProfile!=='transit'&&validMapRoute(data.route)){
+ const routes=Array.isArray(data.routes)?data.routes.filter(validMapRoute):[];
+ if(!routes.some(v=>v===data.route||v.id&&data.route.id&&v.id===data.route.id))routes.unshift(data.route);
+ state.lastRouteOptions=routes.length?routes:[data.route];
+ state.lastRoute=data.route;state.lastRouteReply=reply;
+ if(routeDestination?.approximation)routeApproximationNotices.set(data.route,routeDestination.approximation);
+ state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);
+ showDedicatedRouteResults(data.route,state.lastRouteOptions);
+ setStatus(dialogText('Trasee găsite.','Routes found.'));
+ return;
+}
+if(routePickerFromPlace){state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);showDedicatedRouteIssue(reply);setStatus(dialogText('Traseu indisponibil.','Route unavailable.'));return;}
+const weatherSummary=reply;const answerBubble=addBubble(weatherSummary,'assistant',false,{autoOpen:!(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification||data.weather_ok)});if(data.weather_ok&&data.weather){const weather=data.weather,host=document.createElement('div'),narrative=document.createElement('div'),toggle=document.createElement('button'),hourly=document.createElement('div'),grid=document.createElement('div');host.style.cssText='display:flex;flex-direction:column;gap:12px';narrative.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55';narrative.textContent=weatherSummary;toggle.type='button';toggle.className='transit-choice-action';toggle.style.cssText='min-height:52px;touch-action:manipulation;cursor:pointer;text-align:center';toggle.textContent=dialogText('🌦️ Vezi prognoza pe ore','🌦️ View hourly forecast');hourly.hidden=true;hourly.style.cssText='max-height:55vh;overflow-y:auto';const location=document.createElement('p');location.textContent=String(weather.location||'')+' · '+String(weather.date||'')+' ('+String(weather.timezone||'')+')';hourly.append(location);grid.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px';const icon=code=>code===0?'☀️':code<=3?'⛅':code===45||code===48?'🌫️':code>=51&&code<=67?'🌧️':code>=71&&code<=77?'❄️':code>=80&&code<=82?'🌦️':code>=95?'⛈️':'☁️';for(const h of weather.hourly||[]){const cell=document.createElement('div'),label=document.createElement('div'),precip=document.createElement('div');cell.style.cssText='border:1px solid #53798b;border-radius:10px;padding:10px;text-align:center';label.textContent=h.time+' '+icon(h.weather_code)+' '+Math.round(h.temperature)+'°C';precip.textContent='💧 '+(h.precipitation_probability??'—')+'% · '+(h.precipitation_mm??'—')+' mm';cell.append(label,precip);grid.append(cell)}hourly.append(grid);toggle.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();const opening=hourly.hidden;hourly.hidden=!opening;narrative.hidden=opening;toggle.textContent=opening?dialogText('← Înapoi la rezumat','← Back to summary'):dialogText('🌦️ Vezi prognoza pe ore','🌦️ View hourly forecast');const body=host.closest('.answer-reader-body');if(body)body.scrollTop=0});host.append(narrative,toggle,hourly);answerBubble.remove();openStandaloneChoicePanel(host,dialogText('Prognoză meteo','Weather forecast'),{keepOpen:true});}if(data.weather_choices?.length){answerBubble.remove();openPocketSelectionPanel(data.weather_choices,dialogText('Alege localitatea pentru prognoză','Choose a forecast location'),option=>{closeLongChoice();inputEl.value=String(option.number);submitMessage()})}showAnswerDuration(answerBubble,clientRequestStartedAt);if(routeDestination?.approximation&&validMapRoute(data.route))routeApproximationNotices.set(data.route,routeDestination.approximation);retainRouteResult(data,answerBubble);
  appendOfficialUKJourneySources(data,answerBubble);
  if(Array.isArray(data.transit)&&data.transit.length&&state.navigationReturnContext){answerBubble.remove();showTransitChoices(data.transit)}else appendTransitChoiceAction(data,answerBubble);
  if(state.tripCountryOnChoice&&Array.isArray(data.destination_candidates)&&data.destination_candidates.length){
@@ -18758,6 +18813,7 @@ if(data.news_followup&&state.newsConversationContext&&Number.isInteger(data.news
    retry.onclick=()=>{if(state.busy)return;retry.disabled=true;inputEl.value=message;submitMessage()};
    bubble.append(retry);
   }
+  if(routePickerFromPlace)showDedicatedRouteIssue(reason);
   setStatus(dialogText("Cererea nu a reușit.","Request failed."));
   console.error('myPocket AI chat request failed:',{type:String(error?.name||'Error'),networkError:transportError,detail:messageText.slice(0,160)})}}finally{if(routeLoadingRequested)requestAnimationFrame(finishRouteSearchLoading);state.busy=false;sendBtn.disabled=false;inputEl.disabled=false;/* Do not reopen Android keyboard after button-only flows. Text entry gets focus only on an explicit tap. */inputEl.blur()}}
 $('chatForm').addEventListener('submit',event=>{event.preventDefault();submitMessage()});inputEl.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();$('chatForm').requestSubmit()}});inputEl.addEventListener('input',()=>{inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,130)+'px'});
@@ -19564,6 +19620,29 @@ main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;ov
 @keyframes route-search-breathe{to{opacity:.42}}
 @media(prefers-reduced-motion:reduce){.route-search-loading .route-search-spinner,.route-search-loading .route-search-skeleton-lines i{animation:none!important}}
 @media(max-height:640px){#view-module.route-searching.active .route-search-skeleton{min-height:48px}.route-search-loading .route-search-spinner{width:36px;height:36px;border-width:4px;margin:0}.route-search-loading .route-search-skeletons{gap:7px}.route-search-loading .route-search-skeleton-icon{width:28px;height:28px}}
+
+
+/* Dedicated route results keep shared chat fully out of the visible flow. */
+#view-module.route-results-active.active #moduleChatHost,
+#view-module.route-results-active.active #askModuleBtn,
+#view-module.route-results-active.active .section-lead{display:none!important}
+#view-module.route-results-active.active #moduleContent{
+ display:flex!important;flex:1 1 auto!important;min-height:0!important;width:100%!important;
+ padding:7px 0 14px!important;box-sizing:border-box!important
+}
+#view-module.route-results-active.active .route-results-landing{
+ box-sizing:border-box;width:100%;min-height:100%;display:flex;flex-direction:column;
+ justify-content:flex-start;gap:14px;padding:20px 15px;border:1px solid #3f8994;border-radius:18px;
+ background:linear-gradient(155deg,#0d3040,#081b2a 85%)
+}
+.route-results-landing h3{margin:0;color:#f2fafb;font-size:clamp(20px,5vw,25px)}
+.route-results-landing p{margin:0;color:#b9d9e0;line-height:1.5}
+.route-results-landing .route-results-show{min-height:58px;padding:12px 15px;
+ font-size:16px;font-weight:750;color:#f1ffff!important;border:1.5px solid #68b4b7;border-radius:16px;
+ background:linear-gradient(120deg,#1c5f5e,#10465a,#102f45)!important}
+
+
+#view-module.route-results-active .route-results-landing .route-results-show:focus-visible{outline:3px solid #8ae5db;outline-offset:3px}
 
 </style>
 </body>
