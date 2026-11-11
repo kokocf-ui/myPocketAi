@@ -188,7 +188,19 @@ function biloRecords(payload){
   for(const key of ['trips','journeys','results','items']){
    if(Array.isArray(node[key]))return {items:node[key],mode:parentMode};
   }
-  node=node.structuredContent||node.data||node.result;
+  // Some provider envelopes divide services into rail and road collections.
+  // The collection name is explicit provider evidence of the vehicle type.
+  // Never infer a missing coach journey merely from a city pair.
+  const typed=[['trains','train'],['rail','train'],['coaches','coach'],
+   ['buses','bus'],['bus','bus'],['train','train']];
+  const typedItems=typed.flatMap(([key,kind])=>Array.isArray(node[key])
+   ?node[key].filter(v=>v&&typeof v==='object').map(v=>({
+      ...v,mode:v.mode||v.transport_mode||kind
+    })):[]);
+  if(typed.some(([key])=>Array.isArray(node[key])))
+   return {items:typedItems,mode:parentMode};
+  node=node.structuredContent||node.data||node.result||
+    (node.results&&typeof node.results==='object'?node.results:null);
  }
  return {items:[],mode:parentMode};
 }
@@ -207,8 +219,10 @@ export function inspectBiloSearchResponse(payload){
    for(let i=0;i<5;i++){
      if(Array.isArray(v))return true;
      if(!v||typeof v!=='object')break;
-     if(['trips','journeys','results','items'].some(key=>Array.isArray(v[key])))return true;
-     v=v.structuredContent||v.data||v.result;
+     if(['trips','journeys','results','items','trains','rail',
+       'coaches','buses','bus','train'].some(key=>Array.isArray(v[key])))return true;
+     v=v.structuredContent||v.data||v.result||
+       (v.results&&typeof v.results==='object'?v.results:null);
    }
    return false;
  })();
@@ -431,7 +445,18 @@ export async function planRomanianNationalJourney(env,query,opts={}){
    seenJourneys.add(key);completed.push(trip);
   }
   if(completed.length){
+   // Safe aggregate statistics help distinguish missing provider coverage
+   // from lost parsed services, without exposing trip IDs or personal data.
+   const modes={rail:0,road:0,mixed:0};
+   for(const trip of completed){
+    const travel=(trip.legs||[]).map(x=>x.mode)
+      .filter(mode=>!['walking','walk','foot'].includes(mode));
+    const category=travel.every(mode=>['train','rail'].includes(mode))?'rail':
+      travel.every(mode=>['coach','bus','minibus'].includes(mode))?'road':'mixed';
+    modes[category]++;
+   }
    return {status:'ok',journeys:completed.slice(0,limit),
+    records_returned:items.length,parsed_modes:modes,
     detail_requests:candidates.length,detail_successes:details.size};
   }
   return {status:diagnosis.status,records_returned:diagnosis.records_returned,
