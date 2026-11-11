@@ -1,0 +1,40 @@
+name: Oracle Comunicare device-to-device regression
+on:
+  push:
+    branches: [infra/oracle-comunicare-gateway]
+    paths:
+      - 'oracle-comunicare/**'
+      - '.github/workflows/test-oracle-comunicare.yml'
+  workflow_dispatch:
+jobs:
+  security-and-integration:
+    runs-on: ubuntu-latest
+    services:
+      database:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: pocket_comm
+          POSTGRES_PASSWORD: oracle_test_password_123456789abcdef
+          POSTGRES_DB: pocket_comm
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U pocket_comm -d pocket_comm"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: pocket_comm
+      PGDATABASE: pocket_comm
+      PGPASSWORD: oracle_test_password_123456789abcdef
+      POCKET_COMM_TEST_DB: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: cd oracle-comunicare && npm install --no-audit --no-fund
+      - name: Initialize temporary PostgreSQL test schema
+        run: cat oracle-comunicare/schema.sql | docker exec -i ${{ job.services.database.id }} psql -v ON_ERROR_STOP=1 -U pocket_comm -d pocket_comm
+      - run: node --check oracle-comunicare/server.mjs
+      - run: node --test oracle-comunicare/server.test.mjs oracle-comunicare/integration.test.mjs
