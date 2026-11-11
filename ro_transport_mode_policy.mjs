@@ -36,3 +36,15 @@ export function romanianModeNoResultsMessage(requested,lang='ro'){
   :'No rail itinerary was verified for this date. Check the operator timetable.';
  return ro?'Nu am putut confirma curse pentru mijlocul de transport solicitat.':'No confirmed itinerary for the requested vehicle type.';
 }
+
+// The initial Bilo order may place a lengthy 3-change journey ahead of a
+// significantly quicker direct service. Prefer shortest verified duration,
+// then fewer transfers; do not invent better times.
+export function rankRomanianJourneys(journeys){
+ return [...(Array.isArray(journeys)?journeys:[])].sort((a,b)=>{
+  const dur=j=>Number.isFinite(Number(j?.durationMinutes))?+j.durationMinutes:Infinity;
+  const changes=j=>Math.max(0,(Array.isArray(j?.legs)?j.legs:[]).filter(l=>!['walking','walk','foot'].includes(l.mode)).length-1);
+  return dur(a)-dur(b)||changes(a)-changes(b)||
+   Date.parse(a?.startDateTime||0)-Date.parse(b?.startDateTime||0);
+ });
+}
