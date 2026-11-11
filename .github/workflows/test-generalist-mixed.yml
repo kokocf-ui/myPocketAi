@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'backend.js'
+      - 'ro_national_transit.mjs'
+      - 'tests_ro_national_transit.mjs'
       - 'index.js'
       - 'literature_task_ui.mjs'
       - 'tests_literature_activity_flow.mjs'
