@@ -23,7 +23,7 @@ assert.match(PRACTICAL_UI_SCRIPT,/pdfActions\.append\(pdfSave,pdfPrint\)/,
  'CV Save and Print remain side by side');
 
 assert.match(source,/function pocketExitQuestion\(\)/,'Exit prompt uses a single source');
-assert.match(source,/ro:'Pleci\?'/,'Romanian exit prompt is exactly Pleci?');
+assert.match(source,/ro:'Închizi\?'/,'Romanian exit prompt is exactly Închizi?');
 assert.doesNotMatch(source,/Vrei să închizi aplicația sau mai ai nevoie de mine\?/,
  'Old farewell prompt is removed');
 

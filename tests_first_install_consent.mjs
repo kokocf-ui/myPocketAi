@@ -21,9 +21,11 @@ assert.match(launcher,/beginSystemPermissions\(\);/,'Next proceeds to Android lo
 assert.match(launcher,/ONBOARDING_NOTIFICATIONS_REQUEST/,'Dedicated notification permission request is chained');
 assert.match(launcher,/requestPermissions\(new String\[\]\{Manifest\.permission\.POST_NOTIFICATIONS\}/,'Android asks for notifications at setup on Android 13+');
 assert.match(launcher,/if\(requestCode==ONBOARDING_PERMISSIONS_REQUEST\)requestNotificationPermission\(\)/,'Notification follows location callback');
-assert.match(launcher,/else if\(requestCode==ONBOARDING_NOTIFICATIONS_REQUEST\)startAvatarEntrance\(\)/,'Avatar starts after Android notification response');
+assert.match(launcher,/else if\(requestCode==ONBOARDING_NOTIFICATIONS_REQUEST\)requestMicrophonePermission\(\)/,'Microphone follows notifications');
+assert.match(launcher,/else if\(requestCode==ONBOARDING_MICROPHONE_REQUEST\)startAvatarEntrance\(\)/,'Avatar starts after microphone response');
 assert.doesNotMatch(launcher,/new android\.widget\.CheckBox/,'No app-defined permission checkboxes');
-assert.doesNotMatch(launcher,/requestPermissions\(new String\[\]\{Manifest\.permission\.RECORD_AUDIO/,'No microphone request during onboarding');
+assert.match(launcher,/requestPermissions\(new String\[\]\{Manifest\.permission\.RECORD_AUDIO/,'Native microphone request is part of first-run onboarding');
+assert.match(launcher,/Dictare și conversații vocale/,'Microphone purpose is explained before Android prompt');
 assert.doesNotMatch(main,/ensureAgendaNotificationPermission/,'Agenda no longer launches a duplicate notification request');
 assert.match(main,/if\("open"\.equals\(action\)\)return;/,'Agenda open only acknowledges the event');
 assert.match(main,/if\(!"sync"\.equals\(action\)\)return;/,'Background reminder sync does not prompt');
@@ -33,4 +35,4 @@ assert.match(boot,/first_setup_language/,'Initial native regional language used 
 assert.match(mist,/const cx=width\*\.5,cy=height\*\.47/,'Mist is centered on face, not chest');
 assert.match(lit,/eduOpenPrint\('save',material,\(\)=>dialog\.close\(\)\)/,'Reader Save closes after successful export');
 assert.match(lit,/eduOpenPrint\('print',material,\(\)=>dialog\.close\(\)\)/,'Reader Print closes after successful save and handoff');
-console.log('PASS: first-run localized info + native Android location/notifications + camera + avatar');
+console.log('PASS: first-run localized info + Android location/notifications/microphone + camera + avatar');

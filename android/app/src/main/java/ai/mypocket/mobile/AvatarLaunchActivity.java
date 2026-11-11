@@ -51,6 +51,7 @@ public final class AvatarLaunchActivity extends Activity {
     private int voiceInitAttempts = 0;
     private static final int ONBOARDING_PERMISSIONS_REQUEST=4832;
     private static final int ONBOARDING_NOTIFICATIONS_REQUEST=4833;
+    private static final int ONBOARDING_MICROPHONE_REQUEST=4834;
     private static final String PREFS_NAME="pocket_permissions";
     private boolean introStarted=false;
     private boolean firstSetupShownThisLaunch=false;
@@ -148,7 +149,7 @@ public final class AvatarLaunchActivity extends Activity {
     }
 
     // A single explanatory first-launch screen precedes the system dialogs.
-    // Android alone grants location and notification permissions; camera capture
+    // Android grants location, notifications and microphone permissions; camera capture
     // uses ACTION_IMAGE_CAPTURE and needs no duplicate custom consent panel.
     private String initialSetupLanguage="en";
     private String onboardingString(String ro,String en,String fr,String de,String it,String es,String pt,String nl,String ru,String pl) {
@@ -241,7 +242,7 @@ public final class AvatarLaunchActivity extends Activity {
     }
     private String currentLaunchLanguage(SharedPreferences prefs){
         String saved=prefs.getString("ui_language_native","");
-        if(saved!=null&&saved.matches("ro|en|fr|de|it|es|pt|nl|ru|pl|hr|sr|hu|tr|cs|sk|sl|bg|el|fi|sv|no|da|is|et|lv|lt|uk|bs|mk|sq|be|ca|ga|cy|mt|eu|gl|lb|fo|hy|ka|az|rm"))return saved;
+        if(saved!=null&&saved.matches("ro|en|fr|de|it|es|pt|nl|ru|pl|hr|sr|hu|tr|cs|sk|sl|bg|el|fi|sv|no|da|is|et|lv|lt|uk|bs|mk|sq|be|ca|ga|cy|mt|eu|gl|lb|fo|rm"))return saved;
         return detectFirstSetupLanguage();
     }
     private static String greetingForLanguage(String language){
@@ -365,6 +366,17 @@ public final class AvatarLaunchActivity extends Activity {
                 "Percorsi, trasporti e luoghi vicini.","Rutas, transporte y lugares cercanos.",
                 "Rotas, transportes e locais próximos.","Routes, vervoer en plekken dichtbij.",
                 "Маршруты, транспорт и места рядом.","Trasy, transport i pobliskie miejsca."),foreground,soft);
+        addSetupInfo(infoItems,onboardingString("Microfon","Microphone","Microphone","Mikrofon","Microfono","Micrófono","Microfone","Microfoon","Микрофон","Mikrofon"),
+            onboardingString("Dictare și conversații vocale, doar când le pornești.",
+                "Dictation and voice conversations, only when you start them.",
+                "Dictée et conversations vocales, uniquement à votre demande.",
+                "Diktat und Sprachgespräche nur bei Bedarf.",
+                "Dettatura e conversazioni vocali solo quando le avvii.",
+                "Dictado y conversaciones por voz, solo cuando los inicies.",
+                "Ditado e conversas por voz, apenas quando os iniciares.",
+                "Dicteren en spraakgesprekken alleen als je ze start.",
+                "Диктовка и голосовые беседы только при вашем запуске.",
+                "Dyktowanie i rozmowy głosowe tylko po uruchomieniu."),foreground,soft);
         addSetupInfo(infoItems,onboardingString("Fotografiere","Camera","Appareil photo","Kamera","Fotocamera","Cámara","Câmara","Camera","Камера","Aparat"),
             onboardingString("Scanarea documentelor și a exercițiilor; camera se deschide doar când o alegi.",
                 "Scan documents and exercises; the camera opens only when you choose it.",
@@ -447,6 +459,13 @@ public final class AvatarLaunchActivity extends Activity {
             && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)!=PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS},
                 ONBOARDING_NOTIFICATIONS_REQUEST);
+        }else requestMicrophonePermission();
+    }
+
+    private void requestMicrophonePermission(){
+        if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},
+                ONBOARDING_MICROPHONE_REQUEST);
         }else startAvatarEntrance();
     }
 
@@ -479,7 +498,8 @@ public final class AvatarLaunchActivity extends Activity {
     @Override public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
         super.onRequestPermissionsResult(requestCode,permissions,grantResults);
         if(requestCode==ONBOARDING_PERMISSIONS_REQUEST)requestNotificationPermission();
-        else if(requestCode==ONBOARDING_NOTIFICATIONS_REQUEST)startAvatarEntrance();
+        else if(requestCode==ONBOARDING_NOTIFICATIONS_REQUEST)requestMicrophonePermission();
+        else if(requestCode==ONBOARDING_MICROPHONE_REQUEST)startAvatarEntrance();
     }
 
     private void startAvatarEntrance(){
