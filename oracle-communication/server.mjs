@@ -5,15 +5,15 @@ import nodemailer from 'nodemailer';
 import {createDeviceCommunicationHandler} from './device-api.mjs';
 
 // Runs on Oracle VM ONLY. Neither D1 nor the Eva/AI Worker stores communication data.
-const required=['PGHOST','PGDATABASE','PGUSER','PGPASSWORD','OTP_SECRET','APP_ORIGIN','SMTP_HOST','SMTP_USER','SMTP_PASSWORD','MAIL_FROM'];
+const required=['PGHOST','PGDATABASE','PGUSER','PGPASSWORD','APP_ORIGIN'];
 const missing=required.filter(k=>!process.env[k]);
 if(missing.length)throw Error('Missing Oracle communication env: '+missing.join(', '));
-if(process.env.OTP_SECRET.length<32)throw Error('OTP_SECRET must have at least 32 characters');
+if(process.env.OTP_SECRET&&process.env.OTP_SECRET.length<32)throw Error('OTP_SECRET must have at least 32 characters');
 const pool=new Pool({max:8,connectionTimeoutMillis:6000});
 const handleDeviceCommunication=createDeviceCommunicationHandler(pool);
-const smtp=nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT||587),
+const smtp=(process.env.SMTP_HOST&&process.env.SMTP_USER&&process.env.SMTP_PASSWORD&&process.env.MAIL_FROM)?nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT||587),
  secure:Number(process.env.SMTP_PORT||587)===465,
- auth:{user:process.env.SMTP_USER,pass:process.env.SMTP_PASSWORD}});
+ auth:{user:process.env.SMTP_USER,pass:process.env.SMTP_PASSWORD}}):null;
 const originAllowed=String(process.env.APP_ORIGIN).replace(/\/$/,'');
 if(!/^https:\/\/[^/]+$/.test(originAllowed))throw Error('APP_ORIGIN must be HTTPS');
 const hash=v=>createHash('sha256').update(v).digest('hex');
@@ -75,6 +75,7 @@ async function route(req,res,url,origin){
  const remote=String(req.headers['x-forwarded-for']||req.socket.remoteAddress||'unknown').split(',')[0].trim().slice(0,64);
  rate('ip:'+remote,100);
  if(method==='POST'&&path==='/v1/auth/request-code'){
+  requireThat(smtp&&process.env.OTP_SECRET,410,'Autentificarea e-mail nu este activă');
   const d=await body(req),mail=email(d.email),name=txt(d.displayName);
   requireThat(validMail(mail),400,'E-mail invalid');
   requireThat(name.length>=2&&name.length<=60,400,'Prenume invalid');
@@ -88,6 +89,7 @@ async function route(req,res,url,origin){
   return answer(200,{ok:true,expiresInSeconds:600});
  }
  if(method==='POST'&&path==='/v1/auth/verify'){
+  requireThat(smtp&&process.env.OTP_SECRET,410,'Autentificarea e-mail nu este activă');
   const d=await body(req),mail=email(d.email),name=txt(d.displayName),code=txt(d.code);
   requireThat(validMail(mail)&&name.length>=2&&name.length<=60&&/^\d{6}$/.test(code),400,'Date de verificare invalide');
   rate('verify:'+remote,12,3600000);
