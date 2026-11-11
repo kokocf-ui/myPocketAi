@@ -724,7 +724,7 @@ public final class MainActivity extends ComponentActivity {
                 (view,message,origin,isMainFrame,replyProxy)->{
                     if(!isMainFrame||!"https".equals(origin.getScheme())||!APP_HOST.equals(origin.getHost()))return;
                     String locale=message.getData();
-                    if(locale!=null&&locale.matches("ro|en|fr|de|it|es|pt|nl|ru|pl|hr|sr|hu|tr|cs|sk|sl|bg|el|fi|sv|no|da|is|et|lv|lt|uk|bs|mk|sq|be|ca|ga|cy|mt|eu|gl|lb|fo|hy|ka|az|rm"))
+                    if(locale!=null&&locale.matches("ro|en|fr|de|it|es|pt|nl|ru|pl|hr|sr|hu|tr|cs|sk|sl|bg|el|fi|sv|no|da|is|et|lv|lt|uk|bs|mk|sq|be|ca|ga|cy|mt|eu|gl|lb|fo|rm"))
                         getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE)
                             .edit().putString("ui_language_native",locale).apply();
                 });
@@ -732,11 +732,11 @@ public final class MainActivity extends ComponentActivity {
         // Unique document URL prevents WebView/HTTP intermediary caches from showing an old UI.
         // No cookies, offline documents or localStorage are cleared.
         String setupLanguage=getIntent().getStringExtra("first_setup_language");
-        String langParam=setupLanguage!=null && setupLanguage.matches("ro|en|fr|de|it|es|pt|nl|ru|pl|hr|sr|hu|tr|cs|sk|sl|bg|el|fi|sv|no|da|is|et|lv|lt|uk|bs|mk|sq|be|ca|ga|cy|mt|eu|gl|lb|fo|hy|ka|az|rm")
+        String langParam=setupLanguage!=null && setupLanguage.matches("ro|en|fr|de|it|es|pt|nl|ru|pl|hr|sr|hu|tr|cs|sk|sl|bg|el|fi|sv|no|da|is|et|lv|lt|uk|bs|mk|sq|be|ca|ga|cy|mt|eu|gl|lb|fo|rm")
             ?"&first_setup_language="+Uri.encode(setupLanguage):"";
         web.loadUrl(APP_URL + "?nativeLaunch=1&uiFresh=" + System.currentTimeMillis()+langParam);
         // Permissions were requested after the first-launch information screen.
-        // Microphone remains on-demand when the user starts a voice feature.
+        // Microphone is requested during first-install setup; voice features may request it again only after a previous denial.
         boolean granted=ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED ||
             ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
         notifyLocationPermission(granted);
