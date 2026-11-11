@@ -1142,6 +1142,16 @@ main.page{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!importa
 #view-settings .module-panel h3{margin:0 0 5px!important}
 #view-settings .module-panel p{margin:5px 0 10px!important}
 
+
+/* First-letter language search, in the existing bounded settings dialog. */
+.language-dialog-search{display:block!important;width:calc(100% - 24px)!important;box-sizing:border-box!important;
+ min-height:46px!important;margin:10px 12px!important;padding:10px 14px!important;
+ color:#effaff!important;background:#123e51!important;border:1px solid #66cedb!important;
+ border-radius:12px!important;font:inherit!important;flex:0 0 auto!important}
+.language-dialog-choice[hidden],.language-dialog-empty[hidden]{display:none!important}
+.language-dialog-empty{font-size:13px;color:#b9d7e5;padding:12px 16px}
+@media(max-height:520px){#languageDialog{top:12px!important;bottom:12px!important}}
+
 /* v1.0.59: contained language dialog, no native Android full-screen select */
 #languageSelect{display:none!important}
 .language-menu-button{display:block;width:100%;padding:12px 16px;background:#102e40;border:1px solid #4ab9c8;border-radius:13px;color:#eefaff;text-align:left;font:inherit}
@@ -18783,7 +18793,7 @@ const newsFollowupText=String(message).normalize('NFD').replace(/[\\u0300-\\u036
 const newsContextRequested=Boolean(state.newsConversationContext)&&/(?:surs\\w*|source\\w*|link\\w*|confirmat\\w*|neclar\\w*|verificat\\w*|confirmed|unclear|unverified|original)/i.test(newsFollowupText);
 const browserNow=new Date();
 const clientLocalDay=[browserNow.getFullYear(),String(browserNow.getMonth()+1).padStart(2,'0'),String(browserNow.getDate()).padStart(2,'0')].join('-');
-const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,selected_entity_kind:selectedEntityKind,selected_geographic_entity:selectedGeographicEntity,history,news_context:newsContextRequested?state.newsConversationContext:null,client_local_day:clientLocalDay,module:state.currentView==='module'?state.currentModule:'assistant',route_context:state.routeSearchContext||null,travel_mode:travelMode,transit_count:state.requestedTransitCount||undefined,route_destination:routeDestination,transit_destination:travelMode==='transit'?routeDestination:undefined,transit_query:travelMode==='transit'?(state.routeSearchContext?.destination?.label||state.routeSearchContext?.destination_query||undefined):undefined,route_profile:routeStart?'walk':travelMode==='transit'?undefined:travelMode|| (routeDestination?(/driving|rutier|masina/i.test(message)?'drive':'walk'):undefined),route_start:routeStart,route_via_query:routeViaQuery,route_compare:routeCompare,weather_context:state.weatherSearchContext||null,place_context:state.placeSearchContext||null,distance_context:state.distanceSearchContext||null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});backendResponseHeadersAt=performance.now();let data;try{data=await response.json()}catch{throw new Error(dialogText('Serverul a trimis un răspuns care nu poate fi citit.','The server returned an unreadable response.'))}state.lastRequestTimings={total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:gpsElapsedMs,backend_round_trip_ms:Math.round(performance.now()-backendRequestStartedAt),time_to_headers_ms:Math.round(backendResponseHeadersAt-backendRequestStartedAt),response_read_ms:Math.round(performance.now()-backendResponseHeadersAt),server_total_ms:data.server_total_ms??null,backend_version:String(data.version||''),backend_latency:data.latency_breakdown||null};console.info('Pocket AI request timing',state.lastRequestTimings);if(data.error_code==='AI_QUOTA_EXCEEDED'){const quotaError=new Error(data.error||'Daily AI quota exceeded.');quotaError.code='AI_QUOTA_EXCEEDED';throw quotaError;}if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));if(data.place_lookup)console.info('Pocket AI destination lookup',JSON.stringify(data.place_lookup));const reply=String(data.reply).trim();state.lastStructuredResponse=data.structured_list?{reply,list:data.structured_list,sources:data.sources||[]}:null;
+const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,user_profile:window.__pocketNativeProfile||undefined,selected_entity_kind:selectedEntityKind,selected_geographic_entity:selectedGeographicEntity,history,news_context:newsContextRequested?state.newsConversationContext:null,client_local_day:clientLocalDay,module:state.currentView==='module'?state.currentModule:'assistant',route_context:state.routeSearchContext||null,travel_mode:travelMode,transit_count:state.requestedTransitCount||undefined,route_destination:routeDestination,transit_destination:travelMode==='transit'?routeDestination:undefined,transit_query:travelMode==='transit'?(state.routeSearchContext?.destination?.label||state.routeSearchContext?.destination_query||undefined):undefined,route_profile:routeStart?'walk':travelMode==='transit'?undefined:travelMode|| (routeDestination?(/driving|rutier|masina/i.test(message)?'drive':'walk'):undefined),route_start:routeStart,route_via_query:routeViaQuery,route_compare:routeCompare,weather_context:state.weatherSearchContext||null,place_context:state.placeSearchContext||null,distance_context:state.distanceSearchContext||null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});backendResponseHeadersAt=performance.now();let data;try{data=await response.json()}catch{throw new Error(dialogText('Serverul a trimis un răspuns care nu poate fi citit.','The server returned an unreadable response.'))}state.lastRequestTimings={total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:gpsElapsedMs,backend_round_trip_ms:Math.round(performance.now()-backendRequestStartedAt),time_to_headers_ms:Math.round(backendResponseHeadersAt-backendRequestStartedAt),response_read_ms:Math.round(performance.now()-backendResponseHeadersAt),server_total_ms:data.server_total_ms??null,backend_version:String(data.version||''),backend_latency:data.latency_breakdown||null};console.info('Pocket AI request timing',state.lastRequestTimings);if(data.error_code==='AI_QUOTA_EXCEEDED'){const quotaError=new Error(data.error||'Daily AI quota exceeded.');quotaError.code='AI_QUOTA_EXCEEDED';throw quotaError;}if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));if(data.place_lookup)console.info('Pocket AI destination lookup',JSON.stringify(data.place_lookup));const reply=String(data.reply).trim();state.lastStructuredResponse=data.structured_list?{reply,list:data.structured_list,sources:data.sources||[]}:null;
 if(data.structured_list?.type==='news'&&Array.isArray(data.structured_list.rows))
  state.newsConversationContext={type:'news',selected_index:null,rows:data.structured_list.rows.slice(0,12).map(row=>({
   title:String(row.title||'').slice(0,240),url:String(row.url||'').slice(0,700),
@@ -18968,14 +18978,57 @@ const languageDialogTitle=document.createElement('strong');
 const languageDialogClose=document.createElement('button');languageDialogClose.type='button';languageDialogClose.textContent='✕';languageDialogClose.setAttribute('aria-label','Close');
 languageDialogHead.append(languageDialogTitle,languageDialogClose);
 const languageDialogScroll=document.createElement('div');languageDialogScroll.className='language-dialog-scroll';
-languageDialog.append(languageDialogHead,languageDialogScroll);document.body.append(languageDialog);
+const languageSearch=document.createElement('input');languageSearch.type='search';languageSearch.className='language-dialog-search';
+languageSearch.autocomplete='off';languageSearch.spellcheck=false;languageSearch.setAttribute('aria-label','Caută limba');
+const languageEmpty=document.createElement('p');languageEmpty.className='language-dialog-empty';
+languageEmpty.hidden=true;
+languageDialog.append(languageDialogHead,languageSearch,languageDialogScroll,languageEmpty);document.body.append(languageDialog);
 const languageButton=document.createElement('button');languageButton.type='button';languageButton.className='language-menu-button';
 languageSelectNode.after(languageButton);
 const sortedLanguages=[...languageSelectNode.options].map(o=>({value:o.value,label:o.textContent})).sort((a,b)=>a.label.localeCompare(b.label,'en',{sensitivity:'base'}));
-function closeLanguageDialog(){languageDialog.hidden=true}
+function closeLanguageDialog(){languageDialog.hidden=true;languageSearch.blur()}
 function syncLanguageMenu(){languageSelectNode.value=state.language;languageButton.textContent=(sortedLanguages.find(o=>o.value===state.language)?.label||'Română')+' ▾';languageDialogTitle.textContent=(UI_TEXT[state.language]||UI_TEXT.ro).settingsLanguage}
-sortedLanguages.forEach(o=>{const btn=document.createElement('button');btn.type='button';btn.className='language-dialog-choice';btn.textContent=o.label;btn.addEventListener('click',()=>{languageSelectNode.value=o.value;languageSelectNode.dispatchEvent(new Event('change',{bubbles:true}));closeLanguageDialog()});languageDialogScroll.append(btn)});
-languageButton.addEventListener('click',()=>{syncLanguageMenu();languageDialog.hidden=false});
+const languageAlias={
+ ro:'romana romanian',en:'engleza english',fr:'franceza french',de:'germana german',it:'italiana italian',
+ es:'spaniola spanish',pt:'portugheza portuguese',nl:'olandeza dutch',ru:'rusa russian',pl:'poloneza polish',
+ hr:'croata croatian',sr:'sarba serbian',hu:'maghiara ungara hungarian',tr:'turca turkish',
+ cs:'ceha czech',sk:'slovaca slovak',sl:'slovena slovenian',bg:'bulgara bulgarian',el:'greaca greek',
+ fi:'finlandeza finnish',sv:'suedeza swedish',no:'norvegiana norwegian',da:'daneza danish',
+ is:'islandeza icelandic',et:'estoniana estonian',lv:'letona latvian',lt:'lituaniana lithuanian',
+ uk:'ucraineana ukrainian',bs:'bosniaca bosnian',mk:'macedoneana macedonian',
+ sq:'albaneza albanian',be:'belarusa belarusian',ca:'catalana catalan',ga:'irlandeza irish',
+ cy:'galeza welsh',mt:'malteza maltese',eu:'basca basque',gl:'galiciana galician',
+ lb:'luxemburgheza luxembourgish',fo:'feroeza faroese',rm:'retoromana romansh'
+};
+const languageFold=value=>String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
+ .toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\\s+/g,' ').trim();
+const languageChoices=[];
+sortedLanguages.forEach(o=>{
+ const btn=document.createElement('button');btn.type='button';btn.className='language-dialog-choice';
+ btn.textContent=o.label;
+ btn.addEventListener('click',()=>{languageSelectNode.value=o.value;languageSelectNode.dispatchEvent(new Event('change',{bubbles:true}));closeLanguageDialog()});
+ languageDialogScroll.append(btn);
+ let translated='';
+ try{if(typeof Intl.DisplayNames==='function')translated=[new Intl.DisplayNames(['ro'],{type:'language'}).of(o.value),new Intl.DisplayNames(['en'],{type:'language'}).of(o.value)].join(' ')}catch{}
+ languageChoices.push({button:btn,key:languageFold(o.label+' '+o.value+' '+(languageAlias[o.value]||'')+' '+translated)});
+});
+function filterLanguageChoices(value){
+ const words=languageFold(value).split(' ').filter(Boolean);
+ let matches=0;
+ languageChoices.forEach(item=>{const show=words.every(word=>item.key.includes(word));item.button.hidden=!show;if(show)matches++});
+ languageEmpty.hidden=matches!==0;
+ languageEmpty.textContent=state.language==='ro'?'Nu am găsit limba căutată.':'No matching language found.';
+ languageDialogScroll.scrollTop=0;
+}
+languageSearch.addEventListener('input',()=>filterLanguageChoices(languageSearch.value));
+languageSearch.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();closeLanguageDialog()}});
+languageButton.addEventListener('click',()=>{
+ syncLanguageMenu();languageDialog.hidden=false;languageSearch.value='';
+ languageSearch.placeholder=state.language==='ro'?'Caută o limbă…':'Search languages…';
+ languageSearch.setAttribute('aria-label',languageSearch.placeholder);
+ filterLanguageChoices('');
+ languageSearch.focus();
+});
 languageDialogClose.addEventListener('click',closeLanguageDialog);
 syncLanguageMenu();
 $('languageSelect').addEventListener('change',event=>{
