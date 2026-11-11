@@ -2860,7 +2860,7 @@ export default {
     const roTransitQuery=!explicitCarRoute?romanianNationalQuery(message,{
       location:hasValidLocation?{latitude,longitude}:null,
       mixed_journey:explicitMixedJourney,travel_mode:chosenTravelMode,
-      origin:data.route_context?.origin||null,
+      origin:data.journey_origin||data.route_context?.origin||null,
       destination:data.transit_destination||data.route_context?.destination||null,
       transit_query:data.transit_query||null
     }):null;
