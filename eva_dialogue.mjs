@@ -42,11 +42,11 @@ export function classifyEvaTurn(value,options={}){
    return {kind:'chat',speech_act:'banter'};
  // Direct conversation with Eva never requires speaking her name. These
  // are intent cues only: all replies are still composed by the language model.
- if(/^(?:ce (?:mai )?faci(?: (?:azi|acum|astazi))?|cum (?:mai )?esti|cum te (?:mai )?simti|ce mai zici|ai (?:chef de (?:o )?gluma|un minut|timp sa vorbim)|vrei sa glumim|hai sa (?:glumim|vorbim|discutam)|te ai suparat|te distrezi|de ce esti asa serioasa|ce parere ai despre mine|tu ce crezi|dar tu|si tu|serios|chiar asa)(?:$|\\b)/.test(core)
-    ||/^(?:dar )?daca te (?:invit|scot|chem)\\b/.test(core)
-    ||/^(?:spune mi|zi mi) (?:o gluma|ceva amuzant)\\b/.test(core))
+ if(/^(?:ce (?:mai )?faci(?: (?:azi|acum|astazi))?|cum (?:mai )?esti|cum te (?:mai )?simti|ce mai zici|ai (?:chef de (?:o )?gluma|un minut|timp sa vorbim)|vrei sa glumim|hai sa (?:glumim|vorbim|discutam)|te ai suparat|te distrezi|de ce esti asa serioasa|ce parere ai despre mine|tu ce crezi|dar tu|si tu|serios|chiar asa)(?:$|\b)/.test(core)
+    ||/^(?:dar )?daca te (?:invit|scot|chem)\b/.test(core)
+    ||/^(?:spune mi|zi mi) (?:o gluma|ceva amuzant)\b/.test(core))
    return {kind:'chat',speech_act:'banter'};
- if(/^(?:tii minte|mai tii minte|iti amintesti|ma mai tii minte|despre ce am vorbit|ce ti am spus|de ce spui asta|ce ai inteles din ce am spus)\\b/.test(core))
+ if(/^(?:tii minte|mai tii minte|iti amintesti|ma mai tii minte|despre ce am vorbit|ce ti am spus|de ce spui asta|ce ai inteles din ce am spus)\b/.test(core))
    return {kind:'chat',speech_act:'feedback'};
  if(taskStart.test(core))return null;
  if(/^(?:eva|evo) (?:air|braun|peron|strada|street|hotel|restaurant)\b/.test(t))return null;
