@@ -19513,6 +19513,58 @@ main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;ov
 #view-module.module-landing.active{height:auto!important;max-height:none!important;overflow:visible!important;grid-template-rows:auto auto!important}
 #view-module.module-landing #moduleContent{height:auto!important;max-height:none!important;overflow:visible!important}
 #view-module.module-landing .module-landing-grid{grid-auto-rows:minmax(95px,auto);min-height:0!important}}
+
+/* Approved route UI: quiet petrol buttons, plum navigation and a chat-free search state. */
+.module-quick-sheet.mode-choice-screen .module-quick-body{display:flex!important;flex-direction:column!important;align-content:stretch!important;gap:12px!important;padding:16px 14px!important}
+.module-quick-sheet.mode-choice-screen .module-quick-header{background:linear-gradient(150deg,#143448,#0b2030)!important}
+.module-quick-sheet.mode-choice-screen .mode-destination{display:flex;gap:12px;align-items:center;color:#e8f4f7;font-size:16px;line-height:1.4;padding:8px 4px 14px;border-bottom:1px solid #2e5966;margin-bottom:4px}
+.module-quick-sheet.mode-choice-screen .mode-destination p{margin:0;overflow-wrap:anywhere}
+.module-quick-sheet.mode-choice-screen .mode-destination-pin{font-size:23px;flex:none}
+.module-quick-sheet.mode-choice-screen .mode-route-option,
+.route-choice-screen .route-options>.transit-choice-action{
+ background:linear-gradient(125deg,#1a605f 0%,#10465b 55%,#0d3045 100%)!important;
+ border:1.5px solid #63adb5!important;color:#f3fbff!important;
+ border-radius:18px!important;box-shadow:inset 0 2px 0 rgba(235,255,255,.14),0 4px 0 #031723,0 9px 16px rgba(0,0,0,.28)!important;
+ font-size:clamp(15px,4.1vw,19px)!important;line-height:1.3!important;min-height:72px!important;
+ padding:13px 15px!important;white-space:normal!important;text-align:left!important;
+}
+.module-quick-sheet.mode-choice-screen .mode-route-option{display:flex!important;flex-direction:row!important;align-items:center!important;gap:13px!important;justify-content:flex-start!important}
+.module-quick-sheet.mode-choice-screen .mode-route-option strong{font-size:inherit!important;flex:1!important}
+.module-quick-sheet.mode-choice-screen .mode-route-icon{width:43px;height:43px;display:grid;place-items:center;flex:none;border-radius:12px;background:#08364080;font-size:25px}
+.module-quick-sheet.mode-choice-screen .mode-route-chevron{font-size:28px;font-weight:800;color:#bde9e9}
+.module-quick-sheet.mode-choice-screen .mode-back-results,
+.route-choice-screen .route-options>.route-map-open,
+.route-choice-screen .answer-reader-header .route-header-action{
+ background:linear-gradient(140deg,#723846,#4a293c 60%,#291f36)!important;color:#fff5f6!important;
+ border:1.5px solid #d6949b!important;border-radius:18px!important;
+ box-shadow:inset 0 2px 0 rgba(255,255,255,.13),0 4px 0 #1a101e,0 7px 14px rgba(0,0,0,.29)!important;
+ text-shadow:none!important;font-weight:750!important;
+}
+.module-quick-sheet.mode-choice-screen .mode-back-results{min-height:56px!important;margin-top:7px!important;padding:12px!important;font-size:16px!important}
+.route-choice-screen .answer-reader-header .route-header-action{min-height:42px!important;padding:8px 12px!important}
+.route-choice-screen .route-options{display:flex;flex-direction:column;gap:12px;padding:12px 3px 18px!important}
+.route-choice-screen .route-options>.transit-choice-action{margin:0!important;flex:0 0 auto!important}
+.route-choice-screen .route-options>.transit-choice-action[aria-pressed="true"]{border-color:#69e0d6!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.16),0 4px 0 #031723,0 0 11px rgba(50,197,184,.16)!important}
+.route-choice-screen .route-options>.route-map-open{min-height:59px!important;margin:3px 0 0!important;padding:12px 15px!important;font-size:16px!important;text-align:center!important}
+#view-module.route-searching.active #moduleChatHost,
+#view-module.route-searching.active .section-lead,
+#view-module.route-searching.active #askModuleBtn{display:none!important}
+#view-module.route-searching.active #moduleContent{display:block!important;min-height:0!important;flex:1 1 auto!important;width:100%!important;padding:3px 0 12px!important}
+#view-module.route-searching.active .route-search-loading{min-height:100%;box-sizing:border-box;display:flex;align-items:center;flex-direction:column;gap:16px;justify-content:flex-start;padding:16px 12px 12px;border-radius:20px;background:linear-gradient(155deg,#0a2636,#071927)}
+.route-search-loading .route-search-title{align-self:stretch;font-size:clamp(18px,5vw,25px);color:#f0f8fc;line-height:1.25;margin:3px 0 5px!important}
+.route-search-loading .route-search-spinner{width:54px;height:54px;flex:none;border-radius:50%;border:6px solid #24556a;border-top-color:#51d6d0;animation:route-search-spin 1.1s linear infinite;margin:7px auto 0}
+.route-search-loading .route-search-note{color:#c5dce4;line-height:1.4;font-size:clamp(13px,3.5vw,16px);margin:0;text-align:center}
+.route-search-loading .route-search-skeletons{width:100%;display:flex;flex-direction:column;gap:11px;margin-top:7px}
+.route-search-loading .route-search-skeleton{min-height:69px;border:1px solid #3b8995;border-radius:16px;background:linear-gradient(120deg,#103d4b,#0b283a);display:flex;align-items:center;gap:15px;padding:11px 14px;box-sizing:border-box}
+.route-search-loading .route-search-skeleton-icon{width:42px;height:42px;flex:none;border-radius:11px;background:#347c8866}
+.route-search-loading .route-search-skeleton-lines{display:flex;flex:1;flex-direction:column;gap:10px}
+.route-search-loading .route-search-skeleton-lines i{display:block;height:12px;border-radius:8px;background:#4b94a090;max-width:100%;width:83%;animation:route-search-breathe 1.5s ease-in-out infinite alternate}
+.route-search-loading .route-search-skeleton-lines i:last-child{width:57%;height:10px}
+@keyframes route-search-spin{to{transform:rotate(360deg)}}
+@keyframes route-search-breathe{to{opacity:.42}}
+@media(prefers-reduced-motion:reduce){.route-search-loading .route-search-spinner,.route-search-loading .route-search-skeleton-lines i{animation:none!important}}
+@media(max-height:640px){#view-module.route-searching.active .route-search-skeleton{min-height:48px}.route-search-loading .route-search-spinner{width:36px;height:36px;border-width:4px;margin:0}.route-search-loading .route-search-skeletons{gap:7px}.route-search-loading .route-search-skeleton-icon{width:28px;height:28px}}
+
 </style>
 </body>
 </html>`;
