@@ -2,16 +2,18 @@ import http from 'node:http';
 import {randomBytes,randomInt,randomUUID,createHash,createHmac,timingSafeEqual} from 'node:crypto';
 import {Pool} from 'pg';
 import nodemailer from 'nodemailer';
+import {createDeviceCommunicationHandler} from './device-api.mjs';
 
 // Runs on Oracle VM ONLY. Neither D1 nor the Eva/AI Worker stores communication data.
-const required=['PGHOST','PGDATABASE','PGUSER','PGPASSWORD','OTP_SECRET','APP_ORIGIN','SMTP_HOST','SMTP_USER','SMTP_PASSWORD','MAIL_FROM'];
+const required=['PGHOST','PGDATABASE','PGUSER','PGPASSWORD','APP_ORIGIN'];
 const missing=required.filter(k=>!process.env[k]);
 if(missing.length)throw Error('Missing Oracle communication env: '+missing.join(', '));
-if(process.env.OTP_SECRET.length<32)throw Error('OTP_SECRET must have at least 32 characters');
+if(process.env.OTP_SECRET&&process.env.OTP_SECRET.length<32)throw Error('OTP_SECRET must have at least 32 characters');
 const pool=new Pool({max:8,connectionTimeoutMillis:6000});
-const smtp=nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT||587),
+const handleDeviceCommunication=createDeviceCommunicationHandler(pool);
+const smtp=(process.env.SMTP_HOST&&process.env.SMTP_USER&&process.env.SMTP_PASSWORD&&process.env.MAIL_FROM)?nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT||587),
  secure:Number(process.env.SMTP_PORT||587)===465,
- auth:{user:process.env.SMTP_USER,pass:process.env.SMTP_PASSWORD}});
+ auth:{user:process.env.SMTP_USER,pass:process.env.SMTP_PASSWORD}}):null;
 const originAllowed=String(process.env.APP_ORIGIN).replace(/\/$/,'');
 if(!/^https:\/\/[^/]+$/.test(originAllowed))throw Error('APP_ORIGIN must be HTTPS');
 const hash=v=>createHash('sha256').update(v).digest('hex');
@@ -26,7 +28,7 @@ class ApiError extends Error{constructor(code,message){super(message);this.code=
 function requireThat(test,code,message){if(!test)throw new ApiError(code,message)}
 function send(res,status,data,origin){
  const headers={'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff','vary':'Origin','referrer-policy':'no-referrer'};
- if(origin===originAllowed){headers['access-control-allow-origin']=originAllowed;headers['access-control-allow-headers']='authorization, content-type';headers['access-control-allow-methods']='GET, POST, DELETE, OPTIONS';}
+ if(origin===originAllowed){headers['access-control-allow-origin']=originAllowed;headers['access-control-allow-headers']='authorization, content-type, x-pocket-id, x-pocket-timestamp, x-pocket-nonce, x-pocket-signature';headers['access-control-allow-methods']='GET, POST, DELETE, OPTIONS';}
  res.writeHead(status,headers);res.end(JSON.stringify(data));
 }
 async function body(req){
@@ -73,6 +75,7 @@ async function route(req,res,url,origin){
  const remote=String(req.headers['x-forwarded-for']||req.socket.remoteAddress||'unknown').split(',')[0].trim().slice(0,64);
  rate('ip:'+remote,100);
  if(method==='POST'&&path==='/v1/auth/request-code'){
+  requireThat(smtp&&process.env.OTP_SECRET,410,'Autentificarea e-mail nu este activă');
   const d=await body(req),mail=email(d.email),name=txt(d.displayName);
   requireThat(validMail(mail),400,'E-mail invalid');
   requireThat(name.length>=2&&name.length<=60,400,'Prenume invalid');
@@ -86,6 +89,7 @@ async function route(req,res,url,origin){
   return answer(200,{ok:true,expiresInSeconds:600});
  }
  if(method==='POST'&&path==='/v1/auth/verify'){
+  requireThat(smtp&&process.env.OTP_SECRET,410,'Autentificarea e-mail nu este activă');
   const d=await body(req),mail=email(d.email),name=txt(d.displayName),code=txt(d.code);
   requireThat(validMail(mail)&&name.length>=2&&name.length<=60&&/^\d{6}$/.test(code),400,'Date de verificare invalide');
   rate('verify:'+remote,12,3600000);
@@ -173,6 +177,33 @@ async function route(req,res,url,origin){
   const existing=stored.rows[0].exchange_public;
   requireThat((existing.x===key.x&&existing.y===key.y&&existing.kty===key.kty&&existing.crv===key.crv)||q.rowCount===1,409,'Această identitate are deja altă cheie de dispozitiv');
   return answer(200,{ok:true});
+ }
+ // List direct conversations only with currently approved, reciprocal contacts.
+ // Return public device keys so the client can establish a fresh local cipher.
+ if(method==='GET'&&path==='/v1/threads'){
+  const r=await pool.query(`
+   SELECT t.id AS "threadId", t.created_at AS "createdAt",
+          u.id AS "contactId",u.display_name AS "displayName",
+          k.exchange_public AS "exchangePublic",
+          (SELECT MAX(m.created_at) FROM comm_messages m WHERE m.thread_id=t.id) AS "lastMessageAt"
+   FROM comm_threads t
+   JOIN comm_direct_threads dt ON dt.thread_id=t.id
+   JOIN comm_thread_members mine ON mine.thread_id=t.id AND mine.user_id=$1
+   JOIN comm_thread_members peer ON peer.thread_id=t.id AND peer.user_id<>$1
+   JOIN comm_users u ON u.id=peer.user_id AND u.disabled_at IS NULL
+   JOIN comm_contacts ab ON ab.user_id=$1 AND ab.contact_id=u.id
+   JOIN comm_contacts ba ON ba.user_id=u.id AND ba.contact_id=$1
+   LEFT JOIN comm_device_keys k ON k.user_id=u.id
+   WHERE NOT EXISTS(SELECT 1 FROM comm_blocks b
+     WHERE (b.user_id=$1 AND b.blocked_id=u.id)
+        OR (b.user_id=u.id AND b.blocked_id=$1))
+   ORDER BY "lastMessageAt" DESC NULLS LAST,t.created_at DESC LIMIT 100
+  `,[me.id]);
+  return answer(200,{threads:r.rows});
+ }
+ if(method==='GET'&&path==='/v1/device-key'){
+  const key=await pool.query('SELECT exchange_public AS "exchangePublic" FROM comm_device_keys WHERE user_id=$1',[me.id]);
+  return answer(200,{exchangePublic:key.rows[0]?.exchangePublic||null});
  }
  if(method==='POST'&&path==='/v1/threads'){
   const d=await body(req),other=txt(d.contactId);
@@ -276,7 +307,7 @@ async function route(req,res,url,origin){
 const server=http.createServer((req,res)=>{
  const origin=String(req.headers.origin||'');
  const url=new URL(req.url,'http://127.0.0.1');
- Promise.resolve().then(()=>route(req,res,url,origin)).catch(e=>{
+ Promise.resolve().then(async()=>{if(await handleDeviceCommunication(req,res,url.pathname))return;return route(req,res,url,origin)}).catch(e=>{
   const status=e instanceof ApiError?e.code:500;
   if(status===500)console.error('Oracle communication error:',e.name);
   if(!res.headersSent)send(res,status,{error:status===500?'Eroare temporară de server':e.message},origin);
