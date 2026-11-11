@@ -41,11 +41,12 @@ const placeName=value=>{
 const normalizeMode=raw=>{
  const mode=normalize(raw);
  if(/walk|foot|pieton/.test(mode))return 'walking';
- if(/tren|train|rail|interregio|regio/.test(mode))return 'train';
+ // Replacement rail services are operated by road vehicles. Check the
+ // provider's explicit transport type before the generic 'rail' token.
+ if(/(?:rail|train|tren|feroviar).*(?:replacement|inlocui|substitu).*(?:bus|coach|autobuz|autocar)|(?:bus|coach|autobuz|autocar).*(?:replacement|inlocui|substitu)|(?:replacement|inlocui|substitu).*(?:bus|coach|autobuz|autocar)/.test(mode))return 'coach';
  if(/autocar|coach/.test(mode))return 'coach';
- if(/autobuz|bus/.test(mode))return 'bus';
- if(/feroviar|feroviara|feroviara/.test(mode))return 'train';
- if(/microbuz|minibus/.test(mode))return 'bus';
+ if(/autobuz|bus|microbuz|minibus/.test(mode))return 'bus';
+ if(/tren|train|rail|interregio|regio|feroviar/.test(mode))return 'train';
  return '';
 };
 function localClock(iso){
