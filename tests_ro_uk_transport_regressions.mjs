@@ -36,6 +36,15 @@ test('only actual coaches satisfy an autocar request',()=>{
  assert.deepEqual(filterRomanianVehicleJourneys([train,coach,mixed],'all'),[train,coach,mixed]);
  assert.match(romanianModeNoResultsMessage('coach'),/Nu am putut confirma nicio cursă cu autocarul/);
 });
+test('rail tickets on the closed Oradea Cluj line can use verified replacement coaches',()=>{
+ const replacement={legs:[{mode:'coach',railReplacement:true,
+  from:'Oradea',to:'Cluj-Napoca'}]};
+ const normalCoach={legs:[{mode:'bus',from:'Oradea',to:'Cluj-Napoca'}]};
+ assert.deepEqual(filterRomanianVehicleJourneys([replacement,normalCoach],'rail'),[replacement],
+  'Explicit train request can surface replacement road transport only with provider evidence');
+ assert.deepEqual(filterRomanianVehicleJourneys([replacement,normalCoach],'coach'),
+  [replacement,normalCoach], 'Intercity Bilo bus counts as road coach');
+});
 test('route parser retains explicit departure from Oradea instead of phone GPS',()=>{
  const routes=[
   ['arata-mi traseul cu masina din oradea la cluj-napoca','oradea','cluj-napoca'],
