@@ -2970,7 +2970,7 @@ export default {
         const date=romanianDepartureDate(message,selectedAt||null);
         const vehicle=requestedRomanianVehicle(message,data.transit_preference);
         const result=await planRomanianNationalJourney(env,{origin,destination},{
-          date,limit:vehicle==='all'?10:8
+          date,vehicle,limit:vehicle==='all'?10:8
         });
         const allJourneys=requestedAt&&result.journeys.length
           ?result.journeys.filter(j=>Date.parse(j.startDateTime)>=requestedAt-120000)
