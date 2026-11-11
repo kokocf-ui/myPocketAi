@@ -17,7 +17,7 @@ for(const name of ['Adresă de e-mail','Nume preferat','Vârstă','Bărbat','Fem
  assert.ok(firstScreen.includes(name),'Missing profile field: '+name);
 for(const name of ['Localizare','Microfon','Fotografiere','Notificări'])
  assert.ok(firstScreen.includes(name),'Missing purpose explanation: '+name);
-assert.match(firstScreen,/setupDp\(12\)/,'Explanations use small text');
+assert.match(native,/setupLabel\("• "\+title\+": "\+detail,12,bodyColor,false\)/,'Permission explanations use 12sp text');
 assert.match(firstScreen,/pocket_user_profile/,'Profile saves in private app preferences');
 assert.match(firstScreen,/getCheckedRadioButtonId/,'Gender selection is functional');
 assert.match(firstScreen,/android\.util\.Patterns\.EMAIL_ADDRESS/,'Email validated before save');
