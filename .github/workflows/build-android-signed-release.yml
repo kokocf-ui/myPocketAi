@@ -150,6 +150,7 @@ jobs:
           node --check oracle-communication/server.mjs
           node tests_oracle_communication.mjs
           node tests_communication_redesign.mjs
+          node tests_oracle_fcm.mjs
           node tests_response_quality.mjs
           node tests_avatar_brand_pronunciation.mjs
           node --check practical_curriculum.mjs
@@ -202,6 +203,10 @@ jobs:
         env:
           POCKET_STORE_PASSWORD: ${{ secrets.POCKET_STORE_PASSWORD }}
           POCKET_KEY_PASSWORD: ${{ secrets.POCKET_KEY_PASSWORD }}
+          POCKET_FIREBASE_API_KEY: ${{ vars.POCKET_FIREBASE_API_KEY }}
+          POCKET_FIREBASE_APP_ID: ${{ vars.POCKET_FIREBASE_APP_ID }}
+          POCKET_FIREBASE_PROJECT_ID: ${{ vars.POCKET_FIREBASE_PROJECT_ID }}
+          POCKET_FIREBASE_SENDER_ID: ${{ vars.POCKET_FIREBASE_SENDER_ID }}
         run: gradle -p android --no-daemon assembleRelease
       - name: Verify signed APK and version
         run: |
