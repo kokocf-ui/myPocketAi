@@ -39,8 +39,10 @@ starting a competing HTTPS service. Avoid unreviewed remote installation scripts
   an idempotency key and revision check to avoid duplicate additions.
 - Browser CORS restricted to APP_ORIGIN; PostgreSQL and Node API only on
   internal Docker network; Caddy issues TLS certificates for COMM_DOMAIN.
-- **Chat transport and attachments are NOT activated** until audited client-side
-  E2EE, device-key management, expiry and attachment permissions exist.
+- Experimental **encrypted text chat transport is implemented in source**, using
+  device ECDH P-256 and AES-GCM, but is **not independently audited E2EE**.
+  Device replacement and recovery, trustworthy key verification, attachments
+  and Android background notifications are not ready for public release.
 - OTP requires configured SMTP; do not disable verification for the pilot.
 
 ## Pilot acceptance checks
@@ -52,5 +54,7 @@ starting a competing HTTPS service. Avoid unreviewed remote installation scripts
 6. Confirm older revisions return 409 and repeated idempotency keys do not
    duplicate items; revoke membership and verify 403.
 
-Real-time delivery, encrypted chat, media upload, FCM and native secure token
-storage are follow-up integrations, not deployed features of this version.
+Text chat and list updates currently refresh by foreground polling; reliable
+background notifications, media upload, group chat, audited key verification,
+key recovery, FCM and native Android secure token storage remain to implement.
+No source change here proves an Oracle deployment has taken place.
