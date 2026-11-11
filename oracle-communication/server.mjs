@@ -28,7 +28,7 @@ class ApiError extends Error{constructor(code,message){super(message);this.code=
 function requireThat(test,code,message){if(!test)throw new ApiError(code,message)}
 function send(res,status,data,origin){
  const headers={'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff','vary':'Origin','referrer-policy':'no-referrer'};
- if(origin===originAllowed){headers['access-control-allow-origin']=originAllowed;headers['access-control-allow-headers']='authorization, content-type';headers['access-control-allow-methods']='GET, POST, DELETE, OPTIONS';}
+ if(origin===originAllowed){headers['access-control-allow-origin']=originAllowed;headers['access-control-allow-headers']='authorization, content-type, x-pocket-id, x-pocket-timestamp, x-pocket-nonce, x-pocket-signature';headers['access-control-allow-methods']='GET, POST, DELETE, OPTIONS';}
  res.writeHead(status,headers);res.end(JSON.stringify(data));
 }
 async function body(req){
