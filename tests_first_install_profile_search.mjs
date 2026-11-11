@@ -63,10 +63,18 @@ const to=script.indexOf('const languageChoices=[];',from);
 assert.ok(from>=0&&to>from);
 const ctx=vm.createContext({});
 vm.runInContext(script.slice(from,to),ctx);
-const find=term=>codes.filter(o=>vm.runInContext('languageFold('+JSON.stringify(o.label+' '+o.code+' '+term+' '+(o.code==='hu'?'maghiara ungara hungarian':''))+')',ctx).includes(
- vm.runInContext('languageFold('+JSON.stringify(term)+')',ctx))).map(o=>o.code);
-assert.ok(find('maghiara').includes('hu'),'Search supports accented Romanian language name');
-assert.ok(codes.some(o=>o.code==='hu'&&o.label==='Magyar'));
+const search=term=>codes.filter(o=>{
+ const aliases=vm.runInContext('languageAlias['+JSON.stringify(o.code)+']||""',ctx);
+ const key=vm.runInContext('languageFold('+JSON.stringify(o.label+' '+o.code+' '+aliases)+')',ctx);
+ const query=vm.runInContext('languageFold('+JSON.stringify(term)+')',ctx);
+ return key.includes(query);
+}).map(o=>o.code);
+assert.ok(search('maghiara').includes('hu'),'Hungarian is found by Romanian spelling');
+assert.ok(search('Magyar').includes('hu'),'Hungarian is found by native spelling');
+assert.ok(search('hu').includes('hu'),'Hungarian is found by language code');
+assert.ok(search('Русский').includes('ru'),'Cyrillic language name remains searchable');
+assert.ok(search('Ελληνικά').includes('el'),'Greek language name remains searchable');
+assert.deepEqual(search('not-a-language-12345'),[],'Unknown language is not matched');
 assert.match(script,/languageSearch\.addEventListener\('input',\(\)=>filterLanguageChoices\(languageSearch\.value\)\)/,'Search filters immediately when typing');
 assert.match(script,/languageDialogScroll\.scrollTop=0/,'Filtered results start at the top');
 assert.match(script,/languageSearch\.focus\(\)/,'Keyboard focus begins in search field');
