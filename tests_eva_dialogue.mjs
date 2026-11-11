@@ -75,6 +75,7 @@ assert.match(backend,/max_tokens:190,temperature:0\.62/);
 assert.match(backend,/Sunt Eva, asistenta virtuală din myPocket AI/);
 
 const html=await(await app.fetch(new Request('https://eva-dialogue.test/'))).text();
+assert.match(html,/id="pocketUnifiedTitle">myPocket AI<\/strong>/,'The application retains its myPocket AI brand');
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script,'Frontend must render the inline script');
 new vm.Script(script,{filename:'eva-frontend-boot.js'});
