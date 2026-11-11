@@ -2871,7 +2871,7 @@ export default {
       let departureAt=null;
       const transitOptions = [];
       const requestedOptionsCount=requestedTransitCount(message,data.transit_count);
-      if(roTransitQuery){
+      if(roTransitQuery && (env.BILO_API_KEY || !env.MOTIS_API_BASE_URL)){
         const origin=roTransitQuery.origin || await reverseRomanianOriginCity(env,hasValidLocation?{latitude,longitude}:null);
         const destination=roTransitQuery.destination;
         if(!origin||!destination){
