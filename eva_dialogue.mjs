@@ -33,6 +33,7 @@ export function classifyEvaTurn(value,options={}){
  if(!raw.trim()||raw.length>700)return null;
  const t=normalizeEvaUtterance(raw);
  if(!t)return null;
+ if(t==='eva'||t==='evo')return {kind:'chat',speech_act:'greeting'};
  if(isEvaExitRequest(raw))return {kind:'exit',speech_act:'device_control'};
  const core=withoutGreetingAndAddress(t);
  if(taskStart.test(core))return null;
@@ -50,7 +51,7 @@ export function classifyEvaTurn(value,options={}){
  if(socialCue.test(t)&&(directAddress||/\b(?:tu|tine|te|tie|esti|vorbesti|m ai|mi ai|ma|eu|mine|your|you)\b/.test(t)))
    return {kind:'chat',speech_act:hostileCue.test(t)?'boundary':'banter'};
  if(directAddress&&!locationWords.test(core)&&
-    /^(?:ce mai faci|cum esti|cum te simti|ma asculti|ai simtul umorului|cum ma|ce parere ai despre mine|ma cunosti|iti amintesti|de ce esti|de ce ma|esti|you|are you|how are you|do you remember)\b/.test(core))
+    /^(?:ai|iti|mi|ma|te|ce mai faci|cum esti|cum te simti|ma asculti|ai simtul umorului|cum ma|ce parere ai despre mine|ma cunosti|iti amintesti|de ce esti|de ce ma|esti|you|are you|how are you|do you remember)\b/.test(core))
    return {kind:'chat',speech_act:hostileCue.test(t)?'boundary':'banter'};
  if(/^(?:esti|ești|you are|you re|nu esti|nu ești)\s+(?:cam\s+)?(?:prost|proasta|idioata|idiot|tampita|nesimtita|enervanta|useless|stupid|dumb)\b/.test(core))
    return {kind:'chat',speech_act:'boundary'};
