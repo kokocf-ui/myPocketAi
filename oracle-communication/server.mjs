@@ -2,6 +2,7 @@ import http from 'node:http';
 import {randomBytes,randomInt,randomUUID,createHash,createHmac,timingSafeEqual} from 'node:crypto';
 import {Pool} from 'pg';
 import nodemailer from 'nodemailer';
+import {createDeviceCommunicationHandler} from './device-api.mjs';
 
 // Runs on Oracle VM ONLY. Neither D1 nor the Eva/AI Worker stores communication data.
 const required=['PGHOST','PGDATABASE','PGUSER','PGPASSWORD','OTP_SECRET','APP_ORIGIN','SMTP_HOST','SMTP_USER','SMTP_PASSWORD','MAIL_FROM'];
@@ -9,6 +10,7 @@ const missing=required.filter(k=>!process.env[k]);
 if(missing.length)throw Error('Missing Oracle communication env: '+missing.join(', '));
 if(process.env.OTP_SECRET.length<32)throw Error('OTP_SECRET must have at least 32 characters');
 const pool=new Pool({max:8,connectionTimeoutMillis:6000});
+const handleDeviceCommunication=createDeviceCommunicationHandler(pool);
 const smtp=nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT||587),
  secure:Number(process.env.SMTP_PORT||587)===465,
  auth:{user:process.env.SMTP_USER,pass:process.env.SMTP_PASSWORD}});
@@ -303,7 +305,7 @@ async function route(req,res,url,origin){
 const server=http.createServer((req,res)=>{
  const origin=String(req.headers.origin||'');
  const url=new URL(req.url,'http://127.0.0.1');
- Promise.resolve().then(()=>route(req,res,url,origin)).catch(e=>{
+ Promise.resolve().then(async()=>{if(await handleDeviceCommunication(req,res,url.pathname))return;return route(req,res,url,origin)}).catch(e=>{
   const status=e instanceof ApiError?e.code:500;
   if(status===500)console.error('Oracle communication error:',e.name);
   if(!res.headersSent)send(res,status,{error:status===500?'Eroare temporară de server':e.message},origin);
