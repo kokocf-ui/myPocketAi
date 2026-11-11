@@ -26,7 +26,12 @@ assert.match(firstScreen,/UserProfileDates\.ageFromBirthDate\(birthDate\)/,'Curr
 assert.match(firstScreen,/beginSystemPermissions\(\)/,'Validated profile proceeds to permissions');
 assert.match(native,/firstSetupShownThisLaunch\?firstGreetingForLanguage\(launchLanguage\):greetingForLanguage\(launchLanguage\)/,
  'Avatar introduces Eva only on the actual first installation');
-assert.match(native,/case "ro":return "Bună! Eu sunt Eva\./);
+assert.match(native,/case "ro":return "Bună! Eu sunt Eva,/);
+assert.match(native,/case "ro":return "Bună! Eu sunt Eva, asistenta ta personală/,'Romanian repeated greeting introduces Eva by name');
+assert.match(native,/default:return greetingForLanguage\(language\)/,'First greeting inherits localized identity across supported languages');
+for(const code of ['ro','fr','de','it','es','pt','nl','ru','pl','hr','sr','hu','tr','cs','sk','sl','bg','el','fi','sv','no','da','is','et','lv','lt','uk','bs','mk','sq','be','ca','ga','cy','mt','eu','gl','lb','fo','rm']){
+ assert.ok(native.includes('case "'+code+'":return'),'Missing localized Eva startup for '+code);
+}
 assert.match(native,/first_setup_complete_v1/,'Existing installations do not repeat onboarding');
 assert.match(main,/provideLocalUserProfile\(view\)/,'Native profile is available to app');
 assert.match(main,/getSharedPreferences\("pocket_user_profile"/,'Profile is read locally');

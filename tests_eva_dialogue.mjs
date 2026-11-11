@@ -123,6 +123,27 @@ for(const text of ['Aldi','Eva, vreau să merg la Victoria Underground',
  'Eva, poți să-mi arăți restaurante în jurul meu?', 'Salut, unde este Aldi?', 'Cum ajung la Victoria Underground?', 'Ce este RAM?', 'Vreau să merg la Londra cu mașina.', 'Caută restaurante în apropiere.'])
  assert.equal(vm.runInContext('isEvaConversationClient('+JSON.stringify(text)+')',ctx),false,text);
 assert.equal(vm.runInContext('isEvaExitCommandClient("Eva, vreau să închid aplicația.")',ctx),true);
+// Only an explicit recall request reads a short excerpt from archived chat.
+const recallFrom=script.indexOf('function pocketRecallPreviousChat(message){');
+const recallTo=script.indexOf('function archiveCurrentConversation(){',recallFrom);
+assert.ok(recallFrom>0&&recallTo>recallFrom,'Bounded archived-chat recall helper exists');
+const recallCtx=vm.createContext({state:{currentView:'assistant',history:[
+ {messages:[
+  {role:'user',text:'Eva, iar faci pe deșteapta?'},
+  {role:'assistant',text:'Păi, de ce nu? Sunt pregătită să surprind!'},
+  {role:'user',text:'Eva, ce faci dacă te invit la o cafea?'}
+ ]}
+]}});
+vm.runInContext(script.slice(recallFrom,recallTo),recallCtx);
+assert.equal(vm.runInContext("pocketRecallPreviousChat('Ce faci?').length",recallCtx),0,'Do not load prior chats for ordinary dialogue');
+assert.ok(vm.runInContext("pocketRecallPreviousChat('Ții minte despre ce am glumit mai devreme?').length",recallCtx)>0,
+ 'Explicit recall includes recent archived banter');
+assert.equal(vm.runInContext("pocketRecallPreviousChat('Ții minte despre ce am glumit mai devreme?')[0].content",recallCtx),
+ 'Eva, iar faci pe deșteapta?');
+assert.match(script,/function showView\(name\)\{document\.getElementById\('pocketStandaloneChoices'\)\?\.remove\(\)/,
+ 'Navigating Home or Settings closes standalone weather choices');
+assert.match(script,/state\.assistantStructuredDestination=false;closeLongChoice\(\);cancelTransitAccess/,
+ 'Navigation also clears stale modal routing state');
 assert.match(script,/if\(state\.currentView==='assistant'&&isEvaExitCommandClient\(message\)\)/,
  'Assistant can invoke the real avatar exit confirmation');
 assert.match(script,/if\(!\['home','assistant'\]\.includes\(state\.currentView\)\|\|pocketExitOpen\)return;/,
