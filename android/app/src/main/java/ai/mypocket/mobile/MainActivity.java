@@ -92,6 +92,23 @@ import java.io.File;
 
 public final class MainActivity extends ComponentActivity {
     private String pendingCommunicationInvite = null;
+    private String pendingCommunicationKind = null;
+    private String pendingCommunicationTarget = null;
+    private void loadCommunicationNotification(Intent intent){
+        pendingCommunicationKind=intent==null?null:intent.getStringExtra(CommunicationNotificationHelper.EXTRA_KIND);
+        pendingCommunicationTarget=intent==null?null:intent.getStringExtra(CommunicationNotificationHelper.EXTRA_TARGET);
+        if(pendingCommunicationKind!=null&&!pendingCommunicationKind.matches("message|list|invite"))
+            pendingCommunicationKind=null;
+        if(pendingCommunicationTarget!=null&&!pendingCommunicationTarget.matches("[A-Za-z0-9_-]{1,150}"))
+            pendingCommunicationTarget=null;
+    }
+    private void dispatchCommunicationNotification(){
+        if(web==null||pendingCommunicationKind==null||pendingCommunicationTarget==null)return;
+        String kind=pendingCommunicationKind,target=pendingCommunicationTarget;
+        pendingCommunicationKind=null;pendingCommunicationTarget=null;
+        web.evaluateJavascript("(function(){var n=document.querySelector('[data-nav=communication]');if(n)n.click();if(window.pocketCommunicationNotificationOpen)window.pocketCommunicationNotificationOpen("
+            +JSONObject.quote(kind)+","+JSONObject.quote(target)+");})()",null);
+    }
     private static String communicationInviteCode(Intent intent) {
         if (intent==null)return null;
         String forwarded=intent.getStringExtra("communication_invite");
@@ -114,7 +131,9 @@ public final class MainActivity extends ComponentActivity {
         super.onNewIntent(intent);
         setIntent(intent);
         pendingCommunicationInvite=communicationInviteCode(intent);
+        loadCommunicationNotification(intent);
         if(pendingCommunicationInvite!=null && web!=null)dispatchCommunicationInvite();
+        if(pendingCommunicationKind!=null && web!=null)dispatchCommunicationNotification();
     }
     private static final String APP_URL = "https://lifewise-ai-v2.kokocf.workers.dev/";
     private static final String APP_HOST = "lifewise-ai-v2.kokocf.workers.dev";
@@ -561,6 +580,7 @@ public final class MainActivity extends ComponentActivity {
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
         pendingCommunicationInvite=communicationInviteCode(getIntent());
+        loadCommunicationNotification(getIntent());
         WindowCompat.setDecorFitsSystemWindows(getWindow(),true);
         getWindow().getDecorView().setSystemUiVisibility(0);
         getWindow().setStatusBarColor(Color.rgb(6,20,32));
@@ -646,7 +666,23 @@ public final class MainActivity extends ComponentActivity {
             }
             @Override public void onGeolocationPermissionsHidePrompt(){pendingGeoCallback=null;pendingGeoOrigin=null;}
             @Override public void onPermissionRequest(PermissionRequest request) {
-                runOnUiThread(()->request.deny());
+                // Only the trusted app origin may request audio recording.
+                // Never grant camera, geolocation or other WebView resources.
+                runOnUiThread(()->{
+                    if(request==null)return;
+                    Uri origin=request.getOrigin();
+                    boolean trusted=origin!=null
+                        && "https".equalsIgnoreCase(origin.getScheme())
+                        && APP_HOST.equalsIgnoreCase(origin.getHost());
+                    String[] resources=request.getResources();
+                    boolean audioOnly=resources!=null&&resources.length==1
+                        && PermissionRequest.RESOURCE_AUDIO_CAPTURE.equals(resources[0]);
+                    boolean granted=ContextCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED;
+                    if(trusted&&audioOnly&&granted)
+                        request.grant(new String[]{PermissionRequest.RESOURCE_AUDIO_CAPTURE});
+                    else request.deny();
+                });
             }
         });
         web.setWebViewClient(new WebViewClient(){
@@ -654,6 +690,7 @@ public final class MainActivity extends ComponentActivity {
                 super.onPageFinished(view,url);
                 if(!"https".equals(Uri.parse(url).getScheme())||!APP_HOST.equals(Uri.parse(url).getHost()))return;
                 dispatchCommunicationInvite();
+                dispatchCommunicationNotification();
                 // Event-driven native locale sync; no repeating background tests.
                 view.evaluateJavascript("(function(){if(window.__pocketNativeLocaleSync)return;window.__pocketNativeLocaleSync=true;"
                     +"function send(){try{var lang=localStorage.getItem('mypocketai.language');"

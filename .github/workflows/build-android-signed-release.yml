@@ -13,6 +13,9 @@ on:
       - 'tests_response_quality.mjs'
       - 'tests_avatar_brand_pronunciation.mjs'
       - 'oracle_communication_ui.mjs'
+      - 'communication_ui.mjs'
+      - 'communication_live_style.mjs'
+      - 'tests_communication_redesign.mjs'
       - 'tests_home_einstein_layout.mjs'
       - 'practical_*.mjs'
       - 'exam_*.mjs'
@@ -146,6 +149,7 @@ jobs:
           node --check oracle_communication_ui.mjs
           node --check oracle-communication/server.mjs
           node tests_oracle_communication.mjs
+          node tests_communication_redesign.mjs
           node tests_response_quality.mjs
           node tests_avatar_brand_pronunciation.mjs
           node --check practical_curriculum.mjs
