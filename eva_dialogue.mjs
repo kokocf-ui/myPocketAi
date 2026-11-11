@@ -90,8 +90,8 @@ export function cleanEvaReply(value){
  for(const sentence of raw.split(/(?<=[.!?])\s+(?=[\p{Lu}\p{N}«"“])/u)){
   const text=sentence.trim();
   const key=normalizeEvaUtterance(text);
-  if(!key||key.length>20&&seen.has(key))continue;
-  if(key.length>20)seen.add(key);
+  if(!key||key.length>14&&seen.has(key))continue;
+  if(key.length>14)seen.add(key);
   unique.push(text);
   if(unique.length>=3)break;
  }
