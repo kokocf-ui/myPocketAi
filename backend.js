@@ -1203,7 +1203,7 @@ export default {
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Pocket-Id, X-Pocket-Timestamp, X-Pocket-Nonce, X-Pocket-Signature"
     };
 
     const json = async (data, status = 200) => {
