@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {romanianNationalQuery} from './ro_national_transit.mjs';
-import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage} from './ro_transport_mode_policy.mjs';
+import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys} from './ro_transport_mode_policy.mjs';
 import {explicitOriginDestinationPair} from './route_explicit_origin.mjs';
 const roGps={latitude:47.05,longitude:21.9};
 const ukGps={latitude:51.48,longitude:0.33};
@@ -50,4 +50,13 @@ test('route parser retains explicit departure from Oradea instead of phone GPS',
   assert.equal(pair[2],to);
  }
  assert.equal(explicitOriginDestinationPair('Merg cu mașina la București'),null);
+});
+test('fast direct train ranks ahead of 8-hour 3-train detour',()=>{
+ const slow={durationMinutes:506,startDateTime:'2026-11-15T01:00:00Z',
+  legs:[{mode:'train'},{mode:'train'},{mode:'train'}]};
+ const direct={durationMinutes:145,startDateTime:'2026-11-15T03:22:00Z',
+  legs:[{mode:'train'}]};
+ const ranked=rankRomanianJourneys([slow,direct]);
+ assert.equal(ranked[0],direct);
+ assert.equal(ranked[1],slow);
 });
