@@ -174,6 +174,33 @@ async function route(req,res,url,origin){
   requireThat((existing.x===key.x&&existing.y===key.y&&existing.kty===key.kty&&existing.crv===key.crv)||q.rowCount===1,409,'Această identitate are deja altă cheie de dispozitiv');
   return answer(200,{ok:true});
  }
+ // List direct conversations only with currently approved, reciprocal contacts.
+ // Return public device keys so the client can establish a fresh local cipher.
+ if(method==='GET'&&path==='/v1/threads'){
+  const r=await pool.query(`
+   SELECT t.id AS "threadId", t.created_at AS "createdAt",
+          u.id AS "contactId",u.display_name AS "displayName",
+          k.exchange_public AS "exchangePublic",
+          (SELECT MAX(m.created_at) FROM comm_messages m WHERE m.thread_id=t.id) AS "lastMessageAt"
+   FROM comm_threads t
+   JOIN comm_direct_threads dt ON dt.thread_id=t.id
+   JOIN comm_thread_members mine ON mine.thread_id=t.id AND mine.user_id=$1
+   JOIN comm_thread_members peer ON peer.thread_id=t.id AND peer.user_id<>$1
+   JOIN comm_users u ON u.id=peer.user_id AND u.disabled_at IS NULL
+   JOIN comm_contacts ab ON ab.user_id=$1 AND ab.contact_id=u.id
+   JOIN comm_contacts ba ON ba.user_id=u.id AND ba.contact_id=$1
+   LEFT JOIN comm_device_keys k ON k.user_id=u.id
+   WHERE NOT EXISTS(SELECT 1 FROM comm_blocks b
+     WHERE (b.user_id=$1 AND b.blocked_id=u.id)
+        OR (b.user_id=u.id AND b.blocked_id=$1))
+   ORDER BY "lastMessageAt" DESC NULLS LAST,t.created_at DESC LIMIT 100
+  `,[me.id]);
+  return answer(200,{threads:r.rows});
+ }
+ if(method==='GET'&&path==='/v1/device-key'){
+  const key=await pool.query('SELECT exchange_public AS "exchangePublic" FROM comm_device_keys WHERE user_id=$1',[me.id]);
+  return answer(200,{exchangePublic:key.rows[0]?.exchangePublic||null});
+ }
  if(method==='POST'&&path==='/v1/threads'){
   const d=await body(req),other=txt(d.contactId);
   requireThat(await approved(pool,me.id,other),403,'Contact neaprobat');
