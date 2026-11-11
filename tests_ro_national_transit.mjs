@@ -111,6 +111,18 @@ const implicitRail={mode:'all',results:[{
 assert.equal(normalizeBiloTrips(implicitRail,5,'2026-11-12').length,1,
  'Train number in Bilo record is evidence of rail mode, even when search mode is all');
 
+const splitByVehicle=normalizeBiloTrips({data:{
+ trains:[{origin:'Oradea',destination:'Cluj-Napoca',
+  departure_time:'06:00',arrival_time:'14:25',train_number:'IR 1600'}],
+ coaches:[{origin:'Oradea',destination:'Cluj-Napoca',
+  departure_time:'09:05',arrival_time:'12:30',operator:'Petdor'}]
+}},10,'2026-11-15');
+assert.equal(splitByVehicle.length,2,
+ 'When the provider explicitly groups train and coach results, keep both');
+assert.deepEqual(splitByVehicle.map(j=>j.legs[0].mode),['train','coach']);
+assert.equal(splitByVehicle[0].legs[0].lineNames[0],'IR 1600');
+const typedStatus=inspectBiloSearchResponse({results:{coaches:[]}});
+assert.equal(typedStatus.status,'no_results_returned');
 const missingArrivalStation={mode:'rail',results:[{
  origin:'București Nord',departure_time:'08:30',arrival_time:'11:05',train_number:'IR 100'
 }]};
