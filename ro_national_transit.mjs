@@ -41,11 +41,12 @@ const placeName=value=>{
 const normalizeMode=raw=>{
  const mode=normalize(raw);
  if(/walk|foot|pieton/.test(mode))return 'walking';
- if(/tren|train|rail|interregio|regio/.test(mode))return 'train';
+ // Replacement rail services are operated by road vehicles. Check the
+ // provider's explicit transport type before the generic 'rail' token.
+ if(/(?:rail|train|tren|feroviar).*(?:replacement|inlocui|substitu).*(?:bus|coach|autobuz|autocar)|(?:bus|coach|autobuz|autocar).*(?:replacement|inlocui|substitu)|(?:replacement|inlocui|substitu).*(?:bus|coach|autobuz|autocar)/.test(mode))return 'coach';
  if(/autocar|coach/.test(mode))return 'coach';
- if(/autobuz|bus/.test(mode))return 'bus';
- if(/feroviar|feroviara|feroviara/.test(mode))return 'train';
- if(/microbuz|minibus/.test(mode))return 'bus';
+ if(/autobuz|bus|microbuz|minibus/.test(mode))return 'bus';
+ if(/tren|train|rail|interregio|regio|feroviar/.test(mode))return 'train';
  return '';
 };
 function localClock(iso){
@@ -57,8 +58,14 @@ function localClock(iso){
 export function romanianNationalQuery(message,opts={}){
  const text=String(message||'');
  const normalized=normalize(text);
- const explicitTransit=/\b(?:transport(?:ul)? (?:public|in comun)|transport mixt|tren(?:ul)?|autocar(?:ul)?|autobuz(?:ul)?|rail|train|coach|bus)\b/i.test(normalized)
+ const explicitCar=/(?:^|\s)(?:cu|prin)\s+(?:masina|automobilul|autoturismul|taxiul|taxi)(?:\s|$)/.test(normalized)
+   ||opts.travel_mode==='car'||opts.route_profile==='drive';
+ const genericTransport=/(?:^|\s)(?:transport(?:ul)?|deplasare)(?:\s|$)/.test(normalized)
+   &&!/(?:^|\s)(?:de\s+marfa|marfuri)(?:\s|$)/.test(normalized);
+ const explicitTransit=(!explicitCar&&genericTransport)
+   ||/\b(?:transport(?:ul)? (?:public|in comun)|transport mixt|tren(?:ul)?|autocar(?:ul)?|autobuz(?:ul)?|rail|train|coach|bus)\b/i.test(normalized)
    ||opts.mixed_journey===true||opts.travel_mode==='transit';
+ if(explicitCar&&opts.mixed_journey!==true&&opts.travel_mode!=='transit')return null;
  if(!explicitTransit)return null;
  const matched=text.match(/(?:^|\s)(?:din|de\s+la)\s+(.+?)\s+(?:p[aâ]n[aă]\s+la|către|catre|spre|la)\s+(.+?)(?:[?!]|$)/iu);
  const origin=matched?cleanTown(matched[1]):cleanTown(opts.origin?.city||opts.origin?.label||'');

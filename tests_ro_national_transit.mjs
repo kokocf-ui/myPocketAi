@@ -8,6 +8,18 @@ assert.deepEqual(p('Cu trenul din Oradea la Cluj-Napoca?'),
  {origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true});
 assert.deepEqual(p('Transport public din București până la Brașov'),
  {origin:'București',destination:'Brașov',hasOrigin:true,hasDestination:true});
+assert.deepEqual(p('Transport de la Oradea la Cluj'),
+ {origin:'Oradea',destination:'Cluj',hasOrigin:true,hasDestination:true},
+ 'Generic transport requests must open the national train and coach planner');
+assert.deepEqual(p('Transport de la Oradea la Cluj-Napoca mâine'),
+ {origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true});
+assert.deepEqual(p('Deplasare de la Oradea la Cluj'),
+ {origin:'Oradea',destination:'Cluj',hasOrigin:true,hasDestination:true});
+assert.equal(p('Transport cu mașina de la Oradea la Cluj'),null,
+ 'Do not hijack explicit driving requests');
+assert.equal(p('Transport de marfă de la Oradea la Cluj'),null,
+ 'Goods traffic is not passenger transit');
+
 
 assert.deepEqual(p('Cu trenul din București la Brașov mâine?'),
  {origin:'București',destination:'Brașov',hasOrigin:true,hasDestination:true},
@@ -52,6 +64,14 @@ assert.equal(flat[0].legs[0].from,'București Nord');
 assert.equal(flat[0].legs[0].mode,'train');
 assert.equal(flat[0].legs[0].departureTime,'2026-11-12T06:30:00.000Z');
 assert.deepEqual(flat[0].fareLocal,{amount:65,currency:'RON'});
+const replacementBus=normalizeBiloTrips({results:[{
+ origin:'Oradea',destination:'Cluj-Napoca',mode:'rail_replacement_bus',
+ departure_time:'04:00',arrival_time:'08:25',operator:'Transferoviar Călători'
+}]},5,'2026-11-12');
+assert.equal(replacementBus.length,1);
+assert.equal(replacementBus[0].legs[0].mode,'coach','Do not call a rail replacement bus a train');
+assert.equal(replacementBus[0].durationMinutes,265);
+
 
 const nestedBilo={data:{mode:'rail',results:[{itinerary:{route:{legs:[{
  departure:{station:{name:'București Nord'},time:'2026-11-12T08:30:00+02:00'},
