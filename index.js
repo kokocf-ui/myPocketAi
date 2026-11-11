@@ -52,7 +52,7 @@ import {FOREIGN_TOPIC_EXAMPLES,FOREIGN_CLASSICAL_VARIANTS} from './foreign_langu
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.148",
+  version: "1.0.149",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
