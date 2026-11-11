@@ -65,6 +65,10 @@ export async function addRomanianWalkingAccess(env,journey,origin,destination,op
     distanceMeters:egress.distanceMeters,durationMinutes:egress.durationMinutes,
     coordinates:egress.coordinates,geometryAvailable:true,lineNames:[]});
    j.arrivalDateTime=finalArrival;
+   if(Number.isFinite(firstLegDeparture)){
+    j.startDateTime=new Date(firstLegDeparture-access.durationMinutes*60000).toISOString();
+    j.durationMinutes=j.durationToDestinationMinutes;
+   }
   }
  }
  return j;
