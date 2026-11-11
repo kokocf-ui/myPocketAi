@@ -16,6 +16,10 @@ const ROMANIA_CITIES=new Set([
 const normalize=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
  .toLowerCase().replace(/[\s_-]+/g,' ').trim();
 const cleanTown=v=>String(v||'')
+ // Only the first sentence can be part of a locality. Following requests
+ // like ". Prezintă-mi toate variantele" are instructions, not station names.
+ // The lookahead excludes date separators such as "15. 11. 2026".
+ .replace(/[.!?]\s+(?=[\p{L}])[\s\S]*$/u,'')
  // The passenger may append a question after the arrival town.
  // "la Brașov, ce variante am?" must resolve to Brașov, not a fake town.
  .replace(/[,;]\s*(?:ce\s+(?:variante|opțiuni|optiuni|posibilități|posibilitati)\s+(?:am|există|exista)|cum\s+(?:pot\s+)?(?:ajung|merge)|cu\s+ce\s+(?:pot\s+)?(?:merge|ajunge))\s*\??$/iu,'')

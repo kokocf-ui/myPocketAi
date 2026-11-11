@@ -11,6 +11,20 @@ assert.deepEqual(p('Transport public din București până la Brașov'),
 assert.deepEqual(p('Vreau să ajung de la Cluj-Napoca la Brașov, ce variante am?'),
  {origin:'Cluj-Napoca',destination:'Brașov',hasOrigin:true,hasDestination:true},
  'A natural A-to-B question must route directly to intercity search');
+// Regression from an Android screenshot: the second sentence must never
+// become part of the destination and trigger generic geocoder clarification.
+const fullRequest='Vreau să ajung din Oradea la Cluj-Napoca pe 15 noiembrie 2026. Prezintă-mi toate variantele de transport public.';
+assert.deepEqual(p(fullRequest),{
+ origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true
+},'Cluj-Napoca is the city; a date and a second instruction are not the city name');
+assert.equal(romanianDepartureDate(fullRequest,null,new Date('2026-11-11T17:29:00Z')),
+ '2026-11-15','Preserve the explicitly selected date for Bilo');
+assert.deepEqual(p('Vreau să ajung din Oradea la Cluj-Napoca mâine. Arată-mi transportul public.'),{
+ origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true
+},'A relative date followed by another instruction must not contaminate the town');
+assert.deepEqual(p('Transport public din București până la Brașov pe 16.11.2026. Ce opțiuni există?'),{
+ origin:'București',destination:'Brașov',hasOrigin:true,hasDestination:true
+},'A dotted date is not a separator inside a city name');
 assert.deepEqual(p('Cum ajung din Oradea la Cluj-Napoca?'),
  {origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true},
  'How do I get there is generic intercity journey intent');
