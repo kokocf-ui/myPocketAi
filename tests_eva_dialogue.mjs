@@ -14,8 +14,8 @@ const conversation=[
  ['Mulțumesc încă o dată! 😂','courtesy'],
  ['Salut Eva!','greeting'],
  ['Eva, ești proastă!','boundary'],
- ['Eva, vreau să închid aplicația.','exit'],
- ['Închide aplicația','exit']
+ ['Eva, vreau să închid aplicația.','device_control'],
+ ['Închide aplicația','device_control']
 ];
 for(const [value,act] of conversation){
  const kind=classifyEvaTurn(value,{module:'assistant'});
