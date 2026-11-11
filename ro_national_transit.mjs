@@ -164,7 +164,7 @@ export async function planRomanianNationalJourney(env,query,opts={}){
  const date=opts.date;
  if(!isDate(date))return {status:'date_invalid',journeys:[]};
  const limit=Math.min(8,Math.max(1,Number(opts.limit)||5));
- const url='https://bilo.ro/api/integrations/v1/search';
+ const url='https://mcp.bilo.ro/api/v1/search';
  try{
   const response=await (opts.fetchImpl||fetch)(url,{
    method:'POST',
