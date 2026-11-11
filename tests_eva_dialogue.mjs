@@ -18,6 +18,15 @@ const conversation=[
  ['Eva, ce faci dacă te invit la o cafea?','banter'],
  ['Eva, iar faci pe deșteapta? 😂','banter'],
  ['Eva, știi la ce mă gândesc?','banter'],
+ ['Ce faci?','banter'],
+ ['Cum te simți?','banter'],
+ ['Ai chef de o glumă?','banter'],
+ ['Dar dacă te invit la o cafea?','banter'],
+ ['Ții minte ce ți-am spus mai devreme?','feedback'],
+ ['Ce mai zici?','banter'],
+ ['Hai să vorbim puțin.','banter'],
+ ['Spune-mi o glumă!','banter'],
+ ['Dar tu?','banter'],
  ['Eva, ești proastă!','boundary'],
  ['Eva, vreau să închid aplicația.','device_control'],
  ['Închide aplicația','device_control']
@@ -98,11 +107,20 @@ for(const text of [
  'Eva!',
  'Eva, ce faci dacă te invit la o cafea?',
  'Eva, iar faci pe deșteapta? 😂',
- 'Eva, știi la ce mă gândesc?'
+ 'Eva, știi la ce mă gândesc?',
+ 'Ce faci?',
+ 'Cum te simți?',
+ 'Ai chef de o glumă?',
+ 'Dar dacă te invit la o cafea?',
+ 'Ții minte ce ți-am spus mai devreme?',
+ 'Ce mai zici?',
+ 'Hai să vorbim puțin.',
+ 'Spune-mi o glumă!',
+ 'Dar tu?'
 ])assert.equal(vm.runInContext('isEvaConversationClient('+JSON.stringify(text)+')',ctx),true,text);
 for(const text of ['Aldi','Eva, vreau să merg la Victoria Underground',
  'Salut Eva, cum ajung la Victoria?','Eva, caută restaurante în Grays',
- 'Eva, poți să-mi arăți restaurante în jurul meu?', 'Salut, unde este Aldi?'])
+ 'Eva, poți să-mi arăți restaurante în jurul meu?', 'Salut, unde este Aldi?', 'Cum ajung la Victoria Underground?', 'Ce este RAM?', 'Vreau să merg la Londra cu mașina.', 'Caută restaurante în apropiere.'])
  assert.equal(vm.runInContext('isEvaConversationClient('+JSON.stringify(text)+')',ctx),false,text);
 assert.equal(vm.runInContext('isEvaExitCommandClient("Eva, vreau să închid aplicația.")',ctx),true);
 assert.match(script,/if\(state\.currentView==='assistant'&&isEvaExitCommandClient\(message\)\)/,

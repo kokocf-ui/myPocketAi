@@ -18713,6 +18713,12 @@ function isEvaConversationClient(value){
  const core=t.replace(/^(?:(?:buna|salut|hei|hey|hello|hi)\\s+)?(?:eva|evo)\\s+/,'')
   .replace(/^(?:buna|salut|hei|hey|hello|hi)\\s+(?=(?:cum ajung|unde|vreau sa|cauta|gaseste|arata|explica|verifica|tradu|calculeaza)\\b)/,'');
  if(/^(?:ce faci daca (?:te |va |iti )?(?:invit|scot|chem)\\b|iar faci pe desteapta\\b|stii la ce ma gandesc\\b|stii ce gandesc\\b|ghicesti la ce ma gandesc\\b|ce ai face daca (?:te |iti )?(?:invit|scot|chem)\\b)/.test(core))return true;
+ // In the assistant view, the interlocutor is Eva even when not addressed by name.
+ // Use intent patterns, never canned dialogue. Task commands still route normally.
+ if(/^(?:ce (?:mai )?faci(?: (?:azi|acum|astazi))?|cum (?:mai )?esti|cum te (?:mai )?simti|ce mai zici|ai (?:chef de (?:o )?gluma|un minut|timp sa vorbim)|vrei sa glumim|hai sa (?:glumim|vorbim|discutam)|te ai suparat|te distrezi|de ce esti asa serioasa|ce parere ai despre mine|tu ce crezi|dar tu|si tu|serios|chiar asa)(?:$|\\b)/.test(core)
+   ||/^(?:dar )?daca te (?:invit|scot|chem)\\b/.test(core)
+   ||/^(?:spune mi|zi mi) (?:o gluma|ceva amuzant)\\b/.test(core)
+   ||/^(?:tii minte|mai tii minte|iti amintesti|ma mai tii minte|despre ce am vorbit|ce ti am spus|de ce spui asta|ce ai inteles din ce am spus)\\b/.test(core))return true;
  if(/^(?:cum ajung|vreau sa (?:ajung|merg|calatoresc|caut|gasesc)|unde (?:este|e|gasesc)|ce este|ce stii despre|care este (?:capitala|pretul|vremea)|cauta|gaseste|arata|explica|verifica|tradu|calculeaza|rezolva|recomanda|take me to|where is|find|what is|explain|translate|(?:poti|ai putea|te rog)\\s+(?:sa\\s+)?(?:(?:mi|imi|ne)\\s+)?(?:cauta|cauti|gasi|gasesti|arata|arati|verifica|verifici|explica|explici|calculeaza|calculezi|tradu|traduci|rezolva|rezolvi))\\b/.test(core))return false;
  if(/^(?:buna|salut|hei|hello|hey|hi|neata|good morning|multumesc|mersi|merci|thanks|thank you|la revedere|bye)\\b/.test(t))return true;
  if(/\\b(?:cum te cheama|cine esti|cum te numesti|ce fel de asistenta esti|who are you|what s your name)\\b/.test(t))return true;
