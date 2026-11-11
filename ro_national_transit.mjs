@@ -15,7 +15,14 @@ const ROMANIA_CITIES=new Set([
 const normalize=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
  .toLowerCase().replace(/[\s_-]+/g,' ').trim();
 const cleanTown=v=>String(v||'').replace(/[!?.,;:]+$/g,'')
- .replace(/\s+(?:cu\s+(?:trenul|autocarul|autobuzul)|pentru\s+\d+\s+(?:persoane|adulti)|maine|azi|poimaine|la\s+ora\s+\d.*)$/i,'').trim().slice(0,100);
+ // Remove the date/time modifier from the destination without changing the town.
+ // Previous matcher missed Romanian accents (mâine/poimâine), causing transit
+ // requests to fall through to the unrelated address-search flow.
+ .replace(/\s+(?:(?:pe|în|in)\s+)?(?:poim[aâ]ine|m[aâ]ine|ast[aă]zi|azi)(?:\s+(?:dimineaț[aă]|dimineata|seara|dup[aă][-\s]?amiaza))?(?:\s+la\s+ora\s+\d{1,2}(?::\d{2})?)?$/iu,'')
+ .replace(/\s+(?:pe\s+|la\s+data\s+de\s+)?\d{1,2}[./-]\d{1,2}(?:[./-]\d{4})?(?:\s+la\s+ora\s+\d{1,2}(?::\d{2})?)?$/iu,'')
+ .replace(/\s+(?:pe\s+|la\s+data\s+de\s+)?\d{1,2}\s+(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\s+\d{4})?(?:\s+la\s+ora\s+\d{1,2}(?::\d{2})?)?$/iu,'')
+ .replace(/\s+(?:cu\s+(?:trenul|autocarul|autobuzul)|pentru\s+\d+\s+(?:persoane|adulți|adulti)|la\s+ora\s+\d{1,2}(?::\d{2})?)$/iu,'')
+ .trim().slice(0,100);
 const isRoGPS=pt=>Number.isFinite(Number(pt?.latitude))&&Number.isFinite(Number(pt?.longitude))
  && Number(pt.latitude)>=43.55&&Number(pt.latitude)<=48.35
  && Number(pt.longitude)>=20.15&&Number(pt.longitude)<=29.95;
@@ -202,6 +209,38 @@ export function bucharestTravelDate(value,now=new Date()){
  const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Bucharest',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(dt);
  const fields=Object.fromEntries(parts.map(p=>[p.type,p.value]));
  return fields.year+'-'+fields.month+'-'+fields.day;
+}
+const ROMANIAN_MONTHS=new Map([
+ ['ianuarie',1],['februarie',2],['martie',3],['aprilie',4],['mai',5],
+ ['iunie',6],['iulie',7],['august',8],['septembrie',9],['octombrie',10],
+ ['noiembrie',11],['decembrie',12]
+]);
+function validRomanianDate(year,month,day){
+ const utc=new Date(Date.UTC(year,month-1,day));
+ return utc.getUTCFullYear()===year && utc.getUTCMonth()===month-1 && utc.getUTCDate()===day
+  ?utc.toISOString().slice(0,10):null;
+}
+// Separate the date requested in free-form text from the geolocated phone's
+// timezone: both the default and "mâine" use the destination timezone.
+export function romanianDepartureDate(message,selectedAt='',now=new Date()){
+ if(selectedAt)return bucharestTravelDate(selectedAt,now);
+ const base=bucharestTravelDate(null,now);
+ const plain=normalize(message);
+ const numeric=plain.match(/(?:^|\s)(?:pe\s+|la\s+data\s+de\s+)?([0-3]?\d)[./-]([01]?\d)[./-](20\d{2})(?=\s|$|[?!,.])/);
+ if(numeric){
+  const date=validRomanianDate(+numeric[3],+numeric[2],+numeric[1]);
+  return date||base;
+ }
+ const textual=plain.match(/(?:^|\s)(?:pe\s+|la\s+data\s+de\s+)?([0-3]?\d)\s+(ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\s+(20\d{2}))?(?=\s|$|[?!,.])/);
+ if(textual){
+  const month=ROMANIAN_MONTHS.get(textual[2]);
+  let year=textual[3]?+textual[3]:Number(base.slice(0,4));
+  let date=validRomanianDate(year,month,+textual[1]);
+  if(date&&!textual[3]&&date<base)date=validRomanianDate(year+1,month,+textual[1]);
+  return date||base;
+ }
+ const increment=/\bpoimaine\b/.test(plain)?2:/\bmaine\b/.test(plain)?1:0;
+ return new Date(Date.parse(base+'T12:00:00Z')+increment*86400000).toISOString().slice(0,10);
 }
 export function romanianJourneySummary(journeys,origin,destination,language='ro'){
  const clock=localClock;
