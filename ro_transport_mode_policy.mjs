@@ -21,7 +21,7 @@ export function filterRomanianVehicleJourneys(journeys,requested){
   return nonWalking.every(l=>{
    const mode=String(l.mode||'').toLowerCase();
    return requested==='rail'?mode==='train'||mode==='rail':
-    requested==='coach'?mode==='coach'||mode==='minibus':
+    requested==='coach'?['coach','bus','minibus'].includes(mode):
     ['coach','bus','minibus','trolleybus'].includes(mode);
   });
  });
