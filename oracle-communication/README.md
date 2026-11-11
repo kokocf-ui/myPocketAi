@@ -1,60 +1,40 @@
-# myPocket AI — Oracle-only communications (private pilot)
+# myPocketAI — Comunicare on Oracle (device-only pilot)
 
-All communication data lives on the Oracle instance. The existing Cloudflare
-AI Worker is NOT a chat relay and has no access to contacts, messages or lists.
+**Current status:** Source implementation only. Not deployed to the user's Oracle host and NOT verified on two phones.
 
-## Existing infrastructure
-The user's Oracle `pocketai-core` VM and `pocketai-comunicare-gateway`
-were configured separately. This repository does not have live SSH access or
-the running gateway's source. **Do not claim these files have been deployed.**
-The new Compose project does not automatically replace the existing gateway.
+## User flow (no email / no SMS verification / no phone number)
 
-## On Oracle VM (Ubuntu ARM64)
-Prerequisites: Docker + Compose, Git, a real DNS record resolving to Oracle
-public IPv4, ingress TCP 80/443 in Oracle security list and Ubuntu firewall,
-and a genuine SMTP account. Do not open PostgreSQL port 5432 publicly.
+- Tap **Comunicare → Activează**, enter a display name. A new local ECDSA/ECDH device identity is generated and stored in Android WebView IndexedDB.
+- Tap **Invitații → Creează** and share the one-use invitation link by WhatsApp or SMS. WhatsApp/SMS chooses recipients from the user's own apps; phone contacts are not uploaded to Oracle.
+- Recipient opens the HTTPS invitation link, taps **Deschide în myPocketAI**, and accepts. The native Android URI scheme `mypocketai://invite/<token>` opens the relevant screen.
+- Approved contacts can exchange encrypted text, media and share shopping lists; foreground polling fetches updates.
+- Replacement phones obtain **new device identities** and require fresh invitations. Old messages are not recovered. Contacts should block the old identity to revoke access.
+
+This is an **unaudited crypto pilot**, NOT audited Signal-style end-to-end encryption. In particular, device-key verification, key rotation/recovery, attachment metadata handling, backups, moderation, GDPR review and reliable Android background notifications are not finished. Do not advertise it as secure public messaging.
+
+## Deployment on the EXISTING Oracle instance
+
+The existing machine already has a host-level Caddy HTTPS reverse proxy. **Do not start `oracle-communication/compose.yaml` unmodified**, because its `https` service would compete for TCP 80/443 and risk interrupting the current site. Keep the current host Caddy and gateway intact.
+
+1. Review the current Caddy routing and running Docker containers; preserve existing config, secrets and volumes.
+2. Provision a private PostgreSQL database or reuse the dedicated communication database. Existing volumes do NOT automatically rerun `docker-entrypoint-initdb.d` files. Apply `device-schema.sql` to the correct private database with a PostgreSQL account with schema rights, after a backup.
+3. Build the updated Node API using `Dockerfile` and run it on a **loopback-only** host endpoint or private Docker network, with `PGHOST`, `PGUSER`, `PGDATABASE`, `PGPASSWORD` and `APP_ORIGIN`. Do not expose Node or port 5432 to the internet.
+4. Configure the **existing host Caddy** so `https://mypocketai.duckdns.org/api/communication` (POST and OPTIONS) and `/i/*` (GET) proxy to that service, keeping all pre-existing routes. Do not rely on the separate Compose Caddy template. Allow `X-Pocket-Id`, `X-Pocket-Timestamp`, `X-Pocket-Nonce`, `X-Pocket-Signature` and `Content-Type` CORS headers from the exact app origin.
+5. Validate routing, TLS, 403 on unauthorized contacts, registration, single-use invites, replay prevention, encrypted media and revisions for shared lists **on two devices** before building a release APK.
+6. For Android pilot notifications: this client supports foreground polling only. Background push notifications require a later native implementation and consent.
+
+## API
+
+The Android UI already sends signed action POST bodies to `/api/communication`. `device-api.mjs` implements `register`, `invite`, `accept`, `contacts`, `remove`, `messages`, `send`, `upload`, `attachment`, `list_create`, `lists`, `list`, `list_share`, `list_op`.
+
+Payload authentication uses a non-exportable P-256 ECDSA signing key, timestamp and single-use nonce; received contacts must have reciprocal accepted invites. Encrypted data is transported using the app's existing experimental device-key ECDH + AES-GCM scheme. Server keeps ciphertext, routing metadata and encrypted blobs. **Encryption has not been independently reviewed**.
+
+To run checks on a developer machine with Node 22 installed:
 
 ```bash
-git clone https://github.com/kokocf-ui/myPocketAi.git ~/pocketai-project
-cd ~/pocketai-project/oracle-communication
-cp .env.example .env && chmod 600 .env
-# Edit .env: COMM_DOMAIN, TLS_CONTACT_EMAIL, strong PG/OTP secrets and SMTP.
-docker compose -f compose.yaml config --quiet
-docker compose -f compose.yaml up -d --build
-docker compose -f compose.yaml ps
-curl -fsS https://YOUR_COMM_DOMAIN/healthz
+node --check oracle-communication/device-api.mjs
+node --check oracle-communication/server.mjs
+node --test oracle-communication/device-api.test.mjs oracle-communication/threads.test.mjs
 ```
 
-For an existing checkout, use `git pull --ff-only`; never overwrite its
-existing .env. Check first whether ports 80/443 already serve another site.
-If so, integrate the API under the existing TLS reverse proxy rather than
-starting a competing HTTPS service. Avoid unreviewed remote installation scripts.
-
-## Security
-- Verified email via time-limited six-digit OTP; each account gets an opaque
-  random session token, stored only as a SHA-256 hash on the Oracle server.
-- Mutually accepted, single-use, seven-day invite links; blocking removes contact
-  links. Invite URLs must not be included in analytics or logs.
-- Owner/editor/viewer list permissions checked server-side; every operation has
-  an idempotency key and revision check to avoid duplicate additions.
-- Browser CORS restricted to APP_ORIGIN; PostgreSQL and Node API only on
-  internal Docker network; Caddy issues TLS certificates for COMM_DOMAIN.
-- Experimental **encrypted text chat transport is implemented in source**, using
-  device ECDH P-256 and AES-GCM, but is **not independently audited E2EE**.
-  Device replacement and recovery, trustworthy key verification, attachments
-  and Android background notifications are not ready for public release.
-- OTP requires configured SMTP; do not disable verification for the pilot.
-
-## Pilot acceptance checks
-1. From two devices request codes for two distinct verified email accounts.
-2. Create invitation on phone A, send over WhatsApp/SMS/email, accept on B.
-3. Ensure the same invite cannot be reused, self-accepted or accepted if blocked.
-4. Confirm contact A/B is reciprocal and neither user can list a stranger's data.
-5. Create a list, share with B, add/check an item, refresh to verify revision.
-6. Confirm older revisions return 409 and repeated idempotency keys do not
-   duplicate items; revoke membership and verify 403.
-
-Text chat and list updates currently refresh by foreground polling; reliable
-background notifications, media upload, group chat, audited key verification,
-key recovery, FCM and native Android secure token storage remain to implement.
-No source change here proves an Oracle deployment has taken place.
+The previous REST+email implementation remains available for compatibility only if separately configured with SMTP; it is not used by the device-only pilot.

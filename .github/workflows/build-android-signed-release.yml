@@ -140,6 +140,8 @@ jobs:
           node tests_communication_ui.mjs
           node --check oracle_communication_ui.mjs
           node --check oracle-communication/server.mjs
+          node --check oracle-communication/device-api.mjs
+          node --test oracle-communication/device-api.test.mjs oracle-communication/threads.test.mjs
           node tests_oracle_communication.mjs
           node tests_response_quality.mjs
           node tests_avatar_brand_pronunciation.mjs
