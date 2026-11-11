@@ -118,7 +118,7 @@ async function route(req,res,url,origin){
   rate('invite:'+me.id,20,86400000);
   const secret=randomBytes(32).toString('base64url');
   await pool.query("INSERT INTO comm_invites(id,token_hash,inviter_id,expires_at) VALUES($1,$2,$3,now()+interval '7 days')",[id(),hash(secret),me.id]);
-  return answer(201,{inviteUrl:originAllowed+'/?commInvite='+encodeURIComponent(secret),expiresInSeconds:604800});
+  return answer(201,{inviteCode:secret,expiresInSeconds:604800});
  }
  if(method==='GET'&&path==='/v1/invites'){
   const r=await pool.query('SELECT id,status,created_at,expires_at FROM comm_invites WHERE inviter_id=$1 ORDER BY created_at DESC LIMIT 40',[me.id]);
