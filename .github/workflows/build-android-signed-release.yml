@@ -135,6 +135,11 @@ jobs:
           echo "::endgroup::"
           node --check index.js
           node --check backend.js
+          node --check communication_ui.mjs
+          node --check ai_response_quality.mjs
+          node tests_communication_ui.mjs
+          node tests_response_quality.mjs
+          node tests_avatar_brand_pronunciation.mjs
           node --check practical_curriculum.mjs
           node --check practical_guides.mjs
           node --check practical_syllabi.mjs
