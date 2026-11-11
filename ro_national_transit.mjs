@@ -15,7 +15,11 @@ const ROMANIA_CITIES=new Set([
 ]);
 const normalize=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
  .toLowerCase().replace(/[\s_-]+/g,' ').trim();
-const cleanTown=v=>String(v||'').replace(/[!?.,;:]+$/g,'')
+const cleanTown=v=>String(v||'')
+ // The passenger may append a question after the arrival town.
+ // "la Brașov, ce variante am?" must resolve to Brașov, not a fake town.
+ .replace(/[,;]\s*(?:ce\s+(?:variante|opțiuni|optiuni|posibilități|posibilitati)\s+(?:am|există|exista)|cum\s+(?:pot\s+)?(?:ajung|merge)|cu\s+ce\s+(?:pot\s+)?(?:merge|ajunge))\s*\??$/iu,'')
+ .replace(/[!?.,;:]+$/g,'')
  // Remove the date/time modifier from the destination without changing the town.
  // Previous matcher missed Romanian accents (mâine/poimâine), causing transit
  // requests to fall through to the unrelated address-search flow.
