@@ -2050,7 +2050,24 @@ export default {
         const generated=await env.AI.run(selectedAiModel,{
           messages,max_tokens:190,temperature:0.62
         });
-        const reply=cleanEvaReply(generated?.response||generated?.result?.response||'');
+        let draft=String(generated?.response||generated?.result?.response||'');
+        // Social turns use a separate model path. Guard that path as well:
+        // its short display sanitizer alone cannot reliably stop unpunctuated loops.
+        if(hasAssistantRepetitionLoop(draft)){
+          try{
+            const retry=await env.AI.run(selectedAiModel,{
+              messages:[
+                {role:'system',content:evaDialogueSystem(lang,evaTurn.speech_act)+userAddressInstruction+
+                  '\\nReply once, naturally and briefly. Do not repeat any phrase or clause from a failed draft.'},
+                ...prior.slice(-2),{role:'user',content:originalMessage}
+              ],
+              max_tokens:125,temperature:0.45
+            });
+            const replacement=String(retry?.response||retry?.result?.response||'');
+            draft=!hasAssistantRepetitionLoop(replacement)?replacement:'';
+          }catch{draft='';}
+        }
+        const reply=hasAssistantRepetitionLoop(draft)?'':cleanEvaReply(draft);
         if(reply){
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
             message_received:originalMessage,reply,conversation_intent:'eva_'+evaTurn.speech_act,

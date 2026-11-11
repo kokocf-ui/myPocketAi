@@ -6,4 +6,15 @@ assert.equal(hasAssistantRepetitionLoop([bad,bad,bad].join(' ')),true,'three dup
 assert.equal(hasAssistantRepetitionLoop('Da, te pot ajuta să construiești un site web. Putem începe cu structura paginilor, apoi codul HTML, CSS și JavaScript. Îți pot explica cum îl testezi și publici.'),false,'useful concise answer passes');
 assert.equal(hasAssistantRepetitionLoop('1. Creează o pagină HTML.\n2. Adaugă CSS.\n3. Testează site-ul pe telefon.'),false,'list passes');
 assert.equal(hasAssistantRepetitionLoop('Atenție: verifică parola!'),false,'short text passes');
+const clause='Poți verifica fiecare opțiune și apoi alegem împreună varianta care ți se potrivește';
+assert.equal(hasAssistantRepetitionLoop((clause+' ').repeat(4)),true,'repeated unpunctuated clause is rejected');
+assert.equal(hasAssistantRepetitionLoop('Repetarea este un procedeu stilistic în literatură; explică ideea, oferă un exemplu și arată cum ajută la ritm.'),false,'legitimate explanation about repetition passes');
+import {readFileSync} from 'node:fs';
+const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
+const evaStart=backend.indexOf("if(evaTurn?.kind==='chat')");
+const evaEnd=backend.indexOf('// Questions about an earlier recipe request',evaStart);
+const social=backend.slice(evaStart,evaEnd);
+assert.match(social,/hasAssistantRepetitionLoop\(draft\)/,'Eva dialogue blocks a looping model draft');
+assert.match(social,/max_tokens:125/,'Eva dialogue makes at most one bounded loop retry');
+assert.match(social,/hasAssistantRepetitionLoop\(replacement\)/,'Eva dialogue validates the retry too');
 console.log('PASS: duplicate model phrases are rejected without altering normal replies');

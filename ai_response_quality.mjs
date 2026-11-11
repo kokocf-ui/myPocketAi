@@ -34,5 +34,19 @@ export function hasAssistantRepetitionLoop(text){
   if(count>=3)return true;
   seenLines.set(line,count);
  }
+ // Some smaller models repeat an entire clause without punctuation or line breaks.
+ // Require three consecutive copies of at least eight words, so ordinary
+ // examples, short emphasis and recurring topic names are not rejected.
+ const words=plain.toLocaleLowerCase('und').normalize('NFKC')
+   .replace(/[\p{P}\p{S}\s]+/gu,' ').trim().split(/\s+/).filter(Boolean);
+ for(let size=8;size<=Math.min(24,Math.floor(words.length/3));size++){
+  for(let start=0;start+size*3<=words.length;start++){
+   let same=true;
+   for(let offset=0;offset<size*2;offset++){
+    if(words[start+offset]!==words[start+size+offset]){same=false;break}
+   }
+   if(same)return true;
+  }
+ }
  return false;
 }
