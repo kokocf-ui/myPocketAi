@@ -147,9 +147,11 @@ async function handleAction(req,res,origin){
   return reply({ok:true,messages:q.rows});
  }
  if(d.action==='upload'){
-  const friend=String(d.friend||''),media=String(d.kind||''),iv=String(d.iv||''),cipher=String(d.cipher||''),opaqueName=String(d.encryptedName||''),id=String(d.messageId||'');
+  const friend=String(d.friend||''),media=String(d.kind||''),mime=String(d.mime||''),iv=String(d.iv||''),cipher=String(d.cipher||''),opaqueName=String(d.encryptedName||''),id=String(d.messageId||'');
   if(!await areContacts(db,uid,friend))throw error('not_a_contact',403);
   if(!['image','video','audio','file'].includes(media)||!guid(id)||!b64ok(iv)||iv.length!==16||!b64ok(cipher)||!b64ok(opaqueName)||opaqueName.length>1500)throw error('invalid_attachment',400);
+  const allowedMimes={image:['image/jpeg','image/png','image/webp','image/gif'],video:['video/mp4','video/webm','video/quicktime','video/3gpp'],audio:['audio/mpeg','audio/mp4','audio/ogg','audio/wav','audio/webm'],file:['application/pdf']};
+  if(!allowedMimes[media].includes(mime))throw error('invalid_media_type',400);
   if(cipher.length>16800000)throw error('attachment_too_large',413);
   const encrypted=decode(cipher);
   if(encrypted.length<=16||encrypted.length>12582912)throw error('attachment_too_large',413);
@@ -160,7 +162,7 @@ async function handleAction(req,res,origin){
     return error('message_conflict',409);
    }
    const attachmentId=randomUUID();
-   await c.query('INSERT INTO attachments(id,sender,recipient,encrypted,iv,encrypted_name,media_kind,size_bytes,created_ms,expires_ms) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)',[attachmentId,uid,friend,encrypted,iv,opaqueName,media,encrypted.length,clock,clock+30*86400000]);
+   await c.query('INSERT INTO attachments(id,sender,recipient,encrypted,iv,encrypted_name,media_kind,mime_type,size_bytes,created_ms,expires_ms) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)',[attachmentId,uid,friend,encrypted,iv,opaqueName,media,mime,encrypted.length,clock,clock+30*86400000]);
    await c.query("INSERT INTO messages(id,sender,recipient,iv,cipher,kind,attachment_id,created_ms) VALUES($1,$2,$3,$4,'','media',$5,$6)",[id,uid,friend,iv,attachmentId,clock]);
    return {ok:true,messageId:id,attachmentId,created_ms:clock};
   });
@@ -169,10 +171,10 @@ async function handleAction(req,res,origin){
  if(d.action==='attachment'){
   const friend=String(d.friend||''),id=String(d.attachmentId||'');
   if(!guid(id)||!await areContacts(db,uid,friend))throw error('not_a_contact',403);
-  const q=await db.query('SELECT sender,recipient,encrypted,iv,encrypted_name,media_kind FROM attachments WHERE id=$1 AND expires_ms>$2',[id,clock]);
+  const q=await db.query('SELECT sender,recipient,encrypted,iv,encrypted_name,media_kind,mime_type FROM attachments WHERE id=$1 AND expires_ms>$2',[id,clock]);
   if(!q.rowCount||!((q.rows[0].sender===uid&&q.rows[0].recipient===friend)||(q.rows[0].sender===friend&&q.rows[0].recipient===uid)))throw error('not_found',404);
   const row=q.rows[0],base64=row.encrypted.toString('base64url');
-  return reply({ok:true,attachment:{iv:row.iv,cipher:base64,encryptedName:row.encrypted_name,kind:row.media_kind}});
+  return reply({ok:true,attachment:{iv:row.iv,cipher:base64,encryptedName:row.encrypted_name,kind:row.media_kind,mime:row.mime_type}});
  }
  if(d.action==='list_create'){
   const title=String(d.title||'').trim();if(!title||title.length>120)throw error('invalid_list_title',400);
