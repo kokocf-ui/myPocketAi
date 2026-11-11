@@ -2908,14 +2908,35 @@ export default {
         const providerReason=result.status==='not_configured'?'ro_provider_key_required':
           result.status==='quota_exceeded'?'ro_provider_quota_exceeded':
           result.status==='authentication_failed'?'ro_provider_auth_failed':
+          result.status==='timeout'?'ro_provider_timeout':
+          result.status==='provider_network_error'?'ro_provider_network_error':
+          result.status.startsWith('provider_http_')?'ro_provider_http_error':
+          result.status==='no_verified_itineraries'?'ro_provider_no_usable_results':
           'ro_no_verified_journey';
+        // A provider error is NOT evidence that no trains exist on this route.
         const reply=lang==='en'
           ?(result.status==='not_configured'
-             ?'Romanian nationwide train and coach timetable search is not yet connected. A Bilo API key is required on the server.'
-             :'No confirmed train or coach itinerary for this trip and date. Check another date or time.')
+             ?'Romanian rail and coach search is not yet connected. A Bilo key is required on the server.'
+             :result.status==='authentication_failed'
+             ?'Bilo rejected the server credentials. The API connection needs checking.'
+             :result.status==='quota_exceeded'
+             ?'The Bilo search quota has been reached. Try again after the quota resets.'
+             :result.status==='timeout'||result.status==='provider_network_error'||result.status.startsWith('provider_http_')
+             ?'Bilo is not responding correctly at the moment. This does not mean no service exists on the route.'
+             :result.status==='no_verified_itineraries'
+             ?'Bilo did not return a complete verifiable timetable for this search. This does not confirm there are no trains.'
+             :'No confirmed train or coach itinerary for this journey and date.')
           :(result.status==='not_configured'
-             ?'Transportul național cu trenul și autocarul în România nu este încă activat: lipsește cheia Bilo de pe server. Nu voi inventa plecări.'
-             :'Nu am putut confirma un itinerar cu trenul sau autocarul pentru ruta și data alese. Încearcă altă dată ori altă oră.');
+             ?'Transportul național din România nu este activat: lipsește cheia Bilo de pe server.'
+             :result.status==='authentication_failed'
+             ?'Bilo a respins autentificarea. Trebuie verificată conexiunea cu cheia API din server.'
+             :result.status==='quota_exceeded'
+             ?'Cota de căutări Bilo a fost atinsă. Încearcă după reînnoirea cotei.'
+             :result.status==='timeout'||result.status==='provider_network_error'||result.status.startsWith('provider_http_')
+             ?'Bilo nu răspunde corect momentan. Asta nu înseamnă că nu există curse pe acest traseu.'
+             :result.status==='no_verified_itineraries'
+             ?'Bilo nu a transmis un orar complet verificabil pentru această căutare. Nu înseamnă că nu circulă trenuri.'
+             :'Nu am putut confirma un itinerar cu trenul sau autocarul pentru ruta și data alese.');
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
           transit_available:false,route_available:false,mixed_journey:true,romanian_national_journey:true,
           transit_provider:'Bilo',reason:providerReason,provider_status:{bilo:result.status}});
