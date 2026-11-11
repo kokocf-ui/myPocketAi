@@ -169,7 +169,8 @@ async function route(req,res,url,origin){
   // explicit authenticated reset flow, never silent replacement.
   const q=await pool.query('INSERT INTO comm_device_keys(user_id,exchange_public) VALUES($1,$2::jsonb) ON CONFLICT(user_id) DO NOTHING RETURNING user_id',[me.id,JSON.stringify(key)]);
   const stored=await pool.query('SELECT exchange_public FROM comm_device_keys WHERE user_id=$1',[me.id]);
-  requireThat(JSON.stringify(stored.rows[0].exchange_public)===JSON.stringify(key)||q.rowCount===1,409,'Această identitate are deja altă cheie de dispozitiv');
+  const existing=stored.rows[0].exchange_public;
+  requireThat((existing.x===key.x&&existing.y===key.y&&existing.kty===key.kty&&existing.crv===key.crv)||q.rowCount===1,409,'Această identitate are deja altă cheie de dispozitiv');
   return answer(200,{ok:true});
  }
  if(method==='POST'&&path==='/v1/threads'){
