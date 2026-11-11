@@ -5,8 +5,11 @@ on:
       - 'ro_urban_gtfs.mjs'
       - 'ro_urban_gtfs_import.mjs'
       - 'ro_urban_server.mjs'
+      - 'ro_urban_client.mjs'
+      - 'backend.js'
       - 'tests_ro_urban_gtfs.mjs'
       - 'tests_ro_urban_server.mjs'
+      - 'tests_ro_urban_client.mjs'
       - 'oracle-romania-transport/**'
       - '.github/workflows/test-ro-urban-gtfs.yml'
   pull_request:
@@ -14,8 +17,11 @@ on:
       - 'ro_urban_gtfs.mjs'
       - 'ro_urban_gtfs_import.mjs'
       - 'ro_urban_server.mjs'
+      - 'ro_urban_client.mjs'
+      - 'backend.js'
       - 'tests_ro_urban_gtfs.mjs'
       - 'tests_ro_urban_server.mjs'
+      - 'tests_ro_urban_client.mjs'
       - 'oracle-romania-transport/**'
       - '.github/workflows/test-ro-urban-gtfs.yml'
 jobs:
@@ -26,5 +32,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --check ro_urban_gtfs.mjs && node --check ro_urban_gtfs_import.mjs && node --check ro_urban_server.mjs
-      - run: node --test tests_ro_urban_gtfs.mjs tests_ro_urban_server.mjs
+      - run: node --check ro_urban_gtfs.mjs && node --check ro_urban_gtfs_import.mjs && node --check ro_urban_server.mjs && node --check ro_urban_client.mjs && node --check backend.js
+      - run: node --test tests_ro_urban_gtfs.mjs tests_ro_urban_server.mjs tests_ro_urban_client.mjs
