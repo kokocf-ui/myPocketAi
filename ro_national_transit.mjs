@@ -82,7 +82,7 @@ export function romanianNationalQuery(message,opts={}){
    ||/\b(?:transport(?:ul)? (?:public|in comun)|transport mixt|tren(?:ul)?|autocar(?:ul)?|autobuz(?:ul)?|rail|train|coach|bus)\b/i.test(normalized)
    ||opts.mixed_journey===true||opts.travel_mode==='transit';
  if(explicitCar)return null;
- if(!explicitTransit)return null;
+ const naturalIntercity=/\b(?:vreau sa ajung|cum (?:pot sa |pot )?ajung|ce variante (?:am|exista)|cum (?:pot sa )?merg|cum ma deplasez|cum pot calatori)\b/.test(normalized);
  const matched=text.match(/(?:^|\s)(?:din|de\s+la)\s+(.+?)\s+(?:p[aâ]n[aă]\s+la|către|catre|spre|la)\s+(.+?)(?:[?!]|$)/iu);
  const origin=matched?cleanTown(matched[1]):cleanTown(opts.origin?.city||opts.origin?.label||'');
  const destination=matched?cleanTown(matched[2]):cleanTown(opts.destination?.city||opts.destination?.label||opts.transit_query||'');
@@ -90,6 +90,9 @@ export function romanianNationalQuery(message,opts={}){
     ||String(opts.origin?.country_code||'').toUpperCase()==='RO'
     ||String(opts.destination?.country_code||'').toUpperCase()==='RO';
  const majorPair=ROMANIA_CITIES.has(normalize(origin))&&ROMANIA_CITIES.has(normalize(destination));
+ // A named two-town journey is transport intent even before the passenger
+ // selects train/coach. Do not turn a valid intercity route into a POI lookup.
+ if(!explicitTransit&&!(naturalIntercity&&majorPair))return null;
  // An explicit UK route takes priority over an old Romanian GPS fix or stale
  // destination selected earlier in a conversation. Do not send it to Bilo.
  const countryOf=value=>String(value?.country_code||value?.countryCode||'').toUpperCase();
@@ -100,6 +103,25 @@ export function romanianNationalQuery(message,opts={}){
  // A named overseas origin is never replaced by the phone's location.
  if(!majorPair&&!explicitRomania&&!isRoGPS(opts.location))return null;
  return {origin,destination,hasOrigin:Boolean(origin),hasDestination:Boolean(destination)};
+}
+// Restore a recent explicit intercity pair after "Transport public". The
+// selected destination must match; never resurrect an unrelated old route.
+export function romanianHistoryJourney(history,selectedDestination=''){
+ if(!Array.isArray(history))return null;
+ const target=normalize(
+  typeof selectedDestination==='string'?selectedDestination:
+   selectedDestination?.city||selectedDestination?.label||selectedDestination?.name||''
+ ).replace(/,?\s*romania$/,'').trim();
+ for(const item of history.slice(-8).reverse()){
+  if(item?.role!=='user')continue;
+  const query=romanianNationalQuery(item.content||item.text||'');
+  if(!query?.hasOrigin||!query?.hasDestination)continue;
+  const candidate=normalize(query.destination).replace(/,?\s*romania$/,'').trim();
+  if(target&&target!==candidate&&
+     !target.startsWith(candidate+',')&&!target.startsWith(candidate+' '))continue;
+  return query;
+ }
+ return null;
 }
 // The Bilo integration API uses the same search input as its MCP tool, but
 // responses can contain full legs OR flat rail/bus records with HH:mm times.
@@ -285,8 +307,10 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
     legs.length=0;break;
    }
    const line=String(seg.line||seg.lineName||seg.line_name||seg.trainNumber||
-    seg.train_number||seg.routeShortName||seg.service?.number||
-    seg.number||record.train_number||'').slice(0,36);
+    seg.train_number||seg.train?.number||seg.serviceNumber||
+    seg.service_number||seg.routeShortName||seg.service?.number||
+    seg.service?.code||seg.number||record.train_number||
+    record.trainNumber||record.train?.number||record.service?.number||'').slice(0,36);
    const operator=seg.operator||seg.operatorName||seg.operator_name||
      seg.service?.operator||record.operator||'';
    legs.push({mode:fields.mode,from:fields.from,to:fields.to,
