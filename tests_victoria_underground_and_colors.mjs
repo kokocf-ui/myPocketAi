@@ -62,7 +62,7 @@ try {
  console.log('TfL Victoria generic result',JSON.stringify({reply:ambiguous.reply,needs_destination_clarification:ambiguous.needs_destination_clarification,destination_candidates:ambiguous.destination_candidates,named_venue:ambiguous.named_venue,route_context:ambiguous.route_context,journeys:journeyLookups.length}));
  assert.equal(ambiguous.needs_destination_clarification,true,'Unqualified Victoria Station still asks rail or tube');
  assert.equal(ambiguous.destination_candidates?.length,2,'Four TfL entrances collapse into two distinct types');
- assert.deepEqual(new Set(ambiguous.destination_candidates.map(x=>x.label)),new Set(['Victoria Rail Station','Victoria Underground Station']));
+ assert.deepEqual(new Set(ambiguous.destination_candidates.map(x=>x.label)),new Set(['Victoria Rail Station, London','Victoria Underground Station, London']));
  assert.ok(ambiguous.destination_candidates.every(x=>Number.isFinite(x.latitude)&&Number.isFinite(x.longitude)),'Selectable destinations include their actual coordinates');
 
  console.log('PASS: Victoria Underground resolves once to verified TfL stop; mixed and refresh colors are consistent');
