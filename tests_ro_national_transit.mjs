@@ -48,7 +48,7 @@ const mock=async(u,options)=>{url=u;headers=options.headers;body=JSON.parse(opti
 const answer=await planRomanianNationalJourney({BILO_API_KEY:'server-secret'},{origin:'Oradea',destination:'Cluj-Napoca'},{date:'2026-11-12',limit:4,fetchImpl:mock});
 assert.equal(answer.status,'ok');
 assert.equal(answer.journeys.length,1);
-assert.equal(url,'https://bilo.ro/api/integrations/v1/search');
+assert.equal(url,'https://mcp.bilo.ro/api/v1/search');
 assert.equal(headers.Authorization,'Bearer server-secret');
 assert.deepEqual(Object.keys(body).sort(),['origin','destination','date','passengers','mode','railClass','sort','limit'].sort());
 assert.equal((await planRomanianNationalJourney({BILO_API_KEY:'x'},{origin:'Oradea',destination:'Cluj'},{date:'2026-11-12',fetchImpl:async()=>({status:401,ok:false})})).status,'authentication_failed');
