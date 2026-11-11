@@ -30,6 +30,8 @@ test('Verified street walk provides boarding stop and final mile, avoiding infer
  assert.equal(out.legs[1].mode,'walking');
  assert.equal(out.arrivalAtDestinationTime,'2026-11-12T08:21:00.000Z');
  assert.equal(out.durationToDestinationMinutes,27);
+ assert.equal(out.durationMinutes,27);
+ assert.equal(out.startDateTime,'2026-11-12T07:54:00.000Z');
  assert.equal(out.boarding_stop.label,'Start');
  assert.equal(out.legs[0].arrivalLatLon.lat,47.0548);
  assert.equal(base.legs.length,1,'Never modify the provider result');
