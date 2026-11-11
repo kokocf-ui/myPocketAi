@@ -289,18 +289,24 @@ assert.equal(officialCoach.journeys[0].legs[0].fromLocality,'Oradea');
 assert.equal(officialCoach.journeys[0].legs[0].to,'Autogara Fany');
 assert.equal(officialCoach.coach_lookup,'ok');
 assert.equal(officialCoach.parsed_modes.road,1);
-const noRedundantBusSearch=await planRomanianNationalJourney(
+const replacementAndIndependent=await planRomanianNationalJourney(
  {BILO_API_KEY:'test-only'},{origin:'Oradea',destination:'Cluj-Napoca'},
  {date:'2026-11-15',tryOfficialBusSearch:true,fetchImpl:async (url,req)=>{
-  if(req.method==='GET')throw Error('coach is already in all-mode results');
+  if(req.method==='GET')return {ok:true,status:200,json:async()=>({mode:'bus',results:[{
+    origin:'Oradea',destination:'Cluj-Napoca',departure_time:'09:05',
+    arrival_time:'12:30',operator:'Petdor'
+   }]})};
   return {ok:true,status:200,json:async()=>({mode:'all',results:[{
    origin:'Oradea',destination:'Cluj-Napoca',mode:'rail_replacement_bus',
    departure_time:'04:00',arrival_time:'08:25',operator:'CFR Călători'
   }]})};
  }});
-assert.equal(noRedundantBusSearch.status,'ok');
-assert.equal(noRedundantBusSearch.coach_lookup,'included_in_all');
-assert.equal(noRedundantBusSearch.journeys[0].legs[0].railReplacement,true);
+assert.equal(replacementAndIndependent.status,'ok');
+assert.equal(replacementAndIndependent.coach_lookup,'ok');
+assert.equal(replacementAndIndependent.journeys.length,2,
+ 'Rail replacement buses must coexist with independently scheduled coaches');
+assert.equal(replacementAndIndependent.journeys[0].legs[0].railReplacement,true);
+assert.equal(replacementAndIndependent.journeys[1].legs[0].operator,'Petdor');
 const busyRailList=await planRomanianNationalJourney(
  {BILO_API_KEY:'test-only'},{origin:'București',destination:'Brașov'},
  {date:'2026-11-15',limit:10,tryOfficialBusSearch:true,fetchImpl:async(url,req)=>{
