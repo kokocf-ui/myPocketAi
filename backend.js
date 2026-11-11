@@ -9,6 +9,7 @@ import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
+import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
 import {romanianNationalQuery,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
@@ -2871,7 +2872,50 @@ export default {
       let departureAt=null;
       const transitOptions = [];
       const requestedOptionsCount=requestedTransitCount(message,data.transit_count);
-      if(roTransitQuery && (env.BILO_API_KEY || !env.MOTIS_API_BASE_URL)){
+      // Verified, local Romanian urban transport is queried before intercity
+      // rail/coach. Requires both origin and destination coordinates in one
+      // supported municipal region. No UK TfL/TransCAPI fallback for Romania.
+      const urbanFrom=data.journey_origin||data.route_context?.origin||
+        (hasValidLocation?{latitude,longitude}:null);
+      const urbanTo=data.transit_destination||data.route_context?.destination||data.route_destination;
+      const urbanRegion=romanianUrbanRegion(urbanFrom,urbanTo);
+      if(urbanRegion && !explicitCarRoute){
+        const selectedUrbanAt=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
+        const result=await planRomanianUrbanViaOracle(env,{
+          from:urbanFrom,to:urbanTo,departureAt:selectedUrbanAt||null,limit:requestedOptionsCount
+        });
+        if(result.journeys.length){
+          const schedule=lang==='en'?'Scheduled timetable, not live tracking.':'Orar planificat, nu timp real.';
+          const walk=lang==='en'
+            ?'Walk to and from stops must be verified with the pedestrian router.'
+            :'Accesul pietonal la stații trebuie verificat cu motorul pietonal.';
+          const price=lang==='en'?'Fare unavailable; check the operator.':'Preț indisponibil; verifică la operator.';
+          const lines=result.journeys.map((j,i)=>{
+            const clock=value=>new Date(value).toLocaleTimeString('ro-RO',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Bucharest'});
+            const legs=j.legs.map(l=>(l.lineNames||[]).join(', ')+' '+l.from+' → '+l.to).join(' / ');
+            return (i+1)+'. '+clock(j.startDateTime)+'–'+clock(j.arrivalDateTime)+' · '+legs;
+          });
+          const reply=(lang==='en'?'Urban public transport in Romania':'Transport urban în România')+'\n'+
+            lines.join('\n')+'\n\n'+schedule+' '+walk+' '+price;
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+            message_received:message,reply,mixed_journey:true,romanian_urban_journey:true,
+            transit_available:true,route_available:false,route_geometry_available:false,
+            transit_geometry_available:false,transit:result.journeys,fastest_transit:result.journeys[0],
+            transit_provider:'Romania GTFS static',source:'Licensed GTFS scheduled data',
+            provider_status:{ro_urban:result.status,region:result.region},
+            requested_transit_count:requestedOptionsCount});
+        }
+        const reason=result.status==='not_configured'?'ro_urban_router_not_configured':
+          result.status==='feed_not_loaded'?'ro_urban_feed_unavailable':'ro_urban_no_verified_itinerary';
+        const reply=lang==='en'
+          ?'Urban schedules for this Romanian area are not confirmed yet. No fabricated departures are shown.'
+          :'Orarul urban pentru această zonă din România nu este încă verificat. Nu afișez plecări inventate.';
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+          message_received:message,reply,mixed_journey:true,romanian_urban_journey:true,
+          transit_available:false,route_available:false,transit_provider:'Romania GTFS static',
+          reason,provider_status:{ro_urban:result.status,region:result.region}});
+      }
+      if(roTransitQuery){
         const origin=roTransitQuery.origin || await reverseRomanianOriginCity(env,hasValidLocation?{latitude,longitude}:null);
         const destination=roTransitQuery.destination;
         if(!origin||!destination){
