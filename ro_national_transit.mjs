@@ -1,3 +1,4 @@
+import {transportNoticeLine} from "./transport_availability_disclosure.mjs";
 /**
  * Romania inter-city rail/coach provider (Bilo HTTP integration).
  * No inferred timetable or undocumented public scraping.
@@ -438,7 +439,7 @@ export function romanianJourneySummary(journeys,origin,destination,language='ro'
   const modes=j.legs.filter(l=>l.mode!=='walking').map(l=>[l.mode,...l.lineNames].filter(Boolean).join(' ')).join(' → ');
   const fare=j.fareLocal?' · '+j.fareLocal.amount.toFixed(2)+' '+j.fareLocal.currency:'';
   return (i+1)+'. '+clock(j.startDateTime)+' – '+clock(j.arrivalDateTime)+' · '+
-    j.durationMinutes+' min · '+modes+fare;
+    j.durationMinutes+' min · '+modes+fare+'\n   '+transportNoticeLine(j,language);
  }).join('\n');
  const detail=journeys[0].legs.map((l,i)=>(i+1)+'. '+clock(l.departureTime)+' – '+clock(l.arrivalTime)+
   ' · '+l.from+' → '+l.to+' · '+[l.mode,...l.lineNames,l.operator].filter(Boolean).join(' ')).join('\n');
