@@ -18694,14 +18694,17 @@ function isEvaExitCommandClient(value){
 function isEvaConversationClient(value){
  const t=evaClientNormalize(value);
  if(!t)return false;
+ if(t==='eva'||t==='evo')return true;
  if(isEvaExitCommandClient(value))return true;
- const core=t.replace(/^(?:(?:buna|salut|hei|hey|hello|hi)\\s+)?(?:eva|evo)\\s+/,'');
+ const core=t.replace(/^(?:(?:buna|salut|hei|hey|hello|hi)\\s+)?(?:eva|evo)\\s+/,'')
+  .replace(/^(?:buna|salut|hei|hey|hello|hi)\\s+(?=(?:cum ajung|unde|vreau sa|cauta|gaseste|arata|explica|verifica|tradu|calculeaza)\\b)/,'');
  if(/^(?:cum ajung|vreau sa (?:ajung|merg|calatoresc|caut|gasesc)|unde (?:este|e|gasesc)|ce este|ce stii despre|care este (?:capitala|pretul|vremea)|cauta|gaseste|arata|explica|verifica|tradu|calculeaza|rezolva|recomanda|take me to|where is|find|what is|explain|translate)\\b/.test(core))return false;
  if(/^(?:buna|salut|hei|hello|hey|hi|neata|good morning|multumesc|mersi|merci|thanks|thank you|la revedere|bye)\\b/.test(t))return true;
  if(/\\b(?:cum te cheama|cine esti|cum te numesti|ce fel de asistenta esti|who are you|what s your name)\\b/.test(t))return true;
  if(/^(?:nu prea m ai convins|parca vorbesti|fii mai naturala|incearca sa fii|si daca ma supar|daca ma supar|despre ce te am tachinat|ce am discutat mai devreme|ma contrazici|esti (?:cam )?(?:proasta|obraznica|nesimtita)|glumeam|glumesc)\\b/.test(core))return true;
  return /^(?:(?:buna|salut|hei|hello)\\s+)?(?:eva|evo)\\b/.test(t)
-  &&/\\b(?:esti|te|tine|tie|ma|mi|m ai|mi ai|tachinat|contrazici|supar|impaci|obraznica|gluma|frumoaso|natural|prostie|vorbesti|your|you)\\b/.test(core);
+  &&!/\\b(?:traseu|ruta|tren|gara|station|underground|hotel|restaurant|farmacie|pharmacy)\\b/.test(core)
+  &&/\\b(?:esti|te|tine|tie|ma|mi|m ai|mi ai|ai|iti|tachinat|contrazici|supar|impaci|obraznica|gluma|frumoaso|natural|prostie|vorbesti|your|you)\\b/.test(core);
 }
 function isCasualConversationReply(value){
  if(isEvaConversationClient(value))return true;
