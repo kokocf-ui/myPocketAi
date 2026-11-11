@@ -48,3 +48,23 @@ export function rankRomanianJourneys(journeys){
    Date.parse(a?.startDateTime||0)-Date.parse(b?.startDateTime||0);
  });
 }
+
+
+// Bilo can return a train whose named first stop is a different locality
+// (e.g. Episcopia Bihor instead of Oradea). Without verified station
+// coordinates/access we must not silently call that an Oradea departure.
+const place=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+ .toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+function containsCity(stop,city){
+ const target=place(city).replace(/\bromania\b/g,'').trim();
+ const named=place(stop);
+ if(!target||!named)return false;
+ return (' '+named+' ').includes(' '+target+' ');
+}
+export function filterRomanianCityEndpoints(journeys,origin,destination){
+ return (Array.isArray(journeys)?journeys:[]).filter(j=>{
+  const legs=(Array.isArray(j?.legs)?j.legs:[]).filter(l=>!['walk','walking','foot'].includes(String(l.mode||'').toLowerCase()));
+  if(!legs.length)return false;
+  return containsCity(legs[0].from,origin)&&containsCity(legs.at(-1).to,destination);
+ });
+}
