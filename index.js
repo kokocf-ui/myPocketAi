@@ -2,8 +2,6 @@ import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathwa
 import {ACCOUNT_STYLE,ACCOUNT_HTML,ACCOUNT_SCRIPT} from './account_settings_ui.mjs';
 import {COMMUNICATION_HTML,COMMUNICATION_STYLE,COMMUNICATION_SCRIPT} from './communication_ui.mjs';
 import {ORACLE_COMMUNICATION_SCRIPT,ORACLE_COMMUNICATION_STYLE} from './oracle_communication_ui.mjs';
-import {COMMUNICATION_LIVE_SCRIPT} from './communication_live_ui.mjs';
-import {COMMUNICATION_LIVE_STYLE} from './communication_live_style.mjs';
 import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_europe.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
@@ -3422,7 +3420,6 @@ ${ACCOUNT_HTML}
 window.POCKET_COMM_ORACLE_URL=__POCKET_COMM_ORIGIN__;
 ${ACCOUNT_SCRIPT}
 ${COMMUNICATION_SCRIPT}
-${COMMUNICATION_LIVE_SCRIPT}
 ${ORACLE_COMMUNICATION_SCRIPT}
 (() => {
 'use strict';
@@ -20057,7 +20054,6 @@ html body button:disabled:not(.nav-btn):not(.feature-card):not(.transit-journey-
    assistant controls and action buttons from every module, without JS changes. */
 
 ${COMMUNICATION_STYLE}
-${COMMUNICATION_LIVE_STYLE}
 ${ORACLE_COMMUNICATION_STYLE}
 
 </style>
@@ -20084,7 +20080,7 @@ export default {
    return env.ASSETS.fetch(new Request(new URL('/avatar-v4.html',url)));
   }
   if (url.pathname !== '/' && url.pathname !== '/index.html') return new Response('Not found',{status:404});
-  const oracleOrigin=String(env?.COMMUNICATION_ORACLE_ORIGIN||'').replace(/\/+$/,'');
+  const oracleOrigin=String(env?.COMMUNICATION_ORACLE_ORIGIN||'https://mypocketai.duckdns.org').replace(/\/+$/,'');
   const publicOracleOrigin=/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(oracleOrigin)?oracleOrigin:'';
   const html=htmlDocument()
    .replace('<html', '<html data-pocket-ui-version="'+uiVersion()+'"')
