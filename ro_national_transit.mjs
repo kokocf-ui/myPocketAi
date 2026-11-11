@@ -503,12 +503,18 @@ export async function planRomanianNationalJourney(env,query,opts={}){
    if(seenJourneys.has(key))continue;
    seenJourneys.add(key);completed.push(trip);
   }
-  const primaryRoad=completed.some(j=>j.legs.some(l=>
-   ['coach','bus','minibus'].includes(String(l.mode||'').toLowerCase())));
-  const checkOfficial=!primaryRoad&&(opts.tryOfficialBusSearch===true||
+  // Rail replacement buses and independent long-distance coaches are
+  // different services. Even if the all-mode response returned a CFR bus,
+  // independently search the documented mode=bus API for private operators.
+  const closedOrigin=normalize(query.origin),closedDestination=normalize(query.destination);
+  const closedCorridor=date>='2024-01-08'&&date<='2026-12-12'&&
+   ((closedOrigin==='oradea'&&['cluj','cluj napoca'].includes(closedDestination))||
+    (closedDestination==='oradea'&&['cluj','cluj napoca'].includes(closedOrigin)));
+  const includeRoad=opts.vehicle!=='rail'||closedCorridor;
+  const checkOfficial=includeRoad&&(opts.tryOfficialBusSearch===true||
    (!opts.fetchImpl&&opts.tryOfficialBusSearch!==false));
   const busLookup=checkOfficial?await officialBiloBusJourneys(query,date,limit,fetchImpl)
-    :{status:primaryRoad?'included_in_all':'not_checked',journeys:[],records:0};
+    :{status:'not_checked',journeys:[],records:0};
   for(const coach of busLookup.journeys){
    const key=coach.legs.map(l=>[l.mode,l.from,l.to,l.departureTime].join('|')).join(';');
    if(!seenJourneys.has(key)){seenJourneys.add(key);completed.push(coach);}
