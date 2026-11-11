@@ -3,6 +3,7 @@ import {classifyAssistantFeedback,resolveRecipeFollowupComplaint,resolveRecipeRe
 import {assembleSourcedRecipeVariants} from "./culinary_multi.mjs";
 import {inspectPublisherRecipeEvidence,repairRecipeFromPublisher} from "./recipe_source_integrity.mjs";
 import {classifyConversationTurn,buildConversationEvidence} from "./conversation_intent.mjs";
+import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} from "./eva_dialogue.mjs";
 import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
@@ -1179,7 +1180,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v181";
+    const API_VERSION = "v182";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
@@ -2009,6 +2010,41 @@ export default {
     const supportedLanguages = ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"];
     const requestedLanguage = typeof data.language === "string" ? data.language.trim().toLowerCase().split(/[-_]/)[0] : "ro";
     const lang = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ro";
+    // E1: Speech-act gate has priority over stale route context, named-POI
+    // lookup, news/web research, old lesson topics and fixed canned replies.
+    // The app brand remains myPocket AI; only the avatar is named Eva.
+    const evaTurn=classifyEvaTurn(message,{module: data.module||'assistant'});
+    if(evaTurn?.kind==='exit'){
+      return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+        message_received:originalMessage,reply:lang==='ro'?'Închizi?':'Close the app?',
+        requires_exit_confirmation:true,conversation_intent:'app_exit',
+        conversational_reply:true,web_search_status:'not_needed',location_received:false});
+    }
+    if(evaTurn?.kind==='chat'){
+      const prior=evaConversationHistory(data.history,originalMessage,evaTurn.speech_act);
+      const messages=[
+        {role:'system',content:evaDialogueSystem(lang,evaTurn.speech_act)},
+        ...prior,{role:'user',content:originalMessage}
+      ];
+      try{
+        const generated=await env.AI.run(selectedAiModel,{
+          messages,max_tokens:190,temperature:0.62
+        });
+        const reply=cleanEvaReply(generated?.response||generated?.result?.response||'');
+        if(reply){
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+            message_received:originalMessage,reply,conversation_intent:'eva_'+evaTurn.speech_act,
+            conversational_reply:true,ai_generated:true,ai_connected:true,
+            web_search_status:'not_needed',location_received:false});
+        }
+      }catch(error){
+        console.warn('eva_dialogue_model_unavailable',String(error?.message||error).slice(0,90));
+      }
+      return json({app:'Pocket AI',version:API_VERSION,status:'unavailable',
+        language:lang,message_received:originalMessage,conversation_intent:'eva_'+evaTurn.speech_act,
+        conversational_reply:true,ai_generated:false,web_search_status:'not_needed',
+        reply:lang==='ro'?'Nu pot continua conversația acum. Încearcă din nou.':'I cannot continue the conversation right now. Please try again.'},503);
+    }
     // Questions about an earlier recipe request must be answered from the
     // user's actual conversation history before culinary keyword detection.
     // "Câte rețete de sarmale am spus să îmi dai?" is not a recipe search.
@@ -2180,8 +2216,8 @@ export default {
     const goodbye=/^(?:la revedere|pa|pe curand|o zi buna|ne mai auzim|bye|goodbye|see you later)$/.test(shortSocial);
     if(whoAmI||goodbye){
       const messages=whoAmI?{
-        ro:"Sunt Pocket AI, asistentul tău personal. Te pot ajuta cu întrebări, traduceri, învățare, informații și planificarea călătoriilor.",
-        en:"I'm Pocket AI, your personal assistant. I can help with questions, translations, learning, information and travel planning."
+        ro:"Sunt Eva, asistenta virtuală din myPocket AI. Te pot ajuta cu întrebări, traduceri, învățare, informații și planificarea călătoriilor.",
+        en:"I'm Eva, your virtual assistant in myPocket AI. I can help with questions, translations, learning, information and travel planning."
       }:{
         ro:"La revedere! 😊 Ne auzim cu drag când ai nevoie de mine.",
         en:"Goodbye! 😊 I'll be here whenever you need me."
