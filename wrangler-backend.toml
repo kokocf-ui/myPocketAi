@@ -6,3 +6,13 @@ compatibility_date = "2026-10-28"
 [ai]
 binding = "AI"
 
+
+# SQLite-backed Durable Object: invitation-only communication pilot.
+# No Oracle instance, D1 database ID, or paid KV namespace required.
+[[durable_objects.bindings]]
+name = "POCKET_COMM_HUB"
+class_name = "PocketCommunicationHub"
+
+[[migrations]]
+tag = "communication-sqlite-v1"
+new_sqlite_classes = ["PocketCommunicationHub"]
