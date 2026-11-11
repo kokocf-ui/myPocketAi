@@ -11,7 +11,7 @@ import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
-import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage} from "./ro_transport_mode_policy.mjs";
+import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys} from "./ro_transport_mode_policy.mjs";
 import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
 import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
 import {romanianNationalQuery,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
@@ -2965,12 +2965,12 @@ export default {
         const allJourneys=requestedAt&&result.journeys.length
           ?result.journeys.filter(j=>Date.parse(j.startDateTime)>=requestedAt-120000)
           :result.journeys;
-        const journeys=filterRomanianVehicleJourneys(allJourneys,vehicle).slice(0,requestedOptionsCount);
+        const journeys=rankRomanianJourneys(filterRomanianVehicleJourneys(allJourneys,vehicle)).slice(0,requestedOptionsCount);
         if(journeys.length){
           const reply=romanianJourneySummary(journeys,origin,destination,lang);
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
             transit_available:true,route_available:false,route_geometry_available:false,transit_geometry_available:false,
-            mixed_journey:true,romanian_national_journey:true,transit:annotateTransportJourneys(journeys,lang),fastest_transit:annotateTransportJourneys([journeys[0]],lang)[0],
+            mixed_journey:true,romanian_national_journey:true,transit:annotateTransportJourneys(journeys.map(j=>({...j,romanian_national_journey:true})),lang),fastest_transit:annotateTransportJourneys([{...journeys[0],romanian_national_journey:true}],lang)[0],
             transit_provider:'Bilo',source:'Bilo: operator-published schedules (not seat availability)',
             transit_departure_at:selectedAt||null,provider_status:{bilo:result.status},
             requested_transit_count:requestedOptionsCount});
