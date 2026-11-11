@@ -59,6 +59,7 @@ try {
  assert.ok(journeyLookups.every(x=>x.pathname.includes('940GZZLUVIC')),'Itineraries must use TfL Victoria Underground Tube ID, not Rail platforms');
 
  const ambiguous=await ask('Vreau sa ajung la Victoria Station');
+ console.log('TfL Victoria generic result',JSON.stringify({reply:ambiguous.reply,needs_destination_clarification:ambiguous.needs_destination_clarification,destination_candidates:ambiguous.destination_candidates,named_venue:ambiguous.named_venue,route_context:ambiguous.route_context,journeys:journeyLookups.length}));
  assert.equal(ambiguous.needs_destination_clarification,true,'Unqualified Victoria Station still asks rail or tube');
  assert.equal(ambiguous.destination_candidates?.length,2,'Four TfL entrances collapse into two distinct types');
  assert.deepEqual(new Set(ambiguous.destination_candidates.map(x=>x.label)),new Set(['Victoria Rail Station','Victoria Underground Station']));
