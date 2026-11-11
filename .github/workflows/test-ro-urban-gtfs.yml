@@ -1,0 +1,24 @@
+name: Romania urban GTFS route tests
+on:
+  push:
+    paths:
+      - 'ro_urban_gtfs.mjs'
+      - 'ro_urban_gtfs_import.mjs'
+      - 'tests_ro_urban_gtfs.mjs'
+      - '.github/workflows/test-ro-urban-gtfs.yml'
+  pull_request:
+    paths:
+      - 'ro_urban_gtfs.mjs'
+      - 'ro_urban_gtfs_import.mjs'
+      - 'tests_ro_urban_gtfs.mjs'
+      - '.github/workflows/test-ro-urban-gtfs.yml'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check ro_urban_gtfs.mjs && node --check ro_urban_gtfs_import.mjs
+      - run: node --test tests_ro_urban_gtfs.mjs
