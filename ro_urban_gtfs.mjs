@@ -102,8 +102,10 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
    durationMinutes:Math.round((finish-begin)/60000),legs,
    routeSegments:[],geometryAvailable:false,scheduled:true,real_time:false,fareLocal:null,
    seatAvailability:'not_applicable',walkingAccessVerified:false,walkingEgressVerified:false,
-   access:{stop_id:start.stop.stop_id,stop_name:start.stop.stop_name,directMeters:Math.ceil(start.d)},
-   egress:{stop_id:end.stop.stop_id,stop_name:end.stop.stop_name,directMeters:Math.ceil(end.d)},
+   access:{stop_id:start.stop.stop_id,stop_name:start.stop.stop_name,directMeters:Math.ceil(start.d),
+     latitude:Number(start.stop.stop_lat),longitude:Number(start.stop.stop_lon)},
+   egress:{stop_id:end.stop.stop_id,stop_name:end.stop.stop_name,directMeters:Math.ceil(end.d),
+     latitude:Number(end.stop.stop_lat),longitude:Number(end.stop.stop_lon)},
    source:'GTFS static (operator-published schedule, NOT live times)'});
  };
  for(const [id,start] of origins)for(const first of depByStop.get(id)||[]){
