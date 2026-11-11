@@ -11,14 +11,15 @@
 ## Implementat în sursa proiectului
 1. Adaptor separat: ro_national_transit.mjs; cererile românești nu sunt trimise la TfL/TransCAPI.
 2. Cheia BILO_API_KEY este citită exclusiv din secretele Cloudflare Workers; interfața Android/JS nu primește cheia.
-3. POST https://mcp.bilo.ro/api/v1/search cu origin, destination, date Europe/Bucharest, passengers, mode, railClass, sort și limit.
-4. Răspunsul este acceptat doar dacă are etape, operator/linie când este prezent, stații, tip de transport și ore verificabile. Datele lipsă nu sunt inventate.
-5. Fără provider sau fără rezultate valide, răspunsul este neconfirmat și explică motivul.
+3. POST https://bilo.ro/api/integrations/v1/search, calea oficială documentată pentru integrări cu Bearer API key, cu origin, destination, date Europe/Bucharest, passengers, mode, railClass, sort și limit.
+4. Răspunsul acceptă atât `legs`/`segments`, cât și înregistrări Bilo plate `results` cu `departure_time`, `arrival_time`, `origin`, `destination`, `mode`; ora HH:mm e ancorată strict la data cerută în fusul Europe/Bucharest. Nu inventează transportul, orele ori tarifele.
+5. Erorile autentificării, limitei, rețelei/HTTP și răspunsului fără itinerarii verificabile au motive diferite, expuse prin `provider_status.bilo`, fără a expune cheia.
 6. Testele unitare pentru JSON, UTC, România/UK și secret/eroare API sunt în tests_ro_national_transit.mjs.
 
 ## Neactivat încă
 - Nicio cheie BILO_API_KEY nu a fost instalată în cadrul modificării.
-- Schema reală a rezultatelor trebuie confirmată în baza răspunsurilor serverului după conectarea cheii.
+- Schema reală a rezultatelor trebuie confirmată în baza răspunsurilor LIVE ale serverului după publicarea codului corectat; testele folosesc doar exemple și simulări, nu demonstrează succesul în producție.
+- Condițiile Bilo interzic stocarea persistentă / cache-ul rezultatelor fără acord scris; afișare temporară numai. Înainte de lansare trebuie auditată păstrarea istoricului de rute și a mesajelor Evei pentru a nu arhiva răspunsurile Bilo.
 - Transportul urban nu este acoperit doar de furnizorul de trenuri/autocare. Pentru București, Cluj, Iași și Oradea, avem nevoie de surse GTFS/RT aprobate și un planner MOTIS sau OTP propriu/licențiat; nu folosim API-ul comunitar Transitous pentru planul comercial.
 - Nu presupunem acoperire integrală pentru microbuze, sate, mijloace de transport fără feed verificabil ori plecări în timp real.
 
@@ -29,3 +30,9 @@
 4. Să compare rezultatele cu operatorii: tren/autocar, stații, ore, durată, preț și data orarului; apoi se activează testarea publică beta România.
 
 Modulele Asistent AI, Hărți și Transport mixt vor refolosi același motor. Lipsa cheii nu echivalează cu motor activ.
+
+## Remediere 11 noiembrie 2026
+
+- API-ul pentru integrare cu cheia de dezvoltator este `https://bilo.ro/api/integrations/v1/search` (POST JSON + Authorization Bearer). `https://mcp.bilo.ro` este alt serviciu MCP, nu `/api/v1/search` și nu trebuie confundat.
+- Referință oficială: https://bilo.ro/en/ai-agents (secțiunea «API for integrations»).
+- `BILO_API_KEY` rămâne doar în Cloudflare Worker. **Un APK nou nu este necesar doar pentru acest adaptor backend**; este necesar deploy de backend și test real cu 2 orașe.
