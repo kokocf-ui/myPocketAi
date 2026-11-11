@@ -81,6 +81,8 @@ jobs:
         run: node tests_maps_route_quiet_ui.mjs
       - name: Walking and driving route results avoid chat and retain map Back
         run: node tests_route_choices_no_chat_flow.mjs
+      - name: Assistant route mode and transit palette consistency
+        run: node tests_assistant_route_palette.mjs
       - name: Verify education year, lesson contents and browser boot
         run: node tests_education_content_navigation.mjs
       - name: Confirm current Cloudflare home and Android cache-busting
