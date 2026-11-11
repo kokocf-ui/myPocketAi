@@ -34,19 +34,40 @@ async function listRole(db,list,me){
  check(q.rowCount===1,403,'Nu ai acces la această listă');
  return q.rows[0]
 }
+const quotas=new Map();
+function limit(key,max,windowMs){
+ const now=Date.now(),v=quotas.get(key);
+ const record=v&&v.until>now?v:{count:0,until:now+windowMs};
+ record.count++;quotas.set(key,record);
+ check(record.count<=max,429,'Prea multe cereri. Încearcă mai târziu');
+ if(quotas.size>20000){for(const [k,v] of quotas)if(v.until<now)quotas.delete(k)}
+}
 export function createDeviceCommunicationHandler(pool){
  return async function handle(req,res,path){
+  const invitation=path.match(/^\/i\/([A-Za-z0-9_-]{40,150})$/);
+  if(req.method==='GET'&&invitation){
+   const token=invitation[1];
+   res.writeHead(200,{'content-type':'text/html; charset=utf-8',
+    'cache-control':'no-store','referrer-policy':'no-referrer',
+    'content-security-policy':"default-src 'none'; style-src 'unsafe-inline'",
+    'x-content-type-options':'nosniff'});
+   res.end('<!doctype html><html lang="ro"><meta name="viewport" content="width=device-width,initial-scale=1"><title>myPocketAI – invitație</title><body style="font:18px system-ui;background:#102638;color:white;padding:2rem"><h2>Invitație myPocketAI</h2><p>Deschide aplicația pentru a accepta invitația.</p><a style="color:white;background:#883951;padding:14px;border-radius:10px;display:inline-block" href="mypocketai://invite/'+token+'">Deschide în myPocketAI</a></body></html>');
+   return true;
+  }
   if(req.method!=='POST'||!['/api/communication','/communication','/'].includes(path))return false;
   try{
    const origin=String(req.headers.origin||'');
    const allowed=String(process.env.APP_ORIGIN||'').replace(/\/$/,'');
    check(!origin||origin===allowed,403,'Origine neautorizată');
    if(origin){res.setHeader('access-control-allow-origin',allowed);res.setHeader('vary','Origin')}
+   const ip=String(req.socket.remoteAddress||'unknown').slice(0,90);
+   limit('network:'+ip,400,60000);
    const data=await readBody(req,17000000);
    check(data&&typeof data==='object'&&!Array.isArray(data),400,'Cerere invalidă');
    const action=String(data.action||'');
    check(action.length>0&&action.length<40,400,'Acțiune invalidă');
    if(action==='register'){
+    limit('registration:'+ip,12,3600000);
     const {timestamp,nonce,name,signPublic,exchangePublic,proof}=data;
     check(Number.isSafeInteger(timestamp)&&Math.abs(Date.now()-timestamp)<300000,401,'Data cererii este expirată');
     check(b64(nonce)&&nonce.length>=16&&nonce.length<=80,400,'Nonce invalid');
@@ -74,6 +95,9 @@ export function createDeviceCommunicationHandler(pool){
    const unique=await pool.query("INSERT INTO device_nonces(user_id,nonce,expires_at) VALUES($1,$2,now()+interval '6 minutes') ON CONFLICT DO NOTHING RETURNING nonce",[me,nonce]);
    check(unique.rowCount===1,409,'Cerere repetată');
    const friend=data.friend;
+   if(action==='invite')limit('invite:'+me,20,86400000);
+   if(action==='send')limit('message:'+me,60,60000);
+   if(action==='upload')limit('upload:'+me,30,3600000);
    if(action==='invite'){
     check(token(data.token),400,'Cod invitație invalid');
     const h=hash(data.token);
