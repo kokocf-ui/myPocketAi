@@ -53,11 +53,21 @@ assert.equal(headers.Authorization,'Bearer server-secret');
 assert.deepEqual(Object.keys(body).sort(),['origin','destination','date','passengers','mode','railClass','sort','limit'].sort());
 assert.equal((await planRomanianNationalJourney({BILO_API_KEY:'x'},{origin:'Oradea',destination:'Cluj'},{date:'2026-11-12',fetchImpl:async()=>({status:401,ok:false})})).status,'authentication_failed');
 assert.equal((await planRomanianNationalJourney({BILO_API_KEY:'x'},{origin:'Oradea',destination:'Cluj'},{date:'2026-11-12',fetchImpl:async()=>({status:429,ok:false})})).status,'quota_exceeded');
+const unauth=await planRomanianNationalJourney({BILO_API_KEY:'test-only'},{origin:'Oradea',destination:'Cluj'},{date:'2026-11-12',fetchImpl:async()=>({status:401,ok:false})});
+assert.equal(unauth.status,'authentication_failed');
+assert.equal(unauth.http_status,401);
+const forbidden=await planRomanianNationalJourney({BILO_API_KEY:'test-only'},{origin:'Oradea',destination:'Cluj'},{date:'2026-11-12',fetchImpl:async()=>({status:403,ok:false})});
+assert.equal(forbidden.status,'access_forbidden');
+assert.equal(forbidden.http_status,403);
+
 assert.equal((await reverseRomanianOriginCity({GEOAPIFY_API_KEY:'x'},{latitude:51.5,longitude:-0.1},()=>{throw Error('must not geocode UK')})),'');
 const backend=readFileSync('backend.js','utf8');
 assert.match(backend,/romanianNationalQuery\(message/,'Romanian intent enters unified backend');
 assert.match(backend,/roTransitQuery \|\| explicitMixedJourney/,'Romanian queries reach transit branch');
 assert.match(backend,/transit_provider:'Bilo'/,'Response identifies the provider');
+assert.match(backend,/ro_provider_access_forbidden/,'403 has distinct safe diagnostic');
+assert.match(backend,/http_status:result.http_status\\|\\|null/,'Provider HTTP status is returned without token');
+
 assert.match(backend,/transit_available:false/,'Unsupported timetable remains unverified');
 assert.match(backend,/transit_available:true/,'Verified schedules retain the transit results');
 assert.match(backend,/const explicitCarRoute/,'Existing driving route guard remains');
