@@ -8,6 +8,19 @@ assert.deepEqual(p('Cu trenul din Oradea la Cluj-Napoca?'),
  {origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true});
 assert.deepEqual(p('Transport public din București până la Brașov'),
  {origin:'București',destination:'Brașov',hasOrigin:true,hasDestination:true});
+assert.deepEqual(p('Transport de la Oradea la Cluj'),
+ {origin:'Oradea',destination:'Cluj',hasOrigin:true,hasDestination:true},
+ 'Generic transport requests must open the national train and coach planner');
+assert.deepEqual(p('Transport de la Oradea la Cluj-Napoca mâine'),
+ {origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true});
+assert.deepEqual(p('Deplasare de la Oradea la Cluj cu autocarele'),
+ {origin:'Oradea',destination:'Cluj cu autocarele',hasOrigin:true,hasDestination:true},
+ 'Word order does not lose generic transport intention');
+assert.equal(p('Transport cu mașina de la Oradea la Cluj'),null,
+ 'Do not hijack explicit driving requests');
+assert.equal(p('Transport de marfă de la Oradea la Cluj'),null,
+ 'Goods traffic is not passenger transit');
+
 
 assert.deepEqual(p('Cu trenul din București la Brașov mâine?'),
  {origin:'București',destination:'Brașov',hasOrigin:true,hasDestination:true},
