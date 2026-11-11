@@ -3,6 +3,7 @@ import {randomBytes,randomInt,randomUUID,createHash,createHmac,timingSafeEqual} 
 import {Pool} from 'pg';
 import nodemailer from 'nodemailer';
 import {createDeviceCommunicationHandler} from './device-api.mjs';
+import {createOraclePush} from './fcm-push.mjs';
 
 // Runs on Oracle VM ONLY. Neither D1 nor the Eva/AI Worker stores communication data.
 const required=['PGHOST','PGDATABASE','PGUSER','PGPASSWORD','APP_ORIGIN'];
@@ -10,7 +11,8 @@ const missing=required.filter(k=>!process.env[k]);
 if(missing.length)throw Error('Missing Oracle communication env: '+missing.join(', '));
 if(process.env.OTP_SECRET&&process.env.OTP_SECRET.length<32)throw Error('OTP_SECRET must have at least 32 characters');
 const pool=new Pool({max:8,connectionTimeoutMillis:6000});
-const handleDeviceCommunication=createDeviceCommunicationHandler(pool);
+const push=createOraclePush();
+const handleDeviceCommunication=createDeviceCommunicationHandler(pool,{push});
 const smtp=(process.env.SMTP_HOST&&process.env.SMTP_USER&&process.env.SMTP_PASSWORD&&process.env.MAIL_FROM)?nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT||587),
  secure:Number(process.env.SMTP_PORT||587)===465,
  auth:{user:process.env.SMTP_USER,pass:process.env.SMTP_PASSWORD}}):null;
