@@ -45,6 +45,7 @@ const view={classList:{add:v=>shown.add(v),remove:v=>shown.delete(v)}};
 const host={children:[],replaceChildren(...items){this.children=items}};
 const fakeDoc={
  createElement:makeEl,
+ querySelector:()=>null,
  getElementById:id=>id==='routeSearchLoading'?host.children[0]||null:null
 };
 const $=id=>({ 'view-module':view, moduleContent:host })[id];
