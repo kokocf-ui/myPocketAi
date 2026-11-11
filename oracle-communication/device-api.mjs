@@ -42,7 +42,12 @@ function limit(key,max,windowMs){
  check(record.count<=max,429,'Prea multe cereri. Încearcă mai târziu');
  if(quotas.size>20000){for(const [k,v] of quotas)if(v.until<now)quotas.delete(k)}
 }
-export function createDeviceCommunicationHandler(pool){
+export function createDeviceCommunicationHandler(pool,{push}={}){
+ // Encrypted payloads never leave Oracle. Fire-and-forget notifications contain only IDs.
+ const notify=(user,kind,target)=>{
+  if(!push?.enabled)return;
+  void push.notify(pool,user,kind,target).catch(()=>{});
+ };
  return async function handle(req,res,path){
   const invitation=path.match(/^\/i\/([A-Za-z0-9_-]{40,150})$/);
   if(req.method==='GET'&&invitation){
@@ -96,6 +101,21 @@ export function createDeviceCommunicationHandler(pool){
    const unique=await pool.query("INSERT INTO device_nonces(user_id,nonce,expires_at) VALUES($1,$2,now()+interval '6 minutes') ON CONFLICT DO NOTHING RETURNING nonce",[me,nonce]);
    check(unique.rowCount===1,409,'Cerere repetată');
    const friend=data.friend;
+   if(action==='push_register'){
+    check(typeof data.pushToken==='string'&&data.pushToken.length>=24&&data.pushToken.length<=4096&&
+      /^[A-Za-z0-9_:\-]+$/.test(data.pushToken),400,'Token push invalid');
+    limit('push:'+me,30,3600000);
+    await txn(pool,async db=>{
+     await db.query('INSERT INTO device_push_tokens(token,user_id,updated_at) VALUES($1,$2,now()) ON CONFLICT(token) DO UPDATE SET user_id=$2,updated_at=now()',[data.pushToken,me]);
+     await db.query('DELETE FROM device_push_tokens WHERE user_id=$1 AND token NOT IN (SELECT token FROM device_push_tokens WHERE user_id=$1 ORDER BY updated_at DESC LIMIT 5)',[me]);
+    });
+    return json(res,200,{ok:true,pushReady:!!push?.enabled}),true
+   }
+   if(action==='push_unregister'){
+    if(typeof data.pushToken==='string'&&data.pushToken.length<=4096)
+     await pool.query('DELETE FROM device_push_tokens WHERE user_id=$1 AND token=$2',[me,data.pushToken]);
+    return json(res,200,{ok:true}),true
+   }
    if(action==='invite')limit('invite:'+me,20,86400000);
    if(action==='send')limit('message:'+me,60,60000);
    if(action==='upload')limit('upload:'+me,30,3600000);
@@ -117,9 +137,10 @@ export function createDeviceCommunicationHandler(pool){
      check(!block.rowCount,403,'Contact blocat');
      await db.query('INSERT INTO device_contacts(user_id,friend_id) VALUES($1,$2),($2,$1) ON CONFLICT DO NOTHING',[me,v.inviter_id]);
      await db.query('UPDATE device_invites SET accepted_by=$1 WHERE code_hash=$2',[me,hash(data.token)]);
-     return {ok:true}
+     return {ok:true,inviter:v.inviter_id}
     });
-    return json(res,200,result),true
+    notify(result.inviter,'invite',me);
+    return json(res,200,{ok:true}),true
    }
    if(action==='contacts'){
     const q=await pool.query(`SELECT u.id,u.display_name AS name,u.exchange_public AS "exchangePublic"
@@ -169,6 +190,7 @@ export function createDeviceCommunicationHandler(pool){
      await db.query('INSERT INTO device_messages(id,pair_key,sender_id,recipient_id,client_id,iv,cipher,kind,attachment_id,created_ms) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)',[randomUUID(),pair,me,friend,data.messageId,data.iv,action==='upload'?'':data.cipher,action==='upload'?'media':'text',attachment,Date.now()]);
      return {ok:true}
     });
+    if(!result.duplicate)notify(friend,'message',me);
     return json(res,200,result),true
    }
    if(action==='list_create'){
@@ -181,7 +203,7 @@ export function createDeviceCommunicationHandler(pool){
     return json(res,200,{ok:true,listId}),true
    }
    if(action==='lists'){
-    const q=await pool.query('SELECT l.id,l.title,l.revision FROM device_lists l JOIN device_list_members m ON m.list_id=l.id WHERE m.user_id=$1 ORDER BY l.created_at DESC LIMIT 100',[me]);
+    const q=await pool.query('SELECT l.id,l.title,l.revision,l.owner_id AS owner FROM device_lists l JOIN device_list_members m ON m.list_id=l.id WHERE m.user_id=$1 ORDER BY l.created_at DESC LIMIT 100',[me]);
     return json(res,200,{ok:true,lists:q.rows}),true
    }
    if(['list','list_share','list_op'].includes(action)){
@@ -193,6 +215,7 @@ export function createDeviceCommunicationHandler(pool){
     if(action==='list_share'){
      check(list.role==='owner'&&await approved(pool,me,friend),403,'Partajare neautorizată');
      await pool.query("INSERT INTO device_list_members(list_id,user_id,role) VALUES($1,$2,$3) ON CONFLICT(list_id,user_id) DO UPDATE SET role=EXCLUDED.role",[list.id,friend,data.role==='viewer'?'viewer':'editor']);
+     notify(friend,'list',list.id);
      return json(res,200,{ok:true}),true
     }
     check(['owner','editor'].includes(list.role)&&uuid(data.opId)&&uuid(data.itemId)&&['add','change_quantity','check','uncheck','remove'].includes(data.kind),400,'Operație invalidă');
@@ -210,6 +233,11 @@ export function createDeviceCommunicationHandler(pool){
      await db.query('UPDATE device_lists SET revision=$1 WHERE id=$2',[revision,list.id]);
      return {ok:true,revision}
     });
+    if(!result.duplicate&&push?.enabled){
+     void pool.query('SELECT user_id FROM device_list_members WHERE list_id=$1 AND user_id<>$2 LIMIT 20',[list.id,me])
+      .then(q=>{for(const recipient of q.rows)notify(recipient.user_id,'list',list.id)})
+      .catch(()=>{});
+    }
     return json(res,200,result),true
    }
    return json(res,404,{ok:false,error:'Acțiune necunoscută'}),true
