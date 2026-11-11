@@ -66,7 +66,7 @@ testIt('2 users: authenticated invite -> accept -> ciphertext -> media -> list w
  assert.equal(new TextDecoder().decode(await decrypt(a,b,m.iv,m.cipher)),plain);
  assert.equal((await call({action:'messages',friend:a.id},stranger)).ok,false);
  const bytes=enc.encode('encrypted media test payload'),media=await encrypt(a,b,bytes);
- const upload=await call({action:'upload',friend:b.id,messageId:randomUUID(),kind:'file',encryptedName:b64(randomBytes(24)),...media},a);
+ const upload=await call({action:'upload',friend:b.id,messageId:randomUUID(),kind:'file',mime:'application/pdf',encryptedName:b64(randomBytes(24)),...media},a);
  assert.equal(upload.ok,true,JSON.stringify(upload));
  const downloaded=await call({action:'attachment',friend:a.id,attachmentId:upload.attachmentId},b);
  assert.equal(downloaded.ok,true);
