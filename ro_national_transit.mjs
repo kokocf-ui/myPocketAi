@@ -68,6 +68,21 @@ const normalizeMode=raw=>{
  if(/tren|train|rail|interregio|regio|feroviar/.test(mode))return 'train';
  return '';
 };
+// CFR Călători confirms rail-replacement buses between Oradea and Cluj
+// while the section is modernized. The 2025/26 replacement contract runs
+// through 2026-12-12. Do NOT present an unverified single-leg rail service
+// on the closed corridor as a direct train.
+export function isUnverifiedClosedCorridorRail(journey,date=''){
+ const day=String(date||journey?.startDateTime||'').slice(0,10);
+ if(day<'2024-01-08'||day>'2026-12-12')return false;
+ const legs=(Array.isArray(journey?.legs)?journey.legs:[])
+  .filter(l=>!['walk','walking','foot'].includes(String(l.mode||'').toLowerCase()));
+ if(legs.length!==1||!['train','rail'].includes(String(legs[0].mode||'').toLowerCase()))return false;
+ const station=v=>normalize(v).replace(/[^a-z0-9 ]+/g,' ').trim();
+ const a=station(legs[0].from),b=station(legs[0].to);
+ const oradea=s=>/\boradea\b/.test(s),cluj=s=>/\bcluj(?: napoca)?\b/.test(s);
+ return oradea(a)&&cluj(b)||cluj(a)&&oradea(b);
+}
 function localClock(iso){
  const date=new Date(iso);
  return Number.isFinite(date.getTime())
@@ -263,12 +278,27 @@ function biloLegFields(seg,item,rootMode,date){
   seg.arrival_station,seg.destination_station,seg.to_stop,seg.arrival_stop,
   seg.arrival?.station,seg.arrival?.stop,seg.arrival?.location,
   seg.arrival,seg.end,item.to,item.destination,item.arrival_station,item.arrival);
- const modes=[seg.mode,seg.type,seg.transport_mode,seg.transportMode,
-  seg.transport_type,seg.vehicle_type,seg.vehicleType,seg.category,
-  seg.transport?.mode,seg.transport?.type,seg.vehicle?.type,
+ // Physical vehicle is more reliable than the booking category: rail tickets
+ // may be served by CFR/other train-replacement coaches.
+ const physical=[seg.vehicle_type,seg.vehicleType,seg.vehicle?.type,
+  seg.vehicle?.mode,seg.transport?.vehicle_type,seg.transport?.vehicleType,
+  item.vehicle_type,item.vehicleType];
+ const category=[seg.mode,seg.type,seg.transport_mode,seg.transportMode,
+  seg.transport_type,seg.category,seg.transport?.mode,seg.transport?.type,
   seg.service?.type,seg.service?.category,item.mode,item.transport_mode,
   item.transport_type,rootMode];
- let mode=modes.map(normalizeMode).find(Boolean)||'';
+ const replacement=seg.rail_replacement===true||seg.railReplacement===true||
+  seg.replacement_bus===true||seg.replacementBus===true||
+  seg.is_replacement_bus===true||seg.isRailReplacement===true||
+  [seg.replacement_type,seg.replacement_reason,seg.service?.category,
+   seg.service?.type,seg.vehicle?.description,seg.description]
+   .some(v=>/\b(?:rail|train|tren|feroviar).*(?:replacement|inlocui|substitu)|(?:replacement|inlocui|substitu).*(?:rail|train|tren|feroviar)/.test(normalize(v)));
+ let mode=physical.map(normalizeMode).find(Boolean)||
+   category.map(normalizeMode).find(Boolean)||'';
+ if(replacement&&(!mode||mode==='train'))mode='coach';
+ const railReplacement=replacement&&['coach','bus'].includes(mode)||
+   ['coach','bus'].includes(mode)&&
+   category.some(v=>normalizeMode(v)==='train')&&physical.some(v=>['coach','bus'].includes(normalizeMode(v)));
  // Source explicitly marks this as a train/coach, even when the
  // broad search mode is "all"; never infer mode from the requested route.
  if(!mode&&[seg.train_number,seg.trainNumber,seg.train?.number,item.train_number,
@@ -286,7 +316,7 @@ function biloLegFields(seg,item,rootMode,date){
   seg.end?.time??seg.arrival??item.arrival_time??item.arrival?.time;
  const dep=providerTimestamp(departValue,date);
  const arr=providerTimestamp(arriveValue,date,dep);
- return {from,to,fromLocality,toLocality,mode,dep,arr,
+ return {from,to,fromLocality,toLocality,mode,railReplacement,dep,arr,
   reason:!from?'missing_origin':!to?'missing_destination':!mode?'missing_transport_mode':
     dep===null?'missing_departure_time':arr===null?'missing_arrival_time':
     arr<=dep?'invalid_time_order':null};
@@ -332,6 +362,7 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
    const operator=seg.operator||seg.operatorName||seg.operator_name||
      seg.service?.operator||record.operator||'';
    legs.push({mode:fields.mode,from:fields.from,to:fields.to,
+     ...(fields.railReplacement?{railReplacement:true}:{}),
      ...(fields.fromLocality?{fromLocality:fields.fromLocality}:{}),
      ...(fields.toLocality?{toLocality:fields.toLocality}:{}),
      departureTime:new Date(fields.dep).toISOString(),arrivalTime:new Date(fields.arr).toISOString(),
@@ -339,6 +370,7 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
      operator:String(typeof operator==='object'?operator.name||'':operator).slice(0,100)});
   }
   if(!legs.length)continue;
+  if(isUnverifiedClosedCorridorRail({legs},date))continue;
   const start=legs[0].departureTime,end=legs[legs.length-1].arrivalTime;
   const durationMinutes=Math.round((Date.parse(end)-Date.parse(start))/60000);
   if(durationMinutes<1||durationMinutes>48*60)continue;
@@ -379,6 +411,32 @@ function detailTrips(payload,limit,date){
    value.trip||value.journey||value.itinerary;
  }
  return [];
+}
+// Official documented Bilo search, distinct from the private keyed
+// all-mode endpoint. The Bilo developer documentation explicitly specifies
+// mode=bus on https://bilo.ro/search-api/v2/search. Call only when the all-mode
+// response has no road services; passenger does not need to select a mode.
+async function officialBiloBusJourneys(query,date,limit,fetchImpl){
+ try{
+  const endpoint=new URL('https://bilo.ro/search-api/v2/search');
+  endpoint.searchParams.set('origin',query.origin);
+  endpoint.searchParams.set('destination',query.destination);
+  endpoint.searchParams.set('date',date);
+  endpoint.searchParams.set('mode','bus');
+  const response=await fetchImpl(endpoint.toString(),{
+   method:'GET',headers:{'Accept':'application/json'},
+   signal:AbortSignal.timeout(6500)
+  });
+  if(!response.ok)return {status:'http_'+response.status,journeys:[],records:0};
+  const payload=await response.json();
+  const data=biloRecords(payload);
+  const journeys=normalizeBiloTrips(payload,limit,date).filter(j=>
+   j.legs.some(l=>['coach','bus','minibus'].includes(String(l.mode||'').toLowerCase()))&&
+   j.legs.every(l=>['coach','bus','minibus','walking'].includes(String(l.mode||'').toLowerCase())));
+  return {status:journeys.length?'ok':data.items.length?'unparsable':'no_results',
+   journeys,records:data.items.length};
+ }catch(e){return {status:e?.name==='TimeoutError'?'timeout':'network_error',
+   journeys:[],records:0};}
 }
 export async function planRomanianNationalJourney(env,query,opts={}){
  const key=String(env?.BILO_API_KEY||'').trim();
@@ -444,6 +502,16 @@ export async function planRomanianNationalJourney(env,query,opts={}){
    if(seenJourneys.has(key))continue;
    seenJourneys.add(key);completed.push(trip);
   }
+  const primaryRoad=completed.some(j=>j.legs.some(l=>
+   ['coach','bus','minibus'].includes(String(l.mode||'').toLowerCase())));
+  const checkOfficial=!primaryRoad&&(opts.tryOfficialBusSearch===true||
+   (!opts.fetchImpl&&opts.tryOfficialBusSearch!==false));
+  const busLookup=checkOfficial?await officialBiloBusJourneys(query,date,limit,fetchImpl)
+    :{status:primaryRoad?'included_in_all':'not_checked',journeys:[],records:0};
+  for(const coach of busLookup.journeys){
+   const key=coach.legs.map(l=>[l.mode,l.from,l.to,l.departureTime].join('|')).join(';');
+   if(!seenJourneys.has(key)){seenJourneys.add(key);completed.push(coach);}
+  }
   if(completed.length){
    // Safe aggregate statistics help distinguish missing provider coverage
    // from lost parsed services, without exposing trip IDs or personal data.
@@ -457,9 +525,11 @@ export async function planRomanianNationalJourney(env,query,opts={}){
    }
    return {status:'ok',journeys:completed.slice(0,limit),
     records_returned:items.length,parsed_modes:modes,
+    coach_lookup:busLookup.status,coach_records_returned:busLookup.records,
     detail_requests:candidates.length,detail_successes:details.size};
   }
   return {status:diagnosis.status,records_returned:diagnosis.records_returned,
+   coach_lookup:busLookup.status,coach_records_returned:busLookup.records,
    parse_hint:diagnosis.status==='results_unparsable'
     ?(candidates.length?'trip_details_not_usable':biloParseHint(payload,date)):null,
    detail_requests:candidates.length,detail_successes:details.size,journeys:[]};
