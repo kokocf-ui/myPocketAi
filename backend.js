@@ -2998,7 +2998,12 @@ export default {
             transit_page_order:['rail','road','mixed'],
             fastest_transit:annotateTransportJourneys([{...rankRomanianJourneys(journeys)[0],romanian_national_journey:true}],lang)[0],
             transit_provider:'Bilo',source:'Bilo: operator-published schedules (not seat availability)',
-            transit_departure_at:selectedAt||null,provider_status:{bilo:result.status},
+            transit_departure_at:selectedAt||null,
+            provider_status:{bilo:result.status,
+              records_returned:result.records_returned??null,
+              parsed_modes:result.parsed_modes||null,
+              detail_requests:result.detail_requests??null,
+              detail_successes:result.detail_successes??null},
             requested_transit_count:requestedOptionsCount});
         }
         // A real train response does not fulfill an explicit coach request.
