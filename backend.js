@@ -12,6 +12,7 @@ import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mj
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
 import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage} from "./ro_transport_mode_policy.mjs";
+import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
 import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
 import {romanianNationalQuery,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
@@ -1103,7 +1104,7 @@ function routeMessageSpec(text){
  if(!route)return null;
  const viaMatch=String(text).match(/\s+(?:via|prin|through)\s+(.+)$/i);
  const clean=cleanTravelPlace(viaMatch?String(text).slice(0,viaMatch.index):text).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[?!.]+$/g,'').trim();
- const pair=clean.match(/(?:\bdin|\bde la|\bfrom)\s+(.+?)\s+(?:pana\s+(?:la|in)|to|la|spre|catre)\s+(.+)$/i);
+ const pair=explicitOriginDestinationPair(clean);
  const cityVenue=clean.match(/(?:vreau sa ajung|cum ajung|merg|go|travel)\s+in\s+(.+?)\s+la\s+(.+)$/i);
  const dest=clean.match(/(?:pana\s+(?:in|la)|catre|spre|\bto|\bla)\s+(.+)$/i);
  const own=v=>/^(?:foloseste |use )?(?:locatia mea|pozitia mea(?: gps)?|my (?:current )?(?:location|position)|gps|aici|here)$/.test(normalizeGeoName(v));
