@@ -2908,6 +2908,7 @@ export default {
         const providerReason=result.status==='not_configured'?'ro_provider_key_required':
           result.status==='quota_exceeded'?'ro_provider_quota_exceeded':
           result.status==='authentication_failed'?'ro_provider_auth_failed':
+          result.status==='access_forbidden'?'ro_provider_access_forbidden':
           result.status==='timeout'?'ro_provider_timeout':
           result.status==='provider_network_error'?'ro_provider_network_error':
           result.status.startsWith('provider_http_')?'ro_provider_http_error':
@@ -2918,7 +2919,9 @@ export default {
           ?(result.status==='not_configured'
              ?'Romanian rail and coach search is not yet connected. A Bilo key is required on the server.'
              :result.status==='authentication_failed'
-             ?'Bilo rejected the server credentials. The API connection needs checking.'
+             ?'Bilo rejected the API key (401). Verify the exact Bilo token stored in the Cloudflare Worker secret.'
+             :result.status==='access_forbidden'
+             ?'Bilo denied API access (403). Check that your developer key is active and authorised for the integrations API.'
              :result.status==='quota_exceeded'
              ?'The Bilo search quota has been reached. Try again after the quota resets.'
              :result.status==='timeout'||result.status==='provider_network_error'||result.status.startsWith('provider_http_')
@@ -2929,7 +2932,9 @@ export default {
           :(result.status==='not_configured'
              ?'Transportul național din România nu este activat: lipsește cheia Bilo de pe server.'
              :result.status==='authentication_failed'
-             ?'Bilo a respins autentificarea. Trebuie verificată conexiunea cu cheia API din server.'
+             ?'Bilo a respins cheia API (401). Verifică valoarea exactă a secretului BILO_API_KEY din Cloudflare.'
+             :result.status==='access_forbidden'
+             ?'Bilo a refuzat accesul API (403). Verifică dacă cheia de dezvoltator este activă și autorizată pentru API-ul de integrare.'
              :result.status==='quota_exceeded'
              ?'Cota de căutări Bilo a fost atinsă. Încearcă după reînnoirea cotei.'
              :result.status==='timeout'||result.status==='provider_network_error'||result.status.startsWith('provider_http_')
@@ -2939,7 +2944,7 @@ export default {
              :'Nu am putut confirma un itinerar cu trenul sau autocarul pentru ruta și data alese.');
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
           transit_available:false,route_available:false,mixed_journey:true,romanian_national_journey:true,
-          transit_provider:'Bilo',reason:providerReason,provider_status:{bilo:result.status}});
+          transit_provider:'Bilo',reason:providerReason,provider_status:{bilo:result.status,http_status:result.http_status||null}});
       }
       let targetName = "London";
       let targetLat = null;
