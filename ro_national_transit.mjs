@@ -57,8 +57,14 @@ function localClock(iso){
 export function romanianNationalQuery(message,opts={}){
  const text=String(message||'');
  const normalized=normalize(text);
- const explicitTransit=/\b(?:transport(?:ul)? (?:public|in comun)|transport mixt|tren(?:ul)?|autocar(?:ul)?|autobuz(?:ul)?|rail|train|coach|bus)\b/i.test(normalized)
+ const explicitCar=/(?:^|\s)(?:cu|prin)\s+(?:masina|automobilul|autoturismul|taxiul|taxi)(?:\s|$)/.test(normalized)
+   ||opts.travel_mode==='car'||opts.route_profile==='drive';
+ const genericTransport=/(?:^|\s)(?:transport(?:ul)?|deplasare)(?:\s|$)/.test(normalized)
+   &&!/(?:^|\s)(?:de\s+marfa|marfuri)(?:\s|$)/.test(normalized);
+ const explicitTransit=(!explicitCar&&genericTransport)
+   ||/\b(?:transport(?:ul)? (?:public|in comun)|transport mixt|tren(?:ul)?|autocar(?:ul)?|autobuz(?:ul)?|rail|train|coach|bus)\b/i.test(normalized)
    ||opts.mixed_journey===true||opts.travel_mode==='transit';
+ if(explicitCar&&opts.mixed_journey!==true&&opts.travel_mode!=='transit')return null;
  if(!explicitTransit)return null;
  const matched=text.match(/(?:^|\s)(?:din|de\s+la)\s+(.+?)\s+(?:p[aâ]n[aă]\s+la|către|catre|spre|la)\s+(.+?)(?:[?!]|$)/iu);
  const origin=matched?cleanTown(matched[1]):cleanTown(opts.origin?.city||opts.origin?.label||'');
