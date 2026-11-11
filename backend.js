@@ -10,6 +10,7 @@ import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
+import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
 import {romanianNationalQuery,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
@@ -2885,12 +2886,31 @@ export default {
           from:urbanFrom,to:urbanTo,departureAt:selectedUrbanAt||null,limit:requestedOptionsCount
         });
         if(result.journeys.length){
+          const journeyCandidates=await Promise.all(result.journeys.slice(0,4).map(j=>
+            addRomanianWalkingAccess(env,j,urbanFrom,urbanTo)));
+          // An unverified access walk remains available with a clear notice;
+          // a VERIFIED but uncatchable departure is not offered.
+          const requestedUrbanMs=selectedUrbanAt?Date.parse(selectedUrbanAt):Date.now();
+          const journeys=journeyCandidates.filter(j=>{
+            if(!j?.accessWalkVerified)return true;
+            const departureMs=Date.parse(j.firstVehicleDepartureTime);
+            return !Number.isFinite(departureMs)||
+              departureMs >= requestedUrbanMs+(j.walkToFirstStopMinutes+5)*60000;
+          });
+          if(!journeys.length){
+            return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+              message_received:message,mixed_journey:true,romanian_urban_journey:true,
+              transit_available:false,route_available:false,
+              reply:lang==='en'?'The verified walking route cannot reach these departures in time. Choose a later departure.':'Cu mersul pe jos verificat, nu poți ajunge la timp la aceste plecări. Alege o plecare mai târzie.',
+              transit_provider:'Romania GTFS static',reason:'ro_urban_access_too_late',
+              provider_status:{ro_urban:result.status,region:result.region}});
+          }
           const schedule=lang==='en'?'Scheduled timetable, not live tracking.':'Orar planificat, nu timp real.';
           const walk=lang==='en'
             ?'Walk to and from stops must be verified with the pedestrian router.'
             :'Accesul pietonal la stații trebuie verificat cu motorul pietonal.';
           const price=lang==='en'?'Fare unavailable; check the operator.':'Preț indisponibil; verifică la operator.';
-          const lines=result.journeys.map((j,i)=>{
+          const lines=journeys.map((j,i)=>{
             const clock=value=>new Date(value).toLocaleTimeString('ro-RO',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Bucharest'});
             const legs=j.legs.map(l=>(l.lineNames||[]).join(', ')+' '+l.from+' → '+l.to).join(' / ');
             return (i+1)+'. '+clock(j.startDateTime)+'–'+clock(j.arrivalDateTime)+' · '+legs;
@@ -2900,7 +2920,8 @@ export default {
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
             message_received:message,reply,mixed_journey:true,romanian_urban_journey:true,
             transit_available:true,route_available:false,route_geometry_available:false,
-            transit_geometry_available:false,transit:result.journeys,fastest_transit:result.journeys[0],
+            transit_geometry_available:false,transit:journeys,fastest_transit:journeys[0],
+            transit_destination_point:{latitude:Number(urbanTo.latitude),longitude:Number(urbanTo.longitude),label:String(urbanTo.label||urbanTo.city||'Destinație')},
             transit_provider:'Romania GTFS static',source:'Licensed GTFS scheduled data',
             provider_status:{ro_urban:result.status,region:result.region},
             requested_transit_count:requestedOptionsCount});
