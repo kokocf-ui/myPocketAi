@@ -117,7 +117,65 @@ assert.equal(answer.status,'ok');
 assert.equal(answer.journeys.length,1);
 assert.equal(url,'https://mcp.bilo.ro/api/v1/search');
 assert.equal(headers.Authorization,'Bearer server-secret');
-assert.deepEqual(Object.keys(body).sort(),['origin','destination','date','passengers','mode','railClass','sort','limit'].sort());
+assert.deepEqual(Object.keys(body).sort(),['origin','destination','date','mode','limit'].sort());
+assert.ok(typeof headers['Idempotency-Key']==='string'&&headers['Idempotency-Key'].length>15,'Search sends a unique idempotency key');
+
+const searchSummary={results:[{tripId:'bilo:rail/11-12|IR-100',title:'Rail service',price:{amount:48,currency:'RON'}},
+ {tripId:'trip-second',title:'Other train'}]};
+const detailCalls=[];
+const detailFetch=async (url,request)=>{
+ detailCalls.push({url,request});
+ if(url.endsWith('/search'))return {ok:true,status:200,json:async()=>searchSummary};
+ if(url.endsWith('/trip-details')){
+  assert.equal(request.method,'POST');
+  assert.deepEqual(Object.keys(JSON.parse(request.body)),['tripId']);
+  assert.equal(request.headers.Authorization,'Bearer test-server-key');
+  const id=JSON.parse(request.body).tripId;
+  if(id==='trip-second')return {ok:true,status:200,json:async()=>({error:'details unavailable'})};
+  return {ok:true,status:200,json:async()=>({data:{tripId:id,legs:[{
+   from:'București Nord',to:'Brașov',mode:'train',
+   departure_time:'2026-11-12T08:30:00+02:00',
+   arrival_time:'2026-11-12T11:05:00+02:00',
+   train_number:'IR 100'}]}})};
+ }
+ throw new Error('Unexpected request '+url);
+};
+const fullResult=await planRomanianNationalJourney(
+ {BILO_API_KEY:'test-server-key'},{origin:'București',destination:'Brașov'},
+ {date:'2026-11-12',limit:5,fetchImpl:detailFetch,idempotencyKey:'fixed-test-request-uuid'});
+assert.equal(fullResult.status,'ok','Trip summary must be enriched through details');
+assert.equal(fullResult.journeys.length,1);
+assert.equal(fullResult.journeys[0].durationMinutes,155);
+assert.deepEqual(fullResult.journeys[0].fareLocal,{amount:48,currency:'RON'});
+assert.deepEqual(detailCalls.map(x=>new URL(x.url).pathname),[
+ '/api/v1/search','/api/v1/trip-details','/api/v1/trip-details'
+]);
+assert.equal(detailCalls[0].request.headers['Idempotency-Key'],'fixed-test-request-uuid');
+assert.deepEqual(JSON.parse(detailCalls[0].request.body),{
+ origin:'București',destination:'Brașov',date:'2026-11-12',mode:'all',limit:5});
+assert.equal(detailCalls[1].request.headers['Idempotency-Key'],undefined,
+ 'Detail requests do not consume search idempotency keys');
+assert.deepEqual(JSON.parse(detailCalls[1].request.body),{tripId:'bilo:rail/11-12|IR-100'},
+ 'Opaque trip identifiers must not be modified');
+const noIds=await planRomanianNationalJourney(
+ {BILO_API_KEY:'test-only'},{origin:'București',destination:'Brașov'},
+ {date:'2026-11-12',fetchImpl:async()=>({ok:true,status:200,json:async()=>({results:[{
+ origin:'București',destination:'Brașov',unknown:'shape'}]})})}
+);
+assert.equal(noIds.status,'results_unparsable');
+assert.equal(noIds.detail_requests,0,'Do not call details when no tripId provided');
+const failedDetails=await planRomanianNationalJourney(
+ {BILO_API_KEY:'test-only'},{origin:'București',destination:'Brașov'},
+ {date:'2026-11-12',limit:1,fetchImpl:async(url)=>{
+   if(url.endsWith('/search'))return {ok:true,status:200,json:async()=>({results:[{tripId:'valid-id'}]})};
+   return {status:500,ok:false};
+ }}
+);
+assert.equal(failedDetails.status,'results_unparsable');
+assert.equal(failedDetails.parse_hint,'trip_details_not_usable');
+assert.equal(failedDetails.detail_requests,1);
+assert.deepEqual(failedDetails.journeys,[]);
+
 assert.equal((await planRomanianNationalJourney({BILO_API_KEY:'x'},{origin:'Oradea',destination:'Cluj'},{date:'2026-11-12',fetchImpl:async()=>({status:401,ok:false})})).status,'authentication_failed');
 assert.equal((await planRomanianNationalJourney({BILO_API_KEY:'x'},{origin:'Oradea',destination:'Cluj'},{date:'2026-11-12',fetchImpl:async()=>({status:429,ok:false})})).status,'quota_exceeded');
 const unauth=await planRomanianNationalJourney({BILO_API_KEY:'test-only'},{origin:'Oradea',destination:'Cluj'},{date:'2026-11-12',fetchImpl:async()=>({status:401,ok:false})});
