@@ -79,6 +79,8 @@ jobs:
         run: node tests_maps_walk_drive_visibility.mjs
       - name: Quiet petrol route choices and chat-free loading regression
         run: node tests_maps_route_quiet_ui.mjs
+      - name: Walking and driving route results avoid chat and retain map Back
+        run: node tests_route_choices_no_chat_flow.mjs
       - name: Verify education year, lesson contents and browser boot
         run: node tests_education_content_navigation.mjs
       - name: Confirm current Cloudflare home and Android cache-busting
