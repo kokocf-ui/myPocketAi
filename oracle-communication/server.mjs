@@ -142,7 +142,7 @@ async function route(req,res,url,origin){
   return answer(200,result);
  }
  if(method==='GET'&&path==='/v1/contacts'){
-  const r=await pool.query('SELECT u.id,u.display_name AS "displayName" FROM comm_contacts c JOIN comm_contacts r ON r.user_id=c.contact_id AND r.contact_id=c.user_id JOIN comm_users u ON u.id=c.contact_id AND u.disabled_at IS NULL WHERE c.user_id=$1 AND NOT EXISTS(SELECT 1 FROM comm_blocks b WHERE (b.user_id=$1 AND b.blocked_id=u.id) OR (b.user_id=u.id AND b.blocked_id=$1)) ORDER BY u.display_name LIMIT 200',[me.id]);
+  const r=await pool.query('SELECT u.id,u.display_name AS "displayName", k.exchange_public AS "exchangePublic" FROM comm_contacts c JOIN comm_contacts r ON r.user_id=c.contact_id AND r.contact_id=c.user_id JOIN comm_users u ON u.id=c.contact_id AND u.disabled_at IS NULL LEFT JOIN comm_device_keys k ON k.user_id=u.id WHERE c.user_id=$1 AND NOT EXISTS(SELECT 1 FROM comm_blocks b WHERE (b.user_id=$1 AND b.blocked_id=u.id) OR (b.user_id=u.id AND b.blocked_id=$1)) ORDER BY u.display_name LIMIT 200',[me.id]);
   return answer(200,{contacts:r.rows});
  }
  if(method==='POST'&&path==='/v1/blocks'){
@@ -158,6 +158,56 @@ async function route(req,res,url,origin){
  if(method==='DELETE'&&unblock){
   await pool.query('DELETE FROM comm_blocks WHERE user_id=$1 AND blocked_id=$2',[me.id,unblock[1]]);
   return answer(200,{ok:true});
+ }
+ if(method==='POST'&&path==='/v1/device-key'){
+  const d=await body(req),key=d.exchangePublic;
+  requireThat(key&&typeof key==='object'&&key.kty==='EC'&&key.crv==='P-256'&&
+    /^[A-Za-z0-9_-]{40,50}$/.test(String(key.x||''))&&
+    /^[A-Za-z0-9_-]{40,50}$/.test(String(key.y||''))&&!('d' in key),
+    400,'Cheie publică invalidă');
+  // Preserve the original device key. Reinstall/key recovery requires an
+  // explicit authenticated reset flow, never silent replacement.
+  const q=await pool.query('INSERT INTO comm_device_keys(user_id,exchange_public) VALUES($1,$2::jsonb) ON CONFLICT(user_id) DO NOTHING RETURNING user_id',[me.id,JSON.stringify(key)]);
+  const stored=await pool.query('SELECT exchange_public FROM comm_device_keys WHERE user_id=$1',[me.id]);
+  requireThat(JSON.stringify(stored.rows[0].exchange_public)===JSON.stringify(key)||q.rowCount===1,409,'Această identitate are deja altă cheie de dispozitiv');
+  return answer(200,{ok:true});
+ }
+ if(method==='POST'&&path==='/v1/threads'){
+  const d=await body(req),other=txt(d.contactId);
+  requireThat(await approved(pool,me.id,other),403,'Contact neaprobat');
+  const pair=[me.id,other].sort().join(':');
+  const result=await transaction(async c=>{
+   await c.query('SELECT pg_advisory_xact_lock(hashtext($1))',[pair]);
+   const q=await c.query('SELECT thread_id FROM comm_direct_threads WHERE pair_key=$1',[pair]);
+   if(q.rowCount)return {threadId:q.rows[0].thread_id};
+   const thread=id();
+   await c.query('INSERT INTO comm_threads(id,created_by) VALUES($1,$2)',[thread,me.id]);
+   await c.query('INSERT INTO comm_thread_members(thread_id,user_id) VALUES($1,$2),($1,$3)',[thread,me.id,other]);
+   await c.query('INSERT INTO comm_direct_threads(pair_key,thread_id) VALUES($1,$2)',[pair,thread]);
+   return {threadId:thread};
+  });
+  return answer(200,result);
+ }
+ const threadMsg=path.match(/^\/v1\/threads\/([0-9a-f-]{36})\/messages$/i);
+ if(threadMsg){
+  const thread=threadMsg[1];
+  const p=await pool.query('SELECT user_id FROM comm_thread_members WHERE thread_id=$1',[thread]);
+  requireThat(p.rowCount===2&&p.rows.some(v=>v.user_id===me.id),403,'Nu ai acces la conversație');
+  const friend=p.rows.find(v=>v.user_id!==me.id)?.user_id;
+  requireThat(await approved(pool,me.id,friend),403,'Contact blocat sau neaprobat');
+  if(method==='GET'){
+   const r=await pool.query('SELECT id,sender_id,nonce,ciphertext,created_at,client_id FROM comm_messages WHERE thread_id=$1 ORDER BY created_at DESC,id DESC LIMIT 100',[thread]);
+   return answer(200,{messages:r.rows.reverse()});
+  }
+  if(method==='POST'){
+   const d=await body(req),ciphertext=txt(d.ciphertext),nonce=txt(d.nonce),clientId=txt(d.clientId);
+   requireThat(!('text' in d)&&!('plaintext' in d),400,'Mesajele în clar sunt interzise');
+   requireThat(/^[A-Za-z0-9_-]{16}$/.test(nonce)&&/^[A-Za-z0-9_-]{24,16000}$/.test(ciphertext),400,'Mesaj criptat invalid');
+   requireThat(/^[A-Za-z0-9_-]{8,100}$/.test(clientId),400,'Identificator invalid');
+   rate('message:'+me.id,60,60000);
+   const q=await pool.query('INSERT INTO comm_messages(id,thread_id,sender_id,ciphertext,nonce,client_id) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(sender_id,client_id) DO UPDATE SET client_id=EXCLUDED.client_id RETURNING id,created_at',[id(),thread,me.id,ciphertext,nonce,clientId]);
+   return answer(201,{ok:true,message:q.rows[0]});
+  }
  }
  if(method==='POST'&&path==='/v1/lists'){
   const d=await body(req),title=txt(d.title);
@@ -218,8 +268,7 @@ async function route(req,res,url,origin){
   });
   return answer(201,result);
  }
- // Messages remain disabled until the Android client has audited E2EE keys.
- // Never accept private chat in plaintext just to simulate feature completion.
+ // Only opaque encrypted message envelopes are accepted, never plaintext.
  return answer(404,{error:'Rută necunoscută sau funcție indisponibilă'});
 }
 const server=http.createServer((req,res)=>{
