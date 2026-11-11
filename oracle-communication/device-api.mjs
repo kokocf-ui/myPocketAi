@@ -60,7 +60,8 @@ export function createDeviceCommunicationHandler(pool){
    const allowed=String(process.env.APP_ORIGIN||'').replace(/\/$/,'');
    check(!origin||origin===allowed,403,'Origine neautorizată');
    if(origin){res.setHeader('access-control-allow-origin',allowed);res.setHeader('vary','Origin')}
-   const ip=String(req.socket.remoteAddress||'unknown').slice(0,90);
+   // This service is reachable only through trusted local Caddy; the proxy sets X-Forwarded-For.
+   const ip=String(req.headers['x-forwarded-for']||req.socket.remoteAddress||'unknown').split(',')[0].trim().slice(0,90);
    limit('network:'+ip,400,60000);
    const data=await readBody(req,17000000);
    check(data&&typeof data==='object'&&!Array.isArray(data),400,'Cerere invalidă');
