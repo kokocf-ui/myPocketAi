@@ -35,10 +35,18 @@ export async function addRomanianWalkingAccess(env,journey,origin,destination,op
  if(!j)return null;
  const get=options.fetchImpl||fetch;
  const a=j.access,e=j.egress;
- const access=await walk(env,origin,a,get);
- const egress=await walk(env,e,destination,get);
+ const [access,egress]=await Promise.all([walk(env,origin,a,get),walk(env,e,destination,get)]);
  j.walkToFirstStop=access;
  j.walkFromLastStop=egress;
+ j.boarding_stop={label:String(a?.stop_name||''),latitude:Number(a?.latitude),longitude:Number(a?.longitude),departure_time:j.legs?.[0]?.departureTime};
+ j.firstVehicleDepartureTime=j.legs?.[0]?.departureTime;
+ j.accessWalkVerified=Boolean(access);
+ j.accessWalkDistanceMeters=access?.distanceMeters??null;
+ j.safetyMarginMinutes=5;
+ if(j.legs?.length&&e?.latitude!=null&&e?.longitude!=null){
+  j.legs=j.legs.map(l=>({...l}));
+  j.legs[j.legs.length-1].arrivalLatLon={lat:Number(e.latitude),lon:Number(e.longitude)};
+ }
  j.walkingAccessVerified=Boolean(access);
  j.walkingEgressVerified=Boolean(egress);
  j.walkToFirstStopMinutes=access?.durationMinutes??null;
@@ -49,6 +57,15 @@ export async function addRomanianWalkingAccess(env,journey,origin,destination,op
   if(Number.isFinite(firstLegDeparture))j.durationToDestinationMinutes=
     Math.ceil((Date.parse(j.arrivalDateTime)-firstLegDeparture)/60000)+
     access.durationMinutes+egress.durationMinutes;
+  if(validPoint(destination)&&j.legs?.length){
+   const originalArrival=j.arrivalDateTime;
+   const finalArrival=j.arrivalAtDestinationTime;
+   j.legs.push({mode:'walking',from:String(e.stop_name||'Stație'),to:'Destinație',
+    departureTime:originalArrival,arrivalTime:finalArrival,
+    distanceMeters:egress.distanceMeters,durationMinutes:egress.durationMinutes,
+    coordinates:egress.coordinates,geometryAvailable:true,lineNames:[]});
+   j.arrivalDateTime=finalArrival;
+  }
  }
  return j;
 }
