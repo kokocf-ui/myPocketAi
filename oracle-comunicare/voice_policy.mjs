@@ -25,6 +25,12 @@ export function authorizeVoiceAction({actor,thread,members,action='send'}) {
   requireRule(Array.isArray(members) && members.length>=2, 'invalid_memberships');
   const ids=members.map(m=>m.userId);
   requireRule(ids.every(isUuid) && new Set(ids).size===ids.length, 'invalid_memberships');
+  if (thread.kind==='direct') {
+    requireRule(Array.isArray(thread.participantIds) && thread.participantIds.length===2 &&
+      thread.participantIds.every(isUuid) && new Set(thread.participantIds).size===2 &&
+      members.length===2 && members.every(m=>thread.participantIds.includes(m.userId)),
+      'invalid_thread_participants');
+  }
   const me=members.find(m=>m.userId===actor.userId);
   requireRule(me && me.status==='accepted' && me.chatAllowed===true &&
     me.blocked!==true, 'chat_not_authorized');
