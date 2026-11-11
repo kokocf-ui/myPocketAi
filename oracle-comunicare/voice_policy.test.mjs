@@ -6,7 +6,7 @@ const b='b6326dc8-e21d-41f6-8dcc-4b2f6d2efbf9';
 const c='c256d354-c8ac-4cbe-a31b-4f04f906b201';
 const t='fb8b3d8e-c0f2-4880-8f1a-1a47e15fdb9b';
 const actor={userId:a,verified:true};
-const direct={id:t,kind:'direct',status:'active'};
+const direct={id:t,kind:'direct',status:'active',participantIds:[a,b]};
 const members=[a,b].map(userId=>({userId,status:'accepted',chatAllowed:true,verifiedContact:true,blocked:false}));
 const call=(opts={})=>authorizeVoiceAction({actor,thread:direct,members,action:'send',...opts});
 test('accepted, verified, mutually permitted contacts can send voice',()=>{
@@ -23,7 +23,7 @@ test('never grant direct voice chat from only one-sided invitations',()=>{
  }
 });
 test('strangers and non-participants cannot access chat',()=>{
- assert.throws(()=>call({members:[members[0],{...members[1],userId:c}]}),/chat_not_authorized/);
+ assert.throws(()=>call({members:[members[0],{...members[1],userId:c}]}),/invalid_thread_participants/);
  assert.throws(()=>call({thread:{...direct,status:'closed'}}),/invalid_thread/);
 });
 test('group requires accepted sender and group-level voice enabled',()=>{
