@@ -1,6 +1,7 @@
 import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathways.mjs';
 import {ACCOUNT_STYLE,ACCOUNT_HTML,ACCOUNT_SCRIPT} from './account_settings_ui.mjs';
 import {COMMUNICATION_HTML,COMMUNICATION_STYLE,COMMUNICATION_SCRIPT} from './communication_ui.mjs';
+import {COMMUNICATION_LIVE_SCRIPT} from './communication_live_ui.mjs';
 import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_europe.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
@@ -3418,6 +3419,7 @@ ${ACCOUNT_HTML}
 <script>
 ${ACCOUNT_SCRIPT}
 ${COMMUNICATION_SCRIPT}
+${COMMUNICATION_LIVE_SCRIPT}
 (() => {
 'use strict';
 // 01 — State and DOM references
@@ -19124,7 +19126,7 @@ $('chatForm').addEventListener('submit',event=>{event.preventDefault();submitMes
 $('newChatBtn').addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}archiveCurrentConversation();resetChat();void 0});
 // 08 — Navigation and module entry points; v1.0.24 quick searches stay inside the selected module
 for(const button of document.querySelectorAll('[data-module]'))button.addEventListener('click',()=>openModule(button.dataset.module));
-for(const button of document.querySelectorAll('[data-nav]'))button.addEventListener('click',()=>{const name=button.dataset.nav;closeRouteMap(false);closeAnswerReader(false);closeLongChoice();showView(name)});
+for(const button of document.querySelectorAll('[data-nav]'))button.addEventListener('click',()=>{const name=button.dataset.nav;closeRouteMap(false);closeAnswerReader(false);closeLongChoice();showView(name);if(name==='communication')window.pocketCommunicationOpen?.()});
 for(const button of document.querySelectorAll('[data-back]'))button.addEventListener('click',()=>showView('home'));
 $('askModuleBtn').addEventListener('click',()=>{if(state.currentView!=='module')return;/* Text entry stays unfocused until the input itself is tapped. */setStatus('Scrie întrebarea în conversația modulului selectat.');});
 $('moduleLayerBack').addEventListener('click',handleModuleLayerBack);
