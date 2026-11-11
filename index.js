@@ -17007,8 +17007,14 @@ function transitBoardingAdvice(journey){
   (recommendedDate!==scheduledDate?recommendedDate+' ':'')+transitClock(recommended,zone);
 }
 function isRomanianRailJourney(journey){
- return /\bBilo\b/i.test(String(journey?.source||''))&&
-  journey?.time_zone==='Europe/Bucharest';
+ const source=String(journey?.source||'');
+ const legs=Array.isArray(journey?.legs)?journey.legs:[];
+ const national=journey?.romanian_national_journey===true||/\bBilo\b/i.test(source)||
+  (/\bMOTIS\b/i.test(source)&&journey?.time_zone==='Europe/Bucharest'&&
+   legs.some(l=>/^(train|rail|coach)$/i.test(String(l?.mode||''))));
+ // Source identification matters: TfL must never become a Romanian rail card
+ // just because a stale response carries Europe/Bucharest.
+ return national&&!/Romania GTFS static/i.test(source);
 }
 // A compact rail layout intentionally differs from urban door-to-door transit:
 // station positions and live updates must not be claimed without verified data.
@@ -17099,11 +17105,20 @@ function appendRomanianRailDetails(host,journey){
   steps.append(item);
  }
  host.append(steps);
+ const ticket=document.createElement('p');
+ ticket.className='ro-rail-ticket-note';
+ ticket.style.cssText='font-size:13px;line-height:1.4;margin:9px 2px;color:#c4d6df';
+ ticket.textContent=journey.fareLocal?
+   (ro?'Tariful afișat trebuie verificat la operator.':'Verify the displayed fare with the operator.'):
+   (ro?'Preț indisponibil. Verifică la operator.':'Fare unavailable. Check the operator.');
+ if((journey.legs||[]).some(l=>/^(train|rail|coach|bus)$/i.test(String(l.mode||''))))
+   ticket.textContent+=' '+(ro?'Disponibilitatea locurilor nu este confirmată.':'Seat availability is not confirmed.');
+ host.append(ticket);
  if(!validTransitBoardingStop(journey.boarding_stop)){
   const note=document.createElement('p');
   note.style.cssText='font-size:12px;line-height:1.45;color:#c5d2d9;margin:10px 2px 0';
-  note.textContent=ro?'Navigarea pe jos până la gară necesită coordonatele verificate ale stației. Orarul trenului este afișat separat.':
-   'Walking directions to the station require verified station coordinates. The train timetable is shown separately.';
+  note.textContent=ro?'Accesul pietonal la stația de plecare nu este încă verificat.':
+   'Walking access to the departure station is not yet verified.';
   host.append(note);
  }
 }
@@ -17124,7 +17139,9 @@ function appendTransitCards(host,options){
   dateLine.textContent=dialogText('Data călătoriei: ','Journey date: ')+dateStart+
     (dateEnd!=='—'&&dateEnd!==dateStart?' → '+dateEnd:'')+
     ' · '+(firstModeLive?dialogText('Prima cursă: actualizată live','First service: live update'):dialogText('Orar programat','Scheduled timetable'));
-  const boarding=document.createElement('div');boarding.textContent=transitBoardingSummary(journey);
+  const boarding=document.createElement('div');
+  boarding.textContent=validTransitBoardingStop(journey.boarding_stop)?transitBoardingSummary(journey):
+    dialogText('Acces la stația de plecare: neverificat','Boarding stop access: unverified');
   const metrics=document.createElement('div');metrics.className='transit-card-metrics';metrics.textContent=[journey.accessWalkVerified===true&&Number.isFinite(journey.walkToFirstStopMinutes)?labels[6]+': '+formatTravelDurationMinutes(journey.walkToFirstStopMinutes):dialogText('Mers până la stație: se verifică după selectare','Walk to stop: verify after selecting'),Number.isFinite(journey.transferCount)?labels[5]+': '+journey.transferCount:''].filter(Boolean).join(' · ');
   const vehicles=(journey.legs||[]).filter(x=>!/^(?:walking|walk|foot|pedestrian)$/i.test(String(x.mode||'')));
   const routeLine=document.createElement('div');routeLine.className='transit-card-route-overview';
@@ -17345,7 +17362,9 @@ function renderTransitChoices(options,selectedIndex=null){
  body.append(actions);
  if(selectedIndex!==null){const journey=options[selectedIndex];if(!journey)return;if(isRomanianRailJourney(journey)){appendRomanianRailDetails(body,journey);return;}const summary=document.createElement('p');
   summary.textContent=dialogText('Data călătoriei: ','Journey date: ')+
-   transitDateLabel(journey.startDateTime,journey.time_zone)+' · '+transitBoardingSummary(journey);
+   transitDateLabel(journey.startDateTime,journey.time_zone)+' · '+
+   (validTransitBoardingStop(journey.boarding_stop)?transitBoardingSummary(journey):
+    dialogText('Acces pietonal: neverificat','Walking access: unverified'));
   body.append(summary);
   const bufferText=transitBoardingAdvice(journey);
   if(bufferText){const notice=document.createElement('p');notice.className='transit-boarding-buffer-notice';notice.textContent=bufferText;body.append(notice)}

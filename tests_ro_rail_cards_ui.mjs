@@ -60,7 +60,7 @@ const detailsText=texts(details);
 assert.ok(detailsText.includes('Etapa 1'),'Selected route shows structured leg');
 assert.ok(detailsText.includes('IR 1535'),'Train number is visible in detail');
 assert.ok(detailsText.includes('48,5 RON'),'Provided fare is visible');
-assert.equal((detailsText.match(/coordonatele verificate/g)||[]).length,1,
+assert.equal((detailsText.match(/Accesul pietonal la stația de plecare nu este încă verificat\./g)||[]).length,1,
  'One discreet access note rather than repeated geolocation warnings');
 const noPrice={...journey,fareLocal:null,legs:[{...leg,operator:''}]};
 const noPricePanel={children:[],append(x){this.children.push(x)}};

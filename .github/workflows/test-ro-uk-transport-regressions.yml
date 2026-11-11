@@ -1,0 +1,42 @@
+name: Romania and UK transport screenshot regressions
+on:
+  push:
+    paths:
+      - 'backend.js'
+      - 'ro_national_transit.mjs'
+      - 'route_explicit_origin.mjs'
+      - 'ro_transport_mode_policy.mjs'
+      - 'index.js'
+      - 'tests_ro_uk_transport_regressions.mjs'
+      - 'tests_ro_road_origin_integration.mjs'
+      - '.github/workflows/test-ro-uk-transport-regressions.yml'
+  pull_request:
+    paths:
+      - 'backend.js'
+      - 'ro_national_transit.mjs'
+      - 'route_explicit_origin.mjs'
+      - 'ro_transport_mode_policy.mjs'
+      - 'index.js'
+      - 'tests_ro_uk_transport_regressions.mjs'
+      - 'tests_ro_road_origin_integration.mjs'
+      - '.github/workflows/test-ro-uk-transport-regressions.yml'
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and unit tests
+        run: |
+          node --check backend.js
+          node --check index.js
+          node --test tests_ro_uk_transport_regressions.mjs tests_ro_road_origin_integration.mjs
+      - name: Existing transport and UI tests
+        run: |
+          node tests_ro_national_transit.mjs
+          node tests_mixed_selector_ui.mjs
+          node tests_assistant_route_palette.mjs
+          node tests_transit_final_mile.mjs
+          node tests_mixed_uk_fallback.mjs
