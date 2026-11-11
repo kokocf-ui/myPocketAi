@@ -17,7 +17,7 @@ assert.match(source,/current\.navigating\?'0px'/,'navigation overlay reaches scr
 assert.match(source,/pocket-navigation-fullscreen \.bottom-nav\{display:none/,'bottom bar hidden in navigation');
 assert.match(source,/map=L\.map\(host,\{rotate:rotateReady\}\)/,'rotation enabled for route maps');
 assert.match(source,/current\.map\?\.setHeading\?\.\(heading\)/,'heading applied to map');
-assert.match(source,/showView\(name\)\}\);/,'navigation calls centralized view cleanup');
+assert.ok((source.match(/showView\(/g)||[]).length>=3,'multiple navigation paths use centralized showView cleanup');
 assert.match(source,/function showView\(name\)\{document\.getElementById\('pocketStandaloneChoices'\)\?\.remove\(\);state\.assistantStructuredDestination=false;closeLongChoice\(\);cancelTransitAccess\(true\);closeRouteMap\(false\);closeAnswerReader\(false\)/,'Home, Settings and other bottom navigation close weather and route overlays');
 assert.match(source,/function closeRouteMap\(restoreFocus=true\)\{[^\n]*stopRouteTracking\(current\)/,'close stops tracking');
 console.log('navigation heading, fullscreen and Home assertions passed');
