@@ -52,6 +52,7 @@ jobs:
         run: |
           node --check scripts/patch-avatar-lipsync.mjs
           node tests_eva_dialogue.mjs
+          node tests_first_install_profile_search.mjs
           node tests_response_intent.mjs
           node tests_localization.mjs
           node tests_news_contextual_translation.mjs
@@ -116,6 +117,7 @@ jobs:
           node tests_literature_tutor_response.mjs
           npm run test:culinary
           node tests_eva_dialogue.mjs
+          node tests_first_install_profile_search.mjs
           node tests_response_intent.mjs
           node tests_news_contextual_translation.mjs
           node tests_news_live_routing.mjs

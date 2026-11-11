@@ -9,6 +9,8 @@ on:
       - 'tests_literature_activity_flow.mjs'
       - 'tests_education_reader_documents_regression.mjs'
       - 'tests_first_install_consent.mjs'
+      - 'user_profile.mjs'
+      - 'tests_first_install_profile_search.mjs'
       - 'eva_dialogue.mjs'
       - 'tests_eva_dialogue.mjs'
       - 'android/app/src/main/java/ai/mypocket/mobile/AvatarLaunchActivity.java'
@@ -201,6 +203,7 @@ jobs:
           node tests_culinary_multi_request.mjs
           node tests_conversation_intent.mjs
           node tests_eva_dialogue.mjs
+          node tests_first_install_profile_search.mjs
           node tests_recipe_pagination_relevance.mjs
           node tests_recipe_history_recall.mjs
           node tests_literature_activity_flow.mjs
