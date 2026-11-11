@@ -18,8 +18,8 @@ const transit=section('function showTransitDestination(choice){','\nconst TRANSI
 const dispatcher=section('async function runModuleSearch(choice){','\nfunction returnToModuleLanding()');
 
 assert.match(source,/#view-module\.module-landing #moduleChatHost/,'Landing deliberately hides chat; transitions must remove that class');
-assert.match(section('function returnToNavigationSource(){','\\nfunction showNavigationReturn()'),/document\\.getElementById\\('returnToSearchSource'\\)\\?\\.remove\\(\\)/,'Back is removed when restoring the original source');
-assert.match(section('function renderModuleLandingChoices(){','\\nfunction updateQuickLayerGeometry()'),/document\\.getElementById\\('returnToSearchSource'\\)\\?\\.remove\\(\\)/,'Landing does not retain obsolete route Back button');
+assert.ok(section('function returnToNavigationSource(){','function showNavigationReturn(){').includes("document.getElementById('returnToSearchSource')?.remove()"),'Back is removed when restoring the original source');
+assert.ok(section('function renderModuleLandingChoices(){','function updateQuickLayerGeometry(){').includes("document.getElementById('returnToSearchSource')?.remove()"),'Landing does not retain obsolete route Back button');
 assert.match(landing,/rememberNavigationSource\(\);enterModuleRouteConversation\(\)/,'Walking card opens visible chat');
 assert.match(poi,/switchConversationModule\('maps'\);enterModuleRouteConversation\(\)/,'POI walk and drive show chat');
 assert.match(assistantMode,/enterModuleRouteConversation\(\);\s*inputEl\.value=t\[i\+1\]/,'Assistant mode choice shows chat');
