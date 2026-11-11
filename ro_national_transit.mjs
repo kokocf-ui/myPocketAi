@@ -173,7 +173,8 @@ export async function planRomanianNationalJourney(env,query,opts={}){
     passengers:1,mode:'all',railClass:'2',sort:'duration',limit}),
    signal:AbortSignal.timeout(9500)
   });
-  if(response.status===401||response.status===403)return {status:'authentication_failed',journeys:[]};
+  if(response.status===401)return {status:'authentication_failed',http_status:401,journeys:[]};
+  if(response.status===403)return {status:'access_forbidden',http_status:403,journeys:[]};
   if(response.status===429)return {status:'quota_exceeded',journeys:[]};
   if(!response.ok)return {status:'provider_http_'+response.status,journeys:[]};
   const payload=await response.json();
