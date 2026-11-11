@@ -36,6 +36,10 @@ export function classifyEvaTurn(value,options={}){
  if(t==='eva'||t==='evo')return {kind:'chat',speech_act:'greeting'};
  if(isEvaExitRequest(raw))return {kind:'exit',speech_act:'device_control'};
  const core=withoutGreetingAndAddress(t);
+ // Genuine personal questions should never be interpreted as geocoding a
+ // fictional venue named "Eva". Match the user's speech act, not a fixed reply.
+ if(/^(?:ce faci daca (?:te |va |iti )?(?:invit|scot|chem)\b|iar faci pe desteapta\b|stii la ce ma gandesc\b|stii ce gandesc\b|ghicesti la ce ma gandesc\b|ce ai face daca (?:te |iti )?(?:invit|scot|chem)\b)/.test(core))
+   return {kind:'chat',speech_act:'banter'};
  if(taskStart.test(core))return null;
  if(/^(?:eva|evo) (?:air|braun|peron|strada|street|hotel|restaurant)\b/.test(t))return null;
  if(/^(?:vreau|as vrea|dorest|poti|te rog)\b/.test(core)&&locationWords.test(core))return null;
