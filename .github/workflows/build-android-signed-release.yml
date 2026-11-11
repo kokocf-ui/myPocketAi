@@ -41,6 +41,8 @@ on:
       - 'tests_frontend_boot_syntax.mjs'
       - 'tests_education_android.mjs'
       - 'tests_first_install_consent.mjs'
+      - 'user_profile.mjs'
+      - 'tests_first_install_profile_search.mjs'
       - 'eva_dialogue.mjs'
       - 'tests_eva_dialogue.mjs'
       - 'android/app/src/main/java/ai/mypocket/mobile/AvatarLaunchActivity.java'
@@ -165,6 +167,7 @@ jobs:
           node tests_education_android.mjs
           node tests_eva_dialogue.mjs
           node tests_first_install_consent.mjs
+          node tests_first_install_profile_search.mjs
           node tests_seven_europe_literature.mjs
           node tests_hungarian_school_paths.mjs
           node tests_literature_tutor_response.mjs
