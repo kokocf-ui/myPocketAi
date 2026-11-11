@@ -122,17 +122,18 @@ function biloFare(item){
  return null;
 }
 function biloRecords(payload){
- // Some API responses wrap search in data, results, or structuredContent.
- let node=payload;
+ // Preserve transport type found on a parent envelope when results are nested.
+ let node=payload,parentMode='';
  for(let i=0;i<5;i++){
-  if(Array.isArray(node))return {items:node,mode:''};
+  if(Array.isArray(node))return {items:node,mode:parentMode};
   if(!node||typeof node!=='object')break;
+  parentMode=String(node.mode||node.transport_mode||parentMode||'').slice(0,30);
   for(const key of ['trips','journeys','results','items']){
-   if(Array.isArray(node[key]))return {items:node[key],mode:String(node.mode||'')};
+   if(Array.isArray(node[key]))return {items:node[key],mode:parentMode};
   }
   node=node.structuredContent||node.data||node.result;
  }
- return {items:[],mode:''};
+ return {items:[],mode:parentMode};
 }
 // Only aggregate, non-sensitive response metadata. Never store or return raw
 // provider bodies, station queries, messages, tokens, or passenger data.
@@ -238,7 +239,7 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
   const legs=[];
   for(const seg of segments){
    if(!seg||typeof seg!=='object'){legs.length=0;break;}
-   const fields=biloLegFields(seg,record,rootMode,date);
+   const fields=biloLegFields(seg,segments.length===1?record:{mode:record.mode,transport_mode:record.transport_mode,train_number:record.train_number},rootMode,date);
    if(fields.reason || (legs.length&&fields.dep<Date.parse(legs[legs.length-1].arrivalTime))){
     legs.length=0;break;
    }
@@ -260,7 +261,7 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
   if(seen.has(id))continue;
   seen.add(id);
   out.push({startDateTime:start,arrivalDateTime:end,durationMinutes,legs,
-    time_zone:'Europe/Bucharest',fareLocal:biloFare(record),
+    time_zone:'Europe/Bucharest',fareLocal:biloFare(record)||biloFare(item),
     scheduled:true,real_time:false,source:'Bilo: operator schedule'});
  }
  return out;
