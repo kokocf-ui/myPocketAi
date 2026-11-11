@@ -177,6 +177,44 @@ assert.equal(detailCalls[1].request.headers['Idempotency-Key'],undefined,
  'Detail requests do not consume search idempotency keys');
 assert.deepEqual(JSON.parse(detailCalls[1].request.body),{tripId:'bilo:rail/11-12|IR-100'},
  'Opaque trip identifiers must not be modified');
+
+// A valid train summary must not prevent a second coach's tripId from being
+// enriched. Confirm that both station name AND official locality survive.
+const twoModeCalls=[];
+const twoMode=await planRomanianNationalJourney(
+ {BILO_API_KEY:'test-only'},{origin:'Oradea',destination:'Cluj-Napoca'},
+ {date:'2026-11-12',limit:10,fetchImpl:async(url,request)=>{
+  twoModeCalls.push(url);
+  if(url.endsWith('/search'))return {ok:true,status:200,json:async()=>({mode:'all',results:[
+   {origin:'Oradea',destination:'Cluj-Napoca',mode:'train',
+    departure_time:'08:00',arrival_time:'10:30'},
+   {tripId:'coach-with-stations'}
+  ]})};
+  assert.deepEqual(JSON.parse(request.body),{tripId:'coach-with-stations'});
+  return {ok:true,status:200,json:async()=>({data:{legs:[{
+   from:{name:'Autogara Oradea Vest',locality:'Oradea'},
+   to:{name:'Autogara Cluj Est',city:'Cluj-Napoca'},
+   mode:'coach',departure_time:'2026-11-12T09:00:00+02:00',
+   arrival_time:'2026-11-12T11:30:00+02:00'
+  }]}})};
+ }});
+assert.equal(twoMode.status,'ok');
+assert.equal(twoMode.journeys.length,2,'Both rail and coach must survive the same search');
+assert.deepEqual(twoModeCalls.map(x=>new URL(x).pathname),
+ ['/api/v1/search','/api/v1/trip-details']);
+assert.equal(twoMode.journeys[0].legs[0].mode,'train');
+assert.equal(twoMode.journeys[1].legs[0].mode,'coach');
+assert.equal(twoMode.journeys[1].legs[0].from,'Autogara Oradea Vest');
+assert.equal(twoMode.journeys[1].legs[0].fromLocality,'Oradea');
+assert.equal(twoMode.journeys[1].legs[0].toLocality,'Cluj-Napoca');
+const twoModeStation=normalizeBiloTrips({results:[{
+ from:{station_name:'Episcopia Bihor',city:'Oradea'},
+ to:{station_name:'Cluj-Napoca Est',locality:'Cluj-Napoca'},
+ mode:'train',departure_time:'08:00',arrival_time:'11:00'
+}]},5,'2026-11-12')[0];
+assert.equal(twoModeStation.legs[0].from,'Episcopia Bihor');
+assert.equal(twoModeStation.legs[0].fromLocality,'Oradea');
+
 const noIds=await planRomanianNationalJourney(
  {BILO_API_KEY:'test-only'},{origin:'București',destination:'Brașov'},
  {date:'2026-11-12',fetchImpl:async()=>({ok:true,status:200,json:async()=>({results:[{

@@ -39,6 +39,20 @@ const placeName=value=>{
  }
  return '';
 };
+// A transport stop may have a different official name from its associated town.
+// Keep both fields instead of guessing the town from a station name.
+const placeLocality=value=>{
+ if(!value||typeof value!=='object')return '';
+ for(const name of [value.locality,value.locality_name,value.localityName,
+   value.city,value.city_name,value.cityName,value.town,value.town_name,
+   value.municipality,value.settlement,value.location?.locality,
+   value.location?.city,value.station?.locality,value.station?.city,
+   value.stop?.locality,value.stop?.city]){
+  if(typeof name==='string'&&name.trim())return name.trim().slice(0,140);
+ }
+ return '';
+};
+const pickLocality=(...sources)=>sources.map(placeLocality).find(Boolean)||'';
 const normalizeMode=raw=>{
  const mode=normalize(raw);
  if(/walk|foot|pieton/.test(mode))return 'walking';
@@ -201,6 +215,14 @@ function biloLegFields(seg,item,rootMode,date){
   seg.arrival?.station||seg.arrival?.stop||seg.arrival?.location||
   seg.end?.station||seg.end?.stop||
   item.to||item.destination||item.arrival_station||item.arrival?.station);
+ const fromLocality=pickLocality(seg.from,seg.origin,seg.fromStation,seg.departureStation,
+  seg.departure_station,seg.origin_station,seg.from_stop,seg.departure_stop,
+  seg.departure?.station,seg.departure?.stop,seg.departure?.location,
+  seg.departure,seg.start,item.from,item.origin,item.departure_station,item.departure);
+ const toLocality=pickLocality(seg.to,seg.destination,seg.toStation,seg.arrivalStation,
+  seg.arrival_station,seg.destination_station,seg.to_stop,seg.arrival_stop,
+  seg.arrival?.station,seg.arrival?.stop,seg.arrival?.location,
+  seg.arrival,seg.end,item.to,item.destination,item.arrival_station,item.arrival);
  const modes=[seg.mode,seg.type,seg.transport_mode,seg.transportMode,
   seg.transport_type,seg.vehicle_type,seg.vehicleType,seg.category,
   seg.transport?.mode,seg.transport?.type,seg.vehicle?.type,
@@ -224,7 +246,7 @@ function biloLegFields(seg,item,rootMode,date){
   seg.end?.time??seg.arrival??item.arrival_time??item.arrival?.time;
  const dep=providerTimestamp(departValue,date);
  const arr=providerTimestamp(arriveValue,date,dep);
- return {from,to,mode,dep,arr,
+ return {from,to,fromLocality,toLocality,mode,dep,arr,
   reason:!from?'missing_origin':!to?'missing_destination':!mode?'missing_transport_mode':
     dep===null?'missing_departure_time':arr===null?'missing_arrival_time':
     arr<=dep?'invalid_time_order':null};
@@ -251,7 +273,7 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
  const {items,mode:rootMode}=biloRecords(payload);
  const seen=new Set(),out=[];
  for(const item of items.slice(0,100)){
-  if(out.length>=Math.min(10,Math.max(1,limit)))break;
+  if(out.length>=Math.min(20,Math.max(1,limit)))break;
   if(!item||typeof item!=='object')continue;
   const {record,segments}=biloLegs(item);
   if(!segments.length||segments.length>8)continue;
@@ -268,6 +290,8 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
    const operator=seg.operator||seg.operatorName||seg.operator_name||
      seg.service?.operator||record.operator||'';
    legs.push({mode:fields.mode,from:fields.from,to:fields.to,
+     ...(fields.fromLocality?{fromLocality:fields.fromLocality}:{}),
+     ...(fields.toLocality?{toLocality:fields.toLocality}:{}),
      departureTime:new Date(fields.dep).toISOString(),arrivalTime:new Date(fields.arr).toISOString(),
      lineNames:line?[line]:[],
      operator:String(typeof operator==='object'?operator.name||'':operator).slice(0,100)});
@@ -320,7 +344,7 @@ export async function planRomanianNationalJourney(env,query,opts={}){
  if(!key)return {status:'not_configured',journeys:[]};
  const date=opts.date;
  if(!isDate(date))return {status:'date_invalid',journeys:[]};
- const limit=Math.min(8,Math.max(1,Number(opts.limit)||5));
+ const limit=Math.min(20,Math.max(1,Number(opts.limit)||10));
  const url='https://mcp.bilo.ro/api/v1/search';
  const requestId=opts.idempotencyKey||crypto.randomUUID();
  const fetchImpl=opts.fetchImpl||fetch;
@@ -340,53 +364,52 @@ export async function planRomanianNationalJourney(env,query,opts={}){
   if(response.status===429)return {status:'quota_exceeded',journeys:[]};
   if(!response.ok)return {status:'provider_http_'+response.status,journeys:[]};
   const payload=await response.json();
-  const journeys=normalizeBiloTrips(payload,limit,date);
-  if(journeys.length)return {status:'ok',journeys};
   const diagnosis=inspectBiloSearchResponse(payload);
-  const candidateIds=[];
-  const seen=new Set();
-  // Fetch details only for returned search records that carry an actual tripId.
-  // Never issue a second /search, and never request details for synthetic IDs.
-  const {items}=biloRecords(payload);
+  const {items,mode:rootMode}=biloRecords(payload);
+  // Enrich every returned record with a documented tripId, even when other
+  // search records are already usable. Previously the first parseable record
+  // caused all remaining details to be skipped.
+  const candidates=[];
+  const seenIds=new Set();
   for(const record of items){
    const id=biloTripId(record);
-   if(!id||seen.has(id))continue;
-   seen.add(id);candidateIds.push({id,record});
-   if(candidateIds.length>=Math.min(limit,5))break;
+   if(!id||seenIds.has(id))continue;
+   seenIds.add(id);candidates.push({id,record});
+   if(candidates.length>=Math.min(limit,8))break;
   }
-  const completed=[];
-  let detailRequests=0,detailSuccesses=0;
-  for(const candidate of candidateIds){
-   detailRequests++;
+  const fetched=await Promise.all(candidates.map(async candidate=>{
    try{
     const detailResponse=await fetchImpl('https://mcp.bilo.ro/api/v1/trip-details',{
-     method:'POST',headers,
-     body:JSON.stringify({tripId:candidate.id}),
+     method:'POST',headers,body:JSON.stringify({tripId:candidate.id}),
      signal:AbortSignal.timeout(6500)
     });
-    if(!detailResponse.ok)continue;
+    if(!detailResponse.ok)return null;
     const detailPayload=await detailResponse.json();
     const detailed=detailTrips(detailPayload,1,date);
-    if(!detailed.length)continue;
-    detailSuccesses++;
-    for(const trip of detailed){
-     // An optional published fare can remain on the search summary.
-     if(!trip.fareLocal)trip.fareLocal=biloFare(candidate.record);
-     completed.push(trip);
-    }
-   }catch{
-    // Fail closed: one malformed detail must not discard other valid trips.
-   }
+    if(!detailed.length)return null;
+    const trip=detailed[0];
+    if(!trip.fareLocal)trip.fareLocal=biloFare(candidate.record);
+    return {id:candidate.id,trip};
+   }catch{return null;}
+  }));
+  const details=new Map(fetched.filter(Boolean).map(x=>[x.id,x.trip]));
+  const completed=[],seenJourneys=new Set();
+  for(const record of items){
+   const id=biloTripId(record);
+   const trip=details.get(id)||normalizeBiloTrips({mode:rootMode,results:[record]},1,date)[0];
+   if(!trip)continue;
+   const key=trip.legs.map(l=>[l.mode,l.from,l.to,l.departureTime].join('|')).join(';');
+   if(seenJourneys.has(key))continue;
+   seenJourneys.add(key);completed.push(trip);
   }
   if(completed.length){
-   completed.sort((a,b)=>Date.parse(a.startDateTime)-Date.parse(b.startDateTime));
    return {status:'ok',journeys:completed.slice(0,limit),
-    detail_requests:detailRequests,detail_successes:detailSuccesses};
+    detail_requests:candidates.length,detail_successes:details.size};
   }
   return {status:diagnosis.status,records_returned:diagnosis.records_returned,
    parse_hint:diagnosis.status==='results_unparsable'
-    ?(detailRequests?'trip_details_not_usable':biloParseHint(payload,date)):null,
-   detail_requests:detailRequests,detail_successes:detailSuccesses,journeys:[]};
+    ?(candidates.length?'trip_details_not_usable':biloParseHint(payload,date)):null,
+   detail_requests:candidates.length,detail_successes:details.size,journeys:[]};
  }catch(e){return {status:e?.name==='TimeoutError'?'timeout':'provider_network_error',journeys:[]};}
 }
 export async function reverseRomanianOriginCity(env,pt,fetchImpl=fetch){

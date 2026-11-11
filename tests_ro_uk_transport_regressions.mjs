@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {romanianNationalQuery} from './ro_national_transit.mjs';
-import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints} from './ro_transport_mode_policy.mjs';
+import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints,groupRomanianJourneys} from './ro_transport_mode_policy.mjs';
 import {explicitOriginDestinationPair} from './route_explicit_origin.mjs';
 const roGps={latitude:47.05,longitude:21.9};
 const ukGps={latitude:51.48,longitude:0.33};
@@ -67,4 +67,27 @@ test('do not substitute Episcopia Bihor for requested Oradea departure',()=>{
  assert.deepEqual(filterRomanianCityEndpoints([wrong,good],'Oradea','Cluj-Napoca'),[good]);
  const bucharest={legs:[{mode:'train',from:'București Nord Gr.A',to:'Brașov'}]};
  assert.deepEqual(filterRomanianCityEndpoints([bucharest],'București','Brașov'),[bucharest]);
+});
+
+test('all-mode journeys are grouped into train, road and mixed pages',()=>{
+ const time='2026-11-12T08:00:00Z';
+ const train={durationMinutes:150,startDateTime:time,legs:[{mode:'train',from:'Oradea',to:'Cluj'}]};
+ const coach={durationMinutes:120,startDateTime:time,legs:[{mode:'coach',from:'Oradea',to:'Cluj'}]};
+ const localBus={durationMinutes:180,startDateTime:time,legs:[{mode:'bus',from:'Oradea',to:'Cluj'}]};
+ const mixed={durationMinutes:145,startDateTime:time,legs:[
+  {mode:'train',from:'Oradea',to:'Carei'}, {mode:'coach',from:'Carei',to:'Cluj'}
+ ]};
+ const pages=groupRomanianJourneys([localBus,train,mixed,coach],4);
+ assert.deepEqual(pages.rail,[train]);
+ assert.deepEqual(pages.road,[coach,localBus]);
+ assert.deepEqual(pages.mixed,[mixed]);
+});
+test('explicit provider locality may confirm a station with a different name',()=>{
+ const associated={legs:[{
+  mode:'train',from:'Episcopia Bihor',fromLocality:'Oradea',
+  to:'Cluj-Napoca Est',toLocality:'Cluj-Napoca'
+ }]};
+ assert.deepEqual(filterRomanianCityEndpoints([associated],'Oradea','Cluj-Napoca'),[associated]);
+ const unassociated={legs:[{mode:'train',from:'Episcopia Bihor',to:'Cluj-Napoca Est'}]};
+ assert.deepEqual(filterRomanianCityEndpoints([unassociated],'Oradea','Cluj-Napoca'),[]);
 });

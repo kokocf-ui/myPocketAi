@@ -9,6 +9,14 @@ assert.ok(from>0&&to>from,'Bilo-specific rail UI helpers are present');
 const fragment=source.slice(from,to);
 assert.ok(fragment.includes('appendRomanianRailCards('));
 assert.ok(fragment.includes('appendRomanianRailDetails('));
+assert.ok(fragment.includes('function appendRomanianNationalPages(host,options)'),
+ 'Romanian journeys have separate category pages');
+assert.match(fragment,/\['rail','road','mixed'\]/,
+ 'Train coach and mixed routes have distinct page order');
+assert.ok(fragment.includes('appendRomanianRailCards(panel,pages[active],options)'),
+ 'Category selection keeps original journey array for Back navigation');
+assert.ok(fragment.includes('selectTransitJourney(allOptions,allOptions.indexOf(journey))'),
+ 'Selecting a train or coach must retain the complete result set');
 assert.match(source,/if\(options\.length&&options\.every\(isRomanianRailJourney\)\)/,
  'Only Bilo journeys are handed to the new compact card UI');
 assert.match(source,/if\(isRomanianRailJourney\(journey\)\)\{appendRomanianRailDetails\(body,journey\);return;\}/,
@@ -52,6 +60,12 @@ const cardText=texts(cards.children[0]);
 for(const expected of ['București Nord Gr.A','Brașov','IR 1535','CFR Călători','48,5 RON']){
  assert.ok(cardText.includes(expected),'Missing rail card detail: '+expected);
 }
+const namedPlace={...journey,legs:[{...leg,from:'Episcopia Bihor',fromLocality:'Oradea',
+ to:'Cluj-Napoca Est',toLocality:'Cluj-Napoca'}]};
+const placeCards={children:[],append(x){this.children.push(x)}};
+context.rail.appendRomanianRailCards(placeCards,[namedPlace]);
+assert.ok(texts(placeCards.children[0]).includes('Episcopia Bihor (Oradea)'),
+ 'The official station and locality must both be visible');
 assert.ok(!/coordonate|mers p[aâ]n[aă] la stație/i.test(cardText),
  'Do not repeat geolocation warning on every search result');
 const details={children:[],append(x){this.children.push(x)}};
