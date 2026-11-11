@@ -39,6 +39,7 @@ services:
     depends_on: [api]
     environment:
       COMM_DOMAIN: ${COMM_DOMAIN:?Set a DNS host for your Oracle VM}
+      TLS_CONTACT_EMAIL: ${TLS_CONTACT_EMAIL:?Set your public TLS contact email}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
