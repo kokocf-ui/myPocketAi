@@ -36,7 +36,7 @@ globalThis.fetch=async input=>{
  if(url.hostname==='api.geoapify.com'&&url.pathname==='/v1/geocode/search')return Response.json({features:[]});
  throw Error('Unexpected provider '+url.hostname+url.pathname);
 };
-const env={GEOAPIFY_API_KEY:'test',TFL_APP_KEY:'test'};
+const env={GEOAPIFY_API_KEY:'test',TFL_APP_KEY:'test',AI:{run:async()=>({response:'No speculation; use verified station data.'})}};
 const ask=async(message,extra={})=>{
  const response=await worker.fetch(new Request('https://test.local/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({
   message,language:'ro',module:'assistant',location:{latitude:51.49,longitude:-0.13,updatedAt:Date.now()},history:[],...extra
