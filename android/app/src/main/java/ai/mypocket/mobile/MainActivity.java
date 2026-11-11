@@ -198,6 +198,31 @@ public final class MainActivity extends ComponentActivity {
         if(granted){notifyLocationPermission(true);return;}
         locationPermission.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION});
     }
+    private void provideLocalUserProfile(WebView view){
+        // Only a non-contact conversation profile enters the trusted app WebView.
+        // Email remains native and is used only on explicit PDF sharing.
+        android.content.SharedPreferences saved=getSharedPreferences("pocket_user_profile",Context.MODE_PRIVATE);
+        String name=saved.getString("preferred_name","");
+        int age=saved.getInt("age",0);
+        String sex=saved.getString("sex","undisclosed");
+        if(name==null||name.isEmpty()||age<1||age>120)return;
+        if(!"male".equals(sex)&&!"female".equals(sex))sex="undisclosed";
+        try{
+            JSONObject profile=new JSONObject();
+            profile.put("preferred_name",name);
+            profile.put("age",age);
+            profile.put("sex",sex);
+            String js="(function(){try{window.__pocketNativeProfile=JSON.parse("
+                +JSONObject.quote(profile.toString())+");window.dispatchEvent(new Event('pocket-profile-ready'))}catch(e){}})()";
+            view.evaluateJavascript(js,null);
+        }catch(Exception ignored){}
+    }
+    private void prefillEmailForSharedPdf(Intent send){
+        String email=getSharedPreferences("pocket_user_profile",Context.MODE_PRIVATE)
+            .getString("email","");
+        if(email!=null&&android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            send.putExtra(Intent.EXTRA_EMAIL,new String[]{email});
+    }
     private void requestMicrophonePermissionOnce() {
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)return;
         var prefs=getSharedPreferences("pocket_permissions",Context.MODE_PRIVATE);
@@ -546,6 +571,7 @@ public final class MainActivity extends ComponentActivity {
                     +"var picker=document.getElementById('languageSelect');"
                     +"if(picker)picker.addEventListener('change',function(){setTimeout(send,0)});"
                     +"document.addEventListener('visibilitychange',send);window.addEventListener('pagehide',send);send()})()",null);
+                provideLocalUserProfile(view);
             }
             @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request) {
                 Uri resource=request.getUrl();
@@ -1388,6 +1414,7 @@ public final class MainActivity extends ComponentActivity {
             send.setType("application/pdf");
             send.putExtra(Intent.EXTRA_STREAM,uri);
             send.putExtra(Intent.EXTRA_SUBJECT,filename);
+            prefillEmailForSharedPdf(send);
             send.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             send.setClipData(android.content.ClipData.newUri(getContentResolver(),filename,uri));
             startActivity(Intent.createChooser(send,"Trimite documentul PDF"));
@@ -1529,6 +1556,7 @@ public final class MainActivity extends ComponentActivity {
             Intent send=new Intent(Intent.ACTION_SEND_MULTIPLE);
             send.setType("application/pdf");
             send.putParcelableArrayListExtra(Intent.EXTRA_STREAM,uris);
+            prefillEmailForSharedPdf(send);
             send.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             android.content.ClipData clip=android.content.ClipData.newUri(
                 getContentResolver(),"Documentele mele",uris.get(0));
