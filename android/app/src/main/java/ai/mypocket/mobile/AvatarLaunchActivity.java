@@ -744,6 +744,13 @@ public final class AvatarLaunchActivity extends Activity {
             Intent intent = new Intent(AvatarLaunchActivity.this, MainActivity.class);
             intent.putExtra("intro_already_played", true);
             if(firstSetupShownThisLaunch)intent.putExtra("first_setup_language",initialSetupLanguage);
+            Uri source=getIntent()!=null?getIntent().getData():null;
+            if(source!=null && "mypocketai".equalsIgnoreCase(source.getScheme())
+                    && "invite".equalsIgnoreCase(source.getHost()) && source.getPathSegments().size()==1){
+                String invite=source.getPathSegments().get(0);
+                if(invite.matches("[A-Za-z0-9_-]{32,150}"))
+                    intent.putExtra("communication_invite",invite);
+            }
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
