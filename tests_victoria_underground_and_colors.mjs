@@ -46,6 +46,7 @@ const ask=async(message,extra={})=>{
 };
 try {
  const result=await ask('Vreau sa ajung la victoria underground');
+ console.log('Victoria mock response',JSON.stringify({reply:result.reply,needs_travel_mode:result.needs_travel_mode,needs_destination_clarification:result.needs_destination_clarification,destination_candidates:result.destination_candidates,choice_options:result.choice_options,route_context:result.route_context,reason:result.reason,place_lookup:result.place_lookup}));
  assert.equal(result.status,'success');
  assert.equal(result.needs_travel_mode,true,'Verified Victoria Underground goes directly to transport selection');
  assert.equal(result.route_context?.destination?.label,'Victoria Underground Station, London','Official Tube name preserved');
