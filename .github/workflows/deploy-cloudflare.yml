@@ -107,6 +107,10 @@ jobs:
     steps:
       - name: Get repository files
         uses: actions/checkout@v4
+      - name: Set up Node 22 for communication SQLite regression
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
       - name: Install backend dependencies and pinned Wrangler
         run: |
@@ -118,6 +122,7 @@ jobs:
           node --check backend.js
           node --check ai_response_quality.mjs
           node tests_response_quality.mjs
+          node tests_communication_e2e.mjs
           node tests_literature_tutor_response.mjs
           npm run test:culinary
           node tests_eva_dialogue.mjs
