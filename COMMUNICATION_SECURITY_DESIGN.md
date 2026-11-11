@@ -63,6 +63,43 @@ Nu includem „Caută după numărul de telefon” în interfața Comunicare.
 Necesită cont verificat, serviciu de invitații, Android App Links,
 notificări și verificarea permisiunilor pe backend.
 
+## Gestionarea contactelor — Șterge / Blochează / Deblochează
+
+Fiecare contact aprobat are un meniu discret cu:
+- **Șterge contactul:** elimină relația de contact și autorizația de chat direct
+  pentru viitor, fără a șterge unilateral istoricul sau fișierele
+  destinatarului. Persoana poate solicita din nou o invitație,
+  dacă nu este blocată. Alegerea de ștergere a istoricului propriu este separată.
+- **Blochează:** creează o regulă de blocare verificată server-side înainte
+  de livrarea mesajelor, vocalelor, fișierelor, apelurilor (dacă vor exista),
+  invitațiilor, notificărilor și cererilor de contact. Respinge și cererile
+  repetate, inclusiv prin linkuri/QR noi și încercări în așteptare.
+  Nu transmite persoanei blocate o notificare explicită a blocării.
+- **Partajări:** la blocare se revocă accesul viitor la listele și
+  documentele deținute de utilizator care fuseseră partajate direct
+  cu persoana blocată; nu se poate retrage o copie deja descărcată.
+  Resursele deținute de alte persoane/grupuri necesită reguli distincte.
+- **Grupuri comune:** blocarea nu trebuie să redeschidă conversația directă
+  și împiedică invitațiile/mențiunile directe din partea persoanei blocate.
+  Pentru mesaje deja vizibile într-un grup comun, aplicația trebuie
+  să indice clar ce poate ascunde/filtra și să permită părăsirea grupului;
+  nu promitem ștergerea mesajelor altor membri sau izolarea absolută
+  fără o politică suplimentară de grup.
+- **Deblochează:** elimină regula de blocare, dar NU reface automat
+  prietenia, permisiunile chatului sau partajările. Este necesară
+  o nouă invitație/acceptare.
+- **Siguranță:** comenzile „Șterge” și „Blochează” cer confirmare
+  explicită; „Blochează” și „Raportează” sunt distincte. Persoanele
+  blocate nu pot afla prin API informații suplimentare despre cont.
+  Este disponibilă lista de persoane blocate în Setări → Confidențialitate.
+- **Aplicare:** ACL pe server la fiecare operație de acces;
+  invalidarea sesiunilor de chat relevante, linkurilor de invitație
+  și URL-urilor de fișiere cu acces temporar. Teste pentru blocare
+  bidirecțională, deblocare, grupuri comune și acces după revocare.
+
+**Status:** cerință de produs aprobată; implementarea în backend și APK,
+inclusiv mesajele vocale și aplicația de contacte, urmează să fie realizată.
+
 ## Etapa A — liste partajate
 - Buton din Listă cumpărături: Partajează → Contacte → trimite invitație;
   contactul primește o notificare discretă („Listă nouă partajată”).
