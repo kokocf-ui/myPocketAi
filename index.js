@@ -7184,7 +7184,19 @@ function renderShoppingList(){
  const title=document.createElement('strong');title.textContent=data.items.length?data.currentName:(data.completedAt?shopLabel('Lista finalizată','Finished list'):shopLabel('Lista curentă','Current list'));
  const count=document.createElement('small');
  count.textContent=shopLabel('Bifate de tine: ','Checked by you: ')+data.items.filter(i=>i.checked).length+' / '+data.items.length;
- heading.append(title,count);if(shoppingMode!=='archive')scroll.append(heading);
+ heading.append(title,count);
+ if(shoppingMode==='entry' && data.items.length){
+  const share=shopButton('↗ Partajează','↗ Share','secondary-btn');
+  share.setAttribute('aria-label',shopLabel('Trimite această listă unui prieten aprobat','Send this list to an approved friend'));
+  share.onclick=()=>{
+   if(typeof window.pocketCommunicationImportShopping!=='function'){
+    notify(shopLabel('Comunicarea nu este încă disponibilă.','Communication is not available yet.'));return;
+   }
+   window.pocketCommunicationImportShopping(data.currentName,data.items.map(i=>({...i})));
+  };
+  heading.append(share);
+ }
+ if(shoppingMode!=='archive')scroll.append(heading);
  if(shoppingMode==='entry'){
  const nameLabel=document.createElement('label');nameLabel.className='shop-label';
  nameLabel.textContent=shopLabel('Numele listei','List name');
