@@ -17,7 +17,8 @@ test('Verified street walk provides boarding stop and final mile, avoiding infer
    const u=new URL(url);assert.equal(u.pathname,'/v1/routing');
    assert.equal(u.searchParams.get('mode'),'walk');
    count++;
-   return Response.json({features:[{properties:{distance:330,time:350},geometry:{type:'LineString',coordinates:[[21.92,47.05],[21.9201,47.0502]]}}]});
+   const coordinates=u.searchParams.get('waypoints').split('|').map(pair=>pair.split(',').map(Number)).map(([lat,lon])=>[lon,lat]);
+   return Response.json({features:[{properties:{distance:330,time:350},geometry:{type:'LineString',coordinates}}]});
   }
  });
  assert.equal(count,2);
