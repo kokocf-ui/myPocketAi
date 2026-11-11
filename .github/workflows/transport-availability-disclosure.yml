@@ -1,0 +1,27 @@
+name: Transport price and seats uncertainty
+on:
+  push:
+    paths:
+      - "transport_availability_disclosure.mjs"
+      - "tests_transport_availability_disclosure.mjs"
+      - "ro_national_transit.mjs"
+      - "backend.js"
+      - ".github/workflows/transport-availability-disclosure.yml"
+  pull_request:
+    paths:
+      - "transport_availability_disclosure.mjs"
+      - "tests_transport_availability_disclosure.mjs"
+      - "ro_national_transit.mjs"
+      - "backend.js"
+      - ".github/workflows/transport-availability-disclosure.yml"
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --check backend.js && node --check ro_national_transit.mjs
+      - run: node --test tests_transport_availability_disclosure.mjs
+      - run: node tests_ro_national_transit.mjs && node tests_uk_national_transit.mjs

@@ -9,6 +9,7 @@ import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
+import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {romanianNationalQuery,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
@@ -2898,7 +2899,7 @@ export default {
           const reply=romanianJourneySummary(journeys,origin,destination,lang);
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
             transit_available:true,route_available:false,route_geometry_available:false,transit_geometry_available:false,
-            mixed_journey:true,romanian_national_journey:true,transit:journeys,fastest_transit:journeys[0],
+            mixed_journey:true,romanian_national_journey:true,transit:annotateTransportJourneys(journeys,lang),fastest_transit:annotateTransportJourneys([journeys[0]],lang)[0],
             transit_provider:'Bilo',source:'Bilo: operator-published schedules (not seat availability)',
             transit_departure_at:selectedAt||null,provider_status:{bilo:result.status},
             requested_transit_count:requestedOptionsCount});
@@ -3074,11 +3075,11 @@ export default {
               const summary=transit.map((j,i)=>(i+1)+'. '+clock(j.startDateTime)+'–'+clock(j.arrivalDateTime)+' · '+formatJourneyDurationMinutes(j.durationMinutes,lang)+' · '+modes(j)+fare(j)).join('\n');
               const legs=first.legs.map((l,i)=>(i+1)+'. '+clock(l.departureTime)+'–'+clock(l.arrivalTime)+' · '+(l.mode==='walking'?(lang==='en'?'Walk':'Pe jos'):l.mode+' '+(l.lineNames||[]).join(' '))+' · '+l.from+' → '+l.to+(l.fareLocal?' · '+l.fareLocal.amount.toFixed(2)+' '+l.fareLocal.currency:'')).join('\n');
               const regionName=transcapiZone==='gb'?(lang==='en'?'Great Britain':'Marea Britanie'):transcapiZone==='ireland'?(lang==='en'?'Ireland':'Irlanda'):(lang==='en'?'Netherlands / Belgium':'Olanda / Belgia');
-              const reply=(lang==='en'?'Public transport in ':'Transport public în ')+regionName+' → '+targetName+'\n'+summary+'\n\n'+(lang==='en'?'Steps — option 1:':'Etape — varianta 1:')+'\n'+legs;
+              const reply=(lang==='en'?'Public transport in ':'Transport public în ')+regionName+' → '+targetName+'\n'+summary+'\n\n'+(lang==='en'?'Steps — option 1:':'Etape — varianta 1:')+'\n'+legs+'\n\n'+transit.map((j,i)=>(i+1)+'. '+transportNoticeLine(j,lang)).join('\n');
               return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
                 international_journey:internationalTarget,uk_national_journey:transcapiZone==='gb',mixed_journey:true,
                 transit_available:true,route_available:false,route_geometry_available:false,
-                transit_geometry_available:false,transit,fastest_transit:first,transit_provider:'TransCAPI',
+                transit_geometry_available:false,transit:annotateTransportJourneys(transit,lang),fastest_transit:annotateTransportJourneys([first],lang)[0],transit_provider:'TransCAPI',
                 requested_transit_count:requestedOptionsCount,transit_preference:transportPreference,transit_departure_offset:departureOffsetMinutes,transit_departure_at:departureAt,
                 transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
                 provider_status:{transcapi:national.status,region:transcapiZone},source:'TransCAPI: published schedules with available live updates'});
@@ -3101,10 +3102,10 @@ export default {
               const modes=j.legs.filter(l=>!/^(walking|walk|foot)$/i.test(l.mode)).map(l=>[l.mode,...l.lineNames].filter(Boolean).join(' '));
               return (i+1)+'. '+formatJourneyDurationMinutes(j.durationMinutes,lang)+' · '+modes.join(' → ')+' · '+j.startDateTime+' → '+j.arrivalDateTime;
             });
-            const reply=(lang==='en'?'Verified mixed-mode public transport options to ':'Variante de transport mixt verificate către ')+targetName+'\n'+lines.join('\n');
+            const reply=(lang==='en'?'Verified mixed-mode public transport options to ':'Variante de transport mixt verificate către ')+targetName+'\n'+lines.join('\n')+'\n\n'+transit.map((j,i)=>(i+1)+'. '+transportNoticeLine(j,lang)).join('\n');
             return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
               international_journey:internationalTarget,mixed_journey:true,transit_available:true,route_available:Boolean(route),route,
-              transit,transit_provider:'MOTIS',requested_transit_count:requestedOptionsCount,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
+              transit:annotateTransportJourneys(transit,lang),transit_provider:'MOTIS',requested_transit_count:requestedOptionsCount,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
               route_geometry_available:Boolean(route),source:'Authorized MOTIS v6 routing provider',provider_status:{motis:planned.status}});
           }
           const detail=planned.status==='not_configured'?'international_provider_not_connected':planned.status;
@@ -3630,6 +3631,7 @@ export default {
           }).join('\n');
           reply+='\n\n'+(lang==='en'?'Steps — option 1:':'Pași — varianta 1:')+'\n';
           reply+=fastest.legs.map((l,i)=>(i+1)+'. '+clock(l.departureTime)+'–'+clock(l.arrivalTime)+' · '+modeName(l.mode)+((l.lineNames||[]).length?' '+l.lineNames.join(', '):'')+' · '+(l.from||'—')+' → '+(l.to||'—')).join('\n');
+          reply+='\n\n'+transportNoticeLine(fastest,lang);
         } else {
           reply = lang === "en" ? `I couldn't obtain a confirmed public-transport journey from TfL for ${targetName} right now. I have not substituted a guessed route. Please try a destination station or postcode.` : `Nu am putut obține acum de la TfL o călătorie confirmată cu transportul public până la ${targetName}. Nu am înlocuit-o cu un traseu inventat. Încearcă numele unei stații sau un cod poștal.`;
         }
@@ -3637,7 +3639,7 @@ export default {
         const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl|| (env.TFL_APP_KEY?"ok":"not_configured"),bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
         if (transportErrors.tfl || transportErrors.bods || transportErrors.rtt || transportErrors.rtt_services || transportErrors.geoapify) console.warn("Pocket AI v96 transit provider diagnostics", JSON.stringify(transitDiagnostics));
         else console.info("Pocket AI v96 transit provider summary", JSON.stringify(transitDiagnostics));
-        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:transitOptions.reduce((best,j)=>!best||(Number(j.durationMinutes)||Infinity)<(Number(best.durationMinutes)||Infinity)?j:best,null),requested_transit_count:requestedOptionsCount,transit:transitOptions,transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",transit_departure_at:departureAt,provider_status:{tfl:transportErrors.tfl?"unavailable":(env.TFL_APP_KEY?"queried":"not_configured"),bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:annotateTransportJourneys([transitOptions.reduce((best,j)=>!best||(Number(j.durationMinutes)||Infinity)<(Number(best.durationMinutes)||Infinity)?j:best,null)].filter(Boolean),lang)[0]||null,requested_transit_count:requestedOptionsCount,transit:annotateTransportJourneys(transitOptions,lang),transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",transit_departure_at:departureAt,provider_status:{tfl:transportErrors.tfl?"unavailable":(env.TFL_APP_KEY?"queried":"not_configured"),bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
       } catch (e) {
         console.warn("Pocket AI v96 transit-first branch failed", String(e && e.message || e).slice(0,180));
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:lang === "en" ? "The public-transport request could not be completed right now. No unverified route was supplied; try again or specify a station/postcode." : "Cererea de transport public nu a putut fi completată acum. Nu am afișat un traseu neverificat; încearcă din nou sau precizează o stație/un cod poștal.",route_available:false,transit_available:false,ai_connected:Boolean(env.AI)});
