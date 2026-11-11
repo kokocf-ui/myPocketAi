@@ -24,53 +24,44 @@ de criptare end-to-end înainte de auditare.
    selecta un mesaj pentru analiză, cu consimțământ explicit.
 
 
-## Adăugarea contactelor la distanță — UK, România, internațional
+## Adăugarea contactelor — QR local și link privat la distanță
 
-Metoda recomandată implicit: **invitație prin link privat**, indiferent de țara
-celor două persoane. QR afișează același link, dar nu este obligatoriu.
+**Decizia de produs (11 noiembrie 2026): numărul de telefon este privat,
+nu este obligatoriu și nu se folosește pentru căutarea utilizatorilor Eva.**
+Nu includem „Caută după numărul de telefon” în interfața Comunicare.
 
-1. În Comunicare → Adaugă contact: „Trimite invitație”, „Caută după telefon”,
-   „Scanează QR / Introdu ID Eva”. Folosim funcția de partajare Android pentru
-   expediere prin WhatsApp, SMS, e-mail etc.; nu expediem fără confirmare.
-2. Invitația constă dintr-un token aleator criptografic de unică folosință,
-   cu expirare (propunere inițială: 24 h), revocabil, stocat pe server doar
-   sub formă de amprentă sigură. Nu încorporăm e-mailuri, numere sau date
-   personale în link. Nu includem un URL final până când domeniul și
-   asocierea Android App Links sunt configurate.
-3. Destinatarul deschide linkul din orice țară; dacă Eva este instalată,
-   intră în ecranul „Cerere de contact”, altfel pagina de instalare.
-   După instalare trebuie să poată relua invitația în siguranță.
-4. Destinatarul se autentifică printr-un cont verificat și **acceptă explicit**
-   cererea, după care relația este creată pentru cei doi identificatori interni.
-   Expirarea, folosirea anterioară, refuzul și anularea sunt verificate pe
-   server. Nu acordăm acces automat la liste sau documente.
-5. Căutarea după telefon este **opțională**: utilizatorul își adaugă
-   numărul în format internațional E.164, îl verifică prin OTP/SMS și
-   activează separat „Permite să fiu găsit după telefon” (implicit dezactivat).
-   SMS poate avea costuri; fără furnizor OTP activ nu promitem că această
-   metodă este funcțională.
-6. Căutarea există numai pentru conturi autentificate, cu limitări severe,
-   protecție anti-enumerare și fără listări în masă. Nu expunem automat
-   existența unui cont pentru un număr de telefon. Nu folosim un simplu hash
-   nesărat al numerelor ca protecție, deoarece spațiul numerelor este ușor
-   de enumerat.
-7. ID-ul Eva/QR este o alternativă pentru utilizatorii care nu doresc
-   să furnizeze telefonul. Nu importăm automat agenda și nu trimitem datele
-   din contacte către server fără acord separat.
-8. Prietenia aprobată permite doar contactul în Comunicare: permisiunea
-   de chat/mesaje vocale trebuie convenită reciproc; o listă sau un document
-   se partajează **separat și explicit** către acel contact ori grup.
-9. Un contact poate fi blocat sau eliminat; invitațiile și drepturile
-   active trebuie revocate server-side. Aprobarea nu oferă acces la
-   conversațiile private purtate cu Eva.
-10. Test de acceptare: invitatul din România deschide linkul trimis din
-    UK, inclusiv pe un telefon fără aplicația instalată, și poate accepta
-    doar după autentificare verificată. Încercările de reutilizare a
-    tokenului și căutarea numerelor ascunse nu trebuie să funcționeze.
+1. **QR pentru persoane aflate în apropiere:** Comunicare → Adaugă contact →
+   „Afișează cod QR” sau „Scanează cod QR”. Codul reprezintă o invitație
+   limitată în timp și nu afișează telefonul, e-mailul ori datele personale.
+2. **Link de invitație pentru distanță:** Comunicare → Adaugă contact →
+   „Trimite invitație”. Eva generează un token aleator criptografic și
+   deschide meniul standard Android de partajare. Utilizatorul alege
+   WhatsApp, SMS, e-mail ori altă aplicație. Eva nu citește agenda,
+   nu cere permisiuni SMS/contacte și nu stochează numărul destinatarului.
+   Partajarea printr-o aplicație terță se supune politicii acelei aplicații.
+3. Linkul și QR-ul sunt două prezentări ale aceluiași mecanism de invitație.
+   Tokenul este de unică folosință, cu expirare (țintă inițială: 24 ore),
+   revocabil, iar backendul păstrează doar o amprentă a tokenului.
+4. Destinatarul deschide linkul din orice țară (ex. UK → România). Dacă Eva
+   nu e instalată, oferim instalarea și reluarea sigură a invitației.
+   Linkurile Android App Links se configurează doar când domeniul oficial
+   este disponibil; nu inventăm un URL în producție.
+5. După autentificare verificată, destinatarul vede cine îl invită și
+   apasă explicit „Acceptă” sau „Refuză”. Fără acceptare nu se creează
+   contactul. Cereri expirate, revocate sau deja folosite sunt respinse.
+6. Identificatorul intern este un UUID nepublic și nu este derivat din
+   telefon sau e-mail. E-mailul necesar contului rămâne privat și nu apare
+   în linkul de invitație.
+7. Acceptarea contactului **nu** partajează automat liste sau documente;
+   acestea se oferă individual, cu permisiuni separate. Chatul text și
+   vocal necesită acordul reciproc, cu blocare/revocare oricând.
+8. Testele trebuie să acopere: QR în apropiere; link între două țări;
+   destinatar fără APK; reîncercare și reutilizare token; utilizator blocat;
+   revocare; lipsa accesului la telefon/agenda/SMS; link copiat sau expirat.
 
-**Status:** această secțiune este specificație de produs, nu funcționalitate
-gata de utilizare. Este necesară implementarea autentificării verificate,
-a serviciului de invitații, a linkurilor către aplicație și a interfeței.
+**Status:** specificație de implementare, nu funcționalitate activă în APK.
+Necesită cont verificat, serviciu de invitații, Android App Links,
+notificări și verificarea permisiunilor pe backend.
 
 ## Etapa A — liste partajate
 - Buton din Listă cumpărături: Partajează → Contacte → trimite invitație;
