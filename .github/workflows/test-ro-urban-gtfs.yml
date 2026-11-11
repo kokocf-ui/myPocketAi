@@ -4,17 +4,19 @@ on:
     paths:
       - 'ro_urban_gtfs.mjs'
       - 'ro_urban_gtfs_import.mjs'
+      - 'ro_urban_server.mjs'
       - 'tests_ro_urban_gtfs.mjs'
       - 'tests_ro_urban_server.mjs'
-      - 'ro_urban_server.mjs'
-      - 'tests_ro_urban_server.mjs'
-      - 'ro_urban_server.mjs'
+      - 'oracle-romania-transport/**'
       - '.github/workflows/test-ro-urban-gtfs.yml'
   pull_request:
     paths:
       - 'ro_urban_gtfs.mjs'
       - 'ro_urban_gtfs_import.mjs'
+      - 'ro_urban_server.mjs'
       - 'tests_ro_urban_gtfs.mjs'
+      - 'tests_ro_urban_server.mjs'
+      - 'oracle-romania-transport/**'
       - '.github/workflows/test-ro-urban-gtfs.yml'
 jobs:
   test:
