@@ -63,14 +63,14 @@ function bucharestOffset(date){
  if(!Number.isFinite(base.getTime()))return null;
  const name=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Bucharest',timeZoneName:'shortOffset'})
   .formatToParts(base).find(p=>p.type==='timeZoneName')?.value||'';
- const m=name.match(/^GMT([+-])(\\d{1,2})(?::(\\d{2}))?$/);
+ const m=name.match(/^GMT([+-])(\d{1,2})(?::(\d{2}))?$/);
  if(!m)return name==='GMT'?0:null;
  return (m[1]==='-'?-1:1)*(Number(m[2])*60+Number(m[3]||0));
 }
 function providerTimestamp(value,date,previous=null){
  const raw=String(value??'').trim();
  if(!raw)return null;
- const plain=raw.match(/^(?:(\\d{4}-\\d{2}-\\d{2})[T\\s])?(\\d{1,2}):(\\d{2})(?::(\\d{2}))?$/);
+ const plain=raw.match(/^(?:(\d{4}-\d{2}-\d{2})[T\s])?(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
  if(plain){
   const day=plain[1]||date;
   const offset=bucharestOffset(day);
