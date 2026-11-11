@@ -8,7 +8,6 @@ import {normalizeConversationProfile,conversationProfileInstruction} from "./use
 import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
-export {PocketCommunicationHub} from "./pocket_communication_hub.mjs";
 import {hasAssistantRepetitionLoop} from "./ai_response_quality.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
@@ -1251,19 +1250,6 @@ export default {
     }
 
     const url = new URL(request.url);
-
-    // Signed device-to-device invitations and ciphertext messages. This route
-    // stays independent from the AI request pipeline and its usage limits.
-    if(url.pathname==="/api/communication"){
-      if(!env.POCKET_COMM_HUB)return new Response(JSON.stringify({error:"communication_not_configured"}),{status:503,headers:{...corsHeaders,"Content-Type":"application/json"}});
-      const stub=env.POCKET_COMM_HUB.get(env.POCKET_COMM_HUB.idFromName("pilot-v1"));
-      const result=await stub.fetch(request);
-      const headers=new Headers(result.headers);
-      headers.set("Access-Control-Allow-Origin","https://lifewise-ai-v2.kokocf.workers.dev");
-      headers.set("Access-Control-Allow-Headers","Content-Type,X-Pocket-Id,X-Pocket-Timestamp,X-Pocket-Nonce,X-Pocket-Signature");
-      headers.set("Cache-Control","no-store");
-      return new Response(result.body,{status:result.status,headers});
-    }
 
     // Owner-approved image upload only; never triggered by ordinary device OCR.
     if(url.pathname==="/api/math-vision")return handleMathVisionPilot(request,env,json);
