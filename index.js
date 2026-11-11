@@ -3634,7 +3634,7 @@ function dismissNotice(){clearTimeout(state.noticeTimer);$('notice').classList.r
 function notify(message){const el=$('notice');dismissNotice();el.textContent=message;el.classList.add('show');state.noticeTimer=setTimeout(dismissNotice,1800)}
 inputEl.addEventListener('focus',dismissNotice);
 function setStatus(message){chatStatus.textContent=message}
-function showView(name){closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);if(name!=='module')document.getElementById('mathEducationReturn')?.remove();if(shoppingVoiceSession?.active&&name!=='module')shopVoiceStop();const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}const exitedModule=state.currentView==='module'&&name!=='module';state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));if(exitedModule)checkUiUpdateAfterModuleExit();document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
+function showView(name){closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);if(name!=='module')finishRouteSearchLoading();if(name!=='module')document.getElementById('mathEducationReturn')?.remove();if(shoppingVoiceSession?.active&&name!=='module')shopVoiceStop();const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}const exitedModule=state.currentView==='module'&&name!=='module';state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));if(exitedModule)checkUiUpdateAfterModuleExit();document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
 // Change the shared chat host without archiving, clearing GPS or starting a new conversation.
 function switchConversationModule(key){
  if(!['assistant','maps','travel'].includes(key))return;
@@ -3657,6 +3657,7 @@ function rememberNavigationSource(place=null){
 }
 function returnToNavigationSource(){
  const source=state.navigationReturnContext;if(!source)return;
+ finishRouteSearchLoading();
  document.getElementById('returnToSearchSource')?.remove();
  if(state.busy){state.conversationGeneration++;state.busy=false}
  closeLongChoice();closeRouteMap(false);cancelTransitAccess(true);
@@ -3695,6 +3696,34 @@ function enterModuleRouteConversation(){
  $('moduleQuickLayer').setAttribute('aria-hidden','true');
  showNavigationReturn();
 }
+
+/* Route queries use the assistant API without exposing the chat while searching. */
+function beginRouteSearchLoading(profile){
+ if(state.currentView!=='module'||!['maps','travel'].includes(state.currentModule))return;
+ const view=$('view-module'),host=$('moduleContent');
+ const heading=profile==='drive'
+  ?dialogText('Căutăm traseul cu mașina','Finding a driving route')
+  :profile==='transit'
+   ?dialogText('Căutăm variante de transport','Finding public transport')
+   :dialogText('Căutăm traseul pietonal','Finding walking routes');
+ const panel=document.createElement('section');panel.id='routeSearchLoading';panel.className='route-search-loading';panel.setAttribute('role','status');panel.setAttribute('aria-live','polite');
+ const title=document.createElement('h3');title.className='route-search-title';title.textContent=heading;
+ const progress=document.createElement('div');progress.className='route-search-spinner';progress.setAttribute('aria-hidden','true');
+ const note=document.createElement('p');note.className='route-search-note';note.textContent=dialogText('Se caută variantele disponibile…','Searching available routes…');
+ const list=document.createElement('div');list.className='route-search-skeletons';list.setAttribute('aria-hidden','true');
+ for(let i=0;i<3;i++){
+  const item=document.createElement('div');item.className='route-search-skeleton';
+  const icon=document.createElement('span');icon.className='route-search-skeleton-icon';
+  const lines=document.createElement('span');lines.className='route-search-skeleton-lines';
+  lines.append(document.createElement('i'),document.createElement('i'));item.append(icon,lines);list.append(item);
+ }
+ panel.append(title,progress,note,list);host.replaceChildren(panel);view.classList.add('route-searching');
+}
+function finishRouteSearchLoading(){
+ $('view-module')?.classList.remove('route-searching');
+ document.getElementById('routeSearchLoading')?.remove();
+}
+
 function showNavigationReturnInPanel(body){
  // Back and Return to list are grouped in the transport header.
 }
@@ -3707,30 +3736,32 @@ function distanceToDestinationKm(point){
  return 6371*2*Math.atan2(Math.sqrt(a),Math.sqrt(Math.max(0,1-a)));
 }
 function offerPlaceTravelModes(place){
- document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');state.moduleSearchReturnMode='mode';state.lastQuickPlace=place;
+ document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');
+ document.querySelector('.module-quick-sheet')?.classList.add('mode-choice-screen');state.moduleSearchReturnMode='mode';state.lastQuickPlace=place;
  const lat=Number(place.latitude),lon=Number(place.longitude);
  if(!Number.isFinite(lat)||!Number.isFinite(lon))return;
  const point={latitude:lat,longitude:lon,label:[place.name,place.address].filter(Boolean).join(', ').slice(0,240)};
  const body=$('moduleLayerBody');body.style.cssText='';body.replaceChildren();document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');
  $('moduleLayerTitle').textContent=state.language==='ro'?'Cum dorești să ajungi?':'How would you like to travel?';
- const title=document.createElement('p');title.textContent=point.label;body.append(title);
+ const title=document.createElement('div');title.className='mode-destination';const pin=document.createElement('span');pin.className='mode-destination-pin';pin.textContent='📍';pin.setAttribute('aria-hidden','true');const address=document.createElement('p');address.textContent=point.label;title.append(pin,address);body.append(title);
  const t=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;
  const distance=distanceToDestinationKm(point);
  for(const [mode,label] of [['walk',t[1]],['transit',t[2]],['drive',t[3]]]){
   if(mode==='walk'&&distance!==null&&distance>5)continue;
-  const button=document.createElement('button');button.type='button';button.className='module-result-card';button.textContent=label;
+  const button=document.createElement('button');button.type='button';button.className='module-result-card mode-route-option';const icon=document.createElement('span');icon.className='mode-route-icon';icon.textContent={walk:'🚶',transit:'🚌',drive:'🚗'}[mode];icon.setAttribute('aria-hidden','true');const caption=document.createElement('strong');caption.textContent=label;const chevron=document.createElement('span');chevron.className='mode-route-chevron';chevron.textContent='›';chevron.setAttribute('aria-hidden','true');button.append(icon,caption,chevron);
   button.onclick=async()=>{
    if(state.busy)return;
    rememberNavigationSource(place);
    state.pendingTravelMode=mode;state.pendingRouteDestination=null;
    state.routeSearchContext={destination_query:point.label,destination:point,pending:null,profile:mode==='transit'?null:mode,origin_query:''};
    $('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');
+   document.querySelector('.module-quick-sheet')?.classList.remove('mode-choice-screen');
    switchConversationModule('maps');enterModuleRouteConversation();
    inputEl.value=label;await submitMessage();
   };
   body.append(button);
  }
- const cancel=document.createElement('button');cancel.type='button';cancel.className='transit-choice-action';cancel.style.cssText='width:100%;height:auto;min-height:48px;white-space:normal';cancel.textContent=quickUiText().backResults;
+ const cancel=document.createElement('button');cancel.type='button';cancel.className='transit-choice-action mode-back-results';cancel.style.cssText='width:100%;height:auto;min-height:48px;white-space:normal';cancel.textContent=quickUiText().backResults;
  cancel.onclick=()=>renderModulePlaceDetails(place);body.append(cancel);
 }
 function selectedPlaceForRoute(message){
@@ -15617,6 +15648,8 @@ function openModule(key){mathVoiceStop();mathCloseResults();document.querySelect
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'}],travel:[{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante, pizzerii, shaormerii și fast-food în apropierea mea.',kind:'places',description:'Caută restaurante, pub-uri, pizzerii, shaormerii și fast-food'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',kind:'places',description:'Caută alte puncte de interes din apropiere'}]};
 /* Maps and hotels regain their own landing options. Keep existing search logic. */
 function renderModuleLandingChoices(){
+ finishRouteSearchLoading();
+ document.querySelector('.module-quick-sheet')?.classList.remove('mode-choice-screen');
  document.getElementById('returnToSearchSource')?.remove();
  const view=$('view-module'),host=$('moduleContent');
  view.classList.add('module-landing');
@@ -15742,7 +15775,7 @@ const parts=raw.split(/\\s*[/|]\\s*/).filter(Boolean);
 if(parts.length>1){const translated=parts.map(translatePart);if(translated.every(Boolean))return translated.join(' / ');}
 return translatePart(raw)||raw;
 }
-function renderModulePlaces(places){document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');state.moduleSearchReturnMode='list';const body=$('moduleLayerBody');body.style.cssText='';body.innerHTML='';if(!Array.isArray(places)||!places.length){const status=document.createElement('div');status.className='module-search-status';status.textContent=state.moduleSearchReply||quickUiText().notFound;body.append(status);return}document.querySelector('.module-quick-sheet')?.classList.add('results-mode');const panel=document.createElement('section');panel.className='module-places-results';panel.setAttribute('aria-label',quickUiText().found);const header=document.createElement('header');header.className='module-places-results-head';const heading=document.createElement('div');heading.className='module-places-results-heading';const title=document.createElement('h3');title.textContent=quickUiText().found;const subtitle=document.createElement('p');subtitle.textContent=places.length+' '+quickUiText().results;heading.append(title,subtitle);const back=document.createElement('button');back.type='button';back.className='module-results-back';back.setAttribute('aria-label',quickUiText().back);back.textContent='‹';back.addEventListener('click',handleModuleLayerBack);header.append(heading,back);const list=document.createElement('div');list.className='module-place-results-list';list.setAttribute('role','list');places.forEach((place,index)=>{const item=document.createElement('button');item.type='button';item.className='module-place-result';item.setAttribute('role','listitem');const icon=document.createElement('span');icon.className='module-place-result-icon';icon.setAttribute('aria-hidden','true');mountPlaceThumbnail(icon,place);const copy=document.createElement('span');copy.className='module-place-result-copy';const name=document.createElement('strong');name.className='module-place-result-name';name.textContent=(index+1)+'. '+String(place.name||(quickUiText().location+' '+(index+1)));const meta=document.createElement('span');meta.className='module-place-result-meta';meta.textContent=localizedPlaceCategory(place.type)+' · '+formatDistance(place.distance_meters)+' · '+quickUiText().details;copy.append(name,meta);const arrow=document.createElement('span');arrow.className='module-place-result-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';item.append(icon,copy,arrow);item.addEventListener('click',()=>renderModulePlaceDetails(place));list.append(item)});panel.append(header,list);body.append(panel);$('moduleLayerTitle').textContent=quickUiText().found}
+function renderModulePlaces(places){document.querySelector('.module-quick-sheet')?.classList.remove('details-mode','mode-choice-screen');state.moduleSearchReturnMode='list';const body=$('moduleLayerBody');body.style.cssText='';body.innerHTML='';if(!Array.isArray(places)||!places.length){const status=document.createElement('div');status.className='module-search-status';status.textContent=state.moduleSearchReply||quickUiText().notFound;body.append(status);return}document.querySelector('.module-quick-sheet')?.classList.add('results-mode');const panel=document.createElement('section');panel.className='module-places-results';panel.setAttribute('aria-label',quickUiText().found);const header=document.createElement('header');header.className='module-places-results-head';const heading=document.createElement('div');heading.className='module-places-results-heading';const title=document.createElement('h3');title.textContent=quickUiText().found;const subtitle=document.createElement('p');subtitle.textContent=places.length+' '+quickUiText().results;heading.append(title,subtitle);const back=document.createElement('button');back.type='button';back.className='module-results-back';back.setAttribute('aria-label',quickUiText().back);back.textContent='‹';back.addEventListener('click',handleModuleLayerBack);header.append(heading,back);const list=document.createElement('div');list.className='module-place-results-list';list.setAttribute('role','list');places.forEach((place,index)=>{const item=document.createElement('button');item.type='button';item.className='module-place-result';item.setAttribute('role','listitem');const icon=document.createElement('span');icon.className='module-place-result-icon';icon.setAttribute('aria-hidden','true');mountPlaceThumbnail(icon,place);const copy=document.createElement('span');copy.className='module-place-result-copy';const name=document.createElement('strong');name.className='module-place-result-name';name.textContent=(index+1)+'. '+String(place.name||(quickUiText().location+' '+(index+1)));const meta=document.createElement('span');meta.className='module-place-result-meta';meta.textContent=localizedPlaceCategory(place.type)+' · '+formatDistance(place.distance_meters)+' · '+quickUiText().details;copy.append(name,meta);const arrow=document.createElement('span');arrow.className='module-place-result-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';item.append(icon,copy,arrow);item.addEventListener('click',()=>renderModulePlaceDetails(place));list.append(item)});panel.append(header,list);body.append(panel);$('moduleLayerTitle').textContent=quickUiText().found}
 
 const DETAIL_LABELS={"ro": {"address": "Adresă", "phone": "Telefon", "website": "Website", "photos": "Fotografii", "close": "Închide fotografia", "price": "Preț", "rooms": "Camere"}, "en": {"address": "Address", "phone": "Phone", "website": "Website", "photos": "Photos", "close": "Close photo", "price": "Price", "rooms": "Rooms"}, "fr": {"address": "Adresse", "phone": "Téléphone", "website": "Site web", "photos": "Photos", "close": "Fermer la photo", "price": "Prix", "rooms": "Chambres"}, "de": {"address": "Adresse", "phone": "Telefon", "website": "Webseite", "photos": "Fotos", "close": "Foto schließen", "price": "Preis", "rooms": "Zimmer"}, "it": {"address": "Indirizzo", "phone": "Telefono", "website": "Sito web", "photos": "Foto", "close": "Chiudi foto", "price": "Prezzo", "rooms": "Camere"}, "es": {"address": "Dirección", "phone": "Teléfono", "website": "Sitio web", "photos": "Fotos", "close": "Cerrar foto", "price": "Precio", "rooms": "Habitaciones"}, "pt": {"address": "Morada", "phone": "Telefone", "website": "Website", "photos": "Fotografias", "close": "Fechar fotografia", "price": "Preço", "rooms": "Quartos"}, "nl": {"address": "Adres", "phone": "Telefoon", "website": "Website", "photos": "Foto’s", "close": "Foto sluiten", "price": "Prijs", "rooms": "Kamers"}, "ru": {"address": "Адрес", "phone": "Телефон", "website": "Сайт", "photos": "Фотографии", "close": "Закрыть фото", "price": "Цена", "rooms": "Номера"}, "pl": {"address": "Adres", "phone": "Telefon", "website": "Strona internetowa", "photos": "Zdjęcia", "close": "Zamknij zdjęcie", "price": "Cena", "rooms": "Pokoje"}};
 function detailLabels(){return DETAIL_LABELS[state.language]||DETAIL_LABELS.en}
@@ -15805,7 +15838,7 @@ function mountPlaceThumbnail(host,place){
  host.setAttribute('aria-label','Fotografie '+String(place.name||''));
  host.addEventListener('click',event=>{event.stopPropagation();showPlacePhoto(url,place.name)});
 }
-function renderModulePlaceDetails(place){state.moduleSearchReturnMode='details';state.lastQuickPlace=place;$('moduleLayerBody').style.cssText='';document.querySelector('.module-quick-sheet')?.classList.add('details-mode');
+function renderModulePlaceDetails(place){document.querySelector('.module-quick-sheet')?.classList.remove('mode-choice-screen');state.moduleSearchReturnMode='details';state.lastQuickPlace=place;$('moduleLayerBody').style.cssText='';document.querySelector('.module-quick-sheet')?.classList.add('details-mode');
  document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');
  const body=$('moduleLayerBody');body.innerHTML='';const card=document.createElement('div');card.className='module-place-details';
  const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=String(place.name||t.location);const logo=document.createElement('span');logo.className='module-place-result-icon place-detail-logo';logo.setAttribute('aria-hidden','true');mountPlaceLogo(logo,place);const heading=document.createElement('div');heading.className='place-detail-header';
@@ -17388,7 +17421,7 @@ function openWalkingRouteChoices(route,options=state.lastRouteOptions){
  const body=document.createElement('div');body.className='answer-reader-body';body.style.cssText='white-space:normal;scroll-behavior:auto';
  const list=document.createElement('div');list.className='route-options';
  for(const [i,v] of (usable.length?usable:[route]).entries()){
-  const button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.style.cssText='white-space:normal;text-align:left;background:linear-gradient(120deg,#24cbd7,#2583c5);color:#062339;font-weight:bold';
+  const button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.setAttribute('aria-pressed',v===route?'true':'false');button.style.cssText='white-space:normal;text-align:left';
   button.textContent=(v===route?'✓ ':'')+(v.label||('Traseu '+(i+1)))+' · '+(v.distanceMeters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km'+(Number.isFinite(v.durationSeconds)?' · '+formatTravelDurationMinutes(v.durationSeconds/60):'');
   button.onclick=()=>{layer.remove();state.lastRoute=v;openRouteMap(v,null,usable)};list.append(button);
  }
@@ -18663,7 +18696,9 @@ if(offered?.needs_travel_confirmation&&context?.pending==='profile'&&context?.de
  }
 }
 state.pendingTravelConfirmationData=null;
-if(!state.pendingTravelMode&&state.routeSearchContext?.destination&&/^(?!pietonal$|transport public$|masina$|mașină$|walking$|driving$|public transport$|da$|yes$|nu$|no$)(?:[\\p{L}][\\p{L}0-9&' .-]{2,60}\\s*,\\s*[\\p{L} .'-]{2,60}|(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)\\s+.+)$/iu.test(message)){state.routeSearchContext=null;state.pendingRouteDestination=null;state.pendingTravelMode=null;state.lastTravelModeResponse=null;}if(isMapRouteFollowup(message)&&validMapRoute(state.lastRoute)){addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const reply=routeMapText().shown;addBubble(reply,'assistant');state.messages.push({role:'assistant',text:reply});openRouteMap(state.lastRoute);return}const selectedEntityKind=state.pendingSelectedEntityKind==='article'?'article':undefined;state.pendingSelectedEntityKind=null;const selectedGeographicEntity=state.pendingSelectedGeoOption||null;state.pendingSelectedGeoOption=null;state.busy=true;const clientRequestStartedAt=performance.now();const generation=state.conversationGeneration;sendBtn.disabled=true;inputEl.disabled=true;setStatus(dialogText('myPocket AI pregătește răspunsul…','Pocket AI is preparing a response…'));addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const loading=addBubble(dialogText('Se pregătește răspunsul…','Preparing response…'),'assistant');try{const history=state.messages.slice(-CLIENT_CONFIG.historyLimit).map(m=>({role:m.role,content:m.text}));const gpsStartedAt=performance.now();const locationRequest=await coordinatesForRequest(message);const gpsElapsedMs=Math.round(performance.now()-gpsStartedAt);const locationIntent=locationRequest.locationIntent;const coordinates=locationRequest.coordinates;const locationErrorText=locationRequest.error;const routeDestination=state.pendingTravelMode&&state.routeSearchContext?.destination?state.routeSearchContext.destination:selectedPlaceForRoute(message);const routeStart=state.pendingRouteStart===true;state.pendingRouteStart=false;const routeViaQuery=state.pendingRouteViaQuery||undefined;state.pendingRouteViaQuery=null;const routeCompare=state.pendingRouteCompare===true;state.pendingRouteCompare=false;const travelMode=state.pendingTravelMode||undefined;state.pendingTravelMode=null;
+if(!state.pendingTravelMode&&state.routeSearchContext?.destination&&/^(?!pietonal$|transport public$|masina$|mașină$|walking$|driving$|public transport$|da$|yes$|nu$|no$)(?:[\\p{L}][\\p{L}0-9&' .-]{2,60}\\s*,\\s*[\\p{L} .'-]{2,60}|(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)\\s+.+)$/iu.test(message)){state.routeSearchContext=null;state.pendingRouteDestination=null;state.pendingTravelMode=null;state.lastTravelModeResponse=null;}if(isMapRouteFollowup(message)&&validMapRoute(state.lastRoute)){addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const reply=routeMapText().shown;addBubble(reply,'assistant');state.messages.push({role:'assistant',text:reply});openRouteMap(state.lastRoute);return}const routeLoadingRequested=state.currentView==='module'&&['maps','travel'].includes(state.currentModule)&&(Boolean(state.pendingTravelMode)||state.pendingRouteStart===true||state.pendingRouteCompare===true);
+const routeLoadingProfile=state.pendingTravelMode||(state.pendingRouteStart?'walk':state.routeSearchContext?.profile)||'walk';
+const selectedEntityKind=state.pendingSelectedEntityKind==='article'?'article':undefined;state.pendingSelectedEntityKind=null;const selectedGeographicEntity=state.pendingSelectedGeoOption||null;state.pendingSelectedGeoOption=null;state.busy=true;if(routeLoadingRequested)beginRouteSearchLoading(routeLoadingProfile);const clientRequestStartedAt=performance.now();const generation=state.conversationGeneration;sendBtn.disabled=true;inputEl.disabled=true;setStatus(dialogText('myPocket AI pregătește răspunsul…','Pocket AI is preparing a response…'));addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const loading=addBubble(dialogText('Se pregătește răspunsul…','Preparing response…'),'assistant');try{const history=state.messages.slice(-CLIENT_CONFIG.historyLimit).map(m=>({role:m.role,content:m.text}));const gpsStartedAt=performance.now();const locationRequest=await coordinatesForRequest(message);const gpsElapsedMs=Math.round(performance.now()-gpsStartedAt);const locationIntent=locationRequest.locationIntent;const coordinates=locationRequest.coordinates;const locationErrorText=locationRequest.error;const routeDestination=state.pendingTravelMode&&state.routeSearchContext?.destination?state.routeSearchContext.destination:selectedPlaceForRoute(message);const routeStart=state.pendingRouteStart===true;state.pendingRouteStart=false;const routeViaQuery=state.pendingRouteViaQuery||undefined;state.pendingRouteViaQuery=null;const routeCompare=state.pendingRouteCompare===true;state.pendingRouteCompare=false;const travelMode=state.pendingTravelMode||undefined;state.pendingTravelMode=null;
 const newsFollowupText=String(message).normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
 const newsContextRequested=Boolean(state.newsConversationContext)&&/(?:surs\\w*|source\\w*|link\\w*|confirmat\\w*|neclar\\w*|verificat\\w*|confirmed|unclear|unverified|original)/i.test(newsFollowupText);
 const browserNow=new Date();
@@ -18724,7 +18759,7 @@ if(data.news_followup&&state.newsConversationContext&&Number.isInteger(data.news
    bubble.append(retry);
   }
   setStatus(dialogText("Cererea nu a reușit.","Request failed."));
-  console.error('myPocket AI chat request failed:',{type:String(error?.name||'Error'),networkError:transportError,detail:messageText.slice(0,160)})}}finally{state.busy=false;sendBtn.disabled=false;inputEl.disabled=false;/* Do not reopen Android keyboard after button-only flows. Text entry gets focus only on an explicit tap. */inputEl.blur()}}
+  console.error('myPocket AI chat request failed:',{type:String(error?.name||'Error'),networkError:transportError,detail:messageText.slice(0,160)})}}finally{if(routeLoadingRequested)requestAnimationFrame(finishRouteSearchLoading);state.busy=false;sendBtn.disabled=false;inputEl.disabled=false;/* Do not reopen Android keyboard after button-only flows. Text entry gets focus only on an explicit tap. */inputEl.blur()}}
 $('chatForm').addEventListener('submit',event=>{event.preventDefault();submitMessage()});inputEl.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();$('chatForm').requestSubmit()}});inputEl.addEventListener('input',()=>{inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,130)+'px'});
 $('newChatBtn').addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}archiveCurrentConversation();resetChat();void 0});
 // 08 — Navigation and module entry points; v1.0.24 quick searches stay inside the selected module
@@ -19478,6 +19513,58 @@ main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;ov
 #view-module.module-landing.active{height:auto!important;max-height:none!important;overflow:visible!important;grid-template-rows:auto auto!important}
 #view-module.module-landing #moduleContent{height:auto!important;max-height:none!important;overflow:visible!important}
 #view-module.module-landing .module-landing-grid{grid-auto-rows:minmax(95px,auto);min-height:0!important}}
+
+/* Approved route UI: quiet petrol buttons, plum navigation and a chat-free search state. */
+.module-quick-sheet.mode-choice-screen .module-quick-body{display:flex!important;flex-direction:column!important;align-content:stretch!important;gap:12px!important;padding:16px 14px!important}
+.module-quick-sheet.mode-choice-screen .module-quick-header{background:linear-gradient(150deg,#143448,#0b2030)!important}
+.module-quick-sheet.mode-choice-screen .mode-destination{display:flex;gap:12px;align-items:center;color:#e8f4f7;font-size:16px;line-height:1.4;padding:8px 4px 14px;border-bottom:1px solid #2e5966;margin-bottom:4px}
+.module-quick-sheet.mode-choice-screen .mode-destination p{margin:0;overflow-wrap:anywhere}
+.module-quick-sheet.mode-choice-screen .mode-destination-pin{font-size:23px;flex:none}
+.module-quick-sheet.mode-choice-screen .mode-route-option,
+.route-choice-screen .route-options>.transit-choice-action{
+ background:linear-gradient(125deg,#1a605f 0%,#10465b 55%,#0d3045 100%)!important;
+ border:1.5px solid #63adb5!important;color:#f3fbff!important;
+ border-radius:18px!important;box-shadow:inset 0 2px 0 rgba(235,255,255,.14),0 4px 0 #031723,0 9px 16px rgba(0,0,0,.28)!important;
+ font-size:clamp(15px,4.1vw,19px)!important;line-height:1.3!important;min-height:72px!important;
+ padding:13px 15px!important;white-space:normal!important;text-align:left!important;
+}
+.module-quick-sheet.mode-choice-screen .mode-route-option{display:flex!important;flex-direction:row!important;align-items:center!important;gap:13px!important;justify-content:flex-start!important}
+.module-quick-sheet.mode-choice-screen .mode-route-option strong{font-size:inherit!important;flex:1!important}
+.module-quick-sheet.mode-choice-screen .mode-route-icon{width:43px;height:43px;display:grid;place-items:center;flex:none;border-radius:12px;background:#08364080;font-size:25px}
+.module-quick-sheet.mode-choice-screen .mode-route-chevron{font-size:28px;font-weight:800;color:#bde9e9}
+.module-quick-sheet.mode-choice-screen .mode-back-results,
+.route-choice-screen .route-options>.route-map-open,
+.route-choice-screen .answer-reader-header .route-header-action{
+ background:linear-gradient(140deg,#723846,#4a293c 60%,#291f36)!important;color:#fff5f6!important;
+ border:1.5px solid #d6949b!important;border-radius:18px!important;
+ box-shadow:inset 0 2px 0 rgba(255,255,255,.13),0 4px 0 #1a101e,0 7px 14px rgba(0,0,0,.29)!important;
+ text-shadow:none!important;font-weight:750!important;
+}
+.module-quick-sheet.mode-choice-screen .mode-back-results{min-height:56px!important;margin-top:7px!important;padding:12px!important;font-size:16px!important}
+.route-choice-screen .answer-reader-header .route-header-action{min-height:42px!important;padding:8px 12px!important}
+.route-choice-screen .route-options{display:flex;flex-direction:column;gap:12px;padding:12px 3px 18px!important}
+.route-choice-screen .route-options>.transit-choice-action{margin:0!important;flex:0 0 auto!important}
+.route-choice-screen .route-options>.transit-choice-action[aria-pressed="true"]{border-color:#69e0d6!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.16),0 4px 0 #031723,0 0 11px rgba(50,197,184,.16)!important}
+.route-choice-screen .route-options>.route-map-open{min-height:59px!important;margin:3px 0 0!important;padding:12px 15px!important;font-size:16px!important;text-align:center!important}
+#view-module.route-searching.active #moduleChatHost,
+#view-module.route-searching.active .section-lead,
+#view-module.route-searching.active #askModuleBtn{display:none!important}
+#view-module.route-searching.active #moduleContent{display:block!important;min-height:0!important;flex:1 1 auto!important;width:100%!important;padding:3px 0 12px!important}
+#view-module.route-searching.active .route-search-loading{min-height:100%;box-sizing:border-box;display:flex;align-items:center;flex-direction:column;gap:16px;justify-content:flex-start;padding:16px 12px 12px;border-radius:20px;background:linear-gradient(155deg,#0a2636,#071927)}
+.route-search-loading .route-search-title{align-self:stretch;font-size:clamp(18px,5vw,25px);color:#f0f8fc;line-height:1.25;margin:3px 0 5px!important}
+.route-search-loading .route-search-spinner{width:54px;height:54px;flex:none;border-radius:50%;border:6px solid #24556a;border-top-color:#51d6d0;animation:route-search-spin 1.1s linear infinite;margin:7px auto 0}
+.route-search-loading .route-search-note{color:#c5dce4;line-height:1.4;font-size:clamp(13px,3.5vw,16px);margin:0;text-align:center}
+.route-search-loading .route-search-skeletons{width:100%;display:flex;flex-direction:column;gap:11px;margin-top:7px}
+.route-search-loading .route-search-skeleton{min-height:69px;border:1px solid #3b8995;border-radius:16px;background:linear-gradient(120deg,#103d4b,#0b283a);display:flex;align-items:center;gap:15px;padding:11px 14px;box-sizing:border-box}
+.route-search-loading .route-search-skeleton-icon{width:42px;height:42px;flex:none;border-radius:11px;background:#347c8866}
+.route-search-loading .route-search-skeleton-lines{display:flex;flex:1;flex-direction:column;gap:10px}
+.route-search-loading .route-search-skeleton-lines i{display:block;height:12px;border-radius:8px;background:#4b94a090;max-width:100%;width:83%;animation:route-search-breathe 1.5s ease-in-out infinite alternate}
+.route-search-loading .route-search-skeleton-lines i:last-child{width:57%;height:10px}
+@keyframes route-search-spin{to{transform:rotate(360deg)}}
+@keyframes route-search-breathe{to{opacity:.42}}
+@media(prefers-reduced-motion:reduce){.route-search-loading .route-search-spinner,.route-search-loading .route-search-skeleton-lines i{animation:none!important}}
+@media(max-height:640px){#view-module.route-searching.active .route-search-skeleton{min-height:48px}.route-search-loading .route-search-spinner{width:36px;height:36px;border-width:4px;margin:0}.route-search-loading .route-search-skeletons{gap:7px}.route-search-loading .route-search-skeleton-icon{width:28px;height:28px}}
+
 </style>
 </body>
 </html>`;

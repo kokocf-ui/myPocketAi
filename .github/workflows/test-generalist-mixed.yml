@@ -77,6 +77,8 @@ jobs:
         run: node tests_module_landing_locales.mjs
       - name: Maps pedestrian and driving route visibility regression
         run: node tests_maps_walk_drive_visibility.mjs
+      - name: Quiet petrol route choices and chat-free loading regression
+        run: node tests_maps_route_quiet_ui.mjs
       - name: Verify education year, lesson contents and browser boot
         run: node tests_education_content_navigation.mjs
       - name: Confirm current Cloudflare home and Android cache-busting
