@@ -253,6 +253,71 @@ const twoModeStation=normalizeBiloTrips({results:[{
 assert.equal(twoModeStation.legs[0].from,'Episcopia Bihor');
 assert.equal(twoModeStation.legs[0].fromLocality,'Oradea');
 
+// Bilo's documented site API has a separate GET mode=bus. A request for
+// all available transport must query it automatically when primary Bilo all
+// mode did not return verified coaches.
+const modeCalls=[];
+const officialCoach=await planRomanianNationalJourney(
+ {BILO_API_KEY:'test-only'},{origin:'Oradea',destination:'Cluj-Napoca'},
+ {date:'2026-11-15',limit:10,tryOfficialBusSearch:true,fetchImpl:async (url,req)=>{
+  modeCalls.push({url,method:req.method});
+  if(req.method==='GET'){
+   const parsed=new URL(url);
+   assert.equal(parsed.origin,'https://bilo.ro');
+   assert.equal(parsed.pathname,'/search-api/v2/search');
+   assert.equal(parsed.searchParams.get('mode'),'bus');
+   assert.equal(parsed.searchParams.get('origin'),'Oradea');
+   assert.equal(parsed.searchParams.get('destination'),'Cluj-Napoca');
+   assert.equal(parsed.searchParams.get('date'),'2026-11-15');
+   return {ok:true,status:200,json:async()=>({mode:'bus',results:[{
+    origin:{name:'Autogara Intrans',city:'Oradea'},
+    destination:{name:'Autogara Fany',city:'Cluj-Napoca'},
+    departure_time:'09:05',arrival_time:'12:30',operator:'Petdor'
+   }]})};
+  }
+  return {ok:true,status:200,json:async()=>({mode:'rail',results:[{
+   origin:'Oradea',destination:'Cluj-Napoca',mode:'train',
+   departure_time:'03:00',arrival_time:'11:26'
+  }]})};
+ }});
+assert.deepEqual(modeCalls.map(x=>x.method),['POST','GET']);
+assert.equal(officialCoach.status,'ok');
+assert.equal(officialCoach.journeys.length,1);
+assert.equal(officialCoach.journeys[0].legs[0].mode,'bus');
+assert.equal(officialCoach.journeys[0].legs[0].from,'Autogara Intrans');
+assert.equal(officialCoach.journeys[0].legs[0].fromLocality,'Oradea');
+assert.equal(officialCoach.journeys[0].legs[0].to,'Autogara Fany');
+assert.equal(officialCoach.coach_lookup,'ok');
+assert.equal(officialCoach.parsed_modes.road,1);
+const noRedundantBusSearch=await planRomanianNationalJourney(
+ {BILO_API_KEY:'test-only'},{origin:'Oradea',destination:'Cluj-Napoca'},
+ {date:'2026-11-15',tryOfficialBusSearch:true,fetchImpl:async (url,req)=>{
+  if(req.method==='GET')throw Error('coach is already in all-mode results');
+  return {ok:true,status:200,json:async()=>({mode:'all',results:[{
+   origin:'Oradea',destination:'Cluj-Napoca',mode:'rail_replacement_bus',
+   departure_time:'04:00',arrival_time:'08:25',operator:'CFR Călători'
+  }]})};
+ }});
+assert.equal(noRedundantBusSearch.status,'ok');
+assert.equal(noRedundantBusSearch.coach_lookup,'included_in_all');
+assert.equal(noRedundantBusSearch.journeys[0].legs[0].railReplacement,true);
+const busyRailList=await planRomanianNationalJourney(
+ {BILO_API_KEY:'test-only'},{origin:'București',destination:'Brașov'},
+ {date:'2026-11-15',limit:10,tryOfficialBusSearch:true,fetchImpl:async(url,req)=>{
+  if(req.method==='GET')return {ok:true,status:200,json:async()=>({mode:'bus',results:[{
+   origin:'București',destination:'Brașov',departure_time:'11:00',
+   arrival_time:'14:20',operator:'Independent Road Company'
+  }]})};
+  return {ok:true,status:200,json:async()=>({mode:'rail',results:
+   Array.from({length:10},(_,i)=>({
+    origin:'București',destination:'Brașov',mode:'train',
+    departure_time:String(i+1).padStart(2,'0')+':00',
+    arrival_time:String(i+3).padStart(2,'0')+':15'
+   }))})};
+ }});
+assert.equal(busyRailList.journeys.length,11,
+ 'Coach must not be dropped by total limit after ten trains');
+assert.equal(busyRailList.parsed_modes.road,1);
 const noIds=await planRomanianNationalJourney(
  {BILO_API_KEY:'test-only'},{origin:'București',destination:'Brașov'},
  {date:'2026-11-12',fetchImpl:async()=>({ok:true,status:200,json:async()=>({results:[{
