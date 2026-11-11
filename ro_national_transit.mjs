@@ -60,13 +60,14 @@ export function romanianNationalQuery(message,opts={}){
  const text=String(message||'');
  const normalized=normalize(text);
  const explicitCar=/(?:^|\s)(?:cu|prin)\s+(?:masina|automobilul|autoturismul|taxiul|taxi)(?:\s|$)/.test(normalized)
+   ||/\b(?:driving|drive|by car|car route)\b/.test(normalized)
    ||opts.travel_mode==='car'||opts.route_profile==='drive';
  const genericTransport=/(?:^|\s)(?:transport(?:ul)?|deplasare)(?:\s|$)/.test(normalized)
    &&!/(?:^|\s)(?:de\s+marfa|marfuri)(?:\s|$)/.test(normalized);
  const explicitTransit=(!explicitCar&&genericTransport)
    ||/\b(?:transport(?:ul)? (?:public|in comun)|transport mixt|tren(?:ul)?|autocar(?:ul)?|autobuz(?:ul)?|rail|train|coach|bus)\b/i.test(normalized)
    ||opts.mixed_journey===true||opts.travel_mode==='transit';
- if(explicitCar&&opts.mixed_journey!==true&&opts.travel_mode!=='transit')return null;
+ if(explicitCar)return null;
  if(!explicitTransit)return null;
  const matched=text.match(/(?:^|\s)(?:din|de\s+la)\s+(.+?)\s+(?:p[aâ]n[aă]\s+la|către|catre|spre|la)\s+(.+?)(?:[?!]|$)/iu);
  const origin=matched?cleanTown(matched[1]):cleanTown(opts.origin?.city||opts.origin?.label||'');
@@ -75,6 +76,14 @@ export function romanianNationalQuery(message,opts={}){
     ||String(opts.origin?.country_code||'').toUpperCase()==='RO'
     ||String(opts.destination?.country_code||'').toUpperCase()==='RO';
  const majorPair=ROMANIA_CITIES.has(normalize(origin))&&ROMANIA_CITIES.has(normalize(destination));
+ // An explicit UK route takes priority over an old Romanian GPS fix or stale
+ // destination selected earlier in a conversation. Do not send it to Bilo.
+ const countryOf=value=>String(value?.country_code||value?.countryCode||'').toUpperCase();
+ const selectedCountries=[countryOf(opts.origin),countryOf(opts.destination)].filter(Boolean);
+ if(selectedCountries.some(c=>c!=='RO'))return null;
+ const ukStops=/\b(?:grays|liverpool street|fenchurch street|tower hill|upminster|chafford hundred|west dulwich|victoria station|manchester|london|londra|essex|brixton|south ockendon|lakeside|dartford)\b/;
+ if(ukStops.test(normalize(origin))||ukStops.test(normalize(destination)))return null;
+ // A named overseas origin is never replaced by the phone's location.
  if(!majorPair&&!explicitRomania&&!isRoGPS(opts.location))return null;
  return {origin,destination,hasOrigin:Boolean(origin),hasDestination:Boolean(destination)};
 }
