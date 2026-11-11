@@ -91,6 +91,28 @@ import android.graphics.Rect;
 import java.io.File;
 
 public final class MainActivity extends ComponentActivity {
+    private String pendingCommunicationInvite = null;
+    private static String communicationInviteCode(Intent intent) {
+        if (intent==null || intent.getData()==null) return null;
+        Uri data=intent.getData();
+        if (!"mypocketai".equalsIgnoreCase(data.getScheme()) || !"invite".equalsIgnoreCase(data.getHost())) return null;
+        if (data.getPathSegments().size()!=1) return null;
+        String token=data.getPathSegments().get(0);
+        return token.matches("[A-Za-z0-9_-]{32,150}")?token:null;
+    }
+    private void dispatchCommunicationInvite() {
+        if (web==null || pendingCommunicationInvite==null) return;
+        String token=pendingCommunicationInvite;
+        pendingCommunicationInvite=null;
+        String quoted=JSONObject.quote(token);
+        web.evaluateJavascript("(function(){var n=document.querySelector('[data-nav=communication]');if(n)n.click();if(window.pocketInviteReceived)window.pocketInviteReceived("+quoted+");})()",null);
+    }
+    @Override protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        pendingCommunicationInvite=communicationInviteCode(intent);
+        if(pendingCommunicationInvite!=null && web!=null)dispatchCommunicationInvite();
+    }
     private static final String APP_URL = "https://lifewise-ai-v2.kokocf.workers.dev/";
     private static final String APP_HOST = "lifewise-ai-v2.kokocf.workers.dev";
     private WebView web;
@@ -535,6 +557,7 @@ public final class MainActivity extends ComponentActivity {
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
+        pendingCommunicationInvite=communicationInviteCode(getIntent());
         WindowCompat.setDecorFitsSystemWindows(getWindow(),true);
         getWindow().getDecorView().setSystemUiVisibility(0);
         getWindow().setStatusBarColor(Color.rgb(6,20,32));
@@ -576,15 +599,21 @@ public final class MainActivity extends ComponentActivity {
                 documentPhotoCallback=callback;
                 // The document chooser itself starts on-device OCR. Do not rely on a
                 // separate asynchronous WebMessage arriving before the photo result.
-                boolean imageSelection=false;
-                if(params!=null)for(String accepted:params.getAcceptTypes()){
-                    if(accepted!=null && accepted.startsWith("image/"))imageSelection=true;
-                }
+                String requestedTypes="";
+                if(params!=null && params.getAcceptTypes()!=null)
+                    requestedTypes=android.text.TextUtils.join(",",params.getAcceptTypes());
+                boolean includesOtherMedia=requestedTypes.contains("video/")||requestedTypes.contains("audio/")
+                    ||requestedTypes.contains("application/pdf");
+                boolean imageSelection=!includesOtherMedia;
                 scanNextDocumentPhoto=imageSelection;
                 try{
                     Intent pick=new Intent(Intent.ACTION_GET_CONTENT);
-                    pick.setType("image/*");pick.addCategory(Intent.CATEGORY_OPENABLE);
-                    Intent chooser=Intent.createChooser(pick,"Alege fotografia documentului");
+                    pick.addCategory(Intent.CATEGORY_OPENABLE);
+                    if(includesOtherMedia){
+                        pick.setType("*/*");
+                        pick.putExtra(Intent.EXTRA_MIME_TYPES,new String[]{"image/*","video/*","audio/*","application/pdf"});
+                    }else pick.setType("image/*");
+                    Intent chooser=Intent.createChooser(pick,includesOtherMedia?"Alege fișierul pentru Comunicare":"Alege fotografia documentului");
                     // An optional camera action stays separate from OCR and never uploads images.
                     try{
                         File folder=new File(getCacheDir(),"document-camera");
@@ -594,7 +623,7 @@ public final class MainActivity extends ComponentActivity {
                         Intent capture=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         capture.putExtra(MediaStore.EXTRA_OUTPUT,documentCameraUri);
                         capture.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,new Intent[]{capture});
+                        if(!includesOtherMedia)chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,new Intent[]{capture});
                     }catch(Exception ignored){documentCameraUri=null;}
                     documentPhotos.launch(chooser);
                 }catch(Exception ex){documentPhotoCallback=null;documentCameraUri=null;callback.onReceiveValue(null);}
@@ -621,6 +650,7 @@ public final class MainActivity extends ComponentActivity {
             @Override public void onPageFinished(WebView view,String url){
                 super.onPageFinished(view,url);
                 if(!"https".equals(Uri.parse(url).getScheme())||!APP_HOST.equals(Uri.parse(url).getHost()))return;
+                dispatchCommunicationInvite();
                 // Event-driven native locale sync; no repeating background tests.
                 view.evaluateJavascript("(function(){if(window.__pocketNativeLocaleSync)return;window.__pocketNativeLocaleSync=true;"
                     +"function send(){try{var lang=localStorage.getItem('mypocketai.language');"
@@ -649,6 +679,10 @@ public final class MainActivity extends ComponentActivity {
                 Uri url=req.getUrl();
                 if (!req.isForMainFrame()) return false;
                 if ("https".equals(url.getScheme()) && APP_HOST.equals(url.getHost())) return false;
+                if ("sms".equals(url.getScheme()) || "smsto".equals(url.getScheme())) {
+                    try { startActivity(new Intent(Intent.ACTION_SENDTO,url)); } catch(Exception ignored) {}
+                    return true;
+                }
                 if ("https".equals(url.getScheme()) && url.getHost()!=null) {
                     try { startActivity(new Intent(Intent.ACTION_VIEW, url)); } catch(Exception ignored) {}
                 }
