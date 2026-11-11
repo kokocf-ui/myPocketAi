@@ -66,6 +66,43 @@ de criptare end-to-end înainte de auditare.
 - Ștergere, retenție limitată, politica de confidențialitate și evaluare GDPR
   UK/UE înaintea unui pilot de grup.
 
+
+## Mesaje vocale — doar contacte/grupuri cu acord explicit
+- Chatul și mesajele vocale NU sunt accesibile automat tuturor utilizatorilor aplicației.
+  O listă de cumpărături partajată NU acordă implicit acces la chat.
+- Chat unu-la-unu: invitație → acceptare de ambele părți → chat activ.
+  Oricare dintre participanți poate revoca accesul sau bloca persoana.
+- Grup: participare doar după invitație acceptată, ieșire oricând, trimitere
+  vocală doar când participantul și grupul au permisiunea activă.
+- În conversație: microfon → ține apăsat pentru înregistrare → glisare pentru
+  anulare → eliberează pentru trimitere; redare în chat, indicator durată și
+  progres, fără pornirea automată a sunetului. Solicităm permisiunea de microfon
+  numai când este necesară.
+- Limite beta propuse pentru mesajele vocale: maximum 3 minute / 10 MiB;
+  formate compatibile Android (OGG/WebM/MP4 unde sunt suportate).
+  Serverul trebuie să valideze tipul real și limitele, nu doar metadatele trimise.
+- Vocalele și atașamentele se criptează pe dispozitiv cu bibliotecă auditată
+  înainte de transmisie; fișierele criptate sunt stocate privat cu retenție
+  limitată și acces revocabil. Nu pretindem E2EE până la implementare și audit.
+- Fără transcriere automată și fără trimitere a audio către Eva/AI.
+  „Transcrie” sau „Întreab-o pe Eva” poate exista ulterior numai ca acțiune
+  inițiată explicit de utilizator, cu informare despre procesare.
+- Notificările push nu includ în payload fișierul audio, transcrierea ori textul
+  mesajului. Pentru utilizatorii offline, mesajul se livrează după reconectare
+  fără duplicate.
+- Backendul trebuie să valideze identitatea sesiunii, participantul, invitația
+  acceptată și permisiunile la **fiecare** upload/download/stream/metadata,
+  nu doar la deschiderea ecranului. URL-uri semnate scurt, fără acces public.
+- Teste obligatorii: persoane neinvitate, invitații în așteptare, contact blocat,
+  permisiune revocată, membru scos din grup, replay/duplicate, acces la audio
+  după revocare, captură din alt cont, fișier malițios, fișiere prea mari.
+
+**Stadiu 11.11.2026:** reguli de autorizare și validare adăugate și testate în
+`oracle-comunicare/voice_policy.mjs` (PR #337). Acestea sunt un strat
+de politică pur, nu un endpoint de mesagerie, nu un recorder Android și nu E2EE.
+Integrarea cu autentificarea verificată, stocarea privată, aplicația Android și
+transportul criptat rămâne de implementat.
+
 ## Arhitectură propusă (aliniată infrastructurii actuale)
 - Cloudflare Workers: API autentificare, ACL, validare și rate limiting.
 - Cloudflare D1: conturi verificate, membership, liste, operații și metadate;
@@ -83,7 +120,7 @@ de criptare end-to-end înainte de auditare.
 1. Model autentificare verificabilă și contacte prin invitații.
 2. Liste partajate + push, testată întâi între două telefoane.
 3. Rapoarte cu capturi și atașamente într-un inbox privat de test.
-4. Chat text E2EE, apoi imagini și atașamente, apoi video și grupuri.
+4. Chat text E2EE, apoi mesaje vocale private E2EE, imagini și atașamente, apoi video și grupuri.
 5. Audit independent securitate, abuz, permisiuni, GDPR, backup și
    sincronizare multi-device înainte de publicare pentru public larg.
 
