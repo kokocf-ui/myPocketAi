@@ -45,7 +45,10 @@ export async function addRomanianWalkingAccess(env,journey,origin,destination,op
  j.walkFromLastStopMinutes=egress?.durationMinutes??null;
  if(access&&egress){
   j.arrivalAtDestinationTime=new Date(Date.parse(j.arrivalDateTime)+egress.durationMinutes*60000).toISOString();
-  j.durationToDestinationMinutes=j.durationMinutes+access.durationMinutes+egress.durationMinutes;
+  const firstLegDeparture=Date.parse(j.legs?.[0]?.departureTime);
+  if(Number.isFinite(firstLegDeparture))j.durationToDestinationMinutes=
+    Math.ceil((Date.parse(j.arrivalDateTime)-firstLegDeparture)/60000)+
+    access.durationMinutes+egress.durationMinutes;
  }
  return j;
 }
