@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {romanianNationalQuery} from './ro_national_transit.mjs';
-import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys} from './ro_transport_mode_policy.mjs';
+import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints} from './ro_transport_mode_policy.mjs';
 import {explicitOriginDestinationPair} from './route_explicit_origin.mjs';
 const roGps={latitude:47.05,longitude:21.9};
 const ukGps={latitude:51.48,longitude:0.33};
@@ -59,4 +59,12 @@ test('fast direct train ranks ahead of 8-hour 3-train detour',()=>{
  const ranked=rankRomanianJourneys([slow,direct]);
  assert.equal(ranked[0],direct);
  assert.equal(ranked[1],slow);
+});
+
+test('do not substitute Episcopia Bihor for requested Oradea departure',()=>{
+ const good={legs:[{mode:'train',from:'Oradea',to:'Carei'},{mode:'train',from:'Carei',to:'Cluj Napoca Est'}]};
+ const wrong={legs:[{mode:'train',from:'Episcopia Bihor',to:'Valea lui Mihai'},{mode:'train',from:'Valea lui Mihai',to:'Cluj Napoca Est'}]};
+ assert.deepEqual(filterRomanianCityEndpoints([wrong,good],'Oradea','Cluj-Napoca'),[good]);
+ const bucharest={legs:[{mode:'train',from:'București Nord Gr.A',to:'Brașov'}]};
+ assert.deepEqual(filterRomanianCityEndpoints([bucharest],'București','Brașov'),[bucharest]);
 });
