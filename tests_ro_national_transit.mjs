@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {romanianNationalQuery,normalizeBiloTrips,planRomanianNationalJourney,
-  romanianJourneySummary,bucharestTravelDate,romanianDepartureDate,reverseRomanianOriginCity} from './ro_national_transit.mjs';
+  romanianJourneySummary,bucharestTravelDate,romanianDepartureDate,reverseRomanianOriginCity,inspectBiloSearchResponse} from './ro_national_transit.mjs';
 
 const p=s=>romanianNationalQuery(s,{mixed_journey:false});
 assert.deepEqual(p('Cu trenul din Oradea la Cluj-Napoca?'),
@@ -81,6 +81,25 @@ const forbidden=await planRomanianNationalJourney({BILO_API_KEY:'test-only'},{or
 assert.equal(forbidden.status,'access_forbidden');
 assert.equal(forbidden.http_status,403);
 
+const diagnosisCases=[
+ [{results:[]},'no_results_returned',0],
+ [{data:{trips:[]}},'no_results_returned',0],
+ [{results:[{origin:'București',destination:'Brașov',unexpected_format:true}]},'results_unparsable',1],
+ [{error:{code:'UPSTREAM_ERR',message:'safe to ignore'}},'provider_reported_error',0],
+ [{message:'success',count:1},'response_format_unrecognized',0]
+];
+for(const [response,expected,records] of diagnosisCases){
+ const got=inspectBiloSearchResponse(response);
+ assert.equal(got.status,expected);
+ assert.equal(got.records_returned,records);
+ const api=await planRomanianNationalJourney({BILO_API_KEY:'test-only'},{origin:'București',destination:'Brașov'},{date:'2026-11-12',
+  fetchImpl:async()=>({ok:true,status:200,json:async()=>response})});
+ assert.equal(api.status,expected);
+ assert.equal(api.records_returned,records);
+ assert.deepEqual(api.journeys,[]);
+}
+
+
 assert.equal((await reverseRomanianOriginCity({GEOAPIFY_API_KEY:'x'},{latitude:51.5,longitude:-0.1},()=>{throw Error('must not geocode UK')})),'');
 const backend=readFileSync('backend.js','utf8');
 assert.match(backend,/romanianNationalQuery\(message/,'Romanian intent enters unified backend');
@@ -88,6 +107,10 @@ assert.match(backend,/romanianDepartureDate\(message,selectedAt\|\|null\)/,'Back
 assert.match(backend,/roTransitQuery \|\| explicitMixedJourney/,'Romanian queries reach transit branch');
 assert.match(backend,/transit_provider:'Bilo'/,'Response identifies the provider');
 assert.match(backend,/ro_provider_access_forbidden/,'403 has distinct safe diagnostic');
+for(const marker of ['ro_provider_no_results','ro_provider_unparsable_results','ro_provider_unknown_format','ro_provider_error_envelope'])
+ assert.ok(backend.includes(marker),'Backend exposes diagnostic: '+marker);
+assert.ok(backend.includes('records_returned:result.records_returned??null'),'Safe record counts exposed to UI');
+
 assert.ok(backend.includes('http_status:result.http_status||null'),'Provider HTTP status is returned without token');
 
 assert.match(backend,/transit_available:false/,'Unsupported timetable remains unverified');

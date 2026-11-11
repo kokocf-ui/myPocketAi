@@ -2912,7 +2912,10 @@ export default {
           result.status==='timeout'?'ro_provider_timeout':
           result.status==='provider_network_error'?'ro_provider_network_error':
           result.status.startsWith('provider_http_')?'ro_provider_http_error':
-          result.status==='no_verified_itineraries'?'ro_provider_no_usable_results':
+          result.status==='no_results_returned'?'ro_provider_no_results':
+          result.status==='results_unparsable'?'ro_provider_unparsable_results':
+          result.status==='response_format_unrecognized'?'ro_provider_unknown_format':
+          result.status==='provider_reported_error'?'ro_provider_error_envelope':
           'ro_no_verified_journey';
         // A provider error is NOT evidence that no trains exist on this route.
         const reply=lang==='en'
@@ -2926,8 +2929,14 @@ export default {
              ?'The Bilo search quota has been reached. Try again after the quota resets.'
              :result.status==='timeout'||result.status==='provider_network_error'||result.status.startsWith('provider_http_')
              ?'Bilo is not responding correctly at the moment. This does not mean no service exists on the route.'
-             :result.status==='no_verified_itineraries'
-             ?'Bilo did not return a complete verifiable timetable for this search. This does not confirm there are no trains.'
+             :result.status==='no_results_returned'
+             ?'Bilo returned no itineraries for the selected date. This does not confirm that no trains operate.'
+             :result.status==='results_unparsable'
+             ?'Bilo returned journey records, but Eva could not read their timetable format. The route may still have services.'
+             :result.status==='response_format_unrecognized'
+             ?'Bilo replied with a format Eva does not recognise. The transport integration needs adjustment.'
+             :result.status==='provider_reported_error'
+             ?'Bilo returned an application error even though the HTTP request succeeded. The integration needs checking.'
              :'No confirmed train or coach itinerary for this journey and date.')
           :(result.status==='not_configured'
              ?'Transportul național din România nu este activat: lipsește cheia Bilo de pe server.'
@@ -2939,12 +2948,18 @@ export default {
              ?'Cota de căutări Bilo a fost atinsă. Încearcă după reînnoirea cotei.'
              :result.status==='timeout'||result.status==='provider_network_error'||result.status.startsWith('provider_http_')
              ?'Bilo nu răspunde corect momentan. Asta nu înseamnă că nu există curse pe acest traseu.'
-             :result.status==='no_verified_itineraries'
-             ?'Bilo nu a transmis un orar complet verificabil pentru această căutare. Nu înseamnă că nu circulă trenuri.'
+             :result.status==='no_results_returned'
+             ?'Bilo nu a returnat variante pentru data cerută. Acest lucru nu confirmă că nu există trenuri.'
+             :result.status==='results_unparsable'
+             ?'Bilo a returnat curse, dar Eva nu poate încă interpreta formatul orarului. Nu înseamnă că lipsesc trenurile.'
+             :result.status==='response_format_unrecognized'
+             ?'Bilo a răspuns într-un format necunoscut aplicației. Integrarea trebuie adaptată.'
+             :result.status==='provider_reported_error'
+             ?'Bilo a returnat o eroare de aplicație, chiar dacă solicitarea HTTP a reușit. Trebuie verificată integrarea.'
              :'Nu am putut confirma un itinerar cu trenul sau autocarul pentru ruta și data alese.');
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
           transit_available:false,route_available:false,mixed_journey:true,romanian_national_journey:true,
-          transit_provider:'Bilo',reason:providerReason,provider_status:{bilo:result.status,http_status:result.http_status||null}});
+          transit_provider:'Bilo',reason:providerReason,provider_status:{bilo:result.status,http_status:result.http_status||null,records_returned:result.records_returned??null}});
       }
       let targetName = "London";
       let targetLat = null;

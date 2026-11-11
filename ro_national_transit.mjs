@@ -117,6 +117,34 @@ function biloRecords(payload){
  }
  return {items:[],mode:''};
 }
+// Only aggregate, non-sensitive response metadata. Never store or return raw
+// provider bodies, station queries, messages, tokens, or passenger data.
+export function inspectBiloSearchResponse(payload){
+ const isObject=payload!==null&&typeof payload==='object'&&!Array.isArray(payload);
+ const errorPresent=isObject&&(
+   payload.success===false||payload.ok===false||payload.isError===true||
+   Boolean(payload.error)||String(payload.status||'').toLowerCase()==='error'
+ );
+ const data=biloRecords(payload);
+ const records=data.items.length;
+ const hasList=Array.isArray(payload) || (()=>{
+   let v=payload;
+   for(let i=0;i<5;i++){
+     if(Array.isArray(v))return true;
+     if(!v||typeof v!=='object')break;
+     if(['trips','journeys','results','items'].some(key=>Array.isArray(v[key])))return true;
+     v=v.structuredContent||v.data||v.result;
+   }
+   return false;
+ })();
+ return {
+  // These values are safe to expose to the UI and have fixed schemas.
+  status:errorPresent?'provider_reported_error':
+    !hasList?'response_format_unrecognized':
+    records===0?'no_results_returned':'results_unparsable',
+  records_returned:Math.min(10000,records)
+ };
+}
 export function normalizeBiloTrips(payload,limit=5,date=''){
  const {items,mode:rootMode}=biloRecords(payload);
  const seen=new Set(),out=[];
@@ -186,7 +214,9 @@ export async function planRomanianNationalJourney(env,query,opts={}){
   if(!response.ok)return {status:'provider_http_'+response.status,journeys:[]};
   const payload=await response.json();
   const journeys=normalizeBiloTrips(payload,limit,date);
-  return {status:journeys.length?'ok':'no_verified_itineraries',journeys};
+  if(journeys.length)return {status:'ok',journeys};
+  const diagnosis=inspectBiloSearchResponse(payload);
+  return {status:diagnosis.status,records_returned:diagnosis.records_returned,journeys:[]};
  }catch(e){return {status:e?.name==='TimeoutError'?'timeout':'provider_network_error',journeys:[]};}
 }
 export async function reverseRomanianOriginCity(env,pt,fetchImpl=fetch){
