@@ -49,7 +49,7 @@ export class PocketCommunicationHub {
    const ts=Number(data.timestamp),nonce=String(data.nonce||"");
    if(name.length<2||!keyOk(data.signPublic)||!keyOk(data.exchangePublic)||Math.abs(now-ts)>300000||!/^[A-Za-z0-9_-]{16,80}$/.test(nonce))return j({error:"invalid_registration"},400);
    if(!this.limit("register_global",90,now,3600000))return j({error:"registration_limited"},429);
-   const msg="register\\n"+ts+"\\n"+nonce+"\\n"+JSON.stringify({name,signPublic:data.signPublic,exchangePublic:data.exchangePublic});
+   const msg="register\n"+ts+"\n"+nonce+"\n"+JSON.stringify({name,signPublic:data.signPublic,exchangePublic:data.exchangePublic});
    if(!await verifyP256(data.signPublic,String(data.proof||""),msg))return j({error:"invalid_registration_proof"},403);
    const id=crypto.randomUUID();
    this.db.exec("INSERT INTO users(id,display_name,sign_key,exchange_key,created_ms) VALUES(?,?,?,?,?)",id,name,JSON.stringify(data.signPublic),JSON.stringify(data.exchangePublic),now);
@@ -62,7 +62,7 @@ export class PocketCommunicationHub {
   if(!/^[0-9a-f-]{36}$/.test(uid)||!Number.isFinite(ts)||Math.abs(now-ts)>300000||!/^[A-Za-z0-9_-]{16,80}$/.test(nonce))return j({error:"authorization_required"},401);
   const account=this.record("SELECT * FROM users WHERE id=? AND disabled=0",uid);
   if(!account)return j({error:"unknown_identity"},401);
-  if(!await verifyP256(JSON.parse(account.sign_key),signature,ts+"\\n"+nonce+"\\n"+text))return j({error:"invalid_signature"},403);
+  if(!await verifyP256(JSON.parse(account.sign_key),signature,ts+"\n"+nonce+"\n"+text))return j({error:"invalid_signature"},403);
   const inserted=this.rows("INSERT INTO request_nonces(uid,nonce,created_ms) VALUES(?,?,?) ON CONFLICT DO NOTHING RETURNING nonce",uid,nonce,now);
   if(inserted.length!==1)return j({error:"replayed_request"},409);
   if(!this.limit("user:"+uid,180,now))return j({error:"rate_limited"},429);
