@@ -30,6 +30,30 @@ node ro_urban_gtfs_import.mjs /data/gtfs-dezarhivat /data/privat/oradea.json
 Datele reale nu sunt incluse în GitHub. Nu există în prezent niciun endpoint
 Android/Cloudflare conectat la acest motor.
 
+## Actualizare integrare backend, 11.11.2026
+
+- `ro_urban_client.mjs` detectează o pereche de coordonate din aceeași
+  regiune suportată: Oradea, București, Cluj-Napoca sau Iași.
+- Backendul `backend.js` trimite ruta spre serviciul privat Oracle numai când
+  există `RO_URBAN_API_URL` (HTTPS) și `RO_URBAN_API_TOKEN` (secret >=32 caractere).
+  Fără această configurație păstrează funcționalitatea deja existentă.
+- `ro_urban_walking.mjs` încearcă prin Geoapify rutarea la stația de
+  îmbarcare și de la ultima stație la adresă; verifică geometria capetelor,
+  distanța, durata și timpul necesar până la îmbarcare. Dacă lipsesc datele,
+  rezultatul este marcat explicit neverificat.
+- Răspunsurile includ acum `boarding_stop`, `firstVehicleDepartureTime`,
+  `transit_destination_point`, etapele, schimbările, orele și avertismentele;
+  pot fi afișate de interfața actuală de transport public din Eva.
+- Codul este testat prin `tests_ro_urban_client.mjs`,
+  `tests_ro_urban_walking.mjs`, `tests_ro_urban_server.mjs` și
+  `tests_ro_urban_gtfs.mjs`. Testele folosesc **date simulate**, nu feeduri
+  de producție.
+
+**Nu este disponibil în APK/Cloudflare până când se conectează serviciul Oracle
+cu feeduri autorizate și se configurează secretul și URL-ul privat din Worker.**
+Aducerea codului în `main` nu activează această integrare. Nu trebuie deschis
+un port Oracle public pentru a testa.
+
 ## Pași rămași obligatorii înainte de a afirma „transport România complet”
 1. Verificare licențe şi încărcare/actualizare verificabilă a feedurilor urbane.
 2. Serviciu privat de planificare în Oracle, autentificat între Cloudflare şi server;
