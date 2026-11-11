@@ -285,6 +285,20 @@ public final class AvatarLaunchActivity extends Activity {
             default:return "Hello! How can I help you?";
         }
     }
+    private static String firstGreetingForLanguage(String language){
+        switch(language){
+            case "ro":return "Bună! Eu sunt Eva. Îmi pare bine să te cunosc! Cu ce începem?";
+            case "fr":return "Bonjour ! Je suis Eva. Ravie de faire ta connaissance !";
+            case "de":return "Hallo! Ich bin Eva. Schön, dich kennenzulernen!";
+            case "it":return "Ciao! Sono Eva. Piacere di conoscerti!";
+            case "es":return "¡Hola! Soy Eva. ¡Encantada de conocerte!";
+            case "pt":return "Olá! Sou a Eva. Prazer em conhecer-te!";
+            case "nl":return "Hallo! Ik ben Eva. Leuk je te ontmoeten!";
+            case "ru":return "Привет! Меня зовут Ева. Рада знакомству!";
+            case "pl":return "Cześć! Jestem Eva. Miło cię poznać!";
+            default:return "Hello! I'm Eva. Lovely to meet you! How shall we begin?";
+        }
+    }
     private static String speechTagForLanguage(String language){
         switch(language){
             case "ro":return "ro-RO";case "fr":return "fr-FR";case "de":return "de-DE";
@@ -309,20 +323,36 @@ public final class AvatarLaunchActivity extends Activity {
         return label;
     }
     private void addSetupInfo(android.widget.LinearLayout parent,String title,String detail,int headingColor,int bodyColor){
-        android.widget.LinearLayout item=new android.widget.LinearLayout(this);
-        item.setOrientation(android.widget.LinearLayout.VERTICAL);
-        item.setPadding(setupDp(12),setupDp(10),setupDp(12),setupDp(10));
-        item.setBackground(setupBackground(Color.rgb(16,49,69),Color.rgb(57,105,130),12));
-        item.addView(setupLabel(title,15,headingColor,true));
-        android.widget.TextView body=setupLabel(detail,13,bodyColor,false);
-        android.widget.LinearLayout.LayoutParams bodyLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
-        bodyLp.topMargin=setupDp(4);item.addView(body,bodyLp);
-        boolean horizontal=parent.getOrientation()==android.widget.LinearLayout.HORIZONTAL;
-        android.widget.LinearLayout.LayoutParams boxLp=horizontal
-            ?new android.widget.LinearLayout.LayoutParams(0,-2,1f)
-            :new android.widget.LinearLayout.LayoutParams(-1,-2);
-        if(horizontal)boxLp.leftMargin=setupDp(6);else boxLp.topMargin=setupDp(8);
-        parent.addView(item,boxLp);
+        // Compact, readable explanations at the bottom of the profile screen.
+        android.widget.TextView item=setupLabel("• "+title+": "+detail,12,bodyColor,false);
+        item.setLineSpacing(setupDp(2),1f);
+        android.widget.LinearLayout.LayoutParams lp=new android.widget.LinearLayout.LayoutParams(-1,-2);
+        lp.topMargin=setupDp(4);parent.addView(item,lp);
+    }
+
+    private android.widget.EditText setupTextField(String hint,int inputType,int maxLength){
+        android.widget.EditText input=new android.widget.EditText(this);
+        input.setSingleLine(true);
+        input.setTextSize(15);
+        input.setTextColor(Color.rgb(239,250,255));
+        input.setHintTextColor(Color.rgb(155,192,207));
+        input.setHint(hint);
+        input.setInputType(inputType);
+        input.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(maxLength)});
+        input.setPadding(setupDp(12),setupDp(7),setupDp(12),setupDp(7));
+        input.setBackground(setupBackground(Color.rgb(15,55,76),Color.rgb(73,137,160),11));
+        input.setMinHeight(setupDp(45));
+        input.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_NEXT);
+        return input;
+    }
+    private void addProfileInput(android.widget.LinearLayout parent,String label,android.widget.EditText input,int color){
+        android.widget.TextView caption=setupLabel(label,13,color,true);
+        android.widget.LinearLayout.LayoutParams labelLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
+        labelLp.topMargin=setupDp(8);
+        parent.addView(caption,labelLp);
+        android.widget.LinearLayout.LayoutParams inputLp=new android.widget.LinearLayout.LayoutParams(-1,setupDp(46));
+        inputLp.topMargin=setupDp(4);
+        parent.addView(input,inputLp);
     }
 
     private void showFirstInstallationPanel(){
@@ -344,21 +374,78 @@ public final class AvatarLaunchActivity extends Activity {
         android.widget.LinearLayout.LayoutParams titleLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
         titleLp.topMargin=setupDp(8);column.addView(title,titleLp);
         android.widget.TextView desc=setupLabel(onboardingString(
-            "Pentru buna funcționare, Android poate solicita următoarele permisiuni:",
-            "For the app to work properly, Android may ask for these permissions:",
-            "Pour le bon fonctionnement, Android peut demander ces autorisations :",
-            "Für die volle Funktion kann Android um folgende Berechtigungen bitten:",
-            "Per un corretto funzionamento, Android potrebbe richiedere queste autorizzazioni:",
-            "Para funcionar correctamente, Android puede solicitar estos permisos:",
-            "Para funcionar corretamente, o Android pode solicitar estas permissões:",
-            "Voor een goede werking kan Android om de volgende toestemmingen vragen:",
-            "Для работы приложения Android может запросить следующие разрешения:",
-            "Aby aplikacja działała poprawnie, Android może poprosić o te uprawnienia:"),14,soft,false);
+            "Configurează-ți profilul pentru o conversație personalizată.",
+            "Set up your profile for a more personal conversation.",
+            "Configurez votre profil pour des conversations personnalisées.",
+            "Richte dein Profil für persönliche Gespräche ein.",
+            "Configura il tuo profilo per conversazioni personali.",
+            "Configura tu perfil para conversar de forma personal.",
+            "Configura o teu perfil para conversas personalizadas.",
+            "Stel je profiel in voor persoonlijkere gesprekken.",
+            "Настройте профиль для личного общения.",
+            "Ustaw profil, aby prowadzić bardziej osobiste rozmowy."),13,soft,false);
         android.widget.LinearLayout.LayoutParams descLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
         descLp.topMargin=setupDp(8);column.addView(desc,descLp);
+        column.setFocusableInTouchMode(true);column.requestFocus();
+        android.widget.EditText emailField=setupTextField(
+            onboardingString("exemplu@email.com","example@email.com","exemple@email.com","beispiel@email.com","esempio@email.com","ejemplo@email.com","exemplo@email.com","voorbeeld@email.com","пример@email.com","przyklad@email.com"),
+            android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,254);
+        addProfileInput(column,onboardingString("Adresă de e-mail","Email address","Adresse e-mail","E-Mail-Adresse","Indirizzo e-mail","Correo electrónico","Endereço de e-mail","E-mailadres","Электронная почта","Adres e-mail"),emailField,foreground);
+        android.widget.EditText nameField=setupTextField(
+            onboardingString("Cum să îți spunem?","How should we address you?","Comment vous appeler ?","Wie sollen wir dich nennen?","Come possiamo chiamarti?","¿Cómo te llamamos?","Como devemos tratar-te?","Hoe spreken we je aan?","Как к вам обращаться?","Jak mamy się do Ciebie zwracać?"),
+            android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_FLAG_CAP_WORDS,50);
+        addProfileInput(column,onboardingString("Nume preferat","Preferred name","Prénom préféré","Bevorzugter Name","Nome preferito","Nombre preferido","Nome preferido","Voorkeursnaam","Предпочитаемое имя","Preferowane imię"),nameField,foreground);
+        android.widget.EditText ageField=setupTextField(
+            onboardingString("Ani","Years","Ans","Jahre","Anni","Años","Anos","Jaar","Лет","Lat"),
+            android.text.InputType.TYPE_CLASS_NUMBER,3);
+        addProfileInput(column,onboardingString("Vârstă","Age","Âge","Alter","Età","Edad","Idade","Leeftijd","Возраст","Wiek"),ageField,foreground);
+        android.widget.TextView genderLabel=setupLabel(onboardingString("Sex (pentru acordul gramatical)","Sex (for grammatical agreement)",
+            "Sexe (accord grammatical)","Geschlecht (grammatikalische Anrede)","Sesso (accordo grammaticale)",
+            "Sexo (concordancia gramatical)","Sexo (concordância gramatical)","Geslacht (grammaticale aanspreekvorm)",
+            "Пол (для грамматического согласования)","Płeć (do poprawnych form gramatycznych)"),13,foreground,true);
+        android.widget.LinearLayout.LayoutParams genderLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
+        genderLp.topMargin=setupDp(10);column.addView(genderLabel,genderLp);
+        android.widget.RadioGroup genderChoices=new android.widget.RadioGroup(this);
+        genderChoices.setOrientation(android.widget.RadioGroup.HORIZONTAL);
+        final String[] sexCodes={"male","female","undisclosed"};
+        String[] sexLabels={
+            onboardingString("Bărbat","Man","Homme","Mann","Uomo","Hombre","Homem","Man","Мужчина","Mężczyzna"),
+            onboardingString("Femeie","Woman","Femme","Frau","Donna","Mujer","Mulher","Vrouw","Женщина","Kobieta"),
+            onboardingString("Nu declar","Prefer not to say","Non déclaré","Keine Angabe","Non dichiarato","No declarar","Não declarar","Niet opgeven","Не указывать","Nie podaję")
+        };
+        final android.widget.RadioButton[] sexButtons=new android.widget.RadioButton[3];
+        for(int i=0;i<3;i++){
+            android.widget.RadioButton choice=new android.widget.RadioButton(this);
+            choice.setId(10070+i);
+            choice.setText(sexLabels[i]);choice.setTextSize(12);choice.setTextColor(foreground);
+            choice.setButtonDrawable(null);choice.setGravity(android.view.Gravity.CENTER);
+            choice.setPadding(setupDp(4),0,setupDp(4),0);
+            choice.setBackground(setupBackground(Color.rgb(20,55,74),Color.rgb(67,103,120),9));
+            android.widget.RadioGroup.LayoutParams optionLp=new android.widget.RadioGroup.LayoutParams(0,setupDp(43),1f);
+            if(i>0)optionLp.leftMargin=setupDp(5);
+            genderChoices.addView(choice,optionLp);sexButtons[i]=choice;
+        }
+        genderChoices.check(sexButtons[2].getId());
+        genderChoices.setOnCheckedChangeListener((group,checked)->{
+            for(android.widget.RadioButton option:sexButtons){
+                boolean selected=option.getId()==checked;
+                option.setBackground(setupBackground(selected?Color.rgb(100,42,62):Color.rgb(20,55,74),
+                    selected?Color.rgb(219,148,164):Color.rgb(67,103,120),9));
+            }
+        });
+        genderChoices.check(sexButtons[2].getId());
+        android.widget.LinearLayout.LayoutParams choicesLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
+        choicesLp.topMargin=setupDp(5);column.addView(genderChoices,choicesLp);
+        android.widget.TextView purpose=setupLabel(onboardingString(
+            "De ce avem nevoie de permisiuni?","Why do we request permissions?",
+            "Pourquoi ces autorisations ?","Warum diese Berechtigungen?",
+            "Perché servono queste autorizzazioni?","¿Por qué estos permisos?",
+            "Porquê estas permissões?","Waarom deze toestemmingen?",
+            "Зачем нужны разрешения?","Dlaczego potrzebujemy uprawnień?"),12,soft,true);
+        android.widget.LinearLayout.LayoutParams purposeLp=new android.widget.LinearLayout.LayoutParams(-1,-2);
+        purposeLp.topMargin=setupDp(14);column.addView(purpose,purposeLp);
         android.widget.LinearLayout infoItems=new android.widget.LinearLayout(this);
-        infoItems.setOrientation(landscape?android.widget.LinearLayout.HORIZONTAL:
-            android.widget.LinearLayout.VERTICAL);
+        infoItems.setOrientation(android.widget.LinearLayout.VERTICAL);
         column.addView(infoItems,new android.widget.LinearLayout.LayoutParams(-1,-2));
         addSetupInfo(infoItems,onboardingString("Localizare","Location","Localisation","Standort","Posizione","Ubicación","Localização","Locatie","Геолокация","Lokalizacja"),
             onboardingString("Trasee, transport și locuri din apropiere.","Routes, transport and nearby places.",
@@ -417,12 +504,49 @@ public final class AvatarLaunchActivity extends Activity {
         continueButton.setText(onboardingString("Mai departe","Next","Suivant","Weiter","Avanti","Siguiente","Seguinte","Verder","Далее","Dalej"));
         continueButton.setTextColor(foreground);continueButton.setTextSize(17);
         continueButton.setBackground(setupBackground(Color.rgb(19,105,145),cyan,13));
-        android.widget.LinearLayout.LayoutParams continueLp=new android.widget.LinearLayout.LayoutParams(-1,setupDp(52));
-        continueLp.topMargin=setupDp(16);column.addView(continueButton,continueLp);
+        android.widget.LinearLayout outer=new android.widget.LinearLayout(this);
+        outer.setOrientation(android.widget.LinearLayout.VERTICAL);
+        outer.setPadding(setupDp(10),setupDp(8),setupDp(10),setupDp(10));
+        outer.setBackground(setupBackground(Color.rgb(10,39,57),Color.rgb(72,137,167),22));
         android.widget.ScrollView scroll=new android.widget.ScrollView(this);
         scroll.setFillViewport(false);scroll.addView(column);
-        panel.setContentView(scroll);
+        outer.addView(scroll,new android.widget.LinearLayout.LayoutParams(-1,0,1f));
+        android.widget.LinearLayout.LayoutParams continueLp=new android.widget.LinearLayout.LayoutParams(-1,setupDp(50));
+        continueLp.topMargin=setupDp(8);outer.addView(continueButton,continueLp);
+        panel.setContentView(outer);
         continueButton.setOnClickListener(v->{
+            String email=emailField.getText().toString().trim();
+            String preferredName=nameField.getText().toString().trim().replaceAll("\\s+"," ");
+            String ageText=ageField.getText().toString().trim();
+            if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()||email.length()>254){
+                emailField.setError(onboardingString("Introdu o adresă e-mail validă.","Enter a valid email address.",
+                    "Saisissez une adresse e-mail valide.","Bitte gültige E-Mail eingeben.","Inserisci un'e-mail valida.",
+                    "Introduce un correo válido.","Introduza um e-mail válido.","Vul een geldig e-mailadres in.",
+                    "Укажите корректный адрес.","Podaj poprawny e-mail."));emailField.requestFocus();return;
+            }
+            if(preferredName.length()<2||preferredName.length()>50){
+                nameField.setError(onboardingString("Introdu numele dorit (2–50 caractere).",
+                    "Enter your preferred name (2–50 characters).","Indiquez votre nom préféré.",
+                    "Bitte bevorzugten Namen eingeben.","Inserisci il nome preferito.","Introduce tu nombre preferido.",
+                    "Introduza o nome preferido.","Vul je voorkeursnaam in.","Укажите имя.","Podaj preferowane imię."));
+                nameField.requestFocus();return;
+            }
+            int age;
+            try{age=Integer.parseInt(ageText);}catch(NumberFormatException ignored){age=0;}
+            if(age<1||age>120){
+                ageField.setError(onboardingString("Introdu o vârstă validă (1–120).",
+                    "Enter a valid age (1–120).","Indiquez un âge valide (1–120).",
+                    "Gültiges Alter eingeben (1–120).","Inserisci un'età valida (1–120).",
+                    "Introduce una edad válida (1–120).","Introduza uma idade válida (1–120).",
+                    "Voer een geldige leeftijd in (1–120).","Укажите возраст от 1 до 120.","Podaj wiek od 1 do 120."));
+                ageField.requestFocus();return;
+            }
+            int selected=genderChoices.getCheckedRadioButtonId()-10070;
+            String sex=sexCodes[Math.max(0,Math.min(2,selected))];
+            // Private application storage. No automatic mail or profile upload.
+            getSharedPreferences("pocket_user_profile",Context.MODE_PRIVATE).edit()
+                .putString("email",email).putString("preferred_name",preferredName)
+                .putInt("age",age).putString("sex",sex).apply();
             continueButton.setEnabled(false);
             panel.dismiss();
             SharedPreferences prefs=getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE);
@@ -442,7 +566,7 @@ public final class AvatarLaunchActivity extends Activity {
             WindowManager.LayoutParams params=window.getAttributes();
             params.dimAmount=.82f;window.setAttributes(params);
             window.setLayout(getResources().getDisplayMetrics().widthPixels-setupDp(28),
-                android.view.WindowManager.LayoutParams.WRAP_CONTENT);
+                Math.min(getResources().getDisplayMetrics().heightPixels-setupDp(26),setupDp(710)));
         }
     }
 
@@ -529,7 +653,7 @@ public final class AvatarLaunchActivity extends Activity {
                 openMain();return;
             }
         }
-        currentGreeting=greetingForLanguage(launchLanguage);
+        currentGreeting=firstSetupShownThisLaunch?firstGreetingForLanguage(launchLanguage):greetingForLanguage(launchLanguage);
         int result = speech.speak(currentGreeting, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
         if (result == TextToSpeech.ERROR) openMain();
     }
