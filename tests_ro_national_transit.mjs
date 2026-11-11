@@ -1,13 +1,27 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {romanianNationalQuery,normalizeBiloTrips,planRomanianNationalJourney,
-  romanianJourneySummary,bucharestTravelDate,romanianDepartureDate,reverseRomanianOriginCity,inspectBiloSearchResponse} from './ro_national_transit.mjs';
+  romanianJourneySummary,bucharestTravelDate,romanianDepartureDate,reverseRomanianOriginCity,romanianHistoryJourney,inspectBiloSearchResponse} from './ro_national_transit.mjs';
 
 const p=s=>romanianNationalQuery(s,{mixed_journey:false});
 assert.deepEqual(p('Cu trenul din Oradea la Cluj-Napoca?'),
  {origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true});
 assert.deepEqual(p('Transport public din București până la Brașov'),
  {origin:'București',destination:'Brașov',hasOrigin:true,hasDestination:true});
+assert.deepEqual(p('Vreau să ajung de la Cluj-Napoca la Brașov, ce variante am?'),
+ {origin:'Cluj-Napoca',destination:'Brașov',hasOrigin:true,hasDestination:true},
+ 'A natural A-to-B question must route directly to intercity search');
+assert.deepEqual(p('Cum ajung din Oradea la Cluj-Napoca?'),
+ {origin:'Oradea',destination:'Cluj-Napoca',hasOrigin:true,hasDestination:true},
+ 'How do I get there is generic intercity journey intent');
+const oldPair=[
+ {role:'user',content:'Vreau să ajung de la Cluj-Napoca la Brașov, ce variante am?'},
+ {role:'assistant',content:'Am identificat Brașov, România. Cum dorești să ajungi?'}
+];
+assert.equal(romanianHistoryJourney(oldPair,{city:'Brașov'})?.origin,'Cluj-Napoca');
+assert.equal(romanianHistoryJourney(oldPair,{city:'Oradea'}),null,
+ 'Do not silently resurrect a previous origin for an unrelated destination');
+assert.equal(romanianHistoryJourney(oldPair,{city:'Brașov'})?.destination,'Brașov');
 assert.deepEqual(p('Transport de la Oradea la Cluj'),
  {origin:'Oradea',destination:'Cluj',hasOrigin:true,hasDestination:true},
  'Generic transport requests must open the national train and coach planner');
@@ -265,6 +279,8 @@ for(const [response,expected,records] of diagnosisCases){
 assert.equal((await reverseRomanianOriginCity({GEOAPIFY_API_KEY:'x'},{latitude:51.5,longitude:-0.1},()=>{throw Error('must not geocode UK')})),'');
 const backend=readFileSync('backend.js','utf8');
 assert.match(backend,/romanianNationalQuery\(message/,'Romanian intent enters unified backend');
+assert.match(backend,/romanianHistoryJourney\(data\.history\|\|\[\]/,
+ 'Transport-public follow-ups must reuse the latest verified city pair');
 assert.match(backend,/romanianDepartureDate\(message,selectedAt\|\|null\)/,'Backend uses text date, not always today');
 assert.match(backend,/roTransitQuery \|\| explicitMixedJourney/,'Romanian queries reach transit branch');
 assert.match(backend,/transit_provider:'Bilo'/,'Response identifies the provider');
