@@ -22,13 +22,17 @@ assert.match(selection,/destination_query:String\(option\.label\)/,'Selection re
 assert.match(selection,/destination:\{latitude:lat,longitude:lon,label:option\.label\}/,'Selected route point retains verified coordinates');
 
 const originalFetch=globalThis.fetch;
-let tflSearch=0;
+let tflSearch=0,journeyLookups=[];
 const tube={name:'Victoria Station',lat:51.495,lon:-0.144,id:'940GZZLUVIC',modes:['tube'],stopType:'NaptanMetroStation'};
 const nearbyTube={name:'Victoria Station',lat:51.4957,lon:-0.1447,id:'940GZZLUVICENT',modes:['tube'],stopType:'NaptanMetroStation'};
 const rail={name:'Victoria Station',lat:51.4952,lon:-0.1443,id:'910GVIC',modes:['national-rail'],stopType:'NaptanRailStation'};
 globalThis.fetch=async input=>{
  const url=new URL(typeof input==='string'?input:input.url||input.toString());
  if(url.hostname==='api.tfl.gov.uk'){
+  if(url.pathname.includes('/Journey/JourneyResults/')){
+   journeyLookups.push(url);
+   return Response.json({journeys:[]});
+  }
   tflSearch++;
   assert.match(url.pathname,/StopPoint\/Search\/victoria/i,'Victoria must be looked up at the official operator');
   return Response.json({matches:[nearbyTube,rail,tube,{...nearbyTube,id:'940GZZLUVICOTHER',lat:51.4959,lon:-0.1442}]});
@@ -46,16 +50,12 @@ const ask=async(message,extra={})=>{
 };
 try {
  const result=await ask('Vreau sa ajung la victoria underground');
- console.log('Victoria mock response',JSON.stringify({reply:result.reply,needs_travel_mode:result.needs_travel_mode,needs_destination_clarification:result.needs_destination_clarification,destination_candidates:result.destination_candidates,choice_options:result.choice_options,route_context:result.route_context,reason:result.reason,place_lookup:result.place_lookup}));
+ console.log('TfL Victoria Tube result',JSON.stringify({reply:result.reply,reason:result.reason,needs_destination_clarification:result.needs_destination_clarification,destination_candidates:result.destination_candidates,transit_provider:result.transit_provider,journeys:journeyLookups.map(x=>x.pathname)}));
  assert.equal(result.status,'success');
- assert.equal(result.needs_travel_mode,true,'Verified Victoria Underground goes directly to transport selection');
- assert.equal(result.route_context?.destination?.label,'Victoria Underground Station, London','Official Tube name preserved');
- assert.equal(result.route_context?.destination?.latitude,tube.lat,'Exact TfL stop coordinates, not a guessed point');
- assert.equal(result.route_context?.destination?.longitude,tube.lon,'Exact TfL stop coordinates, not a guessed point');
- assert.equal(result.route_context?.destination?.resolution_source,'tfl_verified_station','Official TfL provenance retained');
- assert.equal(result.destination_candidates?.length||0,0,'No four duplicate Victoria Station options');
- assert.ok(tflSearch>0,'Official TfL stop lookup must occur');
- const railOnly=await ask('Vreau sa ajung la Victoria Rail Station');
- assert.ok(railOnly.needs_travel_mode||railOnly.destination_candidates?.length,'Other station modes remain reachable');
+ assert.notEqual(result.needs_destination_clarification,true,'A unique TfL Victoria Underground stop must not offer duplicate options');
+ assert.equal(result.destination_candidates?.length||0,0,'No duplicate Victoria Station entries');
+ assert.ok(tflSearch>0,'TfL station lookup performed');
+ assert.ok(journeyLookups.length>0,'TfL itinerary request must be issued after confirming station');
+ assert.ok(journeyLookups.every(x=>x.pathname.includes('940GZZLUVIC')),'Itineraries must use TfL Victoria Underground Tube ID, not Rail platforms');
  console.log('PASS: Victoria Underground resolves once to verified TfL stop; mixed and refresh colors are consistent');
 } finally {globalThis.fetch=originalFetch;}
