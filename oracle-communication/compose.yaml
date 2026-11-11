@@ -1,0 +1,53 @@
+name: pocketai-communication
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${PGDATABASE:-pocket_communication}
+      POSTGRES_USER: ${PGUSER:-pocket_comm}
+      POSTGRES_PASSWORD: ${PGPASSWORD:?Configure secure database password}
+    volumes:
+      - database:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/001-communication.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    security_opt: ["no-new-privileges:true"]
+  api:
+    build:
+      context: ..
+      dockerfile: oracle-communication/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      PGHOST: postgres
+      PORT: "3000"
+    expose: ["3000"]
+    security_opt: ["no-new-privileges:true"]
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=16m"]
+    mem_limit: 600m
+  https:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on: [api]
+    environment:
+      COMM_DOMAIN: ${COMM_DOMAIN:?Set a DNS host for your Oracle VM}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+    security_opt: ["no-new-privileges:true"]
+volumes:
+  database:
+  caddy_data:
+  caddy_config:
