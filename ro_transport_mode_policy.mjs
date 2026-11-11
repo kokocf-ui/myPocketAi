@@ -65,6 +65,25 @@ export function filterRomanianCityEndpoints(journeys,origin,destination){
  return (Array.isArray(journeys)?journeys:[]).filter(j=>{
   const legs=(Array.isArray(j?.legs)?j.legs:[]).filter(l=>!['walk','walking','foot'].includes(String(l.mode||'').toLowerCase()));
   if(!legs.length)return false;
-  return containsCity(legs[0].from,origin)&&containsCity(legs.at(-1).to,destination);
+  return (containsCity(legs[0].fromLocality,origin)||containsCity(legs[0].from,origin))&&
+   (containsCity(legs.at(-1).toLocality,destination)||containsCity(legs.at(-1).to,destination));
  });
+}
+
+// Search once in all modes; split verified results into UI pages AFTER retrieval.
+// Mixed connections remain visible in a third section instead of masquerading
+// as a direct train or coach. Order within each section is by travel time.
+export function groupRomanianJourneys(journeys,perGroup=4){
+ const groups={rail:[],road:[],mixed:[]};
+ const max=Math.min(10,Math.max(1,Number(perGroup)||4));
+ for(const journey of rankRomanianJourneys(journeys)){
+  const modes=(Array.isArray(journey?.legs)?journey.legs:[])
+   .map(l=>String(l.mode||'').toLowerCase())
+   .filter(m=>!['walking','walk','foot','pedestrian'].includes(m));
+  if(!modes.length)continue;
+  const section=modes.every(m=>['train','rail'].includes(m))?'rail':
+   modes.every(m=>['bus','coach','minibus','trolleybus'].includes(m))?'road':'mixed';
+  if(groups[section].length<max)groups[section].push(journey);
+ }
+ return groups;
 }
