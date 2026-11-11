@@ -17023,6 +17023,20 @@ function formatRomanianStop(station,locality){
  if(!town||name.toLowerCase().includes(town.toLowerCase()))return name;
  return name+' ('+town+')';
 }
+function romanianActualVehicle(leg){
+ if(leg?.railReplacement===true){
+  return ({ro:'Autobuz de înlocuire a trenului',en:'Rail replacement bus',
+   fr:'Autobus de remplacement du train',de:'Schienenersatzverkehr',
+   it:'Autobus sostitutivo del treno',es:'Autobús sustitutorio del tren',
+   pt:'Autocarro de substituição ferroviária',nl:'Treinvervangende bus',
+   ru:'Автобус вместо поезда',pl:'Autobus zastępczy za pociąg'})[state.language]||'Rail replacement bus';
+ }
+ if(['coach','minibus'].includes(String(leg?.mode||'').toLowerCase())){
+  return ({ro:'Autocar',en:'Coach',fr:'Autocar',de:'Fernbus',it:'Pullman',
+   es:'Autocar',pt:'Autocarro',nl:'Touringcar',ru:'Автобус',pl:'Autokar'})[state.language]||'Coach';
+ }
+ return transitModeName(leg?.mode);
+}
 function appendRomanianRailCards(host,options,allOptions=options){
  const ro=state.language==='ro';
  for(const [i,journey] of options.entries()){
@@ -17048,7 +17062,7 @@ function appendRomanianRailCards(host,options,allOptions=options){
   line.style.cssText='font-size:13px;opacity:.92;overflow-wrap:anywhere';
   const modes=(journey.legs||[]).filter(l=>!/^(?:walking|walk|foot|pedestrian)$/i.test(String(l.mode||'')));
   const firstLine=modes[0];
-  const label=(firstLine?transitModeName(firstLine.mode):ro?'Tren':'Train')+
+  const label=(firstLine?romanianActualVehicle(firstLine):ro?'Vehicul':'Vehicle')+
    (firstLine&&transitLineLabel(firstLine)?' '+transitLineLabel(firstLine):'');
   line.textContent=[label,firstLine?.operator||'',
    modes.length>1?(ro?'Schimbări: ':'Transfers: ')+(modes.length-1):'',
@@ -17097,7 +17111,7 @@ function appendRomanianRailDetails(host,journey){
   const item=document.createElement('div');
   item.style.cssText='padding:12px 14px;background:#10283d;border:1px solid #31566e;border-radius:13px;display:flex;flex-direction:column;gap:6px';
   const label=document.createElement('strong');label.style.cssText='font-size:14px';
-  label.textContent=(ro?'Etapa ':'Leg ')+(i+1)+' · '+transitModeName(leg.mode)+
+  label.textContent=(ro?'Etapa ':'Leg ')+(i+1)+' · '+romanianActualVehicle(leg)+
    (transitLineLabel(leg)?' '+transitLineLabel(leg):'');
   const route=document.createElement('div');
   route.style.cssText='font-size:15px;overflow-wrap:anywhere';
@@ -17175,9 +17189,15 @@ function appendRomanianNationalPages(host,options){
   panel.append(count);
   if(!pages[active].length){
    const empty=document.createElement('p');empty.className='transit-access-status';
-   empty.textContent=ro
-    ?'Bilo nu a furnizat itinerarii verificabile pentru această categorie și dată. Pot exista curse la alți operatori; verifică direct orarul lor.'
-    :'Bilo did not provide verifiable journeys in this category for this date. Other operators may still run services; verify with them directly.';
+   const status=active==='road'?String(state.lastTransitResponse?.provider_status?.coach_lookup||''):'';
+   empty.textContent=/^(?:http_|network_error|timeout)/.test(status)
+    ?(ro?'Căutarea separată a autocarelor nu a putut fi finalizată la Bilo. Nu înseamnă că nu există curse.':
+      'Bilo separate coach lookup failed. This does not mean no services operate.')
+    :status==='unparsable'
+    ?(ro?'Bilo a transmis date de autocar, dar nu au putut fi validate orele sau stațiile.':
+      'Bilo supplied coach data but its timetable or stations could not be verified.')
+    :(ro?'Bilo nu a furnizat itinerarii verificabile pentru această categorie și dată. Pot exista curse la alți operatori; verifică direct orarul lor.':
+      'Bilo did not provide verifiable journeys in this category for this date. Other operators may still run services; verify with them directly.');
    panel.append(empty);
   }else appendRomanianRailCards(panel,pages[active],options);
  };
@@ -17188,6 +17208,12 @@ function appendRomanianNationalPages(host,options){
   btn.textContent=label(id)+' ('+pages[id].length+')';
   btn.onclick=()=>{active=id;state.roTransitActivePage=id;render()};
   navigation.append(btn);
+ }
+ const advisory=String(state.lastTransitResponse?.rail_replacement_notice||'').trim();
+ if(advisory){
+  const note=document.createElement('p');note.className='ro-rail-replacement-notice';
+  note.style.cssText='font-size:13px;line-height:1.5;margin:2px 0 7px;padding:9px 11px;border:1px solid #496273;border-radius:10px;color:#d3e5ee';
+  note.textContent=advisory;host.append(note);
  }
  host.append(navigation,panel);render();
 }
