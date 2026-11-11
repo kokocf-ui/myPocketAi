@@ -30,4 +30,10 @@ const java=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/
 assert.match(java,/PermissionRequest\.RESOURCE_AUDIO_CAPTURE/,'Only audio capture is allowed');
 assert.match(java,/APP_HOST\.equalsIgnoreCase\(origin\.getHost\(\)\)/,'WebView microphone is origin-restricted');
 assert.match(java,/Manifest\.permission\.RECORD_AUDIO\)==PackageManager\.PERMISSION_GRANTED/,'Mic requires Android permission');
+const helper=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/CommunicationNotificationHelper.java',import.meta.url),'utf8');
+assert.match(helper,/POST_NOTIFICATIONS/,'Respect notification permission');
+assert.match(helper,/VISIBILITY_PRIVATE/,'Never display private message contents on lock screen');
+assert.match(helper,/EXTRA_TARGET/,'Notification routes to selected conversation or list');
+assert.match(java,/dispatchCommunicationNotification\(\)/,'Native activity handles notification destination');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/pocketCommunicationNotificationOpen/,'Frontend handles notification destination');
 console.log('PASS communication inbox, petrol theme, invited contacts, shopping sync and voice permission');
