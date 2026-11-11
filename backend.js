@@ -14,7 +14,7 @@ import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.
 import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints,groupRomanianJourneys} from "./ro_transport_mode_policy.mjs";
 import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
 import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
-import {romanianNationalQuery,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
+import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
@@ -2862,11 +2862,21 @@ export default {
     const explicitCarRoute=routeMessageSpec(message)?.profile==='drive' && chosenTravelMode!=='transit';
     // Romania is a separate transport territory: never feed Romanian trains
     // to the UK-only TransCAPI or London's TfL planner.
+    // When a user selects "Transport public" after saying "from Cluj to
+    // Brașov", preserve the pair from that same conversation. The previous
+    // route picker supplied only the destination, silently losing the origin.
+    const recentRomanianRoute=!explicitCarRoute&&chosenTravelMode==='transit'&&
+      !data.journey_origin&&!data.route_context?.origin
+      ?romanianHistoryJourney(data.history||[],
+        data.transit_destination||data.route_context?.destination||'')
+      :null;
     const roTransitQuery=!explicitCarRoute?romanianNationalQuery(message,{
       location:hasValidLocation?{latitude,longitude}:null,
       mixed_journey:explicitMixedJourney,travel_mode:chosenTravelMode,
-      origin:data.journey_origin||data.route_context?.origin||null,
-      destination:data.transit_destination||data.route_context?.destination||null,
+      origin:data.journey_origin||data.route_context?.origin||
+        (recentRomanianRoute?{city:recentRomanianRoute.origin,country_code:'RO'}:null),
+      destination:data.transit_destination||data.route_context?.destination||
+        (recentRomanianRoute?{city:recentRomanianRoute.destination,country_code:'RO'}:null),
       transit_query:data.transit_query||null
     }):null;
     if (roTransitQuery || explicitMixedJourney || (!explicitCarRoute && (publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)))) {
@@ -2988,7 +2998,12 @@ export default {
             transit_page_order:['rail','road','mixed'],
             fastest_transit:annotateTransportJourneys([{...rankRomanianJourneys(journeys)[0],romanian_national_journey:true}],lang)[0],
             transit_provider:'Bilo',source:'Bilo: operator-published schedules (not seat availability)',
-            transit_departure_at:selectedAt||null,provider_status:{bilo:result.status},
+            transit_departure_at:selectedAt||null,
+            provider_status:{bilo:result.status,
+              records_returned:result.records_returned??null,
+              parsed_modes:result.parsed_modes||null,
+              detail_requests:result.detail_requests??null,
+              detail_successes:result.detail_successes??null},
             requested_transit_count:requestedOptionsCount});
         }
         // A real train response does not fulfill an explicit coach request.
