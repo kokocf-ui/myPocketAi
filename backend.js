@@ -2999,9 +2999,12 @@ export default {
             fastest_transit:annotateTransportJourneys([{...rankRomanianJourneys(journeys)[0],romanian_national_journey:true}],lang)[0],
             transit_provider:'Bilo',source:'Bilo: operator-published schedules (not seat availability)',
             transit_departure_at:selectedAt||null,
-            rail_replacement_notice:/^(oradea)$/i.test(origin.trim())&&
-              /^(cluj(?:[- ]napoca)?)$/i.test(destination.trim())&&
-              date>='2024-01-08'&&date<='2026-12-12'
+            rail_replacement_notice:(
+               (/^oradea$/i.test(origin.trim())&&
+                /^cluj(?:[- ]napoca)?$/i.test(destination.trim()))||
+               (/^cluj(?:[- ]napoca)?$/i.test(origin.trim())&&
+                /^oradea$/i.test(destination.trim()))
+             )&&date>='2024-01-08'&&date<='2026-12-12'
               ?(lang==='en'
                 ?'Oradea–Cluj-Napoca rail line is closed for modernization. The railway operator uses replacement road vehicles. Check each journey’s actual vehicle.'
                 :'Linia feroviară Oradea–Cluj-Napoca este închisă pentru modernizare. Operatorii feroviari asigură servicii auto de înlocuire. Verifică vehiculul real pentru fiecare cursă.')
