@@ -151,6 +151,7 @@ async function route(req,res,url,origin){
   await transaction(async c=>{
    await c.query('INSERT INTO comm_blocks(user_id,blocked_id) VALUES($1,$2) ON CONFLICT DO NOTHING',[me.id,other]);
    await c.query('DELETE FROM comm_contacts WHERE (user_id=$1 AND contact_id=$2) OR (user_id=$2 AND contact_id=$1)',[me.id,other]);
+   await c.query('DELETE FROM comm_list_members m USING comm_lists l WHERE m.list_id=l.id AND ((l.owner_id=$1 AND m.user_id=$2) OR (l.owner_id=$2 AND m.user_id=$1))',[me.id,other]);
   });
   return answer(200,{ok:true});
  }
