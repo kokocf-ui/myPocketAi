@@ -6,7 +6,7 @@ const token=s=>typeof s==='string'&&/^[A-Za-z0-9_-]{40,150}$/.test(s);
 const b64=s=>typeof s==='string'&&/^[A-Za-z0-9_-]+$/.test(s);
 const error=(status,message)=>Object.assign(new Error(message),{status});
 const check=(condition,status,message)=>{if(!condition)throw error(status,message)};
-const json=(res,status,data)=>{res.writeHead(status,{'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'});res.end(JSON.stringify(data))};
+const json=(res,status,data)=>{res.statusCode=status;res.setHeader('content-type','application/json; charset=utf-8');res.setHeader('cache-control','no-store');res.setHeader('x-content-type-options','nosniff');res.end(JSON.stringify(data))};
 const jwkOk=k=>k&&k.kty==='EC'&&k.crv==='P-256'&&b64(k.x)&&b64(k.y)&&!k.d;
 function verified(jwk,signature,payload){
  try{return verifySignature('sha256',Buffer.from(payload),{key:createPublicKey({key:jwk,format:'jwk'}),dsaEncoding:'ieee-p1363'},Buffer.from(signature,'base64url'))}catch{return false}
@@ -38,7 +38,11 @@ export function createDeviceCommunicationHandler(pool){
  return async function handle(req,res,path){
   if(req.method!=='POST'||!['/api/communication','/communication','/'].includes(path))return false;
   try{
-   const data=await readBody(req,req.headers['content-length']>200000?17000000:17000000);
+   const origin=String(req.headers.origin||'');
+   const allowed=String(process.env.APP_ORIGIN||'').replace(/\/$/,'');
+   check(!origin||origin===allowed,403,'Origine neautorizată');
+   if(origin){res.setHeader('access-control-allow-origin',allowed);res.setHeader('vary','Origin')}
+   const data=await readBody(req,17000000);
    check(data&&typeof data==='object'&&!Array.isArray(data),400,'Cerere invalidă');
    const action=String(data.action||'');
    check(action.length>0&&action.length<40,400,'Acțiune invalidă');
@@ -48,7 +52,7 @@ export function createDeviceCommunicationHandler(pool){
     check(b64(nonce)&&nonce.length>=16&&nonce.length<=80,400,'Nonce invalid');
     check(typeof name==='string'&&name.trim().length>=2&&name.trim().length<=45,400,'Nume invalid');
     check(jwkOk(signPublic)&&jwkOk(exchangePublic)&&b64(proof),400,'Cheie invalidă');
-    const message='register\\n'+timestamp+'\\n'+nonce+'\\n'+JSON.stringify({name,signPublic,exchangePublic});
+    const message='register\n'+timestamp+'\n'+nonce+'\n'+JSON.stringify({name,signPublic,exchangePublic});
     check(verified(signPublic,proof,message),401,'Semnătură invalidă');
     const keyHash=hash(JSON.stringify(signPublic));
     const result=await txn(pool,async db=>{
@@ -65,7 +69,7 @@ export function createDeviceCommunicationHandler(pool){
    check(uuid(me)&&Number.isSafeInteger(stamp)&&Math.abs(Date.now()-stamp)<300000&&b64(nonce)&&nonce.length>=16&&nonce.length<=80&&b64(sig),401,'Identitate invalidă');
    const current=await pool.query('SELECT sign_public FROM device_users WHERE id=$1 AND disabled_at IS NULL',[me]);
    check(current.rowCount===1,401,'Dispozitiv necunoscut');
-   check(verified(current.rows[0].sign_public,sig,stamp+'\\n'+nonce+'\\n'+JSON.stringify(data)),401,'Semnătură invalidă');
+   check(verified(current.rows[0].sign_public,sig,stamp+'\n'+nonce+'\n'+JSON.stringify(data)),401,'Semnătură invalidă');
    await pool.query('DELETE FROM device_nonces WHERE expires_at<now()');
    const unique=await pool.query("INSERT INTO device_nonces(user_id,nonce,expires_at) VALUES($1,$2,now()+interval '6 minutes') ON CONFLICT DO NOTHING RETURNING nonce",[me,nonce]);
    check(unique.rowCount===1,409,'Cerere repetată');
@@ -114,7 +118,7 @@ export function createDeviceCommunicationHandler(pool){
     check(await approved(pool,me,friend),403,'Contact neaprobat');
     const pair=[me,friend].sort().join(':');
     if(action==='messages'){
-     const q=await pool.query('SELECT id,sender_id AS sender,recipient_id AS recipient,iv,cipher,kind,attachment_id,created_ms FROM device_messages WHERE pair_key=$1 ORDER BY created_ms DESC,id DESC LIMIT 100',[pair]);
+     const q=await pool.query('SELECT id,sender_id AS sender,recipient_id AS recipient,iv,cipher,kind,attachment_id,created_ms::float8 AS created_ms FROM device_messages WHERE pair_key=$1 ORDER BY created_ms DESC,id DESC LIMIT 100',[pair]);
      return json(res,200,{ok:true,messages:q.rows.reverse()}),true
     }
     if(action==='attachment'){
