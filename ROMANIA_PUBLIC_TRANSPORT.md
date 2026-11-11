@@ -11,7 +11,7 @@
 ## Implementat în sursa proiectului
 1. Adaptor separat: ro_national_transit.mjs; cererile românești nu sunt trimise la TfL/TransCAPI.
 2. Cheia BILO_API_KEY este citită exclusiv din secretele Cloudflare Workers; interfața Android/JS nu primește cheia.
-3. POST https://bilo.ro/api/integrations/v1/search, calea oficială documentată pentru integrări cu Bearer API key, cu origin, destination, date Europe/Bucharest, passengers, mode, railClass, sort și limit.
+3. POST https://mcp.bilo.ro/api/v1/search, calea compusă din baza HTTP API publicată pe pagina oficială Bilo Developers (`https://mcp.bilo.ro/api/v1`) și ruta de căutare `/search`, cu origin, destination, date Europe/Bucharest, passengers, mode, railClass, sort și limit.
 4. Răspunsul acceptă atât `legs`/`segments`, cât și înregistrări Bilo plate `results` cu `departure_time`, `arrival_time`, `origin`, `destination`, `mode`; ora HH:mm e ancorată strict la data cerută în fusul Europe/Bucharest. Nu inventează transportul, orele ori tarifele.
 5. Erorile autentificării, limitei, rețelei/HTTP și răspunsului fără itinerarii verificabile au motive diferite, expuse prin `provider_status.bilo`, fără a expune cheia.
 6. Testele unitare pentru JSON, UTC, România/UK și secret/eroare API sunt în tests_ro_national_transit.mjs.
@@ -33,6 +33,6 @@ Modulele Asistent AI, Hărți și Transport mixt vor refolosi același motor. Li
 
 ## Remediere 11 noiembrie 2026
 
-- API-ul pentru integrare cu cheia de dezvoltator este `https://bilo.ro/api/integrations/v1/search` (POST JSON + Authorization Bearer). `https://mcp.bilo.ro` este alt serviciu MCP, nu `/api/v1/search` și nu trebuie confundat.
-- Referință oficială: https://bilo.ro/en/ai-agents (secțiunea «API for integrations»).
+- Baza HTTP API publicată la 11.11.2026 pe `https://bilo.ro/en/api` este `https://mcp.bilo.ro/api/v1` (separată de MCP root `https://mcp.bilo.ro`). Adaptorul folosește `POST /search` + Bearer; ruta exactă/cererea trebuie confirmate prin documentația dashboardului sau test cu codul HTTP. Într-o etapă anterioară am folosit hostul eronat `bilo.ro/api/integrations/v1/search`.
+- Referință oficială actuală: https://bilo.ro/en/api (secțiunea «Choose how to connect»).
 - `BILO_API_KEY` rămâne doar în Cloudflare Worker. **Un APK nou nu este necesar doar pentru acest adaptor backend**; este necesar deploy de backend și test real cu 2 orașe.
