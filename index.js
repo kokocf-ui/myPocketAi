@@ -17010,8 +17010,10 @@ function isRomanianRailJourney(journey){
  const source=String(journey?.source||'');
  const legs=Array.isArray(journey?.legs)?journey.legs:[];
  const national=journey?.romanian_national_journey===true||/\bBilo\b/i.test(source)||
-  (journey?.time_zone==='Europe/Bucharest'&&legs.some(l=>/^(train|rail|coach)$/i.test(String(l?.mode||''))));
- // Urban buses/trams are a separate door-to-door workflow.
+  (/\bMOTIS\b/i.test(source)&&journey?.time_zone==='Europe/Bucharest'&&
+   legs.some(l=>/^(train|rail|coach)$/i.test(String(l?.mode||''))));
+ // Source identification matters: TfL must never become a Romanian rail card
+ // just because a stale response carries Europe/Bucharest.
  return national&&!/Romania GTFS static/i.test(source);
 }
 // A compact rail layout intentionally differs from urban door-to-door transit:
