@@ -2,7 +2,7 @@
 # Use on existing Oracle VM only: sh deploy.sh prepare; then sh deploy.sh activate
 set -eu
 cd "$(dirname "$0")"
-MODE="\${1:-}"
+MODE="$*"
 DOMAIN=mypocketai.duckdns.org
 if [ "$MODE" = prepare ]; then
   mkdir -p "$HOME/pocketai-comunicare/config"
