@@ -66,18 +66,30 @@ de criptare end-to-end înainte de auditare.
 - Ștergere, retenție limitată, politica de confidențialitate și evaluare GDPR
   UK/UE înaintea unui pilot de grup.
 
-## Arhitectură propusă (aliniată infrastructurii actuale)
-- Cloudflare Workers: API autentificare, ACL, validare și rate limiting.
-- Cloudflare D1: conturi verificate, membership, liste, operații și metadate;
-  nu stoca parole în clar, tokenuri ori conversații cu Eva.
-- Cloudflare Durable Objects: conexiuni WebSocket, ordonarea operațiilor de
-  listă și livrarea notificărilor active.
-- Cloudflare R2 privat: media cu retenție/ștergere configurabilă și URL-uri
-  semnate scurt; nu expune bucketuri publice.
-- FCM: push Android cu payload minim. Nu păstra tokenurile FCM în frontend
-  sau în mesajele trimise modelului.
-- Pentru chat E2EE, Workers transportă numai ciphertext; D1/R2 au criptare la
-  nivel de stocare, însă aceasta nu este, singură, E2EE.
+## Arhitectură adoptată — doar serverul Oracle
+- Oracle Cloud VM `pocketai-core`: singurul server care procesează și stochează
+  conturile de Comunicare, invitațiile, contactele, mesajele și listele.
+- PostgreSQL privat în Docker: conturi, OTP, sesiuni (hash de token),
+  contacte, drepturi, mesaje criptate și operații de sincronizare.
+- Node.js API `oracle-communication/server.mjs` în rețeaua internă Docker;
+  Caddy termină HTTPS pe domeniul configurat și permite numai originea
+  frontendului myPocket AI. Portul PostgreSQL nu este public.
+- SMTP configurat pe Oracle pentru e-mailurile cu cod de verificare; OTP
+  expiră după 10 minute. Orice cont necesită verificare.
+- Mesajele text beta se criptează local folosind ECDH P-256 și AES-GCM,
+  cu chei private neexportabile în IndexedDB. Acesta este un pilot
+  **neauditat**, NU un protocol Signal verificat, nu are recuperarea cheii
+  sau un mecanism complet de apărare la înlocuirea cheilor de către server.
+- Cloudflare este păstrat numai pentru aplicația frontală existentă și
+  pentru funcțiile Evei. Serviciul său AI nu primește mesaje/conturi;
+  vechea rută Durable Object de Comunicare a fost eliminată.
+- Notificările Android, atașamentele și criptarea E2EE auditată rămân
+  lucrări necesare înainte de lansarea publică.
+- Codurile de invitație se transmit între utilizatori explicit; nu sunt
+  plasate automat în URL-ul frontendului Cloudflare.
+- Instalarea live necesită configurația HTTPS, SMTP și verificarea
+  conectării reale la Oracle. Codul din GitHub nu este dovadă de deploy.
+
 
 ## Ordine de lansare
 1. Model autentificare verificabilă și contacte prin invitații.
