@@ -19001,7 +19001,7 @@ const languageAlias={
  lb:'luxemburgheza luxembourgish',fo:'feroeza faroese',rm:'retoromana romansh'
 };
 const languageFold=value=>String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
- .toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\\s+/g,' ').trim();
+ .toLowerCase().replace(/[^\\p{L}\\p{N} ]+/gu,' ').replace(/\\s+/g,' ').trim();
 const languageChoices=[];
 sortedLanguages.forEach(o=>{
  const btn=document.createElement('button');btn.type='button';btn.className='language-dialog-choice';
