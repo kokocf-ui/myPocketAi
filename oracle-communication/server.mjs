@@ -94,14 +94,18 @@ async function route(req,res,url,origin){
    requireThat(q.rowCount===1,401,'Cod incorect sau expirat');
    const challenge=q.rows[0];
    requireThat(new Date(challenge.expires_at).getTime()>Date.now()&&challenge.attempts<5,401,'Cod incorect sau expirat');
-   await c.query('UPDATE comm_otp SET attempts=attempts+1 WHERE id=$1',[challenge.id]);
-   requireThat(safeEq(sign(mail,code),challenge.code_hash),401,'Cod incorect sau expirat');
+   if(!safeEq(sign(mail,code),challenge.code_hash)){
+     // Wrong attempts must COMMIT, not be rolled back by an exception.
+     await c.query('UPDATE comm_otp SET attempts=attempts+1 WHERE id=$1',[challenge.id]);
+     return {invalid:true};
+   }
    await c.query('UPDATE comm_otp SET consumed_at=now() WHERE email=$1 AND consumed_at IS NULL',[mail]);
    const u=await c.query('INSERT INTO comm_users(id,email,display_name) VALUES($1,$2,$3) ON CONFLICT(email) DO UPDATE SET display_name=EXCLUDED.display_name RETURNING id,email,display_name',[id(),mail,name]);
    const token=randomBytes(32).toString('base64url');
    await c.query("INSERT INTO comm_sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '30 days')",[hash(token),u.rows[0].id]);
    return {token,user:u.rows[0],expiresInSeconds:30*86400};
   });
+  requireThat(!data.invalid,401,'Cod incorect sau expirat');
   return answer(200,data);
  }
  const me=await currentUser(req);
