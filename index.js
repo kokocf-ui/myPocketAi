@@ -15927,7 +15927,7 @@ function showJourneyMode(choice){
  for(const [mode,label] of [['drive',labels[3]],['transit',labels[2]]]){
   const button=document.createElement('button');
   button.type='button';
-  button.className='module-result-card';
+  button.className='module-result-card journey-mode-choice';
   button.textContent=mode==='transit'&&choice.mixedJourney?(mixedNames[state.language]||mixedNames.en):label;
   button.onclick=()=>showPreciseJourney({...choice,journeyMode:mode});
   body.append(button);
@@ -16829,7 +16829,19 @@ function confirmAssistantGeographicRoute(option){
 }
 function appendConversationChoices(data,host){
  const raw=Array.isArray(data.choice_options)?data.choice_options:Array.isArray(data.destination_candidates)?data.destination_candidates:[];
- const options=raw.slice(0,data.entity_disambiguation?8:data.named_venue?8:4).filter(x=>x&&typeof x.label==='string');
+ const options=[],maxOptions=data.entity_disambiguation?8:data.named_venue?8:4;
+ const normalizeLabel=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+ const hasPosition=v=>v?.latitude!=null&&v?.longitude!=null&&Number.isFinite(Number(v.latitude))&&Number.isFinite(Number(v.longitude));
+ for(const option of raw){
+  if(!option||typeof option.label!=='string'||!option.label.trim())continue;
+  const duplicateIndex=options.findIndex(prev=>{
+   if(normalizeLabel(prev.label)!==normalizeLabel(option.label))return false;
+   if(hasPosition(prev)&&hasPosition(option))return Math.abs(Number(prev.latitude)-Number(option.latitude))<.0045&&Math.abs(Number(prev.longitude)-Number(option.longitude))<.0045;
+   return true;
+  });
+  if(duplicateIndex>=0){if(!hasPosition(options[duplicateIndex])&&hasPosition(option))options[duplicateIndex]=option;continue;}
+  if(options.length<maxOptions)options.push(option);
+ }
  if(!options.length)return false;
  const table=document.createElement('table'),caption=document.createElement('caption'),body=document.createElement('tbody');
  table.className='travel-mode-table';caption.textContent=dialogText("Alege o opțiune","Choose an option");table.append(caption);
@@ -16889,8 +16901,8 @@ function appendConversationChoices(data,host){
     offerDestinationAccommodationBeforeRoute({latitude:lat,longitude:lon,label:option.label});
     return;
    }
-   if(Number.isFinite(lat)&&Number.isFinite(lon)&&data.named_venue){
-    state.routeSearchContext={destination_query:String(data.message_received||option.label),destination:{latitude:lat,longitude:lon,label:option.label},pending:'profile'};
+   if(Number.isFinite(lat)&&Number.isFinite(lon)&&(data.named_venue||data.route_context?.pending==='destination_choice')){
+    state.routeSearchContext={...data.route_context,destination_query:String(option.label),destination:{latitude:lat,longitude:lon,label:option.label},pending:'profile',candidates:[]};
     state.pendingTravelMode=null;
     closeAnswerReader(false);
     const explicitJourney=/\\b(?:vreau sa ajung|cum ajung|traseu|ruta|navig|directions|route|how to get|go to)\\b/i.test(String(data.message_received||''));
@@ -17223,14 +17235,14 @@ function renderTransitChoices(options,selectedIndex=null){
   // Walking directions are viewed in the map, not repeatedly offered as a
   // generic retry from the public-transport card after an expired departure.
   if(selected?.accessRoute&&!selected.error){const walk=document.createElement('button');walk.type='button';walk.className='transit-choice-action';walk.textContent=t[9];walk.onclick=()=>openRouteMap(selected.accessRoute,walk,selected.accessOptions);body.append(walk)}
-  if(state.lastTransitChoice){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
+  if(state.lastTransitChoice){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action transit-refresh-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
   // Keep final-mile directions above the long leg table.
   appendFinalTransitWalkAction(body,journey);appendTransitLegs(body,journey);return;
  }
  const available=feasibleTransitChoices(options);
  if(!available.length){const p=document.createElement('p');p.className='transit-access-status';p.textContent=transitRefreshText()[5];body.append(p)}
  else appendTransitCards(body,available);
- if(state.lastTransitResponse?.transit_destination_point){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
+ if(state.lastTransitResponse?.transit_destination_point){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action transit-refresh-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
 }
 async function selectTransitJourney(options,index){
  if(state.busy)return;cancelTransitAccess();const journey=options[index];if(!journey)return;const generation=state.transitAccessGeneration,chatGeneration=state.conversationGeneration,t=transitAccessText();const selected={journey,options,index,loading:true,error:'',accessRoute:null,accessOptions:[]};state.selectedTransitJourney=selected;renderTransitChoices(options,index);
@@ -19662,6 +19674,21 @@ main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;ov
  background:linear-gradient(140deg,#723846,#4a293c 60%,#291f36)!important;
  color:#fff5f6!important;border-color:#d6949b!important;
  box-shadow:inset 0 2px 0 rgba(255,255,255,.13),0 4px 0 #1a101e,0 7px 14px rgba(0,0,0,.29)!important;
+}
+
+
+/* Maps/Hotels: consistent route-petrol choices and burgundy schedule refresh.
+   CSS-only visual targets; itinerary order, handlers and dates are unchanged. */
+#moduleQuickLayer.open .module-quick-sheet #moduleLayerBody > .journey-mode-choice{
+ background:linear-gradient(125deg,#1a605f 0%,#10465b 55%,#0d3045 100%)!important;
+ color:#f3fbff!important;border-color:#63adb5!important;
+ box-shadow:inset 0 2px 0 rgba(235,255,255,.14),0 4px 0 #031723,0 9px 16px rgba(0,0,0,.28)!important;
+}
+#moduleQuickLayer.open .module-quick-sheet #moduleLayerBody .transit-refresh-action{
+ background:linear-gradient(140deg,#723846,#4a293c 60%,#291f36)!important;
+ color:#fff5f6!important;border:1.5px solid #d6949b!important;
+ box-shadow:inset 0 2px 0 rgba(255,255,255,.13),0 4px 0 #1a101e,0 7px 14px rgba(0,0,0,.29)!important;
+ font-weight:750!important;
 }
 
 </style>
