@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS attachments(
  recipient UUID NOT NULL REFERENCES users(id), encrypted BYTEA NOT NULL,
  iv VARCHAR(32) NOT NULL, encrypted_name TEXT NOT NULL,
  media_kind VARCHAR(8) NOT NULL CHECK(media_kind IN ('image','video','audio','file')),
+ mime_type VARCHAR(80) NOT NULL,
  size_bytes INTEGER NOT NULL CHECK(size_bytes>0 AND size_bytes<=12582912),
  created_ms BIGINT NOT NULL, expires_ms BIGINT NOT NULL
 );
