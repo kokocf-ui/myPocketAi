@@ -1,5 +1,6 @@
 // Transport-mode intent is a hard filter, not a merely preferred display label.
-// Bilo's supported search currently uses mode:'all'; apply strict post-filtering
+// Bilo search starts in 'all' mode and supplements with its documented bus API.
+// Apply strict post-filtering
 // to actual timetable legs, and state when requested modes aren't verified.
 export function requestedRomanianVehicle(message, explicitPreference=''){
  const text=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -20,7 +21,8 @@ export function filterRomanianVehicleJourneys(journeys,requested){
   if(!nonWalking.length)return false;
   return nonWalking.every(l=>{
    const mode=String(l.mode||'').toLowerCase();
-   return requested==='rail'?mode==='train'||mode==='rail':
+   return requested==='rail'?mode==='train'||mode==='rail'||
+     (l.railReplacement===true&&['coach','bus','minibus'].includes(mode)):
     requested==='coach'?['coach','bus','minibus'].includes(mode):
     ['coach','bus','minibus','trolleybus'].includes(mode);
   });
