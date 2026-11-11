@@ -8,6 +8,7 @@ import {normalizeConversationProfile,conversationProfileInstruction} from "./use
 import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
+import {hasAssistantRepetitionLoop} from "./ai_response_quality.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
@@ -6994,6 +6995,42 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
             stage: "compliance_review_error",
             errorName: reviewError && reviewError.name ? String(reviewError.name) : "UnknownError"
           }));
+        }
+      }
+
+      // Recover from looping model output before it reaches the UI.
+      // Retry once with a focused prompt; never turn repeated filler into fake facts.
+      if(!recipeInstruction&&typeof result?.response==="string"&&hasAssistantRepetitionLoop(result.response)){
+        stageMetrics.response_loop_detected=true;
+        const repetitionStartedAt=Date.now();
+        try{
+          const revised=await env.AI.run(selectedAiModel,{
+            messages:[
+              {role:"system",content:systemMessage.slice(0,4500)+
+                "\\nQUALITY RETRY: The previous draft repeated an identical sentence many times. Do not reuse it. Answer the user's latest question directly, concisely and completely in the selected language. Avoid generic introductions and repetition. Describe actual app capabilities only."},
+              ...modelHistory.slice(-2),
+              {role:"user",content:aiUserMessage.slice(0,3200)}
+            ],
+            max_tokens:Math.min(550,requestedModelTokens),
+            temperature:0.35
+          });
+          if(typeof revised?.response==="string"&&revised.response.trim().length>=20
+             &&!hasAssistantRepetitionLoop(revised.response)){
+            result={...revised,response:revised.response.trim()};
+            stageMetrics.response_loop_recovered=true;
+          }
+        }catch(qualityError){
+          console.warn("Pocket AI repetition retry unavailable",String(qualityError?.name||"Error"));
+        }finally{
+          stageMetrics.response_loop_retry_ms=Date.now()-repetitionStartedAt;
+        }
+        if(hasAssistantRepetitionLoop(result.response)){
+          console.warn("Pocket AI repeated model response rejected",JSON.stringify({diagnosticId,stage:"ai_repetition_loop"}));
+          return json({app:"Pocket AI",version:API_VERSION,status:"error",
+            error:lang==="ro"
+              ?"Eva nu a reușit să formuleze un răspuns coerent. Reîncearcă întrebarea; nu voi afișa text repetat."
+              :"Eva could not produce a coherent response. Please retry; repetitive text was not shown.",
+            ai_connected:true,quality_error:"repetition_loop"},502);
         }
       }
 
