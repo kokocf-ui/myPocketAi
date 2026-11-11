@@ -3388,7 +3388,7 @@ main.page:has(#view-module.my-documents-active.active){
   <div id="moduleLayerBody" class="module-quick-body"></div>
  </section>
 </div>
-<dialog id="pocketUnifiedModal" class="pocket-unified-modal" aria-labelledby="pocketUnifiedTitle"><div class="pocket-unified-window"><header class="pocket-unified-heading"><strong id="pocketUnifiedTitle">Eva</strong></header><div class="pocket-unified-body" id="pocketUnifiedBody"></div><div class="pocket-unified-actions" id="pocketUnifiedActions"></div></div></dialog>
+<dialog id="pocketUnifiedModal" class="pocket-unified-modal" aria-labelledby="pocketUnifiedTitle"><div class="pocket-unified-window"><header class="pocket-unified-heading"><strong id="pocketUnifiedTitle">myPocket AI</strong></header><div class="pocket-unified-body" id="pocketUnifiedBody"></div><div class="pocket-unified-actions" id="pocketUnifiedActions"></div></div></dialog>
 <dialog id="mathResultDialog" class="math-result-dialog" aria-labelledby="mathResultTitle">
  <section class="math-result-window">
   <header class="math-result-header"><strong id="mathResultTitle">Rezolvare</strong><button type="button" id="mathResultClose" class="math-result-close">Revenire</button></header>
