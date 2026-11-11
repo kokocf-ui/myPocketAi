@@ -77,6 +77,8 @@ jobs:
           node-version: '22'
       - name: Validate JavaScript syntax
         run: npm run check
+      - name: Romania Bilo official API regression
+        run: node tests_ro_national_transit.mjs
       - name: Maps/Hotels, Education height and multilingual navigation
         run: node tests_module_landing_locales.mjs
       - name: Maps pedestrian and driving route visibility regression
