@@ -8,7 +8,7 @@ const html=await(await app.fetch(new Request('https://account-ui.test/'))).text(
 for(const id of ['pocketAccountOpen','pocketAccountDialog','pocketAccountEmail','pocketAccountName','pocketAccountDob','pocketAccountBirthdayNotify','pocketAccountSex','pocketAccountSave']){
  assert.ok(html.includes('id="'+id+'"'),'Missing account control '+id);
 }
-assert.ok(html.includes('Versiunea 1.0.148'),'Settings version is updated');
+assert.ok(html.includes('Versiunea 1.0.149'),'Settings version is updated');
 assert.ok(html.includes('Cont</button>'),'Account entry is visibly labeled');
 assert.ok(!html.includes('id="pocketAccountAge"'),'Age must not be shown in the account');
 assert.ok(!html.includes('Vârstă (calculată automat)'),'Account must not show an age label');
