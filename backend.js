@@ -9,6 +9,7 @@ import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
+import {romanianNationalQuery,planRomanianNationalJourney,bucharestTravelDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
@@ -2854,13 +2855,71 @@ export default {
     // A destination named "Underground" is not a request to ride the Tube.
     // Explicit car instructions must reach the road router, not transit lookup.
     const explicitCarRoute=routeMessageSpec(message)?.profile==='drive' && chosenTravelMode!=='transit';
-    if (explicitMixedJourney || (!explicitCarRoute && (publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)))) {
+    // Romania is a separate transport territory: never feed Romanian trains
+    // to the UK-only TransCAPI or London's TfL planner.
+    const roTransitQuery=!explicitCarRoute?romanianNationalQuery(message,{
+      location:hasValidLocation?{latitude,longitude}:null,
+      mixed_journey:explicitMixedJourney,travel_mode:chosenTravelMode,
+      origin:data.route_context?.origin||null,
+      destination:data.transit_destination||data.route_context?.destination||null,
+      transit_query:data.transit_query||null
+    }):null;
+    if (roTransitQuery || explicitMixedJourney || (!explicitCarRoute && (publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)))) {
       const transitStartedAt = Date.now();
       const transportErrors = {};
       let effectiveDepartureAt=null;
       let departureAt=null;
       const transitOptions = [];
       const requestedOptionsCount=requestedTransitCount(message,data.transit_count);
+      if(roTransitQuery){
+        const origin=roTransitQuery.origin || await reverseRomanianOriginCity(env,hasValidLocation?{latitude,longitude}:null);
+        const destination=roTransitQuery.destination;
+        if(!origin||!destination){
+          const reply=lang==='en'
+            ?'For a verified trip in Romania, tell me the departure and arrival city (for example: train from Oradea to Cluj-Napoca).'
+            :'Pentru un traseu verificat în România, spune-mi orașul de plecare și cel de sosire (de exemplu: tren din Oradea la Cluj-Napoca).';
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+            reply,transit_available:false,route_available:false,transit_provider:'Bilo',
+            needs_destination_clarification:true,reason:'ro_origin_or_destination_required'});
+        }
+        const selectedAt=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
+        const requestedAt=selectedAt?Date.parse(selectedAt):null;
+        if(selectedAt&&(!Number.isFinite(requestedAt)||requestedAt<Date.now()-120000||requestedAt>Date.now()+60*86400000)){
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+            reply:lang==='en'?'Choose a valid departure in the next 60 days.':'Alege o plecare validă în următoarele 60 de zile.',
+            transit_available:false,route_available:false,reason:'ro_departure_date_invalid'});
+        }
+        const date=bucharestTravelDate(selectedAt||null);
+        const result=await planRomanianNationalJourney(env,{origin,destination},{date,limit:requestedOptionsCount});
+        const journeys=requestedAt&&result.journeys.length
+          ?result.journeys.filter(j=>Date.parse(j.startDateTime)>=requestedAt-120000)
+          :result.journeys;
+        if(journeys.length){
+          const reply=romanianJourneySummary(journeys,origin,destination,lang);
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
+            transit_available:true,route_available:false,route_geometry_available:false,transit_geometry_available:false,
+            mixed_journey:true,romanian_national_journey:true,transit:journeys,fastest_transit:journeys[0],
+            transit_provider:'Bilo',source:'Bilo: operator-published schedules (not seat availability)',
+            transit_departure_at:selectedAt||null,provider_status:{bilo:result.status},
+            requested_transit_count:requestedOptionsCount});
+        }
+        // When Bilo is unconfigured, do not claim a fictitious Romanian
+        // timetable. A future licensed MOTIS backend can be checked separately.
+        const providerReason=result.status==='not_configured'?'ro_provider_key_required':
+          result.status==='quota_exceeded'?'ro_provider_quota_exceeded':
+          result.status==='authentication_failed'?'ro_provider_auth_failed':
+          'ro_no_verified_journey';
+        const reply=lang==='en'
+          ?(result.status==='not_configured'
+             ?'Romanian nationwide train and coach timetable search is not yet connected. A Bilo API key is required on the server.'
+             :'No confirmed train or coach itinerary for this trip and date. Check another date or time.')
+          :(result.status==='not_configured'
+             ?'Transportul național cu trenul și autocarul în România nu este încă activat: lipsește cheia Bilo de pe server. Nu voi inventa plecări.'
+             :'Nu am putut confirma un itinerar cu trenul sau autocarul pentru ruta și data alese. Încearcă altă dată ori altă oră.');
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
+          transit_available:false,route_available:false,mixed_journey:true,romanian_national_journey:true,
+          transit_provider:'Bilo',reason:providerReason,provider_status:{bilo:result.status}});
+      }
       let targetName = "London";
       let targetLat = null;
       let targetLon = null;
