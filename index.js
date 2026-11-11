@@ -17106,6 +17106,13 @@ function appendRomanianRailDetails(host,journey){
   time.textContent=transitClock(leg.departureTime,leg.departureZone||zone)+' → '+
    transitClock(leg.arrivalTime,leg.arrivalZone||zone);
   item.append(label,route,time);
+  if(/^(train|rail)$/i.test(String(leg.mode||''))&&!transitLineLabel(leg)){
+   const unidentified=document.createElement('div');
+   unidentified.style.cssText='font-size:12px;opacity:.8';
+   unidentified.textContent=ro?'Număr tren: neprecizat de furnizor.':
+    'Train number: not supplied by provider.';
+   item.append(unidentified);
+  }
   if(leg.operator){const operator=document.createElement('div');operator.style.cssText='font-size:12px;color:#b7d7e4';operator.textContent=leg.operator;item.append(operator)}
   steps.append(item);
  }
@@ -17169,8 +17176,8 @@ function appendRomanianNationalPages(host,options){
   if(!pages[active].length){
    const empty=document.createElement('p');empty.className='transit-access-status';
    empty.textContent=ro
-    ?'Nu am primit curse confirmate în această categorie pentru data aleasă. Verifică și cealaltă pagină.'
-    :'No confirmed services in this category for the selected date. Check the other page.';
+    ?'Bilo nu a furnizat itinerarii verificabile pentru această categorie și dată. Pot exista curse la alți operatori; verifică direct orarul lor.'
+    :'Bilo did not provide verifiable journeys in this category for this date. Other operators may still run services; verify with them directly.';
    panel.append(empty);
   }else appendRomanianRailCards(panel,pages[active],options);
  };
@@ -17416,7 +17423,11 @@ function renderTransitChoices(options,selectedIndex=null){
   if(source?.details&&source.module===state.currentModule){offerPlaceTravelModes(source.details);return}
   handleModuleLayerBack();
  };
- if(isRomanianRailJourney(options[selectedIndex??0]))back.style.cssText='width:auto;min-height:44px;align-self:flex-start;padding:8px 18px;margin:0 0 6px';
+ if(isRomanianRailJourney(options[selectedIndex??0])){
+  actions.style.cssText='display:flex;justify-content:flex-start;align-items:center;gap:8px;flex-wrap:wrap';
+  back.textContent='← '+dialogText('Înapoi','Back');
+  back.style.cssText='width:auto!important;max-width:150px;min-width:0;min-height:42px;flex:0 0 auto!important;align-self:flex-start;padding:8px 15px;margin:0 0 6px';
+ }
  actions.append(back);
  if(state.navigationReturnContext){const original=document.createElement('button');original.type='button';original.className='transit-choice-action';
   original.textContent=dialogText("Revenire","Return");
