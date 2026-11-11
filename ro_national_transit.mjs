@@ -290,7 +290,8 @@ function biloLegFields(seg,item,rootMode,date){
  const replacement=seg.rail_replacement===true||seg.railReplacement===true||
   seg.replacement_bus===true||seg.replacementBus===true||
   seg.is_replacement_bus===true||seg.isRailReplacement===true||
-  [seg.replacement_type,seg.replacement_reason,seg.service?.category,
+  [seg.mode,seg.transport_mode,seg.transport_type,
+   seg.replacement_type,seg.replacement_reason,seg.service?.category,
    seg.service?.type,seg.vehicle?.description,seg.description]
    .some(v=>/\b(?:rail|train|tren|feroviar).*(?:replacement|inlocui|substitu)|(?:replacement|inlocui|substitu).*(?:rail|train|tren|feroviar)/.test(normalize(v)));
  let mode=physical.map(normalizeMode).find(Boolean)||
@@ -523,7 +524,7 @@ export async function planRomanianNationalJourney(env,query,opts={}){
       travel.every(mode=>['coach','bus','minibus'].includes(mode))?'road':'mixed';
     modes[category]++;
    }
-   return {status:'ok',journeys:completed.slice(0,limit),
+   return {status:'ok',journeys:completed.slice(0,Math.min(40,limit*2)),
     records_returned:items.length,parsed_modes:modes,
     coach_lookup:busLookup.status,coach_records_returned:busLookup.records,
     detail_requests:candidates.length,detail_successes:details.size};
