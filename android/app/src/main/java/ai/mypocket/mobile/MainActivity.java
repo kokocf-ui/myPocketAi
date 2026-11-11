@@ -15,6 +15,9 @@ import java.io.IOException;
 import android.util.Base64;
 import android.net.Uri;
 import android.os.Bundle;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
@@ -91,6 +94,35 @@ import android.graphics.Rect;
 import java.io.File;
 
 public final class MainActivity extends ComponentActivity {
+    private boolean firebasePushConfigured=false;
+    private void forwardFcmToken(String token){
+        if(token==null||token.length()<24||token.length()>4096||web==null)return;
+        String current=web.getUrl();
+        Uri page=current==null?null:Uri.parse(current);
+        if(page==null||!"https".equalsIgnoreCase(page.getScheme())||!APP_HOST.equalsIgnoreCase(page.getHost()))return;
+        web.evaluateJavascript("if(window.pocketPushTokenReceived)window.pocketPushTokenReceived("+JSONObject.quote(token)+");",null);
+    }
+    private void initializePocketFcm(){
+        // A valid Firebase project config must be supplied by the owner; no fake token.
+        if(BuildConfig.FCM_API_KEY.isEmpty()||BuildConfig.FCM_APP_ID.isEmpty()
+            ||BuildConfig.FCM_PROJECT_ID.isEmpty()||BuildConfig.FCM_SENDER_ID.isEmpty())return;
+        try{
+            FirebaseOptions options=new FirebaseOptions.Builder()
+                .setApiKey(BuildConfig.FCM_API_KEY)
+                .setApplicationId(BuildConfig.FCM_APP_ID)
+                .setProjectId(BuildConfig.FCM_PROJECT_ID)
+                .setGcmSenderId(BuildConfig.FCM_SENDER_ID).build();
+            if(FirebaseApp.getApps(this).isEmpty())FirebaseApp.initializeApp(this,options);
+            firebasePushConfigured=true;
+            FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token->{
+                if(token!=null&&token.length()>=24&&token.length()<=4096){
+                    getSharedPreferences(PocketFirebaseMessagingService.PREFS,MODE_PRIVATE)
+                        .edit().putString(PocketFirebaseMessagingService.KEY,token).apply();
+                    forwardFcmToken(token);
+                }
+            });
+        }catch(Exception ignored){firebasePushConfigured=false;}
+    }
     private String pendingCommunicationInvite = null;
     private String pendingCommunicationKind = null;
     private String pendingCommunicationTarget = null;
@@ -585,6 +617,7 @@ public final class MainActivity extends ComponentActivity {
         getWindow().getDecorView().setSystemUiVisibility(0);
         getWindow().setStatusBarColor(Color.rgb(6,20,32));
         getWindow().setNavigationBarColor(Color.rgb(6,20,32));
+        initializePocketFcm();
         web = new WebView(this);
         FrameLayout root=new FrameLayout(this);
         appFrame=root;
@@ -691,6 +724,8 @@ public final class MainActivity extends ComponentActivity {
                 if(!"https".equals(Uri.parse(url).getScheme())||!APP_HOST.equals(Uri.parse(url).getHost()))return;
                 dispatchCommunicationInvite();
                 dispatchCommunicationNotification();
+                if(firebasePushConfigured)forwardFcmToken(
+                    PocketFirebaseMessagingService.savedToken(MainActivity.this));
                 // Event-driven native locale sync; no repeating background tests.
                 view.evaluateJavascript("(function(){if(window.__pocketNativeLocaleSync)return;window.__pocketNativeLocaleSync=true;"
                     +"function send(){try{var lang=localStorage.getItem('mypocketai.language');"
