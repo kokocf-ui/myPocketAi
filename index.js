@@ -3419,6 +3419,7 @@ ${ACCOUNT_HTML}
 <nav class="bottom-nav" aria-label="Navigare principală"><button class="nav-btn active" data-nav="home"><span class="nav-icon">⌂</span>Acasă</button><button class="nav-btn" data-nav="conversations"><span class="nav-icon">◷</span>Conversații</button><button class="nav-btn" data-nav="communication"><span class="nav-icon">✉</span>Comunicare</button><button class="nav-btn" data-nav="settings"><span class="nav-icon">⚙</span>Setări</button></nav>
 <div class="avatar-overlay" id="avatarOverlay" aria-hidden="true"><button class="avatar-close" id="avatarClose" aria-label="Închide avatarul">×</button><div class="avatar-stage"><img class="avatar-image" id="avatarImage" src="${AVATAR_DATA}" alt="Avatarul holografic myPocket AI"><iframe id="avatar3dFrame" title="Avatar 3D Pocket AI" loading="eager" aria-hidden="true" style="display:none;width:100%;height:100%;border:0;background:transparent;position:absolute;inset:0" allow="autoplay"></iframe><div class="avatar-message" id="avatarMessage">Salut! Sunt asistentul tău personal.</div><div class="voice-wave" id="voiceWave" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="avatar-status" id="avatarStatus">Bine ai venit!</div></div></div><div class="notice" id="notice" role="status" aria-live="polite"></div>
 <script>
+window.POCKET_COMM_ORACLE_URL=__POCKET_COMM_ORIGIN__;
 ${ACCOUNT_SCRIPT}
 ${COMMUNICATION_SCRIPT}
 ${COMMUNICATION_LIVE_SCRIPT}
@@ -20087,7 +20088,7 @@ export default {
   const publicOracleOrigin=/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(oracleOrigin)?oracleOrigin:'';
   const html=htmlDocument()
    .replace('<html', '<html data-pocket-ui-version="'+uiVersion()+'"')
-   .replace('</head>','<script>window.POCKET_COMM_ORACLE_URL='+JSON.stringify(publicOracleOrigin)+';<\/script></head>');
+   .replace('__POCKET_COMM_ORIGIN__',JSON.stringify(publicOracleOrigin));
   return new Response(html,{headers:{'Content-Type':'text/html; charset=UTF-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin'}});
  }
 };
