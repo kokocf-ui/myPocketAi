@@ -20,6 +20,24 @@ assert.equal(routes.length,1);
 assert.equal(routes[0].durationMinutes,135);
 assert.equal(routes[0].legs[0].mode,'train');
 assert.equal(routes[0].fareLocal.currency,'RON');
+const flat=normalizeBiloTrips({schema_version:2,mode:'rail',results:[{
+ origin:'București Nord',destination:'Brașov',departure_time:'08:30',arrival_time:'11:05',
+ operator:'CFR Călători',train_number:'IR 1535',
+ pricing:{fares:[{amount_bani:6500,currency:'RON',class:'2'}]}
+}]},5,'2026-11-12');
+assert.equal(flat.length,1,'Bilo v2 flat results must produce one journey');
+assert.equal(flat[0].durationMinutes,155);
+assert.equal(flat[0].legs[0].from,'București Nord');
+assert.equal(flat[0].legs[0].mode,'train');
+assert.equal(flat[0].legs[0].departureTime,'2026-11-12T06:30:00.000Z');
+assert.deepEqual(flat[0].fareLocal,{amount:65,currency:'RON'});
+assert.equal(normalizeBiloTrips({schema_version:2,mode:'rail',results:[{
+ origin:'Oradea',destination:'Cluj',departure_time:'23:50',arrival_time:'01:10'
+}]},5,'2026-11-12')[0].durationMinutes,80,'Overnight connection');
+assert.equal(normalizeBiloTrips({results:[{
+ origin:'București',destination:'Brașov',departure_time:'08:30',arrival_time:'11:05'
+}]},5,'2026-11-12').length,0,'Missing transport mode cannot be guessed');
+
 assert.match(romanianJourneySummary(routes,'Oradea','Cluj-Napoca','ro'),/08:00/);
 assert.equal(normalizeBiloTrips({data:{trips:[{legs:[{...from,arrivalTime:''}]}]}}).length,0,'Missing times must not be invented');
 assert.equal(normalizeBiloTrips({data:{trips:[{legs:[{...from,mode:'unknown'}]}]}}).length,0,'Unknown transport means fail closed');
@@ -30,7 +48,7 @@ const mock=async(u,options)=>{url=u;headers=options.headers;body=JSON.parse(opti
 const answer=await planRomanianNationalJourney({BILO_API_KEY:'server-secret'},{origin:'Oradea',destination:'Cluj-Napoca'},{date:'2026-11-12',limit:4,fetchImpl:mock});
 assert.equal(answer.status,'ok');
 assert.equal(answer.journeys.length,1);
-assert.equal(url,'https://mcp.bilo.ro/api/v1/search');
+assert.equal(url,'https://bilo.ro/api/integrations/v1/search');
 assert.equal(headers.Authorization,'Bearer server-secret');
 assert.deepEqual(Object.keys(body).sort(),['origin','destination','date','passengers','mode','railClass','sort','limit'].sort());
 assert.equal((await planRomanianNationalJourney({BILO_API_KEY:'x'},{origin:'Oradea',destination:'Cluj'},{date:'2026-11-12',fetchImpl:async()=>({status:401,ok:false})})).status,'authentication_failed');

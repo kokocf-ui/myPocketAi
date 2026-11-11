@@ -128,6 +128,9 @@ jobs:
           node tests_transit_final_mile.mjs
           node tests_mixed_uk_fallback.mjs
 
+      - name: Validate Romanian national Bilo provider
+        run: node tests_ro_national_transit.mjs
+
       - name: Deploy backend (retry transient Cloudflare outages only)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
