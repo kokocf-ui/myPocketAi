@@ -5,3 +5,12 @@ compatibility_date = "2026-10-28"
 
 [ai]
 binding = "AI"
+
+# Keep the deployed SQLite namespace. Oracle communication may be used separately.
+[[durable_objects.bindings]]
+name = "POCKET_COMM_HUB"
+class_name = "PocketCommunicationHub"
+
+[[migrations]]
+tag = "communication-sqlite-v1"
+new_sqlite_classes = ["PocketCommunicationHub"]
