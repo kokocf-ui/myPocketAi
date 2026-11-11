@@ -1,8 +1,7 @@
 import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathways.mjs';
 import {ACCOUNT_STYLE,ACCOUNT_HTML,ACCOUNT_SCRIPT} from './account_settings_ui.mjs';
 import {COMMUNICATION_HTML,COMMUNICATION_STYLE,COMMUNICATION_SCRIPT} from './communication_ui.mjs';
-import {COMMUNICATION_LIVE_SCRIPT} from './communication_live_ui.mjs';
-import {COMMUNICATION_LIVE_STYLE} from './communication_live_style.mjs';
+import {ORACLE_COMMUNICATION_SCRIPT,ORACLE_COMMUNICATION_STYLE} from './oracle_communication_ui.mjs';
 import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_europe.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
@@ -3420,7 +3419,7 @@ ${ACCOUNT_HTML}
 <script>
 ${ACCOUNT_SCRIPT}
 ${COMMUNICATION_SCRIPT}
-${COMMUNICATION_LIVE_SCRIPT}
+${ORACLE_COMMUNICATION_SCRIPT}
 (() => {
 'use strict';
 // 01 — State and DOM references
@@ -20054,7 +20053,7 @@ html body button:disabled:not(.nav-btn):not(.feature-card):not(.transit-journey-
    assistant controls and action buttons from every module, without JS changes. */
 
 ${COMMUNICATION_STYLE}
-${COMMUNICATION_LIVE_STYLE}
+${ORACLE_COMMUNICATION_STYLE}
 
 </style>
 </body>
@@ -20080,7 +20079,11 @@ export default {
    return env.ASSETS.fetch(new Request(new URL('/avatar-v4.html',url)));
   }
   if (url.pathname !== '/' && url.pathname !== '/index.html') return new Response('Not found',{status:404});
-  const html=htmlDocument().replace('<html', '<html data-pocket-ui-version="'+uiVersion()+'"');
+  const oracleOrigin=String(env?.COMMUNICATION_ORACLE_ORIGIN||'').replace(/\/+$/,'');
+  const publicOracleOrigin=/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(oracleOrigin)?oracleOrigin:'';
+  const html=htmlDocument()
+   .replace('<html', '<html data-pocket-ui-version="'+uiVersion()+'"')
+   .replace('</head>','<script>window.POCKET_COMM_ORACLE_URL='+JSON.stringify(publicOracleOrigin)+';<\/script></head>');
   return new Response(html,{headers:{'Content-Type':'text/html; charset=UTF-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin'}});
  }
 };
