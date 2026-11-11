@@ -64,6 +64,14 @@ assert.equal(flat[0].legs[0].from,'București Nord');
 assert.equal(flat[0].legs[0].mode,'train');
 assert.equal(flat[0].legs[0].departureTime,'2026-11-12T06:30:00.000Z');
 assert.deepEqual(flat[0].fareLocal,{amount:65,currency:'RON'});
+const replacementBus=normalizeBiloTrips({results:[{
+ origin:'Oradea',destination:'Cluj-Napoca',mode:'rail_replacement_bus',
+ departure_time:'04:00',arrival_time:'08:25',operator:'Transferoviar Călători'
+}]},5,'2026-11-12');
+assert.equal(replacementBus.length,1);
+assert.equal(replacementBus[0].legs[0].mode,'coach','Do not call a rail replacement bus a train');
+assert.equal(replacementBus[0].durationMinutes,265);
+
 
 const nestedBilo={data:{mode:'rail',results:[{itinerary:{route:{legs:[{
  departure:{station:{name:'București Nord'},time:'2026-11-12T08:30:00+02:00'},
