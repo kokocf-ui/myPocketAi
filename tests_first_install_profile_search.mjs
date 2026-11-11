@@ -13,7 +13,7 @@ assert.ok(formStart>=0&&formEnd>formStart,'Native first-install setup exists');
 const firstScreen=native.slice(formStart,formEnd);
 assert.match(firstScreen,/myPocket AI/,'Brand is visible on onboarding');
 assert.doesNotMatch(firstScreen,/\bEva\b/,'Eva name is secret until the avatar appears');
-for(const name of ['Adresă de e-mail','Nume preferat','Vârstă','Bărbat','Femeie','Nu declar'])
+for(const name of ['Adresă de e-mail','Nume preferat','Data nașterii','Bărbat','Femeie','Nu declar'])
  assert.ok(firstScreen.includes(name),'Missing profile field: '+name);
 for(const name of ['Localizare','Microfon','Fotografiere','Notificări'])
  assert.ok(firstScreen.includes(name),'Missing purpose explanation: '+name);
@@ -22,7 +22,7 @@ assert.match(firstScreen,/pocket_user_profile/,'Profile saves in private app pre
 assert.match(firstScreen,/getCheckedRadioButtonId/,'Gender selection is functional');
 assert.match(firstScreen,/android\.util\.Patterns\.EMAIL_ADDRESS/,'Email validated before save');
 assert.match(firstScreen,/preferredName\.length\(\)<2/,'Preferred name validated');
-assert.match(firstScreen,/age<1\|\|age>120/,'Age validated');
+assert.match(firstScreen,/UserProfileDates\.ageFromBirthDate\(birthDate\)/,'Current age is calculated from date of birth');
 assert.match(firstScreen,/beginSystemPermissions\(\)/,'Validated profile proceeds to permissions');
 assert.match(native,/firstSetupShownThisLaunch\?firstGreetingForLanguage\(launchLanguage\):greetingForLanguage\(launchLanguage\)/,
  'Avatar introduces Eva only on the actual first installation');
@@ -33,7 +33,7 @@ assert.match(main,/getSharedPreferences\("pocket_user_profile"/,'Profile is read
 assert.match(main,/prefillEmailForSharedPdf\(send\)/,'Share chooser can prefill the saved email address');
 assert.match(main,/send\.putExtra\(Intent\.EXTRA_EMAIL/,'PDF recipient is provided through Android chooser');
 assert.match(main,/window\.__pocketNativeProfile=JSON\.parse/,'Only conversation profile crosses to trusted WebView');
-assert.doesNotMatch(main.slice(main.indexOf('private void provideLocalUserProfile('),main.indexOf('private void prefillEmailForSharedPdf(')),/profile\.put\("email"/,
+assert.doesNotMatch(main.slice(main.indexOf('private void provideLocalUserProfile('),main.indexOf('private void sendPocketAccount(')),/profile\.put\("email"/,
  'No email is exposed to the web assistant');
 
 const p=normalizeConversationProfile({preferred_name:'  Ioana  ',age:23,sex:'female',email:'secret@example.com'});
