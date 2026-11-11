@@ -7,10 +7,14 @@ import android.content.Intent;
 /** Receives reminders even when the Pocket AI activity is not running. */
 public final class AgendaReminderReceiver extends BroadcastReceiver {
     @Override public void onReceive(Context context,Intent intent){
-        if(AgendaReminderScheduler.ACTION_FIRE.equals(intent.getAction())){
+        String action=intent==null?"":intent.getAction();
+        if(AgendaReminderScheduler.ACTION_FIRE.equals(action))
             AgendaReminderScheduler.display(context,intent);
-        }
-        // Restore after reboot, timezone changes, and recurring birthday delivery.
+        else if(ProfileBirthdayScheduler.ACTION_FIRE.equals(action))
+            ProfileBirthdayScheduler.fire(context,intent);
+        // Restore both user events and the optional profile greeting after
+        // reboot, timezone/time changes or delivery; no duplicate alarms.
         AgendaReminderScheduler.reschedule(context);
+        ProfileBirthdayScheduler.reschedule(context);
     }
 }
