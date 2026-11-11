@@ -11,6 +11,7 @@ import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
+import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage} from "./ro_transport_mode_policy.mjs";
 import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
 import {romanianNationalQuery,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
@@ -1102,7 +1103,7 @@ function routeMessageSpec(text){
  if(!route)return null;
  const viaMatch=String(text).match(/\s+(?:via|prin|through)\s+(.+)$/i);
  const clean=cleanTravelPlace(viaMatch?String(text).slice(0,viaMatch.index):text).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[?!.]+$/g,'').trim();
- const pair=clean.match(/(?:\bdin|\bde la|\bfrom)\s+(.+?)\s+(?:pana\s+(?:la|in)|to)\s+(.+)$/i);
+ const pair=clean.match(/(?:\bdin|\bde la|\bfrom)\s+(.+?)\s+(?:pana\s+(?:la|in)|to|la|spre|catre)\s+(.+)$/i);
  const cityVenue=clean.match(/(?:vreau sa ajung|cum ajung|merg|go|travel)\s+in\s+(.+?)\s+la\s+(.+)$/i);
  const dest=clean.match(/(?:pana\s+(?:in|la)|catre|spre|\bto|\bla)\s+(.+)$/i);
  const own=v=>/^(?:foloseste |use )?(?:locatia mea|pozitia mea(?: gps)?|my (?:current )?(?:location|position)|gps|aici|here)$/.test(normalizeGeoName(v));
@@ -2956,10 +2957,14 @@ export default {
             transit_available:false,route_available:false,reason:'ro_departure_date_invalid'});
         }
         const date=romanianDepartureDate(message,selectedAt||null);
-        const result=await planRomanianNationalJourney(env,{origin,destination},{date,limit:requestedOptionsCount});
-        const journeys=requestedAt&&result.journeys.length
+        const vehicle=requestedRomanianVehicle(message,data.transit_preference);
+        const result=await planRomanianNationalJourney(env,{origin,destination},{
+          date,limit:vehicle==='all'?requestedOptionsCount:8
+        });
+        const allJourneys=requestedAt&&result.journeys.length
           ?result.journeys.filter(j=>Date.parse(j.startDateTime)>=requestedAt-120000)
           :result.journeys;
+        const journeys=filterRomanianVehicleJourneys(allJourneys,vehicle).slice(0,requestedOptionsCount);
         if(journeys.length){
           const reply=romanianJourneySummary(journeys,origin,destination,lang);
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
@@ -2968,6 +2973,15 @@ export default {
             transit_provider:'Bilo',source:'Bilo: operator-published schedules (not seat availability)',
             transit_departure_at:selectedAt||null,provider_status:{bilo:result.status},
             requested_transit_count:requestedOptionsCount});
+        }
+        // A real train response does not fulfill an explicit coach request.
+        if(result.status==='ok'&&allJourneys.length&&vehicle!=='all'&&!journeys.length){
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+            message_received:message,reply:romanianModeNoResultsMessage(vehicle,lang),
+            transit_available:false,route_available:false,mixed_journey:true,
+            romanian_national_journey:true,transit_provider:'Bilo',
+            reason:'ro_requested_vehicle_unavailable',requested_vehicle:vehicle,
+            provider_status:{bilo:result.status}});
         }
         // When Bilo is unconfigured, do not claim a fictitious Romanian
         // timetable. A future licensed MOTIS backend can be checked separately.
