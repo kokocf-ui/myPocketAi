@@ -29,7 +29,13 @@ const isRoGPS=pt=>Number.isFinite(Number(pt?.latitude))&&Number.isFinite(Number(
 const isDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(String(value||''))&&!Number.isNaN(Date.parse(String(value)+'T12:00:00Z'));
 const placeName=value=>{
  if(typeof value==='string')return value.trim().slice(0,140);
- if(value&&typeof value==='object')return String(value.name||value.station||value.label||value.city||'').trim().slice(0,140);
+ if(value&&typeof value==='object'){
+  const text=value.name||value.station_name||value.stop_name||value.stationName||
+   value.stopName||value.display_name||value.label||value.city||value.locality;
+  if(typeof text==='string')return text.trim().slice(0,140);
+  if(value.station&&value.station!==value)return placeName(value.station);
+  if(value.stop&&value.stop!==value)return placeName(value.stop);
+ }
  return '';
 };
 const normalizeMode=raw=>{
@@ -38,6 +44,8 @@ const normalizeMode=raw=>{
  if(/tren|train|rail|interregio|regio/.test(mode))return 'train';
  if(/autocar|coach/.test(mode))return 'coach';
  if(/autobuz|bus/.test(mode))return 'bus';
+ if(/feroviar|feroviara|feroviara/.test(mode))return 'train';
+ if(/microbuz|minibus/.test(mode))return 'bus';
  return '';
 };
 function localClock(iso){
@@ -75,20 +83,29 @@ function bucharestOffset(date){
  return (m[1]==='-'?-1:1)*(Number(m[2])*60+Number(m[3]||0));
 }
 function providerTimestamp(value,date,previous=null){
+ if(value&&typeof value==='object'){
+  value=value.iso||value.datetime||value.dateTime||value.timestamp||
+   value.local_datetime||value.local_time||value.time||value.value||'';
+ }
+ if(typeof value==='number'&&Number.isFinite(value)){
+  const n=Math.abs(value)<1e11?value*1000:value;
+  return n>=946684800000&&n<=4102444800000?n:null;
+ }
  const raw=String(value??'').trim();
  if(!raw)return null;
+ // Provider clock-only HH:mm[:ss] requires the requested travel date.
  const plain=raw.match(/^(?:(\d{4}-\d{2}-\d{2})[T\s])?(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
  if(plain){
   const day=plain[1]||date;
   const offset=bucharestOffset(day);
   if(offset===null||Number(plain[2])>23||Number(plain[3])>59||Number(plain[4]||0)>59)return null;
   let ts=Date.parse(day+'T'+plain[2].padStart(2,'0')+':'+plain[3]+':'+(plain[4]||'00')+'Z')-offset*60000;
-  // A stated arrival clock earlier than departure may be a next-day train.
   if(previous!==null&&ts<previous&&previous-ts<24*3600000)ts+=86400000;
   return Number.isFinite(ts)?ts:null;
  }
- const parsed=Date.parse(raw);
- return Number.isFinite(parsed)?parsed:null;
+ const iso=raw.replace(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})\s*([+-]\d{2}:\d{2})$/,'$1T$2$3');
+ const parsed=Date.parse(iso);
+ return Number.isFinite(parsed)&&parsed>=946684800000&&parsed<=4102444800000?parsed:null;
 }
 function biloFare(item){
  const pricing=item?.pricing?.fares;
