@@ -55,45 +55,105 @@ export function romanianNationalQuery(message,opts={}){
  if(!majorPair&&!explicitRomania&&!isRoGPS(opts.location))return null;
  return {origin,destination,hasOrigin:Boolean(origin),hasDestination:Boolean(destination)};
 }
-export function normalizeBiloTrips(payload,limit=5){
- const nested=payload&&typeof payload==='object'?payload:{};
- const arr=[nested.trips,nested.journeys,nested.results,nested.data?.trips,
-   nested.data?.journeys,nested.data?.results,nested.data?.items].find(Array.isArray)||[];
+// The Bilo integration API uses the same search input as its MCP tool, but
+// responses can contain full legs OR flat rail/bus records with HH:mm times.
+// Accept only explicitly sourced modes, stops and times; never fabricate a trip.
+function bucharestOffset(date){
+ const base=new Date(date+'T12:00:00Z');
+ if(!Number.isFinite(base.getTime()))return null;
+ const name=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Bucharest',timeZoneName:'shortOffset'})
+  .formatToParts(base).find(p=>p.type==='timeZoneName')?.value||'';
+ const m=name.match(/^GMT([+-])(\\d{1,2})(?::(\\d{2}))?$/);
+ if(!m)return name==='GMT'?0:null;
+ return (m[1]==='-'?-1:1)*(Number(m[2])*60+Number(m[3]||0));
+}
+function providerTimestamp(value,date,previous=null){
+ const raw=String(value??'').trim();
+ if(!raw)return null;
+ const plain=raw.match(/^(?:(\\d{4}-\\d{2}-\\d{2})[T\\s])?(\\d{1,2}):(\\d{2})(?::(\\d{2}))?$/);
+ if(plain){
+  const day=plain[1]||date;
+  const offset=bucharestOffset(day);
+  if(offset===null||Number(plain[2])>23||Number(plain[3])>59||Number(plain[4]||0)>59)return null;
+  let ts=Date.parse(day+'T'+plain[2].padStart(2,'0')+':'+plain[3]+':'+(plain[4]||'00')+'Z')-offset*60000;
+  // A stated arrival clock earlier than departure may be a next-day train.
+  if(previous!==null&&ts<previous&&previous-ts<24*3600000)ts+=86400000;
+  return Number.isFinite(ts)?ts:null;
+ }
+ const parsed=Date.parse(raw);
+ return Number.isFinite(parsed)?parsed:null;
+}
+function biloFare(item){
+ const pricing=item?.pricing?.fares;
+ const candidates=[...(Array.isArray(pricing)?pricing:[]),item?.fare,item?.price].filter(Boolean);
+ for(const p of candidates){
+  const value=typeof p==='object'?p:{amount:p,currency:item?.currency||'RON'};
+  const bani=Number(value?.amount_bani);
+  const raw=Number(value?.amount??value?.value);
+  const amount=Number.isFinite(bani)&&value?.amount_bani!=null?bani/100:raw;
+  const currency=String(value?.currency||item?.currency||'').toUpperCase();
+  if(Number.isFinite(amount)&&amount>=0&&/^[A-Z]{3}$/.test(currency))
+   return {amount,currency};
+ }
+ return null;
+}
+function biloRecords(payload){
+ // Some API responses wrap search in data, results, or structuredContent.
+ let node=payload;
+ for(let i=0;i<5;i++){
+  if(Array.isArray(node))return {items:node,mode:''};
+  if(!node||typeof node!=='object')break;
+  for(const key of ['trips','journeys','results','items']){
+   if(Array.isArray(node[key]))return {items:node[key],mode:String(node.mode||'')};
+  }
+  node=node.structuredContent||node.data||node.result;
+ }
+ return {items:[],mode:''};
+}
+export function normalizeBiloTrips(payload,limit=5,date=''){
+ const {items,mode:rootMode}=biloRecords(payload);
  const seen=new Set(),out=[];
- for(const item of arr){
+ for(const item of items){
   if(out.length>=Math.min(10,Math.max(1,limit)))break;
   if(!item||typeof item!=='object')continue;
-  const segments=Array.isArray(item.legs)?item.legs:Array.isArray(item.segments)?item.segments:[];
-  if(!segments.length)continue;
-  const legs=segments.map(x=>{
-   const depart=String(x.departureTime||x.departure||x.departure_at||x.startDateTime||x.startTime||'');
-   const arrive=String(x.arrivalTime||x.arrival||x.arrival_at||x.endDateTime||x.endTime||'');
-   const dt=Date.parse(depart),at=Date.parse(arrive);
-   const from=placeName(x.from||x.origin||x.fromStation||x.departureStation);
-   const to=placeName(x.to||x.destination||x.toStation||x.arrivalStation);
-   const mode=normalizeMode(x.mode||x.type||x.transportMode||x.category);
-   const number=String(x.line||x.lineName||x.trainNumber||x.routeShortName||x.number||'').slice(0,36);
-   if(!Number.isFinite(dt)||!Number.isFinite(at)||at<=dt||!from||!to||!mode)return null;
-   return {mode,from,to,departureTime:new Date(dt).toISOString(),
-    arrivalTime:new Date(at).toISOString(),lineNames:number?[number]:[],
-    operator:String(x.operator?.name||x.operatorName||x.operator||'').slice(0,100)};
-  });
-  if(legs.some(x=>!x))continue;
-  if(legs.length>8||legs.some((l,i)=>i>0&&Date.parse(l.departureTime)<Date.parse(legs[i-1].arrivalTime)))continue;
+  const segments=Array.isArray(item.legs)?item.legs:
+    Array.isArray(item.segments)?item.segments:
+    Array.isArray(item.connections)?item.connections:
+    [item]; // Bilo search API v2 exposes flat result records.
+  if(!segments.length||segments.length>8)continue;
+  const legs=[];
+  for(const seg of segments){
+   if(!seg||typeof seg!=='object'){legs.length=0;break;}
+   const from=placeName(seg.from||seg.origin||seg.fromStation||seg.departureStation||
+     seg.departure_station||seg.origin_station||((segments.length===1)?item.origin:null));
+   const to=placeName(seg.to||seg.destination||seg.toStation||seg.arrivalStation||
+     seg.arrival_station||seg.destination_station||((segments.length===1)?item.destination:null));
+   const mode=normalizeMode(seg.mode||seg.type||seg.transportMode||seg.transport_mode||
+     seg.category||item.mode||item.transport_mode||rootMode||
+     (seg.train_number||seg.trainNumber||item.train_number?'rail':''));
+   const dep=providerTimestamp(seg.departureTime||seg.departure_time||seg.departure||
+     seg.departure_at||seg.startDateTime||seg.startTime||seg.start_time,date);
+   const arr=providerTimestamp(seg.arrivalTime||seg.arrival_time||seg.arrival||
+     seg.arrival_at||seg.endDateTime||seg.endTime||seg.end_time,date,dep);
+   if(!from||!to||!mode||dep===null||arr===null||arr<=dep||
+      (legs.length&&dep<Date.parse(legs[legs.length-1].arrivalTime))){legs.length=0;break;}
+   const line=String(seg.line||seg.lineName||seg.line_name||seg.trainNumber||
+      seg.train_number||seg.routeShortName||seg.number||item.train_number||'').slice(0,36);
+   const operator=seg.operator||seg.operatorName||seg.operator_name||item.operator||'';
+   legs.push({mode,from,to,departureTime:new Date(dep).toISOString(),
+      arrivalTime:new Date(arr).toISOString(),lineNames:line?[line]:[],
+      operator:String(typeof operator==='object'?operator.name||'':operator).slice(0,100)});
+  }
+  if(!legs.length)continue;
   const start=legs[0].departureTime,end=legs[legs.length-1].arrivalTime;
   const durationMinutes=Math.round((Date.parse(end)-Date.parse(start))/60000);
   if(durationMinutes<1||durationMinutes>48*60)continue;
-  const key=legs.map(x=>[x.from,x.to,x.departureTime,x.mode].join('|')).join(',');
-  if(seen.has(key))continue;
-  seen.add(key);
-  const priceObj=item.fare||item.price;
-  const amount=typeof priceObj==='number'?priceObj:Number(priceObj?.amount||priceObj?.value||NaN);
-  const ccy=String((typeof priceObj==='object'?priceObj?.currency:'')||item.currency||'').toUpperCase();
-  out.push({
-   startDateTime:start,arrivalDateTime:end,durationMinutes,legs,time_zone:'Europe/Bucharest',
-   fareLocal:Number.isFinite(amount)&&amount>=0&&/^[A-Z]{3}$/.test(ccy)?{amount,currency:ccy}:null,
-   scheduled:true,real_time:false,source:'Bilo: operator schedule'
-  });
+  const id=legs.map(x=>[x.from,x.to,x.departureTime,x.mode].join('|')).join(',');
+  if(seen.has(id))continue;
+  seen.add(id);
+  out.push({startDateTime:start,arrivalDateTime:end,durationMinutes,legs,
+    time_zone:'Europe/Bucharest',fareLocal:biloFare(item),
+    scheduled:true,real_time:false,source:'Bilo: operator schedule'});
  }
  return out;
 }
@@ -104,7 +164,7 @@ export async function planRomanianNationalJourney(env,query,opts={}){
  const date=opts.date;
  if(!isDate(date))return {status:'date_invalid',journeys:[]};
  const limit=Math.min(8,Math.max(1,Number(opts.limit)||5));
- const url='https://mcp.bilo.ro/api/v1/search';
+ const url='https://bilo.ro/api/integrations/v1/search';
  try{
   const response=await (opts.fetchImpl||fetch)(url,{
    method:'POST',
@@ -117,7 +177,7 @@ export async function planRomanianNationalJourney(env,query,opts={}){
   if(response.status===429)return {status:'quota_exceeded',journeys:[]};
   if(!response.ok)return {status:'provider_http_'+response.status,journeys:[]};
   const payload=await response.json();
-  const journeys=normalizeBiloTrips(payload,limit);
+  const journeys=normalizeBiloTrips(payload,limit,date);
   return {status:journeys.length?'ok':'no_verified_itineraries',journeys};
  }catch(e){return {status:e?.name==='TimeoutError'?'timeout':'provider_network_error',journeys:[]};}
 }
