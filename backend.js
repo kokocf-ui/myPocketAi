@@ -2936,7 +2936,7 @@ export default {
           transit_available:false,route_available:false,transit_provider:'Romania GTFS static',
           reason,provider_status:{ro_urban:result.status,region:result.region}});
       }
-      if(roTransitQuery){
+      if(roTransitQuery && (env.BILO_API_KEY || !env.MOTIS_API_BASE_URL)){
         const origin=roTransitQuery.origin || await reverseRomanianOriginCity(env,hasValidLocation?{latitude,longitude}:null);
         const destination=roTransitQuery.destination;
         if(!origin||!destination){
