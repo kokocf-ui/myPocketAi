@@ -7443,7 +7443,7 @@ function pocketSyncExitDock(){
 window.addEventListener('resize',()=>{if(pocketExitOpen)pocketSyncExitDock()});
 if(window.visualViewport)window.visualViewport.addEventListener('resize',()=>{if(pocketExitOpen)pocketSyncExitDock()});
 function pocketExitPrompt(){
- if(state.currentView!=='home'||pocketExitOpen)return;
+ if(!['home','assistant'].includes(state.currentView)||pocketExitOpen)return;
  // Reuse the same 3D avatar stage and its animation as on startup and voice replies.
  pocketClearExitTimer();pocketExitOpen=true;avatarWelcomeQueued=false;
  pocketSyncExitDock();
@@ -18681,7 +18681,30 @@ function isRecipeQuestion(text){
  return /\b(?:retet\w*|recipe\w*|ingredient\w*|cum\s+(?:se\s+)?(?:prepar\w*|gatesc|gatesti|gati\w*|face|fac)\b|how\s+to\s+cook|sarmal\w*|ciorb\w*\s+de\s+burt\w*)\b/.test(value);
 }
 // Keep small talk out of location and pending-route flows.
+// Guard obvious personal dialogue locally; the backend Eva speech-act gate
+// makes the final routing decision. Do not suppress explicit maps/tasks here.
+function evaClientNormalize(value){
+ return String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
+  .toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\\s+/g,' ').trim();
+}
+function isEvaExitCommandClient(value){
+ const t=evaClientNormalize(value).replace(/^(?:(?:buna|salut|hey|hello)\\s+)?(?:eva|evo)\\s+/,'');
+ return /^(?:(?:vreau|as vrea|doresc)\\s+sa\\s+(?:inchid|ies din|parasesc|opresc)|(?:te rog sa\\s+)?(?:inchide|opreste)|(?:i want to|please)\\s+(?:close|exit)|(?:close|exit))\\s+(?:acum\\s+)?(?:aplicatia|app|the app|application|mypocket ai|my pocket ai)(?:\\s+te rog)?$/.test(t);
+}
+function isEvaConversationClient(value){
+ const t=evaClientNormalize(value);
+ if(!t)return false;
+ if(isEvaExitCommandClient(value))return true;
+ const core=t.replace(/^(?:(?:buna|salut|hei|hey|hello|hi)\\s+)?(?:eva|evo)\\s+/,'');
+ if(/^(?:cum ajung|vreau sa (?:ajung|merg|calatoresc|caut|gasesc)|unde (?:este|e|gasesc)|ce este|ce stii despre|care este (?:capitala|pretul|vremea)|cauta|gaseste|arata|explica|verifica|tradu|calculeaza|rezolva|recomanda|take me to|where is|find|what is|explain|translate)\\b/.test(core))return false;
+ if(/^(?:buna|salut|hei|hello|hey|hi|neata|good morning|multumesc|mersi|merci|thanks|thank you|la revedere|bye)\\b/.test(t))return true;
+ if(/\\b(?:cum te cheama|cine esti|cum te numesti|ce fel de asistenta esti|who are you|what s your name)\\b/.test(t))return true;
+ if(/^(?:nu prea m ai convins|parca vorbesti|fii mai naturala|incearca sa fii|si daca ma supar|daca ma supar|despre ce te am tachinat|ce am discutat mai devreme|ma contrazici|esti (?:cam )?(?:proasta|obraznica|nesimtita)|glumeam|glumesc)\\b/.test(core))return true;
+ return /^(?:(?:buna|salut|hei|hello)\\s+)?(?:eva|evo)\\b/.test(t)
+  &&/\\b(?:esti|te|tine|tie|ma|mi|m ai|mi ai|tachinat|contrazici|supar|impaci|obraznica|gluma|frumoaso|natural|prostie|vorbesti|your|you)\\b/.test(core);
+}
 function isCasualConversationReply(value){
+ if(isEvaConversationClient(value))return true;
  const text=String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
    .replace(/[!?.,;:]+/g,' ').replace(/ +/g,' ').trim();
  // Social feedback is never the name of a place. Do not request GPS for it.
@@ -18689,6 +18712,7 @@ function isCasualConversationReply(value){
  return /^(?:(?:eu )?(?:sunt|ma simt) (?:(?:foarte|destul de|chiar) )?(?:bine|ok|okay|excelent|grozav|in regula)(?: (?:multumesc|mersi))?|(?:(?:foarte|destul de) )?bine(?: (?:multumesc|mersi))?|(?:multumesc|mersi) sunt bine|nu (?:prea )?(?:sunt|ma simt) bine|(?:sunt|ma simt) (?:rau|trist|trista|obosit|obosita|ingrijorat|ingrijorata)|(?:i am|i'm) (?:fine|good|okay|ok|great|not well|not okay|sad|tired|worried)(?: thanks)?|(?:fine|good|great) thanks)(?: (?:si tu|and you))?$/.test(text);
 }
 function requestUsesLocation(text){
+ if(isEvaConversationClient(text))return false;
  const value=String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
  if(isRecipeQuestion(value))return false;
  if(isCasualConversationReply(text))return false;
@@ -18702,7 +18726,7 @@ function requestUsesLocation(text){
    || (/^[\\p{L}0-9&' .-]{3,55}$/u.test(value)&&value.split(/\\s+/).length<=3&&!/^(?:ce|care|cum|cat|cand|what|why|how|hello|salut|multumesc)\\b/i.test(value));
 }
 async function coordinatesForRequest(text){
- const locationIntent=!isRecipeQuestion(text)&&!isCasualConversationReply(text)&&(Boolean(state.pendingTravelMode)||requestUsesLocation(text)),cached=cachedCoordinates();
+ const locationIntent=!isRecipeQuestion(text)&&!isCasualConversationReply(text)&&!isEvaConversationClient(text)&&(Boolean(state.pendingTravelMode)||requestUsesLocation(text)),cached=cachedCoordinates();
  if(!locationIntent)return {coordinates:cached,locationIntent:false,error:null};
  if(cached&&cached.age_ms<=30000)return {coordinates:cached,locationIntent:true,error:null};
  let timer;try{
@@ -18720,7 +18744,7 @@ function requestedTransitCountInMessage(value){
  const words={unu:1,una:1,un:1,o:1,one:1,doi:2,doua:2,two:2,trei:3,three:3,patru:4,four:4};
  return Number(found[1])||words[found[1]]||null;
 }
-async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;if(state.currentView==='module'&&state.currentModule==='learning'&&activeLearningSubject){const topic=learningLabel(activeLearningSubject[2],activeLearningSubject[3]);message=(state.language==='ro'?'Materia: ':'Subject: ')+topic+'. '+message;}if(isRecipeQuestion(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isCasualConversationReply(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;}if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;const chosenRegion=state.lastEncyclopediaArticle?.is_region===true&&state.lastEncyclopediaArticle.title===country;const searchArea=chosenRegion?country+', '+(state.lastEncyclopediaArticle.parent_country||''):country;state.tripCountryOnChoice=searchArea;message=(dialogText("Vreau să ajung la ","I want to get to "))+message+', '+searchArea;state.travelAccommodationIntent=false;state.lastEncyclopediaTripQuery=message;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
+async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;if(state.currentView==='module'&&state.currentModule==='learning'&&activeLearningSubject){const topic=learningLabel(activeLearningSubject[2],activeLearningSubject[3]);message=(state.language==='ro'?'Materia: ':'Subject: ')+topic+'. '+message;}if(state.currentView==='assistant'&&isEvaExitCommandClient(message)){addBubble(message,'user');state.messages.push({role:'user',text:message});state.messages=state.messages.slice(-40);inputEl.value='';setStatus(dialogText('Confirmă închiderea aplicației.','Confirm closing the app.'));pocketExitPrompt();return;}if(isEvaConversationClient(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isRecipeQuestion(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isCasualConversationReply(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;}if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;const chosenRegion=state.lastEncyclopediaArticle?.is_region===true&&state.lastEncyclopediaArticle.title===country;const searchArea=chosenRegion?country+', '+(state.lastEncyclopediaArticle.parent_country||''):country;state.tripCountryOnChoice=searchArea;message=(dialogText("Vreau să ajung la ","I want to get to "))+message+', '+searchArea;state.travelAccommodationIntent=false;state.lastEncyclopediaTripQuery=message;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
  const explicitCount=isRecipeQuestion(message)?null:requestedTransitCountInMessage(message);
  if(explicitCount)state.requestedTransitCount=explicitCount;
  else if(/^(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)/i.test(message)&&!state.pendingTravelMode)state.requestedTransitCount=null;
