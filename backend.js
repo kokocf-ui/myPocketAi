@@ -2993,6 +2993,8 @@ export default {
           Boolean(cityFirstStation&&cityFirstStation[1].trim().split(/\s+/).length>=2)||
           Boolean(londonQualifiedName&&londonQualifiedName[1].trim().split(/\s+/).length>=2);
         const unqualifiedStation=/\b(station|underground|tube|metro|railway)\b/i.test(requestedStationName)&&! /\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|paris|france|berlin|germany|rome|italy|madrid|spain|canada|australia)\b/i.test(requestedStationName);
+        const undergroundModeRequested=/\b(?:underground|tube|metro)\b/i.test(requestedStationName);
+        const victoriaTubeQuery=/^(?:(?:london|londra)\s+)?victoria\s+(?:underground|tube|metro)(?:\s+station)?$/i.test(requestedStationName.trim());
         if(env.TFL_APP_KEY && tryVerifiedStation){
           try{
             const stopQuery=targetName.replace(/\b(london|londra|underground|railway|rail|train|station|tube)\b/gi," ").replace(/[,\s]+/g," ").trim();
@@ -3016,24 +3018,43 @@ export default {
                   const metadata=[p.stopType,p.motType,p.network,p.id,
                     resultStationName(p),...(Array.isArray(p.modes)?p.modes:[])].join(' ');
                   const railStation=/rail|underground|station|metro|overground|dlr|tube|\b910g|\b940g/i.test(metadata);
+                  const tubeMatch=/(?:tube|underground|metro|940g)/i.test(metadata);
                   return name===wanted && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lon)) &&
-                    !!p.id && (explicitStationWord||railStation);
+                    !!p.id && (explicitStationWord||railStation) && (!undergroundModeRequested||tubeMatch);
                 });
                 stationLookupDiagnostic.returned=stopResults.length;
                 stationLookupDiagnostic.matched=good.length;
-                // Multiple entrances can share the name. Prefer rail over
-                // underground, then proximity to the origin.
-                const stationRank=p=>/rail|\b910g/i.test([p.motType,p.stopType,p.network,p.id,resultStationName(p)].join(' '))?0:
-                  /underground|metro|tube|\b940g/i.test([p.motType,p.stopType,p.network,p.id,resultStationName(p)].join(' '))?1:2;
+                // Respect the requested station type; an Underground query
+                // must never silently resolve to the National Rail platforms.
+                const stationRank=p=>{
+                  const detail=[p.motType,p.stopType,p.network,p.id,resultStationName(p),...(p.modes||[])].join(' ');
+                  if(victoriaTubeQuery&&String(p.id)==='940GZZLUVIC')return -1;
+                  if(undergroundModeRequested)return /(?:tube|underground|metro|940g)/i.test(detail)?0:3;
+                  return /rail|\b910g/i.test(detail)?0:
+                    /underground|metro|tube|\b940g/i.test(detail)?1:2;
+                };
                 const closest=good.sort((a,b)=>stationRank(a)-stationRank(b)||
                   Math.hypot(Number(a.lat)-latitude,Number(a.lon)-longitude)-
                   Math.hypot(Number(b.lat)-latitude,Number(b.lon)-longitude))[0];
-                if(unqualifiedStation && !confirmedStop && good.length){
-                  const seen=new Set(),opts=[];
-                  for(const p of good){const key=resultStationName(p).toLowerCase()+":"+Math.round(Number(p.lat)*1000)+":"+Math.round(Number(p.lon)*1000);if(seen.has(key))continue;seen.add(key);opts.push({label:resultStationName(p)||"Station",latitude:Number(p.lat),longitude:Number(p.lon)});if(opts.length>=4)break;}
+                if(unqualifiedStation && !confirmedStop && good.length && !victoriaTubeQuery){
+                  const opts=[];
+                  for(const p of good){
+                    const detail=[p.stopType,p.motType,p.network,p.id,...(p.modes||[])].join(' ');
+                    const tube=/(?:tube|underground|metro|940g)/i.test(detail);
+                    const core=resultStationName(p).replace(/\b(?:railway|rail|underground|station|national|london)\b/gi,' ').replace(/\s+/g,' ').trim();
+                    const label=(core||resultStationName(p)||'Station')+(tube?' Underground Station':' Rail Station');
+                    const lat=Number(p.lat),lon=Number(p.lon);
+                    if(opts.some(v=>v.label===label&&Math.abs(v.latitude-lat)<.0045&&Math.abs(v.longitude-lon)<.0045))continue;
+                    opts.push({label,latitude:lat,longitude:lon,stop_id:String(p.id)});
+                    if(opts.length>=4)break;
+                  }
                   return json({app:"Pocket AI",version:API_VERSION,status:"success",reply:"Alege stația dorită:",needs_destination_clarification:true,destination_candidates:opts,transit_available:false});
                 }
-                if(closest){targetLat=Number(closest.lat);targetLon=Number(closest.lon);targetName=resultStationName(closest);verifiedStopId=String(closest.id);stationLookupDiagnostic.selected=true;}
+                if(closest){
+                  targetLat=Number(closest.lat);targetLon=Number(closest.lon);
+                  targetName=victoriaTubeQuery?'Victoria Underground Station, London':resultStationName(closest);
+                  verifiedStopId=String(closest.id);stationLookupDiagnostic.selected=true;
+                }
               }
             }
           }catch(e){transportErrors.tfl_station_search=String(e&&e.name||"lookup_failed");}
