@@ -93,7 +93,10 @@ import java.io.File;
 public final class MainActivity extends ComponentActivity {
     private String pendingCommunicationInvite = null;
     private static String communicationInviteCode(Intent intent) {
-        if (intent==null || intent.getData()==null) return null;
+        if (intent==null)return null;
+        String forwarded=intent.getStringExtra("communication_invite");
+        if(forwarded!=null && forwarded.matches("[A-Za-z0-9_-]{32,150}"))return forwarded;
+        if(intent.getData()==null)return null;
         Uri data=intent.getData();
         if (!"mypocketai".equalsIgnoreCase(data.getScheme()) || !"invite".equalsIgnoreCase(data.getHost())) return null;
         if (data.getPathSegments().size()!=1) return null;
