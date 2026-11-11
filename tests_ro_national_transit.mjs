@@ -66,7 +66,7 @@ assert.match(backend,/romanianNationalQuery\(message/,'Romanian intent enters un
 assert.match(backend,/roTransitQuery \|\| explicitMixedJourney/,'Romanian queries reach transit branch');
 assert.match(backend,/transit_provider:'Bilo'/,'Response identifies the provider');
 assert.match(backend,/ro_provider_access_forbidden/,'403 has distinct safe diagnostic');
-assert.match(backend,/http_status:result.http_status\\|\\|null/,'Provider HTTP status is returned without token');
+assert.ok(backend.includes('http_status:result.http_status||null'),'Provider HTTP status is returned without token');
 
 assert.match(backend,/transit_available:false/,'Unsupported timetable remains unverified');
 assert.match(backend,/transit_available:true/,'Verified schedules retain the transit results');
