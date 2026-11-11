@@ -1,4 +1,5 @@
 import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathways.mjs';
+import {ACCOUNT_STYLE,ACCOUNT_HTML,ACCOUNT_SCRIPT} from './account_settings_ui.mjs';
 import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_europe.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
@@ -51,7 +52,7 @@ import {FOREIGN_TOPIC_EXAMPLES,FOREIGN_CLASSICAL_VARIANTS} from './foreign_langu
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.147",
+  version: "1.0.148",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -1372,6 +1373,7 @@ body.long-choice-active{overflow:hidden}
 .pocket-select-option-mark{color:#9be9f3;flex:0 0 auto;font-weight:800}
 @media(max-height:600px){.pocket-select-modal,.pocket-select-modal .pocket-unified-window{max-height:85dvh}}
 
+${ACCOUNT_STYLE}
 </style>
 <style id="reminders-workspace-style">
 .reminders-scroll{min-height:0;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:.55rem}
@@ -3390,8 +3392,9 @@ main.page:has(#view-module.my-documents-active.active){
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
 <section class="view" id="view-tools"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Instrumente</h2><p class="section-lead">Alege un domeniu pentru a începe.</p><div class="simple-list" id="toolsList"></div></section>
-<section class="view" id="view-settings"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Setări</h2><div class="module-panel"><h3>Limba conversației</h3><p>Limba folosită pentru solicitările către asistent.</p><select class="text-field" id="languageSelect" aria-label="Limba conversației"><option value="ro">Română</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="ru">Русский</option><option value="pl">Polski</option><option value="hr">Hrvatski</option><option value="sr">Српски</option><option value="hu">Magyar</option><option value="tr">Türkçe</option><option value="cs">Čeština</option><option value="sk">Slovenčina</option><option value="sl">Slovenščina</option><option value="bg">Български</option><option value="el">Ελληνικά</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="no">Norsk</option><option value="da">Dansk</option><option value="is">Íslenska</option><option value="et">Eesti</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="uk">Українська</option><option value="bs">Bosanski</option><option value="mk">Македонски</option><option value="sq">Shqip</option><option value="be">Беларуская</option><option value="ca">Català</option><option value="ga">Gaeilge</option><option value="cy">Cymraeg</option><option value="mt">Malti</option><option value="eu">Euskara</option><option value="gl">Galego</option><option value="lb">Lëtzebuergesch</option><option value="fo">Føroyskt</option><option value="rm">Rumantsch</option></select><p class="small">Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.</p></div><div class="module-panel"><h3>Despre aplicație</h3><p>myPocket AI · Frontend ${APP.version}</p><p class="small">Conversațiile locale pot fi șterse din secțiunea Conversații.</p></div></section>
+<section class="view" id="view-settings"><button class="back-btn" data-back>← Acasă</button><div class="pocket-settings-top"><h2 class="section-title">Setări</h2><button type="button" class="pocket-account-open" id="pocketAccountOpen">Cont</button></div><div class="module-panel"><h3>Limba conversației</h3><p>Limba folosită pentru solicitările către asistent.</p><select class="text-field" id="languageSelect" aria-label="Limba conversației"><option value="ro">Română</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="ru">Русский</option><option value="pl">Polski</option><option value="hr">Hrvatski</option><option value="sr">Српски</option><option value="hu">Magyar</option><option value="tr">Türkçe</option><option value="cs">Čeština</option><option value="sk">Slovenčina</option><option value="sl">Slovenščina</option><option value="bg">Български</option><option value="el">Ελληνικά</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="no">Norsk</option><option value="da">Dansk</option><option value="is">Íslenska</option><option value="et">Eesti</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="uk">Українська</option><option value="bs">Bosanski</option><option value="mk">Македонски</option><option value="sq">Shqip</option><option value="be">Беларуская</option><option value="ca">Català</option><option value="ga">Gaeilge</option><option value="cy">Cymraeg</option><option value="mt">Malti</option><option value="eu">Euskara</option><option value="gl">Galego</option><option value="lb">Lëtzebuergesch</option><option value="fo">Føroyskt</option><option value="rm">Rumantsch</option></select><p class="small">Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.</p></div><div class="module-panel"><h3>Despre aplicație</h3><p>myPocket AI · Frontend ${APP.version}</p><p class="small">Conversațiile locale pot fi șterse din secțiunea Conversații.</p></div></section>
 </main>
+${ACCOUNT_HTML}
 <div class="module-quick-layer" id="moduleQuickLayer" aria-hidden="true">
  <section class="module-quick-sheet" role="dialog" aria-modal="true" aria-labelledby="moduleLayerTitle">
   <header class="module-quick-header"><button type="button" class="back-btn" id="moduleLayerBack">← Anterior</button><h2 id="moduleLayerTitle">Opțiuni</h2></header>
@@ -18693,6 +18696,7 @@ function isRecipeQuestion(text){
 // Keep small talk out of location and pending-route flows.
 // Guard obvious personal dialogue locally; the backend Eva speech-act gate
 // makes the final routing decision. Do not suppress explicit maps/tasks here.
+${ACCOUNT_SCRIPT}
 function evaClientNormalize(value){
  return String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
   .toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\\s+/g,' ').trim();
@@ -18708,6 +18712,7 @@ function isEvaConversationClient(value){
  if(isEvaExitCommandClient(value))return true;
  const core=t.replace(/^(?:(?:buna|salut|hei|hey|hello|hi)\\s+)?(?:eva|evo)\\s+/,'')
   .replace(/^(?:buna|salut|hei|hey|hello|hi)\\s+(?=(?:cum ajung|unde|vreau sa|cauta|gaseste|arata|explica|verifica|tradu|calculeaza)\\b)/,'');
+ if(/^(?:ce faci daca (?:te |va |iti )?(?:invit|scot|chem)\\b|iar faci pe desteapta\\b|stii la ce ma gandesc\\b|stii ce gandesc\\b|ghicesti la ce ma gandesc\\b|ce ai face daca (?:te |iti )?(?:invit|scot|chem)\\b)/.test(core))return true;
  if(/^(?:cum ajung|vreau sa (?:ajung|merg|calatoresc|caut|gasesc)|unde (?:este|e|gasesc)|ce este|ce stii despre|care este (?:capitala|pretul|vremea)|cauta|gaseste|arata|explica|verifica|tradu|calculeaza|rezolva|recomanda|take me to|where is|find|what is|explain|translate|(?:poti|ai putea|te rog)\\s+(?:sa\\s+)?(?:(?:mi|imi|ne)\\s+)?(?:cauta|cauti|gasi|gasesti|arata|arati|verifica|verifici|explica|explici|calculeaza|calculezi|tradu|traduci|rezolva|rezolvi))\\b/.test(core))return false;
  if(/^(?:buna|salut|hei|hello|hey|hi|neata|good morning|multumesc|mersi|merci|thanks|thank you|la revedere|bye)\\b/.test(t))return true;
  if(/\\b(?:cum te cheama|cine esti|cum te numesti|ce fel de asistenta esti|who are you|what s your name)\\b/.test(t))return true;
