@@ -23,6 +23,83 @@ de criptare end-to-end înainte de auditare.
 5. Modelul Eva NU primește acces la mesaje private; doar utilizatorul poate
    selecta un mesaj pentru analiză, cu consimțământ explicit.
 
+
+## Adăugarea contactelor — QR local și link privat la distanță
+
+**Decizia de produs (11 noiembrie 2026): numărul de telefon este privat,
+nu este obligatoriu și nu se folosește pentru căutarea utilizatorilor Eva.**
+Nu includem „Caută după numărul de telefon” în interfața Comunicare.
+
+1. **QR pentru persoane aflate în apropiere:** Comunicare → Adaugă contact →
+   „Afișează cod QR” sau „Scanează cod QR”. Codul reprezintă o invitație
+   limitată în timp și nu afișează telefonul, e-mailul ori datele personale.
+2. **Link de invitație pentru distanță:** Comunicare → Adaugă contact →
+   „Trimite invitație”. Eva generează un token aleator criptografic și
+   deschide meniul standard Android de partajare. Utilizatorul alege
+   WhatsApp, SMS, e-mail ori altă aplicație. Eva nu citește agenda,
+   nu cere permisiuni SMS/contacte și nu stochează numărul destinatarului.
+   Partajarea printr-o aplicație terță se supune politicii acelei aplicații.
+3. Linkul și QR-ul sunt două prezentări ale aceluiași mecanism de invitație.
+   Tokenul este de unică folosință, cu expirare (țintă inițială: 24 ore),
+   revocabil, iar backendul păstrează doar o amprentă a tokenului.
+4. Destinatarul deschide linkul din orice țară (ex. UK → România). Dacă Eva
+   nu e instalată, oferim instalarea și reluarea sigură a invitației.
+   Linkurile Android App Links se configurează doar când domeniul oficial
+   este disponibil; nu inventăm un URL în producție.
+5. După autentificare verificată, destinatarul vede cine îl invită și
+   apasă explicit „Acceptă” sau „Refuză”. Fără acceptare nu se creează
+   contactul. Cereri expirate, revocate sau deja folosite sunt respinse.
+6. Identificatorul intern este un UUID nepublic și nu este derivat din
+   telefon sau e-mail. E-mailul necesar contului rămâne privat și nu apare
+   în linkul de invitație.
+7. Acceptarea contactului **nu** partajează automat liste sau documente;
+   acestea se oferă individual, cu permisiuni separate. Chatul text și
+   vocal necesită acordul reciproc, cu blocare/revocare oricând.
+8. Testele trebuie să acopere: QR în apropiere; link între două țări;
+   destinatar fără APK; reîncercare și reutilizare token; utilizator blocat;
+   revocare; lipsa accesului la telefon/agenda/SMS; link copiat sau expirat.
+
+**Status:** specificație de implementare, nu funcționalitate activă în APK.
+Necesită cont verificat, serviciu de invitații, Android App Links,
+notificări și verificarea permisiunilor pe backend.
+
+## Gestionarea contactelor — Șterge / Blochează / Deblochează
+
+Fiecare contact aprobat are un meniu discret cu:
+- **Șterge contactul:** elimină relația de contact și autorizația de chat direct
+  pentru viitor, fără a șterge unilateral istoricul sau fișierele
+  destinatarului. Persoana poate solicita din nou o invitație,
+  dacă nu este blocată. Alegerea de ștergere a istoricului propriu este separată.
+- **Blochează:** creează o regulă de blocare verificată server-side înainte
+  de livrarea mesajelor, vocalelor, fișierelor, apelurilor (dacă vor exista),
+  invitațiilor, notificărilor și cererilor de contact. Respinge și cererile
+  repetate, inclusiv prin linkuri/QR noi și încercări în așteptare.
+  Nu transmite persoanei blocate o notificare explicită a blocării.
+- **Partajări:** la blocare se revocă accesul viitor la listele și
+  documentele deținute de utilizator care fuseseră partajate direct
+  cu persoana blocată; nu se poate retrage o copie deja descărcată.
+  Resursele deținute de alte persoane/grupuri necesită reguli distincte.
+- **Grupuri comune:** blocarea nu trebuie să redeschidă conversația directă
+  și împiedică invitațiile/mențiunile directe din partea persoanei blocate.
+  Pentru mesaje deja vizibile într-un grup comun, aplicația trebuie
+  să indice clar ce poate ascunde/filtra și să permită părăsirea grupului;
+  nu promitem ștergerea mesajelor altor membri sau izolarea absolută
+  fără o politică suplimentară de grup.
+- **Deblochează:** elimină regula de blocare, dar NU reface automat
+  prietenia, permisiunile chatului sau partajările. Este necesară
+  o nouă invitație/acceptare.
+- **Siguranță:** comenzile „Șterge” și „Blochează” cer confirmare
+  explicită; „Blochează” și „Raportează” sunt distincte. Persoanele
+  blocate nu pot afla prin API informații suplimentare despre cont.
+  Este disponibilă lista de persoane blocate în Setări → Confidențialitate.
+- **Aplicare:** ACL pe server la fiecare operație de acces;
+  invalidarea sesiunilor de chat relevante, linkurilor de invitație
+  și URL-urilor de fișiere cu acces temporar. Teste pentru blocare
+  bidirecțională, deblocare, grupuri comune și acces după revocare.
+
+**Status:** cerință de produs aprobată; implementarea în backend și APK,
+inclusiv mesajele vocale și aplicația de contacte, urmează să fie realizată.
+
 ## Etapa A — liste partajate
 - Buton din Listă cumpărături: Partajează → Contacte → trimite invitație;
   contactul primește o notificare discretă („Listă nouă partajată”).
@@ -66,6 +143,43 @@ de criptare end-to-end înainte de auditare.
 - Ștergere, retenție limitată, politica de confidențialitate și evaluare GDPR
   UK/UE înaintea unui pilot de grup.
 
+
+## Mesaje vocale — doar contacte/grupuri cu acord explicit
+- Chatul și mesajele vocale NU sunt accesibile automat tuturor utilizatorilor aplicației.
+  O listă de cumpărături partajată NU acordă implicit acces la chat.
+- Chat unu-la-unu: invitație → acceptare de ambele părți → chat activ.
+  Oricare dintre participanți poate revoca accesul sau bloca persoana.
+- Grup: participare doar după invitație acceptată, ieșire oricând, trimitere
+  vocală doar când participantul și grupul au permisiunea activă.
+- În conversație: microfon → ține apăsat pentru înregistrare → glisare pentru
+  anulare → eliberează pentru trimitere; redare în chat, indicator durată și
+  progres, fără pornirea automată a sunetului. Solicităm permisiunea de microfon
+  numai când este necesară.
+- Limite beta propuse pentru mesajele vocale: maximum 3 minute / 10 MiB;
+  formate compatibile Android (OGG/WebM/MP4 unde sunt suportate).
+  Serverul trebuie să valideze tipul real și limitele, nu doar metadatele trimise.
+- Vocalele și atașamentele se criptează pe dispozitiv cu bibliotecă auditată
+  înainte de transmisie; fișierele criptate sunt stocate privat cu retenție
+  limitată și acces revocabil. Nu pretindem E2EE până la implementare și audit.
+- Fără transcriere automată și fără trimitere a audio către Eva/AI.
+  „Transcrie” sau „Întreab-o pe Eva” poate exista ulterior numai ca acțiune
+  inițiată explicit de utilizator, cu informare despre procesare.
+- Notificările push nu includ în payload fișierul audio, transcrierea ori textul
+  mesajului. Pentru utilizatorii offline, mesajul se livrează după reconectare
+  fără duplicate.
+- Backendul trebuie să valideze identitatea sesiunii, participantul, invitația
+  acceptată și permisiunile la **fiecare** upload/download/stream/metadata,
+  nu doar la deschiderea ecranului. URL-uri semnate scurt, fără acces public.
+- Teste obligatorii: persoane neinvitate, invitații în așteptare, contact blocat,
+  permisiune revocată, membru scos din grup, replay/duplicate, acces la audio
+  după revocare, captură din alt cont, fișier malițios, fișiere prea mari.
+
+**Stadiu 11.11.2026:** reguli de autorizare și validare adăugate și testate în
+`oracle-comunicare/voice_policy.mjs` (PR #337). Acestea sunt un strat
+de politică pur, nu un endpoint de mesagerie, nu un recorder Android și nu E2EE.
+Integrarea cu autentificarea verificată, stocarea privată, aplicația Android și
+transportul criptat rămâne de implementat.
+
 ## Arhitectură propusă (aliniată infrastructurii actuale)
 - Cloudflare Workers: API autentificare, ACL, validare și rate limiting.
 - Cloudflare D1: conturi verificate, membership, liste, operații și metadate;
@@ -83,7 +197,7 @@ de criptare end-to-end înainte de auditare.
 1. Model autentificare verificabilă și contacte prin invitații.
 2. Liste partajate + push, testată întâi între două telefoane.
 3. Rapoarte cu capturi și atașamente într-un inbox privat de test.
-4. Chat text E2EE, apoi imagini și atașamente, apoi video și grupuri.
+4. Chat text E2EE, apoi mesaje vocale private E2EE, imagini și atașamente, apoi video și grupuri.
 5. Audit independent securitate, abuz, permisiuni, GDPR, backup și
    sincronizare multi-device înainte de publicare pentru public larg.
 
