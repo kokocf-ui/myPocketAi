@@ -36,3 +36,13 @@ Modulele Asistent AI, Hărți și Transport mixt vor refolosi același motor. Li
 - Baza HTTP API publicată la 11.11.2026 pe `https://bilo.ro/en/api` este `https://mcp.bilo.ro/api/v1` (separată de MCP root `https://mcp.bilo.ro`). Adaptorul folosește `POST /search` + Bearer; ruta exactă/cererea trebuie confirmate prin documentația dashboardului sau test cu codul HTTP. Într-o etapă anterioară am folosit hostul eronat `bilo.ro/api/integrations/v1/search`.
 - Referință oficială actuală: https://bilo.ro/en/api (secțiunea «Choose how to connect»).
 - `BILO_API_KEY` rămâne doar în Cloudflare Worker. **Un APK nou nu este necesar doar pentru acest adaptor backend**; este necesar deploy de backend și test real cu 2 orașe.
+
+## Actualizare conform capturilor Bilo Developers — 11 noiembrie 2026
+
+- Conector HTTP: `POST https://mcp.bilo.ro/api/v1/search`, Bearer `BILO_API_KEY`, antet `Idempotency-Key` (UUID nou pentru fiecare căutare, refolosit numai dacă exact acea căutare trebuie reîncercată).
+- Cererea de căutare trimite doar câmpurile exemplificate în documentația furnizorului: `origin`, `destination`, `date`, `mode`, `limit`. Sunt eliminate `railClass`, `sort`, `passengers` din această cerere implicită, pentru că API-ul poate respinge câmpuri necunoscute.
+- Când `/search` întoarce înregistrări cu `tripId` fără orar interpretabil, se cere `POST https://mcp.bilo.ro/api/v1/trip-details` cu exact `{ "tripId": "..." }`; maximum 5 detalii pentru o căutare, fără o nouă căutare contorizată. Etapele incomplete nu sunt inventate.
+- `tripId` este păstrat identic în corpul JSON, fără includere în URL, loguri, GitHub sau date de diagnostic.
+- Documentația arată și o operațiune separată pentru opțiuni de cumpărare; aceasta nu este integrată încă, fiind în afara scopului verificării itinerariilor.
+- Captură 11.11: contul Bilo afișa 993/1.000 căutări gratuite rămase (7 contabilizate). Testele automate simulate nu consumă credite; testele reale pot consuma din cotă.
+- Nu considerăm această modificare validată end-to-end până când un răspuns real Bilo furnizează etape și ore acceptate; schema completă JSON nu se vede în capturile trimise.
