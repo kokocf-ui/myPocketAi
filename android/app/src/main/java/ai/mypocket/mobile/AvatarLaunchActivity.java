@@ -420,7 +420,8 @@ public final class AvatarLaunchActivity extends Activity {
             choice.setText(sexLabels[i]);choice.setTextSize(12);choice.setTextColor(foreground);
             choice.setButtonDrawable(null);choice.setGravity(android.view.Gravity.CENTER);
             choice.setPadding(setupDp(4),0,setupDp(4),0);
-            choice.setBackground(setupBackground(Color.rgb(20,55,74),Color.rgb(67,103,120),9));
+            choice.setBackground(setupBackground(i==2?Color.rgb(100,42,62):Color.rgb(20,55,74),
+                i==2?Color.rgb(219,148,164):Color.rgb(67,103,120),9));
             android.widget.RadioGroup.LayoutParams optionLp=new android.widget.RadioGroup.LayoutParams(0,setupDp(43),1f);
             if(i>0)optionLp.leftMargin=setupDp(5);
             genderChoices.addView(choice,optionLp);sexButtons[i]=choice;
