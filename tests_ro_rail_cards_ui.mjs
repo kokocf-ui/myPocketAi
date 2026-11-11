@@ -80,4 +80,13 @@ const noPrice={...journey,fareLocal:null,legs:[{...leg,operator:''}]};
 const noPricePanel={children:[],append(x){this.children.push(x)}};
 context.rail.appendRomanianRailDetails(noPricePanel,noPrice);
 assert.ok(!texts(noPricePanel).includes('Tarif afișat'),'Do not invent missing price');
+const unknownNumber={...journey,legs:[{...leg,lineNames:[]}]};
+const unknownNumberPanel={children:[],append(x){this.children.push(x)}};
+context.rail.appendRomanianRailDetails(unknownNumberPanel,unknownNumber);
+assert.ok(texts(unknownNumberPanel).includes('Număr tren: neprecizat de furnizor.'),
+ 'Do not invent train numbers omitted by the provider');
+assert.ok(fragment.includes('Bilo nu a furnizat itinerarii verificabile'),
+ 'Missing coaches must never be described as no coaches operating anywhere');
+assert.ok(source.includes("width:auto!important;max-width:150px"),
+ 'Romanian result Back button must not occupy the whole screen');
 console.log('PASS compact Romanian rail card and selected detail layout, source isolation and single access note');
