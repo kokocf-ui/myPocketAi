@@ -16547,7 +16547,7 @@ function openTransportModeFromAssistant(data){
     document.getElementById('pocketStandaloneChoices')?.remove();
     inputEl.value=option.label;
     await submitMessage();
-  });return true;
+  });document.getElementById('pocketStandaloneChoices')?.classList.add('assistant-route-mode-colors');return true;
  }
  rememberNavigationSource();
  state.routeSearchContext={...data.route_context};
@@ -19643,6 +19643,26 @@ main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;ov
 
 
 #view-module.route-results-active .route-results-landing .route-results-show:focus-visible{outline:3px solid #8ae5db;outline-offset:3px}
+
+
+/* Assistant → destination routing: same quiet palette as the approved Maps cards.
+   Presentation only; no changes to route submission, transport steps or Back handlers. */
+#moduleQuickLayer.open .module-quick-sheet:has(#moduleLayerBody > .route-choice) #moduleLayerBody > .route-choice,
+#moduleQuickLayer.open .module-quick-sheet .module-quick-body > .transit-journey-choice,
+.travel-mode-table .transit-choice-action,
+#pocketStandaloneChoices.assistant-route-mode-colors .pocket-choice-button{
+ background:linear-gradient(125deg,#1a605f 0%,#10465b 55%,#0d3045 100%)!important;
+ color:#f3fbff!important;border-color:#63adb5!important;
+ box-shadow:inset 0 2px 0 rgba(235,255,255,.14),0 4px 0 #031723,0 9px 16px rgba(0,0,0,.28)!important;
+}
+#moduleQuickLayer.open .module-quick-sheet:has(#moduleLayerBody > .route-choice) #moduleLayerBody > .transit-choice-action,
+#moduleQuickLayer.open .module-quick-sheet:has(#moduleLayerBody > .route-choice) .module-quick-header > .back-btn,
+#moduleQuickLayer.open .module-quick-sheet .quick-navigation-toolbar > .transit-choice-action,
+#pocketStandaloneChoices.assistant-route-mode-colors .answer-reader-header > .answer-reader-close{
+ background:linear-gradient(140deg,#723846,#4a293c 60%,#291f36)!important;
+ color:#fff5f6!important;border-color:#d6949b!important;
+ box-shadow:inset 0 2px 0 rgba(255,255,255,.13),0 4px 0 #1a101e,0 7px 14px rgba(0,0,0,.29)!important;
+}
 
 </style>
 </body>
