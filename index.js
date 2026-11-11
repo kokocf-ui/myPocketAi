@@ -17006,7 +17006,109 @@ function transitBoardingAdvice(journey){
   'With a '+buffer.margin+'-minute buffer, leave by ')+
   (recommendedDate!==scheduledDate?recommendedDate+' ':'')+transitClock(recommended,zone);
 }
+function isRomanianRailJourney(journey){
+ return /\bBilo\b/i.test(String(journey?.source||''))&&
+  journey?.time_zone==='Europe/Bucharest';
+}
+// A compact rail layout intentionally differs from urban door-to-door transit:
+// station positions and live updates must not be claimed without verified data.
+function appendRomanianRailCards(host,options){
+ const ro=state.language==='ro';
+ for(const [i,journey] of options.entries()){
+  const first=journey.legs?.find(l=>!/^(?:walking|walk|foot|pedestrian)$/i.test(String(l.mode||'')))||journey.legs?.[0];
+  const last=journey.legs?.at(-1)||first;
+  const zone=journey.time_zone||'Europe/Bucharest';
+  const card=document.createElement('button');
+  card.type='button';card.className='transit-choice-action transit-journey-choice ro-rail-card';
+  card.style.cssText='width:100%;min-height:0;display:flex;flex-direction:column;align-items:stretch;text-align:left;gap:7px;padding:14px 16px;border-radius:17px;line-height:1.4';
+  const time=document.createElement('div');
+  time.style.cssText='font-weight:750;font-size:clamp(17px,4.5vw,21px);line-height:1.25';
+  time.textContent=(i+1)+'.  '+transitClock(journey.startDateTime||first?.departureTime,zone)+
+   ' → '+transitClock(journey.arrivalDateTime||last?.arrivalTime,zone);
+  const date=document.createElement('div');
+  date.style.cssText='font-size:12px;opacity:.8';
+  date.textContent=transitDateLabel(journey.startDateTime||first?.departureTime,zone)+' · '+
+   formatTravelDurationMinutes(journey.durationMinutes)+' · '+
+   (ro?'Orar programat':'Scheduled service');
+  const stations=document.createElement('div');
+  stations.style.cssText='font-size:15px;font-weight:600;overflow-wrap:anywhere';
+  stations.textContent=(first?.from||'—')+' → '+(last?.to||'—');
+  const line=document.createElement('div');
+  line.style.cssText='font-size:13px;opacity:.92;overflow-wrap:anywhere';
+  const modes=(journey.legs||[]).filter(l=>!/^(?:walking|walk|foot|pedestrian)$/i.test(String(l.mode||'')));
+  const firstLine=modes[0];
+  const label=(firstLine?transitModeName(firstLine.mode):ro?'Tren':'Train')+
+   (firstLine&&transitLineLabel(firstLine)?' '+transitLineLabel(firstLine):'');
+  line.textContent=[label,firstLine?.operator||'',
+   modes.length>1?(ro?'Schimbări: ':'Transfers: ')+(modes.length-1):'',
+   journey.fareLocal&&Number.isFinite(Number(journey.fareLocal.amount))
+    ?Number(journey.fareLocal.amount).toLocaleString(state.language||'ro',{maximumFractionDigits:2})+
+       ' '+journey.fareLocal.currency:''].filter(Boolean).join(' · ');
+  card.append(time,date,stations,line);
+  card.onclick=()=>{
+   closeAnswerReader(false);$('moduleQuickLayer').classList.add('open');
+   $('moduleQuickLayer').setAttribute('aria-hidden','false');
+   $('moduleLayerTitle').textContent=transitAccessText()[0];
+   selectTransitJourney(options,i);
+  };
+  host.append(card);
+ }
+}
+function appendRomanianRailDetails(host,journey){
+ const ro=state.language==='ro',zone=journey.time_zone||'Europe/Bucharest';
+ const first=journey.legs?.[0],last=journey.legs?.at(-1);
+ const overview=document.createElement('section');
+ overview.style.cssText='display:flex;flex-direction:column;gap:9px;background:linear-gradient(145deg,#123647,#0c2237);border:1px solid #43879a;border-radius:17px;padding:15px;margin:4px 0 9px';
+ const title=document.createElement('strong');
+ title.style.cssText='font-size:clamp(20px,5.2vw,25px);line-height:1.2';
+ title.textContent=transitClock(journey.startDateTime||first?.departureTime,zone)+' → '+
+  transitClock(journey.arrivalDateTime||last?.arrivalTime,zone);
+ const sub=document.createElement('div');
+ sub.style.cssText='font-size:13px;color:#c9e5ec';
+ sub.textContent=transitDateLabel(journey.startDateTime||first?.departureTime,zone)+' · '+
+  formatTravelDurationMinutes(journey.durationMinutes)+' · '+
+  (ro?'Orar programat':'Scheduled timetable');
+ const stations=document.createElement('div');
+ stations.style.cssText='font-size:16px;font-weight:650;overflow-wrap:anywhere';
+ stations.textContent=(first?.from||'—')+' → '+(last?.to||'—');
+ overview.append(title,sub,stations);
+ if(journey.fareLocal&&Number.isFinite(Number(journey.fareLocal.amount))){
+  const fare=document.createElement('div');fare.style.cssText='font-size:13px;color:#d7eaf0';
+  fare.textContent=(ro?'Tarif afișat: ':'Displayed fare: ')+
+   Number(journey.fareLocal.amount).toLocaleString(state.language||'ro',{maximumFractionDigits:2})+' '+
+   journey.fareLocal.currency;
+  overview.append(fare);
+ }
+ host.append(overview);
+ const steps=document.createElement('div');
+ steps.style.cssText='display:flex;flex-direction:column;gap:10px';
+ for(const [i,leg] of (journey.legs||[]).entries()){
+  const item=document.createElement('div');
+  item.style.cssText='padding:12px 14px;background:#10283d;border:1px solid #31566e;border-radius:13px;display:flex;flex-direction:column;gap:6px';
+  const label=document.createElement('strong');label.style.cssText='font-size:14px';
+  label.textContent=(ro?'Etapa ':'Leg ')+(i+1)+' · '+transitModeName(leg.mode)+
+   (transitLineLabel(leg)?' '+transitLineLabel(leg):'');
+  const route=document.createElement('div');
+  route.style.cssText='font-size:15px;overflow-wrap:anywhere';
+  route.textContent=(leg.from||'—')+' → '+(leg.to||'—');
+  const time=document.createElement('div');time.style.cssText='font-weight:650;font-size:14px';
+  time.textContent=transitClock(leg.departureTime,leg.departureZone||zone)+' → '+
+   transitClock(leg.arrivalTime,leg.arrivalZone||zone);
+  item.append(label,route,time);
+  if(leg.operator){const operator=document.createElement('div');operator.style.cssText='font-size:12px;color:#b7d7e4';operator.textContent=leg.operator;item.append(operator)}
+  steps.append(item);
+ }
+ host.append(steps);
+ if(!validTransitBoardingStop(journey.boarding_stop)){
+  const note=document.createElement('p');
+  note.style.cssText='font-size:12px;line-height:1.45;color:#c5d2d9;margin:10px 2px 0';
+  note.textContent=ro?'Navigarea pe jos până la gară necesită coordonatele verificate ale stației. Orarul trenului este afișat separat.':
+   'Walking directions to the station require verified station coordinates. The train timetable is shown separately.';
+  host.append(note);
+ }
+}
 function appendTransitCards(host,options){
+ if(options.length&&options.every(isRomanianRailJourney)){appendRomanianRailCards(host,options);return;}
  const t=transitAccessText(),labels=transitLayoutText();
  for(const [i,journey] of options.entries()){
   const button=document.createElement('button');button.type='button';button.className='transit-choice-action transit-journey-choice';
@@ -17213,7 +17315,7 @@ async function refreshTransitDepartures(button){
 function renderTransitChoices(options,selectedIndex=null){
  dismissSelectionKeyboard();
  document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
- const heading=document.createElement('h3');heading.textContent=selectedIndex===null?t[0]:t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
+ const heading=document.createElement('h3');heading.textContent=selectedIndex===null?t[0]:isRomanianRailJourney(options[selectedIndex])?dialogText('Detalii cursă ','Journey details ')+(selectedIndex+1):t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
   if(selectedIndex===null){
     const chosen=state.lastTransitChoice?.transitDepartureAt||state.lastTransitResponse?.transit_departure_at;
     if(chosen&&Number.isFinite(Date.parse(chosen))){
@@ -17235,12 +17337,13 @@ function renderTransitChoices(options,selectedIndex=null){
   if(source?.details&&source.module===state.currentModule){offerPlaceTravelModes(source.details);return}
   handleModuleLayerBack();
  };
+ if(isRomanianRailJourney(options[selectedIndex??0]))back.style.cssText='width:auto;min-height:44px;align-self:flex-start;padding:8px 18px;margin:0 0 6px';
  actions.append(back);
  if(state.navigationReturnContext){const original=document.createElement('button');original.type='button';original.className='transit-choice-action';
   original.textContent=dialogText("Revenire","Return");
   original.onclick=()=>returnToNavigationSource();actions.append(original)}
  body.append(actions);
- if(selectedIndex!==null){const journey=options[selectedIndex];if(!journey)return;const summary=document.createElement('p');
+ if(selectedIndex!==null){const journey=options[selectedIndex];if(!journey)return;if(isRomanianRailJourney(journey)){appendRomanianRailDetails(body,journey);return;}const summary=document.createElement('p');
   summary.textContent=dialogText('Data călătoriei: ','Journey date: ')+
    transitDateLabel(journey.startDateTime,journey.time_zone)+' · '+transitBoardingSummary(journey);
   body.append(summary);
@@ -17262,6 +17365,7 @@ function renderTransitChoices(options,selectedIndex=null){
 async function selectTransitJourney(options,index){
  if(state.busy)return;cancelTransitAccess();const journey=options[index];if(!journey)return;const generation=state.transitAccessGeneration,chatGeneration=state.conversationGeneration,t=transitAccessText();const selected={journey,options,index,loading:true,error:'',accessRoute:null,accessOptions:[]};state.selectedTransitJourney=selected;renderTransitChoices(options,index);
  const stop=journey.boarding_stop,valid=()=>state.selectedTransitJourney===selected&&state.transitAccessGeneration===generation&&state.conversationGeneration===chatGeneration;
+ if(isRomanianRailJourney(journey)&&!validTransitBoardingStop(stop)){selected.loading=false;selected.error='';renderTransitChoices(options,index);return;}
  const fail=message=>{if(!valid())return;selected.loading=false;selected.error=message;renderTransitChoices(options,index)};
  if(!validTransitBoardingStop(stop)){fail(t[11]);return}
  const departure=Date.parse(journey.firstVehicleDepartureTime||stop.departure_time||'');if(Number.isFinite(departure)&&departure<=Date.now()){fail(t[14]);return}
