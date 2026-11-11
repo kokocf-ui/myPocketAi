@@ -11,7 +11,7 @@ import {planPresentation} from "./presentation.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
-import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints} from "./ro_transport_mode_policy.mjs";
+import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints,groupRomanianJourneys} from "./ro_transport_mode_policy.mjs";
 import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
 import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
 import {romanianNationalQuery,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
@@ -2960,19 +2960,33 @@ export default {
         const date=romanianDepartureDate(message,selectedAt||null);
         const vehicle=requestedRomanianVehicle(message,data.transit_preference);
         const result=await planRomanianNationalJourney(env,{origin,destination},{
-          date,limit:vehicle==='all'?requestedOptionsCount:8
+          date,limit:vehicle==='all'?10:8
         });
         const allJourneys=requestedAt&&result.journeys.length
           ?result.journeys.filter(j=>Date.parse(j.startDateTime)>=requestedAt-120000)
           :result.journeys;
         const vehicleJourneys=filterRomanianVehicleJourneys(allJourneys,vehicle);
         const cityJourneys=filterRomanianCityEndpoints(vehicleJourneys,origin,destination);
-        const journeys=rankRomanianJourneys(cityJourneys).slice(0,requestedOptionsCount);
+        const grouped=groupRomanianJourneys(cityJourneys,requestedOptionsCount);
+        // A general request must not fill every slot with trains while hiding
+        // valid coaches. Preserve separate ordered pages, plus a flat legacy
+        // transit list for existing APK versions.
+        const journeys=vehicle==='all'
+          ?[...grouped.rail,...grouped.road,...grouped.mixed]
+          :rankRomanianJourneys(cityJourneys).slice(0,requestedOptionsCount);
         if(journeys.length){
           const reply=romanianJourneySummary(journeys,origin,destination,lang);
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
             transit_available:true,route_available:false,route_geometry_available:false,transit_geometry_available:false,
-            mixed_journey:true,romanian_national_journey:true,transit:annotateTransportJourneys(journeys.map(j=>({...j,romanian_national_journey:true})),lang),fastest_transit:annotateTransportJourneys([{...journeys[0],romanian_national_journey:true}],lang)[0],
+            mixed_journey:true,romanian_national_journey:true,transit:annotateTransportJourneys(journeys.map(j=>({...j,romanian_national_journey:true})),lang),
+            // Structured pages for the UI: one Bilo search, then grouped results.
+            transit_pages:vehicle==='all'?{
+              rail:annotateTransportJourneys(grouped.rail.map(j=>({...j,romanian_national_journey:true})),lang),
+              road:annotateTransportJourneys(grouped.road.map(j=>({...j,romanian_national_journey:true})),lang),
+              mixed:annotateTransportJourneys(grouped.mixed.map(j=>({...j,romanian_national_journey:true})),lang)
+            }:null,
+            transit_page_order:['rail','road','mixed'],
+            fastest_transit:annotateTransportJourneys([{...rankRomanianJourneys(journeys)[0],romanian_national_journey:true}],lang)[0],
             transit_provider:'Bilo',source:'Bilo: operator-published schedules (not seat availability)',
             transit_departure_at:selectedAt||null,provider_status:{bilo:result.status},
             requested_transit_count:requestedOptionsCount});
