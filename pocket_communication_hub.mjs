@@ -42,6 +42,7 @@ export class PocketCommunicationHub {
   let data;try{data=JSON.parse(text)}catch{return j({error:"invalid_json"},400)}
   if(!data||typeof data.action!=="string")return j({error:"invalid_action"},400);
   const now=Date.now();
+  if(data.action==="health")return j({ok:true,ready:true,service:"PocketCommunicationHub"});
   this.db.exec("DELETE FROM request_nonces WHERE created_ms<?",now-420000);
   this.db.exec("DELETE FROM limits WHERE expires_ms<?",now-3600000);
   if(data.action==="register"){
