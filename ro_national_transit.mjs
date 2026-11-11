@@ -121,6 +121,20 @@ export async function planRomanianNationalJourney(env,query,opts={}){
   return {status:journeys.length?'ok':'no_verified_itineraries',journeys};
  }catch(e){return {status:e?.name==='TimeoutError'?'timeout':'provider_network_error',journeys:[]};}
 }
+export async function reverseRomanianOriginCity(env,pt,fetchImpl=fetch){
+ if(!isRoGPS(pt)||!env?.GEOAPIFY_API_KEY)return '';
+ try{
+  const u=new URL('https://api.geoapify.com/v1/geocode/reverse');
+  u.searchParams.set('lat',String(pt.latitude));u.searchParams.set('lon',String(pt.longitude));
+  u.searchParams.set('type','city');u.searchParams.set('apiKey',String(env.GEOAPIFY_API_KEY));
+  const r=await fetchImpl(u.toString(),{signal:AbortSignal.timeout(5500)});
+  if(!r.ok)return '';
+  const result=await r.json();
+  const props=(result.features||[])[0]?.properties||{};
+  if(String(props.country_code||'').toUpperCase()!=='RO')return '';
+  return cleanTown(props.city||props.town||props.village||'');
+ }catch{return ''}
+}
 export function bucharestTravelDate(value,now=new Date()){
  const timestamp=value?new Date(value):now;
  const dt=Number.isFinite(timestamp.getTime())?timestamp:now;
