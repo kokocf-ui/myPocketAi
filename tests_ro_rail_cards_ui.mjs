@@ -89,4 +89,19 @@ assert.ok(fragment.includes('Bilo nu a furnizat itinerarii verificabile'),
  'Missing coaches must never be described as no coaches operating anywhere');
 assert.ok(source.includes("width:auto!important;max-width:150px"),
  'Romanian result Back button must not occupy the whole screen');
+const replacementJourney={...journey,legs:[{
+ ...leg,mode:'coach',railReplacement:true,operator:'CFR Călători',
+ from:'Parcarea Ștefan cel Mare',fromLocality:'Oradea',
+ to:'Autogara Cluj',toLocality:'Cluj-Napoca',lineNames:[]
+}]};
+const replacementCards={children:[],append(x){this.children.push(x)}};
+context.rail.appendRomanianRailCards(replacementCards,[replacementJourney]);
+assert.ok(texts(replacementCards).includes('Autobuz de înlocuire a trenului'),
+ 'Display the physical rail-replacement vehicle, not the ticket mode');
+const replacementDetails={children:[],append(x){this.children.push(x)}};
+context.rail.appendRomanianRailDetails(replacementDetails,replacementJourney);
+assert.ok(texts(replacementDetails).includes('Autobuz de înlocuire a trenului'),
+ 'Selected detail also identifies the replacement bus');
+assert.ok(fragment.includes("coach_lookup"),'Unconfirmed coach search status shown separately');
+assert.ok(fragment.includes("rail_replacement_notice"),'Known Oradea Cluj rail closure displayed to passengers');
 console.log('PASS compact Romanian rail card and selected detail layout, source isolation and single access note');
