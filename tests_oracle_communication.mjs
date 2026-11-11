@@ -9,7 +9,7 @@ new vm.Script(ORACLE_COMMUNICATION_SCRIPT,{filename:'oracle-communication-ui.js'
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/https:\/\/mypocketai\.duckdns\.org\/api\/communication/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/https:\/\/mypocketai\.duckdns\.org\/i\//);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/WhatsApp/);
-assert.match(ORACLE_COMMUNICATION_SCRIPT,/sms:\?body=/);
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/smsto:\?body=/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/pocketInviteReceived/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/pocketCommunicationImportShopping/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'upload'/);
