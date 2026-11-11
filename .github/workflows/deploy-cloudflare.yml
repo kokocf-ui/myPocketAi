@@ -172,3 +172,6 @@ jobs:
             fi
             if [ "$attempt" -eq 1 ]; then sleep 15; else sleep 45; fi
           done
+      - name: Verify deployed communication service
+        run: |
+          node --input-type=module -e "const r=await fetch('https://lifewise-ai-api.kokocf.workers.dev/api/communication',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'health'})});const d=await r.json();if(!r.ok||d.ready!==true||d.service!=='PocketCommunicationHub'){console.error('Communication readiness failed',r.status,d.error||'not_ready');process.exit(1)}console.log('Communication Durable Object ready on deployed Worker');"
