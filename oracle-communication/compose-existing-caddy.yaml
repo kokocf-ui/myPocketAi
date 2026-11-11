@@ -1,0 +1,41 @@
+# Safe variant for the existing Oracle VM with its own host Caddy on 80/443.
+# This does NOT replace pocketai-comunicare-gateway and never publishes PostgreSQL.
+# Before deploying, ensure COMM_API_PORT is not occupied and review host Caddy config.
+name: pocketai-device-comms
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${PGDATABASE:-pocket_communication}
+      POSTGRES_USER: ${PGUSER:-pocket_comm}
+      POSTGRES_PASSWORD: ${PGPASSWORD:?Set a strong database password}
+    volumes:
+      - device_database:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/001-communication.sql:ro
+      - ./device-schema.sql:/docker-entrypoint-initdb.d/002-device.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    security_opt: ["no-new-privileges:true"]
+  api:
+    build:
+      context: ..
+      dockerfile: oracle-communication/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres: {condition: service_healthy}
+    env_file: .env
+    environment:
+      PGHOST: postgres
+      PORT: "3000"
+    ports:
+      - "127.0.0.1:${COMM_API_PORT:-8767}:3000"
+    security_opt: ["no-new-privileges:true"]
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=16m"]
+    mem_limit: 600m
+volumes:
+  device_database:
