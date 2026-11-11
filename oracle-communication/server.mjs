@@ -11,7 +11,10 @@ const missing=required.filter(k=>!process.env[k]);
 if(missing.length)throw Error('Missing Oracle communication env: '+missing.join(', '));
 if(process.env.OTP_SECRET&&process.env.OTP_SECRET.length<32)throw Error('OTP_SECRET must have at least 32 characters');
 const pool=new Pool({max:8,connectionTimeoutMillis:6000});
-const push=createOraclePush();
+let push;
+try{push=createOraclePush()}
+catch{console.warn('Oracle FCM push disabled: configuration unavailable');push={enabled:false,notify:async()=>{}}}
+
 const handleDeviceCommunication=createDeviceCommunicationHandler(pool,{push});
 const smtp=(process.env.SMTP_HOST&&process.env.SMTP_USER&&process.env.SMTP_PASSWORD&&process.env.MAIL_FROM)?nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT||587),
  secure:Number(process.env.SMTP_PORT||587)===465,
