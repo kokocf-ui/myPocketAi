@@ -15,12 +15,21 @@ globalThis.fetch=async input=>{
   geoapifyCalls++;
   assert.equal(u.searchParams.get('limit'),'80');
   const circle=u.searchParams.get('filter')||'';
-  assert.match(circle,category==='zoo' ? /,35000$/ : /,5000$/);
+  assert.match(circle,/,5000$/);
   // A provider failure must NOT be described as "no locations exist".
-  return category==='parking'?new Response('unavailable',{status:503}):
+  return ['parking','parking-photon','empty-failed'].includes(category)?new Response('unavailable',{status:503}):
    Response.json({features:[]});
  }
- if(u.hostname==='photon.komoot.io'){photonCalls++;throw Error('Do not query Photon for sparse POIs')}
+ if(u.hostname==='photon.komoot.io'){
+  photonCalls++;
+  if(category!=='parking-photon')throw Error('Do not query Photon when Overpass is healthy');
+  return Response.json({features:[
+   {type:'Feature',geometry:{type:'Point',coordinates:[0.302,51.478]},
+    properties:{name:'',osm_key:'amenity',osm_value:'parking',street:'Dock Road'}},
+   {type:'Feature',geometry:{type:'Point',coordinates:[0.302,51.478]},
+    properties:{name:'False park',osm_key:'leisure',osm_value:'park'}}
+  ]});
+ }
  if(u.hostname==='overpass.private.coffee'){
   overpassCalls++;
   const body=String(input&&typeof input!=='string'?'': '');
@@ -28,9 +37,10 @@ globalThis.fetch=async input=>{
    osmFeature('','amenity','parking',51.478,0.302)
   ]});
   if(category==='zoo')return Response.json({elements:[
-   osmFeature('Wildlife Centre','tourism','zoo',51.627,0.375),
-   osmFeature('Wrong park','leisure','park',51.61,0.35)
+   osmFeature('Wildlife Centre','tourism','zoo',51.478,0.305),
+   osmFeature('Wrong park','leisure','park',51.479,0.306)
   ]});
+  if(category==='parking-photon')return new Response('unavailable',{status:503});
   return Response.json({elements:[]});
  }
  throw Error('unexpected host '+u.hostname);
@@ -56,17 +66,22 @@ try{
  category='zoo';
  const zoo=await request('zoo');
  assert.equal(zoo.search_ok,true,zoo.reply);
- assert.equal(zoo.places.length,1,'An exact zoo is found beyond the 5km food-store radius');
+ assert.equal(zoo.places.length,1,'Nearby zoo is included without an unrequested radius expansion');
  assert.equal(zoo.places[0].name,'Wildlife Centre');
- assert.equal(zoo.search_radius_meters,35000);
- category='empty';
+ assert.equal(zoo.search_radius_meters,5000);
+ category='parking-photon';
+ const fallback=await request('parking');
+ assert.equal(fallback.search_ok,true,fallback.reply);
+ assert.equal(fallback.places.length,1,'Only exact OSM amenity=parking is accepted');
+ assert.match(fallback.source,/Photon/);
+ category='empty-failed';
  const empty=await request('parking');
  assert.equal(empty.search_ok,false);
  assert.equal(empty.results_count,0);
  assert.notEqual(empty.search_error_code,'LOCAL_SEARCH_FAILED',
    'One successfully queried provider returning no results is not a total outage');
- assert.equal(overpassCalls,3);
- assert.equal(photonCalls,0,'Slow Photon must not delay parking/zoo');
- assert.equal(geoapifyCalls,3);
+ assert.equal(overpassCalls,4);
+ assert.equal(photonCalls,1,'Photon is used only after an Overpass outage');
+ assert.equal(geoapifyCalls,4);
 }finally{globalThis.fetch=original}
-console.log('PASS sparse POI: parking after provider 503, extended zoo, exact OSM tags and honest empty results');
+console.log('PASS sparse POI: 5km zoo, precise parking recovery with Photon on outage and honest empty results');
