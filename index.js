@@ -15901,33 +15901,107 @@ function showPlacePhoto(url,name){
  dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
  if(typeof dialog.showModal==='function')dialog.showModal();else{dialog.setAttribute('open','');}
 }
+// New photo pipeline: a location photograph, never a company/health-service
+// logo or a generic stock photo. Lazy queries are made only for visible cards.
+const verifiedPhotoRequests=new Map();
+function resolveVerifiedPlacePhoto(place){
+ const lat=Number(place.latitude),lon=Number(place.longitude);
+ if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)
+  return Promise.resolve({status:'unavailable',photo:null});
+ const key=[place.name,lat.toFixed(5),lon.toFixed(5),place.wikidata||''].join('|');
+ if(verifiedPhotoRequests.has(key))return verifiedPhotoRequests.get(key);
+ const u=new URL(CLIENT_CONFIG.apiUrl.split('/api/chat')[0]+'/api/place-photo-v2');
+ u.searchParams.set('name',String(place.name||'').slice(0,120));
+ u.searchParams.set('lat',String(lat));u.searchParams.set('lon',String(lon));
+ if(/^Q[1-9]\d{0,11}$/.test(String(place.wikidata||'')))u.searchParams.set('wikidata',place.wikidata);
+ const request=fetch(u.href,{signal:AbortSignal.timeout(9500)})
+  .then(r=>r.ok?r.json():{status:'unavailable',photo:null})
+  .then(data=>data?.status==='verified'&&verifiedMediaUrl(data.photo?.image_url)&&
+    /^https:\/\/commons\.wikimedia\.org\//.test(String(data.photo?.source_url||''))
+    ?data:{status:'unavailable',photo:null})
+  .catch(()=>({status:'unavailable',photo:null}));
+ verifiedPhotoRequests.set(key,request);
+ if(verifiedPhotoRequests.size>180)verifiedPhotoRequests.delete(verifiedPhotoRequests.keys().next().value);
+ return request;
+}
+function showVerifiedPlacePhoto(placePhoto,name){
+ const image=verifiedMediaUrl(placePhoto?.image_url);
+ if(!image)return;
+ const dialog=document.createElement('dialog');
+ dialog.style.cssText='position:fixed;inset:0;margin:auto;max-width:min(94vw,750px);max-height:90dvh;padding:12px;border-radius:16px;border:1px solid #60879a;background:#112d3b;color:#fff;z-index:99999;box-sizing:border-box;overflow:auto';
+ dialog.setAttribute('aria-label',String(name||'Fotografie locație'));
+ const close=document.createElement('button');close.textContent='✕';close.type='button';
+ close.style.cssText='display:block;margin:0 0 10px auto;background:#b92d42;color:white;border:0;border-radius:8px;padding:8px 14px;cursor:pointer';
+ close.onclick=()=>dialog.close();
+ const img=document.createElement('img');img.src=image;img.alt=String(name||'Locație');
+ img.referrerPolicy='no-referrer';
+ img.style.cssText='display:block;width:100%;max-height:68dvh;object-fit:contain;border-radius:8px';
+ const credit=document.createElement('p');
+ credit.style.cssText='font-size:12px;line-height:1.4;margin:10px 0 0;color:#b7d3df';
+ credit.textContent=[placePhoto.credit,placePhoto.license].filter(Boolean).join(' · ');
+ const source=document.createElement('a');source.textContent='Wikimedia Commons';
+ source.href=placePhoto.source_url;source.target='_blank';source.rel='noopener noreferrer';
+ source.style.cssText='display:inline-block;margin:8px 0;color:#58d1d6';
+ dialog.append(close,img,credit,source);document.body.append(dialog);
+ dialog.addEventListener('close',()=>dialog.remove(),{once:true});
+ dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
+ if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
+}
 function mountPlaceThumbnail(host,place){
- const url=verifiedMediaUrl(place.image_url);
- if(!url){mountPlaceLogo(host,place);if(place.wikidata){loadPlaceMedia({...place,brand_wikidata:''}).then(data=>{if(!host.isConnected||!Array.isArray(data.images))return;const photo=data.images.map(verifiedMediaUrl).find(Boolean);if(photo){place.image_url=photo;host.replaceChildren();mountPlaceThumbnail(host,place)}})}return;}
- const img=document.createElement('img');img.src=url;img.alt=String(place.name||'Locație');img.loading='lazy';img.referrerPolicy='no-referrer';img.style.cssText='display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit';
- img.onerror=()=>{host.replaceChildren();mountPlaceLogo(host,place)};
- host.replaceChildren(img);host.style.cursor='zoom-in';
- host.setAttribute('aria-label','Fotografie '+String(place.name||''));
- host.addEventListener('click',event=>{event.stopPropagation();showPlacePhoto(url,place.name)});
+ // This is the visible listing thumbnail. Previous image_url/logo_url
+ // may point to the NHS/company logo and must not be used as a photo.
+ const fallback=placeResultIcon(place);
+ host.textContent=fallback;
+ const load=()=>resolveVerifiedPlacePhoto(place).then(data=>{
+  if(!host.isConnected||data.status!=='verified'||!data.photo)return;
+  const photo=data.photo;
+  const img=document.createElement('img');img.src=photo.image_url;img.alt='';
+  img.loading='lazy';img.referrerPolicy='no-referrer';
+  img.style.cssText='display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit';
+  img.onerror=()=>{if(host.isConnected)host.textContent=fallback};
+  host.replaceChildren(img);
+  place.verified_photo=photo;
+ });
+ if(typeof IntersectionObserver==='function'){
+  const root=host.closest('.module-place-results-list');
+  const observer=new IntersectionObserver(entries=>{
+   if(entries.some(e=>e.isIntersecting)){observer.disconnect();load()}
+  },{root,rootMargin:'120px'});
+  observer.observe(host);
+ }else load();
 }
 function renderModulePlaceDetails(place){document.querySelector('.module-quick-sheet')?.classList.remove('mode-choice-screen');state.moduleSearchReturnMode='details';state.lastQuickPlace=place;$('moduleLayerBody').style.cssText='';document.querySelector('.module-quick-sheet')?.classList.add('details-mode');
  document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');
  const body=$('moduleLayerBody');body.innerHTML='';const card=document.createElement('div');card.className='module-place-details';
- const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=String(place.name||t.location);const logo=document.createElement('span');logo.className='module-place-result-icon place-detail-logo';logo.setAttribute('aria-hidden','true');mountPlaceLogo(logo,place);const heading=document.createElement('div');heading.className='place-detail-header';
+ const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=String(place.name||t.location);const logo=document.createElement('span');logo.className='module-place-result-icon place-detail-logo';logo.setAttribute('aria-hidden','true');logo.textContent=placeResultIcon(place);const heading=document.createElement('div');heading.className='place-detail-header';
  const headingIdentity=document.createElement('div');headingIdentity.className='place-detail-identity';headingIdentity.append(logo,title);
  const actions=document.createElement('div');actions.className='place-detail-actions';
  const go=document.createElement('button');go.type='button';go.className='primary-btn place-detail-route';go.textContent=dialogText("Alege traseul","Choose route");go.onclick=()=>{if(state.busy)return;offerPlaceTravelModes(place)};
  const photo=document.createElement('button');photo.type='button';photo.className='place-detail-photo';photo.style.border='0';photo.style.padding='0';photo.setAttribute('aria-label',l.photos);
- const photoHint=document.createElement('span');photoHint.textContent=dialogText('Fotografie indisponibilă','Photo unavailable');photoHint.style.cssText='font-size:11px;text-align:center;padding:6px';photo.append(photoHint);photo.disabled=true;photo.style.cursor='default';
- const setPhoto=url=>{const src=verifiedMediaUrl(url);if(!src)return false;const img=document.createElement('img');img.alt=String(place.name||'');img.referrerPolicy='no-referrer';img.onerror=()=>{photo.replaceChildren(photoHint);photo.disabled=true;photo.style.cursor='default'};img.src=src;photo.replaceChildren(img);photo.disabled=false;photo.style.cursor='zoom-in';photo.onclick=()=>showPlacePhoto(src,place.name);return true};
- setPhoto(place.image_url);
+ const photoHint=document.createElement('span');photoHint.textContent=dialogText('Se verifică fotografiile…','Checking for photos…');photoHint.style.cssText='font-size:11px;text-align:center;padding:6px';photo.append(photoHint);photo.disabled=true;photo.style.cursor='default';
+ const setVerifiedPhoto=data=>{
+  if(!photo.isConnected)return;
+  if(data?.status!=='verified'||!data.photo){photoHint.textContent=dialogText('Nu există fotografie verificată','No verified photo available');return}
+  const verified=data.photo,src=verifiedMediaUrl(verified.image_url);if(!src)return;
+  const img=document.createElement('img');img.alt=String(place.name||'');
+  img.referrerPolicy='no-referrer';img.onerror=()=>{
+   photo.replaceChildren(photoHint);photoHint.textContent=dialogText('Fotografie indisponibilă','Photo unavailable');
+   photo.disabled=true;photo.style.cursor='default';
+  };
+  img.src=src;photo.replaceChildren(img);photo.disabled=false;
+  photo.style.cursor='zoom-in';
+  photo.onclick=()=>showVerifiedPlacePhoto(verified,place.name);
+  place.verified_photo=verified;
+ };
+ if(place.verified_photo)setVerifiedPhoto({status:'verified',photo:place.verified_photo});
+ else resolveVerifiedPlacePhoto(place).then(setVerifiedPhoto);
 
  actions.append(go,photo);heading.append(headingIdentity,actions);card.append(heading);
  const status=document.createElement('p');status.textContent=dialogText('Se caută informații despre locația selectată…','Researching the selected location…');status.style.fontSize='12px';card.append(status);
  // Only display provider-grounded attributes; never fabricate opening hours or services.
  const extraDetails=()=>{const fields=[['description',dialogText('Descriere','Description')],['opening_hours',dialogText('Program','Opening hours')],['services',dialogText('Servicii','Services')]];for(const [key,label] of fields){const value=Array.isArray(place[key])?place[key].filter(Boolean).join(', '):place[key];if(value&&typeof value==='string'&&!card.querySelector('[data-place-field="'+key+'"]')){const p=document.createElement('p');p.dataset.placeField=key;const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(value));card.append(p)}}};
  extraDetails();
- loadPlaceMedia(place).then(data=>{if(!card.isConnected)return;const details=data.details||{};status.textContent=(details.opening_hours||details.description||(Array.isArray(details.services)&&details.services.length)||data.images?.length)?dialogText('Informații suplimentare găsite','Additional information found'):dialogText('Nu au fost găsite detalii suplimentare verificate','No additional verified details found');for(const key of ['description','opening_hours','services'])if(!place[key]&&details[key])place[key]=details[key];extraDetails();if(!place.phone&&details.phone){place.phone=details.phone;line(l.phone,details.phone)}if(!place.website&&data.website)appendPlaceWebsite(card,data.website);const candidate=Array.isArray(data.images)?data.images.map(verifiedMediaUrl).find(Boolean):'';if(candidate&&!place.image_url){place.image_url=candidate;setPhoto(candidate)}if(Array.isArray(data.evidence)&&data.evidence.length){const detailsLink=document.createElement('details');const summary=document.createElement('summary');summary.textContent=dialogText('Surse verificate','Verified sources');detailsLink.append(summary);for(const evidence of data.evidence){const a=document.createElement('a');a.href=evidence.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=evidence.field==='opening_hours'?dialogText('Sursa programului','Hours source'):dialogText('Sursa telefonului','Phone source');const p=document.createElement('p');p.append(a);detailsLink.append(p)}card.append(detailsLink)}}).catch(()=>{if(card.isConnected)status.textContent=dialogText('Nu s-au putut încărca detaliile suplimentare.','Additional details could not be loaded.');});
+ loadPlaceMedia(place).then(data=>{if(!card.isConnected)return;const details=data.details||{};status.textContent=(details.opening_hours||details.description||(Array.isArray(details.services)&&details.services.length)||data.images?.length)?dialogText('Informații suplimentare găsite','Additional information found'):dialogText('Nu au fost găsite detalii suplimentare verificate','No additional verified details found');for(const key of ['description','opening_hours','services'])if(!place[key]&&details[key])place[key]=details[key];extraDetails();if(!place.phone&&details.phone){place.phone=details.phone;line(l.phone,details.phone)}if(!place.website&&data.website)appendPlaceWebsite(card,data.website);/* Photo lookup is handled exclusively by place-photo-v2, independent of place-media. */if(Array.isArray(data.evidence)&&data.evidence.length){const detailsLink=document.createElement('details');const summary=document.createElement('summary');summary.textContent=dialogText('Surse verificate','Verified sources');detailsLink.append(summary);for(const evidence of data.evidence){const a=document.createElement('a');a.href=evidence.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=evidence.field==='opening_hours'?dialogText('Sursa programului','Hours source'):dialogText('Sursa telefonului','Phone source');const p=document.createElement('p');p.append(a);detailsLink.append(p)}card.append(detailsLink)}}).catch(()=>{if(card.isConnected)status.textContent=dialogText('Nu s-au putut încărca detaliile suplimentare.','Additional details could not be loaded.');});
  const line=(label,value)=>{if(value===undefined||value===null||String(value).trim()==='')return;const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));card.append(p)};
  line(l.address,place.address||[place.house_number,place.street,place.city,place.postcode].filter(Boolean).join(', '));
  line(t.category,localizedPlaceCategory(place.type||t.unspecified));

@@ -65,6 +65,7 @@ jobs:
           node tests_quick_places_categories.mjs
           node tests_photon_worldwide.mjs
           node tests_world_food_names.mjs
+          node tests_verified_photo_v2.mjs
           node tests_fsa_trading_alias.mjs
           node tests_retail_categories.mjs
           node tests_global_places.mjs

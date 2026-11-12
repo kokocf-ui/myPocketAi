@@ -12,6 +12,7 @@ import {foodCategoryAccepts,reconcileNearbyPlaces} from "./food_location_quality
 import {otherPoiAccepts} from "./other_poi_quality.mjs";
 import {nearbyOpenStreetMapFood} from "./osm_food_places.mjs";
 import {photonNearbyUrl} from "./photon_category_discovery.mjs";
+import {verifiedLocationPhoto} from "./place_photo_public.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
@@ -1517,6 +1518,20 @@ export default {
         languages: ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"],
         ai_connected: Boolean(env.AI)
       });
+    }
+
+    // Independent, photo-only service. No logos, commercial place photos,
+    // favicons, Exa research or guessing from another nearby establishment.
+    if (url.pathname === "/api/place-photo-v2" && request.method === "GET") {
+      const name=String(url.searchParams.get("name")||"").slice(0,120);
+      const latitude=Number(url.searchParams.get("lat"));
+      const longitude=Number(url.searchParams.get("lon"));
+      const wikidata=String(url.searchParams.get("wikidata")||"");
+      const result=await verifiedLocationPhoto({name,latitude,longitude,wikidata});
+      return new Response(JSON.stringify(result),{headers:{
+        ...corsHeaders,"Content-Type":"application/json; charset=utf-8",
+        "Cache-Control":"public, max-age=3600"
+      }});
     }
 
     if (url.pathname === "/api/place-media" && request.method === "GET") {
