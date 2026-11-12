@@ -64,6 +64,29 @@ await Promise.resolve();
 assert.ok(button(panel,'János vitéz — Petőfi Sándor'),'Author query lists their work');
 assert.ok(button(panel,'Az apostol — Petőfi Sándor'),'Author query preserves other work');
 
+// The external catalogue must prefer an original work over same-title
+// commentaries when its work-level edition evidence is unambiguous.
+let remoteCalls=0;
+const remoteCfg={...cfg,fetch:async url=>{
+ remoteCalls++;
+ assert.match(String(url),/search\\.json\\?title=Hamlet/);
+ return {ok:true,json:async()=>({docs:[
+  {key:'/works/OL10W',title:'Hamlet',author_name:['William Shakespeare'],edition_count:230,first_publish_year:1603},
+  {key:'/works/OL11W',title:'Hamlet',author_name:['Critical Editor'],edition_count:2,first_publish_year:2018},
+  {key:'/works/OL12W',title:'Hamlet: Critical Studies',author_name:['Another Writer'],edition_count:5}
+ ]})};
+}};
+const remoteUI=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+
+ '\\n({literature:litSimpleLiterature})',remoteCfg);
+const remotePanel=new El('main');remoteUI.literature(remotePanel);
+const remoteSearch=all(remotePanel).find(x=>x.tagName==='INPUT');
+remoteSearch.value='Hamlet';
+button(remotePanel,'Caută autorul / opera').onclick();
+await new Promise(resolve=>setTimeout(resolve,0));
+assert.equal(remoteCalls,1,'Exact title uses one work-level metadata call');
+assert.ok(remotePanel.textContent.includes('Hamlet — William Shakespeare'),'Original work wins');
+assert.ok(!remotePanel.textContent.includes('Critical Editor'),'Critic is not listed as original work');
+
 // A work with a rights-verified complete poem is readable without AI calls.
 search.value='Nemzetőr-dal';button(panel,'Caută autorul / opera').onclick();
 await Promise.resolve();
