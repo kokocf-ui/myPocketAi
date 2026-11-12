@@ -12,7 +12,26 @@ const countries = {
  HR:['croatia','croația'],SI:['slovenia'],RS:['serbia'],TR:['turkey','turcia','turkiye']
 };
 const aliases = new Map(Object.entries(countries).flatMap(([code,names])=>[[fold(code),code],...names.map(name=>[fold(name),code])]));
-export const identifyCountry = value => aliases.get(fold(value)) ?? null;
+// Resolve all ISO countries, including those without a specialized local adapter.
+// Build the international aliases only on first use; keep validated ISO codes.
+let worldwideAliases;
+function worldwideCountries(){
+ if(worldwideAliases)return worldwideAliases;
+ const lookup=new Map();
+ try{
+   const langs=['en','ro','fr','de','it','es','pt','hu','pl','tr'];
+   const display=langs.map(lang=>new Intl.DisplayNames([lang],{type:'region'}));
+   for(let a=65;a<=90;a++)for(let b=65;b<=90;b++){
+     const code=String.fromCharCode(a,b);
+     if(display[0].of(code)===code)continue;
+     lookup.set(fold(code),code);
+     for(const d of display)lookup.set(fold(d.of(code)),code);
+   }
+ }catch{/* Unknown country stays unresolved rather than guessing. */}
+ worldwideAliases=lookup;
+ return lookup;
+}
+export const identifyCountry = value => aliases.get(fold(value)) ?? worldwideCountries().get(fold(value)) ?? null;
 const poi = new Set(['restaurant','pub','cafe','hotel','pharmacy','supermarket','parking','zoo','park','museum','market','shop','fuel','car_repair','fast_food','confectionery','corner_shop','lounge','hospital','cinema','atm','bank','post_office','library','shopping_fashion','beauty_services','home_goods','appliances','furniture','diy_garden','mall','charging','car_wash','car_dealers','school','stadium','toilets','poi']);
 const categoryAliases = {transport:'mixed_transport',transport_mixed:'mixed_transport',mixed:'mixed_transport',hoteluri:'hotel',restaurante:'restaurant',parcari:'parking',parcări:'parking',farmacii:'pharmacy',evenimente:'events',stiri:'news',știri:'news'};
 export function classifyCategory(category){
