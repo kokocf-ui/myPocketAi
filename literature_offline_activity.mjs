@@ -119,6 +119,7 @@ Example 5. “I think we can draw a tree.” — “Good idea! I'll draw the lea
 6. Why is listening important?`
  }
 });
+export const LIT_PRIMARY_COMMUNICATION=COMMUNICATION_G1;
 export function literatureOfflineActivity({topicKey='',title='',mode='lesson',grade='',language='ro',notes=null}={}){
  const key=String(topicKey||'').trim().toLowerCase();
  const kind=String(mode||'');
