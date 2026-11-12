@@ -126,7 +126,7 @@ export async function nearbySparseMapPlaces({
    website:String(t.website||t['contact:website']||''),
    phone:String(t.phone||t['contact:phone']||''),
    osm_id:String(item.type||'')+'/'+String(item.id||''),
-   poi_source:'OpenStreetMap Overpass'
+   poi_source:t.poi_source==='OpenStreetMap Photon'?'OpenStreetMap Photon':'OpenStreetMap Overpass'
   }}];
  });
 }
