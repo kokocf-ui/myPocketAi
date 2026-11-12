@@ -1,6 +1,7 @@
 // Isolated, read-only registry test harness. NOT the production Eva frontend.
 // Only place discovery requests are forwarded to the real feature-branch backend.
 import worker from './backend.js';
+export {PocketCommunicationHub} from './pocket_communication_hub.mjs';
 const allowed=new Set(['restaurant','pharmacy','corner_shop','supermarket','parking','zoo','cafe','hotel','fast_food','park','museum']);
 const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'};
 const html=`<!doctype html><html lang="ro"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
