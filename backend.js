@@ -8,6 +8,7 @@ import {recallFromSuppliedHistory,groundedHistorySummary} from "./eva_history_re
 import {parseNearbyStreetQuery,geocodeNearbyStreet} from "./nearby_street_geocode.mjs";
 import {isStreetOnlyPlace,parseNamedBusinessInformation,researchNamedBusiness,businessResearchReply} from "./local_business_evidence.mjs";
 import {nearbyUkRegisteredRetailers} from "./uk_food_retailers.mjs";
+import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
@@ -4855,7 +4856,8 @@ export default {
     // not generic LLM guesses. Location stays explicit, independent of GPS.
     const namedBusinessRequest=parseNamedBusinessInformation(message);
     if(namedBusinessRequest && !data.quick_place_search){
-      const evidence=await researchNamedBusiness(namedBusinessRequest,{apiKey:env.EXA_API_KEY||'',geoapifyKey:env.GEOAPIFY_API_KEY||''});
+      const countryCode=countryNameCodes.get(normalizeGeoName(namedBusinessRequest.country))||'';
+      const evidence=await researchNamedBusiness({...namedBusinessRequest,countryCode},{apiKey:env.EXA_API_KEY||'',geoapifyKey:env.GEOAPIFY_API_KEY||'',tomtomKey:env.TOMTOM_API_KEY||'',tomtomEnabled:env.TOMTOM_PLACES_ENABLED==='true'});
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
         message_received:originalMessage,reply:businessResearchReply(evidence,lang),
         business_verified:evidence.verified===true,business_sources:evidence.sources||[],
@@ -5388,6 +5390,11 @@ export default {
         let geoapifyElements = [];
         const providerFailures = [];
         // v86: launch Photon immediately so its network request overlaps Geoapify.
+        // Optional worldwide provider, disabled unless the owner explicitly
+        // allows Places usage. Existing navigation TomTom calls are unaffected.
+        const globalPlacesPromise=env.TOMTOM_PLACES_ENABLED==='true'&&env.TOMTOM_API_KEY
+         ?globalNearbyPlaces({latitude,longitude,radius,category:requestedPlaceCategory.key,
+           apiKey:env.TOMTOM_API_KEY,enabled:true}):Promise.resolve([]);
         const ukRetailersPromise=['shop','corner_shop'].includes(requestedPlaceCategory.key)
           ?nearbyUkRegisteredRetailers(latitude,longitude,radius):Promise.resolve([]);
         const photonStartedAt = Date.now();
@@ -5664,13 +5671,19 @@ export default {
             console.warn("Pocket AI v96 Photon parallel search failed", JSON.stringify({ stage: "local_search_fallback_error", ...photonFailure }));
             if (!geoapifyElements.length) {
               const recovered=await ukRetailersPromise;
-              if(!recovered.length){
+              const globalRecovered=await globalPlacesPromise;
+              if(!recovered.length&&!globalRecovered.length){
                 const finalError = Object.assign(photonError || new Error("All local-search providers failed"), { providerFailures });
                 throw finalError;
               }
             }
             placesData = { elements: geoapifyElements };
           }
+        }
+        const globalRows=await globalPlacesPromise;
+        if(globalRows.length){
+          placesData={elements:[...(placesData?.elements||[]),...globalRows]};
+          activeProviders.push("TomTom Places");
         }
         const fsaRows=await ukRetailersPromise;
         if(fsaRows.length){
@@ -5811,7 +5824,7 @@ export default {
           const registryNote=activeProviders.includes("UK Food Standards Agency retailers")?(lang==="en"?"Some food retailer records come from the official UK FSA register; listing does not confirm the shop is currently open.":"Unele magazine alimentare provin din registrul oficial FSA din UK; înscrierea nu confirmă că sunt deschise în acest moment."):"";
           const notes=[radiusNote,centerNote.trim(),starsNote.trim(),incompleteNote,ratingNote.trim(),registryNote,lang==="en"?"Distances are approximate, in a straight line from the search reference point.":"Distanțele sunt aproximative, în linie dreaptă față de punctul de referință al căutării."].filter(Boolean).join("\n");
           const reply=heading+countNote+"\n\n"+lines.join("\n\n")+"\n\n"+notes;
-          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, image_url: p.imageUrl || "", wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") + " (OpenStreetMap-derived place data)" : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:radius, requested_stars:requestedStars, unclassified_count:unclassifiedCount, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
+          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, image_url: p.imageUrl || "", wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:radius, requested_stars:requestedStars, unclassified_count:unclassifiedCount, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
         }
       } catch (searchError) {
         const errorName = searchError && searchError.name ? String(searchError.name).slice(0, 80) : "UnknownError";
