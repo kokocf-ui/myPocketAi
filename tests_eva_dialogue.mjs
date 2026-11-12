@@ -140,6 +140,20 @@ assert.ok(vm.runInContext("pocketRecallPreviousChat('Ții minte despre ce am glu
  'Explicit recall includes recent archived banter');
 assert.equal(vm.runInContext("pocketRecallPreviousChat('Ții minte despre ce am glumit mai devreme?')[0].content",recallCtx),
  'Eva, iar faci pe deșteapta?');
+const archivalCtx=vm.createContext({state:{currentView:'assistant',history:[
+ {id:300,date:'12 Nov 2026',messages:[{role:'user',text:'Un hotel în Manchester lângă centru'},{role:'assistant',text:'Recomandarea era să verificăm prețul actual.'}]},
+ {id:200,date:'11 Nov 2026',messages:[{role:'user',text:'Am discutat despre transportul Oradea Cluj cu autocare.'},{role:'assistant',text:'Trebuie verificate orarele actuale.'}]}
+]}});
+vm.runInContext(script.slice(recallFrom,recallTo),archivalCtx);
+const archivedSearch=vm.runInContext("pocketRecallPreviousChat('Caută în conversațiile noastre Oradea Cluj')",archivalCtx);
+assert.equal(archivedSearch.length,2,'Select matching user + Eva exchange');
+assert.match(archivedSearch[0].content,/Oradea/);
+assert.equal(archivedSearch[0].conversation_id,'200','Retain archive source id');
+assert.equal(vm.runInContext("pocketRecallPreviousChat('Caută trenuri în Oradea')",archivalCtx).length,0,
+ 'Ordinary research never uploads archived text');
+assert.match(script,/const recentLimit=priorChat\.length\?/,
+ 'Archived recall reserves context slots instead of being truncated by current turns');
+
 assert.match(script,/function showView\(name\)\{document\.getElementById\('pocketStandaloneChoices'\)\?\.remove\(\)/,
  'Navigating Home or Settings closes standalone weather choices');
 assert.match(script,/state\.assistantStructuredDestination=false;closeLongChoice\(\);cancelTransitAccess/,
