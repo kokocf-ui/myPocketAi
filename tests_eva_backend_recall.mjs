@@ -34,6 +34,18 @@ assert.equal(result.ai_generated,false);
 assert.match(result.reply,/Nu am găsit/);
 assert.match(result.reply,/Istoricul ChatGPT este separat/);
 assert.equal(aiCalls,1,'No AI generation without matching evidence');
+result=await ask('Uită-te în istoricul conversațiilor',{history:[]});
+assert.equal(result.conversation_intent,'history_recall','Never classify history lookup as an address');
+assert.match(result.reply,/Despre ce subiect/);
+assert.equal(result.web_search_status,'not_needed');
+assert.equal(aiCalls,1,'No AI or geocoding on topic-free history requests');
+result=await ask('Ce recomandări mi-ai dat anterior despre Manchester?',{history:[
+ {role:'user',content:'Pentru Manchester prefer trenul și un hotel în centru.'},
+ {role:'assistant',content:'Am recomandat un hotel din centrul orașului.'}
+]});
+assert.equal(result.conversation_intent,'history_recall');
+assert.ok(result.history_matches.some(x=>x.content.includes('Manchester')),
+ 'Past recommendation search must use actual history evidence');
 result=await ask('Și acolo?',{history:[]});
 assert.equal(result.conversation_intent,'clarification_needed');
 assert.equal(result.clarification_required,true);
