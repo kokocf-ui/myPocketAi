@@ -41,6 +41,8 @@ on:
       - 'literature_verified_authors.mjs'
       - 'tests_literature_verified_authors.mjs'
       - 'history_geography_curriculum.mjs'
+      - 'computing_ui.mjs'
+      - 'tests_computing_free_chat.mjs'
       - 'tests_computing_curriculum.mjs'
       - 'tests_literature_europe.mjs'
       - 'tests_history_geography.mjs'
@@ -180,6 +182,7 @@ jobs:
           node tests_exam_curriculum_europe.mjs
           node tests_university_admissions.mjs
           node tests_computing_curriculum.mjs
+          node tests_computing_free_chat.mjs
           node tests_literature_europe.mjs
           node --check literature_verified_authors.mjs
           node tests_literature_verified_authors.mjs

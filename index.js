@@ -18127,6 +18127,44 @@ function appendAnswerText(host,text){
   host.append(document.createTextNode(piece.slice(offset)));
  }
 }
+// Fenced source code stays selectable and copyable in the full-answer reader.
+function appendAnswerCodeBlocks(host,raw){
+ const original=String(raw||''),fence=String.fromCharCode(96).repeat(3);
+ if(original.split(fence).length<3)return false;
+ const parts=original.split(fence),newline=String.fromCharCode(10);
+ for(let i=0;i<parts.length;i++){
+  const part=parts[i];if(!part)continue;
+  if(i%2===0){appendAnswerText(host,part);continue}
+  const pos=part.indexOf(newline);
+  const head=(pos<0?part:part.slice(0,pos)).trim().toLowerCase();
+  const languageNames=['html','css','javascript','js','python','py','java','typescript','ts','json','sql','bash','shell','php','c','cpp','c++','csharp','cs','xml','text','txt'];
+  const source=languageNames.includes(head)?part.slice(pos+1):part;
+  const code=source.trimEnd();
+  const wrapper=document.createElement('div');wrapper.className='reader-code-wrapper';
+  wrapper.style.cssText='margin:12px 0;min-width:0;max-width:100%;';
+  const button=document.createElement('button');button.type='button';
+  button.className='reader-copy-code';
+  button.textContent=dialogText('Copiază codul','Copy code');
+  button.setAttribute('aria-label',button.textContent);
+  button.style.cssText='border:1px solid #529bb3;border-radius:10px;padding:8px 12px;background:#0c354e;color:#efffff;margin-bottom:6px;';
+  button.onclick=async()=>{
+   try{
+    if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(code);
+    else{
+     const temp=document.createElement('textarea');temp.value=code;
+     temp.style.cssText='position:fixed;left:-10000px;top:0;';
+     document.body.append(temp);temp.select();
+     const ok=document.execCommand('copy');temp.remove();if(!ok)throw Error('clipboard_unavailable');
+    }
+    button.textContent=dialogText('Copiat ✓','Copied ✓');
+   }catch{button.textContent=dialogText('Copiere indisponibilă','Copy unavailable')}
+  };
+  const pre=document.createElement('pre');pre.textContent=code;
+  pre.style.cssText='white-space:pre;overflow-x:auto;max-width:100%;box-sizing:border-box;padding:12px;border:1px solid #487387;border-radius:12px;background:#071c2b;color:#f3f8fb;font-size:14px;line-height:1.5;';
+  wrapper.append(button,pre);host.append(wrapper);
+ }
+ return true;
+}
 // Render full culinary answers with section headings and preserved steps.
 // Some publishers concatenate a step title with its instructions.
 // Repair presentation only; all original words and cooking facts remain.
@@ -18216,7 +18254,7 @@ function openAnswerReader(text,origin){
  const speedLabel=document.createElement('label');speedLabel.textContent=t.speed+' ';
  const speed=document.createElement('select');speed.setAttribute('aria-label',t.speed);
  for(const value of [.5,1,1.5]){const option=document.createElement('option');option.value=String(value);option.textContent=String(value)+'×';speed.append(option)}speed.value='1';speedLabel.append(speed);controls.append(pause,restart,speedLabel);
- const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',readerTitle);layer.append(header,controls,body);let recipePaged=false;if(!(state.lastPresentationResponse?.reply===String(text).trim()&&appendAdaptivePresentation(body,state.lastPresentationResponse))&&!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));recipePaged=renderRecipePages(layer,body,String(text),appendRecipeReaderText,appendAnswerText);if(!recipePaged&&!appendRecipeReaderText(body,String(text)))appendAnswerText(body,String(text));}
+ const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',readerTitle);layer.append(header,controls,body);let recipePaged=false;if(!(state.lastPresentationResponse?.reply===String(text).trim()&&appendAdaptivePresentation(body,state.lastPresentationResponse))&&!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));recipePaged=renderRecipePages(layer,body,String(text),appendRecipeReaderText,appendAnswerText);if(!recipePaged&&!appendRecipeReaderText(body,String(text))&&!appendAnswerCodeBlocks(body,String(text)))appendAnswerText(body,String(text));}
  document.body.append(layer);
  const reader={layer,origin,frame:0,cleanup:()=>{}};activeAnswerReader=reader;
  let running=!recipePaged&&!(state.lastPresentationResponse?.reply===String(text).trim()&&state.lastPresentationResponse.plan?.blocks?.[0]?.kind==='interactive_article_table')&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news'),lastTime=null,startAt=performance.now()+800,position=0;
