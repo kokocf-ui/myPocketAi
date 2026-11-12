@@ -1,8 +1,9 @@
 // Original bibliographic metadata for seven national Language & Literature routes.
 // These titles are examples for independent study, NOT compulsory curriculum readings.
-// No book text is bundled. Every work is linked to an identified bibliographic source.
+// Only rights-verified public-domain or licensed texts can have embedded sections.
+// All other works remain bibliographic records with a source link.
 // Copyright/licensing and exact editions must be checked before reproducing text.
-const item=(title,year,kind,sourceUrl)=>Object.freeze({title,year,kind,sourceUrl});
+const item=(title,year,kind,sourceUrl,sections=[])=>Object.freeze({title,year,kind,sourceUrl,sections:Object.freeze(sections.map(s=>Object.freeze(s)))});
 const author=(country,language,name,sourceTitle,sourceUrl,works)=>Object.freeze({
  id:country==='RS'?(name==='Десанка Максимовић'?'rs-desanka-maksimovic':'rs-ivo-andric'):country.toLowerCase()+'-'+name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),
  name,country,language,sourceTitle,sourceUrl,
@@ -71,7 +72,39 @@ export const SEVEN_COUNTRY_LITERARY_LIBRARY=Object.freeze([
  author('HU','hu','Arany János','Petőfi Irodalmi Múzeum — Arany János (material educativ)',
   'https://pim.hu/sites/default/files/page/attachments/aranyut_palyazati_felhivas_x.pdf',[
    item('Toldi',1847,'poem epic','https://pim.hu/sites/default/files/page/attachments/aranyut_palyazati_felhivas_x.pdf'),
-   item('A walesi bárdok',1857,'baladă','https://mek.oszk.hu/00500/00593/fulszoveg.html')
+   item('A walesi bárdok',1857,'baladă','https://mek.oszk.hu/00500/00593/fulszoveg.html'),
+   // Original 1848 poem, author Arany János died in 1882: public-domain text.
+   // Source and wording: https://hu.wikisource.org/wiki/Nemzet%C5%91r-dal
+   item('Nemzetőr-dal',1848,'poezie','https://hu.wikisource.org/wiki/Nemzet%C5%91r-dal',[
+    {title:'Poezia integrală',sourceUrl:'https://hu.wikisource.org/wiki/Nemzet%C5%91r-dal',
+     license:'public domain — Arany János (1817–1882)',rightsVerified:true,
+     text:[
+      'Süvegemen nemzetiszín rózsa,',
+      'Ajakamon édes babám csókja;',
+      'Ne félj, babám, nem megyek világra:',
+      'Nemzetemnek vagyok katonája.',
+      '',
+      'Nem kerestek engemet kötéllel;',
+      'Zászló alá magam csaptam én fel:',
+      'Szülőanyám, te szép Magyarország,',
+      'Hogyne lennék holtig igaz hozzád!',
+      '',
+      'Nem is adtam a lelkemet bérbe;',
+      'Négy garajcár úgyse sokat érne;',
+      'Van nekem még öt-hat garajcárom...',
+      'Azt is, ha kell, hazámnak ajánlom.',
+      '',
+      'Fölnyergelem szürke paripámat;',
+      'Fegyveremre senki se tart számot,',
+      'Senkié sem, igaz keresményem:',
+      'Azt vegye hát el valaki tőlem!',
+      '',
+      'Olyan marsra lábam se billentem,',
+      'Hogy azt bántsam, aki nem bánt engem:',
+      'De a szabadságért, ha egy íznyi,',
+      'Talpon állok mindhalálig víni.'
+     ].join('\\n')}
+   ])
   ]),
  author('AT','de','Arthur Schnitzler','Hrvatska enciklopedija — Arthur Schnitzler',
   'https://www.enciklopedija.hr/clanak/schnitzler-arthur',[
