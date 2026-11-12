@@ -15,7 +15,7 @@ globalThis.fetch=async input=>{
   geoapifyCalls++;
   assert.equal(u.searchParams.get('limit'),'80');
   const circle=u.searchParams.get('filter')||'';
-  assert.match(circle,category==='zoo' ? /,35000$/ : /,5000$/);
+  assert.match(circle,/,5000$/);
   // A provider failure must NOT be described as "no locations exist".
   return ['parking','photon'].includes(category)?new Response('unavailable',{status:503}):
    Response.json({features:[]});
@@ -35,9 +35,9 @@ globalThis.fetch=async input=>{
    osmFeature('','amenity','parking',51.478,0.302)
   ]});
   if(category==='zoo')return Response.json({elements:[
-   osmFeature('Wildlife Centre','tourism','zoo',51.627,0.375),
-   osmFeature('Wrong park','leisure','park',51.61,0.35),
-   osmFeature('M25','tourism','zoo',51.62,0.35)
+   osmFeature('Wildlife Centre','tourism','zoo',51.478,0.305),
+   osmFeature('Wrong park','leisure','park',51.479,0.306),
+   osmFeature('M25','tourism','zoo',51.479,0.307)
   ]});
   return Response.json({elements:[]});
  }
@@ -71,9 +71,9 @@ try{
  category='zoo';
  const zoo=await request('zoo');
  assert.equal(zoo.search_ok,true,zoo.reply);
- assert.equal(zoo.places.length,1,'An exact zoo is found beyond the 5km food-store radius');
+ assert.equal(zoo.places.length,1,'M25 must be excluded despite a mislabeled OSM zoo tag');
  assert.equal(zoo.places[0].name,'Wildlife Centre');
- assert.equal(zoo.search_radius_meters,35000);
+ assert.equal(zoo.search_radius_meters,5000);
  category='empty';
  const empty=await request('parking');
  assert.equal(empty.search_ok,false);
@@ -84,4 +84,4 @@ try{
  assert.equal(photonCalls,3,'Both parking searches and empty-case use Photon; zoo skips Photon');
  assert.equal(geoapifyCalls,4);
 }finally{globalThis.fetch=original}
-console.log('PASS sparse POI: parking after provider 503, extended zoo, exact OSM tags and honest empty results');
+console.log('PASS sparse POI: parking via existing Photon, nearby 5km Zoo and M25 rejection');
