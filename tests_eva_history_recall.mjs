@@ -5,6 +5,10 @@ assert.equal(historyRecallIntent('Eva, caută în conversațiile noastre transpo
 assert.equal(historyRecallIntent('Caută-mi trenuri între Oradea și Cluj'),false);
 assert.equal(historyRecallIntent('Spune-mi istoria României'),false);
 assert.equal(historyRecallIntent('Ce am discutat despre hotelul din Manchester?'),true);
+assert.equal(historyRecallIntent('Ce recomandări mi-ai dat anterior despre Manchester?'),true);
+assert.equal(historyRecallIntent('Uită-te în istoricul conversațiilor'),true);
+assert.equal(historyRecallIntent('Ce mi-ai recomandat anterior despre hotelurile din Manchester?'),true);
+assert.equal(historyRecallIntent('Uită-te la adresa din Manchester'),false);
 const history=[
  {role:'user',content:'Am analizat transportul dintre Oradea și Cluj, inclusiv autocare și trenuri.'},
  {role:'assistant',content:'Am menționat variante, dar prețurile trebuie reverificate.'},
@@ -17,6 +21,12 @@ assert.match(r.reply,/Oradea/);
 assert.doesNotMatch(r.reply,/Am căutat hoteluri/);
 assert.equal(r.matches[0].role,'user');
 assert.equal(recallFromSuppliedHistory('Caută-mi trenuri între Oradea și Cluj',history),null);
+r=recallFromSuppliedHistory('Uită-te în istoricul conversațiilor',history);
+assert.equal(r.found,false);
+assert.equal(r.reason,'topic_missing','Ask for a topic; do not route to address lookup');
+r=recallFromSuppliedHistory('Ce recomandări mi-ai dat anterior despre Manchester?',history);
+assert.equal(r.found,true);
+assert.ok(r.matches.some(x=>x.content.includes('Manchester')));
 r=recallFromSuppliedHistory('Ce am discutat despre Bratislava?',history);
 assert.equal(r.found,false);
 r=recallFromSuppliedHistory('Caută în istoric ceva',[]);
