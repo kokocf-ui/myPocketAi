@@ -11,6 +11,8 @@ on:
       - 'ai_response_quality.mjs'
       - 'eva_dialogue.mjs'
       - 'tests_response_quality.mjs'
+      - 'programming_assistance.mjs'
+      - 'tests_programming_assistance.mjs'
       - 'tests_avatar_brand_pronunciation.mjs'
       - 'tests_avatar_launch_boundaries.mjs'
       - 'oracle_communication_ui.mjs'
@@ -153,6 +155,7 @@ jobs:
           node tests_communication_redesign.mjs
           node tests_oracle_fcm.mjs
           node tests_response_quality.mjs
+          node tests_programming_assistance.mjs
           node tests_avatar_brand_pronunciation.mjs
           node tests_avatar_launch_boundaries.mjs
           node --check practical_curriculum.mjs
