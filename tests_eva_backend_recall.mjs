@@ -39,4 +39,12 @@ assert.equal(result.conversation_intent,'clarification_needed');
 assert.equal(result.clarification_required,true);
 assert.match(result.reply,/La ce/);
 assert.equal(aiCalls,1);
+const manchester=[
+ {role:'user',content:'Eva, pentru excursia mea la Manchester prefer să călătoresc cu trenul și să caut un hotel aproape de centru.'},
+ {role:'assistant',content:'Sunt încântată să te ajut cu planificarea excursiei tale la Manchester!'}
+];
+const saved=await ask('Eva, caută în conversațiile noastre cum prefer să călătoresc la Manchester și în ce zonă vreau hotelul.',{history:manchester});
+assert.equal(saved.conversation_intent,'history_recall');
+assert.ok(saved.history_matches.some(x=>x.content.includes('trenul')&&x.content.includes('aproape de centru')),
+ 'Backend must receive exact archived preference evidence');
 console.log('PASS Eva backend history summarization, no-match handling and clarification');
