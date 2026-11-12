@@ -7,7 +7,11 @@ class Node {
  constructor(tag='div',label='',id=''){
   this.tagName=tag.toUpperCase();this.nodeType=1;this._label=label;this.id=id;
   this.children=[];this.parentElement=null;this.width=340;this.isConnected=true;
-  this.attrs={};this.classes=new Set();
+  this.attrs={};this.classes=new Set();this.inline={};
+  this.style={setProperty:(key,value,priority='')=>{this.inline[key]={value,priority}},
+   getPropertyValue:key=>this.inline[key]?.value||'',
+   getPropertyPriority:key=>this.inline[key]?.priority||'',
+   removeProperty:key=>delete this.inline[key]};
   this.classList={add:(...xs)=>xs.forEach(x=>this.classes.add(x)),
    remove:(...xs)=>xs.forEach(x=>this.classes.delete(x)),
    contains:x=>this.classes.has(x),
@@ -37,6 +41,8 @@ class Node {
   if(selector==='.module-actions-row')return this.querySelectorAll('*').find(x=>x.classList.contains('module-actions-row'))||null;
   if(selector==='button.pocket-inline-back')return this.querySelectorAll('button').find(x=>x.classList.contains('pocket-inline-back'))||null;
   if(selector==='#moduleContent')return this.querySelectorAll('*').find(x=>x.id==='moduleContent')||null;
+  if(selector==='.education-toolbar:not(.math-navigation)')return this.querySelectorAll('*').find(x=>x.classList.contains('education-toolbar')&&!x.classList.contains('math-navigation'))||null;
+  if(selector==='.agenda-voice-controls')return this.querySelectorAll('*').find(x=>x.classList.contains('agenda-voice-controls'))||null;
   if(selector==='#moduleContent .education-toolbar:not(.math-navigation)')return this.querySelectorAll('*').find(x=>x.classList.contains('education-toolbar')&&!x.classList.contains('math-navigation'))||null;
   if(selector==='button.module-result-card')return this.querySelectorAll('button').find(x=>x.classList.contains('module-result-card'))||null;
   return null;
@@ -78,6 +84,8 @@ class MockObserver{constructor(cb){this.cb=cb;observer=this}observe(){}}
 const window={addEventListener(){}};
 vm.runInNewContext(NAV_RETURN_ACCENT_SCRIPT,{document:doc,window,MutationObserver:MockObserver});
 assert.ok(home.classList.contains('pocket-nav-return'),'Home recognized');
+assert.equal(home.inline.background?.value,back.inline.background?.value,'Home and Back have identical important inline burgundy');
+assert.equal(home.inline.background?.priority,'important');
 assert.ok(back.classList.contains('pocket-nav-return'),'Education Back recognized');
 assert.ok(back.classList.contains('pocket-nav-text'),'Text Back receives consistent textual dimensions');
 assert.ok(home.classList.contains('pocket-nav-text'),'Text Home shares Back dimensions');
@@ -95,10 +103,21 @@ assert.ok(!send.classList.contains('pocket-nav-return'),'Assistant send keeps bl
 assert.match(NAV_RETURN_ACCENT_CSS,/min-height:50px!important/,'Text navigation has equal minimum height');
 assert.ok(!bottom.children[0].classList.contains('pocket-nav-return'),'Bottom dock not recolored');
 
-actions.width=235;
+root.width=235;
 observer.cb([{type:'childList',target:actions,addedNodes:[]}]);
 assert.equal(back.parentElement,bar,'Back restores to its own toolbar on narrow viewport');
 assert.ok(!actions.classList.contains('pocket-inline-nav'));
+root.width=340;root.classList.remove('learning-active');root.classList.add('organize-active');
+bar.remove();
+const agendaBar=new Node('div');agendaBar.classList.add('agenda-voice-controls');
+const agendaBack=new Node('button','← Înapoi');agendaBack.classList.add('agenda-go-back');
+const agendaMic=new Node('button','Spune o programare');
+agendaBar.append(agendaBack,agendaMic);content.append(agendaBar);
+observer.cb([{type:'childList',target:agendaBar,addedNodes:[agendaBack]}]);
+assert.equal(agendaBack.parentElement,actions,'Agenda Back is next to Home at sufficient width');
+assert.equal(agendaMic.parentElement,agendaBar,'Microphone stays in Agenda controls');
+assert.ok(root.classList.contains('pocket-paired-nav-layout'),'Agenda paired layout enabled');
+
 assert.match(NAV_RETURN_ACCENT_CSS,/\.pocket-route-entry #moduleLayerBody button\.module-result-card:not\(\.pocket-nav-return\)/);
 assert.match(NAV_RETURN_ACCENT_CSS,/#view-assistant \.chat-form > \.send-btn/);
 assert.match(NAV_RETURN_ACCENT_CSS,/place-items:center!important/);
