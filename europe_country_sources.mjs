@@ -31,7 +31,12 @@ export const EUROPE_SOURCE_CATALOG=Object.freeze({
  FI:{transport:[source('fi_digitransit','Digitransit Routing API','https://digitransit.fi/en/developers/apis/','national','api','api_key_required')],general:[]},
  CH:{transport:[source('ch_transportdata','Swiss national public transport GTFS','https://opentransportdata.swiss/en/cookbook/timetable-cookbook/gtfs/','national','dataset')],general:[]},
  AT:{transport:[source('at_mobility_data','Austria transport association open data','https://data.mobilitaetsverbuende.at/de/data-sets','national','dataset')],general:[]},
- ES:{transport:[source('es_transport_hermes','Spanish national transport data discovery (Hermes)','https://datos.gob.es/es/aplicaciones/hermes','national','metadata')],general:[]}
+ ES:{transport:[source('es_transport_hermes','Spanish national transport data discovery (Hermes)','https://datos.gob.es/es/aplicaciones/hermes','national','metadata')],general:[]},
+ IT:{transport:[source('it_nap_mmtis','Italian NAP for multimodal transport (NeTEx/SIRI)','https://www.cciss.it/nap/mmtis/public/en/static/multimodal','national','nap')],general:[]},
+ IE:{transport:[source('ie_nta_gtfs','Ireland NTA GTFS national schedules','https://data.gov.ie/dataset/nta-gtfs','national','dataset','reuse_terms_review'),
+               source('ie_nta_live','Ireland NTA realtime APIs','https://developer.nationaltransport.ie/','national','api','api_key_required')],general:[]},
+ BE:{transport:[source('be_rail_open','Belgian national rail timetable data SNCB/NMBS','https://www.belgiantrain.be/en/3rd-party-services/mobility-service-providers/public-data/','national','dataset')],general:[]},
+ CZ:{transport:[source('cz_prague_pid','Prague integrated transport GTFS/realtime','https://pid.cz/en/opendata/','prague_region','dataset')],general:[]}
 });
 export const EUROPE_COMMON_SOURCES=Object.freeze({
  general:[
