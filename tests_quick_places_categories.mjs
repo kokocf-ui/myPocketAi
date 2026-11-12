@@ -23,13 +23,17 @@ const categories=['hotel','pharmacy','corner_shop','supermarket','confectionery'
 assert.deepEqual(list.map(x=>x.placeCategory),categories);
 assert.deepEqual(Array.from(menu.maps,x=>x.title),[
  'Deplasare spre…','Traseu pietonal','Transport public','Benzinării',
- 'Spălătorii auto','Parcări','Muzee','Parcuri','Grădini zoologice'
+ 'Spălătorii auto','Parcări','Muzee','Parcuri','Grădini zoologice','Parcuri auto și dealeri'
 ]);
 assert.equal(list.find(x=>x.placeCategory==='restaurant').prompt,'Caută restaurante în apropierea mea.');
 assert.ok(!list.find(x=>x.placeCategory==='restaurant').prompt.includes('fast-food'));
 assert.ok(ui.includes("place_category:choice.kind==='places'?(choice.placeCategory||undefined):undefined"));
 assert.ok(ui.includes('function openModuleLandingAction(choice)'));
 assert.ok(ui.includes('function returnToModuleLanding()'));
+assert.match(ui,/state\.moduleSearchScrollTop=list\.scrollTop/,'Capture results scroll');
+assert.match(ui,/list\.scrollTop=Number\(state\.moduleSearchScrollTop/,'Restore results scroll');
+assert.match(ui,/state\.moduleSearchScrollTop=0/,'Reset scroll at new search');
+assert.match(ui,/const special=\{shopping_fashion:/,'Use correct category icons');
 const routeEntry=ui.slice(ui.indexOf('function openModuleLandingAction(choice)'),
  ui.indexOf('function quickUiText(){'));
 assert.match(routeEntry,/kind==='walking'\)showWalkingQuickDestination\(choice\)/);
@@ -73,7 +77,12 @@ const rows=[
  {name:'Kitchen Appliances',cat:'commercial.elektronics',kind:'appliance',shop:'appliance'},
  {name:'Sofa Gallery',cat:'commercial.furniture_and_interior',kind:'furniture',shop:'furniture'},
  {name:'DIY Hardware',cat:'commercial.houseware_and_hardware',kind:'hardware',shop:'hardware'},
- {name:'Garden Plant Centre',cat:'commercial.garden',kind:'garden',shop:'garden_centre'}
+ {name:'Garden Plant Centre',cat:'commercial.garden',kind:'garden',shop:'garden_centre'},
+ {name:'Costco',cat:'commercial.department_store',kind:'department_store',shop:'department_store'},
+ {name:'Vodafone',cat:'commercial.elektronics',kind:'telephony',shop:'mobile_phone'},
+ {name:'EE',cat:'commercial.elektronics',kind:'telephony',shop:'electronics'},
+ {name:'New Car Dealership',cat:'commercial.vehicle',kind:'dealer',shop:'car'},
+ {name:'Motorbike Shop',cat:'commercial.vehicle',kind:'bikes',shop:'motorcycle'}
 ];
 const features=rows.map((r,i)=>({type:'Feature',geometry:{type:'Point',coordinates:[0.301+i/10000,51.477+i/10000]},
  properties:{name:r.name,categories:[r.cat],datasource:{raw:{
@@ -98,6 +107,9 @@ try {
   assert.equal(response.status,200);
   const data=await response.json();
   assert.equal(data.search_ok,true,data.reply);
+  if(['shopping_fashion','beauty_services','home_goods','appliances','furniture','diy_garden','car_dealers'].includes(category)){
+   for(const place of data.places)assert.equal(place.type,category,'Wrong category identity for '+place.name);
+  }
   return new Set(data.places.map(p=>p.name));
  };
  const rest=await quick('restaurant','Caută restaurante, shaormerii, pizza și fast-food în apropierea mea.');
@@ -118,9 +130,14 @@ try {
  assert.ok(beauty.has('Eva Hair Studio'));
  assert.ok(home.has('Homewares Direct'));
  assert.ok(appliances.has('Kitchen Appliances'));
+ assert.ok(appliances.has('Costco'));
+ assert.ok(!appliances.has('Vodafone')&&!appliances.has('EE'),'Phone operators must not appear as appliances');
  assert.ok(furniture.has('Sofa Gallery'));
  for(const n of ['DIY Hardware','Garden Plant Centre'])assert.ok(diy.has(n),'DIY missing '+n);
- const selected=[shopping,beauty,home,appliances,furniture,diy];
+ const carDealers=await quick('car_dealers','Găsește parcuri auto și dealeri auto în apropierea mea.');
+ assert.ok(carDealers.has('New Car Dealership'));
+ assert.ok(!carDealers.has('Motorbike Shop'));
+ const selected=[shopping,beauty,home,appliances,furniture,diy,carDealers];
  for(const [i,group] of selected.entries()){
   for(const [j,other] of selected.entries()){
    if(i!==j)assert.deepEqual([...group].filter(n=>other.has(n)),[],'Overlapping categories '+i+'/'+j);
