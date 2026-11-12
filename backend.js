@@ -6,6 +6,8 @@ import {classifyConversationTurn,buildConversationEvidence} from "./conversation
 import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} from "./eva_dialogue.mjs";
 import {recallFromSuppliedHistory,groundedHistorySummary} from "./eva_history_recall.mjs";
 import {parseNearbyStreetQuery,geocodeNearbyStreet} from "./nearby_street_geocode.mjs";
+import {isStreetOnlyPlace,parseNamedBusinessInformation,researchNamedBusiness,businessResearchReply} from "./local_business_evidence.mjs";
+import {nearbyUkRegisteredRetailers} from "./uk_food_retailers.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
 import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
@@ -4839,6 +4841,18 @@ export default {
     // v137: A named venue is not a request for every venue in its town.
     // Preserve the commercial name and the town before category discovery.
     const namedVenueInput=String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+    // Named-business description requests receive verified source evidence,
+    // not generic LLM guesses. Location stays explicit, independent of GPS.
+    const namedBusinessRequest=parseNamedBusinessInformation(message);
+    if(namedBusinessRequest && !data.quick_place_search){
+      const evidence=await researchNamedBusiness(namedBusinessRequest,{apiKey:env.EXA_API_KEY||''});
+      return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+        message_received:originalMessage,reply:businessResearchReply(evidence,lang),
+        business_verified:evidence.verified===true,business_sources:evidence.sources||[],
+        business_research_reason:evidence.reason,
+        ai_generated:false,web_search_status:evidence.verified?'verified':'no_verified_source',
+        location_received:false});
+    }
     const namedVenueMatch=(nonPlaceFeedback||eventDiscoveryRequest||preventImplicitPlace||voluntaryTelegramLink)?null:((()=>{const m=namedVenueInput.match(/(?:^|\b)(magazin(?:ul)?|market(?:ul)?|supermarket(?:ul)?|restaurant(?:ul)?|cafenea(?:ua)?|hotel(?:ul)?)\s+(.+?)\s+(?:din|in|,)\s+([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
       return m&&!/^(?:de\s+)?(?:[1-5]|one|two|three|four|five|una|doua|trei|patru|cinci)\s*(?:[- ]?star|stele|stea)/i.test(m[2])?m:null})()
       ||(!earlyFoodSearchIntent?(()=>{const m=namedVenueInput.match(/^(?:vreau sa ajung la\s+)?([\p{L}][\p{L}0-9&' .-]{2,55}?)\s*(?:,\s*|\s+(?:din|in)\s+)([\p{L}][\p{L} .'-]{1,70})(?:[?.!]|$)/iu);
@@ -5359,11 +5373,13 @@ export default {
       let activeProviders = [];
       let lastSearchError = null;
       try {
-        const radius = centralAreaRequested ? 2000 : 5000;
+        const radius = locationSource==='explicit_street_query' ? 1500 : centralAreaRequested ? 2000 : 5000;
         let placesData = null;
         let geoapifyElements = [];
         const providerFailures = [];
         // v86: launch Photon immediately so its network request overlaps Geoapify.
+        const ukRetailersPromise=['shop','supermarket','corner_shop','market_bakery'].includes(requestedPlaceCategory.key)
+          ?nearbyUkRegisteredRetailers(latitude,longitude,radius):Promise.resolve([]);
         const photonStartedAt = Date.now();
         const photonRequestPromise = (async () => {
           const photonUrl = new URL("https://photon.komoot.io/api/");
@@ -5443,6 +5459,8 @@ export default {
               const raw = props.datasource && props.datasource.raw && typeof props.datasource.raw === "object" ? props.datasource.raw : {};
               const cats = Array.isArray(props.categories) ? props.categories.join(" ").toLowerCase() : "";
               const key = requestedPlaceCategory.key;
+              if(['shop','supermarket','corner_shop','market_bakery','mall'].includes(key) &&
+                 isStreetOnlyPlace(props.name,props.street||raw['addr:street']||''))return false;
               if (key === "poi") return true;
               // Accommodation is a named establishment, not the street/address
               // line returned by geocoders. Keep apartments and hostels, but
@@ -5497,10 +5515,10 @@ export default {
               const categories = Array.isArray(props.categories) ? props.categories : [];
               const categoryText = categories.join(" ").toLowerCase();
               const raw = props.datasource && props.datasource.raw && typeof props.datasource.raw === "object" ? props.datasource.raw : {};
-              const isShop = ["supermarket", "mall", "shop", "market_bakery"].includes(requestedPlaceCategory.key);
+              const isShop = ["supermarket", "mall", "shop", "market_bakery", "corner_shop"].includes(requestedPlaceCategory.key);
               const amenity = requestedPlaceCategory.key === "fast_food" ? "fast_food" : requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
-              const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: requestedPlaceCategory.key === "hotel" ? String(props.name || "").trim() : (props.name || props.address_line1 || ""), amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "corner_shop" ? (rawTags.shop || "convenience") : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
+              const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: (requestedPlaceCategory.key === "hotel" || isShop) ? String(props.name || "").trim() : (props.name || props.address_line1 || ""), amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "corner_shop" ? (rawTags.shop || "convenience") : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? geoapifyDistanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
             if (geoapifyElements.length) {
@@ -5536,7 +5554,7 @@ export default {
               const lon = Number(coordinates[0]);
               const lat = Number(coordinates[1]);
               const osmValue = String(properties.osm_value || properties.type || requestedPlaceCategory.key).toLowerCase();
-              const isShop = ["supermarket", "mall", "shop", "market_bakery"].includes(requestedPlaceCategory.key);
+              const isShop = ["supermarket", "mall", "shop", "market_bakery", "corner_shop"].includes(requestedPlaceCategory.key);
               const photonType = (String(properties.type || "") + " " + String(properties.osm_value || "") + " " + String(properties.osm_key || "")).toLowerCase();
               const photonCategoryMatches = requestedPlaceCategory.key === "poi"
                 ? Boolean(properties.name) && coordinates.length >= 2 && !/^(road|street|residential|service|path|track|footway|cycleway)$/i.test(photonType)
@@ -5580,6 +5598,8 @@ export default {
                   ? /confectionery|pastry|bakery|cake|ice.?cream|gelateria|dessert/.test(photonType) || /cake|bakery|patisserie|confectionery|ice cream|gelato|dessert/i.test(String(properties.name || ""))
                 : /pharmacy|fuel|parking|car.?wash|museum|cinema|hospital|school|library|atm|bank|post.?office|toilet|hotel|station/.test(photonType);
               if (!photonCategoryMatches) return null;
+              if(isShop && (isStreetOnlyPlace(properties.name,properties.street||properties.street_name||'') ||
+                 /^(?:highway|street|road|residential|place)$/i.test(String(properties.osm_key||''))))return null;
               if(requestedPlaceCategory.key==="hotel"){
                 const title=String(properties.name||"").trim();
                 const roadOnly=/^(?:strada|str\.?|street|st\.?|road|rd\.?|bulevardul?|bd\.?|calea|drumul|uli[țt]a|rue|calle|via|rua)\s+/iu.test(title)
@@ -5629,6 +5649,11 @@ export default {
             }
             placesData = { elements: geoapifyElements };
           }
+        }
+        const fsaRows=await ukRetailersPromise;
+        if(fsaRows.length){
+          placesData={elements:[...(placesData?.elements||[]),...fsaRows]};
+          activeProviders.push("UK Food Standards Agency retailers");
         }
         if (!placesData) placesData = { elements: [] };
         const elements = placesData.elements;
@@ -5692,7 +5717,7 @@ export default {
           const houseNumber = String(tags.housenumber || tags["addr:housenumber"] || "").trim();
           const city = String(tags.city || tags.town || tags.village || tags["addr:city"] || "").trim();
           const postcode = String(tags.postcode || tags["addr:postcode"] || "").trim();
-          const address = [houseNumber, street, city, postcode].filter(Boolean).join(", ");
+          const address = String(tags.fsa_address||[houseNumber, street, city, postcode].filter(Boolean).join(", ")).slice(0,250);
           const rawImage = String(tags.image || "").trim();
           const commons = String(tags.wikimedia_commons || tags["wikimedia_commons"] || "").trim();
           const imageUrl = /^https:\/\//i.test(rawImage) ? rawImage : /^File:/i.test(commons) ? "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(commons.slice(5)) : "";
@@ -5733,7 +5758,7 @@ export default {
         const matchingPlaces=requestedStars ? unique.filter(p=>p.stars===requestedStars) : unique;
         const totalUniqueResults = matchingPlaces.length;
         const unclassifiedCount=requestedStars?unique.filter(p=>!p.stars).length:0;
-        const displayedPlaces = matchingPlaces.slice(0, 40);
+        const displayedPlaces = matchingPlaces.slice(0, requestedPlaceCategory.key==="shop"?15:40);
         const locationLabel=explicitPlaceQuery ? searchLocationLabel : (lang==="en"?"your GPS location":"poziția ta GPS");
         const scope=lang==="en"?`Search area: ${locationLabel}. Radius: ${radius/1000} km.`:`Zona căutată: ${locationLabel}. Rază: ${radius/1000} km.`;
         const centerNote=centralAreaRequested?(lang==="en"?" Central area is approximated by a 2 km radius around the mapped reference point for the destination.":" Zona centrală este aproximată printr-o rază de 2 km în jurul punctului de referință cartografic al destinației."):"";
@@ -5747,7 +5772,7 @@ export default {
             const mapUrl = `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}`;
             const details = [p.stars ? `${p.stars} ★ (OpenStreetMap)` : "", p.cuisine ? (lang === "en" ? `Cuisine: ${p.cuisine}` : `Specific: ${p.cuisine}`) : "", p.website ? (lang === "en" ? `Website: ${p.website}` : `Site: ${p.website}`) : "", p.phone ? (lang === "en" ? `Phone: ${p.phone}` : `Telefon: ${p.phone}`) : ""].filter(Boolean).join(" · ");
             const distanceLabel = p.distanceMeters < 1000 ? `${Math.round(p.distanceMeters)} m` : `${(p.distanceMeters / 1000).toFixed(1)} km`;
-            return `${i + 1}. ${p.name} — ${requestedStars?"hotel":p.type} · ${distanceLabel}${details ? "\n   " + details : ""}\n   ${mapUrl}`;
+            return `${i + 1}. ${p.name} — ${requestedStars?"hotel":p.type} · ${distanceLabel}${p.address?" · "+p.address:""}${details ? "\n   " + details : ""}${requestedPlaceCategory.key==="shop"?"":"\n   "+mapUrl}`;
           });
           const ratingNote = ratingIntent
             ? (lang === "en"
@@ -5761,7 +5786,8 @@ export default {
           const countNote=totalUniqueResults>displayedPlaces.length?(lang==="en"?` Showing ${displayedPlaces.length} results.`:` Afișez ${displayedPlaces.length} rezultate.`):"";
           const radiusNote=lang==="en"?`Search radius: ${radius/1000} km.`:`Raza căutării: ${radius/1000} km.`;
           const incompleteNote=unclassifiedCount?(lang==="en"?`${unclassifiedCount} additional mapped ${unclassifiedCount===1?"place has":"places have"} no confirmable star classification and ${unclassifiedCount===1?"was":"were"} excluded.`:`${unclassifiedCount===1?"O altă locație din hartă nu are o clasificare în stele confirmabilă și a fost exclusă.":"Alte "+unclassifiedCount+" locații din hartă nu au o clasificare în stele confirmabilă și au fost excluse."}`):"";
-          const notes=[radiusNote,centerNote.trim(),starsNote.trim(),incompleteNote,ratingNote.trim(),lang==="en"?"Distances are approximate, in a straight line from the search reference point.":"Distanțele sunt aproximative, în linie dreaptă față de punctul de referință al căutării."].filter(Boolean).join("\n");
+          const registryNote=activeProviders.includes("UK Food Standards Agency retailers")?(lang==="en"?"Some food retailer records come from the official UK FSA register; listing does not confirm the shop is currently open.":"Unele magazine alimentare provin din registrul oficial FSA din UK; înscrierea nu confirmă că sunt deschise în acest moment."):"";
+          const notes=[radiusNote,centerNote.trim(),starsNote.trim(),incompleteNote,ratingNote.trim(),registryNote,lang==="en"?"Distances are approximate, in a straight line from the search reference point.":"Distanțele sunt aproximative, în linie dreaptă față de punctul de referință al căutării."].filter(Boolean).join("\n");
           const reply=heading+countNote+"\n\n"+lines.join("\n\n")+"\n\n"+notes;
           return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, image_url: p.imageUrl || "", wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") + " (OpenStreetMap-derived place data)" : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:radius, requested_stars:requestedStars, unclassified_count:unclassifiedCount, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
         }
