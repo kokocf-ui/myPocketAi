@@ -5,6 +5,7 @@ on:
       - feature/smart-country-registry
     paths:
       - 'smart_country_registry.mjs'
+      - 'europe_country_sources.mjs'
       - 'country_provider_bridge.mjs'
       - 'backend.js'
       - 'tests_smart_country_registry.mjs'
@@ -26,6 +27,7 @@ jobs:
         run: |
           node --check backend.js
           node --check smart_country_registry.mjs
+          node --check europe_country_sources.mjs
           node --check country_provider_bridge.mjs
       - name: Country and mixed stage routing
         run: node tests_smart_country_registry.mjs
