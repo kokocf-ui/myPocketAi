@@ -25,4 +25,7 @@ assert.deepEqual(mixed.stages[2].providers,['tfl']);
 assert.deepEqual(mixed.stages[3].providers,['tfl']);
 assert.equal(mixed.status,'partial_coverage');
 assert.equal(countryCoverage('Italia').country,'IT');
+assert.equal(identifyCountry('Japan'),'JP');
+assert.deepEqual(selectCountryProviders({category:'pharmacy',country:'Japan',enabledProviders:['photon','uk_food_retailers']}).providers,['photon']);
+assert.equal(identifyCountry('Brazil'),'BR');
 console.log('Country registry checks passed');
