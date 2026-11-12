@@ -4,18 +4,24 @@ const native=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobil
 const bridge=readFileSync(new URL('./android/app/src/main/assets/avatar-enter.js',import.meta.url),'utf8');
 assert.match(native,/onBeginSynthesis\(String utteranceId, int sampleRateInHz, int audioFormat, int channelCount\)/,
  'Lip synchronization begins during synthesis, before late audio playback callback');
-assert.match(native,/avatarLipSyncStarted = true/,'Only one avatar start per greeting');
-assert.match(native,/runOnUiThread\(AvatarLaunchActivity\.this::startAvatarLipSyncOnce\)/,
+assert.match(native,/avatarLipSyncStarted = true/,'Only one avatar start per spoken segment');
  'Synthesis and onStart use same guarded UI bridge');
 assert.match(native,/onRangeStart\(String utteranceId, int start, int end, int frame\)/);
 assert.match(native,/window\.pocketLaunchBoundary/);
 assert.match(native,/JSONObject\.quote\(spokenGreeting\)/);
-assert.match(native,/speech\.speak\(spokenGreeting, TextToSpeech\.QUEUE_FLUSH/);
 assert.match(bridge,/window\.pocketLaunchBoundary=\(charIndex\)/);
 assert.match(bridge,/PocketAvatarAPI\?\.boundary\?\.\(charIndex\)/);
 assert.match(native,/speech\.isSpeaking\(\)/,'Monitor actual TTS playback instead of guessing duration');
 assert.match(native,/silentPlaybackChecks >= 2/,'Verify stopped playback before closing');
 assert.match(native,/handler\.removeCallbacks\(playbackWatchdog\)/,'Stop watchdog when greeting completes');
 assert.match(native,/if\(finishingLaunch \|\| greetingFinished\)return;/,'Stop command is idempotent');
-assert.match(native,/if \(!greetingFinished && !finishingLaunch\)/,'Late word boundaries cannot reopen mouth');
-console.log('PASS Android intro TTS word boundaries feed avatar matching spoken text');
+assert.match(native,/isCurrentSegment\(utteranceId\) && !greetingFinished && !finishingLaunch/,'Late word boundaries cannot reopen mouth');
+assert.match(native,/spokenGreeting\.split\(/,'Intro is split by sentence boundaries');
+assert.match(native,/completeGreetingSegment\(\)/,'Each spoken segment has its own completion');
+assert.match(native,/activeSpokenSegment/,'Avatar follows the actual spoken segment');
+assert.match(native,/speech\.speak\(activeSpokenSegment, TextToSpeech\.QUEUE_FLUSH/,'Android speaks segments separately');
+assert.match(native,/if \(!isCurrentSegment\(utteranceId\)\) return;/,'Ignore stale TTS callbacks');
+const start=native.slice(native.indexOf('@Override public void onBeginSynthesis'),native.indexOf('@Override public void onStart'));
+assert.doesNotMatch(start,/startAvatarLipSyncOnce/,'Do not move mouth at synthesis time');
+assert.match(native,/if \(greetingSegmentIndex == greetingSegments\.size\(\)-1\) startPlaybackWatchdog\(\)/,'No premature completion during inter-sentence silence');
+console.log('PASS Android intro lip sync begins with playback and closes between sentences');
