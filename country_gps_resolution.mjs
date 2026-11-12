@@ -2,6 +2,8 @@
 // Never use IP location, account residence, language or nationality.
 // Intentional short deadline: POI lookup must remain responsive.
 export async function verifiedGpsCountry({latitude,longitude,geoapifyKey,fetcher=fetch,timeoutMs=1800}={}){
+ if(latitude===null||latitude===undefined||longitude===null||longitude===undefined||
+  String(latitude).trim()===''||String(longitude).trim()==='')return null;
  const lat=Number(latitude),lon=Number(longitude);
  if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180||
   !Number.isFinite(Number(timeoutMs))||!geoapifyKey)return null;
