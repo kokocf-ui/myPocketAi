@@ -8,11 +8,13 @@ on:
       - 'country_provider_bridge.mjs'
       - 'country_frontend_request.mjs'
       - 'country_gps_resolution.mjs'
+      - 'country_search_anchor.mjs'
       - 'backend.js'
       - 'tests_smart_country_registry.mjs'
       - 'tests_country_provider_bridge.mjs'
       - 'tests_country_frontend_request.mjs'
       - 'tests_country_gps_resolution.mjs'
+      - 'tests_country_search_anchor.mjs'
       - '.github/workflows/smart-country-registry.yml'
   push:
     branches:
@@ -23,11 +25,13 @@ on:
       - 'country_provider_bridge.mjs'
       - 'country_frontend_request.mjs'
       - 'country_gps_resolution.mjs'
+      - 'country_search_anchor.mjs'
       - 'backend.js'
       - 'tests_smart_country_registry.mjs'
       - 'tests_country_provider_bridge.mjs'
       - 'tests_country_frontend_request.mjs'
       - 'tests_country_gps_resolution.mjs'
+      - 'tests_country_search_anchor.mjs'
       - '.github/workflows/smart-country-registry.yml'
   workflow_dispatch:
 permissions:
@@ -49,12 +53,14 @@ jobs:
           node --check country_provider_bridge.mjs
           node --check country_frontend_request.mjs
           node --check country_gps_resolution.mjs
+          node --check country_search_anchor.mjs
       - name: Country and mixed stage routing
         run: node tests_smart_country_registry.mjs
       - name: Frontend to backend request routing
         run: |
           node tests_country_frontend_request.mjs
           node tests_country_gps_resolution.mjs
+          node tests_country_search_anchor.mjs
       - name: Adapter scoping
         run: node tests_country_provider_bridge.mjs
       - name: Existing parking and zoo regression
