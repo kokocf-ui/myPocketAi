@@ -45,11 +45,20 @@ $('search').onclick=async()=>{
  finally{$('search').disabled=false}
 };
 function render(data){
- $('message').textContent=data.reply||data.error||'Fără răspuns.';
+ const places=Array.isArray(data.places)?data.places:[];
+ // A structured list already contains the results. Never repeat the backend's
+ // verbose numbered reply (which also contains raw OpenStreetMap URLs).
+ $('message').textContent=places.length?'Am găsit '+places.length+' rezultate.':data.reply||data.error||'Fără răspuns.';
  $('results').replaceChildren();
- const p=document.createElement('p');p.className='note';p.textContent='Țara verificată: '+(data.place_context?.country_routing?.country||'neconfirmată')+' · Surse: '+(data.source||'neprecizate');$('results').append(p);
- for(const place of (data.places||[])){
-  const item=document.createElement('div');item.className='item';item.textContent=place.name+' — '+(place.address||place.formatted||'');$('results').append(item);
+ const p=document.createElement('p');p.className='note';
+ p.textContent='Țara verificată: '+(data.place_context?.country_routing?.country||'neconfirmată')+' · Surse: '+(data.source||'neprecizate');
+ $('results').append(p);
+ const list=document.createElement('div');list.setAttribute('role','list');$('results').append(list);
+ for(const place of places){
+  const item=document.createElement('div');item.className='item';item.setAttribute('role','listitem');
+  const name=document.createElement('strong');name.textContent=place.name||'Loc fără nume';item.append(name);
+  const address=document.createElement('div');address.textContent=place.address||place.formatted||'Adresă indisponibilă';item.append(address);
+  list.append(item);
  }
 }
 </script></html>`;
