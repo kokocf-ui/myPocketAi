@@ -3896,7 +3896,7 @@ export default {
     const selectedDestinationRequested=routePoint(data.route_destination)&&["walk","drive"].includes(data.route_profile);
     const destinationRouteUpdate=routeContext&&/(?:shopping (?:center|centre|mall)|centru comercial)/.test(routeWords)&&! /^(?:ce|cat|cate|cand|unde|what|why|when|how|de ce|explica|scrie|cauta|find|vreme|weather|care)(?: |$)/.test(routeWords);
     const shortRouteAnswer=(routeContext?.pending||destinationRouteUpdate)&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|multumesc|thanks|ok|pa|bye|scrie|write|explica|explain|cauta|find|calculeaza|calculate|recomanda|tradu|vreme|weather|cate|cati|cat|ce|what|why|de ce)(?: |$)/.test(routeWords);
-    if(chosenTravelMode||routeSpec||selectedDestinationRequested||mapRouteRequest||shortRouteAnswer||retryRouteAnswer||viaRouteAnswer||compareRouteAnswer||(gpsRouteAnswer&&routeContext)){
+    if(data.quick_place_search!==true&&(chosenTravelMode||routeSpec||selectedDestinationRequested||mapRouteRequest||shortRouteAnswer||retryRouteAnswer||viaRouteAnswer||compareRouteAnswer||(gpsRouteAnswer&&routeContext))){
       let rc=routeContext||{profile:null,destination_query:"",origin_query:"",pending:null,candidates:[]};
       const modeOnly=Boolean(chosenTravelMode)||/^(?:pe jos|pietonal|walking|walk|cu masina|masina|drive|driving)$/.test(routeWords);
       if(routeSpec&&!mapRouteRequest&&!modeOnly&&!compareRouteAnswer&&!viaRouteAnswer){rc={...routeSpec,pending:null,candidates:[]};}
