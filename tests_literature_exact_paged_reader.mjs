@@ -174,7 +174,7 @@ assert.equal(navs[0].children[1].textContent,navs[1].children[1].textContent);
 navs[0].children[0].onclick();
 assert.equal(navs[0].children[1].textContent,firstCounter);
 button(dialog,'💾 Salvează PDF').onclick();
-assert.equal(requests[0].mode,'save');
-assert.equal(requests[0].material.text,long.trim(),'PDF uses complete theory, not just the displayed page');
+assert.equal(requests.at(-1).mode,'save');
+assert.equal(requests.at(-1).material.text,long.trim(),'PDF uses complete theory, not just the displayed page');
 
 console.log('PASS: exact title opens one work; author lists works; two pagers; full PDF material');
