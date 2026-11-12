@@ -103,7 +103,7 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
   if(!button||button.tagName!=='BUTTON'||!button.classList)return;
   const isReturn=matches(button);
   button.classList.toggle('pocket-nav-return',isReturn);
-  button.classList.toggle('pocket-nav-text',isReturn&&/[\p{L}]{2,}/u.test(String(button.getAttribute?.('aria-label')||button.textContent||'')));
+  button.classList.toggle('pocket-nav-text',isReturn&&/[\p{L}]{2,}/u.test(String(button.textContent||'')));
  };
  const added=element=>{
   if(!element||element.nodeType!==1)return;
