@@ -1,3 +1,4 @@
+import {globalNamedBusiness} from "./global_poi_sources.mjs";
 // Verified on-demand research for a named local business. No hidden GPS use.
 const norm=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
 const tokens=x=>norm(x).split(' ').filter(Boolean);
@@ -67,7 +68,7 @@ const sourceRecord=(name,url,details={})=>({
  verified:true,name,details,sources:[{title:'Public business record: '+name,url,official:true}],
  reason:'public_business_record'
 });
-export async function fallbackNamedBusiness(target,{geoapifyKey='',fetcher=fetch}={}){
+export async function fallbackNamedBusiness(target,{geoapifyKey='',tomtomKey='',tomtomEnabled=false,fetcher=fetch}={}){
  if(!target?.name||!target?.city)return {verified:false,sources:[],reason:'invalid_target'};
  // FSA supports name/address filters, unlike OSM; it also works without any key.
  // Do not query a UK regulator for a country explicitly outside the UK.
@@ -124,12 +125,14 @@ export async function fallbackNamedBusiness(target,{geoapifyKey='',fetcher=fetch
    }
   }catch{}
  }
+ const tomtom=await globalNamedBusiness(target,{apiKey:tomtomKey,enabled:tomtomEnabled,fetcher});
+ if(tomtom.verified)return tomtom;
  return {verified:false,sources:[],reason:'no_independent_address_match'};
 }
 let exaBlockedUntil=0,exaBlockedFor='';
-export async function researchNamedBusiness(target,{apiKey='',geoapifyKey='',fetcher=fetch}={}){
+export async function researchNamedBusiness(target,{apiKey='',geoapifyKey='',tomtomKey='',tomtomEnabled=false,fetcher=fetch}={}){
  if(!target?.name||!target?.city)return {verified:false,sources:[],reason:'invalid_target'};
- if(!apiKey||(Date.now()<exaBlockedUntil&&exaBlockedFor===apiKey))return fallbackNamedBusiness(target,{geoapifyKey,fetcher});
+ if(!apiKey||(Date.now()<exaBlockedUntil&&exaBlockedFor===apiKey))return fallbackNamedBusiness(target,{geoapifyKey,tomtomKey,tomtomEnabled,fetcher});
  const query=[target.name,target.street,target.city,target.country,'official shop address contact opening hours'].filter(Boolean).join(' ');
  let payload;
  try{
@@ -140,10 +143,10 @@ export async function researchNamedBusiness(target,{apiKey='',geoapifyKey='',fet
   });
   if(!response.ok){
    if(response.status===402){exaBlockedFor=apiKey;exaBlockedUntil=Date.now()+30*60*1000;}
-   return fallbackNamedBusiness(target,{geoapifyKey,fetcher});
+   return fallbackNamedBusiness(target,{geoapifyKey,tomtomKey,tomtomEnabled,fetcher});
   }
   payload=await response.json();
- }catch{return fallbackNamedBusiness(target,{geoapifyKey,fetcher})}
+ }catch{return fallbackNamedBusiness(target,{geoapifyKey,tomtomKey,tomtomEnabled,fetcher})}
  const sources=[];
  for(const entry of (Array.isArray(payload?.results)?payload.results:[])){
   if(!secure(entry?.url))continue;
@@ -158,7 +161,7 @@ export async function researchNamedBusiness(target,{apiKey='',geoapifyKey='',fet
   if(sources.length>=3)break;
  }
  sources.sort((a,b)=>Number(b.official)-Number(a.official));
- if(!sources.length)return fallbackNamedBusiness(target,{geoapifyKey,fetcher});
+ if(!sources.length)return fallbackNamedBusiness(target,{geoapifyKey,tomtomKey,tomtomEnabled,fetcher});
  const details=sources.find(x=>x.details.phone||x.details.hours)?.details||sources[0].details;
  return {verified:true,name:target.name,street:target.street,city:target.city,
   sources:sources.map(({title,url,official})=>({title,url,official})),
