@@ -30,13 +30,32 @@ $('search').onclick=async()=>{
   $('message').textContent=data.reply||data.error||'Nu a venit un răspuns.';
   if(Array.isArray(data.destination_candidates)&&data.destination_candidates.length){
    const title=document.createElement('p');title.textContent='Alege localitatea pentru a continua căutarea:';$('results').append(title);
-   for(const candidate of data.destination_candidates){
+   $('message').textContent='Am găsit '+data.destination_candidates.length+' localități. Alege varianta dorită:';
+   for(const [index,candidate] of data.destination_candidates.entries()){
     const b=document.createElement('button');b.textContent=candidate.label||candidate.query;
     b.onclick=async()=>{
-     b.disabled=true;$('message').textContent='Continui cererea inițială...';$('results').replaceChildren();
-     const follow={...body,message:candidate.query||candidate.label,history:[{role:'user',content:body.message}],place_context:data.place_context,location_query:''};
-     const r=await fetch('/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(follow)});
-     render(await r.json());
+     b.disabled=true;$('message').textContent='Continui căutarea inițială în '+(candidate.label||candidate.query)+'...';
+     try{
+      // Candidate queries can be identical (e.g. both Grays places serialize to
+      // "Grays, England, United Kingdom"). Numeric choice is unambiguous and
+      // already supported by the backend pending_candidates contract.
+      const follow={...body,message:String(index+1),
+       history:[{role:'user',content:body.message}],
+       place_context:data.place_context,location_query:''};
+      const response=await fetch('/api/chat',{method:'POST',
+       headers:{'content-type':'application/json'},body:JSON.stringify(follow)});
+      const result=await response.json();
+      if(!response.ok)throw Error(result.error||'Cererea nu a putut fi finalizată.');
+      if(result.needs_location_clarification&&Array.isArray(result.destination_candidates)&&result.destination_candidates.length){
+       $('message').textContent=result.reply||'Destinația necesită clarificări.';
+       b.disabled=false;
+       return;
+      }
+      render(result);
+     }catch(error){
+      $('message').textContent='Nu am putut continua căutarea: '+(error.message||error);
+      b.disabled=false;
+     }
     };
     $('results').append(b);
    }
