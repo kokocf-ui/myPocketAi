@@ -196,15 +196,28 @@ function litSimpleLiterature(panel){
   title.scrollIntoView({block:'nearest',behavior:'auto'});
  };
  const fold=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+ // Instant country-specific starter bibliography; never presented as compulsory reading.
+ const showCountryLibrary=()=>{
+  const matches=LIT_VERIFIED_AUTHORS.filter(a=>a.country===litJourney.country)
+   .flatMap(a=>a.works.map(w=>({title:w.title,author:a.name,url:w.sourceUrl||a.sourceUrl}))).slice(0,8);
+  results.replaceChildren();
+  for(const entry of matches)results.append(litSimpleButton(entry.title+' — '+entry.author,
+   ()=>select(entry.title,entry.author,entry.url)));
+  if(matches.length)feedback.textContent=litSimpleLabel('Bibliotecă locală de studiu: ','Local study library: ')+matches.length+' '+
+   litSimpleLabel('opere documentate. Nu sunt declarate lecturi obligatorii.','documented works, not labelled compulsory.');
+ };
  const find=async()=>{
   const term=search.value.trim(),n=++searchNumber;
+  if(!term){showCountryLibrary();return}
   if(term.length<3){feedback.textContent=litSimpleLabel('Introdu cel puțin trei caractere.','Enter at least three characters.');search.focus();return}
   results.replaceChildren();feedback.textContent=litSimpleLabel('Se caută operele…','Searching works…');
   const parts=term.split(/\s+[—–-]\s+/),name=parts[0],author=fold(parts[1]||'');
   const local=[];
-  for(const a of LIT_VERIFIED_AUTHORS){if(fold(a.name).includes(fold(name)))
-   for(const work of a.works)local.push({title:work.title,author:a.name,url:a.sourceUrl});
-   else for(const work of a.works)if(fold(work.title).includes(fold(name)))local.push({title:work.title,author:a.name,url:a.sourceUrl});
+  for(const a of LIT_VERIFIED_AUTHORS){
+   const byAuthor=fold(a.name).includes(fold(name));
+   if(author&&!fold(a.name).includes(author))continue;
+   for(const w of a.works)if(byAuthor||fold(w.title).includes(fold(name)))
+    local.push({title:w.title,author:a.name,url:w.sourceUrl||a.sourceUrl});
   }
   let rows=local;
   if(!rows.length)try{
@@ -253,6 +266,7 @@ function litSimpleLiterature(panel){
  };
  search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();find()}});
  panel.append(search,litSimpleButton(litSimpleLabel('Caută autorul / opera','Search author / work'),find),feedback,results,title,acts,passage,out);
+ showCountryLibrary();
 }
 
 `;
