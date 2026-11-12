@@ -17,12 +17,12 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
  if(typeof document==='undefined'||!document.body||typeof window==='undefined')return;
  if(window.__pocketReturnAccentInstalled)return;
  window.__pocketReturnAccentInstalled=true;
- const fold=value=>String(value||'').replace(/^[\\s←⟵‹«❮]+/u,'').trim().normalize('NFD')
-  .replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/\\s+/g,' ');
+ const fold=value=>String(value||'').replace(/^[\s←⟵‹«❮]+/u,'').trim().normalize('NFD')
+  .replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ');
  const matches=button=>{
   if(button.closest?.('.bottom-nav')||button.matches?.('[data-nav]'))return false;
   const text=fold(button.getAttribute?.('aria-label')||button.textContent||'');
-  return /^(?:acasa|inapoi|home|back)(?:$|\\s+(?:la|to)\\b)/u.test(text);
+  return /^(?:acasa|inapoi|home|back)(?:$|\s+(?:la|to)\b)/u.test(text);
  };
  const mark=button=>{
   if(!button||button.tagName!=='BUTTON'||!button.classList)return;
