@@ -57,10 +57,10 @@ assert.match(source,/else openWalkingRouteChoices\(route,options\)/,'Map Back re
 
 // Education category cards must use the vertical space instead of being crammed
 // against the top while the lower part of the screen is empty.
-assert.match(html,/#view-module\.learning-choose \.education-grid\{\s*height:clamp\(350px,53dvh,475px\)/,
- 'Four subject rows use the free device height');
-assert.match(html,/#view-module\.learning-choose \.education-grid\{[\s\S]*?row-gap:clamp\(12px,2dvh,19px\)/,
- 'Subject rows have visible vertical separation');
+assert.match(html,/#view-module\.learning-choose \.education-grid\{[^}]*grid-template-rows:repeat\(4,minmax\(108px,1fr\)\)!important/s,
+ 'Four subject rows stay legible and can scroll inside the Education viewport');
+assert.match(html,/#view-module\.learning-choose \.education-grid\{[^}]*gap:clamp\(6px,1dvh,10px\)!important/s,
+ 'Subject rows retain visible spacing without a competing height cap');
 assert.match(html,/main\.page:has\(#view-module\.learning-languages\.active\)\{[\s\S]*?overflow-x:hidden!important;overflow-y:auto!important/,
  'Foreign-language pages scroll instead of cropping the last row');
 assert.match(html,/#view-module\.learning-languages \.foreign-stage-languages \.science-choice-list\{[^}]*overflow:visible!important/,
