@@ -69,7 +69,7 @@ assert.ok(button(panel,'Az apostol — Petőfi Sándor'),'Author query preserves
 let remoteCalls=0;
 const remoteCfg={...cfg,fetch:async url=>{
  remoteCalls++;
- assert.match(String(url),/search\\.json\\?title=Hamlet/);
+ assert.match(String(url),/search\.json\?title=Hamlet/);
  return {ok:true,json:async()=>({docs:[
   {key:'/works/OL10W',title:'Hamlet',author_name:['William Shakespeare'],edition_count:230,first_publish_year:1603},
   {key:'/works/OL11W',title:'Hamlet',author_name:['Critical Editor'],edition_count:2,first_publish_year:2018},
@@ -77,7 +77,7 @@ const remoteCfg={...cfg,fetch:async url=>{
  ]})};
 }};
 const remoteUI=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+
- '\\n({literature:litSimpleLiterature})',remoteCfg);
+ '\n({literature:litSimpleLiterature})',remoteCfg);
 const remotePanel=new El('main');remoteUI.literature(remotePanel);
 const remoteSearch=all(remotePanel).find(x=>x.tagName==='INPUT');
 remoteSearch.value='Hamlet';
