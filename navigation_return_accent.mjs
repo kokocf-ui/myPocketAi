@@ -113,30 +113,25 @@ button.pocket-nav-return:focus-visible{outline:3px solid #ffd6e0!important;outli
  }
 }
 
-/* Approved 3D action pairing: identical dimensions, distinct established colors.
-   No changes to other assistant, education or transport buttons. */
-#view-assistant .assistant-actions{
- align-items:stretch!important;gap:10px!important;
-}
-#view-assistant .assistant-actions > .back-btn,
+/* Only the New conversation button is resized to the already established
+   Home button grid cell. Do not change Home: the previous 50%-inside-50%
+   rule made both buttons half width. Preserve distinct 3D petrol styling. */
 #view-assistant .assistant-actions > #newChatBtn{
  display:inline-flex!important;align-items:center!important;justify-content:center!important;
- flex:1 1 0!important;width:calc(50% - 5px)!important;max-width:none!important;
- min-width:0!important;box-sizing:border-box!important;
- height:clamp(54px,7dvh,66px)!important;min-height:54px!important;
- margin:0!important;padding:8px 10px!important;
- border-radius:17px!important;
- font-size:clamp(12px,3.4vw,16px)!important;font-weight:750!important;
- text-align:center!important;line-height:1.15!important;white-space:normal!important;
-}
-#view-assistant .assistant-actions > #newChatBtn{
+ width:100%!important;max-width:none!important;min-width:0!important;
+ height:100%!important;min-height:58px!important;
+ margin:0!important;padding:12px 8px!important;box-sizing:border-box!important;
+ border-radius:20px!important;
+ font-size:clamp(12px,3.5vw,16px)!important;font-weight:750!important;
+ white-space:normal!important;text-align:center!important;line-height:1.18!important;
  background:linear-gradient(145deg,#1b6076,#0e314c)!important;
- border:1.5px solid #64bfd0!important;color:#fff!important;
+ border:2px solid #64bfd0!important;color:#fff!important;
  box-shadow:inset 0 2px 0 #ffffff20,0 4px 0 #041925,0 8px 15px #0006!important;
  text-shadow:none!important;
 }
 #view-assistant .assistant-actions > #newChatBtn:active{
- transform:translateY(2px);box-shadow:inset 0 2px 0 #ffffff14,0 2px 0 #041925!important;
+ transform:translateY(2px);
+ box-shadow:inset 0 2px 0 #ffffff14,0 2px 0 #041925!important;
 }
 /* Only the map closing action was still bright red. The map's Back action
    keeps the previously working navigation rule. */
