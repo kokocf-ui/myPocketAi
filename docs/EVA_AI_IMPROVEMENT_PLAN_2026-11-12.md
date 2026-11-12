@@ -53,5 +53,9 @@
 
 ## Stare la 2026-11-12
 - P0: modificare Android pentru start la `onStart` și oprire între propoziții, commituri în repository. Testare pe dispozitiv necesară.
-- P1: componente existente (`conversation_context.mjs`, `eva_dialogue.mjs`) de auditat înainte de modificare.
-- P2–P6: obiective de implementat; existența unor utilitare de istoric nu demonstrează că recuperarea globală este activă.
+- P1: `eva_context_clarification.mjs` integrat în `backend.js` pentru referințe neclare fără subiect anterior; sistemele de context existente sunt păstrate. Extinderea semantică pe toate modulele este încă în lucru.
+- P2: `eva_history_recall.mjs` integrat în backend pentru căutare în fragmentele efectiv primite din client; sumarizarea AI este limitată la dovezi, cu fallback la citate și verificări contra cifrelor/URL-urilor inventate.
+- Frontend: `pocketRecallPreviousChat` oferă deja un extras limitat din conversațiile arhivate numai la cerere explicită; nu este un index global, căutare semantică completă sau memorie persistentă per cont.
+- P3/P4: instrucțiunile `eva_dialogue.mjs` au fost completate pentru regionalisme, clarificări și evitarea amintirilor inventate; dialectele/performanța încă necesită testare reală.
+- P5–P6: stocarea persistentă, izolarea per cont, consimțământul și execuția multi-modul sunt încă în lucru.
+- Au fost adăugate regresii pentru Android, reamintire și clarificare în testele Node/CI. Fără dovadă de rulare CI verde sau APK instalat pentru această versiune.
