@@ -14,7 +14,7 @@ const categoryFilters={
  lounge:['osm.amenity.pub','osm.amenity.bar','osm.amenity.biergarten','osm.amenity.cafe'],
  cafe:['osm.amenity.cafe'],pharmacy:['osm.amenity.pharmacy','osm.shop.chemist'],
  poi:['osm.tourism','osm.historic','osm.natural'],
- shopping_fashion:['osm.shop.mall','osm.shop.department_store','osm.shop.clothes','osm.shop.shoes','osm.shop.fashion_accessories','osm.shop.bag','osm.shop.jewelry'],
+ shopping_fashion:['osm.shop.mall','osm.shop.clothes','osm.shop.shoes','osm.shop.fashion_accessories','osm.shop.bag','osm.shop.jewelry'],
  beauty_services:['osm.shop.hairdresser','osm.shop.beauty','osm.shop.nail_salon','osm.amenity.spa','osm.shop.massage'],
  home_goods:['osm.shop.houseware','osm.shop.homeware','osm.shop.kitchenware','osm.shop.interior_decoration','osm.shop.bedlinen','osm.shop.curtain','osm.shop.carpet','osm.shop.lighting'],
  appliances:['osm.shop.appliance','osm.shop.electronics','osm.shop.electrical','osm.shop.department_store','osm.shop.wholesale'],
