@@ -32,7 +32,19 @@ export function recallFromSuppliedHistory(message,history,{language='ro'}={}){
  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||b.index-a.index);
  if(!terms.length)return {found:false,reason:'topic_missing'};
  if(!scored.length)return {found:false,reason:'no_match'};
- const top=scored.slice(0,4);
+ const selected=[],seen=new Set();
+ for(const match of scored.slice(0,4)){
+  if(!seen.has(match.index)){selected.push(match);seen.add(match.index);}
+  // Retrieve the response attached to a matching user question. The assistant
+  // may not repeat the keywords, but still supplies the needed answer.
+  if(match.role==='user'){
+   const answer=rows.find(x=>x.index===match.index+1 && x.role==='assistant' &&
+    (x.conversation_id===match.conversation_id || (!x.conversation_id&&!match.conversation_id)));
+   if(answer && !seen.has(answer.index)){selected.push(answer);seen.add(answer.index);}
+  }
+  if(selected.length>=6)break;
+ }
+ const top=selected.slice(0,6);
  return {found:true,scope:'supplied_history_only',matches:top.map(({role,content,at,conversation_id})=>({role,content,at,conversation_id})),
   reply:(language==='ro'
    ?'Am găsit în mesajele disponibile (nu am verificat automat toate conversațiile arhivate):'
