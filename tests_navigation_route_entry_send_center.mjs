@@ -79,6 +79,8 @@ const window={addEventListener(){}};
 vm.runInNewContext(NAV_RETURN_ACCENT_SCRIPT,{document:doc,window,MutationObserver:MockObserver});
 assert.ok(home.classList.contains('pocket-nav-return'),'Home recognized');
 assert.ok(back.classList.contains('pocket-nav-return'),'Education Back recognized');
+assert.ok(back.classList.contains('pocket-nav-text'),'Text Back receives consistent textual dimensions');
+assert.ok(home.classList.contains('pocket-nav-text'),'Text Home shares Back dimensions');
 assert.ok(layerBack.classList.contains('pocket-nav-return'),'Anterior recognized as Back');
 assert.ok(formBack.classList.contains('pocket-nav-return'),'Last destination form Back recognized');
 assert.equal(back.parentElement,actions,'Education Back moves next to Home when space permits');
@@ -90,6 +92,7 @@ assert.ok(!pdf.classList.contains('pocket-nav-return'),'PDF keeps original color
 assert.ok(!search.classList.contains('pocket-nav-return'),'Transport search keeps original color');
 assert.ok(!confirm.classList.contains('pocket-nav-return'),'Confirm is not navigation');
 assert.ok(!send.classList.contains('pocket-nav-return'),'Assistant send keeps blue');
+assert.match(NAV_RETURN_ACCENT_CSS,/min-height:50px!important/,'Text navigation has equal minimum height');
 assert.ok(!bottom.children[0].classList.contains('pocket-nav-return'),'Bottom dock not recolored');
 
 actions.width=235;
