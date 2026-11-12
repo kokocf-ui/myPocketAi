@@ -95,6 +95,10 @@ assert.ok(button(panel,'Poezia integrală'),'Poetry contents are navigable');
 button(panel,'Poezia integrală').onclick();
 const poemReader=body.children.at(-1);
 assert.ok(poemReader.textContent.includes('Süvegemen nemzetiszín rózsa,'));
+// The last verse may be on a later reader page; navigate to the end.
+const poemNav=all(poemReader).find(x=>x.tagName==='NAV');
+let verseTurns=0;
+while(poemNav&& !poemNav.children[2].disabled&&verseTurns++<20)poemNav.children[2].onclick();
 assert.ok(poemReader.textContent.includes('Talpon állok mindhalálig víni.'));
 poemReader.close();
 
