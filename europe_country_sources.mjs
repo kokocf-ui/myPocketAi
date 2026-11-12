@@ -14,7 +14,9 @@ export const EUROPE_SOURCE_CATALOG=Object.freeze({
   source('ro_nap_road','Romania transport NAP','https://nap.cnadnr.ro/','national','metadata'),
   source('ro_urban_oracle','Existing Romanian urban GTFS adapter','internal:ro_urban_gtfs','local','existing_adapter')
  ],general:[
-  source('ro_open_data','Romanian government public datasets','https://data.gov.ro/','national','catalog')
+  source('ro_open_data','Romanian government public datasets','https://data.gov.ro/','national','catalog'),
+  source('ro_pharmacy_registry','Romanian Ministry of Health registered pharmacies','https://ms.gov.ro/ro/informatii-de-interes-public/registre/registrul-farmaciilor/','national','official_register'),
+  source('ro_tourism_registry','Romanian authorized tourism and accommodation register','https://se.situr.gov.ro/OpenData/OpenDataMain','national','official_register')
  ]},
  GB:{transport:[
   source('gb_bus_open_data','UK bus open data','https://data.bus-data.dft.gov.uk/','national','dataset'),
@@ -40,6 +42,7 @@ export const EUROPE_SOURCE_CATALOG=Object.freeze({
 });
 export const EUROPE_COMMON_SOURCES=Object.freeze({
  general:[
+  source('europeana_culture','Europeana European cultural heritage collections','https://www.europeana.eu/en/apis','europe','api','api_key_required'),
   source('geoapify','Geoapify geocoding and POIs','https://www.geoapify.com/','global','api','existing_adapter_if_configured'),
   source('photon','Photon / OpenStreetMap place search','https://photon.komoot.io/','global','api','existing_adapter'),
   source('tomtom_places','TomTom Places API v3','https://developer.tomtom.com/','global','api','explicit_opt_in')
