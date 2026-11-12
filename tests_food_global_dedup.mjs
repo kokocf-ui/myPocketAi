@@ -51,6 +51,25 @@ assert.deepEqual(dine.map(x=>x.tags.name),['Restaurant Clasic']);
 assert.equal(seen.length,1,'One cached request serves both food categories');
 assert.deepEqual(await nearbyOpenStreetMapFood({...base,latitude:180,category:'fast_food'}),[]);
 
+
+const retailItems=[
+ {type:'node',id:8,lat:47.031,lon:21.961,tags:{name:'Alimentara de Cartier',shop:'convenience'}},
+ {type:'node',id:9,lat:47.0312,lon:21.9612,tags:{name:'Aldi',shop:'supermarket'}},
+ {type:'node',id:10,lat:47.0313,lon:21.9613,tags:{name:'Brutăria Veche',shop:'bakery'}}
+];
+const retailCalls=[];
+const retailFetcher=async (url,options)=>{
+ retailCalls.push(decodeURIComponent(options.body));
+ return Response.json({elements:retailItems});
+};
+const localShops=await nearbyOpenStreetMapFood({...base,fetcher:retailFetcher,category:'corner_shop'});
+const supermarkets=await nearbyOpenStreetMapFood({...base,fetcher:retailFetcher,category:'supermarket'});
+const bakeries=await nearbyOpenStreetMapFood({...base,fetcher:retailFetcher,category:'confectionery'});
+assert.deepEqual(localShops.map(x=>x.tags.name),['Alimentara de Cartier']);
+assert.deepEqual(supermarkets.map(x=>x.tags.name),['Aldi']);
+assert.deepEqual(bakeries.map(x=>x.tags.name),['Brutăria Veche']);
+assert.equal(retailCalls.length,1,'One area query reused for all retail categories');
+
 const oldFetch=globalThis.fetch;
 globalThis.fetch=async(input,opt)=>{
  const host=new URL(typeof input==='string'?input:input.url||String(input)).hostname;

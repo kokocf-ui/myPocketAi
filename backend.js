@@ -5701,7 +5701,7 @@ export default {
         // Avoid automatic high-volume public Overpass use when maps already
         // provide a useful nearby set. Cached by coarse area in the adapter.
         if(env.OSM_WORLD_FOOD_ENABLED==='true' &&
-           ['restaurant','fast_food'].includes(requestedPlaceCategory.key) &&
+           ['restaurant','fast_food','corner_shop','supermarket','shop','market_bakery','confectionery'].includes(requestedPlaceCategory.key) &&
            (placesData.elements||[]).length<25){
           const osmFood=await nearbyOpenStreetMapFood({
             latitude,longitude,radius,category:requestedPlaceCategory.key

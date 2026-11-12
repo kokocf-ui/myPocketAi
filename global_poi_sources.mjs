@@ -1,4 +1,5 @@
 // Country-neutral, explicitly opt-in TomTom Places Search API v3 provider.
+import {foodCategoryAccepts} from './food_location_quality.mjs';
 // Not active without TOMTOM_PLACES_ENABLED=true: no unexpected API charges.
 // Reference: https://docs.tomtom.com/places-search-api/documentation/places-search/discover
 const fold=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
@@ -125,9 +126,11 @@ export async function globalNearbyPlaces({latitude,longitude,radius=3000,categor
   const title=String(r.title||'').trim(),a=r.address||{};
   if(!title||!valid(lat,lon))return [];
   if(/^(?:strada|street|road|rue|calle|via)\s+/i.test(title))return [];
+  // The same food category policy must also hold for optional TomTom Places.
+  if(category==='restaurant'&&!foodCategoryAccepts(category,{name:title,amenity:'restaurant'}))return [];
   const ids=Array.isArray(r.poiTypes)?r.poiTypes:[];
   return [{lat,lon,tags:{
-   name:title,shop:categoryShop(category,ids),amenity:category==='cafe'?'cafe':category==='restaurant'?'restaurant':'',
+   name:title,shop:categoryShop(category,ids),amenity:category==='cafe'?'cafe':category==='restaurant'?'restaurant':category==='fast_food'?'fast_food':'',
    street:String(a.street||''),housenumber:String(a.houseNumber||''),
    city:String(a.municipality||''),postcode:String(a.postalCode||''),
    tomtom_place_id:String(r.id||'').slice(0,120),
