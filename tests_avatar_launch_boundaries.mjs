@@ -2,10 +2,10 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const native=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/AvatarLaunchActivity.java',import.meta.url),'utf8');
 const bridge=readFileSync(new URL('./android/app/src/main/assets/avatar-enter.js',import.meta.url),'utf8');
-assert.match(native,/onBeginSynthesis\\(String utteranceId, int sampleRateInHz, int audioFormat, int channelCount\\)/,
+assert.match(native,/onBeginSynthesis\(String utteranceId, int sampleRateInHz, int audioFormat, int channelCount\)/,
  'Lip synchronization begins during synthesis, before late audio playback callback');
 assert.match(native,/avatarLipSyncStarted = true/,'Only one avatar start per greeting');
-assert.match(native,/runOnUiThread\\(AvatarLaunchActivity\\.this::startAvatarLipSyncOnce\\)/,
+assert.match(native,/runOnUiThread\(AvatarLaunchActivity\.this::startAvatarLipSyncOnce\)/,
  'Synthesis and onStart use same guarded UI bridge');
 assert.match(native,/onRangeStart\(String utteranceId, int start, int end, int frame\)/);
 assert.match(native,/window\.pocketLaunchBoundary/);
