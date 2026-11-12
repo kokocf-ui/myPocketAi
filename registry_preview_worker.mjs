@@ -23,7 +23,7 @@ $('search').onclick=async()=>{
    location={latitude:p.coords.latitude,longitude:p.coords.longitude,accuracy:p.coords.accuracy,updatedAt:Date.now()};
   }
   const body={quick_place_search:true,place_category:cat,module:'travel',language:'ro',
-   message:'Caută '+cat+(place?' în '+place:' în apropierea mea'),history:[],...(location?{location}:{}),
+   message:'Caută '+({restaurant:'restaurante',pharmacy:'farmacii',corner_shop:'băcănii',supermarket:'supermarketuri',parking:'parcări',zoo:'grădini zoologice',hotel:'hoteluri',fast_food:'fast-food-uri'}[cat]||cat)+(place?' în '+place:' în apropierea mea'),history:[],...(location?{location}:{}),
    ...(place?{location_query:place}: {})};
   const response=await fetch('/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
   const data=await response.json();
