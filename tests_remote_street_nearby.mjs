@@ -81,7 +81,7 @@ try{
   body:JSON.stringify({message:question,language:'ro',module:'assistant',
    location_requested:false,location:{latitude:51.5074,longitude:-0.1278,accuracy:20},
    history:[]})
- }),{GEOAPIFY_API_KEY:'test-key'});
+ }),{GEOAPIFY_API_KEY:'test-key',AI:{run:async()=>{throw Error('No AI needed for verified POI lookup')}}});
  const result=await response.json();
  if(response.status!==200)console.warn('REMOTE_STREET_DIAG',response.status,JSON.stringify(result).slice(0,1200),urls.map(u=>u.href));
  assert.equal(response.status,200);
