@@ -49,6 +49,11 @@ public final class AvatarLaunchActivity extends Activity {
     private boolean ttsReady = false;
     private boolean startedSpeaking = false;
     private boolean avatarLipSyncStarted = false;
+    private final ArrayList<String> greetingSegments = new ArrayList<>();
+    private int greetingSegmentIndex = 0;
+    private String activeSpokenSegment = "";
+    private String currentSegmentId(){ return UTTERANCE_ID + "-" + greetingSegmentIndex; }
+    private boolean isCurrentSegment(String id){ return currentSegmentId().equals(id); }
     private boolean greetingFinished = false;
     private boolean ttsPlaybackStarted = false;
     private int silentPlaybackChecks = 0;
@@ -147,30 +152,30 @@ public final class AvatarLaunchActivity extends Activity {
             // Pre-arm at synthesis start; onStart remains a fallback for engines
             // that don't report onBeginSynthesis.
             @Override public void onBeginSynthesis(String utteranceId, int sampleRateInHz, int audioFormat, int channelCount) {
-                if (UTTERANCE_ID.equals(utteranceId))
-                    runOnUiThread(AvatarLaunchActivity.this::startAvatarLipSyncOnce);
+                // Synthesis happens before sound: do not move lips yet.
             }
             @Override public void onStart(String utteranceId) {
-                if (UTTERANCE_ID.equals(utteranceId))
-                    runOnUiThread(() -> {
-                        startAvatarLipSyncOnce();
-                        startPlaybackWatchdog();
-                    });
+                runOnUiThread(() -> {
+                    if (!isCurrentSegment(utteranceId)) return;
+                    startAvatarLipSyncOnce();
+                    if (greetingSegmentIndex == greetingSegments.size()-1) startPlaybackWatchdog();
+                });
             }
             @Override public void onRangeStart(String utteranceId, int start, int end, int frame) {
-                if (UTTERANCE_ID.equals(utteranceId))
-                    runOnUiThread(() -> {
-                        if (!greetingFinished && !finishingLaunch)
-                            sendToAvatar("window.pocketLaunchBoundary && window.pocketLaunchBoundary(" + start + ");");
-                    });
+                runOnUiThread(() -> {
+                    if (isCurrentSegment(utteranceId) && !greetingFinished && !finishingLaunch)
+                        sendToAvatar("window.pocketLaunchBoundary && window.pocketLaunchBoundary(" + start + ");");
+                });
             }
             @Override public void onDone(String utteranceId) {
-                if (UTTERANCE_ID.equals(utteranceId))
-                    runOnUiThread(AvatarLaunchActivity.this::finishGreeting);
+                runOnUiThread(() -> {
+                    if (isCurrentSegment(utteranceId)) completeGreetingSegment();
+                });
             }
             @Override public void onError(String utteranceId) {
-                if (UTTERANCE_ID.equals(utteranceId))
-                    runOnUiThread(AvatarLaunchActivity.this::openMain);
+                runOnUiThread(() -> {
+                    if (isCurrentSegment(utteranceId)) openMain();
+                });
             }
         });
 
@@ -721,15 +726,37 @@ public final class AvatarLaunchActivity extends Activity {
         spokenGreeting = "ro".equals(launchLanguage)
             ? currentGreeting.replace("myPocket AI", "mai pocăt ei ai")
             : currentGreeting;
-        int result = speech.speak(spokenGreeting, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
+        greetingSegments.clear();
+        for (String segment : spokenGreeting.split("(?<=[.!?])\\s+")) {
+            if (!segment.trim().isEmpty()) greetingSegments.add(segment.trim());
+        }
+        if (greetingSegments.isEmpty()) greetingSegments.add(spokenGreeting);
+        greetingSegmentIndex = 0;
+        speakGreetingSegment();
+    }
+
+    private void speakGreetingSegment(){
+        if (finishingLaunch || greetingFinished || speech == null) return;
+        if (greetingSegmentIndex >= greetingSegments.size()) { finishGreeting(); return; }
+        activeSpokenSegment = greetingSegments.get(greetingSegmentIndex);
+        avatarLipSyncStarted = false;
+        int result = speech.speak(activeSpokenSegment, TextToSpeech.QUEUE_FLUSH, null, currentSegmentId());
         if (result == TextToSpeech.ERROR) openMain();
+    }
+
+    private void completeGreetingSegment(){
+        if (finishingLaunch || greetingFinished) return;
+        sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(false);");
+        avatarLipSyncStarted = false;
+        if (++greetingSegmentIndex >= greetingSegments.size()) finishGreeting();
+        else handler.postDelayed(this::speakGreetingSegment, 55L);
     }
 
     private void startAvatarLipSyncOnce() {
         if (finishingLaunch || greetingFinished || avatarLipSyncStarted || !modelReady) return;
         avatarLipSyncStarted = true;
         sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(true,"
-            + org.json.JSONObject.quote(spokenGreeting) + ");");
+            + org.json.JSONObject.quote(activeSpokenSegment) + ");");
     }
 
     private void startPlaybackWatchdog() {
