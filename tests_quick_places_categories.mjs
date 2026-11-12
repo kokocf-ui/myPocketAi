@@ -34,6 +34,10 @@ const walk=ui.slice(ui.indexOf('function showWalkingQuickDestination(choice){'),
 assert.match(walk,/Unde vrei să ajungi\?/);
 assert.match(walk,/pendingTravelMode='walk'/);
 assert.match(walk,/routeActionsText\(\)\.prompt\+destination/);
+assert.match(walk,/pocket-walk-route-submit/,'Walking action has its own scoped styling');
+assert.match(ui,/#moduleQuickLayer\.open \.module-quick-body > button\.pocket-walk-route-submit\{/);
+assert.match(ui,/margin:22px 0 0!important/,'Walking action is separated from its input');
+assert.match(ui,/#913653,#63213c/,'Walking action is burgundy');
 assert.match(routeEntry,/kind==='transit'\)showPreciseJourney\(\{\.\.\.choice,journeyMode:'transit'\}\)/);
 const modes=ui.slice(ui.indexOf('function showJourneyMode(choice){'),
  ui.indexOf('// Shared UI dialog translations.',ui.indexOf('function showJourneyMode(choice){')));
