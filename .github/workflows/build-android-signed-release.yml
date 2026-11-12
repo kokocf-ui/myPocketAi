@@ -194,6 +194,7 @@ jobs:
           node tests_practical_courses.mjs
           node tests_education_android.mjs
           node tests_eva_dialogue.mjs
+          node tests_fsa_trading_alias.mjs
           node tests_first_install_consent.mjs
           node tests_first_install_profile_search.mjs
           node tests_seven_europe_literature.mjs
