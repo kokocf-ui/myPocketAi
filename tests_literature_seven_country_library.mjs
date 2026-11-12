@@ -5,8 +5,11 @@ import {VERIFIED_LITERARY_AUTHORS,verifiedAuthorsByQuery,verifiedWorksByQuery} f
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
 
 const countries=['MD','PL','HR','RS','HU','AT','TR'];
-assert.deepEqual(SEVEN_COUNTRY_LITERARY_LIBRARY.map(a=>a.country),countries);
-assert.equal(new Set(SEVEN_COUNTRY_LITERARY_LIBRARY.map(a=>a.id)).size,7);
+assert.deepEqual([...new Set(SEVEN_COUNTRY_LITERARY_LIBRARY.map(a=>a.country))],countries);
+assert.equal(SEVEN_COUNTRY_LITERARY_LIBRARY.length,14);
+assert.equal(SEVEN_COUNTRY_LITERARY_LIBRARY.reduce((n,a)=>n+a.works.length,0),30);
+for(const country of countries)assert.equal(SEVEN_COUNTRY_LITERARY_LIBRARY.filter(a=>a.country===country).length,2,country+' two authors');
+assert.equal(new Set(SEVEN_COUNTRY_LITERARY_LIBRARY.map(a=>a.id)).size,14);
 for(const a of SEVEN_COUNTRY_LITERARY_LIBRARY){
  assert.ok(a.name&&a.sourceTitle&&a.sourceUrl.startsWith('https://'),a.country+' source');
  assert.ok(a.works.length>=2,a.country+' at least two offline sample works');
@@ -20,7 +23,9 @@ for(const a of SEVEN_COUNTRY_LITERARY_LIBRARY){
 }
 assert.equal(verifiedAuthorsByQuery('Grigore Vieru').length,1);
 assert.equal(verifiedAuthorsByQuery('Petofi Sandor').length,1);
-assert.equal(verifiedAuthorsByQuery('Desanka').length,0,'Original Cyrillic indexing does not invent a roman transliteration');
+assert.equal(verifiedAuthorsByQuery('Desanka').length,1,'Serbian author searchable in Latin transcription');
+assert.equal(verifiedAuthorsByQuery('Ivo Andric')[0]?.country,'RS');
+assert.equal(verifiedAuthorsByQuery('Десанка')[0]?.country,'RS');
 assert.equal(verifiedWorksByQuery('János vitéz')[0]?.author.country,'HU');
 assert.equal(verifiedWorksByQuery('Priče iz davnine')[0]?.author.country,'HR');
 assert.equal(verifiedWorksByQuery('Malina')[0]?.author.country,'AT');
