@@ -19,7 +19,7 @@ assert.doesNotMatch(boot,/bar\.append\(litBtn\(learningLabel\('← Înapoi','←
 
 assert.match(LITERATURE_TASK_UI_SCRIPT,/function litShowMaterialReader\(title,text\)/);
 assert.match(LITERATURE_TASK_UI_SCRIPT,/overlay\.className='lit-reader-overlay'/,'Reader opens in independent Android-safe overlay');
-assert.match(LITERATURE_TASK_UI_SCRIPT,/document\.body\.append\(overlay\)/,'Reader must be attached above application chrome');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/host\.append\(overlay\)/,'Reader must be attached above application chrome');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/reader\.setAttribute\('aria-modal','true'\)/,'Reader is accessible and modal');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/litShowMaterialReader\(title\+' · '/,'Lessons open in reader after actual result');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/litShowMaterialReader\(chosen\.name\+' — '/,'Literary studies and essays use same reader');

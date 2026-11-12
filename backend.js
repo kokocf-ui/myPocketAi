@@ -3753,9 +3753,11 @@ export default {
         }
         // BODS: request a small live-vehicle window around the origin. SIRI-VM is XML;
         // extract only limited public fields for nearby-bus context, never treat these as confirmed route legs.
-        let bodsStatus = "not_configured";
+        let bodsStatus = !transitOptions.length?"not_needed_without_journey":"not_configured";
         const nearbyBuses = [];
-        if (env.BODS_API_KEY) {
+        // SIRI-VM is nearby vehicle context, not an alternative journey planner.
+        // Avoid up to 12 seconds of additional wait when TfL returned no route.
+        if (env.BODS_API_KEY && transitOptions.length) {
           try {
             const delta = 0.035;
             const minLat = Math.max(-90, latitude - delta), maxLat = Math.min(90, latitude + delta);
@@ -3781,10 +3783,12 @@ export default {
           } catch (e) { bodsStatus = "network_error"; transportErrors.bods = String(e && e.name || "network_error"); }
         }
         // RTT: query the documented location line-up for Grays and summarize real returned services.
-        let rttStatus = "not_configured";
+        let rttStatus = !transitOptions.length?"not_needed_without_journey":"not_configured";
         const rttServices = [];
         let rttEntitlements = [];
-        if (env.RTT_API_TOKEN) {
+        // RTT's location list cannot replace a missing TfL itinerary; do not
+        // wait on two sequential RTT calls when there is no verified journey.
+        if (env.RTT_API_TOKEN && transitOptions.length) {
           try {
             const rr = await fetch("https://data.rtt.io/api/info", {headers:{"Accept":"application/json","Authorization":"Bearer " + env.RTT_API_TOKEN},signal:AbortSignal.timeout(10000)});
             rttStatus = rr.ok ? "reachable" : "http_" + rr.status;

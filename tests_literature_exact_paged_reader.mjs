@@ -21,6 +21,7 @@ class El{
  get textContent(){return this._text+this.children.map(x=>x.textContent||'').join('')}
  set textContent(value){this._text=String(value);this.children=[]}
  append(...nodes){this.children.push(...nodes)}
+ insertBefore(child,reference){const i=this.children.indexOf(reference);this.children.splice(i<0?this.children.length:i,0,child)}
  replaceChildren(...nodes){this._text='';this.children=[...nodes]}
  setAttribute(name,value){this.attrs[name]=value}
  addEventListener(){}
@@ -93,7 +94,7 @@ await Promise.resolve();
 assert.ok(button(panel,'Citește opera integral'),'Public-domain poem can be read in full');
 assert.ok(button(panel,'Poezia integrală'),'Poetry contents are navigable');
 button(panel,'Poezia integrală').onclick();
-const poemReader=body.children.at(-1);
+const poemReader=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
 assert.ok(poemReader.textContent.includes('Süvegemen nemzetiszín rózsa,'));
 // The last verse may be on a later reader page; navigate to the end.
 const poemNav=all(poemReader).find(x=>x.tagName==='NAV');
@@ -104,13 +105,14 @@ button(poemReader,'Înapoi').onclick();
 
 const readerTitle='Teorie: gramatică';
 ui.reader(readerTitle,long);
-const overlay=body.children.at(-1);
+const overlay=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
 assert.equal(overlay.className,'lit-reader-overlay');
 const dialog=overlay.children[0];
 assert.equal(dialog.tagName,'SECTION');
 assert.equal(dialog.attrs.role,'dialog');
 assert.equal(dialog.attrs['aria-modal'],'true');
 assert.equal(overlay.children.length,1,'Reader is in its own high stacking layer');
+assert.ok(overlay.style.cssText.includes('z-index:2147483000'),'Reader frame is visible even without injected CSS');
 const navs=all(dialog).filter(x=>x.tagName==='NAV');
 assert.equal(navs.length,2,'Page navigation is mirrored at top and bottom');
 assert.equal(navs[0].children[1].textContent,navs[1].children[1].textContent,
