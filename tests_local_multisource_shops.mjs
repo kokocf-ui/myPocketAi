@@ -82,12 +82,34 @@ const mockFsa=async(url,options)=>{
 };
 const fsa=await nearbyUkRegisteredRetailers(51.4775,0.3007,1500,{fetcher:mockFsa});
 assert.equal(fsa.length,1);
-assert.equal(fsa[0].tags.name,'Skk Convenience Store');
+assert.equal(fsa[0].tags.name,"Sunny's");
+assert.equal(fsa[0].tags.fsa_registered_name,'Skk Convenience Store');
 assert.match(fsa[0].tags.fsa_address,/433 London Road/);
 assert.equal(fsaQueries[0].searchParams.get('businessTypeId'),'4613');
 assert.ok(Number(fsaQueries[0].searchParams.get('maxDistanceLimit'))<1);
 assert.equal((await nearbyUkRegisteredRetailers(47.03,21.96,1500,{fetcher:mockFsa})).length,0,
  'Never query UK register around Romania');
+// Page two must be read when metadata says further matching retailers exist.
+const pageCalls=[];
+const laterPage=await nearbyUkRegisteredRetailers(51.4775,0.3007,1500,{fetcher:async url=>{
+ const page=Number(new URL(url).searchParams.get('pageNumber'));
+ pageCalls.push(page);
+ if(page===1)return Response.json({establishments:[{
+   BusinessName:'Other Corner Shop',BusinessType:'Retailers - other',FHRSID:10,
+   AddressLine1:'11 High Street',geocode:{latitude:51.4776,longitude:0.3008}
+ }],meta:{totalPages:2}});
+ return Response.json({establishments:[{
+   BusinessName:'Skk Convenience Store',BusinessType:'Retailers - other',FHRSID:1832059,
+   AddressLine1:"Sunny's",AddressLine2:'433 London Road',
+   AddressLine4:'Grays',PostCode:'RM20 4AB',
+   geocode:{latitude:51.47755,longitude:0.30069}
+ }],meta:{totalPages:2}});
+}});
+assert.deepEqual(pageCalls,[1,2]);
+assert.ok(laterPage.some(x=>x.tags.name==="Sunny's"));
+assert.ok(laterPage.some(x=>x.tags.fsa_registered_name==='Skk Convenience Store'));
+assert.ok(!laterPage.some(x=>x.tags.name==='11 High Street'),'Address lines are not business names');
+
 
 const originalFetch=globalThis.fetch;
 const seen=[];
@@ -123,7 +145,7 @@ try{
  assert.equal(r.status,200);
  body=await r.json();
  assert.equal(body.search_ok,true);
- assert.ok(body.places.some(x=>x.name==='Skk Convenience Store'),'Official small retailer should be present');
+ assert.ok(body.places.some(x=>x.name==="Sunny's"),'FSA trading name must appear in nearby shop list');
  assert.equal(body.places.some(x=>/London Road|Bumbacului/i.test(x.name)),false,
   'A street alone is not a named shop, even when the provider classifies it as retail');
  assert.ok(String(body.source).includes('UK Food Standards Agency'));
@@ -143,6 +165,6 @@ try{
    history:[],location:{latitude:51.4775,longitude:0.3007,accuracy:20}})}),env);
  assert.equal(fallback.status,200);
  const fallbackBody=await fallback.json();
- assert.ok(fallbackBody.places?.some(x=>x.name==='Skk Convenience Store'));
+ assert.ok(fallbackBody.places?.some(x=>x.name==="Sunny's"));
 }finally{globalThis.fetch=originalFetch}
 console.log('PASS verified local shop research, UK FSA supplementary listings, road false positives and GPS integrity');
