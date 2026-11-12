@@ -1703,6 +1703,7 @@ export default {
       const stationAlias=/^(?:london|londra)\s+(?:victoria|liverpool\s+street)(?:\s+(?:rail|railway|station))?$/i.test(requestedStopName);
       const explicitStation=/\b(?:station|railway|rail|underground|tube|gara|gară|statie|stația)\b/iu.test(requestedStopName);
       if(stage==='street'&&country==='gb'&&/^london$/i.test(city.trim())&&env.TFL_APP_KEY&&
+         nationalProviderAuthorized({provider:'tfl',country:'GB',region:'london',enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'})&&
          (stationAlias||explicitStation)&&
          (stationAlias||!/\b(?:road|street|avenue|lane|square)\b/i.test(requestedStopName))){
         try {
@@ -3378,7 +3379,8 @@ export default {
         const unqualifiedStation=/\b(station|underground|tube|metro|railway)\b/i.test(requestedStationName)&&! /\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|paris|france|berlin|germany|rome|italy|madrid|spain|canada|australia)\b/i.test(requestedStationName);
         const undergroundModeRequested=/\b(?:underground|tube|metro)\b/i.test(requestedStationName);
         const victoriaTubeQuery=/^(?:(?:london|londra)\s+)?victoria\s+(?:underground|tube|metro)(?:\s+station)?$/i.test(requestedStationName.trim());
-        if((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') && tryVerifiedStation){
+        if((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') && tryVerifiedStation &&
+          nationalProviderAuthorized({provider:'tfl',country:'GB',region:'london',enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'})){
           try{
             const stopQuery=targetName.replace(/\b(london|londra|underground|railway|rail|train|station|tube)\b/gi," ").replace(/[,\s]+/g," ").trim();
             if(stopQuery.length>=3){
@@ -4012,7 +4014,7 @@ export default {
           let operatorChecked=false;
           const undergroundRequested=/\b(?:underground|tube|metro)\b/i.test(name);
           const victoriaUndergroundRequested=/^(?:(?:london|londra)\s+)?victoria\s+(?:underground|tube|metro)(?:\s+station)?$/i.test(name.trim());
-          if(isStation&&env.TFL_APP_KEY){
+          if(isStation&&env.TFL_APP_KEY&&nationalProviderAuthorized({provider:'tfl',country:'GB',region:'london',enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'})){
             operatorChecked=true;
             const core=name.replace(/\b(?:london|londra|station|railway|rail|underground|train|tube|metro)\b/gi,' ').replace(/\s+/g,' ').trim();
             try{
@@ -4962,7 +4964,7 @@ export default {
         const requested=normalizeGeoName(stopQuery);
         const verified=[];
         let tflStatus=null;
-        if(env.TFL_APP_KEY&&requested.length>=3){
+        if(env.TFL_APP_KEY&&requested.length>=3&&nationalProviderAuthorized({provider:'tfl',country:'GB',region:'london',enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'})){
           try{
             const u=new URL('https://api.tfl.gov.uk/StopPoint/Search/'+encodeURIComponent(stopQuery));
             u.searchParams.set('app_key',env.TFL_APP_KEY);
