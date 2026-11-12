@@ -5373,11 +5373,10 @@ export default {
       let lastSearchError = null;
       try {
         const sparseCategory=['parking','zoo'].includes(requestedPlaceCategory.key);
-        // A 5km catchment is sensible for parking, not for a rare zoo.
-        // Respect an explicitly requested street/central area instead.
+        // Nearby categories retain the same 5 km default radius. Never silently
+        // widen zoological searches to 35 km; keep explicit street/centre scopes.
         const radius=locationSource==='explicit_street_query'?1500:
-          centralAreaRequested?2000:
-          requestedPlaceCategory.key==='zoo'?35000:5000;
+          centralAreaRequested?2000:5000;
         let placesData = null;
         let geoapifyElements = [];
         let geoapifySucceeded = false;
@@ -5395,7 +5394,7 @@ export default {
           :requestedPlaceCategory.key==='fast_food'
           ?nearbyUkRegisteredTakeaways(latitude,longitude,radius):Promise.resolve([]);
         const photonStartedAt = Date.now();
-        // Zoo keeps bounded OSM coverage for its wider 35km search.
+        // Zoo uses its normal nearby radius; parking keeps its existing fast Photon.
         // Restore Photon for parking. The blanket sparse-category skip
         // disabled a previously useful provider for all car parks.
         const photonRequestPromise = requestedPlaceCategory.key==='zoo'
@@ -5733,7 +5732,7 @@ export default {
         // tourist attractions to zoos or invent unnamed buildings.
         if(['parking','zoo'].includes(requestedPlaceCategory.key)&&
            (placesData.elements||[]).length===0){
-          const sparseRadius=requestedPlaceCategory.key==='zoo'?35000:radius;
+          const sparseRadius=radius;
           const sparseTrace={};
           const mapped=await nearbySparseMapPlaces({
             latitude,longitude,radius:sparseRadius,
@@ -5834,7 +5833,9 @@ export default {
           const address = String(tags.fsa_address||[houseNumber, street, city, postcode].filter(Boolean).join(", ")).slice(0,250);
             return { stars:normalizeHotelStars(tags.stars), wikidata:String(tags.wikidata||""), brandWikidata:String(tags.brand_wikidata||""), name, type, lat, lon, distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? distanceMeters(latitude, longitude, lat, lon) : Infinity, cuisine: tags.cuisine || "", website: tags.website || tags["contact:website"] || "", phone: tags.phone || tags["contact:phone"] || "", address, street, houseNumber, city, postcode };
         }).filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lon) && p.name)
-          .filter(p => !p.name.startsWith("Loc fără nume") && !p.name.startsWith("Unnamed"));
+          .filter(p => !p.name.startsWith("Loc fără nume") && !p.name.startsWith("Unnamed"))
+          .filter(p => requestedPlaceCategory.key!=="zoo" ||
+            !/^(?:[aem]\s?\d{1,4}(?:\s+(?:junction|interchange|roundabout|motorway|road|jct)\b.*)?|(?:motorway|highway|roundabout|junction)\b.*)$/i.test(p.name));
         // Reconcile trading aliases using address + name or phone evidence,
         // retaining separate shops that genuinely share an address.
         const unique=reconcileNearbyPlaces(places);
