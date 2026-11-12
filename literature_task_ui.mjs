@@ -355,36 +355,36 @@ function litSimpleWorkspace(panel){
 function litVerifiedLuceafarulMaterial(chosen,mode,passage=''){
  if(chosen?.name!=='Luceafărul'||chosen?.author!=='Mihai Eminescu'||
    chosen?.work?.sections?.length!==7)return null;
- const intro='Luceafărul — Mihai Eminescu\\nSursă primară: '+chosen.url+
-  '\\nPrima publicare: Almanahul „România Jună”, aprilie 1883.'+
-  '\\nGen: poem romantic (NU piesă de teatru).'+
-  '\\nTextul de referință: 98 de strofe, 392 de versuri, în patru părți.'+
-  '\\nExistă variante diferite: manuscris de 105 strofe; ediția Maiorescu din 1883 de 94 de strofe.'+
-  '\\n';
+ const intro='Luceafărul — Mihai Eminescu\nSursă primară: '+chosen.url+
+  '\nPrima publicare: Almanahul „România Jună”, aprilie 1883.'+
+  '\nGen: poem romantic (NU piesă de teatru).'+
+  '\nTextul de referință: 98 de strofe, 392 de versuri, în patru părți.'+
+  '\nExistă variante diferite: manuscris de 105 strofe; ediția Maiorescu din 1883 de 94 de strofe.'+
+  '\n';
  if(mode==='study')return intro+
-  '\\nREPERE PENTRU STUDIU\\n'+
+  '\nREPERE PENTRU STUDIU\n'+
   '1. Partea I: fata de împărat și Luceafărul; două întrupări ale acestuia și imposibilitatea unirii lor.'+
-  '\\n2. Partea a II-a: apropierea dintre Cătălin și Cătălina, lumea iubirii omenești.'+
-  '\\n3. Partea a III-a: călătoria lui Hyperion către Demiurg și cererea de a renunța la nemurire.'+
-  '\\n4. Partea a IV-a: revenirea lui Hyperion; alegerea umană a Cătălinei și concluzia distanței dintre lumea muritoare și cea nemuritoare.'+
-  '\\n\\nPERSONAJE ȘI IDEI\\nCătălina: condiția și iubirea omenească. Cătălin: iubirea posibilă în planul terestru. Hyperion: ființa superioară, nemuritoare. Demiurgul: ordinea cosmică.'+
-  '\\n\\nTEME\\nDragostea imposibilă, raportul dintre ideal și real, condiția omului de geniu și opoziția dintre timp și eternitate.'+
-  '\\n\\nVerifică formulările prin lectura originalului. Nu confunda poemul cu o piesă de teatru ori cele patru părți cu acte dramatice.';
+  '\n2. Partea a II-a: apropierea dintre Cătălin și Cătălina, lumea iubirii omenești.'+
+  '\n3. Partea a III-a: călătoria lui Hyperion către Demiurg și cererea de a renunța la nemurire.'+
+  '\n4. Partea a IV-a: revenirea lui Hyperion; alegerea umană a Cătălinei și concluzia distanței dintre lumea muritoare și cea nemuritoare.'+
+  '\n\nPERSONAJE ȘI IDEI\nCătălina: condiția și iubirea omenească. Cătălin: iubirea posibilă în planul terestru. Hyperion: ființa superioară, nemuritoare. Demiurgul: ordinea cosmică.'+
+  '\n\nTEME\nDragostea imposibilă, raportul dintre ideal și real, condiția omului de geniu și opoziția dintre timp și eternitate.'+
+  '\n\nVerifică formulările prin lectura originalului. Nu confunda poemul cu o piesă de teatru ori cele patru părți cu acte dramatice.';
  if(mode==='summary')return intro+
-  '\\nREZUMAT\\nO fată de împărat contemplă Luceafărul și îl cheamă. Acesta vine în două întrupări și îi propune să îi urmeze lumea, dar ea îl roagă să devină muritor.'+
+  '\nREZUMAT\nO fată de împărat contemplă Luceafărul și îl cheamă. Acesta vine în două întrupări și îi propune să îi urmeze lumea, dar ea îl roagă să devină muritor.'+
   ' În planul pământesc, Cătălin se apropie de Cătălina. Hyperion călătorește la Demiurg pentru a cere renunțarea la nemurire, însă acesta îi arată imposibilitatea unui asemenea schimb.'+
   ' Revenit, Hyperion o găsește pe Cătălina alături de Cătălin și rămâne în lumea lui eternă. Poemul contrapune iubirea trecătoare și existența nemuritoare.';
  if(mode==='essay')return intro+
-  '\\nESEU — IDEALUL ȘI CONDIȚIA UMANĂ\\n'+
+  '\nESEU — IDEALUL ȘI CONDIȚIA UMANĂ\n'+
   'Poemul romantic „Luceafărul” pune în tensiune două moduri de existență: lumea omenească, limitată de timp, și planul cosmic, al nemuririi.'+
   ' Relația dintre Cătălina și Hyperion dezvoltă conflictul dintre atracție și imposibilitatea de a împărtăși aceeași condiție. Cele două întrupări ale Luceafărului arată încercarea de apropiere dintre cele două lumi.'+
-  '\\n\\nÎn paralel, Cătălin reprezintă iubirea realizabilă în universul terestru. Odată cu dialogul lui Hyperion cu Demiurgul, întrebarea iubirii devine una filozofică: poate fi abandonată nemurirea pentru o experiență omenească?' +
-  '\\n\\nFinalul nu este o scenă de teatru, ci încheierea unei meditații poetice. Hyperion revine la propria natură, în timp ce cei doi tineri se regăsesc în lumea trecătoare. Cele 98 de strofe din textul de referință trebuie citite integral înaintea unei interpretări definitive.';
+  '\n\nÎn paralel, Cătălin reprezintă iubirea realizabilă în universul terestru. Odată cu dialogul lui Hyperion cu Demiurgul, întrebarea iubirii devine una filozofică: poate fi abandonată nemurirea pentru o experiență omenească?' +
+  '\n\nFinalul nu este o scenă de teatru, ci încheierea unei meditații poetice. Hyperion revine la propria natură, în timp ce cei doi tineri se regăsesc în lumea trecătoare. Cele 98 de strofe din textul de referință trebuie citite integral înaintea unei interpretări definitive.';
  if(mode==='analysis')return intro+
-  '\\nANALIZĂ PE TEXT\\nUrmărește imaginile cosmice și cele terestre, alternanța planurilor și dialogul dintre Hyperion și Demiurg.'+
-  '\\nÎntreabă-te cum se schimbă sensul dorinței de apropiere pe parcursul celor patru părți și cum sunt opuse timpul omenesc și eternitatea.'+
-  (String(passage||'').trim()?'\\n\\nFRAGMENT FURNIZAT DE UTILIZATOR (nerevendicat drept citat verificat):\\n'+String(passage).trim().slice(0,2800):
-   '\\n\\nPentru o analiză punctuală, adaugă un fragment din ediția afișată. Nu inventăm versuri sau împărțiri în acte.');
+  '\nANALIZĂ PE TEXT\nUrmărește imaginile cosmice și cele terestre, alternanța planurilor și dialogul dintre Hyperion și Demiurg.'+
+  '\nÎntreabă-te cum se schimbă sensul dorinței de apropiere pe parcursul celor patru părți și cum sunt opuse timpul omenesc și eternitatea.'+
+  (String(passage||'').trim()?'\n\nFRAGMENT FURNIZAT DE UTILIZATOR (nerevendicat drept citat verificat):\n'+String(passage).trim().slice(0,2800):
+   '\n\nPentru o analiză punctuală, adaugă un fragment din ediția afișată. Nu inventăm versuri sau împărțiri în acte.');
  return null;
 }
 
