@@ -35,7 +35,7 @@ const samples=[
  {type:'node',id:5,lat:47.0303,lon:21.9603,tags:{name:'A random shop',amenity:'shop'}}
 ];
 const seen=[],records=new Map(),cache={
- async match(k){return records.get(k)||null},
+ async match(k){return records.get(k)?.clone()||null},
  async put(k,response){records.set(k,response.clone())}
 };
 const fetching=async(url,opt)=>{
