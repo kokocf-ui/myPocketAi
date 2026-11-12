@@ -83,6 +83,7 @@ let litSimpleSerial=0,litSimpleAbort=null;
 async function litSimpleGenerate(out,status,mode,request,source='',onReady=null){
  if(litSimpleAbort)litSimpleAbort.abort();
  const controller=new AbortController();litSimpleAbort=controller;
+ let timeoutId=null,didTimeout=false;
  const serial=++litSimpleSerial;
  const snapshot=[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|');
  let plan={verified:false};
@@ -111,7 +112,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  const present=(material,local=false)=>{
   // Do not silently drop a synchronous offline result before its element is
   // attached to the document; a just-created workspace can still be detached.
-  if(controller.signal.aborted||serial!==litSimpleSerial||
+  if((controller.signal.aborted&&!didTimeout)||serial!==litSimpleSerial||
    snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
   const text=String(material||'').trim().slice(0,72000);
   if(!text)return;
@@ -163,7 +164,6 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
  'For an essay or summary provide a complete coherent text, not a template. Never invent quotations or an author attribution. '+
  'Task: '+request+'. '+source;
- let timeoutId=null,didTimeout=false;
  try{
   // Bound the online wait: no lesson may remain on "preparing" indefinitely.
   const response=await Promise.race([fetch(CLIENT_CONFIG.apiUrl,{method:'POST',
