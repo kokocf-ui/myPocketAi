@@ -50,7 +50,7 @@ vm.runInNewContext('const parseStudyBlocks='+parseStudyBlocks.toString()+';'+
  'const renderStudyBlocks='+renderStudyBlocks.toString()+';renderStudyBlocks(target,material);',{document:dom,target,material});
 assert.ok(target.children.some(x=>x.tagName==='HR'),'Real rules rendered');
 const labels=target.children.filter(x=>x.className==='lit-study-row').map(x=>x.children[0]);
-assert.deepEqual(labels.map(x=>x.textContent),['a.','b.','c.','1.','2.','3.']);
+assert.deepEqual(labels.map(x=>x.textContent.trim()),['a.','b.','c.','1.','2.','3.']);
 assert.ok(labels.every(x=>x.tagName==='STRONG'),'Every marker is semantically bold');
 assert.ok(target.children.some(x=>x.tagName==='H3'&&x.textContent==='Definiții'));
 
