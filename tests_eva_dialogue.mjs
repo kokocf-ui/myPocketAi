@@ -161,6 +161,26 @@ assert.ok(manchesterSearch.some(x=>x.content.includes('prefer să călătoresc c
 const pastHotel=vm.runInContext("pocketRecallPreviousChat('Ce recomandări mi-ai dat anterior despre Manchester?')",manchesterCtx);
 assert.ok(pastHotel.some(x=>x.content.includes('Manchester')),
  'Natural past recommendations must search archived local conversations');
+const pastHotelMade=vm.runInContext("pocketRecallPreviousChat('Ce recomandări mi-ai făcut anterior despre Manchester?')",manchesterCtx);
+assert.ok(pastHotelMade.some(x=>x.content.includes('trenul')&&x.content.includes('aproape de centru')),
+ 'Actual user's phrasing retrieves preferences from saved conversations');
+const localReply=vm.runInContext("pocketLocalHistoryReply(pocketRecallPreviousChat('Ce recomandări mi-ai făcut anterior despre Manchester?'))",manchesterCtx);
+assert.match(localReply,/Am găsit în conversațiile salvate|I found this in the myPocketAI conversations/,
+ 'Local answer has verifiable archive provenance');
+assert.match(localReply,/trenul/);
+assert.match(script,/const matches=pocketRecallPreviousChat\(message\);/,
+ 'Archive lookup must happen before backend/GPS routing');
+assert.match(script,/const reply=pocketLocalHistoryReply\(matches\);/,
+ 'Matching archived evidence is answered locally, not reclassified by AI');
+const followupCtx=vm.createContext({state:{currentView:'assistant',language:'ro',
+ history:[{id:400,messages:[{role:'user',text:'Manchester: prefer trenul și un hotel aproape de centru.'}]}],
+ messages:[{role:'user',text:'Ce recomandări mi-ai făcut anterior despre Manchester?'},
+           {role:'assistant',text:'Nu am găsit.'}]
+}});
+vm.runInContext(script.slice(recallFrom,recallTo),followupCtx);
+assert.match(vm.runInContext("pocketLocalHistoryReply(pocketRecallPreviousChat('Discuția este în istoric, verifică'))",followupCtx),/Manchester/,
+ 'Follow-up correction inherits the prior search topic without guessing');
+
 assert.equal(vm.runInContext("pocketRecallPreviousChat('Uită-te în istoricul conversațiilor').length",manchesterCtx),0,
  'Topic-free history request does not upload unrelated archive messages');
 assert.equal(vm.runInContext("pocketRecallPreviousChat('Ce faci?').length",manchesterCtx),0,
