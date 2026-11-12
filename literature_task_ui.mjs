@@ -150,14 +150,9 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
    snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
   const text=String(material||'').trim().slice(0,72000);
   if(!text)return;
-  try{
-   litEnsureTypography();
-   renderStudyBlocks(out,text);
-  }catch(renderError){
-   // A broken decorative renderer must never prevent the actual lesson text.
-   console.warn?.('literature_renderer_fallback',String(renderError?.message||renderError));
-   out.textContent=text;
-  }
+  // Keep only an internal plain-text copy. All styled content belongs to
+  // the independent reader and must never be mounted inside the workspace.
+  out.textContent=text;
   status.textContent=local?
    litSimpleLabel('Material local disponibil. Funcționează fără AI și fără localizare.',
     'Local study material is available without AI or location.'):
@@ -299,7 +294,7 @@ function litSimpleWorkspace(panel){
   branch==='vocabulary'&&litJourney.topic==='dictionary'?[['Caută definiția','Define','define'],['Exemple','Examples','examples']]:
   [['Teorie','Theory','lesson'],['Exemple','Examples','examples'],['Exerciții','Exercises','exercises'],['Teste','Tests','test']];
  for(const [ro,en,mode]of buttons)bar.append(litSimpleButton(litSimpleLabel(ro,en),()=>run(mode)));
- panel.append(bar,status,out);
+ panel.append(bar,status);
 
  const review=litSimpleNode('details','','lit-activity-review');
  review.hidden=true;
@@ -315,7 +310,7 @@ function litSimpleWorkspace(panel){
    'Evaluează răspunsul elevului: '+answers.value.trim().slice(0,1500)+'.',
    'Întrebările originale: '+assignmentText.slice(0,2200)+'. Oferă corectarea pe fiecare întrebare.',
    text=>litShowMaterialReader(litSimpleLabel('Corectarea exercițiilor','Corrected answers'),text));
- }),correction);
+ }));
  panel.append(review);
  // No automatic AI request: the learner explicitly chooses one activity.
  // This prevents racing a background lesson request with the first button tap.
@@ -465,7 +460,7 @@ function litSimpleLiterature(panel){
    litSimpleLabel('Nicio potrivire sigură. Încearcă titlul și autorul.','No confident match; try title and author.');
  };
  search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();find()}});
- panel.append(search,litSimpleButton(litSimpleLabel('Caută autorul / opera','Search author / work'),find),feedback,results,title,acts,passage,out);
+ panel.append(search,litSimpleButton(litSimpleLabel('Caută autorul / opera','Search author / work'),find),feedback,results,title,acts,passage);
  showCountryLibrary();
 }
 
