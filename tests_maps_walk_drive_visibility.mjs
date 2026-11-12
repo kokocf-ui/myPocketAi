@@ -20,7 +20,11 @@ const dispatcher=section('async function runModuleSearch(choice){','\nfunction r
 assert.match(source,/#view-module\.module-landing #moduleChatHost/,'Landing deliberately hides chat; transitions must remove that class');
 assert.ok(section('function returnToNavigationSource(){','function showNavigationReturn(){').includes("document.getElementById('returnToSearchSource')?.remove()"),'Back is removed when restoring the original source');
 assert.ok(section('function renderModuleLandingChoices(){','function updateQuickLayerGeometry(){').includes("document.getElementById('returnToSearchSource')?.remove()"),'Landing does not retain obsolete route Back button');
-assert.match(landing,/kind==='walking'\)showPreciseJourney\(\{\.\.\.choice,journeyMode:'walk'\}\)/,'Walking starts the shared structured A-to-B picker');
+assert.match(landing,/kind==='walking'\)showWalkingQuickDestination\(choice\)/,'Walking shortcut asks only for the destination');
+const shortWalk=section('function showWalkingQuickDestination(choice){','\nfunction showTransitDestination(choice){');
+assert.match(shortWalk,/Unde vrei să ajungi\?/,'Destination prompt is explicit');
+assert.match(shortWalk,/pendingTravelMode='walk'/,'Existing walk planner preserved');
+assert.match(shortWalk,/routeActionsText\(\)\.prompt\+destination/,'Destination is sent to pedestrian router');
 assert.match(landing,/kind==='transit'\)showPreciseJourney\(\{\.\.\.choice,journeyMode:'transit'\}\)/,'Public transport starts the same picker');
 assert.match(poi,/switchConversationModule\('maps'\);enterModuleRouteConversation\(\)/,'POI walk and drive show chat');
 assert.match(assistantMode,/enterModuleRouteConversation\(\);\s*inputEl\.value=t\[i\+1\]/,'Assistant mode choice shows chat');
