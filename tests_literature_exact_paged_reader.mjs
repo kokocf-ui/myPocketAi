@@ -112,6 +112,7 @@ assert.equal(dialog.tagName,'SECTION');
 assert.equal(dialog.attrs.role,'dialog');
 assert.equal(dialog.attrs['aria-modal'],'true');
 assert.equal(overlay.children.length,1,'Reader is in its own high stacking layer');
+assert.ok(overlay.style.cssText.includes('z-index:2147483000'),'Reader frame is visible even without injected CSS');
 const navs=all(dialog).filter(x=>x.tagName==='NAV');
 assert.equal(navs.length,2,'Page navigation is mirrored at top and bottom');
 assert.equal(navs[0].children[1].textContent,navs[1].children[1].textContent,
