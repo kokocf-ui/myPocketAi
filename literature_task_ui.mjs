@@ -419,7 +419,7 @@ function litSimpleLiterature(panel){
   if(!term){showCountryLibrary();return}
   if(term.length<3){feedback.textContent=litSimpleLabel('Introdu cel puțin trei caractere.','Enter at least three characters.');search.focus();return}
   results.replaceChildren();feedback.textContent=litSimpleLabel('Se caută operele…','Searching works…');
-  const parts=term.split(/\\s+[—–-]\\s+/).map(x=>x.trim()).filter(Boolean);
+  const parts=term.split(/\s+[—–-]\s+/).map(x=>x.trim()).filter(Boolean);
   // Accept both "Luceafărul — Mihai Eminescu" and the natural
   // "Mihai Eminescu — Luceafărul"; the latter previously searched for
   // a title named after the author and required an author named Luceafărul.
