@@ -130,6 +130,9 @@
    else window.PocketAvatarAPI?.stop?.();
   }catch(_){}
  };
+ window.pocketLaunchBoundary=(charIndex)=>{
+  try{window.PocketAvatarAPI?.boundary?.(charIndex)}catch(_){}
+ };
  window.pocketLaunchFinish=()=>{
   finished=true;clearInterval(poll);
   if(surface){surface.style.setProperty('opacity','0','important')}

@@ -153,6 +153,7 @@ jobs:
           node tests_oracle_fcm.mjs
           node tests_response_quality.mjs
           node tests_avatar_brand_pronunciation.mjs
+          node tests_avatar_launch_boundaries.mjs
           node --check practical_curriculum.mjs
           node --check practical_guides.mjs
           node --check practical_syllabi.mjs

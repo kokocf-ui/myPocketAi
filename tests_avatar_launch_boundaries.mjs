@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const native=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/AvatarLaunchActivity.java',import.meta.url),'utf8');
+const bridge=readFileSync(new URL('./android/app/src/main/assets/avatar-enter.js',import.meta.url),'utf8');
+assert.match(native,/onRangeStart\(String utteranceId, int start, int end, int frame\)/);
+assert.match(native,/window\.pocketLaunchBoundary/);
+assert.match(native,/JSONObject\.quote\(spokenGreeting\)/);
+assert.match(native,/speech\.speak\(spokenGreeting, TextToSpeech\.QUEUE_FLUSH/);
+assert.match(bridge,/window\.pocketLaunchBoundary=\(charIndex\)/);
+assert.match(bridge,/PocketAvatarAPI\?\.boundary\?\.\(charIndex\)/);
+console.log('PASS Android intro TTS word boundaries feed avatar matching spoken text');
