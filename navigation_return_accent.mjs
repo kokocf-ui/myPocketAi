@@ -112,6 +112,43 @@ button.pocket-nav-return:focus-visible{outline:3px solid #ffd6e0!important;outli
   flex-basis:42px!important;width:42px!important;min-width:42px!important;height:42px!important;
  }
 }
+
+/* Approved 3D action pairing: identical dimensions, distinct established colors.
+   No changes to other assistant, education or transport buttons. */
+#view-assistant .assistant-actions{
+ align-items:stretch!important;gap:10px!important;
+}
+#view-assistant .assistant-actions > .back-btn,
+#view-assistant .assistant-actions > #newChatBtn{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ flex:1 1 0!important;width:calc(50% - 5px)!important;max-width:none!important;
+ min-width:0!important;box-sizing:border-box!important;
+ height:clamp(54px,7dvh,66px)!important;min-height:54px!important;
+ margin:0!important;padding:8px 10px!important;
+ border-radius:17px!important;
+ font-size:clamp(12px,3.4vw,16px)!important;font-weight:750!important;
+ text-align:center!important;line-height:1.15!important;white-space:normal!important;
+}
+#view-assistant .assistant-actions > #newChatBtn{
+ background:linear-gradient(145deg,#1b6076,#0e314c)!important;
+ border:1.5px solid #64bfd0!important;color:#fff!important;
+ box-shadow:inset 0 2px 0 #ffffff20,0 4px 0 #041925,0 8px 15px #0006!important;
+ text-shadow:none!important;
+}
+#view-assistant .assistant-actions > #newChatBtn:active{
+ transform:translateY(2px);box-shadow:inset 0 2px 0 #ffffff14,0 2px 0 #041925!important;
+}
+/* Only the map closing action was still bright red. The map's Back action
+   keeps the previously working navigation rule. */
+.route-map-header > button.route-header-action:last-child{
+ background:linear-gradient(145deg,#913653,#63213c)!important;
+ background-color:#782844!important;
+ border:1.5px solid #eab3c1!important;
+ border-radius:17px!important;
+ color:#fff!important;
+ box-shadow:inset 0 2px 0 #ffffff20,0 4px 0 #331323,0 8px 15px #0006!important;
+ text-shadow:none!important;font-weight:750!important;
+}
 `;
 export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
 (function(){

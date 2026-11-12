@@ -4336,6 +4336,12 @@ export default {
       { key: "corner_shop", pattern: /(?:^| )(?:bacani\w*|băcăni\w*|magazine? (?:de )?(?:proximitate|cartier)|magazine? mici|small (?:grocery |corner )?shops?|corner shops?|convenience stores?|local grocer\w*)(?: |$)/, labelRo: "băcănie sau magazin de proximitate", labelEn: "corner grocery or convenience store", overpass: 'shop~"^(convenience|grocery|general|greengrocer|newsagent)$"' },
       { key: "supermarket", pattern: /(?:^| )(?:supermarket\w*|supermarkets|supermarketuri|supermarketul|supermarketurile|marketuri|market\w*|grocery store\w*|groceries|food shop\w*|alimentar\w*|bacan\w*|băcăni\w*|convenience stores?|corner shops?)(?: |$)/, labelRo: "supermarket", labelEn: "supermarket", overpass: 'shop~"^(supermarket|convenience|grocery|general|greengrocer|newsagent)$"' },
       { key: "mall", pattern: /(?:^| )(?:shopping mall\w*|mall\w*|centre comerciale|centru comercial|centre comercial\w*|shopping centre\w*|shopping center\w*|retail park\w*)(?: |$)/, labelRo: "centru comercial", labelEn: "shopping centre", overpass: 'shop~"^(mall|department_store|supermarket)$"' },
+      { key: "shopping_fashion", pattern: /(?:^| )(?:shopping|moda|haine|imbracaminte|incaltaminte|fashion|clothing|shoe shops?|shopping centres?)(?: |$)/, labelRo: "shopping și modă", labelEn: "shopping and fashion", overpass: 'shop~"^(mall|department_store|clothes|shoes|fashion_accessories|bag|jewelry|jewellery)$"' },
+      { key: "beauty_services", pattern: /(?:^| )(?:saloane? de infrumusetare|frizerii|frizerie|coafor|beauty salons?|hairdressers?|barbers?|nail salons?|spa)(?: |$)/, labelRo: "salon de înfrumusețare", labelEn: "beauty salon", overpass: 'shop~"^(hairdresser|beauty|massage|nail_salon|cosmetics|tattoo)$"' },
+      { key: "home_goods", pattern: /(?:^| )(?:articole pentru casa|articole casnice|decoratiuni|homewares?|housewares?|home goods|home decor)(?: |$)/, labelRo: "articole pentru casă", labelEn: "homewares", overpass: 'shop~"^(houseware|homeware|interior_decoration|kitchenware|bedlinen|curtain|carpet|lighting)$"' },
+      { key: "appliances", pattern: /(?:^| )(?:electrocasnice|electrocasnic|appliances?|electrical shops?|electronics stores?)(?: |$)/, labelRo: "electrocasnice", labelEn: "appliances", overpass: 'shop~"^(appliance|electronics|electrical)$"' },
+      { key: "furniture", pattern: /(?:^| )(?:mobilier|mobila|magazine de mobila|furniture|sofa stores?|mattress stores?)(?: |$)/, labelRo: "mobilier", labelEn: "furniture", overpass: 'shop~"^(furniture|bed|bedroom|kitchen|bathroom_furnishing)$"' },
+      { key: "diy_garden", pattern: /(?:^| )(?:bricolaj|gradinarit|gradina|diy|hardware stores?|garden cent(?:er|re)s?|building materials)(?: |$)/, labelRo: "bricolaj și grădinărit", labelEn: "DIY and gardening", overpass: 'shop~"^(doityourself|hardware|trade|building_materials|garden_centre|agrarian)$"' },
       { key: "pharmacy", pattern: /(?:^| )(?:farmaci\w*|pharmacy|pharmacies|chemist\w*|drugstore\w*|drogheri\w*|naturist\w*)(?: |$)/, labelRo: "farmacie", labelEn: "pharmacy", overpass: 'amenity~"^(pharmacy)$"' },
       { key: "fuel", pattern: /(?:^| )(?:benzinar\w*|benzinarii|fuel station\w*|petrol station\w*|gas station\w*|petrol pump\w*)(?: |$)/, labelRo: "benzinărie", labelEn: "fuel station", overpass: 'amenity="fuel"' },
       { key: "charging", pattern: /(?:^| )(?:charging station\w*|electric vehicle charging|ev charger\w*|incarcare electrica|statii de incarcare|statie de incarcare)(?: |$)/, labelRo: "stație de încărcare electrică", labelEn: "EV charging station", overpass: 'amenity="charging_station"' },
@@ -5438,6 +5444,12 @@ export default {
               supermarket: "commercial.supermarket,commercial.convenience,commercial.food_and_drink",
               corner_shop: "commercial",
               shop: "commercial",
+              shopping_fashion: "commercial.shopping_mall,commercial.department_store,commercial.clothing,commercial.bag",
+              beauty_services: "service.beauty",
+              home_goods: "commercial.houseware_and_hardware,commercial.furniture_and_interior.curtain,commercial.furniture_and_interior.carpet",
+              appliances: "commercial.elektronics",
+              furniture: "commercial.furniture_and_interior",
+              diy_garden: "commercial.houseware_and_hardware,commercial.garden",
               mall: "commercial.shopping_mall",
               pharmacy: "healthcare.pharmacy",
               fuel: "service.vehicle.fuel",
@@ -5488,7 +5500,7 @@ export default {
               const raw = props.datasource && props.datasource.raw && typeof props.datasource.raw === "object" ? props.datasource.raw : {};
               const cats = Array.isArray(props.categories) ? props.categories.join(" ").toLowerCase() : "";
               const key = requestedPlaceCategory.key;
-              if(['shop','supermarket','corner_shop','market_bakery','mall'].includes(key)){
+              if(['shop','supermarket','corner_shop','market_bakery','mall','shopping_fashion','beauty_services','home_goods','appliances','furniture','diy_garden'].includes(key)){
                 if(isStreetOnlyPlace(props.name,props.street||raw['addr:street']||''))return false;
                 if(['shop','supermarket','corner_shop'].includes(key)&&!retailCategoryAccepts(key,{
                   shop:raw.shop||raw.tags?.shop||'',
@@ -5520,6 +5532,12 @@ export default {
               const checks = {
                 supermarket: /supermarket|convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(supermarket|convenience|grocery|general|greengrocer|newsagent)$/.test(String(raw.shop || "")),
                 corner_shop: /commercial\.convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(convenience|grocery|general|greengrocer|newsagent|kiosk|deli|food|butcher|seafood|farm|dairy)$/.test(String(raw.shop || "")),
+                shopping_fashion: /shopping_mall|department_store|commercial\.clothing|commercial\.bag/.test(cats) || /^(mall|department_store|clothes|shoes|fashion_accessories|bag|jewelry|jewellery)$/.test(String(raw.shop||"")),
+                beauty_services: /service\.beauty/.test(cats) || /^(hairdresser|barber|beauty|massage|spa|nail_salon|cosmetics|tattoo)$/.test(String(raw.shop||"")),
+                home_goods: /^(houseware|homeware|kitchenware|interior_decoration|bedlinen|curtain|carpet|lighting)$/.test(String(raw.shop||"")) || /commercial\.furniture_and_interior\.(curtain|carpet|lighting)/.test(cats) || (/commercial\.houseware_and_hardware/.test(cats) && !/commercial\.houseware_and_hardware\.building_materials/.test(cats) && !/^(hardware|doityourself|building_materials|garden_centre)$/.test(String(raw.shop||""))),
+                appliances: /commercial\.elektronics/.test(cats) || /^(appliance|electronics|electrical)$/.test(String(raw.shop||"")),
+                furniture: /commercial\.furniture_and_interior/.test(cats) || /^(furniture|bed|bedroom|kitchen|bathroom_furnishing)$/.test(String(raw.shop||"")),
+                diy_garden: /commercial\.garden|commercial\.houseware_and_hardware\.building_materials/.test(cats) || /^(doityourself|hardware|trade|building_materials|garden_centre|agrarian)$/.test(String(raw.shop||"")),
                 mall: /shopping_mall|department_store/.test(cats) || /^(mall|department_store)$/.test(String(raw.shop || "")),
                 shop: /commercial|shop/.test(cats) || Boolean(raw.shop),
                 pharmacy: /pharmacy/.test(cats) || raw.amenity === "pharmacy" || raw.shop === "chemist",
@@ -5559,7 +5577,7 @@ export default {
               const categories = Array.isArray(props.categories) ? props.categories : [];
               const categoryText = categories.join(" ").toLowerCase();
               const raw = props.datasource && props.datasource.raw && typeof props.datasource.raw === "object" ? props.datasource.raw : {};
-              const isShop = ["supermarket", "mall", "shop", "market_bakery", "corner_shop"].includes(requestedPlaceCategory.key);
+              const isShop = ["supermarket", "mall", "shop", "market_bakery", "corner_shop", "shopping_fashion", "beauty_services", "home_goods", "appliances", "furniture", "diy_garden"].includes(requestedPlaceCategory.key);
               const amenity = requestedPlaceCategory.key === "fast_food" ? "fast_food" : requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
               const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: (requestedPlaceCategory.key === "hotel" || isShop) ? String(props.name || "").trim() :
@@ -5601,7 +5619,7 @@ export default {
               const lon = Number(coordinates[0]);
               const lat = Number(coordinates[1]);
               const osmValue = String(properties.osm_value || properties.type || requestedPlaceCategory.key).toLowerCase();
-              const isShop = ["supermarket", "mall", "shop", "market_bakery", "corner_shop"].includes(requestedPlaceCategory.key);
+              const isShop = ["supermarket", "mall", "shop", "market_bakery", "corner_shop", "shopping_fashion", "beauty_services", "home_goods", "appliances", "furniture", "diy_garden"].includes(requestedPlaceCategory.key);
               const photonType = (String(properties.type || "") + " " + String(properties.osm_value || "") + " " + String(properties.osm_key || "")).toLowerCase();
               const photonRetailMatch=["shop","supermarket","corner_shop"].includes(requestedPlaceCategory.key)
                 ?retailCategoryAccepts(requestedPlaceCategory.key,{shop:properties.osm_key==="shop"?properties.osm_value:"",osmKey:properties.osm_key,name:properties.name,categories:[]}):null;
@@ -5615,6 +5633,15 @@ export default {
                     shop:properties.shop,highway:properties.highway,
                     categories:[properties.type||'']
                   })
+                : ['shopping_fashion','beauty_services','home_goods','appliances','furniture','diy_garden'].includes(requestedPlaceCategory.key)
+                  ? ({
+                    shopping_fashion:/mall|department_store|clothes|shoes|fashion_accessories|bag|jewell?ery/,
+                    beauty_services:/hairdresser|barber|beauty|nail_salon|massage|spa/,
+                    home_goods:/houseware|homeware|kitchenware|interior_decoration|bedlinen|curtain|carpet|lighting/,
+                    appliances:/appliance|electronics|electrical/,
+                    furniture:/furniture|bed|bedroom|bathroom_furnishing/,
+                    diy_garden:/doityourself|hardware|building_materials|garden_centre|agrarian/
+                  })[requestedPlaceCategory.key].test(photonType)
                 : requestedPlaceCategory.key === "mall"
                   ? /mall|shopping.?centre|shopping.?center|retail.?park|department.?store/.test(photonType) || /shopping centre|shopping center|mall|retail park/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "corner_shop"

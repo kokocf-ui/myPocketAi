@@ -13,10 +13,13 @@ const list=Array.from(menu.travel);
 assert.deepEqual(list.map(x=>x.title),[
  'Hoteluri','Farmacii','Băcănii și magazine mici','Marketuri și brutării',
  'Cofetării','Fast-food și mâncare la pachet','Restaurante și localuri cu mâncare',
- 'Baruri, ceainării și cafenele','Alte puncte de interes'
+ 'Baruri, ceainării și cafenele','Alte puncte de interes',
+ 'Shopping și modă','Saloane de înfrumusețare','Articole pentru casă',
+ 'Electrocasnice','Mobilier','Bricolaj și grădinărit'
 ]);
 const categories=['hotel','pharmacy','corner_shop','supermarket','confectionery',
- 'fast_food','restaurant','lounge','poi'];
+ 'fast_food','restaurant','lounge','poi',
+ 'shopping_fashion','beauty_services','home_goods','appliances','furniture','diy_garden'];
 assert.deepEqual(list.map(x=>x.placeCategory),categories);
 assert.deepEqual(Array.from(menu.maps,x=>x.title),[
  'Deplasare spre…','Traseu pietonal','Transport public','Benzinării',
@@ -62,12 +65,20 @@ const rows=[
  {name:'Upside Down House',cat:'tourism.attraction',kind:'attraction'},
  {name:'Travelodge',cat:'accommodation.hotel',kind:'hotel'},
  {name:'Bexhill Drive',cat:'highway.residential',kind:'highway'},
- {name:'Grays Museum',cat:'entertainment.museum',kind:'museum'}
+ {name:'Grays Museum',cat:'entertainment.museum',kind:'museum'},
+ {name:'Lakeside Shopping Centre',cat:'commercial.shopping_mall',kind:'mall',shop:'mall'},
+ {name:'Style Clothing',cat:'commercial.clothing.clothes',kind:'clothing',shop:'clothes'},
+ {name:'Eva Hair Studio',cat:'service.beauty.hairdresser',kind:'salon',shop:'hairdresser'},
+ {name:'Homewares Direct',cat:'commercial.houseware_and_hardware',kind:'houseware',shop:'houseware'},
+ {name:'Kitchen Appliances',cat:'commercial.elektronics',kind:'appliance',shop:'appliance'},
+ {name:'Sofa Gallery',cat:'commercial.furniture_and_interior',kind:'furniture',shop:'furniture'},
+ {name:'DIY Hardware',cat:'commercial.houseware_and_hardware',kind:'hardware',shop:'hardware'},
+ {name:'Garden Plant Centre',cat:'commercial.garden',kind:'garden',shop:'garden_centre'}
 ];
 const features=rows.map((r,i)=>({type:'Feature',geometry:{type:'Point',coordinates:[0.301+i/10000,51.477+i/10000]},
  properties:{name:r.name,categories:[r.cat],datasource:{raw:{
  amenity:['restaurant','fast_food'].includes(r.kind)?r.kind:'',
- tourism:r.kind==='hotel'?'hotel':'',cuisine:r.cuisine||'',highway:r.kind==='highway'?'residential':''
+ tourism:r.kind==='hotel'?'hotel':'',shop:r.shop||'',cuisine:r.cuisine||'',highway:r.kind==='highway'?'residential':''
  }}}}));
 const original=globalThis.fetch;
 globalThis.fetch=async input=>{
@@ -96,6 +107,25 @@ try {
  assert.ok(fast.has('Super Chicken')&&fast.has('Grays King Kebab'));assert.ok(!fast.has('Family Bistro'));
  assert.deepEqual([...rest].filter(x=>fast.has(x)),[]);
  assert.ok(poi.has('Upside Down House'));
+
+ const shopping=await quick('shopping_fashion','Găsește shopping și modă în apropierea mea.');
+ const beauty=await quick('beauty_services','Găsește saloane de înfrumusețare în apropierea mea.');
+ const home=await quick('home_goods','Găsește articole pentru casă în apropierea mea.');
+ const appliances=await quick('appliances','Găsește electrocasnice în apropierea mea.');
+ const furniture=await quick('furniture','Găsește mobilier în apropierea mea.');
+ const diy=await quick('diy_garden','Găsește bricolaj și grădinărit în apropierea mea.');
+ for(const n of ['Lakeside Shopping Centre','Style Clothing'])assert.ok(shopping.has(n),'Shopping missing '+n);
+ assert.ok(beauty.has('Eva Hair Studio'));
+ assert.ok(home.has('Homewares Direct'));
+ assert.ok(appliances.has('Kitchen Appliances'));
+ assert.ok(furniture.has('Sofa Gallery'));
+ for(const n of ['DIY Hardware','Garden Plant Centre'])assert.ok(diy.has(n),'DIY missing '+n);
+ const selected=[shopping,beauty,home,appliances,furniture,diy];
+ for(const [i,group] of selected.entries()){
+  for(const [j,other] of selected.entries()){
+   if(i!==j)assert.deepEqual([...group].filter(n=>other.has(n)),[],'Overlapping categories '+i+'/'+j);
+  }
+ }
  for(const n of ['Travelodge','Bexhill Drive','Grays Museum','Family Bistro','Super Chicken'])
   assert.ok(!poi.has(n),'Other POI contains dedicated category '+n);
 }finally{globalThis.fetch=original}
