@@ -36,7 +36,7 @@ assert.equal(verifiedWorksByQuery('Priče iz davnine')[0]?.author.country,'HR');
 assert.equal(verifiedWorksByQuery('Malina')[0]?.author.country,'AT');
 const publicPoem=verifiedWorksByQuery('Nemzetőr-dal')[0]?.work;
 assert.ok(publicPoem?.sections?.length===1,'Public-domain poetry can be read in-app');
-assert.ok(publicPoem.sections[0].text.includes('\\n'),'Poetry preserves line breaks');
+assert.ok(publicPoem.sections[0].text.includes('\n'),'Poetry preserves line breaks');
 new vm.Script(LITERATURE_TASK_UI_SCRIPT,{filename:'literature_task_ui.browser.js'});
 assert.match(LITERATURE_TASK_UI_SCRIPT,/showCountryLibrary\(\);/,'Offline suggestions are rendered initially');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/a\.country===litJourney\.country/,'Offline suggestions are country-scoped');
