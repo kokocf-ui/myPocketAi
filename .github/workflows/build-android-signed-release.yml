@@ -30,6 +30,8 @@ on:
       - 'literature_seven_country_tracks.mjs'
       - 'literature_school_streams.mjs'
       - 'literature_task_ui.mjs'
+      - 'literature_reader_pagination.mjs'
+      - 'tests_literature_exact_paged_reader.mjs'
       - 'tests_hungarian_school_paths.mjs'
       - 'tests_literature_navigation_viewport.mjs'
       - 'literature_curriculum_europe.mjs'
@@ -190,6 +192,7 @@ jobs:
           node tests_literature_europe.mjs
           node --check literature_verified_authors.mjs
           node tests_literature_verified_authors.mjs
+          node tests_literature_exact_paged_reader.mjs
           node tests_literature_seven_country_library.mjs
           node tests_history_geography.mjs
           node tests_education_country_first.mjs
