@@ -17,6 +17,7 @@ import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
 import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
 import {searchAnchorPolicy} from "./country_search_anchor.mjs";
+import {nationalProviderAuthorized} from "./country_national_provider_gate.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
@@ -3288,6 +3289,13 @@ export default {
           const transcapiZone=validTarget&&hasValidLocation?transCAPISharedZone(
             {latitude,longitude},{latitude:targetLat,longitude:targetLon}):null;
           const transcapiEligible=Boolean(transcapiZone)&&
+            // TransCAPI's GB adapter is selected through the UK registry.
+            // Irish/Benelux zones continue through their existing independent
+            // geographical coverage until separately catalogued and audited.
+            (transcapiZone!=='gb'||nationalProviderAuthorized({
+              provider:'uk_national_transit',country:'GB',
+              enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'
+            }))&&
             (transportPreference==='bus_only'||transcapiZone!=='gb'||!isTfLLondonCorridorPoint(latitude,longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
           if(transcapiEligible){
             const national=await planTransCAPIJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},requestedOptionsCount,{preference:transportPreference,departureOffsetMinutes,departureAt});
@@ -3575,7 +3583,13 @@ export default {
             provider_status:{tfl:'outside_london_corridor',motis:transportErrors.motis||null,transcapi:transportErrors.transcapi||'not_attempted'},
             transit_departure_at:departureAt,reason:'national_public_transport_not_verified',ai_connected:Boolean(env.AI)});
         }
-        if (env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') {
+        if ((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') &&
+            nationalProviderAuthorized({
+              provider:'tfl',country:'GB',region:
+                isTfLLondonCorridorPoint(latitude,longitude)&&
+                isTfLLondonCorridorPoint(targetLat,targetLon)?'london':'outside_london',
+              enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'
+            })) {
           try {
             // Keep coordinate commas as path delimiters; encode only free-text destinations once.
             // Ambiguous interchange hubs such as HUBVIC return HTTP 300
@@ -4303,7 +4317,13 @@ export default {
           let reply=lang === "en" ? `Walking route to ${target.display_name}: about ${km} km, around ${formatJourneyDurationMinutes(mins,lang)}. The line on the map shows the pedestrian route. Estimated time can vary with pace and local conditions.` : `Rută pietonală până la ${target.display_name}: aproximativ ${km} km, cam ${formatJourneyDurationMinutes(mins,lang)}. Linia de pe hartă arată traseul pe jos. Durata este estimativă și depinde de ritm și de condițiile locale.`;
           if(routeSteps.length) reply += (lang === "en" ? "\n\nWalking directions:\n" : "\n\nIndicații pentru mersul pe jos:\n") + routeSteps.map(step=>step.text).join("\n");
           let transit=null;
-          if(env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false'){
+          if((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') &&
+            nationalProviderAuthorized({
+              provider:'tfl',country:'GB',region:
+                isTfLLondonCorridorPoint(latitude,longitude)&&
+                isTfLLondonCorridorPoint(destLat,destLon)?'london':'outside_london',
+              enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'
+            })){
             try {
               const tflData=await requestTfLJourneys({
                 from:`${latitude},${longitude}`,to:`${destLat},${destLon}`,
@@ -5433,7 +5453,10 @@ export default {
         // Frontend never chooses a provider. Under the feature flag, unverified
         // country permits only shared international sources, not UK-only data.
         // Existing Geoapify / Photon flow and response format remain intact.
-        const useUkRetailSources=countryPlan.ukRetailAllowed;
+        // National providers are selected exclusively by the country registry.
+        // Common Geoapify / Photon / TomTom dispatch is independent.
+        const useUkRetailSources=countryPlan.localProviders.includes('uk_food_retailers') ||
+          (countryPlan.mode==='legacy'&&countryPlan.ukRetailAllowed);
         responsePlaceContext.country_routing={
           mode:countryPlan.mode,country:countryPlan.country,
           reason:countryPlan.reason
