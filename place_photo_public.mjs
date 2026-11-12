@@ -8,7 +8,8 @@ const qid=x=>/^Q[1-9]\d{0,11}$/.test(String(x||''))?String(x):'';
 const normalize=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
  .toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
 const generic=new Set(['the','and','shop','store','restaurant','cafe','hotel','inn',
- 'pharmacy','limited','ltd','road','street','strada','of','at','de','la','le','el']);
+ 'pharmacy','limited','ltd','road','street','strada','of','at','de','la','le','el',
+ 'visitor','centre','center','building','station','underground','metro']);
 const meaningful=s=>normalize(s).split(' ').filter(x=>x.length>=3&&!generic.has(x));
 const tokenMatch=(title,name)=>{
  const t=normalize(title),parts=meaningful(name);
@@ -69,13 +70,27 @@ const placeFile=async(name,latitude,longitude,fetcher)=>{
   .sort((a,b)=>Number(a.dist||0)-Number(b.dist||0));
  return photos.slice(0,3).map(x=>x.title);
 };
-const wikidataFile=async(name,id,fetcher)=>{
+const wikidataFile=async(name,id,latitude,longitude,fetcher)=>{
  const u=new URL(WD+id+'.json');
  const entity=(await req(u,fetcher))?.entities?.[id];
  if(!entity)return '';
  const labels=Object.values(entity.labels||{}).map(x=>x?.value||'');
  const aliases=Object.values(entity.aliases||{}).flatMap(x=>x.map(i=>i?.value||'')).slice(0,60);
  if(![...labels,...aliases].some(label=>normalize(label)===normalize(name)||tokenMatch(label,name)))return '';
+ // An organisation can have a brand image or a picture of another branch.
+ // Wikidata P18 is accepted only for a place entity with P625 coordinates
+ // near the actual business, never a company/brand entity without coordinates.
+ const points=entity.claims?.P625||[];
+ const close=points.some(point=>{
+  const geo=point?.mainsnak?.datavalue?.value;
+  if(!geo||!latlon(Number(geo.latitude),Number(geo.longitude)))return false;
+  const radians=Math.PI/180;
+  const dy=(latitude-Number(geo.latitude))*radians,dx=(longitude-Number(geo.longitude))*radians;
+  const t=Math.sin(dy/2)**2+
+    Math.cos(latitude*radians)*Math.cos(Number(geo.latitude)*radians)*Math.sin(dx/2)**2;
+  return 12742000*Math.atan2(Math.sqrt(t),Math.sqrt(Math.max(0,1-t)))<=180;
+ });
+ if(!close)return '';
  const p18=entity.claims?.P18||[];
  for(const c of p18.slice(0,2)){
   const v=c?.mainsnak?.datavalue?.value;
@@ -100,7 +115,7 @@ export async function verifiedLocationPhoto({name='',latitude,longitude,wikidata
  let result={status:'unavailable',photo:null};
  try{
   let titles=[];
-  if(id){const entityFile=await wikidataFile(name,id,fetcher);if(entityFile)titles.push(entityFile)}
+  if(id){const entityFile=await wikidataFile(name,id,latitude,longitude,fetcher);if(entityFile)titles.push(entityFile)}
   // Query nearby photos only when an exact entity picture was not available.
   if(!titles.length)titles=await placeFile(name,latitude,longitude,fetcher);
   for(const title of titles.slice(0,3)){
