@@ -15,7 +15,7 @@ export const EUROPE_SOURCE_CATALOG=Object.freeze({
   source('ro_urban_oracle','Existing Romanian urban GTFS adapter','internal:ro_urban_gtfs','local','existing_adapter')
  ],general:[
   source('ro_open_data','Romanian government public datasets','https://data.gov.ro/','national','catalog'),
-  source('ro_pharmacy_registry','Romanian Ministry of Health registered pharmacies','https://ms.gov.ro/ro/informatii-de-interes-public/registre/registrul-farmaciilor/','national','official_register'),
+  source('ro_pharmacy_registry','Romanian Ministry of Health registered pharmacies','https://www.ms.ro/ro/informatii-de-interes-public/registre/registrul-farmaciilor/','national','official_register'),
   source('ro_tourism_registry','Romanian authorized tourism and accommodation register','https://se.situr.gov.ro/OpenData/OpenDataMain','national','official_register')
  ]},
  GB:{transport:[
