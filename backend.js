@@ -11,6 +11,7 @@ import {nearbyUkRegisteredRetailers,nearbyUkRegisteredTakeaways} from "./uk_food
 import {foodCategoryAccepts,reconcileNearbyPlaces} from "./food_location_quality.mjs";
 import {otherPoiAccepts} from "./other_poi_quality.mjs";
 import {nearbyOpenStreetMapFood} from "./osm_food_places.mjs";
+import {nearbySparseMapPlaces} from "./osm_sparse_places.mjs";
 import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
@@ -5361,6 +5362,8 @@ export default {
         let placesData = null;
         let geoapifyElements = [];
         let geoapifySucceeded = false;
+        let photonSucceeded = false;
+        let resultRadius = radius;
         const providerFailures = [];
         // v86: launch Photon immediately so its network request overlaps Geoapify.
         // Optional worldwide provider, disabled unless the owner explicitly
@@ -5394,6 +5397,7 @@ export default {
           if (!response.ok) throw Object.assign(new Error("Photon places provider HTTP " + response.status), { name: "PlacesHttpError", httpStatus: response.status, retryAfter: response.headers.get("Retry-After"), contentType: response.headers.get("Content-Type") });
           const data = await response.json();
           if (!data || !Array.isArray(data.features)) throw Object.assign(new Error("Photon provider returned invalid GeoJSON structure"), { name: "PlacesResponseError" });
+          photonSucceeded = true;
           return data;
         })();
         // v79: use the existing Geoapify key for nearby Places before public Overpass.
@@ -5678,7 +5682,8 @@ export default {
             if (!geoapifyElements.length) {
               const recovered=await ukRetailersPromise;
               const globalRecovered=await globalPlacesPromise;
-              if(!geoapifySucceeded&&!recovered.length&&!globalRecovered.length){
+              if(!geoapifySucceeded&&!recovered.length&&!globalRecovered.length &&
+                 !['parking','zoo'].includes(requestedPlaceCategory.key)){
                 const finalError = Object.assign(photonError || new Error("All local-search providers failed"), { providerFailures });
                 throw finalError;
               }
@@ -5697,6 +5702,26 @@ export default {
           activeProviders.push(requestedPlaceCategory.key==="fast_food"?"UK Food Standards Agency takeaways":"UK Food Standards Agency retailers");
         }
         if (!placesData) placesData = { elements: [] };
+        // Parking and zoo queries cannot rely on Food Standards Agency
+        // business listings. When both regular map sources lack a verified POI,
+        // use one bounded public OSM request; never silently promote unrelated
+        // tourist attractions to zoos or invent unnamed buildings.
+        if(['parking','zoo'].includes(requestedPlaceCategory.key)&&
+           (placesData.elements||[]).length===0){
+          const sparseRadius=requestedPlaceCategory.key==='zoo'?35000:radius;
+          const mapped=await nearbySparseMapPlaces({
+            latitude,longitude,radius:sparseRadius,category:requestedPlaceCategory.key
+          });
+          if(mapped.length){
+            placesData.elements.push(...mapped);
+            activeProviders.push('OpenStreetMap Overpass');
+            resultRadius=sparseRadius;
+          }else if(!geoapifySucceeded&&!photonSucceeded&&!globalRows.length){
+            const error=Object.assign(new Error('All sparse-POI providers unavailable'),
+              {name:'PlacesProvidersUnavailable',providerFailures});
+            throw error;
+          }
+        }
         // Global, optional independent food source for thin mapped areas.
         // Avoid automatic high-volume public Overpass use when maps already
         // provide a useful nearby set. Cached by coarse area in the adapter.
@@ -5784,12 +5809,12 @@ export default {
         const unclassifiedCount=requestedStars?unique.filter(p=>!p.stars).length:0;
         const displayedPlaces = matchingPlaces.slice(0, requestedPlaceCategory.key==="shop"?15:40);
         const locationLabel=explicitPlaceQuery ? searchLocationLabel : (lang==="en"?"your GPS location":"poziția ta GPS");
-        const scope=lang==="en"?`Search area: ${locationLabel}. Radius: ${radius/1000} km.`:`Zona căutată: ${locationLabel}. Rază: ${radius/1000} km.`;
+        const scope=lang==="en"?`Search area: ${locationLabel}. Radius: ${resultRadius/1000} km.`:`Zona căutată: ${locationLabel}. Rază: ${resultRadius/1000} km.`;
         const centerNote=centralAreaRequested?(lang==="en"?" Central area is approximated by a 2 km radius around the mapped reference point for the destination.":" Zona centrală este aproximată printr-o rază de 2 km în jurul punctului de referință cartografic al destinației."):"";
         const starsNote=requestedStars?(lang==="en"?` Only hotels mapped as ${requestedStars}-star are included; missing classifications are excluded. This is map metadata, not a current classification audit.`:`Sunt incluse numai hotelurile marcate cu ${requestedStars} stele în datele hărții; cele fără clasificare sunt excluse. Este o clasificare din datele hărții, nu o certificare verificată în timp real.`):"";
         if(requestedStars && !displayedPlaces.length){
           const reply=lang==="en"?`${scope}${centerNote} I could not confirm any ${requestedStars}-star hotels from the available map data. Hotels with unknown or different classifications have not been substituted.`:`${scope}${centerNote} Nu am putut confirma hoteluri de ${requestedStars} stele din datele de hartă disponibile. Nu am inclus hoteluri fără clasificare sau cu alt număr de stele.`;
-          return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,places:[],search_ok:true,results_count:0,location_source:locationSource,search_query:explicitPlaceQuery||null,context_inherited:Boolean(activePlaceRequest?.inherited),search_center:{latitude,longitude,label:locationLabel},search_radius_meters:radius,requested_stars:requestedStars,star_filter_applied:true,ai_connected:Boolean(env.AI)});
+          return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,places:[],search_ok:true,results_count:0,location_source:locationSource,search_query:explicitPlaceQuery||null,context_inherited:Boolean(activePlaceRequest?.inherited),search_center:{latitude,longitude,label:locationLabel},search_radius_meters:resultRadius,requested_stars:requestedStars,star_filter_applied:true,ai_connected:Boolean(env.AI)});
         }
         if (displayedPlaces.length) {
           const lines = displayedPlaces.map((p, i) => {
@@ -5808,12 +5833,12 @@ export default {
             ? (requestedStars?`I found ${totalUniqueResults} ${requestedStars}-star ${totalUniqueResults===1?"hotel":"hotels"} in ${area}, according to the available map data.`:`I found ${totalUniqueResults} results for ${requestedPlaceCategory.labelEn} in ${area}.`)
             : (requestedStars?`Am găsit ${totalUniqueResults===1?"un hotel":totalUniqueResults+" hoteluri"} de ${requestedStars} stele în ${area}, conform datelor de hartă disponibile.`:`Am găsit ${totalUniqueResults} rezultate pentru ${requestedPlaceCategory.labelRo} în ${area}.`);
           const countNote=totalUniqueResults>displayedPlaces.length?(lang==="en"?` Showing ${displayedPlaces.length} results.`:` Afișez ${displayedPlaces.length} rezultate.`):"";
-          const radiusNote=lang==="en"?`Search radius: ${radius/1000} km.`:`Raza căutării: ${radius/1000} km.`;
+          const radiusNote=lang==="en"?`Search radius: ${resultRadius/1000} km.`:`Raza căutării: ${resultRadius/1000} km.`;
           const incompleteNote=unclassifiedCount?(lang==="en"?`${unclassifiedCount} additional mapped ${unclassifiedCount===1?"place has":"places have"} no confirmable star classification and ${unclassifiedCount===1?"was":"were"} excluded.`:`${unclassifiedCount===1?"O altă locație din hartă nu are o clasificare în stele confirmabilă și a fost exclusă.":"Alte "+unclassifiedCount+" locații din hartă nu au o clasificare în stele confirmabilă și au fost excluse."}`):"";
           const registryNote=activeProviders.some(p=>p.startsWith("UK Food Standards Agency"))?(lang==="en"?"Some food businesses are from the UK FSA register. Registration does not confirm current hours or menu.":"Unele localuri provin din registrul oficial FSA din UK; înregistrarea nu confirmă programul sau meniul actual."):"";
           const notes=[radiusNote,centerNote.trim(),starsNote.trim(),incompleteNote,ratingNote.trim(),registryNote,lang==="en"?"Distances are approximate, in a straight line from the search reference point.":"Distanțele sunt aproximative, în linie dreaptă față de punctul de referință al căutării."].filter(Boolean).join("\n");
           const reply=heading+countNote+"\n\n"+lines.join("\n\n")+"\n\n"+notes;
-          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:radius, requested_stars:requestedStars, unclassified_count:unclassifiedCount, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
+          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:resultRadius, requested_stars:requestedStars, unclassified_count:unclassifiedCount, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
         }
       } catch (searchError) {
         const errorName = searchError && searchError.name ? String(searchError.name).slice(0, 80) : "UnknownError";
