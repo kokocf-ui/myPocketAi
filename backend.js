@@ -5373,10 +5373,12 @@ export default {
       let lastSearchError = null;
       try {
         const sparseCategory=['parking','zoo'].includes(requestedPlaceCategory.key);
-        // Nearby categories retain the same 5 km default radius. Never silently
-        // widen zoological searches to 35 km; keep explicit street/centre scopes.
+        // Zoo locations are sparse: show nearby verified zoos within 20 km,
+        // not the previous 35 km. Parking and all other categories stay at 5 km.
+        // Explicit street and town-centre scopes keep their narrow limits.
         const radius=locationSource==='explicit_street_query'?1500:
-          centralAreaRequested?2000:5000;
+          centralAreaRequested?2000:
+          requestedPlaceCategory.key==='zoo'?20000:5000;
         let placesData = null;
         let geoapifyElements = [];
         let geoapifySucceeded = false;
