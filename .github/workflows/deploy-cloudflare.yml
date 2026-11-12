@@ -34,6 +34,7 @@ jobs:
           node tests_literature_completion.mjs
           node tests_literature_verified_authors.mjs
           node tests_literature_exact_paged_reader.mjs
+          node tests_literature_study_typography_nav.mjs
           node tests_literature_seven_country_library.mjs
           node tests_literature_tutor_response.mjs
           node tests_pdf_library.mjs

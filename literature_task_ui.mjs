@@ -1,14 +1,22 @@
 import {splitLiteraturePages} from './literature_reader_pagination.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+String.raw`
+import {parseStudyBlocks,renderStudyBlocks,STUDY_TYPOGRAPHY_CSS} from './literature_study_typography.mjs';
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
 
 function litSimpleNode(tag,text='',className=''){const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;return el}
 function litSimpleButton(text,fn){const b=litSimpleNode('button',text,'lit-activity-button');b.type='button';b.onclick=fn;return b}
 function litSimpleLabel(ro,en){return learningLabel(ro,en)}
 
 let litReaderOpen=null;
+function litEnsureTypography(){
+ if(document.getElementById?.('lit-typography-v2'))return;
+ const style=document.createElement('style');style.id='lit-typography-v2';
+ style.textContent=LIT_STUDY_CSS;
+ (document.head||document.body)?.append(style);
+}
 function litShowMaterialReader(title,text){
  const body=String(text||'').trim();if(!body)return;
  if(litReaderOpen?.isConnected)litReaderOpen.close();
+ litEnsureTypography();
  const dialog=document.createElement('dialog');dialog.className='lit-material-reader';
  dialog.setAttribute('aria-label',title);
  const head=litSimpleNode('div','','lit-reader-head');
@@ -41,7 +49,7 @@ function litShowMaterialReader(title,text){
  function display(index){
   active=Math.max(0,Math.min(pages.length-1,index));
   content.replaceChildren();
-  hgDisplayStudyText(content,pages[active]||body);
+  renderStudyBlocks(content,pages[active]||body);
   content.scrollTop=0;
   for(const control of controls){
    control.previous.disabled=active===0;
@@ -99,7 +107,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  '. Class/year: '+litJourney.grade+'. Profile: '+litJourney.track+'. Region: '+(litJourney.region||'unspecified')+
  '. Curriculum: '+(plan.verified?'general framework identified; order is pedagogical':'advisory plan; do not claim an officially verified national syllabus')+
  '. Activity: '+mode+'. '+admissionPolicy+' Explain the lesson fully and directly, without offering a form. '+
- 'For lessons give substantial definitions and explanations, rules and grade-appropriate examples. '+
+ 'For lessons give substantial definitions and explanations, rules and grade-appropriate examples. Use short clear headings, never type dashes/equals as decorative rules. List alternatives a., b., c. and exercises 1., 2., 3., each on its own line. '+
  'For exercises and tests produce at least five clear numbered tasks without exposing their solutions until the learner answers. '+
  'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
  'For an essay or summary provide a complete coherent text, not a template. Never invent quotations or an author attribution. '+
@@ -119,7 +127,8 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
   const text=String(data.reply).trim().slice(0,72000);
   if(/(?:nu am coordonate gps|permite accesul la locație|departure address\/postcode|do not have usable gps)/i.test(text))
     throw Error('wrong_intent');
-  hgDisplayStudyText(out,text);
+  litEnsureTypography();
+  renderStudyBlocks(out,text);
   if(typeof onReady==='function')onReady(text);
   status.textContent=mode==='correction'?
     litSimpleLabel('Răspunsurile au fost evaluate.','Answers checked.'):
