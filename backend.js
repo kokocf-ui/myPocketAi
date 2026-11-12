@@ -8,6 +8,7 @@ import {recallFromSuppliedHistory,groundedHistorySummary} from "./eva_history_re
 import {parseNearbyStreetQuery,geocodeNearbyStreet} from "./nearby_street_geocode.mjs";
 import {isStreetOnlyPlace,parseNamedBusinessInformation,researchNamedBusiness,businessResearchReply} from "./local_business_evidence.mjs";
 import {nearbyUkRegisteredRetailers} from "./uk_food_retailers.mjs";
+import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
 import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
@@ -4459,6 +4460,15 @@ export default {
     // Source-backed news is not a POI lookup, even if a named country or "source" matches a place category.
     let activePlaceRequest=independentNewsSearch?null:placeRequestFrom(message,priorPlaceRequest,typeof data.location_query==="string"?data.location_query.trim().slice(0,160):"");
     if(selectedCandidate&&!independentNewsSearch)activePlaceRequest={category:suppliedCategory,destination:selectedCandidate.query,stars:[1,2,3,4,5].includes(suppliedContext.stars)?suppliedContext.stars:null,central:suppliedContext.central===true,inherited:true,needsDestination:false,selected:selectedCandidate};
+    // The quick-search cards carry an explicit category. A broad word like
+    // "magazine" must not override the user's "small shops" selection.
+    const quickRetailCategory=data.quick_place_search===true&&
+      ['corner_shop','supermarket','shop','confectionery'].includes(String(data.place_category||''))
+      ?String(data.place_category):'';
+    if(quickRetailCategory&&activePlaceRequest){
+      const chosen=placeCategoryRules.find(rule=>rule.key===quickRetailCategory);
+      if(chosen)activePlaceRequest={...activePlaceRequest,category:chosen};
+    }
     if(activePlaceRequest&&!activePlaceRequest.needsDestination)responsePlaceContext={category:activePlaceRequest.category.key,destination:activePlaceRequest.destination,stars:activePlaceRequest.stars||null,central:Boolean(activePlaceRequest.central)};
     const geocodePlace=async query=>{
       const parts=geoQueryParts(query),u=new URL("https://nominatim.openstreetmap.org/search");
@@ -5378,7 +5388,7 @@ export default {
         let geoapifyElements = [];
         const providerFailures = [];
         // v86: launch Photon immediately so its network request overlaps Geoapify.
-        const ukRetailersPromise=['shop','supermarket','corner_shop','market_bakery'].includes(requestedPlaceCategory.key)
+        const ukRetailersPromise=['shop','corner_shop'].includes(requestedPlaceCategory.key)
           ?nearbyUkRegisteredRetailers(latitude,longitude,radius):Promise.resolve([]);
         const photonStartedAt = Date.now();
         const photonRequestPromise = (async () => {
@@ -5459,8 +5469,15 @@ export default {
               const raw = props.datasource && props.datasource.raw && typeof props.datasource.raw === "object" ? props.datasource.raw : {};
               const cats = Array.isArray(props.categories) ? props.categories.join(" ").toLowerCase() : "";
               const key = requestedPlaceCategory.key;
-              if(['shop','supermarket','corner_shop','market_bakery','mall'].includes(key) &&
-                 isStreetOnlyPlace(props.name,props.street||raw['addr:street']||''))return false;
+              if(['shop','supermarket','corner_shop','market_bakery','mall'].includes(key)){
+                if(isStreetOnlyPlace(props.name,props.street||raw['addr:street']||''))return false;
+                if(['shop','supermarket','corner_shop'].includes(key)&&!retailCategoryAccepts(key,{
+                  shop:raw.shop||raw.tags?.shop||'',
+                  categories:props.categories||[],
+                  name:props.name||'',
+                  osmKey:raw.shop?'shop':''
+                }))return false;
+              }
               if (key === "poi") return true;
               // Accommodation is a named establishment, not the street/address
               // line returned by geocoders. Keep apartments and hostels, but
@@ -5518,7 +5535,7 @@ export default {
               const isShop = ["supermarket", "mall", "shop", "market_bakery", "corner_shop"].includes(requestedPlaceCategory.key);
               const amenity = requestedPlaceCategory.key === "fast_food" ? "fast_food" : requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
-              const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: (requestedPlaceCategory.key === "hotel" || isShop) ? String(props.name || "").trim() : (props.name || props.address_line1 || ""), amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "corner_shop" ? (rawTags.shop || "convenience") : requestedPlaceCategory.key === "supermarket" ? "supermarket" : "shop") : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
+              const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: (requestedPlaceCategory.key === "hotel" || isShop) ? String(props.name || "").trim() : (props.name || props.address_line1 || ""), amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (rawTags.shop||raw.shop||(categoryText.includes("commercial.supermarket")?"supermarket":categoryText.includes("commercial.convenience")?"convenience":"shop")) : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? geoapifyDistanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
             if (geoapifyElements.length) {
@@ -5556,7 +5573,9 @@ export default {
               const osmValue = String(properties.osm_value || properties.type || requestedPlaceCategory.key).toLowerCase();
               const isShop = ["supermarket", "mall", "shop", "market_bakery", "corner_shop"].includes(requestedPlaceCategory.key);
               const photonType = (String(properties.type || "") + " " + String(properties.osm_value || "") + " " + String(properties.osm_key || "")).toLowerCase();
-              const photonCategoryMatches = requestedPlaceCategory.key === "poi"
+              const photonRetailMatch=["shop","supermarket","corner_shop"].includes(requestedPlaceCategory.key)
+                ?retailCategoryAccepts(requestedPlaceCategory.key,{shop:properties.osm_key==="shop"?properties.osm_value:"",osmKey:properties.osm_key,name:properties.name,categories:[]}):null;
+              const photonCategoryMatches = photonRetailMatch!==null?photonRetailMatch : requestedPlaceCategory.key === "poi"
                 ? Boolean(properties.name) && coordinates.length >= 2 && !/^(road|street|residential|service|path|track|footway|cycleway)$/i.test(photonType)
                 : requestedPlaceCategory.key === "mall"
                   ? /mall|shopping.?centre|shopping.?center|retail.?park|department.?store/.test(photonType) || /shopping centre|shopping center|mall|retail park/i.test(String(properties.name || ""))
@@ -5610,7 +5629,7 @@ export default {
                 stars: properties.stars || "", image: properties.image || "", wikimedia_commons: properties.wikimedia_commons || "", wikidata:properties.wikidata||"", brand_wikidata:properties["brand:wikidata"]||"",
                 name: properties.name || "",
                 amenity: isShop ? "" : (requestedPlaceCategory.key === "pharmacy" ? "pharmacy" : requestedPlaceCategory.key === "fuel" ? "fuel" : requestedPlaceCategory.key === "parking" ? "parking" : requestedPlaceCategory.key === "car_wash" ? "car_wash" : requestedPlaceCategory.key === "charging" ? "charging_station" : requestedPlaceCategory.key === "fast_food" ? "fast_food" : requestedPlaceCategory.key === "restaurant" ? (/fast_food|fast food/.test(osmValue) ? "fast_food" : /biergarten/.test(osmValue) ? "biergarten" : /pub/.test(osmValue) ? "pub" : /bar/.test(osmValue) ? "bar" : /cafe|coffee/.test(osmValue) ? "cafe" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice.?cream|gelato/.test(osmValue) ? "ice_cream" : /bakery|pastry/.test(osmValue) ? "bakery" : "confectionery") : ""),
-                shop: isShop ? (requestedPlaceCategory.key === "mall" ? "mall" : requestedPlaceCategory.key === "market_bakery" ? (lang === "en" ? "market / bakery" : "market / brutărie") : requestedPlaceCategory.key === "corner_shop" ? (properties.osm_value || "convenience") : requestedPlaceCategory.key === "supermarket" ? "supermarket" : (properties.osm_value || "shop")) : "",
+                shop: isShop ? (properties.osm_key==="shop"?properties.osm_value:"shop") : "",
                 cuisine: properties.cuisine || "",
                 website: properties.website || properties.url || "",
                 phone: properties.phone || "",
