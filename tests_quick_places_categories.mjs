@@ -102,7 +102,7 @@ try {
   const response=await worker.fetch(new Request('https://test.local/api/chat',{
    method:'POST',headers:{'content-type':'application/json'},
    body:JSON.stringify({message,quick_place_search:true,place_category:category,
-    module:'travel',language:'ro',history:[],location:{latitude:51.4775,longitude:0.3007,accuracy:20}})
+    module:category==='car_dealers'?'maps':'travel',language:'ro',history:[],location:{latitude:51.4775,longitude:0.3007,accuracy:20}})
   }),{GEOAPIFY_API_KEY:'test',AI:{run:async()=>{throw Error('No LLM')}}});
   assert.equal(response.status,200);
   const data=await response.json();
