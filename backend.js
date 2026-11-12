@@ -5372,7 +5372,12 @@ export default {
       let activeProviders = [];
       let lastSearchError = null;
       try {
-        const radius = locationSource==='explicit_street_query' ? 1500 : centralAreaRequested ? 2000 : 5000;
+        const sparseCategory=['parking','zoo'].includes(requestedPlaceCategory.key);
+        // A 5km catchment is sensible for parking, not for a rare zoo.
+        // Respect an explicitly requested street/central area instead.
+        const radius=locationSource==='explicit_street_query'?1500:
+          centralAreaRequested?2000:
+          requestedPlaceCategory.key==='zoo'?35000:5000;
         let placesData = null;
         let geoapifyElements = [];
         let geoapifySucceeded = false;
@@ -5390,7 +5395,7 @@ export default {
           :requestedPlaceCategory.key==='fast_food'
           ?nearbyUkRegisteredTakeaways(latitude,longitude,radius):Promise.resolve([]);
         const photonStartedAt = Date.now();
-        const photonRequestPromise = (async () => {
+        const photonRequestPromise = sparseCategory ? Promise.resolve({features:[]}) : (async () => {
           const photonUrl=photonNearbyUrl({latitude,longitude,radius,
             category:requestedPlaceCategory.key,query:requestedPlaceCategory.labelEn});
           const photonHeaders={"Accept":"application/geo+json, application/json",
@@ -5453,11 +5458,11 @@ export default {
             })[requestedPlaceCategory.key] || "catering.restaurant");
             geoapifyUrl.searchParams.set("filter", `circle:${longitude},${latitude},${radius}`);
             geoapifyUrl.searchParams.set("bias", `proximity:${longitude},${latitude}`);
-            geoapifyUrl.searchParams.set("limit", "500");
+            geoapifyUrl.searchParams.set("limit",sparseCategory?"80":"500");
             geoapifyUrl.searchParams.set("apiKey", env.GEOAPIFY_API_KEY);
             const geoapifyResponse = await fetch(geoapifyUrl.toString(), {
               headers: { "Accept": "application/json" },
-              signal: AbortSignal.timeout(6500)
+              signal: AbortSignal.timeout(sparseCategory?4000:6500)
             });
             if (!geoapifyResponse.ok) {
               const errorBody = (await geoapifyResponse.text().catch(() => "")).slice(0, 400);
@@ -5671,7 +5676,7 @@ export default {
               };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? distanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => item && Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
-            activeProviders.push("Photon");
+            if(!sparseCategory)activeProviders.push("Photon");
             placesData = { elements: [...geoapifyElements, ...photonElements] };
             console.info("Pocket AI v96 Photon parallel search completed", JSON.stringify({
               stage: "local_search_provider_ok",
@@ -5723,9 +5728,17 @@ export default {
         if(['parking','zoo'].includes(requestedPlaceCategory.key)&&
            (placesData.elements||[]).length===0){
           const sparseRadius=requestedPlaceCategory.key==='zoo'?35000:radius;
+          const sparseTrace={};
           const mapped=await nearbySparseMapPlaces({
-            latitude,longitude,radius:sparseRadius,category:requestedPlaceCategory.key
+            latitude,longitude,radius:sparseRadius,
+            category:requestedPlaceCategory.key,diagnostics:sparseTrace
           });
+          console.info("Pocket AI v96 sparse POI recovery",JSON.stringify({
+            stage:"sparse_place_recovery",category:requestedPlaceCategory.key,
+            providerStatus:sparseTrace.status||"unknown",cacheHit:sparseTrace.status==="cache_hit",
+            mappedCount:mapped.length,elapsedMs:sparseTrace.elapsedMs||0,
+            geoapifySucceeded,photonSkipped:true
+          }));
           if(mapped.length){
             placesData.elements.push(...mapped);
             activeProviders.push('OpenStreetMap Overpass');
