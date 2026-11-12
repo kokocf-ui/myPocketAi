@@ -3575,11 +3575,12 @@ export default {
         if (env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') {
           try {
             // Keep coordinate commas as path delimiters; encode only free-text destinations once.
-            // TfL hub IDs such as HUBVIC can respond with HTTP 300
-            // (ambiguous station endpoints). Officially verified station
-            // coordinates are unambiguous and work with JourneyResults.
+            // Ambiguous interchange hubs such as HUBVIC return HTTP 300
+            // when used as the JourneyResults destination. For them use
+            // verified coordinates. An exact operator platform/Tube stop ID
+            // such as 940GZZLUVIC is unambiguous and may be used directly.
             const to = Number.isFinite(targetLat) && Number.isFinite(targetLon)
-              ? `${targetLat},${targetLon}`
+              ? (verifiedStopId&&!/^HUB/i.test(verifiedStopId)?verifiedStopId:`${targetLat},${targetLon}`)
               : encodeURIComponent(targetName);
             const from = `${latitude},${longitude}`;
             // Both TfL consumers use one provider adapter.
