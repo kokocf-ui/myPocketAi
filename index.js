@@ -18769,19 +18769,19 @@ document.addEventListener('visibilitychange',()=>{
  if(document.visibilityState==='hidden')saveActiveHistory();
 });
 function pocketHistoryNormalize(s){
- return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-  .toLowerCase().replace(/[^a-z0-9\p{L}]+/gu,' ').replace(/\s+/g,' ').trim();
+ return String(s||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
+  .toLowerCase().replace(/[^a-z0-9\\p{L}]+/gu,' ').replace(/\\s+/g,' ').trim();
 }
 function pocketHistoryRequest(message){
  const q=pocketHistoryNormalize(message);
- return /\b(?:tii minte|mai tii minte|iti amintesti|ce (?:ti am spus|am discutat|am vorbit)|despre ce am glumit|despre ce te am tachinat|remember what|do you remember)\b/.test(q)
-  || /\b(?:cauta|cauti|gaseste|gasesti|verifica|uita te|uitate|consulta|search|find|look up)\b.{0,100}\b(?:istoric\w*|conversati\w*|discuti\w*|mesaj\w*|history|chat\w*)/.test(q)
-  || /\b(?:in|din|from)\s+(?:istoric\w*|conversati\w*|discuti\w*|our chat history)/.test(q)
-  || /\b(?:ce|care|cand|what|when)\b.{0,110}\b(?:mi ai (?:facut |dat )?(?:recomandari|recomandat)|mi ai spus|am discutat|am vorbit|we discussed|you recommended)/.test(q)
-  || /\b(?:ce|care)\s+(?:recomandari|sfaturi|informatii)\b.{0,55}\bmi ai\b/.test(q)
-  || /\b(?:unde|ce|cum)\b.{0,60}\bmi ai (?:recomandat|spus|sugerat)\b/.test(q)
-  || /\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\b.{0,65}\b(?:anterior|mai devreme|inainte|data trecuta|previously|earlier|before)/.test(q)
-  || /\b(?:anterior|mai devreme|inainte|data trecuta|previously|earlier|before)\b.{0,75}\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat|recommended)/.test(q);
+ return /\\b(?:tii minte|mai tii minte|iti amintesti|ce (?:ti am spus|am discutat|am vorbit)|despre ce am glumit|despre ce te am tachinat|remember what|do you remember)\\b/.test(q)
+  || /\\b(?:cauta|cauti|gaseste|gasesti|verifica|uita te|uitate|consulta|search|find|look up)\\b.{0,100}\\b(?:istoric\\w*|conversati\\w*|discuti\\w*|mesaj\\w*|history|chat\\w*)/.test(q)
+  || /\\b(?:in|din|from)\\s+(?:istoric\\w*|conversati\\w*|discuti\\w*|our chat history)/.test(q)
+  || /\\b(?:ce|care|cand|what|when)\\b.{0,110}\\b(?:mi ai (?:facut |dat )?(?:recomandari|recomandat)|mi ai spus|am discutat|am vorbit|we discussed|you recommended)/.test(q)
+  || /\\b(?:ce|care)\\s+(?:recomandari|sfaturi|informatii)\\b.{0,55}\\bmi ai\\b/.test(q)
+  || /\\b(?:unde|ce|cum)\\b.{0,60}\\bmi ai (?:recomandat|spus|sugerat)\\b/.test(q)
+  || /\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\\b.{0,65}\\b(?:anterior|mai devreme|inainte|data trecuta|previously|earlier|before)/.test(q)
+  || /\\b(?:anterior|mai devreme|inainte|data trecuta|previously|earlier|before)\\b.{0,75}\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat|recommended)/.test(q);
 }
 function pocketHistoryTerms(message){
  const ignored=new Set('eva uitate uita rasfoieste consulta este sunt fost exista verificare discutia discutii istoricul conversatiilor conversatie conversatii conversatia conversatiile discutat discutii recomandari recomandat anterior anteriori anterioare devreme trecuta data ultima prefer cum zona vreau eva imi mi ai am ce care cand unde noi nostru noastre noastra despre din in la si iar dar pe cu ca de sa te ti rog cauta cauti gaseste gasesti verifica inca mai cautare istoric discutiile discutie vorbit spus facut tii minte amintesti our the where when what which did you me my i we please find search history chat previous conversation talk talked discussed remember earlier today yesterday'.split(' '));
@@ -18807,8 +18807,8 @@ function pocketRecallPreviousChat(message,allowFollowup=true){
   }
   return [];
  }
- const joke=/\b(?:glumit|glume|gluma|tachinat|joke|joking|teased)\b/.test(q);
- const social=/\b(?:glum|tachin|obraznic|desteapt|cafe|invit|frumoas|amuzant|ras|jok|teas|coffe)/;
+ const joke=/\\b(?:glumit|glume|gluma|tachinat|joke|joking|teased)\\b/.test(q);
+ const social=/\\b(?:glum|tachin|obraznic|desteapt|cafe|invit|frumoas|amuzant|ras|jok|teas|coffe)/;
  const archives=[
   {id:'current',date:'',messages:Array.isArray(state.messages)?state.messages:[],source:'active'},
   ...(Array.isArray(state.history)?state.history:[]).map((item,i)=>({
@@ -18866,7 +18866,7 @@ function pocketLocalHistoryReply(matches){
  return (isRo
   ?'Am verificat conversația curentă și istoricul salvat pe telefon. Am găsit aceste mesaje:'
   :'I checked the current conversation and saved chats on this device. I found these messages:')
-  +'\n\n'+lines.join('\n');
+  +'\\n\\n'+lines.join('\\n');
 }
 function archiveCurrentConversation(){if(!state.messages.length)return;state.history.unshift({id:Date.now(),title:(state.messages.find(m=>m.role==='user')?.text||dialogText('Conversație nouă','New conversation')).slice(0,72),date:new Date().toLocaleString(),messages:state.messages.slice(-40),placeContext:state.placeSearchContext||null,placeResults:state.lastPlaceResults||[],distanceContext:state.distanceSearchContext||null,routeContext:state.routeSearchContext||null,weatherContext:state.weatherSearchContext||null,newsContext:state.newsConversationContext||null});state.history=state.history.slice(0,POCKET_HISTORY_MAX);saveHistory()}
 function renderHistory(){const list=$('historyList');list.innerHTML='';if(!state.history.length){const p=document.createElement('p');p.className='muted';p.textContent=dialogText('Nu există conversații salvate încă.','No saved conversations yet.');list.append(p);return}state.history.forEach(item=>{const row=document.createElement('div');row.className='list-row';const span=document.createElement('span');span.textContent=item.title+' · '+item.date;const btn=document.createElement('button');btn.textContent=dialogText('Deschide','Open');btn.addEventListener('click',()=>{state.messages=Array.isArray(item.messages)?item.messages.slice():[];state.placeSearchContext=item.placeContext||null;state.lastPlaceResults=Array.isArray(item.placeResults)?item.placeResults:[];state.distanceSearchContext=item.distanceContext||null;state.routeSearchContext=item.routeContext||null;state.weatherSearchContext=item.weatherContext||null;state.newsConversationContext=item.newsContext||null;state.lastRoute=null;state.lastRouteOptions=[];messagesEl.innerHTML='';if(!state.messages.length)messagesEl.innerHTML='<div class="empty-state">Conversație goală.</div>';state.messages.forEach(m=>addBubble(m.text,m.role));state.lastReply=[...state.messages].reverse().find(m=>m.role==='assistant')?.text||'';showView('assistant')});row.append(span,btn);list.append(row)})}
