@@ -14,6 +14,7 @@ import {nearbyOpenStreetMapFood} from "./osm_food_places.mjs";
 import {nearbySparseMapPlaces} from "./osm_sparse_places.mjs";
 import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
+import {selectCountryProviders} from "./smart_country_registry.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
@@ -5337,6 +5338,7 @@ export default {
             :await geocodePlace(query));
           latitude=match.latitude;longitude=match.longitude;hasValidLocation=true;
           searchLocationLabel=match.label;
+          responsePlaceContext.verified_country_code=String(match.country_code||match.countryCode||"").toUpperCase();
         } catch(error) {
           if(remoteStreet){
             const name=remoteStreet.street+' din '+remoteStreet.city+
@@ -5398,7 +5400,17 @@ export default {
         const globalPlacesPromise=env.TOMTOM_PLACES_ENABLED==='true'&&env.TOMTOM_API_KEY
          ?globalNearbyPlaces({latitude,longitude,radius,category:requestedPlaceCategory.key,
            apiKey:env.TOMTOM_API_KEY,enabled:true}):Promise.resolve([]);
-        const ukRetailersPromise=['shop','corner_shop'].includes(requestedPlaceCategory.key)
+        // Opt-in country-aware provider selection. A geocoder-confirmed country
+        // takes precedence over GPS and UI language; unknown country stays legacy.
+        const scopedCountry=String(responsePlaceContext?.verified_country_code||'').toUpperCase();
+        const countryRoutingEnabled=env.SMART_COUNTRY_REGISTRY_ENABLED==='true'&&Boolean(scopedCountry);
+        const scopedProviders=countryRoutingEnabled?selectCountryProviders({
+          category:requestedPlaceCategory.key,country:scopedCountry,
+          enabledProviders:['geoapify','photon','uk_food_retailers',
+            ...(env.TOMTOM_PLACES_ENABLED==='true'&&env.TOMTOM_API_KEY?['tomtom_places']:[])]
+        }):null;
+        const useUkRetailSources=!countryRoutingEnabled||scopedProviders.providers.includes('uk_food_retailers');
+        const ukRetailersPromise=useUkRetailSources&&['shop','corner_shop'].includes(requestedPlaceCategory.key)
           ?nearbyUkRegisteredRetailers(latitude,longitude,radius)
           :requestedPlaceCategory.key==='fast_food'
           ?nearbyUkRegisteredTakeaways(latitude,longitude,radius):Promise.resolve([]);
