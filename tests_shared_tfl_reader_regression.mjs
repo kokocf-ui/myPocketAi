@@ -30,8 +30,27 @@ assert.equal(seen.length,1,'Auxiliary TfL query uses the same adapter once');
 assert.equal(seen[0].searchParams.get('mode'),'bus,tube');
 assert.equal(result.journeys.length,3);
 
-result=await requestTfLJourneys({from,to,appKey:'',fetcher:()=>{throw Error('should not fetch')}});
-assert.equal(result.status,'not_configured');
+seen=[];
+result=await requestTfLJourneys({from,to,appKey:'',fetcher:async url=>{
+ seen.push(new URL(url));return Response.json({journeys});
+}});
+assert.equal(result.status,'ok_public');
+assert.equal(result.journeys.length,3);
+assert.equal(seen.length,1,'Unauthenticated TfL mode uses one request');
+assert.equal(seen[0].searchParams.has('app_key'),false);
+
+seen=[];
+result=await requestTfLJourneys({from,to,appKey:'expired',
+ fetcher:async url=>{
+  const u=new URL(url);seen.push(u);
+  return u.searchParams.has('app_key')?
+   new Response('forbidden',{status:403}):Response.json({journeys});
+ }});
+assert.equal(result.status,'ok_public');
+assert.equal(result.journeys.length,3);
+assert.equal(seen.length,2,'Invalid key gets at most one public retry');
+assert.equal(seen[1].searchParams.has('app_key'),false);
+
 
 const backend=readFileSync('backend.js','utf8');
 assert.equal((backend.match(/requestTfLJourneys\(\{/g)||[]).length,2,
