@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {identifyCountry,selectCountryProviders,planMixedTransportSources,classifyCategory,countryCoverage} from './smart_country_registry.mjs';
+import {identifyCountry,selectCountryProviders,planMixedTransportSources,classifyCategory,countryCoverage,europeanCountrySources,EUROPE_COUNTRIES} from './smart_country_registry.mjs';
 assert.equal(identifyCountry('România'),'RO');
 assert.equal(identifyCountry('Italia'),'IT');
 assert.deepEqual(selectCountryProviders({category:'restaurant',country:'Romania',enabledProviders:['geoapify','photon','tfl']}).providers,['geoapify','photon']);
@@ -28,4 +28,16 @@ assert.equal(countryCoverage('Italia').country,'IT');
 assert.equal(identifyCountry('Japan'),'JP');
 assert.deepEqual(selectCountryProviders({category:'pharmacy',country:'Japan',enabledProviders:['photon','uk_food_retailers']}).providers,['photon']);
 assert.equal(identifyCountry('Brazil'),'BR');
-console.log('Country registry checks passed');
+assert.ok(EUROPE_COUNTRIES.length>=40);
+for(const code of EUROPE_COUNTRIES){
+ const catalog=europeanCountrySources(code);
+ assert.equal(catalog.country,code);
+ assert.ok(catalog.general.length>=2);
+ assert.ok(catalog.transport.length>=1);
+ assert.equal(catalog.status,'catalog_only');
+}
+assert.ok(europeanCountrySources('RO').transport.some(x=>x.id==='ro_bilo_evidence'));
+assert.ok(europeanCountrySources('FR').transport.some(x=>x.id==='fr_nap'));
+assert.ok(europeanCountrySources('DE').transport.some(x=>x.id==='de_delfi'));
+assert.equal(selectCountryProviders({country:'Romania',category:'restaurant',enabledProviders:['fr_nap','photon']}).providers.join(','),'photon');
+console.log('Country registry + Europe catalog checks passed');
