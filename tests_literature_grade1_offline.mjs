@@ -106,7 +106,7 @@ const theory=all(workspace).find(x=>x.tagName==='BUTTON'&&x.textContent==='Teori
 assert.ok(theory,'Real Grade I workspace has Theory');
 theory.onclick();
 await Promise.resolve();
-const reader=body.children.at(-1);
+const reader=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
 assert.equal(reader?.className,'lit-reader-overlay','Reader overlay opens for offline Grade I lesson');
 assert.equal(reader.children[0]?.attrs.role,'dialog');
 assert.match(reader.textContent,/Ascultare, conversație și exprimare/);
