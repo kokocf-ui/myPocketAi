@@ -14,7 +14,8 @@ const tradingNameFromAddress=row=>{
  if(alias.toLowerCase()===registered.toLowerCase())return '';
  return alias;
 };
-export async function nearbyUkRegisteredRetailers(latitude,longitude,radius,{fetcher=fetch}={}){
+async function nearbyUkFoodBusinesses(latitude,longitude,radius,{fetcher=fetch}={},category='corner_shop'){
+ const takeaway=category==='fast_food';
  if(!Number.isFinite(latitude)||!Number.isFinite(longitude)||latitude<49.7||latitude>59.2||longitude< -8.8||longitude>2.2)return [];
  if(!Number.isFinite(radius)||radius<100||radius>10000)return [];
  const url=new URL('https://api.ratings.food.gov.uk/Establishments');
@@ -22,7 +23,7 @@ export async function nearbyUkRegisteredRetailers(latitude,longitude,radius,{fet
  url.searchParams.set('longitude',String(longitude));
  url.searchParams.set('maxDistanceLimit',String(Math.min(6.1,radius/1609.344).toFixed(2)));
  // 4613 is the FSA "Retailers - other" group (small food retailers).
- url.searchParams.set('businessTypeId','4613');
+ url.searchParams.set('businessTypeId',takeaway?'7844':'4613');
  url.searchParams.set('pageNumber','1');
  url.searchParams.set('pageSize','250');
  try{
@@ -40,7 +41,7 @@ export async function nearbyUkRegisteredRetailers(latitude,longitude,radius,{fet
    if(Number.isFinite(totalPages)&&totalPages>=1?page>=totalPages:batch.length<250)break;
   }
   return rows.flatMap(item=>{
-   if(!/retailer|shop|store|supermarket/i.test(String(item.BusinessType||'')))return [];
+   if(!(takeaway?/takeaway|sandwich|fast.?food/i:/retailer|shop|store|supermarket/i).test(String(item.BusinessType||'')))return [];
    const lat=Number(item.geocode?.latitude),lon=Number(item.geocode?.longitude);
    if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180||meters(latitude,longitude,lat,lon)>radius)return [];
    const registeredName=String(item.BusinessName||'').trim();
@@ -53,11 +54,16 @@ export async function nearbyUkRegisteredRetailers(latitude,longitude,radius,{fet
    const street=rawAddress.find(x=>/\b(?:road|street|lane|avenue|drive|way|close|crescent|place|high st|rd)\b/i.test(x))||'';
    const city=String(item.AddressLine4||item.AddressLine3||'').trim();
    return [{lat,lon,tags:{
-    name,shop:'convenience',street,city,postcode,
+    name,shop:takeaway?'':'convenience',amenity:takeaway?'fast_food':'',street,city,postcode,
     fsa_id:id,fsa_registered_name:registeredName,fsa_trading_name:tradingName,
-    fsa_source:'Food Standards Agency food retailer register',
+    fsa_source:takeaway?'Food Standards Agency takeaway register':'Food Standards Agency food retailer register',
     fsa_address:rawAddress.concat(postcode).join(', ')
    }}];
   });
  }catch{return []}
 }
+
+// FSA takeover category 7844 supplements UK POI sources. An inspection record
+// does not prove a shop is open or that a particular dish is on its menu.
+export const nearbyUkRegisteredRetailers=(lat,lon,radius,options={})=>nearbyUkFoodBusinesses(lat,lon,radius,options,'corner_shop');
+export const nearbyUkRegisteredTakeaways=(lat,lon,radius,options={})=>nearbyUkFoodBusinesses(lat,lon,radius,options,'fast_food');

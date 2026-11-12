@@ -7,7 +7,7 @@ import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} 
 import {recallFromSuppliedHistory,groundedHistorySummary} from "./eva_history_recall.mjs";
 import {parseNearbyStreetQuery,geocodeNearbyStreet} from "./nearby_street_geocode.mjs";
 import {isStreetOnlyPlace,parseNamedBusinessInformation,researchNamedBusiness,businessResearchReply} from "./local_business_evidence.mjs";
-import {nearbyUkRegisteredRetailers} from "./uk_food_retailers.mjs";
+import {nearbyUkRegisteredRetailers,nearbyUkRegisteredTakeaways} from "./uk_food_retailers.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
@@ -5396,7 +5396,9 @@ export default {
          ?globalNearbyPlaces({latitude,longitude,radius,category:requestedPlaceCategory.key,
            apiKey:env.TOMTOM_API_KEY,enabled:true}):Promise.resolve([]);
         const ukRetailersPromise=['shop','corner_shop'].includes(requestedPlaceCategory.key)
-          ?nearbyUkRegisteredRetailers(latitude,longitude,radius):Promise.resolve([]);
+          ?nearbyUkRegisteredRetailers(latitude,longitude,radius)
+          :requestedPlaceCategory.key==='fast_food'
+          ?nearbyUkRegisteredTakeaways(latitude,longitude,radius):Promise.resolve([]);
         const photonStartedAt = Date.now();
         const photonRequestPromise = (async () => {
           const photonUrl = new URL("https://photon.komoot.io/api/");
@@ -5421,7 +5423,7 @@ export default {
           try {
             const geoapifyUrl = new URL("https://api.geoapify.com/v2/places");
             geoapifyUrl.searchParams.set("categories", ({
-              cafe: "catering.cafe", lounge: "catering.pub,catering.bar,catering.biergarten,catering.cafe", zoo: "entertainment.zoo,tourism.attraction", stadium: "entertainment.stadium,leisure.stadium", restaurant: "catering.restaurant", fast_food: "catering.fast_food",
+              cafe: "catering.cafe", lounge: "catering.pub,catering.bar,catering.biergarten,catering.cafe", zoo: "entertainment.zoo,tourism.attraction", stadium: "entertainment.stadium,leisure.stadium", restaurant: "catering.restaurant", fast_food: "catering.fast_food,catering.restaurant",
               market_bakery: "commercial.supermarket,commercial.convenience,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery", confectionery: "catering.ice_cream,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
               poi: "catering,commercial,education,healthcare,leisure,entertainment,service,public_transport,parking,accommodation,tourism,building",
               supermarket: "commercial.supermarket,commercial.convenience,commercial.food_and_drink",
@@ -5517,7 +5519,7 @@ export default {
                 zoo: /zoo/.test(cats) || raw.tourism === "zoo",
                 stadium: /stadium/.test(cats) || raw.leisure === "stadium",
                 restaurant: (/(^|\s)catering\.restaurant(\s|$)/.test(cats) || raw.amenity === "restaurant") && !/catering\.(cafe|pub|bar|fast_food|biergarten)/.test(cats),
-                fast_food: /catering\.fast_food/.test(cats) || raw.amenity === "fast_food",
+                fast_food: /catering\.fast_food/.test(cats) || raw.amenity === "fast_food" || (/catering\.restaurant/.test(cats) && /(?:kebab|shawarma|shaorma|doner|pizza|pizzeria|chicken|burger|takeaway|takeout|sandwich|wrap|fish.?and.?chips|fried.?chicken|grill)/i.test([props.name,raw.cuisine,raw.tags?.cuisine,props.catering?.cuisine].filter(Boolean).join(" "))),
                 market_bakery: /commercial\.(supermarket|convenience)|commercial\.food_and_drink\.(bakery|confectionery|grocery|greengrocer)/.test(cats) || /^(supermarket|convenience|grocery|general|greengrocer|newsagent|bakery|pastry|confectionery)$/.test(String(raw.shop || "")), confectionery: /catering\.(ice_cream|confectionery|bakery)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(ice_cream|confectionery|bakery|pastry)$/.test(String(raw.amenity || "")) || /^(bakery|pastry|confectionery|ice_cream)$/.test(String(raw.shop || "")),
                 pub: /catering\.(pub|bar|biergarten)/.test(cats) || /^(pub|bar|biergarten)$/.test(String(raw.amenity || "")),
                 transport: /public_transport|railway\.(station|halt|tram_stop)|bus\.stop/.test(cats) || /^(station|halt|tram_stop|platform)$/.test(String(raw.railway || "")) || /^(station|stop_position|platform)$/.test(String(raw.public_transport || "")) || raw.amenity === "bus_station",
@@ -5617,7 +5619,7 @@ export default {
                 : requestedPlaceCategory.key === "cafe"
                   ? /cafe|coffee_shop|tea_room|tearoom/.test(photonType) || /\b(cafe|coffee|tearoom|tea room)\b/i.test(String(properties.name||""))
                 : requestedPlaceCategory.key === "fast_food"
-                  ? /fast.?food|takeaway|burger|kebab|pizza/.test(photonType)
+                  ? /fast.?food|takeaway|burger|kebab|pizza/.test(photonType) || (/\brestaurant\b/.test(photonType) && /(?:kebab|shawarma|shaorma|doner|pizza|pizzeria|chicken|burger|takeaway|sandwich|wrap|fish.?and.?chips|grill)/i.test([properties.name,properties.cuisine].filter(Boolean).join(" ")))
                 : requestedPlaceCategory.key === "restaurant"
                   ? /restaurant/.test(photonType) && !/cafe|coffee|tearoom|tea_room|pub|bar|fast.?food|food.?court/.test(photonType)
                 : requestedPlaceCategory.key === "confectionery"
@@ -5688,7 +5690,7 @@ export default {
         const fsaRows=await ukRetailersPromise;
         if(fsaRows.length){
           placesData={elements:[...(placesData?.elements||[]),...fsaRows]};
-          activeProviders.push("UK Food Standards Agency retailers");
+          activeProviders.push(requestedPlaceCategory.key==="fast_food"?"UK Food Standards Agency takeaways":"UK Food Standards Agency retailers");
         }
         if (!placesData) placesData = { elements: [] };
         const elements = placesData.elements;
@@ -5821,7 +5823,7 @@ export default {
           const countNote=totalUniqueResults>displayedPlaces.length?(lang==="en"?` Showing ${displayedPlaces.length} results.`:` Afișez ${displayedPlaces.length} rezultate.`):"";
           const radiusNote=lang==="en"?`Search radius: ${radius/1000} km.`:`Raza căutării: ${radius/1000} km.`;
           const incompleteNote=unclassifiedCount?(lang==="en"?`${unclassifiedCount} additional mapped ${unclassifiedCount===1?"place has":"places have"} no confirmable star classification and ${unclassifiedCount===1?"was":"were"} excluded.`:`${unclassifiedCount===1?"O altă locație din hartă nu are o clasificare în stele confirmabilă și a fost exclusă.":"Alte "+unclassifiedCount+" locații din hartă nu au o clasificare în stele confirmabilă și au fost excluse."}`):"";
-          const registryNote=activeProviders.includes("UK Food Standards Agency retailers")?(lang==="en"?"Some food retailer records come from the official UK FSA register; listing does not confirm the shop is currently open.":"Unele magazine alimentare provin din registrul oficial FSA din UK; înscrierea nu confirmă că sunt deschise în acest moment."):"";
+          const registryNote=activeProviders.some(p=>p.startsWith("UK Food Standards Agency"))?(lang==="en"?"Some food businesses are from the UK FSA register. Registration does not confirm current hours or menu.":"Unele localuri provin din registrul oficial FSA din UK; înregistrarea nu confirmă programul sau meniul actual."):"";
           const notes=[radiusNote,centerNote.trim(),starsNote.trim(),incompleteNote,ratingNote.trim(),registryNote,lang==="en"?"Distances are approximate, in a straight line from the search reference point.":"Distanțele sunt aproximative, în linie dreaptă față de punctul de referință al căutării."].filter(Boolean).join("\n");
           const reply=heading+countNote+"\n\n"+lines.join("\n\n")+"\n\n"+notes;
           return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, image_url: p.imageUrl || "", wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:radius, requested_stars:requestedStars, unclassified_count:unclassifiedCount, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
