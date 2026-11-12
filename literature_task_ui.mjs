@@ -1,6 +1,7 @@
 import {splitLiteraturePages} from './literature_reader_pagination.mjs';
 import {parseStudyBlocks,renderStudyBlocks,STUDY_TYPOGRAPHY_CSS} from './literature_study_typography.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+import {literatureOfflineActivity} from './literature_offline_activity.mjs';
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\n'+literatureOfflineActivity.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
 
 function litSimpleNode(tag,text='',className=''){const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;return el}
 function litSimpleButton(text,fn){const b=litSimpleNode('button',text,'lit-activity-button');b.type='button';b.onclick=fn;return b}
@@ -94,6 +95,35 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  const language=LIT_LANGUAGES.find(x=>x[0]===answerLanguage)?.[2]||
   (typeof Intl!=='undefined'&&Intl.DisplayNames
     ?new Intl.DisplayNames(['en'],{type:'language'}).of(answerLanguage):'English');
+ const currentTopic=typeof litCurrentTopic==='function'?litCurrentTopic():null;
+ const key=String(currentTopic?.[0]||litJourney.topic||'');
+ const availableNotes=typeof LIT_OFFLINE_THEORY_DATA==='object'?
+  (LIT_OFFLINE_THEORY_DATA[key]||LIT_OFFLINE_THEORY_DATA[litJourney.branch]):null;
+ const localMaterial=(litJourney.country==='RO'&&['ro','en'].includes(answerLanguage))
+  ?literatureOfflineActivity({topicKey:key,title:litSimpleLabel(currentTopic?.[1]||'Lecție',currentTopic?.[2]||'Lesson'),
+   mode,grade:litJourney.grade,language:answerLanguage,notes:availableNotes}):null;
+ const present=(material,local=false)=>{
+  if(controller.signal.aborted||!out.isConnected||serial!==litSimpleSerial||
+   snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
+  const text=String(material||'').trim().slice(0,72000);
+  if(!text)return;
+  litEnsureTypography();renderStudyBlocks(out,text);
+  if(typeof onReady==='function')onReady(text);
+  status.textContent=local?
+   litSimpleLabel('Material local disponibil. Funcționează fără AI și fără localizare.',
+    'Local study material is available without AI or location.'):
+   (mode==='correction'?litSimpleLabel('Răspunsurile au fost evaluate.','Answers checked.'):
+   litSimpleLabel('Materialul este afișat. Poți salva PDF sau imprima.','Material displayed. You can save or print.'));
+  out.scrollIntoView({behavior:'auto',block:'nearest'});
+ };
+ // Grade I Romanian basics are authored and instantly available, independent of
+ // online inference quotas. These examples are not asserted to be official tests.
+ if(localMaterial&&String(litJourney.grade)==='1'&&mode!=='correction'){
+  try{present(localMaterial.text,true)}finally{
+   if(serial===litSimpleSerial){litJourney.busy=false;litSimpleAbort=null}
+  }
+  return;
+ }
  const curriculumLanguage=LIT_LANGUAGES.find(x=>x[0]===litJourney.language)?.[2]||
   litJourney.language||'the original study language';
  const admissionPolicy=isHungarianAdmission
@@ -121,26 +151,28 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
    signal:controller.signal});
   const data=await response.json();
   if(!response.ok||data.status!=='success'||data.education_subject!==apiSubject||
-     typeof data.reply!=='string'||!data.reply.trim())throw Error('no_educational_reply');
+     typeof data.reply!=='string'||!data.reply.trim())throw Error(String(data.error||('http_'+response.status)));
   if(controller.signal.aborted||!out.isConnected||serial!==litSimpleSerial||
      snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
-  const text=String(data.reply).trim().slice(0,72000);
+  const text=String(data.reply).trim();
   if(/(?:nu am coordonate gps|permite accesul la locație|departure address\/postcode|do not have usable gps)/i.test(text))
-    throw Error('wrong_intent');
-  litEnsureTypography();
-  renderStudyBlocks(out,text);
-  if(typeof onReady==='function')onReady(text);
-  status.textContent=mode==='correction'?
-    litSimpleLabel('Răspunsurile au fost evaluate.','Answers checked.'):
-    litSimpleLabel('Materialul este afișat. Poți salva PDF sau imprima.','Material displayed. You can save or print.');
-  out.scrollIntoView({behavior:'auto',block:'nearest'});
+   throw Error('wrong_intent');
+  present(text,false);
  }catch(error){
   if(controller.signal.aborted||serial!==litSimpleSerial)return;
-  status.textContent=litSimpleLabel(
-    'Materialul nu a putut fi generat. Încearcă din nou; nu este necesară localizarea telefonului.',
-    'The lesson could not be generated. Try again; no phone location is required.');
-  if(!out.textContent.trim())out.append(litSimpleNode('p',
-    litSimpleLabel('Momentan nu există un răspuns educațional verificabil.','No usable educational response is available yet.')));
+  if(localMaterial?.text){
+   present(localMaterial.text,true);
+  }else{
+   const code=String(error?.message||'');
+   const quota=code==='ai_quota_exceeded';
+   const unavailable=code==='education_generation_unavailable'||code==='education_text_empty'||code==='Failed to fetch';
+   status.textContent=quota?
+    litSimpleLabel('Limita serviciului AI a fost atinsă. Materialul online nu poate fi generat momentan.','AI usage limit reached; online material is temporarily unavailable.'):
+    unavailable?litSimpleLabel('Serviciul AI nu a răspuns. Încearcă din nou mai târziu.','The AI service did not respond. Try again later.'):
+    litSimpleLabel('Nu s-a putut obține un răspuns educațional valid. Încearcă din nou.','No valid educational response was returned. Please try again.');
+   if(!out.textContent.trim())out.append(litSimpleNode('p',
+    litSimpleLabel('Acest material necesită un răspuns al serviciului AI. Nu au fost generate explicații inventate.','This material requires an AI response. No made-up lesson is shown.')));
+  }
  }finally{
   if(serial===litSimpleSerial){litJourney.busy=false;litSimpleAbort=null}
  }
