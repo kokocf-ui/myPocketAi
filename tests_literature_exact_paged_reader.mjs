@@ -86,10 +86,10 @@ for(const wording of ['Mihai Eminescu – Luceafărul','Luceafărul — Mihai Em
 
 // This is the real public-domain poem, not AI-generated text/metadata.
 assert.equal(LUCEAFARUL_STANZAS.length,98);
-assert.equal(LUCEAFARUL_STANZAS.flatMap(stanza=>stanza.split('\\n')).length,392);
+assert.equal(LUCEAFARUL_STANZAS.flatMap(stanza=>stanza.split('\n')).length,392);
 assert.equal(LUCEAFARUL_FACTS.standardStanzas,98);
 assert.equal(LUCEAFARUL_SECTIONS.length,7);
-assert.equal(LUCEAFARUL_SECTIONS.map(s=>s.text.split('\\n\\n').length).reduce((a,b)=>a+b,0),98);
+assert.equal(LUCEAFARUL_SECTIONS.map(s=>s.text.split('\n\n').length).reduce((a,b)=>a+b,0),98);
 const poem=VERIFIED_LITERARY_AUTHORS.find(x=>x.name==='Mihai Eminescu').works[0];
 assert.equal(poem.sections.length,7,'Verified text must be embedded with the work');
 assert.ok(poem.sections.every(section=>section.rightsVerified===true&&section.license));
