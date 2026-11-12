@@ -5644,8 +5644,11 @@ export default {
             providerFailures.push(photonFailure);
             console.warn("Pocket AI v96 Photon parallel search failed", JSON.stringify({ stage: "local_search_fallback_error", ...photonFailure }));
             if (!geoapifyElements.length) {
-              const finalError = Object.assign(photonError || new Error("All local-search providers failed"), { providerFailures });
-              throw finalError;
+              const recovered=await ukRetailersPromise;
+              if(!recovered.length){
+                const finalError = Object.assign(photonError || new Error("All local-search providers failed"), { providerFailures });
+                throw finalError;
+              }
             }
             placesData = { elements: geoapifyElements };
           }
