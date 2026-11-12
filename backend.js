@@ -5445,7 +5445,7 @@ export default {
               supermarket: "commercial.supermarket,commercial.convenience,commercial.food_and_drink",
               corner_shop: "commercial",
               shop: "commercial",
-              shopping_fashion: "commercial.shopping_mall,commercial.department_store,commercial.clothing,commercial.bag",
+              shopping_fashion: "commercial.shopping_mall,commercial.clothing,commercial.bag,commercial.jewelry",
               beauty_services: "service.beauty",
               home_goods: "commercial.houseware_and_hardware,commercial.furniture_and_interior.curtain,commercial.furniture_and_interior.carpet",
               appliances: "commercial.elektronics,commercial.department_store",
@@ -5534,7 +5534,7 @@ export default {
               const checks = {
                 supermarket: /supermarket|convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(supermarket|convenience|grocery|general|greengrocer|newsagent)$/.test(String(raw.shop || "")),
                 corner_shop: /commercial\.convenience|food_and_drink\.(grocery|greengrocer)/.test(cats) || /^(convenience|grocery|general|greengrocer|newsagent|kiosk|deli|food|butcher|seafood|farm|dairy)$/.test(String(raw.shop || "")),
-                shopping_fashion: /shopping_mall|department_store|commercial\.clothing|commercial\.bag/.test(cats) || /^(mall|department_store|clothes|shoes|fashion_accessories|bag|jewelry|jewellery)$/.test(String(raw.shop||"")),
+                shopping_fashion: /shopping_mall|commercial\.clothing|commercial\.bag|commercial\.jewelry/.test(cats) || /^(mall|clothes|shoes|fashion_accessories|bag|jewelry|jewellery)$/.test(String(raw.shop||"")),
                 beauty_services: /service\.beauty/.test(cats) || /^(hairdresser|barber|beauty|massage|spa|nail_salon|cosmetics|tattoo)$/.test(String(raw.shop||"")),
                 home_goods: /^(houseware|homeware|kitchenware|interior_decoration|bedlinen|curtain|carpet|lighting)$/.test(String(raw.shop||"")) || /commercial\.furniture_and_interior\.(curtain|carpet|lighting)/.test(cats) || (/commercial\.houseware_and_hardware/.test(cats) && !/commercial\.houseware_and_hardware\.building_materials/.test(cats) && !/^(hardware|doityourself|building_materials|garden_centre)$/.test(String(raw.shop||""))),
                 appliances: (() => {
@@ -5647,7 +5647,7 @@ export default {
                   })
                 : ['shopping_fashion','beauty_services','home_goods','appliances','furniture','diy_garden'].includes(requestedPlaceCategory.key)
                   ? ({
-                    shopping_fashion:/mall|department_store|clothes|shoes|fashion_accessories|bag|jewell?ery/,
+                    shopping_fashion:/mall|clothes|shoes|fashion_accessories|bag|jewell?ery/,
                     beauty_services:/hairdresser|barber|beauty|nail_salon|massage|spa/,
                     home_goods:/houseware|homeware|kitchenware|interior_decoration|bedlinen|curtain|carpet|lighting/,
                     appliances:/appliance|electronics|electrical/,
