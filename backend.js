@@ -2973,6 +2973,7 @@ export default {
     if (roTransitQuery || explicitMixedJourney || (!explicitCarRoute && (publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)))) {
       const transitStartedAt = Date.now();
       const transportErrors = {};
+      const tflChecks={attempts:[],rawJourneys:0,endpointAccepted:0,finalAccepted:0,requestStatus:'not_attempted'};
       let effectiveDepartureAt=null;
       let departureAt=null;
       const transitOptions = [];
@@ -3358,7 +3359,9 @@ export default {
         // stations themselves, even when users omit the word "station".
         // Official operator evidence takes precedence over nearby businesses.
         const londonQualifiedName=String(targetName).match(/^([\p{L} '&.-]{4,80}),\s*(?:london|londra|greater london|england|uk)$/iu);
-        const tryVerifiedStation=explicitStationWord||
+        const londonVictoriaImplicit=/^victoria(?:\s*,\s*london)?$/i.test(String(targetName).trim())&&
+          isTfLLondonCorridorPoint(latitude,longitude);
+        const tryVerifiedStation=explicitStationWord||londonVictoriaImplicit||
           Boolean(cityFirstStation&&cityFirstStation[1].trim().split(/\s+/).length>=2)||
           Boolean(londonQualifiedName&&londonQualifiedName[1].trim().split(/\s+/).length>=2);
         const unqualifiedStation=/\b(station|underground|tube|metro|railway)\b/i.test(requestedStationName)&&! /\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|paris|france|berlin|germany|rome|italy|madrid|spain|canada|australia)\b/i.test(requestedStationName);
@@ -3569,7 +3572,7 @@ export default {
             provider_status:{tfl:'outside_london_corridor',motis:transportErrors.motis||null,transcapi:transportErrors.transcapi||'not_attempted'},
             transit_departure_at:departureAt,reason:'national_public_transport_not_verified',ai_connected:Boolean(env.AI)});
         }
-        if (env.TFL_APP_KEY) {
+        if (env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') {
           try {
             // Keep coordinate commas as path delimiters; encode only free-text destinations once.
             const to = Number.isFinite(targetLat) && Number.isFinite(targetLon)
@@ -3583,6 +3586,11 @@ export default {
               departureAt:effectiveDepartureAt,requestedCount:requestedOptionsCount
             });
             const tj={journeys:tflData.journeys};
+            tflChecks.requestStatus=tflData.status;
+            tflChecks.attempts=(tflData.attempts||[]).slice(0,5).map(a=>({
+              preference:a.preference,status:a.status,public:Boolean(a.public),count:a.count||0
+            }));
+            tflChecks.rawJourneys=tj.journeys.length;
             if(!tj.journeys.length)transportErrors.tfl=tflData.status;
             // Decode TfL's encoded polyline geometry (precision 5) for map rendering.
             const decodeTfLPolyline = (encoded) => {
@@ -3634,6 +3642,7 @@ export default {
               return Boolean(actual&&((desired&&actual===desired)||(resolved&&actual===resolved)));
             });
             transitOptions.splice(0,transitOptions.length,...endpointVerified);
+            tflChecks.endpointAccepted=endpointVerified.length;
             if(beforeEndpointFilter&&!endpointVerified.length)transportErrors.tfl="destination_endpoint_not_verified";
             // v117: preserve useful TfL alternatives, rank complete journeys and avoid over-filtering.
             // TfL may return only one or two journeys; never fabricate missing services.
@@ -3704,6 +3713,7 @@ export default {
               return aEnd===null&&bEnd!==null?1:aEnd!==null&&bEnd===null?-1:0;
             });
             transitOptions.splice(0,transitOptions.length,...selected);
+            tflChecks.finalAccepted=selected.length;
             if (!transitOptions.length) transportErrors.tfl ||= "no_journeys_returned";
           } catch (e) { transportErrors.tfl = String(e && e.message || "request_failed").slice(0,100); }
         } else transportErrors.tfl = "TFL_APP_KEY_missing";
@@ -3825,10 +3835,10 @@ export default {
           reply = lang === "en" ? `I couldn't obtain a confirmed public-transport journey from TfL for ${targetName} right now. I have not substituted a guessed route. Please try a destination station or postcode.` : `Nu am putut obține acum de la TfL o călătorie confirmată cu transportul public până la ${targetName}. Nu am înlocuit-o cu un traseu inventat. Încearcă numele unei stații sau un cod poștal.`;
         }
         // Supplementary provider checks remain in structured metadata, outside the itinerary.
-        const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl|| (env.TFL_APP_KEY?"ok":"not_configured"),bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
+        const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflChecks, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl||tflChecks.requestStatus,bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
         if (transportErrors.tfl || transportErrors.bods || transportErrors.rtt || transportErrors.rtt_services || transportErrors.geoapify) console.warn("Pocket AI v96 transit provider diagnostics", JSON.stringify(transitDiagnostics));
         else console.info("Pocket AI v96 transit provider summary", JSON.stringify(transitDiagnostics));
-        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:annotateTransportJourneys([transitOptions.reduce((best,j)=>!best||(Number(j.durationMinutes)||Infinity)<(Number(best.durationMinutes)||Infinity)?j:best,null)].filter(Boolean),lang)[0]||null,requested_transit_count:requestedOptionsCount,transit:annotateTransportJourneys(transitOptions,lang),transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",transit_departure_at:departureAt,provider_status:{tfl:transportErrors.tfl?"unavailable":(env.TFL_APP_KEY?"queried":"not_configured"),bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:annotateTransportJourneys([transitOptions.reduce((best,j)=>!best||(Number(j.durationMinutes)||Infinity)<(Number(best.durationMinutes)||Infinity)?j:best,null)].filter(Boolean),lang)[0]||null,requested_transit_count:requestedOptionsCount,transit:annotateTransportJourneys(transitOptions,lang),transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",transit_departure_at:departureAt,provider_status:{tfl:transportErrors.tfl?"unavailable":tflChecks.requestStatus,bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
       } catch (e) {
         console.warn("Pocket AI v96 transit-first branch failed", String(e && e.message || e).slice(0,180));
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:lang === "en" ? "The public-transport request could not be completed right now. No unverified route was supplied; try again or specify a station/postcode." : "Cererea de transport public nu a putut fi completată acum. Nu am afișat un traseu neverificat; încearcă din nou sau precizează o stație/un cod poștal.",route_available:false,transit_available:false,ai_connected:Boolean(env.AI)});
@@ -4286,7 +4296,7 @@ export default {
           let reply=lang === "en" ? `Walking route to ${target.display_name}: about ${km} km, around ${formatJourneyDurationMinutes(mins,lang)}. The line on the map shows the pedestrian route. Estimated time can vary with pace and local conditions.` : `Rută pietonală până la ${target.display_name}: aproximativ ${km} km, cam ${formatJourneyDurationMinutes(mins,lang)}. Linia de pe hartă arată traseul pe jos. Durata este estimativă și depinde de ritm și de condițiile locale.`;
           if(routeSteps.length) reply += (lang === "en" ? "\n\nWalking directions:\n" : "\n\nIndicații pentru mersul pe jos:\n") + routeSteps.map(step=>step.text).join("\n");
           let transit=null;
-          if(env.TFL_APP_KEY){
+          if(env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false'){
             try {
               const tflData=await requestTfLJourneys({
                 from:`${latitude},${longitude}`,to:`${destLat},${destLon}`,
