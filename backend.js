@@ -22,6 +22,7 @@ import {planPresentation} from "./presentation.mjs";
 export {PocketCommunicationHub} from "./pocket_communication_hub.mjs";
 import {hasAssistantRepetitionLoop} from "./ai_response_quality.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
+import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
 import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints,groupRomanianJourneys} from "./ro_transport_mode_policy.mjs";
@@ -3574,53 +3575,14 @@ export default {
               ? (verifiedStopId || `${targetLat},${targetLon}`)
               : encodeURIComponent(targetName);
             const from = `${latitude},${longitude}`;
-            const tflUrl = new URL(`https://api.tfl.gov.uk/Journey/JourneyResults/${from}/to/${to}`);
-            tflUrl.searchParams.set("nationalSearch", "true");
-            tflUrl.searchParams.set("alternativeMetro", "true");
-            tflUrl.searchParams.set("alternativeRoute", "true");
-            tflUrl.searchParams.set("maxWalkingMinutes", "20");
-            if(effectiveDepartureAt){
-              // TfL expects date/time local to the London departure timezone.
-              const ukParts=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{
-                timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit',
-                hour:'2-digit',minute:'2-digit',hourCycle:'h23'
-              }).formatToParts(new Date(effectiveDepartureAt)).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
-              tflUrl.searchParams.set('date',ukParts.year+ukParts.month+ukParts.day);
-              tflUrl.searchParams.set('time',ukParts.hour+ukParts.minute);
-              tflUrl.searchParams.set('timeIs','Departing');
-            }
-            tflUrl.searchParams.set("maxWalkingMinutesTransfer", "12");
-            tflUrl.searchParams.set("journeyPreference", "LeastTime");
-            tflUrl.searchParams.set("app_key", env.TFL_APP_KEY);
-            if (env.TFL_APP_ID) tflUrl.searchParams.set("app_id", env.TFL_APP_ID);
-            // v119: request different route preferences to discover actual alternatives.
-            const preferences=["leasttime","leastinterchange","leastwalking"];
-            const responses=await Promise.allSettled(preferences.map(async preference=>{
-              const url=new URL(tflUrl.toString());url.searchParams.set("journeyPreference",preference);
-              const response=await fetch(url.toString(),{headers:{"Accept":"application/json"},signal:AbortSignal.timeout(12000)});
-              if(!response.ok)throw new Error(preference+": HTTP "+response.status);
-              return response.json();
-            }));
-            const successful=responses.filter(x=>x.status==="fulfilled").map(x=>x.value);
-            // A valid geocoded destination may be reachable even if the three
-            // default preferences return no journeys. Retry the same verified
-            // coordinates with more flexible walking, never a guessed endpoint.
-            if(!successful.some(x=>Array.isArray(x.journeys)&&x.journeys.length)){
-              try{
-                const retryUrl=new URL(tflUrl.toString());
-                retryUrl.searchParams.set("journeyPreference","leasttime");
-                retryUrl.searchParams.set("maxWalkingMinutes","35");
-                retryUrl.searchParams.set("maxWalkingMinutesTransfer","20");
-                retryUrl.searchParams.delete("alternativeRoute");
-                const retryResponse=await fetch(retryUrl.toString(),{headers:{"Accept":"application/json"},signal:AbortSignal.timeout(10000)});
-                if(retryResponse.ok){
-                  const retryData=await retryResponse.json();
-                  if(Array.isArray(retryData.journeys)&&retryData.journeys.length)successful.push(retryData);
-                }
-              }catch(error){console.warn("Pocket AI TfL second pass",String(error?.name||error).slice(0,70))}
-            }
-            if(!successful.length)throw new Error("TfL route preferences unavailable");
-            const tj={journeys:successful.flatMap(x=>Array.isArray(x.journeys)?x.journeys:[])};
+            // Both TfL consumers use one provider adapter.
+            // Fetch alternative preferences only if the primary request is insufficient.
+            const tflData=await requestTfLJourneys({
+              from,to,appKey:env.TFL_APP_KEY,appId:env.TFL_APP_ID,
+              departureAt:effectiveDepartureAt,requestedCount:requestedOptionsCount
+            });
+            const tj={journeys:tflData.journeys};
+            if(!tj.journeys.length)transportErrors.tfl=tflData.status;
             // Decode TfL's encoded polyline geometry (precision 5) for map rendering.
             const decodeTfLPolyline = (encoded) => {
               if (typeof encoded !== "string" || !encoded) return [];
@@ -3741,7 +3703,7 @@ export default {
               return aEnd===null&&bEnd!==null?1:aEnd!==null&&bEnd===null?-1:0;
             });
             transitOptions.splice(0,transitOptions.length,...selected);
-            if (!transitOptions.length) transportErrors.tfl = "no_journeys_returned";
+            if (!transitOptions.length) transportErrors.tfl ||= "no_journeys_returned";
           } catch (e) { transportErrors.tfl = String(e && e.message || "request_failed").slice(0,100); }
         } else transportErrors.tfl = "TFL_APP_KEY_missing";
         if(transitOptions.length){
@@ -4325,9 +4287,12 @@ export default {
           let transit=null;
           if(env.TFL_APP_KEY){
             try {
-              const tflUrl=`https://api.tfl.gov.uk/Journey/JourneyResults/${latitude},${longitude}/to/${destLat},${destLon}?mode=bus,tube,overground,elizabeth-line,dlr,tram,river-bus&app_key=${encodeURIComponent(env.TFL_APP_KEY)}${env.TFL_APP_ID?"&app_id="+encodeURIComponent(env.TFL_APP_ID):""}`;
-              const tr=await fetch(tflUrl,{headers:{"Accept":"application/json"},signal:AbortSignal.timeout(12000)});
-              if(tr.ok){const tj=await tr.json();transit=Array.isArray(tj.journeys)?tj.journeys.slice(0,3).map(j=>({durationMinutes:j.duration,legs:(j.legs||[]).map(l=>({mode:l.mode&&l.mode.name||"transport",from:l.departurePoint&&l.departurePoint.commonName||"",to:l.arrivalPoint&&l.arrivalPoint.commonName||"",durationMinutes:l.duration,departureTime:l.departureTime,arrivalTime:l.arrivalTime}))})):null;}
+              const tflData=await requestTfLJourneys({
+                from:`${latitude},${longitude}`,to:`${destLat},${destLon}`,
+                appKey:env.TFL_APP_KEY,appId:env.TFL_APP_ID,
+                auxiliary:true,modes:'bus,tube,overground,elizabeth-line,dlr,tram,river-bus'
+              });
+              transit=tflData.journeys.slice(0,3).map(j=>({durationMinutes:j.duration,legs:(j.legs||[]).map(l=>({mode:l.mode&&l.mode.name||"transport",from:l.departurePoint&&l.departurePoint.commonName||"",to:l.arrivalPoint&&l.arrivalPoint.commonName||"",durationMinutes:l.duration,departureTime:l.departureTime,arrivalTime:l.arrivalTime}))}));
             } catch(e){console.warn("Pocket AI v96 transit provider unavailable",String(e&&e.message||e).slice(0,100));}
           }
           if(transit&&transit.length){reply += lang === "en" ? "\n\nPublic transport alternatives (TfL data):\n" : "\n\nAlternative cu transportul în comun (date TfL):\n";reply += transit.map((j,i)=>`${i+1}. ${lang === "en" ? "About " : "Aproximativ "}${formatJourneyDurationMinutes(j.durationMinutes,lang)}: `+j.legs.map(l=>`${l.mode}${l.from?" · "+l.from:""}${l.to?" → "+l.to:""}`).join("; ")).join("\n");}
