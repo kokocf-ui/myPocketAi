@@ -1,5 +1,15 @@
 name: Smart Country Registry — isolated verification
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'smart_country_registry.mjs'
+      - 'europe_country_sources.mjs'
+      - 'country_provider_bridge.mjs'
+      - 'backend.js'
+      - 'tests_smart_country_registry.mjs'
+      - 'tests_country_provider_bridge.mjs'
+      - '.github/workflows/smart-country-registry.yml'
   push:
     branches:
       - feature/smart-country-registry
@@ -35,3 +45,9 @@ jobs:
         run: node tests_country_provider_bridge.mjs
       - name: Existing parking and zoo regression
         run: node tests_parking_zoo_eva_regressions.mjs
+      - name: Existing UK, worldwide place and transit regressions
+        run: |
+          node tests_photon_worldwide.mjs
+          node tests_uk_national_transit.mjs
+          node tests_mixed_uk_fallback.mjs
+          node tests_transit_entrypoint_parity.mjs
