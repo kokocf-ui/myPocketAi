@@ -132,6 +132,7 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
    Boolean(button.closest?.('.module-quick-header,.answer-reader-header,.education-toolbar,.route-choice-screen'));
  };
  const originalStyles=new WeakMap();
+ const navSignatures=new WeakMap();
  const navStyle={
   background:'linear-gradient(145deg,#913653,#63213c)',
   'background-color':'#782844',
@@ -144,8 +145,12 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
  const mark=button=>{
   if(!button||button.tagName!=='BUTTON'||!button.classList)return;
   const isReturn=matches(button);
+  const title=String(button.textContent||'');
+  const signature=(isReturn?'back:':'other:')+title+'|'+String(button.getAttribute?.('aria-label')||'');
+  if(navSignatures.get(button)===signature)return; // no repeated re-style per DOM change
+  navSignatures.set(button,signature);
   button.classList.toggle('pocket-nav-return',isReturn);
-  button.classList.toggle('pocket-nav-text',isReturn&&/[\p{L}]{2,}/u.test(String(button.textContent||'')));
+  button.classList.toggle('pocket-nav-text',isReturn&&/[\p{L}]{2,}/u.test(title));
   // This wins over legacy #view-module and .module-home-btn selectors which
   // use !important and were making Home bright red while Back was burgundy.
   // Preserve any original inline values if a button is repurposed.
@@ -228,20 +233,41 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
   }
  };
  const refresh=()=>{routeStage();adjustEducationNav()};
+ let refreshQueued=false;
+ const scheduleRefresh=()=>{
+  if(refreshQueued)return;
+  if(typeof window.requestAnimationFrame!=='function'){refresh();return}
+  refreshQueued=true;
+  window.requestAnimationFrame(()=>{refreshQueued=false;refresh()});
+ };
  added(document.body);
  refresh();
  if(typeof MutationObserver!=='function')return;
+ const relevantChange=change=>{
+  const t=change.target?.nodeType===1?change.target:change.target?.parentElement;
+  // Result cards and chat messages are unrelated to navigation geometry. They
+  // previously caused a full layout scan on every append, even across Maps.
+  if(t?.closest?.('.module-place-results-list,.module-places-results,.chat-messages,.lit-reader-overlay,.lit-reader-scroll'))return false;
+  if(t?.id==='moduleLayerTitle'||t?.id==='moduleLayerBody'||t?.id==='moduleContent')return true;
+  if(t?.classList?.contains('education-toolbar')||t?.classList?.contains('agenda-voice-controls')||
+     t?.classList?.contains('module-actions-row'))return true;
+  return Array.from(change.addedNodes||[]).some(n=>n.nodeType===1&&(
+   n.matches?.('.education-toolbar,.agenda-voice-controls,.module-actions-row,.module-result-card')||
+   n.querySelector?.('.education-toolbar,.agenda-voice-controls,.module-actions-row,.module-result-card')));
+ };
  const observer=new MutationObserver(changes=>{
+  let needsLayout=false;
   for(const change of changes){
    if(change.type==='attributes'){mark(change.target);continue}
    const target=change.target?.nodeType===1?change.target:change.target?.parentElement;
    if(target?.tagName==='BUTTON')mark(target);
    else if(target?.closest)mark(target.closest('button'));
    for(const node of change.addedNodes||[])added(node);
+   if(!needsLayout&&relevantChange(change))needsLayout=true;
   }
-  refresh();
+  if(needsLayout)scheduleRefresh();
  });
- observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['aria-label']});
- window.addEventListener?.('resize',refresh,{passive:true});
+ observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['aria-label','data-back']});
+ window.addEventListener?.('resize',scheduleRefresh,{passive:true});
 })();
 `;
