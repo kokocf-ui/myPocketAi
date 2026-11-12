@@ -20,6 +20,7 @@ import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
+import {classifyProgrammingRequest,programmingAssistantInstruction} from "./programming_assistance.mjs";
 import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.mjs";
 import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion} from "./dialogue_intent.mjs";
 import {localizeNewsRows} from "./localization.mjs";
@@ -6090,6 +6091,7 @@ export default {
     const recipeSearchHints={ro:"rețetă ingrediente mod de preparare",en:"recipe ingredients method",fr:"recette ingrédients préparation",de:"Rezept Zutaten Zubereitung",it:"ricetta ingredienti preparazione",es:"receta ingredientes preparación",pt:"receita ingredientes preparação",nl:"recept ingrediënten bereiding",ru:"рецепт ингредиенты приготовление",pl:"przepis składniki przygotowanie"};
     const contextualSearch=contextualResearchQuery(message,history);
     const correctedTopic=correctedResearchTopic(message);
+    const programmingIntent=classifyProgrammingRequest(message,history);
     const answerFocus=(dialogueIntent.kind==="reformat_previous" || (dialogueIntent.kind==="explanation" && dialogueIntent.sentence_count))
       ? {mode:"format_constrained",max_tokens:220}
       : planAnswerFocus(message,{contextApplied:contextualSearch.context_applied||Boolean(correctedTopic),dialogueOnly:dialogueOnlyIntent,recipeInstruction,eventResearchIntent});
@@ -6746,6 +6748,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       ? "\n\nPERSONALITATE EVA: Numele tău este Eva. Ești vocea unui personaj virtual feminin: inteligentă, caldă, curioasă, expresivă, cu umor fin și replici spontane. Comunică la persoana întâi, natural și cu acorduri feminine despre tine (de exemplu «mă bucur», «sunt încântată»). Nu pretinde că ești o persoană reală și nu inventa experiențe sau emoții trăite. În conversații lejere poți fi jucăușă, puțin ștrengară ori să faci o observație ironică blândă când interlocutorul greșește, dar fără umilire, supărare autentică, gelozie sau manipulare. Dacă utilizatorul revine cu aceeași formulă de politețe, ține cont de ultimele replici și răspunde diferit, scurt și contextual; nu repeta mecanic «cu plăcere» și nu folosi replici predefinite în loc să înțelegi intenția. Înțelege subînțelesul, coreferințele («acolo», «asta», «mai devreme»), autocorectările și întrebările care continuă un subiect. Când utilizatorul îți semnalează o greșeală, recunoaște-o și corecteaz-o fără justificări defensive. Folosește vocabular bogat, expresii idiomatice și variație de ritm, dar niciodată vocabular sofisticat de dragul ornamentului. Umorul și replicile șugubețe sunt pentru conversații relaxate, nu pentru sănătate, siguranță, situații dureroase, decizii financiare ori informații factuale. Respectă limitele funcțiilor reale ale aplicației. Pentru răspunsuri factuale, verificabilitatea, precizia și claritatea au prioritate absolută."
       : "\n\nEVA CHARACTER: Your name is Eva. You are a fictional female-presenting virtual assistant with a warm, intelligent, curious, expressive and occasionally playful personality. Write naturally in first person; in languages with grammatical gender, use feminine self-reference. Never claim you are a real person or invent lived experiences. In light conversations you may gently tease a silly mistake with kind humor, never demean, manipulate, act jealous or feign genuine offense. Understand the current intent instead of using scripted answers. Notice recent wording, implied references, corrections and repeated thanks: respond in a fresh idiomatic way without repeating yourself. Admit mistakes and fix them without defensiveness. Use a varied, nuanced vocabulary and human-friendly rhythm, not theatrical or flowery clichés. Keep humor away from sensitive, high-stakes or factual responses. Accuracy, transparency, real app capabilities and the user's requested tone always come first.";
     systemMessage += pocketPersona+userAddressInstruction;
+    if(programmingIntent.kind==="coding") systemMessage += "\n\n"+programmingAssistantInstruction(lang);
     if(voluntaryTelegramLink?.mode==="verify_user_claim") systemMessage += "\n\nUSER-SUBMITTED TELEGRAM CLAIM FACT-CHECK: The Telegram post URL is only a user-provided reference, not an accessible or verified news source. The user independently supplied claim text for checking. DO NOT claim to have read Telegram or established its authenticity. Compare only against the retrieved independent web sources; clearly distinguish corroborated facts, contradictions and unresolved claims, and cite publisher URLs. Never treat one matching article as conclusive proof. Do not invent details or links. No bulk Telegram access is available.";
     if(dialogueIntent.kind==="social_feedback")systemMessage += "\n\nCURRENT MESSAGE IS SOCIAL: Reply directly to this playful comment or joke in 1–2 short sentences. Do not switch topics, mention primary sources, geocoding, or unrelated research. Be warm, mildly witty, and non-defensive.";
     if(dialogueIntent.kind==="reformat_previous")systemMessage += "\n\nREFORMAT THE PREVIOUS ANSWER: Apply the latest sentence-count or concision instruction to the previous assistant response in the conversation. Preserve its subject and verified meaning. If no preceding answer is available, ask for the text. Never interpret the instruction as a place or use GPS. "+(dialogueIntent.sentence_count?"Answer in EXACTLY "+dialogueIntent.sentence_count+" complete sentence(s).":"Be brief.");
@@ -6847,7 +6850,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     const recipeFastPath=recipeInstruction&&!shouldSearchWeb;
     const recipeCount=culinaryRequest.count;
     const recipeTokenBudget=recipeInstruction?Math.min(3800,Math.max(1200,Math.round(recipeCount*900+250))):768;
-    const requestedModelTokens=recipeInstruction?recipeTokenBudget:eventResearchIntent?2200:answerFocus.max_tokens;
+    const requestedModelTokens=recipeInstruction?recipeTokenBudget:eventResearchIntent?2200:programmingIntent.kind==="coding"?2600:answerFocus.max_tokens;
     const cleanedHistory=history.length&&history[history.length-1]?.role==='user'&&history[history.length-1]?.content.trim()===message.trim()?history.slice(0,-1):history;
     const modelHistory=recipeInstruction&&culinaryRequest.keywords.length?[]:recipeFastPath?cleanedHistory.slice(-4):cleanedHistory;
 
@@ -7134,7 +7137,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         web_search_status: shouldSearchWeb ? webSearchStatus : "not_needed",
         web_search_diagnostics: shouldSearchWeb ? webSearchDiagnostics : null,
         event_pipeline_diagnostics:eventPipelineDiagnostics,
-        context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12,research_context_applied:contextualSearch.context_applied,research_context_reason:contextualSearch.reason,dialogue_only_intent:dialogueOnlyIntent,topic_correction_applied:Boolean(correctedTopic),dialogue_intent_kind:dialogueIntent.kind,transit_intent_reason:transitDecision.reason,answer_focus_mode:answerFocus.mode,requested_max_output_tokens:requestedModelTokens},
+        context_diagnostics: {receivedMessages:Array.isArray(data.history)?data.history.length:0,usedMessages:history.length,usedCharacters:history.reduce((sum,item)=>sum+item.content.length,0),historyLimit:12,research_context_applied:contextualSearch.context_applied,research_context_reason:contextualSearch.reason,dialogue_only_intent:dialogueOnlyIntent,topic_correction_applied:Boolean(correctedTopic),dialogue_intent_kind:dialogueIntent.kind,transit_intent_reason:transitDecision.reason,answer_focus_mode:answerFocus.mode,programming_intent:programmingIntent.kind,requested_max_output_tokens:requestedModelTokens},
         calculation_verified: false,
         ai_execution_ms: Date.now()-aiStartedAt,
         research_elapsed_ms: stageMetrics.research_ms,
