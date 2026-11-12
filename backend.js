@@ -4,6 +4,7 @@ import {assembleSourcedRecipeVariants} from "./culinary_multi.mjs";
 import {inspectPublisherRecipeEvidence,repairRecipeFromPublisher} from "./recipe_source_integrity.mjs";
 import {classifyConversationTurn,buildConversationEvidence} from "./conversation_intent.mjs";
 import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} from "./eva_dialogue.mjs";
+import {recallFromSuppliedHistory} from "./eva_history_recall.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
 import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
@@ -2031,6 +2032,23 @@ export default {
     // Native profile contains no email. The supplied values are treated as data, never instructions.
     const nativeConversationProfile=normalizeConversationProfile(data.user_profile);
     const userAddressInstruction=conversationProfileInstruction(nativeConversationProfile,lang);
+    // Scoped history lookup runs before regular chat/research classification.
+    // The client supplies the accessible turns; never imply global access.
+    const scopedRecall=recallFromSuppliedHistory(originalMessage,data.history,{language:lang});
+    if(scopedRecall){
+      return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+        message_received:originalMessage,reply:scopedRecall.found?scopedRecall.reply:
+          (lang==='ro'?(scopedRecall.reason==='topic_missing'
+            ?'Despre ce subiect vrei să caut în istoricul disponibil?'
+            :'Nu am găsit informația în mesajele disponibile. Nu pot confirma ce există în conversațiile arhivate.')
+            :(scopedRecall.reason==='topic_missing'
+            ?'What topic should I look for in the available history?'
+            :'I could not find that in the available messages. I cannot verify archived conversations.')),
+        conversation_intent:'history_recall',history_scope:'supplied_turns_only',
+        history_matches:scopedRecall.found?scopedRecall.matches:[],
+        conversational_reply:true,ai_generated:false,web_search_status:'not_needed',
+        location_received:false});
+    }
     // E1: Speech-act gate has priority over stale route context, named-POI
     // lookup, news/web research, old lesson topics and fixed canned replies.
     // The app brand remains myPocket AI; only the avatar is named Eva.
