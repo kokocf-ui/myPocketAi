@@ -15,18 +15,42 @@ function litEnsureTypography(){
  (document.head||document.body)?.append(style);
 }
 function litShowMaterialReader(title,text){
- const body=String(text||'').trim();if(!body)return;
- if(litReaderOpen?.isConnected)litReaderOpen.close();
+ const body=String(text||'').trim();if(!body)return false;
+ if(litReaderOpen?.isConnected)litReaderOpen.litClose?.();
  litEnsureTypography();
- const dialog=document.createElement('dialog');dialog.className='lit-material-reader';
- dialog.setAttribute('aria-label',title);
+ const overlay=document.createElement('div');
+ overlay.className='lit-reader-overlay';
+ overlay.setAttribute('data-literature-reader','true');
+ const reader=document.createElement('section');
+ reader.className='lit-material-reader lit-reader-visible';
+ reader.setAttribute('role','dialog');
+ reader.setAttribute('aria-modal','true');
+ reader.setAttribute('aria-label',title);
+ reader.setAttribute('tabindex','-1');
+ const previousFocus=document.activeElement;
+ const previousOverflow=document.body?.style?.overflow||'';
+ let closed=false;
+ const onKey=e=>{
+  if(e.key==='Escape'||e.key==='Esc'){
+   e.preventDefault?.();e.stopPropagation?.();close();
+  }
+ };
+ function close(){
+  if(closed)return;
+  closed=true;
+  document.removeEventListener?.('keydown',onKey,true);
+  overlay.remove();
+  if(document.body?.style)document.body.style.overflow=previousOverflow;
+  if(litReaderOpen===overlay)litReaderOpen=null;
+  try{previousFocus?.focus?.()}catch{}
+ }
+ overlay.litClose=close;
  const head=litSimpleNode('div','','lit-reader-head');
  const caption=litSimpleNode('strong',title,'lit-reader-title');
- const close=litSimpleButton(litSimpleLabel('Înapoi','Back'),()=>dialog.close());
- close.classList.add('lit-reader-close');head.append(caption,close);
+ const back=litSimpleButton(litSimpleLabel('Înapoi','Back'),close);
+ back.classList.add('lit-reader-close');head.append(caption,back);
  const content=litSimpleNode('article','','lit-reader-scroll');
- // Target a small readable page even on a landscape phone; unusual content
- // may still scroll inside the page rather than cover the fixed Android dock.
+ // Reader owns its material. The underlying workspace never displays the text.
  const vh=typeof window!=='undefined'?window.innerHeight:680;
  const vw=typeof window!=='undefined'?window.innerWidth:420;
  const pageChars=Math.max(300,Math.min(1200,Math.round(
@@ -50,7 +74,12 @@ function litShowMaterialReader(title,text){
  function display(index){
   active=Math.max(0,Math.min(pages.length-1,index));
   content.replaceChildren();
-  renderStudyBlocks(content,pages[active]||body);
+  try{renderStudyBlocks(content,pages[active]||body)}
+  catch(error){
+   // Typography is enhancement only. Reader must remain usable even if it fails.
+   content.textContent=pages[active]||body;
+   console.warn?.('literature_reader_plain_text_fallback',String(error?.message||error));
+  }
   content.scrollTop=0;
   for(const control of controls){
    control.previous.disabled=active===0;
@@ -62,21 +91,26 @@ function litShowMaterialReader(title,text){
  }
  const top=pages.length>1?makePager('top'):null;
  const bottom=pages.length>1?makePager('bottom'):null;
- // PDF/print exports retain the entire unpaginated material, not only the visible page.
  const actions=litSimpleNode('div','','lit-reader-footer');
  const material={title,text:body};
- const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),()=>eduOpenPrint('save',material,()=>dialog.close()));
- const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),()=>eduOpenPrint('print',material,()=>dialog.close()));
+ const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),()=>eduOpenPrint('save',material,close));
+ const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),()=>eduOpenPrint('print',material,close));
  actions.append(save,print);
- dialog.append(head);
- if(top)dialog.append(top);
- dialog.append(content);
- if(bottom)dialog.append(bottom);
- dialog.append(actions);
+ reader.append(head);
+ if(top)reader.append(top);
+ reader.append(content);
+ if(bottom)reader.append(bottom);
+ reader.append(actions);
+ overlay.append(reader);
  display(0);
- dialog.addEventListener('close',()=>{dialog.remove();if(litReaderOpen===dialog)litReaderOpen=null});
- document.body.append(dialog);litReaderOpen=dialog;
- try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+ // No dependency on HTMLDialogElement.showModal() (some Android WebViews
+ // render its non-modal fallback behind the application navigation).
+ document.body.append(overlay);
+ litReaderOpen=overlay;
+ if(document.body?.style)document.body.style.overflow='hidden';
+ document.addEventListener?.('keydown',onKey,true);
+ try{back.focus?.()}catch{}
+ return true;
 }
 
 let litSimpleSerial=0,litSimpleAbort=null;
@@ -116,14 +150,9 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
    snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
   const text=String(material||'').trim().slice(0,72000);
   if(!text)return;
-  try{
-   litEnsureTypography();
-   renderStudyBlocks(out,text);
-  }catch(renderError){
-   // A broken decorative renderer must never prevent the actual lesson text.
-   console.warn?.('literature_renderer_fallback',String(renderError?.message||renderError));
-   out.textContent=text;
-  }
+  // Keep only an internal plain-text copy. All styled content belongs to
+  // the independent reader and must never be mounted inside the workspace.
+  out.textContent=text;
   status.textContent=local?
    litSimpleLabel('Material local disponibil. Funcționează fără AI și fără localizare.',
     'Local study material is available without AI or location.'):
@@ -132,11 +161,14 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
   if(typeof onReady==='function'){
    try{onReady(text)}catch(readerError){
     // Reader/popup errors never invalidate the already rendered study material.
+    status.textContent=litSimpleLabel(
+     'Fereastra de lectură nu s-a putut deschide. Apasă din nou activitatea.',
+     'The reader could not open. Select the activity again.');
     if(typeof console!=='undefined')console.warn('literature_reader_unavailable',
      String(readerError?.message||readerError));
    }
   }
-  try{out.scrollIntoView?.({behavior:'auto',block:'nearest'})}catch{}
+  // The reader overlay is the only visible document; never scroll to hidden text.
  };
  // Grade I Romanian basics are authored and instantly available, independent of
  // online inference quotas. These examples are not asserted to be official tests.
@@ -220,7 +252,7 @@ function litSimpleWorkspace(panel){
  if(branch==='literature'){litSimpleLiterature(panel);return}
  if(!topic){panel.append(litSimpleNode('p',litSimpleLabel('Selectează un capitol.','Choose a chapter.')));return}
  const title=litSimpleLabel(topic[1],topic[2]);
- litSimpleHeading(panel,title,litSimpleLabel('Alege o singură activitate. Rezultatul apare aici.','Choose one activity; its result appears here.'));
+ litSimpleHeading(panel,title,litSimpleLabel('Alege o activitate. Materialul se deschide într-o fereastră separată.','Choose an activity. Study material opens in a separate reader.'));
  if(branch==='admission'){
   panel.append(litSimpleNode('p',litSimpleLabel(
    'Pentru admitere în Ungaria: probele și transferul depind de clasa-țintă și instituție. Exercițiile de aici sunt de pregătire, nu subiecte oficiale.',
@@ -237,7 +269,8 @@ function litSimpleWorkspace(panel){
     litSimpleLabel('Cerința de redactare','Writing task');request.setAttribute('aria-label',request.placeholder);if(request.tagName==='TEXTAREA')request.rows=3;panel.append(request)}
  const bar=litSimpleNode('div','','lit-activity-bar');
  const status=litSimpleNode('p','','lit-activity-status');status.setAttribute('role','status');
- const out=litSimpleNode('article','','lit-result lit-activity-output');out.setAttribute('aria-live','polite');
+ const out=litSimpleNode('article','','lit-result lit-activity-output');
+ out.hidden=true;out.setAttribute('aria-hidden','true');
  const run=(mode)=>{
   const phrase=request?.value.trim()||'';
   if(needsInput&&!phrase&&mode!=='lesson'){request.focus();status.textContent=litSimpleLabel('Introdu textul sau cuvântul solicitat.','Enter the requested text or word.');return}
@@ -261,7 +294,7 @@ function litSimpleWorkspace(panel){
   branch==='vocabulary'&&litJourney.topic==='dictionary'?[['Caută definiția','Define','define'],['Exemple','Examples','examples']]:
   [['Teorie','Theory','lesson'],['Exemple','Examples','examples'],['Exerciții','Exercises','exercises'],['Teste','Tests','test']];
  for(const [ro,en,mode]of buttons)bar.append(litSimpleButton(litSimpleLabel(ro,en),()=>run(mode)));
- panel.append(bar,status,out);
+ panel.append(bar,status);
 
  const review=litSimpleNode('details','','lit-activity-review');
  review.hidden=true;
@@ -269,6 +302,7 @@ function litSimpleWorkspace(panel){
  const answers=litSimpleNode('textarea','','lit-input');answers.rows=3;answers.placeholder=litSimpleLabel('Răspunde la exercițiile afișate mai sus','Answer the exercises shown above');
  let assignmentText='';
  const correction=litSimpleNode('article','','lit-result lit-activity-output');
+ correction.hidden=true;correction.setAttribute('aria-hidden','true');
  review.append(summary,answers,litSimpleButton(litSimpleLabel('Corectează','Check answers'),()=>{
   if(!assignmentText){status.textContent=litSimpleLabel('Alege mai întâi Exerciții sau Teste.','Choose Exercises or Tests first.');return}
   if(!answers.value.trim()){answers.focus();return}
@@ -276,7 +310,7 @@ function litSimpleWorkspace(panel){
    'Evaluează răspunsul elevului: '+answers.value.trim().slice(0,1500)+'.',
    'Întrebările originale: '+assignmentText.slice(0,2200)+'. Oferă corectarea pe fiecare întrebare.',
    text=>litShowMaterialReader(litSimpleLabel('Corectarea exercițiilor','Corrected answers'),text));
- }),correction);
+ }));
  panel.append(review);
  // No automatic AI request: the learner explicitly chooses one activity.
  // This prevents racing a background lesson request with the first button tap.
@@ -293,6 +327,7 @@ function litSimpleLiterature(panel){
  const textArea=litSimpleNode('textarea','','lit-input');textArea.rows=4;textArea.placeholder=litSimpleLabel('Fragment propriu pentru analiză (opțional)','Your own passage for analysis (optional)');
  const passage=litSimpleNode('details','','lit-activity-review');passage.append(litSimpleNode('summary',litSimpleLabel('Adaugă un fragment pentru analiză','Add a passage to analyse')),textArea);
  const out=litSimpleNode('article','','lit-result lit-activity-output');
+ out.hidden=true;out.setAttribute('aria-hidden','true');
  let chosen=null,searchNumber=0;
  const select=(name,author,url,work=null)=>{
   chosen={name,author,url,work};title.textContent=name+' — '+author;results.replaceChildren();acts.replaceChildren();
@@ -425,7 +460,7 @@ function litSimpleLiterature(panel){
    litSimpleLabel('Nicio potrivire sigură. Încearcă titlul și autorul.','No confident match; try title and author.');
  };
  search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();find()}});
- panel.append(search,litSimpleButton(litSimpleLabel('Caută autorul / opera','Search author / work'),find),feedback,results,title,acts,passage,out);
+ panel.append(search,litSimpleButton(litSimpleLabel('Caută autorul / opera','Search author / work'),find),feedback,results,title,acts,passage);
  showCountryLibrary();
 }
 

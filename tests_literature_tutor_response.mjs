@@ -38,13 +38,15 @@ assert.equal(bad.res.status,503,'A GPS result must be rejected, never marked as 
 assert.equal(bad.data.error,'education_wrong_intent');
 
 class El{
- constructor(tag='div'){this.tagName=tag.toUpperCase();this.children=[];this._text='';this.value='';this.className='';this.hidden=false;this.isConnected=true;this.attrs={};}
+ constructor(tag='div'){this.tagName=tag.toUpperCase();this.children=[];this._text='';this.value='';this.className='';this.hidden=false;this.isConnected=true;this.attrs={};this.style={};
+  this.classList={add:()=>{},remove:()=>{}};}
  get textContent(){return this._text+this.children.map(c=>c?.textContent||'').join('')}
  set textContent(v){this._text=String(v);this.children=[]}
  append(...x){this.children.push(...x)}
  replaceChildren(...x){this._text='';this.children=[...x]}
  setAttribute(k,v){this.attrs[k]=v}
  addEventListener(){}
+ remove(){this.isConnected=false}
  focus(){this.focused=true}
  scrollIntoView(){}
 }
@@ -52,7 +54,7 @@ const requests=[];
 let nextResponse={status:'success',education_subject:'language_literature',reply:'1. Exemplu de subiect. 2. Alt exemplu.'};
 const literature={stage:'workspace',branch:'grammar',topic:'grammar',country:'RO',grade:'8',level:'lower',track:'TC',region:'',language:'ro',busy:false};
 const cfg={
- document:{createElement:tag=>new El(tag)},
+ document:{body:new El('body'),createElement:tag=>new El(tag)},
  AbortController,
  litJourney:literature,litProgram:()=>({verified:false}),
  litCurrentTopic:()=>['grammar','Morfologie și sintaxă','Morphology and syntax'],
@@ -71,6 +73,15 @@ const cfg={
 const ui=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+
  '\n({workspace:litSimpleWorkspace,generate:litSimpleGenerate})',cfg);
 const all=element=>[element,...element.children.flatMap(all)];
+const readerOverlay=()=>cfg.document.body.children.at(-1);
+const readerText=()=>readerOverlay()?.children[0]?.textContent||'';
+const assertReader=text=>{
+ const overlay=readerOverlay();
+ assert.equal(overlay?.className,'lit-reader-overlay','A dedicated reader opens above the app');
+ assert.equal(overlay?.children[0]?.attrs['aria-modal'],'true','Reader is modal');
+ assert.ok(readerText().includes(text),'Reader contains: '+text);
+};
+
 const press=(panel,text)=>{
  const b=all(panel).find(x=>x.tagName==='BUTTON'&&x.textContent===text);
  assert.ok(b,'Missing action button: '+text);b.onclick();return b
@@ -86,7 +97,9 @@ assert.ok(!requests[0].message.includes('Never request location/GPS'));
 let review=all(panel).find(x=>x.tagName==='DETAILS');
 assert.ok(review,'Exercise review exists internally');
 assert.equal(review.hidden,true,'Review must not be visible before exercise/test generation');
-assert.ok(panel.textContent.includes('1. Exemplu de subiect.'),'Complete educational text displayed');
+assert.ok(!panel.textContent.includes('1. Exemplu de subiect.'),
+ 'Material is never inserted beneath the workspace buttons');
+assertReader('1. Exemplu de subiect.');
 nextResponse={status:'success',education_subject:'language_literature',reply:'1. Găsește subiectul. 2. Găsește predicatul. 3. Analizează substantivul. 4. Analizează verbul. 5. Rescrie corect.'};
 press(panel,'Teste');await flush();
 assert.equal(requests.at(-1).education_activity,'test');
@@ -96,8 +109,11 @@ answer.value='1. Copiii. 2. Citesc.';
 nextResponse={status:'success',education_subject:'language_literature',reply:'1. Corect. 2. Corect. Continuă cu 3–5.'};
 press(panel,'Corectează');await flush();
 assert.equal(requests.at(-1).education_activity,'correction');
-assert.ok(panel.textContent.includes('5. Rescrie corect.'),'Test questions stay visible during review');
-assert.ok(panel.textContent.includes('1. Corect.'),'Corrections appear below learner answers');
+assert.ok(!panel.textContent.includes('5. Rescrie corect.'),
+ 'Test questions are never repeated underneath the activity grid');
+assert.ok(!panel.textContent.includes('1. Corect.'),
+ 'Correction is shown in reader only');
+assertReader('1. Corect.');
 press(panel,'Teorie');await flush();
 assert.equal(review.hidden,true,'Switching back to Theory hides irrelevant answer checking');
 assert.equal(requests.at(-1).education_activity,'lesson');
@@ -108,7 +124,8 @@ const dictionaryPanel=new El('div');ui.workspace(dictionaryPanel);
 const field=all(dictionaryPanel).find(x=>x.tagName==='INPUT');field.value='Abreviere';
 press(dictionaryPanel,'Caută definiția');await flush();
 assert.equal(requests.at(-1).education_activity,'define');
-assert.match(dictionaryPanel.textContent,/Abreviere: formă prescurtată/);
+assert.doesNotMatch(dictionaryPanel.textContent,/Abreviere: formă prescurtată/);
+assertReader('Abreviere:');
 assert.equal(all(dictionaryPanel).find(x=>x.tagName==='DETAILS')?.hidden,true,
  'Dictionary does not show answer checking');
 

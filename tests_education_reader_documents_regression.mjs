@@ -18,12 +18,14 @@ assert.match(html,/#view-module\.learning-literature \.lit-toolbar\{[\s\S]*?grid
 assert.doesNotMatch(boot,/bar\.append\(litBtn\(learningLabel\('← Înapoi','← Back'\),litBack,'secondary-btn lit-back'\)\);eduAttachPrintAction\(bar\)/,'No duplicate literature Save/Print toolbar buttons');
 
 assert.match(LITERATURE_TASK_UI_SCRIPT,/function litShowMaterialReader\(title,text\)/);
-assert.match(LITERATURE_TASK_UI_SCRIPT,/dialog\.showModal\(\)/,'Reader opens as overlay');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/overlay\.className='lit-reader-overlay'/,'Reader opens in independent Android-safe overlay');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/document\.body\.append\(overlay\)/,'Reader must be attached above application chrome');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/reader\.setAttribute\('aria-modal','true'\)/,'Reader is accessible and modal');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/litShowMaterialReader\(title\+' · '/,'Lessons open in reader after actual result');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/litShowMaterialReader\(chosen\.name\+' — '/,'Literary studies and essays use same reader');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/litShowMaterialReader\(litSimpleLabel\('Corectarea/,'Corrected exercises use the reader');
-assert.match(LITERATURE_TASK_UI_SCRIPT,/eduOpenPrint\('save',material,\(\)=>dialog\.close\(\)\)/,'Reader Save closes only after a confirmed export');
-assert.match(LITERATURE_TASK_UI_SCRIPT,/eduOpenPrint\('print',material,\(\)=>dialog\.close\(\)\)/,'Reader Print closes after successful PDF save and print handoff');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/eduOpenPrint\('save',material,close\)/,'Reader Save closes only after a confirmed export');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/eduOpenPrint\('print',material,close\)/,'Reader Print closes after successful PDF save and print handoff');
 
 assert.match(boot,/function resetExtraToolsScreen\(\)/,'Explicit reset of inherited learning state');
 for(const oldClass of ['learning-literature','learning-hg','learning-math','learning-active']){

@@ -72,6 +72,6 @@ assert.match(COMMUNICATION_STYLE,/button\.pocket-nav-return/,'Accent CSS include
 assert.match(COMMUNICATION_SCRIPT,/pocketReturnAccentInstalled/,'Navigation color marker included in frontend');
 new vm.Script(LITERATURE_TASK_UI_SCRIPT,{filename:'literature-typography-browser.js'});
 assert.match(LITERATURE_TASK_UI_SCRIPT,/renderStudyBlocks\(content,pages\[active\]\|\|body\)/);
-assert.match(LITERATURE_TASK_UI_SCRIPT,/renderStudyBlocks\(out,text\)/);
-assert.match(LITERATURE_TASK_UI_SCRIPT,/eduOpenPrint\('save',material,\(\)=>dialog\.close\(\)\)/);
+assert.match(LITERATURE_TASK_UI_SCRIPT,/out\.textContent=text/,'Workspace retains only detached internal text');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/eduOpenPrint\('save',material,close\)/);
 console.log('PASS: bold a/b/c and 1/2/3, real rules, cyan headings, burgundy only Home/Back');

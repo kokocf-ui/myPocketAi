@@ -90,4 +90,22 @@ export const STUDY_TYPOGRAPHY_CSS=String.raw`
 .lit-study-document .lit-study-marker{font-weight:900!important;color:#98e0ec!important;min-width:0;text-align:left;font-variant-numeric:tabular-nums!important}
 .lit-study-document .lit-study-item-body{min-width:0;line-height:1.57!important;white-space:pre-line!important}
 .lit-study-document strong{font-weight:800!important}
+/* Android-safe dedicated reading layer. Non-modal dialog fallbacks can be hidden
+   under app chrome in WebView; this overlay owns the reading screen. */
+.lit-reader-overlay{
+ position:fixed!important;inset:0!important;z-index:2147483000!important;
+ display:flex!important;justify-content:center!important;align-items:center!important;
+ background:rgba(0,8,18,.88)!important;
+ padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)!important;
+ box-sizing:border-box!important;overscroll-behavior:contain!important;
+}
+.lit-reader-overlay > .lit-material-reader{
+ position:relative!important;inset:auto!important;display:flex!important;
+ margin:auto!important;flex-direction:column!important;z-index:1!important;
+ max-height:min(84dvh,790px)!important;
+}
+#view-module.learning-literature .lit-activity-output,
+#view-module.learning-literature .lit-activity-output[hidden]{
+ display:none!important;visibility:hidden!important;
+}
 `;

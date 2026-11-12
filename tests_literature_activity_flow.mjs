@@ -44,7 +44,11 @@ assert.ok(!LITERATURE_TASK_UI_SCRIPT.includes("if(!needsInput)run('lesson')"),
  'Entering a workspace does not automatically start an overlapping AI request');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/const country=educationCountrySelection\.label\|\|litJourney\.country/,
  'Selected country retained across literary activities');
-assert.match(LITERATURE_TASK_UI_SCRIPT,/out\.scrollIntoView\?\.\(\{behavior:'auto',block:'nearest'\}\)/,
- 'Generated material can scroll safely without throwing on a detached output');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/panel\.append\(bar,status\)/,
+ 'Workspace contains activity controls and status, never a rendered lesson body');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/out\.textContent=text/,
+ 'Study text is kept only as detached internal data for the independent reader');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/lit-reader-overlay/,
+ 'Full lesson opens in the separate Android reader layer');
 assert.ok(!LITERATURE_TASK_UI_SCRIPT.includes('coordinates')&&!LITERATURE_TASK_UI_SCRIPT.includes('requestUsesLocation('));
 console.log('PASS: separated language/literature modes, exact bibliography, direct actions, fixed single-screen UI');
