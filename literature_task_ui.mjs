@@ -214,8 +214,8 @@ function litSimpleLiterature(panel){
   const parts=term.split(/\s+[—–-]\s+/),name=parts[0],author=fold(parts[1]||'');
   const local=[];
   for(const a of LIT_VERIFIED_AUTHORS){
-   const byAuthor=fold(a.name).includes(fold(name));
-   if(author&&!fold(a.name).includes(author))continue;
+   const byAuthor=[a.name,...(a.aliases||[])].some(n=>fold(n).includes(fold(name)));
+   if(author&&![a.name,...(a.aliases||[])].some(n=>fold(n).includes(author)))continue;
    for(const w of a.works)if(byAuthor||fold(w.title).includes(fold(name)))
     local.push({title:w.title,author:a.name,url:w.sourceUrl||a.sourceUrl});
   }
