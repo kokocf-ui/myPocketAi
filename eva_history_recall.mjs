@@ -28,6 +28,7 @@ export function recallFromSuppliedHistory(message,history,{language='ro'}={}){
  if(!historyRecallIntent(message))return null;
  const all=Array.isArray(history)?history:[];
  const terms=requestTerms(message);
+ if(!terms.length)return {found:false,reason:'topic_missing'};
  const rows=all.slice(-120).map((x,i)=>({
   index:i,role:x?.role,content:typeof x?.content==='string'?x.content.trim().slice(0,1000):'',
   at:typeof x?.timestamp==='string'?x.timestamp:null,
@@ -38,7 +39,6 @@ export function recallFromSuppliedHistory(message,history,{language='ro'}={}){
   const t=fold(x.content),matched=terms.filter(term=>t.includes(term));
   return {...x,score:matched.length,matched};
  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||b.index-a.index);
- if(!terms.length)return {found:false,reason:'topic_missing'};
  if(!scored.length)return {found:false,reason:'no_match'};
  const selected=[],seen=new Set();
  for(const match of scored.slice(0,4)){
