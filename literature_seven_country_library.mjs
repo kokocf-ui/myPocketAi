@@ -103,7 +103,7 @@ export const SEVEN_COUNTRY_LITERARY_LIBRARY=Object.freeze([
       'Hogy azt bántsam, aki nem bánt engem:',
       'De a szabadságért, ha egy íznyi,',
       'Talpon állok mindhalálig víni.'
-     ].join('\\n')}
+     ].join('\n')}
    ])
   ]),
  author('AT','de','Arthur Schnitzler','Hrvatska enciklopedija — Arthur Schnitzler',
