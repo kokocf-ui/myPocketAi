@@ -126,10 +126,10 @@ export async function fallbackNamedBusiness(target,{geoapifyKey='',fetcher=fetch
  }
  return {verified:false,sources:[],reason:'no_independent_address_match'};
 }
-let exaBlockedUntil=0;
+let exaBlockedUntil=0,exaBlockedFor='';
 export async function researchNamedBusiness(target,{apiKey='',geoapifyKey='',fetcher=fetch}={}){
  if(!target?.name||!target?.city)return {verified:false,sources:[],reason:'invalid_target'};
- if(!apiKey||Date.now()<exaBlockedUntil)return fallbackNamedBusiness(target,{geoapifyKey,fetcher});
+ if(!apiKey||(Date.now()<exaBlockedUntil&&exaBlockedFor===apiKey))return fallbackNamedBusiness(target,{geoapifyKey,fetcher});
  const query=[target.name,target.street,target.city,target.country,'official shop address contact opening hours'].filter(Boolean).join(' ');
  let payload;
  try{
@@ -139,7 +139,7 @@ export async function researchNamedBusiness(target,{apiKey='',geoapifyKey='',fet
    signal:AbortSignal.timeout(7500)
   });
   if(!response.ok){
-   if(response.status===402)exaBlockedUntil=Date.now()+30*60*1000;
+   if(response.status===402){exaBlockedFor=apiKey;exaBlockedUntil=Date.now()+30*60*1000;}
    return fallbackNamedBusiness(target,{geoapifyKey,fetcher});
   }
   payload=await response.json();
