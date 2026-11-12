@@ -67,7 +67,11 @@ export default {
     return new Response(JSON.stringify({error:'preview_place_search_only'}),{status:400,headers});
    // Avoid letting this public preview serve arbitrary conversational AI calls.
    const clean={...d,language:'ro',quick_place_search:true,history:Array.isArray(d.history)?d.history.slice(-3):[]};
-   return worker.fetch(new Request(request.url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(clean)}),env,ctx);
+   // Legacy backend preflight requires an AI binding even for deterministic POI requests.
+   // Supply a non-networking stub ONLY inside this restricted preview route;
+   // no model call or AI quota is used. Unexpected AI fallthrough fails closed.
+   const previewEnv={...env,AI:{run:async()=>{throw Error('PREVIEW_AI_DISABLED')}}};
+   return worker.fetch(new Request(request.url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(clean)}),previewEnv,ctx);
   }
   return new Response('Not found',{status:404,headers:{'Cache-Control':'no-store'}});
  }
