@@ -18778,11 +18778,13 @@ function pocketHistoryRequest(message){
   || /\b(?:cauta|cauti|gaseste|gasesti|verifica|uita te|uitate|consulta|search|find|look up)\b.{0,100}\b(?:istoric\w*|conversati\w*|discuti\w*|mesaj\w*|history|chat\w*)/.test(q)
   || /\b(?:in|din|from)\s+(?:istoric\w*|conversati\w*|discuti\w*|our chat history)/.test(q)
   || /\b(?:ce|care|cand|what|when)\b.{0,110}\b(?:mi ai (?:facut |dat )?(?:recomandari|recomandat)|mi ai spus|am discutat|am vorbit|we discussed|you recommended)/.test(q)
+  || /\b(?:ce|care)\s+(?:recomandari|sfaturi|informatii)\b.{0,55}\bmi ai\b/.test(q)
+  || /\b(?:unde|ce|cum)\b.{0,60}\bmi ai (?:recomandat|spus|sugerat)\b/.test(q)
   || /\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\b.{0,65}\b(?:anterior|mai devreme|inainte|data trecuta|previously|earlier|before)/.test(q)
   || /\b(?:anterior|mai devreme|inainte|data trecuta|previously|earlier|before)\b.{0,75}\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat|recommended)/.test(q);
 }
 function pocketHistoryTerms(message){
- const ignored=new Set('eva uitate uita rasfoieste consulta este sunt fost exista verificare discutia discutii istoricul conversatiilor conversatie conversatii conversatia conversatiile discutat discutii recomandari recomandat anterior anteriori anterioare prefer cum zona vreau eva imi mi ai am ce care cand unde noi nostru noastre noastra despre din in la si iar dar pe cu ca de sa te ti rog cauta cauti gaseste gasesti verifica inca mai cautare istoric discutiile discutie vorbit spus facut tii minte amintesti our the where when what which did you me my i we please find search history chat previous conversation talk talked discussed remember earlier today yesterday'.split(' '));
+ const ignored=new Set('eva uitate uita rasfoieste consulta este sunt fost exista verificare discutia discutii istoricul conversatiilor conversatie conversatii conversatia conversatiile discutat discutii recomandari recomandat anterior anteriori anterioare devreme trecuta data ultima prefer cum zona vreau eva imi mi ai am ce care cand unde noi nostru noastre noastra despre din in la si iar dar pe cu ca de sa te ti rog cauta cauti gaseste gasesti verifica inca mai cautare istoric discutiile discutie vorbit spus facut tii minte amintesti our the where when what which did you me my i we please find search history chat previous conversation talk talked discussed remember earlier today yesterday'.split(' '));
  return [...new Set(pocketHistoryNormalize(message).split(' ')
   .filter(w=>w.length>=3&&!ignored.has(w)&&
    !/^(discut|vorbit|spus|scris|intrebat|recomand|saptaman|trecut|remember|mesaj)/.test(w)))];
