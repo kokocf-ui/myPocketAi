@@ -2,7 +2,7 @@
 // public transport" is a journey. Route only on the latter or on explicit UI
 // mode/boarding selections; never guess an arrival point from "in London".
 const n=v=>String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/\s+/g," ").trim();
-const transport=/\b(?:transport(?:ul)?\s+(?:public|in comun|options)|public transport|by public transport|autobuz\w*|bus(?:es)?|tren\w*|train\w*|metrou\w*|metro|subway|underground|tube|railway|tram\w*|tramvai\w*|dlr|elizabeth line)\b/;
+const transport=/\b(?:transport(?:ul)?(?:\s+(?:public|in comun|options))?|mijloace(?:le)?\s+de\s+transport|public transport|by public transport|autobuz\w*|bus(?:es)?|tren\w*|train\w*|metrou\w*|metro|subway|underground|tube|railway|tram\w*|tramvai\w*|dlr|elizabeth line)\b/;
 const trip=/\b(?:cum ajung|cum (?:pot|sa) ajunge|cum merg|vreau sa ajung|as vrea sa ajung|trebuie sa ajung|du-ma|du ma|merg pana|calculeaza(?:-mi)?\s+(?:un\s+)?(?:traseu|ruta)|planifica(?:-mi)?\s+(?:un\s+)?(?:traseu|itinerar|drum)|traseu\w*|itinerar\w*|ruta de transport|rute de transport|how (?:do|can) i (?:get|go)|i (?:want|need|would like) to (?:get|go|travel)|get me to|take me to|directions to|route to|journey to|plan (?:a|my) (?:journey|route)|trip to)\b/;
 const arrival=/\b(?:pana\s+(?:la|in)|catre|spre|towards|hasta|to|vers)\s+[\p{L}\p{N}]/u;
 const topic=/\b(?:ma refeream|m-am referit|i meant|i was referring|nu eu|i mean|tell me about|spune-mi despre|povesteste-mi|descrie-mi|explica-mi|explain|what is|what are|how does|cum functioneaza|cum este organizat|cum se plateste|ce este|ce inseamna|care sunt|ce tipuri|ce stii|informatii despre|informatii cu privire la|detalii despre)\b/;
@@ -29,6 +29,12 @@ export function isTransitJourneyRequest(message,options={}){
   while(turns.length&&turns.at(-1)===q)turns.pop();
   return trip.test(turns.at(-1)||"")?{is_journey:true,reason:"mode_after_explicit_route"}:{is_journey:false,reason:"mode_without_trip"};
  }
+ // Colloquial planning questions may omit the word "traseu":
+ // "Ce mijloace de transport pot lua până la Victoria?"
+ if(/\\b(?:ce|care)\\s+(?:mijloace(?:le)?\\s+de\\s+transport|transport(?:ul)?)\\b/.test(q)&&
+    /\\b(?:pot lua|as putea lua|sa iau|folosesc|ajung|ajunge|merg)\\b/.test(q)&&
+    /\\b(?:pana\\s+la|spre|catre|la)\\s+[\\p{L}\\p{N}]/u.test(q))
+  return {is_journey:true,reason:"public_transport_selection_to_destination"};
  if(trip.test(q))return {is_journey:true,reason:"explicit_journey_language"};
  if(arrival.test(q))return {is_journey:true,reason:"transport_to_destination"};
  return {is_journey:false,reason:"transport_topic_only"};
