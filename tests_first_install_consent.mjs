@@ -33,6 +33,6 @@ assert.doesNotMatch(main,/firstSetupCameraAllowed|allowCameraOnExplicitRequest/,
 assert.match(main,/chooser\.putExtra\(Intent\.EXTRA_INITIAL_INTENTS,new Intent\[\]\{capture\}\)/,'Native camera option remains');
 assert.match(boot,/first_setup_language/,'Initial native regional language used on first install');
 assert.match(mist,/const cx=width\*\.5,cy=height\*\.47/,'Mist is centered on face, not chest');
-assert.match(lit,/eduOpenPrint\('save',material,\(\)=>dialog\.close\(\)\)/,'Reader Save closes after successful export');
-assert.match(lit,/eduOpenPrint\('print',material,\(\)=>dialog\.close\(\)\)/,'Reader Print closes after successful save and handoff');
+assert.match(lit,/eduOpenPrint\('save',material,close\)/,'Reader Save closes after successful export');
+assert.match(lit,/eduOpenPrint\('print',material,close\)/,'Reader Print closes after successful save and handoff');
 console.log('PASS: first-run localized info + Android location/notifications/microphone + camera + avatar');
