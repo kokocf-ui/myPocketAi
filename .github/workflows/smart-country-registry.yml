@@ -9,6 +9,7 @@ on:
       - 'country_frontend_request.mjs'
       - 'country_gps_resolution.mjs'
       - 'country_search_anchor.mjs'
+      - 'country_national_provider_gate.mjs'
       - 'backend.js'
       - 'tests_smart_country_registry.mjs'
       - 'tests_country_provider_bridge.mjs'
@@ -17,6 +18,7 @@ on:
       - 'tests_country_search_anchor.mjs'
       - 'tests_country_backend_live_path.mjs'
       - 'tests_country_city_choice_resume.mjs'
+      - 'tests_country_uk_registry_only.mjs'
       - '.github/workflows/smart-country-registry.yml'
   push:
     branches:
@@ -28,6 +30,7 @@ on:
       - 'country_frontend_request.mjs'
       - 'country_gps_resolution.mjs'
       - 'country_search_anchor.mjs'
+      - 'country_national_provider_gate.mjs'
       - 'backend.js'
       - 'tests_smart_country_registry.mjs'
       - 'tests_country_provider_bridge.mjs'
@@ -36,6 +39,7 @@ on:
       - 'tests_country_search_anchor.mjs'
       - 'tests_country_backend_live_path.mjs'
       - 'tests_country_city_choice_resume.mjs'
+      - 'tests_country_uk_registry_only.mjs'
       - '.github/workflows/smart-country-registry.yml'
   workflow_dispatch:
 permissions:
@@ -58,6 +62,7 @@ jobs:
           node --check country_frontend_request.mjs
           node --check country_gps_resolution.mjs
           node --check country_search_anchor.mjs
+          node --check country_national_provider_gate.mjs
       - name: Country and mixed stage routing
         run: node tests_smart_country_registry.mjs
       - name: Frontend to backend request routing
@@ -69,6 +74,8 @@ jobs:
         run: node tests_country_backend_live_path.mjs
       - name: Ambiguous city table and original job resume
         run: node tests_country_city_choice_resume.mjs
+      - name: UK national registry source gates
+        run: node tests_country_uk_registry_only.mjs
       - name: Adapter scoping
         run: node tests_country_provider_bridge.mjs
       - name: Existing parking and zoo regression
