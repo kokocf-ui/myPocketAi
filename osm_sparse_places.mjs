@@ -1,3 +1,45 @@
+import {photonNearbyUrl} from './photon_category_discovery.mjs';
+
+// Photon is already used elsewhere in this app. It is a *last resort* for
+// parking only when the existing bounded Overpass request fails; no extra
+// provider or paid service is introduced.
+async function recoverParkingFromPhoton({latitude,longitude,radius,fetcher}){
+ let url=photonNearbyUrl({latitude,longitude,radius,category:'parking'});
+ try{
+  let response=await fetcher(url.toString(),{
+   headers:{Accept:'application/json'},signal:AbortSignal.timeout(2800)
+  });
+  if([400,422].includes(response.status)){
+   url=photonNearbyUrl({latitude,longitude,radius,category:'parking',
+    query:'parking',useCategories:false});
+   response=await fetcher(url.toString(),{
+    headers:{Accept:'application/json'},signal:AbortSignal.timeout(2200)
+   });
+  }
+  if(!response.ok)return {status:'http_'+response.status,elements:[]};
+  const payload=await response.json();
+  if(!Array.isArray(payload?.features))return {status:'invalid_response',elements:[]};
+  const elements=payload.features.flatMap(feature=>{
+   const p=feature?.properties||{},coords=feature?.geometry?.coordinates||[];
+   const lon=Number(coords[0]),lat=Number(coords[1]);
+   // A name containing "parking" is insufficient: require an OSM tag.
+   if(String(p.osm_key||'').toLowerCase()!=='amenity'||
+      String(p.osm_value||p.type||'').toLowerCase()!=='parking'||
+      !good(lat,lon)||distance(latitude,longitude,lat,lon)>radius)return [];
+   return [{type:'node',id:String(p.osm_id||p.osm_id_str||''),
+    lat,lon,tags:{
+     amenity:'parking',name:String(p.name||'').slice(0,180),
+     'addr:street':String(p.street||p.street_name||''),
+     'addr:housenumber':String(p.housenumber||''),
+     'addr:city':String(p.city||p.town||''),
+     'addr:postcode':String(p.postcode||''),
+     poi_source:'OpenStreetMap Photon'
+    }}];
+  });
+  return {status:'ok',elements};
+ }catch(error){return {status:String(error?.name||'network_error'),elements:[]}}
+}
+
 // Sparse category fallback to bounded OSM Overpass; runs ONLY after the
 // normal maps providers have returned no usable parking/zoo results.
 // Public community service: low-volume only; cache coarse cells for 6h.
@@ -40,14 +82,29 @@ export async function nearbySparseMapPlaces({
      'User-Agent':'myPocketAI/1.0 POI discovery (https://github.com/kokocf-ui/myPocketAi)'},
     body:'data='+encodeURIComponent(q),signal:AbortSignal.timeout(4500)
    });
-   if(!r.ok){trace('http_'+r.status);return [];}
-   data=await r.json();
-   if(!Array.isArray(data?.elements)){trace('invalid_response');return [];}
-   data={elements:data.elements.slice(0,160)};
-   trace('ok',{sourceCount:data.elements.length});
-   if(sharedCache)try{await sharedCache.put(key,Response.json(data,
-    {headers:{'Cache-Control':'public, max-age=21600'}}))}catch{}
-  }catch(error){trace(String(error?.name||'network_error').slice(0,64),{detail:String(error?.message||'').slice(0,110)});return []}
+   if(r.ok){
+    const payload=await r.json();
+    if(Array.isArray(payload?.elements)){
+     data={elements:payload.elements.slice(0,160)};
+     trace('ok',{sourceCount:data.elements.length});
+    }else trace('invalid_response');
+   }else trace('http_'+r.status);
+  }catch(error){
+   trace(String(error?.name||'network_error').slice(0,64),
+    {detail:String(error?.message||'').slice(0,110)});
+  }
+  if(!data&&category==='parking'){
+   const recovered=await recoverParkingFromPhoton({
+    latitude,longitude,radius,fetcher
+   });
+   if(recovered.elements.length){
+    data={elements:recovered.elements.slice(0,100)};
+    trace('photon_fallback_ok',{sourceCount:data.elements.length});
+   }else trace('photon_fallback_'+recovered.status);
+  }
+  if(!data)return [];
+  if(sharedCache)try{await sharedCache.put(key,Response.json(data,
+   {headers:{'Cache-Control':'public, max-age=21600'}}))}catch{}
  }
  return data.elements.flatMap(item=>{
   const t=item.tags||{},pLat=Number(item.lat??item.center?.lat),
