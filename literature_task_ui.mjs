@@ -1,4 +1,5 @@
-export const LITERATURE_TASK_UI_SCRIPT=String.raw`
+import {splitLiteraturePages} from './literature_reader_pagination.mjs';
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+String.raw`
 
 function litSimpleNode(tag,text='',className=''){const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;return el}
 function litSimpleButton(text,fn){const b=litSimpleNode('button',text,'lit-activity-button');b.type='button';b.onclick=fn;return b}
@@ -15,13 +16,55 @@ function litShowMaterialReader(title,text){
  const close=litSimpleButton(litSimpleLabel('Înapoi','Back'),()=>dialog.close());
  close.classList.add('lit-reader-close');head.append(caption,close);
  const content=litSimpleNode('article','','lit-reader-scroll');
- hgDisplayStudyText(content,body);
+ // Target a small readable page even on a landscape phone; unusual content
+ // may still scroll inside the page rather than cover the fixed Android dock.
+ const vh=typeof window!=='undefined'?window.innerHeight:680;
+ const vw=typeof window!=='undefined'?window.innerWidth:420;
+ const pageChars=Math.max(300,Math.min(1200,Math.round(
+  (Math.max(120,vh*.84-230)/26)*(Math.min(780,vw*.92)/9.5))));
+ const pages=splitLiteraturePages(body,pageChars);
+ const controls=[];let active=0;
+ const makePager=position=>{
+  const bar=litSimpleNode('nav','','lit-page-navigation');
+  bar.setAttribute('aria-label',litSimpleLabel('Navigare pagini','Page navigation')+' '+position);
+  bar.style.cssText='display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;padding:5px 10px;min-height:42px;background:#103149;border-top:1px solid #346477;border-bottom:1px solid #346477;flex:0 0 auto';
+  const previous=litSimpleButton(litSimpleLabel('← Anterioară','← Previous'),()=>display(active-1));
+  const next=litSimpleButton(litSimpleLabel('Următoarea →','Next →'),()=>display(active+1));
+  const counter=litSimpleNode('span','','lit-page-counter');
+  counter.setAttribute('aria-live','polite');
+  counter.style.cssText='white-space:nowrap;font-size:12px;text-align:center;color:#c5e7f0';
+  for(const button of [previous,next])button.style.cssText='min-height:35px;min-width:0;max-width:100%;font-size:13px;padding:5px 8px;border:1px solid #42899f;background:#184b61;color:#f4feff;border-radius:9px';
+  previous.style.justifySelf='start';next.style.justifySelf='end';
+  bar.append(previous,counter,next);controls.push({previous,next,counter});
+  return bar;
+ };
+ function display(index){
+  active=Math.max(0,Math.min(pages.length-1,index));
+  content.replaceChildren();
+  hgDisplayStudyText(content,pages[active]||body);
+  content.scrollTop=0;
+  for(const control of controls){
+   control.previous.disabled=active===0;
+   control.next.disabled=active===pages.length-1;
+   control.previous.setAttribute('aria-disabled',String(control.previous.disabled));
+   control.next.setAttribute('aria-disabled',String(control.next.disabled));
+   control.counter.textContent=litSimpleLabel('Pagina ','Page ')+(active+1)+' '+litSimpleLabel('din','of')+' '+pages.length;
+  }
+ }
+ const top=pages.length>1?makePager('top'):null;
+ const bottom=pages.length>1?makePager('bottom'):null;
+ // PDF/print exports retain the entire unpaginated material, not only the visible page.
  const actions=litSimpleNode('div','','lit-reader-footer');
  const material={title,text:body};
  const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),()=>eduOpenPrint('save',material,()=>dialog.close()));
  const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),()=>eduOpenPrint('print',material,()=>dialog.close()));
  actions.append(save,print);
- dialog.append(head,content,actions);
+ dialog.append(head);
+ if(top)dialog.append(top);
+ dialog.append(content);
+ if(bottom)dialog.append(bottom);
+ dialog.append(actions);
+ display(0);
  dialog.addEventListener('close',()=>{dialog.remove();if(litReaderOpen===dialog)litReaderOpen=null});
  document.body.append(dialog);litReaderOpen=dialog;
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
@@ -183,8 +226,8 @@ function litSimpleLiterature(panel){
  const passage=litSimpleNode('details','','lit-activity-review');passage.append(litSimpleNode('summary',litSimpleLabel('Adaugă un fragment pentru analiză','Add a passage to analyse')),textArea);
  const out=litSimpleNode('article','','lit-result lit-activity-output');
  let chosen=null,searchNumber=0;
- const select=(name,author,url)=>{
-  chosen={name,author,url};title.textContent=name+' — '+author;results.replaceChildren();acts.replaceChildren();
+ const select=(name,author,url,work=null)=>{
+  chosen={name,author,url,work};title.textContent=name+' — '+author;results.replaceChildren();acts.replaceChildren();
   const types=[['Studiază','Study','study'],['Rezumat','Summary','summary'],['Eseu','Essay','essay'],['Analiză pe text','Text analysis','analysis']];
   for(const [ro,en,mode] of types)acts.append(litSimpleButton(litSimpleLabel(ro,en),()=>{
    out.replaceChildren();litSimpleGenerate(out,feedback,mode,'Opera: '+chosen.name+'. Autor: '+chosen.author+'.',
@@ -192,6 +235,31 @@ function litSimpleLiterature(panel){
    (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
    result=>litShowMaterialReader(chosen.name+' — '+chosen.author,result));
   }));
+  // Contents can be shown only for a confirmed licensed source with actual text.
+  // Do not manufacture chapter titles, missing lines or verses from catalogue metadata.
+  const sections=Array.isArray(chosen.work?.sections)?chosen.work.sections:[];
+  const readable=sections.length>0&&sections.every(s=>s&&s.rightsVerified===true&&
+   typeof s.title==='string'&&typeof s.text==='string'&&s.text.trim()&&
+   typeof s.license==='string'&&s.license.trim());
+  if(readable){
+   const chapters=litSimpleNode('details','','lit-activity-review');
+   chapters.append(litSimpleNode('summary',litSimpleLabel('Cuprins · Capitole / Poezie','Contents · Chapters / Poem')));
+   for(const section of sections)chapters.append(litSimpleButton(section.title,()=>
+    litShowMaterialReader(chosen.name+' — '+section.title,section.text)));
+   acts.append(chapters,litSimpleButton(litSimpleLabel('Citește opera integral','Read complete work'),()=>
+    litShowMaterialReader(chosen.name+' — '+chosen.author,sections.map(s=>s.title+'\n\n'+s.text).join('\n\n'))));
+  }else{
+   const source=litSimpleNode('a',litSimpleLabel('Sursa / ediția operei','Work source / edition'));
+   if(/^https:\/\//.test(chosen.url||'')){
+    source.href=chosen.url;source.target='_blank';source.rel='noopener noreferrer';
+    acts.append(source);
+   }
+   acts.append(litSimpleButton(litSimpleLabel('Textul integral sau capitolele','Full text or chapters'),()=>{
+    litShowMaterialReader(chosen.name+' — '+chosen.author,litSimpleLabel(
+     'Momentan sunt disponibile numai datele bibliografice. Pentru textul integral sau capitole este necesară o sursă cu drepturi de afișare confirmate. Poți consulta ediția folosind linkul «Sursa / ediția operei».',
+     'Only bibliographic metadata is available. Full text and chapters require a source with verified display rights. See the work source link.'));
+   }));
+  }
   feedback.textContent=litSimpleLabel('Opera selectată; alege activitatea.','Work selected; choose an activity.');
   title.scrollIntoView({block:'nearest',behavior:'auto'});
  };
@@ -199,12 +267,15 @@ function litSimpleLiterature(panel){
  // Instant country-specific starter bibliography; never presented as compulsory reading.
  const showCountryLibrary=()=>{
   const matches=LIT_VERIFIED_AUTHORS.filter(a=>a.country===litJourney.country)
-   .flatMap(a=>a.works.map(w=>({title:w.title,author:a.name,url:w.sourceUrl||a.sourceUrl}))).slice(0,8);
+   .flatMap(a=>a.works.map(w=>({title:w.title,author:a.name,url:w.sourceUrl||a.sourceUrl,work:w}))).slice(0,8);
   results.replaceChildren();
   for(const entry of matches)results.append(litSimpleButton(entry.title+' — '+entry.author,
-   ()=>select(entry.title,entry.author,entry.url)));
+   ()=>select(entry.title,entry.author,entry.url,entry.work)));
   if(matches.length)feedback.textContent=litSimpleLabel('Bibliotecă locală de studiu: ','Local study library: ')+matches.length+' '+
    litSimpleLabel('opere documentate. Nu sunt declarate lecturi obligatorii.','documented works, not labelled compulsory.');
+  else feedback.textContent=litSimpleLabel(
+   'Biblioteca acestei țări este în curs de completare. Poți căuta un titlu sau autor în catalogul internațional.',
+   'The local country library is being expanded. Search for a title or author in the international catalogue.');
  };
  const find=async()=>{
   const term=search.value.trim(),n=++searchNumber;
@@ -217,14 +288,19 @@ function litSimpleLiterature(panel){
    const byAuthor=[a.name,...(a.aliases||[])].some(n=>fold(n).includes(fold(name)));
    if(author&&![a.name,...(a.aliases||[])].some(n=>fold(n).includes(author)))continue;
    for(const w of a.works)if(byAuthor||fold(w.title).includes(fold(name)))
-    local.push({title:w.title,author:a.name,url:w.sourceUrl||a.sourceUrl});
+    local.push({title:w.title,author:a.name,url:w.sourceUrl||a.sourceUrl,work:w});
   }
-  let rows=local;
+  // An exact title is a WORK lookup, not a search for critiques or study guides.
+  const localExact=[...new Map(local.filter(x=>fold(x.title)===fold(name))
+   .map(x=>[fold(x.title)+'|'+fold(x.author),x])).values()];
+  if(localExact.length===1){const x=localExact[0];select(x.title,x.author,x.url,x.work||null);return}
+  let rows=localExact.length?localExact:local;
   if(!rows.length)try{
-   const response=await fetch('https://openlibrary.org/search.json?title='+encodeURIComponent(name)+'&limit=25&fields=key,title,author_name',{credentials:'omit'});
+   const response=await fetch('https://openlibrary.org/search.json?title='+encodeURIComponent(name)+'&limit=25&fields=key,title,author_name,edition_count,first_publish_year',{credentials:'omit'});
    if(!response.ok)throw Error('catalog');
    const data=await response.json();if(n!==searchNumber||!results.isConnected)return;
-   rows=(data.docs||[]).flatMap(x=>(x.author_name||[]).map(w=>({title:String(x.title||''),author:String(w||''),url:/^\/works\/OL\d+W$/.test(x.key||'')?'https://openlibrary.org'+x.key:''})))
+   rows=(data.docs||[]).flatMap(x=>(x.author_name||[]).map(w=>({title:String(x.title||''),author:String(w||''),url:/^\/works\/OL\d+W$/.test(x.key||'')?'https://openlibrary.org'+x.key:'',
+     editionCount:Number(x.edition_count)||0,firstYear:Number(x.first_publish_year)||null})))
     .filter(x=>fold(x.title)===fold(name)&&(!author||fold(x.author).includes(author)));
   }catch{feedback.textContent=litSimpleLabel('Catalog indisponibil; nu pot confirma atribuirea.','Catalogue unavailable; attribution unverified.');return}
   // A person-name query is different from a book-title query. Open
@@ -248,11 +324,27 @@ function litSimpleLiterature(panel){
       'https://openlibrary.org/authors/'+key}));
    }
   }catch{feedback.textContent=litSimpleLabel('Catalogul autorilor nu este disponibil acum.','Author catalogue unavailable right now.')}
+  // Open Library exposes work-level metadata; collapse editions/repeated catalogue rows.
+  // When the full title resolves exactly once, open that work rather than an essay about it.
+  const exact=[...new Map(rows.filter(x=>fold(x.title)===fold(name))
+   .map(x=>[fold(x.title)+'|'+fold(x.author),x])).values()];
+  if(exact.length===1){const x=exact[0];select(x.title,x.author,x.url,x.work||null);return}
+  if(exact.length>1){
+   // On a shared title, never silently select a critic's book. A documented
+   // work that dominates the index by editions can be prioritized, otherwise
+   // show an author disambiguation rather than guessing.
+   const ranking=[...exact].sort((a,b)=>(b.editionCount||0)-(a.editionCount||0));
+   if(!author&&!local.length&&(ranking[0].editionCount||0)>=5&&
+      (ranking[0].editionCount||0)>=(ranking[1].editionCount||0)*3){
+    const x=ranking[0];select(x.title,x.author,x.url,x.work||null);return
+   }
+   rows=ranking;
+  }
   const distinct=[...new Map(rows.map(x=>[fold(x.title)+'|'+fold(x.author),x])).values()];
   let page=0;
   const show=()=>{
    const batch=distinct.slice(page,page+7);
-   for(const row of batch)results.append(litSimpleButton(row.title+' — '+row.author,()=>select(row.title,row.author,row.url)));
+   for(const row of batch)results.append(litSimpleButton(row.title+' — '+row.author,()=>select(row.title,row.author,row.url,row.work||null)));
    page+=batch.length;
    if(page<distinct.length)results.append(litSimpleButton(
     litSimpleLabel('Alte opere','More works'),()=>{
