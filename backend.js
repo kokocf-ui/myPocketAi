@@ -5395,7 +5395,7 @@ export default {
           :requestedPlaceCategory.key==='fast_food'
           ?nearbyUkRegisteredTakeaways(latitude,longitude,radius):Promise.resolve([]);
         const photonStartedAt = Date.now();
-        const photonRequestPromise = sparseCategory ? Promise.resolve({features:[]}) : (async () => {
+        const photonRequestPromise = (async () => {
           const photonUrl=photonNearbyUrl({latitude,longitude,radius,
             category:requestedPlaceCategory.key,query:requestedPlaceCategory.labelEn});
           const photonHeaders={"Accept":"application/geo+json, application/json",
@@ -5676,7 +5676,7 @@ export default {
               };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? distanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => item && Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
-            if(!sparseCategory)activeProviders.push("Photon");
+            if(photonElements.length)activeProviders.push("Photon");
             placesData = { elements: [...geoapifyElements, ...photonElements] };
             console.info("Pocket AI v96 Photon parallel search completed", JSON.stringify({
               stage: "local_search_provider_ok",
@@ -5727,7 +5727,7 @@ export default {
         // tourist attractions to zoos or invent unnamed buildings.
         if(['parking','zoo'].includes(requestedPlaceCategory.key)&&
            (placesData.elements||[]).length===0){
-          const sparseRadius=requestedPlaceCategory.key==='zoo'?35000:radius;
+          const sparseRadius=radius;
           const sparseTrace={};
           const mapped=await nearbySparseMapPlaces({
             latitude,longitude,radius:sparseRadius,
@@ -5737,7 +5737,7 @@ export default {
             stage:"sparse_place_recovery",category:requestedPlaceCategory.key,
             providerStatus:sparseTrace.status||"unknown",cacheHit:sparseTrace.status==="cache_hit",
             mappedCount:mapped.length,elapsedMs:sparseTrace.elapsedMs||0,
-            geoapifySucceeded,photonSkipped:true
+            geoapifySucceeded,photonSucceeded
           }));
           if(mapped.length){
             placesData.elements.push(...mapped);
