@@ -15757,14 +15757,11 @@ function openModuleLandingAction(choice){
  document.querySelector('.module-quick-sheet')?.classList.remove('details-mode','results-mode');
  $('moduleLayerBody').style.cssText='';
  updateQuickLayerGeometry();
- if(choice.kind==='walking'){
-  rememberNavigationSource();enterModuleRouteConversation();
-  state.pendingRouteStart=true;inputEl.value=localizedQuickPrompt(choice);
-  submitMessage();return;
- }
  $('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');
- if(choice.mixedJourney)showJourneyMode(choice);
- else if(choice.kind==='transit')showTransitDestination(choice);
+ // Shared A→B entry point. Retain existing multimodal public transport and road adapters.
+ if(choice.kind==='walking')showPreciseJourney({...choice,journeyMode:'walk'});
+ else if(choice.mixedJourney)showJourneyMode(choice);
+ else if(choice.kind==='transit')showPreciseJourney({...choice,journeyMode:'transit'});
  else runModuleSearch(choice);
 }
 function quickUiText(){const L=state.language;const T={
@@ -15958,7 +15955,7 @@ function showJourneyMode(choice){
  setModuleLayerMode(labels[0]);
  const body=$('moduleLayerBody');
  const mixedNames={ro:'Transport mixt',en:'Mixed transport',fr:'Transport multimodal',de:'Kombinierter Verkehr',it:'Trasporto misto',es:'Transporte mixto',pt:'Transporte misto',nl:'Gemengd vervoer',ru:'Смешанный транспорт',pl:'Transport mieszany'};
- for(const [mode,label] of [['drive',labels[3]],['transit',labels[2]]]){
+ for(const [mode,label] of [['walk',labels[1]],['transit',labels[2]],['drive',labels[3]]]){
   const button=document.createElement('button');
   button.type='button';
   button.className='module-result-card journey-mode-choice';
@@ -16500,11 +16497,12 @@ function showPreciseJourney(choice){
     runModuleSearch({...choice,transitDirect:true,journeyOrigin:origin,transitDestination:destination,transitQuery:destination.label,transitPreference:filters?.preference()||'all',transitDepartureOffset:filters?.departureOffset()||0,transitDepartureAt:filters?.departureAt()||null,prompt:t('Caută transport mixt către ','Find mixed transport to ')+destination.label});
     return;
    }
-   state.pendingTravelMode='drive';
+   const selectedMode=choice.journeyMode==='walk'?'walk':'drive';
+   state.pendingTravelMode=selectedMode;
    state.pendingRouteDestination=destination;
    state.routeSearchContext={destination_query:destination.label,destination,origin,origin_query:origin?.label||'',pending:'profile',profile:null};
    rememberNavigationSource();enterModuleRouteConversation();
-   inputEl.value=(TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en)[3];
+   inputEl.value=(TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en)[selectedMode==='walk'?1:3];
    submitMessage();
   }),card(t('Schimbă destinația','Change destination'),destinationPicker),card(t('Schimbă plecarea','Change departure'),departurePicker));
  };
