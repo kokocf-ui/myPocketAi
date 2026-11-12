@@ -78,15 +78,16 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
  if(window.__pocketReturnAccentInstalled)return;
  window.__pocketReturnAccentInstalled=true;
 
- const fold=value=>String(value||'').replace(/^[\\s←⟵‹«❮↩]+/u,'').trim()
-  .normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/\\s+/g,' ');
+ const fold=value=>String(value||'').replace(/^[\s←⟵‹«❮↩]+/u,'').trim()
+  .normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ');
  const matches=button=>{
   if(button.closest?.('.bottom-nav')||button.matches?.('[data-nav]'))return false;
   if(button.id==='moduleLayerBack'||button.hasAttribute?.('data-back'))return true;
   const label=fold(button.getAttribute?.('aria-label')||button.textContent||button.title||'');
-  if(/^(?:acasa|inapoi|anterior|revenire|home|back|previous|return|retour|zuruck|indietro|volver|atras|wstecz|vissza|geri|назад)(?:$|\\s+(?:la|to|catre|spre|aux?|al|in|din)\\b)/u.test(label))return true;
+  if(/^(?:acasa|inapoi|anterior|revenire|home|back|previous|return|retour|zuruck|indietro|volver|atras|wstecz|vissza|geri|назад)(?:$|\s+(?:la|to|catre|spre|aux?|al|in|din)\b)/u.test(label))return true;
   // Icon-only back controls: never infer from a rotation/zoom arrow.
-  return /^(?:❮|‹|⟵|←)$/.test(label)&&
+  const glyph=String(button.textContent||'').trim();
+  return /^(?:❮|‹|⟵|←)$/.test(glyph)&&
    Boolean(button.closest?.('.module-quick-header,.answer-reader-header,.education-toolbar,.route-choice-screen'));
  };
  const mark=button=>{
