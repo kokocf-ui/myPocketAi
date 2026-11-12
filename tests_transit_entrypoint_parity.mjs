@@ -27,6 +27,20 @@ globalThis.fetch=async input=>{
      departurePoint:{commonName:'Victoria',lat:destination.latitude,lon:destination.longitude},
      arrivalPoint:{commonName:'Victoria Underground Station',lat:destination.latitude,lon:destination.longitude}}
    ]
+  },{
+   duration:78,startDateTime:after(36),arrivalDateTime:after(114),
+   legs:[
+    {mode:{name:'walking'},duration:6,departureTime:after(36),arrivalTime:after(42),
+     departurePoint:{commonName:'Start',lat:origin.latitude,lon:origin.longitude},
+     arrivalPoint:{commonName:'South Stifford, Mill Lane',lat:51.4792,lon:0.2916}},
+    {mode:{name:'bus'},duration:70,departureTime:after(46),arrivalTime:after(112),
+     departurePoint:{commonName:'South Stifford, Mill Lane',lat:51.4792,lon:0.2916},
+     arrivalPoint:{commonName:'Victoria',lat:destination.latitude,lon:destination.longitude},
+     routeOptions:[{lineIdentifier:{name:'44'}}]},
+    {mode:{name:'walking'},duration:2,departureTime:after(112),arrivalTime:after(114),
+     departurePoint:{commonName:'Victoria',lat:destination.latitude,lon:destination.longitude},
+     arrivalPoint:{commonName:'Victoria Underground Station',lat:destination.latitude,lon:destination.longitude}}
+   ]
   }]});
  }
  throw Error('Unexpected route provider '+u.hostname+u.pathname);
@@ -45,10 +59,14 @@ const run=async(module,mixed_journey)=>{
  const result=await response.json();
  assert.equal(result.transit_available,true,JSON.stringify(result).slice(0,850));
  assert.equal(result.transit_provider,'TfL');
- assert.equal(result.transit.length,1);
- assert.equal(result.diagnostics.tflChecks.finalAccepted,1);
- return {provider:result.transit_provider,firstStop:result.transit[0].legs[0].from,
-  lastStop:result.transit[0].legs.at(-1).to};
+ assert.ok(result.transit.length>=2,'A unified planner must retain verified bus and train alternatives');
+ assert.ok(result.diagnostics.tflChecks.finalAccepted>=2);
+ const modes=new Set(result.transit.flatMap(j=>j.legs.map(l=>l.mode)));
+ assert.ok(modes.has('bus'),'Bus alternative must be present in all modules');
+ assert.ok(modes.has('national-rail'),'Rail alternative must be present in all modules');
+ return {provider:result.transit_provider,
+  itineraryModes:result.transit.map(j=>j.legs.map(l=>l.mode).join('>')).sort(),
+  lastStops:result.transit.map(j=>j.legs.at(-1).to).sort()};
 };
 try{
  const results=[
