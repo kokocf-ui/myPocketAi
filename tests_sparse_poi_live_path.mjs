@@ -20,7 +20,11 @@ globalThis.fetch=async input=>{
   return category==='parking'?new Response('unavailable',{status:503}):
    Response.json({features:[]});
  }
- if(u.hostname==='photon.komoot.io'){photonCalls++;throw Error('Do not query Photon for sparse POIs')}
+ if(u.hostname==='photon.komoot.io'){
+  photonCalls++;
+  if(category==='photon')return Response.json({features:[{geometry:{coordinates:[0.302,51.478]},properties:{name:'Dock Road Car Park',osm_key:'amenity',osm_value:'parking'}}]});
+  return new Response('unavailable',{status:503});
+ }
  if(u.hostname==='overpass.private.coffee'){
   overpassCalls++;
   const body=String(input&&typeof input!=='string'?'': '');
@@ -66,7 +70,15 @@ try{
  assert.notEqual(empty.search_error_code,'LOCAL_SEARCH_FAILED',
    'One successfully queried provider returning no results is not a total outage');
  assert.equal(overpassCalls,3);
- assert.equal(photonCalls,0,'Slow Photon must not delay parking/zoo');
+ assert.equal(photonCalls,3,'Photon must be queried for parking and zoo in parallel with Geoapify');
  assert.equal(geoapifyCalls,3);
+ category='photon';
+ const priorOverpass=overpassCalls;
+ const recovered=await request('parking');
+ assert.equal(recovered.search_ok,true,recovered.reply);
+ assert.equal(recovered.places.length,1);
+ assert.equal(recovered.places[0].name,'Dock Road Car Park');
+ assert.equal(overpassCalls,priorOverpass,'Valid Photon results must avoid slower Overpass');
+ assert.match(recovered.source,/Photon/);
 }finally{globalThis.fetch=original}
 console.log('PASS sparse POI: parking after provider 503, extended zoo, exact OSM tags and honest empty results');
