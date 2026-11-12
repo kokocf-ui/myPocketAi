@@ -40,4 +40,27 @@ assert.ok(europeanCountrySources('RO').transport.some(x=>x.id==='ro_bilo_evidenc
 assert.ok(europeanCountrySources('FR').transport.some(x=>x.id==='fr_nap'));
 assert.ok(europeanCountrySources('DE').transport.some(x=>x.id==='de_delfi'));
 assert.equal(selectCountryProviders({country:'Romania',category:'restaurant',enabledProviders:['fr_nap','photon']}).providers.join(','),'photon');
+// Country parity: same category, same global sources, plus only verified local sources.
+for(const location of ['Romania','UK','Italia','France']){
+ const plan=selectCountryProviders({country:location,category:'restaurant',
+  enabledProviders:['geoapify','photon','uk_food_retailers','tfl','ro_urban_gtfs']});
+ assert.equal(plan.branch,'general');
+ assert.deepEqual(plan.providers,['geoapify','photon'],location);
+}
+assert.deepEqual(selectCountryProviders({country:'UK',category:'corner_shop',
+ enabledProviders:['geoapify','photon','uk_food_retailers']}).providers,
+ ['geoapify','photon','uk_food_retailers']);
+assert.deepEqual(selectCountryProviders({country:'Romania',category:'corner_shop',
+ enabledProviders:['geoapify','photon','uk_food_retailers']}).providers,['geoapify','photon']);
+assert.deepEqual(selectCountryProviders({country:'UK',category:'intercity_transport',
+ enabledProviders:['uk_national_transit','ro_national_transit']}).providers,['uk_national_transit']);
+assert.deepEqual(selectCountryProviders({country:'Romania',category:'intercity_transport',
+ enabledProviders:['uk_national_transit','ro_national_transit']}).providers,['ro_national_transit']);
+assert.deepEqual(selectCountryProviders({country:'UK',category:'urban_transport',region:'london',
+ enabledProviders:['tfl','ro_urban_gtfs']}).providers,['tfl']);
+assert.deepEqual(selectCountryProviders({country:'UK',category:'urban_transport',region:'manchester',
+ enabledProviders:['tfl','ro_urban_gtfs']}).providers,[]);
+assert.ok(europeanCountrySources('GB').general.some(x=>x.id==='gb_food_registry_adapter'));
+assert.ok(europeanCountrySources('GB').transport.some(x=>x.id==='gb_transcapi_adapter'));
+assert.deepEqual(countryCoverage('UK').branches,countryCoverage('Romania').branches);
 console.log('Country registry + Europe catalog checks passed');
