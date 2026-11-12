@@ -75,29 +75,56 @@ export async function fallbackNamedBusiness(target,{geoapifyKey='',tomtomKey='',
  const outsideUk=Boolean(target.country)&&!/(?:uk|gb|united kingdom|great britain|anglia|england|scotland|wales|marea britanie)/.test(norm(target.country));
  if(!outsideUk){
   const key=tokens(target.name).find(w=>w.length>=4&&!['premier','premiere','market','store','shop','supermarket','magazinul'].includes(w));
-  if(key){
+  // The Food Standards Agency separates trading names (often held in an
+  // address line) from registered BusinessName. Never require both to match.
+  // Search by business name first, then by locality alone when needed.
+  const searches=[
+   ...(key?[{name:key,address:target.city}]:[]),
+   ...(target.street?[{address:target.city}]:[])
+  ];
+  const checked=new Set();
+  for(const terms of searches){
+   const signature=JSON.stringify(terms);
+   if(checked.has(signature))continue;
+   checked.add(signature);
    try{
     const u=new URL('https://api.ratings.food.gov.uk/Establishments');
-    u.searchParams.set('name',key);
-    u.searchParams.set('address',target.city);
+    for(const [k,v] of Object.entries(terms))u.searchParams.set(k,v);
     u.searchParams.set('businessTypeId','4613');
-    u.searchParams.set('pageNumber','1');u.searchParams.set('pageSize','100');
-    const response=await fetcher(u.href,{headers:{Accept:'application/json','x-api-version':'2'},signal:AbortSignal.timeout(4300)});
-    if(response.ok){
-     const data=await response.json();
-     const records=(Array.isArray(data.establishments)?data.establishments:[]).filter(row=>{
-      const addr=streetAddress(row);
-      return row?.BusinessName&&matchName(target.name,row.BusinessName)&&contains(addr,target.city)&&sameStreet(addr,target.street);
-     });
-     if(records.length===1){
-      const row=records[0],id=String(row.FHRSID||'');
-      const details={address:streetAddress(row)};
-      if(String(row.Phone||'').trim())details.phone=String(row.Phone).trim();
-      const url=/^\d{1,12}$/.test(id)?'https://api.ratings.food.gov.uk/Establishments/'+id:'https://api.ratings.food.gov.uk/help';
-      return sourceRecord(String(row.BusinessName),url,details);
-     }
+    u.searchParams.set('pageNumber','1');u.searchParams.set('pageSize','250');
+    const response=await fetcher(u.href,{
+     headers:{Accept:'application/json','x-api-version':'2'},
+     signal:AbortSignal.timeout(4300)
+    });
+    if(!response.ok)continue;
+    const data=await response.json();
+    const records=(Array.isArray(data?.establishments)?data.establishments:[]).filter(row=>{
+     if(!row?.BusinessName||!/retailer|shop|store|supermarket/i.test(String(row.BusinessType||'Retailers - other')))return false;
+     const addr=streetAddress(row);
+     // A shared street alone is not evidence of a matching business:
+     // town + street + commercial name or an address-line trading alias
+     // must all agree.
+     if(!contains(addr,target.city)||!sameStreet(addr,target.street))return false;
+     const tradingAliases=[row.BusinessName,row.AddressLine1,row.AddressLine2,row.AddressLine3]
+      .filter(x=>typeof x==='string'&&x.trim());
+     return tradingAliases.some(alias=>matchName(target.name,alias));
+    });
+    const unique=[...new Map(records.map(row=>[String(row.FHRSID||streetAddress(row)+'|'+row.BusinessName),row])).values()];
+    if(unique.length!==1)continue;
+    const row=unique[0],id=String(row.FHRSID||'');
+    const details={address:streetAddress(row)};
+    if(String(row.Phone||'').trim())details.phone=String(row.Phone).trim();
+    const tradeAlias=[row.AddressLine1,row.AddressLine2,row.AddressLine3]
+     .find(label=>typeof label==='string'&&matchName(target.name,label)&&
+       norm(label)!==norm(row.BusinessName));
+    if(tradeAlias){
+     details.registeredName=String(row.BusinessName).trim();
     }
-   }catch{/* Continue to independent geocode evidence. */}
+    const url=/^\d{1,12}$/.test(id)
+     ?'https://api.ratings.food.gov.uk/Establishments/'+id
+     :'https://api.ratings.food.gov.uk/help';
+    return sourceRecord(String(tradeAlias||row.BusinessName).trim(),url,details);
+   }catch{/* A failed free registry request must not prevent other sources. */}
   }
  }
  if(geoapifyKey){
@@ -178,6 +205,7 @@ export function businessResearchReply(r,language='ro'){
   (ro?'Magazin: ':'Shop: ')+r.name,
   (ro?'Adresă verificată până la nivelul: ':'Location matched: ')+(d.address||[r.street,r.city].filter(Boolean).join(', '))
  ];
+ if(d.registeredName)lines.push((ro?'Denumire în registrul oficial: ':'Official register name: ')+d.registeredName);
  if(d.phone)lines.push((ro?'Telefon publicat: ':'Published phone: ')+d.phone);
  if(d.hours)lines.push((ro?'Program publicat: ':'Published hours: ')+Object.entries(d.hours).map(([k,v])=>k+': '+v).join('; '));
  if(d.products?.length)lines.push((ro?'Produse enumerate de sursă: ':'Products listed by source: ')+d.products.join(', '));
