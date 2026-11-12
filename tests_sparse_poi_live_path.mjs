@@ -17,10 +17,17 @@ globalThis.fetch=async input=>{
   const circle=u.searchParams.get('filter')||'';
   assert.match(circle,category==='zoo' ? /,35000$/ : /,5000$/);
   // A provider failure must NOT be described as "no locations exist".
-  return category==='parking'?new Response('unavailable',{status:503}):
+  return ['parking','photon'].includes(category)?new Response('unavailable',{status:503}):
    Response.json({features:[]});
  }
- if(u.hostname==='photon.komoot.io'){photonCalls++;throw Error('Do not query Photon for sparse POIs')}
+ if(u.hostname==='photon.komoot.io'){
+  photonCalls++;
+  if(category==='photon')return Response.json({features:[{
+   type:'Feature',geometry:{type:'Point',coordinates:[0.302,51.478]},
+   properties:{name:'Short Stay Car Park',osm_key:'amenity',osm_value:'parking'}
+  }]});
+  return Response.json({features:[]});
+ }
  if(u.hostname==='overpass.private.coffee'){
   overpassCalls++;
   const body=String(input&&typeof input!=='string'?'': '');
@@ -29,7 +36,8 @@ globalThis.fetch=async input=>{
   ]});
   if(category==='zoo')return Response.json({elements:[
    osmFeature('Wildlife Centre','tourism','zoo',51.627,0.375),
-   osmFeature('Wrong park','leisure','park',51.61,0.35)
+   osmFeature('Wrong park','leisure','park',51.61,0.35),
+   osmFeature('M25','tourism','zoo',51.62,0.35)
   ]});
   return Response.json({elements:[]});
  }
@@ -53,6 +61,13 @@ try{
  assert.match(parking.places[0].name,/Parcare/);
  assert.equal(parking.search_radius_meters,5000);
  assert.match(parking.source,/OpenStreetMap Overpass/);
+ category='photon';
+ const alreadyCalled=overpassCalls;
+ const recovered=await request('parking');
+ assert.equal(recovered.search_ok,true,recovered.reply);
+ assert.ok(recovered.places.some(x=>x.name==='Short Stay Car Park'));
+ assert.match(recovered.source,/Photon/);
+ assert.equal(overpassCalls,alreadyCalled,'Photon success must bypass slow Overpass fallback');
  category='zoo';
  const zoo=await request('zoo');
  assert.equal(zoo.search_ok,true,zoo.reply);
@@ -66,7 +81,7 @@ try{
  assert.notEqual(empty.search_error_code,'LOCAL_SEARCH_FAILED',
    'One successfully queried provider returning no results is not a total outage');
  assert.equal(overpassCalls,3);
- assert.equal(photonCalls,0,'Slow Photon must not delay parking/zoo');
- assert.equal(geoapifyCalls,3);
+ assert.equal(photonCalls,3,'Both parking searches and empty-case use Photon; zoo skips Photon');
+ assert.equal(geoapifyCalls,4);
 }finally{globalThis.fetch=original}
 console.log('PASS sparse POI: parking after provider 503, extended zoo, exact OSM tags and honest empty results');

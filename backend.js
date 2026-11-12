@@ -5395,7 +5395,11 @@ export default {
           :requestedPlaceCategory.key==='fast_food'
           ?nearbyUkRegisteredTakeaways(latitude,longitude,radius):Promise.resolve([]);
         const photonStartedAt = Date.now();
-        const photonRequestPromise = sparseCategory ? Promise.resolve({features:[]}) : (async () => {
+        // Zoo keeps bounded OSM coverage for its wider 35km search.
+        // Restore Photon for parking. The blanket sparse-category skip
+        // disabled a previously useful provider for all car parks.
+        const photonRequestPromise = requestedPlaceCategory.key==='zoo'
+          ? Promise.resolve({features:[]}) : (async () => {
           const photonUrl=photonNearbyUrl({latitude,longitude,radius,
             category:requestedPlaceCategory.key,query:requestedPlaceCategory.labelEn});
           const photonHeaders={"Accept":"application/geo+json, application/json",
@@ -5462,7 +5466,7 @@ export default {
             geoapifyUrl.searchParams.set("apiKey", env.GEOAPIFY_API_KEY);
             const geoapifyResponse = await fetch(geoapifyUrl.toString(), {
               headers: { "Accept": "application/json" },
-              signal: AbortSignal.timeout(sparseCategory?4000:6500)
+              signal: AbortSignal.timeout(requestedPlaceCategory.key==="parking"?2800:sparseCategory?4000:6500)
             });
             if (!geoapifyResponse.ok) {
               const errorBody = (await geoapifyResponse.text().catch(() => "")).slice(0, 400);
@@ -5623,7 +5627,9 @@ export default {
                 : requestedPlaceCategory.key === "fuel"
                   ? /fuel|petrol|gas station/.test(photonType) || /petrol|fuel|shell|bp |esso|texaco|sainsbury's fuel/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "parking"
-                  ? /parking|car park/.test(photonType) || /car park|parking/i.test(String(properties.name || ""))
+                  ? (String(properties.osm_key||'')==='amenity' &&
+                     String(properties.osm_value||'')==='parking') ||
+                     /^(?:parking|parking_space)$/i.test(String(properties.type||''))
                 : requestedPlaceCategory.key === "car_wash"
                   ? /car.?wash/.test(photonType) || /car wash/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "car_repair"
@@ -5676,7 +5682,7 @@ export default {
               };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? distanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => item && Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
-            if(!sparseCategory)activeProviders.push("Photon");
+            if(photonElements.length)activeProviders.push("Photon");
             placesData = { elements: [...geoapifyElements, ...photonElements] };
             console.info("Pocket AI v96 Photon parallel search completed", JSON.stringify({
               stage: "local_search_provider_ok",
@@ -5763,7 +5769,8 @@ export default {
             activeProviders.push('OpenStreetMap Overpass');
           }
         }
-        const elements = placesData.elements;
+        const elements = placesData.elements.filter(item=>requestedPlaceCategory.key!=="zoo" ||
+          !/^(?:M|A|B)\d{1,4}(?:\s*\/\s*(?:M|A|B)\d{1,4})?$/i.test(String(item?.tags?.name||"").trim()));
         // Recover missing classifications from provider details without changing the requested star filter.
         if(requestedStars&&env.GEOAPIFY_API_KEY){
           const pending=elements.filter(v=>!normalizeHotelStars(v.tags?.stars)&&typeof v.tags?.geoapify_place_id==="string"&&v.tags.geoapify_place_id.length>0&&v.tags.geoapify_place_id.length<600).slice(0,8);
