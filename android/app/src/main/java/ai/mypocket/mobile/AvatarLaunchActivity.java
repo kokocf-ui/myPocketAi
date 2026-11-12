@@ -147,10 +147,8 @@ public final class AvatarLaunchActivity extends Activity {
             }
         });
         speech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-            // TTS onStart can arrive at audible playback: passing the callback
-            // through Android UI, WebView JS and WebGL costs several frames.
-            // Pre-arm at synthesis start; onStart remains a fallback for engines
-            // that don't report onBeginSynthesis.
+            // Start visual articulation on playback, not during synthesis.
+            // Keep each spoken sentence independent so mouth is closed in pauses.
             @Override public void onBeginSynthesis(String utteranceId, int sampleRateInHz, int audioFormat, int channelCount) {
                 // Synthesis happens before sound: do not move lips yet.
             }
@@ -719,10 +717,9 @@ public final class AvatarLaunchActivity extends Activity {
             }
         }
         currentGreeting=firstSetupShownThisLaunch?firstGreetingForLanguage(launchLanguage):greetingForLanguage(launchLanguage);
-        // Keep one continuous native-language utterance: changing TTS locale
-        // between sentences caused lengthy pauses and an audible voice swap.
-        // For Romanian only, spell the trademark phonetically for the voice;
-        // currentGreeting remains unchanged for the avatar and UI.
+        // Keep one language and voice throughout the greeting.
+        // Split only at sentence punctuation to make inter-sentence silence explicit.
+        // For Romanian, pronounce the brand phonetically while keeping the UI wording.
         spokenGreeting = "ro".equals(launchLanguage)
             ? currentGreeting.replace("myPocket AI", "mai pocăt ei ai")
             : currentGreeting;
