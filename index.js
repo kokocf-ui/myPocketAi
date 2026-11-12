@@ -18721,20 +18721,56 @@ function saveHistory(){try{localStorage.setItem(HISTORY_KEY,JSON.stringify(state
 // Recall is strictly opt-in through a specific conversational question.
 // Saved chats stay local; only a short relevant excerpt is sent in that turn.
 function pocketRecallPreviousChat(message){
+ // Read only this device's saved assistant conversations, and only when
+ // the user explicitly requests a look-back. No automatic hidden uploads.
  if(state.currentView!=='assistant')return [];
- const normalized=String(message||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
- if(!/\\b(?:tii minte|mai tii minte|iti amintesti|ce (?:ti am spus|am discutat|am vorbit)|despre ce am glumit|ce gluma|despre ce te am tachinat|remember what|do you remember)\\b/.test(normalized))return [];
- const recent=Array.isArray(state.history)?state.history.slice(0,12):[];
- for(const item of recent){
+ const normalize=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  .toLowerCase().replace(/[^a-z0-9\p{L}]+/gu,' ').replace(/\s+/g,' ').trim();
+ const q=normalize(message);
+ const explicit=/\b(?:tii minte|iti amintesti|am discutat|am vorbit|mi ai recomandat|mi ai spus|despre ce am glumit|despre ce te am tachinat|remember what|do you remember|we discussed|we talked about|you recommended)\b/.test(q)
+  ||/\b(?:cauta|cauti|gaseste|gasesti|verifica|search|find|look up)\b.{0,75}\b(?:istoric|conversati|discuti|mesaj|history|chat)\b/.test(q)
+  ||/\b(?:in|din|from)\s+(?:istoric|conversatiile noastre|discutiile noastre|our chat history)\b/.test(q);
+ if(!explicit)return [];
+ const ignored=new Set('eva imi mi ai am ce care cand cum unde noi nostru noastre noastra despre din in la si iar dar pe cu ca de sa te ti rog cauta cauti gaseste gasesti verifica inca mai vreau cautare istoric istoricul conversatie conversatia conversatiile discutie discutiile nostru our the where when what which did you me my i we please find search history chat previous conversation talk talked discussed remember earlier earlier today yesterday'.split(' '));
+ const terms=[...new Set(q.split(' ').filter(w=>w.length>=3&&!ignored.has(w)&&
+  !/^(discut|vorbit|spus|scris|intrebat|recomand|saptaman|trecut|remember|mesaj)/.test(w)))];
+ const joke=/\b(?:glumit|glume|gluma|tachinat|joke|joking|teased)\b/.test(q);
+ const social=/\b(?:glum|tachin|obraznic|desteapt|cafe|invit|frumoas|amuzant|ras|jok|teas|coffe)/;
+ const matches=[];
+ for(const item of (Array.isArray(state.history)?state.history:[]).slice(0,30)){
   if(!Array.isArray(item?.messages))continue;
-  const original=item.messages.filter(m=>m&&['user','assistant'].includes(m.role)&&typeof m.text==='string');
-  const social=(m)=>/\\b(?:glum\\w*|tachin\\w*|obraznic\\w*|desteapt\\w*|caf(ea|ele)\\w*|invit\\w*|frumoas\\w*|amuzant\\w*|r[aâ]s\\w*|jok\\w*|teas\\w*|coffe\\w*)\\b/i.test(m.text.normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase());
-  if(!original.some(m=>m.role==='user'&&social(m)))continue;
-  const index=original.findLastIndex(m=>m.role==='user'&&social(m));
-  const excerpt=original.slice(Math.max(0,index-2),Math.min(original.length,index+3));
-  return excerpt.map(m=>({role:m.role,content:m.text.slice(0,280)}));
+  const messages=item.messages.filter(m=>m&&['user','assistant'].includes(m.role)&&typeof m.text==='string');
+  for(let i=0;i<messages.length;i++){
+   const text=normalize(messages[i].text);
+   const hit=terms.reduce((total,term)=>total+(text.includes(term)?1:0),0);
+   const score=hit+(joke&&social.test(text)?2:0);
+   if(score<=0)continue;
+   matches.push({score,item,messages,index:i});
+  }
  }
- return [];
+ matches.sort((a,b)=>b.score-a.score||Number(b.item.id||0)-Number(a.item.id||0)||a.index-b.index);
+ const chosen=matches.slice(0,4),results=[],used=new Set();
+ for(const hit of chosen){
+  // Include the actual exchange around a matching message, not just a
+  // disconnected keyword hit. Keep source metadata and limit disclosure.
+  const from=Math.max(0,hit.index-(hit.messages[hit.index].role==='assistant'?1:0));
+  for(const m of hit.messages.slice(from,Math.min(hit.messages.length,from+2))){
+   const key=String(hit.item.id)+'|'+from+'|'+m.role;
+   if(used.has(key))continue;used.add(key);
+   results.push({role:m.role,content:m.text.slice(0,420),
+    timestamp:String(hit.item.date||''),conversation_id:String(hit.item.id||'')});
+   if(results.length>=8)return results;
+  }
+ }
+ // A topic-free explicit memory question may refer to the most recent chat;
+ // return a short, genuinely available excerpt, not a fabricated recollection.
+ if(!results.length&&terms.length===0){
+  const item=(Array.isArray(state.history)?state.history:[]).find(x=>Array.isArray(x?.messages)&&x.messages.length);
+  if(item)return item.messages.filter(m=>['user','assistant'].includes(m?.role)&&typeof m.text==='string')
+   .slice(-4).map(m=>({role:m.role,content:m.text.slice(0,420),
+    timestamp:String(item.date||''),conversation_id:String(item.id||'')}));
+ }
+ return results;
 }
 function archiveCurrentConversation(){if(!state.messages.length)return;state.history.unshift({id:Date.now(),title:(state.messages.find(m=>m.role==='user')?.text||dialogText('Conversație nouă','New conversation')).slice(0,72),date:new Date().toLocaleString(),messages:state.messages.slice(-40),placeContext:state.placeSearchContext||null,placeResults:state.lastPlaceResults||[],distanceContext:state.distanceSearchContext||null,routeContext:state.routeSearchContext||null,weatherContext:state.weatherSearchContext||null,newsContext:state.newsConversationContext||null});state.history=state.history.slice(0,30);saveHistory()}
 function renderHistory(){const list=$('historyList');list.innerHTML='';if(!state.history.length){const p=document.createElement('p');p.className='muted';p.textContent=dialogText('Nu există conversații salvate încă.','No saved conversations yet.');list.append(p);return}state.history.forEach(item=>{const row=document.createElement('div');row.className='list-row';const span=document.createElement('span');span.textContent=item.title+' · '+item.date;const btn=document.createElement('button');btn.textContent=dialogText('Deschide','Open');btn.addEventListener('click',()=>{state.messages=Array.isArray(item.messages)?item.messages.slice():[];state.placeSearchContext=item.placeContext||null;state.lastPlaceResults=Array.isArray(item.placeResults)?item.placeResults:[];state.distanceSearchContext=item.distanceContext||null;state.routeSearchContext=item.routeContext||null;state.weatherSearchContext=item.weatherContext||null;state.newsConversationContext=item.newsContext||null;state.lastRoute=null;state.lastRouteOptions=[];messagesEl.innerHTML='';if(!state.messages.length)messagesEl.innerHTML='<div class="empty-state">Conversație goală.</div>';state.messages.forEach(m=>addBubble(m.text,m.role));state.lastReply=[...state.messages].reverse().find(m=>m.role==='assistant')?.text||'';showView('assistant')});row.append(span,btn);list.append(row)})}
@@ -19095,7 +19131,7 @@ state.pendingTravelConfirmationData=null;
 if(!state.pendingTravelMode&&state.routeSearchContext?.destination&&/^(?!pietonal$|transport public$|masina$|mașină$|walking$|driving$|public transport$|da$|yes$|nu$|no$)(?:[\\p{L}][\\p{L}0-9&' .-]{2,60}\\s*,\\s*[\\p{L} .'-]{2,60}|(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)\\s+.+)$/iu.test(message)){state.routeSearchContext=null;state.pendingRouteDestination=null;state.pendingTravelMode=null;state.lastTravelModeResponse=null;}if(isMapRouteFollowup(message)&&validMapRoute(state.lastRoute)){addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const reply=routeMapText().shown;addBubble(reply,'assistant');state.messages.push({role:'assistant',text:reply});openRouteMap(state.lastRoute);return}const routeLoadingRequested=state.currentView==='module'&&['maps','travel'].includes(state.currentModule)&&(Boolean(state.pendingTravelMode)||state.pendingRouteStart===true||state.pendingRouteCompare===true);
 const routeLoadingProfile=state.pendingTravelMode||(state.pendingRouteStart?'walk':state.routeSearchContext?.profile)||'walk';
 const routePickerFromPlace=Boolean(state.routeSearchContext?.destination)&&routeLoadingRequested&&routeLoadingProfile!=='transit';
-const selectedEntityKind=state.pendingSelectedEntityKind==='article'?'article':undefined;state.pendingSelectedEntityKind=null;const selectedGeographicEntity=state.pendingSelectedGeoOption||null;state.pendingSelectedGeoOption=null;state.busy=true;if(routeLoadingRequested)beginRouteSearchLoading(routeLoadingProfile);const clientRequestStartedAt=performance.now();const generation=state.conversationGeneration;sendBtn.disabled=true;inputEl.disabled=true;setStatus(dialogText('myPocket AI pregătește răspunsul…','Pocket AI is preparing a response…'));addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const loading=addBubble(dialogText('Se pregătește răspunsul…','Preparing response…'),'assistant');try{const priorChat=pocketRecallPreviousChat(message);const history=[...priorChat,...state.messages.slice(-CLIENT_CONFIG.historyLimit).map(m=>({role:m.role,content:m.text}))].slice(-CLIENT_CONFIG.historyLimit);const gpsStartedAt=performance.now();const locationRequest=await coordinatesForRequest(message);const gpsElapsedMs=Math.round(performance.now()-gpsStartedAt);const locationIntent=locationRequest.locationIntent;const coordinates=locationRequest.coordinates;const locationErrorText=locationRequest.error;const routeDestination=state.pendingTravelMode&&state.routeSearchContext?.destination?state.routeSearchContext.destination:selectedPlaceForRoute(message);const routeStart=state.pendingRouteStart===true;state.pendingRouteStart=false;const routeViaQuery=state.pendingRouteViaQuery||undefined;state.pendingRouteViaQuery=null;const routeCompare=state.pendingRouteCompare===true;state.pendingRouteCompare=false;const travelMode=state.pendingTravelMode||undefined;state.pendingTravelMode=null;
+const selectedEntityKind=state.pendingSelectedEntityKind==='article'?'article':undefined;state.pendingSelectedEntityKind=null;const selectedGeographicEntity=state.pendingSelectedGeoOption||null;state.pendingSelectedGeoOption=null;state.busy=true;if(routeLoadingRequested)beginRouteSearchLoading(routeLoadingProfile);const clientRequestStartedAt=performance.now();const generation=state.conversationGeneration;sendBtn.disabled=true;inputEl.disabled=true;setStatus(dialogText('myPocket AI pregătește răspunsul…','Pocket AI is preparing a response…'));addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const loading=addBubble(dialogText('Se pregătește răspunsul…','Preparing response…'),'assistant');try{const priorChat=pocketRecallPreviousChat(message);const recentLimit=priorChat.length?Math.max(2,CLIENT_CONFIG.historyLimit-Math.min(6,priorChat.length)):CLIENT_CONFIG.historyLimit;const recentChat=state.messages.slice(-recentLimit).map(m=>({role:m.role,content:m.text}));const history=[...priorChat.slice(-Math.max(0,CLIENT_CONFIG.historyLimit-recentChat.length)),...recentChat];const gpsStartedAt=performance.now();const locationRequest=await coordinatesForRequest(message);const gpsElapsedMs=Math.round(performance.now()-gpsStartedAt);const locationIntent=locationRequest.locationIntent;const coordinates=locationRequest.coordinates;const locationErrorText=locationRequest.error;const routeDestination=state.pendingTravelMode&&state.routeSearchContext?.destination?state.routeSearchContext.destination:selectedPlaceForRoute(message);const routeStart=state.pendingRouteStart===true;state.pendingRouteStart=false;const routeViaQuery=state.pendingRouteViaQuery||undefined;state.pendingRouteViaQuery=null;const routeCompare=state.pendingRouteCompare===true;state.pendingRouteCompare=false;const travelMode=state.pendingTravelMode||undefined;state.pendingTravelMode=null;
 const newsFollowupText=String(message).normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
 const newsContextRequested=Boolean(state.newsConversationContext)&&/(?:surs\\w*|source\\w*|link\\w*|confirmat\\w*|neclar\\w*|verificat\\w*|confirmed|unclear|unverified|original)/i.test(newsFollowupText);
 const browserNow=new Date();
