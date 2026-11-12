@@ -183,9 +183,10 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
   if(typeof onReady==='function'){
    try{if(onReady(text)===false)throw Error('reader_could_not_attach')}catch(readerError){
     // Reader/popup errors never invalidate the already rendered study material.
+    const errorCode=typeof window!=='undefined'?String(window.__pocketLiteratureReaderDetail||'reader_could_not_attach').slice(0,60):'reader_could_not_attach';
     status.textContent=litSimpleLabel(
-     'Fereastra de lectură nu s-a putut deschide. Apasă din nou activitatea.',
-     'The reader could not open. Select the activity again.');
+     'Fereastra de lectură nu s-a putut deschide ('+errorCode+').',
+     'The reader could not open ('+errorCode+').');
     if(typeof console!=='undefined')console.warn('literature_reader_unavailable',
      String(readerError?.message||readerError));
    }
@@ -305,10 +306,12 @@ function litSimpleWorkspace(panel){
   const task=title+'. '+(branch==='admission'?topic[3]+school+' ':'')+
     (phrase?'Textul utilizatorului: '+phrase+'. ':'')+'Solicitare: '+mode+'.';
   litSimpleGenerate(out,status,mode,task,'',text=>{
-   if(mode==='exercises'||mode==='test'){assignmentText=text;review.hidden=false}
-   litShowMaterialReader(title+' · '+litSimpleLabel(
+   // Do not expose the answer form underneath until the reader truly opens.
+   const displayed=litShowMaterialReader(title+' · '+litSimpleLabel(
     mode==='lesson'?'Teorie':mode==='examples'?'Exemple':mode==='exercises'?'Exerciții':mode==='test'?'Test':mode==='define'?'Definiție':mode==='analysis'?'Analiză':'Material',
     mode==='lesson'?'Theory':mode==='examples'?'Examples':mode==='exercises'?'Exercises':mode==='test'?'Test':mode==='define'?'Definition':mode==='analysis'?'Analysis':'Material'),text);
+   if((mode==='exercises'||mode==='test')&&displayed){assignmentText=text;review.hidden=false}
+   return displayed;
   });
  };
  const buttons=branch==='analysis'?[['Analizează','Analyse','analysis'],['Explică metoda','Explain method','lesson']]:
