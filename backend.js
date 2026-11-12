@@ -11,6 +11,7 @@ import {nearbyUkRegisteredRetailers,nearbyUkRegisteredTakeaways} from "./uk_food
 import {foodCategoryAccepts,reconcileNearbyPlaces} from "./food_location_quality.mjs";
 import {otherPoiAccepts} from "./other_poi_quality.mjs";
 import {nearbyOpenStreetMapFood} from "./osm_food_places.mjs";
+import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
@@ -5405,15 +5406,23 @@ export default {
           ?nearbyUkRegisteredTakeaways(latitude,longitude,radius):Promise.resolve([]);
         const photonStartedAt = Date.now();
         const photonRequestPromise = (async () => {
-          const photonUrl = new URL("https://photon.komoot.io/api/");
-          photonUrl.searchParams.set("q", ({ mall: "shopping centre", shop: "shop", supermarket: "grocery", pharmacy: "pharmacy", fuel: "fuel station", charging: "charging station", parking: "parking", car_wash: "car wash", car_repair: "car repair", park: "park", museum: "museum", cinema: "cinema", hospital: "hospital", town_hall: "town hall", police: "police station", fire_station: "fire station", school: "school", library: "library", atm: "ATM", bank: "bank", post_office: "post office", toilets: "public toilet", hotel: "hotel guest house motel hostel holiday apartment", transport: "train station", cafe: "cafe", restaurant: "restaurant", fast_food: "fast food takeaway", lounge: "pub cafe tea room", zoo: "zoo", stadium: "stadium", market_bakery: "grocery", corner_shop: "convenience", confectionery: "confectionery pastry bakery cake shop ice cream gelateria" })[requestedPlaceCategory.key] || requestedPlaceCategory.labelEn);
-          photonUrl.searchParams.set("lat", String(latitude));
-          photonUrl.searchParams.set("lon", String(longitude));
-          photonUrl.searchParams.set("limit", "100");
-          const response = await fetch(photonUrl.toString(), {
-            headers: { "Accept": "application/geo+json, application/json", "User-Agent": "PocketAI/86 (nearby places)" },
-            signal: AbortSignal.timeout(8000)
+          const photonUrl=photonNearbyUrl({latitude,longitude,radius,
+            category:requestedPlaceCategory.key,query:requestedPlaceCategory.labelEn});
+          const photonHeaders={"Accept":"application/geo+json, application/json",
+            "User-Agent":"PocketAI/86 (nearby places)"};
+          let response=await fetch(photonUrl.toString(),{
+            headers:photonHeaders,signal:AbortSignal.timeout(8000)
           });
+          // Preserve legacy text lookup for older Photon servers which do
+          // not support category-only geofenced searches.
+          if([400,422].includes(response.status)&&photonUrl.searchParams.has('include')){
+            const fallback=photonNearbyUrl({latitude,longitude,radius,
+              category:requestedPlaceCategory.key,query:requestedPlaceCategory.labelEn,
+              useCategories:false});
+            response=await fetch(fallback.toString(),{
+              headers:photonHeaders,signal:AbortSignal.timeout(6000)
+            });
+          }
           if (!response.ok) throw Object.assign(new Error("Photon places provider HTTP " + response.status), { name: "PlacesHttpError", httpStatus: response.status, retryAfter: response.headers.get("Retry-After"), contentType: response.headers.get("Content-Type") });
           const data = await response.json();
           if (!data || !Array.isArray(data.features)) throw Object.assign(new Error("Photon provider returned invalid GeoJSON structure"), { name: "PlacesResponseError" });
