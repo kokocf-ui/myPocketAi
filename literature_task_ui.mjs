@@ -16,7 +16,13 @@ function litShowMaterialReader(title,text){
  const close=litSimpleButton(litSimpleLabel('Înapoi','Back'),()=>dialog.close());
  close.classList.add('lit-reader-close');head.append(caption,close);
  const content=litSimpleNode('article','','lit-reader-scroll');
- const pages=splitLiteraturePages(body);
+ // Target a small readable page even on a landscape phone; unusual content
+ // may still scroll inside the page rather than cover the fixed Android dock.
+ const vh=typeof window!=='undefined'?window.innerHeight:680;
+ const vw=typeof window!=='undefined'?window.innerWidth:420;
+ const pageChars=Math.max(300,Math.min(1200,Math.round(
+  (Math.max(120,vh*.84-230)/26)*(Math.min(780,vw*.92)/9.5))));
+ const pages=splitLiteraturePages(body,pageChars);
  const controls=[];let active=0;
  const makePager=position=>{
   const bar=litSimpleNode('nav','','lit-page-navigation');
@@ -267,6 +273,9 @@ function litSimpleLiterature(panel){
    ()=>select(entry.title,entry.author,entry.url,entry.work)));
   if(matches.length)feedback.textContent=litSimpleLabel('Bibliotecă locală de studiu: ','Local study library: ')+matches.length+' '+
    litSimpleLabel('opere documentate. Nu sunt declarate lecturi obligatorii.','documented works, not labelled compulsory.');
+  else feedback.textContent=litSimpleLabel(
+   'Biblioteca acestei țări este în curs de completare. Poți căuta un titlu sau autor în catalogul internațional.',
+   'The local country library is being expanded. Search for a title or author in the international catalogue.');
  };
  const find=async()=>{
   const term=search.value.trim(),n=++searchNumber;
