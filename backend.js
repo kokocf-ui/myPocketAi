@@ -5,6 +5,7 @@ import {inspectPublisherRecipeEvidence,repairRecipeFromPublisher} from "./recipe
 import {classifyConversationTurn,buildConversationEvidence} from "./conversation_intent.mjs";
 import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} from "./eva_dialogue.mjs";
 import {recallFromSuppliedHistory} from "./eva_history_recall.mjs";
+import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
 import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
@@ -2032,6 +2033,15 @@ export default {
     // Native profile contains no email. The supplied values are treated as data, never instructions.
     const nativeConversationProfile=normalizeConversationProfile(data.user_profile);
     const userAddressInstruction=conversationProfileInstruction(nativeConversationProfile,lang);
+    // Avoid making up a referent when an elliptical request has no prior topic.
+    const unresolvedReference=clarifyUnresolvedReference(originalMessage,data.history,{language:lang});
+    if(unresolvedReference){
+      return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+        message_received:originalMessage,reply:unresolvedReference,
+        conversation_intent:'clarification_needed',clarification_required:true,
+        conversational_reply:true,ai_generated:false,web_search_status:'not_needed',
+        location_received:false});
+    }
     // Scoped history lookup runs before regular chat/research classification.
     // The client supplies the accessible turns; never imply global access.
     const scopedRecall=recallFromSuppliedHistory(originalMessage,data.history,{language:lang});
