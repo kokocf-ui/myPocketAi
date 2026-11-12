@@ -57,9 +57,79 @@ function extractPublicDetails(text,street,city){
  if(!info.products.length)delete info.products;
  return info;
 }
-export async function researchNamedBusiness(target,{apiKey='',fetcher=fetch}={}){
+// Fallback independent of Exa credits: official FSA and Geoapify branch records.
+const addressWords=x=>norm(x).split(' ').filter(x=>x.length>=3&&
+ !['road','street','avenue','lane','drive','strada','the','and'].includes(x));
+const sameStreet=(hay,street)=>!street||tokens(street).filter(w=>w.length>=4).every(w=>tokens(hay).includes(w));
+const streetAddress=row=>[row.AddressLine1,row.AddressLine2,row.AddressLine3,row.AddressLine4,row.PostCode].filter(Boolean).join(', ');
+const geoTown=row=>[row.city,row.town,row.village,row.municipality,row.county,row.state,row.formatted].filter(Boolean).join(', ');
+const sourceRecord=(name,url,details={})=>({
+ verified:true,name,details,sources:[{title:'Public business record: '+name,url,official:true}],
+ reason:'public_business_record'
+});
+export async function fallbackNamedBusiness(target,{geoapifyKey='',fetcher=fetch}={}){
  if(!target?.name||!target?.city)return {verified:false,sources:[],reason:'invalid_target'};
- if(!apiKey)return {verified:false,sources:[],reason:'exa_not_configured'};
+ // FSA supports name/address filters, unlike OSM; it also works without any key.
+ // Do not query a UK regulator for a country explicitly outside the UK.
+ const outsideUk=Boolean(target.country)&&!/(?:uk|gb|united kingdom|great britain|anglia|england|scotland|wales|marea britanie)/.test(norm(target.country));
+ if(!outsideUk){
+  const key=tokens(target.name).find(w=>w.length>=4&&!['premier','premiere','market','store','shop','supermarket','magazinul'].includes(w));
+  if(key){
+   try{
+    const u=new URL('https://api.ratings.food.gov.uk/Establishments');
+    u.searchParams.set('name',key);
+    u.searchParams.set('address',target.city);
+    u.searchParams.set('businessTypeId','4613');
+    u.searchParams.set('pageNumber','1');u.searchParams.set('pageSize','100');
+    const response=await fetcher(u.href,{headers:{Accept:'application/json','x-api-version':'2'},signal:AbortSignal.timeout(4300)});
+    if(response.ok){
+     const data=await response.json();
+     const records=(Array.isArray(data.establishments)?data.establishments:[]).filter(row=>{
+      const addr=streetAddress(row);
+      return row?.BusinessName&&matchName(target.name,row.BusinessName)&&contains(addr,target.city)&&sameStreet(addr,target.street);
+     });
+     if(records.length===1){
+      const row=records[0],id=String(row.FHRSID||'');
+      const details={address:streetAddress(row)};
+      if(String(row.Phone||'').trim())details.phone=String(row.Phone).trim();
+      const url=/^\d{1,12}$/.test(id)?'https://api.ratings.food.gov.uk/Establishments/'+id:'https://api.ratings.food.gov.uk/help';
+      return sourceRecord(String(row.BusinessName),url,details);
+     }
+    }
+   }catch{/* Continue to independent geocode evidence. */}
+  }
+ }
+ if(geoapifyKey){
+  try{
+   const u=new URL('https://api.geoapify.com/v1/geocode/search');
+   u.searchParams.set('text',[target.name,target.street,target.city,target.country].filter(Boolean).join(', '));
+   u.searchParams.set('limit','10');
+   u.searchParams.set('apiKey',geoapifyKey);
+   const response=await fetcher(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(6000)});
+   if(response.ok){
+    const data=await response.json();
+    const matched=(Array.isArray(data.features)?data.features:[]).filter(x=>{
+     const p=x?.properties||{},tags=p.datasource?.raw||{},name=p.name||tags.name||'';
+     const address=[p.street,p.formatted,p.address_line1,p.address_line2].filter(Boolean).join(' ');
+     return matchName(target.name,name)&&contains(geoTown(p),target.city)&&sameStreet(address,target.street);
+    });
+    if(matched.length===1){
+     const p=matched[0].properties||{},tags=p.datasource?.raw||{},detail={};
+     detail.address=String(p.formatted||[p.address_line1,p.city||target.city,p.postcode].filter(Boolean).join(', ')).slice(0,220);
+     detail.phone=String(p.contact?.phone||tags['contact:phone']||tags.phone||'').slice(0,80);
+     if(!detail.phone)delete detail.phone;
+     const url='https://api.geoapify.com/'; // Provider homepage; no unverified branch URL.
+     return sourceRecord(String(p.name),url,detail);
+    }
+   }
+  }catch{}
+ }
+ return {verified:false,sources:[],reason:'no_independent_address_match'};
+}
+let exaBlockedUntil=0;
+export async function researchNamedBusiness(target,{apiKey='',geoapifyKey='',fetcher=fetch}={}){
+ if(!target?.name||!target?.city)return {verified:false,sources:[],reason:'invalid_target'};
+ if(!apiKey||Date.now()<exaBlockedUntil)return fallbackNamedBusiness(target,{geoapifyKey,fetcher});
  const query=[target.name,target.street,target.city,target.country,'official shop address contact opening hours'].filter(Boolean).join(' ');
  let payload;
  try{
@@ -68,9 +138,12 @@ export async function researchNamedBusiness(target,{apiKey='',fetcher=fetch}={})
    body:JSON.stringify({query,type:'auto',numResults:7,contents:{text:{maxCharacters:6500},highlights:{numSentences:4}}}),
    signal:AbortSignal.timeout(7500)
   });
-  if(!response.ok)return {verified:false,sources:[],reason:'exa_http_'+response.status};
+  if(!response.ok){
+   if(response.status===402)exaBlockedUntil=Date.now()+30*60*1000;
+   return fallbackNamedBusiness(target,{geoapifyKey,fetcher});
+  }
   payload=await response.json();
- }catch{return {verified:false,sources:[],reason:'exa_unavailable'}}
+ }catch{return fallbackNamedBusiness(target,{geoapifyKey,fetcher})}
  const sources=[];
  for(const entry of (Array.isArray(payload?.results)?payload.results:[])){
   if(!secure(entry?.url))continue;
@@ -85,7 +158,7 @@ export async function researchNamedBusiness(target,{apiKey='',fetcher=fetch}={})
   if(sources.length>=3)break;
  }
  sources.sort((a,b)=>Number(b.official)-Number(a.official));
- if(!sources.length)return {verified:false,sources:[],reason:'no_address_matched_sources'};
+ if(!sources.length)return fallbackNamedBusiness(target,{geoapifyKey,fetcher});
  const details=sources.find(x=>x.details.phone||x.details.hours)?.details||sources[0].details;
  return {verified:true,name:target.name,street:target.street,city:target.city,
   sources:sources.map(({title,url,official})=>({title,url,official})),
