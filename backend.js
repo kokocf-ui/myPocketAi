@@ -4855,7 +4855,7 @@ export default {
     // not generic LLM guesses. Location stays explicit, independent of GPS.
     const namedBusinessRequest=parseNamedBusinessInformation(message);
     if(namedBusinessRequest && !data.quick_place_search){
-      const evidence=await researchNamedBusiness(namedBusinessRequest,{apiKey:env.EXA_API_KEY||''});
+      const evidence=await researchNamedBusiness(namedBusinessRequest,{apiKey:env.EXA_API_KEY||'',geoapifyKey:env.GEOAPIFY_API_KEY||''});
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
         message_received:originalMessage,reply:businessResearchReply(evidence,lang),
         business_verified:evidence.verified===true,business_sources:evidence.sources||[],
