@@ -5,10 +5,10 @@ export async function requestTfLJourneys({
  from,to,appKey,appId='',departureAt=null,requestedCount=3,
  auxiliary=false,modes='',fetcher=fetch
 }={}){
- if(!appKey||!from||!to)return {journeys:[],responses:[],status:'not_configured',attempts:[]};
+ if(!from||!to)return {journeys:[],responses:[],status:'not_configured',attempts:[]};
  const base=new URL('https://api.tfl.gov.uk/Journey/JourneyResults/'+from+'/to/'+to);
- base.searchParams.set('app_key',appKey);
- if(appId)base.searchParams.set('app_id',appId);
+ if(appKey)base.searchParams.set('app_key',appKey);
+ if(appKey&&appId)base.searchParams.set('app_id',appId);
  if(auxiliary){
   if(modes)base.searchParams.set('mode',modes);
  }else{
@@ -34,8 +34,9 @@ export async function requestTfLJourneys({
  }
  const attempts=[],responses=[];
  const desired=Math.max(1,Math.min(4,Number(requestedCount)||3));
- const execute=async (preference='',relaxed=false)=>{
+ const execute=async (preference='',relaxed=false,publicAccess=false)=>{
   const u=new URL(base.toString());
+  if(publicAccess){u.searchParams.delete('app_key');u.searchParams.delete('app_id');}
   if(!auxiliary){
    u.searchParams.set('journeyPreference',preference||'leasttime');
    if(relaxed){
@@ -49,33 +50,40 @@ export async function requestTfLJourneys({
     headers:{Accept:'application/json'},signal:AbortSignal.timeout(relaxed?8000:10000)
    });
    if(!response.ok){
-    attempts.push({preference:preference||'default',status:'http_'+response.status});
+    attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:'http_'+response.status});
     return null;
    }
    const data=await response.json();
    if(!Array.isArray(data?.journeys)){
-    attempts.push({preference:preference||'default',status:'invalid_response'});
+    attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:'invalid_response'});
     return null;
    }
-   attempts.push({preference:preference||'default',status:'ok',count:data.journeys.length});
+   attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:'ok',count:data.journeys.length});
    responses.push(data);
    return data;
   }catch(error){
-   attempts.push({preference:preference||'default',status:String(error?.name||'network_error').slice(0,50)});
+   attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:String(error?.name||'network_error').slice(0,50)});
    return null;
   }
  };
  const primary=await execute(auxiliary?'':'leasttime');
- if(!auxiliary&&(primary?.journeys?.length||0)<desired){
-  // Alternatives are requested only when the primary result is insufficient.
-  // Do not trigger three concurrent TfL calls for every single user search.
+ const authDenied=Boolean(appKey)&&['http_401','http_403'].includes(attempts.at(-1)?.status);
+ if(authDenied){
+  // TfL permits limited unauthenticated access. One bounded public attempt
+  // can recover a deployment with a stale Worker API key; never bypass 429.
+  await execute(auxiliary?'':'leasttime',false,true);
+ }else if(appKey&&!auxiliary&&(primary?.journeys?.length||0)<desired){
+  // Avoid 3 parallel requests on every normal search. The no-key public
+  // fallback is deliberately limited to ONE request per user action.
   await Promise.allSettled([execute('leastinterchange'),execute('leastwalking')]);
  }
- if(!auxiliary&&!responses.some(r=>r.journeys.length)){
+ if(appKey&&!auxiliary&&!authDenied&&!responses.some(r=>r.journeys.length)){
   await execute('leasttime',true);
  }
  const journeys=responses.flatMap(r=>r.journeys);
- return {journeys,responses,attempts,status:journeys.length?'ok':
+ return {journeys,responses,attempts,status:journeys.length
+  ?(attempts.some(a=>a.public&&a.count>0)?'ok_public':'ok'):
    attempts.some(a=>a.status==='ok')?'no_journeys_returned':
    attempts.at(-1)?.status||'request_failed'};
+
 }
