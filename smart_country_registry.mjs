@@ -27,7 +27,7 @@ const globalGeneral = {
 };
 const local = {
  RO:{transport:{urban_transport:['ro_urban_gtfs'],intercity_transport:['ro_national_transit']},general:{}},
- GB:{transport:{urban_transport:['tfl'],intercity_transport:['uk_national_transit']},general:{}},
+ GB:{transport:{urban_transport:['tfl'],intercity_transport:['uk_national_transit']},general:{shop:['uk_food_retailers'],corner_shop:['uk_food_retailers'],fast_food:['uk_food_retailers']}},
  HU:{transport:{},general:{}},FR:{transport:{},general:{}},
  DE:{transport:{},general:{}},IT:{transport:{},general:{}},
  ES:{transport:{},general:{}}
