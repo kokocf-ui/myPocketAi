@@ -74,7 +74,7 @@ const cfg={
 const ui=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+
  '\n({workspace:litSimpleWorkspace,generate:litSimpleGenerate})',cfg);
 const all=element=>[element,...element.children.flatMap(all)];
-const readerOverlay=()=>cfg.document.body.children.at(-1);
+const readerOverlay=()=>cfg.document.body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
 const readerText=()=>readerOverlay()?.children[0]?.textContent||'';
 const assertReader=text=>{
  const overlay=readerOverlay();
