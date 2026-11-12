@@ -62,7 +62,7 @@ export function renderStudyBlocks(host,text){
   }
   if(block.type==='item'){
    element=document.createElement('div');element.className='lit-study-row';
-   const label=document.createElement('strong');label.className='lit-study-marker';label.textContent=block.marker;
+   const label=document.createElement('strong');label.className='lit-study-marker';label.textContent=block.marker+' ';
    const body=document.createElement('div');body.className='lit-study-item-body';
    const definition=block.text.match(/^([^:\n]{2,54}):\s+(.+)$/s);
    if(definition){
