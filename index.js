@@ -18727,11 +18727,14 @@ function pocketRecallPreviousChat(message){
  const normalize=s=>String(s||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
   .toLowerCase().replace(/[^a-z0-9\\p{L}]+/gu,' ').replace(/\\s+/g,' ').trim();
  const q=normalize(message);
- const explicit=/\\b(?:tii minte|iti amintesti|am discutat|am vorbit|mi ai recomandat|mi ai spus|despre ce am glumit|despre ce te am tachinat|remember what|do you remember|we discussed|we talked about|you recommended)\\b/.test(q)
-  ||/\\b(?:cauta|cauti|gaseste|gasesti|verifica|search|find|look up)\\b.{0,75}\\b(?:istoric|conversati|discuti|mesaj|history|chat)\\b/.test(q)
-  ||/\\b(?:in|din|from)\\s+(?:istoric|conversatiile noastre|discutiile noastre|our chat history)\\b/.test(q);
+ const explicit=/\\b(?:tii minte|mai tii minte|iti amintesti|ce (?:ti am spus|am discutat|am vorbit)|despre ce am glumit|despre ce te am tachinat|remember what|do you remember)\\b/.test(q)
+  ||/\\b(?:cauta|cauti|gaseste|gasesti|verifica|uita te|uitate|consulta|search|find|look up)\\b.{0,85}\\b(?:istoric|conversati|discuti|mesaj|history|chat)\\b/.test(q)
+  ||/\\b(?:in|din|from)\\s+(?:istoric|conversati|discuti|our chat history)\\b/.test(q)
+  ||/\\b(?:ce|care|cand|what|when)\\b.{0,95}\\b(?:mi ai dat anterior|mi ai recomandat|mi ai spus|am discutat|am vorbit|we discussed|you recommended)\\b/.test(q)
+  ||/\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\\b.{0,55}\\b(?:anterior|mai devreme|inainte|previously|earlier|before)\\b/.test(q)
+  ||/\\b(?:anterior|mai devreme|inainte|previously|earlier|before)\\b.{0,65}\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\\b/.test(q);
  if(!explicit)return [];
- const ignored=new Set('eva imi mi ai am ce care cand cum unde noi nostru noastre noastra despre din in la si iar dar pe cu ca de sa te ti rog cauta cauti gaseste gasesti verifica inca mai vreau cautare istoric istoricul conversatie conversatia conversatiile discutie discutiile nostru our the where when what which did you me my i we please find search history chat previous conversation talk talked discussed remember earlier earlier today yesterday'.split(' '));
+ const ignored=new Set('recomandari recomandat anterior anteriori anterioare discutii istoricul conversatiilor conversatie discutat prefer cum cumva zona vreau hotelul eva imi mi ai am ce care cand cum unde noi nostru noastre noastra despre din in la si iar dar pe cu ca de sa te ti rog cauta cauti gaseste gasesti verifica inca mai vreau cautare istoric istoricul conversatie conversatia conversatiile discutie discutiile nostru our the where when what which did you me my i we please find search history chat previous conversation talk talked discussed remember earlier earlier today yesterday'.split(' '));
  const terms=[...new Set(q.split(' ').filter(w=>w.length>=3&&!ignored.has(w)&&
   !/^(discut|vorbit|spus|scris|intrebat|recomand|saptaman|trecut|remember|mesaj)/.test(w)))];
  const joke=/\\b(?:glumit|glume|gluma|tachinat|joke|joking|teased)\\b/.test(q);
