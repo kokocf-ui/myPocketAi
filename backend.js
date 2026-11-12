@@ -4,7 +4,7 @@ import {assembleSourcedRecipeVariants} from "./culinary_multi.mjs";
 import {inspectPublisherRecipeEvidence,repairRecipeFromPublisher} from "./recipe_source_integrity.mjs";
 import {classifyConversationTurn,buildConversationEvidence} from "./conversation_intent.mjs";
 import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} from "./eva_dialogue.mjs";
-import {recallFromSuppliedHistory} from "./eva_history_recall.mjs";
+import {recallFromSuppliedHistory,groundedHistorySummary} from "./eva_history_recall.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
 import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
@@ -2069,7 +2069,7 @@ export default {
             ],max_tokens:320,temperature:0.1
           });
           const candidate=String(response?.response||response?.result?.response||'').trim();
-          if(candidate.length>=12 && candidate.length<=1800
+          if(candidate.length>=12 && groundedHistorySummary(candidate,scopedRecall.matches)
              && !hasAssistantRepetitionLoop(candidate)){
             recallReply=candidate+'\n'+(lang==='ro'
               ?'Sursă: fragmente din istoricul disponibil, nu întreaga arhivă.'
