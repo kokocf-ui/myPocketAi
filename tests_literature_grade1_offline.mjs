@@ -41,6 +41,7 @@ const cfg={
 const ui=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+'\n({generate:litSimpleGenerate})',cfg);
 for(const mode of ['lesson','examples','exercises','test']){
  const out=new El('article'),status=new El('p');let result='';
+ if(mode==='lesson')out.isConnected=false; // initial offline output can precede DOM attachment
  await ui.generate(out,status,mode,'Ascultare, conversație și exprimare','',x=>{result=x});
  assert.ok(result.length>150,mode+' has a usable result');
  assert.ok(out.textContent.length>100,mode+' is rendered to the learner');
@@ -60,5 +61,37 @@ await ui.generate(noLocal,noLocalStatus,'lesson','Comunicare','');
 assert.equal(fetches,2);
 assert.match(noLocalStatus.textContent,/Limita serviciului AI a fost atinsă/);
 assert.doesNotMatch(noLocalStatus.textContent,/localizarea telefonului/);
+
+journey.country='RO';journey.grade='1';
+const createOriginal=cfg.document.createElement;
+cfg.document.createElement=tag=>{
+ if(tag==='h3')throw Error('simulated_visual_renderer_failure');
+ return createOriginal(tag);
+};
+const brokenOut=new El('article'),brokenStatus=new El('p');
+await ui.generate(brokenOut,brokenStatus,'lesson','Ascultare','');
+assert.match(brokenOut.textContent,/Ascultare, conversație și exprimare/,
+ 'The lesson survives when decorative rendering throws');
+assert.match(brokenStatus.textContent,/Material local disponibil/);
+cfg.document.createElement=createOriginal;
+
+journey.grade='8';journey.country='RO';
+let timeoutMs=0;
+cfg.setTimeout=(callback,ms)=>{timeoutMs=ms;callback();return 1};
+cfg.clearTimeout=()=>{};
+cfg.fetch=()=>new Promise(()=>{}); // simulates service that never settles
+const cachedOut=new El('article'),cachedStatus=new El('p');
+await ui.generate(cachedOut,cachedStatus,'lesson','Comunicare','');
+assert.ok(cachedOut.textContent.length>100,'Timed-out AI still displays available literature material');
+assert.match(cachedStatus.textContent,/Material local disponibil/);
+assert.doesNotMatch(cachedStatus.textContent,/Se pregătește materialul/);
+journey.country='HU';
+const hungOut=new El('article'),hungStatus=new El('p');
+await ui.generate(hungOut,hungStatus,'lesson','Comunicare','');
+assert.equal(timeoutMs,11000,'Online education must have a bounded timeout');
+assert.match(hungStatus.textContent,/Serviciul AI nu a răspuns/);
+assert.doesNotMatch(hungStatus.textContent,/Se pregătește materialul/);
+assert.equal(journey.busy,false,'Timeout releases the busy state');
+
 new vm.Script(LITERATURE_TASK_UI_SCRIPT);
 console.log('PASS grade I class activities offline; fallback on AI outage; no bogus GPS explanation');

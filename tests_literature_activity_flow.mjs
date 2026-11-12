@@ -40,11 +40,11 @@ assert.match(LITERATURE_TASK_UI_SCRIPT,/Alte opere/,
  'Author works must be paginated rather than silently truncated');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/const buttons=branch==='analysis'/,
  'Grammar and analysis must have distinct controls');
-assert.match(LITERATURE_TASK_UI_SCRIPT,/if\(!needsInput\)run\('lesson'\)/,
- 'Opening grammar lesson directly loads the theory');
+assert.ok(!LITERATURE_TASK_UI_SCRIPT.includes("if(!needsInput)run('lesson')"),
+ 'Entering a workspace does not automatically start an overlapping AI request');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/const country=educationCountrySelection\.label\|\|litJourney\.country/,
  'Selected country retained across literary activities');
-assert.match(LITERATURE_TASK_UI_SCRIPT,/out\.scrollIntoView\(\{behavior:'auto',block:'nearest'\}\)/,
- 'Generated material is scrolled into view inside active workspace');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/out\.scrollIntoView\?\.\(\{behavior:'auto',block:'nearest'\}\)/,
+ 'Generated material can scroll safely without throwing on a detached output');
 assert.ok(!LITERATURE_TASK_UI_SCRIPT.includes('coordinates')&&!LITERATURE_TASK_UI_SCRIPT.includes('requestUsesLocation('));
 console.log('PASS: separated language/literature modes, exact bibliography, direct actions, fixed single-screen UI');
