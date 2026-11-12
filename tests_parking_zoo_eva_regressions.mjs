@@ -60,9 +60,13 @@ const query=async cat=>{
    history:[],location:origin
   })
  });
- const response=await worker.fetch(request,{GEOAPIFY_API_KEY:'mock'});
- assert.equal(response.status,200);
- return response.json();
+ const response=await worker.fetch(request,{
+  GEOAPIFY_API_KEY:'mock',
+  AI:{run:async()=>{throw Error('POI search must not call the language model')}}
+ });
+ const result=await response.json();
+ assert.equal(response.status,200,JSON.stringify(result).slice(0,600));
+ return result;
 };
 try{
  const parking=await query('parking');
