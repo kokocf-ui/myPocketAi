@@ -1,16 +1,45 @@
 // Shared classification for all nearby venue providers. Category names are
 // not inferred merely from the quick-search button that was pressed.
 const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-const quickPattern=/\b(kebab|kebap|doner|d[oö]ner|shawarma|shaorma|gyro|gyros|pizza|pizzeria|pizzaria|chicken|burger|hamburger|takeaway|takeout|sandwich|wraps?|fish\s*(?:and|&)\s*chips|fried\s*chicken|chippy|falafel|souvlaki|burrito|taco|tacos|fast\s*food)\b/i;
-export function foodVenueKind({name='',amenity='',categories=[],cuisine='',businessType=''}={}){
+// Keep distinct dining and takeaway categories across native scripts.
+// Names help only when the source identifies a food venue as a restaurant.
+const fastTerms=new Set([
+ 'kebab','kebap','kebabownia','doner','donerci','donerladen','durum',
+ 'shawarma','shawerma','shaorma','shaormerie','shaormerii',
+ 'gyro','gyros','souvlaki','falafel','pita','pizza','pizzeria','pizzerie',
+ 'pizzaria','burger','hamburger','burgers','chicken',
+ 'sandwich','sandwiches','sandwicherie','paninoteca','panini',
+ 'bocadillo','bocadillos','bocadilleria','tacos','taco','burrito',
+ 'wrap','wraps','takeaway','takeout','fastfood','imbiss',
+ 'schnellimbiss','rosticceria','rotiserie','rotisserie',
+ 'covrigarie','covrigaria','simigerie','snackbar',
+ 'пицца','пиццерия','шаурма','шаверма','кебаб','бургер','фастфуд',
+ 'πιτσα','πιτσαρια','γυρος','γυραδικο','σουβλακι','κεμπαπ',
+ 'بيتزا','شاورما','كباب'
+]);
+const fastPhrases=['fast food','fried chicken','fish and chips','snack bar','pollos asados'];
+const words=x=>norm(x).replace(/[^\p{L}\p{N}]+/gu,' ').trim().split(/\s+/).filter(Boolean);
+const isFastFoodName=name=>{
+ const tokens=words(name),padded=' '+tokens.join(' ')+' ';
+ return tokens.some(token=>fastTerms.has(token))||
+  fastPhrases.some(p=>padded.includes(' '+p+' '));
+};
+const isFastCuisine=cuisine=>{
+ const tokens=words(cuisine);
+ return tokens.some(x=>['kebab','shawarma','doner','pizza','burger','chicken',
+ 'sandwich','falafel','taco','burrito','souvlaki','gyro','gyros','fastfood'].includes(x))||
+ tokens.includes('fast_food');
+};
+export function foodVenueKind({name='',amenity='',categories=[],cuisine='',businessType='',takeaway=''}={}){
  const cat=(Array.isArray(categories)?categories:[]).join(' ').toLowerCase();
  const kind=norm(amenity);
  const register=norm(businessType);
  if(kind==='fast_food'||/catering\.fast_food|\bfast_food\b/.test(cat)||/takeaway|sandwich shop/.test(register))return 'fast_food';
+ if(norm(takeaway)==='only')return 'fast_food';
  if(kind==='cafe'||/catering\.cafe/.test(cat))return 'cafe';
  if(kind==='pub'||kind==='bar'||/catering\.(pub|bar|biergarten)/.test(cat))return 'other';
  if(kind==='restaurant'||/catering\.restaurant/.test(cat)){
-  return quickPattern.test(norm(name))||/\b(fast_food|kebab|pizza|burger|chicken|sandwich)\b/.test(norm(cuisine))?'fast_food':'restaurant';
+  return isFastFoodName(name)||isFastCuisine(cuisine)?'fast_food':'restaurant';
  }
  return 'other';
 }

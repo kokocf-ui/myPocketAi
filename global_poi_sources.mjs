@@ -3,7 +3,7 @@ import {foodCategoryAccepts} from './food_location_quality.mjs';
 import {otherPoiAccepts} from './other_poi_quality.mjs';
 // Not active without TOMTOM_PLACES_ENABLED=true: no unexpected API charges.
 // Reference: https://docs.tomtom.com/places-search-api/documentation/places-search/discover
-const fold=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+const fold=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').replace(/\s+/g,' ').trim();
 const terms=x=>fold(x).split(' ').filter(Boolean);
 const nonNames=new Set(['store','shop','local','magazin','magazinul','market','supermarket','premier','premiere','the','and','de','din','in','la','do']);
 const valid=(lat,lon)=>Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180;
@@ -18,8 +18,8 @@ const poiTypes={
  shop:['convenience_store','grocery_store','shop_or_store','supermarket'],
  market_bakery:['convenience_store','grocery_store','supermarket','food_market'],
  confectionery:['food_and_drinks_shop','ice_cream_shop'],
- restaurant:['restaurant'],
- fast_food:['fast_food'],
+ restaurant:['restaurant','fast_food'],
+ fast_food:['fast_food','restaurant'],
  cafe:['cafe','coffee_shop','tea_house'],
  lounge:['cafe','coffee_shop','pub','tea_house','bar'],
  pub:['pub','bar'],
@@ -127,10 +127,14 @@ export async function globalNearbyPlaces({latitude,longitude,radius=3000,categor
   const title=String(r.title||'').trim(),a=r.address||{};
   if(!title||!valid(lat,lon))return [];
   if(/^(?:strada|street|road|rue|calle|via)\s+/i.test(title))return [];
-  // The same food category policy must also hold for optional TomTom Places.
-  if(category==='restaurant'&&!foodCategoryAccepts(category,{name:title,amenity:'restaurant'}))return [];
-  if(category==='poi'&&!otherPoiAccepts({name:title,poiTypes:ids.map(x=>String(x.id||''))}))return [];
+  // Optional TomTom results must pass the same mutually exclusive food policy.
   const ids=Array.isArray(r.poiTypes)?r.poiTypes:[];
+  const types=ids.map(x=>String(x.id||'').toLowerCase());
+  if(['restaurant','fast_food'].includes(category)&&!foodCategoryAccepts(category,{
+    name:title,amenity:types.includes('fast_food')?'fast_food':types.includes('restaurant')?'restaurant':'',
+    categories:types.includes('fast_food')?['catering.fast_food']:types.includes('restaurant')?['catering.restaurant']:[]
+  }))return [];
+  if(category==='poi'&&!otherPoiAccepts({name:title,poiTypes:types}))return [];
   return [{lat,lon,tags:{
    name:title,shop:categoryShop(category,ids),amenity:category==='cafe'?'cafe':category==='restaurant'?'restaurant':category==='fast_food'?'fast_food':'',
    street:String(a.street||''),housenumber:String(a.houseNumber||''),

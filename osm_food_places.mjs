@@ -40,12 +40,12 @@ export async function nearbyOpenStreetMapFood({latitude,longitude,radius=5000,ca
   }catch{return []}
  }
  return data.elements.flatMap(item=>{
-  const tags=item.tags||{},name=String(tags.name||'').trim();
+  const tags=item.tags||{},name=String(tags.name||tags['name:en']||tags['name:ro']||tags.brand||'').trim();
   const lat=Number(item.lat??item.center?.lat),lon=Number(item.lon??item.center?.lon);
   const matches=retail
    ?category==='confectionery'?/^(bakery|pastry|confectionery)$/.test(String(tags.shop||'')):
     retailCategoryAccepts(category,{name,shop:tags.shop})
-   :foodCategoryAccepts(category,{name,amenity:tags.amenity,cuisine:tags.cuisine});
+   :foodCategoryAccepts(category,{name,amenity:tags.amenity,cuisine:tags.cuisine,takeaway:tags.takeaway});
   if(!name||name.length>140||!number(lat)||!number(lon)||Math.abs(lat)>90||
     distance(latitude,longitude,lat,lon)>radius||!matches)return [];
   return [{lat,lon,tags:{

@@ -1,11 +1,11 @@
 // Strictly separate retail categories when querying different POI providers.
 // Do not infer shop type from which category a user selected.
-const norm=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9_]+/g,' ').trim();
+const norm=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}_]+/gu,' ').trim();
 const small=new Set(['convenience','grocery','general','greengrocer','newsagent','kiosk','deli','butcher','seafood','dairy','farm','food','alcohol']);
 const large=new Set(['supermarket','hypermarket','wholesale','cash_and_carry']);
 const otherRetail=new Set(['department_store','clothes','electronics','hardware','books','bakery','chemist','florist','shoes','furniture','mall']);
 const counter=/\b(hot deli|cold deli|butchery|customer restaurant|cafe|restaurant|food court|canteen|takeaway)\b/i;
-const format=/\b(tesco express|sainsburys local|sainsbury s local|co op food|spar express|mini market|corner shop|convenience store|local shop|mini market)\b/i;
+const format=/\b(tesco express|sainsburys local|sainsbury s local|co op food|spar express|spar city|carrefour express|carrefour city|auchan go|profi city|mega image shop go|mini market|minimarket|corner shop|convenience store|local shop|zabka|żabka)\b/i;
 export function retailKind({shop='',categories=[],osmKey='',name='',registry=''}={}){
  const label=norm(name),key=norm(osmKey),value=norm(shop).replace(/\s+/g,'_');
  if(!label||counter.test(label))return 'not_retail';
