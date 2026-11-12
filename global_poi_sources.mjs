@@ -21,15 +21,15 @@ const poiTypes={
  cafe:['cafe','coffee_shop','tea_house'],
  lounge:['cafe','coffee_shop','pub','tea_house','bar'],
  pub:['pub','bar'],
- hotel:['hotel','motel','guest_house'],
+ hotel:['hotel_or_motel','bandb_or_guest_house','hostel'],
  pharmacy:['pharmacy','drug_store'],
  fuel:['fuel_station'],
  parking:['parking_facility'],
  car_wash:['vehicle_wash'],
  car_repair:['vehicle_repair'],
  museum:['museum'],
- park:['park'],
- zoo:['zoo'],
+ park:['park_and_recreation_area'],
+ zoo:['zoo_or_aquarium'],
  atm:['atm'],
  bank:['bank'],
  post_office:['post_office'],
@@ -105,7 +105,7 @@ export async function globalNamedBusiness(target,{apiKey='',enabled=false,fetche
   if(row?.type!=='poi'||!matchingName(target.name,row.title))return false;
   if(![a.municipality,a.municipalitySubdivision].some(x=>fold(x)===fold(target.city)))return false;
   if(target.street&&!sameStreet(a.street,target.street))return false;
-  if(target.country && fold(target.country)!==fold(a.country) && fold(target.country)!==fold(a.countryCodeIso2)){
+  if(target.country && fold(target.country)!==fold(a.country) && fold(target.country)!==fold(a.countryCodeIso2) && (!target.countryCode||target.countryCode.toUpperCase()!==String(a.countryCodeIso2||'').toUpperCase())){
    // Do not infer that an unexpected country is equivalent.
    return false;
   }
