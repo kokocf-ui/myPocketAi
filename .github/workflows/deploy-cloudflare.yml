@@ -33,6 +33,7 @@ jobs:
           node tests_literature_europe.mjs
           node tests_literature_completion.mjs
           node tests_literature_verified_authors.mjs
+          node tests_literature_seven_country_library.mjs
           node tests_literature_tutor_response.mjs
           node tests_pdf_library.mjs
           node --check computing_curriculum.mjs

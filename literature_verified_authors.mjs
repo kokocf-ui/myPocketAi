@@ -1,3 +1,4 @@
+import {SEVEN_COUNTRY_LITERARY_LIBRARY} from './literature_seven_country_library.mjs';
 // Verified author bibliography, original metadata only (no copyrighted text).
 // The Open Library search index is useful for discovery, not reliable enough
 // on its own to establish attribution or a complete author's bibliography.
@@ -33,7 +34,8 @@ export const VERIFIED_LITERARY_AUTHORS=Object.freeze([
    ['Respirări',1982,'publicistică și proză eseistică'],
    ['Strigarea numelui',1983,'volum de poezie']
   ].map(([title,year,kind])=>Object.freeze({title,year,kind})))
- })
+ }),
+ ...SEVEN_COUNTRY_LITERARY_LIBRARY
 ]);
 export const literatureFold=value=>String(value||'').normalize('NFD')
  .replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('ro-RO')
@@ -43,13 +45,14 @@ export function verifiedAuthorsByQuery(query){
  if(needle.length<3)return [];
  const terms=needle.split(/\s+/).filter(Boolean);
  return VERIFIED_LITERARY_AUTHORS.filter(author=>{
-  const full=literatureFold(author.name);
-  return terms.every(term=>full.split(' ').some(part=>part.startsWith(term)));
+  const names=[author.name,...(author.aliases||[])].map(literatureFold);
+  return names.some(full=>terms.every(term=>full.split(' ').some(part=>part.startsWith(term))));
  });
 }
 export function verifiedAuthorByName(name){
  const target=literatureFold(name);
- return VERIFIED_LITERARY_AUTHORS.find(author=>literatureFold(author.name)===target)||null;
+ return VERIFIED_LITERARY_AUTHORS.find(author=>[author.name,...(author.aliases||[])]
+  .some(name=>literatureFold(name)===target))||null;
 }
 export function verifiedWorksByQuery(query){
  const needle=literatureFold(query);
