@@ -18742,7 +18742,7 @@ function pocketRecallPreviousChat(message){
   const messages=item.messages.filter(m=>m&&['user','assistant'].includes(m.role)&&typeof m.text==='string');
   for(let i=0;i<messages.length;i++){
    const text=normalize(messages[i].text);
-   const hit=terms.reduce((total,term)=>total+(text.includes(term)?1:0),0);
+   const hit=terms.reduce((total,term)=>total+((text.includes(term)||(term.length>=6&&text.includes(term.slice(0,5))))?1:0),0);
    const score=hit+(joke&&social.test(text)?2:0);
    if(score<=0)continue;
    matches.push({score,item,messages,index:i});
