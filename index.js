@@ -802,8 +802,6 @@ return `<!doctype html>
 .module-quick-sheet.details-mode .place-detail-identity h3{font-size:15px;line-height:1.25;overflow-wrap:anywhere;margin:0}
 .module-quick-sheet.details-mode .place-detail-actions{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex:0 0 112px}
 .module-quick-sheet.details-mode .place-detail-route{width:112px;min-height:38px;padding:6px;font-size:12px}
-.module-quick-sheet.details-mode .place-detail-photo{width:112px;height:74px;border-radius:9px;overflow:hidden;background:#17384b;cursor:zoom-in;display:flex;align-items:center;justify-content:center}
-.module-quick-sheet.details-mode .place-detail-photo img{width:100%;height:100%;object-fit:cover}
 .module-quick-sheet.details-mode .module-place-details p{margin:2px 0}
 
 .module-quick-body .primary-btn{width:100%;min-height:48px}
@@ -15847,7 +15845,18 @@ const parts=raw.split(/\\s*[/|]\\s*/).filter(Boolean);
 if(parts.length>1){const translated=parts.map(translatePart);if(translated.every(Boolean))return translated.join(' / ');}
 return translatePart(raw)||raw;
 }
-function renderModulePlaces(places){document.querySelector('.module-quick-sheet')?.classList.remove('details-mode','mode-choice-screen');state.moduleSearchReturnMode='list';const body=$('moduleLayerBody');body.style.cssText='';body.innerHTML='';if(!Array.isArray(places)||!places.length){const status=document.createElement('div');status.className='module-search-status';status.textContent=state.moduleSearchReply||quickUiText().notFound;body.append(status);return}document.querySelector('.module-quick-sheet')?.classList.add('results-mode');const panel=document.createElement('section');panel.className='module-places-results';panel.setAttribute('aria-label',quickUiText().found);const header=document.createElement('header');header.className='module-places-results-head';const heading=document.createElement('div');heading.className='module-places-results-heading';const title=document.createElement('h3');title.textContent=quickUiText().found;const subtitle=document.createElement('p');subtitle.textContent=places.length+' '+quickUiText().results;heading.append(title,subtitle);const back=document.createElement('button');back.type='button';back.className='module-results-back';back.setAttribute('aria-label',quickUiText().back);back.textContent='‹';back.addEventListener('click',handleModuleLayerBack);header.append(heading,back);const list=document.createElement('div');list.className='module-place-results-list';list.setAttribute('role','list');places.forEach((place,index)=>{const item=document.createElement('button');item.type='button';item.className='module-place-result';item.setAttribute('role','listitem');const icon=document.createElement('span');icon.className='module-place-result-icon';icon.setAttribute('aria-hidden','true');mountPlaceThumbnail(icon,place);const copy=document.createElement('span');copy.className='module-place-result-copy';const name=document.createElement('strong');name.className='module-place-result-name';name.textContent=(index+1)+'. '+String(place.name||(quickUiText().location+' '+(index+1)));const meta=document.createElement('span');meta.className='module-place-result-meta';meta.textContent=localizedPlaceCategory(place.type)+' · '+formatDistance(place.distance_meters)+' · '+quickUiText().details;copy.append(name,meta);const arrow=document.createElement('span');arrow.className='module-place-result-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';item.append(icon,copy,arrow);item.addEventListener('click',()=>renderModulePlaceDetails(place));list.append(item)});panel.append(header,list);body.append(panel);$('moduleLayerTitle').textContent=quickUiText().found}
+function quickPlaceDisplayName(place,allPlaces){
+ const raw=String(place.name||'');
+ if(!Array.isArray(allPlaces)||allPlaces.filter(x=>String(x.name||'').trim().toLocaleLowerCase()===raw.trim().toLocaleLowerCase()).length<2)return raw;
+ const parts=String(place.address||'').split(',').map(x=>x.trim()).filter(Boolean);
+ const candidate=String(place.city||'').trim()||
+  parts.find(x=>/\b(?:Dartford|Greenhithe|Tilbury|Grays|Essex|Kent)\b/i.test(x))||
+  (parts.length>=2?parts[parts.length-2]:'');
+ const placeLabel=String(candidate).replace(/\b(?:Essex|Kent)\b/ig,'').trim();
+ const postcode=String(place.postcode||'').trim();
+ return raw+(placeLabel?' ('+placeLabel+')':postcode?' ('+postcode+')':'');
+}
+function renderModulePlaces(places){document.querySelector('.module-quick-sheet')?.classList.remove('details-mode','mode-choice-screen');state.moduleSearchReturnMode='list';const body=$('moduleLayerBody');body.style.cssText='';body.innerHTML='';if(!Array.isArray(places)||!places.length){const status=document.createElement('div');status.className='module-search-status';status.textContent=state.moduleSearchReply||quickUiText().notFound;body.append(status);return}document.querySelector('.module-quick-sheet')?.classList.add('results-mode');const panel=document.createElement('section');panel.className='module-places-results';panel.setAttribute('aria-label',quickUiText().found);const header=document.createElement('header');header.className='module-places-results-head';const heading=document.createElement('div');heading.className='module-places-results-heading';const title=document.createElement('h3');title.textContent=quickUiText().found;const subtitle=document.createElement('p');subtitle.textContent=places.length+' '+quickUiText().results;heading.append(title,subtitle);const back=document.createElement('button');back.type='button';back.className='module-results-back';back.setAttribute('aria-label',quickUiText().back);back.textContent='‹';back.addEventListener('click',handleModuleLayerBack);header.append(heading,back);const list=document.createElement('div');list.className='module-place-results-list';list.setAttribute('role','list');places.forEach((place,index)=>{const item=document.createElement('button');item.type='button';item.className='module-place-result';item.setAttribute('role','listitem');const icon=document.createElement('span');icon.className='module-place-result-icon';icon.setAttribute('aria-hidden','true');mountPlaceThumbnail(icon,place);const copy=document.createElement('span');copy.className='module-place-result-copy';const name=document.createElement('strong');name.className='module-place-result-name';name.textContent=(index+1)+'. '+(quickPlaceDisplayName(place,places)||(quickUiText().location+' '+(index+1)));const meta=document.createElement('span');meta.className='module-place-result-meta';meta.textContent=localizedPlaceCategory(place.type)+' · '+formatDistance(place.distance_meters)+' · '+quickUiText().details;copy.append(name,meta);const arrow=document.createElement('span');arrow.className='module-place-result-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';item.append(icon,copy,arrow);item.addEventListener('click',()=>renderModulePlaceDetails(place));list.append(item)});panel.append(header,list);body.append(panel);$('moduleLayerTitle').textContent=quickUiText().found}
 
 const DETAIL_LABELS={"ro": {"address": "Adresă", "phone": "Telefon", "website": "Website", "photos": "Fotografii", "close": "Închide fotografia", "price": "Preț", "rooms": "Camere"}, "en": {"address": "Address", "phone": "Phone", "website": "Website", "photos": "Photos", "close": "Close photo", "price": "Price", "rooms": "Rooms"}, "fr": {"address": "Adresse", "phone": "Téléphone", "website": "Site web", "photos": "Photos", "close": "Fermer la photo", "price": "Prix", "rooms": "Chambres"}, "de": {"address": "Adresse", "phone": "Telefon", "website": "Webseite", "photos": "Fotos", "close": "Foto schließen", "price": "Preis", "rooms": "Zimmer"}, "it": {"address": "Indirizzo", "phone": "Telefono", "website": "Sito web", "photos": "Foto", "close": "Chiudi foto", "price": "Prezzo", "rooms": "Camere"}, "es": {"address": "Dirección", "phone": "Teléfono", "website": "Sitio web", "photos": "Fotos", "close": "Cerrar foto", "price": "Precio", "rooms": "Habitaciones"}, "pt": {"address": "Morada", "phone": "Telefone", "website": "Website", "photos": "Fotografias", "close": "Fechar fotografia", "price": "Preço", "rooms": "Quartos"}, "nl": {"address": "Adres", "phone": "Telefoon", "website": "Website", "photos": "Foto’s", "close": "Foto sluiten", "price": "Prijs", "rooms": "Kamers"}, "ru": {"address": "Адрес", "phone": "Телефон", "website": "Сайт", "photos": "Фотографии", "close": "Закрыть фото", "price": "Цена", "rooms": "Номера"}, "pl": {"address": "Adres", "phone": "Telefon", "website": "Strona internetowa", "photos": "Zdjęcia", "close": "Zamknij zdjęcie", "price": "Cena", "rooms": "Pokoje"}};
 function detailLabels(){return DETAIL_LABELS[state.language]||DETAIL_LABELS.en}
@@ -15885,95 +15894,21 @@ function mountPlaceLogo(host,place){
  };
  const favicon=value=>{const site=placeWebsiteUrl(value);if(!site)return [];const u=new URL(site);return ['https://www.google.com/s2/favicons?sz=128&domain_url='+encodeURIComponent(u.origin),u.origin+'/favicon.ico']};
  display([place.logo_url,place.brand_logo,...favicon(place.website)]);
- const enrich=()=>loadPlaceMedia(place).then(data=>{if(!host.isConnected)return;display([...(Array.isArray(data.logos)?data.logos:[]),place.logo_url,place.brand_logo,...favicon(place.website||data.website)])});
- if(typeof IntersectionObserver==='function'){const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){observer.disconnect();enrich()}},{rootMargin:'100px'});observer.observe(host);setTimeout(()=>observer.disconnect(),60000)}else enrich();
+ // Already has a candidate identity source; no per-row API enrichment needed.
+ if([place.logo_url,place.brand_logo,place.website].some(Boolean))return;
+ if(![place.wikidata,place.brand_wikidata].some(x=>/^Q[1-9]\d{0,11}$/.test(String(x||''))))return;
+ const enrich=()=>loadPlaceMedia(place).then(data=>{
+  if(!host.isConnected)return;
+  display([...(Array.isArray(data.logos)?data.logos:[]),...favicon(data.website)]);
+ });
+ if(typeof IntersectionObserver==='function'){
+  const obs=new IntersectionObserver(entries=>{
+   if(entries.some(e=>e.isIntersecting)){obs.disconnect();enrich()}
+  },{rootMargin:'80px'});obs.observe(host);
+ }else enrich();
 }
 async function enrichPlaceWebsite(place,card){
  const data=await loadPlaceMedia(place);if(card.isConnected)appendPlaceWebsite(card,place.website||data.website);
-}
-function showPlacePhoto(url,name){
- const src=verifiedMediaUrl(url);if(!src)return;
- const dialog=document.createElement('dialog');dialog.setAttribute('aria-label',String(name||'Fotografie'));dialog.style.cssText='position:fixed;inset:0;margin:auto;max-width:min(94vw,640px);max-height:90dvh;padding:12px;border-radius:16px;border:1px solid #60879a;background:#112d3b;color:white;z-index:99999;box-sizing:border-box;overflow:auto';
- const close=document.createElement('button');close.type='button';close.textContent='✕';close.setAttribute('aria-label',detailLabels().close);close.style.cssText='display:block;margin:0 0 10px auto;background:#b92d42;color:white;border:0;border-radius:8px;padding:8px 14px;cursor:pointer';
- close.onclick=()=>dialog.close();
- const img=document.createElement('img');img.src=src;img.alt=String(name||'Locație');img.style.cssText='display:block;width:100%;height:auto;max-height:72dvh;object-fit:contain;border-radius:8px';
- dialog.append(close,img);document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove(),{once:true});
- dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
- if(typeof dialog.showModal==='function')dialog.showModal();else{dialog.setAttribute('open','');}
-}
-// New photo pipeline: a location photograph, never a company/health-service
-// logo or a generic stock photo. Lazy queries are made only for visible cards.
-const verifiedPhotoRequests=new Map();
-function resolveVerifiedPlacePhoto(place){
- const lat=Number(place.latitude),lon=Number(place.longitude);
- if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)
-  return Promise.resolve({status:'unavailable',photo:null});
- const key=[place.name,lat.toFixed(5),lon.toFixed(5),place.wikidata||'',place.commons_tag||''].join('|');
- if(verifiedPhotoRequests.has(key))return verifiedPhotoRequests.get(key);
- const u=new URL(CLIENT_CONFIG.apiUrl.split('/api/chat')[0]+'/api/place-photo-v2');
- u.searchParams.set('name',String(place.name||'').slice(0,120));
- u.searchParams.set('lat',String(lat));u.searchParams.set('lon',String(lon));
- if(/^Q[1-9]\d{0,11}$/.test(String(place.wikidata||'')))u.searchParams.set('wikidata',place.wikidata);
- if(/^File:.+\.(?:png|jpe?g|webp)$/i.test(String(place.commons_tag||'')))
-  u.searchParams.set('commons_tag',String(place.commons_tag).slice(0,180));
- const request=fetch(u.href,{signal:AbortSignal.timeout(9500)})
-  .then(r=>r.ok?r.json():{status:'unavailable',photo:null})
-  .then(data=>data?.status==='verified'&&verifiedMediaUrl(data.photo?.image_url)&&
-    /^https:\/\/commons\.wikimedia\.org\//.test(String(data.photo?.source_url||''))
-    ?data:{status:'unavailable',photo:null})
-  .catch(()=>({status:'unavailable',photo:null}));
- verifiedPhotoRequests.set(key,request);
- if(verifiedPhotoRequests.size>180)verifiedPhotoRequests.delete(verifiedPhotoRequests.keys().next().value);
- return request;
-}
-function showVerifiedPlacePhoto(placePhoto,name){
- const image=verifiedMediaUrl(placePhoto?.image_url);
- if(!image)return;
- // True full-screen photo viewer; independent of the logo/brand identity slot.
- const dialog=document.createElement('dialog');
- dialog.setAttribute('aria-label',String(name||'Fotografie locație'));
- dialog.style.cssText='position:fixed;inset:0;margin:0;padding:0;border:0;border-radius:0;width:100vw;max-width:none;height:100dvh;max-height:none;box-sizing:border-box;z-index:99999;background:#06121d;color:#fff;overflow:hidden';
- const layout=document.createElement('div');
- layout.style.cssText='display:flex;flex-direction:column;width:100%;height:100%;min-height:0';
- const bar=document.createElement('div');
- bar.style.cssText='display:flex;align-items:center;gap:8px;padding:12px 15px;background:#102d40;flex:0 0 auto;box-sizing:border-box';
- const title=document.createElement('strong');title.textContent=String(name||'Fotografie');
- title.style.cssText='font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1';
- let scale=1;
- const viewport=document.createElement('div');
- viewport.style.cssText='flex:1;min-height:0;display:flex;justify-content:center;align-items:center;overflow:auto;overscroll-behavior:contain';
- const img=document.createElement('img');
- img.src=image;img.alt=String(name||'Fotografie locație');img.referrerPolicy='no-referrer';
- img.style.cssText='display:block;max-width:100%;max-height:100%;object-fit:contain;transform-origin:center center;touch-action:pan-x pan-y;transition:transform .14s ease';
- const apply=()=>{img.style.transform='scale('+scale+')'};
- const control=(text,label,fn)=>{
-  const button=document.createElement('button');button.type='button';button.textContent=text;
-  button.setAttribute('aria-label',label);
-  button.style.cssText='border:1px solid #6093a8;border-radius:9px;background:#173a50;color:white;min-width:39px;min-height:39px;font-size:20px;cursor:pointer';
-  button.onclick=fn;return button;
- };
- const minus=control('−','Micșorează fotografia',()=>{scale=Math.max(1,scale-.5);apply()});
- const plus=control('+','Mărește fotografia',()=>{scale=Math.min(3,scale+.5);apply()});
- const close=control('✕',detailLabels().close,()=>dialog.close());
- close.style.background='#9e263d';
- bar.append(title,minus,plus,close);
- img.addEventListener('dblclick',()=>{scale=scale>1?1:2;apply()});
- viewport.append(img);
- const credit=document.createElement('div');
- credit.style.cssText='font-size:12px;line-height:1.35;padding:8px 15px 15px;background:#102d40;flex:0 0 auto';
- const source=document.createElement('a');
- source.href=String(placePhoto.source_url||'');source.target='_blank';source.rel='noopener noreferrer';
- source.style.color='#5de1e2';source.textContent='Wikimedia Commons';
- credit.append(document.createTextNode([placePhoto.credit,placePhoto.license].filter(Boolean).join(' · ')+' · '),source);
- if(placePhoto.license_url){
-  const license=document.createElement('a');license.href=placePhoto.license_url;
-  license.target='_blank';license.rel='noopener noreferrer';
-  license.style.cssText='color:#5de1e2;margin-left:8px';
-  license.textContent='Licență';credit.append(license);
- }
- layout.append(bar,viewport,credit);dialog.append(layout);document.body.append(dialog);
- dialog.addEventListener('close',()=>dialog.remove(),{once:true});
- if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
 }
 function mountPlaceThumbnail(host,place){
  // The left-hand list slot always displays the business identity:
@@ -15984,40 +15919,16 @@ function mountPlaceThumbnail(host,place){
 function renderModulePlaceDetails(place){document.querySelector('.module-quick-sheet')?.classList.remove('mode-choice-screen');state.moduleSearchReturnMode='details';state.lastQuickPlace=place;$('moduleLayerBody').style.cssText='';document.querySelector('.module-quick-sheet')?.classList.add('details-mode');
  document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');
  const body=$('moduleLayerBody');body.innerHTML='';const card=document.createElement('div');card.className='module-place-details';
- const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=String(place.name||t.location);const logo=document.createElement('span');logo.className='module-place-result-icon place-detail-logo';logo.setAttribute('aria-hidden','true');mountPlaceLogo(logo,place);const heading=document.createElement('div');heading.className='place-detail-header';
+ const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=quickPlaceDisplayName(place,state.moduleSearchResults)||t.location;const logo=document.createElement('span');logo.className='module-place-result-icon place-detail-logo';logo.setAttribute('aria-hidden','true');mountPlaceLogo(logo,place);const heading=document.createElement('div');heading.className='place-detail-header';
  const headingIdentity=document.createElement('div');headingIdentity.className='place-detail-identity';headingIdentity.append(logo,title);
  const actions=document.createElement('div');actions.className='place-detail-actions';
  const go=document.createElement('button');go.type='button';go.className='primary-btn place-detail-route';go.textContent=dialogText("Alege traseul","Choose route");go.onclick=()=>{if(state.busy)return;offerPlaceTravelModes(place)};
- const photo=document.createElement('button');photo.type='button';photo.className='place-detail-photo';
- photo.style.cssText='border:0;padding:0;display:none';
- photo.setAttribute('aria-label',l.photos);
- // No empty or misleading "photo unavailable" field: show the slot only
- // once an actual, licensed location photo is loaded successfully.
- const setVerifiedPhoto=data=>{
-  if(!photo.isConnected||data?.status!=='verified'||!data.photo)return;
-  const verified=data.photo,src=verifiedMediaUrl(verified.image_url);
-  if(!src)return;
-  const img=document.createElement('img');img.alt=String(place.name||'');
-  img.referrerPolicy='no-referrer';
-  img.onload=()=>{
-   if(!photo.isConnected)return;
-   photo.replaceChildren(img);photo.style.removeProperty('display');
-   photo.disabled=false;photo.style.cursor='zoom-in';
-   photo.onclick=()=>showVerifiedPlacePhoto(verified,place.name);
-   place.verified_photo=verified;
-  };
-  img.onerror=()=>{photo.style.display='none'};
-  img.src=src;
- };
- if(place.verified_photo)setVerifiedPhoto({status:'verified',photo:place.verified_photo});
- else resolveVerifiedPlacePhoto(place).then(setVerifiedPhoto);
-
- actions.append(go,photo);heading.append(headingIdentity,actions);card.append(heading);
+ actions.append(go);heading.append(headingIdentity,actions);card.append(heading);
  const status=document.createElement('p');status.textContent=dialogText('Se caută informații despre locația selectată…','Researching the selected location…');status.style.fontSize='12px';card.append(status);
  // Only display provider-grounded attributes; never fabricate opening hours or services.
  const extraDetails=()=>{const fields=[['description',dialogText('Descriere','Description')],['opening_hours',dialogText('Program','Opening hours')],['services',dialogText('Servicii','Services')]];for(const [key,label] of fields){const value=Array.isArray(place[key])?place[key].filter(Boolean).join(', '):place[key];if(value&&typeof value==='string'&&!card.querySelector('[data-place-field="'+key+'"]')){const p=document.createElement('p');p.dataset.placeField=key;const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(value));card.append(p)}}};
  extraDetails();
- loadPlaceMedia(place).then(data=>{if(!card.isConnected)return;const details=data.details||{};status.textContent=(details.opening_hours||details.description||(Array.isArray(details.services)&&details.services.length)||data.images?.length)?dialogText('Informații suplimentare găsite','Additional information found'):dialogText('Nu au fost găsite detalii suplimentare verificate','No additional verified details found');for(const key of ['description','opening_hours','services'])if(!place[key]&&details[key])place[key]=details[key];extraDetails();if(!place.phone&&details.phone){place.phone=details.phone;line(l.phone,details.phone)}if(!place.website&&data.website)appendPlaceWebsite(card,data.website);/* Photo lookup is handled exclusively by place-photo-v2, independent of place-media. */if(Array.isArray(data.evidence)&&data.evidence.length){const detailsLink=document.createElement('details');const summary=document.createElement('summary');summary.textContent=dialogText('Surse verificate','Verified sources');detailsLink.append(summary);for(const evidence of data.evidence){const a=document.createElement('a');a.href=evidence.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=evidence.field==='opening_hours'?dialogText('Sursa programului','Hours source'):dialogText('Sursa telefonului','Phone source');const p=document.createElement('p');p.append(a);detailsLink.append(p)}card.append(detailsLink)}}).catch(()=>{if(card.isConnected)status.textContent=dialogText('Nu s-au putut încărca detaliile suplimentare.','Additional details could not be loaded.');});
+ loadPlaceMedia(place).then(data=>{if(!card.isConnected)return;const details=data.details||{};status.textContent=(details.opening_hours||details.description||(Array.isArray(details.services)&&details.services.length))?dialogText('Informații suplimentare găsite','Additional information found'):dialogText('Nu au fost găsite detalii suplimentare verificate','No additional verified details found');for(const key of ['description','opening_hours','services'])if(!place[key]&&details[key])place[key]=details[key];extraDetails();if(!place.phone&&details.phone){place.phone=details.phone;line(l.phone,details.phone)}if(!place.website&&data.website)appendPlaceWebsite(card,data.website);if(Array.isArray(data.evidence)&&data.evidence.length){const detailsLink=document.createElement('details');const summary=document.createElement('summary');summary.textContent=dialogText('Surse verificate','Verified sources');detailsLink.append(summary);for(const evidence of data.evidence){const a=document.createElement('a');a.href=evidence.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=evidence.field==='opening_hours'?dialogText('Sursa programului','Hours source'):dialogText('Sursa telefonului','Phone source');const p=document.createElement('p');p.append(a);detailsLink.append(p)}card.append(detailsLink)}}).catch(()=>{if(card.isConnected)status.textContent=dialogText('Nu s-au putut încărca detaliile suplimentare.','Additional details could not be loaded.');});
  const line=(label,value)=>{if(value===undefined||value===null||String(value).trim()==='')return;const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));card.append(p)};
  line(l.address,place.address||[place.house_number,place.street,place.city,place.postcode].filter(Boolean).join(', '));
  line(t.category,localizedPlaceCategory(place.type||t.unspecified));

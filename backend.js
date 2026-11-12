@@ -12,7 +12,6 @@ import {foodCategoryAccepts,reconcileNearbyPlaces} from "./food_location_quality
 import {otherPoiAccepts} from "./other_poi_quality.mjs";
 import {nearbyOpenStreetMapFood} from "./osm_food_places.mjs";
 import {photonNearbyUrl} from "./photon_category_discovery.mjs";
-import {verifiedLocationPhoto} from "./place_photo_public.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
@@ -1520,25 +1519,10 @@ export default {
       });
     }
 
-    // Independent, photo-only service. No logos, commercial place photos,
-    // favicons, Exa research or guessing from another nearby establishment.
-    if (url.pathname === "/api/place-photo-v2" && request.method === "GET") {
-      const name=String(url.searchParams.get("name")||"").slice(0,120);
-      const latitude=Number(url.searchParams.get("lat"));
-      const longitude=Number(url.searchParams.get("lon"));
-      const wikidata=String(url.searchParams.get("wikidata")||"");
-      const commonsTag=String(url.searchParams.get("commons_tag")||"").slice(0,180);
-      const result=await verifiedLocationPhoto({name,latitude,longitude,wikidata,commonsTag});
-      return new Response(JSON.stringify(result),{headers:{
-        ...corsHeaders,"Content-Type":"application/json; charset=utf-8",
-        "Cache-Control":"public, max-age=3600"
-      }});
-    }
-
     if (url.pathname === "/api/place-media" && request.method === "GET") {
       const ids = [url.searchParams.get("wikidata"),url.searchParams.get("brand_wikidata")]
         .filter(v => /^Q[1-9]\d{0,11}$/.test(String(v||""))).slice(0,2);
-      const images = [], logos = [], seen = new Set();
+      const logos = [], seen = new Set();
       const placeName=String(url.searchParams.get("name")||"").trim().slice(0,120);
       const lat=Number(url.searchParams.get("lat")),lon=Number(url.searchParams.get("lon"));
       const validCoords=Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180&&url.searchParams.has("lat")&&url.searchParams.has("lon");
@@ -1561,8 +1545,6 @@ export default {
               details.description=tags.description||"";
               details.services=[tags["wheelchair"]==="yes"?"Wheelchair access":"",tags["delivery"]==="yes"?"Delivery":"",tags["takeaway"]==="yes"?"Takeaway":""].filter(Boolean);
               if(!ids.length&&/^Q[1-9]\d{0,11}$/.test(tags.wikidata||""))ids.push(tags.wikidata);
-              const photo=tags.image||tags["image:0"]||"";
-              if(/^https:\/\//i.test(photo)&&!seen.has(photo)){images.push(photo);seen.add(photo)}
             }
           }
         }catch{}
@@ -1605,12 +1587,12 @@ export default {
             const candidate = entity.claims?.P856?.[0]?.mainsnak?.datavalue?.value;
             try { const u = new URL(candidate); if (["https:","http:"].includes(u.protocol) && !u.username && !u.password) website = u.href; } catch {}
           }
-          for (const property of ["P18","P154"]) {
+          for (const property of ["P154"]) {
             for (const statement of (entity.claims?.[property]||[]).slice(0,3)) {
               const filename = statement.mainsnak?.datavalue?.value;
               if (typeof filename !== "string" || !/\.(png|jpe?g|webp|svg)$/i.test(filename) || filename.length>220) continue;
               const image = "https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(filename);
-              if (!seen.has(image)) {(property === "P154" ? logos : images).push(image);seen.add(image)}
+              if (!seen.has(image)) {logos.push(image);seen.add(image)}
             }
           }
         } catch {} // optional enrichment must not block place details
@@ -1618,7 +1600,7 @@ export default {
       const researched=await research;
       const sources=Array.isArray(researched)?researched:(researched.sources||[]);
       if(researched.extracted){for(const key of ["opening_hours","phone"])if(!details[key]&&researched.extracted[key])details[key]=researched.extracted[key]}
-      return new Response(JSON.stringify({images:images.slice(0,6),logos:logos.slice(0,6),website:details.website||website,details,sources:[],evidence:researched.evidence||[],source:"OSM location tags + Wikidata/Wikimedia Commons + verified-address web references"}),{
+      return new Response(JSON.stringify({logos:logos.slice(0,6),website:details.website||website,details,sources:[],evidence:researched.evidence||[],source:"OSM location tags + Wikidata/Wikimedia Commons + verified-address web references"}),{
         headers:{...corsHeaders,"Content-Type":"application/json; charset=utf-8","Cache-Control":"public, max-age=86400"}
       });
     }
@@ -5427,7 +5409,7 @@ export default {
           const photonHeaders={"Accept":"application/geo+json, application/json",
             "User-Agent":"PocketAI/86 (nearby places)"};
           let response=await fetch(photonUrl.toString(),{
-            headers:photonHeaders,signal:AbortSignal.timeout(8000)
+            headers:photonHeaders,signal:AbortSignal.timeout(6000)
           });
           // Preserve legacy text lookup for older Photon servers which do
           // not support category-only geofenced searches.
@@ -5436,7 +5418,7 @@ export default {
               category:requestedPlaceCategory.key,query:requestedPlaceCategory.labelEn,
               useCategories:false});
             response=await fetch(fallback.toString(),{
-              headers:photonHeaders,signal:AbortSignal.timeout(6000)
+              headers:photonHeaders,signal:AbortSignal.timeout(3500)
             });
           }
           if (!response.ok) throw Object.assign(new Error("Photon places provider HTTP " + response.status), { name: "PlacesHttpError", httpStatus: response.status, retryAfter: response.headers.get("Retry-After"), contentType: response.headers.get("Content-Type") });
@@ -5487,7 +5469,7 @@ export default {
             geoapifyUrl.searchParams.set("apiKey", env.GEOAPIFY_API_KEY);
             const geoapifyResponse = await fetch(geoapifyUrl.toString(), {
               headers: { "Accept": "application/json" },
-              signal: AbortSignal.timeout(10000)
+              signal: AbortSignal.timeout(6500)
             });
             if (!geoapifyResponse.ok) {
               const errorBody = (await geoapifyResponse.text().catch(() => "")).slice(0, 400);
@@ -5743,7 +5725,7 @@ export default {
         // provide a useful nearby set. Cached by coarse area in the adapter.
         if(env.OSM_WORLD_FOOD_ENABLED==='true' &&
            ['restaurant','fast_food','corner_shop','supermarket','shop','market_bakery','confectionery'].includes(requestedPlaceCategory.key) &&
-           (placesData.elements||[]).length<25){
+           (placesData.elements||[]).length<6){
           const osmFood=await nearbyOpenStreetMapFood({
             latitude,longitude,radius,category:requestedPlaceCategory.key
           });
@@ -5814,10 +5796,7 @@ export default {
           const city = String(tags.city || tags.town || tags.village || tags["addr:city"] || "").trim();
           const postcode = String(tags.postcode || tags["addr:postcode"] || "").trim();
           const address = String(tags.fsa_address||[houseNumber, street, city, postcode].filter(Boolean).join(", ")).slice(0,250);
-          const rawImage = String(tags.image || "").trim();
-          const commons = String(tags.wikimedia_commons || tags["wikimedia_commons"] || "").trim();
-          const imageUrl = /^https:\/\//i.test(rawImage) ? rawImage : /^File:/i.test(commons) ? "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(commons.slice(5)) : "";
-          return { stars:normalizeHotelStars(tags.stars), imageUrl, commonsTag:commons, wikidata:String(tags.wikidata||""), brandWikidata:String(tags.brand_wikidata||""), name, type, lat, lon, distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? distanceMeters(latitude, longitude, lat, lon) : Infinity, cuisine: tags.cuisine || "", website: tags.website || tags["contact:website"] || "", phone: tags.phone || tags["contact:phone"] || "", address, street, houseNumber, city, postcode };
+            return { stars:normalizeHotelStars(tags.stars), wikidata:String(tags.wikidata||""), brandWikidata:String(tags.brand_wikidata||""), name, type, lat, lon, distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? distanceMeters(latitude, longitude, lat, lon) : Infinity, cuisine: tags.cuisine || "", website: tags.website || tags["contact:website"] || "", phone: tags.phone || tags["contact:phone"] || "", address, street, houseNumber, city, postcode };
         }).filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lon) && p.name)
           .filter(p => !p.name.startsWith("Loc fără nume") && !p.name.startsWith("Unnamed"));
         // Reconcile trading aliases using address + name or phone evidence,
@@ -5857,7 +5836,7 @@ export default {
           const registryNote=activeProviders.some(p=>p.startsWith("UK Food Standards Agency"))?(lang==="en"?"Some food businesses are from the UK FSA register. Registration does not confirm current hours or menu.":"Unele localuri provin din registrul oficial FSA din UK; înregistrarea nu confirmă programul sau meniul actual."):"";
           const notes=[radiusNote,centerNote.trim(),starsNote.trim(),incompleteNote,ratingNote.trim(),registryNote,lang==="en"?"Distances are approximate, in a straight line from the search reference point.":"Distanțele sunt aproximative, în linie dreaptă față de punctul de referință al căutării."].filter(Boolean).join("\n");
           const reply=heading+countNote+"\n\n"+lines.join("\n\n")+"\n\n"+notes;
-          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, image_url: p.imageUrl || "", commons_tag:p.commonsTag||"", wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:radius, requested_stars:requestedStars, unclassified_count:unclassifiedCount, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
+          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:radius, requested_stars:requestedStars, unclassified_count:unclassifiedCount, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
         }
       } catch (searchError) {
         const errorName = searchError && searchError.name ? String(searchError.name).slice(0, 80) : "UnknownError";
