@@ -1,4 +1,5 @@
 import {SEVEN_COUNTRY_LITERARY_LIBRARY} from './literature_seven_country_library.mjs';
+import {LUCEAFARUL_SECTIONS} from './literature_public_domain_luceafarul.mjs';
 // Verified author bibliography, original metadata only (no copyrighted text).
 // The Open Library search index is useful for discovery, not reliable enough
 // on its own to establish attribution or a complete author's bibliography.
@@ -6,7 +7,7 @@ import {SEVEN_COUNTRY_LITERARY_LIBRARY} from './literature_seven_country_library
 // https://www.icr.ro/pagini/nichita-stanescu-80-de-ani-de-la-nastere-7723
 export const VERIFIED_LITERARY_AUTHORS=Object.freeze([
  // Public-domain Romanian author and an independently checked work-level source.
- // Metadata only; the reader never invents the text of an unverified edition.
+ // The verified Wikisource text is embedded separately; no AI reconstructs it.
  Object.freeze({
   id:'ro-mihai-eminescu',name:'Mihai Eminescu',birthYear:1850,deathYear:1889,
   country:'RO',language:'ro',sourceTitle:'Wikisource — Luceafărul (Eminescu)',
@@ -15,7 +16,7 @@ export const VERIFIED_LITERARY_AUTHORS=Object.freeze([
   works:Object.freeze([Object.freeze({
    title:'Luceafărul',year:1883,kind:'poem romantic',
    sourceUrl:'https://ro.wikisource.org/wiki/Luceaf%C4%83rul_%28Eminescu%29',
-   sections:Object.freeze([])
+   sections:LUCEAFARUL_SECTIONS
   })])
  }),
  Object.freeze({

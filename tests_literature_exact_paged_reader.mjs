@@ -3,6 +3,7 @@ import vm from 'node:vm';
 import {splitLiteraturePages} from './literature_reader_pagination.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
 import {VERIFIED_LITERARY_AUTHORS} from './literature_verified_authors.mjs';
+import {LUCEAFARUL_STANZAS,LUCEAFARUL_SECTIONS,LUCEAFARUL_FACTS} from './literature_public_domain_luceafarul.mjs';
 
 const paragraph='Citirea atentă începe cu observația textului și continuă cu argumente clare. ';
 const long=Array(95).fill(paragraph).join('\n\n');
@@ -83,6 +84,35 @@ for(const wording of ['Mihai Eminescu – Luceafărul','Luceafărul — Mihai Em
   'Selection must expose study actions: '+wording);
 }
 
+// This is the real public-domain poem, not AI-generated text/metadata.
+assert.equal(LUCEAFARUL_STANZAS.length,98);
+assert.equal(LUCEAFARUL_STANZAS.flatMap(stanza=>stanza.split('\n')).length,392);
+assert.equal(LUCEAFARUL_FACTS.standardStanzas,98);
+assert.equal(LUCEAFARUL_SECTIONS.length,7);
+assert.equal(LUCEAFARUL_SECTIONS.map(s=>s.text.split('\n\n').length).reduce((a,b)=>a+b,0),98);
+const poem=VERIFIED_LITERARY_AUTHORS.find(x=>x.name==='Mihai Eminescu').works[0];
+assert.equal(poem.sections.length,7,'Verified text must be embedded with the work');
+assert.ok(poem.sections.every(section=>section.rightsVerified===true&&section.license));
+roSearch.value='Mihai Eminescu – Luceafărul';
+button(roPanel,'Caută autorul / opera').onclick();
+await Promise.resolve();
+assert.ok(button(roPanel,'Citește opera integral'),'Read complete work is available without searching online');
+button(roPanel,'Citește opera integral').onclick();
+const luceafarulReader=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
+assert.ok(luceafarulReader,'Actual work opens in Android-safe reader');
+button(luceafarulReader,'💾 Salvează PDF').onclick();
+const fullBook=requests.at(-1).material.text;
+assert.ok(fullBook.includes('A fost odată ca-n povești,'));
+assert.ok(fullBook.includes('Nemuritor și rece.”'));
+assert.ok(!fullBook.includes('Momentan sunt disponibile numai datele bibliografice'));
+button(luceafarulReader,'Înapoi').onclick();
+button(roPanel,'Studiază').onclick();
+const studied=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
+assert.ok(studied.textContent.includes('98 de strofe, 392 de versuri'));
+assert.ok(studied.textContent.includes('poem romantic'));
+assert.ok(!studied.textContent.includes('scrisă în 1861'));
+button(studied,'Înapoi').onclick();
+
 // The external catalogue must prefer an original work over same-title
 // commentaries when its work-level edition evidence is unambiguous.
 let remoteCalls=0;
@@ -144,7 +174,7 @@ assert.equal(navs[0].children[1].textContent,navs[1].children[1].textContent);
 navs[0].children[0].onclick();
 assert.equal(navs[0].children[1].textContent,firstCounter);
 button(dialog,'💾 Salvează PDF').onclick();
-assert.equal(requests[0].mode,'save');
-assert.equal(requests[0].material.text,long.trim(),'PDF uses complete theory, not just the displayed page');
+assert.equal(requests.at(-1).mode,'save');
+assert.equal(requests.at(-1).material.text,long.trim(),'PDF uses complete theory, not just the displayed page');
 
 console.log('PASS: exact title opens one work; author lists works; two pagers; full PDF material');

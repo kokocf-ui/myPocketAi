@@ -11,6 +11,7 @@ import {nearbyUkRegisteredRetailers,nearbyUkRegisteredTakeaways} from "./uk_food
 import {foodCategoryAccepts,reconcileNearbyPlaces} from "./food_location_quality.mjs";
 import {otherPoiAccepts} from "./other_poi_quality.mjs";
 import {nearbyOpenStreetMapFood} from "./osm_food_places.mjs";
+import {nearbySparseMapPlaces} from "./osm_sparse_places.mjs";
 import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
@@ -2972,6 +2973,7 @@ export default {
     if (roTransitQuery || explicitMixedJourney || (!explicitCarRoute && (publicTransportIntent || boardingAccessRequested || chosenTravelMode==='transit') && !directWalkingTarget && (chosenTravelMode==='transit' || boardingAccessRequested || !/(?:pietonal|pe jos|walking|walk me to|walk to|walking directions)/i.test(normalizedTransitMessage)))) {
       const transitStartedAt = Date.now();
       const transportErrors = {};
+      const tflChecks={attempts:[],rawJourneys:0,endpointAccepted:0,finalAccepted:0,requestStatus:'not_attempted'};
       let effectiveDepartureAt=null;
       let departureAt=null;
       const transitOptions = [];
@@ -3357,18 +3359,20 @@ export default {
         // stations themselves, even when users omit the word "station".
         // Official operator evidence takes precedence over nearby businesses.
         const londonQualifiedName=String(targetName).match(/^([\p{L} '&.-]{4,80}),\s*(?:london|londra|greater london|england|uk)$/iu);
-        const tryVerifiedStation=explicitStationWord||
+        const londonVictoriaImplicit=/^victoria(?:\s*,\s*london)?$/i.test(String(targetName).trim())&&
+          isTfLLondonCorridorPoint(latitude,longitude);
+        const tryVerifiedStation=explicitStationWord||londonVictoriaImplicit||
           Boolean(cityFirstStation&&cityFirstStation[1].trim().split(/\s+/).length>=2)||
           Boolean(londonQualifiedName&&londonQualifiedName[1].trim().split(/\s+/).length>=2);
         const unqualifiedStation=/\b(station|underground|tube|metro|railway)\b/i.test(requestedStationName)&&! /\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|paris|france|berlin|germany|rome|italy|madrid|spain|canada|australia)\b/i.test(requestedStationName);
         const undergroundModeRequested=/\b(?:underground|tube|metro)\b/i.test(requestedStationName);
         const victoriaTubeQuery=/^(?:(?:london|londra)\s+)?victoria\s+(?:underground|tube|metro)(?:\s+station)?$/i.test(requestedStationName.trim());
-        if(env.TFL_APP_KEY && tryVerifiedStation){
+        if((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') && tryVerifiedStation){
           try{
             const stopQuery=targetName.replace(/\b(london|londra|underground|railway|rail|train|station|tube)\b/gi," ").replace(/[,\s]+/g," ").trim();
             if(stopQuery.length>=3){
               const stopUrl=new URL("https://api.tfl.gov.uk/StopPoint/Search/"+encodeURIComponent(stopQuery));
-              stopUrl.searchParams.set("app_key",env.TFL_APP_KEY);
+              if(env.TFL_APP_KEY)stopUrl.searchParams.set("app_key",env.TFL_APP_KEY);
               stopUrl.searchParams.set("includeHubs","true");
               const sr=await fetch(stopUrl.toString(),{headers:{"Accept":"application/json"},signal:AbortSignal.timeout(8000)});
               stationLookupDiagnostic.http=sr.status;
@@ -3568,11 +3572,15 @@ export default {
             provider_status:{tfl:'outside_london_corridor',motis:transportErrors.motis||null,transcapi:transportErrors.transcapi||'not_attempted'},
             transit_departure_at:departureAt,reason:'national_public_transport_not_verified',ai_connected:Boolean(env.AI)});
         }
-        if (env.TFL_APP_KEY) {
+        if (env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') {
           try {
             // Keep coordinate commas as path delimiters; encode only free-text destinations once.
+            // Ambiguous interchange hubs such as HUBVIC return HTTP 300
+            // when used as the JourneyResults destination. For them use
+            // verified coordinates. An exact operator platform/Tube stop ID
+            // such as 940GZZLUVIC is unambiguous and may be used directly.
             const to = Number.isFinite(targetLat) && Number.isFinite(targetLon)
-              ? (verifiedStopId || `${targetLat},${targetLon}`)
+              ? (verifiedStopId&&!/^HUB/i.test(verifiedStopId)?verifiedStopId:`${targetLat},${targetLon}`)
               : encodeURIComponent(targetName);
             const from = `${latitude},${longitude}`;
             // Both TfL consumers use one provider adapter.
@@ -3582,6 +3590,11 @@ export default {
               departureAt:effectiveDepartureAt,requestedCount:requestedOptionsCount
             });
             const tj={journeys:tflData.journeys};
+            tflChecks.requestStatus=tflData.status;
+            tflChecks.attempts=(tflData.attempts||[]).slice(0,5).map(a=>({
+              preference:a.preference,status:a.status,public:Boolean(a.public),count:a.count||0
+            }));
+            tflChecks.rawJourneys=tj.journeys.length;
             if(!tj.journeys.length)transportErrors.tfl=tflData.status;
             // Decode TfL's encoded polyline geometry (precision 5) for map rendering.
             const decodeTfLPolyline = (encoded) => {
@@ -3633,6 +3646,7 @@ export default {
               return Boolean(actual&&((desired&&actual===desired)||(resolved&&actual===resolved)));
             });
             transitOptions.splice(0,transitOptions.length,...endpointVerified);
+            tflChecks.endpointAccepted=endpointVerified.length;
             if(beforeEndpointFilter&&!endpointVerified.length)transportErrors.tfl="destination_endpoint_not_verified";
             // v117: preserve useful TfL alternatives, rank complete journeys and avoid over-filtering.
             // TfL may return only one or two journeys; never fabricate missing services.
@@ -3703,6 +3717,7 @@ export default {
               return aEnd===null&&bEnd!==null?1:aEnd!==null&&bEnd===null?-1:0;
             });
             transitOptions.splice(0,transitOptions.length,...selected);
+            tflChecks.finalAccepted=selected.length;
             if (!transitOptions.length) transportErrors.tfl ||= "no_journeys_returned";
           } catch (e) { transportErrors.tfl = String(e && e.message || "request_failed").slice(0,100); }
         } else transportErrors.tfl = "TFL_APP_KEY_missing";
@@ -3824,10 +3839,10 @@ export default {
           reply = lang === "en" ? `I couldn't obtain a confirmed public-transport journey from TfL for ${targetName} right now. I have not substituted a guessed route. Please try a destination station or postcode.` : `Nu am putut obține acum de la TfL o călătorie confirmată cu transportul public până la ${targetName}. Nu am înlocuit-o cu un traseu inventat. Încearcă numele unei stații sau un cod poștal.`;
         }
         // Supplementary provider checks remain in structured metadata, outside the itinerary.
-        const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl|| (env.TFL_APP_KEY?"ok":"not_configured"),bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
+        const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflChecks, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl||tflChecks.requestStatus,bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
         if (transportErrors.tfl || transportErrors.bods || transportErrors.rtt || transportErrors.rtt_services || transportErrors.geoapify) console.warn("Pocket AI v96 transit provider diagnostics", JSON.stringify(transitDiagnostics));
         else console.info("Pocket AI v96 transit provider summary", JSON.stringify(transitDiagnostics));
-        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:annotateTransportJourneys([transitOptions.reduce((best,j)=>!best||(Number(j.durationMinutes)||Infinity)<(Number(best.durationMinutes)||Infinity)?j:best,null)].filter(Boolean),lang)[0]||null,requested_transit_count:requestedOptionsCount,transit:annotateTransportJourneys(transitOptions,lang),transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",transit_departure_at:departureAt,provider_status:{tfl:transportErrors.tfl?"unavailable":(env.TFL_APP_KEY?"queried":"not_configured"),bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:annotateTransportJourneys([transitOptions.reduce((best,j)=>!best||(Number(j.durationMinutes)||Infinity)<(Number(best.durationMinutes)||Infinity)?j:best,null)].filter(Boolean),lang)[0]||null,requested_transit_count:requestedOptionsCount,transit:annotateTransportJourneys(transitOptions,lang),transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",transit_departure_at:departureAt,provider_status:{tfl:transportErrors.tfl?"unavailable":tflChecks.requestStatus,bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
       } catch (e) {
         console.warn("Pocket AI v96 transit-first branch failed", String(e && e.message || e).slice(0,180));
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:lang === "en" ? "The public-transport request could not be completed right now. No unverified route was supplied; try again or specify a station/postcode." : "Cererea de transport public nu a putut fi completată acum. Nu am afișat un traseu neverificat; încearcă din nou sau precizează o stație/un cod poștal.",route_available:false,transit_available:false,ai_connected:Boolean(env.AI)});
@@ -4285,7 +4300,7 @@ export default {
           let reply=lang === "en" ? `Walking route to ${target.display_name}: about ${km} km, around ${formatJourneyDurationMinutes(mins,lang)}. The line on the map shows the pedestrian route. Estimated time can vary with pace and local conditions.` : `Rută pietonală până la ${target.display_name}: aproximativ ${km} km, cam ${formatJourneyDurationMinutes(mins,lang)}. Linia de pe hartă arată traseul pe jos. Durata este estimativă și depinde de ritm și de condițiile locale.`;
           if(routeSteps.length) reply += (lang === "en" ? "\n\nWalking directions:\n" : "\n\nIndicații pentru mersul pe jos:\n") + routeSteps.map(step=>step.text).join("\n");
           let transit=null;
-          if(env.TFL_APP_KEY){
+          if(env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false'){
             try {
               const tflData=await requestTfLJourneys({
                 from:`${latitude},${longitude}`,to:`${destLat},${destLon}`,
@@ -5361,6 +5376,8 @@ export default {
         let placesData = null;
         let geoapifyElements = [];
         let geoapifySucceeded = false;
+        let photonSucceeded = false;
+        let resultRadius = radius;
         const providerFailures = [];
         // v86: launch Photon immediately so its network request overlaps Geoapify.
         // Optional worldwide provider, disabled unless the owner explicitly
@@ -5394,6 +5411,7 @@ export default {
           if (!response.ok) throw Object.assign(new Error("Photon places provider HTTP " + response.status), { name: "PlacesHttpError", httpStatus: response.status, retryAfter: response.headers.get("Retry-After"), contentType: response.headers.get("Content-Type") });
           const data = await response.json();
           if (!data || !Array.isArray(data.features)) throw Object.assign(new Error("Photon provider returned invalid GeoJSON structure"), { name: "PlacesResponseError" });
+          photonSucceeded = true;
           return data;
         })();
         // v79: use the existing Geoapify key for nearby Places before public Overpass.
@@ -5678,7 +5696,8 @@ export default {
             if (!geoapifyElements.length) {
               const recovered=await ukRetailersPromise;
               const globalRecovered=await globalPlacesPromise;
-              if(!geoapifySucceeded&&!recovered.length&&!globalRecovered.length){
+              if(!geoapifySucceeded&&!recovered.length&&!globalRecovered.length &&
+                 !['parking','zoo'].includes(requestedPlaceCategory.key)){
                 const finalError = Object.assign(photonError || new Error("All local-search providers failed"), { providerFailures });
                 throw finalError;
               }
@@ -5697,6 +5716,26 @@ export default {
           activeProviders.push(requestedPlaceCategory.key==="fast_food"?"UK Food Standards Agency takeaways":"UK Food Standards Agency retailers");
         }
         if (!placesData) placesData = { elements: [] };
+        // Parking and zoo queries cannot rely on Food Standards Agency
+        // business listings. When both regular map sources lack a verified POI,
+        // use one bounded public OSM request; never silently promote unrelated
+        // tourist attractions to zoos or invent unnamed buildings.
+        if(['parking','zoo'].includes(requestedPlaceCategory.key)&&
+           (placesData.elements||[]).length===0){
+          const sparseRadius=requestedPlaceCategory.key==='zoo'?35000:radius;
+          const mapped=await nearbySparseMapPlaces({
+            latitude,longitude,radius:sparseRadius,category:requestedPlaceCategory.key
+          });
+          if(mapped.length){
+            placesData.elements.push(...mapped);
+            activeProviders.push('OpenStreetMap Overpass');
+            resultRadius=sparseRadius;
+          }else if(!geoapifySucceeded&&!photonSucceeded&&!globalRows.length){
+            const error=Object.assign(new Error('All sparse-POI providers unavailable'),
+              {name:'PlacesProvidersUnavailable',providerFailures});
+            throw error;
+          }
+        }
         // Global, optional independent food source for thin mapped areas.
         // Avoid automatic high-volume public Overpass use when maps already
         // provide a useful nearby set. Cached by coarse area in the adapter.
@@ -5784,12 +5823,12 @@ export default {
         const unclassifiedCount=requestedStars?unique.filter(p=>!p.stars).length:0;
         const displayedPlaces = matchingPlaces.slice(0, requestedPlaceCategory.key==="shop"?15:40);
         const locationLabel=explicitPlaceQuery ? searchLocationLabel : (lang==="en"?"your GPS location":"poziția ta GPS");
-        const scope=lang==="en"?`Search area: ${locationLabel}. Radius: ${radius/1000} km.`:`Zona căutată: ${locationLabel}. Rază: ${radius/1000} km.`;
+        const scope=lang==="en"?`Search area: ${locationLabel}. Radius: ${resultRadius/1000} km.`:`Zona căutată: ${locationLabel}. Rază: ${resultRadius/1000} km.`;
         const centerNote=centralAreaRequested?(lang==="en"?" Central area is approximated by a 2 km radius around the mapped reference point for the destination.":" Zona centrală este aproximată printr-o rază de 2 km în jurul punctului de referință cartografic al destinației."):"";
         const starsNote=requestedStars?(lang==="en"?` Only hotels mapped as ${requestedStars}-star are included; missing classifications are excluded. This is map metadata, not a current classification audit.`:`Sunt incluse numai hotelurile marcate cu ${requestedStars} stele în datele hărții; cele fără clasificare sunt excluse. Este o clasificare din datele hărții, nu o certificare verificată în timp real.`):"";
         if(requestedStars && !displayedPlaces.length){
           const reply=lang==="en"?`${scope}${centerNote} I could not confirm any ${requestedStars}-star hotels from the available map data. Hotels with unknown or different classifications have not been substituted.`:`${scope}${centerNote} Nu am putut confirma hoteluri de ${requestedStars} stele din datele de hartă disponibile. Nu am inclus hoteluri fără clasificare sau cu alt număr de stele.`;
-          return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,places:[],search_ok:true,results_count:0,location_source:locationSource,search_query:explicitPlaceQuery||null,context_inherited:Boolean(activePlaceRequest?.inherited),search_center:{latitude,longitude,label:locationLabel},search_radius_meters:radius,requested_stars:requestedStars,star_filter_applied:true,ai_connected:Boolean(env.AI)});
+          return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,places:[],search_ok:true,results_count:0,location_source:locationSource,search_query:explicitPlaceQuery||null,context_inherited:Boolean(activePlaceRequest?.inherited),search_center:{latitude,longitude,label:locationLabel},search_radius_meters:resultRadius,requested_stars:requestedStars,star_filter_applied:true,ai_connected:Boolean(env.AI)});
         }
         if (displayedPlaces.length) {
           const lines = displayedPlaces.map((p, i) => {
@@ -5808,12 +5847,12 @@ export default {
             ? (requestedStars?`I found ${totalUniqueResults} ${requestedStars}-star ${totalUniqueResults===1?"hotel":"hotels"} in ${area}, according to the available map data.`:`I found ${totalUniqueResults} results for ${requestedPlaceCategory.labelEn} in ${area}.`)
             : (requestedStars?`Am găsit ${totalUniqueResults===1?"un hotel":totalUniqueResults+" hoteluri"} de ${requestedStars} stele în ${area}, conform datelor de hartă disponibile.`:`Am găsit ${totalUniqueResults} rezultate pentru ${requestedPlaceCategory.labelRo} în ${area}.`);
           const countNote=totalUniqueResults>displayedPlaces.length?(lang==="en"?` Showing ${displayedPlaces.length} results.`:` Afișez ${displayedPlaces.length} rezultate.`):"";
-          const radiusNote=lang==="en"?`Search radius: ${radius/1000} km.`:`Raza căutării: ${radius/1000} km.`;
+          const radiusNote=lang==="en"?`Search radius: ${resultRadius/1000} km.`:`Raza căutării: ${resultRadius/1000} km.`;
           const incompleteNote=unclassifiedCount?(lang==="en"?`${unclassifiedCount} additional mapped ${unclassifiedCount===1?"place has":"places have"} no confirmable star classification and ${unclassifiedCount===1?"was":"were"} excluded.`:`${unclassifiedCount===1?"O altă locație din hartă nu are o clasificare în stele confirmabilă și a fost exclusă.":"Alte "+unclassifiedCount+" locații din hartă nu au o clasificare în stele confirmabilă și au fost excluse."}`):"";
           const registryNote=activeProviders.some(p=>p.startsWith("UK Food Standards Agency"))?(lang==="en"?"Some food businesses are from the UK FSA register. Registration does not confirm current hours or menu.":"Unele localuri provin din registrul oficial FSA din UK; înregistrarea nu confirmă programul sau meniul actual."):"";
           const notes=[radiusNote,centerNote.trim(),starsNote.trim(),incompleteNote,ratingNote.trim(),registryNote,lang==="en"?"Distances are approximate, in a straight line from the search reference point.":"Distanțele sunt aproximative, în linie dreaptă față de punctul de referință al căutării."].filter(Boolean).join("\n");
           const reply=heading+countNote+"\n\n"+lines.join("\n\n")+"\n\n"+notes;
-          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:radius, requested_stars:requestedStars, unclassified_count:unclassifiedCount, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
+          return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, places: displayedPlaces.map(p => ({ name: p.name, type: requestedStars?"hotel":p.type, stars:p.stars||null, wikidata:p.wikidata||"", brand_wikidata:p.brandWikidata||"", latitude: p.lat, longitude: p.lon, distance_meters: Math.round(p.distanceMeters), address: p.address || "", street: p.street || "", house_number: p.houseNumber || "", city: p.city || "", postcode: p.postcode || "", website: p.website || "", phone: p.phone || "", cuisine: p.cuisine || "", map_url: `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=17/${p.lat}/${p.lon}` })), source: activeProviders.length ? activeProviders.join(" + ") : "Geoapify + Photon (no named results returned)", location_source: locationSource, search_query:explicitPlaceQuery||null, context_inherited:Boolean(activePlaceRequest?.inherited), search_center:{latitude,longitude,label:locationLabel}, search_radius_meters:resultRadius, requested_stars:requestedStars, unclassified_count:unclassifiedCount, star_filter_applied:Boolean(requestedStars), results_count: displayedPlaces.length, total_unique_results: totalUniqueResults, results_limited: totalUniqueResults > displayedPlaces.length, search_ok: true, ai_connected: Boolean(env.AI) });
         }
       } catch (searchError) {
         const errorName = searchError && searchError.name ? String(searchError.name).slice(0, 80) : "UnknownError";

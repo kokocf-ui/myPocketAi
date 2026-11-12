@@ -11,8 +11,8 @@ let litReaderOpen=null;
 // Even if optional pagination/typography fails on an Android WebView, never
 // expose raw **Markdown** syntax in the reading window. PDF retains raw source.
 function litReaderSafeText(value){
- return String(value||'').replace(/^\\s{0,3}#{1,6}\\s+/gm,'')
-  .replace(/\\*\\*([^*\\n]+)\\*\\*/g,'$1')
+ return String(value||'').replace(/^\s{0,3}#{1,6}\s+/gm,'')
+  .replace(/\*\*([^*\n]+)\*\*/g,'$1')
   .replace(/__([^_\\n]+)__/g,'$1');
 }
 function litEnsureTypography(){
@@ -349,6 +349,45 @@ function litSimpleWorkspace(panel){
  // No automatic AI request: the learner explicitly chooses one activity.
  // This prevents racing a background lesson request with the first button tap.
 }
+// A verified, fixed-edition work must not be described by a free-form model.
+// These original teaching notes are based on the 98-stanza 1883 source, not
+// an imagined theatre script. For other titles, retain the existing workflow.
+function litVerifiedLuceafarulMaterial(chosen,mode,passage=''){
+ if(chosen?.name!=='Luceafărul'||chosen?.author!=='Mihai Eminescu'||
+   chosen?.work?.sections?.length!==7)return null;
+ const intro='Luceafărul — Mihai Eminescu\nSursă primară: '+chosen.url+
+  '\nPrima publicare: Almanahul „România Jună”, aprilie 1883.'+
+  '\nGen: poem romantic (NU piesă de teatru).'+
+  '\nTextul de referință: 98 de strofe, 392 de versuri, în patru părți.'+
+  '\nExistă variante diferite: manuscris de 105 strofe; ediția Maiorescu din 1883 de 94 de strofe.'+
+  '\n';
+ if(mode==='study')return intro+
+  '\nREPERE PENTRU STUDIU\n'+
+  '1. Partea I: fata de împărat și Luceafărul; două întrupări ale acestuia și imposibilitatea unirii lor.'+
+  '\n2. Partea a II-a: apropierea dintre Cătălin și Cătălina, lumea iubirii omenești.'+
+  '\n3. Partea a III-a: călătoria lui Hyperion către Demiurg și cererea de a renunța la nemurire.'+
+  '\n4. Partea a IV-a: revenirea lui Hyperion; alegerea umană a Cătălinei și concluzia distanței dintre lumea muritoare și cea nemuritoare.'+
+  '\n\nPERSONAJE ȘI IDEI\nCătălina: condiția și iubirea omenească. Cătălin: iubirea posibilă în planul terestru. Hyperion: ființa superioară, nemuritoare. Demiurgul: ordinea cosmică.'+
+  '\n\nTEME\nDragostea imposibilă, raportul dintre ideal și real, condiția omului de geniu și opoziția dintre timp și eternitate.'+
+  '\n\nVerifică formulările prin lectura originalului. Nu confunda poemul cu o piesă de teatru ori cele patru părți cu acte dramatice.';
+ if(mode==='summary')return intro+
+  '\nREZUMAT\nO fată de împărat contemplă Luceafărul și îl cheamă. Acesta vine în două întrupări și îi propune să îi urmeze lumea, dar ea îl roagă să devină muritor.'+
+  ' În planul pământesc, Cătălin se apropie de Cătălina. Hyperion călătorește la Demiurg pentru a cere renunțarea la nemurire, însă acesta îi arată imposibilitatea unui asemenea schimb.'+
+  ' Revenit, Hyperion o găsește pe Cătălina alături de Cătălin și rămâne în lumea lui eternă. Poemul contrapune iubirea trecătoare și existența nemuritoare.';
+ if(mode==='essay')return intro+
+  '\nESEU — IDEALUL ȘI CONDIȚIA UMANĂ\n'+
+  'Poemul romantic „Luceafărul” pune în tensiune două moduri de existență: lumea omenească, limitată de timp, și planul cosmic, al nemuririi.'+
+  ' Relația dintre Cătălina și Hyperion dezvoltă conflictul dintre atracție și imposibilitatea de a împărtăși aceeași condiție. Cele două întrupări ale Luceafărului arată încercarea de apropiere dintre cele două lumi.'+
+  '\n\nÎn paralel, Cătălin reprezintă iubirea realizabilă în universul terestru. Odată cu dialogul lui Hyperion cu Demiurgul, întrebarea iubirii devine una filozofică: poate fi abandonată nemurirea pentru o experiență omenească?' +
+  '\n\nFinalul nu este o scenă de teatru, ci încheierea unei meditații poetice. Hyperion revine la propria natură, în timp ce cei doi tineri se regăsesc în lumea trecătoare. Cele 98 de strofe din textul de referință trebuie citite integral înaintea unei interpretări definitive.';
+ if(mode==='analysis')return intro+
+  '\nANALIZĂ PE TEXT\nUrmărește imaginile cosmice și cele terestre, alternanța planurilor și dialogul dintre Hyperion și Demiurg.'+
+  '\nÎntreabă-te cum se schimbă sensul dorinței de apropiere pe parcursul celor patru părți și cum sunt opuse timpul omenesc și eternitatea.'+
+  (String(passage||'').trim()?'\n\nFRAGMENT FURNIZAT DE UTILIZATOR (nerevendicat drept citat verificat):\n'+String(passage).trim().slice(0,2800):
+   '\n\nPentru o analiză punctuală, adaugă un fragment din ediția afișată. Nu inventăm versuri sau împărțiri în acte.');
+ return null;
+}
+
 function litSimpleLiterature(panel){
  litSimpleHeading(panel,litSimpleLabel('Literatură: autor și operă','Literature: author and work'),
   litSimpleLabel('Selectează opera corectă, apoi Studiază, Rezumat, Eseu sau Analiză pe text.','Select a work, then Study, Summary, Essay or Text analysis.'));
@@ -367,6 +406,12 @@ function litSimpleLiterature(panel){
   chosen={name,author,url,work};title.textContent=name+' — '+author;results.replaceChildren();acts.replaceChildren();
   const types=[['Studiază','Study','study'],['Rezumat','Summary','summary'],['Eseu','Essay','essay'],['Analiză pe text','Text analysis','analysis']];
   for(const [ro,en,mode] of types)acts.append(litSimpleButton(litSimpleLabel(ro,en),()=>{
+   const checked=litVerifiedLuceafarulMaterial(chosen,mode,textArea.value);
+   if(checked){
+    feedback.textContent=litSimpleLabel('Fișă verificată, din ediția de referință.','Verified notes from the reference edition.');
+    litShowMaterialReader(chosen.name+' — '+chosen.author,checked);
+    return;
+   }
    out.replaceChildren();litSimpleGenerate(out,feedback,mode,'Opera: '+chosen.name+'. Autor: '+chosen.author+'.',
    'Sursă bibliografică (metadate, nu text integral): '+chosen.url+'. '+
    (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),

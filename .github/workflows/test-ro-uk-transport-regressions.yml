@@ -11,6 +11,9 @@ on:
       - 'tests_ro_road_origin_integration.mjs'
       - '.github/workflows/test-ro-uk-transport-regressions.yml'
       - 'tests_parking_zoo_eva_regressions.mjs'
+      - 'tests_sparse_poi_live_path.mjs'
+      - 'osm_sparse_places.mjs'
+      - 'literature_public_domain_luceafarul.mjs'
       - 'tests_shared_tfl_reader_regression.mjs'
       - 'literature_task_ui.mjs'
       - 'literature_verified_authors.mjs'
@@ -27,6 +30,9 @@ on:
       - 'tests_ro_road_origin_integration.mjs'
       - '.github/workflows/test-ro-uk-transport-regressions.yml'
       - 'tests_parking_zoo_eva_regressions.mjs'
+      - 'tests_sparse_poi_live_path.mjs'
+      - 'osm_sparse_places.mjs'
+      - 'literature_public_domain_luceafarul.mjs'
       - 'tests_shared_tfl_reader_regression.mjs'
       - 'literature_task_ui.mjs'
       - 'literature_verified_authors.mjs'
@@ -48,6 +54,7 @@ jobs:
       - name: Regression — route wording, parking, zoo, Romanian literature
         run: |
           node tests_parking_zoo_eva_regressions.mjs
+          node tests_sparse_poi_live_path.mjs
           node tests_literature_exact_paged_reader.mjs
           node tests_shared_tfl_reader_regression.mjs
       - name: Existing transport and UI tests
