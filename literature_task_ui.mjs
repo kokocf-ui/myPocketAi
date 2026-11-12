@@ -85,7 +85,9 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  const controller=new AbortController();litSimpleAbort=controller;
  const serial=++litSimpleSerial;
  const snapshot=[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|');
- const plan=litProgram();litJourney.busy=true;
+ let plan={verified:false};
+ try{plan=litProgram()||plan}catch(error){console.warn?.('lit_program_unavailable',String(error?.message||error))}
+ litJourney.busy=true;
  status.textContent=litSimpleLabel('Se pregătește materialul…','Preparing study material…');
  const isHungarianAdmission=litJourney.country==='HU'&&litJourney.branch==='admission';
  const apiSubject=isHungarianAdmission?'school_admission':'language_literature';
@@ -99,15 +101,33 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  const key=String(currentTopic?.[0]||litJourney.topic||'');
  const availableNotes=typeof LIT_OFFLINE_THEORY_DATA==='object'?
   (LIT_OFFLINE_THEORY_DATA[key]||LIT_OFFLINE_THEORY_DATA[litJourney.branch]):null;
- const localMaterial=(litJourney.country==='RO'&&['ro','en'].includes(answerLanguage))
-  ?literatureOfflineActivity({topicKey:key,title:litSimpleLabel(currentTopic?.[1]||'Lecție',currentTopic?.[2]||'Lesson'),
-   mode,grade:litJourney.grade,language:answerLanguage,notes:availableNotes}):null;
+ let localMaterial=null;
+ try{
+  if(litJourney.country==='RO'&&['ro','en'].includes(answerLanguage))
+   localMaterial=literatureOfflineActivity({topicKey:key,
+    title:litSimpleLabel(currentTopic?.[1]||'Lecție',currentTopic?.[2]||'Lesson'),
+    mode,grade:litJourney.grade,language:answerLanguage,notes:availableNotes});
+ }catch(error){console.warn?.('lit_offline_material_unavailable',String(error?.message||error))}
  const present=(material,local=false)=>{
-  if(controller.signal.aborted||!out.isConnected||serial!==litSimpleSerial||
+  // Do not silently drop a synchronous offline result before its element is
+  // attached to the document; a just-created workspace can still be detached.
+  if(controller.signal.aborted||serial!==litSimpleSerial||
    snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
   const text=String(material||'').trim().slice(0,72000);
   if(!text)return;
-  litEnsureTypography();renderStudyBlocks(out,text);
+  try{
+   litEnsureTypography();
+   renderStudyBlocks(out,text);
+  }catch(renderError){
+   // A broken decorative renderer must never prevent the actual lesson text.
+   console.warn?.('literature_renderer_fallback',String(renderError?.message||renderError));
+   out.textContent=text;
+  }
+  status.textContent=local?
+   litSimpleLabel('Material local disponibil. Funcționează fără AI și fără localizare.',
+    'Local study material is available without AI or location.'):
+   (mode==='correction'?litSimpleLabel('Răspunsurile au fost evaluate.','Answers checked.'):
+   litSimpleLabel('Materialul este afișat. Poți salva PDF sau imprima.','Material displayed. You can save or print.'));
   if(typeof onReady==='function'){
    try{onReady(text)}catch(readerError){
     // Reader/popup errors never invalidate the already rendered study material.
@@ -115,12 +135,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
      String(readerError?.message||readerError));
    }
   }
-  status.textContent=local?
-   litSimpleLabel('Material local disponibil. Funcționează fără AI și fără localizare.',
-    'Local study material is available without AI or location.'):
-   (mode==='correction'?litSimpleLabel('Răspunsurile au fost evaluate.','Answers checked.'):
-   litSimpleLabel('Materialul este afișat. Poți salva PDF sau imprima.','Material displayed. You can save or print.'));
-  out.scrollIntoView({behavior:'auto',block:'nearest'});
+  try{out.scrollIntoView?.({behavior:'auto',block:'nearest'})}catch{}
  };
  // Grade I Romanian basics are authored and instantly available, independent of
  // online inference quotas. These examples are not asserted to be official tests.
@@ -148,30 +163,40 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
  'For an essay or summary provide a complete coherent text, not a template. Never invent quotations or an author attribution. '+
  'Task: '+request+'. '+source;
+ let timeoutId=null,didTimeout=false;
  try{
-  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',
+  // Bound the online wait: no lesson may remain on "preparing" indefinitely.
+  const response=await Promise.race([fetch(CLIENT_CONFIG.apiUrl,{method:'POST',
    headers:{'Content-Type':'application/json'},
    body:JSON.stringify({message:prompt.slice(0,3900),module:'education_study',
     education_subject:apiSubject,education_activity:mode,
     language:answerLanguage,history:[]}),
-   signal:controller.signal});
+   signal:controller.signal}),
+   new Promise((_,reject)=>{
+    if(typeof setTimeout!=='function')return;
+    timeoutId=setTimeout(()=>{
+     didTimeout=true;controller.abort();reject(Error('education_timeout'));
+    },11000);
+   })
+  ]);
   const data=await response.json();
   if(!response.ok||data.status!=='success'||data.education_subject!==apiSubject||
      typeof data.reply!=='string'||!data.reply.trim())throw Error(String(data.error||('http_'+response.status)));
-  if(controller.signal.aborted||!out.isConnected||serial!==litSimpleSerial||
+  if(controller.signal.aborted||serial!==litSimpleSerial||
      snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
   const text=String(data.reply).trim();
   if(/(?:nu am coordonate gps|permite accesul la locație|departure address\/postcode|do not have usable gps)/i.test(text))
    throw Error('wrong_intent');
   present(text,false);
  }catch(error){
-  if(controller.signal.aborted||serial!==litSimpleSerial)return;
+  if((controller.signal.aborted&&!didTimeout)||serial!==litSimpleSerial)return;
   if(localMaterial?.text){
    present(localMaterial.text,true);
   }else{
    const code=String(error?.message||'');
    const quota=code==='ai_quota_exceeded';
-   const unavailable=code==='education_generation_unavailable'||code==='education_text_empty'||code==='Failed to fetch';
+   const unavailable=code==='education_timeout'||didTimeout||
+    code==='education_generation_unavailable'||code==='education_text_empty'||code==='Failed to fetch';
    status.textContent=quota?
     litSimpleLabel('Limita serviciului AI a fost atinsă. Materialul online nu poate fi generat momentan.','AI usage limit reached; online material is temporarily unavailable.'):
     unavailable?litSimpleLabel('Serviciul AI nu a răspuns. Încearcă din nou mai târziu.','The AI service did not respond. Try again later.'):
@@ -180,6 +205,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
     litSimpleLabel('Acest material necesită un răspuns al serviciului AI. Nu au fost generate explicații inventate.','This material requires an AI response. No made-up lesson is shown.')));
   }
  }finally{
+  if(timeoutId!==null&&typeof clearTimeout==='function')clearTimeout(timeoutId);
   if(serial===litSimpleSerial){litJourney.busy=false;litSimpleAbort=null}
  }
 }
@@ -217,13 +243,7 @@ function litSimpleWorkspace(panel){
   if(needsInput&&!phrase&&mode!=='lesson'){request.focus();status.textContent=litSimpleLabel('Introdu textul sau cuvântul solicitat.','Enter the requested text or word.');return}
   assignmentText='';review.hidden=true;review.open=false;answers.value='';
   out.replaceChildren();
-  if(mode==='lesson'){
-   const basic=branch==='admission'?null:(LIT_OFFLINE_THEORY_DATA[topic[0]]||LIT_OFFLINE_THEORY_DATA[branch==='vocabulary'?'vocabulary':'grammar']);
-   if(basic?.length===4){out.append(litSimpleNode('h4',litSimpleLabel('Repere de bază','Key concepts')));
-    out.append(litSimpleNode('p',litSimpleLabel(basic[0],basic[1])));
-    out.append(litSimpleNode('h4',litSimpleLabel('Exemplu','Example')));
-    out.append(litSimpleNode('p',litSimpleLabel(basic[2],basic[3])))}
-  }
+
   const school=branch==='admission'&&litJourney.targetSchool
     ?' Școală vizată: '+litJourney.targetSchool+'. Numele singur nu confirmă cerințele oficiale.'
     :'';
@@ -258,7 +278,8 @@ function litSimpleWorkspace(panel){
    text=>litShowMaterialReader(litSimpleLabel('Corectarea exercițiilor','Corrected answers'),text));
  }),correction);
  panel.append(review);
- if(!needsInput)run('lesson');
+ // No automatic AI request: the learner explicitly chooses one activity.
+ // This prevents racing a background lesson request with the first button tap.
 }
 function litSimpleLiterature(panel){
  litSimpleHeading(panel,litSimpleLabel('Literatură: autor și operă','Literature: author and work'),
