@@ -59,7 +59,8 @@ const wiki=async input=>{
  const u=new URL(typeof input==='string'?input:input.url||String(input));
  if(u.hostname==='www.wikidata.org')return Response.json({entities:{Q123:{
   labels:{en:{value:'Armada Pharmacy'}},
-  claims:{P18:[{mainsnak:{datavalue:{value:'Armada Pharmacy facade Chafford Hundred.jpg'}}}],
+  claims:{P625:[{mainsnak:{datavalue:{value:{latitude:51.48,longitude:0.29}}}}],
+   P18:[{mainsnak:{datavalue:{value:'Armada Pharmacy facade Chafford Hundred.jpg'}}}],
    P154:[{mainsnak:{datavalue:{value:'Generic brand logo.svg'}}}]}
  }}});
  return fixtures(input);
