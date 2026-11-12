@@ -9,20 +9,20 @@ const stop=new Set(('eva te rog sa mi imi ce care cand unde cum am ai ne noi nos
  'our chat chats past earlier previous recommendations recommended told before show remember previously').split(' '));
 function requestTerms(value){
  const t=fold(value)
-  .replace(/\\b(?:my pocket ai|mypocket ai)\\b/g,' ')
-  .replace(/\\b(?:ce recomandari mi ai dat|what did you recommend|cum prefer sa calatoresc|ce zona vreau|ce mi ai spus|do you remember|uita te in|uitate in)\\b/g,' ');
+  .replace(/\b(?:my pocket ai|mypocket ai)\b/g,' ')
+  .replace(/\b(?:ce recomandari mi ai dat|what did you recommend|cum prefer sa calatoresc|ce zona vreau|ce mi ai spus|do you remember|uita te in|uitate in)\b/g,' ');
  return [...new Set(t.split(' ').filter(x=>x.length>=3&&!stop.has(x)
   &&!/^(istoric|conversati|discuti|vorbit|spus|scris|intrebat|caut|gasest|saptaman|trecut|yesterday|today|mesaj|remember|recall|recomand|anterior|mention|prefer)/.test(x)))];
 }
 export function historyRecallIntent(text){
  const t=fold(text);
  // Prioritize explicit look-backs over generic research, place and route intents.
- return /\\b(?:cauta|cauti|gaseste|gasesti|verifica|cautare|search|find|look up|uita te|uitate|rasfoieste|consulta)\\b.{0,85}\\b(?:istoric|conversati|discuti|mesaj|history|chat|previous conversation)/.test(t)
-  ||/\\b(?:in|din|from)\\s+(?:istoric|conversati|discuti|our chat history|our previous conversation)/.test(t)
-  ||/\\b(?:cand|ce|care|unde|what|when)\\b.{0,95}\\b(?:am discutat|am vorbit|mi ai recomandat|mi ai spus|mi ai dat anterior|we discussed|we talked about|you recommended)/.test(t)
-  ||/\\b(?:recomandari|recomandarea|recomandat|spus|discutat|vorbit|mentionat)\\b.{0,55}\\b(?:anterior|inainte|mai devreme|data trecuta|previously|earlier|before)/.test(t)
-  ||/\\b(?:anterior|inainte|mai devreme|data trecuta|previously|earlier|before)\\b.{0,65}\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat|recommended|discussed|told)/.test(t)
-  ||/^(?:iti amintesti|mai tii minte|tii minte|do you remember|what did you recommend)\\b/.test(t);
+ return /\b(?:cauta|cauti|gaseste|gasesti|verifica|cautare|search|find|look up|uita te|uitate|rasfoieste|consulta)\b.{0,85}\b(?:istoric|conversati|discuti|mesaj|history|chat|previous conversation)/.test(t)
+  ||/\b(?:in|din|from)\s+(?:istoric|conversati|discuti|our chat history|our previous conversation)/.test(t)
+  ||/\b(?:cand|ce|care|unde|what|when)\b.{0,95}\b(?:am discutat|am vorbit|mi ai recomandat|mi ai spus|mi ai dat anterior|we discussed|we talked about|you recommended)/.test(t)
+  ||/\b(?:recomandari|recomandarea|recomandat|spus|discutat|vorbit|mentionat)\b.{0,55}\b(?:anterior|inainte|mai devreme|data trecuta|previously|earlier|before)/.test(t)
+  ||/\b(?:anterior|inainte|mai devreme|data trecuta|previously|earlier|before)\b.{0,65}\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat|recommended|discussed|told)/.test(t)
+  ||/^(?:iti amintesti|mai tii minte|tii minte|do you remember|what did you recommend)\b/.test(t);
 }
 export function recallFromSuppliedHistory(message,history,{language='ro'}={}){
  if(!historyRecallIntent(message))return null;
