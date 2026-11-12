@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {clarifyUnresolvedReference} from './eva_context_clarification.mjs';
+assert.match(clarifyUnresolvedReference('Și acolo?',[]),/La ce/);
+assert.match(clarifyUnresolvedReference('Nu, cealaltă.',[]),/variantă/);
+assert.match(clarifyUnresolvedReference('The other one?',[],{language:'en'}),/Which/);
+assert.equal(clarifyUnresolvedReference('Și acolo?',[{role:'user',content:'Vreau să merg din Grays la Victoria Station'}]),null);
+assert.equal(clarifyUnresolvedReference('da',[]),null);
+assert.equal(clarifyUnresolvedReference('Caută hoteluri în Londra',[]),null);
+assert.equal(clarifyUnresolvedReference('Arată-mi ruta spre Manchester',[]),null);
+console.log('PASS Eva asks only for missing context');
