@@ -62,13 +62,13 @@ function computingRenderAnswer(host,text){
  const flushParagraph=()=>{if(paragraph.length){computingParagraph(host,clean(paragraph.join('\n')));paragraph=[]}};
  const flushBullets=()=>{if(bullets.length){const list=computingEl('ul');for(const value of bullets)list.append(computingEl('li',clean(value)));host.append(list);bullets=[]}};
  const flushCode=()=>{
- const rawCode=code.join('\n'),frame=computingEl('div','','computing-code-frame');
- frame.style.cssText='max-width:100%;min-width:0;margin:10px 0;';
- const copy=computingBtn(computingLabel('Copiază codul','Copy code'),()=>computingCopyText(rawCode,copy));
- copy.style.cssText='margin-bottom:6px;';copy.setAttribute('aria-label',computingLabel('Copiază acest bloc de cod','Copy this code block'));
+ const rawCode=code.join('\n');
+ const label=typeof state==='undefined'?'Copy code':computingLabel('Copiază codul','Copy code');
+ const copy=computingBtn(label,()=>computingCopyText(rawCode,copy));
+ copy.style.cssText='display:block;margin:10px 0 6px;';
  const pre=computingEl('pre',rawCode);pre.className='computing-code-block';
  pre.style.cssText='white-space:pre;overflow-x:auto;padding:12px;border:1px solid #709baa;border-radius:12px;max-width:100%;box-sizing:border-box;';
- frame.append(copy,pre);host.append(frame);code=[];
+ host.append(copy,pre);code=[];
 };
  for(const line of lines){
   const trimmed=line.trim();
