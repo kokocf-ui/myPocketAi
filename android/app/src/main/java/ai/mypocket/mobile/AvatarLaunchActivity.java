@@ -48,6 +48,7 @@ public final class AvatarLaunchActivity extends Activity {
     private boolean modelReady = false;
     private boolean ttsReady = false;
     private boolean startedSpeaking = false;
+    private boolean avatarLipSyncStarted = false;
     private boolean finishingLaunch = false;
     private int voiceInitAttempts = 0;
     private static final int ONBOARDING_PERMISSIONS_REQUEST=4832;
@@ -126,9 +127,17 @@ public final class AvatarLaunchActivity extends Activity {
             }
         });
         speech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            // TTS onStart can arrive at audible playback: passing the callback
+            // through Android UI, WebView JS and WebGL costs several frames.
+            // Pre-arm at synthesis start; onStart remains a fallback for engines
+            // that don't report onBeginSynthesis.
+            @Override public void onBeginSynthesis(String utteranceId, int sampleRateInHz, int audioFormat, int channelCount) {
+                if (UTTERANCE_ID.equals(utteranceId))
+                    runOnUiThread(AvatarLaunchActivity.this::startAvatarLipSyncOnce);
+            }
             @Override public void onStart(String utteranceId) {
                 if (UTTERANCE_ID.equals(utteranceId))
-                    runOnUiThread(() -> sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(true," + org.json.JSONObject.quote(spokenGreeting) + ");"));
+                    runOnUiThread(AvatarLaunchActivity.this::startAvatarLipSyncOnce);
             }
             @Override public void onRangeStart(String utteranceId, int start, int end, int frame) {
                 if (UTTERANCE_ID.equals(utteranceId))
@@ -671,6 +680,7 @@ public final class AvatarLaunchActivity extends Activity {
             return;
         }
         startedSpeaking = true;
+        avatarLipSyncStarted = false;
         int support=speech.setLanguage(Locale.forLanguageTag(speechTagForLanguage(launchLanguage)));
         if(support==TextToSpeech.LANG_MISSING_DATA || support==TextToSpeech.LANG_NOT_SUPPORTED){
             launchLanguage="en";
@@ -689,6 +699,13 @@ public final class AvatarLaunchActivity extends Activity {
             : currentGreeting;
         int result = speech.speak(spokenGreeting, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
         if (result == TextToSpeech.ERROR) openMain();
+    }
+
+    private void startAvatarLipSyncOnce() {
+        if (finishingLaunch || avatarLipSyncStarted || !modelReady) return;
+        avatarLipSyncStarted = true;
+        sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(true,"
+            + org.json.JSONObject.quote(spokenGreeting) + ");");
     }
 
     private void finishGreeting(){
