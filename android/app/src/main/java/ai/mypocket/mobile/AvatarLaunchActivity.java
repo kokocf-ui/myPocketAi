@@ -40,10 +40,6 @@ public final class AvatarLaunchActivity extends Activity {
     private String currentGreeting = "Hello! How can I help you?";
     private String launchLanguage = "en";
     private static final String UTTERANCE_ID = "pocket-intro-greeting";
-    private static final String BRAND_UTTERANCE_ID = "pocket-intro-english-brand";
-    private static final String END_UTTERANCE_ID = "pocket-intro-after-brand";
-    private boolean greetingHasEnglishBrand = false;
-    private String greetingAfterBrand = "";
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private WebView avatarView;
@@ -134,17 +130,11 @@ public final class AvatarLaunchActivity extends Activity {
                     runOnUiThread(() -> sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(true," + org.json.JSONObject.quote(currentGreeting) + ");"));
             }
             @Override public void onDone(String utteranceId) {
-                if (UTTERANCE_ID.equals(utteranceId) && greetingHasEnglishBrand) {
-                    runOnUiThread(AvatarLaunchActivity.this::speakEnglishBrand);
-                } else if (BRAND_UTTERANCE_ID.equals(utteranceId)) {
-                    runOnUiThread(AvatarLaunchActivity.this::speakGreetingAfterBrand);
-                } else if (UTTERANCE_ID.equals(utteranceId) || END_UTTERANCE_ID.equals(utteranceId)) {
+                if (UTTERANCE_ID.equals(utteranceId))
                     runOnUiThread(AvatarLaunchActivity.this::finishGreeting);
-                }
             }
             @Override public void onError(String utteranceId) {
-                if (UTTERANCE_ID.equals(utteranceId) || BRAND_UTTERANCE_ID.equals(utteranceId)
-                        || END_UTTERANCE_ID.equals(utteranceId))
+                if (UTTERANCE_ID.equals(utteranceId))
                     runOnUiThread(AvatarLaunchActivity.this::openMain);
             }
         });
@@ -685,15 +675,14 @@ public final class AvatarLaunchActivity extends Activity {
             }
         }
         currentGreeting=firstSetupShownThisLaunch?firstGreetingForLanguage(launchLanguage):greetingForLanguage(launchLanguage);
-        // Read the brand as English on every device language, while retaining
-        // the exact visible trademark and native-language greeting. Speak in
-        // sequential utterances so Android TTS actually changes locale.
-        int brandStart=currentGreeting.indexOf("myPocket AI");
-        greetingHasEnglishBrand=brandStart>=0;
-        greetingAfterBrand=greetingHasEnglishBrand
-            ?currentGreeting.substring(brandStart+"myPocket AI".length()):"";
-        String firstPart=greetingHasEnglishBrand?currentGreeting.substring(0,brandStart):currentGreeting;
-        int result = speech.speak(firstPart, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
+        // Keep one continuous native-language utterance: changing TTS locale
+        // between sentences caused lengthy pauses and an audible voice swap.
+        // For Romanian only, spell the trademark phonetically for the voice;
+        // currentGreeting remains unchanged for the avatar and UI.
+        String spokenGreeting = "ro".equals(launchLanguage)
+            ? currentGreeting.replace("myPocket AI", "mai pocăt ei ai")
+            : currentGreeting;
+        int result = speech.speak(spokenGreeting, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
         if (result == TextToSpeech.ERROR) openMain();
     }
 
@@ -701,31 +690,6 @@ public final class AvatarLaunchActivity extends Activity {
         if(finishingLaunch)return;
         sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(false);");
         handler.postDelayed(AvatarLaunchActivity.this::openMain, 480L);
-    }
-
-    private void speakEnglishBrand(){
-        if(finishingLaunch||speech==null)return;
-        int support=speech.setLanguage(Locale.UK);
-        if(support==TextToSpeech.LANG_MISSING_DATA||support==TextToSpeech.LANG_NOT_SUPPORTED)
-            support=speech.setLanguage(Locale.US);
-        if(support==TextToSpeech.LANG_MISSING_DATA||support==TextToSpeech.LANG_NOT_SUPPORTED){
-            // Never silently pronounce the English trademark phonetically in
-            // another language if no compatible English TTS voice is installed.
-            speakGreetingAfterBrand();return;
-        }
-        int result=speech.speak("my Pocket A I",TextToSpeech.QUEUE_FLUSH,null,BRAND_UTTERANCE_ID);
-        if(result==TextToSpeech.ERROR)openMain();
-    }
-
-    private void speakGreetingAfterBrand(){
-        if(finishingLaunch||speech==null)return;
-        String tail=greetingAfterBrand.trim();
-        if(tail.isEmpty()){finishGreeting();return;}
-        int support=speech.setLanguage(Locale.forLanguageTag(speechTagForLanguage(launchLanguage)));
-        if(support==TextToSpeech.LANG_MISSING_DATA||support==TextToSpeech.LANG_NOT_SUPPORTED)
-            speech.setLanguage(Locale.UK);
-        int result=speech.speak(tail,TextToSpeech.QUEUE_FLUSH,null,END_UTTERANCE_ID);
-        if(result==TextToSpeech.ERROR)openMain();
     }
 
     private void sendToAvatar(String javascript) {
