@@ -32,6 +32,7 @@ result=await ask('Ce am discutat despre Bratislava?');
 assert.equal(result.conversation_intent,'history_recall');
 assert.equal(result.ai_generated,false);
 assert.match(result.reply,/Nu am găsit/);
+assert.match(result.reply,/Istoricul ChatGPT este separat/);
 assert.equal(aiCalls,1,'No AI generation without matching evidence');
 result=await ask('Și acolo?',{history:[]});
 assert.equal(result.conversation_intent,'clarification_needed');
