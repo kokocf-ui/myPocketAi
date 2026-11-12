@@ -148,6 +148,19 @@ vm.runInContext(script.slice(recallFrom,recallTo),archivalCtx);
 const archivedSearch=vm.runInContext("pocketRecallPreviousChat('Caută în conversațiile noastre Oradea Cluj')",archivalCtx);
 assert.equal(archivedSearch.length,2,'Select matching user + Eva exchange');
 assert.match(archivedSearch[0].content,/Oradea/);
+const manchesterCtx=vm.createContext({state:{currentView:'assistant',history:[
+ {id:400,date:'12 Nov 2026',messages:[
+  {role:'user',text:'Eva, pentru excursia mea la Manchester prefer să călătoresc cu trenul și să caut un hotel aproape de centru.'},
+  {role:'assistant',text:'Sunt încântată să te ajut cu planificarea excursiei tale la Manchester!'}
+ ]}
+]}});
+vm.runInContext(script.slice(recallFrom,recallTo),manchesterCtx);
+const manchesterSearch=vm.runInContext("pocketRecallPreviousChat('Eva, caută în conversațiile noastre cum prefer să călătoresc la Manchester și în ce zonă vreau hotelul.')",manchesterCtx);
+assert.ok(manchesterSearch.some(x=>x.content.includes('prefer să călătoresc cu trenul')&&x.content.includes('aproape de centru')),
+ 'Recover precise travel and hotel preferences from a saved chat');
+assert.equal(vm.runInContext("pocketRecallPreviousChat('Ce faci?').length",manchesterCtx),0,
+ 'No automatic disclosure to ordinary chat');
+
 assert.equal(archivedSearch[0].conversation_id,'200','Retain archive source id');
 assert.equal(vm.runInContext("pocketRecallPreviousChat('Caută trenuri în Oradea')",archivalCtx).length,0,
  'Ordinary research never uploads archived text');
