@@ -15908,12 +15908,14 @@ function resolveVerifiedPlacePhoto(place){
  const lat=Number(place.latitude),lon=Number(place.longitude);
  if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)
   return Promise.resolve({status:'unavailable',photo:null});
- const key=[place.name,lat.toFixed(5),lon.toFixed(5),place.wikidata||''].join('|');
+ const key=[place.name,lat.toFixed(5),lon.toFixed(5),place.wikidata||'',place.commons_tag||''].join('|');
  if(verifiedPhotoRequests.has(key))return verifiedPhotoRequests.get(key);
  const u=new URL(CLIENT_CONFIG.apiUrl.split('/api/chat')[0]+'/api/place-photo-v2');
  u.searchParams.set('name',String(place.name||'').slice(0,120));
  u.searchParams.set('lat',String(lat));u.searchParams.set('lon',String(lon));
  if(/^Q[1-9]\d{0,11}$/.test(String(place.wikidata||'')))u.searchParams.set('wikidata',place.wikidata);
+ if(/^File:.+\.(?:png|jpe?g|webp)$/i.test(String(place.commons_tag||'')))
+  u.searchParams.set('commons_tag',String(place.commons_tag).slice(0,180));
  const request=fetch(u.href,{signal:AbortSignal.timeout(9500)})
   .then(r=>r.ok?r.json():{status:'unavailable',photo:null})
   .then(data=>data?.status==='verified'&&verifiedMediaUrl(data.photo?.image_url)&&
@@ -15927,71 +15929,85 @@ function resolveVerifiedPlacePhoto(place){
 function showVerifiedPlacePhoto(placePhoto,name){
  const image=verifiedMediaUrl(placePhoto?.image_url);
  if(!image)return;
+ // True full-screen photo viewer; independent of the logo/brand identity slot.
  const dialog=document.createElement('dialog');
- dialog.style.cssText='position:fixed;inset:0;margin:auto;max-width:min(94vw,750px);max-height:90dvh;padding:12px;border-radius:16px;border:1px solid #60879a;background:#112d3b;color:#fff;z-index:99999;box-sizing:border-box;overflow:auto';
  dialog.setAttribute('aria-label',String(name||'Fotografie locație'));
- const close=document.createElement('button');close.textContent='✕';close.type='button';
- close.style.cssText='display:block;margin:0 0 10px auto;background:#b92d42;color:white;border:0;border-radius:8px;padding:8px 14px;cursor:pointer';
- close.onclick=()=>dialog.close();
- const img=document.createElement('img');img.src=image;img.alt=String(name||'Locație');
- img.referrerPolicy='no-referrer';
- img.style.cssText='display:block;width:100%;max-height:68dvh;object-fit:contain;border-radius:8px';
- const credit=document.createElement('p');
- credit.style.cssText='font-size:12px;line-height:1.4;margin:10px 0 0;color:#b7d3df';
- credit.textContent=[placePhoto.credit,placePhoto.license].filter(Boolean).join(' · ');
- const source=document.createElement('a');source.textContent='Wikimedia Commons';
- source.href=placePhoto.source_url;source.target='_blank';source.rel='noopener noreferrer';
- source.style.cssText='display:inline-block;margin:8px 0;color:#58d1d6';
- dialog.append(close,img,credit,source);document.body.append(dialog);
+ dialog.style.cssText='position:fixed;inset:0;margin:0;padding:0;border:0;border-radius:0;width:100vw;max-width:none;height:100dvh;max-height:none;box-sizing:border-box;z-index:99999;background:#06121d;color:#fff;overflow:hidden';
+ const layout=document.createElement('div');
+ layout.style.cssText='display:flex;flex-direction:column;width:100%;height:100%;min-height:0';
+ const bar=document.createElement('div');
+ bar.style.cssText='display:flex;align-items:center;gap:8px;padding:12px 15px;background:#102d40;flex:0 0 auto;box-sizing:border-box';
+ const title=document.createElement('strong');title.textContent=String(name||'Fotografie');
+ title.style.cssText='font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1';
+ let scale=1;
+ const viewport=document.createElement('div');
+ viewport.style.cssText='flex:1;min-height:0;display:flex;justify-content:center;align-items:center;overflow:auto;overscroll-behavior:contain';
+ const img=document.createElement('img');
+ img.src=image;img.alt=String(name||'Fotografie locație');img.referrerPolicy='no-referrer';
+ img.style.cssText='display:block;max-width:100%;max-height:100%;object-fit:contain;transform-origin:center center;touch-action:pan-x pan-y;transition:transform .14s ease';
+ const apply=()=>{img.style.transform='scale('+scale+')'};
+ const control=(text,label,fn)=>{
+  const button=document.createElement('button');button.type='button';button.textContent=text;
+  button.setAttribute('aria-label',label);
+  button.style.cssText='border:1px solid #6093a8;border-radius:9px;background:#173a50;color:white;min-width:39px;min-height:39px;font-size:20px;cursor:pointer';
+  button.onclick=fn;return button;
+ };
+ const minus=control('−','Micșorează fotografia',()=>{scale=Math.max(1,scale-.5);apply()});
+ const plus=control('+','Mărește fotografia',()=>{scale=Math.min(3,scale+.5);apply()});
+ const close=control('✕',detailLabels().close,()=>dialog.close());
+ close.style.background='#9e263d';
+ bar.append(title,minus,plus,close);
+ img.addEventListener('dblclick',()=>{scale=scale>1?1:2;apply()});
+ viewport.append(img);
+ const credit=document.createElement('div');
+ credit.style.cssText='font-size:12px;line-height:1.35;padding:8px 15px 15px;background:#102d40;flex:0 0 auto';
+ const source=document.createElement('a');
+ source.href=String(placePhoto.source_url||'');source.target='_blank';source.rel='noopener noreferrer';
+ source.style.color='#5de1e2';source.textContent='Wikimedia Commons';
+ credit.append(document.createTextNode([placePhoto.credit,placePhoto.license].filter(Boolean).join(' · ')+' · '),source);
+ if(placePhoto.license_url){
+  const license=document.createElement('a');license.href=placePhoto.license_url;
+  license.target='_blank';license.rel='noopener noreferrer';
+  license.style.cssText='color:#5de1e2;margin-left:8px';
+  license.textContent='Licență';credit.append(license);
+ }
+ layout.append(bar,viewport,credit);dialog.append(layout);document.body.append(dialog);
  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
- dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
  if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
 }
 function mountPlaceThumbnail(host,place){
- // This is the visible listing thumbnail. Previous image_url/logo_url
- // may point to the NHS/company logo and must not be used as a photo.
- const fallback=placeResultIcon(place);
- host.textContent=fallback;
- const load=()=>resolveVerifiedPlacePhoto(place).then(data=>{
-  if(!host.isConnected||data.status!=='verified'||!data.photo)return;
-  const photo=data.photo;
-  const img=document.createElement('img');img.src=photo.image_url;img.alt='';
-  img.loading='lazy';img.referrerPolicy='no-referrer';
-  img.style.cssText='display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit';
-  img.onerror=()=>{if(host.isConnected)host.textContent=fallback};
-  host.replaceChildren(img);
-  place.verified_photo=photo;
- });
- if(typeof IntersectionObserver==='function'){
-  const root=host.closest('.module-place-results-list');
-  const observer=new IntersectionObserver(entries=>{
-   if(entries.some(e=>e.isIntersecting)){observer.disconnect();load()}
-  },{root,rootMargin:'120px'});
-  observer.observe(host);
- }else load();
+ // The left-hand list slot always displays the business identity:
+ // a business/brand logo if available, otherwise the existing category icon.
+ // Photos are deliberately independent and live only in the detail photo slot.
+ mountPlaceLogo(host,place);
 }
 function renderModulePlaceDetails(place){document.querySelector('.module-quick-sheet')?.classList.remove('mode-choice-screen');state.moduleSearchReturnMode='details';state.lastQuickPlace=place;$('moduleLayerBody').style.cssText='';document.querySelector('.module-quick-sheet')?.classList.add('details-mode');
  document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');
  const body=$('moduleLayerBody');body.innerHTML='';const card=document.createElement('div');card.className='module-place-details';
- const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=String(place.name||t.location);const logo=document.createElement('span');logo.className='module-place-result-icon place-detail-logo';logo.setAttribute('aria-hidden','true');logo.textContent=placeResultIcon(place);const heading=document.createElement('div');heading.className='place-detail-header';
+ const t=quickUiText(),l=detailLabels();const title=document.createElement('h3');title.textContent=String(place.name||t.location);const logo=document.createElement('span');logo.className='module-place-result-icon place-detail-logo';logo.setAttribute('aria-hidden','true');mountPlaceLogo(logo,place);const heading=document.createElement('div');heading.className='place-detail-header';
  const headingIdentity=document.createElement('div');headingIdentity.className='place-detail-identity';headingIdentity.append(logo,title);
  const actions=document.createElement('div');actions.className='place-detail-actions';
  const go=document.createElement('button');go.type='button';go.className='primary-btn place-detail-route';go.textContent=dialogText("Alege traseul","Choose route");go.onclick=()=>{if(state.busy)return;offerPlaceTravelModes(place)};
- const photo=document.createElement('button');photo.type='button';photo.className='place-detail-photo';photo.style.border='0';photo.style.padding='0';photo.setAttribute('aria-label',l.photos);
- const photoHint=document.createElement('span');photoHint.textContent=dialogText('Se verifică fotografiile…','Checking for photos…');photoHint.style.cssText='font-size:11px;text-align:center;padding:6px';photo.append(photoHint);photo.disabled=true;photo.style.cursor='default';
+ const photo=document.createElement('button');photo.type='button';photo.className='place-detail-photo';
+ photo.style.cssText='border:0;padding:0;display:none';
+ photo.setAttribute('aria-label',l.photos);
+ // No empty or misleading "photo unavailable" field: show the slot only
+ // once an actual, licensed location photo is loaded successfully.
  const setVerifiedPhoto=data=>{
-  if(!photo.isConnected)return;
-  if(data?.status!=='verified'||!data.photo){photoHint.textContent=dialogText('Nu există fotografie verificată','No verified photo available');return}
-  const verified=data.photo,src=verifiedMediaUrl(verified.image_url);if(!src)return;
+  if(!photo.isConnected||data?.status!=='verified'||!data.photo)return;
+  const verified=data.photo,src=verifiedMediaUrl(verified.image_url);
+  if(!src)return;
   const img=document.createElement('img');img.alt=String(place.name||'');
-  img.referrerPolicy='no-referrer';img.onerror=()=>{
-   photo.replaceChildren(photoHint);photoHint.textContent=dialogText('Fotografie indisponibilă','Photo unavailable');
-   photo.disabled=true;photo.style.cursor='default';
+  img.referrerPolicy='no-referrer';
+  img.onload=()=>{
+   if(!photo.isConnected)return;
+   photo.replaceChildren(img);photo.style.removeProperty('display');
+   photo.disabled=false;photo.style.cursor='zoom-in';
+   photo.onclick=()=>showVerifiedPlacePhoto(verified,place.name);
+   place.verified_photo=verified;
   };
-  img.src=src;photo.replaceChildren(img);photo.disabled=false;
-  photo.style.cursor='zoom-in';
-  photo.onclick=()=>showVerifiedPlacePhoto(verified,place.name);
-  place.verified_photo=verified;
+  img.onerror=()=>{photo.style.display='none'};
+  img.src=src;
  };
  if(place.verified_photo)setVerifiedPhoto({status:'verified',photo:place.verified_photo});
  else resolveVerifiedPlacePhoto(place).then(setVerifiedPhoto);

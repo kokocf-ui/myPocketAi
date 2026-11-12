@@ -58,6 +58,51 @@ const commonsImage=async(title,fetcher)=>{
   source:'Wikimedia Commons',verified_location:true};
  return result;
 };
+// Direct photo references attached to the *specific* OpenStreetMap feature
+// are a stronger identity signal than searching for pictures merely nearby.
+const fileReference=value=>{
+ const raw=String(value||'').trim();
+ if(/^File:[^?&#]{5,220}\.(?:jpe?g|png|webp)$/i.test(raw))return raw;
+ try{
+  const u=new URL(raw);
+  if(u.protocol!=='https:'||u.hostname!=='commons.wikimedia.org')return '';
+  const path=decodeURIComponent(u.pathname);
+  const file=path.match(/\/(?:wiki\/|wiki\/Special:FilePath\/)(File:[^?&#]+\.(?:jpe?g|png|webp)|[^?&#]+\.(?:jpe?g|png|webp))$/i)?.[1];
+  return file?'File:'+file.replace(/^File:/i,''):'';
+ }catch{return ''}
+};
+const sameBusiness=(a,b)=>{
+ const left=normalize(a),right=normalize(b);
+ return left&&right&&(left===right||
+  (left.length>=12&&right.length>=12&&(left.startsWith(right+' ')||right.startsWith(left+' '))));
+};
+const osmLinkedFile=async(name,latitude,longitude,fetcher)=>{
+ const query='[out:json][timeout:5];(nwr(around:55,'+latitude+','+longitude+')['+
+  '"wikimedia_commons"];nwr(around:55,'+latitude+','+longitude+')"image"];);out tags center 40;';
+ const response=await fetcher('https://overpass-api.de/api/interpreter',{
+  method:'POST',body:'data='+encodeURIComponent(query),
+  headers:{'Content-Type':'application/x-www-form-urlencoded'},
+  signal:AbortSignal.timeout(4200)
+ });
+ if(!response.ok)return '';
+ const elements=(await response.json())?.elements;
+ if(!Array.isArray(elements))return '';
+ for(const item of elements.slice(0,40)){
+  const tags=item?.tags||{};
+  if(!sameBusiness(tags.name||tags['name:en']||tags['name:ro'],name))continue;
+  const coords={lat:Number(item.lat??item.center?.lat),lon:Number(item.lon??item.center?.lon)};
+  if(!latlon(coords.lat,coords.lon))continue;
+  const rad=Math.PI/180;
+  const dy=(latitude-coords.lat)*rad,dx=(longitude-coords.lon)*rad;
+  const distance=12742000*Math.atan2(Math.sqrt(
+   Math.sin(dy/2)**2+Math.cos(latitude*rad)*Math.cos(coords.lat*rad)*Math.sin(dx/2)**2),
+   Math.sqrt(Math.max(0,1-(Math.sin(dy/2)**2+Math.cos(latitude*rad)*Math.cos(coords.lat*rad)*Math.sin(dx/2)**2))));
+  if(distance>60)continue;
+  const file=fileReference(tags.wikimedia_commons)||fileReference(tags.image);
+  if(file)return file;
+ }
+ return '';
+};
 const placeFile=async(name,latitude,longitude,fetcher)=>{
  const u=new URL(API);
  for(const [k,v] of Object.entries({action:'query',format:'json',list:'geosearch',
@@ -99,7 +144,7 @@ const wikidataFile=async(name,id,latitude,longitude,fetcher)=>{
  }
  return '';
 };
-export async function verifiedLocationPhoto({name='',latitude,longitude,wikidata='',
+export async function verifiedLocationPhoto({name='',latitude,longitude,wikidata='',commonsTag='',
  fetcher=fetch,cache=null}={}){
  name=String(name||'').trim().slice(0,120);
  latitude=Number(latitude);longitude=Number(longitude);
@@ -109,14 +154,23 @@ export async function verifiedLocationPhoto({name='',latitude,longitude,wikidata
  // For high-volume use, Cloudflare edge caching is essential; 2-day TTL.
  const key=new URL('https://pocket-photo-cache.invalid/photo/'+
   encodeURIComponent(normalize(name).slice(0,90))+'/'+
-  latitude.toFixed(5)+'/'+longitude.toFixed(5)+'/'+id);
+  latitude.toFixed(5)+'/'+longitude.toFixed(5)+'/'+id+'/'+
+  encodeURIComponent(String(commonsTag||'').slice(0,140)));
  const c=cache||(typeof caches!=='undefined'?caches.default:null);
  if(c){try{const hit=await c.match(key.href);if(hit)return await hit.json()}catch{}}
  let result={status:'unavailable',photo:null};
  try{
   let titles=[];
-  if(id){const entityFile=await wikidataFile(name,id,latitude,longitude,fetcher);if(entityFile)titles.push(entityFile)}
-  // Query nearby photos only when an exact entity picture was not available.
+  // Strongest signal: a picture linked directly from the exact mapped POI.
+  const tagged=fileReference(commonsTag);
+  if(tagged)titles.push(tagged);
+  if(!titles.length){
+   try{const fromOsm=await osmLinkedFile(name,latitude,longitude,fetcher);if(fromOsm)titles.push(fromOsm)}catch{}
+  }
+  if(!titles.length&&id){
+   const entityFile=await wikidataFile(name,id,latitude,longitude,fetcher);
+   if(entityFile)titles.push(entityFile);
+  }
   if(!titles.length)titles=await placeFile(name,latitude,longitude,fetcher);
   for(const title of titles.slice(0,3)){
    const photo=await commonsImage(title,fetcher);

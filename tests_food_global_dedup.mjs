@@ -26,6 +26,28 @@ assert.equal(chicken.distanceMeters,122);
 assert.equal(chicken.phone,'+44 1375 611378');
 assert.equal(chicken.website,'https://example.test');
 assert.ok(clean.some(x=>x.name==='Independent Sandwich Bar'));
+// Real local bug: one geocoder returns 535 London Road, the other only the
+// postcode and a misplaced pin ~120 m from the storefront.
+const incomplete=reconcileNearbyPlaces([
+ {name:'Super Chicken & Pizza',address:'535 London Road, South Stifford, Grays, RM20 4AD',
+  lat:51.4775,lon:0.3003,distanceMeters:121,houseNumber:'535',street:'London Road',postcode:'RM20 4AD'},
+ {name:'Super Chicken',address:'London Road, Grays, RM20 4AD',
+  lat:51.4785,lon:0.301,distanceMeters:233,postcode:'RM20 4AD'}
+]);
+assert.equal(incomplete.length,1,'Alias+same postcode and no conflicting house number should merge');
+assert.equal(incomplete[0].distanceMeters,121,'Keep the nearer storefront location');
+const separateBranches=reconcileNearbyPlaces([
+ {name:'Super Chicken',lat:51.4775,lon:0.3003,distanceMeters:120,
+  street:'London Road',houseNumber:'535',postcode:'RM20 4AD'},
+ {name:'Super Chicken',lat:51.4777,lon:0.3004,distanceMeters:140,
+  street:'London Road',houseNumber:'540',postcode:'RM20 4AD'}
+]);
+assert.equal(separateBranches.length,2,'Different house numbers identify separate branches');
+const differentPostcodes=reconcileNearbyPlaces([
+ {name:'Super Chicken',lat:51.4775,lon:0.3003,distanceMeters:120,postcode:'RM20 4AD'},
+ {name:'Super Chicken',lat:51.4777,lon:0.3004,distanceMeters:140,postcode:'RM20 4AE'}
+]);
+assert.equal(differentPostcodes.length,2,'Different known postcodes must not be merged');
 
 const samples=[
  {type:'node',id:1,lat:47.0302,lon:21.9602,tags:{name:'Oradea Doner',amenity:'fast_food','addr:street':'Strada Republicii','addr:housenumber':'11'}},

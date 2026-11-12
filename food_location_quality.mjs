@@ -64,15 +64,33 @@ const streetFromAddress=text=>{
 const addrInfo=p=>{
  const address=String(p.address||''),joined=[p.houseNumber,p.street].filter(Boolean).join(' ');
  const extracted=streetFromAddress(joined)||streetFromAddress(address);
- return {postcode:ukPostcode(p.postcode||address),
-  house:extracted?.house||fold(p.houseNumber),street:extracted?.street||fold(p.street),
-  city:fold(p.city),full:fold(address)};
+ const postcode=ukPostcode(p.postcode||address);
+ // Some providers put a comma between the house number and street.
+ const segments=address.split(',').map(x=>fold(x)).filter(Boolean);
+ const standaloneNumber=segments[0]?.match(/^(\d{1,5}[a-z]?)$/i)?.[1]||'';
+ const road=segments.find(x=>/\b(road|street|rd|lane|avenue|drive|strada|calle|via|rue|ulica)\b/i.test(x))||'';
+ const house=extracted?.house||fold(p.houseNumber)||standaloneNumber;
+ const street=extracted?.street||fold(p.street)||road;
+ return {postcode,house,street,city:fold(p.city),full:fold(address)};
 };
 const addressSame=(a,b)=>{
  const x=addrInfo(a),y=addrInfo(b);
+ if(x.postcode&&y.postcode&&x.postcode!==y.postcode)return false;
+ if(x.house&&y.house&&x.house!==y.house)return false;
  if(x.house&&y.house&&x.street&&y.street&&x.house===y.house&&x.street===y.street)
   return x.postcode&&y.postcode?x.postcode===y.postcode:(!x.city||!y.city||x.city===y.city);
  return Boolean(x.full&&x.full===y.full&&x.full.length>=12);
+};
+const compatibleAliases=(a,b,distance)=>{
+ const x=addrInfo(a),y=addrInfo(b);
+ if(x.postcode&&y.postcode&&x.postcode!==y.postcode)return false;
+ if(x.house&&y.house&&x.house!==y.house)return false;
+ if(x.street&&y.street&&x.street!==y.street&&x.house&&y.house)return false;
+ // Do not combine distinct chain branches just because their names match.
+ if((x.house&&y.house&&x.house===y.house&&x.street&&y.street&&x.street===y.street)
+   ||(x.postcode&&y.postcode&&x.postcode===y.postcode&&(!x.house||!y.house||x.house===y.house)))
+    return distance<=350;
+ return distance<=70;
 };
 const haversine=(a,b)=>{
  const deg=Math.PI/180,dLat=(a.lat-b.lat)*deg,dLon=(a.lon-b.lon)*deg;
@@ -87,9 +105,11 @@ export function reconcileNearbyPlaces(places){
    const sameAddress=addressSame(other,place);
    const samePhone=Boolean(other.phone&&place.phone&&fold(other.phone)===fold(place.phone));
    // Do not merge separate businesses sharing a supermarket/food-court address.
+   // Same postal address can be geocoded at different doors or centroids.
+   // Incomplete source addresses must not recreate a second result.
    return (sameAddress&&d<=400&&(alias||samePhone))
-     ||(alias&&d<=85)
-     ||(alias&&sameAddress);
+     ||(samePhone&&d<=350&&compatibleAliases(other,place,d))
+     ||(alias&&compatibleAliases(other,place,d));
   });
   if(!duplicate){unique.push({...place});continue}
   // Prefer the more complete trading name, but preserve the nearest mapped pin.
