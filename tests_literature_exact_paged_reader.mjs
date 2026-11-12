@@ -94,7 +94,7 @@ await Promise.resolve();
 assert.ok(button(panel,'Citește opera integral'),'Public-domain poem can be read in full');
 assert.ok(button(panel,'Poezia integrală'),'Poetry contents are navigable');
 button(panel,'Poezia integrală').onclick();
-const poemReader=body.children.at(-1);
+const poemReader=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
 assert.ok(poemReader.textContent.includes('Süvegemen nemzetiszín rózsa,'));
 // The last verse may be on a later reader page; navigate to the end.
 const poemNav=all(poemReader).find(x=>x.tagName==='NAV');
