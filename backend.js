@@ -5360,6 +5360,7 @@ export default {
         const radius = locationSource==='explicit_street_query' ? 1500 : centralAreaRequested ? 2000 : 5000;
         let placesData = null;
         let geoapifyElements = [];
+        let geoapifySucceeded = false;
         const providerFailures = [];
         // v86: launch Photon immediately so its network request overlaps Geoapify.
         // Optional worldwide provider, disabled unless the owner explicitly
@@ -5403,7 +5404,7 @@ export default {
           try {
             const geoapifyUrl = new URL("https://api.geoapify.com/v2/places");
             geoapifyUrl.searchParams.set("categories", ({
-              cafe: "catering.cafe", lounge: "catering.pub,catering.bar,catering.biergarten,catering.cafe", zoo: "entertainment.zoo,tourism.attraction", stadium: "entertainment.stadium,leisure.stadium", restaurant: "catering.restaurant", fast_food: "catering.fast_food,catering.restaurant",
+              cafe: "catering.cafe", lounge: "catering.pub,catering.bar,catering.biergarten,catering.cafe", zoo: "entertainment.zoo", stadium: "entertainment.stadium,leisure.stadium", restaurant: "catering.restaurant", fast_food: "catering.fast_food,catering.restaurant",
               market_bakery: "commercial.supermarket,commercial.convenience,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery", confectionery: "catering.ice_cream,commercial.food_and_drink.bakery,commercial.food_and_drink.confectionery",
               poi: "catering,commercial,education,healthcare,leisure,entertainment,service,public_transport,parking,accommodation,tourism,building",
               supermarket: "commercial.supermarket,commercial.convenience,commercial.food_and_drink",
@@ -5447,6 +5448,7 @@ export default {
             }
             const geoapifyData = await geoapifyResponse.json();
             if (!geoapifyData || !Array.isArray(geoapifyData.features)) throw Object.assign(new Error("Geoapify Places returned invalid GeoJSON"), {name:"PlacesResponseError"});
+            geoapifySucceeded = true;
             const geoapifyDistanceMeters = (lat1, lon1, lat2, lon2) => {
               const rad = degrees => degrees * Math.PI / 180;
               const dLat = rad(lat2-lat1), dLon = rad(lon2-lon1);
@@ -5532,7 +5534,10 @@ export default {
               const isShop = ["supermarket", "mall", "shop", "market_bakery", "corner_shop"].includes(requestedPlaceCategory.key);
               const amenity = requestedPlaceCategory.key === "fast_food" ? "fast_food" : requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
-              const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: (requestedPlaceCategory.key === "hotel" || isShop) ? String(props.name || "").trim() : (props.name || props.address_line1 || ""), amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (rawTags.shop||raw.shop||(categoryText.includes("commercial.supermarket")?"supermarket":categoryText.includes("commercial.convenience")?"convenience":"shop")) : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
+              const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: (requestedPlaceCategory.key === "hotel" || isShop) ? String(props.name || "").trim() :
+                requestedPlaceCategory.key === "parking" ?
+                (String(props.name||"").trim() || (lang==="en"?"Parking":"Parcare")+(props.address_line1?" — "+String(props.address_line1).slice(0,95):""))
+                : (props.name || props.address_line1 || ""), amenity: requestedPlaceCategory.key === "pharmacy" ? (rawTags.amenity === "pharmacy" ? "pharmacy" : "") : isShop ? "" : amenity, shop: requestedPlaceCategory.key === "pharmacy" && rawTags.shop === "chemist" ? "chemist" : isShop ? (rawTags.shop||raw.shop||(categoryText.includes("commercial.supermarket")?"supermarket":categoryText.includes("commercial.convenience")?"convenience":"shop")) : "", cuisine: props.datasource && props.datasource.raw && props.datasource.raw.cuisine || "", website: props.website || rawTags.website || rawTags["contact:website"] || raw.website || raw["contact:website"] || "", phone: props.contact && props.contact.phone || props.datasource && props.datasource.raw && props.datasource.raw.phone || "", street: props.street || "", housenumber: props.housenumber || "", city: props.city || props.town || props.village || "", postcode: props.postcode || "" };
               return { lat, lon, tags, _distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? geoapifyDistanceMeters(latitude, longitude, lat, lon) : Infinity };
             }).filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lon) && item._distanceMeters <= radius && item.tags.name);
             if (geoapifyElements.length) {
@@ -5632,7 +5637,10 @@ export default {
               }
               const tags = {
                 stars: properties.stars || "", image: properties.image || "", wikimedia_commons: properties.wikimedia_commons || "", wikidata:properties.wikidata||"", brand_wikidata:properties["brand:wikidata"]||"",
-                name: properties.name || "",
+                name: String(properties.name||"").trim()||
+                  (requestedPlaceCategory.key==="parking"?
+                   (lang==="en"?"Parking":"Parcare")+
+                   (properties.street||properties.street_name?" — "+String(properties.street||properties.street_name).slice(0,95):""):""),
                 amenity: isShop ? "" : (requestedPlaceCategory.key === "pharmacy" ? "pharmacy" : requestedPlaceCategory.key === "fuel" ? "fuel" : requestedPlaceCategory.key === "parking" ? "parking" : requestedPlaceCategory.key === "car_wash" ? "car_wash" : requestedPlaceCategory.key === "charging" ? "charging_station" : requestedPlaceCategory.key === "fast_food" ? "fast_food" : requestedPlaceCategory.key === "restaurant" ? (/fast_food|fast food/.test(osmValue) ? "fast_food" : /biergarten/.test(osmValue) ? "biergarten" : /pub/.test(osmValue) ? "pub" : /bar/.test(osmValue) ? "bar" : /cafe|coffee/.test(osmValue) ? "cafe" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice.?cream|gelato/.test(osmValue) ? "ice_cream" : /bakery|pastry/.test(osmValue) ? "bakery" : "confectionery") : ""),
                 shop: isShop ? (properties.osm_key==="shop"?properties.osm_value:"shop") : "",
                 cuisine: properties.cuisine || "",
@@ -5670,7 +5678,7 @@ export default {
             if (!geoapifyElements.length) {
               const recovered=await ukRetailersPromise;
               const globalRecovered=await globalPlacesPromise;
-              if(!recovered.length&&!globalRecovered.length){
+              if(!geoapifySucceeded&&!recovered.length&&!globalRecovered.length){
                 const finalError = Object.assign(photonError || new Error("All local-search providers failed"), { providerFailures });
                 throw finalError;
               }
