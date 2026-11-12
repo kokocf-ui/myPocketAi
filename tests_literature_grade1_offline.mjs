@@ -75,11 +75,17 @@ assert.match(brokenOut.textContent,/Ascultare, conversație și exprimare/,
 assert.match(brokenStatus.textContent,/Material local disponibil/);
 cfg.document.createElement=createOriginal;
 
-journey.grade='8';journey.country='HU';
+journey.grade='8';journey.country='RO';
 let timeoutMs=0;
 cfg.setTimeout=(callback,ms)=>{timeoutMs=ms;callback();return 1};
 cfg.clearTimeout=()=>{};
 cfg.fetch=()=>new Promise(()=>{}); // simulates service that never settles
+const cachedOut=new El('article'),cachedStatus=new El('p');
+await ui.generate(cachedOut,cachedStatus,'lesson','Comunicare','');
+assert.ok(cachedOut.textContent.length>100,'Timed-out AI still displays available literature material');
+assert.match(cachedStatus.textContent,/Material local disponibil/);
+assert.doesNotMatch(cachedStatus.textContent,/Se pregătește materialul/);
+journey.country='HU';
 const hungOut=new El('article'),hungStatus=new El('p');
 await ui.generate(hungOut,hungStatus,'lesson','Comunicare','');
 assert.equal(timeoutMs,11000,'Online education must have a bounded timeout');
