@@ -51,3 +51,11 @@ Comparație între date publice independente și rezultate care ar trebui recupe
 ## Concluzie
 **Datele locale de comparație există pe internet. Nu se poate declara încă testul backend trecut.**
 Nu s-a modificat backend-ul de producție, nu s-a creat un APK, și nu au fost executate interogări live către Eva în mediul curent.
+
+## 22:55 — Test tehnic adăugat pe ramura separată
+- `tests_country_provider_bridge.mjs` include scenariul Oradea, 47.0594 / 21.9349, radius 5000 metri.
+- Verifică numai Geoapify + Photon pentru România; directorul britanic și TfL nu trebuie interogate.
+- Două exemple simulate în interiorul razei trebuie păstrate; un exemplu simulat la peste 5 km și unul fără coordonate trebuie eliminate.
+- `country_provider_bridge.mjs` filtrează rezultatele după distanța geodezică numai când există centru și rază valide și colectează diagnostice pe furnizori.
+- **Neconfirmat:** rularea GitHub Actions (niciun status CI returnat pentru ultimul commit), rezultatele live din Eva, timpii de răspuns și verificarea fizică a obiectivelor.
+- Testele nu au fost adăugate la APK sau activarea live. Feedback-ul local din Oradea rămâne esențial pentru verificarea diferențelor față de inventarul extern.
