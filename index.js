@@ -18724,18 +18724,18 @@ function pocketRecallPreviousChat(message){
  // Read only this device's saved assistant conversations, and only when
  // the user explicitly requests a look-back. No automatic hidden uploads.
  if(state.currentView!=='assistant')return [];
- const normalize=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-  .toLowerCase().replace(/[^a-z0-9\p{L}]+/gu,' ').replace(/\s+/g,' ').trim();
+ const normalize=s=>String(s||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
+  .toLowerCase().replace(/[^a-z0-9\\p{L}]+/gu,' ').replace(/\\s+/g,' ').trim();
  const q=normalize(message);
- const explicit=/\b(?:tii minte|iti amintesti|am discutat|am vorbit|mi ai recomandat|mi ai spus|despre ce am glumit|despre ce te am tachinat|remember what|do you remember|we discussed|we talked about|you recommended)\b/.test(q)
-  ||/\b(?:cauta|cauti|gaseste|gasesti|verifica|search|find|look up)\b.{0,75}\b(?:istoric|conversati|discuti|mesaj|history|chat)\b/.test(q)
-  ||/\b(?:in|din|from)\s+(?:istoric|conversatiile noastre|discutiile noastre|our chat history)\b/.test(q);
+ const explicit=/\\b(?:tii minte|iti amintesti|am discutat|am vorbit|mi ai recomandat|mi ai spus|despre ce am glumit|despre ce te am tachinat|remember what|do you remember|we discussed|we talked about|you recommended)\\b/.test(q)
+  ||/\\b(?:cauta|cauti|gaseste|gasesti|verifica|search|find|look up)\\b.{0,75}\\b(?:istoric|conversati|discuti|mesaj|history|chat)\\b/.test(q)
+  ||/\\b(?:in|din|from)\\s+(?:istoric|conversatiile noastre|discutiile noastre|our chat history)\\b/.test(q);
  if(!explicit)return [];
  const ignored=new Set('eva imi mi ai am ce care cand cum unde noi nostru noastre noastra despre din in la si iar dar pe cu ca de sa te ti rog cauta cauti gaseste gasesti verifica inca mai vreau cautare istoric istoricul conversatie conversatia conversatiile discutie discutiile nostru our the where when what which did you me my i we please find search history chat previous conversation talk talked discussed remember earlier earlier today yesterday'.split(' '));
  const terms=[...new Set(q.split(' ').filter(w=>w.length>=3&&!ignored.has(w)&&
   !/^(discut|vorbit|spus|scris|intrebat|recomand|saptaman|trecut|remember|mesaj)/.test(w)))];
- const joke=/\b(?:glumit|glume|gluma|tachinat|joke|joking|teased)\b/.test(q);
- const social=/\b(?:glum|tachin|obraznic|desteapt|cafe|invit|frumoas|amuzant|ras|jok|teas|coffe)/;
+ const joke=/\\b(?:glumit|glume|gluma|tachinat|joke|joking|teased)\\b/.test(q);
+ const social=/\\b(?:glum|tachin|obraznic|desteapt|cafe|invit|frumoas|amuzant|ras|jok|teas|coffe)/;
  const matches=[];
  for(const item of (Array.isArray(state.history)?state.history:[]).slice(0,30)){
   if(!Array.isArray(item?.messages))continue;
