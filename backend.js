@@ -5412,7 +5412,7 @@ export default {
         const useUkRetailSources=!countryRoutingEnabled||scopedProviders.providers.includes('uk_food_retailers');
         const ukRetailersPromise=useUkRetailSources&&['shop','corner_shop'].includes(requestedPlaceCategory.key)
           ?nearbyUkRegisteredRetailers(latitude,longitude,radius)
-          :requestedPlaceCategory.key==='fast_food'
+          :useUkRetailSources&&requestedPlaceCategory.key==='fast_food'
           ?nearbyUkRegisteredTakeaways(latitude,longitude,radius):Promise.resolve([]);
         const photonStartedAt = Date.now();
         // Zoo uses its normal nearby radius; parking keeps its existing fast Photon.
