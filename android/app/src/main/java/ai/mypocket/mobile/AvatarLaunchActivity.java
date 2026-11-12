@@ -38,6 +38,7 @@ import java.util.Locale;
 public final class AvatarLaunchActivity extends Activity {
     private static final String ORIGIN = "https://appassets.androidplatform.net";
     private String currentGreeting = "Hello! How can I help you?";
+    private String spokenGreeting = currentGreeting;
     private String launchLanguage = "en";
     private static final String UTTERANCE_ID = "pocket-intro-greeting";
 
@@ -127,7 +128,11 @@ public final class AvatarLaunchActivity extends Activity {
         speech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override public void onStart(String utteranceId) {
                 if (UTTERANCE_ID.equals(utteranceId))
-                    runOnUiThread(() -> sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(true," + org.json.JSONObject.quote(currentGreeting) + ");"));
+                    runOnUiThread(() -> sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(true," + org.json.JSONObject.quote(spokenGreeting) + ");"));
+            }
+            @Override public void onRangeStart(String utteranceId, int start, int end, int frame) {
+                if (UTTERANCE_ID.equals(utteranceId))
+                    runOnUiThread(() -> sendToAvatar("window.pocketLaunchBoundary && window.pocketLaunchBoundary(" + start + ");"));
             }
             @Override public void onDone(String utteranceId) {
                 if (UTTERANCE_ID.equals(utteranceId))
@@ -679,7 +684,7 @@ public final class AvatarLaunchActivity extends Activity {
         // between sentences caused lengthy pauses and an audible voice swap.
         // For Romanian only, spell the trademark phonetically for the voice;
         // currentGreeting remains unchanged for the avatar and UI.
-        String spokenGreeting = "ro".equals(launchLanguage)
+        spokenGreeting = "ro".equals(launchLanguage)
             ? currentGreeting.replace("myPocket AI", "mai pocăt ei ai")
             : currentGreeting;
         int result = speech.speak(spokenGreeting, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID);
