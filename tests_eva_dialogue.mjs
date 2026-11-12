@@ -163,7 +163,7 @@ assert.ok(pastHotel.some(x=>x.content.includes('Manchester')),
  'Natural past recommendations must search archived local conversations');
 const pastHotelMade=vm.runInContext("pocketRecallPreviousChat('Ce recomandări mi-ai făcut anterior despre Manchester?')",manchesterCtx);
 assert.ok(pastHotelMade.some(x=>x.content.includes('trenul')&&x.content.includes('aproape de centru')),
- 'Actual user's phrasing retrieves preferences from saved conversations');
+ "Actual user phrasing retrieves preferences from saved conversations");
 const localReply=vm.runInContext("pocketLocalHistoryReply(pocketRecallPreviousChat('Ce recomandări mi-ai făcut anterior despre Manchester?'))",manchesterCtx);
 assert.match(localReply,/Am verificat conversația curentă|I checked the current conversation/,
  'Local answer has verifiable archive provenance');
