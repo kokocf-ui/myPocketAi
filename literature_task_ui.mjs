@@ -296,10 +296,11 @@ function litSimpleLiterature(panel){
   if(localExact.length===1){const x=localExact[0];select(x.title,x.author,x.url,x.work||null);return}
   let rows=localExact.length?localExact:local;
   if(!rows.length)try{
-   const response=await fetch('https://openlibrary.org/search.json?title='+encodeURIComponent(name)+'&limit=25&fields=key,title,author_name',{credentials:'omit'});
+   const response=await fetch('https://openlibrary.org/search.json?title='+encodeURIComponent(name)+'&limit=25&fields=key,title,author_name,edition_count,first_publish_year',{credentials:'omit'});
    if(!response.ok)throw Error('catalog');
    const data=await response.json();if(n!==searchNumber||!results.isConnected)return;
-   rows=(data.docs||[]).flatMap(x=>(x.author_name||[]).map(w=>({title:String(x.title||''),author:String(w||''),url:/^\/works\/OL\d+W$/.test(x.key||'')?'https://openlibrary.org'+x.key:''})))
+   rows=(data.docs||[]).flatMap(x=>(x.author_name||[]).map(w=>({title:String(x.title||''),author:String(w||''),url:/^\/works\/OL\d+W$/.test(x.key||'')?'https://openlibrary.org'+x.key:'',
+     editionCount:Number(x.edition_count)||0,firstYear:Number(x.first_publish_year)||null})))
     .filter(x=>fold(x.title)===fold(name)&&(!author||fold(x.author).includes(author)));
   }catch{feedback.textContent=litSimpleLabel('Catalog indisponibil; nu pot confirma atribuirea.','Catalogue unavailable; attribution unverified.');return}
   // A person-name query is different from a book-title query. Open
@@ -328,7 +329,17 @@ function litSimpleLiterature(panel){
   const exact=[...new Map(rows.filter(x=>fold(x.title)===fold(name))
    .map(x=>[fold(x.title)+'|'+fold(x.author),x])).values()];
   if(exact.length===1){const x=exact[0];select(x.title,x.author,x.url,x.work||null);return}
-  if(exact.length>1)rows=exact;
+  if(exact.length>1){
+   // On a shared title, never silently select a critic's book. A documented
+   // work that dominates the index by editions can be prioritized, otherwise
+   // show an author disambiguation rather than guessing.
+   const ranking=[...exact].sort((a,b)=>(b.editionCount||0)-(a.editionCount||0));
+   if(!author&&!local.length&&(ranking[0].editionCount||0)>=5&&
+      (ranking[0].editionCount||0)>=(ranking[1].editionCount||0)*3){
+    const x=ranking[0];select(x.title,x.author,x.url,x.work||null);return
+   }
+   rows=ranking;
+  }
   const distinct=[...new Map(rows.map(x=>[fold(x.title)+'|'+fold(x.author),x])).values()];
   let page=0;
   const show=()=>{
