@@ -5,6 +5,7 @@ import {inspectPublisherRecipeEvidence,repairRecipeFromPublisher} from "./recipe
 import {classifyConversationTurn,buildConversationEvidence} from "./conversation_intent.mjs";
 import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} from "./eva_dialogue.mjs";
 import {recallFromSuppliedHistory,groundedHistorySummary} from "./eva_history_recall.mjs";
+import {parseNearbyStreetQuery,geocodeNearbyStreet} from "./nearby_street_geocode.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
 import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
@@ -4382,6 +4383,8 @@ export default {
     };
     const centralCriterion=text=>/(?:^| )(?:zona centrala|centrul|centru|city cent(?:er|re)|central|downtown)(?: |$)/.test(normalizeIntentText(text));
     const extractPlaceQuery=text=>{
+      const streetTarget=parseNearbyStreetQuery(text);
+      if(streetTarget)return streetTarget.query;
       const raw=String(text).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       const m=raw.match(/(?:^|\s)(?:in apropiere de|aproape de|in|din|near|around|within|langa|la)\s+([^.!?;]{2,120})/i);
       let query=m?m[1].trim():"";
@@ -5303,12 +5306,29 @@ export default {
       explicitPlaceQuery=query;
       if (query) {
         hasValidLocation=false;
-        locationSource="explicit_place_query";
+        const remoteStreet=parseNearbyStreetQuery(query);
+        locationSource=remoteStreet?'explicit_street_query':'explicit_place_query';
         try {
-          const match=activePlaceRequest.selected||await geocodePlace(query);
+          const match=activePlaceRequest.selected||(remoteStreet
+            ?await geocodeNearbyStreet(remoteStreet,{
+              apiKey:env.GEOAPIFY_API_KEY||'',
+              countryCode:countryNameCodes.get(normalizeGeoName(remoteStreet.country))||''
+            })
+            :await geocodePlace(query));
           latitude=match.latitude;longitude=match.longitude;hasValidLocation=true;
           searchLocationLabel=match.label;
         } catch(error) {
+          if(remoteStreet){
+            const name=remoteStreet.street+' din '+remoteStreet.city+
+              (remoteStreet.country?', '+remoteStreet.country:'');
+            const reply=lang==='en'
+              ?'I could not verify the exact location of '+name+'. I will not substitute your phone GPS or a different street. Try a street number or postcode.'
+              :'Nu am putut verifica poziția exactă a '+name+'. Nu voi înlocui strada cu locația telefonului sau cu altă stradă. Poți încerca un număr sau un cod poștal.';
+            return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+              message_received:message,reply,places:[],search_ok:false,
+              needs_location_clarification:true,location_source:locationSource,
+              search_query:query,ai_connected:Boolean(env.AI)});
+          }
           const ambiguous=error.message==="geocode_ambiguous";
           if(ambiguous&&error.candidates?.length){
             responsePlaceContext.pending_candidates=error.candidates;
