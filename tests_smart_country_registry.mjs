@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {identifyCountry,selectCountryProviders} from './smart_country_registry.mjs';
+assert.equal(identifyCountry('România'),'RO');
+assert.equal(identifyCountry('Italia'),'IT');
+assert.deepEqual(selectCountryProviders({category:'restaurant',country:'Romania',enabledProviders:['geoapify','photon','tfl']}).providers,['geoapify','photon']);
+assert.deepEqual(selectCountryProviders({category:'urban_transport',country:'Romania',enabledProviders:['ro_urban_gtfs','tfl']}).providers,['ro_urban_gtfs']);
+assert.deepEqual(selectCountryProviders({category:'urban_transport',country:'UK',region:'london',enabledProviders:['ro_urban_gtfs','tfl']}).providers,['tfl']);
+assert.deepEqual(selectCountryProviders({category:'urban_transport',country:'UK',region:'manchester',enabledProviders:['tfl']}).providers,[]);
+assert.deepEqual(selectCountryProviders({category:'intercity_transport',originCountry:'Romania',destinationCountry:'Hungary',enabledProviders:['uk_national_transit','ro_national_transit']}).providers,['ro_national_transit']);
+assert.deepEqual(selectCountryProviders({category:'restaurant',country:'Italy',enabledProviders:['geoapify']}).countries,['IT']);
+assert.equal(selectCountryProviders({category:'restaurant',enabledProviders:['geoapify']}).status,'country_unresolved');
+assert.deepEqual(selectCountryProviders({category:'restaurant',country:'RO',enabledProviders:[]}).providers,[]);
+console.log('10 country registry checks passed');
