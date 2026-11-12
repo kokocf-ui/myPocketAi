@@ -16,6 +16,7 @@ import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
 import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
+import {searchAnchorPolicy} from "./country_search_anchor.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
@@ -4831,7 +4832,14 @@ export default {
       messageLength: message.length,
       timestamp: new Date().toISOString()
     }));
-    let locationSource = hasValidLocation ? "browser_gps" : null;
+    // The phone GPS is the only implicit place anchor. A requested remote
+    // destination must be resolved on its own, never derived from a home country.
+    const searchAnchor=searchAnchorPolicy({
+      hasValidGps:hasValidLocation,latitude,longitude,
+      explicitDestination:activePlaceRequest?.destination||'',
+      needsDestination:activePlaceRequest?.needsDestination===true
+    });
+    let locationSource = searchAnchor.locationSource;
     let searchLocationLabel = "";
     let explicitPlaceQuery = "";
     const centralAreaRequested = Boolean(activePlaceRequest?.central);
