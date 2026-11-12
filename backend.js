@@ -5655,7 +5655,8 @@ export default {
                     diy_garden:/doityourself|hardware|building_materials|garden_centre|agrarian/
                   })[requestedPlaceCategory.key].test(photonType)
                 : requestedPlaceCategory.key === "car_dealers"
-                  ? /(?:shop\s+car|shop\s+car_dealer|shop\s+car_sales|shop\s+motor_vehicle|car_dealer|car_sales|dealership|car showroom)/.test(photonType)
+                  ? String(properties.osm_key||'')==='shop' && /^(?:car|car_dealer|car_sales|motor_vehicle)$/.test(String(properties.osm_value||''))
+                    || /(?:car_dealer|car_sales|dealership|car showroom)/.test(photonType)
                 : requestedPlaceCategory.key === "mall"
                   ? /mall|shopping.?centre|shopping.?center|retail.?park|department.?store/.test(photonType) || /shopping centre|shopping center|mall|retail park/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "corner_shop"
@@ -5664,7 +5665,8 @@ export default {
                   ? /supermarket|convenience|grocery|general|greengrocer/.test(photonType) || /supermarket|tesco|morrisons|sainsbury|aldi|lidl|asda|co.?op|waitrose/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "appliances"
                   ? !/\b(vodafone|o2|three|ee|t-mobile|telekom|orange|verizon|telstra|phone|mobile|telecom|cellular|smartphone|accessories|repair|ismash)\b/i.test(String(properties.name||""))
-                    && /\b(appliance|electrical|electronics|white_goods|department_store)\b/.test(photonType)
+                    && (/\b(appliance|electrical|electronics|white_goods|department_store)\b/.test(photonType)
+                      || (/\bwholesale\b/.test(photonType)&&/\bcostco\b/i.test(String(properties.name||""))))
                 : requestedPlaceCategory.key === "pharmacy"
                   ? /pharmacy|chemist|drugstore/.test(photonType) || /pharmacy|chemist|boots/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "shop"
