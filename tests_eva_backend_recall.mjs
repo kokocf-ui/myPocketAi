@@ -50,7 +50,7 @@ result=await ask('Și acolo?',{history:[]});
 assert.equal(result.conversation_intent,'clarification_needed');
 assert.equal(result.clarification_required,true);
 assert.match(result.reply,/La ce/);
-assert.equal(aiCalls,1);
+assert.equal(aiCalls,2,'Clarification must not call AI after the second genuine history summary');
 const manchester=[
  {role:'user',content:'Eva, pentru excursia mea la Manchester prefer să călătoresc cu trenul și să caut un hotel aproape de centru.'},
  {role:'assistant',content:'Sunt încântată să te ajut cu planificarea excursiei tale la Manchester!'}
