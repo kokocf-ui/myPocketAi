@@ -17,6 +17,7 @@ on:
       - 'tests_country_search_anchor.mjs'
       - 'tests_country_backend_live_path.mjs'
       - 'tests_trace_geographic_choice_ui.mjs'
+      - 'tests_country_city_choice_resume.mjs'
       - '.github/workflows/smart-country-registry.yml'
   push:
     branches:
@@ -36,6 +37,7 @@ on:
       - 'tests_country_search_anchor.mjs'
       - 'tests_country_backend_live_path.mjs'
       - 'tests_trace_geographic_choice_ui.mjs'
+      - 'tests_country_city_choice_resume.mjs'
       - '.github/workflows/smart-country-registry.yml'
   workflow_dispatch:
 permissions:
@@ -69,6 +71,8 @@ jobs:
         run: node tests_country_backend_live_path.mjs
       - name: Inspect frontend destination choice wiring
         run: node tests_trace_geographic_choice_ui.mjs
+      - name: Ambiguous city table and original job resume
+        run: node tests_country_city_choice_resume.mjs
       - name: Adapter scoping
         run: node tests_country_provider_bridge.mjs
       - name: Existing parking and zoo regression
