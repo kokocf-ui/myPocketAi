@@ -62,7 +62,9 @@ assert.deepEqual(feasible([safe,impossible]),[safe],
 assert.ok(frontend.includes("bufferNotice.className='transit-boarding-buffer-notice'"),
  'Show the buffer recommendation on the itinerary card');
 
-assert.ok(backend.includes("tflUrl.searchParams.set('date'"),'TfL gets a local date for scheduled departures');
+const tflAdapter=readFileSync(new URL('./tfl_shared_journeys.mjs',import.meta.url),'utf8');
+assert.ok(tflAdapter.includes("base.searchParams.set('date'"),'Shared TfL provider gets a local date for scheduled departures');
+assert.ok(backend.includes("departureAt:effectiveDepartureAt"),'Backend forwards calendar selection to shared TfL provider');
 
 const oldFetch=globalThis.fetch;
 const iso=ms=>new Date(ms).toISOString();

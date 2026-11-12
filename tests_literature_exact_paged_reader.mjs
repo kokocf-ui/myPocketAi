@@ -65,6 +65,24 @@ await Promise.resolve();
 assert.ok(button(panel,'János vitéz — Petőfi Sándor'),'Author query lists their work');
 assert.ok(button(panel,'Az apostol — Petőfi Sándor'),'Author query preserves other work');
 
+// Romanian university input must work without an external catalogue, in
+// either author–title or title–author order, and show the correct study actions.
+const roConfig={...cfg,litJourney:{country:'RO',grade:'Universitate',branch:'literature',topic:null},
+ fetch:async()=>{throw Error('Eminescu must resolve locally without network')}};
+const roUi=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+
+ '\n({literature:litSimpleLiterature})',roConfig);
+const roPanel=new El('main');roUi.literature(roPanel);
+const roSearch=all(roPanel).find(x=>x.tagName==='INPUT');
+assert.ok(button(roPanel,'Luceafărul — Mihai Eminescu'),
+ 'Romanian starter bibliography includes verified Luceafărul');
+for(const wording of ['Mihai Eminescu – Luceafărul','Luceafărul — Mihai Eminescu']){
+ roSearch.value=wording;button(roPanel,'Caută autorul / opera').onclick();
+ await Promise.resolve();
+ assert.ok(roPanel.textContent.includes('Luceafărul — Mihai Eminescu'),wording);
+ assert.ok(button(roPanel,'Studiază')&&button(roPanel,'Rezumat')&&button(roPanel,'Analiză pe text'),
+  'Selection must expose study actions: '+wording);
+}
+
 // The external catalogue must prefer an original work over same-title
 // commentaries when its work-level edition evidence is unambiguous.
 let remoteCalls=0;

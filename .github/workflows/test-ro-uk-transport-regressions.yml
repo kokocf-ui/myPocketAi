@@ -10,6 +10,12 @@ on:
       - 'tests_ro_uk_transport_regressions.mjs'
       - 'tests_ro_road_origin_integration.mjs'
       - '.github/workflows/test-ro-uk-transport-regressions.yml'
+      - 'tests_parking_zoo_eva_regressions.mjs'
+      - 'tests_shared_tfl_reader_regression.mjs'
+      - 'literature_task_ui.mjs'
+      - 'literature_verified_authors.mjs'
+      - 'transit_intent.mjs'
+      - 'tfl_shared_journeys.mjs'
   pull_request:
     paths:
       - 'backend.js'
@@ -20,6 +26,12 @@ on:
       - 'tests_ro_uk_transport_regressions.mjs'
       - 'tests_ro_road_origin_integration.mjs'
       - '.github/workflows/test-ro-uk-transport-regressions.yml'
+      - 'tests_parking_zoo_eva_regressions.mjs'
+      - 'tests_shared_tfl_reader_regression.mjs'
+      - 'literature_task_ui.mjs'
+      - 'literature_verified_authors.mjs'
+      - 'transit_intent.mjs'
+      - 'tfl_shared_journeys.mjs'
 jobs:
   regression:
     runs-on: ubuntu-latest
@@ -33,6 +45,11 @@ jobs:
           node --check backend.js
           node --check index.js
           node --test tests_ro_uk_transport_regressions.mjs tests_ro_road_origin_integration.mjs
+      - name: Regression — route wording, parking, zoo, Romanian literature
+        run: |
+          node tests_parking_zoo_eva_regressions.mjs
+          node tests_literature_exact_paged_reader.mjs
+          node tests_shared_tfl_reader_regression.mjs
       - name: Existing transport and UI tests
         run: |
           node tests_ro_national_transit.mjs

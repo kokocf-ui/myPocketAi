@@ -5,6 +5,19 @@ import {SEVEN_COUNTRY_LITERARY_LIBRARY} from './literature_seven_country_library
 // Reference: Institutul Cultural Român, Nichita Stănescu at age 80:
 // https://www.icr.ro/pagini/nichita-stanescu-80-de-ani-de-la-nastere-7723
 export const VERIFIED_LITERARY_AUTHORS=Object.freeze([
+ // Public-domain Romanian author and an independently checked work-level source.
+ // Metadata only; the reader never invents the text of an unverified edition.
+ Object.freeze({
+  id:'ro-mihai-eminescu',name:'Mihai Eminescu',birthYear:1850,deathYear:1889,
+  country:'RO',language:'ro',sourceTitle:'Wikisource — Luceafărul (Eminescu)',
+  sourceUrl:'https://ro.wikisource.org/wiki/Luceaf%C4%83rul_%28Eminescu%29',
+  aliases:Object.freeze(['Eminescu','M. Eminescu']),
+  works:Object.freeze([Object.freeze({
+   title:'Luceafărul',year:1883,kind:'poem romantic',
+   sourceUrl:'https://ro.wikisource.org/wiki/Luceaf%C4%83rul_%28Eminescu%29',
+   sections:Object.freeze([])
+  })])
+ }),
  Object.freeze({
   id:'ro-nichita-stanescu',name:'Nichita Stănescu',birthYear:1933,deathYear:1983,
   country:'RO',language:'ro',sourceTitle:'Institutul Cultural Român — Nichita Stănescu',

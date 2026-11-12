@@ -8,6 +8,13 @@ function litSimpleButton(text,fn){const b=litSimpleNode('button',text,'lit-activ
 function litSimpleLabel(ro,en){return learningLabel(ro,en)}
 
 let litReaderOpen=null;
+// Even if optional pagination/typography fails on an Android WebView, never
+// expose raw **Markdown** syntax in the reading window. PDF retains raw source.
+function litReaderSafeText(value){
+ return String(value||'').replace(/^\\s{0,3}#{1,6}\\s+/gm,'')
+  .replace(/\\*\\*([^*\\n]+)\\*\\*/g,'$1')
+  .replace(/__([^_\\n]+)__/g,'$1');
+}
 function litEnsureTypography(){
  if(document.getElementById?.('lit-typography-v2'))return;
  const style=document.createElement('style');style.id='lit-typography-v2';
@@ -58,7 +65,7 @@ function litShowMaterialReader(title,text){
   const back=litSimpleButton(litSimpleLabel('Înapoi','Back'),close);
   back.classList.add('lit-reader-close');
   head.append(caption,back);
-  const content=litSimpleNode('article',raw,'lit-reader-scroll');
+  const content=litSimpleNode('article',litReaderSafeText(raw),'lit-reader-scroll');
   content.style.cssText='flex:1 1 auto!important;overflow-y:auto!important;min-height:0!important;white-space:pre-wrap!important;padding:16px!important';
   const actions=litSimpleNode('div','','lit-reader-footer');
   const material={title,text:raw};
@@ -100,7 +107,9 @@ function litShowMaterialReader(title,text){
     active=Math.max(0,Math.min(pages.length-1,index));
     try{renderStudyBlocks(content,pages[active]||raw)}
     catch(error){
-     content.textContent=pages[active]||raw;
+     content.textContent=litReaderSafeText(pages[active]||raw);
+     if(typeof window!=='undefined')window.__pocketLiteratureReaderDetail=
+      'formatter:'+String(error?.name||'error');
      console.warn?.('literature_reader_plain_text_fallback',String(error?.message||error));
     }
     content.scrollTop=0;
@@ -120,7 +129,7 @@ function litShowMaterialReader(title,text){
    display(0);
   }catch(decoratingError){
    // A broken formatter must not close the reader or lose the source text.
-   content.textContent=raw;
+   content.textContent=litReaderSafeText(raw);
    if(typeof window!=='undefined')window.__pocketLiteratureReaderDetail=
     'decorator:'+String(decoratingError?.name||'error');
    console.error?.('literature_reader_decoration_failed',String(decoratingError?.message||decoratingError));
@@ -410,7 +419,14 @@ function litSimpleLiterature(panel){
   if(!term){showCountryLibrary();return}
   if(term.length<3){feedback.textContent=litSimpleLabel('Introdu cel puțin trei caractere.','Enter at least three characters.');search.focus();return}
   results.replaceChildren();feedback.textContent=litSimpleLabel('Se caută operele…','Searching works…');
-  const parts=term.split(/\s+[—–-]\s+/),name=parts[0],author=fold(parts[1]||'');
+  const parts=term.split(/\s+[—–-]\s+/).map(x=>x.trim()).filter(Boolean);
+  // Accept both "Luceafărul — Mihai Eminescu" and the natural
+  // "Mihai Eminescu — Luceafărul"; the latter previously searched for
+  // a title named after the author and required an author named Luceafărul.
+  const firstIsAuthor=parts.length>=2&&LIT_VERIFIED_AUTHORS.some(a=>
+   [a.name,...(a.aliases||[])].some(alias=>fold(alias)===fold(parts[0])));
+  if(firstIsAuthor){const first=parts[0];parts[0]=parts[1];parts[1]=first}
+  const name=parts[0]||'',author=fold(parts[1]||'');
   const local=[];
   for(const a of LIT_VERIFIED_AUTHORS){
    const byAuthor=[a.name,...(a.aliases||[])].some(n=>fold(n).includes(fold(name)));
