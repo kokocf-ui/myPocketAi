@@ -102,5 +102,18 @@ try{
  assert.ok(seen.some(u=>u.hostname==='api.ratings.food.gov.uk'));
  assert.ok(seen.some(u=>u.hostname==='api.geoapify.com'));
  assert.ok(seen.some(u=>u.hostname==='photon.komoot.io'));
+ // Even when both map providers fail, the independent FSA source remains usable.
+ globalThis.fetch=async (url,options)=>{
+  const host=new URL(typeof url==='string'?url:url.url||url.toString()).hostname;
+  if(host==='api.ratings.food.gov.uk')return mockFsa(url,options);
+  throw Error('Simulated upstream map provider outage');
+ };
+ const fallback=await worker.fetch(new Request('https://unit.test/api/chat',{
+  method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({message:'Ce magazine găsești în jurul meu?',language:'ro',module:'assistant',
+   history:[],location:{latitude:51.4775,longitude:0.3007,accuracy:20}})}),env);
+ assert.equal(fallback.status,200);
+ const fallbackBody=await fallback.json();
+ assert.ok(fallbackBody.places?.some(x=>x.name==='Skk Convenience Store'));
 }finally{globalThis.fetch=originalFetch}
 console.log('PASS verified local shop research, UK FSA supplementary listings, road false positives and GPS integrity');
