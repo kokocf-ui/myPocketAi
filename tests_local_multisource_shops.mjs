@@ -14,7 +14,7 @@ const official={
  title:"Sunny's | Premier-stores.co.uk",
  url:'https://www.premier-stores.co.uk/our-stores/sunnys-1',
  highlights:['Sunny’s is on 433 London Road, Grays RM20 4AB'],
- text:"Sunny's. 433 London Road Grays RM20 4AB 01375378797 Monday: 5:00 am-10:00 pm Tuesday: 5:00 am-10:00 pm Wednesday: 5:00 am-10:00 pm Thursday: 5:00 am-10:00 pm Friday: 5:00 am-10:00 pm Saturday: 5:00 am-10:00 pm Sunday: 6:00 am-10:00 pm"
+ text:"Sunny's. 433 London Road Grays RM20 4AB 01375378797 Monday: 5:00 am-10:00 pm Tuesday: 5:00 am-10:00 pm Wednesday: 5:00 am-10:00 pm Thursday: 5:00 am-10:00 pm Friday: 5:00 am-10:00 pm Saturday: 5:00 am-10:00 pm Sunday: 6:00 am-10:00 pm Food to Go Fresh Bread Fresh Fruit & Vegetables Frozen Foods"
 };
 const exaFetcher=async(url,opt)=>{
  assert.equal(new URL(url).hostname,'api.exa.ai');
@@ -29,6 +29,8 @@ assert.equal(verified.verified,true);
 assert.equal(verified.sources.length,1,'Reject unrelated town and street pages');
 assert.equal(verified.sources[0].official,true);
 assert.match(businessResearchReply(verified),/01375378797/);
+assert.match(businessResearchReply(verified),/433 London road/i);
+assert.match(businessResearchReply(verified),/pâine proaspătă/);
 assert.match(businessResearchReply(verified),/premier-stores/);
 const unverified=await researchNamedBusiness(parsed,{apiKey:'test',fetcher:async()=>Response.json({results:[
  {title:'Sunny London',url:'https://example.org/wrong',text:'Other Road, Grays'}
