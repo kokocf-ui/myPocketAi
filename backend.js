@@ -15,6 +15,7 @@ import {nearbySparseMapPlaces} from "./osm_sparse_places.mjs";
 import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
+import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
@@ -5402,9 +5403,21 @@ export default {
            apiKey:env.TOMTOM_API_KEY,enabled:true}):Promise.resolve([]);
         // Opt-in country-aware provider selection. A geocoder-confirmed country
         // takes precedence over GPS and UI language; unknown country stays legacy.
+        // The explicit destination, when supplied, wins. Otherwise, the
+        // user's current valid device GPS point is the search centre.
+        // Under the opt-in registry flag, reverse-geocode GPS to establish
+        // its country; never assume UK from a missing country code.
+        let countryForLookup=responsePlaceContext?.verified_country_code||'';
+        if(env.SMART_COUNTRY_REGISTRY_ENABLED==='true' &&
+           !explicitPlaceQuery && locationSource==='browser_gps' &&
+           !countryForLookup && env.GEOAPIFY_API_KEY){
+          countryForLookup=await verifiedGpsCountry({
+            latitude,longitude,geoapifyKey:env.GEOAPIFY_API_KEY
+          })||'';
+        }
         const countryPlan=planFrontendPlaceProviders({
           category:requestedPlaceCategory.key,
-          verifiedCountryCode:responsePlaceContext?.verified_country_code||'',
+          verifiedCountryCode:countryForLookup,
           enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true',
           geoapifyConfigured:Boolean(env.GEOAPIFY_API_KEY),
           tomtomConfigured:env.TOMTOM_PLACES_ENABLED==='true'&&Boolean(env.TOMTOM_API_KEY)
