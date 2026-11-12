@@ -55,6 +55,12 @@ button.pocket-nav-return:focus-visible{outline:3px solid #ffd6e0!important;outli
 
 /* Expand the Home/Back row across the entire module. Previously the module's
    two-column header constrained it to a narrow first column, forcing Back below. */
+#view-module.pocket-paired-nav-layout.learning-active{
+ grid-template-rows:auto auto minmax(0,1fr)!important;
+}
+#view-module.pocket-paired-nav-layout.learning-country-gate #moduleChatHost{
+ display:none!important;
+}
 #view-module.pocket-paired-nav-layout > .module-actions-row{
  grid-column:1/-1!important;grid-row:1!important;width:100%!important;
  max-width:100%!important;justify-self:stretch!important;
