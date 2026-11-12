@@ -4,9 +4,9 @@
 // Copyright/licensing and exact editions must be checked before reproducing text.
 const item=(title,year,kind,sourceUrl)=>Object.freeze({title,year,kind,sourceUrl});
 const author=(country,language,name,sourceTitle,sourceUrl,works)=>Object.freeze({
- id:country==='RS'?'rs-desanka-maksimovic':country.toLowerCase()+'-'+name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),
+ id:country==='RS'?(name==='Десанка Максимовић'?'rs-desanka-maksimovic':'rs-ivo-andric'):country.toLowerCase()+'-'+name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),
  name,country,language,sourceTitle,sourceUrl,
- aliases:Object.freeze(country==='RS'?['Desanka Maksimović','Desanka Maksimovic']:[]),
+ aliases:Object.freeze(country==='RS'?(name==='Десанка Максимовић'?['Desanka Maksimović','Desanka Maksimovic']:['Ivo Andrić','Ivo Andric']):[]),
  works:Object.freeze(works)
 });
 export const SEVEN_COUNTRY_LITERARY_LIBRARY=Object.freeze([
