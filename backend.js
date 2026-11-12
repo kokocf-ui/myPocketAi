@@ -2049,10 +2049,10 @@ export default {
       let recallReply=scopedRecall.found?scopedRecall.reply:
         (lang==='ro'?(scopedRecall.reason==='topic_missing'
           ?'Despre ce subiect vrei să caut în istoricul disponibil?'
-          :'Nu am găsit informația în mesajele disponibile. Nu pot confirma ce există în conversațiile arhivate.')
+          :'Nu am găsit această discuție în mesajele din myPocketAI disponibile pentru această căutare. Istoricul ChatGPT este separat și nu îl pot consulta din aplicație. Dacă discuția a fost în myPocketAI, verifică dacă este salvată în Conversații.')
           :(scopedRecall.reason==='topic_missing'
           ?'What topic should I look for in the available history?'
-          :'I could not find that in the available messages. I cannot verify archived conversations.'));
+          :'I couldn't find this discussion in the myPocketAI messages available for this search. ChatGPT history is separate and cannot be accessed from this app. If you discussed it in myPocketAI, check whether the conversation is saved under Conversations.'));
       let generatedRecall=false;
       if(scopedRecall.found && env.AI && scopedRecall.matches.length){
         try{
