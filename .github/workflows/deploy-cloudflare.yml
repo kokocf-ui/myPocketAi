@@ -61,6 +61,7 @@ jobs:
           node tests_remote_street_nearby.mjs
           node tests_local_multisource_shops.mjs
           node tests_retail_categories.mjs
+          node tests_global_places.mjs
           node tests_eva_context_clarification.mjs
           node tests_eva_backend_recall.mjs
           node tests_first_install_profile_search.mjs
