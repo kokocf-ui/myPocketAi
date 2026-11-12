@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const ui=readFileSync('index.js','utf8');
-for(const needle of ['function appendConversationChoices(', 'appendConversationChoices(data', 'data.destination_candidates', 'needs_location_clarification', 'choice_options', 'function sendMessage(']){
- let i=ui.indexOf(needle);
- console.log('====',needle,'idx=',i);
- if(i>=0)console.log(ui.slice(Math.max(0,i-240),Math.min(ui.length,i+3600)));
-}
-assert.ok(ui.includes('appendConversationChoices'));
+const i=ui.indexOf('function appendConversationChoices(');
+console.log('CHOICE FUNCTION, selection part:',ui.slice(i+3150,i+8300));
+const hits=[...ui.matchAll(/appendConversationChoices\(/g)].map(m=>m.index);
+console.log('CALL SITES',hits.map(p=>({at:p,context:ui.slice(p-280,p+350)})));
+const refs=[...ui.matchAll(/state\.placeContext|place_context:state\.|state\.placeSearchContext/g)].slice(0,12);
+console.log('PLACE CONTEXT',refs.map(m=>ui.slice(m.index-200,m.index+250)));
+assert.ok(hits.length>=2);
