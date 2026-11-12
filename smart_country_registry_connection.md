@@ -50,3 +50,11 @@ It **does not** fetch flight data, compose an itinerary, verify timetables, or i
 - `tests_smart_country_registry.mjs` compară aceeași solicitare RO/GB/IT/FR și verifică izolarea furnizorilor locali.
 - Locul nașterii, naționalitatea, limba interfeței și țara în care a fost creat contul **nu decid** furnizorii. Contează țara/locul cerut explicit, sau țara verificată a locului relevant.
 - Nu s-a schimbat codul live de transport, nu s-a făcut merge sau deploy. Rulează CI și teste pe dispozitiv înainte de activare.
+
+## 12.11.2026 — Contract geografic obligatoriu (frontend → backend)
+1. **Fără destinație explicită:** folosește exclusiv coordonatele GPS valide ale dispozitivului, din cererea curentă; `latitude/longitude` sunt centrul căutării. Nu există țară implicită, țară „acasă”, țară de naștere sau reper dedus din limba interfeței.
+2. **Destinație explicită:** geocodifică destinația cerută, independent de GPS. Dacă este ambiguă sau insuficientă, cere informații (oraș/țară/stradă, după caz); nu înlocui cu GPS-ul telefonului.
+3. **Nici destinație, nici GPS valid:** cere permisiunea de locație sau localitate precisă. Nu substitui regiuni naționale.
+4. **Țara confirmată după localizare** este *doar* criteriu pentru alegerea furnizorilor; nu modifică centrul căutării. Fără țară confirmată, se folosesc numai sursele generale, nu surse exclusiv UK.
+5. **Transport și itinerare:** regula de ancorare se extinde conceptual la toate fluxurile, dar această modificare afectează numai căutările POI din `/api/chat`. Pentru ruta A→B sunt necesare ambele puncte clar identificate înainte de alegerea furnizorilor segmentelor.
+6. **Protecție:** feature flag `SMART_COUNTRY_REGISTRY_ENABLED` rămâne dezactivat implicit. Păstrăm fluxurile live funcționale și verificăm regresiile.
