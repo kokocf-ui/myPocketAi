@@ -104,12 +104,23 @@ export function reconcileNearbyPlaces(places){
    const d=haversine(other,place),alias=similarNames(other.name,place.name);
    const sameAddress=addressSame(other,place);
    const samePhone=Boolean(other.phone&&place.phone&&fold(other.phone)===fold(place.phone));
+   // Photon/Geoapify may report the same named shop at entrances ~100 m apart,
+   // with incomplete addresses. Only an exact distinctive name and no
+   // contradictory known address may bridge this short gap.
+   const exact=fold(other.name)===fold(place.name)&&fold(place.name).length>=6;
+   const generic=/^(?:parking|parcare|car park|atm|bancomat|toilet|wc|fuel|petrol station|benzinarie)$/i.test(fold(place.name));
+   const x=addrInfo(other),y=addrInfo(place);
+   const compatible=(!x.postcode||!y.postcode||x.postcode===y.postcode)
+     &&(!x.house||!y.house||x.house===y.house)
+     &&(!x.street||!y.street||x.street===y.street||!x.house||!y.house);
+   const nearbyExact=exact&&!generic&&compatible&&d<=150;
    // Do not merge separate businesses sharing a supermarket/food-court address.
    // Same postal address can be geocoded at different doors or centroids.
    // Incomplete source addresses must not recreate a second result.
    return (sameAddress&&d<=400&&(alias||samePhone))
      ||(samePhone&&d<=350&&compatibleAliases(other,place,d))
-     ||(alias&&compatibleAliases(other,place,d));
+     ||(alias&&compatibleAliases(other,place,d))
+     ||nearbyExact;
   });
   if(!duplicate){unique.push({...place});continue}
   // Prefer the more complete trading name, but preserve the nearest mapped pin.

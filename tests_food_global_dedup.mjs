@@ -49,6 +49,19 @@ const differentPostcodes=reconcileNearbyPlaces([
 ]);
 assert.equal(differentPostcodes.length,2,'Different known postcodes must not be merged');
 
+// Provider twins: same named shop in adjacent map tiles with missing address.
+// A different known postcode or housenumber still protects true branches.
+const carpetTwins=reconcileNearbyPlaces([
+ {name:'Damar Carpets',lat:51.4775,lon:0.3003,distanceMeters:1700},
+ {name:'Damar Carpets',lat:51.4785,lon:0.3004,distanceMeters:1710}
+]);
+assert.equal(carpetTwins.length,1,'Exactly named nearby twins should not appear twice');
+const separateRetail=reconcileNearbyPlaces([
+ {name:'Office',lat:51.4775,lon:0.3003,distanceMeters:120,houseNumber:'15',street:'London Road'},
+ {name:'Office',lat:51.4777,lon:0.3004,distanceMeters:140,houseNumber:'18',street:'London Road'}
+]);
+assert.equal(separateRetail.length,2,'Do not collapse same-brand branches at different house numbers');
+
 const samples=[
  {type:'node',id:1,lat:47.0302,lon:21.9602,tags:{name:'Oradea Doner',amenity:'fast_food','addr:street':'Strada Republicii','addr:housenumber':'11'}},
  {type:'way',id:2,center:{lat:47.0303,lon:21.9603},tags:{name:'Restaurant Clasic',amenity:'restaurant'}},
