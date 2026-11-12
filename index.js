@@ -20042,28 +20042,7 @@ main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;ov
 }
 
 
-/* Unified burgundy action buttons, 2026-11-11. Leaves itinerary cards,
-   information cards, input fields, menu art and bottom navigation unchanged. */
-:root{
- --pocket-action-bg:linear-gradient(140deg,#91344e 0%,#772340 55%,#4b1a32 100%);
- --pocket-action-border:#dc9baa;
- --pocket-action-text:#fff6f8;
-}
-html body button:not(.nav-btn):not(.feature-card):not(.transit-journey-choice):not(.ro-rail-card):not(.module-place-result):not(.tools-action-card):not(.quick-selection):not(.plan-pill):not(.pocket-danger):not(.danger-btn):not(.route-map-pin):not(.route-map-marker),
-html body :is(#moduleQuickLayer,#view-module,#view-assistant,#view-home,#view-settings,#view-tools,#pocketStandaloneChoices,#pocketAccountDialog,.answer-reader,.long-choice-dialog,.travel-confirm-panel,.travel-mode-table,.route-map-window) button:not(.nav-btn):not(.feature-card):not(.transit-journey-choice):not(.ro-rail-card):not(.module-place-result):not(.tools-action-card):not(.quick-selection):not(.plan-pill):not(.pocket-danger):not(.danger-btn):not(.route-map-pin):not(.route-map-marker){
- background:var(--pocket-action-bg)!important;
- border-color:var(--pocket-action-border)!important;
- color:var(--pocket-action-text)!important;
- text-shadow:none!important;
-}
-html body button[aria-pressed="true"]:not(.nav-btn):not(.transit-journey-choice):not(.ro-rail-card),
-html body :is(#moduleQuickLayer,#view-module,#pocketStandaloneChoices) button[aria-pressed="true"]:not(.nav-btn):not(.transit-journey-choice):not(.ro-rail-card){
- background:linear-gradient(140deg,#ac3d59,#872943 60%,#652039)!important;
- border-color:#ffd3df!important;
-}
-html body button:disabled:not(.nav-btn):not(.feature-card):not(.transit-journey-choice):not(.ro-rail-card){opacity:.58}
-/* Includes departure address, search icon, route options, recalculation,
-   assistant controls and action buttons from every module, without JS changes. */
+
 
 ${COMMUNICATION_STYLE}
 ${ORACLE_COMMUNICATION_STYLE}
