@@ -65,6 +65,8 @@ jobs:
           node tests_country_search_anchor.mjs
       - name: Real Worker request contract (mock providers)
         run: node tests_country_backend_live_path.mjs
+      - name: Inspect frontend destination choice wiring
+        run: node tests_trace_geographic_choice_ui.mjs
       - name: Adapter scoping
         run: node tests_country_provider_bridge.mjs
       - name: Existing parking and zoo regression
