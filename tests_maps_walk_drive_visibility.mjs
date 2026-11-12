@@ -20,7 +20,8 @@ const dispatcher=section('async function runModuleSearch(choice){','\nfunction r
 assert.match(source,/#view-module\.module-landing #moduleChatHost/,'Landing deliberately hides chat; transitions must remove that class');
 assert.ok(section('function returnToNavigationSource(){','function showNavigationReturn(){').includes("document.getElementById('returnToSearchSource')?.remove()"),'Back is removed when restoring the original source');
 assert.ok(section('function renderModuleLandingChoices(){','function updateQuickLayerGeometry(){').includes("document.getElementById('returnToSearchSource')?.remove()"),'Landing does not retain obsolete route Back button');
-assert.match(landing,/rememberNavigationSource\(\);enterModuleRouteConversation\(\)/,'Walking card opens visible chat');
+assert.match(landing,/kind==='walking'\)showPreciseJourney\(\{\.\.\.choice,journeyMode:'walk'\}\)/,'Walking starts the shared structured A-to-B picker');
+assert.match(landing,/kind==='transit'\)showPreciseJourney\(\{\.\.\.choice,journeyMode:'transit'\}\)/,'Public transport starts the same picker');
 assert.match(poi,/switchConversationModule\('maps'\);enterModuleRouteConversation\(\)/,'POI walk and drive show chat');
 assert.match(assistantMode,/enterModuleRouteConversation\(\);\s*inputEl\.value=t\[i\+1\]/,'Assistant mode choice shows chat');
 assert.match(modalModes,/switchConversationModule\('maps'\);enterModuleRouteConversation\(\)/,'Inline mode choice shows chat');
@@ -57,4 +58,4 @@ assert.equal(controls.length,1,'Return control stays in visible header, not hidd
 assert.equal(controls[0].id,'returnToSearchSource');
 controls[0].onclick();
 assert.equal(returned,2);
-console.log('PASS: Maps walking/driving entries reveal chat; navigation return stays visible');
+console.log('PASS: Maps route selections share the A-to-B picker; route chat and return navigation stay visible');
