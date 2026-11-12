@@ -42,3 +42,11 @@ It **does not** fetch flight data, compose an itinerary, verify timetables, or i
 3. Add source-level health statuses, timestamps, coverage regions, and diagnostics.
 4. Add explicit source selection by validated request destination for GPS-only and international trips.
 5. Verify itinerary connections, actual times, flight/coach schedules, and local airport legs; catalog alone does not supply them.
+
+## 12.11.2026 — UK și paritate internațională
+- Regatul Unit este în registrul comun, **nu** un motor separat și nici un caz preferențial.
+- Transport UK: TfL pentru zona Londrei și adaptorul existent `uk_national_transit`; catalogul include acum explicit ambele surse și datele feroviare/bus de referință.
+- Căutări generale UK: Geoapify/Photon ca oricare altă țară; sursa locală `uk_food_retailers` doar pentru categorii și țară compatibile; catalogată și Food Standards Agency.
+- `tests_smart_country_registry.mjs` compară aceeași solicitare RO/GB/IT/FR și verifică izolarea furnizorilor locali.
+- Locul nașterii, naționalitatea, limba interfeței și țara în care a fost creat contul **nu decid** furnizorii. Contează țara/locul cerut explicit, sau țara verificată a locului relevant.
+- Nu s-a schimbat codul live de transport, nu s-a făcut merge sau deploy. Rulează CI și teste pe dispozitiv înainte de activare.
