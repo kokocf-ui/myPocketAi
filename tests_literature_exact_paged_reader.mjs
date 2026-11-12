@@ -64,6 +64,17 @@ await Promise.resolve();
 assert.ok(button(panel,'János vitéz — Petőfi Sándor'),'Author query lists their work');
 assert.ok(button(panel,'Az apostol — Petőfi Sándor'),'Author query preserves other work');
 
+// A work with a rights-verified complete poem is readable without AI calls.
+search.value='Nemzetőr-dal';button(panel,'Caută autorul / opera').onclick();
+await Promise.resolve();
+assert.ok(button(panel,'Citește opera integral'),'Public-domain poem can be read in full');
+assert.ok(button(panel,'Poezia integrală'),'Poetry contents are navigable');
+button(panel,'Poezia integrală').onclick();
+const poemReader=body.children.at(-1);
+assert.ok(poemReader.textContent.includes('Süvegemen nemzetiszín rózsa,'));
+assert.ok(poemReader.textContent.includes('Talpon állok mindhalálig víni.'));
+poemReader.close();
+
 const readerTitle='Teorie: gramatică';
 ui.reader(readerTitle,long);
 const dialog=body.children.at(-1);
