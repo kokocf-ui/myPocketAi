@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const moduleUI=readFileSync(new URL('./computing_ui.mjs',import.meta.url),'utf8');
+const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
+assert.match(moduleUI,/computingFreeChatEntry/,'Open independent chat after grade selections');
+assert.match(moduleUI,/if\(stage==='free-chat'\)\{computingFreeChat\(panel\);return\}/,'Free chat has its own stage');
+assert.match(moduleUI,/computingJourney\.stage==='grade'\|\|computingJourney\.stage==='free-chat'/,'Back from free chat returns to level choices');
+assert.match(moduleUI,/freeChatHistory:\[\]/,'Separate chat history survives navigation');
+assert.match(moduleUI,/module:'assistant',history:computingJourney\.freeChatHistory/,'General Eva conversation not tied to grade or lesson');
+assert.match(moduleUI,/Copiază codul/,'Code snippets are copyable inside computing');
+assert.match(frontend,/function appendAnswerCodeBlocks\(/,'General answer reader renders copyable code blocks');
+assert.match(frontend,/!appendAnswerCodeBlocks\(body,String\(text\)\)/,'Answer reader uses code renderer');
+assert.match(frontend,/navigator\.clipboard\?\.writeText/,'Clipboard copy is supported');
+console.log('PASS independent computing Eva chat and per-code-block copying across countries');

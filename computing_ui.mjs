@@ -7,14 +7,14 @@ function computingLabel(ro,en){
  if(language==='ro')return ro;
  return COMPUTING_UI_LOCALES[language]?.[ro]||(typeof eduUiLabel==='function'?eduUiLabel(ro,en):(typeof learningLabel==='function'?learningLabel(ro,en):(en||ro)));
 }
-let computingJourney={stage:'levels',level:null,grade:null,path:null,topic:null,busy:false,request:null,serial:0,voice:false};
+let computingJourney={stage:'levels',level:null,grade:null,path:null,topic:null,busy:false,request:null,serial:0,voice:false,freeChatHistory:[]};
 function computingEl(tag,txt='',cls=''){const x=document.createElement(tag);x.textContent=txt;if(cls)x.className=cls;return x}
 function computingBtn(txt,fn,cls='secondary-btn'){const b=computingEl('button',txt,cls);b.type='button';b.onclick=fn;return b}
 function computingCurrent(){return COMPUTING_TOPICS_DATA.find(t=>t.id===computingJourney.topic&&t.path===computingJourney.path)||null}
 function computingStopRequest(){computingJourney.serial++;computingJourney.request?.abort();computingJourney.request=null;computingJourney.busy=false}
 function computingStopVoice(){if(computingJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});computingJourney.voice=false;$('computingDictation')?.setAttribute('aria-pressed','false')}
 function computingStatus(txt){const n=$('computingStatus');if(n)n.textContent=txt}
-function computingBack(){computingStopRequest();computingStopVoice();if(state.speaking)stopSpeech();if(computingJourney.stage==='workspace')computingOpen('topics');else if(computingJourney.stage==='topics')computingOpen('paths');else if(computingJourney.stage==='paths')computingOpen('levels');else if(computingJourney.stage==='grade')computingOpen('levels');else renderLearningSubjects()}
+function computingBack(){computingStopRequest();computingStopVoice();if(state.speaking)stopSpeech();if(computingJourney.stage==='workspace')computingOpen('topics');else if(computingJourney.stage==='topics')computingOpen('paths');else if(computingJourney.stage==='paths')computingOpen('levels');else if(computingJourney.stage==='grade'||computingJourney.stage==='free-chat')computingOpen('levels');else renderLearningSubjects()}
 function computingVoiceHandleAndroid(data){
  if(data?.mode!=='computing')return false;
  if(computingJourney.stage!=='workspace')return true;
@@ -39,6 +39,18 @@ function computingDictate(){
  else computingStatus(computingLabel('Te ascult…','Listening…'));
 }
 function computingParagraph(host,txt){const p=computingEl('p',txt);p.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;';host.append(p);return p}
+async function computingCopyText(text,button){
+ const value=String(text||'');if(!value)return;
+ try{
+  if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(value);
+  else{
+   const tmp=computingEl('textarea');tmp.value=value;tmp.style.cssText='position:fixed;left:-10000px;top:0;';
+   document.body.append(tmp);tmp.select();
+   const ok=document.execCommand('copy');tmp.remove();if(!ok)throw Error('copy_failed');
+  }
+  button.textContent=computingLabel('Copiat ✓','Copied ✓');
+ }catch{button.textContent=computingLabel('Nu s-a putut copia','Could not copy')}
+}
 function computingRenderAnswer(host,text){
  host.replaceChildren();
  const lines=String(text||'').replace(/\r\n?/g,'\n').split('\n');
@@ -47,7 +59,15 @@ function computingRenderAnswer(host,text){
  let paragraph=[],bullets=[],code=[],inCode=false;
  const flushParagraph=()=>{if(paragraph.length){computingParagraph(host,clean(paragraph.join('\n')));paragraph=[]}};
  const flushBullets=()=>{if(bullets.length){const list=computingEl('ul');for(const value of bullets)list.append(computingEl('li',clean(value)));host.append(list);bullets=[]}};
- const flushCode=()=>{const pre=computingEl('pre',code.join('\n'));pre.className='computing-code-block';pre.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;padding:12px;border:1px solid #709baa;border-radius:12px;max-width:100%;box-sizing:border-box;';host.append(pre);code=[]};
+ const flushCode=()=>{
+ const rawCode=code.join('\n'),frame=computingEl('div','','computing-code-frame');
+ frame.style.cssText='max-width:100%;min-width:0;margin:10px 0;';
+ const copy=computingBtn(computingLabel('Copiază codul','Copy code'),()=>computingCopyText(rawCode,copy));
+ copy.style.cssText='margin-bottom:6px;';copy.setAttribute('aria-label',computingLabel('Copiază acest bloc de cod','Copy this code block'));
+ const pre=computingEl('pre',rawCode);pre.className='computing-code-block';
+ pre.style.cssText='white-space:pre;overflow-x:auto;padding:12px;border:1px solid #709baa;border-radius:12px;max-width:100%;box-sizing:border-box;';
+ frame.append(copy,pre);host.append(frame);code=[];
+};
  for(const line of lines){
   const trimmed=line.trim();
   if(trimmed.startsWith(fence)){
@@ -111,7 +131,7 @@ function computingOpen(stage){
  $('moduleTitle').textContent=computingLabel('Informatică','Computing');$('moduleLead').textContent='';host.replaceChildren();
  const bar=computingEl('div','','education-toolbar lit-toolbar');bar.append(computingBtn(computingLabel('← Înapoi','← Back'),computingBack));eduAttachPrintAction(bar);host.append(bar);
  const panel=computingEl('div','','math-choice-panel science-choice-panel lit-panel computing-panel');panel.style.cssText='min-width:0;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;';
- const titles={levels:['Alege nivelul','Choose level'],paths:['Alege ramura de studiu','Choose branch'],topics:['Capitole în ordine','Chapters in order'],workspace:['Spațiu de lucru','Workspace']};
+ const titles={levels:['Alege nivelul','Choose level'],paths:['Alege ramura de studiu','Choose branch'],topics:['Capitole în ordine','Chapters in order'],workspace:['Spațiu de lucru','Workspace'],'free-chat':['Discută cu Eva','Chat with Eva']};
  const titleBar=computingEl('div','','computing-workspace-titlebar');
  titleBar.style.cssText='display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;min-width:0;';
  titleBar.append(computingEl('h2',computingLabel(...titles[stage])));
@@ -125,7 +145,8 @@ function computingOpen(stage){
   titleBar.append(fresh);
  }
  panel.append(titleBar);host.append(panel);
- if(stage==='levels'){computingChoices(panel,COMPUTING_LEVELS_DATA.map(x=>({id:x.id,ro:x.ro,en:x.en})),c=>{computingJourney.level=c.id;computingJourney.grade=null;computingJourney.path=null;computingJourney.topic=null;computingJourney.stage='grade';educationGradeGate('computing',c.id,grade=>{computingJourney.grade=grade;computingOpen('paths')},()=>computingOpen('levels'))});return}
+ if(stage==='levels'){computingChoices(panel,COMPUTING_LEVELS_DATA.map(x=>({id:x.id,ro:x.ro,en:x.en})),c=>{computingJourney.level=c.id;computingJourney.grade=null;computingJourney.path=null;computingJourney.topic=null;computingJourney.stage='grade';educationGradeGate('computing',c.id,grade=>{computingJourney.grade=grade;computingOpen('paths')},()=>computingOpen('levels'))});const free=computingBtn(computingLabel('💬 Discută liber cu Eva','💬 Free chat with Eva'),()=>computingOpen('free-chat'),'secondary-btn lit-option');free.id='computingFreeChatEntry';free.style.cssText='width:100%;margin-top:14px;white-space:normal;text-align:center;';panel.append(free);return}
+ if(stage==='free-chat'){computingFreeChat(panel);return}
  if(stage==='paths'){
   const lv=COMPUTING_LEVELS_DATA.find(x=>x.id===computingJourney.level);if(!lv){computingOpen('levels');return}
   computingParagraph(panel,computingLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+computingLabel('Clasa: ','Grade: ')+(computingJourney.grade||'')+'. '+computingLabel('Parcurs orientativ, ajustat nivelului școlar.','General learning adapted to the chosen school year.'));
@@ -140,6 +161,64 @@ function computingOpen(stage){
   computingChoices(panel,COMPUTING_TOPICS_DATA.filter(t=>t.path===path.id).map((t,i)=>({id:t.id,ro:(i+1)+'. '+t.ro,en:(i+1)+'. '+t.en})),c=>{computingJourney.topic=c.id;computingOpen('workspace')});return
  }
  computingWorkspace(panel);
+}
+function computingFreeChat(panel){
+ const intro=computingParagraph(panel,computingLabel(
+  'Conversație liberă cu Eva, fără alegerea unui nivel sau a unei lecții. Poți cere explicații, programe, pagini web sau verificarea codului.',
+  'Free conversation with Eva, without selecting a grade or lesson. Ask for explanations, programs, websites or code review.'));
+ intro.className='computing-free-chat-intro';
+ const log=computingEl('div','','computing-free-chat-log');
+ log.style.cssText='display:flex;flex-direction:column;gap:12px;max-height:47dvh;min-height:140px;overflow-y:auto;padding:8px 2px;overflow-wrap:anywhere;';
+ log.setAttribute('role','log');log.setAttribute('aria-label',computingLabel('Conversație cu Eva','Conversation with Eva'));
+ panel.append(log);
+ const showTurn=(role,text)=>{
+  const box=computingEl('section','','computing-free-chat-turn');
+  box.style.cssText='min-width:0;padding:10px;border:1px solid #527e95;border-radius:12px;';
+  box.append(computingEl('strong',role==='user'?computingLabel('Tu','You'):'Eva'));
+  if(role==='assistant'){
+   const copy=computingBtn(computingLabel('Copiază răspunsul','Copy answer'),()=>computingCopyText(text,copy));
+   copy.style.cssText='display:block;margin:8px 0;';box.append(copy);
+   const answer=computingEl('div','','computing-free-chat-answer');computingRenderAnswer(answer,text);box.append(answer);
+  }else computingParagraph(box,text);
+  log.append(box);log.scrollTop=log.scrollHeight;
+ };
+ for(const item of computingJourney.freeChatHistory)showTurn(item.role,item.content);
+ const editor=computingEl('textarea');editor.id='computingFreeChatInput';editor.className='lit-input';editor.rows=3;editor.maxLength=12000;
+ editor.placeholder=computingLabel('Scrie întrebarea sau lipește codul…','Type your question or paste code…');
+ editor.style.cssText='width:100%;box-sizing:border-box;min-height:80px;max-height:26dvh;overflow:auto;resize:vertical;';
+ panel.append(editor);
+ const controls=computingEl('div','','lit-actions');controls.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
+ const status=computingEl('p');status.setAttribute('role','status');
+ const send=computingBtn(computingLabel('Trimite către Eva','Send to Eva'),async()=>{
+  if(computingJourney.busy)return;
+  const message=editor.value.trim();if(!message)return;
+  computingJourney.freeChatHistory.push({role:'user',content:message});
+  computingJourney.freeChatHistory=computingJourney.freeChatHistory.slice(-16);
+  showTurn('user',message);editor.value='';
+  computingJourney.busy=true;send.disabled=true;
+  status.textContent=computingLabel('Eva pregătește răspunsul…','Eva is preparing an answer…');
+  const serial=++computingJourney.serial,controller=new AbortController();
+  computingJourney.request=controller;
+  try{
+   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message,language:state.language,module:'assistant',history:computingJourney.freeChatHistory.slice(0,-1).slice(-12)}),signal:controller.signal});
+   const data=await response.json();
+   if(serial!==computingJourney.serial||!log.isConnected)return;
+   if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw Error('no_answer');
+   const answer=data.reply.trim().slice(0,65000);
+   computingJourney.freeChatHistory.push({role:'assistant',content:answer});
+   computingJourney.freeChatHistory=computingJourney.freeChatHistory.slice(-16);
+   showTurn('assistant',answer);status.textContent='';
+  }catch(error){
+   if(serial===computingJourney.serial)status.textContent=error.name==='AbortError'?computingLabel('Anulat.','Cancelled.'):computingLabel('Eva nu a putut răspunde. Încearcă din nou.','Eva could not answer. Please retry.');
+  }finally{
+   if(serial===computingJourney.serial){computingJourney.busy=false;computingJourney.request=null;send.disabled=false}
+  }
+ },'primary-btn');
+ const reset=computingBtn(computingLabel('Conversație nouă','New conversation'),()=>{
+  computingStopRequest();computingJourney.freeChatHistory=[];computingOpen('free-chat');
+ });
+ controls.append(send,reset);panel.append(controls,status);
 }
 function computingPhotoReview(raw){
  const ed=$('computingInput');if(!ed)return;
