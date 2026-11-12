@@ -1,0 +1,19 @@
+name = "lifewise-ai-registry-preview"
+main = "registry_preview_worker.mjs"
+compatibility_date = "2026-10-28"
+
+[vars]
+SMART_COUNTRY_REGISTRY_ENABLED = "true"
+OSM_WORLD_FOOD_ENABLED = "false"
+
+[ai]
+binding = "AI"
+
+# Isolated namespace: do not share production Durable Objects/storage.
+[[durable_objects.bindings]]
+name = "POCKET_COMM_HUB"
+class_name = "PocketCommunicationHub"
+
+[[migrations]]
+tag = "registry-preview-sqlite-v1"
+new_sqlite_classes = ["PocketCommunicationHub"]
