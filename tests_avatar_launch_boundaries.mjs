@@ -3,12 +3,11 @@ import {readFileSync} from 'node:fs';
 const native=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/AvatarLaunchActivity.java',import.meta.url),'utf8');
 const bridge=readFileSync(new URL('./android/app/src/main/assets/avatar-enter.js',import.meta.url),'utf8');
 assert.match(native,/onBeginSynthesis\(String utteranceId, int sampleRateInHz, int audioFormat, int channelCount\)/,
- 'Lip synchronization begins during synthesis, before late audio playback callback');
+ 'Synthesis callback remains available but does not animate lips');
 assert.match(native,/avatarLipSyncStarted = true/,'Only one avatar start per spoken segment');
- 'Synthesis and onStart use same guarded UI bridge');
 assert.match(native,/onRangeStart\(String utteranceId, int start, int end, int frame\)/);
 assert.match(native,/window\.pocketLaunchBoundary/);
-assert.match(native,/JSONObject\.quote\(spokenGreeting\)/);
+assert.match(native,/JSONObject\.quote\(activeSpokenSegment\)/);
 assert.match(bridge,/window\.pocketLaunchBoundary=\(charIndex\)/);
 assert.match(bridge,/PocketAvatarAPI\?\.boundary\?\.\(charIndex\)/);
 assert.match(native,/speech\.isSpeaking\(\)/,'Monitor actual TTS playback instead of guessing duration');
