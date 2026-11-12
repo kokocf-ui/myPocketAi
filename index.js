@@ -18775,6 +18775,22 @@ function pocketRecallPreviousChat(message){
  }
  return results;
 }
+// Explicit recall uses locally stored evidence first. A search result does
+// not require a second AI classifier and never invokes location/POI lookup.
+function pocketLocalHistoryReply(matches){
+ if(!Array.isArray(matches)||!matches.length)return '';
+ const selected=matches.slice(0,6);
+ const label=(state.language==='ro'
+  ?'Am găsit în conversațiile salvate în myPocketAI pe acest dispozitiv:'
+  :'I found this in the myPocketAI conversations saved on this device:');
+ const lines=selected.map(m=>{
+  const who=m.role==='user'?(state.language==='ro'?'Ai spus':'You said')
+   :(state.language==='ro'?'Eva a răspuns':'Eva replied');
+  return who+': „'+String(m.content||'').slice(0,480)+'”';
+ });
+ const date=String(selected[0]?.timestamp||'').slice(0,50);
+ return label+(date?' ('+date+')':'')+'\\n\\n'+lines.join('\\n');
+}
 function archiveCurrentConversation(){if(!state.messages.length)return;state.history.unshift({id:Date.now(),title:(state.messages.find(m=>m.role==='user')?.text||dialogText('Conversație nouă','New conversation')).slice(0,72),date:new Date().toLocaleString(),messages:state.messages.slice(-40),placeContext:state.placeSearchContext||null,placeResults:state.lastPlaceResults||[],distanceContext:state.distanceSearchContext||null,routeContext:state.routeSearchContext||null,weatherContext:state.weatherSearchContext||null,newsContext:state.newsConversationContext||null});state.history=state.history.slice(0,30);saveHistory()}
 function renderHistory(){const list=$('historyList');list.innerHTML='';if(!state.history.length){const p=document.createElement('p');p.className='muted';p.textContent=dialogText('Nu există conversații salvate încă.','No saved conversations yet.');list.append(p);return}state.history.forEach(item=>{const row=document.createElement('div');row.className='list-row';const span=document.createElement('span');span.textContent=item.title+' · '+item.date;const btn=document.createElement('button');btn.textContent=dialogText('Deschide','Open');btn.addEventListener('click',()=>{state.messages=Array.isArray(item.messages)?item.messages.slice():[];state.placeSearchContext=item.placeContext||null;state.lastPlaceResults=Array.isArray(item.placeResults)?item.placeResults:[];state.distanceSearchContext=item.distanceContext||null;state.routeSearchContext=item.routeContext||null;state.weatherSearchContext=item.weatherContext||null;state.newsConversationContext=item.newsContext||null;state.lastRoute=null;state.lastRouteOptions=[];messagesEl.innerHTML='';if(!state.messages.length)messagesEl.innerHTML='<div class="empty-state">Conversație goală.</div>';state.messages.forEach(m=>addBubble(m.text,m.role));state.lastReply=[...state.messages].reverse().find(m=>m.role==='assistant')?.text||'';showView('assistant')});row.append(span,btn);list.append(row)})}
 // Pocket AI floating 3D avatar
@@ -19104,6 +19120,24 @@ function requestedTransitCountInMessage(value){
  return Number(found[1])||words[found[1]]||null;
 }
 async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;if(state.currentView==='module'&&state.currentModule==='learning'&&activeLearningSubject){const topic=learningLabel(activeLearningSubject[2],activeLearningSubject[3]);message=(state.language==='ro'?'Materia: ':'Subject: ')+topic+'. '+message;}if(state.currentView==='assistant'&&isEvaExitCommandClient(message)){addBubble(message,'user');state.messages.push({role:'user',text:message});state.messages=state.messages.slice(-40);inputEl.value='';setStatus(dialogText('Confirmă închiderea aplicației.','Confirm closing the app.'));pocketExitPrompt();return;}if(isEvaConversationClient(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isRecipeQuestion(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isCasualConversationReply(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;}if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;const chosenRegion=state.lastEncyclopediaArticle?.is_region===true&&state.lastEncyclopediaArticle.title===country;const searchArea=chosenRegion?country+', '+(state.lastEncyclopediaArticle.parent_country||''):country;state.tripCountryOnChoice=searchArea;message=(dialogText("Vreau să ajung la ","I want to get to "))+message+', '+searchArea;state.travelAccommodationIntent=false;state.lastEncyclopediaTripQuery=message;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
+// Search actual saved conversations locally before the general AI/geography
+// pipeline. Only a direct, explicit history request can read this archive.
+if(state.currentView==='assistant'){
+ const matches=pocketRecallPreviousChat(message);
+ if(matches.length){
+  const reply=pocketLocalHistoryReply(matches);
+  addBubble(message,'user');
+  state.messages.push({role:'user',text:message});
+  addBubble(reply,'assistant');
+  state.messages.push({role:'assistant',text:reply});
+  state.messages=state.messages.slice(-40);
+  state.lastReply=reply;
+  inputEl.value='';
+  setStatus(dialogText('Răspuns din conversațiile salvate.','Answer from saved conversations.'));
+  if(state.voiceMode||fromVoice)speakText(reply,{continuous:state.voiceMode});
+  return;
+ }
+}
  const explicitCount=isRecipeQuestion(message)?null:requestedTransitCountInMessage(message);
  if(explicitCount)state.requestedTransitCount=explicitCount;
  else if(/^(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)/i.test(message)&&!state.pendingTravelMode)state.requestedTransitCount=null;
