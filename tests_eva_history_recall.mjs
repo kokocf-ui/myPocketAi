@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {historyRecallIntent,recallFromSuppliedHistory} from './eva_history_recall.mjs';
+import {historyRecallIntent,recallFromSuppliedHistory,groundedHistorySummary} from './eva_history_recall.mjs';
 
 assert.equal(historyRecallIntent('Eva, caută în conversațiile noastre transportul Oradea Cluj'),true);
 assert.equal(historyRecallIntent('Caută-mi trenuri între Oradea și Cluj'),false);
@@ -23,4 +23,10 @@ r=recallFromSuppliedHistory('Caută în istoric ceva',[]);
 assert.equal(r.found,false);
 assert.equal(r.reason,'no_supplied_history');
 assert.match(recallFromSuppliedHistory('Search our chat history for Oradea',history,{language:'en'}).reply,/available to me/);
+const snippets=[{content:'Am discutat despre un tren la ora 10:30 și un bilet de 25 GBP'}];
+assert.equal(groundedHistorySummary('Trenul a fost la 10:30. [1]',snippets),true);
+assert.equal(groundedHistorySummary('Trenul costă 150 GBP. [1]',snippets),false);
+assert.equal(groundedHistorySummary('Am găsit https://fals.example. [1]',snippets),false);
+assert.equal(groundedHistorySummary('Conform mesajului [2], acesta era trenul.',snippets),false);
+assert.equal(groundedHistorySummary('Am discutat despre un tren.',snippets),false);
 console.log('PASS scoped Eva history recall handles matching, uncertainty and ordinary searches');
