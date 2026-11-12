@@ -77,6 +77,8 @@ const press=(panel,text)=>{
 };
 const flush=()=>new Promise(resolve=>setTimeout(resolve,0));
 const panel=new El('div');ui.workspace(panel);await flush();
+assert.equal(requests.length,0,'Opening a workspace must not launch AI requests automatically');
+press(panel,'Teorie');await flush();
 assert.equal(requests[0].module,'education_study');
 assert.equal(requests[0].education_subject,'language_literature');
 assert.equal(requests[0].education_activity,'lesson');
