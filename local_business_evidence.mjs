@@ -40,7 +40,21 @@ function extractPublicDetails(text,street,city){
  }
  if(Object.keys(hours).length>=2)info.hours=hours;
  // Full street + city is verified by caller; never infer a house number.
- if(street&&city)info.address=[street,city,info.postcode].filter(Boolean).join(', ');
+ if(street&&city){
+  const i=raw.toLowerCase().indexOf(street.toLowerCase());
+  const preceding=i>=0?raw.slice(Math.max(0,i-9),i):'';
+  const number=preceding.match(/(\d{1,5}[a-z]?)\s*$/i);
+  const verifiedStreet=(number?number[1]+' ':'')+street;
+  info.address=[verifiedStreet,city,info.postcode].filter(Boolean).join(', ');
+ }
+ const categories=[
+  ['food to go','mâncare la pachet'],['fresh bread','pâine proaspătă'],
+  ['fresh fruit','fructe proaspete'],['fresh vegetables','legume proaspete'],
+  ['fresh meat','carne proaspătă'],['frozen food','produse congelate'],
+  ['newspapers','ziare'],['magazines','reviste']
+ ];
+ info.products=categories.filter(([word])=>raw.toLowerCase().includes(word)).map(([,label])=>label);
+ if(!info.products.length)delete info.products;
  return info;
 }
 export async function researchNamedBusiness(target,{apiKey='',fetcher=fetch}={}){
@@ -90,6 +104,7 @@ export function businessResearchReply(r,language='ro'){
  ];
  if(d.phone)lines.push((ro?'Telefon publicat: ':'Published phone: ')+d.phone);
  if(d.hours)lines.push((ro?'Program publicat: ':'Published hours: ')+Object.entries(d.hours).map(([k,v])=>k+': '+v).join('; '));
+ if(d.products?.length)lines.push((ro?'Produse enumerate de sursă: ':'Products listed by source: ')+d.products.join(', '));
  if(!d.phone&&!d.hours)lines.push(ro?'Nu am verificat încă telefonul și orarul.':'Phone and hours could not be verified.');
  lines.push(ro?'Surse:':'Sources:');
  for(const src of r.sources)lines.push(src.title+' — '+src.url);
