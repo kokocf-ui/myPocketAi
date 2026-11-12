@@ -57,6 +57,9 @@ jobs:
         run: |
           node --check scripts/patch-avatar-lipsync.mjs
           node tests_eva_dialogue.mjs
+          node tests_eva_history_recall.mjs
+          node tests_eva_context_clarification.mjs
+          node tests_eva_backend_recall.mjs
           node tests_first_install_profile_search.mjs
           node tests_response_intent.mjs
           node tests_localization.mjs
