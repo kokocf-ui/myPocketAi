@@ -47,7 +47,7 @@ export async function nearbySparseMapPlaces({
    trace('ok',{sourceCount:data.elements.length});
    if(sharedCache)try{await sharedCache.put(key,Response.json(data,
     {headers:{'Cache-Control':'public, max-age=21600'}}))}catch{}
-  }catch(error){trace(String(error?.name||'network_error').slice(0,64));return []}
+  }catch(error){trace(String(error?.name||'network_error').slice(0,64),{detail:String(error?.message||'').slice(0,110)});return []}
  }
  return data.elements.flatMap(item=>{
   const t=item.tags||{},pLat=Number(item.lat??item.center?.lat),
