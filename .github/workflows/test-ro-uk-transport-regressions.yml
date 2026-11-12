@@ -12,6 +12,7 @@ on:
       - '.github/workflows/test-ro-uk-transport-regressions.yml'
       - 'tests_parking_zoo_eva_regressions.mjs'
       - 'tests_sparse_poi_live_path.mjs'
+      - 'tests_transit_entrypoint_parity.mjs'
       - 'osm_sparse_places.mjs'
       - 'literature_public_domain_luceafarul.mjs'
       - 'tests_shared_tfl_reader_regression.mjs'
@@ -31,6 +32,7 @@ on:
       - '.github/workflows/test-ro-uk-transport-regressions.yml'
       - 'tests_parking_zoo_eva_regressions.mjs'
       - 'tests_sparse_poi_live_path.mjs'
+      - 'tests_transit_entrypoint_parity.mjs'
       - 'osm_sparse_places.mjs'
       - 'literature_public_domain_luceafarul.mjs'
       - 'tests_shared_tfl_reader_regression.mjs'
@@ -57,6 +59,7 @@ jobs:
           node tests_sparse_poi_live_path.mjs
           node tests_literature_exact_paged_reader.mjs
           node tests_shared_tfl_reader_regression.mjs
+          node tests_transit_entrypoint_parity.mjs
       - name: Existing transport and UI tests
         run: |
           node tests_ro_national_transit.mjs
