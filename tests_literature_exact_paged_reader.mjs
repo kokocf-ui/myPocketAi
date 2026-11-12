@@ -100,12 +100,17 @@ const poemNav=all(poemReader).find(x=>x.tagName==='NAV');
 let verseTurns=0;
 while(poemNav&& !poemNav.children[2].disabled&&verseTurns++<20)poemNav.children[2].onclick();
 assert.ok(poemReader.textContent.includes('Talpon állok mindhalálig víni.'));
-poemReader.close();
+button(poemReader,'Înapoi').onclick();
 
 const readerTitle='Teorie: gramatică';
 ui.reader(readerTitle,long);
-const dialog=body.children.at(-1);
-assert.equal(dialog.tagName,'DIALOG');
+const overlay=body.children.at(-1);
+assert.equal(overlay.className,'lit-reader-overlay');
+const dialog=overlay.children[0];
+assert.equal(dialog.tagName,'SECTION');
+assert.equal(dialog.attrs.role,'dialog');
+assert.equal(dialog.attrs['aria-modal'],'true');
+assert.equal(overlay.children.length,1,'Reader is in its own high stacking layer');
 const navs=all(dialog).filter(x=>x.tagName==='NAV');
 assert.equal(navs.length,2,'Page navigation is mirrored at top and bottom');
 assert.equal(navs[0].children[1].textContent,navs[1].children[1].textContent,
