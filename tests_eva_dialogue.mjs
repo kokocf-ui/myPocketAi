@@ -158,6 +158,11 @@ vm.runInContext(script.slice(recallFrom,recallTo),manchesterCtx);
 const manchesterSearch=vm.runInContext("pocketRecallPreviousChat('Eva, caută în conversațiile noastre cum prefer să călătoresc la Manchester și în ce zonă vreau hotelul.')",manchesterCtx);
 assert.ok(manchesterSearch.some(x=>x.content.includes('prefer să călătoresc cu trenul')&&x.content.includes('aproape de centru')),
  'Recover precise travel and hotel preferences from a saved chat');
+const pastHotel=vm.runInContext("pocketRecallPreviousChat('Ce recomandări mi-ai dat anterior despre Manchester?')",manchesterCtx);
+assert.ok(pastHotel.some(x=>x.content.includes('Manchester')),
+ 'Natural past recommendations must search archived local conversations');
+assert.equal(vm.runInContext("pocketRecallPreviousChat('Uită-te în istoricul conversațiilor').length",manchesterCtx),0,
+ 'Topic-free history request does not upload unrelated archive messages');
 assert.equal(vm.runInContext("pocketRecallPreviousChat('Ce faci?').length",manchesterCtx),0,
  'No automatic disclosure to ordinary chat');
 
