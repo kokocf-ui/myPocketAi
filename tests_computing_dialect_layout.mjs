@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const ui=readFileSync(new URL('./computing_ui.mjs',import.meta.url),'utf8');
+const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
+assert.match(ui,/computing-free-chat-panel/);
+assert.match(ui,/const nav=document.querySelector\('\.bottom-nav'\)/);
+assert.match(ui,/window\.visualViewport\?\.addEventListener\('resize',layout\)/);
+assert.match(ui,/max-width:720px/);
+assert.match(ui,/flex:1 1 auto/);
+assert.match(ui,/overflow-wrap:anywhere;word-break:break-word/);
+assert.match(ui,/justify-content:center/);
+assert.match(backend,/LIMBAJ REGIONAL ȘI COLOCVIAL/);
+assert.match(backend,/Cockney, Scouse, Geordie/);
+assert.match(backend,/posibile erori ale recunoașterii vocale/);
+console.log('PASS contained Computing conversation and contextual dialect handling');

@@ -67,7 +67,7 @@ function computingRenderAnswer(host,text){
  const copy=computingBtn(label,()=>computingCopyText(rawCode,copy));
  copy.style.cssText='display:block;margin:10px 0 6px;';
  const pre=computingEl('pre',rawCode);pre.className='computing-code-block';
- pre.style.cssText='white-space:pre;overflow-x:auto;padding:12px;border:1px solid #709baa;border-radius:12px;max-width:100%;box-sizing:border-box;';
+ pre.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow-x:auto;padding:12px;border:1px solid #709baa;border-radius:12px;max-width:100%;box-sizing:border-box;font-size:13px;line-height:1.5;';
  host.append(copy,pre);code=[];
 };
  for(const line of lines){
@@ -165,17 +165,21 @@ function computingOpen(stage){
  computingWorkspace(panel);
 }
 function computingFreeChat(panel){
+ // A contained, vertically balanced chat: only conversation history scrolls,
+ // while the compose box and controls remain above Android's bottom navigation.
+ panel.classList.add('computing-free-chat-panel');
+ panel.style.cssText='display:flex;flex-direction:column;gap:8px;width:100%;max-width:720px;min-width:0;box-sizing:border-box;margin-inline:auto;overflow:hidden;padding:12px;';
  const intro=computingParagraph(panel,computingLabel(
   'Conversație liberă cu Eva, fără alegerea unui nivel sau a unei lecții. Poți cere explicații, programe, pagini web sau verificarea codului.',
   'Free conversation with Eva, without selecting a grade or lesson. Ask for explanations, programs, websites or code review.'));
- intro.className='computing-free-chat-intro';
+ intro.className='computing-free-chat-intro';intro.style.cssText='flex:0 0 auto;margin:0 0 4px;line-height:1.4;font-size:14px;';
  const log=computingEl('div','','computing-free-chat-log');
- log.style.cssText='display:flex;flex-direction:column;gap:12px;max-height:47dvh;min-height:140px;overflow-y:auto;padding:8px 2px;overflow-wrap:anywhere;';
+ log.style.cssText='display:flex;flex:1 1 auto;flex-direction:column;gap:12px;min-height:100px;max-height:none;overflow-y:auto;overflow-x:hidden;padding:8px 2px;overflow-wrap:anywhere;';
  log.setAttribute('role','log');log.setAttribute('aria-label',computingLabel('Conversație cu Eva','Conversation with Eva'));
  panel.append(log);
  const showTurn=(role,text)=>{
   const box=computingEl('section','','computing-free-chat-turn');
-  box.style.cssText='min-width:0;padding:10px;border:1px solid #527e95;border-radius:12px;';
+  box.style.cssText='min-width:0;max-width:100%;box-sizing:border-box;padding:10px;border:1px solid #527e95;border-radius:12px;';
   box.append(computingEl('strong',role==='user'?computingLabel('Tu','You'):'Eva'));
   if(role==='assistant'){
    const copy=computingBtn(computingLabel('Copiază răspunsul','Copy answer'),()=>computingCopyText(text,copy));
@@ -187,10 +191,10 @@ function computingFreeChat(panel){
  for(const item of computingJourney.freeChatHistory)showTurn(item.role,item.content);
  const editor=computingEl('textarea');editor.id='computingFreeChatInput';editor.className='lit-input';editor.rows=3;editor.maxLength=12000;
  editor.placeholder=computingLabel('Scrie întrebarea sau lipește codul…','Type your question or paste code…');
- editor.style.cssText='width:100%;box-sizing:border-box;min-height:80px;max-height:26dvh;overflow:auto;resize:vertical;';
+ editor.style.cssText='flex:0 0 auto;width:100%;box-sizing:border-box;min-height:68px;height:72px;max-height:16dvh;overflow:auto;resize:vertical;border-radius:12px;background:#0d2c40;color:#eff8fc;';
  panel.append(editor);
- const controls=computingEl('div','','lit-actions');controls.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
- const status=computingEl('p');status.setAttribute('role','status');
+ const controls=computingEl('div','','lit-actions');controls.style.cssText='display:flex;flex:0 0 auto;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;';
+ const status=computingEl('p');status.style.cssText='flex:0 0 auto;margin:0;';status.setAttribute('role','status');
  const send=computingBtn(computingLabel('Trimite către Eva','Send to Eva'),async()=>{
   if(computingJourney.busy)return;
   const message=editor.value.trim();if(!message)return;
@@ -221,6 +225,17 @@ function computingFreeChat(panel){
   computingStopRequest();computingJourney.freeChatHistory=[];computingOpen('free-chat');
  });
  controls.append(send,reset);panel.append(controls,status);
+ const layout=()=>{
+  if(!panel.isConnected){window.removeEventListener('resize',layout);window.visualViewport?.removeEventListener('resize',layout);return}
+  const nav=document.querySelector('.bottom-nav');
+  const navTop=nav?.getBoundingClientRect().top;
+  const viewportBottom=window.visualViewport?.height||window.innerHeight;
+  const bottom=navTop>0?Math.min(navTop,viewportBottom):viewportBottom-16;
+  const height=Math.max(265,Math.floor(bottom-panel.getBoundingClientRect().top-12));
+  panel.style.height=height+'px';
+ };
+ window.addEventListener('resize',layout);window.visualViewport?.addEventListener('resize',layout);
+ requestAnimationFrame(layout);
 }
 function computingPhotoReview(raw){
  const ed=$('computingInput');if(!ed)return;
