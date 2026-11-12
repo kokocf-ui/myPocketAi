@@ -55,6 +55,7 @@ let nextResponse={status:'success',education_subject:'language_literature',reply
 const literature={stage:'workspace',branch:'grammar',topic:'grammar',country:'RO',grade:'8',level:'lower',track:'TC',region:'',language:'ro',busy:false};
 const cfg={
  document:{body:new El('body'),createElement:tag=>new El(tag)},
+ window:{innerHeight:680,innerWidth:420},
  AbortController,
  litJourney:literature,litProgram:()=>({verified:false}),
  litCurrentTopic:()=>['grammar','Morfologie și sintaxă','Morphology and syntax'],
