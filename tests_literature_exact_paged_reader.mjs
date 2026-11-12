@@ -105,7 +105,7 @@ button(poemReader,'Înapoi').onclick();
 
 const readerTitle='Teorie: gramatică';
 ui.reader(readerTitle,long);
-const overlay=body.children.at(-1);
+const overlay=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
 assert.equal(overlay.className,'lit-reader-overlay');
 const dialog=overlay.children[0];
 assert.equal(dialog.tagName,'SECTION');
