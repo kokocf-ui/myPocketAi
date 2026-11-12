@@ -20,7 +20,8 @@ assert.match(ui,/function openModuleLandingAction\(choice\)/,'Single supported l
 assert.doesNotMatch(ui,/function renderModuleQuickChoices\(/,'Legacy quick-choice table must be deleted');
 assert.doesNotMatch(ui,/id="moduleQuickTrigger"/,'Remove hidden quick-choice button from DOM');
 assert.match(ui,/const translated=window\.__pocketEuropeanUiText\?\.\[lang\]\?\.wordTranslations/,'Screens translate static Ukrainian category labels');
-assert.match(ui,/Restore measured full-height subject selection/,'Last stylesheet corrects earlier CSS cap');
+assert.doesNotMatch(ui,/Restore measured full-height subject selection/,'Education no longer depends on a late conflicting CSS cap override');
+assert.match(ui,/#view-module\.learning-choose #moduleContent\s*\{[^}]*overflow-y:auto!important/s,'Education inner menu scrolls without moving the fixed header');
 assert.match(ui,/function returnToModuleLanding\(\)/,'Back returns to module landing');
 assert.match(ui,/if\(state\.moduleSearchResults\.length\)/,'Optional previous results are retained');
 const ua=EUROPEAN_UI_LOCALES.uk;
