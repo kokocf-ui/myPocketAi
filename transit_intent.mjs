@@ -31,9 +31,9 @@ export function isTransitJourneyRequest(message,options={}){
  }
  // Colloquial planning questions may omit the word "traseu":
  // "Ce mijloace de transport pot lua până la Victoria?"
- if(/\\b(?:ce|care)\\s+(?:mijloace(?:le)?\\s+de\\s+transport|transport(?:ul)?)\\b/.test(q)&&
-    /\\b(?:pot lua|as putea lua|sa iau|folosesc|ajung|ajunge|merg)\\b/.test(q)&&
-    /\\b(?:pana\\s+la|spre|catre|la)\\s+[\\p{L}\\p{N}]/u.test(q))
+ if(/\b(?:ce|care)\s+(?:mijloace(?:le)?\s+de\s+transport|transport(?:ul)?)\b/.test(q)&&
+    /\b(?:pot lua|as putea lua|sa iau|folosesc|ajung|ajunge|merg)\b/.test(q)&&
+    /\b(?:pana\s+la|spre|catre|la)\s+[\p{L}\p{N}]/u.test(q))
   return {is_journey:true,reason:"public_transport_selection_to_destination"};
  if(trip.test(q))return {is_journey:true,reason:"explicit_journey_language"};
  if(arrival.test(q))return {is_journey:true,reason:"transport_to_destination"};
