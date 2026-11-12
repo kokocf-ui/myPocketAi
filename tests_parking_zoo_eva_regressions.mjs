@@ -37,7 +37,9 @@ globalThis.fetch=async input=>{
     {type:'Feature',geometry:{type:'Point',coordinates:[0.301,51.477]},
      properties:{name:'Wildlife Zoo',categories:['entertainment.zoo'],datasource:{raw:{tourism:'zoo'}}}},
     {type:'Feature',geometry:{type:'Point',coordinates:[0.302,51.478]},
-     properties:{name:'Unrelated Attraction',categories:['tourism.attraction'],datasource:{raw:{tourism:'attraction'}}}}
+     properties:{name:'Unrelated Attraction',categories:['tourism.attraction'],datasource:{raw:{tourism:'attraction'}}}},
+    {type:'Feature',geometry:{type:'Point',coordinates:[0.303,51.478]},
+     properties:{name:'M25',categories:['entertainment.zoo'],datasource:{raw:{highway:'motorway'}}}}
    ]});
   }
   return Response.json({features:[]});
@@ -79,6 +81,9 @@ try{
  assert.ok(zoo.places.some(x=>x.name==='Wildlife Zoo'));
  assert.ok(!zoo.places.some(x=>x.name==='Unrelated Attraction'),
   'Do not mislabel ordinary attractions as zoos');
+ assert.ok(!zoo.places.some(x=>x.name==='M25'),
+  'Do not mislabel the motorway as a zoological garden');
+ assert.equal(zoo.search_radius_meters,5000);
  scenario='zero';const empty=await query('parking');
  assert.notEqual(empty.search_error_code,'LOCAL_SEARCH_FAILED',
   'One valid empty geo provider + failed Photon is not a total provider outage');
