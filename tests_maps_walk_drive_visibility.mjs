@@ -55,11 +55,12 @@ const controls=[],backHost={append:b=>controls.push(b)};
 const fakeDocument={getElementById:()=>null,createElement:()=>({style:{},onclick:null}),};
 const back=new Function('state','$','document','dialogText','returnToNavigationSource',backFn+'\nreturn showNavigationReturn;')(
  {navigationReturnContext:{view:'module',module:'travel'}},
- id=>{assert.equal(id,'view-module');return {querySelector:selector=>{assert.equal(selector,'.module-heading-row');return backHost}};},
+ id=>{assert.equal(id,'view-module');return {querySelector:selector=>{assert.equal(selector,'.module-actions-row');return backHost}};},
  fakeDocument,(ro)=>ro,()=>returned++);
 back();
-assert.equal(controls.length,1,'Return control stays in visible header, not hidden moduleContent');
+assert.equal(controls.length,1,'Return stays next to Home, not in the title row');
+assert.match(controls[0].className,/pocket-nav-return/,'Return keeps burgundy navigation palette');
 assert.equal(controls[0].id,'returnToSearchSource');
 controls[0].onclick();
 assert.equal(returned,2);
-console.log('PASS: Maps route selections share the A-to-B picker; route chat and return navigation stay visible');
+console.log('PASS: Route Return aligns next to Home and pedestrian route selection stays intact');
