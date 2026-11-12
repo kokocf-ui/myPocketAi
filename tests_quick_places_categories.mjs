@@ -27,6 +27,19 @@ assert.ok(!list.find(x=>x.placeCategory==='restaurant').prompt.includes('fast-fo
 assert.ok(ui.includes("place_category:choice.kind==='places'?(choice.placeCategory||undefined):undefined"));
 assert.ok(ui.includes('function openModuleLandingAction(choice)'));
 assert.ok(ui.includes('function returnToModuleLanding()'));
+// A single structured A→B entry point for the Maps quick route choices.
+// Transport adapters remain multimodal (bus + rail), not a new third engine.
+const routeEntry=ui.slice(ui.indexOf('function openModuleLandingAction(choice)'),
+ ui.indexOf('function quickUiText(){'));
+assert.match(routeEntry,/kind==='walking'\)showPreciseJourney\(\{\.\.\.choice,journeyMode:'walk'\}\)/);
+assert.match(routeEntry,/kind==='transit'\)showPreciseJourney\(\{\.\.\.choice,journeyMode:'transit'\}\)/);
+const modes=ui.slice(ui.indexOf('function showJourneyMode(choice){'),
+ ui.indexOf('// Shared UI dialog translations.',ui.indexOf('function showJourneyMode(choice){')));
+for(const mode of ["'walk'","'transit'","'drive'"])assert.ok(modes.includes(mode),'Missing shared journey mode '+mode);
+const precise=ui.slice(ui.indexOf('function showPreciseJourney(choice){'),
+ ui.indexOf('function showTransitDestination(choice){'));
+assert.match(precise,/selectedMode=choice\.journeyMode==='walk'\?'walk':'drive'/);
+assert.match(precise,/transitDirect:true/,'Mixed public transport keeps the existing multimodal dispatch');
 
 for(const title of ['Travelodge','Premier Inn','Ibis Hotel','Bexhill Drive','Grifon Road'])
  assert.equal(otherPoiAccepts({name:title}),false,title);
