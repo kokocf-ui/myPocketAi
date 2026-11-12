@@ -135,4 +135,22 @@ assert.ok(!dictionaryPanel.textContent.includes('Materialul este afișat'),
  'Bad GPS reply is not accepted as a prepared study material');
 assert.match(dictionaryPanel.textContent,/Nu s-a putut obține un răspuns educațional valid/);
 assert.doesNotMatch(dictionaryPanel.textContent,/nu este necesară localizarea telefonului/);
+
+// Simulate an Android WebView where appending the reader fails. The error must
+// be explicit, the education screen must not claim success, and the answer form
+// must not appear before the questions have been opened.
+literature.branch='grammar';literature.topic='grammar';
+cfg.litCurrentTopic=()=>['grammar','Morfologie și sintaxă','Morphology'];
+nextResponse={status:'success',education_subject:'language_literature',reply:'1. Exercițiu de test; 2. Exemplu.'};
+const brokenHost=cfg.document.body;
+const originalAppend=brokenHost.append;
+brokenHost.append=()=>{throw Error('simulated_dom_append_rejection')};
+const blockedPanel=new El('div');ui.workspace(blockedPanel);
+press(blockedPanel,'Teste');await flush();
+assert.match(blockedPanel.textContent,/Fereastra de lectură nu s-a putut deschide/);
+assert.match(blockedPanel.textContent,/open:Error/);
+assert.equal(all(blockedPanel).find(x=>x.tagName==='DETAILS')?.hidden,true,
+ 'Answer form must remain hidden until modal actually opens');
+brokenHost.append=originalAppend;
+
 console.log('PASS: grammar, dictionary, test, correction, no premature answer box, no GPS contamination');
