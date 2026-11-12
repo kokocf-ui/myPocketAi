@@ -16536,7 +16536,7 @@ function showWalkingQuickDestination(choice){
  go.textContent=dialogText('Calculează traseul pietonal','Find walking route');
  go.onclick=()=>{
   if(state.busy)return;
-  const destination=field.value.trim();if(!destination){field.focus();return;}
+  const destination=field.value.trim();if(!destination){field.setAttribute('aria-invalid','true');return;}
   state.pendingTravelMode='walk';state.pendingRouteStart=false;
   state.pendingRouteDestination=null;state.routeSearchContext=null;
   rememberNavigationSource();enterModuleRouteConversation();
