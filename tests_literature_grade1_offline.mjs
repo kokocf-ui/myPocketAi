@@ -16,12 +16,15 @@ assert.ok(literatureOfflineActivity({topicKey:'narrative',grade:'1',mode:'lesson
  'Other class-I topics reuse available original theory');
 
 class El {
- constructor(tag='div'){this.tagName=tag.toUpperCase();this.children=[];this._text='';this.isConnected=true;this.value='';this.attrs={};}
+ constructor(tag='div'){this.tagName=tag.toUpperCase();this.children=[];this._text='';this.isConnected=true;this.value='';this.attrs={};this.style={};this.classList={add:()=>{}};}
  get textContent(){return this._text+this.children.map(x=>x.textContent||'').join('')}
  set textContent(v){this._text=String(v);this.children=[]}
  append(...nodes){this.children.push(...nodes)}
  replaceChildren(...nodes){this._text='';this.children=nodes}
  setAttribute(k,v){this.attrs[k]=v}
+ addEventListener(){}
+ remove(){this.isConnected=false}
+ focus(){}
  scrollIntoView(){}
 }
 const body=new El('body');
@@ -38,7 +41,7 @@ const cfg={
  educationCountrySelection:{label:'România'},CLIENT_CONFIG:{apiUrl:'https://example.com/api/chat'},
  learningLabel:(ro,en)=>ro,
 };
-const ui=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+'\n({generate:litSimpleGenerate})',cfg);
+const ui=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+'\n({generate:litSimpleGenerate,workspace:litSimpleWorkspace})',cfg);
 for(const mode of ['lesson','examples','exercises','test']){
  const out=new El('article'),status=new El('p');let result='';
  if(mode==='lesson')out.isConnected=false; // initial offline output can precede DOM attachment
@@ -93,5 +96,26 @@ assert.match(hungStatus.textContent,/Serviciul AI nu a răspuns/);
 assert.doesNotMatch(hungStatus.textContent,/Se pregătește materialul/);
 assert.equal(journey.busy,false,'Timeout releases the busy state');
 
+// Real UI path: Grade I button opens a reader overlay; no lesson text appears
+// below the buttons even when local data returns synchronously.
+journey.grade='1';journey.country='RO';journey.branch='program';journey.topic='oral-0';
+const workspace=new El('div');
+ui.workspace(workspace);
+const all=node=>[node,...node.children.flatMap(all)];
+const theory=all(workspace).find(x=>x.tagName==='BUTTON'&&x.textContent==='Teorie');
+assert.ok(theory,'Real Grade I workspace has Theory');
+theory.onclick();
+await Promise.resolve();
+const reader=body.children.at(-1);
+assert.equal(reader?.className,'lit-reader-overlay','Reader overlay opens for offline Grade I lesson');
+assert.equal(reader.children[0]?.attrs.role,'dialog');
+assert.match(reader.textContent,/Ascultare, conversație și exprimare/);
+assert.doesNotMatch(workspace.textContent,/Când vorbim cu cineva, ascultăm/,
+ 'Workspace must never duplicate lesson body');
+assert.ok(!all(workspace).some(x=>x.className?.includes('lit-activity-output')),
+ 'Lesson output is never mounted beneath activity buttons');
+const back=all(reader).find(x=>x.tagName==='BUTTON'&&x.textContent==='Înapoi');
+assert.ok(back,'Reader has a Back button');back.onclick();
+assert.equal(reader.isConnected,false,'Back closes the reader');
 new vm.Script(LITERATURE_TASK_UI_SCRIPT);
-console.log('PASS grade I class activities offline; fallback on AI outage; no bogus GPS explanation');
+console.log('PASS Grade I local lesson opens modal only; fallback and timeout work');
