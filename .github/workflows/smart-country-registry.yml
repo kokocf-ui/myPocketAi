@@ -16,6 +16,7 @@ on:
       - 'tests_country_gps_resolution.mjs'
       - 'tests_country_search_anchor.mjs'
       - 'tests_country_backend_live_path.mjs'
+      - 'tests_trace_geographic_choice_ui.mjs'
       - '.github/workflows/smart-country-registry.yml'
   push:
     branches:
@@ -34,6 +35,7 @@ on:
       - 'tests_country_gps_resolution.mjs'
       - 'tests_country_search_anchor.mjs'
       - 'tests_country_backend_live_path.mjs'
+      - 'tests_trace_geographic_choice_ui.mjs'
       - '.github/workflows/smart-country-registry.yml'
   workflow_dispatch:
 permissions:
