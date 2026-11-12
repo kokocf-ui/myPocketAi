@@ -6,9 +6,6 @@ compatibility_date = "2026-10-28"
 SMART_COUNTRY_REGISTRY_ENABLED = "true"
 OSM_WORLD_FOOD_ENABLED = "false"
 
-[ai]
-binding = "AI"
-
 # Isolated namespace: do not share production Durable Objects/storage.
 [[durable_objects.bindings]]
 name = "POCKET_COMM_HUB"
