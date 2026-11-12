@@ -14,7 +14,7 @@ import {nearbyOpenStreetMapFood} from "./osm_food_places.mjs";
 import {nearbySparseMapPlaces} from "./osm_sparse_places.mjs";
 import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
-import {selectCountryProviders} from "./smart_country_registry.mjs";
+import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
@@ -5402,14 +5402,21 @@ export default {
            apiKey:env.TOMTOM_API_KEY,enabled:true}):Promise.resolve([]);
         // Opt-in country-aware provider selection. A geocoder-confirmed country
         // takes precedence over GPS and UI language; unknown country stays legacy.
-        const scopedCountry=String(responsePlaceContext?.verified_country_code||'').toUpperCase();
-        const countryRoutingEnabled=env.SMART_COUNTRY_REGISTRY_ENABLED==='true'&&Boolean(scopedCountry);
-        const scopedProviders=countryRoutingEnabled?selectCountryProviders({
-          category:requestedPlaceCategory.key,country:scopedCountry,
-          enabledProviders:['geoapify','photon','uk_food_retailers',
-            ...(env.TOMTOM_PLACES_ENABLED==='true'&&env.TOMTOM_API_KEY?['tomtom_places']:[])]
-        }):null;
-        const useUkRetailSources=!countryRoutingEnabled||scopedProviders.providers.includes('uk_food_retailers');
+        const countryPlan=planFrontendPlaceProviders({
+          category:requestedPlaceCategory.key,
+          verifiedCountryCode:responsePlaceContext?.verified_country_code||'',
+          enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true',
+          geoapifyConfigured:Boolean(env.GEOAPIFY_API_KEY),
+          tomtomConfigured:env.TOMTOM_PLACES_ENABLED==='true'&&Boolean(env.TOMTOM_API_KEY)
+        });
+        // Frontend never chooses a provider. Under the feature flag, unverified
+        // country permits only shared international sources, not UK-only data.
+        // Existing Geoapify / Photon flow and response format remain intact.
+        const useUkRetailSources=countryPlan.ukRetailAllowed;
+        responsePlaceContext.country_routing={
+          mode:countryPlan.mode,country:countryPlan.country,
+          reason:countryPlan.reason
+        };
         const ukRetailersPromise=useUkRetailSources&&['shop','corner_shop'].includes(requestedPlaceCategory.key)
           ?nearbyUkRegisteredRetailers(latitude,longitude,radius)
           :useUkRetailSources&&requestedPlaceCategory.key==='fast_food'
