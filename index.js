@@ -2784,24 +2784,27 @@ main.page:has(#view-module.learning-choose.active){
 }
 #view-module.learning-choose #moduleContent{
  grid-column:1/-1!important;grid-row:2!important;
- display:block!important;flex:none!important;
+ display:block!important;flex:none!important;box-sizing:border-box!important;
  width:100%!important;height:100%!important;max-height:100%!important;
- min-height:0!important;margin:0!important;padding:0!important;
- overflow:hidden!important;
+ min-height:0!important;margin:0!important;padding:0 2px 12px!important;
+ overflow-x:hidden!important;overflow-y:auto!important;
+ overscroll-behavior:contain!important;touch-action:pan-y!important;
+ -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+ scroll-padding-bottom:12px!important;
 }
 #view-module.learning-choose .education-grid{
  display:grid!important;
  grid-template-columns:repeat(2,minmax(0,1fr))!important;
- grid-template-rows:repeat(4,minmax(0,1fr))!important;
- width:100%!important;height:100%!important;min-height:0!important;
+ grid-template-rows:repeat(4,minmax(108px,1fr))!important;
+ width:100%!important;height:auto!important;min-height:100%!important;
  gap:clamp(6px,1dvh,10px)!important;
- margin:0!important;padding:2px 0 4px!important;
- overflow:hidden!important;
+ margin:0!important;padding:2px 0 10px!important;
+ overflow:visible!important;
 }
 #view-module.learning-choose .education-card{
  display:flex!important;flex-direction:column!important;justify-content:center!important;
- height:100%!important;min-height:0!important;max-height:100%!important;
- min-width:0!important;overflow:hidden!important;
+ height:100%!important;min-height:108px!important;max-height:none!important;
+ min-width:0!important;overflow:visible!important;
  gap:clamp(2px,.45dvh,5px)!important;
  padding:clamp(6px,1dvh,10px) clamp(7px,2vw,12px)!important;
  border-radius:clamp(14px,3vw,20px)!important;
@@ -2869,25 +2872,14 @@ main.page:has(#view-module.learning-choose.active){
 #view-module.learning-active .education-toolbar .secondary-btn{
  min-width:clamp(100px,26vw,180px)!important;
 }
-/* At very short heights or very narrow widths, preserve legibility and
-   accessibility rather than cropping buttons or descriptions. */
+/* Short viewports keep the same fixed header and bottom dock. Only
+   #moduleContent scrolls when its subject cards require extra height. */
 @media (max-height:600px), (max-width:320px){
- main.page:has(#view-module.learning-choose.active){
-  overflow-y:auto!important;
- }
- #view-module.learning-choose.active{
-  height:auto!important;max-height:none!important;overflow:visible!important;
-  grid-template-rows:auto auto!important;
+ #view-module.learning-choose .education-grid{
+  grid-template-rows:repeat(4,minmax(108px,1fr))!important;
  }
  #view-module.learning-choose #moduleContent{
-  height:auto!important;max-height:none!important;overflow:visible!important;
- }
- #view-module.learning-choose .education-grid{
-  height:auto!important;grid-template-rows:repeat(4,minmax(104px,auto))!important;
-  overflow:visible!important;
- }
- #view-module.learning-choose .education-card{
-  min-height:104px!important;max-height:none!important;overflow:visible!important;
+  overflow-y:auto!important;
  }
 }
 
@@ -9966,6 +9958,9 @@ function learningLabel(ro,en){
  return translated||en||ro;
 }
 function renderLearningSubjects(){
+ // Discard the old page scroll inherited from the previous subject screen.
+ const educationPage=document.querySelector('main.page');
+ if(educationPage)educationPage.scrollTop=0;
  mathVoiceStop();
  document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');
  document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');
@@ -10018,7 +10013,10 @@ function educationFitMenuViewport(){
  const bottom=Math.min(dock?.getBoundingClientRect().top??visible,visible);
  if(!Number.isFinite(top)||!Number.isFinite(bottom))return;
  const px=Math.floor(bottom-top-10);
- if(px<350){root.style.removeProperty('height');root.style.removeProperty('max-height');return}
+ if(px<350&&!root.classList.contains('learning-choose')){
+  root.style.removeProperty('height');root.style.removeProperty('max-height');return;
+ }
+ if(px<=0)return;
  root.style.setProperty('height',px+'px','important');
  root.style.setProperty('max-height',px+'px','important');
 }
@@ -19922,33 +19920,12 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 .education-toolbar .edu-pdf-actions .edu-print-trigger{max-width:42px!important}
 .practical-cv-actions .edu-pdf-actions{margin-left:0!important}
 
-/* Education viewport repair: use the available vertical space and scroll if the
-   eight study cards or a language list exceed a small Android screen. */
-main.page:has(#view-module.learning-choose.active),
+/* Foreign-language study pages keep the existing scrolling behavior.
+   The Education subject menu uses only education-responsive-layout. */
 main.page:has(#view-module.learning-languages.active){
  overflow-x:hidden!important;overflow-y:auto!important;
  touch-action:pan-y!important;
  padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important
-}
-#view-module.learning-choose.active{
- height:auto!important;max-height:none!important;min-height:0!important;
- grid-template-rows:auto auto!important;overflow:visible!important
-}
-#view-module.learning-choose #moduleContent{
- height:auto!important;max-height:none!important;overflow:visible!important
-}
-#view-module.learning-choose .education-grid{
- height:clamp(350px,53dvh,475px)!important;
- min-height:350px!important;max-height:none!important;
- grid-template-rows:repeat(4,minmax(72px,1fr))!important;
- column-gap:clamp(12px,2vw,20px)!important;
- row-gap:clamp(12px,2dvh,19px)!important;
- padding:clamp(9px,1.8dvh,17px) 0 6px!important;
- overflow:visible!important
-}
-#view-module.learning-choose .education-card{
- height:100%!important;min-height:72px!important;max-height:none!important;
- overflow:hidden!important
 }
 #view-module.learning-languages.active{
  height:auto!important;max-height:none!important;min-height:0!important;
@@ -20009,13 +19986,6 @@ main.page:has(#view-module.learning-languages.active){
 .lit-research-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .lit-research-actions a{color:#83e4ff;text-decoration:underline;font-size:13px}
 .lit-research-more{margin:9px 0;min-height:42px}
-@media(max-height:540px){
- #view-module.learning-choose .education-grid{height:auto!important;min-height:0!important;
-  grid-template-rows:repeat(4,minmax(90px,auto))!important}
-}
-
-/* Keep the compact 53dvh eight-card layout declared above.
-   The later 62dvh override pushed the fourth card row under the bottom navigation. */
 /* Educational request handoff is a deliberate choice, never an auto-send. */
 .education-scope-dialog{
  box-sizing:border-box;width:min(94vw,580px)!important;max-width:94vw!important;
@@ -20044,11 +20014,6 @@ main.page:has(#view-module.learning-languages.active){
  overflow-wrap:anywhere
 }
 .education-transfer-draft p{margin:0;white-space:pre-wrap}
-@media(max-height:600px){
- #view-module.learning-choose .education-grid{height:auto!important;min-height:0!important;
- grid-template-rows:repeat(4,minmax(92px,auto))!important}
-}
-
 .uk-transit-official-sources{display:flex;flex-direction:column;gap:10px;
  margin:11px 0;padding:12px;border:1px solid #4898ae;border-radius:14px;
  max-height:54dvh;overflow-y:auto;overscroll-behavior:contain}
@@ -20110,18 +20075,6 @@ main.page:has(#view-module.learning-languages.active){
 }
 
 
-/* Restore measured full-height subject selection. Override obsolete 53dvh cap. */
-#view-module.learning-choose.active{height:100%!important;max-height:100%!important;min-height:0!important;
- grid-template-rows:auto minmax(0,1fr)!important;overflow:hidden!important}
-#view-module.learning-choose #moduleContent{height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important;
- padding:0!important;box-sizing:border-box!important}
-#view-module.learning-choose .education-grid{height:100%!important;min-height:0!important;max-height:100%!important;
- grid-template-rows:repeat(4,minmax(0,1fr))!important;row-gap:clamp(6px,1dvh,10px)!important;
- padding:2px 0 4px!important;overflow:hidden!important}
-#view-module.learning-choose .education-card{min-height:0!important;max-height:100%!important;overflow:hidden!important}
-@media(max-height:600px){#view-module.learning-choose.active{height:auto!important;max-height:none!important;overflow:visible!important}
-#view-module.learning-choose #moduleContent,#view-module.learning-choose .education-grid{height:auto!important;max-height:none!important;overflow:visible!important}
-#view-module.learning-choose .education-grid{grid-template-rows:repeat(4,minmax(94px,auto))!important}}
 /* Maps and Hotels landing: actions fill available space, categories scroll safely. */
 main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;overflow-y:hidden!important;
  padding:clamp(5px,.9dvh,10px) 12px calc(108px + env(safe-area-inset-bottom,0px))!important}
