@@ -11,7 +11,7 @@ assert.match(native,/JSONObject\.quote\(activeSpokenSegment\)/);
 assert.match(bridge,/window\.pocketLaunchBoundary=\(charIndex\)/);
 assert.match(bridge,/PocketAvatarAPI\?\.boundary\?\.\(charIndex\)/);
 assert.match(native,/speech\.isSpeaking\(\)/,'Monitor actual TTS playback instead of guessing duration');
-assert.match(native,/silentPlaybackChecks >= 2/,'Verify stopped playback before closing');
+assert.match(native,/silentPlaybackChecks >= 5/,'Verify stopped playback before closing');
 assert.match(native,/handler\.removeCallbacks\(playbackWatchdog\)/,'Stop watchdog when greeting completes');
 assert.match(native,/if\(finishingLaunch \|\| greetingFinished\)return;/,'Stop command is idempotent');
 assert.match(native,/isCurrentSegment\(utteranceId\) && !greetingFinished && !finishingLaunch/,'Late word boundaries cannot reopen mouth');

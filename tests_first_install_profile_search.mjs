@@ -26,9 +26,9 @@ assert.match(firstScreen,/UserProfileDates\.ageFromBirthDate\(birthDate\)/,'Curr
 assert.match(firstScreen,/beginSystemPermissions\(\)/,'Validated profile proceeds to permissions');
 assert.match(native,/firstSetupShownThisLaunch\?firstGreetingForLanguage\(launchLanguage\):greetingForLanguage\(launchLanguage\)/,
  'Avatar introduces Eva only on the actual first installation');
-assert.match(native,/case "ro":return "Bună! Eu sunt Eva,/);
-assert.match(native,/case "ro":return "Bună! Eu sunt Eva, asistenta ta personală/,'Romanian repeated greeting introduces Eva by name');
-assert.match(native,/default:return greetingForLanguage\(language\)/,'First greeting inherits localized identity across supported languages');
+assert.match(native,/case "ro":return "Salut!"/,'Romanian avatar only says Salut');
+assert.match(native,/private static String firstGreetingForLanguage\(String language\)\{\s*return greetingForLanguage\(language\);/,'First launch shares the localized one-word greeting');
+assert.doesNotMatch(native,/Bună! Eu sunt Eva/,'No sentence-long spoken introduction at launch');
 for(const code of ['ro','fr','de','it','es','pt','nl','ru','pl','hr','sr','hu','tr','cs','sk','sl','bg','el','fi','sv','no','da','is','et','lv','lt','uk','bs','mk','sq','be','ca','ga','cy','mt','eu','gl','lb','fo','rm']){
  assert.ok(native.includes('case "'+code+'":return'),'Missing localized Eva startup for '+code);
 }

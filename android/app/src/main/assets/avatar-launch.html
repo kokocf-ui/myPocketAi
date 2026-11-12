@@ -134,7 +134,7 @@ window.addEventListener('message',event=>{
  nativeMessage('ready');
 });
 window.pocketLaunchSpeak=(speaking,text)=>{
- if(speaking)api('start',text||'Salut! Cum te pot ajuta?');
+ if(speaking)api('start',text||'Salut!');
  else api('stop');
 };
 window.pocketLaunchFinish=()=>{stage.classList.add('departing');done=true};

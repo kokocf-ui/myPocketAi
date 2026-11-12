@@ -37,7 +37,7 @@ import java.util.Locale;
  */
 public final class AvatarLaunchActivity extends Activity {
     private static final String ORIGIN = "https://appassets.androidplatform.net";
-    private String currentGreeting = "Hello! How can I help you?";
+    private String currentGreeting = "Hello!";
     private String spokenGreeting = currentGreeting;
     private String launchLanguage = "en";
     private static final String UTTERANCE_ID = "pocket-intro-greeting";
@@ -62,7 +62,7 @@ public final class AvatarLaunchActivity extends Activity {
             if (finishingLaunch || greetingFinished || !ttsPlaybackStarted || speech == null) return;
             // Check real Android TTS playback, not a hardcoded sentence duration.
             if (speech.isSpeaking()) silentPlaybackChecks = 0;
-            else if (++silentPlaybackChecks >= 2) {
+            else if (++silentPlaybackChecks >= 5) {
                 finishGreeting();
                 return;
             }
@@ -280,64 +280,55 @@ public final class AvatarLaunchActivity extends Activity {
         if(saved!=null&&saved.matches("ro|en|fr|de|it|es|pt|nl|ru|pl|hr|sr|hu|tr|cs|sk|sl|bg|el|fi|sv|no|da|is|et|lv|lt|uk|bs|mk|sq|be|ca|ga|cy|mt|eu|gl|lb|fo|rm"))return saved;
         return detectFirstSetupLanguage();
     }
+    // Avatar launch: one natural greeting word per supported language.
+    // The app's first-install profile still explains Eva separately in the UI.
     private static String greetingForLanguage(String language){
         switch(language){
-            case "ro":return "Bună! Eu sunt Eva, asistenta ta personală din myPocket AI. Cu ce te pot ajuta astăzi?";
-            case "fr":return "Bonjour ! Je suis Eva, ton assistante personnelle myPocket AI. Comment puis-je t'aider aujourd'hui ?";
-            case "de":return "Hallo! Ich bin Eva, deine persönliche Assistentin von myPocket AI. Wie kann ich dir heute helfen?";
-            case "it":return "Ciao! Sono Eva, la tua assistente personale di myPocket AI. Come posso aiutarti oggi?";
-            case "es":return "¡Hola! Soy Eva, tu asistente personal de myPocket AI. ¿En qué puedo ayudarte hoy?";
-            case "pt":return "Olá! Sou a Eva, a tua assistente pessoal do myPocket AI. Como posso ajudar-te hoje?";
-            case "nl":return "Hallo! Ik ben Eva, je persoonlijke assistente van myPocket AI. Waarmee kan ik je vandaag helpen?";
-            case "ru":return "Привет! Я Ева, твоя персональная помощница в myPocket AI. Чем могу помочь сегодня?";
-            case "pl":return "Cześć! Jestem Eva, twoja osobista asystentka w myPocket AI. W czym mogę dziś pomóc?";
-            case "hr":return "Bok! Ja sam Eva, tvoja osobna asistentica u myPocket AI. Kako ti mogu danas pomoći?";
-            case "sr":return "Здраво! Ја сам Ева, твоја лична асистенткиња у myPocket AI. Како могу да ти помогнем?";
-            case "hu":return "Szia! Eva vagyok, a személyes asszisztensed a myPocket AI-ban. Miben segíthetek ma?";
-            case "tr":return "Merhaba! Ben Eva, myPocket AI'daki kişisel asistanınım. Bugün sana nasıl yardımcı olabilirim?";
-            case "cs":return "Ahoj! Jsem Eva, tvoje osobní asistentka v myPocket AI. Jak ti dnes mohu pomoci?";
-            case "sk":return "Ahoj! Som Eva, tvoja osobná asistentka v myPocket AI. Ako ti dnes môžem pomôcť?";
-            case "sl":return "Živjo! Sem Eva, tvoja osebna pomočnica v myPocket AI. Kako ti lahko danes pomagam?";
-            case "bg":return "Здравей! Аз съм Ева, твоят личен асистент в myPocket AI. Как мога да помогна днес?";
-            case "el":return "Γεια σου! Είμαι η Εύα, η προσωπική σου βοηθός στο myPocket AI. Πώς μπορώ να βοηθήσω σήμερα?";
-            case "fi":return "Hei! Olen Eva, henkilökohtainen avustajasi myPocket AI:ssa. Miten voin auttaa tänään?";
-            case "sv":return "Hej! Jag är Eva, din personliga assistent i myPocket AI. Hur kan jag hjälpa dig idag?";
-            case "no":return "Hei! Jeg er Eva, din personlige assistent i myPocket AI. Hvordan kan jeg hjelpe deg i dag?";
-            case "da":return "Hej! Jeg er Eva, din personlige assistent i myPocket AI. Hvordan kan jeg hjælpe dig i dag?";
-            case "is":return "Halló! Ég er Eva, persónulegi aðstoðarmaðurinn þinn í myPocket AI. Hvernig get ég hjálpað í dag?";
-            case "et":return "Tere! Mina olen Eva, sinu isiklik assistent myPocket AI-s. Kuidas saan täna aidata?";
-            case "lv":return "Sveiki! Es esmu Eva, tavs personīgais asistents myPocket AI. Kā varu šodien palīdzēt?";
-            case "lt":return "Sveiki! Aš esu Eva, tavo asmeninė asistentė „myPocket AI“. Kaip šiandien galiu padėti?";
-            case "uk":return "Привіт! Я Єва, твоя персональна помічниця в myPocket AI. Чим можу допомогти сьогодні?";
-            case "bs":return "Zdravo! Ja sam Eva, tvoja lična asistentica u myPocket AI. Kako ti danas mogu pomoći?";
-            case "mk":return "Здраво! Јас сум Ева, твојата лична асистентка во myPocket AI. Како можам да помогнам денес?";
-            case "sq":return "Përshëndetje! Jam Eva, asistentja jote personale në myPocket AI. Si mund të të ndihmoj sot?";
-            case "be":return "Вітаю! Я Ева, твая асабістая памочніца ў myPocket AI. Чым магу дапамагчы сёння?";
-            case "ca":return "Hola! Sóc l'Eva, la teva assistent personal de myPocket AI. En què et puc ajudar avui?";
-            case "ga":return "Dia duit! Is mise Eva, do chúntóir pearsanta in myPocket AI. Conas is féidir liom cabhrú leat inniu?";
-            case "cy":return "Helo! Eva ydw i, dy gynorthwyydd personol yn myPocket AI. Sut alla i helpu heddiw?";
-            case "mt":return "Bonġu! Jiena Eva, l-assistenta personali tiegħek f'myPocket AI. Kif nista' ngħinek illum?";
-            case "eu":return "Kaixo! Eva naiz, myPocket AI-ko zure laguntzaile pertsonala. Zertan lagun zaitzaket gaur?";
-            case "gl":return "Ola! Son Eva, a túa asistente persoal de myPocket AI. En que che podo axudar hoxe?";
-            case "lb":return "Moien! Ech sinn d'Eva, däi perséinlechen Assistent bei myPocket AI. Wéi kann ech dir haut hëllefen?";
-            case "fo":return "Hey! Eg eri Eva, tín persónligi hjálpari í myPocket AI. Hvussu kann eg hjálpa tær í dag?";
-            case "rm":return "Allegra! Jau sun Eva, tia assistenta persunala en myPocket AI. Co poss jau gidar tai oz?";
-            default:return "Hello! I'm Eva, your personal assistant from myPocket AI. How can I help you today?";
+            case "ro":return "Salut!";
+            case "fr":return "Salut!";
+            case "de":return "Hallo!";
+            case "it":return "Ciao!";
+            case "es":return "¡Hola!";
+            case "pt":return "Olá!";
+            case "nl":return "Hoi!";
+            case "ru":return "Привет!";
+            case "pl":return "Cześć!";
+            case "hr":return "Bok!";
+            case "sr":return "Здраво!";
+            case "hu":return "Szia!";
+            case "tr":return "Merhaba!";
+            case "cs":return "Ahoj!";
+            case "sk":return "Ahoj!";
+            case "sl":return "Živjo!";
+            case "bg":return "Здравей!";
+            case "el":return "Γεια!";
+            case "fi":return "Hei!";
+            case "sv":return "Hej!";
+            case "no":return "Hei!";
+            case "da":return "Hej!";
+            case "is":return "Halló!";
+            case "et":return "Tere!";
+            case "lv":return "Sveiki!";
+            case "lt":return "Labas!";
+            case "uk":return "Привіт!";
+            case "bs":return "Zdravo!";
+            case "mk":return "Здраво!";
+            case "sq":return "Tungjatjeta!";
+            case "be":return "Прывітанне!";
+            case "ca":return "Hola!";
+            case "ga":return "Haigh!";
+            case "cy":return "Helo!";
+            case "mt":return "Bonġu!";
+            case "eu":return "Kaixo!";
+            case "gl":return "Ola!";
+            case "lb":return "Moien!";
+            case "fo":return "Hey!";
+            case "rm":return "Allegra!";
+            default:return "Hello!";
         }
     }
     private static String firstGreetingForLanguage(String language){
-        switch(language){
-            case "ro":return "Bună! Eu sunt Eva, asistenta ta personală din myPocket AI. Îmi pare bine să te cunosc! Cu ce începem?";
-            case "fr":return "Bonjour ! Je suis Eva. Ravie de faire ta connaissance !";
-            case "de":return "Hallo! Ich bin Eva. Schön, dich kennenzulernen!";
-            case "it":return "Ciao! Sono Eva. Piacere di conoscerti!";
-            case "es":return "¡Hola! Soy Eva. ¡Encantada de conocerte!";
-            case "pt":return "Olá! Sou a Eva. Prazer em conhecer-te!";
-            case "nl":return "Hallo! Ik ben Eva. Leuk je te ontmoeten!";
-            case "ru":return "Привет! Меня зовут Ева. Рада знакомству!";
-            case "pl":return "Cześć! Jestem Eva. Miło cię poznać!";
-            default:return greetingForLanguage(language);
-        }
+        return greetingForLanguage(language);
     }
     private static String speechTagForLanguage(String language){
         switch(language){
@@ -717,12 +708,8 @@ public final class AvatarLaunchActivity extends Activity {
             }
         }
         currentGreeting=firstSetupShownThisLaunch?firstGreetingForLanguage(launchLanguage):greetingForLanguage(launchLanguage);
-        // Keep one language and voice throughout the greeting.
-        // Split only at sentence punctuation to make inter-sentence silence explicit.
-        // For Romanian, pronounce the brand phonetically while keeping the UI wording.
-        spokenGreeting = "ro".equals(launchLanguage)
-            ? currentGreeting.replace("myPocket AI", "mai pocăt ei ai")
-            : currentGreeting;
+        // The text sent to the 3D mouth exactly matches the single spoken word.
+        spokenGreeting = currentGreeting;
         greetingSegments.clear();
         for (String segment : spokenGreeting.split("(?<=[.!?])\\s+")) {
             if (!segment.trim().isEmpty()) greetingSegments.add(segment.trim());

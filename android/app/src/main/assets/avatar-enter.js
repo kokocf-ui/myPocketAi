@@ -126,7 +126,7 @@
  },100);
  window.pocketLaunchSpeak=(speaking,text)=>{
   try{
-   if(speaking)window.PocketAvatarAPI?.start?.(text||'Salut! Cum te pot ajuta?');
+   if(speaking)window.PocketAvatarAPI?.start?.(text||'Salut!');
    else window.PocketAvatarAPI?.stop?.();
   }catch(_){}
  };
