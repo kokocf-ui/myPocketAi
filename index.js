@@ -18728,8 +18728,8 @@ function pocketRecallPreviousChat(message){
   .toLowerCase().replace(/[^a-z0-9\\p{L}]+/gu,' ').replace(/\\s+/g,' ').trim();
  const q=normalize(message);
  const explicit=/\\b(?:tii minte|mai tii minte|iti amintesti|ce (?:ti am spus|am discutat|am vorbit)|despre ce am glumit|despre ce te am tachinat|remember what|do you remember)\\b/.test(q)
-  ||/\\b(?:cauta|cauti|gaseste|gasesti|verifica|uita te|uitate|consulta|search|find|look up)\\b.{0,85}\\b(?:istoric|conversati|discuti|mesaj|history|chat)\\b/.test(q)
-  ||/\\b(?:in|din|from)\\s+(?:istoric|conversati|discuti|our chat history)\\b/.test(q)
+  ||/\\b(?:cauta|cauti|gaseste|gasesti|verifica|uita te|uitate|consulta|search|find|look up)\\b.{0,85}\\b(?:istoric\\w*|conversati\\w*|discuti\\w*|mesaj\\w*|history|chat\\w*)/.test(q)
+  ||/\\b(?:in|din|from)\\s+(?:istoric\\w*|conversati\\w*|discuti\\w*|our chat history)/.test(q)
   ||/\\b(?:ce|care|cand|what|when)\\b.{0,95}\\b(?:mi ai dat anterior|mi ai recomandat|mi ai spus|am discutat|am vorbit|we discussed|you recommended)\\b/.test(q)
   ||/\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\\b.{0,55}\\b(?:anterior|mai devreme|inainte|previously|earlier|before)\\b/.test(q)
   ||/\\b(?:anterior|mai devreme|inainte|previously|earlier|before)\\b.{0,65}\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\\b/.test(q);
