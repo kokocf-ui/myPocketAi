@@ -9,6 +9,7 @@ import {parseNearbyStreetQuery,geocodeNearbyStreet} from "./nearby_street_geocod
 import {isStreetOnlyPlace,parseNamedBusinessInformation,researchNamedBusiness,businessResearchReply} from "./local_business_evidence.mjs";
 import {nearbyUkRegisteredRetailers,nearbyUkRegisteredTakeaways} from "./uk_food_retailers.mjs";
 import {foodCategoryAccepts,reconcileNearbyPlaces} from "./food_location_quality.mjs";
+import {otherPoiAccepts} from "./other_poi_quality.mjs";
 import {nearbyOpenStreetMapFood} from "./osm_food_places.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
@@ -4463,14 +4464,15 @@ export default {
     // Source-backed news is not a POI lookup, even if a named country or "source" matches a place category.
     let activePlaceRequest=independentNewsSearch?null:placeRequestFrom(message,priorPlaceRequest,typeof data.location_query==="string"?data.location_query.trim().slice(0,160):"");
     if(selectedCandidate&&!independentNewsSearch)activePlaceRequest={category:suppliedCategory,destination:selectedCandidate.query,stars:[1,2,3,4,5].includes(suppliedContext.stars)?suppliedContext.stars:null,central:suppliedContext.central===true,inherited:true,needsDestination:false,selected:selectedCandidate};
-    // The quick-search cards carry an explicit category. A broad word like
-    // "magazine" must not override the user's "small shops" selection.
-    const quickRetailCategory=data.quick_place_search===true&&
-      ['corner_shop','supermarket','shop','confectionery'].includes(String(data.place_category||''))
-      ?String(data.place_category):'';
-    if(quickRetailCategory&&activePlaceRequest){
-      const chosen=placeCategoryRules.find(rule=>rule.key===quickRetailCategory);
-      if(chosen)activePlaceRequest={...activePlaceRequest,category:chosen};
+    // Every quick-search card owns its explicit category, regardless of
+    // overlapping colloquial terms or previously discussed place categories.
+    const quickPlaceCategory=data.quick_place_search===true
+      ?placeCategoryRules.find(rule=>rule.key===String(data.place_category||'')):null;
+    if(quickPlaceCategory){
+      activePlaceRequest=activePlaceRequest
+        ?{...activePlaceRequest,category:quickPlaceCategory}
+        :{category:quickPlaceCategory,destination:'',stars:null,
+          central:false,inherited:false,needsDestination:false};
     }
     if(activePlaceRequest&&!activePlaceRequest.needsDestination)responsePlaceContext={category:activePlaceRequest.category.key,destination:activePlaceRequest.destination,stars:activePlaceRequest.stars||null,central:Boolean(activePlaceRequest.central)};
     const geocodePlace=async query=>{
@@ -4810,7 +4812,7 @@ export default {
       }
     }
     const matchedPlaceCategory = activePlaceRequest?.category || null;
-    const foodSearchIntent = Boolean(matchedPlaceCategory) && Boolean(earlyFoodSearchIntent); // v77: legacy variable name retained to avoid changing downstream control flow; covers all POI categories.
+    const foodSearchIntent = Boolean(matchedPlaceCategory) && (Boolean(earlyFoodSearchIntent)||data.quick_place_search===true); // v77: legacy variable name retained to avoid changing downstream control flow; covers all POI categories.
     // v65: keep place discovery in the Travel & Tourism module. Maps & Transport
     // remains responsible for routes/transit; route requests are handled earlier.
     // Accept common module aliases while the frontend migration is rolled out.
@@ -5489,7 +5491,15 @@ export default {
                   osmKey:raw.shop?'shop':''
                 }))return false;
               }
-              if (key === "poi") return true;
+              if (key === "poi")return otherPoiAccepts({
+                name:props.name||props.address_line1||'',
+                categories:props.categories||[],
+                amenity:raw.amenity||raw.tags?.amenity||'',
+                tourism:raw.tourism||raw.tags?.tourism||'',
+                shop:raw.shop||raw.tags?.shop||'',
+                highway:raw.highway||raw.tags?.highway||'',
+                leisure:raw.leisure||raw.tags?.leisure||''
+              });
               // Accommodation is a named establishment, not the street/address
               // line returned by geocoders. Keep apartments and hostels, but
               // ignore names consisting solely of a street label.
@@ -5589,7 +5599,13 @@ export default {
               const photonFoodMatch=["restaurant","fast_food"].includes(requestedPlaceCategory.key)
                 ?foodCategoryAccepts(requestedPlaceCategory.key,{name:properties.name,amenity:properties.osm_key==="amenity"?properties.osm_value:"",cuisine:properties.cuisine}):null;
               const photonCategoryMatches = photonRetailMatch!==null?photonRetailMatch : photonFoodMatch!==null?photonFoodMatch : requestedPlaceCategory.key === "poi"
-                ? Boolean(properties.name) && coordinates.length >= 2 && !/^(road|street|residential|service|path|track|footway|cycleway)$/i.test(photonType)
+                ? coordinates.length>=2&&otherPoiAccepts({
+                    name:properties.name,osmKey:properties.osm_key,
+                    osmValue:properties.osm_value||properties.type,
+                    amenity:properties.amenity,tourism:properties.tourism,
+                    shop:properties.shop,highway:properties.highway,
+                    categories:[properties.type||'']
+                  })
                 : requestedPlaceCategory.key === "mall"
                   ? /mall|shopping.?centre|shopping.?center|retail.?park|department.?store/.test(photonType) || /shopping centre|shopping center|mall|retail park/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "corner_shop"

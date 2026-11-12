@@ -62,6 +62,7 @@ jobs:
           node tests_local_multisource_shops.mjs
           node tests_fast_food_discovery.mjs
           node tests_food_global_dedup.mjs
+          node tests_quick_places_categories.mjs
           node tests_fsa_trading_alias.mjs
           node tests_retail_categories.mjs
           node tests_global_places.mjs
