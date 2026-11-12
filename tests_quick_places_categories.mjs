@@ -18,7 +18,7 @@ assert.deepEqual(list.map(x=>x.title),[
 const categories=['hotel','pharmacy','corner_shop','supermarket','confectionery',
  'fast_food','restaurant','lounge','poi'];
 assert.deepEqual(list.map(x=>x.placeCategory),categories);
-assert.deepEqual(menu.maps.map(x=>x.title),[
+assert.deepEqual(Array.from(menu.maps,x=>x.title),[
  'Deplasare spre…','Traseu pietonal','Transport public','Benzinării',
  'Spălătorii auto','Parcări','Muzee','Parcuri','Grădini zoologice'
 ]);
