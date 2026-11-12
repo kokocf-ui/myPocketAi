@@ -124,7 +124,7 @@ for(const text of ['Aldi','Eva, vreau să merg la Victoria Underground',
  assert.equal(vm.runInContext('isEvaConversationClient('+JSON.stringify(text)+')',ctx),false,text);
 assert.equal(vm.runInContext('isEvaExitCommandClient("Eva, vreau să închid aplicația.")',ctx),true);
 // Only an explicit recall request reads a short excerpt from archived chat.
-const recallFrom=script.indexOf('function pocketRecallPreviousChat(message){');
+const recallFrom=script.indexOf('function pocketHistoryNormalize(s){');
 const recallTo=script.indexOf('function archiveCurrentConversation(){',recallFrom);
 assert.ok(recallFrom>0&&recallTo>recallFrom,'Bounded archived-chat recall helper exists');
 const recallCtx=vm.createContext({state:{currentView:'assistant',history:[
@@ -163,9 +163,9 @@ assert.ok(pastHotel.some(x=>x.content.includes('Manchester')),
  'Natural past recommendations must search archived local conversations');
 const pastHotelMade=vm.runInContext("pocketRecallPreviousChat('Ce recomandări mi-ai făcut anterior despre Manchester?')",manchesterCtx);
 assert.ok(pastHotelMade.some(x=>x.content.includes('trenul')&&x.content.includes('aproape de centru')),
- 'Actual user's phrasing retrieves preferences from saved conversations');
+ "Actual user phrasing retrieves preferences from saved conversations");
 const localReply=vm.runInContext("pocketLocalHistoryReply(pocketRecallPreviousChat('Ce recomandări mi-ai făcut anterior despre Manchester?'))",manchesterCtx);
-assert.match(localReply,/Am găsit în conversațiile salvate|I found this in the myPocketAI conversations/,
+assert.match(localReply,/Am verificat conversația curentă|I checked the current conversation/,
  'Local answer has verifiable archive provenance');
 assert.match(localReply,/trenul/);
 assert.match(script,/const matches=pocketRecallPreviousChat\(message\);/,
@@ -185,6 +185,45 @@ assert.equal(vm.runInContext("pocketRecallPreviousChat('Uită-te în istoricul c
  'Topic-free history request does not upload unrelated archive messages');
 assert.equal(vm.runInContext("pocketRecallPreviousChat('Ce faci?').length",manchesterCtx),0,
  'No automatic disclosure to ordinary chat');
+
+// Recall must include an open, not-yet-archived conversation.
+const openCtx=vm.createContext({state:{currentView:'assistant',language:'ro',
+ history:[],messages:[
+  {role:'user',text:'În Manchester prefer să călătoresc cu trenul şi să stau lângă centru.'},
+  {role:'assistant',text:'Am reținut că preferi trenul și zona centrală.'}
+ ]}});
+vm.runInContext(script.slice(recallFrom,recallTo),openCtx);
+const currentResult=vm.runInContext("pocketRecallPreviousChat('Ce recomandări mi-ai făcut anterior despre Manchester?')",openCtx);
+assert.ok(currentResult.some(x=>x.content.includes('Manchester')&&x.source==='active'),
+ 'The currently open conversation must be included in local recall');
+assert.match(vm.runInContext("pocketLocalHistoryReply(pocketRecallPreviousChat('Caută în istoricul nostru despre Dublin'))",openCtx),
+ /nu am găsit o potrivire/i,'An absent local match must not turn into an invented answer');
+assert.equal(vm.runInContext("pocketRecallPreviousChat('Caută hoteluri în Manchester').length",openCtx),0,
+ 'Normal destination/hotel research must never read personal archives');
+
+// A real app restart must restore the last active conversation on device.
+const persistenceFrom=script.indexOf("const HISTORY_KEY='mypocketai.history.v1';");
+const persistenceTo=script.indexOf('function archiveCurrentConversation(){',persistenceFrom);
+assert.ok(persistenceFrom>0&&persistenceTo>persistenceFrom,'Persistent local history block exists');
+const storage=new Map();
+const storageCtx=vm.createContext({
+ state:{currentView:'assistant',language:'ro',messages:[
+  {role:'user',text:'Manchester: doresc un hotel aproape de centru și merg cu trenul.'},
+  {role:'assistant',text:'Am înțeles.'}
+ ],history:[]},
+ localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},
+ window:{addEventListener:()=>{}},
+ document:{addEventListener:()=>{}}
+});
+vm.runInContext(script.slice(persistenceFrom,persistenceTo),storageCtx);
+vm.runInContext('saveActiveHistory()',storageCtx);
+assert.ok(storage.has('mypocketai.history.active.v1'),'The active exchange is written to on-device storage');
+vm.runInContext('state.messages=[];loadHistory()',storageCtx);
+assert.ok(vm.runInContext("pocketRecallPreviousChat('Ce recomandări mi-ai făcut anterior despre Manchester?')",storageCtx)
+ .some(x=>x.content.includes('aproape de centru')&&x.source==='saved'),
+ 'Recovered active chat is searchable as archived device history');
+assert.equal(storage.has('mypocketai.history.active.v1'),false,
+ 'A recovered snapshot is consumed to avoid duplicate startup restoration');
 
 assert.equal(archivedSearch[0].conversation_id,'200','Retain archive source id');
 assert.equal(vm.runInContext("pocketRecallPreviousChat('Caută trenuri în Oradea')",archivalCtx).length,0,

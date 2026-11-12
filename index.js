@@ -18712,90 +18712,163 @@ function appendHourlyWeatherVisual(host,weather){
  host.append(btn);
 }
 function addBubble(text,role='assistant',isError=false,options={}){const empty=messagesEl.querySelector('.empty-state');if(empty)empty.remove();const el=document.createElement('div');el.className='bubble '+role+(isError?' error':'');const content=document.createElement('span');content.className='bubble-text';appendAnswerText(content,String(text));el.append(content);messagesEl.append(el);requestAnimationFrame(()=>{if(role==='assistant')prepareAnswerReader(content,el,text,options.autoOpen===true);messagesEl.scrollTop=messagesEl.scrollHeight;requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})});return el}
-function resetChat(){state.newsConversationContext=null;state.assistantStructuredDestination=false;cancelTransitAccess(true);state.transitRefreshGeneration=(state.transitRefreshGeneration||0)+1;state.transitRefreshAbort?.abort();state.transitRefreshAbort=null;state.transitRefreshBusy=false;state.lastTransitChoice=null;state.lastTransitResponse=null;state.lastTravelModeResponse=null;state.pendingTravelMode=null;closeRouteMap(false);closeAnswerReader(false);state.lastRoute=null;state.lastRouteOptions=[];state.routeSearchContext=null;state.weatherSearchContext=null;state.placeSearchContext=null;state.distanceSearchContext=null;state.lastPlaceResults=[];state.pendingRouteDestination=null;state.pendingTravelConfirmationData=null;state.travelConfirmationPanel=null;state.pendingRouteStart=false;state.pendingRouteViaQuery=null;state.pendingRouteCompare=false;state.conversationGeneration++;state.messages=[];state.requestedTransitCount=null;const ui=UI_TEXT[state.language]||UI_TEXT.en;messagesEl.innerHTML='<div class="empty-state"></div>';const empty=messagesEl.querySelector('.empty-state');empty.append(document.createTextNode(ui.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=ui.emptyHint;empty.append(document.createElement('br'),hint);state.lastReply='';inputEl.value='';setStatus(ui.ready);stopSpeech();stopRecognition();state.voiceMode=false;state.dictationMode=false;setPressed($('voiceBtn'),false);setPressed($('dictationBtn'),false);hideAvatar();}
+function resetChat(){try{localStorage.removeItem('mypocketai.history.active.v1')}catch{};state.newsConversationContext=null;state.assistantStructuredDestination=false;cancelTransitAccess(true);state.transitRefreshGeneration=(state.transitRefreshGeneration||0)+1;state.transitRefreshAbort?.abort();state.transitRefreshAbort=null;state.transitRefreshBusy=false;state.lastTransitChoice=null;state.lastTransitResponse=null;state.lastTravelModeResponse=null;state.pendingTravelMode=null;closeRouteMap(false);closeAnswerReader(false);state.lastRoute=null;state.lastRouteOptions=[];state.routeSearchContext=null;state.weatherSearchContext=null;state.placeSearchContext=null;state.distanceSearchContext=null;state.lastPlaceResults=[];state.pendingRouteDestination=null;state.pendingTravelConfirmationData=null;state.travelConfirmationPanel=null;state.pendingRouteStart=false;state.pendingRouteViaQuery=null;state.pendingRouteCompare=false;state.conversationGeneration++;state.messages=[];state.requestedTransitCount=null;const ui=UI_TEXT[state.language]||UI_TEXT.en;messagesEl.innerHTML='<div class="empty-state"></div>';const empty=messagesEl.querySelector('.empty-state');empty.append(document.createTextNode(ui.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=ui.emptyHint;empty.append(document.createElement('br'),hint);state.lastReply='';inputEl.value='';setStatus(ui.ready);stopSpeech();stopRecognition();state.voiceMode=false;state.dictationMode=false;setPressed($('voiceBtn'),false);setPressed($('dictationBtn'),false);hideAvatar();}
 function setPressed(button,value){button.setAttribute('aria-pressed',String(Boolean(value)))}
-// 03 — Local conversation history (explicitly deletable)
+// 03 — On-device history. Saved conversations are always searched locally.
 const HISTORY_KEY='mypocketai.history.v1';
-function loadHistory(){try{const v=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');state.history=Array.isArray(v)?v:[]}catch{state.history=[]}}
-function saveHistory(){try{localStorage.setItem(HISTORY_KEY,JSON.stringify(state.history.slice(-30)))}catch{notify('Istoricul nu a putut fi salvat pe acest dispozitiv.')}}
-// Recall is strictly opt-in through a specific conversational question.
-// Saved chats stay local; only a short relevant excerpt is sent in that turn.
-function pocketRecallPreviousChat(message,allowFollowup=true){
- // Read only this device's saved assistant conversations, and only when
- // the user explicitly requests a look-back. No automatic hidden uploads.
- if(state.currentView!=='assistant')return [];
- const normalize=s=>String(s||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
+const ACTIVE_HISTORY_KEY='mypocketai.history.active.v1';
+const POCKET_HISTORY_MAX=60;
+function pocketStoredTurns(messages){
+ return (Array.isArray(messages)?messages:[]).filter(m=>
+  m&&['user','assistant'].includes(m.role)&&typeof (m.text??m.content)==='string')
+  .map(m=>({role:m.role,text:String(m.text??m.content).slice(0,1800)})).slice(-40);
+}
+function loadHistory(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');
+  state.history=Array.isArray(saved)?saved.filter(x=>x&&Array.isArray(x.messages)):[];
+ }catch{state.history=[]}
+ // A WebView can be closed without visiting Home/New conversation.
+ // Recover its last saved active exchange without sending it to a server.
+ try{
+  const active=JSON.parse(localStorage.getItem(ACTIVE_HISTORY_KEY)||'null');
+  const turns=pocketStoredTurns(active?.messages);
+  if(turns.length && turns.some(m=>m.role==='user')){
+   const same=state.history.some(item=>{
+    const older=pocketStoredTurns(item?.messages);
+    return older.length===turns.length&&older.every((m,i)=>m.role===turns[i].role&&m.text===turns[i].text);
+   });
+   if(!same)state.history.unshift({
+    id:active.id||Date.now(),date:String(active.date||new Date().toLocaleString()),
+    title:String(active.title||turns.find(m=>m.role==='user')?.text||'Conversație recuperată').slice(0,72),
+    messages:turns
+   });
+   state.history=state.history.slice(0,POCKET_HISTORY_MAX);
+   try{localStorage.setItem(HISTORY_KEY,JSON.stringify(state.history))}catch{}
+  }
+  localStorage.removeItem(ACTIVE_HISTORY_KEY);
+ }catch{}
+}
+function saveHistory(){
+ try{localStorage.setItem(HISTORY_KEY,JSON.stringify(state.history.slice(0,POCKET_HISTORY_MAX)))}
+ catch{notify('Istoricul nu a putut fi salvat pe acest dispozitiv.')}
+}
+function saveActiveHistory(){
+ const turns=pocketStoredTurns(state.messages);
+ if(!turns.length||!turns.some(x=>x.role==='user'))return;
+ try{
+  localStorage.setItem(ACTIVE_HISTORY_KEY,JSON.stringify({
+   id:'active-'+Date.now(),date:new Date().toLocaleString(),
+   title:turns.find(x=>x.role==='user')?.text.slice(0,72)||'Conversație',
+   messages:turns
+  }));
+ }catch{/* The visible conversation remains available in this session. */}
+}
+window.addEventListener('pagehide',saveActiveHistory);
+document.addEventListener('visibilitychange',()=>{
+ if(document.visibilityState==='hidden')saveActiveHistory();
+});
+function pocketHistoryNormalize(s){
+ return String(s||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
   .toLowerCase().replace(/[^a-z0-9\\p{L}]+/gu,' ').replace(/\\s+/g,' ').trim();
- const q=normalize(message);
- const explicit=/\\b(?:tii minte|mai tii minte|iti amintesti|ce (?:ti am spus|am discutat|am vorbit)|despre ce am glumit|despre ce te am tachinat|remember what|do you remember)\\b/.test(q)
-  ||/\\b(?:cauta|cauti|gaseste|gasesti|verifica|uita te|uitate|consulta|search|find|look up)\\b.{0,85}\\b(?:istoric\\w*|conversati\\w*|discuti\\w*|mesaj\\w*|history|chat\\w*)/.test(q)
-  ||/\\b(?:in|din|from)\\s+(?:istoric\\w*|conversati\\w*|discuti\\w*|our chat history)/.test(q)
-  ||/\\b(?:ce|care|cand|what|when)\\b.{0,95}\\b(?:mi ai dat anterior|mi ai recomandat|mi ai spus|am discutat|am vorbit|we discussed|you recommended)\\b/.test(q)
-  ||/\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\\b.{0,55}\\b(?:anterior|mai devreme|inainte|previously|earlier|before)\\b/.test(q)
-  ||/\\b(?:anterior|mai devreme|inainte|previously|earlier|before)\\b.{0,65}\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\\b/.test(q);
- if(!explicit)return [];
- const ignored=new Set('uitate uita rasfoieste consulta este sunt fost exista verificare discutia discuția recomandari recomandat anterior anteriori anterioare discutii istoricul conversatiilor conversatie discutat prefer cum cumva zona vreau hotelul eva imi mi ai am ce care cand cum unde noi nostru noastre noastra despre din in la si iar dar pe cu ca de sa te ti rog cauta cauti gaseste gasesti verifica inca mai vreau cautare istoric istoricul conversatie conversatia conversatiile discutie discutiile nostru our the where when what which did you me my i we please find search history chat previous conversation talk talked discussed remember earlier earlier today yesterday'.split(' '));
- const terms=[...new Set(q.split(' ').filter(w=>w.length>=3&&!ignored.has(w)&&
-  !/^(discut|vorbit|spus|scris|intrebat|recomand|saptaman|trecut|remember|mesaj)/.test(w)))];
- if(terms.length===0){
-  // A correction such as "the discussion is in history, check" inherits
-  // the earlier topic, but never retrieves an unrelated chat at random.
+}
+function pocketHistoryRequest(message){
+ const q=pocketHistoryNormalize(message);
+ return /\\b(?:tii minte|mai tii minte|iti amintesti|ce (?:ti am spus|am discutat|am vorbit)|despre ce am glumit|despre ce te am tachinat|remember what|do you remember)\\b/.test(q)
+  || /\\b(?:cauta|cauti|gaseste|gasesti|verifica|uita te|uitate|consulta|search|find|look up)\\b.{0,100}\\b(?:istoric\\w*|conversati\\w*|discuti\\w*|mesaj\\w*|history|chat\\w*)/.test(q)
+  || /\\b(?:in|din|from)\\s+(?:istoric\\w*|conversati\\w*|discuti\\w*|our chat history)/.test(q)
+  || /\\b(?:ce|care|cand|what|when)\\b.{0,110}\\b(?:mi ai (?:facut |dat )?(?:recomandari|recomandat)|mi ai spus|am discutat|am vorbit|we discussed|you recommended)/.test(q)
+  || /\\b(?:ce|care)\\s+(?:recomandari|sfaturi|informatii)\\b.{0,55}\\bmi ai\\b/.test(q)
+  || /\\b(?:unde|ce|cum)\\b.{0,60}\\bmi ai (?:recomandat|spus|sugerat)\\b/.test(q)
+  || /\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\\b.{0,65}\\b(?:anterior|mai devreme|inainte|data trecuta|previously|earlier|before)/.test(q)
+  || /\\b(?:anterior|mai devreme|inainte|data trecuta|previously|earlier|before)\\b.{0,75}\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat|recommended)/.test(q);
+}
+function pocketHistoryTerms(message){
+ const ignored=new Set('eva uitate uita rasfoieste consulta este sunt fost exista verificare discutia discutii istoricul conversatiilor conversatie conversatii conversatia conversatiile discutat discutii recomandari recomandat anterior anteriori anterioare devreme trecuta data ultima prefer cum zona vreau eva imi mi ai am ce care cand unde noi nostru noastre noastra despre din in la si iar dar pe cu ca de sa te ti rog cauta cauti gaseste gasesti verifica inca mai cautare istoric discutiile discutie vorbit spus facut tii minte amintesti our the where when what which did you me my i we please find search history chat previous conversation talk talked discussed remember earlier today yesterday'.split(' '));
+ return [...new Set(pocketHistoryNormalize(message).split(' ')
+  .filter(w=>w.length>=3&&!ignored.has(w)&&
+   !/^(discut|vorbit|spus|scris|intrebat|recomand|saptaman|trecut|remember|mesaj)/.test(w)))];
+}
+// Explicit recall checks BOTH the open conversation and every chat that is
+// still stored on this device. No blanket archive upload or global search.
+function pocketRecallPreviousChat(message,allowFollowup=true){
+ if(state.currentView!=='assistant'||!pocketHistoryRequest(message))return [];
+ const q=pocketHistoryNormalize(message);
+ const terms=pocketHistoryTerms(message);
+ if(!terms.length){
   if(allowFollowup){
-   for(const entry of [...(Array.isArray(state.messages)?state.messages:[])].reverse().slice(0,12)){
+   const earlier=[...(Array.isArray(state.messages)?state.messages:[])].reverse().slice(0,20);
+   for(const entry of earlier){
     if(entry?.role!=='user'||typeof entry.text!=='string'||entry.text===message)continue;
-    const prior=pocketRecallPreviousChat(entry.text,false);
-    if(prior.length)return prior;
+    if(!pocketHistoryTerms(entry.text).length)continue;
+    const previous=pocketRecallPreviousChat('Caută în istoric '+entry.text,false);
+    if(previous.length)return previous;
    }
   }
   return [];
  }
  const joke=/\\b(?:glumit|glume|gluma|tachinat|joke|joking|teased)\\b/.test(q);
  const social=/\\b(?:glum|tachin|obraznic|desteapt|cafe|invit|frumoas|amuzant|ras|jok|teas|coffe)/;
- const matches=[];
- for(const item of (Array.isArray(state.history)?state.history:[]).slice(0,30)){
+ const archives=[
+  {id:'current',date:'',messages:Array.isArray(state.messages)?state.messages:[],source:'active'},
+  ...(Array.isArray(state.history)?state.history:[]).map((item,i)=>({
+   ...item,id:item?.id??('archive-'+i),source:'saved'
+  }))
+ ];
+ const hits=[];
+ for(const item of archives){
   if(!Array.isArray(item?.messages))continue;
-  const messages=item.messages.filter(m=>m&&['user','assistant'].includes(m.role)&&typeof m.text==='string');
+  const messages=item.messages.filter(m=>
+   m&&['user','assistant'].includes(m.role)&&typeof (m.text??m.content)==='string')
+   .map(m=>({role:m.role,text:String(m.text??m.content)}));
   for(let i=0;i<messages.length;i++){
-   const text=normalize(messages[i].text);
-   const hit=terms.reduce((total,term)=>total+((text.includes(term)||(term.length>=6&&text.includes(term.slice(0,5))))?1:0),0);
-   const score=hit+(joke&&social.test(text)?2:0);
-   if(score<=0)continue;
-   matches.push({score,item,messages,index:i});
+   const text=pocketHistoryNormalize(messages[i].text);
+   if(text===q||pocketHistoryRequest(messages[i].text))continue;
+   const score=terms.reduce((total,term)=>total+
+    (text.includes(term)||(term.length>=6&&text.includes(term.slice(0,5)))?1:0),0);
+   if(!score && !(joke&&social.test(text)))continue;
+   hits.push({score:score+(joke&&social.test(text)?2:0)+
+    (messages[i].role==='user'?0.15:0),item,messages,index:i});
   }
  }
- matches.sort((a,b)=>b.score-a.score||Number(b.item.id||0)-Number(a.item.id||0)||a.index-b.index);
- const chosen=matches.slice(0,4),results=[],used=new Set();
- for(const hit of chosen){
-  // Include the actual exchange around a matching message, not just a
-  // disconnected keyword hit. Keep source metadata and limit disclosure.
+ hits.sort((a,b)=>b.score-a.score||
+  (a.item.source==='active'?-1:b.item.source==='active'?1:0)||
+  Number(b.item.id||0)-Number(a.item.id||0)||a.index-b.index);
+ const results=[],used=new Set();
+ for(const hit of hits){
   const from=Math.max(0,hit.index-(hit.messages[hit.index].role==='assistant'?1:0));
-  for(const m of hit.messages.slice(from,Math.min(hit.messages.length,from+2))){
-   const key=String(hit.item.id)+'|'+from+'|'+m.role;
-   if(used.has(key))continue;used.add(key);
-   results.push({role:m.role,content:m.text.slice(0,420),
-    timestamp:String(hit.item.date||''),conversation_id:String(hit.item.id||'')});
+  const conversation=String(hit.item.id);
+  for(let i=from;i<Math.min(hit.messages.length,from+2);i++){
+   const m=hit.messages[i],key=conversation+'|'+i;
+   if(used.has(key)||pocketHistoryRequest(m.text))continue;
+   used.add(key);
+   results.push({role:m.role,content:m.text.slice(0,600),
+    timestamp:String(hit.item.date||''),conversation_id:conversation,
+    source:hit.item.source});
    if(results.length>=8)return results;
   }
  }
  return results;
 }
-// Explicit recall uses locally stored evidence first. A search result does
-// not require a second AI classifier and never invokes location/POI lookup.
 function pocketLocalHistoryReply(matches){
- if(!Array.isArray(matches)||!matches.length)return '';
+ if(!Array.isArray(matches)||!matches.length)return state.language==='ro'
+  ?'Am verificat conversația curentă și istoricul salvat pe acest telefon, dar nu am găsit o potrivire. Spune-mi subiectul sau un cuvânt din discuție.'
+  :'I checked the current conversation and the chats saved on this device but found no match. Tell me the subject or a keyword.';
  const selected=matches.slice(0,6);
- const label=(state.language==='ro'
-  ?'Am găsit în conversațiile salvate în myPocketAI pe acest dispozitiv:'
-  :'I found this in the myPocketAI conversations saved on this device:');
+ const isRo=state.language==='ro';
  const lines=selected.map(m=>{
-  const who=m.role==='user'?(state.language==='ro'?'Ai spus':'You said')
-   :(state.language==='ro'?'Eva a răspuns':'Eva replied');
-  return who+': „'+String(m.content||'').slice(0,480)+'”';
+  const who=m.role==='user'?(isRo?'Ai spus':'You said')
+   :(isRo?'Eva a răspuns':'Eva replied');
+  const where=m.source==='active'?(isRo?'acum':'current chat')
+   :(isRo?'salvat':'saved');
+  return who+' ('+where+'): „'+String(m.content||'').slice(0,540)+'”';
  });
- const date=String(selected[0]?.timestamp||'').slice(0,50);
- return label+(date?' ('+date+')':'')+'\\n\\n'+lines.join('\\n');
+ return (isRo
+  ?'Am verificat conversația curentă și istoricul salvat pe telefon. Am găsit aceste mesaje:'
+  :'I checked the current conversation and saved chats on this device. I found these messages:')
+  +'\\n\\n'+lines.join('\\n');
 }
-function archiveCurrentConversation(){if(!state.messages.length)return;state.history.unshift({id:Date.now(),title:(state.messages.find(m=>m.role==='user')?.text||dialogText('Conversație nouă','New conversation')).slice(0,72),date:new Date().toLocaleString(),messages:state.messages.slice(-40),placeContext:state.placeSearchContext||null,placeResults:state.lastPlaceResults||[],distanceContext:state.distanceSearchContext||null,routeContext:state.routeSearchContext||null,weatherContext:state.weatherSearchContext||null,newsContext:state.newsConversationContext||null});state.history=state.history.slice(0,30);saveHistory()}
+function archiveCurrentConversation(){if(!state.messages.length)return;state.history.unshift({id:Date.now(),title:(state.messages.find(m=>m.role==='user')?.text||dialogText('Conversație nouă','New conversation')).slice(0,72),date:new Date().toLocaleString(),messages:state.messages.slice(-40),placeContext:state.placeSearchContext||null,placeResults:state.lastPlaceResults||[],distanceContext:state.distanceSearchContext||null,routeContext:state.routeSearchContext||null,weatherContext:state.weatherSearchContext||null,newsContext:state.newsConversationContext||null});state.history=state.history.slice(0,POCKET_HISTORY_MAX);saveHistory()}
 function renderHistory(){const list=$('historyList');list.innerHTML='';if(!state.history.length){const p=document.createElement('p');p.className='muted';p.textContent=dialogText('Nu există conversații salvate încă.','No saved conversations yet.');list.append(p);return}state.history.forEach(item=>{const row=document.createElement('div');row.className='list-row';const span=document.createElement('span');span.textContent=item.title+' · '+item.date;const btn=document.createElement('button');btn.textContent=dialogText('Deschide','Open');btn.addEventListener('click',()=>{state.messages=Array.isArray(item.messages)?item.messages.slice():[];state.placeSearchContext=item.placeContext||null;state.lastPlaceResults=Array.isArray(item.placeResults)?item.placeResults:[];state.distanceSearchContext=item.distanceContext||null;state.routeSearchContext=item.routeContext||null;state.weatherSearchContext=item.weatherContext||null;state.newsConversationContext=item.newsContext||null;state.lastRoute=null;state.lastRouteOptions=[];messagesEl.innerHTML='';if(!state.messages.length)messagesEl.innerHTML='<div class="empty-state">Conversație goală.</div>';state.messages.forEach(m=>addBubble(m.text,m.role));state.lastReply=[...state.messages].reverse().find(m=>m.role==='assistant')?.text||'';showView('assistant')});row.append(span,btn);list.append(row)})}
 // Pocket AI floating 3D avatar
 const avatar3dFrame=$('avatar3dFrame');
@@ -19123,21 +19196,22 @@ function requestedTransitCountInMessage(value){
  const words={unu:1,una:1,un:1,o:1,one:1,doi:2,doua:2,two:2,trei:3,three:3,patru:4,four:4};
  return Number(found[1])||words[found[1]]||null;
 }
-async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;if(state.currentView==='module'&&state.currentModule==='learning'&&activeLearningSubject){const topic=learningLabel(activeLearningSubject[2],activeLearningSubject[3]);message=(state.language==='ro'?'Materia: ':'Subject: ')+topic+'. '+message;}if(state.currentView==='assistant'&&isEvaExitCommandClient(message)){addBubble(message,'user');state.messages.push({role:'user',text:message});state.messages=state.messages.slice(-40);inputEl.value='';setStatus(dialogText('Confirmă închiderea aplicației.','Confirm closing the app.'));pocketExitPrompt();return;}if(isEvaConversationClient(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isRecipeQuestion(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isCasualConversationReply(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;}if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;const chosenRegion=state.lastEncyclopediaArticle?.is_region===true&&state.lastEncyclopediaArticle.title===country;const searchArea=chosenRegion?country+', '+(state.lastEncyclopediaArticle.parent_country||''):country;state.tripCountryOnChoice=searchArea;message=(dialogText("Vreau să ajung la ","I want to get to "))+message+', '+searchArea;state.travelAccommodationIntent=false;state.lastEncyclopediaTripQuery=message;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
+async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;if(state.currentView==='module'&&state.currentModule==='learning'&&activeLearningSubject){const topic=learningLabel(activeLearningSubject[2],activeLearningSubject[3]);message=(state.language==='ro'?'Materia: ':'Subject: ')+topic+'. '+message;}if(state.currentView==='assistant'&&isEvaExitCommandClient(message)){addBubble(message,'user');state.messages.push({role:'user',text:message});state.messages=state.messages.slice(-40);saveActiveHistory();inputEl.value='';setStatus(dialogText('Confirmă închiderea aplicației.','Confirm closing the app.'));pocketExitPrompt();return;}if(isEvaConversationClient(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isRecipeQuestion(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isCasualConversationReply(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;}if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;const chosenRegion=state.lastEncyclopediaArticle?.is_region===true&&state.lastEncyclopediaArticle.title===country;const searchArea=chosenRegion?country+', '+(state.lastEncyclopediaArticle.parent_country||''):country;state.tripCountryOnChoice=searchArea;message=(dialogText("Vreau să ajung la ","I want to get to "))+message+', '+searchArea;state.travelAccommodationIntent=false;state.lastEncyclopediaTripQuery=message;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
 // Search actual saved conversations locally before the general AI/geography
 // pipeline. Only a direct, explicit history request can read this archive.
 if(state.currentView==='assistant'){
  const matches=pocketRecallPreviousChat(message);
- if(matches.length){
+ if(pocketHistoryRequest(message)){
   const reply=pocketLocalHistoryReply(matches);
   addBubble(message,'user');
   state.messages.push({role:'user',text:message});
   addBubble(reply,'assistant');
   state.messages.push({role:'assistant',text:reply});
-  state.messages=state.messages.slice(-40);
+  state.messages=state.messages.slice(-40);saveActiveHistory();
   state.lastReply=reply;
+  saveActiveHistory();
   inputEl.value='';
-  setStatus(dialogText('Răspuns din conversațiile salvate.','Answer from saved conversations.'));
+  setStatus(dialogText('Istoricul local a fost verificat.','Local history checked.'));
   if(state.voiceMode||fromVoice)speakText(reply,{continuous:state.voiceMode});
   return;
  }
@@ -19165,7 +19239,7 @@ if(offered?.needs_travel_confirmation&&context?.pending==='profile'&&context?.de
    const reply=dialogText("În regulă. Nu pornesc traseul.","Okay. I won’t start directions.");
    addBubble(reply,'assistant');state.messages.push({role:'assistant',text:reply});state.lastReply=reply;
   }
-  state.messages=state.messages.slice(-40);setStatus('Răspuns primit.');return;
+  state.messages=state.messages.slice(-40);saveActiveHistory();setStatus('Răspuns primit.');return;
  }
 }
 state.pendingTravelConfirmationData=null;
@@ -19194,12 +19268,12 @@ if(routeLoadingRequested&&routeLoadingProfile!=='transit'&&validMapRoute(data.ro
  state.lastRouteOptions=routes.length?routes:[data.route];
  state.lastRoute=data.route;state.lastRouteReply=reply;
  if(routeDestination?.approximation)routeApproximationNotices.set(data.route,routeDestination.approximation);
- state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);
+ state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);saveActiveHistory();
  showDedicatedRouteResults(data.route,state.lastRouteOptions);
  setStatus(dialogText('Trasee găsite.','Routes found.'));
  return;
 }
-if(routePickerFromPlace){state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);showDedicatedRouteIssue(reply);setStatus(dialogText('Traseu indisponibil.','Route unavailable.'));return;}
+if(routePickerFromPlace){state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);saveActiveHistory();showDedicatedRouteIssue(reply);setStatus(dialogText('Traseu indisponibil.','Route unavailable.'));return;}
 const weatherSummary=reply;const answerBubble=addBubble(weatherSummary,'assistant',false,{autoOpen:!(data.needs_travel_mode||data.needs_destination_clarification||data.needs_location_clarification||data.weather_ok)});if(data.weather_ok&&data.weather){const weather=data.weather,host=document.createElement('div'),narrative=document.createElement('div'),toggle=document.createElement('button'),hourly=document.createElement('div'),grid=document.createElement('div');host.style.cssText='display:flex;flex-direction:column;gap:12px';narrative.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55';narrative.textContent=weatherSummary;toggle.type='button';toggle.className='transit-choice-action';toggle.style.cssText='min-height:52px;touch-action:manipulation;cursor:pointer;text-align:center';toggle.textContent=dialogText('🌦️ Vezi prognoza pe ore','🌦️ View hourly forecast');hourly.hidden=true;hourly.style.cssText='max-height:55vh;overflow-y:auto';const location=document.createElement('p');location.textContent=String(weather.location||'')+' · '+String(weather.date||'')+' ('+String(weather.timezone||'')+')';hourly.append(location);grid.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px';const icon=code=>code===0?'☀️':code<=3?'⛅':code===45||code===48?'🌫️':code>=51&&code<=67?'🌧️':code>=71&&code<=77?'❄️':code>=80&&code<=82?'🌦️':code>=95?'⛈️':'☁️';for(const h of weather.hourly||[]){const cell=document.createElement('div'),label=document.createElement('div'),precip=document.createElement('div');cell.style.cssText='border:1px solid #53798b;border-radius:10px;padding:10px;text-align:center';label.textContent=h.time+' '+icon(h.weather_code)+' '+Math.round(h.temperature)+'°C';precip.textContent='💧 '+(h.precipitation_probability??'—')+'% · '+(h.precipitation_mm??'—')+' mm';cell.append(label,precip);grid.append(cell)}hourly.append(grid);toggle.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();const opening=hourly.hidden;hourly.hidden=!opening;narrative.hidden=opening;toggle.textContent=opening?dialogText('← Înapoi la rezumat','← Back to summary'):dialogText('🌦️ Vezi prognoza pe ore','🌦️ View hourly forecast');const body=host.closest('.answer-reader-body');if(body)body.scrollTop=0});host.append(narrative,toggle,hourly);answerBubble.remove();openStandaloneChoicePanel(host,dialogText('Prognoză meteo','Weather forecast'),{keepOpen:true});}if(data.weather_choices?.length){answerBubble.remove();openPocketSelectionPanel(data.weather_choices,dialogText('Alege localitatea pentru prognoză','Choose a forecast location'),option=>{closeLongChoice();inputEl.value=String(option.number);submitMessage()})}showAnswerDuration(answerBubble,clientRequestStartedAt);if(routeDestination?.approximation&&validMapRoute(data.route))routeApproximationNotices.set(data.route,routeDestination.approximation);retainRouteResult(data,answerBubble);
  appendOfficialUKJourneySources(data,answerBubble);
  if(Array.isArray(data.transit)&&data.transit.length&&state.navigationReturnContext){answerBubble.remove();showTransitChoices(data.transit)}else appendTransitChoiceAction(data,answerBubble);
@@ -19234,7 +19308,7 @@ const weatherSummary=reply;const answerBubble=addBubble(weatherSummary,'assistan
   const choicesAdded=Boolean((countryNeedsSelection?false:appendTravelModeChoices(data,choiceHost))|appendConversationChoices(data,choiceHost));
   if(choicesAdded&&choiceHost.querySelector('button')){answerBubble.remove();openStandaloneChoicePanel(choiceHost,dialogText("Alege o opțiune","Choose an option"))}
   else{appendTravelConfirmation(data,answerBubble)}
- }else{appendTravelModeChoices(data,answerBubble);appendTravelConfirmation(data,answerBubble);appendConversationChoices(data,answerBubble)}state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);setStatus('Răspuns primit.');if(state.voiceMode||fromVoice){speakText(reply,{continuous:state.voiceMode})}else if(state.messages.length===2){/* first reply only: text remains the default */}}catch(error){loading.remove();console.warn('Pocket AI request failed timing',{total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:typeof gpsElapsedMs==='number'?gpsElapsedMs:null,api_elapsed_ms:typeof backendRequestStartedAt==='number'?Math.round(performance.now()-backendRequestStartedAt):null,stage:typeof backendRequestStartedAt==='number'?'api_or_read':'gps_or_preflight'});if(generation===state.conversationGeneration&&(state.currentView==='assistant'||state.currentView==='module')){const messageText=String(error?.message||'Eroare necunoscută.');
+ }else{appendTravelModeChoices(data,answerBubble);appendTravelConfirmation(data,answerBubble);appendConversationChoices(data,answerBubble)}state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);saveActiveHistory();setStatus('Răspuns primit.');if(state.voiceMode||fromVoice){speakText(reply,{continuous:state.voiceMode})}else if(state.messages.length===2){/* first reply only: text remains the default */}}catch(error){loading.remove();console.warn('Pocket AI request failed timing',{total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:typeof gpsElapsedMs==='number'?gpsElapsedMs:null,api_elapsed_ms:typeof backendRequestStartedAt==='number'?Math.round(performance.now()-backendRequestStartedAt):null,stage:typeof backendRequestStartedAt==='number'?'api_or_read':'gps_or_preflight'});if(generation===state.conversationGeneration&&(state.currentView==='assistant'||state.currentView==='module')){const messageText=String(error?.message||'Eroare necunoscută.');
   const transportError=/failed to fetch|networkerror|network request failed|load failed/i.test(messageText);
   const reason=error?.code==='AI_QUOTA_EXCEEDED'?messageText:transportError
    ? (dialogText("Conexiunea cu serverul a fost întreruptă. Răspunsul nu a ajuns la aplicație.","The connection to the server was interrupted. The reply did not reach the app."))
@@ -19249,7 +19323,7 @@ const weatherSummary=reply;const answerBubble=addBubble(weatherSummary,'assistan
   }
   if(routePickerFromPlace)showDedicatedRouteIssue(reason);
   setStatus(dialogText("Cererea nu a reușit.","Request failed."));
-  console.error('myPocket AI chat request failed:',{type:String(error?.name||'Error'),networkError:transportError,detail:messageText.slice(0,160)})}}finally{if(routeLoadingRequested)requestAnimationFrame(finishRouteSearchLoading);state.busy=false;sendBtn.disabled=false;inputEl.disabled=false;/* Do not reopen Android keyboard after button-only flows. Text entry gets focus only on an explicit tap. */inputEl.blur()}}
+  console.error('myPocket AI chat request failed:',{type:String(error?.name||'Error'),networkError:transportError,detail:messageText.slice(0,160)})}}finally{saveActiveHistory();if(routeLoadingRequested)requestAnimationFrame(finishRouteSearchLoading);state.busy=false;sendBtn.disabled=false;inputEl.disabled=false;/* Do not reopen Android keyboard after button-only flows. Text entry gets focus only on an explicit tap. */inputEl.blur()}}
 $('chatForm').addEventListener('submit',event=>{event.preventDefault();submitMessage()});inputEl.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();$('chatForm').requestSubmit()}});inputEl.addEventListener('input',()=>{inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,130)+'px'});
 $('newChatBtn').addEventListener('click',()=>{if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}archiveCurrentConversation();resetChat();void 0});
 // 08 — Navigation and module entry points; v1.0.24 quick searches stay inside the selected module
@@ -19264,7 +19338,7 @@ pocketVoiceHelp('assistant',document.querySelector('#view-assistant .section-tit
 $('clearHistoryBtn').addEventListener('click',()=>{
  if(!state.history.length){notify('Istoricul este deja gol.');return}
  pocketConfirm(learningLabel('Ștergi toate conversațiile salvate pe acest dispozitiv?','Delete all conversations saved on this device?'),()=>{
-  state.history=[];try{localStorage.removeItem(HISTORY_KEY)}catch{}renderHistory();notify(learningLabel('Istoricul local a fost șters.','Local history deleted.'));
+  state.history=[];try{localStorage.removeItem(HISTORY_KEY);localStorage.removeItem(ACTIVE_HISTORY_KEY)}catch{}renderHistory();notify(learningLabel('Istoricul local a fost șters.','Local history deleted.'));
  });
 });
 const UI_TEXT={
