@@ -108,7 +108,13 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
   const text=String(material||'').trim().slice(0,72000);
   if(!text)return;
   litEnsureTypography();renderStudyBlocks(out,text);
-  if(typeof onReady==='function')onReady(text);
+  if(typeof onReady==='function'){
+   try{onReady(text)}catch(readerError){
+    // Reader/popup errors never invalidate the already rendered study material.
+    if(typeof console!=='undefined')console.warn('literature_reader_unavailable',
+     String(readerError?.message||readerError));
+   }
+  }
   status.textContent=local?
    litSimpleLabel('Material local disponibil. Funcționează fără AI și fără localizare.',
     'Local study material is available without AI or location.'):
