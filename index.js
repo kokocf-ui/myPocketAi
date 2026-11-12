@@ -3388,6 +3388,19 @@ main.page:has(#view-module.my-documents-active.active){
 #view-module.my-documents-active .my-documents-list>.my-documents-row{
  flex:0 0 auto!important;min-width:0!important
 }
+/* Approved pedestrian shortcut only: preserve a gap after the input and use
+   the existing burgundy action palette; no other search buttons are affected. */
+#moduleQuickLayer.open .module-quick-body > button.pocket-walk-route-submit{
+ display:block!important;width:100%!important;box-sizing:border-box!important;
+ margin:22px 0 0!important;padding:15px 16px!important;
+ background:linear-gradient(145deg,#913653,#63213c)!important;
+ border:1.5px solid #eab3c1!important;color:#fff!important;
+ border-radius:20px!important;font-weight:800!important;
+}
+#moduleQuickLayer.open .module-quick-body > input.pocket-walk-destination-input{
+ display:block!important;width:100%!important;box-sizing:border-box!important;
+ margin-bottom:0!important;
+}
 </style>
 <section class="view" id="view-module"><div class="module-actions-row"><button class="back-btn module-home-btn" data-back>← Acasă</button></div><div class="module-heading-row"><h2 class="section-title" id="moduleTitle">Instrument</h2></div><p class="section-lead" id="moduleLead"></p><div id="moduleContent"></div><div id="moduleChatHost"></div><button class="primary-btn" id="askModuleBtn" style="display:none">Întreabă asistentul AI</button></section>
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
@@ -3700,11 +3713,11 @@ function returnToNavigationSource(){
 function showNavigationReturn(){
  document.getElementById('returnToSearchSource')?.remove();
  if(!state.navigationReturnContext)return;
- // The content grid is hidden while routing, but the heading remains visible.
- const host=$('view-module')?.querySelector('.module-heading-row');if(!host)return;
- const back=document.createElement('button');back.id='returnToSearchSource';back.type='button';back.className='transit-choice-action';
+ // Return belongs opposite Acasă, not next to the module title.
+ const host=$('view-module')?.querySelector('.module-actions-row');if(!host)return;
+ const back=document.createElement('button');back.id='returnToSearchSource';back.type='button';back.className='transit-choice-action pocket-nav-return';
  back.textContent=dialogText("Revenire","Return");
- back.style.cssText='width:auto;flex:0 0 auto;min-width:88px;min-height:38px;margin:0;padding:7px 9px;font-size:13px';
+ back.style.cssText='width:auto;flex:0 0 auto;min-width:112px;min-height:50px;margin:0;padding:9px 14px;font-size:clamp(14px,3.6vw,17px)';
  back.onclick=()=>returnToNavigationSource();host.append(back);
 }
 function enterModuleRouteConversation(){
@@ -16528,11 +16541,11 @@ function showWalkingQuickDestination(choice){
  const label=document.createElement('label');
  label.textContent=dialogText('Unde vrei să ajungi?','Where would you like to walk to?');
  label.style.cssText='display:block;font-weight:700;margin:12px 0';
- const field=document.createElement('input');field.type='text';
+ const field=document.createElement('input');field.type='text';field.className='pocket-walk-destination-input';
  field.placeholder=dialogText('Destinație, adresă sau cod poștal','Destination, address or postcode');
  field.setAttribute('aria-label',label.textContent);
  field.style.cssText='width:100%;padding:13px;border-radius:12px;background:#102d40;color:white;border:1px solid #5ecbd9';
- const go=document.createElement('button');go.type='button';go.className='module-result-card';
+ const go=document.createElement('button');go.type='button';go.className='module-result-card pocket-walk-route-submit';
  go.textContent=dialogText('Calculează traseul pietonal','Find walking route');
  go.onclick=()=>{
   if(state.busy)return;
