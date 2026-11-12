@@ -8,7 +8,7 @@ export function parseStudyBlocks(raw){
  const labels=/^(?:introducere|defini(?:ții|tii)|subiecte principale|teorie|exemple?|exerci(?:ții|tii)|recapitulare|concluzii?|rezumat|lectura|context|bibliografie|introduction|definitions?|examples?|exercises?|summary|conclusions?|practice|wprowadzenie|einleitung|beispiele|zusammenfassung|giriş|tanımlar|örnekler)\s*:?$/iu;
  for(let i=0;i<lines.length;i++){
   const line=lines[i].trim();
-  if(!line){flush();letter=0;continue}
+  if(!line){flush();continue}
   if(rules.test(line)){flush();letter=0;blocks.push({type:'rule'});continue}
   const md=line.match(/^#{1,4}\s+(.+)$/);
   const next=lines[i+1]?.trim()||'';
@@ -29,6 +29,7 @@ export function parseStudyBlocks(raw){
    blocks.push({type:'item',marker,text:body});
    continue;
   }
+  if(!paragraph.length)letter=0;
   paragraph.push(line);
  }
  flush();
