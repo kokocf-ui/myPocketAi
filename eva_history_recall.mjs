@@ -3,18 +3,26 @@
 // claim archived chats have been searched when only recent turns are present.
 const fold=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
  .toLowerCase().replace(/[^a-z0-9\p{L}]+/gu,' ').replace(/\s+/g,' ').trim();
-const stop=new Set('eva te rog sa mi imi ce care cand unde cum am ai ne noi nostru noastra noastre despre din intre si in la pe pentru mai oare acea acela acel astea acele acolo the did what when where which about from that this please find search history conversation previous earlier'.split(' '));
+const stop=new Set(('eva te rog sa mi imi ce care cand unde cum am ai ne noi nostru noastra noastre despre din intre si in la pe pentru mai oare acea acela acel astea acele acolo the did what when where which about from that this please find search history conversation previous earlier '+
+ 'cauta cauti cautare gaseste gasesti verifica uitate uita anterior anteriori anterioare recomandari recomandat recomandatmi recomandariile mentionat mentionate mi ai dat ai dat prefer vreau vrei prefera preferat preferinte '+
+ 'istoric istoricul istorice conversatie conversatia conversatiile conversatiilor conversatiilor noastre discutie discutia discutiile discutiilor mesaje mesajele mesajelor am discutat am vorbit spus spune zis zisese '+
+ 'our chat chats past earlier previous recommendations recommended told before show remember previously').split(' '));
 function requestTerms(value){
- return [...new Set(fold(value).split(' ').filter(x=>x.length>=3&&!stop.has(x)
-  &&!/^(istoric|conversati[ei]|discuti[ei]|vorbit|spus|scris|intrebat|caut|gasest|saptaman|trecut|yesterday|today|mesaj|remember|recall)$/.test(x)))];
+ const t=fold(value)
+  .replace(/\\b(?:my pocket ai|mypocket ai)\\b/g,' ')
+  .replace(/\\b(?:ce recomandari mi ai dat|what did you recommend|cum prefer sa calatoresc|ce zona vreau|ce mi ai spus|do you remember|uita te in|uitate in)\\b/g,' ');
+ return [...new Set(t.split(' ').filter(x=>x.length>=3&&!stop.has(x)
+  &&!/^(istoric|conversati|discuti|vorbit|spus|scris|intrebat|caut|gasest|saptaman|trecut|yesterday|today|mesaj|remember|recall|recomand|anterior|mention|prefer)/.test(x)))];
 }
 export function historyRecallIntent(text){
  const t=fold(text);
- // Avoid catching normal research requests mentioning historical events.
- return /\b(?:cauta|cauti|gaseste|gasesti|verifica|cautare|search|find|look up)\b.{0,55}\b(?:istoric|conversati|discuti|mesaj|history|chat|previous conversation)/.test(t)
-  ||/\b(?:in|din|from)\s+(?:istoric|conversatiile noastre|discutiile noastre|our chat history|our previous conversations)\b/.test(t)
-  ||/\b(?:cand|ce|care|unde|what|when)\b.{0,75}\b(?:am discutat|am vorbit|mi ai recomandat|mi ai spus|we discussed|we talked about|you recommended)\b/.test(t)
-  ||/^(?:iti amintesti|mai tii minte|do you remember)\b.{8,}/.test(t);
+ // Prioritize explicit look-backs over generic research, place and route intents.
+ return /\\b(?:cauta|cauti|gaseste|gasesti|verifica|cautare|search|find|look up|uita te|uitate|rasfoieste|consulta)\\b.{0,85}\\b(?:istoric|conversati|discuti|mesaj|history|chat|previous conversation)/.test(t)
+  ||/\\b(?:in|din|from)\\s+(?:istoric|conversati|discuti|our chat history|our previous conversation)/.test(t)
+  ||/\\b(?:cand|ce|care|unde|what|when)\\b.{0,95}\\b(?:am discutat|am vorbit|mi ai recomandat|mi ai spus|mi ai dat anterior|we discussed|we talked about|you recommended)/.test(t)
+  ||/\\b(?:recomandari|recomandarea|recomandat|spus|discutat|vorbit|mentionat)\\b.{0,55}\\b(?:anterior|inainte|mai devreme|data trecuta|previously|earlier|before)/.test(t)
+  ||/\\b(?:anterior|inainte|mai devreme|data trecuta|previously|earlier|before)\\b.{0,65}\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat|recommended|discussed|told)/.test(t)
+  ||/^(?:iti amintesti|mai tii minte|tii minte|do you remember|what did you recommend)\\b/.test(t);
 }
 export function recallFromSuppliedHistory(message,history,{language='ro'}={}){
  if(!historyRecallIntent(message))return null;
