@@ -3367,12 +3367,12 @@ export default {
         const unqualifiedStation=/\b(station|underground|tube|metro|railway)\b/i.test(requestedStationName)&&! /\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|paris|france|berlin|germany|rome|italy|madrid|spain|canada|australia)\b/i.test(requestedStationName);
         const undergroundModeRequested=/\b(?:underground|tube|metro)\b/i.test(requestedStationName);
         const victoriaTubeQuery=/^(?:(?:london|londra)\s+)?victoria\s+(?:underground|tube|metro)(?:\s+station)?$/i.test(requestedStationName.trim());
-        if(env.TFL_APP_KEY && tryVerifiedStation){
+        if((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') && tryVerifiedStation){
           try{
             const stopQuery=targetName.replace(/\b(london|londra|underground|railway|rail|train|station|tube)\b/gi," ").replace(/[,\s]+/g," ").trim();
             if(stopQuery.length>=3){
               const stopUrl=new URL("https://api.tfl.gov.uk/StopPoint/Search/"+encodeURIComponent(stopQuery));
-              stopUrl.searchParams.set("app_key",env.TFL_APP_KEY);
+              if(env.TFL_APP_KEY)stopUrl.searchParams.set("app_key",env.TFL_APP_KEY);
               stopUrl.searchParams.set("includeHubs","true");
               const sr=await fetch(stopUrl.toString(),{headers:{"Accept":"application/json"},signal:AbortSignal.timeout(8000)});
               stationLookupDiagnostic.http=sr.status;
@@ -3575,8 +3575,11 @@ export default {
         if (env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') {
           try {
             // Keep coordinate commas as path delimiters; encode only free-text destinations once.
+            // TfL hub IDs such as HUBVIC can respond with HTTP 300
+            // (ambiguous station endpoints). Officially verified station
+            // coordinates are unambiguous and work with JourneyResults.
             const to = Number.isFinite(targetLat) && Number.isFinite(targetLon)
-              ? (verifiedStopId || `${targetLat},${targetLon}`)
+              ? `${targetLat},${targetLon}`
               : encodeURIComponent(targetName);
             const from = `${latitude},${longitude}`;
             // Both TfL consumers use one provider adapter.
