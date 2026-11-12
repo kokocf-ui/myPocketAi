@@ -21,8 +21,12 @@ export const EUROPE_SOURCE_CATALOG=Object.freeze({
  GB:{transport:[
   source('gb_bus_open_data','UK bus open data','https://data.bus-data.dft.gov.uk/','national','dataset'),
   source('gb_tfl','Transport for London Unified API','https://api.tfl.gov.uk/','london','api','existing_adapter'),
-  source('gb_national_rail','National Rail data','https://www.nationalrail.co.uk/','national','operator_website')
- ],general:[]},
+  source('gb_national_rail','National Rail data','https://www.nationalrail.co.uk/','national','operator_website'),
+  source('gb_transcapi_adapter','Existing UK national transit adapter','internal:uk_national_transit','national','existing_adapter')
+ ],general:[
+  source('gb_food_registry_adapter','UK food retail and takeaway evidence adapter','internal:uk_food_retailers','national','existing_adapter'),
+  source('gb_fsa_food','UK Food Standards Agency food hygiene data','https://ratings.food.gov.uk/','national','official_register')
+ ]},
  FR:{transport:[source('fr_nap','France national transport open-data access point','https://transport.data.gouv.fr/','national','nap')],general:[
   source('fr_open_data','France open data catalog','https://www.data.gouv.fr/','national','catalog')
  ]},
