@@ -49,6 +49,21 @@ public final class AvatarLaunchActivity extends Activity {
     private boolean ttsReady = false;
     private boolean startedSpeaking = false;
     private boolean avatarLipSyncStarted = false;
+    private boolean greetingFinished = false;
+    private boolean ttsPlaybackStarted = false;
+    private int silentPlaybackChecks = 0;
+    private final Runnable playbackWatchdog = new Runnable() {
+        @Override public void run() {
+            if (finishingLaunch || greetingFinished || !ttsPlaybackStarted || speech == null) return;
+            // Check real Android TTS playback, not a hardcoded sentence duration.
+            if (speech.isSpeaking()) silentPlaybackChecks = 0;
+            else if (++silentPlaybackChecks >= 2) {
+                finishGreeting();
+                return;
+            }
+            handler.postDelayed(this, 35L);
+        }
+    };
     private boolean finishingLaunch = false;
     private int voiceInitAttempts = 0;
     private static final int ONBOARDING_PERMISSIONS_REQUEST=4832;
@@ -137,11 +152,17 @@ public final class AvatarLaunchActivity extends Activity {
             }
             @Override public void onStart(String utteranceId) {
                 if (UTTERANCE_ID.equals(utteranceId))
-                    runOnUiThread(AvatarLaunchActivity.this::startAvatarLipSyncOnce);
+                    runOnUiThread(() -> {
+                        startAvatarLipSyncOnce();
+                        startPlaybackWatchdog();
+                    });
             }
             @Override public void onRangeStart(String utteranceId, int start, int end, int frame) {
                 if (UTTERANCE_ID.equals(utteranceId))
-                    runOnUiThread(() -> sendToAvatar("window.pocketLaunchBoundary && window.pocketLaunchBoundary(" + start + ");"));
+                    runOnUiThread(() -> {
+                        if (!greetingFinished && !finishingLaunch)
+                            sendToAvatar("window.pocketLaunchBoundary && window.pocketLaunchBoundary(" + start + ");");
+                    });
             }
             @Override public void onDone(String utteranceId) {
                 if (UTTERANCE_ID.equals(utteranceId))
@@ -681,6 +702,9 @@ public final class AvatarLaunchActivity extends Activity {
         }
         startedSpeaking = true;
         avatarLipSyncStarted = false;
+        greetingFinished = false;
+        ttsPlaybackStarted = false;
+        silentPlaybackChecks = 0;
         int support=speech.setLanguage(Locale.forLanguageTag(speechTagForLanguage(launchLanguage)));
         if(support==TextToSpeech.LANG_MISSING_DATA || support==TextToSpeech.LANG_NOT_SUPPORTED){
             launchLanguage="en";
@@ -702,14 +726,26 @@ public final class AvatarLaunchActivity extends Activity {
     }
 
     private void startAvatarLipSyncOnce() {
-        if (finishingLaunch || avatarLipSyncStarted || !modelReady) return;
+        if (finishingLaunch || greetingFinished || avatarLipSyncStarted || !modelReady) return;
         avatarLipSyncStarted = true;
         sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(true,"
             + org.json.JSONObject.quote(spokenGreeting) + ");");
     }
 
+    private void startPlaybackWatchdog() {
+        if (ttsPlaybackStarted || greetingFinished || finishingLaunch) return;
+        ttsPlaybackStarted = true;
+        silentPlaybackChecks = 0;
+        handler.removeCallbacks(playbackWatchdog);
+        handler.postDelayed(playbackWatchdog, 35L);
+    }
+
     private void finishGreeting(){
-        if(finishingLaunch)return;
+        if(finishingLaunch || greetingFinished)return;
+        greetingFinished = true;
+        handler.removeCallbacks(playbackWatchdog);
+        // End-of-utterance and real playback status are both authoritative:
+        // whichever confirms completion first closes the mouth exactly once.
         sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(false);");
         handler.postDelayed(AvatarLaunchActivity.this::openMain, 480L);
     }
