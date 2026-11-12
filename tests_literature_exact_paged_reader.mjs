@@ -16,7 +16,7 @@ new vm.Script(LITERATURE_TASK_UI_SCRIPT,{filename:'literature-reader-ui.js'});
 class El{
  constructor(tag='div'){
   this.tagName=tag.toUpperCase();this.children=[];this._text='';this.value='';
-  this.attrs={};this.style={};this.hidden=false;this.isConnected=true;this.disabled=false;
+  this.attrs={};this.style={};this.classList={add:()=>{}};this.hidden=false;this.isConnected=true;this.disabled=false;
  }
  get textContent(){return this._text+this.children.map(x=>x.textContent||'').join('')}
  set textContent(value){this._text=String(value);this.children=[]}
