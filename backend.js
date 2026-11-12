@@ -4343,6 +4343,7 @@ export default {
       { key: "furniture", pattern: /(?:^| )(?:mobilier|mobila|magazine de mobila|furniture|sofa stores?|mattress stores?)(?: |$)/, labelRo: "mobilier", labelEn: "furniture", overpass: 'shop~"^(furniture|bed|bedroom|kitchen|bathroom_furnishing)$"' },
       { key: "diy_garden", pattern: /(?:^| )(?:bricolaj|gradinarit|gradina|diy|hardware stores?|garden cent(?:er|re)s?|building materials)(?: |$)/, labelRo: "bricolaj și grădinărit", labelEn: "DIY and gardening", overpass: 'shop~"^(doityourself|hardware|trade|building_materials|garden_centre|agrarian)$"' },
       { key: "pharmacy", pattern: /(?:^| )(?:farmaci\w*|pharmacy|pharmacies|chemist\w*|drugstore\w*|drogheri\w*|naturist\w*)(?: |$)/, labelRo: "farmacie", labelEn: "pharmacy", overpass: 'amenity~"^(pharmacy)$"' },
+      { key: "car_dealers", pattern: /(?:^| )(?:parcuri auto|parc auto|dealeri auto|dealer auto|reprezentante auto|vanzari auto|car dealerships?|car dealers?|car sales|auto dealers?|car showrooms?)(?: |$)/, labelRo: "parcuri și dealeri auto", labelEn: "car dealerships", overpass: 'shop~"^(car|car_dealer|car_sales|motor_vehicle)$"' },
       { key: "fuel", pattern: /(?:^| )(?:benzinar\w*|benzinarii|fuel station\w*|petrol station\w*|gas station\w*|petrol pump\w*)(?: |$)/, labelRo: "benzinărie", labelEn: "fuel station", overpass: 'amenity="fuel"' },
       { key: "charging", pattern: /(?:^| )(?:charging station\w*|electric vehicle charging|ev charger\w*|incarcare electrica|statii de incarcare|statie de incarcare)(?: |$)/, labelRo: "stație de încărcare electrică", labelEn: "EV charging station", overpass: 'amenity="charging_station"' },
       { key: "parking", pattern: /(?:^| )(?:parcar\w*|parking\w*|car park\w*|parking lot\w*)(?: |$)/, labelRo: "parcare", labelEn: "parking", overpass: 'amenity="parking"' },
@@ -5447,7 +5448,8 @@ export default {
               shopping_fashion: "commercial.shopping_mall,commercial.department_store,commercial.clothing,commercial.bag",
               beauty_services: "service.beauty",
               home_goods: "commercial.houseware_and_hardware,commercial.furniture_and_interior.curtain,commercial.furniture_and_interior.carpet",
-              appliances: "commercial.elektronics",
+              appliances: "commercial.elektronics,commercial.department_store",
+              car_dealers: "commercial.vehicle",
               furniture: "commercial.furniture_and_interior",
               diy_garden: "commercial.houseware_and_hardware,commercial.garden",
               mall: "commercial.shopping_mall",
@@ -5535,8 +5537,18 @@ export default {
                 shopping_fashion: /shopping_mall|department_store|commercial\.clothing|commercial\.bag/.test(cats) || /^(mall|department_store|clothes|shoes|fashion_accessories|bag|jewelry|jewellery)$/.test(String(raw.shop||"")),
                 beauty_services: /service\.beauty/.test(cats) || /^(hairdresser|barber|beauty|massage|spa|nail_salon|cosmetics|tattoo)$/.test(String(raw.shop||"")),
                 home_goods: /^(houseware|homeware|kitchenware|interior_decoration|bedlinen|curtain|carpet|lighting)$/.test(String(raw.shop||"")) || /commercial\.furniture_and_interior\.(curtain|carpet|lighting)/.test(cats) || (/commercial\.houseware_and_hardware/.test(cats) && !/commercial\.houseware_and_hardware\.building_materials/.test(cats) && !/^(hardware|doityourself|building_materials|garden_centre)$/.test(String(raw.shop||""))),
-                appliances: /commercial\.elektronics/.test(cats) || /^(appliance|electronics|electrical)$/.test(String(raw.shop||"")),
+                appliances: (() => {
+                  const shop=String(raw.shop||raw.tags?.shop||"").toLowerCase();
+                  const name=String(props.name||"");
+                  const phones=/\b(?:vodafone|o2|three|ee|t-mobile|telekom|orange|verizon|at&t|telstra|telefonica|phone|mobile|telecom|cellular|smartphone|accessories|repair|ismash)\b/i;
+                  if(/^(mobile_phone|phone|telecommunication|telecom|phone_repair)$/.test(shop)||phones.test(name))return false;
+                  return /^(appliance|electrical|electronics|white_goods)$/.test(shop)
+                    || (/commercial\.elektronics/.test(cats)&&!shop)
+                    || (/commercial\.department_store/.test(cats)&&/^(department_store|general|wholesale)$/.test(shop))
+                    || (/commercial\.department_store/.test(cats)&&/\b(?:costco|currys|argos|john lewis|media markt|mediamarkt|best buy|euronics)\b/i.test(name));
+                })(),
                 furniture: /commercial\.furniture_and_interior/.test(cats) || /^(furniture|bed|bedroom|kitchen|bathroom_furnishing)$/.test(String(raw.shop||"")),
+                car_dealers: /^(car|car_dealer|car_sales|motor_vehicle)$/.test(String(raw.shop||raw.tags?.shop||"")) || (/commercial\.vehicle/.test(cats)&&/\b(?:car|cars|auto|automobile|motors|dealership|showroom|reprezentant|masini|mașini)\b/i.test(String(props.name||""))),
                 diy_garden: /commercial\.garden|commercial\.houseware_and_hardware\.building_materials/.test(cats) || /^(doityourself|hardware|trade|building_materials|garden_centre|agrarian)$/.test(String(raw.shop||"")),
                 mall: /shopping_mall|department_store/.test(cats) || /^(mall|department_store)$/.test(String(raw.shop || "")),
                 shop: /commercial|shop/.test(cats) || Boolean(raw.shop),
@@ -5642,12 +5654,17 @@ export default {
                     furniture:/furniture|bed|bedroom|bathroom_furnishing/,
                     diy_garden:/doityourself|hardware|building_materials|garden_centre|agrarian/
                   })[requestedPlaceCategory.key].test(photonType)
+                : requestedPlaceCategory.key === "car_dealers"
+                  ? /(?:shop\s+car|shop\s+car_dealer|shop\s+car_sales|shop\s+motor_vehicle|car_dealer|car_sales|dealership|car showroom)/.test(photonType)
                 : requestedPlaceCategory.key === "mall"
                   ? /mall|shopping.?centre|shopping.?center|retail.?park|department.?store/.test(photonType) || /shopping centre|shopping center|mall|retail park/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "corner_shop"
                   ? /convenience|grocery|general|greengrocer|newsagent|kiosk|deli|butcher|food/.test(photonType)
                 : requestedPlaceCategory.key === "supermarket"
                   ? /supermarket|convenience|grocery|general|greengrocer/.test(photonType) || /supermarket|tesco|morrisons|sainsbury|aldi|lidl|asda|co.?op|waitrose/i.test(String(properties.name || ""))
+                : requestedPlaceCategory.key === "appliances"
+                  ? !/\b(vodafone|o2|three|ee|t-mobile|telekom|orange|verizon|telstra|phone|mobile|telecom|cellular|smartphone|accessories|repair|ismash)\b/i.test(String(properties.name||""))
+                    && /\b(appliance|electrical|electronics|white_goods|department_store)\b/.test(photonType)
                 : requestedPlaceCategory.key === "pharmacy"
                   ? /pharmacy|chemist|drugstore/.test(photonType) || /pharmacy|chemist|boots/i.test(String(properties.name || ""))
                 : requestedPlaceCategory.key === "shop"
@@ -5850,6 +5867,7 @@ export default {
             requestedPlaceCategory.key === "toilets" ? (lang === "en" ? "public toilet" : "toaletă publică") :
             requestedPlaceCategory.key === "hotel" ? (lang === "en" ? "hotel / hostel" : "hotel / hostel") :
             requestedPlaceCategory.key === "transport" ? (lang === "en" ? "transport stop or hub" : "stație sau nod de transport") :
+            ["shopping_fashion","beauty_services","home_goods","appliances","furniture","diy_garden","car_dealers"].includes(requestedPlaceCategory.key) ? requestedPlaceCategory.key :
             requestedPlaceCategory.key === "shop" ? (lang === "en" ? "shop" : "magazin") :
             requestedPlaceCategory.key === "confectionery" ? (lang === "en" ? "confectionery / bakery / ice cream" : "cofetărie / patiserie / gelaterie") :
             tags.amenity === "fast_food" ? (lang === "en" ? "fast food" : "fast-food") :
