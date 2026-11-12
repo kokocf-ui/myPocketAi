@@ -1,0 +1,74 @@
+// Shared classification for all nearby venue providers. Category names are
+// not inferred merely from the quick-search button that was pressed.
+const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const quickPattern=/\b(kebab|kebap|doner|d[oö]ner|shawarma|shaorma|gyro|gyros|pizza|pizzeria|pizzaria|chicken|burger|hamburger|takeaway|takeout|sandwich|wraps?|fish\s*(?:and|&)\s*chips|fried\s*chicken|chippy|falafel|souvlaki|burrito|taco|tacos|fast\s*food)\b/i;
+export function foodVenueKind({name='',amenity='',categories=[],cuisine='',businessType=''}={}){
+ const cat=(Array.isArray(categories)?categories:[]).join(' ').toLowerCase();
+ const kind=norm(amenity);
+ const register=norm(businessType);
+ if(kind==='fast_food'||/catering\.fast_food|\bfast_food\b/.test(cat)||/takeaway|sandwich shop/.test(register))return 'fast_food';
+ if(kind==='cafe'||/catering\.cafe/.test(cat))return 'cafe';
+ if(kind==='pub'||kind==='bar'||/catering\.(pub|bar|biergarten)/.test(cat))return 'other';
+ if(kind==='restaurant'||/catering\.restaurant/.test(cat)){
+  return quickPattern.test(norm(name))||/\b(fast_food|kebab|pizza|burger|chicken|sandwich)\b/.test(norm(cuisine))?'fast_food':'restaurant';
+ }
+ return 'other';
+}
+export const foodCategoryAccepts=(category,details)=>foodVenueKind(details)===category;
+
+const fold=x=>norm(x).replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+const nameTokens=x=>fold(x).split(' ').filter(x=>x&&!['and','the','&','at','of','de','la','si','restaurant','takeaway','ltd','limited'].includes(x));
+const similarNames=(a,b)=>{
+ const left=fold(a),right=fold(b);
+ if(!left||!right)return false;
+ if(left===right)return true;
+ if(left.length>=6&&right.length>=6&&(left.startsWith(right+' ')||right.startsWith(left+' ')))return true;
+ const l=nameTokens(a),r=nameTokens(b),short=l.length<=r.length?l:r,long=l.length<=r.length?r:l;
+ return short.length>=2&&short.every(t=>long.includes(t))&&long.length-short.length<=2;
+};
+const ukPostcode=address=>String(address||'').match(/\b[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}\b/i)?.[0].replace(/\s+/g,'').toUpperCase()||'';
+const streetFromAddress=text=>{
+ const v=fold(text);
+ const m=v.match(/\b(\d{1,5}[a-z]?)\s+([\p{L}0-9\s.'-]{3,65}?\b(?:road|street|lane|avenue|drive|way|close|crescent|boulevard|rd|strada|str|calle|via|rue|rua|ulica))\b/iu);
+ return m?{house:m[1],street:fold(m[2])}:null;
+};
+const addrInfo=p=>{
+ const address=String(p.address||''),joined=[p.houseNumber,p.street].filter(Boolean).join(' ');
+ const extracted=streetFromAddress(joined)||streetFromAddress(address);
+ return {postcode:ukPostcode(p.postcode||address),
+  house:extracted?.house||fold(p.houseNumber),street:extracted?.street||fold(p.street),
+  city:fold(p.city),full:fold(address)};
+};
+const addressSame=(a,b)=>{
+ const x=addrInfo(a),y=addrInfo(b);
+ if(x.house&&y.house&&x.street&&y.street&&x.house===y.house&&x.street===y.street)
+  return x.postcode&&y.postcode?x.postcode===y.postcode:(!x.city||!y.city||x.city===y.city);
+ return Boolean(x.full&&x.full===y.full&&x.full.length>=12);
+};
+const haversine=(a,b)=>{
+ const deg=Math.PI/180,dLat=(a.lat-b.lat)*deg,dLon=(a.lon-b.lon)*deg;
+ const h=Math.sin(dLat/2)**2+Math.cos(a.lat*deg)*Math.cos(b.lat*deg)*Math.sin(dLon/2)**2;
+ return 12742000*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));
+};
+export function reconcileNearbyPlaces(places){
+ const unique=[];
+ for(const place of [...places].sort((a,b)=>a.distanceMeters-b.distanceMeters)){
+  const duplicate=unique.find(other=>{
+   const d=haversine(other,place),alias=similarNames(other.name,place.name);
+   const sameAddress=addressSame(other,place);
+   const samePhone=Boolean(other.phone&&place.phone&&fold(other.phone)===fold(place.phone));
+   // Do not merge separate businesses sharing a supermarket/food-court address.
+   return (sameAddress&&d<=400&&(alias||samePhone))
+     ||(alias&&d<=85)
+     ||(alias&&sameAddress);
+  });
+  if(!duplicate){unique.push({...place});continue}
+  // Prefer the more complete trading name, but preserve the nearest mapped pin.
+  if(similarNames(duplicate.name,place.name)&&fold(place.name).length>fold(duplicate.name).length)
+   duplicate.name=place.name;
+  for(const field of ['stars','cuisine','website','imageUrl','wikidata','brandWikidata','phone','street','houseNumber','city','postcode'])
+   if(!duplicate[field]&&place[field])duplicate[field]=place[field];
+  if(String(place.address||'').length>String(duplicate.address||'').length)duplicate.address=place.address;
+ }
+ return unique.sort((a,b)=>a.distanceMeters-b.distanceMeters);
+}

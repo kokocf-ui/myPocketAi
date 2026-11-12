@@ -8,6 +8,8 @@ import {recallFromSuppliedHistory,groundedHistorySummary} from "./eva_history_re
 import {parseNearbyStreetQuery,geocodeNearbyStreet} from "./nearby_street_geocode.mjs";
 import {isStreetOnlyPlace,parseNamedBusinessInformation,researchNamedBusiness,businessResearchReply} from "./local_business_evidence.mjs";
 import {nearbyUkRegisteredRetailers,nearbyUkRegisteredTakeaways} from "./uk_food_retailers.mjs";
+import {foodCategoryAccepts,reconcileNearbyPlaces} from "./food_location_quality.mjs";
+import {nearbyOpenStreetMapFood} from "./osm_food_places.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
@@ -5518,8 +5520,8 @@ export default {
                 lounge: /catering\.(cafe|pub|bar|biergarten)/.test(cats) || /^(cafe|pub|bar|biergarten)$/.test(String(raw.amenity || "")),
                 zoo: /zoo/.test(cats) || raw.tourism === "zoo",
                 stadium: /stadium/.test(cats) || raw.leisure === "stadium",
-                restaurant: (/(^|\s)catering\.restaurant(\s|$)/.test(cats) || raw.amenity === "restaurant") && !/catering\.(cafe|pub|bar|fast_food|biergarten)/.test(cats),
-                fast_food: /catering\.fast_food/.test(cats) || raw.amenity === "fast_food" || (/catering\.restaurant/.test(cats) && /(?:kebab|shawarma|shaorma|doner|pizza|pizzeria|chicken|burger|takeaway|takeout|sandwich|wrap|fish.?and.?chips|fried.?chicken|grill)/i.test([props.name,raw.cuisine,raw.tags?.cuisine,props.catering?.cuisine].filter(Boolean).join(" "))),
+                restaurant: foodCategoryAccepts("restaurant",{name:props.name,amenity:raw.amenity,categories:props.categories,cuisine:raw.cuisine||raw.tags?.cuisine}),
+                fast_food: foodCategoryAccepts("fast_food",{name:props.name,amenity:raw.amenity,categories:props.categories,cuisine:raw.cuisine||raw.tags?.cuisine}),
                 market_bakery: /commercial\.(supermarket|convenience)|commercial\.food_and_drink\.(bakery|confectionery|grocery|greengrocer)/.test(cats) || /^(supermarket|convenience|grocery|general|greengrocer|newsagent|bakery|pastry|confectionery)$/.test(String(raw.shop || "")), confectionery: /catering\.(ice_cream|confectionery|bakery)|commercial\.food_and_drink\.(bakery|confectionery)/.test(cats) || /^(ice_cream|confectionery|bakery|pastry)$/.test(String(raw.amenity || "")) || /^(bakery|pastry|confectionery|ice_cream)$/.test(String(raw.shop || "")),
                 pub: /catering\.(pub|bar|biergarten)/.test(cats) || /^(pub|bar|biergarten)$/.test(String(raw.amenity || "")),
                 transport: /public_transport|railway\.(station|halt|tram_stop)|bus\.stop/.test(cats) || /^(station|halt|tram_stop|platform)$/.test(String(raw.railway || "")) || /^(station|stop_position|platform)$/.test(String(raw.public_transport || "")) || raw.amenity === "bus_station",
@@ -5584,7 +5586,9 @@ export default {
               const photonType = (String(properties.type || "") + " " + String(properties.osm_value || "") + " " + String(properties.osm_key || "")).toLowerCase();
               const photonRetailMatch=["shop","supermarket","corner_shop"].includes(requestedPlaceCategory.key)
                 ?retailCategoryAccepts(requestedPlaceCategory.key,{shop:properties.osm_key==="shop"?properties.osm_value:"",osmKey:properties.osm_key,name:properties.name,categories:[]}):null;
-              const photonCategoryMatches = photonRetailMatch!==null?photonRetailMatch : requestedPlaceCategory.key === "poi"
+              const photonFoodMatch=["restaurant","fast_food"].includes(requestedPlaceCategory.key)
+                ?foodCategoryAccepts(requestedPlaceCategory.key,{name:properties.name,amenity:properties.osm_key==="amenity"?properties.osm_value:"",cuisine:properties.cuisine}):null;
+              const photonCategoryMatches = photonRetailMatch!==null?photonRetailMatch : photonFoodMatch!==null?photonFoodMatch : requestedPlaceCategory.key === "poi"
                 ? Boolean(properties.name) && coordinates.length >= 2 && !/^(road|street|residential|service|path|track|footway|cycleway)$/i.test(photonType)
                 : requestedPlaceCategory.key === "mall"
                   ? /mall|shopping.?centre|shopping.?center|retail.?park|department.?store/.test(photonType) || /shopping centre|shopping center|mall|retail park/i.test(String(properties.name || ""))
@@ -5693,6 +5697,20 @@ export default {
           activeProviders.push(requestedPlaceCategory.key==="fast_food"?"UK Food Standards Agency takeaways":"UK Food Standards Agency retailers");
         }
         if (!placesData) placesData = { elements: [] };
+        // Global, optional independent food source for thin mapped areas.
+        // Avoid automatic high-volume public Overpass use when maps already
+        // provide a useful nearby set. Cached by coarse area in the adapter.
+        if(env.OSM_WORLD_FOOD_ENABLED==='true' &&
+           ['restaurant','fast_food'].includes(requestedPlaceCategory.key) &&
+           (placesData.elements||[]).length<25){
+          const osmFood=await nearbyOpenStreetMapFood({
+            latitude,longitude,radius,category:requestedPlaceCategory.key
+          });
+          if(osmFood.length){
+            placesData.elements.push(...osmFood);
+            activeProviders.push('OpenStreetMap Overpass');
+          }
+        }
         const elements = placesData.elements;
         // Recover missing classifications from provider details without changing the requested star filter.
         if(requestedStars&&env.GEOAPIFY_API_KEY){
@@ -5761,37 +5779,9 @@ export default {
           return { stars:normalizeHotelStars(tags.stars), imageUrl, wikidata:String(tags.wikidata||""), brandWikidata:String(tags.brand_wikidata||""), name, type, lat, lon, distanceMeters: Number.isFinite(lat) && Number.isFinite(lon) ? distanceMeters(latitude, longitude, lat, lon) : Infinity, cuisine: tags.cuisine || "", website: tags.website || tags["contact:website"] || "", phone: tags.phone || tags["contact:phone"] || "", address, street, houseNumber, city, postcode };
         }).filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lon) && p.name)
           .filter(p => !p.name.startsWith("Loc fără nume") && !p.name.startsWith("Unnamed"));
-        // Deduplicate first, then sort by straight-line distance from the validated GPS point.
-        const unique = [];
-        for (const place of places.sort((a, b) => a.distanceMeters - b.distanceMeters)) {
-          const normalizedName = place.name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
-          const normalizedAddress = String(place.address||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
-          const duplicate = unique.find(existing => {
-            const existingName = existing.name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
-            const sameName = normalizedName === existingName;
-            const existingAddress=String(existing.address||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
-            const sameNamedAddress=Boolean(sameName&&normalizedAddress&&existingAddress===normalizedAddress);
-            const aliasMatch = normalizedName.length >= 8 && existingName.length >= 8 && (normalizedName.startsWith(existingName + " ") || existingName.startsWith(normalizedName + " "));
-            const nearDistance = distanceMeters(existing.lat, existing.lon, place.lat, place.lon);
-            return sameNamedAddress || ((sameName || aliasMatch) && nearDistance <= 100);
-          });
-          if (!duplicate) unique.push(place);
-          else {
-            if (!duplicate.stars && place.stars) duplicate.stars=place.stars;
-            if (!duplicate.cuisine && place.cuisine) duplicate.cuisine = place.cuisine;
-            if (!duplicate.website && place.website) duplicate.website = place.website;
-            if (!duplicate.imageUrl && place.imageUrl) duplicate.imageUrl = place.imageUrl;
-            if (!duplicate.wikidata && place.wikidata) duplicate.wikidata=place.wikidata;
-            if (!duplicate.brandWikidata && place.brandWikidata) duplicate.brandWikidata=place.brandWikidata;
-            if (!duplicate.phone && place.phone) duplicate.phone = place.phone;
-            if (!duplicate.address && place.address) duplicate.address = place.address;
-            if (!duplicate.street && place.street) duplicate.street = place.street;
-            if (!duplicate.houseNumber && place.houseNumber) duplicate.houseNumber = place.houseNumber;
-            if (!duplicate.city && place.city) duplicate.city = place.city;
-            if (!duplicate.postcode && place.postcode) duplicate.postcode = place.postcode;
-          }
-        }
-        unique.sort((a, b) => a.distanceMeters - b.distanceMeters);
+        // Reconcile trading aliases using address + name or phone evidence,
+        // retaining separate shops that genuinely share an address.
+        const unique=reconcileNearbyPlaces(places);
         const matchingPlaces=requestedStars ? unique.filter(p=>p.stars===requestedStars) : unique;
         const totalUniqueResults = matchingPlaces.length;
         const unclassifiedCount=requestedStars?unique.filter(p=>!p.stars).length:0;

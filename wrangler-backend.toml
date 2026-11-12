@@ -3,6 +3,11 @@ name = "lifewise-ai-api"
 main = "backend.js"
 compatibility_date = "2026-10-28"
 
+# Supplement sparse food results worldwide without a paid Places API.
+# Uses bounded, area-cached public OSM queries. Disable for large-scale traffic.
+[vars]
+OSM_WORLD_FOOD_ENABLED = "true"
+
 [ai]
 binding = "AI"
 
