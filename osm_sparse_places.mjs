@@ -2,6 +2,9 @@
 // normal maps providers have returned no usable parking/zoo results.
 // Public community service: low-volume only; cache coarse cells for 6h.
 const rad=Math.PI/180;
+// OSM's listed public instance accepts modest use and avoids overpass-api.de's
+// repeated 406/429 failures; do not rotate through many public mirrors.
+const OVERPASS_SPARSE_URL='https://overpass.private.coffee/api/interpreter';
 function distance(a,b,c,d){
  const h=Math.sin((c-a)*rad/2)**2+
   Math.cos(a*rad)*Math.cos(c*rad)*Math.sin((d-b)*rad/2)**2;
@@ -10,7 +13,7 @@ function distance(a,b,c,d){
 const good=(lat,lon)=>Number.isFinite(lat)&&Number.isFinite(lon)&&
  Math.abs(lat)<=90&&Math.abs(lon)<=180;
 export async function nearbySparseMapPlaces({
- latitude,longitude,category='',radius=5000,fetcher=fetch,cache=null
+ latitude,longitude,category='',radius=5000,fetcher=fetch,cache=null,diagnostics=null
 }={}){
  if(!['parking','zoo'].includes(category)||!good(latitude,longitude)||
   !Number.isFinite(radius)||radius<100||radius>40000)return [];
@@ -18,28 +21,33 @@ export async function nearbySparseMapPlaces({
  const searchRadius=Math.min(40000,Math.ceil(radius+900));
  const key='https://pocketai-cache.invalid/osm-sparse-v1/'+category+
   '/'+lat+'/'+lon+'/'+searchRadius;
+ const started=Date.now();
+ const trace=(status,extra={})=>{if(diagnostics&&typeof diagnostics==='object'){
+  Object.assign(diagnostics,{provider:'Overpass private.coffee',status,elapsedMs:Date.now()-started,...extra});
+ }};
  const sharedCache=cache||(typeof caches!=='undefined'?caches.default:null);
  let data=null;
- if(sharedCache)try{const hit=await sharedCache.match(key);if(hit)data=await hit.json()}catch{}
+ if(sharedCache)try{const hit=await sharedCache.match(key);if(hit){data=await hit.json();trace('cache_hit')}}catch{}
  if(!data){
   const selector=category==='parking'?'["amenity"="parking"]':'["tourism"="zoo"]';
-  const q='[out:json][timeout:7];(nwr'+selector+
-   '(around:'+searchRadius+','+lat+','+lon+'););out center 220;';
+  const q='[out:json][timeout:6];(nwr'+selector+
+   '(around:'+searchRadius+','+lat+','+lon+'););out center 160;';
   try{
-   const r=await fetcher('https://overpass-api.de/api/interpreter',{
+   const r=await fetcher(OVERPASS_SPARSE_URL,{
     method:'POST',
     headers:{'Content-Type':'application/x-www-form-urlencoded',
      Accept:'application/json',
-     'User-Agent':'myPocketAI sparse nearby places (github.com/kokocf-ui/myPocketAi)'},
-    body:'data='+encodeURIComponent(q),signal:AbortSignal.timeout(4800)
+     'User-Agent':'myPocketAI/1.0 POI discovery (https://github.com/kokocf-ui/myPocketAi)'},
+    body:'data='+encodeURIComponent(q),signal:AbortSignal.timeout(4500)
    });
-   if(!r.ok)return [];
+   if(!r.ok){trace('http_'+r.status);return [];}
    data=await r.json();
-   if(!Array.isArray(data?.elements))return [];
-   data={elements:data.elements.slice(0,220)};
+   if(!Array.isArray(data?.elements)){trace('invalid_response');return [];}
+   data={elements:data.elements.slice(0,160)};
+   trace('ok',{sourceCount:data.elements.length});
    if(sharedCache)try{await sharedCache.put(key,Response.json(data,
     {headers:{'Cache-Control':'public, max-age=21600'}}))}catch{}
-  }catch{return []}
+  }catch(error){trace(String(error?.name||'network_error').slice(0,64),{detail:String(error?.message||'').slice(0,110)});return []}
  }
  return data.elements.flatMap(item=>{
   const t=item.tags||{},pLat=Number(item.lat??item.center?.lat),

@@ -3,7 +3,7 @@ import worker from './backend.js';
 import {nearbySparseMapPlaces} from './osm_sparse_places.mjs';
 
 const original=globalThis.fetch;
-let category='parking',overpassCalls=0;
+let category='parking',overpassCalls=0,photonCalls=0,geoapifyCalls=0;
 const origin={latitude:51.4775,longitude:0.3007,accuracy:20};
 const osmFeature=(name,key,value,lat,lon)=>({
  type:'way',id:123,center:{lat,lon},
@@ -12,12 +12,16 @@ const osmFeature=(name,key,value,lat,lon)=>({
 globalThis.fetch=async input=>{
  const u=new URL(typeof input==='string'?input:input.url||String(input));
  if(u.hostname==='api.geoapify.com'){
+  geoapifyCalls++;
+  assert.equal(u.searchParams.get('limit'),'80');
+  const circle=u.searchParams.get('filter')||'';
+  assert.match(circle,category==='zoo' ? /,35000$/ : /,5000$/);
   // A provider failure must NOT be described as "no locations exist".
   return category==='parking'?new Response('unavailable',{status:503}):
    Response.json({features:[]});
  }
- if(u.hostname==='photon.komoot.io')return new Response('unavailable',{status:503});
- if(u.hostname==='overpass-api.de'){
+ if(u.hostname==='photon.komoot.io'){photonCalls++;throw Error('Do not query Photon for sparse POIs')}
+ if(u.hostname==='overpass.private.coffee'){
   overpassCalls++;
   const body=String(input&&typeof input!=='string'?'': '');
   if(category==='parking')return Response.json({elements:[
@@ -62,5 +66,7 @@ try{
  assert.notEqual(empty.search_error_code,'LOCAL_SEARCH_FAILED',
    'One successfully queried provider returning no results is not a total outage');
  assert.equal(overpassCalls,3);
+ assert.equal(photonCalls,0,'Slow Photon must not delay parking/zoo');
+ assert.equal(geoapifyCalls,3);
 }finally{globalThis.fetch=original}
 console.log('PASS sparse POI: parking after provider 503, extended zoo, exact OSM tags and honest empty results');
