@@ -37,7 +37,36 @@ const unverified=await researchNamedBusiness(parsed,{apiKey:'test',fetcher:async
 ]})});
 assert.equal(unverified.verified,false);
 assert.match(businessResearchReply(unverified),/Nu am putut verifica/);
-assert.equal((await researchNamedBusiness(parsed,{apiKey:''})).verified,false);
+assert.equal((await researchNamedBusiness(parsed,{apiKey:'',fetcher:async()=>Response.json({establishments:[]})})).verified,false);
+// Exa 402 is not the end of shop discovery: independently search official FSA.
+const fsaBranch={BusinessName:"Sunny's Premier",BusinessType:"Retailers - other",
+ FHRSID:1832059,AddressLine1:"Sunny's",AddressLine2:'433 London Road',AddressLine4:'Grays',
+ PostCode:'RM20 4AB',Phone:'01375 378797'};
+const quotaCalls=[];
+const recovered=await researchNamedBusiness(parsed,{apiKey:'test-quota',fetcher:async url=>{
+ const u=new URL(url);quotaCalls.push(u);
+ if(u.hostname==='api.exa.ai')return Response.json({error:'credits_exhausted'},{status:402});
+ if(u.hostname==='api.ratings.food.gov.uk'){
+  assert.equal(u.searchParams.get('address'),'Grays');
+  assert.equal(u.searchParams.get('businessTypeId'),'4613');
+  return Response.json({establishments:[fsaBranch]});
+ }
+ throw Error('Unexpected fallback request');
+}});
+assert.equal(recovered.verified,true,'Exa 402 should still find official register');
+assert.match(recovered.details.address,/433 London Road/i);
+assert.match(recovered.details.phone,/01375/);
+assert.ok(quotaCalls.some(u=>u.hostname==='api.exa.ai'));
+assert.ok(quotaCalls.some(u=>u.hostname==='api.ratings.food.gov.uk'));
+const noKey=await researchNamedBusiness(parsed,{apiKey:'',fetcher:async url=>{
+ assert.equal(new URL(url).hostname,'api.ratings.food.gov.uk');
+ return Response.json({establishments:[fsaBranch]});
+}});
+assert.equal(noKey.verified,true,'Exa missing key should not block FSA');
+const differentStreet=await researchNamedBusiness({...parsed,street:'Another Road'},{
+ apiKey:'',fetcher:async url=>Response.json({establishments:[fsaBranch]})
+});
+assert.equal(differentStreet.verified,false,'Never match a same-name shop on another road');
 let fsaQueries=[];
 const mockFsa=async(url,options)=>{
  const u=new URL(url);fsaQueries.push(u);
