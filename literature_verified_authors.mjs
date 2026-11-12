@@ -1,3 +1,4 @@
+import {SEVEN_COUNTRY_LITERARY_LIBRARY} from './literature_seven_country_library.mjs';
 // Verified author bibliography, original metadata only (no copyrighted text).
 // The Open Library search index is useful for discovery, not reliable enough
 // on its own to establish attribution or a complete author's bibliography.
@@ -33,7 +34,8 @@ export const VERIFIED_LITERARY_AUTHORS=Object.freeze([
    ['Respirări',1982,'publicistică și proză eseistică'],
    ['Strigarea numelui',1983,'volum de poezie']
   ].map(([title,year,kind])=>Object.freeze({title,year,kind})))
- })
+ }),
+ ...SEVEN_COUNTRY_LITERARY_LIBRARY
 ]);
 export const literatureFold=value=>String(value||'').normalize('NFD')
  .replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('ro-RO')
