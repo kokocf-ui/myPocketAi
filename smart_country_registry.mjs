@@ -1,3 +1,4 @@
+import {europeanCountrySources,EUROPE_COUNTRIES} from './europe_country_sources.mjs';
 // Smart Country Registry v2 — configuration and dispatch decisions, no network calls.
 // Providers must be explicitly enabled by backend configuration, never by this file.
 // A resolved country is the country of the REQUEST, not necessarily the phone's GPS.
@@ -94,9 +95,10 @@ export function planMixedTransportSources({stages=[],enabledProviders=[]}={}){
  });
  return {stages:entries,status:entries.every(x=>x.status==='ready')?'ready':'partial_coverage'};
 }
+export {europeanCountrySources,EUROPE_COUNTRIES};
 export function countryCoverage(country){
  const code=identifyCountry(country);
  if(!code)return null;
- return {country:code,branches:['transport','general'],configuredByBackend:true,notes:'Coverage requires enabled and verified adapters'};
+ return {country:code,branches:['transport','general'],configuredByBackend:true,sourceCatalog:europeanCountrySources(code),notes:'Catalog entries are discovery metadata, not configured adapters'};
 }
 export const COUNTRY_REGISTRY_VERSION=2;
