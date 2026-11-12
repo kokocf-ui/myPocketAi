@@ -41,3 +41,22 @@ export function recallFromSuppliedHistory(message,history,{language='ro'}={}){
     '„'+x.content.slice(0,260).replace(/\s+/g,' ') +(x.content.length>260?'…':'')+'”').join('\n')
  };
 }
+
+// Reject synthetic summaries with unsupported precise claims or missing citations.
+// This guard supplements, but does not replace, evidence-only prompting.
+export function groundedHistorySummary(candidate,matches){
+ const answer=String(candidate||'').trim();
+ const rows=Array.isArray(matches)?matches:[];
+ if(!answer||!rows.length||answer.length>1800)return false;
+ const refs=[...answer.matchAll(/\[(\d+)\]/g)].map(x=>Number(x[1]));
+ if(!refs.length||refs.some(x=>x<1||x>rows.length))return false;
+ const evidence=rows.map(x=>String(x?.content||'')).join(' ');
+ // Strip reference indexes; dates, fares, quantities and numeric years in the
+ // answer must have appeared in the excerpts, not in model imagination.
+ const withoutRefs=answer.replace(/\[\d+\]/g,' ');
+ const numbers=withoutRefs.match(/\b\d+(?:[.,]\d+)?\b/g)||[];
+ if(numbers.some(n=>!evidence.includes(n)))return false;
+ const urls=withoutRefs.match(/https?:\/\/[^\s]+/gi)||[];
+ if(urls.some(url=>!evidence.includes(url)))return false;
+ return true;
+}
