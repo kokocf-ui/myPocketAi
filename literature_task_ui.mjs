@@ -419,7 +419,14 @@ function litSimpleLiterature(panel){
   if(!term){showCountryLibrary();return}
   if(term.length<3){feedback.textContent=litSimpleLabel('Introdu cel puțin trei caractere.','Enter at least three characters.');search.focus();return}
   results.replaceChildren();feedback.textContent=litSimpleLabel('Se caută operele…','Searching works…');
-  const parts=term.split(/\s+[—–-]\s+/),name=parts[0],author=fold(parts[1]||'');
+  const parts=term.split(/\\s+[—–-]\\s+/).map(x=>x.trim()).filter(Boolean);
+  // Accept both "Luceafărul — Mihai Eminescu" and the natural
+  // "Mihai Eminescu — Luceafărul"; the latter previously searched for
+  // a title named after the author and required an author named Luceafărul.
+  const firstIsAuthor=parts.length>=2&&LIT_VERIFIED_AUTHORS.some(a=>
+   [a.name,...(a.aliases||[])].some(alias=>fold(alias)===fold(parts[0])));
+  if(firstIsAuthor){const first=parts[0];parts[0]=parts[1];parts[1]=first}
+  const name=parts[0]||'',author=fold(parts[1]||'');
   const local=[];
   for(const a of LIT_VERIFIED_AUTHORS){
    const byAuthor=[a.name,...(a.aliases||[])].some(n=>fold(n).includes(fold(name)));
