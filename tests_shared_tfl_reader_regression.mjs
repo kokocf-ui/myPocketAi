@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {requestTfLJourneys} from './tfl_shared_journeys.mjs';
+import worker from './backend.js';
 
 const from='51.493,-0.3',to='51.496,-0.14';
 const journeys=Array.from({length:3},(_,id)=>({id,duration:40+id,legs:[{mode:{name:'tube'}}]}));
@@ -62,4 +63,55 @@ const literature=readFileSync('literature_task_ui.mjs','utf8');
 assert.match(literature,/function litReaderSafeText\(value\)/);
 assert.match(literature,/content\.textContent=litReaderSafeText\(raw\)/);
 assert.match(literature,/content\.textContent=litReaderSafeText\(pages\[active\]\|\|raw\)/);
+// Real TfL public API returns HTTP 300 for /to/HUBVIC, but a journey to
+// the verified hub coordinates returns itineraries. Test the whole Worker
+// path, not just the HTTP adapter used by synthetic unit tests.
+const realFetch=globalThis.fetch;
+const now=Date.now(),iso=n=>new Date(now+n*60000).toISOString();
+let plannerCalled=false,plannerUsedCoordinates=false;
+globalThis.fetch=async input=>{
+ const u=new URL(typeof input==='string'?input:input.url||String(input));
+ if(u.hostname==='api.tfl.gov.uk'&&u.pathname.includes('/StopPoint/Search/')){
+  return Response.json({matches:[{
+   id:'HUBVIC',name:'Victoria',lat:51.495812,lon:-0.143826,
+   modes:['bus','tube','national-rail']
+  }]});
+ }
+ if(u.hostname==='api.tfl.gov.uk'&&u.pathname.includes('/Journey/JourneyResults/')){
+  plannerCalled=true;
+  plannerUsedCoordinates=!u.pathname.includes('HUBVIC')&&
+   u.pathname.includes('/to/51.495812,-0.143826');
+  return Response.json({journeys:[{
+   startDateTime:iso(5),arrivalDateTime:iso(88),duration:83,
+   legs:[
+    {mode:{name:'walking'},duration:5,departureTime:iso(5),arrivalTime:iso(10),
+     departurePoint:{commonName:'Start',lat:51.479,lon:0.291},
+     arrivalPoint:{commonName:'Chafford Hundred',lat:51.485,lon:0.286}},
+    {mode:{name:'national-rail'},duration:75,departureTime:iso(15),arrivalTime:iso(90),
+     departurePoint:{commonName:'Chafford Hundred',lat:51.485,lon:0.286},
+     arrivalPoint:{commonName:'Victoria',lat:51.495812,lon:-0.143826}}
+   ]
+  }]});
+ }
+ throw Error('Unmocked provider '+u.hostname+u.pathname);
+};
+try{
+ const req=new Request('https://unit.test/api/chat',{
+  method:'POST',headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({
+   message:'Cum ajung la Victoria cu transportul public?',
+   transit_query:'Victoria',module:'maps',language:'ro',
+   history:[],location:{latitude:51.479,longitude:0.291,accuracy:20}
+  })
+ });
+ const response=await worker.fetch(req,{TFL_APP_KEY:'fixture'});
+ assert.equal(response.status,200);
+ const body=await response.json();
+ assert.equal(plannerCalled,true,'Worker must reach TfL journey planner');
+ assert.equal(plannerUsedCoordinates,true,'Verified HUBVIC must route by coordinates, not HTTP-300 hub ID');
+ assert.equal(body.transit_available,true,JSON.stringify(body.diagnostics||body).slice(0,600));
+ assert.equal(body.diagnostics.tflChecks.rawJourneys,1);
+ assert.ok(body.diagnostics.tflChecks.endpointAccepted>=1);
+}finally{globalThis.fetch=realFetch}
+
 console.log('PASS: shared TfL provider and Android-safe reader fallback');
