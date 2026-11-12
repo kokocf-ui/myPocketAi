@@ -15,102 +15,124 @@ function litEnsureTypography(){
  (document.head||document.body)?.append(style);
 }
 function litShowMaterialReader(title,text){
- const body=String(text||'').trim();if(!body)return false;
- if(litReaderOpen?.isConnected)litReaderOpen.litClose?.();
- litEnsureTypography();
- const overlay=document.createElement('div');
- overlay.className='lit-reader-overlay';
- overlay.setAttribute('data-literature-reader','true');
- const reader=document.createElement('section');
- reader.className='lit-material-reader lit-reader-visible';
- reader.setAttribute('role','dialog');
- reader.setAttribute('aria-modal','true');
- reader.setAttribute('aria-label',title);
- reader.setAttribute('tabindex','-1');
- const previousFocus=document.activeElement;
- const previousOverflow=document.body?.style?.overflow||'';
- let closed=false;
- const onKey=e=>{
-  if(e.key==='Escape'||e.key==='Esc'){
-   e.preventDefault?.();e.stopPropagation?.();close();
+ const raw=String(text||'').trim();
+ if(!raw)return false;
+ let overlay=null;
+ try{
+  if(litReaderOpen?.isConnected){
+   try{litReaderOpen.litClose?.()}catch{}
   }
- };
- function close(){
-  if(closed)return;
-  closed=true;
-  document.removeEventListener?.('keydown',onKey,true);
-  overlay.remove();
-  if(document.body?.style)document.body.style.overflow=previousOverflow;
-  if(litReaderOpen===overlay)litReaderOpen=null;
-  try{previousFocus?.focus?.()}catch{}
+  const host=document.body||document.documentElement;
+  if(!host?.append)throw Error('reader_host_missing');
+  overlay=document.createElement('div');
+  overlay.className='lit-reader-overlay';
+  overlay.setAttribute('data-literature-reader','true');
+  // Visible even when old app CSS or Android WebView does not apply the
+  // dynamically-injected stylesheet. This is the only necessary inline style.
+  overlay.style.cssText='position:fixed!important;inset:0!important;z-index:2147483000!important;display:flex!important;align-items:center!important;justify-content:center!important;background:rgba(0,8,18,.92)!important;padding:8px!important;box-sizing:border-box!important';
+  const reader=document.createElement('section');
+  reader.className='lit-material-reader lit-reader-visible';
+  reader.setAttribute('role','dialog');
+  reader.setAttribute('aria-modal','true');
+  reader.setAttribute('aria-label',title);
+  reader.setAttribute('tabindex','-1');
+  reader.style.cssText='display:flex!important;flex-direction:column!important;position:relative!important;z-index:2!important;width:min(96vw,820px)!important;height:min(84dvh,790px)!important;max-height:84dvh!important;overflow:hidden!important;border:2px solid #5297ac!important;border-radius:19px!important;background:#0b2639!important;color:#f0faff!important';
+  const previousFocus=document.activeElement;
+  const previousOverflow=host.style?.overflow||'';
+  let closed=false;
+  const onKey=e=>{
+   if(e.key==='Escape'||e.key==='Esc'){e.preventDefault?.();e.stopPropagation?.();close()}
+  };
+  function close(){
+   if(closed)return;
+   closed=true;
+   document.removeEventListener?.('keydown',onKey,true);
+   overlay.remove();
+   if(host.style)host.style.overflow=previousOverflow;
+   if(litReaderOpen===overlay)litReaderOpen=null;
+   try{previousFocus?.focus?.()}catch{}
+  }
+  overlay.litClose=close;
+  const head=litSimpleNode('div','','lit-reader-head');
+  const caption=litSimpleNode('strong',title,'lit-reader-title');
+  const back=litSimpleButton(litSimpleLabel('Înapoi','Back'),close);
+  back.classList.add('lit-reader-close');
+  head.append(caption,back);
+  const content=litSimpleNode('article',raw,'lit-reader-scroll');
+  content.style.cssText='flex:1 1 auto!important;overflow-y:auto!important;min-height:0!important;white-space:pre-wrap!important;padding:16px!important';
+  const actions=litSimpleNode('div','','lit-reader-footer');
+  const material={title,text:raw};
+  const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),()=>eduOpenPrint('save',material,close));
+  const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),()=>eduOpenPrint('print',material,close));
+  actions.append(save,print);
+  reader.append(head,content,actions);
+  overlay.append(reader);
+  // The raw lesson is visible in a real reader BEFORE the optional pager,
+  // text parser, styling or page-size calculation starts.
+  host.append(overlay);
+  litReaderOpen=overlay;
+  if(host.style)host.style.overflow='hidden';
+  document.addEventListener?.('keydown',onKey,true);
+  try{back.focus?.()}catch{}
+  try{
+   litEnsureTypography();
+   const vh=typeof window!=='undefined'?window.innerHeight:680;
+   const vw=typeof window!=='undefined'?window.innerWidth:420;
+   const pageChars=Math.max(300,Math.min(1200,Math.round(
+    (Math.max(120,vh*.84-230)/26)*(Math.min(780,vw*.92)/9.5))));
+   const pages=splitLiteraturePages(raw,pageChars);
+   const controls=[];let active=0;
+   const makePager=position=>{
+    const bar=litSimpleNode('nav','','lit-page-navigation');
+    bar.setAttribute('aria-label',litSimpleLabel('Navigare pagini','Page navigation')+' '+position);
+    bar.style.cssText='display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;padding:5px 10px;min-height:42px;background:#103149;border-top:1px solid #346477;border-bottom:1px solid #346477;flex:0 0 auto';
+    const previous=litSimpleButton(litSimpleLabel('← Anterioară','← Previous'),()=>display(active-1));
+    const next=litSimpleButton(litSimpleLabel('Următoarea →','Next →'),()=>display(active+1));
+    const counter=litSimpleNode('span','','lit-page-counter');
+    counter.setAttribute('aria-live','polite');
+    counter.style.cssText='white-space:nowrap;font-size:12px;text-align:center;color:#c5e7f0';
+    for(const button of [previous,next])button.style.cssText='min-height:35px;min-width:0;max-width:100%;font-size:13px;padding:5px 8px;border:1px solid #42899f;background:#184b61;color:#f4feff;border-radius:9px';
+    previous.style.justifySelf='start';next.style.justifySelf='end';
+    bar.append(previous,counter,next);controls.push({previous,next,counter});
+    return bar;
+   };
+   function display(index){
+    active=Math.max(0,Math.min(pages.length-1,index));
+    try{renderStudyBlocks(content,pages[active]||raw)}
+    catch(error){
+     content.textContent=pages[active]||raw;
+     console.warn?.('literature_reader_plain_text_fallback',String(error?.message||error));
+    }
+    content.scrollTop=0;
+    for(const control of controls){
+     control.previous.disabled=active===0;
+     control.next.disabled=active===pages.length-1;
+     control.previous.setAttribute('aria-disabled',String(control.previous.disabled));
+     control.next.setAttribute('aria-disabled',String(control.next.disabled));
+     control.counter.textContent=litSimpleLabel('Pagina ','Page ')+(active+1)+' '+litSimpleLabel('din','of')+' '+pages.length;
+    }
+   }
+   if(pages.length>1){
+    const top=makePager('top'),bottom=makePager('bottom');
+    reader.insertBefore(top,content);
+    reader.insertBefore(bottom,actions);
+   }
+   display(0);
+  }catch(decoratingError){
+   // A broken formatter must not close the reader or lose the source text.
+   content.textContent=raw;
+   if(typeof window!=='undefined')window.__pocketLiteratureReaderDetail=
+    'decorator:'+String(decoratingError?.name||'error');
+   console.error?.('literature_reader_decoration_failed',String(decoratingError?.message||decoratingError));
+  }
+  return true;
+ }catch(openError){
+  try{overlay?.remove?.()}catch{}
+  if(typeof window!=='undefined')window.__pocketLiteratureReaderDetail=
+   'open:'+String(openError?.name||'error');
+  console.error?.('literature_reader_open_failed',String(openError?.message||openError));
+  return false;
  }
- overlay.litClose=close;
- const head=litSimpleNode('div','','lit-reader-head');
- const caption=litSimpleNode('strong',title,'lit-reader-title');
- const back=litSimpleButton(litSimpleLabel('Înapoi','Back'),close);
- back.classList.add('lit-reader-close');head.append(caption,back);
- const content=litSimpleNode('article','','lit-reader-scroll');
- // Reader owns its material. The underlying workspace never displays the text.
- const vh=typeof window!=='undefined'?window.innerHeight:680;
- const vw=typeof window!=='undefined'?window.innerWidth:420;
- const pageChars=Math.max(300,Math.min(1200,Math.round(
-  (Math.max(120,vh*.84-230)/26)*(Math.min(780,vw*.92)/9.5))));
- const pages=splitLiteraturePages(body,pageChars);
- const controls=[];let active=0;
- const makePager=position=>{
-  const bar=litSimpleNode('nav','','lit-page-navigation');
-  bar.setAttribute('aria-label',litSimpleLabel('Navigare pagini','Page navigation')+' '+position);
-  bar.style.cssText='display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;padding:5px 10px;min-height:42px;background:#103149;border-top:1px solid #346477;border-bottom:1px solid #346477;flex:0 0 auto';
-  const previous=litSimpleButton(litSimpleLabel('← Anterioară','← Previous'),()=>display(active-1));
-  const next=litSimpleButton(litSimpleLabel('Următoarea →','Next →'),()=>display(active+1));
-  const counter=litSimpleNode('span','','lit-page-counter');
-  counter.setAttribute('aria-live','polite');
-  counter.style.cssText='white-space:nowrap;font-size:12px;text-align:center;color:#c5e7f0';
-  for(const button of [previous,next])button.style.cssText='min-height:35px;min-width:0;max-width:100%;font-size:13px;padding:5px 8px;border:1px solid #42899f;background:#184b61;color:#f4feff;border-radius:9px';
-  previous.style.justifySelf='start';next.style.justifySelf='end';
-  bar.append(previous,counter,next);controls.push({previous,next,counter});
-  return bar;
- };
- function display(index){
-  active=Math.max(0,Math.min(pages.length-1,index));
-  content.replaceChildren();
-  try{renderStudyBlocks(content,pages[active]||body)}
-  catch(error){
-   // Typography is enhancement only. Reader must remain usable even if it fails.
-   content.textContent=pages[active]||body;
-   console.warn?.('literature_reader_plain_text_fallback',String(error?.message||error));
-  }
-  content.scrollTop=0;
-  for(const control of controls){
-   control.previous.disabled=active===0;
-   control.next.disabled=active===pages.length-1;
-   control.previous.setAttribute('aria-disabled',String(control.previous.disabled));
-   control.next.setAttribute('aria-disabled',String(control.next.disabled));
-   control.counter.textContent=litSimpleLabel('Pagina ','Page ')+(active+1)+' '+litSimpleLabel('din','of')+' '+pages.length;
-  }
- }
- const top=pages.length>1?makePager('top'):null;
- const bottom=pages.length>1?makePager('bottom'):null;
- const actions=litSimpleNode('div','','lit-reader-footer');
- const material={title,text:body};
- const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),()=>eduOpenPrint('save',material,close));
- const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),()=>eduOpenPrint('print',material,close));
- actions.append(save,print);
- reader.append(head);
- if(top)reader.append(top);
- reader.append(content);
- if(bottom)reader.append(bottom);
- reader.append(actions);
- overlay.append(reader);
- display(0);
- // No dependency on HTMLDialogElement.showModal() (some Android WebViews
- // render its non-modal fallback behind the application navigation).
- document.body.append(overlay);
- litReaderOpen=overlay;
- if(document.body?.style)document.body.style.overflow='hidden';
- document.addEventListener?.('keydown',onKey,true);
- try{back.focus?.()}catch{}
- return true;
 }
 
 let litSimpleSerial=0,litSimpleAbort=null;
@@ -159,7 +181,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
    (mode==='correction'?litSimpleLabel('Răspunsurile au fost evaluate.','Answers checked.'):
    litSimpleLabel('Materialul este afișat. Poți salva PDF sau imprima.','Material displayed. You can save or print.'));
   if(typeof onReady==='function'){
-   try{onReady(text)}catch(readerError){
+   try{if(onReady(text)===false)throw Error('reader_could_not_attach')}catch(readerError){
     // Reader/popup errors never invalidate the already rendered study material.
     status.textContent=litSimpleLabel(
      'Fereastra de lectură nu s-a putut deschide. Apasă din nou activitatea.',
