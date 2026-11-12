@@ -1,4 +1,5 @@
-export const LITERATURE_TASK_UI_SCRIPT=String.raw`
+import {splitLiteraturePages} from './literature_reader_pagination.mjs';
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+String.raw`
 
 function litSimpleNode(tag,text='',className=''){const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;return el}
 function litSimpleButton(text,fn){const b=litSimpleNode('button',text,'lit-activity-button');b.type='button';b.onclick=fn;return b}
@@ -15,13 +16,49 @@ function litShowMaterialReader(title,text){
  const close=litSimpleButton(litSimpleLabel('Înapoi','Back'),()=>dialog.close());
  close.classList.add('lit-reader-close');head.append(caption,close);
  const content=litSimpleNode('article','','lit-reader-scroll');
- hgDisplayStudyText(content,body);
+ const pages=splitLiteraturePages(body);
+ const controls=[];let active=0;
+ const makePager=position=>{
+  const bar=litSimpleNode('nav','','lit-page-navigation');
+  bar.setAttribute('aria-label',litSimpleLabel('Navigare pagini','Page navigation')+' '+position);
+  bar.style.cssText='display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;padding:5px 10px;min-height:42px;background:#103149;border-top:1px solid #346477;border-bottom:1px solid #346477;flex:0 0 auto';
+  const previous=litSimpleButton(litSimpleLabel('← Anterioară','← Previous'),()=>display(active-1));
+  const next=litSimpleButton(litSimpleLabel('Următoarea →','Next →'),()=>display(active+1));
+  const counter=litSimpleNode('span','','lit-page-counter');
+  counter.setAttribute('aria-live','polite');
+  counter.style.cssText='white-space:nowrap;font-size:12px;text-align:center;color:#c5e7f0';
+  for(const button of [previous,next])button.style.cssText='min-height:35px;min-width:0;max-width:100%;font-size:13px;padding:5px 8px;border:1px solid #42899f;background:#184b61;color:#f4feff;border-radius:9px';
+  previous.style.justifySelf='start';next.style.justifySelf='end';
+  bar.append(previous,counter,next);controls.push({previous,next,counter});
+  return bar;
+ };
+ function display(index){
+  active=Math.max(0,Math.min(pages.length-1,index));
+  content.replaceChildren();
+  hgDisplayStudyText(content,pages[active]||body);
+  content.scrollTop=0;
+  for(const control of controls){
+   control.previous.disabled=active===0;
+   control.next.disabled=active===pages.length-1;
+   control.previous.setAttribute('aria-disabled',String(control.previous.disabled));
+   control.next.setAttribute('aria-disabled',String(control.next.disabled));
+   control.counter.textContent=litSimpleLabel('Pagina ','Page ')+(active+1)+' '+litSimpleLabel('din','of')+' '+pages.length;
+  }
+ }
+ const top=pages.length>1?makePager('top'):null;
+ const bottom=pages.length>1?makePager('bottom'):null;
+ // PDF/print exports retain the entire unpaginated material, not only the visible page.
  const actions=litSimpleNode('div','','lit-reader-footer');
  const material={title,text:body};
  const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),()=>eduOpenPrint('save',material,()=>dialog.close()));
  const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),()=>eduOpenPrint('print',material,()=>dialog.close()));
  actions.append(save,print);
- dialog.append(head,content,actions);
+ dialog.append(head);
+ if(top)dialog.append(top);
+ dialog.append(content);
+ if(bottom)dialog.append(bottom);
+ dialog.append(actions);
+ display(0);
  dialog.addEventListener('close',()=>{dialog.remove();if(litReaderOpen===dialog)litReaderOpen=null});
  document.body.append(dialog);litReaderOpen=dialog;
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
