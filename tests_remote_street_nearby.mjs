@@ -90,8 +90,8 @@ try{
  assert.notEqual(result.search_ok,false,'Nearby shops should be searched around the Romanian street');
  const pois=urls.filter(u=>u.pathname==='/v2/places');
  assert.equal(pois.length,1,'POI discovery must be reached after resolving the named street');
- assert.equal(pois[0].searchParams.get('filter'),'circle:21.92,47.07,5000',
-  'POI radius must use the street centroid in Romania, never the UK device');
+ assert.equal(pois[0].searchParams.get('filter'),'circle:21.92,47.07,1500',
+  'Street-centred POI radius must be 1.5 km in Romania, never the UK GPS');
  assert.match(result.reply,/Oradea|Magazin/i);
 }finally{globalThis.fetch=originalFetch}
 console.log('PASS remote street lookup, city and country validation, fallback and cross-country POI search');
