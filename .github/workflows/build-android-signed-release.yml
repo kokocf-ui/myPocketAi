@@ -30,6 +30,8 @@ on:
       - 'literature_seven_country_tracks.mjs'
       - 'literature_school_streams.mjs'
       - 'literature_task_ui.mjs'
+      - 'literature_offline_activity.mjs'
+      - 'tests_literature_grade1_offline.mjs'
       - 'literature_study_typography.mjs'
       - 'navigation_return_accent.mjs'
       - 'tests_navigation_route_entry_send_center.mjs'
@@ -198,6 +200,7 @@ jobs:
           node tests_literature_verified_authors.mjs
           node tests_literature_exact_paged_reader.mjs
           node tests_literature_study_typography_nav.mjs
+          node tests_literature_grade1_offline.mjs
           node tests_navigation_route_entry_send_center.mjs
           node tests_literature_seven_country_library.mjs
           node tests_history_geography.mjs

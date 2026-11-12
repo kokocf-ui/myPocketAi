@@ -52,6 +52,38 @@ button.pocket-nav-return:focus-visible{outline:3px solid #ffd6e0!important;outli
 }
 #view-module.learning-active .education-toolbar.pocket-back-extracted:empty{display:none!important}
 
+
+/* Expand the Home/Back row across the entire module. Previously the module's
+   two-column header constrained it to a narrow first column, forcing Back below. */
+#view-module.pocket-paired-nav-layout.learning-active{
+ grid-template-rows:auto auto minmax(0,1fr)!important;
+}
+#view-module.pocket-paired-nav-layout.learning-country-gate #moduleChatHost{
+ display:none!important;
+}
+#view-module.pocket-paired-nav-layout > .module-actions-row{
+ grid-column:1/-1!important;grid-row:1!important;width:100%!important;
+ max-width:100%!important;justify-self:stretch!important;
+}
+#view-module.pocket-paired-nav-layout > .module-heading-row{
+ grid-column:1/-1!important;grid-row:2!important;width:100%!important;
+ max-width:100%!important;margin:2px 0 8px!important;align-self:center!important;
+}
+#view-module.pocket-paired-nav-layout > #moduleContent{
+ grid-column:1/-1!important;grid-row:3!important;min-width:0!important;
+}
+#view-module.pocket-paired-nav-layout .module-actions-row.pocket-inline-nav{
+ gap:10px!important;max-width:100%!important;
+}
+#view-module.pocket-paired-nav-layout .module-actions-row.pocket-inline-nav > .module-home-btn,
+#view-module.pocket-paired-nav-layout .module-actions-row.pocket-inline-nav > .pocket-inline-back{
+ flex:0 1 calc(50% - 5px)!important;width:calc(50% - 5px)!important;
+ max-width:none!important;min-height:50px!important;
+ height:clamp(50px,7dvh,60px)!important;
+}
+#view-module.organize-active.pocket-paired-nav-layout .agenda-voice-controls{
+ display:flex!important;justify-content:flex-end!important;
+}
 /* Only journey-origin and structured destination/confirmation choices use petrol,
    like the already approved car/mixed-travel mode choices. Never color Back here. */
 #moduleQuickLayer.open .module-quick-sheet.pocket-route-entry #moduleLayerBody button.module-result-card:not(.pocket-nav-return){
@@ -99,11 +131,40 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
   return /^(?:❮|‹|⟵|←)$/.test(glyph)&&
    Boolean(button.closest?.('.module-quick-header,.answer-reader-header,.education-toolbar,.route-choice-screen'));
  };
+ const originalStyles=new WeakMap();
+ const navStyle={
+  background:'linear-gradient(145deg,#913653,#63213c)',
+  'background-color':'#782844',
+  border:'1.5px solid #eab3c1',
+  color:'#fff',
+  'border-radius':'17px',
+  'box-shadow':'inset 0 2px 0 #ffffff20,0 4px 0 #331323,0 8px 15px #0006',
+  'text-shadow':'none'
+ };
  const mark=button=>{
   if(!button||button.tagName!=='BUTTON'||!button.classList)return;
   const isReturn=matches(button);
   button.classList.toggle('pocket-nav-return',isReturn);
   button.classList.toggle('pocket-nav-text',isReturn&&/[\p{L}]{2,}/u.test(String(button.textContent||'')));
+  // This wins over legacy #view-module and .module-home-btn selectors which
+  // use !important and were making Home bright red while Back was burgundy.
+  // Preserve any original inline values if a button is repurposed.
+  if(!button.style?.setProperty)return;
+  if(isReturn){
+   if(!originalStyles.has(button)){
+    const before={};
+    for(const key of Object.keys(navStyle))before[key]=[
+     button.style.getPropertyValue?.(key)||'',button.style.getPropertyPriority?.(key)||''];
+    originalStyles.set(button,before);
+   }
+   for(const [key,value] of Object.entries(navStyle))button.style.setProperty(key,value,'important');
+  }else if(originalStyles.has(button)){
+   const original=originalStyles.get(button);
+   for(const [key,[value,priority]] of Object.entries(original))
+    if(value)button.style.setProperty(key,value,priority);
+    else button.style.removeProperty?.(key);
+   originalStyles.delete(button);
+  }
  };
  const added=element=>{
   if(!element||element.nodeType!==1)return;
@@ -127,14 +188,19 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
   const root=document.getElementById?.('view-module');
   if(!root)return;
   const actions=root.querySelector?.('.module-actions-row');
-  if(!actions)return;
+  const host=root.querySelector?.('#moduleContent');
+  if(!actions||!host)return;
+  const isEducation=root.classList.contains('learning-active');
+  const isAgenda=root.classList.contains('organize-active')&&
+   Boolean(host.querySelector?.('.agenda-voice-controls'));
+  const toolbar=isEducation?host.querySelector?.('.education-toolbar:not(.math-navigation)'):
+   isAgenda?host.querySelector?.('.agenda-voice-controls'):null;
   const existing=actions.querySelector?.('button.pocket-inline-back');
-  const inEducation=root.classList.contains('learning-active');
-  const toolbar=inEducation?root.querySelector?.('#moduleContent .education-toolbar:not(.math-navigation)'):null;
-  const available=actions.getBoundingClientRect?.().width||actions.clientWidth||0;
-  const canFit=Boolean(toolbar&&available>=270&&
-   !toolbar.classList.contains('math-navigation')&&
-   root.querySelector?.('#moduleContent')?.contains(toolbar));
+  const overall=root.getBoundingClientRect?.().width||root.clientWidth||0;
+  const available=overall||actions.getBoundingClientRect?.().width||0;
+  const canFit=Boolean(toolbar&&available>=280&&
+    !toolbar.classList.contains('math-navigation')&&
+    host.contains(toolbar));
   if(!canFit){
    if(existing){
     if(toolbar?.isConnected&&existing.isConnected)toolbar.insertBefore(existing,toolbar.firstChild);
@@ -142,19 +208,22 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
     existing.classList.remove('pocket-inline-back');
    }
    actions.classList.remove('pocket-inline-nav');
+   root.classList.remove('pocket-paired-nav-layout');
    toolbar?.classList.remove('pocket-back-extracted');
    return;
   }
   const candidates=Array.from(toolbar.children||[]).filter(button=>
-   button.tagName==='BUTTON'&&matches(button));
+    button.tagName==='BUTTON'&&matches(button));
   const fresh=candidates.length===1?candidates[0]:null;
   if(fresh&&fresh!==existing){
-   if(existing)existing.remove(); // removes only obsolete previous-stage Back
+   if(existing)existing.remove(); // remove obsolete Back from the prior stage
    fresh.classList.add('pocket-inline-back','pocket-nav-return');
-   actions.append(fresh); // original onClick retained
+   actions.append(fresh); // same node, preserves original click handler
+   mark(fresh);
   }
   if(fresh||existing?.isConnected){
    actions.classList.add('pocket-inline-nav');
+   root.classList.add('pocket-paired-nav-layout');
    toolbar.classList.add('pocket-back-extracted');
   }
  };
