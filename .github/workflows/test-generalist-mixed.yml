@@ -93,7 +93,7 @@ jobs:
       - name: Walking and driving route results avoid chat and retain map Back
         run: node tests_route_choices_no_chat_flow.mjs
       - name: Assistant route mode and transit palette consistency
-        run: node tests_assistant_route_palette.mjs
+        run: node tests_assistant_route_palette.mjs && node tests_navigation_route_entry_send_center.mjs
       - name: TfL Victoria Underground and mixed-route colors
         run: node tests_victoria_underground_and_colors.mjs
       - name: Verify education year, lesson contents and browser boot
