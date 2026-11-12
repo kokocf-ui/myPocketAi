@@ -110,7 +110,7 @@ try{
  assert.equal(plannerCalled,true,'Worker must reach TfL journey planner');
  assert.equal(plannerUsedCoordinates,true,'Verified HUBVIC must route by coordinates, not HTTP-300 hub ID');
  assert.equal(body.transit_available,true,JSON.stringify(body.diagnostics||body).slice(0,600));
- assert.equal(body.diagnostics.tflChecks.rawJourneys,1);
+ assert.ok(body.diagnostics.tflChecks.rawJourneys>=1,'Multiple TfL preference searches can return the same valid journey');
  assert.ok(body.diagnostics.tflChecks.endpointAccepted>=1);
 }finally{globalThis.fetch=realFetch}
 
