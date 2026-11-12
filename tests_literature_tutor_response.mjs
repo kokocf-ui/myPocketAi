@@ -114,5 +114,6 @@ nextResponse={status:'success',education_subject:'language_literature',reply:'Nu
 press(dictionaryPanel,'Caută definiția');await flush();
 assert.ok(!dictionaryPanel.textContent.includes('Materialul este afișat'),
  'Bad GPS reply is not accepted as a prepared study material');
-assert.match(dictionaryPanel.textContent,/Materialul nu a putut fi generat/);
+assert.match(dictionaryPanel.textContent,/Nu s-a putut obține un răspuns educațional valid/);
+assert.doesNotMatch(dictionaryPanel.textContent,/nu este necesară localizarea telefonului/);
 console.log('PASS: grammar, dictionary, test, correction, no premature answer box, no GPS contamination');
