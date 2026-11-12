@@ -20,6 +20,15 @@ button.pocket-nav-return,
  text-shadow:none!important;
  font-weight:750!important;
 }
+button.pocket-nav-return.pocket-nav-text,
+.view button.pocket-nav-return.pocket-nav-text,
+#view-module button.pocket-nav-return.pocket-nav-text,
+#moduleQuickLayer.open .module-quick-sheet button.pocket-nav-return.pocket-nav-text{
+ display:inline-flex!important;justify-content:center!important;align-items:center!important;
+ box-sizing:border-box!important;min-width:112px!important;min-height:50px!important;
+ padding:9px 14px!important;font-size:clamp(14px,3.6vw,17px)!important;
+ white-space:normal!important;text-align:center!important;
+}
 button.pocket-nav-return:focus-visible{outline:3px solid #ffd6e0!important;outline-offset:2px!important}
 
 /* Education: keep Home and Back at the same width/height, on one row when it fits.
@@ -92,7 +101,9 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
  };
  const mark=button=>{
   if(!button||button.tagName!=='BUTTON'||!button.classList)return;
-  button.classList.toggle('pocket-nav-return',matches(button));
+  const isReturn=matches(button);
+  button.classList.toggle('pocket-nav-return',isReturn);
+  button.classList.toggle('pocket-nav-text',isReturn&&/[\p{L}]{2,}/u.test(String(button.getAttribute?.('aria-label')||button.textContent||'')));
  };
  const added=element=>{
   if(!element||element.nodeType!==1)return;
