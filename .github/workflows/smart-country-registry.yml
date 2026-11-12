@@ -125,11 +125,11 @@ jobs:
         run: |
           set -euo pipefail
           url='https://lifewise-ai-registry-preview.kokocf.workers.dev/api/chat'
-          curl --retry 2 --retry-delay 2 --silent --show-error --fail \
-            --max-time 28 -H 'Content-Type: application/json' \
+          curl --retry 1 --retry-delay 2 --silent --show-error \
+            --max-time 28 -w '\\nHTTP_STATUS:%{http_code}\\n' -H 'Content-Type: application/json' \
             -d '{"message":"Caută restaurante în Oradea, România","quick_place_search":true,"place_category":"restaurant","module":"travel","language":"ro","history":[]}' \
             "$url" | tee /tmp/registry-preview-search.json
-          node --input-type=module -e "import fs from 'node:fs'; const d=JSON.parse(fs.readFileSync('/tmp/registry-preview-search.json','utf8'));if(d.search_ok!==true && !d.needs_location_clarification) {console.error('Preview did not reach place search:',d.reply);process.exit(1)} console.log('Preview place search reached; results:',d.places?.length||0)"
+          node --input-type=module -e "import fs from 'node:fs'; const raw=fs.readFileSync('/tmp/registry-preview-search.json','utf8');const clean=raw.split('HTTP_STATUS:')[0].trim();let d;try{d=JSON.parse(clean)}catch{console.error('Non-JSON preview response:',clean.slice(0,800));process.exit(1)}if(d.search_ok!==true && !d.needs_location_clarification) {console.error('Preview did not reach place search:',JSON.stringify(d).slice(0,1000));process.exit(1)} console.log('Preview place search reached; results:',d.places?.length||0)"
       - name: Verify deployed preview health
         run: |
           set -euo pipefail
