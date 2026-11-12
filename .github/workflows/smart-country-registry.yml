@@ -10,6 +10,8 @@ on:
       - 'country_gps_resolution.mjs'
       - 'country_search_anchor.mjs'
       - 'country_national_provider_gate.mjs'
+      - 'registry_preview_worker.mjs'
+      - 'wrangler-registry-preview.toml'
       - 'backend.js'
       - 'tests_smart_country_registry.mjs'
       - 'tests_country_provider_bridge.mjs'
@@ -31,6 +33,8 @@ on:
       - 'country_gps_resolution.mjs'
       - 'country_search_anchor.mjs'
       - 'country_national_provider_gate.mjs'
+      - 'registry_preview_worker.mjs'
+      - 'wrangler-registry-preview.toml'
       - 'backend.js'
       - 'tests_smart_country_registry.mjs'
       - 'tests_country_provider_bridge.mjs'
@@ -86,3 +90,34 @@ jobs:
           node tests_uk_national_transit.mjs
           node tests_mixed_uk_fallback.mjs
           node tests_transit_entrypoint_parity.mjs
+  preview:
+    needs: registry
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check preview shell
+        run: node --check registry_preview_worker.mjs
+      - name: Verify Cloudflare credentials without touching production
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CF_TOKEN" && test -n "$CF_ACCOUNT" || {
+            echo "::error::Cloudflare credentials not available to preview job"
+            exit 1
+          }
+      - name: Install pinned Wrangler
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@3.90.0
+      - name: Deploy NEW preview worker (not production)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: "false"
+        run: |
+          echo "Deploying only lifewise-ai-registry-preview"
+          npx --no-install wrangler deploy --config wrangler-registry-preview.toml
