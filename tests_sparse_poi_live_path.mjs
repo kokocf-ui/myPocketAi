@@ -20,7 +20,7 @@ globalThis.fetch=async input=>{
   return category==='parking'?new Response('unavailable',{status:503}):
    Response.json({features:[]});
  }
- if(u.hostname==='photon.komoot.io'){photonCalls++;throw Error('Do not query Photon for sparse POIs')}
+ if(u.hostname==='photon.komoot.io'){photonCalls++;return Response.json({features:[]})}
  if(u.hostname==='overpass.private.coffee'){
   overpassCalls++;
   const body=String(input&&typeof input!=='string'?'': '');
@@ -29,7 +29,8 @@ globalThis.fetch=async input=>{
   ]});
   if(category==='zoo')return Response.json({elements:[
    osmFeature('Wildlife Centre','tourism','zoo',51.627,0.375),
-   osmFeature('Wrong park','leisure','park',51.61,0.35)
+   osmFeature('Wrong park','leisure','park',51.61,0.35),
+   osmFeature('M25','tourism','zoo',51.62,0.35)
   ]});
   return Response.json({elements:[]});
  }
@@ -66,7 +67,7 @@ try{
  assert.notEqual(empty.search_error_code,'LOCAL_SEARCH_FAILED',
    'One successfully queried provider returning no results is not a total outage');
  assert.equal(overpassCalls,3);
- assert.equal(photonCalls,0,'Slow Photon must not delay parking/zoo');
+ assert.equal(photonCalls,2,'Parking restores Photon; zoo still avoids the 35km Photon search');
  assert.equal(geoapifyCalls,3);
 }finally{globalThis.fetch=original}
 console.log('PASS sparse POI: parking after provider 503, extended zoo, exact OSM tags and honest empty results');
