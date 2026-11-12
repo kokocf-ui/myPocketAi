@@ -40,7 +40,7 @@ globalThis.fetch=async input=>{
  if(url.hostname==='api.geoapify.com'&&url.pathname==='/v1/geocode/search')return Response.json({features:[]});
  throw Error('Unexpected provider '+url.hostname+url.pathname);
 };
-const env={GEOAPIFY_API_KEY:'test',TFL_APP_KEY:'test',AI:{run:async()=>({response:'No speculation; use verified station data.'})}};
+const env={GEOAPIFY_API_KEY:'test',TFL_APP_KEY:'test',BODS_API_KEY:'mock-optional',RTT_API_TOKEN:'mock-optional',AI:{run:async()=>({response:'No speculation; use verified station data.'})}};
 const ask=async(message,extra={})=>{
  const response=await worker.fetch(new Request('https://test.local/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({
   message,language:'ro',module:'assistant',location:{latitude:51.49,longitude:-0.13,updatedAt:Date.now()},history:[],...extra
@@ -57,6 +57,8 @@ try {
  assert.ok(tflSearch>0,'TfL station lookup performed');
  assert.ok(journeyLookups.length>0,'TfL itinerary request must be issued after confirming station');
  assert.ok(journeyLookups.every(x=>x.pathname.includes('940GZZLUVIC')),'Itineraries must use TfL Victoria Underground Tube ID, not Rail platforms');
+ assert.equal(result.diagnostics?.providers?.bods,'not_needed_without_journey','BODS live vehicle checks must not block a failed journey');
+ assert.equal(result.diagnostics?.providers?.rtt,'not_needed_without_journey','RTT location checks must not block a failed journey');
 
  const ambiguous=await ask('Vreau sa ajung la Victoria Station');
  console.log('TfL Victoria generic result',JSON.stringify({reply:ambiguous.reply,needs_destination_clarification:ambiguous.needs_destination_clarification,destination_candidates:ambiguous.destination_candidates,named_venue:ambiguous.named_venue,route_context:ambiguous.route_context,journeys:journeyLookups.length}));
