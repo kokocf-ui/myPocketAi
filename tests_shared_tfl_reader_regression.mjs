@@ -104,7 +104,7 @@ try{
    history:[],location:{latitude:51.479,longitude:0.291,accuracy:20}
   })
  });
- const response=await worker.fetch(req,{TFL_APP_KEY:'fixture'});
+ const response=await worker.fetch(req,{TFL_APP_KEY:'fixture',AI:{run:async()=>{throw Error('Transit fixture should not call LLM')}}});
  assert.equal(response.status,200);
  const body=await response.json();
  assert.equal(plannerCalled,true,'Worker must reach TfL journey planner');
