@@ -29,7 +29,11 @@ assert.ok(ui.includes('function openModuleLandingAction(choice)'));
 assert.ok(ui.includes('function returnToModuleLanding()'));
 const routeEntry=ui.slice(ui.indexOf('function openModuleLandingAction(choice)'),
  ui.indexOf('function quickUiText(){'));
-assert.match(routeEntry,/kind==='walking'\)showPreciseJourney\(\{\.\.\.choice,journeyMode:'walk'\}\)/);
+assert.match(routeEntry,/kind==='walking'\)showWalkingQuickDestination\(choice\)/);
+const walk=ui.slice(ui.indexOf('function showWalkingQuickDestination(choice){'),ui.indexOf('function showTransitDestination(choice){'));
+assert.match(walk,/Unde vrei să ajungi\?/);
+assert.match(walk,/pendingTravelMode='walk'/);
+assert.match(walk,/routeActionsText\(\)\.prompt\+destination/);
 assert.match(routeEntry,/kind==='transit'\)showPreciseJourney\(\{\.\.\.choice,journeyMode:'transit'\}\)/);
 const modes=ui.slice(ui.indexOf('function showJourneyMode(choice){'),
  ui.indexOf('// Shared UI dialog translations.',ui.indexOf('function showJourneyMode(choice){')));
