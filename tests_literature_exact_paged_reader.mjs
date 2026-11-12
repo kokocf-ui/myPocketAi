@@ -21,6 +21,7 @@ class El{
  get textContent(){return this._text+this.children.map(x=>x.textContent||'').join('')}
  set textContent(value){this._text=String(value);this.children=[]}
  append(...nodes){this.children.push(...nodes)}
+ insertBefore(child,reference){const i=this.children.indexOf(reference);this.children.splice(i<0?this.children.length:i,0,child)}
  replaceChildren(...nodes){this._text='';this.children=[...nodes]}
  setAttribute(name,value){this.attrs[name]=value}
  addEventListener(){}
