@@ -18720,7 +18720,7 @@ function loadHistory(){try{const v=JSON.parse(localStorage.getItem(HISTORY_KEY)|
 function saveHistory(){try{localStorage.setItem(HISTORY_KEY,JSON.stringify(state.history.slice(-30)))}catch{notify('Istoricul nu a putut fi salvat pe acest dispozitiv.')}}
 // Recall is strictly opt-in through a specific conversational question.
 // Saved chats stay local; only a short relevant excerpt is sent in that turn.
-function pocketRecallPreviousChat(message){
+function pocketRecallPreviousChat(message,allowFollowup=true){
  // Read only this device's saved assistant conversations, and only when
  // the user explicitly requests a look-back. No automatic hidden uploads.
  if(state.currentView!=='assistant')return [];
@@ -18734,9 +18734,21 @@ function pocketRecallPreviousChat(message){
   ||/\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\\b.{0,55}\\b(?:anterior|mai devreme|inainte|previously|earlier|before)\\b/.test(q)
   ||/\\b(?:anterior|mai devreme|inainte|previously|earlier|before)\\b.{0,65}\\b(?:recomandari|recomandat|spus|discutat|vorbit|mentionat)\\b/.test(q);
  if(!explicit)return [];
- const ignored=new Set('recomandari recomandat anterior anteriori anterioare discutii istoricul conversatiilor conversatie discutat prefer cum cumva zona vreau hotelul eva imi mi ai am ce care cand cum unde noi nostru noastre noastra despre din in la si iar dar pe cu ca de sa te ti rog cauta cauti gaseste gasesti verifica inca mai vreau cautare istoric istoricul conversatie conversatia conversatiile discutie discutiile nostru our the where when what which did you me my i we please find search history chat previous conversation talk talked discussed remember earlier earlier today yesterday'.split(' '));
+ const ignored=new Set('este sunt fost exista verificare discutia discuția recomandari recomandat anterior anteriori anterioare discutii istoricul conversatiilor conversatie discutat prefer cum cumva zona vreau hotelul eva imi mi ai am ce care cand cum unde noi nostru noastre noastra despre din in la si iar dar pe cu ca de sa te ti rog cauta cauti gaseste gasesti verifica inca mai vreau cautare istoric istoricul conversatie conversatia conversatiile discutie discutiile nostru our the where when what which did you me my i we please find search history chat previous conversation talk talked discussed remember earlier earlier today yesterday'.split(' '));
  const terms=[...new Set(q.split(' ').filter(w=>w.length>=3&&!ignored.has(w)&&
   !/^(discut|vorbit|spus|scris|intrebat|recomand|saptaman|trecut|remember|mesaj)/.test(w)))];
+ if(terms.length===0){
+  // A correction such as "the discussion is in history, check" inherits
+  // the earlier topic, but never retrieves an unrelated chat at random.
+  if(allowFollowup){
+   for(const entry of [...(Array.isArray(state.messages)?state.messages:[])].reverse().slice(0,12)){
+    if(entry?.role!=='user'||typeof entry.text!=='string'||entry.text===message)continue;
+    const prior=pocketRecallPreviousChat(entry.text,false);
+    if(prior.length)return prior;
+   }
+  }
+  return [];
+ }
  const joke=/\\b(?:glumit|glume|gluma|tachinat|joke|joking|teased)\\b/.test(q);
  const social=/\\b(?:glum|tachin|obraznic|desteapt|cafe|invit|frumoas|amuzant|ras|jok|teas|coffe)/;
  const matches=[];
@@ -18764,14 +18776,6 @@ function pocketRecallPreviousChat(message){
     timestamp:String(hit.item.date||''),conversation_id:String(hit.item.id||'')});
    if(results.length>=8)return results;
   }
- }
- // A topic-free explicit memory question may refer to the most recent chat;
- // return a short, genuinely available excerpt, not a fabricated recollection.
- if(!results.length&&terms.length===0){
-  const item=(Array.isArray(state.history)?state.history:[]).find(x=>Array.isArray(x?.messages)&&x.messages.length);
-  if(item)return item.messages.filter(m=>['user','assistant'].includes(m?.role)&&typeof m.text==='string')
-   .slice(-4).map(m=>({role:m.role,content:m.text.slice(0,420),
-    timestamp:String(item.date||''),conversation_id:String(item.id||'')}));
  }
  return results;
 }
