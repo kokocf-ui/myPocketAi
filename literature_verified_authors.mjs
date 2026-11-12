@@ -45,13 +45,14 @@ export function verifiedAuthorsByQuery(query){
  if(needle.length<3)return [];
  const terms=needle.split(/\s+/).filter(Boolean);
  return VERIFIED_LITERARY_AUTHORS.filter(author=>{
-  const full=literatureFold(author.name);
-  return terms.every(term=>full.split(' ').some(part=>part.startsWith(term)));
+  const names=[author.name,...(author.aliases||[])].map(literatureFold);
+  return names.some(full=>terms.every(term=>full.split(' ').some(part=>part.startsWith(term))));
  });
 }
 export function verifiedAuthorByName(name){
  const target=literatureFold(name);
- return VERIFIED_LITERARY_AUTHORS.find(author=>literatureFold(author.name)===target)||null;
+ return VERIFIED_LITERARY_AUTHORS.find(author=>[author.name,...(author.aliases||[])]
+  .some(name=>literatureFold(name)===target))||null;
 }
 export function verifiedWorksByQuery(query){
  const needle=literatureFold(query);
