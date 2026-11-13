@@ -83,6 +83,10 @@ globalThis.fetch=async input=>{
    type:'Feature',geometry:{type:'Point',coordinates:[21.9205,47.0704]},
    properties:{name:'Magazin de test verificat',street:'Strada Morii',city:'Oradea',
     country_code:'ro',categories:['commercial.supermarket'],datasource:{raw:{shop:'supermarket'}}}
+  },{
+   type:'Feature',geometry:{type:'Point',coordinates:[21.9206,47.0706]},
+   properties:{name:'Restaurant de test Morii',street:'Strada Morii',city:'Oradea',
+    country_code:'ro',categories:['catering.restaurant'],datasource:{raw:{amenity:'restaurant'}}}
   }]});
  if(u.hostname==='photon.komoot.io')return Response.json({features:[]});
  throw Error('Unexpected backend provider '+u.href);
