@@ -1878,15 +1878,19 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 #view-module.learning-math.math-choice-stage .math-choice-panel{overflow:hidden!important;min-width:0!important}
 #view-module.learning-math.math-choice-stage .math-choice-list{
  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:none!important;grid-auto-rows:max-content!important;grid-auto-flow:row!important;
  align-content:start!important;align-items:start!important;gap:clamp(8px,2.5vw,12px)!important;
  overflow-y:auto!important;overflow-x:hidden!important;min-height:0!important;
- max-height:100%!important;padding:4px 2px 10px!important;
+ width:100%!important;max-height:100%!important;box-sizing:border-box!important;
+ padding:4px 2px 12px!important;
  overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
 }
 #view-module.learning-math.math-choice-stage .math-choice-row{
  display:flex!important;flex-direction:column!important;justify-content:center!important;
- align-items:center!important;text-align:center!important;aspect-ratio:1 / 1!important;
- width:100%!important;height:auto!important;min-width:0!important;min-height:0!important;
+ align-items:center!important;text-align:center!important;aspect-ratio:auto!important;
+ width:100%!important;height:clamp(132px,calc((100vw - 80px)/2),240px)!important;
+ min-width:0!important;min-height:0!important;max-height:none!important;
+ position:relative!important;transform:none!important;margin:0!important;
  flex:none!important;box-sizing:border-box!important;gap:clamp(3px,.9dvh,7px)!important;
  padding:clamp(7px,2vw,12px)!important;white-space:normal!important;
  border:2px solid #59b5ce!important;border-radius:clamp(15px,4vw,21px)!important;
@@ -1909,6 +1913,48 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
  display:grid!important;gap:8px!important;overflow-y:auto!important;
  max-height:47dvh!important;overscroll-behavior:contain!important;
 }
+
+/* Math workspace only: one fixed header line, Home | topic | Back.
+   The existing title remains in the document for other modules but is hidden
+   visually while this compact mathematics header is active. */
+#view-module.learning-math.math-workspace-header .module-actions-row{
+ display:grid!important;grid-template-columns:minmax(78px,1fr) minmax(72px,1fr) minmax(78px,1fr)!important;
+ align-items:center!important;gap:clamp(6px,1.4vw,10px)!important;
+ width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important;
+}
+#view-module.learning-math.math-workspace-header .module-actions-row>.module-home-btn,
+#view-module.learning-math.math-workspace-header .module-actions-row>.math-workspace-back{
+ width:100%!important;min-width:0!important;max-width:none!important;min-height:49px!important;
+ height:clamp(50px,7dvh,62px)!important;padding:6px 5px!important;
+ margin:0!important;display:flex!important;align-items:center!important;justify-content:center!important;
+ font-size:clamp(12px,3.15vw,16px)!important;white-space:normal!important;
+}
+#view-module.learning-math.math-workspace-header .math-workspace-title{
+ min-width:0!important;max-width:100%!important;
+ font-size:clamp(12px,3.45vw,18px)!important;line-height:1.15!important;
+ text-align:center!important;font-weight:800!important;color:#f3fbff!important;
+ overflow-wrap:anywhere!important;hyphens:auto!important;
+}
+#view-module.learning-math.math-workspace-header .module-heading-row{display:none!important}
+#view-module.learning-math.math-workspace-header .education-toolbar.math-workspace-tools{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ width:100%!important;min-width:0!important;align-items:center!important;gap:8px!important;
+}
+#view-module.learning-math.math-workspace-header .math-workspace-tools>.math-voice-controls{
+ grid-column:1/-1!important;width:100%!important;
+}
+#view-module.learning-math.math-workspace-header .math-workspace-tools>.education-theory-open{
+ grid-column:1!important;width:100%!important;min-width:0!important;
+}
+#view-module.learning-math.math-workspace-header .math-workspace-tools>.edu-pdf-actions{
+ grid-column:2!important;width:100%!important;justify-content:flex-end!important;
+ min-width:0!important;margin:0!important;
+}
+.education-theory-dialog.math-theory-list-mode .education-theory-search{display:none!important}
+.education-theory-dialog.math-theory-list-mode .education-theory-results{
+ max-height:60dvh!important;min-height:0!important;overflow-y:auto!important;
+}
+
 .education-theory-dialog.math-theory-list-mode .education-theory-item{
  min-height:50px!important;line-height:1.3!important;border-radius:12px!important;
  text-align:left!important;white-space:normal!important;
@@ -8592,7 +8638,7 @@ function educationTheoryOpen(subject,level){
  const close=document.createElement('button');close.type='button';close.className='secondary-btn';close.textContent=learningLabel('← Înapoi','← Back');close.onclick=()=>dialog.close();
  const header=document.createElement('div');header.className='education-theory-head';header.append(title,close);
  const description=document.createElement('p');description.textContent=subject==='math'
-  ?learningLabel('Alege o lecție din listă. Căutarea și dictarea sunt opționale.','Choose a lesson from the list. Search and dictation are optional.')
+  ?learningLabel('Alege o lecție din lista de mai jos.','Choose a lesson from the list below.')
   :learningLabel('Scrie primele litere sau dictează denumirea.','Type the first letters or dictate the name.');
  const searchBar=document.createElement('div');searchBar.className='education-theory-search';
  const input=document.createElement('input');input.type='search';input.autocomplete='off';input.placeholder=subject==='math'?learningLabel('Caută în listă (opțional)…','Filter list (optional)…'):learningLabel('Scrie denumirea…','Type a title…');input.setAttribute('aria-label',learningLabel('Caută teorie','Search theory'));
@@ -8624,7 +8670,8 @@ function educationTheoryOpen(subject,level){
  }
  input.addEventListener('input',()=>{detail.hidden=true;list.hidden=false;searchBar.hidden=false;description.hidden=false;render()});
  dialog.addEventListener('close',()=>{educationTheoryStopVoice();dialog.remove()});
- dialog.append(header,description,searchBar,list,detail);
+ if(subject==='math')dialog.append(header,description,list,detail);
+ else dialog.append(header,description,searchBar,list,detail);
  document.body.append(dialog);render();
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
@@ -9996,11 +10043,17 @@ function scienceOpenWorkspace(){
  eduAttachPrintAction(toolbar);host.append(toolbar,workspace);
 }
 
+function mathClearWorkspaceHeader(){
+ const root=$('view-module');
+ root?.classList.remove('math-workspace-header');
+ root?.querySelector('.math-workspace-title')?.remove();
+ root?.querySelector('.math-workspace-back')?.remove();
+}
 function mathJourneyShowChoices(stage){
  const mathSubject=LEARNING_SUBJECTS.find(x=>x[0]==='math');
  if(!mathSubject)return;
  activeLearningSubject=mathSubject;
- mathVoiceStop();mathCloseResults();
+ mathVoiceStop();mathCloseResults();mathClearWorkspaceHeader();
  mathJourney.stage=stage;
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('learning-choose','learning-hg','learning-languages','learning-country-gate');
@@ -10017,7 +10070,7 @@ function mathJourneyShowChoices(stage){
    mathJourney.stage='grade';
    return educationGradeGate('math',mathJourney.schoolStage,grade=>{
     mathJourney.grade=grade;mathJourneyShowChoices('chapters');
-   },()=>mathJourneyShowChoices('levels'));
+   },()=>mathJourneyShowChoices(mathJourney.topic==='arithmetic'?'branches':'levels'));
   }
   return mathJourneyShowChoices('branches');
  };
@@ -10125,7 +10178,7 @@ function renderLearningSubjects(){
  // Discard the old page scroll inherited from the previous subject screen.
  const educationPage=document.querySelector('main.page');
  if(educationPage)educationPage.scrollTop=0;
- mathVoiceStop();
+ mathVoiceStop();mathClearWorkspaceHeader();
  document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');
  document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');
  mathCloseResults();
@@ -12540,6 +12593,7 @@ function openLearningSubject(key){
  return educationCountryGate(key,()=>openLearningSubjectAfterCountry(key));
 }
 function openLearningSubjectAfterCountry(key){
+ mathClearWorkspaceHeader();
  if(key==='history'){hgOpen('subjects');return}
  if(key==='literature'){
   const selected=LIT_COUNTRIES.find(x=>x[0]===educationCountrySelection.code);
@@ -12560,7 +12614,7 @@ function openLearningSubjectAfterCountry(key){
  }
  activeLearningSubject=subject;
  $('moduleTitle').textContent=key==='math'?
-  learningLabel(subject[2],subject[3])+' · '+mathJourneyDescription().topic:
+  (mathJourneyDescription().topic||learningLabel('Matematică','Mathematics')):
   learningLabel(subject[2],subject[3]);
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('learning-choose');root.classList.add('learning-active');
@@ -12569,8 +12623,16 @@ function openLearningSubjectAfterCountry(key){
  const bar=document.createElement('div');bar.className='education-toolbar';
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>{if(key==='math'){mathVoiceStop();mathCloseResults();mathJourneyShowChoices('chapters')}else renderLearningSubjects()};
  if(key==='math'){
-  bar.classList.add('math-navigation');
-  back.classList.add('math-back-btn');
+  const actionsRow=root.querySelector('.module-actions-row');
+  if(actionsRow){
+   root.classList.add('math-workspace-header');
+   const centeredTitle=document.createElement('strong');
+   centeredTitle.className='math-workspace-title';
+   centeredTitle.textContent=mathJourneyDescription().topic||learningLabel('Matematică','Mathematics');
+   back.className='back-btn math-workspace-back';
+   actionsRow.append(centeredTitle,back);
+  }else bar.append(back);
+  bar.classList.add('math-workspace-tools');
   const voices=document.createElement('div');voices.className='math-voice-controls';
   const dictate=document.createElement('button');dictate.type='button';dictate.id='mathDictation';
   dictate.className='secondary-btn';dictate.textContent=learningLabel('🎙️ Dictare','🎙️ Dictate');
@@ -12579,7 +12641,7 @@ function openLearningSubjectAfterCountry(key){
   const read=document.createElement('button');read.type='button';read.id='mathRead';
   read.className='secondary-btn';read.textContent=learningLabel('🔊 Citire','🔊 Read');
   read.onclick=mathReadText;
-  voices.append(dictate,read);bar.append(back,voices);
+  voices.append(dictate,read);bar.append(voices);
   const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn education-theory-open';theory.textContent=learningLabel('📖 Teorie','📖 Theory');theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);bar.append(theory);
  }else bar.append(back);
  eduAttachPrintAction(bar);host.append(bar);
@@ -13062,6 +13124,16 @@ function mathArithmeticValue(expression){
  };
  const result=sum();
  return pos===tokens.length&&Number.isFinite(result)?result:null;
+}
+// A final '=' in a primary-school numeric expression means "find the result".
+// Never trim a genuine two-sided equality or algebraic/OCR fragments.
+function mathNormalizeArithmeticRequest(value,topic){
+ const raw=String(value||'').trim().replace(/＝/g,'=');
+ if(topic!=='arithmetic'||!raw.endsWith('=')||(raw.match(/=/g)||[]).length!==1)return raw;
+ const expression=raw.slice(0,-1).trim();
+ const withoutSign=expression.replace(/^[+−-]/,'');
+ if(!/[+\-*×÷/]/.test(withoutSign)||!/^[0-9.,()\s+\-*×÷/−–·]+$/.test(expression))return raw;
+ return mathArithmeticValue(expression)!==null?expression:raw;
 }
 function mathArithmeticEquality(source){
  const parts=String(source||'').replace(/＝/g,'=').split('=');
@@ -15183,8 +15255,29 @@ function mathResultPage(index){
   });
  }
  const item=session.tasks[session.active];
+ // Render verified primary arithmetic immediately; never wait on the AI or
+ // graph engine for an ordinary expression such as 2+2 or 2+2=.
+ if(session.topic==='arithmetic'&&session.mode!=='graph'&&!item.started){
+  try{
+   if(session.mode==='solve')item.detailed=mathDetailedArithmetic(item.text);
+   else if(session.mode==='explain')item.methodGuide=mathMethodGuide(item.text);
+   if(item.detailed||item.methodGuide){
+    item.started=true;
+    item.spokenReply=item.detailed?
+     item.detailed.intro+' '+item.detailed.steps.map(step=>step.label+': '+step.operation).join('. ')+'. '+item.detailed.conclusion:
+     item.methodGuide.intro+' '+item.methodGuide.rules.map(rule=>rule.title+': '+rule.text).join('. ')+'. '+item.methodGuide.tip;
+   }
+  }catch(error){console.warn?.('math_simple_local_fallback',String(error?.message||error))}
+ }
  // Only compute the selected exercise; do not fire 30 parallel model requests.
- if(!item.started){item.started=true;queueMicrotask(()=>{if(mathResultSession===session)void mathFetchResult(item,session)})}
+ if(!item.started){item.started=true;queueMicrotask(()=>{
+  if(mathResultSession!==session)return;
+  void mathFetchResult(item,session).catch(error=>{
+   if(mathResultSession!==session)return;
+   item.error=learningLabel('Nu am putut completa explicația: ','Could not finish the explanation: ')+String(error?.message||error);
+   if(session.tasks[session.active]===item)mathResultPage(session.active);
+  });
+ })}
  mathLastSpokenReply=item.spokenReply||item.reply||'';
  const title=document.createElement('h3');
  title.textContent=learningLabel('Exercițiul ','Exercise ')+(session.active+1);
@@ -15199,18 +15292,24 @@ function mathResultPage(index){
   check.textContent=mathEqualityExplanation(verifiedEquality);
   body.append(check);
  }
- const equationGraph=session.mode==='graph'||session.mode==='solve'?mathAlgebraLocal('graph',item.text)?.value:null;
- const attachedFigure=session.figure&&['geometry','trigonometry'].includes(session.topic)?session.figure:null;
- const graph=(attachedFigure?mathFigureSnapshot(attachedFigure):null)||
-  (equationGraph?.planeShape?mathPlaneShapeFigure(equationGraph.planeShape):null)||
-  (equationGraph?.geometry?mathRightTriangleFigure(equationGraph.geometry):null)||
-  (equationGraph?.matrixView?mathMatrixHeatmap(equationGraph.matrixView):null)||
-  (equationGraph?.statistics?mathStatisticsFigure(equationGraph.statistics):null)||
-  (equationGraph?.polynomial?mathSymbolicPlot(equationGraph.polynomial):null)||
-  (equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
-  (equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
-  (equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null);
- if(graph&&(session.mode==='graph'||Boolean(attachedFigure)||Boolean(mathGraphVerifiedAnswers(item.text,null).length)))body.append(mathGraphCorner(graph,item.text,attachedFigure));
+ // Numeric arithmetic never needs graph generation to display a solved sum.
+ // A failed optional graph must not prevent the verified result from appearing.
+ if(session.topic!=='arithmetic'||session.mode==='graph'){
+  try{
+   const equationGraph=session.mode==='graph'||session.mode==='solve'?mathAlgebraLocal('graph',item.text)?.value:null;
+   const attachedFigure=session.figure&&['geometry','trigonometry'].includes(session.topic)?session.figure:null;
+   const graph=(attachedFigure?mathFigureSnapshot(attachedFigure):null)||
+    (equationGraph?.planeShape?mathPlaneShapeFigure(equationGraph.planeShape):null)||
+    (equationGraph?.geometry?mathRightTriangleFigure(equationGraph.geometry):null)||
+    (equationGraph?.matrixView?mathMatrixHeatmap(equationGraph.matrixView):null)||
+    (equationGraph?.statistics?mathStatisticsFigure(equationGraph.statistics):null)||
+    (equationGraph?.polynomial?mathSymbolicPlot(equationGraph.polynomial):null)||
+    (equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
+    (equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
+    (equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null);
+   if(graph&&(session.mode==='graph'||Boolean(attachedFigure)||Boolean(mathGraphVerifiedAnswers(item.text,null).length)))body.append(mathGraphCorner(graph,item.text,attachedFigure));
+  }catch(graphError){console.warn?.('math_result_optional_graph_failed',String(graphError?.message||graphError))}
+ }
  const result=document.createElement('div');result.className='math-result-copy';
  if(item.graphLesson){
   const heading=document.createElement('h3');heading.textContent=item.graphLesson.heading;
@@ -15474,6 +15573,7 @@ function mathEducationRun(mode){
   return;
  }
  if(eduScopeBeforeAI(editor?.value?.trim()||source,()=>mathEducationRun(mode)))return;
+ source=mathNormalizeArithmeticRequest(source,mathJourney.topic);
  // Only block structurally broken standalone formulae, not word problems.
  const hasProse=/[a-zA-ZăâîșțĂÂÎȘȚ]{3,}/u.test(source);
  if(!hasProse&&educationMathOcrIncomplete(source)){
