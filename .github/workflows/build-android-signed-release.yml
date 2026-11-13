@@ -16,8 +16,10 @@ on:
       - 'index.js'
       - 'assistant_place_results_ui.mjs'
       - 'nearby_street_geocode.mjs'
+      - 'photon_category_discovery.mjs'
       - 'tests_remote_street_nearby.mjs'
       - 'tests_assistant_places_modal.mjs'
+      - 'tests_quick_places_categories.mjs'
       - 'backend.js'
       - 'ai_response_quality.mjs'
       - 'eva_dialogue.mjs'
@@ -174,6 +176,7 @@ jobs:
           node --check backend.js
           node tests_assistant_places_modal.mjs
           node tests_remote_street_nearby.mjs
+          node tests_quick_places_categories.mjs
           node --check communication_ui.mjs
           node --check ai_response_quality.mjs
           node tests_communication_ui.mjs
