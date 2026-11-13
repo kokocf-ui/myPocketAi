@@ -46,6 +46,7 @@ assert.deepEqual(yearsFunction('RO','intermediate','math').map(x=>x.id),['9','10
  'Romanian Maths intermediate must contain only high-school classes');
 assert.deepEqual(yearsFunction('RO','beginner','math').map(x=>x.id),['1','2','3','4','5','6','7','8']);
 assert.deepEqual(yearsFunction('RO','primary','math').map(x=>x.id),['1','2','3','4'],'Primary maths ends at class IV');
+assert.ok(EDUCATION_COUNTRY_UI_SCRIPT.includes("!arithmeticGradesOnly&&search.value.trim().length<=40"),'Arithmetic must not accept manually typed higher grades');
 assert.deepEqual(yearsFunction('RO','lower','math').map(x=>x.id),['5','6','7','8'],'Lower-secondary maths begins at class V');
 assert.deepEqual(yearsFunction('GB-ENG','primary','math').map(x=>x.id),['Y1','Y2','Y3','Y4','Y5','Y6']);
 assert.deepEqual(yearsFunction('GB-ENG','lower','math').map(x=>x.id),['Y7','Y8','Y9']);
