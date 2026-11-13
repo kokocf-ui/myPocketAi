@@ -3,6 +3,8 @@ import vm from 'node:vm';
 import frontend from './index.js';
 import {COMPUTING_TOPICS,COMPUTING_PATHS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
+import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
+import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {HG_SCHOOL_PLANS,hgSchoolChapters} from './education_school_paths.mjs';
 import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS,litEuropeanPlan} from './literature_curriculum_europe.mjs';
@@ -149,4 +151,22 @@ const makeBack=(journey,open,opts,gradeGate)=>new Function('hgJourney','hgOpen',
 }
 assert.ok(!boot.includes('Capitolul are structură de studiu. Pentru explicații detaliate'),
  'Opening a chapter must not be just a placeholder');
+// Permanent product rule: teaching text, whether offline or AI-generated, is
+// presented only in paginated windows; menus and workspace keep theme names.
+for(const token of [
+ "function educationOpenPagedLesson(title,body){",
+ "function educationTextFromLesson(node){",
+ "educationOpenPagedLesson(hgL(topic.ro,topic.en)",
+ "educationOpenPagedLesson(heading,body)",
+ "educationOpenPagedLesson(item.title,material)",
+ "educationOpenPagedLesson(assignment||workInfo||learningLabel(topic[1],topic[2]),material)",
+ "output.style.display='none';aiInline.append(deepen,output)",
+ "out.className='lit-result';out.style.display='none'"
+])assert.ok(boot.includes(token),'Education modal-only rule missing: '+token);
+for(const [name,script,patterns] of [
+ ['Computing',COMPUTING_UI_SCRIPT,["printable.style.display='none'","educationOpenPagedLesson(lessonHeading.textContent,material)","educationOpenPagedLesson(computingLabel(t.ro,t.en)"]],
+ ['Practical',PRACTICAL_UI_SCRIPT,["study.style.cssText='display:none","educationOpenPagedLesson(chapter.title,educationTextFromLesson(study))","educationOpenPagedLesson(chapter.title+' · '"]],
+ ['Exams',EXAM_UI_SCRIPT,["printable.style.cssText='display:none","educationOpenPagedLesson(examLabel(subject.ro,subject.en),educationTextFromLesson(printable))","educationOpenPagedLesson(examLabel(subject.ro,subject.en)+' · '"]]
+])for(const pattern of patterns)assert.ok(script.includes(pattern),name+': inline lesson text regression '+pattern);
+
 console.log('PASS curriculum: England Year 1–13 study topics, Year 7 computing, offline theory, compact year picker, browser boot');
