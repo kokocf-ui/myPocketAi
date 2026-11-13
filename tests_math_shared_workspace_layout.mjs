@@ -4,7 +4,7 @@ import frontend from './index.js';
 
 // Maths uses one workspace for every topic, school stage, grade and level.
 const html=await(await frontend.fetch(new Request('https://math-layout.test/'))).text();
-const script=html.match(/<script[^>]*>([\\s\\S]*?)<\\/script>/)?.[1];
+const script=html.split('<script>')[1]?.split('</script>')[0];
 assert.ok(script,'frontend boot script');
 new vm.Script(script);
 const start=script.indexOf('function openLearningSubjectAfterCountry(key)');
