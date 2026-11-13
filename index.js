@@ -8868,7 +8868,7 @@ function educationTheoryOpen(subject,level){
  formula.className='education-theory-formula';
  const resultBack=document.createElement('button');resultBack.className='secondary-btn';resultBack.type='button';resultBack.textContent=subject==='math'?learningLabel('← La listă','← To list'):learningLabel('← La rezultate','← Results');resultBack.onclick=()=>{detail.hidden=true;list.hidden=false;searchBar.hidden=false;description.hidden=false;dialog.scrollTop=0;list.scrollTop=0};
  detail.append(resultBack,detailTitle,statement,formula);
- detail.eduPrintableMaterial=()=>({title:detailTitle.textContent,text:[statement.textContent,formula.hidden?'':formula.textContent].filter(Boolean).join('\n\n')});
+ detail.eduPrintableMaterial=()=>({title:detailTitle.textContent,text:[statement.textContent,formula.hidden?'':formula.textContent].filter(Boolean).join('\\n\\n')});
  eduAttachPrintAction(detail);
  function render(){
   list.replaceChildren();
@@ -9056,7 +9056,7 @@ function chemistryCurriculumOpen(){
    }
    const visualKind=chemistryVisualKind(selectedLesson.title+' '+selectedLesson.statement.slice(0,100));
    if(visualKind){const visual=chemistryVisualBuild(visualKind,selectedLesson.title);if(visual)detail.append(visual)}
-   detail.eduPrintableMaterial=()=>({title:selectedLesson.title,text:[selectedLesson.statement,selectedLesson.formula==='—'?'':selectedLesson.formula].filter(Boolean).join('\n\n')});
+   detail.eduPrintableMaterial=()=>({title:selectedLesson.title,text:[selectedLesson.statement,selectedLesson.formula==='—'?'':selectedLesson.formula].filter(Boolean).join('\\n\\n')});
    eduAttachPrintAction(detail);
    content.append(detail);
   }
@@ -9184,7 +9184,7 @@ function biologyCurriculumOpen(){
    const formula=document.createElement('div');formula.className='education-theory-formula';
    formula.textContent=selectedLesson.formula==='—'?'':selectedLesson.formula;
    panel.append(h,p);if(formula.textContent)panel.append(formula);
-   panel.eduPrintableMaterial=()=>({title:selectedLesson.title,text:[selectedLesson.statement,formula.textContent].filter(Boolean).join('\n\n')});
+   panel.eduPrintableMaterial=()=>({title:selectedLesson.title,text:[selectedLesson.statement,formula.textContent].filter(Boolean).join('\\n\\n')});
    eduAttachPrintAction(panel);body.append(panel);
   }
  }
@@ -9805,7 +9805,7 @@ function physicsTheoryOpen(){
   goBack.textContent=learningLabel('← La lecții','← Lessons');
   goBack.onclick=()=>{detail.hidden=true;list.hidden=false;search.hidden=false};
   detail.append(goBack,title,statement,formula);
-  detail.eduPrintableMaterial=()=>({title:item.title,text:[item.statement,item.formula==='—'?'':item.formula].filter(Boolean).join('\n\n')});
+  detail.eduPrintableMaterial=()=>({title:item.title,text:[item.statement,item.formula==='—'?'':item.formula].filter(Boolean).join('\\n\\n')});
   eduAttachPrintAction(detail);
   const kind=physicsVisualKind(item.title,chapter);
   if(kind)detail.append(physicsVisualBuild(kind));
@@ -9935,7 +9935,7 @@ function astronomyTheoryOpen(){
  const rank={beginner:0,intermediate:1,medium:1,advanced:2};
  const entries=EDUCATION_THEORY_DATA.filter(x=>x.subject==='astronomy'&&x.topic===scienceJourney.topic&&rank[x.level]<=rank[scienceJourney.level]);
  const render=()=>{list.replaceChildren();const q=educationTheoryClean(search.value);const matched=q?entries.filter(e=>educationTheoryClean(e.title+' '+e.aliases.join(' ')).split(' ').some(w=>w.startsWith(q))||educationTheoryClean(e.title).includes(q)).slice(0,4):entries;
-  for(const entry of matched){const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';btn.textContent=entry.title;btn.onclick=()=>{detail.replaceChildren();const h=document.createElement('h3');h.textContent=entry.title;const p=document.createElement('p');p.textContent=entry.statement;const f=document.createElement('p');f.className='education-theory-formula';f.textContent=entry.formula;detail.append(h,p,f);detail.eduPrintableMaterial=()=>({title:entry.title,text:[entry.statement,entry.formula==='—'?'':entry.formula].filter(Boolean).join('\n\n')});eduAttachPrintAction(detail);const graphic=astronomyVisualBuild(astronomyVisualKind(entry.title,entry.topic));if(graphic)detail.append(graphic);detail.hidden=false;list.hidden=true;search.hidden=true};list.append(btn)}
+  for(const entry of matched){const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';btn.textContent=entry.title;btn.onclick=()=>{detail.replaceChildren();const h=document.createElement('h3');h.textContent=entry.title;const p=document.createElement('p');p.textContent=entry.statement;const f=document.createElement('p');f.className='education-theory-formula';f.textContent=entry.formula;detail.append(h,p,f);detail.eduPrintableMaterial=()=>({title:entry.title,text:[entry.statement,entry.formula==='—'?'':entry.formula].filter(Boolean).join('\\n\\n')});eduAttachPrintAction(detail);const graphic=astronomyVisualBuild(astronomyVisualKind(entry.title,entry.topic));if(graphic)detail.append(graphic);detail.hidden=false;list.hidden=true;search.hidden=true};list.append(btn)}
   if(!matched.length){const note=document.createElement('p');note.textContent=learningLabel('Nu există rezultate.','No results.');list.append(note)}
  };
  back.onclick=()=>{if(!detail.hidden){detail.hidden=true;list.hidden=false;search.hidden=false}else dialog.close()};
@@ -10148,7 +10148,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    details.append(glossary);
   }
   // PDF actions belong to the expanded theory lesson, not its chapter menu.
-  details.eduPrintableMaterial=()=>({title:item.title,text:[item.statement,item.formula==='—'?'':item.formula].filter(Boolean).join('\n\n')});
+  details.eduPrintableMaterial=()=>({title:item.title,text:[item.statement,item.formula==='—'?'':item.formula].filter(Boolean).join('\\n\\n')});
   eduAttachPrintAction(details);
   details.addEventListener('toggle',()=>{
    if(details.open)openItems.forEach(other=>{if(other!==details)other.open=false});
