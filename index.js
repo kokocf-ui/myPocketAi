@@ -8070,7 +8070,7 @@ function scienceJourneyShowChoices(stage){
      rank[x.level==='medium'?'intermediate':x.level]<=rank[scienceJourney.level]);
   });
  if(stage==='years'){
-  list.classList.add('science-year-list');
+  list.className+=' science-year-list';
   for(const group of scienceYearGroups()){
    const section=document.createElement('section');section.className='science-year-band';
    const heading=document.createElement('h3');heading.textContent=learningLabel(group.ro,group.en);
