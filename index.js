@@ -20936,6 +20936,27 @@ ${COMMUNICATION_STYLE}
  }
 }
 
+/* Sciences: the Home/Back header stays pinned while study content scrolls.
+   Scoped to the four science subjects and all their selection/work stages. */
+#view-module.learning-science.active > .module-actions-row{
+ position:sticky!important;
+ top:0!important;
+ z-index:85!important;
+ align-self:start!important;
+ width:100%!important;
+ padding:8px 0 11px!important;
+ margin:0 0 4px!important;
+ background:linear-gradient(180deg,#061b2b 0%,#061b2b 82%,rgba(6,27,43,.97) 100%)!important;
+}
+#view-module.learning-science.active > .module-actions-row.pocket-inline-nav{
+ margin-bottom:4px!important;
+}
+/* Keep the final school-year tile accessible above the fixed bottom dock. */
+#view-module.learning-science.science-year-stage.active .science-choice-list.science-year-list{
+ padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important;
+ scroll-padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important;
+}
+
 ${ORACLE_COMMUNICATION_STYLE}
 
 </style>
