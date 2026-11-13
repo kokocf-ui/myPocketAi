@@ -7934,10 +7934,9 @@ function scienceBack(){
  const current=scienceJourney.stage;
  scienceVoiceStop();scienceStopRequest();
  if(current==='workspace')scienceJourney.stage='topics';
- else if(current==='topics')scienceJourney.stage=(['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)&&scienceJourney.level==='advanced')?'specialties':'levels';
- else if(current==='specialties')scienceJourney.stage='levels';
- else if(current==='levels')scienceJourney.stage='subjects';
- else if(current==='grade')scienceJourney.stage='levels';
+ else if(current==='topics')scienceJourney.stage=scienceJourney.level==='advanced'?'specialties':'years';
+ else if(current==='specialties')scienceJourney.stage='years';
+ else if(current==='years')scienceJourney.stage='subjects';
  else {renderLearningSubjects();return}
  scienceJourneyShowChoices(scienceJourney.stage);
 }
@@ -7989,6 +7988,35 @@ function scienceFitViewport(){
 }
 window.addEventListener('resize',scienceFitViewport,{passive:true});
 window.visualViewport?.addEventListener('resize',scienceFitViewport,{passive:true});
+
+// Use the existing per-country school-year catalogue; never convert foreign
+// grades into Romanian class numbers. Romanian minimum classes are grounded
+// in this project's subject curriculum, not imposed internationally.
+function scienceYearGroups(){
+ const country=educationCountrySelection.code;
+ const minRo={physics:6,chemistry:7,biology:5,astronomy:5}[scienceJourney.subject]||5;
+ const seen=new Set();
+ const bands=[
+  {level:'beginner',ro:'Gimnaziu / nivel de bază',en:'Lower secondary / foundation'},
+  {level:'intermediate',ro:'Liceu / nivel mediu',en:'Upper secondary / intermediate'},
+  {level:'advanced',ro:'Universitate și specializări',en:'University and specialisations'}
+ ];
+ return bands.map(band=>{
+  let years=eduYearOptions(country,band.level,'science').filter(entry=>entry&&entry.id);
+  if(country==='RO'&&band.level==='beginner')
+   years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=minRo&&Number(entry.id)<=8);
+  if(country==='RO'&&band.level==='intermediate')
+   years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=9&&Number(entry.id)<=12);
+  if(band.level==='advanced')years=years.slice(0,1);
+  years=years.filter(entry=>{
+   const key=String(entry.id);
+   if(seen.has(key))return false;
+   seen.add(key);return true;
+  });
+  return {level:band.level,ro:band.ro,en:band.en,years};
+ }).filter(group=>group.years.length);
+}
+
 function scienceJourneyShowChoices(stage){
  const science=LEARNING_SUBJECTS.find(s=>s[0]==='science');
  if(!science)return;
@@ -7999,6 +8027,8 @@ function scienceJourneyShowChoices(stage){
  root.classList.remove('learning-choose','learning-math','learning-hg','learning-languages','math-choice-stage');
  root.classList.add('learning-active','learning-science');
  root.classList.toggle('science-choice-stage',stage!=='workspace');
+ root.classList.toggle('science-subject-stage',stage==='subjects');
+ root.classList.toggle('science-year-stage',stage==='years');
  $('moduleTitle').textContent=learningLabel('Științe','Sciences')+
   (stage==='subjects'?'':' · '+learningLabel(scienceSubjectInfo()?.ro||'',scienceSubjectInfo()?.en||''));
  $('moduleLead').textContent='';
@@ -8012,20 +8042,25 @@ function scienceJourneyShowChoices(stage){
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
  const title=document.createElement('h2');
  title.textContent=stage==='subjects'?learningLabel('Alege materia','Choose subject'):
-  stage==='levels'?learningLabel('Alege nivelul','Choose level'):
+  stage==='years'?learningLabel('Alege clasa / anul de studiu','Choose grade / school year'):
   stage==='specialties'?learningLabel('Alege specializarea universitară','Choose university specialization'):
   learningLabel('Alege capitolul','Choose chapter');
  const note=document.createElement('p');
  note.textContent=stage==='subjects'?
-  learningLabel('Fizică, Chimie, Biologie și Astronomie.','Physics, Chemistry, Biology and Astronomy.'):
-  stage==='levels'?
-  learningLabel('Nivelul stabilește intervalul de clase; urmează selecția clasei potrivite țării.','The level determines school years; select the country-specific grade next.'):
+  learningLabel('Selectează una dintre cele patru materii.','Choose one of the four subjects.'):
+  stage==='years'?
+  educationCountrySelection.label+' · '+
+   learningLabel('Selectează clasa sau anul pentru materia aleasă.','Choose the grade or school year for the selected subject.')+
+   (scienceJourney.subject==='astronomy'?
+    ' '+learningLabel('Astronomia este un parcurs orientativ, nu o disciplină obligatorie în fiecare clasă.','Astronomy is an advisory study track, not a compulsory subject in every grade.'):'')+
+   (educationCountrySelection.code!=='RO'?
+    ' '+learningLabel('Unde programa locală nu este verificată, conținutul este orientativ.','Where the local curriculum is unverified, content is advisory.'):''):
   stage==='specialties'?learningLabel('Fiecare specializare are capitole proprii și baze comune.','Each track has specialist and shared chapters.'):
   learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(scienceJourney.grade||'')+'. '+learningLabel('Capitole pentru sistemul selectat; unde programa este neconfirmată, pregătirea este orientativă.','Curriculum by chosen school system; where unverified, learning is general.');
  const list=document.createElement('div');
  list.className='math-choice-list science-choice-list';
  const choices=stage==='subjects'?SCIENCE_SUBJECTS:
-  stage==='levels'?CHEMISTRY_LEVEL_DATA:
+  stage==='years'?[]:
   stage==='specialties'?(scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:scienceJourney.subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
   scienceTopicChoices().filter(topic=>{
    if(!['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject))return true;
@@ -8034,11 +8069,32 @@ function scienceJourneyShowChoices(stage){
     EDUCATION_THEORY_DATA.some(x=>x.subject===scienceJourney.subject&&x.topic===topic.id&&
      rank[x.level==='medium'?'intermediate':x.level]<=rank[scienceJourney.level]);
   });
+ if(stage==='years'){
+  list.classList.add('science-year-list');
+  for(const group of scienceYearGroups()){
+   const section=document.createElement('section');section.className='science-year-band';
+   const heading=document.createElement('h3');heading.textContent=learningLabel(group.ro,group.en);
+   const tiles=document.createElement('div');tiles.className='science-year-tiles';
+   for(const year of group.years){
+    const tile=document.createElement('button');tile.type='button';
+    tile.className='secondary-btn science-year-tile';
+    tile.textContent=learningLabel(year.ro,year.en);
+    tile.onclick=()=>{
+     scienceJourney.level=group.level;scienceJourney.grade=year.id;
+     scienceJourney.topic=null;scienceJourney.specialty=null;
+     scienceJourneyShowChoices(group.level==='advanced'?'specialties':'topics');
+    };
+    tiles.append(tile);
+   }
+   section.append(heading,tiles);list.append(section);
+  }
+ }
  for(const item of choices){
   const btn=document.createElement('button');btn.type='button';
   btn.className='secondary-btn math-choice-row science-choice-row';
+  if(stage==='subjects')btn.classList.add('science-subject-tile');
   const heading=document.createElement('strong');
-  heading.textContent=(stage==='subjects'?item.icon+' ':'')+learningLabel(item.ro,item.en);
+  heading.textContent=learningLabel(item.ro,item.en);
   const sub=document.createElement('small');
   sub.textContent=stage==='subjects'?
    (item.id==='chemistry'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
@@ -8050,14 +8106,17 @@ function scienceJourneyShowChoices(stage){
    ['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)?
     EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length+
       learningLabel(' fișe teoretice',' theory entries'):'';
+  if(stage==='subjects'){
+   const icon=document.createElement('span');icon.className='science-subject-icon';
+   icon.textContent=item.icon;icon.setAttribute('aria-hidden','true');
+   btn.append(icon);
+  }
   btn.append(heading,sub);
   btn.onclick=()=>{
    if(stage==='subjects'){
-    scienceJourney.subject=item.id;scienceJourney.level=null;scienceJourney.specialty=null;scienceJourney.topic=null;
-    scienceJourneyShowChoices('levels');
-   }else if(stage==='levels'){
-    scienceJourney.level=item.id;scienceJourney.grade=null;scienceJourney.specialty=null;
-    scienceJourney.stage='grade';educationGradeGate('science',item.id,grade=>{scienceJourney.grade=grade;scienceJourneyShowChoices(['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)&&item.id==='advanced'?'specialties':'topics')},()=>scienceJourneyShowChoices('levels'));
+    scienceJourney.subject=item.id;scienceJourney.level=null;scienceJourney.grade=null;
+    scienceJourney.specialty=null;scienceJourney.topic=null;
+    scienceJourneyShowChoices('years');
    }else if(stage==='specialties'){
     scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
    }else{
@@ -20780,6 +20839,92 @@ main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;ov
 
 
 ${COMMUNICATION_STYLE}
+
+/* 2026-11-13 — Center study cards and use subject/year science tiles.
+   Limit to the Education entry screen and Sciences selection stages. */
+#view-module.learning-choose.active>#moduleContent{
+ display:flex!important;flex-direction:column!important;
+ justify-content:flex-start!important;align-items:stretch!important;
+ overflow-y:auto!important;overflow-x:hidden!important;
+}
+#view-module.learning-choose.active>#moduleContent>.education-grid{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ width:100%!important;height:auto!important;min-height:0!important;
+ grid-template-rows:repeat(4,minmax(98px,1fr))!important;
+ margin:auto 0!important;padding:8px 2px!important;
+ align-content:center!important;
+}
+#view-module.learning-science.science-subject-stage.active .science-choice-panel,
+#view-module.learning-science.science-year-stage.active .science-choice-panel{
+ display:flex!important;flex-direction:column!important;
+ box-sizing:border-box!important;min-height:0!important;width:100%!important;
+ overflow:hidden!important;padding:clamp(10px,2vw,14px)!important;
+}
+#view-module.learning-science.science-subject-stage.active .science-choice-panel>h2,
+#view-module.learning-science.science-year-stage.active .science-choice-panel>h2,
+#view-module.learning-science.science-subject-stage.active .science-choice-panel>p,
+#view-module.learning-science.science-year-stage.active .science-choice-panel>p{
+ flex:0 0 auto!important;margin:0 0 9px!important;
+}
+#view-module.learning-science.science-subject-stage.active .science-choice-list{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-auto-rows:clamp(132px,20dvh,185px)!important;
+ justify-content:center!important;align-content:center!important;
+ align-items:stretch!important;gap:clamp(8px,1.5dvh,14px)!important;
+ width:100%!important;min-height:0!important;flex:1 1 auto!important;
+ box-sizing:border-box!important;padding:8px 2px!important;
+ overflow-y:auto!important;overflow-x:hidden!important;
+}
+#view-module.learning-science.science-subject-stage.active .science-choice-list>.science-subject-tile{
+ display:flex!important;flex-direction:column!important;gap:clamp(6px,1dvh,10px)!important;
+ align-items:center!important;justify-content:center!important;text-align:center!important;
+ width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+ max-width:none!important;box-sizing:border-box!important;
+ padding:clamp(8px,2vw,12px)!important;margin:0!important;border-radius:17px!important;
+ white-space:normal!important;
+}
+#view-module.learning-science.science-subject-stage.active .science-subject-tile>.science-subject-icon{
+ font-size:clamp(25px,5dvh,36px)!important;line-height:1.1!important;
+}
+#view-module.learning-science.science-subject-stage.active .science-subject-tile>strong{
+ font-size:clamp(16px,3.8vw,23px)!important;line-height:1.18!important;
+ overflow-wrap:break-word!important;
+}
+#view-module.learning-science.science-subject-stage.active .science-subject-tile>small{
+ font-size:clamp(11px,2.6vw,14px)!important;line-height:1.25!important;
+ overflow-wrap:break-word!important;
+}
+#view-module.learning-science.science-year-stage.active .science-choice-list.science-year-list{
+ display:flex!important;flex-direction:column!important;
+ flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;
+ gap:10px!important;width:100%!important;
+ padding:4px 0 18px!important;scroll-padding-bottom:18px!important;
+}
+#view-module.learning-science.science-year-stage.active .science-year-band{
+ flex:0 0 auto!important;display:flex!important;flex-direction:column!important;
+ gap:7px!important;min-width:0!important;width:100%!important;
+}
+#view-module.learning-science.science-year-stage.active .science-year-band>h3{
+ font-size:clamp(13px,3.4vw,17px)!important;line-height:1.25!important;
+ margin:3px 0 0!important;
+}
+#view-module.learning-science.science-year-stage.active .science-year-tiles{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:8px!important;width:100%!important;min-width:0!important;
+}
+#view-module.learning-science.science-year-stage.active .science-year-tile{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ box-sizing:border-box!important;width:100%!important;min-width:0!important;
+ min-height:52px!important;margin:0!important;padding:8px!important;
+ font-size:clamp(13px,3.5vw,17px)!important;line-height:1.15!important;
+ white-space:normal!important;text-align:center!important;border-radius:14px!important;
+}
+@media(max-height:650px){
+ #view-module.learning-science.science-subject-stage.active .science-choice-list{
+  grid-auto-rows:minmax(114px,25dvh)!important;align-content:start!important;
+ }
+}
+
 ${ORACLE_COMMUNICATION_STYLE}
 
 </style>
