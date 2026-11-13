@@ -197,7 +197,7 @@ assert.equal(requests.at(-1).material.text,long.trim(),'PDF uses complete theory
 // A WebView style-injection error must not hide the paging controls.
 const styleFailureDocument={...document,getElementById:()=>{throw Error('CSS injection is blocked')}};
 const fallbackUI=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+
- '\\n({reader:litShowMaterialReader})',{...cfg,document:styleFailureDocument});
+ '\n({reader:litShowMaterialReader})',{...cfg,document:styleFailureDocument});
 assert.equal(fallbackUI.reader('Paginare fără stil',long),true);
 const fallbackOverlay=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
 const fallbackNavs=all(fallbackOverlay).filter(x=>x.tagName==='NAV');
