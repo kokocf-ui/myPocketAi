@@ -103,8 +103,17 @@ for(const fragment of ['const HG_LOCAL_GUIDES_DATA=','function hgLessonSections(
 }
 assert.ok(boot.includes('function educationTopicPicker(label,entries,selected,onSelect){'),
  'All study modules share one compact chapter navigator');
-assert.ok(boot.includes("chapters.forEach(other=>{if(other!==details)other.open=false})"),
- 'Opening one local theory chapter closes the previous one');
+assert.ok(boot.includes('function educationOpenPagedLesson(title,body){'),
+ 'Education uses a reusable paginated reading dialog');
+assert.ok(boot.includes('educationOpenPagedLesson(heading,body);'),
+ 'History and geography themes open in the paginated dialog');
+assert.ok(boot.includes('educationOpenPagedLesson(item.title,material);'),
+ 'Science study themes open in the paginated dialog');
+assert.ok(boot.includes('head.eduPrintableMaterial=()=>({title,text:raw})'),
+ 'Save and print stay inside the opened lesson');
+const hgReader=boot.slice(boot.indexOf('function hgShowCoreLesson(panel,guide){'),boot.indexOf('function hgLesson(panel){'));
+assert.ok(!hgReader.includes("createElement('details')"),
+ 'History and geography topic lists must not expand long text inline');
 assert.ok(boot.includes('lessonView.mountAI(aiInline)'),
  'AI deepening is mounted directly under the selected theory topic');
 assert.ok(!boot.includes('secondary-btn hg-toc-button'),
@@ -118,7 +127,7 @@ for(const section of ['scienceTopicChoices().filter','mathChaptersForSelection()
  assert.ok(boot.includes(section),'Education topic picker missing integration: '+section);
 }
 assert.ok(boot.includes('function educationScienceTheoryReader(subjectId,topicId,level){'),
- 'Science workspaces must show their existing local theory directly');
+ 'Science workspace includes a topic-only local theory menu');
 const begin=boot.indexOf('function hgBack(){'),end=boot.indexOf('function hgOpen(stage){',begin);
 assert.ok(begin>=0&&end>begin,'History Back source missing');
 const makeBack=(journey,open,opts,gradeGate)=>new Function('hgJourney','hgOpen','eduYearOptions','educationCountrySelection','educationGradeGate','renderLearningSubjects',

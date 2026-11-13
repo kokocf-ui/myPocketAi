@@ -10119,42 +10119,83 @@ async function sciencePhotoFile(file){
  }catch{sciencePhotoReview('')}
  finally{if(url)URL.revokeObjectURL(url)}
 }
+// Common Education reading dialog: only theme names stay visible in the workspace.
+function educationOpenPagedLesson(title,body){
+ document.getElementById('educationPagedLessonDialog')?.remove();
+ const raw=String(body||'').trim();
+ const limit=window.innerWidth<560?650:1050,breakLine=String.fromCharCode(10);
+ const pages=[];
+ for(let start=0;start<raw.length;){
+  let end=Math.min(raw.length,start+limit);
+  if(end<raw.length){
+   const boundary=Math.max(raw.lastIndexOf(breakLine,end),raw.lastIndexOf('. ',end)+1,raw.lastIndexOf(' ',end));
+   if(boundary>start+Math.round(limit*0.55))end=boundary;
+  }
+  pages.push(raw.slice(start,end).trim());start=end;
+  while(raw[start]===' '||raw[start]===breakLine)start++;
+ }
+ if(!pages.length)pages.push('');
+ const dialog=document.createElement('dialog');dialog.id='educationPagedLessonDialog';
+ dialog.className='education-theory-dialog education-paged-dialog';
+ dialog.style.cssText='box-sizing:border-box;width:94vw;max-width:760px;max-height:90dvh;overflow:hidden;flex-direction:column;gap:10px;padding:12px;';
+ const head=document.createElement('div');head.className='education-theory-head';
+ head.style.cssText='display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:0 0 auto;';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>dialog.close();
+ const heading=document.createElement('h2');heading.textContent=title;
+ heading.style.cssText='flex:1 1 100px;min-width:80px;text-align:center;overflow-wrap:anywhere;margin:0;font-size:clamp(15px,4vw,21px);';
+ head.append(back,heading);
+ head.eduPrintableMaterial=()=>({title,text:raw});
+ eduAttachPrintAction(head);
+ const content=document.createElement('div');content.className='education-paged-text';
+ content.style.cssText='white-space:pre-wrap;overflow:auto;overscroll-behavior:contain;flex:1 1 auto;min-height:0;line-height:1.55;font-size:15px;padding:8px 3px;';
+ const footer=document.createElement('div');footer.className='education-paged-controls';
+ footer.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px;flex:0 0 auto;';
+ const prev=document.createElement('button');prev.type='button';prev.className='secondary-btn';prev.textContent=learningLabel('← Anterior','← Previous');
+ const count=document.createElement('span');count.setAttribute('aria-live','polite');
+ const next=document.createElement('button');next.type='button';next.className='secondary-btn';next.textContent=learningLabel('Următor →','Next →');
+ let page=0;
+ const paint=()=>{
+  content.textContent=pages[page];content.scrollTop=0;
+  prev.disabled=page===0;next.disabled=page===pages.length-1;
+  count.textContent=learningLabel('Pagina ','Page ')+(page+1)+' / '+pages.length;
+ };
+ prev.onclick=()=>{if(page>0){page--;paint()}};
+ next.onclick=()=>{if(page<pages.length-1){page++;paint()}};
+ footer.append(prev,count,next);footer.hidden=pages.length===1;
+ dialog.append(head,content,footer);
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);
+ try{dialog.showModal();dialog.style.display='flex'}catch{dialog.setAttribute('open','');dialog.style.display='flex'}
+ paint();return dialog;
+}
+
 function educationScienceTheoryReader(subjectId,topicId,level){
  const rank={beginner:0,medium:1,intermediate:1,advanced:2};
  const max=rank[level]??0;
- const lessons=EDUCATION_THEORY_DATA.filter(item=>item.subject===subjectId&&item.topic===topicId&&
-  (rank[item.level]??3)<=max);
+ const lessons=EDUCATION_THEORY_DATA.filter(item=>item.subject===subjectId&&item.topic===topicId&&(rank[item.level]??3)<=max);
  const section=document.createElement('section');section.className='science-inline-theory';
- const head=document.createElement('h3');
- head.textContent=learningLabel('📖 Lecții și teorie de studiu','📖 Study lessons and theory')+' ('+lessons.length+')';
+ const head=document.createElement('h3');head.textContent=learningLabel('📖 Teme de studiu','📖 Study topics')+' ('+lessons.length+')';
  section.append(head);
  if(!lessons.length){
-  const empty=document.createElement('p');empty.textContent=learningLabel('Nu există încă lecții verificate pentru acest capitol. Poți folosi profesorul AI, dar răspunsurile trebuie verificate.','No local theory entries for this chapter. AI explanations are available but should be verified.');
+  const empty=document.createElement('p');empty.textContent=learningLabel('Nu există încă lecții verificate pentru acest capitol.','No verified lessons yet for this chapter.');
   section.append(empty);return section;
  }
- const openItems=[];
+ const topics=document.createElement('div');topics.className='science-theory-topic-list';
+ topics.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;width:100%;';
  lessons.forEach((item,index)=>{
-  const details=document.createElement('details');details.className='science-inline-theory-item';
-  details.open=index===0;
-  const summary=document.createElement('summary');summary.textContent=(index+1)+'. '+item.title;
-  details.append(summary);
-  const statement=document.createElement('p');statement.textContent=item.statement;details.append(statement);
-  if(item.formula){
-   const formula=document.createElement('pre');formula.className='science-inline-formula';
-   formula.textContent=item.formula;details.append(formula);
-  }
-  if(Array.isArray(item.aliases)&&item.aliases.length){
-   const glossary=document.createElement('small');glossary.textContent=learningLabel('Termeni asociați: ','Related terms: ')+item.aliases.join(' · ');
-   details.append(glossary);
-  }
-  // PDF actions belong to the expanded theory lesson, not its chapter menu.
-  details.eduPrintableMaterial=()=>({title:item.title,text:[item.statement,item.formula==='—'?'':item.formula].filter(Boolean).join('\\n\\n')});
-  eduAttachPrintAction(details);
-  details.addEventListener('toggle',()=>{
-   if(details.open)openItems.forEach(other=>{if(other!==details)other.open=false});
-  });
-  openItems.push(details);section.append(details);
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn science-inline-theory-item';
+  button.style.cssText='width:100%;min-width:0;min-height:54px;padding:10px;white-space:normal;text-align:center;overflow-wrap:anywhere;';
+  button.textContent=(index+1)+'. '+item.title;
+  button.onclick=()=>{
+   const material=[item.statement,item.formula&&item.formula!=='—'?item.formula:'',
+    Array.isArray(item.aliases)&&item.aliases.length?learningLabel('Termeni asociați: ','Related terms: ')+item.aliases.join(' · '):''].filter(Boolean).join(String.fromCharCode(10,10));
+   educationOpenPagedLesson(item.title,material);
+  };
+  topics.append(button);
  });
+ section.append(topics);
  return section;
 }
 
@@ -11800,46 +11841,30 @@ function educationTopicPicker(label,entries,selected,onSelect){
 }
 function hgShowCoreLesson(panel,guide){
  const section=document.createElement('section');section.className='hg-offline-lesson';
- section.append(hgText('h3',hgL('Teme de studiu · cuprins și teorie','Study topics · contents and theory')));
+ section.append(hgText('h3',hgL('Teme de studiu','Study topics')));
  const toc=document.createElement('div');toc.className='hg-local-toc';
- const chapters=[];let aiInline=null;
- const mountAI=()=>{
-  const active=chapters.find(ch=>ch.open);
-  if(!active||!aiInline)return;
-  active.append(aiInline);
- };
+ toc.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;width:100%;';
  guide.forEach(([heading,body],i)=>{
-  const details=document.createElement('details');details.className='hg-theory-chapter';
-  details.open=i===0;
-  const summary=document.createElement('summary');summary.textContent=(i+1)+'. '+heading;
-  const paragraph=hgText('p',body);paragraph.className='hg-theory-body';
-  details.append(summary,paragraph);
-  details.addEventListener('toggle',()=>{
-   if(!details.open)return;
-   chapters.forEach(other=>{if(other!==details)other.open=false});
+  const button=hgBtn((i+1)+'. '+heading,()=>{
    hgJourney.activeSubtopic=heading;
-   if(aiInline){
-    const request=aiInline.querySelector('textarea');
-    const response=aiInline.querySelector('.hg-lesson-output');
-    if(request)request.value=heading;
-    if(response)response.replaceChildren();
-   }
-   mountAI();
-  });
-  chapters.push(details);toc.append(details);
+   const request=section.querySelector('.hg-ai-inline textarea');
+   const response=section.querySelector('.hg-lesson-output');
+   if(request)request.value=heading;
+   if(response)response.replaceChildren();
+   educationOpenPagedLesson(heading,body);
+  },'secondary-btn hg-theory-topic');
+  button.style.cssText='width:100%;min-width:0;min-height:54px;white-space:normal;overflow-wrap:anywhere;text-align:center;padding:10px;';
+  toc.append(button);
  });
  section.append(toc);panel.append(section);
  hgJourney.activeSubtopic=guide[0]?.[0]||'';
- return {section,chapters,mountAI:node=>{aiInline=node;mountAI()}};
+ return {section,mountAI:node=>section.append(node)};
 }
 
 function hgLesson(panel){
  const topic=hgTopic();if(!topic)return;
  const country=hgCountry(),scope=HG_SCOPE_DATA.find(x=>x.id===hgJourney.scope);
  panel.append(hgText('h3',hgL(topic.ro,topic.en)));
- panel.append(hgText('p',hgL('Programa: ','Curriculum: ')+hgL(scope.ro,scope.en)+(hgJourney.scope!=='world'?' · '+(country?hgL(country.ro,country.en):hgJourney.otherCountry||''):'')+(hgJourney.region?' · '+hgJourney.region:'')+' · '+(hgJourney.level||'')+' · '+(hgJourney.grade||'')));
- panel.append(hgText('p',topic.query||hgL('Analizează exemple potrivite clasei selectate.','Explore grade-appropriate examples.')));
- if(topic.period)panel.append(hgText('p',hgL('Perioadă generală: ','General period: ')+topic.period));
  const guide=hgLessonSections(topic);const lessonView=hgShowCoreLesson(panel,guide);
  const aiInline=document.createElement('section');aiInline.className='hg-ai-inline';
  aiInline.append(hgText('h4',hgL('Aprofundează tema selectată cu profesorul AI','Explore this topic with the AI teacher')));
