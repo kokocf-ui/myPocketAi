@@ -25,7 +25,7 @@ const categoryFilters={
  cinema:['osm.amenity.cinema'],zoo:['osm.tourism.zoo'],stadium:['osm.leisure.stadium'],
  fuel:['osm.amenity.fuel'],charging:['osm.amenity.charging_station'],
  parking:['osm.amenity.parking'],car_wash:['osm.amenity.car_wash'],
- car_repair:['osm.shop.car_repair'],car_dealers:['osm.shop.car','osm.shop.car_dealer','osm.shop.car_sales','osm.shop.motor_vehicle'],hospital:['osm.amenity.hospital','osm.amenity.clinic','osm.amenity.doctors'],hospital_only:['osm.amenity.hospital','osm.healthcare.hospital'],currency_exchange:['osm.amenity.bureau_de_change'],
+ car_repair:['osm.shop.car_repair'],car_dealers:['osm.shop.car','osm.shop.car_dealer','osm.shop.car_sales','osm.shop.motor_vehicle'],hospital:['osm.amenity.hospital','osm.amenity.clinic','osm.amenity.doctors'],hospital_only:['osm.amenity.hospital','osm.healthcare.hospital'],medical_dental:['osm.amenity.clinic','osm.amenity.doctors','osm.amenity.dentist','osm.healthcare.clinic','osm.healthcare.doctor','osm.healthcare.dentist'],currency_exchange:['osm.amenity.bureau_de_change'],
  school:['osm.amenity.school','osm.amenity.university','osm.amenity.college'],
  library:['osm.amenity.library'],atm:['osm.amenity.atm'],bank:['osm.amenity.bank'],
  post_office:['osm.amenity.post_office'],toilets:['osm.amenity.toilets'],
