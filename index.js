@@ -13132,7 +13132,8 @@ function mathNormalizeArithmeticRequest(value,topic){
  if(topic!=='arithmetic'||!raw.endsWith('=')||(raw.match(/=/g)||[]).length!==1)return raw;
  const expression=raw.slice(0,-1).trim();
  const withoutSign=expression.replace(/^[+−-]/,'');
- if(!/[+\-*×÷\/]/.test(withoutSign)||!/^[0-9.,()\s+\-*×÷\/−–·]+$/.test(expression))return raw;
+ if(![...withoutSign].some(ch=>'+-*×÷/'.includes(ch))||
+  ![...expression].every(ch=>'0123456789.,() +-*×÷/−–·'.includes(ch)))return raw;
  return mathArithmeticValue(expression)!==null?expression:raw;
 }
 function mathArithmeticEquality(source){
