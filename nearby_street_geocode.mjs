@@ -21,6 +21,12 @@ export function parseNearbyStreetQuery(value){
  // Already extracted "Strada Morii, Oradea, România".
  const full=t.match(/^(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+([^,]{2,75}),\s*([^,]{2,75})(?:,\s*([^,]{2,65}))?$/i);
  if(full)return makeTarget(full[1],full[2],full[3]);
+ // "Restaurante în Oradea pe strada Nufărului" — city comes before street.
+ const cityFirst=t.match(/\b(?:in|din)\s+([^,]{2,75}?)\s+pe\s+(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+(.+?)(?:,\s*(.+))?$/i);
+ if(cityFirst)return makeTarget(cityFirst[2],cityFirst[1],cityFirst[3]);
+ // "Restaurante pe strada Nufărului din Oradea" — street comes before city.
+ const streetFirst=t.match(/\bpe\s+(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+(.+?)\s+(?:din|in|of)\s+([^,]+?)(?:,\s*(.+))?$/i);
+ if(streetFirst)return makeTarget(streetFirst[1],streetFirst[2],streetFirst[3]);
  // "strada Morii din Oradea" or "street Morii in London".
  const suffix=t.match(/^(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+(.+?)\s+(?:din|in|of)\s+([^,]+?)(?:,\s*(.+))?$/i);
  return suffix?makeTarget(suffix[1],suffix[2],suffix[3]):null;
