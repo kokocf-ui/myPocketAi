@@ -45,7 +45,13 @@ assert.ok(bank.geometry.primary.some(x=>x.ro.includes('Figuri')||x.ro.includes('
 assert.ok(bank.geometry.lower.some(x=>x.ro.includes('teoreme')),'proofs are a secondary-school concept');
 assert.ok(bank.algebra.primary.some(x=>x.ro.includes('necunoscute')),'primary algebra means preparatory unknowns');
 assert.ok(script.includes("if(stage==='branches')"),'branch screen follows country selection');
-assert.ok(script.includes("stage==='levels'?MATH_SCHOOL_STAGES.filter"),'only appropriate school stages appear for each branch');
+assert.ok(script.includes("stage==='levels'?mathStudyStagesForTopic(topic)"),'only suitable stages appear for each branch');
+assert.ok(script.includes("mathJourney.topic==='arithmetic'?'branches':'levels'"),'Back from arithmetic grade never exposes the skipped Primar stage');
+assert.match(html,/grid-auto-rows:max-content!important/,'Maths grid allocates non-overlapping rows for square choices');
+assert.match(html,/height:clamp\(132px,calc\(\(100vw - 80px\)\/2\),240px\)!important/,'Square maths tiles have an explicit per-row height');
+assert.ok(script.includes("root.classList.add('math-workspace-header')"),'Maths workspace uses a compact dedicated header');
+assert.ok(script.includes("actionsRow.append(centeredTitle,back)"),'Back shares the Home row with centred topic title');
+assert.ok(script.includes("mathClearWorkspaceHeader();if((state.currentView"),'Entering another module clears the maths-only header');
 assert.ok(script.includes("const classroom=learningLabel('Nivel: '"),'fallback teaching adapts to chosen level and topic');
 assert.match(html,/\.math-choice-list\{[^}]*overflow-y:auto/,'list scroll is bounded inside math stage');
 assert.ok(script.includes("['solve',learningLabel('🧩 Rezolvă pas cu pas'"),'existing solve unchanged');
