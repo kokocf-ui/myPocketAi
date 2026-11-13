@@ -13289,6 +13289,43 @@ function mathDetailedArithmetic(source){
   learningLabel('Rezultatul expresiei este ','The value of the expression is ')+format(left.value)+'.';
  return {intro,steps,conclusion,left:left.value,right:right?.value??null};
 }
+// A child in the first primary years needs an actual counting explanation,
+// not only the adult mnemonic about precedence of operations.
+function mathPrimaryArithmeticLesson(source,grade){
+ if(!['1','2'].includes(String(grade||'')))return null;
+ const normalized=String(source||'').trim().replaceAll(' ','').replace(/[−–]/g,'-');
+ const match=normalized.match(/^([0-9]{1,2})([+-])([0-9]{1,2})$/);
+ if(!match)return null;
+ const left=Number(match[1]),right=Number(match[3]),sign=match[2];
+ if(left>40||right>12||(sign==='-'&&left<right))return null;
+ const answer=sign==='+'?left+right:left-right;
+ const display=left+' '+(sign==='-'?'−':'+')+' '+right;
+ const sequence=Array.from({length:right},(_,i)=>String(sign==='+'?left+i+1:left-i-1)).join(', ');
+ const counting=sign==='+'?
+   learningLabel('Pornim de la ','Start at ')+left+
+    learningLabel(' și numărăm înainte încă ',' and count forward ')+right+
+    learningLabel(' pași: ',' steps: ')+sequence+'.':
+   learningLabel('Pornim de la ','Start at ')+left+
+    learningLabel(' și numărăm înapoi ',' and count backward ')+right+
+    learningLabel(' pași: ',' steps: ')+sequence+'.';
+ const verified=sign==='+'?answer+' − '+right+' = '+left:answer+' + '+right+' = '+left;
+ return {
+  intro:sign==='+'?
+   learningLabel('Adunarea unește două grupe. Calculăm fiecare pas și verificăm rezultatul.','Addition joins two groups. Count each step and verify the answer.'):
+   learningLabel('Scăderea ne arată câte elemente rămân. Calculăm pe rând și verificăm prin operația inversă.','Subtraction finds how many remain. Count each step and check by the inverse operation.'),
+  steps:[
+   {label:learningLabel('Identificăm numerele','Identify the numbers'),
+    reason:learningLabel('Avem ','We have ')+left+(sign==='+'?learningLabel(' și mai adăugăm ',' and add '):learningLabel(' și luăm ',' and take away '))+right+'.',
+    operation:display,fullAfter:display,signRule:''},
+   {label:sign==='+'?learningLabel('Numărăm înainte','Count forward'):learningLabel('Numărăm înapoi','Count backward'),
+    reason:counting,operation:display+' = '+answer,fullAfter:display+' = '+answer,signRule:''},
+   {label:learningLabel('Verificăm răspunsul','Check the answer'),
+    reason:learningLabel('Operația inversă ne confirmă că rezultatul este corect.','The inverse operation confirms the result.'),
+    operation:verified,fullAfter:verified,signRule:''}
+  ],
+  conclusion:display+' = '+answer+'.'
+ };
+}
 // General teaching is separate from working through the user's specific numbers.
 function mathMethodGuide(source){
  const example=mathDetailedArithmetic(source);
@@ -15260,7 +15297,7 @@ function mathResultPage(index){
  // graph engine for an ordinary expression such as 2+2 or 2+2=.
  if(session.topic==='arithmetic'&&session.mode!=='graph'&&!item.started){
   try{
-   if(session.mode==='solve')item.detailed=mathDetailedArithmetic(item.text);
+   if(session.mode==='solve')item.detailed=mathPrimaryArithmeticLesson(item.text,session.grade)||mathDetailedArithmetic(item.text);
    else if(session.mode==='explain')item.methodGuide=mathMethodGuide(item.text);
    if(item.detailed||item.methodGuide){
     item.started=true;
