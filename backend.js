@@ -3898,7 +3898,11 @@ export default {
     const retryRouteAnswer=routeContext&&/^(?:incearca din nou|reincearca|retry|try again)$/.test(routeWords);
     const selectedDestinationRequested=routePoint(data.route_destination)&&["walk","drive"].includes(data.route_profile);
     const destinationRouteUpdate=routeContext&&/(?:shopping (?:center|centre|mall)|centru comercial)/.test(routeWords)&&! /^(?:ce|cat|cate|cand|unde|what|why|when|how|de ce|explica|scrie|cauta|find|vreme|weather|care)(?: |$)/.test(routeWords);
-    const shortRouteAnswer=(routeContext?.pending||destinationRouteUpdate)&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|multumesc|thanks|ok|pa|bye|scrie|write|explica|explain|cauta|find|calculeaza|calculate|recomanda|tradu|vreme|weather|cate|cati|cat|ce|what|why|de ce)(?: |$)/.test(routeWords);
+    // A fresh search for businesses must not be interpreted as a reply to an
+    // earlier road-route prompt (e.g. after the user selected "Mașină").
+    const independentPlaceSearch=/\\b(?:restauran\\w*|hotel\\w*|cafene\\w*|pizzeri\\w*|magazin\\w*|supermarket\\w*|farmaci\\w*|baruri|puburi|parcari|zoo)\\b/.test(routeWords)&&
+      !/(?:\\b(?:traseu|trasee|ruta|rute|navigare|navigate|directions|driving|pietonal|transport public)\\b|cum ajung|vreau sa ajung|du ma|go to|drive to|walk to)/.test(routeWords);
+    const shortRouteAnswer=!independentPlaceSearch&&(routeContext?.pending||destinationRouteUpdate)&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|multumesc|thanks|ok|pa|bye|scrie|write|explica|explain|cauta|find|calculeaza|calculate|recomanda|tradu|vreme|weather|cate|cati|cat|ce|what|why|de ce)(?: |$)/.test(routeWords);
     if(data.quick_place_search!==true&&(chosenTravelMode||routeSpec||selectedDestinationRequested||mapRouteRequest||shortRouteAnswer||retryRouteAnswer||viaRouteAnswer||compareRouteAnswer||(gpsRouteAnswer&&routeContext))){
       let rc=routeContext||{profile:null,destination_query:"",origin_query:"",pending:null,candidates:[]};
       const modeOnly=Boolean(chosenTravelMode)||/^(?:pe jos|pietonal|walking|walk|cu masina|masina|drive|driving)$/.test(routeWords);
@@ -5956,7 +5960,7 @@ export default {
         // "pe strada X din orașul Y" means businesses actually on X, not all
         // businesses inside the 1.5 km neighbourhood around its map point.
         const streetScoped=locationSource==='explicit_street_query' &&
-          /\bpe\s+(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+/i.test(
+          /(?:\bpe\s+|,\s*)(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+/i.test(
             String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''));
         const requestedStreet=streetScoped?
           (parseNearbyStreetQuery(explicitPlaceQuery)||parseNearbyStreetQuery(message))?.street:'';
