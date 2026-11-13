@@ -97,6 +97,20 @@ roSearch.value='Mihai Eminescu – Luceafărul';
 button(roPanel,'Caută autorul / opera').onclick();
 await Promise.resolve();
 assert.ok(button(roPanel,'Citește opera integral'),'Read complete work is available without searching online');
+// The table of contents groups verses in sets of 14, but selecting the first
+// group must not trap the reader at verse 56: pagination reaches stanza 98.
+button(roPanel,'Strofele 1–14').onclick();
+const sectionReader=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
+assert.ok(sectionReader.textContent.includes('A fost odată ca-n povești,'));
+assert.ok(all(sectionReader).some(x=>x.className==='lit-poem-stanza'),'Poetry has dedicated verse formatting');
+assert.ok(all(sectionReader).every(x=>x.className!=='lit-study-row'),'Poem dialogue must not turn into list markers');
+const sectionsNav=all(sectionReader).find(x=>x.tagName==='NAV');
+assert.ok(sectionsNav,'Reading a 14-stanza group opens the full paged poem');
+let turns=0;
+while(!sectionsNav.children[2].disabled&&turns++<80)sectionsNav.children[2].onclick();
+assert.ok(turns>0&&turns<80,'Full poem has a finite number of pages');
+assert.ok(sectionReader.textContent.includes('Nemuritor și rece.”'),'Last verse is accessible after the first 14');
+button(sectionReader,'Înapoi').onclick();
 button(roPanel,'Citește opera integral').onclick();
 const luceafarulReader=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
 assert.ok(luceafarulReader,'Actual work opens in Android-safe reader');
