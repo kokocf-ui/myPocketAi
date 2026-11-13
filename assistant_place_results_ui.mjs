@@ -35,10 +35,15 @@ function openAssistantPlaceResults(places){
   if(place.latitude!=null&&place.longitude!=null&&Number.isFinite(latitude)&&Number.isFinite(longitude)
     &&Math.abs(latitude)<=90&&Math.abs(longitude)<=180){
    host.append(action(dialogText('Navighează către locație','Navigate to location'),()=>{
+    if(state.busy)return;
     document.getElementById('pocketStandaloneChoices')?.remove();
     const label=[name,address].filter(Boolean).join(', ').slice(0,240);
-    openTransportModeFromAssistant({route_context:{destination_query:label,
+    // Keep the user's assistant conversation open while choosing a travel mode.
+    // Without this flag, the shared router switches to the Maps module.
+    state.assistantStructuredDestination=true;
+    const opened=openTransportModeFromAssistant({route_context:{destination_query:label,
      destination:{latitude,longitude,label},pending:'profile'}});
+    if(!opened)state.assistantStructuredDestination=false;
    }));
   }
   host.append(action(dialogText('Înapoi la rezultate','Back to results'),()=>renderPage()));
