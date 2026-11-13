@@ -3,7 +3,7 @@ import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 import {COMMUNICATION_HTML,COMMUNICATION_STYLE} from './communication_ui.mjs';
 import {COMMUNICATION_LIVE_STYLE} from './communication_live_style.mjs';
-import {ORACLE_COMMUNICATION_SCRIPT} from './oracle_communication_ui.mjs';
+import {ORACLE_COMMUNICATION_SCRIPT,ORACLE_COMMUNICATION_STYLE} from './oracle_communication_ui.mjs';
 
 new vm.Script(ORACLE_COMMUNICATION_SCRIPT,{filename:'redesigned-communication.js'});
 assert.match(COMMUNICATION_HTML,/id="commSettingsToggle"/,'Partner connection settings entry is in header');
@@ -17,6 +17,14 @@ assert.match(ORACLE_COMMUNICATION_SCRIPT,/function openChat\(peer\)/,'Contact op
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/comm-chat-header/,'Conversation header');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/comm-transcript/,'Conversation has a transcript');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/comm-compose/,'Conversation has a message input');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/function resizeChatViewport\(\)/,'Chat fits measured mobile viewport');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/querySelector\('\.bottom-nav'\)/,'Chat stops above fixed bottom navigation');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/visualViewport\?\.addEventListener\('resize'/,'Chat resizes when Android keyboard opens');
+assert.match(ORACLE_COMMUNICATION_STYLE,/#view-communication\.comm-chat-expanded \.comm-dashboard/,'Expanded layout only affects an active chat');
+assert.match(ORACLE_COMMUNICATION_STYLE,/height:var\(--comm-chat-height,64dvh\)!important/,'Chat height uses measured available space');
+assert.match(ORACLE_COMMUNICATION_STYLE,/max-height:none!important;height:0;overflow-y:auto/,'Messages scroll inside the chat rather than beneath bottom navigation');
+assert.match(ORACLE_COMMUNICATION_STYLE,/grid-column:1\/-1;grid-row:1/,'Text entry uses full width on phones');
+
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/MediaRecorder/,'Voice note uses device media recorder');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/audio\/webm/,'Audio recording format supported');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/getUserMedia\(\{audio:true\}\)/,'Mic requires permission');
