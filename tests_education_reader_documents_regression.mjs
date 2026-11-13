@@ -17,7 +17,7 @@ assert.match(html,/\.lit-material-reader \.lit-reader-footer\{[\s\S]*?grid-templ
 assert.match(html,/#view-module\.learning-literature \.lit-toolbar\{[\s\S]*?grid-template-columns:minmax\(106px,\.82fr\)/,'Back row matches Home header geometry');
 assert.doesNotMatch(boot,/bar\.append\(litBtn\(learningLabel\('← Înapoi','← Back'\),litBack,'secondary-btn lit-back'\)\);eduAttachPrintAction\(bar\)/,'No duplicate literature Save/Print toolbar buttons');
 
-assert.match(LITERATURE_TASK_UI_SCRIPT,/function litShowMaterialReader\(title,text\)/);
+assert.match(LITERATURE_TASK_UI_SCRIPT,/function litShowMaterialReader\(title,text(?:,options=\{\})?\)/);
 assert.match(LITERATURE_TASK_UI_SCRIPT,/overlay\.className='lit-reader-overlay'/,'Reader opens in independent Android-safe overlay');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/host\.append\(overlay\)/,'Reader must be attached above application chrome');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/reader\.setAttribute\('aria-modal','true'\)/,'Reader is accessible and modal');
