@@ -117,7 +117,7 @@ function eduCountryApply(moduleKey,code){
  if(typeof litJourney!=='undefined'){litJourney.country=code;litJourney.level='beginner';litJourney.grade='';litJourney.track='TC';litJourney.targetSchool='';litJourney.branch='program';litJourney.topic='';const def=LIT_COUNTRIES.find(x=>x[0]===code);if(def)litJourney.language=def[3]}
  if(typeof examJourney!=='undefined'){examJourney.country=code;examJourney.grade='';examJourney.exam=null;examJourney.subject=null;examJourney.domain=null;examJourney.topic=null;examJourney.track='';examJourney.board='';examJourney.region='';examJourney.aiQuestions=null;examJourney.practiceVersion=0}
  if(typeof practicalJourney!=='undefined'){practicalJourney.country=code;practicalJourney.course='';practicalJourney.chapter=''}
- if(typeof mathJourney!=='undefined'){mathJourney.stage='levels';mathJourney.level=null;mathJourney.topic=null;mathJourney.grade=null}
+ if(typeof mathJourney!=='undefined'){mathJourney.stage='branches';mathJourney.level=null;mathJourney.schoolStage=null;mathJourney.topic=null;mathJourney.grade=null;mathJourney.chapter=null}
  if(typeof scienceJourney!=='undefined'){scienceJourney.stage='subjects';scienceJourney.level=null;scienceJourney.specialty=null;scienceJourney.topic=null;scienceJourney.grade=null}
  if(typeof computingJourney!=='undefined'){computingJourney.stage='levels';computingJourney.level=null;computingJourney.path=null;computingJourney.topic=null;computingJourney.grade=null}
  return true;
@@ -209,8 +209,13 @@ function eduYearOptions(code,level,moduleKey){
  const source=EDUCATION_SCHOOL_YEARS_DATA[code]?.[lv];
  const numeric=(a,b,prefix='')=>Array.from({length:b-a+1},(_,i)=>({id:prefix+(a+i),ro:prefix?'Year '+(a+i):'Clasa '+(a+i),en:prefix?'Year '+(a+i):'Grade '+(a+i)}));
  if(moduleKey==='math'){
-  if(code==='RO')return lv==='beginner'?numeric(1,8):lv==='medium'?numeric(9,12):[{id:'universitate',ro:'Universitate',en:'University'}];
-  if(code==='GB-ENG')return lv==='beginner'?numeric(1,9,'Y'):lv==='medium'?numeric(10,13,'Y'):[{id:'university',ro:'Higher education',en:'Higher education'}];
+  if(code==='RO')return lv==='primary'?numeric(1,4):lv==='lower'?numeric(5,8):lv==='beginner'?numeric(1,8):lv==='medium'?numeric(9,12):[{id:'universitate',ro:'Universitate',en:'University'}];
+  if(code==='GB-ENG')return lv==='primary'?numeric(1,6,'Y'):lv==='lower'?numeric(7,9,'Y'):lv==='beginner'?numeric(1,9,'Y'):lv==='medium'?numeric(10,13,'Y'):[{id:'university',ro:'Higher education',en:'Higher education'}];
+  // Other countries keep their own worldwide catalogue; never map their
+  // grades to the Romanian or English numbering by assumption.
+  const mapped=worldwideSchoolYears(code,lv==='primary'?'beginner':lv==='lower'?'lower':lv,'math');
+  if(mapped.length)return mapped;
+  return [{id:'general-'+lv,ro:'Parcurs orientativ — '+(lv==='primary'?'primar':lv==='lower'?'gimnaziu':lv==='medium'?'liceu':'universitar'),en:'Advisory '+lv+' learning'}];
  }
  if(moduleKey==='history'){
   if(code==='RO')return lv==='beginner'?numeric(4,4):lv==='lower'?numeric(5,8):lv==='medium'?numeric(9,12):[{id:'universitate',ro:'Universitate',en:'University'}];
