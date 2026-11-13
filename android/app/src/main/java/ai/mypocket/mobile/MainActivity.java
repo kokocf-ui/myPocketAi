@@ -92,6 +92,7 @@ import org.json.JSONArray;
 import android.graphics.Rect;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 public final class MainActivity extends ComponentActivity {
     private boolean firebasePushConfigured=false;
@@ -487,6 +488,113 @@ public final class MainActivity extends ComponentActivity {
     }
 
 
+
+    // Private on-device voice note capture for Communication. The trusted
+    // WebMessage origin and Android RECORD_AUDIO permission are both required.
+    // Only encrypted application uploads can send the resulting media to Oracle.
+    private MediaRecorder commVoiceRecorder;
+    private File commVoiceFile;
+    private final Handler commVoiceHandler = new Handler(Looper.getMainLooper());
+    private Runnable commVoiceTimeout;
+    private int commVoiceSession = 0;
+    private static final int COMM_VOICE_MAX_BYTES = 11 * 1024 * 1024;
+
+    private void notifyCommVoice(String status, int session, String error, int part, int parts, String encoded) {
+        try {
+            JSONObject event = new JSONObject();
+            event.put("status",status);
+            event.put("session",session);
+            if(error!=null)event.put("error",error);
+            if(part>=0){event.put("part",part);event.put("parts",parts);}
+            if(encoded!=null)event.put("data",encoded);
+            final String js="window.pocketAndroidCommunicationVoiceResult&&window.pocketAndroidCommunicationVoiceResult("
+                +event.toString()+");";
+            runOnUiThread(()->{
+                if(web==null)return;
+                String url=web.getUrl();
+                Uri page=url==null?null:Uri.parse(url);
+                if(page!=null && "https".equalsIgnoreCase(page.getScheme())
+                    && APP_HOST.equalsIgnoreCase(page.getHost()))
+                    web.evaluateJavascript(js,null);
+            });
+        }catch(Exception ignored){}
+    }
+
+    private void startCommVoice() {
+        if(commVoiceRecorder!=null)return;
+        final int session=++commVoiceSession;
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED){
+            notifyCommVoice("error",session,"MIC_PERMISSION_DENIED",-1,0,null);return;
+        }
+        MediaRecorder recorder=null;
+        File file=null;
+        try {
+            file=File.createTempFile("pocket-voice-", ".m4a",getCacheDir());
+            recorder=Build.VERSION.SDK_INT>=31?new MediaRecorder(this):new MediaRecorder();
+            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+            recorder.setAudioChannels(1);
+            recorder.setAudioEncodingBitRate(64000);
+            recorder.setAudioSamplingRate(44100);
+            recorder.setOutputFile(file.getAbsolutePath());
+            recorder.prepare();
+            recorder.start();
+            commVoiceRecorder=recorder;
+            commVoiceFile=file;
+            notifyCommVoice("started",session,null,-1,0,null);
+            commVoiceTimeout=()->finishCommVoice(true);
+            commVoiceHandler.postDelayed(commVoiceTimeout,60000L);
+        }catch(Exception error){
+            if(recorder!=null){try{recorder.reset();recorder.release();}catch(Exception ignored){}}
+            if(file!=null)file.delete();
+            commVoiceRecorder=null;commVoiceFile=null;
+            notifyCommVoice("error",session,"MIC_BUSY_OR_UNAVAILABLE",-1,0,null);
+        }
+    }
+
+    private void finishCommVoice(boolean send) {
+        if(commVoiceRecorder==null)return;
+        final MediaRecorder recorder=commVoiceRecorder;
+        final File file=commVoiceFile;
+        final int session=commVoiceSession;
+        commVoiceRecorder=null;commVoiceFile=null;
+        if(commVoiceTimeout!=null)commVoiceHandler.removeCallbacks(commVoiceTimeout);
+        commVoiceTimeout=null;
+        boolean valid=false;
+        try{recorder.stop();valid=true;}catch(RuntimeException ignored){}
+        try{recorder.reset();recorder.release();}catch(Exception ignored){}
+        if(!send){if(file!=null)file.delete();notifyCommVoice("cancelled",session,null,-1,0,null);return;}
+        if(!valid||file==null||file.length()<256){
+            if(file!=null)file.delete();
+            notifyCommVoice("error",session,"RECORD_TOO_SHORT",-1,0,null);return;
+        }
+        if(file.length()>COMM_VOICE_MAX_BYTES){
+            file.delete();notifyCommVoice("error",session,"RECORD_TOO_LARGE",-1,0,null);return;
+        }
+        // Read the temporary recording outside the UI thread; it is deleted
+        // even when a WebView is gone or a conversion fails.
+        new Thread(()->{
+            try(FileInputStream input=new FileInputStream(file)){
+                final byte[] buffer=new byte[48*1024];
+                final int parts=(int)((file.length()+buffer.length-1)/buffer.length);
+                int part=0,count;
+                while((count=input.read(buffer))!=-1){
+                    byte[] chunk=java.util.Arrays.copyOf(buffer,count);
+                    notifyCommVoice("chunk",session,null,part++,parts,Base64.encodeToString(chunk,Base64.NO_WRAP));
+                }
+                notifyCommVoice("complete",session,null,-1,parts,null);
+            }catch(Exception ex){
+                notifyCommVoice("error",session,"RECORD_READ_FAILED",-1,0,null);
+            }finally{file.delete();}
+        },"pocket-communication-voice-read").start();
+    }
+    private void handleCommVoiceCommand(String action){
+        if("start".equals(action))startCommVoice();
+        else if("stop".equals(action))finishCommVoice(true);
+        else if("cancel".equals(action))finishCommVoice(false);
+    }
+
     private static void mathWavU16(byte[] out,int off,int value){
         out[off]=(byte)(value&255);out[off+1]=(byte)((value>>8)&255);
     }
@@ -877,6 +985,18 @@ public final class MainActivity extends ComponentActivity {
                     if(!isMainFrame||!APP_HOST.equals(origin.getHost()))return;
                     final String payload=message.getData();
                     runOnUiThread(()->nativeVoice(payload));
+                });
+        }
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidCommunicationVoice",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||origin==null
+                        ||!"https".equalsIgnoreCase(origin.getScheme())
+                        ||!APP_HOST.equalsIgnoreCase(origin.getHost()))return;
+                    final String command=message.getData();
+                    if(!"start".equals(command)&&!"stop".equals(command)&&!"cancel".equals(command))return;
+                    runOnUiThread(()->handleCommVoiceCommand(command));
                 });
         }
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
@@ -1988,6 +2108,6 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ignored){}
     }
 
-    @Override protected void onDestroy(){if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}stopMathPcmRecording();stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}mathVisionSourceUri=null;if(web!=null){web.destroy();}for(WebView printable:educationPrintWebs){printable.destroy();}educationPrintWebs.clear();super.onDestroy();}
+    @Override protected void onDestroy(){finishCommVoice(false);if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}stopMathPcmRecording();stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}mathVisionSourceUri=null;if(web!=null){web.destroy();}for(WebView printable:educationPrintWebs){printable.destroy();}educationPrintWebs.clear();super.onDestroy();}
 
 }
