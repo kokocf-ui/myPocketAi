@@ -65,7 +65,7 @@ function practicalOpen(stage){
  root.classList.remove('learning-choose','learning-math','learning-science','learning-hg','learning-literature','learning-languages','learning-computing','learning-exams','science-choice-stage');
  root.classList.add('learning-active','learning-practical');activeLearningSubject=LEARNING_SUBJECTS.find(x=>x[0]==='practical')||null;
  document.getElementById('moduleTitle').textContent=practicalLabel('Cursuri practice','Practical courses');document.getElementById('moduleLead').textContent='';
- host.replaceChildren();const bar=practicalNode('div','','education-toolbar lit-toolbar');bar.append(practicalButton(practicalLabel('← Înapoi','← Back'),practicalBack));eduAttachPrintAction(bar);host.append(bar);
+ host.replaceChildren();const bar=practicalNode('div','','education-toolbar lit-toolbar');bar.append(practicalButton(practicalLabel('← Înapoi','← Back'),practicalBack));if(stage==='lesson')eduAttachPrintAction(bar);host.append(bar);
  const panel=practicalNode('section','','math-choice-panel science-choice-panel lit-panel practical-panel');panel.style.cssText='min-width:0;width:100%;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;padding-bottom:155px;';
  const titles={countries:['Țara / sistemul de referință','Country / reference system'],courses:['Alege un curs practic','Choose a practical course'],chapters:['Toate capitolele cursului','All chapters in this course'],lesson:['Curs practic · lecție și aplicație','Practical course · lesson and application']};
  panel.append(practicalNode('h2',practicalLabel(...titles[stage])));host.append(panel);
