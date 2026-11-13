@@ -27,9 +27,9 @@ assert.ok(script.includes("mathJourneyShowChoices('chapters')"),'workspace back 
 assert.ok(script.includes("mathJourney.stage='branches';mathJourney.level=null"),'learning reset reopens branch choices');
 assert.ok(script.includes("mathJourney.topic=entry.id;mathJourney.level=null"),'branch is selected before the study stage');
 assert.ok(script.includes("mathJourney.chapter=entry.id;mathJourney.stage='workspace'"),'chapter opens the existing maths engine');
-const stages=vm.runInNewContext(source+'\\nMATH_SCHOOL_STAGES');
+const stages=vm.runInNewContext(source+'\nMATH_SCHOOL_STAGES');
 assert.deepEqual(Array.from(stages,x=>x.id),['primary','lower','intermediate','advanced']);
-const bank=vm.runInNewContext(source+'\\nMATH_CHAPTER_BANK');
+const bank=vm.runInNewContext(source+'\nMATH_CHAPTER_BANK');
 assert.ok(bank.geometry.primary.some(x=>x.ro.includes('Figuri')||x.ro.includes('Forme')));
 assert.ok(bank.geometry.lower.some(x=>x.ro.includes('teoreme')),'proofs are a secondary-school concept');
 assert.ok(bank.algebra.primary.some(x=>x.ro.includes('necunoscute')),'primary algebra means preparatory unknowns');
