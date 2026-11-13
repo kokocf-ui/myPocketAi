@@ -15443,8 +15443,10 @@ function mathResultPage(index){
     (equationGraph?.system3d?mathSystem3x3Figure(equationGraph.system3d):null)||
     (equationGraph?.system?mathLinearSystemFigure(equationGraph.system):null)||mathGraphFigure(item.text)||
     (equationGraph?.expression?mathGraphFigure(equationGraph.expression,equationGraph.root??null):null);
-   if(graph&&(session.mode==='graph'||Boolean(attachedFigure)||Boolean(mathGraphVerifiedAnswers(item.text,null).length)))
-    body.append(session.topic==='arithmetic'?graph:mathGraphCorner(graph,item.text,attachedFigure));
+   if(graph&&(session.mode==='graph'||Boolean(attachedFigure)||Boolean(mathGraphVerifiedAnswers(item.text,null).length))){
+    if(session.topic==='arithmetic')body.append(graph);
+    else body.append(mathGraphCorner(graph,item.text,attachedFigure));
+   }
   }catch(graphError){console.warn?.('math_result_optional_graph_failed',String(graphError?.message||graphError))}
  }
  const result=document.createElement('div');result.className='math-result-copy';
