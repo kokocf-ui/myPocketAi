@@ -93,7 +93,7 @@ const rows=[
  {name:'New Car Dealership',cat:'commercial.vehicle',kind:'dealer',shop:'car'},
  {name:'Motorbike Shop',cat:'commercial.vehicle',kind:'bikes',shop:'motorcycle'},
  {name:'District General Hospital',cat:'healthcare.hospital',kind:'hospital',amenity:'hospital'},
- {name:'Family GP Clinic',cat:'healthcare.clinic',kind:'clinic',amenity:'clinic'},
+ {name:'Family GP Clinic',cat:'healthcare.clinic_or_praxis.general',kind:'clinic',amenity:'clinic'},
  {name:'High Street Dental Practice',cat:'healthcare.dentist',kind:'dentist',amenity:'dentist'},
  {name:'Chemist Pharmacy',cat:'healthcare.pharmacy',kind:'pharmacy',amenity:'pharmacy'},
  {name:'Central ATM',cat:'service.financial.atm',kind:'atm',amenity:'atm'},
@@ -107,9 +107,18 @@ const features=rows.map((r,i)=>({type:'Feature',geometry:{type:'Point',coordinat
  tourism:r.kind==='hotel'?'hotel':'',shop:r.shop||'',cuisine:r.cuisine||'',highway:r.kind==='highway'?'residential':''
  }}}}));
 const original=globalThis.fetch;
+const medicalGeoapifyQueries=[];
 globalThis.fetch=async input=>{
  const u=new URL(typeof input==='string'?input:input.url||String(input));
- if(u.hostname==='api.geoapify.com')return Response.json({features});
+ if(u.hostname==='api.geoapify.com'){
+  const requested=String(u.searchParams.get('categories')||'');
+  if(requested.includes('healthcare.clinic')||requested.includes('healthcare.doctor')){
+    // Geoapify does not offer these historical category names.
+    if(!requested.includes('healthcare.clinic_or_praxis'))return Response.json({error:'invalid_category'},{status:400});
+  }
+  if(requested.includes('healthcare.clinic_or_praxis'))medicalGeoapifyQueries.push(requested);
+  return Response.json({features});
+ }
  if(u.hostname==='photon.komoot.io')return Response.json({features:[]});
  if(u.hostname==='api.ratings.food.gov.uk')return Response.json({establishments:[],meta:{totalPages:1}});
  throw Error('Unexpected host '+u.hostname);
@@ -162,6 +171,7 @@ try {
  assert.ok(hospitals.has('District General Hospital'));
  assert.ok(!hospitals.has('Family GP Clinic')&&!hospitals.has('High Street Dental Practice'),'Hospitals should not include clinics');
  assert.ok(medicalDental.has('Family GP Clinic')&&medicalDental.has('High Street Dental Practice'),'Both kinds of practice belong to one button');
+ assert.deepEqual(medicalGeoapifyQueries,['healthcare.clinic_or_praxis,healthcare.dentist'],'Use only supported Geoapify categories');
  assert.ok(!medicalDental.has('District General Hospital')&&!medicalDental.has('Chemist Pharmacy'),'Practices must not include hospitals or pharmacies');
  assert.ok(atms.has('Central ATM')&&!atms.has('City Bank'));
  assert.ok(banks.has('City Bank')&&!banks.has('Central ATM'));
