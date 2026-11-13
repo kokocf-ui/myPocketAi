@@ -63,7 +63,10 @@ const sandbox={
  learningLabel:(ro,en)=>ro,
  eduAttachPrintAction:()=>{},
  educationCountrySelection:{code:'GB-ENG',label:'Anglia'},
- educationGradeGate:(moduleKey,level,proceed)=>proceed(level==='beginner'?'Y1':level==='intermediate'?'Y9':'Y13'),
+ eduYearOptions:(country,level,moduleKey)=>(
+  level==='beginner'?[{id:'Y7',ro:'Year 7',en:'Year 7'},{id:'Y8',ro:'Year 8',en:'Year 8'}]:
+  level==='intermediate'?[{id:'Y10',ro:'Year 10',en:'Year 10'},{id:'Y11',ro:'Year 11',en:'Year 11'}]:
+  [{id:'university',ro:'Universitate',en:'University'}]),
  $:key=>elements[key]||null,
  pocketNativeVoiceAvailable:()=>false,
  scienceOpenWorkspace:()=>{workspaces++},
@@ -74,14 +77,19 @@ const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(star
  '\n({open:scienceJourneyShowChoices,back:scienceBack,state:scienceJourney,subjects:SCIENCE_SUBJECTS})',sandbox);
 api.open('subjects');
 let rows=()=>host.children[1]?.children[2]?.children||[];
-assert.equal(rows().length,4,'four subjects appear before difficulty levels');
+assert.equal(rows().length,4,'four science subject tiles appear first');
+const yearBands=()=>rows();
+const yearTiles=level=>yearBands().find(section=>section.children[0]?.textContent===
+ ({beginner:'Gimnaziu / nivel de bază',intermediate:'Liceu / nivel mediu',advanced:'Universitate și specializări'}[level]))?.children[1]?.children||[];
 assert.deepEqual([...api.subjects.map(s=>s.ro)],['Fizică','Chimie','Biologie','Astronomie']);
 rows()[1].onclick();
 assert.equal(api.state.subject,'chemistry');
-assert.equal(api.state.stage,'levels','subject selection precedes level');
-assert.equal(rows().length,3,'three difficulty levels');
-rows()[1].onclick();
+assert.equal(api.state.stage,'years','subject selection directly opens its school-year choices');
+assert.equal(yearBands().length,3,'grouped lower secondary, upper secondary, university');
+assert.equal(yearTiles('beginner').length,2);
+yearTiles('intermediate')[0].onclick();
 assert.equal(api.state.level,'intermediate');
+assert.equal(api.state.grade,'Y10');
 assert.equal(api.state.stage,'topics');
 assert.ok(rows().some(x=>x.children[0].textContent==='Chimie organică'));
 assert.ok(!rows().some(x=>x.children[0].textContent==='Chimie universitară avansată'),
@@ -92,18 +100,18 @@ assert.equal(api.state.topic,'organic');
 assert.equal(api.state.stage,'workspace');
 assert.equal(workspaces,1,'science workspace is mounted only after chapter selection');
 api.back();assert.equal(api.state.stage,'topics');
-api.back();assert.equal(api.state.stage,'levels');
+api.back();assert.equal(api.state.stage,'years');
 api.back();assert.equal(api.state.stage,'subjects');
 api.back();assert.equal(home,1,'back from four-subject chooser returns to Education');
 for(const [index,id] of [[0,'physics'],[2,'biology'],[3,'astronomy']]){
  api.open('subjects');
  rows()[index].onclick();
  assert.equal(api.state.subject,id);
- rows()[0].onclick();
+ yearTiles('beginner')[0].onclick();
  assert.equal(api.state.stage,'topics');
  assert.ok(rows().length>=4,'real chapter choices for '+id);
  rows()[0].onclick();
  assert.equal(api.state.stage,'workspace');
  api.back();api.back();api.back();
 }
-console.log('PASS Sciences: four subjects first, then difficulty, chapter, dedicated workspace; Back, responsive UI and Mathematics text visibility');
+console.log('PASS Sciences: four subject tiles, then country-year bands, grade-specific chapters, university, workspace, and staged Back');
