@@ -21011,6 +21011,20 @@ main.page:has(#view-module.learning-science.science-subject-stage.active){
  height:100%!important;min-height:0!important;
 }
 
+/* History / Geography subject selector: centre the two existing cards in
+   the available panel, beneath its title, without changing other stages. */
+#view-module.learning-hg.active .hg-panel.hg-subjects > .hg-choice-list{
+ display:grid!important;
+ flex:1 1 auto!important;
+ min-height:0!important;
+ width:100%!important;
+ align-content:center!important;
+ align-items:center!important;
+ justify-items:stretch!important;
+ gap:clamp(8px,1.5dvh,14px)!important;
+ overflow-y:auto!important;
+}
+
 ${ORACLE_COMMUNICATION_STYLE}
 
 </style>
