@@ -1974,7 +1974,7 @@ export default {
         'Only cite a source if supplied or independently verified; when uncertain, explain the limitation. '+
         'Use readable paragraphs and steps; no invented quoted literature, no unrelated maps, transit or GPS.';
       try{
-        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction(school_admission,activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
+        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('school_admission',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
         const reply=String(response?.response||response?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'school_admission'},503);
         if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
@@ -2010,7 +2010,7 @@ export default {
         'For the correction activity only, refer to the question text and student answer in the request. '+
         'Never confuse dictionary entries with destinations. If the user has not supplied a needed text passage, do not pretend to have read it.';
       try{
-        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction(language_literature,activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
+        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
         let reply=String(response?.response||response?.result?.response||'').trim();
         // Safely correct the two exact malformed Romanian lesson-title tokens observed in production.
         if(locale==='ro')reply=reply.replace(/\bLehul(?:a)?\b/giu,'Lecția');
