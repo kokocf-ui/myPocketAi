@@ -37,6 +37,7 @@ import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
+import {educationDepthInstruction,educationDepthAudit} from "./education_lesson_depth.mjs";
 import {classifyProgrammingRequest,programmingAssistantInstruction} from "./programming_assistance.mjs";
 import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.mjs";
 import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion} from "./dialogue_intent.mjs";
@@ -1949,9 +1950,11 @@ export default {
         'Only cite a source if supplied or independently verified; when uncertain, explain the limitation. '+
         'Use readable paragraphs and steps; no invented quoted literature, no unrelated maps, transit or GPS.';
       try{
-        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
+        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction(school_admission,activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
         const reply=String(response?.response||response?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'school_admission'},503);
+        if((activity)==='lesson'&&!educationDepthAudit(reply,school_admission,'lesson').sufficient)
+          return json({status:'unavailable',error:'education_content_insufficient',education_subject:school_admission},503);
         if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
           return json({status:'unavailable',error:'education_wrong_intent',education_subject:'school_admission'},503);
         return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,
@@ -1985,11 +1988,13 @@ export default {
         'For the correction activity only, refer to the question text and student answer in the request. '+
         'Never confuse dictionary entries with destinations. If the user has not supplied a needed text passage, do not pretend to have read it.';
       try{
-        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
+        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction(language_literature,activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
         let reply=String(response?.response||response?.result?.response||'').trim();
         // Safely correct the two exact malformed Romanian lesson-title tokens observed in production.
         if(locale==='ro')reply=reply.replace(/\bLehul(?:a)?\b/giu,'Lecția');
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'language_literature'},503);
+        if((activity)==='lesson'&&!educationDepthAudit(reply,language_literature,'lesson').sufficient)
+          return json({status:'unavailable',error:'education_content_insufficient',education_subject:language_literature},503);
         // Fail closed if a provider ignores the education route.
         if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
           return json({status:'unavailable',error:'education_wrong_intent',education_subject:'language_literature'},503);
@@ -2010,12 +2015,47 @@ export default {
         'Follow the country, grade, topic and curriculum caveats from the user request. Do not invent historical maps, official syllabi, citations or factual certainty. '+
         'Do not repeat complete paragraphs, preambles or exercises. Use readable headings and paragraphs, no raw markdown characters.';
       try{
-        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system},{role:'user',content:message}],temperature:0.2,max_tokens:1800});
+        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction(subject,'lesson')},{role:'user',content:message}],temperature:0.14,max_tokens:2900});
         const reply=String(response?.response||response?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:subject},503);
+        if(('lesson')==='lesson'&&!educationDepthAudit(reply,subject,'lesson').sufficient)
+          return json({status:'unavailable',error:'education_content_insufficient',education_subject:subject},503);
         return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,education_subject:subject,ai_generated:true});
       }catch(error){
         return json({status:'unavailable',error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'education_generation_unavailable',education_subject:subject},503);
+      }
+    }
+
+    // Domain-aware school material. Does not change ordinary Eva conversations,
+    // local verified solvers, tests, or existing specialised educational routes.
+    if(data.module==='education_study'&&
+       ['foreign_language','math','physics','chemistry','biology','astronomy','computing','practical'].includes(data.education_subject)){
+      const subject=data.education_subject;
+      const allowedLocales=['ro','en','fr','de','it','es','pt','nl','ru','pl','hu','ja','zh','el','la','tr','uk'];
+      const locale=allowedLocales.includes(data.language)?data.language:'ro';
+      const allowedActivity=['lesson','study','method','solve','examples','analysis','review','practice','conversation','assessment','test','exercises','correction'];
+      const activity=allowedActivity.includes(data.education_activity)?data.education_activity:'lesson';
+      const system='You are a qualified educational tutor for '+subject+'. Explain in user-interface language code '+locale+
+        '. For foreign languages, provide ACTUAL examples in the target language specified in the request, and explain them in the interface language. '+
+        educationDepthInstruction(subject,activity);
+      try{
+        const maxTokens=activity==='lesson'||activity==='study'?3000:activity==='solve'||activity==='method'?2400:activity==='conversation'?900:2200;
+        const response=await env.AI.run(selectedAiModel,{
+          messages:[{role:'system',content:system},{role:'user',content:message}],
+          temperature:0.14,max_tokens:maxTokens
+        });
+        const reply=String(response?.response||response?.result?.response||'').trim();
+        if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:subject},503);
+        if(activity==='lesson'&&!educationDepthAudit(reply,subject,activity).sufficient)
+          return json({status:'unavailable',error:'education_content_insufficient',education_subject:subject},503);
+        if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
+          return json({status:'unavailable',error:'education_wrong_intent',education_subject:subject},503);
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,
+          education_subject:subject,education_activity:activity,education_depth:'subject_guided',
+          ai_generated:true});
+      }catch(error){
+        return json({status:'unavailable',error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'education_generation_unavailable',
+          education_subject:subject},503);
       }
     }
     if(message==='__nearby_accommodation__'){
