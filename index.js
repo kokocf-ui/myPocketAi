@@ -8002,7 +8002,7 @@ function scienceYearGroups(){
   {level:'advanced',ro:'Universitate și specializări',en:'University and specialisations'}
  ];
  return bands.map(band=>{
-  let years=eduYearOptions(country,band.level,'science').filter(entry=>entry&&entry.id);
+  let years=eduYearOptions(country,band.level==='beginner'?'lower':band.level,'science').filter(entry=>entry&&entry.id);
   if(country==='RO'&&band.level==='beginner')
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=minRo&&Number(entry.id)<=8);
   if(country==='RO'&&band.level==='intermediate')
