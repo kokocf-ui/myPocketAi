@@ -24,6 +24,11 @@ assert.match(ORACLE_COMMUNICATION_SCRIPT,/function renderIncomingShopping\(\)/,'
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/function populateIncomingShopping\(listId,content\)/,'Received items can be opened');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/kind:item.checked\?'uncheck':'check'/,'Received list checks sync to Oracle');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/identity\.id=null;await dbWrite\(identity\)/,'No key deletion during registration recovery');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/fetch\('https:\/\/mypocketai\.duckdns\.org\/healthz'/,'Failed Oracle POST is diagnosed from the Android/WebView network');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/API_POST_FAILED/,'Network diagnostic distinguishes API POST failures');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/HTTPS_UNREACHABLE/,'Network diagnostic distinguishes unavailable HTTPS');
+assert.doesNotMatch(ORACLE_COMMUNICATION_SCRIPT,/await open\(\);showMain\(\)/,'Failed Oracle verification must not open chat');
+
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/showSettings\(\);void open\(\)\.then\(\(\)=>showSettings\(\)\)/,'Invite deep link opens connection view');
 assert.doesNotMatch(COMMUNICATION_HTML,/WhatsApp, SMS ori e-mail/,'No email invitations');
 const java=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/MainActivity.java',import.meta.url),'utf8');
