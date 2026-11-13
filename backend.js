@@ -1953,8 +1953,6 @@ export default {
         const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction(school_admission,activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
         const reply=String(response?.response||response?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'school_admission'},503);
-        if((activity)==='lesson'&&!educationDepthAudit(reply,school_admission,'lesson').sufficient)
-          return json({status:'unavailable',error:'education_content_insufficient',education_subject:school_admission},503);
         if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
           return json({status:'unavailable',error:'education_wrong_intent',education_subject:'school_admission'},503);
         return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,
@@ -1993,8 +1991,6 @@ export default {
         // Safely correct the two exact malformed Romanian lesson-title tokens observed in production.
         if(locale==='ro')reply=reply.replace(/\bLehul(?:a)?\b/giu,'Lecția');
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'language_literature'},503);
-        if((activity)==='lesson'&&!educationDepthAudit(reply,language_literature,'lesson').sufficient)
-          return json({status:'unavailable',error:'education_content_insufficient',education_subject:language_literature},503);
         // Fail closed if a provider ignores the education route.
         if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
           return json({status:'unavailable',error:'education_wrong_intent',education_subject:'language_literature'},503);
@@ -2018,8 +2014,6 @@ export default {
         const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction(subject,'lesson')},{role:'user',content:message}],temperature:0.14,max_tokens:2900});
         const reply=String(response?.response||response?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:subject},503);
-        if(('lesson')==='lesson'&&!educationDepthAudit(reply,subject,'lesson').sufficient)
-          return json({status:'unavailable',error:'education_content_insufficient',education_subject:subject},503);
         return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,education_subject:subject,ai_generated:true});
       }catch(error){
         return json({status:'unavailable',error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'education_generation_unavailable',education_subject:subject},503);
