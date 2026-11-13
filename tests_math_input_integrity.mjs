@@ -11,6 +11,28 @@ assert.ok(a>0&&b>a);
 const incomplete=vm.runInNewContext(script.slice(a,b)+'\neducationMathOcrIncomplete');
 for(const valid of ['2+3','x+y=z','(2+3)*4','(-1)+2','2*[3+4]','√(9)+1','{2+[3*(4+1)]}'])assert.equal(incomplete(valid),false,'valid: '+valid);
 for(const invalid of ['','2+','(2+3','2+[3+4','2+[3+4)','√+2','2=','2+3}'])assert.equal(incomplete(invalid),true,'invalid: '+invalid);
+const arithmeticStart=script.indexOf('function mathArithmeticValue(');
+const arithmeticEnd=script.indexOf('function mathQuadraticEquation(',arithmeticStart);
+assert.ok(arithmeticStart>0&&arithmeticEnd>arithmeticStart,'verified arithmetic engine is present');
+const arithmetic=vm.runInNewContext(script.slice(arithmeticStart,arithmeticEnd)+
+ '\n({normalize:mathNormalizeArithmeticRequest,solve:mathDetailedArithmetic,method:mathMethodGuide})',
+ {state:{language:'ro'},learningLabel:(ro)=>ro,Intl});
+assert.equal(arithmetic.normalize('2+2=','arithmetic'),'2+2','trailing equals means find the sum');
+assert.equal(arithmetic.normalize('2 + 2 = ','arithmetic'),'2 + 2');
+assert.equal(arithmetic.normalize('2+2=5','arithmetic'),'2+2=5','false complete equality is preserved for checking');
+assert.equal(arithmetic.normalize('2=','arithmetic'),'2=','incomplete single number remains rejected');
+assert.equal(arithmetic.normalize('x+2=','arithmetic'),'x+2=','do not trim an algebraic equality');
+const sum=arithmetic.solve('2+2');
+assert.ok(sum&&sum.steps.length,'arithmetic calculates locally without network');
+assert.equal(sum.left,4,'2+2 evaluates to four');
+assert.match(sum.conclusion,/4/,'final answer is visible');
+assert.match(sum.steps[0].operation,/2.*\\+.*2.*=.*4/,'operation shown with a numerical step');
+const guide=arithmetic.method('2+2');
+assert.ok(guide&&guide.rules.some(x=>/Adunarea/.test(x.title)),'general addition method is available offline');
+assert.ok(script.includes("if(session.topic==='arithmetic'&&session.mode!=='graph'&&!item.started)"),
+ 'simple arithmetic must render synchronously, before any AI or graph work');
+assert.ok(script.includes("if(session.topic!=='arithmetic'||session.mode==='graph')"),
+ 'optional graph generation must not block simple arithmetic results');
 const repairStart=script.indexOf('function mathPhotoOcrApplyCorrection(');
 const repairEnd=script.indexOf('function mathPhotoOcrRisk(source)',repairStart);
 const repair=vm.runInNewContext(script.slice(repairStart,repairEnd)+'\nmathPhotoOcrApplyCorrection');
