@@ -25,7 +25,7 @@ assert.ok(api.subjects.find(x=>x.id==='trigonometry').figures);
 assert.deepEqual(Array.from(api.stages(api.subjects.find(x=>x.id==='arithmetic')),x=>x.id),['primary'],
  'Arithmetic must not offer gymnasium, lyceum or university');
 const arithmetic1=vm.runInNewContext(source+
- "\\n(mathJourney.topic='arithmetic',mathJourney.schoolStage='primary',mathJourney.grade='1',educationMathTheoryList())",
+ "\n(mathJourney.topic='arithmetic',mathJourney.schoolStage='primary',mathJourney.grade='1',educationMathTheoryList())",
  {learningLabel:ro=>ro,educationCountrySelection:{code:'RO'},educationTheoryClean:value=>String(value||'').toLowerCase()});
 assert.ok(arithmetic1.length>=5,'Primary grade 1 starts with an interactive lesson library');
 assert.ok(arithmetic1.some(x=>x.title==='Adunarea')&&arithmetic1.some(x=>x.title==='Scăderea'));
