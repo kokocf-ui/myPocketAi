@@ -21,6 +21,9 @@ export function parseNearbyStreetQuery(value){
  // Already extracted "Strada Morii, Oradea, România".
  const full=t.match(/^(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+([^,]{2,75}),\s*([^,]{2,75})(?:,\s*([^,]{2,65}))?$/i);
  if(full)return makeTarget(full[1],full[2],full[3]);
+ // Extracted destination: "Oradea pe strada Nufărului".
+ const compactCityFirst=t.match(/^([^,]{2,75}?)\s+pe\s+(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+(.+?)(?:,\s*(.+))?$/i);
+ if(compactCityFirst)return makeTarget(compactCityFirst[2],compactCityFirst[1],compactCityFirst[3]);
  // "Restaurante în Oradea pe strada Nufărului" — city comes before street.
  const cityFirst=t.match(/\b(?:in|din)\s+([^,]{2,75}?)\s+pe\s+(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+(.+?)(?:,\s*(.+))?$/i);
  if(cityFirst)return makeTarget(cityFirst[2],cityFirst[1],cityFirst[3]);
