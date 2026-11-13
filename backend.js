@@ -3900,8 +3900,8 @@ export default {
     const destinationRouteUpdate=routeContext&&/(?:shopping (?:center|centre|mall)|centru comercial)/.test(routeWords)&&! /^(?:ce|cat|cate|cand|unde|what|why|when|how|de ce|explica|scrie|cauta|find|vreme|weather|care)(?: |$)/.test(routeWords);
     // A fresh search for businesses must not be interpreted as a reply to an
     // earlier road-route prompt (e.g. after the user selected "Mașină").
-    const independentPlaceSearch=/\\b(?:restauran\\w*|hotel\\w*|cafene\\w*|pizzeri\\w*|magazin\\w*|supermarket\\w*|farmaci\\w*|baruri|puburi|parcari|zoo)\\b/.test(routeWords)&&
-      !/(?:\\b(?:traseu|trasee|ruta|rute|navigare|navigate|directions|driving|pietonal|transport public)\\b|cum ajung|vreau sa ajung|du ma|go to|drive to|walk to)/.test(routeWords);
+    const independentPlaceSearch=/\b(?:restauran\w*|hotel\w*|cafene\w*|pizzeri\w*|magazin\w*|supermarket\w*|farmaci\w*|baruri|puburi|parcari|zoo)\b/.test(routeWords)&&
+      !/(?:\b(?:traseu|trasee|ruta|rute|navigare|navigate|directions|driving|pietonal|transport public)\b|cum ajung|vreau sa ajung|du ma|go to|drive to|walk to)/.test(routeWords);
     const shortRouteAnswer=!independentPlaceSearch&&(routeContext?.pending||destinationRouteUpdate)&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|multumesc|thanks|ok|pa|bye|scrie|write|explica|explain|cauta|find|calculeaza|calculate|recomanda|tradu|vreme|weather|cate|cati|cat|ce|what|why|de ce)(?: |$)/.test(routeWords);
     if(data.quick_place_search!==true&&(chosenTravelMode||routeSpec||selectedDestinationRequested||mapRouteRequest||shortRouteAnswer||retryRouteAnswer||viaRouteAnswer||compareRouteAnswer||(gpsRouteAnswer&&routeContext))){
       let rc=routeContext||{profile:null,destination_query:"",origin_query:"",pending:null,candidates:[]};
