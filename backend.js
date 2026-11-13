@@ -5354,6 +5354,45 @@ export default {
       }
     }
     if (foodSearchIntent) {
+      // An unqualified Alba is ambiguous across the existing country/county/village
+      // registry. Never silently choose Alba (Piemonte, Italy) for a hotel search.
+      const placeScope=normalizeGeoName(activePlaceRequest?.destination||'');
+      if(placeScope==='alba'&&!activePlaceRequest?.selected){
+        const category=activePlaceRequest?.category?.key;
+        const noun=category==='hotel'?'Hoteluri':category==='restaurant'?'Restaurante':
+          category==='shop'?'Magazine':activePlaceRequest?.category?.labelRo||'Locuri';
+        const choiceOptions=[
+          {label:lang==='ro'?'Județul Alba · România':'Alba County · Romania',
+           value:noun+' în județul Alba, România'},
+          {label:lang==='ro'?'Orașul Alba · Piemonte, Italia':'Alba town · Piedmont, Italy',
+           value:noun+' în Alba, Piemonte, Italia'},
+          {label:lang==='ro'?'Satul Alba · comuna Izvoarele, Tulcea, România':'Alba village · Tulcea, Romania',
+           value:noun+' în Alba, Izvoarele, Tulcea, România'},
+          {label:lang==='ro'?'Satul Alba · comuna Hudești, Botoșani, România':'Alba village · Botoșani, Romania',
+           value:noun+' în Alba, Hudești, Botoșani, România'}
+        ];
+        const reply=lang==='en'?'Which Alba do you mean? Choose the county, town or village before I search.':
+          'La care Alba te referi? Alege județul, orașul sau satul înainte să caut.';
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+          message_received:message,reply,places:[],search_ok:false,
+          needs_location_clarification:true,choice_options:choiceOptions,
+          location_source:'ambiguous_place_name',ai_connected:Boolean(env.AI)});
+      }
+      if((/^judetul alba(?: romania)?$/.test(placeScope)||/^alba county(?: romania)?$/.test(placeScope))
+         &&!activePlaceRequest?.selected){
+        const category=activePlaceRequest?.category?.key;
+        const noun=category==='hotel'?'Hoteluri':category==='restaurant'?'Restaurante':
+          category==='shop'?'Magazine':activePlaceRequest?.category?.labelRo||'Locuri';
+        const municipalities=['Alba Iulia','Sebeș','Aiud'].map(city=>({
+          label:city+' · județul Alba, România',value:noun+' în '+city+', România'
+        }));
+        const reply=lang==='en'?'You selected Alba County, Romania. Which town should I search? Select one below or write another town in the county.':
+          'Ai ales județul Alba din România. În ce localitate dorești să caut? Alege una dintre opțiuni sau precizează o altă localitate din județ.';
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+          message_received:message,reply,places:[],search_ok:false,
+          needs_location_clarification:true,choice_options:municipalities,
+          location_source:'county_requires_locality',ai_connected:Boolean(env.AI)});
+      }
       if(activePlaceRequest.needsDestination){
         const reply=lang==="en"?"Which city should I search? Please specify the destination.":"În ce oraș să caut? Precizează destinația.";
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,places:[],search_ok:false,needs_location_clarification:true,ai_connected:Boolean(env.AI)});
