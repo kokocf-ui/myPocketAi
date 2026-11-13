@@ -19284,6 +19284,14 @@ if(offered?.needs_travel_confirmation&&context?.pending==='profile'&&context?.de
  }
 }
 state.pendingTravelConfirmationData=null;
+// A new business search is independent of any unfinished car/walking route.
+// Keep the conversation history, but don't carry a stale route destination.
+const newPlaceSearchText=message.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const newIndependentPlaceSearch=/\b(?:restauran\w*|hotel\w*|cafene\w*|pizzeri\w*|magazin\w*|supermarket\w*|farmaci\w*|baruri|puburi|parcari|zoo)\b/.test(newPlaceSearchText)&&
+ !/(?:\b(?:traseu|trasee|ruta|rute|navigare|navigate|directions|driving|pietonal|transport public)\b|cum ajung|vreau sa ajung|du ma|go to|drive to|walk to)/.test(newPlaceSearchText);
+if(newIndependentPlaceSearch&&!state.pendingTravelMode){
+ state.routeSearchContext=null;state.pendingRouteDestination=null;state.lastTravelModeResponse=null;
+}
 if(!state.pendingTravelMode&&state.routeSearchContext?.destination&&/^(?!pietonal$|transport public$|masina$|mașină$|walking$|driving$|public transport$|da$|yes$|nu$|no$)(?:[\\p{L}][\\p{L}0-9&' .-]{2,60}\\s*,\\s*[\\p{L} .'-]{2,60}|(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)\\s+.+)$/iu.test(message)){state.routeSearchContext=null;state.pendingRouteDestination=null;state.pendingTravelMode=null;state.lastTravelModeResponse=null;}if(isMapRouteFollowup(message)&&validMapRoute(state.lastRoute)){addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const reply=routeMapText().shown;addBubble(reply,'assistant');state.messages.push({role:'assistant',text:reply});openRouteMap(state.lastRoute);return}const routeLoadingRequested=state.currentView==='module'&&['maps','travel'].includes(state.currentModule)&&(Boolean(state.pendingTravelMode)||state.pendingRouteStart===true||state.pendingRouteCompare===true);
 const routeLoadingProfile=state.pendingTravelMode||(state.pendingRouteStart?'walk':state.routeSearchContext?.profile)||'walk';
 const routePickerFromPlace=Boolean(state.routeSearchContext?.destination)&&routeLoadingRequested&&routeLoadingProfile!=='transit';
