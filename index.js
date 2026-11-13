@@ -10127,53 +10127,95 @@ function educationTextFromLesson(node){
  return (parts.length?parts.join('\\n\\n'):String(node.textContent||'')).trim();
 }
 // Common Education reading dialog: only theme names stay visible in the workspace.
+// Render teaching text without raw Markdown marks in reading windows or PDF.
+function educationCleanLessonLine(value){
+ let line=String(value||'').trim(),ticks=String.fromCharCode(96);
+ if(line==='---'||line==='***'||line.startsWith(ticks+ticks+ticks))return '';
+ while(line.startsWith('#'))line=line.slice(1).trimStart();
+ const prefix=line.slice(0,2);
+ if(prefix==='* '||prefix==='- '||prefix==='• ')line='• '+line.slice(2);
+ return line.replaceAll('**','').replaceAll('__','').replaceAll(ticks,'');
+}
+function educationCleanLessonText(value){
+ const nl=String.fromCharCode(10);
+ return String(value||'').replaceAll(String.fromCharCode(13),'').split(nl).map(educationCleanLessonLine).join(nl).trim();
+}
 function educationOpenPagedLesson(title,body){
  document.getElementById('educationPagedLessonDialog')?.remove();
- const raw=String(body||'').trim();
- const limit=window.innerWidth<560?650:1050,breakLine=String.fromCharCode(10);
- const pages=[];
+ const raw=String(body||'').replaceAll(String.fromCharCode(13),'').trim();
+ const nl=String.fromCharCode(10),limit=window.innerWidth<560?720:1100,pages=[];
  for(let start=0;start<raw.length;){
   let end=Math.min(raw.length,start+limit);
   if(end<raw.length){
-   const boundary=Math.max(raw.lastIndexOf(breakLine,end),raw.lastIndexOf('. ',end)+1,raw.lastIndexOf(' ',end));
-   if(boundary>start+Math.round(limit*0.55))end=boundary;
+   const opts=[raw.lastIndexOf(nl+nl,end),raw.lastIndexOf(nl,end),raw.lastIndexOf('. ',end),raw.lastIndexOf('? ',end),raw.lastIndexOf('! ',end)];
+   const cut=opts.filter(n=>n>start+Math.round(limit*.55)).sort((a,b)=>b-a)[0];
+   if(cut!==undefined)end=cut+(raw.slice(cut,cut+2)===nl+nl?2:1);
+   else{const space=raw.lastIndexOf(' ',end);if(space>start)end=space+1}
   }
-  pages.push(raw.slice(start,end).trim());start=end;
-  while(raw[start]===' '||raw[start]===breakLine)start++;
+  const pageText=raw.slice(start,end).trim();if(pageText)pages.push(pageText);
+  start=end;while(raw[start]===' '||raw[start]===nl)start++;
  }
  if(!pages.length)pages.push('');
  const dialog=document.createElement('dialog');dialog.id='educationPagedLessonDialog';
  dialog.className='education-theory-dialog education-paged-dialog';
- dialog.style.cssText='box-sizing:border-box;width:94vw;max-width:760px;max-height:90dvh;overflow:hidden;flex-direction:column;gap:10px;padding:12px;';
+ dialog.style.cssText='box-sizing:border-box;width:calc(100vw - 24px);max-width:800px;height:min(89dvh,920px);max-height:89dvh;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:18px;touch-action:pan-y;';
  const head=document.createElement('div');head.className='education-theory-head';
- head.style.cssText='display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:0 0 auto;';
+ head.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:9px;flex:0 0 auto;min-height:48px;';
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';
- back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>dialog.close();
- const heading=document.createElement('h2');heading.textContent=title;
- heading.style.cssText='flex:1 1 100px;min-width:80px;text-align:center;overflow-wrap:anywhere;margin:0;font-size:clamp(15px,4vw,21px);';
- head.append(back,heading);
- head.eduPrintableMaterial=()=>({title,text:raw});
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>dialog.close();head.append(back);
+ head.eduPrintableMaterial=()=>({title:educationCleanLessonLine(title),text:educationCleanLessonText(raw)});
  eduAttachPrintAction(head);
+ const heading=document.createElement('h2');heading.textContent=educationCleanLessonLine(title);
+ heading.className='education-paged-title';heading.title=heading.textContent;
+ heading.style.cssText='margin:0;text-align:center;font-size:clamp(16px,3.6vw,21px);font-weight:750;line-height:1.25;overflow-wrap:anywhere;flex:0 0 auto;max-height:3.75em;overflow-y:auto;';
  const content=document.createElement('div');content.className='education-paged-text';
- content.style.cssText='white-space:pre-wrap;overflow:auto;overscroll-behavior:contain;flex:1 1 auto;min-height:0;line-height:1.55;font-size:15px;padding:8px 3px;';
+ content.style.cssText='box-sizing:border-box;min-height:0;flex:1 1 auto;width:100%;padding:8px 9px 18px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;line-height:1.55;text-align:left;';
  const footer=document.createElement('div');footer.className='education-paged-controls';
- footer.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px;flex:0 0 auto;';
+ footer.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:6px;flex:0 0 auto;padding-top:4px;';
  const prev=document.createElement('button');prev.type='button';prev.className='secondary-btn';prev.textContent=learningLabel('← Anterior','← Previous');
- const count=document.createElement('span');count.setAttribute('aria-live','polite');
+ const count=document.createElement('span');count.setAttribute('aria-live','polite');count.style.cssText='text-align:center;font-size:clamp(13px,3.5vw,16px);min-width:64px;';
  const next=document.createElement('button');next.type='button';next.className='secondary-btn';next.textContent=learningLabel('Următor →','Next →');
  let page=0;
  const paint=()=>{
-  content.textContent=pages[page];content.scrollTop=0;
+  content.replaceChildren();let list=null,listType='';
+  for(const source of pages[page].split(nl)){
+   const line=String(source||'').trim();
+   if(!line){list=null;listType='';continue}
+   if(line.startsWith(String.fromCharCode(96,96,96)))continue;
+   const headingLine=line.startsWith('#')||(line.startsWith('**')&&line.endsWith('**')&&line.length>4);
+   const bullet=line.startsWith('* ')||line.startsWith('- ')||line.startsWith('• ');
+   const numbered=/^[0-9]{1,3}[.)][ ]+/.test(line),clean=educationCleanLessonLine(line);
+   if(!clean)continue;
+   if(bullet||numbered){
+    const kind=numbered?'ol':'ul';
+    if(!list||listType!==kind){
+     list=document.createElement(kind);listType=kind;
+     list.style.cssText='margin:4px 0 12px;padding-left:26px;line-height:1.6;';
+     content.append(list);
+    }
+    const item=document.createElement('li');
+    item.textContent=bullet?clean.slice(2):clean.replace(/^[0-9]{1,3}[.)][ ]+/,'');
+    item.style.cssText='margin:0 0 5px;font-size:15px;overflow-wrap:anywhere;';
+    list.append(item);continue;
+   }
+   list=null;listType='';
+   const el=document.createElement(headingLine?'h3':'p');el.textContent=clean;
+   el.style.cssText=headingLine?
+    'font-size:17px;font-weight:750;line-height:1.35;margin:12px 0 9px;color:#f5faff;overflow-wrap:anywhere;':
+    'font-size:15px;font-weight:400;line-height:1.58;margin:0 0 11px;white-space:pre-wrap;overflow-wrap:anywhere;';
+   content.append(el);
+  }
+  content.scrollTop=0;
   prev.disabled=page===0;next.disabled=page===pages.length-1;
   count.textContent=learningLabel('Pagina ','Page ')+(page+1)+' / '+pages.length;
  };
  prev.onclick=()=>{if(page>0){page--;paint()}};
  next.onclick=()=>{if(page<pages.length-1){page++;paint()}};
  footer.append(prev,count,next);footer.hidden=pages.length===1;
- dialog.append(head,content,footer);
+ dialog.append(head,heading,content,footer);
  dialog.addEventListener('close',()=>dialog.remove());
  document.body.append(dialog);
- try{dialog.showModal();dialog.style.display='flex'}catch{dialog.setAttribute('open','');dialog.style.display='flex'}
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
  paint();return dialog;
 }
 
