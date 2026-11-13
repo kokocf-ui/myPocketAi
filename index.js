@@ -10124,7 +10124,7 @@ function educationTextFromLesson(node){
  if(!node)return '';
  const blocks=Array.from(node.querySelectorAll('h1,h2,h3,h4,h5,p,li,pre,blockquote'));
  const parts=blocks.map(el=>String(el.textContent||'').trim()).filter(Boolean);
- return (parts.length?parts.join('\n\n'):String(node.textContent||'')).trim();
+ return (parts.length?parts.join('\\n\\n'):String(node.textContent||'')).trim();
 }
 // Common Education reading dialog: only theme names stay visible in the workspace.
 function educationOpenPagedLesson(title,body){
@@ -12071,7 +12071,7 @@ function hgHistoricalMap(panel,topic){
    if(snapshot!==[period.value,c,hgJourney.mapType,hgJourney.topic].join('|')||!events.isConnected)return;
    events.replaceChildren(hgText('p',hgL('Evenimente afișate în fereastra de lectură.','Events opened in the reading window.')));
    educationOpenPagedLesson(hgL('Evenimente și context istoric','Events and historical context')+' · '+c+' · '+p.label,
-    String(result.reply).slice(0,50000)+'\n\n'+hgL('Sinteză AI: verifică sursele.','AI synthesis: verify sources.'));
+    String(result.reply).slice(0,50000)+'\\n\\n'+hgL('Sinteză AI: verifică sursele.','AI synthesis: verify sources.'));
   }catch{if(events.isConnected)events.replaceChildren(hgText('p',hgL('Cercetarea evenimentelor este momentan indisponibilă.','Event research is temporarily unavailable.')))}
  },'primary-btn');
  for(const [kind,label] of types){
@@ -12131,7 +12131,7 @@ async function hgGenerate(extra,output){
   const lesson=String(obj.reply).slice(0,50000);
   hgDisplayStudyText(output,lesson);
   educationOpenPagedLesson(hgL(topic.ro,topic.en)+' · '+(activeSubtopic||hgL('Lecție','Lesson')),
-   lesson+'\n\n'+hgL('Material AI: verifică sursele și datele înaintea utilizării la examene.','AI material: verify sources and facts before examinations.'));
+   lesson+'\\n\\n'+hgL('Material AI: verifică sursele și datele înaintea utilizării la examene.','AI material: verify sources and facts before examinations.'));
   hgRemember('lessonViewed');hgStatus(hgL('Lecția este disponibilă.','Lesson ready.'));
  }catch{hgStatus(hgL('Lecția AI este momentan indisponibilă. Structura și exercițiile locale rămân accesibile.','AI lesson unavailable. Local structure and exercises remain accessible.'))}
  finally{hgJourney.busy=false}
@@ -12417,7 +12417,7 @@ function litWorkspace(panel){
    const material=[learningLabel('Explicația lecției','Lesson explanation'),
     learningLabel(localTheory[0],localTheory[1]),learningLabel('Exemplu și exercițiu','Example and practice'),
     learningLabel(localTheory[2],localTheory[3]),
-    litJourney.branch==='program'&&topic[3]?learningLabel('Obiectivul clasei: ','Grade learning focus: ')+String(topic[3]):''].filter(Boolean).join('\n\n');
+    litJourney.branch==='program'&&topic[3]?learningLabel('Obiectivul clasei: ','Grade learning focus: ')+String(topic[3]):''].filter(Boolean).join('\\n\\n');
    educationOpenPagedLesson(learningLabel(topic[1],topic[2]),material);
   },'secondary-btn');
   study.classList.add('lit-theory-open');
