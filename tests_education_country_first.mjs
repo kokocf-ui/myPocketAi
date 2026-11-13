@@ -45,6 +45,10 @@ const yearsFunction=new Function('EDUCATION_SCHOOL_YEARS_DATA',
 assert.deepEqual(yearsFunction('RO','intermediate','math').map(x=>x.id),['9','10','11','12'],
  'Romanian Maths intermediate must contain only high-school classes');
 assert.deepEqual(yearsFunction('RO','beginner','math').map(x=>x.id),['1','2','3','4','5','6','7','8']);
+assert.deepEqual(yearsFunction('RO','primary','math').map(x=>x.id),['1','2','3','4'],'Primary maths ends at class IV');
+assert.deepEqual(yearsFunction('RO','lower','math').map(x=>x.id),['5','6','7','8'],'Lower-secondary maths begins at class V');
+assert.deepEqual(yearsFunction('GB-ENG','primary','math').map(x=>x.id),['Y1','Y2','Y3','Y4','Y5','Y6']);
+assert.deepEqual(yearsFunction('GB-ENG','lower','math').map(x=>x.id),['Y7','Y8','Y9']);
 assert.deepEqual(yearsFunction('GB-ENG','intermediate','math').map(x=>x.id),['Y10','Y11','Y12','Y13']);
 assert.deepEqual(yearsFunction('RO','lower','history').map(x=>x.id),['5','6','7','8']);
 assert.deepEqual(yearsFunction('RO','medium','computing').map(x=>x.id),['9','10','11','12']);
