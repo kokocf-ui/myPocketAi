@@ -26,7 +26,7 @@ const sum=arithmetic.solve('2+2');
 assert.ok(sum&&sum.steps.length,'arithmetic calculates locally without network');
 assert.equal(sum.left,4,'2+2 evaluates to four');
 assert.match(sum.conclusion,/4/,'final answer is visible');
-assert.match(sum.steps[0].operation,/2.*\\+.*2.*=.*4/,'operation shown with a numerical step');
+assert.match(sum.steps[0].operation,/2.*\+.*2.*=.*4/,'operation shown with a numerical step');
 const guide=arithmetic.method('2+2');
 assert.ok(guide&&guide.rules.some(x=>/Adunarea/.test(x.title)),'general addition method is available offline');
 const lesson=arithmetic.primary('2+2','1');
