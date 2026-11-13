@@ -8,7 +8,7 @@ const start=script.indexOf('const MATH_LEVELS=');
 const end=script.indexOf('let activeLearningSubject=',start);
 assert.ok(start>0&&end>start,'level/subject navigation is isolated');
 const source=script.slice(start,end);
-const api=vm.runInNewContext(source+'\n({levels:MATH_LEVELS,subjects:MATH_TOPICS,forLevel:mathSubjectsForLevel})',
+const api=vm.runInNewContext(source+'\n({levels:MATH_LEVELS,subjects:MATH_TOPICS,forLevel:mathSubjectsForLevel,stages:mathStudyStagesForTopic})',
  {learningLabel:(ro)=>ro,educationCountrySelection:{code:'RO'}});
 assert.deepEqual(Array.from(api.levels,x=>x.id),['beginner','intermediate','advanced']);
 assert.equal(api.levels[0].scopeRo.includes('I–VIII'),true);
@@ -22,6 +22,17 @@ for(const level of api.levels){
 assert.ok(!Array.from(api.forLevel('beginner')).some(x=>x.id==='differential'),'advanced-only calculus not shown in beginner');
 assert.ok(Array.from(api.forLevel('advanced')).some(x=>x.id==='differential'));
 assert.ok(api.subjects.find(x=>x.id==='trigonometry').figures);
+assert.deepEqual(Array.from(api.stages(api.subjects.find(x=>x.id==='arithmetic')),x=>x.id),['primary'],
+ 'Arithmetic must not offer gymnasium, lyceum or university');
+const arithmetic1=vm.runInNewContext(source+
+ "\\n(mathJourney.topic='arithmetic',mathJourney.schoolStage='primary',mathJourney.grade='1',educationMathTheoryList())",
+ {learningLabel:ro=>ro,educationCountrySelection:{code:'RO'},educationTheoryClean:value=>String(value||'').toLowerCase()});
+assert.ok(arithmetic1.length>=5,'Primary grade 1 starts with an interactive lesson library');
+assert.ok(arithmetic1.some(x=>x.title==='Adunarea')&&arithmetic1.some(x=>x.title==='Scăderea'));
+assert.ok(!arithmetic1.some(x=>/Pitagora|fracții|înmulțire/i.test(x.title)),'Do not show upper-grade theory in class I');
+assert.match(html,/#view-module\.learning-math\.math-choice-stage \.math-choice-list\{/,'Maths shows a two-column picture tile grid');
+assert.match(html,/\.math-choice-row \.math-tile-icon\{/,'Each maths tile has a drawing');
+assert.ok(script.includes("button.append(art,heading,subtitle)"),'All maths branch/stage/chapter buttons include an icon');
 assert.ok(script.includes("if(key==='math'&&mathJourney.stage!=='workspace')"),'math tile opens level step first');
 assert.ok(script.includes("mathJourneyShowChoices('chapters')"),'workspace back opens the chapter list');
 assert.ok(script.includes("mathJourney.stage='branches';mathJourney.level=null"),'learning reset reopens branch choices');
