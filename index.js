@@ -8092,7 +8092,7 @@ function scienceJourneyShowChoices(stage){
  for(const item of choices){
   const btn=document.createElement('button');btn.type='button';
   btn.className='secondary-btn math-choice-row science-choice-row';
-  if(stage==='subjects')btn.classList.add('science-subject-tile');
+  if(stage==='subjects')btn.className+=' science-subject-tile';
   const heading=document.createElement('strong');
   heading.textContent=learningLabel(item.ro,item.en);
   const sub=document.createElement('small');
