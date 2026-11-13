@@ -11888,6 +11888,58 @@ function educationTopicPicker(label,entries,selected,onSelect){
  drawer.append(summary,search,list);paint();
  return drawer;
 }
+// Never leave a selected History/Geography chapter as an empty title.
+function hgGuaranteedSections(topic){
+ try{
+  const guide=hgLessonSections(topic);
+  if(Array.isArray(guide)){
+   const ready=guide.filter(x=>Array.isArray(x)&&String(x[0]||'').trim()&&String(x[1]||'').trim());
+   if(ready.length>=3)return ready;
+  }
+ }catch(error){console.warn('Education chapter fallback',String(error?.message||error))}
+ const name=hgL(topic.ro||'',topic.en||topic.ro||'');
+ const t=hgThemeFold(String(topic.ro||'')+' '+String(topic.en||''));
+ if(t.includes('pamantul si reprezentarea')||t.includes('earth and its representation')){
+  return [
+   [hgL('Globul geografic și forma Pământului','The globe and the shape of Earth'),hgL('Pământul are o formă apropiată de un elipsoid ușor turtit la poli. Globul geografic reprezintă suprafața Pământului în trei dimensiuni. Pe el putem compara poziția continentelor, oceanelor, Ecuatorului și polilor.','Earth is approximately an oblate spheroid. A globe represents its surface in three dimensions and shows continents, oceans, the Equator and poles.')],
+   [hgL('Harta, legenda și scara','Maps, keys and scale'),hgL('O hartă reprezintă pe un plan o parte a suprafeței Pământului. Legenda explică simbolurile, iar scara arată raportul dintre distanța pe hartă și distanța reală. Proiecțiile cartografice deformează inevitabil cel puțin unele dimensiuni sau forme.','A map shows the Earth on a flat surface. A key explains symbols, a scale relates map distance to ground distance, and projections necessarily introduce some distortion.')],
+   [hgL('Paralele, meridiane și coordonate','Latitude, longitude and coordinates'),hgL('Paralelele ajută la stabilirea latitudinii față de Ecuator, iar meridianele la stabilirea longitudinii față de meridianul de origine. Coordonatele geografice permit localizarea unui punct fără a depinde de numele localității.','Parallels define latitude relative to the Equator, and meridians define longitude relative to the prime meridian. Coordinates identify locations independently of place names.')],
+   [hgL('Exercițiu cu harta','Map-reading practice'),hgL('Alege două localități, identifică-le pe hartă și notează pozițiile aproximative. Citește legenda, estimează distanța cu scara și explică de ce rezultatul poate diferi de distanța unui traseu rutier.','Find two towns on a map, estimate their locations and the distance using the key and scale. Explain why a road route can be longer than a straight-line map distance.')]
+  ];
+ }
+ if(t.includes('structura interna a pamantului')||t.includes('earth')&&t.includes('interior')){
+  return [
+   [hgL('Scoarța terestră','Earth’s crust'),hgL('Scoarța este stratul solid exterior al Pământului și are grosimi diferite sub continente și oceane. Împreună cu partea superioară rigidă a mantalei formează litosfera.','The crust is the outer solid layer of Earth and differs in thickness under oceans and continents. Together with the rigid upper mantle it forms the lithosphere.')],
+   [hgL('Mantaua și dinamica internă','The mantle and internal dynamics'),hgL('Mantaua este alcătuită predominant din roci solide care se pot deforma lent în intervale geologice. Mișcarea plăcilor litosferice este legată de procesele termice și mecanice din interiorul planetei.','The mantle is mainly solid rock capable of very slow deformation over geological timescales. Plate motions relate to thermal and mechanical processes inside Earth.')],
+   [hgL('Nucleul și câmpul magnetic','The core and magnetic field'),hgL('Nucleul extern este predominant lichid, iar cel intern este solid, ambele bogate în fier. Mișcările fluidului conductor din nucleul extern contribuie la formarea câmpului magnetic terestru.','The outer core is mostly liquid and the inner core solid, both iron-rich. Motion in the conducting outer core helps generate Earth’s magnetic field.')],
+   [hgL('Cum studiem interiorul Pământului','How we investigate Earth’s interior'),hgL('Undele seismice își modifică viteza și traiectoria prin materiale diferite. Compară propagarea undelor P și S și explică de ce undele S nu traversează nucleul extern lichid.','Seismic waves change speed and direction in different materials. Compare P and S waves and explain why S waves do not propagate through the liquid outer core.')]
+  ];
+ }
+ if(t.includes('iluminism')||t.includes('enlightenment')){
+  return [
+   [hgL('Ideile și autorii Iluminismului','Enlightenment ideas and thinkers'),hgL('În secolul al XVIII-lea, gânditori precum Montesquieu, Voltaire și Rousseau au dezbătut autoritatea politică, libertatea, toleranța și rolul rațiunii. Opiniile lor nu au fost identice; compară argumentele, nu doar numele.','In the eighteenth century, thinkers including Montesquieu, Voltaire and Rousseau debated government, liberty, tolerance and reason. Their positions differed; compare arguments rather than just names.')],
+   [hgL('Revoluția americană și revoluția franceză','American and French revolutions'),hgL('Declarația de Independență a Statelor Unite a fost adoptată în 1776. Revoluția franceză a început în 1789 și a transformat profund instituțiile politice. Cele două procese au contexte și consecințe diferite.','The United States Declaration of Independence was adopted in 1776. The French Revolution began in 1789 and transformed political institutions; their causes and consequences were not identical.')],
+   [hgL('Drepturi, cetățenie și limite','Rights, citizenship and limitations'),hgL('Declarațiile epocii au afirmat principii privind libertatea și egalitatea, dar aplicarea lor a exclus adesea numeroase grupuri. Distinge idealurile enunțate de drepturile efectiv exercitate de oameni.','Period declarations advanced ideas about liberty and equality, yet many groups were excluded in practice. Distinguish declared ideals from the rights people could actually exercise.')],
+   [hgL('Analiza unei surse istorice','Working with historical sources'),hgL('Alege un fragment dintr-o declarație de drepturi a epocii. Notează data, autorul sau instituția, destinatarii, două idei și o limitare a aplicării lor. Compară rezultatul cu o a doua sursă verificabilă.','Choose a passage from a period declaration of rights. Record its date, author or institution, audience, two ideas and a limitation of implementation, then compare another verifiable source.')]
+  ];
+ }
+ try{
+  const country=hgCountry(),countryLabel=country?hgL(country.ro,country.en):hgJourney.otherCountry||educationCountrySelection.label||'';
+  const generated=buildHgThemeGuide([topic.id,topic.ro,topic.en,topic.query||''],hgJourney.subject,String(hgJourney.grade||''),hgJourney.country,countryLabel);
+  if(Array.isArray(generated)&&generated.length>=3)return generated.map(x=>[hgL(x[0],x[1]),hgL(x[2],x[3])]);
+ }catch(error){console.warn('Education guide fallback',String(error?.message||error))}
+ const goal=String(topic.query||name);
+ if(hgJourney.subject==='geography')return [
+  [hgL('Noțiuni esențiale','Essential concepts'),hgL('Tema '+name+' urmărește identificarea locurilor, proceselor naturale și relațiilor dintre oameni și mediu. Punct de pornire: '+goal+'.','The topic '+name+' examines locations, natural processes and human–environment relationships. Study focus: '+goal+'.')],
+  [hgL('Observare și interpretare','Observation and interpretation'),hgL('Localizează un exemplu pe o hartă cu scară și legendă. Separă ceea ce poți observa de explicațiile și datele care necesită o sursă verificabilă.','Locate an example on a map with scale and key. Separate observations from explanations and claims needing reliable evidence.')],
+  [hgL('Compară două regiuni','Compare two regions'),hgL('Compară două zone după poziție, relief, climă, locuire și activități umane. Precizează unitățile, anul și limitele datelor folosite.','Compare two areas by location, landscape, climate, settlement and human activity. State units, dates and data limitations.')]
+ ];
+ return [
+  [hgL('Contextul și cronologia','Background and chronology'),hgL('Tema '+name+' se studiază prin plasarea evenimentelor în timp și spațiu. Puncte de cercetare: '+goal+'.','Study '+name+' by locating events in time and place. Enquiry focus: '+goal+'.')],
+  [hgL('Cauze, desfășurare și urmări','Causes, events and consequences'),hgL('Distinge condițiile anterioare, evenimentele documentate și consecințele ulterioare. Evită să atribui o cauză fără argumente susținute de izvoare.','Distinguish preceding conditions, documented events and later effects. Do not claim causation without supporting sources.')],
+  [hgL('Izvoare și exercițiu','Sources and practice'),hgL('Alege două surse despre subiect, notează autorul, data și scopul lor. Formulează o cronologie de trei repere și explică o diferență de interpretare.','Choose two sources, note their authors, dates and purposes. Build a three-point timeline and explain one difference in interpretation.')]
+ ];
+}
 function hgShowCoreLesson(panel,guide){
  const section=document.createElement('section');section.className='hg-offline-lesson';
  section.append(hgText('h3',hgL('Teme de studiu','Study topics')));
@@ -11914,7 +11966,7 @@ function hgLesson(panel){
  const topic=hgTopic();if(!topic)return;
  const country=hgCountry(),scope=HG_SCOPE_DATA.find(x=>x.id===hgJourney.scope);
  panel.append(hgText('h3',hgL(topic.ro,topic.en)));
- const guide=hgLessonSections(topic);const lessonView=hgShowCoreLesson(panel,guide);
+ const guide=hgGuaranteedSections(topic);const lessonView=hgShowCoreLesson(panel,guide);
  const aiInline=document.createElement('section');aiInline.className='hg-ai-inline';
  aiInline.append(hgText('h4',hgL('Aprofundează tema selectată cu profesorul AI','Explore this topic with the AI teacher')));
  const custom=document.createElement('textarea');custom.className='hg-request';custom.rows=2;
