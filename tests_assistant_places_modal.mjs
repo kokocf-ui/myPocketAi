@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs';
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+const source=readFileSync('index.js','utf8');
+assert.ok(source.includes("import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs'"));
+assert.ok(source.includes('${ASSISTANT_PLACE_RESULTS_SCRIPT}'));
+assert.ok(source.includes("chat.addEventListener('click',openHotelEvaDialogue)"));
+assert.ok(source.includes("openAssistantPlaceResults(data.places)"));
+assert.ok(ASSISTANT_PLACE_RESULTS_SCRIPT.includes("dialogText('Telefon','Phone')"));
+assert.ok(ASSISTANT_PLACE_RESULTS_SCRIPT.includes("dialogText('Navighează către locație','Navigate to location')"));
+assert.ok(ASSISTANT_PLACE_RESULTS_SCRIPT.includes('perPage=6'));
+assert.ok(ASSISTANT_PLACE_RESULTS_SCRIPT.includes('openStandaloneChoicePanel(host,title,{keepOpen:true})'));
+assert.ok(ASSISTANT_PLACE_RESULTS_SCRIPT.includes("if(!Array.isArray(places)||!places.length)return false"));
+assert.ok(ASSISTANT_PLACE_RESULTS_SCRIPT.includes("place.latitude!=null&&place.longitude!=null"));
+new vm.Script(ASSISTANT_PLACE_RESULTS_SCRIPT);
+console.log('PASS: assistant table supports one item, pagination, phone, route, hotel chat');
