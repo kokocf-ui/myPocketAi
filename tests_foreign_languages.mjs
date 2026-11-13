@@ -64,6 +64,14 @@ for(const key of ['FOREIGN_LANGUAGE_DATA','FOREIGN_LEVEL_DATA','FOREIGN_PHRASE_D
  "if(key==='languages'){languageOpen('languages');return}"])
  assert.ok(script.includes(key),key);
 assert.match(html,/\.foreign-word-card/);
+for(const key of ['function languageReadLocalLesson(){','function languageVerifyCard(card){',
+ 'foreign-lesson-main-actions','foreign-topic-shortcuts','foreign-card-verify',
+ 'foreign-card-repeat','foreign-more-activities','languageRememberLesson()'])
+ assert.ok(script.includes(key),'Guided lesson workflow missing: '+key);
+assert.match(script,/if\(stage==='topics'\)options=FOREIGN_TOPIC_DATA/,
+ 'The topic menu is separate from lesson exercises');
+assert.match(script,/educationOpenPagedLesson\(title,parts\.join\(nl\+nl\)\)/,
+ 'Local teaching text is shown only in the paginated reader');
 assert.match(script,/if\(languageVoiceHandleAndroid\(data\)\)return/);
 const start=script.indexOf('const FOREIGN_LANGUAGE_DATA=');
 const end=script.indexOf('function openLearningSubject(key)',start);
