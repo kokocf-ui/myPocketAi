@@ -267,10 +267,13 @@ function educationGradeGate(moduleKey,level,proceed,back){
   const filtered=options.filter(o=>!text||eduCountryFold(o.ro).includes(text)||eduCountryFold(o.en).includes(text)||eduCountryFold(o.id).includes(text));
   if(page>=filtered.length)page=0;
   filtered.slice(page,page+4).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel(o.ro,o.en);b.style.cssText='min-height:52px;text-align:center;width:100%;min-width:0;padding:8px;white-space:normal;overflow-wrap:anywhere;';b.onclick=()=>proceed(o.id);list.append(b)});
-  if(!filtered.length){const p=document.createElement('p');p.textContent=eduUiLabel('Clasa nu apare în sugestii. Poți folosi denumirea introdusă pentru un parcurs orientativ.','Grade not in the suggestions. You can use the entered name for an advisory study path.');list.append(p)}
-  // Some countries, states, boards and vocational schools use different
-  // grade names; do not block their lessons because a provisional map omits it.
-  if(text&&!filtered.length&&search.value.trim().length<=40){
+  const arithmeticGradesOnly=moduleKey==='math'&&typeof mathJourney!=='undefined'&&mathJourney.topic==='arithmetic';
+  if(!filtered.length){const p=document.createElement('p');p.textContent=arithmeticGradesOnly
+   ?eduUiLabel('Pentru Aritmetică, alege una dintre clasele primare disponibile.','For Arithmetic, choose one of the available primary-school grades.')
+   :eduUiLabel('Clasa nu apare în sugestii. Poți folosi denumirea introdusă pentru un parcurs orientativ.','Grade not in the suggestions. You can use the entered name for an advisory study path.');list.append(p)}
+  // Arithmetic follows only the selected country's primary years, never an
+  // arbitrary typed higher grade. Other modules retain their existing fallback.
+  if(text&&!filtered.length&&!arithmeticGradesOnly&&search.value.trim().length<=40){
    const entered=search.value.trim().replace(/[<>]/g,'').slice(0,40);
    if(entered){
     const custom=document.createElement('button');custom.type='button';custom.className='secondary-btn';
