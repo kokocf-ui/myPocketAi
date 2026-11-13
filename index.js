@@ -8038,7 +8038,7 @@ function scienceJourneyShowChoices(stage){
  back.className='secondary-btn science-stage-back';
  back.textContent=learningLabel('← Înapoi','← Back');back.onclick=scienceBack;
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
- bar.append(back);eduAttachPrintAction(bar);host.append(bar);
+ bar.append(back);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
  const title=document.createElement('h2');
  title.textContent=stage==='subjects'?learningLabel('Alege materia','Choose subject'):
@@ -8868,6 +8868,8 @@ function educationTheoryOpen(subject,level){
  formula.className='education-theory-formula';
  const resultBack=document.createElement('button');resultBack.className='secondary-btn';resultBack.type='button';resultBack.textContent=subject==='math'?learningLabel('← La listă','← To list'):learningLabel('← La rezultate','← Results');resultBack.onclick=()=>{detail.hidden=true;list.hidden=false;searchBar.hidden=false;description.hidden=false;dialog.scrollTop=0;list.scrollTop=0};
  detail.append(resultBack,detailTitle,statement,formula);
+ detail.eduPrintableMaterial=()=>({title:detailTitle.textContent,text:[statement.textContent,formula.hidden?'':formula.textContent].filter(Boolean).join('\n\n')});
+ eduAttachPrintAction(detail);
  function render(){
   list.replaceChildren();
   const items=subject==='math'?educationMathTheoryList(input.value):educationTheoryFind(input.value,subject,level,4);
@@ -9054,6 +9056,8 @@ function chemistryCurriculumOpen(){
    }
    const visualKind=chemistryVisualKind(selectedLesson.title+' '+selectedLesson.statement.slice(0,100));
    if(visualKind){const visual=chemistryVisualBuild(visualKind,selectedLesson.title);if(visual)detail.append(visual)}
+   detail.eduPrintableMaterial=()=>({title:selectedLesson.title,text:[selectedLesson.statement,selectedLesson.formula==='—'?'':selectedLesson.formula].filter(Boolean).join('\n\n')});
+   eduAttachPrintAction(detail);
    content.append(detail);
   }
  }
@@ -9179,7 +9183,9 @@ function biologyCurriculumOpen(){
    const p=document.createElement('p');p.textContent=selectedLesson.statement;
    const formula=document.createElement('div');formula.className='education-theory-formula';
    formula.textContent=selectedLesson.formula==='—'?'':selectedLesson.formula;
-   panel.append(h,p);if(formula.textContent)panel.append(formula);body.append(panel);
+   panel.append(h,p);if(formula.textContent)panel.append(formula);
+   panel.eduPrintableMaterial=()=>({title:selectedLesson.title,text:[selectedLesson.statement,formula.textContent].filter(Boolean).join('\n\n')});
+   eduAttachPrintAction(panel);body.append(panel);
   }
  }
  dialog.append(header,note,body);document.body.append(dialog);render();
@@ -9799,6 +9805,8 @@ function physicsTheoryOpen(){
   goBack.textContent=learningLabel('← La lecții','← Lessons');
   goBack.onclick=()=>{detail.hidden=true;list.hidden=false;search.hidden=false};
   detail.append(goBack,title,statement,formula);
+  detail.eduPrintableMaterial=()=>({title:item.title,text:[item.statement,item.formula==='—'?'':item.formula].filter(Boolean).join('\n\n')});
+  eduAttachPrintAction(detail);
   const kind=physicsVisualKind(item.title,chapter);
   if(kind)detail.append(physicsVisualBuild(kind));
   detail.hidden=false;list.hidden=true;search.hidden=true;
@@ -9927,7 +9935,7 @@ function astronomyTheoryOpen(){
  const rank={beginner:0,intermediate:1,medium:1,advanced:2};
  const entries=EDUCATION_THEORY_DATA.filter(x=>x.subject==='astronomy'&&x.topic===scienceJourney.topic&&rank[x.level]<=rank[scienceJourney.level]);
  const render=()=>{list.replaceChildren();const q=educationTheoryClean(search.value);const matched=q?entries.filter(e=>educationTheoryClean(e.title+' '+e.aliases.join(' ')).split(' ').some(w=>w.startsWith(q))||educationTheoryClean(e.title).includes(q)).slice(0,4):entries;
-  for(const entry of matched){const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';btn.textContent=entry.title;btn.onclick=()=>{detail.replaceChildren();const h=document.createElement('h3');h.textContent=entry.title;const p=document.createElement('p');p.textContent=entry.statement;const f=document.createElement('p');f.className='education-theory-formula';f.textContent=entry.formula;detail.append(h,p,f);const graphic=astronomyVisualBuild(astronomyVisualKind(entry.title,entry.topic));if(graphic)detail.append(graphic);detail.hidden=false;list.hidden=true;search.hidden=true};list.append(btn)}
+  for(const entry of matched){const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';btn.textContent=entry.title;btn.onclick=()=>{detail.replaceChildren();const h=document.createElement('h3');h.textContent=entry.title;const p=document.createElement('p');p.textContent=entry.statement;const f=document.createElement('p');f.className='education-theory-formula';f.textContent=entry.formula;detail.append(h,p,f);detail.eduPrintableMaterial=()=>({title:entry.title,text:[entry.statement,entry.formula==='—'?'':entry.formula].filter(Boolean).join('\n\n')});eduAttachPrintAction(detail);const graphic=astronomyVisualBuild(astronomyVisualKind(entry.title,entry.topic));if(graphic)detail.append(graphic);detail.hidden=false;list.hidden=true;search.hidden=true};list.append(btn)}
   if(!matched.length){const note=document.createElement('p');note.textContent=learningLabel('Nu există rezultate.','No results.');list.append(note)}
  };
  back.onclick=()=>{if(!detail.hidden){detail.hidden=true;list.hidden=false;search.hidden=false}else dialog.close()};
@@ -10139,6 +10147,9 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    const glossary=document.createElement('small');glossary.textContent=learningLabel('Termeni asociați: ','Related terms: ')+item.aliases.join(' · ');
    details.append(glossary);
   }
+  // PDF actions belong to the expanded theory lesson, not its chapter menu.
+  details.eduPrintableMaterial=()=>({title:item.title,text:[item.statement,item.formula==='—'?'':item.formula].filter(Boolean).join('\n\n')});
+  eduAttachPrintAction(details);
   details.addEventListener('toggle',()=>{
    if(details.open)openItems.forEach(other=>{if(other!==details)other.open=false});
   });
@@ -10293,7 +10304,7 @@ function mathJourneyShowChoices(stage){
   return mathJourneyShowChoices('branches');
  };
  const bar=document.createElement('div');bar.className='education-toolbar';
- bar.append(back);eduAttachPrintAction(bar);host.append(bar);
+ bar.append(back);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel';
  const title=document.createElement('h2');
  title.textContent=stage==='branches'?learningLabel('Alege ramura matematicii','Choose a mathematics branch'):
@@ -11382,7 +11393,7 @@ function languageOpen(stage){
  $('moduleTitle').textContent=learningLabel('Limbi străine','Languages')+(info?' · '+learningLabel(info.ro,info.en):'');
  $('moduleLead').textContent='';host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
- bar.append(foreignStudyButton(learningLabel('← Înapoi','← Back'),languageBack));eduAttachPrintAction(bar);host.append(bar);
+ bar.append(foreignStudyButton(learningLabel('← Înapoi','← Back'),languageBack));if(stage==='lesson')eduAttachPrintAction(bar);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';panel.classList.add('foreign-stage-'+stage);
  const title=document.createElement('h2');title.textContent=stage==='languages'?learningLabel('Alege limba','Choose language'):stage==='variants'?learningLabel('Alege varianta','Choose variant'):stage==='levels'?learningLabel('Alege nivelul','Choose level'):stage==='topics'?learningLabel('Alege capitolul','Choose chapter'):stage==='placement'?learningLabel('Test introductiv','Starter diagnostic'):learningLabel('Lecție de limbi străine','Language lesson');panel.append(title);
  if(stage==='placement'){languagePlacementRender(panel);host.append(panel);return}
@@ -11546,7 +11557,7 @@ function hgOpen(stage){
  $('moduleTitle').textContent=hgL('Istorie și geografie','History and geography')+(hgSubject()?' · '+hgL(hgSubject().ro,hgSubject().en):'');
  $('moduleLead').textContent='';host.replaceChildren();host.scrollTop=0;root.scrollTop=0;const mainView=root.closest('main');if(mainView)mainView.scrollTop=0;
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar hg-toolbar';
- bar.append(hgBtn(hgL('← Înapoi','← Back'),hgBack,'secondary-btn hg-back'));eduAttachPrintAction(bar);host.append(bar);
+ bar.append(hgBtn(hgL('← Înapoi','← Back'),hgBack,'secondary-btn hg-back'));if(stage==='lesson')eduAttachPrintAction(bar);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel hg-panel hg-'+stage;
  panel.append(hgText('h2',{
   subjects:hgL('Alege materia','Choose subject'),
@@ -12796,7 +12807,7 @@ function eduAttachPrintAction(bar){
  group.setAttribute('role','group');group.setAttribute('aria-label',learningLabel('Salvare și imprimare PDF','Save and print PDF'));
  const add=(glyph,description,kind,mode)=>{
   const b=document.createElement('button');b.type='button';b.className='secondary-btn edu-print-trigger '+(mode==='save'?'edu-pdf-save':'edu-pdf-print')+' edu-icon-action edu-icon-'+kind;
-  b.textContent=glyph;b.title=description;b.setAttribute('aria-label',description);b.onclick=()=>eduOpenPrint(mode);group.append(b);
+  b.textContent=glyph;b.title=description;b.setAttribute('aria-label',description);b.onclick=()=>eduOpenPrint(mode,typeof bar.eduPrintableMaterial==='function'?bar.eduPrintableMaterial():undefined);group.append(b);
  };
  add('💾',learningLabel('Salvează PDF','Save PDF'),'save','save');
  add('🖨',learningLabel('Imprimă','Print'),'print','print');
