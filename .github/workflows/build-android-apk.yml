@@ -57,6 +57,8 @@ jobs:
           gradle-version: '8.7'
       - name: Validate frontend syntax
         run: node --check index.js && node tests_communication_ui.mjs && node tests_communication_redesign.mjs && node tests_oracle_fcm.mjs && node tests_response_quality.mjs && node tests_avatar_brand_pronunciation.mjs && node tests_math_linear_equations.mjs && node tests_math_linear_graph_proof.mjs && node tests_math_linear_verification.mjs && node tests_avatar_lipsync_stop.mjs && node tests_avatar_launch_boundaries.mjs && node tests_eva_history_recall.mjs && node tests_eva_context_clarification.mjs && node tests_eva_backend_recall.mjs && node tests_eva_dialogue.mjs && node tests_remote_street_nearby.mjs && node tests_local_multisource_shops.mjs && node tests_fsa_trading_alias.mjs && node tests_retail_categories.mjs && node tests_global_places.mjs && node tests_education_android.mjs && node tests_first_install_profile_search.mjs && node tests_shopping_workspace.mjs && node tests_agenda_android_reminders.mjs && node tests_literature_seven_country_library.mjs && node tests_literature_study_typography_nav.mjs && node tests_literature_grade1_offline.mjs && node tests_navigation_route_entry_send_center.mjs && node tests_literature_exact_paged_reader.mjs && node tests_seven_europe_literature.mjs && node tests_hungarian_school_paths.mjs
+      - name: Verify shared mathematics layout for all grades and subjects
+        run: node tests_math_shared_workspace_layout.mjs
       - name: Build debug APK (CI validation only; not a stable update)
         env:
           POCKET_VERSION_CODE: ${{ github.run_number }}
