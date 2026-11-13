@@ -126,12 +126,12 @@ const makeBack=(journey,open,opts,gradeGate)=>new Function('hgJourney','hgOpen',
 {
  const journey={stage:'chapters',level:'beginner'},screens=[];
  const back=makeBack(journey,stage=>screens.push(stage),()=>[{id:'4'}],()=>{throw Error('A single grade must not loop via the grade gate')});
- back();assert.deepEqual(screens,['levels'],'Back from Romanian Grade 4 chapters returns to the level selector');
+ back();assert.deepEqual(screens,['years'],'Back from Romanian Grade 4 chapters returns to grouped school years');
 }
 {
  const journey={stage:'chapters',level:'lower'},screens=[];
  const back=makeBack(journey,stage=>screens.push(stage),()=>[{id:'5'},{id:'6'}],(_m,_l,_accept,_cancel)=>screens.push('grade-gate'));
- back();assert.equal(journey.stage,'grade');assert.deepEqual(screens,['grade-gate']);
+ back();assert.deepEqual(screens,['years'],'Other chapter levels also return directly to grouped school years');
 }
 {
  const journey={stage:'chapters',level:'advanced'},screens=[];
