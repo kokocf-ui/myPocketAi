@@ -113,7 +113,7 @@ assert.ok(html.includes('main.page:has(#view-module.learning-hg.active)'),
  'History and geography viewport layout exists');
 assert.ok(html.includes('className=')||boot.includes('className='),
  'Produced markup or client script must be non-empty');
-for(const section of ['scienceTopicChoices().filter','mathSubjectsForLevel(mathJourney.level).map',
+for(const section of ['scienceTopicChoices().filter','mathChaptersForSelection()',
  'litJourney.branch===','FOREIGN_TOPIC_DATA,languageJourney.topic']){
  assert.ok(boot.includes(section),'Education topic picker missing integration: '+section);
 }
