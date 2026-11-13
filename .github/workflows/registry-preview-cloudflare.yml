@@ -1,0 +1,76 @@
+name: Registry preview — separate Cloudflare Worker
+
+on:
+  push:
+    branches: [feature/smart-country-registry]
+    paths:
+      - registry_preview_worker.mjs
+      - wrangler-registry-preview.toml
+      - backend.js
+      - country_*.mjs
+      - smart_country_registry.mjs
+      - europe_country_sources.mjs
+      - .github/workflows/registry-preview-cloudflare.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lifewise-registry-preview
+  cancel-in-progress: false
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify isolated preview code and registry
+        run: |
+          node --check backend.js
+          node --check registry_preview_worker.mjs
+          node tests_country_frontend_request.mjs
+          node tests_country_gps_resolution.mjs
+          node tests_country_search_anchor.mjs
+          node tests_country_backend_live_path.mjs
+          node tests_country_city_choice_resume.mjs
+          node tests_country_uk_registry_only.mjs
+      - name: Require Cloudflare deployment credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" && test -n "$CLOUDFLARE_ACCOUNT_ID" || {
+            echo "::error::Missing Cloudflare deployment credentials. No production changes made."
+            exit 1
+          }
+      - name: Install pinned Wrangler
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@3.90.0
+      - name: Deploy ONLY new isolated registry preview worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: "false"
+        run: npx --no-install wrangler deploy --config wrangler-registry-preview.toml
+      - name: Configure optional separate preview Geoapify key
+        if: ${{ env.DUMMY_NON_SECRET != 'never' }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          REGISTRY_PREVIEW_GEOAPIFY_API_KEY: ${{ secrets.REGISTRY_PREVIEW_GEOAPIFY_API_KEY }}
+          WRANGLER_SEND_METRICS: "false"
+        run: |
+          if [ -n "$REGISTRY_PREVIEW_GEOAPIFY_API_KEY" ]; then
+            printf '%s' "$REGISTRY_PREVIEW_GEOAPIFY_API_KEY" | npx --no-install wrangler secret put GEOAPIFY_API_KEY --config wrangler-registry-preview.toml
+            echo 'Preview Geoapify key configured.'
+          else
+            echo '::warning::Preview has no Geoapify secret. GPS country inference and Geoapify place results cannot be tested; Photon-only subset remains available.'
+          fi
+      - name: Preview endpoint
+        run: |
+          echo 'Preview deployment only: worker lifewise-ai-registry-preview'
+          echo 'Production workers lifewise-ai-api and lifewise-ai-v2 have NOT been deployed.'

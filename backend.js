@@ -14,6 +14,10 @@ import {nearbyOpenStreetMapFood} from "./osm_food_places.mjs";
 import {nearbySparseMapPlaces} from "./osm_sparse_places.mjs";
 import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
+import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
+import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
+import {searchAnchorPolicy} from "./country_search_anchor.mjs";
+import {nationalProviderAuthorized} from "./country_national_provider_gate.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
 import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
@@ -1699,6 +1703,7 @@ export default {
       const stationAlias=/^(?:london|londra)\s+(?:victoria|liverpool\s+street)(?:\s+(?:rail|railway|station))?$/i.test(requestedStopName);
       const explicitStation=/\b(?:station|railway|rail|underground|tube|gara|gară|statie|stația)\b/iu.test(requestedStopName);
       if(stage==='street'&&country==='gb'&&/^london$/i.test(city.trim())&&env.TFL_APP_KEY&&
+         nationalProviderAuthorized({provider:'tfl',country:'GB',region:'london',enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'})&&
          (stationAlias||explicitStation)&&
          (stationAlias||!/\b(?:road|street|avenue|lane|square)\b/i.test(requestedStopName))){
         try {
@@ -3285,6 +3290,13 @@ export default {
           const transcapiZone=validTarget&&hasValidLocation?transCAPISharedZone(
             {latitude,longitude},{latitude:targetLat,longitude:targetLon}):null;
           const transcapiEligible=Boolean(transcapiZone)&&
+            // TransCAPI's GB adapter is selected through the UK registry.
+            // Irish/Benelux zones continue through their existing independent
+            // geographical coverage until separately catalogued and audited.
+            (transcapiZone!=='gb'||nationalProviderAuthorized({
+              provider:'uk_national_transit',country:'GB',
+              enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'
+            }))&&
             (transportPreference==='bus_only'||transcapiZone!=='gb'||!isTfLLondonCorridorPoint(latitude,longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
           if(transcapiEligible){
             const national=await planTransCAPIJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},requestedOptionsCount,{preference:transportPreference,departureOffsetMinutes,departureAt});
@@ -3367,7 +3379,8 @@ export default {
         const unqualifiedStation=/\b(station|underground|tube|metro|railway)\b/i.test(requestedStationName)&&! /\b(london|londra|grays|thurrock|essex|uk|united kingdom|england|paris|france|berlin|germany|rome|italy|madrid|spain|canada|australia)\b/i.test(requestedStationName);
         const undergroundModeRequested=/\b(?:underground|tube|metro)\b/i.test(requestedStationName);
         const victoriaTubeQuery=/^(?:(?:london|londra)\s+)?victoria\s+(?:underground|tube|metro)(?:\s+station)?$/i.test(requestedStationName.trim());
-        if((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') && tryVerifiedStation){
+        if((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') && tryVerifiedStation &&
+          nationalProviderAuthorized({provider:'tfl',country:'GB',region:'london',enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'})){
           try{
             const stopQuery=targetName.replace(/\b(london|londra|underground|railway|rail|train|station|tube)\b/gi," ").replace(/[,\s]+/g," ").trim();
             if(stopQuery.length>=3){
@@ -3572,7 +3585,13 @@ export default {
             provider_status:{tfl:'outside_london_corridor',motis:transportErrors.motis||null,transcapi:transportErrors.transcapi||'not_attempted'},
             transit_departure_at:departureAt,reason:'national_public_transport_not_verified',ai_connected:Boolean(env.AI)});
         }
-        if (env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') {
+        if ((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') &&
+            nationalProviderAuthorized({
+              provider:'tfl',country:'GB',region:
+                isTfLLondonCorridorPoint(latitude,longitude)&&
+                isTfLLondonCorridorPoint(targetLat,targetLon)?'london':'outside_london',
+              enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'
+            })) {
           try {
             // Keep coordinate commas as path delimiters; encode only free-text destinations once.
             // Ambiguous interchange hubs such as HUBVIC return HTTP 300
@@ -3995,7 +4014,7 @@ export default {
           let operatorChecked=false;
           const undergroundRequested=/\b(?:underground|tube|metro)\b/i.test(name);
           const victoriaUndergroundRequested=/^(?:(?:london|londra)\s+)?victoria\s+(?:underground|tube|metro)(?:\s+station)?$/i.test(name.trim());
-          if(isStation&&env.TFL_APP_KEY){
+          if(isStation&&env.TFL_APP_KEY&&nationalProviderAuthorized({provider:'tfl',country:'GB',region:'london',enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'})){
             operatorChecked=true;
             const core=name.replace(/\b(?:london|londra|station|railway|rail|underground|train|tube|metro)\b/gi,' ').replace(/\s+/g,' ').trim();
             try{
@@ -4300,7 +4319,13 @@ export default {
           let reply=lang === "en" ? `Walking route to ${target.display_name}: about ${km} km, around ${formatJourneyDurationMinutes(mins,lang)}. The line on the map shows the pedestrian route. Estimated time can vary with pace and local conditions.` : `Rută pietonală până la ${target.display_name}: aproximativ ${km} km, cam ${formatJourneyDurationMinutes(mins,lang)}. Linia de pe hartă arată traseul pe jos. Durata este estimativă și depinde de ritm și de condițiile locale.`;
           if(routeSteps.length) reply += (lang === "en" ? "\n\nWalking directions:\n" : "\n\nIndicații pentru mersul pe jos:\n") + routeSteps.map(step=>step.text).join("\n");
           let transit=null;
-          if(env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false'){
+          if((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') &&
+            nationalProviderAuthorized({
+              provider:'tfl',country:'GB',region:
+                isTfLLondonCorridorPoint(latitude,longitude)&&
+                isTfLLondonCorridorPoint(destLat,destLon)?'london':'outside_london',
+              enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'
+            })){
             try {
               const tflData=await requestTfLJourneys({
                 from:`${latitude},${longitude}`,to:`${destLat},${destLon}`,
@@ -4829,7 +4854,14 @@ export default {
       messageLength: message.length,
       timestamp: new Date().toISOString()
     }));
-    let locationSource = hasValidLocation ? "browser_gps" : null;
+    // The phone GPS is the only implicit place anchor. A requested remote
+    // destination must be resolved on its own, never derived from a home country.
+    const searchAnchor=searchAnchorPolicy({
+      hasValidGps:hasValidLocation,latitude,longitude,
+      explicitDestination:activePlaceRequest?.destination||'',
+      needsDestination:activePlaceRequest?.needsDestination===true
+    });
+    let locationSource = searchAnchor.locationSource;
     let searchLocationLabel = "";
     let explicitPlaceQuery = "";
     const centralAreaRequested = Boolean(activePlaceRequest?.central);
@@ -4932,7 +4964,7 @@ export default {
         const requested=normalizeGeoName(stopQuery);
         const verified=[];
         let tflStatus=null;
-        if(env.TFL_APP_KEY&&requested.length>=3){
+        if(env.TFL_APP_KEY&&requested.length>=3&&nationalProviderAuthorized({provider:'tfl',country:'GB',region:'london',enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'})){
           try{
             const u=new URL('https://api.tfl.gov.uk/StopPoint/Search/'+encodeURIComponent(stopQuery));
             u.searchParams.set('app_key',env.TFL_APP_KEY);
@@ -5337,6 +5369,7 @@ export default {
             :await geocodePlace(query));
           latitude=match.latitude;longitude=match.longitude;hasValidLocation=true;
           searchLocationLabel=match.label;
+          responsePlaceContext.verified_country_code=String(match.country_code||match.countryCode||"").toUpperCase();
         } catch(error) {
           if(remoteStreet){
             const name=remoteStreet.street+' din '+remoteStreet.city+
@@ -5398,9 +5431,41 @@ export default {
         const globalPlacesPromise=env.TOMTOM_PLACES_ENABLED==='true'&&env.TOMTOM_API_KEY
          ?globalNearbyPlaces({latitude,longitude,radius,category:requestedPlaceCategory.key,
            apiKey:env.TOMTOM_API_KEY,enabled:true}):Promise.resolve([]);
-        const ukRetailersPromise=['shop','corner_shop'].includes(requestedPlaceCategory.key)
+        // Opt-in country-aware provider selection. A geocoder-confirmed country
+        // takes precedence over GPS and UI language; unknown country stays legacy.
+        // The explicit destination, when supplied, wins. Otherwise, the
+        // user's current valid device GPS point is the search centre.
+        // Under the opt-in registry flag, reverse-geocode GPS to establish
+        // its country; never assume UK from a missing country code.
+        let countryForLookup=responsePlaceContext?.verified_country_code||'';
+        if(env.SMART_COUNTRY_REGISTRY_ENABLED==='true' &&
+           !explicitPlaceQuery && locationSource==='browser_gps' &&
+           !countryForLookup && env.GEOAPIFY_API_KEY){
+          countryForLookup=await verifiedGpsCountry({
+            latitude,longitude,geoapifyKey:env.GEOAPIFY_API_KEY
+          })||'';
+        }
+        const countryPlan=planFrontendPlaceProviders({
+          category:requestedPlaceCategory.key,
+          verifiedCountryCode:countryForLookup,
+          enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true',
+          geoapifyConfigured:Boolean(env.GEOAPIFY_API_KEY),
+          tomtomConfigured:env.TOMTOM_PLACES_ENABLED==='true'&&Boolean(env.TOMTOM_API_KEY)
+        });
+        // Frontend never chooses a provider. Under the feature flag, unverified
+        // country permits only shared international sources, not UK-only data.
+        // Existing Geoapify / Photon flow and response format remain intact.
+        // National providers are selected exclusively by the country registry.
+        // Common Geoapify / Photon / TomTom dispatch is independent.
+        const useUkRetailSources=countryPlan.localProviders.includes('uk_food_retailers') ||
+          (countryPlan.mode==='legacy'&&countryPlan.ukRetailAllowed);
+        responsePlaceContext.country_routing={
+          mode:countryPlan.mode,country:countryPlan.country,
+          reason:countryPlan.reason
+        };
+        const ukRetailersPromise=useUkRetailSources&&['shop','corner_shop'].includes(requestedPlaceCategory.key)
           ?nearbyUkRegisteredRetailers(latitude,longitude,radius)
-          :requestedPlaceCategory.key==='fast_food'
+          :useUkRetailSources&&requestedPlaceCategory.key==='fast_food'
           ?nearbyUkRegisteredTakeaways(latitude,longitude,radius):Promise.resolve([]);
         const photonStartedAt = Date.now();
         // Zoo uses its normal nearby radius; parking keeps its existing fast Photon.

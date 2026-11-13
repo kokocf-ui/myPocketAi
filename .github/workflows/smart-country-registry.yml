@@ -1,0 +1,145 @@
+name: Smart Country Registry — isolated verification
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'smart_country_registry.mjs'
+      - 'europe_country_sources.mjs'
+      - 'country_provider_bridge.mjs'
+      - 'country_frontend_request.mjs'
+      - 'country_gps_resolution.mjs'
+      - 'country_search_anchor.mjs'
+      - 'country_national_provider_gate.mjs'
+      - 'registry_preview_worker.mjs'
+      - 'assistant_place_results_ui.mjs'
+      - 'index.js'
+      - 'tests_assistant_places_modal.mjs'
+      - 'wrangler-registry-preview.toml'
+      - 'backend.js'
+      - 'tests_smart_country_registry.mjs'
+      - 'tests_country_provider_bridge.mjs'
+      - 'tests_country_frontend_request.mjs'
+      - 'tests_country_gps_resolution.mjs'
+      - 'tests_country_search_anchor.mjs'
+      - 'tests_country_backend_live_path.mjs'
+      - 'tests_country_city_choice_resume.mjs'
+      - 'tests_country_uk_registry_only.mjs'
+      - '.github/workflows/smart-country-registry.yml'
+  push:
+    branches:
+      - feature/smart-country-registry
+    paths:
+      - 'smart_country_registry.mjs'
+      - 'europe_country_sources.mjs'
+      - 'country_provider_bridge.mjs'
+      - 'country_frontend_request.mjs'
+      - 'country_gps_resolution.mjs'
+      - 'country_search_anchor.mjs'
+      - 'country_national_provider_gate.mjs'
+      - 'registry_preview_worker.mjs'
+      - 'wrangler-registry-preview.toml'
+      - 'backend.js'
+      - 'tests_smart_country_registry.mjs'
+      - 'tests_country_provider_bridge.mjs'
+      - 'tests_country_frontend_request.mjs'
+      - 'tests_country_gps_resolution.mjs'
+      - 'tests_country_search_anchor.mjs'
+      - 'tests_country_backend_live_path.mjs'
+      - 'tests_country_city_choice_resume.mjs'
+      - 'tests_country_uk_registry_only.mjs'
+      - '.github/workflows/smart-country-registry.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  registry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax check
+        run: |
+          node --check backend.js
+          node --check index.js
+          node --check assistant_place_results_ui.mjs
+          node --check smart_country_registry.mjs
+          node --check europe_country_sources.mjs
+          node --check country_provider_bridge.mjs
+          node --check country_frontend_request.mjs
+          node --check country_gps_resolution.mjs
+          node --check country_search_anchor.mjs
+          node --check country_national_provider_gate.mjs
+      - name: Country and mixed stage routing
+        run: node tests_smart_country_registry.mjs
+      - name: Frontend to backend request routing
+        run: |
+          node tests_country_frontend_request.mjs
+          node tests_country_gps_resolution.mjs
+          node tests_country_search_anchor.mjs
+      - name: Real Worker request contract (mock providers)
+        run: node tests_country_backend_live_path.mjs
+      - name: Ambiguous city table and original job resume
+        run: node tests_country_city_choice_resume.mjs
+      - name: Assistant place table and Hotel dialogue
+        run: node tests_assistant_places_modal.mjs
+      - name: UK national registry source gates
+        run: node tests_country_uk_registry_only.mjs
+      - name: Adapter scoping
+        run: node tests_country_provider_bridge.mjs
+      - name: Existing parking and zoo regression
+        run: node tests_parking_zoo_eva_regressions.mjs
+      - name: Existing UK, worldwide place and transit regressions
+        run: |
+          node tests_photon_worldwide.mjs
+          node tests_uk_national_transit.mjs
+          node tests_mixed_uk_fallback.mjs
+          node tests_transit_entrypoint_parity.mjs
+  preview:
+    needs: registry
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check preview shell
+        run: node --check registry_preview_worker.mjs
+      - name: Verify Cloudflare credentials without touching production
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CF_TOKEN" && test -n "$CF_ACCOUNT" || {
+            echo "::error::Cloudflare credentials not available to preview job"
+            exit 1
+          }
+      - name: Install pinned Wrangler
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@3.90.0
+      - name: Deploy NEW preview worker (not production)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: "false"
+        run: |
+          echo "Deploying only lifewise-ai-registry-preview"
+          npx --no-install wrangler deploy --config wrangler-registry-preview.toml
+      - name: Live Oradea preview search (no AI required)
+        run: |
+          set -euo pipefail
+          url='https://lifewise-ai-registry-preview.kokocf.workers.dev/api/chat'
+          code=$(curl --retry 2 --retry-delay 2 --silent --show-error --max-time 28 -o /tmp/registry-preview-search.json -w '%{http_code}' -H 'Content-Type: application/json' -d '{"message":"Caută restaurante în Oradea, România","quick_place_search":true,"place_category":"restaurant","module":"travel","language":"ro","history":[]}' "$url")
+          test "$code" = 200 || { echo "::error::Preview HTTP $code"; head -c 700 /tmp/registry-preview-search.json; exit 1; }
+          node --input-type=module -e "import fs from 'node:fs'; const d=JSON.parse(fs.readFileSync('/tmp/registry-preview-search.json','utf8'));if(d.search_ok!==true && !d.needs_location_clarification) {console.error('Preview did not reach place search:',String(d.reply).slice(0,700));process.exit(1)} console.log('Preview live POI search succeeded; results:',d.places?.length||0)"
+      - name: Live Grays ambiguous locality selection and resume
+        run: node tests_registry_preview_grays_live.mjs
+      - name: Verify deployed preview health
+        run: |
+          set -euo pipefail
+          url='https://lifewise-ai-registry-preview.kokocf.workers.dev/health'
+          curl --retry 3 --retry-delay 2 --fail --silent --show-error "$url" | tee /tmp/registry-preview-health.json
+          node --input-type=module -e "import fs from 'node:fs'; const d=JSON.parse(fs.readFileSync('/tmp/registry-preview-health.json','utf8'));if(d.status!=='preview'||d.registry!==true)process.exit(1);console.log('Preview live, registry enabled, Geoapify configured:',d.geoapifyConfigured)"

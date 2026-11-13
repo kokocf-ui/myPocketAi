@@ -1,4 +1,5 @@
 import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathways.mjs';
+import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs';
 import {ACCOUNT_STYLE,ACCOUNT_HTML,ACCOUNT_SCRIPT} from './account_settings_ui.mjs';
 import {COMMUNICATION_HTML,COMMUNICATION_STYLE,COMMUNICATION_SCRIPT} from './communication_ui.mjs';
 import {ORACLE_COMMUNICATION_SCRIPT,ORACLE_COMMUNICATION_STYLE} from './oracle_communication_ui.mjs';
@@ -15749,6 +15750,14 @@ function renderModuleLandingChoices(){
    openModuleLandingAction(choice);
   });grid.append(card);
  });
+ if(state.currentModule==='travel'){
+  const chat=document.createElement('button');
+  chat.type='button';chat.className='module-landing-choice';
+  chat.setAttribute('aria-label',dialogText('Discută cu Eva','Chat with Eva'));
+  const sign=document.createElement('span');sign.className='module-landing-icon';sign.textContent='💬';
+  const label=document.createElement('strong');label.textContent=dialogText('Discută cu Eva','Chat with Eva');
+  chat.append(sign,label);chat.addEventListener('click',openHotelEvaDialogue);grid.append(chat);
+ }
  host.replaceChildren(grid);$('moduleLead').textContent='';
  requestAnimationFrame(educationFitMenuViewport);
 }
@@ -18599,6 +18608,7 @@ function offerDestinationAccommodationBeforeRoute(destination,{autoSearch=false,
  if(autoSearch){void yes.onclick();return true;}
  host.append(yes,no);openStandaloneChoicePanel(host,dialogText("Cazare înainte de traseu","Accommodation before route"));return true;
 }
+${ASSISTANT_PLACE_RESULTS_SCRIPT}
 function openAccommodationResults(places,originalDestination=state.tripAccommodationDestination,scopeOption=null,routeMode=null){
  places=cleanAccommodationPlaces(places);
  if(!places.length)return false;
@@ -19297,7 +19307,7 @@ if(data.structured_list?.type==='news'&&Array.isArray(data.structured_list.rows)
   summary:String(row.summary||'').slice(0,500)
  }))};
 if(data.news_followup&&state.newsConversationContext&&Number.isInteger(data.news_followup.selected_index))
- state.newsConversationContext.selected_index=data.news_followup.selected_index;state.lastPresentationResponse=data.presentation?{reply,plan:data.presentation}:null;loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.pendingTravelConfirmationData=data.needs_travel_confirmation&&data.route_context?.destination?data:null;state.travelConfirmationPanel=null;state.weatherSearchContext=data.weather_context||null;if(Array.isArray(data.places))state.lastPlaceResults=data.places;if(Array.isArray(data.places)&&data.places.length&&(state.tripAccommodationSearching||/\\b(?:cazare|hoteluri|hotel|hostel|motel|pensiuni|accommodation|lodging|guesthouse|airbnb)\\b/i.test(message))){state.tripAccommodationSearching=false;openAccommodationResults(data.places);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}if(data.encyclopedia){openEncyclopediaCard(selectedGeographicEntity?{...data.encyclopedia,selected_geo_option:selectedGeographicEntity}:data.encyclopedia,clientRequestStartedAt);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}/* Accommodation is decided once, before route calculation; never offer it again after receiving a route. *//* Keep the answer in the user's current section; provider selection remains backend-driven. */if(data.needs_travel_mode)state.lastTravelModeResponse=data;if(Array.isArray(data.transit)&&data.transit.length)state.lastTransitResponse=data;
+ state.newsConversationContext.selected_index=data.news_followup.selected_index;state.lastPresentationResponse=data.presentation?{reply,plan:data.presentation}:null;loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.pendingTravelConfirmationData=data.needs_travel_confirmation&&data.route_context?.destination?data:null;state.travelConfirmationPanel=null;state.weatherSearchContext=data.weather_context||null;if(Array.isArray(data.places))state.lastPlaceResults=data.places;if(Array.isArray(data.places)&&data.places.length&&(state.currentView==='assistant'||state.currentModule==='travel')&&!data.route&&!data.route_available){state.tripAccommodationSearching=false;openAssistantPlaceResults(data.places);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);saveActiveHistory();setStatus('Răspuns primit.');return;}if(data.encyclopedia){openEncyclopediaCard(selectedGeographicEntity?{...data.encyclopedia,selected_geo_option:selectedGeographicEntity}:data.encyclopedia,clientRequestStartedAt);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}/* Accommodation is decided once, before route calculation; never offer it again after receiving a route. *//* Keep the answer in the user's current section; provider selection remains backend-driven. */if(data.needs_travel_mode)state.lastTravelModeResponse=data;if(Array.isArray(data.transit)&&data.transit.length)state.lastTransitResponse=data;
 // With a known destination, walking/driving results belong in the route
 // choice screen immediately. Do not momentarily show the chat transcript.
 if(routeLoadingRequested&&routeLoadingProfile!=='transit'&&validMapRoute(data.route)){
