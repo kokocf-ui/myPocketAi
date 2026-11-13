@@ -2215,6 +2215,111 @@ dialog.education-theory-dialog.math-theory-list-mode .education-theory-results[h
 
 
 @media(max-width:350px){.education-grid{gap:8px}.education-card{padding:10px;min-height:158px}}
+
+/* 2026-11-13: shared Maths workspace compact layout for every topic/grade.
+   This only applies inside the opened mathematics exercise workspace. */
+#view-module.learning-active.learning-math.math-workspace-header.active{
+ display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+ grid-template-rows:auto minmax(0,1fr)!important;
+ column-gap:0!important;row-gap:clamp(5px,.8dvh,9px)!important;
+ width:100%!important;min-width:0!important;min-height:0!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active>.module-actions-row{
+ grid-column:1/-1!important;grid-row:1!important;justify-self:stretch!important;
+ box-sizing:border-box!important;width:100%!important;max-width:none!important;
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,1fr)!important;
+ gap:clamp(6px,1.4vw,9px)!important;align-items:stretch!important;
+ padding:0!important;margin:0!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active>.module-actions-row>.module-home-btn,
+#view-module.learning-active.learning-math.math-workspace-header.active>.module-actions-row>.math-workspace-back{
+ box-sizing:border-box!important;width:100%!important;max-width:none!important;min-width:0!important;
+ min-height:50px!important;height:clamp(50px,7dvh,60px)!important;
+ padding:5px 7px!important;margin:0!important;border-radius:19px!important;
+ font-size:clamp(12px,3.15vw,16px)!important;line-height:1.1!important;
+ white-space:normal!important;word-break:normal!important;
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active .math-workspace-title{
+ min-width:0!important;width:100%!important;max-width:100%!important;
+ font-size:clamp(11px,3.05vw,17px)!important;line-height:1.12!important;
+ white-space:normal!important;word-break:normal!important;overflow-wrap:normal!important;
+ hyphens:none!important;text-align:center!important;align-self:center!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active>.module-heading-row{
+ display:none!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active>#moduleContent{
+ grid-column:1/-1!important;grid-row:2!important;justify-self:stretch!important;
+ display:flex!important;flex-direction:column!important;
+ box-sizing:border-box!important;width:100%!important;min-width:0!important;
+ min-height:0!important;max-height:100%!important;height:100%!important;
+ overflow:hidden!important;padding:0!important;margin:0!important;
+ gap:clamp(5px,.75dvh,9px)!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active .education-toolbar.math-workspace-tools{
+ flex:0 0 auto!important;display:grid!important;
+ grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:42px!important;
+ width:100%!important;min-width:0!important;align-items:center!important;
+ gap:8px!important;margin:0!important;padding:0!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active .math-workspace-tools>.math-voice-controls{
+ grid-column:1!important;grid-row:1!important;justify-self:start!important;
+ display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
+ align-items:center!important;gap:7px!important;
+ width:max-content!important;max-width:100%!important;min-width:0!important;
+ height:42px!important;margin:0!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active .math-workspace-tools .math-voice-controls>.math-utility-icon{
+ flex:0 0 42px!important;display:inline-flex!important;
+ align-items:center!important;justify-content:center!important;
+ box-sizing:border-box!important;width:42px!important;min-width:42px!important;max-width:42px!important;
+ height:42px!important;min-height:42px!important;max-height:42px!important;
+ padding:0!important;margin:0!important;border:1px solid #3c7187!important;
+ border-radius:50%!important;background:#0c2b3e!important;color:#f3fbff!important;
+ font-size:19px!important;line-height:1!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active .math-workspace-tools .math-voice-controls>.math-utility-icon[aria-pressed="true"]{
+ background:#126e79!important;border-color:#45e8e4!important;box-shadow:0 0 14px #45e8e477!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active .math-workspace-tools>.edu-pdf-actions{
+ grid-column:2!important;grid-row:1!important;justify-self:end!important;align-self:center!important;
+ margin:0!important;display:inline-flex!important;gap:6px!important;
+ width:max-content!important;max-width:100%!important;min-width:0!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active .math-curriculum-context{
+ flex:0 0 auto!important;margin:0!important;padding:6px 9px!important;
+ font-size:clamp(11px,2.8vw,13px)!important;line-height:1.32!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active .education-math-workspace{
+ flex:1 1 auto!important;min-width:0!important;min-height:0!important;
+ max-height:100%!important;overflow-x:hidden!important;overflow-y:auto!important;
+ margin:0!important;padding:clamp(8px,1.2dvh,12px)!important;
+ gap:clamp(5px,.7dvh,8px)!important;overscroll-behavior:contain!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active .education-math-actions{
+ flex:0 0 auto!important;display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ grid-auto-rows:62px!important;align-items:stretch!important;
+ column-gap:6px!important;row-gap:0!important;width:100%!important;min-width:0!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active .education-math-actions>button{
+ grid-column:auto!important;align-self:stretch!important;justify-self:stretch!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ width:100%!important;min-width:0!important;max-width:none!important;
+ height:62px!important;min-height:62px!important;max-height:62px!important;
+ box-sizing:border-box!important;padding:6px 3px!important;margin:0!important;
+ border-radius:14px!important;font-size:clamp(11px,2.8vw,14px)!important;
+ font-weight:750!important;line-height:1.2!important;
+ white-space:normal!important;text-align:center!important;overflow-wrap:normal!important;
+}
+#view-module.learning-active.learning-math.math-workspace-header.active .education-math-actions>button.math-action-solve{
+ background:linear-gradient(145deg,#913653,#63213c)!important;
+ background-color:#782844!important;border:1.5px solid #eab3c1!important;
+ box-shadow:inset 0 2px 0 #ffffff20,0 4px 0 #331323,0 8px 15px #0006!important;
+ color:#fff!important;
+}
+
 </style>
 
 
@@ -12693,14 +12798,17 @@ function openLearningSubjectAfterCountry(key){
   bar.classList.add('math-workspace-tools');
   const voices=document.createElement('div');voices.className='math-voice-controls';
   const dictate=document.createElement('button');dictate.type='button';dictate.id='mathDictation';
-  dictate.className='secondary-btn';dictate.textContent=learningLabel('🎙️ Dictare','🎙️ Dictate');
-  dictate.setAttribute('aria-pressed','false');
-  dictate.onclick=mathVoiceToggle;
+  dictate.className='round-control math-utility-icon math-utility-dictate';
+  dictate.textContent='🎙️';
+  dictate.title=learningLabel('Dictare','Dictate');dictate.setAttribute('aria-label',dictate.title);
+  dictate.setAttribute('aria-pressed','false');dictate.onclick=mathVoiceToggle;
   const read=document.createElement('button');read.type='button';read.id='mathRead';
-  read.className='secondary-btn';read.textContent=learningLabel('🔊 Citire','🔊 Read');
-  read.onclick=mathReadText;
+  read.className='round-control math-utility-icon math-utility-read';
+  read.textContent='🔊';read.title=learningLabel('Citire','Read');
+  read.setAttribute('aria-label',read.title);read.onclick=mathReadText;
+  // The chapter menu already contains Theory. Keep the working screen focused
+  // on the exercise, with voice actions beside Save and Print as icon buttons.
   voices.append(dictate,read);bar.append(voices);
-  const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn education-theory-open';theory.textContent=learningLabel('📖 Teorie','📖 Theory');theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);bar.append(theory);
  }else bar.append(back);
  eduAttachPrintAction(bar);host.append(bar);
  if(key==='math'){
@@ -12769,12 +12877,12 @@ function openLearningSubjectAfterCountry(key){
   workspace.append(heading,editor,status);
   const choices=document.createElement('div');choices.className='education-math-actions';
   [
-   ['solve',learningLabel('🧩 Rezolvare','🧩 Solve')],
    ['explain',learningLabel('🎓 Explică metoda','🎓 Explain method')],
+   ['solve',learningLabel('🧩 Rezolvare','🧩 Solve')],
    ['graph',learningLabel('📈 Reprezintă grafic','📈 Draw a graph')]
   ].forEach(([mode,title])=>{
    const button=document.createElement('button');button.type='button';
-   button.className=mode==='solve'?'primary-btn':'secondary-btn';
+   button.className=mode==='solve'?'primary-btn math-action-solve':'secondary-btn math-action-secondary';
    button.textContent=title;button.onclick=()=>mathEducationRun(mode);
    choices.append(button);
   });
