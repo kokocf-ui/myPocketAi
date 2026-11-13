@@ -273,7 +273,16 @@ function computingWorkspace(panel){
   printable.append(computingEl('h4',computingLabel('Aplică și exersează','Apply and practise')));
   computingParagraph(printable,t.practice);
  }
- panel.append(printable);
+ // Theme narrative lives in a paginated window, never underneath workspace buttons.
+ printable.style.display='none';
+ const openTheory=computingBtn(computingLabel('📖 Deschide lecția','📖 Open lesson'),()=>{
+  const material=[lessonHeading.textContent,lessonContext.textContent,
+   computingLabel('Teorie și definiții','Theory and definitions'),theoryNode.textContent,
+   computingLabel('Exemplu explicat','Worked example'),example.textContent,
+   t.practice?computingLabel('Aplică și exersează','Apply and practise')+'\n'+t.practice:''].filter(Boolean).join('\n\n');
+  educationOpenPagedLesson(lessonHeading.textContent,material);
+ },'secondary-btn');
+ panel.append(openTheory,printable);
  const quiz=computingEl('section','','computing-quiz');quiz.append(computingEl('h3',computingLabel('Exercițiu de verificare','Knowledge check')));const quizQuestion=computingParagraph(quiz,t.question);
  const answers=computingEl('div','','lit-options');answers.style.cssText='display:flex;flex-direction:column;gap:7px;';
  const choiceButtons=[];
@@ -323,7 +332,7 @@ function computingWorkspace(panel){
  file.onchange=async()=>{const f=file.files?.[0];if(!f)return;if(f.size>512*1024){computingStatus(computingLabel('Fișier peste 512 KB.','File exceeds 512 KB.'));return}try{editor.value=(await f.text()).slice(0,16000);computingStatus(computingLabel('Fișier încărcat ca text.','File opened as text.'))}catch{computingStatus(computingLabel('Fișier indisponibil.','File unavailable.'))}};
  uploads.append(computingBtn(computingLabel('📄 Fișier','📄 File'),()=>file.click()));
  const voice=computingBtn(computingLabel('🎙️ Dictare','🎙️ Dictate'),computingDictate);voice.id='computingDictation';voice.setAttribute('aria-pressed','false');uploads.append(voice,camera,gallery,file);panel.append(uploads);
- const output=computingEl('div','','computing-ai-result');output.style.cssText='max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap;';
+ const output=computingEl('div','','computing-ai-result');output.style.cssText='display:none;max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap;';
  const status=computingEl('p');status.id='computingStatus';status.setAttribute('role','status');
  const actions=computingEl('div','','lit-actions');actions.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
  const run=async mode=>{
@@ -344,6 +353,7 @@ function computingWorkspace(panel){
    if(eduScopeReplyRouted(data.reply,editor.value.trim(),()=>run(mode))){status.textContent='';return}
    computingRenderAnswer(output,String(data.reply).slice(0,65000));
    output.prepend(computingEl('h3',computingLabel('Explicația asistentului','Assistant explanation')));
+   educationOpenPagedLesson(computingLabel(t.ro,t.en)+' · '+computingLabel('Explicația asistentului','Assistant explanation'),output.textContent);
    status.textContent=computingLabel('Răspuns în ','Answer in ')+((Date.now()-started)/1000).toFixed(1)+' s. '+computingLabel('Codul nu a fost executat.','Code was not executed.');
   }catch(e){if(serial===computingJourney.serial)status.textContent=e.name==='AbortError'?computingLabel('Anulat.','Cancelled.'):computingLabel('Asistent indisponibil. Teoria și testul local rămân disponibile.','Assistant unavailable. Local lesson and quiz remain available.')}
   finally{if(serial===computingJourney.serial){computingJourney.busy=false;computingJourney.request=null;actions.querySelectorAll('[data-action]').forEach(x=>x.disabled=false)}}

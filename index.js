@@ -10119,6 +10119,13 @@ async function sciencePhotoFile(file){
  }catch{sciencePhotoReview('')}
  finally{if(url)URL.revokeObjectURL(url)}
 }
+// Convert an existing lesson structure into readable paragraphs without UI controls.
+function educationTextFromLesson(node){
+ if(!node)return '';
+ const blocks=Array.from(node.querySelectorAll('h1,h2,h3,h4,h5,p,li,pre,blockquote'));
+ const parts=blocks.map(el=>String(el.textContent||'').trim()).filter(Boolean);
+ return (parts.length?parts.join('\\n\\n'):String(node.textContent||'')).trim();
+}
 // Common Education reading dialog: only theme names stay visible in the workspace.
 function educationOpenPagedLesson(title,body){
  document.getElementById('educationPagedLessonDialog')?.remove();
@@ -11888,7 +11895,8 @@ function hgLesson(panel){
  aiInline.append(suggestions);
  const output=document.createElement('div');output.className='hg-lesson-output';output.setAttribute('role','region');output.setAttribute('aria-label',hgL('Conținut lecție','Lesson content'));
  const deepen=hgBtn(hgL('📖 Aprofundează tema cu AI','📖 Explore topic with AI'),()=>hgGenerate(custom.value,output),'primary-btn hg-deepen');
- aiInline.append(deepen,output);lessonView.mountAI(aiInline);
+ // Store AI text for Read/Print, but never display a lesson under its buttons.
+ output.style.display='none';aiInline.append(deepen,output);lessonView.mountAI(aiInline);
  const actions=document.createElement('div');actions.className='hg-lesson-actions';
  actions.append(hgBtn(hgL('🔊 Citește','🔊 Read aloud'),()=>{
   const content=output.textContent||topic.ro;if(!content)return;
@@ -12061,9 +12069,9 @@ function hgHistoricalMap(panel,topic){
    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,module:'assistant',history:[]})});
    const result=await response.json();if(!response.ok||result.status!=='success'||!result.reply)throw Error('unavailable');
    if(snapshot!==[period.value,c,hgJourney.mapType,hgJourney.topic].join('|')||!events.isConnected)return;
-   events.replaceChildren(hgText('h4',hgL('Evenimente și context istoric','Events and historical context')));
-   const content=document.createElement('div');content.className='hg-event-content';hgDisplayStudyText(content,String(result.reply).slice(0,50000));events.append(content);
-   events.append(hgText('small',hgL('Sinteză AI: verifică sursele. Lipsa hărții nu elimină evenimentele.','AI synthesis: verify sources. Missing maps do not imply missing events.')));
+   events.replaceChildren(hgText('p',hgL('Evenimente afișate în fereastra de lectură.','Events opened in the reading window.')));
+   educationOpenPagedLesson(hgL('Evenimente și context istoric','Events and historical context')+' · '+c+' · '+p.label,
+    String(result.reply).slice(0,50000)+'\\n\\n'+hgL('Sinteză AI: verifică sursele.','AI synthesis: verify sources.'));
   }catch{if(events.isConnected)events.replaceChildren(hgText('p',hgL('Cercetarea evenimentelor este momentan indisponibilă.','Event research is temporarily unavailable.')))}
  },'primary-btn');
  for(const [kind,label] of types){
@@ -12120,10 +12128,12 @@ async function hgGenerate(extra,output){
   const result=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,module:'education_study',education_subject:hgJourney.subject,history:[]})});
   const obj=await result.json();if(!result.ok||obj.status!=='success'||!obj.reply)throw Error('no response');
   if(hgJourney.stage!=='lesson'||hgTopic()?.id!==topic.id||activeSubtopic!==(hgJourney.activeSubtopic||''))return;
-  hgDisplayStudyText(output,String(obj.reply).slice(0,50000));
-  output.append(hgText('small',hgL('Material AI: verifică sursele și datele înaintea utilizării la examene.','AI material: verify sources and facts before examinations.')));
+  const lesson=String(obj.reply).slice(0,50000);
+  hgDisplayStudyText(output,lesson);
+  educationOpenPagedLesson(hgL(topic.ro,topic.en)+' · '+(activeSubtopic||hgL('Lecție','Lesson')),
+   lesson+'\\n\\n'+hgL('Material AI: verifică sursele și datele înaintea utilizării la examene.','AI material: verify sources and facts before examinations.'));
   hgRemember('lessonViewed');hgStatus(hgL('Lecția este disponibilă.','Lesson ready.'));
- }catch{output.replaceChildren(hgText('p',hgL('Lecția AI este momentan indisponibilă. Structura și exercițiile locale rămân accesibile.','AI lesson unavailable. Local structure and exercises remain accessible.')))}
+ }catch{hgStatus(hgL('Lecția AI este momentan indisponibilă. Structura și exercițiile locale rămân accesibile.','AI lesson unavailable. Local structure and exercises remain accessible.'))}
  finally{hgJourney.busy=false}
 }
 
@@ -12403,15 +12413,14 @@ function litWorkspace(panel){
  // the optional author lookup, essay generator or AI conversation begins.
  const localTheory=LIT_OFFLINE_THEORY_DATA[String(topic[0]||'')];
  if(Array.isArray(localTheory)&&localTheory.length===4){
-  const study=document.createElement('details');study.className='lit-offline-theory';study.open=true;
-  const heading=document.createElement('summary');heading.textContent=learningLabel('📘 Teorie și metodă de studiu','📘 Theory and study method');study.append(heading);
-  study.append(litText('h3',learningLabel('Explicația lecției','Lesson explanation')));
-  study.append(litText('p',learningLabel(localTheory[0],localTheory[1])));
-  study.append(litText('h3',learningLabel('Exemplu și exercițiu','Example and practice')));
-  study.append(litText('p',learningLabel(localTheory[2],localTheory[3])));
-  if(litJourney.branch==='program'&&topic[3]){
-   study.append(litText('p',learningLabel('Obiectivul clasei: ','Grade learning focus: ')+String(topic[3])));
-  }
+  const study=litBtn(learningLabel('📘 Deschide teoria și metoda de studiu','📘 Open theory and study method'),()=>{
+   const material=[learningLabel('Explicația lecției','Lesson explanation'),
+    learningLabel(localTheory[0],localTheory[1]),learningLabel('Exemplu și exercițiu','Example and practice'),
+    learningLabel(localTheory[2],localTheory[3]),
+    litJourney.branch==='program'&&topic[3]?learningLabel('Obiectivul clasei: ','Grade learning focus: ')+String(topic[3]):''].filter(Boolean).join('\\n\\n');
+   educationOpenPagedLesson(learningLabel(topic[1],topic[2]),material);
+  },'secondary-btn');
+  study.classList.add('lit-theory-open');
   panel.append(study);
  }
  const make=(tag,title,placeholder)=>{
@@ -12709,7 +12718,7 @@ function litWorkspace(panel){
  const colorLabel=litText('label',learningLabel('Format PDF','PDF appearance'));const color=document.createElement('select');color.className='lit-input';color.id='litPdfColor';for(const [value,ro,en] of [['color','Color','Colour'],['bw','Alb-negru','Black and white']]){const option=document.createElement('option');option.value=value;option.textContent=learningLabel(ro,en);color.append(option)}colorLabel.append(color);controls.append(colorLabel);
  const original=litText('label',learningLabel('Vreau explicații și structură pentru învățare','Include outline and learning guidance'));
  const guidance=document.createElement('input');guidance.type='checkbox';guidance.checked=true;original.prepend(guidance);original.className='lit-guidance';panel.append(original);
- const out=document.createElement('div');out.className='lit-result';out.setAttribute('role','region');out.setAttribute('aria-label',learningLabel('Rezultat redactare','Writing result'));
+ const out=document.createElement('div');out.className='lit-result';out.style.display='none';out.setAttribute('role','region');out.setAttribute('aria-label',learningLabel('Rezultat redactare','Writing result'));
  const status=litText('p','');status.setAttribute('role','status');
  const generate=litBtn(learningLabel('Compune / explică','Compose / explain'),async()=>{
   if(litJourney.busy)return;
@@ -12728,7 +12737,9 @@ function litWorkspace(panel){
    const result=await response.json();if(!response.ok||result.status!=='success'||!result.reply)throw Error('unavailable');
    if(!out.isConnected||snapshot!==[litJourney.country,litJourney.language,litJourney.level,litJourney.grade,litJourney.track,litJourney.region,litJourney.branch,litJourney.topic].join('|'))return;
    if(eduScopeReplyRouted(result.reply,assignment||notes||workInfo,()=>generate.click())){status.textContent='';return}
-   hgDisplayStudyText(out,String(result.reply).slice(0,50000));
+   const material=String(result.reply).slice(0,50000);
+   hgDisplayStudyText(out,material);
+   educationOpenPagedLesson(assignment||workInfo||learningLabel(topic[1],topic[2]),material);
    status.textContent=learningLabel('Lucrarea este pregătită. Verifică faptele și adaptează textul în propriile cuvinte.','Draft ready. Verify facts and adapt it in your own words.');
   }catch{status.textContent=learningLabel('Generarea este momentan indisponibilă.','Generation is temporarily unavailable.')}
   finally{litJourney.busy=false}
