@@ -7,6 +7,12 @@ const target=parseNearbyStreetQuery(question);
 assert.deepEqual(target,{street:'Strada Morii',city:'Oradea',country:'Romania',
  query:'Strada Morii, Oradea, Romania'});
 assert.deepEqual(parseNearbyStreetQuery('Strada Morii, Oradea, România')?.city,'Oradea');
+assert.deepEqual(parseNearbyStreetQuery('Restaurante în Oradea pe strada Nufărului'),
+ {street:'Strada Nufarului',city:'Oradea',country:'',query:'Strada Nufarului, Oradea'});
+assert.deepEqual(parseNearbyStreetQuery('Restaurante pe strada Nufărului din Oradea'),
+ {street:'Strada Nufarului',city:'Oradea',country:'',query:'Strada Nufarului, Oradea'});
+assert.deepEqual(parseNearbyStreetQuery('Oradea pe strada Nufărului'),
+ {street:'Strada Nufarului',city:'Oradea',country:'',query:'Strada Nufarului, Oradea'});
 assert.equal(parseNearbyStreetQuery('Ce magazine găsești în jurul meu?'),null);
 assert.equal(parseNearbyStreetQuery('Ce hoteluri găsești în Manchester?'),null);
 assert.equal(parseNearbyStreetQuery('Ce magazine găsești pe Strada Morii?'),null,
