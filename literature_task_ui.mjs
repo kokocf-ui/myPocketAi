@@ -51,7 +51,7 @@ function litShowMaterialReader(title,text,options={}){
   reader.setAttribute('aria-modal','true');
   reader.setAttribute('aria-label',title);
   reader.setAttribute('tabindex','-1');
-  reader.style.cssText='display:flex!important;flex-direction:column!important;position:relative!important;z-index:2!important;width:min(96vw,820px)!important;height:min(84dvh,790px)!important;max-height:84dvh!important;overflow:hidden!important;border:2px solid #5297ac!important;border-radius:19px!important;background:#0b2639!important;color:#f0faff!important';
+  reader.style.cssText='display:flex!important;flex-direction:column!important;position:relative!important;inset:auto!important;z-index:2!important;width:min(96vw,820px)!important;height:min(84dvh,790px)!important;max-height:84dvh!important;overflow:hidden!important;border:2px solid #5297ac!important;border-radius:19px!important;background:#0b2639!important;color:#f0faff!important';
   const previousFocus=document.activeElement;
   const previousOverflow=host.style?.overflow||'';
   let closed=false;
@@ -89,13 +89,27 @@ function litShowMaterialReader(title,text,options={}){
   if(host.style)host.style.overflow='hidden';
   document.addEventListener?.('keydown',onKey,true);
   try{back.focus?.()}catch{}
+  // The pager is essential. Build it independently of optional fonts and
+  // rich-text formatting; Android may reject style injection without affecting reading.
   try{
-   litEnsureTypography();
    const vh=typeof window!=='undefined'?window.innerHeight:680;
    const vw=typeof window!=='undefined'?window.innerWidth:420;
    const pageChars=Math.max(300,Math.min(1200,Math.round(
     (Math.max(120,vh*.84-230)/26)*(Math.min(780,vw*.92)/9.5))));
-   const pages=splitLiteraturePages(raw,pageChars);
+   let pages=[];
+   try{pages=splitLiteraturePages(raw,pageChars)}catch(pageError){
+    console.warn?.('literature_page_split_fallback',String(pageError?.message||pageError));
+   }
+   if(!Array.isArray(pages)||!pages.length){
+    // Retain complete paragraphs/stanzas even if the reusable splitter fails.
+    pages=[];let page='';
+    for(const para of raw.split(/\n\s*\n/)){
+     if(page&&page.length+para.length+2>pageChars){pages.push(page);page=''}
+     page+=(page?'\n\n':'')+para;
+    }
+    if(page)pages.push(page);
+    if(!pages.length)pages=[raw];
+   }
    const controls=[];let active=options.startAt
     ?Math.max(0,pages.findIndex(page=>page.includes(options.startAt))):0;
    const makePager=position=>{
@@ -133,10 +147,13 @@ function litShowMaterialReader(title,text,options={}){
      control.counter.textContent=litSimpleLabel('Pagina ','Page ')+(active+1)+' '+litSimpleLabel('din','of')+' '+pages.length;
     }
    }
-   if(pages.length>1){
-    const top=makePager('top'),bottom=makePager('bottom');
-    reader.insertBefore(top,content);
-    reader.insertBefore(bottom,actions);
+   // The bottom pager remains visible even for single-page material. Android
+   // landscape uses one bar to keep a readable text area.
+   const bottom=makePager('bottom');
+   reader.insertBefore(bottom,actions);
+   if(vh>=540){reader.insertBefore(makePager('top'),content)}
+   try{litEnsureTypography()}catch(styleError){
+    console.warn?.('literature_reader_style_fallback',String(styleError?.message||styleError));
    }
    display(active);
   }catch(decoratingError){
