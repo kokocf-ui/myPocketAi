@@ -1873,6 +1873,47 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
  text-align:left!important;align-items:flex-start!important;gap:4px!important;
  padding:10px 12px!important;flex:0 0 auto!important}
 .math-choice-row small{font-size:12px;color:#bddce9}
+
+/* Mathematics-only home-style picture tiles. Do not change Science/Literature cards. */
+#view-module.learning-math.math-choice-stage .math-choice-panel{overflow:hidden!important;min-width:0!important}
+#view-module.learning-math.math-choice-stage .math-choice-list{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-content:start!important;align-items:start!important;gap:clamp(8px,2.5vw,12px)!important;
+ overflow-y:auto!important;overflow-x:hidden!important;min-height:0!important;
+ max-height:100%!important;padding:4px 2px 10px!important;
+ overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+}
+#view-module.learning-math.math-choice-stage .math-choice-row{
+ display:flex!important;flex-direction:column!important;justify-content:center!important;
+ align-items:center!important;text-align:center!important;aspect-ratio:1 / 1!important;
+ width:100%!important;height:auto!important;min-width:0!important;min-height:0!important;
+ flex:none!important;box-sizing:border-box!important;gap:clamp(3px,.9dvh,7px)!important;
+ padding:clamp(7px,2vw,12px)!important;white-space:normal!important;
+ border:2px solid #59b5ce!important;border-radius:clamp(15px,4vw,21px)!important;
+ background:linear-gradient(150deg,#1d6b8b,#0d2d4c 80%)!important;
+ box-shadow:inset 0 3px 0 #50a1c0,0 5px 0 #041421!important;
+}
+#view-module.learning-math.math-choice-stage .math-choice-row .math-tile-icon{
+ display:block!important;font-size:clamp(25px,7vw,35px)!important;
+ line-height:1.15!important;flex:none!important;
+}
+#view-module.learning-math.math-choice-stage .math-choice-row strong{
+ display:block!important;font-size:clamp(13px,3.7vw,17px)!important;
+ line-height:1.18!important;overflow-wrap:anywhere!important;
+}
+#view-module.learning-math.math-choice-stage .math-choice-row small{
+ display:block!important;font-size:clamp(10px,2.9vw,12px)!important;line-height:1.2!important;
+ text-align:center!important;overflow-wrap:anywhere!important;max-width:100%!important;
+}
+.education-theory-dialog.math-theory-list-mode .education-theory-results{
+ display:grid!important;gap:8px!important;overflow-y:auto!important;
+ max-height:47dvh!important;overscroll-behavior:contain!important;
+}
+.education-theory-dialog.math-theory-list-mode .education-theory-item{
+ min-height:50px!important;line-height:1.3!important;border-radius:12px!important;
+ text-align:left!important;white-space:normal!important;
+}
+
 .education-math-workspace{
  display:flex;flex-direction:column;gap:clamp(6px,1dvh,10px);
  background:linear-gradient(145deg,#12364d,#081d2e);
@@ -7836,7 +7877,7 @@ const MATH_SCHOOL_STAGES=[
  {id:'advanced',level:'advanced',ro:'Universitate',en:'University',scopeRo:'Studii universitare și specializări',scopeEn:'University and specialisations'}
 ];
 const MATH_TOPICS=[
- {id:'arithmetic',ro:'Aritmetică',en:'Arithmetic',levels:['beginner','intermediate']},
+ {id:'arithmetic',ro:'Aritmetică',en:'Arithmetic',levels:['beginner']},
  {id:'algebra',ro:'Algebră',en:'Algebra',levels:['beginner','intermediate','advanced']},
  {id:'geometry',ro:'Geometrie',en:'Geometry',levels:['beginner','intermediate','advanced'],figures:true},
  {id:'trigonometry',ro:'Trigonometrie',en:'Trigonometry',levels:['intermediate','advanced'],figures:true},
@@ -7850,6 +7891,36 @@ const MATH_TOPICS=[
 ];
 
 const MATH_CHAPTER_BANK={"arithmetic":{"primary":[{"id":"arithmetic-primary-1","ro":"Numărare și valoarea pozițională","en":"Counting and place value"},{"id":"arithmetic-primary-2","ro":"Adunare și scădere","en":"Addition and subtraction"},{"id":"arithmetic-primary-3","ro":"Înmulțire și împărțire","en":"Multiplication and division"},{"id":"arithmetic-primary-4","ro":"Fracții simple și probleme","en":"Basic fractions and problems"}],"lower":[{"id":"arithmetic-lower-1","ro":"Numere întregi și raționale","en":"Integers and rational numbers"},{"id":"arithmetic-lower-2","ro":"Fracții, procente și proporții","en":"Fractions percentages and ratios"},{"id":"arithmetic-lower-3","ro":"Puteri și radicali","en":"Powers and roots"}],"intermediate":[{"id":"arithmetic-intermediate-1","ro":"Mulțimi de numere și operații","en":"Number sets and operations"},{"id":"arithmetic-intermediate-2","ro":"Progresii numerice","en":"Numerical progressions"},{"id":"arithmetic-intermediate-3","ro":"Calcule și estimări","en":"Calculation and estimation"}]},"algebra":{"primary":[{"id":"algebra-primary-1","ro":"Șiruri și reguli de calcul","en":"Number patterns and rules"},{"id":"algebra-primary-2","ro":"Numere necunoscute în exerciții","en":"Missing numbers in problems"}],"lower":[{"id":"algebra-lower-1","ro":"Expresii algebrice","en":"Algebraic expressions"},{"id":"algebra-lower-2","ro":"Ecuații și inecuații elementare","en":"Basic equations and inequalities"},{"id":"algebra-lower-3","ro":"Sisteme simple de ecuații","en":"Simple simultaneous equations"}],"intermediate":[{"id":"algebra-intermediate-1","ro":"Polinoame și identități","en":"Polynomials and identities"},{"id":"algebra-intermediate-2","ro":"Ecuații și inecuații","en":"Equations and inequalities"},{"id":"algebra-intermediate-3","ro":"Sisteme, progresii și numere complexe","en":"Systems sequences and complex numbers"}],"advanced":[{"id":"algebra-advanced-1","ro":"Structuri algebrice","en":"Algebraic structures"},{"id":"algebra-advanced-2","ro":"Polinoame și corpuri","en":"Polynomials and fields"},{"id":"algebra-advanced-3","ro":"Grupuri și inele","en":"Groups and rings"}]},"geometry":{"primary":[{"id":"geometry-primary-1","ro":"Forme și figuri geometrice","en":"Shapes and geometrical figures"},{"id":"geometry-primary-2","ro":"Lungimi și măsurători","en":"Lengths and measurement"},{"id":"geometry-primary-3","ro":"Perimetre și corpuri simple","en":"Perimeters and basic solids"}],"lower":[{"id":"geometry-lower-1","ro":"Drepte, segmente și unghiuri","en":"Lines segments and angles"},{"id":"geometry-lower-2","ro":"Triunghiuri și patrulatere","en":"Triangles and quadrilaterals"},{"id":"geometry-lower-3","ro":"Cercuri, arii și volume","en":"Circles areas and volumes"},{"id":"geometry-lower-4","ro":"Proprietăți, teoreme și demonstrații","en":"Properties theorems and proofs"}],"intermediate":[{"id":"geometry-intermediate-1","ro":"Geometrie euclidiană și teoreme","en":"Euclidean geometry and theorems"},{"id":"geometry-intermediate-2","ro":"Vectori și coordonate","en":"Vectors and coordinates"},{"id":"geometry-intermediate-3","ro":"Geometrie analitică și spațială","en":"Analytic and spatial geometry"}],"advanced":[{"id":"geometry-advanced-1","ro":"Geometrie diferențială","en":"Differential geometry"},{"id":"geometry-advanced-2","ro":"Spații și transformări","en":"Spaces and transformations"},{"id":"geometry-advanced-3","ro":"Geometrii neeuclidiene","en":"Non-Euclidean geometries"}]},"trigonometry":{"intermediate":[{"id":"trigonometry-intermediate-1","ro":"Rapoarte trigonometrice","en":"Trigonometric ratios"},{"id":"trigonometry-intermediate-2","ro":"Cercul trigonometric","en":"Unit circle"},{"id":"trigonometry-intermediate-3","ro":"Identități și ecuații trigonometrice","en":"Trigonometric identities and equations"}],"advanced":[{"id":"trigonometry-advanced-1","ro":"Funcții trigonometrice avansate","en":"Advanced trigonometric functions"},{"id":"trigonometry-advanced-2","ro":"Identități și transformări","en":"Identities and transformations"}]},"functions":{"intermediate":[{"id":"functions-intermediate-1","ro":"Noțiunea de funcție","en":"The concept of a function"},{"id":"functions-intermediate-2","ro":"Funcții liniare și pătratice","en":"Linear and quadratic functions"},{"id":"functions-intermediate-3","ro":"Reprezentări grafice","en":"Graph plotting"},{"id":"functions-intermediate-4","ro":"Funcții exponențiale și logaritmice","en":"Exponential and logarithmic functions"}],"advanced":[{"id":"functions-advanced-1","ro":"Funcții reale și complexe","en":"Real and complex functions"},{"id":"functions-advanced-2","ro":"Continuitate și convergență","en":"Continuity and convergence"}]},"measurement":{"primary":[{"id":"measurement-primary-1","ro":"Unități de lungime și masă","en":"Units of length and mass"},{"id":"measurement-primary-2","ro":"Timp, bani și capacitate","en":"Time money and capacity"},{"id":"measurement-primary-3","ro":"Măsurarea figurilor simple","en":"Measuring simple shapes"}],"lower":[{"id":"measurement-lower-1","ro":"Conversii de unități","en":"Unit conversions"},{"id":"measurement-lower-2","ro":"Perimetru, arie și volum","en":"Perimeter area and volume"}]},"statistics":{"primary":[{"id":"statistics-primary-1","ro":"Colectarea și ordonarea datelor","en":"Collecting and organising data"},{"id":"statistics-primary-2","ro":"Tabele și diagrame simple","en":"Tables and basic charts"}],"lower":[{"id":"statistics-lower-1","ro":"Medie, mediană și frecvență","en":"Mean median and frequency"},{"id":"statistics-lower-2","ro":"Probabilități elementare","en":"Elementary probability"}],"intermediate":[{"id":"statistics-intermediate-1","ro":"Statistica descriptivă","en":"Descriptive statistics"},{"id":"statistics-intermediate-2","ro":"Combinatorică și probabilități","en":"Combinatorics and probability"},{"id":"statistics-intermediate-3","ro":"Distribuții de probabilitate","en":"Probability distributions"}],"advanced":[{"id":"statistics-advanced-1","ro":"Inferență statistică","en":"Statistical inference"},{"id":"statistics-advanced-2","ro":"Procese stocastice","en":"Stochastic processes"}]},"linear-algebra":{"advanced":[{"id":"linear-algebra-advanced-1","ro":"Vectori și spații vectoriale","en":"Vectors and vector spaces"},{"id":"linear-algebra-advanced-2","ro":"Matrici și determinanți","en":"Matrices and determinants"},{"id":"linear-algebra-advanced-3","ro":"Transformări liniare și valori proprii","en":"Linear maps and eigenvalues"}]},"analysis":{"intermediate":[{"id":"analysis-intermediate-1","ro":"Limite și continuitate","en":"Limits and continuity"},{"id":"analysis-intermediate-2","ro":"Derivate și aplicații","en":"Derivatives and applications"},{"id":"analysis-intermediate-3","ro":"Integrale introductive","en":"Introductory integration"}],"advanced":[{"id":"analysis-advanced-1","ro":"Analiză reală","en":"Real analysis"},{"id":"analysis-advanced-2","ro":"Analiză complexă","en":"Complex analysis"},{"id":"analysis-advanced-3","ro":"Serii și convergență","en":"Series and convergence"},{"id":"analysis-advanced-4","ro":"Calcul diferențial și integral","en":"Differential and integral calculus"}]},"differential":{"advanced":[{"id":"differential-advanced-1","ro":"Ecuații diferențiale de ordinul întâi","en":"First-order differential equations"},{"id":"differential-advanced-2","ro":"Ecuații diferențiale de ordin superior","en":"Higher-order differential equations"},{"id":"differential-advanced-3","ro":"Sisteme și aplicații","en":"Systems and applications"}]},"discrete":{"advanced":[{"id":"discrete-advanced-1","ro":"Logică și demonstrații","en":"Logic and proofs"},{"id":"discrete-advanced-2","ro":"Combinatorică","en":"Combinatorics"},{"id":"discrete-advanced-3","ro":"Grafuri și algoritmi","en":"Graphs and algorithms"}]}};
+
+const MATH_TILE_ICONS={
+ arithmetic:'🔢',algebra:'✖️',geometry:'📐',trigonometry:'📏',
+ functions:'📈',measurement:'📏',statistics:'📊','linear-algebra':'▦',
+ analysis:'∫',differential:'∂',discrete:'🧩'
+};
+const MATH_STAGE_ICONS={primary:'🎒',lower:'📚',intermediate:'🎓',advanced:'🏛️'};
+const MATH_PRIMARY_THEORY_LESSONS=[{"topic":"arithmetic","minGrade":1,"title":"Numere naturale și numărare","statement":"Numerele naturale ne ajută să numărăm obiecte și să indicăm ordinea lor. Cifrele 0–9 se combină pentru a scrie numere; începem de la unități și zeci.","formula":"0, 1, 2, 3, 4, 5 …","id":"primary-math-1","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":1,"title":"Zeci și unități","statement":"Poziția unei cifre arată valoarea ei. În numărul 24 avem două zeci și patru unități. Împărțim numerele în zeci și unități ca să le citim și să calculăm mai ușor.","formula":"24 = 20 + 4","id":"primary-math-2","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":1,"title":"Compararea numerelor","statement":"Pentru a compara două numere verificăm mai întâi câte zeci sau sute au, apoi unitățile. Folosim semnele «mai mic», «mai mare» și «egal».","formula":"7 < 9, 12 > 8, 5 = 5","id":"primary-math-3","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":1,"title":"Adunarea","statement":"Adunarea arată câte elemente avem împreună. Putem număra obiecte, putem desena sau putem folosi o axă numerică. Rezultatul se numește sumă.","formula":"2 + 3 = 5","id":"primary-math-4","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":1,"title":"Scăderea","statement":"Scăderea arată câte elemente rămân când luăm o parte dintr-o mulțime. Rezultatul se numește diferență. Verificăm prin adunare.","formula":"7 − 3 = 4; 4 + 3 = 7","id":"primary-math-5","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":1,"title":"Probleme cu o operație","statement":"Citim cerința, identificăm ce știm și ce trebuie să aflăm, alegem operația, calculăm și formulăm răspunsul în cuvinte. Nu ghicim operația numai după un cuvânt.","formula":"3 mere + 2 mere = 5 mere","id":"primary-math-6","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":2,"title":"Înmulțirea","statement":"Înmulțirea este o formă rapidă de a aduna grupe egale. Primul factor arată mărimea grupei, iar celălalt numărul grupelor.","formula":"3 + 3 + 3 = 3 × 3 = 9","id":"primary-math-7","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":2,"title":"Împărțirea","statement":"Împărțirea repartizează obiecte în grupe egale sau arată de câte ori încape un număr în altul. O verificăm prin înmulțire.","formula":"12 : 3 = 4; 4 × 3 = 12","id":"primary-math-8","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":2,"title":"Proprietăți ale adunării","statement":"La adunare putem schimba ordinea termenilor fără să schimbăm suma. Putem și grupa termenii în moduri diferite, obținând același rezultat.","formula":"3 + 5 = 5 + 3","id":"primary-math-9","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":3,"title":"Ordinea operațiilor","statement":"În expresii cu mai multe operații efectuăm întâi calculele din paranteze, apoi înmulțirile și împărțirile, apoi adunările și scăderile. Operațiile de același rang se fac de la stânga la dreapta.","formula":"2 + 3 × 4 = 14","id":"primary-math-10","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":3,"title":"Fracții simple","statement":"O fracție descrie părți egale dintr-un întreg. Numitorul arată în câte părți egale a fost împărțit întregul, iar numărătorul câte părți luăm.","formula":"1/2 = o jumătate; 1/4 = un sfert","id":"primary-math-11","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":4,"title":"Probleme cu mai multe operații","statement":"La problemele mai lungi facem un plan: calculăm ce este necesar mai întâi, păstrăm unitățile de măsură și verificăm rezultatul în contextul întrebării.","formula":"(5 + 3) × 2 = 16","id":"primary-math-12","subject":"math","level":"beginner","aliases":[]},{"topic":"geometry","minGrade":1,"title":"Figuri geometrice plane","statement":"Recunoaștem cercul, triunghiul, pătratul și dreptunghiul după forma lor. Pătratul are patru laturi egale, iar triunghiul are trei laturi.","formula":"△  □  ○","id":"primary-math-13","subject":"math","level":"beginner","aliases":[]},{"topic":"geometry","minGrade":1,"title":"Corpuri geometrice simple","statement":"Cubul, sfera, cilindrul și conul sunt corpuri în spațiu. Le recunoaștem în obiecte și observăm fețele, muchiile sau suprafețele lor.","formula":"cub · sferă · cilindru · con","id":"primary-math-14","subject":"math","level":"beginner","aliases":[]},{"topic":"geometry","minGrade":2,"title":"Linii și segmente","statement":"Un segment unește două puncte și are o lungime măsurabilă. Distingem liniile drepte de cele curbe și învățăm să folosim rigla.","formula":"Segmentul AB","id":"primary-math-15","subject":"math","level":"beginner","aliases":[]},{"topic":"geometry","minGrade":3,"title":"Perimetrul pătratului","statement":"Perimetrul este lungimea totală a conturului. Un pătrat are patru laturi egale: adunăm lungimile tuturor celor patru laturi.","formula":"P = 4 × l","id":"primary-math-16","subject":"math","level":"beginner","aliases":[]},{"topic":"geometry","minGrade":3,"title":"Perimetrul dreptunghiului","statement":"Dreptunghiul are laturile opuse egale. Perimetrul este suma celor patru laturi.","formula":"P = 2 × (L + l)","id":"primary-math-17","subject":"math","level":"beginner","aliases":[]},{"topic":"algebra","minGrade":1,"title":"Numărul necunoscut","statement":"Uneori într-un exercițiu lipsește un număr. Îl aflăm prin încercare logică sau prin operația inversă, păstrând egalitatea adevărată.","formula":"□ + 3 = 7 ⇒ □ = 4","id":"primary-math-18","subject":"math","level":"beginner","aliases":[]},{"topic":"algebra","minGrade":3,"title":"Șiruri și reguli de calcul","statement":"Un șir urmează o regulă. Observăm diferența sau modelul dintre termeni și continuăm respectând aceeași regulă.","formula":"2, 4, 6, 8, …","id":"primary-math-19","subject":"math","level":"beginner","aliases":[]},{"topic":"measurement","minGrade":1,"title":"Lungimi și măsurarea cu rigla","statement":"Pentru a măsura un segment punem originea riglei la începutul lui și citim unde se termină. Folosim centimetri și metri în funcție de lungime.","formula":"1 m = 100 cm","id":"primary-math-20","subject":"math","level":"beginner","aliases":[]},{"topic":"measurement","minGrade":2,"title":"Timpul: ore și minute","statement":"Un ceas ne ajută să citim orele și minutele. O oră are 60 de minute, iar o zi are 24 de ore.","formula":"1 h = 60 min","id":"primary-math-21","subject":"math","level":"beginner","aliases":[]},{"topic":"measurement","minGrade":3,"title":"Masa și capacitatea","statement":"Pentru masă folosim grame și kilograme. Pentru lichide folosim litri și mililitri. Alegem unitatea potrivită obiectului măsurat.","formula":"1 kg = 1000 g; 1 l = 1000 ml","id":"primary-math-22","subject":"math","level":"beginner","aliases":[]},{"topic":"statistics","minGrade":1,"title":"Gruparea și numărarea datelor","statement":"Strângem observații, le ordonăm după o regulă și numărăm de câte ori apare fiecare categorie. Putem face un tabel simplu.","formula":"Mere: 4; Pere: 2","id":"primary-math-23","subject":"math","level":"beginner","aliases":[]},{"topic":"statistics","minGrade":3,"title":"Tabele și diagrame","statement":"Un tabel pune datele pe rânduri și coloane, iar o diagramă cu bare ne ajută să comparăm cantități. Citiți mereu titlul și unitățile.","formula":"Bara mai înaltă = cantitate mai mare","id":"primary-math-24","subject":"math","level":"beginner","aliases":[]}];
+function mathStudyStagesForTopic(topic){
+ return MATH_SCHOOL_STAGES.filter(entry=>
+  topic?.levels?.includes(entry.level)&&
+  (MATH_CHAPTER_BANK[topic?.id]?.[entry.id]||[]).length>0&&
+  (topic?.id!=='arithmetic'||entry.id==='primary'));
+}
+function educationMathTheoryList(query=''){
+ const topic=String(mathJourney.topic||''),stage=String(mathJourney.schoolStage||'');
+ const year=Number(String(mathJourney.grade||'').replace(/[^0-9]/g,''))||0;
+ const order={beginner:0,intermediate:1,medium:1,advanced:2};
+ const max=stage==='advanced'?2:stage==='intermediate'?1:0;
+ let available=stage==='primary'
+  ?MATH_PRIMARY_THEORY_LESSONS.filter(x=>x.topic===topic&&(!year||year>=x.minGrade))
+  :EDUCATION_THEORY_DATA.filter(x=>x.subject==='math'&&x.topic===topic&&order[x.level]<=max);
+ // Do not teach class-V/Vl geometry as a class-VII demonstration syllabus.
+ if(stage==='lower'&&educationCountrySelection.code==='RO'&&topic==='geometry'&&year>0&&year<7)
+  available=available.filter(x=>/^(?:Perimetrul|Aria dreptunghiului|Aria pătratului|Suma unghiurilor|Unghiuri)/i.test(x.title));
+ const words=educationTheoryClean(query);
+ if(words)available=available.filter(x=>educationTheoryClean([x.title,...(x.aliases||[]),x.statement].join(' ')).includes(words));
+ return available.slice().sort((a,b)=>a.title.localeCompare(b.title,'ro')).slice(0,120);
+}
+
 function mathChaptersForSelection(){
  const topic=String(mathJourney.topic||''),stage=String(mathJourney.schoolStage||'');
  const country=String(educationCountrySelection.code||''),grade=String(mathJourney.grade||'');
@@ -8514,25 +8585,29 @@ function educationTheoryDictate(field){
 function educationTheoryOpen(subject,level){
  educationTheoryStopVoice();
  const old=document.getElementById('educationTheoryDialog');if(old)old.remove();
- const dialog=document.createElement('dialog');dialog.id='educationTheoryDialog';dialog.className='education-theory-dialog';
+ const dialog=document.createElement('dialog');dialog.id='educationTheoryDialog';dialog.className='education-theory-dialog'+(subject==='math'?' math-theory-list-mode':'');
  const title=document.createElement('h2');title.textContent=learningLabel('Teorie · '+({math:'Matematică',physics:'Fizică',chemistry:'Chimie',biology:'Biologie'}[subject]||''),'Theory · '+({math:'Mathematics',physics:'Physics',chemistry:'Chemistry',biology:'Biology'}[subject]||''));
  const close=document.createElement('button');close.type='button';close.className='secondary-btn';close.textContent=learningLabel('← Înapoi','← Back');close.onclick=()=>dialog.close();
  const header=document.createElement('div');header.className='education-theory-head';header.append(title,close);
- const description=document.createElement('p');description.textContent=learningLabel('Scrie primele litere sau dictează denumirea.','Type the first letters or dictate the name.');
+ const description=document.createElement('p');description.textContent=subject==='math'
+  ?learningLabel('Alege o lecție din listă. Căutarea și dictarea sunt opționale.','Choose a lesson from the list. Search and dictation are optional.')
+  :learningLabel('Scrie primele litere sau dictează denumirea.','Type the first letters or dictate the name.');
  const searchBar=document.createElement('div');searchBar.className='education-theory-search';
- const input=document.createElement('input');input.type='search';input.autocomplete='off';input.placeholder=learningLabel('Scrie denumirea…','Type a title…');input.setAttribute('aria-label',learningLabel('Caută teorie','Search theory'));
+ const input=document.createElement('input');input.type='search';input.autocomplete='off';input.placeholder=subject==='math'?learningLabel('Caută în listă (opțional)…','Filter list (optional)…'):learningLabel('Scrie denumirea…','Type a title…');input.setAttribute('aria-label',learningLabel('Caută teorie','Search theory'));
  const microphone=document.createElement('button');microphone.type='button';microphone.className='secondary-btn';microphone.textContent='🎙️';microphone.setAttribute('aria-label',learningLabel('Dictează denumirea','Dictate title'));microphone.onclick=()=>educationTheoryDictate(input);
  searchBar.append(input,microphone);
  const list=document.createElement('div');list.className='education-theory-results';
  const detail=document.createElement('section');detail.className='education-theory-detail';detail.hidden=true;
  const detailTitle=document.createElement('h3'),statement=document.createElement('p'),formula=document.createElement('div');
  formula.className='education-theory-formula';
- const resultBack=document.createElement('button');resultBack.className='secondary-btn';resultBack.type='button';resultBack.textContent=learningLabel('← La rezultate','← Results');resultBack.onclick=()=>{detail.hidden=true;list.hidden=false;searchBar.hidden=false;description.hidden=false};
+ const resultBack=document.createElement('button');resultBack.className='secondary-btn';resultBack.type='button';resultBack.textContent=subject==='math'?learningLabel('← La listă','← To list'):learningLabel('← La rezultate','← Results');resultBack.onclick=()=>{detail.hidden=true;list.hidden=false;searchBar.hidden=false;description.hidden=false};
  detail.append(resultBack,detailTitle,statement,formula);
  function render(){
   list.replaceChildren();
-  const items=educationTheoryFind(input.value,subject,level,4);
-  if(!items.length&&input.value.trim()){const empty=document.createElement('p');empty.textContent=learningLabel('Nu am găsit termenul în biblioteca locală.','No entry found in the local library.');list.append(empty)}
+  const items=subject==='math'?educationMathTheoryList(input.value):educationTheoryFind(input.value,subject,level,4);
+  if(!items.length&&(input.value.trim()||subject==='math')){const empty=document.createElement('p');empty.textContent=subject==='math'&&!input.value.trim()
+    ?learningLabel('Nu sunt încă lecții verificate pentru această ramură și clasă.','No verified lessons yet for this branch and grade.')
+    :learningLabel('Nu am găsit termenul în biblioteca locală.','No entry found in the local library.');list.append(empty)}
   items.forEach(item=>{
    const itemButton=document.createElement('button');itemButton.type='button';itemButton.className='secondary-btn education-theory-item';
    itemButton.textContent=item.title;
@@ -9962,7 +10037,7 @@ function mathJourneyShowChoices(stage){
    (mathJourney.grade||'')+' · '+mathCurriculumNotice();
  const items=document.createElement('div');items.className='math-choice-list';
  const candidates=stage==='branches'?MATH_TOPICS:
-  stage==='levels'?MATH_SCHOOL_STAGES.filter(entry=>topic?.levels?.includes(entry.level)):
+  stage==='levels'?mathStudyStagesForTopic(topic):
   mathChaptersForSelection();
  if(!candidates.length){
   const empty=document.createElement('p');
@@ -9972,20 +10047,33 @@ function mathJourneyShowChoices(stage){
  for(const entry of candidates){
   const button=document.createElement('button');button.type='button';
   button.className='secondary-btn math-choice-row';
+  const art=document.createElement('span');art.className='math-tile-icon';
+  art.setAttribute('aria-hidden','true');art.textContent=stage==='branches'?MATH_TILE_ICONS[entry.id]||'📘':stage==='levels'?MATH_STAGE_ICONS[entry.id]||'📚':MATH_TILE_ICONS[mathJourney.topic]||'📘';
   const heading=document.createElement('strong');heading.textContent=learningLabel(entry.ro,entry.en);
   const subtitle=document.createElement('small');
-  subtitle.textContent=stage==='levels'?learningLabel(entry.scopeRo,entry.scopeEn):
-   stage==='branches'&&entry.id==='algebra'
-    ?learningLabel('În primar: noțiuni pregătitoare, nu disciplină separată.','At primary level: foundational ideas, not a separate subject.'):
-   stage==='branches'&&entry.figures
-    ?learningLabel('Cu figuri și reprezentări','Includes figures and diagrams'):
-   stage==='chapters'?learningLabel('Deschide atelierul acestui capitol','Open this chapter workspace'):'';
-  button.append(heading,subtitle);
+  subtitle.textContent=stage==='levels'
+   ?(entry.id==='primary'?learningLabel('Clasele I–IV','Primary years'):
+     entry.id==='lower'?learningLabel('Clasele V–VIII','Lower secondary'):
+     entry.id==='intermediate'?learningLabel('Liceu','Upper secondary'):
+     learningLabel('Studii superioare','Higher education'))
+   :stage==='branches'&&entry.id==='arithmetic'?learningLabel('Clasele primare','Primary school'):
+    stage==='branches'&&entry.id==='geometry'?learningLabel('Figuri și spațiu','Shapes and space'):
+    stage==='chapters'?learningLabel('Lecții și exerciții','Lessons and exercises'):'';
+  button.append(art,heading,subtitle);
   button.onclick=()=>{
    if(stage==='branches'){
     if(mathJourney.topic!==entry.id)mathFigureDraft=null;
     mathJourney.topic=entry.id;mathJourney.level=null;mathJourney.schoolStage=null;
     mathJourney.grade=null;mathJourney.chapter=null;
+    // Aritmetica is the primary-school path: do not offer Gymnasium/Lyceum.
+    if(entry.id==='arithmetic'){
+     mathJourney.level='beginner';mathJourney.schoolStage='primary';
+     mathJourney.stage='grade';
+     educationGradeGate('math','primary',grade=>{
+      mathJourney.grade=grade;mathJourneyShowChoices('chapters');
+     },()=>mathJourneyShowChoices('branches'));
+     return;
+    }
     mathJourneyShowChoices('levels');return;
    }
    if(stage==='levels'){
@@ -10005,7 +10093,10 @@ function mathJourneyShowChoices(stage){
  if(stage==='chapters'){
   const theory=document.createElement('button');
   theory.type='button';theory.className='secondary-btn math-choice-row';
-  theory.textContent=learningLabel('📖 Teorie – Definiții și teoreme','📖 Theory – Definitions and theorems');
+  const theoryArt=document.createElement('span');theoryArt.className='math-tile-icon';theoryArt.textContent='📖';theoryArt.setAttribute('aria-hidden','true');
+  const theoryTitle=document.createElement('strong');theoryTitle.textContent=learningLabel('Teorie','Theory');
+  const theoryHint=document.createElement('small');theoryHint.textContent=learningLabel('Alege o lecție','Choose a lesson');
+  theory.append(theoryArt,theoryTitle,theoryHint);
   theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);
   items.prepend(theory);
  }
