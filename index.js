@@ -7829,6 +7829,12 @@ const MATH_LEVELS=[
  {id:'intermediate',ro:'Mediu',en:'Intermediate',scopeRo:'Liceu · clasele IX–XII',scopeEn:'Upper secondary · grades 9–12'},
  {id:'advanced',ro:'Avansat',en:'Advanced',scopeRo:'Universitate și mai departe',scopeEn:'University and beyond'}
 ];
+const MATH_SCHOOL_STAGES=[
+ {id:'primary',level:'beginner',ro:'Primar',en:'Primary',scopeRo:'Clasele I–IV în România; clasele corespunzătoare în alte țări',scopeEn:'Primary school years'},
+ {id:'lower',level:'beginner',ro:'Gimnaziu',en:'Lower secondary',scopeRo:'Clasele V–VIII în România; adaptat fiecărei țări',scopeEn:'Lower secondary years'},
+ {id:'intermediate',level:'intermediate',ro:'Liceu',en:'Upper secondary',scopeRo:'Clasele IX–XII și profilul relevant',scopeEn:'Upper secondary and relevant track'},
+ {id:'advanced',level:'advanced',ro:'Universitate',en:'University',scopeRo:'Studii universitare și specializări',scopeEn:'University and specialisations'}
+];
 const MATH_TOPICS=[
  {id:'arithmetic',ro:'Aritmetică',en:'Arithmetic',levels:['beginner','intermediate']},
  {id:'algebra',ro:'Algebră',en:'Algebra',levels:['beginner','intermediate','advanced']},
@@ -7842,6 +7848,27 @@ const MATH_TOPICS=[
  {id:'differential',ro:'Ecuații diferențiale',en:'Differential equations',levels:['advanced']},
  {id:'discrete',ro:'Matematică discretă',en:'Discrete mathematics',levels:['advanced']}
 ];
+
+const MATH_CHAPTER_BANK={"arithmetic":{"primary":[{"id":"arithmetic-primary-1","ro":"Numărare și valoarea pozițională","en":"Counting and place value"},{"id":"arithmetic-primary-2","ro":"Adunare și scădere","en":"Addition and subtraction"},{"id":"arithmetic-primary-3","ro":"Înmulțire și împărțire","en":"Multiplication and division"},{"id":"arithmetic-primary-4","ro":"Fracții simple și probleme","en":"Basic fractions and problems"}],"lower":[{"id":"arithmetic-lower-1","ro":"Numere întregi și raționale","en":"Integers and rational numbers"},{"id":"arithmetic-lower-2","ro":"Fracții, procente și proporții","en":"Fractions percentages and ratios"},{"id":"arithmetic-lower-3","ro":"Puteri și radicali","en":"Powers and roots"}],"intermediate":[{"id":"arithmetic-intermediate-1","ro":"Mulțimi de numere și operații","en":"Number sets and operations"},{"id":"arithmetic-intermediate-2","ro":"Progresii numerice","en":"Numerical progressions"},{"id":"arithmetic-intermediate-3","ro":"Calcule și estimări","en":"Calculation and estimation"}]},"algebra":{"primary":[{"id":"algebra-primary-1","ro":"Șiruri și reguli de calcul","en":"Number patterns and rules"},{"id":"algebra-primary-2","ro":"Numere necunoscute în exerciții","en":"Missing numbers in problems"}],"lower":[{"id":"algebra-lower-1","ro":"Expresii algebrice","en":"Algebraic expressions"},{"id":"algebra-lower-2","ro":"Ecuații și inecuații elementare","en":"Basic equations and inequalities"},{"id":"algebra-lower-3","ro":"Sisteme simple de ecuații","en":"Simple simultaneous equations"}],"intermediate":[{"id":"algebra-intermediate-1","ro":"Polinoame și identități","en":"Polynomials and identities"},{"id":"algebra-intermediate-2","ro":"Ecuații și inecuații","en":"Equations and inequalities"},{"id":"algebra-intermediate-3","ro":"Sisteme, progresii și numere complexe","en":"Systems sequences and complex numbers"}],"advanced":[{"id":"algebra-advanced-1","ro":"Structuri algebrice","en":"Algebraic structures"},{"id":"algebra-advanced-2","ro":"Polinoame și corpuri","en":"Polynomials and fields"},{"id":"algebra-advanced-3","ro":"Grupuri și inele","en":"Groups and rings"}]},"geometry":{"primary":[{"id":"geometry-primary-1","ro":"Forme și figuri geometrice","en":"Shapes and geometrical figures"},{"id":"geometry-primary-2","ro":"Lungimi și măsurători","en":"Lengths and measurement"},{"id":"geometry-primary-3","ro":"Perimetre și corpuri simple","en":"Perimeters and basic solids"}],"lower":[{"id":"geometry-lower-1","ro":"Drepte, segmente și unghiuri","en":"Lines segments and angles"},{"id":"geometry-lower-2","ro":"Triunghiuri și patrulatere","en":"Triangles and quadrilaterals"},{"id":"geometry-lower-3","ro":"Cercuri, arii și volume","en":"Circles areas and volumes"},{"id":"geometry-lower-4","ro":"Proprietăți, teoreme și demonstrații","en":"Properties theorems and proofs"}],"intermediate":[{"id":"geometry-intermediate-1","ro":"Geometrie euclidiană și teoreme","en":"Euclidean geometry and theorems"},{"id":"geometry-intermediate-2","ro":"Vectori și coordonate","en":"Vectors and coordinates"},{"id":"geometry-intermediate-3","ro":"Geometrie analitică și spațială","en":"Analytic and spatial geometry"}],"advanced":[{"id":"geometry-advanced-1","ro":"Geometrie diferențială","en":"Differential geometry"},{"id":"geometry-advanced-2","ro":"Spații și transformări","en":"Spaces and transformations"},{"id":"geometry-advanced-3","ro":"Geometrii neeuclidiene","en":"Non-Euclidean geometries"}]},"trigonometry":{"intermediate":[{"id":"trigonometry-intermediate-1","ro":"Rapoarte trigonometrice","en":"Trigonometric ratios"},{"id":"trigonometry-intermediate-2","ro":"Cercul trigonometric","en":"Unit circle"},{"id":"trigonometry-intermediate-3","ro":"Identități și ecuații trigonometrice","en":"Trigonometric identities and equations"}],"advanced":[{"id":"trigonometry-advanced-1","ro":"Funcții trigonometrice avansate","en":"Advanced trigonometric functions"},{"id":"trigonometry-advanced-2","ro":"Identități și transformări","en":"Identities and transformations"}]},"functions":{"intermediate":[{"id":"functions-intermediate-1","ro":"Noțiunea de funcție","en":"The concept of a function"},{"id":"functions-intermediate-2","ro":"Funcții liniare și pătratice","en":"Linear and quadratic functions"},{"id":"functions-intermediate-3","ro":"Reprezentări grafice","en":"Graph plotting"},{"id":"functions-intermediate-4","ro":"Funcții exponențiale și logaritmice","en":"Exponential and logarithmic functions"}],"advanced":[{"id":"functions-advanced-1","ro":"Funcții reale și complexe","en":"Real and complex functions"},{"id":"functions-advanced-2","ro":"Continuitate și convergență","en":"Continuity and convergence"}]},"measurement":{"primary":[{"id":"measurement-primary-1","ro":"Unități de lungime și masă","en":"Units of length and mass"},{"id":"measurement-primary-2","ro":"Timp, bani și capacitate","en":"Time money and capacity"},{"id":"measurement-primary-3","ro":"Măsurarea figurilor simple","en":"Measuring simple shapes"}],"lower":[{"id":"measurement-lower-1","ro":"Conversii de unități","en":"Unit conversions"},{"id":"measurement-lower-2","ro":"Perimetru, arie și volum","en":"Perimeter area and volume"}]},"statistics":{"primary":[{"id":"statistics-primary-1","ro":"Colectarea și ordonarea datelor","en":"Collecting and organising data"},{"id":"statistics-primary-2","ro":"Tabele și diagrame simple","en":"Tables and basic charts"}],"lower":[{"id":"statistics-lower-1","ro":"Medie, mediană și frecvență","en":"Mean median and frequency"},{"id":"statistics-lower-2","ro":"Probabilități elementare","en":"Elementary probability"}],"intermediate":[{"id":"statistics-intermediate-1","ro":"Statistica descriptivă","en":"Descriptive statistics"},{"id":"statistics-intermediate-2","ro":"Combinatorică și probabilități","en":"Combinatorics and probability"},{"id":"statistics-intermediate-3","ro":"Distribuții de probabilitate","en":"Probability distributions"}],"advanced":[{"id":"statistics-advanced-1","ro":"Inferență statistică","en":"Statistical inference"},{"id":"statistics-advanced-2","ro":"Procese stocastice","en":"Stochastic processes"}]},"linear-algebra":{"advanced":[{"id":"linear-algebra-advanced-1","ro":"Vectori și spații vectoriale","en":"Vectors and vector spaces"},{"id":"linear-algebra-advanced-2","ro":"Matrici și determinanți","en":"Matrices and determinants"},{"id":"linear-algebra-advanced-3","ro":"Transformări liniare și valori proprii","en":"Linear maps and eigenvalues"}]},"analysis":{"intermediate":[{"id":"analysis-intermediate-1","ro":"Limite și continuitate","en":"Limits and continuity"},{"id":"analysis-intermediate-2","ro":"Derivate și aplicații","en":"Derivatives and applications"},{"id":"analysis-intermediate-3","ro":"Integrale introductive","en":"Introductory integration"}],"advanced":[{"id":"analysis-advanced-1","ro":"Analiză reală","en":"Real analysis"},{"id":"analysis-advanced-2","ro":"Analiză complexă","en":"Complex analysis"},{"id":"analysis-advanced-3","ro":"Serii și convergență","en":"Series and convergence"},{"id":"analysis-advanced-4","ro":"Calcul diferențial și integral","en":"Differential and integral calculus"}]},"differential":{"advanced":[{"id":"differential-advanced-1","ro":"Ecuații diferențiale de ordinul întâi","en":"First-order differential equations"},{"id":"differential-advanced-2","ro":"Ecuații diferențiale de ordin superior","en":"Higher-order differential equations"},{"id":"differential-advanced-3","ro":"Sisteme și aplicații","en":"Systems and applications"}]},"discrete":{"advanced":[{"id":"discrete-advanced-1","ro":"Logică și demonstrații","en":"Logic and proofs"},{"id":"discrete-advanced-2","ro":"Combinatorică","en":"Combinatorics"},{"id":"discrete-advanced-3","ro":"Grafuri și algoritmi","en":"Graphs and algorithms"}]}};
+function mathChaptersForSelection(){
+ const topic=String(mathJourney.topic||''),stage=String(mathJourney.schoolStage||'');
+ const country=String(educationCountrySelection.code||''),grade=String(mathJourney.grade||'');
+ const base=MATH_CHAPTER_BANK[topic]?.[stage]||[];
+ const year=Number(grade.replace(/[^0-9]/g,''));
+ // Geometrical proofs are not a class-I/II activity and must not be offered
+ // to class-V/VI pupils as if they were the class-VII syllabus.
+ if(topic==='geometry'&&stage==='lower'&&country==='RO'&&year>0&&year<7)
+  return base.filter(x=>!x.id.endsWith('-4'));
+ if(topic==='arithmetic'&&stage==='primary'&&country==='RO'&&year>0&&year<=2)
+  return base.filter(x=>!x.id.endsWith('-4'));
+ return base;
+}
+function mathCurriculumNotice(){
+ const code=String(educationCountrySelection.code||'');
+ if(code==='RO')return learningLabel('Repere orientative pentru clasa selectată; verifică programa oficială și anul școlar înainte de a le considera o planificare completă.','Advisory topics for the selected grade; check the official curriculum and school year.');
+ if(code==='GB-ENG')return learningLabel('Repere din etapele de învățare ale Angliei; succesiunea exactă poate varia între școli.','England learning-stage guidance; exact topic order may vary by school.');
+ return learningLabel('Parcurs orientativ: programa oficială pentru această țară și clasă nu este verificată.','Advisory path: this country-and-grade curriculum has not been officially verified.');
+}
 const MATH_FIGURE_GROUPS=[
  {id:'triangles',ro:'Triunghiuri',en:'Triangles'},
  {id:'quadrilaterals',ro:'Patrulatere',en:'Quadrilaterals'},
@@ -8403,7 +8430,7 @@ function mathOpenFigureLibrary(){
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
 function mathFigureWorkbench(){mathOpenFigureLibrary()}
-let mathJourney={stage:'levels',level:null,grade:null,topic:null};
+let mathJourney={stage:'branches',level:null,schoolStage:null,grade:null,topic:null,chapter:null};
 function educationMathAllowed(topic){
  const country=educationCountrySelection.code,grade=mathJourney.grade;
  if(!grade||mathJourney.level==='advanced')return true;
@@ -9897,46 +9924,87 @@ function mathJourneyShowChoices(stage){
  if(!mathSubject)return;
  activeLearningSubject=mathSubject;
  mathVoiceStop();mathCloseResults();
+ mathJourney.stage=stage;
  const root=$('view-module'),host=$('moduleContent');
- root.classList.remove('learning-choose','learning-hg','learning-languages');root.classList.add('learning-active','learning-math','math-choice-stage');
+ root.classList.remove('learning-choose','learning-hg','learning-languages','learning-country-gate');
+ root.classList.add('learning-active','learning-math','math-choice-stage');
  host.replaceChildren();$('moduleLead').textContent='';
  $('moduleTitle').textContent=learningLabel('Matematică','Mathematics');
  const back=document.createElement('button');back.type='button';
  back.className='secondary-btn math-stage-back';
  back.textContent=learningLabel('← Înapoi','← Back');
- back.onclick=stage==='levels'?renderLearningSubjects:()=>{mathJourney.stage='levels';mathJourneyShowChoices('levels')};
+ back.onclick=()=>{
+  if(stage==='branches'){return educationCountryGate('math',()=>mathJourneyShowChoices('branches'))}
+  if(stage==='levels'){return mathJourneyShowChoices('branches')}
+  if(stage==='chapters'){
+   mathJourney.stage='grade';
+   return educationGradeGate('math',mathJourney.schoolStage,grade=>{
+    mathJourney.grade=grade;mathJourneyShowChoices('chapters');
+   },()=>mathJourneyShowChoices('levels'));
+  }
+  return mathJourneyShowChoices('branches');
+ };
  const bar=document.createElement('div');bar.className='education-toolbar';
  bar.append(back);eduAttachPrintAction(bar);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel';
  const title=document.createElement('h2');
- title.textContent=stage==='levels'?learningLabel('Alege nivelul','Choose level'):learningLabel('Alege materia pentru clasa '+(mathJourney.grade||''),'Choose subject for year '+(mathJourney.grade||''));
+ title.textContent=stage==='branches'?learningLabel('Alege ramura matematicii','Choose a mathematics branch'):
+  stage==='levels'?learningLabel('Alege etapa de studiu','Choose the study stage'):
+  learningLabel('Alege capitolul','Choose a chapter');
  const note=document.createElement('p');
- note.textContent=stage==='levels'?learningLabel('Alege nivelul, apoi clasa din sistemul școlar al țării selectate.','Choose the level, then the grade in the selected country.'):
-  learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(mathJourney.grade||'')+'. '+learningLabel('Materiile sunt filtrate pentru clasa aleasă; capitolele fără programă verificată rămân orientative.','Subjects are filtered for the chosen grade; unverified curriculum remains advisory.');
+ const topic=MATH_TOPICS.find(x=>x.id===mathJourney.topic);
+ note.textContent=stage==='branches'
+  ?educationCountrySelection.label+' · '+learningLabel('Selectează o ramură, apoi etapa și clasa.','Select a branch, then a stage and grade.'):
+  stage==='levels'
+  ?learningLabel('Ramura: ','Branch: ')+learningLabel(topic?.ro||'',topic?.en||'')+'. '+
+   learningLabel('Etapele disponibile depind de conținutul studiat.','Available stages depend on the subject.'):
+  educationCountrySelection.label+' · '+learningLabel('Clasa / anul: ','Grade / year: ')+
+   (mathJourney.grade||'')+' · '+mathCurriculumNotice();
  const items=document.createElement('div');items.className='math-choice-list';
- const candidates=stage==='levels'?MATH_LEVELS:mathSubjectsForLevel(mathJourney.level);
+ const candidates=stage==='branches'?MATH_TOPICS:
+  stage==='levels'?MATH_SCHOOL_STAGES.filter(entry=>topic?.levels?.includes(entry.level)):
+  mathChaptersForSelection();
+ if(!candidates.length){
+  const empty=document.createElement('p');
+  empty.textContent=learningLabel('Nu sunt capitole confirmate pentru această combinație. Revino și selectează altă ramură sau etapă.','No confirmed chapters for this combination; select a different branch or stage.');
+  items.append(empty);
+ }
  for(const entry of candidates){
   const button=document.createElement('button');button.type='button';
   button.className='secondary-btn math-choice-row';
   const heading=document.createElement('strong');heading.textContent=learningLabel(entry.ro,entry.en);
   const subtitle=document.createElement('small');
   subtitle.textContent=stage==='levels'?learningLabel(entry.scopeRo,entry.scopeEn):
-   (entry.figures?learningLabel('Include instrumente geometrice','Includes geometry tools'):'');
+   stage==='branches'&&entry.id==='algebra'
+    ?learningLabel('În primar: noțiuni pregătitoare, nu disciplină separată.','At primary level: foundational ideas, not a separate subject.'):
+   stage==='branches'&&entry.figures
+    ?learningLabel('Cu figuri și reprezentări','Includes figures and diagrams'):
+   stage==='chapters'?learningLabel('Deschide atelierul acestui capitol','Open this chapter workspace'):'';
   button.append(heading,subtitle);
   button.onclick=()=>{
-   if(stage==='levels'){
-    mathJourney.level=entry.id;mathJourney.grade=null;mathJourney.stage='grade';educationGradeGate('math',entry.id,grade=>{mathJourney.grade=grade;mathJourney.stage='subjects';mathJourneyShowChoices('subjects')},()=>mathJourneyShowChoices('levels'));
-   }else{
-    if(mathJourney.topic!==entry.id&&typeof mathFigureDraft!=='undefined')mathFigureDraft=null;
-    mathJourney.topic=entry.id;mathJourney.stage='workspace';
-    root.classList.remove('math-choice-stage');
-    openLearningSubjectAfterCountry('math');
+   if(stage==='branches'){
+    if(mathJourney.topic!==entry.id)mathFigureDraft=null;
+    mathJourney.topic=entry.id;mathJourney.level=null;mathJourney.schoolStage=null;
+    mathJourney.grade=null;mathJourney.chapter=null;
+    mathJourneyShowChoices('levels');return;
    }
+   if(stage==='levels'){
+    mathJourney.level=entry.level;mathJourney.schoolStage=entry.id;
+    mathJourney.grade=null;mathJourney.chapter=null;mathJourney.stage='grade';
+    educationGradeGate('math',entry.id,grade=>{
+     mathJourney.grade=grade;mathJourneyShowChoices('chapters');
+    },()=>mathJourneyShowChoices('levels'));
+    return;
+   }
+   mathJourney.chapter=entry.id;mathJourney.stage='workspace';
+   root.classList.remove('math-choice-stage');
+   openLearningSubjectAfterCountry('math');
   };
   items.append(button);
  }
- if(stage==='subjects'){
-  const theory=document.createElement('button');theory.type='button';theory.className='secondary-btn math-choice-row';
+ if(stage==='chapters'){
+  const theory=document.createElement('button');
+  theory.type='button';theory.className='secondary-btn math-choice-row';
   theory.textContent=learningLabel('📖 Teorie – Definiții și teoreme','📖 Theory – Definitions and theorems');
   theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);
   items.prepend(theory);
@@ -9947,7 +10015,8 @@ function mathJourneyShowChoices(stage){
 function mathJourneyDescription(){
  const level=MATH_LEVELS.find(x=>x.id===mathJourney.level);
  const topic=MATH_TOPICS.find(x=>x.id===mathJourney.topic);
- return {level:level?learningLabel(level.ro,level.en):'',topic:topic?learningLabel(topic.ro,topic.en):''};
+ const school=MATH_SCHOOL_STAGES.find(x=>x.id===mathJourney.schoolStage);
+ return {level:school?learningLabel(school.ro,school.en):level?learningLabel(level.ro,level.en):'',topic:topic?learningLabel(topic.ro,topic.en):''};
 }
 let activeLearningSubject=null;
 function learningLabel(ro,en){
@@ -9971,7 +10040,7 @@ function renderLearningSubjects(){
  document.getElementById('mathEducationReturn')?.remove();
  $('moduleTitle').textContent=learningLabel('Învățare și educație','Learning and education');
  const root=$('view-module'),host=$('moduleContent');
- mathJourney.stage='levels';
+ mathJourney.stage='branches';mathJourney.level=null;mathJourney.schoolStage=null;mathJourney.grade=null;mathJourney.topic=null;mathJourney.chapter=null;
  root.classList.remove('math-choice-stage');
  activeLearningSubject=null;root.classList.add('learning-choose');root.classList.remove('learning-active');
  host.replaceChildren();
@@ -12394,7 +12463,7 @@ function openLearningSubjectAfterCountry(key){
  if(key==='science'){scienceJourneyShowChoices('subjects');return}
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
  if(key==='math'&&mathJourney.stage!=='workspace'){
-  mathJourneyShowChoices(mathJourney.stage==='subjects'?'subjects':'levels');return;
+  mathJourneyShowChoices(mathJourney.stage==='levels'?'levels':mathJourney.stage==='chapters'?'chapters':'branches');return;
  }
  activeLearningSubject=subject;
  $('moduleTitle').textContent=key==='math'?
@@ -12405,7 +12474,7 @@ function openLearningSubjectAfterCountry(key){
  root.classList.toggle('learning-math',key==='math');
  host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar';
- const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>{if(key==='math'){mathVoiceStop();mathCloseResults();mathJourney.stage='subjects';mathJourneyShowChoices('subjects')}else renderLearningSubjects()};
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>{if(key==='math'){mathVoiceStop();mathCloseResults();mathJourneyShowChoices('chapters')}else renderLearningSubjects()};
  if(key==='math'){
   bar.classList.add('math-navigation');
   back.classList.add('math-back-btn');
@@ -12422,8 +12491,15 @@ function openLearningSubjectAfterCountry(key){
  }else bar.append(back);
  eduAttachPrintAction(bar);host.append(bar);
  if(key==='math'){
-  const choiceSet=mathSubjectsForLevel(mathJourney.level).map(x=>({id:x.id,ro:x.ro,en:x.en}));
-  if(choiceSet.length>1)host.append(educationTopicPicker(learningLabel('📚 Ramuri și teme','📚 Study areas'),choiceSet,mathJourney.topic,x=>{mathJourney.topic=x.id;mathJourney.stage='workspace';openLearningSubjectAfterCountry('math')}));
+  const chapter=mathChaptersForSelection().find(x=>x.id===mathJourney.chapter);
+  if(chapter){
+   const context=document.createElement('div');
+   context.className='math-curriculum-context';
+   context.style.cssText='padding:6px 10px;margin:2px 0 7px;border:1px solid #41768d;border-radius:9px;background:#0b293b;font-size:13px;line-height:1.4;overflow-wrap:anywhere';
+   context.textContent=learningLabel('Capitol: ','Chapter: ')+learningLabel(chapter.ro,chapter.en)+
+    ' · '+(mathJourney.grade||'')+'. '+mathCurriculumNotice();
+   host.append(context);
+  }
  }
  $('moduleLead').textContent='';
  const actions=document.createElement('div');actions.className='education-photo-actions';
