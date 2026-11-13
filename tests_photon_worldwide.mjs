@@ -15,6 +15,10 @@ for(const [code,lat,lon] of places)for(const cat of ['restaurant','fast_food','c
  assert.ok(bbox[0]<lon&&bbox[2]>lon&&bbox[1]<lat&&bbox[3]>lat,code);
 }
 assert.ok(photonCategoryFilters('fast_food').includes('osm.amenity.restaurant'));
+for(const key of ['osm.amenity.clinic','osm.amenity.doctors','osm.amenity.dentist','osm.healthcare.dentist'])assert.ok(photonCategoryFilters('medical_dental').includes(key),'Photon must query both practices: '+key);
+const medicalQuery=photonNearbyUrl({latitude:51.48,longitude:0.3,category:'medical_dental'});
+assert.ok(medicalQuery.searchParams.get('include')?.includes('osm.healthcare.dentist'));
+assert.equal(medicalQuery.searchParams.has('q'),false,'Medical searches must not rely on one English phrase');
 assert.ok(photonCategoryFilters('restaurant').includes('osm.amenity.fast_food'));
 const legacy=photonNearbyUrl({latitude:47.03,longitude:21.96,radius:1000,
  category:'fast_food',useCategories:false});
