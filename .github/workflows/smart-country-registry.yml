@@ -11,6 +11,9 @@ on:
       - 'country_search_anchor.mjs'
       - 'country_national_provider_gate.mjs'
       - 'registry_preview_worker.mjs'
+      - 'assistant_place_results_ui.mjs'
+      - 'index.js'
+      - 'tests_assistant_places_modal.mjs'
       - 'wrangler-registry-preview.toml'
       - 'backend.js'
       - 'tests_smart_country_registry.mjs'
@@ -60,6 +63,8 @@ jobs:
       - name: Syntax check
         run: |
           node --check backend.js
+          node --check index.js
+          node --check assistant_place_results_ui.mjs
           node --check smart_country_registry.mjs
           node --check europe_country_sources.mjs
           node --check country_provider_bridge.mjs
@@ -78,6 +83,8 @@ jobs:
         run: node tests_country_backend_live_path.mjs
       - name: Ambiguous city table and original job resume
         run: node tests_country_city_choice_resume.mjs
+      - name: Assistant place table and Hotel dialogue
+        run: node tests_assistant_places_modal.mjs
       - name: UK national registry source gates
         run: node tests_country_uk_registry_only.mjs
       - name: Adapter scoping
