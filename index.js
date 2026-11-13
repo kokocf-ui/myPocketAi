@@ -11297,14 +11297,9 @@ async function languageAIGenerate(request){
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,module:'assistant',history:[]})});
   const result=await response.json();if(!response.ok||result.status!=='success'||!result.reply)throw Error('unavailable');
   if(snapshot!==languageJourney.language+':'+languageJourney.topic+':'+languageJourney.level)return;
-  const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog';
-  const head=document.createElement('div');head.className='education-theory-head';
-  const title=document.createElement('h2');title.textContent=learningLabel('Lecție · ','Lesson · ')+info.ro;
-  head.append(title,foreignStudyButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));
-  const content=document.createElement('div');content.className='science-result-text';content.textContent=String(result.reply).slice(0,16000);
-  const caution=document.createElement('p');caution.textContent=learningLabel('Conținut AI: verifică transcrierea și traducerile în scop de examinare.','AI content: verify pronunciation and translations before exams.');
-  dialog.append(head,content,caution);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);
-  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+  educationOpenPagedLesson(learningLabel('Lecție · ','Lesson · ')+learningLabel(info.ro,info.en)+' · '+learningLabel(topic.ro,topic.en),
+   String(result.reply).slice(0,50000)+String.fromCharCode(10,10)+
+   learningLabel('Conținut AI: verifică transcrierea și traducerile în scop de examinare.','AI content: verify pronunciation and translations before exams.'));
   languageLessonMark('generated');
   languageStatus(learningLabel('Lecția este disponibilă.','Lesson ready.'));
  }catch{languageStatus(learningLabel('Profesorul AI nu a răspuns. Lecțiile locale rămân disponibile.','AI teacher unavailable; offline lessons remain.'))}
