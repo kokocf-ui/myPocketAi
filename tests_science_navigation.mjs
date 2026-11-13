@@ -65,7 +65,7 @@ const sandbox={
  eduAttachPrintAction:()=>{},
  educationCountrySelection:{code:'GB-ENG',label:'Anglia'},
  eduYearOptions:(country,level,moduleKey)=>(
-  level==='beginner'?[{id:'Y7',ro:'Year 7',en:'Year 7'},{id:'Y8',ro:'Year 8',en:'Year 8'}]:
+  ['lower','beginner'].includes(level)?[{id:'Y7',ro:'Year 7',en:'Year 7'},{id:'Y8',ro:'Year 8',en:'Year 8'}]:
   level==='intermediate'?[{id:'Y10',ro:'Year 10',en:'Year 10'},{id:'Y11',ro:'Year 11',en:'Year 11'}]:
   [{id:'university',ro:'Universitate',en:'University'}]),
  $:key=>elements[key]||null,
