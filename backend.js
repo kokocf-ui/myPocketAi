@@ -4383,6 +4383,7 @@ export default {
       { key: "museum", pattern: /(?:^| )(?:muze\w*|museum\w*)(?: |$)/, labelRo: "muzeu", labelEn: "museum", overpass: 'tourism="museum"' },
       { key: "cinema", pattern: /(?:^| )(?:cinema\w*|cinematografe|cinematograf)(?: |$)/, labelRo: "cinematograf", labelEn: "cinema", overpass: 'amenity="cinema"' },
       { key: "hospital", pattern: /(?:^| )(?:spital\w*|hospital\w*|clinic\w*|clinica\w*|clinici|doctor\w*|medic\w*|cabinet medical)(?: |$)/, labelRo: "spital, clinică sau medic", labelEn: "hospital, clinic or doctor", overpass: 'amenity~"^(hospital|clinic|doctors)$"' },
+      { key: "hospital_only", pattern: /(?:^| )(?:spitale|hospitals)(?: |$)/, labelRo: "spital", labelEn: "hospital", overpass: 'amenity="hospital"' },
       { key: "town_hall", pattern: /(?:^| )(?:primarie\w*|town hall|city hall|council office\w*)(?: |$)/, labelRo: "primărie", labelEn: "town hall", overpass: 'amenity="townhall"' },
       { key: "police", pattern: /(?:^| )(?:politie\w*|police station\w*)(?: |$)/, labelRo: "secție de poliție", labelEn: "police station", overpass: 'amenity="police"' },
       { key: "fire_station", pattern: /(?:^| )(?:pompieri|fire station\w*)(?: |$)/, labelRo: "stație de pompieri", labelEn: "fire station", overpass: 'amenity="fire_station"' },
@@ -4390,6 +4391,7 @@ export default {
       { key: "library", pattern: /(?:^| )(?:bibliotec\w*|library\w*)(?: |$)/, labelRo: "bibliotecă", labelEn: "library", overpass: 'amenity="library"' },
       { key: "atm", pattern: /(?:^| )(?:atm|bancomat\w*|cash machine)(?: |$)/, labelRo: "bancomat", labelEn: "ATM", overpass: 'amenity="atm"' },
       { key: "bank", pattern: /(?:^| )(?:bank\w*|banca\w*|banci)(?: |$)/, labelRo: "bancă", labelEn: "bank", overpass: 'amenity="bank"' },
+      { key: "currency_exchange", pattern: /(?:^| )(?:case? de schimb valutar|schimb valutar|birou de schimb|currency exchange|bureau de change|money changer|foreign exchange)(?: |$)/, labelRo: "casă de schimb valutar", labelEn: "currency exchange", overpass: 'amenity="bureau_de_change"' },
       { key: "post_office", pattern: /(?:^| )(?:post office\w*|posta\w*|oficiu postal)(?: |$)/, labelRo: "oficiu poștal", labelEn: "post office", overpass: 'amenity="post_office"' },
       { key: "toilets", pattern: /(?:^| )(?:toilet\w*|toaleta\w*|toalete)(?: |$)/, labelRo: "toaletă publică", labelEn: "public toilet", overpass: 'amenity="toilets"' },
       { key: "hotel", pattern: /(?:^| )(?:hotel\w*|hoteluri|hostel\w*|pensiun\w*|motel\w*|guest[ -]?houses?|bed and breakfasts?|b\s*&\s*b|aparthotel\w*|apartamente? (?:de )?(?:vacanta|inchiriat)|vacation rentals?|holiday (?:home|rental|apartment)s?|cazare|accommodation|lodging|airbnb)(?: |$)/, labelRo: "cazare", labelEn: "accommodation", overpass: 'tourism~"^(hotel|hostel|guest_house|motel|apartment|chalet)$"' },
@@ -5571,6 +5573,7 @@ export default {
               museum: "entertainment.museum",
               cinema: "entertainment.cinema",
               hospital: "healthcare.hospital,healthcare.clinic,healthcare.doctor",
+              hospital_only: "healthcare.hospital",
               town_hall: "administrative",
               police: "service.police",
               fire_station: "service.fire_station",
@@ -5578,6 +5581,7 @@ export default {
               library: "education.library",
               atm: "service.financial.atm",
               bank: "service.financial.bank",
+              currency_exchange: "service.financial.bureau_de_change",
               post_office: "service.post.post_office",
               toilets: "amenity.toilet",
               hotel: "accommodation",
@@ -5684,8 +5688,10 @@ export default {
                 fire_station: /fire_station/.test(cats) || raw.amenity === "fire_station",
                 school: /education\.(school|university|college)/.test(cats) || /^(school|university|college)$/.test(String(raw.amenity || "")),
                 library: /education\.library|library/.test(cats) || raw.amenity === "library",
+                hospital_only: /healthcare\.hospital/.test(cats) || raw.amenity === "hospital" || raw.tags?.amenity === "hospital",
                 atm: /financial\.atm|atm/.test(cats) || raw.amenity === "atm",
                 bank: /financial\.bank|bank/.test(cats) || raw.amenity === "bank",
+                currency_exchange: /service\.financial\.bureau_de_change/.test(cats) || raw.amenity === "bureau_de_change" || raw.tags?.amenity === "bureau_de_change",
                 post_office: /post_office/.test(cats) || raw.amenity === "post_office",
                 toilets: /toilet/.test(cats) || raw.amenity === "toilets"
               };
@@ -5698,7 +5704,7 @@ export default {
               const categoryText = categories.join(" ").toLowerCase();
               const raw = props.datasource && props.datasource.raw && typeof props.datasource.raw === "object" ? props.datasource.raw : {};
               const isShop = ["supermarket", "mall", "shop", "market_bakery", "corner_shop", "shopping_fashion", "beauty_services", "home_goods", "appliances", "furniture", "diy_garden"].includes(requestedPlaceCategory.key);
-              const amenity = requestedPlaceCategory.key === "fast_food" ? "fast_food" : requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key;
+              const amenity = requestedPlaceCategory.key === "fast_food" ? "fast_food" : requestedPlaceCategory.key === "restaurant" ? (/fast_food/.test(categoryText) ? "fast_food" : /cafe/.test(categoryText) ? "cafe" : /biergarten/.test(categoryText) ? "biergarten" : /pub/.test(categoryText) ? "pub" : /bar/.test(categoryText) ? "bar" : /food_court/.test(categoryText) ? "food_court" : "restaurant") : requestedPlaceCategory.key === "confectionery" ? (/ice_cream/.test(categoryText) ? "ice_cream" : /bakery/.test(categoryText) ? "bakery" : "confectionery") : requestedPlaceCategory.key === "currency_exchange" ? "bureau_de_change" : requestedPlaceCategory.key === "hospital_only" ? "hospital" : requestedPlaceCategory.key;
               const rawTags = props.datasource && props.datasource.raw && props.datasource.raw.tags && typeof props.datasource.raw.tags === "object" ? props.datasource.raw.tags : {};
               const tags = { geoapify_place_id:props.place_id||"", stars: rawTags.stars || raw.stars || props.accommodation?.stars || "", image: rawTags.image || raw.image || "", wikimedia_commons: rawTags.wikimedia_commons || rawTags["wikimedia_commons"] || "", wikidata:rawTags.wikidata||raw.wikidata||"", brand_wikidata:rawTags["brand:wikidata"]||raw["brand:wikidata"]||"", name: (requestedPlaceCategory.key === "hotel" || isShop) ? String(props.name || "").trim() :
                 requestedPlaceCategory.key === "parking" ?
@@ -5762,6 +5768,10 @@ export default {
                     furniture:/furniture|bed|bedroom|bathroom_furnishing/,
                     diy_garden:/doityourself|hardware|building_materials|garden_centre|agrarian/
                   })[requestedPlaceCategory.key].test(photonType)
+                : requestedPlaceCategory.key === "hospital_only"
+                  ? (String(properties.osm_key||'')==='amenity' && String(properties.osm_value||'')==='hospital') || /(?:^|\W)hospital(?:$|\W)/.test(photonType)
+                : requestedPlaceCategory.key === "currency_exchange"
+                  ? (String(properties.osm_key||'')==='amenity' && String(properties.osm_value||'')==='bureau_de_change') || /bureau_de_change/.test(photonType)
                 : requestedPlaceCategory.key === "car_dealers"
                   ? String(properties.osm_key||'')==='shop' && /^(?:car|car_dealer|car_sales|motor_vehicle)$/.test(String(properties.osm_value||''))
                     || /(?:car_dealer|car_sales|dealership|car showroom)/.test(photonType)
@@ -5966,6 +5976,8 @@ export default {
             requestedPlaceCategory.key === "stadium" ? (lang === "en" ? "stadium" : "stadion") :
             requestedPlaceCategory.key === "cinema" ? (lang === "en" ? "cinema" : "cinematograf") :
             requestedPlaceCategory.key === "hospital" ? (lang === "en" ? "hospital / clinic / doctor" : "spital / clinică / medic") :
+            requestedPlaceCategory.key === "hospital_only" ? (lang === "en" ? "hospital" : "spital") :
+            requestedPlaceCategory.key === "currency_exchange" ? (lang === "en" ? "currency exchange" : "casă de schimb valutar") :
             requestedPlaceCategory.key === "town_hall" ? (lang === "en" ? "town hall" : "primărie") :
             requestedPlaceCategory.key === "police" ? (lang === "en" ? "police station" : "secție de poliție") :
             requestedPlaceCategory.key === "fire_station" ? (lang === "en" ? "fire station" : "stație de pompieri") :
