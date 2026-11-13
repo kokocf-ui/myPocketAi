@@ -15,7 +15,7 @@ const arithmeticStart=script.indexOf('function mathArithmeticValue(');
 const arithmeticEnd=script.indexOf('function mathQuadraticEquation(',arithmeticStart);
 assert.ok(arithmeticStart>0&&arithmeticEnd>arithmeticStart,'verified arithmetic engine is present');
 const arithmetic=vm.runInNewContext(script.slice(arithmeticStart,arithmeticEnd)+
- '\n({normalize:mathNormalizeArithmeticRequest,solve:mathDetailedArithmetic,method:mathMethodGuide})',
+ '\n({normalize:mathNormalizeArithmeticRequest,solve:mathDetailedArithmetic,method:mathMethodGuide,primary:mathPrimaryArithmeticLesson})',
  {state:{language:'ro'},learningLabel:(ro)=>ro,Intl});
 assert.equal(arithmetic.normalize('2+2=','arithmetic'),'2+2','trailing equals means find the sum');
 assert.equal(arithmetic.normalize('2 + 2 = ','arithmetic'),'2 + 2');
@@ -29,6 +29,12 @@ assert.match(sum.conclusion,/4/,'final answer is visible');
 assert.match(sum.steps[0].operation,/2.*\\+.*2.*=.*4/,'operation shown with a numerical step');
 const guide=arithmetic.method('2+2');
 assert.ok(guide&&guide.rules.some(x=>/Adunarea/.test(x.title)),'general addition method is available offline');
+const lesson=arithmetic.primary('2+2','1');
+assert.ok(lesson&&lesson.steps.length===3,'Class I receives three explanatory steps');
+assert.match(lesson.steps[1].reason,/3, 4/,'Counting forward is shown explicitly');
+assert.match(lesson.steps[2].operation,/4.*2.*2/,'Sum is checked with the inverse subtraction');
+assert.equal(arithmetic.primary('15-3','1')?.conclusion,'15 − 3 = 12.','Class I subtraction is verified');
+assert.equal(arithmetic.primary('2x+2','1'),null,'Algebra is not guessed as elementary arithmetic');
 assert.ok(script.includes("if(session.topic==='arithmetic'&&session.mode!=='graph'&&!item.started)"),
  'simple arithmetic must render synchronously, before any AI or graph work');
 assert.ok(script.includes("if(session.topic!=='arithmetic'||session.mode==='graph')"),
