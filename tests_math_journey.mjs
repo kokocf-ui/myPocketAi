@@ -54,6 +54,9 @@ assert.ok(script.includes("actionsRow.append(centeredTitle,back)"),'Back shares 
 assert.ok(script.includes("mathClearWorkspaceHeader();if((state.currentView"),'Entering another module clears the maths-only header');
 assert.ok(script.includes("const classroom=learningLabel('Nivel: '"),'fallback teaching adapts to chosen level and topic');
 assert.match(html,/\.math-choice-list\{[^}]*overflow-y:auto/,'list scroll is bounded inside math stage');
-assert.ok(script.includes("['solve',learningLabel('🧩 Rezolvă pas cu pas'"),'existing solve unchanged');
-assert.ok(script.includes("['graph',learningLabel('📈 Reprezintă grafic'"),'existing graph unchanged');
+assert.ok(script.includes("['solve',learningLabel('🧩 Rezolvare'"),'math solve uses the requested compact label');
+assert.ok(script.includes("['explain',learningLabel('🎓 Explică metoda'"),'method remains available');
+assert.ok(script.includes("['graph',learningLabel('📈 Reprezintă grafic'"),'graph remains available');
+assert.match(html,/grid-template-columns:repeat\(3,minmax\(0,1fr\)\)!important/,'three math actions fit on one row');
+assert.ok(script.includes("function mathPrimaryNumberLine(text)"),'small primary sums use the offline number line');
 console.log('PASS math journey: country -> branch -> stage -> grade -> chapter, preserving maths tools');
