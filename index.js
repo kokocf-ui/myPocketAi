@@ -8126,7 +8126,7 @@ function scienceJourneyShowChoices(stage){
   list.append(btn);
  }
  panel.append(title,note,list);host.append(panel);
- requestAnimationFrame(scienceFitViewport);
+ requestAnimationFrame(()=>{if(stage==='subjects')document.querySelector('main.page')?.scrollTo(0,0);scienceFitViewport()});
 }
 
 const MATH_LEVELS=[
@@ -10430,8 +10430,9 @@ function renderLearningSubjects(){
   grid.append(btn);
  });
  host.append(grid);
+ host.scrollTop=0;
  $('moduleLead').textContent='';
- requestAnimationFrame(educationFitMenuViewport);
+ requestAnimationFrame(()=>{educationFitMenuViewport();if(root.classList.contains('learning-choose'))host.scrollTop=0});
  // Translate subject titles AND descriptions in the Settings language,
  // regardless of which country has been selected for the syllabus.
  const lang=state.language||'ro';
@@ -20955,6 +20956,59 @@ ${COMMUNICATION_STYLE}
 #view-module.learning-science.science-year-stage.active .science-choice-list.science-year-list{
  padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important;
  scroll-padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important;
+}
+
+/* Education entry: centre all eight cards as one compact group; never stretch
+   four rows across an empty viewport. Short displays can still scroll safely. */
+#view-module.learning-choose.active > #moduleContent{
+ display:flex!important;flex-direction:column!important;justify-content:flex-start!important;
+ align-items:stretch!important;overflow-x:hidden!important;overflow-y:auto!important;
+ padding:6px 2px 12px!important;min-height:0!important;
+}
+#view-module.learning-choose.active > #moduleContent > .education-grid{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:repeat(4,minmax(108px,auto))!important;
+ gap:clamp(7px,1dvh,11px)!important;
+ width:100%!important;height:auto!important;min-height:0!important;
+ flex:0 0 auto!important;align-self:center!important;
+ margin:auto 0!important;padding:4px 2px 7px!important;
+ align-content:center!important;
+}
+#view-module.learning-choose.active > #moduleContent > .education-grid > .education-card{
+ height:auto!important;min-height:108px!important;
+}
+/* Four Sciences are a single non-scrollable 2x2 selector. Other stages,
+   including long years/chapters and workspaces, retain their scrolling. */
+main.page:has(#view-module.learning-science.science-subject-stage.active){
+ overflow-y:hidden!important;overscroll-behavior-y:none!important;
+}
+#view-module.learning-science.science-subject-stage.active{
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ padding:0!important;overflow:hidden!important;
+ grid-template-rows:auto minmax(0,1fr)!important;
+}
+#view-module.learning-science.science-subject-stage.active.pocket-paired-nav-layout{
+ grid-template-rows:auto auto minmax(0,1fr)!important;
+}
+#view-module.learning-science.science-subject-stage.active > #moduleContent{
+ flex:1 1 auto!important;height:100%!important;max-height:100%!important;
+ min-height:0!important;overflow:hidden!important;padding:0!important;
+}
+#view-module.learning-science.science-subject-stage.active .science-choice-panel{
+ display:flex!important;flex:1 1 auto!important;min-height:0!important;
+ height:100%!important;max-height:100%!important;overflow:hidden!important;
+}
+#view-module.learning-science.science-subject-stage.active .science-choice-list{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:repeat(2,minmax(0,1fr))!important;
+ grid-auto-rows:auto!important;
+ align-content:stretch!important;justify-content:stretch!important;
+ flex:1 1 auto!important;min-height:0!important;height:auto!important;
+ max-height:100%!important;overflow:hidden!important;touch-action:manipulation!important;
+ padding:7px 2px!important;
+}
+#view-module.learning-science.science-subject-stage.active .science-choice-list > .science-subject-tile{
+ height:100%!important;min-height:0!important;
 }
 
 ${ORACLE_COMMUNICATION_STYLE}
