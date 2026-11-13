@@ -7930,8 +7930,10 @@ function mathChaptersForSelection(){
  // to class-V/VI pupils as if they were the class-VII syllabus.
  if(topic==='geometry'&&stage==='lower'&&country==='RO'&&year>0&&year<7)
   return base.filter(x=>!x.id.endsWith('-4'));
- if(topic==='arithmetic'&&stage==='primary'&&country==='RO'&&year>0&&year<=2)
-  return base.filter(x=>!x.id.endsWith('-4'));
+ // For first primary years, show only the operations introduced at that stage.
+ // Keep the country-specific school-year selection; do not expose later lessons.
+ if(topic==='arithmetic'&&stage==='primary'&&year===1)return base.filter(x=>/-[12]$/.test(x.id));
+ if(topic==='arithmetic'&&stage==='primary'&&year===2)return base.filter(x=>!x.id.endsWith('-4'));
  return base;
 }
 function mathCurriculumNotice(){
