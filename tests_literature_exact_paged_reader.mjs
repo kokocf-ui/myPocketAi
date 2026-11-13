@@ -194,4 +194,16 @@ button(dialog,'💾 Salvează PDF').onclick();
 assert.equal(requests.at(-1).mode,'save');
 assert.equal(requests.at(-1).material.text,long.trim(),'PDF uses complete theory, not just the displayed page');
 
+// A WebView style-injection error must not hide the paging controls.
+const styleFailureDocument={...document,getElementById:()=>{throw Error('CSS injection is blocked')}};
+const fallbackUI=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+
+ '\\n({reader:litShowMaterialReader})',{...cfg,document:styleFailureDocument});
+assert.equal(fallbackUI.reader('Paginare fără stil',long),true);
+const fallbackOverlay=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
+const fallbackNavs=all(fallbackOverlay).filter(x=>x.tagName==='NAV');
+assert.ok(fallbackNavs.length>0,'Paging survives failed WebView style injection');
+assert.match(fallbackNavs[0].children[1].textContent,/Pagina 1 din /);
+assert.ok(fallbackNavs[0].children[2].disabled===false,'Long work remains navigable');
+button(fallbackOverlay,'Înapoi').onclick();
+
 console.log('PASS: exact title opens one work; author lists works; two pagers; full PDF material');
