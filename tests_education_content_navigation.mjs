@@ -100,7 +100,7 @@ new vm.Script(boot,{filename:'pocket-education-content.js'});
 for(const fragment of ['const HG_LOCAL_GUIDES_DATA=','function hgLessonSections(topic){',
  'function hgShowCoreLesson(panel,guide){','className=\'hg-offline-lesson\'',
  'className=\'hg-local-toc\'','className=\'hg-lesson-suggestions\'',
- 'const guide=hgLessonSections(topic);const lessonView=hgShowCoreLesson(panel,guide);']){
+ 'const guide=hgGuaranteedSections(topic);const lessonView=hgShowCoreLesson(panel,guide);']){
  assert.ok(boot.includes(fragment),'Missing integrated lesson UI: '+fragment);
 }
 assert.ok(boot.includes('function educationTopicPicker(label,entries,selected,onSelect){'),
@@ -111,7 +111,7 @@ assert.ok(boot.includes('educationOpenPagedLesson(heading,body);'),
  'History and geography themes open in the paginated dialog');
 assert.ok(boot.includes('educationOpenPagedLesson(item.title,material);'),
  'Science study themes open in the paginated dialog');
-assert.ok(boot.includes('head.eduPrintableMaterial=()=>({title,text:raw})'),
+assert.ok(boot.includes('head.eduPrintableMaterial=()=>({title:educationCleanLessonLine(title),text:educationCleanLessonText(raw)})'),
  'Save and print stay inside the opened lesson');
 const hgReader=boot.slice(boot.indexOf('function hgShowCoreLesson(panel,guide){'),boot.indexOf('function hgLesson(panel){'));
 assert.ok(!hgReader.includes("createElement('details')"),
