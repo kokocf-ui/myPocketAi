@@ -34,7 +34,8 @@ const start=script.indexOf('const SCIENCE_SUBJECTS=');
 const end=script.indexOf('const MATH_LEVELS=[',start);
 assert.ok(start>0&&end>start);
 class FakeEl{
- constructor(tag){this.tag=tag;this.textContent='';this.children=[];this.style={};this.className='';this.onclick=null;}
+ constructor(tag){this.tag=tag;this.textContent='';this.children=[];this.style={};this.className='';this.onclick=null;
+  this.classList={add:()=>{},remove:()=>{},contains:()=>false,toggle:()=>{}};}
  append(...elements){this.children.push(...elements)}
  replaceChildren(...elements){this.children=[...elements]}
  setAttribute(){}
