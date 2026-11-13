@@ -15,6 +15,12 @@ assert.deepEqual(parseNearbyStreetQuery('Oradea pe strada Nufărului'),
  {street:'Strada Nufarului',city:'Oradea',country:'',query:'Strada Nufarului, Oradea'});
 assert.equal(parseNearbyStreetQuery('Ce magazine găsești în jurul meu?'),null);
 assert.equal(parseNearbyStreetQuery('Ce hoteluri găsești în Manchester?'),null);
+assert.deepEqual(parseNearbyStreetQuery('Restaurante din Oradea, stradă Nufărului'),
+ {street:'Strada Nufarului',city:'Oradea',country:'',query:'Strada Nufarului, Oradea'});
+assert.deepEqual(parseNearbyStreetQuery('Restaurante de pe strada Vasile Alecsandri, Oradea'),
+ {street:'Strada Vasile Alecsandri',city:'Oradea',country:'',query:'Strada Vasile Alecsandri, Oradea'});
+assert.equal(parseNearbyStreetQuery('Restaurante din Oradea'),null,
+ 'A city-wide search must not be turned into a street filter');
 assert.equal(parseNearbyStreetQuery('Ce magazine găsești pe Strada Morii?'),null,
  'Do not guess which city owns an unqualified street');
 
@@ -99,5 +105,25 @@ try{
  assert.equal(pois[0].searchParams.get('filter'),'circle:21.92,47.07,1500',
   'Street-centred POI radius must be 1.5 km in Romania, never the UK GPS');
  assert.match(result.reply,/Oradea|Magazin/i);
+ // New unrelated place search after a car-route prompt must NOT become a
+ // destination clarification or concatenate the old route history.
+ for(const query of ['Restaurante de pe strada Morii din Oradea',
+                     'Restaurante din Oradea, strada Morii']){
+  const fresh=await worker.fetch(new Request('https://unit.test/api/chat',{
+   method:'POST',headers:{'content-type':'application/json'},
+   body:JSON.stringify({message:query,language:'ro',module:'assistant',
+    location_requested:false,location:{latitude:51.5074,longitude:-0.1278,accuracy:20},
+    route_context:{profile:'drive',destination_query:'Victoria, London',
+      pending:'destination_detail',origin_query:'',candidates:[]},
+    history:[{role:'user',content:'Mașină'}]})
+  }),{GEOAPIFY_API_KEY:'test-key',AI:{run:async()=>{throw Error('No AI needed')}}});
+  const parsed=await fresh.json();
+  assert.equal(fresh.status,200);
+  assert.equal(parsed.location_source,'explicit_street_query',
+    'A new restaurant query must not continue the previous car route');
+  assert.notEqual(parsed.search_ok,false,
+    'The place providers must be queried for an independent restaurant request');
+  assert.doesNotMatch(parsed.reply||'',/Am păstrat destinația|Nu am putut confirma/);
+ }
 }finally{globalThis.fetch=originalFetch}
 console.log('PASS remote street lookup, city and country validation, fallback and cross-country POI search');
