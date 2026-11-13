@@ -21,7 +21,15 @@ function litEnsureTypography(){
  style.textContent=LIT_STUDY_CSS;
  (document.head||document.body)?.append(style);
 }
-function litShowMaterialReader(title,text){
+function litRenderPoemPage(host,text){
+ host.replaceChildren();
+ host.classList?.add('lit-poetry-document');
+ for(const block of String(text||'').split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean)){
+  const isSection=/^Strofele\s+\d+\s*[–-]\s*\d+$/u.test(block);
+  host.append(litSimpleNode(isSection?'h3':'p',block,isSection?'lit-poem-section':'lit-poem-stanza'));
+ }
+}
+function litShowMaterialReader(title,text,options={}){
  const raw=String(text||'').trim();
  if(!raw)return false;
  let overlay=null;
@@ -88,7 +96,8 @@ function litShowMaterialReader(title,text){
    const pageChars=Math.max(300,Math.min(1200,Math.round(
     (Math.max(120,vh*.84-230)/26)*(Math.min(780,vw*.92)/9.5))));
    const pages=splitLiteraturePages(raw,pageChars);
-   const controls=[];let active=0;
+   const controls=[];let active=options.startAt
+    ?Math.max(0,pages.findIndex(page=>page.includes(options.startAt))):0;
    const makePager=position=>{
     const bar=litSimpleNode('nav','','lit-page-navigation');
     bar.setAttribute('aria-label',litSimpleLabel('Navigare pagini','Page navigation')+' '+position);
@@ -105,7 +114,10 @@ function litShowMaterialReader(title,text){
    };
    function display(index){
     active=Math.max(0,Math.min(pages.length-1,index));
-    try{renderStudyBlocks(content,pages[active]||raw)}
+    try{
+     if(options.poetry===true)litRenderPoemPage(content,pages[active]||raw);
+     else renderStudyBlocks(content,pages[active]||raw);
+    }
     catch(error){
      content.textContent=litReaderSafeText(pages[active]||raw);
      if(typeof window!=='undefined')window.__pocketLiteratureReaderDetail=
@@ -126,7 +138,7 @@ function litShowMaterialReader(title,text){
     reader.insertBefore(top,content);
     reader.insertBefore(bottom,actions);
    }
-   display(0);
+   display(active);
   }catch(decoratingError){
    // A broken formatter must not close the reader or lose the source text.
    content.textContent=litReaderSafeText(raw);
@@ -426,10 +438,14 @@ function litSimpleLiterature(panel){
   if(readable){
    const chapters=litSimpleNode('details','','lit-activity-review');
    chapters.append(litSimpleNode('summary',litSimpleLabel('Cuprins · Capitole / Poezie','Contents · Chapters / Poem')));
+   const isLuceafarul=chosen.name==='Luceafărul'&&chosen.author==='Mihai Eminescu';
+   const entireWork=sections.map(s=>s.title+'\n\n'+s.text).join('\n\n');
    for(const section of sections)chapters.append(litSimpleButton(section.title,()=>
-    litShowMaterialReader(chosen.name+' — '+section.title,section.text)));
+    isLuceafarul
+     ?litShowMaterialReader(chosen.name+' — '+chosen.author,entireWork,{poetry:true,startAt:section.title})
+     :litShowMaterialReader(chosen.name+' — '+section.title,section.text)));
    acts.append(chapters,litSimpleButton(litSimpleLabel('Citește opera integral','Read complete work'),()=>
-    litShowMaterialReader(chosen.name+' — '+chosen.author,sections.map(s=>s.title+'\n\n'+s.text).join('\n\n'))));
+    litShowMaterialReader(chosen.name+' — '+chosen.author,entireWork,{poetry:isLuceafarul})));
   }else{
    const source=litSimpleNode('a',litSimpleLabel('Sursa / ediția operei','Work source / edition'));
    if(/^https:\/\//.test(chosen.url||'')){
