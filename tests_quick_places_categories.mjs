@@ -23,8 +23,16 @@ const categories=['hotel','pharmacy','corner_shop','supermarket','confectionery'
 assert.deepEqual(list.map(x=>x.placeCategory),categories);
 assert.deepEqual(Array.from(menu.maps,x=>x.title),[
  'Deplasare spre…','Traseu pietonal','Transport public','Benzinării',
- 'Spălătorii auto','Parcări','Muzee','Parcuri','Grădini zoologice','Parcuri auto și dealeri'
+ 'Spălătorii auto','Parcări','Muzee','Parcuri','Grădini zoologice','Parcuri auto și dealeri',
+ 'Spitale','ATM-uri','Bănci','Case de schimb valutar'
 ]);
+assert.deepEqual(Array.from(menu.maps.slice(-4),x=>x.placeCategory),[
+ 'hospital_only','atm','bank','currency_exchange'
+]);
+for(const choice of menu.maps.slice(-4)){
+ assert.equal(choice.kind,'places');
+ assert.ok(choice.prompt.includes('în apropierea mea'));
+}
 assert.equal(list.find(x=>x.placeCategory==='restaurant').prompt,'Caută restaurante în apropierea mea.');
 assert.ok(!list.find(x=>x.placeCategory==='restaurant').prompt.includes('fast-food'));
 assert.ok(ui.includes("place_category:choice.kind==='places'?(choice.placeCategory||undefined):undefined"));
@@ -82,11 +90,17 @@ const rows=[
  {name:'Vodafone',cat:'commercial.elektronics',kind:'telephony',shop:'mobile_phone'},
  {name:'EE',cat:'commercial.elektronics',kind:'telephony',shop:'electronics'},
  {name:'New Car Dealership',cat:'commercial.vehicle',kind:'dealer',shop:'car'},
- {name:'Motorbike Shop',cat:'commercial.vehicle',kind:'bikes',shop:'motorcycle'}
+ {name:'Motorbike Shop',cat:'commercial.vehicle',kind:'bikes',shop:'motorcycle'},
+ {name:'District General Hospital',cat:'healthcare.hospital',kind:'hospital',amenity:'hospital'},
+ {name:'Family GP Clinic',cat:'healthcare.clinic',kind:'clinic',amenity:'clinic'},
+ {name:'Central ATM',cat:'service.financial.atm',kind:'atm',amenity:'atm'},
+ {name:'City Bank',cat:'service.financial.bank',kind:'bank',amenity:'bank'},
+ {name:'Money Exchange Office',cat:'service.financial.bureau_de_change',kind:'exchange',amenity:'bureau_de_change'},
+ {name:'Money Transfer Only',cat:'service.financial.money_transfer',kind:'transfer',amenity:'money_transfer'}
 ];
 const features=rows.map((r,i)=>({type:'Feature',geometry:{type:'Point',coordinates:[0.301+i/10000,51.477+i/10000]},
  properties:{name:r.name,categories:[r.cat],datasource:{raw:{
- amenity:['restaurant','fast_food'].includes(r.kind)?r.kind:'',
+ amenity:r.amenity||(['restaurant','fast_food'].includes(r.kind)?r.kind:''),
  tourism:r.kind==='hotel'?'hotel':'',shop:r.shop||'',cuisine:r.cuisine||'',highway:r.kind==='highway'?'residential':''
  }}}}));
 const original=globalThis.fetch;
@@ -137,6 +151,21 @@ try {
  const carDealers=await quick('car_dealers','Găsește parcuri auto și dealeri auto în apropierea mea.');
  assert.ok(carDealers.has('New Car Dealership'));
  assert.ok(!carDealers.has('Motorbike Shop'));
+ const hospitals=await quick('hospital_only','Găsește spitale în apropierea mea.');
+ const atms=await quick('atm','Găsește bancomate ATM în apropierea mea.');
+ const banks=await quick('bank','Găsește bănci în apropierea mea.');
+ const exchange=await quick('currency_exchange','Găsește case de schimb valutar în apropierea mea.');
+ assert.ok(hospitals.has('District General Hospital'));
+ assert.ok(!hospitals.has('Family GP Clinic'),'Hospitals should not include clinics');
+ assert.ok(atms.has('Central ATM')&&!atms.has('City Bank'));
+ assert.ok(banks.has('City Bank')&&!banks.has('Central ATM'));
+ assert.ok(exchange.has('Money Exchange Office'));
+ assert.ok(!exchange.has('Money Transfer Only')&&!exchange.has('City Bank')&&!exchange.has('Central ATM'));
+ for(const result of [hospitals,atms,banks,exchange]){
+  for(const other of [hospitals,atms,banks,exchange]){
+   if(result!==other)assert.deepEqual([...result].filter(n=>other.has(n)),[],'Overlapping hospital/finance categories');
+  }
+ }
  const selected=[shopping,beauty,home,appliances,furniture,diy,carDealers];
  for(const [i,group] of selected.entries()){
   for(const [j,other] of selected.entries()){
