@@ -24,12 +24,13 @@ assert.deepEqual(list.map(x=>x.placeCategory),categories);
 assert.deepEqual(Array.from(menu.maps,x=>x.title),[
  'Deplasare spre…','Traseu pietonal','Transport public','Benzinării',
  'Spălătorii auto','Parcări','Muzee','Parcuri','Grădini zoologice','Parcuri auto și dealeri',
- 'Spitale','ATM-uri','Bănci','Case de schimb valutar'
+ 'Spitale','ATM-uri','Bănci','Case de schimb valutar',
+ 'Cabinete medicale și stomatologice'
 ]);
-assert.deepEqual(Array.from(menu.maps.slice(-4),x=>x.placeCategory),[
- 'hospital_only','atm','bank','currency_exchange'
+assert.deepEqual(Array.from(menu.maps.slice(-5),x=>x.placeCategory),[
+ 'hospital_only','atm','bank','currency_exchange','medical_dental'
 ]);
-for(const choice of menu.maps.slice(-4)){
+for(const choice of menu.maps.slice(-5)){
  assert.equal(choice.kind,'places');
  assert.ok(choice.prompt.includes('în apropierea mea'));
 }
@@ -93,6 +94,8 @@ const rows=[
  {name:'Motorbike Shop',cat:'commercial.vehicle',kind:'bikes',shop:'motorcycle'},
  {name:'District General Hospital',cat:'healthcare.hospital',kind:'hospital',amenity:'hospital'},
  {name:'Family GP Clinic',cat:'healthcare.clinic',kind:'clinic',amenity:'clinic'},
+ {name:'High Street Dental Practice',cat:'healthcare.dentist',kind:'dentist',amenity:'dentist'},
+ {name:'Chemist Pharmacy',cat:'healthcare.pharmacy',kind:'pharmacy',amenity:'pharmacy'},
  {name:'Central ATM',cat:'service.financial.atm',kind:'atm',amenity:'atm'},
  {name:'City Bank',cat:'service.financial.bank',kind:'bank',amenity:'bank'},
  {name:'Money Exchange Office',cat:'service.financial.bureau_de_change',kind:'exchange',amenity:'bureau_de_change'},
@@ -152,17 +155,20 @@ try {
  assert.ok(carDealers.has('New Car Dealership'));
  assert.ok(!carDealers.has('Motorbike Shop'));
  const hospitals=await quick('hospital_only','Găsește spitale în apropierea mea.');
+ const medicalDental=await quick('medical_dental','Găsește cabinete medicale și stomatologice în apropierea mea.');
  const atms=await quick('atm','Găsește bancomate ATM în apropierea mea.');
  const banks=await quick('bank','Găsește bănci în apropierea mea.');
  const exchange=await quick('currency_exchange','Găsește case de schimb valutar în apropierea mea.');
  assert.ok(hospitals.has('District General Hospital'));
- assert.ok(!hospitals.has('Family GP Clinic'),'Hospitals should not include clinics');
+ assert.ok(!hospitals.has('Family GP Clinic')&&!hospitals.has('High Street Dental Practice'),'Hospitals should not include clinics');
+ assert.ok(medicalDental.has('Family GP Clinic')&&medicalDental.has('High Street Dental Practice'),'Both kinds of practice belong to one button');
+ assert.ok(!medicalDental.has('District General Hospital')&&!medicalDental.has('Chemist Pharmacy'),'Practices must not include hospitals or pharmacies');
  assert.ok(atms.has('Central ATM')&&!atms.has('City Bank'));
  assert.ok(banks.has('City Bank')&&!banks.has('Central ATM'));
  assert.ok(exchange.has('Money Exchange Office'));
  assert.ok(!exchange.has('Money Transfer Only')&&!exchange.has('City Bank')&&!exchange.has('Central ATM'));
- for(const result of [hospitals,atms,banks,exchange]){
-  for(const other of [hospitals,atms,banks,exchange]){
+ for(const result of [hospitals,medicalDental,atms,banks,exchange]){
+  for(const other of [hospitals,medicalDental,atms,banks,exchange]){
    if(result!==other)assert.deepEqual([...result].filter(n=>other.has(n)),[],'Overlapping hospital/finance categories');
   }
  }
