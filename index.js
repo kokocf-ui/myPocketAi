@@ -11570,7 +11570,10 @@ function hgBack(){
  renderLearningSubjects();
 }
 function hgOpen(stage){
- if(stage==='country')return educationCountryGate('history',()=>hgOpen('years'));
+ if(stage==='country')return educationCountryGate('history',()=>{
+  hgJourney.country=educationCountrySelection.code;
+  hgOpen('years');
+ });
  hgJourney.stage=stage;
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('learning-choose','learning-math','learning-science','learning-languages','math-choice-stage','science-choice-stage');
