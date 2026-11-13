@@ -10119,6 +10119,13 @@ async function sciencePhotoFile(file){
  }catch{sciencePhotoReview('')}
  finally{if(url)URL.revokeObjectURL(url)}
 }
+// Convert an existing lesson structure into readable paragraphs without UI controls.
+function educationTextFromLesson(node){
+ if(!node)return '';
+ const blocks=Array.from(node.querySelectorAll('h1,h2,h3,h4,h5,p,li,pre,blockquote'));
+ const parts=blocks.map(el=>String(el.textContent||'').trim()).filter(Boolean);
+ return (parts.length?parts.join('\n\n'):String(node.textContent||'')).trim();
+}
 // Common Education reading dialog: only theme names stay visible in the workspace.
 function educationOpenPagedLesson(title,body){
  document.getElementById('educationPagedLessonDialog')?.remove();
