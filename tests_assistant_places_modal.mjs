@@ -7,6 +7,8 @@ assert.ok(source.includes("import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assis
 assert.ok(source.includes('${ASSISTANT_PLACE_RESULTS_SCRIPT}'));
 assert.ok(!source.includes("chat.addEventListener('click',openHotelEvaDialogue)"),"Hotels must not expose Eva chat");
 assert.ok(source.includes("openAssistantPlaceResults(data.places)"));
+assert.ok(source.includes("data.location_source==='ambiguous_place_name'?dialogText('La care Alba te referi?'"),
+ 'Ambiguous Alba must display an explicit choice heading');
 assert.ok(ASSISTANT_PLACE_RESULTS_SCRIPT.includes("dialogText('Telefon','Phone')"));
 assert.ok(ASSISTANT_PLACE_RESULTS_SCRIPT.includes("dialogText('Navighează către locație','Navigate to location')"));
 assert.ok(ASSISTANT_PLACE_RESULTS_SCRIPT.includes('perPage=6'));
