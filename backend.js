@@ -5575,7 +5575,7 @@ export default {
               cinema: "entertainment.cinema",
               hospital: "healthcare.hospital,healthcare.clinic,healthcare.doctor",
               hospital_only: "healthcare.hospital",
-              medical_dental: "healthcare.clinic,healthcare.doctor,healthcare.dentist",
+              medical_dental: "healthcare.clinic_or_praxis,healthcare.dentist",
               town_hall: "administrative",
               police: "service.police",
               fire_station: "service.fire_station",
@@ -5692,7 +5692,7 @@ export default {
                 library: /education\.library|library/.test(cats) || raw.amenity === "library",
                 hospital_only: /healthcare\.hospital/.test(cats) || raw.amenity === "hospital" || raw.tags?.amenity === "hospital",
                 medical_dental: !/healthcare\.(?:hospital|pharmacy)/.test(cats) && !/^(?:hospital|pharmacy)$/.test(String(raw.amenity||raw.tags?.amenity||"")) &&
-                  (/healthcare\.(?:clinic|doctor|dentist)(?:\b|\.)/.test(cats) ||
+                  (/healthcare\.(?:clinic_or_praxis|dentist)(?:\b|\.)/.test(cats) ||
                    /^(?:clinic|doctors|dentist)$/.test(String(raw.amenity||raw.tags?.amenity||"")) ||
                    /^(?:clinic|doctor|dentist)$/.test(String(raw.healthcare||raw.tags?.healthcare||""))),
                 atm: /financial\.atm|atm/.test(cats) || raw.amenity === "atm",
