@@ -6,6 +6,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/build-android-signed-release.yml'
+      - 'index.js'
+      - 'assistant_place_results_ui.mjs'
+      - 'country_*.mjs'
   push:
     branches: [main]
     paths:
