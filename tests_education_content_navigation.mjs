@@ -125,9 +125,15 @@ assert.ok(html.includes('main.page:has(#view-module.learning-hg.active)'),
 assert.ok(html.includes('className=')||boot.includes('className='),
  'Produced markup or client script must be non-empty');
 for(const section of ['scienceTopicChoices().filter','mathChaptersForSelection()',
- 'litJourney.branch===','FOREIGN_TOPIC_DATA,languageJourney.topic']){
+ 'litJourney.branch===']){
  assert.ok(boot.includes(section),'Education topic picker missing integration: '+section);
 }
+assert.ok(boot.includes("if(stage==='topics')options=FOREIGN_TOPIC_DATA;"),
+ 'Foreign-language themes remain selectable in the dedicated themes menu');
+assert.ok(boot.includes('function languageReadLocalLesson(){')&&boot.includes('educationOpenPagedLesson(title,parts.join(nl+nl))'),
+ 'Foreign-language teaching text opens in the shared paginated reader');
+assert.ok(!boot.slice(boot.indexOf('function languageOpen(stage){'),boot.indexOf('// History & Geography: independent curriculum pathway')).includes('educationTopicPicker('),
+ 'Foreign-language lesson displays the selected theme, not an extra in-lesson theme picker');
 assert.ok(boot.includes('function educationScienceTheoryReader(subjectId,topicId,level){'),
  'Science workspace includes a topic-only local theory menu');
 const begin=boot.indexOf('function hgBack(){'),end=boot.indexOf('function hgOpen(stage){',begin);
