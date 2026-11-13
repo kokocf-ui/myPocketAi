@@ -81,6 +81,5 @@ function openHotelEvaDialogue(){
  document.getElementById('moduleQuickLayer')?.classList.remove('open');
  document.getElementById('moduleQuickLayer')?.setAttribute('aria-hidden','true');
  inputEl.placeholder=dialogText('Ce dorești să cauți?','What would you like to find?');
- inputEl.focus({preventScroll:true});
 }
 `;
