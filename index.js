@@ -11533,28 +11533,50 @@ function hgStatus(value){const el=document.getElementById('hgStatus');if(el)el.t
 function hgRemember(kind){
  try{const key=hgProgressKey(),p=JSON.parse(localStorage.getItem(key)||'{}');p[hgJourney.topic]={...(p[hgJourney.topic]||{}),[kind]:new Date().toISOString()};localStorage.setItem(key,JSON.stringify(p))}catch{}
 }
+// History and Geography use the same country-aware grade catalogue as Sciences.
+// Group academic years; never infer a Romanian grade number for other countries.
+function hgYearGroups(){
+ const country=educationCountrySelection.code;
+ const bands=[
+  {level:'beginner',ro:'Primar / nivel de bază',en:'Primary / foundation'},
+  {level:'lower',ro:'Gimnaziu / nivel de bază',en:'Lower secondary / foundation'},
+  {level:'medium',ro:'Liceu / nivel mediu',en:'Upper secondary / intermediate'},
+  {level:'advanced',ro:'Universitate și specializări',en:'University and specialisations'}
+ ];
+ const seen=new Set();
+ return bands.map(band=>{
+  let years=eduYearOptions(country,band.level,'history').filter(x=>x&&x.id);
+  if(country==='RO'){
+   const bounds={beginner:[4,4],lower:[5,8],medium:[9,12]};
+   if(bounds[band.level])years=years.filter(x=>Number.isInteger(Number(x.id))&&Number(x.id)>=bounds[band.level][0]&&Number(x.id)<=bounds[band.level][1]);
+   years=years.map(x=>Number.isInteger(Number(x.id))?{...x,ro:'Clasa a '+x.id+'-a'}:x);
+  }
+  if(band.level==='advanced')years=years.slice(0,1);
+  years=years.filter(x=>{
+   const key=String(x.id);if(seen.has(key))return false;
+   seen.add(key);return true;
+  });
+  return {...band,years};
+ }).filter(group=>group.years.length);
+}
 function hgBack(){
- // A single available school year auto-advances in educationGradeGate.
- // Sending Back into that gate used to reopen the same chapter screen.
- if(hgJourney.stage==='chapters'){
-  if(hgJourney.level==='advanced'){hgOpen('specialties');return}
-  const options=eduYearOptions(educationCountrySelection.code,hgJourney.level,'history');
-  if(options.length<2){hgOpen('levels');return}
-  hgJourney.stage='grade';
-  educationGradeGate('history',hgJourney.level,grade=>{
-   hgJourney.grade=grade;hgJourney.topic=null;hgOpen('chapters');
-  },()=>hgOpen('levels'));
-  return;
- }
- const prev={subjects:'country',scope:'subjects',country:'scope',levels:'scope',grade:'levels',specialties:'levels',lesson:'chapters'};
- if(prev[hgJourney.stage])hgOpen(prev[hgJourney.stage]);else renderLearningSubjects();
+ const stage=hgJourney.stage;
+ if(stage==='lesson'){hgOpen('chapters');return}
+ if(stage==='chapters'){hgOpen(hgJourney.level==='advanced'?'specialties':'years');return}
+ if(stage==='specialties'||stage==='levels'){hgOpen('years');return}
+ if(stage==='years'){hgOpen('scope');return}
+ if(stage==='scope'){hgOpen('subjects');return}
+ if(stage==='country'){hgOpen('scope');return}
+ renderLearningSubjects();
 }
 function hgOpen(stage){
- if(stage==='country')return educationCountryGate('history',()=>hgOpen('levels'));
+ if(stage==='country')return educationCountryGate('history',()=>hgOpen('years'));
  hgJourney.stage=stage;
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('learning-choose','learning-math','learning-science','learning-languages','math-choice-stage','science-choice-stage');
  root.classList.add('learning-active','learning-hg');
+ root.classList.toggle('hg-subject-stage',stage==='subjects');
+ root.classList.toggle('hg-year-stage',stage==='years');
  $('moduleTitle').textContent=hgL('Istorie și geografie','History and geography')+(hgSubject()?' · '+hgL(hgSubject().ro,hgSubject().en):'');
  $('moduleLead').textContent='';host.replaceChildren();host.scrollTop=0;root.scrollTop=0;const mainView=root.closest('main');if(mainView)mainView.scrollTop=0;
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar hg-toolbar';
@@ -11565,6 +11587,7 @@ function hgOpen(stage){
   scope:hgL('Alege programa','Choose curriculum'),
   country:hgL('Alege țara / regiunea','Choose country / region'),
   levels:hgL('Alege nivelul','Choose level'),
+  years:hgL('Alege clasa / anul de studiu','Choose grade / school year'),
   specialties:hgL('Alege specializarea','Choose specialization'),
   chapters:hgL('Alege capitolul','Choose chapter'),
   lesson:hgL('Lecție și activități','Lesson and activities')
@@ -11574,10 +11597,26 @@ function hgOpen(stage){
   for(const opt of items){const btn=hgBtn((opt.icon||'')+' '+hgL(opt.ro,opt.en),()=>callback(opt),'secondary-btn hg-choice');if(stage==='chapters'&&hgJourney.subject==='history')btn.style.whiteSpace='pre-line';holder.append(btn)}
   panel.append(holder);
  };
- if(stage==='subjects')list(HG_SUBJECT_DATA,opt=>{hgJourney.subject=opt.id;hgJourney.topic=null;hgOpen('scope')});
+ if(stage==='subjects'){
+  const holder=document.createElement('div');holder.className='hg-choice-list hg-subject-grid';
+  for(const opt of HG_SUBJECT_DATA){
+   const card=hgBtn('',()=>{
+    hgJourney.subject=opt.id;hgJourney.topic=null;hgJourney.grade=null;
+    hgJourney.level=null;hgJourney.speciality=null;hgOpen('scope');
+   },'secondary-btn hg-choice hg-subject-tile');
+   const icon=document.createElement('span');icon.className='hg-subject-icon';
+   icon.textContent=opt.icon||(opt.id==='history'?'🏛️':'🌍');icon.setAttribute('aria-hidden','true');
+   const name=hgText('strong',hgL(opt.ro,opt.en));
+   const description=hgText('small',opt.id==='history'?
+    hgL('Epoci și civilizații','Periods and civilisations'):
+    hgL('Țări, hărți și medii','Countries, maps and environments'));
+   card.append(icon,name,description);holder.append(card);
+  }
+  panel.append(holder);
+ }
  if(stage==='scope'){
   panel.append(hgText('p',hgL('Programa internațională este disponibilă permanent. Țara studiului nu este impusă de GPS.','International material always remains available. GPS does not dictate the school curriculum.')));
-  list(HG_SCOPE_DATA,opt=>{hgJourney.scope=opt.id;hgOpen('levels')});
+  list(HG_SCOPE_DATA,opt=>{hgJourney.scope=opt.id;hgSave();hgOpen('years')});
  }
  if(stage==='country'){
   if(!hgJourney.country)hgRestore();
@@ -11617,8 +11656,35 @@ function hgOpen(stage){
    hgJourney.country=chosen;hgJourney.region=region.value.trim().slice(0,110);
    hgJourney.otherCountry=chosen==='OTHER'?search.value.trim().slice(0,100):'';
    if(chosen==='OTHER'&&!hgJourney.otherCountry){search.focus();return}
-   hgSave();hgOpen('levels');
+   hgSave();hgOpen('years');
   },'primary-btn'));
+ }
+ if(stage==='years'){
+  const country=educationCountrySelection.code;
+  const intro=document.createElement('p');
+  intro.textContent=educationCountrySelection.label+' · '+
+   hgL('Selectează clasa sau anul de studiu pentru materia aleasă.',
+       'Choose the grade or school year for the selected subject.')+
+   (!['RO','GB-ENG'].includes(country)?' '+hgL(
+    'Unde programa locală nu este verificată, conținutul este orientativ.',
+    'Where the local curriculum is unverified, content is advisory.'):'');
+  panel.append(intro);
+  const list=document.createElement('div');list.className='hg-choice-list hg-year-list';
+  for(const group of hgYearGroups()){
+   const band=document.createElement('section');band.className='hg-year-band';
+   const heading=hgText('h3',hgL(group.ro,group.en));
+   const tiles=document.createElement('div');tiles.className='hg-year-tiles';
+   for(const year of group.years){
+    const btn=hgBtn(hgL(year.ro,year.en),()=>{
+     hgJourney.country=country;hgJourney.level=group.level;hgJourney.grade=year.id;
+     hgJourney.topic=null;hgJourney.speciality=null;
+     hgOpen(group.level==='advanced'?'specialties':'chapters');
+    },'secondary-btn hg-year-tile');
+    tiles.append(btn);
+   }
+   band.append(heading,tiles);list.append(band);
+  }
+  panel.append(list);
  }
  if(stage==='levels'){
   panel.append(hgText('p',hgL('Nivelul stabilește și clasele disponibile în țara selectată.','The level also determines the school years for the selected country.')));
@@ -12824,7 +12890,11 @@ function openLearningSubject(key){
 }
 function openLearningSubjectAfterCountry(key){
  mathClearWorkspaceHeader();
- if(key==='history'){hgOpen('subjects');return}
+ if(key==='history'){
+  hgJourney.country=educationCountrySelection.code;
+  hgJourney.grade=null;hgJourney.level=null;hgJourney.topic=null;hgJourney.speciality=null;
+  hgOpen('subjects');return;
+ }
  if(key==='literature'){
   const selected=LIT_COUNTRIES.find(x=>x[0]===educationCountrySelection.code);
   const incoming=String(educationCountrySelection.code||litJourney.country||'RO');
@@ -21023,6 +21093,73 @@ main.page:has(#view-module.learning-science.science-subject-stage.active){
  justify-items:stretch!important;
  gap:clamp(8px,1.5dvh,14px)!important;
  overflow-y:auto!important;
+}
+
+
+/* History & Geography: the same illustrated subject cards and grouped
+   school-year selector used in Sciences, without changing lesson workspaces. */
+#view-module.learning-hg.hg-subject-stage.active .hg-panel.hg-subjects{
+ overflow:hidden!important;min-height:0!important;
+}
+#view-module.learning-hg.hg-subject-stage.active .hg-panel.hg-subjects > .hg-choice-list.hg-subject-grid{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:clamp(158px,23dvh,208px)!important;
+ flex:1 1 auto!important;height:auto!important;min-height:0!important;
+ width:100%!important;gap:clamp(8px,1.4dvh,14px)!important;
+ align-content:center!important;justify-content:center!important;
+ padding:8px 2px!important;overflow:hidden!important;
+}
+#view-module.learning-hg.hg-subject-stage.active .hg-subject-tile{
+ display:flex!important;flex-direction:column!important;
+ align-items:center!important;justify-content:center!important;text-align:center!important;
+ gap:clamp(6px,1dvh,10px)!important;
+ box-sizing:border-box!important;min-width:0!important;width:100%!important;
+ min-height:0!important;height:100%!important;
+ white-space:normal!important;padding:clamp(8px,2vw,12px)!important;
+ border-radius:17px!important;
+}
+#view-module.learning-hg.hg-subject-stage.active .hg-subject-tile > .hg-subject-icon{
+ font-size:clamp(25px,5dvh,36px)!important;line-height:1.1!important;
+}
+#view-module.learning-hg.hg-subject-stage.active .hg-subject-tile > strong{
+ font-size:clamp(16px,3.8vw,23px)!important;line-height:1.18!important;
+}
+#view-module.learning-hg.hg-subject-stage.active .hg-subject-tile > small{
+ font-size:clamp(11px,2.6vw,14px)!important;line-height:1.25!important;
+ font-weight:400!important;overflow-wrap:anywhere!important;
+}
+#view-module.learning-hg.hg-year-stage.active .hg-panel.hg-years{
+ overflow:hidden!important;min-height:0!important;
+}
+#view-module.learning-hg.hg-year-stage.active .hg-panel.hg-years > h2,
+#view-module.learning-hg.hg-year-stage.active .hg-panel.hg-years > p{
+ flex:0 0 auto!important;
+}
+#view-module.learning-hg.hg-year-stage.active .hg-choice-list.hg-year-list{
+ display:flex!important;flex-direction:column!important;
+ flex:1 1 auto!important;min-height:0!important;width:100%!important;
+ gap:10px!important;overflow-y:auto!important;overflow-x:hidden!important;
+ overscroll-behavior:contain!important;touch-action:pan-y!important;
+ padding:4px 0 18px!important;scroll-padding-bottom:20px!important;
+}
+#view-module.learning-hg.hg-year-stage.active .hg-year-band{
+ flex:0 0 auto!important;display:flex!important;flex-direction:column!important;
+ gap:7px!important;min-width:0!important;width:100%!important;
+}
+#view-module.learning-hg.hg-year-stage.active .hg-year-band > h3{
+ font-size:clamp(13px,3.4vw,17px)!important;line-height:1.25!important;
+ margin:3px 0 0!important;
+}
+#view-module.learning-hg.hg-year-stage.active .hg-year-tiles{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:8px!important;min-width:0!important;width:100%!important;
+}
+#view-module.learning-hg.hg-year-stage.active .hg-year-tile{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ width:100%!important;min-width:0!important;min-height:52px!important;
+ margin:0!important;padding:8px!important;text-align:center!important;
+ font-size:clamp(13px,3.5vw,17px)!important;line-height:1.15!important;
+ white-space:normal!important;border-radius:14px!important;
 }
 
 ${ORACLE_COMMUNICATION_STYLE}
