@@ -90,6 +90,17 @@ export const STUDY_TYPOGRAPHY_CSS=String.raw`
 .lit-study-document .lit-study-marker{font-weight:900!important;color:#98e0ec!important;min-width:0;text-align:left;font-variant-numeric:tabular-nums!important}
 .lit-study-document .lit-study-item-body{min-width:0;line-height:1.57!important;white-space:pre-line!important}
 .lit-study-document strong{font-weight:800!important}
+/* Poetry reader only: keep each verse, stanza break and spoken dash intact. */
+.lit-poetry-document .lit-poem-stanza{
+ white-space:pre-line!important;line-height:1.58!important;
+ margin:0 0 18px!important;overflow-wrap:break-word!important;
+ font-family:Georgia,'Times New Roman',serif!important;
+ font-size:1.04em!important;
+}
+.lit-poetry-document .lit-poem-section{
+ margin:12px 0 14px!important;font-size:1em!important;
+ font-weight:800!important;color:#91ddeb!important;
+}
 /* Android-safe dedicated reading layer. Non-modal dialog fallbacks can be hidden
    under app chrome in WebView; this overlay owns the reading screen. */
 .lit-reader-overlay{
