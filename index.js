@@ -11489,8 +11489,13 @@ function languageOpen(stage){
  const title=document.createElement('h2');title.textContent=stage==='languages'?learningLabel('Alege limba','Choose language'):stage==='variants'?learningLabel('Alege varianta','Choose variant'):stage==='levels'?learningLabel('Alege nivelul','Choose level'):stage==='topics'?learningLabel('Alege capitolul','Choose chapter'):stage==='placement'?learningLabel('Test introductiv','Starter diagnostic'):learningLabel('Lecție de limbi străine','Language lesson');panel.append(title);
  if(stage==='placement'){languagePlacementRender(panel);host.append(panel);return}
  if(stage!=='lesson'){
-  if(stage==='levels')panel.append(foreignStudyButton(learningLabel('🎓 Test inițial de orientare','🎓 Starter placement check'),languagePlacementBegin));
-  if(stage==='levels')panel.append(foreignStudyButton(learningLabel('📊 Evaluare completă','📊 Full placement assessment'),languageFullPlacement));
+  if(stage==='levels'){
+   const extras=document.createElement('div');extras.className='foreign-level-actions';
+   extras.append(
+    foreignStudyButton(learningLabel('🎓 Test inițial de orientare','🎓 Starter placement check'),languagePlacementBegin),
+    foreignStudyButton(learningLabel('📊 Evaluare completă','📊 Full placement assessment'),languageFullPlacement));
+   panel.append(extras);
+  }
   const list=document.createElement('div');list.className='math-choice-list science-choice-list foreign-options';let options=[];
   if(stage==='languages')options=FOREIGN_LANGUAGE_DATA;
   if(stage==='variants'){
@@ -11501,7 +11506,7 @@ function languageOpen(stage){
   }
   if(stage==='levels')options=languageLevels();
   if(stage==='topics')options=FOREIGN_TOPIC_DATA;
-  for(const opt of options){
+  options.forEach((opt,index)=>{
    const label=stage==='languages'?learningLabel(opt.ro,opt.en):stage==='levels'&&!languageIsClassical()?opt.id+' · '+learningLabel(opt.ro,opt.en):learningLabel(opt.ro,opt.en);
    const button=foreignStudyButton(label,()=>{
     languageVoiceStop();
@@ -11510,9 +11515,14 @@ function languageOpen(stage){
     else if(stage==='levels'){languageJourney.level=opt.id;languageOpen('topics')}
     else{languageJourney.topic=opt.id;languageJourney.cardIndex=0;languageOpen('lesson')}
    },'secondary-btn math-choice-row science-choice-row');
-   if(stage==='languages')button.title=opt.native+' · '+learningLabel(opt.ro,opt.en);
+   const icon=document.createElement('span');icon.className='foreign-choice-icon';
+   icon.textContent=stage==='topics'?['🔤','👋','🗣️','📐','🎧','📖','✍️','🎯'][index%8]:
+     stage==='levels'?'🎓':stage==='languages'?'🌐':'🗺️';
+   icon.setAttribute('aria-hidden','true');button.prepend(icon);
+   button.classList.add('foreign-choice-card');
+   if(stage==='languages')button.title=(opt.native||'')+' · '+learningLabel(opt.ro,opt.en);
    list.append(button);
-  }
+  });
   panel.append(list);
  }else{
   panel.append(educationTopicPicker(learningLabel('📚 Teme de studiu','📚 Study topics'),FOREIGN_TOPIC_DATA,languageJourney.topic,x=>{languageJourney.topic=x.id;languageJourney.cardIndex=0;languageOpen('lesson')}));
@@ -21293,6 +21303,76 @@ main.page:has(#view-module.learning-science.science-subject-stage.active){
  margin:0!important;padding:8px!important;text-align:center!important;
  font-size:clamp(13px,3.5vw,17px)!important;line-height:1.15!important;
  white-space:normal!important;border-radius:14px!important;
+}
+
+/* Education theme cards and touch-friendly whole-page scrolling.
+   Spaces between cards belong to the same vertical scroller as the cards. */
+main.page:has(#view-module.learning-languages.active){
+ overflow-x:hidden!important;overflow-y:auto!important;
+ overscroll-behavior-y:auto!important;touch-action:pan-y!important;
+ -webkit-overflow-scrolling:touch!important;
+ padding-bottom:calc(148px + env(safe-area-inset-bottom,0px))!important;
+}
+#view-module.learning-languages.active{
+ height:auto!important;max-height:none!important;min-height:100%!important;
+ overflow:visible!important;touch-action:pan-y!important;
+ grid-template-rows:auto auto!important;align-content:start!important;
+}
+#view-module.learning-languages #moduleContent,
+#view-module.learning-languages .science-choice-panel{
+ height:auto!important;max-height:none!important;min-height:0!important;
+ overflow:visible!important;touch-action:pan-y!important;
+}
+#view-module.learning-languages .science-choice-panel{
+ display:flex!important;flex-direction:column!important;
+ padding:10px 10px 34px!important;
+}
+#view-module.learning-languages .foreign-level-actions,
+#view-module.learning-languages .foreign-options{
+ box-sizing:border-box!important;
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-content:start!important;gap:clamp(8px,1.4dvh,13px)!important;
+ width:100%!important;min-width:0!important;
+ height:auto!important;min-height:0!important;max-height:none!important;
+ overflow:visible!important;touch-action:pan-y!important;
+ flex:0 0 auto!important;margin:7px 0 10px!important;
+}
+#view-module.learning-languages .foreign-level-actions button,
+#view-module.learning-languages .foreign-options .foreign-choice-card{
+ display:flex!important;flex-direction:column!important;align-items:center!important;
+ justify-content:center!important;gap:6px!important;
+ min-width:0!important;width:100%!important;max-width:100%!important;
+ min-height:clamp(66px,9dvh,86px)!important;
+ height:auto!important;padding:9px 7px!important;
+ text-align:center!important;white-space:normal!important;
+ overflow-wrap:anywhere!important;font-size:clamp(13px,3.4vw,17px)!important;
+ line-height:1.22!important;touch-action:pan-y!important;
+}
+#view-module.learning-languages .foreign-choice-icon{
+ display:block!important;font-size:clamp(20px,4.5vw,27px)!important;line-height:1!important;
+}
+#view-module.learning-hg .hg-panel,
+#view-module.learning-hg .hg-local-toc,
+#view-module.learning-hg .hg-choice-list,
+#view-module.learning-hg .hg-year-list{
+ touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;
+}
+#view-module.learning-hg .hg-local-toc{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:9px!important;width:100%!important;min-width:0!important;
+}
+#view-module.learning-hg .hg-theory-topic{
+ min-width:0!important;width:100%!important;min-height:64px!important;
+ white-space:normal!important;overflow-wrap:anywhere!important;touch-action:pan-y!important;
+}
+dialog.education-paged-dialog[open] .education-paged-text{
+ min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;
+ touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;
+ overscroll-behavior:contain!important;
+}
+dialog.education-paged-dialog[open] .education-paged-controls,
+dialog.education-paged-dialog[open] .education-theory-head{
+ flex-shrink:0!important;
 }
 
 ${ORACLE_COMMUNICATION_STYLE}
