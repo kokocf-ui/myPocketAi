@@ -11262,6 +11262,19 @@ function languageSetCard(index){
 }
 function languageWords(){
  if(languageJourney.topic==='alphabet')return languageAlphabetWords();
+ // Listening at A1 is grounded in actual, curated utterances, not a generic AI essay.
+ // Regional/historic variants keep their own pronunciation; do not silently mix them.
+ if(languageJourney.topic==='listening'){
+  if(['US','traditional','ecclesiastical','ancient','koine'].includes(languageJourney.variant))return [];
+  const examples=FOREIGN_TOPIC_EXAMPLE_DATA[languageJourney.language]||{};
+  const entries=[...(FOREIGN_PHRASE_DATA[languageJourney.language]||[]),...(examples.vocabulary||[]),...(examples.conversation||[])];
+  const seen=new Set();
+  return entries.filter(item=>{
+   const key=String(item?.original||'').trim().toLocaleLowerCase();
+   if(!key||seen.has(key))return false;
+   seen.add(key);return Boolean(item.meaning);
+  });
+ }
  if(languageJourney.topic!=='greetings'){
   if(['US','traditional','ecclesiastical','ancient','koine'].includes(languageJourney.variant))return [];
   return (FOREIGN_TOPIC_EXAMPLE_DATA[languageJourney.language]||{})[languageJourney.topic]||[];
