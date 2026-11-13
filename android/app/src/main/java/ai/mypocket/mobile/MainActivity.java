@@ -496,6 +496,8 @@ public final class MainActivity extends ComponentActivity {
     private File commVoiceFile;
     private final Handler commVoiceHandler = new Handler(Looper.getMainLooper());
     private Runnable commVoiceTimeout;
+    private Runnable commVoiceStartTask;
+    private boolean commVoiceStarting=false;
     private int commVoiceSession = 0;
     private static final int COMM_VOICE_MAX_BYTES = 11 * 1024 * 1024;
 
@@ -521,39 +523,77 @@ public final class MainActivity extends ComponentActivity {
     }
 
     private void startCommVoice() {
-        if(commVoiceRecorder!=null)return;
+        if(commVoiceRecorder!=null||commVoiceStarting)return;
         final int session=++commVoiceSession;
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED){
             notifyCommVoice("error",session,"MIC_PERMISSION_DENIED",-1,0,null);return;
         }
-        MediaRecorder recorder=null;
-        File file=null;
-        try {
-            file=File.createTempFile("pocket-voice-", ".m4a",getCacheDir());
-            recorder=Build.VERSION.SDK_INT>=31?new MediaRecorder(this):new MediaRecorder();
-            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-            recorder.setAudioChannels(1);
-            recorder.setAudioEncodingBitRate(64000);
-            recorder.setAudioSamplingRate(44100);
-            recorder.setOutputFile(file.getAbsolutePath());
-            recorder.prepare();
-            recorder.start();
-            commVoiceRecorder=recorder;
-            commVoiceFile=file;
-            notifyCommVoice("started",session,null,-1,0,null);
-            commVoiceTimeout=()->finishCommVoice(true);
-            commVoiceHandler.postDelayed(commVoiceTimeout,60000L);
-        }catch(Exception error){
-            if(recorder!=null){try{recorder.reset();recorder.release();}catch(Exception ignored){}}
-            if(file!=null)file.delete();
-            commVoiceRecorder=null;commVoiceFile=null;
-            notifyCommVoice("error",session,"MIC_BUSY_OR_UNAVAILABLE",-1,0,null);
+        // Eva's speech recognition and Maths AudioRecord must relinquish the
+        // microphone before this new, independent native communication capture.
+        stopEmbeddedListening();
+        stopMathPcmRecording();
+        commVoiceStarting=true;
+        // SpeechRecognizer.cancel/destroy and AudioRecord.release can complete
+        // asynchronously, so allow the audio stack a brief release interval.
+        commVoiceStartTask=()->{
+            commVoiceStartTask=null;
+            if(!commVoiceStarting||session!=commVoiceSession)return;
+            commVoiceStarting=false;
+            beginCommVoiceCapture(session);
+        };
+        commVoiceHandler.postDelayed(commVoiceStartTask,350L);
+    }
+
+    private void beginCommVoiceCapture(int session){
+        if(commVoiceRecorder!=null||session!=commVoiceSession)return;
+        String failure="MIC_BUSY_OR_UNAVAILABLE";
+        // Some Android encoders reject explicit 44.1 kHz / bitrate settings.
+        // Retry once using device defaults; always release failed MediaRecorder.
+        for(int attempt=0;attempt<2;attempt++){
+            MediaRecorder recorder=null;
+            File file=null;
+            try{
+                file=File.createTempFile("pocket-voice-", ".m4a",getCacheDir());
+                recorder=Build.VERSION.SDK_INT>=31?new MediaRecorder(this):new MediaRecorder();
+                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+                if(attempt==0){
+                    recorder.setAudioChannels(1);
+                    recorder.setAudioEncodingBitRate(64000);
+                    recorder.setAudioSamplingRate(44100);
+                }
+                recorder.setOutputFile(file.getAbsolutePath());
+                recorder.prepare();
+                recorder.start();
+                commVoiceRecorder=recorder;
+                commVoiceFile=file;
+                notifyCommVoice("started",session,null,-1,0,null);
+                commVoiceTimeout=()->finishCommVoice(true);
+                commVoiceHandler.postDelayed(commVoiceTimeout,60000L);
+                return;
+            }catch(SecurityException ex){
+                failure="MIC_PERMISSION_DENIED";
+                if(recorder!=null)try{recorder.reset();recorder.release();}catch(Exception ignored){}
+                if(file!=null)file.delete();
+                break;
+            }catch(Exception ex){
+                if(recorder!=null)try{recorder.reset();recorder.release();}catch(Exception ignored){}
+                if(file!=null)file.delete();
+            }
         }
+        commVoiceRecorder=null;commVoiceFile=null;
+        notifyCommVoice("error",session,failure,-1,0,null);
     }
 
     private void finishCommVoice(boolean send) {
+        if(commVoiceStarting){
+            commVoiceStarting=false;
+            if(commVoiceStartTask!=null)commVoiceHandler.removeCallbacks(commVoiceStartTask);
+            commVoiceStartTask=null;
+            notifyCommVoice("cancelled",commVoiceSession,null,-1,0,null);
+            return;
+        }
         if(commVoiceRecorder==null)return;
         final MediaRecorder recorder=commVoiceRecorder;
         final File file=commVoiceFile;
