@@ -131,7 +131,7 @@ function computingOpen(stage){
  root.classList.remove('learning-choose','learning-math','learning-science','learning-languages','learning-hg','learning-literature','science-choice-stage');root.classList.add('learning-active','learning-computing');
  activeLearningSubject=LEARNING_SUBJECTS.find(x=>x[0]==='computing')||null;
  $('moduleTitle').textContent=computingLabel('Informatică','Computing');$('moduleLead').textContent='';host.replaceChildren();
- const bar=computingEl('div','','education-toolbar lit-toolbar');bar.append(computingBtn(computingLabel('← Înapoi','← Back'),computingBack));eduAttachPrintAction(bar);host.append(bar);
+ const bar=computingEl('div','','education-toolbar lit-toolbar');bar.append(computingBtn(computingLabel('← Înapoi','← Back'),computingBack));if(stage==='workspace')eduAttachPrintAction(bar);host.append(bar);
  const panel=computingEl('div','','math-choice-panel science-choice-panel lit-panel computing-panel');panel.style.cssText='min-width:0;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;';
  const titles={levels:['Alege nivelul','Choose level'],paths:['Alege ramura de studiu','Choose branch'],topics:['Capitole în ordine','Chapters in order'],workspace:['Spațiu de lucru','Workspace'],'free-chat':['Discută cu Eva','Chat with Eva']};
  const titleBar=computingEl('div','','computing-workspace-titlebar');
