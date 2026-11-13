@@ -1926,6 +1926,30 @@ export default {
     // Dedicated Hungary school-admission tutor. Unlike the literature route,
     // this route deliberately permits Hungarian-language AND mathematics tasks.
     // Choosing a Hungarian curriculum does not depend on the user's GPS.
+
+    // Mathematics workspace uses a dedicated, bounded path. Preserve local
+    // verified solvers and the existing response shape for the mobile client.
+    if(data.module==='learning'){
+      const locale=['ro','en','fr','de','es','it','pt','nl','ru','pl'].includes(data.language)?data.language:'ro';
+      const methodOnly=/METODA GENERALĂ|GENERAL METHOD|Predă numai METODA|Teach only the GENERAL METHOD/i.test(message);
+      const activity=methodOnly?'method':'solve';
+      const system='You are a careful classroom mathematics teacher. Respond in language code '+locale+
+        '. Remain strictly within the supplied mathematics exercise and level. Do not interpret numbers as coordinates or destinations. '+
+        educationDepthInstruction('math',activity);
+      try{
+        const response=await env.AI.run(selectedAiModel,{
+          messages:[{role:'system',content:system},{role:'user',content:message}],
+          max_tokens:methodOnly?1550:2300,temperature:0.1
+        });
+        const reply=String(response?.response||response?.result?.response||'').trim();
+        if(!reply)return json({status:'unavailable',error:'math_explanation_empty'},503);
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,
+          education_subject:'math',education_activity:activity,ai_generated:true});
+      }catch(error){
+        return json({status:'unavailable',
+          error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'math_explanation_unavailable'},503);
+      }
+    }
     if(data.module==='education_study'&&data.education_subject==='school_admission'){
       const locale=['ro','en','hu','hr','sr','de','fr','pl','tr','it','es','pt','nl','uk'].includes(data.language)?data.language:'ro';
       const activity=['lesson','examples','exercises','test','correction','analysis','write'].includes(data.education_activity)
