@@ -28,6 +28,13 @@ assert.match(ORACLE_COMMUNICATION_STYLE,/grid-column:1\/-1;grid-row:1/,'Text ent
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/MediaRecorder/,'Voice note uses device media recorder');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/audio\/webm/,'Audio recording format supported');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/getUserMedia\(\{audio:true\}\)/,'Mic requires permission');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/PocketAndroidCommunicationVoice/,'Signed APK prefers Android native recording');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/nativeVoiceBridge\.postMessage/,'Record button talks to native recorder');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/RECORD_TOO_SHORT/,'Short audio is reported specifically');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/MIC_BUSY_OR_UNAVAILABLE/,'Busy microphone is not falsely reported as denied permission');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/audio\/mp4/,'Native AAC recording is transported as audio/mp4');
+assert.doesNotMatch(ORACLE_COMMUNICATION_SCRIPT,/setStatus\(tr\('Permite accesul la microfon pentru mesajele vocale/,'No generic permission warning for every voice failure');
+
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/function renderIncomingShopping\(\)/,'Received lists render inside Shopping');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/function populateIncomingShopping\(listId,content\)/,'Received items can be opened');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/kind:item.checked\?'uncheck':'check'/,'Received list checks sync to Oracle');
@@ -41,6 +48,13 @@ assert.match(ORACLE_COMMUNICATION_SCRIPT,/showSettings\(\);void open\(\)\.then\(
 assert.doesNotMatch(COMMUNICATION_HTML,/WhatsApp, SMS ori e-mail/,'No email invitations');
 const java=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/MainActivity.java',import.meta.url),'utf8');
 assert.match(java,/PermissionRequest\.RESOURCE_AUDIO_CAPTURE/,'Only audio capture is allowed');
+assert.match(java,/PocketAndroidCommunicationVoice/,'Native voice bridge registered');
+assert.match(java,/isMainFrame\|\|origin==null/,'Native recorder rejects subframes');
+assert.match(java,/APP_HOST\.equalsIgnoreCase\(origin\.getHost\(\)\)/,'Native voice bridge restricted to application domain');
+assert.match(java,/ContextCompat\.checkSelfPermission\(this,Manifest\.permission\.RECORD_AUDIO\)/,'Native capture validates existing Android permission');
+assert.match(java,/File\.createTempFile\("pocket-voice-", "\.m4a",getCacheDir\(\)\)/,'Voice recording uses private ephemeral audio file');
+assert.match(java,/file\.delete\(\)/,'Native voice file deleted after transfer');
+
 assert.match(java,/APP_HOST\.equalsIgnoreCase\(origin\.getHost\(\)\)/,'WebView microphone is origin-restricted');
 assert.match(java,/Manifest\.permission\.RECORD_AUDIO\)==PackageManager\.PERMISSION_GRANTED/,'Mic requires Android permission');
 const helper=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/CommunicationNotificationHelper.java',import.meta.url),'utf8');
