@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import frontend from './index.js';
 import backend from './backend.js';
+import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
+import {EDUCATION_SCHOOL_YEARS} from './education_school_paths.mjs';
 import {HG_SUBJECTS,HG_LEVELS,HG_SCOPES,HG_COUNTRIES,HG_HISTORY_TOPICS,HG_GEOGRAPHY_TOPICS,HG_SPECIALISATIONS,HG_VERIFIED_MAPS,hgMapsFor,hgCountrySuggestion} from './history_geography_curriculum.mjs';
 
 assert.deepEqual(HG_SUBJECTS.map(x=>x.id),['history','geography']);
@@ -35,17 +37,49 @@ for(const token of [
  'const HG_SUBJECT_DATA=','const HG_COUNTRY_DATA=','function hgOpen(stage)',
  'function hgLesson(panel)','function hgHistoricalMap(panel,topic)',
  'function hgGeographyMap(panel,topic)','function hgGenerate(extra,output)',
- "if(key==='history'){hgOpen('subjects');return}"
+ "hgOpen('subjects');return;"
 ]) assert.ok(script.includes(token),token);
 assert.ok(script.includes("const HG_COUNTRY_PICKER_DATA="));
 assert.ok(script.includes("className='hg-country-matches'"));
 assert.ok(script.includes("slice(0,4)"));
 assert.ok(script.includes("function hgFoldCountry(value)"));
 assert.ok(html.includes('.learning-hg .hg-level-list'));
-assert.ok(script.includes("levels:'scope'"));
+assert.ok(script.includes("if(stage==='years')"),'country-aware grouped school years');
+assert.ok(script.includes("className='hg-choice-list hg-subject-grid'"),'subject card grid');
+assert.ok(script.includes("hgOpen('years')"),'curriculum scope leads to grouped years');
+assert.ok(html.includes('.hg-subject-tile')&&html.includes('.hg-year-tile'),'science-style subject and grade tiles');
 assert.ok(script.includes("className='hg-level-list'")||script.includes("className='hg-level-list'")||script.includes("holder.className='hg-level-list'"));
 assert.ok(html.includes('.learning-hg .hg-toolbar'));
 assert.ok(html.includes('.learning-hg .hg-panel'));
+const yearStart=script.indexOf('function hgYearGroups()');
+const yearEnd=script.indexOf('function hgBack()',yearStart);
+assert.ok(yearStart>0&&yearEnd>yearStart,'grouped year logic is available');
+const educationYearStart=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function eduYearOptions(');
+const educationYearEnd=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function educationGradeGate(',educationYearStart);
+const context={
+ EDUCATION_SCHOOL_YEARS_DATA:EDUCATION_SCHOOL_YEARS,
+ educationCountrySelection:{code:'RO'},
+ worldwideSchoolYears:()=>[]
+};
+const schoolYears=vm.runInNewContext(
+ EDUCATION_COUNTRY_UI_SCRIPT.slice(educationYearStart,educationYearEnd)+
+ script.slice(yearStart,yearEnd)+
+ ';({groups:hgYearGroups,country:educationCountrySelection})',
+ context
+);
+const byStage=()=>Array.from(schoolYears.groups(),g=>({
+ level:g.level,ids:Array.from(g.years,x=>String(x.id))
+}));
+assert.deepEqual(byStage().map(g=>g.level),['beginner','lower','medium','advanced']);
+assert.deepEqual(byStage()[0].ids,['4'],'Romania starts History and Geography at grade 4');
+assert.deepEqual(byStage()[1].ids,['5','6','7','8'],'Romanian lower-secondary classes');
+assert.deepEqual(byStage()[2].ids,['9','10','11','12'],'Romanian high school');
+assert.deepEqual(byStage()[3].ids,['universitate'],'Romanian university choice');
+schoolYears.country.code='GB-ENG';
+assert.deepEqual(byStage()[0].ids,['Y1','Y2','Y3','Y4','Y5','Y6'],'England primary years');
+assert.deepEqual(byStage()[1].ids,['Y7','Y8','Y9'],'England lower secondary');
+assert.deepEqual(byStage()[2].ids,['Y10','Y11','Y12','Y13'],'England upper secondary');
+assert.deepEqual(byStage()[3].ids,['university'],'England university choice');
 assert.ok(script.includes('hgMapMatchesPeriod(map,p)&&hgMapMatchesCountry(map,c)'));
 assert.ok(script.includes('function hgMapFullscreen(map,src)'));
 assert.ok(script.includes('No verified historical map available for this query.'));
