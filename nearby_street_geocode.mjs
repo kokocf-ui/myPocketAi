@@ -35,8 +35,11 @@ export function parseNearbyStreetQuery(value){
  if(streetFirst)return makeTarget(streetFirst[1],streetFirst[2],streetFirst[3]);
  // Extracted destination: "Oradea pe strada Nufărului".
  const compactCityFirst=t.match(/^([^,]{2,75}?)\s+pe\s+(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+(.+?)(?:,\s*(.+))?$/i);
- if(compactCityFirst&&!/^(?:restaurante?|restaurant|magazine?|shops?|hoteluri|hotels?|cafenele|cafes?|baruri|bars?|pizzerii|farmacii|pharmacies|parcari|parking|zoo)$/i.test(compactCityFirst[1].trim()))
-  return makeTarget(compactCityFirst[2],compactCityFirst[1],compactCityFirst[3]);
+ // A place name is not a search phrase such as "Ce magazine găsești".
+ const cityPhrase=compactCityFirst?.[1]?.trim()||'';
+ const containsSearchIntent=/(?:^|\s)(?:ce|care|unde|cum|cauta|cautati|gaseste|gasesti|gasim|arata|aratami|vreau|show|find|search|what|where|which|looking|restauran\w*|magazin\w*|hotel\w*|cafene\w*|pub\w*|baruri|pizzeri\w*|farmaci\w*|shops?|stores?|parcari|parking|zoo)(?:\s|$)/i.test(cityPhrase);
+ if(compactCityFirst&&!containsSearchIntent)
+  return makeTarget(compactCityFirst[2],cityPhrase,compactCityFirst[3]);
  // "strada Morii din Oradea" or "street Morii in London".
  const suffix=t.match(/^(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+(.+?)\s+(?:din|in|of)\s+([^,]+?)(?:,\s*(.+))?$/i);
  return suffix?makeTarget(suffix[1],suffix[2],suffix[3]):null;
