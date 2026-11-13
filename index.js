@@ -11144,19 +11144,27 @@ function languageCurrent(){return FOREIGN_LANGUAGE_DATA.find(x=>x.id===languageJ
 function languageIsClassical(){return languageJourney.language==='la'||languageJourney.language==='el'&&['ancient','koine'].includes(languageJourney.variant)}
 function languageLevels(){return languageIsClassical()?FOREIGN_CLASSICAL_LEVEL_DATA:FOREIGN_LEVEL_DATA}
 
-function languageLastLessonKey(){return 'pocket-languages-last-v1'}
+function languageLastLessonKey(){return 'pocket-languages-course-resume-v1'}
+function languageResumeKey(){return languageJourney.language+'|'+(languageJourney.variant||'standard')+'|'+languageJourney.level}
 function languageLastLesson(){
+ if(!languageJourney.language||!languageJourney.level)return null;
  try{
-  const saved=JSON.parse(localStorage.getItem(languageLastLessonKey())||'null');
-  return saved&&FOREIGN_LANGUAGE_DATA.some(x=>x.id===saved.language)&&FOREIGN_TOPIC_DATA.some(x=>x.id===saved.topic)?saved:null;
+  const all=JSON.parse(localStorage.getItem(languageLastLessonKey())||'{}');
+  const saved=all?.[languageResumeKey()];
+  return saved&&FOREIGN_TOPIC_DATA.some(x=>x.id===saved.topic)?saved:null;
  }catch{return null}
 }
 function languageRememberLesson(){
  if(!languageJourney.language||!languageJourney.level||!languageJourney.topic)return;
- try{localStorage.setItem(languageLastLessonKey(),JSON.stringify({
-  language:languageJourney.language,variant:languageJourney.variant||null,level:languageJourney.level,
-  topic:languageJourney.topic,cardIndex:Number.isInteger(languageJourney.cardIndex)?languageJourney.cardIndex:0
- }))}catch{}
+ try{
+  const old=JSON.parse(localStorage.getItem(languageLastLessonKey())||'{}');
+  const all=old&&typeof old==='object'&&!Array.isArray(old)?old:{};
+  all[languageResumeKey()]={
+   language:languageJourney.language,variant:languageJourney.variant||null,level:languageJourney.level,
+   topic:languageJourney.topic,cardIndex:Number.isInteger(languageJourney.cardIndex)?languageJourney.cardIndex:0
+  };
+  localStorage.setItem(languageLastLessonKey(),JSON.stringify(all));
+ }catch{}
 }
 function languageReadLocalLesson(){
  const info=languageCurrent(),topic=FOREIGN_TOPIC_DATA.find(x=>x.id===languageJourney.topic);
@@ -11182,7 +11190,7 @@ function languageVerifyCard(card){
  if(!input||!feedback)return;
  const actual=String(input.value||'').trim();
  if(!actual){feedback.textContent=learningLabel('Rostește sau scrie răspunsul înainte de verificare.','Speak or type your answer before checking.');return}
- const normal=x=>String(x||'').normalize('NFKC').toLocaleLowerCase().replace(/[!?.,;:]/g,'').replace(/\s+/g,' ').trim();
+ const normal=x=>String(x||'').normalize('NFKC').toLocaleLowerCase().replace(/[!?.,;:]/g,'').replace(/\\s+/g,' ').trim();
  const expected=card.spoken||card.original;
  const ok=normal(actual)===normal(expected)||normal(actual)===normal(card.original);
  languageRecord(card,ok);
@@ -11532,7 +11540,7 @@ function languageOpen(stage){
  $('moduleTitle').textContent=learningLabel('Limbi străine','Languages')+(info?' · '+learningLabel(info.ro,info.en):'');
  $('moduleLead').textContent='';host.replaceChildren();
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
- bar.append(foreignStudyButton(learningLabel('← Înapoi','← Back'),languageBack));if(stage==='lesson')eduAttachPrintAction(bar);host.append(bar);
+ bar.append(foreignStudyButton(learningLabel('← Înapoi','← Back'),languageBack));host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';panel.classList.add('foreign-stage-'+stage);
  const title=document.createElement('h2');title.textContent=stage==='languages'?learningLabel('Alege limba','Choose language'):stage==='variants'?learningLabel('Alege varianta','Choose variant'):stage==='levels'?learningLabel('Alege nivelul','Choose level'):stage==='topics'?learningLabel('Alege capitolul','Choose chapter'):stage==='placement'?learningLabel('Test introductiv','Starter diagnostic'):learningLabel('Lecție de limbi străine','Language lesson');panel.append(title);
  if(stage==='placement'){languagePlacementRender(panel);host.append(panel);return}
@@ -11558,9 +11566,9 @@ function languageOpen(stage){
    const label=stage==='languages'?learningLabel(opt.ro,opt.en):stage==='levels'&&!languageIsClassical()?opt.id+' · '+learningLabel(opt.ro,opt.en):learningLabel(opt.ro,opt.en);
    const button=foreignStudyButton(label,()=>{
     languageVoiceStop();
-    if(stage==='languages'){languageJourney.language=opt.id;languageJourney.variant=null;languageJourney.level=null;languageOpen(['el','la','zh','en'].includes(opt.id)?'variants':'levels')}
-    else if(stage==='variants'){languageJourney.variant=opt.id;languageOpen('levels')}
-    else if(stage==='levels'){languageJourney.level=opt.id;languageOpen('topics')}
+    if(stage==='languages'){languageJourney.language=opt.id;languageJourney.variant=null;languageJourney.level=null;languageJourney.topic=null;languageJourney.cardIndex=0;languageOpen(['el','la','zh','en'].includes(opt.id)?'variants':'levels')}
+    else if(stage==='variants'){languageJourney.variant=opt.id;languageJourney.topic=null;languageJourney.cardIndex=0;languageOpen('levels')}
+    else if(stage==='levels'){languageJourney.level=opt.id;languageJourney.topic=null;languageJourney.cardIndex=0;languageOpen('topics')}
     else{languageJourney.topic=opt.id;languageJourney.cardIndex=0;languageOpen('lesson')}
    },'secondary-btn math-choice-row science-choice-row');
    const icon=document.createElement('span');icon.className='foreign-choice-icon';
