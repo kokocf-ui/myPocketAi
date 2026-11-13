@@ -5953,7 +5953,22 @@ export default {
         // Reconcile trading aliases using address + name or phone evidence,
         // retaining separate shops that genuinely share an address.
         const unique=reconcileNearbyPlaces(places);
-        const matchingPlaces=requestedStars ? unique.filter(p=>p.stars===requestedStars) : unique;
+        // "pe strada X din orașul Y" means businesses actually on X, not all
+        // businesses inside the 1.5 km neighbourhood around its map point.
+        const streetScoped=locationSource==='explicit_street_query' &&
+          /\bpe\s+(?:strada|strazii|strazi|str\.?|street|st\.?|road|rd\.?)\s+/i.test(
+            String(message||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''));
+        const requestedStreet=streetScoped?
+          (parseNearbyStreetQuery(explicitPlaceQuery)||parseNearbyStreetQuery(message))?.street:'';
+        const streetKey=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+          .toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim()
+          .replace(/^(?:strada|strazii|strazi|str|street|st|road|rd)\s+/,'');
+        const streetOnly=requestedStreet?unique.filter(p=>
+          streetKey(p.street)===streetKey(requestedStreet) &&
+          (!p.city||!parseNearbyStreetQuery(explicitPlaceQuery)?.city||
+            streetKey(p.city)===streetKey(parseNearbyStreetQuery(explicitPlaceQuery).city))
+        ):unique;
+        const matchingPlaces=requestedStars ? streetOnly.filter(p=>p.stars===requestedStars) : streetOnly;
         const totalUniqueResults = matchingPlaces.length;
         const unclassifiedCount=requestedStars?unique.filter(p=>!p.stars).length:0;
         const displayedPlaces = matchingPlaces.slice(0, requestedPlaceCategory.key==="shop"?15:40);
