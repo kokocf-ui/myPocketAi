@@ -178,7 +178,7 @@ function practicalLesson(panel){
  const syllabus=PRACTICAL_SYLLABI_DATA.find(x=>x.id===course.id)||null;
  const translatableNodes=[];
  const practicalMaterial=(tag,txt,cls='')=>{const node=practicalNode(tag,txt,cls);translatableNodes.push(node);return node};
- const study=practicalNode('article','','practical-printable');study.style.cssText='display:block;min-width:0;max-width:100%;line-height:1.5;';
+ const study=practicalNode('article','','practical-printable');study.style.cssText='display:none;min-width:0;max-width:100%;line-height:1.5;';
  study.append(practicalMaterial('h3',chapter.title));
  const meta=practicalLabel(practicalCountry()[1],practicalCountry()[2])+' · '+practicalLabel(course.ro,course.en)+' · '+practicalLabel('Capitolul ','Chapter ')+chapter.order+'/'+course.chapters.length;
  study.append(practicalNode('p',meta));
@@ -204,7 +204,7 @@ function practicalLesson(panel){
    study.append(practicalNode('h4',practicalLabel('Criterii de verificare a proiectului','Project review criteria')));
    const criteria=practicalNode('ol');criteria.style.paddingLeft='23px';syllabus.rubric.forEach(item=>criteria.append(practicalMaterial('li',item)));study.append(criteria);
  }
- panel.append(study);
+ panel.append(practicalButton(practicalLabel('📖 Deschide lecția','📖 Open lesson'),()=>educationOpenPagedLesson(chapter.title,educationTextFromLesson(study)),'secondary-btn'),study);
  // Translate the authored lesson, not user input, buttons or official source URLs.
  if(state.language!=='ro'&&typeof eduTranslateMaterial==='function'&&translatableNodes.length){
   const chapterAtOpen=chapter.id,languageAtOpen=state.language;
@@ -275,7 +275,7 @@ function practicalLesson(panel){
  const taskEntry=practicalNode('textarea','','lit-input');taskEntry.id='practicalAnswer';taskEntry.rows=5;taskEntry.maxLength=4000;taskEntry.style.cssText='display:block;width:100%;max-width:100%;min-height:120px;box-sizing:border-box;resize:vertical;';taskEntry.placeholder=practicalLabel('Scrie rezolvarea, pașii, observațiile sau o întrebare…','Write your solution, observations or question…');taskEntry.value=String(saved.draft||'').slice(0,4000);taskEntry.oninput=()=>practicalSave({draft:taskEntry.value});practice.append(taskEntry);
  const practiceButtons=practicalNode('div','','lit-actions');practiceButtons.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
  const status=practicalNode('p');status.id='practicalStatus';status.setAttribute('role','status');
- const output=practicalNode('div','','practical-ai-output');output.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;';
+ const output=practicalNode('div','','practical-ai-output');output.style.cssText='display:none;white-space:pre-wrap;overflow-wrap:anywhere;';
  const practiceVersion={value:0};
  const focusedExercises=guide?.exercise||chapter.practice;
  function refreshExercise(){prompt.textContent=practicalLabel('Exercițiul ','Exercise ')+(practiceVersion.value+1)+'. '+focusedExercises[practiceVersion.value%focusedExercises.length]}
@@ -297,6 +297,7 @@ function practicalLesson(panel){
    if(eduScopeReplyRouted(data.reply,taskEntry.value.trim(),()=>generate(mode))){status.textContent='';return}
    output.replaceChildren(practicalNode('h4',practicalLabel('Explicația asistentului','Assistant explanation')));
    if(typeof computingRenderAnswer==='function')computingRenderAnswer(output,String(data.reply).slice(0,50000));else output.append(practicalNode('p',String(data.reply).slice(0,50000)));
+   educationOpenPagedLesson(chapter.title+' · '+practicalLabel('Explicația asistentului','Assistant explanation'),output.textContent);
    status.textContent=practicalLabel('Răspuns în ','Response in ')+((Date.now()-started)/1000).toFixed(1)+' s.';
   }catch(e){if(serial===practicalJourney.serial)status.textContent=e?.name==='AbortError'?practicalLabel('Cerere anulată.','Request cancelled.'):practicalLabel('Asistentul nu este disponibil; lecția și testul local funcționează.','Assistant unavailable; offline lesson and quiz are ready.')}
   finally{if(serial===practicalJourney.serial){practicalJourney.busy=false;practicalJourney.controller=null;practiceButtons.querySelectorAll('[data-practical-ai]').forEach(b=>b.disabled=false)}}
