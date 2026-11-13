@@ -15305,8 +15305,13 @@ async function mathFetchResult(item,session){
    'Folosește definiții și ipoteze explicite, argumente universitare riguroase, cazuri-limită și verificarea domeniului.',
    'Use precise definitions, explicit assumptions, rigorous university-level reasoning, domain restrictions and edge cases.')
  }[session.level]||'';
+ const schoolEntry=MATH_SCHOOL_STAGES.find(x=>x.id===session.schoolStage);
+ const chapterEntry=(MATH_CHAPTER_BANK[session.topic]?.[session.schoolStage]||[]).find(x=>x.id===session.chapter);
  const classroom=learningLabel('Nivel: ','Level: ')+levelContext.level+
   learningLabel('; materie: ','; subject: ')+levelContext.topic+
+  (schoolEntry?learningLabel('; etapă: ','; stage: ')+learningLabel(schoolEntry.ro,schoolEntry.en):'')+
+  (session.grade?learningLabel('; clasă/an: ','; grade/year: ')+session.grade:'')+
+  (chapterEntry?learningLabel('; capitol: ','; chapter: ')+learningLabel(chapterEntry.ro,chapterEntry.en):'')+
   learningLabel('. Nu modifica enunțul. ','. Do not modify the problem. ')+pedagogy;
  item.generated=true;
  const message=prompt+'\\n'+classroom+'\\n'+requested+(checked?'\\n'+checked:'')+'\\n'+
@@ -15390,7 +15395,8 @@ function mathEducationRun(mode){
  mathCloseResults();
  const session={mode,tasks,active:0,controller:new AbortController(),
   figure:mathFigureDraft&&['geometry','trigonometry'].includes(mathJourney.topic)?mathFigureCopy(mathFigureDraft):null,
-  topic:mathJourney.topic,level:mathJourney.level};
+  topic:mathJourney.topic,level:mathJourney.level,schoolStage:mathJourney.schoolStage,
+  grade:mathJourney.grade,chapter:mathJourney.chapter,country:educationCountrySelection.code};
  mathResultSession=session;
  const dialog=$('mathResultDialog');
  $('mathResultTitle').textContent=mode==='explain'?learningLabel('Matematică · Metodă','Mathematics · Method'):mode==='graph'?learningLabel('Matematică · Grafic','Mathematics · Graph'):learningLabel('Matematică · Rezolvare','Mathematics · Solution');
