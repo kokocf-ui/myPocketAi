@@ -90,7 +90,7 @@ const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(star
  learningLabel:(ro,en)=>ro,$:id=>els[id]||null,
  eduAttachPrintAction:()=>{},
  educationCountrySelection:{code:'GB-ENG',label:'Anglia'},
- eduYearOptions:(country,level)=>level==='beginner'?[{id:'Y7',ro:'Year 7',en:'Year 7'}]:
+ eduYearOptions:(country,level)=>['lower','beginner'].includes(level)?[{id:'Y7',ro:'Year 7',en:'Year 7'}]:
   level==='intermediate'?[{id:'Y10',ro:'Year 10',en:'Year 10'}]:
   [{id:'university',ro:'Universitate',en:'University'}],
  scienceOpenWorkspace:()=>{workspaces++},
