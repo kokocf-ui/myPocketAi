@@ -15750,14 +15750,6 @@ function renderModuleLandingChoices(){
    openModuleLandingAction(choice);
   });grid.append(card);
  });
- if(state.currentModule==='travel'){
-  const chat=document.createElement('button');
-  chat.type='button';chat.className='module-landing-choice';
-  chat.setAttribute('aria-label',dialogText('Discută cu Eva','Chat with Eva'));
-  const sign=document.createElement('span');sign.className='module-landing-icon';sign.textContent='💬';
-  const label=document.createElement('strong');label.textContent=dialogText('Discută cu Eva','Chat with Eva');
-  chat.append(sign,label);chat.addEventListener('click',openHotelEvaDialogue);grid.append(chat);
- }
  host.replaceChildren(grid);$('moduleLead').textContent='';
  requestAnimationFrame(educationFitMenuViewport);
 }
@@ -20212,6 +20204,7 @@ main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;ov
 #moduleQuickLayer.open .module-quick-sheet:has(#moduleLayerBody > .route-choice) #moduleLayerBody > .transit-choice-action,
 #moduleQuickLayer.open .module-quick-sheet:has(#moduleLayerBody > .route-choice) .module-quick-header > .back-btn,
 #moduleQuickLayer.open .module-quick-sheet .quick-navigation-toolbar > .transit-choice-action,
+#pocketStandaloneChoices .answer-reader-header > .answer-reader-close,
 #pocketStandaloneChoices.assistant-route-mode-colors .answer-reader-header > .answer-reader-close{
  background:linear-gradient(140deg,#723846,#4a293c 60%,#291f36)!important;
  color:#fff5f6!important;border-color:#d6949b!important;
