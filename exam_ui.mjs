@@ -157,7 +157,7 @@ function examOpen(stage){
  root.classList.remove('learning-choose','learning-math','learning-science','learning-languages','learning-hg','learning-literature','learning-computing','science-choice-stage');root.classList.add('learning-active','learning-exams');
  activeLearningSubject=LEARNING_SUBJECTS.find(x=>x[0]==='exams')||null;
  $('moduleTitle').textContent=examLabel('Pregătire examene','Exam preparation');$('moduleLead').textContent='';host.replaceChildren();
- const toolbar=examEl('div','','education-toolbar lit-toolbar');toolbar.append(examBtn(examLabel('← Înapoi','← Back'),examBack));eduAttachPrintAction(toolbar);host.append(toolbar);
+ const toolbar=examEl('div','','education-toolbar lit-toolbar');toolbar.append(examBtn(examLabel('← Înapoi','← Back'),examBack));if(stage==='workspace')eduAttachPrintAction(toolbar);host.append(toolbar);
  const panel=examEl('div','','math-choice-panel science-choice-panel lit-panel exam-panel');
  panel.style.cssText='width:100%;min-width:0;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;';
  const titles={countries:['Alege țara / sistemul școlar','Choose country / education system'],grades:['Alege nivelul școlar sau Universitate','Choose school level or university'],universityDomains:['Alege domeniul universitar','Choose university field'],universityPrograms:['Alege specializarea / programul','Choose the degree programme'],universityInstitutions:['Alege universitatea / facultatea','Choose university / faculty'],exams:['Alege examenul','Choose examination'],subjects:['Alege materia probei','Choose examination subject'],workspace:['Pregătire pentru examen','Exam preparation workspace']};
