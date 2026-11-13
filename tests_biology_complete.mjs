@@ -90,7 +90,9 @@ const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(star
  learningLabel:(ro,en)=>ro,$:id=>els[id]||null,
  eduAttachPrintAction:()=>{},
  educationCountrySelection:{code:'GB-ENG',label:'Anglia'},
- educationGradeGate:(moduleKey,level,proceed)=>proceed(level==='beginner'?'Y1':level==='intermediate'?'Y9':'Y13'),
+ eduYearOptions:(country,level)=>['lower','beginner'].includes(level)?[{id:'Y7',ro:'Year 7',en:'Year 7'}]:
+  level==='intermediate'?[{id:'Y10',ro:'Year 10',en:'Year 10'}]:
+  [{id:'university',ro:'Universitate',en:'University'}],
  scienceOpenWorkspace:()=>{workspaces++},
  pocketNativeVoiceAvailable:()=>false,
  renderLearningSubjects:()=>{},scienceVoiceStop:()=>{},scienceStopRequest:()=>{}
@@ -98,8 +100,8 @@ const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(star
 const options=()=>host.children[1]?.children[2]?.children||[];
 api.open('subjects');options()[2].onclick();
 assert.equal(api.state.subject,'biology');
-assert.equal(api.state.stage,'levels');
-options()[2].onclick();
+assert.equal(api.state.stage,'years');
+options()[2].children[1].children[0].onclick();
 assert.equal(api.state.level,'advanced');
 assert.equal(api.state.stage,'specialties');
 assert.equal(options().length,9);
@@ -115,9 +117,9 @@ assert.equal(api.state.stage,'workspace');
 assert.equal(workspaces,1);
 api.back();assert.equal(api.state.stage,'topics');
 api.back();assert.equal(api.state.stage,'specialties');
-api.back();assert.equal(api.state.stage,'levels');
+api.back();assert.equal(api.state.stage,'years');
 api.back();assert.equal(api.state.stage,'subjects');
-api.open('subjects');options()[2].onclick();options()[0].onclick();
+api.open('subjects');options()[2].onclick();options()[0].children[1].children[0].onclick();
 assert.equal(api.state.stage,'topics','beginner bypasses specialty chooser');
 assert.ok(options().length>=6);
 assert.ok(!options().some(x=>x.children[0]?.textContent?.includes('Replicare')));

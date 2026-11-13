@@ -79,7 +79,7 @@ for(const token of [
 assert.ok(!boot.includes("if(key==='history'){hgRestore();hgOpen('subjects');return}"));
 assert.ok(!boot.includes("if(key==='practical'){practicalJourney.country=state.language"));
 assert.ok(!boot.includes("if(key==='exams'){examOpen('countries');return}"));
-for(const route of ["educationGradeGate('math',entry.id","educationGradeGate('science',item.id","educationGradeGate('computing',c.id","educationGradeGate('history',opt.id"])assert.ok(boot.includes(route),route);
+for(const route of ["educationGradeGate('math',entry.id","function scienceYearGroups()","scienceJourneyShowChoices('years')","educationGradeGate('computing',c.id","educationGradeGate('history',opt.id"])assert.ok(boot.includes(route),route);
 
 // Science fallback cannot expose university and high-school-only subjects at beginner level.
 const beginScience=boot.indexOf('function scienceTopicAllowedGrade(topic)');
