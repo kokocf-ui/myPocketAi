@@ -71,6 +71,28 @@ await assert.rejects(geocodeNearbyStreet(target,{
     address:{city:'Oradea',country_code:'ro'}}])
 }),/street_not_verified/,'Never silently use a town centroid when the street is absent');
 
+// Regression: unqualified Alba must ask, not silently return hotels in Italy.
+const askAlba=async message=>{
+ const response=await worker.fetch(new Request('https://unit.test/api/chat',{
+  method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({message,language:'ro',module:'assistant',
+   history:[],location_requested:false,location:{latitude:51.5074,longitude:-0.1278,accuracy:20}})
+ }),{GEOAPIFY_API_KEY:'test-key',AI:{run:async()=>{throw Error('Alba ambiguity needs no AI')}}});
+ assert.equal(response.status,200);
+ return response.json();
+};
+const ambiguousAlba=await askAlba('Hoteluri din Alba');
+assert.equal(ambiguousAlba.location_source,'ambiguous_place_name');
+assert.equal(ambiguousAlba.needs_location_clarification,true);
+assert.equal(ambiguousAlba.places.length,0);
+assert.ok(ambiguousAlba.choice_options.some(o=>/Județul Alba/.test(o.label)));
+assert.ok(ambiguousAlba.choice_options.some(o=>/Piemonte, Italia/.test(o.label)));
+const countyAlba=await askAlba('Hoteluri în județul Alba, România');
+assert.equal(countyAlba.location_source,'county_requires_locality');
+assert.ok(countyAlba.choice_options.some(o=>/Alba Iulia/.test(o.label)));
+assert.ok(countyAlba.choice_options.some(o=>/Aiud/.test(o.label)));
+assert.equal(countyAlba.places.length,0);
+
 // Integration: UK device + explicit Romanian street -> Romanian shops, not UK shops.
 const originalFetch=globalThis.fetch,urls=[];
 globalThis.fetch=async input=>{
