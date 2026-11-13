@@ -5,7 +5,7 @@ const html=await(await frontend.fetch(new Request('https://math.test/'))).text()
 const source=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
 assert.ok(source,'main inline script exists');new vm.Script(source);
 const start=source.indexOf('const MATH_FIGURE_GROUPS=');
-const end=source.indexOf("let mathJourney={stage:'levels'",start);
+const end=source.indexOf("let mathJourney={stage:'branches'",start);
 assert.ok(start>0&&end>start,'geometry figures remain independent of OCR');
 const element=tag=>({
  tag,attributes:{},children:[],style:{},textContent:'',

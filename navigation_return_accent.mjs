@@ -233,6 +233,15 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
   const toolbar=isEducation?host.querySelector?.('.education-toolbar:not(.math-navigation)'):
    isAgenda?host.querySelector?.('.agenda-voice-controls'):null;
   const existing=actions.querySelector?.('button.pocket-inline-back');
+  // The maths workspace owns Home | centred topic | Back. Never transfer
+  // a second Back into this row from a previous grade/chapter screen.
+  if(root.classList.contains('learning-math')&&root.classList.contains('math-workspace-header')){
+   actions.querySelectorAll('button.pocket-inline-back').forEach(node=>node.remove());
+   actions.classList.remove('pocket-inline-nav');
+   root.classList.remove('pocket-paired-nav-layout');
+   host.querySelector('.education-toolbar')?.classList.remove('pocket-back-extracted');
+   return;
+  }
   const overall=root.getBoundingClientRect?.().width||root.clientWidth||0;
   const available=overall||actions.getBoundingClientRect?.().width||0;
   const canFit=Boolean(toolbar&&available>=280&&
