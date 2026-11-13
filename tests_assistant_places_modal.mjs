@@ -5,7 +5,7 @@ import vm from 'node:vm';
 const source=readFileSync('index.js','utf8');
 assert.ok(source.includes("import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs'"));
 assert.ok(source.includes('${ASSISTANT_PLACE_RESULTS_SCRIPT}'));
-assert.ok(source.includes("chat.addEventListener('click',openHotelEvaDialogue)"));
+assert.ok(!source.includes("chat.addEventListener('click',openHotelEvaDialogue)"),"Hotels must not expose Eva chat");
 assert.ok(source.includes("openAssistantPlaceResults(data.places)"));
 assert.ok(ASSISTANT_PLACE_RESULTS_SCRIPT.includes("dialogText('Telefon','Phone')"));
 assert.ok(ASSISTANT_PLACE_RESULTS_SCRIPT.includes("dialogText('Navighează către locație','Navigate to location')"));
