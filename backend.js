@@ -4384,6 +4384,7 @@ export default {
       { key: "cinema", pattern: /(?:^| )(?:cinema\w*|cinematografe|cinematograf)(?: |$)/, labelRo: "cinematograf", labelEn: "cinema", overpass: 'amenity="cinema"' },
       { key: "hospital", pattern: /(?:^| )(?:spital\w*|hospital\w*|clinic\w*|clinica\w*|clinici|doctor\w*|medic\w*|cabinet medical)(?: |$)/, labelRo: "spital, clinică sau medic", labelEn: "hospital, clinic or doctor", overpass: 'amenity~"^(hospital|clinic|doctors)$"' },
       { key: "hospital_only", pattern: /(?:^| )(?:spitale|hospitals)(?: |$)/, labelRo: "spital", labelEn: "hospital", overpass: 'amenity="hospital"' },
+      { key: "medical_dental", pattern: /(?:^| )(?:cabinete? medicale?|cabinete? stomatologice?|stomatolog\w*|dentist\w*|dental clinics?|medical practices?|gp surgeries|doctor offices?)(?: |$)/, labelRo: "cabinet medical sau stomatologic", labelEn: "medical or dental practice", overpass: 'amenity~"^(clinic|doctors|dentist)$"' },
       { key: "town_hall", pattern: /(?:^| )(?:primarie\w*|town hall|city hall|council office\w*)(?: |$)/, labelRo: "primărie", labelEn: "town hall", overpass: 'amenity="townhall"' },
       { key: "police", pattern: /(?:^| )(?:politie\w*|police station\w*)(?: |$)/, labelRo: "secție de poliție", labelEn: "police station", overpass: 'amenity="police"' },
       { key: "fire_station", pattern: /(?:^| )(?:pompieri|fire station\w*)(?: |$)/, labelRo: "stație de pompieri", labelEn: "fire station", overpass: 'amenity="fire_station"' },
@@ -5574,6 +5575,7 @@ export default {
               cinema: "entertainment.cinema",
               hospital: "healthcare.hospital,healthcare.clinic,healthcare.doctor",
               hospital_only: "healthcare.hospital",
+              medical_dental: "healthcare.clinic,healthcare.doctor,healthcare.dentist",
               town_hall: "administrative",
               police: "service.police",
               fire_station: "service.fire_station",
@@ -5689,6 +5691,10 @@ export default {
                 school: /education\.(school|university|college)/.test(cats) || /^(school|university|college)$/.test(String(raw.amenity || "")),
                 library: /education\.library|library/.test(cats) || raw.amenity === "library",
                 hospital_only: /healthcare\.hospital/.test(cats) || raw.amenity === "hospital" || raw.tags?.amenity === "hospital",
+                medical_dental: !/healthcare\.(?:hospital|pharmacy)/.test(cats) && !/^(?:hospital|pharmacy)$/.test(String(raw.amenity||raw.tags?.amenity||"")) &&
+                  (/healthcare\.(?:clinic|doctor|dentist)(?:\b|\.)/.test(cats) ||
+                   /^(?:clinic|doctors|dentist)$/.test(String(raw.amenity||raw.tags?.amenity||"")) ||
+                   /^(?:clinic|doctor|dentist)$/.test(String(raw.healthcare||raw.tags?.healthcare||""))),
                 atm: /financial\.atm|atm/.test(cats) || raw.amenity === "atm",
                 bank: /financial\.bank|bank/.test(cats) || raw.amenity === "bank",
                 currency_exchange: /service\.financial\.bureau_de_change/.test(cats) || raw.amenity === "bureau_de_change" || raw.tags?.amenity === "bureau_de_change",
@@ -5770,6 +5776,9 @@ export default {
                   })[requestedPlaceCategory.key].test(photonType)
                 : requestedPlaceCategory.key === "hospital_only"
                   ? (String(properties.osm_key||'')==='amenity' && String(properties.osm_value||'')==='hospital') || /(?:^|\W)hospital(?:$|\W)/.test(photonType)
+                : requestedPlaceCategory.key === "medical_dental"
+                  ? /^(?:amenity|healthcare)$/.test(String(properties.osm_key||'')) &&
+                    /^(?:clinic|doctors|doctor|dentist)$/.test(String(properties.osm_value||''))
                 : requestedPlaceCategory.key === "currency_exchange"
                   ? (String(properties.osm_key||'')==='amenity' && String(properties.osm_value||'')==='bureau_de_change') || /bureau_de_change/.test(photonType)
                 : requestedPlaceCategory.key === "car_dealers"
@@ -5977,6 +5986,7 @@ export default {
             requestedPlaceCategory.key === "cinema" ? (lang === "en" ? "cinema" : "cinematograf") :
             requestedPlaceCategory.key === "hospital" ? (lang === "en" ? "hospital / clinic / doctor" : "spital / clinică / medic") :
             requestedPlaceCategory.key === "hospital_only" ? (lang === "en" ? "hospital" : "spital") :
+            requestedPlaceCategory.key === "medical_dental" ? (lang === "en" ? "medical or dental practice" : "cabinet medical sau stomatologic") :
             requestedPlaceCategory.key === "currency_exchange" ? (lang === "en" ? "currency exchange" : "casă de schimb valutar") :
             requestedPlaceCategory.key === "town_hall" ? (lang === "en" ? "town hall" : "primărie") :
             requestedPlaceCategory.key === "police" ? (lang === "en" ? "police station" : "secție de poliție") :
