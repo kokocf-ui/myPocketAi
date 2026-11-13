@@ -39,7 +39,8 @@ function openAssistantPlaceResults(places){
     document.getElementById('pocketStandaloneChoices')?.remove();
     const label=[name,address].filter(Boolean).join(', ').slice(0,240);
     // Keep the user's assistant conversation open while choosing a travel mode.
-    // Without this flag, the shared router switches to the Maps module.
+    // This chosen business is a complete destination, not a country itinerary.
+    state.tripCountryOnChoice=null;
     state.assistantStructuredDestination=true;
     const opened=openTransportModeFromAssistant({route_context:{destination_query:label,
      destination:{latitude,longitude,label},pending:'profile'}});
