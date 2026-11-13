@@ -14,6 +14,8 @@ on:
     paths:
       - 'android/**'
       - 'index.js'
+      - 'assistant_place_results_ui.mjs'
+      - 'tests_assistant_places_modal.mjs'
       - 'backend.js'
       - 'ai_response_quality.mjs'
       - 'eva_dialogue.mjs'
@@ -168,6 +170,8 @@ jobs:
           echo "::endgroup::"
           node --check index.js
           node --check backend.js
+          node tests_assistant_places_modal.mjs
+          node tests_remote_street_nearby.mjs
           node --check communication_ui.mjs
           node --check ai_response_quality.mjs
           node tests_communication_ui.mjs
