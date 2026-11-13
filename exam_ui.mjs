@@ -301,7 +301,7 @@ async function examFreshPractice(country,exam,subject,sections){
 function examWorkspace(panel){
  const country=examCountry(),exam=examSelected(),subject=examSelectedSubject();if(!country||!subject){examOpen('subjects');return}
  const key=(exam?.id||'advisory')+'|'+examJourney.session+'|'+subject.id+'|'+(examJourney.domain||'');
- const printable=examEl('article','','exam-printable');printable.style.cssText='min-width:0;max-width:100%;overflow-wrap:anywhere;';
+ const printable=examEl('article','','exam-printable');printable.style.cssText='display:none;min-width:0;max-width:100%;overflow-wrap:anywhere;';
  const headline=examEl('div','','exam-head');headline.style.cssText='display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;';
  panel.style.paddingBottom='160px';
  headline.append(examEl('h3',examLabel(subject.ro,subject.en)));
@@ -339,7 +339,7 @@ function examWorkspace(panel){
  printable.append(examEl('p',scope));
  printable.append(examEl('p',examLabel('Material de pregătire ORIGINAL, nu subiect oficial; evaluarea automată nu înlocuiește un profesor sau baremul instituției.','ORIGINAL training material, not an official past paper; automatic scoring is not official grading.')));
  if(exam?.source){const link=examEl('a',examLabel('Sursa oficială de referință','Official reference'));link.href=exam.source;link.target='_blank';link.rel='noopener noreferrer';printable.append(link)}
- panel.append(printable);
+ panel.append(examBtn(examLabel('📖 Deschide materialul de studiu','📖 Open study material'),()=>educationOpenPagedLesson(examLabel(subject.ro,subject.en),educationTextFromLesson(printable)),'secondary-btn'),printable);
  if(subject.id==='romanian')refreshRomanian=examRomanianResources(panel,printable);
  if(subject.id!=='romanian'&&subject.id!=='biology')examUniversalResources(panel,printable,subject,sections);
  if(exam?.universityAdmission)panel.append(examEl('p',examLabel('Pregătire organizată după domeniu. Verifică separat condițiile și bibliografia universității unde candidezi, pentru anul respectiv.','Field-based preparation. Separately verify the target university’s admission rules and reading list for the relevant year.')));
@@ -429,7 +429,7 @@ function examWorkspace(panel){
  uploads.append(examBtn(examLabel('📷 Foto','📷 Camera'),()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage('camera'):camera.click()));
  uploads.append(examBtn(examLabel('🖼️ Album','🖼️ Gallery'),()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage('gallery'):gallery.click()));
  const dictate=examBtn(examLabel('🎙️ Dictare','🎙️ Dictate'),examDictate);dictate.id='examDictation';dictate.setAttribute('aria-pressed','false');uploads.append(dictate,camera,gallery);panel.append(uploads);
- const output=examEl('div','','exam-output');output.style.cssText='overflow-wrap:anywhere;white-space:pre-wrap;max-width:100%;min-width:0;';
+ const output=examEl('div','','exam-output');output.style.cssText='display:none;overflow-wrap:anywhere;white-space:pre-wrap;max-width:100%;min-width:0;';
  const status=examEl('p');status.id='examStatus';status.setAttribute('role','status');
  const actions=examEl('div','','lit-actions');actions.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
  const generate=async(mode)=>{
@@ -451,6 +451,7 @@ function examWorkspace(panel){
    output.replaceChildren(examEl('h3',examLabel('Material de pregătire','Preparation material')));
    if(typeof computingRenderAnswer==='function'){computingRenderAnswer(output,String(data.reply).slice(0,65000));output.prepend(examEl('h3',examLabel('Material de pregătire','Preparation material')))}
    else output.append(examEl('p',String(data.reply).slice(0,65000)));
+   educationOpenPagedLesson(examLabel(subject.ro,subject.en)+' · '+examLabel('Material de pregătire','Preparation material'),output.textContent);
    status.textContent=examLabel('Răspuns în ','Response in ')+((Date.now()-started)/1000).toFixed(1)+' s. '+examLabel('Conținut orientativ, verifică baremul oficial.','Advisory material; check official marking guidance.');
   }catch(error){if(serial===examJourney.serial)status.textContent=error.name==='AbortError'?examLabel('Cererea a fost anulată.','Request cancelled.'):examLabel('Asistentul nu este disponibil acum; simularea locală rămâne funcțională.','Assistant unavailable; local practice still works.')}
   finally{if(serial===examJourney.serial){examJourney.busy=false;examJourney.controller=null;actions.querySelectorAll('[data-mode]').forEach(x=>x.disabled=false)}}
