@@ -10127,53 +10127,95 @@ function educationTextFromLesson(node){
  return (parts.length?parts.join('\\n\\n'):String(node.textContent||'')).trim();
 }
 // Common Education reading dialog: only theme names stay visible in the workspace.
+// Render teaching text without raw Markdown marks in reading windows or PDF.
+function educationCleanLessonLine(value){
+ let line=String(value||'').trim(),ticks=String.fromCharCode(96);
+ if(line==='---'||line==='***'||line.startsWith(ticks+ticks+ticks))return '';
+ while(line.startsWith('#'))line=line.slice(1).trimStart();
+ const prefix=line.slice(0,2);
+ if(prefix==='* '||prefix==='- '||prefix==='• ')line='• '+line.slice(2);
+ return line.replaceAll('**','').replaceAll('__','').replaceAll(ticks,'');
+}
+function educationCleanLessonText(value){
+ const nl=String.fromCharCode(10);
+ return String(value||'').replaceAll(String.fromCharCode(13),'').split(nl).map(educationCleanLessonLine).join(nl).trim();
+}
 function educationOpenPagedLesson(title,body){
  document.getElementById('educationPagedLessonDialog')?.remove();
- const raw=String(body||'').trim();
- const limit=window.innerWidth<560?650:1050,breakLine=String.fromCharCode(10);
- const pages=[];
+ const raw=String(body||'').replaceAll(String.fromCharCode(13),'').trim();
+ const nl=String.fromCharCode(10),limit=window.innerWidth<560?720:1100,pages=[];
  for(let start=0;start<raw.length;){
   let end=Math.min(raw.length,start+limit);
   if(end<raw.length){
-   const boundary=Math.max(raw.lastIndexOf(breakLine,end),raw.lastIndexOf('. ',end)+1,raw.lastIndexOf(' ',end));
-   if(boundary>start+Math.round(limit*0.55))end=boundary;
+   const opts=[raw.lastIndexOf(nl+nl,end),raw.lastIndexOf(nl,end),raw.lastIndexOf('. ',end),raw.lastIndexOf('? ',end),raw.lastIndexOf('! ',end)];
+   const cut=opts.filter(n=>n>start+Math.round(limit*.55)).sort((a,b)=>b-a)[0];
+   if(cut!==undefined)end=cut+(raw.slice(cut,cut+2)===nl+nl?2:1);
+   else{const space=raw.lastIndexOf(' ',end);if(space>start)end=space+1}
   }
-  pages.push(raw.slice(start,end).trim());start=end;
-  while(raw[start]===' '||raw[start]===breakLine)start++;
+  const pageText=raw.slice(start,end).trim();if(pageText)pages.push(pageText);
+  start=end;while(raw[start]===' '||raw[start]===nl)start++;
  }
  if(!pages.length)pages.push('');
  const dialog=document.createElement('dialog');dialog.id='educationPagedLessonDialog';
  dialog.className='education-theory-dialog education-paged-dialog';
- dialog.style.cssText='box-sizing:border-box;width:94vw;max-width:760px;max-height:90dvh;overflow:hidden;flex-direction:column;gap:10px;padding:12px;';
+ dialog.style.cssText='box-sizing:border-box;width:calc(100vw - 24px);max-width:800px;height:min(89dvh,920px);max-height:89dvh;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:18px;touch-action:pan-y;';
  const head=document.createElement('div');head.className='education-theory-head';
- head.style.cssText='display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:0 0 auto;';
+ head.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:9px;flex:0 0 auto;min-height:48px;';
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';
- back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>dialog.close();
- const heading=document.createElement('h2');heading.textContent=title;
- heading.style.cssText='flex:1 1 100px;min-width:80px;text-align:center;overflow-wrap:anywhere;margin:0;font-size:clamp(15px,4vw,21px);';
- head.append(back,heading);
- head.eduPrintableMaterial=()=>({title,text:raw});
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>dialog.close();head.append(back);
+ head.eduPrintableMaterial=()=>({title:educationCleanLessonLine(title),text:educationCleanLessonText(raw)});
  eduAttachPrintAction(head);
+ const heading=document.createElement('h2');heading.textContent=educationCleanLessonLine(title);
+ heading.className='education-paged-title';heading.title=heading.textContent;
+ heading.style.cssText='margin:0;text-align:center;font-size:clamp(16px,3.6vw,21px);font-weight:750;line-height:1.25;overflow-wrap:anywhere;flex:0 0 auto;max-height:3.75em;overflow-y:auto;';
  const content=document.createElement('div');content.className='education-paged-text';
- content.style.cssText='white-space:pre-wrap;overflow:auto;overscroll-behavior:contain;flex:1 1 auto;min-height:0;line-height:1.55;font-size:15px;padding:8px 3px;';
+ content.style.cssText='box-sizing:border-box;min-height:0;flex:1 1 auto;width:100%;padding:8px 9px 18px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;line-height:1.55;text-align:left;';
  const footer=document.createElement('div');footer.className='education-paged-controls';
- footer.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px;flex:0 0 auto;';
+ footer.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:6px;flex:0 0 auto;padding-top:4px;';
  const prev=document.createElement('button');prev.type='button';prev.className='secondary-btn';prev.textContent=learningLabel('← Anterior','← Previous');
- const count=document.createElement('span');count.setAttribute('aria-live','polite');
+ const count=document.createElement('span');count.setAttribute('aria-live','polite');count.style.cssText='text-align:center;font-size:clamp(13px,3.5vw,16px);min-width:64px;';
  const next=document.createElement('button');next.type='button';next.className='secondary-btn';next.textContent=learningLabel('Următor →','Next →');
  let page=0;
  const paint=()=>{
-  content.textContent=pages[page];content.scrollTop=0;
+  content.replaceChildren();let list=null,listType='';
+  for(const source of pages[page].split(nl)){
+   const line=String(source||'').trim();
+   if(!line){list=null;listType='';continue}
+   if(line.startsWith(String.fromCharCode(96,96,96)))continue;
+   const headingLine=line.startsWith('#')||(line.startsWith('**')&&line.endsWith('**')&&line.length>4);
+   const bullet=line.startsWith('* ')||line.startsWith('- ')||line.startsWith('• ');
+   const numbered=/^[0-9]{1,3}[.)][ ]+/.test(line),clean=educationCleanLessonLine(line);
+   if(!clean)continue;
+   if(bullet||numbered){
+    const kind=numbered?'ol':'ul';
+    if(!list||listType!==kind){
+     list=document.createElement(kind);listType=kind;
+     list.style.cssText='margin:4px 0 12px;padding-left:26px;line-height:1.6;';
+     content.append(list);
+    }
+    const item=document.createElement('li');
+    item.textContent=bullet?clean.slice(2):clean.replace(/^[0-9]{1,3}[.)][ ]+/,'');
+    item.style.cssText='margin:0 0 5px;font-size:15px;overflow-wrap:anywhere;';
+    list.append(item);continue;
+   }
+   list=null;listType='';
+   const el=document.createElement(headingLine?'h3':'p');el.textContent=clean;
+   el.style.cssText=headingLine?
+    'font-size:17px;font-weight:750;line-height:1.35;margin:12px 0 9px;color:#f5faff;overflow-wrap:anywhere;':
+    'font-size:15px;font-weight:400;line-height:1.58;margin:0 0 11px;white-space:pre-wrap;overflow-wrap:anywhere;';
+   content.append(el);
+  }
+  content.scrollTop=0;
   prev.disabled=page===0;next.disabled=page===pages.length-1;
   count.textContent=learningLabel('Pagina ','Page ')+(page+1)+' / '+pages.length;
  };
  prev.onclick=()=>{if(page>0){page--;paint()}};
  next.onclick=()=>{if(page<pages.length-1){page++;paint()}};
  footer.append(prev,count,next);footer.hidden=pages.length===1;
- dialog.append(head,content,footer);
+ dialog.append(head,heading,content,footer);
  dialog.addEventListener('close',()=>dialog.remove());
  document.body.append(dialog);
- try{dialog.showModal();dialog.style.display='flex'}catch{dialog.setAttribute('open','');dialog.style.display='flex'}
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
  paint();return dialog;
 }
 
@@ -11255,14 +11297,9 @@ async function languageAIGenerate(request){
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,module:'assistant',history:[]})});
   const result=await response.json();if(!response.ok||result.status!=='success'||!result.reply)throw Error('unavailable');
   if(snapshot!==languageJourney.language+':'+languageJourney.topic+':'+languageJourney.level)return;
-  const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog';
-  const head=document.createElement('div');head.className='education-theory-head';
-  const title=document.createElement('h2');title.textContent=learningLabel('Lecție · ','Lesson · ')+info.ro;
-  head.append(title,foreignStudyButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));
-  const content=document.createElement('div');content.className='science-result-text';content.textContent=String(result.reply).slice(0,16000);
-  const caution=document.createElement('p');caution.textContent=learningLabel('Conținut AI: verifică transcrierea și traducerile în scop de examinare.','AI content: verify pronunciation and translations before exams.');
-  dialog.append(head,content,caution);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);
-  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+  educationOpenPagedLesson(learningLabel('Lecție · ','Lesson · ')+learningLabel(info.ro,info.en)+' · '+learningLabel(topic.ro,topic.en),
+   String(result.reply).slice(0,50000)+String.fromCharCode(10,10)+
+   learningLabel('Conținut AI: verifică transcrierea și traducerile în scop de examinare.','AI content: verify pronunciation and translations before exams.'));
   languageLessonMark('generated');
   languageStatus(learningLabel('Lecția este disponibilă.','Lesson ready.'));
  }catch{languageStatus(learningLabel('Profesorul AI nu a răspuns. Lecțiile locale rămân disponibile.','AI teacher unavailable; offline lessons remain.'))}
@@ -11447,8 +11484,13 @@ function languageOpen(stage){
  const title=document.createElement('h2');title.textContent=stage==='languages'?learningLabel('Alege limba','Choose language'):stage==='variants'?learningLabel('Alege varianta','Choose variant'):stage==='levels'?learningLabel('Alege nivelul','Choose level'):stage==='topics'?learningLabel('Alege capitolul','Choose chapter'):stage==='placement'?learningLabel('Test introductiv','Starter diagnostic'):learningLabel('Lecție de limbi străine','Language lesson');panel.append(title);
  if(stage==='placement'){languagePlacementRender(panel);host.append(panel);return}
  if(stage!=='lesson'){
-  if(stage==='levels')panel.append(foreignStudyButton(learningLabel('🎓 Test inițial de orientare','🎓 Starter placement check'),languagePlacementBegin));
-  if(stage==='levels')panel.append(foreignStudyButton(learningLabel('📊 Evaluare completă','📊 Full placement assessment'),languageFullPlacement));
+  if(stage==='levels'){
+   const extras=document.createElement('div');extras.className='foreign-level-actions';
+   extras.append(
+    foreignStudyButton(learningLabel('🎓 Test inițial de orientare','🎓 Starter placement check'),languagePlacementBegin),
+    foreignStudyButton(learningLabel('📊 Evaluare completă','📊 Full placement assessment'),languageFullPlacement));
+   panel.append(extras);
+  }
   const list=document.createElement('div');list.className='math-choice-list science-choice-list foreign-options';let options=[];
   if(stage==='languages')options=FOREIGN_LANGUAGE_DATA;
   if(stage==='variants'){
@@ -11459,7 +11501,7 @@ function languageOpen(stage){
   }
   if(stage==='levels')options=languageLevels();
   if(stage==='topics')options=FOREIGN_TOPIC_DATA;
-  for(const opt of options){
+  options.forEach((opt,index)=>{
    const label=stage==='languages'?learningLabel(opt.ro,opt.en):stage==='levels'&&!languageIsClassical()?opt.id+' · '+learningLabel(opt.ro,opt.en):learningLabel(opt.ro,opt.en);
    const button=foreignStudyButton(label,()=>{
     languageVoiceStop();
@@ -11468,9 +11510,14 @@ function languageOpen(stage){
     else if(stage==='levels'){languageJourney.level=opt.id;languageOpen('topics')}
     else{languageJourney.topic=opt.id;languageJourney.cardIndex=0;languageOpen('lesson')}
    },'secondary-btn math-choice-row science-choice-row');
-   if(stage==='languages')button.title=opt.native+' · '+learningLabel(opt.ro,opt.en);
+   const icon=document.createElement('span');icon.className='foreign-choice-icon';
+   icon.textContent=stage==='topics'?['🔤','👋','🗣️','📐','🎧','📖','✍️','🎯'][index%8]:
+     stage==='levels'?'🎓':stage==='languages'?'🌐':'🗺️';
+   icon.setAttribute('aria-hidden','true');button.prepend(icon);
+   button.classList.add('foreign-choice-card');
+   if(stage==='languages')button.title=(opt.native||'')+' · '+learningLabel(opt.ro,opt.en);
    list.append(button);
-  }
+  });
   panel.append(list);
  }else{
   panel.append(educationTopicPicker(learningLabel('📚 Teme de studiu','📚 Study topics'),FOREIGN_TOPIC_DATA,languageJourney.topic,x=>{languageJourney.topic=x.id;languageJourney.cardIndex=0;languageOpen('lesson')}));
@@ -11846,6 +11893,58 @@ function educationTopicPicker(label,entries,selected,onSelect){
  drawer.append(summary,search,list);paint();
  return drawer;
 }
+// Never leave a selected History/Geography chapter as an empty title.
+function hgGuaranteedSections(topic){
+ try{
+  const guide=hgLessonSections(topic);
+  if(Array.isArray(guide)){
+   const ready=guide.filter(x=>Array.isArray(x)&&String(x[0]||'').trim()&&String(x[1]||'').trim());
+   if(ready.length>=3)return ready;
+  }
+ }catch(error){console.warn('Education chapter fallback',String(error?.message||error))}
+ const name=hgL(topic.ro||'',topic.en||topic.ro||'');
+ const t=hgThemeFold(String(topic.ro||'')+' '+String(topic.en||''));
+ if(t.includes('pamantul si reprezentarea')||t.includes('earth and its representation')){
+  return [
+   [hgL('Globul geografic și forma Pământului','The globe and the shape of Earth'),hgL('Pământul are o formă apropiată de un elipsoid ușor turtit la poli. Globul geografic reprezintă suprafața Pământului în trei dimensiuni. Pe el putem compara poziția continentelor, oceanelor, Ecuatorului și polilor.','Earth is approximately an oblate spheroid. A globe represents its surface in three dimensions and shows continents, oceans, the Equator and poles.')],
+   [hgL('Harta, legenda și scara','Maps, keys and scale'),hgL('O hartă reprezintă pe un plan o parte a suprafeței Pământului. Legenda explică simbolurile, iar scara arată raportul dintre distanța pe hartă și distanța reală. Proiecțiile cartografice deformează inevitabil cel puțin unele dimensiuni sau forme.','A map shows the Earth on a flat surface. A key explains symbols, a scale relates map distance to ground distance, and projections necessarily introduce some distortion.')],
+   [hgL('Paralele, meridiane și coordonate','Latitude, longitude and coordinates'),hgL('Paralelele ajută la stabilirea latitudinii față de Ecuator, iar meridianele la stabilirea longitudinii față de meridianul de origine. Coordonatele geografice permit localizarea unui punct fără a depinde de numele localității.','Parallels define latitude relative to the Equator, and meridians define longitude relative to the prime meridian. Coordinates identify locations independently of place names.')],
+   [hgL('Exercițiu cu harta','Map-reading practice'),hgL('Alege două localități, identifică-le pe hartă și notează pozițiile aproximative. Citește legenda, estimează distanța cu scara și explică de ce rezultatul poate diferi de distanța unui traseu rutier.','Find two towns on a map, estimate their locations and the distance using the key and scale. Explain why a road route can be longer than a straight-line map distance.')]
+  ];
+ }
+ if(t.includes('structura interna a pamantului')||t.includes('earth')&&t.includes('interior')){
+  return [
+   [hgL('Scoarța terestră','Earth’s crust'),hgL('Scoarța este stratul solid exterior al Pământului și are grosimi diferite sub continente și oceane. Împreună cu partea superioară rigidă a mantalei formează litosfera.','The crust is the outer solid layer of Earth and differs in thickness under oceans and continents. Together with the rigid upper mantle it forms the lithosphere.')],
+   [hgL('Mantaua și dinamica internă','The mantle and internal dynamics'),hgL('Mantaua este alcătuită predominant din roci solide care se pot deforma lent în intervale geologice. Mișcarea plăcilor litosferice este legată de procesele termice și mecanice din interiorul planetei.','The mantle is mainly solid rock capable of very slow deformation over geological timescales. Plate motions relate to thermal and mechanical processes inside Earth.')],
+   [hgL('Nucleul și câmpul magnetic','The core and magnetic field'),hgL('Nucleul extern este predominant lichid, iar cel intern este solid, ambele bogate în fier. Mișcările fluidului conductor din nucleul extern contribuie la formarea câmpului magnetic terestru.','The outer core is mostly liquid and the inner core solid, both iron-rich. Motion in the conducting outer core helps generate Earth’s magnetic field.')],
+   [hgL('Cum studiem interiorul Pământului','How we investigate Earth’s interior'),hgL('Undele seismice își modifică viteza și traiectoria prin materiale diferite. Compară propagarea undelor P și S și explică de ce undele S nu traversează nucleul extern lichid.','Seismic waves change speed and direction in different materials. Compare P and S waves and explain why S waves do not propagate through the liquid outer core.')]
+  ];
+ }
+ if(t.includes('iluminism')||t.includes('enlightenment')){
+  return [
+   [hgL('Ideile și autorii Iluminismului','Enlightenment ideas and thinkers'),hgL('În secolul al XVIII-lea, gânditori precum Montesquieu, Voltaire și Rousseau au dezbătut autoritatea politică, libertatea, toleranța și rolul rațiunii. Opiniile lor nu au fost identice; compară argumentele, nu doar numele.','In the eighteenth century, thinkers including Montesquieu, Voltaire and Rousseau debated government, liberty, tolerance and reason. Their positions differed; compare arguments rather than just names.')],
+   [hgL('Revoluția americană și revoluția franceză','American and French revolutions'),hgL('Declarația de Independență a Statelor Unite a fost adoptată în 1776. Revoluția franceză a început în 1789 și a transformat profund instituțiile politice. Cele două procese au contexte și consecințe diferite.','The United States Declaration of Independence was adopted in 1776. The French Revolution began in 1789 and transformed political institutions; their causes and consequences were not identical.')],
+   [hgL('Drepturi, cetățenie și limite','Rights, citizenship and limitations'),hgL('Declarațiile epocii au afirmat principii privind libertatea și egalitatea, dar aplicarea lor a exclus adesea numeroase grupuri. Distinge idealurile enunțate de drepturile efectiv exercitate de oameni.','Period declarations advanced ideas about liberty and equality, yet many groups were excluded in practice. Distinguish declared ideals from the rights people could actually exercise.')],
+   [hgL('Analiza unei surse istorice','Working with historical sources'),hgL('Alege un fragment dintr-o declarație de drepturi a epocii. Notează data, autorul sau instituția, destinatarii, două idei și o limitare a aplicării lor. Compară rezultatul cu o a doua sursă verificabilă.','Choose a passage from a period declaration of rights. Record its date, author or institution, audience, two ideas and a limitation of implementation, then compare another verifiable source.')]
+  ];
+ }
+ try{
+  const country=hgCountry(),countryLabel=country?hgL(country.ro,country.en):hgJourney.otherCountry||educationCountrySelection.label||'';
+  const generated=buildHgThemeGuide([topic.id,topic.ro,topic.en,topic.query||''],hgJourney.subject,String(hgJourney.grade||''),hgJourney.country,countryLabel);
+  if(Array.isArray(generated)&&generated.length>=3)return generated.map(x=>[hgL(x[0],x[1]),hgL(x[2],x[3])]);
+ }catch(error){console.warn('Education guide fallback',String(error?.message||error))}
+ const goal=String(topic.query||name);
+ if(hgJourney.subject==='geography')return [
+  [hgL('Noțiuni esențiale','Essential concepts'),hgL('Tema '+name+' urmărește identificarea locurilor, proceselor naturale și relațiilor dintre oameni și mediu. Punct de pornire: '+goal+'.','The topic '+name+' examines locations, natural processes and human–environment relationships. Study focus: '+goal+'.')],
+  [hgL('Observare și interpretare','Observation and interpretation'),hgL('Localizează un exemplu pe o hartă cu scară și legendă. Separă ceea ce poți observa de explicațiile și datele care necesită o sursă verificabilă.','Locate an example on a map with scale and key. Separate observations from explanations and claims needing reliable evidence.')],
+  [hgL('Compară două regiuni','Compare two regions'),hgL('Compară două zone după poziție, relief, climă, locuire și activități umane. Precizează unitățile, anul și limitele datelor folosite.','Compare two areas by location, landscape, climate, settlement and human activity. State units, dates and data limitations.')]
+ ];
+ return [
+  [hgL('Contextul și cronologia','Background and chronology'),hgL('Tema '+name+' se studiază prin plasarea evenimentelor în timp și spațiu. Puncte de cercetare: '+goal+'.','Study '+name+' by locating events in time and place. Enquiry focus: '+goal+'.')],
+  [hgL('Cauze, desfășurare și urmări','Causes, events and consequences'),hgL('Distinge condițiile anterioare, evenimentele documentate și consecințele ulterioare. Evită să atribui o cauză fără argumente susținute de izvoare.','Distinguish preceding conditions, documented events and later effects. Do not claim causation without supporting sources.')],
+  [hgL('Izvoare și exercițiu','Sources and practice'),hgL('Alege două surse despre subiect, notează autorul, data și scopul lor. Formulează o cronologie de trei repere și explică o diferență de interpretare.','Choose two sources, note their authors, dates and purposes. Build a three-point timeline and explain one difference in interpretation.')]
+ ];
+}
 function hgShowCoreLesson(panel,guide){
  const section=document.createElement('section');section.className='hg-offline-lesson';
  section.append(hgText('h3',hgL('Teme de studiu','Study topics')));
@@ -11872,7 +11971,7 @@ function hgLesson(panel){
  const topic=hgTopic();if(!topic)return;
  const country=hgCountry(),scope=HG_SCOPE_DATA.find(x=>x.id===hgJourney.scope);
  panel.append(hgText('h3',hgL(topic.ro,topic.en)));
- const guide=hgLessonSections(topic);const lessonView=hgShowCoreLesson(panel,guide);
+ const guide=hgGuaranteedSections(topic);const lessonView=hgShowCoreLesson(panel,guide);
  const aiInline=document.createElement('section');aiInline.className='hg-ai-inline';
  aiInline.append(hgText('h4',hgL('Aprofundează tema selectată cu profesorul AI','Explore this topic with the AI teacher')));
  const custom=document.createElement('textarea');custom.className='hg-request';custom.rows=2;
@@ -21199,6 +21298,76 @@ main.page:has(#view-module.learning-science.science-subject-stage.active){
  margin:0!important;padding:8px!important;text-align:center!important;
  font-size:clamp(13px,3.5vw,17px)!important;line-height:1.15!important;
  white-space:normal!important;border-radius:14px!important;
+}
+
+/* Education theme cards and touch-friendly whole-page scrolling.
+   Spaces between cards belong to the same vertical scroller as the cards. */
+main.page:has(#view-module.learning-languages.active){
+ overflow-x:hidden!important;overflow-y:auto!important;
+ overscroll-behavior-y:auto!important;touch-action:pan-y!important;
+ -webkit-overflow-scrolling:touch!important;
+ padding-bottom:calc(148px + env(safe-area-inset-bottom,0px))!important;
+}
+#view-module.learning-languages.active{
+ height:auto!important;max-height:none!important;min-height:100%!important;
+ overflow:visible!important;touch-action:pan-y!important;
+ grid-template-rows:auto auto!important;align-content:start!important;
+}
+#view-module.learning-languages #moduleContent,
+#view-module.learning-languages .science-choice-panel{
+ height:auto!important;max-height:none!important;min-height:0!important;
+ overflow:visible!important;touch-action:pan-y!important;
+}
+#view-module.learning-languages .science-choice-panel{
+ display:flex!important;flex-direction:column!important;
+ padding:10px 10px 34px!important;
+}
+#view-module.learning-languages .foreign-level-actions,
+#view-module.learning-languages .foreign-options{
+ box-sizing:border-box!important;
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-content:start!important;gap:clamp(8px,1.4dvh,13px)!important;
+ width:100%!important;min-width:0!important;
+ height:auto!important;min-height:0!important;max-height:none!important;
+ overflow:visible!important;touch-action:pan-y!important;
+ flex:0 0 auto!important;margin:7px 0 10px!important;
+}
+#view-module.learning-languages .foreign-level-actions button,
+#view-module.learning-languages .foreign-options .foreign-choice-card{
+ display:flex!important;flex-direction:column!important;align-items:center!important;
+ justify-content:center!important;gap:6px!important;
+ min-width:0!important;width:100%!important;max-width:100%!important;
+ min-height:clamp(66px,9dvh,86px)!important;
+ height:auto!important;padding:9px 7px!important;
+ text-align:center!important;white-space:normal!important;
+ overflow-wrap:anywhere!important;font-size:clamp(13px,3.4vw,17px)!important;
+ line-height:1.22!important;touch-action:pan-y!important;
+}
+#view-module.learning-languages .foreign-choice-icon{
+ display:block!important;font-size:clamp(20px,4.5vw,27px)!important;line-height:1!important;
+}
+#view-module.learning-hg .hg-panel,
+#view-module.learning-hg .hg-local-toc,
+#view-module.learning-hg .hg-choice-list,
+#view-module.learning-hg .hg-year-list{
+ touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;
+}
+#view-module.learning-hg .hg-local-toc{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:9px!important;width:100%!important;min-width:0!important;
+}
+#view-module.learning-hg .hg-theory-topic{
+ min-width:0!important;width:100%!important;min-height:64px!important;
+ white-space:normal!important;overflow-wrap:anywhere!important;touch-action:pan-y!important;
+}
+dialog.education-paged-dialog[open] .education-paged-text{
+ min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;
+ touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;
+ overscroll-behavior:contain!important;
+}
+dialog.education-paged-dialog[open] .education-paged-controls,
+dialog.education-paged-dialog[open] .education-theory-head{
+ flex-shrink:0!important;
 }
 
 ${ORACLE_COMMUNICATION_STYLE}

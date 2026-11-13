@@ -100,7 +100,7 @@ new vm.Script(boot,{filename:'pocket-education-content.js'});
 for(const fragment of ['const HG_LOCAL_GUIDES_DATA=','function hgLessonSections(topic){',
  'function hgShowCoreLesson(panel,guide){','className=\'hg-offline-lesson\'',
  'className=\'hg-local-toc\'','className=\'hg-lesson-suggestions\'',
- 'const guide=hgLessonSections(topic);const lessonView=hgShowCoreLesson(panel,guide);']){
+ 'const guide=hgGuaranteedSections(topic);const lessonView=hgShowCoreLesson(panel,guide);']){
  assert.ok(boot.includes(fragment),'Missing integrated lesson UI: '+fragment);
 }
 assert.ok(boot.includes('function educationTopicPicker(label,entries,selected,onSelect){'),
@@ -111,7 +111,7 @@ assert.ok(boot.includes('educationOpenPagedLesson(heading,body);'),
  'History and geography themes open in the paginated dialog');
 assert.ok(boot.includes('educationOpenPagedLesson(item.title,material);'),
  'Science study themes open in the paginated dialog');
-assert.ok(boot.includes('head.eduPrintableMaterial=()=>({title,text:raw})'),
+assert.ok(boot.includes('head.eduPrintableMaterial=()=>({title:educationCleanLessonLine(title),text:educationCleanLessonText(raw)})'),
  'Save and print stay inside the opened lesson');
 const hgReader=boot.slice(boot.indexOf('function hgShowCoreLesson(panel,guide){'),boot.indexOf('function hgLesson(panel){'));
 assert.ok(!hgReader.includes("createElement('details')"),
@@ -168,5 +168,81 @@ for(const [name,script,patterns] of [
  ['Practical',PRACTICAL_UI_SCRIPT,["study.style.cssText='display:none","educationOpenPagedLesson(chapter.title,educationTextFromLesson(study))","educationOpenPagedLesson(chapter.title+' · '"]],
  ['Exams',EXAM_UI_SCRIPT,["printable.style.cssText='display:none","educationOpenPagedLesson(examLabel(subject.ro,subject.en),educationTextFromLesson(printable))","educationOpenPagedLesson(examLabel(subject.ro,subject.en)+' · '"]]
 ])for(const pattern of patterns)assert.ok(script.includes(pattern),name+': inline lesson text regression '+pattern);
+
+// Lesson rendering must be professional, nonempty, paginated and touch-friendly.
+for(const marker of [
+ 'function educationCleanLessonLine(value){',
+ 'function educationCleanLessonText(value){',
+ 'function hgGuaranteedSections(topic){',
+ 'const guide=hgGuaranteedSections(topic);',
+ "dialog.append(head,heading,content,footer)",
+ "educationOpenPagedLesson(learningLabel('Lecție · ','Lesson · ')",
+ "extras.className='foreign-level-actions'",
+ "icon.className='foreign-choice-icon'",
+ "button.classList.add('foreign-choice-card')"
+])assert.ok(boot.includes(marker),'Missing Education rule: '+marker);
+for(const css of [
+ '.foreign-level-actions,',
+ '.foreign-options{',
+ 'touch-action:pan-y!important',
+ '.hg-local-toc{',
+ 'dialog.education-paged-dialog[open] .education-paged-text'
+])assert.ok(html.includes(css),'Missing mobile scroll/card style: '+css);
+{
+ const start=boot.indexOf('function educationCleanLessonLine(value){');
+ const end=boot.indexOf('\nfunction educationScienceTheoryReader(',start);
+ assert.ok(start>=0&&end>start,'Common formatted reader missing');
+ class Node{
+  constructor(tag){this.tag=tag;this.children=[];this.style={};this.attrs={};this.scrollTop=0;this.hidden=false;this.disabled=false;this.textContent=''}
+  append(...items){this.children.push(...items)}
+  replaceChildren(...items){this.children=[...items]}
+  setAttribute(name,value){this.attrs[name]=value}
+  addEventListener(){}
+  remove(){}
+  showModal(){this.open=true}
+  close(){this.open=false}
+ }
+ const doc={body:new Node('body'),createElement:tag=>new Node(tag),getElementById:()=>null};
+ const factory=new Function('document','window','learningLabel','eduAttachPrintAction',
+  boot.slice(start,end)+';return {open:educationOpenPagedLesson,clean:educationCleanLessonText};');
+ const reader=factory(doc,{innerWidth:390},x=>x,bar=>{bar.printButtonsAttached=true});
+ const sample='**Capitol:** Familii și comunități\n\n**Subteme:**\n* Cronologia personală\n- Mărturii și obiecte\n\n'+
+  'Istoria familiei explică schimbările dintre generații. '.repeat(44);
+ const dialog=reader.open('Trecutul familiei și al comunității · Ce este trecutul familiei?',sample);
+ const [head,heading,content,footer]=dialog.children;
+ assert.ok(head.printButtonsAttached,'Save and print are inside the paginated reading window');
+ assert.equal(heading.tag,'h2','Title has a full-width row separate from actions');
+ assert.equal(heading.textContent.includes('familiei'),true);
+ assert.ok(content.style.cssText.includes('touch-action:pan-y'),'Blank reading area can be dragged');
+ const rendered=(n)=>[n.textContent||'',...(n.children||[]).map(rendered)].flat().join(' ');
+ assert.ok(!rendered(content).includes('**'),'No raw Markdown bold tokens visible');
+ assert.ok(!rendered(content).includes('* Cronologia'),'No raw Markdown bullet tokens visible');
+ assert.ok(head.eduPrintableMaterial().text.includes('• Cronologia'),'PDF exports clean list text');
+ assert.ok(!head.eduPrintableMaterial().text.includes('**'),'PDF exports clean typography');
+ const [prev,counter,next]=footer.children;
+ assert.ok(counter.textContent.includes('1 / '),'Long lesson has multiple pages');
+ next.onclick();assert.ok(counter.textContent.includes('2 / '),'Next shows page two');
+ assert.equal(content.scrollTop,0,'Changing page resets text scroll');
+ prev.onclick();assert.ok(counter.textContent.includes('1 / '),'Previous restores page one');
+}
+{
+ const start=boot.indexOf('function hgGuaranteedSections(topic){');
+ const end=boot.indexOf('\nfunction hgShowCoreLesson(',start);
+ assert.ok(start>=0&&end>start,'History/Geography safe curriculum sections missing');
+ const make=new Function('hgLessonSections','hgL','hgThemeFold','hgJourney','hgCountry','educationCountrySelection','buildHgThemeGuide',
+  boot.slice(start,end)+';return hgGuaranteedSections;');
+ const normalized=x=>String(x||'').normalize('NFD').replace(/[^\x00-\x7F]/g,'').toLowerCase();
+ const ready=make(()=>{throw Error('simulate unavailable chapter guide')},x=>x,normalized,
+  {subject:'geography',country:'RO',grade:'5',otherCountry:''},()=>({ro:'România',en:'Romania'}),
+  {label:'România'},()=>[]);
+ for(const [id,ro,en] of [
+  ['geo5-world','Pământul și reprezentarea lui','Earth and its representation'],
+  ['ro6-enlight','Iluminism, revoluții și drepturi','Enlightenment, revolutions and rights'],
+  ['geo-earth','Structura internă a Pământului',"Earth's interior"]]){
+  const rows=ready({id,ro,en,query:'Studiu local'});
+  assert.ok(rows.length>=3,'No empty chapter even if dynamic guide fails: '+ro);
+  assert.ok(rows.every(x=>x[0]?.length>9&&x[1]?.length>80),'Every chapter has teachable material: '+ro);
+ }
+}
 
 console.log('PASS curriculum: England Year 1–13 study topics, Year 7 computing, offline theory, compact year picker, browser boot');
