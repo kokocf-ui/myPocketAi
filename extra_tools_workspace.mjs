@@ -182,7 +182,7 @@ function extraToolsOpenWorkspace(key){
  const primary=(ro,en,fn)=>extraToolsBtn(extraToolsLocale(ro,en),fn,true);
  const secondary=(ro,en,fn)=>extraToolsBtn(extraToolsLocale(ro,en),fn);
  const addPdf=()=>{
-  header.eduPrintableMaterial=()=>({title:work.title?.value?.trim()||extraToolsLocale(cat[2],cat[3]),text:(['documents','ocr','audio'].includes(key)?work.editor?.value.trim():work.output||work.editor?.value.trim())||''});
+  header.eduPrintableMaterial=()=>({title:work.title?.value?.trim()||extraToolsLocale(cat[2],cat[3]),text:(['documents','ocr','audio'].includes(key)?work.editor?.value.trim():work.output)||''});
   eduAttachPrintAction(header);work.pdf=header.querySelector('.edu-pdf-actions');if(work.pdf)work.pdf.hidden=false;
  };
  const addCopy=()=>extraToolsActions(area,secondary('Copiază textul','Copy text',()=>extraToolsCopy(work.output||work.editor?.value||'')));
