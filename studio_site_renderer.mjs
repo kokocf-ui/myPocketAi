@@ -52,7 +52,7 @@ export function validateStudioDraft(input){
   label:bounded(r?.label,100),count:Math.max(0,Math.min(999,Number(r?.count)||0))
  })).filter(r=>r.label);
  const amenities=(Array.isArray(input.amenities)?input.amenities:[]).slice(0,15).map(x=>bounded(x,100)).filter(Boolean);
- const photos=(Array.isArray(input.photos)?input.photos:[]).slice(0,150).map((x,i)=>({
+ const photos=(Array.isArray(input.photos)?input.photos:[]).slice(0,1000).map((x,i)=>({
   data:bounded(x?.data,185000),caption:bounded(x?.caption,130),
   group:['exterior','room','category','other'].includes(x?.group)?x.group:(i===0?'exterior':'other'),
   roomLabel:bounded(x?.roomLabel,100),categoryLabel:bounded(x?.categoryLabel,100),
