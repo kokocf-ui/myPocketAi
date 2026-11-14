@@ -353,7 +353,7 @@ function extraCreatorWebsite(work){
   extraToolsBtn(extraToolsLocale('👁 Previzualizează site-ul','👁 Preview site'),generate,true),
   extraToolsBtn(extraToolsLocale('⛶ Ecran complet','⛶ Full screen'),()=>work.siteHtml?extraCreatorFullscreen(work.siteHtml):(note.textContent=extraToolsLocale('Creează întâi previzualizarea.','Preview first.'))));
  area.append(note,preview);
- work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPreferences:()=>({...designPrefs}),getPhoto:()=>photoData,getGallery:guesthouseGallery.getGallery,getFeatures:()=>({contact:featureContact.checked,booking:featureBooking.checked}),getManagement:management.getConfig,validateManagement:management.validate,preview,note,generate};
+ work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPreferences:()=>({...designPrefs}),getPhoto:()=>photoData,getGallery:guesthouseGallery.getGallery,getFeatures:()=>({contact:featureContact.checked,booking:featureBooking.checked}),backendChoices:{contact:featureContact,booking:featureBooking},getManagement:management.getConfig,validateManagement:management.validate,preview,note,generate};
  const aiNote=extraToolsEl('p','extra-creator-disabled-note',extraToolsLocale('Generarea AI a site-ului este încă neactivată. Butonul de previzualizare creează doar o machetă locală, fără costuri.','AI website generation is not yet enabled. Preview creates only a local draft, without AI charges.'));
  const aiButton=extraToolsBtn(extraToolsLocale('✨ Generare AI neactivată','✨ AI generation not enabled'),()=>{});
  aiButton.disabled=true;area.append(aiNote);extraToolsActions(area,aiButton);
