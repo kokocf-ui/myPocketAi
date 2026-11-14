@@ -1,6 +1,6 @@
 import {rand,sha256,json,bodyJson,validateManagement,validEmail,normalizeEmail} from './studio_security.mjs';
 import {validateStudioDraft,renderStudioSite} from './studio_site_renderer.mjs';
-import {validateVisitorSubmission} from './studio_business_flows.mjs';
+import {validateVisitorSubmission,studioBusinessFeatures} from './studio_business_flows.mjs';
 const sameId=id=>/^[a-f0-9]{32}$/.test(String(id||''));
 function roleFor(site,id){
  if(!id)return null;
@@ -141,6 +141,10 @@ export class StudioSites{
    if(op==='publish'){
     if(!canPublish(site,actor))return json({error:'publish_forbidden'},403);
     if(x.version!==site.version)return json({error:'revision_conflict',version:site.version},409);
+    // Personal data must not be collected until a published HTTPS privacy policy exists.
+    const flowFeatures=studioBusinessFeatures(site.draft.features);
+    if((flowFeatures.contact||flowFeatures.booking)&&!flowFeatures.privacyUrl)
+     return json({error:'privacy_notice_required'},400);
     // Rendering validates and escapes content before publishing.
     renderStudioSite(site.draft);
     const updated=await this.state.storage.transaction(async tx=>{
