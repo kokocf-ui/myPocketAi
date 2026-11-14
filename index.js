@@ -10273,7 +10273,13 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.style.cssText='width:100%;min-width:0;min-height:54px;padding:10px;white-space:normal;text-align:center;overflow-wrap:anywhere;';
   button.textContent=(index+1)+'. '+item.title;
   button.onclick=()=>{
-   const material=(subjectId==='chemistry'&&CHEMISTRY_DETAIL_DATA[item.id])||
+   const rich=subjectId==='chemistry'?CHEMISTRY_DETAIL_DATA[item.id]:null;
+   const material=rich?
+    rich.split(String.fromCharCode(10)).map(part=>{
+     const line=part.trim();
+     return line&&line===line.toLocaleUpperCase('ro-RO')&&line.length<=52&&
+      !/[0-9]/.test(line)?'# '+line:part;
+    }).join(String.fromCharCode(10)):
     [item.statement,item.formula&&item.formula!=='—'?item.formula:'',
     Array.isArray(item.aliases)&&item.aliases.length?learningLabel('Termeni asociați: ','Related terms: ')+item.aliases.join(' · '):''].filter(Boolean).join(String.fromCharCode(10,10));
    educationOpenPagedLesson(item.title,material);
