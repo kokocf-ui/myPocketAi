@@ -3,6 +3,7 @@
 import {CREATOR_PREMIUM_SCRIPT} from './creator_premium_presentations.mjs';
 import {GUESTHOUSE_SITE_CSS} from './creator_guesthouse_gallery.mjs';
 import {studioBusinessFeatures,businessPublicFormHtml,STUDIO_VISITOR_CSS} from './studio_business_flows.mjs';
+import {normalizeCommercial} from './studio_commerce.mjs';
 const lead='const extraCreatorPremiumSiteStyle=';
 const begin=CREATOR_PREMIUM_SCRIPT.indexOf(lead);
 const end=CREATOR_PREMIUM_SCRIPT.indexOf(';\n',begin+lead.length);
@@ -58,7 +59,7 @@ export function validateStudioDraft(input){
  })).filter(x=>x.data&&x.data.length<185000&&PHOTO.test(x.data));
  const totalPhotoBytes=photos.reduce((n,x)=>n+x.data.length,0);
  if(totalPhotoBytes>3000000)throw new Error('too_many_photo_bytes');
- return {name,description,kind,styleId,lang,contact,content,rooms,amenities,photos,features:studioBusinessFeatures(input.features)};
+ return {name,description,kind,styleId,lang,contact,content,rooms,amenities,photos,features:studioBusinessFeatures(input.features),commerce:normalizeCommercial(input.commerce,kind)};
 }
 function typeLabel(kind,en){
  const labels={
@@ -177,7 +178,7 @@ function renderLanguage(draft,en,options={}){
  const footer='<footer>'+name+'<span>· '+(en?'Owner-managed website':'Site administrat de proprietar')+'</span></footer>';
  return '<div class="locale-content lang-'+lang+'">'+navHtml+'<main>'+hero+
   (family==='conversion'||family==='cards'||family==='mosaic'||family==='gallery'?details+aboutSection:aboutSection+details)+
-  gallery+businessPublicFormHtml(draft,options.publicId||'',lang)+contact+'</main>'+footer+'</div>';
+  gallery+businessPublicFormHtml(draft,options.publicId||'',lang,options)+contact+'</main>'+footer+'</div>';
 }
 export function renderStudioSite(input,options={}){
  const d=validateStudioDraft(input),theme=SITE_TEMPLATES[d.styleId],palette=PALETTES[d.styleId],cssVars=
