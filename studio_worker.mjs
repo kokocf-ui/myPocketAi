@@ -217,7 +217,10 @@ export default{
     'complete-request':'completeRequest','end-maintenance':'endMaintenance'};
    if(method==='POST'&&actions[act]){
     const data=await bodyJson(request,15000);
-    const response=await site(env,id,actions[act],{actor,...data});
+    // Server-authenticated identity MUST override all attacker-controlled JSON fields.
+    const args={...data,actor};
+    if(act==='redeem')args.email=auth.user.email;
+    const response=await site(env,id,actions[act],args);
     if(!response.ok)return reply(response);
     if(act==='redeem')await account(env,'memberAdd',{id:actor,siteId:id,name:response.name||'Site'});
     if(act==='invite')return json({...response,invitation:id+'.'+response.token});
