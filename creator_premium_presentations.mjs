@@ -52,7 +52,20 @@ const extraCreatorPremiumPresets={
 function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,language,options={}){
  const id=options.styleId||extraCreatorVisualStyles[0].id;
  const meta=extraCreatorPremiumMeta[id]||extraCreatorPremiumMeta.heritage,family=meta[4];
- const palette=extraCreatorStyleById(id).colors;
+ const prefs=options.prefs&&typeof options.prefs==='object'?options.prefs:{};
+ const palettes={
+  burgundy:['#431f32','#fcf3ee','#d0a67b','#7f4059'],
+  ocean:['#10283f','#f9f1e4','#d5b26e','#355a71'],
+  sage:['#274238','#faf8ea','#a8bc90','#486857'],
+  gold:['#20242b','#f5f0e6','#c9a86d','#484b50']
+ };
+ const palette=palettes[prefs.palette]||extraCreatorStyleById(id).colors;
+ const preferenceCss=
+  (prefs.font==='classic'?'.premium-site h1,.premium-site h2,.premium-site h3,.premium-site .brand{font-family:Georgia,serif!important}':
+   prefs.font==='modern'?'.premium-site h1,.premium-site h2,.premium-site h3,.premium-site .brand{font-family:system-ui,sans-serif!important}':'')+
+  (prefs.mood==='warm'?'.premium-site .cta,.premium-site .service,.premium-site .metric{border-radius:16px!important}':
+   prefs.mood==='refined'?'.premium-site .cta{letter-spacing:.12em;text-transform:uppercase}.premium-site .service{border-width:1px}':
+   prefs.mood==='bold'?'.premium-site .cta{box-shadow:7px 7px 0 var(--mid)!important}.premium-site .service{border-left:5px solid var(--accent)}':'');
  const esc=x=>extraCreatorEscape(String(x??''));
  const kind=options.kind||'other';
  const facts=extraCreatorSiteDetails(description,kind);
@@ -170,7 +183,7 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
  return '<!doctype html><html lang="'+(format==='both'?'ro':format)+'"><head><meta charset="utf-8">'+
   '<meta name="viewport" content="width=device-width,initial-scale=1">'+
   '<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;;style-src &#39;unsafe-inline&#39;;img-src data:;">'+
-  '<title>'+esc(name)+'</title><style>'+extraCreatorPremiumSiteStyle+'</style></head>'+
+  '<title>'+esc(name)+'</title><style>'+extraCreatorPremiumSiteStyle+preferenceCss+'</style></head>'+
   '<body class="premium-site theme-'+family+'" style="'+colors+'">'+controls+'<div class="site-shell">'+body+'</div></body></html>';
 }
 extraCreatorLocalHtml=extraCreatorPremiumLocalHtml;
@@ -194,7 +207,7 @@ function extraCreatorPremiumGallery(selected,onSelect,context={}){
     hasBusiness?context.description:'Pensiune cu mic dejun inclus. 5 camere single, 10 camere duble și 3 apartamente. Bucătărie comună. Sală de mese. Wi-Fi.',
     ro,hasBusiness?context.contact||'':'Contact demonstrativ',
     hasBusiness?context.language||'ro':'ro',
-    {kind:hasBusiness?context.kind||'other':'hotel',styleId:id,photo:hasBusiness?context.photo||'':''});
+    {kind:hasBusiness?context.kind||'other':'hotel',styleId:id,photo:hasBusiness?context.photo||'':'',prefs:context.prefs||{}});
   const frame=extraToolsEl('iframe','premium-thumb-frame');
   frame.setAttribute('sandbox','');frame.setAttribute('loading','lazy');frame.setAttribute('tabindex','-1');
   frame.title=extraToolsLocale('Miniatură prezentare '+ro,'Preview of '+en);frame.srcdoc=site;preview.append(frame);

@@ -44,6 +44,62 @@ function extraCreatorStylePicker(selected,onSelect){
  document.body.append(overlay);
  close.focus();
 }
+
+function extraCreatorOptionText(p){
+ const colors={model:['Culorile modelului','Template colours'],burgundy:['Vișiniu și crem','Burgundy and cream'],ocean:['Bleumarin și auriu','Navy and gold'],sage:['Verde și ivoire','Sage and ivory'],gold:['Antracit și auriu','Charcoal and gold']};
+ const fonts={model:['Fontul modelului','Template typography'],classic:['Font clasic','Classic typography'],modern:['Font modern','Modern typography']};
+ const moods={model:['Atmosfera modelului','Template atmosphere'],warm:['Cald și primitor','Warm and welcoming'],refined:['Rafinat și aerisit','Refined and spacious'],bold:['Îndrăzneț și energic','Bold and energetic']};
+ const label=v=>extraToolsLocale(v[0],v[1]);
+ return label(colors[p.palette]||colors.model)+' · '+label(fonts[p.font]||fonts.model)+' · '+label(moods[p.mood]||moods.model);
+}
+function extraCreatorOptionPicker(current,onSave){
+ const overlay=extraToolsEl('div','extra-creator-style-overlay extra-creator-option-overlay');
+ const dialog=extraToolsEl('section','extra-creator-style-dialog extra-creator-option-dialog');
+ dialog.setAttribute('role','dialog');dialog.setAttribute('aria-modal','true');
+ dialog.setAttribute('aria-label',extraToolsLocale('Personalizează site-ul','Customize your website'));
+ const heading=extraToolsEl('h3','',extraToolsLocale('Personalizează site-ul','Customize your website'));
+ const lead=extraToolsEl('p','extra-work-note',extraToolsLocale('Alege câte o variantă. Modificările se văd în previzualizare fără generări AI.','Choose one in each group. Changes appear in the preview without using AI.'));
+ const scroll=extraToolsEl('div','extra-creator-option-groups');
+ const chosen={palette:current.palette||'model',font:current.font||'model',mood:current.mood||'model'};
+ const groups=[
+  {key:'palette',ro:'Culori',en:'Colours',items:[
+   ['model','Culorile modelului','Template colours'],['burgundy','Vișiniu + crem','Burgundy + cream'],
+   ['ocean','Bleumarin + auriu','Navy + gold'],['sage','Verde + ivoire','Sage + ivory'],
+   ['gold','Antracit + auriu','Charcoal + gold']]},
+  {key:'font',ro:'Tipografia',en:'Typography',items:[
+   ['model','Fontul modelului','Template font'],['classic','Clasic','Classic'],['modern','Modern','Modern']]},
+  {key:'mood',ro:'Atmosferă',en:'Atmosphere',items:[
+   ['model','Ca în model','As in template'],['warm','Cald și primitor','Warm and welcoming'],
+   ['refined','Rafinat și aerisit','Refined and spacious'],['bold','Îndrăzneț','Bold']]}
+ ];
+ const swatches={model:[],burgundy:['#431f32','#fcf3ee','#d0a67b'],ocean:['#10283f','#f9f1e4','#d5b26e'],sage:['#274238','#faf8ea','#a8bc90'],gold:['#20242b','#f5f0e6','#c9a86d']};
+ for(const group of groups){
+  const set=extraToolsEl('section','extra-creator-option-set');
+  set.append(extraToolsEl('h4','',extraToolsLocale(group.ro,group.en)));
+  const tiles=extraToolsEl('div','extra-creator-option-choices');
+  const buttons=[];
+  for(const item of group.items){
+   const button=extraToolsEl('button','extra-creator-option-chip');
+   button.type='button';button.setAttribute('aria-pressed',chosen[group.key]===item[0]?'true':'false');
+   if(group.key==='palette'&&swatches[item[0]]?.length){
+    const colors=extraToolsEl('span','extra-creator-option-swatches');
+    for(const c of swatches[item[0]]){const dot=extraToolsEl('i','');dot.style.background=c;colors.append(dot)}
+    button.append(colors);
+   }
+   button.append(extraToolsEl('span','',extraToolsLocale(item[1],item[2])));
+   button.onclick=()=>{chosen[group.key]=item[0];buttons.forEach(b=>b.setAttribute('aria-pressed',b===button?'true':'false'))};
+   tiles.append(button);buttons.push(button);
+  }
+  set.append(tiles);scroll.append(set);
+ }
+ const actions=extraToolsEl('div','extra-creator-option-actions');
+ const close=extraToolsBtn(extraToolsLocale('Înapoi','Back'),()=>overlay.remove());
+ const apply=extraToolsBtn(extraToolsLocale('✓ Aplică și previzualizează','✓ Apply and preview'),()=>{onSave(chosen);overlay.remove()},true);
+ actions.append(close,apply);dialog.append(heading,lead,scroll,actions);overlay.append(dialog);
+ overlay.addEventListener('click',event=>{if(event.target===overlay)overlay.remove()});
+ overlay.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();overlay.remove()}});
+ document.body.append(overlay);apply.focus();
+}
 function extraCreatorSiteDetails(description,kind){
  const raw=String(description||'').trim();
  const counts=[];
@@ -197,11 +253,22 @@ function extraCreatorWebsite(work){
  const styleButton=extraToolsBtn(extraToolsLocale('🎨 Vezi modele profesionale de site','🎨 Browse professional website layouts'),()=>extraCreatorStylePicker(selected.id,value=>{
   selected=value;styleLabel.textContent=extraToolsLocale('Model ales: ','Selected layout: ')+extraToolsLocale(value.ro,value.en);
  },{name:name.value.trim(),kind:type.value,activity:type.options[type.selectedIndex]?.textContent||'',
-   description:desc.value.trim(),contact:contact.value.trim(),photo:photoData,language:lang.value}));
+   description:desc.value.trim(),contact:contact.value.trim(),photo:photoData,language:lang.value,prefs:designPrefs}));
  styleButton.classList.add('extra-creator-style-pick');
  const styleLabel=extraToolsEl('p','extra-creator-selected-style',extraToolsLocale('Stil ales: ','Selected style: ')+extraToolsLocale(selected.ro,selected.en));
  area.append(styleButton,styleLabel);
- const extra=extraToolsField(area,extraToolsLocale('Detalii suplimentare (opțional)','Additional design details (optional)'),'text',extraToolsLocale('Culori preferate, atmosferă sau alte idei','Preferred colours, atmosphere, details'));
+ const designPrefs={palette:'model',font:'model',mood:'model'};
+ const extra=extraToolsEl('input','extra-creator-internal-options');extra.type='hidden';
+ extra.value=extraCreatorOptionText(designPrefs);area.append(extra);
+ const designSummary=extraToolsEl('p','extra-creator-option-summary',extraCreatorOptionText(designPrefs));
+ const designButton=extraToolsBtn(extraToolsLocale('🎛 Personalizează site-ul','🎛 Customize website'),()=>extraCreatorOptionPicker(designPrefs,next=>{
+  Object.assign(designPrefs,next);extra.value=extraCreatorOptionText(designPrefs);
+  designSummary.textContent=extra.value;
+  extra.dispatchEvent(new Event('input',{bubbles:true}));
+  if(work.siteHtml&&work.creatorForm)work.creatorForm.generate();
+ }));
+ designButton.classList.add('extra-creator-design-button');
+ area.append(designButton,designSummary);
  const lang=extraToolsField(area,extraToolsLocale('Limba site-ului','Website language'),'select');
  for(const [key,label] of [['ro','Română'],['en','English'],['both','Română + English']]){const opt=extraToolsEl('option','',label);opt.value=key;lang.append(opt)}
  lang.value=state.language==='en'?'en':'ro';
@@ -236,7 +303,7 @@ function extraCreatorWebsite(work){
   if(!title||!story){note.textContent=extraToolsLocale('Completează numele afacerii și serviciile oferite.','Enter the business name and services.');return}
   work.creatorProjectSettings=management.getConfig();
   work.siteHtml=extraCreatorLocalHtml(title,type.options[type.selectedIndex]?.textContent||type.value,story,selected.ro+' '+extra.value,contact.value,lang.value,
-   {kind:type.value,styleId:selected.id,photo:photoData});
+   {kind:type.value,styleId:selected.id,photo:photoData,prefs:designPrefs,aiCopy:work.siteAiCopy||null});
   const frame=extraToolsEl('iframe','extra-creator-preview');
   frame.setAttribute('sandbox','');frame.title=extraToolsLocale('Machetă locală a site-ului','Local website draft');
   frame.srcdoc=work.siteHtml;preview.replaceChildren(frame);
@@ -249,7 +316,7 @@ function extraCreatorWebsite(work){
   extraToolsBtn(extraToolsLocale('👁 Previzualizează site-ul','👁 Preview site'),generate,true),
   extraToolsBtn(extraToolsLocale('⛶ Ecran complet','⛶ Full screen'),()=>work.siteHtml?extraCreatorFullscreen(work.siteHtml):(note.textContent=extraToolsLocale('Creează întâi previzualizarea.','Preview first.'))));
  area.append(note,preview);
- work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPhoto:()=>photoData,getManagement:management.getConfig,validateManagement:management.validate,preview,note,generate};
+ work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPreferences:()=>({...designPrefs}),getPhoto:()=>photoData,getManagement:management.getConfig,validateManagement:management.validate,preview,note,generate};
  const aiNote=extraToolsEl('p','extra-creator-disabled-note',extraToolsLocale('Generarea AI a site-ului este încă neactivată. Butonul de previzualizare creează doar o machetă locală, fără costuri.','AI website generation is not yet enabled. Preview creates only a local draft, without AI charges.'));
  const aiButton=extraToolsBtn(extraToolsLocale('✨ Generare AI neactivată','✨ AI generation not enabled'),()=>{});
  aiButton.disabled=true;area.append(aiNote);extraToolsActions(area,aiButton);
@@ -288,6 +355,20 @@ function extraCreatorImages(work){
 }
 `;
 export const CREATOR_SITE_STYLE=String.raw`
+
+#view-module.extra-tools-workspace .extra-creator-design-button{display:block!important;width:100%!important;min-height:50px!important;padding:10px 14px!important;text-align:left!important;white-space:normal!important}
+#view-module.extra-tools-workspace .extra-creator-option-summary{font-size:12px!important;color:#abebeb!important;margin:4px 0 10px!important;line-height:1.4!important}
+.extra-creator-option-dialog{max-width:640px!important;max-height:95%!important}
+.extra-creator-option-groups{min-height:0!important;overflow:auto!important;flex:1 1 auto!important;padding:2px!important}
+.extra-creator-option-set{margin:0 0 12px!important;padding:0!important;border:0!important;min-width:0!important}
+.extra-creator-option-set h4{font-size:14px!important;margin:4px 0 8px!important}
+.extra-creator-option-choices{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}
+.extra-creator-option-chip{box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;min-width:0!important;min-height:43px!important;padding:9px 7px!important;border-radius:11px!important;background:#123b50!important;border:1px solid #5e8599!important;color:#f0f8fb!important;font-size:12px!important;white-space:normal!important;text-align:center!important}
+.extra-creator-option-chip[aria-pressed=true]{border:2px solid #9de8ed!important;background:#214d60!important;box-shadow:inset 0 0 0 1px #5ab8c9!important}
+.extra-creator-option-swatches{display:flex!important;gap:2px!important;flex:0 0 auto!important}
+.extra-creator-option-swatches i{display:block!important;width:9px!important;height:16px!important;border-radius:2px!important}
+.extra-creator-option-actions{display:flex!important;gap:8px!important;flex:0 0 auto!important}
+.extra-creator-option-actions button{flex:1 1 0!important;min-width:0!important;white-space:normal!important;min-height:45px!important}
 #view-module.extra-tools-workspace .extra-creator-style-pick{display:block!important;width:100%!important;min-height:55px!important;max-width:none!important;padding:11px 14px!important;white-space:normal!important;text-align:left!important}
 #view-module.extra-tools-workspace .extra-creator-selected-style{color:#9de8ed!important;font-weight:700!important;font-size:13px!important;margin:3px 0 12px!important}
 #view-module.extra-tools-workspace .extra-creator-english[hidden]{display:none!important}

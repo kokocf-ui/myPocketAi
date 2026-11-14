@@ -67,4 +67,9 @@ assert.match(CREATOR_PREMIUM_SCRIPT,/extraCreatorFullscreen\(site\)/);
 assert.match(CREATOR_PREMIUM_SCRIPT,/Vezi pagini complete fără generări AI/);
 assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/premium-gallery-grid/);
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/\bextraCreatorStylePicker=extraCreatorPremiumGallery/);
+const customized=site.make('Aramis','Pensiune / cazare',description,'asym','contact','ro',
+ {kind:'hotel',styleId:'heritage',prefs:{palette:'burgundy',font:'modern',mood:'warm'}});
+assert.match(customized,/--ink:#431f32;/,'Selected colours must change the actual HTML preview');
+assert.match(customized,/font-family:system-ui,sans-serif!important/,'Typography choice must alter the site CSS');
+assert.match(customized,/border-radius:16px!important/,'Atmosphere choice must alter the visual design');
 console.log('PASS: 12 distinct art-directed responsive site compositions, full previews without AI cost, safe user data, own-photo priority, bilingual copy');
