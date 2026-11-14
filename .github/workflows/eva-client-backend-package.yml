@@ -44,6 +44,7 @@ jobs:
           npx --yes wrangler@latest deploy --dry-run --config wrangler.eva-client.jsonc --outdir ../eva-worker-dryrun
       - name: Zip customer deployment
         run: |
+          rm -rf dist/eva-client-backend/.wrangler
           cd dist
           zip -qr Eva-client-backend.zip eva-client-backend/
       - name: Upload owner-managed backend and Romanian guide
