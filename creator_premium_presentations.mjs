@@ -174,7 +174,7 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
   '<body class="premium-site theme-'+family+'" style="'+colors+'">'+controls+'<div class="site-shell">'+body+'</div></body></html>';
 }
 extraCreatorLocalHtml=extraCreatorPremiumLocalHtml;
-function extraCreatorPremiumGallery(selected,onSelect){
+function extraCreatorPremiumGallery(selected,onSelect,context={}){
  const overlay=extraToolsEl('div','extra-creator-style-overlay premium-gallery-dialog-overlay');
  const dialog=extraToolsEl('section','extra-creator-style-dialog premium-gallery');
  dialog.setAttribute('role','dialog');dialog.setAttribute('aria-modal','true');
@@ -187,9 +187,14 @@ function extraCreatorPremiumGallery(selected,onSelect){
   const style=extraCreatorStyleById(id);
   const card=extraToolsEl('article','premium-gallery-card'+(selected===id?' is-selected':''));
   const preview=extraToolsEl('div','premium-thumb thumb-'+family);
-  const site=extraCreatorPremiumLocalHtml('Aramis','Pensiune / cazare',
-    'Pensiune cu mic dejun inclus. 5 camere single, 10 camere duble și 3 apartamente. Bucătărie comună. Sală de mese. Wi-Fi.',
-    ro,'Contact demonstrativ','ro',{kind:'hotel',styleId:id});
+  const hasBusiness=typeof context?.description==='string'&&context.description.trim().length>=10;
+  const site=extraCreatorPremiumLocalHtml(
+    hasBusiness?(context.name||'Afacerea mea'):'Aramis',
+    hasBusiness?(context.activity||'Prezentare afacere'):'Pensiune / cazare',
+    hasBusiness?context.description:'Pensiune cu mic dejun inclus. 5 camere single, 10 camere duble și 3 apartamente. Bucătărie comună. Sală de mese. Wi-Fi.',
+    ro,hasBusiness?context.contact||'':'Contact demonstrativ',
+    hasBusiness?context.language||'ro':'ro',
+    {kind:hasBusiness?context.kind||'other':'hotel',styleId:id,photo:hasBusiness?context.photo||'':''});
   const frame=extraToolsEl('iframe','premium-thumb-frame');
   frame.setAttribute('sandbox','');frame.setAttribute('loading','lazy');frame.setAttribute('tabindex','-1');
   frame.title=extraToolsLocale('Miniatură prezentare '+ro,'Preview of '+en);frame.srcdoc=site;preview.append(frame);
