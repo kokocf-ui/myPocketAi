@@ -7,6 +7,12 @@ on:
     paths:
       - '.github/workflows/build-android-signed-release.yml'
       - 'index.js'
+      - 'extra_tools_workspace.mjs'
+      - 'tests_creation_ui.mjs'
+      - 'scripts/build_android_ui_preview.mjs'
+      - 'android/app/build.gradle'
+      - 'android/app/src/main/java/ai/mypocket/mobile/MainActivity.java'
+      - 'tests_android_ui_preview.mjs'
       - 'assistant_place_results_ui.mjs'
       - 'country_*.mjs'
   push:
@@ -101,7 +107,7 @@ permissions:
 jobs:
   apk-signed-release:
     # The one-off registry preview must never sign unrelated PRs.
-    if: ${{ github.event_name != 'pull_request' || github.head_ref == 'feature/smart-country-registry' }}
+    if: ${{ github.event_name != 'pull_request' || github.head_ref == 'feature/smart-country-registry' || (github.head_ref == 'ui/tools-workspaces-unified-2026-11-14' && github.event.pull_request.head.repo.full_name == github.repository) }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -247,9 +253,16 @@ jobs:
           node tests_math_linear_verification.mjs
           node tests_avatar_lipsync_stop.mjs
           node tests_news_contextual_translation.mjs
+          node tests_extra_tools_header_layout.mjs
+          node tests_extra_tools_workspace.mjs
+          node tests_creation_ui.mjs
+          node tests_android_ui_preview.mjs
           node tests_math_whisper_pilot.mjs
+      - name: Bundle exact PR frontend for preview-only APK
+        run: node scripts/build_android_ui_preview.mjs
       - name: Assemble signed release
         env:
+          POCKET_TOOLS_UI_PREVIEW: 'true'
           POCKET_STORE_PASSWORD: ${{ secrets.POCKET_STORE_PASSWORD }}
           POCKET_KEY_PASSWORD: ${{ secrets.POCKET_KEY_PASSWORD }}
           POCKET_FIREBASE_API_KEY: ${{ vars.POCKET_FIREBASE_API_KEY }}
@@ -262,6 +275,7 @@ jobs:
           set -euo pipefail
           APK=android/app/build/outputs/apk/release/app-release.apk
           test -s "$APK"
+          unzip -l "$APK" | grep -F 'assets/tools-ui-preview.html'
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --print-certs "$APK"
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | head -1
       - uses: actions/upload-artifact@v4

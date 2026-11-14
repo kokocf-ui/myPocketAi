@@ -16,6 +16,8 @@ android {
         buildConfigField 'String', 'FCM_APP_ID', groovy.json.JsonOutput.toJson(System.getenv('POCKET_FIREBASE_APP_ID') ?: '')
         buildConfigField 'String', 'FCM_PROJECT_ID', groovy.json.JsonOutput.toJson(System.getenv('POCKET_FIREBASE_PROJECT_ID') ?: '')
         buildConfigField 'String', 'FCM_SENDER_ID', groovy.json.JsonOutput.toJson(System.getenv('POCKET_FIREBASE_SENDER_ID') ?: '')
+        // Branch-only signed UI preview: keep production APK remote-web behavior unchanged.
+        buildConfigField 'boolean', 'TOOLS_UI_PREVIEW', (System.getenv('POCKET_TOOLS_UI_PREVIEW') == 'true' ? 'true' : 'false')
 
     }
     signingConfigs {

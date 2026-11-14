@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_tools_workspace.mjs';
+
+new vm.Script(EXTRA_TOOLS_WORKSPACE_SCRIPT,{filename:'extra-tools-workspace.js'});
+const exported=new Function(EXTRA_TOOLS_WORKSPACE_SCRIPT+';return {local:extraCreatorLocalHtml,escape:extraCreatorEscape,register:extraToolsRegisterCreatorCard};')();
+const a=exported.local('Casa Azzurra','Restaurant','Paste artizanale și cafea','Elegant, mediteranean','contact@example.test','ro');
+const b=exported.local('Piper Verde','Restaurant','Bucătărie urbană','Colorat, energic','contact@example.test','ro');
+assert.notEqual(a,b,'Distinct restaurants cannot get the same design markup');
+assert.match(a,/<!doctype html>/i);
+assert.match(a,/name="viewport"/);
+assert.match(a,/@media\(max-width:600px\)/,'Responsive mobile layout');
+assert.match(a,/Content-Security-Policy/);
+assert.match(a,/Casa Azzurra/);
+assert.doesNotMatch(a,/<script|https?:\/\/|<img src="https?:/i,'No remote scripts, unsafe external links or image loads in a demo');
+const escaped=exported.local('<script>alert(1)</script>','Business','<img src=x onerror=alert(1)>','Custom','+44 123','en');
+assert.doesNotMatch(escaped,/<script>|<img src=x/i,'HTML user input must be escaped');
+assert.match(escaped,/&lt;script&gt;/);
+const cards=new Function('const EXTRA_TOOLS_CATEGORIES=[["documents","📄","Documents","Documents"],["images","🖼️","Images and design","Images and design"],["audio","🎙️","Audio","Audio"]];'+
+ EXTRA_TOOLS_WORKSPACE_SCRIPT+';extraToolsRegisterCreatorCard();return EXTRA_TOOLS_CATEGORIES;')();
+assert.equal(cards.length,3,'No extra duplicate tool cards');
+assert.equal(cards[0][0],'documents');
+assert.equal(cards[1][0],'creator');
+assert.equal(cards[1][2],'Creare pagini și imagini');
+assert.equal(cards[2][0],'audio');
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/extraCreatorHome\(work\)/);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/extraCreatorImages\(work\)/);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/extraCreatorWebsite\(work\)/);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/frame\.setAttribute\('sandbox',''\)/);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/În Trial: o singură variantă personalizată/);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/propuneri de stil fără catalog fix/);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/motorul AI|Motorul AI/);
+assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/\.extra-creator-card\{/);
+assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/\.extra-creator-overlay\{/);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/save\.disabled=true/);
+console.log('PASS: Tools creator cards, varied responsive local website previews, HTML escaping, no fake AI calls, gated-save status');
