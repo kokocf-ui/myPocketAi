@@ -355,7 +355,8 @@ function practicalLesson(panel){
  const quizActions=practicalNode('div','','lit-actions'),result=practicalNode('div','','practical-result');quizActions.style.cssText='display:flex;gap:9px;flex-wrap:wrap;';
  let version=Number.isFinite(saved.lastVariant)?saved.lastVariant:0;
  function drawQuiz(){
-  questionHost.replaceChildren();result.replaceChildren();
+  assessment.querySelector('.practical-quiz-pager')?.remove();
+  questionHost.replaceChildren();questionHost.hidden=false;result.replaceChildren();
   const qs=practicalQuestions(course,chapter,version),selected=Array(qs.length).fill(null);
   const quizRefs=[],displayChoices=qs.map(q=>[...q.choices]),displayExplanations=qs.map(q=>q.explanation);
   quizLanguageNotice.textContent='';
