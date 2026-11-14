@@ -212,6 +212,7 @@ function extraCreatorWebsite(work){
  };
  lang.addEventListener('change',updateTranslationNote);
  updateTranslationNote();area.append(translateNote);
+ const management=extraCreatorManagementForm(area);
  const contact=extraToolsField(area,extraToolsLocale('Date de contact verificate (opțional)','Verified contact details (optional)'),'text',extraToolsLocale('E-mail, telefon sau adresă reală','Real email, phone or address'));
  const photo=extraToolsEl('input','extra-creator-photo');photo.type='file';photo.accept='image/jpeg,image/png,image/webp';photo.hidden=true;
  const photoLabel=extraToolsEl('p','extra-work-note',extraToolsLocale('Poți adăuga fotografia reală a afacerii.','You can add your business photo.'));
@@ -232,6 +233,7 @@ function extraCreatorWebsite(work){
  const generate=()=>{
   const title=name.value.trim(),story=desc.value.trim();
   if(!title||!story){note.textContent=extraToolsLocale('Completează numele afacerii și serviciile oferite.','Enter the business name and services.');return}
+  work.creatorProjectSettings=management.getConfig();
   work.siteHtml=extraCreatorLocalHtml(title,type.options[type.selectedIndex]?.textContent||type.value,story,selected.ro+' '+extra.value,contact.value,lang.value,
    {kind:type.value,styleId:selected.id,photo:photoData});
   const frame=extraToolsEl('iframe','extra-creator-preview');
@@ -246,7 +248,7 @@ function extraCreatorWebsite(work){
   extraToolsBtn(extraToolsLocale('👁 Previzualizează site-ul','👁 Preview site'),generate,true),
   extraToolsBtn(extraToolsLocale('⛶ Ecran complet','⛶ Full screen'),()=>work.siteHtml?extraCreatorFullscreen(work.siteHtml):(note.textContent=extraToolsLocale('Creează întâi previzualizarea.','Preview first.'))));
  area.append(note,preview);
- work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPhoto:()=>photoData,preview,note,generate};
+ work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPhoto:()=>photoData,getManagement:management.getConfig,validateManagement:management.validate,preview,note,generate};
  const aiNote=extraToolsEl('p','extra-creator-disabled-note',extraToolsLocale('Generarea AI a site-ului este încă neactivată. Butonul de previzualizare creează doar o machetă locală, fără costuri.','AI website generation is not yet enabled. Preview creates only a local draft, without AI charges.'));
  const aiButton=extraToolsBtn(extraToolsLocale('✨ Generare AI neactivată','✨ AI generation not enabled'),()=>{});
  aiButton.disabled=true;area.append(aiNote);extraToolsActions(area,aiButton);
