@@ -81,27 +81,50 @@ function practicalCoursePresentation(syllabus,kind){
   numbered(syllabus.rubric||[])
  ].filter(Boolean).join(gap);
 }
+
+function practicalActivityDialog(title,blocks,parking){
+ document.querySelectorAll('dialog.practical-activity-dialog[open]').forEach(existing=>existing.close());
+ const dialog=practicalNode('dialog','','practical-activity-dialog');
+ dialog.setAttribute('aria-label',title);
+ const header=practicalNode('header','','practical-activity-head');
+ const heading=practicalNode('h2',title);
+ const back=practicalButton(practicalLabel('← Înapoi','← Back'),()=>dialog.close(),'secondary-btn practical-activity-back');
+ header.append(heading,back);
+ const content=practicalNode('div','','practical-activity-body');
+ blocks.forEach(block=>content.append(block));
+ dialog.append(header,content);
+ dialog.addEventListener('close',()=>{
+  if(practicalJourney.busy)practicalStop();
+  if(state.speaking)stopSpeech();
+  if(parking.isConnected)blocks.forEach(block=>parking.append(block));
+  dialog.remove();
+ },{once:true});
+ document.body.append(dialog);
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+ requestAnimationFrame(()=>{content.scrollTop=0;back.focus({preventScroll:true})});
+ return dialog;
+}
 function practicalOpen(stage){
- practicalStop();practicalJourney.stage=stage;
+ practicalStop();document.querySelectorAll('dialog.practical-activity-dialog[open]').forEach(dialog=>dialog.close());practicalJourney.stage=stage;
  requestAnimationFrame(()=>document.querySelector('main.page')?.scrollTo(0,0));
  const root=document.getElementById('view-module'),host=document.getElementById('moduleContent');if(!root||!host)return;
  root.classList.remove('learning-choose','learning-math','learning-science','learning-hg','learning-literature','learning-languages','learning-computing','learning-exams','science-choice-stage');
  root.classList.add('learning-active','learning-practical');activeLearningSubject=LEARNING_SUBJECTS.find(x=>x[0]==='practical')||null;
  document.getElementById('moduleTitle').textContent=practicalLabel('Cursuri practice','Practical courses');document.getElementById('moduleLead').textContent='';
- host.replaceChildren();const bar=practicalNode('div','','education-toolbar lit-toolbar');bar.append(practicalButton(practicalLabel('← Înapoi','← Back'),practicalBack));if(stage==='lesson')eduAttachPrintAction(bar);host.append(bar);
+ host.replaceChildren();const bar=practicalNode('div','','education-toolbar lit-toolbar');bar.append(practicalButton(practicalLabel('← Înapoi','← Back'),practicalBack));host.append(bar);
  const panel=practicalNode('section','','math-choice-panel science-choice-panel lit-panel practical-panel');panel.style.cssText='min-width:0;width:100%;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;padding-bottom:12px;';
- const titles={countries:['Țara / sistemul de referință','Country / reference system'],courses:['Alege un curs practic','Choose a practical course'],chapters:['Toate capitolele cursului','All chapters in this course'],lesson:['Curs practic · lecție și aplicație','Practical course · lesson and application']};
+ const titles={countries:['Țara / sistemul de referință','Country / reference system'],courses:['Alege un curs practic','Choose a practical course'],chapters:['Toate capitolele cursului','All chapters in this course'],lesson:['Alege activitatea','Choose an activity']};
  panel.append(practicalNode('h2',practicalLabel(...titles[stage])));host.append(panel);
  if(stage==='countries'){
   const c=practicalCountry();panel.append(practicalNode('p',practicalLabel('Selectează țara pentru surse oficiale, fără a presupune reguli locale unice.','Select a country for official sources; local laws are not universal.')));
   practicalList(panel,HG_COUNTRY_PICKER_DATA.filter(v=>v.id!=='OTHER').map(v=>({id:v.id,ro:v.ro,en:v.en})),choice=>{practicalJourney.country=choice.id;practicalJourney.course='';practicalJourney.chapter='';practicalOpen('courses')});return;
  }
- panel.append(practicalNode('p',practicalLabel(practicalCountry()[1],practicalCountry()[2])));
+ if(stage!=='lesson')panel.append(practicalNode('p',practicalLabel(practicalCountry()[1],practicalCountry()[2])));
  if(stage==='courses'){
   practicalList(panel,PRACTICAL_COURSES_DATA.map(c=>({id:c.id,icon:c.icon,ro:c.ro,en:c.en})),choice=>{practicalJourney.course=choice.id;practicalJourney.chapter='';practicalOpen('chapters')});return;
  }
  const course=practicalCourse();if(!course){practicalOpen('courses');return}
- panel.append(practicalNode('p',practicalLabel(course.ro,course.en)));
+ panel.append(practicalNode('p',stage==='lesson'?practicalLabel(practicalCountry()[1],practicalCountry()[2])+' · '+practicalLabel(course.ro,course.en):practicalLabel(course.ro,course.en)));
  if(stage==='chapters'){
   const chapters=[...course.chapters].sort((a,b)=>a.order-b.order);
   const finished=chapters.filter(x=>practicalSavedForChapter(x.id)?.completed).length;
@@ -221,7 +244,8 @@ function practicalLesson(panel){
    study.append(practicalNode('h4',practicalLabel('Criterii de verificare a proiectului','Project review criteria')));
    const criteria=practicalNode('ol');criteria.style.paddingLeft='23px';syllabus.rubric.forEach(item=>criteria.append(practicalMaterial('li',item)));study.append(criteria);
  }
- panel.append(practicalButton(practicalLabel('📖 Deschide lecția','📖 Open lesson'),()=>educationOpenPagedLesson(chapter.title,educationTextFromLesson(study)),'secondary-btn'),study);
+ const lessonOpen=practicalButton(practicalLabel('📖 Deschide lecția','📖 Open lesson'),()=>educationOpenPagedLesson(chapter.title,educationTextFromLesson(study)),'secondary-btn');
+ panel.append(lessonOpen,study);
  // Translate the authored lesson, not user input, buttons or official source URLs.
  if(state.language!=='ro'&&typeof eduTranslateMaterial==='function'&&translatableNodes.length){
   const chapterAtOpen=chapter.id,languageAtOpen=state.language;
@@ -257,7 +281,7 @@ function practicalLesson(panel){
  }
  if(chapter.id==='career-2')practicalCvWorkshop(panel);
  const note=practicalNode('p',practicalLabel('Material original, orientativ. Pentru obligații legale, fiscale, autorizări, siguranță sau meserii reglementate verifică sursele oficiale ale țării și specialiștii competenți.','Original training material. For legal, tax, licensing or safety requirements consult official local sources and qualified professionals.'));
- panel.append(note);
+ note.className='practical-topic-notice';panel.append(note);
  const links=practicalNode('section','','practical-topic-sources');links.style.cssText='margin:12px 0;display:flex;flex-direction:column;gap:8px;';
  const sourceMap=PRACTICAL_REFERENCES_DATA[course.id]||{};
  let references=[];
@@ -331,7 +355,8 @@ function practicalLesson(panel){
  const quizActions=practicalNode('div','','lit-actions'),result=practicalNode('div','','practical-result');quizActions.style.cssText='display:flex;gap:9px;flex-wrap:wrap;';
  let version=Number.isFinite(saved.lastVariant)?saved.lastVariant:0;
  function drawQuiz(){
-  questionHost.replaceChildren();result.replaceChildren();
+  assessment.querySelector('.practical-quiz-pager')?.remove();
+  questionHost.replaceChildren();questionHost.hidden=false;result.replaceChildren();
   const qs=practicalQuestions(course,chapter,version),selected=Array(qs.length).fill(null);
   const quizRefs=[],displayChoices=qs.map(q=>[...q.choices]),displayExplanations=qs.map(q=>q.explanation);
   quizLanguageNotice.textContent='';
@@ -343,13 +368,31 @@ function practicalLesson(panel){
    quizRefs.push({legend,choiceTexts});
    questionHost.append(group);
   });
+
+  // One question is displayed at a time, without unmounting saved choices.
+  let activeQuestion=0;
+  const pager=practicalNode('div','','practical-quiz-pager');
+  const previous=practicalButton(practicalLabel('← Anterior','← Previous'),()=>{activeQuestion--;paintQuestion()});
+  const counter=practicalNode('span','','practical-quiz-count');
+  const next=practicalButton(practicalLabel('Următor →','Next →'),()=>{activeQuestion++;paintQuestion()});
+  const questionCards=[...questionHost.children];
+  const paintQuestion=()=>{
+   questionCards.forEach((card,i)=>{card.hidden=i!==activeQuestion});
+   previous.disabled=activeQuestion===0;
+   next.disabled=activeQuestion===questionCards.length-1;
+   counter.textContent=practicalLabel('Întrebarea ','Question ')+(activeQuestion+1)+' / '+questionCards.length;
+   pager.hidden=false;
+  };
+  pager.append(previous,counter,next);
+  questionHost.after(pager);
+  paintQuestion();
   quizActions.replaceChildren();
   const verify=practicalButton(practicalLabel('✓ Verifică testul','✓ Check answers'),()=>{
-   if(selected.some(x=>x===null)){result.textContent=practicalLabel('Completează toate răspunsurile pentru a primi rezultatul.','Answer all questions before checking.');return}
+   if(selected.some(x=>x===null)){result.textContent=practicalLabel('Completează toate răspunsurile pentru a primi rezultatul.','Answer all questions before checking.');activeQuestion=selected.findIndex(x=>x===null);paintQuestion();return}
    const correct=qs.reduce((n,q,i)=>n+(selected[i]===q.correct?1:0),0),pct=Math.round(correct/qs.length*100);
    result.replaceChildren(practicalNode('h4',practicalLabel('Rezultat: ','Result: ')+correct+'/'+qs.length+' ('+pct+'%)'));
    qs.forEach((q,i)=>result.append(practicalNode('p',(i+1)+'. '+(selected[i]===q.correct?'✓ ':'✗ ')+practicalLabel('Ai ales: ','Selected: ')+displayChoices[i][selected[i]]+'. '+practicalLabel('Răspuns corect: ','Correct answer: ')+displayChoices[i][q.correct]+'. '+displayExplanations[i])));
-   questionHost.querySelectorAll('input').forEach(x=>x.disabled=true);verify.disabled=true;
+   questionHost.querySelectorAll('input').forEach(x=>x.disabled=true);verify.disabled=true;questionHost.hidden=true;pager.hidden=true;
    practicalSave({lastScore:pct,lastCorrect:correct,lastTotal:qs.length,completed:true,lastVariant:version});
    // The result is already shown once in .practical-result and collected by PDF export. Do not add a second visible copy.
   },'primary-btn');
@@ -387,5 +430,23 @@ function practicalLesson(panel){
   }
  }
  drawQuiz();assessment.append(quizActions,result);panel.append(assessment);
+
+ // The menu shows only activity choices. Actual form, quiz, resources and CV
+ // nodes remain connected but parked outside the scrolling menu.
+ const storage=practicalNode('div','','practical-lesson-storage');
+ storage.hidden=true;
+ const resources=practicalNode('section','','practical-resource-group');
+ resources.append(note,links);
+ const tools=practicalNode('div','','practical-lesson-actions');
+ const makeAction=(label,nodes)=>practicalButton(label,()=>practicalActivityDialog(label+' · '+chapter.title,nodes,storage),'secondary-btn');
+ tools.append(lessonOpen,
+  makeAction(practicalLabel('🛠️ Atelier practic','🛠️ Practice workshop'),[progress,practice]),
+  makeAction(practicalLabel('✅ Test de verificare','✅ Knowledge check'),[assessment]),
+  makeAction(practicalLabel('🔗 Resurse oficiale','🔗 Official resources'),[resources]));
+ const cv=panel.querySelector('.practical-cv-workshop');
+ if(cv)tools.append(makeAction(practicalLabel('📝 Construiește CV','📝 Build a CV'),[cv]));
+ storage.append(resources,progress,practice,assessment);
+ if(cv)storage.append(cv);
+ panel.append(tools,storage);
 }
 `;
