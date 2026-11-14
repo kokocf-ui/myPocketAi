@@ -18,7 +18,7 @@
 
 ## Instalarea ghidată — o singură dată pentru fiecare client
 
-**Varianta recomandată:** rulează instalatorul inclus în ZIP. Din folderul `eva-client-backend`, deschide un terminal și execută:
+**Varianta recomandată:** pentru fiecare client extrage pachetul într-un **folder separat**. Nu reutiliza un folder cu `wrangler.eva-installed.jsonc`: conține configurația unui alt site. Din folderul `eva-client-backend`, deschide un terminal și execută:
 
 ```bash
 node instalare-eva.mjs
