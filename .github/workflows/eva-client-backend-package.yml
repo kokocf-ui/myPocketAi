@@ -7,6 +7,7 @@ on:
     paths:
       - 'studio_*.mjs'
       - 'tests_studio_service.mjs'
+      - 'tests_studio_commercial.mjs'
       - 'tests_studio_portal_and_handoff.mjs'
       - 'tests_eva_client_installer.mjs'
       - 'instalare-eva.mjs'
@@ -34,6 +35,7 @@ jobs:
       - name: Verify Studio backend and privacy checks (zero AI)
         run: |
           node tests_studio_service.mjs
+          node tests_studio_commercial.mjs
           node tests_studio_portal_and_handoff.mjs
           node tests_eva_client_installer.mjs
       - name: Create independent client deployment package
