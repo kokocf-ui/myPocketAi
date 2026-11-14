@@ -63,8 +63,14 @@ export default {
       {role:'user',content:JSON.stringify({business:name,category:kind,language:lang,visual_style:style,verified_facts:description,english_facts:String(payload?.english||'').slice(0,1000)})}
      ],temperature:0.2,max_tokens:1600
     });
-    const text=String(reply?.response||reply?.result?.response||'').trim().slice(0,14500);
-    if(text.length<30)return json({error:'site_ai_empty'},502);
+    const values=[
+      reply?.response,reply?.result?.response,reply?.text,reply?.output_text,
+      reply?.choices?.[0]?.message?.content,
+      ...(Array.isArray(reply?.output)?reply.output.map(x=>x?.content?.[0]?.text||x?.text):[])
+    ];
+    const text=values.find(x=>typeof x==='string'&&x.trim())?.trim().slice(0,14500)||'';
+    if(text.length<30)return json({error:'site_ai_empty',
+      diagnostic:{keys:Object.keys(reply||{}).slice(0,12),length:text.length,preview:text.slice(0,100)}},502);
     return json({status:'success',reply:text,preview:true,remaining:q.remaining});
    }catch(error){
     const quotaExceeded=/4006|daily free allocation|neuron/i.test(String(error?.message||''));
