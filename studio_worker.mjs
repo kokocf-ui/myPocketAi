@@ -124,7 +124,7 @@ export default{
   const url=new URL(request.url),path=url.pathname,method=request.method;
   try{
    if(!env.STUDIO_ACCOUNTS||!env.STUDIO_SITES)return locked();
-   if(path==='/health'&&method==='GET')return json({ok:true,status:'studio_independent',aiEnabled:protectAI(env),billingEnabled:false},200,{'Access-Control-Allow-Origin':'*'});
+   if(path==='/health'&&method==='GET')return json({ok:true,status:'studio_independent',aiEnabled:protectAI(env),billingEnabled:false,mediaEnabled:!!env.SITE_MEDIA,backupsEnabled:!!env.SITE_BACKUPS,mailEnabled:mailConfigured(env),paymentsEnabled:!!(env.STRIPE_SECRET_KEY&&env.STRIPE_WEBHOOK_SECRET)},200,{'Access-Control-Allow-Origin':'*'});
    if(path==='/'&&method==='GET'){
     const nonce=crypto.randomUUID().replaceAll('-','');
     const header={
@@ -223,6 +223,23 @@ export default{
     }
     return processed.ok?json({received:true,orderStatus:processed.status}):reply(processed);
    }
+   const media=/^\/media\/([a-f0-9]{32})\/([a-f0-9]{32})\.(jpg|png|webp)$/.exec(path);
+   if(media&&method==='GET'){
+    if(!env.SITE_MEDIA)return json({error:'media_not_configured'},404);
+    let permission=await site(env,media[1],'mediaAccess',{path});
+    if(!permission.ok){
+     const owner=await validLogin(request,env);
+     if(owner.user)permission=await site(env,media[1],'mediaAccess',{path,actor:owner.user.id});
+    }
+    if(!permission.ok)return json({error:'media_not_available'},404);
+    const obj=await env.SITE_MEDIA.get('sites/'+media[1]+'/media/'+media[2]+'.'+media[3]);
+    if(!obj)return json({error:'media_missing'},404);
+    return new Response(obj.body,{headers:{
+     'Content-Type':media[3]==='jpg'?'image/jpeg':'image/'+media[3],
+     'Cache-Control':permission.public?'public,max-age=31536000,immutable':'no-store',
+     'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'
+    }});
+   }
    const isApi=path.startsWith('/api/');
    if(!isApi)return json({error:'not_found'},404);
    if(method!=='GET'&&!privateHost(request,url))return json({error:'bad_origin'},403);
@@ -282,6 +299,41 @@ export default{
     if(!constantTimeEqual(await sha256(supplied),await sha256(secret)))return json({error:'forbidden'},403);
     const data=await bodyJson(request,900);
     return reply(await account(env,'manualPremium',{email:data.email,until:data.until}));
+   }
+   const upload=/^\/api\/sites\/([a-f0-9]{32})\/media$/.exec(path);
+   if(upload&&method==='POST'){
+    if(!env.SITE_MEDIA)return json({error:'media_not_configured'},503);
+    const allowed=await site(env,upload[1],'mediaUploadPermission',{actor:auth.user.id});
+    if(!allowed.ok)return reply(allowed);
+    const mime=(request.headers.get('Content-Type')||'').split(';')[0].toLowerCase();
+    const ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'}[mime];
+    if(!ext)return json({error:'unsupported_image'},415);
+    if(Number(request.headers.get('Content-Length')||0)>5242880)return json({error:'media_too_large'},413);
+    const bytes=new Uint8Array(await request.arrayBuffer());
+    if(bytes.length<12||bytes.length>5242880)return json({error:'media_too_large'},413);
+    const isJpeg=bytes[0]===255&&bytes[1]===216&&bytes[2]===255;
+    const isPng=[137,80,78,71,13,10,26,10].every((b,i)=>bytes[i]===b);
+    const isWebp=String.fromCharCode(...bytes.slice(0,4))==='RIFF'&&
+     String.fromCharCode(...bytes.slice(8,12))==='WEBP';
+    if(!(ext==='jpg'&&isJpeg||ext==='png'&&isPng||ext==='webp'&&isWebp))
+     return json({error:'invalid_image'},400);
+    const keyId=crypto.randomUUID().replaceAll('-','');
+    const key='sites/'+upload[1]+'/media/'+keyId+'.'+ext;
+    await env.SITE_MEDIA.put(key,bytes,{httpMetadata:{contentType:mime}});
+    return json({ok:true,mediaUrl:'/media/'+upload[1]+'/'+keyId+'.'+ext});
+   }
+   const backups=/^\/api\/sites\/([a-f0-9]{32})\/backups(?:\/(restore))?$/.exec(path);
+   if(backups){
+    const id=backups[1];
+    if(method==='GET'&&!backups[2])
+     return reply(await site(env,id,'backupList',{actor:auth.user.id}));
+    if(method==='POST'&&!backups[2])
+     return reply(await site(env,id,'backupCreate',{actor:auth.user.id}));
+    if(method==='POST'&&backups[2]==='restore'){
+     const data=await bodyJson(request,650);
+     return reply(await site(env,id,'backupRestore',{actor:auth.user.id,...data}));
+    }
+    return json({error:'method_not_allowed'},405);
    }
    const inbox=/^\/api\/sites\/([a-f0-9]{32})\/inbox(?:\/([a-f0-9]{16})(?:\/status)?)?$/.exec(path);
    if(inbox){
