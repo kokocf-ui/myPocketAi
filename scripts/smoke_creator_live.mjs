@@ -6,7 +6,12 @@ const input={
 };
 // Node smoke must explicitly send the same browser Origin; Android WebView supplies it automatically.
 const httpFetch=globalThis.fetch.bind(globalThis);
-globalThis.fetch=(url,init={})=>httpFetch(url,{...init,headers:{...init.headers,Origin:'https://lifewise-ai-v2.kokocf.workers.dev'}});
+globalThis.fetch=async(url,init={})=>{
+ const response=await httpFetch(url,{...init,headers:{...init.headers,Origin:'https://lifewise-ai-v2.kokocf.workers.dev'}});
+ if(!response.ok){const body=await response.clone().json().catch(()=>null);
+  console.error('Safe site AI diagnostics:',response.status,body?.error,body?.diagnostic||null);}
+ return response;
+};
 
 const {call,prompt}=new Function(CREATOR_SITE_AI_SCRIPT+';return {call:extraCreatorCallAiWebsite,prompt:extraCreatorAiSitePrompt};')();
 try{
