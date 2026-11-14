@@ -6,6 +6,7 @@ import {COMMUNICATION_HTML,COMMUNICATION_STYLE,COMMUNICATION_SCRIPT} from './com
 import {ORACLE_COMMUNICATION_SCRIPT,ORACLE_COMMUNICATION_STYLE} from './oracle_communication_ui.mjs';
 import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_europe.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
+import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_tools_workspace.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {RECIPE_READER_PAGES_UI_SCRIPT} from './recipe_reader_pages_ui.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
@@ -4125,12 +4126,13 @@ const EXTRA_TOOLS_CATEGORIES=[
  ['web','🔗','Linkuri și pagini web','Links and web pages','Analiză, rezumate și verificare.','Analyse, summarise and verify links.','Ajută-mă să analizez o pagină web sau un link.'],
  ['ideas','💡','Idei și proiecte','Ideas and projects','Planuri, soluții și creativitate.','Plans, solutions and creativity.','Ajută-mă să dezvolt o idee sau un proiect.']
 ];
+${EXTRA_TOOLS_WORKSPACE_SCRIPT}
 function resetExtraToolsScreen(){
  const root=$('view-module');
  root.classList.remove('learning-choose','learning-active','learning-math','learning-science',
   'learning-languages','learning-hg','learning-literature','learning-computing',
   'learning-exams','learning-practical','learning-country-gate','science-choice-stage',
-  'math-choice-stage','extra-tools-choose','extra-tools-active','extra-tools-chat','my-documents-active');
+  'math-choice-stage','extra-tools-choose','extra-tools-active','extra-tools-chat','extra-tools-workspace','my-documents-active');
  for(const prop of ['height','max-height','min-height'])root.style.removeProperty(prop);
  const page=document.querySelector('main.page');
  page?.classList.remove('math-keyboard-visible','science-keyboard-visible');
@@ -4211,29 +4213,7 @@ function renderMyDocuments(){
 
 function openExtraTool(key){
  if(key==='my-documents'){renderMyDocuments();return}
- const cat=EXTRA_TOOLS_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
- resetExtraToolsScreen();
- const root=$('view-module'),host=$('moduleContent');
- root.classList.add('extra-tools-active');
- host.replaceChildren();
- const panel=document.createElement('div');panel.className='extra-tools-panel';
- const bar=document.createElement('div');bar.className='education-toolbar';
- const back=document.createElement('button');back.type='button';back.className='secondary-btn';
- back.textContent=learningLabel('← Instrumente','← Tools');back.onclick=renderExtraToolsChoices;
- const title=document.createElement('strong');title.textContent=cat[1]+' '+learningLabel(cat[2],cat[3]);bar.append(back,title);panel.append(bar);
- const desc=document.createElement('p');desc.textContent=learningLabel(cat[4],cat[5]);panel.append(desc);
- const hint=document.createElement('p');
- hint.textContent=learningLabel('Descrie ce ai nevoie. Pocket AI va folosi funcțiile disponibile și îți va spune când o operațiune nu este încă implementată.','Describe what you need. Pocket AI will use available functions and identify unsupported operations.');
- panel.append(hint);
- const start=document.createElement('button');start.type='button';start.className='primary-btn';
- start.textContent=learningLabel('Începe cu Pocket AI','Start with Pocket AI');
- start.onclick=()=>{
-  root.classList.remove('extra-tools-active');root.classList.add('extra-tools-chat');
-  inputEl.placeholder=learningLabel('Ce dorești să faci?','What would you like to do?');
-  inputEl.value=state.language==='ro'?cat[6]:'';
-  /* Text entry stays unfocused until the input itself is tapped. */
- };
- panel.append(start);host.append(panel);
+ extraToolsOpenWorkspace(key);
 }
 
 const ORGANIZE_CATEGORIES=[
@@ -6156,6 +6136,7 @@ function documentsScanReview(host,item){
  form.append(actions);form.onsubmit=e=>{e.preventDefault();confirm.click()};host.append(form);
 }
 if(typeof window!=='undefined')window.pocketAndroidDocumentScanResult=function(payload){
+ if(extraToolsOCRHandle(payload))return;
  if(!documentsSelectedId||!payload||payload.id!==documentsSelectedId)return;
  if(payload.status==='started'){documentsScanWorking=true;renderDocuments();return}
  if(payload.status!=='success'){documentsScanWorking=false;renderDocuments();notify(learningLabel('Scanarea OCR a eșuat. Fotografia a rămas salvată; încearcă din nou sau completează manual.','OCR scan failed. Photo saved; retry or enter details manually.'));return}
@@ -16846,7 +16827,7 @@ async function handleLearningPhoto(file){
   else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
  } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
 }
-function openModule(key){mathVoiceStop();mathCloseResults();document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');$('view-module').classList.remove('learning-math','learning-science','science-choice-stage');document.getElementById('mathEducationReturn')?.remove();if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}mathClearWorkspaceHeader();if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('module-landing','learning-choose','learning-active','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','learning-practical','learning-country-gate','math-choice-stage','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','tasks-workspace','adaptive-workspace-view','my-documents-active');for(const p of ['height','min-height','max-height'])$('view-module').style.removeProperty(p);activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='maps'||key==='travel')renderModuleLandingChoices();if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
+function openModule(key){extraToolsStop();mathVoiceStop();mathCloseResults();document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');$('view-module').classList.remove('learning-math','learning-science','science-choice-stage');document.getElementById('mathEducationReturn')?.remove();if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}mathClearWorkspaceHeader();if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('module-landing','learning-choose','learning-active','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','learning-practical','learning-country-gate','math-choice-stage','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','extra-tools-workspace','tasks-workspace','adaptive-workspace-view','my-documents-active');for(const p of ['height','min-height','max-height'])$('view-module').style.removeProperty(p);activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='maps'||key==='travel')renderModuleLandingChoices();if(key==='learning')renderLearningSubjects();if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
 const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public',prompt:'Ajută-mă să găsesc opțiuni de transport public pornind de la locația mea. Întreabă-mă destinația dacă lipsește.',kind:'transit'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'},{icon:'🚘',title:'Parcuri auto și dealeri',prompt:'Găsește parcuri auto și dealeri auto în apropierea mea.',placeCategory:'car_dealers',kind:'places',description:'Parcuri auto, reprezentanțe și vânzări de autoturisme'},{icon:'🏥',title:'Spitale',prompt:'Găsește spitale în apropierea mea.',placeCategory:'hospital_only',kind:'places',description:'Spitale și unități spitalicești'},{icon:'🏧',title:'ATM-uri',prompt:'Găsește bancomate ATM în apropierea mea.',placeCategory:'atm',kind:'places',description:'Bancomate pentru retrageri de numerar'},{icon:'🏦',title:'Bănci',prompt:'Găsește bănci în apropierea mea.',placeCategory:'bank',kind:'places',description:'Sucursale bancare'},{icon:'💱',title:'Case de schimb valutar',prompt:'Găsește case de schimb valutar în apropierea mea.',placeCategory:'currency_exchange',kind:'places',description:'Birouri de schimb valutar'},{icon:'🩺',title:'Cabinete medicale și stomatologice',prompt:'Găsește cabinete medicale și stomatologice în apropierea mea.',placeCategory:'medical_dental',kind:'places',description:'Cabinete de medicină generală și stomatologie'}],travel:[{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',placeCategory:'hotel',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',placeCategory:'pharmacy',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',placeCategory:'corner_shop',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',placeCategory:'supermarket',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',placeCategory:'confectionery',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',placeCategory:'fast_food',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante în apropierea mea.',placeCategory:'restaurant',kind:'places',description:'Caută restaurante și localuri cu servire la masă'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',placeCategory:'lounge',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',placeCategory:'poi',kind:'places',description:'Caută alte puncte de interes din apropiere'},{icon:'🛍️',title:'Shopping și modă',prompt:'Găsește centre comerciale și magazine de îmbrăcăminte, încălțăminte și accesorii în apropierea mea.',placeCategory:'shopping_fashion',kind:'places',description:'Centre comerciale, haine, încălțăminte și accesorii'},{icon:'💇',title:'Saloane de înfrumusețare',prompt:'Găsește frizerii, saloane de coafură, cosmetică, manichiură și spa în apropierea mea.',placeCategory:'beauty_services',kind:'places',description:'Frizerii, coafură, cosmetică, manichiură și spa'},{icon:'🏡',title:'Articole pentru casă',prompt:'Găsește magazine cu articole și decorațiuni pentru casă în apropierea mea.',placeCategory:'home_goods',kind:'places',description:'Menaj, decorațiuni, textile și articole pentru bucătărie'},{icon:'🔌',title:'Electrocasnice',prompt:'Găsește magazine de electrocasnice în apropierea mea.',placeCategory:'appliances',kind:'places',description:'Electrocasnice și aparatură pentru locuință'},{icon:'🛋️',title:'Mobilier',prompt:'Găsește magazine de mobilă și saltele în apropierea mea.',placeCategory:'furniture',kind:'places',description:'Mobilă, saltele și amenajări interioare'},{icon:'🛠️',title:'Bricolaj și grădinărit',prompt:'Găsește magazine de bricolaj, materiale și grădinărit în apropierea mea.',placeCategory:'diy_garden',kind:'places',description:'Unelte, bricolaj, materiale și grădinărit'}]};
 /* Maps and hotels regain their own landing options. Keep existing search logic. */
 function renderModuleLandingChoices(){
@@ -20225,6 +20206,7 @@ t=t.replace(/(\\d),(\\d)/g,'$1 virgulă $2');return t;}
 function pocketNativeVoiceAvailable(){return typeof window.PocketAndroidVoice?.postMessage==='function'}
 function pocketNativeVoiceSend(payload){try{window.PocketAndroidVoice.postMessage(JSON.stringify(payload));return true}catch{return false}}
 window.pocketAndroidVoiceResult=function(data){
+ if(extraToolsVoiceHandleAndroid(data))return;
  if(educationTheoryHandleAndroid(data))return;
  if(languageVoiceHandleAndroid(data))return;
  if(scienceVoiceHandleAndroid(data))return;
@@ -21131,6 +21113,8 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 #view-module .exam-topic-menu,#view-module .lit-options,#view-module .hg-choice-list{
  scroll-padding-bottom:20px;
 }
+
+${EXTRA_TOOLS_WORKSPACE_STYLE}
 
 /* v1.0.148: restore breathing room between home cards without obscuring the last row. */
 #view-home.active{height:calc(100dvh - 258px)!important;max-height:calc(100dvh - 258px)!important}
