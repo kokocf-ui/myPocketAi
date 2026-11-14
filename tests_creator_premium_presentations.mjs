@@ -54,6 +54,16 @@ assert.match(roomSite,/Galeria camerelor/);
 assert.match(roomSite,/room-gallery-tile/);
 assert.match(roomSite,/room-gallery-full/);
 assert.match(roomSite,/camere single/);
+for(const [kind,label,english] of [['restaurant','Preparate','Dishes'],['services','Lucrări executate','Completed work'],
+ ['salon','Coafură','Hair styling'],['shop','Produse','Products'],['personal','Portofoliu','Portfolio'],['other','Proiecte','Projects']]){
+ const html=site.make('Demo','Prezentare',description,'Elegant','contact','both',
+  {kind,styleId:'heritage',photo,gallery:[{group:'category',categoryLabel:label,categoryEn:english,caption:label,data:roomPhoto}]});
+ assert.match(html,/Galerie foto/,'Category gallery missing for '+kind);
+ assert.match(html,/Photo gallery/,'EN category gallery missing for '+kind);
+ assert.ok(html.includes(label),'Category label missing: '+kind);
+ assert.ok(html.includes(english),'EN category missing: '+kind);
+ assert.match(html,/room-gallery-full/);
+}
 assert.doesNotMatch(photoSite,/Ilustrație de concept/,'Owner photo takes precedence over demo art');
 const malicious=site.make('<img src=x onerror=alert(1)>','Restaurant','<script>alert(1)</script>','bold','<script>','ro',{kind:'restaurant',styleId:'retro'});
 assert.doesNotMatch(malicious,/<img src=x|<script>/);
