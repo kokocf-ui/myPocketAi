@@ -1,5 +1,19 @@
 export const CREATOR_IMAGE_AI_SCRIPT=String.raw`
 const extraCreatorImagePreviewUrl='https://lifewise-ai-creator-preview.kokocf.workers.dev/image';
+function extraCreatorEnhancedPrompt(prompt,composition,format){
+ const source=String(prompt||'').trim().replace(/\s+/g,' ');
+ const ratio=format==='portrait'?'Vertical 9:16 image framing, not automatically a close-up.':
+  format==='wide'?'Wide 16:9 image layout.':'Square 1:1 image layout.';
+ const framing=composition==='portrait'?'Portrait framing requested: show the named subject clearly.':
+  composition==='medium'?'Medium-wide shot. Keep all named essential subjects in the image.':
+  composition==='wide'?'Wide establishing shot with environmental context.':
+  'FULL SCENE, FULL BODY, camera far enough for every named person, animal and object to be ENTIRELY VISIBLE. No head-only portrait.';
+ const camel=/c[aă]mil|camel/i.test(source),knight=/cavaler|knight|templier|templar/i.test(source);
+ const rider=/c[aă]lare|riding|mounted|on a camel/i.test(source);
+ const specific=camel&&knight&&rider?
+  ' Critical: show exactly one medieval Templar knight RIDING ON TOP OF A CAMEL. The whole camel (head, body, four legs) AND the full knight must be visible at once. Clearly show the relationship rider seated on animal. NOT a headshot.':'';
+ return (ratio+' '+framing+specific+' Original requested content: '+source).slice(0,500);
+}
 async function extraCreatorImageCanvas(data){
  if(typeof data!=='string'||data.length>7500000||!/^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(data))throw Error('image_invalid');
  const image=new Image();image.src=data;await image.decode();
@@ -64,10 +78,10 @@ function extraCreatorWorkingImages(work){
   generate.disabled=true;generate.textContent=extraToolsLocale('⏳ Se generează…','⏳ Generating…');
   status.textContent=extraToolsLocale('Cererea a fost trimisă motorului AI.','Request sent to AI.');
   try{
-   const label=f.format.value==='portrait'?'portrait orientation':f.format.value==='wide'?'landscape orientation':'square image';
+   const enhanced=extraCreatorEnhancedPrompt(prompt,f.composition?.value||'full',f.format.value);
    const response=await fetch(extraCreatorImagePreviewUrl,{method:'POST',headers:{
     'Content-Type':'application/json','X-Pocket-Preview':'1'},
-    body:JSON.stringify({prompt:(prompt+'; '+label).slice(0,500)}),signal:ctrl.signal});
+    body:JSON.stringify({prompt:enhanced}),signal:ctrl.signal});
    const data=await response.json().catch(()=>null);
    if(work!==extraToolsSession||!area.isConnected)return;
    if(!response.ok||data?.status!=='success'||typeof data.image!=='string'){
@@ -82,7 +96,7 @@ function extraCreatorWorkingImages(work){
    if(work!==extraToolsSession)return;
    work.creatorGeneratedCanvas=canvas;f.areaPreview.replaceChildren(canvas);f.areaPreview.classList.add('extra-creator-generated');
    save.disabled=false;zoom.disabled=false;share.disabled=false;
-   status.textContent=extraToolsLocale('Imagine generată. Poți să o mărești, salvezi sau partajezi.','Image generated. Enlarge, save or share it.');
+   status.textContent=extraToolsLocale('Imaginea este gata. Verifică dacă apar toate subiectele cerute înainte de salvare. O nouă generare consumă altă solicitare.','Image ready. Check that all requested subjects are included before saving. A new generation uses another request.');
   }catch(error){
    if(work===extraToolsSession)status.textContent=error?.name==='AbortError'?
      extraToolsLocale('Generarea a expirat. Poți încerca din nou.','Generation timed out. Retry.'):
