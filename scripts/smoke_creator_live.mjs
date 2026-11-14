@@ -4,7 +4,10 @@ const input={
  description:'Pensiune cu mic dejun inclus. Are 5 camere single, 10 camere duble si 3 apartamente. Bucatarie la comun si sala de mese.',
  english:''
 };
-globalThis.CLIENT_CONFIG={apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat'};
+// Node smoke must explicitly send the same browser Origin; Android WebView supplies it automatically.
+const httpFetch=globalThis.fetch.bind(globalThis);
+globalThis.fetch=(url,init={})=>httpFetch(url,{...init,headers:{...init.headers,Origin:'https://lifewise-ai-v2.kokocf.workers.dev'}});
+
 const {call,prompt}=new Function(CREATOR_SITE_AI_SCRIPT+';return {call:extraCreatorCallAiWebsite,prompt:extraCreatorAiSitePrompt};')();
 try{
  const copy=await call(input,AbortSignal.timeout(40000));
