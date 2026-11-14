@@ -450,19 +450,64 @@ function extraToolsOpenWorkspace(key){
    document.body.append(a);a.click();a.remove();extraToolsStatus(extraToolsLocale('Export inițiat; verifică descărcările dispozitivului.','Export initiated; check device downloads.'));
   }));
  }else if(key==='ideas'){
-  note('Creează o schiță locală de proiect, apoi poți cere detalierea ei cu AI.','Create an offline project outline, then ask AI to expand it.');
-  work.title=extraToolsField(area,extraToolsLocale('Numele proiectului','Project name'),'text','');
-  const editor=input(extraToolsLocale('Obiectiv și condiții','Goal and constraints'),'');
-  const offline=()=>{const name=work.title.value.trim()||extraToolsLocale('Proiect fără titlu','Untitled project');
-   const goal=editor.value.trim();if(!goal){extraToolsStatus(extraToolsLocale('Descrie mai întâi obiectivul.','Describe the goal first.'));return}
-   extraToolsShowOutput(name+'\n\n'+extraToolsLocale('Obiectiv: ','Goal: ')+goal+'\n\n'+
-    extraToolsLocale('Pași:','Steps:')+'\n1. '+extraToolsLocale('Clarifică rezultatul și criteriile de reușită.','Define desired outcomes and success criteria.')+
-    '\n2. '+extraToolsLocale('Inventariază resursele și limitele.','List resources and constraints.')+
-    '\n3. '+extraToolsLocale('Împarte lucrul în sarcini verificabile.','Break work into verifiable tasks.')+
-    '\n4. '+extraToolsLocale('Testează prima variantă și corectează.','Test the first version and revise.')+
-    '\n5. '+extraToolsLocale('Revizuiește progresul și pașii următori.','Review progress and next actions.'));extraToolsStatus('')};
-  extraToolsActions(area,primary('📋 Plan local','📋 Offline plan',offline),
-   secondary('✨ Detaliază cu AI','✨ Expand with AI',()=>extraToolsAI('Creează un plan de proiect practic cu etape, riscuri, resurse și verificări. Nu inventa costuri, termene sau angajamente.',work.title.value+'\n'+editor.value)));
+  note('Transformă o idee într-un plan de acțiune. Pentru a crea efectiv site-uri sau imagini, folosește «Creare pagini și imagini».','Turn an idea into an action plan. To actually create a website or image, choose Create websites and images.');
+  work.title=extraToolsField(area,extraToolsLocale('Ce proiect dorești să planifici?','What are you planning?'),'text',
+   extraToolsLocale('Ex.: Lansarea unei pensiuni','e.g. Opening a guesthouse'));
+  const editor=input(extraToolsLocale('Ce vrei să obții și ce resurse ai?','Goal and available resources'),
+   extraToolsLocale('Ex.: 18 camere, mic dejun, buget disponibil, ce trebuie făcut întâi…','e.g. Rooms, breakfast, budget, first priorities…'));
+  const examples=extraToolsEl('div','extra-creator-project-examples');
+  const example=extraToolsBtn(extraToolsLocale('Exemplu: pensiune','Example: guesthouse'),()=>{
+   work.title.value=extraToolsLocale('Plan pentru pensiune','Guesthouse plan');
+   editor.value=extraToolsLocale('Organizarea camerelor, micului dejun, prețurilor, rezervărilor și promovării.','Organize rooms, breakfast, prices, bookings, promotion.');
+  });
+  const websiteExample=extraToolsBtn(extraToolsLocale('Exemplu: site web','Example: website'),()=>{
+   work.title.value=extraToolsLocale('Pregătirea unui site web','Website preparation');
+   editor.value=extraToolsLocale('Strâng informații, fotografii, servicii și date de contact pentru site-ul afacerii.','Gather business details, photos, services and contact information.');
+  });
+  examples.append(example,websiteExample);area.append(examples);
+  const offline=()=>{
+   const name=work.title.value.trim()||extraToolsLocale('Proiect nou','New project');
+   const goal=editor.value.trim();
+   if(!goal){extraToolsStatus(extraToolsLocale('Descrie mai întâi ce dorești să obții.','Describe your goal first.'));return}
+   const lower=(name+' '+goal).toLowerCase();
+   const site=/site|web|pagin|website|landing/.test(lower);
+   const lodging=/pensiun|cazare|camere|guesthouse|hotel/.test(lower);
+   const ro=state.language!=='en';
+   const steps=site?(ro?[
+    'Pregătește numele afacerii, publicul și lista paginilor.',
+    'Adună fotografiile reale, serviciile și informațiile de contact.',
+    'Alege identitatea vizuală și limba site-ului împreună cu Eva.',
+    'Creează site-ul în «Creare pagini și imagini», apoi verifică pe telefon.',
+    'Revizuiește datele înainte de export și publicare.']:[
+    'Define the business name, audience and pages.','Collect verified photos and contact details.',
+    'Choose style and language with Eva.','Build and preview the site in Create websites and images.',
+    'Review facts before exporting and publishing.'])
+   :lodging?(ro?[
+    'Inventariază tipurile și numărul camerelor și capacitatea reală.',
+    'Stabilește facilitățile, micul dejun și regulile de cazare.',
+    'Pregătește lista de prețuri și condițiile rezervărilor.',
+    'Adună fotografiile, adresa și datele de contact verificate.',
+    'Pregătește promovarea și un site de prezentare.']:[
+    'Inventory actual rooms and guest capacity.','List amenities, breakfast and policies.',
+    'Define room prices and booking terms.','Collect photos and verified contact details.',
+    'Plan promotion and a website.'])
+   :(ro?[
+    'Definește rezultatul concret și cui îi este destinat.',
+    'Notează resursele, bugetul și limitele.',
+    'Împarte lucrul în livrabile și sarcini clare.',
+    'Stabilește primele acțiuni care pot fi verificate.',
+    'Testează rezultatul și corectează planul.']:[
+    'Define the outcome and audience.','List resources, budget and limits.',
+    'Break work into clear deliverables.','Prioritize verifiable first steps.',
+    'Test and revise the plan.']);
+   extraToolsShowOutput(name+'\n\n'+(ro?'Obiectiv: ':'Goal: ')+goal+'\n\n'+
+    (ro?'Plan de acțiune:':'Action plan:')+'\n'+steps.map((p,i)=>(i+1)+'. '+p).join('\n'));
+   extraToolsStatus('');
+  };
+  extraToolsActions(area,primary('📋 Creează plan','📋 Create plan',offline),
+   secondary('✨ Detaliază cu AI','✨ Expand with AI',()=>extraToolsAI(
+     'Rol: consultant de planificare. Construiește un plan specific proiectului, cu livrabile și verificări. Fără informații din alte domenii și fără a pretinde date verificate. Nu inventa prețuri sau termene.',
+     work.title.value+'\n'+editor.value)));
   addPdf();
  }
  area.append(result,status);panel.append(area);host.append(panel);
