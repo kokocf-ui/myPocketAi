@@ -9,7 +9,18 @@ const storage={
  async transaction(cb){return cb(this)}
 };
 const quota=new CreatorPreviewQuota({storage},{});
-const env={AI:{async run(model,opts){if(model==='@cf/meta/llama-3.1-8b-instruct-fast'){siteCalls++;return {response:JSON.stringify({ro:{headline:'Aramis',intro:'Cazare',about:'Pensiune cu mic dejun',services:[]}})}}};aiCalls++;assert.equal(model,'@cf/black-forest-labs/flux-1-schnell');assert.ok(opts.prompt.length<=500);return {image:'A'.repeat(700)}}},
+const env={AI:{
+ async run(model,opts){
+  if(model==='@cf/meta/llama-3.1-8b-instruct-fast'){
+   siteCalls++;
+   return {response:JSON.stringify({ro:{headline:'Aramis',intro:'Cazare',about:'Pensiune cu mic dejun',services:[]}})};
+  }
+  aiCalls++;
+  assert.equal(model,'@cf/black-forest-labs/flux-1-schnell');
+  assert.ok(opts.prompt.length<=500);
+  return {image:'A'.repeat(700)};
+ }
+},
  CREATOR_PREVIEW_QUOTA:{idFromName:()=> 'global',get:()=>({fetch:(url,init)=>quota.fetch(new Request(url,init))})}
 };
 const request=(headers={},prompt='A mountainside house at dawn in autumn')=>new Request('https://lifewise-ai-creator-preview.kokocf.workers.dev/image',
