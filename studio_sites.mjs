@@ -81,6 +81,17 @@ export class StudioSites{
     const result=bookingAvailability(site.published,items,entry);
     return json({ok:true,...result,notice:'Indicativ; disponibilitatea poate fi modificată înainte de confirmare.'});
    }
+   if(op==='mediaAccess'){
+    const media=String(x.path||'');
+    if(!/^\/media\/[a-f0-9]{32}\/[a-f0-9]{32}\.(webp|png|jpg)$/.test(media))
+     return json({error:'invalid_media'},404);
+    const published=(site.published?.photos||[]).some(p=>p.data===media);
+    if(published)return json({ok:true,public:true});
+    const owner=roleFor(site,String(x.actor||''));
+    if(owner&&(site.draft?.photos||[]).some(p=>p.data===media))
+     return json({ok:true,public:false});
+    return json({error:'media_not_available'},404);
+   }
    if(op==='visitorSubmit'){
     if(!site.published)return json({error:'not_published'},404);
     const fingerprint=String(x.fingerprint||'');
@@ -186,6 +197,9 @@ export class StudioSites{
    }
    const role=roleFor(site,actor);
    if(!role)return json({error:'not_authorized'},403);
+   if(op==='mediaUploadPermission'){
+    return canEdit(site,actor)?json({ok:true}):json({error:'read_only_contract'},403);
+   }
    if(op==='visitorInbox'){
     if(!role)return json({error:'not_authorized'},403);
     const items=await this.state.storage.get('visitorInbox')||[];
