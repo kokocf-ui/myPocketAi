@@ -160,4 +160,19 @@ assert.match(PRACTICAL_UI_SCRIPT,/choiceTexts\[j\]\.textContent=displayChoices\[
 assert.match(PRACTICAL_UI_SCRIPT,/selected\[i\]===q\.correct/,'Scoring still uses immutable original correct index');
 assert.match(PRACTICAL_UI_SCRIPT,/questionHost\.querySelectorAll\('input'\)\.forEach\(x=>x\.disabled=true\)/,'Inputs disabled while translation is pending');
 
+
+// Regression: the main Practical lesson is an activity selector, not a long
+// page with a sticky chapter picker covering controls and quiz questions.
+assert.match(PRACTICAL_UI_SCRIPT,/function practicalActivityDialog\(title,blocks,parking\)/);
+assert.match(PRACTICAL_UI_SCRIPT,/const storage=practicalNode\('div','','practical-lesson-storage'\)/);
+assert.match(PRACTICAL_UI_SCRIPT,/storage\.hidden=true/);
+assert.match(PRACTICAL_UI_SCRIPT,/panel\.append\(tools,storage\)/);
+assert.match(PRACTICAL_UI_SCRIPT,/makeAction\(practicalLabel\('✅ Test de verificare'/);
+assert.match(PRACTICAL_UI_SCRIPT,/questionCards\.forEach\(\(card,i\)=>\{card\.hidden=i!==activeQuestion\}\)/);
+assert.match(PRACTICAL_UI_SCRIPT,/activeQuestion=selected\.findIndex/);
+assert.match(PRACTICAL_UI_SCRIPT,/questionHost\.hidden=true;pager\.hidden=true/);
+assert.match(html,/dialog\.practical-activity-dialog\[open\]\{/);
+assert.match(html,/#view-module\.learning-practical\.active \.education-topic-picker\{[\s\S]{0,70}position:static!important/);
+assert.doesNotMatch(PRACTICAL_UI_SCRIPT,/if\(stage==='lesson'\)eduAttachPrintAction\(bar\)/);
+
 console.log('PASS practical courses: 6 domains, 36 lessons, 13 country references, two quiz variants per chapter, scoring, PDF, Android navigation and one-tap selectors');
