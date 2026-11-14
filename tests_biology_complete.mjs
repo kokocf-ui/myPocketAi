@@ -76,7 +76,11 @@ const root={classList:{add:(...args)=>args.forEach(x=>cls.add(x)),remove:(...arg
 const host=new FakeEl('div'),title=new FakeEl('h2'),lead=new FakeEl('div');
 const els={'view-module':root,moduleContent:host,moduleTitle:title,moduleLead:lead};
 let workspaces=0;
+const scienceMenuBegin=script.indexOf('function scienceOpenChemistrySection(stage){');
+const scienceMenuEnd=script.indexOf('function scienceOpenWorkspace(){',scienceMenuBegin);
+assert.ok(scienceMenuBegin>=0&&scienceMenuEnd>scienceMenuBegin);
 const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(start,end)+
+ script.slice(scienceMenuBegin,scienceMenuEnd)+
  '\n({open:scienceJourneyShowChoices,back:scienceBack,state:scienceJourney})',{
  document:{createElement:tag=>new FakeEl(tag),querySelector:()=>null},
  window:{addEventListener:()=>{},visualViewport:null,innerHeight:900},
@@ -113,8 +117,12 @@ const chapters=[...options().map(x=>x.children[0]?.textContent)];
 assert.ok(chapters.some(x=>x.includes('Replicare')));
 assert.ok(chapters.some(x=>x.includes('Genetică și ereditate')));
 options()[0].onclick();
+assert.equal(api.state.stage,'chemistry-menu','Biology chapter has three activity choices');
+assert.equal(options().length,3,'study, exercises and laboratory are separate');
+options()[1].onclick();
 assert.equal(api.state.stage,'workspace');
 assert.equal(workspaces,1);
+api.back();assert.equal(api.state.stage,'chemistry-menu');
 api.back();assert.equal(api.state.stage,'topics');
 api.back();assert.equal(api.state.stage,'specialties');
 api.back();assert.equal(api.state.stage,'years');
