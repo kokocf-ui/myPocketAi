@@ -88,10 +88,10 @@ function extraCreatorWorkingWebsite(work){
   status.textContent=extraToolsLocale('Eva pregătește site-ul. Rezultatul va apărea în previzualizare.','Eva is preparing the site. It will appear in the preview.');
   const style=f.getStyle();
   try{
-   const copy=await extraCreatorCallAiWebsite({name,description,kind,lang,english:f.descEn.value,style:style.ro+' '+f.extra.value},ctrl.signal);
+   const copy=await extraCreatorCallAiWebsite({name,description,kind,lang,style:style.ro+' '+f.extra.value},ctrl.signal);
    if(work!==extraToolsSession||!area.isConnected)return;
    work.siteHtml=extraCreatorLocalHtml(name,f.type.options[f.type.selectedIndex]?.textContent||kind,description,style.ro+' '+f.extra.value,f.contact.value,lang,
-    {kind,styleId:style.id,descriptionEn:copy.en?.intro||f.descEn.value,photo:f.getPhoto(),aiCopy:copy});
+    {kind,styleId:style.id,descriptionEn:copy.en?.intro||'',photo:f.getPhoto(),aiCopy:copy});
    const frame=extraToolsEl('iframe','extra-creator-preview');frame.setAttribute('sandbox','');
    frame.srcdoc=work.siteHtml;frame.title=extraToolsLocale('Site generat de Eva','Website by Eva');
    f.preview.replaceChildren(frame);
