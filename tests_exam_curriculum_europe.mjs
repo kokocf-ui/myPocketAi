@@ -110,7 +110,10 @@ for(const fragment of [
  "function eduOpenPrint(mode='save')"
 ])assert.ok(boot.includes(fragment),'Exam UI missing: '+fragment);
 assert.match(html,/#view-module\.learning-exams #moduleChatHost\{display:none!important\}/,'Hide duplicate chat');
-assert.match(EXAM_UI_SCRIPT,/\.slice\(offset,offset\+4\)/,'At most four list results');
+assert.match(EXAM_UI_SCRIPT,/exam-choice-grid/,'Exam choices have compact card grid');
+assert.match(EXAM_UI_SCRIPT,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/,'Exam cards are shown in two columns');
+assert.match(EXAM_UI_SCRIPT,/const pageSize=options\.length>24\?12:options\.length/,'Normal class and subject menus show all cards');
+assert.match(EXAM_UI_SCRIPT,/\.slice\(offset,offset\+pageSize\)/,'Large catalogs retain optional pagination');
 assert.match(EXAM_UI_SCRIPT,/Punctaj neoficial/,'No official-scoring claim');
 assert.match(EXAM_UI_SCRIPT,/examJourney\.session/,'Sitting year selector');
 assert.match(EXAM_UI_SCRIPT,/examJourney\.region/,'Regional selection');
