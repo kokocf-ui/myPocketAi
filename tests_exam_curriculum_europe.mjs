@@ -124,7 +124,7 @@ assert.match(EXAM_UI_SCRIPT,/Capitol de recapitulare/,'AI prompt scoped to selec
 assert.match(EXAM_UI_SCRIPT,/controller\.signal/,'Abort support');
 assert.match(EXAM_UI_SCRIPT,/function examDictate/,'Dictation');
 assert.match(EXAM_UI_SCRIPT,/const read=examBtn/,'Reading toggle');
-assert.match(EXAM_UI_SCRIPT,/🎓 Universitate/,'Direct university entrance');
+assert.match(EXAM_UI_SCRIPT,/ro:'Universitate',en:'University',icon:'🎓'/,'Direct university entrance card');
 assert.match(EXAM_UI_SCRIPT,/function examOpen\(stage\)/,'University navigation');
 assert.match(EXAM_UI_SCRIPT,/if\(stage==='universityDomains'\)/,'Field chooser before subject');
 assert.doesNotMatch(EXAM_UI_SCRIPT,/addField\('institution'/,'No mandatory institution field');
