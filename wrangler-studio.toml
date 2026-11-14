@@ -1,0 +1,25 @@
+# ISOLATED myPocketAI Site Studio. Never deploy into lifewise-ai-v2 or lifewise-ai-api.
+# Deployment requires a separate explicit decision and server-side secret provisioning.
+name = "lifewise-ai-site-studio"
+main = "studio_worker.mjs"
+compatibility_date = "2026-10-28"
+
+[vars]
+STUDIO_AI_ENABLED = "false"
+
+[[durable_objects.bindings]]
+name = "STUDIO_ACCOUNTS"
+class_name = "StudioAccounts"
+
+[[durable_objects.bindings]]
+name = "STUDIO_SITES"
+class_name = "StudioSites"
+
+[[migrations]]
+tag = "studio-sqlite-v1"
+new_sqlite_classes = ["StudioAccounts", "StudioSites"]
+
+# Do not enable [ai] binding or STUDIO_AI_ENABLED until provider quotas and a billing policy
+# have been explicitly approved. The independent admin panel needs no AI for normal edits.
+# Secret required for first creator enrollment: STUDIO_BOOTSTRAP_SECRET (min 20 chars).
+# Optional manual premium entitlement control: STUDIO_OPERATOR_SECRET (min 20 chars).
