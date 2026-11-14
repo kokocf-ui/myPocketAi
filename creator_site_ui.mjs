@@ -299,8 +299,24 @@ function extraCreatorWebsite(work){
   reader.onerror=()=>extraToolsStatus(extraToolsLocale('Nu s-a putut încărca fotografia.','Could not read photo.'));
   reader.readAsDataURL(file);
  };
- const photoButton=extraToolsBtn(extraToolsLocale('🏡 Fotografia pensiunii / imagine principală','🏡 Guesthouse / main photo'),()=>photo.click());
+ const photoButton=extraToolsBtn(extraToolsLocale('📷 Fotografie principală','📷 Main photo'),()=>photo.click());
  area.append(photo,photoButton,photoLabel);
+ const updatePhotoGuidance=()=>{
+  const hints={
+   hotel:['🏡 Fotografia pensiunii','Building exterior','Fotografia exterioară a pensiunii este imaginea principală.','The guesthouse exterior is the main photo.'],
+   restaurant:['🍽 Fotografia localului','Venue photograph','Alege o fotografie reprezentativă a restaurantului, cafenelei sau barului.','Choose a representative restaurant, café or bar photograph.'],
+   services:['🛠 Fotografie reprezentativă','Representative photo','Poate fi o lucrare reală executată sau echipa.','Choose real completed work or your team.'],
+   salon:['✂ Fotografia salonului','Salon photograph','Alege o imagine a salonului sau a serviciului principal.','Choose the salon or its principal service.'],
+   shop:['🛍 Fotografia magazinului','Shop photograph','Alege imaginea magazinului sau a unui produs reprezentativ.','Choose your shop or featured product.'],
+   personal:['🖼 Fotografie de prezentare','Portfolio photograph','Alege o imagine reprezentativă pentru portofoliu sau eveniment.','Choose a representative portfolio or event image.'],
+   other:['📷 Imagine principală','Main photograph','Alege fotografia care reprezintă cel mai bine activitatea.','Choose a photo that best represents this business.']
+  };
+  const h=hints[type.value]||hints.other;
+  photoButton.textContent=extraToolsLocale(h[0],h[1]);
+  photoLabel.textContent=extraToolsLocale(h[2],h[3]);
+ };
+ type.addEventListener('change',updatePhotoGuidance);
+ updatePhotoGuidance();
  const guesthouseGallery=extraCreatorGuesthouseControls(area,type,desc);
  const preview=extraToolsEl('div','extra-creator-preview-wrap');
  const note=extraToolsEl('p','extra-creator-preview-info',extraToolsLocale('Apasă Previzualizează pentru a vedea site-ul demonstrativ.','Tap Preview to see your local website draft.'));
