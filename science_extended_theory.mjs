@@ -307,7 +307,7 @@ export function scienceExtendedTheory(entry, chapterName='',explicit=null){
    return line&&line===line.toLocaleUpperCase('ro-RO')&&line.length<=52&&!/[0-9]/.test(line)
     ?'# '+line:part;
   }).join('\n');
- if(SCIENCE_FEATURED[entry.id])return SCIENCE_FEATURED[entry.id];
+ if(SCIENCE_FEATURED[entry.id])return '# Definiție din programă\n'+String(entry.statement||'').trim()+'\n\n'+SCIENCE_FEATURED[entry.id];
  const nl='\n',gap=nl+nl;
  const guide=SCIENCE_GUIDES[entry.subject]?.[entry.topic];
  const parts=['# Definiție și idee principală',String(entry.statement||'').trim()];
