@@ -103,7 +103,7 @@ export class StudioSites{
     return updated?json({ok:true,publishedVersion:updated}):json({error:'revision_conflict'},409);
    }
    if(op==='invite'){
-    if(role!=='owner')return json({error:'owner_only'},403);
+    if(role!=='owner'&&!(role==='creator'&&site.ownerId===site.creatorId))return json({error:'owner_only'},403);
     const email=normalizeEmail(x.email);if(!validEmail(email))return json({error:'invalid_email'},400);
     const token=rand(32),hash=await sha256(token);
     const expires=now+72*60*60*1000;
