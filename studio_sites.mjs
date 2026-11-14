@@ -319,7 +319,7 @@ export class StudioSites{
     if(x.version!==site.version)return json({error:'revision_conflict',version:site.version},409);
     // Personal data must not be collected until a published HTTPS privacy policy exists.
     const flowFeatures=studioBusinessFeatures(site.draft.features);
-    if((flowFeatures.contact||flowFeatures.booking)&&!flowFeatures.privacyUrl)
+    if((flowFeatures.contact||flowFeatures.booking||flowFeatures.shop)&&!flowFeatures.privacyUrl)
      return json({error:'privacy_notice_required'},400);
     // Rendering validates and escapes content before publishing.
     renderStudioSite(site.draft);
