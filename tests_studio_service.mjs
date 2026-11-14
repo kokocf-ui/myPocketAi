@@ -6,6 +6,7 @@ import {StudioAccounts} from './studio_accounts.mjs';
 import {StudioSites} from './studio_sites.mjs';
 import {entitlement,TRIAL_MILLIS,normalizeStudioPrompt} from './studio_security.mjs';
 import {renderStudioSite,validateStudioDraft,STUDIO_THEMES} from './studio_site_renderer.mjs';
+import {SITE_HOSTING_GUIDES} from './creator_hosting_guide.mjs';
 class Store{
  constructor(){this.data=new Map()}
  async get(k){return structuredClone(this.data.get(k))}
