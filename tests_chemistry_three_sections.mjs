@@ -29,8 +29,8 @@ assert.ok(script.includes("scienceJourney.subject!=='chemistry'&&availableTopics
  'exercise view does not duplicate the chapter list');
 assert.ok(script.includes("if(topic&&scienceJourney.subject!=='chemistry')"),
  'exercise view does not duplicate lessons');
-assert.ok(script.includes("scienceJourney.subject==='chemistry'?'chemistry-menu':'workspace'"),
- 'Chemistry opens the simplified menu; other Sciences retain their route');
+assert.ok(script.includes("scienceJourney.topic=item.id;scienceJourneyShowChoices('chemistry-menu')"),
+ 'All Sciences open the simplified chapter menu without duplicated inline lessons');
 assert.ok(html.includes('.chemistry-section-list{padding:4px 5px calc(108px'),
  'lessons scroll with clearance above persistent navigation');
 assert.ok(html.includes('.chemistry-primary-solve{background:linear-gradient(180deg,#8a3c54,#651f38)'),
