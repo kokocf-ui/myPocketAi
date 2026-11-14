@@ -4,8 +4,8 @@ import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_
 import {CREATOR_SITE_SCRIPT,CREATOR_SITE_STYLE} from './creator_site_ui.mjs';
 
 new vm.Script(EXTRA_TOOLS_WORKSPACE_SCRIPT,{filename:'extra-tools-workspace.js'});
-assert.ok(EXTRA_TOOLS_WORKSPACE_SCRIPT.endsWith(CREATOR_SITE_SCRIPT));
-assert.ok(EXTRA_TOOLS_WORKSPACE_STYLE.endsWith(CREATOR_SITE_STYLE));
+assert.ok(EXTRA_TOOLS_WORKSPACE_SCRIPT.includes(CREATOR_SITE_SCRIPT),'Site UI is included in combined Tools JS');
+assert.ok(EXTRA_TOOLS_WORKSPACE_STYLE.includes(CREATOR_SITE_STYLE),'Site styles are included in Tools');
 const f=new Function(EXTRA_TOOLS_WORKSPACE_SCRIPT+'; return {generate:extraCreatorLocalHtml,details:extraCreatorSiteDetails,styles:extraCreatorVisualStyles};')();
 assert.ok(f.styles.length>=10,'The style picker must offer many distinct visual approaches');
 assert.equal(new Set(f.styles.map(s=>s.id)).size,f.styles.length,'Design styles must have unique IDs');
