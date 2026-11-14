@@ -18,6 +18,36 @@ export class StudioSites{
  constructor(state,env){this.state=state;this.env=env}
  async get(){return this.state.storage.get('site')}
  async save(data){return this.state.storage.put('site',data)}
+ async snapshot(){
+  const bucket=this.env.SITE_BACKUPS;
+  if(!bucket||typeof bucket.put!=='function')throw Error('backup_not_configured');
+  const site=await this.get();if(!site)throw Error('site_missing');
+  const inbox=await this.state.storage.get('visitorInbox')||[];
+  const stripeEvents=await this.state.storage.get('stripeEvents')||[];
+  const timestamp=new Date().toISOString().replaceAll(':','-');
+  const key='sites/'+site.id+'/'+timestamp+'.json';
+  const data=JSON.stringify({schema:'eva-studio-backup-v1',site,inbox,stripeEvents,createdAt:Date.now()});
+  await bucket.put(key,data,{httpMetadata:{contentType:'application/json'},
+   customMetadata:{kind:'eva-studio-private-backup',siteId:site.id}});
+  // Keep at most 30 daily snapshots; this bucket stays private and belongs to the site owner.
+  if(typeof bucket.list==='function'&&typeof bucket.delete==='function'){
+   const list=await bucket.list({prefix:'sites/'+site.id+'/',limit:100});
+   const keys=(list.objects||[]).map(o=>o.key).sort();
+   if(keys.length>30)await bucket.delete(keys.slice(0,-30));
+  }
+  return {ok:true,key,createdAt:Date.now()};
+ }
+ async alarm(){
+  try{if(this.env.SITE_BACKUPS)await this.snapshot()}
+  finally{if(this.env.SITE_BACKUPS&&this.state.storage.setAlarm)
+   await this.state.storage.setAlarm(Date.now()+24*3600000)}
+ }
+ async scheduleBackups(){
+  if(this.env.SITE_BACKUPS&&this.state.storage.setAlarm){
+   const active=await this.state.storage.getAlarm?.();
+   if(active==null)await this.state.storage.setAlarm(Date.now()+24*3600000);
+  }
+ }
  async fetch(request){
   if(request.method!=='POST')return json({error:'method_not_allowed'},405);
   let x;try{x=await bodyJson(request,3600000)}catch(e){return json({error:e.message},400)}
@@ -31,6 +61,7 @@ export class StudioSites{
     const data={id:x.id,createdAt:now,updatedAt:now,version:1,publishedVersion:0,creatorId:actor,
      ownerId:actor,creatorRevoked:false,management,draft,published:null,invites:[],requests:[],audit:[]};
     history(data,'site_created',actor);await this.save(data);
+    await this.scheduleBackups();
     return json({ok:true,id:x.id,version:1});
    }
    const site=await this.get();if(!site)return json({error:'site_missing'},404);
@@ -197,10 +228,56 @@ export class StudioSites{
     });
     return json(changed,changed.status>=400?changed.status:200);
    }
-   if(op==='read')return json({ok:true,site:{id:site.id,version:site.version,publishedVersion:site.publishedVersion,
+   if(op==='backupCreate'){
+    if(role!=='owner')return json({error:'owner_only'},403);
+    return json(await this.snapshot());
+   }
+   if(op==='backupList'){
+    if(role!=='owner')return json({error:'owner_only'},403);
+    const bucket=this.env.SITE_BACKUPS;
+    if(!bucket)return json({error:'backup_not_configured'},503);
+    const list=await bucket.list({prefix:'sites/'+site.id+'/',limit:100});
+    return json({ok:true,objects:(list.objects||[]).map(o=>({key:o.key,size:o.size,uploaded:o.uploaded}))});
+   }
+   if(op==='backupRestore'){
+    if(role!=='owner')return json({error:'owner_only'},403);
+    if(!this.env.SITE_BACKUPS)return json({error:'backup_not_configured'},503);
+    if(x.confirm!=='RESTAUREAZA '+site.id)return json({error:'confirmation_required'},400);
+    if(x.version!==site.version)return json({error:'revision_conflict'},409);
+    const key=String(x.key||'');
+    if(!/^sites\/[a-f0-9]{32}\/[0-9TZ.-]+\.json$/.test(key)||!key.startsWith('sites/'+site.id+'/'))
+     return json({error:'invalid_backup'},400);
+    const object=await this.env.SITE_BACKUPS.get(key);
+    if(!object)return json({error:'backup_missing'},404);
+    const data=await object.json();
+    if(data?.schema!=='eva-studio-backup-v1'||data?.site?.id!==site.id||
+       !Array.isArray(data.inbox))return json({error:'invalid_backup'},400);
+    const restoredDraft=validateStudioDraft(data.site.draft);
+    const restoredPublished=data.site.published?validateStudioDraft(data.site.published):null;
+    const outcome=await this.state.storage.transaction(async tx=>{
+     const current=await tx.get('site');
+     if(!current||current.version!==x.version)return null;
+     const items=await tx.get('visitorInbox')||[];
+     const paid=items.filter(i=>i.type==='order'&&i.paymentStatus==='paid');
+     const archived=data.inbox.filter(i=>i&&/^[a-f0-9]{16}$/.test(i.id||'')&&
+      !(i.type==='order'&&i.paymentStatus==='paid'));
+     const merged=new Map(archived.map(i=>[i.id,i]));
+     for(const item of paid)merged.set(item.id,item);
+     current.draft=restoredDraft;current.published=restoredPublished;
+     current.version++;current.publishedVersion=restoredPublished?current.version:0;
+     current.updatedAt=now;history(current,'backup_restored',actor);
+     await tx.put('site',current);
+     await tx.put('visitorInbox',[...merged.values()].slice(-400));
+     // NEVER roll back Stripe event idempotency or paid-order evidence.
+     return current.version;
+    });
+    return outcome?json({ok:true,version:outcome,notice:'Plățile deja încasate au fost păstrate.'}):
+     json({error:'revision_conflict'},409);
+   }
+   if(op==='read'){await this.scheduleBackups();return json({ok:true,site:{id:site.id,version:site.version,publishedVersion:site.publishedVersion,
     updatedAt:site.updatedAt,createdAt:site.createdAt,management:site.management,draft:site.draft,
     role,creatorRevoked:site.creatorRevoked,ownerAssigned:site.ownerId!==site.creatorId,
-    requests:role==='creator'?site.requests:site.requests.filter(r=>r.actor===actor),audit:site.audit.slice(-12)}});
+    requests:role==='creator'?site.requests:site.requests.filter(r=>r.actor===actor),audit:site.audit.slice(-12)}});}
    if(op==='preview')return json({ok:true,html:renderStudioSite(site.draft)});
    if(op==='export')return json({ok:true,html:renderStudioSite(site.published||site.draft)});
    if(op==='save'){
