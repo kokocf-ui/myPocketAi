@@ -27,6 +27,7 @@ export const siteEscape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&a
 const bounded=(v,n)=>typeof v==='string'?v.trim().slice(0,n):'';
 const EMAIL=/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
 const PHOTO=/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/i;
+const MEDIA=/^\/media\/[a-f0-9]{32}\/[a-f0-9]{32}\.(?:webp|png|jpg)$/;
 export function validateStudioDraft(input){
  if(!input||typeof input!=='object'||Array.isArray(input))throw new Error('invalid_draft');
  const name=bounded(input.name,105),description=bounded(input.description,2800);
@@ -51,13 +52,13 @@ export function validateStudioDraft(input){
   label:bounded(r?.label,100),count:Math.max(0,Math.min(999,Number(r?.count)||0))
  })).filter(r=>r.label);
  const amenities=(Array.isArray(input.amenities)?input.amenities:[]).slice(0,15).map(x=>bounded(x,100)).filter(Boolean);
- const photos=(Array.isArray(input.photos)?input.photos:[]).slice(0,40).map((x,i)=>({
+ const photos=(Array.isArray(input.photos)?input.photos:[]).slice(0,150).map((x,i)=>({
   data:bounded(x?.data,185000),caption:bounded(x?.caption,130),
   group:['exterior','room','category','other'].includes(x?.group)?x.group:(i===0?'exterior':'other'),
   roomLabel:bounded(x?.roomLabel,100),categoryLabel:bounded(x?.categoryLabel,100),
   categoryEn:bounded(x?.categoryEn,100)
- })).filter(x=>x.data&&x.data.length<185000&&PHOTO.test(x.data));
- const totalPhotoBytes=photos.reduce((n,x)=>n+x.data.length,0);
+ })).filter(x=>x.data&&x.data.length<185000&&(PHOTO.test(x.data)||MEDIA.test(x.data)));
+ const totalPhotoBytes=photos.reduce((n,x)=>n+(PHOTO.test(x.data)?x.data.length:0),0);
  if(totalPhotoBytes>3000000)throw new Error('too_many_photo_bytes');
  return {name,description,kind,styleId,lang,contact,content,rooms,amenities,photos,features:studioBusinessFeatures(input.features),commerce:normalizeCommercial(input.commerce,kind)};
 }
@@ -192,7 +193,7 @@ export function renderStudioSite(input,options={}){
  'letter-spacing:.07em;padding:0 16px;text-align:center}.premium-site .offers{min-height:160px}';
  return '<!doctype html><html lang="'+(d.lang==='both'?'ro':d.lang)+'"><head><meta charset="utf-8">'+
  '<meta name="viewport" content="width=device-width,initial-scale=1">'+
- '<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;;style-src &#39;unsafe-inline&#39;;img-src data:;">'+
+ '<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;;style-src &#39;unsafe-inline&#39;;img-src data: &#39;self&#39;;">'+
  '<title>'+siteEscape(d.name)+'</title><style>'+STUDIO_SITE_CSS+GUESTHOUSE_SITE_CSS+STUDIO_VISITOR_CSS+extraCss+'</style></head>'+
  '<body class="premium-site theme-'+theme+'" style="'+cssVars+'">'+controls+'<div class="site-shell">'+
  languages+'</div></body></html>';
