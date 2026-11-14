@@ -8,7 +8,14 @@ const text=(v,max)=>typeof v==='string'?v.trim().slice(0,max):'';
 const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','"':'&quot;',"'":'&#39;'}[c]));
 const MAIL=/^[^\s@<>]{1,90}@[^\s@<>]{1,90}\.[^\s@<>]{2,24}$/;
 export function studioBusinessFeatures(input){
- return {contact:input?.contact===true,booking:input?.booking===true};
+ const candidate=text(input?.privacyUrl,300);
+ let privacyUrl='';
+ if(candidate)try{
+  const u=new URL(candidate);
+  if(u.protocol==='https:'&&!u.username&&!u.password&&u.hostname.includes('.'))
+   privacyUrl=u.href;
+ }catch{}
+ return {contact:input?.contact===true,booking:input?.booking===true,privacyUrl};
 }
 export function studioBookingType(kind){
  return kind==='hotel'?'stay':kind==='restaurant'?'table':kind==='salon'?'appointment':'request';
@@ -63,7 +70,10 @@ export function businessPublicFormHtml(draft,siteId='',lang='ro'){
    '<div class="studio-trap" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>'+
    body+'<label class="studio-form-consent"><input name="privacy_ack" type="checkbox" value="yes" required'+(isPublic?'':' disabled')+'>'+
    (en?'I understand the business will use these details to respond.':'Înțeleg că afacerea va utiliza aceste date pentru a-mi răspunde.')+'</label>'+
-   '<p class="studio-form-note">'+tip+'</p><button type="submit"'+(isPublic?'':' disabled')+'>'+
+   '<p class="studio-form-note">'+tip+'</p>'+
+   (features.privacyUrl?'<p class="studio-form-note"><a href="'+esc(features.privacyUrl)+'" rel="noopener noreferrer" target="_blank">'+
+   (en?'Privacy policy':'Politica de confidențialitate')+'</a></p>':'')+
+   '<button type="submit"'+(isPublic?'':' disabled')+'>'+
    (mode==='contact'?(en?'Send message':'Trimite mesaj'):(en?'Send booking request':'Trimite solicitarea'))+'</button>'+
    (!isPublic?'<p class="studio-form-note">'+(en?'Preview only. Publish with the backend to activate submissions.':
     'Doar demonstrație. Publică site-ul împreună cu backendul pentru activare.')+'</p>':'')+
