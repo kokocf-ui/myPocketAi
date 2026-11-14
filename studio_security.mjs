@@ -82,7 +82,7 @@ export function normalizeStudioPrompt(prompt,composition='wide'){
 export function publicSafeHtmlHeaders(preview=false,allowForms=false){
  return {
  'Content-Type':'text/html; charset=utf-8','Cache-Control':preview?'no-store':'public, max-age=60',
- 'Content-Security-Policy':"default-src 'none'; script-src 'none'; img-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action "+(allowForms?"'self'":"'none'")+"; object-src 'none'; frame-ancestors "+(preview?"'self'":"'none'")+"; sandbox"+(allowForms?' allow-forms allow-same-origin':''),
+ 'Content-Security-Policy':"default-src 'none'; script-src 'none'; img-src data: 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action "+(allowForms?"'self'":"'none'")+"; object-src 'none'; frame-ancestors "+(preview?"'self'":"'none'")+"; sandbox"+(allowForms?' allow-forms allow-same-origin':''),
  'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',
  'X-Frame-Options':preview?'SAMEORIGIN':'DENY'
  };
