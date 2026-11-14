@@ -18350,27 +18350,27 @@ async function showTransitWalkingComparison(notice,options){
   const transitClockText=transitClock(best.arrivalDateTime||best.legs?.at(-1)?.arrivalTime,zone);
   const travelMinutes=Number(best.durationMinutes);
   const p=document.createElement('p');
-  p.textContent=dialogText('Dacă pleci acum, pe jos faci ','Leaving now, walking takes ')+
+  p.style.cssText='margin:0 0 6px';
+  p.textContent=dialogText('Pe jos, dacă pleci acum: ','Walking if you leave now: ')+
    formatTravelDurationMinutes(minutes)+
-   dialogText(' și ajungi în jurul orei ',' and arrives around ')+walkingClock+'.';
+   dialogText(' (sosire în jur de ',' (arrival around ')+walkingClock+').';
   const details=document.createElement('p');
+  details.style.cssText='margin:0 0 8px';
+  const startClock=transitClock(best.startDateTime||best.legs?.[0]?.departureTime,zone);
   details.textContent=dialogText('Transport public: ','Public transport: ')+
    (Number.isFinite(travelMinutes)&&travelMinutes>=0?
      formatTravelDurationMinutes(travelMinutes)+
-     dialogText(' este durata itinerariului programat; ',' is the scheduled journey duration; '):'')+
-   dialogText('sosire la ','arrival at ')+transitClockText+
-   dialogText(' (peste aproximativ ',' (in about ')+formatTravelDurationMinutes(untilTransit)+
-   dialogText(' de acum, cu așteptarea).',' from now, including waiting).');
-  const conclusion=document.createElement('p');
-  conclusion.textContent=dialogText('Comparând orele de sosire, pe jos ajungi cu aproximativ ',
-   'Comparing arrival times, walking gets you there about ')+
+     dialogText(' este durata itinerariului ',' is the itinerary duration ')+
+     (startClock!=='—'?startClock+'–'+transitClockText+'. ':'. '):'')+
+   dialogText('Sosirea este peste aproximativ ','Arrival is in about ')+formatTravelDurationMinutes(untilTransit)+
+   dialogText(' de acum, cu așteptarea. Comparând sosirile, pe jos ajungi cu aproximativ ',
+    ' from now, including waiting. Comparing arrival times, walking arrives about ')+
    formatTravelDurationMinutes(difference)+
-   dialogText(' mai devreme, nu înseamnă că mergi mai repede decât autobuzul.',
-    ' earlier; this does not mean your walking speed exceeds the bus.');
+   dialogText(' mai devreme.',' earlier.');
   const button=document.createElement('button');button.type='button';button.className='transit-choice-action';
   button.textContent=dialogText('Vezi traseul pietonal','Open walking route');
   button.onclick=()=>openRouteMap(route,button,[route]);
-  notice.replaceChildren(p,details,conclusion,button);
+  notice.replaceChildren(p,details,button);
  };
  const previous=state.lastRoute;
  if(transitVerifiedWalkingMinutes(previous,origin,destination)!==null){display(previous);return}
