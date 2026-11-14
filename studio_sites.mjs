@@ -243,18 +243,18 @@ export class StudioSites{
     return json(changed,changed.status>=400?changed.status:200);
    }
    if(op==='backupCreate'){
-    if(role!=='owner')return json({error:'owner_only'},403);
+    if(role!=='owner'&&!(role==='creator'&&site.ownerId===site.creatorId))return json({error:'owner_only'},403);
     return json(await this.snapshot());
    }
    if(op==='backupList'){
-    if(role!=='owner')return json({error:'owner_only'},403);
+    if(role!=='owner'&&!(role==='creator'&&site.ownerId===site.creatorId))return json({error:'owner_only'},403);
     const bucket=this.env.SITE_BACKUPS;
     if(!bucket)return json({error:'backup_not_configured'},503);
     const list=await bucket.list({prefix:'sites/'+site.id+'/',limit:100});
     return json({ok:true,objects:(list.objects||[]).map(o=>({key:o.key,size:o.size,uploaded:o.uploaded}))});
    }
    if(op==='backupRestore'){
-    if(role!=='owner')return json({error:'owner_only'},403);
+    if(role!=='owner'&&!(role==='creator'&&site.ownerId===site.creatorId))return json({error:'owner_only'},403);
     if(!this.env.SITE_BACKUPS)return json({error:'backup_not_configured'},503);
     if(x.confirm!=='RESTAUREAZA '+site.id)return json({error:'confirmation_required'},400);
     if(x.version!==site.version)return json({error:'revision_conflict'},409);
