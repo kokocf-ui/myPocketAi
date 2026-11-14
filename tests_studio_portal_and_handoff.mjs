@@ -56,6 +56,18 @@ assert.match(script,/Categorie de camere|Cameră:/);
 assert.match(script,/photoTarget\(/);
 assert.match(script,/galleryOptions\(/);
 assert.match(script,/__SITE_GALLERY_CATALOG__/);
+assert.match(script,/__SITE_HOSTING_CATALOG__/);
+assert.match(script,/renderHostingOptions/);
+assert.match(script,/downloadHostingInstructions/);
+assert.match(CREATOR_HANDOFF_SCRIPT,/extraCreatorHostingGuide\(area,form\)/);
+const guide=new Function(EXTRA_TOOLS_WORKSPACE_SCRIPT+';return {get:extraCreatorHostingPlans};')();
+assert.equal(guide.get('static').length,3);
+assert.equal(guide.get('dynamic').length,2);
+for(const plan of SITE_HOSTING_GUIDES){
+ assert.ok(plan.doc.startsWith('https://'),'Official docs required');
+ assert.ok(plan.stepsRo.length>=5&&plan.stepsEn.length>=5,'Full deployment steps needed');
+}
+assert.match(CREATOR_HOSTING_SCRIPT,/HTML.*backend|backend.*HTML/);
 assert.match(script,/40 fotografii/);
 assert.match(CREATOR_HANDOFF_SCRIPT,/DataUrl|canvas\.toDataURL|toDataURL/);
 console.log('PASS: Studio portal JS, editable project import, handover schema, automatic RO/EN copy, full-subject image composition without extra AI calls');
