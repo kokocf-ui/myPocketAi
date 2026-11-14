@@ -67,6 +67,8 @@ async function main(){
   const source=JSON.parse(await readFile(path.join(dir,original),'utf8'));
   const workerName=await prompt(rl,'Nume unic pentru site (ex.: eva-pensiunea-aramis): ');
   const conf=withClientName(source,workerName);
+  // One folder = one customer. Never overwrite a previous customer's deployment config.
+  try{await readFile(configPath,'utf8');throw Error('Acest folder conține deja un site instalat. Pentru un client nou, extrage un pachet ZIP într-un folder separat.')}catch(error){if(error.code!=='ENOENT')throw error}
   console.log('\nDeschide Cloudflare în contul CLIENTULUI, nu în contul creatorului.');
   console.log('Wrangler va afișa mai jos identitatea contului folosit.');
   try{wrangler(['whoami'])}catch{
@@ -76,7 +78,7 @@ async function main(){
   }
   const accept=await prompt(rl,'Confirmi că acesta este contul de găzduire al CLIENTULUI? (scrie DA): ');
   if(accept!=='DA')throw Error('Instalare anulată; contul clientului nu a fost confirmat.');
-  await writeFile(configPath,JSON.stringify(conf,null,2)+'\n',{mode:0o600,flag:'w'});
+  await writeFile(configPath,JSON.stringify(conf,null,2)+'\n',{mode:0o600,flag:'wx'});
   console.log('\nPublic backendul în contul autorizat. Confirma în Cloudflare dacă ți se cere.');
   wrangler(['deploy','--config',local]);
   const bootstrap=randomBytes(32).toString('hex');
