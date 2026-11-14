@@ -11,10 +11,17 @@ export function normalizeCommercial(input={},kind='other'){
   priceMinor:positiveInt(item?.priceMinor,100000000),
   inventory:positiveInt(item?.inventory,99999)
  })).filter(p=>p.title&&p.priceMinor>0);
+ const day=d=>/^\d{4}-\d{2}-\d{2}$/.test(d)&&!Number.isNaN(Date.parse(d+'T12:00:00Z'))&&new Date(d+'T12:00:00Z').toISOString().slice(0,10)===d;
+ const blocked=(Array.isArray(input.blocked)?input.blocked:[]).slice(0,160).map(b=>({
+  type:b?.type==='stay'?'stay':'slot',
+  roomLabel:clean(b?.roomLabel,100),start:clean(b?.start,10),end:clean(b?.end,10),
+  date:clean(b?.date,10),time:clean(b?.time,5),quantity:positiveInt(b?.quantity,999)
+ })).filter(b=>b.type==='stay'?day(b.start)&&day(b.end)&&b.end>b.start:
+  day(b.date)&&(!b.time||/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(b.time)));
  const seen=new Set();
  const unique=products.filter(p=>{if(seen.has(p.id))return false;seen.add(p.id);return true});
  return {
-  currency,products:unique,
+  currency,products:unique,blocked,
   slotCapacity:positiveInt(input.slotCapacity,999),
   slotMinutes:[15,30,45,60,90,120,180,240].includes(Number(input.slotMinutes))?Number(input.slotMinutes):60,
   emailNotifications:input.emailNotifications===true,
@@ -46,6 +53,15 @@ export function bookingAvailability(draft,inbox,entry,excludeId=''){
   if(entry.bookingType==='stay'&&old.roomLabel!==entry.roomLabel)continue;
   const interval=slotInterval(old,draft);
   if(overlaps(target,interval))used+=entry.bookingType==='table'?Number(old.partySize)||1:1;
+ }
+ for(const block of draft.commerce?.blocked||[]){
+  if(entry.bookingType==='stay'){
+   if(block.type!=='stay'||block.roomLabel&&block.roomLabel!==entry.roomLabel)continue;
+   if(overlaps(target,{start:block.start,end:block.end}))used+=block.quantity||capacity;
+  }else if(block.type==='slot'&&entry.date===block.date){
+   if(!block.time||overlaps(target,slotInterval({date:block.date,time:block.time},draft)))
+    used+=block.quantity||capacity;
+  }
  }
  const requested=entry.bookingType==='table'?Number(entry.partySize)||1:1;
  return {available:capacity-used>=requested,remaining:Math.max(0,capacity-used),capacity,requested};
