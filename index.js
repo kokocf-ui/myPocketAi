@@ -37,7 +37,7 @@ import {HG_THEME_DATA,hgThemeFold,buildHgThemeGuide} from './education_hg_theme_
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
-import {scienceExtendedTheory} from './science_extended_theory.mjs';
+import {scienceExtendedTheory,SCIENCE_GUIDES,SCIENCE_FEATURED,SCIENCE_METHOD} from './science_extended_theory.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -8828,6 +8828,9 @@ const ASTRONOMY_SPECIALTY_DATA=${JSON.stringify(ASTRONOMY_SPECIALIZATIONS)};
 const ASTRONOMY_SOLVE_VERIFIED=${astronomyVerifiedExercise.toString()};
 const PHYSICS_SPECIALTY_DATA=${JSON.stringify(PHYSICS_SPECIALIZATIONS)};
 const PHYSICS_SOLVE_VERIFIED=${physicsVerifiedExercise.toString()};
+const SCIENCE_GUIDES=${JSON.stringify(SCIENCE_GUIDES)};
+const SCIENCE_FEATURED=${JSON.stringify(SCIENCE_FEATURED)};
+const SCIENCE_METHOD=${JSON.stringify(SCIENCE_METHOD)};
 const SCIENCE_THEORY_EXPAND=${scienceExtendedTheory.toString()};
 const CHEMISTRY_DETAIL_DATA=${JSON.stringify(CHEMISTRY_DETAILED_LESSONS)};
 const CHEMISTRY_LEVEL_DATA=${JSON.stringify(CHEMISTRY_LEVELS)};
