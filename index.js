@@ -10303,15 +10303,15 @@ function educationCleanLessonText(value){
 // This is formatting only: neither questions nor answers are generated or changed.
 function educationNumberLessonAnswers(source){
  const value=String(source||'');
- return value.replace(/^(\s*Răspunsuri\s*:\s*)([^\n]+)$/gim,(line,heading,answerText,offset)=>{
+ return value.replace(/^(\\s*Răspunsuri\\s*:\\s*)([^\\n]+)$/gim,(line,heading,answerText,offset)=>{
   const before=value.slice(0,offset);
   const marker=Math.max(before.lastIndexOf('VERIFICĂ-TE'),before.lastIndexOf('Verifică-te'),before.lastIndexOf('Întrebări de verificare'));
   if(marker<0)return line;
   const questionBlock=before.slice(marker);
-  const questions=(questionBlock.match(/^\s*\d{1,2}[.)]\s+/gm)||[]).length;
-  const answers=answerText.split(/\s*;\s*/).map(s=>s.trim()).filter(Boolean);
+  const questions=(questionBlock.match(/^\\s*\\d{1,2}[.)]\\s+/gm)||[]).length;
+  const answers=answerText.split(/\\s*;\\s*/).map(s=>s.trim()).filter(Boolean);
   if(questions<2||answers.length!==questions)return line;
-  return 'Răspunsuri:\n'+answers.map((answer,i)=>(i+1)+'. '+answer.replace(/^\d{1,2}[.)]\s*/,'')).join('\n');
+  return 'Răspunsuri:\\n'+answers.map((answer,i)=>(i+1)+'. '+answer.replace(/^\\d{1,2}[.)]\\s*/,'')).join('\\n');
  });
 }
 function educationOpenPagedLesson(title,body){
