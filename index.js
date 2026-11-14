@@ -18336,20 +18336,41 @@ async function showTransitWalkingComparison(notice,options){
   if(!notice.isConnected)return;
   const minutes=transitVerifiedWalkingMinutes(route,origin,destination);
   if(minutes===null)return;
-  const arrival=Math.min(...options.map(transitArrivalMs).filter(Number.isFinite));
-  const walkingArrival=Date.now()+minutes*60000;
-  if(!Number.isFinite(arrival))return;
-  const difference=Math.ceil((arrival-walkingArrival)/60000);
-  if(difference<=0)return; // The public transport option is faster; keep it first.
+  const best=options.filter(j=>transitArrivalMs(j)!==null).sort(compareTransitDisplayTimes)[0];
+  if(!best)return;
+  // Calculate all displayed durations against ONE clock snapshot. The
+  // 12-minute itinerary is not a 12-minute wait from the current time.
+  const now=Date.now();
+  const walkingArrival=now+minutes*60000,transitArrival=transitArrivalMs(best);
+  const untilTransit=Math.max(0,Math.ceil((transitArrival-now)/60000));
+  const difference=untilTransit-minutes;
+  if(difference<=0)return;
+  const zone=best.time_zone||'Europe/London';
+  const walkingClock=transitClock(new Date(walkingArrival).toISOString(),zone);
+  const transitClockText=transitClock(best.arrivalDateTime||best.legs?.at(-1)?.arrivalTime,zone);
+  const travelMinutes=Number(best.durationMinutes);
   const p=document.createElement('p');
-  p.textContent=dialogText('Pe jos ajungi mai devreme: ','Walking arrives sooner: ')+
-    formatTravelDurationMinutes(minutes)+' · '+
-    dialogText('cu aproximativ ','about ')+formatTravelDurationMinutes(difference)+
-    dialogText(' înaintea celei mai rapide sosiri cu transportul public.',' before the earliest public transport arrival.');
+  p.style.cssText='margin:0 0 6px';
+  p.textContent=dialogText('Pe jos, dacă pleci acum: ','Walking if you leave now: ')+
+   formatTravelDurationMinutes(minutes)+
+   dialogText(' (sosire în jur de ',' (arrival around ')+walkingClock+').';
+  const details=document.createElement('p');
+  details.style.cssText='margin:0 0 8px';
+  const startClock=transitClock(best.startDateTime||best.legs?.[0]?.departureTime,zone);
+  details.textContent=dialogText('Transport public: ','Public transport: ')+
+   (Number.isFinite(travelMinutes)&&travelMinutes>=0?
+     formatTravelDurationMinutes(travelMinutes)+
+     dialogText(' este durata itinerariului ',' is the itinerary duration ')+
+     (startClock!=='—'?startClock+'–'+transitClockText+'. ':'. '):'')+
+   dialogText('Sosirea este peste aproximativ ','Arrival is in about ')+formatTravelDurationMinutes(untilTransit)+
+   dialogText(' de acum, cu așteptarea. Comparând sosirile, pe jos ajungi cu aproximativ ',
+    ' from now, including waiting. Comparing arrival times, walking arrives about ')+
+   formatTravelDurationMinutes(difference)+
+   dialogText(' mai devreme.',' earlier.');
   const button=document.createElement('button');button.type='button';button.className='transit-choice-action';
   button.textContent=dialogText('Vezi traseul pietonal','Open walking route');
   button.onclick=()=>openRouteMap(route,button,[route]);
-  notice.replaceChildren(p,button);
+  notice.replaceChildren(p,details,button);
  };
  const previous=state.lastRoute;
  if(transitVerifiedWalkingMinutes(previous,origin,destination)!==null){display(previous);return}
