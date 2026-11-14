@@ -368,6 +368,24 @@ function practicalLesson(panel){
    quizRefs.push({legend,choiceTexts});
    questionHost.append(group);
   });
+
+  // One question is displayed at a time, without unmounting saved choices.
+  let activeQuestion=0;
+  const pager=practicalNode('div','','practical-quiz-pager');
+  const previous=practicalButton(practicalLabel('← Anterior','← Previous'),()=>{activeQuestion--;paintQuestion()});
+  const counter=practicalNode('span','','practical-quiz-count');
+  const next=practicalButton(practicalLabel('Următor →','Next →'),()=>{activeQuestion++;paintQuestion()});
+  const questionCards=[...questionHost.children];
+  const paintQuestion=()=>{
+   questionCards.forEach((card,i)=>{card.hidden=i!==activeQuestion});
+   previous.disabled=activeQuestion===0;
+   next.disabled=activeQuestion===questionCards.length-1;
+   counter.textContent=practicalLabel('Întrebarea ','Question ')+(activeQuestion+1)+' / '+questionCards.length;
+   pager.hidden=false;
+  };
+  pager.append(previous,counter,next);
+  questionHost.after(pager);
+  paintQuestion();
   quizActions.replaceChildren();
   const verify=practicalButton(practicalLabel('✓ Verifică testul','✓ Check answers'),()=>{
    if(selected.some(x=>x===null)){result.textContent=practicalLabel('Completează toate răspunsurile pentru a primi rezultatul.','Answer all questions before checking.');return}
