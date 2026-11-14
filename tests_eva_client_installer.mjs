@@ -10,6 +10,8 @@ for(const invalid of ['A','A B','-test','test--test','test@client','',null,undef
  assert.equal(validWorkerName(invalid),false,'Invalid Worker name must be rejected');
 assert.equal(withClientName(cfg,'eva-client-safe').name,'eva-client-safe');
 assert.equal(cfg.name,'eva-site-client','Never overwrite base configuration');
+const installerSource=await readFile(new URL('./instalare-eva.mjs',import.meta.url),'utf8');
+assert.match(installerSource,/flag:'wx'/,'Installer must never overwrite an existing client deployment config');
 assert.throws(()=>withClientName(cfg,'../../bad'),/Numele Worker/);
 assert.equal(safeStudioUrl('https://eva-site.workers.dev'),'https://eva-site.workers.dev');
 for(const u of ['http://eva-site.workers.dev','https://u:p@eva-site.workers.dev',
