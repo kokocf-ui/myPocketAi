@@ -5,7 +5,7 @@ import {renderStudioSite,validateStudioDraft,STUDIO_THEMES} from './studio_site_
 import {STUDIO_ADMIN_HTML} from './studio_admin_portal.mjs';
 import {SITE_GALLERY_PRESETS} from './creator_guesthouse_gallery.mjs';
 import {SITE_HOSTING_GUIDES} from './creator_hosting_guide.mjs';
-import {studioBusinessFeatures} from './studio_business_flows.mjs';
+import {studioBusinessFeatures,businessAvailabilityPage} from './studio_business_flows.mjs';
 import {createStripeCheckout,stripeSignatureValid} from './studio_commerce.mjs';
 import {mailConfigured,notifyBusiness,notificationForOwner,notificationForCustomer} from './studio_notifications.mjs';
 import {json,bodyJson,normalizeEmail,validEmail,constantTimeEqual,sha256,normalizeStudioPrompt,publicSafeHtmlHeaders} from './studio_security.mjs';
@@ -140,6 +140,26 @@ export default{
     if(!r.ok)return json({error:'site_not_published'},404);
     const features=studioBusinessFeatures(r.draft.features);
     return html(renderStudioSite(r.draft,{publicId:published[1],paymentConfigured:!!(env.STRIPE_SECRET_KEY&&env.STRIPE_WEBHOOK_SECRET)}),false,features.contact||features.booking||features.shop);
+   }
+   const calendar=/^\/s\/([a-f0-9]{32})\/disponibilitate$/.exec(path);
+   if(calendar&&method==='GET'){
+    const source=await site(env,calendar[1],'published');
+    if(!source.ok||!source.draft.features?.booking)return json({error:'not_available'},404);
+    const q={attempted:url.searchParams.size>0};
+    for(const name of ['roomLabel','start','end','date','time','partySize'])
+     q[name]=(url.searchParams.get(name)||'').slice(0,100);
+    const day=d=>/^\d{4}-\d{2}-\d{2}$/.test(d)&&!Number.isNaN(Date.parse(d+'T12:00:00Z'))&&
+     new Date(d+'T12:00:00Z').toISOString().slice(0,10)===d;
+    const today=new Date().toISOString().slice(0,10),endMax=new Date(Date.now()+370*86400000).toISOString().slice(0,10);
+    const valid=source.draft.kind==='hotel'?
+     day(q.start)&&day(q.end)&&q.start>=today&&q.end>q.start&&q.end<=endMax&&
+      source.draft.rooms.some(r=>r.label===q.roomLabel):
+     day(q.date)&&q.date>=today&&q.date<=endMax&&
+      /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(q.time)&&
+      Number.isInteger(Number(q.partySize))&&Number(q.partySize)>=1&&Number(q.partySize)<=30;
+    const answer=q.attempted&&valid?await site(env,calendar[1],'availability',q):null;
+    const page=businessAvailabilityPage(source.draft,calendar[1],q,answer);
+    return new Response(page,{headers:{...publicSafeHtmlHeaders(false,true),'Cache-Control':'no-store'}});
    }
    const visitor=/^\/s\/([a-f0-9]{32})\/(contact|booking|order)$/.exec(path);
    if(visitor&&method==='POST'){
