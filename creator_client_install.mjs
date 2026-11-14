@@ -1,4 +1,4 @@
-export const CREATOR_CLIENT_INSTALL_SCRIPT=String.raw\`
+export const CREATOR_CLIENT_INSTALL_SCRIPT=String.raw`
 function extraCreatorClientInstallWizard(area,form,hostingMode){
  const panel=extraToolsEl('details','extra-creator-deploy-wizard');
  panel.append(extraToolsEl('summary','',extraToolsLocale('🚀 Instalează backendul clientului — ghid pas cu pas','🚀 Install the client backend — step by step')));
@@ -100,8 +100,8 @@ function extraCreatorClientInstallWizard(area,form,hostingMode){
  sync();
  return {panel,url,status};
 }
-\`;
-export const CREATOR_CLIENT_INSTALL_STYLE=String.raw\`
+`;
+export const CREATOR_CLIENT_INSTALL_STYLE=String.raw`
 #view-module.extra-tools-workspace .extra-creator-deploy-wizard{border:1px solid #5b869b!important;background:#112f40!important;border-radius:14px!important;margin:12px 0!important;padding:12px!important}
 #view-module.extra-tools-workspace .extra-creator-deploy-wizard>summary{font-size:15px!important;font-weight:800!important;cursor:pointer!important;line-height:1.4!important}
 #view-module.extra-tools-workspace .extra-creator-deploy-steps{padding-left:24px!important;margin:12px 0!important}
@@ -116,4 +116,4 @@ export const CREATOR_CLIENT_INSTALL_STYLE=String.raw\`
 #view-module.extra-tools-workspace .extra-creator-deploy-verify input{width:100%!important;box-sizing:border-box!important}
 #view-module.extra-tools-workspace .extra-creator-deploy-verify button{max-width:100%!important;margin-top:8px!important}
 #view-module.extra-tools-workspace .extra-creator-deploy-open{margin:8px 0!important}
-\`;
+`;
