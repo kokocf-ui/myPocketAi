@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_tools_workspace.mjs';
 import {CREATOR_SITE_SCRIPT,CREATOR_SITE_STYLE} from './creator_site_ui.mjs';
+import {CREATOR_DESIGN_SCRIPT,CREATOR_DESIGN_STYLE} from './creator_design_gallery.mjs';
 
 new vm.Script(EXTRA_TOOLS_WORKSPACE_SCRIPT,{filename:'extra-tools-workspace.js'});
 assert.ok(EXTRA_TOOLS_WORKSPACE_SCRIPT.includes(CREATOR_SITE_SCRIPT),'Site UI is included in combined Tools JS');
@@ -31,6 +32,22 @@ assert.doesNotMatch(a,/Descrierea serviciilor se completează împreună cu prop
 assert.match(b,/Paste proaspete/);
 assert.match(b,/pizza artizanală/);
 assert.match(b,/class="services"/);
+
+const structuralFamilies=new Set();
+for(const style of f.styles){
+ const html=f.generate('Aramis','Pensiune / cazare',aramis,style.ro,'verified@example.test','ro',{kind:'hotel',styleId:style.id});
+ const family=html.match(/<body class="theme-([a-z]+)">/)?.[1];
+ assert.ok(family,'Missing actual template family for '+style.id);
+ structuralFamilies.add(family);
+ assert.match(html,/<header class="design-nav">/,'Design contains real site navigation');
+ assert.match(html,/<section class="offers"/,'Design still presents real services');
+ assert.match(html,/5<\\/b>/,'Layout must preserve user-provided room facts');
+}
+assert.ok(structuralFamilies.size>=8,'Require 8 structurally different website templates, not only colours');
+assert.match(CREATOR_DESIGN_SCRIPT,/Previzualizările nu consumă credite AI|Previzualizările nu consumă/);
+assert.match(CREATOR_DESIGN_SCRIPT,/extraCreatorFullscreen\\(sample\\)/);
+assert.match(CREATOR_DESIGN_STYLE,/extra-design-mini-visual/);
+assert.ok(EXTRA_TOOLS_WORKSPACE_SCRIPT.includes(CREATOR_DESIGN_SCRIPT));
 
 const bilingual=f.generate('Aramis','Pensiune / cazare',aramis,'Elegant','verified@example.test','both',
  {kind:'hotel',styleId:'coastal',descriptionEn:'Bed and breakfast. Five single rooms. Shared kitchen.'});
