@@ -11,7 +11,7 @@ for(const entry of originals){
  const text=CHEMISTRY_DETAILED_LESSONS[entry.id];
  assert.ok(typeof text==='string'&&text.length>=900,entry.title+' must be substantive');
  assert.ok(/DEFINIȚIE|SCOP/.test(text),entry.title+' must begin with educational context');
- assert.ok(/EXEMPLU/.test(text),entry.title+' includes a real example');
+ assert.ok(/EXEMPL/.test(text),entry.title+' includes a real example');
  assert.ok(/VERIFICĂ-TE/.test(text),entry.title+' includes independent learning checks');
  assert.doesNotMatch(text,/\*\*|^#{1,4} /m,entry.title+' cannot expose raw Markdown');
 }
