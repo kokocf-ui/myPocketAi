@@ -147,8 +147,9 @@ function renderLanguage(draft,en){
  const amenities=draft.amenities.map(a=>'<span class="facility">'+siteEscape(a)+'</span>').join('');
  const categories=new Map();
  if(draft.kind==='hotel')for(const p of draft.photos){
-  if(p.group!=='room'||!p.roomLabel.trim())continue;
-  const key=p.roomLabel.trim();if(!categories.has(key))categories.set(key,[]);
+  if(p.group==='exterior')continue;
+  const key=p.group==='room'&&p.roomLabel.trim()?p.roomLabel.trim():(en?'Other photos':'Alte fotografii');
+  if(!categories.has(key))categories.set(key,[]);
   categories.get(key).push(p);
  }
  let photoNo=0;
