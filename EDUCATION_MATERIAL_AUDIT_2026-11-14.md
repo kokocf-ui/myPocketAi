@@ -36,3 +36,15 @@ Categorii de examen fără întrebări proprii în `EXAM_LOCAL_BANK`: `native`, 
 5. Abia după verificări, integrare în `main` și generarea APK-ului semnat de test.
 
 Nicio altă funcționalitate a aplicației nu este autorizată pentru modificare de acest audit.
+
+---
+
+## Actualizare finală — 14 noiembrie 2026, după completările locale
+
+**Cele 12 categorii de examen fără bancă proprie au fost populate cu câte cinci întrebări originale**, în `exam_bank_remaining.mjs`, importate în `exam_practice_bank.mjs`. Sunt 60 de întrebări noi; toate cele 24 de materii din catalog au acum cel puțin un set local de întrebări.
+
+Aceste seturi verifică noțiuni introductive; **nu certifică programe naționale, nivel CEFR, probe oficiale sau pronunția vocală reală**. Ele nu înlocuiesc lecțiile complete de nivel avansat. Materialele locale din disciplinele generale rămân înregistrate mai sus și au verificări automatizate; exhaustivitatea și nivelarea pedagogică a fiecărei combinații țară–clasă–disciplină nu sunt garantate.
+
+Educația poate fi **suspendată ca etapă activă de dezvoltare** după regresiile de integrare, fără să fie declarată în mod fals completă din punct de vedere academic. Eventualele lacune pedagogice care apar la utilizare se reiau separat, doar la solicitarea utilizatorului.
+
+Următoarea etapă: `Mai multe instrumente`, cu funcții dedicate în locul invitațiilor generice către conversație.
