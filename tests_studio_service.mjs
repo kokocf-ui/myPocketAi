@@ -158,6 +158,55 @@ assert.equal(ownerSaved.version,3);
 assert.equal((await result('/api/sites/'+id+'/publish','POST',{version:2},clientCookie)).response.status,409);
 assert.equal((await result('/api/sites/'+id+'/publish','POST',{version:3},clientCookie)).ok,true);
 const ownerPublished=await call('/s/'+id);assert.match(await ownerPublished.text(),/Proprietarul a actualizat/);
+// Visitor backend: forms are opt-in, same-origin, private and store requests (not confirmations).
+const activeFlows=structuredClone(newContent);
+activeFlows.features={contact:true,booking:true};
+const enabled=await result('/api/sites/'+id,'PUT',{version:3,draft:activeFlows},clientCookie);
+assert.equal(enabled.version,4);
+assert.equal((await result('/api/sites/'+id+'/publish','POST',{version:4},clientCookie)).ok,true);
+const formsPublic=await call('/s/'+id),formsHtml=await formsPublic.text();
+assert.match(formsHtml,/\/contact"/);
+assert.match(formsHtml,/\/booking"/);
+assert.match(formsHtml,/name="roomLabel"/);
+assert.match(formsPublic.headers.get('Content-Security-Policy'),/form-action 'self'/);
+assert.match(formsPublic.headers.get('Content-Security-Policy'),/sandbox allow-forms allow-same-origin/);
+const offline=renderStudioSite(activeFlows);
+assert.match(offline,/disabled/);
+assert.doesNotMatch(offline,new RegExp('/s/'+id+'/contact'));
+const visitor=async(action,payload,ip='203.0.113.10',origin=root)=>{
+ const h={Origin:origin,'Content-Type':'application/x-www-form-urlencoded','CF-Connecting-IP':ip,'User-Agent':'site-demo-test'};
+ return worker.fetch(new Request(root+'/s/'+id+'/'+action,{
+  method:'POST',headers:h,body:new URLSearchParams(payload)
+ }),env);
+};
+const baseVisitor={name:'Client Eva',email:'client-visitor@example.test',phone:'0700000000',privacy_ack:'yes'};
+assert.equal((await visitor('contact',{...baseVisitor,message:'Vă rog să mă contactați.'},'203.0.113.11','https://evil.test')).status,403);
+assert.equal((await visitor('contact',{...baseVisitor,message:'Vă rog să mă contactați.',privacy_ack:'no'},'203.0.113.12')).status,400);
+assert.equal((await visitor('contact',{...baseVisitor,message:'Vă rog să mă contactați.',website:'bot-value'},'203.0.113.12')).status,200);
+assert.equal((await result('/api/sites/'+id+'/inbox')).response.status,401);
+const msgSent=await visitor('contact',{...baseVisitor,message:'Bună, vreau detalii despre pensiune.'},'203.0.113.11');
+assert.equal(msgSent.status,200);
+assert.match(await msgSent.text(),/Nu este încă o rezervare confirmată/);
+const start=new Date(Date.now()+7*86400000).toISOString().slice(0,10);
+const endDate=new Date(Date.now()+10*86400000).toISOString().slice(0,10);
+assert.equal((await visitor('booking',{...baseVisitor,start,end:endDate,roomLabel:'camere INEXISTENTE',partySize:'2'},'203.0.113.22')).status,400);
+assert.equal((await visitor('booking',{...baseVisitor,start,end:endDate,roomLabel:'camere single',partySize:'2',
+ message:'Aș vrea o cameră liniștită.'},'203.0.113.22')).status,200);
+const inbox=await result('/api/sites/'+id+'/inbox','GET',null,clientCookie);
+assert.equal(inbox.ok,true);assert.equal(inbox.items.length,2);
+assert.ok(inbox.items.some(x=>x.type==='contact'));
+assert.ok(inbox.items.some(x=>x.type==='booking'&&x.status==='new'&&x.roomLabel==='camere single'));
+const messageId=inbox.items.find(x=>x.type==='contact').id;
+assert.equal((await result('/api/sites/'+id+'/inbox/'+messageId+'/status','POST',
+ {status:'confirmed'},clientCookie)).response.status,400,'No false automatic booking confirmations');
+assert.equal((await result('/api/sites/'+id+'/inbox/'+messageId+'/status','POST',
+ {status:'contacted'},clientCookie)).ok,true);
+assert.equal((await result('/api/sites/'+id+'/inbox/'+messageId,'DELETE',null,clientCookie)).ok,true);
+assert.equal((await result('/api/sites/'+id+'/inbox','GET',null,clientCookie)).items.length,1);
+assert.equal((await visitor('contact',{...baseVisitor,message:'Mesaj unul de test.'},'203.0.113.33')).status,200);
+assert.equal((await visitor('contact',{...baseVisitor,message:'Mesaj doi de test.'},'203.0.113.33')).status,200);
+assert.equal((await visitor('contact',{...baseVisitor,message:'Mesaj trei de test.'},'203.0.113.33')).status,200);
+assert.equal((await visitor('contact',{...baseVisitor,message:'Mesaj patru de test.'},'203.0.113.33')).status,429);
 assert.equal((await result('/api/ai/image','POST',{prompt:'Templar on camel'},clientCookie)).response.status,503);
 assert.equal((await result('/api/ai/site','POST',{name:'Aramis',description:draft.description},clientCookie)).response.status,503);
 assert.equal((await result('/api/sites/'+id+'/request','POST',{message:'Schimbă fotografia principală'},clientCookie)).ok,true);
