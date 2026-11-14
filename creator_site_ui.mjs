@@ -317,6 +317,22 @@ function extraCreatorWebsite(work){
  type.addEventListener('change',updatePhotoGuidance);
  updatePhotoGuidance();
  const guesthouseGallery=extraCreatorGuesthouseControls(area,type,desc);
+ const business=extraToolsEl('details','extra-creator-backend-choices');
+ const caption=extraToolsEl('summary','',extraToolsLocale('⚙ Funcții ale site-ului (backend)','⚙ Website functions (backend)'));
+ business.append(caption,extraToolsEl('p','extra-work-note',extraToolsLocale(
+  'Alege funcțiile dorite. Eva le include în proiectul editabil, dar devin active numai după instalarea și publicarea backendului în contul clientului.',
+  'Choose required functionality. Eva includes it in the editable project; it becomes live only after deploying the backend to the client account.')));
+ const featureContact=extraToolsEl('input','');featureContact.type='checkbox';featureContact.checked=false;
+ const contactLabel=extraToolsEl('label','extra-creator-backend-option');
+ contactLabel.append(featureContact,extraToolsEl('span','',extraToolsLocale('Mesaje de la vizitatori și inbox privat','Customer messages and private inbox')));
+ const featureBooking=extraToolsEl('input','');featureBooking.type='checkbox';featureBooking.checked=false;
+ const bookingLabel=extraToolsEl('label','extra-creator-backend-option');
+ bookingLabel.append(featureBooking,extraToolsEl('span','',extraToolsLocale('Solicitări de rezervări sau programări','Booking and appointment requests')));
+ business.append(contactLabel,bookingLabel);
+ business.append(extraToolsEl('p','extra-work-note',extraToolsLocale(
+  'Rezervările sunt solicitări până când proprietarul le verifică. Fără confirmări sau e-mailuri automate în această etapă.',
+  'Bookings are requests pending owner review. No automatic confirmation or email delivery in this version.')));
+ area.append(business);
  const preview=extraToolsEl('div','extra-creator-preview-wrap');
  const note=extraToolsEl('p','extra-creator-preview-info',extraToolsLocale('Apasă Previzualizează pentru a vedea site-ul demonstrativ.','Tap Preview to see your local website draft.'));
  const generate=()=>{
@@ -337,7 +353,7 @@ function extraCreatorWebsite(work){
   extraToolsBtn(extraToolsLocale('👁 Previzualizează site-ul','👁 Preview site'),generate,true),
   extraToolsBtn(extraToolsLocale('⛶ Ecran complet','⛶ Full screen'),()=>work.siteHtml?extraCreatorFullscreen(work.siteHtml):(note.textContent=extraToolsLocale('Creează întâi previzualizarea.','Preview first.'))));
  area.append(note,preview);
- work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPreferences:()=>({...designPrefs}),getPhoto:()=>photoData,getGallery:guesthouseGallery.getGallery,getManagement:management.getConfig,validateManagement:management.validate,preview,note,generate};
+ work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPreferences:()=>({...designPrefs}),getPhoto:()=>photoData,getGallery:guesthouseGallery.getGallery,getFeatures:()=>({contact:featureContact.checked,booking:featureBooking.checked}),getManagement:management.getConfig,validateManagement:management.validate,preview,note,generate};
  const aiNote=extraToolsEl('p','extra-creator-disabled-note',extraToolsLocale('Generarea AI a site-ului este încă neactivată. Butonul de previzualizare creează doar o machetă locală, fără costuri.','AI website generation is not yet enabled. Preview creates only a local draft, without AI charges.'));
  const aiButton=extraToolsBtn(extraToolsLocale('✨ Generare AI neactivată','✨ AI generation not enabled'),()=>{});
  aiButton.disabled=true;area.append(aiNote);extraToolsActions(area,aiButton);
@@ -377,6 +393,11 @@ function extraCreatorImages(work){
 `;
 export const CREATOR_SITE_STYLE=String.raw`
 
+
+#view-module.extra-tools-workspace .extra-creator-backend-choices{margin:12px 0!important;padding:12px!important;border:1px solid #63899d!important;border-radius:13px!important;background:#0f3246!important}
+#view-module.extra-tools-workspace .extra-creator-backend-choices summary{font-weight:750!important;cursor:pointer!important}
+#view-module.extra-tools-workspace .extra-creator-backend-option{display:flex!important;align-items:flex-start!important;gap:9px!important;padding:10px!important}
+#view-module.extra-tools-workspace .extra-creator-backend-option input{width:20px!important;height:20px!important;flex:0 0 auto!important;accent-color:#7a304e!important}
 #view-module.extra-tools-workspace .extra-creator-design-button{display:block!important;width:100%!important;min-height:50px!important;padding:10px 14px!important;text-align:left!important;white-space:normal!important}
 #view-module.extra-tools-workspace .extra-creator-option-summary{font-size:12px!important;color:#abebeb!important;margin:4px 0 10px!important;line-height:1.4!important}
 .extra-creator-option-dialog{max-width:640px!important;max-height:95%!important}
