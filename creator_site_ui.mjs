@@ -194,9 +194,10 @@ function extraCreatorWebsite(work){
  const desc=extraToolsField(area,extraToolsLocale('Descrie serviciile și particularitățile','Describe services and details'),'textarea',
   extraToolsLocale('Ex.: 5 camere single, 10 duble, mic dejun inclus, bucătărie la comun','e.g. 5 single rooms, 10 doubles, breakfast included'));
  let selected=extraCreatorVisualStyles[0];
- const styleButton=extraToolsBtn(extraToolsLocale('🎨 Alege stilul din exemple','🎨 Choose a visual style'),()=>extraCreatorStylePicker(selected.id,value=>{
-  selected=value;styleLabel.textContent=extraToolsLocale('Stil ales: ','Selected style: ')+extraToolsLocale(value.ro,value.en);
- }));
+ const styleButton=extraToolsBtn(extraToolsLocale('🎨 Vezi modele profesionale de site','🎨 Browse professional website layouts'),()=>extraCreatorStylePicker(selected.id,value=>{
+  selected=value;styleLabel.textContent=extraToolsLocale('Model ales: ','Selected layout: ')+extraToolsLocale(value.ro,value.en);
+ },{name:name.value.trim(),kind:type.value,activity:type.options[type.selectedIndex]?.textContent||'',
+   description:desc.value.trim(),contact:contact.value.trim(),photo:photoData,language:lang.value}));
  styleButton.classList.add('extra-creator-style-pick');
  const styleLabel=extraToolsEl('p','extra-creator-selected-style',extraToolsLocale('Stil ales: ','Selected style: ')+extraToolsLocale(selected.ro,selected.en));
  area.append(styleButton,styleLabel);
