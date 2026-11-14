@@ -131,7 +131,7 @@ export class StudioSites{
     site.management={...site.management,mode:'owner'};
     site.creatorRevoked=true;site.invites=[];
     site.updatedAt=now;history(site,'owner_terminated_maintenance_access',actor);await this.save(site);
-    return json({ok:true,mode:'owner',creatorRevoked:true});
+    return json({ok:true,mode:'owner',creatorRevoked:true,revokedCreatorId:site.creatorId});
    }
    return json({error:'unknown_action'},404);
   }catch(error){
