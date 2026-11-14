@@ -430,5 +430,23 @@ function practicalLesson(panel){
   }
  }
  drawQuiz();assessment.append(quizActions,result);panel.append(assessment);
+
+ // The menu shows only activity choices. Actual form, quiz, resources and CV
+ // nodes remain connected but parked outside the scrolling menu.
+ const storage=practicalNode('div','','practical-lesson-storage');
+ storage.hidden=true;
+ const resources=practicalNode('section','','practical-resource-group');
+ resources.append(note,links);
+ const tools=practicalNode('div','','practical-lesson-actions');
+ const makeAction=(label,nodes)=>practicalButton(label,()=>practicalActivityDialog(label+' · '+chapter.title,nodes,storage),'secondary-btn');
+ tools.append(lessonOpen,
+  makeAction(practicalLabel('🛠️ Atelier practic','🛠️ Practice workshop'),[progress,practice]),
+  makeAction(practicalLabel('✅ Test de verificare','✅ Knowledge check'),[assessment]),
+  makeAction(practicalLabel('🔗 Resurse oficiale','🔗 Official resources'),[resources]));
+ const cv=panel.querySelector('.practical-cv-workshop');
+ if(cv)tools.append(makeAction(practicalLabel('📝 Construiește CV','📝 Build a CV'),[cv]));
+ storage.append(resources,progress,practice,assessment);
+ if(cv)storage.append(cv);
+ panel.append(tools,storage);
 }
 `;
