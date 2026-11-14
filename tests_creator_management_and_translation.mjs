@@ -30,7 +30,7 @@ assert.ok(evil.includes('&lt;script&gt;'));
 assert.ok(!evil.includes('<script>'),'Agreement must escape client content');
 const enOnly=functions.generate('Aramis','Pensiune / cazare','Cazare cu mic dejun inclus. 5 camere single.',
  'Coastal','Tel: 000','en',{styleId:'coastal',kind:'hotel'});
-assert.ok(enOnly.includes('Translation into English will be prepared by Eva'));
+assert.ok(enOnly.includes('This English text will be prepared by Eva'));
 assert.ok(!enOnly.includes('Cazare cu mic dejun inclus.'),'English layout must not masquerade Romanian text as translation');
 const withAI=functions.generate('Aramis','Pensiune / cazare','Cazare cu mic dejun inclus. 5 camere single.',
  'Coastal','Tel: 000','both',{styleId:'coastal',kind:'hotel',
