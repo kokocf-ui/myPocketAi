@@ -293,6 +293,19 @@ const signKey=await crypto.subtle.importKey('raw',new TextEncoder().encode(env.S
  {name:'HMAC',hash:'SHA-256'},false,['sign']);
 const rawSign=await crypto.subtle.sign('HMAC',signKey,new TextEncoder().encode(seconds+'.'+eventBody));
 const signature=[...new Uint8Array(rawSign)].map(x=>x.toString(16).padStart(2,'0')).join('');
+const stripeWebhook=async sig=>worker.fetch(new Request(root+'/webhooks/stripe',{
+ method:'POST',headers:{'Stripe-Signature':'t='+seconds+',v1='+sig,
+ 'Content-Type':'application/json'},body:eventBody
+}),env);
+assert.equal((await stripeWebhook('0'.repeat(64))).status,400);
+assert.equal((await stripeWebhook(signature)).status,200);
+assert.equal((await stripeWebhook(signature)).status,200,'Payment webhook replay is idempotent');
+const paidInbox=await result('/api/sites/'+id+'/inbox','GET',null,clientCookie);
+assert.equal(paidInbox.items.find(p=>p.id===stripeOrderId).paymentStatus,'paid');
+globalThis.fetch=originalNetworkFetch;
+delete env.STRIPE_SECRET_KEY;
+delete env.STRIPE_WEBHOOK_SECRET;
+
 
 
 
