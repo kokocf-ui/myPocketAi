@@ -87,13 +87,13 @@ function extraCreatorClientInstallWizard(area,form,hostingMode){
  const sync=()=>{panel.hidden=hostingMode.value!=='dynamic'};
  hostingMode.addEventListener('change',sync);
  if(form.backendChoices){
-  for(const input of [form.backendChoices.contact,form.backendChoices.booking])input.addEventListener('change',()=>{
-   if(form.backendChoices.contact.checked||form.backendChoices.booking.checked){
+  for(const input of [form.backendChoices.contact,form.backendChoices.booking,form.backendChoices.shop].filter(Boolean))input.addEventListener('change',()=>{
+   if(form.backendChoices.contact.checked||form.backendChoices.booking.checked||form.backendChoices.shop?.checked){
     hostingMode.value='dynamic';
     hostingMode.dispatchEvent(new Event('change'));
    }
   });
-  if(form.getFeatures?.().contact||form.getFeatures?.().booking){
+  if(form.getFeatures?.().contact||form.getFeatures?.().booking||form.getFeatures?.().shop){
    hostingMode.value='dynamic';hostingMode.dispatchEvent(new Event('change'));
   }
  }
