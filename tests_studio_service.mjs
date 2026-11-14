@@ -141,6 +141,7 @@ const wrongVersion=await result('/api/sites/'+id,'PUT',{version:0,draft},creator
 assert.equal(wrongVersion.response.status,409);
 const changed=structuredClone(draft);changed.styleId='urban';
 changed.content.ro.headline='Un nou titlu';
+changed.photos=[{data:mediaUrl,caption:'Camera principală',group:'room',roomLabel:'camere single'}];
 const saved=await result('/api/sites/'+id,'PUT',{version:1,draft:changed},creatorCookie);
 assert.equal(saved.version,2);
 const publicBefore=await result('/s/'+id);assert.equal(publicBefore.response.status,404);
@@ -148,6 +149,7 @@ const publish=await result('/api/sites/'+id+'/publish','POST',{version:2,actor:'
 assert.equal(publish.ok,true,'Caller-provided actor must not override the authenticated session');
 const publicPage=await call('/s/'+id);assert.equal(publicPage.status,200);
 const html=await publicPage.text();
+assert.equal((await call(mediaUrl)).status,200,'Image becomes public only with published site');
 assert.match(html,/Un nou titlu/);assert.match(html,/theme-split/);
 assert.match(publicPage.headers.get('Content-Security-Policy'),/script-src 'none'/);
 assert.match(publicPage.headers.get('Content-Security-Policy'),/sandbox/);
