@@ -2,6 +2,8 @@ package ai.mypocket.mobile;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContentValues;
+import android.os.Environment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Bitmap;
@@ -994,6 +996,18 @@ public final class MainActivity extends ComponentActivity {
                     runOnUiThread(()->scanDocumentBytes(payload));
                 });
         }
+        // Save a locally edited PNG to Pictures/myPocketAI on Android 10+.
+        // First-party origin only, no arbitrary destination path or network upload.
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidImages",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!"https".equals(origin.getScheme())||!APP_HOST.equals(origin.getHost()))return;
+                    final String data=message.getData();
+                    if(data==null||data.length()>10000000)return;
+                    runOnUiThread(()->savePocketEditedImage(data));
+                });
+        }
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
             WebViewCompat.addWebMessageListener(web,"PocketAndroidPrint",
                 Collections.singleton("https://"+APP_HOST),
@@ -1601,6 +1615,41 @@ public final class MainActivity extends ComponentActivity {
                     recognizer.close();bitmap.recycle();
                 }
             });
+    }
+    private void notifyPocketImageSave(String status){
+        if(web==null)return;
+        String url=web.getUrl();
+        if(url==null||!APP_HOST.equals(Uri.parse(url).getHost()))return;
+        web.evaluateJavascript("window.pocketAndroidImageSaveResult&&window.pocketAndroidImageSaveResult("+JSONObject.quote(status)+");",null);
+    }
+    private void savePocketEditedImage(String data){
+        Uri target=null;
+        try{
+            if(Build.VERSION.SDK_INT<Build.VERSION_CODES.Q){notifyPocketImageSave("unsupported");return;}
+            JSONObject request=new JSONObject(data);
+            if(!"save".equals(request.optString("action","")))return;
+            String encoded=request.optString("base64","");
+            if(encoded.length()<100||encoded.length()>9800000){notifyPocketImageSave("tooLarge");return;}
+            byte[] png=Base64.decode(encoded,Base64.DEFAULT);
+            if(png.length<8||png.length>7300000
+                ||(png[0]&255)!=137||(png[1]&255)!=80||(png[2]&255)!=78||(png[3]&255)!=71){
+                notifyPocketImageSave("invalid");return;
+            }
+            ContentValues values=new ContentValues();
+            values.put(MediaStore.MediaColumns.DISPLAY_NAME,"myPocketAI_"+System.currentTimeMillis()+".png");
+            values.put(MediaStore.MediaColumns.MIME_TYPE,"image/png");
+            values.put(MediaStore.MediaColumns.RELATIVE_PATH,Environment.DIRECTORY_PICTURES+"/myPocketAI");
+            target=getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+            if(target==null)throw new IOException("Image destination unavailable");
+            try(OutputStream output=getContentResolver().openOutputStream(target)){
+                if(output==null)throw new IOException("Image output unavailable");
+                output.write(png);
+            }
+            notifyPocketImageSave("saved");
+        }catch(Exception error){
+            if(target!=null)try{getContentResolver().delete(target,null,null);}catch(Exception ignored){}
+            notifyPocketImageSave("error");
+        }
     }
     private void notifyDocumentScan(String status,String text,String id){
         notifyDocumentScan(status,text,id,new JSONArray());
