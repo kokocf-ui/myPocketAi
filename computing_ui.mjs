@@ -171,14 +171,15 @@ function computingTopicsForGrade(pathId){
  return gradePlan?topics.filter(t=>gradePlan.has(t.id)):topics;
 }
 function computingGradeNotice(){
- const country=educationCountrySelection.code,grade=String(computingJourney.grade||'');
- if(country==='RO'&&grade==='9')
-  return computingLabel('Traseu selectiv pentru clasa a IX-a. Noua programă de Informatică intră progresiv în 2026–2027 și diferă după profil; lecțiile de aici nu reproduc integral programa oficială.','Selected Grade 9 topics. The new Romanian Computing curriculum is phased in from 2026–27 and varies by track; these lessons do not reproduce its full official syllabus.');
- if(country==='RO'&&['10','11','12'].includes(grade))
-  return computingLabel('Traseu orientativ pentru clasa aleasă. Programele noi se aplică progresiv, nu simultan tuturor claselor de liceu; verifică profilul și anul școlar.','Advisory grade pathway. New Romanian programmes are phased in by grade; check the study track and school year.');
- if(country==='GB-ENG')
-  return computingLabel('Teme selectate după etapa Key Stage / Year. Programa engleză stabilește competențe pe etape, nu o listă identică de lecții pentru fiecare școală.','Topics selected for the Key Stage / Year. English statutory guidance sets stage outcomes, not one identical lesson sequence at every school.');
- return computingLabel('Parcurs educațional orientativ. Programa oficială pentru fiecare țară și clasă nu este încă verificată integral.','Advisory study material. The official curriculum for every country and grade has not been fully verified.');
+ // The country/grade gate has a localized official-vs-advisory disclaimer.
+ // The existing topics are sorted by year as an educational selection,
+ // never represented as a fully verified syllabus for every school profile.
+ const advisory=eduUiLabel(
+  'Traseu de studiu orientativ, nu programa oficială verificată pentru țara și clasa selectate.',
+  'Advisory study pathway, not a verified official curriculum for this country and school year.');
+ if(educationCountrySelection.code==='RO'&&String(computingJourney.grade||'')==='9')
+  return '2026–2027 · '+advisory;
+ return advisory;
 }
 function computingGradePathAllowed(path){
  const country=educationCountrySelection.code,grade=computingJourney.grade;
