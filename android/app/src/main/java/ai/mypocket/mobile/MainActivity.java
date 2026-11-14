@@ -808,7 +808,10 @@ public final class MainActivity extends ComponentActivity {
                     requestedTypes=android.text.TextUtils.join(",",params.getAcceptTypes());
                 boolean includesOtherMedia=requestedTypes.contains("video/")||requestedTypes.contains("audio/")
                     ||requestedTypes.contains("application/pdf");
-                boolean imageSelection=!includesOtherMedia;
+                boolean textSelection=requestedTypes.contains("text/")||requestedTypes.contains(".txt")
+                    ||requestedTypes.contains(".md")||requestedTypes.contains(".csv")
+                    ||requestedTypes.contains(".json")||requestedTypes.contains("application/json");
+                boolean imageSelection=!includesOtherMedia&&!textSelection;
                 scanNextDocumentPhoto=imageSelection;
                 try{
                     Intent pick=new Intent(Intent.ACTION_GET_CONTENT);
@@ -816,8 +819,12 @@ public final class MainActivity extends ComponentActivity {
                     if(includesOtherMedia){
                         pick.setType("*/*");
                         pick.putExtra(Intent.EXTRA_MIME_TYPES,new String[]{"image/*","video/*","audio/*","application/pdf"});
+                    }else if(textSelection){
+                        pick.setType("*/*");
+                        pick.putExtra(Intent.EXTRA_MIME_TYPES,new String[]{"text/plain","text/markdown","text/csv","application/json"});
                     }else pick.setType("image/*");
-                    Intent chooser=Intent.createChooser(pick,includesOtherMedia?"Alege fișierul pentru Comunicare":"Alege fotografia documentului");
+                    Intent chooser=Intent.createChooser(pick,includesOtherMedia?"Alege fișierul pentru Comunicare":
+                        textSelection?"Alege documentul text":"Alege fotografia documentului");
                     // An optional camera action stays separate from OCR and never uploads images.
                     try{
                         File folder=new File(getCacheDir(),"document-camera");
