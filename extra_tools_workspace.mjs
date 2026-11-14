@@ -249,6 +249,22 @@ function extraToolsOpenWorkspace(key){
   const canvas=extraToolsEl('canvas','extra-work-image');work.canvas=canvas;canvas.width=640;canvas.height=320;area.append(canvas);
   extraToolsActions(area,secondary('💾 Salvează PNG','💾 Save PNG',()=>{
    if(!work.image){extraToolsStatus(extraToolsLocale('Alege întâi o imagine.','Select an image first.'));return}
+   if(window.PocketAndroidImages?.postMessage){
+    const src=work.canvas,preview=document.createElement('canvas');
+    const factor=Math.min(1,1400/Math.max(src.width,src.height));
+    preview.width=Math.max(1,Math.round(src.width*factor));preview.height=Math.max(1,Math.round(src.height*factor));
+    preview.getContext('2d').drawImage(src,0,0,preview.width,preview.height);
+    const encoded=preview.toDataURL('image/png').split(',')[1];
+    if(encoded.length>9600000){extraToolsStatus(extraToolsLocale('Imaginea este prea mare pentru salvare. Încearcă o fotografie mai mică.','Image too large to save. Try a smaller image.'));return}
+    window.pocketAndroidImageSaveResult=status=>{
+     if(extraToolsSession!==work)return;
+     extraToolsStatus(status==='saved'?extraToolsLocale('Imaginea a fost salvată în Galerie / Pictures/myPocketAI.','Image saved in Gallery / Pictures/myPocketAI.'):
+      status==='unsupported'?extraToolsLocale('Salvarea în Galerie necesită Android 10 sau mai nou.','Gallery saving requires Android 10 or newer.'):
+      extraToolsLocale('Nu s-a putut salva imaginea.','Could not save image.'));
+    };
+    window.PocketAndroidImages.postMessage(JSON.stringify({action:'save',base64:encoded}));
+    extraToolsStatus(extraToolsLocale('Se salvează în Galerie…','Saving to Gallery…'));return;
+   }
    const url=work.canvas.toDataURL('image/png');const a=extraToolsEl('a');a.href=url;a.download='mypocket-image.png';
    document.body.append(a);a.click();a.remove();extraToolsStatus(extraToolsLocale('Export inițiat; verifică descărcările dispozitivului.','Export initiated; check device downloads.'));
   }));
