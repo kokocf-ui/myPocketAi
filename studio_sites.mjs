@@ -1,6 +1,7 @@
 import {rand,sha256,json,bodyJson,validateManagement,validEmail,normalizeEmail} from './studio_security.mjs';
 import {validateStudioDraft,renderStudioSite} from './studio_site_renderer.mjs';
 import {validateVisitorSubmission,studioBusinessFeatures} from './studio_business_flows.mjs';
+import {bookingAvailability,validateOrderDraft,orderAvailability} from './studio_commerce.mjs';
 const sameId=id=>/^[a-f0-9]{32}$/.test(String(id||''));
 function roleFor(site,id){
  if(!id)return null;
@@ -37,16 +38,31 @@ export class StudioSites{
     if(!site.published)return json({error:'not_published'},404);
     return json({ok:true,draft:site.published,version:site.publishedVersion});
    }
+   if(op==='availability'){
+    if(!site.published||!site.published.features?.booking)return json({error:'feature_disabled'},404);
+    const type=site.published.kind==='hotel'?'stay':site.published.kind==='restaurant'?'table':
+     site.published.kind==='salon'?'appointment':'request';
+    const entry={type:'booking',bookingType:type,roomLabel:String(x.roomLabel||'').slice(0,100),
+     start:String(x.start||'').slice(0,10),end:String(x.end||'').slice(0,10),
+     date:String(x.date||'').slice(0,10),time:String(x.time||'').slice(0,5),
+     partySize:Math.max(1,Math.min(30,Number(x.partySize)||1))};
+    const items=await this.state.storage.get('visitorInbox')||[];
+    const result=bookingAvailability(site.published,items,entry);
+    return json({ok:true,...result,notice:'Indicativ; disponibilitatea poate fi modificată înainte de confirmare.'});
+   }
    if(op==='visitorSubmit'){
     if(!site.published)return json({error:'not_published'},404);
     const fingerprint=String(x.fingerprint||'');
     if(!/^[a-f0-9]{64}$/.test(fingerprint))return json({error:'invalid_visitor'},403);
-    let submitted;try{submitted=validateVisitorSubmission(x.payload,x.type,site.published,now)}
-    catch(e){
+    let submitted;
+    try{
+     submitted=x.type==='order'?validateOrderDraft(x.payload,site.published):
+      validateVisitorSubmission(x.payload,x.type,site.published,now);
+    }catch(e){
      const err=String(e.message||'invalid_request');
      if(err==='spam')return json({ok:true,received:true});
      return json({error:['feature_disabled','invalid_contact','privacy_ack_required','message_too_short',
-      'invalid_party','invalid_dates','invalid_room','invalid_slot'].includes(err)?err:'invalid_request'},400);
+      'invalid_party','invalid_dates','invalid_room','invalid_slot','invalid_product','out_of_stock'].includes(err)?err:'invalid_request'},400);
     }
     const response=await this.state.storage.transaction(async tx=>{
      const key='visitorRate:'+fingerprint;
@@ -54,15 +70,60 @@ export class StudioSites{
      if(now-rate.window>600000)rate={count:0,window:now};
      if(rate.count>=3)return {error:'too_many_requests',status:429};
      const entries=await tx.get('visitorInbox')||[];
-     if(entries.length>=200)return {error:'inbox_full',status:429};
-     rate.count+=1;
+     if(entries.length>=400)return {error:'inbox_full',status:429};
+     if(submitted.type==='order'&&!orderAvailability(entries,site.published,submitted).available)
+      return {error:'out_of_stock',status:409};
+     rate.count++;
      const item={id:rand(8),at:now,status:'new',...submitted};
      entries.push(item);
      await tx.put('visitorInbox',entries);
      await tx.put(key,rate);
-     return {ok:true,received:true};
+     return {ok:true,received:true,itemId:item.id,
+      ...(item.type==='order'?{order:{...submitted,id:item.id}}:{})};
     });
     return json(response,response.status||200);
+   }
+   if(op==='paymentSession'){
+    // Internal route used immediately after an accepted order form; never accessible directly to browsers.
+    const inbox=await this.state.storage.get('visitorInbox')||[];
+    const item=inbox.find(v=>v.id===x.itemId&&v.type==='order');
+    if(!item||!['new','checkout'].includes(item.status))return json({error:'order_not_found'},404);
+    if(!orderAvailability(inbox.filter(v=>v.id!==item.id),site.published,item).available)
+     return json({error:'out_of_stock'},409);
+    return json({ok:true,order:{id:item.id,email:item.email,productTitle:item.productTitle,
+     unitPriceMinor:item.unitPriceMinor,quantity:item.quantity,currency:item.currency}});
+   }
+   if(op==='paymentAttach'){
+    const changed=await this.state.storage.transaction(async tx=>{
+     const inbox=await tx.get('visitorInbox')||[];
+     const item=inbox.find(v=>v.id===x.itemId&&v.type==='order'&&v.status==='new');
+     if(!item||!/^cs_(?:test_|live_)[A-Za-z0-9]+$/.test(x.sessionId||''))return false;
+     item.status='checkout';item.paymentSessionId=x.sessionId;
+     item.checkoutExpiresAt=now+3600000;
+     await tx.put('visitorInbox',inbox);return true;
+    });
+    return changed?json({ok:true}):json({error:'checkout_conflict'},409);
+   }
+   if(op==='paymentEvent'){
+    const update=await this.state.storage.transaction(async tx=>{
+     const processed=await tx.get('stripeEvents')||[];
+     if(processed.includes(x.eventId))return {ok:true,duplicate:true};
+     const entries=await tx.get('visitorInbox')||[];
+     const item=entries.find(v=>v.type==='order'&&v.id===x.itemId&&
+      v.paymentSessionId===x.sessionId);
+     if(!item)return {error:'order_not_found',status:404};
+     if(x.type==='paid'&&x.amount===item.totalMinor&&x.currency===item.currency.toLowerCase()){
+      const stocked=orderAvailability(entries.filter(v=>v.id!==item.id),site.published,item);
+      item.status=stocked.available?'paid':'paid_needs_review';
+      item.paymentStatus='paid';item.paidAt=now;
+     }else if(x.type==='expired'){if(item.status==='checkout')item.status='closed'}
+     else return {error:'event_mismatch',status:400};
+     processed.push(x.eventId);
+     await tx.put('stripeEvents',processed.slice(-500));
+     await tx.put('visitorInbox',entries);
+     return {ok:true,status:item.status};
+    });
+    return json(update,update.status>=400?update.status:200);
    }
    if(op==='verifyInvite'){
     const token=String(x.token||'');
@@ -97,21 +158,41 @@ export class StudioSites{
     return json({ok:true,items:items.slice(-200).reverse(),total:items.length});
    }
    if(op==='visitorStatus'||op==='visitorDelete'){
-    if(!role)return json({error:'not_authorized'},403);
     const id=String(x.itemId||'');
     if(!/^[a-f0-9]{16}$/.test(id))return json({error:'invalid_item'},400);
-    if(op==='visitorStatus'&&!['new','contacted','closed','declined'].includes(x.status))
+    const statuses=['new','contacted','closed','declined','confirmed','fulfilled'];
+    if(op==='visitorStatus'&&!statuses.includes(x.status))
      return json({error:'invalid_status'},400);
     const changed=await this.state.storage.transaction(async tx=>{
      const items=await tx.get('visitorInbox')||[];
      const n=items.findIndex(item=>item.id===id);
-     if(n<0)return false;
-     if(op==='visitorDelete')items.splice(n,1);
-     else items[n].status=x.status;
+     if(n<0)return {error:'item_not_found',status:404};
+     const entry=items[n];
+     if(op==='visitorDelete'){
+      if(entry.type==='order'&&entry.paymentStatus==='paid')
+       return {error:'paid_order_requires_retention_review',status:409};
+      items.splice(n,1);
+     }else{
+      const next=x.status;
+      if(['confirmed','fulfilled'].includes(next)){
+       if(entry.type==='booking'){
+        if(!bookingAvailability(site.published||site.draft,items,entry,id).available)
+         return {error:'no_availability',status:409};
+       }else if(entry.type==='order'){
+        if(!orderAvailability(items.filter(i=>i.id!==id),site.published||site.draft,entry).available)
+         return {error:'out_of_stock',status:409};
+        if(next==='fulfilled'&&!['paid','confirmed'].includes(entry.status))
+         return {error:'order_not_confirmed',status:409};
+       }else return {error:'unsupported_status',status:400};
+      }
+      if(entry.type==='order'&&entry.paymentStatus==='paid'&&['declined','closed'].includes(next))
+       return {error:'paid_order_requires_refund_review',status:409};
+      entry.status=next;entry.updatedAt=now;
+     }
      await tx.put('visitorInbox',items);
-     return true;
+     return {ok:true,status:entry.status};
     });
-    return changed?json({ok:true}):json({error:'item_not_found'},404);
+    return json(changed,changed.status>=400?changed.status:200);
    }
    if(op==='read')return json({ok:true,site:{id:site.id,version:site.version,publishedVersion:site.publishedVersion,
     updatedAt:site.updatedAt,createdAt:site.createdAt,management:site.management,draft:site.draft,
