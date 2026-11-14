@@ -8888,6 +8888,109 @@ function educationTheoryDictate(field){
  }
  notify(learningLabel('Dictarea teoriei este disponibilă în aplicația Android. Aici poți tasta termenul.','Theory dictation is available in the Android app. You can type the title here.'));
 }
+
+/* The local mathematical library is a lesson, not a two-line glossary. */
+function educationMathTheoryMaterial(item){
+ const title=String(item?.title||'').trim(),key=educationTheoryClean(title);
+ const note=String(item?.statement||'').trim(),formula=item?.formula&&item.formula!=='—'?String(item.formula):'';
+ const sections=['# '+title,'# Definiție și semnificație',note];
+ if(formula)sections.push('# Formula și notațiile',formula);
+ const specific={
+  adunarea:[
+   '# Termeni și proprietăți',
+   'Numerele care se adună se numesc termeni; rezultatul este suma. Ordinea termenilor nu modifică suma: 2 + 3 = 3 + 2. Putem grupa trei termeni în moduri diferite: (2 + 3) + 4 = 2 + (3 + 4). Adunarea cu zero lasă numărul neschimbat.',
+   '# Exemplul 1: adunare cu obiecte',
+   'Dacă avem 2 creioane și primim încă 3, numărăm în total 5 creioane. Scriem 2 + 3 = 5. Pe axa numerelor pornim de la 2 și facem trei pași spre dreapta: 3, 4, 5.',
+   '# Exemplul 2: adunare cu trecere peste ordin',
+   'Calculăm 27 + 15. Unități: 7 + 5 = 12, deci scriem 2 unități și transferăm o zece. Zeci: 2 + 1 + 1 = 4. Obținem 42. Verificăm: 42 − 15 = 27.',
+   '# Greșeli frecvente',
+   'La adunarea în coloană, aliniază unitățile sub unități și zecile sub zeci. Nu uita zecea transportată. Pentru cantități măsurate, adună doar unități compatibile.',
+   '# Exersează și verifică',
+   '1. Calculează 8 + 6. 2. Calculează 39 + 24. 3. Completează 17 + □ = 25. Răspunsuri: 14; 63; 8.'
+  ],
+  scaderea:[
+   '# Termeni și sens',
+   'Din descăzut eliminăm scăzătorul, iar rezultatul este diferența. Scăderea este operația inversă adunării: dacă 9 − 4 = 5, atunci 5 + 4 = 9. Ordinea numerelor contează.',
+   '# Exemplul 1',
+   'Avem 9 mere și folosim 4. Rămân 5 mere: 9 − 4 = 5. Pe axa numerelor pornim de la 9 și facem patru pași spre stânga.',
+   '# Exemplul 2: împrumut la zeci',
+   'Calculăm 52 − 18. Schimbăm o zece în 10 unități: 12 − 8 = 4, iar 4 zeci − 1 zece = 3 zeci. Obținem 34. Verificare: 34 + 18 = 52.',
+   '# Greșeli frecvente',
+   'Nu inversa cifrele numai pentru că una este mai mare. În numerele naturale, rezultatul poate cere trecerea la numere întregi dacă scăzătorul depășește descăzutul.',
+   '# Exersează și verifică',
+   '1. 14 − 5. 2. 63 − 27. 3. □ − 8 = 19. Răspunsuri: 9; 36; 27.'
+  ],
+  inmultirea:[
+   '# Sens și notație',
+   'Înmulțirea poate descrie grupuri egale: 4 × 3 înseamnă patru grupuri de câte trei elemente. Rezultatul se numește produs, iar numerele folosite se numesc factori.',
+   '# Exemplul 1',
+   'Patru cutii cu câte 3 creioane au 3 + 3 + 3 + 3 = 12 creioane. Scriem 4 × 3 = 12. Ordinea factorilor nu schimbă produsul.',
+   '# Exemplul 2',
+   'Calculăm 14 × 6 = (10 + 4) × 6 = 60 + 24 = 84. Verificarea se poate face prin împărțirea lui 84 la 6, obținând 14.',
+   '# Proprietăți și capcane',
+   'Produsul cu 1 păstrează numărul, iar cu 0 dă 0. Respectă ordinea operațiilor atunci când apar și adunări sau paranteze.',
+   '# Exersează și verifică',
+   '1. 7 × 8. 2. 12 × 5. 3. 9 × □ = 72. Răspunsuri: 56; 60; 8.'
+  ],
+  impartirea:[
+   '# Sens și condiții',
+   'Împărțirea arată distribuirea în părți egale sau câte grupuri de o anumită mărime se pot forma. Numărul împărțit este deîmpărțitul; cel la care împărțim este împărțitorul; rezultatul este câtul. Împărțitorul nu poate fi zero.',
+   '# Exemplul 1',
+   '12 biscuiți împărțiți egal între 3 copii înseamnă 12 : 3 = 4 biscuiți pentru fiecare. Verificare: 4 × 3 = 12.',
+   '# Exemplul 2: cu rest',
+   '17 : 5 = 3 rest 2, deoarece 5 × 3 + 2 = 17 și restul 2 este mai mic decât împărțitorul 5.',
+   '# Greșeli frecvente',
+   'Împărțirea nu este comutativă: 12 : 3 este diferit de 3 : 12. Dacă problema cere numere întregi, precizează restul; pentru un rezultat exact se pot folosi fracții.',
+   '# Exersează și verifică',
+   '1. 36 : 6. 2. 23 : 4 cu rest. 3. □ : 8 = 7. Răspunsuri: 6; 5 rest 3; 56.'
+  ]
+ };
+ const fractionLessons={
+  'adunarea fractiilor':[
+   '# Pașii metodei','Fracțiile cu același numitor se adună păstrând numitorul: 2/7 + 3/7 = 5/7. Pentru numitori diferiți, transformă fracțiile la un numitor comun înainte de a aduna numărătorii.',
+   '# Exemplu explicat','1/2 + 1/3 = 3/6 + 2/6 = 5/6. Verifică faptul că rezultatul este mai mare decât fiecare termen pozitiv și mai mic decât 1.',
+   '# Greșeală frecventă','Nu aduna numitorii: 1/2 + 1/3 nu este 2/5. Numitorul arată mărimea părților egale.',
+   '# Exersează','Calculează 1/4 + 2/4 și 1/2 + 1/4. Răspunsuri: 3/4 și 3/4.'
+  ],
+  'inmultirea fractiilor':[
+   '# Pașii metodei','Pentru a înmulți două fracții, înmulțește numărătorii între ei și numitorii între ei; numitorii trebuie să fie nenuli.',
+   '# Exemplu explicat','2/3 × 3/5 = 6/15 = 2/5. Simplificăm rezultatul împărțind numărătorul și numitorul la 3.',
+   '# Greșeală frecventă','La înmulțire nu este nevoie de numitor comun. Nu aplica regula adunării fracțiilor.',
+   '# Exersează','Calculează 1/2 × 4/5 și 3/4 × 2/3. Răspunsuri: 2/5 și 1/2.'
+  ],
+  'impartirea fractiilor':[
+   '# Pașii metodei','Împărțirea la o fracție nenulă este înmulțirea cu inversa acesteia. Împărțitorul nu trebuie să fie zero.',
+   '# Exemplu explicat','2/3 : 4/5 = 2/3 × 5/4 = 10/12 = 5/6. Controlăm operația înmulțind 5/6 cu 4/5 și obținem 2/3.',
+   '# Greșeală frecventă','Inversează numai fracția la care împarți, nu ambele fracții.',
+   '# Exersează','Calculează 1/2 : 1/4 și 3/5 : 3/10. Răspunsuri: 2 și 2.'
+  ]
+ };
+ const basics=specific[key]||fractionLessons[key];
+ if(basics){sections.push(...basics);return sections.join(String.fromCharCode(10,10))}
+ const topic=String(item?.topic||'');
+ const frames={
+  arithmetic:'În aritmetică, verifică sensul operației, poziția cifrelor, semnul rezultatului și ordinea calculelor. În problemele cu fracții și procente, stabilește mai întâi ce reprezintă întregul.',
+  algebra:'În algebră, precizează domeniul expresiilor și ce reprezintă necunoscutele. Transformările trebuie să păstreze echivalența; înmulțirea cu o expresie posibil nulă poate introduce soluții false.',
+  geometry:'În geometrie, distinge ipoteza de concluzie. Desenează figura potrivită, notează datele cunoscute și justifică fiecare relație folosind proprietăți valabile pentru acea figură.',
+  trigonometry:'În trigonometrie, precizează unitatea unghiurilor și domeniul funcțiilor. Folosește relațiile cunoscute numai după verificarea ipotezelor și semnului pe cadranul potrivit.',
+  functions:'Pentru funcții, identifică domeniul, valorile relevante, intervalele și comportamentul grafic. Nu confunda o valoare a funcției cu argumentul ei.',
+  measurement:'În măsurători, scrie mărimile și unitățile, convertește înainte de operații și verifică dacă rezultatul are o dimensiune fizică sau geometrică potrivită.',
+  statistics:'În statistică și probabilități, definește populația sau experimentul și verifică dacă formulele cer independență, eșantionare ori alte condiții.',
+  linear_algebra:'În algebră liniară, precizează dimensiunile matricilor și ale vectorilor; nu toate operațiile sunt definite pentru orice dimensiune.',
+  calculus:'În analiză, indică intervalul, domeniul și ipotezele de continuitate sau derivabilitate înainte de aplicarea unei teoreme.',
+  differential_equations:'În ecuațiile diferențiale, stabilește tipul ecuației, condițiile inițiale și intervalul în care este definită soluția.',
+  discrete_math:'În matematică discretă, precizează mulțimea obiectelor și regula de construire; un exemplu finit nu demonstrează singur o afirmație generală.'
+ };
+ sections.push('# Cum se interpretează și aplică',frames[topic]||'Identifică atent noțiunile, ipotezele și domeniul în care este valabilă afirmația. Înlocuiește simbolurile numai cu date compatibile cu definiția.');
+ sections.push('# Pași de înțelegere',
+  '1. Citește definiția și identifică fiecare termen. 2. Notează ipotezele și restricțiile formulei. 3. Construiește un exemplu concret care respectă aceste condiții. 4. Verifică rezultatul printr-o relație inversă, o demonstrație sau o substituție, atunci când este posibil.');
+ sections.push('# Atenție la greșeli',
+  'O formulă nu se aplică automat tuturor problemelor din aceeași ramură. Verifică semnele, unitățile, domeniul și condițiile particulare. În lipsa datelor, nu presupune valori.');
+ sections.push('# Întrebări de verificare',
+  '1. Care sunt ipotezele exacte ale acestei afirmații? 2. Ce semnificație are fiecare simbol din formulă? 3. Ce exemplu concret ar satisface ipotezele? 4. Cum ai arăta că o aplicație este corectă?');
+ return sections.filter(Boolean).join(String.fromCharCode(10,10));
+}
+
 function educationTheoryOpen(subject,level){
  educationTheoryStopVoice();
  const old=document.getElementById('educationTheoryDialog');if(old)old.remove();
@@ -8921,6 +9024,9 @@ function educationTheoryOpen(subject,level){
    itemButton.textContent=item.title;
    itemButton.onclick=()=>{
     educationTheoryStopVoice();
+    if(subject==='math'){
+     educationOpenPagedLesson(item.title,educationMathTheoryMaterial(item));return;
+    }
     detailTitle.textContent=item.title;statement.textContent=item.statement;
     formula.textContent=item.formula==='—'?'':item.formula;formula.hidden=!formula.textContent;
     detail.hidden=false;list.hidden=true;searchBar.hidden=true;description.hidden=true;
@@ -10350,6 +10456,7 @@ function scienceOpenWorkspace(){
  read.textContent=learningLabel('🔊 Citire','🔊 Read');read.onclick=scienceRead;
  toolbar.append(voice,read);
  toolbar.classList.add('science-icon-work-toolbar');
+ voice.className='round-control math-utility-icon science-voice-icon';read.className='round-control math-utility-icon science-voice-icon';
  voice.textContent='🎙️';read.textContent='🔊';
  voice.title=learningLabel('Dictare','Dictation');read.title=learningLabel('Citire','Read aloud');
  voice.setAttribute('aria-label',voice.title);read.setAttribute('aria-label',read.title);
@@ -21743,6 +21850,112 @@ ${ORACLE_COMMUNICATION_STYLE}
 #view-module.learning-science .science-work-tools{
  grid-template-columns:repeat(2,minmax(0,1fr))!important;
  gap:8px!important;margin-top:2px!important
+}
+
+
+/* 2026-11-14: Android Education viewport, controls and dialogue containment.
+   Scope exclusively to Education; preserve all existing action handlers. */
+#view-module.learning-active.learning-science.active .education-toolbar.science-icon-work-toolbar{
+ box-sizing:border-box!important;display:grid!important;
+ grid-template-columns:42px 42px minmax(0,1fr)!important;
+ grid-template-rows:42px!important;align-items:center!important;justify-items:start!important;
+ gap:8px!important;width:100%!important;max-width:100%!important;min-width:0!important;
+ padding:0!important;margin:0 0 7px!important;overflow:visible!important;
+}
+#view-module.learning-active.learning-science.active .science-icon-work-toolbar>button.science-voice-icon{
+ box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ grid-row:1!important;flex:none!important;width:42px!important;min-width:42px!important;max-width:42px!important;
+ height:42px!important;min-height:42px!important;max-height:42px!important;
+ padding:0!important;margin:0!important;border-radius:50%!important;
+ border:1px solid #3c7187!important;background:#0c2b3e!important;color:#f3fbff!important;
+ font-size:19px!important;line-height:1!important;
+}
+#view-module.learning-active.learning-science.active .science-icon-work-toolbar>button.science-voice-icon:first-child{grid-column:1!important}
+#view-module.learning-active.learning-science.active .science-icon-work-toolbar>button.science-voice-icon:nth-child(2){grid-column:2!important}
+#view-module.learning-active.learning-science.active .science-icon-work-toolbar>button.science-voice-icon[aria-pressed="true"]{
+ background:#126e79!important;border-color:#45e8e4!important;box-shadow:0 0 14px #45e8e477!important;
+}
+#view-module.learning-active.learning-science.active .science-icon-work-toolbar>.edu-pdf-actions{
+ grid-column:3!important;grid-row:1!important;justify-self:end!important;align-self:center!important;
+ display:flex!important;flex-wrap:nowrap!important;gap:6px!important;
+ width:max-content!important;min-width:0!important;max-width:100%!important;margin:0!important;
+}
+#view-module.learning-active.learning-science.active .science-compact-actions{
+ box-sizing:border-box!important;display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ grid-template-rows:auto!important;align-items:stretch!important;
+ min-width:0!important;max-width:100%!important;width:100%!important;
+ gap:6px!important;overflow:visible!important;
+}
+#view-module.learning-active.learning-science.active .science-compact-actions>.science-symbol-toggle{
+ grid-column:1!important;grid-row:1!important;min-width:0!important;
+}
+#view-module.learning-active.learning-science.active .science-compact-actions>.science-primary-solve{
+ grid-column:2!important;grid-row:1!important;min-width:0!important;
+ background:linear-gradient(180deg,#8a3c54,#651f38)!important;
+}
+#view-module.learning-active.learning-science.active .science-compact-actions>button:nth-child(3){
+ grid-column:3!important;grid-row:1!important;min-width:0!important;
+}
+#view-module.learning-active.learning-science.active .science-compact-actions>button{
+ box-sizing:border-box!important;width:100%!important;max-width:100%!important;
+ min-height:48px!important;height:auto!important;padding:8px 4px!important;
+ font-size:clamp(10px,3.05vw,15px)!important;line-height:1.2!important;white-space:normal!important;
+ overflow-wrap:anywhere!important;
+}
+#view-module.learning-active.learning-science.active #moduleContent,
+#view-module.learning-active.learning-science.active #scienceEducationWorkspace{
+ box-sizing:border-box!important;max-width:100%!important;min-width:0!important;
+}
+main.page:has(#view-module.learning-active.learning-science.active){
+ scroll-padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))!important;
+}
+#view-module.learning-active.learning-science.active .science-education-workspace{
+ padding-bottom:28px!important;
+}
+dialog.education-theory-dialog[open],
+dialog.chem-visual-dialog[open],
+dialog.chemistry-curriculum-dialog[open]{
+ box-sizing:border-box!important;position:fixed!important;
+ inset:0!important;margin:auto!important;
+ width:min(94vw,760px)!important;max-width:calc(100vw - 20px)!important;
+ max-height:calc(100dvh - 32px)!important;min-height:0!important;
+ overflow-x:hidden!important;overscroll-behavior:contain!important;
+}
+dialog.education-theory-dialog[open] .education-theory-head,
+dialog.chem-visual-dialog[open]>.education-theory-head{
+ flex:0 0 auto!important;min-width:0!important;position:sticky!important;top:0!important;
+ z-index:3!important;background:#092437!important;
+}
+dialog.education-theory-dialog[open] .education-theory-head>h2,
+dialog.chem-visual-dialog[open]>.education-theory-head>h2{
+ min-width:0!important;overflow-wrap:anywhere!important;
+ font-size:clamp(16px,4vw,21px)!important;
+}
+dialog.education-paged-dialog[open]{
+ height:min(86dvh,780px)!important;max-height:calc(100dvh - 32px)!important;
+ display:flex!important;flex-direction:column!important;overflow:hidden!important;
+}
+dialog.education-paged-dialog[open] .education-paged-text{
+ flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;
+ -webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+}
+dialog.science-result-dialog[open]{
+ display:flex!important;flex-direction:column!important;overflow-y:auto!important;
+}
+dialog.science-result-dialog[open] .science-result-text{
+ min-height:0!important;max-width:100%!important;overflow-wrap:anywhere!important;
+}
+.chem-visual-dialog[open]{overflow-y:auto!important}
+.chem-ph-scale{
+ box-sizing:border-box!important;display:grid!important;
+ grid-template-columns:repeat(8,minmax(0,1fr))!important;
+ gap:2px!important;flex-wrap:wrap!important;overflow:visible!important;
+ width:100%!important;max-width:100%!important;
+}
+.chem-ph-scale>span{
+ box-sizing:border-box!important;flex:none!important;min-width:0!important;min-height:37px!important;
+ font-size:clamp(11px,3vw,16px)!important;text-align:center!important;
 }
 
 </style>
