@@ -3,6 +3,7 @@ import {validateStudioDraft,renderStudioSite} from './studio_site_renderer.mjs';
 const sameId=id=>/^[a-f0-9]{32}$/.test(String(id||''));
 function roleFor(site,id){
  if(!id)return null;
+ if(site.creatorId===id&&site.ownerId===site.creatorId&&!site.creatorRevoked)return 'creator';
  if(site.ownerId===id)return 'owner';
  if(site.creatorId===id&&!site.creatorRevoked)return 'creator';
  return null;
