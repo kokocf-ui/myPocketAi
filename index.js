@@ -7990,6 +7990,7 @@ function scienceFitViewport(){
  if(!page||!root?.classList.contains('learning-science')||!root.classList.contains('active')){
   page?.classList.remove('science-keyboard-visible');
   page?.style.removeProperty('--science-content-height');
+  page?.style.removeProperty('--science-dock-clearance');
   return;
  }
  const focus=document.activeElement?.id==='scienceEducationText';
@@ -7998,6 +7999,14 @@ function scienceFitViewport(){
   // The normal flex page is already bounded by the header and bottom navigation.
   // Giving it an additional JS-computed fixed height previously double-subtracted chrome.
   page.style.removeProperty('--science-content-height');
+  // The fixed navigation overlaps the page on some Android screen sizes.
+  // Measure only its actual overlap; never reserve a second full footer or
+  // force a minimum page height that produces scrolling after the last card.
+  const dock=document.querySelector('.bottom-nav');
+  const pageBottom=page.getBoundingClientRect().bottom;
+  const dockTop=dock?.getBoundingClientRect().top;
+  const clearance=Number.isFinite(dockTop)?Math.max(0,Math.ceil(pageBottom-dockTop)+10):10;
+  page.style.setProperty('--science-dock-clearance',Math.min(clearance,230)+'px');
   return;
  }
  const viewport=window.visualViewport;
@@ -8065,9 +8074,9 @@ function scienceJourneyShowChoices(stage){
   (stage==='subjects'?'':' · '+learningLabel(scienceSubjectInfo()?.ro||'',scienceSubjectInfo()?.en||''));
  $('moduleLead').textContent='';
  host.replaceChildren();
- if(stage==='workspace'){scienceOpenWorkspace();requestAnimationFrame(scienceFitViewport);return}
+ if(stage==='workspace'){scienceOpenWorkspace();requestAnimationFrame(()=>{document.querySelector('main.page')?.scrollTo(0,0);scienceFitViewport()});return}
  if(['chemistry-menu','chemistry-lessons','chemistry-lab'].includes(stage)){
-  scienceOpenChemistrySection(stage);requestAnimationFrame(scienceFitViewport);return;
+  scienceOpenChemistrySection(stage);requestAnimationFrame(()=>{document.querySelector('main.page')?.scrollTo(0,0);scienceFitViewport()});return;
  }
  const back=document.createElement('button');back.type='button';
  back.className='secondary-btn science-stage-back';
@@ -8161,7 +8170,7 @@ function scienceJourneyShowChoices(stage){
   list.append(btn);
  }
  panel.append(title,note,list);host.append(panel);
- requestAnimationFrame(()=>{if(stage==='subjects')document.querySelector('main.page')?.scrollTo(0,0);scienceFitViewport()});
+ requestAnimationFrame(()=>{document.querySelector('main.page')?.scrollTo(0,0);scienceFitViewport()});
 }
 
 const MATH_LEVELS=[
@@ -10290,9 +10299,24 @@ function educationCleanLessonText(value){
  const nl=String.fromCharCode(10);
  return String(value||'').replaceAll(String.fromCharCode(13),'').split(nl).map(educationCleanLessonLine).join(nl).trim();
 }
+// Keep answer keys aligned with the numbered questions already in a lesson.
+// This is formatting only: neither questions nor answers are generated or changed.
+function educationNumberLessonAnswers(source){
+ const value=String(source||'');
+ return value.replace(/^(\\s*Răspunsuri\\s*:\\s*)([^\\n]+)$/gim,(line,heading,answerText,offset)=>{
+  const before=value.slice(0,offset);
+  const marker=Math.max(before.lastIndexOf('VERIFICĂ-TE'),before.lastIndexOf('Verifică-te'),before.lastIndexOf('Întrebări de verificare'));
+  if(marker<0)return line;
+  const questionBlock=before.slice(marker);
+  const questions=(questionBlock.match(/^\\s*\\d{1,2}[.)]\\s+/gm)||[]).length;
+  const answers=answerText.split(/\\s*;\\s*/).map(s=>s.trim()).filter(Boolean);
+  if(questions<2||answers.length!==questions)return line;
+  return 'Răspunsuri:\\n'+answers.map((answer,i)=>(i+1)+'. '+answer.replace(/^\\d{1,2}[.)]\\s*/,'')).join('\\n');
+ });
+}
 function educationOpenPagedLesson(title,body){
  document.getElementById('educationPagedLessonDialog')?.remove();
- const raw=String(body||'').replaceAll(String.fromCharCode(13),'').trim();
+ const raw=educationNumberLessonAnswers(String(body||'').replaceAll(String.fromCharCode(13),'').trim());
  const nl=String.fromCharCode(10),limit=window.innerWidth<560?720:1100,pages=[];
  for(let start=0;start<raw.length;){
   let end=Math.min(raw.length,start+limit);
@@ -10426,7 +10450,7 @@ function scienceOpenChemistrySection(stage){
  }else if(stage==='chemistry-lessons'){
   title.textContent=learningLabel('Teme de studiu','Study lessons');
   note.textContent=chapter+' · '+learningLabel('Atinge o lecție pentru materialul complet.','Select a lesson for the full material.');
-  const reader=educationScienceTheoryReader('chemistry',topic?.id,scienceJourney.level);
+  const reader=educationScienceTheoryReader(scienceJourney.subject,topic?.id,scienceJourney.level);
   reader.classList.add('chemistry-lesson-list');list.append(reader);
  }else{
   title.textContent=learningLabel('Laborator și modele 3D','Laboratory and 3D models');
@@ -21956,6 +21980,22 @@ dialog.science-result-dialog[open] .science-result-text{
 .chem-ph-scale>span{
  box-sizing:border-box!important;flex:none!important;min-width:0!important;min-height:37px!important;
  font-size:clamp(11px,3vw,16px)!important;text-align:center!important;
+}
+
+/* 2026-11-14: prevent Sciences from scrolling beyond the final chapter.
+   Bottom clearance follows the *real* fixed dock overlap, not a static
+   full-screen placeholder. Only Sciences is affected. */
+main.page:has(#view-module.learning-science.active):not(.science-keyboard-visible){
+ padding-bottom:var(--science-dock-clearance,100px)!important;
+ scroll-padding-bottom:var(--science-dock-clearance,100px)!important;
+ overscroll-behavior-y:contain!important;
+}
+#view-module.learning-science.active{
+ min-height:0!important;height:auto!important;max-height:none!important;
+ align-content:start!important;
+}
+#view-module.learning-science.science-choice-stage.active #moduleContent{
+ min-height:0!important;height:auto!important;max-height:none!important;
 }
 
 </style>
