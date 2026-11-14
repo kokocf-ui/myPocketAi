@@ -1,0 +1,41 @@
+name: Eva Image Studio - one-time live AI smoke check
+on:
+  push:
+    branches: [feature/eva-image-studio-20261114]
+    paths: ['.github/workflows/eva-image-studio-live-smoke-20261114.yml']
+permissions:
+  contents: read
+jobs:
+  verify-both-modes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: One real generate and edit request; never print images
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { deflateSync } from 'node:zlib';
+          const ORIGIN='https://lifewise-ai-image-studio.kokocf.workers.dev';
+          function crc(buf){let x=0xffffffff;for(const v of buf){x^=v;for(let i=0;i<8;i++)x=(x>>>1)^((x&1)?0xedb88320:0)}return (x^0xffffffff)>>>0}
+          function chunk(name,data){const type=Buffer.from(name),head=Buffer.alloc(4),tail=Buffer.alloc(4);head.writeUInt32BE(data.length);tail.writeUInt32BE(crc(Buffer.concat([type,data])));return Buffer.concat([head,type,data,tail])}
+          function reference(){
+            const w=256,h=256,ih=Buffer.alloc(13);ih.writeUInt32BE(w,0);ih.writeUInt32BE(h,4);ih[8]=8;ih[9]=2;
+            const raw=Buffer.alloc(h*(1+w*3),255);for(let y=0;y<h;y++){raw[y*(1+w*3)]=0;for(let x=0;x<w;x++){const i=y*(1+w*3)+1+x*3;if(x>=72&&x<=184&&y>=64&&y<=190){raw[i]=55;raw[i+1]=112;raw[i+2]=210}}}
+            return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',ih),chunk('IDAT',deflateSync(raw)),chunk('IEND',Buffer.alloc(0))]).toString('base64');
+          }
+          async function run(mode,payload){
+            const response=await fetch(ORIGIN+'/'+mode,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(120000)});
+            const text=await response.text();let data;try{data=JSON.parse(text)}catch{throw Error(mode+' responded non-JSON, HTTP '+response.status)}
+            if(!response.ok||data.status!=='success')throw Error(mode+' HTTP '+response.status+' '+String(data.error||'invalid_response'));
+            assert.match(data.image,/^data:image\/(jpeg|png|webp);base64,/);
+            assert.ok(data.image.length>2000,'image unexpectedly short');
+            console.log('LIVE SUCCESS:',mode,'image data valid, length',data.image.length,'(image bytes omitted)');
+          }
+          await run('generate',{prompt:'A single blue ceramic mug on a white tabletop, centered, photorealistic, no text',format:'square'});
+          await run('edit',{prompt:'Turn the white background into a pale warm yellow while retaining the central blue object',format:'square',width:256,height:256,image:'data:image/png;base64,'+reference()});
+          console.log('LIVE SMOKE FINISHED: generation and photo editing succeeded with Cloudflare Workers AI.');
+          NODE
