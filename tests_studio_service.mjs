@@ -124,6 +124,15 @@ const backupResult=await result('/api/sites/'+id+'/backups','POST',{},creatorCoo
 assert.equal(backupResult.ok,true);
 const backups=await result('/api/sites/'+id+'/backups','GET',null,creatorCookie);
 assert.equal(backups.objects.length,1);
+assert.equal((await result('/api/sites/'+id+'/backups','GET')).response.status,401);
+const mediaUpload=await worker.fetch(new Request(root+'/api/sites/'+id+'/media',{method:'POST',
+ headers:{Origin:root,Cookie:creatorCookie,'Content-Type':'image/png'},
+ body:new Uint8Array([137,80,78,71,13,10,26,10,0,0,0,0,0,0,0,0])}),env);
+assert.equal(mediaUpload.status,200);
+const mediaUrl=(await mediaUpload.json()).mediaUrl;
+assert.ok(mediaUrl.startsWith('/media/'+id+'/'));
+assert.equal((await call(mediaUrl)).status,404);
+
 assert.equal((await result('/s/'+id)).response.status,404,'Unpublished site must never be public');
 const creatorRead=await result('/api/sites/'+id,'GET',null,creatorCookie);
 assert.equal(creatorRead.site.role,'creator');
