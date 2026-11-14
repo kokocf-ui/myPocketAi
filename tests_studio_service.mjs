@@ -28,7 +28,7 @@ const env={
 };
 const root='https://studio.test';
 const call=async(path,method='GET',body=null,cookie='',headers={})=>{
- const h={...headers};if(method!=='GET')h.Origin=root;
+ const h={...headers};if(method!=='GET'&&!h.Origin)h.Origin=root;
  if(body!==null)h['Content-Type']='application/json';
  if(cookie)h.Cookie=cookie;
  return worker.fetch(new Request(root+path,{method,headers:h,
