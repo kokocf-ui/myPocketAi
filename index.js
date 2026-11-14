@@ -11460,6 +11460,7 @@ function languageSetCard(index){
  if(next)next.disabled=languageJourney.cardIndex===words.length-1;
  const input=panel.querySelector('#languageAnswer'),feedback=panel.querySelector('.foreign-card-feedback');
  if(input)input.value='';
+ const exercise=panel.querySelector('.foreign-answer-exercise');if(exercise)exercise.open=false;
  if(feedback)feedback.textContent='';
  const play=panel.querySelector('.foreign-card-play'),repeat=panel.querySelector('.foreign-card-repeat'),verify=panel.querySelector('.foreign-card-verify');
  if(play)play.onclick=()=>languageSpeak(card.spoken||card.original);
@@ -11842,13 +11843,17 @@ function languageOpen(stage){
    const answer=document.createElement('input');answer.type='text';answer.id='languageAnswer';
    answer.autocomplete='off';answer.placeholder=learningLabel('Rostește sau scrie răspunsul','Speak or type your answer');
    answer.setAttribute('aria-label',learningLabel('Răspunsul tău','Your answer'));
+   const responseBox=document.createElement('details');responseBox.className='foreign-answer-exercise';
+   const responseToggle=document.createElement('summary');responseToggle.textContent=learningLabel('✍️ Exersează răspunsul','✍️ Practise your answer');
+   responseBox.append(responseToggle);
    const controls=document.createElement('div');controls.className='foreign-card-actions';
    controls.append(foreignStudyButton(learningLabel('🔊 Ascultă','🔊 Listen'),()=>{},'secondary-btn foreign-card-play'));
    const repeat=foreignStudyButton(learningLabel('🎙 Repetă','🎙 Repeat'),()=>{},'secondary-btn foreign-card-repeat');
    if(languageIsClassical()){repeat.disabled=true;repeat.title=learningLabel('Dictarea nu este disponibilă pentru limba clasică','Classical language dictation unavailable')}
    controls.append(repeat,foreignStudyButton(learningLabel('✓ Verifică','✓ Check'),()=>{},'primary-btn foreign-card-verify'));
    const feedback=document.createElement('p');feedback.className='foreign-card-feedback';feedback.setAttribute('role','status');
-   box.append(word,phon,meaning,answer,controls,feedback);panel.append(box);
+   responseBox.append(answer,controls,feedback);
+   box.append(word,phon,meaning,responseBox);panel.append(box);
    const nav=document.createElement('div');nav.className='foreign-card-navigation';
    nav.append(foreignStudyButton(learningLabel('← Anterior','← Previous'),()=>languageSetCard(languageJourney.cardIndex-1),'secondary-btn foreign-card-prev'),
     foreignStudyButton(learningLabel('Următorul →','Next →'),()=>languageSetCard(languageJourney.cardIndex+1),'secondary-btn foreign-card-next'));
@@ -21768,6 +21773,58 @@ dialog.education-paged-dialog[open] .education-theory-head{
  flex-shrink:0!important;
 }
 
+
+/* Education-only compact card controls; no changes outside Educație. */
+#view-module.learning-languages .foreign-stage-lesson .foreign-word-card{
+ box-sizing:border-box!important;width:100%!important;max-width:100%!important;
+ overflow:hidden!important;min-width:0!important
+}
+#view-module.learning-languages .foreign-stage-lesson .foreign-answer-exercise{
+ box-sizing:border-box!important;width:100%!important;min-width:0!important;
+ max-width:100%!important;overflow:hidden!important;border:1px solid #397991;
+ border-radius:12px;padding:8px;margin-top:6px;background:#102c3f
+}
+#view-module.learning-languages .foreign-stage-lesson .foreign-answer-exercise summary{
+ cursor:pointer!important;padding:9px 10px!important;min-height:44px!important;
+ display:flex!important;align-items:center!important;font-weight:700!important;
+ touch-action:manipulation!important;overflow-wrap:anywhere!important
+}
+#view-module.learning-languages .foreign-stage-lesson .foreign-answer-exercise[open] summary{
+ margin-bottom:10px!important
+}
+#view-module.learning-languages .foreign-stage-lesson .foreign-answer-exercise #languageAnswer{
+ display:block!important;box-sizing:border-box!important;
+ position:static!important;inset:auto!important;transform:none!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
+ height:48px!important;min-height:48px!important;margin:0 0 10px!important;
+ padding:8px 12px!important;overflow:hidden!important;
+ font-size:16px!important;border-radius:10px!important
+}
+#view-module.learning-exams .exam-panel .exam-choice-grid{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:9px!important;width:100%!important;min-width:0!important;
+ overflow:visible!important;max-height:none!important
+}
+#view-module.learning-exams .exam-panel .exam-choice-grid .exam-choice-card{
+ box-sizing:border-box!important;width:100%!important;min-width:0!important;
+ max-width:100%!important;min-height:65px!important;white-space:normal!important;
+ overflow-wrap:anywhere!important;text-align:center!important;
+ font-size:clamp(13px,3.6vw,17px)!important
+}
+dialog.computing-quiz-dialog[open],dialog.exam-quiz-dialog[open]{
+ display:flex!important;flex-direction:column!important;
+ box-sizing:border-box!important;width:min(94vw,720px)!important;
+ max-width:calc(100vw - 20px)!important;
+ max-height:calc(100dvh - 32px)!important;overflow:hidden!important;
+ padding:12px!important
+}
+dialog.computing-quiz-dialog[open] .computing-quiz,
+dialog.exam-quiz-dialog[open] .exam-practice{
+ box-sizing:border-box!important;min-width:0!important;flex:1 1 auto!important;
+ min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;
+ touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;
+ overscroll-behavior:contain!important;padding:10px 4px 16px!important
+}
 
 /* Foreign languages: compact, in-window learning without content beneath navigation. */
 #view-module.learning-languages .foreign-stage-lesson{gap:8px!important;padding-bottom:calc(140px + env(safe-area-inset-bottom,0px))!important}
