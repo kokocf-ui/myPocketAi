@@ -280,6 +280,20 @@ globalThis.fetch=async(url,options)=>{
  stripeForm=new URLSearchParams(options.body);
  return new Response(JSON.stringify({id:'cs_test_Example123',url:'https://checkout.stripe.com/c/pay/Example123'}));
 };
+const checkoutResponse=await visitor('order',{...baseVisitor,productId:'p-1',quantity:'1'},'203.0.115.71');
+assert.equal(checkoutResponse.status,303);
+assert.equal(stripeForm.get('line_items[0][price_data][unit_amount]'),'5000');
+const reference=stripeForm.get('client_reference_id');
+const stripeOrderId=reference.split('.')[1];
+const paymentEvent={id:'evt_testA123',type:'checkout.session.completed',
+ data:{object:{id:'cs_test_Example123',client_reference_id:reference,
+ amount_total:5000,currency:'gbp',payment_status:'paid'}}};
+const eventBody=JSON.stringify(paymentEvent),seconds=Math.floor(Date.now()/1000);
+const signKey=await crypto.subtle.importKey('raw',new TextEncoder().encode(env.STRIPE_WEBHOOK_SECRET),
+ {name:'HMAC',hash:'SHA-256'},false,['sign']);
+const rawSign=await crypto.subtle.sign('HMAC',signKey,new TextEncoder().encode(seconds+'.'+eventBody));
+const signature=[...new Uint8Array(rawSign)].map(x=>x.toString(16).padStart(2,'0')).join('');
+
 
 
 
