@@ -36,6 +36,7 @@ import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
 import {HG_THEME_DATA,hgThemeFold,buildHgThemeGuide} from './education_hg_theme_guides.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
+import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -1798,6 +1799,28 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
 }
 
 @media(max-width:420px){.education-theory-head h2{font-size:16px}.education-theory-open{font-size:12px;padding:7px}}
+
+/* Chemistry three-section navigator and independent scroller. */
+#view-module.learning-science .chemistry-section-panel{display:flex!important;flex-direction:column!important;gap:9px!important}
+#view-module.learning-science .chemistry-section-panel>h2{margin:2px 0 0!important;text-align:center!important;font-size:clamp(18px,4.5vw,23px)!important}
+#view-module.learning-science .chemistry-section-panel>p{margin:0!important;flex:0 0 auto!important;line-height:1.4!important;font-size:clamp(13px,3.4vw,16px)!important}
+#view-module.learning-science .chemistry-section-list{padding:4px 5px calc(108px + env(safe-area-inset-bottom,0px))!important;touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important}
+#view-module.learning-science .chemistry-section-tile{display:flex!important;align-items:center!important;gap:13px!important;min-height:78px!important;padding:12px!important;text-align:left!important;white-space:normal!important}
+#view-module.learning-science .chemistry-section-icon{flex:0 0 42px;font-size:29px;text-align:center}
+#view-module.learning-science .chemistry-section-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:5px;line-height:1.3}
+#view-module.learning-science .chemistry-section-copy strong{font-size:clamp(15px,3.9vw,18px)}
+#view-module.learning-science .chemistry-section-copy small{font-size:clamp(12px,3.1vw,14px);font-weight:450;opacity:.85}
+#view-module.learning-science .chemistry-lesson-list{margin:0!important;width:100%!important}
+#view-module.learning-science .chemistry-work-toolbar{grid-template-columns:minmax(90px,1fr) 44px 44px minmax(85px,105px)!important;align-items:center!important}
+#view-module.learning-science .chemistry-work-toolbar>button:nth-child(2),
+#view-module.learning-science .chemistry-work-toolbar>button:nth-child(3){font-size:22px!important;padding:6px 2px!important}
+#view-module.learning-science .chemistry-work-toolbar>.edu-pdf-actions{display:flex!important;align-items:center!important;justify-content:space-between!important;min-width:0!important;gap:3px!important}
+#view-module.learning-science .chemistry-work-toolbar>.edu-pdf-actions button{width:43px!important;min-width:0!important;height:43px!important;padding:4px!important}
+#view-module.learning-science .chemistry-exercise-actions{display:grid!important;grid-template-columns:minmax(0,1fr)!important;justify-items:center!important;gap:8px!important}
+#view-module.learning-science .chemistry-exercise-actions>button{width:100%!important;max-width:none!important}
+#view-module.learning-science .chemistry-exercise-actions>button:last-child{width:min(100%,310px)!important}
+#view-module.learning-science .chemistry-exercise-actions .chemistry-primary-solve{background:linear-gradient(180deg,#8a3c54,#651f38)!important;border:2px solid #b87489!important;color:#fff!important;box-shadow:0 4px 0 #36101f,0 8px 16px #0005!important}
+
 /* Mathematics uses three bounded stages. Only the list scrolls; page layout
    always remains within the existing adaptive viewport. */
 #view-module.math-choice-stage #moduleContent{min-height:0!important;overflow:hidden!important}
@@ -7939,7 +7962,9 @@ function scienceVoiceStop(){
 function scienceBack(){
  const current=scienceJourney.stage;
  scienceVoiceStop();scienceStopRequest();
- if(current==='workspace')scienceJourney.stage='topics';
+ if(current==='workspace')scienceJourney.stage=scienceJourney.subject==='chemistry'?'chemistry-menu':'topics';
+ else if(current==='chemistry-lessons'||current==='chemistry-lab')scienceJourney.stage='chemistry-menu';
+ else if(current==='chemistry-menu')scienceJourney.stage='topics';
  else if(current==='topics')scienceJourney.stage=scienceJourney.level==='advanced'?'specialties':'years';
  else if(current==='specialties')scienceJourney.stage='years';
  else if(current==='years')scienceJourney.stage='subjects';
@@ -8040,6 +8065,9 @@ function scienceJourneyShowChoices(stage){
  $('moduleLead').textContent='';
  host.replaceChildren();
  if(stage==='workspace'){scienceOpenWorkspace();requestAnimationFrame(scienceFitViewport);return}
+ if(scienceJourney.subject==='chemistry'&&['chemistry-menu','chemistry-lessons','chemistry-lab'].includes(stage)){
+  scienceOpenChemistrySection(stage);requestAnimationFrame(scienceFitViewport);return;
+ }
  const back=document.createElement('button');back.type='button';
  back.className='secondary-btn science-stage-back';
  back.textContent=learningLabel('← Înapoi','← Back');back.onclick=scienceBack;
@@ -8126,7 +8154,7 @@ function scienceJourneyShowChoices(stage){
    }else if(stage==='specialties'){
     scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
    }else{
-    scienceJourney.topic=item.id;scienceJourneyShowChoices('workspace');
+    scienceJourney.topic=item.id;scienceJourneyShowChoices(scienceJourney.subject==='chemistry'?'chemistry-menu':'workspace');
    }
   };
   list.append(btn);
@@ -8799,6 +8827,7 @@ const ASTRONOMY_SPECIALTY_DATA=${JSON.stringify(ASTRONOMY_SPECIALIZATIONS)};
 const ASTRONOMY_SOLVE_VERIFIED=${astronomyVerifiedExercise.toString()};
 const PHYSICS_SPECIALTY_DATA=${JSON.stringify(PHYSICS_SPECIALIZATIONS)};
 const PHYSICS_SOLVE_VERIFIED=${physicsVerifiedExercise.toString()};
+const CHEMISTRY_DETAIL_DATA=${JSON.stringify(CHEMISTRY_DETAILED_LESSONS)};
 const CHEMISTRY_LEVEL_DATA=${JSON.stringify(CHEMISTRY_LEVELS)};
 const CHEMISTRY_TOPIC_DATA=${JSON.stringify([...CHEMISTRY_TOPICS,...CHEMISTRY_SPECIALTY_TOPICS])};
 const CHEMISTRY_SPECIALTY_DATA=${JSON.stringify(CHEMISTRY_SPECIALIZATIONS)};
@@ -10244,7 +10273,8 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.style.cssText='width:100%;min-width:0;min-height:54px;padding:10px;white-space:normal;text-align:center;overflow-wrap:anywhere;';
   button.textContent=(index+1)+'. '+item.title;
   button.onclick=()=>{
-   const material=[item.statement,item.formula&&item.formula!=='—'?item.formula:'',
+   const material=(subjectId==='chemistry'&&CHEMISTRY_DETAIL_DATA[item.id])||
+    [item.statement,item.formula&&item.formula!=='—'?item.formula:'',
     Array.isArray(item.aliases)&&item.aliases.length?learningLabel('Termeni asociați: ','Related terms: ')+item.aliases.join(' · '):''].filter(Boolean).join(String.fromCharCode(10,10));
    educationOpenPagedLesson(item.title,material);
   };
@@ -10252,6 +10282,43 @@ function educationScienceTheoryReader(subjectId,topicId,level){
  });
  section.append(topics);
  return section;
+}
+
+
+function scienceOpenChemistrySection(stage){
+ const host=$('moduleContent'),topic=scienceTopicInfo();
+ const toolbar=document.createElement('div');toolbar.className='education-toolbar science-stage-toolbar chemistry-stage-toolbar';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn science-stage-back';
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=scienceBack;toolbar.append(back);host.append(toolbar);
+ const panel=document.createElement('section');panel.className='math-choice-panel science-choice-panel chemistry-section-panel';
+ const title=document.createElement('h2'),note=document.createElement('p');
+ const list=document.createElement('div');list.className='science-choice-list chemistry-section-list';
+ const chapter=learningLabel(topic?.ro||'',topic?.en||'');
+ function tile(icon,ro,en,shortRo,shortEn,action){
+  const button=document.createElement('button');button.type='button';button.className='secondary-btn math-choice-row science-choice-row chemistry-section-tile';
+  const mark=document.createElement('span');mark.className='chemistry-section-icon';mark.textContent=icon;mark.setAttribute('aria-hidden','true');
+  const detail=document.createElement('span');detail.className='chemistry-section-copy';
+  const strong=document.createElement('strong');strong.textContent=learningLabel(ro,en);
+  const small=document.createElement('small');small.textContent=learningLabel(shortRo,shortEn);
+  detail.append(strong,small);button.append(mark,detail);button.onclick=action;list.append(button);
+ }
+ if(stage==='chemistry-menu'){
+  title.textContent=chapter;note.textContent=learningLabel('Alege activitatea dorită.','Choose an activity.');
+  tile('📚','Teme de studiu','Study lessons','Definiții, formule, explicații și exemple','Definitions, formulae, explanations and examples',()=>scienceJourneyShowChoices('chemistry-lessons'));
+  tile('⚗️','Exerciții și probleme','Exercises and problems','Scriere, dictare, fotografiere și rezolvare','Type, dictate, photograph and solve',()=>scienceJourneyShowChoices('workspace'));
+  tile('⚛️','Laborator și modele 3D','Laboratory and 3D models','Molecule interactive și reprezentări','Interactive molecules and visual models',()=>scienceJourneyShowChoices('chemistry-lab'));
+ }else if(stage==='chemistry-lessons'){
+  title.textContent=learningLabel('Teme de studiu','Study lessons');
+  note.textContent=chapter+' · '+learningLabel('Atinge o lecție pentru materialul complet.','Select a lesson for the full material.');
+  const reader=educationScienceTheoryReader('chemistry',topic?.id,scienceJourney.level);
+  reader.classList.add('chemistry-lesson-list');list.append(reader);
+ }else{
+  title.textContent=learningLabel('Laborator și modele 3D','Laboratory and 3D models');
+  note.textContent=chapter+' · '+learningLabel('Alege o reprezentare interactivă.','Choose an interactive visual model.');
+  tile('🧬','Molecule 3D','3D Molecules','H₂O, CO₂, CH₄, NH₃: rotire și mărire','H₂O, CO₂, CH₄, NH₃: rotate and zoom',scienceChemMoleculeOpen);
+  tile('📊','Reprezentări','Visual models','Diagrame și structuri disponibile','Available diagrams and structures',chemistryVisualPicker);
+ }
+ panel.append(title,note,list);host.append(panel);
 }
 
 function scienceOpenWorkspace(){
@@ -10266,6 +10333,12 @@ function scienceOpenWorkspace(){
  read.textContent=learningLabel('🔊 Citire','🔊 Read');read.onclick=scienceRead;
  toolbar.append(back,voice,read);
  if(scienceJourney.subject==='chemistry'){
+  toolbar.classList.add('chemistry-work-toolbar');
+  voice.textContent='🎙️';read.textContent='🔊';
+  voice.title=learningLabel('Dictare','Dictation');read.title=learningLabel('Citire','Read aloud');
+  voice.setAttribute('aria-label',voice.title);read.setAttribute('aria-label',read.title);
+ }
+ if(scienceJourney.subject==='chemistry'&&scienceJourney.stage==='chemistry-legacy-theory'){
   const theory=document.createElement('button');theory.type='button';
   theory.className='secondary-btn';theory.textContent=learningLabel('📖 Teorie','📖 Theory');
   theory.onclick=()=>{
@@ -10294,8 +10367,8 @@ function scienceOpenWorkspace(){
  workspace.id='scienceEducationWorkspace';
  workspace.className='education-math-workspace science-education-workspace';
  const availableTopics=scienceTopicChoices().filter(entry=>EDUCATION_THEORY_DATA.some(t=>t.subject===scienceJourney.subject&&t.topic===entry.id));
- if(availableTopics.length>1)workspace.append(educationTopicPicker(learningLabel('📚 Teme de studiu','📚 Study topics'),availableTopics,scienceJourney.topic,entry=>{scienceJourney.topic=entry.id;scienceJourneyShowChoices('workspace')}));
- if(topic)workspace.append(educationScienceTheoryReader(scienceJourney.subject,topic.id,scienceJourney.level));
+ if(scienceJourney.subject!=='chemistry'&&availableTopics.length>1)workspace.append(educationTopicPicker(learningLabel('📚 Teme de studiu','📚 Study topics'),availableTopics,scienceJourney.topic,entry=>{scienceJourney.topic=entry.id;scienceJourneyShowChoices('workspace')}));
+ if(topic&&scienceJourney.subject!=='chemistry')workspace.append(educationScienceTheoryReader(scienceJourney.subject,topic.id,scienceJourney.level));
  const heading=document.createElement('div');heading.className='math-entry-heading';
  const label=document.createElement('label');label.htmlFor='scienceEducationText';
  label.textContent=learningLabel('Exercițiu','Exercise')+' · '+learningLabel(topic?.ro||'',topic?.en||'');
@@ -10322,12 +10395,14 @@ function scienceOpenWorkspace(){
  const status=document.createElement('small');status.id='scienceEducationStatus';status.setAttribute('role','status');
  const actions=document.createElement('div');actions.className='education-math-actions science-education-actions';
  const solve=document.createElement('button');solve.type='button';solve.className='primary-btn';
+ solve.classList.add('chemistry-primary-solve');
  solve.textContent=learningLabel('🧩 Rezolvă pas cu pas','🧩 Solve step by step');
  solve.onclick=()=>scienceWorkspaceRun('solve');
  const method=document.createElement('button');method.type='button';method.className='secondary-btn';
  method.textContent=learningLabel('🎓 Explică metoda','🎓 Explain method');
  method.onclick=()=>scienceWorkspaceRun('explain');
  actions.append(solve,method);
+ if(scienceJourney.subject==='chemistry')actions.classList.add('chemistry-exercise-actions');
  const tools=document.createElement('div');tools.className='science-work-tools';
  const cameraInput=document.createElement('input');cameraInput.type='file';cameraInput.accept='image/*';cameraInput.hidden=true;cameraInput.setAttribute('capture','environment');
  const fileInput=document.createElement('input');fileInput.type='file';fileInput.accept='image/*';fileInput.hidden=true;
@@ -10346,11 +10421,7 @@ function scienceOpenWorkspace(){
   const {toggle,tray}=scienceMakeSymbolPalette(editor,scienceJourney.subject);
   tools.append(toggle);
   if(scienceJourney.subject==='chemistry'){
-   const molecular=document.createElement('button');molecular.type='button';molecular.className='secondary-btn';
-   molecular.textContent=learningLabel('🧬 Molecule 3D','🧬 3D Molecules');molecular.onclick=scienceChemMoleculeOpen;
-   const visuals=document.createElement('button');visuals.type='button';visuals.className='secondary-btn';
-   visuals.textContent=learningLabel('📊 Reprezentări','📊 Visual models');visuals.onclick=chemistryVisualPicker;
-   tools.append(molecular,visuals);
+   // Interactive molecules and visual models have a dedicated laboratory screen.
   }else if(scienceJourney.subject==='physics'){
    const graphics=document.createElement('button');graphics.type='button';graphics.className='secondary-btn';
    graphics.textContent=learningLabel('📈 Reprezentări','📈 Diagrams');graphics.onclick=physicsVisualPicker;
