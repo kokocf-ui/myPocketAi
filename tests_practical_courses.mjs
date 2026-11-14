@@ -175,4 +175,16 @@ assert.match(html,/dialog\.practical-activity-dialog\[open\]\{/);
 assert.match(html,/#view-module\.learning-practical\.active \.education-topic-picker\{[\s\S]{0,70}position:static!important/);
 assert.doesNotMatch(PRACTICAL_UI_SCRIPT,/if\(stage==='lesson'\)eduAttachPrintAction\(bar\)/);
 
+
+// All six practical course and chapter choices use the same Math tile grid,
+// without a search field or four-at-a-time paging.
+assert.match(PRACTICAL_UI_SCRIPT,/options\.tiles\?'practical-list practical-tiles'/);
+assert.match(PRACTICAL_UI_SCRIPT,/practical-choice-tile/);
+assert.match(PRACTICAL_UI_SCRIPT,/options\.showAll\?filtered:filtered\.slice\(page,page\+4\)/);
+assert.match(PRACTICAL_UI_SCRIPT,/items\.length>4&&!options\.showAll/);
+assert.match(PRACTICAL_UI_SCRIPT,/tiles:true,showAll:true/);
+assert.match(PRACTICAL_UI_SCRIPT,/practical-chapter-return/);
+assert.doesNotMatch(PRACTICAL_UI_SCRIPT,/panel\.append\(educationTopicPicker\(/,'The practical lesson menu has no chapter search drawer');
+assert.match(html,/\.practical-choice-tile/,'Practical tiles match the Mathematics card layout');
+
 console.log('PASS practical courses: 6 domains, 36 lessons, 13 country references, two quiz variants per chapter, scoring, PDF, Android navigation and one-tap selectors');
