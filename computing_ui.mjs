@@ -127,6 +127,10 @@ function computingChoices(panel,items,onSelect){
    reproduce every official national syllabus or every school profile. */
 const COMPUTING_GRADE_LESSON_IDS={
  RO:{
+  '1':['device-types','hardware','sequence','files','digital-footprint'],
+  '2':['software','sequence','decisions','files','passwords'],
+  '3':['hardware','repetition','files','spreadsheets','passwords','phishing'],
+  '4':['repetition','spreadsheets','search','phishing','digital-footprint'],
   '5':['lower-sequences','lower-data','lower-privacy'],
   '6':['lower-sequences','lower-conditions','lower-variables','lower-data'],
   '7':['lower-loops','lower-variables','lower-python','lower-debug'],
@@ -137,13 +141,19 @@ const COMPUTING_GRADE_LESSON_IDS={
   '12':['complexity','git','accessibility','internet','encryption','os-processes','projects']
  },
  'GB-ENG':{
+  Y1:['device-types','sequence','files','digital-footprint'],
+  Y2:['hardware','sequence','decisions','files','passwords'],
+  Y3:['software','decisions','repetition','files','search'],
+  Y4:['sequence','repetition','spreadsheets','passwords','phishing'],
+  Y5:['hardware','repetition','spreadsheets','search','phishing'],
+  Y6:['software','decisions','repetition','spreadsheets','digital-footprint'],
   Y7:['lower-sequences','lower-conditions','lower-variables','lower-data'],
   Y8:['lower-conditions','lower-loops','lower-python','lower-privacy'],
   Y9:['lower-loops','lower-python','lower-debug','lower-project'],
   Y10:['pseudocode','variables','branches','iteration','python-syntax','types','debugging','internet'],
   Y11:['functions','collections','complexity','tables','sql','html','css','projects'],
-  Y12:['functions','recursion','collections','tables','sql','networks','os-processes','projects'],
-  Y13:['complexity','recursion','graphs','encryption','projects','git','accessibility']
+  Y12:['functions','recursion','collections','tables','sql','internet','os-processes','projects'],
+  Y13:['complexity','recursion','types','encryption','projects','git','accessibility']
  }
 };
 function computingGradeRange(level){
