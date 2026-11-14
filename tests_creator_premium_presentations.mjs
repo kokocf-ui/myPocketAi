@@ -47,6 +47,13 @@ assert.match(gallery,/gallery-photos/);
 const photo='data:image/jpeg;base64,'+'A'.repeat(650);
 const photoSite=site.make('Aramis','Pensiune / cazare',description,'asym','contact','ro',{kind:'hotel',styleId:'heritage',photo});
 assert.ok(photoSite.includes(photo));
+const roomPhoto='data:image/webp;base64,'+'B'.repeat(400);
+const roomSite=site.make('Aramis','Pensiune / cazare',description,'asym','contact','ro',
+ {kind:'hotel',styleId:'heritage',photo,gallery:[{group:'room',roomLabel:'camere single',caption:'Cameră single',data:roomPhoto}]});
+assert.match(roomSite,/Galeria camerelor/);
+assert.match(roomSite,/room-gallery-tile/);
+assert.match(roomSite,/room-gallery-full/);
+assert.match(roomSite,/camere single/);
 assert.doesNotMatch(photoSite,/Ilustrație de concept/,'Owner photo takes precedence over demo art');
 const malicious=site.make('<img src=x onerror=alert(1)>','Restaurant','<script>alert(1)</script>','bold','<script>','ro',{kind:'restaurant',styleId:'retro'});
 assert.doesNotMatch(malicious,/<img src=x|<script>/);
