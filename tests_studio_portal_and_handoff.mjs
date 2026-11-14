@@ -4,6 +4,7 @@ import {STUDIO_ADMIN_HTML} from './studio_admin_portal.mjs';
 import {EXTRA_TOOLS_WORKSPACE_SCRIPT} from './extra_tools_workspace.mjs';
 import {CREATOR_HANDOFF_SCRIPT} from './creator_site_handoff.mjs';
 import {CREATOR_IMAGE_AI_SCRIPT} from './creator_image_ai.mjs';
+import {SITE_HOSTING_GUIDES,CREATOR_HOSTING_SCRIPT} from './creator_hosting_guide.mjs';
 const script=STUDIO_ADMIN_HTML.match(/<script nonce="__STUDIO_NONCE__">([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script&&script.length>8000,'Standalone admin portal must contain complete UI');
 new vm.Script(script,{filename:'site-studio-browser.js'});
