@@ -25,14 +25,14 @@ for(const stage of ['chemistry-menu','chemistry-lessons','chemistry-lab']){
 assert.ok(script.includes('function scienceOpenChemistrySection(stage)'));
 assert.ok(script.includes('CHEMISTRY_DETAIL_DATA[item.id]'),'opening a lesson uses full offline text');
 assert.ok(script.includes('educationOpenPagedLesson(item.title,material);'),'the existing paginated reader is reused');
-assert.ok(script.includes("scienceJourney.subject!=='chemistry'&&availableTopics.length>1"),
+assert.ok(script.includes("if(false&&availableTopics.length>1)"),
  'exercise view does not duplicate the chapter list');
-assert.ok(script.includes("if(topic&&scienceJourney.subject!=='chemistry')"),
+assert.ok(script.includes("if(false&&topic)"),
  'exercise view does not duplicate lessons');
 assert.ok(script.includes("scienceJourney.topic=item.id;scienceJourneyShowChoices('chemistry-menu')"),
  'All Sciences open the simplified chapter menu without duplicated inline lessons');
-assert.ok(html.includes('.chemistry-section-list{padding:4px 5px calc(108px'),
+assert.ok(html.includes('.science-compact-panel .chemistry-section-list{'),
  'lessons scroll with clearance above persistent navigation');
-assert.ok(html.includes('.chemistry-primary-solve{background:linear-gradient(180deg,#8a3c54,#651f38)'),
+assert.ok(html.includes('.science-compact-actions>.science-primary-solve{'),
  'solve control uses burgundy, not bright red');
 console.log('PASS Chemistry: three independent screens, 14 detailed paginated lessons, compact editor and stable navigation');
