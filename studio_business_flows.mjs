@@ -2,7 +2,8 @@
 // These are REQUESTS, not guaranteed reservations. Owners manually respond.
 export const STUDIO_BUSINESS_FEATURES=Object.freeze({
  contact:'Mesaje de la vizitatori',
- booking:'Solicitări de rezervare / programare'
+ booking:'Solicitări de rezervare / programare',
+ shop:'Produse, comenzi și plăți opționale'
 });
 const text=(v,max)=>typeof v==='string'?v.trim().slice(0,max):'';
 const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','"':'&quot;',"'":'&#39;'}[c]));
@@ -15,7 +16,7 @@ export function studioBusinessFeatures(input){
   if(u.protocol==='https:'&&!u.username&&!u.password&&u.hostname.includes('.'))
    privacyUrl=u.href;
  }catch{}
- return {contact:input?.contact===true,booking:input?.booking===true,privacyUrl};
+ return {contact:input?.contact===true,booking:input?.booking===true,shop:input?.shop===true,privacyUrl};
 }
 export function studioBookingType(kind){
  return kind==='hotel'?'stay':kind==='restaurant'?'table':kind==='salon'?'appointment':'request';
@@ -53,9 +54,9 @@ export function validateVisitorSubmission(raw,action,draft,now=Date.now()){
   throw Error('invalid_slot');
  return {type:'booking',bookingType,name,email,phone,partySize:party,date,time,message:note};
 }
-export function businessPublicFormHtml(draft,siteId='',lang='ro'){
+export function businessPublicFormHtml(draft,siteId='',lang='ro',options={}){
  const features=studioBusinessFeatures(draft?.features);
- if(!features.contact&&!features.booking)return '';
+ if(!features.contact&&!features.booking&&!features.shop)return '';
  const en=lang==='en',esc=escapeHtml,isPublic=/^[a-f0-9]{32}$/.test(siteId);
  const note=en?'This is a request, not an automatically confirmed reservation. The business must contact you.':
   'Aceasta este o solicitare, nu o rezervare confirmată automat. Afacerea trebuie să vă contacteze.';
@@ -74,7 +75,7 @@ export function businessPublicFormHtml(draft,siteId='',lang='ro'){
    (features.privacyUrl?'<p class="studio-form-note"><a href="'+esc(features.privacyUrl)+'" rel="noopener noreferrer" target="_blank">'+
    (en?'Privacy policy':'Politica de confidențialitate')+'</a></p>':'')+
    '<button type="submit"'+(isPublic?'':' disabled')+'>'+
-   (mode==='contact'?(en?'Send message':'Trimite mesaj'):(en?'Send booking request':'Trimite solicitarea'))+'</button>'+
+   (mode==='contact'?(en?'Send message':'Trimite mesaj'):mode==='order'?(en?'Send order':'Trimite comanda'):(en?'Send booking request':'Trimite solicitarea'))+'</button>'+
    (!isPublic?'<p class="studio-form-note">'+(en?'Preview only. Publish with the backend to activate submissions.':
     'Doar demonstrație. Publică site-ul împreună cu backendul pentru activare.')+'</p>':'')+
    '</form>';
@@ -103,6 +104,24 @@ export function businessPublicFormHtml(draft,siteId='',lang='ro'){
    '<textarea name="message" rows="2" maxlength="500"'+(isPublic?'':' disabled')+'></textarea></label>';
   sections.push('<div class="studio-visitor-panel"><h3>'+(en?'Request a booking':'Solicită o rezervare / programare')+
    '</h3><p class="studio-form-note">'+note+'</p>'+form('booking',fields)+'</div>');
+ }
+ if(features.shop){
+  const products=(draft.commerce?.products||[]).filter(p=>p.title&&p.priceMinor>0&&p.inventory>0);
+  if(products.length){
+   const optionsHtml=products.map(p=>'<option value="'+esc(p.id)+'">'+esc(p.title)+
+    ' — '+esc(new Intl.NumberFormat(en?'en-GB':'ro-RO',{style:'currency',currency:draft.commerce.currency||'GBP'}).format(p.priceMinor/100))+
+    '</option>').join('');
+   const fields='<label>'+(en?'Product':'Produs')+'<select name="productId" required'+(isPublic?'':' disabled')+'>'+optionsHtml+'</select></label>'+
+    '<label>'+(en?'Quantity':'Cantitate')+'<input type="number" name="quantity" min="1" max="20" value="1" required'+(isPublic?'':' disabled')+'></label>'+
+    '<label>'+(en?'Order notes (optional)':'Detalii comandă (opțional)')+
+    '<textarea name="message" rows="2" maxlength="500"'+(isPublic?'':' disabled')+'></textarea></label>';
+   const payment=options.paymentConfigured===true;
+   const text=en?(payment?'You can complete payment through the secure provider checkout.':'Send an order request. Payment is not enabled on this website.'):
+    (payment?'Poți plăti în siguranță prin pagina furnizorului de plăți.':'Trimite o comandă fără plată online. Proprietarul te va contacta.');
+   sections.push('<div class="studio-visitor-panel"><h3>'+(en?'Order products':'Comandă produse')+
+    '</h3><p class="studio-form-note">'+text+'</p>'+
+    form('order',fields)+'</div>');
+  }
  }
  return '<section class="studio-visitor-forms" id="visitor-forms-'+lang+'">'+sections.join('')+'</section>';
 }
