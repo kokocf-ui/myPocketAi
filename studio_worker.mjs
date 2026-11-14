@@ -5,6 +5,7 @@ import {renderStudioSite,validateStudioDraft,STUDIO_THEMES} from './studio_site_
 import {STUDIO_ADMIN_HTML} from './studio_admin_portal.mjs';
 import {SITE_GALLERY_PRESETS} from './creator_guesthouse_gallery.mjs';
 import {SITE_HOSTING_GUIDES} from './creator_hosting_guide.mjs';
+import {studioBusinessFeatures} from './studio_business_flows.mjs';
 import {json,bodyJson,normalizeEmail,validEmail,constantTimeEqual,sha256,normalizeStudioPrompt,publicSafeHtmlHeaders} from './studio_security.mjs';
 export {StudioAccounts,StudioSites};
 const COOKIE='__Host-pocket_studio';
@@ -33,7 +34,7 @@ const privateHost=(request,url)=>{
 };
 const reply=r=>json(r,r.status>=400?r.status:200);
 const locked=()=>json({error:'configuration_not_ready'},503);
-const html=(content,preview=false)=>new Response(content,{status:200,headers:publicSafeHtmlHeaders(preview)});
+const html=(content,preview=false,allowForms=false)=>new Response(content,{status:200,headers:publicSafeHtmlHeaders(preview,allowForms)});
 async function validLogin(request,env){
  const token=getCookie(request);
  if(!/^[a-f0-9]{64}$/.test(token))return {error:'unauthorized',status:401};
@@ -135,7 +136,31 @@ export default{
    if(published&&method==='GET'){
     const r=await site(env,published[1],'published');
     if(!r.ok)return json({error:'site_not_published'},404);
-    return html(renderStudioSite(r.draft));
+    const features=studioBusinessFeatures(r.draft.features);
+    return html(renderStudioSite(r.draft,{publicId:published[1]}),false,features.contact||features.booking);
+   }
+   const visitor=/^\/s\/([a-f0-9]{32})\/(contact|booking)$/.exec(path);
+   if(visitor&&method==='POST'){
+    const origin=request.headers.get('Origin');
+    if(origin!==url.origin||!['same-origin','none'].includes(request.headers.get('Sec-Fetch-Site')||'none'))
+     return json({error:'bad_origin'},403);
+    if(!/^application\/x-www-form-urlencoded(?:;|$)/i.test(request.headers.get('Content-Type')||''))
+     return json({error:'unsupported_media'},415);
+    if(Number(request.headers.get('Content-Length')||0)>6000)return json({error:'body_too_large'},413);
+    const raw=await request.text();
+    if(raw.length>6000)return json({error:'body_too_large'},413);
+    const fields=Object.fromEntries(new URLSearchParams(raw));
+    const cfIp=request.headers.get('CF-Connecting-IP')||'unknown';
+    const fingerprint=await sha256(visitor[1]+'|'+cfIp+'|'+String(request.headers.get('User-Agent')||'').slice(0,120));
+    const stored=await site(env,visitor[1],'visitorSubmit',{fingerprint,type:visitor[2],payload:fields});
+    const isSuccess=!!stored.ok,status=isSuccess?200:stored.status===429?429:400;
+    const message=isSuccess?'Solicitarea a fost primită. Nu este încă o rezervare confirmată. Afacerea vă va contacta.':
+     status===429?'Sunt prea multe solicitări. Încercați din nou mai târziu.':
+     'Solicitarea nu a fost înregistrată. Verificați datele introduse și încercați din nou.';
+    const receipt='<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Solicitare Eva</title></head>'+
+     '<body style="font:16px/1.5 system-ui;padding:28px;max-width:650px;margin:auto"><h1>'+(isSuccess?'Solicitare primită':'Solicitare neînregistrată')+
+     '</h1><p>'+message+'</p><a href="/s/'+visitor[1]+'">Înapoi la site</a></body></html>';
+    return new Response(receipt,{status,headers:{...publicSafeHtmlHeaders(false),'Cache-Control':'no-store'}});
    }
    const isApi=path.startsWith('/api/');
    if(!isApi)return json({error:'not_found'},404);
@@ -196,6 +221,18 @@ export default{
     if(!constantTimeEqual(await sha256(supplied),await sha256(secret)))return json({error:'forbidden'},403);
     const data=await bodyJson(request,900);
     return reply(await account(env,'manualPremium',{email:data.email,until:data.until}));
+   }
+   const inbox=/^\/api\/sites\/([a-f0-9]{32})\/inbox(?:\/([a-f0-9]{16})(?:\/status)?)?$/.exec(path);
+   if(inbox){
+    const id=inbox[1],itemId=inbox[2],statusPath=path.endsWith('/status');
+    if(method==='GET'&&!itemId)return reply(await site(env,id,'visitorInbox',{actor:auth.user.id}));
+    if(method==='POST'&&itemId&&statusPath){
+     const data=await bodyJson(request,300);
+     return reply(await site(env,id,'visitorStatus',{actor:auth.user.id,itemId,status:data.status}));
+    }
+    if(method==='DELETE'&&itemId&&!statusPath)
+     return reply(await site(env,id,'visitorDelete',{actor:auth.user.id,itemId}));
+    return json({error:'method_not_allowed'},405);
    }
    const match=/^\/api\/sites\/([a-f0-9]{32})(?:\/(preview|publish|export|invite|redeem|request|complete-request|end-maintenance))?$/.exec(path);
    if(!match)return json({error:'not_found'},404);
