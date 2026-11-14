@@ -41,11 +41,11 @@ for(const style of f.styles){
  structuralFamilies.add(family);
  assert.match(html,/<header class="design-nav">/,'Design contains real site navigation');
  assert.match(html,/<section class="offers"/,'Design still presents real services');
- assert.match(html,/5<\\/b>/,'Layout must preserve user-provided room facts');
+ assert.ok(html.includes('5</b>'),'Layout must preserve user-provided room facts');
 }
 assert.ok(structuralFamilies.size>=8,'Require 8 structurally different website templates, not only colours');
 assert.match(CREATOR_DESIGN_SCRIPT,/Previzualizările nu consumă credite AI|Previzualizările nu consumă/);
-assert.match(CREATOR_DESIGN_SCRIPT,/extraCreatorFullscreen\\(sample\\)/);
+assert.ok(CREATOR_DESIGN_SCRIPT.includes('extraCreatorFullscreen(sample)'));
 assert.match(CREATOR_DESIGN_STYLE,/extra-design-mini-visual/);
 assert.ok(EXTRA_TOOLS_WORKSPACE_SCRIPT.includes(CREATOR_DESIGN_SCRIPT));
 
