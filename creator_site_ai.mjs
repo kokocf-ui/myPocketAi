@@ -96,7 +96,7 @@ function extraCreatorWorkingWebsite(work){
    if(work!==extraToolsSession||!area.isConnected)return;
    work.siteAiCopy=copy;
    work.siteHtml=extraCreatorLocalHtml(name,f.type.options[f.type.selectedIndex]?.textContent||kind,description,style.ro+' '+f.extra.value,f.contact.value,lang,
-    {kind,styleId:style.id,descriptionEn:copy.en?.intro||'',photo:f.getPhoto(),aiCopy:copy,prefs:f.getPreferences?.()||{}});
+    {kind,styleId:style.id,descriptionEn:copy.en?.intro||'',photo:f.getPhoto(),gallery:f.getGallery?.()||[],aiCopy:copy,prefs:f.getPreferences?.()||{}});
    const frame=extraToolsEl('iframe','extra-creator-preview');frame.setAttribute('sandbox','');
    frame.srcdoc=work.siteHtml;frame.title=extraToolsLocale('Site generat de Eva','Website by Eva');
    f.preview.replaceChildren(frame);
