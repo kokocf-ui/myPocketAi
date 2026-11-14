@@ -246,6 +246,24 @@ function educationGradeGate(moduleKey,level,proceed,back){
  const country=educationCountrySelection.code;
  const options=eduYearOptions(country,level,moduleKey);
  if(options.length===1){proceed(options[0].id);return}
+ if(moduleKey==='computing'){
+  // All years in the chosen school stage fit one two-column screen without
+  // searching. Do not modify the country finder or selectors in other modules.
+  host.replaceChildren();
+  const toolbar=document.createElement('div');toolbar.className='education-toolbar lit-toolbar';
+  const previous=document.createElement('button');previous.type='button';previous.className='secondary-btn';previous.textContent=eduUiLabel('← Înapoi','← Back');previous.onclick=back;toolbar.append(previous);host.append(toolbar);
+  const panel=document.createElement('section');panel.className='math-choice-panel science-choice-panel lit-panel edu-grade-panel computing-grade-panel';
+  const heading=document.createElement('h2');heading.textContent=eduUiLabel('Alege clasa / anul de studiu','Choose grade / school year');
+  const notice=document.createElement('p');notice.textContent=educationCountrySelection.label+' · '+eduUiLabel('Selectează clasa pentru capitolele potrivite etapei.','Select a year to see stage-appropriate chapters.');
+  const grid=document.createElement('div');grid.className='computing-grade-choice-list';
+  for(const option of options){
+   const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn computing-grade-choice-tile';
+   const art=document.createElement('span');art.className='computing-grade-icon';art.setAttribute('aria-hidden','true');art.textContent='🎓';
+   const label=document.createElement('strong');label.textContent=eduUiLabel(option.ro,option.en);
+   btn.append(art,label);btn.onclick=()=>proceed(option.id);grid.append(btn);
+  }
+  panel.append(heading,notice,grid);host.append(panel);return;
+ }
  host.replaceChildren();
  const toolbar=document.createElement('div');toolbar.className='education-toolbar lit-toolbar';
  const previous=document.createElement('button');previous.type='button';previous.className='secondary-btn';previous.textContent=eduUiLabel('← Înapoi','← Back');previous.onclick=back;toolbar.append(previous);host.append(toolbar);
