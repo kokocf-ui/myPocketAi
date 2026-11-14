@@ -161,6 +161,7 @@ jobs:
           node tests_mixed_selector_ui.mjs
           node tests_transit_final_mile.mjs
           node tests_mixed_uk_fallback.mjs
+          node tests_short_local_transit_arrival.mjs
 
       - name: Validate Romanian national Bilo provider
         run: node tests_ro_national_transit.mjs
