@@ -49,8 +49,9 @@ function extraCreatorOptionText(p){
  const colors={model:['Culorile modelului','Template colours'],burgundy:['Vișiniu și crem','Burgundy and cream'],ocean:['Bleumarin și auriu','Navy and gold'],sage:['Verde și ivoire','Sage and ivory'],gold:['Antracit și auriu','Charcoal and gold']};
  const fonts={model:['Fontul modelului','Template typography'],classic:['Font clasic','Classic typography'],modern:['Font modern','Modern typography']};
  const moods={model:['Atmosfera modelului','Template atmosphere'],warm:['Cald și primitor','Warm and welcoming'],refined:['Rafinat și aerisit','Refined and spacious'],bold:['Îndrăzneț și energic','Bold and energetic']};
+ const focus={offer:['Oferta și serviciile','Offer and services'],about:['Povestea afacerii','Business story'],contact:['Contactul rapid','Quick contact']};
  const label=v=>extraToolsLocale(v[0],v[1]);
- return label(colors[p.palette]||colors.model)+' · '+label(fonts[p.font]||fonts.model)+' · '+label(moods[p.mood]||moods.model);
+ return label(colors[p.palette]||colors.model)+' · '+label(fonts[p.font]||fonts.model)+' · '+label(moods[p.mood]||moods.model)+' · '+label(focus[p.focus]||focus.offer);
 }
 function extraCreatorOptionPicker(current,onSave){
  const overlay=extraToolsEl('div','extra-creator-style-overlay extra-creator-option-overlay');
@@ -60,7 +61,7 @@ function extraCreatorOptionPicker(current,onSave){
  const heading=extraToolsEl('h3','',extraToolsLocale('Personalizează site-ul','Customize your website'));
  const lead=extraToolsEl('p','extra-work-note',extraToolsLocale('Alege câte o variantă. Modificările se văd în previzualizare fără generări AI.','Choose one in each group. Changes appear in the preview without using AI.'));
  const scroll=extraToolsEl('div','extra-creator-option-groups');
- const chosen={palette:current.palette||'model',font:current.font||'model',mood:current.mood||'model'};
+ const chosen={palette:current.palette||'model',font:current.font||'model',mood:current.mood||'model',focus:current.focus||'offer'};
  const groups=[
   {key:'palette',ro:'Culori',en:'Colours',items:[
    ['model','Culorile modelului','Template colours'],['burgundy','Vișiniu + crem','Burgundy + cream'],
@@ -70,7 +71,10 @@ function extraCreatorOptionPicker(current,onSave){
    ['model','Fontul modelului','Template font'],['classic','Clasic','Classic'],['modern','Modern','Modern']]},
   {key:'mood',ro:'Atmosferă',en:'Atmosphere',items:[
    ['model','Ca în model','As in template'],['warm','Cald și primitor','Warm and welcoming'],
-   ['refined','Rafinat și aerisit','Refined and spacious'],['bold','Îndrăzneț','Bold']]}
+   ['refined','Rafinat și aerisit','Refined and spacious'],['bold','Îndrăzneț','Bold']]},
+  {key:'focus',ro:'Ce evidențiem pe prima pagină?',en:'What should be highlighted first?',items:[
+   ['offer','Oferta și serviciile','Offer and services'],['about','Povestea afacerii','Business story'],
+   ['contact','Contact rapid','Quick contact']]}
  ];
  const swatches={model:[],burgundy:['#431f32','#fcf3ee','#d0a67b'],ocean:['#10283f','#f9f1e4','#d5b26e'],sage:['#274238','#faf8ea','#a8bc90'],gold:['#20242b','#f5f0e6','#c9a86d']};
  for(const group of groups){
@@ -257,7 +261,7 @@ function extraCreatorWebsite(work){
  styleButton.classList.add('extra-creator-style-pick');
  const styleLabel=extraToolsEl('p','extra-creator-selected-style',extraToolsLocale('Stil ales: ','Selected style: ')+extraToolsLocale(selected.ro,selected.en));
  area.append(styleButton,styleLabel);
- const designPrefs={palette:'model',font:'model',mood:'model'};
+ const designPrefs={palette:'model',font:'model',mood:'model',focus:'offer'};
  const extra=extraToolsEl('input','extra-creator-internal-options');extra.type='hidden';
  extra.value=extraCreatorOptionText(designPrefs);area.append(extra);
  const designSummary=extraToolsEl('p','extra-creator-option-summary',extraCreatorOptionText(designPrefs));

@@ -110,7 +110,8 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
   const visual=(suffix)=>'<div class="visual art-'+esc(family)+'" data-visual="'+esc(suffix)+'">'+
    (photo?'<img src="'+photo+'" alt="'+esc(en?'Photograph supplied by the owner':'Fotografie furnizată de proprietar')+'">':demoArt)+
    (!photo?'<small class="art-label">'+esc(t.visual)+'</small>':'')+'</div>';
-  const visit='<a class="cta" href="#offer-'+lang+'">'+t.cta+' <span aria-hidden="true">↗</span></a>';
+  const focus=prefs.focus==='contact'?'contact':prefs.focus==='about'?'about':'offer';
+  const visit='<a class="cta" href="#'+focus+'-'+lang+'">'+(focus==='contact'?t.contact:focus==='about'?t.about:t.cta)+' <span aria-hidden="true">↗</span></a>';
   const nav='<header class="design-nav"><strong class="brand">'+esc(name)+'</strong><nav>'+
    '<a href="#about-'+lang+'">'+t.nav[0]+'</a><a href="#offer-'+lang+'">'+t.nav[1]+'</a><a href="#contact-'+lang+'">'+t.nav[2]+'</a></nav></header>';
   const category=en?({hotel:'Guesthouse / accommodation',restaurant:'Restaurant / café',shop:'Shop / products',salon:'Beauty studio',services:'Professional services',personal:'Portfolio'}[kind]||'Business'):activity;

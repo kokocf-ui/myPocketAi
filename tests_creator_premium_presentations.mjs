@@ -72,4 +72,7 @@ const customized=site.make('Aramis','Pensiune / cazare',description,'asym','cont
 assert.match(customized,/--ink:#431f32;/,'Selected colours must change the actual HTML preview');
 assert.match(customized,/font-family:system-ui,sans-serif!important/,'Typography choice must alter the site CSS');
 assert.match(customized,/border-radius:16px!important/,'Atmosphere choice must alter the visual design');
+const contactFocus=site.make('Aramis','Pensiune / cazare',description,'asym','contact','ro',
+ {kind:'hotel',styleId:'heritage',prefs:{focus:'contact'}});
+assert.match(contactFocus,/class="cta" href="#contact-ro"/,'Selected priority must change the hero action');
 console.log('PASS: 12 distinct art-directed responsive site compositions, full previews without AI cost, safe user data, own-photo priority, bilingual copy');
