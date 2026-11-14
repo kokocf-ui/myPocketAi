@@ -95,13 +95,14 @@ function extraCreatorLocalHtml(name,activity,description,style,contact,language,
   const items=e.remainder.map((detail,i)=>'<article class="service"><span class="number">0'+(i+1)+'</span><p>'+safe(detail)+'</p></article>').join('');
   const hasContent=stats||amenityHtml||items;
   const heroTitle=type==='hotel'?(en?'A place to stay':'Un loc în care să te cazezi'):type==='restaurant'?(en?'Discover our cuisine':'Descoperă preparatele noastre'):t.explore;
+  const heroCaption=type==='hotel'?e.short:type==='restaurant'?(en?'Explore the menu and services below.':'Descoperă mai jos meniul și serviciile.'): (en?'Explore the details supplied by this business.':'Descoperă oferta acestei afaceri.');
   return '<div class="locale-content lang-'+lang+'"><div class="hero '+(layout===1?'centered':layout===2?'split':'editorial')+'">'+
     '<div class="hero-content"><div class="eyebrow">'+safe(activity)+'</div><h1>'+safe(name)+'</h1>'+
-    '<h2>'+heroTitle+'</h2><p>'+safe(e.short)+'</p><a class="cta" href="#offer-'+lang+'">'+t.explore+'</a></div>'+
+    '<h2>'+heroTitle+'</h2><p>'+safe(heroCaption)+'</p><a class="cta" href="#offer-'+lang+'">'+t.explore+'</a></div>'+
     (picture?'<div class="hero-photo"><img alt="'+t.photo+'" src="'+picture+'"></div>':
       '<div class="graphic" aria-label="'+t.none+'"><span>'+safe(name.slice(0,1).toUpperCase())+'</span><small>'+t.demo+'</small></div>')+
     '</div><section class="intro" id="about-'+lang+'"><span class="eyebrow">'+t.aboutUs+'</span><h2>'+t.about+'</h2><p>'+
-    (type==='hotel'?(en?'Accommodation and amenities, based on the details provided by the owner.':'Cazare și facilități, conform informațiilor oferite de proprietar.'):safe(e.short))+
+    (type==='hotel'?(en?'Accommodation and amenities, based on the details provided by the owner.':'Cazare și facilități, conform informațiilor oferite de proprietar.'):(en?'All information comes from the business owner.':'Informațiile sunt prezentate pe baza descrierii proprietarului.'))+
     '</p></section><section class="offers" id="offer-'+lang+'"><span class="eyebrow">'+t.intro+'</span><h2>'+t.features+'</h2>'+
     (stats?'<div class="metrics">'+stats+'</div>':'')+
     (items?'<div class="services">'+items+'</div>':'')+
