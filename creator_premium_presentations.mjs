@@ -178,14 +178,15 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
   return '<div class="locale-content lang-'+lang+'">'+nav+'<main>'+layout+'</main><footer>'+esc(name)+' <span>· '+esc(t.footer)+'</span></footer></div>';
  }
  const body=format==='both'?build('ro')+build('en'):build(format);
+ const galleryBody=kind==='hotel'?extraCreatorGuesthouseInjectGallery(body,options.gallery):body;
  const controls=format==='both'?'<input id="lang-ro" type="radio" name="site-language" checked><input id="lang-en" type="radio" name="site-language">'+
   '<div class="languages"><label for="lang-ro">RO</label><label for="lang-en">EN</label></div>':'';
  const colors='--ink:'+palette[0]+';--paper:'+palette[1]+';--accent:'+palette[2]+';--mid:'+palette[3]+';';
  return '<!doctype html><html lang="'+(format==='both'?'ro':format)+'"><head><meta charset="utf-8">'+
   '<meta name="viewport" content="width=device-width,initial-scale=1">'+
   '<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;;style-src &#39;unsafe-inline&#39;;img-src data:;">'+
-  '<title>'+esc(name)+'</title><style>'+extraCreatorPremiumSiteStyle+preferenceCss+'</style></head>'+
-  '<body class="premium-site theme-'+family+'" style="'+colors+'">'+controls+'<div class="site-shell">'+body+'</div></body></html>';
+  '<title>'+esc(name)+'</title><style>'+extraCreatorPremiumSiteStyle+GUESTHOUSE_SITE_CSS+preferenceCss+'</style></head>'+
+  '<body class="premium-site theme-'+family+'" style="'+colors+'">'+controls+'<div class="site-shell">'+galleryBody+'</div></body></html>';
 }
 extraCreatorLocalHtml=extraCreatorPremiumLocalHtml;
 function extraCreatorPremiumGallery(selected,onSelect,context={}){
@@ -208,7 +209,7 @@ function extraCreatorPremiumGallery(selected,onSelect,context={}){
     hasBusiness?context.description:'Pensiune cu mic dejun inclus. 5 camere single, 10 camere duble și 3 apartamente. Bucătărie comună. Sală de mese. Wi-Fi.',
     ro,hasBusiness?context.contact||'':'Contact demonstrativ',
     hasBusiness?context.language||'ro':'ro',
-    {kind:hasBusiness?context.kind||'other':'hotel',styleId:id,photo:hasBusiness?context.photo||'':'',prefs:context.prefs||{}});
+    {kind:hasBusiness?context.kind||'other':'hotel',styleId:id,photo:hasBusiness?context.photo||'':'',gallery:hasBusiness?context.gallery||[]:[],prefs:context.prefs||{}});
   const frame=extraToolsEl('iframe','premium-thumb-frame');
   frame.setAttribute('sandbox','');frame.setAttribute('loading','lazy');frame.setAttribute('tabindex','-1');
   frame.title=extraToolsLocale('Miniatură prezentare '+ro,'Preview of '+en);frame.srcdoc=site;preview.append(frame);
