@@ -1,23 +1,26 @@
-export const SITE_GALLERY_PRESETS=Object.freeze({"hotel":[["facilities","Facilități","Facilities"],["dining","Restaurant și mic dejun","Restaurant and breakfast"],["garden","Grădină și terasă","Garden and terrace"],["surroundings","Împrejurimi","Surroundings"]],"restaurant":[["interior","Interiorul localului","Restaurant interior"],["terrace","Terasă","Terrace"],["dishes","Preparate","Dishes"],["drinks","Băuturi","Drinks"],["menu","Meniu","Menu"],["events","Evenimente","Events"]],"bar":[["interior","Interiorul barului","Bar interior"],["terrace","Terasă","Terrace"],["cocktails","Cocktailuri și băuturi","Cocktails and drinks"],["food","Gustări și preparate","Snacks and food"],["ambience","Atmosferă","Atmosphere"],["events","Evenimente și muzică","Events and music"]],"services":[["works","Lucrări executate","Completed work"],["beforeafter","Înainte și după","Before and after"],["equipment","Echipamente","Equipment"],["team","Echipa","Team"],["projects","Proiecte","Projects"]],"salon":[["interior","Interiorul salonului","Salon interior"],["hair","Coafură","Hair styling"],["nails","Manichiură","Nails"],["cosmetic","Cosmetică","Beauty treatments"],["results","Rezultate","Results"],["team","Echipa","Team"]],"shop":[["store","Magazinul","Store"],["products","Produse","Products"],["collections","Colecții și categorii","Collections"],["new","Noutăți","New arrivals"],["offers","Promoții","Offers"]],"personal":[["portfolio","Portofoliu","Portfolio"],["projects","Proiecte","Projects"],["events","Evenimente","Events"],["team","Echipa","Team"],["location","Locație","Location"]],"other":[["business","Prezentarea afacerii","Business presentation"],["services","Servicii","Services"],["products","Produse","Products"],["projects","Proiecte","Projects"],["team","Echipa","Team"],["events","Evenimente","Events"]]});
+export const SITE_GALLERY_PRESETS=Object.freeze({"hotel":[["facilities","Facilități","Facilities"],["dining","Restaurant și mic dejun","Restaurant and breakfast"],["garden","Grădină și terasă","Garden and terrace"],["surroundings","Împrejurimi","Surroundings"]],"restaurant":[["interior","Interiorul localului","Restaurant interior"],["terrace","Terasă","Terrace"],["dishes","Preparate","Dishes"],["drinks","Băuturi","Drinks"],["menu","Meniu","Menu"],["events","Evenimente","Events"]],"cafe":[["interior","Interiorul cafenelei","Café interior"],["terrace","Terasă","Terrace"],["coffee","Cafea și ceai","Coffee and tea"],["desserts","Prăjituri și deserturi","Cakes and desserts"],["breakfast","Mic dejun","Breakfast"],["events","Evenimente","Events"]],"bar":[["interior","Interiorul barului","Bar interior"],["terrace","Terasă","Terrace"],["cocktails","Cocktailuri și băuturi","Cocktails and drinks"],["food","Gustări și preparate","Snacks and food"],["ambience","Atmosferă","Atmosphere"],["events","Evenimente și muzică","Events and music"]],"services":[["works","Lucrări executate","Completed work"],["beforeafter","Înainte și după","Before and after"],["equipment","Echipamente","Equipment"],["team","Echipa","Team"],["projects","Proiecte","Projects"]],"salon":[["interior","Interiorul salonului","Salon interior"],["hair","Coafură","Hair styling"],["nails","Manichiură","Nails"],["cosmetic","Cosmetică","Beauty treatments"],["results","Rezultate","Results"],["team","Echipa","Team"]],"shop":[["store","Magazinul","Store"],["products","Produse","Products"],["collections","Colecții și categorii","Collections"],["new","Noutăți","New arrivals"],["offers","Promoții","Offers"]],"personal":[["portfolio","Portofoliu","Portfolio"],["projects","Proiecte","Projects"],["events","Evenimente","Events"],["team","Echipa","Team"],["location","Locație","Location"]],"other":[["business","Prezentarea afacerii","Business presentation"],["services","Servicii","Services"],["products","Produse","Products"],["projects","Proiecte","Projects"],["team","Echipa","Team"],["events","Evenimente","Events"]]});
 export const CREATOR_GUESTHOUSE_SCRIPT="const extraCreatorGalleryPresets="+JSON.stringify(SITE_GALLERY_PRESETS)+";\n"+String.raw`
-function extraCreatorGalleryCategoryOptions(kind,description){
+function extraCreatorGalleryCategoryOptions(kind,description,venueSubtype='auto'){
  const cats=[];
  if(kind==='hotel')for(const room of extraCreatorSiteDetails(description,'hotel').counts){
   cats.push({id:'room:'+room.title.toLocaleLowerCase('ro'),ro:room.title,en:room.title,
    count:room.value,group:'room',automatic:true});
  }
- const isBar=kind==='restaurant'&&/\b(?:bar|pub|cocktail|lounge|berărie|berarie|tavern|club)\b/i.test(description);
- const catalog=extraCreatorGalleryPresets[isBar?'bar':kind]||extraCreatorGalleryPresets.other;
- for(const [id,ro,en] of catalog)cats.push({id:'suggestion:'+id,ro,en,group:'category'});
+ const isBar=kind==='restaurant'&&(venueSubtype==='bar'||venueSubtype==='auto'&&/\b(?:bar|pub|cocktail|lounge|berărie|berarie|tavern|club)\b/i.test(description));
+ const isCafe=kind==='restaurant'&&!isBar&&(venueSubtype==='cafe'||venueSubtype==='auto'&&/\b(?:cafenea|coffee|café|cafe|ceainărie|ceainarie)\b/i.test(description));
+ const catalogId=isBar?'bar':isCafe?'cafe':kind;
+ const catalog=extraCreatorGalleryPresets[catalogId]||extraCreatorGalleryPresets.other;
+ for(const [id,ro,en] of catalog)cats.push({id:'suggestion:'+catalogId+':'+id,ro,en,group:'category'});
  return cats;
 }
 function extraCreatorGuesthouseControls(area,type,desc){
  const panel=extraToolsEl('section','creator-guesthouse-gallery');
  const active=new Set(),custom=new Map(),photos=new Map();
+ let venueSubtype='auto',lastSignature='';
  const norm=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
  const categoryId=cat=>type.value+'|'+cat.id;
  const categories=()=>{
-  const all=extraCreatorGalleryCategoryOptions(type.value,desc.value);
+  const all=extraCreatorGalleryCategoryOptions(type.value,desc.value,venueSubtype);
   for(const [key,c] of custom)if(key.startsWith(type.value+'|'))all.push(c);
   return all.slice(0,32);
  };
@@ -41,14 +44,26 @@ function extraCreatorGuesthouseControls(area,type,desc){
   canvas.getContext('2d').drawImage(picture,0,0,canvas.width,canvas.height);
   for(const quality of [.70,.56,.43,.30,.20]){
    const data=canvas.toDataURL('image/webp',quality);
-   if(data.length<=105000)return data;
+   if(data.length<=75000)return data;
   }
   throw Error(extraToolsLocale('Fotografia este prea mare după comprimare.','Photo remains too large after compression.'));
  }
  function refresh(){
   panel.replaceChildren();
   const kind=type.value,cats=categories();
+  lastSignature=kind+'|'+cats.map(c=>c.id+':'+(c.count||'')).join('|');
   panel.append(extraToolsEl('h3','',extraToolsLocale('Galerie fotografică','Photo gallery')));
+  if(kind==='restaurant'){
+   const row=extraToolsEl('label','extra-work-label',extraToolsLocale('Tipul localului','Venue type'));
+   const selector=extraToolsEl('select','extra-work-input');
+   for(const [value,ro,en] of [['auto','Eva detectează','Eva detects'],['restaurant','Restaurant','Restaurant'],
+    ['cafe','Cafenea / ceainărie','Café / tea room'],['bar','Bar / pub','Bar / pub']]){
+    const option=extraToolsEl('option','',extraToolsLocale(ro,en));option.value=value;selector.append(option);
+   }
+   selector.value=venueSubtype;
+   selector.onchange=()=>{venueSubtype=selector.value;refresh()};
+   row.append(selector);panel.append(row);
+  }
   panel.append(extraToolsEl('p','extra-work-note',extraToolsLocale(
    'Alege numai categoriile potrivite afacerii tale. Pentru demo poți adăuga cel mult 2 poze în fiecare; după creare, administratorul poate completa galeria.',
    'Choose categories relevant to your business. Add up to 2 pictures per category for the demo; the administrator can expand the gallery later.')));
@@ -121,7 +136,8 @@ function extraCreatorGuesthouseControls(area,type,desc){
   }
  }
  area.append(panel);
- type.addEventListener('change',refresh);desc.addEventListener('input',refresh);
+ type.addEventListener('change',refresh);
+ desc.addEventListener('input',()=>{const signature=type.value+'|'+categories().map(c=>c.id+':'+(c.count||'')).join('|');if(signature!==lastSignature)refresh()});
  refresh();
  return {getGallery,refresh};
 }
