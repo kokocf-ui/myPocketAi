@@ -108,9 +108,10 @@ function extraCreatorSiteDetails(description,kind){
  const raw=String(description||'').trim();
  const counts=[];
  if(kind==='hotel'){
-  const rex=/\b(\d{1,3})\s*(camere?\s+(?:single|duble|dubla|double|matrimoniale)|apartamente?|rooms?\s+(?:single|double|twin)|apartments?|suites?)\b/gi;
+  const rex=/\b(\d{1,3})\s*(camere?\s+(?:single|duble|dubla|double|matrimoniale|twin|triple|familiale|family|suite|standard|deluxe)|(?:single|duble|dubla|double|matrimoniale|twin|triple|familiale|suite|standard|deluxe)|apartamente?|rooms?\s+(?:single|double|twin|family|suite|deluxe|standard)|apartments?|suites?)\b/gi;
   for(const match of raw.matchAll(rex)){
-   const value=match[1],title=match[2].trim();if(!counts.some(s=>s.title.toLowerCase()===title.toLowerCase()))counts.push({value,title});
+   const value=match[1];let title=match[2].trim();
+   if(/^(?:single|duble|dubla|double|matrimoniale|twin|triple|familiale|suite|standard|deluxe)$/i.test(title))title='camere '+title;if(!counts.some(s=>s.title.toLowerCase()===title.toLowerCase()))counts.push({value,title});
   }
  }
  const amenities=[];
@@ -257,7 +258,7 @@ function extraCreatorWebsite(work){
  const styleButton=extraToolsBtn(extraToolsLocale('🎨 Vezi modele profesionale de site','🎨 Browse professional website layouts'),()=>extraCreatorStylePicker(selected.id,value=>{
   selected=value;styleLabel.textContent=extraToolsLocale('Model ales: ','Selected layout: ')+extraToolsLocale(value.ro,value.en);
  },{name:name.value.trim(),kind:type.value,activity:type.options[type.selectedIndex]?.textContent||'',
-   description:desc.value.trim(),contact:contact.value.trim(),photo:photoData,language:lang.value,prefs:designPrefs}));
+   description:desc.value.trim(),contact:contact.value.trim(),photo:photoData,gallery:guesthouseGallery.getGallery(),language:lang.value,prefs:designPrefs}));
  styleButton.classList.add('extra-creator-style-pick');
  const styleLabel=extraToolsEl('p','extra-creator-selected-style',extraToolsLocale('Stil ales: ','Selected style: ')+extraToolsLocale(selected.ro,selected.en));
  area.append(styleButton,styleLabel);
@@ -287,7 +288,7 @@ function extraCreatorWebsite(work){
  const management=extraCreatorManagementForm(area);
  const contact=extraToolsField(area,extraToolsLocale('Date de contact verificate (opțional)','Verified contact details (optional)'),'text',extraToolsLocale('E-mail, telefon sau adresă reală','Real email, phone or address'));
  const photo=extraToolsEl('input','extra-creator-photo');photo.type='file';photo.accept='image/jpeg,image/png,image/webp';photo.hidden=true;
- const photoLabel=extraToolsEl('p','extra-work-note',extraToolsLocale('Poți adăuga fotografia reală a afacerii.','You can add your business photo.'));
+ const photoLabel=extraToolsEl('p','extra-work-note',extraToolsLocale('Fotografia principală: pentru pensiune, imaginea exteriorului clădirii.','Main photo: for accommodation, a photo of the building exterior.'));
  let photoData='';
  photo.onchange=()=>{
   const file=photo.files&&photo.files[0];if(!file)return;
@@ -298,8 +299,9 @@ function extraCreatorWebsite(work){
   reader.onerror=()=>extraToolsStatus(extraToolsLocale('Nu s-a putut încărca fotografia.','Could not read photo.'));
   reader.readAsDataURL(file);
  };
- const photoButton=extraToolsBtn(extraToolsLocale('📷 Fotografie proprie (opțional)','📷 Your photo (optional)'),()=>photo.click());
+ const photoButton=extraToolsBtn(extraToolsLocale('🏡 Fotografia pensiunii / imagine principală','🏡 Guesthouse / main photo'),()=>photo.click());
  area.append(photo,photoButton,photoLabel);
+ const guesthouseGallery=extraCreatorGuesthouseControls(area,type,desc);
  const preview=extraToolsEl('div','extra-creator-preview-wrap');
  const note=extraToolsEl('p','extra-creator-preview-info',extraToolsLocale('Apasă Previzualizează pentru a vedea site-ul demonstrativ.','Tap Preview to see your local website draft.'));
  const generate=()=>{
@@ -307,7 +309,7 @@ function extraCreatorWebsite(work){
   if(!title||!story){note.textContent=extraToolsLocale('Completează numele afacerii și serviciile oferite.','Enter the business name and services.');return}
   work.creatorProjectSettings=management.getConfig();
   work.siteHtml=extraCreatorLocalHtml(title,type.options[type.selectedIndex]?.textContent||type.value,story,selected.ro+' '+extra.value,contact.value,lang.value,
-   {kind:type.value,styleId:selected.id,photo:photoData,prefs:designPrefs,aiCopy:work.siteAiCopy||null});
+   {kind:type.value,styleId:selected.id,photo:photoData,gallery:guesthouseGallery.getGallery(),prefs:designPrefs,aiCopy:work.siteAiCopy||null});
   const frame=extraToolsEl('iframe','extra-creator-preview');
   frame.setAttribute('sandbox','');frame.title=extraToolsLocale('Machetă locală a site-ului','Local website draft');
   frame.srcdoc=work.siteHtml;preview.replaceChildren(frame);
@@ -320,7 +322,7 @@ function extraCreatorWebsite(work){
   extraToolsBtn(extraToolsLocale('👁 Previzualizează site-ul','👁 Preview site'),generate,true),
   extraToolsBtn(extraToolsLocale('⛶ Ecran complet','⛶ Full screen'),()=>work.siteHtml?extraCreatorFullscreen(work.siteHtml):(note.textContent=extraToolsLocale('Creează întâi previzualizarea.','Preview first.'))));
  area.append(note,preview);
- work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPreferences:()=>({...designPrefs}),getPhoto:()=>photoData,getManagement:management.getConfig,validateManagement:management.validate,preview,note,generate};
+ work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPreferences:()=>({...designPrefs}),getPhoto:()=>photoData,getGallery:guesthouseGallery.getGallery,getManagement:management.getConfig,validateManagement:management.validate,preview,note,generate};
  const aiNote=extraToolsEl('p','extra-creator-disabled-note',extraToolsLocale('Generarea AI a site-ului este încă neactivată. Butonul de previzualizare creează doar o machetă locală, fără costuri.','AI website generation is not yet enabled. Preview creates only a local draft, without AI charges.'));
  const aiButton=extraToolsBtn(extraToolsLocale('✨ Generare AI neactivată','✨ AI generation not enabled'),()=>{});
  aiButton.disabled=true;area.append(aiNote);extraToolsActions(area,aiButton);
