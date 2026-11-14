@@ -8,6 +8,7 @@ new vm.Script(EXTRA_TOOLS_WORKSPACE_SCRIPT,{filename:'Tools creator combined JS'
 assert.ok(EXTRA_TOOLS_WORKSPACE_SCRIPT.endsWith(CREATOR_IMAGE_AI_SCRIPT));
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function extraCreatorWorkingWebsite/);
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function extraCreatorWorkingImages/);
+assert.match(CREATOR_SITE_AI_SCRIPT,/lifewise-ai-creator-preview\.kokocf\.workers\.dev\/site/);
 assert.match(CREATOR_SITE_SCRIPT,/extraCreatorWorkingWebsite\(work\)/);
 assert.match(CREATOR_SITE_SCRIPT,/extraCreatorWorkingImages\(work\)/);
 const f=new Function(CREATOR_SITE_AI_SCRIPT+';return {parse:extraCreatorParseAI,prompt:extraCreatorAiSitePrompt,call:extraCreatorCallAiWebsite};')();
@@ -28,9 +29,9 @@ globalThis.CLIENT_CONFIG={apiUrl:'https://example.test/api/chat'};
 globalThis.fetch=async(_,options)=>{
  called=true;
  const data=JSON.parse(options.body);
- assert.equal(data.module,'assistant');
- assert.equal(data.language,'ro');
- assert.match(data.message,/Aramis/);
+ assert.equal(data.name,'Aramis');
+ assert.equal(data.lang,'both');
+ assert.match(options.headers['X-Pocket-Preview'],/1/);
  return new Response(JSON.stringify({status:'success',reply:valid}),{status:200,headers:{'Content-Type':'application/json'}});
 };
 const copy=await f.call({name:'Aramis',kind:'hotel',description:'Rooms and breakfast',style:'mediteranean',lang:'both'},new AbortController().signal);
