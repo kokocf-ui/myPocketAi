@@ -17,13 +17,19 @@ assert.match(ORACLE_COMMUNICATION_SCRIPT,/function openChat\(peer\)/,'Contact op
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/comm-chat-header/,'Conversation header');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/comm-transcript/,'Conversation has a transcript');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/comm-compose/,'Conversation has a message input');
-assert.match(ORACLE_COMMUNICATION_SCRIPT,/function resizeChatViewport\(\)/,'Chat fits measured mobile viewport');
-assert.match(ORACLE_COMMUNICATION_SCRIPT,/querySelector\('\.bottom-nav'\)/,'Chat stops above fixed bottom navigation');
-assert.match(ORACLE_COMMUNICATION_SCRIPT,/visualViewport\?\.addEventListener\('resize'/,'Chat resizes when Android keyboard opens');
-assert.match(ORACLE_COMMUNICATION_STYLE,/#view-communication\.comm-chat-expanded \.comm-dashboard/,'Expanded layout only affects an active chat');
-assert.match(ORACLE_COMMUNICATION_STYLE,/height:var\(--comm-chat-height,64dvh\)!important/,'Chat height uses measured available space');
-assert.match(ORACLE_COMMUNICATION_STYLE,/max-height:none!important;height:0;overflow-y:auto/,'Messages scroll inside the chat rather than beneath bottom navigation');
-assert.match(ORACLE_COMMUNICATION_STYLE,/grid-column:1\/-1;grid-row:1/,'Text entry uses full width on phones');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/function resizeChatViewport\(\)/,'Chat adapts to mobile viewport');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/--comm-chat-screen-height/,'Chat uses the visible keyboard-safe screen height');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/window\.visualViewport\?\.addEventListener\('resize'/,'Chat resizes when Android keyboard opens');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/pocketCommunicationCloseChat/,'Android Back closes full-screen private chat');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/function closePrivateChat\(\)/,'Chat restores inbox without discarding contacts');
+assert.match(ORACLE_COMMUNICATION_STYLE,/#view-communication\.view\.comm-chat-expanded\.active\{/,'Full-screen design only while an active conversation is open');
+assert.match(ORACLE_COMMUNICATION_STYLE,/position:fixed!important;z-index:2147483000!important/,'Chat overlays application header and bottom navigation');
+assert.match(ORACLE_COMMUNICATION_STYLE,/height:var\(--comm-chat-screen-height,100dvh\)!important/,'Chat fills visible device viewport');
+assert.match(ORACLE_COMMUNICATION_STYLE,/font-size:14px!important;line-height:1\.36!important/,'Message font reduced but readable');
+assert.match(ORACLE_COMMUNICATION_STYLE,/height:0!important;max-height:none!important;overflow-y:auto!important/,'Only messages scroll');
+assert.match(ORACLE_COMMUNICATION_STYLE,/grid-column:1\/-1!important;grid-row:1!important/,'Text entry spans the available width');
+assert.match(ORACLE_COMMUNICATION_STYLE,/font-size:16px!important;line-height:1\.32!important/,'Composer remains readable and avoids Android zoom');
+assert.match(ORACLE_COMMUNICATION_STYLE,/min-height:44px!important/,'Messaging action buttons remain touch accessible');
 
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/MediaRecorder/,'Voice note uses device media recorder');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/audio\/webm/,'Audio recording format supported');
