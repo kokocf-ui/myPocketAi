@@ -3,6 +3,7 @@ import {StudioAccounts} from './studio_accounts.mjs';
 import {StudioSites} from './studio_sites.mjs';
 import {renderStudioSite,validateStudioDraft,STUDIO_THEMES} from './studio_site_renderer.mjs';
 import {STUDIO_ADMIN_HTML} from './studio_admin_portal.mjs';
+import {SITE_GALLERY_PRESETS} from './creator_guesthouse_gallery.mjs';
 import {json,bodyJson,normalizeEmail,validEmail,constantTimeEqual,sha256,normalizeStudioPrompt,publicSafeHtmlHeaders} from './studio_security.mjs';
 export {StudioAccounts,StudioSites};
 const COOKIE='__Host-pocket_studio';
@@ -127,7 +128,7 @@ export default{
      'Referrer-Policy':'no-referrer',
      'Content-Security-Policy':"default-src 'none'; connect-src 'self'; img-src data:; style-src 'unsafe-inline'; script-src 'nonce-"+nonce+"'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
     };
-    return new Response(STUDIO_ADMIN_HTML.replaceAll('__STUDIO_NONCE__',nonce),{headers:header});
+    return new Response(STUDIO_ADMIN_HTML.replaceAll('__STUDIO_NONCE__',nonce).replace('__SITE_GALLERY_CATALOG__',JSON.stringify(SITE_GALLERY_PRESETS)),{headers:header});
    }
    const published=/^\/s\/([a-f0-9]{32})\/?$/.exec(path);
    if(published&&method==='GET'){
