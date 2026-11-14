@@ -54,7 +54,13 @@ for(const token of [
 ])assert.ok(script.includes(token),'Missing computing UI integration: '+token);
 assert.match(COMPUTING_UI_SCRIPT,/signal:controller.signal/,'Cancellation abort signal wired to request');
 assert.match(COMPUTING_UI_SCRIPT,/Codul nu a fost executat/,'No false code-execution claim');
-assert.match(COMPUTING_UI_SCRIPT,/\.slice\(offset,offset\+4\)/,'Maximum four choices displayed');
+assert.match(COMPUTING_UI_SCRIPT,/function computingChoices\(panel,items,onSelect\)/,'Direct Computing choices preserved');
+assert.match(COMPUTING_UI_SCRIPT,/computing-choice-list/,'Computing uses icon tiles');
+assert.match(COMPUTING_UI_SCRIPT,/computing-tile-icon/,'Every Computing tile has an illustrative icon');
+assert.doesNotMatch(COMPUTING_UI_SCRIPT,/input\.type='search'/,'Computing stages do not require redundant search');
+assert.match(COMPUTING_UI_SCRIPT,/COMPUTING_GRADE_LESSON_IDS/,'Selected grades have stage-specific lesson selection');
+assert.match(COMPUTING_UI_SCRIPT,/computingTopicsForGrade\(path\.id\)/,'Chapter list is filtered for the selected year');
+assert.match(COMPUTING_UI_SCRIPT,/function computingGradeRange\(level\)/,'Grade cards match the selected school system');
 assert.match(COMPUTING_UI_SCRIPT,/data\.status==='recognized'/,'Android dictation review');
 
 // Language selection must not silently send non-English speech to the English recognizer.
@@ -111,4 +117,28 @@ assert.ok(rendered.children.some(n=>n.tagName==='pre'&&n.textContent.includes('2
 assert.ok(rendered.textContent.includes('x**2'),'Python exponentiation preserved in prose');
 assert.ok(!rendered.textContent.includes('**Exercițiu:**'),'Markdown formatting stripped from heading only');
 assert.equal(rendered.children.filter(n=>n.tagName==='ul').length,1,'Bullets presented as a list');
+
+// Country/year tiles select populated stage-appropriate lessons; the
+// national syllabus is labelled advisory until profile-specific verification.
+const computingYearCode=COMPUTING_UI_SCRIPT.slice(
+ COMPUTING_UI_SCRIPT.indexOf('const COMPUTING_GRADE_LESSON_IDS='),
+ COMPUTING_UI_SCRIPT.indexOf('function computingOpen(stage){'));
+for(const [country,grades] of [
+ ['RO',Array.from({length:12},(_,i)=>String(i+1))],
+ ['GB-ENG',Array.from({length:13},(_,i)=>'Y'+(i+1))]
+]){
+ for(const grade of grades){
+  const n=Number(grade.replace(/^Y/,''));
+  const level=country==='RO'?(n<=4?'beginner':n<=8?'lower':'medium'):(n<=6?'beginner':n<=9?'lower':'medium');
+  const make=new Function('educationCountrySelection','computingJourney','COMPUTING_TOPICS_DATA',
+    computingYearCode+'\nreturn {allow:computingGradePathAllowed,topics:computingTopicsForGrade};');
+  const api=make({code:country},{grade,level},COMPUTING_TOPICS);
+  const allowed=COMPUTING_PATHS.filter(x=>api.allow(x));
+  const topics=allowed.flatMap(x=>api.topics(x.id));
+  assert.ok(allowed.length>0&&topics.length>=3,country+' '+grade+' must have multiple study topics');
+  assert.ok(allowed.every(x=>api.topics(x.id).length>0),country+' '+grade+' cannot have an empty branch');
+  assert.equal(new Set(topics.map(x=>x.id)).size,topics.length,country+' '+grade+' duplicate topic');
+ }
+}
+
 console.log('PASS Computing: 4 educational pathways, 20 branches, 74 quizzes, lower-secondary isolation, navigation, PDF, voice and full boot script.');
