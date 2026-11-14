@@ -79,10 +79,10 @@ export function normalizeStudioPrompt(prompt,composition='wide'){
  ' Respect each object, animal, pose and interaction explicitly described in: '+text+
  '. Avoid unintended headshots or cropping essential objects.').slice(0,500);
 }
-export function publicSafeHtmlHeaders(preview=false){
+export function publicSafeHtmlHeaders(preview=false,allowForms=false){
  return {
  'Content-Type':'text/html; charset=utf-8','Cache-Control':preview?'no-store':'public, max-age=60',
- 'Content-Security-Policy':"default-src 'none'; script-src 'none'; img-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors "+(preview?"'self'":"'none'")+"; sandbox",
+ 'Content-Security-Policy':"default-src 'none'; script-src 'none'; img-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action "+(allowForms?"'self'":"'none'")+"; object-src 'none'; frame-ancestors "+(preview?"'self'":"'none'")+"; sandbox"+(allowForms?' allow-forms':''),
  'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',
  'X-Frame-Options':preview?'SAMEORIGIN':'DENY'
  };
