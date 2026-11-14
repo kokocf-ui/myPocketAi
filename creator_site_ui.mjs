@@ -240,6 +240,7 @@ function extraCreatorWebsite(work){
   extraToolsBtn(extraToolsLocale('👁 Previzualizează site-ul','👁 Preview site'),generate,true),
   extraToolsBtn(extraToolsLocale('⛶ Ecran complet','⛶ Full screen'),()=>work.siteHtml?extraCreatorFullscreen(work.siteHtml):(note.textContent=extraToolsLocale('Creează întâi previzualizarea.','Preview first.'))));
  area.append(note,preview);
+ work.creatorForm={name,type,desc,extra,lang,descEn,contact,getStyle:()=>selected,getPhoto:()=>photoData,preview,note,generate};
  const aiNote=extraToolsEl('p','extra-creator-disabled-note',extraToolsLocale('Generarea AI a site-ului este încă neactivată. Butonul de previzualizare creează doar o machetă locală, fără costuri.','AI website generation is not yet enabled. Preview creates only a local draft, without AI charges.'));
  const aiButton=extraToolsBtn(extraToolsLocale('✨ Generare AI neactivată','✨ AI generation not enabled'),()=>{});
  aiButton.disabled=true;area.append(aiNote);extraToolsActions(area,aiButton);
@@ -248,7 +249,7 @@ function extraCreatorImages(work){
  const area=work.area;area.replaceChildren();extraCreatorSubBack(work);
  area.append(extraToolsEl('h3','extra-creator-subtitle',extraToolsLocale('Creează imagini','Create images')));
  extraCreatorNotice(area,'Motorul AI de imagini nu este conectat. În acest APK nu se poate genera sau salva o imagine nouă. Nu pornește nicio cerere și nu se percepe niciun cost.','The image AI engine is not connected. This APK cannot generate or save a new image. No request starts and no charge occurs.');
- extraToolsField(area,extraToolsLocale('Descrierea imaginii (pentru versiunea viitoare)','Image description (future version)'),'textarea',
+ const imagePrompt=extraToolsField(area,extraToolsLocale('Descrierea imaginii','Image description'),'textarea',
   extraToolsLocale('Ce ai dori să genereze Eva?','What would you like Eva to generate?'));
  const format=extraToolsField(area,extraToolsLocale('Format imagine','Image format'),'select');
  for(const [v,label] of [['square','Pătrat · 1:1'],['wide','Orizontal · 16:9'],['portrait','Vertical · 9:16']]){const opt=extraToolsEl('option','',label);opt.value=v;format.append(opt)}
@@ -256,6 +257,7 @@ function extraCreatorImages(work){
  areaPreview.append(extraToolsEl('span','extra-creator-symbol','🖼️'),
   extraToolsEl('strong','',extraToolsLocale('Generarea imaginilor nu este încă activă','Image generation is not yet active')));
  area.append(areaPreview);
+ work.creatorImageForm={imagePrompt,format,areaPreview};
  const make=extraToolsBtn(extraToolsLocale('✨ Generare indisponibilă','✨ Generation unavailable'),()=>{});
  make.disabled=true;
  const save=extraToolsBtn(extraToolsLocale('💾 Salvează în Galerie','💾 Save to Gallery'),()=>{});
