@@ -74,7 +74,11 @@ const sandbox={
  renderLearningSubjects:()=>{home++},
  Math
 };
+const chemistryBegin=script.indexOf('function scienceOpenChemistrySection(stage){');
+const chemistryEnd=script.indexOf('function scienceOpenWorkspace(){',chemistryBegin);
+assert.ok(chemistryBegin>0&&chemistryEnd>chemistryBegin,'Chemistry section renderer exists');
 const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(start,end)+
+ script.slice(chemistryBegin,chemistryEnd)+
  '\n({open:scienceJourneyShowChoices,back:scienceBack,state:scienceJourney,subjects:SCIENCE_SUBJECTS})',sandbox);
 api.open('subjects');
 let rows=()=>host.children[1]?.children[2]?.children||[];
