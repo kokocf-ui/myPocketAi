@@ -59,7 +59,7 @@ assert.match(bilingual,/class="locale-content lang-en"/);
 assert.match(bilingual,/css|style/i);
 assert.match(CREATOR_SITE_SCRIPT,/lang\.value==='both'|lang\.value!=='ro'/);
 assert.match(CREATOR_SITE_SCRIPT,/extraCreatorStylePicker/);
-assert.match(CREATOR_SITE_SCRIPT,/descEn\.value\.trim\(\)/);
+assert.doesNotMatch(CREATOR_SITE_SCRIPT,/const descEn=|Descrierea în engleză/,'AI translates automatically; no duplicate English input');
 assert.match(CREATOR_SITE_SCRIPT,/photo\.accept='image\/jpeg,image\/png,image\/webp'/);
 assert.match(CREATOR_SITE_SCRIPT,/Motorul AI de imagini nu este conectat/);
 assert.match(CREATOR_SITE_SCRIPT,/make\.disabled=true/);
