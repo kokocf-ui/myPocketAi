@@ -244,6 +244,17 @@ const commercialSaved=await result('/api/sites/'+id,'PUT',{version:5,draft:comme
 assert.equal(commercialSaved.version,6);
 assert.equal((await result('/api/sites/'+id+'/publish','POST',{version:6},clientCookie)).ok,true);
 assert.match(await (await call('/s/'+id)).text(),/name="productId"/);
+for(let i=0;i<5;i++){
+ const res=await visitor('booking',{...baseVisitor,start,end:endDate,roomLabel:'camere single',partySize:'2'},'203.0.114.'+(i+1));
+ assert.equal(res.status,200);
+}
+const sixth=await visitor('booking',{...baseVisitor,start,end:endDate,roomLabel:'camere single',partySize:'2'},'203.0.114.8');
+assert.equal(sixth.status,200);
+const busy=await result('/s/'+id+'/availability?roomLabel=camere%20single&start='+start+'&end='+endDate);
+assert.equal(busy.available,false,'Five confirmed rooms fill the inventory');
+const stockInbox=await result('/api/sites/'+id+'/inbox','GET',null,clientCookie);
+assert.equal(stockInbox.items.filter(x=>x.type==='booking'&&x.status==='confirmed'&&x.roomLabel==='camere single').length,5);
+
 assert.equal((await result('/api/ai/image','POST',{prompt:'Templar on camel'},clientCookie)).response.status,503);
 assert.equal((await result('/api/ai/site','POST',{name:'Aramis',description:draft.description},clientCookie)).response.status,503);
 assert.equal((await result('/api/sites/'+id+'/request','POST',{message:'Schimbă fotografia principală'},clientCookie)).ok,true);
