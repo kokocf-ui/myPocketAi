@@ -267,6 +267,20 @@ assert.equal(newOrder.totalMinor,10000);
 assert.equal((await result('/api/sites/'+id+'/inbox/'+newOrder.id+'/status','POST',
  {status:'confirmed'},clientCookie)).ok,true);
 assert.equal((await visitor('order',{...baseVisitor,productId:'p-1',quantity:'1'},'203.0.115.5')).status,409);
+const payingDraft=structuredClone(commerceDraft);
+payingDraft.commerce.products[0].inventory=4;
+assert.equal((await result('/api/sites/'+id,'PUT',{version:6,draft:payingDraft},clientCookie)).version,7);
+assert.equal((await result('/api/sites/'+id+'/publish','POST',{version:7},clientCookie)).ok,true);
+const originalNetworkFetch=globalThis.fetch;
+let stripeForm=null;
+env.STRIPE_SECRET_KEY='sk_'+'test_mock_client';
+env.STRIPE_WEBHOOK_SECRET='whsec_'+'mock_client';
+globalThis.fetch=async(url,options)=>{
+ assert.equal(url,'https://api.stripe.com/v1/checkout/sessions');
+ stripeForm=new URLSearchParams(options.body);
+ return new Response(JSON.stringify({id:'cs_test_Example123',url:'https://checkout.stripe.com/c/pay/Example123'}));
+};
+
 
 
 assert.equal((await result('/api/ai/image','POST',{prompt:'Templar on camel'},clientCookie)).response.status,503);
