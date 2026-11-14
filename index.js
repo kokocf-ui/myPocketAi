@@ -22109,6 +22109,68 @@ dialog.practical-activity-dialog[open]::backdrop{background:rgba(0,8,18,.84)!imp
  box-sizing:border-box!important;max-width:100%!important;width:100%!important;
 }
 
+/* 2026-11-14 Education: match Mathematics' two-column 3D icon tiles.
+   Applied only to Practical course choices and Computing stage/grade/chapters. */
+#view-module.learning-practical.active .practical-tile-list,
+#view-module.learning-computing.active .computing-choice-list,
+#view-module.learning-computing.active .computing-grade-choice-list{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-content:start!important;align-items:start!important;
+ grid-auto-rows:max-content!important;
+ gap:clamp(8px,2.4vw,12px)!important;
+ box-sizing:border-box!important;width:100%!important;max-width:100%!important;
+ min-width:0!important;min-height:0!important;
+ overflow-x:hidden!important;
+ padding:5px 3px 14px!important;
+}
+#view-module.learning-practical.active .practical-choice-tile,
+#view-module.learning-computing.active .computing-choice-tile,
+#view-module.learning-computing.active .computing-grade-choice-tile{
+ box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+ align-items:center!important;justify-content:center!important;text-align:center!important;
+ gap:clamp(4px,.8dvh,8px)!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
+ height:clamp(116px,20dvh,184px)!important;min-height:0!important;
+ padding:clamp(7px,1.9vw,12px)!important;margin:0!important;
+ white-space:normal!important;overflow-wrap:anywhere!important;
+ border:2px solid #59b5ce!important;border-radius:clamp(15px,4vw,21px)!important;
+ background:linear-gradient(150deg,#1d6b8b,#0d2d4c 80%)!important;
+ box-shadow:inset 0 3px 0 #50a1c0,0 5px 0 #041421!important;
+ color:#f3fbff!important;
+}
+#view-module.learning-practical.active .practical-choice-tile .practical-tile-icon,
+#view-module.learning-computing.active .computing-choice-tile .computing-tile-icon,
+#view-module.learning-computing.active .computing-grade-choice-tile .computing-grade-icon{
+ display:block!important;flex:0 0 auto!important;
+ line-height:1.15!important;font-size:clamp(27px,7vw,37px)!important;
+}
+#view-module.learning-practical.active .practical-choice-tile .practical-tile-title,
+#view-module.learning-computing.active .computing-choice-tile .computing-tile-title,
+#view-module.learning-computing.active .computing-grade-choice-tile strong{
+ display:block!important;max-width:100%!important;min-width:0!important;
+ line-height:1.18!important;font-size:clamp(12px,3.6vw,17px)!important;
+ overflow-wrap:anywhere!important;word-break:normal!important;
+}
+#view-module.learning-computing.active .computing-choice-tile .computing-tile-caption{
+ display:block!important;font-size:clamp(10px,2.8vw,12px)!important;
+ line-height:1.2!important;max-width:100%!important;overflow-wrap:anywhere!important;
+ color:#bcdce9!important;
+}
+#view-module.learning-computing.active .computing-grade-panel{
+ box-sizing:border-box!important;min-width:0!important;max-width:100%!important;
+ padding:12px!important;overflow:visible!important;
+}
+#view-module.learning-computing.active .computing-panel,
+#view-module.learning-practical.active .practical-panel{
+ box-sizing:border-box!important;min-width:0!important;
+ max-width:100%!important;overflow-x:hidden!important;
+}
+main.page:has(#view-module.learning-computing.active),
+main.page:has(#view-module.learning-practical.active){
+ overflow-x:hidden!important;overflow-y:auto!important;
+ overscroll-behavior:contain!important;
+}
+
 </style>
 </body>
 </html>`;
