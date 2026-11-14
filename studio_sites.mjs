@@ -1,5 +1,6 @@
 import {rand,sha256,json,bodyJson,validateManagement,validEmail,normalizeEmail} from './studio_security.mjs';
 import {validateStudioDraft,renderStudioSite} from './studio_site_renderer.mjs';
+import {validateVisitorSubmission} from './studio_business_flows.mjs';
 const sameId=id=>/^[a-f0-9]{32}$/.test(String(id||''));
 function roleFor(site,id){
  if(!id)return null;
@@ -36,6 +37,33 @@ export class StudioSites{
     if(!site.published)return json({error:'not_published'},404);
     return json({ok:true,draft:site.published,version:site.publishedVersion});
    }
+   if(op==='visitorSubmit'){
+    if(!site.published)return json({error:'not_published'},404);
+    const fingerprint=String(x.fingerprint||'');
+    if(!/^[a-f0-9]{64}$/.test(fingerprint))return json({error:'invalid_visitor'},403);
+    let submitted;try{submitted=validateVisitorSubmission(x.payload,x.type,site.published,now)}
+    catch(e){
+     const err=String(e.message||'invalid_request');
+     if(err==='spam')return json({ok:true,received:true});
+     return json({error:['feature_disabled','invalid_contact','privacy_ack_required','message_too_short',
+      'invalid_party','invalid_dates','invalid_room','invalid_slot'].includes(err)?err:'invalid_request'},400);
+    }
+    const response=await this.state.storage.transaction(async tx=>{
+     const key='visitorRate:'+fingerprint;
+     let rate=await tx.get(key)||{count:0,window:now};
+     if(now-rate.window>600000)rate={count:0,window:now};
+     if(rate.count>=3)return {error:'too_many_requests',status:429};
+     const entries=await tx.get('visitorInbox')||[];
+     if(entries.length>=200)return {error:'inbox_full',status:429};
+     rate.count+=1;
+     const item={id:rand(8),at:now,status:'new',...submitted};
+     entries.push(item);
+     await tx.put('visitorInbox',entries);
+     await tx.put(key,rate);
+     return {ok:true,received:true};
+    });
+    return json(response,response.status||200);
+   }
    if(op==='verifyInvite'){
     const token=String(x.token||'');
     if(!/^[a-f0-9]{64}$/.test(token))return json({error:'bad_invitation'},403);
@@ -63,6 +91,28 @@ export class StudioSites{
    }
    const role=roleFor(site,actor);
    if(!role)return json({error:'not_authorized'},403);
+   if(op==='visitorInbox'){
+    if(!canEdit(site,actor))return json({error:'not_authorized'},403);
+    const items=await this.state.storage.get('visitorInbox')||[];
+    return json({ok:true,items:items.slice(-200).reverse(),total:items.length});
+   }
+   if(op==='visitorStatus'||op==='visitorDelete'){
+    if(!canEdit(site,actor))return json({error:'not_authorized'},403);
+    const id=String(x.itemId||'');
+    if(!/^[a-f0-9]{16}$/.test(id))return json({error:'invalid_item'},400);
+    if(op==='visitorStatus'&&!['new','contacted','closed','declined'].includes(x.status))
+     return json({error:'invalid_status'},400);
+    const changed=await this.state.storage.transaction(async tx=>{
+     const items=await tx.get('visitorInbox')||[];
+     const n=items.findIndex(item=>item.id===id);
+     if(n<0)return false;
+     if(op==='visitorDelete')items.splice(n,1);
+     else items[n].status=x.status;
+     await tx.put('visitorInbox',items);
+     return true;
+    });
+    return changed?json({ok:true}):json({error:'item_not_found'},404);
+   }
    if(op==='read')return json({ok:true,site:{id:site.id,version:site.version,publishedVersion:site.publishedVersion,
     updatedAt:site.updatedAt,createdAt:site.createdAt,management:site.management,draft:site.draft,
     role,creatorRevoked:site.creatorRevoked,ownerAssigned:site.ownerId!==site.creatorId,
