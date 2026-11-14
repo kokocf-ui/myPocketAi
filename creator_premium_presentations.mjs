@@ -83,8 +83,9 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
   const about=section?.about||(en?t.intro:String(description).slice(0,440));
   const verified=section?.services?.filter(x=>x&&typeof x.title==='string')?.slice(0,5)||[];
   // A no-cost EN preview never relabels unverified Romanian text as a translation.
+  const extraServices=facts.remainder.filter(x=>kind!=='hotel'||!/(?:camere?\s+(?:single|duble|dubla|double)|apartamente?|mic\s+dejun|bucătărie\s+(?:la\s+)?comun|sal[aă]\s+de\s+mese|wi[\s-]?fi|internet|parcare)/i.test(x));
   const displayServices=verified.length?verified.map(x=>({title:x.title,detail:x.detail||''})):
-   !en?facts.remainder.slice(0,4).map(x=>({title:x,detail:''})):[];
+   !en?extraServices.slice(0,4).map(x=>({title:x,detail:''})):[];
   const roomName=label=>{
    const l=label.toLowerCase();
    return !en?label:/apartament|apartment/.test(l)?'apartments':/single/.test(l)?'single rooms':/dubl|double/.test(l)?'double rooms':label;
