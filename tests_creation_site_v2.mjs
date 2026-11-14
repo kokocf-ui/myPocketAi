@@ -57,7 +57,7 @@ assert.match(bilingual,/Bed and breakfast/);
 assert.match(bilingual,/class="locale-content lang-ro"/);
 assert.match(bilingual,/class="locale-content lang-en"/);
 assert.match(bilingual,/css|style/i);
-assert.match(CREATOR_SITE_SCRIPT,/lang\.value==='both'|lang\.value!=='ro'/);
+assert.match(CREATOR_SITE_SCRIPT,/Eva va traduce automat din română/);
 assert.match(CREATOR_SITE_SCRIPT,/extraCreatorStylePicker/);
 assert.doesNotMatch(CREATOR_SITE_SCRIPT,/const descEn=|Descrierea în engleză/,'AI translates automatically; no duplicate English input');
 assert.match(CREATOR_SITE_SCRIPT,/photo\.accept='image\/jpeg,image\/png,image\/webp'/);
