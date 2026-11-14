@@ -388,11 +388,11 @@ function practicalLesson(panel){
   paintQuestion();
   quizActions.replaceChildren();
   const verify=practicalButton(practicalLabel('✓ Verifică testul','✓ Check answers'),()=>{
-   if(selected.some(x=>x===null)){result.textContent=practicalLabel('Completează toate răspunsurile pentru a primi rezultatul.','Answer all questions before checking.');return}
+   if(selected.some(x=>x===null)){result.textContent=practicalLabel('Completează toate răspunsurile pentru a primi rezultatul.','Answer all questions before checking.');activeQuestion=selected.findIndex(x=>x===null);paintQuestion();return}
    const correct=qs.reduce((n,q,i)=>n+(selected[i]===q.correct?1:0),0),pct=Math.round(correct/qs.length*100);
    result.replaceChildren(practicalNode('h4',practicalLabel('Rezultat: ','Result: ')+correct+'/'+qs.length+' ('+pct+'%)'));
    qs.forEach((q,i)=>result.append(practicalNode('p',(i+1)+'. '+(selected[i]===q.correct?'✓ ':'✗ ')+practicalLabel('Ai ales: ','Selected: ')+displayChoices[i][selected[i]]+'. '+practicalLabel('Răspuns corect: ','Correct answer: ')+displayChoices[i][q.correct]+'. '+displayExplanations[i])));
-   questionHost.querySelectorAll('input').forEach(x=>x.disabled=true);verify.disabled=true;
+   questionHost.querySelectorAll('input').forEach(x=>x.disabled=true);verify.disabled=true;questionHost.hidden=true;pager.hidden=true;
    practicalSave({lastScore:pct,lastCorrect:correct,lastTotal:qs.length,completed:true,lastVariant:version});
    // The result is already shown once in .practical-result and collected by PDF export. Do not add a second visible copy.
   },'primary-btn');
