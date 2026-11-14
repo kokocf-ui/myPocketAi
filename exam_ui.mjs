@@ -444,7 +444,7 @@ function examWorkspace(panel){
  quizHead.append(examEl('h2',examLabel('Simulare de antrenament','Practice simulation')),
   examBtn(examLabel('← Înapoi','← Back'),()=>quizDialog.close()));
  quizDialog.append(quizHead,sim);document.body.append(quizDialog);
- const quizLaunch=examBtn(examLabel('📝 Exercițiu de verificare','📝 Practice questions'),()=>quizDialog.showModal(),'secondary-btn exam-quiz-launch');
+ const quizLaunch=examBtn('📝 '+examLabel('Simulare de antrenament','Practice simulation'),()=>quizDialog.showModal(),'secondary-btn exam-quiz-launch');
  quizLaunch.style.cssText='box-sizing:border-box;width:100%;min-width:0;min-height:56px;margin:8px 0;text-align:center;';
  panel.append(quizLaunch);
  const writeLabel=examEl('label',examLabel('Răspuns scris, problemă sau subiect scanat','Written answer, question or scanned task'),'lit-label');writeLabel.htmlFor='examAnswerText';panel.append(writeLabel);
