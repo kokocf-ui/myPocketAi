@@ -209,6 +209,7 @@ function computingGradePathAllowed(path){
 }
 function computingOpen(stage){
  computingStopRequest();computingStopVoice();computingJourney.stage=stage;
+ document.querySelectorAll('dialog.computing-quiz-dialog').forEach(dialog=>dialog.remove());
  const root=$('view-module'),host=$('moduleContent');if(!root||!host)return;
  root.classList.remove('learning-choose','learning-math','learning-science','learning-languages','learning-hg','learning-literature','science-choice-stage');root.classList.add('learning-active','learning-computing');
  activeLearningSubject=LEARNING_SUBJECTS.find(x=>x[0]==='computing')||null;
@@ -365,7 +366,7 @@ function computingWorkspace(panel){
   educationOpenPagedLesson(lessonHeading.textContent,material);
  },'secondary-btn');
  panel.append(openTheory,printable);
- const quiz=computingEl('section','','computing-quiz');quiz.append(computingEl('h3',computingLabel('Exercițiu de verificare','Knowledge check')));const quizQuestion=computingParagraph(quiz,t.question);
+ const quiz=computingEl('section','','computing-quiz');const quizQuestion=computingParagraph(quiz,t.question);
  const answers=computingEl('div','','lit-options');answers.style.cssText='display:flex;flex-direction:column;gap:7px;';
  const choiceButtons=[];
  const feedback=computingEl('p');feedback.setAttribute('role','status');
@@ -400,11 +401,24 @@ function computingWorkspace(panel){
   });
   b.setAttribute('aria-pressed','false');b.style.cssText='width:100%;text-align:left;white-space:normal;';choiceButtons.push(b);answers.append(b)
  });
- quiz.append(answers,feedback,continueBtn);panel.append(quiz);
- const label=computingEl('label',computingLabel('Scrie problema, întrebarea sau codul','Enter the task, question or code'),'lit-label');label.htmlFor='computingInput';panel.append(label);
+ quiz.append(answers,feedback,continueBtn);
+ const quizDialog=computingEl('dialog','','education-theory-dialog computing-quiz-dialog');
+ const quizHead=computingEl('div','','education-theory-head');
+ quizHead.append(computingEl('h2',computingLabel('Exercițiu de verificare','Knowledge check')),
+  computingBtn(computingLabel('← Înapoi','← Back'),()=>quizDialog.close()));
+ quizDialog.append(quizHead,quiz);document.body.append(quizDialog);
+ const quizLaunch=computingBtn('📝 '+computingLabel('Exercițiu de verificare','Knowledge check'),()=>quizDialog.showModal(),'secondary-btn computing-quiz-launch');
+ quizLaunch.style.cssText='width:100%;min-width:0;min-height:56px;margin:8px 0;text-align:center;';
+ panel.append(quizLaunch);
+ const workTools=computingEl('details','','computing-workspace-tools');
+ workTools.style.cssText='box-sizing:border-box;width:100%;min-width:0;border:1px solid #427b94;border-radius:15px;padding:10px;background:#102d40;margin-top:10px;';
+ const workToggle=computingEl('summary','💻 '+computingLabel('Scrie problema, întrebarea sau codul','Enter the task, question or code'));
+ workToggle.style.cssText='cursor:pointer;min-height:46px;display:flex;align-items:center;padding:8px 10px;font-weight:700;touch-action:manipulation;';
+ workTools.append(workToggle);panel.append(workTools);
+ const label=computingEl('label',computingLabel('Scrie problema, întrebarea sau codul','Enter the task, question or code'),'lit-label');label.htmlFor='computingInput';workTools.append(label);
  const editor=computingEl('textarea');editor.id='computingInput';editor.className='lit-input';editor.rows=4;editor.maxLength=16000;
  editor.placeholder=computingLabel('Cod sau enunț, introdus manual, prin dictare ori fotografie…','Code or task from typing, dictation or photo…');
- editor.style.cssText='width:100%;max-width:100%;box-sizing:border-box;min-height:100px;max-height:36dvh;overflow:auto;resize:vertical;';panel.append(editor);
+ editor.style.cssText='width:100%;max-width:100%;box-sizing:border-box;min-height:100px;max-height:36dvh;overflow:auto;resize:vertical;';workTools.append(editor);
  const uploads=computingEl('div','','lit-actions');uploads.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
  const camera=computingEl('input'),gallery=computingEl('input'),file=computingEl('input');
  for(const el of [camera,gallery,file]){el.type='file';el.hidden=true}camera.accept=gallery.accept='image/*';camera.setAttribute('capture','environment');file.accept='.txt,.md,.py,.js,.html,.css,.json,.sql,.csv,.java,.c,.cpp,.cs,.ts,text/plain';
@@ -413,7 +427,7 @@ function computingWorkspace(panel){
  uploads.append(computingBtn(computingLabel('🖼️ Album','🖼️ Gallery'),()=>window.PocketAndroidOCR?.postMessage?window.PocketAndroidOCR.postMessage('gallery'):gallery.click()));
  file.onchange=async()=>{const f=file.files?.[0];if(!f)return;if(f.size>512*1024){computingStatus(computingLabel('Fișier peste 512 KB.','File exceeds 512 KB.'));return}try{editor.value=(await f.text()).slice(0,16000);computingStatus(computingLabel('Fișier încărcat ca text.','File opened as text.'))}catch{computingStatus(computingLabel('Fișier indisponibil.','File unavailable.'))}};
  uploads.append(computingBtn(computingLabel('📄 Fișier','📄 File'),()=>file.click()));
- const voice=computingBtn(computingLabel('🎙️ Dictare','🎙️ Dictate'),computingDictate);voice.id='computingDictation';voice.setAttribute('aria-pressed','false');uploads.append(voice,camera,gallery,file);panel.append(uploads);
+ const voice=computingBtn(computingLabel('🎙️ Dictare','🎙️ Dictate'),computingDictate);voice.id='computingDictation';voice.setAttribute('aria-pressed','false');uploads.append(voice,camera,gallery,file);workTools.append(uploads);
  const output=computingEl('div','','computing-ai-result');output.style.cssText='display:none;max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap;';
  const status=computingEl('p');status.id='computingStatus';status.setAttribute('role','status');
  const actions=computingEl('div','','lit-actions');actions.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
@@ -445,7 +459,7 @@ function computingWorkspace(panel){
  const read=computingBtn(computingLabel('Citește','Read aloud'),()=>{if(state.speaking){stopSpeech();return}const txt=output.textContent?.trim()||printable.textContent?.trim();if(txt)speakText(txt)});
  const sync=()=>{if(!read.isConnected){window.removeEventListener('pocket-speech-state',sync);return}read.textContent=state.speaking?computingLabel('Oprește','Stop'):computingLabel('Citește','Read aloud');read.setAttribute('aria-pressed',String(Boolean(state.speaking)))};
  read.setAttribute('aria-pressed','false');window.addEventListener('pocket-speech-state',sync);actions.append(read);
- panel.append(actions,output,status);
+ workTools.append(actions,output,status);
  // The quiz keeps its original correct index; only visible text is translated.
  if(state.language!=='ro'){
   const languageAtOpen=state.language,topicAtOpen=t.id;
