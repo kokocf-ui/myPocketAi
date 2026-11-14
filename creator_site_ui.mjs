@@ -262,11 +262,22 @@ function extraCreatorImages(work){
   extraToolsLocale('Ce ai dori să genereze Eva?','What would you like Eva to generate?'));
  const format=extraToolsField(area,extraToolsLocale('Format imagine','Image format'),'select');
  for(const [v,label] of [['square','Pătrat · 1:1'],['wide','Orizontal · 16:9'],['portrait','Vertical · 9:16']]){const opt=extraToolsEl('option','',label);opt.value=v;format.append(opt)}
+ const composition=extraToolsField(area,extraToolsLocale('Încadrarea subiectelor','How to frame subjects'),'select');
+ for(const [v,ro,en] of [['full','Scenă completă (subiecte întregi)','Full scene (all subjects visible)'],
+  ['wide','Peisaj / cadru larg','Landscape / wide shot'],
+  ['medium','Plan mediu','Medium shot'],
+  ['portrait','Portret apropiat','Close portrait']]){
+  const opt=extraToolsEl('option','',extraToolsLocale(ro,en));opt.value=v;composition.append(opt);
+ }
+ const compositionNote=extraToolsEl('p','extra-work-note',
+  extraToolsLocale('Formatul vertical nu înseamnă automat portret apropiat. Pentru oameni călare ori mai multe obiecte, păstrează „Scenă completă”.',
+   'Vertical aspect ratio does not imply a close-up. Keep Full scene for riders or multiple essential objects.'));
+ area.append(compositionNote);
  const areaPreview=extraToolsEl('div','extra-creator-image-placeholder');
  areaPreview.append(extraToolsEl('span','extra-creator-symbol','🖼️'),
   extraToolsEl('strong','',extraToolsLocale('Generarea imaginilor nu este încă activă','Image generation is not yet active')));
  area.append(areaPreview);
- work.creatorImageForm={imagePrompt,format,areaPreview};
+ work.creatorImageForm={imagePrompt,format,composition,areaPreview};
  const make=extraToolsBtn(extraToolsLocale('✨ Generare indisponibilă','✨ Generation unavailable'),()=>{});
  make.disabled=true;
  const save=extraToolsBtn(extraToolsLocale('💾 Salvează în Galerie','💾 Save to Gallery'),()=>{});
