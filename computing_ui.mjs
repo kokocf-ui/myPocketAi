@@ -407,12 +407,12 @@ function computingWorkspace(panel){
  quizHead.append(computingEl('h2',computingLabel('Exercițiu de verificare','Knowledge check')),
   computingBtn(computingLabel('← Înapoi','← Back'),()=>quizDialog.close()));
  quizDialog.append(quizHead,quiz);document.body.append(quizDialog);
- const quizLaunch=computingBtn(computingLabel('📝 Exercițiu de verificare','📝 Knowledge check'),()=>quizDialog.showModal(),'secondary-btn computing-quiz-launch');
+ const quizLaunch=computingBtn('📝 '+computingLabel('Exercițiu de verificare','Knowledge check'),()=>quizDialog.showModal(),'secondary-btn computing-quiz-launch');
  quizLaunch.style.cssText='width:100%;min-width:0;min-height:56px;margin:8px 0;text-align:center;';
  panel.append(quizLaunch);
  const workTools=computingEl('details','','computing-workspace-tools');
  workTools.style.cssText='box-sizing:border-box;width:100%;min-width:0;border:1px solid #427b94;border-radius:15px;padding:10px;background:#102d40;margin-top:10px;';
- const workToggle=computingEl('summary',computingLabel('💻 Scrie, rezolvă sau analizează cod','💻 Write, solve or review code'));
+ const workToggle=computingEl('summary','💻 '+computingLabel('Scrie problema, întrebarea sau codul','Enter the task, question or code'));
  workToggle.style.cssText='cursor:pointer;min-height:46px;display:flex;align-items:center;padding:8px 10px;font-weight:700;touch-action:manipulation;';
  workTools.append(workToggle);panel.append(workTools);
  const label=computingEl('label',computingLabel('Scrie problema, întrebarea sau codul','Enter the task, question or code'),'lit-label');label.htmlFor='computingInput';workTools.append(label);
