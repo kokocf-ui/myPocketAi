@@ -121,9 +121,70 @@ function computingChoices(panel,items,onSelect){
  if(!items.length)box.append(computingEl('p',computingLabel('Nu s-au găsit rezultate.','No results found.')));
  panel.append(box);
 }
+
+/* Scoped grade guidance for countries with published Computing school stages.
+   This is a curated subset of existing offline lessons, not a claim to
+   reproduce every official national syllabus or every school profile. */
+const COMPUTING_GRADE_LESSON_IDS={
+ RO:{
+  '5':['lower-sequences','lower-data','lower-privacy'],
+  '6':['lower-sequences','lower-conditions','lower-variables','lower-data'],
+  '7':['lower-loops','lower-variables','lower-python','lower-debug'],
+  '8':['lower-python','lower-debug','lower-project','lower-privacy'],
+  '9':['pseudocode','variables','branches','iteration','python-syntax','types','debugging'],
+  '10':['functions','collections','python-syntax','javascript','types','debugging','html','css'],
+  '11':['recursion','complexity','tables','sql','joins','internet','os-processes'],
+  '12':['complexity','git','accessibility','internet','encryption','os-processes','projects']
+ },
+ 'GB-ENG':{
+  Y7:['lower-sequences','lower-conditions','lower-variables','lower-data'],
+  Y8:['lower-conditions','lower-loops','lower-python','lower-privacy'],
+  Y9:['lower-loops','lower-python','lower-debug','lower-project'],
+  Y10:['pseudocode','variables','branches','iteration','python-syntax','types','debugging','internet'],
+  Y11:['functions','collections','complexity','tables','sql','html','css','projects'],
+  Y12:['functions','recursion','collections','tables','sql','networks','os-processes','projects'],
+  Y13:['complexity','recursion','graphs','encryption','projects','git','accessibility']
+ }
+};
+function computingGradeRange(level){
+ const country=educationCountrySelection.code;
+ const ranges=country==='RO'?{
+  beginner:['Clasele I–IV','Grades 1–4'],lower:['Clasele V–VIII','Grades 5–8'],
+  medium:['Clasele IX–XII','Grades 9–12'],advanced:['Universitate','University']
+ }:country==='GB-ENG'?{
+  beginner:['Years 1–6','Years 1–6'],lower:['Years 7–9','Years 7–9'],
+  medium:['Years 10–13','Years 10–13'],advanced:['University','University']
+ }:{
+  beginner:['Etapa primară','Primary stage'],lower:['Etapa secundară inferioară','Lower secondary'],
+  medium:['Etapa secundară superioară','Upper secondary'],advanced:['Universitate','University']
+ };
+ return ranges[level]||['Studii','Studies'];
+}
+function computingGradePlan(){
+ const region=educationCountrySelection.code,grade=String(computingJourney.grade||'');
+ const ids=COMPUTING_GRADE_LESSON_IDS[region]?.[grade];
+ return Array.isArray(ids)?new Set(ids):null;
+}
+function computingTopicsForGrade(pathId){
+ const topics=COMPUTING_TOPICS_DATA.filter(t=>t.path===pathId);
+ const gradePlan=computingGradePlan();
+ return gradePlan?topics.filter(t=>gradePlan.has(t.id)):topics;
+}
+function computingGradeNotice(){
+ const country=educationCountrySelection.code,grade=String(computingJourney.grade||'');
+ if(country==='RO'&&grade==='9')
+  return computingLabel('Traseu selectiv pentru clasa a IX-a. Noua programă de Informatică intră progresiv în 2026–2027 și diferă după profil; lecțiile de aici nu reproduc integral programa oficială.','Selected Grade 9 topics. The new Romanian Computing curriculum is phased in from 2026–27 and varies by track; these lessons do not reproduce its full official syllabus.');
+ if(country==='RO'&&['10','11','12'].includes(grade))
+  return computingLabel('Traseu orientativ pentru clasa aleasă. Programele noi se aplică progresiv, nu simultan tuturor claselor de liceu; verifică profilul și anul școlar.','Advisory grade pathway. New Romanian programmes are phased in by grade; check the study track and school year.');
+ if(country==='GB-ENG')
+  return computingLabel('Teme selectate după etapa Key Stage / Year. Programa engleză stabilește competențe pe etape, nu o listă identică de lecții pentru fiecare școală.','Topics selected for the Key Stage / Year. English statutory guidance sets stage outcomes, not one identical lesson sequence at every school.');
+ return computingLabel('Parcurs educațional orientativ. Programa oficială pentru fiecare țară și clasă nu este încă verificată integral.','Advisory study material. The official curriculum for every country and grade has not been fully verified.');
+}
 function computingGradePathAllowed(path){
  const country=educationCountrySelection.code,grade=computingJourney.grade;
  if(path.level!==computingJourney.level)return false;
+ const gradePlan=computingGradePlan();
+ if(gradePlan)return COMPUTING_TOPICS_DATA.some(t=>t.path===path.id&&gradePlan.has(t.id));
  if((country!=='RO'&&country!=='GB-ENG')||computingJourney.level==='advanced')return true;
  const yr=Number(String(grade||'').replace(/^Y/,''));
  if(!Number.isInteger(yr))return true;
@@ -162,14 +223,14 @@ function computingOpen(stage){
  if(stage==='paths'){
   const lv=COMPUTING_LEVELS_DATA.find(x=>x.id===computingJourney.level);if(!lv){computingOpen('levels');return}
   computingParagraph(panel,computingLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+computingLabel('Clasa: ','Grade: ')+(computingJourney.grade||'')+'. '+computingLabel('Parcurs orientativ, ajustat nivelului școlar.','General learning adapted to the chosen school year.'));
-  computingParagraph(panel,lv.focus);
+  computingParagraph(panel,computingGradeNotice());
   const paths=COMPUTING_PATHS_DATA.filter(x=>x.level===lv.id&&computingGradePathAllowed(x));
    if(!paths.length)computingParagraph(panel,computingLabel('Nu există ramuri pentru această clasă; verifică nivelul sau revino la alegere.','No branches are available for this grade. Please choose another level.'));
    computingChoices(panel,paths.map(x=>({id:x.id,icon:x.icon,ro:x.ro,en:x.en})),c=>{computingJourney.path=c.id;computingJourney.topic=null;computingOpen('topics')});return
  }
  if(stage==='topics'){
   const path=COMPUTING_PATHS_DATA.find(x=>x.id===computingJourney.path&&x.level===computingJourney.level);if(!path){computingOpen('paths');return}
-  computingParagraph(panel,computingLabel(path.ro,path.en));
+  computingParagraph(panel,computingLabel(path.ro,path.en)+' · '+computingLabel('Clasa: ','Grade: ')+(computingJourney.grade||''));
   computingChoices(panel,computingTopicsForGrade(path.id).map((t,i)=>({id:t.id,icon:'📖',ro:(i+1)+'. '+t.ro,en:(i+1)+'. '+t.en})),c=>{computingJourney.topic=c.id;computingOpen('workspace')});return
  }
  computingWorkspace(panel);
@@ -297,7 +358,7 @@ function computingWorkspace(panel){
  const answers=computingEl('div','','lit-options');answers.style.cssText='display:flex;flex-direction:column;gap:7px;';
  const choiceButtons=[];
  const feedback=computingEl('p');feedback.setAttribute('role','status');
- const chapterTopics=COMPUTING_TOPICS_DATA.filter(item=>item.path===path.id);
+ const chapterTopics=computingTopicsForGrade(path.id);
  const chapterIndex=chapterTopics.findIndex(item=>item.id===t.id);
  const nextTopic=chapterTopics[chapterIndex+1]||null;
  const continueBtn=computingBtn(nextTopic?
