@@ -13,6 +13,8 @@ on:
       - 'creator_design_gallery.mjs'
       - 'tests_creation_site_v2.mjs'
       - 'creator_site_ai.mjs'
+      - 'creator_management_ui.mjs'
+      - 'tests_creator_management_and_translation.mjs'
       - 'creator_image_ai.mjs'
       - 'creator_preview_worker.mjs'
       - 'tests_creator_live_ui.mjs'
@@ -263,7 +265,7 @@ jobs:
           node tests_news_contextual_translation.mjs
           node tests_extra_tools_header_layout.mjs
           node tests_extra_tools_workspace.mjs
-          node tests_creation_ui.mjs && node tests_creation_site_v2.mjs && node tests_creator_live_ui.mjs && node tests_creator_preview_worker.mjs
+          node tests_creation_ui.mjs && node tests_creation_site_v2.mjs && node tests_creator_management_and_translation.mjs && node tests_creator_live_ui.mjs && node tests_creator_preview_worker.mjs
           node tests_android_ui_preview.mjs
           node tests_math_whisper_pilot.mjs
       - name: Bundle exact PR frontend for preview-only APK
