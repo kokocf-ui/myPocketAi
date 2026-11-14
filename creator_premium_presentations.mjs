@@ -99,12 +99,13 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
   const visit='<a class="cta" href="#offer-'+lang+'">'+t.cta+' <span aria-hidden="true">↗</span></a>';
   const nav='<header class="design-nav"><strong class="brand">'+esc(name)+'</strong><nav>'+
    '<a href="#about-'+lang+'">'+t.nav[0]+'</a><a href="#offer-'+lang+'">'+t.nav[1]+'</a><a href="#contact-'+lang+'">'+t.nav[2]+'</a></nav></header>';
-  const eyebrow='<div class="eyebrow">'+esc(activity)+'</div>';
+  const category=en?({hotel:'Guesthouse / accommodation',restaurant:'Restaurant / café',shop:'Shop / products',salon:'Beauty studio',services:'Professional services',personal:'Portfolio'}[kind]||'Business'):activity;
+  const eyebrow='<div class="eyebrow">'+esc(category)+'</div>';
   const heading='<div class="hero-content">'+eyebrow+'<span class="tiny-mark">'+esc(extraCreatorPremiumPresets[family].tag)+'</span><h1>'+esc(name)+'</h1>'+
    '<h2>'+esc(headline)+'</h2><p>'+esc(summary)+'</p>'+visit+'</div>';
   let hero='';
   if(family==='asym'){
-   hero='<section class="hero asym-hero"><span class="vertical-index">01 / '+esc(meta[1])+'</span><div class="hero-copy">'+heading+
+   hero='<section class="hero asym-hero"><span class="vertical-index">01 / '+esc(en?meta[2]:meta[1])+'</span><div class="hero-copy">'+heading+
     '</div><div class="asym-composition">'+visual('main')+'<div class="art-accent">'+visual('detail')+'</div>'+
     '<span class="floating-title">'+esc(name)+'</span></div></section>';
   }else if(family==='immersive'){
@@ -112,7 +113,7 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
     '<span>EST. / '+esc(name)+'</span></div>'+heading+'<div class="hero-bottom"><span>01 — 03</span><span>'+t.more+' ↓</span></div></section>';
   }else if(family==='split'){
    hero='<section class="hero split-hero"><div class="split-copy">'+heading+'<span class="split-signature">'+esc(name)+'</span></div>'+
-    '<div class="split-art">'+visual('large')+'<div class="split-stamp">'+esc(meta[1])+'</div></div></section>';
+    '<div class="split-art">'+visual('large')+'<div class="split-stamp">'+esc(en?meta[2]:meta[1])+'</div></div></section>';
   }else if(family==='mosaic'){
    hero='<section class="hero mosaic-hero"><div class="tile tile-title">'+heading+'</div><div class="tile tile-photo">'+visual('first')+
     '</div><div class="tile tile-quote"><span>'+esc(meta[2])+'</span></div><div class="tile tile-accent">'+visual('second')+'</div></section>';
@@ -121,12 +122,12 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
     heading+'<div class="minimal-lines"><i></i><i></i><i></i></div></section>';
   }else if(family==='story'){
    hero='<section class="hero story-hero"><div class="story-image">'+visual('portrait')+'<span class="story-number">01</span></div>'+
-    '<div class="story-copy">'+heading+'<p class="side-note">'+esc(t.design)+' / '+esc(meta[1])+'</p></div></section>';
+    '<div class="story-copy">'+heading+'<p class="side-note">'+esc(t.design)+' / '+esc(en?meta[2]:meta[1])+'</p></div></section>';
   }else if(family==='editorial'){
    hero='<section class="hero editorial-hero"><div class="editorial-heading">'+eyebrow+'<span class="issue">EDITION / 01</span><h1>'+esc(name)+'</h1>'+
     '<div class="editorial-rule"></div><h2>'+esc(headline)+'</h2></div><div class="editorial-grid">'+
     '<div class="editorial-left"><p>'+esc(summary)+'</p>'+visit+'</div>'+visual('cover')+
-    '<p class="editorial-caption">'+esc(meta[1])+' / '+esc(activity)+'</p></div></section>';
+    '<p class="editorial-caption">'+esc(en?meta[2]:meta[1])+' / '+esc(activity)+'</p></div></section>';
   }else if(family==='cards'){
    hero='<section class="hero cards-hero"><div class="cards-hero-content">'+heading+'</div><div class="cards-image-stack">'+
     visual('large')+'<div class="stacked-card">'+esc(t.more)+'<span>✦</span></div></div></section>';
