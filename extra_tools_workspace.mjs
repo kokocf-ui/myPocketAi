@@ -517,7 +517,7 @@ function extraToolsOpenWorkspace(key){
  }
  area.append(result,status);panel.append(area);host.append(panel);
 }
-`+CREATOR_SITE_SCRIPT+CREATOR_DESIGN_SCRIPT+CREATOR_PREMIUM_SCRIPT+CREATOR_MANAGEMENT_SCRIPT+CREATOR_SITE_AI_SCRIPT+CREATOR_HANDOFF_SCRIPT+CREATOR_IMAGE_AI_SCRIPT+CREATOR_GUESTHOUSE_SCRIPT+"\nconst GUESTHOUSE_SITE_CSS="+JSON.stringify(GUESTHOUSE_SITE_CSS)+";\n";
+`+CREATOR_SITE_SCRIPT+CREATOR_DESIGN_SCRIPT+CREATOR_PREMIUM_SCRIPT+CREATOR_MANAGEMENT_SCRIPT+CREATOR_SITE_AI_SCRIPT+CREATOR_HANDOFF_SCRIPT+CREATOR_GUESTHOUSE_SCRIPT+"\nconst GUESTHOUSE_SITE_CSS="+JSON.stringify(GUESTHOUSE_SITE_CSS)+";\n"+CREATOR_IMAGE_AI_SCRIPT;
 export const EXTRA_TOOLS_WORKSPACE_STYLE=String.raw`/* Dedicated Tools: fixed app navigation, scrolling only within the actual workspace. */
 main.page:has(#view-module.extra-tools-workspace.active){overflow:hidden!important;min-height:0!important}
 #view-module.extra-tools-workspace #moduleLead{display:none!important}
