@@ -90,6 +90,7 @@ function extraCreatorLocalHtml(name,activity,description,style,contact,language,
  };
  const serviceBlock=(lang,info)=>{
   const t=copies[lang],en=lang==='en',e=extraCreatorSiteDetails(info,type);
+  const aiCopy=options.aiCopy&&typeof options.aiCopy==='object'?options.aiCopy[lang]||null:null;
   const typeNames={
    hotel:['Pensiune / cazare','Guesthouse / accommodation'],
    restaurant:['Restaurant / cafenea','Restaurant / café'],
@@ -114,19 +115,24 @@ function extraCreatorLocalHtml(name,activity,description,style,contact,language,
   const stats=e.counts.map(item=>'<article class="metric"><b>'+safe(item.value)+'</b><span>'+safe(item.title)+'</span></article>').join('');
   const amenityHtml=e.amenities.map(a=>'<article class="amenity"><span class="round"></span><b>'+safe(en?a.en:a.ro)+'</b></article>').join('');
   const items=e.remainder.map((detail,i)=>'<article class="service"><span class="number">0'+(i+1)+'</span><p>'+safe(detail)+'</p></article>').join('');
-  const hasContent=stats||amenityHtml||items;
+  const generatedServices=serviceCopy.map((service,i)=>'<article class="service"><span class="number">0'+(i+1)+'</span><b>'+safe(service.title)+'</b><p>'+safe(service.detail)+'</p></article>').join('');
+  const hasContent=stats||amenityHtml||generatedServices||items;
   const heroTitle=type==='hotel'?(en?'A place to stay':'Un loc în care să te cazezi'):type==='restaurant'?(en?'Discover our cuisine':'Descoperă preparatele noastre'):t.explore;
   const heroCaption=type==='hotel'?e.short:type==='restaurant'?(en?'Explore the menu and services below.':'Descoperă mai jos meniul și serviciile.'): (en?'Explore the details supplied by this business.':'Descoperă oferta acestei afaceri.');
+  const heroHeading=typeof aiCopy?.headline==='string'?aiCopy.headline.slice(0,140):heroTitle;
+  const heroDescription=typeof aiCopy?.intro==='string'?aiCopy.intro.slice(0,400):heroCaption;
+  const aboutText=typeof aiCopy?.about==='string'?aiCopy.about.slice(0,1300):'';
+  const serviceCopy=Array.isArray(aiCopy?.services)?aiCopy.services.slice(0,8).filter(x=>x&&typeof x.title==='string').map(x=>({title:String(x.title).slice(0,85),detail:String(x.detail||'').slice(0,350)})):[];
   return '<div class="locale-content lang-'+lang+'"><div class="hero '+(layout===1?'centered':layout===2?'split':'editorial')+'">'+
     '<div class="hero-content"><div class="eyebrow">'+safe(activityText)+'</div><h1>'+safe(name)+'</h1>'+
-    '<h2>'+heroTitle+'</h2><p>'+safe(heroCaption)+'</p><a class="cta" href="#offer-'+lang+'">'+t.explore+'</a></div>'+
+    '<h2>'+safe(heroHeading)+'</h2><p>'+safe(heroDescription)+'</p><a class="cta" href="#offer-'+lang+'">'+t.explore+'</a></div>'+
     (picture?'<div class="hero-photo"><img alt="'+t.photo+'" src="'+picture+'"></div>':
       '<div class="graphic" aria-label="'+t.none+'"><span>'+safe(name.slice(0,1).toUpperCase())+'</span><small>'+t.demo+'</small></div>')+
     '</div><section class="intro" id="about-'+lang+'"><span class="eyebrow">'+t.aboutUs+'</span><h2>'+t.about+'</h2><p>'+
-    (type==='hotel'?(en?'Accommodation and amenities, based on the details provided by the owner.':'Cazare și facilități, conform informațiilor oferite de proprietar.'):(en?'All information comes from the business owner.':'Informațiile sunt prezentate pe baza descrierii proprietarului.'))+
+    (aboutText?safe(aboutText):(type==='hotel'?(en?'Accommodation and amenities, based on the details provided by the owner.':'Cazare și facilități, conform informațiilor oferite de proprietar.'):(en?'All information comes from the business owner.':'Informațiile sunt prezentate pe baza descrierii proprietarului.')))+
     '</p></section><section class="offers" id="offer-'+lang+'"><span class="eyebrow">'+t.intro+'</span><h2>'+t.features+'</h2>'+
     (stats?'<div class="metrics">'+stats+'</div>':'')+
-    (items?'<div class="services">'+items+'</div>':'')+
+    (serviceCopy.length?'<div class="services">'+generatedServices+'</div>':(items?'<div class="services">'+items+'</div>':''))+
     (amenityHtml?'<h3>'+t.amenities+'</h3><div class="amenities">'+amenityHtml+'</div>':'')+
     (!hasContent?'<p>'+safe(info)+'</p>':'')+
     '</section><section class="contact" id="contact-'+lang+'"><span class="eyebrow">'+t.contact+'</span><h2>'+t.find+'</h2><p>'+
@@ -168,11 +174,11 @@ function extraCreatorHome(work){
  extraCreatorCard(area,'🌐','Creează pagini web','Create websites',
   'Alege vizual un stil, descrie afacerea și vezi o previzualizare organizată.',
   'Pick a visual style, describe the business and preview a structured site.',
-  ()=>extraCreatorWebsite(work));
+  ()=>extraCreatorWorkingWebsite(work));
  extraCreatorCard(area,'🎨','Creează imagini','Create images',
   'Aici va fi generarea AI cu salvare în Galerie, după conectarea motorului.',
   'Image generation and Gallery saving will be available after connecting the model.',
-  ()=>extraCreatorImages(work));
+  ()=>extraCreatorWorkingImages(work));
 }
 function extraCreatorWebsite(work){
  const area=work.area;area.replaceChildren();extraCreatorSubBack(work);
