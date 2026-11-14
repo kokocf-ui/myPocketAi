@@ -15,6 +15,7 @@ assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/\.extra-work-nav>button,[^}]*height:56
 assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/\.extra-work-titlebar #moduleTitle\{/,'Original module heading remains visible');
 assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/\.extra-tools-workarea\{[^}]*overflow-y:auto!important/,'Only workspace content scrolls');
 assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/#view-module\.extra-tools-workspace #moduleLead\{display:none!important\}/,'No unused subtitle gap');
+assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/input\.extra-work-input,[^}]*height:48px!important/,'Short text fields never become giant text boxes');
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/eduAttachPrintAction\(header\)/,'Save and Print preserved');
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/renderExtraToolsChoices\(\)/,'Back still returns to Tools choices');
 console.log('PASS: single heading, equal Home/Back row, fixed workspace and preserved PDF controls');
