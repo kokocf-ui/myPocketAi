@@ -18,7 +18,7 @@ export class StudioSites{
  async save(data){return this.state.storage.put('site',data)}
  async fetch(request){
   if(request.method!=='POST')return json({error:'method_not_allowed'},405);
-  let x;try{x=await bodyJson(request,1048576)}catch(e){return json({error:e.message},400)}
+  let x;try{x=await bodyJson(request,3600000)}catch(e){return json({error:e.message},400)}
   const op=x.action,now=Date.now(),actor=String(x.actor||'');
   try{
    if(op==='create'){
