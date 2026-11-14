@@ -96,7 +96,7 @@ export function businessPublicFormHtml(draft,siteId='',lang='ro'){
  }
  return '<section class="studio-visitor-forms" id="visitor-forms-'+lang+'">'+sections.join('')+'</section>';
 }
-export const STUDIO_VISITOR_CSS=String.raw\`
+export const STUDIO_VISITOR_CSS=String.raw`
 .studio-visitor-forms{padding:32px clamp(18px,6vw,84px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:20px;background:var(--paper);color:var(--ink)}
 .studio-visitor-panel{border:1px solid #7774;border-radius:14px;padding:20px;background:#ffffffbb}
 .studio-visitor-panel h3{font-size:clamp(22px,3vw,31px);line-height:1.2;margin:0 0 16px}
@@ -107,4 +107,4 @@ export const STUDIO_VISITOR_CSS=String.raw\`
 .studio-form-note{font:400 12px/1.5 system-ui,sans-serif;opacity:.8}
 .studio-visitor-form button{background:var(--ink);color:var(--paper);padding:12px;border-radius:9px;border:0;cursor:pointer;font:700 14px/1.3 system-ui,sans-serif}
 .studio-trap{position:absolute;left:-10000px;top:auto;height:1px;overflow:hidden}
-\`;
+`;
