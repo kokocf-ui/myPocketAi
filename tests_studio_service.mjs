@@ -120,6 +120,10 @@ const created=await result('/api/sites','POST',{draft,management:{
 }},creatorCookie);
 assert.equal(created.ok,true);
 const id=created.id;assert.match(id,/^[a-f0-9]{32}$/);
+const backupResult=await result('/api/sites/'+id+'/backups','POST',{},creatorCookie);
+assert.equal(backupResult.ok,true);
+const backups=await result('/api/sites/'+id+'/backups','GET',null,creatorCookie);
+assert.equal(backups.objects.length,1);
 assert.equal((await result('/s/'+id)).response.status,404,'Unpublished site must never be public');
 const creatorRead=await result('/api/sites/'+id,'GET',null,creatorCookie);
 assert.equal(creatorRead.site.role,'creator');
