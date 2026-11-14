@@ -157,7 +157,7 @@ export default{
     const stored=await site(env,visitor[1],'visitorSubmit',{fingerprint,type:visitor[2],payload:fields});
     if(stored.ok&&stored.itemId&&mailConfigured(env)){
      const source=await site(env,visitor[1],'published');
-     if(source.ok){
+     if(source.ok&&source.draft.commerce?.emailNotifications===true){
       await notifyBusiness(env,notificationForOwner(source.draft,{at:Date.now(),type:visitor[2]}));
       if(visitor[2]==='booking'&&stored.itemStatus==='confirmed')
        await notifyBusiness(env,notificationForCustomer(source.draft,
@@ -216,7 +216,7 @@ export default{
      type:completed?'paid':'expired',amount:Number(checkout.amount_total),currency:String(checkout.currency||'').toLowerCase()});
     if(processed.ok&&completed&&!processed.duplicate&&mailConfigured(env)){
      const source=await site(env,parts[1],'published');
-     if(source.ok&&processed.item){
+     if(source.ok&&processed.item&&source.draft.commerce?.emailNotifications===true){
       const note=notificationForCustomer(source.draft,processed.item,'paid');
       if(note)await notifyBusiness(env,note);
      }
@@ -344,7 +344,7 @@ export default{
      const state=await site(env,id,'visitorStatus',{actor:auth.user.id,itemId,status:data.status});
      if(state.ok&&mailConfigured(env)&&['confirmed','declined'].includes(data.status)){
       const source=await site(env,id,'published');
-      if(source.ok){
+      if(source.ok&&source.draft.commerce?.emailNotifications===true){
        const note=notificationForCustomer(source.draft,state.item,data.status);
        if(note)state.notification=await notifyBusiness(env,note);
       }
