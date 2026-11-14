@@ -139,7 +139,7 @@ export default{
     const r=await site(env,published[1],'published');
     if(!r.ok)return json({error:'site_not_published'},404);
     const features=studioBusinessFeatures(r.draft.features);
-    return html(renderStudioSite(r.draft,{publicId:published[1],paymentConfigured:!!env.STRIPE_SECRET_KEY}),false,features.contact||features.booking||features.shop);
+    return html(renderStudioSite(r.draft,{publicId:published[1],paymentConfigured:!!(env.STRIPE_SECRET_KEY&&env.STRIPE_WEBHOOK_SECRET)}),false,features.contact||features.booking||features.shop);
    }
    const visitor=/^\/s\/([a-f0-9]{32})\/(contact|booking|order)$/.exec(path);
    if(visitor&&method==='POST'){
@@ -164,7 +164,7 @@ export default{
         {email:fields.email,type:'booking'},'confirmed'));
      }
     }
-    if(stored.ok&&stored.order&&env.STRIPE_SECRET_KEY){
+    if(stored.ok&&stored.order&&env.STRIPE_SECRET_KEY&&env.STRIPE_WEBHOOK_SECRET){
      try{
       const checked=await site(env,visitor[1],'paymentSession',{itemId:stored.order.id});
       if(!checked.ok)throw Error('order_conflict');
