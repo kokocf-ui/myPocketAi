@@ -112,6 +112,7 @@ function extraCreatorLocalHtml(name,activity,description,style,contact,language,
     return {value:item.value,title:label};
    });
   }
+  const serviceCopy=Array.isArray(aiCopy?.services)?aiCopy.services.slice(0,8).filter(x=>x&&typeof x.title==='string').map(x=>({title:String(x.title).slice(0,85),detail:String(x.detail||'').slice(0,350)})):[];
   const stats=e.counts.map(item=>'<article class="metric"><b>'+safe(item.value)+'</b><span>'+safe(item.title)+'</span></article>').join('');
   const amenityHtml=e.amenities.map(a=>'<article class="amenity"><span class="round"></span><b>'+safe(en?a.en:a.ro)+'</b></article>').join('');
   const items=e.remainder.map((detail,i)=>'<article class="service"><span class="number">0'+(i+1)+'</span><p>'+safe(detail)+'</p></article>').join('');
@@ -122,7 +123,6 @@ function extraCreatorLocalHtml(name,activity,description,style,contact,language,
   const heroHeading=typeof aiCopy?.headline==='string'?aiCopy.headline.slice(0,140):heroTitle;
   const heroDescription=typeof aiCopy?.intro==='string'?aiCopy.intro.slice(0,400):heroCaption;
   const aboutText=typeof aiCopy?.about==='string'?aiCopy.about.slice(0,1300):'';
-  const serviceCopy=Array.isArray(aiCopy?.services)?aiCopy.services.slice(0,8).filter(x=>x&&typeof x.title==='string').map(x=>({title:String(x.title).slice(0,85),detail:String(x.detail||'').slice(0,350)})):[];
   return '<div class="locale-content lang-'+lang+'"><div class="hero '+(layout===1?'centered':layout===2?'split':'editorial')+'">'+
     '<div class="hero-content"><div class="eyebrow">'+safe(activityText)+'</div><h1>'+safe(name)+'</h1>'+
     '<h2>'+safe(heroHeading)+'</h2><p>'+safe(heroDescription)+'</p><a class="cta" href="#offer-'+lang+'">'+t.explore+'</a></div>'+
