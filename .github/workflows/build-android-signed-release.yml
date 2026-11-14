@@ -185,6 +185,7 @@ jobs:
           node --check oracle-communication/server.mjs
           node tests_oracle_communication.mjs
           node tests_communication_redesign.mjs
+          node tests_hotels_back_chat_fullscreen.mjs
           node tests_oracle_fcm.mjs
           node tests_response_quality.mjs
           node tests_programming_assistance.mjs

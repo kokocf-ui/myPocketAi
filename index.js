@@ -7823,9 +7823,15 @@ window.pocketAndroidBack=function(){
  if($('longChoiceDialog')?.open){closeLongChoice();return}
  if(activeRouteMap){closeRouteMap();return}
  if(activeAnswerReader){closeAnswerReader();return}
+ // Android system Back should close the fullscreen private conversation,
+ // not jump straight to Home while it is still open.
+ if(state.currentView==='communication'&&window.pocketCommunicationCloseChat?.())return;
  const quick=$('moduleQuickLayer');
  if(quick?.classList.contains('open')){
   handleModuleLayerBack();return;
+ }
+ if(state.currentView==='module'&&state.currentModule==='maps'&&state.navigationReturnContext?.module==='travel'){
+  returnToNavigationSource();return;
  }
  if(state.currentView==='module'&&pocketBackInsideModule())return;
  if(state.currentView!=='home'){showView('home');return}
@@ -18585,6 +18591,11 @@ async function runModuleSearch(choice){if(state.moduleSearchBusy)return;state.mo
  });
 }else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){state.lastTransitResponse=data;renderTransitChoices(data.transit)}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='transit')appendOfficialUKJourneySources(data,$('moduleLayerBody'));if(choice.kind==='transit'&&!data.transit_available)showTransitRetrySelector(choice);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent=dialogText('Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.','The search finished but returned no locations. Go back and try again.');$('moduleLayerBody').append(note)}}}catch(error){if(searchGeneration===state.moduleSearchGeneration){moduleStatus(error?.name==='AbortError'?(dialogText("Căutarea a depășit 25 de secunde. Încearcă din nou.","Search timed out after 25 seconds. Please retry.")):(state.language==='en'?'Could not complete the search. ':'Nu am putut finaliza căutarea. ')+String(error&&error.message||error));console.error('myPocket AI module search failed:',error)}}finally{if(searchGeneration===state.moduleSearchGeneration)state.moduleSearchBusy=false}}
 function returnToModuleLanding(){
+ // A route requested from a hotel briefly uses Maps' shared engine.
+ // Its final Back must restore Hoteluri, never strand the user in Hărți.
+ if(state.currentModule==='maps'&&state.navigationReturnContext?.module==='travel'){
+  returnToNavigationSource();return;
+ }
  const layer=$('moduleQuickLayer');
  layer.classList.remove('open');layer.setAttribute('aria-hidden','true');
  document.querySelector('.module-quick-sheet')?.classList.remove('details-mode','results-mode');
