@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import {readFileSync} from 'node:fs';
 import app from './index.js';
 import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_tools_workspace.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
@@ -57,4 +58,10 @@ assert.match(boot,/extraToolsStop\(\);mathVoiceStop\(\)/);
 assert.match(html,/#view-module\.extra-tools-workspace\.active/,'App has isolated Tools layout');
 assert.ok(boot.includes("if(key==='my-documents'){renderMyDocuments();return}"),'Native PDF library is preserved');
 assert.ok(boot.includes("EXTRA_TOOLS_CATEGORIES.forEach(cat=>"),'Nine original cards are preserved');
+const android=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/MainActivity.java',import.meta.url),'utf8');
+assert.match(android,/boolean textSelection=requestedTypes\.contains\("text\/"\)/,'Text and JSON files use the native text chooser');
+assert.match(android,/pick\.putExtra\(Intent\.EXTRA_MIME_TYPES,new String\[\]\{"text\/plain"/,'Text file MIME types included');
+assert.match(android,/WebViewCompat\.addWebMessageListener\(web,"PocketAndroidImages"/,'Native image save bridge');
+assert.match(android,/MediaStore\.Images\.Media\.EXTERNAL_CONTENT_URI/,'PNG is saved with Android MediaStore');
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/window\.PocketAndroidImages\.postMessage/,'Image export invokes real Android saver');
 console.log('PASS eight dedicated Tools workspaces, native bridges, safe local stats, all 24 exam subjects populated, browser boot');
