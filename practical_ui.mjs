@@ -59,14 +59,37 @@ function practicalList(parent,items,onPick){
  if(items.length>4){const input=practicalNode('input','','lit-input');input.type='search';input.placeholder=practicalLabel('Caută de la prima literă…','Search from first letter…');input.setAttribute('aria-label',practicalLabel('Filtrează lista','Filter list'));input.style.cssText='width:100%;max-width:100%;min-height:44px;box-sizing:border-box;';input.oninput=()=>{search=input.value;page=0;draw()};box.append(input)}
  box.append(list);parent.append(box);draw();
 }
+
+/* Course presentations are read-only lessons. Keep the chapter selector compact
+   and open long material only in the shared paginated Education reader. */
+function practicalCoursePresentation(syllabus,kind){
+ const nl='\n',gap=nl+nl,numbered=items=>items.map((item,i)=>(i+1)+'. '+item).join(nl);
+ if(kind==='overview'){
+  return [
+   '# '+practicalLabel('Ce conține acest curs','Course overview'),
+   syllabus.intro,
+   '# '+practicalLabel('Ce vei ști să faci la final','What you will be able to do'),
+   numbered(syllabus.outcomes||[]),
+   '# '+practicalLabel('Cunoștințe necesare','Prerequisites'),
+   syllabus.prerequisite
+  ].filter(Boolean).join(gap);
+ }
+ return [
+  '# '+practicalLabel('Proiect final de curs','Final course project'),
+  syllabus.project,
+  '# '+practicalLabel('Criterii de evaluare','Assessment criteria'),
+  numbered(syllabus.rubric||[])
+ ].filter(Boolean).join(gap);
+}
 function practicalOpen(stage){
  practicalStop();practicalJourney.stage=stage;
+ requestAnimationFrame(()=>document.querySelector('main.page')?.scrollTo(0,0));
  const root=document.getElementById('view-module'),host=document.getElementById('moduleContent');if(!root||!host)return;
  root.classList.remove('learning-choose','learning-math','learning-science','learning-hg','learning-literature','learning-languages','learning-computing','learning-exams','science-choice-stage');
  root.classList.add('learning-active','learning-practical');activeLearningSubject=LEARNING_SUBJECTS.find(x=>x[0]==='practical')||null;
  document.getElementById('moduleTitle').textContent=practicalLabel('Cursuri practice','Practical courses');document.getElementById('moduleLead').textContent='';
  host.replaceChildren();const bar=practicalNode('div','','education-toolbar lit-toolbar');bar.append(practicalButton(practicalLabel('← Înapoi','← Back'),practicalBack));if(stage==='lesson')eduAttachPrintAction(bar);host.append(bar);
- const panel=practicalNode('section','','math-choice-panel science-choice-panel lit-panel practical-panel');panel.style.cssText='min-width:0;width:100%;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;padding-bottom:155px;';
+ const panel=practicalNode('section','','math-choice-panel science-choice-panel lit-panel practical-panel');panel.style.cssText='min-width:0;width:100%;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;padding-bottom:12px;';
  const titles={countries:['Țara / sistemul de referință','Country / reference system'],courses:['Alege un curs practic','Choose a practical course'],chapters:['Toate capitolele cursului','All chapters in this course'],lesson:['Curs practic · lecție și aplicație','Practical course · lesson and application']};
  panel.append(practicalNode('h2',practicalLabel(...titles[stage])));host.append(panel);
  if(stage==='countries'){
@@ -75,7 +98,7 @@ function practicalOpen(stage){
  }
  panel.append(practicalNode('p',practicalLabel(practicalCountry()[1],practicalCountry()[2])));
  if(stage==='courses'){
-  practicalList(panel,PRACTICAL_COURSES_DATA.map(c=>({id:c.id,icon:c.icon,ro:c.ro+' — '+c.summary,en:c.en})),choice=>{practicalJourney.course=choice.id;practicalJourney.chapter='';practicalOpen('chapters')});return;
+  practicalList(panel,PRACTICAL_COURSES_DATA.map(c=>({id:c.id,icon:c.icon,ro:c.ro,en:c.en})),choice=>{practicalJourney.course=choice.id;practicalJourney.chapter='';practicalOpen('chapters')});return;
  }
  const course=practicalCourse();if(!course){practicalOpen('courses');return}
  panel.append(practicalNode('p',practicalLabel(course.ro,course.en)));
@@ -86,21 +109,15 @@ function practicalOpen(stage){
   panel.append(progress);
   const syllabus=PRACTICAL_SYLLABI_DATA.find(x=>x.id===course.id);
   if(syllabus){
-    const intro=practicalNode('section','','practical-course-syllabus');intro.style.cssText='border:1px solid #547e91;border-radius:12px;padding:12px;margin:12px 0;line-height:1.55;';
-    intro.append(practicalNode('h3',practicalLabel('Ce conține acest curs','Course overview')),practicalNode('p',syllabus.intro));
-    intro.append(practicalNode('h4',practicalLabel('Ce vei ști să faci la final','What you will be able to do')));
-    const outcomes=practicalNode('ul');outcomes.style.paddingLeft='23px';syllabus.outcomes.forEach(item=>outcomes.append(practicalNode('li',item)));intro.append(outcomes);
-    intro.append(practicalNode('p',practicalLabel('Cunoștințe necesare: ','Prerequisites: ')+syllabus.prerequisite));
-    panel.append(intro);
+    const readActions=practicalNode('div','','practical-course-readers');
+    readActions.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;width:100%;min-width:0;margin:12px 0 14px;';
+    readActions.append(
+     practicalButton(practicalLabel('📖 Prezentarea cursului','📖 Course overview'),()=>educationOpenPagedLesson(practicalLabel(course.ro,course.en),practicalCoursePresentation(syllabus,'overview'))),
+     practicalButton(practicalLabel('📋 Proiect final','📋 Final project'),()=>educationOpenPagedLesson(practicalLabel('Proiect final · ','Final project · ')+practicalLabel(course.ro,course.en),practicalCoursePresentation(syllabus,'project')))
+    );
+    panel.append(readActions);
   }
   practicalList(panel,chapters.map((x,i)=>({id:x.id,ro:(i+1)+'. '+x.title+(practicalSavedForChapter(x.id)?.completed?' ✓':''),en:(i+1)+'. '+x.title})),choice=>{practicalJourney.chapter=choice.id;practicalJourney.variant=0;practicalOpen('lesson')});
-  if(syllabus){
-    const project=practicalNode('section','','practical-course-project');project.style.cssText='border:1px solid #7da7a3;border-radius:12px;padding:12px;margin:14px 0;line-height:1.55;';
-    project.append(practicalNode('h3',practicalLabel('Proiect final de curs','Final course project')),practicalNode('p',syllabus.project));
-    project.append(practicalNode('h4',practicalLabel('Criterii de evaluare','Assessment criteria')));
-    const criteria=practicalNode('ol');criteria.style.paddingLeft='23px';syllabus.rubric.forEach(item=>criteria.append(practicalNode('li',item)));project.append(criteria);
-    panel.append(project);
-  }
   return;
  }
  if(stage==='lesson')practicalLesson(panel);
