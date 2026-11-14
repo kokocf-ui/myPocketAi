@@ -1,3 +1,4 @@
+import {EXAM_REMAINING_BANK} from './exam_bank_remaining.mjs';
 // Original exam practice bank; NOT official test papers, official grading or copyrighted exam content.
 export const EXAM_LOCAL_BANK={
   "math": [
@@ -1310,5 +1311,7 @@ export const EXAM_LOCAL_BANK={
     }
   ]
 };
+// Add original practice to all currently listed exam subjects.
+Object.assign(EXAM_LOCAL_BANK,EXAM_REMAINING_BANK);
 export function examTrainingItems(subject,limit=5){return (EXAM_LOCAL_BANK[subject]||[]).slice(0,Math.max(0,Math.min(10,limit)))}
 export function examTrainingScore(items,answers){const checked=items.reduce((n,item,i)=>n+(Number.isInteger(answers[i])&&answers[i]===item.correct?1:0),0);return {correct:checked,total:items.length,percent:items.length?Math.round(checked*100/items.length):null,kind:'practice-only'}}
