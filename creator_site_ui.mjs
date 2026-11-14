@@ -235,6 +235,7 @@ function extraCreatorWebsite(work){
   frame.setAttribute('sandbox','');frame.title=extraToolsLocale('Machetă locală a site-ului','Local website draft');
   frame.srcdoc=work.siteHtml;preview.replaceChildren(frame);
   note.textContent=extraToolsLocale('Machetă locală, fără AI. Verifică informațiile și aspectul; nu a fost publicată.','Local draft, no AI. Check details and appearance; nothing was published.');
+  work.creatorForm?.onPreviewReady?.();
  };
  const actions=extraToolsActions(area,
   extraToolsBtn(extraToolsLocale('👁 Previzualizează site-ul','👁 Preview site'),generate,true),
