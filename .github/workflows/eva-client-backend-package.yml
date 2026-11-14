@@ -6,6 +6,8 @@ on:
       - ui/tools-workspaces-unified-2026-11-14
     paths:
       - 'studio_*.mjs'
+      - 'tests_studio_service.mjs'
+      - 'tests_studio_portal_and_handoff.mjs'
       - 'creator_guesthouse_gallery.mjs'
       - 'creator_hosting_guide.mjs'
       - 'creator_premium_presentations.mjs'
