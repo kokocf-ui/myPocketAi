@@ -236,6 +236,14 @@ assert.equal((await visitor('contact',{...baseVisitor,message:'Mesaj unul de tes
 assert.equal((await visitor('contact',{...baseVisitor,message:'Mesaj doi de test.'},'203.0.113.33')).status,200);
 assert.equal((await visitor('contact',{...baseVisitor,message:'Mesaj trei de test.'},'203.0.113.33')).status,200);
 assert.equal((await visitor('contact',{...baseVisitor,message:'Mesaj patru de test.'},'203.0.113.33')).status,429);
+const commerceDraft=structuredClone(activeFlows);
+commerceDraft.features.shop=true;
+commerceDraft.commerce={currency:'GBP',slotCapacity:4,automaticConfirmation:true,
+ products:[{id:'p-1',title:'Voucher',priceMinor:5000,inventory:2}]};
+const commercialSaved=await result('/api/sites/'+id,'PUT',{version:5,draft:commerceDraft},clientCookie);
+assert.equal(commercialSaved.version,6);
+assert.equal((await result('/api/sites/'+id+'/publish','POST',{version:6},clientCookie)).ok,true);
+assert.match(await (await call('/s/'+id)).text(),/name="productId"/);
 assert.equal((await result('/api/ai/image','POST',{prompt:'Templar on camel'},clientCookie)).response.status,503);
 assert.equal((await result('/api/ai/site','POST',{name:'Aramis',description:draft.description},clientCookie)).response.status,503);
 assert.equal((await result('/api/sites/'+id+'/request','POST',{message:'Schimbă fotografia principală'},clientCookie)).ok,true);
