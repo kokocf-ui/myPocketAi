@@ -6,6 +6,7 @@ import {STUDIO_ADMIN_HTML} from './studio_admin_portal.mjs';
 import {SITE_GALLERY_PRESETS} from './creator_guesthouse_gallery.mjs';
 import {SITE_HOSTING_GUIDES} from './creator_hosting_guide.mjs';
 import {studioBusinessFeatures} from './studio_business_flows.mjs';
+import {createStripeCheckout,stripeSignatureValid} from './studio_commerce.mjs';
 import {json,bodyJson,normalizeEmail,validEmail,constantTimeEqual,sha256,normalizeStudioPrompt,publicSafeHtmlHeaders} from './studio_security.mjs';
 export {StudioAccounts,StudioSites};
 const COOKIE='__Host-pocket_studio';
@@ -137,9 +138,9 @@ export default{
     const r=await site(env,published[1],'published');
     if(!r.ok)return json({error:'site_not_published'},404);
     const features=studioBusinessFeatures(r.draft.features);
-    return html(renderStudioSite(r.draft,{publicId:published[1]}),false,features.contact||features.booking);
+    return html(renderStudioSite(r.draft,{publicId:published[1],paymentConfigured:!!env.STRIPE_SECRET_KEY}),false,features.contact||features.booking||features.shop);
    }
-   const visitor=/^\/s\/([a-f0-9]{32})\/(contact|booking)$/.exec(path);
+   const visitor=/^\/s\/([a-f0-9]{32})\/(contact|booking|order)$/.exec(path);
    if(visitor&&method==='POST'){
     const origin=request.headers.get('Origin');
     if(origin!==url.origin||!['same-origin','none'].includes(request.headers.get('Sec-Fetch-Site')||'none'))
@@ -153,14 +154,57 @@ export default{
     const cfIp=request.headers.get('CF-Connecting-IP')||'unknown';
     const fingerprint=await sha256(visitor[1]+'|'+cfIp+'|'+String(request.headers.get('User-Agent')||'').slice(0,120));
     const stored=await site(env,visitor[1],'visitorSubmit',{fingerprint,type:visitor[2],payload:fields});
+    if(stored.ok&&stored.order&&env.STRIPE_SECRET_KEY){
+     try{
+      const checked=await site(env,visitor[1],'paymentSession',{itemId:stored.order.id});
+      if(!checked.ok)throw Error('order_conflict');
+      const checkout=await createStripeCheckout(env,url.origin,visitor[1],checked.order);
+      const attached=await site(env,visitor[1],'paymentAttach',{itemId:stored.order.id,sessionId:checkout.sessionId});
+      if(!attached.ok)throw Error('checkout_conflict');
+      return new Response(null,{status:303,headers:{Location:checkout.url,
+       'Cache-Control':'no-store','Referrer-Policy':'no-referrer'}});
+     }catch(error){
+      // Never fake payment success or discard a submitted order.
+      return json({ok:true,orderReceived:true,payment:'unavailable',
+       message:'Comanda a fost înregistrată, dar plata online nu a fost inițiată. Contactează magazinul.'},202);
+     }
+    }
     const isSuccess=!!stored.ok,status=isSuccess?200:stored.status===429?429:400;
-    const message=isSuccess?'Solicitarea a fost primită. Nu este încă o rezervare confirmată. Afacerea vă va contacta.':
+    const message=isSuccess?(visitor[2]==='order'?'Comanda a fost înregistrată. Magazinul vă va contacta; plata nu a fost încasată.':'Solicitarea a fost primită. Nu este încă o rezervare confirmată. Afacerea vă va contacta.'):
      status===429?'Sunt prea multe solicitări. Încercați din nou mai târziu.':
      'Solicitarea nu a fost înregistrată. Verificați datele introduse și încercați din nou.';
     const receipt='<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Solicitare Eva</title></head>'+
      '<body style="font:16px/1.5 system-ui;padding:28px;max-width:650px;margin:auto"><h1>'+(isSuccess?'Solicitare primită':'Solicitare neînregistrată')+
      '</h1><p>'+message+'</p><a href="/s/'+visitor[1]+'">Înapoi la site</a></body></html>';
     return new Response(receipt,{status,headers:{...publicSafeHtmlHeaders(false),'Cache-Control':'no-store'}});
+   }
+   const availability=/^\/s\/([a-f0-9]{32})\/availability$/.exec(path);
+   if(availability&&method==='GET'){
+    const names=['roomLabel','start','end','date','time','partySize'],args={};
+    for(const name of names)args[name]=(url.searchParams.get(name)||'').slice(0,100);
+    return reply(await site(env,availability[1],'availability',args));
+   }
+   if(path==='/webhooks/stripe'&&method==='POST'){
+    if(!env.STRIPE_WEBHOOK_SECRET)return json({error:'payments_not_configured'},503);
+    if(Number(request.headers.get('Content-Length')||0)>64000)return json({error:'body_too_large'},413);
+    const raw=await request.text();
+    if(raw.length>64000)return json({error:'body_too_large'},413);
+    if(!await stripeSignatureValid(raw,request.headers.get('Stripe-Signature'),env.STRIPE_WEBHOOK_SECRET))
+     return json({error:'invalid_signature'},400);
+    let event;try{event=JSON.parse(raw)}catch{return json({error:'bad_event'},400)}
+    if(!/^evt_[A-Za-z0-9]+$/.test(event?.id||''))return json({error:'bad_event'},400);
+    const completed=['checkout.session.completed','checkout.session.async_payment_succeeded'].includes(event.type);
+    const expired=event.type==='checkout.session.expired';
+    if(!completed&&!expired)return json({received:true,ignored:true});
+    const checkout=event.data?.object||{};
+    const parts=/^([a-f0-9]{32})\.([a-f0-9]{16})$/.exec(checkout.client_reference_id||'');
+    if(!parts||!/^cs_(?:test_|live_)[A-Za-z0-9]+$/.test(checkout.id||''))
+     return json({error:'bad_reference'},400);
+    if(completed&&checkout.payment_status!=='paid')
+     return json({received:true,pending:true});
+    const processed=await site(env,parts[1],'paymentEvent',{itemId:parts[2],sessionId:checkout.id,eventId:event.id,
+     type:completed?'paid':'expired',amount:Number(checkout.amount_total),currency:String(checkout.currency||'').toLowerCase()});
+    return processed.ok?json({received:true,orderStatus:processed.status}):reply(processed);
    }
    const isApi=path.startsWith('/api/');
    if(!isApi)return json({error:'not_found'},404);
