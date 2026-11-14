@@ -1,6 +1,7 @@
 // Standalone, script-free public website renderer for the independent site studio.
 // Designs reuse exactly the Creator's responsive CSS; no runtime eval and no external assets.
 import {CREATOR_PREMIUM_SCRIPT} from './creator_premium_presentations.mjs';
+import {GUESTHOUSE_SITE_CSS} from './creator_guesthouse_gallery.mjs';
 const lead='const extraCreatorPremiumSiteStyle=';
 const begin=CREATOR_PREMIUM_SCRIPT.indexOf(lead);
 const end=CREATOR_PREMIUM_SCRIPT.indexOf(';\n',begin+lead.length);
@@ -48,11 +49,13 @@ export function validateStudioDraft(input){
   label:bounded(r?.label,100),count:Math.max(0,Math.min(999,Number(r?.count)||0))
  })).filter(r=>r.label);
  const amenities=(Array.isArray(input.amenities)?input.amenities:[]).slice(0,15).map(x=>bounded(x,100)).filter(Boolean);
- const photos=(Array.isArray(input.photos)?input.photos:[]).slice(0,6).map(x=>({
-  data:bounded(x?.data,185000),caption:bounded(x?.caption,130)
+ const photos=(Array.isArray(input.photos)?input.photos:[]).slice(0,40).map((x,i)=>({
+  data:bounded(x?.data,185000),caption:bounded(x?.caption,130),
+  group:['exterior','room','other'].includes(x?.group)?x.group:(i===0?'exterior':'other'),
+  roomLabel:bounded(x?.roomLabel,100)
  })).filter(x=>x.data&&x.data.length<185000&&PHOTO.test(x.data));
  const totalPhotoBytes=photos.reduce((n,x)=>n+x.data.length,0);
- if(totalPhotoBytes>750000)throw new Error('too_many_photo_bytes');
+ if(totalPhotoBytes>3000000)throw new Error('too_many_photo_bytes');
  return {name,description,kind,styleId,lang,contact,content,rooms,amenities,photos};
 }
 function typeLabel(kind,en){
@@ -79,10 +82,10 @@ function renderLanguage(draft,en){
  const offerTitle=draft.kind==='hotel'?(en?'Rooms & amenities':'Camere și facilități'):(en?'Our services':'Ce oferim');
  const contactTitle=en?'Contact us':'Contactează-ne';
  const kind=typeLabel(draft.kind,en);
- const leadPhoto=draft.photos[0];
+ const leadPhoto=draft.photos.find(p=>p.group==='exterior')||draft.photos[0];
  const image=()=>makePhoto(leadPhoto?.data,leadPhoto?.caption,0);
  const visual=()=>image();
- const extras=draft.photos.slice(1);
+ const extras=draft.photos.filter(p=>p!==leadPhoto);
  const navHtml='<header class="design-nav"><strong class="brand">'+name+'</strong><nav>'+
  nav.map((x,i)=>'<a href="#'+['about','offer','contact'][i]+'-'+lang+'">'+x+'</a>').join('')+'</nav></header>';
  const eyebrow=sectionIndex('01',en,kind);
@@ -142,6 +145,20 @@ function renderLanguage(draft,en){
  const services=c.services.map((s,i)=>'<article class="service"><span class="num">'+String(i+1).padStart(2,'0')+
   '</span><h3>'+siteEscape(s.title)+'</h3><p>'+siteEscape(s.detail)+'</p></article>').join('');
  const amenities=draft.amenities.map(a=>'<span class="facility">'+siteEscape(a)+'</span>').join('');
+ const categories=new Map();
+ if(draft.kind==='hotel')for(const p of draft.photos){
+  if(p.group!=='room'||!p.roomLabel.trim())continue;
+  const key=p.roomLabel.trim();if(!categories.has(key))categories.set(key,[]);
+  categories.get(key).push(p);
+ }
+ let photoNo=0;
+ const gallery=categories.size?'<section class="room-gallery-section" id="room-gallery-'+lang+'"><h2>'+
+  (en?'Room photo gallery':'Galeria camerelor')+'</h2>'+
+  Array.from(categories.entries()).map(([room,pics])=>'<div class="room-gallery-category"><h3>'+siteEscape(room)+'</h3><div class="room-gallery-grid">'+
+   pics.map(p=>{const id='room-gallery-photo-'+lang+'-'+photoNo++,caption=siteEscape(p.caption||room);
+    return '<a href="#'+id+'" class="room-gallery-tile"><img src="'+p.data+'" alt="'+caption+'" loading="lazy"></a>'+
+    '<div id="'+id+'" class="room-gallery-full"><a href="#room-gallery-'+lang+'" class="room-gallery-close" aria-label="Close">×</a><img src="'+p.data+'" alt="'+caption+'"></div>';
+   }).join('')+'</div></div>').join('')+'</section>':'';
  const details='<section class="offers" id="offer-'+lang+'">'+sectionIndex('02',en,offerTitle)+
   '<h2>'+offerTitle+'</h2>'+(rooms?'<div class="metrics">'+rooms+'</div>':'')+
   (services?'<div class="services">'+services+'</div>':'')+
@@ -155,7 +172,7 @@ function renderLanguage(draft,en){
  const footer='<footer>'+name+'<span>· '+(en?'Owner-managed website':'Site administrat de proprietar')+'</span></footer>';
  return '<div class="locale-content lang-'+lang+'">'+navHtml+'<main>'+hero+
   (family==='conversion'||family==='cards'||family==='mosaic'||family==='gallery'?details+aboutSection:aboutSection+details)+
-  contact+'</main>'+footer+'</div>';
+  gallery+contact+'</main>'+footer+'</div>';
 }
 export function renderStudioSite(input){
  const d=validateStudioDraft(input),theme=SITE_TEMPLATES[d.styleId],palette=PALETTES[d.styleId],cssVars=
@@ -170,7 +187,7 @@ export function renderStudioSite(input){
  return '<!doctype html><html lang="'+(d.lang==='both'?'ro':d.lang)+'"><head><meta charset="utf-8">'+
  '<meta name="viewport" content="width=device-width,initial-scale=1">'+
  '<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;;style-src &#39;unsafe-inline&#39;;img-src data:;">'+
- '<title>'+siteEscape(d.name)+'</title><style>'+STUDIO_SITE_CSS+extraCss+'</style></head>'+
+ '<title>'+siteEscape(d.name)+'</title><style>'+STUDIO_SITE_CSS+GUESTHOUSE_SITE_CSS+extraCss+'</style></head>'+
  '<body class="premium-site theme-'+theme+'" style="'+cssVars+'">'+controls+'<div class="site-shell">'+
  languages+'</div></body></html>';
 }
