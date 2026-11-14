@@ -178,7 +178,7 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
   return '<div class="locale-content lang-'+lang+'">'+nav+'<main>'+layout+'</main><footer>'+esc(name)+' <span>· '+esc(t.footer)+'</span></footer></div>';
  }
  const body=format==='both'?build('ro')+build('en'):build(format);
- const galleryBody=kind==='hotel'?extraCreatorGuesthouseInjectGallery(body,options.gallery):body;
+ const galleryBody=extraCreatorGuesthouseInjectGallery(body,options.gallery,kind);
  const controls=format==='both'?'<input id="lang-ro" type="radio" name="site-language" checked><input id="lang-en" type="radio" name="site-language">'+
   '<div class="languages"><label for="lang-ro">RO</label><label for="lang-en">EN</label></div>':'';
  const colors='--ink:'+palette[0]+';--paper:'+palette[1]+';--accent:'+palette[2]+';--mid:'+palette[3]+';';
