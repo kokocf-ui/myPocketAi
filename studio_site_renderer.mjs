@@ -2,6 +2,7 @@
 // Designs reuse exactly the Creator's responsive CSS; no runtime eval and no external assets.
 import {CREATOR_PREMIUM_SCRIPT} from './creator_premium_presentations.mjs';
 import {GUESTHOUSE_SITE_CSS} from './creator_guesthouse_gallery.mjs';
+import {studioBusinessFeatures,businessPublicFormHtml,STUDIO_VISITOR_CSS} from './studio_business_flows.mjs';
 const lead='const extraCreatorPremiumSiteStyle=';
 const begin=CREATOR_PREMIUM_SCRIPT.indexOf(lead);
 const end=CREATOR_PREMIUM_SCRIPT.indexOf(';\n',begin+lead.length);
@@ -57,7 +58,7 @@ export function validateStudioDraft(input){
  })).filter(x=>x.data&&x.data.length<185000&&PHOTO.test(x.data));
  const totalPhotoBytes=photos.reduce((n,x)=>n+x.data.length,0);
  if(totalPhotoBytes>3000000)throw new Error('too_many_photo_bytes');
- return {name,description,kind,styleId,lang,contact,content,rooms,amenities,photos};
+ return {name,description,kind,styleId,lang,contact,content,rooms,amenities,photos,features:studioBusinessFeatures(input.features)};
 }
 function typeLabel(kind,en){
  const labels={
@@ -73,7 +74,7 @@ function makePhoto(src,caption,idx){
  return '<div class="visual" role="img" aria-label="Loc rezervat pentru fotografia proprietarului">'+
  '<span class="studio-photo-pending">✦<small>'+siteEscape(idx===0?'Adaugă fotografia principală':'Fotografie nouă')+'</small></span></div>';
 }
-function renderLanguage(draft,en){
+function renderLanguage(draft,en,options={}){
  const lang=en?'en':'ro',c=draft.content[lang],name=siteEscape(draft.name);
  const heading=siteEscape(c.headline||(en?'Welcome':'Bine ați venit'));
  const intro=siteEscape(c.intro||(en?'Discover our services.':'Descoperă serviciile noastre.'));
@@ -176,12 +177,12 @@ function renderLanguage(draft,en){
  const footer='<footer>'+name+'<span>· '+(en?'Owner-managed website':'Site administrat de proprietar')+'</span></footer>';
  return '<div class="locale-content lang-'+lang+'">'+navHtml+'<main>'+hero+
   (family==='conversion'||family==='cards'||family==='mosaic'||family==='gallery'?details+aboutSection:aboutSection+details)+
-  gallery+contact+'</main>'+footer+'</div>';
+  gallery+businessPublicFormHtml(draft,options.publicId||'',lang)+contact+'</main>'+footer+'</div>';
 }
-export function renderStudioSite(input){
+export function renderStudioSite(input,options={}){
  const d=validateStudioDraft(input),theme=SITE_TEMPLATES[d.styleId],palette=PALETTES[d.styleId],cssVars=
  '--ink:'+palette[0]+';--paper:'+palette[1]+';--accent:'+palette[2]+';--mid:'+palette[3]+';';
- const languages=d.lang==='both'?renderLanguage(d,false)+renderLanguage(d,true):renderLanguage(d,d.lang==='en');
+ const languages=d.lang==='both'?renderLanguage(d,false,options)+renderLanguage(d,true,options):renderLanguage(d,d.lang==='en',options);
  const controls=d.lang==='both'?'<input id="lang-ro" type="radio" name="site-language" checked>'+
  '<input id="lang-en" type="radio" name="site-language"><div class="languages">'+
  '<label for="lang-ro">RO</label><label for="lang-en">EN</label></div>':'';
@@ -191,7 +192,7 @@ export function renderStudioSite(input){
  return '<!doctype html><html lang="'+(d.lang==='both'?'ro':d.lang)+'"><head><meta charset="utf-8">'+
  '<meta name="viewport" content="width=device-width,initial-scale=1">'+
  '<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;;style-src &#39;unsafe-inline&#39;;img-src data:;">'+
- '<title>'+siteEscape(d.name)+'</title><style>'+STUDIO_SITE_CSS+GUESTHOUSE_SITE_CSS+extraCss+'</style></head>'+
+ '<title>'+siteEscape(d.name)+'</title><style>'+STUDIO_SITE_CSS+GUESTHOUSE_SITE_CSS+STUDIO_VISITOR_CSS+extraCss+'</style></head>'+
  '<body class="premium-site theme-'+theme+'" style="'+cssVars+'">'+controls+'<div class="site-shell">'+
  languages+'</div></body></html>';
 }
