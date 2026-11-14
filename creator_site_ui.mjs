@@ -288,7 +288,7 @@ function extraCreatorWebsite(work){
  const management=extraCreatorManagementForm(area);
  const contact=extraToolsField(area,extraToolsLocale('Date de contact verificate (opțional)','Verified contact details (optional)'),'text',extraToolsLocale('E-mail, telefon sau adresă reală','Real email, phone or address'));
  const photo=extraToolsEl('input','extra-creator-photo');photo.type='file';photo.accept='image/jpeg,image/png,image/webp';photo.hidden=true;
- const photoLabel=extraToolsEl('p','extra-work-note',extraToolsLocale('Fotografia principală: pentru pensiune, imaginea exteriorului clădirii.','Main photo: for accommodation, a photo of the building exterior.'));
+ const photoLabel=extraToolsEl('p','extra-work-note','');
  let photoData='';
  photo.onchange=()=>{
   const file=photo.files&&photo.files[0];if(!file)return;
