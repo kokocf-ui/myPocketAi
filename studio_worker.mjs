@@ -180,7 +180,7 @@ export default{
      }
     }
     const isSuccess=!!stored.ok,status=isSuccess?200:stored.status===429?429:stored.status===409?409:400;
-    const message=isSuccess?(visitor[2]==='order'?'Comanda a fost înregistrată. Magazinul vă va contacta; plata nu a fost încasată.':'Solicitarea a fost primită. Nu este încă o rezervare confirmată. Afacerea vă va contacta.'):
+    const message=isSuccess?(visitor[2]==='order'?'Comanda a fost înregistrată. Magazinul vă va contacta; plata nu a fost încasată.':visitor[2]==='booking'&&stored.itemStatus==='confirmed'?'Rezervarea a fost confirmată în sistem. Dacă sunt activate notificările, vei primi un mesaj.':'Solicitarea a fost primită. Nu este încă o rezervare confirmată. Afacerea vă va contacta.'):
      status===429?'Sunt prea multe solicitări. Încercați din nou mai târziu.':
      'Solicitarea nu a fost înregistrată. Verificați datele introduse și încercați din nou.';
     const receipt='<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Solicitare Eva</title></head>'+
