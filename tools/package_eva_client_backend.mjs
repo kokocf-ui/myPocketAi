@@ -8,7 +8,7 @@ const out=path.join(root,'dist','eva-client-backend');
 const list=[
  'studio_worker.mjs','studio_accounts.mjs','studio_sites.mjs',
  'studio_site_renderer.mjs','studio_admin_portal.mjs','studio_security.mjs',
- 'studio_business_flows.mjs','creator_guesthouse_gallery.mjs',
+ 'studio_business_flows.mjs','studio_commerce.mjs','studio_notifications.mjs','creator_guesthouse_gallery.mjs',
  'creator_hosting_guide.mjs','creator_premium_presentations.mjs',
  'wrangler.eva-client.jsonc','EVA_INSTALARE_BACKEND_CLIENT.md','instalare-eva.mjs'
 ];
