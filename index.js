@@ -22012,6 +22012,103 @@ main.page:has(#view-module.learning-practical.active){
  scroll-padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important;
 }
 
+/* 2026-11-14 practical lesson activities: course navigation is compact;
+   live exercises, quizzes, and references use separate bounded dialogs. */
+#view-module.learning-practical.active .education-topic-picker{
+ position:static!important;top:auto!important;z-index:auto!important;
+}
+#view-module.learning-practical.active .practical-lesson-actions{
+ box-sizing:border-box!important;
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ width:100%!important;max-width:100%!important;gap:12px!important;
+ padding:6px 0 12px!important;min-width:0!important;
+}
+#view-module.learning-practical.active .practical-lesson-actions>button{
+ box-sizing:border-box!important;min-width:0!important;width:100%!important;max-width:100%!important;
+ min-height:76px!important;height:auto!important;margin:0!important;
+ padding:12px 7px!important;white-space:normal!important;overflow-wrap:anywhere!important;
+ font-size:clamp(12px,3.6vw,17px)!important;line-height:1.22!important;
+ text-align:center!important;
+}
+#view-module.learning-practical.active .practical-lesson-storage[hidden],
+.practical-activity-dialog .practical-question[hidden],
+.practical-activity-dialog .practical-quiz-pager[hidden],
+.practical-activity-dialog #practicalAssessment>div[hidden]{
+ display:none!important;
+}
+dialog.practical-activity-dialog[open]{
+ box-sizing:border-box!important;position:fixed!important;
+ width:min(94vw,760px)!important;max-width:calc(100vw - 16px)!important;
+ height:min(88dvh,820px)!important;max-height:calc(100dvh - 24px)!important;
+ min-height:0!important;inset:0!important;margin:auto!important;
+ padding:0!important;display:flex!important;flex-direction:column!important;
+ overflow:hidden!important;overflow-x:hidden!important;
+ background:#092335!important;color:#f5fbff!important;
+ border:1px solid #4c9fb4!important;border-radius:18px!important;
+ box-shadow:0 18px 58px #000a!important;
+}
+dialog.practical-activity-dialog[open]::backdrop{background:rgba(0,8,18,.84)!important}
+.practical-activity-dialog .practical-activity-head{
+ box-sizing:border-box!important;flex:0 0 auto!important;display:flex!important;
+ align-items:center!important;justify-content:space-between!important;
+ width:100%!important;min-width:0!important;gap:8px!important;
+ padding:12px!important;background:#0b2d41!important;
+ border-bottom:1px solid #39768c!important;
+}
+.practical-activity-dialog .practical-activity-head h2{
+ min-width:0!important;flex:1 1 0%!important;margin:0!important;
+ font-size:clamp(15px,3.8vw,20px)!important;line-height:1.25!important;
+ overflow-wrap:anywhere!important;
+}
+.practical-activity-dialog .practical-activity-back{
+ flex:0 0 auto!important;width:auto!important;max-width:42%!important;
+ min-width:80px!important;min-height:46px!important;padding:8px 10px!important;
+ font-size:clamp(12px,3.4vw,15px)!important;line-height:1.2!important;
+ color:#fff!important;background:linear-gradient(#913f59,#651f39)!important;
+ border:1px solid #c58ca0!important;
+}
+.practical-activity-dialog .practical-activity-body{
+ box-sizing:border-box!important;flex:1 1 auto!important;min-width:0!important;
+ min-height:0!important;width:100%!important;overflow-y:auto!important;
+ overflow-x:hidden!important;overscroll-behavior:contain!important;
+ -webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+ padding:12px 14px 24px!important;
+}
+.practical-activity-dialog .practical-activity-body>*{
+ box-sizing:border-box!important;max-width:100%!important;min-width:0!important;
+ overflow-wrap:anywhere!important;
+}
+.practical-activity-dialog .practical-workspace,
+.practical-activity-dialog .practical-assessment,
+.practical-activity-dialog .practical-resource-group,
+.practical-activity-dialog .practical-cv-workshop{
+ margin-top:4px!important;max-width:100%!important;
+}
+.practical-activity-dialog .practical-quiz-pager{
+ display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;
+ gap:7px!important;align-items:center!important;width:100%!important;
+ margin:10px 0 16px!important;
+}
+.practical-activity-dialog .practical-quiz-pager>button{
+ min-width:0!important;width:100%!important;max-width:100%!important;
+ padding:7px 3px!important;min-height:44px!important;
+ font-size:clamp(11px,3.2vw,15px)!important;white-space:normal!important;
+}
+.practical-activity-dialog .practical-quiz-count{
+ text-align:center!important;white-space:nowrap!important;
+ font-size:clamp(11px,3vw,14px)!important;
+}
+.practical-activity-dialog .practical-question{
+ width:100%!important;max-width:100%!important;padding:10px!important;
+}
+.practical-activity-dialog .practical-question label{
+ box-sizing:border-box!important;max-width:100%!important;min-width:0!important;
+ overflow-wrap:anywhere!important;
+}
+.practical-activity-dialog .practical-activity-body textarea{
+ box-sizing:border-box!important;max-width:100%!important;width:100%!important;
+}
+
 </style>
 </body>
 </html>`;
