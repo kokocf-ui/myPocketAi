@@ -17,6 +17,16 @@ const facts=f.details(aramis,'hotel');
 assert.deepEqual(facts.counts.map(i=>i.value),['5','10','3']);
 assert.deepEqual(f.details('5 camere single, 10 duble și 3 apartamente.','hotel').counts.map(i=>i.value),['5','10','3']);
 assert.match(CREATOR_SITE_SCRIPT,/extraCreatorGuesthouseControls/);
+const galleryKinds=['hotel','restaurant','services','salon','shop','personal','other'];
+const galleryFns=new Function(EXTRA_TOOLS_WORKSPACE_SCRIPT+';return {options:extraCreatorGalleryCategoryOptions};')();
+for(const kind of galleryKinds){
+ const categories=galleryFns.options(kind,'Afacere profesională cu servicii și clienți.');
+ assert.ok(categories.length>0,'Business type must propose photo categories: '+kind);
+ assert.ok(categories.every(c=>c.ro&&c.en&&c.group),'Incomplete gallery suggestion: '+kind);
+}
+assert.ok(galleryFns.options('restaurant','Un pub cu cocktailuri și muzică.').some(x=>/Cocktailuri/.test(x.ro)));
+assert.ok(galleryFns.options('hotel','5 camere single, 10 duble și 3 apartamente.').filter(c=>c.group==='room').length===3);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/categorie fotografică|Galerie fotografică/);
 assert.ok(facts.amenities.some(x=>x.ro==='Mic dejun inclus'));
 assert.ok(facts.amenities.some(x=>x.ro==='Bucătărie comună'));
 assert.ok(facts.amenities.some(x=>x.ro==='Sală de mese'));
