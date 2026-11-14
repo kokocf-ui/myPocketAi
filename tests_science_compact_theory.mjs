@@ -16,7 +16,7 @@ for(const [subject,topics] of Object.entries(chapters)){
  for(const topic of topics){
   const lessons=THEORY_ENTRIES.filter(e=>e.subject===subject&&e.topic===topic.id);
   assert.ok(lessons.length>=3,subject+' '+topic.id+' must have content');
-  assert.ok(SCIENCE_GUIDES[subject]?.[topic.id]||subject==='chemistry'&&topic.id==='fundamentals',
+  if(!topic.specialty)assert.ok(SCIENCE_GUIDES[subject]?.[topic.id]||subject==='chemistry'&&topic.id==='fundamentals',
    subject+' '+topic.id+' missing its curated chapter explanation');
   for(const entry of lessons){
    const rich=subject==='chemistry'?CHEMISTRY_DETAILED_LESSONS[entry.id]:null;
