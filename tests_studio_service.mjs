@@ -254,6 +254,17 @@ const busy=await result('/s/'+id+'/availability?roomLabel=camere%20single&start=
 assert.equal(busy.available,false,'Five confirmed rooms fill the inventory');
 const stockInbox=await result('/api/sites/'+id+'/inbox','GET',null,clientCookie);
 assert.equal(stockInbox.items.filter(x=>x.type==='booking'&&x.status==='confirmed'&&x.roomLabel==='camere single').length,5);
+const remaining=stockInbox.items.find(x=>x.type==='booking'&&x.status==='new'&&x.roomLabel==='camere single');
+assert.equal((await result('/api/sites/'+id+'/inbox/'+remaining.id+'/status','POST',{status:'confirmed'},clientCookie)).response.status,409);
+const orderResponse=await visitor('order',{...baseVisitor,productId:'p-1',quantity:'2'},'203.0.115.4');
+assert.equal(orderResponse.status,200);
+const orderInbox=await result('/api/sites/'+id+'/inbox','GET',null,clientCookie);
+const newOrder=orderInbox.items.find(x=>x.type==='order');
+assert.equal(newOrder.totalMinor,10000);
+assert.equal((await result('/api/sites/'+id+'/inbox/'+newOrder.id+'/status','POST',
+ {status:'confirmed'},clientCookie)).ok,true);
+assert.equal((await visitor('order',{...baseVisitor,productId:'p-1',quantity:'1'},'203.0.115.5')).status,409);
+
 
 assert.equal((await result('/api/ai/image','POST',{prompt:'Templar on camel'},clientCookie)).response.status,503);
 assert.equal((await result('/api/ai/site','POST',{name:'Aramis',description:draft.description},clientCookie)).response.status,503);
