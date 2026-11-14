@@ -250,7 +250,7 @@ function extraCreatorWebsite(work){
  extraCreatorNotice(area,'Machetă locală: în acest APK testăm stilul și structura. Generarea cu Eva și accesul Premium verificat sunt încă neactivate.','Local draft: in this APK you can test style and structure. Eva generation and verified Premium access are not enabled.');
  const name=extraToolsField(area,extraToolsLocale('Numele afacerii','Business name'),'text',extraToolsLocale('Ex.: Aramis','e.g. Aramis'));
  const type=extraToolsField(area,extraToolsLocale('Domeniu','Business category'),'select');
- const categories=[['hotel','Pensiune / cazare','Guesthouse / hotel'],['restaurant','Restaurant / cafenea','Restaurant / café'],['services','Meseriași / servicii','Trades / services'],['salon','Salon / frumusețe','Beauty salon'],['shop','Magazin / produse','Shop'],['personal','Portofoliu / eveniment','Portfolio / event'],['other','Alt domeniu','Other']];
+ const categories=[['hotel','Pensiune / cazare','Guesthouse / hotel'],['restaurant','Restaurant / cafenea / bar','Restaurant / café / bar'],['services','Meseriași / servicii','Trades / services'],['salon','Salon / frumusețe','Beauty salon'],['shop','Magazin / produse','Shop'],['personal','Portofoliu / eveniment','Portfolio / event'],['other','Alt domeniu','Other']];
  for(const [key,ro,en] of categories){const option=extraToolsEl('option','',extraToolsLocale(ro,en));option.value=key;type.append(option)}
  const desc=extraToolsField(area,extraToolsLocale('Descrie serviciile și particularitățile','Describe services and details'),'textarea',
   extraToolsLocale('Ex.: 5 camere single, 10 duble, mic dejun inclus, bucătărie la comun','e.g. 5 single rooms, 10 doubles, breakfast included'));
