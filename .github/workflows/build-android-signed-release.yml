@@ -9,6 +9,8 @@ on:
       - 'index.js'
       - 'extra_tools_workspace.mjs'
       - 'tests_creation_ui.mjs'
+      - 'creator_site_ui.mjs'
+      - 'tests_creation_site_v2.mjs'
       - 'scripts/build_android_ui_preview.mjs'
       - 'android/app/build.gradle'
       - 'android/app/src/main/java/ai/mypocket/mobile/MainActivity.java'
@@ -255,7 +257,7 @@ jobs:
           node tests_news_contextual_translation.mjs
           node tests_extra_tools_header_layout.mjs
           node tests_extra_tools_workspace.mjs
-          node tests_creation_ui.mjs
+          node tests_creation_ui.mjs && node tests_creation_site_v2.mjs
           node tests_android_ui_preview.mjs
           node tests_math_whisper_pilot.mjs
       - name: Bundle exact PR frontend for preview-only APK
