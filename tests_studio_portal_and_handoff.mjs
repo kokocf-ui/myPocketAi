@@ -51,7 +51,10 @@ assert.doesNotMatch(f.enhance('A mountain cabin at dawn','wide','square'),/Templ
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/composition/);
 assert.match(CREATOR_HANDOFF_SCRIPT,/extraCreatorDownloadProject/);
 assert.match(CREATOR_HANDOFF_SCRIPT,/getGallery/);
-assert.match(script,/Categorie de camere/);
+assert.match(script,/Categorie de camere|Cameră:/);
+assert.match(script,/photoTarget\(/);
+assert.match(script,/galleryOptions\(/);
+assert.match(script,/__SITE_GALLERY_CATALOG__/);
 assert.match(script,/40 fotografii/);
 assert.match(CREATOR_HANDOFF_SCRIPT,/DataUrl|canvas\.toDataURL|toDataURL/);
 console.log('PASS: Studio portal JS, editable project import, handover schema, automatic RO/EN copy, full-subject image composition without extra AI calls');
