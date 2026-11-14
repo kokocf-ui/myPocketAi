@@ -1,3 +1,4 @@
+import {CREATOR_SITE_SCRIPT,CREATOR_SITE_STYLE} from './creator_site_ui.mjs';
 export const EXTRA_TOOLS_WORKSPACE_SCRIPT=String.raw`// Dedicated, compact Tools workspaces. Do not redirect preset tools into Assistant chat.
 let extraToolsSession=null;
 let extraToolsNavigation=null;
@@ -464,7 +465,7 @@ function extraToolsOpenWorkspace(key){
  }
  area.append(result,status);panel.append(area);host.append(panel);
 }
-`;
+`+CREATOR_SITE_SCRIPT;
 export const EXTRA_TOOLS_WORKSPACE_STYLE=String.raw`/* Dedicated Tools: fixed app navigation, scrolling only within the actual workspace. */
 main.page:has(#view-module.extra-tools-workspace.active){overflow:hidden!important;min-height:0!important}
 #view-module.extra-tools-workspace #moduleLead{display:none!important}
@@ -547,4 +548,4 @@ main.page:has(#view-module.extra-tools-workspace.active){overflow:hidden!importa
 .extra-creator-overlay .extra-creator-overlay-frame{flex:1 1 auto!important;width:100%!important;min-height:0!important;border:0!important;border-radius:10px!important;background:#f7f4ee!important}
 
 #view-module.extra-tools-workspace [hidden]{display:none!important}
-`;
+`+CREATOR_SITE_STYLE;
