@@ -100,7 +100,7 @@ function extraCreatorLocalHtml(name,activity,description,style,contact,language,
    personal:['Portofoliu / eveniment','Portfolio / event']
   };
   const activityText=typeNames[type]?(en?typeNames[type][1]:typeNames[type][0]):activity;
-  if(en&&bilingual&&type==='hotel'){
+  if(en&&type==='hotel'){
    const original=extraCreatorSiteDetails(description,type);
    if(!e.counts.length)e.counts=original.counts;
    if(!e.amenities.length)e.amenities=original.amenities;
@@ -139,9 +139,12 @@ function extraCreatorLocalHtml(name,activity,description,style,contact,language,
     safe(contact|| (en?'Add verified contact details here.':'Adaugă aici date de contact verificate.'))+
     '</p></section><footer>'+safe(name)+' · '+t.demo+'</footer></div>';
  };
+ // A no-cost design preview cannot claim a translation was performed by AI.
+ // Once Eva generates the site, the AI-supplied English copy replaces this placeholder.
  const enText=String(options.descriptionEn||'').trim();
+ const englishPreview= enText || 'Translation into English will be prepared by Eva when you generate your website with AI.';
  const firstLang=language==='en'?'en':'ro';
- const english=serviceBlock('en',enText||String(description||''));
+ const english=serviceBlock('en',englishPreview);
  const romanian=serviceBlock('ro',String(description||''));
  const sections=bilingual?romanian+english:firstLang==='en'?english:romanian;
  const controls=bilingual?'<input type="radio" id="lang-ro" name="lang" checked><input type="radio" id="lang-en" name="lang">'+
@@ -201,11 +204,14 @@ function extraCreatorWebsite(work){
  const lang=extraToolsField(area,extraToolsLocale('Limba site-ului','Website language'),'select');
  for(const [key,label] of [['ro','Română'],['en','English'],['both','Română + English']]){const opt=extraToolsEl('option','',label);opt.value=key;lang.append(opt)}
  lang.value=state.language==='en'?'en':'ro';
- const englishBox=extraToolsEl('div','extra-creator-english');englishBox.hidden=true;
- const descEn=extraToolsField(englishBox,extraToolsLocale('Descrierea în engleză','English description'),'textarea',
-  extraToolsLocale('Introdu textul corect în engleză; nu inventăm traducerea','Enter verified English text'));
- area.append(englishBox);
- const showEnglish=()=>{englishBox.hidden=lang.value==='ro';};lang.onchange=showEnglish;showEnglish();
+ const translateNote=extraToolsEl('p','extra-creator-translation-note');
+ const updateTranslationNote=()=>{
+  translateNote.textContent=lang.value==='ro'?
+   extraToolsLocale('Conținutul este în română.','Content will be in Romanian.'):
+   extraToolsLocale('Eva va traduce automat din română. Previzualizarea gratuită arată structura, iar traducerea reală apare după generarea AI.','Eva translates automatically from Romanian. Free preview shows the layout; the actual translation appears after AI generation.');
+ };
+ lang.addEventListener('change',updateTranslationNote);
+ updateTranslationNote();area.append(translateNote);
  const contact=extraToolsField(area,extraToolsLocale('Date de contact verificate (opțional)','Verified contact details (optional)'),'text',extraToolsLocale('E-mail, telefon sau adresă reală','Real email, phone or address'));
  const photo=extraToolsEl('input','extra-creator-photo');photo.type='file';photo.accept='image/jpeg,image/png,image/webp';photo.hidden=true;
  const photoLabel=extraToolsEl('p','extra-work-note',extraToolsLocale('Poți adăuga fotografia reală a afacerii.','You can add your business photo.'));
@@ -226,22 +232,21 @@ function extraCreatorWebsite(work){
  const generate=()=>{
   const title=name.value.trim(),story=desc.value.trim();
   if(!title||!story){note.textContent=extraToolsLocale('Completează numele afacerii și serviciile oferite.','Enter the business name and services.');return}
-  if(lang.value!=='ro'&&!descEn.value.trim()){
-   note.textContent=extraToolsLocale('Pentru English sau RO + EN, completează descrierea în engleză. Nu traducem automat în această versiune.','Add the English description for English or bilingual mode. No automatic translation is connected.');return;
-  }
   work.siteHtml=extraCreatorLocalHtml(title,type.options[type.selectedIndex]?.textContent||type.value,story,selected.ro+' '+extra.value,contact.value,lang.value,
-   {kind:type.value,styleId:selected.id,descriptionEn:descEn.value,photo:photoData});
+   {kind:type.value,styleId:selected.id,photo:photoData});
   const frame=extraToolsEl('iframe','extra-creator-preview');
   frame.setAttribute('sandbox','');frame.title=extraToolsLocale('Machetă locală a site-ului','Local website draft');
   frame.srcdoc=work.siteHtml;preview.replaceChildren(frame);
-  note.textContent=extraToolsLocale('Machetă locală, fără AI. Verifică informațiile și aspectul; nu a fost publicată.','Local draft, no AI. Check details and appearance; nothing was published.');
+  note.textContent=lang.value==='ro'?
+  extraToolsLocale('Previzualizare locală fără AI; verifică datele înainte de publicare.','Local preview without AI; review before publishing.'):
+  extraToolsLocale('Previzualizare a designului; traducerea în engleză este pregătită automat la generarea cu Eva.','Design preview only; the English translation is produced when Eva generates the site.');
   work.creatorForm?.onPreviewReady?.();
  };
  const actions=extraToolsActions(area,
   extraToolsBtn(extraToolsLocale('👁 Previzualizează site-ul','👁 Preview site'),generate,true),
   extraToolsBtn(extraToolsLocale('⛶ Ecran complet','⛶ Full screen'),()=>work.siteHtml?extraCreatorFullscreen(work.siteHtml):(note.textContent=extraToolsLocale('Creează întâi previzualizarea.','Preview first.'))));
  area.append(note,preview);
- work.creatorForm={name,type,desc,extra,lang,descEn,contact,getStyle:()=>selected,getPhoto:()=>photoData,preview,note,generate};
+ work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPhoto:()=>photoData,preview,note,generate};
  const aiNote=extraToolsEl('p','extra-creator-disabled-note',extraToolsLocale('Generarea AI a site-ului este încă neactivată. Butonul de previzualizare creează doar o machetă locală, fără costuri.','AI website generation is not yet enabled. Preview creates only a local draft, without AI charges.'));
  const aiButton=extraToolsBtn(extraToolsLocale('✨ Generare AI neactivată','✨ AI generation not enabled'),()=>{});
  aiButton.disabled=true;area.append(aiNote);extraToolsActions(area,aiButton);
