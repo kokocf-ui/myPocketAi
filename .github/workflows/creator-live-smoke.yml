@@ -1,0 +1,22 @@
+name: Manual website AI smoke test (uses shared live quota)
+
+on:
+  workflow_dispatch:
+    inputs:
+      approve_quota_consumption:
+        description: "I understand this consumes one real website AI generation from the shared preview quota"
+        type: boolean
+        required: true
+        default: false
+
+jobs:
+  creator-live-smoke:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.approve_quota_consumption == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: One consciously approved LIVE website generation
+        run: node scripts/smoke_creator_live.mjs

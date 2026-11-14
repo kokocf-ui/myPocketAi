@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_tools_workspace.mjs';
+
+new vm.Script(EXTRA_TOOLS_WORKSPACE_SCRIPT,{filename:'extra-tools-workspace.js'});
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function extraToolsMountNavigation\(root,back,header\)/);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function extraToolsRestoreNavigation\(\)/);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function extraToolsStop\(\)\{\s*extraToolsRestoreNavigation\(\)/);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/headingRow\.append\(header\)/,'Add PDF actions without moving original title');
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/actionRow\.append\(back\)/,'Home and Back share original module row');
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/if\(!extraToolsMountNavigation\(root,back,header\)\)/);
+assert.doesNotMatch(EXTRA_TOOLS_WORKSPACE_SCRIPT,/extra-work-head-title/,'No duplicate tool heading');
+assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/\.module-actions-row\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/\.module-actions-row \.extra-work-nav-back\{[^}]*height:56px!important/,'Both navigation buttons have the same height');
+assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/\.module-heading-row #moduleTitle\{/,'Original module heading remains visible');
+assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/\.extra-tools-workarea\{[^}]*overflow-y:auto!important/,'Only workspace content scrolls');
+assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/#view-module\.extra-tools-workspace #moduleLead\{display:none!important\}/,'No unused subtitle gap');
+assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/input\.extra-work-input,[^}]*height:48px!important/,'Short text fields never become giant text boxes');
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/eduAttachPrintAction\(header\)/,'Save and Print preserved');
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/renderExtraToolsChoices\(\)/,'Back still returns to Tools choices');
+assert.doesNotMatch(EXTRA_TOOLS_WORKSPACE_SCRIPT,/\.append\(home,back\)/,'Home button must never be moved');
+console.log('PASS: single heading, equal Home/Back row, fixed workspace and preserved PDF controls');
