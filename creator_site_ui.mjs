@@ -290,14 +290,13 @@ function extraCreatorWebsite(work){
  const photo=extraToolsEl('input','extra-creator-photo');photo.type='file';photo.accept='image/jpeg,image/png,image/webp';photo.hidden=true;
  const photoLabel=extraToolsEl('p','extra-work-note','');
  let photoData='';
- photo.onchange=()=>{
-  const file=photo.files&&photo.files[0];if(!file)return;
-  if(!/^image\/(?:jpeg|png|webp)$/.test(file.type)||file.size>3*1024*1024){
-   extraToolsStatus(extraToolsLocale('Alege o fotografie JPG, PNG sau WebP, maximum 3 MB.','Choose a JPG, PNG or WebP under 3 MB.'));return;
-  }
-  const reader=new FileReader();reader.onload=()=>{photoData=String(reader.result||'');photoLabel.textContent=extraToolsLocale('Fotografia reală a fost selectată.','Your photo is selected.')};
-  reader.onerror=()=>extraToolsStatus(extraToolsLocale('Nu s-a putut încărca fotografia.','Could not read photo.'));
-  reader.readAsDataURL(file);
+ photo.onchange=async()=>{
+  try{
+   const file=photo.files?.[0];if(!file)return;
+   photoData=await guesthouseGallery.preparePhoto(file);
+   photoLabel.textContent=extraToolsLocale('✓ Fotografia principală a fost adăugată.','✓ Main photograph added.');
+  }catch(e){extraToolsStatus(e.message)}
+  finally{photo.value=''}
  };
  const photoButton=extraToolsBtn(extraToolsLocale('📷 Fotografie principală','📷 Main photo'),()=>photo.click());
  area.append(photo,photoButton,photoLabel);
