@@ -1,18 +1,22 @@
-name: Verify actual Eva site content generation (one request)
+name: Manual website AI smoke test (uses shared live quota)
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - 'scripts/smoke_creator_live.mjs'
-      - '.github/workflows/creator-live-smoke.yml'
+  workflow_dispatch:
+    inputs:
+      approve_quota_consumption:
+        description: "I understand this consumes one real website AI generation from the shared preview quota"
+        type: boolean
+        required: true
+        default: false
 
 jobs:
   creator-live-smoke:
-    if: ${{ github.head_ref == 'ui/tools-workspaces-unified-2026-11-14' && github.event.pull_request.head.repo.full_name == github.repository }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.approve_quota_consumption == true }}
     runs-on: ubuntu-latest
     timeout-minutes: 3
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: One live request using existing Eva backend (no image cost)
+      - name: One consciously approved LIVE website generation
         run: node scripts/smoke_creator_live.mjs
