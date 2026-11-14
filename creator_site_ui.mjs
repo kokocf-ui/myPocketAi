@@ -328,10 +328,60 @@ function extraCreatorWebsite(work){
  const featureBooking=extraToolsEl('input','');featureBooking.type='checkbox';featureBooking.checked=false;
  const bookingLabel=extraToolsEl('label','extra-creator-backend-option');
  bookingLabel.append(featureBooking,extraToolsEl('span','',extraToolsLocale('Solicitări de rezervări sau programări','Booking and appointment requests')));
- business.append(contactLabel,bookingLabel);
+ const featureShop=extraToolsEl('input','');featureShop.type='checkbox';
+ const shopLabel=extraToolsEl('label','extra-creator-backend-option');
+ shopLabel.append(featureShop,extraToolsEl('span','',
+  extraToolsLocale('Catalog, comenzi și plăți prin furnizor extern','Catalog, orders and external payment provider')));
+ const autoConfirm=extraToolsEl('input','');autoConfirm.type='checkbox';
+ const confirmLabel=extraToolsEl('label','extra-creator-backend-option');
+ confirmLabel.append(autoConfirm,extraToolsEl('span','',
+  extraToolsLocale('Confirmare automată numai dacă există disponibilitate','Auto-confirm only when availability is verified')));
+ business.append(contactLabel,bookingLabel,shopLabel,confirmLabel);
+ const commercial=extraToolsEl('details','extra-creator-commerce-options');
+ commercial.append(extraToolsEl('summary','',extraToolsLocale('Calendar și produse (opțional)','Calendar and products (optional)')));
+ const field=(label,type='text')=>{
+  const wrap=extraToolsEl('label','extra-work-label');wrap.append(extraToolsEl('span','',label));
+  const input=extraToolsEl('input','extra-work-input');input.type=type;
+  wrap.append(input);commercial.append(wrap);return input;
+ };
+ const capacity=field(extraToolsLocale('Capacitate simultană (mese / programări)','Simultaneous seats / appointments'),'number');
+ capacity.min='0';capacity.max='999';capacity.value='0';
+ const currencyLabel=extraToolsEl('label','extra-work-label');
+ currencyLabel.append(extraToolsEl('span','',extraToolsLocale('Monedă produse','Product currency')));
+ const currency=extraToolsEl('select','extra-work-input');
+ for(const code of ['GBP','EUR','RON','USD']){
+  const option=extraToolsEl('option','',code);option.value=code;currency.append(option)
+ }
+ currencyLabel.append(currency);commercial.append(currencyLabel);
+ const productList=extraToolsEl('div','extra-creator-product-list'),products=[];
+ const refreshProducts=()=>{
+  productList.replaceChildren();
+  for(const [idx,item] of products.entries()){
+   const row=extraToolsEl('div','extra-creator-product-item');
+   const name=extraToolsEl('input','extra-work-input');name.placeholder=extraToolsLocale('Numele produsului','Product name');
+   name.value=item.title;name.maxLength=95;
+   name.oninput=()=>item.title=name.value.slice(0,95);
+   const price=extraToolsEl('input','extra-work-input');price.type='number';price.step='0.01';price.min='0';
+   price.placeholder=extraToolsLocale('Preț','Price');price.value=item.priceMinor?(item.priceMinor/100).toFixed(2):'';
+   price.oninput=()=>item.priceMinor=Math.max(0,Math.round(Number(price.value||0)*100));
+   const stock=extraToolsEl('input','extra-work-input');stock.type='number';stock.min='0';stock.max='99999';
+   stock.placeholder=extraToolsLocale('Stoc','Stock');stock.value=item.inventory||'';
+   stock.oninput=()=>item.inventory=Math.max(0,Math.floor(Number(stock.value)||0));
+   const remove=extraToolsBtn(extraToolsLocale('Șterge','Remove'),()=>{products.splice(idx,1);refreshProducts()});
+   row.append(name,price,stock,remove);productList.append(row);
+  }
+ };
+ const addProduct=extraToolsBtn(extraToolsLocale('＋ Adaugă produs','＋ Add product'),()=>{
+  if(products.length>=30)return extraToolsStatus(extraToolsLocale('Maximum 30 produse în prima versiune demonstrativă.','Maximum 30 products in the initial demo.'));
+  products.push({id:'p-'+(products.length+1)+'-'+Date.now().toString(36),title:'',priceMinor:0,inventory:0});
+  refreshProducts();
+ });
+ commercial.append(productList,addProduct);
+ business.append(commercial);
+ const privacy=field(extraToolsLocale('Politica de confidențialitate: URL HTTPS, dacă există deja','Privacy policy: HTTPS URL, if already available'),'url');
  business.append(extraToolsEl('p','extra-work-note',extraToolsLocale(
-  'Rezervările sunt solicitări până când proprietarul le verifică. Fără confirmări sau e-mailuri automate în această etapă.',
-  'Bookings are requests pending owner review. No automatic confirmation or email delivery in this version.')));
+  'Fără configurația de capacitate și furnizorii autorizați, rezervările și comenzile rămân solicitări. Prețurile sunt introduse numai de proprietar.',
+  'Without capacity configuration and authorized providers, bookings and orders remain requests. Only the owner enters prices.')));
  area.append(business);
  const preview=extraToolsEl('div','extra-creator-preview-wrap');
  const note=extraToolsEl('p','extra-creator-preview-info',extraToolsLocale('Apasă Previzualizează pentru a vedea site-ul demonstrativ.','Tap Preview to see your local website draft.'));
@@ -353,7 +403,11 @@ function extraCreatorWebsite(work){
   extraToolsBtn(extraToolsLocale('👁 Previzualizează site-ul','👁 Preview site'),generate,true),
   extraToolsBtn(extraToolsLocale('⛶ Ecran complet','⛶ Full screen'),()=>work.siteHtml?extraCreatorFullscreen(work.siteHtml):(note.textContent=extraToolsLocale('Creează întâi previzualizarea.','Preview first.'))));
  area.append(note,preview);
- work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPreferences:()=>({...designPrefs}),getPhoto:()=>photoData,getGallery:guesthouseGallery.getGallery,getFeatures:()=>({contact:featureContact.checked,booking:featureBooking.checked}),backendChoices:{contact:featureContact,booking:featureBooking},getManagement:management.getConfig,validateManagement:management.validate,preview,note,generate};
+ work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPreferences:()=>({...designPrefs}),getPhoto:()=>photoData,getGallery:guesthouseGallery.getGallery,getFeatures:()=>({contact:featureContact.checked,booking:featureBooking.checked,
+  shop:featureShop.checked,privacyUrl:privacy.value.trim()}),
+ getCommerce:()=>({currency:currency.value,slotCapacity:Number(capacity.value)||0,slotMinutes:60,
+  automaticConfirmation:autoConfirm.checked,products:products.filter(p=>p.title.trim()&&p.priceMinor>0).map(p=>({...p}))}),
+ backendChoices:{contact:featureContact,booking:featureBooking,shop:featureShop},getManagement:management.getConfig,validateManagement:management.validate,preview,note,generate};
  const aiNote=extraToolsEl('p','extra-creator-disabled-note',extraToolsLocale('Generarea AI a site-ului este încă neactivată. Butonul de previzualizare creează doar o machetă locală, fără costuri.','AI website generation is not yet enabled. Preview creates only a local draft, without AI charges.'));
  const aiButton=extraToolsBtn(extraToolsLocale('✨ Generare AI neactivată','✨ AI generation not enabled'),()=>{});
  aiButton.disabled=true;area.append(aiNote);extraToolsActions(area,aiButton);
@@ -394,6 +448,11 @@ function extraCreatorImages(work){
 export const CREATOR_SITE_STYLE=String.raw`
 
 
+
+#view-module.extra-tools-workspace .extra-creator-commerce-options{border:1px solid #547185!important;border-radius:12px!important;padding:10px!important}
+#view-module.extra-tools-workspace .extra-creator-product-item{display:grid!important;grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr))!important;gap:5px!important;padding:8px!important;border:1px solid #547185!important;border-radius:10px!important;margin:7px 0!important}
+#view-module.extra-tools-workspace .extra-creator-product-item button{grid-column:span 3!important;min-height:34px!important}
+#view-module.extra-tools-workspace .extra-creator-product-item input{min-width:0!important;width:100%!important;box-sizing:border-box!important}
 #view-module.extra-tools-workspace .extra-creator-backend-choices{margin:12px 0!important;padding:12px!important;border:1px solid #63899d!important;border-radius:13px!important;background:#0f3246!important}
 #view-module.extra-tools-workspace .extra-creator-backend-choices summary{font-weight:750!important;cursor:pointer!important}
 #view-module.extra-tools-workspace .extra-creator-backend-option{display:flex!important;align-items:flex-start!important;gap:9px!important;padding:10px!important}
