@@ -7,6 +7,7 @@ import {SITE_GALLERY_PRESETS} from './creator_guesthouse_gallery.mjs';
 import {SITE_HOSTING_GUIDES} from './creator_hosting_guide.mjs';
 import {studioBusinessFeatures} from './studio_business_flows.mjs';
 import {createStripeCheckout,stripeSignatureValid} from './studio_commerce.mjs';
+import {mailConfigured,notifyBusiness,notificationForOwner,notificationForCustomer} from './studio_notifications.mjs';
 import {json,bodyJson,normalizeEmail,validEmail,constantTimeEqual,sha256,normalizeStudioPrompt,publicSafeHtmlHeaders} from './studio_security.mjs';
 export {StudioAccounts,StudioSites};
 const COOKIE='__Host-pocket_studio';
@@ -154,6 +155,15 @@ export default{
     const cfIp=request.headers.get('CF-Connecting-IP')||'unknown';
     const fingerprint=await sha256(visitor[1]+'|'+cfIp+'|'+String(request.headers.get('User-Agent')||'').slice(0,120));
     const stored=await site(env,visitor[1],'visitorSubmit',{fingerprint,type:visitor[2],payload:fields});
+    if(stored.ok&&stored.itemId&&mailConfigured(env)){
+     const source=await site(env,visitor[1],'published');
+     if(source.ok){
+      await notifyBusiness(env,notificationForOwner(source.draft,{at:Date.now(),type:visitor[2]}));
+      if(visitor[2]==='booking'&&stored.itemStatus==='confirmed')
+       await notifyBusiness(env,notificationForCustomer(source.draft,
+        {email:fields.email,type:'booking'},'confirmed'));
+     }
+    }
     if(stored.ok&&stored.order&&env.STRIPE_SECRET_KEY){
      try{
       const checked=await site(env,visitor[1],'paymentSession',{itemId:stored.order.id});
@@ -204,6 +214,13 @@ export default{
      return json({received:true,pending:true});
     const processed=await site(env,parts[1],'paymentEvent',{itemId:parts[2],sessionId:checkout.id,eventId:event.id,
      type:completed?'paid':'expired',amount:Number(checkout.amount_total),currency:String(checkout.currency||'').toLowerCase()});
+    if(processed.ok&&completed&&!processed.duplicate&&mailConfigured(env)){
+     const source=await site(env,parts[1],'published');
+     if(source.ok&&processed.item){
+      const note=notificationForCustomer(source.draft,processed.item,'paid');
+      if(note)await notifyBusiness(env,note);
+     }
+    }
     return processed.ok?json({received:true,orderStatus:processed.status}):reply(processed);
    }
    const isApi=path.startsWith('/api/');
@@ -272,7 +289,15 @@ export default{
     if(method==='GET'&&!itemId)return reply(await site(env,id,'visitorInbox',{actor:auth.user.id}));
     if(method==='POST'&&itemId&&statusPath){
      const data=await bodyJson(request,300);
-     return reply(await site(env,id,'visitorStatus',{actor:auth.user.id,itemId,status:data.status}));
+     const state=await site(env,id,'visitorStatus',{actor:auth.user.id,itemId,status:data.status});
+     if(state.ok&&mailConfigured(env)&&['confirmed','declined'].includes(data.status)){
+      const source=await site(env,id,'published');
+      if(source.ok){
+       const note=notificationForCustomer(source.draft,state.item,data.status);
+       if(note)state.notification=await notifyBusiness(env,note);
+      }
+     }
+     return reply(state);
     }
     if(method==='DELETE'&&itemId&&!statusPath)
      return reply(await site(env,id,'visitorDelete',{actor:auth.user.id,itemId}));
