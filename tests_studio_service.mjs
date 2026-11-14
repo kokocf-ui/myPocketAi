@@ -14,16 +14,26 @@ class Store{
  async delete(k){this.data.delete(k)}
  async transaction(fn){return fn(this)}
 }
+class TestBucket{
+ constructor(){this.objects=new Map()}
+ async put(key,content){this.objects.set(key,typeof content==='string'?content:new Uint8Array(content));return {key}}
+ async get(key){const result=this.objects.get(key);return result==null?null:{
+  body:result,async json(){return JSON.parse(result)}}}
+ async list({prefix}){return {objects:[...this.objects.entries()].filter(([key])=>key.startsWith(prefix))
+  .map(([key,data])=>({key,size:data.length,uploaded:new Date()}))}}
+ async delete(keys){for(const key of Array.isArray(keys)?keys:[keys])this.objects.delete(key)}
+}
 const accountDO=new StudioAccounts({storage:new Store()},{}),siteObjects=new Map();
 const binding=(get)=>({idFromName:name=>name,get});
 const env={
  STUDIO_ACCOUNTS:binding(()=>({fetch:(u,o)=>accountDO.fetch(new Request(u,o))})),
  STUDIO_SITES:binding(id=>({fetch:(u,o)=>{
-  if(!siteObjects.has(id))siteObjects.set(id,new StudioSites({storage:new Store()},{}));
+  if(!siteObjects.has(id))siteObjects.set(id,new StudioSites({storage:new Store()},env));
   return siteObjects.get(id).fetch(new Request(u,o));
  }})),
  STUDIO_BOOTSTRAP_SECRET:'test-bootstrap-secret-do-not-use-production-01234',
  STUDIO_OPERATOR_SECRET:'test-operator-secret-do-not-use-production-98765',
+ SITE_MEDIA:new TestBucket(),SITE_BACKUPS:new TestBucket(),
  STUDIO_AI_ENABLED:'false',
  AI:{run(){throw Error('AI never allowed when cost toggle off')}}
 };
