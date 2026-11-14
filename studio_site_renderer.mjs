@@ -51,8 +51,9 @@ export function validateStudioDraft(input){
  const amenities=(Array.isArray(input.amenities)?input.amenities:[]).slice(0,15).map(x=>bounded(x,100)).filter(Boolean);
  const photos=(Array.isArray(input.photos)?input.photos:[]).slice(0,40).map((x,i)=>({
   data:bounded(x?.data,185000),caption:bounded(x?.caption,130),
-  group:['exterior','room','other'].includes(x?.group)?x.group:(i===0?'exterior':'other'),
-  roomLabel:bounded(x?.roomLabel,100)
+  group:['exterior','room','category','other'].includes(x?.group)?x.group:(i===0?'exterior':'other'),
+  roomLabel:bounded(x?.roomLabel,100),categoryLabel:bounded(x?.categoryLabel,100),
+  categoryEn:bounded(x?.categoryEn,100)
  })).filter(x=>x.data&&x.data.length<185000&&PHOTO.test(x.data));
  const totalPhotoBytes=photos.reduce((n,x)=>n+x.data.length,0);
  if(totalPhotoBytes>3000000)throw new Error('too_many_photo_bytes');
@@ -146,19 +147,21 @@ function renderLanguage(draft,en){
   '</span><h3>'+siteEscape(s.title)+'</h3><p>'+siteEscape(s.detail)+'</p></article>').join('');
  const amenities=draft.amenities.map(a=>'<span class="facility">'+siteEscape(a)+'</span>').join('');
  const categories=new Map();
- if(draft.kind==='hotel')for(const p of draft.photos){
-  if(p.group==='exterior')continue;
-  const key=p.group==='room'&&p.roomLabel.trim()?p.roomLabel.trim():(en?'Other photos':'Alte fotografii');
-  if(!categories.has(key))categories.set(key,[]);
-  categories.get(key).push(p);
+ for(const p of draft.photos){
+  if(p.group==='exterior'||p===leadPhoto)continue;
+  const label=p.categoryLabel||p.roomLabel||(en?'Other photos':'Alte fotografii');
+  const key=label.toLocaleLowerCase();
+  if(!categories.has(key))categories.set(key,{ro:label,en:p.categoryEn||label,photos:[]});
+  categories.get(key).photos.push(p);
  }
  let photoNo=0;
  const gallery=categories.size?'<section class="room-gallery-section" id="room-gallery-'+lang+'"><h2>'+
-  (en?'Room photo gallery':'Galeria camerelor')+'</h2>'+
-  Array.from(categories.entries()).map(([room,pics])=>'<div class="room-gallery-category"><h3>'+siteEscape(room)+'</h3><div class="room-gallery-grid">'+
-   pics.map(p=>{const id='room-gallery-photo-'+lang+'-'+photoNo++,caption=siteEscape(p.caption||room);
+  (draft.kind==='hotel'?(en?'Room and facilities gallery':'Galeria camerelor și facilităților'):(en?'Photo gallery':'Galerie foto'))+'</h2>'+
+  Array.from(categories.values()).map(category=>'<div class="room-gallery-category"><h3>'+
+   siteEscape(en?category.en:category.ro)+'</h3><div class="room-gallery-grid">'+
+   category.photos.map(p=>{const id='room-gallery-photo-'+lang+'-'+photoNo++,caption=siteEscape(p.caption||category.ro);
     return '<a href="#'+id+'" class="room-gallery-tile"><img src="'+p.data+'" alt="'+caption+'" loading="lazy"></a>'+
-    '<div id="'+id+'" class="room-gallery-full"><a href="#room-gallery-'+lang+'" class="room-gallery-close" aria-label="Close">×</a><img src="'+p.data+'" alt="'+caption+'"></div>';
+    '<div id="'+id+'" class="room-gallery-full"><a href="#room-gallery-'+lang+'" class="room-gallery-close" aria-label="'+(en?'Close':'Închide')+'">×</a><img src="'+p.data+'" alt="'+caption+'"></div>';
    }).join('')+'</div></div>').join('')+'</section>':'';
  const details='<section class="offers" id="offer-'+lang+'">'+sectionIndex('02',en,offerTitle)+
   '<h2>'+offerTitle+'</h2>'+(rooms?'<div class="metrics">'+rooms+'</div>':'')+
