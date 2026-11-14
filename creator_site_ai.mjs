@@ -73,6 +73,12 @@ function extraCreatorWorkingWebsite(work){
  status.setAttribute('role','status');
  const save=extraToolsBtn(extraToolsLocale('💾 Exportă site-ul HTML','💾 Export HTML'),()=>extraCreatorExportHTML(work,f.name.value));
  save.disabled=true;
+ // Local website previews are real exportable HTML even if AI quota is exhausted.
+ f.onPreviewReady=()=>{save.disabled=false;
+  status.textContent=extraToolsLocale(
+   'Macheta locală este gata și poate fi exportată. Generarea cu Eva este o operație separată.',
+   'The local draft can be exported. AI creation with Eva is a separate operation.');
+ };
  const create=extraToolsBtn(extraToolsLocale('✨ Creează site-ul cu Eva','✨ Create website with Eva'),async()=>{
   const name=f.name.value.trim(),description=f.desc.value.trim(),kind=f.type.value,lang=f.lang.value;
   if(name.length<2||description.length<15){status.textContent=extraToolsLocale('Completează numele și o descriere de cel puțin 15 caractere.','Enter a business name and a description of at least 15 characters.');return}
@@ -100,7 +106,7 @@ function extraCreatorWorkingWebsite(work){
     :error?.message==='invalid_ai_structure'
       ?extraToolsLocale('Eva a răspuns, dar nu într-un format de site utilizabil. Încearcă o descriere mai scurtă.','AI reply was not valid website content. Try a shorter description.')
       :error?.message==='preview_limit_reached'?
-       extraToolsLocale('Limita de site-uri AI pentru test a fost atinsă. Folosește previzualizarea locală.','The preview website limit is reached. Use local preview.')
+       extraToolsLocale('Cota COMUNĂ de test pentru site-uri AI a fost consumată. Nu este o restricție Premium. Revine după 00:00 UTC, dacă mai există credite în limita totală. Poți previzualiza și exporta site-ul local.','The SHARED AI test quota is exhausted, not your Premium allowance. It resets after 00:00 UTC unless the lifetime cap is reached. You can preview and export a local website.')
       :extraToolsLocale('Serviciul AI nu a răspuns. Încearcă din nou sau folosește macheta locală.','AI unavailable. Retry or use the local draft.');
   }finally{
    clearTimeout(timeout);
