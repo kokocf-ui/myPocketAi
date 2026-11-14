@@ -15,6 +15,8 @@ for(const s of f.styles){assert.ok(s.colors.length===4&&s.ro&&s.en,s.id)}
 const aramis='Cazare cu mic dejun inclus Are 5 camere single, 10 camere duble și 3 apartamente. Bucătărie la comun, sala de mese pentru mic dejun';
 const facts=f.details(aramis,'hotel');
 assert.deepEqual(facts.counts.map(i=>i.value),['5','10','3']);
+assert.deepEqual(f.details('5 camere single, 10 duble și 3 apartamente.','hotel').counts.map(i=>i.value),['5','10','3']);
+assert.match(CREATOR_SITE_SCRIPT,/extraCreatorGuesthouseControls/);
 assert.ok(facts.amenities.some(x=>x.ro==='Mic dejun inclus'));
 assert.ok(facts.amenities.some(x=>x.ro==='Bucătărie comună'));
 assert.ok(facts.amenities.some(x=>x.ro==='Sală de mese'));
