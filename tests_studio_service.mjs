@@ -326,4 +326,21 @@ const past=entitlement({plan:'trial',created:Date.now()-TRIAL_MILLIS-1000});
 assert.equal(past.canCreate,false);
 assert.equal(past.canGenerate,false);
 const health=await result('/health');assert.equal(health.billingEnabled,false);assert.equal(health.aiEnabled,false);
+const preRestore=await result('/api/sites/'+id,'GET',null,clientCookie);
+const backupsBeforeRestore=await result('/api/sites/'+id+'/backups','GET',null,clientCookie);
+assert.ok(backupsBeforeRestore.objects.length>0);
+const forbiddenRestore=await result('/api/sites/'+id+'/backups/restore','POST',{
+ key:backupsBeforeRestore.objects[0].key,version:preRestore.site.version,confirm:'INCORRECT'
+},clientCookie);
+assert.equal(forbiddenRestore.response.status,400);
+const restoration=await result('/api/sites/'+id+'/backups/restore','POST',{
+ key:backupsBeforeRestore.objects[0].key,version:preRestore.site.version,
+ confirm:'RESTAUREAZA '+id
+},clientCookie);
+assert.equal(restoration.ok,true);
+const afterRestoration=await result('/api/sites/'+id,'GET',null,clientCookie);
+assert.equal(afterRestoration.site.version,preRestore.site.version+1);
+const preservedPaid=(await result('/api/sites/'+id+'/inbox','GET',null,clientCookie)).items;
+assert.ok(preservedPaid.some(item=>item.type==='order'&&item.paymentStatus==='paid'),
+ 'Restore must never overwrite a paid-order record');
 console.log('PASS: secure studio login, cookie/CSRF, trial, premium manual gate, all 12 themes, edit roles, invitation transfer, publish, export, audit, AI zero-spend default');
