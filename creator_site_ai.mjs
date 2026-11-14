@@ -32,10 +32,11 @@ function extraCreatorAiSitePrompt(input){
  ].filter(Boolean).join('\n').slice(0,3950);
 }
 async function extraCreatorCallAiWebsite(input,signal){
- const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({message:extraCreatorAiSitePrompt(input),module:'assistant',language:'ro',history:[]}),signal});
+ const response=await fetch('https://lifewise-ai-creator-preview.kokocf.workers.dev/site',
+  {method:'POST',headers:{'Content-Type':'application/json','X-Pocket-Preview':'1'},
+  body:JSON.stringify({name:input.name,kind:input.kind,description:input.description,style:input.style,english:input.english,lang:input.lang}),signal});
  const data=await response.json().catch(()=>null);
- if(!response.ok||data?.status!=='success'||typeof data.reply!=='string')throw Error('ai_unavailable');
+ if(!response.ok||data?.status!=='success'||typeof data.reply!=='string')throw Error(data?.error||'ai_unavailable');
  const copy=extraCreatorParseAI(data.reply,input.lang);
  if(!copy)throw Error('invalid_ai_structure');
  return copy;
@@ -98,6 +99,8 @@ function extraCreatorWorkingWebsite(work){
     ?extraToolsLocale('Generarea a expirat. Încearcă din nou.','Request timed out. Retry.')
     :error?.message==='invalid_ai_structure'
       ?extraToolsLocale('Eva a răspuns, dar nu într-un format de site utilizabil. Încearcă o descriere mai scurtă.','AI reply was not valid website content. Try a shorter description.')
+      :error?.message==='preview_limit_reached'?
+       extraToolsLocale('Limita de site-uri AI pentru test a fost atinsă. Folosește previzualizarea locală.','The preview website limit is reached. Use local preview.')
       :extraToolsLocale('Serviciul AI nu a răspuns. Încearcă din nou sau folosește macheta locală.','AI unavailable. Retry or use the local draft.');
   }finally{
    clearTimeout(timeout);
