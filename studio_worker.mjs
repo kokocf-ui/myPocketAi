@@ -122,7 +122,7 @@ export default{
   const url=new URL(request.url),path=url.pathname,method=request.method;
   try{
    if(!env.STUDIO_ACCOUNTS||!env.STUDIO_SITES)return locked();
-   if(path==='/health'&&method==='GET')return json({ok:true,status:'studio_independent',aiEnabled:protectAI(env),billingEnabled:false});
+   if(path==='/health'&&method==='GET')return json({ok:true,status:'studio_independent',aiEnabled:protectAI(env),billingEnabled:false},200,{'Access-Control-Allow-Origin':'*'});
    if(path==='/'&&method==='GET'){
     const nonce=crypto.randomUUID().replaceAll('-','');
     const header={
