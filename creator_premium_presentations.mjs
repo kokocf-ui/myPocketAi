@@ -79,7 +79,7 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
   };
   const section=en?copy?.en:copy?.ro;
   const headline=section?.headline||(en?'A distinctive place, your story':kind==='hotel'?'Un loc cu personalitate':'O identitate memorabilă');
-  const summary=section?.intro||(en?t.intro:facts.short);
+  const summary=section?.intro||(en?String(options.descriptionEn||'').trim()||t.intro:facts.short);
   const about=section?.about||(en?t.intro:String(description).slice(0,440));
   const verified=section?.services?.filter(x=>x&&typeof x.title==='string')?.slice(0,5)||[];
   // A no-cost EN preview never relabels unverified Romanian text as a translation.
