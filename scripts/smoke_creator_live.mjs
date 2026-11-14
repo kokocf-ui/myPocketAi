@@ -13,14 +13,6 @@ try{
   'services:',copy.ro.services.length,'about length:',copy.ro.about.length);
 }catch(error){
  console.error('LIVE EVA SITE AI ERROR:',String(error?.message||error));
- try{
-  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
-   body:JSON.stringify({message:prompt(input),language:'ro',module:'assistant',history:[]}),
-   signal:AbortSignal.timeout(40000)});
-  const result=await response.json();
-  console.error('Diagnostic status:',response.status, result.status,
-   'reply_length:',String(result.reply||'').length,'reply_preview:',
-   String(result.reply||'').slice(0,1300));
- }catch(diagError){console.error('Diagnostic request failed:',diagError.message)}
+
  process.exitCode=1;
 }
