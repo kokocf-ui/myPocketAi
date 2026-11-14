@@ -139,7 +139,7 @@ function extraCreatorGuesthouseControls(area,type,desc){
  type.addEventListener('change',refresh);
  desc.addEventListener('input',()=>{const signature=type.value+'|'+categories().map(c=>c.id+':'+(c.count||'')).join('|');if(signature!==lastSignature)refresh()});
  refresh();
- return {getGallery,refresh};
+ return {getGallery,refresh,preparePhoto};
 }
 function extraCreatorGuesthouseInjectGallery(html,images,kind='hotel'){
  const list=(Array.isArray(images)?images:[]).filter(p=>p&&typeof p.data==='string'&&
