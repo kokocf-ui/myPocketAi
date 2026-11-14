@@ -70,7 +70,7 @@ export function orderAvailability(inbox,draft,order){
  const product=(draft.commerce?.products||[]).find(p=>p.id===order.productId);
  if(!product)return {available:false,reason:'product_removed'};
  const committed=(inbox||[]).filter(x=>x.type==='order'&&x.productId===order.productId&&
-  ['confirmed','paid','fulfilled'].includes(x.status));
+  (['confirmed','paid','fulfilled'].includes(x.status)||(x.status==='checkout'&&x.checkoutExpiresAt>Date.now())));
  const used=committed.reduce((sum,x)=>sum+(Number(x.quantity)||0),0);
  return {available:product.inventory-used>=order.quantity,remaining:Math.max(0,product.inventory-used)};
 }
@@ -106,7 +106,8 @@ export async function createStripeCheckout(env,origin,siteId,order){
   client_reference_id:siteId+'.'+order.id,
   customer_email:order.email,
   success_url:origin+'/s/'+siteId+'?payment=returned',
-  cancel_url:origin+'/s/'+siteId+'?payment=cancelled'
+  cancel_url:origin+'/s/'+siteId+'?payment=cancelled',
+  expires_at:String(Math.floor(Date.now()/1000)+3600)
  });
  const response=await fetch('https://api.stripe.com/v1/checkout/sessions',{
   method:'POST',headers:{Authorization:'Bearer '+env.STRIPE_SECRET_KEY,
