@@ -92,12 +92,12 @@ export class StudioSites{
    const role=roleFor(site,actor);
    if(!role)return json({error:'not_authorized'},403);
    if(op==='visitorInbox'){
-    if(!canEdit(site,actor))return json({error:'not_authorized'},403);
+    if(!role)return json({error:'not_authorized'},403);
     const items=await this.state.storage.get('visitorInbox')||[];
     return json({ok:true,items:items.slice(-200).reverse(),total:items.length});
    }
    if(op==='visitorStatus'||op==='visitorDelete'){
-    if(!canEdit(site,actor))return json({error:'not_authorized'},403);
+    if(!role)return json({error:'not_authorized'},403);
     const id=String(x.itemId||'');
     if(!/^[a-f0-9]{16}$/.test(id))return json({error:'invalid_item'},400);
     if(op==='visitorStatus'&&!['new','contacted','closed','declined'].includes(x.status))
