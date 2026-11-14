@@ -78,6 +78,22 @@ async function main(){
   }
   const accept=await prompt(rl,'Confirmi că acesta este contul de găzduire al CLIENTULUI? (scrie DA): ');
   if(accept!=='DA')throw Error('Instalare anulată; contul clientului nu a fost confirmat.');
+  const storage=await prompt(rl,'Dorești R2 pentru fotografii și backup automat? Verifică prețurile și activează facturarea în Cloudflare dacă este necesar. (DA/NU): ');
+  if(storage==='DA'){
+   const mediaBucket=workerName+'-media',backupBucket=workerName+'-backups';
+   wrangler(['r2','bucket','create',mediaBucket]);
+   wrangler(['r2','bucket','create',backupBucket]);
+   conf.r2_buckets=[{binding:'SITE_MEDIA',bucket_name:mediaBucket},
+    {binding:'SITE_BACKUPS',bucket_name:backupBucket}];
+  }
+  const emailing=await prompt(rl,'Dorești e-mailuri automate prin Cloudflare Email Service? Necesită domeniu verificat și posibil Workers Paid. (DA/NU): ');
+  if(emailing==='DA'){
+   const from=await prompt(rl,'E-mail de expediere VERIFICAT în contul clientului (ex. notificari@firma.ro): ');
+   if(!/^[^\s@<>]{1,90}@[^\s@<>]{1,90}\.[^\s@<>]{2,24}$/.test(from))
+    throw Error('Adresa expeditorului nu este validă.');
+   conf.send_email=[{name:'EMAIL'}];
+   conf.vars={...conf.vars,STUDIO_MAIL_FROM:from};
+  }
   await writeFile(configPath,JSON.stringify(conf,null,2)+'\n',{mode:0o600,flag:'wx'});
   console.log('\nPublic backendul în contul autorizat. Confirma în Cloudflare dacă ți se cere.');
   wrangler(['deploy','--config',local]);
@@ -95,6 +111,15 @@ async function main(){
   console.log('   pentru a revoca cheia inițială. Nu distribui cheia prin mesaje.');
   console.log('\n✓ Fișierul '+local+' păstrează NUMAI numele Workerului; nu conține chei.');
   console.log('   Păstrează acest fișier pentru actualizări ale Workerului.');
+  console.log('\nPLĂȚI STRIPE (numai dacă proprietarul dorește și are cont Stripe verificat):');
+  console.log('  1. În dashboard Stripe configurează un webhook la https://<WORKER>/webhooks/stripe');
+  console.log('  2. Selectează evenimentele: checkout.session.completed, checkout.session.async_payment_succeeded, checkout.session.expired.');
+  console.log('  3. Pune cheia privată (NU cheia publică) și secretul webhookului prin comenzile:');
+  console.log('     npx wrangler@latest secret put STRIPE_SECRET_KEY --config '+local);
+  console.log('     npx wrangler@latest secret put STRIPE_WEBHOOK_SECRET --config '+local);
+  console.log('  4. Folosește mai întâi cheile de TEST și o plată de test în contul proprietarului.');
+  console.log('  5. Nu introduce niciodată cheile în Eva sau în fișierul JSON.');
+
  }finally{rl.close()}
 }
 async function finish(){
