@@ -38,6 +38,7 @@ on:
       - 'tests_extra_tools_header_layout.mjs'
       - 'tests_creation_ui.mjs'
       - 'creator_site_ui.mjs'
+      - 'creator_design_gallery.mjs'
       - 'tests_creation_site_v2.mjs'
       - 'creator_site_ai.mjs'
       - 'creator_image_ai.mjs'
