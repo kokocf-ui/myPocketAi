@@ -74,11 +74,14 @@ export class StudioSites{
      if(submitted.type==='order'&&!orderAvailability(entries,site.published,submitted).available)
       return {error:'out_of_stock',status:409};
      rate.count++;
-     const item={id:rand(8),at:now,status:'new',...submitted};
+     let status='new';
+     if(submitted.type==='booking'&&site.published.commerce?.automaticConfirmation===true&&
+      bookingAvailability(site.published,entries,submitted).available)status='confirmed';
+     const item={id:rand(8),at:now,status,...submitted};
      entries.push(item);
      await tx.put('visitorInbox',entries);
      await tx.put(key,rate);
-     return {ok:true,received:true,itemId:item.id,
+     return {ok:true,received:true,itemId:item.id,itemStatus:item.status,
       ...(item.type==='order'?{order:{...submitted,id:item.id}}:{})};
     });
     return json(response,response.status||200);
@@ -121,7 +124,7 @@ export class StudioSites{
      processed.push(x.eventId);
      await tx.put('stripeEvents',processed.slice(-500));
      await tx.put('visitorInbox',entries);
-     return {ok:true,status:item.status};
+     return {ok:true,status:item.status,item:{type:item.type,email:item.email,status:item.status,at:item.at}};
     });
     return json(update,update.status>=400?update.status:200);
    }
@@ -190,7 +193,7 @@ export class StudioSites{
       entry.status=next;entry.updatedAt=now;
      }
      await tx.put('visitorInbox',items);
-     return {ok:true,status:entry.status};
+     return {ok:true,status:entry.status,item:{type:entry.type,email:entry.email,status:entry.status,at:entry.at}};
     });
     return json(changed,changed.status>=400?changed.status:200);
    }
