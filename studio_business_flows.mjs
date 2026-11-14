@@ -102,6 +102,8 @@ export function businessPublicFormHtml(draft,siteId='',lang='ro',options={}){
    '<input name="partySize" type="number" min="1" max="30" value="2" required'+(isPublic?'':' disabled')+'></label>'+
    '<label>'+(en?'Details (optional)':'Detalii (opțional)')+
    '<textarea name="message" rows="2" maxlength="500"'+(isPublic?'':' disabled')+'></textarea></label>';
+  if(isPublic)fields+='<p class="studio-form-note"><a href="/s/'+siteId+'/disponibilitate">'+
+    (en?'Check availability before booking':'Verifică disponibilitatea înainte de rezervare')+'</a></p>';
   sections.push('<div class="studio-visitor-panel"><h3>'+(en?'Request a booking':'Solicită o rezervare / programare')+
    '</h3><p class="studio-form-note">'+note+'</p>'+form('booking',fields)+'</div>');
  }
@@ -137,3 +139,32 @@ export const STUDIO_VISITOR_CSS=String.raw`
 .studio-visitor-form button{background:var(--ink);color:var(--paper);padding:12px;border-radius:9px;border:0;cursor:pointer;font:700 14px/1.3 system-ui,sans-serif}
 .studio-trap{position:absolute;left:-10000px;top:auto;height:1px;overflow:hidden}
 `;
+
+export function businessAvailabilityPage(draft,siteId,query={},result=null){
+ const esc=escapeHtml,kind=draft.kind||'other',hotel=kind==='hotel';
+ const site=esc(draft.name||'Site'),route='/s/'+siteId+'/disponibilitate';
+ const field=(name,label,type='date')=>'<label>'+label+
+  '<input name="'+name+'" type="'+type+'" value="'+esc(query[name]||'')+'" required></label>';
+ const rooms=hotel?'<label>Categoria camerei<select name="roomLabel">'+
+  (draft.rooms||[]).map(r=>'<option value="'+esc(r.label)+'"'+
+   (query.roomLabel===r.label?' selected':'')+'>'+esc(r.label)+'</option>').join('')+
+  '</select></label>':'';
+ const inputs=hotel?rooms+field('start','Sosire')+field('end','Plecare'):
+  field('date','Data dorită')+field('time','Ora dorită','time')+
+  '<label>Persoane<input name="partySize" type="number" min="1" max="30" value="'+esc(query.partySize||'2')+'"></label>';
+ const outcome=result?.ok?'<div class="result '+(result.available?'yes':'no')+'"><h2>'+
+  (result.available?'✓ Există disponibilitate':'Nu există disponibilitate confirmabilă')+'</h2>'+
+  '<p>'+result.remaining+' locuri / camere libere din capacitatea '+result.capacity+
+  '. Rezultatul este orientativ până la confirmarea rezervării.</p></div>':query.attempted?
+  '<p class="result no">Datele introduse nu sunt valide sau nu pot fi verificate. Verifică perioada și încearcă din nou.</p>':'';
+ return '<!doctype html><html lang="ro"><head><meta charset="utf-8">'+
+  '<meta name="viewport" content="width=device-width,initial-scale=1"><title>Disponibilitate · '+site+'</title>'+
+  '<style>body{font:16px/1.55 system-ui;max-width:660px;margin:25px auto;padding:16px;color:#192a36}'+
+  'h1{font:700 36px/1.15 Georgia,serif}form{display:grid;gap:14px;padding:20px;border:1px solid #ccd8de;border-radius:14px}'+
+  'label{display:grid;gap:7px;font-weight:650}input,select,button{font:inherit;padding:12px;border-radius:8px;border:1px solid #91b0c0}'+
+  'button{background:#702d4c;color:white;font-weight:750;cursor:pointer}.result{padding:15px;border-radius:11px;margin:20px 0;background:#eff5f5}'+
+  '.result.no{border-left:4px solid #ba7d62}.result.yes{border-left:4px solid #468775}a{color:#215d87}</style>'+
+  '</head><body><h1>Disponibilitate · '+site+'</h1><p>Introdu datele pentru o verificare orientativă.</p>'+
+  '<form action="'+route+'" method="get">'+inputs+'<button type="submit">Verifică locurile</button></form>'+
+  outcome+'<p><a href="/s/'+siteId+'">Înapoi la site</a></p></body></html>';
+}
