@@ -12,7 +12,7 @@ export async function notifyBusiness(env,{to,subject,body}){
   const result=await env.EMAIL.send({
    from:env.STUDIO_MAIL_FROM,to,subject:bound(subject,140),text:bound(body,3000)
   });
-  return {sent:result?.success!==false,providerId:typeof result?.messageId==='string'?result.messageId:''};
+  return {sent:!!(result?.messageId||result?.success===true),providerId:typeof result?.messageId==='string'?result.messageId:''};
  }catch{return {sent:false,reason:'provider_unavailable'}}
 }
 export function notificationForOwner(draft,item){
