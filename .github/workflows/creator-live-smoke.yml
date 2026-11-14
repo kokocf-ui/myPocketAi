@@ -1,0 +1,18 @@
+name: Verify actual Eva site content generation (one request)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/smoke_creator_live.mjs'
+      - '.github/workflows/creator-live-smoke.yml'
+
+jobs:
+  creator-live-smoke:
+    if: ${{ github.head_ref == 'ui/tools-workspaces-unified-2026-11-14' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: One live request using existing Eva backend (no image cost)
+        run: node scripts/smoke_creator_live.mjs
