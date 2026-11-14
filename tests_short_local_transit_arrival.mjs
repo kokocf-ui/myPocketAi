@@ -73,5 +73,13 @@ assert.equal(transitVerifiedWalkingMinutes({
  profile:'walk',durationSeconds:28*60,coordinates:[[origin.longitude,origin.latitude],[0.100,51.55]]
 },origin,destination),null,'Do not compare a walking route to the wrong destination');
 assert.match(ui,/transit-arrival-eta/,'Arrival from now is shown next to ride duration');
+assert.match(ui,/Pe jos, dacă pleci acum:/,'Walking is explicitly measured from now');
+assert.match(ui,/este durata itinerariului/,'Transit minutes describe the scheduled itinerary, not a comparison of speed');
+assert.match(ui,/Comparând sosirile/,'Text compares arrival time rather than ride minutes');
+assert.match(ui,/const now=Date\.now\(\);[\s\S]*?const walkingArrival=now\+minutes\*60000,transitArrival=transitArrivalMs\(best\)/,
+ 'Walk and transport comparison use the same reference time');
+assert.match(ui,/const difference=untilTransit-minutes/,'Arrival gap is consistent with displayed wait from now');
+assert.doesNotMatch(ui,/Pe jos ajungi mai devreme: /,'Ambiguous claim removed');
+
 assert.match(ui,/showTransitWalkingComparison\(comparison,options\)/,'Local walking comparison is reused by all public-transport entry screens');
 console.log('PASS worldwide transit arrival-first display and strictly verified walking comparison');
