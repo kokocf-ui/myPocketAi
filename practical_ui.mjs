@@ -41,22 +41,26 @@ function practicalBack(){
  const previous={countries:null,courses:'countries',chapters:'courses',lesson:'chapters'};
  if(previous[practicalJourney.stage])practicalOpen(previous[practicalJourney.stage]);else renderLearningSubjects();
 }
-function practicalList(parent,items,onPick){
- const box=practicalNode('div','','practical-list');box.style.cssText='display:flex;flex-direction:column;gap:8px;min-width:0;';
- const list=practicalNode('div');list.style.cssText='display:flex;flex-direction:column;gap:8px;';
+function practicalList(parent,items,onPick,options={}){
+ const box=practicalNode('div','',options.tiles?'practical-list practical-tiles':'practical-list');box.style.cssText='display:flex;flex-direction:column;gap:8px;min-width:0;';
+ const list=practicalNode('div','',options.tiles?'practical-tile-list':'practical-row-list');list.style.cssText=options.tiles?'display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;min-width:0;':'display:flex;flex-direction:column;gap:8px;';
  let search='',page=0;
  const normalize=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  const draw=()=>{
   const filtered=items.filter(item=>normalize((item.ro||'')+' '+(item.en||'')).includes(normalize(search)));
   if(page>=filtered.length)page=0;list.replaceChildren();
-  filtered.slice(page,page+4).forEach(item=>{const btn=practicalButton(item.icon?item.icon+' '+practicalLabel(item.ro,item.en):practicalLabel(item.ro,item.en),()=>onPick(item));btn.style.textAlign='left';list.append(btn)});
+  (options.showAll?filtered:filtered.slice(page,page+4)).forEach(item=>{
+   const btn=practicalButton(options.tiles?'':item.icon?item.icon+' '+practicalLabel(item.ro,item.en):practicalLabel(item.ro,item.en),()=>onPick(item),options.tiles?'secondary-btn practical-choice-tile':'secondary-btn');
+   if(options.tiles){const art=practicalNode('span',item.icon||'📘','practical-tile-icon');art.setAttribute('aria-hidden','true');const label=practicalNode('strong',practicalLabel(item.ro,item.en),'practical-tile-title');btn.append(art,label);btn.setAttribute('aria-label',practicalLabel(item.ro,item.en))}
+   else btn.style.textAlign='left';list.append(btn)
+  });
   if(!filtered.length)list.append(practicalNode('p',practicalLabel('Niciun rezultat pentru căutare.','No results.')));
   const pages=practicalNode('div','','lit-actions');
-  if(page>0)pages.append(practicalButton(practicalLabel('← Anterior','← Previous'),()=>{page=Math.max(0,page-4);draw()}));
-  if(page+4<filtered.length)pages.append(practicalButton(practicalLabel('Alte rezultate →','More results →'),()=>{page+=4;draw()}));
+  if(!options.showAll&&page>0)pages.append(practicalButton(practicalLabel('← Anterior','← Previous'),()=>{page=Math.max(0,page-4);draw()}));
+  if(!options.showAll&&page+4<filtered.length)pages.append(practicalButton(practicalLabel('Alte rezultate →','More results →'),()=>{page+=4;draw()}));
   list.append(pages);
  };
- if(items.length>4){const input=practicalNode('input','','lit-input');input.type='search';input.placeholder=practicalLabel('Caută de la prima literă…','Search from first letter…');input.setAttribute('aria-label',practicalLabel('Filtrează lista','Filter list'));input.style.cssText='width:100%;max-width:100%;min-height:44px;box-sizing:border-box;';input.oninput=()=>{search=input.value;page=0;draw()};box.append(input)}
+ if(items.length>4&&!options.showAll){const input=practicalNode('input','','lit-input');input.type='search';input.placeholder=practicalLabel('Caută de la prima literă…','Search from first letter…');input.setAttribute('aria-label',practicalLabel('Filtrează lista','Filter list'));input.style.cssText='width:100%;max-width:100%;min-height:44px;box-sizing:border-box;';input.oninput=()=>{search=input.value;page=0;draw()};box.append(input)}
  box.append(list);parent.append(box);draw();
 }
 
@@ -121,7 +125,7 @@ function practicalOpen(stage){
  }
  if(stage!=='lesson')panel.append(practicalNode('p',practicalLabel(practicalCountry()[1],practicalCountry()[2])));
  if(stage==='courses'){
-  practicalList(panel,PRACTICAL_COURSES_DATA.map(c=>({id:c.id,icon:c.icon,ro:c.ro,en:c.en})),choice=>{practicalJourney.course=choice.id;practicalJourney.chapter='';practicalOpen('chapters')});return;
+  practicalList(panel,PRACTICAL_COURSES_DATA.map(c=>({id:c.id,icon:c.icon,ro:c.ro,en:c.en})),choice=>{practicalJourney.course=choice.id;practicalJourney.chapter='';practicalOpen('chapters')},{tiles:true,showAll:true});return;
  }
  const course=practicalCourse();if(!course){practicalOpen('courses');return}
  panel.append(practicalNode('p',stage==='lesson'?practicalLabel(practicalCountry()[1],practicalCountry()[2])+' · '+practicalLabel(course.ro,course.en):practicalLabel(course.ro,course.en)));
@@ -140,7 +144,7 @@ function practicalOpen(stage){
     );
     panel.append(readActions);
   }
-  practicalList(panel,chapters.map((x,i)=>({id:x.id,ro:(i+1)+'. '+x.title+(practicalSavedForChapter(x.id)?.completed?' ✓':''),en:(i+1)+'. '+x.title})),choice=>{practicalJourney.chapter=choice.id;practicalJourney.variant=0;practicalOpen('lesson')});
+  practicalList(panel,chapters.map((x,i)=>({id:x.id,icon:practicalSavedForChapter(x.id)?.completed?'✅':'📘',ro:(i+1)+'. '+x.title+(practicalSavedForChapter(x.id)?.completed?' ✓':''),en:(i+1)+'. '+x.title})),choice=>{practicalJourney.chapter=choice.id;practicalJourney.variant=0;practicalOpen('lesson')},{tiles:true,showAll:true});
   return;
  }
  if(stage==='lesson')practicalLesson(panel);
@@ -210,8 +214,8 @@ function practicalCvWorkshop(panel){
 
 function practicalLesson(panel){
  const course=practicalCourse(),chapter=practicalChapter();if(!course||!chapter){practicalOpen('chapters');return}
- const chapterChoices=[...course.chapters].sort((a,b)=>a.order-b.order).map(x=>({id:x.id,ro:x.order+'. '+x.title,en:x.order+'. '+x.title}));
- if(chapterChoices.length>1)panel.append(educationTopicPicker(practicalLabel('📚 Capitolele cursului','📚 Course chapters'),chapterChoices,chapter.id,x=>{practicalJourney.chapter=x.id;practicalJourney.variant=0;practicalOpen('lesson')}));
+ const chapterBack=practicalButton(practicalLabel('← Toate capitolele','← All chapters'),()=>practicalOpen('chapters'),'secondary-btn practical-chapter-return');
+ panel.append(practicalNode('h3',chapter.order+'. '+chapter.title),chapterBack);
  const saved=practicalReadSaved();
  const guide=PRACTICAL_GUIDES_DATA[chapter.id]||null;
  const deep=PRACTICAL_DEPTH_DATA[chapter.id]||[];
