@@ -131,19 +131,30 @@ function examBack(){
  if(p[examJourney.stage])examOpen(p[examJourney.stage]);else renderLearningSubjects();
 }
 function examList(panel,options,callback,find=true){
- const container=examEl('div','','lit-options');container.style.cssText='display:flex;flex-direction:column;gap:8px;min-width:0;';
+ const container=examEl('div','','lit-options exam-choice-grid');
+ container.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;width:100%;min-width:0;align-content:start;';
  let offset=0,filter='';
  const fold=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase();
+ const pageSize=options.length>24?12:options.length;
  function draw(){
-  container.replaceChildren();const filtered=options.filter(x=>!filter||fold(x.ro+' '+x.en).includes(fold(filter)));
-  for(const item of filtered.slice(offset,offset+4)){
-   const b=examBtn(examLabel(item.ro,item.en),()=>callback(item),'secondary-btn lit-option');b.style.cssText='max-width:100%;min-width:0;text-align:left;white-space:normal;overflow-wrap:anywhere;';container.append(b);
+  container.replaceChildren();
+  const filtered=options.filter(x=>!filter||fold(x.ro+' '+x.en).includes(fold(filter)));
+  for(const item of filtered.slice(offset,offset+pageSize)){
+   const text=examLabel(item.ro,item.en);
+   const icon=item.icon||(examJourney.stage==='grades'?'🏫':examJourney.stage==='subjects'?'📚':examJourney.stage==='exams'?'📝':'📘');
+   const b=examBtn(icon+' '+text,()=>callback(item),'secondary-btn lit-option exam-choice-card');
+   b.style.cssText='box-sizing:border-box;min-height:66px;width:100%;max-width:100%;min-width:0;text-align:center;white-space:normal;overflow-wrap:anywhere;padding:9px 6px;font-size:clamp(13px,3.6vw,17px);';
+   container.append(b);
   }
   if(!filtered.length)container.append(examEl('p',examLabel('Niciun rezultat.','No results.')));
-  if(offset>0)container.prepend(examBtn(examLabel('← Anterior','← Previous'),()=>{offset=Math.max(0,offset-4);draw()}));
-  if(offset+4<filtered.length)container.append(examBtn(examLabel('Mai multe rezultate','More results'),()=>{offset+=4;draw()}));
+  const prev=examBtn(examLabel('← Anterior','← Previous'),()=>{offset=Math.max(0,offset-pageSize);draw()});
+  const next=examBtn(examLabel('Mai multe rezultate','More results'),()=>{offset+=pageSize;draw()});
+  for(const b of [prev,next])b.style.cssText='grid-column:1/-1;width:100%;min-height:46px;';
+  if(offset>0)container.prepend(prev);
+  if(offset+pageSize<filtered.length)container.append(next);
  }
- if(find&&options.length>4){
+ // Large country/institution catalogues remain searchable; class and subject cards do not.
+ if(find&&options.length>20){
   const search=examEl('input');search.className='lit-input';search.type='search';
   search.placeholder=examLabel('Caută de la primul caracter…','Search from first character…');
   search.setAttribute('aria-label',examLabel('Caută în listă','Search list'));
@@ -153,6 +164,7 @@ function examList(panel,options,callback,find=true){
 }
 function examOpen(stage){
  examStopRequest();examStopVoice();examJourney.stage=stage;
+ document.querySelectorAll('dialog.exam-quiz-dialog').forEach(dialog=>dialog.remove());
  const root=$('view-module'),host=$('moduleContent');if(!root||!host)return;
  root.classList.remove('learning-choose','learning-math','learning-science','learning-languages','learning-hg','learning-literature','learning-computing','science-choice-stage');root.classList.add('learning-active','learning-exams');
  activeLearningSubject=LEARNING_SUBJECTS.find(x=>x[0]==='exams')||null;
@@ -170,16 +182,23 @@ function examOpen(stage){
  if(stage==='grades'){
   const country=examCountry();if(!country){examOpen('countries');return}
   panel.append(examEl('p',examLabel(country[1],country[2])));
-  const sl=examEl('label',examLabel('Sesiunea / anul examenului','Exam session / year'),'lit-label');
-  const year=examEl('select','','lit-input');for(const yr of EXAM_SESSION_YEARS_DATA){const opt=examEl('option',String(yr));opt.value=String(yr);year.append(opt)}year.value=String(examJourney.session);year.onchange=()=>{examJourney.session=Number(year.value)};sl.append(year);panel.append(sl);
-  if(examCatalog().some(e=>e.universityAdmission)){panel.append(examBtn(examLabel('🎓 Universitate','🎓 University'),()=>{examJourney.grade='Universitate';examJourney.exam='university';examJourney.subject=null;examJourney.domain=null;examOpen('universityDomains')},'primary-btn'));panel.append(examEl('p',examLabel('Alege domeniul (de exemplu Medicină), apoi o materie pentru pregătire. Probele exacte diferă între instituții.','Choose a field (e.g. Medicine) and then a study subject. Actual entry tests vary by institution.')))}
+  const sl=examEl('label',examLabel('Sesiunea / anul examenului','Exam session / year'),'lit-label');sl.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;width:100%;min-width:0;margin:10px 0 16px;';
+  const year=examEl('select','','lit-input');for(const yr of EXAM_SESSION_YEARS_DATA){const opt=examEl('option',String(yr));opt.value=String(yr);year.append(opt)}year.value=String(examJourney.session);year.style.cssText='box-sizing:border-box;width:126px!important;max-width:40%!important;min-height:45px!important;';year.onchange=()=>{examJourney.session=Number(year.value)};sl.append(year);panel.append(sl);
+  const hasUniversity=examCatalog().some(e=>e.universityAdmission);
   const list=[...new Set(examCatalog().filter(x=>!x.universityAdmission).flatMap(x=>x.grades))].filter(x=>x!=='După liceu'&&x!=='Universitate');
-  if(!list.length){
+  if(!list.length&&!hasUniversity){
    panel.append(examEl('p',examLabel('Pentru această țară programa oficială de examen nu este încă verificată. Putem pregăti un test orientativ, fără a-l prezenta drept examen național.','This country has no verified exam catalogue yet. Advisory practice is available, never presented as an official national exam.')));
    const grade=examEl('input');grade.className='lit-input';grade.placeholder=examLabel('Clasa / anul de studiu','Year / grade');grade.value=examJourney.grade||'';panel.append(grade);
    panel.append(examBtn(examLabel('Continuă cu pregătire orientativă','Continue with advisory practice'),()=>{examJourney.grade=grade.value.trim().slice(0,40)||'nespecificată';examJourney.exam='advisory';examOpen('subjects')},'primary-btn'));return;
   }
-  examList(panel,list.map(x=>({id:x,ro:x,en:x})),c=>{examJourney.grade=c.id;examJourney.exam=null;examJourney.subject=null;examOpen('exams')});return;
+  const gradeCards=[
+   ...(hasUniversity?[{id:'__university',ro:'Universitate',en:'University',icon:'🎓'}]:[]),
+   ...list.map(x=>({id:x,ro:x,en:x,icon:'🏫'}))
+  ];
+  examList(panel,gradeCards,c=>{
+   if(c.id==='__university'){examJourney.grade='Universitate';examJourney.exam='university';examJourney.subject=null;examJourney.domain=null;examOpen('universityDomains');return}
+   examJourney.grade=c.id;examJourney.exam=null;examJourney.subject=null;examOpen('exams');
+  },false);return;
  }
  if(stage==='exams'){
   const filtered=examCatalog().filter(x=>!x.universityAdmission&&x.grades.includes(examJourney.grade));
@@ -420,7 +439,14 @@ function examWorkspace(panel){
    });
   }
  }else sim.append(form,score);
- panel.append(sim);
+ const quizDialog=examEl('dialog','','education-theory-dialog exam-quiz-dialog');
+ const quizHead=examEl('div','','education-theory-head');
+ quizHead.append(examEl('h2',examLabel('Simulare de antrenament','Practice simulation')),
+  examBtn(examLabel('← Înapoi','← Back'),()=>quizDialog.close()));
+ quizDialog.append(quizHead,sim);document.body.append(quizDialog);
+ const quizLaunch=examBtn(examLabel('📝 Exercițiu de verificare','📝 Practice questions'),()=>quizDialog.showModal(),'secondary-btn exam-quiz-launch');
+ quizLaunch.style.cssText='box-sizing:border-box;width:100%;min-width:0;min-height:56px;margin:8px 0;text-align:center;';
+ panel.append(quizLaunch);
  const writeLabel=examEl('label',examLabel('Răspuns scris, problemă sau subiect scanat','Written answer, question or scanned task'),'lit-label');writeLabel.htmlFor='examAnswerText';panel.append(writeLabel);
  const answer=examEl('textarea');answer.className='lit-input';answer.id='examAnswerText';answer.rows=4;answer.maxLength=16000;answer.style.cssText='width:100%;max-width:100%;box-sizing:border-box;max-height:40dvh;min-height:100px;overflow-y:auto;resize:vertical;';answer.placeholder=examLabel('Scrie aici un răspuns pentru evaluare orientativă sau un subiect pentru rezolvare…','Enter your answer for indicative review or a problem to solve…');panel.append(answer);
  const uploads=examEl('div','','lit-actions');uploads.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
