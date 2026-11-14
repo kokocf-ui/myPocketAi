@@ -8945,7 +8945,27 @@ function educationMathTheoryMaterial(item){
    '1. 36 : 6. 2. 23 : 4 cu rest. 3. □ : 8 = 7. Răspunsuri: 6; 5 rest 3; 56.'
   ]
  };
- const basics=specific[key]||specific[educationTheoryClean(title.replace(/^(adunarea|scăderea|înmulțirea|împărțirea) fracțiilor$/i,'$1'))];
+ const fractionLessons={
+  'adunarea fractiilor':[
+   '# Pașii metodei','Fracțiile cu același numitor se adună păstrând numitorul: 2/7 + 3/7 = 5/7. Pentru numitori diferiți, transformă fracțiile la un numitor comun înainte de a aduna numărătorii.',
+   '# Exemplu explicat','1/2 + 1/3 = 3/6 + 2/6 = 5/6. Verifică faptul că rezultatul este mai mare decât fiecare termen pozitiv și mai mic decât 1.',
+   '# Greșeală frecventă','Nu aduna numitorii: 1/2 + 1/3 nu este 2/5. Numitorul arată mărimea părților egale.',
+   '# Exersează','Calculează 1/4 + 2/4 și 1/2 + 1/4. Răspunsuri: 3/4 și 3/4.'
+  ],
+  'inmultirea fractiilor':[
+   '# Pașii metodei','Pentru a înmulți două fracții, înmulțește numărătorii între ei și numitorii între ei; numitorii trebuie să fie nenuli.',
+   '# Exemplu explicat','2/3 × 3/5 = 6/15 = 2/5. Simplificăm rezultatul împărțind numărătorul și numitorul la 3.',
+   '# Greșeală frecventă','La înmulțire nu este nevoie de numitor comun. Nu aplica regula adunării fracțiilor.',
+   '# Exersează','Calculează 1/2 × 4/5 și 3/4 × 2/3. Răspunsuri: 2/5 și 1/2.'
+  ],
+  'impartirea fractiilor':[
+   '# Pașii metodei','Împărțirea la o fracție nenulă este înmulțirea cu inversa acesteia. Împărțitorul nu trebuie să fie zero.',
+   '# Exemplu explicat','2/3 : 4/5 = 2/3 × 5/4 = 10/12 = 5/6. Controlăm operația înmulțind 5/6 cu 4/5 și obținem 2/3.',
+   '# Greșeală frecventă','Inversează numai fracția la care împarți, nu ambele fracții.',
+   '# Exersează','Calculează 1/2 : 1/4 și 3/5 : 3/10. Răspunsuri: 2 și 2.'
+  ]
+ };
+ const basics=specific[key]||fractionLessons[key];
  if(basics){sections.push(...basics);return sections.join(String.fromCharCode(10,10))}
  const topic=String(item?.topic||'');
  const frames={
