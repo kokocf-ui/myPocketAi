@@ -90,6 +90,27 @@ function extraCreatorLocalHtml(name,activity,description,style,contact,language,
  };
  const serviceBlock=(lang,info)=>{
   const t=copies[lang],en=lang==='en',e=extraCreatorSiteDetails(info,type);
+  const typeNames={
+   hotel:['Pensiune / cazare','Guesthouse / accommodation'],
+   restaurant:['Restaurant / cafenea','Restaurant / café'],
+   services:['Servicii locale','Local services'],
+   salon:['Salon / frumusețe','Beauty salon'],
+   shop:['Magazin','Shop'],
+   personal:['Portofoliu / eveniment','Portfolio / event']
+  };
+  const activityText=typeNames[type]?(en?typeNames[type][1]:typeNames[type][0]):activity;
+  if(en&&bilingual&&type==='hotel'){
+   const original=extraCreatorSiteDetails(description,type);
+   if(!e.counts.length)e.counts=original.counts;
+   if(!e.amenities.length)e.amenities=original.amenities;
+  }
+  if(en&&type==='hotel'){
+   e.counts=e.counts.map(item=>{
+    const title=item.title.toLowerCase();
+    const label=/apartament|apartment/.test(title)?'apartments':/single/.test(title)?'single rooms':/dub|double/.test(title)?'double rooms':/twin/.test(title)?'twin rooms':/suite/.test(title)?'suites':item.title;
+    return {value:item.value,title:label};
+   });
+  }
   const stats=e.counts.map(item=>'<article class="metric"><b>'+safe(item.value)+'</b><span>'+safe(item.title)+'</span></article>').join('');
   const amenityHtml=e.amenities.map(a=>'<article class="amenity"><span class="round"></span><b>'+safe(en?a.en:a.ro)+'</b></article>').join('');
   const items=e.remainder.map((detail,i)=>'<article class="service"><span class="number">0'+(i+1)+'</span><p>'+safe(detail)+'</p></article>').join('');
@@ -97,7 +118,7 @@ function extraCreatorLocalHtml(name,activity,description,style,contact,language,
   const heroTitle=type==='hotel'?(en?'A place to stay':'Un loc în care să te cazezi'):type==='restaurant'?(en?'Discover our cuisine':'Descoperă preparatele noastre'):t.explore;
   const heroCaption=type==='hotel'?e.short:type==='restaurant'?(en?'Explore the menu and services below.':'Descoperă mai jos meniul și serviciile.'): (en?'Explore the details supplied by this business.':'Descoperă oferta acestei afaceri.');
   return '<div class="locale-content lang-'+lang+'"><div class="hero '+(layout===1?'centered':layout===2?'split':'editorial')+'">'+
-    '<div class="hero-content"><div class="eyebrow">'+safe(activity)+'</div><h1>'+safe(name)+'</h1>'+
+    '<div class="hero-content"><div class="eyebrow">'+safe(activityText)+'</div><h1>'+safe(name)+'</h1>'+
     '<h2>'+heroTitle+'</h2><p>'+safe(heroCaption)+'</p><a class="cta" href="#offer-'+lang+'">'+t.explore+'</a></div>'+
     (picture?'<div class="hero-photo"><img alt="'+t.photo+'" src="'+picture+'"></div>':
       '<div class="graphic" aria-label="'+t.none+'"><span>'+safe(name.slice(0,1).toUpperCase())+'</span><small>'+t.demo+'</small></div>')+
