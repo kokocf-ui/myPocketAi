@@ -82,6 +82,10 @@ function extraCreatorWorkingWebsite(work){
  const create=extraToolsBtn(extraToolsLocale('✨ Creează site-ul cu Eva','✨ Create website with Eva'),async()=>{
   const name=f.name.value.trim(),description=f.desc.value.trim(),kind=f.type.value,lang=f.lang.value;
   if(name.length<2||description.length<15){status.textContent=extraToolsLocale('Completează numele și o descriere de cel puțin 15 caractere.','Enter a business name and a description of at least 15 characters.');return}
+  // The selected management contract must be configured before generating the final AI site.
+  const managementError=f.validateManagement?.();
+  if(managementError){status.textContent=managementError;return}
+  work.creatorProjectSettings=f.getManagement?.();
   if(work.controller)return;
   const ctrl=new AbortController();work.controller=ctrl;const timeout=setTimeout(()=>ctrl.abort(),45000);
   create.disabled=true;create.textContent=extraToolsLocale('⏳ Eva redactează…','⏳ Eva is writing…');
