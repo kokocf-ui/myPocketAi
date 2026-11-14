@@ -87,6 +87,16 @@ const roomGallerySite=renderStudioSite({...draft,photos:[{data:'data:image/webp;
 assert.match(roomGallerySite,/Galeria camerelor/);
 assert.match(roomGallerySite,/room-gallery-tile/);
 assert.match(roomGallerySite,/camere single/);
+for(const kind of ['restaurant','services','salon','shop','personal','other']){
+ const site=renderStudioSite({...draft,kind,photos:[
+  {data:'data:image/webp;base64,AAAA',caption:'Copertă',group:'exterior'},
+  {data:'data:image/webp;base64,BBBB',caption:'Detaliu',group:'category',categoryLabel:'Portofoliu foto',categoryEn:'Photo portfolio'}
+ ]});
+ assert.match(site,/Galerie foto/,'Public gallery missing for '+kind);
+ assert.match(site,/Photo gallery/,'English public gallery missing for '+kind);
+ assert.match(site,/Photo portfolio/,'English category metadata missing for '+kind);
+ assert.match(site,/room-gallery-full/);
+}
 assert.ok(normalizeStudioPrompt('Un cavaler templier călare pe o cămilă','full').includes('Full-body view'));
 const created=await result('/api/sites','POST',{draft,management:{
  mode:'shared',client:'Pensiunea Aramis',creator:'Creator Test',currency:'GBP',
