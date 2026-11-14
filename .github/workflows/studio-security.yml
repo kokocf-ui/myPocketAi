@@ -1,0 +1,42 @@
+name: Site Studio isolated security and publishing tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'studio_*.mjs'
+      - 'tests_studio_service.mjs'
+      - 'wrangler-studio.toml'
+      - '.github/workflows/studio-security.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  studio-security:
+    if: ${{ github.event_name != 'pull_request' || (github.head_ref == 'ui/tools-workspaces-unified-2026-11-14' && github.event.pull_request.head.repo.full_name == github.repository) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify isolated Studio JavaScript
+        run: |
+          node --check studio_security.mjs
+          node --check studio_accounts.mjs
+          node --check studio_sites.mjs
+          node --check studio_site_renderer.mjs
+          node --check studio_admin_portal.mjs
+          node --check studio_worker.mjs
+          node --check tests_studio_service.mjs
+      - name: Validate independent site management, transfers and publishing (ZERO AI calls)
+        run: node tests_studio_service.mjs
+      - name: Prevent production deployment and AI costs
+        run: |
+          grep -F 'name = "lifewise-ai-site-studio"' wrangler-studio.toml
+          grep -F 'STUDIO_AI_ENABLED = "false"' wrangler-studio.toml
+          ! grep -q 'wrangler deploy' .github/workflows/studio-security.yml
+          echo 'No Worker deployed, no AI generation requested, no production systems changed.'
