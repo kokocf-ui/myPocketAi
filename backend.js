@@ -3710,13 +3710,47 @@ export default {
               const h=Math.sin(dLat/2)**2+Math.cos(lat1*rad)*Math.cos(lat2*rad)*Math.sin(dLon/2)**2;
               return 6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));
             };
+            // A two-kilometre local journey must not quietly detour through a
+            // distant station or end a kilometre from the actual pharmacy.
+            // This is geometry validation, not a new provider or a guessed bus route.
+            const straightMetres=destinationDistanceMeters(latitude,longitude,targetLat,targetLon);
+            const shortLocalJourney=straightMetres>=100&&straightMetres<=5500;
+            const shortLocalCorridorAllows=journey=>{
+              if(!shortLocalJourney)return true;
+              const legs=Array.isArray(journey.legs)?journey.legs:[];
+              if(!legs.length)return false;
+              const first=legs[0],walkingLeg=leg=>/walk|foot|pedestrian/i.test(String(leg.mode||''));
+              const knownPoint=p=>p&&Number.isFinite(Number(p.latitude))&&Number.isFinite(Number(p.longitude));
+              const start=first.departurePoint;
+              const limitStart=walkingLeg(first)?Math.max(350,straightMetres*.17):Math.max(700,straightMetres*.32);
+              if(knownPoint(start)&&destinationDistanceMeters(latitude,longitude,Number(start.latitude),Number(start.longitude))>limitStart)return false;
+              const firstVehicle=legs.find(l=>!walkingLeg(l));
+              if(firstVehicle&&!legs.slice(0,legs.indexOf(firstVehicle)).some(walkingLeg)){
+                const stop=firstVehicle.departurePoint;
+                if(knownPoint(stop)&&destinationDistanceMeters(latitude,longitude,Number(stop.latitude),Number(stop.longitude))>Math.max(700,straightMetres*.32))return false;
+              }
+              const cos=Math.cos((latitude+targetLat)*Math.PI/360);
+              const dx=(targetLon-longitude)*111195*cos,dy=(targetLat-latitude)*111195;
+              const denom=dx*dx+dy*dy;
+              const maxSide=Math.max(1700,straightMetres*.8);
+              const offCorridor=p=>{
+                const lat=Number(p.latitude??p.lat),lon=Number(p.longitude??p.lon);
+                if(!Number.isFinite(lat)||!Number.isFinite(lon))return false;
+                const x=(lon-longitude)*111195*cos,y=(lat-latitude)*111195;
+                const t=Math.min(1,Math.max(0,(x*dx+y*dy)/denom));
+                return Math.hypot(x-t*dx,y-t*dy)>maxSide;
+              };
+              // Only reject when the operator actually supplies a coordinate.
+              // Unknown paths remain unverified rather than being invented.
+              return !legs.some(l=>offCorridor(l.departurePoint||{})||offCorridor(l.arrivalLatLon||{}));
+            };
             const beforeEndpointFilter=transitOptions.length;
             const endpointVerified=transitOptions.filter(j=>{
               const legs=j.legs||[],last=legs[legs.length-1];
-              if(!last)return false;
+              if(!last||!shortLocalCorridorAllows(j))return false;
               const endpoint=last.arrivalLatLon;
               if(endpoint&&Number.isFinite(endpoint.lat)&&Number.isFinite(endpoint.lon))
-                return destinationDistanceMeters(endpoint.lat,endpoint.lon,targetLat,targetLon)<=1100;
+                return destinationDistanceMeters(endpoint.lat,endpoint.lon,targetLat,targetLon)<=(shortLocalJourney?450:1100);
               // If TfL does not supply arrival coordinates, use a reliable final stop name.
               const norm=v=>String(v||"").toLowerCase().replace(/\\b(london|londra|underground|railway|rail|station|tube|train)\\b/g," ").replace(/[^a-z0-9]/g," ").trim().replace(/\\s+/g," ");
               const actual=norm(last.to),desired=norm(requestedStationName),resolved=norm(targetName);
@@ -3765,6 +3799,11 @@ export default {
               return Number.isFinite(startsAt)&&startsAt>=earliestRequested-120000;
             });
             candidates.sort((a,b)=>{
+              // The practical first choice is the earliest reachable arrival,
+              // not the shortest time spent on a bus an hour from now.
+              const arrival=j=>{const n=Date.parse(j.arrivalDateTime||j.legs?.at(-1)?.arrivalTime||'');return Number.isFinite(n)?n:Infinity};
+              const aArrival=arrival(a),bArrival=arrival(b);
+              if(aArrival!==bArrival)return aArrival-bArrival;
               const score=j=>{
                 const modes=vehicleLegs(j).map(l=>String(l.mode||"").toLowerCase());
                 const buses=modes.filter(m=>m==="bus").length;
@@ -3785,13 +3824,15 @@ export default {
                 const ms=Date.parse(raw||'');
                 return Number.isFinite(ms)?ms:null;
               };
+              const aEnd=ts(a,'arrival'),bEnd=ts(b,'arrival');
+              if(aEnd!==null&&bEnd!==null&&aEnd!==bEnd)return aEnd-bEnd;
+              if(aEnd!==null&&bEnd===null)return -1;
+              if(aEnd===null&&bEnd!==null)return 1;
               const aStart=ts(a,'start'),bStart=ts(b,'start');
               if(aStart!==null&&bStart!==null&&aStart!==bStart)return aStart-bStart;
               if(aStart===null&&bStart!==null)return 1;
               if(aStart!==null&&bStart===null)return -1;
-              const aEnd=ts(a,'arrival'),bEnd=ts(b,'arrival');
-              if(aEnd!==null&&bEnd!==null)return aEnd-bEnd;
-              return aEnd===null&&bEnd!==null?1:aEnd!==null&&bEnd===null?-1:0;
+              return (Number(a.transferCount)||0)-(Number(b.transferCount)||0);
             });
             transitOptions.splice(0,transitOptions.length,...selected);
             tflChecks.finalAccepted=selected.length;
