@@ -121,7 +121,8 @@ for(const [index,id] of [[0,'physics'],[2,'biology'],[3,'astronomy']]){
  assert.equal(api.state.stage,'topics');
  assert.ok(rows().length>=4,'real chapter choices for '+id);
  rows()[0].onclick();
- assert.equal(api.state.stage,'workspace');
+ assert.equal(api.state.stage,'chemistry-menu','all Sciences use a three-choice chapter menu');
+ assert.equal(rows().length,3,'each Science chapter exposes three activities');
  api.back();api.back();api.back();
 }
 console.log('PASS Sciences: scoped chapters, Chemistry progressive layout, and staged Back');

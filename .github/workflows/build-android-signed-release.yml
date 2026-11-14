@@ -226,6 +226,9 @@ jobs:
           node tests_history_geography.mjs
           node tests_education_country_first.mjs
           node tests_education_content_navigation.mjs
+          node tests_science_navigation.mjs
+          node tests_science_compact_theory.mjs
+          node tests_biology_complete.mjs
           node tests_practical_courses.mjs
           node tests_education_android.mjs
           node tests_eva_dialogue.mjs
