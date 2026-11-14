@@ -7,6 +7,8 @@ on:
     paths:
       - '.github/workflows/build-android-signed-release.yml'
       - 'index.js'
+      - 'extra_tools_workspace.mjs'
+      - 'tests_creation_ui.mjs'
       - 'assistant_place_results_ui.mjs'
       - 'country_*.mjs'
   push:
@@ -101,7 +103,7 @@ permissions:
 jobs:
   apk-signed-release:
     # The one-off registry preview must never sign unrelated PRs.
-    if: ${{ github.event_name != 'pull_request' || github.head_ref == 'feature/smart-country-registry' }}
+    if: ${{ github.event_name != 'pull_request' || github.head_ref == 'feature/smart-country-registry' || (github.head_ref == 'ui/tools-workspaces-unified-2026-11-14' && github.event.pull_request.head.repo.full_name == github.repository) }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -247,6 +249,9 @@ jobs:
           node tests_math_linear_verification.mjs
           node tests_avatar_lipsync_stop.mjs
           node tests_news_contextual_translation.mjs
+          node tests_extra_tools_header_layout.mjs
+          node tests_extra_tools_workspace.mjs
+          node tests_creation_ui.mjs
           node tests_math_whisper_pilot.mjs
       - name: Assemble signed release
         env:
