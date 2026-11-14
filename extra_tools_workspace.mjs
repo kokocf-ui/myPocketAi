@@ -16,36 +16,23 @@ function extraToolsBtn(label,callback,primary=false){
  const b=extraToolsEl('button',primary?'primary-btn extra-work-primary':'secondary-btn extra-work-button',label);
  b.type='button';b.onclick=callback;return b;
 }
-// Keep the existing Home action and title; only reflow them while a Tools workspace is open.
+// Never reparent the app's own Home button or title: the module grid depends on
+// their direct parents. Insert and remove only the Tools-specific controls.
 function extraToolsRestoreNavigation(){
  const nav=extraToolsNavigation;if(!nav)return;
  extraToolsNavigation=null;
- if(nav.title?.parentNode===nav.titleBar&&nav.titleParent?.isConnected){
-  if(nav.titleNext?.parentNode===nav.titleParent)nav.titleParent.insertBefore(nav.title,nav.titleNext);
-  else nav.titleParent.append(nav.title);
- }
- nav.titleBar?.remove();
- if(nav.home?.parentNode===nav.bar&&nav.homeParent?.isConnected){
-  if(nav.homeNext?.parentNode===nav.homeParent)nav.homeParent.insertBefore(nav.home,nav.homeNext);
-  else nav.homeParent.append(nav.home);
- }
- nav.bar?.remove();nav.back?.remove();
+ nav.back?.remove();nav.header?.remove();
 }
 function extraToolsMountNavigation(root,back,header){
- const host=$('moduleContent'),title=$('moduleTitle');
- const home=Array.from(root.querySelectorAll('button,a')).find(node=>{
-  if(host?.contains(node))return false;
-  const label=String(node.textContent||'').trim().replace(/\s+/g,' ');
-  return /^(?:←\s*)?(?:Acasă|Home)$/iu.test(label);
- });
- if(!home||!title||!home.parentNode||!title.parentNode)return false;
- const homeParent=home.parentNode,homeNext=home.nextSibling;
- const titleParent=title.parentNode,titleNext=title.nextSibling;
- const bar=extraToolsEl('div','extra-work-nav');
- homeParent.insertBefore(bar,home);bar.append(home,back);
- const titleBar=extraToolsEl('div','extra-work-titlebar');
- titleParent.insertBefore(titleBar,title);titleBar.append(title,header);
- extraToolsNavigation={home,homeParent,homeNext,bar,back,title,titleParent,titleNext,titleBar};
+ const actionRow=root.querySelector('.module-actions-row');
+ const headingRow=root.querySelector('.module-heading-row');
+ const home=actionRow?.querySelector('.module-home-btn');
+ const title=headingRow?.querySelector('#moduleTitle');
+ if(!home||!title)return false;
+ back.classList.add('extra-work-nav-back');
+ actionRow.append(back);
+ headingRow.append(header);
+ extraToolsNavigation={home,title,back,header};
  return true;
 }
 function extraToolsField(host,title,kind='textarea',placeholder=''){
@@ -481,12 +468,46 @@ function extraToolsOpenWorkspace(key){
 export const EXTRA_TOOLS_WORKSPACE_STYLE=String.raw`/* Dedicated Tools: fixed app navigation, scrolling only within the actual workspace. */
 main.page:has(#view-module.extra-tools-workspace.active){overflow:hidden!important;min-height:0!important}
 #view-module.extra-tools-workspace #moduleLead{display:none!important}
-#view-module.extra-tools-workspace .extra-work-nav{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;width:100%!important;max-width:100%!important;min-width:0!important;flex:0 0 auto!important;margin:6px 0 10px!important}
-#view-module.extra-tools-workspace .extra-work-nav>button,#view-module.extra-tools-workspace .extra-work-nav>a{box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;max-width:none!important;min-width:0!important;height:56px!important;min-height:56px!important;margin:0!important;padding:8px!important;font-size:clamp(14px,4vw,18px)!important;line-height:1.15!important;white-space:normal!important;border-radius:17px!important;background:linear-gradient(180deg,#8a3d57,#622139)!important;border:2px solid #cc9aaa!important;color:#fff!important;font-weight:800!important;box-shadow:0 5px 0 #3b1526,0 7px 12px #0005!important}
-#view-module.extra-tools-workspace .extra-work-titlebar{box-sizing:border-box!important;display:flex!important;align-items:center!important;gap:8px!important;width:100%!important;min-width:0!important;flex:0 0 auto!important;margin:0 0 7px!important}
-#view-module.extra-tools-workspace .extra-work-titlebar #moduleTitle{box-sizing:border-box!important;flex:1 1 auto!important;min-width:0!important;margin:0!important;padding:0!important;font-size:clamp(19px,4.5vw,25px)!important;line-height:1.15!important;overflow-wrap:anywhere!important}
-#view-module.extra-tools-workspace .extra-work-titlebar .extra-work-head{flex:0 0 auto!important;width:auto!important;max-width:96px!important;gap:4px!important;justify-content:flex-end!important;padding:0!important;margin:0!important}
-#view-module.extra-tools-workspace .extra-work-titlebar .edu-pdf-actions{display:flex!important;gap:4px!important;align-items:center!important;margin:0!important}
+/* Keep Home / Back inside the actual module navigation row.
+   No extra wrappers, no position relative overlaps, no inherited 48% cap. */
+#view-module.extra-tools-workspace .module-actions-row{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:56px!important;align-items:stretch!important;gap:10px!important;
+ position:static!important;width:100%!important;min-width:0!important;min-height:56px!important;
+ height:56px!important;max-height:56px!important;flex:0 0 56px!important;
+ margin:5px 0 9px!important;padding:0!important;transform:none!important;
+}
+#view-module.extra-tools-workspace .module-actions-row .module-home-btn,
+#view-module.extra-tools-workspace .module-actions-row .extra-work-nav-back{
+ box-sizing:border-box!important;position:static!important;display:flex!important;
+ grid-row:1!important;align-items:center!important;justify-content:center!important;
+ width:100%!important;min-width:0!important;max-width:none!important;
+ height:56px!important;min-height:56px!important;max-height:56px!important;
+ align-self:stretch!important;flex:none!important;margin:0!important;padding:7px 8px!important;
+ border-radius:16px!important;font-size:clamp(14px,3.8vw,19px)!important;
+ font-weight:800!important;line-height:1.15!important;white-space:normal!important;
+ transform:none!important;z-index:auto!important;background:linear-gradient(180deg,#893e59,#64233c)!important;
+ color:white!important;border:2px solid #ca96a7!important;
+ box-shadow:inset 0 2px 0 #ffffff30,0 5px 0 #381527,0 9px 12px #0006!important;
+}
+#view-module.extra-tools-workspace .module-actions-row .module-home-btn{grid-column:1!important}
+#view-module.extra-tools-workspace .module-actions-row .extra-work-nav-back{grid-column:2!important}
+#view-module.extra-tools-workspace .module-heading-row{
+ box-sizing:border-box!important;display:flex!important;align-items:center!important;
+ justify-content:space-between!important;gap:8px!important;width:100%!important;
+ min-width:0!important;min-height:38px!important;flex:0 0 auto!important;margin:0 0 6px!important;
+}
+#view-module.extra-tools-workspace .module-heading-row #moduleTitle{
+ flex:1 1 auto!important;min-width:0!important;max-width:none!important;
+ margin:0!important;padding:0!important;font-size:clamp(19px,4.6vw,25px)!important;
+ line-height:1.17!important;overflow-wrap:anywhere!important;
+}
+#view-module.extra-tools-workspace .module-heading-row .extra-work-head{
+ display:flex!important;align-items:center!important;justify-content:flex-end!important;
+ flex:0 0 auto!important;width:auto!important;max-width:96px!important;min-width:0!important;
+ margin:0!important;padding:0!important;gap:4px!important;
+}
+#view-module.extra-tools-workspace .module-heading-row .edu-pdf-actions{display:flex!important;gap:4px!important;margin:0!important}
 
 #view-module.extra-tools-workspace.active{box-sizing:border-box!important;display:flex!important;flex-direction:column!important;height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important;padding-bottom:0!important}
 #view-module.extra-tools-workspace #moduleContent{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-height:0!important;max-height:100%!important;width:100%!important;overflow:hidden!important;padding-bottom:0!important}
