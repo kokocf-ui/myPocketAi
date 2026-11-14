@@ -14,7 +14,7 @@
 2. Dacă dorește domeniu personalizat, îl deține sau îl cumpără pe numele său și îl adaugă la Cloudflare. Pentru început poate folosi adresa temporară `*.workers.dev`.
 3. Instalatorul pregătește calculatorul cu **Node.js LTS** și acces la terminal. Nu sunt necesare chei OpenAI, EXA sau alte generări AI.
 4. Descarcă **pachetul separat Eva Client Backend** care conține numai fișierele `studio_*.mjs`, cele câteva module locale folosite de renderer și `wrangler.eva-client.jsonc`. Nu este necesar să predai întregul cod myPocketAI clientului.
-5. Deschide terminalul în folderul extras. Modifică în `wrangler.eva-client.jsonc` câmpul `name` într-un nume unic, de exemplu `eva-pensiunea-exemplu`. Nu introduce parole sau secrete în fișier.
+5. Deschide terminalul în folderul extras. **Nu modifica manual configurația pentru instalarea ghidată**: programul `instalare-eva.mjs` îți cere numele unic al site-ului și creează automat un fișier local separat. Nu introduce parole sau secrete în fișiere.
 
 ## Instalarea ghidată — o singură dată pentru fiecare client
 
