@@ -301,7 +301,12 @@ export const SCIENCE_METHOD={
 
 export function scienceExtendedTheory(entry, chapterName='',explicit=null){
  if(!entry||!['chemistry','physics','biology','astronomy'].includes(entry.subject))return '';
- if(typeof explicit==='string'&&explicit.trim())return explicit.trim();
+ if(typeof explicit==='string'&&explicit.trim())
+  return explicit.trim().split('\n').map(part=>{
+   const line=part.trim();
+   return line&&line===line.toLocaleUpperCase('ro-RO')&&line.length<=52&&!/[0-9]/.test(line)
+    ?'# '+line:part;
+  }).join('\n');
  if(SCIENCE_FEATURED[entry.id])return SCIENCE_FEATURED[entry.id];
  const nl='\n',gap=nl+nl;
  const guide=SCIENCE_GUIDES[entry.subject]?.[entry.topic];
