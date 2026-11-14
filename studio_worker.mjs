@@ -7,7 +7,7 @@ import {json,bodyJson,normalizeEmail,validEmail,constantTimeEqual,sha256,normali
 export {StudioAccounts,StudioSites};
 const COOKIE='__Host-pocket_studio';
 const siteIdPattern=/^[a-f0-9]{32}$/;
-const MAX_BODY=1048576;
+const MAX_BODY=3600000;
 const cookieHeader=token=>COOKIE+'='+token+'; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=604800';
 const expiredCookie=()=>COOKIE+'=; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=0';
 const getCookie=req=>{
