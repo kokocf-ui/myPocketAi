@@ -10,7 +10,7 @@ const list=[
  'studio_site_renderer.mjs','studio_admin_portal.mjs','studio_security.mjs',
  'studio_business_flows.mjs','creator_guesthouse_gallery.mjs',
  'creator_hosting_guide.mjs','creator_premium_presentations.mjs',
- 'wrangler.eva-client.jsonc','EVA_INSTALARE_BACKEND_CLIENT.md'
+ 'wrangler.eva-client.jsonc','EVA_INSTALARE_BACKEND_CLIENT.md','instalare-eva.mjs'
 ];
 await rm(out,{recursive:true,force:true});
 await mkdir(out,{recursive:true});
