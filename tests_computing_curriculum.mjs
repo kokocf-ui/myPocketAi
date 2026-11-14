@@ -54,7 +54,13 @@ for(const token of [
 ])assert.ok(script.includes(token),'Missing computing UI integration: '+token);
 assert.match(COMPUTING_UI_SCRIPT,/signal:controller.signal/,'Cancellation abort signal wired to request');
 assert.match(COMPUTING_UI_SCRIPT,/Codul nu a fost executat/,'No false code-execution claim');
-assert.match(COMPUTING_UI_SCRIPT,/\.slice\(offset,offset\+4\)/,'Maximum four choices displayed');
+assert.match(COMPUTING_UI_SCRIPT,/function computingChoices\(panel,items,onSelect\)/,'Direct Computing choices preserved');
+assert.match(COMPUTING_UI_SCRIPT,/computing-choice-list/,'Computing uses icon tiles');
+assert.match(COMPUTING_UI_SCRIPT,/computing-tile-icon/,'Every Computing tile has an illustrative icon');
+assert.doesNotMatch(COMPUTING_UI_SCRIPT,/input\.type='search'/,'Computing stages do not require redundant search');
+assert.match(COMPUTING_UI_SCRIPT,/COMPUTING_GRADE_LESSON_IDS/,'Selected grades have stage-specific lesson selection');
+assert.match(COMPUTING_UI_SCRIPT,/computingTopicsForGrade\(path\.id\)/,'Chapter list is filtered for the selected year');
+assert.match(COMPUTING_UI_SCRIPT,/function computingGradeRange\(level\)/,'Grade cards match the selected school system');
 assert.match(COMPUTING_UI_SCRIPT,/data\.status==='recognized'/,'Android dictation review');
 
 // Language selection must not silently send non-English speech to the English recognizer.
