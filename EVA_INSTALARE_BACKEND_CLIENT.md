@@ -16,31 +16,35 @@
 4. Descarcă **pachetul separat Eva Client Backend** care conține numai fișierele `studio_*.mjs`, cele câteva module locale folosite de renderer și `wrangler.eva-client.jsonc`. Nu este necesar să predai întregul cod myPocketAI clientului.
 5. Deschide terminalul în folderul extras. Modifică în `wrangler.eva-client.jsonc` câmpul `name` într-un nume unic, de exemplu `eva-pensiunea-exemplu`. Nu introduce parole sau secrete în fișier.
 
-## Instalarea tehnică — o singură dată pentru fiecare client
+## Instalarea ghidată — o singură dată pentru fiecare client
 
-Execută din folderul pachetului, în sesiunea autorizată a **contului clientului**:
-
-```bash
-npx wrangler@latest login
-npx wrangler@latest deploy --config wrangler.eva-client.jsonc
-```
-
-Urmează linkul de autentificare Cloudflare deschis de Wrangler, selectează contul corect al clientului și confirmă deploy-ul. La final Wrangler afișează o adresă de forma `https://eva-pensiunea-exemplu.<subdomeniu>.workers.dev`.
-
-Pentru cheia inițială de configurare, execută:
+**Varianta recomandată:** rulează instalatorul inclus în ZIP. Din folderul `eva-client-backend`, deschide un terminal și execută:
 
 ```bash
-npx wrangler@latest secret put STUDIO_BOOTSTRAP_SECRET --config wrangler.eva-client.jsonc
+node instalare-eva.mjs
 ```
 
-Introdu în terminal o valoare aleatorie de minimum 20 de caractere (recomandat peste 32). **Nu o lipi în chat, e-mail sau în cod.** Este secretul privat de instalare; clientul îl folosește o singură dată pentru crearea primului cont.
+1. Introdu un nume unic al Workerului clientului, de exemplu `eva-pensiunea-aramis`. Instalatorul generează automat `wrangler.eva-installed.jsonc`, separat de configurația originală; păstrează-l pentru actualizări.
+2. Instalatorul pornește autentificarea oficială Cloudflare (Wrangler OAuth) și afișează contul. **Verifică împreună cu clientul că este contul lui** și confirmă cu `DA`. Nu transmite prin Eva parola sau un API token.
+3. Instalatorul publică backendul cu cele două Durable Objects SQLite și creează în Cloudflare secretul de configurare inițială. Secretul este afișat numai în terminalul local.
+4. Deschide adresa `https://<worker>.<subdomeniu>.workers.dev`, selectează **„Prima configurare”**. Proprietarul introduce e-mailul său, parola proprie și cheia temporară afișată.
+5. După ce proprietarul se poate autentifica, **revocă cheia temporară** din același folder:
 
-Deschide în browser adresa Workerului, apoi apasă **„Prima configurare”**. Proprietarul introduce:
-- adresa sa de e-mail;
-- parola proprie (cel puțin 12 caractere, combinând litere și cifre/simboluri);
-- cheia inițială introdusă în Cloudflare.
+```bash
+node instalare-eva.mjs --finish
+```
 
-Apasă **„Configurează contul”**, apoi autentifică-te. Fiecare Worker poate crea primul administrator numai o dată. Secretul de configurare poate fi apoi șters din dashboard după ce proprietarul a verificat accesul.
+Instalatorul rulează `wrangler secret delete` după confirmarea ta. Secretul nu este stocat în proiect, nici în Eva. Clientul păstrează contul Cloudflare și propria parolă.
+
+Pentru a verifica independent adresa publică, din folderul pachetului poți executa:
+
+```bash
+node instalare-eva.mjs --check https://EXEMPLU.workers.dev
+```
+
+În aplicația Eva, la finalizarea proiectului, secțiunea **„Instalează backendul clientului”** prezintă acești pași și permite verificarea aceleiași adrese prin `/health`. Verificarea arată doar că backendul rulează, nu că toate funcțiile comerciale au fost testate.
+
+**Alternativă manuală pentru un instalator tehnic:** `npx wrangler@latest login`, `npx wrangler@latest deploy --config wrangler.eva-client.jsonc`, apoi `npx wrangler@latest secret put STUDIO_BOOTSTRAP_SECRET --config wrangler.eva-client.jsonc`. Este obligatoriu să alegi un nume unic în fișierul de configurare și să revoci secretul după configurarea administratorului.
 
 ## Predarea proiectului făcut de Eva
 
