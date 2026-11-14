@@ -15,8 +15,12 @@ for(const row of site.templates){
  const [id,ro,en,desc,family]=row;
  const html=site.make('Aramis','Pensiune / cazare',description,ro,'0740000000','ro',{kind:'hotel',styleId:id});
  assert.match(html,new RegExp('theme-'+family+'[" ]'),'Layout family CSS class must match gallery model '+id);
- assert.ok(html.includes('aria-hidden="true"')&&html.includes('<svg'),'An honest art-directed preview must have a decorative vector '+id);
- assert.match(html,/Ilustrație de concept/,'No demo illustration may masquerade as a real business photo');
+ if(family!=='minimal'){
+  assert.ok(html.includes('aria-hidden="true"')&&html.includes('<svg'),'Non-minimal layout must have original decorative artwork '+id);
+  assert.match(html,/Ilustrație de concept/,'No demo illustration may masquerade as a real business photo');
+ }else{
+  assert.doesNotMatch(html,/<svg/,'Minimal luxury deliberately relies on typography, not a stock or fake image');
+ }
  assert.match(html,/Content-Security-Policy/);
  assert.doesNotMatch(html,/<script[^>]*>|https?:\/\/|<img src="https?:/,'Demo must stay script-free and offline');
  assert.match(html,/<header class="design-nav">/);
