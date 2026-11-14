@@ -10,19 +10,19 @@ import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS,litEuropeanPlan} from './literature_curriculum_europe.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 
-const filtered = new Function('educationCountrySelection','computingJourney',
- COMPUTING_UI_SCRIPT.slice(COMPUTING_UI_SCRIPT.indexOf('function computingGradePathAllowed('),
-  COMPUTING_UI_SCRIPT.indexOf('function computingOpen(stage){'))+
- '\nreturn computingGradePathAllowed;')(
- {code:'GB-ENG'}, {level:'lower',grade:'Y7'});
+const computingGradeHelpers=COMPUTING_UI_SCRIPT.slice(
+ COMPUTING_UI_SCRIPT.indexOf('const COMPUTING_GRADE_LESSON_IDS='),
+ COMPUTING_UI_SCRIPT.indexOf('function computingOpen(stage){'));
+const predicateFor=(country,level,grade)=>new Function(
+ 'educationCountrySelection','computingJourney','COMPUTING_TOPICS_DATA',
+ computingGradeHelpers+'\nreturn computingGradePathAllowed;')(
+ {code:country},{level,grade},COMPUTING_TOPICS);
+const filtered=predicateFor('GB-ENG','lower','Y7');
 const lower=COMPUTING_PATHS.filter(p=>p.level==='lower'&&filtered(p)).map(p=>p.id);
 assert.deepEqual(lower,['lower-logic','lower-programming','lower-digital'],
  'Every Year 7 path must be selectable; no empty list');
 for(const grade of ['Y7','Y8','Y9']){
- const allowed=new Function('educationCountrySelection','computingJourney',
-  COMPUTING_UI_SCRIPT.slice(COMPUTING_UI_SCRIPT.indexOf('function computingGradePathAllowed('),
-   COMPUTING_UI_SCRIPT.indexOf('function computingOpen(stage){'))+
-  '\nreturn computingGradePathAllowed;')({code:'GB-ENG'},{level:'lower',grade});
+ const allowed=predicateFor('GB-ENG','lower',grade);
  assert.equal(COMPUTING_PATHS.filter(p=>p.level==='lower'&&allowed(p)).length,3,
   'England '+grade+' lower-secondary branch coverage');
 }
