@@ -10,7 +10,7 @@ const storage={
 };
 const quota=new CreatorPreviewQuota({storage},{});
 const env={AI:{async run(model,opts){aiCalls++;assert.equal(model,'@cf/black-forest-labs/flux-1-schnell');assert.ok(opts.prompt.length<=500);return {image:'A'.repeat(700)}}},
- CREATOR_PREVIEW_QUOTA:{idFromName:()=> 'global',get:()=>quota}
+ CREATOR_PREVIEW_QUOTA:{idFromName:()=> 'global',get:()=>({fetch:(url,init)=>quota.fetch(new Request(url,init))})}
 };
 const request=(headers={},prompt='A mountainside house at dawn in autumn')=>new Request('https://lifewise-ai-creator-preview.kokocf.workers.dev/image',
  {method:'POST',headers:{'Content-Type':'application/json',Origin:'https://lifewise-ai-v2.kokocf.workers.dev','X-Pocket-Preview':'1',...headers},body:JSON.stringify({prompt})});
