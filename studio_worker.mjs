@@ -223,6 +223,8 @@ export default{
     const response=await site(env,id,actions[act],args);
     if(!response.ok)return reply(response);
     if(act==='redeem')await account(env,'memberAdd',{id:actor,siteId:id,name:response.name||'Site'});
+    if(act==='end-maintenance'&&response.revokedCreatorId&&response.revokedCreatorId!==actor)
+     await account(env,'memberRemove',{id:response.revokedCreatorId,siteId:id});
     if(act==='invite')return json({...response,invitation:id+'.'+response.token});
     return reply(response);
    }
