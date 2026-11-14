@@ -36,14 +36,14 @@ assert.match(b,/class="services"/);
 const structuralFamilies=new Set();
 for(const style of f.styles){
  const html=f.generate('Aramis','Pensiune / cazare',aramis,style.ro,'verified@example.test','ro',{kind:'hotel',styleId:style.id});
- const family=html.match(/<body class="theme-([a-z]+)">/)?.[1];
+ const family=html.match(/<body class="premium-site theme-([a-z]+)"/)?.[1];
  assert.ok(family,'Missing actual template family for '+style.id);
  structuralFamilies.add(family);
  assert.match(html,/<header class="design-nav">/,'Design contains real site navigation');
  assert.match(html,/<section class="offers"/,'Design still presents real services');
  assert.ok(html.includes('5</b>'),'Layout must preserve user-provided room facts');
 }
-assert.ok(structuralFamilies.size>=8,'Require 8 structurally different website templates, not only colours');
+assert.equal(structuralFamilies.size,12,'Require twelve unique layout architectures, not just different colours');
 assert.match(CREATOR_DESIGN_SCRIPT,/Previzualizările nu consumă credite AI|Previzualizările nu consumă/);
 assert.ok(CREATOR_DESIGN_SCRIPT.includes('extraCreatorFullscreen(sample)'));
 assert.match(CREATOR_DESIGN_STYLE,/extra-design-mini-visual/);
