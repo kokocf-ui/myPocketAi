@@ -82,6 +82,11 @@ for(const styleId of STUDIO_THEMES){
 const bad=renderStudioSite({...draft,name:'<script>alert(1)</script>'});
 assert.doesNotMatch(bad,/<script>/);assert.match(bad,/&lt;script&gt;/);
 assert.ok(validateStudioDraft(draft));
+const roomGallerySite=renderStudioSite({...draft,photos:[{data:'data:image/webp;base64,AAAA',caption:'Exterior',group:'exterior'},
+ {data:'data:image/webp;base64,BBBB',caption:'Camera single',group:'room',roomLabel:'camere single'}]});
+assert.match(roomGallerySite,/Galeria camerelor/);
+assert.match(roomGallerySite,/room-gallery-tile/);
+assert.match(roomGallerySite,/camere single/);
 assert.ok(normalizeStudioPrompt('Un cavaler templier călare pe o cămilă','full').includes('Full-body view'));
 const created=await result('/api/sites','POST',{draft,management:{
  mode:'shared',client:'Pensiunea Aramis',creator:'Creator Test',currency:'GBP',
