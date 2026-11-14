@@ -143,6 +143,7 @@ export class StudioSites{
      const inbox=await tx.get('visitorInbox')||[];
      const item=inbox.find(v=>v.id===x.itemId&&v.type==='order'&&v.status==='new');
      if(!item||!/^cs_(?:test_|live_)[A-Za-z0-9]+$/.test(x.sessionId||''))return false;
+     if(!orderAvailability(inbox.filter(v=>v.id!==item.id),site.published,item).available)return false;
      item.status='checkout';item.paymentSessionId=x.sessionId;
      item.checkoutExpiresAt=now+3600000;
      await tx.put('visitorInbox',inbox);return true;
