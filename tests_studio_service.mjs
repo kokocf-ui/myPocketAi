@@ -252,6 +252,9 @@ const sixth=await visitor('booking',{...baseVisitor,start,end:endDate,roomLabel:
 assert.equal(sixth.status,200);
 const busy=await result('/s/'+id+'/availability?roomLabel=camere%20single&start='+start+'&end='+endDate);
 assert.equal(busy.available,false,'Five confirmed rooms fill the inventory');
+const availabilityPage=await call('/s/'+id+'/disponibilitate?roomLabel=camere%20single&start='+start+'&end='+endDate);
+assert.equal(availabilityPage.status,200);
+assert.match(await availabilityPage.text(),/Nu există disponibilitate confirmabilă/);
 const stockInbox=await result('/api/sites/'+id+'/inbox','GET',null,clientCookie);
 assert.equal(stockInbox.items.filter(x=>x.type==='booking'&&x.status==='confirmed'&&x.roomLabel==='camere single').length,5);
 const remaining=stockInbox.items.find(x=>x.type==='booking'&&x.status==='new'&&x.roomLabel==='camere single');
