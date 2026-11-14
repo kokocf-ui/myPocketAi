@@ -94,6 +94,7 @@ function extraCreatorWorkingWebsite(work){
   try{
    const copy=await extraCreatorCallAiWebsite({name,description,kind,lang,style:style.ro+' '+f.extra.value},ctrl.signal);
    if(work!==extraToolsSession||!area.isConnected)return;
+   work.siteAiCopy=copy;
    work.siteHtml=extraCreatorLocalHtml(name,f.type.options[f.type.selectedIndex]?.textContent||kind,description,style.ro+' '+f.extra.value,f.contact.value,lang,
     {kind,styleId:style.id,descriptionEn:copy.en?.intro||'',photo:f.getPhoto(),aiCopy:copy});
    const frame=extraToolsEl('iframe','extra-creator-preview');frame.setAttribute('sandbox','');
@@ -118,6 +119,7 @@ function extraCreatorWorkingWebsite(work){
   }
  },true);
  const row=extraToolsActions(area,create,save);area.insertBefore(status,row);
+ extraCreatorAddHandoff(work,f,area,status);
 }
 `;
 export const CREATOR_SITE_AI_STYLE=String.raw`
