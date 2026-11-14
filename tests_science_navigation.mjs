@@ -74,7 +74,11 @@ const sandbox={
  renderLearningSubjects:()=>{home++},
  Math
 };
+const chemistryBegin=script.indexOf('function scienceOpenChemistrySection(stage){');
+const chemistryEnd=script.indexOf('function scienceOpenWorkspace(){',chemistryBegin);
+assert.ok(chemistryBegin>0&&chemistryEnd>chemistryBegin,'Chemistry section renderer exists');
 const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(start,end)+
+ script.slice(chemistryBegin,chemistryEnd)+
  '\n({open:scienceJourneyShowChoices,back:scienceBack,state:scienceJourney,subjects:SCIENCE_SUBJECTS})',sandbox);
 api.open('subjects');
 let rows=()=>host.children[1]?.children[2]?.children||[];
@@ -98,8 +102,13 @@ assert.ok(!rows().some(x=>x.children[0].textContent==='Chimie universitară avan
 const chemistryOrganic=rows().find(x=>x.children[0].textContent==='Chimie organică');
 chemistryOrganic.onclick();
 assert.equal(api.state.topic,'organic');
-assert.equal(api.state.stage,'workspace');
-assert.equal(workspaces,1,'science workspace is mounted only after chapter selection');
+assert.equal(api.state.stage,'chemistry-menu','Chemistry chapter opens its activity chooser');
+assert.equal(rows().length,3,'Chemistry shows lessons, exercise and laboratory');
+assert.equal(workspaces,0,'no unnecessary editor on chapter entry');
+rows()[1].onclick();
+assert.equal(api.state.stage,'workspace','exercise is loaded on demand');
+assert.equal(workspaces,1,'only then mount the editor');
+api.back();assert.equal(api.state.stage,'chemistry-menu');
 api.back();assert.equal(api.state.stage,'topics');
 api.back();assert.equal(api.state.stage,'years');
 api.back();assert.equal(api.state.stage,'subjects');
@@ -115,4 +124,4 @@ for(const [index,id] of [[0,'physics'],[2,'biology'],[3,'astronomy']]){
  assert.equal(api.state.stage,'workspace');
  api.back();api.back();api.back();
 }
-console.log('PASS Sciences: four subject tiles, then country-year bands, grade-specific chapters, university, workspace, and staged Back');
+console.log('PASS Sciences: scoped chapters, Chemistry progressive layout, and staged Back');

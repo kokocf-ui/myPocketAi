@@ -79,6 +79,7 @@ assert.ok(start>=0&&end>start);
 class FakeEl{
  constructor(tag){this.tag=tag;this.children=[];this.textContent='';this.className='';this.value='';this.style={};this.hidden=false;this.onclick=null;this.attributes={};this.classList={add:(...names)=>{this.className=[this.className,...names].join(' ').trim()},remove:()=>{}};}
  append(...kids){this.children.push(...kids)}
+ prepend(...kids){this.children.unshift(...kids)}
  replaceChildren(...kids){this.children=[...kids]}
  setAttribute(k,v){this.attributes[k]=v}
  querySelector(){return null}

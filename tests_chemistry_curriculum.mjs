@@ -64,7 +64,7 @@ const subscripts=script.slice(catStart,script.indexOf('let educationTheoryVoiceI
  '\n'+script.slice(script.indexOf('function educationTheoryClean('),script.indexOf('function educationTheoryStopVoice('))+
  '\n'+script.slice(begin,end)+'\nchemistryCurriculumOpen';
 const preview=vm.runInNewContext(subscripts,{
- document:doc,learningLabel:(ro,en)=>ro,educationTheoryStopVoice:()=>{},
+ document:doc,learningLabel:(ro,en)=>ro,educationTheoryStopVoice:()=>{},eduAttachPrintAction:()=>{},
  chemistryCurriculumPreset:null,CHEMISTRY_LEVELS, CHEMISTRY_TOPICS
 });
 preview();
