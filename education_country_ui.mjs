@@ -254,7 +254,7 @@ function educationGradeGate(moduleKey,level,proceed,back){
   const previous=document.createElement('button');previous.type='button';previous.className='secondary-btn';previous.textContent=eduUiLabel('← Înapoi','← Back');previous.onclick=back;toolbar.append(previous);host.append(toolbar);
   const panel=document.createElement('section');panel.className='math-choice-panel science-choice-panel lit-panel edu-grade-panel computing-grade-panel';
   const heading=document.createElement('h2');heading.textContent=eduUiLabel('Alege clasa / anul de studiu','Choose grade / school year');
-  const notice=document.createElement('p');notice.textContent=educationCountrySelection.label+' · '+eduUiLabel('Selectează clasa pentru capitolele potrivite etapei.','Select a year to see stage-appropriate chapters.');
+  const notice=document.createElement('p');notice.textContent=educationCountrySelection.label+' · '+eduUiLabel('Materia se adaptează clasei selectate.','Learning content follows the selected school year.');
   const grid=document.createElement('div');grid.className='computing-grade-choice-list';
   for(const option of options){
    const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn computing-grade-choice-tile';
