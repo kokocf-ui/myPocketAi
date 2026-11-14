@@ -36,6 +36,20 @@ function extraCreatorHostingGuide(area,form){
    (en?p.stepsEn:p.stepsRo).forEach((step,i)=>rows.push((i+1)+'. '+step));
    rows.push('');
   }
+  if(mode.value==='dynamic')rows.push(
+   pick('INSTALARE GHIDATĂ CLOUDFLARE (pe calculatorul clientului)','GUIDED CLOUDFLARE INSTALL (on the owner’s computer)'),
+   'https://github.com/kokocf-ui/myPocketAi/actions/workflows/eva-client-backend-package.yml',
+   pick('Creatorul descarcă ZIP-ul independent din GitHub Actions și îl predă clientului.',
+    'The creator downloads the independent ZIP from GitHub Actions and hands it to the owner.'),
+   'node instalare-eva.mjs',
+   pick('Proprietarul își autorizează contul Cloudflare; instalatorul publică backendul.',
+    'The owner authorizes their Cloudflare account; the installer deploys the backend.'),
+   pick('Importă fișierul .pocket-site.json din Eva în Studio, verifică politica de confidențialitate și publică.',
+    'Import Eva’s .pocket-site.json project into Studio, verify the privacy notice and publish.'),
+   'node instalare-eva.mjs --finish',
+   pick('Revocă cheia temporară de instalare după conectarea administratorului.',
+    'Revoke the one-time setup key after administrator login.'),
+   '');
   rows.push(pick('VERIFICĂ LA FINAL: domeniu, HTTPS, fotografii, mobil, contact, backup, costuri și drept de administrare.',
    'FINAL CHECK: domain, HTTPS, photos, mobile, contact, backup, costs and administration permissions.'));
   const txt=rows.join('\n'),blob=new Blob([txt],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob);
