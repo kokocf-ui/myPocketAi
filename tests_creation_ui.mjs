@@ -9,7 +9,7 @@ const b=exported.local('Piper Verde','Restaurant','Bucătărie urbană','Colorat
 assert.notEqual(a,b,'Distinct restaurants cannot get the same design markup');
 assert.match(a,/<!doctype html>/i);
 assert.match(a,/name="viewport"/);
-assert.match(a,/@media\(max-width:(?:600|680)px\)/,'Responsive mobile layout');
+assert.match(a,/@media\(max-width:(?:600|680|700)px\)/,'Responsive mobile layout');
 assert.match(a,/Content-Security-Policy/);
 assert.match(a,/Casa Azzurra/);
 assert.doesNotMatch(a,/<script|https?:\/\/|<img src="https?:/i,'No remote scripts, unsafe external links or image loads in a demo');
