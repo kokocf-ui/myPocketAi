@@ -130,7 +130,7 @@ function extraCreatorSiteDetails(description,kind){
  const short=kind==='hotel'&&amenities.some(x=>x.ro==='Mic dejun inclus')?
   'Cazare cu mic dejun inclus':(segments[0]||raw).replace(/\b(?:Are|We have|There are)\s+\d+.*$/i,'').trim().slice(0,165);
  const remainder=(kind==='hotel'?segments.slice(1):segments).slice(0,5);
- return {counts:counts.slice(0,6),amenities:amenities.slice(0,8),short:short||segments[0]||raw.slice(0,130),remainder};
+ return {counts:counts.slice(0,12),amenities:amenities.slice(0,8),short:short||segments[0]||raw.slice(0,130),remainder};
 }
 function extraCreatorLocalHtml(name,activity,description,style,contact,language,options={}){
  // Static, script-free local design proof; every user string is escaped before rendering.
