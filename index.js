@@ -37,6 +37,7 @@ import {HG_THEME_DATA,hgThemeFold,buildHgThemeGuide} from './education_hg_theme_
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
+import {scienceExtendedTheory} from './science_extended_theory.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -8827,6 +8828,7 @@ const ASTRONOMY_SPECIALTY_DATA=${JSON.stringify(ASTRONOMY_SPECIALIZATIONS)};
 const ASTRONOMY_SOLVE_VERIFIED=${astronomyVerifiedExercise.toString()};
 const PHYSICS_SPECIALTY_DATA=${JSON.stringify(PHYSICS_SPECIALIZATIONS)};
 const PHYSICS_SOLVE_VERIFIED=${physicsVerifiedExercise.toString()};
+const SCIENCE_THEORY_EXPAND=${scienceExtendedTheory.toString()};
 const CHEMISTRY_DETAIL_DATA=${JSON.stringify(CHEMISTRY_DETAILED_LESSONS)};
 const CHEMISTRY_LEVEL_DATA=${JSON.stringify(CHEMISTRY_LEVELS)};
 const CHEMISTRY_TOPIC_DATA=${JSON.stringify([...CHEMISTRY_TOPICS,...CHEMISTRY_SPECIALTY_TOPICS])};
@@ -10278,14 +10280,9 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.textContent=(index+1)+'. '+item.title;
   button.onclick=()=>{
    const rich=subjectId==='chemistry'?CHEMISTRY_DETAIL_DATA[item.id]:null;
-   const material=rich?
-    rich.split(String.fromCharCode(10)).map(part=>{
-     const line=part.trim();
-     return line&&line===line.toLocaleUpperCase('ro-RO')&&line.length<=52&&
-      !/[0-9]/.test(line)?'# '+line:part;
-    }).join(String.fromCharCode(10)):
-    [item.statement,item.formula&&item.formula!=='—'?item.formula:'',
-    Array.isArray(item.aliases)&&item.aliases.length?learningLabel('Termeni asociați: ','Related terms: ')+item.aliases.join(' · '):''].filter(Boolean).join(String.fromCharCode(10,10));
+   const chapter=(subjectId==='physics'?PHYSICS_TOPIC_DATA:subjectId==='chemistry'?CHEMISTRY_TOPIC_DATA:
+    subjectId==='biology'?BIOLOGY_TOPIC_DATA:ASTRONOMY_TOPIC_DATA).find(t=>t.id===item.topic);
+   const material=SCIENCE_THEORY_EXPAND(item,learningLabel(chapter?.ro||'',chapter?.en||''),rich);
    educationOpenPagedLesson(item.title,material);
   };
   topics.append(button);
