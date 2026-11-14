@@ -60,7 +60,7 @@ jobs:
       - name: Verify shared mathematics layout for all grades and subjects
         run: node tests_math_shared_workspace_layout.mjs
       - name: Verify Sciences subject-year navigation and centered selection cards
-        run: node tests_science_navigation.mjs && node tests_science_year_cards.mjs
+        run: node tests_science_navigation.mjs && node tests_chemistry_three_sections.mjs && node tests_science_year_cards.mjs
       - name: Build debug APK (CI validation only; not a stable update)
         env:
           POCKET_VERSION_CODE: ${{ github.run_number }}
