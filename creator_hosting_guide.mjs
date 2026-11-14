@@ -57,7 +57,8 @@ function extraCreatorHostingGuide(area,form){
    if(p.best)summary.append(extraToolsEl('span','extra-creator-hosting-recommendation',extraToolsLocale('Recomandare de pornire','Suggested start')));
    card.append(summary,extraToolsEl('p','extra-work-note',extraToolsLocale(p.ro,p.en)));
    const ol=extraToolsEl('ol','extra-creator-hosting-steps');
-   for(const step of extraToolsLocale(p.stepsRo,p.stepsEn)){const li=extraToolsEl('li','',step);ol.append(li)}
+   const inEnglish=extraToolsLocale('ro','en')==='en';
+   for(const step of (inEnglish?p.stepsEn:p.stepsRo)){const li=extraToolsEl('li','',step);ol.append(li)}
    card.append(ol);
    const a=extraToolsEl('a','extra-creator-hosting-doc',extraToolsLocale('Documentația oficială','Official setup guide'));
    a.href=p.doc;a.target='_blank';a.rel='noopener noreferrer';card.append(a);
