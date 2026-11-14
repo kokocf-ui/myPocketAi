@@ -21998,6 +21998,20 @@ main.page:has(#view-module.learning-science.active):not(.science-keyboard-visibl
  min-height:0!important;height:auto!important;max-height:none!important;
 }
 
+/* Practical courses: course subjects remain selectable; long introductions
+   and final projects open in the shared paginated lesson window. */
+#view-module.learning-practical .practical-course-readers{box-sizing:border-box!important;min-width:0!important;width:100%!important}
+#view-module.learning-practical .practical-course-readers>button{
+ box-sizing:border-box!important;min-width:0!important;width:100%!important;max-width:100%!important;
+ min-height:52px!important;padding:8px 6px!important;font-size:clamp(12px,3.3vw,16px)!important;
+ line-height:1.2!important;white-space:normal!important;overflow-wrap:anywhere!important;
+}
+main.page:has(#view-module.learning-practical.active){
+ overflow-x:hidden!important;overflow-y:auto!important;
+ padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important;
+ scroll-padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important;
+}
+
 </style>
 </body>
 </html>`;
