@@ -7,6 +7,14 @@ import {CREATOR_SITE_STYLE} from './creator_site_ui.mjs';
 new vm.Script(ORACLE_COMMUNICATION_SCRIPT,{filename:'chat-voice-pause-and-send.js'});
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/function voiceDraftReady\(file\)/,'Pausing creates a playable local draft');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/function syncDeliveredMessages\(\)/,'Active client acknowledges encrypted message envelope retrieval');
+
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/packageContents:item\.unit==='bax'/,
+ 'Sharing a local shopping list retains explicit per-bax contents');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/packageContents:String\(op\.detail\?\.packageContents\|\|''\)/,
+ 'Shared list replay restores optional per-bax contents');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/item\.packageContents\?' · '\+item\.packageContents\+'\/bax'/,
+ 'Recipient can see the contents of each bax without opening product details');
+
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'pending_messages'/,'Client explicitly fetches pending incoming messages');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'receipt',friend,receiptType:'delivered'/,'Delivery requires an authenticated app receipt');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/messageReadObserver=new IntersectionObserver/,'Read requires visible message on active chat screen');
