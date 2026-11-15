@@ -5,6 +5,7 @@ import {timingSafeEqual} from 'node:crypto';
 import {readFileSync,statSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {planRomanianUrbanGtfs} from './ro_urban_gtfs.mjs';
+import {routeTopologyFromGtfs} from './transport_route_topology.mjs';
 
 export const REGIONS=['oradea','bucharest','cluj','iasi'];
 const reply=(response,code,data)=>{
@@ -57,6 +58,12 @@ export function createRomanianUrbanServer({token,feeds={}}={}){
     date:body.date,afterHHMM:body.afterHHMM,
     maxStraightLineMeters:body.maxStraightLineMeters,maxResults:body.maxResults
    });
+   if(!result.journeys.length&&['no_service_on_date','no_verified_itinerary'].includes(result.status)){
+    const lines=routeTopologyFromGtfs(feeds[region],body.from,body.to,{
+     country:'RO',maxStraightLineMeters:body.maxStraightLineMeters,maxResults:body.maxResults});
+    if(lines.length)return reply(response,200,{status:'route_only',journeys:lines,
+     schedule_status:'unavailable',service_today_verified:false});
+   }
    return reply(response,200,result);
   }catch{return reply(response,400,{error:'invalid_request'});}
  });

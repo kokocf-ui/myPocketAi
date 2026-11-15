@@ -18,6 +18,7 @@ import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
 import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
 import {nationalPublicTransportPolicy} from "./national_public_transport_policy.mjs";
+import {verifiedRouteOnlyOptions,routeOnlyMessage} from "./transport_route_topology.mjs";
 import {rankJourneySuggestions} from "./journey_suggestion_rank.mjs";
 import {romanianLocalJourneyScope} from "./romanian_transport_scope.mjs";
 import {searchAnchorPolicy} from "./country_search_anchor.mjs";
@@ -3262,6 +3263,19 @@ export default {
           from:urbanFrom,to:urbanTo,departureAt:selectedUrbanAt||null,limit:requestedOptionsCount
         });
         if(result.journeys.length){
+          // Universal presentation contract: show confirmed lines even when
+          // no timetable is known, without creating fake timed journey cards.
+          if(result.status==='route_only'){
+            const lines=verifiedRouteOnlyOptions(result.journeys,'RO');
+            if(lines.length)return json({app:'Pocket AI',version:API_VERSION,status:'success',
+              language:lang,message_received:message,reply:routeOnlyMessage(lines,lang),
+              route_only:true,transport_lines_available:true,route_options_without_schedule:lines,
+              schedule_status:'unavailable',service_today_verified:false,
+              transit_available:false,route_available:false,mixed_journey:true,
+              romanian_urban_journey:true,transit_provider:'GTFS operator route topology',
+              reason:'verified_line_no_timetable',
+              provider_status:{ro_urban:result.status,region:result.region}});
+          }
           const journeyCandidates=await Promise.all(result.journeys.slice(0,4).map(j=>
             addRomanianWalkingAccess(env,j,urbanFrom,urbanTo)));
           // An unverified access walk remains available with a clear notice;

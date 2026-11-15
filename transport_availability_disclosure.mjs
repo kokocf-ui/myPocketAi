@@ -9,6 +9,8 @@ export function transportAvailabilityDisclosure(journey, language='ro') {
   const provider=String(j.provider||j.source||'').trim();
   const isTfl=/^tfl$|transport for london/i.test(provider);
   const legs=Array.isArray(j.legs)?j.legs:[];
+  const routeOnly=j.route_only===true&&j.schedule_status==='unavailable';
+  const timetableMessage=routeOnly?(RO(language)?'Linie documentată, orar indisponibil; circulația în ziua cerută nu este confirmată.':'Documented line, timetable unavailable; service on the requested day is unconfirmed.'):null;
   const reserveRelevant=!isTfl && legs.some(l=>reservationMode.test(
     [l?.mode,l?.operator,...(Array.isArray(l?.lineNames)?l.lineNames:[])].join(' ')
   ));
@@ -28,7 +30,8 @@ export function transportAvailabilityDisclosure(journey, language='ro') {
   const seatMessage=reserveRelevant
     ?RO(language)?'Disponibilitatea locurilor nu poate fi confirmată; verifică rezervarea la operator.':'Seat availability cannot be confirmed; check reservations with the operator.'
     :null;
-  return {fare_status:fareStatus,seat_status:seatStatus,fare_message:fareMessage,seat_message:seatMessage};
+  return {fare_status:fareStatus,seat_status:seatStatus,fare_message:fareMessage,seat_message:seatMessage,
+    timetable_status:routeOnly?'unavailable':'provider_timetable',timetable_message:timetableMessage};
 }
 
 export function annotateTransportJourneys(journeys, language='ro'){
@@ -39,5 +42,5 @@ export function annotateTransportJourneys(journeys, language='ro'){
 
 export function transportNoticeLine(journey,language='ro'){
   const d=transportAvailabilityDisclosure(journey,language);
-  return [d.fare_message,d.seat_message].filter(Boolean).join(' ');
+  return [d.timetable_message,d.fare_message,d.seat_message].filter(Boolean).join(' ');
 }
