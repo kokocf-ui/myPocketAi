@@ -56,14 +56,17 @@ const realPlaces={
   lat:47.061,lon:21.930,country_code:'ro'},
  hotel:{name:'Hotel Aurora',city:'Oradea',
   formatted:'Hotel Aurora, Oradea, Romania',result_type:'amenity',
-  categories:['accommodation.hotel'],lat:47.062,lon:21.931,country_code:'ro'}
+  categories:['accommodation.hotel'],lat:47.062,lon:21.931,country_code:'ro'},
+ museum:{name:'Muzeul Țării Crișurilor',city:'Oradea',
+  formatted:'Muzeul Țării Crișurilor, Oradea, Romania',result_type:'amenity',
+  categories:['entertainment.museum'],lat:47.063,lon:21.932,country_code:'ro'}
 };
 try {
  globalThis.fetch=async(input)=>{
   const url=new URL(typeof input==='string'?input:input.url);
   if(url.hostname==='api.geoapify.com'&&url.pathname==='/v1/geocode/search'){
    const query=(url.searchParams.get('text')||'').toLowerCase();
-   const p=query.includes('aurora')?realPlaces.hotel:realPlaces.street;
+   const p=query.includes('aurora')?realPlaces.hotel:query.includes('crișurilor')||query.includes('crisurilor')?realPlaces.museum:realPlaces.street;
    return Response.json({features:[{type:'Feature',properties:p,
     geometry:{type:'Point',coordinates:[p.lon,p.lat]}}]});
   }
@@ -74,7 +77,7 @@ try {
   throw new Error('Unexpected provider '+url.hostname+url.pathname);
  };
  const env={GEOAPIFY_API_KEY:'test',AI:{run:async()=>{throw Error('Route should not need an AI generation')}}};
- for(const message of ['Strada Libertății, Oradea','Hotel Aurora, Oradea']){
+ for(const message of ['Strada Libertății, Oradea','Hotel Aurora, Oradea','Muzeul Țării Crișurilor din Oradea']){
   const response=await worker.fetch(new Request('https://quick-route.test/api/chat',{method:'POST',
    headers:{'content-type':'application/json'},
    body:JSON.stringify({message,language:'ro',module:'assistant',history:[],
