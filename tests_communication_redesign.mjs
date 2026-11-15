@@ -55,7 +55,7 @@ assert.doesNotMatch(COMMUNICATION_HTML,/WhatsApp, SMS ori e-mail/,'No email invi
 const java=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/MainActivity.java',import.meta.url),'utf8');
 assert.match(java,/PermissionRequest\.RESOURCE_AUDIO_CAPTURE/,'Only audio capture is allowed');
 assert.match(java,/PocketAndroidCommunicationVoice/,'Native voice bridge registered');
-assert.match(java,/private void startCommVoice\(\) \{[\s\S]*?stopEmbeddedListening\(\);[\s\S]*?stopMathPcmRecording\(\);/,'Communication yields the microphone from Eva and Maths before recording');
+assert.match(java,/private void startCommVoice\(\)\s*\{[\s\S]*?stopEmbeddedListening\(\);[\s\S]*?stopMathPcmRecording\(\);/,'Communication yields the microphone from Eva and Maths before recording');
 assert.match(java,/commVoiceHandler\.postDelayed\(commVoiceStartTask,350L\)/,'Recorder starts after asynchronous speech resource release');
 assert.match(java,/commVoiceRecordingCount==0\?2:1/,'First segment can retry using device encoder defaults');
 assert.match(java,/if\(explicit\)\{/,'Recorder preserves consistent encoder settings across segments');
