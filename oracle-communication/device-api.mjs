@@ -160,7 +160,7 @@ export function createDeviceCommunicationHandler(pool,{push}={}){
     });
     return json(res,200,{ok:true}),true
    }
-   if(['messages','send','upload','attachment'].includes(action)){
+   if(['messages','send','upload','attachment','edit_message','delete_message'].includes(action)){
     check(await approved(pool,me,friend),403,'Contact neaprobat');
     const pair=[me,friend].sort().join(':');
     if(action==='messages'){
@@ -172,6 +172,31 @@ export function createDeviceCommunicationHandler(pool,{push}={}){
      const q=await pool.query('SELECT a.iv,a.cipher,a.kind,a.mime FROM device_attachments a JOIN device_messages m ON m.attachment_id=a.id WHERE a.id=$1 AND m.pair_key=$2',[data.attachmentId,pair]);
      check(q.rowCount===1,404,'Atașament indisponibil');
      return json(res,200,{ok:true,attachment:q.rows[0]}),true
+    }
+    // The server never sees plaintext. Only the authenticated original sender
+    // can replace an encrypted text envelope or delete their own message.
+    if(action==='edit_message'||action==='delete_message'){
+     check(uuid(data.messageId),400,'Mesaj invalid');
+     limit('message_mutation:'+me,50,60000);
+     if(action==='edit_message'){
+      check(b64(data.iv)&&data.iv.length===16&&b64(data.cipher)
+       &&data.cipher.length>=24&&data.cipher.length<=16000,400,'Mesaj criptat invalid');
+      const changed=await pool.query(
+       "UPDATE device_messages SET iv=$4,cipher=$5 WHERE id=$1 AND sender_id=$2 AND recipient_id=$3 AND pair_key=$6 AND kind='text' RETURNING id",
+       [data.messageId,me,friend,data.iv,data.cipher,pair]);
+      check(changed.rowCount===1,404,'Mesajul propriu nu este disponibil pentru modificare');
+      notify(friend,'message',me);
+      return json(res,200,{ok:true,edited:true}),true
+     }
+     await txn(pool,async db=>{
+      const rows=await db.query('DELETE FROM device_messages WHERE id=$1 AND sender_id=$2 AND recipient_id=$3 AND pair_key=$4 RETURNING attachment_id',
+        [data.messageId,me,friend,pair]);
+      check(rows.rowCount===1,404,'Mesajul propriu nu a fost găsit');
+      const attachmentId=rows.rows[0].attachment_id;
+      if(attachmentId)await db.query('DELETE FROM device_attachments WHERE id=$1',[attachmentId]);
+     });
+     notify(friend,'message',me);
+     return json(res,200,{ok:true,deleted:true}),true
     }
     check(uuid(data.messageId)&&b64(data.iv)&&data.iv.length===16&&b64(data.cipher),400,'Mesaj invalid');
     if(action==='send')check(data.cipher.length<=16000&&data.cipher.length>=24,413,'Mesaj prea mare');
