@@ -1092,7 +1092,8 @@ public final class MainActivity extends ComponentActivity {
                         ||!"https".equalsIgnoreCase(origin.getScheme())
                         ||!APP_HOST.equalsIgnoreCase(origin.getHost()))return;
                     final String command=message.getData();
-                    if(!"start".equals(command)&&!"stop".equals(command)&&!"cancel".equals(command))return;
+                    if(!"start".equals(command)&&!"stop".equals(command)&&!"cancel".equals(command)
+                        &&!"pause".equals(command)&&!"resume".equals(command))return;
                     runOnUiThread(()->handleCommVoiceCommand(command));
                 });
         }
