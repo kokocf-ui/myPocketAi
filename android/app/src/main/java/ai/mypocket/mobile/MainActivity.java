@@ -29,6 +29,11 @@ import android.speech.RecognitionListener;
 import android.media.AudioRecord;
 import android.media.AudioFormat;
 import android.media.MediaRecorder;
+import android.media.MediaExtractor;
+import android.media.MediaMuxer;
+import android.media.MediaFormat;
+import android.media.MediaCodec;
+import java.nio.ByteBuffer;
 import java.io.ByteArrayOutputStream;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -496,13 +501,17 @@ public final class MainActivity extends ComponentActivity {
     // Only encrypted application uploads can send the resulting media to Oracle.
     private MediaRecorder commVoiceRecorder;
     private File commVoiceFile;
-    private final Handler commVoiceHandler = new Handler(Looper.getMainLooper());
+    private final ArrayList<File> commVoiceSegments=new ArrayList<>();
+    private final Handler commVoiceHandler=new Handler(Looper.getMainLooper());
     private Runnable commVoiceTimeout;
     private Runnable commVoiceStartTask;
     private boolean commVoiceStarting=false;
-    private int commVoiceSession = 0;
-    private boolean commVoicePaused = false;
-    private static final int COMM_VOICE_MAX_BYTES = 11 * 1024 * 1024;
+    private volatile boolean commVoiceDelivering=false;
+    private int commVoiceSession=0;
+    private boolean commVoicePaused=false;
+    private boolean commVoiceExplicitEncoder=true;
+    private int commVoiceRecordingCount=0;
+    private static final int COMM_VOICE_MAX_BYTES=11*1024*1024;
 
     private boolean notifyCommVoice(String status, int session, String error, int part, int parts, String encoded) {
         try {
@@ -545,46 +554,68 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ignored){return false;}
     }
 
-    private void startCommVoice() {
-        if(commVoiceRecorder!=null||commVoiceStarting){
+
+    private void clearCommVoiceSegments(){
+        for(File piece:commVoiceSegments)if(piece!=null)piece.delete();
+        commVoiceSegments.clear();
+        commVoiceRecordingCount=0;
+        commVoicePaused=false;
+    }
+    private void cancelCommVoice(){
+        // Invalidate the current recording before any asynchronous transfer completes.
+        ++commVoiceSession;
+        if(commVoiceStartTask!=null)commVoiceHandler.removeCallbacks(commVoiceStartTask);
+        commVoiceStartTask=null;
+        commVoiceStarting=false;
+        if(commVoiceTimeout!=null)commVoiceHandler.removeCallbacks(commVoiceTimeout);
+        commVoiceTimeout=null;
+        if(commVoiceRecorder!=null){
+            try{commVoiceRecorder.stop();}catch(Exception ignored){}
+            try{commVoiceRecorder.reset();commVoiceRecorder.release();}catch(Exception ignored){}
+        }
+        commVoiceRecorder=null;
+        if(commVoiceFile!=null)commVoiceFile.delete();
+        commVoiceFile=null;
+        clearCommVoiceSegments();
+        notifyCommVoice("cancelled",commVoiceSession,null,-1,0,null);
+    }
+    private void startCommVoice(){
+        if(commVoiceRecorder!=null||commVoiceStarting||commVoiceDelivering){
             notifyCommVoice("error",commVoiceSession,"MIC_BUSY_OR_UNAVAILABLE",-1,0,null);
             return;
         }
-        final int session=++commVoiceSession;
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED){
-            notifyCommVoice("error",session,"MIC_PERMISSION_DENIED",-1,0,null);return;
+            notifyCommVoice("error",commVoiceSession,"MIC_PERMISSION_DENIED",-1,0,null);return;
         }
-        // Eva's speech recognition and Maths AudioRecord must relinquish the
-        // microphone before this new, independent native communication capture.
+        clearCommVoiceSegments();
+        commVoiceExplicitEncoder=true;
+        final int session=++commVoiceSession;
         stopEmbeddedListening();
         stopMathPcmRecording();
         commVoiceStarting=true;
-        // SpeechRecognizer.cancel/destroy and AudioRecord.release can complete
-        // asynchronously, so allow the audio stack a brief release interval.
         commVoiceStartTask=()->{
             commVoiceStartTask=null;
             if(!commVoiceStarting||session!=commVoiceSession)return;
             commVoiceStarting=false;
-            beginCommVoiceCapture(session);
+            beginCommVoiceCapture(session,false);
         };
         commVoiceHandler.postDelayed(commVoiceStartTask,350L);
     }
-
-    private void beginCommVoiceCapture(int session){
+    private void beginCommVoiceCapture(int session,boolean resuming){
         if(commVoiceRecorder!=null||session!=commVoiceSession)return;
         String failure="MIC_BUSY_OR_UNAVAILABLE";
-        // Some Android encoders reject explicit 44.1 kHz / bitrate settings.
-        // Retry once using device defaults; always release failed MediaRecorder.
-        for(int attempt=0;attempt<2;attempt++){
+        // Preserve the original segment's encoder settings across continuation.
+        for(int attempt=0;attempt<(commVoiceRecordingCount==0?2:1);attempt++){
             MediaRecorder recorder=null;
             File file=null;
+            boolean explicit=commVoiceRecordingCount>0?commVoiceExplicitEncoder:attempt==0;
             try{
                 file=File.createTempFile("pocket-voice-", ".m4a",getCacheDir());
                 recorder=Build.VERSION.SDK_INT>=31?new MediaRecorder(this):new MediaRecorder();
                 recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
                 recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-                if(attempt==0){
+                if(explicit){
                     recorder.setAudioChannels(1);
                     recorder.setAudioEncodingBitRate(64000);
                     recorder.setAudioSamplingRate(44100);
@@ -593,89 +624,192 @@ public final class MainActivity extends ComponentActivity {
                 recorder.prepare();
                 recorder.start();
                 commVoiceRecorder=recorder;
-                commVoicePaused=false;
                 commVoiceFile=file;
-                notifyCommVoice("started",session,null,-1,0,null);
-                commVoiceTimeout=()->finishCommVoice(true);
+                commVoiceExplicitEncoder=explicit;
+                commVoiceRecordingCount++;
+                commVoicePaused=false;
+                notifyCommVoice(resuming?"resumed":"started",session,null,-1,0,null);
+                commVoiceTimeout=()->finishCommVoice(true,true);
                 commVoiceHandler.postDelayed(commVoiceTimeout,60000L);
                 return;
-            }catch(SecurityException ex){
+            }catch(SecurityException error){
                 failure="MIC_PERMISSION_DENIED";
                 if(recorder!=null)try{recorder.reset();recorder.release();}catch(Exception ignored){}
                 if(file!=null)file.delete();
                 break;
-            }catch(Exception ex){
+            }catch(Exception error){
                 if(recorder!=null)try{recorder.reset();recorder.release();}catch(Exception ignored){}
                 if(file!=null)file.delete();
             }
         }
         commVoiceRecorder=null;commVoiceFile=null;
+        commVoicePaused=!commVoiceSegments.isEmpty();
         notifyCommVoice("error",session,failure,-1,0,null);
     }
-
-    private void finishCommVoice(boolean send) {
-        if(commVoiceStarting){
-            commVoiceStarting=false;
-            if(commVoiceStartTask!=null)commVoiceHandler.removeCallbacks(commVoiceStartTask);
-            commVoiceStartTask=null;
-            notifyCommVoice("cancelled",commVoiceSession,null,-1,0,null);
-            return;
-        }
-        if(commVoiceRecorder==null)return;
-        final MediaRecorder recorder=commVoiceRecorder;
-        final File file=commVoiceFile;
+    private void resumeCommVoice(){
+        if(!commVoicePaused||commVoiceSegments.isEmpty()||commVoiceRecorder!=null
+            ||commVoiceStarting||commVoiceDelivering)return;
         final int session=commVoiceSession;
-        commVoiceRecorder=null;commVoiceFile=null;
-        commVoicePaused=false;
+        commVoiceStarting=true;
+        commVoiceStartTask=()->{
+            commVoiceStartTask=null;
+            if(!commVoiceStarting||session!=commVoiceSession)return;
+            commVoiceStarting=false;
+            beginCommVoiceCapture(session,true);
+        };
+        commVoiceHandler.postDelayed(commVoiceStartTask,250L);
+    }
+    private void finishCommVoice(boolean keep,boolean preview){
+        if(commVoiceDelivering)return;
+        if(!keep){cancelCommVoice();return;}
+        if(commVoiceStarting){
+            if(commVoiceStartTask!=null)commVoiceHandler.removeCallbacks(commVoiceStartTask);
+            commVoiceStarting=false;commVoiceStartTask=null;
+            if(commVoiceSegments.isEmpty()){
+                notifyCommVoice("error",commVoiceSession,"RECORD_TOO_SHORT",-1,0,null);
+                return;
+            }
+        }
         if(commVoiceTimeout!=null)commVoiceHandler.removeCallbacks(commVoiceTimeout);
         commVoiceTimeout=null;
-        boolean valid=false;
-        try{recorder.stop();valid=true;}catch(RuntimeException ignored){}
-        try{recorder.reset();recorder.release();}catch(Exception ignored){}
-        if(!send){if(file!=null)file.delete();notifyCommVoice("cancelled",session,null,-1,0,null);return;}
-        if(!valid||file==null||file.length()<256){
-            if(file!=null)file.delete();
-            notifyCommVoice("error",session,"RECORD_TOO_SHORT",-1,0,null);return;
+        if(commVoiceRecorder!=null){
+            MediaRecorder recorder=commVoiceRecorder;
+            File piece=commVoiceFile;
+            commVoiceRecorder=null;commVoiceFile=null;
+            boolean valid=false;
+            try{recorder.stop();valid=true;}catch(RuntimeException ignored){}
+            try{recorder.reset();recorder.release();}catch(Exception ignored){}
+            if(!valid||piece==null||piece.length()<256){
+                if(piece!=null)piece.delete();
+                notifyCommVoice("error",commVoiceSession,"RECORD_TOO_SHORT",-1,0,null);
+                return;
+            }
+            commVoiceSegments.add(piece);
         }
-        if(file.length()>COMM_VOICE_MAX_BYTES){
-            file.delete();notifyCommVoice("error",session,"RECORD_TOO_LARGE",-1,0,null);return;
+        if(commVoiceSegments.isEmpty()){
+            notifyCommVoice("error",commVoiceSession,"RECORD_TOO_SHORT",-1,0,null);return;
         }
-        // Read the temporary recording outside the UI thread; it is deleted
-        // even when a WebView is gone or a conversion fails.
+        long totalBytes=0;
+        for(File piece:commVoiceSegments)totalBytes+=piece.length();
+        if(totalBytes>COMM_VOICE_MAX_BYTES){
+            notifyCommVoice("error",commVoiceSession,"RECORD_TOO_LARGE",-1,0,null);return;
+        }
+        commVoicePaused=true;
+        transmitCommVoice(preview);
+    }
+    private File mergedCommVoice() throws Exception{
+        File output=File.createTempFile("pocket-voice-merged-", ".m4a",getCacheDir());
+        MediaMuxer muxer=null;
+        boolean started=false;
+        try{
+            muxer=new MediaMuxer(output.getAbsolutePath(),MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
+            int outputTrack=-1;
+            int sampleRate=-1,channels=-1;
+            long nextStartUs=0L;
+            int samples=0;
+            for(File piece:commVoiceSegments){
+                MediaExtractor extractor=new MediaExtractor();
+                try{
+                    extractor.setDataSource(piece.getAbsolutePath());
+                    int audioTrack=-1;
+                    for(int t=0;t<extractor.getTrackCount();t++){
+                        MediaFormat fmt=extractor.getTrackFormat(t);
+                        String mime=fmt.getString(MediaFormat.KEY_MIME);
+                        if(mime!=null&&mime.startsWith("audio/")){audioTrack=t;break;}
+                    }
+                    if(audioTrack<0)throw new java.io.IOException("Audio track missing");
+                    MediaFormat format=extractor.getTrackFormat(audioTrack);
+                    int rate=format.getInteger(MediaFormat.KEY_SAMPLE_RATE);
+                    int channelCount=format.getInteger(MediaFormat.KEY_CHANNEL_COUNT);
+                    if(outputTrack<0){
+                        sampleRate=rate;channels=channelCount;
+                        outputTrack=muxer.addTrack(format);
+                        muxer.start();started=true;
+                    }else if(rate!=sampleRate||channelCount!=channels){
+                        throw new java.io.IOException("Audio format changed between segments");
+                    }
+                    extractor.selectTrack(audioTrack);
+                    ByteBuffer buffer=ByteBuffer.allocateDirect(256*1024);
+                    MediaCodec.BufferInfo info=new MediaCodec.BufferInfo();
+                    long lastTimeUs=nextStartUs;
+                    while(true){
+                        buffer.clear();
+                        int size=extractor.readSampleData(buffer,0);
+                        if(size<0)break;
+                        long presentation=extractor.getSampleTime();
+                        if(presentation<0)break;
+                        info.offset=0;
+                        info.size=size;
+                        info.presentationTimeUs=nextStartUs+presentation;
+                        info.flags=extractor.getSampleFlags();
+                        muxer.writeSampleData(outputTrack,buffer,info);
+                        lastTimeUs=info.presentationTimeUs;
+                        samples++;
+                        extractor.advance();
+                    }
+                    nextStartUs=lastTimeUs+(long)(1024_000_000.0/sampleRate);
+                }finally{extractor.release();}
+            }
+            if(samples==0)throw new java.io.IOException("No audio samples");
+            muxer.stop();started=false;
+            muxer.release();muxer=null;
+            return output;
+        }catch(Exception error){
+            if(muxer!=null){
+                if(started)try{muxer.stop();}catch(Exception ignored){}
+                try{muxer.release();}catch(Exception ignored){}
+            }
+            output.delete();
+            throw error;
+        }
+    }
+    private void transmitCommVoice(boolean preview){
+        final int session=commVoiceSession;
+        commVoiceDelivering=true;
         new Thread(()->{
-            try(FileInputStream input=new FileInputStream(file)){
-                final byte[] buffer=new byte[24*1024];
-                final int parts=(int)((file.length()+buffer.length-1)/buffer.length);
-                int part=0,count;
-                while((count=input.read(buffer))!=-1){
-                    byte[] chunk=java.util.Arrays.copyOf(buffer,count);
-                    if(!notifyCommVoice("chunk",session,null,part++,parts,Base64.encodeToString(chunk,Base64.NO_WRAP)))
-                        throw new java.io.IOException("WebView did not acknowledge voice audio");
+            File merged=null;
+            boolean successful=false;
+            try{
+                // MP4 needs finalization before local playback. Concatenate AAC
+                // samples with MediaMuxer; never concatenate MP4 file bytes.
+                merged=mergedCommVoice();
+                if(merged.length()<256||merged.length()>COMM_VOICE_MAX_BYTES)
+                    throw new java.io.IOException("Voice note size invalid");
+                try(FileInputStream input=new FileInputStream(merged)){
+                    byte[] buffer=new byte[24*1024];
+                    int partCount=(int)((merged.length()+buffer.length-1)/buffer.length);
+                    int part=0,count;
+                    while((count=input.read(buffer))!=-1){
+                        if(session!=commVoiceSession)throw new java.io.IOException("Recording canceled");
+                        byte[] chunk=java.util.Arrays.copyOf(buffer,count);
+                        if(!notifyCommVoice("chunk",session,null,part++,partCount,
+                            Base64.encodeToString(chunk,Base64.NO_WRAP)))
+                            throw new java.io.IOException("Audio chunk not acknowledged");
+                    }
+                    if(session==commVoiceSession){
+                        notifyCommVoice(preview?"preview":"complete",session,null,-1,partCount,null);
+                        successful=true;
+                    }
                 }
-                notifyCommVoice("complete",session,null,-1,parts,null);
-            }catch(Exception ex){
-                notifyCommVoice("error",session,"RECORD_READ_FAILED",-1,0,null);
-            }finally{file.delete();}
-        },"pocket-communication-voice-read").start();
+            }catch(Exception error){
+                if(session==commVoiceSession)
+                    notifyCommVoice("error",session,"RECORD_READ_FAILED",-1,0,null);
+            }finally{
+                if(merged!=null)merged.delete();
+                final boolean delivered=successful;
+                runOnUiThread(()->{
+                    commVoiceDelivering=false;
+                    if(delivered&&!preview&&session==commVoiceSession)clearCommVoiceSegments();
+                });
+            }
+        },"pocket-communication-voice-transfer").start();
     }
     private void handleCommVoiceCommand(String action){
         if("start".equals(action))startCommVoice();
-        else if("stop".equals(action))finishCommVoice(true);
-        else if("cancel".equals(action))finishCommVoice(false);
-        else if(Build.VERSION.SDK_INT>=24 && commVoiceRecorder!=null
-             && ("pause".equals(action)||"resume".equals(action))){
-            try {
-                if("pause".equals(action)&&!commVoicePaused){
-                    commVoiceRecorder.pause();commVoicePaused=true;
-                    notifyCommVoice("paused",commVoiceSession,null,-1,0,null);
-                } else if("resume".equals(action)&&commVoicePaused){
-                    commVoiceRecorder.resume();commVoicePaused=false;
-                    notifyCommVoice("resumed",commVoiceSession,null,-1,0,null);
-                }
-            }catch(IllegalStateException ex){
-                notifyCommVoice("error",commVoiceSession,"MIC_BUSY_OR_UNAVAILABLE",-1,0,null);
-            }
-        }
+        else if("cancel".equals(action))cancelCommVoice();
+        else if("pause".equals(action)||"stop".equals(action))finishCommVoice(true,true);
+        else if("resume".equals(action))resumeCommVoice();
+        else if("send".equals(action))finishCommVoice(true,false);
     }
 
     private static void mathWavU16(byte[] out,int off,int value){
