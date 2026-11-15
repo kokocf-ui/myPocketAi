@@ -496,8 +496,8 @@ export const CREATOR_SITE_STYLE=String.raw`
 .extra-creator-option-chip[aria-pressed=true]{border:2px solid #9de8ed!important;background:#214d60!important;box-shadow:inset 0 0 0 1px #5ab8c9!important}
 .extra-creator-option-swatches{display:flex!important;gap:2px!important;flex:0 0 auto!important}
 .extra-creator-option-swatches i{display:block!important;width:9px!important;height:16px!important;border-radius:2px!important}
-.extra-creator-option-actions{display:flex!important;gap:8px!important;flex:0 0 auto!important}
-.extra-creator-option-actions button{flex:1 1 0!important;min-width:0!important;white-space:normal!important;min-height:45px!important}
+.extra-creator-option-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch!important;gap:8px!important;flex:0 0 auto!important}
+.extra-creator-option-actions button{width:100%!important;height:100%!important;min-height:76px!important;align-self:stretch!important;box-sizing:border-box!important;min-width:0!important;margin:0!important;white-space:normal!important;line-height:1.25!important}
 #view-module.extra-tools-workspace .extra-creator-style-pick{display:block!important;width:100%!important;min-height:55px!important;max-width:none!important;padding:11px 14px!important;white-space:normal!important;text-align:left!important}
 #view-module.extra-tools-workspace .extra-creator-selected-style{color:#9de8ed!important;font-weight:700!important;font-size:13px!important;margin:3px 0 12px!important}
 #view-module.extra-tools-workspace .extra-creator-english[hidden]{display:none!important}

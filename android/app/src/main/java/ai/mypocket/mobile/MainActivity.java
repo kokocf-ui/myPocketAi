@@ -501,6 +501,7 @@ public final class MainActivity extends ComponentActivity {
     private Runnable commVoiceStartTask;
     private boolean commVoiceStarting=false;
     private int commVoiceSession = 0;
+    private boolean commVoicePaused = false;
     private static final int COMM_VOICE_MAX_BYTES = 11 * 1024 * 1024;
 
     private void notifyCommVoice(String status, int session, String error, int part, int parts, String encoded) {
@@ -569,6 +570,7 @@ public final class MainActivity extends ComponentActivity {
                 recorder.prepare();
                 recorder.start();
                 commVoiceRecorder=recorder;
+                commVoicePaused=false;
                 commVoiceFile=file;
                 notifyCommVoice("started",session,null,-1,0,null);
                 commVoiceTimeout=()->finishCommVoice(true);
@@ -601,6 +603,7 @@ public final class MainActivity extends ComponentActivity {
         final File file=commVoiceFile;
         final int session=commVoiceSession;
         commVoiceRecorder=null;commVoiceFile=null;
+        commVoicePaused=false;
         if(commVoiceTimeout!=null)commVoiceHandler.removeCallbacks(commVoiceTimeout);
         commVoiceTimeout=null;
         boolean valid=false;
@@ -635,6 +638,20 @@ public final class MainActivity extends ComponentActivity {
         if("start".equals(action))startCommVoice();
         else if("stop".equals(action))finishCommVoice(true);
         else if("cancel".equals(action))finishCommVoice(false);
+        else if(Build.VERSION.SDK_INT>=24 && commVoiceRecorder!=null
+             && ("pause".equals(action)||"resume".equals(action))){
+            try {
+                if("pause".equals(action)&&!commVoicePaused){
+                    commVoiceRecorder.pause();commVoicePaused=true;
+                    notifyCommVoice("paused",commVoiceSession,null,-1,0,null);
+                } else if("resume".equals(action)&&commVoicePaused){
+                    commVoiceRecorder.resume();commVoicePaused=false;
+                    notifyCommVoice("resumed",commVoiceSession,null,-1,0,null);
+                }
+            }catch(IllegalStateException ex){
+                notifyCommVoice("error",commVoiceSession,"MIC_BUSY_OR_UNAVAILABLE",-1,0,null);
+            }
+        }
     }
 
     private static void mathWavU16(byte[] out,int off,int value){
@@ -1075,7 +1092,8 @@ public final class MainActivity extends ComponentActivity {
                         ||!"https".equalsIgnoreCase(origin.getScheme())
                         ||!APP_HOST.equalsIgnoreCase(origin.getHost()))return;
                     final String command=message.getData();
-                    if(!"start".equals(command)&&!"stop".equals(command)&&!"cancel".equals(command))return;
+                    if(!"start".equals(command)&&!"stop".equals(command)&&!"cancel".equals(command)
+                        &&!"pause".equals(command)&&!"resume".equals(command))return;
                     runOnUiThread(()->handleCommVoiceCommand(command));
                 });
         }
