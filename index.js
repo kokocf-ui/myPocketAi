@@ -7153,6 +7153,8 @@ function shopVoiceItems(transcript){
   buc:'buc',cutie:'cutie',cutii:'cutie',pachet:'pachet',pachete:'pachet',pachetele:'pachet',
   sticla:'sticlă',sticle:'sticlă',sticlele:'sticlă',
   cartus:'cartuș',cartuse:'cartuș',cartusul:'cartuș',cartusele:'cartuș',
+  bax:'bax',baxuri:'bax',baxul:'bax',baxurile:'bax',
+  bacs:'bax',bacsuri:'bax',bacsul:'bax',bacsurile:'bax',
   legatura:'legătură',legaturi:'legătură'};
  const clean=shopVoiceSplit(transcript);
  const result=[];
@@ -7180,6 +7182,11 @@ function shopVoiceItems(transcript){
     if(['de','din'].includes(shopVoiceFold(words[0])))words.shift();
     const possibleUnit=shopVoiceFold(words[0]||'');
     if(units[possibleUnit]){unit=units[possibleUnit];words.shift()}
+    if(['de','din'].includes(shopVoiceFold(words[0])))words.shift();
+    raw=words.join(' ');
+   }else if(units[shopVoiceFold(words[0]||'')]==='bax'){
+    // Spoken "bax de apă" means one pack; don't invent a bottle count.
+    quantity='1';unit='bax';words.shift();
     if(['de','din'].includes(shopVoiceFold(words[0])))words.shift();
     raw=words.join(' ');
    }else{
@@ -7558,7 +7565,7 @@ function renderShoppingList(){
  const product=shopInput(shopLabel('Produs','Item'));product.required=true;
  const quantity=shopInput(shopLabel('Cant.','Qty'),20);quantity.inputMode='decimal';quantity.value='1';
  const unit=document.createElement('select');unit.setAttribute('aria-label',shopLabel('Unitate','Unit'));
- const units=[['buc','buc.','pcs'],['kg','kg','kg'],['g','g','g'],['l','l','l'],['ml','ml','ml'],['pachet','pachet','pack'],['cutie','cutie','box'],['sticlă','sticlă','bottle'],['cartuș','cartuș','carton'],['legătură','legătură','bunch']];
+ const units=[['buc','buc.','pcs'],['kg','kg','kg'],['g','g','g'],['l','l','l'],['ml','ml','ml'],['pachet','pachet','pack'],['cutie','cutie','box'],['sticlă','sticlă','bottle'],['bax','bax','case'],['cartuș','cartuș','carton'],['legătură','legătură','bunch']];
  units.forEach(([value,ro,en])=>{const option=document.createElement('option');option.value=value;option.textContent=shopLabel(ro,en);unit.append(option)});
  const add=shopButton('Adaugă produs','Add item','primary-btn');add.type='submit';
  productForm.append(product,quantity,unit,add);
