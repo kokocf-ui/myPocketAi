@@ -159,6 +159,11 @@ function showOneFieldJourney(choice){
    btn.style.textAlign='left';btn.style.width='100%';results.append(btn);
   }
  };
+ // Restore the previously selected destination and modes when returning from the calendar.
+ const searchNodes=[title,input,hint,status,results,confirmed,actions];
+ const resetJourneyScroll=()=>{
+  for(let element=host;element&&element.id!=='moduleQuickLayer';element=element.parentElement)element.scrollTop=0;
+ };
  const runMode=async(mode)=>{
   if(state.busy||state.moduleSearchBusy||!selected)return;
   const point={latitude:selected.latitude,longitude:selected.longitude,label:selected.label,
@@ -170,7 +175,7 @@ function showOneFieldJourney(choice){
    const step=createTransportDepartureStep({
     title:dialogText('Când dorești să pleci?','When would you like to leave?'),
     destination:point.label,
-    onBack:()=>{step.remove();root.hidden=false},
+    onBack:()=>{root.replaceChildren(...searchNodes);resetJourneyScroll()},
     onSearch:async departureAt=>{
      session.stop();
      await runModuleSearch({...choice,kind:'transit',mixedJourney:true,transitDirect:true,
@@ -179,7 +184,9 @@ function showOneFieldJourney(choice){
       prompt:dialogText('Caută transport mixt către ','Find mixed transport to ')+point.label});
     }
    });
-   root.hidden=true;host.append(step);
+   // Keep the calendar in the initial viewport; do not append it below the address/mode form.
+   root.replaceChildren(step);
+   resetJourneyScroll();
    return;
   }
   const labels=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;
