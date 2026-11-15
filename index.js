@@ -7489,8 +7489,9 @@ function renderShoppingList(){
  const count=document.createElement('small');
  count.textContent=shopLabel('Bifate de tine: ','Checked by you: ')+data.items.filter(i=>i.checked).length+' / '+data.items.length;
  heading.append(title,count);
- if(shoppingMode==='entry' && data.items.length){
-  const share=shopButton('↗ Partajează','↗ Share','secondary-btn');
+ if((shoppingMode==='entry'||shoppingMode==='active') && data.items.length){
+  // Keep sharing accessible in the active list, not only in add-products mode.
+  const share=shopButton('↗ Trimite lista','↗ Send list','secondary-btn');
   share.setAttribute('aria-label',shopLabel('Trimite această listă unui prieten aprobat','Send this list to an approved friend'));
   share.onclick=()=>{
    if(typeof window.pocketCommunicationImportShopping!=='function'){
