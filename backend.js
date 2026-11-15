@@ -1763,6 +1763,7 @@ export default {
         }
         if(candidates.length>=30)break;
       }
+      // National autocomplete enforces precise station types, GPS-near exact addresses and de-duplicates provider results.
       const ranked=rankJourneySuggestions(selected,candidates,{origin:pointOk?{latitude:Number(location.latitude),longitude:Number(location.longitude)}:null,national:Boolean(nationalCountry)}).slice(0,8)
         .map(({_name,_categories,...candidate})=>candidate);
       return json({candidates:ranked,provider:'geoapify_tfl_if_applicable',exact_number_required:Boolean(num),query:raw});

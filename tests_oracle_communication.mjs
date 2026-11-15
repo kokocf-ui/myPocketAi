@@ -14,7 +14,7 @@ assert.match(ORACLE_COMMUNICATION_SCRIPT,/pocketInviteReceived/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/pocketCommunicationImportShopping/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/shareArea.hidden=true;shoppingSendPane.hidden=false/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/Alege un prieten din lista de contacte aprobate/);
-assert.match(ORACLE_COMMUNICATION_SCRIPT,/if\(!chosen\|\|sent\|\|seq!==shoppingSendSequence\)return/);
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/if\(!chosen\|\|sent\|\|sending\|\|seq!==shoppingSendSequence\)return/);
 assert.doesNotMatch(ORACLE_COMMUNICATION_SCRIPT,/listContent.append\(select,sendList\)/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'list_share',listId:draftId,friend:chosen.id,role:'editor'/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/await send\(\{action:'contacts'\}\)/,'server identity checked before declaring active');
