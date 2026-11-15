@@ -54,6 +54,10 @@ assert.match(native,/finishCommVoice\(true,false\)/,'Send finalizes for upload')
 assert.match(native,/notifyCommVoice\(preview\?"preview":"complete"/,'Pause does not auto-send');
 assert.match(native,/if\("cancel"\.equals\(action\)\)cancelCommVoice\(\)/,'Delete cleans temporary recordings');
 assert.match(native,/CountDownLatch/,'Transport waits for WebView chunk acknowledgment');
+assert.match(native,/if\(parts>0\)event\.put\("parts",parts\)/,'Preview and completion events include the total fragment count even without part index');
+assert.match(native,/if\(part>=0\)event\.put\("part",part\)/,'The fragment index is optional for preview and completion');
+assert.doesNotMatch(native,/if\(part>=0\)\{event\.put\("part",part\);event\.put\("parts",parts\);\}/,'Voice completion does not lose total fragment count');
+
 assert.match(native,/ack\.await\(5,java\.util\.concurrent\.TimeUnit\.SECONDS\)/);
 assert.match(native,/new byte\[24\*1024\]/,'Audio chunks remain small');
 assert.match(native,/if\(!notifyCommVoice\("chunk"/,'Transfer must be acknowledged');
