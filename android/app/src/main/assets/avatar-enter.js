@@ -124,17 +124,31 @@
  const poll=setInterval(()=>{
   if(finished||begin()||++attempts>65)clearInterval(poll);
  },100);
+ let spokenSequence=0;
  window.pocketLaunchSpeak=(speaking,text)=>{
+  if(finished)return;
   try{
-   if(speaking)window.PocketAvatarAPI?.start?.(text||'Salut!');
+   if(speaking){spokenSequence++;window.PocketAvatarAPI?.setVisible?.(true);window.PocketAvatarAPI?.start?.(text||'Salut!');}
    else window.PocketAvatarAPI?.stop?.();
   }catch(_){}
+ };
+ // This event is sent only when the FINAL TTS sentence has completed.
+ // Let the closed-mouth morph settle, then freeze the lip animation so
+ // late audio/boundary callbacks cannot restart articulation.
+ window.pocketLaunchEndGreeting=()=>{
+  const version=++spokenSequence;
+  try{window.PocketAvatarAPI?.stop?.()}catch(_){}
+  setTimeout(()=>{
+   if(version!==spokenSequence||finished)return;
+   try{window.PocketAvatarAPI?.stop?.();window.PocketAvatarAPI?.setVisible?.(false)}catch(_){}
+  },240);
  };
  window.pocketLaunchBoundary=(charIndex)=>{
   try{window.PocketAvatarAPI?.boundary?.(charIndex)}catch(_){}
  };
  window.pocketLaunchFinish=()=>{
-  finished=true;clearInterval(poll);
+  finished=true;spokenSequence++;clearInterval(poll);
+  try{window.PocketAvatarAPI?.stop?.();window.PocketAvatarAPI?.setVisible?.(false)}catch(_){}
   if(surface){surface.style.setProperty('opacity','0','important')}
   mist.style.opacity='0';
  };

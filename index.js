@@ -4287,7 +4287,8 @@ function shoppingWrite(data){try{localStorage.setItem(SHOPPING_STORAGE_KEY,JSON.
 let pocketUiUpdateChecking=false;
 function pocketUiUpdateSafe(){
  const view=state.currentView;
- return (view!=='module'||$('view-module').classList.contains('organize-choose'))
+ // Active sessions must never reload, including the Organisation chooser.
+ return view==='home'&&!state.busy&&!state.voiceMode&&!state.dictationMode
   &&!shoppingPendingAction&&!shoppingVoiceSession?.active&&!agendaListening
   &&!notesListening&&!dailyListening&&!budgetVoiceListening&&!tasksListening
   &&!remindersListening&&!documentsListening&&!document.querySelector('dialog[open]')
@@ -4300,8 +4301,17 @@ async function checkUiUpdateAfterModuleExit(){
   const response=await fetch('/__ui_version',{cache:'no-store'});
   if(!response.ok)return;
   const version=(await response.text()).trim();
-  if(version&&version!==document.documentElement.dataset.pocketUiVersion
-    &&pocketUiUpdateSafe())window.location.reload();
+  if(!pocketUiUpdateSafe())return;
+  const current=document.documentElement.dataset.pocketUiVersion;
+  const key='mypocketai.ui-refresh-attempt';
+  if(version===current){try{sessionStorage.removeItem(key)}catch(_){};return;}
+  if(version){
+   let alreadyAttempted=false;
+   try{alreadyAttempted=sessionStorage.getItem(key)===version}catch(_){}
+   if(alreadyAttempted)return; // Never refresh repeatedly for the same stale version.
+   try{sessionStorage.setItem(key,version)}catch(_){}
+   if(pocketUiUpdateSafe())window.location.reload();
+  }
  }catch(_error){/* Offline: keep the currently usable interface. */}
  finally{pocketUiUpdateChecking=false}
 }
@@ -4319,7 +4329,7 @@ function renderOrganizeChoices(){
  budgetVoiceStop();
  documentsVoiceStop();
  agendaPendingDelete=null;
- const leavingShopping=$('view-module').classList.contains('adaptive-workspace-view');
+ // Navigating within organisation cannot trigger an interface update.
  shoppingMode='entry';shoppingPendingAction=null;
  $('moduleTitle').textContent=learningLabel('Organizare personală','Personal organisation');
  $('moduleTitle').parentElement?.querySelector('.pocket-voice-info')?.remove();
@@ -4334,7 +4344,7 @@ function renderOrganizeChoices(){
   button.append(icon,title,desc);button.onclick=()=>openOrganizeCategory(cat[0]);grid.append(button);
  });
  host.append(grid);$('moduleLead').textContent='';
- if(leavingShopping)checkUiUpdateAfterModuleExit();
+ // The organisation category screen stays active until the user leaves it.
 }
 /* Reusable, contextual voice-command help; stays in the current module. */
 function pocketVoiceHelp(mode,title){
@@ -7989,6 +7999,13 @@ window.pocketAndroidBack=function(){
  if(activeAnswerReader){closeAnswerReader();return}
  // Android system Back should close the fullscreen private conversation,
  // not jump straight to Home while it is still open.
+ if(state.currentView==='communication'){
+  // Android Back while typing closes the keyboard, not the private chat.
+  const focused=document.activeElement;
+  const viewport=window.visualViewport;
+  const keyboardVisible=!!viewport&&viewport.height<window.innerHeight*0.76;
+  if(keyboardVisible&&focused?.matches?.('input,textarea,[contenteditable="true"]')){focused.blur();return;}
+ }
  if(state.currentView==='communication'&&window.pocketCommunicationCloseChat?.())return;
  const quick=$('moduleQuickLayer');
  if(quick?.classList.contains('open')){
