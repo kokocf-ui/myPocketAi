@@ -58,8 +58,8 @@ const fId=CREATOR_IMAGE_AI_SCRIPT.match(/function evaImageInstallationId\(\)\{[\
 assert.ok(fId,'Installation identity helper must exist');
 const saved=new Map();let creations=0;
 const localStorageStub={getItem:k=>saved.get(k)||null,setItem:(k,v)=>saved.set(k,v)};
-const createId=new Function('localStorage','crypto',fId+';return evaImageInstallationId;')(
- localStorageStub,{randomUUID:()=>{creations++;return '00000000-0000-4000-8000-000000000101'}});
+const createId=new Function('localStorage','globalThis',fId+';return evaImageInstallationId;')(
+ localStorageStub,{crypto:{randomUUID:()=>{creations++;return '00000000-0000-4000-8000-000000000101'}}});
 assert.equal(createId(),'00000000-0000-4000-8000-000000000101');
 assert.equal(createId(),'00000000-0000-4000-8000-000000000101');
 assert.equal(creations,1,'Stable quota identifier survives workspace reopen on same installation');
