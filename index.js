@@ -17868,6 +17868,13 @@ const TRAVEL_MODE_TEXT={ro:['Cum vrei să ajungi?','Pietonal','Transport public'
 const TRAVEL_CONFIRM_TEXT={ro:['Da, arată traseul','Nu, mulțumesc'],en:['Show directions','No, thanks'],fr:['Afficher le trajet','Non, merci'],de:['Route anzeigen','Nein, danke'],it:['Mostra percorso','No, grazie'],es:['Mostrar ruta','No, gracias'],pt:['Mostrar percurso','Não, obrigado'],nl:['Toon route','Nee, bedankt'],ru:['Показать маршрут','Нет, спасибо'],pl:['Pokaż trasę','Nie, dziękuję']};
 function openTransportModeFromAssistant(data){
  if(!data?.route_context?.destination)return false;
+ // Every route request originating from Eva goes into Deplasare spre….
+ if(state.currentView==='assistant'){
+  const point=data.route_context.destination;
+  return handoffJourneyFromAssistant({raw:String(data.route_context.destination_query||point.label||''),
+   destination_query:String(data.route_context.destination_query||point.label||''),
+   origin_query:String(data.route_context.origin_query||''),selected_destination:point});
+ }
  if(state.tripCountryOnChoice&&state.tripAccommodationDecision!=='yes'&&state.tripAccommodationDecision!=='no'){return offerDestinationAccommodationBeforeRoute(data.route_context.destination)}
  if(state.currentView==='assistant'&&state.assistantStructuredDestination===true){
   const host=document.createElement('div');host.dataset.directChoices='true';
