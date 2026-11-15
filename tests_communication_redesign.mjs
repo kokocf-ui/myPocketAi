@@ -57,15 +57,16 @@ assert.match(java,/PermissionRequest\.RESOURCE_AUDIO_CAPTURE/,'Only audio captur
 assert.match(java,/PocketAndroidCommunicationVoice/,'Native voice bridge registered');
 assert.match(java,/private void startCommVoice\(\) \{[\s\S]*?stopEmbeddedListening\(\);[\s\S]*?stopMathPcmRecording\(\);/,'Communication yields the microphone from Eva and Maths before recording');
 assert.match(java,/commVoiceHandler\.postDelayed\(commVoiceStartTask,350L\)/,'Recorder starts after asynchronous speech resource release');
-assert.match(java,/for\(int attempt=0;attempt<2;attempt\+\+\)/,'Recorder retries unsupported custom AAC settings');
-assert.match(java,/if\(attempt==0\)\{/,'Recorder fallback omits unsupported sample rate configuration');
-assert.match(java,/if\(commVoiceStarting\)\{[\s\S]*?removeCallbacks\(commVoiceStartTask\)/,'Leaving chat cancels any pending recorder start');
+assert.match(java,/commVoiceRecordingCount==0\?2:1/,'First segment can retry using device encoder defaults');
+assert.match(java,/if\(explicit\)\{/,'Recorder preserves consistent encoder settings across segments');
+assert.match(java,/private void cancelCommVoice\(\)\{[\s\S]*?removeCallbacks\(commVoiceStartTask\)/,'Leaving chat cancels a pending recorder start');
 
 assert.match(java,/isMainFrame\|\|origin==null/,'Native recorder rejects subframes');
 assert.match(java,/APP_HOST\.equalsIgnoreCase\(origin\.getHost\(\)\)/,'Native voice bridge restricted to application domain');
 assert.match(java,/ContextCompat\.checkSelfPermission\(this,Manifest\.permission\.RECORD_AUDIO\)/,'Native capture validates existing Android permission');
 assert.match(java,/File\.createTempFile\("pocket-voice-", "\.m4a",getCacheDir\(\)\)/,'Voice recording uses private ephemeral audio file');
-assert.match(java,/file\.delete\(\)/,'Native voice file deleted after transfer');
+assert.match(java,/merged\.delete\(\)/,'Native merged playback file is deleted after transfer');
+assert.match(java,/clearCommVoiceSegments\(\)/,'Cancel and successful send clean private segments');
 
 assert.match(java,/APP_HOST\.equalsIgnoreCase\(origin\.getHost\(\)\)/,'WebView microphone is origin-restricted');
 assert.match(java,/Manifest\.permission\.RECORD_AUDIO\)==PackageManager\.PERMISSION_GRANTED/,'Mic requires Android permission');
