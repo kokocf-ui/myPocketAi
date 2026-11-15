@@ -38,7 +38,11 @@ function showNationalTransitSearch(choice){
  let country='',point=null,origin=null,seq=0,timer=null,abort=null;
  const session={stop(){seq++;clearTimeout(timer);abort?.abort()}};nationalTransitSession=session;
  const alive=()=>root.isConnected&&nationalTransitSession===session&&state.currentView==='module'&&state.currentModule==='maps';
- const go=createButton(t('search'),()=>{
+ const searchNodes=[];
+ const resetCalendarScroll=()=>{
+  for(let element=host;element&&element.id!=='moduleQuickLayer';element=element.parentElement)element.scrollTop=0;
+ };
+ const openDeparture=()=>{
   if(!alive()||state.busy||state.moduleSearchBusy||!country||!origin||!point||String(point.country_code||'').toUpperCase()!==country)return;
   // Calendar appears AFTER the national destination is confirmed, BEFORE offers.
   const destination={latitude:Number(point.latitude),longitude:Number(point.longitude),
@@ -47,7 +51,16 @@ function showNationalTransitSearch(choice){
   const step=createTransportDepartureStep({
    title:ro?'Când dorești să pleci?':'When would you like to leave?',
    destination:destination.label,
-   onBack:()=>{step.remove();root.hidden=false},
+   onBack:()=>{
+    root.replaceChildren(...searchNodes);
+    if(point){
+     const again=createButton(String(point.label||''),()=>openDeparture());
+     again.className='transit-choice-action journey-suggestion';
+     again.style.flex='0 0 auto';again.style.width='100%';again.style.textAlign='left';
+     choices.replaceChildren(again);
+    }
+    resetCalendarScroll();
+   },
    onSearch:async departureAt=>{
     if(!alive()||state.busy||state.moduleSearchBusy)return;
     session.stop();
@@ -57,11 +70,13 @@ function showNationalTransitSearch(choice){
      prompt:(ro?'Transport public către ':'Public transport to ')+destination.label});
    }
   });
-  root.hidden=true;host.append(step);
- });go.disabled=true;
+  // Keep the calendar in the first visible position instead of below the search form.
+  root.replaceChildren(step);
+  resetCalendarScroll();
+ };
  const back=createButton(t('back'),()=>{session.stop();handleModuleLayerBack()});back.classList.add('pocket-nav-return');
  back.style.cssText+=';background:linear-gradient(145deg,#903550,#602139)!important;border:2px solid #e9a9b8!important;color:white!important;box-shadow:inset 0 2px 0 #ffffff30,inset 0 -4px 0 #2a1020,0 4px 0 #341426,0 7px 12px #0006!important';
- actions.append(back,go);
+ actions.append(back);
  const lookup=async()=>{
   if(!alive()||!country)return;
   const query=field.value.trim();if(query.length<2){status.textContent=t('short');return}
@@ -73,20 +88,24 @@ function showNationalTransitSearch(choice){
    const options=(Array.isArray(data.candidates)?data.candidates:[]).filter(p=>String(p.country_code||'').toUpperCase()===country);
    status.textContent=options.length?'':t('noresults');
    for(const candidate of options.slice(0,8)){
-    const btn=createButton(String(candidate.label||''),()=>{point=candidate;field.value=candidate.label;choices.replaceChildren();selectedText.textContent=t('selected')+': '+candidate.label;status.textContent='';go.disabled=false});
+    const btn=createButton(String(candidate.label||''),()=>{
+     point=candidate;field.value=candidate.label;choices.replaceChildren();selectedText.textContent='';status.textContent='';
+     // A verified suggestion is the confirmation: open the calendar immediately.
+     openDeparture();
+    });
     btn.className='transit-choice-action journey-suggestion';btn.style.flex='0 0 auto';btn.style.width='100%';btn.style.textAlign='left';choices.append(btn);
    }
   }catch(err){if(alive()&&n===seq&&err?.name!=='AbortError')status.textContent=t('failed')}
  };
  field.addEventListener('input',()=>{
-  seq++;clearTimeout(timer);abort?.abort();point=null;go.disabled=true;choices.replaceChildren();selectedText.textContent='';
+  seq++;clearTimeout(timer);abort?.abort();point=null;choices.replaceChildren();selectedText.textContent='';
   if(field.value.trim().length<2){status.textContent=t('short');return}
   timer=setTimeout(()=>void lookup(),300);
  });
- field.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();if(point)go.click();else{clearTimeout(timer);void lookup()}}});
+ field.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();if(point)openDeparture();else{clearTimeout(timer);void lookup()}}});
  const retry=createButton(t('retry'),()=>void detect());retry.style.cssText+=';display:none';
  const detect=async()=>{
-  country='';point=null;go.disabled=true;field.disabled=true;choices.replaceChildren();selectedText.textContent='';status.textContent=t('waiting');retry.style.display='none';
+  country='';point=null;field.disabled=true;choices.replaceChildren();selectedText.textContent='';status.textContent=t('waiting');retry.style.display='none';
   try{
    origin=await getCurrentCoordinates(false);if(!alive())return;
    if(!Number.isFinite(origin?.latitude)||!Number.isFinite(origin?.longitude))throw Error('gps_denied');
@@ -100,6 +119,7 @@ function showNationalTransitSearch(choice){
    status.textContent=t('scope')+': '+name+'. '+t('short');
   }catch(e){if(alive()){status.textContent=e?.message==='gps_denied'?t('denied'):t('unknown');retry.style.display=''}}
  };
- root.append(label,field,hint,status,choices,selectedText,actions,retry);host.replaceChildren(root);void detect();
+ searchNodes.push(label,field,hint,status,choices,selectedText,actions,retry);
+ root.append(...searchNodes);host.replaceChildren(root);void detect();
 }
 `;
