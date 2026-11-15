@@ -1,3 +1,4 @@
+import {verifiedRouteOnlyOptions} from './transport_route_topology.mjs';
 // Cloudflare Worker -> private Romanian urban GTFS router adapter.
 // Never send precise coordinates unless routed within a verified Romanian region.
 // The endpoint MUST be HTTPS and protected by a private bearer token.
@@ -59,8 +60,17 @@ export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,l
   if(res.status===503)return {status:'feed_not_loaded',journeys:[],region};
   if(!res.ok)return {status:'provider_http_error',journeys:[],region};
   const data=await res.json();
-  if(!['success','no_verified_itinerary','no_nearby_gtfs_stop','no_service_on_date'].includes(data?.status))
+  if(!['success','route_only','no_verified_itinerary','no_nearby_gtfs_stop','no_service_on_date'].includes(data?.status))
    return {status:'invalid_response',journeys:[],region};
+  if(data.status==='route_only'){
+   const rows=Array.isArray(data.journeys)?data.journeys:[];
+   const verified=verifiedRouteOnlyOptions(rows,'RO');
+   const ids=new Set(verified.map(x=>[x.mode,x.line,x.boarding_stop_id,x.alighting_stop_id].join('|')));
+   const journeys=rows.filter(j=>{
+    const l=j?.legs?.[0];return l&&ids.has([l.mode,l.lineNames?.[0],l.fromStopId,l.toStopId].join('|'));
+   }).slice(0,6);
+   return {status:journeys.length?'route_only':'invalid_route_only',journeys,region};
+  }
   const journeys=(Array.isArray(data.journeys)?data.journeys:[]).filter(j=>{
    if(!Array.isArray(j.legs)||j.legs.length<1||j.legs.length>2||!j.scheduled||j.real_time!==false)return false;
    if(j.legs.some(l=>!l.from||!l.to||!l.departureTime||!l.arrivalTime||
