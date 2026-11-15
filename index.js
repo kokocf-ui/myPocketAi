@@ -1376,6 +1376,20 @@ body.long-choice-active{overflow:hidden}
 .pocket-select-option.is-selected{border-color:#70d9e9;background:linear-gradient(150deg,#246585,#0c314b)}
 .pocket-select-option:focus-visible{outline:2px solid #b2f7ff;outline-offset:2px}
 .pocket-select-option-mark{color:#9be9f3;flex:0 0 auto;font-weight:800}
+/* Art styles only: all 26 choices inside a four-card viewport.
+   Other progressive selectors retain their original four-result contract. */
+.pocket-select-modal.pocket-select-scroll-mode .pocket-select-list{
+ box-sizing:border-box;height:min(270px,50dvh);max-height:min(270px,50dvh);
+ flex:0 0 auto;overflow-x:hidden;overflow-y:auto!important;
+ overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;
+ scrollbar-width:thin;scrollbar-color:#75cddd transparent;padding:15px 12px;
+}
+.pocket-select-modal.pocket-select-scroll-mode .pocket-select-option{
+ flex:0 0 54px;min-height:54px;max-height:54px;
+}
+.pocket-select-modal.pocket-select-scroll-mode .pocket-unified-heading strong{
+ overflow-wrap:normal;white-space:normal;line-height:1.25;
+}
 @media(max-height:600px){.pocket-select-modal,.pocket-select-modal .pocket-unified-window{max-height:85dvh}}
 
 ${ACCOUNT_STYLE}
@@ -3767,7 +3781,12 @@ function openPocketSelect(select){
  const options=Array.from(select.options||[]).filter(opt=>!opt.hidden&&!opt.disabled);
  if(!options.length)return false;
  if(dialog.open)dialog.close();
- const label=select.getAttribute('aria-label')||select.closest('label')?.textContent?.trim()||learningLabel('Alege o opțiune','Choose an option');
+ // Keep the heading separate from nested option text.
+ const labelHost=select.closest('label');
+ const labelCaption=labelHost?Array.from(labelHost.childNodes).filter(node=>node.nodeType===3).map(node=>node.textContent).join(' ').trim():'';
+ const label=select.getAttribute('aria-label')||labelCaption||learningLabel('Alege o opțiune','Choose an option');
+ const scrollMode=select.dataset.pocketPickerMode==='scroll'&&options.length>4;
+ dialog.classList.toggle('pocket-select-scroll-mode',scrollMode);
  $('pocketSelectTitle').textContent=String(label).slice(0,100);
  $('pocketSelectClose').textContent=learningLabel('Revenire','Back');
  list.replaceChildren();pocketSelectSource=select;
@@ -3783,7 +3802,8 @@ function openPocketSelect(select){
   list.before(search);
  }
  search.value='';
- search.style.display=options.length>4?'block':'none';
+ // All 26 art styles are browsed by swipe; no keyboard needed.
+ search.style.display=scrollMode?'none':options.length>4?'block':'none';
  let focused=null;
  const render=()=>{
   focused=null;
@@ -3796,7 +3816,7 @@ function openPocketSelect(select){
    const firstB=progressiveMatchText(b.textContent||b.value).startsWith(typed);
    return Number(firstB)-Number(firstA);
   });
-  renderProgressiveChoiceList(list,matches,opt=>{
+  const createButton=opt=>{
    const button=document.createElement('button');button.type='button';
    button.className='pocket-select-option'+(opt.selected?' is-selected':'');
    button.setAttribute('aria-pressed',opt.selected?'true':'false');
@@ -3813,7 +3833,9 @@ function openPocketSelect(select){
    };
    if(opt.selected)focused=button;
    return button;
-  });
+  };
+  if(scrollMode)list.replaceChildren(...matches.map(createButton));
+  else renderProgressiveChoiceList(list,matches,createButton);
  };
  search.oninput=render;
  render();
@@ -3821,6 +3843,7 @@ function openPocketSelect(select){
   dialog.showModal();
   // Never raise Android's keyboard until the user taps the search field.
   (focused||list.firstElementChild||$('pocketSelectClose'))?.focus({preventScroll:true});
+  if(scrollMode&&focused?.scrollIntoView)focused.scrollIntoView({block:'nearest',inline:'nearest'});
   return true;
  }catch(error){pocketSelectSource=null;return false}
 }
@@ -3873,6 +3896,7 @@ document.addEventListener('keydown',event=>{
 $('pocketSelectClose').onclick=()=>{$('pocketSelectDialog').close()};
 $('pocketSelectDialog').addEventListener('close',()=>{
  const select=pocketSelectSource;pocketSelectSource=null;
+ $('pocketSelectDialog').classList.remove('pocket-select-scroll-mode');
  if(select?.isConnected)select.focus({preventScroll:true});
 });
 
