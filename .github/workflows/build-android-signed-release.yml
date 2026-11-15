@@ -5,6 +5,9 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'one_field_journey_ui.mjs'
+      - 'national_public_transport_ui.mjs'
+      - 'tests_transport_departure_entrypoints.mjs'
       - '.github/workflows/build-android-signed-release.yml'
       - 'index.js'
       - 'extra_tools_workspace.mjs'
@@ -30,6 +33,9 @@ on:
   push:
     branches: [main, feature/eva-images-release-20261115]
     paths:
+      - 'one_field_journey_ui.mjs'
+      - 'national_public_transport_ui.mjs'
+      - 'tests_transport_departure_entrypoints.mjs'
       - 'creator_image_ai.mjs'
       - 'tests_creator_live_ui.mjs'
       - 'android/**'
