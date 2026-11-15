@@ -15,6 +15,14 @@ for(const value of [
  'Strada Libertății 12A din Oradea',
  'Strada Libertății din Alba Iulia',
  'Oxford Street, London',
+ '25 Oxford Street, London',
+ '12 Oxford Street, London, UK',
+ '12 Nufărului, Oradea',
+ 'Nufărului 12, Oradea',
+ 'Nufărului nr. 12, Oradea',
+ 'Nufărului, nr. 12, Oradea',
+ 'Nufărului 12 din Oradea',
+ 'Nufărului 12, Oradea, România',
  'Hotel Hilton, London',
  'Muzeul Țării Crișurilor din Oradea',
  'Hotel Marriott, București'
@@ -25,7 +33,11 @@ for(const value of [
  'Ce este Muzeul Țării Crișurilor din Oradea?',
  'Unde găsesc hoteluri în Londra?',
  'Salut, ce faci?',
- 'Muzee în Oradea'
+ 'Muzee în Oradea',
+ 'Nufărului 12',
+ '25 Oxford Street',
+ '12 cartușe, Oradea',
+ 'Hoteluri 12, Oradea'
 ])assert.equal(quick(value),null,'ordinary request must not start route: '+value);
 
 // Main source delegates geocoding and routing to the existing shared backend.
@@ -51,6 +63,8 @@ for(const [q,u,result] of [
 assert.match(inline,/shopQuantityUnitLabel\(item\.quantity,item\.unit\)/,'active shopping list inflects');
 assert.match(inline,/shopQuantityUnitLabel\(i\.quantity,i\.unit\)/,'shopping history inflects');
 assert.match(inline,/assistantStructuredDestination=true;state\.pendingTravelConfirmationData/,'assistant chooses mode without leaving assistant');
+assert.match(backend,/canonicalTravelHouseNumber\(query\)/,'numbered addresses normalized before geocoding');
+assert.match(readFileSync(new URL('./index.js',import.meta.url),'utf8'),/assistantBareDestinationQuery\(text\)/,'assistant requests GPS for bare numbered addresses');
 
 // Exercise the actual Worker route handoff with deterministic geocoder responses.
 // This checks that a bare destination becomes an existing route-context prompt.
@@ -63,6 +77,12 @@ const realPlaces={
  streetExact:{name:'Strada Libertății',street:'Strada Libertății',city:'Oradea',
   housenumber:'12',formatted:'Strada Libertății 12, Oradea, Romania',result_type:'building',
   lat:47.0613,lon:21.9303,country_code:'ro'},
+ nufaruluiExact:{name:'Strada Nufărului',street:'Strada Nufărului',city:'Oradea',
+  housenumber:'12',formatted:'Strada Nufărului 12, Oradea, România',result_type:'building',
+  lat:47.0618,lon:21.9308,country_code:'ro'},
+ oxfordExact:{name:'Oxford Street',street:'Oxford Street',city:'London',
+  housenumber:'25',formatted:'25 Oxford Street, London, United Kingdom',result_type:'building',
+  lat:51.5154,lon:-0.1418,country_code:'gb'},
  streetWrong:{name:'Strada Libertății',street:'Strada Libertății',city:'Oradea',
   housenumber:'14',formatted:'Strada Libertății 14, Oradea, Romania',result_type:'building',
   lat:47.0615,lon:21.9305,country_code:'ro'},
@@ -85,6 +105,12 @@ try {
     return Response.json({features:[toFeature(realPlaces.streetWrong),toFeature(realPlaces.streetExact)]});
    if(/^99 strada libertatii/.test(query))
     return Response.json({features:[toFeature(realPlaces.streetWrong),toFeature(realPlaces.street)]});
+   if(/^12 nufarului/.test(query))
+    return Response.json({features:[toFeature(realPlaces.street),toFeature(realPlaces.nufaruluiExact)]});
+   if(/^99 nufarului/.test(query))
+    return Response.json({features:[toFeature(realPlaces.street),toFeature(realPlaces.nufaruluiExact)]});
+   if(/^25 oxford street/.test(query))
+    return Response.json({features:[toFeature(realPlaces.oxfordExact)]});
    const p=query.includes('aurora')?realPlaces.hotel:query.includes('crișurilor')||query.includes('crisurilor')?realPlaces.museum:realPlaces.street;
    return Response.json({features:[toFeature(p)]});
   }
@@ -97,7 +123,10 @@ try {
  const env={GEOAPIFY_API_KEY:'test',AI:{run:async()=>{throw Error('Route should not need an AI generation')}}};
  for(const message of ['Strada Libertății, Oradea','Hotel Aurora, Oradea','Muzeul Țării Crișurilor din Oradea',
  'Strada Libertății 12, Oradea','Strada Libertății nr. 12, Oradea',
- 'Strada Libertății, nr. 12, Oradea','Strada Libertății, 12, Oradea']){
+ 'Strada Libertății, nr. 12, Oradea','Strada Libertății, 12, Oradea',
+ 'Nufărului 12, Oradea','Nufărului nr. 12, Oradea','Nufărului, nr. 12, Oradea',
+ '12 Nufărului, Oradea','Nufărului 12 din Oradea',
+ '25 Oxford Street, London']){
   const response=await worker.fetch(new Request('https://quick-route.test/api/chat',{method:'POST',
    headers:{'content-type':'application/json'},
    body:JSON.stringify({message,language:'ro',module:'assistant',history:[],
@@ -106,7 +135,13 @@ try {
   const body=await response.json();
   assert.equal(body.needs_travel_mode,true,message+' should request existing mode chooser: '+JSON.stringify(body).slice(0,550));
   assert.ok(body.route_context?.destination,'No verified destination: '+message);
-  if(/12/.test(message)){
+  if(/25 Oxford/.test(message)){
+   assert.equal(body.route_context.destination.latitude,51.5154,'English numbering must find Oxford Street 25');
+   assert.ok(requestedGeoQueries.some(q=>q.startsWith('25 oxford street')),'English address must retain number-first order');
+  }else if(/Nufărului/i.test(message)){
+   assert.equal(body.route_context.destination.latitude,47.0618,'Street number 12 must work without word "strada"');
+   assert.ok(requestedGeoQueries.some(q=>q.startsWith('12 nufarului')),'Unlabeled street must be normalized with door number');
+  }else if(/12/.test(message)){
    assert.equal(body.route_context.destination.latitude,47.0613,'Must choose number 12, not street or number 14');
    assert.ok(requestedGeoQueries.some(q=>q.startsWith('12 strada libertatii')),'Provider lookup must include exact house number');
   }
@@ -119,6 +154,13 @@ try {
  assert.equal(noExact.needs_destination_clarification,true,'Unavailable house number must trigger clarification');
  assert.equal(noExact.route_context?.destination,undefined,'Never downgrade 99 to a street-level point');
  assert.equal(noExact.place_lookup?.strategy,'exact_house_not_verified');
+ const noBare=await worker.fetch(new Request('https://quick-route.test/api/chat',{method:'POST',
+  headers:{'content-type':'application/json'},
+  body:JSON.stringify({message:'Nufărului 99, Oradea',module:'assistant',language:'ro',
+   history:[],location:{latitude:47.055,longitude:21.92,accuracy:20,updatedAt:Date.now()}})}),env);
+ const noBareExact=await noBare.json();
+ assert.equal(noBareExact.needs_destination_clarification,true,'Missing unprefixed house must prompt');
+ assert.equal(noBareExact.route_context?.destination,undefined,'Never silently choose street center');
 }finally{globalThis.fetch=originalFetch}
 
 console.log('Quick assistant routes and Romanian shopping plurals: OK');
