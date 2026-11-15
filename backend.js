@@ -18,6 +18,8 @@ import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
 import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
 import {nationalPublicTransportPolicy} from "./national_public_transport_policy.mjs";
+import {rankJourneySuggestions} from "./journey_suggestion_rank.mjs";
+import {romanianLocalJourneyScope} from "./romanian_transport_scope.mjs";
 import {searchAnchorPolicy} from "./country_search_anchor.mjs";
 import {nationalProviderAuthorized} from "./country_national_provider_gate.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
@@ -1689,7 +1691,7 @@ export default {
       const endpoints=['https://api.geoapify.com/v1/geocode/autocomplete'];
       // The complete address or named POI is also checked with the more exact
       // search endpoint; a partial word does not trigger an extra provider call.
-      if(selected.length>=8&&/(?:,|\s+din\s+|\s+in\s+|\s+\d+[a-z]?$)/iu.test(selected))
+      if(selected.length>=8&&(/(?:,|\s+din\s+|\s+in\s+|\s+\d+[a-z]?$)/iu.test(selected)||/(?:station|underground|tube|railway|gara|gară|statie|stație|metrou|metro|airport|aeroport)/iu.test(selected)))
         endpoints.push('https://api.geoapify.com/v1/geocode/search');
       const promises=endpoints.map(async endpoint=>{
         const url=new URL(endpoint);
@@ -1704,6 +1706,33 @@ export default {
         const result=await response.json();
         return Array.isArray(result.results)?result.results:Array.isArray(result.features)?result.features.map(f=>f.properties||{}):[];
       });
+      // UK station searches use official TfL stop points alongside Geoapify.
+      // Commercial premises remain available as landmarks; no category is removed.
+      if(nationalCountry==='GB'&&/(?:station|underground|tube|railway|rail)/i.test(selected)&&
+         (env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false')){
+        const stopQuery=selected.replace(/\b(?:london|londra|underground|railway|rail|train|station|tube|metro|metrou)\b/gi,' ').replace(/[,\s]+/g,' ').trim();
+        if(stopQuery.length>=3)promises.push((async()=>{
+          const url=new URL('https://api.tfl.gov.uk/StopPoint/Search/'+encodeURIComponent(stopQuery));
+          url.searchParams.set('includeHubs','true');
+          if(env.TFL_APP_KEY)url.searchParams.set('app_key',env.TFL_APP_KEY);
+          const response=await fetch(url.toString(),{headers:{Accept:'application/json'},signal:AbortSignal.timeout(6500)});
+          if(!response.ok)return [];
+          const payload=await response.json();
+          const wanted=stopQuery.toLowerCase().replace(/[^a-z0-9]/g,'');
+          const tubeOnly=/\b(?:underground|tube|metro|metrou)\b/i.test(selected);
+          return (Array.isArray(payload.matches)?payload.matches:[]).filter(stop=>{
+            const name=String(stop.name||stop.commonName||'');
+            const core=name.toLowerCase().replace(/\b(?:london|underground|rail|railway|station|national|tube)\b/g,'').replace(/[^a-z0-9]/g,'');
+            const meta=[stop.id,stop.stopType,stop.motType,stop.network,...(stop.modes||[]),name].join(' ');
+            return core===wanted&&Number.isFinite(Number(stop.lat))&&Number.isFinite(Number(stop.lon))&&
+              /rail|underground|metro|tube|overground|dlr|910g|940g/i.test(meta)&&
+              (!tubeOnly||/tube|underground|metro|940g/i.test(meta));
+          }).slice(0,6).map(stop=>({lat:stop.lat,lon:stop.lon,name:String(stop.name||stop.commonName||''),
+            formatted:String(stop.name||stop.commonName||'')+', London, United Kingdom',city:'London',
+            country_code:'GB',result_type:'public_transport',categories:['public_transport','railway'],
+            source:'TfL StopPoint',stop_id:String(stop.id||'')}));
+        })());
+      }
       const answers=await Promise.allSettled(promises);
       if(!answers.some(a=>a.status==='fulfilled'))
         return json({candidates:[],error:'journey_search_unavailable'},502);
@@ -1727,12 +1756,16 @@ export default {
           candidates.push({label,latitude,longitude,city:String(p.city||p.town||p.village||'').slice(0,100),
             country_code:String(p.country_code||'').toUpperCase().slice(0,2),
             street:String(p.street||'').slice(0,120),house_number:String(p.housenumber||'').slice(0,20),
-            kind:String(p.result_type||'place').slice(0,30),source:'Geoapify'});
-          if(candidates.length>=8)break;
+            kind:String(p.result_type||'place').slice(0,30),source:p.source||'Geoapify',
+            stop_id:String(p.stop_id||''),_name:String(p.name||p.brand||'').slice(0,160),
+            _categories:Array.isArray(p.categories)?p.categories.slice(0,12):[]});
+          if(candidates.length>=30)break;
         }
-        if(candidates.length>=8)break;
+        if(candidates.length>=30)break;
       }
-      return json({candidates,provider:'geoapify',exact_number_required:Boolean(num),query:raw});
+      const ranked=rankJourneySuggestions(selected,candidates).slice(0,8)
+        .map(({_name,_categories,...candidate})=>candidate);
+      return json({candidates:ranked,provider:'geoapify_tfl_if_applicable',exact_number_required:Boolean(num),query:raw});
     }
     // The personal assistant must not calculate routes; a legacy client that
     // misses frontend interception is given a handoff, never an AI itinerary.
@@ -3142,8 +3175,13 @@ export default {
         verifiedGpsCountry({latitude,longitude,geoapifyKey:env.GEOAPIFY_API_KEY,timeoutMs:2200}),
         verifiedGpsCountry({latitude:destLat,longitude:destLon,geoapifyKey:env.GEOAPIFY_API_KEY,timeoutMs:2200})
       ]);
-      const urbanRoute=originCountry==='RO'&&romanianUrbanRegion(
+      const urbanRegion=originCountry==='RO'&&romanianUrbanRegion(
         {latitude,longitude},{latitude:destLat,longitude:destLon});
+      const roScope=romanianLocalJourneyScope({
+        from:{latitude,longitude},to:{latitude:destLat,longitude:destLon},
+        urbanRegion:Boolean(urbanRegion)
+      });
+      const urbanRoute=originCountry==='RO'&&Boolean(urbanRegion);
       const londonRoute=originCountry==='GB'&&isTfLLondonCorridorPoint(latitude,longitude)&&
         isTfLLondonCorridorPoint(destLat,destLon);
       const providers=[
@@ -3153,7 +3191,8 @@ export default {
         env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'?'tfl':null
       ].filter(Boolean);
       const authorization=nationalPublicTransportPolicy({
-        originCountry,destinationCountry,urbanRoute:Boolean(urbanRoute),londonRoute,
+        originCountry,destinationCountry,urbanRoute:Boolean(urbanRoute),
+        localRoute:originCountry==='RO'&&roScope.localRoute,londonRoute,
         enabledProviders:providers
       });
       if(authorization.status!=='ready'){
@@ -3162,7 +3201,8 @@ export default {
           destination_country_unverified:lang==='en'?'Could not verify the destination country.':'Țara destinației nu a putut fi verificată.',
           international_destination:lang==='en'?'This destination is in another country. Use Directions for mixed transport or driving.':'Destinația este în altă țară. Folosește Deplasare spre… pentru transport mixt sau mașină.',
           country_provider_not_connected:lang==='en'?'No verified nationwide planner is connected for this country.':'Nu este conectat un motor verificat de transport public pentru această țară.',
-          national_provider_not_connected:lang==='en'?'The required national or local planner is not configured.':'Motorul local sau național corespunzător nu este configurat.'
+          national_provider_not_connected:lang==='en'?'The required local or national planner is not configured or its timetable feed is unavailable.':'Motorul local sau național nu este configurat ori nu are orare verificate disponibile.',
+          local_provider_not_connected:lang==='en'?'This is a local trip. Verified urban schedules are not yet connected here; a train/coach search would give misleading results.':'Aceasta este o deplasare locală. Nu sunt încă disponibile orare urbane verificate pentru această zonă; nu caut tren sau autocar în locul lor.'
         };
         return reject(authorization.status,errors[authorization.status]||errors.national_provider_not_connected);
       }
