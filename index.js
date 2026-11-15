@@ -7983,8 +7983,8 @@ window.pocketAndroidBack=function(){
   const viewport=window.visualViewport;
   const keyboardVisible=!!viewport&&viewport.height<window.innerHeight*0.76;
   if(keyboardVisible&&focused?.matches?.('input,textarea,[contenteditable="true"]')){focused.blur();return;}
-  if(window.pocketCommunicationCloseChat?.())return;
  }
+ if(state.currentView==='communication'&&window.pocketCommunicationCloseChat?.())return;
  const quick=$('moduleQuickLayer');
  if(quick?.classList.contains('open')){
   handleModuleLayerBack();return;
