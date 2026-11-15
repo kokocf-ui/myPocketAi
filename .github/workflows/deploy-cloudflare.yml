@@ -151,6 +151,7 @@ jobs:
       - name: Verify backend news-search routing before deploy
         run: |
           node --check backend.js
+          node tests_walking_address_arrival.mjs
           node --check ai_response_quality.mjs
           node tests_response_quality.mjs
           node tests_communication_e2e.mjs
