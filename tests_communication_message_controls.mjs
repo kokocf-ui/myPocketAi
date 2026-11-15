@@ -6,6 +6,10 @@ import {CREATOR_SITE_STYLE} from './creator_site_ui.mjs';
 
 new vm.Script(ORACLE_COMMUNICATION_SCRIPT,{filename:'chat-voice-pause-and-send.js'});
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/function voiceDraftReady\(file\)/,'Pausing creates a playable local draft');
+
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/media\.kind==='audio'\?tr\('🎙 Mesaj vocal'/,'Audio attachment is identified in the private viewer');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/media\.mime==='audio\/mp4'\?'m4a'/,'AAC audio is saved with an M4A extension');
+
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/voicePlayer\.src=voiceDraftUrl/,'Audio can be replayed while paused');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/URL\.revokeObjectURL\(voiceDraftUrl\)/,'Discard releases local audio URL');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/const voicePauseButton=makeBtn/,'Voice has Pause/Resume');
