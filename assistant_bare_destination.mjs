@@ -31,3 +31,29 @@ export function assistantBareDestinationQuery(raw){
  const numberedAddress=!namedLandmark&&!categoryQuery&&!units&&(numberFirst||numberLast);
  return namedStreet||namedLandmark||numberedAddress?text:null;
 }
+
+
+// A shared classifier for the assistant and the single-field journey page.
+// A request to learn about a route is NOT itself an instruction to navigate.
+export function parseJourneyExpression(raw){
+ const original=String(raw||'').trim().replace(/[.!?]+$/u,'').trim();
+ const pair=original.match(/^(?:de la|din|from|von|desde|da|от)\s+(.+?)\s+(?:până\s+la|pana\s+la|spre|către|catre|la|to|nach|hasta|a|до)\s+(.+)$/iu)
+   ||original.match(/^(.+?)\s*(?:→|->|➜)\s*(.+)$/u);
+ if(pair)return {raw:original,origin_query:pair[1].trim(),destination_query:pair[2].trim()};
+ const first=original.match(/^(?:du[- ]?mă(?:\s+te rog)?(?:\s+la)?|du[- ]?ma(?:\s+te rog)?(?:\s+la)?|vreau\s+să\s+(?:ajung|merg)\s+(?:la|spre)|vreau\s+sa\s+(?:ajung|merg)\s+(?:la|spre)|cum\s+(?:pot\s+)?ajung\s+(?:la|spre)|navighează\s+(?:la|spre)|navigheaza\s+(?:la|spre)|arată[- ]?mi\s+(?:drumul|traseul)\s+(?:la|spre)|arata[- ]?mi\s+(?:drumul|traseul)\s+(?:la|spre)|traseu\s+(?:la|spre|către|catre|până\s+la|pana\s+la)|deplasare\s+spre|take\s+me\s+to|how\s+(?:do|can)\s+i\s+get\s+to|directions\s+to|route\s+to|navigate\s+to|drive\s+to|walk\s+to|go\s+to|bring\s+me\s+to|itinéraire\s+vers|route\s+nach|ruta\s+a|percorso\s+per)\s+(.+)$/iu);
+ const destination=first?first[1].trim():original;
+ const embedded=destination.match(/^(?:de la|din|from|von|desde)\s+(.+?)\s+(?:până\s+la|pana\s+la|spre|către|catre|la|to|nach|hasta|a)\s+(.+)$/iu);
+ if(embedded)return {raw:original,origin_query:embedded[1].trim(),destination_query:embedded[2].trim()};
+ return {raw:original,origin_query:'',destination_query:destination};
+}
+export function assistantJourneyHandoff(raw){
+ const text=String(raw||'').trim();
+ if(!text||text.length>240)return null;
+ if(assistantBareDestinationQuery(text))return parseJourneyExpression(text);
+ const fold=text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ if(/^(?:ce este|ce inseamna|ce reprezinta|de ce|explica|explica-mi|descrie|what is|what does|explain|define|why|que es|qu est|was ist)\b/u.test(fold))return null;
+ const intent=/\b(?:traseu(?:l|ri|e)?|ruta|rute|route\s+to|directions\s+to|navigate\s+to|navigatie|navigheaza|deplasare\s+spre|transport\s+mixt|itineraire\s+vers|percorso\s+per)\b/u.test(fold)
+   ||/^(?:du[- ]?ma|vreau sa (?:ajung|merg)|cum (?:pot )?ajung|arata[- ]?mi drumul|take me to|how (?:do|can) i get to|drive to|walk to|go to|from .+ to |de la .+ (?:la|spre|pana la) |din .+ spre )\b/u.test(fold)
+   ||/^\S.+\s*(?:→|->|➜)\s*\S/u.test(text);
+ return intent?parseJourneyExpression(text):null;
+}
