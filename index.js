@@ -1,7 +1,8 @@
 // Hotels preset-only; burgundy results dialog; explicit city/street query release checkpoint.
 import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathways.mjs';
 import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs';
-import {assistantBareDestinationQuery} from './assistant_bare_destination.mjs';
+import {assistantBareDestinationQuery,assistantJourneyHandoff,parseJourneyExpression} from './assistant_bare_destination.mjs';
+import {ONE_FIELD_JOURNEY_SCRIPT} from './one_field_journey_ui.mjs';
 import {ACCOUNT_STYLE,ACCOUNT_HTML,ACCOUNT_SCRIPT} from './account_settings_ui.mjs';
 import {COMMUNICATION_HTML,COMMUNICATION_STYLE,COMMUNICATION_SCRIPT} from './communication_ui.mjs';
 import {ORACLE_COMMUNICATION_SCRIPT,ORACLE_COMMUNICATION_STYLE} from './oracle_communication_ui.mjs';
@@ -17220,7 +17221,12 @@ const QUICK_SEARCH_ENGLISH={
 'Hoteluri':'Find hotels and hostels near me.',
 'Alte puncte de interes':'Find points of interest near me.'
 };
+${assistantBareDestinationQuery.toString()}
+${parseJourneyExpression.toString()}
+${assistantJourneyHandoff.toString()}
+${ONE_FIELD_JOURNEY_SCRIPT}
 function showJourneyMode(choice){
+ if(choice?.mixedJourney){showOneFieldJourney(choice);return;}
  state.moduleSearchCategory=choice;
  const labels=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;
  setModuleLayerMode(labels[0]);
@@ -20607,7 +20613,9 @@ function requestedTransitCountInMessage(value){
  const words={unu:1,una:1,un:1,o:1,one:1,doi:2,doua:2,two:2,trei:3,three:3,patru:4,four:4};
  return Number(found[1])||words[found[1]]||null;
 }
-async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;if(state.currentView==='module'&&state.currentModule==='learning'&&activeLearningSubject){const topic=learningLabel(activeLearningSubject[2],activeLearningSubject[3]);message=(state.language==='ro'?'Materia: ':'Subject: ')+topic+'. '+message;}if(state.currentView==='assistant'&&isEvaExitCommandClient(message)){addBubble(message,'user');state.messages.push({role:'user',text:message});state.messages=state.messages.slice(-40);saveActiveHistory();inputEl.value='';setStatus(dialogText('Confirmă închiderea aplicației.','Confirm closing the app.'));pocketExitPrompt();return;}if(isEvaConversationClient(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isRecipeQuestion(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isCasualConversationReply(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;}if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;const chosenRegion=state.lastEncyclopediaArticle?.is_region===true&&state.lastEncyclopediaArticle.title===country;const searchArea=chosenRegion?country+', '+(state.lastEncyclopediaArticle.parent_country||''):country;state.tripCountryOnChoice=searchArea;message=(dialogText("Vreau să ajung la ","I want to get to "))+message+', '+searchArea;state.travelAccommodationIntent=false;state.lastEncyclopediaTripQuery=message;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
+async function submitMessage({fromVoice=false}={}){if(state.busy)return;let message=inputEl.value.trim();if(!message)return;
+if(state.currentView==='assistant'){const route=assistantJourneyHandoff(message);if(route&&handoffJourneyFromAssistant(route))return;}
+if(state.currentView==='module'&&state.currentModule==='learning'&&activeLearningSubject){const topic=learningLabel(activeLearningSubject[2],activeLearningSubject[3]);message=(state.language==='ro'?'Materia: ':'Subject: ')+topic+'. '+message;}if(state.currentView==='assistant'&&isEvaExitCommandClient(message)){addBubble(message,'user');state.messages.push({role:'user',text:message});state.messages=state.messages.slice(-40);saveActiveHistory();inputEl.value='';setStatus(dialogText('Confirmă închiderea aplicației.','Confirm closing the app.'));pocketExitPrompt();return;}if(isEvaConversationClient(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isRecipeQuestion(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;state.requestedTransitCount=null;}if(isCasualConversationReply(message)){state.pendingEncyclopediaDestination=null;state.pendingTravelMode=null;state.pendingTravelConfirmationData=null;state.pendingRouteDestination=null;state.routeSearchContext=null;}if(state.pendingEncyclopediaDestination){const country=state.pendingEncyclopediaDestination;state.pendingEncyclopediaDestination=null;const chosenRegion=state.lastEncyclopediaArticle?.is_region===true&&state.lastEncyclopediaArticle.title===country;const searchArea=chosenRegion?country+', '+(state.lastEncyclopediaArticle.parent_country||''):country;state.tripCountryOnChoice=searchArea;message=(dialogText("Vreau să ajung la ","I want to get to "))+message+', '+searchArea;state.travelAccommodationIntent=false;state.lastEncyclopediaTripQuery=message;}if(message.length>CLIENT_CONFIG.maxMessageLength){notify('Mesajul este prea lung.');return}
 // Search actual saved conversations locally before the general AI/geography
 // pipeline. Only a direct, explicit history request can read this archive.
 if(state.currentView==='assistant'){
