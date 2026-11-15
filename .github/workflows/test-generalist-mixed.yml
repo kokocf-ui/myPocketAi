@@ -88,6 +88,8 @@ jobs:
         run: node tests_module_landing_locales.mjs
       - name: Maps pedestrian and driving route visibility regression
         run: node tests_maps_walk_drive_visibility.mjs
+      - name: Maps empty-screen after rejected walking route regression
+        run: node tests_maps_empty_route_recovery.mjs
       - name: Quiet petrol route choices and chat-free loading regression
         run: node tests_maps_route_quiet_ui.mjs
       - name: Walking and driving route results avoid chat and retain map Back
