@@ -58,7 +58,8 @@ try{
    body:JSON.stringify({message:'Pe jos',language:'ro',module:'maps',history:[],
     location:{latitude:51.479,longitude:.279,accuracy:15},
     route_profile:'walk',route_destination:{...pin,label,country_code:'GB'}})
-  }),{GEOAPIFY_API_KEY:'test'});
+  }),{GEOAPIFY_API_KEY:'test',AI:{run:async()=>({response:'Test fallback AI'})}});
+  if(response.status!==200)console.error('ARRIVAL TEST FAILURE',response.status,(await response.clone().text()).slice(0,600),urls.map(u=>u.pathname));
   assert.equal(response.status,200);
   return response.json();
  };
