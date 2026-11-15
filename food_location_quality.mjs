@@ -92,6 +92,27 @@ const compatibleAliases=(a,b,distance)=>{
     return distance<=350;
  return distance<=70;
 };
+// Two providers sometimes publish one takeaway as “Super Chicken” and
+// “Super Chicken & Pizza” at slightly different entrance/centroid coordinates.
+// Treat only a meaningful two-word trading-name stem plus a cuisine descriptor
+// as a potential alias. Keep separate branches with conflicting addresses.
+const cuisineAliasSuffixes=new Set([
+ 'pizza','pizzeria','chicken','kebab','kebap','burger','burgers',
+ 'takeaway','takeout','doner','shawarma','shaorma','grill','fastfood'
+]);
+const sameCuisineAlias=(a,b,distance)=>{
+ if(distance>300||!similarNames(a.name,b.name))return false;
+ const na=nameTokens(a.name),nb=nameTokens(b.name);
+ const short=na.length<=nb.length?na:nb,long=na.length<=nb.length?nb:na;
+ if(short.length<2||long.length<=short.length||long.length-short.length>2)return false;
+ if(!short.every((part,index)=>long[index]===part))return false;
+ if(!long.slice(short.length).every(part=>cuisineAliasSuffixes.has(part)))return false;
+ const x=addrInfo(a),y=addrInfo(b);
+ if(x.postcode&&y.postcode&&x.postcode!==y.postcode)return false;
+ if(x.house&&y.house&&x.house!==y.house)return false;
+ if(x.street&&y.street&&x.street!==y.street)return false;
+ return true;
+};
 const haversine=(a,b)=>{
  const deg=Math.PI/180,dLat=(a.lat-b.lat)*deg,dLon=(a.lon-b.lon)*deg;
  const h=Math.sin(dLat/2)**2+Math.cos(a.lat*deg)*Math.cos(b.lat*deg)*Math.sin(dLon/2)**2;
@@ -120,6 +141,7 @@ export function reconcileNearbyPlaces(places){
    return (sameAddress&&d<=400&&(alias||samePhone))
      ||(samePhone&&d<=350&&compatibleAliases(other,place,d))
      ||(alias&&compatibleAliases(other,place,d))
+     ||sameCuisineAlias(other,place,d)
      ||nearbyExact;
   });
   if(!duplicate){unique.push({...place});continue}
