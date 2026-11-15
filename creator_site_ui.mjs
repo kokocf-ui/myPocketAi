@@ -428,6 +428,10 @@ function extraCreatorImages(work){
   field.value=initial;return field;
  };
  const artStyle=choose(area,'Stil artistic','Art style',EVA_IMAGE_STYLES,'realistic');
+ // All 26 options stay in the DOM; the shared app picker shows four at once and scrolls.
+ artStyle.dataset.pocketPickerMode='scroll';
+ artStyle.setAttribute('aria-label',extraToolsLocale('Stil artistic','Art style'));
+ artStyle.setAttribute('aria-haspopup','dialog');
  const format=choose(area,'Formatul imaginii','Image format',[
   ['square','Pătrat · 1:1','Square · 1:1'],
   ['landscape43','Orizontal · 4:3','Landscape · 4:3'],
