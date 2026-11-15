@@ -45,3 +45,21 @@ test('Internal endpoint fails closed if no verified feed mounted',async()=>{
   assert.equal((await r.json()).status,'feed_not_loaded');
  }finally{await new Promise(resolve=>server.close(resolve));}
 });
+test('Internal operator lines remain visible without confirmed timetable',async()=>{
+ const untimed={...sample,calendar:[],calendar_dates:[],
+  stop_times:[{trip_id:'1',stop_id:'A',stop_sequence:'1'},
+   {trip_id:'1',stop_id:'B',stop_sequence:'2'}]};
+ const server=createRomanianUrbanServer({token,feeds:{oradea:untimed}});
+ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+ try{
+  const response=await fetch('http://127.0.0.1:'+server.address().port+'/v1/plan',{
+   method:'POST',headers:{Authorization:'Bearer '+token,'content-type':'application/json'},
+   body:JSON.stringify({region:'oradea',from:{latitude:47.05,longitude:21.92},
+    to:{latitude:47.055,longitude:21.92},date:'2026-11-15'})});
+  const data=await response.json();
+  assert.equal(data.status,'route_only');
+  assert.equal(data.journeys[0].legs[0].lineNames[0],'1');
+  assert.equal(data.journeys[0].legs[0].departureTime,null);
+  assert.equal(data.service_today_verified,false);
+ }finally{await new Promise(resolve=>server.close(resolve));}
+});
