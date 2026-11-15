@@ -4,6 +4,9 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'one_field_journey_ui.mjs'
+      - 'national_public_transport_ui.mjs'
+      - 'tests_transport_departure_entrypoints.mjs'
       - 'android/**'
       - 'index.js'
       - 'backend.js'
