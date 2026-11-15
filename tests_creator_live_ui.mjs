@@ -37,7 +37,50 @@ globalThis.fetch=async(_,options)=>{
 const copy=await f.call({name:'Aramis',kind:'hotel',description:'Rooms and breakfast',style:'mediteranean',lang:'both'},new AbortController().signal);
 assert.ok(called);assert.equal(copy.en.headline,'Stay at Aramis');
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/3 imagini pe zi/);
-assert.match(CREATOR_IMAGE_AI_SCRIPT,/lifewise-ai-creator-preview\.kokocf\.workers\.dev\/image/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/lifewise-ai-image-studio\.kokocf\.workers\.dev\/generate/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/lifewise-ai-image-studio\.kokocf\.workers\.dev\/edit/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/function evaCreatorPhotoTabs/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/album\.onchange/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/camera\.onchange/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/extraCreatorSaveImage\(work,status\)/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/format:f\.format\.value/);
+
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageQuotaUrl/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageInstallationId/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/localStorage\.setItem\(key,next\)/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/installationId:work\.evaImageInstallId/g);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/dailyLimit/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/personalRemaining/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageQuotaUpdate/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/PREVIEW|preview_capacity_reached|installation_limit_reached/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/eva-image-quota-status/);
+const fId=CREATOR_IMAGE_AI_SCRIPT.match(/function evaImageInstallationId\(\)\{[\s\S]*?\n\}/)?.[0];
+assert.ok(fId,'Installation identity helper must exist');
+const saved=new Map();let creations=0;
+const localStorageStub={getItem:k=>saved.get(k)||null,setItem:(k,v)=>saved.set(k,v)};
+const createId=new Function('localStorage','globalThis',fId+';return evaImageInstallationId;')(
+ localStorageStub,{crypto:{randomUUID:()=>{creations++;return '00000000-0000-4000-8000-000000000101'}}});
+assert.equal(createId(),'00000000-0000-4000-8000-000000000101');
+assert.equal(createId(),'00000000-0000-4000-8000-000000000101');
+assert.equal(creations,1,'Stable quota identifier survives workspace reopen on same installation');
+
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/function evaImageCompactPrompt/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageCompactPrompt\(f\.imagePrompt\)/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageCompactPrompt\(prompt\)/);
+const scenes=new Function(CREATOR_IMAGE_AI_SCRIPT+';return {prompt:extraCreatorEnhancedPrompt,background:extraCreatorSceneBackground};')();
+const templar='Creează un cavaler templier, călare pe o cămilă, într-un deșert cu o cetate în fundal.';
+assert.equal(scenes.background(templar),'o cetate','User-requested castle must be extracted as background requirement');
+const enhanced=scenes.prompt(templar,'full','portrait');
+assert.match(enhanced,/REQUIRED VISIBLE BACKGROUND: o cetate/);
+assert.match(enhanced,/cavaler templier/i);
+assert.match(enhanced,/on the camel/i);
+assert.match(enhanced,/Vertical 9:16/i);
+assert.ok(enhanced.length<=1400,'Keep augmented prompt under provider limit');
+assert.match(scenes.prompt('A red bicycle next to a blue wall','wide','wide'),/red bicycle next to a blue wall/);
+assert.doesNotMatch(scenes.prompt('A red bicycle next to a blue wall','wide','wide'),/REQUIRED VISIBLE BACKGROUND/,'Do not invent background objects');
+assert.match(scenes.prompt('A medieval fortress on the horizon with a blue sky','wide','square'),/medieval fortress/);
+assert.throws(()=>scenes.prompt('x'.repeat(801),'full','square'),/invalid_prompt_length/);
+
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/PocketAndroidImages/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/save\.disabled=false/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/payload|data\?\.error==='preview_limit_reached'/);
