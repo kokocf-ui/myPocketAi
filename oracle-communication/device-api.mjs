@@ -116,6 +116,19 @@ export function createDeviceCommunicationHandler(pool,{push}={}){
      await pool.query('DELETE FROM device_push_tokens WHERE user_id=$1 AND token=$2',[me,data.pushToken]);
     return json(res,200,{ok:true}),true
    }
+   // Fetch encrypted envelopes for receipt-capable clients even before chat opens.
+   // Reading a push notification alone is NOT proof of delivery.
+   if(action==='pending_messages'){
+    limit('pending_messages:'+me,30,60000);
+    const q=await pool.query(`SELECT m.id,m.sender_id AS sender,m.iv,m.cipher,m.kind,m.attachment_id,m.created_ms::float8 AS created_ms
+      FROM device_messages m WHERE m.recipient_id=$1 AND m.delivered_at IS NULL
+      AND EXISTS(SELECT 1 FROM device_contacts c JOIN device_contacts r ON r.user_id=m.sender_id AND r.friend_id=$1
+        WHERE c.user_id=$1 AND c.friend_id=m.sender_id)
+      AND NOT EXISTS(SELECT 1 FROM device_blocks b WHERE
+        (b.user_id=$1 AND b.friend_id=m.sender_id) OR (b.user_id=m.sender_id AND b.friend_id=$1))
+      ORDER BY m.created_ms ASC LIMIT 80`,[me]);
+    return json(res,200,{ok:true,messages:q.rows}),true
+   }
    if(action==='invite')limit('invite:'+me,20,86400000);
    if(action==='send')limit('message:'+me,60,60000);
    if(action==='upload')limit('upload:'+me,30,3600000);
@@ -160,12 +173,30 @@ export function createDeviceCommunicationHandler(pool,{push}={}){
     });
     return json(res,200,{ok:true}),true
    }
-   if(['messages','send','upload','attachment','edit_message','delete_message'].includes(action)){
+   if(['messages','send','upload','attachment','edit_message','delete_message','receipt'].includes(action)){
     check(await approved(pool,me,friend),403,'Contact neaprobat');
     const pair=[me,friend].sort().join(':');
     if(action==='messages'){
-     const q=await pool.query('SELECT id,sender_id AS sender,recipient_id AS recipient,iv,cipher,kind,attachment_id,created_ms::float8 AS created_ms FROM device_messages WHERE pair_key=$1 ORDER BY created_ms DESC,id DESC LIMIT 100',[pair]);
+     const q=await pool.query('SELECT m.id,m.sender_id AS sender,m.recipient_id AS recipient,m.iv,m.cipher,m.kind,m.attachment_id,a.kind AS attachment_kind,m.created_ms::float8 AS created_ms,m.delivered_at,m.read_at,m.played_at FROM device_messages m LEFT JOIN device_attachments a ON a.id=m.attachment_id WHERE m.pair_key=$1 ORDER BY m.created_ms DESC,m.id DESC LIMIT 100',[pair]);
      return json(res,200,{ok:true,messages:q.rows.reverse()}),true
+    }
+    // Only the cryptographically authenticated recipient can acknowledge
+    // their own incoming message. An older client sends no receipts.
+    if(action==='receipt'){
+     limit('receipt:'+me,80,60000);
+     check(['delivered','read','played'].includes(data.receiptType),400,'Confirmare invalidă');
+     check(Array.isArray(data.messageIds)&&data.messageIds.length>=1&&data.messageIds.length<=80
+       &&data.messageIds.every(uuid),400,'Mesaje invalide');
+     const ids=[...new Set(data.messageIds)];
+     const changed=await pool.query(`UPDATE device_messages m SET
+       delivered_at=COALESCE(m.delivered_at,now()),
+       read_at=CASE WHEN $4 IN ('read','played') THEN COALESCE(m.read_at,now()) ELSE m.read_at END,
+       played_at=CASE WHEN $4='played' THEN COALESCE(m.played_at,now()) ELSE m.played_at END
+       WHERE m.recipient_id=$1 AND m.sender_id=$2 AND m.pair_key=$3 AND m.id=ANY($5::uuid[])
+       AND ($4<>'played' OR EXISTS(SELECT 1 FROM device_attachments a
+           WHERE a.id=m.attachment_id AND a.kind='audio'))
+       RETURNING m.id`,[me,friend,pair,data.receiptType,ids]);
+     return json(res,200,{ok:true,acknowledged:changed.rowCount}),true
     }
     if(action==='attachment'){
      check(uuid(data.attachmentId),400,'Atașament invalid');
