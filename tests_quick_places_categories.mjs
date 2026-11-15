@@ -22,7 +22,7 @@ const categories=['hotel','pharmacy','corner_shop','supermarket','confectionery'
  'shopping_fashion','beauty_services','home_goods','appliances','furniture','diy_garden'];
 assert.deepEqual(list.map(x=>x.placeCategory),categories);
 assert.deepEqual(Array.from(menu.maps,x=>x.title),[
- 'Deplasare spre…','Traseu pietonal','Transport public','Benzinării',
+ 'Deplasare spre…','Traseu pietonal','Transport public național','Benzinării',
  'Spălătorii auto','Parcări','Muzee','Parcuri','Grădini zoologice','Parcuri auto și dealeri',
  'Spitale','ATM-uri','Bănci','Case de schimb valutar',
  'Cabinete medicale și stomatologice'
