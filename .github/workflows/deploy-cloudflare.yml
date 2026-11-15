@@ -27,6 +27,7 @@ jobs:
           node --check communication_ui.mjs
           node tests_communication_ui.mjs
           node tests_communication_redesign.mjs
+          node tests_communication_message_controls.mjs
           node tests_hotels_back_chat_fullscreen.mjs
           node --check oracle_communication_ui.mjs
           node --check oracle-communication/server.mjs
