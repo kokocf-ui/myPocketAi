@@ -7841,11 +7841,20 @@ function pocketBackInsideModule(){
  return false;
 }
 window.pocketAndroidBack=function(){
+ // The paged Mathematics/Theory reader is layered above the theory catalogue.
+ // Close its TOP layer before touching the underlying dialogue or app navigation.
+ // Previously it was missing here, allowing physical Back to reach Eva's exit prompt.
+ const pagedLesson=document.getElementById('educationPagedLessonDialog');
+ if(pagedLesson?.open){pagedLesson.close();return}
  if(document.getElementById('sciencePhotoDialog')?.open){document.getElementById('sciencePhotoDialog').close();return}
  if(document.getElementById('scienceResultDialog')?.open){document.getElementById('scienceResultDialog').close();return}
  const chemistry=document.getElementById('chemistryCurriculumDialog');
  if(chemistry?.open){chemistry.pocketBack?.();return}
  if(document.getElementById('educationTheoryDialog')?.open){document.getElementById('educationTheoryDialog').close();return}
+ // Other full-screen Education theory viewers should obey Android Back too.
+ const openEduDialogs=document.querySelectorAll('dialog.education-theory-dialog[open]');
+ const topEduDialog=openEduDialogs[openEduDialogs.length-1];
+ if(topEduDialog){topEduDialog.close();return}
  if(document.querySelector('dialog.document-photo-fullscreen[open]')){document.querySelector('dialog.document-photo-fullscreen[open]').close();return}
  if($('mathResultDialog')?.open){mathCloseResults();return}
  if(pocketExitOpen){pocketExitClose();return}
