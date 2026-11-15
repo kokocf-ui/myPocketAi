@@ -6,6 +6,7 @@ import {classifyConversationTurn,buildConversationEvidence} from "./conversation
 import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} from "./eva_dialogue.mjs";
 import {recallFromSuppliedHistory,groundedHistorySummary} from "./eva_history_recall.mjs";
 import {parseNearbyStreetQuery,geocodeNearbyStreet} from "./nearby_street_geocode.mjs";
+import {assistantBareDestinationQuery} from "./assistant_bare_destination.mjs";
 import {isStreetOnlyPlace,parseNamedBusinessInformation,researchNamedBusiness,businessResearchReply} from "./local_business_evidence.mjs";
 import {nearbyUkRegisteredRetailers,nearbyUkRegisteredTakeaways} from "./uk_food_retailers.mjs";
 import {foodCategoryAccepts,reconcileNearbyPlaces} from "./food_location_quality.mjs";
@@ -1121,13 +1122,13 @@ function routeMessageSpec(text){
  if(/(?:distanta|distance|cati kilometri|how far|how many kilomet)/.test(n)&&!/(?:traseu|ruta|route|directions)/.test(n))return null;
  const walk=/(?:\b(?:pietonal\w*|pe jos|walking|walk to|walk me to|on foot)\b)/.test(n)||n==="walk";
  const drive=/(?:traseu rutier|ruta auto|driving route|driving directions|cu masina|by car)/.test(n)||/^(?:drive|driving|masina)$/.test(n);
- const route=walk||drive||/(?:traseu|ruta|route|directions|navigheaza|navigate|cum ajung|cum pot ajunge|vreau sa (?:ajung|merg)|du ma|how (?:do|can) i get to|i want to (?:get|go) to|take me to)/.test(n);
+ const route=walk||drive||/(?:traseu|ruta|route|directions|navigheaza|navigate|cum ajung|cum pot ajunge|vreau sa (?:ajung|merg)|du[- ]?ma|mergi (?:la|spre)|arata(?:-mi)? drumul|how (?:do|can) i get to|i want to (?:get|go) to|take me to)/.test(n);
  if(!route)return null;
  const viaMatch=String(text).match(/\s+(?:via|prin|through)\s+(.+)$/i);
  const clean=cleanTravelPlace(viaMatch?String(text).slice(0,viaMatch.index):text).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[?!.]+$/g,'').trim();
  const pair=explicitOriginDestinationPair(clean);
  const cityVenue=clean.match(/(?:vreau sa ajung|cum ajung|merg|go|travel)\s+in\s+(.+?)\s+la\s+(.+)$/i);
- const dest=clean.match(/(?:pana\s+(?:in|la)|catre|spre|\bto|\bla)\s+(.+)$/i);
+ const dest=clean.match(/(?:pana\s+(?:in|la)|catre|spre|\bto|\bla|\bpe(?=\s+strada\b))\s+(.+)$/i);
  const own=v=>/^(?:foloseste |use )?(?:locatia mea|pozitia mea(?: gps)?|my (?:current )?(?:location|position)|gps|aici|here)$/.test(normalizeGeoName(v));
  return {via_query:viaMatch?viaMatch[1].replace(/[?!.]+$/g,'').trim().slice(0,160):'',profile:walk?'walk':drive?'drive':null,destination_query:travelPlaceSpec(cleanTravelPlace(cityVenue?cityVenue[2]+', '+cityVenue[1]:pair?pair[2]:dest?dest[1]:clean.match(/\bin\s+(.+)$/i)?.[1]||'')).query,origin_query:pair&&!own(pair[1])?pair[1].trim().slice(0,160):''};
 }
@@ -3970,7 +3971,8 @@ export default {
     // Shared route dispatch for assistant and map-module messages; POIs are not city searches.
     const routeWords=normalizeGeoName(message);
     const mapRouteRequest=!/^(?:ce este|ce inseamna|what is|explain|explica|why|de ce)\b/.test(routeWords)&&/(?:harta|map)/.test(routeWords)&&/(?:trase|ruta|rute|route|directii|directions)/.test(routeWords);
-    const routeSpecOriginal=data.route_start===true&&["walk","drive"].includes(data.route_profile)?{profile:data.route_profile,destination_query:"",origin_query:""}:routeMessageSpec(message);
+    const assistantBareDestination=data.module==="assistant"?assistantBareDestinationQuery(message):null;
+    const routeSpecOriginal=data.route_start===true&&["walk","drive"].includes(data.route_profile)?{profile:data.route_profile,destination_query:"",origin_query:""}:routeMessageSpec(message)||(assistantBareDestination?{profile:null,destination_query:travelPlaceSpec(assistantBareDestination).query,origin_query:"",via_query:""}:null);
     const routeSpec=routeSpecOriginal?.destination_query?{...routeSpecOriginal,destination_query:canonicalLandmarkQuery(routeSpecOriginal.destination_query)}:routeSpecOriginal;
     const walkRequest=routeSpec?.profile==='walk';
     const driveRequest=routeSpec?.profile==='drive';
