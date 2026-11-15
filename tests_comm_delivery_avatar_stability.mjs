@@ -3,26 +3,15 @@ import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 import {ORACLE_COMMUNICATION_SCRIPT} from './oracle_communication_ui.mjs';
 
-// Main app must never reload a private conversation on a background UI version check.
+// Automatic UI polling is gone; Settings shows the actual native APK version.
 const ui=readFileSync(new URL('./index.js',import.meta.url),'utf8');
-const a=ui.indexOf('function pocketUiUpdateSafe(){');
-const b=ui.indexOf('async function checkUiUpdateAfterModuleExit(){',a);
-assert.ok(a>=0&&b>a,'UI update guard exists');
-const safeSource=ui.slice(a,b);
-for(const view of ['communication','assistant','conversations','module','tools','organize','learning','maps']){
- const safe=vm.runInNewContext(safeSource+';pocketUiUpdateSafe();',{state:{currentView:view}});
- assert.equal(safe,false,'No UI auto-reload during '+view);
-}
-assert.match(ui,/return view==='home'/,'Auto refresh is Home-only');
-assert.match(ui,/sessionStorage\.getItem\(key\)===version/,'Repeated version refreshes are deduplicated');
-assert.doesNotMatch(ui,/if\(leavingShopping\)checkUiUpdateAfterModuleExit\(\)/,'Organisation chooser cannot start a refresh');
-const journey=readFileSync(new URL('./one_field_journey_ui.mjs',import.meta.url),'utf8');
-assert.match(journey,/const choices=\[\['transit',text\.transit\],\['drive',text\.drive\]\]/,'Only mixed transport and car in Directions');
-assert.doesNotMatch(journey,/\['walk',text\.walk\]/,'Walking remains a separate Maps option');
-
-assert.match(ui,/const keyboardVisible=!!viewport&&viewport\.height<window\.innerHeight\*0\.76/);
-assert.match(ui,/if\(keyboardVisible&&focused\?\.matches\?\.\('input,textarea/);
-assert.match(ui,/if\(state\.currentView==='communication'&&window\.pocketCommunicationCloseChat\?\.\(\)\)return/);
+const nativeSource=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/MainActivity.java',import.meta.url),'utf8');
+assert.doesNotMatch(ui,/checkUiUpdateAfterModuleExit|pocketUiUpdateSafe|window\\.location\\.reload\\(/);
+assert.doesNotMatch(ui,/fetch\\('\\/__ui_version'/,'no live version check');
+assert.match(ui,/id="pocketNativeVersion"/,'Settings has native version');
+assert.match(ui,/window\\.addEventListener\\('pocket-native-version',pocketUpdateInstalledVersion\\)/);
+assert.match(nativeSource,/JSONObject\\.quote\\(BuildConfig\\.VERSION_NAME\\)/,'native app supplies the installed version');
+assert.match(nativeSource,/pocket-native-version/);
 
 // Receipt sender must use distinct states: accepted by server != delivered to device.
 new vm.Script(ORACLE_COMMUNICATION_SCRIPT);

@@ -410,13 +410,8 @@ public final class MainActivity extends ComponentActivity {
     }
     private void scheduleVoiceEndpoint(String recognized) {
         if(!nativeListening || recognized==null || recognized.trim().isEmpty())return;
-        // Dictation should remain manual. Conversational voice and exit commands
-        // finish shortly after the last *changed* partial result.
-        if("dictation".equals(speechMode) || "budget".equals(speechMode) ||
-           "agenda".equals(speechMode) || "tasks".equals(speechMode) ||
-           "reminders".equals(speechMode) || "notes".equals(speechMode) ||
-           "daily".equals(speechMode) || "shopping".equals(speechMode) ||
-           "documents".equals(speechMode) || "math".equals(speechMode))return;
+        // All recognition modes end after a brief pause in changed partials.
+        // Math gets slightly longer to allow operators and spoken brackets.
         String normalized=recognized.trim();
         if(normalized.equals(lastVoicePartial))return;
         lastVoicePartial=normalized;
@@ -427,7 +422,7 @@ public final class MainActivity extends ComponentActivity {
                 try{speechRecognizer.stopListening();}catch(Exception ignored){}
             }
         };
-        voiceEndpointHandler.postDelayed(voiceEndpointTask,1100L);
+        voiceEndpointHandler.postDelayed(voiceEndpointTask,"math".equals(speechMode)?1350L:900L);
     }
     private void beginEmbeddedListening() {
         if(!SpeechRecognizer.isRecognitionAvailable(this)){notifyVoice("error","Speech recognizer unavailable",speechMode);return;}
@@ -471,13 +466,12 @@ public final class MainActivity extends ComponentActivity {
             // Request alternative math transcripts: the top hypothesis can omit "-1".
             // Only mathematical dictation reads these alternatives.
             if("math".equals(speechMode))intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
-            // Mathematics contains spoken brackets, operators and numbers. Allow
-            // natural pauses before Android produces a partial/final result.
-            // Some recognizers ignore these hints, so the web session restarts
-            // automatically after each final chunk as in Organize.
+            // Shorter silence thresholds apply to all dictation modules.
+            // Some Android recognizers ignore these extras, so the shared
+            // partial-result endpoint also closes the listening window.
             boolean mathDictation="math".equals(speechMode);
-            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS,mathDictation?4800L:2200L);
-            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,mathDictation?2600L:1400L);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS,mathDictation?1450L:1100L);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,mathDictation?900L:650L);
             intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS,1000L);
             nativeListening=true;
             speechRecognizer.startListening(intent);
@@ -1106,6 +1100,9 @@ public final class MainActivity extends ComponentActivity {
             @Override public void onPageFinished(WebView view,String url){
                 super.onPageFinished(view,url);
                 if(!"https".equals(Uri.parse(url).getScheme())||!APP_HOST.equals(Uri.parse(url).getHost()))return;
+                // Show the exact version of this installed signed APK in Settings.
+                view.evaluateJavascript("window.__pocketNativeAppVersion="+JSONObject.quote(BuildConfig.VERSION_NAME)
+                    +";window.dispatchEvent(new Event('pocket-native-version'));",null);
                 dispatchCommunicationInvite();
                 dispatchCommunicationNotification();
                 if(firebasePushConfigured)forwardFcmToken(
