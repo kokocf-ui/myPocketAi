@@ -160,8 +160,8 @@ function canonicalTravelHouseNumber(query){
  const parts=String(query||'').split(',').map(p=>p.trim()).filter(Boolean);
  if(parts.length<2)return query;
  let street=parts[0],tail=parts.slice(1),house=null;
- const houseToken='(\d+[a-z]?(?:[-/]\d+)?)';
- const marker='(?:nr\.?|numar(?:ul)?|no\.?|number|#)';
+ const houseToken='(\\d+[a-z]?(?:[-/]\\d+)?)';
+ const marker='(?:nr\\.?|numar(?:ul)?|no\\.?|number|#)';
  // "Strada X, nr. 12, Oradea" (and "Strada X, 12, Oradea").
  if(tail.length>1){
   const match=tail[0].match(new RegExp('^(?:'+marker+'\\s*)?'+houseToken+'$','i'));
