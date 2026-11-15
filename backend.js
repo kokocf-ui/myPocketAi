@@ -16,6 +16,7 @@ import {nearbySparseMapPlaces} from "./osm_sparse_places.mjs";
 import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {walkingAddressFromLabel,checkWalkingArrival,verifiedAddressGeocode} from "./walking_address_arrival.mjs";
+import {cornerShopFrontageRoute} from "./corner_shop_walking_frontage.mjs";
 import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
 import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
 import {nationalPublicTransportPolicy} from "./national_public_transport_policy.mjs";
@@ -4456,7 +4457,10 @@ export default {
           let text=typeof step.instruction?.text==='string'?step.instruction.text.trim():'';
           if(lang==='ro')text=text.replace(/^Take the stairs\.?$/i,'Folosește scările.').replace(/^Take the stairs to Level ([-\d]+)\.?$/i,'Folosește scările către nivelul $1.').replace(/\bthe crosswalk\b/gi,'trecerea de pietoni');
           const streets=Array.isArray(step.instruction?.streets)?step.instruction.streets.filter(v=>typeof v==='string').slice(0,8):[];
-          return {text:text.slice(0,1200),streets,distanceMeters:Number.isFinite(step.distance)&&step.distance>=0?step.distance:null};
+          return {text:text.slice(0,1200),streets,distanceMeters:Number.isFinite(step.distance)&&step.distance>=0?step.distance:null,
+           ...(data.corner_shop_walk===true&&rc.profile==='walk'&&!point?{
+             fromIndex:Number.isInteger(step.from_index)?step.from_index:null,
+             toIndex:Number.isInteger(step.to_index)?step.to_index:null}: {})};
         }).filter(v=>v.text).slice(0,500).map((v,i)=>({...v,number:i+1}));
         return {id:kind,automatic:Boolean(access),access_kind:access?.access_kind||null,bridge_geometry:access?.bridge_geometry||null,label:point?labels[2]+' — '+point.label:rc.profile==='drive'?(kind==='short'?'Cea mai scurtă':kind==='economy'?'Cu mai puține taxe':'Cea mai rapidă estimată'):labels[kind==='short'?1:0],via:point?[point]:[],profile:rc.profile,coordinates,distanceMeters:meters,durationSeconds:typeof props.time==='number'&&Number.isFinite(seconds)&&seconds>=0?seconds:null,origin,destination:arrival,steps};
 
@@ -4501,6 +4505,19 @@ export default {
               console.warn('Pocket AI walking frontage verification unavailable',
                 String(error?.name||'unknown').slice(0,60));
             }
+          }
+          // If the selected destination is a Băcănii storefront, a Geoapify
+          // route can pass along its true street before turning onto a wrong
+          // back street. Preserve the REAL provider geometry up to that street.
+          // No straight-line connector or unrelated-street route is permitted.
+          if(!arrivalCandidates.length&&data.corner_shop_walk===true&&
+             data.route_profile==='walk'){
+            const approaches=candidates.map(candidate=>cornerShopFrontageRoute(
+              candidate,address,destination,lang)).filter(Boolean);
+            if(approaches.length)arrivalCandidates=[
+              approaches.sort((a,b)=>a.frontage_distance_m-b.frontage_distance_m||
+                a.distanceMeters-b.distanceMeters)[0]
+            ];
           }
           if(!arrivalCandidates.length){
             rc.pending='retry';
