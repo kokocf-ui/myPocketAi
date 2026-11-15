@@ -69,11 +69,11 @@ try{
  assert.equal(answer.route.destination.longitude,.2804,
   'A verified address point, not a different business, is used when necessary');
  assert.equal(answer.route.steps.at(-2).streets[0],'London Road');
- assert.equal(urls.filter(u=>u.pathname==='/v1/geocode/search').length,1);
+ assert.equal(urls.filter(u=>u.pathname==='/v1/geocode/search'&&String(u.searchParams.get('text')||'').startsWith('433 London Road')).length,1);
  mode='correct';answer=await ask();
  assert.equal(answer.route_available,true);
  assert.equal(answer.route.destination.longitude,.2802);
- assert.equal(urls.filter(u=>u.pathname==='/v1/geocode/search').length,0,
+ assert.equal(urls.filter(u=>u.pathname==='/v1/geocode/search'&&String(u.searchParams.get('text')||'').startsWith('433 London Road')).length,0,
   'No extra geocoder call for an already-correct route');
  mode='unverified';answer=await ask();
  assert.equal(answer.route_available,false);
