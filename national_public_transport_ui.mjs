@@ -38,14 +38,26 @@ function showNationalTransitSearch(choice){
  let country='',point=null,origin=null,seq=0,timer=null,abort=null;
  const session={stop(){seq++;clearTimeout(timer);abort?.abort()}};nationalTransitSession=session;
  const alive=()=>root.isConnected&&nationalTransitSession===session&&state.currentView==='module'&&state.currentModule==='maps';
- const go=createButton(t('search'),async()=>{
+ const go=createButton(t('search'),()=>{
   if(!alive()||state.busy||state.moduleSearchBusy||!country||!origin||!point||String(point.country_code||'').toUpperCase()!==country)return;
-  session.stop();
-  await runModuleSearch({...choice,kind:'transit',nationalPublicTransport:true,mixedJourney:false,transitDirect:true,
-   transitDestination:{latitude:Number(point.latitude),longitude:Number(point.longitude),label:String(point.label||''),city:String(point.city||''),country_code:country,
-    stop_id:String(point.stop_id||'')},
-   transitQuery:String(point.label||''),transitPreference:'all',transitDepartureOffset:0,transitDepartureAt:null,
-   prompt:(ro?'Transport public către ':'Public transport to ')+point.label});
+  // Calendar appears AFTER the national destination is confirmed, BEFORE offers.
+  const destination={latitude:Number(point.latitude),longitude:Number(point.longitude),
+   label:String(point.label||''),city:String(point.city||''),country_code:country,
+   stop_id:String(point.stop_id||'')};
+  const step=createTransportDepartureStep({
+   title:ro?'Când dorești să pleci?':'When would you like to leave?',
+   destination:destination.label,
+   onBack:()=>{step.remove();root.hidden=false},
+   onSearch:async departureAt=>{
+    if(!alive()||state.busy||state.moduleSearchBusy)return;
+    session.stop();
+    await runModuleSearch({...choice,kind:'transit',nationalPublicTransport:true,mixedJourney:false,transitDirect:true,
+     transitDestination:destination,
+     transitQuery:destination.label,transitPreference:'all',transitDepartureOffset:0,transitDepartureAt:departureAt,
+     prompt:(ro?'Transport public către ':'Public transport to ')+destination.label});
+   }
+  });
+  root.hidden=true;host.append(step);
  });go.disabled=true;
  const back=createButton(t('back'),()=>{session.stop();handleModuleLayerBack()});back.classList.add('pocket-nav-return');
  back.style.cssText+=';background:linear-gradient(145deg,#903550,#602139)!important;border:2px solid #e9a9b8!important;color:white!important;box-shadow:inset 0 2px 0 #ffffff30,inset 0 -4px 0 #2a1020,0 4px 0 #341426,0 7px 12px #0006!important';
