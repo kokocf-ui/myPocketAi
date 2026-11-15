@@ -55,7 +55,14 @@ jobs:
             const body=await r.text();
             console.log('health status:',r.status,'content type:',r.headers.get('content-type'),'body:',body.slice(0,500));
             let data;try{data=JSON.parse(body)}catch{throw Error('Health endpoint returned HTML instead of JSON')}
-            if(!r.ok||data.ok!==true||data.service!=='eva_image_studio'||data.mode!=='capped_preview')
+            if(!r.ok||data.ok!==true||data.service!=='eva_image_studio'||data.mode!=='per_installation_preview'||data.perInstallationDailyLimit!==3)
               throw Error('Image studio health did not match expected service');
-            console.log('PASS: preview service responds; no image generated');
+            const origin='https://lifewise-ai-image-studio.kokocf.workers.dev';
+            for(const id of ['00000000-0000-4000-8000-000000000901','00000000-0000-4000-8000-000000000902']){
+              const q=await fetch(origin+'/quota',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({installationId:id})});
+              const info=await q.json();
+              if(!q.ok||info.scope!=='installation_preview'||info.dailyLimit!==3||info.remaining<0||info.remaining>3)
+                throw Error('Installation preview quota not readable: '+q.status);
+            }
+            console.log('PASS: preview health and two independent installation counters, without image generation');
           "
