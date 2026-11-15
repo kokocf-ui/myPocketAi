@@ -23,7 +23,6 @@ import {clarifyUnresolvedReference} from "./eva_context_clarification.mjs";
 import {normalizeConversationProfile,conversationProfileInstruction} from "./user_profile.mjs";
 import {summarizePriorRecipeRequests} from "./recipe_history_recall.mjs";
 import {handleMathVisionPilot} from "./math_photo_vision.mjs";
-import {handlePocketImageRequest} from "./image_generation.mjs";
 import {planPresentation} from "./presentation.mjs";
 export {PocketCommunicationHub} from "./pocket_communication_hub.mjs";
 import {hasAssistantRepetitionLoop} from "./ai_response_quality.mjs";
@@ -1279,9 +1278,6 @@ export default {
         status:410,headers:{...corsHeaders,"Content-Type":"application/json","Cache-Control":"no-store"}
       });
     }
-
-    // Explicit text-to-image requests only; prompts/images are not persisted.
-    if(url.pathname==="/api/image")return handlePocketImageRequest(request,env,json);
 
     // Owner-approved image upload only; never triggered by ordinary device OCR.
     if(url.pathname==="/api/math-vision")return handleMathVisionPilot(request,env,json);
