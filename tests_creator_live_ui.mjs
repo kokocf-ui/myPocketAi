@@ -36,14 +36,35 @@ globalThis.fetch=async(_,options)=>{
 };
 const copy=await f.call({name:'Aramis',kind:'hotel',description:'Rooms and breakfast',style:'mediteranean',lang:'both'},new AbortController().signal);
 assert.ok(called);assert.equal(copy.en.headline,'Stay at Aramis');
-assert.match(CREATOR_IMAGE_AI_SCRIPT,/3 utilizări zilnice/,'Daily image preview allowance is displayed');
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/Imagini AI: /,'Short per-installation quota is displayed');
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/reset 00:00 UTC/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/lifewise-ai-image-studio\.kokocf\.workers\.dev\/generate/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/lifewise-ai-image-studio\.kokocf\.workers\.dev\/edit/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/function evaCreatorPhotoTabs/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/album\.onchange/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/camera\.onchange/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/extraCreatorSaveImage\(work,status\)/);
-assert.match(CREATOR_IMAGE_AI_SCRIPT,/format:f\.format\.value/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/format:providerFormat/,'4:3 and 3:4 are generated square and cropped locally');
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/extraCreatorImageCanvas\(data.image,f.format.value\)/);
+
+const art=new Function(CREATOR_IMAGE_AI_SCRIPT+';return {styles:EVA_IMAGE_STYLES,prompt:extraCreatorEnhancedPrompt};')();
+assert.equal(art.styles.length,26,'All 26 artistic styles must exist in the live image module');
+assert.equal(new Set(art.styles.map(row=>row[0])).size,26,'Every image style must have a unique identifier');
+const artisticPrompt=art.prompt('O casă lângă un lac','full','landscape43',{
+ artStyle:{value:'watercolor'},mood:{value:'calm'},lighting:{value:'golden'},
+ palette:{value:'pastel'},avoid:{value:'sigle'}
+});
+assert.match(artisticPrompt,/watercolour painting/);
+assert.match(artisticPrompt,/golden-hour/);
+assert.match(artisticPrompt,/pastel/);
+assert.match(artisticPrompt,/Avoid: sigle/);
+assert.match(artisticPrompt,/Landscape 4:3 framing/);
+assert.match(CREATOR_SITE_SCRIPT,/Stil artistic/);
+assert.match(CREATOR_SITE_SCRIPT,/Atmosferă, lumină, culori și detalii/);
+assert.match(CREATOR_SITE_SCRIPT,/Portrait · 3:4/);
+assert.doesNotMatch(CREATOR_SITE_SCRIPT,/Generarea imaginilor nu este încă activă/);
+assert.doesNotMatch(CREATOR_SITE_SCRIPT,/Motorul AI de imagini nu este conectat/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/status.hidden=true/,'No duplicate verbose status before generation');
 
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageQuotaUrl/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageInstallationId/);
