@@ -3736,7 +3736,7 @@ const $ = id => document.getElementById(id);
  function pocketUpdateInstalledVersion(){
   const label=$('pocketNativeVersion');
   const version=String(window.__pocketNativeAppVersion||'').trim();
-  if(!label||!/^0\\.2\\.\\d+$/.test(version))return;
+  if(!label||!/^0\.2\.\d+$/.test(version))return;
   label.textContent='Android APK · '+version;
   label.hidden=false;
  }

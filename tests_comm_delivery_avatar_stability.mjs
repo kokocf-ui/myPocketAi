@@ -6,11 +6,11 @@ import {ORACLE_COMMUNICATION_SCRIPT} from './oracle_communication_ui.mjs';
 // Automatic UI polling is gone; Settings shows the actual native APK version.
 const ui=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 const nativeSource=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/MainActivity.java',import.meta.url),'utf8');
-assert.doesNotMatch(ui,/checkUiUpdateAfterModuleExit|pocketUiUpdateSafe|window\\.location\\.reload\\(/);
-assert.doesNotMatch(ui,/fetch\\('\\/__ui_version'/,'no live version check');
+assert.doesNotMatch(ui,/checkUiUpdateAfterModuleExit|pocketUiUpdateSafe|window\.location\.reload\(/);
+assert.doesNotMatch(ui,/fetch\('\/__ui_version'/,'no live version check');
 assert.match(ui,/id="pocketNativeVersion"/,'Settings has native version');
-assert.match(ui,/window\\.addEventListener\\('pocket-native-version',pocketUpdateInstalledVersion\\)/);
-assert.match(nativeSource,/JSONObject\\.quote\\(BuildConfig\\.VERSION_NAME\\)/,'native app supplies the installed version');
+assert.match(ui,/window\.addEventListener\('pocket-native-version',pocketUpdateInstalledVersion\)/);
+assert.match(nativeSource,/JSONObject\.quote\(BuildConfig\.VERSION_NAME\)/,'native app supplies the installed version');
 assert.match(nativeSource,/pocket-native-version/);
 
 // Receipt sender must use distinct states: accepted by server != delivered to device.

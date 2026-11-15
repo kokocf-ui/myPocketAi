@@ -638,8 +638,8 @@ assert.match(inline,/function budgetRenameEntry\(id\)/,'saved transactions can b
 assert.match(inline,/pocketEdit\(learningLabel\('Modifică descrierea'/,'saved title uses styled editing modal');
 assert.match(inline,/budget-report-editable/,'detailed expense rows offer editing');
 assert.match(inline,/item\.status==='planned'\?budgetPayPlanned\(item\):budgetRenameEntry\(item\.id\)/,'planned payments are confirmed and completed entries remain editable');
-assert.doesNotMatch(inline,/checkUiUpdateAfterModuleExit|pocketUiUpdateSafe|window\\.location\\.reload\\(/,'no frontend UI update polling or automatic reload');
-assert.doesNotMatch(inline,/fetch\\('\\/__ui_version'/,'no frontend version fetch');
+assert.doesNotMatch(inline,/checkUiUpdateAfterModuleExit|pocketUiUpdateSafe|window\.location\.reload\(/,'no frontend UI update polling or automatic reload');
+assert.doesNotMatch(inline,/fetch\('\/__ui_version'/,'no frontend version fetch');
 const titleStart=inline.indexOf('function budgetVoiceExpenseTitle(raw)');
 const titleEnd=inline.indexOf('function budgetRenameEntry(id)',titleStart);
 assert.ok(titleStart>0&&titleEnd>titleStart);
