@@ -154,7 +154,8 @@ public final class AvatarLaunchActivity extends Activity {
             }
             @Override public void onStart(String utteranceId) {
                 runOnUiThread(() -> {
-                    if (!isCurrentSegment(utteranceId) || greetingFinished || finishingLaunch) return;
+                    if (!isCurrentSegment(utteranceId)) return;
+                    if (greetingFinished || finishingLaunch) return;
                     startAvatarLipSyncOnce();
                     if (greetingSegmentIndex == greetingSegments.size()-1) startPlaybackWatchdog();
                 });
