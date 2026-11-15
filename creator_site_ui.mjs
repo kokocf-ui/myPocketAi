@@ -245,7 +245,7 @@ function extraCreatorHome(work){
   ()=>extraCreatorWorkingImages(work));
 }
 function extraCreatorWebsite(work){
- const area=work.area;area.replaceChildren();extraCreatorSubBack(work);
+ const area=work.area;area.replaceChildren();
  area.append(extraToolsEl('h3','extra-creator-subtitle',extraToolsLocale('Creează pagini web','Create websites')));
  extraCreatorNotice(area,'Machetă locală: în acest APK testăm stilul și structura. Generarea cu Eva și accesul Premium verificat sunt încă neactivate.','Local draft: in this APK you can test style and structure. Eva generation and verified Premium access are not enabled.');
  const name=extraToolsField(area,extraToolsLocale('Numele afacerii','Business name'),'text',extraToolsLocale('Ex.: Aramis','e.g. Aramis'));
