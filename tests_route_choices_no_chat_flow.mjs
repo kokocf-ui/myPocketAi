@@ -18,7 +18,7 @@ assert.match(submit,/const routePickerFromPlace=Boolean\(state\.routeSearchConte
 assert.match(submit,/if\(routeLoadingRequested&&routeLoadingProfile!=='transit'&&validMapRoute\(data\.route\)\)/,'Walking/driving route result switches to choices');
 assert.ok(submit.indexOf('showDedicatedRouteResults(data.route,state.lastRouteOptions)')<submit.indexOf('const weatherSummary=reply'),'Route choices open before any chat response UI');
 assert.match(submit,/showDedicatedRouteIssue\(reply\)/,'No valid walking/driving route gets a dedicated error screen');
-assert.match(submit,/if\(routePickerFromPlace\)showDedicatedRouteIssue\(reason\)/,'Network failures do not expose chat');
+assert.match(submit,/if\(routePickerFromPlace\|\|\(routeLoadingRequested&&routeLoadingProfile!=='transit'\)\)showDedicatedRouteIssue\(reason\)/,'Network failures of road or pedestrian routes do not expose chat');
 assert.match(submit,/if\(routeLoadingRequested\)requestAnimationFrame\(finishRouteSearchLoading\)/,'Loading state cleanup also works after early return');
 assert.match(route,/classList\.add\('route-results-active'\)/,'Route presentation hides chat after load');
 assert.match(route,/openWalkingRouteChoices\(route,options\)/,'Open choice list, do not skip straight to map');
