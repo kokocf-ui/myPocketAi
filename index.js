@@ -61,7 +61,7 @@ import {FOREIGN_TOPIC_EXAMPLES,FOREIGN_CLASSICAL_VARIANTS} from './foreign_langu
  */
 const APP = Object.freeze({
   name: "myPocket AI",
-  version: "1.0.150",
+  version: "1.0.151",
   apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
@@ -3690,7 +3690,7 @@ main.page:has(#view-module.my-documents-active.active){
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
 ${COMMUNICATION_HTML}
 <section class="view" id="view-tools"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Instrumente</h2><p class="section-lead">Alege un domeniu pentru a începe.</p><div class="simple-list" id="toolsList"></div></section>
-<section class="view" id="view-settings"><button class="back-btn" data-back>← Acasă</button><div class="pocket-settings-top"><h2 class="section-title">Setări</h2><button type="button" class="pocket-account-open" id="pocketAccountOpen">Cont</button></div><div class="module-panel"><h3>Limba conversației</h3><p>Limba folosită pentru solicitările către asistent.</p><select class="text-field" id="languageSelect" aria-label="Limba conversației"><option value="ro">Română</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="ru">Русский</option><option value="pl">Polski</option><option value="hr">Hrvatski</option><option value="sr">Српски</option><option value="hu">Magyar</option><option value="tr">Türkçe</option><option value="cs">Čeština</option><option value="sk">Slovenčina</option><option value="sl">Slovenščina</option><option value="bg">Български</option><option value="el">Ελληνικά</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="no">Norsk</option><option value="da">Dansk</option><option value="is">Íslenska</option><option value="et">Eesti</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="uk">Українська</option><option value="bs">Bosanski</option><option value="mk">Македонски</option><option value="sq">Shqip</option><option value="be">Беларуская</option><option value="ca">Català</option><option value="ga">Gaeilge</option><option value="cy">Cymraeg</option><option value="mt">Malti</option><option value="eu">Euskara</option><option value="gl">Galego</option><option value="lb">Lëtzebuergesch</option><option value="fo">Føroyskt</option><option value="rm">Rumantsch</option></select><p class="small">Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.</p></div><div class="module-panel"><h3>Despre aplicație</h3><p>myPocket AI · Versiunea ${APP.version}</p><p class="small">Conversațiile locale pot fi șterse din secțiunea Conversații.</p></div></section>
+<section class="view" id="view-settings"><button class="back-btn" data-back>← Acasă</button><div class="pocket-settings-top"><h2 class="section-title">Setări</h2><button type="button" class="pocket-account-open" id="pocketAccountOpen">Cont</button></div><div class="module-panel"><h3>Limba conversației</h3><p>Limba folosită pentru solicitările către asistent.</p><select class="text-field" id="languageSelect" aria-label="Limba conversației"><option value="ro">Română</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="ru">Русский</option><option value="pl">Polski</option><option value="hr">Hrvatski</option><option value="sr">Српски</option><option value="hu">Magyar</option><option value="tr">Türkçe</option><option value="cs">Čeština</option><option value="sk">Slovenčina</option><option value="sl">Slovenščina</option><option value="bg">Български</option><option value="el">Ελληνικά</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="no">Norsk</option><option value="da">Dansk</option><option value="is">Íslenska</option><option value="et">Eesti</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="uk">Українська</option><option value="bs">Bosanski</option><option value="mk">Македонски</option><option value="sq">Shqip</option><option value="be">Беларуская</option><option value="ca">Català</option><option value="ga">Gaeilge</option><option value="cy">Cymraeg</option><option value="mt">Malti</option><option value="eu">Euskara</option><option value="gl">Galego</option><option value="lb">Lëtzebuergesch</option><option value="fo">Føroyskt</option><option value="rm">Rumantsch</option></select><p class="small">Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.</p></div><div class="module-panel"><h3>Despre aplicație</h3><p>myPocket AI · Versiunea interfeței ${APP.version}</p><p id="pocketNativeVersion" class="small" hidden></p><p class="small">Conversațiile locale pot fi șterse din secțiunea Conversații.</p></div></section>
 </main>
 ${ACCOUNT_HTML}
 <div class="module-quick-layer" id="moduleQuickLayer" aria-hidden="true">
@@ -3732,6 +3732,16 @@ function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypo
 function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { moduleSearchScrollTop:0,moduleSearchBodyScrollTop:0,location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list',transitRefreshBusy:false,transitRefreshGeneration:0,transitRefreshAbort:null };
 const $ = id => document.getElementById(id);
+ // Read the actual Android package version from the installed APK, not Cloudflare.
+ function pocketUpdateInstalledVersion(){
+  const label=$('pocketNativeVersion');
+  const version=String(window.__pocketNativeAppVersion||'').trim();
+  if(!label||!/^0\.2\.\d+$/.test(version))return;
+  label.textContent='Android APK · '+version;
+  label.hidden=false;
+ }
+ window.addEventListener('pocket-native-version',pocketUpdateInstalledVersion);
+ pocketUpdateInstalledVersion();
 const views = [...document.querySelectorAll('.view')];
 const messagesEl=$('messages'), inputEl=$('messageInput'), sendBtn=$('sendBtn'), chatStatus=$('chatStatus');
 
@@ -3984,7 +3994,7 @@ function dismissNotice(){clearTimeout(state.noticeTimer);$('notice').classList.r
 function notify(message){const el=$('notice');dismissNotice();el.textContent=message;el.classList.add('show');state.noticeTimer=setTimeout(dismissNotice,1800)}
 inputEl.addEventListener('focus',dismissNotice);
 function setStatus(message){chatStatus.textContent=message}
-function showView(name){document.getElementById('pocketStandaloneChoices')?.remove();state.assistantStructuredDestination=false;closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);if(name!=='module'){finishRouteSearchLoading();clearDedicatedRouteResults();}if(name!=='module')document.getElementById('mathEducationReturn')?.remove();if(shoppingVoiceSession?.active&&name!=='module')shopVoiceStop();const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}const exitedModule=state.currentView==='module'&&name!=='module';state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));if(exitedModule)checkUiUpdateAfterModuleExit();document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
+function showView(name){document.getElementById('pocketStandaloneChoices')?.remove();state.assistantStructuredDestination=false;closeLongChoice();cancelTransitAccess(true);closeRouteMap(false);closeAnswerReader(false);if(name!=='module'){finishRouteSearchLoading();clearDedicatedRouteResults();}if(name!=='module')document.getElementById('mathEducationReturn')?.remove();if(shoppingVoiceSession?.active&&name!=='module')shopVoiceStop();const quickLayer=$('moduleQuickLayer');if(quickLayer){quickLayer.classList.remove('open');quickLayer.setAttribute('aria-hidden','true');document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');}const leavingChat=(state.currentView==='assistant'||state.currentView==='module')&&name!=='assistant'&&name!=='module';if(leavingChat){if(state.messages.length)archiveCurrentConversation();resetChat()}const voiceButtons=[ $('dictationBtn'),$('voiceBtn'),$('listenBtn') ];if(name==='assistant'){voiceButtons.forEach(b=>chatControlsHome.append(b));moduleChatControls.remove();chatHomePlaceholder.before(sharedChatShell);$('view-assistant').querySelector('.assistant-actions').append(newChatBtn);newChatBtn.style.display='';}else if(name==='module'){voiceButtons.forEach(b=>moduleChatControls.append(b));$('chatForm').after(moduleChatControls);$('moduleChatHost').append(sharedChatShell);newChatBtn.style.display='';chatControlsHome.append(newChatBtn);chatControlsHome.style.flexWrap='nowrap';newChatBtn.style.margin='0 0 0 auto';newChatBtn.style.fontSize='12px';newChatBtn.style.padding='7px 9px';newChatBtn.style.flexShrink='0';}state.currentView=name;views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='conversations')renderHistory();if(name==='assistant'||name==='module')requestAnimationFrame(()=>{messagesEl.scrollTop=messagesEl.scrollHeight})}
 // Change the shared chat host without archiving, clearing GPS or starting a new conversation.
 function switchConversationModule(key){
  if(!['assistant','maps','travel'].includes(key))return;
@@ -4282,43 +4292,7 @@ const ORGANIZE_CATEGORIES=[
 const SHOPPING_STORAGE_KEY='mypocketai.shopping.v1';
 function shoppingRead(){try{return shopNormalizeData(JSON.parse(localStorage.getItem(SHOPPING_STORAGE_KEY)||'{}'))}catch{return shopNormalizeData({})}}
 function shoppingWrite(data){try{localStorage.setItem(SHOPPING_STORAGE_KEY,JSON.stringify(data));return true}catch{notify(learningLabel('Nu s-a putut salva lista pe dispozitiv.','Could not save the list on this device.'));return false}}
-/* Check the deployed UI only after leaving a workspace. Do not reload while
-   editing a list, answering a dialog, or using an active module. */
-let pocketUiUpdateChecking=false;
-function pocketUiUpdateSafe(){
- const view=state.currentView;
- // Active sessions must never reload, including the Organisation chooser.
- return view==='home'&&!state.busy&&!state.voiceMode&&!state.dictationMode
-  &&!shoppingPendingAction&&!shoppingVoiceSession?.active&&!agendaListening
-  &&!notesListening&&!dailyListening&&!budgetVoiceListening&&!tasksListening
-  &&!remindersListening&&!documentsListening&&!document.querySelector('dialog[open]')
-  &&!document.querySelector('input:focus,textarea:focus,select:focus');
-}
-async function checkUiUpdateAfterModuleExit(){
- if(pocketUiUpdateChecking||!pocketUiUpdateSafe())return;
- pocketUiUpdateChecking=true;
- try{
-  const response=await fetch('/__ui_version',{cache:'no-store'});
-  if(!response.ok)return;
-  const version=(await response.text()).trim();
-  if(!pocketUiUpdateSafe())return;
-  const current=document.documentElement.dataset.pocketUiVersion;
-  const key='mypocketai.ui-refresh-attempt';
-  if(version===current){try{sessionStorage.removeItem(key)}catch(_){};return;}
-  if(version){
-   let alreadyAttempted=false;
-   try{alreadyAttempted=sessionStorage.getItem(key)===version}catch(_){}
-   if(alreadyAttempted)return; // Never refresh repeatedly for the same stale version.
-   try{sessionStorage.setItem(key,version)}catch(_){}
-   if(pocketUiUpdateSafe())window.location.reload();
-  }
- }catch(_error){/* Offline: keep the currently usable interface. */}
- finally{pocketUiUpdateChecking=false}
-}
-document.addEventListener('visibilitychange',()=>{
- if(document.visibilityState==='visible'&&pocketUiUpdateSafe())checkUiUpdateAfterModuleExit();
-});
-setInterval(()=>{if(document.visibilityState==='visible'&&pocketUiUpdateSafe())checkUiUpdateAfterModuleExit()},60000);
+/* UI auto-refresh removed: new versions are installed through signed APK updates. */
 function renderOrganizeChoices(){
  if(tasksListening)tasksVoiceStop();
  if(shoppingVoiceSession?.active)shopVoiceStop();
