@@ -2402,6 +2402,6 @@ public final class MainActivity extends ComponentActivity {
         }catch(Exception ignored){}
     }
 
-    @Override protected void onDestroy(){finishCommVoice(false);if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}stopMathPcmRecording();stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}mathVisionSourceUri=null;if(web!=null){web.destroy();}for(WebView printable:educationPrintWebs){printable.destroy();}educationPrintWebs.clear();super.onDestroy();}
+    @Override protected void onDestroy(){cancelCommVoice();if(documentPhotoCallback!=null){documentPhotoCallback.onReceiveValue(null);documentPhotoCallback=null;}stopMathPcmRecording();stopEmbeddedListening();if(tts!=null){tts.stop();tts.shutdown();}mathVisionSourceUri=null;if(web!=null){web.destroy();}for(WebView printable:educationPrintWebs){printable.destroy();}educationPrintWebs.clear();super.onDestroy();}
 
 }
