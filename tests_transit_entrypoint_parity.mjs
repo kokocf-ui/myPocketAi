@@ -1,9 +1,8 @@
 import assert from 'node:assert/strict';
 import worker from './backend.js';
 
-// One real backend transport dispatch for three UI entry points: Deplasare
-// spre…, Transport public and Eva. Do not add or invoke a third planner.
-// Provider selection must be geographic, not dependent on module name.
+// The same backend planner serves Deplasare spre and Transport public.
+// Assistant only transfers navigation requests; it cannot calculate journeys.
 const original=globalThis.fetch;
 let calls=[];
 const origin={latitude:51.479,longitude:0.291,accuracy:20,updatedAt:Date.now()};
@@ -69,12 +68,17 @@ const run=async(module,mixed_journey)=>{
   lastStops:result.transit.map(j=>j.legs.at(-1).to).sort()};
 };
 try{
- const results=[
-  await run('maps',false),await run('assistant',false),
-  await run('travel',true)
- ];
+ const assistant=await worker.fetch(new Request('https://test.example/api/chat',{
+  method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({message:'Cum ajung la Victoria cu transportul public?',
+   module:'assistant',language:'ro',location:origin,history:[]})
+ }),{TFL_APP_KEY:'mock-key',AI:{run:async()=>{throw Error('Assistant cannot calculate journeys')}}});
+ const assistantResult=await assistant.json();
+ assert.ok(assistantResult.journey_handoff,'Assistant transfers route request');
+ assert.equal(calls.length,0,'No route provider called in Assistant');
+ const results=[await run('maps',false),await run('maps',true),await run('travel',true)];
  assert.deepEqual(results[0],results[1]);
  assert.deepEqual(results[1],results[2]);
  assert.ok(calls.every(c=>c.host==='api.tfl.gov.uk'));
- console.log('PASS: all three UI modules use the same backend transit provider and result policy');
+ console.log('PASS: one shared transport planner for Maps and Travel; Assistant only transfers');
 }finally{globalThis.fetch=original}
