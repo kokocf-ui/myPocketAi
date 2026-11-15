@@ -771,13 +771,24 @@ public final class MainActivity extends ComponentActivity {
         notifyCommVoice("preparing",session,null,-1,0,null);
         new Thread(()->{
             File merged=null;
+            boolean temporaryMerged=false;
             boolean successful=false;
+            String failureStage="RECORD_PREPARE_FAILED";
             try{
-                // MP4 needs finalization before local playback. Concatenate AAC
-                // samples with MediaMuxer; never concatenate MP4 file bytes.
-                merged=mergedCommVoice();
+                // A single MediaRecorder .m4a is already a valid, finalized MP4.
+                // Do NOT remux it. Some Android codecs expose track metadata
+                // unsupported by MediaMuxer; remuxing broke even a 5s voice note.
+                if(commVoiceSegments.size()==1){
+                    merged=commVoiceSegments.get(0);
+                }else{
+                    // Multiple paused segments must be joined by AAC sample
+                    // timestamps, never by appending MP4 containers.
+                    merged=mergedCommVoice();
+                    temporaryMerged=true;
+                }
                 if(merged.length()<256||merged.length()>COMM_VOICE_MAX_BYTES)
                     throw new java.io.IOException("Voice note size invalid");
+                failureStage="RECORD_TRANSFER_FAILED";
                 try(FileInputStream input=new FileInputStream(merged)){
                     byte[] buffer=new byte[24*1024];
                     int partCount=(int)((merged.length()+buffer.length-1)/buffer.length);
@@ -795,10 +806,12 @@ public final class MainActivity extends ComponentActivity {
                     }
                 }
             }catch(Exception error){
+                // Report the failing stage without exposing any user audio.
+                android.util.Log.w("PocketVoice","Voice processing failed at "+failureStage,error);
                 if(session==commVoiceSession)
-                    notifyCommVoice("error",session,"RECORD_READ_FAILED",-1,0,null);
+                    notifyCommVoice("error",session,failureStage,-1,0,null);
             }finally{
-                if(merged!=null)merged.delete();
+                if(temporaryMerged&&merged!=null)merged.delete();
                 final boolean delivered=successful;
                 runOnUiThread(()->{
                     commVoiceDelivering=false;
