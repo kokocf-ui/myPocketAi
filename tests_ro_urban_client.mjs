@@ -74,3 +74,17 @@ test('Worker selects Romanian urban rather than Bilo or TfL for explicit A-to-B 
   assert.deepEqual(calls,['https://private.example/v1/plan']);
  }finally{globalThis.fetch=originalFetch}
 });
+test('Secure adapter accepts documented lines only, never fabricates departures',async()=>{
+ const line={provider:'GTFS operator route topology',source:'GTFS route and stop sequence',
+  source_type:'licensed_gtfs_topology',route_only:true,scheduled:false,
+  schedule_status:'unavailable',startDateTime:null,arrivalDateTime:null,
+  legs:[{mode:'tram',lineNames:['1'],from:'Centru',to:'Gară',fromStopId:'A',toStopId:'B',
+    departureTime:null,arrivalTime:null}]};
+ const env={RO_URBAN_API_URL:'https://private.example/',RO_URBAN_API_TOKEN:token};
+ const get=j=>planRomanianUrbanViaOracle(env,{from:o,to:d},{
+  fetchImpl:async()=>Response.json({status:'route_only',journeys:[j]})});
+ assert.equal((await get(line)).status,'route_only');
+ const invalid=await get({...line,legs:[{...line.legs[0],lineNames:[]}]});
+ assert.equal(invalid.status,'invalid_route_only');
+ assert.deepEqual(invalid.journeys,[]);
+});
