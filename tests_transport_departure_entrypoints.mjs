@@ -19,6 +19,10 @@ const mixMode=mixed.slice(mixed.indexOf("const runMode=async(mode)=>{"),mixed.in
 assert.ok(mixMode.includes("if(mode==='transit'){"),'Calendar is for mixed transport only');
 assert.ok(mixMode.includes('createTransportDepartureStep('));
 assert.ok(mixMode.includes('transitDepartureAt:departureAt'));
+assert.ok(mixMode.includes('root.replaceChildren(step)'),'Mixed calendar replaces the mode screen rather than appending below it');
+assert.ok(mixMode.includes('resetJourneyScroll()'),'Mixed calendar opens at the top of the scroll area');
+assert.ok(mixMode.includes('root.replaceChildren(...searchNodes)'),'Back from mixed calendar restores destination and modes');
+assert.ok(!mixMode.includes('host.append(step)'),'No calendar below existing address or mode form');
 assert.ok(mixMode.indexOf("if(mode==='transit'){")<mixMode.indexOf("state.pendingTravelMode=mode"),'Driving path bypasses the calendar');
 const nationalStart=national.indexOf('const openDeparture=()=>{');
 const nationalEnd=national.indexOf("const back=createButton(",nationalStart);
