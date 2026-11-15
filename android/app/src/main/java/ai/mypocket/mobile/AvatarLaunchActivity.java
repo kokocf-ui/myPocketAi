@@ -173,7 +173,7 @@ public final class AvatarLaunchActivity extends Activity {
             }
             @Override public void onError(String utteranceId) {
                 runOnUiThread(() -> {
-                    if (isCurrentSegment(utteranceId)) openMain();
+                    if (!greetingFinished && !finishingLaunch && isCurrentSegment(utteranceId)) openMain();
                 });
             }
         });
