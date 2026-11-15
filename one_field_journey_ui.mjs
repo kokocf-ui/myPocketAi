@@ -115,7 +115,8 @@ function showOneFieldJourney(choice){
   const distance=origin?Math.hypot(Number(origin.latitude)-Number(selected.latitude),
    (Number(origin.longitude)-Number(selected.longitude))*Math.cos(Number(selected.latitude)*Math.PI/180))*111:distanceToDestinationKm(selected);
   const suggestedMode=searchPhrase().preferred_mode;
-  const choices=[['walk',text.walk],['transit',text.transit],['drive',text.drive]];
+  // The dedicated Hărți → Traseu pietonal remains the only walking entry.
+  const choices=[['transit',text.transit],['drive',text.drive]];
   if(suggestedMode)choices.sort((a,b)=>(a[0]===suggestedMode?-1:0)-(b[0]===suggestedMode?-1:0));
   for(const [mode,label] of choices){
    if(mode==='walk'&&Number.isFinite(distance)&&distance>5)continue;
