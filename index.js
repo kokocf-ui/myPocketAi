@@ -20575,7 +20575,7 @@ function isCasualConversationReply(value){
 }
 function requestUsesLocation(text){
  if(isEvaConversationClient(text))return false;
- if(state.currentView==='assistant'&&assistantBareDestinationQuery(text))return true;
+ if(typeof state!=='undefined'&&state?.currentView==='assistant'&&typeof assistantBareDestinationQuery==='function'&&assistantBareDestinationQuery(text))return true;
  const value=String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
  if(isRecipeQuestion(value))return false;
  if(isCasualConversationReply(text))return false;
