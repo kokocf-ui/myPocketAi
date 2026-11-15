@@ -32,6 +32,85 @@ function handoffJourneyFromAssistant(handoff){
   'Navigation request transferred to Directions.'));
  return true;
 }
+// Shared one-screen date/time step for Maps -> national public transport and mixed journeys.
+// "Unchanged" always means search from the moment the user submits, not a stale prefilled minute.
+function createTransportDepartureStep({title='',destination='',onBack,onSearch}={}){
+ const phrases={
+  ro:['Data și ora plecării','Poți schimba data și ora sau poți căuta de acum.','Caută trasee','← Înapoi','Data și ora sunt cele ale telefonului.','Alege o dată și oră valide, care nu au trecut.','Căutare de la ora actuală','Căutare pentru data și ora aleasă'],
+  en:['Departure date and time','Change the date and time, or search from now.','Find routes','← Back','The date and time use your phone time zone.','Choose a valid future date and time.','Searching from now','Searching for selected date and time'],
+  fr:['Date et heure de départ','Modifiez la date ou recherchez dès maintenant.','Chercher les trajets','← Retour','Fuseau horaire du téléphone.','Choisissez une date future valide.','Recherche immédiate','Recherche à la date choisie'],
+  de:['Abfahrtsdatum und Uhrzeit','Zeit ändern oder ab jetzt suchen.','Verbindungen suchen','← Zurück','Zeitzone des Telefons.','Bitte gültige künftige Zeit wählen.','Suche ab jetzt','Suche zum gewählten Zeitpunkt'],
+  it:['Data e ora di partenza','Modifica la data o cerca da adesso.','Cerca percorsi','← Indietro','Fuso orario del telefono.','Scegli una data futura valida.','Ricerca da adesso','Ricerca per la data scelta'],
+  es:['Fecha y hora de salida','Cambia la fecha o busca desde ahora.','Buscar rutas','← Atrás','Zona horaria del teléfono.','Elige una fecha futura válida.','Búsqueda desde ahora','Búsqueda para la fecha elegida'],
+  pt:['Data e hora da partida','Altere a data ou pesquise a partir de agora.','Procurar rotas','← Voltar','Fuso horário do telemóvel.','Escolha uma data futura válida.','Pesquisa a partir de agora','Pesquisa para a data escolhida'],
+  nl:['Vertrekdatum en tijd','Wijzig de tijd of zoek vanaf nu.','Routes zoeken','← Terug','Tijdzone van je telefoon.','Kies een geldige toekomstige tijd.','Zoeken vanaf nu','Zoeken op de gekozen tijd'],
+  ru:['Дата и время отправления','Измените дату или ищите с текущего момента.','Найти маршруты','← Назад','Часовой пояс телефона.','Укажите корректное будущее время.','Поиск с текущего момента','Поиск на выбранное время'],
+  pl:['Data i godzina wyjazdu','Zmień datę albo wyszukaj od teraz.','Szukaj tras','← Wstecz','Strefa czasowa telefonu.','Wybierz poprawną przyszłą datę.','Wyszukiwanie od teraz','Wyszukiwanie na wybraną godzinę']
+ };
+ const words=phrases[state.language]||phrases.en;
+ const formatLocal=stamp=>{
+  const pad=n=>String(n).padStart(2,'0');
+  return stamp.getFullYear()+'-'+pad(stamp.getMonth()+1)+'-'+pad(stamp.getDate())+
+   'T'+pad(stamp.getHours())+':'+pad(stamp.getMinutes());
+ };
+ const step=document.createElement('section');
+ step.className='transport-departure-step';
+ step.style.cssText='width:100%;min-width:0;display:flex;flex-direction:column;gap:13px;padding:10px 0 16px';
+ const headline=document.createElement('strong');
+ headline.textContent=title||words[0];headline.style.cssText='font-size:18px;text-align:center';
+ const summary=document.createElement('p');
+ summary.textContent=destination;summary.style.cssText='margin:0;line-height:1.45;font-weight:700;overflow-wrap:anywhere';
+ const label=document.createElement('label');label.textContent=words[0];
+ label.style.cssText='font-weight:700;font-size:15px';
+ const picker=document.createElement('input');picker.type='datetime-local';
+ picker.className='transport-departure-datetime';
+ picker.setAttribute('aria-label',words[0]);
+ picker.value=formatLocal(new Date());
+ picker.style.cssText='box-sizing:border-box;width:100%;min-height:56px;font-size:17px;padding:10px 12px;background:#102d40;border:2px solid #62b9d0;border-radius:15px;color:#fff;color-scheme:dark;touch-action:manipulation';
+ const explain=document.createElement('p');
+ explain.textContent=words[1]+' '+words[4];
+ explain.style.cssText='font-size:13px;color:#bed6e0;margin:0;line-height:1.5';
+ const notice=document.createElement('p');notice.setAttribute('role','status');
+ notice.setAttribute('aria-live','polite');notice.style.cssText='font-size:13px;color:#c6e1ec;margin:0;min-height:19px';
+ const row=document.createElement('div');row.style.cssText='display:flex;gap:9px;flex-wrap:wrap';
+ const button=(text,click)=>{
+  const b=document.createElement('button');b.type='button';b.className='module-result-card journey-primary-action';
+  b.textContent=text;b.onclick=click;
+  b.style.cssText='min-width:0;min-height:51px;flex:1 1 145px;padding:10px 12px;font-size:15px;white-space:normal;touch-action:manipulation';
+  return b;
+ };
+ let changed=false,submitting=false;
+ const update=()=>{changed=true;notice.textContent=words[7];};
+ picker.addEventListener('input',update);
+ picker.addEventListener('change',update);
+ const back=button(words[3],()=>{if(!submitting)onBack?.()});
+ back.classList.add('pocket-nav-return');
+ back.style.cssText+=';background:linear-gradient(145deg,#903550,#602139)!important;border:2px solid #e9a9b8!important;color:white!important';
+ const submit=button(words[2],async()=>{
+  if(submitting)return;
+  let departureAt=null;
+  if(changed){
+   const date=new Date(picker.value);
+   if(!picker.value||!Number.isFinite(date.getTime())||date.getTime()<Date.now()-120000){
+    notice.textContent=words[5];picker.focus();return;
+   }
+   departureAt=date.toISOString();
+  }
+  submitting=true;submit.disabled=true;back.disabled=true;
+  notice.textContent=changed?words[7]:words[6];
+  try{await onSearch?.(departureAt)}
+  catch(error){
+   if(step.isConnected)notice.textContent=String(error?.message||words[5]);
+  }finally{
+   submitting=false;
+   if(step.isConnected){submit.disabled=false;back.disabled=false;}
+  }
+ });
+ row.append(back,submit);
+ step.append(headline,summary,label,picker,explain,notice,row);
+ return step;
+}
+
 function showOneFieldJourney(choice){
  if(oneFieldJourneySession?.stop)oneFieldJourneySession.stop();
  const incoming=oneFieldJourneyIncoming;
@@ -87,10 +166,20 @@ function showOneFieldJourney(choice){
   const from=origin?{latitude:origin.latitude,longitude:origin.longitude,label:origin.label,
    country_code:origin.country_code||''}:null;
   if(mode==='transit'){
-   await runModuleSearch({...choice,kind:'transit',mixedJourney:true,transitDirect:true,
-    journeyOrigin:from,transitDestination:point,transitQuery:point.label,
-    transitPreference:'all',transitDepartureOffset:0,transitDepartureAt:null,
-    prompt:dialogText('Caută transport mixt către ','Find mixed transport to ')+point.label});
+   // Calendar appears only AFTER the user explicitly chooses Transport mixt.
+   const step=createTransportDepartureStep({
+    title:dialogText('Când dorești să pleci?','When would you like to leave?'),
+    destination:point.label,
+    onBack:()=>{step.remove();root.hidden=false},
+    onSearch:async departureAt=>{
+     session.stop();
+     await runModuleSearch({...choice,kind:'transit',mixedJourney:true,transitDirect:true,
+      journeyOrigin:from,transitDestination:point,transitQuery:point.label,
+      transitPreference:'all',transitDepartureOffset:0,transitDepartureAt:departureAt,
+      prompt:dialogText('Caută transport mixt către ','Find mixed transport to ')+point.label});
+    }
+   });
+   root.hidden=true;host.append(step);
    return;
   }
   const labels=TRAVEL_MODE_TEXT[state.language]||TRAVEL_MODE_TEXT.en;

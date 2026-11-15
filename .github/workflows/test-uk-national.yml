@@ -11,6 +11,9 @@ on:
       - 'uk_national_transit.mjs'
       - 'tests_uk_national_transit.mjs'
       - 'tests_transit_calendar.mjs'
+      - 'one_field_journey_ui.mjs'
+      - 'national_public_transport_ui.mjs'
+      - 'tests_transport_departure_entrypoints.mjs'
       - 'tests_mixed_uk_fallback.mjs'
       - 'tests_mixed_selector_ui.mjs'
       - 'index.js'
@@ -25,6 +28,6 @@ jobs:
         with:
           node-version: '22'
       - name: Check transport syntax
-        run: node --check backend.js && node --check uk_national_transit.mjs && node --check tests_mixed_uk_fallback.mjs && node --check tests_uk_national_transit.mjs && node --check index.js && node --check tests_transit_calendar.mjs
+        run: node --check backend.js && node --check uk_national_transit.mjs && node --check one_field_journey_ui.mjs && node --check national_public_transport_ui.mjs && node --check tests_mixed_uk_fallback.mjs && node --check tests_uk_national_transit.mjs && node --check index.js && node --check tests_transit_calendar.mjs
       - name: Test mocked national provider and backend routing
-        run: node tests_uk_national_transit.mjs && node tests_transit_calendar.mjs && node tests_mixed_uk_fallback.mjs && node tests_mixed_selector_ui.mjs && node tests_transit_final_mile.mjs
+        run: node tests_uk_national_transit.mjs && node tests_transit_calendar.mjs && node tests_transport_departure_entrypoints.mjs && node tests_frontend_boot_syntax.mjs && node tests_mixed_uk_fallback.mjs && node tests_mixed_selector_ui.mjs && node tests_transit_final_mile.mjs
