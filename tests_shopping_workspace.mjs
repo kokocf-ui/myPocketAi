@@ -309,6 +309,33 @@ assert.equal(observed.length,5,'spoken quantities in screenshot must split into 
 assert.deepEqual(Array.from(observed,x=>x.name),['cartofi','lapte','ulei','ouă','roșii']);
 assert.deepEqual(Array.from(observed,x=>x.quantity),['2','1','1','10','0.5']);
 assert.deepEqual(Array.from(observed,x=>x.unit),['kg','l','l','buc','kg']);
+
+/* Natural Romanian product ordering, quantities and newly supported units. */
+const bottles=evalIn("shopVoiceItems('două sticle de Singleton, 10 pachete de Sobranie')");
+assert.deepEqual(Array.from(bottles,i=>[i.name,i.quantity,i.unit]),[
+ ['Singleton','2','sticlă'],['Sobranie','10','pachet']
+],'number-first dictation retains bottle and pack units');
+const brandFirst=evalIn("shopVoiceItems('Singleton două sticle, Sobranie zece pachete')");
+assert.deepEqual(Array.from(brandFirst,i=>[i.name,i.quantity,i.unit]),[
+ ['Singleton','2','sticlă'],['Sobranie','10','pachet']
+],'brand-first dictation must not drop quantities or split on the brand');
+const cartons=evalIn("shopVoiceItems('un cartuș de Sobranie; Sobranie 2 cartușe')");
+assert.deepEqual(Array.from(cartons,i=>[i.name,i.quantity,i.unit]),[
+ ['Sobranie','1','cartuș'],['Sobranie','2','cartuș']
+],'cartuș is a supported quantity unit in both word orders');
+const multiple=evalIn("shopVoiceItems('două sticle de Singleton zece pachete de Sobranie un litru de lapte')");
+assert.deepEqual(Array.from(multiple,i=>[i.name,i.quantity,i.unit]),[
+ ['Singleton','2','sticlă'],['Sobranie','10','pachet'],['lapte','1','l']
+],'multiple spoken quantities are segmented without explicit punctuation');
+assert.match(inline,/if\(shoppingMode==='entry' && data\.items\.length\)/,
+ 'share link stays in the entry scroll only');
+assert.match(inline,/share\.classList\.add\('shop-share-footer'\)/,
+ 'active list has its own fixed footer share button');
+assert.match(shoppingStyle,/\.shop-active-footer>\.shop-share-footer\{[^}]*grid-column:1\/-1!important/s,
+ 'share button occupies its own full footer row rather than overlapping navigation');
+assert.match(inline,/cartuș','carton'/,
+ 'manual unit selector supports cartons alongside dictated cartons');
+
 assert.match(shoppingStyle,/\.shop-active-footer\.adaptive-workspace__actions--confirm\{/,
  'confirmation expands across the complete active-footer width');
 const shoppingActions=evalIn("shopNormalizeData({items:[{id:'eggs',name:'ouă',quantity:'10',unit:'buc',checked:false},{id:'oil',name:'ulei',quantity:'1',unit:'l',checked:false},{id:'potatoes',name:'cartofi',quantity:'2',unit:'kg',checked:false}]})");
