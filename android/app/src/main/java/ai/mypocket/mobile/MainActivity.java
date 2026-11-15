@@ -766,6 +766,9 @@ public final class MainActivity extends ComponentActivity {
     private void transmitCommVoice(boolean preview){
         final int session=commVoiceSession;
         commVoiceDelivering=true;
+        // Also signals the automatic 60-second segment limit so WebView can
+        // accept its subsequent audio chunks even without a button press.
+        notifyCommVoice("preparing",session,null,-1,0,null);
         new Thread(()->{
             File merged=null;
             boolean successful=false;
