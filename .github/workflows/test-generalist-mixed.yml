@@ -94,6 +94,8 @@ jobs:
         run: node tests_corner_shop_retry_ui.mjs && node tests_food_global_dedup.mjs
       - name: Băcănii walking frontage only regression
         run: node tests_corner_shop_walking_frontage.mjs
+      - name: Romanian provider coverage and Android scaling regression
+        run: node tests_romania_provider_readiness.mjs
       - name: Quiet petrol route choices and chat-free loading regression
         run: node tests_maps_route_quiet_ui.mjs
       - name: Walking and driving route results avoid chat and retain map Back

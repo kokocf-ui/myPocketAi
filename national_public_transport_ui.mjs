@@ -116,7 +116,16 @@ function showNationalTransitSearch(choice){
    if(data.supported!==true){status.textContent=t('unsupported');retry.style.display='';return}
    country=code;field.disabled=false;let name=country;
    try{name=new Intl.DisplayNames([state.language||'ro'],{type:'region'}).of(country)||country}catch{}
-   status.textContent=t('scope')+': '+name+'. '+t('short');
+   // A connected provider is not proof of live timetables. Show exactly
+   // which Romanian adapter is configured before destination entry.
+   const coverage=code==='RO'&&data.provider_coverage&&typeof data.provider_coverage==='object'
+    ?data.provider_coverage:null;
+   status.style.whiteSpace='pre-line';
+   status.textContent=t('scope')+': '+name+'. '+t('short')+
+    (coverage?'\n'+(ro?'Tren/autocar':'Train/coach')+': '+
+      (coverage.intercity_configured?(ro?'configurat':'configured'):(ro?'neconfigurat':'not configured'))+
+      ' · '+(ro?'Transport urban':'City transport')+': '+
+      (coverage.urban_configured?(ro?'configurat':'configured'):(ro?'neconfigurat':'not configured')):'');
   }catch(e){if(alive()){status.textContent=e?.message==='gps_denied'?t('denied'):t('unknown');retry.style.display=''}}
  };
  searchNodes.push(label,field,hint,status,choices,selectedText,actions,retry);

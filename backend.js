@@ -1671,10 +1671,18 @@ export default {
       const p=data.national_transit_country.location;
       const valid=p&&p.latitude!==null&&p.longitude!==null&&Number.isFinite(Number(p.latitude))&&Number.isFinite(Number(p.longitude))&&Math.abs(Number(p.latitude))<=90&&Math.abs(Number(p.longitude))<=180;
       const country=valid?await verifiedGpsCountry({latitude:Number(p.latitude),longitude:Number(p.longitude),geoapifyKey:env.GEOAPIFY_API_KEY,timeoutMs:2200}):null;
+      // Report actual connector readiness separately. The city router rejects
+      // missing/short access tokens, so do not call a truthy placeholder "ready".
+      const roCoverage=country==='RO'?{
+       intercity_configured:Boolean(String(env.BILO_API_KEY||'').trim()),
+       urban_configured:Boolean(String(env.RO_URBAN_API_URL||'').trim()&&
+         String(env.RO_URBAN_API_TOKEN||'').trim().length>=32)
+      }:null;
       const supported=country==='RO'
-       ?Boolean(env.BILO_API_KEY||(env.RO_URBAN_API_URL&&env.RO_URBAN_API_TOKEN))
+       ?Boolean(roCoverage.intercity_configured||roCoverage.urban_configured)
        :country==='GB'?Boolean(env.TRANSCAPI_API_KEY||env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'):false;
-      return json({country_code:country||'',supported,source:'verified_gps_country'});
+      return json({country_code:country||'',supported,source:'verified_gps_country',
+       ...(roCoverage?{provider_coverage:roCoverage}:{})});
     }
     // One-field Deplasare spre… autocomplete. No AI model or route calculation:
     // map provider candidates are rendered as suggestions while typing.
@@ -3189,8 +3197,8 @@ export default {
       const londonRoute=originCountry==='GB'&&isTfLLondonCorridorPoint(latitude,longitude)&&
         isTfLLondonCorridorPoint(destLat,destLon);
       const providers=[
-        env.BILO_API_KEY?'ro_national_transit':null,
-        env.RO_URBAN_API_URL&&env.RO_URBAN_API_TOKEN?'ro_urban_gtfs':null,
+        String(env.BILO_API_KEY||'').trim()?'ro_national_transit':null,
+        String(env.RO_URBAN_API_URL||'').trim()&&String(env.RO_URBAN_API_TOKEN||'').trim().length>=32?'ro_urban_gtfs':null,
         env.TRANSCAPI_API_KEY?'uk_national_transit':null,
         env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'?'tfl':null
       ].filter(Boolean);
@@ -3208,6 +3216,15 @@ export default {
           national_provider_not_connected:lang==='en'?'The required local or national planner is not configured or its timetable feed is unavailable.':'Motorul local sau național nu este configurat ori nu are orare verificate disponibile.',
           local_provider_not_connected:lang==='en'?'This is a local trip. Verified urban schedules are not yet connected here; a train/coach search would give misleading results.':'Aceasta este o deplasare locală. Nu sunt încă disponibile orare urbane verificate pentru această zonă; nu caut tren sau autocar în locul lor.'
         };
+        // The gate must say WHICH Romanian adapter is missing. Configured is
+        // not synonymous with live timetable availability; never invent times.
+        if(originCountry==='RO'&&destinationCountry==='RO'&&authorization.status==='national_provider_not_connected'){
+          const required=urbanRoute?'ro_urban_gtfs':'ro_national_transit';
+          const publicMessage=required==='ro_urban_gtfs'
+           ?(lang==='en'?'Verified Romanian city transport schedules are not connected for this area.':'Motorul de orare pentru transport urban din această zonă a României nu este conectat.')
+           :(lang==='en'?'The Romanian intercity train and coach planner (Bilo) is not connected.':'Motorul Bilo pentru trenuri și autocare între localitățile din România nu este conectat.');
+          return reject(authorization.status,publicMessage);
+        }
         return reject(authorization.status,errors[authorization.status]||errors.national_provider_not_connected);
       }
       authorizedNationalProvider=authorization.provider;

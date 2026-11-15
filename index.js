@@ -1590,6 +1590,23 @@ ${ACCOUNT_STYLE}
 #view-module.learning-practical .practical-panel fieldset{max-width:100%;min-width:0;}
 #view-module.learning-practical .practical-panel textarea{font-size:16px;}
 </style>
+<style id="pocket-mobile-chrome-fit">
+/* Keep the app header and fixed dock legible on smaller Android displays.
+   Only chrome is capped: lesson content and messages retain their own scaling. */
+@media(max-width:600px){
+ .app-header{gap:9px!important;padding:11px 10px!important;min-width:0}
+ .app-header .brand-mark{width:clamp(42px,12vw,54px)!important;height:clamp(42px,12vw,54px)!important;flex:0 0 auto!important}
+ .app-header .brand-copy{flex:1 1 0!important;min-width:0!important;overflow:hidden}
+ .app-header .brand-name{font-size:clamp(17px,4.6vw,24px)!important;line-height:1.12!important;white-space:nowrap!important;word-break:normal!important;overflow-wrap:normal!important;letter-spacing:-.3px!important}
+ .app-header .brand-sub{font-size:clamp(11px,2.8vw,13px)!important;line-height:1.25!important;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+ .app-header .plan-pill{flex:0 0 auto!important;font-size:clamp(11px,2.7vw,13px)!important;padding:8px 10px!important;white-space:nowrap}
+ .bottom-nav{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:2px!important}
+ .bottom-nav .nav-btn{min-width:0!important;max-width:100%!important;font-size:clamp(10px,2.7vw,12px)!important;line-height:1.16!important;white-space:nowrap!important;overflow-wrap:normal!important;word-break:normal!important;overflow:hidden!important;text-overflow:ellipsis!important}
+ .module-quick-header{gap:8px!important;padding:11px!important}
+ .module-quick-header .back-btn{flex:0 0 auto!important;min-width:0!important;max-width:38%!important;padding:10px 12px!important;font-size:clamp(13px,3.3vw,16px)!important;line-height:1.2!important;white-space:nowrap!important;word-break:normal!important}
+ .module-quick-header h2{flex:1 1 0!important;min-width:0!important;font-size:clamp(16px,4.2vw,21px)!important;line-height:1.2!important;word-break:normal!important;overflow-wrap:normal!important;hyphens:none!important}
+}
+</style>
 </head>
 <body>
 <header class="app-header"><img class="brand-mark" src="${AVATAR_DATA}" alt="Avatar myPocket AI"><div class="brand-copy"><div class="brand-name"><span class="my">my</span>Pocket AI</div><div class="brand-sub">Asistentul tău personal pentru orice zi</div></div><div class="plan-pill">FREE ♛</div></header>
