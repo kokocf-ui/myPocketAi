@@ -6,7 +6,7 @@ import {classifyConversationTurn,buildConversationEvidence} from "./conversation
 import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} from "./eva_dialogue.mjs";
 import {recallFromSuppliedHistory,groundedHistorySummary} from "./eva_history_recall.mjs";
 import {parseNearbyStreetQuery,geocodeNearbyStreet} from "./nearby_street_geocode.mjs";
-import {assistantBareDestinationQuery} from "./assistant_bare_destination.mjs";
+import {assistantBareDestinationQuery,assistantJourneyHandoff} from "./assistant_bare_destination.mjs";
 import {isStreetOnlyPlace,parseNamedBusinessInformation,researchNamedBusiness,businessResearchReply} from "./local_business_evidence.mjs";
 import {nearbyUkRegisteredRetailers,nearbyUkRegisteredTakeaways} from "./uk_food_retailers.mjs";
 import {foodCategoryAccepts,reconcileNearbyPlaces} from "./food_location_quality.mjs";
@@ -1658,6 +1658,77 @@ export default {
       data = await request.json();
     } catch {
       return json({ app: "Pocket AI", version: API_VERSION, error: "JSON invalid" }, 400);
+    }
+
+    // One-field Deplasare spre… autocomplete. No AI model or route calculation:
+    // map provider candidates are rendered as suggestions while typing.
+    if(data?.journey_suggest){
+      const raw=String(data.journey_suggest.query||'').trim().slice(0,200);
+      const location=data.journey_suggest.location;
+      if(raw.length<2||raw.length>180||/[\r\n<>]/u.test(raw))
+        return json({candidates:[],error:'invalid_journey_query'},400);
+      if(!env.GEOAPIFY_API_KEY)
+        return json({candidates:[],error:'journey_search_unconfigured'},503);
+      const parsed=travelPlaceSpec(raw);
+      const selected=parsed.query;
+      const num=parsed.kind==='address'?parsed.name.match(/^(\d+[a-z]?(?:[-/]\d+)?)\s+/i)?.[1]||'':'';
+      const pointOk=location&&Number.isFinite(Number(location.latitude))&&Number.isFinite(Number(location.longitude))&&Math.abs(Number(location.latitude))<=90&&Math.abs(Number(location.longitude))<=180;
+      const endpoints=['https://api.geoapify.com/v1/geocode/autocomplete'];
+      // The complete address or named POI is also checked with the more exact
+      // search endpoint; a partial word does not trigger an extra provider call.
+      if(selected.length>=8&&/(?:,|\s+din\s+|\s+in\s+|\s+\d+[a-z]?$)/iu.test(selected))
+        endpoints.push('https://api.geoapify.com/v1/geocode/search');
+      const promises=endpoints.map(async endpoint=>{
+        const url=new URL(endpoint);
+        url.searchParams.set('text',selected);
+        url.searchParams.set('format','json');
+        url.searchParams.set('limit','10');
+        url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+        if(pointOk)url.searchParams.set('bias','proximity:'+Number(location.longitude)+','+Number(location.latitude));
+        const response=await fetch(url.href,{signal:AbortSignal.timeout(6500)});
+        if(!response.ok)throw Error('geocoding_'+response.status);
+        const result=await response.json();
+        return Array.isArray(result.results)?result.results:Array.isArray(result.features)?result.features.map(f=>f.properties||{}):[];
+      });
+      const answers=await Promise.allSettled(promises);
+      if(!answers.some(a=>a.status==='fulfilled'))
+        return json({candidates:[],error:'journey_search_unavailable'},502);
+      const seen=new Set(),candidates=[];
+      const norm=value=>String(value||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
+      for(const answer of answers){
+        if(answer.status!=='fulfilled')continue;
+        for(const p of answer.value){
+          const latitude=Number(p.lat),longitude=Number(p.lon);
+          if(!Number.isFinite(latitude)||!Number.isFinite(longitude)||Math.abs(latitude)>90||Math.abs(longitude)>180)continue;
+          // A requested house number requires the SAME provider-confirmed number.
+          // Neither street centre nor a neighbouring building is an exact result.
+          if(num&&norm(p.housenumber)!==norm(num))continue;
+          if(!travelPlaceCandidateMatches(selected,p))continue;
+          const label=String(p.formatted||[p.name,p.housenumber,p.street,p.city,p.country].filter(Boolean).join(', ')).trim().slice(0,240);
+          if(!label)continue;
+          const key=latitude.toFixed(5)+'|'+longitude.toFixed(5)+'|'+norm(label);
+          if(seen.has(key))continue;
+          seen.add(key);
+          candidates.push({label,latitude,longitude,city:String(p.city||p.town||p.village||'').slice(0,100),
+            country_code:String(p.country_code||'').toUpperCase().slice(0,2),
+            street:String(p.street||'').slice(0,120),house_number:String(p.housenumber||'').slice(0,20),
+            kind:String(p.result_type||'place').slice(0,30),source:'Geoapify'});
+          if(candidates.length>=8)break;
+        }
+        if(candidates.length>=8)break;
+      }
+      return json({candidates,provider:'geoapify',exact_number_required:Boolean(num),query:raw});
+    }
+    // The personal assistant must not calculate routes; a legacy client that
+    // misses frontend interception is given a handoff, never an AI itinerary.
+    if(data?.module==='assistant'&&typeof data.message==='string'){
+      const handoff=assistantJourneyHandoff(data.message);
+      if(handoff)return json({
+        app:'Pocket AI',version:API_VERSION,status:'success',language:String(data.language||'ro'),
+        reply:data.language==='en'?'Opening Directions. Enter or select your destination there.':
+          'Deschid Deplasare spre… pentru alegerea destinației și a traseului.',
+        journey_handoff:handoff,ai_connected:false
+      });
     }
 
     if (data?.address_lookup) {
