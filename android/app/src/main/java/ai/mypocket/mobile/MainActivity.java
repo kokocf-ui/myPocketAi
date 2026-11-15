@@ -1251,7 +1251,7 @@ public final class MainActivity extends ComponentActivity {
                         ||!APP_HOST.equalsIgnoreCase(origin.getHost()))return;
                     final String command=message.getData();
                     if(!"start".equals(command)&&!"stop".equals(command)&&!"cancel".equals(command)
-                        &&!"pause".equals(command)&&!"resume".equals(command))return;
+                        &&!"pause".equals(command)&&!"resume".equals(command)&&!"send".equals(command))return;
                     runOnUiThread(()->handleCommVoiceCommand(command));
                 });
         }
