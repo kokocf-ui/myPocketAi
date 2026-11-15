@@ -154,8 +154,31 @@ const TRAVEL_POI_RULES=[
  [/^(?:cinema|cinematograf(?:ul)?|kino|театр|theatre|theater)\s+/i,'entertainment']
 ];
 const TRAVEL_STREET_WORDS=/\b(?:strada|str\.?|street|st\.?|road|rd\.?|lane|ln\.?|avenue|ave\.?|way|drive|close|crescent|boulevard|blvd|square|rue|chemin|route|strasse|straße|gasse|via|viale|calle|avenida|rua|straat|ulica)\b|улица|проспект/iu;
+// Normalize the requested door number before geocoding. A street-only map
+// feature must never count as the numbered destination the user supplied.
+function canonicalTravelHouseNumber(query){
+ const parts=String(query||'').split(',').map(p=>p.trim()).filter(Boolean);
+ if(parts.length<2)return query;
+ let street=parts[0],tail=parts.slice(1),house=null;
+ const houseToken='(\d+[a-z]?(?:[-/]\d+)?)';
+ const marker='(?:nr\.?|numar(?:ul)?|no\.?|number|#)';
+ // "Strada X, nr. 12, Oradea" (and "Strada X, 12, Oradea").
+ if(tail.length>1){
+  const match=tail[0].match(new RegExp('^(?:'+marker+'\\s*)?'+houseToken+'$','i'));
+  if(match&&TRAVEL_STREET_WORDS.test(street)){house=match[1];tail=tail.slice(1)}
+ }
+ if(!house){
+  // "Strada X 12, Oradea" and "Strada X nr.12, Oradea".
+  const match=street.match(new RegExp('^(.+?)\\s+('+marker+'\\s*)?'+houseToken+'$','i'));
+  if(match&&TRAVEL_STREET_WORDS.test(match[1])&&(match[2]||!/\d/.test(match[1]))){
+   street=match[1].trim();house=match[3];
+  }
+ }
+ return house?house+' '+street+', '+tail.join(', '):query;
+}
 function travelPlaceSpec(value){
  let query=cleanTravelPlace(value);const split=query.match(/^(.+?)\s+(?:din|in)\s+([^,]+)$/i);if(split)query=split[1].trim()+', '+split[2].trim();
+ query=canonicalTravelHouseNumber(query);
  const parts=query.split(',').map(v=>v.trim()).filter(Boolean),head=parts[0]||'',rule=TRAVEL_POI_RULES.find(([rx])=>rx.test(head)),name=rule?head.replace(rule[0],'').trim():head,locality=parts.slice(1).join(', ');
  const postcode=/^(?:[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}|\d{4,6})$/i.test(head);
  const address=!rule&&(postcode||/^\d+[a-z]?(?:[-/]\d+)?\s+\p{L}/iu.test(head)||TRAVEL_STREET_WORDS.test(head));
@@ -178,7 +201,10 @@ function travelPlaceCandidateMatches(query,p){
   if(spec.postcode)return has(p.postcode||formatted,words(spec.name))&&(!spec.locality||has(formatted,words(spec.locality)));
   const house=spec.name.match(/^(\d+[a-z]?(?:[-/]\d+)?)(?:\s|,)/i)?.[1];if(house&&String(p.housenumber||'').toLowerCase()!==house.toLowerCase())return false;
   const street=spec.name.replace(/^\d+[a-z]?(?:[-/]\d+)?\s+/i,'');
-  const streetWords=v=>words(v).map(w=>({rd:'road',st:'street',ln:'lane',ave:'avenue',blvd:'boulevard'}[w]||w));if(!streetWords(street).every(w=>streetWords(p.street||(/street/i.test(p.result_type||'')?p.name:'')).includes(w)))return false;
+  const streetWords=v=>words(v)
+   .map(w=>({rd:'road',st:'street',ln:'lane',ave:'avenue',blvd:'boulevard'}[w]||w))
+   .filter(w=>!['strada','str','street','soseaua','sos','calea','aleea','bulevardul','bd','boulevard','road','lane','avenue','drive','close','rue','via','calle'].includes(w));
+  if(!streetWords(street).every(w=>streetWords(p.street||(/street/i.test(p.result_type||'')?p.name:'')).includes(w)))return false;
   return !spec.locality||has(formatted,words(spec.locality));
  }
  return true;
@@ -4160,6 +4186,11 @@ export default {
         }
         if(!candidates.length){
           rc.pending='destination_detail';
+          const numbered=travelPlaceSpec(rc.destination_query).name.match(/^(\d+[a-z]?(?:[-/]\d+)?)\s+/i);
+          if(numbered)return routeReply(lang==='en'
+           ?'I could not verify house number '+numbered[1]+' at this street and town. Please confirm the house number or add a postcode; I will not route to the street in its place.'
+           :'Nu am putut verifica numărul '+numbered[1]+' la această stradă și localitate. Confirmă numărul sau adaugă codul poștal; nu voi înlocui adresa cu centrul străzii.',
+           {needs_destination_clarification:true,place_lookup:{strategy:'exact_house_not_verified'}});
           return routeReply(lang==='en'
             ?'I could not verify “‘'+rc.destination_query+'” on the map. Add the town or postcode; I will not suggest a different place.'
             :'Nu am putut verifica pe hartă obiectivul „'+rc.destination_query+'”. Adaugă localitatea sau codul poștal; nu voi alege alt loc.',
