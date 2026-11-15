@@ -6,7 +6,7 @@ ROOT=/home/ubuntu/pocketai-chat-test
 API=pocketai-device-comms-api-1
 PG=pocketai-device-comms-postgres-1
 cd "$ROOT"
-test -d .git || { echo "STOP: Oracle checkout missing"; exit 1; }
+git rev-parse --is-inside-work-tree 2>/dev/null | grep -qx true || { echo "STOP: Oracle checkout missing"; exit 1; }
 test -f oracle-communication/compose-existing-caddy.yaml || { echo "STOP: compose missing"; exit 1; }
 test -f oracle-communication/compose-fcm.override.yaml || { echo "STOP: FCM overlay missing"; exit 1; }
 umask 077
