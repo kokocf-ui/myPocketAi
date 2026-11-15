@@ -178,10 +178,11 @@ function showOneFieldJourney(choice){
  input.addEventListener('keydown',event=>{if(event.key==='Enter'){
   event.preventDefault();if(timer!==null)clearTimeout(timer);void lookup(true)}});
  const search=makeButton(text.search,()=>{if(timer!==null)clearTimeout(timer);void lookup(true)},true);
- search.style.flex='1 1 55%';
- const back=makeButton(text.back,()=>{session.stop();handleModuleLayerBack()});
+ search.style.flex='1 1 50%';
+ const back=makeButton(text.back,()=>{session.stop();handleModuleLayerBack()},true);
  back.classList.add('pocket-nav-return');
- back.style.flex='1 1 35%';
+ back.style.flex='1 1 50%';
+ back.style.cssText+=';background:linear-gradient(145deg,#903550,#602139)!important;border:2px solid #e9a9b8!important;color:white!important;box-shadow:inset 0 2px 0 #ffffff30,inset 0 -4px 0 #2a1020,0 4px 0 #341426,0 7px 12px #0006!important';
  actions.append(back,search);
  root.append(title,input,hint,status,results,confirmed,actions);
  host.append(root);

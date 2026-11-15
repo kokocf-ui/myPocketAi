@@ -17,6 +17,7 @@ import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
 import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
+import {nationalPublicTransportPolicy} from "./national_public_transport_policy.mjs";
 import {searchAnchorPolicy} from "./country_search_anchor.mjs";
 import {nationalProviderAuthorized} from "./country_national_provider_gate.mjs";
 import {retailKind,retailCategoryAccepts} from "./retail_category.mjs";
@@ -1660,11 +1661,23 @@ export default {
       return json({ app: "Pocket AI", version: API_VERSION, error: "JSON invalid" }, 400);
     }
 
+    // Country selection for national public transport: GPS is checked server-side.
+    if(data?.national_transit_country){
+      const p=data.national_transit_country.location;
+      const valid=p&&p.latitude!==null&&p.longitude!==null&&Number.isFinite(Number(p.latitude))&&Number.isFinite(Number(p.longitude))&&Math.abs(Number(p.latitude))<=90&&Math.abs(Number(p.longitude))<=180;
+      const country=valid?await verifiedGpsCountry({latitude:Number(p.latitude),longitude:Number(p.longitude),geoapifyKey:env.GEOAPIFY_API_KEY,timeoutMs:2200}):null;
+      const supported=country==='RO'
+       ?Boolean(env.BILO_API_KEY||(env.RO_URBAN_API_URL&&env.RO_URBAN_API_TOKEN))
+       :country==='GB'?Boolean(env.TRANSCAPI_API_KEY||env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'):false;
+      return json({country_code:country||'',supported,source:'verified_gps_country'});
+    }
     // One-field Deplasare spre… autocomplete. No AI model or route calculation:
     // map provider candidates are rendered as suggestions while typing.
     if(data?.journey_suggest){
       const raw=String(data.journey_suggest.query||'').trim().slice(0,200);
       const location=data.journey_suggest.location;
+      const nationalCountry=String(data.journey_suggest.country_code||'').trim().toUpperCase();
+      if(nationalCountry&&!/^[A-Z]{2}$/.test(nationalCountry))return json({candidates:[],error:'invalid_country'},400);
       if(raw.length<2||raw.length>180||/[\r\n<>]/u.test(raw))
         return json({candidates:[],error:'invalid_journey_query'},400);
       if(!env.GEOAPIFY_API_KEY)
@@ -1684,6 +1697,7 @@ export default {
         url.searchParams.set('format','json');
         url.searchParams.set('limit','10');
         url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+        if(nationalCountry)url.searchParams.set('filter','countrycode:'+nationalCountry.toLowerCase());
         if(pointOk)url.searchParams.set('bias','proximity:'+Number(location.longitude)+','+Number(location.latitude));
         const response=await fetch(url.href,{signal:AbortSignal.timeout(6500)});
         if(!response.ok)throw Error('geocoding_'+response.status);
@@ -1702,6 +1716,7 @@ export default {
           if(!Number.isFinite(latitude)||!Number.isFinite(longitude)||Math.abs(latitude)>90||Math.abs(longitude)>180)continue;
           // A requested house number requires the SAME provider-confirmed number.
           // Neither street centre nor a neighbouring building is an exact result.
+          if(nationalCountry&&String(p.country_code||'').toUpperCase()!==nationalCountry)continue;
           if(num&&norm(p.housenumber)!==norm(num))continue;
           if(!travelPlaceCandidateMatches(selected,p))continue;
           const label=String(p.formatted||[p.name,p.housenumber,p.street,p.city,p.country].filter(Boolean).join(', ')).trim().slice(0,240);
@@ -3108,6 +3123,52 @@ export default {
     // v60: transit-first journey planning with corrected destination extraction and diagnostics. This branch is independent of Geoapify walking routing.
     // TfL Journey Planner supports nationalSearch for journeys that include stops outside London.
     const normalizedTransitMessage = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+    // Only Maps -> Transport public național. Deplasare spre… is untouched.
+    if(data.national_public_transport===true){
+      const destination=data.transit_destination;
+      const destLat=Number(destination?.latitude),destLon=Number(destination?.longitude);
+      const validDestination=destination&&destination.latitude!=null&&destination.longitude!=null&&
+        Number.isFinite(destLat)&&Number.isFinite(destLon)&&Math.abs(destLat)<=90&&Math.abs(destLon)<=180&&
+        String(destination.label||'').trim().length>0;
+      const reject=(reason,reply)=>json({app:'Pocket AI',version:API_VERSION,status:'success',
+        language:lang,message_received:message,national_public_transport:true,
+        route_available:false,transit_available:false,reason,reply});
+      if(!hasValidLocation||!validDestination)
+        return reject('national_gps_or_destination_required',
+          lang==='en'?'GPS and a verified destination are required.':'Sunt necesare locația GPS și o destinație verificată.');
+      const [originCountry,destinationCountry]=await Promise.all([
+        verifiedGpsCountry({latitude,longitude,geoapifyKey:env.GEOAPIFY_API_KEY,timeoutMs:2200}),
+        verifiedGpsCountry({latitude:destLat,longitude:destLon,geoapifyKey:env.GEOAPIFY_API_KEY,timeoutMs:2200})
+      ]);
+      const urbanRoute=originCountry==='RO'&&romanianUrbanRegion(
+        {latitude,longitude},{latitude:destLat,longitude:destLon});
+      const londonRoute=originCountry==='GB'&&isTfLLondonCorridorPoint(latitude,longitude)&&
+        isTfLLondonCorridorPoint(destLat,destLon);
+      const providers=[
+        env.BILO_API_KEY?'ro_national_transit':null,
+        env.RO_URBAN_API_URL&&env.RO_URBAN_API_TOKEN?'ro_urban_gtfs':null,
+        env.TRANSCAPI_API_KEY?'uk_national_transit':null,
+        env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'?'tfl':null
+      ].filter(Boolean);
+      const authorization=nationalPublicTransportPolicy({
+        originCountry,destinationCountry,urbanRoute:Boolean(urbanRoute),londonRoute,
+        enabledProviders:providers
+      });
+      if(authorization.status!=='ready'){
+        const errors={
+          origin_country_unverified:lang==='en'?'Could not verify your GPS country.':'Țara GPS nu a putut fi verificată.',
+          destination_country_unverified:lang==='en'?'Could not verify the destination country.':'Țara destinației nu a putut fi verificată.',
+          international_destination:lang==='en'?'This destination is in another country. Use Directions for mixed transport or driving.':'Destinația este în altă țară. Folosește Deplasare spre… pentru transport mixt sau mașină.',
+          country_provider_not_connected:lang==='en'?'No verified nationwide planner is connected for this country.':'Nu este conectat un motor verificat de transport public pentru această țară.',
+          national_provider_not_connected:lang==='en'?'The required national or local planner is not configured.':'Motorul local sau național corespunzător nu este configurat.'
+        };
+        return reject(authorization.status,errors[authorization.status]||errors.national_provider_not_connected);
+      }
+      // The existing Romania urban/Bilo and UK TfL/TransCAPI paths below
+      // execute only after this country-specific registry authorization.
+    }
+
     const chosenTravelMode=['walk','drive','transit'].includes(data.travel_mode)&&data.route_context?.pending==='profile'?data.travel_mode:null;
     const boardingAccessRequested=transitBoardingAccessRequest(message);
     const transitDecision=isTransitJourneyRequest(message,{explicitTransitMode:chosenTravelMode==='transit',boardingAccessRequested,pendingRouteProfile:data.route_context?.pending==='profile',explicitTransitDestination:Boolean(data.transit_destination||data.transit_query),history:data.history});
@@ -3489,7 +3550,8 @@ export default {
             }
           }
           // MOTIS does not yet validate scheduled searches. Never silently use the current hour.
-          const planned=effectiveDepartureAt?{status:'scheduled_search_not_supported',journeys:[]}:
+          const planned=data.national_public_transport===true?{status:'national_only',journeys:[]}:
+            effectiveDepartureAt?{status:'scheduled_search_not_supported',journeys:[]}:
             validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang):
             {status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
           if(planned.journeys.length){
@@ -3742,7 +3804,7 @@ export default {
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
             route_available:false,transit_available:false,uk_national_journey:true,mixed_journey:explicitMixedJourney,
             transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
-            planning_links:explicitMixedJourney?[]:links,transit_provider:'national_unverified',
+            planning_links:explicitMixedJourney||data.national_public_transport===true?[]:links,transit_provider:'national_unverified',
             provider_status:{tfl:'outside_london_corridor',motis:transportErrors.motis||null,transcapi:transportErrors.transcapi||'not_attempted'},
             transit_departure_at:departureAt,reason:'national_public_transport_not_verified',ai_connected:Boolean(env.AI)});
         }
