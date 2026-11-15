@@ -6,6 +6,16 @@ import {CREATOR_SITE_STYLE} from './creator_site_ui.mjs';
 
 new vm.Script(ORACLE_COMMUNICATION_SCRIPT,{filename:'chat-voice-pause-and-send.js'});
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/function voiceDraftReady\(file\)/,'Pausing creates a playable local draft');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/function syncDeliveredMessages\(\)/,'Active client acknowledges encrypted message envelope retrieval');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'pending_messages'/,'Client explicitly fetches pending incoming messages');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'receipt',friend,receiptType:'delivered'/,'Delivery requires an authenticated app receipt');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/messageReadObserver=new IntersectionObserver/,'Read requires visible message on active chat screen');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/document\.visibilityState==='hidden'/,'Background app cannot claim message was read');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'receipt',friend:peerId,receiptType:'read'/,'Receiver acknowledges visible messages');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/audio\.addEventListener\('playing'/,'Audio listened receipt only when playback starts');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.played_at\?tr\('▶ Ascultat'/,'Listened status is displayed');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.delivered_at\?tr\('✓✓ Livrat'/,'Delivered state distinguished from server accepted');
+
 
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/media\.kind==='audio'\?tr\('🎙 Mesaj vocal'/,'Audio attachment is identified in the private viewer');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/media\.mime==='audio\/mp4'\?'m4a'/,'AAC audio is saved with an M4A extension');
@@ -67,7 +77,7 @@ assert.match(native,/new byte\[24\*1024\]/,'Audio chunks remain small');
 assert.match(native,/if\(!notifyCommVoice\("chunk"/,'Transfer must be acknowledged');
 assert.match(native,/!"send"\.equals\(command\)/,'Android bridge permits explicit Send');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/function armNativeVoiceWatchdog\(ms\)/,'Bridge cannot wait forever');
-assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.kind==='audio'\?tr\(/,'Audio has player in message bubble');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.attachment_kind==='audio'/,'Audio envelopes use attachment metadata in the chat bubble');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/if\(message\.kind!=='text'\)/,'Attachments remain accessible');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/if\(nativeVoicePending\|\|nativeVoiceRecording\|\|voiceDraft\)/,'Back respects active recordings');
 
@@ -76,6 +86,13 @@ assert.match(oracle,/edit_message','delete_message/,'Oracle allows the two authe
 assert.match(oracle,/check\(await approved\(pool,me,friend\)/,'Actions require an approved peer');
 assert.match(oracle,/UPDATE device_messages SET iv=\$4,cipher=\$5 WHERE id=\$1 AND sender_id=\$2 AND recipient_id=\$3 AND pair_key=\$6 AND kind='text'/,'Edit only own encrypted text');
 assert.match(oracle,/DELETE FROM device_messages WHERE id=\$1 AND sender_id=\$2 AND recipient_id=\$3 AND pair_key=\$4/,'Delete only own message');
+assert.match(oracle,/if\(action==='pending_messages'\)/,'Server returns encrypted pending messages only to logged-in recipient');
+assert.match(oracle,/if\(action==='receipt'\)/,'Receipt action requires the existing signed request');
+assert.match(oracle,/m\.recipient_id=\$1 AND m\.sender_id=\$2 AND m\.pair_key=\$3/,'Only message recipient can acknowledge');
+assert.match(oracle,/receiptType/,'Stages are signed in the request');
+assert.match(oracle,/m\.played_at/,'Play receipt exists on backend');
+assert.match(oracle,/a\.kind='audio'/,'Play receipt is limited to actual audio attachments');
+
 assert.doesNotMatch(oracle,/data\.plaintext|data\.messageText/,'Server never handles plaintext edits');
 
 // Local visibility semantics are deliberately isolated from encrypted payloads.
