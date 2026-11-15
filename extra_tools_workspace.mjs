@@ -128,7 +128,7 @@ async function extraToolsReadImage(file,mode){
   canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
   if(mode==='images'){
    work.image=img;work.imageWidth=canvas.width;work.imageHeight=canvas.height;work.rotation=0;work.gray=false;work.canvas=canvas;
-   if(!canvas.isConnected)work.area.append(canvas);extraToolsStatus(extraToolsLocale('Imagine încărcată local.','Image loaded locally.'));return;
+   if(!canvas.isConnected)work.area.append(canvas);if(work.generatorPreview)work.generatorPreview.src=canvas.toDataURL('image/png');extraToolsStatus(extraToolsLocale('Imagine încărcată local.','Image loaded locally.'));return;
   }
   const base64=canvas.toDataURL('image/jpeg',.78).split(',')[1];
   if(window.PocketAndroidDocumentScan?.postMessage&&base64.length<6000000){
@@ -162,6 +162,7 @@ function extraToolsImageRotate(angle){
  c.width=swap?h:w;c.height=swap?w:h;
  const ctx=c.getContext('2d');ctx.save();ctx.translate(c.width/2,c.height/2);ctx.rotate(work.rotation*Math.PI/180);
  ctx.filter=work.gray?'grayscale(1)':'none';ctx.drawImage(work.image,-w/2,-h/2,w,h);ctx.restore();
+ if(work.generatorPreview)work.generatorPreview.src=c.toDataURL('image/png');
 }
 function extraToolsOpenWorkspace(key){
  const cat=EXTRA_TOOLS_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
@@ -241,13 +242,14 @@ function extraToolsOpenWorkspace(key){
   }),primary('Rezumă textul','Summarize text',()=>extraToolsAI('Rezumă materialul furnizat. Separă faptele de afirmațiile neconfirmate; nu pretinde verificare a linkului.',editor.value)));
   addPdf();
  }else if(key==='images'){
-  note('Editează local imagini: rotire și alb-negru. Generarea AI de imagini nu este conectată la acest modul. Exportul PNG depinde de suportul dispozitivului.','Edit images locally: rotate and grayscale. AI image generation is not connected here. PNG export depends on device support.');
+  note('Generează imagini cu AI sau editează local o fotografie; salvarea PNG folosește Galeria Android.','Generate AI images or locally edit a photo; PNG saving uses the Android Gallery.');
+  pocketImageGeneratorWorkspace(area,work);
   const file=extraToolsEl('input');file.type='file';file.accept='image/*';file.hidden=true;file.onchange=()=>extraToolsReadImage(file.files?.[0],'images');area.append(file);
   extraToolsActions(area,primary('🖼️ Alege fotografia','🖼️ Choose photo',()=>file.click()),
    secondary('↻ Rotește','↻ Rotate',()=>extraToolsImageRotate(90)),
    secondary('◐ Alb-negru','◐ Grayscale',()=>{if(!work.image)return;work.gray=!work.gray;extraToolsImageRotate(0)}));
   const canvas=extraToolsEl('canvas','extra-work-image');work.canvas=canvas;canvas.width=640;canvas.height=320;area.append(canvas);
-  extraToolsActions(area,secondary('💾 Salvează PNG','💾 Save PNG',()=>{
+  const saveButton=secondary('💾 Salvează PNG','💾 Save PNG',()=>{
    if(!work.image){extraToolsStatus(extraToolsLocale('Alege întâi o imagine.','Select an image first.'));return}
    if(window.PocketAndroidImages?.postMessage){
     const src=work.canvas,preview=document.createElement('canvas');
@@ -267,7 +269,7 @@ function extraToolsOpenWorkspace(key){
    }
    const url=work.canvas.toDataURL('image/png');const a=extraToolsEl('a');a.href=url;a.download='mypocket-image.png';
    document.body.append(a);a.click();a.remove();extraToolsStatus(extraToolsLocale('Export inițiat; verifică descărcările dispozitivului.','Export initiated; check device downloads.'));
-  }));
+  });work.imageSaveButton=saveButton;extraToolsActions(area,saveButton);
  }else if(key==='ideas'){
   note('Creează o schiță locală de proiect, apoi poți cere detalierea ei cu AI.','Create an offline project outline, then ask AI to expand it.');
   work.title=extraToolsField(area,extraToolsLocale('Numele proiectului','Project name'),'text','');
