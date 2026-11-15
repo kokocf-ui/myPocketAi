@@ -37,6 +37,19 @@ assert.match(native,/commVoiceRecorder\.pause\(\)/);
 assert.match(native,/commVoiceRecorder\.resume\(\)/);
 assert.match(native,/notifyCommVoice\("paused"/);
 assert.match(native,/notifyCommVoice\("resumed"/);
+assert.match(native,/CountDownLatch/,'Chunks are acknowledged by Android WebView before continuing');
+assert.match(native,/ack\.await\(5,java\.util\.concurrent\.TimeUnit\.SECONDS\)/,'Transport has a finite failure timeout');
+assert.match(native,/new byte\[24\*1024\]/,'Audio chunk payloads stay below WebView bridge limits');
+assert.match(native,/if\(!notifyCommVoice\("chunk"/,'Read fails visibly instead of silently losing voice fragments');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/function armNativeVoiceWatchdog\(ms\)/,'UI recovers from a missing Android start/finish response');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/if\(!nativeVoiceRecording\)\{voiceWebCancelled=false/,'New recording is not canceled by a previous chat exit');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/event\.parts>512/,'All bounded audio chunks are accepted');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/Array\.from\(\{length:event\.parts\}/,'Missing interior chunks must be detected');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/selected\.id!==voiceDraftPeer/,'Late voice completion cannot attach to the wrong conversation');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.kind==='audio'\?tr\(/,'Encrypted audio envelopes render as voice messages');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/if\(message\.kind!=='text'\)/,'Audio, image, video and files can open in a viewer');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/if\(nativeVoicePending\|\|nativeVoiceRecording\|\|voiceDraft\)/,'Android hardware Back does not discard an active voice note');
+
 assert.match(native,/!"pause"\.equals\(command\)&&!"resume"\.equals\(command\)/,'Android message bridge accepts pause/resume, not just the recorder implementation');
 
 const oracle=readFileSync('oracle-communication/device-api.mjs','utf8');
