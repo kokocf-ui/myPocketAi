@@ -57,3 +57,30 @@ assert.match(backend,/rankJourneySuggestions\(selected,candidates\)/);
 assert.match(backend,/localRoute:originCountry==='RO'&&roScope\.localRoute/);
 assert.match(backend,/StopPoint\/Search/);
 console.log('PASS national public transport registry, RO local/intercity, UK station ranking');
+
+const stationCases=[
+ {label:'Victoria, London',_name:'Victoria',kind:'city',_categories:[],city:'London'},
+ {label:'Costa, Queen Victoria Street, London',_name:'Costa',_categories:['catering.cafe'],city:'London'},
+ {label:'Blackfriars, London',_name:'Blackfriars',kind:'district',_categories:[],city:'London'},
+ {label:'Victoria Underground Station, London',_name:'Victoria Underground Station',
+  kind:'public_transport',_categories:['public_transport','subway'],source:'TfL StopPoint',city:'London'}
+];
+const strictStop=rankJourneySuggestions('London Victoria underground',stationCases,{national:true,origin:{latitude:51.5,longitude:-0.1}});
+assert.equal(strictStop.length,1,'Only a verified Victoria Underground station is a match');
+assert.match(strictStop[0].label,/Underground/);
+assert.equal(rankJourneySuggestions('London Victoria underground',stationCases.slice(0,3),{national:true}).length,0,'No unrelated fallback');
+const london={latitude:51.51,longitude:-0.09};
+const addresses=[
+ {label:'11 Liverpool Street, Southampton',house_number:'11',street:'Liverpool Street',city:'Southampton',latitude:50.9,longitude:-1.4},
+ {label:'11 Liverpool Street, City of London',house_number:'11',street:'Liverpool Street',city:'City of London',latitude:51.52,longitude:-0.08},
+ {label:'11 Liverpool Street, City of London, alternate postcode',house_number:'11',street:'Liverpool Street',city:'City of London',latitude:51.52001,longitude:-0.08001},
+ {label:'11 Liverpool Street, Northwich',house_number:'11',street:'Liverpool Street',city:'Northwich',latitude:53.25,longitude:-2.52}
+];
+const refined=rankJourneySuggestions('11 Liverpool Street',addresses,{national:true,origin:london});
+assert.equal(refined.length,1,'Local exact-address match must dominate and duplicate entries collapse');
+assert.match(refined[0].label,/City of London/);
+const explicit=rankJourneySuggestions('11 Liverpool Street, Southampton',addresses,{national:true,origin:london});
+assert.ok(explicit.some(c=>c.city==='Southampton'),'User can specify another city in the same country');
+assert.ok(rankJourneySuggestions('Costa',stationCases,{national:true}).some(c=>c._name==='Costa'),'Commercial landmarks remain available');
+assert.match(backend,/national:Boolean\(nationalCountry\)/);
+console.log('PASS screenshot regressions for station and local house number');
