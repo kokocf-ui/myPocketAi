@@ -519,7 +519,11 @@ public final class MainActivity extends ComponentActivity {
             event.put("status",status);
             event.put("session",session);
             if(error!=null)event.put("error",error);
-            if(part>=0){event.put("part",part);event.put("parts",parts);}
+            // Completion/preview must carry the total chunk count too.
+            // part==-1 is only the end marker; omitting "parts" makes
+            // completeNativeVoice() reject every otherwise valid recording.
+            if(parts>0)event.put("parts",parts);
+            if(part>=0)event.put("part",part);
             if(encoded!=null)event.put("data",encoded);
             final String js="(function(){try{if(typeof window.pocketAndroidCommunicationVoiceResult!=='function')return false;"
                 +"window.pocketAndroidCommunicationVoiceResult("+event.toString()+");return true;}catch(e){return false;}})();";
