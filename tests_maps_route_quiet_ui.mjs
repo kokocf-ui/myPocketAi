@@ -24,7 +24,7 @@ assert.match(navigation,/finishRouteSearchLoading\(\)/,'Returning to previous re
 assert.match(submission,/const routeLoadingRequested=state\.currentView==='module'/,'Only Maps/Hotel route requests trigger loader');
 assert.match(submission,/\(Boolean\(state\.pendingTravelMode\)\|\|state\.pendingRouteStart===true\|\|state\.pendingRouteCompare===true\)/,'Walking, driving, transit, and alternative searches supported');
 assert.match(submission,/if\(routeLoadingRequested\)beginRouteSearchLoading\(routeLoadingProfile\)/,'Loader starts before API request');
-assert.match(submission,/if\(routeLoadingRequested\)requestAnimationFrame\(finishRouteSearchLoading\)/,'Loader disappears after response/exception');
+assert.match(submission,/if\(routeLoadingRequested\)requestAnimationFrame\(\(\)=>\{finishRouteSearchLoading\(\);ensureVisibleRouteModule\(\)\}\)/,'Loader disappears after response/exception, and an empty Maps view is recovered');
 
 assert.match(src,/\.module-quick-sheet\.mode-choice-screen \.mode-route-option/,'Scoped petrol mode styles present');
 assert.match(src,/\.route-choice-screen \.route-options>\.transit-choice-action/,'Route list has petrol cards');
