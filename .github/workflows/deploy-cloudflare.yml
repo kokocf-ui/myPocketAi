@@ -91,6 +91,7 @@ jobs:
           node tests_transit_final_mile.mjs
           node tests_address_progressive.mjs
           node tests_progressive_selector_policy.mjs
+          node tests_image_art_style_scrolling.mjs
           node scripts/patch-avatar-lipsync.mjs public/avatar-v4.html
 
       - name: Install pinned Wrangler
