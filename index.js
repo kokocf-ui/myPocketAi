@@ -4157,7 +4157,19 @@ function offerPlaceTravelModes(place){
    $('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');
    document.querySelector('.module-quick-sheet')?.classList.remove('mode-choice-screen');
    switchConversationModule('maps');enterModuleRouteConversation();
+   const fromSmallShop=state.navigationReturnContext?.choice?.placeCategory==='corner_shop';
    inputEl.value=label;await submitMessage();
+   // Do not allow a rejected grocery storefront route to leave Maps blank.
+   // The existing result/map/error overlay always wins when it is present.
+   if(fromSmallShop&&(mode==='walk'||mode==='drive')&&
+    state.currentView==='module'&&state.currentModule==='maps'&&!state.busy&&
+    !$('moduleContent')?.querySelector('.route-results-landing,.route-search-loading')&&
+    !document.querySelector('.route-choice-screen,.route-map-window')&&
+    !$('moduleQuickLayer')?.classList.contains('open')){
+    showDedicatedRouteIssue(dialogText(
+     'Nu am putut afișa traseul verificat. Revino la rezultate și încearcă din nou.',
+     'Could not display a verified route. Return to results and try again.'));
+   }
   };
   body.append(button);
  }
