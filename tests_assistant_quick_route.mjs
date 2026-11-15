@@ -18,7 +18,11 @@ for(const value of [
  'Ce este un traseu pietonal?','Explain what a route is',
  'Unde găsesc hoteluri în Londra?','Hoteluri ieftine în Londra',
  'Nufărului 12','Salut, ce faci?','Muzee în Oradea',
- '2 sticle, Oradea','12 cartușe, Oradea'
+ '2 sticle, Oradea','12 cartușe, Oradea',
+ "Vorbesc despre magazinul Sunny's Premiere din London road, Grays",
+ "Te rog să-mi spui despre Sunny's de pe London Road, Grays",
+ "Tell me about Premier Stores on London Road, Grays",
+ "Unde găsesc magazine pe London Road, Grays?"
 ])assert.equal(handoff(value),null,'non-routing question should stay in assistant: '+value);
 for(const value of [
  'Nufărului 12, Oradea','Du-mă la Nufărului 12, Oradea',
@@ -32,6 +36,8 @@ for(const value of [
 ])assert.ok(handoff(value),'route should transfer: '+value);
 assert.equal(parse('From Grays to London').origin_query,'Grays');
 assert.equal(parse('From Grays to London').destination_query,'London');
+assert.equal(bare("Vorbesc despre magazinul Sunny's Premiere din London road, Grays"),null,'A business description must not be a route');
+assert.equal(bare('Oxford Street, London'),'Oxford Street, London','Valid short street still triggers route search');
 assert.equal(parse('De la Grays până la Oradea').destination_query,'Oradea');
 assert.equal(parse('Grays to London').origin_query,'Grays');
 assert.equal(parse('Cum ajung la Victoria cu transportul public?').destination_query,'Victoria');
