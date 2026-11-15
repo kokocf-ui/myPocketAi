@@ -15,6 +15,7 @@ import {nearbyOpenStreetMapFood} from "./osm_food_places.mjs";
 import {nearbySparseMapPlaces} from "./osm_sparse_places.mjs";
 import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
+import {walkingAddressFromLabel,checkWalkingArrival,verifiedAddressGeocode} from "./walking_address_arrival.mjs";
 import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
 import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
 import {nationalPublicTransportPolicy} from "./national_public_transport_policy.mjs";
@@ -4438,9 +4439,9 @@ export default {
         };
         const labels=alternativeText[lang]||alternativeText.en;
         const accessSearch=rc.profile==='walk'&&!via?discoverWalkingAccess(destination,origin,env.GEOAPIFY_API_KEY):Promise.resolve({points:[],status:'not_requested'});
-        const calculate=async (kind,access=null)=>{
+        const calculate=async (kind,access=null,arrival=destination)=>{
           const point=access||(kind==='via'?via:null);
-          const points=point?[origin,point,destination]:[origin,destination];
+          const points=point?[origin,point,arrival]:[origin,arrival];
           const u=new URL('https://api.geoapify.com/v1/routing');
           u.searchParams.set('waypoints',points.map(p=>`${p.latitude},${p.longitude}`).join('|'));
           u.searchParams.set('mode',rc.profile);u.searchParams.set('type',kind==='short'||access?'short':'balanced');if(rc.profile==='drive'&&kind==='economy')u.searchParams.set('avoid','tolls:1');
@@ -4457,7 +4458,7 @@ export default {
           const streets=Array.isArray(step.instruction?.streets)?step.instruction.streets.filter(v=>typeof v==='string').slice(0,8):[];
           return {text:text.slice(0,1200),streets,distanceMeters:Number.isFinite(step.distance)&&step.distance>=0?step.distance:null};
         }).filter(v=>v.text).slice(0,500).map((v,i)=>({...v,number:i+1}));
-        return {id:kind,automatic:Boolean(access),access_kind:access?.access_kind||null,bridge_geometry:access?.bridge_geometry||null,label:point?labels[2]+' — '+point.label:rc.profile==='drive'?(kind==='short'?'Cea mai scurtă':kind==='economy'?'Cu mai puține taxe':'Cea mai rapidă estimată'):labels[kind==='short'?1:0],via:point?[point]:[],profile:rc.profile,coordinates,distanceMeters:meters,durationSeconds:typeof props.time==='number'&&Number.isFinite(seconds)&&seconds>=0?seconds:null,origin,destination,steps};
+        return {id:kind,automatic:Boolean(access),access_kind:access?.access_kind||null,bridge_geometry:access?.bridge_geometry||null,label:point?labels[2]+' — '+point.label:rc.profile==='drive'?(kind==='short'?'Cea mai scurtă':kind==='economy'?'Cu mai puține taxe':'Cea mai rapidă estimată'):labels[kind==='short'?1:0],via:point?[point]:[],profile:rc.profile,coordinates,distanceMeters:meters,durationSeconds:typeof props.time==='number'&&Number.isFinite(seconds)&&seconds>=0?seconds:null,origin,destination:arrival,steps};
 
         };
         const kinds=['balanced',...(['walk','drive'].includes(rc.profile)?['short']:[]),...(rc.profile==='drive'?['economy']:[]),...(via?['via']:[])];
@@ -4469,8 +4470,48 @@ export default {
         const verifiedAutomatic=automatic.flatMap(v=>v.status==='fulfilled'&&v.value.distanceMeters<=shortest+maxDetour&&v.value.via.every(p=>walkingPointOnRoute(v.value,p))&&(!v.value.bridge_geometry||v.value.bridge_geometry.every(p=>walkingPointOnRoute(v.value,{latitude:p[1],longitude:p[0]},20)))?[v.value]:[]);
         const all=[...base,...verifiedAutomatic],best=Math.min(...all.map(v=>v.distanceMeters)),limit=best+Math.max(400,Math.min(1200,best*.45));
         const candidates=all.filter(v=>rc.profile==='drive'||via||v.distanceMeters<=limit).sort((a,b)=>rc.profile==='drive'?(['balanced','short','economy'].indexOf(a.id)-['balanced','short','economy'].indexOf(b.id)):a.distanceMeters-b.distanceMeters);
+        // A storefront address may resolve to a building centre while pedestrian
+        // routing snaps its end onto a different, inaccessible street. Preserve
+        // the official destination label; only a street/house-number-verified
+        // alternative may replace the routing coordinate.
+        let arrivalCandidates=candidates;
+        const address=rc.profile==='walk'&&!via?walkingAddressFromLabel(destination.label):null;
+        if(address){
+          arrivalCandidates=candidates.filter(candidate=>checkWalkingArrival(candidate,destination,address).ok);
+          if(!arrivalCandidates.length){
+            try{
+              const lookupUrl=new URL('https://api.geoapify.com/v1/geocode/search');
+              lookupUrl.searchParams.set('text',address.address);
+              lookupUrl.searchParams.set('limit','5');
+              if(/^[A-Z]{2}$/.test(String(destination.country_code||'')))
+                lookupUrl.searchParams.set('filter','countrycode:'+destination.country_code.toLowerCase());
+              lookupUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+              const found=await fetch(lookupUrl.href,{signal:AbortSignal.timeout(6500)});
+              if(found.ok){
+                const mapped=verifiedAddressGeocode((await found.json()).features,address,destination);
+                if(mapped){
+                  const corrected={...destination,latitude:mapped.latitude,longitude:mapped.longitude};
+                  // Never fabricate a final straight-line segment or force a
+                  // waypoint onto an unverified road.
+                  const repaired=await calculate('verified_address',null,corrected);
+                  if(checkWalkingArrival(repaired,corrected,address).ok)arrivalCandidates=[repaired];
+                }
+              }
+            }catch(error){
+              console.warn('Pocket AI walking frontage verification unavailable',
+                String(error?.name||'unknown').slice(0,60));
+            }
+          }
+          if(!arrivalCandidates.length){
+            rc.pending='retry';
+            return routeReply(lang==='en'
+              ?'The walking route ends on a different street from the verified address. I have kept the destination, but cannot confirm a safe arrival at '+address.street+'.'
+              :'Traseul pietonal se termină pe altă stradă decât adresa confirmată. Am păstrat destinația, dar nu pot verifica sosirea pe '+address.street+'.',
+              {route_error_code:'route_arrival_street_unverified',needs_destination_access_verification:true});
+          }
+        }
         const routes=[];
-        for(const candidate of candidates){
+        for(const candidate of arrivalCandidates){
           const same=routes.findIndex(v=>rc.profile==='walk'?walkingOverlap(v,candidate)>=.88:JSON.stringify(v.coordinates)===JSON.stringify(candidate.coordinates));
           if(same>=0){if(candidate.id==='via')routes[same]=candidate;else if(candidate.access_kind==='footbridge'&&routes[same].access_kind!=='footbridge'&&candidate.bridge_geometry?.every(p=>walkingPointOnRoute(routes[same],{latitude:p[1],longitude:p[0]},20)))routes[same]={...routes[same],access_kind:'footbridge',bridge_geometry:candidate.bridge_geometry};continue;}
           if(routes.length<3)routes.push(candidate);
