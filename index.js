@@ -1,6 +1,7 @@
 // Hotels preset-only; burgundy results dialog; explicit city/street query release checkpoint.
 import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathways.mjs';
 import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs';
+import {assistantBareDestinationQuery} from './assistant_bare_destination.mjs';
 import {ACCOUNT_STYLE,ACCOUNT_HTML,ACCOUNT_SCRIPT} from './account_settings_ui.mjs';
 import {COMMUNICATION_HTML,COMMUNICATION_STYLE,COMMUNICATION_SCRIPT} from './communication_ui.mjs';
 import {ORACLE_COMMUNICATION_SCRIPT,ORACLE_COMMUNICATION_STYLE} from './oracle_communication_ui.mjs';
@@ -20568,6 +20569,7 @@ function isCasualConversationReply(value){
 }
 function requestUsesLocation(text){
  if(isEvaConversationClient(text))return false;
+ if(state.currentView==='assistant'&&assistantBareDestinationQuery(text))return true;
  const value=String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
  if(isRecipeQuestion(value))return false;
  if(isCasualConversationReply(text))return false;
