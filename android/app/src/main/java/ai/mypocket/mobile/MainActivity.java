@@ -142,12 +142,43 @@ public final class MainActivity extends ComponentActivity {
         if(pendingCommunicationTarget!=null&&!pendingCommunicationTarget.matches("[A-Za-z0-9_-]{1,150}"))
             pendingCommunicationTarget=null;
     }
+    private final Handler communicationDispatchHandler=new Handler(Looper.getMainLooper());
+    private int communicationDispatchAttempts=0;
+    private boolean communicationDispatchBusy=false;
     private void dispatchCommunicationNotification(){
-        if(web==null||pendingCommunicationKind==null||pendingCommunicationTarget==null)return;
-        String kind=pendingCommunicationKind,target=pendingCommunicationTarget;
-        pendingCommunicationKind=null;pendingCommunicationTarget=null;
-        web.evaluateJavascript("(function(){var n=document.querySelector('[data-nav=communication]');if(n)n.click();if(window.pocketCommunicationNotificationOpen)window.pocketCommunicationNotificationOpen("
-            +JSONObject.quote(kind)+","+JSONObject.quote(target)+");})()",null);
+        if(web==null||pendingCommunicationKind==null||pendingCommunicationTarget==null
+                ||communicationDispatchBusy)return;
+        String url=web.getUrl();
+        if(url==null||!"https".equals(Uri.parse(url).getScheme())
+                ||!APP_HOST.equalsIgnoreCase(Uri.parse(url).getHost()))return;
+        final String kind=pendingCommunicationKind,target=pendingCommunicationTarget;
+        communicationDispatchBusy=true;
+        String script="(function(){try{"
+            +"if(typeof window.pocketCommunicationNotificationOpen!=='function')return false;"
+            +"var n=document.querySelector('[data-nav=communication]');"
+            +"if(!n)return false;if(!n.classList.contains('active'))n.click();"
+            +"return window.pocketCommunicationNotificationOpen("
+            +JSONObject.quote(kind)+","+JSONObject.quote(target)+")===true;"
+            +"}catch(e){return false}})()";
+        web.evaluateJavascript(script,result->{
+            communicationDispatchBusy=false;
+            // A newer notification may supersede this one.
+            if(!kind.equals(pendingCommunicationKind)||!target.equals(pendingCommunicationTarget)){
+                communicationDispatchAttempts=0;
+                if(pendingCommunicationKind!=null)communicationDispatchHandler.post(this::dispatchCommunicationNotification);
+                return;
+            }
+            if("true".equals(result)){
+                pendingCommunicationKind=null;pendingCommunicationTarget=null;
+                communicationDispatchAttempts=0;
+            }else if(++communicationDispatchAttempts<=30){
+                // The WebView onPageFinished signal can precede JS bundle boot.
+                communicationDispatchHandler.postDelayed(this::dispatchCommunicationNotification,500L);
+            }else{
+                android.util.Log.w("PocketComms","Notification destination unavailable; retaining intent");
+                communicationDispatchAttempts=0;
+            }
+        });
     }
     private static String communicationInviteCode(Intent intent) {
         if (intent==null)return null;
@@ -172,6 +203,7 @@ public final class MainActivity extends ComponentActivity {
         setIntent(intent);
         pendingCommunicationInvite=communicationInviteCode(intent);
         loadCommunicationNotification(intent);
+        communicationDispatchAttempts=0;
         if(pendingCommunicationInvite!=null && web!=null)dispatchCommunicationInvite();
         if(pendingCommunicationKind!=null && web!=null)dispatchCommunicationNotification();
     }
