@@ -19,7 +19,9 @@ assert.match(ui,/if\(state\.currentView==='communication'&&window\.pocketCommuni
 
 // Receipt sender must use distinct states: accepted by server != delivered to device.
 new vm.Script(ORACLE_COMMUNICATION_SCRIPT);
-assert.match(ORACLE_COMMUNICATION_SCRIPT,/Pe server · Așteaptă livrarea/);
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/Așteaptă livrarea/);
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/Pe server/);
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/livrarea către destinatar nu este confirmată/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.delivered_at\?tr\('✓✓ Livrat'/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'pending_messages'/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/setInterval\(\(\)=>\{if\(document\.visibilityState==='visible'\)void backgroundEnvelopeCheck\(\)\},16000\)/);
