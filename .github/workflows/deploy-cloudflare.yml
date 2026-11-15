@@ -155,6 +155,7 @@ jobs:
         run: |
           node --check backend.js
           node tests_walking_address_arrival.mjs
+          node tests_corner_shop_walking_frontage.mjs
           node --check ai_response_quality.mjs
           node tests_response_quality.mjs
           node tests_communication_e2e.mjs
