@@ -51,13 +51,13 @@ globalThis.fetch=async input=>{
  throw Error('Unexpected provider '+u.href);
 };
 try{
- const ask=async()=>{
+ const ask=async(destination={...pin,label,country_code:'GB'},profile='walk')=>{
   urls=[];
   const response=await worker.fetch(new Request('https://test.local/api/chat',{
    method:'POST',headers:{'content-type':'application/json'},
    body:JSON.stringify({message:'Pe jos',language:'ro',module:'maps',history:[],
     location:{latitude:51.479,longitude:.279,accuracy:15},
-    route_profile:'walk',route_destination:{...pin,label,country_code:'GB'}})
+    route_profile:profile,route_destination:destination})
   }),{GEOAPIFY_API_KEY:'test',AI:{run:async()=>({response:'Test fallback AI'})}});
   if(response.status!==200)console.error('ARRIVAL TEST FAILURE',response.status,(await response.clone().text()).slice(0,600),urls.map(u=>u.pathname));
   assert.equal(response.status,200);
@@ -80,5 +80,12 @@ try{
  assert.equal(answer.route_error_code,'route_arrival_street_unverified');
  assert.equal(answer.needs_destination_access_verification,true);
  assert.equal(answer.route,undefined,'No unverified detour is displayed');
+ // Generic mapped places without a house number must retain the existing route flow.
+ mode='correct';answer=await ask({...pin,label:'Grays riverside park',country_code:'GB'});
+ assert.equal(answer.route_available,true,'Unnumbered POIs retain walking directions');
+ // The dedicated safeguard must not interfere with driving mode.
+ mode='unverified';answer=await ask({...pin,label,country_code:'GB'},'drive');
+ assert.equal(answer.route_available,true,'Driving routes remain unaffected');
+
 }finally{globalThis.fetch=oldFetch}
 console.log('PASS walking storefront: street-mismatch detection, verified reroute, unchanged correct route, safe failure');
