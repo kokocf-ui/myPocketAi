@@ -77,8 +77,8 @@ assert.match(CREATOR_SITE_SCRIPT,/getPreferences:/);
 assert.doesNotMatch(CREATOR_SITE_SCRIPT,/extraToolsField\(area,extraToolsLocale\('Detalii suplimentare/);
 assert.doesNotMatch(CREATOR_SITE_SCRIPT,/const descEn=|Descrierea în engleză/,'AI translates automatically; no duplicate English input');
 assert.match(CREATOR_SITE_SCRIPT,/photo\.accept='image\/jpeg,image\/png,image\/webp'/);
-assert.match(CREATOR_SITE_SCRIPT,/Motorul AI de imagini nu este conectat/);
-assert.match(CREATOR_SITE_SCRIPT,/make\.disabled=true/);
+assert.doesNotMatch(CREATOR_SITE_SCRIPT,/Motorul AI de imagini nu este conectat/,'The inactive image generator banner is removed');
+assert.match(CREATOR_SITE_SCRIPT,/Stil artistic/,'Actual style selector is visible in the image generator');
 assert.match(CREATOR_SITE_SCRIPT,/aiButton\.disabled=true/);
 assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/\.extra-creator-style-overlay/);
 
@@ -91,4 +91,4 @@ assert.doesNotMatch(a,/<script>|https?:\/\/|<img src="https?:/i,'Preview must be
 
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/actionRow\.append\(back\)/);
 assert.doesNotMatch(EXTRA_TOOLS_WORKSPACE_SCRIPT,/homeParent\.insertBefore|titleParent\.insertBefore/,'Never move original navigation nodes');
-console.log('PASS: original Home/Back retained, 12 chosen style concepts, structured hotel facts, bilingual switch, safe offline preview and explicit unconnected AI');
+console.log('PASS: original Home/Back retained, 12 chosen style concepts, structured hotel facts, bilingual switch, safe offline preview and live image generator with retained no-cost website preview');
