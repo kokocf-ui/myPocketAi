@@ -49,4 +49,51 @@ assert.match(source,/function renderMyDocuments\(\)/,'documents list in tools me
 assert.match(source,/my-documents/,'documents entry in tools');
 assert.match(source,/edu-pdf-save/,'Save PDF button');
 assert.match(source,/edu-pdf-print/,'Print button');
+
+assert.match(main,/getOnBackPressedDispatcher\(\)\.addCallback/,'Android hardware back is delegated to the frontend');
+assert.match(main,/window\.pocketAndroidBack/,'Native back delegates exactly to shared JS navigation');
+// Reproduce two nested Mathematics dialogs: page reader must close first,
+// then the theory catalogue; neither Back may invoke Eva's exit question.
+const from=source.indexOf('window.pocketAndroidBack=function(){');
+const until=source.indexOf('\n\nconst LEARNING_SUBJECTS=',from);
+assert.ok(from>0&&until>from,'Android Back controller remains present in frontend');
+const backHandler=source.slice(from,until);
+assert.match(backHandler,/educationPagedLessonDialog/,'Paged lesson must be first priority');
+const events=[];
+const fakeDialog=name=>({open:true,close(){this.open=false;events.push(name)}});
+const paged=fakeDialog('paged');
+const theory=fakeDialog('theory');
+const map={educationPagedLessonDialog:paged,educationTheoryDialog:theory};
+const context={
+ window:{},document:{
+  getElementById:id=>map[id]||null,
+  querySelectorAll:()=>[],
+  querySelector:()=>null
+ },
+ $:()=>null,
+ state:{currentView:'module',currentModule:'learning'},
+ pocketExitOpen:false,
+ activeRouteMap:null,activeAnswerReader:null,
+ pocketBackInsideModule:()=>{events.push('math-navigation');return true},
+ pocketExitPrompt:()=>events.push('EXIT_QUESTION'),
+ showView:v=>events.push('show-'+v)
+};
+vm.runInNewContext(backHandler,context);
+context.window.pocketAndroidBack();
+assert.deepEqual(events,['paged'],'First hardware Back closes only visible Mathematics lesson');
+assert.equal(theory.open,true,'Theory catalogue stays behind the page reader');
+context.window.pocketAndroidBack();
+assert.deepEqual(events,['paged','theory'],'Second Back closes theory catalogue, not the app');
+context.window.pocketAndroidBack();
+assert.deepEqual(events,['paged','theory','math-navigation'],'Third Back uses module navigation');
+const physics=fakeDialog('physics');
+context.document.querySelectorAll=()=>[physics];
+context.window.pocketAndroidBack();
+assert.equal(events.at(-1),'physics','Other Education theory dialogs obey Back too');
+context.document.querySelectorAll=()=>[];
+context.state.currentView='home';
+context.window.pocketAndroidBack();
+assert.equal(events.at(-1),'EXIT_QUESTION','Only Home may request closing Eva');
+assert.equal(events.filter(x=>x==='EXIT_QUESTION').length,1);
+
 console.log('PASS education UI embedded JS syntax and Android native OCR integration contracts');
