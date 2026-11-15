@@ -57,6 +57,8 @@ assert.match(oneField,/transitDirect:true/,'mixed transit uses existing route en
 assert.match(oneField,/state\.pendingTravelMode=mode/,'road modes use existing route engine');
 assert.match(oneField,/const direct=incoming\?\.selected_destination/,'Direct Assistant POI selection reuses verified coordinates');
 assert.doesNotMatch(oneField,/renderStructuredAddressPicker/,'old address wizard must be absent');
+for(const language of ['ro','en','fr','de','it','es','pt','nl','ru','pl'])
+ assert.ok(oneField.includes('\n '+language+':{title:'),'Missing journey interface localization: '+language);
 const page=await(await frontend.fetch(new Request('https://quick-route.test/'))).text();
 const inline=page.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(inline,'frontend generates script');
