@@ -39,6 +39,14 @@ const native=readFileSync(path,'utf8');
 assert.match(native,/private boolean commVoicePaused=false/);
 assert.match(native,/MediaExtractor/,'Android can extract AAC packets');
 assert.match(native,/MediaMuxer/,'Continuation joins AAC packets into one valid MP4');
+
+assert.match(native,/if\(commVoiceSegments\.size\(\)==1\)\{\s*merged=commVoiceSegments\.get\(0\)/,'Single voice message sends finalized AAC without unsafe remux');
+assert.match(native,/if\(temporaryMerged&&merged!=null\)merged\.delete\(\)/,'Pause preview never deletes the saved original recording');
+assert.match(native,/String failureStage="RECORD_PREPARE_FAILED"/,'Native failures identify audio preparation stage');
+assert.match(native,/failureStage="RECORD_TRANSFER_FAILED"/,'Native transfer failures are distinguished');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/RECORD_PREPARE_FAILED:tr/,'UI reports native preparation failure distinctly');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/RECORD_TRANSFER_FAILED:tr/,'UI reports native chunk transfer failure distinctly');
+
 assert.match(native,/ArrayList<File> commVoiceSegments/,'Multiple speech clips remain on-device until Send or Delete');
 assert.match(native,/void resumeCommVoice\(\)/,'Android supports Resume');
 assert.match(native,/finishCommVoice\(true,true\)/,'Pause prepares local playback');
