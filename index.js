@@ -4285,7 +4285,8 @@ function shoppingWrite(data){try{localStorage.setItem(SHOPPING_STORAGE_KEY,JSON.
 let pocketUiUpdateChecking=false;
 function pocketUiUpdateSafe(){
  const view=state.currentView;
- return (view!=='module'||$('view-module').classList.contains('organize-choose'))
+ return view!=='communication' && view!=='assistant' && view!=='conversations'
+  &&(view!=='module'||$('view-module').classList.contains('organize-choose'))
   &&!shoppingPendingAction&&!shoppingVoiceSession?.active&&!agendaListening
   &&!notesListening&&!dailyListening&&!budgetVoiceListening&&!tasksListening
   &&!remindersListening&&!documentsListening&&!document.querySelector('dialog[open]')
@@ -7975,7 +7976,15 @@ window.pocketAndroidBack=function(){
  if(activeAnswerReader){closeAnswerReader();return}
  // Android system Back should close the fullscreen private conversation,
  // not jump straight to Home while it is still open.
- if(state.currentView==='communication'&&window.pocketCommunicationCloseChat?.())return;
+ if(state.currentView==='communication'){
+  // On Android the first system Back while the IME is visible only dismisses
+  // the keyboard. Do not close the conversation or jump back to Home.
+  const focused=document.activeElement;
+  const viewport=window.visualViewport;
+  const keyboardVisible=!!viewport&&viewport.height<window.innerHeight*0.76;
+  if(keyboardVisible&&focused?.matches?.('input,textarea,[contenteditable="true"]')){focused.blur();return;}
+  if(window.pocketCommunicationCloseChat?.())return;
+ }
  const quick=$('moduleQuickLayer');
  if(quick?.classList.contains('open')){
   handleModuleLayerBack();return;
