@@ -530,10 +530,14 @@ public final class MainActivity extends ComponentActivity {
                     return;
                 }
                 try{
-                    web.evaluateJavascript(js,needsAck?value->{
-                        delivered.set("true".equals(value));
-                        ack.countDown();
-                    }:null);
+                    if(needsAck){
+                        web.evaluateJavascript(js,value->{
+                            delivered.set("true".equals(value));
+                            ack.countDown();
+                        });
+                    }else{
+                        web.evaluateJavascript(js,null);
+                    }
                 }catch(Exception ex){if(needsAck)ack.countDown();}
             });
             if(!needsAck)return true;
