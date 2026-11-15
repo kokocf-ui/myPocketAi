@@ -7,6 +7,7 @@ import {ORACLE_COMMUNICATION_SCRIPT,ORACLE_COMMUNICATION_STYLE} from './oracle_c
 import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_europe.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_tools_workspace.mjs';
+import {POCKET_IMAGE_GENERATOR_UI_SCRIPT,POCKET_IMAGE_GENERATOR_UI_STYLE} from './image_generator_ui.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {RECIPE_READER_PAGES_UI_SCRIPT} from './recipe_reader_pages_ui.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
@@ -3825,23 +3826,47 @@ function openPocketSelect(select){
  }catch(error){pocketSelectSource=null;return false}
 }
 // Capture click AND pointerdown so Android WebView never opens its white OS
-// picker. Keyboard and programmatic change keep their existing behavior.
+// picker. Open only AFTER touch release and the synthetic click: opening on
+// pointerdown caused Android to send the remaining tap to the new dialog,
+// closing it instantly (the reported one-second-long-press workaround).
+let pocketSelectPress=null,pocketSelectQueued=false;
+function pocketSelectSchedule(select){
+ if(pocketSelectQueued)return;
+ pocketSelectQueued=true;
+ setTimeout(()=>{
+  pocketSelectQueued=false;
+  if(select?.isConnected&&!$('pocketSelectDialog')?.open)openPocketSelect(select);
+ },35);
+}
+function pocketSelectEligible(select){
+ return !!(select&&!select.disabled&&!select.multiple&&select.size<=1&&select.dataset.nativePicker!=='true');
+}
 document.addEventListener('pointerdown',event=>{
  const select=event.target?.closest?.('select');
- if(!select||select.disabled||select.multiple||select.size>1||select.dataset.nativePicker==='true')return;
- if(event.button!==undefined&&event.button!==0)return;
- event.preventDefault();event.stopPropagation();
- openPocketSelect(select);
+ if(!pocketSelectEligible(select)||(event.button!==undefined&&event.button!==0))return;
+ pocketSelectPress={select,id:event.pointerId,x:event.clientX,y:event.clientY};
+ event.preventDefault();event.stopImmediatePropagation();
+},true);
+document.addEventListener('pointerup',event=>{
+ const press=pocketSelectPress;
+ if(!press||event.pointerId!==press.id)return;
+ pocketSelectPress=null;
+ event.preventDefault();event.stopImmediatePropagation();
+ if(Math.hypot((event.clientX||0)-(press.x||0),(event.clientY||0)-(press.y||0))>18)return;
+ if(pocketSelectEligible(press.select))pocketSelectSchedule(press.select);
+},true);
+document.addEventListener('pointercancel',event=>{
+ if(pocketSelectPress?.id===event.pointerId)pocketSelectPress=null;
 },true);
 document.addEventListener('click',event=>{
  const select=event.target?.closest?.('select');
- if(!select||select.disabled||select.multiple||select.size>1||select.dataset.nativePicker==='true')return;
- event.preventDefault();event.stopPropagation();
- if(!$('pocketSelectDialog')?.open)openPocketSelect(select);
+ if(!pocketSelectEligible(select))return;
+ event.preventDefault();event.stopImmediatePropagation();
+ if(!pocketSelectPress)pocketSelectSchedule(select);
 },true);
 document.addEventListener('keydown',event=>{
  const select=event.target?.closest?.('select');
- if(!select||select.disabled||select.multiple||select.size>1||select.dataset.nativePicker==='true')return;
+ if(!pocketSelectEligible(select))return;
  if(['Enter',' ','ArrowDown'].includes(event.key)){
   event.preventDefault();event.stopPropagation();openPocketSelect(select);
  }
@@ -4126,6 +4151,7 @@ const EXTRA_TOOLS_CATEGORIES=[
  ['web','🔗','Linkuri și pagini web','Links and web pages','Analiză, rezumate și verificare.','Analyse, summarise and verify links.','Ajută-mă să analizez o pagină web sau un link.'],
  ['ideas','💡','Idei și proiecte','Ideas and projects','Planuri, soluții și creativitate.','Plans, solutions and creativity.','Ajută-mă să dezvolt o idee sau un proiect.']
 ];
+${POCKET_IMAGE_GENERATOR_UI_SCRIPT}
 ${EXTRA_TOOLS_WORKSPACE_SCRIPT}
 function resetExtraToolsScreen(){
  const root=$('view-module');
@@ -21114,6 +21140,7 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
  scroll-padding-bottom:20px;
 }
 
+${POCKET_IMAGE_GENERATOR_UI_STYLE}
 ${EXTRA_TOOLS_WORKSPACE_STYLE}
 
 /* v1.0.148: restore breathing room between home cards without obscuring the last row. */
