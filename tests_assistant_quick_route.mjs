@@ -26,11 +26,19 @@ for(const value of [
  'Take me to 25 Oxford Street, London',
  'Directions to the British Museum, London',
  'De la Grays până la Oradea','From Grays to London',
- 'Grays → London'
+ 'Grays → London',
+ 'Grays to London',
+ 'Arată-mi traseul cu mașina din Oradea la Cluj-Napoca'
 ])assert.ok(handoff(value),'route should transfer: '+value);
 assert.equal(parse('From Grays to London').origin_query,'Grays');
 assert.equal(parse('From Grays to London').destination_query,'London');
 assert.equal(parse('De la Grays până la Oradea').destination_query,'Oradea');
+assert.equal(parse('Grays to London').origin_query,'Grays');
+assert.equal(parse('Cum ajung la Victoria cu transportul public?').destination_query,'Victoria');
+assert.equal(parse('Cum ajung la Victoria cu transportul public?').preferred_mode,'transit');
+assert.equal(parse('Arată-mi traseul cu mașina din Oradea la Cluj-Napoca').origin_query,'Oradea');
+assert.equal(parse('Arată-mi traseul cu mașina din Oradea la Cluj-Napoca').destination_query,'Cluj-Napoca');
+assert.equal(parse('Arată-mi traseul cu mașina din Oradea la Cluj-Napoca').preferred_mode,'drive');
 
 const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
 assert.match(backend,/journey_suggest/);
