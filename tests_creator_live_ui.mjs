@@ -44,6 +44,26 @@ assert.match(CREATOR_IMAGE_AI_SCRIPT,/album\.onchange/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/camera\.onchange/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/extraCreatorSaveImage\(work,status\)/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/format:f\.format\.value/);
+
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageQuotaUrl/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageInstallationId/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/localStorage\.setItem\(key,next\)/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/installationId:work\.evaImageInstallId/g);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/dailyLimit/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/personalRemaining/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageQuotaUpdate/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/PREVIEW|preview_capacity_reached|installation_limit_reached/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/eva-image-quota-status/);
+const fId=CREATOR_IMAGE_AI_SCRIPT.match(/function evaImageInstallationId\(\)\{[\s\S]*?\n\}/)?.[0];
+assert.ok(fId,'Installation identity helper must exist');
+const saved=new Map();let creations=0;
+const localStorageStub={getItem:k=>saved.get(k)||null,setItem:(k,v)=>saved.set(k,v)};
+const createId=new Function('localStorage','crypto',fId+';return evaImageInstallationId;')(
+ localStorageStub,{randomUUID:()=>{creations++;return '00000000-0000-4000-8000-000000000101'}});
+assert.equal(createId(),'00000000-0000-4000-8000-000000000101');
+assert.equal(createId(),'00000000-0000-4000-8000-000000000101');
+assert.equal(creations,1,'Stable quota identifier survives workspace reopen on same installation');
+
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/function evaImageCompactPrompt/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageCompactPrompt\(f\.imagePrompt\)/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/evaImageCompactPrompt\(prompt\)/);
