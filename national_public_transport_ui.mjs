@@ -42,7 +42,8 @@ function showNationalTransitSearch(choice){
   if(!alive()||state.busy||state.moduleSearchBusy||!country||!origin||!point||String(point.country_code||'').toUpperCase()!==country)return;
   session.stop();
   await runModuleSearch({...choice,kind:'transit',nationalPublicTransport:true,mixedJourney:false,transitDirect:true,
-   transitDestination:{latitude:Number(point.latitude),longitude:Number(point.longitude),label:String(point.label||''),city:String(point.city||''),country_code:country},
+   transitDestination:{latitude:Number(point.latitude),longitude:Number(point.longitude),label:String(point.label||''),city:String(point.city||''),country_code:country,
+    stop_id:String(point.stop_id||'')},
    transitQuery:String(point.label||''),transitPreference:'all',transitDepartureOffset:0,transitDepartureAt:null,
    prompt:(ro?'Transport public către ':'Public transport to ')+point.label});
  });go.disabled=true;
