@@ -1,11 +1,49 @@
+import {CREATOR_SITE_SCRIPT,CREATOR_SITE_STYLE} from './creator_site_ui.mjs';
+import {CREATOR_DESIGN_SCRIPT,CREATOR_DESIGN_STYLE} from './creator_design_gallery.mjs';
+import {CREATOR_PREMIUM_SCRIPT,CREATOR_PREMIUM_STYLE} from './creator_premium_presentations.mjs';
+import {CREATOR_MANAGEMENT_SCRIPT,CREATOR_MANAGEMENT_STYLE} from './creator_management_ui.mjs';
+import {CREATOR_SITE_AI_SCRIPT,CREATOR_SITE_AI_STYLE} from './creator_site_ai.mjs';
+import {CREATOR_HANDOFF_SCRIPT,CREATOR_HANDOFF_STYLE} from './creator_site_handoff.mjs';
+import {CREATOR_IMAGE_AI_SCRIPT,CREATOR_IMAGE_AI_STYLE} from './creator_image_ai.mjs';
+import {CREATOR_GUESTHOUSE_SCRIPT,CREATOR_GUESTHOUSE_STYLE,GUESTHOUSE_SITE_CSS} from './creator_guesthouse_gallery.mjs';
+import {CREATOR_HOSTING_SCRIPT,CREATOR_HOSTING_STYLE} from './creator_hosting_guide.mjs';
+import {CREATOR_CLIENT_INSTALL_SCRIPT,CREATOR_CLIENT_INSTALL_STYLE} from './creator_client_install.mjs';
 export const EXTRA_TOOLS_WORKSPACE_SCRIPT=String.raw`// Dedicated, compact Tools workspaces. Do not redirect preset tools into Assistant chat.
 let extraToolsSession=null;
+let extraToolsNavigation=null;
+
+function extraToolsRegisterCreatorCard(){
+ // Replace only the former image editor card. Other Tools remain unchanged.
+ if(typeof EXTRA_TOOLS_CATEGORIES==='undefined'||!Array.isArray(EXTRA_TOOLS_CATEGORIES))return;
+ const index=EXTRA_TOOLS_CATEGORIES.findIndex(item=>item[0]==='images');
+ if(index>=0)EXTRA_TOOLS_CATEGORIES[index]=['creator','🌐','Creare pagini și imagini','Create websites and images'];
+}
+queueMicrotask(extraToolsRegisterCreatorCard);
 function extraToolsEl(tag,cls='',value=''){
  const node=document.createElement(tag);if(cls)node.className=cls;if(value)node.textContent=value;return node;
 }
 function extraToolsBtn(label,callback,primary=false){
  const b=extraToolsEl('button',primary?'primary-btn extra-work-primary':'secondary-btn extra-work-button',label);
  b.type='button';b.onclick=callback;return b;
+}
+// Never reparent the app's own Home button or title: the module grid depends on
+// their direct parents. Insert and remove only the Tools-specific controls.
+function extraToolsRestoreNavigation(){
+ const nav=extraToolsNavigation;if(!nav)return;
+ extraToolsNavigation=null;
+ nav.back?.remove();nav.header?.remove();
+}
+function extraToolsMountNavigation(root,back,header){
+ const actionRow=root.querySelector('.module-actions-row');
+ const headingRow=root.querySelector('.module-heading-row');
+ const home=actionRow?.querySelector('.module-home-btn');
+ const title=headingRow?.querySelector('#moduleTitle');
+ if(!home||!title)return false;
+ back.classList.add('extra-work-nav-back');
+ actionRow.append(back);
+ headingRow.append(header);
+ extraToolsNavigation={home,title,back,header};
+ return true;
 }
 function extraToolsField(host,title,kind='textarea',placeholder=''){
  const label=extraToolsEl('label','extra-work-label',title);
@@ -20,6 +58,7 @@ function extraToolsStatus(message){
  if(extraToolsSession?.status?.isConnected)extraToolsSession.status.textContent=message||'';
 }
 function extraToolsStop(){
+ extraToolsRestoreNavigation();
  if(extraToolsSession?.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
  if(extraToolsSession?.controller)extraToolsSession.controller.abort();
  extraToolsSession=null;
@@ -126,10 +165,6 @@ async function extraToolsReadImage(file,mode){
   const canvas=work.canvas||document.createElement('canvas');
   const scale=Math.min(1,2400/Math.max(img.width,img.height));canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));
   canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
-  if(mode==='images'){
-   work.image=img;work.imageWidth=canvas.width;work.imageHeight=canvas.height;work.rotation=0;work.gray=false;work.canvas=canvas;
-   if(!canvas.isConnected)work.area.append(canvas);if(work.generatorPreview)work.generatorPreview.src=canvas.toDataURL('image/png');extraToolsStatus(extraToolsLocale('Imagine încărcată local.','Image loaded locally.'));return;
-  }
   const base64=canvas.toDataURL('image/jpeg',.78).split(',')[1];
   if(window.PocketAndroidDocumentScan?.postMessage&&base64.length<6000000){
    work.ocrId='extraocr'+Date.now().toString(36);
@@ -155,15 +190,153 @@ function extraToolsOCRHandle(payload){
  }else extraToolsStatus(extraToolsLocale('OCR indisponibil pentru această fotografie.','OCR unavailable for this photo.'));
  return true;
 }
-function extraToolsImageRotate(angle){
- const work=extraToolsSession;if(!work?.image||!work.canvas)return;
- work.rotation=(work.rotation+angle+360)%360;
- const swap=work.rotation%180!==0,w=work.imageWidth,h=work.imageHeight,c=work.canvas;
- c.width=swap?h:w;c.height=swap?w:h;
- const ctx=c.getContext('2d');ctx.save();ctx.translate(c.width/2,c.height/2);ctx.rotate(work.rotation*Math.PI/180);
- ctx.filter=work.gray?'grayscale(1)':'none';ctx.drawImage(work.image,-w/2,-h/2,w,h);ctx.restore();
- if(work.generatorPreview)work.generatorPreview.src=c.toDataURL('image/png');
+function extraCreatorEscape(raw){
+ return String(raw||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
 }
+function extraCreatorCard(area,emoji,ro,en,descRo,descEn,action){
+ const b=extraToolsEl('button','extra-creator-card');
+ b.type='button';
+ const symbol=extraToolsEl('span','extra-creator-symbol',emoji);
+ const content=extraToolsEl('span','extra-creator-card-copy');
+ content.append(extraToolsEl('strong','',extraToolsLocale(ro,en)),
+  extraToolsEl('small','',extraToolsLocale(descRo,descEn)));
+ b.append(symbol,content);b.onclick=action;area.append(b);
+ return b;
+}
+function extraCreatorNotice(area,ro,en){
+ area.append(extraToolsEl('p','extra-creator-notice',extraToolsLocale(ro,en)));
+}
+function extraCreatorLocalHtml(name,activity,description,style,contact,language){
+ // An explicitly local, no-AI visual proof. All user input is HTML-escaped.
+ const code=String(name+' '+style).split('').reduce((hash,char)=>((hash*33)^char.charCodeAt(0))>>>0,5381);
+ const palette=[
+  ['#101d27','#f4ece1','#d5ab70','#243b48'],
+  ['#18312b','#f1efe3','#a3c39a','#345346'],
+  ['#2c1c31','#f3e8f3','#e3a8c6','#4e314d'],
+  ['#202641','#edf3fb','#82bce6','#34456e'],
+  ['#392319','#fbf0df','#dc9b65','#6d4034'],
+  ['#1f2832','#f5f7f8','#c4d9e6','#3b4a5a']
+ ][code%6];
+ const dark=palette[0],light=palette[1],accent=palette[2],panel=palette[3];
+ const layout=['left','center','split'][code%3];
+ const serif=code%2===0;
+ const ro=language!=='en';
+ const header=extraCreatorEscape(name);
+ const story=extraCreatorEscape(description|| (ro?'O experiență creată cu grijă pentru fiecare client.':'Carefully crafted for every customer.'));
+ const contactText=extraCreatorEscape(contact|| (ro?'Adaugă aici datele reale de contact.':'Add your verified contact details here.'));
+ const activityText=extraCreatorEscape(activity);
+ const styleText=extraCreatorEscape(style|| (ro?'Identitate personalizată':'Custom visual direction'));
+ const menu=ro?['Despre','Servicii','Contact','Descoperă serviciile','O experiență aparte','Soluții create pentru tine','Ne găsești aici','Fotografie reală furnizată de proprietar','Concept demonstrativ · nu este publicat']:
+  ['About','Services','Contact','Explore services','A distinct experience','Made for your needs','Find us here','Owner-provided real photography','Demonstration · not published'];
+ return [
+ '<!doctype html><html lang="',ro?'ro':'en','"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
+ '<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;;style-src &#39;unsafe-inline&#39;;img-src data:;">',
+ '<title>',header,'</title><style>',
+ '*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:',light,';color:',dark,';font:16px/1.6 system-ui,-apple-system,sans-serif}',
+ 'a{color:inherit;text-decoration:none}header{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:23px max(5%,20px);background:',dark,';color:',light,'}',
+ '.brand{font:700 21px/1.2 ',serif?'Georgia,serif':'system-ui,sans-serif',';letter-spacing:-.02em}.nav{display:flex;gap:16px;font-size:12px}',
+ '.hero{min-height:460px;display:flex;flex-direction:',layout==='center'?'column':'row',';align-items:center;justify-content:space-between;gap:36px;padding:55px max(7%,20px);background:',dark,';color:',light,';text-align:',layout==='center'?'center':'left','}',
+ '.copy{max-width:580px}.eyebrow{text-transform:uppercase;font-size:12px;font-weight:800;letter-spacing:.22em;color:',accent,'}',
+ 'h1{font:',serif?'700':'800',' clamp(36px,7vw,74px)/1.04 ',serif?'Georgia,serif':'system-ui,sans-serif',';letter-spacing:-.035em;margin:16px 0;overflow-wrap:anywhere}',
+ '.hero p{color:',light,';opacity:.82;max-width:580px}.btn{display:inline-block;margin-top:16px;padding:13px 22px;border-radius:8px;background:',accent,';color:',dark,';font-weight:800}',
+ '.art{width:',layout==='center'?'80%':'38%',';max-width:390px;min-width:180px;aspect-ratio:1/1;border-radius:',code%2?'47% 53% 26% 74%':'32px',';background:radial-gradient(circle at 35% 30%,',accent,' 0 14%,transparent 15%),linear-gradient(145deg,',accent,',',panel,');box-shadow:20px 18px 0 #ffffff16;display:grid;place-items:end center;padding:24px}',
+ '.art span{font-size:11px;text-align:center;letter-spacing:.07em;color:',light,';background:#081b2277;padding:8px;border-radius:7px}',
+ 'section{padding:62px max(7%,20px)}h2{font:',serif?'700':'800',' clamp(27px,5vw,44px)/1.1 ',serif?'Georgia,serif':'system-ui,sans-serif',';letter-spacing:-.02em}',
+ '.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.item{min-height:160px;background:#fff9;border:1px solid #0001;border-radius:14px;padding:23px}',
+ '.item b{display:block;font-size:18px;margin-bottom:8px}.tag{color:',panel,';font-weight:800;font-size:12px;letter-spacing:.13em;text-transform:uppercase}',
+ '.contact{background:',accent,';color:',dark,'}footer{background:',dark,';color:',light,';padding:26px max(7%,20px);font-size:13px}',
+ '@media(max-width:600px){header{padding:16px 18px}.nav{gap:9px}.hero{flex-direction:column;align-items:stretch;padding:42px 24px}.art{width:84%;margin:auto;min-width:0;max-width:280px}.grid{grid-template-columns:1fr}section{padding:44px 23px}}',
+ '</style></head><body><header><span class="brand">',header,'</span><nav class="nav"><a href="#despre">',menu[0],'</a><a href="#servicii">',menu[1],'</a><a href="#contact">',menu[2],'</a></nav></header>',
+ '<main><div class="hero"><div class="copy"><div class="eyebrow">',activityText,' · ',styleText,'</div><h1>',header,'</h1><p>',story,'</p><a class="btn" href="#servicii">',menu[3],'</a></div><div class="art"><span>',menu[7],'</span></div></div>',
+ '<section id="despre"><div class="tag">',menu[0],'</div><h2>',menu[4],'</h2><p>',story,'</p></section>',
+ '<section id="servicii"><div class="tag">',menu[1],'</div><h2>',menu[5],'</h2><div class="grid"><div class="item"><b>',activityText,'</b>',story,'</div><div class="item"><b>',ro?'Atenție la detalii':'Attention to detail','</b>',ro?'Descrierea serviciilor se completează împreună cu proprietarul.':'Service details are confirmed with the owner.','</div><div class="item"><b>',ro?'Personalizare':'Personalisation','</b>',styleText,'</div></div></section>',
+ '<section id="contact" class="contact"><div class="tag">',menu[2],'</div><h2>',menu[6],'</h2><p>',contactText,'</p></section></main><footer>',header,' · ',menu[8],'</footer></body></html>'
+ ].join('');
+}
+function extraCreatorFullscreen(html){
+ const overlay=extraToolsEl('div','extra-creator-overlay');
+ const close=extraToolsEl('button','extra-work-button extra-creator-close',extraToolsLocale('← Închide previzualizarea','← Close preview'));
+ const frame=extraToolsEl('iframe','extra-creator-overlay-frame');
+ frame.setAttribute('sandbox','');frame.title=extraToolsLocale('Previzualizare site','Website preview');frame.srcdoc=html;
+ close.onclick=()=>overlay.remove();overlay.append(close,frame);document.body.append(overlay);
+}
+function extraCreatorHome(work){
+ const area=work.area;area.replaceChildren();
+ extraCreatorNotice(area,'Alege ce dorești să creezi. Generarea AI este rezervată conturilor Trial și Premium.','Choose what to create. AI generation is for Trial and Premium.');
+ extraCreatorCard(area,'🌐','Creează pagini web','Create websites',
+  'Alege stilul împreună cu Eva, previzualizează și pregătește site-ul pentru publicare.',
+  'Choose a visual direction with Eva, preview and prepare a site for publishing.',
+  ()=>extraCreatorWebsite(work));
+ extraCreatorCard(area,'🎨','Creează imagini','Create images',
+  'Descrie imaginea, alege stilul și salvează rezultatul în Galerie.',
+  'Describe an image, choose a style and save the result to Gallery.',
+  ()=>extraCreatorImages(work));
+}
+function extraCreatorSubBack(work){
+ const button=extraToolsBtn(extraToolsLocale('← Cele două opțiuni','← Both tools'),()=>extraCreatorHome(work));
+ button.classList.add('extra-creator-subback');work.area.append(button);
+}
+function extraCreatorWebsite(work){
+ const area=work.area;area.replaceChildren();extraCreatorSubBack(work);
+ area.append(extraToolsEl('h3','extra-creator-subtitle',extraToolsLocale('Creează pagini web','Create websites')));
+ extraCreatorNotice(area,'În Trial: o singură variantă personalizată. În Premium: propuneri de stil fără catalog fix. Previzualizarea de mai jos este locală, fără AI.','Trial: one custom design. Premium: open-ended styles. The preview below is local, without AI.');
+ const name=extraToolsField(area,extraToolsLocale('Numele afacerii','Business name'),'text',extraToolsLocale('Ex.: Casa bunicii','e.g. Your business name'));
+ const type=extraToolsField(area,extraToolsLocale('Domeniu','Business type'),'select');
+ for(const [value,ro,en] of [['restaurant','Restaurant / cafenea','Restaurant / café'],['services','Servicii / meseriași','Local services'],['salon','Salon / frumusețe','Beauty salon'],['hotel','Pensiune / cazare','Guesthouse / hotel'],['shop','Magazin / produse','Shop / products'],['personal','Portofoliu / eveniment','Portfolio / event'],['other','Alt tip de afacere','Other']]){
+  const opt=extraToolsEl('option','',extraToolsLocale(ro,en));opt.value=value;type.append(opt);
+ }
+ const story=extraToolsField(area,extraToolsLocale('Ce oferă afacerea?','What does the business offer?'),'textarea',
+  extraToolsLocale('Servicii, publicul dorit, elemente importante…','Services, audience, key information…'));
+ const style=extraToolsField(area,extraToolsLocale('Stil, culori și particularități','Visual style, colours and details'),'textarea',
+  extraToolsLocale('Ex.: elegant, verde închis, modern, structură diferită de alte restaurante…','e.g. elegant, forest green, modern, distinctive layout…'));
+ const contact=extraToolsField(area,extraToolsLocale('Contact (opțional)','Contact (optional)'),'text',
+  extraToolsLocale('Doar date reale: telefon, adresă sau e-mail','Verified phone, address or email'));
+ const lang=extraToolsField(area,extraToolsLocale('Limba site-ului','Website language'),'select');
+ for(const [code,value] of [['ro','Română'],['en','English']]){const opt=extraToolsEl('option','',value);opt.value=code;lang.append(opt)}
+ lang.value=state.language==='en'?'en':'ro';
+ const preview=extraToolsEl('div','extra-creator-preview-wrap');
+ const actions=extraToolsActions(area);
+ const show=extraToolsBtn(extraToolsLocale('👁 Previzualizează stilul','👁 Preview visual style'),()=>{
+  if(!name.value.trim()||!story.value.trim()){extraToolsStatus(extraToolsLocale('Completează numele și descrierea afacerii.','Enter a business name and description.'));return}
+  work.siteHtml=extraCreatorLocalHtml(name.value,type.options[type.selectedIndex]?.textContent||type.value,story.value,style.value,contact.value,lang.value);
+  const frame=extraToolsEl('iframe','extra-creator-preview');
+  frame.setAttribute('sandbox','');frame.title=extraToolsLocale('Previzualizare locală a site-ului','Local website preview');
+  frame.srcdoc=work.siteHtml;preview.replaceChildren(frame);
+  extraToolsStatus(extraToolsLocale('Previzualizare demonstrativă. Nu reprezintă un site generat de AI.','Demo preview only. This is not an AI-generated website.'));
+ },true);
+ const big=extraToolsBtn(extraToolsLocale('⛶ Ecran complet','⛶ Full screen'),()=>{
+  if(work.siteHtml)extraCreatorFullscreen(work.siteHtml);
+  else extraToolsStatus(extraToolsLocale('Creează întâi o previzualizare.','Create a preview first.'));
+ });
+ actions.append(show,big);area.append(preview);
+ const generate=extraToolsBtn(extraToolsLocale('✨ Creează cu Eva (Trial/Premium)','✨ Build with Eva (Trial/Premium)'),()=>{
+  extraToolsStatus(extraToolsLocale('Generarea AI și verificarea Trial/Premium nu sunt conectate încă. Aceasta este o previzualizare de interfață; nu s-a consumat niciun credit.','AI generation and Trial/Premium verification are not connected yet. This is an interface preview; no credits were used.'));
+ },true);
+ extraToolsActions(area,generate);
+}
+function extraCreatorImages(work){
+ const area=work.area;area.replaceChildren();extraCreatorSubBack(work);
+ area.append(extraToolsEl('h3','extra-creator-subtitle',extraToolsLocale('Creează imagini','Create images')));
+ extraCreatorNotice(area,'Imaginile vor fi generate la cerere pentru Trial/Premium, cu salvare în Galerie. Motorul AI nu este conectat în această versiune.','Images will be generated on request for Trial/Premium, with Gallery saving. The AI engine is not connected in this version.');
+ extraToolsField(area,extraToolsLocale('Descrie imaginea dorită','Describe the image'),'textarea',
+  extraToolsLocale('Ce trebuie să apară? Atmosferă, detalii, persoane sau obiecte…','Subject, mood and details…'));
+ extraToolsField(area,extraToolsLocale('Preferințe de stil','Preferred style'),'text',
+  extraToolsLocale('Realist, artistic, fotografie de produs…','Photographic, illustration, product photo…'));
+ const format=extraToolsField(area,extraToolsLocale('Format imagine','Image format'),'select');
+ for(const [v,label] of [['square','Pătrat · 1:1'],['wide','Orizontal · 16:9'],['portrait','Vertical · 9:16']]){const opt=extraToolsEl('option','',label);opt.value=v;format.append(opt)}
+ const areaPreview=extraToolsEl('div','extra-creator-image-placeholder');
+ areaPreview.append(extraToolsEl('span','extra-creator-symbol','🖼️'),extraToolsEl('strong','',extraToolsLocale('Aici va apărea imaginea generată','Your generated image will appear here')));
+ area.append(areaPreview);
+ const make=extraToolsBtn(extraToolsLocale('✨ Generează cu Eva','✨ Generate with Eva'),()=>{
+  extraToolsStatus(extraToolsLocale('Motorul AI pentru imagini și controlul Trial/Premium nu sunt încă activate. Nicio generare nu a fost facturată.','Image generation and Trial/Premium entitlement are not active yet. No generation was billed.'));
+ },true);
+ const save=extraToolsBtn(extraToolsLocale('💾 Salvează în Galerie','💾 Save to Gallery'),()=>{});
+ save.disabled=true;save.title=extraToolsLocale('Disponibil după generarea imaginii','Available after image generation');
+ const share=extraToolsBtn(extraToolsLocale('↗ Partajează','↗ Share'),()=>{});
+ share.disabled=true;share.title=extraToolsLocale('Disponibil după generarea imaginii','Available after image generation');
+ extraToolsActions(area,make,save,share);
+}
+
 function extraToolsOpenWorkspace(key){
  const cat=EXTRA_TOOLS_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
  extraToolsStop();resetExtraToolsScreen();
@@ -171,9 +344,8 @@ function extraToolsOpenWorkspace(key){
  $('moduleTitle').textContent=extraToolsLocale(cat[2],cat[3]);$('moduleLead').textContent='';host.replaceChildren();
  const panel=extraToolsEl('section','extra-tools-panel extra-tools-workspace-panel');
  const header=extraToolsEl('div','education-toolbar extra-work-head');
- header.append(extraToolsBtn(extraToolsLocale('← Înapoi','← Back'),()=>{extraToolsStop();renderExtraToolsChoices()}));
- header.append(extraToolsEl('strong','extra-work-head-title',cat[1]+' '+extraToolsLocale(cat[2],cat[3])));
- panel.append(header);
+ const back=extraToolsBtn(extraToolsLocale('← Înapoi','← Back'),()=>{extraToolsStop();renderExtraToolsChoices()},true);
+ if(!extraToolsMountNavigation(root,back,header)){header.append(back);panel.append(header)}
  const area=extraToolsEl('div','extra-tools-workarea');
  const result=extraToolsEl('section','extra-work-result');result.hidden=true;
  const status=extraToolsEl('p','extra-work-status');status.setAttribute('role','status');
@@ -188,7 +360,9 @@ function extraToolsOpenWorkspace(key){
  };
  const addCopy=()=>extraToolsActions(area,secondary('Copiază textul','Copy text',()=>extraToolsCopy(work.output||work.editor?.value||'')));
  const input=(title,placeholder)=>{const el=extraToolsField(area,title,'textarea',placeholder);work.editor=el;return el};
- if(key==='documents'){
+ if(key==='creator'){
+  extraCreatorHome(work);
+ }else if(key==='documents'){
   note('Editorul funcționează local. Salvează PDF-ul în Documentele mele sau deschide biblioteca deja existentă.','Edit locally. Save a PDF into My Documents or open the existing library.');
   work.title=extraToolsField(area,extraToolsLocale('Titlul documentului','Document title'),'text',extraToolsLocale('Titlu','Title'));
   const editor=input(extraToolsLocale('Conținutul documentului','Document content'),extraToolsLocale('Scrie sau lipește textul…','Type or paste your text…'));
@@ -241,67 +415,125 @@ function extraToolsOpenWorkspace(key){
    catch{extraToolsStatus(extraToolsLocale('Introduce o adresă web validă http/https.','Enter a valid http/https address.'))}
   }),primary('Rezumă textul','Summarize text',()=>extraToolsAI('Rezumă materialul furnizat. Separă faptele de afirmațiile neconfirmate; nu pretinde verificare a linkului.',editor.value)));
   addPdf();
- }else if(key==='images'){
-  note('Generează imagini cu AI sau editează local o fotografie; salvarea PNG folosește Galeria Android.','Generate AI images or locally edit a photo; PNG saving uses the Android Gallery.');
-  pocketImageGeneratorWorkspace(area,work);
-  const file=extraToolsEl('input');file.type='file';file.accept='image/*';file.hidden=true;file.onchange=()=>extraToolsReadImage(file.files?.[0],'images');area.append(file);
-  extraToolsActions(area,primary('🖼️ Alege fotografia','🖼️ Choose photo',()=>file.click()),
-   secondary('↻ Rotește','↻ Rotate',()=>extraToolsImageRotate(90)),
-   secondary('◐ Alb-negru','◐ Grayscale',()=>{if(!work.image)return;work.gray=!work.gray;extraToolsImageRotate(0)}));
-  const canvas=extraToolsEl('canvas','extra-work-image');work.canvas=canvas;canvas.width=640;canvas.height=320;area.append(canvas);
-  const saveButton=secondary('💾 Salvează PNG','💾 Save PNG',()=>{
-   if(!work.image){extraToolsStatus(extraToolsLocale('Alege întâi o imagine.','Select an image first.'));return}
-   if(window.PocketAndroidImages?.postMessage){
-    const src=work.canvas,preview=document.createElement('canvas');
-    const factor=Math.min(1,1400/Math.max(src.width,src.height));
-    preview.width=Math.max(1,Math.round(src.width*factor));preview.height=Math.max(1,Math.round(src.height*factor));
-    preview.getContext('2d').drawImage(src,0,0,preview.width,preview.height);
-    const encoded=preview.toDataURL('image/png').split(',')[1];
-    if(encoded.length>9600000){extraToolsStatus(extraToolsLocale('Imaginea este prea mare pentru salvare. Încearcă o fotografie mai mică.','Image too large to save. Try a smaller image.'));return}
-    window.pocketAndroidImageSaveResult=status=>{
-     if(extraToolsSession!==work)return;
-     extraToolsStatus(status==='saved'?extraToolsLocale('Imaginea a fost salvată în Galerie / Pictures/myPocketAI.','Image saved in Gallery / Pictures/myPocketAI.'):
-      status==='unsupported'?extraToolsLocale('Salvarea în Galerie necesită Android 10 sau mai nou.','Gallery saving requires Android 10 or newer.'):
-      extraToolsLocale('Nu s-a putut salva imaginea.','Could not save image.'));
-    };
-    window.PocketAndroidImages.postMessage(JSON.stringify({action:'save',base64:encoded}));
-    extraToolsStatus(extraToolsLocale('Se salvează în Galerie…','Saving to Gallery…'));return;
-   }
-   const url=work.canvas.toDataURL('image/png');const a=extraToolsEl('a');a.href=url;a.download='mypocket-image.png';
-   document.body.append(a);a.click();a.remove();extraToolsStatus(extraToolsLocale('Export inițiat; verifică descărcările dispozitivului.','Export initiated; check device downloads.'));
-  });work.imageSaveButton=saveButton;extraToolsActions(area,saveButton);
  }else if(key==='ideas'){
-  note('Creează o schiță locală de proiect, apoi poți cere detalierea ei cu AI.','Create an offline project outline, then ask AI to expand it.');
-  work.title=extraToolsField(area,extraToolsLocale('Numele proiectului','Project name'),'text','');
-  const editor=input(extraToolsLocale('Obiectiv și condiții','Goal and constraints'),'');
-  const offline=()=>{const name=work.title.value.trim()||extraToolsLocale('Proiect fără titlu','Untitled project');
-   const goal=editor.value.trim();if(!goal){extraToolsStatus(extraToolsLocale('Descrie mai întâi obiectivul.','Describe the goal first.'));return}
-   extraToolsShowOutput(name+'\n\n'+extraToolsLocale('Obiectiv: ','Goal: ')+goal+'\n\n'+
-    extraToolsLocale('Pași:','Steps:')+'\n1. '+extraToolsLocale('Clarifică rezultatul și criteriile de reușită.','Define desired outcomes and success criteria.')+
-    '\n2. '+extraToolsLocale('Inventariază resursele și limitele.','List resources and constraints.')+
-    '\n3. '+extraToolsLocale('Împarte lucrul în sarcini verificabile.','Break work into verifiable tasks.')+
-    '\n4. '+extraToolsLocale('Testează prima variantă și corectează.','Test the first version and revise.')+
-    '\n5. '+extraToolsLocale('Revizuiește progresul și pașii următori.','Review progress and next actions.'));extraToolsStatus('')};
-  extraToolsActions(area,primary('📋 Plan local','📋 Offline plan',offline),
-   secondary('✨ Detaliază cu AI','✨ Expand with AI',()=>extraToolsAI('Creează un plan de proiect practic cu etape, riscuri, resurse și verificări. Nu inventa costuri, termene sau angajamente.',work.title.value+'\n'+editor.value)));
+  note('Transformă o idee într-un plan de acțiune. Pentru a crea efectiv site-uri sau imagini, folosește «Creare pagini și imagini».','Turn an idea into an action plan. To actually create a website or image, choose Create websites and images.');
+  work.title=extraToolsField(area,extraToolsLocale('Ce proiect dorești să planifici?','What are you planning?'),'text',
+   extraToolsLocale('Ex.: Lansarea unei pensiuni','e.g. Opening a guesthouse'));
+  const editor=input(extraToolsLocale('Ce vrei să obții și ce resurse ai?','Goal and available resources'),
+   extraToolsLocale('Ex.: 18 camere, mic dejun, buget disponibil, ce trebuie făcut întâi…','e.g. Rooms, breakfast, budget, first priorities…'));
+  const examples=extraToolsEl('div','extra-creator-project-examples');
+  const example=extraToolsBtn(extraToolsLocale('Exemplu: pensiune','Example: guesthouse'),()=>{
+   work.title.value=extraToolsLocale('Plan pentru pensiune','Guesthouse plan');
+   editor.value=extraToolsLocale('Organizarea camerelor, micului dejun, prețurilor, rezervărilor și promovării.','Organize rooms, breakfast, prices, bookings, promotion.');
+  });
+  const websiteExample=extraToolsBtn(extraToolsLocale('Exemplu: site web','Example: website'),()=>{
+   work.title.value=extraToolsLocale('Pregătirea unui site web','Website preparation');
+   editor.value=extraToolsLocale('Strâng informații, fotografii, servicii și date de contact pentru site-ul afacerii.','Gather business details, photos, services and contact information.');
+  });
+  examples.append(example,websiteExample);area.append(examples);
+  const offline=()=>{
+   const name=work.title.value.trim()||extraToolsLocale('Proiect nou','New project');
+   const goal=editor.value.trim();
+   if(!goal){extraToolsStatus(extraToolsLocale('Descrie mai întâi ce dorești să obții.','Describe your goal first.'));return}
+   const lower=(name+' '+goal).toLowerCase();
+   const site=/site|web|pagin|website|landing/.test(lower);
+   const lodging=/pensiun|cazare|camere|guesthouse|hotel/.test(lower);
+   const ro=state.language!=='en';
+   const steps=site?(ro?[
+    'Pregătește numele afacerii, publicul și lista paginilor.',
+    'Adună fotografiile reale, serviciile și informațiile de contact.',
+    'Alege identitatea vizuală și limba site-ului împreună cu Eva.',
+    'Creează site-ul în «Creare pagini și imagini», apoi verifică pe telefon.',
+    'Revizuiește datele înainte de export și publicare.']:[
+    'Define the business name, audience and pages.','Collect verified photos and contact details.',
+    'Choose style and language with Eva.','Build and preview the site in Create websites and images.',
+    'Review facts before exporting and publishing.'])
+   :lodging?(ro?[
+    'Inventariază tipurile și numărul camerelor și capacitatea reală.',
+    'Stabilește facilitățile, micul dejun și regulile de cazare.',
+    'Pregătește lista de prețuri și condițiile rezervărilor.',
+    'Adună fotografiile, adresa și datele de contact verificate.',
+    'Pregătește promovarea și un site de prezentare.']:[
+    'Inventory actual rooms and guest capacity.','List amenities, breakfast and policies.',
+    'Define room prices and booking terms.','Collect photos and verified contact details.',
+    'Plan promotion and a website.'])
+   :(ro?[
+    'Definește rezultatul concret și cui îi este destinat.',
+    'Notează resursele, bugetul și limitele.',
+    'Împarte lucrul în livrabile și sarcini clare.',
+    'Stabilește primele acțiuni care pot fi verificate.',
+    'Testează rezultatul și corectează planul.']:[
+    'Define the outcome and audience.','List resources, budget and limits.',
+    'Break work into clear deliverables.','Prioritize verifiable first steps.',
+    'Test and revise the plan.']);
+   extraToolsShowOutput(name+'\n\n'+(ro?'Obiectiv: ':'Goal: ')+goal+'\n\n'+
+    (ro?'Plan de acțiune:':'Action plan:')+'\n'+steps.map((p,i)=>(i+1)+'. '+p).join('\n'));
+   extraToolsStatus('');
+  };
+  extraToolsActions(area,primary('📋 Creează plan','📋 Create plan',offline),
+   secondary('✨ Detaliază cu AI','✨ Expand with AI',()=>extraToolsAI(
+     'Rol: consultant de planificare. Construiește un plan specific proiectului, cu livrabile și verificări. Fără informații din alte domenii și fără a pretinde date verificate. Nu inventa prețuri sau termene.',
+     work.title.value+'\n'+editor.value)));
   addPdf();
  }
  area.append(result,status);panel.append(area);host.append(panel);
 }
-`;
+`+CREATOR_SITE_SCRIPT+CREATOR_DESIGN_SCRIPT+CREATOR_PREMIUM_SCRIPT+CREATOR_MANAGEMENT_SCRIPT+CREATOR_SITE_AI_SCRIPT+CREATOR_HANDOFF_SCRIPT+CREATOR_GUESTHOUSE_SCRIPT+"\nconst GUESTHOUSE_SITE_CSS="+JSON.stringify(GUESTHOUSE_SITE_CSS)+";\n"+CREATOR_HOSTING_SCRIPT+CREATOR_CLIENT_INSTALL_SCRIPT+CREATOR_IMAGE_AI_SCRIPT;
 export const EXTRA_TOOLS_WORKSPACE_STYLE=String.raw`/* Dedicated Tools: fixed app navigation, scrolling only within the actual workspace. */
 main.page:has(#view-module.extra-tools-workspace.active){overflow:hidden!important;min-height:0!important}
+#view-module.extra-tools-workspace #moduleLead{display:none!important}
+/* Keep Home / Back inside the actual module navigation row.
+   No extra wrappers, no position relative overlaps, no inherited 48% cap. */
+#view-module.extra-tools-workspace .module-actions-row{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:56px!important;align-items:stretch!important;gap:10px!important;
+ position:static!important;width:100%!important;min-width:0!important;min-height:56px!important;
+ height:56px!important;max-height:56px!important;flex:0 0 56px!important;
+ margin:5px 0 9px!important;padding:0!important;transform:none!important;
+}
+#view-module.extra-tools-workspace .module-actions-row .module-home-btn,
+#view-module.extra-tools-workspace .module-actions-row .extra-work-nav-back{
+ box-sizing:border-box!important;position:static!important;display:flex!important;
+ grid-row:1!important;align-items:center!important;justify-content:center!important;
+ width:100%!important;min-width:0!important;max-width:none!important;
+ height:56px!important;min-height:56px!important;max-height:56px!important;
+ align-self:stretch!important;flex:none!important;margin:0!important;padding:7px 8px!important;
+ border-radius:16px!important;font-size:clamp(14px,3.8vw,19px)!important;
+ font-weight:800!important;line-height:1.15!important;white-space:normal!important;
+ transform:none!important;z-index:auto!important;background:linear-gradient(180deg,#893e59,#64233c)!important;
+ color:white!important;border:2px solid #ca96a7!important;
+ box-shadow:inset 0 2px 0 #ffffff30,0 5px 0 #381527,0 9px 12px #0006!important;
+}
+#view-module.extra-tools-workspace .module-actions-row .module-home-btn{grid-column:1!important}
+#view-module.extra-tools-workspace .module-actions-row .extra-work-nav-back{grid-column:2!important}
+#view-module.extra-tools-workspace .module-heading-row{
+ box-sizing:border-box!important;display:flex!important;align-items:center!important;
+ justify-content:space-between!important;gap:8px!important;width:100%!important;
+ min-width:0!important;min-height:38px!important;flex:0 0 auto!important;margin:0 0 6px!important;
+}
+#view-module.extra-tools-workspace .module-heading-row #moduleTitle{
+ flex:1 1 auto!important;min-width:0!important;max-width:none!important;
+ margin:0!important;padding:0!important;font-size:clamp(19px,4.6vw,25px)!important;
+ line-height:1.17!important;overflow-wrap:anywhere!important;
+}
+#view-module.extra-tools-workspace .module-heading-row .extra-work-head{
+ display:flex!important;align-items:center!important;justify-content:flex-end!important;
+ flex:0 0 auto!important;width:auto!important;max-width:96px!important;min-width:0!important;
+ margin:0!important;padding:0!important;gap:4px!important;
+}
+#view-module.extra-tools-workspace .module-heading-row .edu-pdf-actions{display:flex!important;gap:4px!important;margin:0!important}
+
 #view-module.extra-tools-workspace.active{box-sizing:border-box!important;display:flex!important;flex-direction:column!important;height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important;padding-bottom:0!important}
 #view-module.extra-tools-workspace #moduleContent{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-height:0!important;max-height:100%!important;width:100%!important;overflow:hidden!important;padding-bottom:0!important}
 #view-module.extra-tools-workspace .extra-tools-workspace-panel{box-sizing:border-box!important;flex:1 1 auto!important;min-height:0!important;width:100%!important;max-width:100%!important;overflow:hidden!important;padding:5px 7px!important;gap:6px!important}
 #view-module.extra-tools-workspace .extra-work-head{box-sizing:border-box!important;display:flex!important;flex:0 0 auto!important;align-items:center!important;gap:9px!important;width:100%!important;min-width:0!important;flex-wrap:nowrap!important}
 #view-module.extra-tools-workspace .extra-work-head>.extra-work-button{max-width:115px!important;min-width:90px!important;flex:0 0 auto!important;min-height:44px!important}
-#view-module.extra-tools-workspace .extra-work-head-title{font-size:clamp(14px,3.6vw,18px)!important;min-width:0!important;flex:1 1 auto!important;overflow-wrap:anywhere}
 #view-module.extra-tools-workspace .extra-work-head>.edu-pdf-actions{flex:0 0 auto!important;margin-left:auto!important;gap:4px!important}
 #view-module.extra-tools-workspace .extra-work-head .edu-icon-action{width:40px!important;height:40px!important;min-width:40px!important;max-width:40px!important;min-height:40px!important;max-height:40px!important;padding:3px!important}
-#view-module.extra-tools-workspace .extra-tools-workarea{box-sizing:border-box!important;flex:1 1 auto!important;min-height:0!important;max-height:100%!important;overflow-y:auto!important;overflow-x:hidden!important;padding:7px 5px calc(135px + env(safe-area-inset-bottom,0px))!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important}
+#view-module.extra-tools-workspace .extra-tools-workarea{box-sizing:border-box!important;flex:1 1 auto!important;min-height:0!important;max-height:100%!important;overflow-y:auto!important;overflow-x:hidden!important;padding:7px 5px calc(18px + env(safe-area-inset-bottom,0px))!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important}
 #view-module.extra-tools-workspace .extra-work-label{display:flex!important;flex-direction:column!important;gap:6px!important;margin:10px 0!important;font-size:14px!important;font-weight:700!important;min-width:0!important}
 #view-module.extra-tools-workspace .extra-work-input{box-sizing:border-box!important;display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;min-height:44px!important;padding:10px 12px!important;background:#0e2a3e!important;color:#f1fbff!important;border:1px solid #568ea9!important;border-radius:12px!important;font-size:16px!important;white-space:pre-wrap!important}
+#view-module.extra-tools-workspace input.extra-work-input,#view-module.extra-tools-workspace select.extra-work-input{box-sizing:border-box!important;height:48px!important;min-height:48px!important;max-height:48px!important;flex:0 0 auto!important;line-height:1.25!important;padding:8px 12px!important}
 #view-module.extra-tools-workspace textarea.extra-work-input{height:min(27dvh,230px)!important;min-height:88px!important;max-height:40dvh!important;resize:vertical!important;overflow-y:auto!important}
 #view-module.extra-tools-workspace .extra-work-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;align-items:stretch!important;min-width:0!important;margin:12px 0!important}
 #view-module.extra-tools-workspace .extra-work-actions>.extra-work-button,#view-module.extra-tools-workspace .extra-work-actions>.extra-work-primary{box-sizing:border-box!important;min-width:0!important;max-width:100%!important;width:100%!important;min-height:52px!important;margin:0!important;padding:8px 5px!important;white-space:normal!important;overflow-wrap:anywhere!important;line-height:1.2!important;font-size:clamp(12px,3.4vw,16px)!important}
@@ -312,5 +544,21 @@ main.page:has(#view-module.extra-tools-workspace.active){overflow:hidden!importa
 #view-module.extra-tools-workspace .extra-work-chart-row{display:flex!important;flex-direction:column!important;gap:3px!important;margin:8px 0!important;font-size:12px!important}
 #view-module.extra-tools-workspace .extra-work-chart-bar{height:10px!important;max-width:100%!important;border-radius:4px!important;background:#5cd1dc!important}
 #view-module.extra-tools-workspace canvas.extra-work-image{box-sizing:border-box!important;display:block!important;width:auto!important;max-width:100%!important;height:auto!important;max-height:42dvh!important;margin:10px auto!important;border:1px solid #5793ac!important;border-radius:9px!important}
+
+#view-module.extra-tools-workspace .extra-creator-notice{background:#123448!important;border:1px solid #41718b!important;border-radius:12px!important;padding:10px 12px!important;color:#bfdae5!important;font-size:13px!important;line-height:1.45!important}
+#view-module.extra-tools-workspace .extra-creator-card{display:flex!important;align-items:center!important;gap:15px!important;width:100%!important;min-height:114px!important;margin:12px 0!important;padding:18px!important;background:linear-gradient(145deg,#123a53,#0a2337)!important;border:1px solid #4d9fb6!important;border-radius:17px!important;color:#fff!important;text-align:left!important;box-shadow:0 5px 12px #0004!important}
+#view-module.extra-tools-workspace .extra-creator-card-copy{display:flex!important;flex-direction:column!important;gap:6px!important;flex:1!important}
+#view-module.extra-tools-workspace .extra-creator-card-copy strong{font-size:clamp(17px,4.1vw,21px)!important}
+#view-module.extra-tools-workspace .extra-creator-card-copy small{font-size:13px!important;color:#b9d8e6!important;line-height:1.35!important}
+#view-module.extra-tools-workspace .extra-creator-symbol{font-size:31px!important;flex:0 0 auto!important}
+#view-module.extra-tools-workspace .extra-creator-subback{min-height:40px!important;max-width:220px!important;padding:8px 10px!important;font-size:13px!important;margin:0 0 9px!important}
+#view-module.extra-tools-workspace .extra-creator-subtitle{font-size:19px!important;margin:8px 0!important}
+#view-module.extra-tools-workspace .extra-creator-preview-wrap{width:100%!important;min-height:0!important;margin:12px 0!important;overflow:hidden!important;border-radius:12px!important}
+#view-module.extra-tools-workspace .extra-creator-preview{display:block!important;width:100%!important;height:330px!important;border:1px solid #65a1b8!important;background:#f7f2ea!important;border-radius:12px!important}
+#view-module.extra-tools-workspace .extra-creator-image-placeholder{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;gap:12px!important;min-height:210px!important;margin:15px 0!important;border:1px dashed #6da6b9!important;border-radius:16px!important;background:#123043!important;color:#bddeea!important;padding:25px!important}
+.extra-creator-overlay{position:fixed!important;inset:0!important;z-index:999999!important;background:#061522!important;display:flex!important;flex-direction:column!important;padding:calc(9px + env(safe-area-inset-top,0px)) 9px calc(8px + env(safe-area-inset-bottom,0px))!important}
+.extra-creator-overlay .extra-creator-close{flex:0 0 auto!important;min-height:46px!important;margin:0 0 10px!important;background:#752942!important;color:white!important;border:1px solid #cf9aab!important;border-radius:14px!important}
+.extra-creator-overlay .extra-creator-overlay-frame{flex:1 1 auto!important;width:100%!important;min-height:0!important;border:0!important;border-radius:10px!important;background:#f7f4ee!important}
+
 #view-module.extra-tools-workspace [hidden]{display:none!important}
-`;
+`+CREATOR_SITE_STYLE+CREATOR_DESIGN_STYLE+CREATOR_PREMIUM_STYLE+CREATOR_MANAGEMENT_STYLE+CREATOR_SITE_AI_STYLE+CREATOR_HANDOFF_STYLE+CREATOR_IMAGE_AI_STYLE+CREATOR_GUESTHOUSE_STYLE+CREATOR_HOSTING_STYLE+CREATOR_CLIENT_INSTALL_STYLE;

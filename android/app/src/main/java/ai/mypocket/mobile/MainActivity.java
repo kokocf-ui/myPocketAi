@@ -894,6 +894,25 @@ public final class MainActivity extends ComponentActivity {
             }
             @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request) {
                 Uri resource=request.getUrl();
+                // Test-build-only: serve the exact reviewed UI snapshot from the signed APK.
+                // Production builds (TOOLS_UI_PREVIEW=false) still use live Cloudflare.
+                // The trusted origin stays unchanged, so existing native bridges and API work.
+                if(BuildConfig.TOOLS_UI_PREVIEW && request.isForMainFrame()
+                    && "GET".equalsIgnoreCase(request.getMethod())
+                    && "https".equalsIgnoreCase(resource.getScheme())
+                    && APP_HOST.equalsIgnoreCase(resource.getHost())
+                    && "/".equals(resource.getPath())) {
+                    try {
+                        InputStream source=getAssets().open("tools-ui-preview.html");
+                        WebResourceResponse response=new WebResourceResponse("text/html","UTF-8",source);
+                        response.setResponseHeaders(Collections.singletonMap("Cache-Control","no-store"));
+                        return response;
+                    } catch(Exception ignored) {
+                        // Missing bundle must be caught by the preview-build validation.
+                        return new WebResourceResponse("text/plain","UTF-8",
+                            new java.io.ByteArrayInputStream("UI preview missing from APK".getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+                    }
+                }
                 if("https".equals(resource.getScheme()) && APP_HOST.equals(resource.getHost())
                     && "/avatar-production.html".equals(resource.getPath())) {
                     try {

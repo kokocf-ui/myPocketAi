@@ -1,0 +1,14 @@
+name = "lifewise-ai-creator-preview"
+main = "creator_preview_worker.mjs"
+compatibility_date = "2026-10-28"
+
+[ai]
+binding = "AI"
+
+[[durable_objects.bindings]]
+name = "CREATOR_PREVIEW_QUOTA"
+class_name = "CreatorPreviewQuota"
+
+[[migrations]]
+tag = "creator-preview-sqlite-v1"
+new_sqlite_classes = ["CreatorPreviewQuota"]

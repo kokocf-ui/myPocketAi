@@ -1,0 +1,95 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_tools_workspace.mjs';
+import {CREATOR_PREMIUM_SCRIPT,CREATOR_PREMIUM_STYLE} from './creator_premium_presentations.mjs';
+new vm.Script(EXTRA_TOOLS_WORKSPACE_SCRIPT,{filename:'creator-premium-combined.js'});
+assert.ok(EXTRA_TOOLS_WORKSPACE_SCRIPT.includes(CREATOR_PREMIUM_SCRIPT));
+assert.ok(EXTRA_TOOLS_WORKSPACE_STYLE.includes(CREATOR_PREMIUM_STYLE));
+const site=new Function(EXTRA_TOOLS_WORKSPACE_SCRIPT+';return {make:extraCreatorLocalHtml,templates:extraCreatorPremiumTemplates,styles:extraCreatorVisualStyles,meta:extraCreatorPremiumMeta};')();
+assert.equal(site.templates.length,12);
+assert.equal(new Set(site.templates.map(t=>t[4])).size,12,'Every marketed layout must have its own composition family');
+assert.equal(new Set(site.templates.map(t=>t[0])).size,12);
+const description='Aramis: 5 camere single, 10 camere duble și 3 apartamente. Mic dejun inclus. Bucătărie comună. Wi-Fi.';
+const seen=new Set();
+for(const row of site.templates){
+ const [id,ro,en,desc,family]=row;
+ const html=site.make('Aramis','Pensiune / cazare',description,ro,'0740000000','ro',{kind:'hotel',styleId:id});
+ assert.match(html,new RegExp('theme-'+family+'[" ]'),'Layout family CSS class must match gallery model '+id);
+ if(family!=='minimal'){
+  assert.ok(html.includes('aria-hidden="true"')&&html.includes('<svg'),'Non-minimal layout must have original decorative artwork '+id);
+  assert.match(html,/Ilustrație de concept/,'No demo illustration may masquerade as a real business photo');
+ }else{
+  assert.doesNotMatch(html,/<svg/,'Minimal luxury deliberately relies on typography, not a stock or fake image');
+ }
+ assert.match(html,/Content-Security-Policy/);
+ assert.doesNotMatch(html,/<script[^>]*>|https?:\/\/|<img src="https?:/,'Demo must stay script-free and offline');
+ assert.match(html,/<header class="design-nav">/);
+ assert.match(html,/5<\/b>/);
+ assert.match(html,/10<\/b>/);
+ assert.match(html,/3<\/b>/);
+ assert.match(html,/Mic dejun inclus/);
+ assert.ok(html.includes('id="contact-ro"'));
+ assert.ok(html.includes('href="#offer-ro"'));
+ assert.ok(html.includes('class="locale-content lang-ro"'));
+ const familyHero=family+'-hero';
+ assert.match(html,new RegExp('class="hero '+familyHero+'"'),'Premium family must have its own hero structure: '+id);
+ seen.add(html.match(/<section class="hero ([^"]+)"/)?.[1]);
+}
+assert.equal(seen.size,12,'No two options can silently reuse the same hero structure');
+const asym=site.make('Aramis','Pensiune / cazare',description,'asym','contact','ro',{kind:'hotel',styleId:'heritage'});
+assert.match(asym,/asym-composition/);
+assert.match(asym,/floating-title/);
+const mosaic=site.make('Aramis','Pensiune / cazare',description,'mosaic','contact','ro',{kind:'hotel',styleId:'art'});
+assert.match(mosaic,/tile-photo/);
+assert.match(mosaic,/tile-quote/);
+const gallery=site.make('Aramis','Pensiune / cazare',description,'gallery','contact','ro',{kind:'hotel',styleId:'wellness'});
+assert.match(gallery,/gallery-photos/);
+const photo='data:image/jpeg;base64,'+'A'.repeat(650);
+const photoSite=site.make('Aramis','Pensiune / cazare',description,'asym','contact','ro',{kind:'hotel',styleId:'heritage',photo});
+assert.ok(photoSite.includes(photo));
+const roomPhoto='data:image/webp;base64,'+'B'.repeat(400);
+const roomSite=site.make('Aramis','Pensiune / cazare',description,'asym','contact','ro',
+ {kind:'hotel',styleId:'heritage',photo,gallery:[{group:'room',roomLabel:'camere single',caption:'Cameră single',data:roomPhoto}]});
+assert.match(roomSite,/Galeria camerelor/);
+assert.match(roomSite,/room-gallery-tile/);
+assert.match(roomSite,/room-gallery-full/);
+assert.match(roomSite,/camere single/);
+for(const [kind,label,english] of [['restaurant','Preparate','Dishes'],['services','Lucrări executate','Completed work'],
+ ['salon','Coafură','Hair styling'],['shop','Produse','Products'],['personal','Portofoliu','Portfolio'],['other','Proiecte','Projects']]){
+ const html=site.make('Demo','Prezentare',description,'Elegant','contact','both',
+  {kind,styleId:'heritage',photo,gallery:[{group:'category',categoryLabel:label,categoryEn:english,caption:label,data:roomPhoto}]});
+ assert.match(html,/Galerie foto/,'Category gallery missing for '+kind);
+ assert.match(html,/Photo gallery/,'EN category gallery missing for '+kind);
+ assert.ok(html.includes(label),'Category label missing: '+kind);
+ assert.ok(html.includes(english),'EN category missing: '+kind);
+ assert.match(html,/room-gallery-full/);
+}
+assert.doesNotMatch(photoSite,/Ilustrație de concept/,'Owner photo takes precedence over demo art');
+const malicious=site.make('<img src=x onerror=alert(1)>','Restaurant','<script>alert(1)</script>','bold','<script>','ro',{kind:'restaurant',styleId:'retro'});
+assert.doesNotMatch(malicious,/<img src=x|<script>/);
+assert.match(malicious,/&lt;img/);
+const aiCopy={
+ ro:{headline:'Bun venit la Aramis',intro:'Pensiune cu mic dejun',about:'Cazare plăcută',services:[{title:'Camera single',detail:'5 camere'}]},
+ en:{headline:'Welcome to Aramis',intro:'Stay with breakfast',about:'Comfortable accommodation',services:[{title:'Single room',detail:'5 rooms'}]}
+};
+const bilingual=site.make('Aramis','Pensiune / cazare',description,'asym','contact','both',{kind:'hotel',styleId:'heritage',aiCopy});
+assert.match(bilingual,/id="lang-ro"/);assert.match(bilingual,/id="lang-en"/);
+assert.match(bilingual,/Welcome to Aramis/);
+assert.match(bilingual,/Bun venit la Aramis/);
+assert.match(bilingual,/single rooms/);
+assert.match(bilingual,/Mic dejun inclus/);
+assert.match(CREATOR_PREMIUM_SCRIPT,/extraCreatorPremiumGallery/);
+assert.ok(CREATOR_PREMIUM_SCRIPT.includes("setAttribute('loading','lazy')"));
+assert.match(CREATOR_PREMIUM_SCRIPT,/extraCreatorFullscreen\(site\)/);
+assert.match(CREATOR_PREMIUM_SCRIPT,/Vezi pagini complete fără generări AI/);
+assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/premium-gallery-grid/);
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/\bextraCreatorStylePicker=extraCreatorPremiumGallery/);
+const customized=site.make('Aramis','Pensiune / cazare',description,'asym','contact','ro',
+ {kind:'hotel',styleId:'heritage',prefs:{palette:'burgundy',font:'modern',mood:'warm'}});
+assert.match(customized,/--ink:#431f32;/,'Selected colours must change the actual HTML preview');
+assert.match(customized,/font-family:system-ui,sans-serif!important/,'Typography choice must alter the site CSS');
+assert.match(customized,/border-radius:16px!important/,'Atmosphere choice must alter the visual design');
+const contactFocus=site.make('Aramis','Pensiune / cazare',description,'asym','contact','ro',
+ {kind:'hotel',styleId:'heritage',prefs:{focus:'contact'}});
+assert.match(contactFocus,/class="cta" href="#contact-ro"/,'Selected priority must change the hero action');
+console.log('PASS: 12 distinct art-directed responsive site compositions, full previews without AI cost, safe user data, own-photo priority, bilingual copy');
