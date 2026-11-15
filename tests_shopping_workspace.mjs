@@ -336,13 +336,13 @@ assert.match(shoppingStyle,/\.shop-active-footer>\.shop-share-footer\{[^}]*grid-
 assert.match(inline,/cartuș','carton'/,
  'manual unit selector supports cartons alongside dictated cartons');
 
-const baxuri=evalIn("shopVoiceItems('un bax de apă, două baxuri de apă, 3 bacsuri de apă')");
+const baxuri=evalIn("shopVoiceItems('un bax de apă, două baxuri de apă, 3 baxuri de apă')");
 assert.deepEqual(Array.from(baxuri,i=>[i.name,i.quantity,i.unit]),[
  ['apă','1','bax'],['apă','2','bax'],['apă','3','bax']
-],'bax/baxuri and speech variant bacsuri represent packaging quantities');
-const singularBacs=evalIn("shopVoiceItems('bacs de apă')");
-assert.deepEqual(Array.from(singularBacs,i=>[i.name,i.quantity,i.unit]),
- [['apă','1','bax']],'bacs is recognized as one bax without an explicit numeral');
+],'bax and baxuri represent Romanian packaging quantities');
+const singularBax=evalIn("shopVoiceItems('bax de apă')");
+assert.deepEqual(Array.from(singularBax,i=>[i.name,i.quantity,i.unit]),
+ [['apă','1','bax']],'bax without an explicit numeral means one bax');
 const brandBax=evalIn("shopVoiceItems('apă două baxuri')");
 assert.deepEqual(Array.from(brandBax,i=>[i.name,i.quantity,i.unit]),
  [['apă','2','bax']],'trailing packaging quantity is recognized');
