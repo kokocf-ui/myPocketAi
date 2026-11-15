@@ -1,19 +1,60 @@
 export const CREATOR_IMAGE_AI_SCRIPT=String.raw`
 const extraCreatorImagePreviewUrl='https://lifewise-ai-image-studio.kokocf.workers.dev/generate';
+function extraCreatorSceneBackground(source){
+ // Highlight only background details explicitly named by the user.
+ // This is a lightweight prompt enhancement, NOT image analysis or a guarantee.
+ const patterns=[
+  /(?:\bcu\b|\bwith\b|\bși\b|\band\b)\s+([^,;.!?]{3,100}?)\s+(?:în\s+fundal|pe\s+fundal|în\s+depărtare|la\s+orizont|in\s+the\s+background|on\s+the\s+horizon)\b/iu,
+  /(?:în\s+fundal|în\s+depărtare|la\s+orizont|in\s+the\s+background|on\s+the\s+horizon)\s+(?:se\s+vede\s+|se\s+află\s+|apare\s+|there\s+is\s+|is\s+)?([^,;.!?]{3,100})/iu,
+  /(?:background\s+(?:shows?|features?|contains?)|behind\s+(?:him|her|them|it))\s+([^,;.!?]{3,100})/iu
+ ];
+ for(const pattern of patterns){
+  const m=source.match(pattern);
+  if(m){
+   const item=m[1].trim().replace(/\s+/g,' ');
+   if(item.length>=3)return item;
+  }
+ }
+ return '';
+}
 function extraCreatorEnhancedPrompt(prompt,composition,format){
  const source=String(prompt||'').trim().replace(/\s+/g,' ');
- const ratio=format==='portrait'?'Vertical 9:16 image framing, not automatically a close-up.':
-  format==='wide'?'Wide 16:9 image layout.':'Square 1:1 image layout.';
- const framing=composition==='portrait'?'Portrait framing requested: show the named subject clearly.':
-  composition==='medium'?'Medium-wide shot. Keep all named essential subjects in the image.':
-  composition==='wide'?'Wide establishing shot with environmental context.':
-  'FULL SCENE, FULL BODY, camera far enough for every named person, animal and object to be ENTIRELY VISIBLE. No head-only portrait.';
+ if(!source||source.length>800)throw Error('invalid_prompt_length');
+ const ratio=format==='portrait'?'Vertical 9:16 framing; do NOT infer a close-up.':
+  format==='wide'?'Wide 16:9 framing.':'Square 1:1 framing.';
+ const framing=composition==='portrait'?'Close portrait only when explicitly selected.':
+  composition==='medium'?'Medium-wide camera; retain all requested subjects and scenery.':
+  composition==='wide'?'Wide establishing shot: include requested background scenery.':
+  'Full scene, camera far enough to show entire named people and animals, including legs and feet.';
  const camel=/c[aă]mil|camel/i.test(source),knight=/cavaler|knight|templier|templar/i.test(source);
  const rider=/c[aă]lare|riding|mounted|on a camel/i.test(source);
  const specific=camel&&knight&&rider?
-  ' Critical: show exactly one medieval Templar knight RIDING ON TOP OF A CAMEL. The whole camel (head, body, four legs) AND the full knight must be visible at once. Clearly show the relationship rider seated on animal. NOT a headshot.':'';
- return (ratio+' '+framing+specific+' Original requested content: '+source).slice(0,500);
+  'Keep the knight seated ON the camel; show both complete bodies in one scene.':'';
+ const background=extraCreatorSceneBackground(source);
+ const bg=background?
+  'REQUIRED VISIBLE BACKGROUND: '+background+'. Show this object clearly in the distance, recognizable and not hidden, cropped or replaced.':'';
+ const fidelity='MANDATORY: depict every explicitly requested subject, action, setting, prop and background element. Preserve the relationships and counts. Do not silently omit distant details.';
+ const composed=[ratio,framing,specific,bg,fidelity,'Original user request: '+source].filter(Boolean).join(' ');
+ // The server accepts up to 1400 characters. Shorten guidance, never user text.
+ if(composed.length<=1400)return composed;
+ return [ratio,bg,'Include every explicitly requested foreground and background object.','Original user request: '+source].filter(Boolean).join(' ');
 }
+function evaImageCompactPrompt(field){
+ // Image editor only. Keep the initial workspace small; expand while typing.
+ if(!field)return;
+ field.classList.add('eva-image-prompt');
+ field.rows=2;
+ field.maxLength=800;
+ const resize=()=>{
+  const limit=Math.min(220,Math.max(100,Math.round(window.innerHeight*.30)));
+  field.style.setProperty('height','auto','important');
+  const height=Math.min(limit,Math.max(76,field.scrollHeight+2));
+  field.style.setProperty('height',height+'px','important');
+ };
+ field.addEventListener('input',resize);
+ resize();
+}
+
 async function extraCreatorImageCanvas(data){
  if(typeof data!=='string'||data.length>7500000||!/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(data))throw Error('image_invalid');
  const image=new Image();image.src=data;await image.decode();
@@ -43,6 +84,7 @@ function extraCreatorSaveImage(work,status){
 function extraCreatorWorkingImages(work){
  extraCreatorImages(work);
  const area=work.area,f=work.creatorImageForm;if(!f)return;
+ evaImageCompactPrompt(f.imagePrompt);
  const old=Array.from(area.querySelectorAll('.extra-work-actions')).at(-1);
  if(old?.querySelector('button[disabled]'))old.remove();
  const intro=area.querySelector('.extra-creator-notice');
@@ -72,6 +114,7 @@ function extraCreatorWorkingImages(work){
  const generate=extraToolsBtn(extraToolsLocale('✨ Generează imaginea AI','✨ Generate AI image'),async()=>{
   const prompt=f.imagePrompt.value.trim();
   if(prompt.length<8){status.textContent=extraToolsLocale('Descrie imaginea în minimum 8 caractere.','Describe the image in at least 8 characters.');return}
+  if(prompt.length>800){status.textContent=extraToolsLocale('Scurtează descrierea la maximum 800 de caractere.','Shorten the description to at most 800 characters.');return}
   if(work.controller)return;
   const ctrl=new AbortController();work.controller=ctrl;
   const timeout=setTimeout(()=>ctrl.abort(),65000);
@@ -129,6 +172,7 @@ function evaCreatorPhotoTabs(work){
  edited.append(guidance,album,camera);extraToolsActions(edited,pick,shoot);
  const prompt=extraToolsField(edited,extraToolsLocale('Ce dorești să modifici?','What should change?'),'textarea',
   extraToolsLocale('De exemplu: înlocuiește fundalul cu o plajă, păstrează persoana.','e.g. Change the background to a beach, keep the person.'));
+ evaImageCompactPrompt(prompt);
  const format=extraToolsField(edited,extraToolsLocale('Formatul rezultatului','Result size'),'select');
  for(const [v,ro,en] of [['original','Păstrează proporțiile','Keep proportions'],
   ['square','Pătrat (1:1)','Square (1:1)'],['wide','Orizontal (16:9)','Landscape (16:9)'],
@@ -259,4 +303,10 @@ export const CREATOR_IMAGE_AI_STYLE=String.raw`
 @media(max-width:440px){.eva-photo-tabs button{font-size:12px}.eva-photo-panel .extra-work-actions button{flex-basis:40%;font-size:12px}}
 body:has(#view-module.extra-tools-workspace .eva-photo-tabs) #view-module.extra-tools-workspace .extra-tools-workarea{overflow-y:auto!important;overscroll-behavior:contain;touch-action:pan-y}
 
+
+/* Image studio only: compact description, progressive expansion without moving the app header. */
+#view-module.extra-tools-workspace .eva-photo-panel textarea.extra-work-input.eva-image-prompt{
+ height:76px!important;min-height:76px!important;max-height:clamp(100px,30dvh,220px)!important;
+ resize:none!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+}
 `;
