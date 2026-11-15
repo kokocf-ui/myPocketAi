@@ -7,7 +7,6 @@ import {ORACLE_COMMUNICATION_SCRIPT,ORACLE_COMMUNICATION_STYLE} from './oracle_c
 import {EXAM_SPECS,EXAM_SUBJECTS,EXAM_SESSION_YEARS} from './exam_curriculum_europe.mjs';
 import {EXAM_LOCAL_BANK} from './exam_practice_bank.mjs';
 import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_tools_workspace.mjs';
-import {POCKET_IMAGE_GENERATOR_UI_SCRIPT,POCKET_IMAGE_GENERATOR_UI_STYLE} from './image_generator_ui.mjs';
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {RECIPE_READER_PAGES_UI_SCRIPT} from './recipe_reader_pages_ui.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
@@ -4145,13 +4144,12 @@ const EXTRA_TOOLS_CATEGORIES=[
  ['documents','📄','Documente și PDF','Documents and PDF','Creare, citire, editare și conversie.','Create, read, edit and convert documents.','Ajută-mă cu un document sau PDF. Spune-mi ce informații ai nevoie și ce operațiuni sunt disponibile.'],
  ['ocr','📷','Scanare și OCR','Scanning and OCR','Fotografiere și extragere de text.','Scan documents and extract text.','Vreau să extrag text dintr-o imagine sau document.'],
  ['translate','🌐','Traduceri inteligente','Smart translation','Texte, documente și conversații.','Text, documents and conversations.','Ajută-mă să traduc corect un text. Întreabă-mă limba țintă dacă nu este clară.'],
- ['images','🖼️','Imagini și design','Images and design','Creare, editare și analiză.','Create, edit and analyse images.','Ajută-mă să concep sau să analizez o imagine.'],
+ ['creator','🌐','Creare pagini și imagini','Create websites and images','Creează pagini web și imagini cu Eva.','Create websites and images with Eva.',''],
  ['analysis','📊','Analiză și calcule','Analysis and calculations','Tabele, grafice și statistici.','Tables, charts and statistics.','Ajută-mă cu analiza datelor sau un calcul.'],
  ['audio','🎙️','Audio și transcriere','Audio and transcription','Dictare, transcriere și voce.','Dictation, transcription and speech.','Ajută-mă să transcriu sau să redactez dintr-un mesaj audio.'],
  ['web','🔗','Linkuri și pagini web','Links and web pages','Analiză, rezumate și verificare.','Analyse, summarise and verify links.','Ajută-mă să analizez o pagină web sau un link.'],
  ['ideas','💡','Idei și proiecte','Ideas and projects','Planuri, soluții și creativitate.','Plans, solutions and creativity.','Ajută-mă să dezvolt o idee sau un proiect.']
 ];
-${POCKET_IMAGE_GENERATOR_UI_SCRIPT}
 ${EXTRA_TOOLS_WORKSPACE_SCRIPT}
 function resetExtraToolsScreen(){
  const root=$('view-module');
@@ -21140,7 +21138,6 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
  scroll-padding-bottom:20px;
 }
 
-${POCKET_IMAGE_GENERATOR_UI_STYLE}
 ${EXTRA_TOOLS_WORKSPACE_STYLE}
 
 /* v1.0.148: restore breathing room between home cards without obscuring the last row. */
