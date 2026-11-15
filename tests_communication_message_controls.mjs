@@ -15,7 +15,7 @@ assert.match(ORACLE_COMMUNICATION_SCRIPT,/const success=await uploadChosenFile\(
 const nativeComplete=ORACLE_COMMUNICATION_SCRIPT.slice(ORACLE_COMMUNICATION_SCRIPT.indexOf("if(event.status==='complete')"),ORACLE_COMMUNICATION_SCRIPT.indexOf("if(event.status==='error'||"));
 assert.match(nativeComplete,/voiceDraftReady\(file\)/,'Android recording produces unsent draft');
 assert.doesNotMatch(nativeComplete,/uploadChosenFile/,'Android Stop must not transmit');
-const browserStop=ORACLE_COMMUNICATION_SCRIPT.slice(ORACLE_COMMUNICATION_SCRIPT.indexOf('recorder.onstop=()=>'),ORACLE_COMMUNICATION_SCRIPT.indexOf('recorder.start()'));
+const browserStop=ORACLE_COMMUNICATION_SCRIPT.slice(ORACLE_COMMUNICATION_SCRIPT.indexOf('recorder.onstop=()=>'),ORACLE_COMMUNICATION_SCRIPT.indexOf('voiceRecorder.start()'));
 assert.match(browserStop,/voiceDraftReady\(/,'Browser recording produces draft');
 assert.doesNotMatch(browserStop,/uploadChosenFile/,'Browser Stop must not transmit');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/voiceWebCancelled/,'Permission delay or cancelled capture never sends');
