@@ -37,14 +37,18 @@ export function assistantBareDestinationQuery(raw){
 // A request to learn about a route is NOT itself an instruction to navigate.
 export function parseJourneyExpression(raw){
  const original=String(raw||'').trim().replace(/[.!?]+$/u,'').trim();
- const pair=original.match(/^(?:de la|din|from|von|desde|da|от)\s+(.+?)\s+(?:până\s+la|pana\s+la|spre|către|catre|la|to|nach|hasta|a|до)\s+(.+)$/iu)
+ const norm=original.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ const preferred_mode=/(?:cu masina|by car|driving|drive to|with car|auto route)/u.test(norm)?'drive':
+  /(?:transport(?:ul)? public|transport mixt|mixed transport|by train|by bus|train route|bus route|metro route)/u.test(norm)?'transit':
+  /(?:pe jos|pietonal|walking|walk to|on foot)/u.test(norm)?'walk':null;
+ const cleanSuffix=value=>String(value||'').trim().replace(/\s+(?:cu\s+(?:mașina|masina|transportul\s+public|autobuzul|trenul|metroul)|by\s+(?:car|train|bus)|pe\s+jos|on\s+foot|walking|driving)$/iu,'').trim();
+ // Pick an explicit A→B pair anywhere inside a navigation request.
+ const pair=original.match(/(?:^|\s)(?:de\s+la|din|from|von|desde|da|от)\s+(.+?)\s+(?:până\s+la|pana\s+la|spre|către|catre|la|to|nach|hasta|a|до)\s+(.+)$/iu)
    ||original.match(/^(.+?)\s*(?:→|->|➜)\s*(.+)$/u);
- if(pair)return {raw:original,origin_query:pair[1].trim(),destination_query:pair[2].trim()};
- const first=original.match(/^(?:du[- ]?mă(?:\s+te rog)?(?:\s+la)?|du[- ]?ma(?:\s+te rog)?(?:\s+la)?|vreau\s+să\s+(?:ajung|merg)\s+(?:la|spre)|vreau\s+sa\s+(?:ajung|merg)\s+(?:la|spre)|cum\s+(?:pot\s+)?ajung\s+(?:la|spre)|navighează\s+(?:la|spre)|navigheaza\s+(?:la|spre)|arată[- ]?mi\s+(?:drumul|traseul)\s+(?:la|spre)|arata[- ]?mi\s+(?:drumul|traseul)\s+(?:la|spre)|traseu\s+(?:la|spre|către|catre|până\s+la|pana\s+la)|deplasare\s+spre|take\s+me\s+to|how\s+(?:do|can)\s+i\s+get\s+to|directions\s+to|route\s+to|navigate\s+to|drive\s+to|walk\s+to|go\s+to|bring\s+me\s+to|itinéraire\s+vers|route\s+nach|ruta\s+a|percorso\s+per)\s+(.+)$/iu);
- const destination=first?first[1].trim():original;
- const embedded=destination.match(/^(?:de la|din|from|von|desde)\s+(.+?)\s+(?:până\s+la|pana\s+la|spre|către|catre|la|to|nach|hasta|a)\s+(.+)$/iu);
- if(embedded)return {raw:original,origin_query:embedded[1].trim(),destination_query:embedded[2].trim()};
- return {raw:original,origin_query:'',destination_query:destination};
+ if(pair)return {raw:original,origin_query:pair[1].trim(),destination_query:cleanSuffix(pair[2]),preferred_mode};
+ const first=original.match(/^(?:du[- ]?mă(?:\s+te\s+rog)?(?:\s+la)?|du[- ]?ma(?:\s+te\s+rog)?(?:\s+la)?|vreau\s+să\s+(?:ajung|merg)\s+(?:la|spre)|vreau\s+sa\s+(?:ajung|merg)\s+(?:la|spre)|cum\s+(?:pot\s+)?ajung\s+(?:la|spre)|navighează\s+(?:la|spre)|navigheaza\s+(?:la|spre)|arată[- ]?mi\s+(?:drumul|traseul)\s+(?:la|spre)|arata[- ]?mi\s+(?:drumul|traseul)\s+(?:la|spre)|traseu\s+(?:la|spre|către|catre|până\s+la|pana\s+la)|deplasare\s+spre|take\s+me\s+to|how\s+(?:do|can)\s+i\s+get\s+to|directions\s+to|route\s+to|navigate\s+to|drive\s+to|walk\s+to|go\s+to|bring\s+me\s+to|itinéraire\s+vers|route\s+nach|ruta\s+a|percorso\s+per)\s+(.+)$/iu);
+ const destination=cleanSuffix(first?first[1]:original);
+ return {raw:original,origin_query:'',destination_query:destination,preferred_mode};
 }
 export function assistantJourneyHandoff(raw){
  const text=String(raw||'').trim();
