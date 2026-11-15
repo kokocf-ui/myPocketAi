@@ -7132,13 +7132,14 @@ function shopVoiceSplit(transcript){
  // Android can omit commas when recognizing a string of products.
  // Quantity expressions mark boundaries, including "o jumătate de kilogram".
  const qty=/(?:^|[\\s,;])((?:o\\s+jumătate|o\\s+jumatate|jumătate|jumatate|unsprezece|doisprezece|două|doua|doi|trei|patru|cinci|șase|sase|șapte|sapte|opt|nouă|noua|zece|un|una|unu|o|\\d+(?:[.,]\\d+)?))(?=\\s+(?:de\\s+)?[\\p{L}])/giu;
- const starts=[...text.matchAll(qty)].map(m=>m.index+m[0].indexOf(m[1]));
- const segments=[];
- if(starts.length>1){
-  if(starts[0]>0)segments.push(text.slice(0,starts[0]));
-  for(let i=0;i<starts.length;i++)segments.push(text.slice(starts[i],starts[i+1]??text.length));
- }else segments.push(text);
- return segments.flatMap(p=>p.split(/\\s*(?:[,;]|\\s+și\\s+|\\s+si\\s+)\\s*/iu)).map(x=>x.trim()).filter(Boolean);
+ // Separate explicit phrases BEFORE treating quantities as product boundaries.
+ // Otherwise "Singleton două sticle, Sobranie 10 pachete" is split incorrectly.
+ const parts=text.split(/\\s*(?:[,;]|\\s+și\\s+|\\s+si\\s+)\\s*/iu).map(p=>p.trim()).filter(Boolean);
+ return parts.flatMap(part=>{
+  const starts=[...part.matchAll(qty)].map(m=>m.index+m[0].indexOf(m[1]));
+  if(starts.length<=1||starts[0]>0)return [part];
+  return starts.map((pos,i)=>part.slice(pos,starts[i+1]??part.length).trim()).filter(Boolean);
+ });
 }
 function shopVoiceItems(transcript){
  const numberWords={un:1,o:1,unu:1,una:1,doi:2,doua:2,trei:3,patru:4,cinci:5,
