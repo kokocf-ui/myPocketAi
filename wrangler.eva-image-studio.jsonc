@@ -8,7 +8,9 @@
     "binding": "AI"
   },
   "vars": {
-    "DAILY_IMAGE_LIMIT": "3"
+    "DAILY_IMAGE_LIMIT": "3",
+    "PER_INSTALL_DAILY_LIMIT": "3",
+    "PREVIEW_GLOBAL_DAILY_MAX": "300"
   },
   "durable_objects": {
     "bindings": [
