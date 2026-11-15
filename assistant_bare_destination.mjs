@@ -8,13 +8,23 @@ export function assistantBareDestinationQuery(raw){
  if(/^(?:ce|care|cat|cati|cate|cum|cand|unde|de ce|what|where|why|how|find|cauta|gaseste|arata|spune|explica|descrie|vreau|am nevoie|recomanda)\b/u.test(query))return null;
  // Require a locality explicitly: "Strada Libertății, Oradea" or
  // "Muzeul Țării Crișurilor din Oradea". A street alone isn't enough.
- const parts=text.match(/^(.+?)(?:\s*,\s*|\s+(?:din|în|in)\s+)([^,]{2,80})$/iu);
- if(!parts)return null;
- const head=fold(parts[1]),locality=fold(parts[2]);
+ const comma=text.split(',').map(p=>p.trim()).filter(Boolean);
+ const parts=comma.length>=2?[comma[0],comma.slice(1).join(', ')]:text.match(/^(.+?)\s+(?:din|în|in)\s+(.+)$/iu)?.slice(1);
+ if(!parts||parts.length<2)return null;
+ let head=fold(parts[0]),locality=fold(parts[1]);
+ // "Nufărului, nr. 12, Oradea" is an address, not a bare street name.
+ if(comma.length>=3&&/^(?:(?:nr\.?|numar(?:ul)?|no\.?|number|#)\s*)?\d+[a-z]?(?:[-/]\d+)?$/iu.test(fold(comma[1]))){
+  head=fold(comma[0]+' '+comma[1]);locality=fold(comma.slice(2).join(', '));
+ }
  if(!/[a-zа-я]{2}/iu.test(locality)||!/[a-zа-я]{2}/iu.test(head))return null;
  if(/^(?:toate|un|o|niste|cele|lista|preturi|recenzii)\b/u.test(head))return null;
  const namedStreet=/^(?:strada|str\.?|soseaua|sos\.?|bulevardul|bd\.?|aleea|calea|street|road|avenue|lane|close|drive|boulevard|via|calle|rue)\s+\S/iu.test(head)||
    /\b(?:street|road|avenue|lane|crescent|boulevard|square)\b/u.test(head);
  const namedLandmark=/^(?:muzeul?|museum|hotel(?:ul)?|hostel(?:ul)?|spital(?:ul)?|hospital|stadion(?:ul)?|stadium|gara|station|aeroport(?:ul)?|airport|castel(?:ul)?|castle|parc(?:ul)?|park|universitatea|university)\s+\S/iu.test(head);
- return namedStreet||namedLandmark?text:null;
+ // A full numbered address does not need a street-type prefix, whatever the
+ // local writing convention (e.g. 12 Oxford Street or Nufărului 12).
+ const numberFirst=/^\d+[a-z]?(?:[-/]\d+)?\s+[a-z][a-z0-9' .-]{1,100}$/iu.test(head);
+ const numberLast=/^[a-z][a-z0-9' .-]{1,100}\s+(?:(?:nr\.?|numar(?:ul)?|no\.?|number|#)\s*)?\d+[a-z]?(?:[-/]\d+)?$/iu.test(head);
+ const numberedAddress=!namedLandmark&&(numberFirst||numberLast);
+ return namedStreet||namedLandmark||numberedAddress?text:null;
 }
