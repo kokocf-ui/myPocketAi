@@ -21,7 +21,7 @@ jobs:
           node-version: '22'
       - name: Check syntax
         run: node --check walking_address_arrival.mjs && node --check backend.js && node --check tests_walking_address_arrival.mjs
-      - name: Check original route regressions
-        run: node tests_routes.mjs
       - name: Verify storefront address arrival and safe rerouting
         run: node tests_walking_address_arrival.mjs
+      - name: Check original route regressions
+        run: node tests_routes.mjs
