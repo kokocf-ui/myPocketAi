@@ -82,12 +82,12 @@ function evaImageQuotaMount(work){
    const personal=Number.isInteger(data.personalRemaining)?data.personalRemaining:data.remaining;
    display.textContent=data.capacityLimited&&personal>0?
     extraToolsLocale(
-     'Mai ai '+personal+' din '+data.dailyLimit+' utilizări pe această instalare, dar plafonul de siguranță al testului este momentan atins.',
-     'You still have '+personal+' of '+data.dailyLimit+' uses on this installation, but the preview safety cap is currently reached.'
+     'Imagini AI: '+personal+'/'+data.dailyLimit+' azi · plafon temporar atins',
+     'AI images: '+personal+'/'+data.dailyLimit+' today · temporary cap reached'
     ):
     extraToolsLocale(
-     'Imagini AI: '+personal+' din '+data.dailyLimit+' utilizări rămase astăzi pe această instalare. Resetare la 00:00 UTC.',
-     'AI images: '+personal+' of '+data.dailyLimit+' uses remaining today on this installation. Resets at 00:00 UTC.'
+     'Imagini AI: '+personal+'/'+data.dailyLimit+' azi · reset 00:00 UTC',
+     'AI images: '+personal+'/'+data.dailyLimit+' today · reset 00:00 UTC'
     );
    if(!work.controller){
     if(work.evaImageGenerateButton)work.evaImageGenerateButton.disabled=data.remaining<=0;
@@ -156,9 +156,9 @@ function evaImageCompactPrompt(field){
  field.rows=2;
  field.maxLength=800;
  const resize=()=>{
-  const limit=Math.min(220,Math.max(100,Math.round(window.innerHeight*.30)));
+  const limit=Math.min(160,Math.max(84,Math.round(window.innerHeight*.22)));
   field.style.setProperty('height','auto','important');
-  const height=Math.min(limit,Math.max(76,field.scrollHeight+2));
+  const height=Math.min(limit,Math.max(70,field.scrollHeight+2));
   field.style.setProperty('height',height+'px','important');
  };
  field.addEventListener('input',resize);
@@ -201,12 +201,7 @@ function extraCreatorWorkingImages(work){
  evaImageCompactPrompt(f.imagePrompt);
  const old=Array.from(area.querySelectorAll('.extra-work-actions')).at(-1);
  if(old?.querySelector('button[disabled]'))old.remove();
- const intro=area.querySelector('.extra-creator-notice');
- if(intro)intro.textContent=extraToolsLocale(
-  'Generator AI de test. Fiecare instalare are 3 utilizări zilnice, cu un plafon general de siguranță.',
-  'Live AI preview. Each installation has 3 daily uses, with a shared safety spending cap.');
- const status=extraToolsEl('p','extra-creator-operation-status',
-  extraToolsLocale('Introdu descrierea. Aici vei vedea imediat când începe generarea și când este gata.','Describe your image. Generation progress and result will appear here.'));
+ const status=extraToolsEl('p','extra-creator-operation-status','');status.hidden=true;
  status.setAttribute('role','status');
  const save=extraToolsBtn(extraToolsLocale('💾 Salvează în Galerie','💾 Save to Gallery'),()=>extraCreatorSaveImage(work,status));
  save.disabled=true;
@@ -239,12 +234,13 @@ function extraCreatorWorkingImages(work){
   const ctrl=new AbortController();work.controller=ctrl;
   const timeout=setTimeout(()=>ctrl.abort(),65000);
   generate.disabled=true;generate.textContent=extraToolsLocale('⏳ Se generează…','⏳ Generating…');
-  status.textContent=extraToolsLocale('Cererea a fost trimisă motorului AI.','Request sent to AI.');
+  status.hidden=false;status.textContent=extraToolsLocale('Eva generează imaginea…','Eva is creating the image…');
   try{
-   const enhanced=extraCreatorEnhancedPrompt(prompt,f.composition?.value||'full',f.format.value);
+   const enhanced=extraCreatorEnhancedPrompt(prompt,f.composition?.value||'full',f.format.value,f);
+   const providerFormat=['landscape43','portrait34'].includes(f.format.value)?'square':f.format.value;
    const response=await fetch(extraCreatorImagePreviewUrl,{method:'POST',headers:{
     'Content-Type':'application/json'},
-    body:JSON.stringify({prompt:enhanced,format:f.format.value,installationId:work.evaImageInstallId}),signal:ctrl.signal});
+    body:JSON.stringify({prompt:enhanced,format:providerFormat,installationId:work.evaImageInstallId}),signal:ctrl.signal});
    const data=await response.json().catch(()=>null);
    if(work!==extraToolsSession||!area.isConnected)return;
    if(!response.ok||data?.status!=='success'||typeof data.image!=='string'){
@@ -255,11 +251,11 @@ function extraCreatorWorkingImages(work){
      extraToolsLocale('Motorul AI nu a răspuns. Nu există imagine de salvat.','AI image engine unavailable. No image to save.');
     return;
    }
-   const canvas=await extraCreatorImageCanvas(data.image);
+   const canvas=await extraCreatorImageCanvas(data.image,f.format.value);
    if(work!==extraToolsSession)return;
-   work.creatorGeneratedCanvas=canvas;f.areaPreview.replaceChildren(canvas);f.areaPreview.classList.add('extra-creator-generated');
+   work.creatorGeneratedCanvas=canvas;f.areaPreview.hidden=false;f.areaPreview.replaceChildren(canvas);f.areaPreview.classList.add('extra-creator-generated');
    save.disabled=false;zoom.disabled=false;share.disabled=false;
-   status.textContent=extraToolsLocale('Imaginea este gata. Verifică dacă apar toate subiectele cerute înainte de salvare. O nouă generare consumă altă solicitare.','Image ready. Check that all requested subjects are included before saving. A new generation uses another request.');
+   status.textContent=extraToolsLocale('Imagine gata. O nouă imagine consumă o generare.','Image ready. Another image uses one generation.');
   }catch(error){
    if(work===extraToolsSession)status.textContent=error?.name==='AbortError'?
      extraToolsLocale('Generarea a expirat. Poți încerca din nou.','Generation timed out. Retry.'):
@@ -279,7 +275,7 @@ function evaCreatorPhotoTabs(work){
  const area=work.area;
  const originalChildren=Array.from(area.children);
  const generated=extraToolsEl('section','eva-photo-panel');
- for(const node of originalChildren.slice(2))generated.append(node);
+ for(const node of originalChildren.slice(1))generated.append(node);
  const tabs=extraToolsEl('div','eva-photo-tabs');
  const newBtn=extraToolsBtn(extraToolsLocale('✨ Imagine nouă','✨ New image'),()=>show(false),true);
  const editBtn=extraToolsBtn(extraToolsLocale('🖼 Modifică fotografie','🖼 Edit a photo'),()=>show(true));
@@ -401,8 +397,7 @@ function evaCreatorPhotoTabs(work){
  }
  tabs.append(newBtn,editBtn);area.append(tabs,generated,edited);
  const header=extraToolsEl('div','eva-photo-header');
- const back=area.querySelector('.extra-creator-subback'),title=area.querySelector('.extra-creator-subtitle');
- if(back)header.append(back);
+ const title=area.querySelector('.extra-creator-subtitle');
  if(title)header.append(title);
  area.prepend(header);show(false);
 }
@@ -435,7 +430,7 @@ body:has(#view-module.extra-tools-workspace .eva-photo-tabs) #view-module.extra-
 
 /* Image studio only: compact description, progressive expansion without moving the app header. */
 #view-module.extra-tools-workspace .eva-photo-panel textarea.extra-work-input.eva-image-prompt{
- height:76px!important;min-height:76px!important;max-height:clamp(100px,30dvh,220px)!important;
+ height:70px!important;min-height:70px!important;max-height:clamp(90px,22dvh,160px)!important;
  resize:none!important;overflow-y:auto!important;overscroll-behavior:contain!important;
 }
 
@@ -444,4 +439,12 @@ body:has(#view-module.extra-tools-workspace .eva-photo-tabs) #view-module.extra-
  text-align:center;line-height:1.35!important;border:1px solid #607e8a;border-radius:9px;
  color:inherit;background:transparent;
 }
+
+/* Only advanced controls are expandable; the first screen stays compact. */
+#view-module.extra-tools-workspace .eva-image-advanced{border:1px solid #4c798d;border-radius:11px;padding:6px 9px;margin:4px 0;min-width:0}
+#view-module.extra-tools-workspace .eva-image-advanced summary{cursor:pointer;min-height:42px;display:flex;align-items:center;font-weight:700;touch-action:manipulation}
+#view-module.extra-tools-workspace .eva-image-advanced .extra-work-label{margin:7px 0}
+#view-module.extra-tools-workspace .eva-photo-panel .extra-creator-image-placeholder[hidden],
+#view-module.extra-tools-workspace .eva-photo-panel .extra-creator-operation-status[hidden]{display:none!important}
+#view-module.extra-tools-workspace .eva-photo-header .extra-creator-subtitle{font-size:clamp(16px,3.8vw,19px)!important}
 `;
