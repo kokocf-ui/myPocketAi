@@ -37,6 +37,7 @@ assert.match(native,/commVoiceRecorder\.pause\(\)/);
 assert.match(native,/commVoiceRecorder\.resume\(\)/);
 assert.match(native,/notifyCommVoice\("paused"/);
 assert.match(native,/notifyCommVoice\("resumed"/);
+assert.match(native,/!"pause"\.equals\(command\)&&!"resume"\.equals\(command\)/,'Android message bridge accepts pause/resume, not just the recorder implementation');
 
 const oracle=readFileSync('oracle-communication/device-api.mjs','utf8');
 assert.match(oracle,/edit_message','delete_message/,'Oracle allows the two authenticated actions');
