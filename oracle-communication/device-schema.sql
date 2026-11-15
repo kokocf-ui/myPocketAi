@@ -53,9 +53,13 @@ CREATE TABLE IF NOT EXISTS device_messages(
  kind text NOT NULL CHECK(kind IN('text','media')),
  attachment_id uuid REFERENCES device_attachments(id),
  created_ms bigint NOT NULL,
+ delivered_at timestamptz,
+ read_at timestamptz,
+ played_at timestamptz,
  UNIQUE(sender_id,client_id)
 );
 CREATE INDEX IF NOT EXISTS device_messages_pair ON device_messages(pair_key,created_ms DESC);
+CREATE INDEX IF NOT EXISTS device_messages_pending_delivery ON device_messages(recipient_id,created_ms) WHERE delivered_at IS NULL;
 CREATE TABLE IF NOT EXISTS device_lists(
  id uuid PRIMARY KEY,
  owner_id uuid NOT NULL REFERENCES device_users(id),
