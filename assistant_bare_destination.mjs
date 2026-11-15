@@ -44,7 +44,8 @@ export function parseJourneyExpression(raw){
  const cleanSuffix=value=>String(value||'').trim().replace(/\s+(?:cu\s+(?:mașina|masina|transportul\s+public|autobuzul|trenul|metroul)|by\s+(?:car|train|bus)|pe\s+jos|on\s+foot|walking|driving)$/iu,'').trim();
  // Pick an explicit A→B pair anywhere inside a navigation request.
  const pair=original.match(/(?:^|\s)(?:de\s+la|din|from|von|desde|da|от)\s+(.+?)\s+(?:până\s+la|pana\s+la|spre|către|catre|la|to|nach|hasta|a|до)\s+(.+)$/iu)
-   ||original.match(/^(.+?)\s*(?:→|->|➜)\s*(.+)$/u);
+   ||original.match(/^(.+?)\s*(?:→|->|➜)\s*(.+)$/u)
+   ||original.match(/^([\p{L}\p{M}\p{N}' .-]{2,80})\s+(?:to|spre|până\s+la|pana\s+la)\s+(.+)$/iu);
  if(pair)return {raw:original,origin_query:pair[1].trim(),destination_query:cleanSuffix(pair[2]),preferred_mode};
  const first=original.match(/^(?:du[- ]?mă(?:\s+te\s+rog)?(?:\s+la)?|du[- ]?ma(?:\s+te\s+rog)?(?:\s+la)?|vreau\s+să\s+(?:ajung|merg)\s+(?:la|spre)|vreau\s+sa\s+(?:ajung|merg)\s+(?:la|spre)|cum\s+(?:pot\s+)?ajung\s+(?:la|spre)|navighează\s+(?:la|spre)|navigheaza\s+(?:la|spre)|arată[- ]?mi\s+(?:drumul|traseul)\s+(?:la|spre)|arata[- ]?mi\s+(?:drumul|traseul)\s+(?:la|spre)|traseu\s+(?:la|spre|către|catre|până\s+la|pana\s+la)|deplasare\s+spre|take\s+me\s+to|how\s+(?:do|can)\s+i\s+get\s+to|directions\s+to|route\s+to|navigate\s+to|drive\s+to|walk\s+to|go\s+to|bring\s+me\s+to|itinéraire\s+vers|route\s+nach|ruta\s+a|percorso\s+per)\s+(.+)$/iu);
  const destination=cleanSuffix(first?first[1]:original);
@@ -58,6 +59,7 @@ export function assistantJourneyHandoff(raw){
  if(/^(?:ce este|ce inseamna|ce reprezinta|de ce|explica|explica-mi|descrie|what is|what does|explain|define|why|que es|qu est|was ist)\b/u.test(fold))return null;
  const intent=/\b(?:traseu(?:l|ri|e)?|ruta|rute|route\s+to|directions\s+to|navigate\s+to|navigatie|navigheaza|deplasare\s+spre|transport\s+mixt|itineraire\s+vers|percorso\s+per)\b/u.test(fold)
    ||/^(?:du[- ]?ma|vreau sa (?:ajung|merg)|cum (?:pot )?ajung|arata[- ]?mi drumul|take me to|how (?:do|can) i get to|drive to|walk to|go to|from .+ to |de la .+ (?:la|spre|pana la) |din .+ spre )\b/u.test(fold)
-   ||/^\S.+\s*(?:→|->|➜)\s*\S/u.test(text);
+   ||/^\S.+\s*(?:→|->|➜)\s*\S/u.test(text)
+   ||/^[\p{L}\p{M}\p{N}' .-]{2,80}\s+(?:to|spre|pana\s+la)\s+[\p{L}\p{M}\p{N}' .-]{2,80}$/iu.test(fold);
  return intent?parseJourneyExpression(text):null;
 }
