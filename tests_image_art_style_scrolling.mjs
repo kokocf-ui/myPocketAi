@@ -52,8 +52,7 @@ const ctx={
  },
  Event:class{constructor(type){this.type=type}}
 };
-vm.runInNewContext('let pocketSelectSource=null;\n'+picker,ctx);
-const pickerFn=vm.runInNewContext('openPocketSelect',ctx);
+const pickerFn=vm.runInNewContext('let pocketSelectSource=null;\n'+picker+'\nopenPocketSelect;',ctx);
 const label={textContent:'Stil artistic'+styles.map(s=>s[1]).join(''),
  childNodes:[{nodeType:3,textContent:'Stil artistic'}, {nodeType:1,textContent:'DO NOT INCLUDE OPTIONS'}]};
 const art={
