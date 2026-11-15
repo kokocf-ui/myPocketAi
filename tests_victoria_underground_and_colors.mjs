@@ -7,7 +7,8 @@ const src=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
 const section=(a,b)=>{const i=src.indexOf(a),j=src.indexOf(b,i+a.length);assert.ok(i>=0&&j>i,'Missing '+a);return src.slice(i,j)};
 const travel=section('function showJourneyMode(choice){','// Shared UI dialog translations.');
-assert.match(travel,/button\.className='module-result-card journey-mode-choice'/,'Mixed transport uses the same petrol card style');
+assert.match(travel,/showOneFieldJourney\(choice\)/,'Deplasare spre now opens the single-field search instead of mode cards');
+assert.match(src,/one_field_journey_ui\.mjs/,'Single-field journey UI is integrated into Maps');
 const transit=section('function renderTransitChoices(options,selectedIndex=null){','async function selectTransitJourney(options,index){');
 assert.equal((transit.match(/refresh\.className='transit-choice-action transit-refresh-action'/g)||[]).length,2,'Refresh button on both transit screens is specifically styled');
 assert.match(transit,/refresh\.onclick=\(\)=>refreshTransitDepartures\(refresh\)/,'Refresh still calls its original handler');
@@ -43,7 +44,7 @@ globalThis.fetch=async input=>{
 const env={GEOAPIFY_API_KEY:'test',TFL_APP_KEY:'test',BODS_API_KEY:'mock-optional',RTT_API_TOKEN:'mock-optional',AI:{run:async()=>({response:'No speculation; use verified station data.'})}};
 const ask=async(message,extra={})=>{
  const response=await worker.fetch(new Request('https://test.local/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({
-  message,language:'ro',module:'assistant',location:{latitude:51.49,longitude:-0.13,updatedAt:Date.now()},history:[],...extra
+  message,language:'ro',module:'maps',location:{latitude:51.49,longitude:-0.13,updatedAt:Date.now()},history:[],...extra
  })}),env);
  assert.equal(response.status,200);
  return response.json();
