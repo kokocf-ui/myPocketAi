@@ -36,7 +36,7 @@ globalThis.fetch=async(_,options)=>{
 };
 const copy=await f.call({name:'Aramis',kind:'hotel',description:'Rooms and breakfast',style:'mediteranean',lang:'both'},new AbortController().signal);
 assert.ok(called);assert.equal(copy.en.headline,'Stay at Aramis');
-assert.match(CREATOR_IMAGE_AI_SCRIPT,/3 imagini pe zi/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/3 utilizări zilnice/,'Daily image preview allowance is displayed');
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/lifewise-ai-image-studio\.kokocf\.workers\.dev\/generate/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/lifewise-ai-image-studio\.kokocf\.workers\.dev\/edit/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/function evaCreatorPhotoTabs/);
