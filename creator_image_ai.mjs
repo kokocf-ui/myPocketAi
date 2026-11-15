@@ -1,4 +1,43 @@
 export const CREATOR_IMAGE_AI_SCRIPT=String.raw`
+const EVA_IMAGE_STYLES=[
+ ['realistic','Fotorealist','Photorealistic','professional photorealistic photography with natural textures'],
+ ['cinematic','Cinematografic','Cinematic','cinematic film frame with dramatic composition'],
+ ['digital','Artă digitală','Digital art','high-detail digital illustration'],
+ ['oil','Pictură în ulei','Oil painting','traditional oil painting on textured canvas'],
+ ['watercolor','Acuarelă','Watercolour','transparent watercolour painting on paper'],
+ ['acrylic','Pictură acrilică','Acrylic painting','expressive acrylic brushwork'],
+ ['pencil','Desen în creion','Pencil sketch','detailed graphite pencil illustration'],
+ ['ink','Desen în tuș','Ink illustration','black ink line art'],
+ ['charcoal','Desen în cărbune','Charcoal drawing','textured charcoal sketch'],
+ ['anime','Anime','Anime','Japanese anime illustration'],
+ ['cartoon','Desen animat','Cartoon','playful cartoon illustration'],
+ ['comic','Bandă desenată','Comic book','graphic novel comic illustration'],
+ ['3d','Randare 3D','3D render','professional three-dimensional render'],
+ ['clay','Plastilină','Claymation','handmade claymation miniature'],
+ ['pixel','Pixel art','Pixel art','pixel art with visible square pixels'],
+ ['retro','Retro','Retro','retro 1970s–1980s artwork'],
+ ['vintage','Poster vintage','Vintage poster','vintage printed poster design'],
+ ['fantasy','Artă fantastică','Fantasy','detailed fantasy illustration'],
+ ['scifi','Science-fiction','Science fiction','science fiction concept art'],
+ ['surreal','Suprarealist','Surrealist','surreal dreamlike visual art'],
+ ['impressionist','Impresionist','Impressionist','impressionist brushstrokes and coloured light'],
+ ['minimal','Minimalist','Minimalist','minimalist clean graphic design'],
+ ['isometric','Izometric','Isometric','isometric perspective illustration'],
+ ['lowpoly','Low-poly','Low poly','stylized low polygon 3D artwork'],
+ ['architecture','Arhitectură','Architecture','professional architectural visualization'],
+ ['product','Fotografie de produs','Product photography','commercial studio product photography']
+];
+function evaImageCreativePrompt(config){
+ const style=EVA_IMAGE_STYLES.find(row=>row[0]===config?.artStyle?.value)||EVA_IMAGE_STYLES[0];
+ const moods={neutral:'natural',warm:'warm welcoming',dramatic:'dramatic',calm:'peaceful',playful:'cheerful',mysterious:'mysterious',epic:'epic'};
+ const lights={auto:'balanced natural',daylight:'daylight',golden:'golden-hour',studio:'studio softbox',night:'night',neon:'neon',soft:'diffuse soft',contrast:'high-contrast'};
+ const colours={auto:'balanced',vivid:'vivid saturated',pastel:'pastel',earth:'earth tones',mono:'monochrome black and white',cool:'cool blue',warm:'warm amber'};
+ const mood=moods[config?.mood?.value]||moods.neutral,light=lights[config?.lighting?.value]||lights.auto,palette=colours[config?.palette?.value]||colours.auto;
+ const avoid=String(config?.avoid?.value||'').trim().slice(0,130);
+ return ['Art style: '+style[3]+'.','Mood: '+mood+'.','Lighting: '+light+'.','Palette: '+palette+'.',
+  avoid?'Avoid: '+avoid+'.':''].filter(Boolean).join(' ');
+}
+
 const extraCreatorImagePreviewUrl='https://lifewise-ai-image-studio.kokocf.workers.dev/generate';
 
 const evaImageQuotaUrl='https://lifewise-ai-image-studio.kokocf.workers.dev/quota';
@@ -43,12 +82,12 @@ function evaImageQuotaMount(work){
    const personal=Number.isInteger(data.personalRemaining)?data.personalRemaining:data.remaining;
    display.textContent=data.capacityLimited&&personal>0?
     extraToolsLocale(
-     'Mai ai '+personal+' din '+data.dailyLimit+' utilizări pe această instalare, dar plafonul de siguranță al testului este momentan atins.',
-     'You still have '+personal+' of '+data.dailyLimit+' uses on this installation, but the preview safety cap is currently reached.'
+     'Imagini AI: '+personal+'/'+data.dailyLimit+' azi · plafon temporar atins',
+     'AI images: '+personal+'/'+data.dailyLimit+' today · temporary cap reached'
     ):
     extraToolsLocale(
-     'Imagini AI: '+personal+' din '+data.dailyLimit+' utilizări rămase astăzi pe această instalare. Resetare la 00:00 UTC.',
-     'AI images: '+personal+' of '+data.dailyLimit+' uses remaining today on this installation. Resets at 00:00 UTC.'
+     'Imagini AI: '+personal+'/'+data.dailyLimit+' azi · reset 00:00 UTC',
+     'AI images: '+personal+'/'+data.dailyLimit+' today · reset 00:00 UTC'
     );
    if(!work.controller){
     if(work.evaImageGenerateButton)work.evaImageGenerateButton.disabled=data.remaining<=0;
@@ -83,10 +122,12 @@ function extraCreatorSceneBackground(source){
  }
  return '';
 }
-function extraCreatorEnhancedPrompt(prompt,composition,format){
+function extraCreatorEnhancedPrompt(prompt,composition,format,creative=null){
  const source=String(prompt||'').trim().replace(/\s+/g,' ');
  if(!source||source.length>800)throw Error('invalid_prompt_length');
  const ratio=format==='portrait'?'Vertical 9:16 framing; do NOT infer a close-up.':
+  format==='portrait34'?'Portrait 3:4 framing; do NOT infer a close-up.':
+  format==='landscape43'?'Landscape 4:3 framing.':
   format==='wide'?'Wide 16:9 framing.':'Square 1:1 framing.';
  const framing=composition==='portrait'?'Close portrait only when explicitly selected.':
   composition==='medium'?'Medium-wide camera; retain all requested subjects and scenery.':
@@ -100,10 +141,13 @@ function extraCreatorEnhancedPrompt(prompt,composition,format){
  const bg=background?
   'REQUIRED VISIBLE BACKGROUND: '+background+'. Show this object clearly in the distance, recognizable and not hidden, cropped or replaced.':'';
  const fidelity='MANDATORY: depict every explicitly requested subject, action, setting, prop and background element. Preserve the relationships and counts. Do not silently omit distant details.';
- const composed=[ratio,framing,specific,bg,fidelity,'Original user request: '+source].filter(Boolean).join(' ');
- // The server accepts up to 1400 characters. Shorten guidance, never user text.
+ const artistic=creative?evaImageCreativePrompt(creative):'';
+ const composed=[ratio,framing,specific,bg,artistic,fidelity,'Original user request: '+source].filter(Boolean).join(' ');
+ // The server accepts at most 1400 characters. Preserve the user's request.
  if(composed.length<=1400)return composed;
- return [ratio,bg,'Include every explicitly requested foreground and background object.','Original user request: '+source].filter(Boolean).join(' ');
+ const compact=[ratio,specific,bg,artistic,'Original user request: '+source].filter(Boolean).join(' ');
+ if(compact.length<=1400)return compact;
+ return [ratio,artistic,'Original user request: '+source].filter(Boolean).join(' ');
 }
 function evaImageCompactPrompt(field){
  // Image editor only. Keep the initial workspace small; expand while typing.
@@ -112,21 +156,25 @@ function evaImageCompactPrompt(field){
  field.rows=2;
  field.maxLength=800;
  const resize=()=>{
-  const limit=Math.min(220,Math.max(100,Math.round(window.innerHeight*.30)));
+  const limit=Math.min(160,Math.max(84,Math.round(window.innerHeight*.22)));
   field.style.setProperty('height','auto','important');
-  const height=Math.min(limit,Math.max(76,field.scrollHeight+2));
+  const height=Math.min(limit,Math.max(70,field.scrollHeight+2));
   field.style.setProperty('height',height+'px','important');
  };
  field.addEventListener('input',resize);
  resize();
 }
 
-async function extraCreatorImageCanvas(data){
+async function extraCreatorImageCanvas(data,format='square'){
  if(typeof data!=='string'||data.length>7500000||!/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(data))throw Error('image_invalid');
  const image=new Image();image.src=data;await image.decode();
- const canvas=extraToolsEl('canvas','extra-work-image'),scale=Math.min(1,1200/Math.max(image.width,image.height));
- canvas.width=Math.round(image.width*scale);canvas.height=Math.round(image.height*scale);
- canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
+ let cropWidth=image.width,cropHeight=image.height;
+ if(format==='landscape43')cropHeight=Math.min(cropHeight,cropWidth*3/4);
+ if(format==='portrait34')cropWidth=Math.min(cropWidth,cropHeight*3/4);
+ const offsetX=Math.max(0,(image.width-cropWidth)/2),offsetY=Math.max(0,(image.height-cropHeight)/2);
+ const canvas=extraToolsEl('canvas','extra-work-image'),scale=Math.min(1,1200/Math.max(cropWidth,cropHeight));
+ canvas.width=Math.max(1,Math.round(cropWidth*scale));canvas.height=Math.max(1,Math.round(cropHeight*scale));
+ canvas.getContext('2d').drawImage(image,offsetX,offsetY,cropWidth,cropHeight,0,0,canvas.width,canvas.height);
  return canvas;
 }
 function extraCreatorSaveImage(work,status){
@@ -153,12 +201,7 @@ function extraCreatorWorkingImages(work){
  evaImageCompactPrompt(f.imagePrompt);
  const old=Array.from(area.querySelectorAll('.extra-work-actions')).at(-1);
  if(old?.querySelector('button[disabled]'))old.remove();
- const intro=area.querySelector('.extra-creator-notice');
- if(intro)intro.textContent=extraToolsLocale(
-  'Generator AI de test. Fiecare instalare are 3 utilizări zilnice, cu un plafon general de siguranță.',
-  'Live AI preview. Each installation has 3 daily uses, with a shared safety spending cap.');
- const status=extraToolsEl('p','extra-creator-operation-status',
-  extraToolsLocale('Introdu descrierea. Aici vei vedea imediat când începe generarea și când este gata.','Describe your image. Generation progress and result will appear here.'));
+ const status=extraToolsEl('p','extra-creator-operation-status','');status.hidden=true;
  status.setAttribute('role','status');
  const save=extraToolsBtn(extraToolsLocale('💾 Salvează în Galerie','💾 Save to Gallery'),()=>extraCreatorSaveImage(work,status));
  save.disabled=true;
@@ -191,12 +234,13 @@ function extraCreatorWorkingImages(work){
   const ctrl=new AbortController();work.controller=ctrl;
   const timeout=setTimeout(()=>ctrl.abort(),65000);
   generate.disabled=true;generate.textContent=extraToolsLocale('⏳ Se generează…','⏳ Generating…');
-  status.textContent=extraToolsLocale('Cererea a fost trimisă motorului AI.','Request sent to AI.');
+  status.hidden=false;status.textContent=extraToolsLocale('Eva generează imaginea…','Eva is creating the image…');
   try{
-   const enhanced=extraCreatorEnhancedPrompt(prompt,f.composition?.value||'full',f.format.value);
+   const enhanced=extraCreatorEnhancedPrompt(prompt,f.composition?.value||'full',f.format.value,f);
+   const providerFormat=['landscape43','portrait34'].includes(f.format.value)?'square':f.format.value;
    const response=await fetch(extraCreatorImagePreviewUrl,{method:'POST',headers:{
     'Content-Type':'application/json'},
-    body:JSON.stringify({prompt:enhanced,format:f.format.value,installationId:work.evaImageInstallId}),signal:ctrl.signal});
+    body:JSON.stringify({prompt:enhanced,format:providerFormat,installationId:work.evaImageInstallId}),signal:ctrl.signal});
    const data=await response.json().catch(()=>null);
    if(work!==extraToolsSession||!area.isConnected)return;
    if(!response.ok||data?.status!=='success'||typeof data.image!=='string'){
@@ -207,11 +251,11 @@ function extraCreatorWorkingImages(work){
      extraToolsLocale('Motorul AI nu a răspuns. Nu există imagine de salvat.','AI image engine unavailable. No image to save.');
     return;
    }
-   const canvas=await extraCreatorImageCanvas(data.image);
+   const canvas=await extraCreatorImageCanvas(data.image,f.format.value);
    if(work!==extraToolsSession)return;
-   work.creatorGeneratedCanvas=canvas;f.areaPreview.replaceChildren(canvas);f.areaPreview.classList.add('extra-creator-generated');
+   work.creatorGeneratedCanvas=canvas;f.areaPreview.hidden=false;f.areaPreview.replaceChildren(canvas);f.areaPreview.classList.add('extra-creator-generated');
    save.disabled=false;zoom.disabled=false;share.disabled=false;
-   status.textContent=extraToolsLocale('Imaginea este gata. Verifică dacă apar toate subiectele cerute înainte de salvare. O nouă generare consumă altă solicitare.','Image ready. Check that all requested subjects are included before saving. A new generation uses another request.');
+   status.textContent=extraToolsLocale('Imagine gata. O nouă imagine consumă o generare.','Image ready. Another image uses one generation.');
   }catch(error){
    if(work===extraToolsSession)status.textContent=error?.name==='AbortError'?
      extraToolsLocale('Generarea a expirat. Poți încerca din nou.','Generation timed out. Retry.'):
@@ -231,7 +275,7 @@ function evaCreatorPhotoTabs(work){
  const area=work.area;
  const originalChildren=Array.from(area.children);
  const generated=extraToolsEl('section','eva-photo-panel');
- for(const node of originalChildren.slice(2))generated.append(node);
+ for(const node of originalChildren.slice(1))generated.append(node);
  const tabs=extraToolsEl('div','eva-photo-tabs');
  const newBtn=extraToolsBtn(extraToolsLocale('✨ Imagine nouă','✨ New image'),()=>show(false),true);
  const editBtn=extraToolsBtn(extraToolsLocale('🖼 Modifică fotografie','🖼 Edit a photo'),()=>show(true));
@@ -353,8 +397,7 @@ function evaCreatorPhotoTabs(work){
  }
  tabs.append(newBtn,editBtn);area.append(tabs,generated,edited);
  const header=extraToolsEl('div','eva-photo-header');
- const back=area.querySelector('.extra-creator-subback'),title=area.querySelector('.extra-creator-subtitle');
- if(back)header.append(back);
+ const title=area.querySelector('.extra-creator-subtitle');
  if(title)header.append(title);
  area.prepend(header);show(false);
 }
@@ -387,7 +430,7 @@ body:has(#view-module.extra-tools-workspace .eva-photo-tabs) #view-module.extra-
 
 /* Image studio only: compact description, progressive expansion without moving the app header. */
 #view-module.extra-tools-workspace .eva-photo-panel textarea.extra-work-input.eva-image-prompt{
- height:76px!important;min-height:76px!important;max-height:clamp(100px,30dvh,220px)!important;
+ height:70px!important;min-height:70px!important;max-height:clamp(90px,22dvh,160px)!important;
  resize:none!important;overflow-y:auto!important;overscroll-behavior:contain!important;
 }
 
@@ -396,4 +439,12 @@ body:has(#view-module.extra-tools-workspace .eva-photo-tabs) #view-module.extra-
  text-align:center;line-height:1.35!important;border:1px solid #607e8a;border-radius:9px;
  color:inherit;background:transparent;
 }
+
+/* Only advanced controls are expandable; the first screen stays compact. */
+#view-module.extra-tools-workspace .eva-image-advanced{border:1px solid #4c798d;border-radius:11px;padding:6px 9px;margin:4px 0;min-width:0}
+#view-module.extra-tools-workspace .eva-image-advanced summary{cursor:pointer;min-height:42px;display:flex;align-items:center;font-weight:700;touch-action:manipulation}
+#view-module.extra-tools-workspace .eva-image-advanced .extra-work-label{margin:7px 0}
+#view-module.extra-tools-workspace .eva-photo-panel .extra-creator-image-placeholder[hidden],
+#view-module.extra-tools-workspace .eva-photo-panel .extra-creator-operation-status[hidden]{display:none!important}
+#view-module.extra-tools-workspace .eva-photo-header .extra-creator-subtitle{font-size:clamp(16px,3.8vw,19px)!important}
 `;

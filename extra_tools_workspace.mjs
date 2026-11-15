@@ -272,12 +272,8 @@ function extraCreatorHome(work){
   'Describe an image, choose a style and save the result to Gallery.',
   ()=>extraCreatorImages(work));
 }
-function extraCreatorSubBack(work){
- const button=extraToolsBtn(extraToolsLocale('← Cele două opțiuni','← Both tools'),()=>extraCreatorHome(work));
- button.classList.add('extra-creator-subback');work.area.append(button);
-}
 function extraCreatorWebsite(work){
- const area=work.area;area.replaceChildren();extraCreatorSubBack(work);
+ const area=work.area;area.replaceChildren();
  area.append(extraToolsEl('h3','extra-creator-subtitle',extraToolsLocale('Creează pagini web','Create websites')));
  extraCreatorNotice(area,'În Trial: o singură variantă personalizată. În Premium: propuneri de stil fără catalog fix. Previzualizarea de mai jos este locală, fără AI.','Trial: one custom design. Premium: open-ended styles. The preview below is local, without AI.');
  const name=extraToolsField(area,extraToolsLocale('Numele afacerii','Business name'),'text',extraToolsLocale('Ex.: Casa bunicii','e.g. Your business name'));
@@ -314,29 +310,6 @@ function extraCreatorWebsite(work){
  },true);
  extraToolsActions(area,generate);
 }
-function extraCreatorImages(work){
- const area=work.area;area.replaceChildren();extraCreatorSubBack(work);
- area.append(extraToolsEl('h3','extra-creator-subtitle',extraToolsLocale('Creează imagini','Create images')));
- extraCreatorNotice(area,'Imaginile vor fi generate la cerere pentru Trial/Premium, cu salvare în Galerie. Motorul AI nu este conectat în această versiune.','Images will be generated on request for Trial/Premium, with Gallery saving. The AI engine is not connected in this version.');
- extraToolsField(area,extraToolsLocale('Descrie imaginea dorită','Describe the image'),'textarea',
-  extraToolsLocale('Ce trebuie să apară? Atmosferă, detalii, persoane sau obiecte…','Subject, mood and details…'));
- extraToolsField(area,extraToolsLocale('Preferințe de stil','Preferred style'),'text',
-  extraToolsLocale('Realist, artistic, fotografie de produs…','Photographic, illustration, product photo…'));
- const format=extraToolsField(area,extraToolsLocale('Format imagine','Image format'),'select');
- for(const [v,label] of [['square','Pătrat · 1:1'],['wide','Orizontal · 16:9'],['portrait','Vertical · 9:16']]){const opt=extraToolsEl('option','',label);opt.value=v;format.append(opt)}
- const areaPreview=extraToolsEl('div','extra-creator-image-placeholder');
- areaPreview.append(extraToolsEl('span','extra-creator-symbol','🖼️'),extraToolsEl('strong','',extraToolsLocale('Aici va apărea imaginea generată','Your generated image will appear here')));
- area.append(areaPreview);
- const make=extraToolsBtn(extraToolsLocale('✨ Generează cu Eva','✨ Generate with Eva'),()=>{
-  extraToolsStatus(extraToolsLocale('Motorul AI pentru imagini și controlul Trial/Premium nu sunt încă activate. Nicio generare nu a fost facturată.','Image generation and Trial/Premium entitlement are not active yet. No generation was billed.'));
- },true);
- const save=extraToolsBtn(extraToolsLocale('💾 Salvează în Galerie','💾 Save to Gallery'),()=>{});
- save.disabled=true;save.title=extraToolsLocale('Disponibil după generarea imaginii','Available after image generation');
- const share=extraToolsBtn(extraToolsLocale('↗ Partajează','↗ Share'),()=>{});
- share.disabled=true;share.title=extraToolsLocale('Disponibil după generarea imaginii','Available after image generation');
- extraToolsActions(area,make,save,share);
-}
-
 function extraToolsOpenWorkspace(key){
  const cat=EXTRA_TOOLS_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
  extraToolsStop();resetExtraToolsScreen();

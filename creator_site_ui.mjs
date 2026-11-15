@@ -245,7 +245,7 @@ function extraCreatorHome(work){
   ()=>extraCreatorWorkingImages(work));
 }
 function extraCreatorWebsite(work){
- const area=work.area;area.replaceChildren();extraCreatorSubBack(work);
+ const area=work.area;area.replaceChildren();
  area.append(extraToolsEl('h3','extra-creator-subtitle',extraToolsLocale('Creează pagini web','Create websites')));
  extraCreatorNotice(area,'Machetă locală: în acest APK testăm stilul și structura. Generarea cu Eva și accesul Premium verificat sunt încă neactivate.','Local draft: in this APK you can test style and structure. Eva generation and verified Premium access are not enabled.');
  const name=extraToolsField(area,extraToolsLocale('Numele afacerii','Business name'),'text',extraToolsLocale('Ex.: Aramis','e.g. Aramis'));
@@ -413,36 +413,60 @@ function extraCreatorWebsite(work){
  aiButton.disabled=true;area.append(aiNote);extraToolsActions(area,aiButton);
 }
 function extraCreatorImages(work){
- const area=work.area;area.replaceChildren();extraCreatorSubBack(work);
+ // The former static "not connected" preview is intentionally retired.
+ // A real, quota-limited image Worker is attached by extraCreatorWorkingImages.
+ const area=work.area;area.replaceChildren();
  area.append(extraToolsEl('h3','extra-creator-subtitle',extraToolsLocale('Creează imagini','Create images')));
- extraCreatorNotice(area,'Motorul AI de imagini nu este conectat. În acest APK nu se poate genera sau salva o imagine nouă. Nu pornește nicio cerere și nu se percepe niciun cost.','The image AI engine is not connected. This APK cannot generate or save a new image. No request starts and no charge occurs.');
  const imagePrompt=extraToolsField(area,extraToolsLocale('Descrierea imaginii','Image description'),'textarea',
-  extraToolsLocale('Ce ai dori să genereze Eva?','What would you like Eva to generate?'));
- const format=extraToolsField(area,extraToolsLocale('Format imagine','Image format'),'select');
- for(const [v,label] of [['square','Pătrat · 1:1'],['wide','Orizontal · 16:9'],['portrait','Vertical · 9:16']]){const opt=extraToolsEl('option','',label);opt.value=v;format.append(opt)}
- const composition=extraToolsField(area,extraToolsLocale('Încadrarea subiectelor','How to frame subjects'),'select');
- for(const [v,ro,en] of [['full','Scenă completă (subiecte întregi)','Full scene (all subjects visible)'],
-  ['wide','Peisaj / cadru larg','Landscape / wide shot'],
-  ['medium','Plan mediu','Medium shot'],
-  ['portrait','Portret apropiat','Close portrait']]){
-  const opt=extraToolsEl('option','',extraToolsLocale(ro,en));opt.value=v;composition.append(opt);
- }
- const compositionNote=extraToolsEl('p','extra-work-note',
-  extraToolsLocale('Formatul vertical nu înseamnă automat portret apropiat. Pentru oameni călare ori mai multe obiecte, păstrează „Scenă completă”.',
-   'Vertical aspect ratio does not imply a close-up. Keep Full scene for riders or multiple essential objects.'));
- area.append(compositionNote);
+  extraToolsLocale('Ce imagine dorești?','What image would you like?'));
+ const choose=(host,ro,en,choices,initial)=>{
+  const field=extraToolsField(host,extraToolsLocale(ro,en),'select');
+  for(const [value,labelRo,labelEn] of choices){
+   const opt=extraToolsEl('option','',extraToolsLocale(labelRo,labelEn));
+   opt.value=value;field.append(opt);
+  }
+  field.value=initial;return field;
+ };
+ const artStyle=choose(area,'Stil artistic','Art style',EVA_IMAGE_STYLES,'realistic');
+ const format=choose(area,'Formatul imaginii','Image format',[
+  ['square','Pătrat · 1:1','Square · 1:1'],
+  ['landscape43','Orizontal · 4:3','Landscape · 4:3'],
+  ['wide','Panoramic · 16:9','Widescreen · 16:9'],
+  ['portrait34','Portret · 3:4','Portrait · 3:4'],
+  ['portrait','Vertical · 9:16','Vertical · 9:16']
+ ],'square');
+ const composition=choose(area,'Încadrarea','Framing',[
+  ['full','Scenă completă','Full scene'],['wide','Cadru larg','Wide shot'],
+  ['medium','Plan mediu','Medium shot'],['portrait','Portret apropiat','Close portrait']
+ ],'full');
+ const advanced=extraToolsEl('details','eva-image-advanced');
+ advanced.append(extraToolsEl('summary','',extraToolsLocale('Atmosferă, lumină, culori și detalii','Mood, light, colours and details')));
+ const mood=choose(advanced,'Atmosferă','Mood',[
+  ['neutral','Naturală','Natural'],['warm','Caldă','Warm'],
+  ['dramatic','Dramatică','Dramatic'],['calm','Liniștită','Calm'],
+  ['playful','Veselă','Playful'],['mysterious','Misterioasă','Mysterious'],
+  ['epic','Epică','Epic']
+ ],'neutral');
+ const lighting=choose(advanced,'Iluminare','Lighting',[
+  ['auto','Automată','Automatic'],['daylight','Lumină naturală','Daylight'],
+  ['golden','Ora aurie','Golden hour'],['studio','Studio','Studio'],
+  ['night','Noapte','Night'],['neon','Neon','Neon'],
+  ['soft','Lumină difuză','Soft lighting'],['contrast','Contrast puternic','High contrast']
+ ],'auto');
+ const palette=choose(advanced,'Culori','Colours',[
+  ['auto','Naturale','Natural'],['vivid','Intense','Vivid'],
+  ['pastel','Pastel','Pastel'],['earth','Pământii','Earthy'],
+  ['mono','Alb-negru','Black and white'],['cool','Reci','Cool'],
+  ['warm','Calde','Warm']
+ ],'auto');
+ const avoid=extraToolsField(advanced,extraToolsLocale('De evitat (opțional)','Avoid (optional)'),'text',
+  extraToolsLocale('Ex.: text, sigle','e.g. text, logos'));
+ avoid.maxLength=130;
+ area.append(advanced);
  const areaPreview=extraToolsEl('div','extra-creator-image-placeholder');
- areaPreview.append(extraToolsEl('span','extra-creator-symbol','🖼️'),
-  extraToolsEl('strong','',extraToolsLocale('Generarea imaginilor nu este încă activă','Image generation is not yet active')));
- area.append(areaPreview);
- work.creatorImageForm={imagePrompt,format,composition,areaPreview};
- const make=extraToolsBtn(extraToolsLocale('✨ Generare indisponibilă','✨ Generation unavailable'),()=>{});
- make.disabled=true;
- const save=extraToolsBtn(extraToolsLocale('💾 Salvează în Galerie','💾 Save to Gallery'),()=>{});
- save.disabled=true;
- const share=extraToolsBtn(extraToolsLocale('↗ Partajează','↗ Share'),()=>{});
- share.disabled=true;
- extraToolsActions(area,make,save,share);
+ areaPreview.hidden=true;area.append(areaPreview);
+ work.creatorImageForm={imagePrompt,artStyle,format,composition,mood,lighting,palette,avoid,areaPreview};
+ // Working image controls are inserted by the live image module, not placeholders.
 }
 `;
 export const CREATOR_SITE_STYLE=String.raw`
