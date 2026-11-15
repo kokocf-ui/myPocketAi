@@ -308,8 +308,8 @@ assert.ok(embedded.includes('appendAnswerText(result,mathCleanAnswerMarkup(item.
  'math-only content is formatted before display');
 
 const native=fs.readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
-assert.match(native,/"math"\.equals\(speechMode\)\)return;/,'math speech bypasses short endpoint');
-assert.match(native,/mathDictation\?4800L:2200L/,'math uses longer silence hints');
+assert.doesNotMatch(native,/"math"\.equals\(speechMode\)\)return;/,'math dictation also uses a shorter endpoint now');
+assert.match(native,/mathDictation\?1450L:1100L/,'math dictation retains a small pause allowance');
 assert.match(native,/RecognizerIntent\.EXTRA_MAX_RESULTS,5/,'Android offers alternate maths hypotheses');
 assert.match(native,/data\.put\("alternatives",choices\)/,'Android returns alternatives only for math');
 assert.match(embedded,/function mathVoiceRestart\(session,/,'math resumes after an Android recognition segment');
