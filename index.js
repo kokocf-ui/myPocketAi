@@ -7083,6 +7083,18 @@ function shopValidateQuantity(value){
  return trimmed===''||(/^\\d{1,6}(?:[.,]\\d{1,3})?$/.test(trimmed)&&Number(trimmed.replace(',','.'))>0);
 }
 function shopLabel(ro,en){return learningLabel(ro,en)}
+// Display inflected units without altering the canonical values saved on disk.
+function shopQuantityUnitLabel(quantity,unit){
+ const n=Number(String(quantity).replace(',','.')),many=Number.isFinite(n)&&n!==1;
+ const ro={'buc':['buc.','buc.'],kg:['kg','kg'],g:['g','g'],l:['l','l'],ml:['ml','ml'],
+  pachet:['pachet','pachete'],cutie:['cutie','cutii'],sticlă:['sticlă','sticle'],
+  bax:['bax','baxuri'],cartuș:['cartuș','cartușe'],legătură:['legătură','legături']};
+ const en={'buc':['pc','pcs'],kg:['kg','kg'],g:['g','g'],l:['l','l'],ml:['ml','ml'],
+  pachet:['pack','packs'],cutie:['box','boxes'],sticlă:['bottle','bottles'],
+  bax:['case','cases'],cartuș:['carton','cartons'],legătură:['bunch','bunches']};
+ const forms=state.language==='ro'?ro:state.language==='en'?en:null;
+ return forms?.[unit]?.[many?1:0]||unit;
+}
 function shopButton(ro,en,css='secondary-btn'){
  const button=document.createElement('button');button.type='button';
  button.className=css;button.textContent=shopLabel(ro,en);return button;
@@ -7641,7 +7653,7 @@ function renderShoppingList(){
   const info=document.createElement('div');info.className='shop-item-info'+(item.checked?' is-checked':'');
   const itemName=document.createElement('strong');itemName.textContent=item.name;info.append(itemName);
   if(item.quantity){const unitLabel=document.createElement('small');
-   unitLabel.textContent=item.quantity+(item.unit?' '+item.unit:'')+(item.unit==='bax'&&item.packageContents?' · '+item.packageContents+'/bax':'');info.append(unitLabel)}
+   unitLabel.textContent=item.quantity+(item.unit?' '+shopQuantityUnitLabel(item.quantity,item.unit):'')+(item.unit==='bax'&&item.packageContents?' · '+item.packageContents+'/bax':'');info.append(unitLabel)}
   const actions=document.createElement('div');actions.className='shop-item-controls';
   const edit=shopButton('Editează','Edit');edit.textContent='✎';
   edit.setAttribute('aria-label',shopLabel('Editează ','Edit ')+item.name);
@@ -7696,7 +7708,7 @@ function renderShoppingList(){
   details.append(summary);
   for(const i of entry.items){const line=document.createElement('div');
    line.className='shop-history-line';
-   line.textContent=(i.checked?'☑ ':'☐ ')+i.name+(i.quantity?' · '+i.quantity+' '+i.unit:'')+(i.unit==='bax'&&i.packageContents?' · '+i.packageContents+'/bax':'');
+   line.textContent=(i.checked?'☑ ':'☐ ')+i.name+(i.quantity?' · '+i.quantity+' '+shopQuantityUnitLabel(i.quantity,i.unit):'')+(i.unit==='bax'&&i.packageContents?' · '+i.packageContents+'/bax':'');
    details.append(line)}
   const buttons=document.createElement('div');buttons.className='shop-history-actions';
   const removeArchived=shopButton('Șterge','Delete');
@@ -20562,6 +20574,12 @@ function requestUsesLocation(text){
  // A sentence-shaping instruction, social comment or explanatory request is
  // not a nearby business or destination, even when the GPS cache exists.
  if(/^(?:(?:te rog|please)\\s+)?(?:raspunde|reformuleaza|rescrie|rezuma|answer|respond|rephrase|rewrite|summarize|explica(?:-mi)?|explain|descrie(?:-mi)?|define|defineste|glumeam|glumesc|era o gluma|just kidding|parca(?:\\s+astazi|\\s+azi)?\\s+esti|esti\\s+(?:cam|foarte|tare|prea)\\s+serioas)/i.test(value) && !/\\b(?:cum ajung|traseu|ruta|route to|directions to|vreau sa ajung)\\b/i.test(value))return false;
+ if(state.currentView==='assistant'){
+  const quick=value.toLowerCase();
+  const named=['strada ','str. ','soseaua ','bulevardul ','aleea ','calea ','street ','road ','muzeul ','muzeu ','museum ','hotel ','hotelul ','hostel ','spital ','spitalul ','stadion ','stadionul '];
+  if(named.some(prefix=>quick.startsWith(prefix))&&(quick.includes(',')||quick.includes(' din ')||quick.includes(' in ')))return true;
+  if(['du-ma ','du ma ','mergi la ','mergi spre ','cum ajung la ','arata-mi drumul ','arata drumul '].some(prefix=>quick.startsWith(prefix)))return true;
+ }
  if(needsLocation(value))return true;
  if(/(?:locatia mea|pozitia mea|my location|my position|vreme|meteo|weather|forecast|distanta|distance|kilometri|traseu|ruta|route|walking|driving|pe jos|near me|nearby)/i.test(value))return true;
  // Short venue names and explicit journeys must receive GPS even without "near me".
@@ -20658,7 +20676,7 @@ if(data.structured_list?.type==='news'&&Array.isArray(data.structured_list.rows)
   summary:String(row.summary||'').slice(0,500)
  }))};
 if(data.news_followup&&state.newsConversationContext&&Number.isInteger(data.news_followup.selected_index))
- state.newsConversationContext.selected_index=data.news_followup.selected_index;state.lastPresentationResponse=data.presentation?{reply,plan:data.presentation}:null;loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.pendingTravelConfirmationData=data.needs_travel_confirmation&&data.route_context?.destination?data:null;state.travelConfirmationPanel=null;state.weatherSearchContext=data.weather_context||null;if(Array.isArray(data.places))state.lastPlaceResults=data.places;if(Array.isArray(data.places)&&data.places.length&&(state.currentView==='assistant'||state.currentModule==='travel')&&!data.route&&!data.route_available){state.tripAccommodationSearching=false;openAssistantPlaceResults(data.places);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);saveActiveHistory();setStatus('Răspuns primit.');return;}if(data.encyclopedia){openEncyclopediaCard(selectedGeographicEntity?{...data.encyclopedia,selected_geo_option:selectedGeographicEntity}:data.encyclopedia,clientRequestStartedAt);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}/* Accommodation is decided once, before route calculation; never offer it again after receiving a route. *//* Keep the answer in the user's current section; provider selection remains backend-driven. */if(data.needs_travel_mode)state.lastTravelModeResponse=data;if(Array.isArray(data.transit)&&data.transit.length)state.lastTransitResponse=data;
+ state.newsConversationContext.selected_index=data.news_followup.selected_index;state.lastPresentationResponse=data.presentation?{reply,plan:data.presentation}:null;loading.remove();if(generation!==state.conversationGeneration||(state.currentView!=='assistant'&&state.currentView!=='module'))return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;if(state.currentView==='assistant'&&data.needs_travel_mode&&data.route_context?.destination)state.assistantStructuredDestination=true;state.pendingTravelConfirmationData=data.needs_travel_confirmation&&data.route_context?.destination?data:null;state.travelConfirmationPanel=null;state.weatherSearchContext=data.weather_context||null;if(Array.isArray(data.places))state.lastPlaceResults=data.places;if(Array.isArray(data.places)&&data.places.length&&(state.currentView==='assistant'||state.currentModule==='travel')&&!data.route&&!data.route_available){state.tripAccommodationSearching=false;openAssistantPlaceResults(data.places);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;state.messages=state.messages.slice(-40);saveActiveHistory();setStatus('Răspuns primit.');return;}if(data.encyclopedia){openEncyclopediaCard(selectedGeographicEntity?{...data.encyclopedia,selected_geo_option:selectedGeographicEntity}:data.encyclopedia,clientRequestStartedAt);state.messages.push({role:'assistant',text:reply});state.lastReply=reply;setStatus('Răspuns primit.');return;}/* Accommodation is decided once, before route calculation; never offer it again after receiving a route. *//* Keep the answer in the user's current section; provider selection remains backend-driven. */if(data.needs_travel_mode)state.lastTravelModeResponse=data;if(Array.isArray(data.transit)&&data.transit.length)state.lastTransitResponse=data;
 // With a known destination, walking/driving results belong in the route
 // choice screen immediately. Do not momentarily show the chat transcript.
 if(routeLoadingRequested&&routeLoadingProfile!=='transit'&&validMapRoute(data.route)){
