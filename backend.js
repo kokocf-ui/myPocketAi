@@ -3125,6 +3125,7 @@ export default {
     const normalizedTransitMessage = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
     // Only Maps -> Transport public național. Deplasare spre… is untouched.
+    let authorizedNationalProvider=null;
     if(data.national_public_transport===true){
       const destination=data.transit_destination;
       const destLat=Number(destination?.latitude),destLon=Number(destination?.longitude);
@@ -3165,6 +3166,7 @@ export default {
         };
         return reject(authorization.status,errors[authorization.status]||errors.national_provider_not_connected);
       }
+      authorizedNationalProvider=authorization.provider;
       // The existing Romania urban/Bilo and UK TfL/TransCAPI paths below
       // execute only after this country-specific registry authorization.
     }
@@ -3212,7 +3214,8 @@ export default {
         (hasValidLocation?{latitude,longitude}:null);
       const urbanTo=data.transit_destination||data.route_context?.destination||data.route_destination;
       const urbanRegion=romanianUrbanRegion(urbanFrom,urbanTo);
-      if(urbanRegion && !explicitCarRoute && env.RO_URBAN_API_URL && env.RO_URBAN_API_TOKEN){
+      if(urbanRegion && !explicitCarRoute && env.RO_URBAN_API_URL && env.RO_URBAN_API_TOKEN &&
+         (!data.national_public_transport||authorizedNationalProvider==='ro_urban_gtfs')){
         const selectedUrbanAt=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
         const result=await planRomanianUrbanViaOracle(env,{
           from:urbanFrom,to:urbanTo,departureAt:selectedUrbanAt||null,limit:requestedOptionsCount
@@ -3268,7 +3271,8 @@ export default {
           transit_available:false,route_available:false,transit_provider:'Romania GTFS static',
           reason,provider_status:{ro_urban:result.status,region:result.region}});
       }
-      if(roTransitQuery && (env.BILO_API_KEY || !env.MOTIS_API_BASE_URL)){
+      if(roTransitQuery && (env.BILO_API_KEY || !env.MOTIS_API_BASE_URL) &&
+         (!data.national_public_transport||authorizedNationalProvider==='ro_national_transit')){
         const origin=roTransitQuery.origin || await reverseRomanianOriginCity(env,hasValidLocation?{latitude,longitude}:null);
         const destination=roTransitQuery.destination;
         if(!origin||!destination){
@@ -3520,7 +3524,7 @@ export default {
               enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'
             }))&&
             (transportPreference==='bus_only'||transcapiZone!=='gb'||!isTfLLondonCorridorPoint(latitude,longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
-          if(transcapiEligible){
+          if(transcapiEligible && (!data.national_public_transport||authorizedNationalProvider==='uk_national_transit')){
             const national=await planTransCAPIJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},requestedOptionsCount,{preference:transportPreference,departureOffsetMinutes,departureAt});
             if(national.journeys.length){
               const transit=national.journeys,first=transit[0];
@@ -3603,6 +3607,7 @@ export default {
         const undergroundModeRequested=/\b(?:underground|tube|metro)\b/i.test(requestedStationName);
         const victoriaTubeQuery=/^(?:(?:london|londra)\s+)?victoria\s+(?:underground|tube|metro)(?:\s+station)?$/i.test(requestedStationName.trim());
         if((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') && tryVerifiedStation &&
+          (!data.national_public_transport||authorizedNationalProvider==='tfl') &&
           nationalProviderAuthorized({provider:'tfl',country:'GB',region:'london',enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'})){
           try{
             const stopQuery=targetName.replace(/\b(london|londra|underground|railway|rail|train|station|tube)\b/gi," ").replace(/[,\s]+/g," ").trim();
@@ -3809,6 +3814,7 @@ export default {
             transit_departure_at:departureAt,reason:'national_public_transport_not_verified',ai_connected:Boolean(env.AI)});
         }
         if ((env.TFL_APP_KEY || env.TFL_PUBLIC_FALLBACK!=='false') &&
+            (!data.national_public_transport||authorizedNationalProvider==='tfl') &&
             nationalProviderAuthorized({
               provider:'tfl',country:'GB',region:
                 isTfLLondonCorridorPoint(latitude,longitude)&&
