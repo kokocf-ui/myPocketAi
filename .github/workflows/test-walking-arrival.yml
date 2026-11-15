@@ -1,0 +1,24 @@
+name: Verify walking storefront arrivals
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'backend.js'
+      - 'walking_address_arrival.mjs'
+      - 'tests_walking_address_arrival.mjs'
+      - '.github/workflows/test-walking-arrival.yml'
+permissions:
+  contents: read
+jobs:
+  walking-arrival:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check syntax
+        run: node --check walking_address_arrival.mjs && node --check backend.js && node --check tests_walking_address_arrival.mjs
+      - name: Verify storefront address arrival and safe rerouting
+        run: node tests_walking_address_arrival.mjs
