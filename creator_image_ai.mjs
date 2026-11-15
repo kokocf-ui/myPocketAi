@@ -1,4 +1,43 @@
 export const CREATOR_IMAGE_AI_SCRIPT=String.raw`
+const EVA_IMAGE_STYLES=[
+ ['realistic','Fotorealist','Photorealistic','professional photorealistic photography with natural textures'],
+ ['cinematic','Cinematografic','Cinematic','cinematic film frame with dramatic composition'],
+ ['digital','Artă digitală','Digital art','high-detail digital illustration'],
+ ['oil','Pictură în ulei','Oil painting','traditional oil painting on textured canvas'],
+ ['watercolor','Acuarelă','Watercolour','transparent watercolour painting on paper'],
+ ['acrylic','Pictură acrilică','Acrylic painting','expressive acrylic brushwork'],
+ ['pencil','Desen în creion','Pencil sketch','detailed graphite pencil illustration'],
+ ['ink','Desen în tuș','Ink illustration','black ink line art'],
+ ['charcoal','Desen în cărbune','Charcoal drawing','textured charcoal sketch'],
+ ['anime','Anime','Anime','Japanese anime illustration'],
+ ['cartoon','Desen animat','Cartoon','playful cartoon illustration'],
+ ['comic','Bandă desenată','Comic book','graphic novel comic illustration'],
+ ['3d','Randare 3D','3D render','professional three-dimensional render'],
+ ['clay','Plastilină','Claymation','handmade claymation miniature'],
+ ['pixel','Pixel art','Pixel art','pixel art with visible square pixels'],
+ ['retro','Retro','Retro','retro 1970s–1980s artwork'],
+ ['vintage','Poster vintage','Vintage poster','vintage printed poster design'],
+ ['fantasy','Artă fantastică','Fantasy','detailed fantasy illustration'],
+ ['scifi','Science-fiction','Science fiction','science fiction concept art'],
+ ['surreal','Suprarealist','Surrealist','surreal dreamlike visual art'],
+ ['impressionist','Impresionist','Impressionist','impressionist brushstrokes and coloured light'],
+ ['minimal','Minimalist','Minimalist','minimalist clean graphic design'],
+ ['isometric','Izometric','Isometric','isometric perspective illustration'],
+ ['lowpoly','Low-poly','Low poly','stylized low polygon 3D artwork'],
+ ['architecture','Arhitectură','Architecture','professional architectural visualization'],
+ ['product','Fotografie de produs','Product photography','commercial studio product photography']
+];
+function evaImageCreativePrompt(config){
+ const style=EVA_IMAGE_STYLES.find(row=>row[0]===config?.artStyle?.value)||EVA_IMAGE_STYLES[0];
+ const moods={neutral:'natural',warm:'warm welcoming',dramatic:'dramatic',calm:'peaceful',playful:'cheerful',mysterious:'mysterious',epic:'epic'};
+ const lights={auto:'balanced natural',daylight:'daylight',golden:'golden-hour',studio:'studio softbox',night:'night',neon:'neon',soft:'diffuse soft',contrast:'high-contrast'};
+ const colours={auto:'balanced',vivid:'vivid saturated',pastel:'pastel',earth:'earth tones',mono:'monochrome black and white',cool:'cool blue',warm:'warm amber'};
+ const mood=moods[config?.mood?.value]||moods.neutral,light=lights[config?.lighting?.value]||lights.auto,palette=colours[config?.palette?.value]||colours.auto;
+ const avoid=String(config?.avoid?.value||'').trim().slice(0,130);
+ return ['Art style: '+style[3]+'.','Mood: '+mood+'.','Lighting: '+light+'.','Palette: '+palette+'.',
+  avoid?'Avoid: '+avoid+'.':''].filter(Boolean).join(' ');
+}
+
 const extraCreatorImagePreviewUrl='https://lifewise-ai-image-studio.kokocf.workers.dev/generate';
 
 const evaImageQuotaUrl='https://lifewise-ai-image-studio.kokocf.workers.dev/quota';
@@ -83,10 +122,12 @@ function extraCreatorSceneBackground(source){
  }
  return '';
 }
-function extraCreatorEnhancedPrompt(prompt,composition,format){
+function extraCreatorEnhancedPrompt(prompt,composition,format,creative=null){
  const source=String(prompt||'').trim().replace(/\s+/g,' ');
  if(!source||source.length>800)throw Error('invalid_prompt_length');
  const ratio=format==='portrait'?'Vertical 9:16 framing; do NOT infer a close-up.':
+  format==='portrait34'?'Portrait 3:4 framing; do NOT infer a close-up.':
+  format==='landscape43'?'Landscape 4:3 framing.':
   format==='wide'?'Wide 16:9 framing.':'Square 1:1 framing.';
  const framing=composition==='portrait'?'Close portrait only when explicitly selected.':
   composition==='medium'?'Medium-wide camera; retain all requested subjects and scenery.':
@@ -100,10 +141,13 @@ function extraCreatorEnhancedPrompt(prompt,composition,format){
  const bg=background?
   'REQUIRED VISIBLE BACKGROUND: '+background+'. Show this object clearly in the distance, recognizable and not hidden, cropped or replaced.':'';
  const fidelity='MANDATORY: depict every explicitly requested subject, action, setting, prop and background element. Preserve the relationships and counts. Do not silently omit distant details.';
- const composed=[ratio,framing,specific,bg,fidelity,'Original user request: '+source].filter(Boolean).join(' ');
- // The server accepts up to 1400 characters. Shorten guidance, never user text.
+ const artistic=creative?evaImageCreativePrompt(creative):'';
+ const composed=[ratio,framing,specific,bg,artistic,fidelity,'Original user request: '+source].filter(Boolean).join(' ');
+ // The server accepts at most 1400 characters. Preserve the user's request.
  if(composed.length<=1400)return composed;
- return [ratio,bg,'Include every explicitly requested foreground and background object.','Original user request: '+source].filter(Boolean).join(' ');
+ const compact=[ratio,specific,bg,artistic,'Original user request: '+source].filter(Boolean).join(' ');
+ if(compact.length<=1400)return compact;
+ return [ratio,artistic,'Original user request: '+source].filter(Boolean).join(' ');
 }
 function evaImageCompactPrompt(field){
  // Image editor only. Keep the initial workspace small; expand while typing.
@@ -121,12 +165,16 @@ function evaImageCompactPrompt(field){
  resize();
 }
 
-async function extraCreatorImageCanvas(data){
+async function extraCreatorImageCanvas(data,format='square'){
  if(typeof data!=='string'||data.length>7500000||!/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(data))throw Error('image_invalid');
  const image=new Image();image.src=data;await image.decode();
- const canvas=extraToolsEl('canvas','extra-work-image'),scale=Math.min(1,1200/Math.max(image.width,image.height));
- canvas.width=Math.round(image.width*scale);canvas.height=Math.round(image.height*scale);
- canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
+ let cropWidth=image.width,cropHeight=image.height;
+ if(format==='landscape43')cropHeight=Math.min(cropHeight,cropWidth*3/4);
+ if(format==='portrait34')cropWidth=Math.min(cropWidth,cropHeight*3/4);
+ const offsetX=Math.max(0,(image.width-cropWidth)/2),offsetY=Math.max(0,(image.height-cropHeight)/2);
+ const canvas=extraToolsEl('canvas','extra-work-image'),scale=Math.min(1,1200/Math.max(cropWidth,cropHeight));
+ canvas.width=Math.max(1,Math.round(cropWidth*scale));canvas.height=Math.max(1,Math.round(cropHeight*scale));
+ canvas.getContext('2d').drawImage(image,offsetX,offsetY,cropWidth,cropHeight,0,0,canvas.width,canvas.height);
  return canvas;
 }
 function extraCreatorSaveImage(work,status){
