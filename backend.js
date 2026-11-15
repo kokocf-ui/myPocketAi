@@ -160,17 +160,22 @@ function canonicalTravelHouseNumber(query){
  const parts=String(query||'').split(',').map(p=>p.trim()).filter(Boolean);
  if(parts.length<2)return query;
  let street=parts[0],tail=parts.slice(1),house=null;
+ // A numbered street address may omit "Strada", "Street" or other local
+ // street-type words; the geocoder must still verify street + door number.
+ const isStreetLike=value=>TRAVEL_STREET_WORDS.test(value)||
+  (/^[\p{L}][\p{L}\p{M}' .-]{1,100}$/u.test(value)&&
+   !TRAVEL_POI_RULES.some(([rx])=>rx.test(value)));
  const houseToken='(\\d+[a-z]?(?:[-/]\\d+)?)';
  const marker='(?:nr\\.?|numar(?:ul)?|no\\.?|number|#)';
  // "Strada X, nr. 12, Oradea" (and "Strada X, 12, Oradea").
  if(tail.length>1){
   const match=tail[0].match(new RegExp('^(?:'+marker+'\\s*)?'+houseToken+'$','i'));
-  if(match&&TRAVEL_STREET_WORDS.test(street)){house=match[1];tail=tail.slice(1)}
+  if(match&&isStreetLike(street)){house=match[1];tail=tail.slice(1)}
  }
  if(!house){
   // "Strada X 12, Oradea" and "Strada X nr.12, Oradea".
   const match=street.match(new RegExp('^(.+?)\\s+('+marker+'\\s*)?'+houseToken+'$','i'));
-  if(match&&TRAVEL_STREET_WORDS.test(match[1])&&(match[2]||!/\d/.test(match[1]))){
+  if(match&&isStreetLike(match[1])&&(match[2]||!/\d/.test(match[1]))){
    street=match[1].trim();house=match[3];
   }
  }
