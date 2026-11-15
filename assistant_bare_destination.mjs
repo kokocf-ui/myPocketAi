@@ -18,8 +18,14 @@ export function assistantBareDestinationQuery(raw){
  }
  if(!/\p{L}{2}/u.test(locality)||!/\p{L}{2}/u.test(head))return null;
  if(/^(?:toate|un|o|niste|cele|lista|preturi|recenzii)\b/u.test(head))return null;
- const namedStreet=/^(?:strada|str\.?|soseaua|sos\.?|bulevardul|bd\.?|aleea|calea|street|road|avenue|lane|close|drive|boulevard|via|calle|rue)\s+\S/iu.test(head)||
-   /\b(?:street|road|avenue|lane|crescent|boulevard|square)\b/u.test(head);
+ const explicitStreet=/^(?:strada|str\\.?|soseaua|sos\\.?|bulevardul|bd\\.?|aleea|calea|street|road|avenue|lane|close|drive|boulevard|via|calle|rue)\\s+\\S/iu.test(head);
+ // Suffix-type street names are addresses only when the complete head looks
+ // like a short place name, not an arbitrary sentence mentioning a road.
+ // Otherwise business research ("Vorbesc despre magazinul ... London Road")
+ // is incorrectly hijacked by navigation.
+ const streetSuffix=/^(?:[\\p{L}\\p{M}\\p{N}'-]+\\s+){1,5}(?:street|road|avenue|lane|crescent|boulevard|square)$/iu.test(head)
+  &&!/\\b(?:vorbesc|discut|spune|spun|magazin|magazinul|magazine|shop|shops|store|restaurant|restaurants|despre|about|regarding|what|where|cum|unde|te|rog|please|cauta|caut|gaseste|gasesc|look|find|show|tell)\\b/iu.test(head);
+ const namedStreet=explicitStreet||streetSuffix;
  const namedLandmark=/^(?:muzeul?|museum|hotel(?:ul)?|hostel(?:ul)?|spital(?:ul)?|hospital|stadion(?:ul)?|stadium|gara|station|aeroport(?:ul)?|airport|castel(?:ul)?|castle|parc(?:ul)?|park|universitatea|university)\s+\S/iu.test(head);
  // A full numbered address does not need a street-type prefix, whatever the
  // local writing convention (e.g. 12 Oxford Street or Nufărului 12).
