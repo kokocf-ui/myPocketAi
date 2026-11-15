@@ -7154,7 +7154,6 @@ function shopVoiceItems(transcript){
   sticla:'sticlă',sticle:'sticlă',sticlele:'sticlă',
   cartus:'cartuș',cartuse:'cartuș',cartusul:'cartuș',cartusele:'cartuș',
   bax:'bax',baxuri:'bax',baxul:'bax',baxurile:'bax',
-  bacs:'bax',bacsuri:'bax',bacsul:'bax',bacsurile:'bax',
   legatura:'legătură',legaturi:'legătură'};
  const clean=shopVoiceSplit(transcript);
  const result=[];
