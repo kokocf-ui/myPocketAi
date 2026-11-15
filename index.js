@@ -7039,6 +7039,7 @@ function shopNormalizeData(raw){
   name:String(item?.name||'').slice(0,180),
   quantity:String(item?.quantity??'').slice(0,20),
   unit:String(item?.unit||'').slice(0,20),
+  packageContents:String(item?.packageContents||'').slice(0,60),
   checked:item?.checked===true,
   checkedAt:item?.checked===true?(item.checkedAt||null):null
  });
@@ -7062,9 +7063,9 @@ function shopBeginFreshList(data,date=new Date()){
  data.completedAt=null;
  data.voiceSessionSaved=false;
 }
-function shopNewItem(name,quantity='',unit=''){
+function shopNewItem(name,quantity='',unit='',packageContents=''){
  return {id:shopId(),name:name.trim().slice(0,180),quantity:String(quantity).trim(),
-  unit:String(unit).trim(),checked:false,checkedAt:null};
+  unit:String(unit).trim(),packageContents:String(packageContents).trim().slice(0,60),checked:false,checkedAt:null};
 }
 function shopArchive(data,status,keepUnchecked=false,nextName=''){
  const previous=data.items.map(item=>({...item}));
@@ -7072,7 +7073,7 @@ function shopArchive(data,status,keepUnchecked=false,nextName=''){
   id:shopId(),name:data.currentName,finishedAt:new Date().toISOString(),
   status,items:previous
  });
- data.items=keepUnchecked?previous.filter(i=>!i.checked).map(i=>shopNewItem(i.name,i.quantity,i.unit)):[];
+ data.items=keepUnchecked?previous.filter(i=>!i.checked).map(i=>shopNewItem(i.name,i.quantity,i.unit,i.packageContents)):[];
  data.currentName=String(nextName||'Lista mea').trim().slice(0,90)||'Lista mea';
  data.createdAt=null;data.voiceSessionSaved=false;data.completedAt=null;
  return data;
@@ -7136,7 +7137,9 @@ function shopVoiceSplit(transcript){
  // Otherwise "Singleton două sticle, Sobranie 10 pachete" is split incorrectly.
  const parts=text.split(/\\s*(?:[,;]|\\s+și\\s+|\\s+si\\s+)\\s*/iu).map(p=>p.trim()).filter(Boolean);
  return parts.flatMap(part=>{
-  const starts=[...part.matchAll(qty)].map(m=>m.index+m[0].indexOf(m[1]));
+  const starts=[...part.matchAll(qty)].map(m=>m.index+m[0].indexOf(m[1]))
+   // "un bax de 24 sticle" includes a container count, NOT a new product.
+   .filter(pos=>!/(?:^|\\s)bax(?:uri)?\\s+(?:(?:de|a)\\s+)?(?:c[aâ]te\\s+)?$/iu.test(part.slice(0,pos)));
   if(starts.length<=1||starts[0]>0)return [part];
   return starts.map((pos,i)=>part.slice(pos,starts[i+1]??part.length).trim()).filter(Boolean);
  });
@@ -7206,8 +7209,29 @@ function shopVoiceItems(transcript){
     }
    }
   }
+  let packageContents='';
+  if(unit==='bax'){
+   const packWords=raw.split(/\\s+/u);
+   // "2 baxuri de câte 6 sticle", "1 bax de 24 de sticle de apă".
+   if(['a','de'].includes(shopVoiceFold(packWords[0]))&&shopVoiceFold(packWords[1])==='cate')packWords.splice(0,2);
+   else if(shopVoiceFold(packWords[0])==='cate')packWords.shift();
+   const containedCount=numeric(packWords[0]||'');
+   const hasDe=shopVoiceFold(packWords[1])==='de';
+   const unitIndex=hasDe?2:1;
+   const itemUnits={sticla:'sticle',sticle:'sticle',bucata:'bucăți',bucati:'bucăți',
+    scutec:'scutece',scutece:'scutece',pachet:'pachete',pachete:'pachete',
+    rola:'role',role:'role',cutie:'cutii',cutii:'cutii',doza:'doze',doze:'doze',
+    tub:'tuburi',tuburi:'tuburi',servetel:'șervețele',servetele:'șervețele'};
+   const containedUnit=itemUnits[shopVoiceFold(packWords[unitIndex]||'')];
+   if(containedCount!==null&&containedUnit&&packWords.length>unitIndex+1){
+    packageContents=String(containedCount)+' '+containedUnit;
+    const rest=packWords.slice(unitIndex+1);
+    if(['de','din'].includes(shopVoiceFold(rest[0])))rest.shift();
+    raw=rest.join(' ');
+   }
+  }
   const name=shopVoiceDiacritics(raw).trim().slice(0,180);
-  if(name&&/[\\p{L}]/u.test(name))result.push(shopNewItem(name,quantity,unit));
+  if(name&&/[\\p{L}]/u.test(name))result.push(shopNewItem(name,quantity,unit,packageContents));
  }
  return result;
 }
@@ -7305,6 +7329,10 @@ function shopVoiceMergeAdded(data,incoming){
  const active=related.filter(i=>!i.checked);
  const incompatible=related.some(i=>i.unit!==incoming.unit);
  if(incompatible)return {ok:false,message:shopLabel('Unități diferite pentru ','Different units for ')+incoming.name+shopLabel('. Modifică manual produsul.','. Edit the item manually.')};
+ if(related.some(i=>(i.packageContents||'')!==(incoming.packageContents||''))){
+  data.items.push(incoming);
+  return {ok:true,message:shopLabel('Ambalaj diferit, produs adăugat separat: ','Different pack size, added separately: ')+incoming.name};
+ }
  if(!active.length){data.items.push(incoming);return {ok:true,message:shopLabel('Adăugat separat de produsele cumpărate: ','Added separately from bought items: ')+incoming.name}}
  const amounts=[...active.map(i=>Number(String(i.quantity).replace(',','.'))),Number(String(incoming.quantity).replace(',','.'))];
  if(amounts.some(n=>!Number.isFinite(n)||n<=0))return {ok:false,message:shopLabel('Cantitatea existentă nu este numerică pentru ','Existing quantity is not numeric for ')+incoming.name};
@@ -7394,6 +7422,8 @@ function shopVoiceApplyAction(sentence,data){
    return {ok:false,message:shopLabel('Spune cantitatea și unitatea, de exemplu «5 kilograme».','Say the quantity and unit, e.g. five kilograms.')};
   item.quantity=parsed[0].quantity;
   if(parsed[0].unit!=='buc'||item.unit==='buc')item.unit=parsed[0].unit;
+  if(item.unit!=='bax')item.packageContents='';
+  else if(parsed[0].packageContents)item.packageContents=parsed[0].packageContents;
   return {ok:true,message:shopLabel('Cantitate modificată: ','Quantity updated: ')+item.name};
  }
  if(found.type==='replace'){
@@ -7405,7 +7435,8 @@ function shopVoiceApplyAction(sentence,data){
   if(!explicit&&['kg','g','l','ml'].includes(item.unit))
    return {ok:false,message:shopLabel('Precizează și cantitatea noului produs.','Please give a quantity for the replacement.')};
   item.name=shopVoiceDiacritics(explicit?parsed[0].name:replacement);
-  if(explicit){item.quantity=parsed[0].quantity;item.unit=parsed[0].unit}
+  if(explicit){item.quantity=parsed[0].quantity;item.unit=parsed[0].unit;item.packageContents=parsed[0].packageContents||''}
+  else if(item.unit!=='bax')item.packageContents='';
   return {ok:true,message:shopLabel('Produs înlocuit cu ','Item replaced with ')+item.name};
  }
  return {ok:false,message:shopLabel('Comanda nu a fost aplicată.','Action not applied.')};
@@ -7566,14 +7597,17 @@ function renderShoppingList(){
  const unit=document.createElement('select');unit.setAttribute('aria-label',shopLabel('Unitate','Unit'));
  const units=[['buc','buc.','pcs'],['kg','kg','kg'],['g','g','g'],['l','l','l'],['ml','ml','ml'],['pachet','pachet','pack'],['cutie','cutie','box'],['sticlă','sticlă','bottle'],['bax','bax','case'],['cartuș','cartuș','carton'],['legătură','legătură','bunch']];
  units.forEach(([value,ro,en])=>{const option=document.createElement('option');option.value=value;option.textContent=shopLabel(ro,en);unit.append(option)});
+ const packContent=shopInput(shopLabel('Conținut bax (ex. 24 sticle)','Case contents (e.g. 24 bottles)'),60);
+ packContent.hidden=true;
+ unit.onchange=()=>{packContent.hidden=unit.value!=='bax';if(packContent.hidden)packContent.value=''};
  const add=shopButton('Adaugă produs','Add item','primary-btn');add.type='submit';
- productForm.append(product,quantity,unit,add);
+ productForm.append(product,quantity,unit,packContent,add);
  productForm.onsubmit=e=>{e.preventDefault();
   if(!product.value.trim())return;
   if(!shopValidateQuantity(quantity.value)){notify(shopLabel('Cantitatea trebuie să fie un număr pozitiv.',
    'Quantity must be a positive number.'));return}
   if(!data.items.length&&(!data.createdAt||data.currentName==='Lista mea'))shopBeginFreshList(data);
-  data.items.push(shopNewItem(product.value,quantity.value,unit.value));data.completedAt=null;data.voiceSessionSaved=false;
+  data.items.push(shopNewItem(product.value,quantity.value,unit.value,unit.value==='bax'?packContent.value:''));data.completedAt=null;data.voiceSessionSaved=false;
   shoppingEditingId=null;shopSaveAndRender(data);
  };
  scroll.append(productForm);
@@ -7607,7 +7641,7 @@ function renderShoppingList(){
   const info=document.createElement('div');info.className='shop-item-info'+(item.checked?' is-checked':'');
   const itemName=document.createElement('strong');itemName.textContent=item.name;info.append(itemName);
   if(item.quantity){const unitLabel=document.createElement('small');
-   unitLabel.textContent=item.quantity+(item.unit?' '+item.unit:'');info.append(unitLabel)}
+   unitLabel.textContent=item.quantity+(item.unit?' '+item.unit:'')+(item.unit==='bax'&&item.packageContents?' · '+item.packageContents+'/bax':'');info.append(unitLabel)}
   const actions=document.createElement('div');actions.className='shop-item-controls';
   const edit=shopButton('Editează','Edit');edit.textContent='✎';
   edit.setAttribute('aria-label',shopLabel('Editează ','Edit ')+item.name);
@@ -7623,14 +7657,19 @@ function renderShoppingList(){
    const editQuantity=shopInput(shopLabel('Cantitate','Quantity'),20);editQuantity.value=item.quantity||'';
    editQuantity.inputMode='decimal';
    const editUnit=document.createElement('select');editUnit.setAttribute('aria-label',shopLabel('Unitate','Unit'));
-  [['buc','buc.','pcs'],['kg','kg','kg'],['g','g','g'],['l','l','l'],['ml','ml','ml'],['pachet','pachet','pack'],['cutie','cutie','box']].forEach(([value,ro,en])=>{const option=document.createElement('option');option.value=value;option.textContent=shopLabel(ro,en);editUnit.append(option)});
+  [['buc','buc.','pcs'],['kg','kg','kg'],['g','g','g'],['l','l','l'],['ml','ml','ml'],['pachet','pachet','pack'],['cutie','cutie','box'],['sticlă','sticlă','bottle'],['bax','bax','case'],['cartuș','cartuș','carton'],['legătură','legătură','bunch']].forEach(([value,ro,en])=>{const option=document.createElement('option');option.value=value;option.textContent=shopLabel(ro,en);editUnit.append(option)});
   editUnit.value=item.unit||'buc';
+   const editContents=shopInput(shopLabel('Conținut bax (ex. 24 sticle)','Case contents (e.g. 24 bottles)'),60);
+   editContents.value=item.packageContents||'';
+   editContents.hidden=editUnit.value!=='bax';
+   editUnit.onchange=()=>{editContents.hidden=editUnit.value!=='bax'};
    const save=shopButton('Salvează modificarea','Save change','primary-btn');save.type='submit';
-   editor.append(editName,editQuantity,editUnit,save);
+   editor.append(editName,editQuantity,editUnit,editContents,save);
    editor.onsubmit=e=>{e.preventDefault();if(!editName.value.trim())return;
     if(!shopValidateQuantity(editQuantity.value)){notify(shopLabel('Cantitate invalidă.','Invalid quantity.'));return}
     const target=data.items.find(i=>i.id===item.id);if(!target)return;
     target.name=editName.value.trim();target.quantity=editQuantity.value.trim();target.unit=editUnit.value;
+    target.packageContents=editUnit.value==='bax'?editContents.value.trim().slice(0,60):'';
     // Editing never marks an item as bought.
     shoppingEditingId=null;shopSaveAndRender(data);
    };
@@ -7657,7 +7696,7 @@ function renderShoppingList(){
   details.append(summary);
   for(const i of entry.items){const line=document.createElement('div');
    line.className='shop-history-line';
-   line.textContent=(i.checked?'☑ ':'☐ ')+i.name+(i.quantity?' · '+i.quantity+' '+i.unit:'');
+   line.textContent=(i.checked?'☑ ':'☐ ')+i.name+(i.quantity?' · '+i.quantity+' '+i.unit:'')+(i.unit==='bax'&&i.packageContents?' · '+i.packageContents+'/bax':'');
    details.append(line)}
   const buttons=document.createElement('div');buttons.className='shop-history-actions';
   const removeArchived=shopButton('Șterge','Delete');
