@@ -36,6 +36,25 @@ const incomplete=reconcileNearbyPlaces([
 ]);
 assert.equal(incomplete.length,1,'Alias+same postcode and no conflicting house number should merge');
 assert.equal(incomplete[0].distanceMeters,121,'Keep the nearer storefront location');
+// Two naming sources report the same storefront as two different results,
+// 117 m and 228 m from the user, with missing house data on one provider.
+const aliasNear=reconcileNearbyPlaces([
+ {name:'Super Chicken & Pizza',lat:51.4775,lon:0.3003,distanceMeters:117},
+ {name:'Super Chicken',lat:51.4792,lon:0.301,distanceMeters:228}
+]);
+assert.equal(aliasNear.length,1,'Nearby cuisine-suffixed Super Chicken aliases collapse');
+assert.equal(aliasNear[0].name,'Super Chicken & Pizza');
+assert.equal(aliasNear[0].distanceMeters,117);
+const aliasFar=reconcileNearbyPlaces([
+ {name:'Super Chicken & Pizza',lat:51.4775,lon:0.3003,distanceMeters:117},
+ {name:'Super Chicken',lat:51.4820,lon:0.301,distanceMeters:600}
+]);
+assert.equal(aliasFar.length,2,'Restaurants far apart are not merged by partial name');
+const conflictingStreet=reconcileNearbyPlaces([
+ {name:'Super Chicken & Pizza',lat:51.4775,lon:0.3003,distanceMeters:117,street:'London Road'},
+ {name:'Super Chicken',lat:51.4785,lon:0.301,distanceMeters:228,street:'Station Road'}
+]);
+assert.equal(conflictingStreet.length,2,'Conflicting named streets protect separate takeaways');
 const separateBranches=reconcileNearbyPlaces([
  {name:'Super Chicken',lat:51.4775,lon:0.3003,distanceMeters:120,
   street:'London Road',houseNumber:'535',postcode:'RM20 4AD'},
