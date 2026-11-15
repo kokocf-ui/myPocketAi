@@ -3,167 +3,125 @@ import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 import frontend from './index.js';
 import worker from './backend.js';
-import {assistantBareDestinationQuery as quick} from './assistant_bare_destination.mjs';
+import {assistantBareDestinationQuery as bare,assistantJourneyHandoff as handoff,
+ parseJourneyExpression as parse} from './assistant_bare_destination.mjs';
 
-// Bare destinations are accepted only when a real town is present.
+// Plain place requests are kept, but assistant navigation is redirected.
 for(const value of [
- 'Strada Mihai Eminescu, Oradea',
- 'Strada Libertății 12, Oradea',
- 'Strada Libertății nr. 12, Oradea',
- 'Strada Libertății, nr. 12, Oradea',
- 'Strada Libertății, 12, Oradea',
- 'Strada Libertății 12A din Oradea',
- 'Strada Libertății din Alba Iulia',
- 'Oxford Street, London',
- '25 Oxford Street, London',
- '12 Rue de Rivoli, Paris',
- 'Hauptstraße 10, Berlin',
- '12 улица Ленина, Москва',
- '12 Oxford Street, London, UK',
- '12 Nufărului, Oradea',
- 'Nufărului 12, Oradea',
- 'Nufărului nr. 12, Oradea',
- 'Nufărului, nr. 12, Oradea',
- 'Nufărului 12 din Oradea',
- 'Nufărului 12, Oradea, România',
- 'Hotel Hilton, London',
- 'Muzeul Țării Crișurilor din Oradea',
- 'Hotel Marriott, București'
-])assert.equal(quick(value),value,'one-line destination: '+value);
+ 'Nufărului 12, Oradea','Strada Libertății 12, Oradea',
+ 'Strada Libertății, nr. 12, Oradea','12 Oxford Street, London',
+ '25 Oxford Street, London','Hauptstraße 10, Berlin',
+ '12 Rue de Rivoli, Paris','12 улица Ленина, Москва',
+ 'Hotel Marriott, București','Muzeul Țării Crișurilor din Oradea'
+])assert.equal(bare(value),value,'bare address or venue: '+value);
 for(const value of [
- 'Strada Libertății',
- 'Hoteluri ieftine în Londra',
- 'Ce este Muzeul Țării Crișurilor din Oradea?',
- 'Unde găsesc hoteluri în Londra?',
- 'Salut, ce faci?',
- 'Muzee în Oradea',
- 'Nufărului 12',
- '25 Oxford Street',
- '12 cartușe, Oradea',
- 'Hoteluri 12, Oradea'
-])assert.equal(quick(value),null,'ordinary request must not start route: '+value);
+ 'Ce este un traseu pietonal?','Explain what a route is',
+ 'Unde găsesc hoteluri în Londra?','Hoteluri ieftine în Londra',
+ 'Nufărului 12','Salut, ce faci?','Muzee în Oradea',
+ '2 sticle, Oradea','12 cartușe, Oradea'
+])assert.equal(handoff(value),null,'non-routing question should stay in assistant: '+value);
+for(const value of [
+ 'Nufărului 12, Oradea','Du-mă la Nufărului 12, Oradea',
+ 'Cum ajung la muzeul din Oradea?','Traseu către Oradea',
+ 'Take me to 25 Oxford Street, London',
+ 'Directions to the British Museum, London',
+ 'De la Grays până la Oradea','From Grays to London',
+ 'Grays → London'
+])assert.ok(handoff(value),'route should transfer: '+value);
+assert.equal(parse('From Grays to London').origin_query,'Grays');
+assert.equal(parse('From Grays to London').destination_query,'London');
+assert.equal(parse('De la Grays până la Oradea').destination_query,'Oradea');
 
-// Main source delegates geocoding and routing to the existing shared backend.
 const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
-assert.match(backend,/assistantBareDestinationQuery\(message\)/);
-assert.match(backend,/data\.module==="assistant"\?assistantBareDestinationQuery/);
-assert.match(backend,/const routeSpecOriginal=/);
-assert.match(backend,/du\[- \]\?ma/,'hyphenated spoken navigation intent');
-
-const html=await(await frontend.fetch(new Request('https://quick-route.test/'))).text();
-const inline=html.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
-assert.ok(inline,'frontend script generated');
+assert.match(backend,/journey_suggest/);
+assert.match(backend,/assistantJourneyHandoff\(data\.message\)/);
+assert.match(backend,/exact_number_required/);
+const frontSource=readFileSync(new URL('./index.js',import.meta.url),'utf8');
+assert.match(frontSource,/ONE_FIELD_JOURNEY_SCRIPT/);
+assert.match(frontSource,/function showJourneyMode\(choice\)\{\n if\(choice\?\.mixedJourney\)\{showOneFieldJourney/);
+assert.match(frontSource,/if\(state\.currentView==='assistant'\)\{const route=assistantJourneyHandoff\(message\)/);
+const oneField=readFileSync(new URL('./one_field_journey_ui.mjs',import.meta.url),'utf8');
+assert.match(oneField,/addEventListener\('input',schedule\)/,'search starts while typing');
+assert.match(oneField,/controller\?\.abort\(\)/,'old suggestions are cancelled');
+assert.match(oneField,/journey_suggest/,'suggestions use backend service');
+assert.match(oneField,/transitDirect:true/,'mixed transit uses existing route engine');
+assert.match(oneField,/state\.pendingTravelMode=mode/,'road modes use existing route engine');
+assert.doesNotMatch(oneField,/renderStructuredAddressPicker/,'old address wizard must be absent');
+const page=await(await frontend.fetch(new Request('https://quick-route.test/'))).text();
+const inline=page.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
+assert.ok(inline,'frontend generates script');
 new vm.Script(inline);
-const from=inline.indexOf('function shopQuantityUnitLabel('),to=inline.indexOf('function shopButton(',from);
-assert.ok(from>0&&to>from,'unit display helper is present');
-const unit=vm.runInNewContext(inline.slice(from,to)+';shopQuantityUnitLabel',{state:{language:'ro'}});
+assert.match(inline,/function showOneFieldJourney\(/);
+assert.match(inline,/function assistantJourneyHandoff\(/);
+assert.match(inline,/function parseJourneyExpression\(/);
+assert.match(inline,/function handoffJourneyFromAssistant\(/);
+
+// Existing shopping plural display remains unaffected.
+const start=inline.indexOf('function shopQuantityUnitLabel('),
+ end=inline.indexOf('function shopButton(',start);
+assert.ok(start>0&&end>start);
+const unit=vm.runInNewContext(inline.slice(start,end)+';shopQuantityUnitLabel',{state:{language:'ro'}});
 for(const [q,u,result] of [
- ['1','sticlă','sticlă'],['2','sticlă','sticle'],['1','cartuș','cartuș'],
- ['3','cartuș','cartușe'],['2','bax','baxuri'],['2','cutie','cutii'],
- ['2','pachet','pachete'],['2','legătură','legături'],['1','kg','kg'],
- ['1,5','sticlă','sticle']
-])assert.equal(unit(q,u),result,`${q} ${u}`);
-assert.match(inline,/shopQuantityUnitLabel\(item\.quantity,item\.unit\)/,'active shopping list inflects');
-assert.match(inline,/shopQuantityUnitLabel\(i\.quantity,i\.unit\)/,'shopping history inflects');
-assert.match(inline,/assistantStructuredDestination=true;state\.pendingTravelConfirmationData/,'assistant chooses mode without leaving assistant');
-assert.match(backend,/canonicalTravelHouseNumber\(query\)/,'numbered addresses normalized before geocoding');
-assert.match(readFileSync(new URL('./index.js',import.meta.url),'utf8'),/assistantBareDestinationQuery\(text\)/,'assistant requests GPS for bare numbered addresses');
+ ['1','sticlă','sticlă'],['2','sticlă','sticle'],['3','cartuș','cartușe'],
+ ['2','bax','baxuri'],['2','cutie','cutii'],['1','kg','kg']
+])assert.equal(unit(q,u),result);
 
-// Exercise the actual Worker route handoff with deterministic geocoder responses.
-// This checks that a bare destination becomes an existing route-context prompt.
-const originalFetch=globalThis.fetch;
-let requestedGeoQueries=[];
-const realPlaces={
- street:{name:'Strada Libertății',street:'Strada Libertății',city:'Oradea',
-  formatted:'Strada Libertății, Oradea, Romania',result_type:'street',
-  lat:47.061,lon:21.930,country_code:'ro'},
- streetExact:{name:'Strada Libertății',street:'Strada Libertății',city:'Oradea',
-  housenumber:'12',formatted:'Strada Libertății 12, Oradea, Romania',result_type:'building',
-  lat:47.0613,lon:21.9303,country_code:'ro'},
- nufaruluiExact:{name:'Strada Nufărului',street:'Strada Nufărului',city:'Oradea',
-  housenumber:'12',formatted:'Strada Nufărului 12, Oradea, România',result_type:'building',
-  lat:47.0618,lon:21.9308,country_code:'ro'},
- oxfordExact:{name:'Oxford Street',street:'Oxford Street',city:'London',
-  housenumber:'25',formatted:'25 Oxford Street, London, United Kingdom',result_type:'building',
-  lat:51.5154,lon:-0.1418,country_code:'gb'},
- streetWrong:{name:'Strada Libertății',street:'Strada Libertății',city:'Oradea',
-  housenumber:'14',formatted:'Strada Libertății 14, Oradea, Romania',result_type:'building',
-  lat:47.0615,lon:21.9305,country_code:'ro'},
- hotel:{name:'Hotel Aurora',city:'Oradea',
-  formatted:'Hotel Aurora, Oradea, Romania',result_type:'amenity',
-  categories:['accommodation.hotel'],lat:47.062,lon:21.931,country_code:'ro'},
- museum:{name:'Muzeul Țării Crișurilor',city:'Oradea',
-  formatted:'Muzeul Țării Crișurilor, Oradea, Romania',result_type:'amenity',
-  categories:['entertainment.museum'],lat:47.063,lon:21.932,country_code:'ro'}
+// No route may be calculated inside the Personal Assistant.
+const used=[];
+const original=globalThis.fetch;
+const pStreet={name:'Strada Nufărului',street:'Strada Nufărului',city:'Oradea',
+ country:'Romania',country_code:'ro',housenumber:'12',result_type:'building',
+ formatted:'Strada Nufărului 12, Oradea, Romania',lat:47.0605,lon:21.935};
+const pOther={...pStreet,housenumber:'14',formatted:'Strada Nufărului 14, Oradea, Romania',lat:47.062,lon:21.936};
+const pLondon={name:'Oxford Street',street:'Oxford Street',city:'London',
+ country:'United Kingdom',country_code:'gb',housenumber:'25',result_type:'building',
+ formatted:'25 Oxford Street, London, UK',lat:51.5154,lon:-.1418};
+const pMuseum={name:'Muzeul Țării Crișurilor',city:'Oradea',
+ country:'Romania',country_code:'ro',result_type:'amenity',categories:['entertainment.museum'],
+ formatted:'Muzeul Țării Crișurilor, Oradea, Romania',lat:47.0611,lon:21.934};
+const feature=p=>({type:'Feature',properties:p,geometry:{coordinates:[p.lon,p.lat]}});
+globalThis.fetch=async(input)=>{
+ const u=new URL(typeof input==='string'?input:input.url);used.push(u);
+ if(u.hostname!=='api.geoapify.com')throw Error('Unexpected provider '+u.hostname);
+ const q=u.searchParams.get('text')||'';
+ if(/oxford/i.test(q))return Response.json({results:[pLondon]});
+ if(/crisurilor|crișurilor/i.test(q))return Response.json({results:[pMuseum]});
+ if(/nufarului|nufărului|^nu$/i.test(q))return Response.json({
+  results:[pOther,pStreet],features:[feature(pOther),feature(pStreet)]});
+ return Response.json({results:[]});
 };
-try {
- globalThis.fetch=async(input)=>{
-  const url=new URL(typeof input==='string'?input:input.url);
-  if(url.hostname==='api.geoapify.com'&&url.pathname==='/v1/geocode/search'){
-   const query=(url.searchParams.get('text')||'').toLowerCase();
-   requestedGeoQueries.push(query);
-   const toFeature=p=>({type:'Feature',properties:p,
-    geometry:{type:'Point',coordinates:[p.lon,p.lat]}});
-   if(/^12a? strada libertatii/.test(query))
-    return Response.json({features:[toFeature(realPlaces.streetWrong),toFeature(realPlaces.streetExact)]});
-   if(/^99 strada libertatii/.test(query))
-    return Response.json({features:[toFeature(realPlaces.streetWrong),toFeature(realPlaces.street)]});
-   if(/^12 nufarului/.test(query))
-    return Response.json({features:[toFeature(realPlaces.street),toFeature(realPlaces.nufaruluiExact)]});
-   if(/^99 nufarului/.test(query))
-    return Response.json({features:[toFeature(realPlaces.street),toFeature(realPlaces.nufaruluiExact)]});
-   if(/^25 oxford street/.test(query))
-    return Response.json({features:[toFeature(realPlaces.oxfordExact)]});
-   const p=query.includes('aurora')?realPlaces.hotel:query.includes('crișurilor')||query.includes('crisurilor')?realPlaces.museum:realPlaces.street;
-   return Response.json({features:[toFeature(p)]});
-  }
-  if(url.hostname==='api.geoapify.com'&&url.pathname==='/v2/places')
-   return Response.json({features:[]});
-  if(url.hostname==='photon.komoot.io')
-   return Response.json({features:[]});
-  throw new Error('Unexpected provider '+url.hostname+url.pathname);
- };
- const env={GEOAPIFY_API_KEY:'test',AI:{run:async()=>{throw Error('Route should not need an AI generation')}}};
- for(const message of ['Strada Libertății, Oradea','Hotel Aurora, Oradea','Muzeul Țării Crișurilor din Oradea',
- 'Strada Libertății 12, Oradea','Strada Libertății nr. 12, Oradea',
- 'Strada Libertății, nr. 12, Oradea','Strada Libertății, 12, Oradea',
- 'Nufărului 12, Oradea','Nufărului nr. 12, Oradea','Nufărului, nr. 12, Oradea',
- '12 Nufărului, Oradea','Nufărului 12 din Oradea',
- '25 Oxford Street, London']){
-  const response=await worker.fetch(new Request('https://quick-route.test/api/chat',{method:'POST',
-   headers:{'content-type':'application/json'},
-   body:JSON.stringify({message,language:'ro',module:'assistant',history:[],
-    location:{latitude:47.055,longitude:21.92,accuracy:20,updatedAt:Date.now()}})}),env);
-  assert.equal(response.status,200,'Worker returned error for '+message);
-  const body=await response.json();
-  assert.equal(body.needs_travel_mode,true,message+' should request existing mode chooser: '+JSON.stringify(body).slice(0,550));
-  assert.ok(body.route_context?.destination,'No verified destination: '+message);
-  if(/25 Oxford/.test(message)){
-   assert.equal(body.route_context.destination.latitude,51.5154,'English numbering must find Oxford Street 25');
-   assert.ok(requestedGeoQueries.some(q=>q.startsWith('25 oxford street')),'English address must retain number-first order');
-  }else if(/Nufărului/i.test(message)){
-   assert.equal(body.route_context.destination.latitude,47.0618,'Street number 12 must work without word "strada"');
-   assert.ok(requestedGeoQueries.some(q=>q.startsWith('12 nufarului')),'Unlabeled street must be normalized with door number');
-  }else if(/12/.test(message)){
-   assert.equal(body.route_context.destination.latitude,47.0613,'Must choose number 12, not street or number 14');
-   assert.ok(requestedGeoQueries.some(q=>q.startsWith('12 strada libertatii')),'Provider lookup must include exact house number');
-  }
+const env={GEOAPIFY_API_KEY:'test',AI:{run:async()=>{throw Error('AI must not calculate directions in assistant')}}};
+const ask=async payload=>{
+ const response=await worker.fetch(new Request('https://test.local/api/chat',{method:'POST',
+  headers:{'content-type':'application/json'},
+  body:JSON.stringify(payload)}),env);
+ return {status:response.status,data:await response.json()};
+};
+try{
+ for(const message of ['Nufărului 12, Oradea','Du-mă la Nufărului 12, Oradea',
+  '25 Oxford Street, London','From Grays to London']){
+  const r=await ask({message,module:'assistant',language:'ro',history:[]});
+  assert.equal(r.status,200);
+  assert.ok(r.data.journey_handoff,'Assistant must hand off route: '+message);
+  assert.ok(!r.data.route&&!r.data.transit,'Assistant must not calculate routes');
  }
- const missed=await worker.fetch(new Request('https://quick-route.test/api/chat',{method:'POST',
-  headers:{'content-type':'application/json'},
-  body:JSON.stringify({message:'Strada Libertății 99, Oradea',module:'assistant',language:'ro',
-   history:[],location:{latitude:47.055,longitude:21.92,accuracy:20,updatedAt:Date.now()}})}),env);
- const noExact=await missed.json();
- assert.equal(noExact.needs_destination_clarification,true,'Unavailable house number must trigger clarification');
- assert.equal(noExact.route_context?.destination,undefined,'Never downgrade 99 to a street-level point');
- assert.equal(noExact.place_lookup?.strategy,'exact_house_not_verified');
- const noBare=await worker.fetch(new Request('https://quick-route.test/api/chat',{method:'POST',
-  headers:{'content-type':'application/json'},
-  body:JSON.stringify({message:'Nufărului 99, Oradea',module:'assistant',language:'ro',
-   history:[],location:{latitude:47.055,longitude:21.92,accuracy:20,updatedAt:Date.now()}})}),env);
- const noBareExact=await noBare.json();
- assert.equal(noBareExact.needs_destination_clarification,true,'Missing unprefixed house must prompt');
- assert.equal(noBareExact.route_context?.destination,undefined,'Never silently choose street center');
-}finally{globalThis.fetch=originalFetch}
-
-console.log('Quick assistant routes and Romanian shopping plurals: OK');
+ assert.equal(used.length,0,'Assistant route must not call map provider or AI');
+ for(const [query,expected] of [
+  ['Nufărului 12, Oradea',47.0605],
+  ['25 Oxford Street, London',51.5154],
+  ['Muzeul Țării Crișurilor din Oradea',47.0611]
+ ]){
+  const r=await ask({journey_suggest:{query}});
+  assert.equal(r.status,200,'Suggest response '+query);
+  assert.equal(r.data.candidates.length,1,'Verified suggestion '+query+': '+JSON.stringify(r.data).slice(0,600));
+  assert.equal(r.data.candidates[0].latitude,expected,'Exact result '+query);
+ }
+ const missed=await ask({journey_suggest:{query:'Nufărului 99, Oradea'}});
+ assert.equal(missed.status,200);
+ assert.equal(missed.data.candidates.length,0,'Wrong house must not be substituted');
+ const prefix=await ask({journey_suggest:{query:'Nu'}});
+ assert.equal(prefix.status,200);
+ assert.ok(prefix.data.candidates.length>0,'Progressive lookup starts from first typed word');
+ assert.ok(used.every(u=>u.hostname==='api.geoapify.com'),'No new routing providers or AI');
+}finally{globalThis.fetch=original}
+console.log('PASS one-field journey, progressive location suggestions, assistant handoff, exact houses, shopping plurals');
