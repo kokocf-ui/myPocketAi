@@ -9,8 +9,8 @@ function evaImageInstallationId(){
  try{
   const existing=localStorage.getItem(key);
   if(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(existing||''))return existing;
-  if(typeof crypto?.randomUUID!=='function')return null;
-  const next=crypto.randomUUID();
+  if(typeof globalThis.crypto?.randomUUID!=='function')return null;
+  const next=globalThis.crypto.randomUUID();
   localStorage.setItem(key,next);
   return next;
  }catch{return null}
@@ -155,8 +155,8 @@ function extraCreatorWorkingImages(work){
  if(old?.querySelector('button[disabled]'))old.remove();
  const intro=area.querySelector('.extra-creator-notice');
  if(intro)intro.textContent=extraToolsLocale(
-  'Generator AI real de test. Limită globală: maximum 3 imagini pe zi, fără generare plătită nelimitată.',
-  'Live AI preview. Global cap: 3 images daily, without unlimited paid requests.');
+  'Generator AI de test. Fiecare instalare are 3 utilizări zilnice, cu un plafon general de siguranță.',
+  'Live AI preview. Each installation has 3 daily uses, with a shared safety spending cap.');
  const status=extraToolsEl('p','extra-creator-operation-status',
   extraToolsLocale('Introdu descrierea. Aici vei vedea imediat când începe generarea și când este gata.','Describe your image. Generation progress and result will appear here.'));
  status.setAttribute('role','status');
@@ -201,7 +201,7 @@ function extraCreatorWorkingImages(work){
    if(work!==extraToolsSession||!area.isConnected)return;
    if(!response.ok||data?.status!=='success'||typeof data.image!=='string'){
     status.textContent=['installation_limit_reached','preview_capacity_reached','preview_limit_reached'].includes(data?.error)?
-     extraToolsLocale('Limita zilnică globală de 3 imagini de test a fost atinsă.','The shared daily preview limit of 3 images was reached.'):
+     extraToolsLocale('Nu mai sunt utilizări disponibile pentru această instalare sau plafonul de siguranță al testului a fost atins.','No uses remain on this installation, or the shared preview safety cap was reached.'):
      ['workers_ai_free_limit','workers_ai_limit'].includes(data?.error)?
      extraToolsLocale('Limita gratuită Cloudflare este epuizată. Nu se face generare plătită.','Cloudflare free quota exhausted. No paid generation attempted.'):
      extraToolsLocale('Motorul AI nu a răspuns. Nu există imagine de salvat.','AI image engine unavailable. No image to save.');
@@ -296,7 +296,7 @@ function evaCreatorPhotoTabs(work){
    if(work!==extraToolsSession||!edited.isConnected)return;
    if(!response.ok||data?.status!=='success'||typeof data.image!=='string'){
     status.textContent=['installation_limit_reached','preview_capacity_reached','preview_limit_reached'].includes(data?.error)?
-     extraToolsLocale('Limita globală de 3 imagini pe zi este atinsă.','The global daily limit of three images has been reached.'):
+     extraToolsLocale('Nu mai sunt utilizări pe această instalare sau plafonul de siguranță al testului a fost atins.','This installation is out of uses, or the preview safety cap was reached.'):
      extraToolsLocale('Editarea nu a reușit. Nu s-a salvat nimic.','Editing failed. Nothing was saved.');
     return;
    }
