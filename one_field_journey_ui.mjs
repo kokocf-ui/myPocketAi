@@ -110,7 +110,10 @@ function showOneFieldJourney(choice){
   confirmed.append(summary,departure,modes);
   const distance=origin?Math.hypot(Number(origin.latitude)-Number(selected.latitude),
    (Number(origin.longitude)-Number(selected.longitude))*Math.cos(Number(selected.latitude)*Math.PI/180))*111:distanceToDestinationKm(selected);
-  for(const [mode,label] of [['walk',text.walk],['transit',text.transit],['drive',text.drive]]){
+  const suggestedMode=searchPhrase().preferred_mode;
+  const choices=[['walk',text.walk],['transit',text.transit],['drive',text.drive]];
+  if(suggestedMode)choices.sort((a,b)=>(a[0]===suggestedMode?-1:0)-(b[0]===suggestedMode?-1:0));
+  for(const [mode,label] of choices){
    if(mode==='walk'&&Number.isFinite(distance)&&distance>5)continue;
    const button=makeButton(label,()=>void runMode(mode),true);button.style.width='100%';
    confirmed.append(button);
