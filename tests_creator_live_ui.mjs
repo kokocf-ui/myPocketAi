@@ -83,5 +83,5 @@ assert.throws(()=>scenes.prompt('x'.repeat(801),'full','square'),/invalid_prompt
 
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/PocketAndroidImages/);
 assert.match(CREATOR_IMAGE_AI_SCRIPT,/save\.disabled=false/);
-assert.match(CREATOR_IMAGE_AI_SCRIPT,/payload|data\?\.error==='preview_limit_reached'/);
+assert.match(CREATOR_IMAGE_AI_SCRIPT,/preview_limit_reached/,'Image quota errors are handled without spending more credits');
 console.log('PASS creator: genuine Eva AI request + validated bilingual copy, image preview limit, Gallery integration and no false AI success');
