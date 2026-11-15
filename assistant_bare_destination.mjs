@@ -25,6 +25,9 @@ export function assistantBareDestinationQuery(raw){
  // local writing convention (e.g. 12 Oxford Street or Nufărului 12).
  const numberFirst=/^\d+[a-z]?(?:[-/]\d+)?\s+[a-z][a-z0-9' .-]{1,100}$/iu.test(head);
  const numberLast=/^[a-z][a-z0-9' .-]{1,100}\s+(?:(?:nr\.?|numar(?:ul)?|no\.?|number|#)\s*)?\d+[a-z]?(?:[-/]\d+)?$/iu.test(head);
- const numberedAddress=!namedLandmark&&(numberFirst||numberLast);
+ // Avoid treating ordinary shopping quantities and category searches as houses.
+ const categoryQuery=/^(?:hoteluri|muzee|restaurante|cafenele|magazine|produse|bilete|camere)\b/u.test(head);
+ const units=/^\d+\s+(?:cartuse?|pachete?|baxuri?|sticle?|bucati|kg|g|litri?|bottles?|packs?|eggs?|boxes?|pieces?|items?)\b/u.test(head);
+ const numberedAddress=!namedLandmark&&!categoryQuery&&!units&&(numberFirst||numberLast);
  return namedStreet||namedLandmark||numberedAddress?text:null;
 }
