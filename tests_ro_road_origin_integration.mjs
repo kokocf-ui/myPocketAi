@@ -35,7 +35,7 @@ test('explicit road Oradea-Cluj never starts from UK GPS',async()=>{
    headers:{'content-type':'application/json'},
    body:JSON.stringify({
     message:'Arată-mi traseul cu mașina din Oradea la Cluj-Napoca.',
-    language:'ro',module:'assistant',history:[],
+    language:'ro',module:'maps',history:[],
     location:{latitude:51.48,longitude:0.33,updatedAt:Date.now()},
     coordinates:{latitude:51.48,longitude:0.33}
    })

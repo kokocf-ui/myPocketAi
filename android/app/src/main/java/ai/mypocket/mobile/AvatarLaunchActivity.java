@@ -155,6 +155,7 @@ public final class AvatarLaunchActivity extends Activity {
             @Override public void onStart(String utteranceId) {
                 runOnUiThread(() -> {
                     if (!isCurrentSegment(utteranceId)) return;
+                    if (greetingFinished || finishingLaunch) return;
                     startAvatarLipSyncOnce();
                     if (greetingSegmentIndex == greetingSegments.size()-1) startPlaybackWatchdog();
                 });
@@ -172,7 +173,7 @@ public final class AvatarLaunchActivity extends Activity {
             }
             @Override public void onError(String utteranceId) {
                 runOnUiThread(() -> {
-                    if (isCurrentSegment(utteranceId)) openMain();
+                    if (!greetingFinished && !finishingLaunch && isCurrentSegment(utteranceId)) openMain();
                 });
             }
         });
@@ -757,7 +758,12 @@ public final class AvatarLaunchActivity extends Activity {
         handler.removeCallbacks(playbackWatchdog);
         // End-of-utterance and real playback status are both authoritative:
         // whichever confirms completion first closes the mouth exactly once.
+        // End the actual Android TTS session, not just the avatar's mouth.
+        // Watchdog completion can otherwise leave an audio callback speaking
+        // after the visual greeting has already finished.
+        if(speech != null) speech.stop();
         sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(false);");
+        sendToAvatar("window.pocketLaunchEndGreeting && window.pocketLaunchEndGreeting();");
         handler.postDelayed(AvatarLaunchActivity.this::openMain, 480L);
     }
 
@@ -768,6 +774,10 @@ public final class AvatarLaunchActivity extends Activity {
     private void openMain() {
         if (finishingLaunch || isFinishing()) return;
         finishingLaunch = true;
+        handler.removeCallbacks(playbackWatchdog);
+        if (speech != null) speech.stop();
+        // Close the lips even on Back, a failed utterance or early exit.
+        sendToAvatar("window.pocketLaunchSpeak && window.pocketLaunchSpeak(false);");
         if (avatarView != null) {
             try { avatarView.evaluateJavascript("window.pocketLaunchFinish && window.pocketLaunchFinish();", null); }
             catch (Exception ignored) {}

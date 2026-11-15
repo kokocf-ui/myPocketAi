@@ -6,6 +6,7 @@ import {classifyConversationTurn,buildConversationEvidence} from "./conversation
 import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} from "./eva_dialogue.mjs";
 import {recallFromSuppliedHistory,groundedHistorySummary} from "./eva_history_recall.mjs";
 import {parseNearbyStreetQuery,geocodeNearbyStreet} from "./nearby_street_geocode.mjs";
+import {assistantBareDestinationQuery,assistantJourneyHandoff} from "./assistant_bare_destination.mjs";
 import {isStreetOnlyPlace,parseNamedBusinessInformation,researchNamedBusiness,businessResearchReply} from "./local_business_evidence.mjs";
 import {nearbyUkRegisteredRetailers,nearbyUkRegisteredTakeaways} from "./uk_food_retailers.mjs";
 import {foodCategoryAccepts,reconcileNearbyPlaces} from "./food_location_quality.mjs";
@@ -153,8 +154,36 @@ const TRAVEL_POI_RULES=[
  [/^(?:cinema|cinematograf(?:ul)?|kino|театр|theatre|theater)\s+/i,'entertainment']
 ];
 const TRAVEL_STREET_WORDS=/\b(?:strada|str\.?|street|st\.?|road|rd\.?|lane|ln\.?|avenue|ave\.?|way|drive|close|crescent|boulevard|blvd|square|rue|chemin|route|strasse|straße|gasse|via|viale|calle|avenida|rua|straat|ulica)\b|улица|проспект/iu;
+// Normalize the requested door number before geocoding. A street-only map
+// feature must never count as the numbered destination the user supplied.
+function canonicalTravelHouseNumber(query){
+ const parts=String(query||'').split(',').map(p=>p.trim()).filter(Boolean);
+ if(parts.length<2)return query;
+ let street=parts[0],tail=parts.slice(1),house=null;
+ // A numbered street address may omit "Strada", "Street" or other local
+ // street-type words; the geocoder must still verify street + door number.
+ const isStreetLike=value=>TRAVEL_STREET_WORDS.test(value)||
+  (/^[\p{L}][\p{L}\p{M}' .-]{1,100}$/u.test(value)&&
+   !TRAVEL_POI_RULES.some(([rx])=>rx.test(value)));
+ const houseToken='(\\d+[a-z]?(?:[-/]\\d+)?)';
+ const marker='(?:nr\\.?|numar(?:ul)?|no\\.?|number|#)';
+ // "Strada X, nr. 12, Oradea" (and "Strada X, 12, Oradea").
+ if(tail.length>1){
+  const match=tail[0].match(new RegExp('^(?:'+marker+'\\s*)?'+houseToken+'$','i'));
+  if(match&&isStreetLike(street)){house=match[1];tail=tail.slice(1)}
+ }
+ if(!house){
+  // "Strada X 12, Oradea" and "Strada X nr.12, Oradea".
+  const match=street.match(new RegExp('^(.+?)\\s+('+marker+'\\s*)?'+houseToken+'$','i'));
+  if(match&&isStreetLike(match[1])&&(match[2]||!/\d/.test(match[1]))){
+   street=match[1].trim();house=match[3];
+  }
+ }
+ return house?house+' '+street+', '+tail.join(', '):query;
+}
 function travelPlaceSpec(value){
  let query=cleanTravelPlace(value);const split=query.match(/^(.+?)\s+(?:din|in)\s+([^,]+)$/i);if(split)query=split[1].trim()+', '+split[2].trim();
+ query=canonicalTravelHouseNumber(query);
  const parts=query.split(',').map(v=>v.trim()).filter(Boolean),head=parts[0]||'',rule=TRAVEL_POI_RULES.find(([rx])=>rx.test(head)),name=rule?head.replace(rule[0],'').trim():head,locality=parts.slice(1).join(', ');
  const postcode=/^(?:[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}|\d{4,6})$/i.test(head);
  const address=!rule&&(postcode||/^\d+[a-z]?(?:[-/]\d+)?\s+\p{L}/iu.test(head)||TRAVEL_STREET_WORDS.test(head));
@@ -177,7 +206,10 @@ function travelPlaceCandidateMatches(query,p){
   if(spec.postcode)return has(p.postcode||formatted,words(spec.name))&&(!spec.locality||has(formatted,words(spec.locality)));
   const house=spec.name.match(/^(\d+[a-z]?(?:[-/]\d+)?)(?:\s|,)/i)?.[1];if(house&&String(p.housenumber||'').toLowerCase()!==house.toLowerCase())return false;
   const street=spec.name.replace(/^\d+[a-z]?(?:[-/]\d+)?\s+/i,'');
-  const streetWords=v=>words(v).map(w=>({rd:'road',st:'street',ln:'lane',ave:'avenue',blvd:'boulevard'}[w]||w));if(!streetWords(street).every(w=>streetWords(p.street||(/street/i.test(p.result_type||'')?p.name:'')).includes(w)))return false;
+  const streetWords=v=>words(v)
+   .map(w=>({rd:'road',st:'street',ln:'lane',ave:'avenue',blvd:'boulevard'}[w]||w))
+   .filter(w=>!['strada','str','street','soseaua','sos','calea','aleea','bulevardul','bd','boulevard','road','lane','avenue','drive','close','rue','via','calle'].includes(w));
+  if(!streetWords(street).every(w=>streetWords(p.street||(/street/i.test(p.result_type||'')?p.name:'')).includes(w)))return false;
   return !spec.locality||has(formatted,words(spec.locality));
  }
  return true;
@@ -1121,13 +1153,13 @@ function routeMessageSpec(text){
  if(/(?:distanta|distance|cati kilometri|how far|how many kilomet)/.test(n)&&!/(?:traseu|ruta|route|directions)/.test(n))return null;
  const walk=/(?:\b(?:pietonal\w*|pe jos|walking|walk to|walk me to|on foot)\b)/.test(n)||n==="walk";
  const drive=/(?:traseu rutier|ruta auto|driving route|driving directions|cu masina|by car)/.test(n)||/^(?:drive|driving|masina)$/.test(n);
- const route=walk||drive||/(?:traseu|ruta|route|directions|navigheaza|navigate|cum ajung|cum pot ajunge|vreau sa (?:ajung|merg)|du ma|how (?:do|can) i get to|i want to (?:get|go) to|take me to)/.test(n);
+ const route=walk||drive||/(?:traseu|ruta|route|directions|navigheaza|navigate|cum ajung|cum pot ajunge|vreau sa (?:ajung|merg)|du[- ]?ma|mergi (?:la|spre)|arata(?:-mi)? drumul|how (?:do|can) i get to|i want to (?:get|go) to|take me to)/.test(n);
  if(!route)return null;
  const viaMatch=String(text).match(/\s+(?:via|prin|through)\s+(.+)$/i);
  const clean=cleanTravelPlace(viaMatch?String(text).slice(0,viaMatch.index):text).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[?!.]+$/g,'').trim();
  const pair=explicitOriginDestinationPair(clean);
  const cityVenue=clean.match(/(?:vreau sa ajung|cum ajung|merg|go|travel)\s+in\s+(.+?)\s+la\s+(.+)$/i);
- const dest=clean.match(/(?:pana\s+(?:in|la)|catre|spre|\bto|\bla)\s+(.+)$/i);
+ const dest=clean.match(/(?:pana\s+(?:in|la)|catre|spre|\bto|\bla|\bpe(?=\s+strada\b))\s+(.+)$/i);
  const own=v=>/^(?:foloseste |use )?(?:locatia mea|pozitia mea(?: gps)?|my (?:current )?(?:location|position)|gps|aici|here)$/.test(normalizeGeoName(v));
  return {via_query:viaMatch?viaMatch[1].replace(/[?!.]+$/g,'').trim().slice(0,160):'',profile:walk?'walk':drive?'drive':null,destination_query:travelPlaceSpec(cleanTravelPlace(cityVenue?cityVenue[2]+', '+cityVenue[1]:pair?pair[2]:dest?dest[1]:clean.match(/\bin\s+(.+)$/i)?.[1]||'')).query,origin_query:pair&&!own(pair[1])?pair[1].trim().slice(0,160):''};
 }
@@ -1626,6 +1658,77 @@ export default {
       data = await request.json();
     } catch {
       return json({ app: "Pocket AI", version: API_VERSION, error: "JSON invalid" }, 400);
+    }
+
+    // One-field Deplasare spre… autocomplete. No AI model or route calculation:
+    // map provider candidates are rendered as suggestions while typing.
+    if(data?.journey_suggest){
+      const raw=String(data.journey_suggest.query||'').trim().slice(0,200);
+      const location=data.journey_suggest.location;
+      if(raw.length<2||raw.length>180||/[\r\n<>]/u.test(raw))
+        return json({candidates:[],error:'invalid_journey_query'},400);
+      if(!env.GEOAPIFY_API_KEY)
+        return json({candidates:[],error:'journey_search_unconfigured'},503);
+      const parsed=travelPlaceSpec(raw);
+      const selected=parsed.query;
+      const num=parsed.kind==='address'?parsed.name.match(/^(\d+[a-z]?(?:[-/]\d+)?)\s+/i)?.[1]||'':'';
+      const pointOk=location&&Number.isFinite(Number(location.latitude))&&Number.isFinite(Number(location.longitude))&&Math.abs(Number(location.latitude))<=90&&Math.abs(Number(location.longitude))<=180;
+      const endpoints=['https://api.geoapify.com/v1/geocode/autocomplete'];
+      // The complete address or named POI is also checked with the more exact
+      // search endpoint; a partial word does not trigger an extra provider call.
+      if(selected.length>=8&&/(?:,|\s+din\s+|\s+in\s+|\s+\d+[a-z]?$)/iu.test(selected))
+        endpoints.push('https://api.geoapify.com/v1/geocode/search');
+      const promises=endpoints.map(async endpoint=>{
+        const url=new URL(endpoint);
+        url.searchParams.set('text',selected);
+        url.searchParams.set('format','json');
+        url.searchParams.set('limit','10');
+        url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+        if(pointOk)url.searchParams.set('bias','proximity:'+Number(location.longitude)+','+Number(location.latitude));
+        const response=await fetch(url.href,{signal:AbortSignal.timeout(6500)});
+        if(!response.ok)throw Error('geocoding_'+response.status);
+        const result=await response.json();
+        return Array.isArray(result.results)?result.results:Array.isArray(result.features)?result.features.map(f=>f.properties||{}):[];
+      });
+      const answers=await Promise.allSettled(promises);
+      if(!answers.some(a=>a.status==='fulfilled'))
+        return json({candidates:[],error:'journey_search_unavailable'},502);
+      const seen=new Set(),candidates=[];
+      const norm=value=>String(value||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
+      for(const answer of answers){
+        if(answer.status!=='fulfilled')continue;
+        for(const p of answer.value){
+          const latitude=Number(p.lat),longitude=Number(p.lon);
+          if(!Number.isFinite(latitude)||!Number.isFinite(longitude)||Math.abs(latitude)>90||Math.abs(longitude)>180)continue;
+          // A requested house number requires the SAME provider-confirmed number.
+          // Neither street centre nor a neighbouring building is an exact result.
+          if(num&&norm(p.housenumber)!==norm(num))continue;
+          if(!travelPlaceCandidateMatches(selected,p))continue;
+          const label=String(p.formatted||[p.name,p.housenumber,p.street,p.city,p.country].filter(Boolean).join(', ')).trim().slice(0,240);
+          if(!label)continue;
+          const key=latitude.toFixed(5)+'|'+longitude.toFixed(5)+'|'+norm(label);
+          if(seen.has(key))continue;
+          seen.add(key);
+          candidates.push({label,latitude,longitude,city:String(p.city||p.town||p.village||'').slice(0,100),
+            country_code:String(p.country_code||'').toUpperCase().slice(0,2),
+            street:String(p.street||'').slice(0,120),house_number:String(p.housenumber||'').slice(0,20),
+            kind:String(p.result_type||'place').slice(0,30),source:'Geoapify'});
+          if(candidates.length>=8)break;
+        }
+        if(candidates.length>=8)break;
+      }
+      return json({candidates,provider:'geoapify',exact_number_required:Boolean(num),query:raw});
+    }
+    // The personal assistant must not calculate routes; a legacy client that
+    // misses frontend interception is given a handoff, never an AI itinerary.
+    if(data?.module==='assistant'&&typeof data.message==='string'){
+      const handoff=assistantJourneyHandoff(data.message);
+      if(handoff)return json({
+        app:'Pocket AI',version:API_VERSION,status:'success',language:String(data.language||'ro'),
+        reply:data.language==='en'?'Opening Directions. Enter or select your destination there.':
+          'Deschid Deplasare spre… pentru alegerea destinației și a traseului.',
+        journey_handoff:handoff,ai_connected:false
+      });
     }
 
     if (data?.address_lookup) {
@@ -3970,7 +4073,8 @@ export default {
     // Shared route dispatch for assistant and map-module messages; POIs are not city searches.
     const routeWords=normalizeGeoName(message);
     const mapRouteRequest=!/^(?:ce este|ce inseamna|what is|explain|explica|why|de ce)\b/.test(routeWords)&&/(?:harta|map)/.test(routeWords)&&/(?:trase|ruta|rute|route|directii|directions)/.test(routeWords);
-    const routeSpecOriginal=data.route_start===true&&["walk","drive"].includes(data.route_profile)?{profile:data.route_profile,destination_query:"",origin_query:""}:routeMessageSpec(message);
+    const assistantBareDestination=data.module==="assistant"?assistantBareDestinationQuery(message):null;
+    const routeSpecOriginal=data.route_start===true&&["walk","drive"].includes(data.route_profile)?{profile:data.route_profile,destination_query:"",origin_query:""}:routeMessageSpec(message)||(assistantBareDestination?{profile:null,destination_query:travelPlaceSpec(assistantBareDestination).query,origin_query:"",via_query:""}:null);
     const routeSpec=routeSpecOriginal?.destination_query?{...routeSpecOriginal,destination_query:canonicalLandmarkQuery(routeSpecOriginal.destination_query)}:routeSpecOriginal;
     const walkRequest=routeSpec?.profile==='walk';
     const driveRequest=routeSpec?.profile==='drive';
@@ -4158,6 +4262,11 @@ export default {
         }
         if(!candidates.length){
           rc.pending='destination_detail';
+          const numbered=travelPlaceSpec(rc.destination_query).name.match(/^(\d+[a-z]?(?:[-/]\d+)?)\s+/i);
+          if(numbered)return routeReply(lang==='en'
+           ?'I could not verify house number '+numbered[1]+' at this street and town. Please confirm the house number or add a postcode; I will not route to the street in its place.'
+           :'Nu am putut verifica numărul '+numbered[1]+' la această stradă și localitate. Confirmă numărul sau adaugă codul poștal; nu voi înlocui adresa cu centrul străzii.',
+           {needs_destination_clarification:true,place_lookup:{strategy:'exact_house_not_verified'}});
           return routeReply(lang==='en'
             ?'I could not verify “‘'+rc.destination_query+'” on the map. Add the town or postcode; I will not suggest a different place.'
             :'Nu am putut verifica pe hartă obiectivul „'+rc.destination_query+'”. Adaugă localitatea sau codul poștal; nu voi alege alt loc.',
