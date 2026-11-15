@@ -1,0 +1,48 @@
+name: Test isolated myPocketAI image creator preview
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'creator_preview_worker.mjs'
+      - 'wrangler-creator-preview.toml'
+      - 'tests_creator_preview_worker.mjs'
+      - '.github/workflows/creator-preview-cloudflare.yml'
+  workflow_dispatch:
+
+jobs:
+  capped-creator-preview:
+    if: ${{ github.event_name == 'pull_request' && github.head_ref == 'ui/tools-workspaces-unified-2026-11-14' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate quota before deployment
+        run: |
+          node --check creator_preview_worker.mjs
+          node tests_creator_preview_worker.mjs
+          grep -F 'const DAILY_MAX=3, LIFETIME_MAX=30' creator_preview_worker.mjs
+          grep -F 'name = "lifewise-ai-creator-preview"' wrangler-creator-preview.toml
+      - name: Require existing Cloudflare credentials
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CF_TOKEN" && test -n "$CF_ACCOUNT"
+      - name: Install pinned Wrangler
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@3.90.0
+      - name: Deploy preview ONLY (never production)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: "false"
+        run: npx --no-install wrangler deploy --config wrangler-creator-preview.toml
+      - name: Verify isolated worker is online without generating an image
+        run: |
+          code=$(curl -sS -o /tmp/creator-check -w '%{http_code}' \
+            https://lifewise-ai-creator-preview.kokocf.workers.dev/image)
+          test "$code" = 403
+          grep -q 'origin_not_allowed' /tmp/creator-check
+          echo "Preview worker ready. No AI generation performed by workflow."
