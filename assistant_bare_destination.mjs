@@ -16,15 +16,15 @@ export function assistantBareDestinationQuery(raw){
  if(comma.length>=3&&/^(?:(?:nr\.?|numar(?:ul)?|no\.?|number|#)\s*)?\d+[a-z]?(?:[-/]\d+)?$/iu.test(fold(comma[1]))){
   head=fold(comma[0]+' '+comma[1]);locality=fold(comma.slice(2).join(', '));
  }
- if(!/[a-zа-я]{2}/iu.test(locality)||!/[a-zа-я]{2}/iu.test(head))return null;
+ if(!/\p{L}{2}/u.test(locality)||!/\p{L}{2}/u.test(head))return null;
  if(/^(?:toate|un|o|niste|cele|lista|preturi|recenzii)\b/u.test(head))return null;
  const namedStreet=/^(?:strada|str\.?|soseaua|sos\.?|bulevardul|bd\.?|aleea|calea|street|road|avenue|lane|close|drive|boulevard|via|calle|rue)\s+\S/iu.test(head)||
    /\b(?:street|road|avenue|lane|crescent|boulevard|square)\b/u.test(head);
  const namedLandmark=/^(?:muzeul?|museum|hotel(?:ul)?|hostel(?:ul)?|spital(?:ul)?|hospital|stadion(?:ul)?|stadium|gara|station|aeroport(?:ul)?|airport|castel(?:ul)?|castle|parc(?:ul)?|park|universitatea|university)\s+\S/iu.test(head);
  // A full numbered address does not need a street-type prefix, whatever the
  // local writing convention (e.g. 12 Oxford Street or Nufărului 12).
- const numberFirst=/^\d+[a-z]?(?:[-/]\d+)?\s+[a-z][a-z0-9' .-]{1,100}$/iu.test(head);
- const numberLast=/^[a-z][a-z0-9' .-]{1,100}\s+(?:(?:nr\.?|numar(?:ul)?|no\.?|number|#)\s*)?\d+[a-z]?(?:[-/]\d+)?$/iu.test(head);
+ const numberFirst=/^\d+[a-z]?(?:[-/]\d+)?\s+\p{L}[\p{L}\p{M}\p{N}' .-]{1,100}$/iu.test(head);
+ const numberLast=/^\p{L}[\p{L}\p{M}\p{N}' .-]{1,100}\s+(?:(?:nr\.?|numar(?:ul)?|no\.?|number|#)\s*)?\d+[a-z]?(?:[-/]\d+)?$/iu.test(head);
  // Avoid treating ordinary shopping quantities and category searches as houses.
  const categoryQuery=/^(?:hoteluri|muzee|restaurante|cafenele|magazine|produse|bilete|camere)\b/u.test(head);
  const units=/^\d+\s+(?:cartuse?|pachete?|baxuri?|sticle?|bucati|kg|g|litri?|bottles?|packs?|eggs?|boxes?|pieces?|items?)\b/u.test(head);
