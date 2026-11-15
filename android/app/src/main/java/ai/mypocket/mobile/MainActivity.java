@@ -504,7 +504,7 @@ public final class MainActivity extends ComponentActivity {
     private boolean commVoicePaused = false;
     private static final int COMM_VOICE_MAX_BYTES = 11 * 1024 * 1024;
 
-    private void notifyCommVoice(String status, int session, String error, int part, int parts, String encoded) {
+    private boolean notifyCommVoice(String status, int session, String error, int part, int parts, String encoded) {
         try {
             JSONObject event = new JSONObject();
             event.put("status",status);
@@ -512,21 +512,40 @@ public final class MainActivity extends ComponentActivity {
             if(error!=null)event.put("error",error);
             if(part>=0){event.put("part",part);event.put("parts",parts);}
             if(encoded!=null)event.put("data",encoded);
-            final String js="window.pocketAndroidCommunicationVoiceResult&&window.pocketAndroidCommunicationVoiceResult("
-                +event.toString()+");";
+            final String js="(function(){try{if(typeof window.pocketAndroidCommunicationVoiceResult!=='function')return false;"
+                +"window.pocketAndroidCommunicationVoiceResult("+event.toString()+");return true;}catch(e){return false;}})();";
+            // Large audio is sent as small, acknowledged chunks. Posting an entire
+            // recording at once can flood WebView and silently lose callbacks.
+            final boolean needsAck="chunk".equals(status);
+            final java.util.concurrent.CountDownLatch ack=needsAck
+                ?new java.util.concurrent.CountDownLatch(1):null;
+            final java.util.concurrent.atomic.AtomicBoolean delivered=new java.util.concurrent.atomic.AtomicBoolean(false);
             runOnUiThread(()->{
-                if(web==null)return;
+                if(web==null){if(needsAck)ack.countDown();return;}
                 String url=web.getUrl();
                 Uri page=url==null?null:Uri.parse(url);
-                if(page!=null && "https".equalsIgnoreCase(page.getScheme())
-                    && APP_HOST.equalsIgnoreCase(page.getHost()))
-                    web.evaluateJavascript(js,null);
+                if(page==null||!"https".equalsIgnoreCase(page.getScheme())
+                    ||!APP_HOST.equalsIgnoreCase(page.getHost())){
+                    if(needsAck)ack.countDown();
+                    return;
+                }
+                try{
+                    web.evaluateJavascript(js,needsAck?value->{
+                        delivered.set("true".equals(value));
+                        ack.countDown();
+                    }:null);
+                }catch(Exception ex){if(needsAck)ack.countDown();}
             });
-        }catch(Exception ignored){}
+            if(!needsAck)return true;
+            return ack.await(5,java.util.concurrent.TimeUnit.SECONDS)&&delivered.get();
+        }catch(Exception ignored){return false;}
     }
 
     private void startCommVoice() {
-        if(commVoiceRecorder!=null||commVoiceStarting)return;
+        if(commVoiceRecorder!=null||commVoiceStarting){
+            notifyCommVoice("error",commVoiceSession,"MIC_BUSY_OR_UNAVAILABLE",-1,0,null);
+            return;
+        }
         final int session=++commVoiceSession;
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED){
             notifyCommVoice("error",session,"MIC_PERMISSION_DENIED",-1,0,null);return;
@@ -621,12 +640,13 @@ public final class MainActivity extends ComponentActivity {
         // even when a WebView is gone or a conversion fails.
         new Thread(()->{
             try(FileInputStream input=new FileInputStream(file)){
-                final byte[] buffer=new byte[48*1024];
+                final byte[] buffer=new byte[24*1024];
                 final int parts=(int)((file.length()+buffer.length-1)/buffer.length);
                 int part=0,count;
                 while((count=input.read(buffer))!=-1){
                     byte[] chunk=java.util.Arrays.copyOf(buffer,count);
-                    notifyCommVoice("chunk",session,null,part++,parts,Base64.encodeToString(chunk,Base64.NO_WRAP));
+                    if(!notifyCommVoice("chunk",session,null,part++,parts,Base64.encodeToString(chunk,Base64.NO_WRAP)))
+                        throw new java.io.IOException("WebView did not acknowledge voice audio");
                 }
                 notifyCommVoice("complete",session,null,-1,parts,null);
             }catch(Exception ex){
