@@ -5,7 +5,13 @@ function educationInstallTapSelects(){
  const host=document.getElementById('moduleContent');if(!host||typeof MutationObserver==='undefined')return;
  const fold=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase();
  function upgrade(select){
-  if(select.dataset.educationTapMenu==='1'||select.multiple||select.size>1||select.closest('.education-tap-proxy'))return;
+  if(select.dataset.educationTapMenu==='1'||select.dataset.educationTapMenu==='global'||select.multiple||select.size>1||select.closest('.education-tap-proxy'))return;
+  // Use the common, touch-release-triggered app modal in Education too.
+  // Two independent popup layers competed for the same tap on Android.
+  if(typeof openPocketSelect==='function'){
+   select.dataset.educationTapMenu='global';select.style.touchAction='manipulation';
+   select.style.minHeight='48px';return;
+  }
   const options=[...select.options];if(options.length<2)return;
   const proxy=document.createElement('div');proxy.className='education-tap-proxy';proxy.style.cssText='display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;';
   const trigger=document.createElement('button');trigger.type='button';trigger.className='secondary-btn education-tap-trigger';
