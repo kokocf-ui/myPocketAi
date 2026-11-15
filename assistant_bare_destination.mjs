@@ -15,6 +15,6 @@ export function assistantBareDestinationQuery(raw){
  if(/^(?:toate|un|o|niste|cele|lista|preturi|recenzii)\b/u.test(head))return null;
  const namedStreet=/^(?:strada|str\.?|soseaua|sos\.?|bulevardul|bd\.?|aleea|calea|street|road|avenue|lane|close|drive|boulevard|via|calle|rue)\s+\S/iu.test(head)||
    /\b(?:street|road|avenue|lane|crescent|boulevard|square)\b/u.test(head);
- const namedLandmark=/^(?:muzeul?|museum|hotelul?|hostelul?|spitalul?|hospital|stadionul?|stadium|gara|station|aeroportul?|airport|castelul?|castle|parcul?|park|universitatea|university)\s+\S/iu.test(head);
+ const namedLandmark=/^(?:muzeul?|museum|hotel(?:ul)?|hostel(?:ul)?|spital(?:ul)?|hospital|stadion(?:ul)?|stadium|gara|station|aeroport(?:ul)?|airport|castel(?:ul)?|castle|parc(?:ul)?|park|universitatea|university)\s+\S/iu.test(head);
  return namedStreet||namedLandmark?text:null;
 }
