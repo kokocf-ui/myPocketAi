@@ -352,6 +352,36 @@ assert.deepEqual(Array.from(sixBottles,i=>[i.name,i.quantity,i.unit]),
 assert.match(inline,/\['bax','bax','case'\]/,
  'manual quantity selector offers Romanian bax and English case');
 
+const baxContentsExamples=[
+ ['un bax de 24 de sticle de apă','apă','1','bax','24 sticle'],
+ ['două baxuri de câte 6 sticle de apă','apă','2','bax','6 sticle'],
+ ['2 baxuri a câte 12 role de hârtie igienică','hârtie igienică','2','bax','12 role'],
+ ['un bax de 48 scutece Pampers','Pampers','1','bax','48 scutece'],
+ ['un bax de Pampers','Pampers','1','bax',''],
+ ['șase sticle de apă','apă','6','sticlă','']
+];
+for(const [spoken,name,quantity,unit,packageContents] of baxContentsExamples){
+ const items=evalIn('shopVoiceItems('+JSON.stringify(spoken)+')');
+ assert.deepEqual(Array.from(items,i=>[i.name,i.quantity,i.unit,i.packageContents]),
+  [[name,quantity,unit,packageContents]],
+  'Bax packaging must preserve explicit contents without assuming a default: '+spoken);
+}
+const severalPackages=evalIn("shopVoiceItems('un bax de 24 sticle de apă, două baxuri de scutece')");
+assert.deepEqual(Array.from(severalPackages,i=>[i.name,i.quantity,i.unit,i.packageContents]),
+ [['apă','1','bax','24 sticle'],['scutece','2','bax','']],
+ 'Inner bax quantity cannot split a single product into two lines');
+assert.match(inline,/packageContents:String\(item\?\.packageContents\|\|''\)/,
+ 'Package contents persist through list serialization');
+assert.match(inline,/shopNewItem\(i\.name,i\.quantity,i\.unit,i\.packageContents\)/,
+ 'Reusing archived items preserves package contents');
+assert.match(inline,/target\.packageContents=editUnit\.value==='bax'\?editContents\.value/,
+ 'Manual editor stores packaging only for bax units');
+assert.match(inline,/const editContents=shopInput\(shopLabel\('Conținut bax/,
+ 'Manual editor can edit the number of units per bax');
+assert.match(inline,/i\.packageContents\?' · '\+i\.packageContents\+'\/bax'/,
+ 'Archived lists show the specified pack contents');
+
+
 
 assert.match(shoppingStyle,/\.shop-active-footer\.adaptive-workspace__actions--confirm\{/,
  'confirmation expands across the complete active-footer width');
