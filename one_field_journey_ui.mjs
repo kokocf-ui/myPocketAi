@@ -181,8 +181,16 @@ function showOneFieldJourney(choice){
  root.append(title,input,hint,status,results,confirmed,actions);
  host.append(root);
  input.value=incoming?.raw||'';
- status.textContent=input.value?text.checking:text.short;
- if(input.value)schedule();
+ const direct=incoming?.selected_destination;
+ if(direct&&Number.isFinite(Number(direct.latitude))&&Number.isFinite(Number(direct.longitude))){
+  selected={latitude:Number(direct.latitude),longitude:Number(direct.longitude),
+   label:String(direct.label||incoming.destination_query||input.value),
+   country_code:String(direct.country_code||'')};
+  showModes();
+ }else{
+  status.textContent=input.value?text.checking:text.short;
+  if(input.value)schedule();
+ }
 }
 
 `;
