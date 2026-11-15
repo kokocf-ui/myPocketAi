@@ -8,6 +8,12 @@ const fragment=source.slice(start,end);
 assert.match(source,/choice\.placeCategory==='corner_shop'/,'Retries are limited to small shops');
 assert.match(source,/retry\.textContent=dialogText\('Reîncearcă băcăniile'/,
  'A failed search has an explicit manual retry button');
+assert.match(source,/const fromSmallShop=state\.navigationReturnContext\?\.choice\?\.placeCategory==='corner_shop'/,
+ 'Only a corner-shop route gets extra empty-screen recovery');
+assert.match(source,/if\(fromSmallShop&&\(mode==='walk'\|\|mode==='drive'\)/,
+ 'Walking and driving from small shops are protected');
+assert.match(source,/showDedicatedRouteIssue\(dialogText\(/,
+ 'If neither route results nor map are visible, show the existing route error panel');
 assert.match(source,/searchGeneration===state\.moduleSearchGeneration/,
  'An old request cannot overwrite a newer search');
 
