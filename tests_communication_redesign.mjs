@@ -76,4 +76,10 @@ assert.match(helper,/VISIBILITY_PRIVATE/,'Never display private message contents
 assert.match(helper,/EXTRA_TARGET/,'Notification routes to selected conversation or list');
 assert.match(java,/dispatchCommunicationNotification\(\)/,'Native activity handles notification destination');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/pocketCommunicationNotificationOpen/,'Frontend handles notification destination');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/receiptType:'delivered'/,'Delivery is only confirmed after an authenticated device check');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/IntersectionObserver/,'Reading is acknowledged only when messages are on-screen');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/receiptType:'played'/,'Audio listened confirmation requires audio playback');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.delivered_at\?tr\('✓✓ Livrat'/,'Delivered state appears in conversation');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.read_at\?tr\('✓✓ Citit'/,'Read state appears in conversation');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.played_at\?tr\('▶ Ascultat'/,'Listened state appears in conversation');
 console.log('PASS communication inbox, petrol theme, invited contacts, shopping sync and voice permission');
