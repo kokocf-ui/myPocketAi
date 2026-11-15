@@ -3000,6 +3000,9 @@ main.page:has(#view-module.adaptive-workspace-view.active){overflow-x:hidden!imp
  gap:clamp(.5rem,2.5vw,1rem)!important;align-items:stretch!important;
  padding:.45rem 0 0!important
 }
+#view-module.adaptive-workspace-view .shop-active-footer>.shop-share-footer{
+ grid-column:1/-1!important
+}
 #view-module.adaptive-workspace-view .shop-active-footer>button{
  display:flex!important;justify-content:center!important;align-items:center!important;
  width:100%!important;min-width:0!important;max-width:none!important;
@@ -7139,10 +7142,16 @@ function shopVoiceSplit(transcript){
 }
 function shopVoiceItems(transcript){
  const numberWords={un:1,o:1,unu:1,una:1,doi:2,doua:2,trei:3,patru:4,cinci:5,
-  sase:6,sapte:7,opt:8,noua:9,zece:10,unsprezece:11,doisprezece:12};
+  sase:6,sapte:7,opt:8,noua:9,zece:10,unsprezece:11,doisprezece:12,
+  treisprezece:13,paisprezece:14,cincisprezece:15,saisprezece:16,
+  saptesprezece:17,optsprezece:18,nouasprezece:19,douazeci:20,treizeci:30,
+  patruzeci:40,cincizeci:50,saizeci:60,saptezeci:70,optzeci:80,nouazeci:90,
+  suta:100,osuta:100};
  const units={kilogram:'kg',kilograme:'kg',kg:'kg',gram:'g',grame:'g',g:'g',
   litru:'l',litri:'l',l:'l',mililitri:'ml',ml:'ml',bucata:'buc',bucati:'buc',
-  buc:'buc',cutie:'cutie',cutii:'cutie',pachet:'pachet',pachete:'pachet',
+  buc:'buc',cutie:'cutie',cutii:'cutie',pachet:'pachet',pachete:'pachet',pachetele:'pachet',
+  sticla:'sticlă',sticle:'sticlă',sticlele:'sticlă',
+  cartus:'cartuș',cartuse:'cartuș',cartusul:'cartuș',cartusele:'cartuș',
   legatura:'legătură',legaturi:'legătură'};
  const clean=shopVoiceSplit(transcript);
  const result=[];
@@ -7152,22 +7161,42 @@ function shopVoiceItems(transcript){
   if(!raw)continue;
   let quantity='1',unit='buc';
   const words=raw.split(/\\s+/u);
+  const numeric=word=>{
+   const folded=shopVoiceFold(word).replace(',','.');
+   const digit=Number(folded);
+   return folded&&Number.isFinite(digit)&&digit>0?digit:(numberWords[folded]??null);
+  };
   if(words.length){
    const first=shopVoiceFold(words[0]).replace(',','.');
-   let n=Number(first);
-   if(!Number.isFinite(n))n=numberWords[first];
-   if(first==='o'&&['jumatate','jumătate'].includes(shopVoiceFold(words[1]||''))){
-    n=.5;words.splice(0,2);if(['de','din'].includes(shopVoiceFold(words[0])))words.shift();
-   }else if(first==='jumatate'||first==='jumătate'){
-    n=.5;words.shift();if(['de','din'].includes(shopVoiceFold(words[0])))words.shift();
-   }else if(Number.isFinite(n)&&n>0){words.shift()}
-   else n=null;
+   let n=numeric(words[0]);
+   if(first==='o'&&shopVoiceFold(words[1]||'')==='jumatate'){
+    n=.5;words.splice(0,2);
+   }else if(first==='jumatate'){
+    n=.5;words.shift();
+   }else if(n!==null){words.shift()}
    if(n!==null){
     quantity=String(n);
+    if(['de','din'].includes(shopVoiceFold(words[0])))words.shift();
     const possibleUnit=shopVoiceFold(words[0]||'');
     if(units[possibleUnit]){unit=units[possibleUnit];words.shift()}
     if(['de','din'].includes(shopVoiceFold(words[0])))words.shift();
     raw=words.join(' ');
+   }else{
+    // Android often recognizes brand first: "Singleton două sticle".
+    const end=words.length-1;
+    let qtyIndex=end-1;
+    if(shopVoiceFold(words[end-1]||'')==='de')qtyIndex=end-2;
+    const trailingQty=numeric(words[qtyIndex]||'');
+    const trailingUnit=units[shopVoiceFold(words[end]||'')];
+    if(trailingQty!==null&&trailingUnit&&qtyIndex>0){
+     quantity=String(trailingQty);unit=trailingUnit;
+     raw=words.slice(0,qtyIndex).join(' ');
+    }else{
+     const lastNumber=numeric(words[end]||'');
+     if(lastNumber!==null&&end>0){
+      quantity=String(lastNumber);raw=words.slice(0,end).join(' ');
+     }
+    }
    }
   }
   const name=shopVoiceDiacritics(raw).trim().slice(0,180);
@@ -7489,8 +7518,8 @@ function renderShoppingList(){
  const count=document.createElement('small');
  count.textContent=shopLabel('Bifate de tine: ','Checked by you: ')+data.items.filter(i=>i.checked).length+' / '+data.items.length;
  heading.append(title,count);
- if((shoppingMode==='entry'||shoppingMode==='active') && data.items.length){
-  // Keep sharing accessible in the active list, not only in add-products mode.
+ if(shoppingMode==='entry' && data.items.length){
+  // Sharing in the active view sits in the footer, not under the navigation.
   const share=shopButton('↗ Trimite lista','↗ Send list','secondary-btn');
   share.setAttribute('aria-label',shopLabel('Trimite această listă unui prieten aprobat','Send this list to an approved friend'));
   share.onclick=()=>{
@@ -7528,7 +7557,7 @@ function renderShoppingList(){
  const product=shopInput(shopLabel('Produs','Item'));product.required=true;
  const quantity=shopInput(shopLabel('Cant.','Qty'),20);quantity.inputMode='decimal';quantity.value='1';
  const unit=document.createElement('select');unit.setAttribute('aria-label',shopLabel('Unitate','Unit'));
- const units=[['buc','buc.','pcs'],['kg','kg','kg'],['g','g','g'],['l','l','l'],['ml','ml','ml'],['pachet','pachet','pack'],['cutie','cutie','box']];
+ const units=[['buc','buc.','pcs'],['kg','kg','kg'],['g','g','g'],['l','l','l'],['ml','ml','ml'],['pachet','pachet','pack'],['cutie','cutie','box'],['sticlă','sticlă','bottle'],['cartuș','cartuș','carton'],['legătură','legătură','bunch']];
  units.forEach(([value,ro,en])=>{const option=document.createElement('option');option.value=value;option.textContent=shopLabel(ro,en);unit.append(option)});
  const add=shopButton('Adaugă produs','Add item','primary-btn');add.type='submit';
  productForm.append(product,quantity,unit,add);
@@ -7646,6 +7675,18 @@ function renderShoppingList(){
   footer.append(finish);
  }else if(shoppingMode==='active'){
   footer.classList.add('shop-active-footer');
+  if(data.items.length){
+   const share=shopButton('↗ Trimite lista','↗ Send list','secondary-btn');
+   share.classList.add('shop-share-footer');
+   share.setAttribute('aria-label',shopLabel('Trimite această listă unui prieten aprobat','Send this list to an approved friend'));
+   share.onclick=()=>{
+    if(typeof window.pocketCommunicationImportShopping!=='function'){
+     notify(shopLabel('Comunicarea nu este încă disponibilă.','Communication is not available yet.'));return;
+    }
+    window.pocketCommunicationImportShopping(data.currentName,data.items.map(i=>({...i})));
+   };
+   footer.append(share);
+  }
   const archive=shopButton('Arhivează','Archive','primary-btn');archive.disabled=!data.items.length;
   archive.onclick=()=>{shopArchiveActiveImmediately(data)};
   const history=shopButton('Arhivă','History');history.onclick=()=>{shoppingMode='archive';shoppingPendingAction=null;renderShoppingList()};
