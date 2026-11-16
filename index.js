@@ -17777,7 +17777,7 @@ function transitSearchSelectors(){
  row.append(mode,departure,options);
  return {row,preference:()=>mode.value,departureOffset:()=>offset,departureAt:()=>absolute};
 }
-function showTransitRetrySelector(choice){
+function showTransitRetrySelector(choice,response=null){
  const body=$('moduleLayerBody');if(!body||!choice)return;
  if(choice.nationalPublicTransport){
   const retry=document.createElement('button');retry.type='button';retry.className='module-result-card';
@@ -17820,6 +17820,42 @@ function showTransitRetrySelector(choice){
    button.style.cssText='flex:1 1 180px;min-width:0;min-height:48px;width:auto;white-space:normal;padding:10px 12px;'+burgundy;
    button.textContent=label;button.onclick=callback;actions.append(button);
   };
+  // Omio's public website can search each mode without a mandatory flight,
+  // even when Eva has no licensed Omio Meta Search API credentials.
+  // Android's WebViewClient opens external HTTPS links in the browser.
+  // No third-party response is represented as an in-app quote or timetable.
+  if(response?.international_journey===true&&
+     response?.external_travel_search?.provider==='Omio'&&
+     response?.external_travel_search?.url==='https://www.omio.com'){
+   const omio=document.createElement('section');
+   omio.className='mixed-omio-external-search';
+   omio.style.cssText='display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid #a65d79;border-radius:13px;background:#111f2b;min-width:0';
+   const name=document.createElement('strong');
+   name.textContent=dialogText('Caută toate mijloacele pe Omio','Search every mode on Omio');
+   name.style.cssText='font-size:15px';
+   const modes=document.createElement('p');
+   modes.textContent=dialogText('Tren · Autocar · Avion · Feribot. Zborul nu este obligatoriu.','Train · Coach · Flight · Ferry. No flight required.');
+   modes.style.cssText='margin:0;font-size:13px;line-height:1.5';
+   const summary=document.createElement('p');
+   const selectedAt=choice.transitDepartureAt||response.transit_departure_at;
+   const selectedMs=selectedAt?Date.parse(selectedAt):NaN;
+   const departureText=Number.isFinite(selectedMs)?new Date(selectedMs).toLocaleString(state.language==='ro'?'ro-RO':'en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):
+     dialogText('de acum','from now');
+   summary.textContent=dialogText('Destinație: ','Destination: ')+destination.label+' · '+dialogText('Plecare: ','Departure: ')+departureText;
+   summary.style.cssText='font-size:13px;line-height:1.5;margin:0;overflow-wrap:anywhere;color:#c9dce6';
+   const link=document.createElement('a');
+   link.className='transit-choice-action mixed-omio-link';
+   link.href='https://www.omio.com';link.rel='noopener noreferrer';
+   // No target=_blank: Android's own WebViewClient launches external HTTPS
+   // links in the browser; new-window support is not required.
+   link.textContent=dialogText('Deschide căutarea Omio','Open Omio search');
+   link.style.cssText='display:flex;align-items:center;justify-content:center;min-width:0;min-height:48px;padding:10px;text-align:center;text-decoration:none;border-radius:12px;'+burgundy;
+   const notice=document.createElement('small');
+   notice.textContent=dialogText('Se deschide site-ul Omio. Introdu orașul sau stația de plecare, destinația și data. Rezultatele, tarifele și rezervarea sunt afișate de Omio, nu de Eva. Adresa finală necesită verificarea ultimului segment local.','Omio opens in your browser. Enter your origin city or station, destination and travel date. Omio provides its own results, prices and booking; the final local leg to the street address must be checked separately.');
+   notice.style.cssText='font-size:12px;line-height:1.5;color:#bfd4df';
+   omio.append(name,modes,summary,link,notice);
+   body.append(omio);
+  }
   action(dialogText('Schimbă data și ora','Change date and time'),openDeparture);
   action(dialogText('← Înapoi la destinație','← Back to destination'),returnToDestination);
   body.append(actions);return;
@@ -19427,7 +19463,7 @@ async function runModuleSearch(choice){if(state.moduleSearchBusy)return;state.mo
   option.onclick=()=>runModuleSearch({...choice,transitDestination:{label:String(candidate.label||''),latitude:lat,longitude:lon}});
   target.append(option);
  });
-}else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){state.lastTransitResponse=data;renderTransitChoices(data.transit)}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='transit')appendOfficialUKJourneySources(data,$('moduleLayerBody'));if(choice.kind==='transit'&&!data.transit_available)showTransitRetrySelector(choice);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent=dialogText('Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.','The search finished but returned no locations. Go back and try again.');$('moduleLayerBody').append(note)}}}catch(error){if(searchGeneration===state.moduleSearchGeneration){moduleStatus(error?.name==='AbortError'?(dialogText("Căutarea a depășit 25 de secunde. Încearcă din nou.","Search timed out after 25 seconds. Please retry.")):(state.language==='en'?'Could not complete the search. ':'Nu am putut finaliza căutarea. ')+String(error&&error.message||error));if(choice.placeCategory==='corner_shop'){
+}else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){state.lastTransitResponse=data;renderTransitChoices(data.transit)}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='transit')appendOfficialUKJourneySources(data,$('moduleLayerBody'));if(choice.kind==='transit'&&!data.transit_available)showTransitRetrySelector(choice,data);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent=dialogText('Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.','The search finished but returned no locations. Go back and try again.');$('moduleLayerBody').append(note)}}}catch(error){if(searchGeneration===state.moduleSearchGeneration){moduleStatus(error?.name==='AbortError'?(dialogText("Căutarea a depășit 25 de secunde. Încearcă din nou.","Search timed out after 25 seconds. Please retry.")):(state.language==='en'?'Could not complete the search. ':'Nu am putut finaliza căutarea. ')+String(error&&error.message||error));if(choice.placeCategory==='corner_shop'){
  const retry=document.createElement('button');retry.type='button';
  retry.className='transit-choice-action';retry.textContent=dialogText('Reîncearcă băcăniile','Retry nearby small shops');
  retry.style.cssText='display:block;width:100%;min-height:48px;margin-top:14px';
