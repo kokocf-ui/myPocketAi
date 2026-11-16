@@ -134,8 +134,9 @@
   if(old?.parentNode!==host)old?.remove();
   const button=old?.parentNode===host?old:document.createElement('button');
   button.id='pocket-navigation-background-action';button.type='button';
-  button.textContent=activeId?t('Oprește navigația','Stop navigation'):
+  const caption=activeId?t('Oprește navigația','Stop navigation'):
     t('Pornește navigația în notificări','Start notification navigation');
+  if(button.textContent!==caption)button.textContent=caption;
   button.style.cssText='display:block;width:100%;padding:12px;margin:10px auto;'+
    'background:#752347;color:#fff;border-radius:12px;border:1px solid #aa6681;'+
    'font-weight:700;min-height:48px;max-width:420px';
