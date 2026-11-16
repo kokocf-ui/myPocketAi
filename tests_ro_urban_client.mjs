@@ -88,3 +88,16 @@ test('Secure adapter accepts documented lines only, never fabricates departures'
  assert.equal(invalid.status,'invalid_route_only');
  assert.deepEqual(invalid.journeys,[]);
 });
+
+test('Worker adapter distinguishes planner overload from missing transit coverage',async()=>{
+ const env={RO_URBAN_API_URL:'https://private.example/',RO_URBAN_API_TOKEN:token};
+ for(const status of ['planner_busy','planner_unavailable']){
+  const answer=await planRomanianUrbanViaOracle(env,{from:o,to:d},{
+   fetchImpl:async()=>Response.json({status,journeys:[]},{status:503})});
+  assert.equal(answer.status,status);
+  assert.deepEqual(answer.journeys,[]);
+ }
+ const noFeed=await planRomanianUrbanViaOracle(env,{from:o,to:d},{
+  fetchImpl:async()=>Response.json({status:'feed_not_loaded',journeys:[]},{status:503})});
+ assert.equal(noFeed.status,'feed_not_loaded');
+});
