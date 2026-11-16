@@ -1,4 +1,4 @@
-name: Audit England BODS regional GTFS endpoints (no download)
+name: Audit England BODS regional GTFS endpoints (no full download)
 on:
   push:
     branches: [feat/gtfs-sqlite-indexed-20261116]
@@ -7,16 +7,24 @@ on:
 permissions:
   contents: read
 jobs:
-  inspect-heads:
+  inspect-get-magic:
     runs-on: ubuntu-latest
     timeout-minutes: 7
     steps:
-      - name: Check official BODS region suffixes without storing data
+      - name: Verify actual GET ZIP signature for nine official England BODS regions
         run: |
-          set -u
-          for suffix in ea em ne nw se sw wm yorkshire london all; do
-            url="https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/$suffix/"
-            printf '%-12s' "$suffix"
-            curl -L -I -sS --max-time 15 -o /dev/null               -w 'HTTP=%{http_code} content_type=%{content_type} effective=%{url_effective}\n'               --proto '=https' --proto-redir '=https' "$url" || echo 'endpoint_unavailable_or_head_unsupported'
-          done
-          echo 'This checks HTTP response metadata, not licenses, contents, or active timetables.'
+          python3 - <<'PY'
+          from urllib.request import Request,urlopen
+          regions=('east_anglia','east_midlands','north_east','north_west',
+            'south_east','south_west','west_midlands','yorkshire','london')
+          for region in regions:
+              url='https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/'+region+'/'
+              with urlopen(Request(url,headers={
+                 'User-Agent':'PocketAI-GTFS-readonly-staging/1.0',
+                 'Range':'bytes=0-63'}),timeout=18) as response:
+                  prefix=response.read(64)
+                  print(region,'http',response.status,'zip_signature',prefix.startswith(b'PK'))
+                  if response.status!=200 or not prefix.startswith(b'PK'):
+                      raise SystemExit('Official BODS region did not return ZIP: '+region)
+          print('PASS: 9 regional BODS GTFS URLs return actual ZIP content')
+          PY
