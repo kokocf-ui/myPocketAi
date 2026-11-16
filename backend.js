@@ -1712,7 +1712,13 @@ export default {
         url.searchParams.set('limit','10');
         url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
         if(nationalCountry)url.searchParams.set('filter','countrycode:'+nationalCountry.toLowerCase());
-        if(pointOk)url.searchParams.set('bias','proximity:'+Number(location.longitude)+','+Number(location.latitude));
+        // National named stations must not be geocoded as a nearby London POI
+        // simply because the user's GPS is around London. Country remains the
+        // hard boundary; omit proximity bias for exact cross-country stations.
+        const stationNationwide=Boolean(nationalCountry)&&
+          /(?:station|railway|rail station|gara|gară|statie|stație)\b/iu.test(selected);
+        if(pointOk&&!stationNationwide)
+          url.searchParams.set('bias','proximity:'+Number(location.longitude)+','+Number(location.latitude));
         const response=await fetch(url.href,{signal:AbortSignal.timeout(6500)});
         if(!response.ok)throw Error('geocoding_'+response.status);
         const result=await response.json();
