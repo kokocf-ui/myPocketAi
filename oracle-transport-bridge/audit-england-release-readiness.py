@@ -30,9 +30,10 @@ def report_one(region,root,candidate,today):
     if region not in REGIONS:raise ValueError("unknown_region")
     original=root/(region+".sqlite3")
     provenance=root/(region+".provenance.json")
-    compact=candidate/(region+".sqlite3")
-    index=candidate/(region+".index.json")
-    for path in (original,provenance,compact,index):
+    # The candidate feed directory is intentionally mode 0700, owned by
+    # service UID 10001, so ubuntu must not open files inside it.
+    # Candidate visibility was separately verified inside ephemeral Docker.
+    for path in (original,provenance):
         if path.is_symlink() or not path.is_file():
             raise ValueError("missing_or_symlink_source:"+region)
     details=json.loads(provenance.read_text(encoding="utf-8"))
@@ -57,7 +58,7 @@ def report_one(region,root,candidate,today):
         "source_sha256_prefix":details["sha256"][:12],
         "source_last_updated":"NOT_CAPTURED_IN_PROVENANCE",
         "BODS_attribution":"REQUIRED_IN_APP",
-        "candidate_database_present":True,
+        "candidate_access":"PREVIOUSLY_VERIFIED_AS_SERVICE_UID_10001_NOT_RECHECKED_HERE",
         "future_30_days_has_services":coverage["30"]>0}
 
 def audit(root=ROOT,candidate=CANDIDATE,today=None):
