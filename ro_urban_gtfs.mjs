@@ -134,6 +134,7 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
    if(keys.has(key))continue;
    keys.add(key);unique.push(item);
   }
+  unique.sort((a,b)=>a.entry.dep-b.entry.dep);
   boardings.set(stopId,unique);
  }
  for(const [stopId,options] of arrivals){
@@ -192,6 +193,7 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
  let searches=0;
  for(const [id,start] of origins)for(const first of boardings.get(id)||[]){
   if(first.entry.dep<earliest+walking(start.d)*1000||first.entry.dep>earliest+9*3600000)continue;
+  if(result.length===max&&first.entry.dep>=Date.parse(result.at(-1).arrivalDateTime))continue;
   const entries=first.ride.entries;
   for(let i=first.index+1;i<entries.length;i++){
    const mid=entries[i],end=targets.get(String(mid.stop.stop_id));
@@ -200,10 +202,13 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
    if(end)push([leg(first.ride,first.entry,mid)],start,end);
    const options=arrivals.get(String(mid.stop.stop_id));
    if(!options)continue;
+   if(result.length===max&&mid.arr+180000>=Date.parse(result.at(-1).arrivalDateTime))continue;
    const min=mid.arr+3*60000,maxTime=mid.arr+90*60000;
    for(let k=lowerBound(options,min);k<options.length&&options[k].entry.dep<=maxTime;k++){
-    if(++searches>300000)return {status:'planner_busy',journeys:[],time_zone:zone,date};
+    if(result.length===max&&options[k].entry.dep>=Date.parse(result.at(-1).arrivalDateTime))break;
+    if(++searches>500000)return {status:'planner_busy',journeys:[],time_zone:zone,date};
     const next=options[k];
+    if(result.length===max&&next.ride.entries[next.destIndex].arr>=Date.parse(result.at(-1).arrivalDateTime))continue;
     if(next.ride.tripId===first.ride.tripId)continue;
     const last=next.ride.entries[next.destIndex],target=targets.get(String(last.stop.stop_id));
     if(!target||last.arr<=next.entry.dep)continue;
