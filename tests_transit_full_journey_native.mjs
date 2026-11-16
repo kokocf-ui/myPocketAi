@@ -21,7 +21,7 @@ const selection=between('async function selectTransitJourney(options,index){','f
 assert.match(selection,/await openTransitJourneyMap\(selected\)/,'Open map on successful selection');
 assert.doesNotMatch(selection,/state\.selectedTransitJourney=selected;renderTransitChoices\(options,index\)/,'No intermediary detail screen');
 assert.match(selection,/renderTransitChoices\(options\);transitRefreshNotice\(message\)/,'Failure returns to choices with reason');
-const map=between('async function openTransitJourneyMap(selected){','async function selectTransitJourney(options,index){');
+const map=between('async function openTransitJourneyMap(selected,resume=null){','async function selectTransitJourney(options,index){');
 for(const str of ['transitCoordinate','transitStreetPath','loadRouteMapLibrary','transit-full-journey-map',
  'walkRoutes','📌','fitBounds','transit-full-journey-details']){
  assert.ok(map.includes(str),'Map needs '+str);

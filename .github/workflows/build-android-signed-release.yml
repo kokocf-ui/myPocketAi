@@ -202,6 +202,7 @@ jobs:
           node --check android/app/src/main/assets/avatar-enter.js
           node tests_android_startup_bridge.mjs
           node tests_transit_full_journey_native.mjs
+          node tests_transit_navigation_resume.mjs
           node --check backend.js
           node tests_short_local_transit_arrival.mjs
           node tests_assistant_places_modal.mjs

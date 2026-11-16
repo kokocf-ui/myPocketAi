@@ -34,6 +34,7 @@ import java.util.Set;
  */
 public final class PocketNavigationService extends Service implements LocationListener, TextToSpeech.OnInitListener {
     public static final String ACTION_START="ai.mypocket.mobile.NAVIGATION_START";
+    public static final String ACTION_OPEN_NAVIGATION="ai.mypocket.mobile.OPEN_ACTIVE_NAVIGATION";
     public static final String ACTION_STOP="ai.mypocket.mobile.NAVIGATION_STOP";
     public static final String ACTION_REPEAT="ai.mypocket.mobile.NAVIGATION_REPEAT";
     public static final String ACTION_MUTE="ai.mypocket.mobile.NAVIGATION_MUTE";
@@ -75,8 +76,8 @@ public final class PocketNavigationService extends Service implements LocationLi
         manager.createNotificationChannel(new NotificationChannel(CHANNEL,"Navigație activă",NotificationManager.IMPORTANCE_LOW));
     }
     private Notification notification(){
-        Intent open=new Intent(this,MainActivity.class);
-        open.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        Intent open=new Intent(this,MainActivity.class).setAction(ACTION_OPEN_NAVIGATION);
+        open.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         PendingIntent toApp=PendingIntent.getActivity(this,20,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
         Intent stop=new Intent(this,PocketNavigationService.class).setAction(ACTION_STOP);
         PendingIntent stopIntent=PendingIntent.getService(this,21,stop,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
