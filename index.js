@@ -19110,7 +19110,7 @@ async function openTransitJourneyMap(selected){
 async function selectTransitJourney(options,index){
  if(state.busy)return;cancelTransitAccess();const journey=options[index];if(!journey)return;const generation=state.transitAccessGeneration,chatGeneration=state.conversationGeneration,t=transitAccessText();const selected={journey,options,index,loading:true,error:'',accessRoute:null,accessOptions:[]};state.selectedTransitJourney=selected;
  const stop=journey.boarding_stop,valid=()=>state.selectedTransitJourney===selected&&state.transitAccessGeneration===generation&&state.conversationGeneration===chatGeneration;
- if(isRomanianRailJourney(journey)){selected.loading=false;renderTransitChoices(options,index);return;}
+ if(isRomanianRailJourney(journey)&&!validTransitBoardingStop(stop)){selected.loading=false;selected.error='';renderTransitChoices(options,index);return;}
  const fail=message=>{if(!valid())return;selected.loading=false;selected.error=message;renderTransitChoices(options);transitRefreshNotice(message)};
  if(!validTransitBoardingStop(stop)){fail(t[11]);return}
  const departure=Date.parse(journey.firstVehicleDepartureTime||stop.departure_time||'');if(Number.isFinite(departure)&&departure<=Date.now()){fail(t[14]);return}
