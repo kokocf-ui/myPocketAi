@@ -105,7 +105,8 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
  for(const [tripId,entries] of perTrip){
   entries.sort((a,b)=>a.seq-b.seq);
   if(entries.length<2||entries.some((e,i)=>i&&(e.seq===entries[i-1].seq||e.arr<entries[i-1].dep)))continue;
-  const trip=trips.get(tripId),ride={tripId,trip,route:routes.get(String(trip.route_id)),entries};
+  const trip=trips.get(tripId),ride={tripId,trip,route:routes.get(String(trip.route_id)),entries,
+   signature:entries.map(e=>e.stop.stop_id+'@'+e.arr+'/'+e.dep).join('>')};
   const laterTarget=new Array(entries.length);
   let nextTarget=-1;
   for(let i=entries.length-1;i>=0;i--){
@@ -125,6 +126,16 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
    }
   }
  }
+ for(const [stopId,options] of boardings){
+  // Deduplicate exact trip copies only (preserve distinct stopping patterns).
+  const keys=new Set(),unique=[];
+  for(const item of options){
+   const key=item.ride.signature+'|'+item.index;
+   if(keys.has(key))continue;
+   keys.add(key);unique.push(item);
+  }
+  boardings.set(stopId,unique);
+ }
  for(const [stopId,options] of arrivals){
   options.sort((a,b)=>a.entry.dep-b.entry.dep);
   // Repeated GTFS trips with identical line, platform and timetable are
@@ -132,7 +143,7 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
   const keys=new Set(),unique=[];
   for(const item of options){
    const end=item.ride.entries[item.destIndex];
-   const key=[item.ride.trip.route_id,item.entry.dep,end.stop.stop_id,end.arr].join('|');
+   const key=item.ride.signature+'|'+item.index;
    if(keys.has(key))continue;
    keys.add(key);unique.push(item);
   }
