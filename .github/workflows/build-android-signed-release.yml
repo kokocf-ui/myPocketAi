@@ -199,6 +199,7 @@ jobs:
           node --input-type=module -e "import {litEuropeanPlan} from './literature_curriculum_europe.mjs';import assert from 'node:assert/strict';assert.equal(litEuropeanPlan('PL','beginner','IV').verified,true,'PL grade IV missing verified framework');assert.equal(litEuropeanPlan('PL','beginner','II').verified,false,'PL grade II must remain phased');assert.equal(litEuropeanPlan('AT','medium','8').verified,true,'AT grade 8 verified framework missing');console.log('PASS: Poland IV true, Poland II false, Austria 8 true');"
           echo "::endgroup::"
           node --check index.js
+          node tests_transit_full_journey_native.mjs
           node --check backend.js
           node tests_short_local_transit_arrival.mjs
           node tests_assistant_places_modal.mjs
