@@ -37,9 +37,13 @@ when a domain exists, but **is not required and is not our current plan**.
 - Oracle: `pocketai-england-local` healthy, port 8768; **no licensed English
   GTFS region imported yet**, so health is not evidence of route availability.
 - Communication: containers use ports 8765/8767, untouched by this project.
-- `cloudflared` 2026.11.0 installed on ARM64 Ubuntu, **not connected**.
-- VPC tunnel / services / Worker bindings are not yet configured.
+- `cloudflared` 2026.11.0 installed on ARM64 Ubuntu.
+- VPC Tunnel `pocketai-oracle-transit` reported **Healthy** in the user's Cloudflare dashboard.
+- Both VPC Services are created in the dashboard; binding IDs are now staged in GitHub.
+- **Not deployed to the production Eva Worker**; Oracle-to-Worker end-to-end calls remain unverified.
 - No Android APK change or reinstall is required to configure this bridge.
+There is no live end-to-end proof yet. England has no valid imported GTFS data.
+The screenshot-based tunnel status does not by itself prove Worker authorization.
 
 ## Step 1 — Cloudflare dashboard: Workers VPC
 
@@ -88,8 +92,20 @@ service_id = "<REAL_EN_SERVICE_ID>"
 remote = true
 ```
 
-No static service IDs should be committed before they are created. Keep the
-existing `RO_URBAN_API_TOKEN` and `EN_URBAN_API_TOKEN` Worker secrets.
+The Service IDs below were supplied after their creation and are not secrets.
+The two bindings are now staged **only on the feature branch**:
+
+| Binding | VPC Service ID |
+| --- | --- |
+| `RO_URBAN_VPC` | `01a1e3ea-f6fa-7d11-8f85-21f267b1d833` |
+| `EN_URBAN_VPC` | `01a1e3e9-9c6b-7aa1-aefc-50a6824dbcd5` |
+
+Keep the `RO_URBAN_API_TOKEN` and `EN_URBAN_API_TOKEN`
+Worker secrets. **Their existence and validity have not been verified**.
+If they are missing, do not deploy until they are installed through secure
+secret management; never paste their values into chat or GitHub.
+To preserve Communication, do not discard the existing AI binding,
+Durable Object binding or its SQLite migration.
 Do not set `RO_URBAN_API_URL` or `EN_URBAN_API_URL` for the VPC path.
 The adapter detects `env.RO_URBAN_VPC.fetch` / `env.EN_URBAN_VPC.fetch`,
 uses `http://localhost/v1/plan` through that **private binding**, and
