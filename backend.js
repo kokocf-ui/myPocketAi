@@ -3635,6 +3635,8 @@ export default {
           // Keep existing TfL and verified GB intercity planning unchanged.
           const englishFrom={latitude,longitude},englishTo={latitude:targetLat,longitude:targetLon};
           if(validTarget&&hasValidLocation&&!internationalTarget&&
+             !(isTfLLondonCorridorPoint(latitude,longitude)&&
+               isTfLLondonCorridorPoint(targetLat,targetLon))&&
              englandLocalGtfsRegion(englishFrom,englishTo)&&
              env.EN_URBAN_API_URL&&String(env.EN_URBAN_API_TOKEN||'').length>=32&&
              (!data.national_public_transport||authorizedNationalProvider==='en_urban_gtfs')){
