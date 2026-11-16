@@ -79,16 +79,16 @@ export async function annotateTransitTransfers(env,journey,options={}){
    if(!cache.has(key))cache.set(key,verifiedPedestrianRoute(env,origin,destination,fetchImpl));
    route=await cache.get(key);
   }
-  const providerWalkMinutes=walkingLegs.reduce((n,l)=>{
+  const providerWalkMinutes=walkingLegs.length?walkingLegs.reduce((n,l)=>{
    const a=timed(l.departureTime),b=timed(l.arrivalTime);
    const value=Number.isFinite(+l.durationMinutes)&&l.durationMinutes!==null?+l.durationMinutes:
     a!==null&&b!==null&&b>=a?(b-a)/60000:NaN;
    return Number.isFinite(n)&&Number.isFinite(value)?n+value:NaN;
-  },0);
+  },0):null;
   const verifiedWalkMinutes=route&&Number.isFinite(+route.durationMinutes)&&route.durationMinutes!==null?
    +route.durationMinutes:null;
-  const effectiveWalk=verifiedWalkMinutes===null?
-   (Number.isFinite(providerWalkMinutes)?providerWalkMinutes:null):verifiedWalkMinutes;
+  const effectiveWalk=sameStop?0:verifiedWalkMinutes===null?
+   (providerWalkMinutes!==null&&Number.isFinite(providerWalkMinutes)?providerWalkMinutes:null):verifiedWalkMinutes;
   let status=sameStop?'same_stop':route?'verified':
    walkingLegs.length?'provider_timing_only':'unverified';
   if(gap!==null&&(gap<0||(effectiveWalk!==null&&gap+0.01<effectiveWalk+safety)))
