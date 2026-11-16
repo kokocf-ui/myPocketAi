@@ -5,6 +5,7 @@ The trial replaces the duplicated trip+sequence B-tree with a clustered
 WITHOUT ROWID stop_times table. It keeps all time/stop fields and the
 stop-based lookup index. Nothing in a live service is mounted or modified.
 """
+import argparse
 import json
 import os
 import shutil
@@ -16,6 +17,8 @@ SOURCE = Path("/home/ubuntu/pocketai-england-audit/en-ea.sqlite3")
 DEST_DIR = Path("/home/ubuntu/pocketai-england-compact-pilot")
 RESERVE_BYTES = 2 * 1024**3
 REGION = "en-ea"
+ALLOWED_REGIONS = ("en-ea", "en-em", "en-ne", "en-nw", "en-se", "en-sw", "en-wm", "en-yorkshire", "en-london")
+AUDIT_DIR = Path("/home/ubuntu/pocketai-england-audit")
 TABLES = ("stops", "routes", "trips", "stop_times", "calendar", "calendar_dates")
 COMPACT_SCHEMA = """
 CREATE TABLE stops(stop_id TEXT PRIMARY KEY, stop_name TEXT NOT NULL, stop_lat REAL NOT NULL, stop_lon REAL NOT NULL);
@@ -47,7 +50,9 @@ def trip_rows(db, ids, schema="main"):
         "FROM "+schema+".stop_times WHERE trip_id=? ORDER BY stop_sequence",
         (trip,)).fetchall() for trip in ids}
 
-def pilot(source, dest_dir, min_free=RESERVE_BYTES):
+def pilot(source, dest_dir, min_free=RESERVE_BYTES, region=REGION):
+    if region not in ALLOWED_REGIONS:
+        raise RuntimeError("invalid_or_unapproved_region")
     source, dest_dir = Path(source), Path(dest_dir)
     if source.is_symlink() or not source.is_file():
         raise RuntimeError("missing_or_symlink_source")
@@ -56,9 +61,9 @@ def pilot(source, dest_dir, min_free=RESERVE_BYTES):
     dest_dir.mkdir(mode=0o700, parents=False, exist_ok=True)
     if not dest_dir.is_dir() or not os.access(dest_dir, os.W_OK):
         raise RuntimeError("unwritable_destination")
-    destination=dest_dir/(REGION+".sqlite3")
-    building=dest_dir/("."+REGION+".sqlite3.building")
-    for p in (destination,building,dest_dir/(REGION+".index.json")):
+    destination=dest_dir/(region+".sqlite3")
+    building=dest_dir/("."+region+".sqlite3.building")
+    for p in (destination,building,dest_dir/(region+".index.json")):
         if p.exists() or p.is_symlink():
             raise RuntimeError("output_already_exists_no_overwrite")
     if shutil.disk_usage(dest_dir).free < min_free:
@@ -97,7 +102,7 @@ def pilot(source, dest_dir, min_free=RESERVE_BYTES):
         os.replace(building,destination)
         old_bytes=source.stat().st_size
         new_bytes=destination.stat().st_size
-        return {"region":REGION,"status":"PILOT_ONLY_NOT_LIVE",
+        return {"region":region,"status":"PILOT_ONLY_NOT_LIVE",
                 "source_bytes":old_bytes,"pilot_bytes":new_bytes,
                 "saved_percent":round(100*(old_bytes-new_bytes)/old_bytes,1),
                 "all_rows_preserved":before,"sample_trips_matched":len(sample_ids),
@@ -109,11 +114,13 @@ def pilot(source, dest_dir, min_free=RESERVE_BYTES):
         raise
 
 def main():
-    if len(sys.argv)!=1:
-        raise SystemExit("No arguments; fixed isolated Oracle paths only")
+    parser=argparse.ArgumentParser(description="Non-destructive, one-region-at-a-time BODS compact pilot")
+    parser.add_argument("--region", choices=ALLOWED_REGIONS, default=REGION)
+    args=parser.parse_args()
     if os.environ.get("USER") not in (None,"ubuntu") or os.geteuid()==0:
         raise SystemExit("Run only as the unprivileged ubuntu account")
-    report=pilot(SOURCE,DEST_DIR)
+    source=AUDIT_DIR/(args.region+".sqlite3")
+    report=pilot(source,DEST_DIR,region=args.region)
     print(json.dumps(report,indent=2))
 
 if __name__=="__main__":

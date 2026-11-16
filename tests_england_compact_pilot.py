@@ -65,5 +65,24 @@ class PilotTest(unittest.TestCase):
             self.assertFalse((dst/"en-ea.sqlite3").exists())
             self.assertFalse((dst/".en-ea.sqlite3.building").exists())
 
+
+    def test_second_region_isolated_and_original_unchanged(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)
+            source=root/"original.sqlite3"
+            self.make_original(source)
+            size=source.stat().st_size
+            dest=root/"safe-pilot"
+            result=module.pilot(source,dest,min_free=0,region="en-em")
+            self.assertEqual(result["region"],"en-em")
+            self.assertEqual(result["all_rows_preserved"]["stop_times"],2)
+            self.assertEqual(source.stat().st_size,size)
+            self.assertTrue((dest/"en-em.sqlite3").is_file())
+            self.assertFalse((dest/"en-ea.sqlite3").exists())
+            with self.assertRaisesRegex(RuntimeError,"no_overwrite"):
+                module.pilot(source,dest,min_free=0,region="en-em")
+            with self.assertRaisesRegex(RuntimeError,"invalid_or_unapproved_region"):
+                module.pilot(source,dest,min_free=0,region="fake")
+
 if __name__=="__main__":
     unittest.main()
