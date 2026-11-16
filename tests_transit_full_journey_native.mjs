@@ -27,7 +27,7 @@ for(const str of ['transitCoordinate','transitStreetPath','loadRouteMapLibrary',
  assert.ok(map.includes(str),'Map needs '+str);
 }
 assert.match(map,/dashArray:/,'Unverified vehicle geometry is clearly schematic');
-assert.match(map,/window\.PocketAndroidNavigation\.postMessage/,'Opt-in native control from active map');
+assert.match(map,/window\.PocketAndroidRouteGuidance\.postMessage/,'Opt-in native control from active map');
 assert.ok(national.includes('The parent quick-layer header already provides Back.'));
 assert.ok(!national.includes('actions.append(back);'));
 assert.match(national,/const saved=choice\?\.transitDestination/,'Back keeps destination');
@@ -35,7 +35,7 @@ assert.match(national,/stationName=query\.split\(','\)\[0\]/,'Exact named railwa
 assert.match(manifest,/android:name="\.PocketNavigationService"/);
 assert.match(manifest,/android:foregroundServiceType="location"/);
 assert.match(manifest,/android\.permission\.FOREGROUND_SERVICE_LOCATION/);
-assert.match(activity,/WebViewCompat\.addWebMessageListener\(web,"PocketAndroidNavigation"/);
+assert.match(activity,/WebViewCompat\.addWebMessageListener\(web,"PocketAndroidRouteGuidance"/);
 assert.match(activity,/Collections\.singleton\("https:\/\/"\+APP_HOST\)/,'Restricted to trusted origin');
 assert.match(native,/startForeground\(NOTIFICATION_ID,notification\(\),ServiceInfo\.FOREGROUND_SERVICE_TYPE_LOCATION\)/);
 assert.match(native,/locations\.requestLocationUpdates/);
