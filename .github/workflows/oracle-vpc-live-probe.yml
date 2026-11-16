@@ -82,7 +82,7 @@ jobs:
           with open('/tmp/probe-'+region+'.json') as f: data=json.load(f)
           # The diagnostic returns only the fixed status category,
           # never token values, internal exceptions or user location.
-          print(region,'HTTP',http,'diagnostic:',data.get('status'),'VPC error:',data.get('vpc_error','none'),'class:',data.get('error_class','none'),'cause:',data.get('cause_code','none'),'category:',data.get('message_category','none'))
+          print(region,'HTTP',http,'diagnostic:',data.get('status'),'VPC error:',data.get('vpc_error','none'),'class:',data.get('error_class','none'),'cause:',data.get('cause_code','none'),'category:',data.get('message_category','none'),'message:',data.get('safe_message','none'))
           assert http=='200' and data.get('status')=='ok', data.get('status')
           assert data.get('vpc_reachable') and data.get('bearer_auth_enforced')
           assert data.get('token_values_verified') is False
