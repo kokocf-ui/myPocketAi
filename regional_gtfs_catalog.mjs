@@ -5,6 +5,7 @@ import {basename,join} from 'node:path';
 import {queryGtfsSqlite} from './gtfs_sqlite_reader.mjs';
 import {recognizedGtfsRegion,inRomaniaApprox,inEnglandApprox,pointDistanceMeters} from './regional_gtfs_registry.mjs';
 const LIMIT_BYTES=110*1024*1024; // Avoid loading unbounded national snapshots on a small VM.
+const MAX_SQLITE_SNAPSHOT_BYTES=8*1024*1024*1024; // Disk-backed regional BODS snapshots; only location-specific rows are read.
 const validRow=p=>p&&Number.isFinite(+p.stop_lat)&&Number.isFinite(+p.stop_lon)&&
   p.stop_lat!==null&&p.stop_lon!==null;
 const zone=c=>c==='RO'?'Europe/Bucharest':'Europe/London';
@@ -55,7 +56,7 @@ export function openGtfsFeedCatalog(dir,{country='RO'}={}){
       if(!sqlite&&index.schema!==1)continue;
       const snapshot=safeFile(dir,region+(sqlite?'.sqlite3':'.json'));
       const st=statFile(snapshot);
-      if(!st||st.size>(sqlite?700*1024*1024:LIMIT_BYTES))continue;
+      if(!st||st.size>(sqlite?MAX_SQLITE_SNAPSHOT_BYTES:LIMIT_BYTES))continue;
       if(index.region!==region||index.country!==country||
         index.timeZone!==zone(country)||index.snapshotBytes!==st.size||
         index.snapshotMtimeMs!==Math.trunc(st.mtimeMs)||

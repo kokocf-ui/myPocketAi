@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {mkdtempSync,rmSync,utimesSync} from 'node:fs';
+import {mkdtempSync,rmSync,utimesSync,writeFileSync,truncateSync,statSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
@@ -55,4 +55,29 @@ with zipfile.ZipFile(sys.argv[1],'w') as z:
   utimesSync(db,far,far);
   assert.equal(openGtfsFeedCatalog(dir,{country:'RO'}).count,0);
  }finally{rmSync(dir,{recursive:true,force:true});}
+});
+
+test('England BODS catalog accepts large on-disk SQLite snapshots without loading them',()=>{
+ const dir=mkdtempSync(join(tmpdir(),'pocketai-bods-large-index-'));
+ const region='en-london',db=join(dir,region+'.sqlite3'),idx=join(dir,region+'.index.json');
+ try {
+  // Sparse file: simulates a 1.2 GB BODS database without allocating that disk space.
+  writeFileSync(db,'');
+  truncateSync(db,1_200_000_000);
+  const s=statSync(db);
+  const doc={schema:2,backend:'sqlite',region,country:'GB',timeZone:'Europe/London',
+    snapshotBytes:s.size,snapshotMtimeMs:Math.trunc(s.mtimeMs),
+    positions:[[51.51,-0.12],[51.52,-0.13]]};
+  writeFileSync(idx,JSON.stringify(doc));
+  const catalog=openGtfsFeedCatalog(dir,{country:'GB'});
+  assert.equal(catalog.count,1,'1.2 GB valid indexed SQLite snapshot must be discoverable');
+  const near=catalog.match({latitude:51.51,longitude:-0.12},
+    {latitude:51.52,longitude:-0.13},100);
+  assert.equal(near.length,1,'large database is matched by its small coordinate index');
+  // No query is made against the sparse placeholder: real journey reads require valid SQLite.
+  // Stale size metadata must disable the snapshot rather than serving unverified data.
+  truncateSync(db,1_200_000_001);
+  assert.equal(openGtfsFeedCatalog(dir,{country:'GB'}).count,0,
+    'changed snapshot without matching index must stay offline');
+ } finally {rmSync(dir,{recursive:true,force:true});}
 });
