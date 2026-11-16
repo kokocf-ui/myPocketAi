@@ -94,7 +94,7 @@ def check_one(region,root=PROVENANCE,opener=None,max_bytes=MAX_SINGLE):
        "deployed":False}
 
 def audit(regions,root=PROVENANCE,opener=None,
-          max_total=MAX_CUMULATIVE,max_single=MAX_SINGLE):
+          max_total=MAX_CUMULATIVE,max_single=MAX_SINGLE,on_result=None):
     if not regions or len(regions)!=len(set(regions)) or \
        any(r not in REGION_PATHS for r in regions):
         raise ValueError("invalid_or_duplicate_regions")
@@ -111,11 +111,13 @@ def audit(regions,root=PROVENANCE,opener=None,
             result=check_one(region,root,opener,min(room,max_single))
             used+=result["download_bytes"]
             results.append(result)
+            if on_result is not None:on_result(result)
         except (urllib.error.URLError,OSError,ValueError,TimeoutError) as exc:
             # No upstream response bodies, tokens, or raw URLs in diagnostics.
             reason=str(exc) if type(exc) is ValueError else type(exc).__name__
-            results.append({"region":region,"status":"CHECK_FAILED",
-                            "reason":reason[:70]})
+            error={"region":region,"status":"CHECK_FAILED","reason":reason[:70]}
+            results.append(error)
+            if on_result is not None:on_result(error)
             break
     return {"status":"BODS_ARCHIVE_COMPARISON_ONLY",
        "requested_regions":len(regions),"completed_regions":len(results),
@@ -130,10 +132,14 @@ def main():
     parser=argparse.ArgumentParser(description="On-demand BODS ZIP SHA checks; no data import")
     parser.add_argument("--regions",required=True,
       help="Explicit approved region IDs separated by commas, e.g. en-em,en-ne")
+    parser.add_argument("--progress",action="store_true",
+      help="Flush one small result line per finished region; safe for detached log")
     args=parser.parse_args()
     regions=args.regions.split(",")
-    result=audit(regions)
-    print(json.dumps(result,indent=2))
+    on_result=(lambda result:print("REGION_RESULT "+json.dumps(
+       result,separators=(",",":")),flush=True)) if args.progress else None
+    result=audit(regions,on_result=on_result)
+    print(json.dumps(result,indent=2),flush=True)
     return 2 if any(r["status"]=="CHECK_FAILED" for r in result["results"]) else 0
 
 if __name__=="__main__":
