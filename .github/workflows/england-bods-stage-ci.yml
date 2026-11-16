@@ -19,6 +19,16 @@ jobs:
           python3 -m py_compile oracle-transport-bridge/stage-england-bods.py
           python3 oracle-transport-bridge/stage-england-bods.py --list | tee /tmp/england.txt
           grep -q 'England regional BODS datasets: 9 verified HTTP ZIP endpoints: 9' /tmp/england.txt
+      - name: Inspect first bytes of BODS response without downloading archive
+        run: |
+          python3 - <<'PY'
+          import urllib.request
+          u='https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/ea/'
+          request=urllib.request.Request(u,headers={'User-Agent':'PocketAI-GTFS-readonly-staging/1.0','Range':'bytes=0-63'})
+          with urllib.request.urlopen(request,timeout=20) as r:
+              first=r.read(64)
+              print('GET',r.status,'Content-Type',r.headers.get('Content-Type'),'Length',r.headers.get('Content-Length'),'Magic',first[:16].hex(),'LooksZip',first.startswith(b'PK'))
+          PY
       - name: Stage East Anglia BODS data on isolated ephemeral runner
         run: |
           set -euo pipefail
