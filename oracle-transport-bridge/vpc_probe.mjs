@@ -73,7 +73,7 @@ export async function checkPrivateTransport(env,region){
  // binding restricts access to the pre-registered target.
  try{
   const res=await service.fetch(origin+'/healthz',{
-   method:'GET',signal:AbortSignal.timeout(9000),redirect:'error'});
+   method:'GET',signal:AbortSignal.timeout(9000),redirect:'manual'});
   if(res.status!==200)return {region,status:'health_http_error',http_status:res.status};
   const data=await res.json();
   if(data?.status!=='ok'||data?.country!==entry.country)
@@ -86,7 +86,7 @@ export async function checkPrivateTransport(env,region){
    method:'POST',
    headers:{Authorization:'Bearer intentionally-invalid-diagnostic-only',
      'Content-Type':'application/json'},
-   body:'{}',signal:AbortSignal.timeout(9000),redirect:'error'});
+   body:'{}',signal:AbortSignal.timeout(9000),redirect:'manual'});
   if(res.status!==401)return {region,status:'unexpected_auth_response',http_status:res.status};
  }catch(e){return {region,status:'auth_probe_unavailable',vpc_error:safeVPCError(e)}}
  return {region,status:'ok',vpc_reachable:true,oracle_health:true,
