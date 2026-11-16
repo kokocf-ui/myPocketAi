@@ -3,7 +3,7 @@
 // Launches two temporary loopback-only HTTP servers, never the live port 8768.
 // The only write is a tiny index JSON in the isolated compact-pilot directory.
 import {spawnSync} from 'node:child_process';
-import {randomBytes} from 'node:crypto';
+import {randomBytes,createHash} from 'node:crypto';
 import {existsSync,lstatSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -159,6 +159,7 @@ export async function runActualHttpParity(region=selectedRegion()){
     journeys:comparison.journeyCount,
     original_http_ms:a.ms,compact_http_ms:b.ms,
     same_journeys:comparison.equal,
+    journey_digest:createHash('sha256').update(canonicalJourneys(a.data)).digest('hex').slice(0,20),
     sample_count:1,not_live:true,
     note:'One real dated sample only; no production deployment or VPC change.'};
 }

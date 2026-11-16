@@ -7,9 +7,18 @@ A=/home/ubuntu/pocketai-england-audit
 P=/home/ubuntu/pocketai-england-compact-pilot
 IMAGE=pocketai-england-parity:test
 REGION=en-ea
+REPEATS=1
 if [[ $# -ne 0 ]]; then
- if [[ $# -ne 2 || "$1" != "--region" ]]; then echo "ERROR: usage --region en-em" >&2; exit 2; fi
+ if [[ "$1" != "--region" || ( $# -ne 2 && $# -ne 4 ) ]]; then
+  echo "ERROR: usage --region en-se [--repeats 5]" >&2; exit 2
+ fi
  REGION="$2"
+ if [[ $# -eq 4 ]]; then
+  if [[ "$3" != "--repeats" || ! "$4" =~ ^[2-5]$ ]]; then
+   echo "ERROR: repeats must be between 2 and 5" >&2; exit 2
+  fi
+  REPEATS="$4"
+ fi
 fi
 case "$REGION" in en-ea|en-em|en-ne|en-nw|en-se|en-sw|en-wm|en-yorkshire|en-london) ;; *) echo "ERROR: invalid region" >&2; exit 2;; esac
 
@@ -43,6 +52,13 @@ echo '=== VERIFY TEST IMAGE EXECUTABLES ==='
 sudo docker run --rm --network none --entrypoint sh "$IMAGE" -ec \
   'node --version; python3 --version; command -v python3'
 echo '=== RUN LOOPBACK-ONLY READ-ONLY PARITY TEST ==='
+ENTRY="$S/oracle-transport-bridge/probe-east-anglia-http.mjs"
+ARGS=(--region "$REGION")
+if [[ "$REPEATS" -gt 1 ]]; then
+ ENTRY="$S/oracle-transport-bridge/check-england-http-stability.mjs"
+ test -f "$ENTRY" || { echo 'ERROR: repeat check script missing' >&2; exit 2; }
+ ARGS+=(--repeats "$REPEATS")
+fi
 sudo docker run --rm --network none --read-only \
   --tmpfs /tmp:rw,nosuid,nodev,size=128m \
   --cap-drop ALL --security-opt no-new-privileges \
@@ -51,4 +67,4 @@ sudo docker run --rm --network none --read-only \
   --mount "type=bind,src=$S,dst=$S,readonly" \
   --mount "type=bind,src=$A,dst=$A,readonly" \
   --mount "type=bind,src=$P,dst=$P,readonly" \
-  "$IMAGE" node "$S/oracle-transport-bridge/probe-east-anglia-http.mjs" --region "$REGION"
+  "$IMAGE" node "$ENTRY" "${ARGS[@]}"
