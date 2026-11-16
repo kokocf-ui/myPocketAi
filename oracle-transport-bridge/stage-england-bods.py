@@ -16,13 +16,24 @@ import urllib.request
 import zipfile
 from pathlib import Path
 
-REGIONS = "ea em ne nw se sw wm yorkshire london".split()
+REGION_ENDPOINTS = {
+    "ea":"east_anglia",
+    "em":"east_midlands",
+    "ne":"north_east",
+    "nw":"north_west",
+    "se":"south_east",
+    "sw":"south_west",
+    "wm":"west_midlands",
+    "yorkshire":"yorkshire",
+    "london":"london"
+}
+REGIONS = list(REGION_ENDPOINTS)
 SOURCES = {
     "en-"+suffix: (
-       "DfT BODS England "+suffix,
-       "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/"+suffix+"/",
+       "DfT BODS England "+endpoint.replace("_"," ").title(),
+       "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/"+endpoint+"/",
        "https://www.gov.uk/guidance/find-and-use-bus-open-data"
-    ) for suffix in REGIONS
+    ) for suffix,endpoint in REGION_ENDPOINTS.items()
 }
 MAX_COMPRESSED = 350_000_000
 MAX_UNCOMPRESSED = 1_500_000_000
@@ -103,7 +114,7 @@ def main():
         for suffix in REGIONS:
             region="en-"+suffix
             print(region,"candidate_source_found" if region in SOURCES else "no_prevalidated_source")
-        print("England regional BODS datasets:",len(REGIONS),"verified HTTP ZIP endpoints:",len(SOURCES))
+        print("England regional BODS datasets:",len(REGIONS),"candidate GTFS endpoints:",len(SOURCES))
         print("Regional bus timetable source availability is not proof of imported journeys or rail coverage.")
         return 0
     stage=Path(args.dir)
