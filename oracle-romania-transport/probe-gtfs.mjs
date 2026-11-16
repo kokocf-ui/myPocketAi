@@ -50,6 +50,6 @@ console.log(JSON.stringify({
  date,origin:request.fromName,destination:request.toName,
  candidates:feed.trips.length,stops:feed.stops.length,stop_times:feed.stop_times.length,
  sqlite_slice_ms:duration,planner_status:planned.status,
- journeys:(planned.journeys||[]).map(j=>({start:j.startDateTime,arrival:j.arrivalDateTime,durationMinutes:j.durationMinutes,legs:j.legs.map(l=>({mode:l.mode,line:l.lineNames?.[0],from:l.from,to:l.to,departure:l.departureTime,arrival:l.arrivalTime}))}))
+ journeys:(planned.journeys||[]).map(j=>({start:j.startDateTime,arrival:j.arrivalDateTime,durationMinutes:j.durationMinutes,boarding_stop_id:j.access?.stop_id,boarding_direct_meters:j.access?.directMeters,alighting_stop_id:j.egress?.stop_id,alighting_stop_name:j.egress?.stop_name,alighting_direct_meters:j.egress?.directMeters,walking_to_stop_verified:j.walkingAccessVerified===true,walking_from_stop_verified:j.walkingEgressVerified===true,legs:j.legs.map(l=>({mode:l.mode,line:l.lineNames?.[0],from:l.from,to:l.to,fromStopId:l.fromStopId,toStopId:l.toStopId,departure:l.departureTime,arrival:l.arrivalTime}))}))
 },null,2));
 if(planned.status!=='success'||!planned.journeys?.length)process.exitCode=1;
