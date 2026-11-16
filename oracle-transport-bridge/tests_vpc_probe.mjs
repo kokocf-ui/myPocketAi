@@ -32,13 +32,22 @@ test('Reject wrong destination and bypassed Bearer authenticator',async()=>{
  assert.equal((await checkPrivateTransport({},'RO')).status,'binding_missing');
  assert.equal((await checkPrivateTransport({},'OTHER')).status,'invalid_region');
 });
-test('Both Cloudflare service IDs match staged backend and probe configs',()=>{
- const toml=readFileSync('oracle-transport-bridge/wrangler-probe.toml','utf8');
- const prod=readFileSync('wrangler-backend.toml','utf8');
- for(const id of ['01a1e3ea-f6fa-7d11-8f85-21f267b1d833',
-   '01a1e3e9-9c6b-7aa1-aefc-50a6824dbcd5']){
-  assert.ok(toml.includes(id));assert.ok(prod.includes(id));
+test('Correct region-specific service IDs are never swapped',()=>{
+ const expected={
+  RO_URBAN_VPC:'01a1e3e9-9c6b-7aa1-aefc-50a6824dbcd5',
+  EN_URBAN_VPC:'01a1e3ea-f6fa-7d11-8f85-21f267b1d833'
+ };
+ for(const file of ['oracle-transport-bridge/wrangler-probe.toml','wrangler-backend.toml']){
+  const config=readFileSync(file,'utf8');
+  const parts=config.split('[[vpc_services]]').slice(1);
+  assert.equal(parts.length,2);
+  for(const part of parts){
+   const name=part.match(/^binding\s*=\s*"([^"]+)"/m)?.[1];
+   const id=part.match(/^service_id\s*=\s*"([^"]+)"/m)?.[1];
+   assert.equal(id,expected[name],file+': wrong VPC service for '+name);
+  }
  }
- assert.ok(!toml.includes('POCKET_COMM_HUB'));
- assert.ok(!toml.includes('RO_URBAN_API_TOKEN'));
+ const probe=readFileSync('oracle-transport-bridge/wrangler-probe.toml','utf8');
+ assert.ok(!probe.includes('POCKET_COMM_HUB'));
+ assert.ok(!probe.includes('RO_URBAN_API_TOKEN'));
 });
