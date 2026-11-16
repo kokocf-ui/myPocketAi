@@ -21,11 +21,11 @@ test('SQLite GTFS import: real file, indexed regional query, transfer, expiry an
   const fixture=String.raw`
 import sys,zipfile
 files={
-'stops.txt':'stop_id,stop_name,stop_lat,stop_lon\\na,Origin,44.43,26.10\\nb,Transfer,44.44,26.11\\nc,Destination,44.45,26.12\\n',
-'routes.txt':'route_id,route_short_name,route_type\\nr1,10,3\\nr2,20,0\\n',
-'trips.txt':'trip_id,route_id,service_id\\nt1,r1,WK\\nt2,r2,WK\\n',
-'stop_times.txt':'trip_id,arrival_time,departure_time,stop_id,stop_sequence\\nt1,09:00:00,09:00:00,a,1\\nt1,09:10:00,09:10:00,b,2\\nt2,09:17:00,09:17:00,b,1\\nt2,09:25:00,09:25:00,c,2\\n',
-'calendar.txt':'service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date\\nWK,1,1,1,1,1,1,1,20260101,20270105\\n'}
+'stops.txt':'stop_id,stop_name,stop_lat,stop_lon\na,Origin,44.43,26.10\nb,Transfer,44.44,26.11\nc,Destination,44.45,26.12\n',
+'routes.txt':'route_id,route_short_name,route_type\nr1,10,3\nr2,20,0\n',
+'trips.txt':'trip_id,route_id,service_id\nt1,r1,WK\nt2,r2,WK\n',
+'stop_times.txt':'trip_id,arrival_time,departure_time,stop_id,stop_sequence\nt1,09:00:00,09:00:00,a,1\nt1,09:10:00,09:10:00,b,2\nt2,09:17:00,09:17:00,b,1\nt2,09:25:00,09:25:00,c,2\n',
+'calendar.txt':'service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date\nWK,1,1,1,1,1,1,1,20260101,20270105\n'}
 with zipfile.ZipFile(sys.argv[1],'w') as z:
  for name,value in files.items():z.writestr(name,value)
 `;
