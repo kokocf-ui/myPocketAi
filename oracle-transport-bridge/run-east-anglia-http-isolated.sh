@@ -32,7 +32,7 @@ if [[ -L "$P/$REGION.index.json" ]]; then
   echo 'ERROR: compact index is a symlink' >&2
   exit 2
 fi
-if [[ ! -f "$P/en-ea.index.json" ]]; then
+if [[ ! -f "$P/$REGION.index.json" ]]; then
   python3 "$S/gtfs_sqlite_store.py" index "$P/$REGION.sqlite3" "$REGION" GB
 fi
 echo '=== BUILD SEPARATE TEST IMAGE: NODE 22 + PYTHON 3 ==='

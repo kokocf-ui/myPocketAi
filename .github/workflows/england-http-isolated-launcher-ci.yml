@@ -26,4 +26,11 @@ jobs:
           grep -Fq -- '--cpus 1' oracle-transport-bridge/run-east-anglia-http-isolated.sh
           grep -Fq -- '--network none' oracle-transport-bridge/run-east-anglia-http-isolated.sh
           grep -Fq -- '--read-only' oracle-transport-bridge/run-east-anglia-http-isolated.sh
+          # Verify every accepted region is indexed using its own name,
+          # never the preexisting East Anglia index.
+          grep -Fq 'if [[ ! -f "$P/$REGION.index.json" ]]; then' oracle-transport-bridge/run-east-anglia-http-isolated.sh
+          if grep -Fq 'if [[ ! -f "$P/en-ea.index.json" ]]; then' oracle-transport-bridge/run-east-anglia-http-isolated.sh; then
+            echo "ERROR: hardcoded East Anglia index breaks other regions" >&2
+            exit 1
+          fi
           grep -Fq 'RUN apk add --no-cache python3' oracle-england-transport/Dockerfile
