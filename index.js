@@ -19122,12 +19122,12 @@ async function openTransitJourneyMap(selected,resume=null){
   // from Android's persistent notification. Voice GPS remains native.
   const briefJourney={...journey,routeSegments:[],
    legs:(journey.legs||[]).map(leg=>({...leg,
-    coordinates:Array.isArray(leg.coordinates)?leg.coordinates.slice(0,350):[]}))};
+    coordinates:Array.isArray(leg.coordinates)&&leg.coordinates.length<=350?leg.coordinates:[]}))};
   const shortOptions=(selected.options||[]).slice(0,6).map(option=>({
    ...option,routeSegments:[],legs:(option.legs||[]).slice(0,30).map(leg=>({...leg,coordinates:[]}))
   }));
   const context={journey:briefJourney,options:shortOptions,accessRoute:selected.accessRoute&&validMapRoute(selected.accessRoute)?
-   {...selected.accessRoute,coordinates:selected.accessRoute.coordinates.slice(0,1000)}:null,
+   {...selected.accessRoute,coordinates:selected.accessRoute.coordinates.length<=1000?selected.accessRoute.coordinates:[]}:null,
    destinationPoint:state.lastTransitResponse?.transit_destination_point||
     state.lastTransitChoice?.transitDestination||null};
   const request={action:'start',destination,language:state.language,walkingLegs,
