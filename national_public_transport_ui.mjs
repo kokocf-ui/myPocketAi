@@ -4,6 +4,11 @@ let nationalTransitSession=null;
 function showNationalTransitSearch(choice){
  if(nationalTransitSession?.stop)nationalTransitSession.stop();
  state.moduleSearchCategory=choice;state.moduleSearchReturnMode='root';
+
+ // Returning from results must restore the search header and the visible Back.
+ // results-mode deliberately hides the header, but may outlive the list.
+ document.querySelector('.module-quick-sheet')?.classList.remove('results-mode','details-mode','mode-choice-screen');
+ $('moduleLayerBody').style.cssText='';
  setModuleLayerMode(dialogText('Transport public național','National public transport'));
  const ro=state.language==='ro',host=$('moduleLayerBody');
  const t=key=>({
@@ -34,12 +39,32 @@ function showNationalTransitSearch(choice){
  const choices=document.createElement('div');choices.className='national-transit-suggestions';choices.style.cssText='display:flex;flex-direction:column;gap:7px;max-height:40dvh;overflow-y:auto;overscroll-behavior:contain';
  const selectedText=document.createElement('p');selectedText.style.cssText='font-weight:700;margin:0;overflow-wrap:anywhere';
  const createButton=(caption,click)=>{const btn=document.createElement('button');btn.type='button';btn.className='module-result-card journey-primary-action';btn.style.cssText='min-width:0;min-height:55px;flex:1 1 0;padding:10px 12px;white-space:normal;font-size:15px;font-weight:750;touch-action:manipulation';btn.textContent=caption;btn.onclick=click;return btn};
- let country='',point=null,origin=null,seq=0,timer=null,abort=null;
- const session={stop(){seq++;clearTimeout(timer);abort?.abort()}};nationalTransitSession=session;
+
+ let country='',point=null,origin=null,seq=0,timer=null,abort=null,calendarOpen=false;
+ const parentBack=$('moduleLayerBack');
+ const session={stop(){seq++;clearTimeout(timer);abort?.abort();parentBack?.removeEventListener('click',calendarBack,true)}};nationalTransitSession=session;
+ const calendarBack=event=>{
+  if(!calendarOpen||!root.isConnected||nationalTransitSession!==session)return;
+  event.stopImmediatePropagation();event.preventDefault();
+  restoreSearchStage();
+ };
+ parentBack?.addEventListener('click',calendarBack,true);
  const alive=()=>root.isConnected&&nationalTransitSession===session&&state.currentView==='module'&&state.currentModule==='maps';
  const searchNodes=[];
  const resetCalendarScroll=()=>{
   for(let element=host;element&&element.id!=='moduleQuickLayer';element=element.parentElement)element.scrollTop=0;
+ };
+
+ const restoreSearchStage=()=>{
+  calendarOpen=false;
+  root.replaceChildren(...searchNodes);
+  if(point){
+   const again=createButton(String(point.label||''),()=>openDeparture());
+   again.className='transit-choice-action journey-suggestion';
+   again.style.flex='0 0 auto';again.style.width='100%';again.style.textAlign='left';
+   choices.replaceChildren(again);
+  }
+  resetCalendarScroll();
  };
  const openDeparture=()=>{
   if(!alive()||state.busy||state.moduleSearchBusy||!country||!origin||!point||String(point.country_code||'').toUpperCase()!==country)return;
@@ -50,16 +75,7 @@ function showNationalTransitSearch(choice){
   const step=createTransportDepartureStep({
    title:ro?'Când dorești să pleci?':'When would you like to leave?',
    destination:destination.label,
-   onBack:()=>{
-    root.replaceChildren(...searchNodes);
-    if(point){
-     const again=createButton(String(point.label||''),()=>openDeparture());
-     again.className='transit-choice-action journey-suggestion';
-     again.style.flex='0 0 auto';again.style.width='100%';again.style.textAlign='left';
-     choices.replaceChildren(again);
-    }
-    resetCalendarScroll();
-   },
+   onBack:restoreSearchStage,
    onSearch:async departureAt=>{
     if(!alive()||state.busy||state.moduleSearchBusy)return;
     session.stop();
@@ -70,7 +86,7 @@ function showNationalTransitSearch(choice){
    }
   });
   // Keep the calendar in the first visible position instead of below the search form.
-  root.replaceChildren(step);
+  calendarOpen=true;root.replaceChildren(step);
   resetCalendarScroll();
  };
  // The parent quick-layer header already provides Back.
