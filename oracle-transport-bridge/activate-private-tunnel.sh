@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Run interactively ON THE ORACLE VM only AFTER creating a remotely managed
-# Cloudflare Tunnel, configuring Access service-token policies and hostnames.
+# Run interactively ON THE ORACLE VM only after creating a Cloudflare Workers
+# VPC Tunnel. This does not require a custom domain or public DNS routes.
 # Never paste the token into GitHub, this chat, arguments, or the shell history.
 set -euo pipefail
 if [[ ! -t 0 ]]; then echo 'Interactive terminal required (ssh -tt).' >&2; exit 2; fi
@@ -19,11 +19,12 @@ for port in 8766 8768; do
   echo "Local transport service on $port is not healthy; aborting." >&2;exit 1
  fi
 done
-echo 'The two Access-protected hostnames MUST already map to local services:'
-echo '  Romania: http://localhost:8766'
-echo '  England: http://localhost:8768'
-echo 'The Cloudflare Access allow policy must require a service-token identity.'
-read -r -p 'Confirm Cloudflare Access protection and routing [type YES]: ' confirm
+echo 'Only a private Workers VPC Tunnel is needed. No public hostname is required.'
+echo 'After the connector is healthy, configure TWO scoped VPC Services:'
+echo '  Romania -> 127.0.0.1, HTTP 8766'
+echo '  England -> 127.0.0.1, HTTP 8768'
+echo 'The origin Bearer API tokens must remain private in the Eva Worker.'
+read -r -p 'Confirm the Workers VPC Tunnel is created (type YES): ' confirm
 if [[ "$confirm" != YES ]]; then echo 'No changes'; exit 1; fi
 echo 'Paste the tunnel connector token invisibly; it is NOT an Access Client Secret.'
 IFS= read -r -s -p 'Tunnel connector token: ' TUNNEL_TOKEN
@@ -68,4 +69,5 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now pocketai-transit-tunnel.service
 echo 'Tunnel service state (no token is displayed):'
 sudo systemctl is-active pocketai-transit-tunnel.service
-echo 'Check Cloudflare dashboard Tunnel: HEALTHY. Access rules must remain enforced.'
+echo 'Check Workers VPC > Tunnels: HEALTHY, then create two private VPC Services.'
+echo 'No public DNS records, custom domain, or Access applications are necessary.'
