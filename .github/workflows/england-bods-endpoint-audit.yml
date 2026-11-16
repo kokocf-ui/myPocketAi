@@ -1,0 +1,22 @@
+name: Audit England BODS regional GTFS endpoints (no download)
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths: ['.github/workflows/england-bods-endpoint-audit.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect-heads:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Check official BODS region suffixes without storing data
+        run: |
+          set -u
+          for suffix in ea em ne nw se sw wm yorkshire london all; do
+            url="https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/$suffix/"
+            printf '%-12s' "$suffix"
+            curl -L -I -sS --max-time 15 -o /dev/null               -w 'HTTP=%{http_code} content_type=%{content_type} effective=%{url_effective}\n'               --proto '=https' --proto-redir '=https' "$url" || echo 'endpoint_unavailable_or_head_unsupported'
+          done
+          echo 'This checks HTTP response metadata, not licenses, contents, or active timetables.'
