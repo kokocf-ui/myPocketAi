@@ -27,6 +27,22 @@ function safeErrorClass(e){
  // The class name is an allowlisted primitive, not the exception message.
  return ['TypeError','Error','DOMException','TimeoutError','AbortError','NetworkError','ReferenceError'].includes(name)?name:'Other';
 }
+function safeMessageCategory(e){
+ const m=String(e?.message||'').toLowerCase();
+ if(m.includes('proxyerror'))return 'proxy_error';
+ if(m.includes('fetch failed'))return 'fetch_failed';
+ if(m.includes('failed to fetch'))return 'failed_to_fetch';
+ if(m.includes('invalid url'))return 'invalid_url';
+ if(m.includes('internal error'))return 'internal_error';
+ if(m.includes('vpc'))return 'vpc_related';
+ if(m.includes('not supported'))return 'not_supported';
+ if(m.includes('connection'))return 'connection_related';
+ if(m.includes('network'))return 'network_related';
+ if(m.includes('timed out'))return 'timed_out';
+ if(m.includes('host'))return 'host_related';
+ if(m.includes('request'))return 'request_related';
+ return 'other';
+}
 function safeCauseCode(e){
  const code=String(e?.cause?.code||e?.code||'');
  return /^[a-z_0-9-]{1,48}$/i.test(code)?code:'none';
@@ -48,7 +64,7 @@ export async function checkPrivateTransport(env,region){
   const data=await res.json();
   if(data?.status!=='ok'||data?.country!==entry.country)
    return {region,status:'wrong_origin'};
- }catch(e){return {region,status:'health_unavailable',vpc_error:safeVPCError(e),error_class:safeErrorClass(e),cause_code:safeCauseCode(e)}}
+ }catch(e){return {region,status:'health_unavailable',vpc_error:safeVPCError(e),error_class:safeErrorClass(e),cause_code:safeCauseCode(e),message_category:safeMessageCategory(e)}}
  // Explicitly invalid Authorization tests that the real transport planner
  // rejects unauthenticated calls; it does not execute route planning.
  try{
