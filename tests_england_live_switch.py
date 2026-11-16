@@ -13,7 +13,10 @@ class ActivationStaticSafety(unittest.TestCase):
             'check_before()','new_england_service_failed_health_or_nine_feed_probe',
             'ACTIVATION_FAILED_STARTING_AUTOMATIC_ROLLBACK',
             'ROLLBACK_CONTAINER_RETAINED_STOPPED',
-            'OTHER_SERVICES_UNCHANGED'):
+            'OTHER_SERVICES_UNCHANGED',
+            'network=old["HostConfig"].get("NetworkMode")',
+            'details.get("Driver")!="bridge"',
+            '"--network",network,'):
    self.assertIn(x,source)
   for forbidden in ('docker("system","prune"','docker("volume","rm"',
                     'docker("rm","-f","pocketai-romania-urban"',
