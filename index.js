@@ -19184,19 +19184,35 @@ async function openTransitJourneyMap(selected,resume=null){
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,
    attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
   const all=[],unverified=[];
+  const savedWalks=new Map();
+  for(const stage of (resume?.walkingLegs||[])){
+   if(!Number.isInteger(stage.index)||!Array.isArray(stage.coordinates)||stage.coordinates.length<2||
+      stage.coordinates.length>3000||stage.coordinates.some(c=>!Array.isArray(c)||c.length<2||
+       !Number.isFinite(c[0])||!Number.isFinite(c[1])))continue;
+   let length=0;
+   for(let n=1;n<stage.coordinates.length;n++)
+    length+=transitDistance({latitude:stage.coordinates[n-1][1],longitude:stage.coordinates[n-1][0]},
+     {latitude:stage.coordinates[n][1],longitude:stage.coordinates[n][0]});
+   savedWalks.set(stage.index,{profile:'walk',coordinates:stage.coordinates,
+    distanceMeters:length,steps:Array.isArray(stage.steps)?stage.steps:[]});
+  }
   const marker=(p,label)=>{if(!p)return;all.push(p);
    L.marker(p,{title:label}).addTo(map).bindPopup(label)};
   const line=(p,color,dashed=false)=>{if(p.length<2)return;
    p.forEach(x=>all.push(x));L.polyline(p,{color,weight:dashed?3:5,
     opacity:dashed?.6:.95,dashArray:dashed?'6,9':undefined}).addTo(map)};
-  const access=selected.accessRoute;
+  const access=selected.accessRoute&&validMapRoute(selected.accessRoute)?
+    selected.accessRoute:savedWalks.get(-1);
   if(access&&validMapRoute(access)){
    const p=access.coordinates.map(c=>[c[1],c[0]]);line(p,'#0f91e2');
    walkRoutes.set(-1,access);marker(p[0],'📌 '+dialogText('Plecarea','Start'));
   }
   const walkJobs=[];
   for(const [i,leg] of (journey.legs||[]).entries()){
+   const savedLeg=savedWalks.get(i);
    let from=transitCoordinate(leg.departurePoint),to=transitCoordinate(leg.arrivalLatLon);
+   if(!from&&savedLeg)from=[savedLeg.coordinates[0][1],savedLeg.coordinates[0][0]];
+   if(!to&&savedLeg){const end=savedLeg.coordinates.at(-1);to=[end[1],end[0]]}
    if(!from&&i>0)from=transitCoordinate(journey.legs[i-1]?.arrivalLatLon);
    if(!to&&i+1<journey.legs.length)to=transitCoordinate(journey.legs[i+1]?.departurePoint);
    if(!from||!to){unverified.push(i+1);if(from)marker(from,'📌 '+leg.from);if(to)marker(to,'📌 '+leg.to);continue}
@@ -19207,18 +19223,20 @@ async function openTransitJourneyMap(selected,resume=null){
    if(transitWalkLeg(leg.mode)){
     marker(from,'📌 '+(leg.from||'')+' → '+(leg.to||''));
     const initial=L.polyline([from,to],{color:'#0f91e2',weight:3,opacity:.5,dashArray:'4,7'}).addTo(map);
-    walkJobs.push({i,leg,from,to,initial});
+    walkJobs.push({i,leg,from,to,initial,savedLeg});
    }
   }
   const last=transitCoordinate(state.lastTransitResponse?.transit_destination_point);
   if(last)marker(last,'📌 '+destination);
+  current.overviewPoints=[...all];
   if(all.length>1)map.fitBounds(all,{padding:[24,24]});
   else if(all.length===1)map.setView(all[0],14);
   else{map.setView([51.5,-.12],5);note.textContent=dialogText('Furnizorul nu a trimis coordonatele stațiilor.',
    'The operator did not supply stop coordinates.')}
   requestAnimationFrame(()=>{if(activeRouteMap===current){map.invalidateSize();
    if(all.length>1)map.fitBounds(all,{padding:[24,24]})}});
-  if(all.length)note.textContent=dialogText('Etapele sunt pe hartă. Verific transferurile pietonale…',
+  if(resume?.resumed)beginTransitVisualTracking(current);
+  if(all.length&&!current.navigating)note.textContent=dialogText('Etapele sunt pe hartă. Verific transferurile pietonale…',
    'Journey stops are mapped. Checking walking transfers…');
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),35000);
   current.cleanup=()=>{window.removeEventListener('resize',resize);clearTimeout(timeout);controller.abort()};
@@ -19228,7 +19246,9 @@ async function openTransitJourneyMap(selected,resume=null){
    try{
     if(transitDistance({latitude:job.from[0],longitude:job.from[1]},
       {latitude:job.to[0],longitude:job.to[1]})<8){job.initial.remove();continue}
-    const verified=await transitStreetPath(job.from,job.to,job.leg.to||'',controller.signal);
+
+    const verified=job.savedLeg&&transitVerifiedPath(job.savedLeg,job.from,job.to)?
+     job.savedLeg:await transitStreetPath(job.from,job.to,job.leg.to||'',controller.signal);
     if(!verified){unverified.push(job.i+1);continue}
     const p=verified.coordinates.map(c=>[c[1],c[0]]);
     job.initial.remove();line(p,'#0f91e2');walkRoutes.set(job.i,verified);
@@ -19239,7 +19259,7 @@ async function openTransitJourneyMap(selected,resume=null){
      row?.append(walk)}
    }catch{unverified.push(job.i+1)}
   }
-  if(activeRouteMap===current)note.textContent=unverified.length?
+  if(activeRouteMap===current&&!current.navigating)note.textContent=unverified.length?
    dialogText('Traseu orientativ: segmentele fără geometrie verificată sunt punctate.',
     'Overview map: segments without verified geometry are dashed.'):
    dialogText('Traseu complet, cu transferurile pietonale verificate.','Journey mapped with verified walking transfers.');
