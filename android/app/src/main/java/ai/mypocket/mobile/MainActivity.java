@@ -1172,7 +1172,7 @@ public final class MainActivity extends ComponentActivity {
         // It continues in an Android location foreground service across Home,
         // WebView teardown and screen lock. No third-party origin may use it.
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
-            WebViewCompat.addWebMessageListener(web,"PocketAndroidNavigation",
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidRouteGuidance",
                 Collections.singleton("https://"+APP_HOST),
                 (view,message,origin,isMainFrame,replyProxy)->{
                     if(!isMainFrame||origin==null||
