@@ -85,3 +85,22 @@ export async function addRomanianWalkingAccess(env,journey,origin,destination,op
  }
  return j;
 }
+/**
+ * Rank door-to-door arrival only after both pedestrian connectors are verified.
+ * Unverified journeys remain visible but never displace a fully verified option.
+ * Do not calculate walking durations from straight-line distances.
+ */
+export function rankRomanianUrbanDoorToDoor(journeys=[]){
+ const safeTime=value=>{const n=Date.parse(value||'');return Number.isFinite(n)?n:Infinity;};
+ return [...(Array.isArray(journeys)?journeys:[])].sort((a,b)=>{
+  const av=Boolean(a?.walkingAccessVerified&&a?.walkingEgressVerified);
+  const bv=Boolean(b?.walkingAccessVerified&&b?.walkingEgressVerified);
+  if(av!==bv)return av?-1:1;
+  const aTime=safeTime(a?.arrivalAtDestinationTime||a?.arrivalDateTime);
+  const bTime=safeTime(b?.arrivalAtDestinationTime||b?.arrivalDateTime);
+  if(aTime!==bTime)return aTime-bTime;
+  const ax=Number(a?.transferCount??Math.max(0,(a?.legs?.length||1)-1));
+  const bx=Number(b?.transferCount??Math.max(0,(b?.legs?.length||1)-1));
+  return (Number.isFinite(ax)?ax:Infinity)-(Number.isFinite(bx)?bx:Infinity);
+ });
+}
