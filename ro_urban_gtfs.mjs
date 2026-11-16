@@ -1,18 +1,19 @@
 // Romanian urban GTFS (static timetable) — no external provider calls or invented times.
 // The caller supplies a validated, licensed, locally-loaded GTFS snapshot.
 // Precise walking routes are OUTSIDE this adapter; stop proximity is straight-line only.
-const zone='Europe/Bucharest';
+const DEFAULT_ZONE='Europe/Bucharest';
+const VALID_ZONES=new Set([DEFAULT_ZONE,'Europe/London']);
 const weekdays=['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
 const modes=new Map([['0','tram'],['1','metro'],['2','train'],['3','bus'],['11','trolleybus']]);
 const validPoint=p=>p&&Number.isFinite(Number(p.latitude))&&Number.isFinite(Number(p.longitude))&&p.latitude!==null&&p.longitude!==null&&Math.abs(+p.latitude)<=90&&Math.abs(+p.longitude)<=180;
 const byId=(rows,key)=>new Map((rows||[]).filter(x=>x&&x[key]).map(x=>[String(x[key]),x]));
 const timeSec=v=>{const m=/^(\d{1,2}):(\d{2}):(\d{2})$/.exec(String(v??''));if(!m||+m[1]>47||+m[2]>59||+m[3]>59)return null;return +m[1]*3600 + +m[2]*60 + +m[3];};
 const dateValid=d=>/^\d{4}-\d{2}-\d{2}$/.test(d)&&!Number.isNaN(Date.parse(d+'T12:00:00Z'))&&new Date(d+'T12:00:00Z').toISOString().startsWith(d);
-function roDate(d){
+function roDate(d,zone){
  const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d).map(x=>[x.type,x.value]));
  return p.year+'-'+p.month+'-'+p.day;
 }
-function utcAt(date,secs){
+function utcAt(date,secs,zone){
  const p=new Intl.DateTimeFormat('en-GB',{timeZone:zone,timeZoneName:'shortOffset'}).formatToParts(new Date(date+'T12:00:00Z'));
  const offset=p.find(x=>x.type==='timeZoneName')?.value||'';
  const m=/^GMT([+-])(\d{1,2})(?::(\d{2}))?$/.exec(offset);
@@ -44,16 +45,17 @@ function leg(ride,a,b){
   operator:String(ride.route?.agency_id||'').slice(0,80)};
 }
 export function planRomanianUrbanGtfs(feed,from,to,options={}){
+ const zone=VALID_ZONES.has(options.timeZone)?options.timeZone:DEFAULT_ZONE;
  if(!feed||!Array.isArray(feed.stops)||!Array.isArray(feed.trips)||!Array.isArray(feed.stop_times))
   return {status:'feed_not_loaded',journeys:[]};
  if(!validPoint(from)||!validPoint(to))return {status:'invalid_coordinates',journeys:[]};
  const requestTime=options.departureAt?new Date(options.departureAt):new Date();
  if(Number.isNaN(requestTime.getTime()))return {status:'invalid_departure',journeys:[]};
- const date=options.date||roDate(requestTime);
+ const date=options.date||roDate(requestTime,zone);
  if(!dateValid(date))return {status:'invalid_date',journeys:[]};
  const at=options.afterHHMM&&/^(\d{1,2}):(\d{2})$/.exec(options.afterHHMM);
  if(options.afterHHMM&&(!at||+at[1]>23||+at[2]>59))return {status:'invalid_departure',journeys:[]};
- const earliest=at?utcAt(date,(+at[1]*60+ +at[2])*60):date===roDate(requestTime)?requestTime.getTime():utcAt(date,0);
+ const earliest=at?utcAt(date,(+at[1]*60+ +at[2])*60,zone):date===roDate(requestTime,zone)?requestTime.getTime():utcAt(date,0,zone);
  if(earliest===null)return {status:'invalid_date',journeys:[]};
  const stops=byId(feed.stops,'stop_id'),trips=byId(feed.trips,'trip_id'),routes=byId(feed.routes,'route_id');
  const radius=Math.min(1200,Math.max(150,Number(options.maxStraightLineMeters)||700));
@@ -74,7 +76,7 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
   if(!trip||!stop||!allowed.has(String(trip.service_id)))continue;
   const arrival=timeSec(row.arrival_time),departure=timeSec(row.departure_time),seq=Number(row.stop_sequence);
   if(arrival===null||departure===null||departure<arrival||!Number.isSafeInteger(seq)||seq<0)continue;
-  const entry={stop,seq,arr:utcAt(date,arrival),dep:utcAt(date,departure)};
+  const entry={stop,seq,arr:utcAt(date,arrival,zone),dep:utcAt(date,departure,zone)};
   if(entry.arr===null||entry.dep===null)continue;
   if(!perTrip.has(trip.trip_id))perTrip.set(trip.trip_id,[]);
   perTrip.get(trip.trip_id).push(entry);
@@ -97,7 +99,7 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
   seen.add(key);
   const begin=Math.max(earliest,Date.parse(legs[0].departureTime)-walking(start.d)*1000);
   const finish=Date.parse(legs.at(-1).arrivalTime);
-  result.push({provider:'Romania GTFS static',time_zone:zone,
+  result.push({provider:zone==='Europe/London'?'England GTFS static':'Romania GTFS static',time_zone:zone,
    startDateTime:new Date(begin).toISOString(),arrivalDateTime:new Date(finish).toISOString(),
    durationMinutes:Math.round((finish-begin)/60000),legs,
    routeSegments:[],geometryAvailable:false,scheduled:true,real_time:false,fareLocal:null,
