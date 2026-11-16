@@ -1,0 +1,44 @@
+name: Verify official Romanian GTFS staging without Oracle changes
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/stage-ro-gtfs.py'
+      - 'gtfs_sqlite_store.py'
+      - '.github/workflows/ro-gtfs-source-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  stage-public-snapshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit 42 administrative areas
+        run: |
+          python3 oracle-transport-bridge/stage-ro-gtfs.py --list | tee /tmp/source-list.txt
+          grep -q 'Total administrative regions: 42 source candidates: 5' /tmp/source-list.txt
+      - name: Stage identified public GTFS feeds on temporary GitHub runner only
+        run: |
+          set -euo pipefail
+          sudo mkdir -p /home/ubuntu/pocketai-gtfs-audit
+          sudo chown "$(id -u):$(id -g)" /home/ubuntu/pocketai-gtfs-audit
+          python3 oracle-transport-bridge/stage-ro-gtfs.py --stage             --regions ro-b,ro-bh,ro-cj,ro-is,ro-tm
+          python3 - <<'PY'
+          import json,sqlite3
+          from pathlib import Path
+          root=Path('/home/ubuntu/pocketai-gtfs-audit')
+          for region in ('ro-b','ro-bh','ro-cj','ro-is','ro-tm'):
+              db=root/(region+'.sqlite3')
+              idx=root/(region+'.index.json')
+              assert db.exists() and idx.exists(),region
+              with sqlite3.connect('file:'+str(db)+'?mode=ro',uri=True) as con:
+                  stops=con.execute('select count(*) from stops').fetchone()[0]
+                  trips=con.execute('select count(*) from trips').fetchone()[0]
+                  assert stops>0 and trips>0
+                  print(region,'STAGED ONLY; stops',stops,'trips',trips)
+              provenance=json.loads((root/(region+'.provenance.json')).read_text())
+              assert provenance['status']=='staged_not_activated'
+          print('PASS: source ZIPs read, SQLite indexes generated; no production data modified')
+          PY
