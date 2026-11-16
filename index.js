@@ -19064,7 +19064,7 @@ function restoreTransitSessionFromNative(raw){
 }
 window.pocketRestoreNavigationSession=restoreTransitSessionFromNative;
 
-async function openTransitJourneyMap(selected){
+async function openTransitJourneyMap(selected,resume=null){
  const journey=selected?.journey;if(!journey)return;
  dismissSelectionKeyboard();closeAnswerReader(false);closeRouteMap(false);inputEl.blur();
  const layer=document.createElement('section');layer.className='route-map-window transit-full-journey-map';
@@ -19098,33 +19098,63 @@ async function openTransitJourneyMap(selected){
  follow.textContent=dialogText('Urmărește traseul cu Eva','Follow journey with Eva');
  const stop=document.createElement('button');stop.type='button';stop.className='route-map-open';
  stop.textContent=dialogText('Încheie navigarea','Stop navigation');
+ const recenter=document.createElement('button');recenter.type='button';recenter.className='route-map-open route-recenter';
+ recenter.textContent=dialogText('📍 Centrează pe GPS','📍 Centre on GPS');recenter.hidden=true;
  const walkRoutes=new Map();
+
  follow.onclick=()=>{
+  if(current.navigating){current.recenter.onclick();return}
   if(typeof window.PocketAndroidRouteGuidance?.postMessage!=='function'){
    note.textContent=dialogText('Navigația în fundal necesită un APK cu serviciul Android activ.',
     'Background navigation requires the Android navigation service.');return;
   }
-  const stages=[...walkRoutes].sort((a,b)=>a[0]-b[0]).map(([i,route])=>({
+  const walkingLegs=[...walkRoutes].sort((a,b)=>a[0]-b[0]).map(([i,route])=>({
    index:i,from:i===-1?dialogText('Poziția mea','My location'):String(journey.legs?.[i]?.from||''),
    to:i===-1?String(journey.boarding_stop?.label||'Stația de îmbarcare'):String(journey.legs?.[i]?.to||''),
    departureTime:i===-1?String(journey.firstVehicleDepartureTime||''):String(journey.legs?.[i]?.departureTime||''),
-   coordinates:route.coordinates.slice(0,2500),
+   coordinates:route.coordinates,
    steps:(route.steps||[]).slice(0,60).map(step=>({text:String(step.text||'').slice(0,180),
      distanceMeters:Number(step.distanceMeters)||0}))
   }));
-  if(!stages.length){note.textContent=dialogText('Nu există încă un tronson pietonal verificat pentru navigare.',
+  if(!walkingLegs.length){note.textContent=dialogText('Nu există încă un tronson pietonal verificat pentru navigare.',
    'No verified walking leg is available for navigation yet.');return}
-  window.PocketAndroidRouteGuidance.postMessage(JSON.stringify({action:'start',
-   destination,language:state.language,walkingLegs:stages}));
-  note.textContent=dialogText('Navigația GPS în fundal este activată.','Background GPS navigation requested.');
+  // Only retain what is necessary to redraw the confirmed itinerary on return
+  // from Android's persistent notification. Voice GPS remains native.
+  const briefJourney={...journey,routeSegments:[],
+   legs:(journey.legs||[]).map(leg=>({...leg,
+    coordinates:Array.isArray(leg.coordinates)?leg.coordinates.slice(0,350):[]}))};
+  const context={journey:briefJourney,accessRoute:selected.accessRoute&&validMapRoute(selected.accessRoute)?
+   {...selected.accessRoute,coordinates:selected.accessRoute.coordinates.slice(0,1000)}:null,
+   destinationPoint:state.lastTransitResponse?.transit_destination_point||
+    state.lastTransitChoice?.transitDestination||null};
+  const request={action:'start',destination,language:state.language,walkingLegs,
+   navigationContext:context};
+  const encoded=JSON.stringify(request);
+  if(encoded.length>245000){
+   note.textContent=dialogText('Traseul are prea multe puncte pentru salvarea sigură a navigației în fundal.',
+    'This route has too many points to safely save background navigation.');return;
+  }
+  window.PocketAndroidRouteGuidance.postMessage(encoded);
+  beginTransitVisualTracking(current);
  };
- stop.onclick=()=>{window.PocketAndroidRouteGuidance?.postMessage?.(JSON.stringify({action:'stop'}));
-  note.textContent=dialogText('Navigația a fost oprită.','Navigation stopped.')};
+ stop.onclick=()=>{
+  window.PocketAndroidRouteGuidance?.postMessage?.(JSON.stringify({action:'stop'}));
+  stopRouteTracking(current);
+  current.mapHost.style.setProperty('height','clamp(165px,28dvh,300px)','important');
+  current.mapHost.style.setProperty('max-height','30dvh','important');
+  current.details.style.removeProperty('max-height');
+  current.layer.style.bottom='';
+  current.followButton.textContent=dialogText('Urmărește traseul cu Eva','Follow journey with Eva');
+  current.map?.setHeading?.(0);
+  if(current.overviewPoints?.length>1)current.map?.fitBounds(current.overviewPoints,{padding:[24,24]});
+  current.map?.invalidateSize();
+  note.hidden=false;note.textContent=dialogText('Navigația a fost oprită.','Navigation stopped.');
+ };
  details.append(intro,timing);
  const leaveBy=transitBoardingAdvice(journey);
  if(leaveBy){const advice=document.createElement('p');advice.className='transit-boarding-buffer-notice';
   advice.textContent=leaveBy;details.append(advice)}
- details.append(follow,stop,notice);
+ details.append(follow,recenter,stop,notice);
  const stages=document.createElement('div');stages.className='transit-all-legs';
  for(const [i,leg] of (journey.legs||[]).entries()){
   const row=document.createElement('div');row.style.cssText='padding:12px 5px;border-bottom:1px solid #426274';
@@ -19137,15 +19167,20 @@ async function openTransitJourneyMap(selected){
  }
  details.append(stages);
  layer.append(head,note,mapHost,details);document.body.append(layer);
- const current={layer,route:selected.accessRoute||null,map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null};
+ const current={layer,route:selected.accessRoute||null,journey,mapHost,details,
+  followButton:follow,recenter,liveStatus:note,walkRoutes,
+  map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null};
  activeRouteMap=current;
  const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;
-  layer.style.bottom=(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';current.map?.invalidateSize()};
+  layer.style.bottom=current.navigating?'0px':(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';
+  current.map?.invalidateSize()};
  current.resize=resize;window.addEventListener('resize',resize);
  current.cleanup=()=>window.removeEventListener('resize',resize);resize();
  try{
   const L=await loadRouteMapLibrary();if(activeRouteMap!==current||!layer.isConnected)return;
-  const map=L.map(mapHost);current.map=map;
+  const rotateReady=await loadRouteRotationLibrary();
+  if(activeRouteMap!==current||!layer.isConnected)return;
+  const map=L.map(mapHost,{rotate:rotateReady});current.map=map;current.leaflet=L;
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,
    attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
   const all=[],unverified=[];
