@@ -3,14 +3,11 @@ import {readFileSync} from 'node:fs';
 import {test} from 'node:test';
 const config=readFileSync('wrangler-backend.toml','utf8');
 function block(name){
- const matches=[...config.matchAll(new RegExp('^\\[\\['+name.replace(/[.*+?^$()|[\\]{}]/g,'\\$&')+'\\]\\]\\s*$', 'gm'))];
- return matches.map((m,i)=>{
-  const start=m.index+m[0].length;
-  const next=config.indexOf('[[',start);
-  const between=config.slice(start,next<0?undefined:next);
-  return between;
- });
+ const marker='[['+name+']]';
+ const segments=config.split(marker).slice(1);
+ return segments.map(part=>part.split('[[')[0]);
 }
+
 test('Two exact Workers VPC service IDs with no public hostnames',()=>{
  const entries=block('vpc_services');
  assert.equal(entries.length,2);
