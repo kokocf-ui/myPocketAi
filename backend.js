@@ -41,6 +41,7 @@ import {planEnglandLocalGtfs,englandLocalGtfsRegion} from "./en_urban_client.mjs
 import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints,groupRomanianJourneys} from "./ro_transport_mode_policy.mjs";
 import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
 import {addRomanianWalkingAccess,rankRomanianUrbanDoorToDoor} from "./ro_urban_walking.mjs";
+import {annotateTransitTransfers} from "./transit_transfer_walking.mjs";
 import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
@@ -3299,12 +3300,15 @@ export default {
               reason:'verified_line_no_timetable',
               provider_status:{ro_urban:result.status,region:result.region}});
           }
-          const journeyCandidates=await Promise.all(result.journeys.slice(0,4).map(j=>
-            addRomanianWalkingAccess(env,j,urbanFrom,urbanTo)));
+          const transferCache=new Map();
+          const journeyCandidates=await Promise.all(result.journeys.slice(0,4).map(async j=>
+            annotateTransitTransfers(env,await addRomanianWalkingAccess(env,j,urbanFrom,urbanTo),
+              {cache:transferCache})));
           // An unverified access walk remains available with a clear notice;
           // a VERIFIED but uncatchable departure is not offered.
           const requestedUrbanMs=selectedUrbanAt?Date.parse(selectedUrbanAt):Date.now();
           const journeys=rankRomanianUrbanDoorToDoor(journeyCandidates.filter(j=>{
+            if(j?.transferFeasible===false)return false;
             if(!j?.accessWalkVerified)return true;
             const departureMs=Date.parse(j.firstVehicleDepartureTime);
             return !Number.isFinite(departureMs)||
@@ -3611,7 +3615,12 @@ export default {
           if(transcapiEligible && (!data.national_public_transport||authorizedNationalProvider==='uk_national_transit')){
             const national=await planTransCAPIJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},requestedOptionsCount,{preference:transportPreference,departureOffsetMinutes,departureAt});
             if(national.journeys.length){
-              const transit=national.journeys,first=transit[0];
+              const transferCache=new Map();
+              const transit=(await Promise.all(national.journeys.map(j=>
+                annotateTransitTransfers(env,j,{cache:transferCache})))).filter(j=>j?.transferFeasible!==false);
+              if(!transit.length)transportErrors.transcapi='transfer_walking_not_feasible';
+              else {
+              const first=transit[0];
               const clock=value=>{
                 const date=new Date(value);
                 return Number.isNaN(date.getTime())?'—':date.toLocaleString(lang==='en'?'en-GB':'ro-RO',{
@@ -3630,8 +3639,9 @@ export default {
                 requested_transit_count:requestedOptionsCount,transit_preference:transportPreference,transit_departure_offset:departureOffsetMinutes,transit_departure_at:departureAt,
                 transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
                 provider_status:{transcapi:national.status,region:transcapiZone},source:'TransCAPI: published schedules with available live updates'});
+              }
             }
-            transportErrors.transcapi=national.status;
+            transportErrors.transcapi ||= national.status;
             if(transportPreference==='bus_only'){
               const reply=lang==='en'?'No bus/coach-only itinerary could be verified for the selected departure window. Try a later time or the combined bus-and-rail search.':'Nu am putut verifica un itinerar numai cu autobuz/autocar în intervalul de plecare ales. Încearcă o oră mai târzie sau căutarea combinată autobuz + tren.';
               return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,transit_available:false,route_available:false,transit_provider:'TransCAPI',reason:'bus_only_not_verified',transit_preference:'bus_only',transit_departure_offset:departureOffsetMinutes,transit_departure_at:departureAt,provider_status:{transcapi:national.status}});
@@ -3659,8 +3669,11 @@ export default {
                 provider_status:{en_urban:'route_only'}});
             }
             if(local.journeys.length){
-              let transit=await Promise.all(local.journeys.slice(0,4).map(j=>
-                addRomanianWalkingAccess(env,j,englishFrom,englishTo)));
+              const transferCache=new Map();
+              let transit=await Promise.all(local.journeys.slice(0,4).map(async j=>
+                annotateTransitTransfers(env,await addRomanianWalkingAccess(env,j,englishFrom,englishTo),
+                  {cache:transferCache})));
+              transit=rankRomanianUrbanDoorToDoor(transit.filter(j=>j?.transferFeasible!==false));
               if(transportPreference==='bus_only')transit=transit.filter(j=>
                 j.legs.some(l=>l.mode==='bus'||l.mode==='coach')&&
                 j.legs.every(l=>['bus','coach','walking'].includes(l.mode)));
@@ -4153,6 +4166,13 @@ export default {
             if (!transitOptions.length) transportErrors.tfl ||= "no_journeys_returned";
           } catch (e) { transportErrors.tfl = String(e && e.message || "request_failed").slice(0,100); }
         } else transportErrors.tfl = "TFL_APP_KEY_missing";
+        if(transitOptions.length){
+          const transferCache=new Map();
+          const assessed=await Promise.all(transitOptions.map(j=>
+            annotateTransitTransfers(env,j,{cache:transferCache})));
+          transitOptions.splice(0,transitOptions.length,
+            ...assessed.filter(j=>j?.transferFeasible!==false));
+        }
         if(transitOptions.length){
           const missing=new Map();
           // Enrich first vehicle departure coordinates using operator ids when the journey omitted them.
