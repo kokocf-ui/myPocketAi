@@ -150,7 +150,10 @@ public final class MainActivity extends ComponentActivity {
             if(!location||!notifications||!enabled){navigationResponse(false,id);return;}
             ContextCompat.startForegroundService(this,
                 PocketNavigationService.startIntent(this,id,target,mode,steps));
-            navigationResponse(true,id);
+            // The system may reject a location FGS after the start request.
+            // Acknowledge only once the service actually entered foreground.
+            new Handler(Looper.getMainLooper()).postDelayed(
+                ()->navigationResponse(id.equals(PocketNavigationService.activeSession()),id),800L);
         }catch(Exception error){
             navigationResponse(false,"");
         }
@@ -163,6 +166,8 @@ public final class MainActivity extends ComponentActivity {
             while((n=input.read(buffer))!=-1)out.write(buffer,0,n);
             final String script=out.toString("UTF-8");
             web.evaluateJavascript(script,null);
+            if(!PocketNavigationService.isActive())
+                web.evaluateJavascript("window.pocketNativeNavigationStopped&&window.pocketNativeNavigationStopped();",null);
             dispatchNavigationResume();
         }catch(Exception e){
             android.util.Log.w("PocketNavigation","Could not inject navigation controls");
