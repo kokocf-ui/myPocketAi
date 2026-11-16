@@ -33,13 +33,12 @@ function ensurePilotIndex(){
 function getActualSample(){
  const code=`
 import json,sys,runpy
-from datetime import datetime,timedelta
-from zoneinfo import ZoneInfo
+from datetime import date,timedelta
 from pathlib import Path
 ns=runpy.run_path(sys.argv[1])
 with ns['connect_ro'](Path(sys.argv[2])) as con:
  for n in range(7):
-  day=(datetime.now(ZoneInfo('Europe/London')).date()+timedelta(days=n)).isoformat()
+  day=(date.fromisoformat(sys.argv[3])+timedelta(days=n)).isoformat()
   active=ns['active_services'](con,day)
   if not active:continue
   sample=ns['find_sample'](con,active)
@@ -48,7 +47,13 @@ with ns['connect_ro'](Path(sys.argv[2])) as con:
    sys.exit(0)
 raise SystemExit(3)
 `;
- const output=python(['-c',code,PROBE,AUDIT+'/'+SNAPSHOT],60000);
+ // Alpine's minimal Python image may lack IANA timezone files; Node provides
+ // the authoritative Europe/London calendar day without depending on tzdata.
+ const parts=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{
+  timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'
+ }).formatToParts(new Date()).map(x=>[x.type,x.value]));
+ const localDate=parts.year+'-'+parts.month+'-'+parts.day;
+ const output=python(['-c',code,PROBE,AUDIT+'/'+SNAPSHOT,localDate],60000);
  return JSON.parse(output);
 }
 function oneRegionCatalog(directory){
