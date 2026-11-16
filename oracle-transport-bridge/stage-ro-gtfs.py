@@ -22,7 +22,11 @@ SOURCES = {
     "ro-bh": ("Oradea Transport Local", "https://external.gtfs.ro/oradea/ORADEA.zip", "https://mobilitydatabase.org/feeds/gtfs/mdb-2101"),
     "ro-cj": ("CTP Cluj-Napoca", "https://external.gtfs.ro/cluj/CLUJ.zip", "https://mobilitydatabase.org/feeds/gtfs/mdb-2121"),
     "ro-is": ("CTP Iași", "https://external.gtfs.ro/iasi/IASI.zip", "https://mobilitydatabase.org/feeds/gtfs/mdb-2116"),
-    "ro-tm": ("SMTT Timișoara", "https://smtt.ro/transit/gtfs/maps/smtt-timisoara-ro.zip", "https://mobilitydatabase.org/feeds/gtfs/mdb-2868")
+    "ro-tm": ("SMTT Timișoara", "https://smtt.ro/transit/gtfs/maps/smtt-timisoara-ro.zip", "https://mobilitydatabase.org/feeds/gtfs/mdb-2868"),
+    "ro-ct": ("CT BUS Constanța", "https://external.gtfs.ro/constanta/CONSTANTA.zip", "https://mobilitydatabase.org/feeds/gtfs/mdb-2100"),
+    "ro-dj": ("RAT Craiova", "https://external.gtfs.ro/craiova/CRAIOVA.zip", "https://mobilitydatabase.org/feeds/gtfs/mdb-2115"),
+    "ro-sj": ("Transurbis Zalău", "https://external.gtfs.ro/zalau/ZALAU.zip", "https://mobilitydatabase.org/feeds/gtfs/mdb-2102"),
+    "ro-ph": ("Transport Urban Sinaia", "https://external.gtfs.ro/sinaia/SINAIA.zip", "https://mobilitydatabase.org/feeds/gtfs/mdb-2114")
 }
 MAX_COMPRESSED = 50_000_000
 MAX_UNCOMPRESSED = 1_500_000_000
