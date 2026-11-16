@@ -108,7 +108,7 @@ def main():
         return 0
     stage=Path(args.dir)
     expected=Path("/home/ubuntu/pocketai-gtfs-audit")
-    if stage.resolve()!=expected:
+    if stage.resolve()!=expected.resolve():
         raise RuntimeError("refusing_to_write_outside_designated_nonproduction_audit_directory")
     if not stage.is_dir() or stage.is_symlink():
         raise RuntimeError("audit_directory_missing_or_symlink")
