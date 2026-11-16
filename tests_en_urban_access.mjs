@@ -38,7 +38,7 @@ test('England Workers VPC Service connects to internal HTTP without a public dom
  let called=0;
  const bound={fetch:async(url,init)=>{
    called++;
-   assert.equal(url,'http://localhost/v1/plan');
+   assert.equal(url,'http://england.pocketai.internal/v1/plan');
    assert.equal(init.headers.Authorization,'Bearer '+token);
    assert.equal(init.headers['CF-Access-Client-Secret'],undefined);
    return Response.json({status:'no_verified_itinerary',journeys:[]});
