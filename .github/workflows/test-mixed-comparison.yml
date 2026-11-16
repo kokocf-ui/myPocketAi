@@ -1,0 +1,25 @@
+name: Mixed transport fastest & cheapest checks
+on:
+  push:
+    branches:
+      - feat/mixed-fastest-cheapest-20261116
+  pull_request:
+    paths:
+      - 'mixed_transport_comparison.mjs'
+      - 'tests_mixed_transport_comparison.mjs'
+      - 'tests_mixed_transport_ui.mjs'
+      - 'index.js'
+      - 'package.json'
+      - '.github/workflows/test-mixed-comparison.yml'
+jobs:
+  mixed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax validation
+        run: node --check index.js && node --check mixed_transport_comparison.mjs && node --check tests_mixed_transport_comparison.mjs && node --check tests_mixed_transport_ui.mjs
+      - name: Route comparisons and UI isolation
+        run: node tests_mixed_transport_comparison.mjs && node tests_mixed_transport_ui.mjs && node tests_transport_departure_entrypoints.mjs && node tests_mixed_selector_ui.mjs
