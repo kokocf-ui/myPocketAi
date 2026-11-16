@@ -82,3 +82,35 @@ test('reject a zero-minute ride between different stops instead of inventing a t
  assert.ok(r.journeys.every(j=>j.legs.length===1));
  assert.equal(r.journeys[0].legs[0].lineNames[0],'DIRECT');
 });
+
+test('Large GTFS snapshot with dense departures returns bounded scheduled results promptly',()=>{
+ const point=(i)=>({latitude:44.42+i*0.001,longitude:26.1});
+ const stations=Array.from({length:20},(_,i)=>({stop_id:'S'+i,stop_name:'Station '+i,
+  stop_lat:String(point(i).latitude),stop_lon:'26.1'}));
+ const routes=[{route_id:'DENSE',route_short_name:'X',route_type:'3'}];
+ const trips=[],stop_times=[];
+ const hhmmss=seconds=>[Math.floor(seconds/3600),Math.floor(seconds/60)%60,seconds%60]
+  .map(x=>String(x).padStart(2,'0')).join(':');
+ for(let i=0;i<1800;i++){
+  const tid='t'+i;
+  trips.push({trip_id:tid,route_id:'DENSE',service_id:'DAY'});
+  const initial=8*3600+(i%240)*10;
+  for(let j=0;j<20;j++){
+   const at=hhmmss(initial+120*j);
+   stop_times.push({trip_id:tid,stop_id:'S'+j,stop_sequence:String(j+1),
+    arrival_time:at,departure_time:at});
+  }
+ }
+ const feed={stops:stations,routes,trips,stop_times,
+  calendar:[{service_id:'DAY',monday:'1',tuesday:'1',wednesday:'1',thursday:'1',
+   friday:'1',saturday:'1',sunday:'1',start_date:'20261101',end_date:'20270105'}],
+  calendar_dates:[]};
+ const started=Date.now();
+ const result=plan(feed,point(0),point(19),{
+  date:'2026-11-17',afterHHMM:'08:00',maxStraightLineMeters:150,maxResults:4});
+ const elapsed=Date.now()-started;
+ assert.equal(result.status,'success',JSON.stringify({status:result.status,elapsed}));
+ assert.ok(result.journeys.length>0 && result.journeys.length<=4);
+ assert.ok(result.journeys.every(j=>j.legs.every(l=>Date.parse(l.arrivalTime)>Date.parse(l.departureTime))));
+ assert.ok(elapsed<8000,'Dense 36k stop-times should finish under 8 seconds, measured '+elapsed+'ms');
+});
