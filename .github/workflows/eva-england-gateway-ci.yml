@@ -1,0 +1,44 @@
+name: England Eva VPC targeted integration check
+on:
+  push:
+    branches: [feature/england-app-gateway-20261116]
+  pull_request:
+    paths:
+      - 'backend.js'
+      - 'en_urban_client.mjs'
+      - 'regional_gtfs_registry.mjs'
+      - 'national_public_transport_policy.mjs'
+      - 'smart_country_registry.mjs'
+      - 'wrangler-backend.toml'
+      - 'tests_en_urban_access.mjs'
+      - '.github/workflows/eva-england-gateway-ci.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax and isolated UK routing
+        run: |
+          node --check backend.js
+          node --check en_urban_client.mjs
+          node --test tests_en_urban_access.mjs
+          node tests_mixed_uk_fallback.mjs
+          node tests_short_local_transit_arrival.mjs
+      - name: Verify correct Cloudflare binding without any tokens
+        run: |
+          python3 - <<'PY'
+          import tomllib
+          from pathlib import Path
+          cfg=tomllib.loads(Path('wrangler-backend.toml').read_text())
+          en=[v for v in cfg.get('vpc_services',[]) if v.get('binding')=='EN_URBAN_VPC']
+          assert len(en)==1 and en[0]['service_id']=='01a1e3ea-f6fa-7d11-8f85-21f267b1d833'
+          assert en[0]['remote'] is True
+          assert cfg['name']=='lifewise-ai-api'
+          print('England VPC binding configured for existing live Oracle service')
+          PY
