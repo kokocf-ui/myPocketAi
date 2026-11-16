@@ -19003,9 +19003,9 @@ async function openTransitJourneyMap(selected){
     'Background navigation requires the Android navigation service.');return;
   }
   const stages=[...walkRoutes].sort((a,b)=>a[0]-b[0]).map(([i,route])=>({
-   index:i,from:String(journey.legs?.[i]?.from||''),
-   to:String(journey.legs?.[i]?.to||''),
-   departureTime:journey.legs?.[i]?.departureTime||'',
+   index:i,from:i===-1?dialogText('Poziția mea','My location'):String(journey.legs?.[i]?.from||''),
+   to:i===-1?String(journey.boarding_stop?.label||'Stația de îmbarcare'):String(journey.legs?.[i]?.to||''),
+   departureTime:i===-1?String(journey.firstVehicleDepartureTime||''):String(journey.legs?.[i]?.departureTime||''),
    coordinates:route.coordinates.slice(0,2500),
    steps:(route.steps||[]).slice(0,60).map(step=>({text:String(step.text||'').slice(0,180),
      distanceMeters:Number(step.distanceMeters)||0}))
