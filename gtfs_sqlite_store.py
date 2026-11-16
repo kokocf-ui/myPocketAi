@@ -151,13 +151,14 @@ def active_services(con,date):
     weekday=day.strftime('%A').lower()
     services={r[0] for r in con.execute(f"""SELECT service_id FROM calendar
         WHERE start_date<=? AND end_date>=? AND {weekday}='1'""",(d,d))}
-    for service,typ in con.execute('SELECT service_id,exception_type FROM calendar_dates WHERE date=?',(d,)):
+    for service,typ in con.execute('SELECT service_id,exception_type FROM calendar_dates WHERE date=? ORDER BY service_id,exception_type',(d,)):
         if str(typ)=='1':services.add(service)
         elif str(typ)=='2':services.discard(service)
     return services
 
 def batched(values,count=350):
-    values=list(values)
+    # Stable input order across Python hash seeds and SQLite layouts.
+    values=sorted(values)
     for i in range(0,len(values),count):yield values[i:i+count]
 
 def trip_ids_at(con,stops,active):
@@ -177,7 +178,7 @@ def fetch_stop_times(con,trip_ids):
     for chunk in batched(trip_ids):
         q=','.join('?' for _ in chunk)
         for trip,stop,seq,arr,dep in con.execute(f"""SELECT trip_id,stop_id,stop_sequence,arrival_time,departure_time
-            FROM stop_times WHERE trip_id IN ({q}) ORDER BY trip_id,stop_sequence""",chunk):
+            FROM stop_times WHERE trip_id IN ({q}) ORDER BY trip_id,stop_sequence,stop_id,arrival_time,departure_time""",chunk):
             rows.setdefault(trip,[]).append({'trip_id':trip,'stop_id':stop,
                 'stop_sequence':str(seq),'arrival_time':arr,'departure_time':dep})
             count+=1
@@ -200,7 +201,7 @@ def query_feed(db_path,request):
         times=fetch_stop_times(con,sids|tids)
         startset=set(starts);endset=set(ends)
         outgoing={};incoming={};direct=set()
-        for tid in sids:
+        for tid in sorted(sids):
             rows=times.get(tid,[])
             ss=[int(r['stop_sequence']) for r in rows if r['stop_id'] in startset]
             if not ss:continue
@@ -209,7 +210,7 @@ def query_feed(db_path,request):
                 seq=int(r['stop_sequence'])
                 if seq>first:outgoing.setdefault(r['stop_id'],set()).add(tid)
                 if r['stop_id'] in endset and seq>first:direct.add(tid)
-        for tid in tids:
+        for tid in sorted(tids):
             rows=times.get(tid,[])
             ee=[int(r['stop_sequence']) for r in rows if r['stop_id'] in endset]
             if not ee:continue
@@ -218,7 +219,7 @@ def query_feed(db_path,request):
                 if int(r['stop_sequence'])<last:
                     incoming.setdefault(r['stop_id'],set()).add(tid)
         chosen=set(direct)
-        for stop in outgoing.keys()&incoming.keys():
+        for stop in sorted(outgoing.keys()&incoming.keys()):
             chosen.update(outgoing[stop]);chosen.update(incoming[stop])
             if len(chosen)>MAX_OUTPUT_TRIPS:raise ValueError('too_many_transfer_candidates')
         if not chosen:return {'status':'no_verified_itinerary','feed':None}
@@ -226,34 +227,34 @@ def query_feed(db_path,request):
         for chunk in batched(chosen):
             q=','.join('?' for _ in chunk)
             for tid,rid,serv,head in con.execute(f"""SELECT trip_id,route_id,service_id,trip_headsign
-                FROM trips WHERE trip_id IN ({q})""",chunk):
+                FROM trips WHERE trip_id IN ({q}) ORDER BY trip_id""",chunk):
                 trip_rows.append({'trip_id':tid,'route_id':rid,'service_id':serv,'trip_headsign':head})
         route_ids={r['route_id'] for r in trip_rows}
         route_rows=[]
         for chunk in batched(route_ids):
             q=','.join('?' for _ in chunk)
             for rid,typ,short,long,agency in con.execute(f"""SELECT route_id,route_type,route_short_name,route_long_name,agency_id
-                FROM routes WHERE route_id IN ({q})""",chunk):
+                FROM routes WHERE route_id IN ({q}) ORDER BY route_id""",chunk):
                 route_rows.append({'route_id':rid,'route_type':typ,
                     'route_short_name':short,'route_long_name':long,'agency_id':agency})
-        chosen_times=[r for tid in chosen for r in times.get(tid,[])]
+        chosen_times=[r for tid in sorted(chosen) for r in times.get(tid,[])]
         relevant_stops={r['stop_id'] for r in chosen_times}
         stop_rows=[]
         for chunk in batched(relevant_stops):
             q=','.join('?' for _ in chunk)
             for sid,name,lat,lon in con.execute(f"""SELECT stop_id,stop_name,stop_lat,stop_lon
-                FROM stops WHERE stop_id IN ({q})""",chunk):
+                FROM stops WHERE stop_id IN ({q}) ORDER BY stop_id""",chunk):
                 stop_rows.append({'stop_id':sid,'stop_name':name,'stop_lat':lat,'stop_lon':lon})
         services={r['service_id'] for r in trip_rows}
         calendar=[];calendar_dates=[]
         for chunk in batched(services):
             q=','.join('?' for _ in chunk)
             for row in con.execute(f"""SELECT service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
-                FROM calendar WHERE service_id IN ({q})""",chunk):
+                FROM calendar WHERE service_id IN ({q}) ORDER BY service_id,start_date,end_date""",chunk):
                 calendar.append(dict(zip(['service_id','monday','tuesday','wednesday',
                     'thursday','friday','saturday','sunday','start_date','end_date'],row)))
             for serv,dte,typ in con.execute(f"""SELECT service_id,date,exception_type
-                FROM calendar_dates WHERE service_id IN ({q}) AND date=?""",chunk+[d.replace('-','')]):
+                FROM calendar_dates WHERE service_id IN ({q}) AND date=? ORDER BY service_id,date,exception_type""",chunk+[d.replace('-','')]):
                 calendar_dates.append({'service_id':serv,'date':dte,'exception_type':typ})
         return {'status':'success','feed':{'stops':stop_rows,'routes':route_rows,
             'trips':trip_rows,'stop_times':chosen_times,'calendar':calendar,'calendar_dates':calendar_dates}}
