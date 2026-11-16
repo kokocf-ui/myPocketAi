@@ -101,3 +101,24 @@ test('Worker adapter distinguishes planner overload from missing transit coverag
   fetchImpl:async()=>Response.json({status:'feed_not_loaded',journeys:[]},{status:503})});
  assert.equal(noFeed.status,'feed_not_loaded');
 });
+
+test('Cloudflare Access machine identity is included only as a complete pair',async()=>{
+ const env={RO_URBAN_API_URL:'https://private.example/',RO_URBAN_API_TOKEN:token,
+   RO_URBAN_ACCESS_CLIENT_ID:'id.cf-access',
+   RO_URBAN_ACCESS_CLIENT_SECRET:'a-service-secret'};
+ let headers=null;
+ const ans=await planRomanianUrbanViaOracle(env,{from:o,to:d},{
+   fetchImpl:async(url,opts)=>{headers=opts.headers;return Response.json({status:'success',journeys:[trip]})}});
+ assert.equal(ans.status,'ok');
+ assert.equal(headers['CF-Access-Client-Id'],env.RO_URBAN_ACCESS_CLIENT_ID);
+ assert.equal(headers['CF-Access-Client-Secret'],env.RO_URBAN_ACCESS_CLIENT_SECRET);
+ const invalid=await planRomanianUrbanViaOracle({...env,RO_URBAN_ACCESS_CLIENT_SECRET:''},
+   {from:o,to:d},{fetchImpl:async()=>{throw Error('must not fetch')}});
+ assert.equal(invalid.status,'invalid_access_config');
+ const basic=await planRomanianUrbanViaOracle({
+   RO_URBAN_API_URL:'https://private.example/',RO_URBAN_API_TOKEN:token},
+   {from:o,to:d},{fetchImpl:async(url,opts)=>{
+     assert.equal('CF-Access-Client-Secret' in opts.headers,false);
+     return Response.json({status:'success',journeys:[trip]});}});
+ assert.equal(basic.status,'ok');
+});
