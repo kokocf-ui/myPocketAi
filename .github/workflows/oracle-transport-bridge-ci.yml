@@ -62,7 +62,8 @@ jobs:
           PY
       - name: Dry-run Worker VPC bundle with current Wrangler (no deployment)
         run: |
-          npx --yes wrangler@latest deploy --dry-run --config wrangler-backend.toml --outdir /tmp/pocketai-vpc-worker-dryrun
+          npm install --ignore-scripts --no-audit --no-fund
+          npx --yes wrangler@4.162.0 deploy --dry-run --config wrangler-backend.toml --outdir /tmp/pocketai-vpc-worker-dryrun
       - name: Verify no leaked credentials in bridge scripts
         run: |
           node --input-type=module <<'NODE'
