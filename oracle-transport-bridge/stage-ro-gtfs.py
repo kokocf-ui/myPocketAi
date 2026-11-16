@@ -72,11 +72,20 @@ def stage_one(region,stage,importer):
     idx=stage/(region+".index.json")
     if db.exists() or idx.exists():
         return {"region":region,"status":"skipped_existing_no_overwrite"}
-    with tempfile.TemporaryDirectory(prefix="pocketai-ro-gtfs-") as temp:
+    with tempfile.TemporaryDirectory(prefix=".pocketai-ro-gtfs-",dir=stage) as temp:
         archive=Path(temp)/"feed.zip"
+        build_db=Path(temp)/(region+".sqlite3")
+        build_idx=Path(temp)/(region+".index.json")
         compressed,digest=retrieve(url,archive)
-        subprocess.run([sys.executable,str(importer),"import",str(archive),str(db),region,"RO"],check=True,timeout=240,stdout=subprocess.DEVNULL)
-        subprocess.run([sys.executable,str(importer),"index",str(db),region,"RO"],check=True,timeout=180,stdout=subprocess.DEVNULL)
+        subprocess.run([sys.executable,str(importer),"import",str(archive),str(build_db),region,"RO"],check=True,timeout=240,stdout=subprocess.DEVNULL)
+        subprocess.run([sys.executable,str(importer),"index",str(build_db),region,"RO"],check=True,timeout=180,stdout=subprocess.DEVNULL)
+        # Both database and index are verified before moving to staging.
+        if db.exists() or idx.exists():raise RuntimeError("concurrent_existing_snapshot")
+        os.replace(build_db,db)
+        try:os.replace(build_idx,idx)
+        except BaseException:
+            db.unlink(missing_ok=True)
+            raise
     record={"region":region,"name":name,"source_url":url,"catalogue":reference,
       "sha256":digest,"compressed_bytes":compressed,"status":"staged_not_activated",
       "rights_status":"requires_publisher_terms_review"}
