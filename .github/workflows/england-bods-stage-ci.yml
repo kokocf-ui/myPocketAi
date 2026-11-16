@@ -1,4 +1,4 @@
-name: Diagnose three England BODS regions off production
+name: Validate larger South England BODS regions off production
 on:
   push:
     branches: [feat/gtfs-sqlite-indexed-20261116]
@@ -22,8 +22,6 @@ jobs:
       max-parallel: 2
       matrix:
         include:
-          - region: en-em
-            label: "East Midlands"
           - region: en-se
             label: "South East"
           - region: en-sw
@@ -40,6 +38,7 @@ jobs:
           set -euo pipefail
           sudo mkdir -p /home/ubuntu/pocketai-england-audit
           sudo chown "$(id -u):$(id -g)" /home/ubuntu/pocketai-england-audit
+          df -h /home/ubuntu
           ls -ld /home/ubuntu/pocketai-england-audit
           test -d /home/ubuntu/pocketai-england-audit
           test ! -L /home/ubuntu/pocketai-england-audit

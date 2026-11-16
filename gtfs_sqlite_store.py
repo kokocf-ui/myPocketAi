@@ -7,6 +7,7 @@ from datetime import date as Date
 from pathlib import Path
 
 MAX_GTFS_BYTES=1_500_000_000
+MAX_EN_GTFS_BYTES=4_000_000_000  # England regional BODS feeds can exceed RO's limit
 MAX_QUERY_TRIPS=6000
 MAX_QUERY_ROWS=200000
 MAX_OUTPUT_TRIPS=2500
@@ -33,12 +34,12 @@ CREATE TABLE calendar(service_id TEXT, monday TEXT, tuesday TEXT, wednesday TEXT
 CREATE TABLE calendar_dates(service_id TEXT, date TEXT, exception_type TEXT);
 """
 
-def zipped_rows(z,name):
+def zipped_rows(z,name,max_table_bytes=MAX_GTFS_BYTES):
     if name not in z.namelist():
         if name in REQUIRED: raise ValueError('missing_required_table: '+name)
         return
     info=z.getinfo(name)
-    if info.file_size>MAX_GTFS_BYTES or info.file_size<0:
+    if info.file_size>max_table_bytes or info.file_size<0:
         raise ValueError('unsafe_table_size: '+name)
     with z.open(info) as f:
         reader=csv.DictReader(io.TextIOWrapper(f,encoding='utf-8-sig',newline=''))
@@ -50,6 +51,7 @@ def zipped_rows(z,name):
 def import_zip(zip_path,db_path,region,country):
     if country not in ('RO','GB') or not (region.startswith('ro-') if country=='RO' else region.startswith('en-')):
         raise ValueError('invalid_region')
+    limit=MAX_GTFS_BYTES if country=='RO' else MAX_EN_GTFS_BYTES
     p=Path(db_path)
     if p.exists() or p.with_name(region+'.index.json').exists():
         raise FileExistsError('refusing_to_overwrite_existing_snapshot')
@@ -58,7 +60,7 @@ def import_zip(zip_path,db_path,region,country):
     con=None
     try:
         with zipfile.ZipFile(zip_path) as z:
-            if sum(x.file_size for x in z.infolist())>MAX_GTFS_BYTES:
+            if sum(x.file_size for x in z.infolist())>limit:
                 raise ValueError('oversized_zip')
             if not any(n in z.namelist() for n in ('calendar.txt','calendar_dates.txt')):
                 raise ValueError('missing_calendar')
@@ -69,7 +71,7 @@ def import_zip(zip_path,db_path,region,country):
                 keys=cols.split(',')
                 query=f'INSERT INTO {table} ({cols}) VALUES ({values})'
                 batch=[];cnt=0
-                for row in zipped_rows(z,name):
+                for row in zipped_rows(z,name,limit):
                     vals=[row.get(k,'') for k in keys]
                     if table=='stops':
                         vals[2:4]=[float(x) for x in vals[2:4]]

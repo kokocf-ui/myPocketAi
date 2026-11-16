@@ -36,7 +36,7 @@ SOURCES = {
     ) for suffix,endpoint in REGION_ENDPOINTS.items()
 }
 MAX_COMPRESSED = 350_000_000
-MAX_UNCOMPRESSED = 1_500_000_000
+MAX_UNCOMPRESSED = 4_000_000_000  # BODS larger regional archives, bounded streaming import
 NEEDED = {"stops.txt", "routes.txt", "trips.txt", "stop_times.txt"}
 
 class SameHostHttps(urllib.request.HTTPRedirectHandler):
@@ -88,7 +88,7 @@ def stage_one(region,stage,importer):
         build_db=Path(temp)/(region+".sqlite3")
         build_idx=Path(temp)/(region+".index.json")
         compressed,digest=retrieve(url,archive)
-        subprocess.run([sys.executable,str(importer),"import",str(archive),str(build_db),region,"GB"],check=True,timeout=240,stdout=subprocess.DEVNULL)
+        subprocess.run([sys.executable,str(importer),"import",str(archive),str(build_db),region,"GB"],check=True,timeout=600,stdout=subprocess.DEVNULL)
         subprocess.run([sys.executable,str(importer),"index",str(build_db),region,"GB"],check=True,timeout=180,stdout=subprocess.DEVNULL)
         # Both database and index are verified before moving to staging.
         if db.exists() or idx.exists():raise RuntimeError("concurrent_existing_snapshot")
