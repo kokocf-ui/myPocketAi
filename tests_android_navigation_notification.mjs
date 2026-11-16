@@ -26,7 +26,8 @@ assert.match(service,/stopForeground\(STOP_FOREGROUND_REMOVE\)/);
 assert.match(service,/removeUpdates\(this\)/);
 assert.match(service,/android\.R\.drawable\.ic_menu_mylocation/);
 const serviceCode=service.split('\n').filter(line=>!line.trim().startsWith('//')&&!line.trim().startsWith('*')).join('\n');
-assert.doesNotMatch(serviceCode,/new WebView|FirebaseMessaging|Location\\.getLatitude\\(/,'No backend requests or coordinate history in navigation service');
+assert.ok(!['new WebView','FirebaseMessaging','Location.getLatitude('].some(x=>serviceCode.includes(x)),
+ 'No background WebView, network activity or stored GPS coordinates in the navigation service');
 assert.match(activity,/new Intent\(this,MainActivity.class\)/);
 assert.match(activity,/PocketNavigationService\.stopIntent\(this\)/);
 assert.match(main,/WebViewCompat\.addWebMessageListener\(web,"PocketAndroidNavigation"/);
