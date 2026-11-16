@@ -27,7 +27,9 @@ export async function checkPrivateTransport(env,region){
  if(!entry)return {region,status:'invalid_region'};
  const service=env?.[entry.binding];
  if(typeof service?.fetch!=='function')return {region,status:'binding_missing'};
- // The registered VPC Service overrides host/port. Avoid loopback URL special handling\n // in the local Wrangler runtime, while preserving the destination's HTTP port.\n const origin='http://'+(region==='RO'?'romania.pocketai.internal':'england.pocketai.internal')+':'+entry.port;
+ // The registered VPC Service overrides host/port. Avoid loopback URL special handling
+ // in the local Wrangler runtime, while preserving the destination's HTTP port.
+ const origin='http://'+(region==='RO'?'romania.pocketai.internal':'england.pocketai.internal')+':'+entry.port;
  // Health is deliberately unauthenticated on the ORACLE server, but the VPC
  // binding restricts access to the pre-registered target.
  try{
