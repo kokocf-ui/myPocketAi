@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {compareMixedTransportOptions,quotedTotalFare} from './mixed_transport_comparison.mjs';
+import {compareMixedTransportOptions,quotedTotalFare,MIXED_TRANSPORT_COMPARISON_SCRIPT} from './mixed_transport_comparison.mjs';
 const journey=(arrival,amount,opts={})=>({
  startDateTime:'2026-12-01T10:00:00Z',arrivalDateTime:arrival,
  legs:[{mode:'train'}],fareLocal:amount===null?null:{amount,currency:'GBP'},...opts
@@ -22,4 +22,7 @@ assert.equal(compareMixedTransportOptions([journey('not a time',20),a]).fastestI
 assert.equal(compareMixedTransportOptions([a]).cheapestIndex,null);
 assert.equal(compareMixedTransportOptions([]).fastestIndex,null);
 assert.equal(compareMixedTransportOptions([journey('2026-12-01T09:00:00Z',2),a]).fastestIndex,1);
-console.log('PASS mixed transport fastest arrival and honest comparable cheapest fare');
+const inWebView=new Function(MIXED_TRANSPORT_COMPARISON_SCRIPT+';return compareMixedTransportOptions')();
+assert.equal(inWebView([a,b,c]).fastestIndex,1);
+assert.equal(inWebView([a,b,c]).cheapestIndex,2);
+console.log('PASS mixed transport fastest arrival, comparable cheapest fare, WebView injection');
