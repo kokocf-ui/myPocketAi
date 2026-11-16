@@ -13,9 +13,12 @@ function validDate(value){
  return day.getUTCFullYear()===y&&day.getUTCMonth()===m-1&&day.getUTCDate()===d;
 }
 function place(value){
- const result=String(value||'').replace(/\s+/g,' ').trim();
- // City or station only; the caller must not forward precise GPS coordinates.
- return result.length>0&&result.length<=120&&!/[\r\n<>]/.test(result)?result:null;
+ const raw=String(value||'');
+ if(/[\r\n<>]/.test(raw))return null;
+ const result=raw.replace(/\s+/g,' ').trim();
+ // City or station only; never forward precise latitude/longitude.
+ if(/^-?\d{1,3}\.\d+,\s*-?\d{1,3}\.\d+$/.test(result))return null;
+ return result.length>0&&result.length<=120?result:null;
 }
 export function omioAffiliateReady({impactPartnerId,mobileAppApproved}={}){
  // Advertiser/program numbers are NOT the partner ID. Require an explicit app approval.
