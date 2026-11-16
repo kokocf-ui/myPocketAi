@@ -10,7 +10,7 @@ const helper=mixed.slice(helperStart,helperEnd);
 assert.ok(helper.includes("picker.type='datetime-local'"),'Android native date/time picker');
 assert.ok(helper.includes("picker.value=formatLocal(validInitial?initialDate:new Date())"),'Picker defaults to phone local time, or restores the explicit chosen departure');
 assert.ok(helper.includes('let changed=Boolean(validInitial)'),'Restored selected departure remains an explicit request');
-assert.ok(helper.includes("let changed=false"),'Calendar is optional');
+assert.ok(helper.includes("let changed=Boolean(validInitial)"),'Calendar remains optional unless a previous departure was explicitly selected');
 assert.ok(helper.includes("departureAt=null"),'Unchanged calendar uses backend request time');
 assert.ok(helper.includes("if(changed)"),'An edited calendar date becomes explicit');
 assert.ok(helper.includes("departureAt=date.toISOString()"),'Chosen local datetime is transmitted as an exact timestamp');
