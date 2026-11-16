@@ -5,7 +5,7 @@ function validPoint(v){
  Number.isFinite(Number(v.latitude))&&Number.isFinite(Number(v.longitude)) &&
  Math.abs(+v.latitude)<=90&&Math.abs(+v.longitude)<=180;
 }
-async function walk(env,from,to,fetchImpl){
+export async function verifiedPedestrianRoute(env,from,to,fetchImpl){
  if(!validPoint(from)||!validPoint(to))return null;
  const key=String(env?.GEOAPIFY_API_KEY||'');
  if(!key)return null;
@@ -46,7 +46,7 @@ export async function addRomanianWalkingAccess(env,journey,origin,destination,op
  if(!j)return null;
  const get=options.fetchImpl||fetch;
  const a=j.access,e=j.egress;
- const [access,egress]=await Promise.all([walk(env,origin,a,get),walk(env,e,destination,get)]);
+ const [access,egress]=await Promise.all([verifiedPedestrianRoute(env,origin,a,get),verifiedPedestrianRoute(env,e,destination,get)]);
  j.walkToFirstStop=access;
  j.walkFromLastStop=egress;
  j.boarding_stop={label:String(a?.stop_name||''),latitude:Number(a?.latitude),longitude:Number(a?.longitude),departure_time:j.legs?.[0]?.departureTime};
