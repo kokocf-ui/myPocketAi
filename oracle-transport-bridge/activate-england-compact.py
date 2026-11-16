@@ -61,8 +61,17 @@ def check_before():
         raise RuntimeError("unexpected_active_mounts")
     if old["Config"].get("User")!="10001:10001":
         raise RuntimeError("unexpected_service_user")
-    if old["HostConfig"].get("NetworkMode") not in ("bridge",):
+    # Docker Compose uses a project-specific bridge, not literally "bridge".
+    # Preserve the existing network name; refuse host, container and overlay networks.
+    network=old["HostConfig"].get("NetworkMode")
+    if not network or network in ("host","none") or network.startswith("container:"):
         raise RuntimeError("unexpected_service_network")
+    net=docker("network","inspect",network,check=False)
+    if net.returncode:
+        raise RuntimeError("service_network_not_found")
+    details=json.loads(net.stdout)[0]
+    if details.get("Driver")!="bridge" or details.get("Scope")!="local":
+        raise RuntimeError("non_local_bridge_service_network")
     if not old["HostConfig"].get("ReadonlyRootfs"):
         raise RuntimeError("unexpected_rootfs_security")
     if old["HostConfig"].get("Privileged"):
@@ -74,7 +83,7 @@ def check_before():
         raise RuntimeError("existing_gateway_token_missing")
     if not any(x.startswith("GTFS_COUNTRY=GB") for x in env):
         raise RuntimeError("unexpected_country")
-    return old,env
+    return old,env,network
 
 def probe():
     for attempt in range(12):
@@ -101,7 +110,7 @@ def probe():
     raise RuntimeError("new_england_service_failed_health_or_nine_feed_probe")
 
 def main():
-    old,env=check_before()
+    old,env,network=check_before()
     # Building happens before any operational change; old stays healthy.
     print("BUILD_ENGLAND_IMAGE (existing service still online)",flush=True)
     docker("build","-t",IMAGE,"-f",str(DOCKERFILE),str(SOURCE),timeout=900)
@@ -128,6 +137,7 @@ def main():
                    "--security-opt","no-new-privileges",
                    "--pids-limit","80","--memory","1g",
                    "--user","10001:10001",
+                   "--network",network,
                    "--env-file",str(envfile),
                    "--env","GTFS_DATA_DIR=/data/feeds",
                    "--mount",f"type=bind,src={CANDIDATE},dst=/data/feeds,readonly",
