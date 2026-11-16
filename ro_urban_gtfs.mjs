@@ -55,6 +55,11 @@ function active(feed,day){
 function leg(ride,a,b){
  return {mode:vehicleMode(ride.route?.route_type),
   from:a.stop.stop_name,to:b.stop.stop_name,fromStopId:a.stop.stop_id,toStopId:b.stop.stop_id,
+  departurePoint:{latitude:Number(a.stop.stop_lat),longitude:Number(a.stop.stop_lon),
+   commonName:a.stop.stop_name,stop_id:a.stop.stop_id},
+  arrivalLatLon:{lat:Number(b.stop.stop_lat),lon:Number(b.stop.stop_lon)},
+  arrivalPoint:{latitude:Number(b.stop.stop_lat),longitude:Number(b.stop.stop_lon),
+   commonName:b.stop.stop_name,stop_id:b.stop.stop_id},
   departureTime:new Date(a.dep).toISOString(),arrivalTime:new Date(b.arr).toISOString(),
   lineNames:[String(ride.route?.route_short_name||ride.route?.route_long_name||ride.trip.trip_headsign||'').slice(0,60)].filter(Boolean),
   operator:String(ride.route?.agency_id||'').slice(0,80)};
