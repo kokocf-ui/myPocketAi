@@ -173,18 +173,30 @@ public final class MainActivity extends ComponentActivity {
             android.util.Log.w("PocketNavigation","Could not inject navigation controls");
         }
     }
+    private int navigationResumeAttempts=0;
     private void dispatchNavigationResume(){
         if(pendingNavigationResume==null||web==null)return;
         final String id=pendingNavigationResume;
-        pendingNavigationResume=null;
         new Handler(Looper.getMainLooper()).postDelayed(()->{
-            if(web!=null){
-                String url=web.getUrl();
-                if(url!=null&&APP_HOST.equalsIgnoreCase(Uri.parse(url).getHost()))
-                    web.evaluateJavascript("window.pocketNativeNavigationResume&&window.pocketNativeNavigationResume("+
-                        JSONObject.quote(id)+");",null);
+            if(!id.equals(pendingNavigationResume)||web==null)return;
+            if(!id.equals(PocketNavigationService.activeSession())){
+                pendingNavigationResume=null;navigationResumeAttempts=0;return;
             }
-        },500L);
+            String url=web.getUrl();
+            if(url==null||!APP_HOST.equalsIgnoreCase(Uri.parse(url).getHost())){
+                if(++navigationResumeAttempts<30)dispatchNavigationResume();return;
+            }
+            String script="(function(){try{return window.pocketNativeNavigationResume"+
+                "?window.pocketNativeNavigationResume("+JSONObject.quote(id)+"):false}"+
+                "catch(e){return false}})()";
+            web.evaluateJavascript(script,answer->{
+                if(!id.equals(pendingNavigationResume))return;
+                if("true".equals(answer)){
+                    pendingNavigationResume=null;navigationResumeAttempts=0;
+                }else if(++navigationResumeAttempts<30)dispatchNavigationResume();
+                else android.util.Log.w("PocketNavigation","Could not restore active map");
+            });
+        },400L);
     }
     @Override protected void onResume(){
         super.onResume();
