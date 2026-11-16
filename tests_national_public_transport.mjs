@@ -21,7 +21,7 @@ assert.match(frontend,/title:'Transport public național'/);
 assert.match(frontend,/showNationalTransitSearch\(choice\)/);
 assert.match(frontend,/national_public_transport:choice\.nationalPublicTransport===true/);
 assert.match(ui,/national_transit_country:\{location:origin\}/);
-assert.match(ui,/journey_suggest:\{query,country_code:country,location:origin\}/);
+assert.match(ui,/journey_suggest:\{query:attempt,country_code:country,location:origin\}/);
 assert.doesNotMatch(ui,/transitSearchSelectors|showPreciseJourney|journeyOrigin:/);
 assert.match(backend,/if\(data\?\.national_transit_country\)/);
 assert.match(backend,/if\(data\.national_public_transport===true\)/);

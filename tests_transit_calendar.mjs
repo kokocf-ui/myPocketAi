@@ -22,7 +22,7 @@ assert.equal(helpers.transitLineLabel({mode:'national-rail',lineNames:['CC']}),'
 assert.equal(helpers.transitLineLabel({mode:'bus',lineNames:['CC']}),'CC');
 assert.equal(helpers.transitBoardingLineLabel({mode:'national-rail',line_names:['CC']},{mode:'national-rail'}),'c2c');
 assert.ok(/11.+11.+2026/.test(helpers.transitDateLabel('2026-11-11T13:00:00Z','Europe/London')),'The requested date must be presented in the travel date line');
-assert.ok(frontend.includes("dateLine.className='transit-result-date'"),'Cards must display the actual travel date');
+assert.ok(frontend.includes("date.textContent=transitDateLabel(journey.startDateTime,journey.time_zone)"),'Compact cards keep the real travel date');
 assert.ok(frontend.includes("request.className='transit-selected-departure'"),'Show the calendar date the user requested');
 assert.ok(backend.includes('startsAt>=earliestRequested-120000'),'Reject TfL routes earlier than calendar selection');
 const boardingSource=frontend.slice(frontend.indexOf('function transitBoardingBuffer('),frontend.indexOf('function appendTransitCards('));
@@ -59,8 +59,8 @@ const feasible=new Function('state','transitBoardingBuffer','compareTransitDispl
  {lastTransitChoice:{transitDepartureAt:later(0)}},boarding.transitBoardingBuffer,()=>0);
 assert.deepEqual(feasible([safe,impossible]),[safe],
  'Do not offer future itinerary requiring the user to leave before their chosen time');
-assert.ok(frontend.includes("bufferNotice.className='transit-boarding-buffer-notice'"),
- 'Show the buffer recommendation on the itinerary card');
+assert.ok(frontend.includes("advice.className='transit-boarding-buffer-notice'"),
+ 'Keep a verified boarding buffer in the selected-map details');
 
 const tflAdapter=readFileSync(new URL('./tfl_shared_journeys.mjs',import.meta.url),'utf8');
 assert.ok(tflAdapter.includes("base.searchParams.set('date'"),'Shared TfL provider gets a local date for scheduled departures');

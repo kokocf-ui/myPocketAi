@@ -1114,6 +1114,9 @@ public final class MainActivity extends ComponentActivity {
                     +"var picker=document.getElementById('languageSelect');"
                     +"if(picker)picker.addEventListener('change',function(){setTimeout(send,0)});"
                     +"document.addEventListener('visibilitychange',send);window.addEventListener('pagehide',send);send()})()",null);
+                view.evaluateJavascript("window.__pocketNavigationActive="+
+                    getSharedPreferences("pocket_navigation_session",MODE_PRIVATE)
+                        .getBoolean("active",false)+";",null);
                 provideLocalUserProfile(view);
             }
             @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request) {
@@ -1164,6 +1167,55 @@ public final class MainActivity extends ComponentActivity {
                 return true;
             }
         });
+        // Strict first-party bridge: native navigation starts ONLY after the
+        // user presses Follow in Maps, while this Activity is visible.
+        // It continues in an Android location foreground service across Home,
+        // WebView teardown and screen lock. No third-party origin may use it.
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidNavigation",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||origin==null||
+                       !"https".equalsIgnoreCase(origin.getScheme())||
+                       !APP_HOST.equalsIgnoreCase(origin.getHost()))return;
+                    final String payload=message.getData();
+                    if(payload==null||payload.length()>250000)return;
+                    runOnUiThread(()->{
+                        try{
+                            JSONObject request=new JSONObject(payload);
+                            String action=request.optString("action","");
+                            Intent service=new Intent(MainActivity.this,PocketNavigationService.class);
+                            if("start".equals(action)){
+                                boolean allowed=ContextCompat.checkSelfPermission(MainActivity.this,
+                                    Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED||
+                                    ContextCompat.checkSelfPermission(MainActivity.this,
+                                    Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
+                                if(!allowed){
+                                    ensureLocationPermission();
+                                    web.evaluateJavascript("window.dispatchEvent(new CustomEvent('pocket-navigation-status',{detail:{active:false,error:'location_permission'}}));",null);
+                                    return;
+                                }
+                                if(request.optJSONArray("walkingLegs")==null)return;
+                                service.setAction(PocketNavigationService.ACTION_START);
+                                service.putExtra(PocketNavigationService.EXTRA_JOURNEY,payload);
+                                ContextCompat.startForegroundService(MainActivity.this,service);
+                            }else if("stop".equals(action)){
+                                service.setAction(PocketNavigationService.ACTION_STOP);
+                                startService(service);
+                            }else if("repeat".equals(action)){
+                                service.setAction(PocketNavigationService.ACTION_REPEAT);
+                                startService(service);
+                            }else if("mute".equals(action)){
+                                service.setAction(PocketNavigationService.ACTION_MUTE);
+                                startService(service);
+                            }
+                        }catch(Exception e){
+                            android.util.Log.w("PocketNavigation","Native navigation command rejected",e);
+                            if(web!=null)web.evaluateJavascript("window.dispatchEvent(new CustomEvent('pocket-navigation-status',{detail:{active:false,error:'start_failed'}}));",null);
+                        }
+                    });
+                });
+        }
         // Profile bridge is available only to the app's trusted first-party page.
         // Email never enters window.__pocketNativeProfile or the AI request.
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
