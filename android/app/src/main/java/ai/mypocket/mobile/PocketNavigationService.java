@@ -30,6 +30,7 @@ public final class PocketNavigationService extends Service implements LocationLi
     public static final String EXTRA_SESSION="navigation_session";
     public static final String EXTRA_DESTINATION="navigation_destination";
     public static final String EXTRA_MODE="navigation_mode";
+    public static final String EXTRA_STEPS="navigation_steps";
     public static final String EXTRA_RESUME="navigation_resume";
     public static final String CHANNEL="pocket_active_navigation";
     public static final int NOTIFICATION_ID=6802;
@@ -37,15 +38,19 @@ public final class PocketNavigationService extends Service implements LocationLi
     private String sessionId="";
     private String destination="";
     private String mode="";
+    private String steps="";
+    public static String activeSession(){return activeService!=null&&activeService.active?activeService.sessionId:null;}
+    public static String activeDestination(){return activeService!=null&&activeService.active?activeService.destination:null;}
+    public static String activeSteps(){return activeService!=null&&activeService.active?activeService.steps:null;}
     private boolean active=false;
     private long lastNotice=0L;
 
     public static boolean isActive(){ return activeService!=null&&activeService.active; }
     private static volatile PocketNavigationService activeService=null;
-    public static Intent startIntent(Context context,String session,String target,String travelMode){
+    public static Intent startIntent(Context context,String session,String target,String travelMode,String routeSteps){
         return new Intent(context,PocketNavigationService.class).setAction(ACTION_START)
             .putExtra(EXTRA_SESSION,session).putExtra(EXTRA_DESTINATION,target)
-            .putExtra(EXTRA_MODE,travelMode);
+            .putExtra(EXTRA_MODE,travelMode).putExtra(EXTRA_STEPS,routeSteps);
     }
     public static Intent stopIntent(Context context){
         return new Intent(context,PocketNavigationService.class).setAction(ACTION_STOP);
@@ -83,6 +88,8 @@ public final class PocketNavigationService extends Service implements LocationLi
             stopNavigation();return START_NOT_STICKY;
         }
         sessionId=id;destination=target;mode=kind;
+        String described=intent.getStringExtra(EXTRA_STEPS);
+        steps=described==null?"":described.substring(0,Math.min(2800,described.length()));
         try{
             if(Build.VERSION.SDK_INT>=29)
                 startForeground(NOTIFICATION_ID,notification(),
@@ -97,7 +104,7 @@ public final class PocketNavigationService extends Service implements LocationLi
         return START_NOT_STICKY;
     }
     private Notification notification(){
-        Intent open=new Intent(this,MainActivity.class)
+        Intent open=new Intent(this,PocketNavigationActivity.class)
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP)
             .putExtra(EXTRA_RESUME,true).putExtra(EXTRA_SESSION,sessionId);
         PendingIntent resume=PendingIntent.getActivity(this,810,
@@ -114,7 +121,7 @@ public final class PocketNavigationService extends Service implements LocationLi
                 " este activă. Apasă pentru traseul curent."))
             .setContentIntent(resume)
             .addAction(android.R.drawable.ic_menu_close_clear_cancel,"Oprește navigația",stop)
-            .setCategory(NotificationCompat.CATEGORY_NAVIGATION)
+            .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .setOngoing(true).setOnlyAlertOnce(true).setPriority(NotificationCompat.PRIORITY_LOW)
             .build();
     }
