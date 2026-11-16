@@ -1,5 +1,17 @@
 # Omio – integrare etapizată pentru Eva / myPocketAI
 
+## Link Impact furnizat de utilizator la 2026-11-16
+
+`https://omio.sjv.io/WOoqQn` — link scurt generat direct în Impact, asociat programului Omio Travel. Linkul este păstrat exact în `omio_affiliate.mjs`.
+
+- `omioGeneralReferralUrl({mobileAppApproved:true})` întoarce acest URL numai după confirmarea utilizării aplicației Android ca **Affiliate Site**.
+- Nu este un `Impact Radius Partner ID` numeric; nu poate fi înlocuit în URL-ul de deeplink `/c/{partner_id}/4057579/7385`.
+- Linkul generic conduce la Omio; **nu presupunem** că precompletează ruta sau data.
+- Pentru rute precompletate solicităm separat IR Partner ID sau link personalizat valid generat de Impact pentru pagina exactă.
+- Nu sunt afișate prețuri Omio în Eva fără API aprobat.
+- Nu activați automat redirecționarea înainte de acordul scris pentru canalul Android.
+
+
 Stadiu la 2026-11-16: utilizatorul a fost acceptat în Omio Travel (program Impact 7385). Aprobarea afilierii NU echivalează cu aprobarea folosirii linkurilor într-o aplicație Android și NU oferă automat acces Meta Search API.
 
 Sursa pentru URL-ul oficial: https://www.omio.com/affiliate/search-widget
