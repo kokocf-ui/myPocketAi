@@ -27,7 +27,7 @@ jobs:
           request=urllib.request.Request(u,headers={'User-Agent':'PocketAI-GTFS-readonly-staging/1.0','Range':'bytes=0-63'})
           with urllib.request.urlopen(request,timeout=20) as r:
               first=r.read(64)
-              print('GET',r.status,'Content-Type',r.headers.get('Content-Type'),'Length',r.headers.get('Content-Length'),'Magic',first[:16].hex(),'LooksZip',first.startswith(b'PK'))
+              print('GET',r.status,'Content-Type',r.headers.get('Content-Type'),'Length',r.headers.get('Content-Length'),'Magic',first[:16].hex(),'LooksZip',first.startswith(b'PK'),'body_head',first.decode('utf-8','replace')[:64])
           PY
       - name: Stage East Anglia BODS data on isolated ephemeral runner
         run: |
