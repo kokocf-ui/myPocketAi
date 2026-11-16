@@ -35,7 +35,7 @@ assert.ok(nationalAction.includes('root.replaceChildren(step)'),'Calendar replac
 assert.ok(nationalAction.includes('resetCalendarScroll()'),'The calendar opens at the beginning of the scroll area');
 assert.ok(national.includes("openDeparture();\n    });"),'Selecting a suggestion opens the calendar automatically');
 assert.ok(!national.includes('actions.append(back);'),'National search uses the header Back only');
-assert.ok(nationalAction.includes('root.replaceChildren(...searchNodes)'),'Back restores the destination search step');
+assert.ok(national.includes('root.replaceChildren(...searchNodes)')&&nationalAction.includes('onBack:restoreSearchStage'),'Back restores the destination search step');
 assert.ok(national.includes("journey_suggest:{query:attempt,country_code:country,location:origin}"),'Domestic boundary remains unchanged');
 assert.ok(backend.includes('transit_departure_at'),'Backend already accepts scheduled departures');
 console.log('PASS departure calendar for national transit and mixed mode, direct driving unchanged');
