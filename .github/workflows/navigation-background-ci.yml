@@ -30,33 +30,6 @@ jobs:
           node tests_oracle_fcm.mjs
           node tests_communication_message_controls.mjs
           node tests_transit_final_mile.mjs
-      - name: Inspect actual navigation lifecycle entrypoints
-        run: |
-          node --input-type=module <<'NODE'
-          import {readFileSync} from 'node:fs';
-          const s=readFileSync('index.js','utf8');
-          const terms=['function showPreciseJourney(','async function showFinalTransitWalk(',
-            'function appendFinalTransitWalkAction(','function showRouteMap(',
-            'function renderTransitChoices(','function showTransitDestination(',
-            'function appendTransitLegs(','function showNavigationReturn(','function openRouteMap(','function startRouteTracking(',
-            'function stopRouteTracking(','function closeRouteMap(','function routeNavigationLink(',
-            'function startNavigation(','function stopNavigation('];
-          const re=/naviga(?:t|ț|ţi|ri|re)|\.geolocation\.watchPosition|watchPosition\(/ig;
-          const hits=[...s.matchAll(re)].map(m=>m.index);
-          console.log('--- EXACT FUNCTION ANCHORS ---');
-          for(const term of terms){
-            const p=s.indexOf(term);
-            if(p>=0)console.log('ANCHOR '+term+' AT '+p+'\n'+s.slice(p,p+4200));
-          }
-          console.log('--- NAVIGATION CLICK AND TRACKING DETAILS ---');
-          for(const word of ['navigation.onclick=', 'navigation.addEventListener(', 'current.navigating=', 'route-map-navigate', 'startRouteTracking(', 'closeRouteMap(', 'stopRouteTracking(', 'endNavigation(']){
-            let p=0,n=0;
-            while((p=s.indexOf(word,p))>=0&&n++<7){ console.log('PATTERN '+word+' AT '+p+'\\n'+s.slice(Math.max(0,p-650),p+1000));p+=word.length; }
-          }
-          console.log('--- NAVIGATION KEYWORD CONTEXT ---');
-          const choices=hits.filter(p=>/start|stop|active|open|turn|go|gps|naviga|tracking|route|walk/i.test(s.slice(p-210,p+240)));
-          for(const p of choices.slice(-45))console.log('HIT @'+p+' '+s.slice(Math.max(0,p-230),p+380).replace(/\\n/g,' '));
-          NODE
       - name: Compile Android debug APK
         run: gradle -p android --no-daemon assembleDebug
       - uses: actions/upload-artifact@v4
