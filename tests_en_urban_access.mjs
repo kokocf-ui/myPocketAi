@@ -33,3 +33,24 @@ test('England Oracle adapter sends isolated Access credentials over HTTPS only',
   {from:origin,to:destination});
  assert.equal(insecure.status,'invalid_endpoint_config');
 });
+
+test('England Workers VPC Service connects to internal HTTP without a public domain',async()=>{
+ let called=0;
+ const bound={fetch:async(url,init)=>{
+   called++;
+   assert.equal(url,'http://localhost/v1/plan');
+   assert.equal(init.headers.Authorization,'Bearer '+token);
+   assert.equal(init.headers['CF-Access-Client-Secret'],undefined);
+   return Response.json({status:'no_verified_itinerary',journeys:[]});
+ }};
+ const env={EN_URBAN_VPC:bound,EN_URBAN_API_TOKEN:token,
+   EN_URBAN_API_URL:'https://old-host.example/'};
+ const answer=await planEnglandLocalGtfs(env,{from:origin,to:destination},{fetchImpl:()=>{
+   throw Error('public HTTP must not be used');
+ }});
+ assert.equal(called,1);
+ assert.equal(answer.status,'no_verified_itinerary');
+ const invalid=await planEnglandLocalGtfs({EN_URBAN_VPC:{} ,EN_URBAN_API_TOKEN:token},
+   {from:origin,to:destination});
+ assert.equal(invalid.status,'invalid_vpc_binding');
+});
