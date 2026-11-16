@@ -42,6 +42,11 @@ try{
  out=await askCountry(env(false,true));
  assert.equal(out.supported,true);
  assert.deepEqual(out.provider_coverage,{intercity_configured:false,urban_configured:true});
+ const vpcOnly={...env(false,false),RO_URBAN_VPC:{fetch:async()=>{throw Error('readiness must never call GTFS API')}},RO_URBAN_API_TOKEN:'1234567890'.repeat(4)};
+ out=await askCountry(vpcOnly);
+ assert.equal(out.supported,true,'Real binding should count without a public URL');
+ assert.deepEqual(out.provider_coverage,{intercity_configured:false,urban_configured:true});
+ assert.ok(!JSON.stringify(out).includes(vpcOnly.RO_URBAN_API_TOKEN));
  assert.ok(!JSON.stringify(out).includes('1234567890'),'Never send private auth credentials to mobile');
  const askRoute=(destination,bindings)=>request({
   national_public_transport:true,message:'Transport public către '+destination.label,
