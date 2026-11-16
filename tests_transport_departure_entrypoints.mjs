@@ -25,7 +25,7 @@ assert.ok(mixMode.includes('root.replaceChildren(...searchNodes)'),'Back from mi
 assert.ok(!mixMode.includes('host.append(step)'),'No calendar below existing address or mode form');
 assert.ok(mixMode.indexOf("if(mode==='transit'){")<mixMode.indexOf("state.pendingTravelMode=mode"),'Driving path bypasses the calendar');
 const nationalStart=national.indexOf('const openDeparture=()=>{');
-const nationalEnd=national.indexOf("const back=createButton(",nationalStart);
+const nationalEnd=national.indexOf("const lookup=async()=>{",nationalStart);
 assert.ok(nationalStart>=0&&nationalEnd>nationalStart,'National transport uses a direct calendar transition');
 const nationalAction=national.slice(nationalStart,nationalEnd);
 assert.ok(nationalAction.includes('createTransportDepartureStep('));
