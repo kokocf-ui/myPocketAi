@@ -3,7 +3,7 @@ import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathwa
 import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs';
 import {assistantBareDestinationQuery,assistantJourneyHandoff,parseJourneyExpression} from './assistant_bare_destination.mjs';
 import {ONE_FIELD_JOURNEY_SCRIPT} from './one_field_journey_ui.mjs';
-import {compareMixedTransportOptions} from './mixed_transport_comparison.mjs';
+import {MIXED_TRANSPORT_COMPARISON_SCRIPT} from './mixed_transport_comparison.mjs';
 import {NATIONAL_PUBLIC_TRANSPORT_SCRIPT} from './national_public_transport_ui.mjs';
 import {ACCOUNT_STYLE,ACCOUNT_HTML,ACCOUNT_SCRIPT} from './account_settings_ui.mjs';
 import {COMMUNICATION_HTML,COMMUNICATION_STYLE,COMMUNICATION_SCRIPT} from './communication_ui.mjs';
@@ -17260,6 +17260,7 @@ ${parseJourneyExpression.toString()}
 ${assistantJourneyHandoff.toString()}
 ${ONE_FIELD_JOURNEY_SCRIPT}
 ${NATIONAL_PUBLIC_TRANSPORT_SCRIPT}
+${MIXED_TRANSPORT_COMPARISON_SCRIPT}
 function showJourneyMode(choice){
  if(choice?.mixedJourney){showOneFieldJourney(choice);return;}
  state.moduleSearchCategory=choice;
