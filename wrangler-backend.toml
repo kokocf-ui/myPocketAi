@@ -21,3 +21,8 @@ class_name = "PocketCommunicationHub"
 [[migrations]]
 tag = "communication-sqlite-v1"
 new_sqlite_classes = ["PocketCommunicationHub"]
+
+[[vpc_services]]
+binding = "EN_URBAN_VPC"
+service_id = "01a1e3ea-f6fa-7d11-8f85-21f267b1d833"
+remote = true

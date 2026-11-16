@@ -37,6 +37,7 @@ import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mj
 import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
+import {planEnglandLocalGtfs,englandLocalGtfsRegion} from "./en_urban_client.mjs";
 import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints,groupRomanianJourneys} from "./ro_transport_mode_policy.mjs";
 import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
 import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
@@ -3200,11 +3201,13 @@ export default {
         String(env.BILO_API_KEY||'').trim()?'ro_national_transit':null,
         String(env.RO_URBAN_API_URL||'').trim()&&String(env.RO_URBAN_API_TOKEN||'').trim().length>=32?'ro_urban_gtfs':null,
         env.TRANSCAPI_API_KEY?'uk_national_transit':null,
+        (typeof env.EN_URBAN_VPC?.fetch==='function'||String(env.EN_URBAN_API_URL||'').trim())&&String(env.EN_URBAN_API_TOKEN||'').trim().length>=32?'en_urban_gtfs':null,
         env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'?'tfl':null
       ].filter(Boolean);
       const authorization=nationalPublicTransportPolicy({
         originCountry,destinationCountry,urbanRoute:Boolean(urbanRoute),
         localRoute:originCountry==='RO'&&roScope.localRoute,londonRoute,
+        englandLocalRoute:originCountry==='GB'&&Boolean(englandLocalGtfsRegion({latitude,longitude},{latitude:destLat,longitude:destLon})),
         enabledProviders:providers
       });
       if(authorization.status!=='ready'){
@@ -3626,6 +3629,72 @@ export default {
               const reply=lang==='en'?'No bus/coach-only itinerary could be verified for the selected departure window. Try a later time or the combined bus-and-rail search.':'Nu am putut verifica un itinerar numai cu autobuz/autocar în intervalul de plecare ales. Încearcă o oră mai târzie sau căutarea combinată autobuz + tren.';
               return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,transit_available:false,route_available:false,transit_provider:'TransCAPI',reason:'bus_only_not_verified',transit_preference:'bus_only',transit_departure_offset:departureOffsetMinutes,transit_departure_at:departureAt,provider_status:{transcapi:national.status}});
             }
+          }
+          // Opt-in England BODS GTFS: after TransCAPI, before a generic MOTIS fallback.
+          // Keep existing TfL and verified GB intercity planning unchanged.
+          const englishFrom={latitude,longitude},englishTo={latitude:targetLat,longitude:targetLon};
+          if(validTarget&&hasValidLocation&&!internationalTarget&&
+             !(isTfLLondonCorridorPoint(latitude,longitude)&&
+               isTfLLondonCorridorPoint(targetLat,targetLon))&&
+             englandLocalGtfsRegion(englishFrom,englishTo)&&
+             (typeof env.EN_URBAN_VPC?.fetch==='function'||env.EN_URBAN_API_URL)&&String(env.EN_URBAN_API_TOKEN||'').length>=32&&
+             (!data.national_public_transport||authorizedNationalProvider==='en_urban_gtfs')){
+            const local=await planEnglandLocalGtfs(env,{
+              from:englishFrom,to:englishTo,departureAt:departureAt||null,limit:requestedOptionsCount
+            });
+            if(local.status==='route_only'){
+              const lines=verifiedRouteOnlyOptions(local.journeys,'GB');
+              if(lines.length)return json({app:'Pocket AI',version:API_VERSION,status:'success',
+                language:lang,message_received:message,reply:routeOnlyMessage(lines,lang),
+                route_only:true,route_options_without_schedule:lines,
+                transit_available:false,route_available:false,mixed_journey:true,
+                england_local_journey:true,service_today_verified:false,
+                provider_status:{en_urban:'route_only'}});
+            }
+            if(local.journeys.length){
+              const transferCache=new Map();
+              let transit=await Promise.all(local.journeys.slice(0,4).map(async j=>
+                annotateTransitTransfers(env,await addRomanianWalkingAccess(env,j,englishFrom,englishTo),
+                  {cache:transferCache})));
+              transit=rankRomanianUrbanDoorToDoor(transit.filter(j=>j?.transferFeasible!==false));
+              if(transportPreference==='bus_only')transit=transit.filter(j=>
+                j.legs.some(l=>l.mode==='bus'||l.mode==='coach')&&
+                j.legs.every(l=>['bus','coach','walking'].includes(l.mode)));
+              const at=departureAt?Date.parse(departureAt):Date.now();
+              transit=transit.filter(j=>!j.accessWalkVerified||
+                Date.parse(j.firstVehicleDepartureTime)>=
+                at+(j.walkToFirstStopMinutes+5)*60000);
+              if(transit.length){
+                const first=transit[0];
+                const clock=t=>new Date(t).toLocaleTimeString(lang==='en'?'en-GB':'ro-RO',
+                  {timeZone:'Europe/London',hour:'2-digit',minute:'2-digit'});
+                const details=transit.map((j,i)=>(i+1)+'. '+
+                  clock(j.startDateTime)+'–'+clock(j.arrivalDateTime)+' · '+
+                  j.legs.filter(l=>l.mode!=='walking').map(l=>
+                    [l.mode,(l.lineNames||[]).join(', '),l.from+' → '+l.to].filter(Boolean).join(' ')).join(' / ')).join('\n');
+                const notice=lang==='en'
+                  ?'Scheduled GTFS services, not real-time. Walking access and transfers must be checked.'
+                  :'Orare GTFS planificate, nu în timp real. Verifică accesul pietonal și schimbările.';
+                const changeNotes=transit.map((j,i)=>{
+                  const detail=describeTransitTransferWalks(j,lang);
+                  return detail?(i+1)+'. '+detail:'';
+                }).filter(Boolean).join('\n');
+                return json({app:'Pocket AI',version:API_VERSION,status:'success',
+                  language:lang,message_received:message,
+                  reply:(lang==='en'?'Local transport in England':'Transport local în Anglia')+
+                    '\n'+details+(changeNotes?'\n'+changeNotes:'')+'\n\n'+notice,
+                  mixed_journey:true,england_local_journey:true,uk_national_journey:true,
+                  transit_available:true,route_available:false,transit_geometry_available:false,
+                  transit:annotateTransportJourneys(transit,lang),
+                  fastest_transit:annotateTransportJourneys([first],lang)[0],
+                  transit_provider:'England GTFS static',
+                  transit_departure_at:departureAt,requested_transit_count:requestedOptionsCount,
+                  transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
+                  provider_status:{en_urban:local.status},
+                  source:'Imported operator-authorised English GTFS schedule; not live'});
+              }
+            }
+            transportErrors.en_urban=local.status;
           }
           // MOTIS does not yet validate scheduled searches. Never silently use the current hour.
           const planned=data.national_public_transport===true?{status:'national_only',journeys:[]}:
