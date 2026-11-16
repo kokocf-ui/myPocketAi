@@ -6,6 +6,7 @@ on:
     paths:
       - 'android/**'
       - 'tests_android_navigation_notification.mjs'
+      - 'tests_android_navigation_bridge_runtime.mjs'
       - '.github/workflows/navigation-background-ci.yml'
 jobs:
   android-navigation-debug:
@@ -25,6 +26,7 @@ jobs:
       - name: Validate navigation service and browser handoff
         run: |
           node tests_android_navigation_notification.mjs
+          node tests_android_navigation_bridge_runtime.mjs
           node tests_oracle_fcm.mjs
           node tests_communication_message_controls.mjs
           node tests_transit_final_mile.mjs
