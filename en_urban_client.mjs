@@ -12,6 +12,12 @@ export async function planEnglandLocalGtfs(env,{from,to,departureAt=null,limit=4
  const base=String(env?.EN_URBAN_API_URL||'').trim();
  const token=String(env?.EN_URBAN_API_TOKEN||'').trim();
  if(!base||token.length<32)return {status:'not_configured',journeys:[],region};
+ const accessId=String(env?.EN_URBAN_ACCESS_CLIENT_ID||'').trim();
+ const accessSecret=String(env?.EN_URBAN_ACCESS_CLIENT_SECRET||'').trim();
+ if(Boolean(accessId)!==Boolean(accessSecret))
+  return {status:'invalid_access_config',journeys:[],region};
+ const authHeaders={Authorization:'Bearer '+token,'Content-Type':'application/json','Accept':'application/json'};
+ if(accessId){authHeaders['CF-Access-Client-Id']=accessId;authHeaders['CF-Access-Client-Secret']=accessSecret;}
  let url;
  try{
   url=new URL(base);
@@ -28,7 +34,7 @@ export async function planEnglandLocalGtfs(env,{from,to,departureAt=null,limit=4
  try{
   const res=await (opts.fetchImpl||fetch)(url.toString(),{
    method:'POST',
-   headers:{Authorization:'Bearer '+token,'Content-Type':'application/json','Accept':'application/json'},
+   headers:authHeaders,
    body:JSON.stringify({region,from:{latitude:+from.latitude,longitude:+from.longitude},
     to:{latitude:+to.latitude,longitude:+to.longitude},date:p.year+'-'+p.month+'-'+p.day,
     afterHHMM:p.hour+':'+p.minute,maxResults:Math.max(1,Math.min(6,Math.floor(limit)||4))}),
