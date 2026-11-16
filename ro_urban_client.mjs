@@ -39,6 +39,12 @@ export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,l
  const base=String(env?.RO_URBAN_API_URL||'').trim();
  const token=String(env?.RO_URBAN_API_TOKEN||'').trim();
  if(!base||token.length<32)return {status:'not_configured',journeys:[],region};
+ const accessId=String(env?.RO_URBAN_ACCESS_CLIENT_ID||'').trim();
+ const accessSecret=String(env?.RO_URBAN_ACCESS_CLIENT_SECRET||'').trim();
+ if(Boolean(accessId)!==Boolean(accessSecret))
+  return {status:'invalid_access_config',journeys:[],region};
+ const authHeaders={Authorization:'Bearer '+token,'Content-Type':'application/json','Accept':'application/json'};
+ if(accessId){authHeaders['CF-Access-Client-Id']=accessId;authHeaders['CF-Access-Client-Secret']=accessSecret;}
  let url;
  try{
   url=new URL(base);
@@ -57,7 +63,7 @@ export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,l
  try{
   const fetchImpl=opts.fetchImpl||fetch;
   const res=await fetchImpl(url.toString(),{
-   method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json','Accept':'application/json'},
+   method:'POST',headers:authHeaders,
    body:JSON.stringify({region,from:{latitude:+from.latitude,longitude:+from.longitude},
     to:{latitude:+to.latitude,longitude:+to.longitude},date,afterHHMM,
     maxResults:Math.max(1,Math.min(6,Math.floor(limit)||4))}),
