@@ -97,9 +97,14 @@ export function createRomanianUrbanServer({token,feeds={},catalog=null,country='
     journeys:[],country:cc});
    const journeys=[],routeOnly=[];
    let serviceStatus='no_verified_itinerary';
+   const requestDate=body.date||new Intl.DateTimeFormat('sv-SE',{
+     timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit'
+   }).format(new Date());
    for(const candidate of candidates){
     let feed;
-    try{feed=candidate.load();}catch{continue;}
+    try{feed=await candidate.load({from,to,date:requestDate,radius});}
+    catch{serviceStatus='planner_unavailable';continue;}
+    if(feed?.__sqlite_status){serviceStatus=feed.__sqlite_status;continue;}
     if(!feed)continue; // Stale index or updated snapshot: never serve cached dates.
     const result=planRomanianUrbanGtfs(feed,from,to,{
      date:body.date,afterHHMM:body.afterHHMM,timeZone:zone,
