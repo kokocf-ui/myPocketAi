@@ -1,4 +1,4 @@
-name: Verify remaining England BODS SQLite regions off production
+name: Diagnose three England BODS regions off production
 on:
   push:
     branches: [feat/gtfs-sqlite-indexed-20261116]
@@ -24,20 +24,10 @@ jobs:
         include:
           - region: en-em
             label: "East Midlands"
-          - region: en-ne
-            label: "North East"
-          - region: en-nw
-            label: "North West"
           - region: en-se
             label: "South East"
           - region: en-sw
             label: "South West"
-          - region: en-wm
-            label: "West Midlands"
-          - region: en-yorkshire
-            label: "Yorkshire"
-          - region: en-london
-            label: "London"
     env:
       REGION: ${{ matrix.region }}
     steps:
@@ -50,6 +40,9 @@ jobs:
           set -euo pipefail
           sudo mkdir -p /home/ubuntu/pocketai-england-audit
           sudo chown "$(id -u):$(id -g)" /home/ubuntu/pocketai-england-audit
+          ls -ld /home/ubuntu/pocketai-england-audit
+          test -d /home/ubuntu/pocketai-england-audit
+          test ! -L /home/ubuntu/pocketai-england-audit
           python3 oracle-transport-bridge/stage-england-bods.py --stage --regions "$REGION"
       - name: Verify complete GTFS schema, positive counts, and staging provenance
         run: |

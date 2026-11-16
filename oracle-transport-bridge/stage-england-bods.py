@@ -132,7 +132,16 @@ def main():
     for region in regions:
         try:result.append(stage_one(region,stage,importer))
         except Exception as e:
-            result.append({"region":region,"status":"stage_failed","error_code":type(e).__name__})
+            # Only emit approved, non-sensitive failure codes; never log upstream URLs or credentials.
+            safe_reasons={
+                "redirect_not_preapproved","source_must_be_https","unexpected_download_host",
+                "not_a_gtfs_zip","GTFS_compressed_size_limit","not_a_complete_GTFS_schedule",
+                "GTFS_member_too_large","GTFS_uncompressed_size_limit",
+                "bad_GTFS_zip_checksum","concurrent_existing_snapshot"
+            }
+            reason=str(e) if isinstance(e,RuntimeError) and str(e) in safe_reasons else type(e).__name__
+            result.append({"region":region,"status":"stage_failed","error_code":type(e).__name__,
+                           "failure_reason":reason})
     print(json.dumps(result,ensure_ascii=False,indent=2))
     return 1 if any(x["status"]=="stage_failed" for x in result) else 0
 
