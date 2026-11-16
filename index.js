@@ -19018,7 +19018,11 @@ async function openTransitJourneyMap(selected){
  };
  stop.onclick=()=>{window.PocketAndroidNavigation?.postMessage?.(JSON.stringify({action:'stop'}));
   note.textContent=dialogText('Navigația a fost oprită.','Navigation stopped.')};
- details.append(intro,timing,follow,stop,notice);
+ details.append(intro,timing);
+ const leaveBy=transitBoardingAdvice(journey);
+ if(leaveBy){const advice=document.createElement('p');advice.className='transit-boarding-buffer-notice';
+  advice.textContent=leaveBy;details.append(advice)}
+ details.append(follow,stop,notice);
  const stages=document.createElement('div');stages.className='transit-all-legs';
  for(const [i,leg] of (journey.legs||[]).entries()){
   const row=document.createElement('div');row.style.cssText='padding:12px 5px;border-bottom:1px solid #426274';
