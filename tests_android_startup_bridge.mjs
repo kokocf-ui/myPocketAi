@@ -12,7 +12,7 @@ assert.equal(new Set(names).size,names.length,
 assert.ok(names.includes('PocketAndroidNavigation'),'Existing exit interface remains registered');
 assert.ok(names.includes('PocketAndroidRouteGuidance'),'GPS navigation uses its own native interface');
 assert.match(page,/window\.PocketAndroidNavigation\?\.postMessage\?\.\('exit'\)/,'App exit still uses original bridge');
-const begin=page.indexOf('async function openTransitJourneyMap(selected){');
+const begin=page.indexOf('async function openTransitJourneyMap(selected,resume=null){');
 const end=page.indexOf('async function selectTransitJourney(options,index){',begin);
 assert.ok(begin>=0&&end>begin);
 const map=page.slice(begin,end);
