@@ -1,0 +1,37 @@
+name: England all-nine gateway candidate smoke regression
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/test-england-candidate-all-http.mjs'
+      - 'oracle-transport-bridge/run-england-candidate-http-isolated.sh'
+      - 'tests_england_candidate_all_http.mjs'
+      - '.github/workflows/england-candidate-all-http-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/test-england-candidate-all-http.mjs'
+      - 'oracle-transport-bridge/run-england-candidate-http-isolated.sh'
+      - 'tests_england_candidate_all_http.mjs'
+      - '.github/workflows/england-candidate-all-http-ci.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          set -euo pipefail
+          bash -n oracle-transport-bridge/run-england-candidate-http-isolated.sh
+          node --check oracle-transport-bridge/test-england-candidate-all-http.mjs
+          node --test tests_england_candidate_all_http.mjs
+          F=oracle-transport-bridge/run-england-candidate-http-isolated.sh
+          grep -Fq -- '--network none' "$F"
+          grep -Fq -- '--read-only' "$F"
+          grep -Fq -- '--user 10001:10001' "$F"
+          grep -Fq -- '--memory 1g' "$F"
+          if grep -Eq 'docker (compose )?(restart|stop|up)|rm -rf|docker exec' "$F"; then exit 1; fi
