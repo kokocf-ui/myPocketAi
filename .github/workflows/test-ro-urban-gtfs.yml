@@ -11,6 +11,9 @@ on:
       - 'en_urban_client.mjs'
       - 'regional_gtfs_registry.mjs'
       - 'regional_gtfs_catalog.mjs'
+      - 'gtfs_sqlite_reader.mjs'
+      - 'gtfs_sqlite_store.py'
+      - 'tests_gtfs_sqlite_indexed.mjs'
       - 'tests_regional_gtfs_end_to_end.mjs'
       - 'oracle-england-transport/**'
       - 'ro_urban_walking.mjs'
@@ -32,6 +35,9 @@ on:
       - 'en_urban_client.mjs'
       - 'regional_gtfs_registry.mjs'
       - 'regional_gtfs_catalog.mjs'
+      - 'gtfs_sqlite_reader.mjs'
+      - 'gtfs_sqlite_store.py'
+      - 'tests_gtfs_sqlite_indexed.mjs'
       - 'tests_regional_gtfs_end_to_end.mjs'
       - 'oracle-england-transport/**'
       - 'ro_urban_walking.mjs'
@@ -50,5 +56,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --check ro_urban_gtfs.mjs && node --check ro_urban_gtfs_import.mjs && node --check ro_urban_server.mjs && node --check ro_urban_client.mjs && node --check en_urban_client.mjs && node --check regional_gtfs_registry.mjs && node --check regional_gtfs_catalog.mjs && node --check oracle-romania-transport/build-index.mjs && node --check ro_urban_walking.mjs && node --check backend.js
-      - run: node --test tests_transport_route_topology.mjs tests_ro_urban_gtfs.mjs tests_ro_urban_server.mjs tests_ro_urban_client.mjs tests_ro_urban_walking.mjs tests_regional_gtfs_end_to_end.mjs
+      - run: node --check ro_urban_gtfs.mjs && node --check ro_urban_gtfs_import.mjs && node --check ro_urban_server.mjs && node --check ro_urban_client.mjs && node --check en_urban_client.mjs && node --check regional_gtfs_registry.mjs && node --check regional_gtfs_catalog.mjs && node --check gtfs_sqlite_reader.mjs && node --check oracle-romania-transport/build-index.mjs && node --check ro_urban_walking.mjs && node --check backend.js
+      - run: node --test tests_transport_route_topology.mjs tests_ro_urban_gtfs.mjs tests_ro_urban_server.mjs tests_ro_urban_client.mjs tests_ro_urban_walking.mjs tests_regional_gtfs_end_to_end.mjs tests_gtfs_sqlite_indexed.mjs
