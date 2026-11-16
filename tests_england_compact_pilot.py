@@ -17,7 +17,7 @@ class PilotTest(unittest.TestCase):
         # Original schema keeps the separate trip+sequence index.
         raw=module.COMPACT_SCHEMA.replace(
           "trip_id TEXT NOT NULL, stop_id TEXT, stop_sequence INTEGER NOT NULL, arrival_time TEXT, departure_time TEXT,\n PRIMARY KEY(trip_id,stop_sequence)) WITHOUT ROWID",
-          "trip_id TEXT, stop_id TEXT, stop_sequence INTEGER, arrival_time TEXT, departure_time TEXT")
+          "trip_id TEXT, stop_id TEXT, stop_sequence INTEGER, arrival_time TEXT, departure_time TEXT)")
         with sqlite3.connect(db) as con:
             con.executescript(raw)
             con.execute("INSERT INTO stops VALUES ('a','Origin',52.1,0.1)")
