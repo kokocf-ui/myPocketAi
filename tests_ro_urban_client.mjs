@@ -122,3 +122,30 @@ test('Cloudflare Access machine identity is included only as a complete pair',as
      return Response.json({status:'success',journeys:[trip]});}});
  assert.equal(basic.status,'ok');
 });
+
+test('Workers VPC preferred: no domain or public hostname, private bound fetch and existing origin bearer',async()=>{
+ let called=0;
+ const bound={fetch:async(url,opts)=>{
+   called++;
+   assert.equal(url,'http://localhost/v1/plan');
+   assert.equal(opts.headers.Authorization,'Bearer '+token);
+   assert.equal(opts.headers['CF-Access-Client-Id'],undefined);
+   assert.equal(JSON.parse(opts.body).region,'oradea');
+   return Response.json({status:'success',journeys:[trip]});
+ }};
+ const answer=await planRomanianUrbanViaOracle({
+   RO_URBAN_VPC:bound,RO_URBAN_API_TOKEN:token,
+   // Even a stale public URL must NOT override private routing.
+   RO_URBAN_API_URL:'https://obsolete.example/'
+ },{from:o,to:d,departureAt:'2026-11-12T08:00:00Z'},
+ {fetchImpl:()=>{throw Error('public fetch must never run')}});
+ assert.equal(answer.status,'ok');
+ assert.equal(answer.journeys.length,1);
+ assert.equal(called,1);
+ const missing=await planRomanianUrbanViaOracle({RO_URBAN_VPC:{},RO_URBAN_API_TOKEN:token},
+   {from:o,to:d});
+ assert.equal(missing.status,'invalid_vpc_binding');
+ const missingToken=await planRomanianUrbanViaOracle({RO_URBAN_VPC:bound},{from:o,to:d});
+ assert.equal(missingToken.status,'not_configured');
+ assert.equal(called,1);
+});
