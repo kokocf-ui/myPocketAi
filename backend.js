@@ -3339,11 +3339,17 @@ export default {
             provider_status:{ro_urban:result.status,region:result.region},
             requested_transit_count:requestedOptionsCount});
         }
+        const busy=['planner_busy','planner_unavailable'].includes(result.status);
         const reason=result.status==='not_configured'?'ro_urban_router_not_configured':
-          result.status==='feed_not_loaded'?'ro_urban_feed_unavailable':'ro_urban_no_verified_itinerary';
-        const reply=lang==='en'
-          ?'Urban schedules for this Romanian area are not confirmed yet. No fabricated departures are shown.'
-          :'Orarul urban pentru această zonă din România nu este încă verificat. Nu afișez plecări inventate.';
+          result.status==='feed_not_loaded'?'ro_urban_feed_unavailable':
+          busy?'ro_urban_planner_temporarily_unavailable':'ro_urban_no_verified_itinerary';
+        const reply=busy
+          ?(lang==='en'
+            ?'The local timetable planner is temporarily overloaded. Please try again shortly.'
+            :'Planificatorul orarelor locale este momentan supraîncărcat. Reîncearcă.')
+          :(lang==='en'
+            ?'Urban schedules for this Romanian area are not confirmed yet. No fabricated departures are shown.'
+            :'Orarul urban pentru această zonă din România nu este încă verificat. Nu afișez plecări inventate.');
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
           message_received:message,reply,mixed_journey:true,romanian_urban_journey:true,
           transit_available:false,route_available:false,transit_provider:'Romania GTFS static',
