@@ -1,0 +1,21 @@
+name: Omio affiliate link safety
+on:
+  pull_request:
+    paths:
+      - 'omio_affiliate.mjs'
+      - 'tests_omio_affiliate.mjs'
+      - 'package.json'
+      - '.github/workflows/test-omio-affiliate.yml'
+  push:
+    branches:
+      - feat/omio-affiliate-2026-11-16
+jobs:
+  omio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check omio_affiliate.mjs && node --check tests_omio_affiliate.mjs
+      - run: node tests_omio_affiliate.mjs
