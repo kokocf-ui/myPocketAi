@@ -8,10 +8,27 @@ const calls=[];
 const fixedOrigin={latitude:51.478,longitude:0.283,updatedAt:Date.now()};
 const uk={latitude:51.493,longitude:-0.13,country_code:"GB",label:"London Victoria"};
 const abroad={latitude:48.8566,longitude:2.3522,country_code:"FR",label:"Paris, France"};
-let internationalFixture=false,provideTfLJourney=false,provideMotisJourney=false;
+let internationalFixture=false,provideTfLJourney=false,provideMotisJourney=false,transferFixture=false;
 globalThis.fetch=async input=>{
  const url=new URL(typeof input==="string"?input:input.url);calls.push(url);
  if(url.hostname==="api.transcapi.com"){
+  if(transferFixture){
+   const at=m=>new Date(Date.now()+m*60000).toISOString();
+   return Response.json({timezone:'Europe/London',itineraries:[{
+    start_time:at(12),end_time:at(237),
+    legs:[
+     {mode:'WALK',duration_s:600,from:{name:'Grays origin',latitude:51.478,longitude:0.283},
+       to:{name:'Grays station',latitude:51.476,longitude:0.321}},
+     {mode:'BUS',from:{name:'Grays station',latitude:51.476,longitude:0.321},
+       to:{name:'Bus interchange',latitude:51.500,longitude:-0.110},
+       route:{line:'77'},start_time:{scheduled:at(27)},end_time:{scheduled:at(50)}},
+     {mode:'RAIL',from:{name:'Rail interchange',latitude:51.502,longitude:-0.110},
+       to:{name:'Manchester Piccadilly',latitude:53.478,longitude:-2.233},
+       route:{line:'Train 5'},start_time:{scheduled:at(65)},end_time:{scheduled:at(222)}},
+     {mode:'WALK',duration_s:900,from:{name:'Manchester Piccadilly',latitude:53.478,longitude:-2.233},
+       to:{name:'Destination',latitude:53.479,longitude:-2.234}}
+    ]}]});
+  }
   const requested=Date.parse(url.searchParams.get('datetime')||'');
   const at=m=>new Date((Number.isFinite(requested)?requested:Date.now())+m*60000).toISOString();
   if(url.searchParams.get('from_lon')==='4.9041'||url.searchParams.get('from_lon')==='-5.9301'){
@@ -84,6 +101,12 @@ globalThis.fetch=async input=>{
   }]});
  }
  if(url.hostname==="api.geoapify.com"){
+  if(transferFixture&&url.pathname==='/v1/routing'){
+   const coords=url.searchParams.get('waypoints').split('|').map(p=>p.split(',').map(Number))
+     .map(([lat,lon])=>[lon,lat]);
+   return Response.json({features:[{geometry:{type:'LineString',coordinates:coords},
+    properties:{distance:350,time:600}}]});
+  }
   const query=url.searchParams.get("text");
   if(internationalFixture&&query==="Berlin"){
    return Response.json({features:[{properties:{name:"Berlin",city:"Berlin",lat:52.5200,lon:13.4050,country_code:"de",formatted:"Berlin, Germany"}}]});
@@ -141,6 +164,22 @@ try{
  assert.ok(!connectedNationwide.planning_links?.length,"Success must not redirect to external planning websites");
  assert.ok(calls.some(u=>u.hostname==="api.transcapi.com"&&u.pathname==="/v1/journey.json"));
  assert.ok(!calls.some(u=>u.hostname==="api.tfl.gov.uk"),"Manchester must never be requested through TfL");
+ transferFixture=true;
+ const transferred=await ask(manchester,{
+  TRANSCAPI_API_KEY:'test-key',GEOAPIFY_API_KEY:'test-street-router'
+ });
+ transferFixture=false;
+ assert.equal(transferred.transit_available,true,'The UK journey should be returned with pedestrian transfer');
+ const change=transferred.transit[0].transferWalks?.[0];
+ assert.equal(change?.status,'verified',JSON.stringify(change));
+ assert.equal(change.walkingMinutes,10);
+ assert.equal(change.waitingMinutes,5);
+ assert.equal(change.walkingDistanceMeters,350);
+ assert.ok(transferred.transit[0].legs.some(l=>l.mode==='walking'&&l.transferWalk===true&&l.geometryAvailable));
+ assert.match(transferred.reply,/350 m/);
+ assert.match(transferred.reply,/10 min/);
+ assert.match(transferred.reply,/5 min/);
+ assert.equal(transferred.transit[0].transferFeasible,true);
  const scheduledDay=new Date(Date.now()+86400000).toISOString();
  const futureNational=await ask(manchester,{TRANSCAPI_API_KEY:'test-key'},{transit_departure_at:scheduledDay});
  assert.equal(futureNational.transit_available,true,'National planner supports a chosen future day');
