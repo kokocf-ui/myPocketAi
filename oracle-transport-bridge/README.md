@@ -1,138 +1,126 @@
-# Oracle → Cloudflare → Eva: secure transport bridge
+# PocketAI Oracle Transport — Cloudflare Workers VPC (no custom domain)
 
-**Status 2026-11-16:** Romania's private Oracle GTFS API has answered a real
-Bucharest–Ilfov planning request in 1.01 s. England's local GTFS service is
-healthy but has no imported indexed English feed. The Cloudflare tunnel is
-NOT deployed. The GitHub scripts are staged only, do not contain any secrets
-and will not run themselves. No APK is involved.
+## Why this architecture
 
-## Isolated upstream services
+Eva currently uses the Cloudflare Worker `lifewise-ai-api` and a
+`workers.dev` frontend. **A purchased domain is not required** to connect
+this Worker to the existing private Oracle services.
 
-| Destination | Origin reachable from Oracle | Current state |
-| --- | --- | --- |
-| Romania | `http://127.0.0.1:8766` | Imported `ro-b` indexed feed only |
-| England | `http://127.0.0.1:8768` | Empty catalog, health works |
-| Device communications | `127.0.0.1:8765` and `127.0.0.1:8767` | **Do not touch** |
+Cloudflare Workers VPC is in beta; during beta it is free for all Workers
+plans (normal Worker request/compute charges still apply). We use one
+Cloudflare Tunnel and **two tightly scoped VPC Services**, not public hostnames.
 
-Never map a transport hostname directly to Oracle's public IP or open inbound
-security-list ports 8766/8768. The tunnel connector only makes outbound
-connections to Cloudflare.
-
-## One-time Oracle package preparation (no token required)
-
-From the existing Oracle checkout:
-
-```bash
-cd /home/ubuntu/pocketai-transport-src
-git fetch origin feat/gtfs-sqlite-indexed-20261116
-git switch --detach FETCH_HEAD
-bash oracle-transport-bridge/preflight.sh
-bash oracle-transport-bridge/install-cloudflared.sh
+```text
+Eva / lifewise-ai-api.kokocf.workers.dev
+        |
+        | VPC binding (private, no public DNS)
+        |   RO_URBAN_VPC / EN_URBAN_VPC
+        v
+Cloudflare Workers VPC  ->  outbound Cloudflare Tunnel
+                                   |
+                     Oracle cloudflared connector
+                        |                      |
+          127.0.0.1:8766 (Romania)  127.0.0.1:8768 (England)
+                         (Communicare 8765/8767 untouched)
 ```
 
-The scripts do not restart the API containers, create DNS records, activate
-any tunnel, or interact with the communications gateway. The installer
-follows Cloudflare's signed APT repository; review before execution.
+The existing Oracle Bearer tokens remain mandatory in both clients as
+application-level authentication. The Worker holds them as secrets; do NOT
+publish token values in GitHub, screenshots, logs or messages.
+The earlier public-hostname + Access approach is a supported fallback only
+when a domain exists, but **is not required and is not our current plan**.
 
-## Cloudflare dashboard prerequisites
+## Current state (2026-11-16)
 
-A Cloudflare-managed domain is required for stable production hostnames.
+- Oracle: `pocketai-romania-urban` healthy, private port 8766; verified
+  București–Ilfov GTFS API: 4 itineraries, 1.01 seconds in the last live test.
+- Oracle: `pocketai-england-local` healthy, port 8768; **no licensed English
+  GTFS region imported yet**, so health is not evidence of route availability.
+- Communication: containers use ports 8765/8767, untouched by this project.
+- `cloudflared` 2026.11.0 installed on ARM64 Ubuntu, **not connected**.
+- VPC tunnel / services / Worker bindings are not yet configured.
+- No Android APK change or reinstall is required to configure this bridge.
 
-1. In Cloudflare > Networking > Tunnels, create **one remotely managed**
-   tunnel named `pocketai-oracle-transit`.
-2. In the tunnel's published applications, use distinct names under YOUR
-   existing Cloudflare domain, for example:
-   - `ro-transit.<your-domain>` → `http://localhost:8766`
-   - `en-transit.<your-domain>` → `http://localhost:8768`
-   Do not create a route for ports 8765/8767 or other application services.
-3. In Zero Trust > Access controls > Applications, protect EACH hostname
-   with a self-hosted Access application. Use a **Service Auth** policy
-   authorizing ONLY a dedicated service-token identity issued for the Eva
-   Worker. Do not set a Bypass/public Allow rule.
-4. In Zero Trust > Access controls > Service credentials > Service Tokens,
-   create a dedicated machine identity, retain its Client ID and Client
-   Secret in a password manager. They belong exclusively in Worker secrets.
-   Review expiration and rotation cadence.
-5. Only after Access is enforced should the Oracle tunnel connector be
-   activated. A hostname protected only with the Oracle API Bearer token
-   provides less defense in depth.
+## Step 1 — Cloudflare dashboard: Workers VPC
 
-## Activate connector without leaking tunnel token into shell history
+1. Open <https://dash.cloudflare.com/> and choose the same account hosting
+   `lifewise-ai-api`.
+2. Go to **Workers VPC → Tunnels → Create**, and name the tunnel
+   `pocketai-oracle-transit`.
+3. Choose Linux ARM64 for the Oracle host. Copy the **connector token**
+   privately. Do not paste the entire installation command into chats,
+   GitHub, screenshots or scripts.
+4. On Oracle, from the checked-out transport branch, run
+   `bash oracle-transport-bridge/activate-private-tunnel.sh` **interactively**.
+   The script requests the connector token without echoing it and saves
+   it with restricted local filesystem permissions. It installs an isolated
+   systemd unit called `pocketai-transit-tunnel.service`, leaving other
+   services alone. Stop if an existing unrelated cloudflared unit is active.
+5. Confirm the tunnel shows **Healthy** in Workers VPC.
+   QUIC connectivity needs outbound UDP 7844; do **not** open incoming
+   TCP 8766, 8768 or 7844.
 
-After Cloudflare dashboard routes + Access policies are configured:
+## Step 2 — two VPC Services, no public hostnames
 
-```bash
-# Run from an INTERACTIVE terminal on Oracle, not through a piped here-doc:
-bash oracle-transport-bridge/activate-private-tunnel.sh
+In **Workers VPC → VPC Services → Create**:
+
+| Name | Tunnel | Type | Target host | HTTP port |
+| ---- | ------ | ---- | ----------- | --------- |
+| `pocketai-romania-private` | pocketai-oracle-transit | HTTP | `127.0.0.1` | `8766` |
+| `pocketai-england-private` | pocketai-oracle-transit | HTTP | `127.0.0.1` | `8768` |
+
+Do not enable other services or grant VPC-wide network access. VPC Services
+are host/port scoped. Record only the generated service IDs, not any tokens.
+
+## Step 3 — bind the TWO services to the EXISTING Worker
+
+Extend `wrangler-backend.toml` (after filling in real Cloudflare service IDs):
+
+```toml
+[[vpc_services]]
+binding = "RO_URBAN_VPC"
+service_id = "<REAL_RO_SERVICE_ID>"
+remote = true
+
+[[vpc_services]]
+binding = "EN_URBAN_VPC"
+service_id = "<REAL_EN_SERVICE_ID>"
+remote = true
 ```
 
-The script prompts for the *tunnel connector token* without echoing it,
-stores it under root-controlled `/etc/pocketai-transit-tunnel/token`,
-and uses Cloudflare's `--token-file` flag in an isolated systemd unit
-`pocketai-transit-tunnel.service`. It checks that both local origins
-are up and does not modify `cloudflared.service` if another active
-connector already exists.
+No static service IDs should be committed before they are created. Keep the
+existing `RO_URBAN_API_TOKEN` and `EN_URBAN_API_TOKEN` Worker secrets.
+Do not set `RO_URBAN_API_URL` or `EN_URBAN_API_URL` for the VPC path.
+The adapter detects `env.RO_URBAN_VPC.fetch` / `env.EN_URBAN_VPC.fetch`,
+uses `http://localhost/v1/plan` through that **private binding**, and
+continues authenticating to Oracle with the existing Bearer token.
+In the VPC service, the preconfigured host and port override the URL target.
 
-On Oracle, the tunnel should connect. Confirm **Healthy** in Cloudflare.
-Healthy means the connector is attached, **not** that both data services
-have usable schedules.
+The `workers.dev` hostname stays the frontend/backend public entrypoint.
+The Oracle GTFS services are NOT made public. Do not deploy the Worker before
+testing its bindings safely and preserving the existing Durable Object
+communication configuration/migrations.
 
-## Worker secrets: HTTPS + Access identity + origin API bearer
+## Step 4 — validation / rollback
 
-Configure the **existing Eva Cloudflare Worker** using its normal secure
-deployment workflow; never put secret values in Git or screenshots.
+- Oracle `bash oracle-transport-bridge/preflight.sh`: both health endpoints
+  must work locally without showing secrets.
+- Cloudflare Workers VPC tunnel: Healthy.
+- Worker → `RO_URBAN_VPC` authenticates internally and returns real
+  scheduled routes (rather than inventing departure times).
+- `EN_URBAN_VPC` can be bound but remains not ready for real timetables
+  until a licensed English GTFS feed is imported and validated.
+- Confirm Communicare's API, database and gateway are still healthy.
+- To disable only this bridge:
+  `sudo systemctl stop pocketai-transit-tunnel.service`.
+  This does NOT stop the underlying Romanian/English API containers.
 
-| Secret name | Use |
-| --- | --- |
-| `RO_URBAN_API_URL` | `https://ro-transit.<your-domain>/` |
-| `RO_URBAN_API_TOKEN` | Private Oracle ROMANIA `RO_GATEWAY_TOKEN` |
-| `RO_URBAN_ACCESS_CLIENT_ID` | Cloudflare Access service identity Client ID |
-| `RO_URBAN_ACCESS_CLIENT_SECRET` | Cloudflare Access Client Secret |
-| `EN_URBAN_API_URL` | `https://en-transit.<your-domain>/` |
-| `EN_URBAN_API_TOKEN` | Private Oracle ENGLAND `RO_GATEWAY_TOKEN`, distinct from Romania |
-| `EN_URBAN_ACCESS_CLIENT_ID` | Authorized Access machine identity Client ID |
-| `EN_URBAN_ACCESS_CLIENT_SECRET` | Authorized Access Client Secret |
+Workers VPC is beta and can change. Confirm the Workers VPC feature appears
+in the account before proceeding.
 
-`ro_urban_client.mjs` and `en_urban_client.mjs` now send both Access
-headers plus the existing Bearer token, but ONLY to validated HTTPS URLs.
-Supplying one Access header without the other fails before any network call.
-The Cloudflare Worker, not the Android APK, holds the secrets.
+## Official Cloudflare docs
 
-## Validation without leaking secrets
-
-- From Oracle: `bash oracle-transport-bridge/preflight.sh` and
-  `systemctl is-active pocketai-transit-tunnel.service`.
-- From the Cloudflare dashboard: tunnel Healthy, two published services
-  bound to loopback, two Access applications with Service Auth policies.
-- From a client **without** Access credentials: both public hostnames
-  must be denied by Access (not return the JSON health payload).
-- Through the authenticated Worker: verify `/v1/plan` returns genuine
-  Romanian journeys for a location covered by the imported `ro-b` feed.
-- England: `/healthz` should work behind Access but **no timetables** should
-  be advertised until a current, licensed English feed is imported/indexed.
-- Communications 8765/8767 must remain healthy and unchanged.
-- After verification, monitor CPU/RAM and Cloudflare rate limiting.
-  Limit internal auth and geographic search volume before public rollout.
-
-## Rollback
-
-Stopping **only** the transport tunnel:
-
-```bash
-sudo systemctl stop pocketai-transit-tunnel.service
-```
-
-This does not stop transport's local containers or existing communications.
-Remove public routes and Access service identity in Cloudflare if disabling
-the connection permanently. Never share connector tokens or API credentials.
-
-## References
-
-- Cloudflare official Tunnel install:
-  https://developers.cloudflare.com/tunnel/features/locally-managed-tunnels/create-local-tunnel/
-- Cloudflare Tunnel routing:
-  https://developers.cloudflare.com/tunnel/concepts/routing/
-- Cloudflare Access service tokens:
-  https://developers.cloudflare.com/cloudflare-one/access-controls/service-credentials/service-tokens/
-- Cloudflare tunnel token-file:
-  https://developers.cloudflare.com/tunnel/reference/run-parameters/
+- <https://developers.cloudflare.com/workers-vpc/get-started/>
+- <https://developers.cloudflare.com/workers-vpc/configuration/vpc-services/>
+- <https://developers.cloudflare.com/workers-vpc/api/>
+- <https://developers.cloudflare.com/workers-vpc/platform/pricing/>
