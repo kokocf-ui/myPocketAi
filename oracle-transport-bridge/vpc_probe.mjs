@@ -22,6 +22,15 @@ function safeVPCError(e){
  const value=raw.match(/(?:^|[^a-z_])(connection_refused|connection_terminated|connection_timeout|connection_limit_reached|destination_unavailable|destination_not_found|destination_ip_prohibited|destination_ip_unroutable|proxy_loop_detected|dns_error|dns_timeout|tls_protocol_error|tls_certificate_error|connection_read_timeout|connection_write_timeout|rate_limited)(?=$|[^a-z_])/i)?.[1]?.toLowerCase();
  return VPC_ERRORS.has(value)?value:'unclassified';
 }
+function safeErrorClass(e){
+ const name=String(e?.name||'');
+ // The class name is an allowlisted primitive, not the exception message.
+ return ['TypeError','Error','DOMException','TimeoutError','AbortError','NetworkError','ReferenceError'].includes(name)?name:'Other';
+}
+function safeCauseCode(e){
+ const code=String(e?.cause?.code||e?.code||'');
+ return /^[a-z_0-9-]{1,48}$/i.test(code)?code:'none';
+}
 export async function checkPrivateTransport(env,region){
  const entry=SOURCES[region];
  if(!entry)return {region,status:'invalid_region'};
@@ -39,7 +48,7 @@ export async function checkPrivateTransport(env,region){
   const data=await res.json();
   if(data?.status!=='ok'||data?.country!==entry.country)
    return {region,status:'wrong_origin'};
- }catch(e){return {region,status:'health_unavailable',vpc_error:safeVPCError(e)}}
+ }catch(e){return {region,status:'health_unavailable',vpc_error:safeVPCError(e),error_class:safeErrorClass(e),cause_code:safeCauseCode(e)}}
  // Explicitly invalid Authorization tests that the real transport planner
  // rejects unauthenticated calls; it does not execute route planning.
  try{
