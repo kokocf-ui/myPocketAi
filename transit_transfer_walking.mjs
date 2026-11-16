@@ -131,8 +131,44 @@ export async function annotateTransitTransfers(env,journey,options={}){
  }
  const feasible=checks.some(c=>c.status==='impossible')?false:
   checks.every(c=>c.status==='verified'||c.status==='same_stop')?true:null;
+ const pedestrianTransferSegments=expanded.filter(l=>
+  l.transferWalk===true&&l.geometryAvailable===true&&Array.isArray(l.coordinates)&&l.coordinates.length>=2)
+  .map(l=>({mode:'walking',transferWalk:true,from:l.from,to:l.to,
+   distanceMeters:l.distanceMeters??null,durationMinutes:l.verifiedWalkingMinutes??l.durationMinutes??null,
+   coordinates:l.coordinates}));
  return {...journey,legs:expanded,transferWalks:checks,
   transferWalkingVerified:feasible===true,transferFeasible:feasible,
-  transferCount:positions.length-1,
+  transferCount:positions.length-1,pedestrianTransferSegments,
   transferPedestrianGeometryAvailable:checks.some(c=>c.geometryAvailable)};
+}
+
+/** Human-readable detail follows the exact transfer leg; never converts waiting to walking. */
+export function describeTransitTransferWalks(journey,language='ro'){
+ const english=language==='en';
+ const rows=Array.isArray(journey?.transferWalks)?journey.transferWalks:[];
+ const text=x=>String(x||'').trim().slice(0,80);
+ return rows.map((t,i)=>{
+  const from=text(t.from),to=text(t.to);
+  const title=english?'Change '+(i+1)+': ':'Schimbare '+(i+1)+': ';
+  if(t.status==='same_stop')return title+(english?
+   'same stop; check the platform and signs.':'aceeași stație; verifică peronul și indicatoarele.');
+  if(t.status==='verified'){
+   const dist=t.walkingDistanceMeters===null?'':t.walkingDistanceMeters+' m, ';
+   const minutes=t.walkingMinutes===null?'':(english?'about ':'aprox. ')+
+    t.walkingMinutes+(english?' min on foot':' min pe jos');
+   const wait=t.waitingMinutes===null?'':(english?
+    '; then '+t.waitingMinutes+' min to board':' ; apoi '+t.waitingMinutes+' min până la îmbarcare');
+   return title+(english?'walk ':'mergi pe jos ')+dist+minutes+
+    (english?' from ':' de la ')+from+(english?' to ':' până la ')+to+wait+'.';
+  }
+  if(t.status==='provider_timing_only')return title+(english?
+   'provider indicates a walking transfer, but its street-level map is not verified.':
+   'furnizorul indică un transfer pietonal, dar traseul pe străzi nu este verificat.');
+  if(t.status==='impossible')return title+(english?
+   'insufficient time for the checked pedestrian connection.':
+   'nu este timp suficient pentru legătura pietonală verificată.');
+  return title+(english?
+   'walking transfer not verified; check the platform and route.':
+   'traseul pietonal între stații nu este verificat; verifică legătura și peronul.');
+ }).join('\n');
 }
