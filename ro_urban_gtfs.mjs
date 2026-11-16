@@ -4,7 +4,22 @@
 const DEFAULT_ZONE='Europe/Bucharest';
 const VALID_ZONES=new Set([DEFAULT_ZONE,'Europe/London']);
 const weekdays=['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
-const modes=new Map([['0','tram'],['1','metro'],['2','train'],['3','bus'],['11','trolleybus']]);
+const modes=new Map([['0','tram'],['1','metro'],['2','train'],['3','bus'],
+ ['4','ferry'],['11','trolleybus']]);
+// Official GTFS-HVT extension; do not label a train-replacement bus as train.
+const vehicleMode=value=>{
+ const raw=String(value),n=Number(raw);
+ if(modes.has(raw))return modes.get(raw);
+ if(!Number.isSafeInteger(n))return 'public_transport';
+ if(n>=100&&n<200)return 'train';
+ if(n>=200&&n<210)return 'coach';
+ if(n>=400&&n<406)return 'metro';
+ if(n>=700&&n<800)return 'bus';
+ if(n===800)return 'trolleybus';
+ if(n>=900&&n<910)return 'tram';
+ if(n===1000||n===1200)return 'ferry';
+ return 'public_transport';
+};
 const validPoint=p=>p&&Number.isFinite(Number(p.latitude))&&Number.isFinite(Number(p.longitude))&&p.latitude!==null&&p.longitude!==null&&Math.abs(+p.latitude)<=90&&Math.abs(+p.longitude)<=180;
 const byId=(rows,key)=>new Map((rows||[]).filter(x=>x&&x[key]).map(x=>[String(x[key]),x]));
 const timeSec=v=>{const m=/^(\d{1,2}):(\d{2}):(\d{2})$/.exec(String(v??''));if(!m||+m[1]>47||+m[2]>59||+m[3]>59)return null;return +m[1]*3600 + +m[2]*60 + +m[3];};
@@ -38,7 +53,7 @@ function active(feed,day){
  return allowed;
 }
 function leg(ride,a,b){
- return {mode:modes.get(String(ride.route?.route_type))||'public_transport',
+ return {mode:vehicleMode(ride.route?.route_type),
   from:a.stop.stop_name,to:b.stop.stop_name,fromStopId:a.stop.stop_id,toStopId:b.stop.stop_id,
   departureTime:new Date(a.dep).toISOString(),arrivalTime:new Date(b.arr).toISOString(),
   lineNames:[String(ride.route?.route_short_name||ride.route?.route_long_name||ride.trip.trip_headsign||'').slice(0,60)].filter(Boolean),
