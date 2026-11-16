@@ -44,8 +44,14 @@ def region_readiness(region,audit=AUDIT,compact=COMPACT,live=LIVE):
     prior=safe_stat(original)
     opt=safe_stat(optimized)
     src_stops=index_info(audit/(region+".index.json"),original,region)
-    compact_stops=index_info(compact/(region+".index.json"),optimized,region)
+    compact_index=compact/(region+".index.json")
+    compact_stops=index_info(compact_index,optimized,region)
+    index_st=safe_stat(compact_index)
     if src_stops!=compact_stops:raise ValueError("source_and_compact_stops_differ:"+region)
+    def readable_by_container(stats):
+        return ((stats.st_uid==10001 and bool(stats.st_mode&stat.S_IRUSR)) or
+                (stats.st_gid==10001 and bool(stats.st_mode&stat.S_IRGRP)) or
+                bool(stats.st_mode&stat.S_IROTH))
     live_st=safe_stat(live,regular=False)
     return {"region":region,"indexed_stops":src_stops,
        "original_mib":round(prior.st_size/1048576,1),
@@ -55,10 +61,7 @@ def region_readiness(region,audit=AUDIT,compact=COMPACT,live=LIVE):
        "compact_file_user":opt.st_uid,
        "compact_file_group":opt.st_gid,
        "compact_file_mode":oct(stat.S_IMODE(opt.st_mode)),
-       "container_uid_10001_read_permission":(
-          (opt.st_uid==10001 and bool(opt.st_mode&stat.S_IRUSR)) or
-          (opt.st_gid==10001 and bool(opt.st_mode&stat.S_IRGRP)) or
-          bool(opt.st_mode&stat.S_IROTH))}
+       "container_uid_10001_read_permission":readable_by_container(opt) and readable_by_container(index_st)}
 
 def docker_state():
     def run(args,timeout=10):
@@ -74,8 +77,10 @@ def docker_state():
         state_report={"container_found":True,"running":state.get("Running",False),
            "health":state.get("Health",{}).get("Status","not_reported"),
            "feed_mount_expected":mounts==[str(LIVE)]}
-        check=run(["exec","--user","10001:10001","pocketai-england-local",
-                  "sh","-c","command -v node >/dev/null && command -v python3 >/dev/null"],timeout=10)
+        check=subprocess.run(["sudo","-n","docker","exec","--user","10001:10001",
+             "pocketai-england-local","sh","-c",
+             "command -v node >/dev/null && command -v python3 >/dev/null"],
+             capture_output=True,text=True,timeout=10)
         state_report["live_container_has_node_and_python"]=check.returncode==0
         return state_report
     except (OSError,subprocess.SubprocessError,ValueError,IndexError):
