@@ -41,3 +41,12 @@ export function compareMixedTransportOptions(journeys){
   }
   return {fastestIndex,cheapestIndex,priceStatus:'comparable',pricedCount,cheapestFare:fares[cheapestIndex]};
 }
+
+ // Serialize the verified pure functions into Eva's generated inline WebView script.
+ // Imported Node-side functions are not visible inside the Android WebView unless injected.
+export const MIXED_TRANSPORT_COMPARISON_SCRIPT=[
+ 'const isWalk='+isWalk.toString()+';',
+ 'const time='+time.toString()+';',
+ quotedTotalFare.toString(),
+ compareMixedTransportOptions.toString()
+].join('\n');
