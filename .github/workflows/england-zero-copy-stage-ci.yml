@@ -1,0 +1,32 @@
+name: England compact candidate zero-copy staging static checks
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/stage-england-zero-copy-candidate.sh'
+      - '.github/workflows/england-zero-copy-stage-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/stage-england-zero-copy-candidate.sh'
+      - '.github/workflows/england-zero-copy-stage-ci.yml'
+permissions:
+  contents: read
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          set -euo pipefail
+          F=oracle-transport-bridge/stage-england-zero-copy-candidate.sh
+          bash -n "$F"
+          grep -Fq 'sudo chgrp 10001 "$p"' "$F"
+          grep -Fq 'sudo chmod 0640 "$p"' "$F"
+          grep -Fq 'sudo ln "$p" "$q"' "$F"
+          grep -Fq ' --user 10001:10001' "$F"
+          grep -Fq -- '--network none' "$F"
+          grep -Fq -- '--read-only' "$F"
+          grep -Fq 'c.count!==9' "$F"
+          grep -Fq 'NOT LIVE.' "$F"
+          if grep -Eq 'docker (compose )?(restart|stop|up)|rm -rf|docker exec|chmod 777|chmod 644' "$F"; then exit 1; fi
