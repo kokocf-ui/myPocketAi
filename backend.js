@@ -3730,14 +3730,26 @@ export default {
           // may use TfL only when the whole journey falls in the London corridor;
           // the national fallback below supplies official verification links.
           if(internationalTarget){
+            // No airline requirement: train, coach, flight and ferry are all
+            // legitimate independently searchable intercity options on Omio.
+            // The Impact affiliate credential is NOT Omio Meta Search access.
+            // A validated external search is offered without inventing prices.
             const messageForDeparture=detail==='scheduled_search_not_supported'
-             ?(lang==='en'?'The connected international planner cannot search the selected departure date and time yet.':'Planificatorul internațional conectat nu poate căuta încă pentru data și ora alese.')
-             :reply;
+             ?(lang==='en'?'The connected international planner cannot search the selected departure date and time yet. You can compare trains, coaches, flights and ferries on Omio.':'Planificatorul internațional conectat nu poate căuta încă pentru data și ora alese. Poți compara trenuri, autocare, avioane și feriboturi pe Omio.')
+             :(lang==='en'
+               ?'I confirmed '+targetName+' as your destination. Eva cannot yet show verified international tickets and timetables directly. Search trains, coaches, flights and ferries on Omio; a flight is not required.'
+               :'Am confirmat destinația '+targetName+'. Eva nu poate afișa încă direct bilete și orare internaționale verificate. Caută pe Omio trenuri, autocare, avioane și feriboturi; zborul nu este obligatoriu.');
             return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
               reply:messageForDeparture,route_available:false,transit_available:false,
               international_journey:true,mixed_journey:true,international_destination:targetName,
               transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
-              transit_departure_at:departureAt,provider_status:{motis:detail},reason:detail});
+              transit_departure_at:departureAt,
+              // External website only. This is not an API search response and
+              // includes no pricing, schedule, or tracking attribution claim.
+              external_travel_search:{provider:'Omio',url:'https://www.omio.com',
+                travel_modes:['train','bus','flight','ferry'],requires_manual_search:true,
+                service_scope:'city_or_station',destination:targetName,departure_at:departureAt},
+              provider_status:{motis:detail},reason:detail});
           }
           transportErrors.motis=detail;
         }
