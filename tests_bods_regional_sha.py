@@ -45,6 +45,16 @@ class RegionalSha(unittest.TestCase):
             self.assertEqual(res["exact_archive_matches"],2)
             self.assertEqual(res["disk_bytes_written"],0)
             self.assertTrue(res["one_time_only_not_scheduled"])
+    def test_streamed_progress_after_each_completed_region(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);content=make_zip()
+            for region in ("en-em","en-ne"):write_provenance(root,region,content)
+            captured=[]
+            result=mod.audit(["en-em","en-ne"],root,Opener(content),
+                             on_result=captured.append)
+            self.assertEqual([x["region"] for x in captured],["en-em","en-ne"])
+            self.assertEqual(result["exact_archive_matches"],2)
+
     def test_differing_hash_is_never_marked_as_equal_timetables(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);content=make_zip()
