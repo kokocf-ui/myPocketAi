@@ -16,7 +16,7 @@ export async function planEnglandLocalGtfs(env,{from,to,departureAt=null,limit=4
  const useVPC=Boolean(vpc);
  if(useVPC&&typeof vpc.fetch!=='function')
   return {status:'invalid_vpc_binding',journeys:[],region};
- const base=useVPC?'http://localhost/':String(env?.EN_URBAN_API_URL||'').trim();
+ const base=useVPC?'http://england.pocketai.internal/':String(env?.EN_URBAN_API_URL||'').trim();
  const token=String(env?.EN_URBAN_API_TOKEN||'').trim();
  if(!base||token.length<32)return {status:'not_configured',journeys:[],region};
  const accessId=useVPC?'':String(env?.EN_URBAN_ACCESS_CLIENT_ID||'').trim();
@@ -28,7 +28,7 @@ export async function planEnglandLocalGtfs(env,{from,to,departureAt=null,limit=4
  let url;
  try{
   url=new URL(base);
-  if((useVPC?(url.protocol!=='http:'||url.hostname!=='localhost'):url.protocol!=='https:')||url.username||url.password||url.search||url.hash||
+  if((useVPC?(url.protocol!=='http:'||url.hostname!=='england.pocketai.internal'):url.protocol!=='https:')||url.username||url.password||url.search||url.hash||
      !url.hostname||(url.pathname!=='/'&&url.pathname!==''))throw Error('bad_endpoint');
   url.pathname='/v1/plan';
  }catch{return {status:'invalid_endpoint_config',journeys:[],region};}
