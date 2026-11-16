@@ -81,7 +81,7 @@ function showNationalTransitSearch(choice){
   try{
    // Keep the exact destination. Retry only the named station when the
    // geocoder cannot parse an address containing it; never select a town.
-   const stationRequest=/\\b(?:railway\\s+station|train\\s+station|station|gara|gară)\\b/i.test(query);
+   const stationRequest=/\b(?:railway\s+station|train\s+station|station|gara|gară)\b/i.test(query);
    const stationName=query.split(',')[0].trim();
    const fallback=stationRequest&&stationName!==query?stationName:'';
    let options=[];
@@ -92,7 +92,7 @@ function showNationalTransitSearch(choice){
     const candidates=(Array.isArray(data.candidates)?data.candidates:[]).filter(p=>String(p.country_code||'').toUpperCase()===country);
     options=stationRequest?candidates.filter(p=>{
      const name=String(p._name||p.label||'').toLowerCase(),kind=String(p.kind||'')+' '+String((p._categories||[]).join(' '));
-     const base=stationName.replace(/\\b(?:railway|train|station)\\b/gi,'').trim().toLowerCase();
+     const base=stationName.replace(/\b(?:railway|train|station)\b/gi,'').trim().toLowerCase();
      return name.includes(base)&&(/station|railway|public_transport|train|rail/i.test(kind)||/station|railway/i.test(name));
     }):candidates;
     if(options.length)break;
