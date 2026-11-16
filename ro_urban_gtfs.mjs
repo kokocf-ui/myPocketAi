@@ -109,6 +109,11 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
  }
  const result=[],seen=new Set(),walking=d=>Math.ceil((d*1.45)/1.2);
  const push=(legs,start,end)=>{
+  // Never present a physical ride between different stops as instantaneous.
+  // Some static feeds round or duplicate stop times. Such a leg is not a
+  // confirmed zero-minute journey, even when subsequent transfers appear valid.
+  if(legs.some(l=>l.fromStopId!==l.toStopId&&
+     Date.parse(l.arrivalTime)<=Date.parse(l.departureTime)))return;
   const key=legs.map(l=>l.fromStopId+'/'+l.toStopId+'/'+l.departureTime).join('|');
   if(seen.has(key))return;
   seen.add(key);
