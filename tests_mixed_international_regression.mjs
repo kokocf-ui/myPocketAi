@@ -28,7 +28,7 @@ assert.ok(backend.includes('if(roTransitQuery && (env.BILO_API_KEY || !env.MOTIS
 assert.ok(backend.includes('if(internationalTarget||explicitMixedJourney||ukRegionalJourney)'));
 assert.ok(backend.includes("!String(env.MOTIS_API_BASE_URL||'').trim()?{status:'not_configured',journeys:[]}"));
 assert.ok(backend.includes('transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName}'));
-assert.ok(backend.includes('transit_departure_at:departureAt,provider_status:{motis:detail},reason:detail'));
+assert.ok(backend.includes('departure_at:departureAt},')&&backend.includes('provider_status:{motis:detail},reason:detail'),'Departure remains available in the fallback response with sanitized provider status');
 const inline=readFileSync(new URL('./one_field_journey_ui.mjs',import.meta.url),'utf8');
 assert.ok(inline.includes('journeyOrigin:from,transitDestination:point,transitQuery:point.label'));
 assert.ok(inline.includes("initialDepartureAt=null"));
