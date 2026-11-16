@@ -56,7 +56,7 @@ test('Unknown walking geometry fails closed without fabricated metres or minutes
  assert.equal(out.legs.length,2);
 });
 test('Identical verified stop ID needs transfer time but not invented outdoor footpath',async()=>{
- const j=make();j.legs[0].toStopId='B';j.legs[1].fromStopId='B';
+ const j=make();j.legs[0].toStopId='B';j.legs[1].fromStopId='B';j.legs[1].departurePoint=A;
  const out=await annotateTransitTransfers({},j);
  assert.equal(out.transferFeasible,true);
  assert.equal(out.transferWalks[0].status,'same_stop');
