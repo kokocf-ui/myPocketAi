@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
+const oneField=readFileSync(new URL('./one_field_journey_ui.mjs',import.meta.url),'utf8');
+assert.ok(frontend.includes("import {MIXED_TRANSPORT_COMPARISON_SCRIPT} from './mixed_transport_comparison.mjs';"));
+assert.ok(frontend.includes("if(state.lastTransitChoice?.mixedJourney===true)appendMixedTransitComparison(body,available)"));
+assert.ok(frontend.includes('${MIXED_TRANSPORT_COMPARISON_SCRIPT}'));
+assert.ok(frontend.includes("const rank=compareMixedTransportOptions(options)"));
+assert.ok(frontend.includes("b.onclick=()=>void selectTransitJourney(options,index)"));
+assert.ok(frontend.includes("rank.cheapestIndex!==null"));
+assert.ok(frontend.includes("rank.fastestIndex!==null"));
+assert.ok(frontend.includes("rank.priceStatus!=='comparable'"));
+assert.ok(frontend.includes("Prețuri")||frontend.includes("prețuri totale comparabile"));
+assert.ok(oneField.includes("mixedJourney:true,transitDirect:true"));
+assert.ok(oneField.includes("createTransportDepartureStep"));
+console.log('PASS mixed UI: gated to mixed travel, calendar retained, safe comparison and clickable choices');

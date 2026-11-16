@@ -3,6 +3,7 @@ import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathwa
 import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs';
 import {assistantBareDestinationQuery,assistantJourneyHandoff,parseJourneyExpression} from './assistant_bare_destination.mjs';
 import {ONE_FIELD_JOURNEY_SCRIPT} from './one_field_journey_ui.mjs';
+import {MIXED_TRANSPORT_COMPARISON_SCRIPT} from './mixed_transport_comparison.mjs';
 import {NATIONAL_PUBLIC_TRANSPORT_SCRIPT} from './national_public_transport_ui.mjs';
 import {ACCOUNT_STYLE,ACCOUNT_HTML,ACCOUNT_SCRIPT} from './account_settings_ui.mjs';
 import {COMMUNICATION_HTML,COMMUNICATION_STYLE,COMMUNICATION_SCRIPT} from './communication_ui.mjs';
@@ -17259,6 +17260,7 @@ ${parseJourneyExpression.toString()}
 ${assistantJourneyHandoff.toString()}
 ${ONE_FIELD_JOURNEY_SCRIPT}
 ${NATIONAL_PUBLIC_TRANSPORT_SCRIPT}
+${MIXED_TRANSPORT_COMPARISON_SCRIPT}
 function showJourneyMode(choice){
  if(choice?.mixedJourney){showOneFieldJourney(choice);return;}
  state.moduleSearchCategory=choice;
@@ -18876,6 +18878,54 @@ async function refreshTransitDepartures(button){
   if(button?.isConnected){button.disabled=false;button.textContent=original}
  }
 }
+function appendMixedTransitComparison(host,options){
+ // Only Deplasare spre > Transport mixt. Reuse the identical verified options
+ // shown below; links go to existing detail/navigation, not third-party checkout.
+ if(!Array.isArray(options)||!options.length)return;
+ const rank=compareMixedTransportOptions(options);
+ const ro=state.language==='ro';
+ const wrap=document.createElement('section');wrap.className='mixed-journey-comparison';
+ wrap.style.cssText='display:flex;flex-direction:column;gap:6px;min-width:0;margin:1px 0 6px';
+ const title=document.createElement('strong');
+ title.textContent=ro?'Compară variantele găsite':'Compare available options';
+ title.style.cssText='font-size:14px';
+ wrap.append(title);
+ const row=document.createElement('div');
+ row.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));gap:8px;min-width:0';
+ const pick=(label,detail,index)=>{
+  const b=document.createElement('button');b.type='button';
+  b.className='transit-choice-action mixed-comparison-choice';
+  b.style.cssText='width:100%;min-width:0;min-height:52px;padding:9px 10px;display:flex;flex-direction:column;gap:3px;align-items:flex-start;text-align:left;border:1px solid #a35b7a;border-radius:12px';
+  const name=document.createElement('strong');name.textContent=label;name.style.cssText='font-size:14px';
+  const sub=document.createElement('small');sub.textContent=detail;sub.style.cssText='font-size:12px;opacity:.9';
+  b.append(name,sub);b.onclick=()=>void selectTransitJourney(options,index);row.append(b);
+ };
+ if(rank.fastestIndex!==null){
+  const journey=options[rank.fastestIndex],zone=journey.time_zone;
+  const arrival=transitClock(journey.arrivalDateTime||journey.legs?.at(-1)?.arrivalTime,zone);
+  pick(ro?'⚡ Sosirea cea mai rapidă':'⚡ Earliest arrival',
+   (ro?'Sosire ':'Arrival ')+arrival+' · '+formatTravelDurationMinutes(journey.durationMinutes),rank.fastestIndex);
+ }
+ if(rank.cheapestIndex!==null){
+  const amount=rank.cheapestFare.amount.toLocaleString(state.language||'ro',{maximumFractionDigits:2});
+  pick(ro?'💰 Cel mai ieftin tarif afișat':'💰 Lowest displayed fare',
+   amount+' '+rank.cheapestFare.currency,rank.cheapestIndex);
+ }
+ if(row.children.length)wrap.append(row);
+ if(rank.priceStatus!=='comparable'){
+  const notice=document.createElement('p');notice.className='mixed-compare-price-unavailable';
+  notice.style.cssText='font-size:12px;line-height:1.4;margin:1px 0 0;color:#c9d9e2';
+  notice.textContent=ro?'Nu pot confirma cea mai ieftină variantă: lipsesc prețuri totale comparabile pentru toate traseele.':
+   'Cheapest option not confirmed: complete, comparable fares are unavailable for every route.';
+  wrap.append(notice);
+ }else{
+  const note=document.createElement('small');note.style.cssText='font-size:12px;opacity:.85';
+  note.textContent=ro?'Tarife furnizate de operatori; verifică prețul final înainte de rezervare.':
+   'Provider-published fares; verify final price before booking.';
+  wrap.append(note);
+ }
+ host.append(wrap);
+}
 function renderTransitChoices(options,selectedIndex=null){
  dismissSelectionKeyboard();
  document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
@@ -18936,7 +18986,7 @@ function renderTransitChoices(options,selectedIndex=null){
  }
  const available=feasibleTransitChoices(options);
  if(!available.length){const p=document.createElement('p');p.className='transit-access-status';p.textContent=transitRefreshText()[5];body.append(p)}
- else appendTransitCards(body,available);
+ else {if(state.lastTransitChoice?.mixedJourney===true)appendMixedTransitComparison(body,available);appendTransitCards(body,available)}
  if(state.lastTransitResponse?.transit_destination_point){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action transit-refresh-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
 }
 
