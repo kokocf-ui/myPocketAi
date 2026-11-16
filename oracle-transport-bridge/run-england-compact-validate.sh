@@ -68,7 +68,7 @@ fi
 echo "=== COMPARE EVERY GTFS ROW ==="
 nice -n 10 python3 "$S/oracle-transport-bridge/verify-east-anglia-compact.py" --region "$REGION"
 echo "=== COMPARE REAL DATED NODE HTTP JOURNEYS ==="
-bash "$S/oracle-transport-bridge/run-east-anglia-http-isolated.sh" --region "$REGION"
+bash "$S/oracle-transport-bridge/run-east-anglia-http-isolated.sh" --region "$REGION" --repeats 5
 echo "=== AVAILABLE DISK ==="
 df -h "$P"
-echo "PASS: $REGION data and real HTTP journey sample agree; PILOT ONLY, NOT LIVE"
+echo "PASS: $REGION all rows agree and 5 repeated real HTTP journey samples agree; PILOT ONLY, NOT LIVE"
