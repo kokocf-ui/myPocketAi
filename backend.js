@@ -40,7 +40,7 @@ import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.
 import {planEnglandLocalGtfs,englandLocalGtfsRegion} from "./en_urban_client.mjs";
 import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints,groupRomanianJourneys} from "./ro_transport_mode_policy.mjs";
 import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
-import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
+import {addRomanianWalkingAccess,rankRomanianUrbanDoorToDoor} from "./ro_urban_walking.mjs";
 import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
@@ -3304,12 +3304,12 @@ export default {
           // An unverified access walk remains available with a clear notice;
           // a VERIFIED but uncatchable departure is not offered.
           const requestedUrbanMs=selectedUrbanAt?Date.parse(selectedUrbanAt):Date.now();
-          const journeys=journeyCandidates.filter(j=>{
+          const journeys=rankRomanianUrbanDoorToDoor(journeyCandidates.filter(j=>{
             if(!j?.accessWalkVerified)return true;
             const departureMs=Date.parse(j.firstVehicleDepartureTime);
             return !Number.isFinite(departureMs)||
               departureMs >= requestedUrbanMs+(j.walkToFirstStopMinutes+5)*60000;
-          });
+          }));
           if(!journeys.length){
             return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
               message_received:message,mixed_journey:true,romanian_urban_journey:true,
