@@ -30,6 +30,9 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - name: Validate scripts without executing privileged commands
         run: |
           bash -n oracle-transport-bridge/preflight.sh
@@ -57,6 +60,9 @@ jobs:
           ]
           print('PASS: VPC services and communication Durable Object preserved')
           PY
+      - name: Dry-run Worker VPC bundle with current Wrangler (no deployment)
+        run: |
+          npx --yes wrangler@latest deploy --dry-run --config wrangler-backend.toml --outdir /tmp/pocketai-vpc-worker-dryrun
       - name: Verify no leaked credentials in bridge scripts
         run: |
           node --input-type=module <<'NODE'
