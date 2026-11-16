@@ -8,6 +8,8 @@ on:
       - 'ro_urban_client.mjs'
       - 'en_urban_client.mjs'
       - 'tests_ro_urban_client.mjs'
+      - 'tests_romania_provider_readiness.mjs'
+      - 'backend.js'
       - 'tests_en_urban_access.mjs'
       - 'wrangler-backend.toml'
       - 'tests_workers_vpc_bindings.mjs'
@@ -18,6 +20,8 @@ on:
       - 'ro_urban_client.mjs'
       - 'en_urban_client.mjs'
       - 'tests_ro_urban_client.mjs'
+      - 'tests_romania_provider_readiness.mjs'
+      - 'backend.js'
       - 'tests_en_urban_access.mjs'
       - 'wrangler-backend.toml'
       - 'tests_workers_vpc_bindings.mjs'
@@ -43,6 +47,7 @@ jobs:
           node --check ro_urban_client.mjs
           node --check en_urban_client.mjs
           node --test tests_ro_urban_client.mjs tests_en_urban_access.mjs tests_workers_vpc_bindings.mjs
+          node tests_romania_provider_readiness.mjs
       - name: Parse actual Wrangler TOML and preserve communication bindings
         run: |
           python3 - <<'PY'
