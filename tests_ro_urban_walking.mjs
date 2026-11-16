@@ -50,3 +50,18 @@ test('Bad or geometry-free walking results are not considered verified',async()=
  assert.equal(out.walkingAccessVerified,false);
  assert.equal(out.walkingEgressVerified,false);
 });
+
+test('Door-to-door ranking prioritizes verified final arrival over nominal vehicle arrival',async()=>{
+ const {rankRomanianUrbanDoorToDoor}=await import('./ro_urban_walking.mjs');
+ const sample=(name,arrival,final,verified=true)=>({
+  name,arrivalDateTime:arrival,arrivalAtDestinationTime:final,
+  walkingAccessVerified:verified,walkingEgressVerified:verified,
+  transferCount:0,legs:[{mode:'bus'}]
+ });
+ const earlyStopLateDoor=sample('late door','2026-11-17T06:20:00Z','2026-11-17T06:40:00Z');
+ const laterStopEarlyDoor=sample('early door','2026-11-17T06:23:00Z','2026-11-17T06:28:00Z');
+ const unknownWalk=sample('unknown','2026-11-17T06:18:00Z',null,false);
+ const ranked=rankRomanianUrbanDoorToDoor([earlyStopLateDoor,unknownWalk,laterStopEarlyDoor]);
+ assert.deepEqual(ranked.map(j=>j.name),['early door','late door','unknown']);
+ assert.equal(earlyStopLateDoor.name,'late door','Do not mutate original journeys');
+});
