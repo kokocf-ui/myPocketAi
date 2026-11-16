@@ -69,7 +69,7 @@ export function openGtfsFeedCatalog(dir,{country='RO'}={}){
           const s=statFile(snapshot);
           if(!s||s.size!==index.snapshotBytes||Math.trunc(s.mtimeMs)!==index.snapshotMtimeMs)return null;
           const res=await queryGtfsSqlite(snapshot,{from,to,date,radius});
-          return res.feed||null;
+          return res.feed||{__sqlite_status:res.status||'no_verified_itinerary'};
         }:()=>{const s=statFile(snapshot);
           if(!s||s.size!==index.snapshotBytes||Math.trunc(s.mtimeMs)!==index.snapshotMtimeMs)
             return null; // Explicit reindex after updating a feed.
