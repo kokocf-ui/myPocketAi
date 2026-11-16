@@ -125,7 +125,19 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
    }
   }
  }
- for(const options of arrivals.values())options.sort((a,b)=>a.entry.dep-b.entry.dep);
+ for(const [stopId,options] of arrivals){
+  options.sort((a,b)=>a.entry.dep-b.entry.dep);
+  // Repeated GTFS trips with identical line, platform and timetable are
+  // equivalent transfer options. Collapse them before searching connections.
+  const keys=new Set(),unique=[];
+  for(const item of options){
+   const end=item.ride.entries[item.destIndex];
+   const key=[item.ride.trip.route_id,item.entry.dep,end.stop.stop_id,end.arr].join('|');
+   if(keys.has(key))continue;
+   keys.add(key);unique.push(item);
+  }
+  arrivals.set(stopId,unique);
+ }
  const result=[],seen=new Set(),walking=d=>Math.ceil((d*1.45)/1.2);
  const max=Math.min(6,Math.max(1,Math.floor(Number(options.maxResults)||4)));
  const compare=(a,b)=>Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime)||
