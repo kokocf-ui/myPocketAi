@@ -18962,6 +18962,108 @@ async function transitStreetPath(from,to,label,signal){
  const result=await response.json();
  return result.status==='success'&&result.route_available===true&&transitVerifiedPath(result.route,from,to)?result.route:null;
 }
+
+function beginTransitVisualTracking(current){
+ if(!current||!current.map||current.navigating||activeRouteMap!==current)return;
+ current.navigating=true;current.follow=true;
+ current.layer.classList.add('navigating');
+ document.body.classList.add('pocket-navigation-fullscreen');
+ // Route planning uses a small overview map; actual navigation needs a
+ // centred, zoomed view, with the next walking instruction still visible.
+ current.mapHost.style.setProperty('height','clamp(250px,57dvh,620px)','important');
+ current.mapHost.style.setProperty('max-height','none','important');
+ current.details.style.setProperty('max-height','35dvh','important');
+ current.layer.style.bottom='0px';
+ current.recenter.hidden=false;current.followButton.textContent=dialogText('Recentrează pe GPS','Follow GPS');
+ current.map.invalidateSize();
+ current.map.on('dragstart',()=>{current.follow=false;current.recenter.hidden=false});
+ current.recenter.onclick=()=>{current.follow=true;
+  if(current.lastFix)current.map.setView(current.lastFix,17,{animate:false})};
+ current.liveStatus.textContent=dialogText('Aștept poziția GPS pentru navigare…','Waiting for GPS position…');
+ if(!navigator.geolocation?.watchPosition){
+  current.liveStatus.textContent=dialogText('GPS indisponibil pentru urmărirea hărții. Vocea Android poate rămâne activă.',
+   'Map tracking GPS is unavailable. Android voice guidance may continue.');
+  return;
+ }
+ const onLocation=position=>{
+  if(activeRouteMap!==current||!current.navigating)return;
+  const c=position?.coords,age=Date.now()-Number(position?.timestamp);
+  if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||
+     !Number.isFinite(c.accuracy)||age>30000||age< -5000)return;
+  current.lastFix=[c.latitude,c.longitude];
+  if(!current.liveMarker)current.liveMarker=current.leaflet.circleMarker(current.lastFix,{
+    radius:9,color:'#fff',weight:3,fillColor:'#04c9d4',fillOpacity:1}).addTo(current.map);
+  else current.liveMarker.setLatLng(current.lastFix);
+  if(c.accuracy>60){
+   current.liveStatus.textContent=dialogText('Precizie GPS redusă','GPS accuracy low')+
+    ' ±'+Math.round(c.accuracy)+' m';return;
+  }
+  if(current.follow)current.map.setView(current.lastFix,17,{animate:false});
+  let heading=Number.isFinite(c.heading)&&c.heading>=0&&Number(c.speed)>=.5?c.heading:null;
+  if(heading===null&&current.previousFix){
+   const delta=transitDistance({latitude:current.previousFix[0],longitude:current.previousFix[1]},
+     {latitude:c.latitude,longitude:c.longitude});
+   if(delta>=8)heading=routeBearing(current.previousFix[0],current.previousFix[1],c.latitude,c.longitude);
+  }
+  if(heading===null){
+   let nearest=null;
+   for(const route of current.walkRoutes.values()){
+    const projected=projectWalkingPosition(route,c.latitude,c.longitude);
+    if(!nearest||projected.away<nearest.away)nearest={route,away:projected.away};
+   }
+   if(nearest&&nearest.away<Math.max(40,2*c.accuracy))
+    heading=nearestRouteBearing(nearest.route,c.latitude,c.longitude);
+  }
+  current.previousFix=current.lastFix;
+  if(Number.isFinite(heading)&&typeof current.map.setHeading==='function')
+   current.map.setHeading(heading);
+  let closest=null;
+  for(const [index,route] of current.walkRoutes){
+   const match=projectWalkingPosition(route,c.latitude,c.longitude);
+   if(!closest||match.away<closest.away)closest={index,route,...match};
+  }
+  if(closest&&closest.away<=Math.max(45,c.accuracy*2)){
+   const label=closest.index===-1?String(current.journey.boarding_stop?.label||'stație'):
+    String(current.journey.legs?.[closest.index]?.to||'următoarea legătură');
+   current.liveStatus.textContent='📌 '+dialogText('Spre ','Towards ')+label+
+    ' · '+Math.round(closest.remaining)+' m · GPS ±'+Math.round(c.accuracy)+' m';
+  }else current.liveStatus.textContent=dialogText('Urmărește punctul albastru; caut transferul pietonal verificat.',
+   'Follow the blue marker; looking for a verified walking transfer.');
+ };
+ const onError=error=>{if(activeRouteMap!==current)return;current.liveStatus.textContent=
+  error?.code===1?dialogText('Permite GPS pentru urmărirea pe hartă.','Allow location for map tracking.'):
+  dialogText('Semnal GPS indisponibil; navigația vocală Android continuă dacă este activă.',
+   'GPS fix unavailable; Android voice navigation may continue.')};
+ try{current.watchId=navigator.geolocation.watchPosition(onLocation,onError,{
+  enableHighAccuracy:true,maximumAge:0,timeout:12000})}
+ catch(error){onError(error)}
+}
+function restoreTransitSessionFromNative(raw){
+ if(activeRouteMap?.layer?.classList.contains('transit-full-journey-map')){
+  if(activeRouteMap.map&&!activeRouteMap.navigating)beginTransitVisualTracking(activeRouteMap);
+  return;
+ }
+ try{
+  const saved=JSON.parse(raw||'{}'),context=saved.navigationContext;
+  if(saved.action!=='start'||!context?.journey||!Array.isArray(saved.walkingLegs)||
+    !saved.walkingLegs.length||!Array.isArray(context.journey.legs))return;
+  if(state.currentView!=='module'||state.currentModule!=='maps')openModule('maps');
+  // Recover the destination and the exact previously selected journey.
+  // Do not start a fresh search or replace a named station by a town centre.
+  state.lastTransitResponse={transit_destination_point:context.destinationPoint||null};
+  state.lastTransitChoice={kind:'transit',nationalPublicTransport:true,transitDirect:true,
+    transitDestination:context.destinationPoint||null,transitDepartureAt:context.journey.startDateTime||null};
+  const selected={journey:context.journey,options:[context.journey],index:0,
+    loading:false,error:'',accessRoute:context.accessRoute||null,
+    accessOptions:[],resumed:true};
+  state.selectedTransitJourney=selected;
+  $('moduleQuickLayer')?.classList.add('open');
+  $('moduleQuickLayer')?.setAttribute('aria-hidden','false');
+  void openTransitJourneyMap(selected,{walkingLegs:saved.walkingLegs,resumed:true});
+ }catch(err){console.warn('Could not restore active GPS route',err)}
+}
+window.pocketRestoreNavigationSession=restoreTransitSessionFromNative;
+
 async function openTransitJourneyMap(selected){
  const journey=selected?.journey;if(!journey)return;
  dismissSelectionKeyboard();closeAnswerReader(false);closeRouteMap(false);inputEl.blur();
