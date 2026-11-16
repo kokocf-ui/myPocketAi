@@ -25,7 +25,7 @@ operator-approved snapshots:
 These slots DO NOT certify a timetable for a given region.
 
 ## Setup, on the existing Oracle VM
-1. Check that `127.0.0.1:8767` is free and there is spare disk and RAM.
+1. Check that `127.0.0.1:8768` is free and there is spare disk and RAM.
    Do not touch the existing communications services.
 2. Prepare private feed storage:
 
@@ -53,9 +53,9 @@ These slots DO NOT certify a timetable for a given region.
    implementation but must be different from Romania's token.
 
 5. From `oracle-england-transport/` verify `docker compose config --quiet`,
-   then start `docker compose up -d --build`. Host port 8767 is bound to
+   then start `docker compose up -d --build`. Host port 8768 is bound to
    loopback only; never open it in Oracle network security rules.
-6. Verify `curl -fsS http://127.0.0.1:8767/healthz`. This health check does
+6. Verify `curl -fsS http://127.0.0.1:8768/healthz`. This health check does
    not prove the existence of real, current scheduled services.
 7. Only after a live, authenticated HTTPS reverse tunnel/proxy is configured,
    create separate Cloudflare secrets `EN_URBAN_API_URL` and
