@@ -1,4 +1,11 @@
 // Omio referral URL adapter; no private API access, no scraping, no ticket purchases.
+// User-provided Impact tracking link; use verbatim (no fabricated partner ID).
+export const OMIO_TRACKING_LINK='https://omio.sjv.io/WOoqQn';
+// A generic referral link cannot pre-fill departure, destination or dates.
+// Explicitly approved Android channel required before rendering this action.
+export function omioGeneralReferralUrl({mobileAppApproved=false}={}){
+ return mobileAppApproved===true?OMIO_TRACKING_LINK:null;
+}
 // Source: https://www.omio.com/affiliate/search-widget (redirect link instructions).
 // Do not enable Android referral traffic until the Omio affiliate team approves the app.
 const OMIO_LINK_BASE='https://www.omio.com/links/626fa8a9-f982-43d0-ace9-9a13f6b14612';
