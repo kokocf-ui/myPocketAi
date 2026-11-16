@@ -33,7 +33,6 @@ function showNationalTransitSearch(choice){
  const status=document.createElement('p');status.textContent=t('waiting');status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.style.cssText='margin:0;min-height:22px;font-size:13px;color:#c8e0e9';
  const choices=document.createElement('div');choices.className='national-transit-suggestions';choices.style.cssText='display:flex;flex-direction:column;gap:7px;max-height:40dvh;overflow-y:auto;overscroll-behavior:contain';
  const selectedText=document.createElement('p');selectedText.style.cssText='font-weight:700;margin:0;overflow-wrap:anywhere';
- const actions=document.createElement('div');actions.style.cssText='display:flex;gap:9px';
  const createButton=(caption,click)=>{const btn=document.createElement('button');btn.type='button';btn.className='module-result-card journey-primary-action';btn.style.cssText='min-width:0;min-height:55px;flex:1 1 0;padding:10px 12px;white-space:normal;font-size:15px;font-weight:750;touch-action:manipulation';btn.textContent=caption;btn.onclick=click;return btn};
  let country='',point=null,origin=null,seq=0,timer=null,abort=null;
  const session={stop(){seq++;clearTimeout(timer);abort?.abort()}};nationalTransitSession=session;
@@ -74,18 +73,31 @@ function showNationalTransitSearch(choice){
   root.replaceChildren(step);
   resetCalendarScroll();
  };
- const back=createButton(t('back'),()=>{session.stop();handleModuleLayerBack()});back.classList.add('pocket-nav-return');
- back.style.cssText+=';background:linear-gradient(145deg,#903550,#602139)!important;border:2px solid #e9a9b8!important;color:white!important;box-shadow:inset 0 2px 0 #ffffff30,inset 0 -4px 0 #2a1020,0 4px 0 #341426,0 7px 12px #0006!important';
- actions.append(back);
+ // The parent quick-layer header already provides Back.
  const lookup=async()=>{
   if(!alive()||!country)return;
   const query=field.value.trim();if(query.length<2){status.textContent=t('short');return}
   const n=++seq;abort?.abort();abort=new AbortController();status.textContent=t('lookup');
   try{
-   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal:abort.signal,body:JSON.stringify({journey_suggest:{query,country_code:country,location:origin}})});
-   const data=await response.json();if(!response.ok)throw Error('search_unavailable');
+   // Keep the exact destination. Retry only the named station when the
+   // geocoder cannot parse an address containing it; never select a town.
+   const stationRequest=/\\b(?:railway\\s+station|train\\s+station|station|gara|gară)\\b/i.test(query);
+   const stationName=query.split(',')[0].trim();
+   const fallback=stationRequest&&stationName!==query?stationName:'';
+   let options=[];
+   for(const attempt of [query,...(fallback?[fallback]:[])]){
+    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal:abort.signal,body:JSON.stringify({journey_suggest:{query:attempt,country_code:country,location:origin}})});
+    const data=await response.json();if(!response.ok)throw Error('search_unavailable');
+    if(!alive()||n!==seq)return;
+    const candidates=(Array.isArray(data.candidates)?data.candidates:[]).filter(p=>String(p.country_code||'').toUpperCase()===country);
+    options=stationRequest?candidates.filter(p=>{
+     const name=String(p._name||p.label||'').toLowerCase(),kind=String(p.kind||'')+' '+String((p._categories||[]).join(' '));
+     const base=stationName.replace(/\\b(?:railway|train|station)\\b/gi,'').trim().toLowerCase();
+     return name.includes(base)&&(/station|railway|public_transport|train|rail/i.test(kind)||/station|railway/i.test(name));
+    }):candidates;
+    if(options.length)break;
+   }
    if(!alive()||n!==seq)return;choices.replaceChildren();
-   const options=(Array.isArray(data.candidates)?data.candidates:[]).filter(p=>String(p.country_code||'').toUpperCase()===country);
    status.textContent=options.length?'':t('noresults');
    for(const candidate of options.slice(0,8)){
     const btn=createButton(String(candidate.label||''),()=>{
@@ -103,9 +115,9 @@ function showNationalTransitSearch(choice){
   timer=setTimeout(()=>void lookup(),300);
  });
  field.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();if(point)openDeparture();else{clearTimeout(timer);void lookup()}}});
- const retry=createButton(t('retry'),()=>void detect());retry.style.cssText+=';display:none';
+ const retry=createButton(t('retry'),()=>void detect());retry.hidden=true;retry.style.display='none';
  const detect=async()=>{
-  country='';point=null;field.disabled=true;choices.replaceChildren();selectedText.textContent='';status.textContent=t('waiting');retry.style.display='none';
+  country='';point=null;field.disabled=true;choices.replaceChildren();selectedText.textContent='';status.textContent=t('waiting');retry.hidden=true;retry.style.display='none';
   try{
    origin=await getCurrentCoordinates(false);if(!alive())return;
    if(!Number.isFinite(origin?.latitude)||!Number.isFinite(origin?.longitude))throw Error('gps_denied');
@@ -113,7 +125,7 @@ function showNationalTransitSearch(choice){
    const data=await response.json();if(!alive())return;
    const code=String(data.country_code||'').toUpperCase();
    if(!response.ok||!/^[A-Z]{2}$/.test(code))throw Error('country_unverified');
-   if(data.supported!==true){status.textContent=t('unsupported');retry.style.display='';return}
+   if(data.supported!==true){status.textContent=t('unsupported');retry.hidden=false;retry.style.display='block';return}
    country=code;field.disabled=false;let name=country;
    try{name=new Intl.DisplayNames([state.language||'ro'],{type:'region'}).of(country)||country}catch{}
    // A connected provider is not proof of live timetables. Show exactly
@@ -126,9 +138,18 @@ function showNationalTransitSearch(choice){
       (coverage.intercity_configured?(ro?'configurat':'configured'):(ro?'neconfigurat':'not configured'))+
       ' · '+(ro?'Transport urban':'City transport')+': '+
       (coverage.urban_configured?(ro?'configurat':'configured'):(ro?'neconfigurat':'not configured')):'');
-  }catch(e){if(alive()){status.textContent=e?.message==='gps_denied'?t('denied'):t('unknown');retry.style.display=''}}
+   const saved=choice?.transitDestination;
+   if(saved&&Number.isFinite(Number(saved.latitude))&&Number.isFinite(Number(saved.longitude))&&
+      String(saved.country_code||country).toUpperCase()===country){
+    point={...saved,country_code:country};field.value=String(point.label||'');
+    const again=createButton(field.value,()=>openDeparture());
+    again.className='transit-choice-action journey-suggestion';
+    again.style.flex='0 0 auto';again.style.width='100%';again.style.textAlign='left';
+    choices.replaceChildren(again);
+   }
+  }catch(e){if(alive()){status.textContent=e?.message==='gps_denied'?t('denied'):t('unknown');retry.hidden=false;retry.style.display='block'}}
  };
- searchNodes.push(label,field,hint,status,choices,selectedText,actions,retry);
+ searchNodes.push(label,field,hint,status,choices,selectedText,retry);
  root.append(...searchNodes);host.replaceChildren(root);void detect();
 }
 `;
