@@ -26,4 +26,5 @@ jobs:
           grep -Fq 'if (( free_kb < RESERVE_KB + 2 * source_kb ))' oracle-transport-bridge/run-england-compact-validate.sh
           grep -Fq 'verify-east-anglia-compact.py' oracle-transport-bridge/run-england-compact-validate.sh
           grep -Fq 'run-east-anglia-http-isolated.sh' oracle-transport-bridge/run-england-compact-validate.sh
+          grep -Fq ' --region "$REGION" --repeats 5' oracle-transport-bridge/run-england-compact-validate.sh
           grep -Fq 'PILOT ONLY, NOT LIVE' oracle-transport-bridge/run-england-compact-validate.sh
