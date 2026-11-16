@@ -1677,7 +1677,7 @@ export default {
       // missing/short access tokens, so do not call a truthy placeholder "ready".
       const roCoverage=country==='RO'?{
        intercity_configured:Boolean(String(env.BILO_API_KEY||'').trim()),
-       urban_configured:Boolean(String(env.RO_URBAN_API_URL||'').trim()&&
+       urban_configured:Boolean((typeof env.RO_URBAN_VPC?.fetch==='function'||String(env.RO_URBAN_API_URL||'').trim())&&
          String(env.RO_URBAN_API_TOKEN||'').trim().length>=32)
       }:null;
       const supported=country==='RO'
