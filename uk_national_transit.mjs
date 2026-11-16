@@ -61,7 +61,9 @@ function mapItinerary(it,now,timeZone,zone){
   const line=safeText(raw.route?.line||raw.route?.name,65);
   legs.push({
    mode,from:from.commonName,to:to.commonName,
-   departurePoint:from,arrivalLatLon:Number.isFinite(to.lat)&&Number.isFinite(to.lon)?{lat:to.lat,lon:to.lon}:null,
+   departurePoint:from,arrivalPoint:to,
+   fromStopId:from.naptanId||'',toStopId:to.naptanId||'',
+   arrivalLatLon:Number.isFinite(to.lat)&&Number.isFinite(to.lon)?{lat:to.lat,lon:to.lon}:null,
    departureTime:clockString(start),arrivalTime:clockString(end),
    scheduledDepartureTime:!walk?safeText(raw.start_time?.scheduled,42):null,
    scheduledArrivalTime:!walk?safeText(raw.end_time?.scheduled,42):null,
