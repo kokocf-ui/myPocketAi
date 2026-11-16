@@ -8,9 +8,14 @@ export const ROMANIA_GTFS_REGIONS=Object.freeze([
   ...ROMANIA_LEGACY_REGIONS,...ROMANIA_REGION_CODES.map(code=>'ro-'+code.toLowerCase())
 ]);
 export const ENGLAND_GTFS_REGION='england';
+// England-wide national GTFS may be too large for a 1 GB container;
+// this supports optional BODS regional snapshots with their documented suffixes.
+export const ENGLAND_GTFS_REGIONS=Object.freeze(
+  'en-ea en-em en-ne en-nw en-se en-sw en-wm en-yorkshire en-london'.split(' ')
+);
 export function recognizedGtfsRegion(region,country='RO'){
   if(typeof region!=='string')return false;
-  return country==='GB' ? region===ENGLAND_GTFS_REGION :
+  return country==='GB' ? (region===ENGLAND_GTFS_REGION||ENGLAND_GTFS_REGIONS.includes(region)) :
     country==='RO' && (region==='romania'||ROMANIA_GTFS_REGIONS.includes(region));
 }
 const validPoint=p=>p&&p.latitude!=null&&p.longitude!=null&&
