@@ -3200,9 +3200,9 @@ export default {
         isTfLLondonCorridorPoint(destLat,destLon);
       const providers=[
         String(env.BILO_API_KEY||'').trim()?'ro_national_transit':null,
-        String(env.RO_URBAN_API_URL||'').trim()&&String(env.RO_URBAN_API_TOKEN||'').trim().length>=32?'ro_urban_gtfs':null,
+        (typeof env.RO_URBAN_VPC?.fetch==='function'||String(env.RO_URBAN_API_URL||'').trim())&&String(env.RO_URBAN_API_TOKEN||'').trim().length>=32?'ro_urban_gtfs':null,
         env.TRANSCAPI_API_KEY?'uk_national_transit':null,
-        String(env.EN_URBAN_API_URL||'').trim()&&String(env.EN_URBAN_API_TOKEN||'').trim().length>=32?'en_urban_gtfs':null,
+        (typeof env.EN_URBAN_VPC?.fetch==='function'||String(env.EN_URBAN_API_URL||'').trim())&&String(env.EN_URBAN_API_TOKEN||'').trim().length>=32?'en_urban_gtfs':null,
         env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'?'tfl':null
       ].filter(Boolean);
       const authorization=nationalPublicTransportPolicy({
@@ -3280,7 +3280,7 @@ export default {
         (hasValidLocation?{latitude,longitude}:null);
       const urbanTo=data.transit_destination||data.route_context?.destination||data.route_destination;
       const urbanRegion=romanianUrbanRegion(urbanFrom,urbanTo);
-      if(urbanRegion && !explicitCarRoute && env.RO_URBAN_API_URL && env.RO_URBAN_API_TOKEN &&
+      if(urbanRegion && !explicitCarRoute && (typeof env.RO_URBAN_VPC?.fetch==='function'||env.RO_URBAN_API_URL) && env.RO_URBAN_API_TOKEN &&
          (!data.national_public_transport||authorizedNationalProvider==='ro_urban_gtfs')){
         const selectedUrbanAt=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
         const result=await planRomanianUrbanViaOracle(env,{
@@ -3659,7 +3659,7 @@ export default {
              !(isTfLLondonCorridorPoint(latitude,longitude)&&
                isTfLLondonCorridorPoint(targetLat,targetLon))&&
              englandLocalGtfsRegion(englishFrom,englishTo)&&
-             env.EN_URBAN_API_URL&&String(env.EN_URBAN_API_TOKEN||'').length>=32&&
+             (typeof env.EN_URBAN_VPC?.fetch==='function'||env.EN_URBAN_API_URL)&&String(env.EN_URBAN_API_TOKEN||'').length>=32&&
              (!data.national_public_transport||authorizedNationalProvider==='en_urban_gtfs')){
             const local=await planEnglandLocalGtfs(env,{
               from:englishFrom,to:englishTo,departureAt:departureAt||null,limit:requestedOptionsCount
