@@ -78,7 +78,7 @@ def stage_one(region,stage,importer):
         build_idx=Path(temp)/(region+".index.json")
         compressed,digest=retrieve(url,archive)
         subprocess.run([sys.executable,str(importer),"import",str(archive),str(build_db),region,"GB"],check=True,timeout=240,stdout=subprocess.DEVNULL)
-        subprocess.run([sys.executable,str(importer),"index",str(build_db),region,"RO"],check=True,timeout=180,stdout=subprocess.DEVNULL)
+        subprocess.run([sys.executable,str(importer),"index",str(build_db),region,"GB"],check=True,timeout=180,stdout=subprocess.DEVNULL)
         # Both database and index are verified before moving to staging.
         if db.exists() or idx.exists():raise RuntimeError("concurrent_existing_snapshot")
         os.replace(build_db,db)
@@ -107,7 +107,7 @@ def main():
         print("Regional bus timetable source availability is not proof of imported journeys or rail coverage.")
         return 0
     stage=Path(args.dir)
-    expected=Path("/home/ubuntu/pocketai-gtfs-audit")
+    expected=Path("/home/ubuntu/pocketai-england-audit")
     if stage.resolve()!=expected.resolve():
         raise RuntimeError("refusing_to_write_outside_designated_nonproduction_audit_directory")
     if not stage.is_dir() or stage.is_symlink():
