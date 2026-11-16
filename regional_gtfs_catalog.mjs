@@ -11,7 +11,7 @@ const area=c=>c==='RO'?inRomaniaApprox:inEnglandApprox;
 const safeFile=(dir,name)=>join(dir,name);
 const statFile=path=>{try{const s=lstatSync(path);return s.isFile()&&!s.isSymbolicLink()?s:null;}catch{return null;}};
 export function createGtfsFeedIndex(dir,region,country='RO',{replace=false}={}){
-  if(!recognizedGtfsRegion(region,country)||region==='romania'||region==='england')
+  if(!recognizedGtfsRegion(region,country)||region==='romania')
     throw Error('invalid_snapshot_region');
   const file=safeFile(dir,region+'.json'),st=statFile(file);
   if(!st||st.size>LIMIT_BYTES)throw Error('missing_or_oversized_feed');
@@ -45,7 +45,7 @@ export function openGtfsFeedCatalog(dir,{country='RO'}={}){
   for(const name of files){
     if(!name.endsWith('.index.json'))continue;
     const region=name.slice(0,-'.index.json'.length);
-    if(!recognizedGtfsRegion(region,country)||region==='romania'||region==='england')continue;
+    if(!recognizedGtfsRegion(region,country)||region==='romania')continue;
     const indexFile=safeFile(dir,name),snapshot=safeFile(dir,region+'.json');
     const st=statFile(snapshot),idxStat=statFile(indexFile);
     if(!st||!idxStat||st.size>LIMIT_BYTES||idxStat.size>15*1024*1024)continue;
