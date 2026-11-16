@@ -1,0 +1,23 @@
+name: Omio mixed-transport external fallback
+on:
+  push:
+    branches:
+      - feat/mixed-omio-multimodal-fallback-20261116
+  pull_request:
+    paths:
+      - backend.js
+      - index.js
+      - tests_mixed_omio_fallback.mjs
+      - tests_mixed_international_regression.mjs
+      - package.json
+      - .github/workflows/test-mixed-omio-fallback.yml
+jobs:
+  mixed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check backend.js && node --check index.js && node --check tests_mixed_omio_fallback.mjs
+      - run: node tests_mixed_omio_fallback.mjs && node tests_mixed_international_regression.mjs && node tests_transport_departure_entrypoints.mjs && node tests_mixed_transport_comparison.mjs && node tests_mixed_transport_ui.mjs
